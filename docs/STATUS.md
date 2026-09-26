@@ -76,3 +76,12 @@
 ## Important boundary
 
 The code/module remains authoritative for executable behavior and technical capabilities. Future database/catalog data may control editable product and editorial information, but it must not be allowed to falsely redefine what a module technically does.
+
+
+## Account and database foundation
+
+- Supabase project `Utiluna` is active in `eu-west-2`.
+- First application table `public.profiles` is deployed with Row Level Security and ownership policies.
+- Email/password account creation, sign-in, sign-out and session refresh are wired into the Next.js application.
+- Email confirmation uses the Supabase PKCE callback flow.
+- The database currently stores only minimal profile metadata; tool/catalog migration remains a separate future step.
