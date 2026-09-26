@@ -4,6 +4,21 @@ import { createClient } from "@/lib/supabase/server";
 import { getMessages } from "@/lib/i18n/messages";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 
+function ModuleContent({ module, t }: { module: { title: string; description: string; status: string }; t: ReturnType<typeof getMessages> }) {
+  const available = module.status === t.admin.available;
+  return (
+    <>
+      <div className="flex items-start justify-between gap-4">
+        <h3 className="font-semibold">{module.title}</h3>
+        <span className={available ? "shrink-0 rounded-full bg-[var(--success-soft)] px-2.5 py-1 text-xs font-semibold text-[var(--success)]" : "shrink-0 rounded-full bg-[var(--surface-soft)] px-2.5 py-1 text-xs font-semibold text-[var(--muted)]"}>{module.status}</span>
+      </div>
+      <p className="mt-2 text-sm leading-6 text-[var(--muted)]">{module.description}</p>
+    </>
+  );
+}
+
+
+
 export default async function AdminPage({
   params,
 }: {
@@ -74,8 +89,6 @@ export default async function AdminPage({
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {modules.map((module) => {
-            const available = module.status === t.admin.available;
-
             return (
               <article
                 key={module.title}
@@ -85,21 +98,13 @@ export default async function AdminPage({
                     : "rounded-2xl border border-[var(--border)] bg-[var(--surface-soft)]/60 p-5 opacity-75"
                 }
               >
-                {module.href ? <Link href={module.href} className="block rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"> : null}
-                <div className="flex items-start justify-between gap-4">
-                  <h3 className="font-semibold">{module.title}</h3>
-                  <span
-                    className={
-                      available
-                        ? "shrink-0 rounded-full bg-[var(--success-soft)] px-2.5 py-1 text-xs font-semibold text-[var(--success)]"
-                        : "shrink-0 rounded-full bg-[var(--surface-soft)] px-2.5 py-1 text-xs font-semibold text-[var(--muted)]"
-                    }
-                  >
-                    {module.status}
-                  </span>
-                </div>
-                <p className="mt-2 text-sm leading-6 text-[var(--muted)]">{module.description}</p>
-                {module.href ? </Link> : null}
+                {module.href ? (
+                  <Link href={module.href} className="block rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]">
+                    <ModuleContent module={module} t={t} />
+                  </Link>
+                ) : (
+                  <ModuleContent module={module} t={t} />
+                )}
               </article>
             );
           })}
