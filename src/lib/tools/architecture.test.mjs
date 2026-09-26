@@ -6,7 +6,6 @@ import { test } from "node:test";
 const routeFile = fileURLToPath(new URL("../../app/[locale]/outils/[category]/[slug]/page.tsx", import.meta.url));
 const registryFile = fileURLToPath(new URL("./registry.ts", import.meta.url));
 const toolsCatalogFile = fileURLToPath(new URL("./tools.ts", import.meta.url));
-const editorialFile = fileURLToPath(new URL("./editorial.tsx", import.meta.url));
 
 async function readPublishedToolIds() {
   const source = await readFile(toolsCatalogFile, "utf8");
@@ -36,12 +35,12 @@ test("published tools have exactly one registry module", async () => {
   assert.deepEqual([...registeredIds].sort(), [...publishedIds].sort());
 });
 
-test("published tools have editorial documentation", async () => {
+test("published tools have module-owned editorial loaders", async () => {
+  const registrySource = await readFile(registryFile, "utf8");
   const publishedIds = await readPublishedToolIds();
-  const editorialSource = await readFile(editorialFile, "utf8");
+  const registeredIds = [...registrySource.matchAll(/^\s+(?:"([^"]+)"|([a-z0-9-]+)): \{[\s\S]*?loadEditorial: \(\) => import\(/gm)].map(
+    ([, quotedId, bareId]) => quotedId ?? bareId,
+  );
 
-  for (const toolId of publishedIds) {
-    const matches = editorialSource.match(new RegExp(`case "${toolId}":`, "g")) ?? [];
-    assert.equal(matches.length, 1, `Published tool "${toolId}" must have exactly one editorial entry.`);
-  }
+  assert.deepEqual([...registeredIds].sort(), [...publishedIds].sort());
 });
