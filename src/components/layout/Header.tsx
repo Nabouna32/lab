@@ -73,6 +73,7 @@ export default function Header() {
           </details>
 
           <Link
+            prefetch={false}
             href={"/" + locale + "/compte"}
             className="hidden rounded-xl px-4 py-2.5 text-[var(--muted)] transition-colors hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)] sm:inline-flex"
           >
