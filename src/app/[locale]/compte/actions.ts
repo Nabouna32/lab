@@ -11,7 +11,8 @@ function localePath(locale: Locale, path: string) {
 
 function readLocale(formData: FormData): Locale {
   const value = formData.get("locale");
-  return isLocale(typeof value === "string" ? value : undefined) ? value : "fr";
+  const candidate = typeof value === "string" ? value : undefined;
+  return isLocale(candidate) ? candidate : "fr";
 }
 
 export async function signIn(formData: FormData) {
