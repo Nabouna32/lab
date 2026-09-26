@@ -63,7 +63,7 @@ export default async function AccountPage({
         </div>
         {isAdmin === true ? (
           <Link className="mt-8 inline-flex rounded-xl bg-[var(--accent)] px-5 py-3 font-semibold text-white" href={`/${locale}/admin`}>
-            Administration
+            {t.admin.label}
           </Link>
         ) : null}
         <form action={signOut} className="mt-8">
