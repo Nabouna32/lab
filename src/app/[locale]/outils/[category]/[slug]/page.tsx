@@ -45,8 +45,10 @@ export default async function ToolRoute({
   if (!entry) notFound();
 
   const locale: Locale = localeParam;
-  const ToolComponent = (await entry.module.load()).default;
-  const ToolEditorial = (await entry.module.loadEditorial()).default;
+  const [{ default: ToolComponent }, { default: ToolEditorial }] = await Promise.all([
+    entry.module.load(),
+    entry.module.loadEditorial(),
+  ]);
 
   return (
     <ToolPage
