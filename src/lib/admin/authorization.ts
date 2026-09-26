@@ -13,7 +13,7 @@ export async function requireAdminPermission(
   const claims = claimsData?.claims;
 
   if (!claims?.sub) {
-    redirect(`/${locale}/compte/connexion?next=${encodeURIComponent(`/${locale}/admin`)}`);
+    redirect(`/${locale}/compte/connexion`);
   }
 
   const { data: allowed, error } = await supabase.rpc("has_admin_permission", {
