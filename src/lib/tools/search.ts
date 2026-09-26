@@ -10,8 +10,13 @@ export function normalizeSearchText(value: string): string {
 function getSearchText(tool: Tool, locale: Locale): string {
   const content = tool.content?.[locale] ?? tool.content?.fr;
   return normalizeSearchText([
-    content?.name ?? tool.name, content?.description ?? tool.description,
-    ...(tool.keywords ?? []), ...(tool.aliases ?? []),
+    content?.name ?? tool.name,
+    content?.description ?? tool.description,
+    ...(tool.keywords ?? []),
+    ...(tool.aliases ?? []),
+    ...(tool.tags ?? []),
+    ...(tool.categories ?? []),
+    tool.categoryId,
   ].join(" "));
 }
 
@@ -53,7 +58,7 @@ function hasFuzzyTermMatch(term: string, haystack: string): boolean {
 
   return haystack
     .split(/\s+/)
-    .filter(Boolean)
+    .filter((candidate) => Math.abs(candidate.length - term.length) <= tolerance)
     .some((candidate) => levenshteinDistance(term, candidate) <= tolerance);
 }
 
@@ -68,6 +73,8 @@ export function searchTools(tools: Tool[], query: string, locale: Locale = "fr")
     const description = normalizeSearchText(content?.description ?? tool.description);
     const keywords = (tool.keywords ?? []).map(normalizeSearchText);
     const aliases = (tool.aliases ?? []).map(normalizeSearchText);
+    const tags = (tool.tags ?? []).map(normalizeSearchText);
+    const categories = [...new Set([tool.categoryId, ...(tool.categories ?? [])].filter(Boolean))].map(normalizeSearchText);
     const haystack = getSearchText(tool, locale);
     let score = 0;
     if (name === normalizedQuery) score += 100;
@@ -75,8 +82,12 @@ export function searchTools(tools: Tool[], query: string, locale: Locale = "fr")
     if (name.includes(normalizedQuery)) score += 40;
     if (keywords.some((keyword) => keyword === normalizedQuery)) score += 35;
     if (aliases.some((alias) => alias === normalizedQuery)) score += 35;
+    if (tags.some((tag) => tag === normalizedQuery)) score += 30;
+    if (categories.some((category) => category === normalizedQuery)) score += 25;
     if (keywords.some((keyword) => keyword.startsWith(normalizedQuery))) score += 25;
     if (aliases.some((alias) => alias.startsWith(normalizedQuery))) score += 25;
+    if (tags.some((tag) => tag.startsWith(normalizedQuery))) score += 20;
+    if (categories.some((category) => category.startsWith(normalizedQuery))) score += 15;
     if (description.includes(normalizedQuery)) score += 20;
     const allTermsMatch = terms.every((term) =>
       haystack.includes(term) || hasFuzzyTermMatch(term, haystack),

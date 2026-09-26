@@ -67,3 +67,25 @@ test("supports multi-term queries with a typo", () => {
 test("does not fuzzy-match very short terms", () => {
   assert.deepEqual(ids("tvx"), []);
 });
+
+
+test("matches tags and categories", () => {
+  const catalogFixture = {
+    id: "internet-tools",
+    name: "Internet tools",
+    description: "Utilities for internet tasks.",
+    keywords: [],
+    aliases: [],
+    tags: ["networking"],
+    categories: ["informatique"],
+    categoryId: "informatique",
+    available: true,
+    content: {
+      fr: { name: "Outils Internet", description: "Outils pour les tâches Internet." },
+      en: { name: "Internet Tools", description: "Utilities for internet tasks." },
+    },
+  };
+
+  assert.equal(searchTools([catalogFixture], "networking")[0]?.tool.id, "internet-tools");
+  assert.equal(searchTools([catalogFixture], "informatique")[0]?.tool.id, "internet-tools");
+});
