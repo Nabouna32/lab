@@ -46,7 +46,7 @@ export default function ThemeToggle() {
               event.currentTarget.closest("details")?.removeAttribute("open");
               setTheme(option.value);
             }}
-            className={"flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm transition-colors " + (theme === option.value
+            className={"flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm " + (theme === option.value
               ? "bg-[var(--accent-soft)] text-[var(--foreground)]"
               : "text-[var(--muted)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)]")}
             aria-pressed={theme === option.value}
