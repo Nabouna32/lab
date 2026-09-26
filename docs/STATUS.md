@@ -92,5 +92,6 @@ The code/module remains authoritative for executable behavior and technical capa
 - `super_admin` and `admin` roles are seeded; no user has been assigned a role yet.
 - Administrative tables use Row Level Security and least-privilege grants.
 - A protected localized `/[locale]/admin` dashboard is implemented and checks `admin.dashboard.view` server-side.
+- The administration dashboard now acts as a module hub, keeping future areas visible without creating empty pages.
 - Administrative access is exposed from the account page only when the signed-in user has the dashboard permission.
 - User-management mutations and first-admin assignment are intentionally not implemented yet; the first administrator must be assigned explicitly before the dashboard becomes reachable.
