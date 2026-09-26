@@ -1,6 +1,8 @@
 import type { ReactNode } from "react";
 import { defaultLocale, type Locale } from "@/lib/i18n/config";
 import { getToolContent, type Tool } from "@/lib/tools/types";
+import { getCategoryName } from "@/lib/tools/categories";
+import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import ToolPageHeader from "./ToolPageHeader";
 import { ToolRuntimeProvider } from "./ToolRuntimeProvider";
 
@@ -19,6 +21,7 @@ export default function ToolPage({
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-3 sm:px-6 sm:py-5 lg:px-8 lg:py-6">
+      <Breadcrumbs locale={locale} items={[{ label: defaultLocale === locale ? "Outils" : "Tools", href: `/${locale}/outils` }, { label: getCategoryName(locale, tool.categoryId), href: `/${locale}/outils/${tool.categoryId}` }, { label: localizedContent.name }]} />
       <ToolPageHeader
         icon={tool.icon}
         title={localizedContent.name}
