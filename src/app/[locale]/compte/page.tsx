@@ -38,6 +38,8 @@ export default async function AccountPage({
     );
   }
 
+  const { data: isAdmin } = await supabase.rpc("has_admin_permission", { requested_permission: "admin.dashboard.view" });
+
   const { data: profile } = await supabase
     .from("profiles")
     .select("display_name, locale, created_at")
@@ -59,6 +61,11 @@ export default async function AccountPage({
             <p className="mt-1 font-medium">{profile?.display_name || t.account.notSet}</p>
           </div>
         </div>
+        {isAdmin === true ? (
+          <Link className="mt-8 inline-flex rounded-xl bg-[var(--accent)] px-5 py-3 font-semibold text-white" href={`/${locale}/admin`}>
+            Administration
+          </Link>
+        ) : null}
         <form action={signOut} className="mt-8">
           <input type="hidden" name="locale" value={locale} />
           <button className="rounded-xl border border-[var(--border)] px-5 py-3 font-semibold transition-colors hover:bg-[var(--surface-soft)]" type="submit">
