@@ -24,5 +24,5 @@ export default function ToolEditorial({ locale }: { locale: Locale }) {
           </ToolSection>
           <BackToTools locale={locale} />
         </>
-      );;
+      );
 }
