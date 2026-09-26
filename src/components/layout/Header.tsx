@@ -72,6 +72,13 @@ export default function Header() {
             </div>
           </details>
 
+          <Link
+            href={"/" + locale + "/compte"}
+            className="hidden rounded-xl px-4 py-2.5 text-[var(--muted)] transition-colors hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)] sm:inline-flex"
+          >
+            {t.nav.account}
+          </Link>
+
           <ThemeToggle />
         </nav>
       </div>
