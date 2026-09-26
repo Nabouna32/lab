@@ -122,13 +122,13 @@ Every tool should expose a concise status indicator.
 
 Examples:
 
-> 🔒 **100 % local — vos données restent sur votre appareil.**
+> 🟢 **Traitement local** — vos données restent sur votre appareil.
 
-> 🌐 **Service externe — certaines données sont transmises à une API.**
+> 🔵 **Service externe** — certaines données sont transmises à un service externe.
 
-> ☁️ **Serveur Utiluna — ce traitement nécessite notre infrastructure.**
+> 🔵 **Serveur Utiluna** — ce traitement nécessite notre infrastructure.
 
-> 🔒 + 🌐 **Hybride — traitement local complété par un service externe.**
+> 🟡 **Traitement hybride** — le traitement local est complété par un service externe.
 
 The indicator should support a tooltip and/or dedicated detail view.
 

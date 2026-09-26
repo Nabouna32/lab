@@ -15,7 +15,7 @@ test("local processing is presented as device-local", () => {
     getToolProcessingPresentation({ ...base, mode: "local" }),
     {
       icon: "🔒",
-      label: "100 % local",
+      label: "Traitement local",
       summary: "Vos données restent sur votre appareil.",
     },
   );
