@@ -41,9 +41,9 @@
 
 ### Database boundary
 
-- Do not introduce Supabase/database infrastructure yet.
+- Supabase is now used for the account foundation and administrative authorization.
 - Executable behavior and technical capabilities remain authoritative in Git/code.
-- A future database may own editable catalog/editorial data, publication state, account data and community data.
+- The database may own account, administration, editable catalog/editorial data, publication state and community data as those domains are introduced deliberately.
 - Database-backed metadata must not be allowed to falsely redefine executable tool behavior.
 
 ### Catalog, editorial and i18n
@@ -57,8 +57,8 @@
 
 ## Not implemented yet
 
-- Supabase/database integration.
-- Admin panel.
+- Database-backed catalog/editorial content.
+- User management screens and administrative mutation workflows.
 - Account/premium enforcement.
 - Runtime enforcement for browser capabilities beyond clipboard.
 - Generic sharing runtime.
@@ -68,10 +68,10 @@
 ## Next actions
 
 1. Continue the tool-platform audit with registry scalability and catalog/module boundaries as the toolbox grows.
-2. Define the code/database boundary and schema before introducing Supabase.
-3. Introduce persistence or sharing only when a concrete tool requirement justifies the corresponding runtime capability.
-4. Continue the UX audit with above-the-fold tool hierarchy and mobile behavior, then apply targeted fixes.
-5. Expand runtime capability abstractions only when an actual tool needs the capability.
+2. Complete the administration foundation with explicit administrator assignment, user management and audited mutations.
+3. Define and implement the code/database boundary for editable catalog/editorial data before migrating those domains.
+4. Introduce persistence or sharing only when a concrete tool requirement justifies the corresponding runtime capability.
+5. Continue the UX audit with above-the-fold tool hierarchy and mobile behavior, then apply targeted fixes.
 
 ## Important boundary
 
@@ -85,3 +85,12 @@ The code/module remains authoritative for executable behavior and technical capa
 - Email/password account creation, sign-in, sign-out and session refresh are wired into the Next.js application.
 - Email confirmation uses the Supabase PKCE callback flow.
 - The database currently stores only minimal profile metadata; tool/catalog migration remains a separate future step.
+
+## Administration foundation
+
+- Database-backed granular roles and permissions are deployed to Supabase.
+- `super_admin` and `admin` roles are seeded; no user has been assigned a role yet.
+- Administrative tables use Row Level Security and least-privilege grants.
+- A protected localized `/[locale]/admin` dashboard is implemented and checks `admin.dashboard.view` server-side.
+- Administrative access is exposed from the account page only when the signed-in user has the dashboard permission.
+- User-management mutations and first-admin assignment are intentionally not implemented yet; the first administrator must be assigned explicitly before the dashboard becomes reachable.
