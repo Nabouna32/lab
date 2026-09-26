@@ -41,7 +41,7 @@
 
 ### Database boundary
 
-- Do not introduce Supabase/database infrastructure yet.
+- Supabase/Auth and the minimal account database foundation are now deployed.
 - Executable behavior and technical capabilities remain authoritative in Git/code.
 - A future database may own editable catalog/editorial data, publication state, account data and community data.
 - Database-backed metadata must not be allowed to falsely redefine executable tool behavior.
@@ -57,7 +57,7 @@
 
 ## Not implemented yet
 
-- Supabase/database integration.
+- Broader database-backed product data beyond the account/profile foundation.
 - Admin panel.
 - Account/premium enforcement.
 - Runtime enforcement for browser capabilities beyond clipboard.
@@ -68,7 +68,7 @@
 ## Next actions
 
 1. Continue the tool-platform audit with registry scalability and catalog/module boundaries as the toolbox grows.
-2. Define the code/database boundary and schema before introducing Supabase.
+2. Define the next code/database boundary before moving catalog, editorial or community data into Supabase.
 3. Introduce persistence or sharing only when a concrete tool requirement justifies the corresponding runtime capability.
 4. Continue the UX audit with above-the-fold tool hierarchy and mobile behavior, then apply targeted fixes.
 5. Expand runtime capability abstractions only when an actual tool needs the capability.
