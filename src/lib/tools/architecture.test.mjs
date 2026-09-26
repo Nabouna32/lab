@@ -28,7 +28,7 @@ test("the tool platform exposes one dynamic route", async () => {
 test("published tools have exactly one registry module", async () => {
   const registrySource = await readFile(registryFile, "utf8");
   const publishedIds = await readPublishedToolIds();
-  const registeredIds = [...registrySource.matchAll(/^\s+(?:"([^"]+)"|([a-z0-9-]+)): \{ load:/gm)].map(
+  const registeredIds = [...registrySource.matchAll(/^\s+(?:"([^"]+)"|([a-z0-9-]+)): \{[\s\S]*?load:/gm)].map(
     ([, quotedId, bareId]) => quotedId ?? bareId,
   );
 
