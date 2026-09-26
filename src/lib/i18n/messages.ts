@@ -40,7 +40,7 @@ export const messages: Record<Locale, Messages> = {
       clearSearch: "Effacer la recherche",
     },
     processing: {
-      ariaLabel: "Informations sur le traitement des données", more: "En savoir plus sur le traitement",
+      ariaLabel: "Informations sur le traitement des données", more: "Informations sur le traitement",
       storage: "Stockage", retention: "Conservation", externalProviders: "Service(s) externe(s)", dataCategories: "Données concernées",
       localLabel: "Traitement local", localSummary: "Vos données restent sur votre appareil.",
       externalLabel: "Service externe", externalSummary: "Certaines données sont transmises à un service externe.",
@@ -71,7 +71,7 @@ export const messages: Record<Locale, Messages> = {
       clearSearch: "Clear search",
     },
     processing: {
-      ariaLabel: "Data processing information", more: "Learn more about processing",
+      ariaLabel: "Data processing information", more: "Processing information",
       storage: "Storage", retention: "Retention", externalProviders: "External service(s)", dataCategories: "Data involved",
       localLabel: "Local processing", localSummary: "Your data stays on your device.",
       externalLabel: "External service", externalSummary: "Some data is sent to an external service.",
