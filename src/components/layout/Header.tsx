@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import LanguageFlag from "@/components/layout/LanguageFlag";
@@ -12,7 +13,7 @@ function Icon({
   children,
   className = "h-4 w-4",
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
 }) {
   return (
