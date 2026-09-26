@@ -19,7 +19,6 @@
 - Merged the percentage result-panel layout fix so the result column no longer stretches the input column unnecessarily.
 - Merged the category-page i18n correction so English routes no longer fall back to hard-coded French UI.
 - Restored the compact processing status tooltip and semantic status presentation.
-- Moved published tool editorial content into the corresponding tool modules.
 - Extended catalog search to tags/categories and reduced unnecessary fuzzy matching work.
 - Converted related-tool rendering to a server component using the route-resolved locale.
 - Moved published tool editorial content out of the central switch and into the corresponding tool modules.
