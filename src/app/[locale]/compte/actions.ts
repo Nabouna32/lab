@@ -45,7 +45,10 @@ export async function signUp(formData: FormData) {
 
   const supabase = await createClient();
   const emailRedirectTo = new URL(
-    localePath(locale, "/compte"),
+    localePath(
+      locale,
+      "/auth/callback?next=" + encodeURIComponent("/" + locale + "/compte"),
+    ),
     getSiteUrl(),
   ).toString();
 
