@@ -7,22 +7,23 @@ export async function proxy(request: NextRequest) {
   const needsSupabaseSession =
     pathname.includes("/compte") || pathname.includes("/auth/");
 
-  const supabaseResponse = needsSupabaseSession
-    ? await updateSession(request)
-    : NextResponse.next({ request });
+  const supabaseResponse = needsSupabaseSession ? await updateSession(request) : null;
 
   const pathnameHasLocale = locales.some(
     (locale) => pathname === "/" + locale || pathname.startsWith("/" + locale + "/"),
   );
 
   if (pathnameHasLocale) {
-    return supabaseResponse;
+    return supabaseResponse ?? NextResponse.next();
   }
 
   const url = request.nextUrl.clone();
   url.pathname = "/" + defaultLocale + pathname;
 
-  return copySessionResponse(supabaseResponse, NextResponse.redirect(url));
+  const redirectResponse = NextResponse.redirect(url);
+  return supabaseResponse
+    ? copySessionResponse(supabaseResponse, redirectResponse)
+    : redirectResponse;
 }
 
 export const config = {
