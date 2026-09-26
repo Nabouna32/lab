@@ -16,17 +16,50 @@ type ToolRegistryEntry = {
 };
 
 const moduleLoaders: Record<string, ToolModule> = {
-  pourcentage: { load: () => import("@/components/tools/percentage/PercentageCalculator"), loadEditorial: () => import("@/components/tools/percentage/ToolEditorial") },
-  reduction: { load: () => import("@/components/tools/reduction/ReductionCalculator"), loadEditorial: () => import("@/components/tools/reduction/ToolEditorial") },
-  tva: { load: () => import("@/components/tools/tva/TVACalculator"), loadEditorial: () => import("@/components/tools/tva/ToolEditorial") },
-  "regle-de-trois": { load: () => import("@/components/tools/regle-de-trois/RuleOfThreeCalculator"), loadEditorial: () => import("@/components/tools/regle-de-trois/ToolEditorial") },
-  age: { load: () => import("@/components/tools/age/AgeCalculator"), loadEditorial: () => import("@/components/tools/age/ToolEditorial") },
-  duree: { load: () => import("@/components/tools/duree/DurationCalculator"), loadEditorial: () => import("@/components/tools/duree/ToolEditorial") },
-  "vitesse-telechargement": { load: () => import("@/components/tools/vitesse-telechargement/DownloadSpeedConverter"), loadEditorial: () => import("@/components/tools/vitesse-telechargement/ToolEditorial") },
-  "temps-telechargement": { load: () => import("@/components/tools/temps-telechargement/DownloadTimeCalculator"), loadEditorial: () => import("@/components/tools/temps-telechargement/ToolEditorial") },
-  "taille-fichier": { load: () => import("@/components/tools/taille-fichier/FileSizeCalculator"), loadEditorial: () => import("@/components/tools/taille-fichier/ToolEditorial") },
-  "convertisseur-taille": { load: () => import("@/components/tools/convertisseur-taille/FileSizeConverter"), loadEditorial: () => import("@/components/tools/convertisseur-taille/ToolEditorial") },
-  "mots-caracteres": { load: () => import("@/components/tools/text-counter/TextCounter"), loadEditorial: () => import("@/components/tools/text-counter/ToolEditorial") },
+  pourcentage: {
+    load: () => import("@/components/tools/percentage/PercentageCalculator"),
+    loadEditorial: () => import("@/components/tools/percentage/ToolEditorial")
+  },
+  reduction: {
+    load: () => import("@/components/tools/reduction/ReductionCalculator"),
+    loadEditorial: () => import("@/components/tools/reduction/ToolEditorial")
+  },
+  tva: {
+    load: () => import("@/components/tools/tva/TVACalculator"),
+    loadEditorial: () => import("@/components/tools/tva/ToolEditorial")
+  },
+  "regle-de-trois": {
+    load: () => import("@/components/tools/regle-de-trois/RuleOfThreeCalculator"),
+    loadEditorial: () => import("@/components/tools/regle-de-trois/ToolEditorial")
+  },
+  age: {
+    load: () => import("@/components/tools/age/AgeCalculator"),
+    loadEditorial: () => import("@/components/tools/age/ToolEditorial")
+  },
+  duree: {
+    load: () => import("@/components/tools/duree/DurationCalculator"),
+    loadEditorial: () => import("@/components/tools/duree/ToolEditorial")
+  },
+  "vitesse-telechargement": {
+    load: () => import("@/components/tools/vitesse-telechargement/DownloadSpeedConverter"),
+    loadEditorial: () => import("@/components/tools/vitesse-telechargement/ToolEditorial")
+  },
+  "temps-telechargement": {
+    load: () => import("@/components/tools/temps-telechargement/DownloadTimeCalculator"),
+    loadEditorial: () => import("@/components/tools/temps-telechargement/ToolEditorial")
+  },
+  "taille-fichier": {
+    load: () => import("@/components/tools/taille-fichier/FileSizeCalculator"),
+    loadEditorial: () => import("@/components/tools/taille-fichier/ToolEditorial")
+  },
+  "convertisseur-taille": {
+    load: () => import("@/components/tools/convertisseur-taille/FileSizeConverter"),
+    loadEditorial: () => import("@/components/tools/convertisseur-taille/ToolEditorial")
+  },
+  "mots-caracteres": {
+    load: () => import("@/components/tools/text-counter/TextCounter"),
+    loadEditorial: () => import("@/components/tools/text-counter/ToolEditorial")
+  },
 };
 
 export const toolRegistry: readonly ToolRegistryEntry[] = tools
