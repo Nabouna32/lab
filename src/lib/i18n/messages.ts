@@ -1,7 +1,7 @@
 import type { Locale } from "./config.ts";
 
 export type Messages = {
-  nav: { home: string; tools: string; language: string };
+  nav: { home: string; tools: string; language: string; account: string };
   actions: { copy: string; copied: string; clear: string };
   home: { badge: string; title: string; description: string; examples: string; explore: string; categoriesTitle: string; categoriesDescription: string };
   tools: {
@@ -42,8 +42,16 @@ export const messages: Record<Locale, Messages> = {
       clearSearch: "Effacer la recherche",
     },
     relatedTools: { title: "Vous pourriez aussi avoir besoin de" },
-    account: { label: "Espace personnel", title: "Votre compte", anonymousDescription: "Créez un compte pour retrouver vos préférences et vos futurs outils personnels, sans bloquer l’utilisation anonyme d’Utiluna.", signIn: "Se connecter", signUp: "Créer un compte", signOut: "Se déconnecter", submitSignIn: "Se connecter", submitSignUp: "Créer mon compte", email: "Adresse e-mail", password: "Mot de passe", displayName: "Nom d’affichage", notSet: "Non renseigné", confirmation: "Votre compte est créé. Vérifiez votre e-mail pour confirmer votre adresse avant de vous connecter.", alreadySignedIn: "Vous êtes déjà connecté.", noAccount: "Pas encore de compte ?", hasAccount: "Vous avez déjà un compte ?" },
-    account: { label: "Personal space", title: "Your account", anonymousDescription: "Create an account to keep your preferences and future personal features, without blocking anonymous use of Utiluna.", signIn: "Sign in", signUp: "Create an account", signOut: "Sign out", submitSignIn: "Sign in", submitSignUp: "Create my account", email: "Email address", password: "Password", displayName: "Display name", notSet: "Not set", confirmation: "Your account has been created. Check your email to confirm your address before signing in.", alreadySignedIn: "You are already signed in.", noAccount: "Don't have an account yet?", hasAccount: "Already have an account?" },
+    account: {
+      label: "Espace personnel", title: "Votre compte",
+      anonymousDescription: "Créez un compte pour retrouver vos préférences et vos futurs outils personnels, sans bloquer l’utilisation anonyme d’Utiluna.",
+      signIn: "Se connecter", signUp: "Créer un compte", signOut: "Se déconnecter",
+      submitSignIn: "Se connecter", submitSignUp: "Créer mon compte",
+      email: "Adresse e-mail", password: "Mot de passe", displayName: "Nom d’affichage",
+      notSet: "Non renseigné",
+      confirmation: "Votre compte est créé. Vérifiez votre e-mail pour confirmer votre adresse avant de vous connecter.",
+      alreadySignedIn: "Vous êtes déjà connecté.", noAccount: "Pas encore de compte ?", hasAccount: "Vous avez déjà un compte ?",
+    },
     processing: {
       ariaLabel: "Informations sur le traitement des données", more: "Informations sur le traitement",
       storage: "Stockage", retention: "Conservation", externalProviders: "Service(s) externe(s)", dataCategories: "Données concernées",
@@ -76,6 +84,16 @@ export const messages: Record<Locale, Messages> = {
       clearSearch: "Clear search",
     },
     relatedTools: { title: "You may also need" },
+    account: {
+      label: "Personal space", title: "Your account",
+      anonymousDescription: "Create an account to keep your preferences and future personal features, without blocking anonymous use of Utiluna.",
+      signIn: "Sign in", signUp: "Create an account", signOut: "Sign out",
+      submitSignIn: "Sign in", submitSignUp: "Create my account",
+      email: "Email address", password: "Password", displayName: "Display name",
+      notSet: "Not set",
+      confirmation: "Your account has been created. Check your email to confirm your address before signing in.",
+      alreadySignedIn: "You are already signed in.", noAccount: "Don't have an account yet?", hasAccount: "Already have an account?",
+    },
     processing: {
       ariaLabel: "Data processing information", more: "Processing information",
       storage: "Storage", retention: "Retention", externalProviders: "External service(s)", dataCategories: "Data involved",
