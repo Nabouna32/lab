@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { getTheme } from "@teispace/next-themes/server";
 import ThemeProvider from "@/components/theme/ThemeProvider";
 import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 import { getMessages } from "@/lib/i18n/messages";
 import { getLanguage, isLocale, locales } from "@/lib/i18n/config";
 import "@/app/globals.css";
@@ -45,6 +46,7 @@ export default async function LocaleLayout({
         <ThemeProvider initialTheme={initialTheme ?? undefined}>
           <Header />
           {children}
+          <Footer locale={locale} />
         </ThemeProvider>
       </body>
     </html>
