@@ -38,6 +38,29 @@ export default function Header() {
             {t.nav.tools}
           </Link>
 
+          <details className="relative sm:hidden">
+            <summary
+              className="flex min-h-10 cursor-pointer list-none items-center justify-center rounded-xl px-3 py-2.5 text-[var(--muted)] outline-none transition-colors hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+              aria-label={t.nav.menu}
+            >
+              <span className="text-lg leading-none" aria-hidden="true">☰</span>
+            </summary>
+            <div className="absolute right-0 top-full z-50 mt-2 min-w-48 rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-1.5 shadow-[var(--shadow-md)]">
+              <Link
+                href={"/" + locale + "/outils"}
+                className="flex items-center rounded-xl px-3 py-2.5 text-sm text-[var(--foreground)] transition-colors hover:bg-[var(--surface-soft)]"
+              >
+                {t.nav.tools}
+              </Link>
+              <Link
+                href={"/" + locale + "/compte"}
+                className="flex items-center rounded-xl px-3 py-2.5 text-sm text-[var(--foreground)] transition-colors hover:bg-[var(--surface-soft)]"
+              >
+                {t.nav.account}
+              </Link>
+            </div>
+          </details>
+
           <details className="language-selector relative">
             <summary
               className="flex cursor-pointer list-none items-center rounded-xl px-3 py-2.5 text-xs font-bold text-[var(--muted)] outline-none transition-colors hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
