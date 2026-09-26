@@ -10,6 +10,7 @@ export type Messages = {
     resultCountOne: string; resultCountMany: string; noResults: string; noResultsHelp: string; clearSearch: string;
   };
   relatedTools: { title: string };
+  admin: { label: string; title: string; description: string; dashboard: string; access: string; account: string; roles: string; permissions: string; noAccess: string; notConfigured: string; },
   account: { label: string; title: string; anonymousDescription: string; signIn: string; signUp: string; signOut: string; submitSignIn: string; submitSignUp: string; email: string; password: string; displayName: string; notSet: string; confirmation: string; alreadySignedIn: string; noAccount: string; hasAccount: string };
   processing: {
     ariaLabel: string; more: string; storage: string; retention: string; externalProviders: string; dataCategories: string;
@@ -42,6 +43,9 @@ export const messages: Record<Locale, Messages> = {
       clearSearch: "Effacer la recherche",
     },
     relatedTools: { title: "Vous pourriez aussi avoir besoin de" },
+    admin: {
+      label: "Administration", title: "Administration Utiluna", description: "Gérez les accès administratifs et surveillez les actions sensibles.", dashboard: "Tableau de bord", access: "Accès", account: "Compte", roles: "Rôles", permissions: "Permissions", noAccess: "Vous n’avez pas accès à cette administration.", notConfigured: "Aucun compte administrateur n’est encore configuré. Après la création de votre compte, le premier accès doit être attribué explicitement.",
+    },
     account: {
       label: "Espace personnel", title: "Votre compte",
       anonymousDescription: "Créez un compte pour retrouver vos préférences et vos futurs outils personnels, sans bloquer l’utilisation anonyme d’Utiluna.",
@@ -84,6 +88,9 @@ export const messages: Record<Locale, Messages> = {
       clearSearch: "Clear search",
     },
     relatedTools: { title: "You may also need" },
+    admin: {
+      label: "Administration", title: "Utiluna administration", description: "Manage administrative access and monitor sensitive actions.", dashboard: "Dashboard", access: "Access", account: "Account", roles: "Roles", permissions: "Permissions", noAccess: "You do not have access to this administration.", notConfigured: "No administrator account has been configured yet. After creating your account, the first access must be assigned explicitly.",
+    },
     account: {
       label: "Personal space", title: "Your account",
       anonymousDescription: "Create an account to keep your preferences and future personal features, without blocking anonymous use of Utiluna.",
