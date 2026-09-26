@@ -10,6 +10,7 @@ export type Messages = {
     resultCountOne: string; resultCountMany: string; noResults: string; noResultsHelp: string; clearSearch: string;
   };
   relatedTools: { title: string };
+  account: { label: string; title: string; anonymousDescription: string; signIn: string; signUp: string; signOut: string; submitSignIn: string; submitSignUp: string; email: string; password: string; displayName: string; notSet: string; confirmation: string; alreadySignedIn: string; noAccount: string; hasAccount: string };
   processing: {
     ariaLabel: string; more: string; storage: string; retention: string; externalProviders: string; dataCategories: string;
     localLabel: string; localSummary: string; externalLabel: string; externalSummary: string;
@@ -19,7 +20,7 @@ export type Messages = {
 
 export const messages: Record<Locale, Messages> = {
   fr: {
-    nav: { home: "Accueil", tools: "Outils", language: "Langue" },
+    nav: { home: "Accueil", tools: "Outils", language: "Langue", account: "Compte" },
     actions: { copy: "Copier", copied: "Copié", clear: "Effacer" },
     home: {
       badge: "Des outils simples pour le quotidien",
@@ -41,6 +42,8 @@ export const messages: Record<Locale, Messages> = {
       clearSearch: "Effacer la recherche",
     },
     relatedTools: { title: "Vous pourriez aussi avoir besoin de" },
+    account: { label: "Espace personnel", title: "Votre compte", anonymousDescription: "Créez un compte pour retrouver vos préférences et vos futurs outils personnels, sans bloquer l’utilisation anonyme d’Utiluna.", signIn: "Se connecter", signUp: "Créer un compte", signOut: "Se déconnecter", submitSignIn: "Se connecter", submitSignUp: "Créer mon compte", email: "Adresse e-mail", password: "Mot de passe", displayName: "Nom d’affichage", notSet: "Non renseigné", confirmation: "Votre compte est créé. Vérifiez votre e-mail pour confirmer votre adresse avant de vous connecter.", alreadySignedIn: "Vous êtes déjà connecté.", noAccount: "Pas encore de compte ?", hasAccount: "Vous avez déjà un compte ?" },
+    account: { label: "Personal space", title: "Your account", anonymousDescription: "Create an account to keep your preferences and future personal features, without blocking anonymous use of Utiluna.", signIn: "Sign in", signUp: "Create an account", signOut: "Sign out", submitSignIn: "Sign in", submitSignUp: "Create my account", email: "Email address", password: "Password", displayName: "Display name", notSet: "Not set", confirmation: "Your account has been created. Check your email to confirm your address before signing in.", alreadySignedIn: "You are already signed in.", noAccount: "Don't have an account yet?", hasAccount: "Already have an account?" },
     processing: {
       ariaLabel: "Informations sur le traitement des données", more: "Informations sur le traitement",
       storage: "Stockage", retention: "Conservation", externalProviders: "Service(s) externe(s)", dataCategories: "Données concernées",
@@ -51,7 +54,7 @@ export const messages: Record<Locale, Messages> = {
     },
   },
   en: {
-    nav: { home: "Home", tools: "Tools", language: "Language" },
+    nav: { home: "Home", tools: "Tools", language: "Language", account: "Account" },
     actions: { copy: "Copy", copied: "Copied", clear: "Clear" },
     home: {
       badge: "Simple tools for everyday tasks",
