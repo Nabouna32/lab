@@ -19,6 +19,30 @@ function readRole(formData: FormData) {
   return value === "admin" || value === "super_admin" ? value : "";
 }
 
+async function updateSuspension(formData: FormData, action: "suspend" | "unsuspend") {
+  const locale = readLocale(formData);
+  const userId = readUserId(formData);
+
+  if (!userId) {
+    redirect(`/${locale}/admin/utilisateurs?error=invalid`);
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase.functions.invoke("admin-user-suspension", {
+    body: { action, targetUserId: userId },
+  });
+
+  redirect(`/${locale}/admin/utilisateurs?status=${error ? "error" : action === "suspend" ? "suspended" : "unsuspended"}`);
+}
+
+export async function suspendUser(formData: FormData) {
+  await updateSuspension(formData, "suspend");
+}
+
+export async function unsuspendUser(formData: FormData) {
+  await updateSuspension(formData, "unsuspend");
+}
+
 export async function assignAdminRole(formData: FormData) {
   const locale = readLocale(formData);
   const userId = readUserId(formData);
