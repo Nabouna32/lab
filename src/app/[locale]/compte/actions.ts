@@ -20,7 +20,7 @@ export async function signIn(formData: FormData) {
   const email = String(formData.get("email") ?? "").trim();
   const password = String(formData.get("password") ?? "");
 
-  if (!email || !password) {
+  if (!email || email.length > 254 || !password || password.length > 128) {
     redirect(localePath(locale, "/compte/connexion?error=missing"));
   }
 
@@ -38,9 +38,9 @@ export async function signUp(formData: FormData) {
   const locale = readLocale(formData);
   const email = String(formData.get("email") ?? "").trim();
   const password = String(formData.get("password") ?? "");
-  const displayName = String(formData.get("displayName") ?? "").trim();
+  const displayName = String(formData.get("displayName") ?? "").trim().slice(0, 80);
 
-  if (!email || password.length < 8) {
+  if (!email || email.length > 254 || password.length < 8 || password.length > 128) {
     redirect(localePath(locale, "/compte/inscription?error=invalid"));
   }
 
@@ -78,6 +78,6 @@ export async function signUp(formData: FormData) {
 export async function signOut(formData: FormData) {
   const locale = readLocale(formData);
   const supabase = await createClient();
-  await supabase.auth.signOut();
+  await supabase.auth.signOut({ scope: "local" });
   redirect(localePath(locale, "/compte/connexion"));
 }
