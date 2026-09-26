@@ -62,7 +62,7 @@ test("processing status exposes an accessible information disclosure", async ({ 
   const info = page.locator('summary').filter({ hasText: "Traitement local" }).getByText("ⓘ", { exact: true });
   await expect(info).toBeVisible();
 
-  await status.locator("..").locator("summary").click();
+  await page.locator("summary").filter({ hasText: "Traitement local" }).click();
   await expect(page.getByText("Aucune donnée n'est envoyée à un serveur ni stockée par Utiluna.", { exact: true })).toBeVisible();
 });
 
