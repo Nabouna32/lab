@@ -45,12 +45,12 @@ export default async function AdminPage({
   }
 
   const modules = [
-    { title: t.admin.users, description: t.admin.usersDescription, status: t.admin.comingSoon },
-    { title: t.admin.tools, description: t.admin.toolsDescription, status: t.admin.comingSoon },
-    { title: t.admin.moderation, description: t.admin.moderationDescription, status: t.admin.comingSoon },
-    { title: t.admin.analytics, description: t.admin.analyticsDescription, status: t.admin.comingSoon },
-    { title: t.admin.settings, description: t.admin.settingsDescription, status: t.admin.comingSoon },
-    { title: t.admin.audit, description: t.admin.auditDescription, status: t.admin.available },
+    { title: t.admin.users, description: t.admin.usersDescription, status: t.admin.available, href: `/${locale}/admin/utilisateurs` },
+    { title: t.admin.tools, description: t.admin.toolsDescription, status: t.admin.comingSoon, href: null },
+    { title: t.admin.moderation, description: t.admin.moderationDescription, status: t.admin.comingSoon, href: null },
+    { title: t.admin.analytics, description: t.admin.analyticsDescription, status: t.admin.comingSoon, href: null },
+    { title: t.admin.settings, description: t.admin.settingsDescription, status: t.admin.comingSoon, href: null },
+    { title: t.admin.audit, description: t.admin.auditDescription, status: t.admin.available, href: null },
   ];
 
   return (
@@ -81,10 +81,11 @@ export default async function AdminPage({
                 key={module.title}
                 className={
                   available
-                    ? "rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-5 shadow-[var(--shadow-sm)]"
+                    ? "rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-5 shadow-[var(--shadow-sm)] transition-colors hover:border-[var(--accent)]"
                     : "rounded-2xl border border-[var(--border)] bg-[var(--surface-soft)]/60 p-5 opacity-75"
                 }
               >
+                {module.href ? <Link href={module.href} className="block rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"> : null}
                 <div className="flex items-start justify-between gap-4">
                   <h3 className="font-semibold">{module.title}</h3>
                   <span
@@ -98,6 +99,7 @@ export default async function AdminPage({
                   </span>
                 </div>
                 <p className="mt-2 text-sm leading-6 text-[var(--muted)]">{module.description}</p>
+                {module.href ? </Link> : null}
               </article>
             );
           })}
