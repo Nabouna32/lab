@@ -22,6 +22,10 @@ function formatDate(value: string | null, locale: Locale) {
   return new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short" }).format(new Date(value));
 }
 
+function isSuspended(value: string | null) {
+  return Boolean(value && new Date(value).getTime() > Date.now());
+}
+
 export default async function AdminUsersPage({
   params,
   searchParams,
@@ -39,13 +43,16 @@ export default async function AdminUsersPage({
   const query = typeof rawQuery === "string" ? rawQuery.trim().slice(0, 100) : "";
   const supabase = await createClient();
 
-  const [{ data: users, error: usersError }, { data: roles }, { data: rolePermissions }] = await Promise.all([
-    supabase.rpc("list_admin_users", { search_term: query || null }),
-    supabase.from("admin_roles").select("key, name").order("key"),
-    supabase.from("admin_role_permissions").select("role_key, permission_key").eq("permission_key", "users.manage_roles"),
-  ]);
+  const [{ data: users, error: usersError }, { data: roles }, { data: rolePermissions }, { data: suspendPermission }] =
+    await Promise.all([
+      supabase.rpc("list_admin_users", { search_term: query || null }),
+      supabase.from("admin_roles").select("key, name").order("key"),
+      supabase.from("admin_role_permissions").select("role_key, permission_key").eq("permission_key", "users.manage_roles"),
+      supabase.rpc("has_admin_permission", { requested_permission: "users.suspend" }),
+    ]);
 
-  const manageableRoles = new Set(rolePermissions?.map((item) => item.role_key) ?? []);\n  const canManageRoles = manageableRoles.size > 0;\n  const { data: suspendPermission } = await supabase.rpc("has_admin_permission", { requested_permission: "users.suspend" });\n  const canSuspendUsers = suspendPermission === true;
+  const canManageRoles = (rolePermissions?.length ?? 0) > 0;
+  const canSuspendUsers = suspendPermission === true;
   const roleOptions = roles?.filter((role) => role.key === "admin" || role.key === "super_admin") ?? [];
 
   return (
@@ -59,7 +66,9 @@ export default async function AdminUsersPage({
       </header>
 
       {status === "updated" || status === "suspended" || status === "unsuspended" ? (
-        <p className="mt-5 rounded-xl bg-[var(--success-soft)] px-4 py-3 text-sm font-medium text-[var(--success)]" role="status">{status === "suspended" ? t.admin.userSuspended : status === "unsuspended" ? t.admin.userUnsuspended : t.admin.userUpdated}</p>
+        <p className="mt-5 rounded-xl bg-[var(--success-soft)] px-4 py-3 text-sm font-medium text-[var(--success)]" role="status">
+          {status === "suspended" ? t.admin.userSuspended : status === "unsuspended" ? t.admin.userUnsuspended : t.admin.userUpdated}
+        </p>
       ) : null}
       {status === "error" || error ? (
         <p className="mt-5 rounded-xl bg-[var(--danger-soft)] px-4 py-3 text-sm font-medium text-[var(--danger)]" role="alert">{t.admin.userActionError}</p>
@@ -75,59 +84,78 @@ export default async function AdminUsersPage({
         <p className="mt-6 rounded-xl bg-[var(--danger-soft)] px-4 py-3 text-sm text-[var(--danger)]" role="alert">{usersError.message}</p>
       ) : users?.length ? (
         <section className="mt-8 space-y-4" aria-label={t.admin.usersTitle}>
-          {(users as UserRow[]).map((user) => (
-            <article key={user.user_id} className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-5 shadow-[var(--shadow-sm)]">
-              <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
-                <div className="min-w-0">
-                  <h2 className="break-all text-lg font-semibold">{user.email ?? "—"}</h2>
-                  <p className="mt-1 text-sm text-[var(--muted)]">{user.display_name || t.account.notSet}</p>
-                  <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
-                    <div><dt className="text-[var(--muted)]">{t.admin.userCreated}</dt><dd className="mt-1">{formatDate(user.created_at, locale)}</dd></div>
-                    <div><dt className="text-[var(--muted)]">{t.admin.userLastSignIn}</dt><dd className="mt-1">{formatDate(user.last_sign_in_at, locale) ?? t.admin.userNeverSignedIn}</dd></div>
-                  </dl>
+          {(users as UserRow[]).map((user) => {
+            const suspended = isSuspended(user.banned_until);
+            return (
+              <article key={user.user_id} className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-5 shadow-[var(--shadow-sm)]">
+                <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
+                  <div className="min-w-0">
+                    <h2 className="break-all text-lg font-semibold">{user.email ?? "—"}</h2>
+                    <p className="mt-1 text-sm text-[var(--muted)]">{user.display_name || t.account.notSet}</p>
+                    <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
+                      <div><dt className="text-[var(--muted)]">{t.admin.userCreated}</dt><dd className="mt-1">{formatDate(user.created_at, locale)}</dd></div>
+                      <div><dt className="text-[var(--muted)]">{t.admin.userLastSignIn}</dt><dd className="mt-1">{formatDate(user.last_sign_in_at, locale) ?? t.admin.userNeverSignedIn}</dd></div>
+                    </dl>
+                  </div>
+                  <div className="shrink-0">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-[var(--muted)]">{t.admin.userEmail}</p>
+                    <p className={"mt-2 rounded-full px-3 py-1.5 text-sm font-semibold " + (user.email_confirmed_at ? "bg-[var(--success-soft)] text-[var(--success)]" : "bg-[var(--warning-soft)] text-[var(--warning)]")}>
+                      {user.email_confirmed_at ? t.admin.userEmailConfirmed : t.admin.userPending}
+                    </p>
+                  </div>
                 </div>
-                <div className="shrink-0">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-[var(--muted)]">{t.admin.userEmail}</p>
-                  <p className={"mt-2 rounded-full px-3 py-1.5 text-sm font-semibold " + (user.email_confirmed_at ? "bg-[var(--success-soft)] text-[var(--success)]" : "bg-[var(--warning-soft)] text-[var(--warning)]")}>
-                    {user.email_confirmed_at ? t.admin.userEmailConfirmed : t.admin.userPending}
-                  </p>
-                </div>
-              </div>
 
-              <div className="mt-5 border-t border-[var(--border)] pt-5">
-                <p className="text-sm font-semibold">{t.admin.userRoles}</p>
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {user.roles.length ? user.roles.map((role) => (
-                    <div key={role} className="inline-flex items-center gap-2 rounded-full bg-[var(--accent-soft)] px-3 py-1.5 text-sm font-medium">
-                      {role}
-                      {manageableRoles.has("super_admin") ? (
-                        <form action={removeAdminRole}>
+                <div className="mt-5 border-t border-[var(--border)] pt-5">
+                  <p className="text-sm font-semibold">{t.admin.userRoles}</p>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {user.roles.length ? user.roles.map((role) => (
+                      <div key={role} className="inline-flex items-center gap-2 rounded-full bg-[var(--accent-soft)] px-3 py-1.5 text-sm font-medium">
+                        <span>{role}</span>
+                        {canManageRoles ? (
+                          <form action={removeAdminRole}>
+                            <input type="hidden" name="locale" value={locale} />
+                            <input type="hidden" name="userId" value={user.user_id} />
+                            <input type="hidden" name="roleKey" value={role} />
+                            <button type="submit" className="text-[var(--danger)] underline underline-offset-2">{t.admin.userRemoveRole}</button>
+                          </form>
+                        ) : null}
+                      </div>
+                    )) : <span className="text-sm text-[var(--muted)]">{t.admin.userNoRoles}</span>}
+                  </div>
+
+                  {canManageRoles && roleOptions.some((role) => !user.roles.includes(role.key)) ? (
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      <span className="text-sm text-[var(--muted)]">{t.admin.userAssignRole}:</span>
+                      {roleOptions.filter((role) => !user.roles.includes(role.key)).map((role) => (
+                        <form key={role.key} action={assignAdminRole}>
                           <input type="hidden" name="locale" value={locale} />
                           <input type="hidden" name="userId" value={user.user_id} />
-                          <input type="hidden" name="roleKey" value={role} />
-                          <button type="submit" className="text-[var(--danger)] underline underline-offset-2">{t.admin.userRemoveRole}</button>
+                          <input type="hidden" name="roleKey" value={role.key} />
+                          <button type="submit" className="rounded-lg border border-[var(--border)] px-3 py-1.5 text-sm font-medium hover:bg-[var(--surface-soft)]">{role.name}</button>
                         </form>
-                      ) : null}
-                    </span>
-                  )) : <span className="text-sm text-[var(--muted)]">{t.admin.userNoRoles}</span>}
-                </div>
+                      ))}
+                    </div>
+                  ) : null}
 
-                {canManageRoles && roleOptions.some((role) => !user.roles.includes(role.key)) ? (
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    <span className="text-sm text-[var(--muted)]">{t.admin.userAssignRole}:</span>
-                    {roleOptions.filter((role) => !user.roles.includes(role.key)).map((role) => (
-                      <form key={role.key} action={assignAdminRole}>
+                  {canSuspendUsers && !user.roles.includes("super_admin") ? (
+                    <div className="mt-5 border-t border-[var(--border)] pt-5">
+                      <p className="text-sm font-semibold">{t.admin.userAccess}</p>
+                      <p className="mt-1 text-sm text-[var(--muted)]">
+                        {suspended ? `${t.admin.userSuspendedUntil} ${formatDate(user.banned_until, locale)}` : t.admin.userActive}
+                      </p>
+                      <form className="mt-3" action={suspended ? unsuspendUser : suspendUser}>
                         <input type="hidden" name="locale" value={locale} />
                         <input type="hidden" name="userId" value={user.user_id} />
-                        <input type="hidden" name="roleKey" value={role.key} />
-                        <button type="submit" className="rounded-lg border border-[var(--border)] px-3 py-1.5 text-sm font-medium hover:bg-[var(--surface-soft)]">{role.name}</button>
+                        <button type="submit" className="rounded-lg border border-[var(--border)] px-3 py-1.5 text-sm font-medium hover:bg-[var(--surface-soft)]">
+                          {suspended ? t.admin.userUnsuspend : t.admin.userSuspend}
+                        </button>
                       </form>
-                    ))}
-                  </div>
-                ) : null}
-              </div>
-            </article>
-          ))}
+                    </div>
+                  ) : null}
+                </div>
+              </article>
+            );
+          })}
         </section>
       ) : (
         <p className="mt-8 rounded-2xl border border-[var(--border)] bg-[var(--surface-soft)] p-6 text-[var(--muted)]">{t.admin.usersNoResults}</p>
