@@ -3,6 +3,7 @@
 ## Current state
 
 - UX V2 foundations through the homepage exploration cue are merged on `main`.
+- Global navigation now provides tool search from the header, shared breadcrumbs on category/tool pages, and a lightweight shared footer.
 - Main uses the generic ToolPage shell, semantic processing/result status metadata, and the registry-based dynamic tool route.
 - Published tools are connected to independently loadable implementation modules through the central registry.
 - Tool runtime capabilities are scoped per tool; clipboard is currently the only browser capability enforced through the runtime.
@@ -68,7 +69,7 @@
 ## Next actions
 
 1. Continue the tool-platform audit with registry scalability and catalog/module boundaries as the toolbox grows.
-2. Complete the administration foundation with explicit administrator assignment, user management and audited mutations.
+2. Continue the administration foundation with user management and audited mutations; the initial administrator assignment is now complete.
 3. Define and implement the code/database boundary for editable catalog/editorial data before migrating those domains.
 4. Introduce persistence or sharing only when a concrete tool requirement justifies the corresponding runtime capability.
 5. Continue the UX audit with above-the-fold tool hierarchy and mobile behavior, then apply targeted fixes.
@@ -94,4 +95,5 @@ The code/module remains authoritative for executable behavior and technical capa
 - A protected localized `/[locale]/admin` dashboard is implemented and checks `admin.dashboard.view` server-side.
 - The administration dashboard now acts as a module hub, keeping future areas visible without creating empty pages.
 - Administrative access is exposed from the account page only when the signed-in user has the dashboard permission.
-- User-management mutations and first-admin assignment are intentionally not implemented yet; the first administrator must be assigned explicitly before the dashboard becomes reachable.
+- User-management mutations and broader administrator workflows are not implemented yet.
+- The initial administrator account has been explicitly assigned the `super_admin` role and can access the dashboard.
