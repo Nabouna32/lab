@@ -10,7 +10,7 @@ export type Messages = {
     resultCountOne: string; resultCountMany: string; noResults: string; noResultsHelp: string; clearSearch: string;
   };
   relatedTools: { title: string };
-  admin: { label: string; title: string; description: string; dashboard: string; access: string; account: string; roles: string; permissions: string; auditLog: string; noAuditEntries: string; noAccess: string; notConfigured: string; },
+  admin: { label: string; title: string; description: string; dashboard: string; access: string; account: string; roles: string; permissions: string; auditLog: string; noAuditEntries: string; noAccess: string; notConfigured: string; modules: string; users: string; usersDescription: string; tools: string; toolsDescription: string; moderation: string; moderationDescription: string; analytics: string; analyticsDescription: string; settings: string; settingsDescription: string; audit: string; auditDescription: string; available: string; comingSoon: string; },
   account: { label: string; title: string; anonymousDescription: string; signIn: string; signUp: string; signOut: string; submitSignIn: string; submitSignUp: string; email: string; password: string; displayName: string; notSet: string; confirmation: string; alreadySignedIn: string; noAccount: string; hasAccount: string };
   processing: {
     ariaLabel: string; more: string; storage: string; retention: string; externalProviders: string; dataCategories: string;
@@ -44,7 +44,7 @@ export const messages: Record<Locale, Messages> = {
     },
     relatedTools: { title: "Vous pourriez aussi avoir besoin de" },
     admin: {
-      label: "Administration", title: "Administration Utiluna", description: "Gérez les accès administratifs et surveillez les actions sensibles.", dashboard: "Tableau de bord", access: "Accès", account: "Compte", roles: "Rôles", permissions: "Permissions", auditLog: "Journal des actions", noAuditEntries: "Aucune action administrative enregistrée.", noAccess: "Vous n’avez pas accès à cette administration.", notConfigured: "Aucun compte administrateur n’est encore configuré. Après la création de votre compte, le premier accès doit être attribué explicitement.",
+      label: "Administration", title: "Administration Utiluna", description: "Gérez le site depuis un espace séparé du reste d’Utiluna.", dashboard: "Tableau de bord", access: "Accès", account: "Compte", roles: "Rôles", permissions: "Permissions", auditLog: "Journal des actions", noAuditEntries: "Aucune action administrative enregistrée.", noAccess: "Vous n’avez pas accès à cette administration.", notConfigured: "Aucun compte administrateur n’est encore configuré. Après la création de votre compte, le premier accès doit être attribué explicitement.", modules: "Modules", users: "Utilisateurs", usersDescription: "Comptes, accès et rôles.", tools: "Outils et contenu", toolsDescription: "Outils, catégories et publication.", moderation: "Modération", moderationDescription: "Commentaires, signalements et propositions.", analytics: "Statistiques", analyticsDescription: "Comprendre l’utilisation du service.", settings: "Réglages", settingsDescription: "Configuration générale d’Utiluna.", audit: "Journal des actions", auditDescription: "Voir les actions administratives importantes.", available: "Disponible", comingSoon: "Bientôt",
     },
     account: {
       label: "Espace personnel", title: "Votre compte",
@@ -89,7 +89,7 @@ export const messages: Record<Locale, Messages> = {
     },
     relatedTools: { title: "You may also need" },
     admin: {
-      label: "Administration", title: "Utiluna administration", description: "Manage administrative access and monitor sensitive actions.", dashboard: "Dashboard", access: "Access", account: "Account", roles: "Roles", permissions: "Permissions", auditLog: "Audit log", noAuditEntries: "No administrative actions recorded.", noAccess: "You do not have access to this administration.", notConfigured: "No administrator account has been configured yet. After creating your account, the first access must be assigned explicitly.",
+      label: "Administration", title: "Utiluna administration", description: "Manage the site from a workspace separate from the public Utiluna experience.", dashboard: "Dashboard", access: "Access", account: "Account", roles: "Roles", permissions: "Permissions", auditLog: "Audit log", noAuditEntries: "No administrative actions recorded.", noAccess: "You do not have access to this administration.", notConfigured: "No administrator account has been configured yet. After creating your account, the first access must be assigned explicitly.", modules: "Modules", users: "Users", usersDescription: "Accounts, access and roles.", tools: "Tools and content", toolsDescription: "Tools, categories and publishing.", moderation: "Moderation", moderationDescription: "Comments, reports and proposals.", analytics: "Analytics", analyticsDescription: "Understand how the service is used.", settings: "Settings", settingsDescription: "General Utiluna configuration.", audit: "Audit log", auditDescription: "Review important administrative actions.", available: "Available", comingSoon: "Coming soon",
     },
     account: {
       label: "Personal space", title: "Your account",
