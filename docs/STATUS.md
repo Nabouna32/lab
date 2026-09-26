@@ -3,7 +3,7 @@
 ## Current state
 
 - UX V2 foundations through the homepage exploration cue are merged on `main`.
-- Global navigation now provides tool search from the header, shared breadcrumbs on category/tool pages, and a lightweight shared footer.
+- Global navigation now provides tool search from the header, shared breadcrumbs on category/tool pages, a lightweight shared footer, and a compact modern header with stable secondary controls.
 - Main uses the generic ToolPage shell, semantic processing/result status metadata, and the registry-based dynamic tool route.
 - Published tools are connected to independently loadable implementation modules through the central registry.
 - Tool runtime capabilities are scoped per tool; clipboard is currently the only browser capability enforced through the runtime.
