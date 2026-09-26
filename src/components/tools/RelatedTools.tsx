@@ -1,23 +1,20 @@
-"use client";
-
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { isLocale, type Locale } from "@/lib/i18n/config";
+import type { Locale } from "@/lib/i18n/config";
+import { getMessages } from "@/lib/i18n/messages";
 import { tools } from "@/lib/tools/tools";
 import { getRelatedTools } from "@/lib/tools/relations";
 
-export default function RelatedTools({ toolId }: { toolId: string }) {
-  const pathname = usePathname();
-  const segment = pathname.split("/")[1];
-  const locale: Locale = isLocale(segment) ? segment : "fr";
+export default function RelatedTools({ toolId, locale }: { toolId: string; locale: Locale }) {
+  const t = getMessages(locale);
   const tool = tools.find((item) => item.id === toolId);
   if (!tool) return null;
+
   const relatedTools = getRelatedTools(tool, tools);
   if (relatedTools.length === 0) return null;
-  const title = locale === "fr" ? "Vous pourriez aussi avoir besoin de" : "You may also need";
+
   return (
     <section className="rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-7" aria-labelledby="related-tools-title">
-      <h2 id="related-tools-title" className="text-xl font-bold text-[var(--foreground)] sm:text-2xl">{title}</h2>
+      <h2 id="related-tools-title" className="text-xl font-bold text-[var(--foreground)] sm:text-2xl">{t.relatedTools.title}</h2>
       <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {relatedTools.map((relatedTool) => {
           const content = relatedTool.content[locale] ?? relatedTool.content.fr;
