@@ -65,7 +65,7 @@ export default async function AdminPage({
     { title: t.admin.moderation, description: t.admin.moderationDescription, status: t.admin.comingSoon, href: null },
     { title: t.admin.analytics, description: t.admin.analyticsDescription, status: t.admin.comingSoon, href: null },
     { title: t.admin.settings, description: t.admin.settingsDescription, status: t.admin.comingSoon, href: null },
-    { title: t.admin.audit, description: t.admin.auditDescription, status: t.admin.available, href: null },
+    { title: t.admin.audit, description: t.admin.auditDescription, status: t.admin.available, href: `/${locale}/admin/audit` },
   ];
 
   return (
