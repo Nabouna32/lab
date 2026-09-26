@@ -89,6 +89,7 @@ export default async function AdminPage({
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {modules.map((module) => {
+            const available = module.status === t.admin.available;
             return (
               <article
                 key={module.title}
