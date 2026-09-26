@@ -43,8 +43,8 @@ export default function ThemeToggle() {
             key={option.value}
             type="button"
             onClick={(event) => {
-              setTheme(option.value);
               event.currentTarget.closest("details")?.removeAttribute("open");
+              setTheme(option.value);
             }}
             className={"flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm transition-colors " + (theme === option.value
               ? "bg-[var(--accent-soft)] text-[var(--foreground)]"

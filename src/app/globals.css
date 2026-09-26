@@ -63,7 +63,12 @@
   --font-mono: var(--font-geist-mono);
 }
 * { box-sizing: border-box; }
-html { background: var(--background); scroll-behavior: smooth; }
+html {
+  background: var(--background);
+  color-scheme: light;
+  scroll-behavior: smooth;
+}
+html.dark { color-scheme: dark; }
 body {
   margin: 0;
   background:
