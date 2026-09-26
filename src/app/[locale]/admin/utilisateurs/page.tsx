@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { assignAdminRole, removeAdminRole } from "./actions";
+import { assignAdminRole, removeAdminRole, suspendUser, unsuspendUser } from "./actions";
 import { requireAdminPermission } from "@/lib/admin/authorization";
 import { createClient } from "@/lib/supabase/server";
 import { getMessages } from "@/lib/i18n/messages";
@@ -45,7 +45,7 @@ export default async function AdminUsersPage({
     supabase.from("admin_role_permissions").select("role_key, permission_key").eq("permission_key", "users.manage_roles"),
   ]);
 
-  const manageableRoles = new Set(rolePermissions?.map((item) => item.role_key) ?? []);
+  const manageableRoles = new Set(rolePermissions?.map((item) => item.role_key) ?? []);\n  const canManageRoles = manageableRoles.size > 0;\n  const { data: suspendPermission } = await supabase.rpc("has_admin_permission", { requested_permission: "users.suspend" });\n  const canSuspendUsers = suspendPermission === true;
   const roleOptions = roles?.filter((role) => role.key === "admin" || role.key === "super_admin") ?? [];
 
   return (
@@ -58,8 +58,8 @@ export default async function AdminUsersPage({
         <p className="mt-3 max-w-2xl text-[var(--muted)]">{t.admin.usersDescription}</p>
       </header>
 
-      {status === "updated" ? (
-        <p className="mt-5 rounded-xl bg-[var(--success-soft)] px-4 py-3 text-sm font-medium text-[var(--success)]" role="status">{t.admin.userUpdated}</p>
+      {status === "updated" || status === "suspended" || status === "unsuspended" ? (
+        <p className="mt-5 rounded-xl bg-[var(--success-soft)] px-4 py-3 text-sm font-medium text-[var(--success)]" role="status">{status === "suspended" ? t.admin.userSuspended : status === "unsuspended" ? t.admin.userUnsuspended : t.admin.userUpdated}</p>
       ) : null}
       {status === "error" || error ? (
         <p className="mt-5 rounded-xl bg-[var(--danger-soft)] px-4 py-3 text-sm font-medium text-[var(--danger)]" role="alert">{t.admin.userActionError}</p>
@@ -98,7 +98,7 @@ export default async function AdminUsersPage({
                 <p className="text-sm font-semibold">{t.admin.userRoles}</p>
                 <div className="mt-2 flex flex-wrap gap-2">
                   {user.roles.length ? user.roles.map((role) => (
-                    <span key={role} className="inline-flex items-center gap-2 rounded-full bg-[var(--accent-soft)] px-3 py-1.5 text-sm font-medium">
+                    <div key={role} className="inline-flex items-center gap-2 rounded-full bg-[var(--accent-soft)] px-3 py-1.5 text-sm font-medium">
                       {role}
                       {manageableRoles.has("super_admin") ? (
                         <form action={removeAdminRole}>
@@ -112,7 +112,7 @@ export default async function AdminUsersPage({
                   )) : <span className="text-sm text-[var(--muted)]">{t.admin.userNoRoles}</span>}
                 </div>
 
-                {manageableRoles.has("super_admin") && roleOptions.some((role) => !user.roles.includes(role.key)) ? (
+                {canManageRoles && roleOptions.some((role) => !user.roles.includes(role.key)) ? (
                   <div className="mt-4 flex flex-wrap gap-2">
                     <span className="text-sm text-[var(--muted)]">{t.admin.userAssignRole}:</span>
                     {roleOptions.filter((role) => !user.roles.includes(role.key)).map((role) => (
