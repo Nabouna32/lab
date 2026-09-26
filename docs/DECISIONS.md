@@ -455,3 +455,25 @@ Utiluna needs accounts and an administration surface eventually, but executable 
 - Core tools remain anonymous-first.
 - Tool/catalog/editorial data is not migrated as part of this step.
 - Future administration will use explicit permissions rather than an ad-hoc client-side admin flag.
+
+## DEC-025 — Granular admin RBAC in the database
+
+**Status:** Accepted
+
+### Decision
+
+Administrative access is modeled with database-backed roles and granular permissions rather than a single administrator flag. Roles bundle permissions, while user-role assignments determine who receives them.
+
+The first foundation includes `super_admin` and `admin` roles, permissions for dashboard access, user administration and audit access, and an audit log. Administrative authorization is enforced server-side and in database policies; hiding an interface element is not considered an authorization boundary.
+
+### Reason
+
+Utiluna will eventually have several administrative areas with different responsibilities. A single `is_admin` flag would make delegation and least-privilege access difficult and would force a later migration.
+
+### Consequences
+
+- The database stores roles, permissions, role-permission bindings and user-role assignments.
+- Sensitive administrative data is protected by Row Level Security.
+- The first administrator must be assigned explicitly; there is no automatic "first user becomes admin" bootstrap.
+- Executable tool behavior remains in Git/code and is not moved into the database by this decision.
+- The model can grow with future administration areas without changing the basic authorization mechanism.
