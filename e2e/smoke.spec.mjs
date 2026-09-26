@@ -53,20 +53,17 @@ test("all published tool pages render", async ({ page }) => {
   }
 });
 
-test("processing status exposes an accessible hover and focus tooltip", async ({ page }) => {
+test("processing status exposes an accessible information disclosure", async ({ page }) => {
   await page.goto(`${baseUrl}/fr/outils/calculs/pourcentage`, { waitUntil: "networkidle" });
 
-  const infoButton = page.getByRole("button", { name: "Informations sur le traitement" });
-  const tooltip = page.getByRole("tooltip");
+  const status = page.getByText("Traitement local", { exact: true });
+  await expect(status).toBeVisible();
 
-  await expect(page.getByText("Traitement local", { exact: true })).toBeVisible();
+  const info = page.locator('summary').filter({ hasText: "Traitement local" }).getByText("ⓘ", { exact: true });
+  await expect(info).toBeVisible();
 
-  await infoButton.hover();
-  await expect(tooltip).toBeVisible();
-  await expect(tooltip).toContainText("Vos données restent sur votre appareil.");
-
-  await infoButton.focus();
-  await expect(tooltip).toBeVisible();
+  await status.locator("..").locator("summary").click();
+  await expect(page.getByText("Aucune donnée n'est envoyée à un serveur ni stockée par Utiluna.", { exact: true })).toBeVisible();
 });
 
 test("English locale renders", async ({ page }) => {
