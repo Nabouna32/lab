@@ -18,6 +18,10 @@
 - Merged canonical and localized tool metadata/SEO support.
 - Merged the percentage result-panel layout fix so the result column no longer stretches the input column unnecessarily.
 - Merged the category-page i18n correction so English routes no longer fall back to hard-coded French UI.
+- Restored the compact processing status tooltip and semantic status presentation.
+- Moved published tool editorial content into the corresponding tool modules.
+- Extended catalog search to tags/categories and reduced unnecessary fuzzy matching work.
+- Converted related-tool rendering to a server component using the route-resolved locale.
 - Moved published tool editorial content out of the central switch and into the corresponding tool modules.
 
 ## Platform audit conclusions
@@ -48,6 +52,8 @@
 - The central catalog/registry is sufficient for the current toolbox.
 - The category-page duplication was removed.
 - Editorial content is now owned by each tool module and loaded through the same registry as the executable tool; the former centralized switch has been removed.
+- Search now matches catalog tags and categories in addition to names, descriptions, keywords and aliases.
+- Related tools no longer require client-side routing context; the server route passes the locale directly.
 - User-facing global UI strings belong in the i18n layer; tool-specific names/descriptions/SEO are structured per locale.
 
 ## Not implemented yet
@@ -62,10 +68,10 @@
 
 ## Next actions
 
-1. Continue the tool-platform audit with catalog/search scalability and module boundaries as the toolbox grows.
+1. Continue the tool-platform audit with registry scalability and catalog/module boundaries as the toolbox grows.
 2. Define the code/database boundary and schema before introducing Supabase.
 3. Introduce persistence or sharing only when a concrete tool requirement justifies the corresponding runtime capability.
-4. Continue the UX audit, including above-the-fold tool hierarchy and mobile behavior, then apply targeted fixes.
+4. Continue the UX audit with above-the-fold tool hierarchy and mobile behavior, then apply targeted fixes.
 5. Expand runtime capability abstractions only when an actual tool needs the capability.
 
 ## Important boundary
