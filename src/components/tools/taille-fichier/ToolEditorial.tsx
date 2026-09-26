@@ -1,6 +1,6 @@
 import type { Locale } from "@/lib/i18n/config";
 import ToolSection from "@/components/tools/ToolPage/ToolSection";
-import { BackToTools, Card, Formula } from "@/components/tools/ToolPage/EditorialPrimitives";
+import { BackToTools, Formula } from "@/components/tools/ToolPage/EditorialPrimitives";
 
 export default function ToolEditorial({ locale }: { locale: Locale }) {
   const fr = locale === "fr";
@@ -27,5 +27,5 @@ export default function ToolEditorial({ locale }: { locale: Locale }) {
           </ToolSection>
           <BackToTools locale={locale} />
         </>
-      );;
+      );
 }
