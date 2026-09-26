@@ -59,7 +59,7 @@
 ## Not implemented yet
 
 - Database-backed catalog/editorial content.
-- User management screens and administrative mutation workflows.
+- User suspension/deletion and broader account-lifecycle administration.
 - Account/premium enforcement.
 - Runtime enforcement for browser capabilities beyond clipboard.
 - Generic sharing runtime.
@@ -69,7 +69,7 @@
 ## Next actions
 
 1. Continue the tool-platform audit with registry scalability and catalog/module boundaries as the toolbox grows.
-2. Continue the administration foundation with user management and audited mutations; the initial administrator assignment is now complete.
+2. Continue administration with the remaining account-lifecycle actions and a dedicated audit-log workflow.
 3. Define and implement the code/database boundary for editable catalog/editorial data before migrating those domains.
 4. Introduce persistence or sharing only when a concrete tool requirement justifies the corresponding runtime capability.
 5. Continue the UX audit with above-the-fold tool hierarchy and mobile behavior, then apply targeted fixes.
@@ -95,5 +95,6 @@ The code/module remains authoritative for executable behavior and technical capa
 - A protected localized `/[locale]/admin` dashboard is implemented and checks `admin.dashboard.view` server-side.
 - The administration dashboard now acts as a module hub, keeping future areas visible without creating empty pages.
 - Administrative access is exposed from the account page only when the signed-in user has the dashboard permission.
-- User-management mutations and broader administrator workflows are not implemented yet.
+- A protected user-management workspace is implemented with search, account/profile metadata, administrator roles, audited role assignment/removal, and protection against removing the last `super_admin` role.
+- User suspension/deletion and broader account-lifecycle administration are not implemented yet.
 - The initial administrator account has been explicitly assigned the `super_admin` role and can access the dashboard.

@@ -4,6 +4,21 @@ import { createClient } from "@/lib/supabase/server";
 import { getMessages } from "@/lib/i18n/messages";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 
+function ModuleContent({ module, t }: { module: { title: string; description: string; status: string }; t: ReturnType<typeof getMessages> }) {
+  const available = module.status === t.admin.available;
+  return (
+    <>
+      <div className="flex items-start justify-between gap-4">
+        <h3 className="font-semibold">{module.title}</h3>
+        <span className={available ? "shrink-0 rounded-full bg-[var(--success-soft)] px-2.5 py-1 text-xs font-semibold text-[var(--success)]" : "shrink-0 rounded-full bg-[var(--surface-soft)] px-2.5 py-1 text-xs font-semibold text-[var(--muted)]"}>{module.status}</span>
+      </div>
+      <p className="mt-2 text-sm leading-6 text-[var(--muted)]">{module.description}</p>
+    </>
+  );
+}
+
+
+
 export default async function AdminPage({
   params,
 }: {
@@ -45,12 +60,12 @@ export default async function AdminPage({
   }
 
   const modules = [
-    { title: t.admin.users, description: t.admin.usersDescription, status: t.admin.comingSoon },
-    { title: t.admin.tools, description: t.admin.toolsDescription, status: t.admin.comingSoon },
-    { title: t.admin.moderation, description: t.admin.moderationDescription, status: t.admin.comingSoon },
-    { title: t.admin.analytics, description: t.admin.analyticsDescription, status: t.admin.comingSoon },
-    { title: t.admin.settings, description: t.admin.settingsDescription, status: t.admin.comingSoon },
-    { title: t.admin.audit, description: t.admin.auditDescription, status: t.admin.available },
+    { title: t.admin.users, description: t.admin.usersDescription, status: t.admin.available, href: `/${locale}/admin/utilisateurs` },
+    { title: t.admin.tools, description: t.admin.toolsDescription, status: t.admin.comingSoon, href: null },
+    { title: t.admin.moderation, description: t.admin.moderationDescription, status: t.admin.comingSoon, href: null },
+    { title: t.admin.analytics, description: t.admin.analyticsDescription, status: t.admin.comingSoon, href: null },
+    { title: t.admin.settings, description: t.admin.settingsDescription, status: t.admin.comingSoon, href: null },
+    { title: t.admin.audit, description: t.admin.auditDescription, status: t.admin.available, href: null },
   ];
 
   return (
@@ -75,29 +90,22 @@ export default async function AdminPage({
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {modules.map((module) => {
             const available = module.status === t.admin.available;
-
             return (
               <article
                 key={module.title}
                 className={
                   available
-                    ? "rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-5 shadow-[var(--shadow-sm)]"
+                    ? "rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-5 shadow-[var(--shadow-sm)] transition-colors hover:border-[var(--accent)]"
                     : "rounded-2xl border border-[var(--border)] bg-[var(--surface-soft)]/60 p-5 opacity-75"
                 }
               >
-                <div className="flex items-start justify-between gap-4">
-                  <h3 className="font-semibold">{module.title}</h3>
-                  <span
-                    className={
-                      available
-                        ? "shrink-0 rounded-full bg-[var(--success-soft)] px-2.5 py-1 text-xs font-semibold text-[var(--success)]"
-                        : "shrink-0 rounded-full bg-[var(--surface-soft)] px-2.5 py-1 text-xs font-semibold text-[var(--muted)]"
-                    }
-                  >
-                    {module.status}
-                  </span>
-                </div>
-                <p className="mt-2 text-sm leading-6 text-[var(--muted)]">{module.description}</p>
+                {module.href ? (
+                  <Link href={module.href} className="block rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]">
+                    <ModuleContent module={module} t={t} />
+                  </Link>
+                ) : (
+                  <ModuleContent module={module} t={t} />
+                )}
               </article>
             );
           })}
