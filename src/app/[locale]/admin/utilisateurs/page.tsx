@@ -130,7 +130,7 @@ export default async function AdminUsersPage({
           ))}
         </section>
       ) : (
-        <p className="mt-8 rounded-2xl border border-[var(--border)] bg-[var(--surface-soft)] p-6 text-[var(--muted)]">{t.admin.userNoResults}</p>
+        <p className="mt-8 rounded-2xl border border-[var(--border)] bg-[var(--surface-soft)] p-6 text-[var(--muted)]">{t.admin.usersNoResults}</p>
       )}
     </main>
   );
