@@ -1,4 +1,6 @@
-import { createClient } from "@supabase/supabase-js";\n\ndeclare const Deno: { env: { get(name: string): string | undefined } };
+import { createClient } from "@supabase/supabase-js";
+
+declare const Deno: { env: { get(name: string): string | undefined } };
 
 type Action = "suspend" | "unsuspend";
 
