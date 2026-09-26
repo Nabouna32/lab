@@ -1,22 +1,29 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import { defaultLocale, locales } from "./lib/i18n/config";
+import { copySessionResponse, updateSession } from "./lib/supabase/proxy";
 
-export function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const needsSupabaseSession =
+    pathname.includes("/compte") || pathname.includes("/auth/");
+
+  const supabaseResponse = needsSupabaseSession ? await updateSession(request) : null;
 
   const pathnameHasLocale = locales.some(
-    (locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`)
+    (locale) => pathname === "/" + locale || pathname.startsWith("/" + locale + "/"),
   );
 
   if (pathnameHasLocale) {
-    return NextResponse.next();
+    return supabaseResponse ?? NextResponse.next();
   }
 
   const url = request.nextUrl.clone();
-  url.pathname = `/${defaultLocale}${pathname}`;
+  url.pathname = "/" + defaultLocale + pathname;
 
-  return NextResponse.redirect(url);
+  const redirectResponse = NextResponse.redirect(url);
+  return supabaseResponse
+    ? copySessionResponse(supabaseResponse, redirectResponse)
+    : redirectResponse;
 }
 
 export const config = {

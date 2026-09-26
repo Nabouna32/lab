@@ -434,3 +434,24 @@ Separating access from processing also prevents an accidental architectural coup
 - The runtime currently enforces clipboard access.
 - Future browser, persistence, network and account capabilities should use the same controlled boundary.
 - Tool metadata remains authoritative for the declared requirement, while executable platform services enforce the actual permission at runtime.
+
+
+## DEC-024 — Account foundation before catalog migration
+
+**Status:** Accepted
+
+### Decision
+
+Introduce the database and authenticated account foundation before moving existing tool/catalog behavior out of Git. The first database scope is intentionally limited to user identity integration and minimal profile metadata.
+
+### Reason
+
+Utiluna needs accounts and an administration surface eventually, but executable tool behavior must remain in Git until the code/database boundary is explicitly designed. Starting with the account foundation creates the necessary platform layer without coupling the tool engine to the database prematurely.
+
+### Consequences
+
+- Supabase Auth is the identity provider.
+- User profile metadata is stored in `public.profiles` with Row Level Security.
+- Core tools remain anonymous-first.
+- Tool/catalog/editorial data is not migrated as part of this step.
+- Future administration will use explicit permissions rather than an ad-hoc client-side admin flag.
