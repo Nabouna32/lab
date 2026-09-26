@@ -9,6 +9,7 @@ export type Messages = {
     categoryDescription: string; searchLabel: string; searchPlaceholder: string; searchButton: string; suggestions: string;
     resultCountOne: string; resultCountMany: string; noResults: string; noResultsHelp: string; clearSearch: string;
   };
+  relatedTools: { title: string };
   processing: {
     ariaLabel: string; more: string; storage: string; retention: string; externalProviders: string; dataCategories: string;
     localLabel: string; localSummary: string; externalLabel: string; externalSummary: string;
@@ -39,6 +40,7 @@ export const messages: Record<Locale, Messages> = {
       noResults: "Aucun outil trouvé pour", noResultsHelp: "Essayez « TVA », « internet », « vidéo » ou « âge ».",
       clearSearch: "Effacer la recherche",
     },
+    relatedTools: { title: "Vous pourriez aussi avoir besoin de" },
     processing: {
       ariaLabel: "Informations sur le traitement des données", more: "Informations sur le traitement",
       storage: "Stockage", retention: "Conservation", externalProviders: "Service(s) externe(s)", dataCategories: "Données concernées",
@@ -70,6 +72,7 @@ export const messages: Record<Locale, Messages> = {
       noResults: "No tool found for", noResultsHelp: "Try “VAT”, “internet”, “video”, or “age”.",
       clearSearch: "Clear search",
     },
+    relatedTools: { title: "You may also need" },
     processing: {
       ariaLabel: "Data processing information", more: "Processing information",
       storage: "Storage", retention: "Retention", externalProviders: "External service(s)", dataCategories: "Data involved",
