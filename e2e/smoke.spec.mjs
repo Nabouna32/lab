@@ -56,7 +56,7 @@ test("all published tool pages render", async ({ page }) => {
 test("processing status exposes an accessible hover and focus tooltip", async ({ page }) => {
   await page.goto(`${baseUrl}/fr/outils/calculs/pourcentage`, { waitUntil: "networkidle" });
 
-  const infoButton = page.getByRole("button", { name: "En savoir plus sur le traitement" });
+  const infoButton = page.getByRole("button", { name: "Informations sur le traitement" });
   const tooltip = page.getByRole("tooltip");
 
   await expect(page.getByText("Traitement local", { exact: true })).toBeVisible();
