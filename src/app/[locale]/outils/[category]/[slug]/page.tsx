@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import { isLocale, locales, type Locale } from "@/lib/i18n/config";
 import { getToolPageMetadata } from "@/lib/tools/page-metadata";
 import { getToolByRoute, toolRegistry } from "@/lib/tools/registry";
-import { getToolEditorial } from "@/lib/tools/editorial";
 import ToolPage from "@/components/tools/ToolPage/ToolPage";
 import RelatedTools from "@/components/tools/RelatedTools";
 
@@ -46,7 +45,10 @@ export default async function ToolRoute({
   if (!entry) notFound();
 
   const locale: Locale = localeParam;
-  const ToolComponent = (await entry.module.load()).default;
+  const [{ default: ToolComponent }, { default: ToolEditorial }] = await Promise.all([
+    entry.module.load(),
+    entry.module.loadEditorial(),
+  ]);
 
   return (
     <ToolPage
@@ -54,7 +56,7 @@ export default async function ToolRoute({
       tool={entry.tool}
       content={
         <>
-          <div className="space-y-12">{getToolEditorial(entry.tool.id, locale)}</div>
+          <div className="space-y-12"><ToolEditorial locale={locale} /></div>
           <RelatedTools toolId={entry.tool.id} />
         </>
       }
