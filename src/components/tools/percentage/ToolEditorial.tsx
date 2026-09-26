@@ -86,5 +86,5 @@ export default function ToolEditorial({ locale }: { locale: Locale }) {
           </details>
           <BackToTools locale={locale} />
         </>
-      );;
+      );
 }
