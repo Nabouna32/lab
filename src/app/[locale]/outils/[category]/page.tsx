@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import { notFound } from "next/navigation";
 import ToolCard from "@/components/tools/ToolCard";
 import { categories, getCategoryName } from "@/lib/tools/categories";
@@ -38,12 +38,7 @@ export default async function CategoryPage({
   return (
     <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <div className="max-w-3xl">
-        <Link
-          href={`/${locale}/outils`}
-          className="text-sm font-medium text-[var(--accent)] hover:underline"
-        >
-          ← {t.nav.tools}
-        </Link>
+        <Breadcrumbs locale={locale} items={[{ label: t.nav.tools, href: `/${locale}/outils` }, { label: categoryName }]} />
 
         <p className="mt-8 text-3xl" aria-hidden="true">
           {category.icon}

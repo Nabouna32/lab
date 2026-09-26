@@ -2,6 +2,8 @@ import type { Locale } from "./config.ts";
 
 export type Messages = {
   nav: { home: string; tools: string; language: string; account: string; menu: string };
+  breadcrumbs: { label: string };
+  footer: { tagline: string; explore: string; account: string };
   actions: { copy: string; copied: string; clear: string };
   home: { badge: string; title: string; description: string; examples: string; explore: string; categoriesTitle: string; categoriesDescription: string };
   tools: {
@@ -22,6 +24,8 @@ export type Messages = {
 export const messages: Record<Locale, Messages> = {
   fr: {
     nav: { home: "Accueil", tools: "Outils", language: "Langue", account: "Compte", menu: "Menu" },
+    breadcrumbs: { label: "Fil d’Ariane" },
+    footer: { tagline: "Une boîte à outils numérique, simple à utiliser et immense à explorer.", explore: "Explorer", account: "Votre espace" },
     actions: { copy: "Copier", copied: "Copié", clear: "Effacer" },
     home: {
       badge: "Des outils simples pour le quotidien",
@@ -67,6 +71,8 @@ export const messages: Record<Locale, Messages> = {
   },
   en: {
     nav: { home: "Home", tools: "Tools", language: "Language", account: "Account", menu: "Menu" },
+    breadcrumbs: { label: "Breadcrumb" },
+    footer: { tagline: "A digital toolbox that is simple to use and made to explore.", explore: "Explore", account: "Your space" },
     actions: { copy: "Copy", copied: "Copied", clear: "Clear" },
     home: {
       badge: "Simple tools for everyday tasks",
