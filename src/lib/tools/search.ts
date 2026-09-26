@@ -74,7 +74,7 @@ export function searchTools(tools: Tool[], query: string, locale: Locale = "fr")
     const keywords = (tool.keywords ?? []).map(normalizeSearchText);
     const aliases = (tool.aliases ?? []).map(normalizeSearchText);
     const tags = (tool.tags ?? []).map(normalizeSearchText);
-    const categories = [...new Set([tool.categoryId, ...(tool.categories ?? [])])].map(normalizeSearchText);
+    const categories = [...new Set([tool.categoryId, ...(tool.categories ?? [])].filter(Boolean))].map(normalizeSearchText);
     const haystack = getSearchText(tool, locale);
     let score = 0;
     if (name === normalizedQuery) score += 100;
