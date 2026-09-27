@@ -616,7 +616,7 @@ Structural i18n tests can verify that translations exist and remain coherent, bu
 - Future translation work may change a locale from `partial` to `complete` only when the supported user-facing scope has been reviewed.
 - Structural tests protect translation integrity but do not automatically promote a locale's readiness status.
 
-## DEC-030 — Priorité limitée de la personnalisation
+## DEC-032 — Priorité limitée de la personnalisation
 
 **Status:** Accepted
 
@@ -634,3 +634,34 @@ Personalization can add real recurring value, but building a broad preference sy
 - Favorites and collections remain the intended first scope for a future personalization phase.
 - Broader personalization must not drive current architecture or add maintenance cost prematurely.
 - This decision does not change anonymous-first usage or the long-term three-layer product model.
+
+
+## DEC-033 — Simple first-class tool sharing
+
+**Status:** Accepted as a future product capability
+
+### Decision
+
+Utiluna should provide a small, unobtrusive **Share** action on tool pages. The first intended sharing model is deliberately simple:
+
+- share the blank tool page;
+- share a configured/current result when the tool can safely serialize its state;
+- use the native browser/device sharing mechanism when available;
+- otherwise provide a copyable link;
+- sharing must not require an account.
+
+Sharing is implemented progressively at the tool level rather than through a mandatory universal serialization system.
+
+### Reason
+
+Sharing a useful tool or a concrete result can make Utiluna more useful in everyday situations without turning the product into a social network or adding a large platform subsystem.
+
+### Consequences
+
+- The shared tool shell may expose a common Share action.
+- A tool may declare or implement whether its current state is safely shareable.
+- Local-first tools should prefer URL-encoded state when it is small, deterministic, non-sensitive and appropriate.
+- Sensitive, private or excessively large state must not be placed into URLs merely to enable sharing.
+- Result sharing should be introduced when a concrete tool has a meaningful use case rather than forcing every tool to support it.
+- Collections remain a separate, later sharing capability governed by their own privacy model.
+- QR-code sharing may be added later where it provides clear value, but is not required for the first implementation.
