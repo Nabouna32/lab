@@ -268,7 +268,7 @@ No-result states should help the user reformulate, discover related tools/catego
 
 Anonymous users should be able to use core tools and retain appropriate local state such as preferences or favorites. When signing in, local favorites can merge into account favorites with deterministic conflict handling.
 
-Account features should progressively include synchronized preferences, collections, compatible history, personalization, community participation, and privacy/data controls.
+Account features should progressively start with favorites and collections. Broader synchronized preferences, compatible history, personalization, community participation, and privacy/data controls remain later capabilities and should not be treated as near-term scope.
 
 ### Collections and sharing
 
