@@ -5,11 +5,9 @@ import { searchTools } from "./search.ts";
 const fixtureTools = [
   {
     id: "pourcentage",
-    name: "Calculateur de pourcentage",
-    description: "Calculez un pourcentage.",
-    keywords: ["%", "taux"],
+    tags: ["%", "taux"],
     aliases: ["pourcentage"],
-    available: true,
+    lifecycle: "published",
     content: {
       fr: { name: "Calculateur de pourcentage", description: "Calculez un pourcentage." },
       en: { name: "Percentage Calculator", description: "Calculate a percentage." },
@@ -17,9 +15,7 @@ const fixtureTools = [
   },
   {
     id: "regle-de-trois",
-    name: "Règle de trois",
-    description: "Résolvez une proportionnalité.",
-    keywords: ["proportion"],
+    tags: ["proportion"],
     aliases: ["ratio"],
     available: true,
     content: {
@@ -29,9 +25,7 @@ const fixtureTools = [
   },
   {
     id: "temps-telechargement",
-    name: "Temps de téléchargement",
-    description: "Estimez une durée de téléchargement.",
-    keywords: ["download", "internet"],
+    tags: ["download", "internet"],
     aliases: ["telechargement"],
     available: true,
     content: {
@@ -74,12 +68,9 @@ test("matches tags and categories", () => {
     id: "internet-tools",
     name: "Internet tools",
     description: "Utilities for internet tasks.",
-    keywords: [],
-    aliases: [],
     tags: ["networking"],
     categories: ["informatique"],
-    categoryId: "informatique",
-    available: true,
+    lifecycle: "published",
     content: {
       fr: { name: "Outils Internet", description: "Outils pour les tâches Internet." },
       en: { name: "Internet Tools", description: "Utilities for internet tasks." },
