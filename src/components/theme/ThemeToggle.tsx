@@ -27,8 +27,12 @@ export default function ThemeToggle() {
         title={labels.title + ": " + currentLabel}
       >
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-[1.1rem] w-[1.1rem]" aria-hidden="true">
-          <span className="theme-icon-system-light" aria-hidden="true"><ThemeIcon theme="light" /></span>
-          <span className="theme-icon-system-dark" aria-hidden="true"><ThemeIcon theme="dark" /></span>
+          <g className="theme-icon-system-light">
+            <ThemeIcon theme="light" />
+          </g>
+          <g className="theme-icon-system-dark">
+            <ThemeIcon theme="dark" />
+          </g>
         </svg>
         <span className="sr-only">{currentLabel}</span>
       </summary>
