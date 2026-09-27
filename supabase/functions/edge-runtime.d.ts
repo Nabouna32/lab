@@ -6,7 +6,7 @@ declare const Deno: {
 };
 
 declare module "npm:@supabase/supabase-js@2" {
-  export function createClient(...args: unknown[]): any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any\n  export function createClient(...args: unknown[]): any;
 }
 
 declare module "jsr:@supabase/functions-js/edge-runtime.d.ts";
