@@ -1,4 +1,5 @@
 import type { Locale } from "../i18n/config.ts";
+import { getPrimaryToolCategory, getToolContent, isPublishedTool } from "@/lib/tools/types";
 import type { Tool } from "@/lib/tools/types";
 
 export type ToolSearchResult = { tool: Tool; score: number };
@@ -8,15 +9,14 @@ export function normalizeSearchText(value: string): string {
 }
 
 function getSearchText(tool: Tool, locale: Locale): string {
-  const content = tool.content?.[locale] ?? tool.content?.fr;
+  const content = getToolContent(tool, locale);
   return normalizeSearchText([
-    content?.name ?? tool.name,
-    content?.description ?? tool.description,
-    ...(tool.keywords ?? []),
+    content.name,
+    content.description,
     ...(tool.aliases ?? []),
     ...(tool.tags ?? []),
     ...(tool.categories ?? []),
-    tool.categoryId,
+    getPrimaryToolCategory(tool),
   ].join(" "));
 }
 
@@ -67,14 +67,13 @@ export function searchTools(tools: Tool[], query: string, locale: Locale = "fr")
   if (!normalizedQuery) return [];
   const terms = normalizedQuery.split(/\s+/).filter(Boolean);
 
-  return tools.filter((tool) => tool.available).map((tool) => {
-    const content = tool.content?.[locale] ?? tool.content?.fr;
-    const name = normalizeSearchText(content?.name ?? tool.name);
-    const description = normalizeSearchText(content?.description ?? tool.description);
-    const keywords = (tool.keywords ?? []).map(normalizeSearchText);
+  return tools.filter(isPublishedTool).map((tool) => {
+    const content = getToolContent(tool, locale);
+    const name = normalizeSearchText(content.name);
+    const description = normalizeSearchText(content.description);
     const aliases = (tool.aliases ?? []).map(normalizeSearchText);
     const tags = (tool.tags ?? []).map(normalizeSearchText);
-    const categories = [...new Set([tool.categoryId, ...(tool.categories ?? [])].filter(Boolean))].map(normalizeSearchText);
+    const categories = [...new Set([getPrimaryToolCategory(tool), ...tool.categories].filter(Boolean))].map(normalizeSearchText);
     const haystack = getSearchText(tool, locale);
     let score = 0;
     if (name === normalizedQuery) score += 100;
@@ -100,8 +99,8 @@ export function searchTools(tools: Tool[], query: string, locale: Locale = "fr")
     score += fuzzyMatches * 12;
     return { tool, score };
   }).filter(({ score }) => score > 0).sort((a, b) => {
-    const aName = a.tool.content?.[locale]?.name ?? a.tool.content?.fr?.name ?? a.tool.name;
-    const bName = b.tool.content?.[locale]?.name ?? b.tool.content?.fr?.name ?? b.tool.name;
+    const aName = getToolContent(a.tool, locale).name;
+    const bName = getToolContent(b.tool, locale).name;
     return b.score - a.score || aName.localeCompare(bName, locale);
   });
 }
