@@ -25,7 +25,7 @@ export default function Hero({ locale }: { locale: Locale }) {
           </p>
           <div className="mx-auto mt-7 max-w-2xl text-left sm:mt-8">
             <ToolSearch locale={locale} instanceId="home-tool-search" />
-            <div className="mt-3 flex flex-wrap justify-center gap-2" aria-label={locale === "fr" ? "Suggestions" : "Suggestions"}>
+            <div className="mt-3 flex flex-wrap justify-center gap-2">
               {t.home.quickLinks.map((link) => {
                 const tool = getToolById(link.toolId);
                 if (!tool) return null;
