@@ -3,6 +3,7 @@ import ToolSearch from "@/components/tools/ToolSearch";
 import { categories, getCategoryName, getToolCount } from "@/lib/tools/categories";
 
 import { getMessages } from "@/lib/i18n/messages";
+import { formatPlural } from "@/lib/i18n/plural";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { notFound } from "next/navigation";
 import { getPublicPageMetadata } from "@/lib/tools/page-metadata";
@@ -58,7 +59,7 @@ export default async function ToolsPage({ params }: { params: Promise<{ locale: 
                 <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[var(--accent-soft)] text-2xl" aria-hidden="true">{category.icon}</span>
                 <span className="min-w-0 flex-1">
                   <span className="block font-bold tracking-[-0.01em]">{getCategoryName(locale, category.id)}</span>
-                  <span className="mt-1 block text-sm text-[var(--muted)]">{count} {count === 1 ? t.tools.one : t.tools.many}</span>
+                  <span className="mt-1 block text-sm text-[var(--muted)]">{formatPlural(locale, count, { one: t.tools.one, other: t.tools.many })}</span>
                 </span>
                 <span className="text-lg text-[var(--muted)] transition-transform group-hover:translate-x-0.5" aria-hidden="true">→</span>
               </a>

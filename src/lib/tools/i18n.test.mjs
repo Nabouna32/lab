@@ -6,6 +6,7 @@ import { createRequire } from "node:module";
 import vm from "node:vm";
 import { getIntlLocale, locales, languages } from "../i18n/config.ts";
 import { getMessages } from "../i18n/messages.ts";
+import { formatPlural } from "../i18n/plural.ts";
 
 const require = createRequire(import.meta.url);
 const typescript = require("typescript");
@@ -163,4 +164,29 @@ test("tool content falls back to English when a requested locale is missing", as
   assert.deepEqual(getToolContent(tool, "de"), tool.content.en);
   assert.deepEqual(getToolContent(tool, "fr"), tool.content.fr);
   assert.deepEqual(getToolContent(tool, "en"), tool.content.en);
+});
+
+test("plural formatting uses locale-aware rules", () => {
+  assert.equal(formatPlural("fr", 1, { one: "catégorie", other: "catégories" }), "1 catégorie");
+  assert.equal(formatPlural("fr", 2, { one: "catégorie", other: "catégories" }), "2 catégories");
+  assert.equal(formatPlural("en", 1, { one: "category", other: "categories" }), "1 category");
+  assert.equal(formatPlural("en", 2, { one: "category", other: "categories" }), "2 categories");
+});
+
+test("audited pluralized UI components delegate plural selection to the i18n layer", () => {
+  const localizedFiles = [
+    "../../app/[locale]/outils/page.tsx",
+    "../../components/tools/ToolSearch.tsx",
+    "../../components/tools/age/AgeCalculator.tsx",
+  ];
+
+  for (const relativePath of localizedFiles) {
+    const source = readFileSync(fileURLToPath(new URL(relativePath, import.meta.url)), "utf8");
+    assert.equal(source.includes("=== 1 ?"), false, relativePath);
+    assert.match(source, /formatPlural\(locale/);
+  }
+
+  const units = readFileSync(fileURLToPath(new URL("../i18n/units.ts", import.meta.url)), "utf8");
+  assert.equal(units.includes("value === 1 ?"), false);
+  assert.match(units, /formatPlural\(locale, value/);
 });

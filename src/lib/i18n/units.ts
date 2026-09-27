@@ -3,6 +3,7 @@ import type { SpeedUnit } from "@/lib/vitesse-telechargement";
 import type { SizeUnit } from "@/lib/convertisseur-taille";
 import type { BitrateUnit, DurationUnit, FileSizeUnit } from "@/lib/taille-fichier";
 import type { Locale } from "./config";
+import { formatPlural } from "./plural.ts";
 
 type UnitStyle = "long" | "short";
 
@@ -110,5 +111,5 @@ export function getFileSizeCalculatorUnitLabel(locale: Locale, unit: FileSizeUni
 
 export function formatDurationPart(locale: Locale, unit: "days" | "hours" | "minutes" | "seconds", value: number): string {
   const labels = DURATION_PART_LABELS[locale][unit];
-  return `${value} ${value === 1 ? labels.singular : labels.plural}`;
+  return formatPlural(locale, value, { one: labels.singular, other: labels.plural });
 }
