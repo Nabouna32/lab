@@ -53,7 +53,7 @@ const localProcessingDescriptions: Record<string, { fr: string; en: string }> = 
   },
 };
 
-export const tools: Tool[] = [
+const toolDefinitions = [
   {
     id: "pourcentage", slug: "pourcentage", categoryId: "calculs", icon: "📊",
     name: "Calculateur de pourcentage",
@@ -167,11 +167,16 @@ export const tools: Tool[] = [
       en: { name: "Video Bitrate Calculator", description: "Calculate video bitrate or approximate file size." },
     },
   },
-].map((tool): Tool => ({
-  ...tool,
+];
+
+export const tools: Tool[] = toolDefinitions.map((tool): Tool => ({
+  id: tool.id,
+  slug: tool.slug,
+  icon: tool.icon,
   version: 1,
   complexity: tool.id === "taille-fichier" || tool.id === "bitrate-video" ? "advanced" : "small",
   categories: [tool.categoryId],
+  content: tool.content,
   tags: tool.keywords ?? [],
   aliases: tool.keywords ?? [],
   seo: toolSeo[tool.id],
