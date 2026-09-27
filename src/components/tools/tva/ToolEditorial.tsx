@@ -4,7 +4,7 @@ import { BackToTools, Card, Formula } from "@/components/tools/ToolPage/Editoria
 
 const content = {
   fr: {
-    main: { title: "💶 Comment calculer la TVA ?", text: "Pour passer d'un prix HT à un prix TTC, on ajoute la TVA au prix hors taxes. Pour retrouver le prix HT à partir d&apos;un prix TTC, on retire la TVA en divisant par 1 + le taux de TVA.", formulas: "Formules", example: "Par exemple, avec 100 € HT et une TVA de 20 % :", result: "La TVA est donc de 20 € et le prix toutes taxes comprises est de 120 €." },
+    main: { title: "💶 Comment calculer la TVA ?", text: "Pour passer d'un prix HT à un prix TTC, on ajoute la TVA au prix hors taxes. Pour retrouver le prix HT à partir d'un prix TTC, on retire la TVA en divisant par 1 + le taux de TVA.", formulas: "Formules", example: "Par exemple, avec 100 € HT et une TVA de 20 % :", result: "La TVA est donc de 20 € et le prix toutes taxes comprises est de 120 €." },
     definitions: { title: "💡 HT, TTC et TVA", text: "Le prix HT correspond au prix hors taxes. La TVA est la taxe ajoutée selon un taux donné. Le prix TTC correspond au prix payé après ajout de cette taxe." },
   },
   en: {
