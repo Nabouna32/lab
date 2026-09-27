@@ -2,8 +2,68 @@ import test from "node:test";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import assert from "node:assert/strict";
+import { createRequire } from "node:module";
+import vm from "node:vm";
 import { getIntlLocale, locales, languages } from "../i18n/config.ts";
 import { getMessages } from "../i18n/messages.ts";
+
+const require = createRequire(import.meta.url);
+const typescript = require("typescript");
+
+function collectShape(value, path = "") {
+  if (Array.isArray(value)) {
+    return [
+      [path, "array", value.length],
+      ...value.flatMap((item, index) => collectShape(item, `${path}[${index}]`)),
+    ];
+  }
+  if (value !== null && typeof value === "object") {
+    return [
+      [path, "object"],
+      ...Object.keys(value).sort().flatMap((key) => collectShape(value[key], path ? `${path}.${key}` : key)),
+    ];
+  }
+  return [[path, typeof value]];
+}
+
+function collectInterpolationVariables(value, path = "") {
+  if (typeof value === "string") {
+    return [[path, [...value.matchAll(/\{(\w+)\}/g)].map((match) => match[1]).sort()]];
+  }
+  if (typeof value === "function") {
+    const variables = [...value.toString().matchAll(/\$\{\s*([\w.]+)\s*\}/g)]
+      .map((match) => match[1])
+      .sort();
+    return [[path, variables]];
+  }
+  if (Array.isArray(value)) {
+    return value.flatMap((item, index) => collectInterpolationVariables(item, `${path}[${index}]`));
+  }
+  if (value !== null && typeof value === "object") {
+    return Object.keys(value).sort().flatMap((key) =>
+      collectInterpolationVariables(value[key], path ? `${path}.${key}` : key),
+    );
+  }
+  return [];
+}
+
+function loadEditorialContent(relativePath) {
+  const source = readFileSync(fileURLToPath(new URL(relativePath, import.meta.url)), "utf8");
+  const start = source.indexOf("const content = ");
+  const end = source.indexOf(" as const;", start);
+  assert.notEqual(start, -1, relativePath);
+  assert.notEqual(end, -1, relativePath);
+
+  const expression = source.slice(start + "const content = ".length, end);
+  const compiled = typescript.transpileModule(
+    `module.exports = ${expression};`,
+    { compilerOptions: { module: typescript.ModuleKind.CommonJS, target: typescript.ScriptTarget.ES2022 } },
+  ).outputText;
+
+  const sandboxModule = { exports: {} };
+  vm.runInNewContext(compiled, { module: sandboxModule, exports: sandboxModule.exports });
+  return sandboxModule.exports;
+}
 
 test("i18n registry exposes the initial languages", () => {
   assert.deepEqual(locales, ["fr", "en"]);
@@ -26,6 +86,13 @@ test("global messages are available in every enabled locale", () => {
     assert.ok(messages.tools.title.length > 0);
     assert.ok(messages.processing.more.length > 0);
   }
+});
+
+test("global message locales keep the same structure and interpolation variables", () => {
+  const fr = getMessages("fr");
+  const en = getMessages("en");
+  assert.deepEqual(collectShape(fr), collectShape(en));
+  assert.deepEqual(collectInterpolationVariables(fr), collectInterpolationVariables(en));
 });
 
 const localizedUiFiles = [
@@ -76,7 +143,16 @@ test("tool editorial modules keep FR/EN content structured and out of JSX locale
   }
 });
 
-test("localized tool and processing content fall back to English when a requested locale is missing", async () => {
+test("tool editorial locales keep the same content structure", () => {
+  for (const tool of editorialFiles) {
+    const relativePath = `../../components/tools/${tool}/ToolEditorial.tsx`;
+    const content = loadEditorialContent(relativePath);
+    assert.deepEqual(Object.keys(content).sort(), ["en", "fr"], relativePath);
+    assert.deepEqual(collectShape(content.fr), collectShape(content.en), relativePath);
+  }
+});
+
+test("tool content falls back to English when a requested locale is missing", async () => {
   const { getToolContent } = await import("./types.ts");
   const tool = {
     content: {
@@ -84,7 +160,6 @@ test("localized tool and processing content fall back to English when a requeste
       en: { name: "English name", description: "English description" },
     },
   };
-
   assert.deepEqual(getToolContent(tool, "de"), tool.content.en);
   assert.deepEqual(getToolContent(tool, "fr"), tool.content.fr);
   assert.deepEqual(getToolContent(tool, "en"), tool.content.en);
