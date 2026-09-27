@@ -7,6 +7,7 @@ import { CalculatorResult } from "@/components/tools/calculator/CalculatorResult
 import { CalculatorShell } from "@/components/tools/calculator/CalculatorShell";
 import { calculateHt, calculateTtc, calculateVatAmount, isValidVatRate } from "@/lib/tva";
 import { useLocale } from "@/lib/i18n/use-locale";
+import { ValidationMessage } from "@/components/ui/ValidationMessage";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { formatToolNumber } from "@/lib/numbers";
 import { SegmentedControl } from "@/components/ui/SegmentedControl";
@@ -46,11 +47,14 @@ export default function TVACalculator() {
         <CalculatorField label={t.rate} inputId="tva-rate" min="0" max="100" value={rateValue} onChange={(event) => setRateValue(event.target.value)} placeholder={t.placeholders.rate} unit="%"  aria-invalid={hasValues && (!hasNumericValues || !valid)} aria-describedby="tva-error"/>
       </div>
       <div className="mt-6 grid gap-4 sm:grid-cols-3">
-        <CalculatorResult label={t.resultHt} tone="accent" value={ht === null ? "—" : `${formatToolNumber(ht, locale, 2)} €`} />
-        <CalculatorResult label={t.vat} value={vat === null ? "—" : `${formatToolNumber(vat, locale, 2)} €`} />
-        <CalculatorResult label={t.resultTtc} value={ttc === null ? "—" : `${formatToolNumber(ttc, locale, 2)} €`} />
+        <CalculatorResult label={t.resultHt} tone="accent" value={ht === null ? null : `${formatToolNumber(ht, locale, 2)} €`}
+          emptyMessage={t.emptyResult} />
+        <CalculatorResult label={t.vat} value={vat === null ? null : `${formatToolNumber(vat, locale, 2)} €`}
+          emptyMessage={t.emptyResult} />
+        <CalculatorResult label={t.resultTtc} value={ttc === null ? null : `${formatToolNumber(ttc, locale, 2)} €`}
+          emptyMessage={t.emptyResult} />
       </div>
-      {(hasValues && (!hasNumericValues || !valid)) || calculationFailed && <p id="tva-error" role="alert" className="mt-4 text-sm font-medium text-[var(--foreground)]">{t.invalid}</p>}
+      {((hasValues && (!hasNumericValues || !valid)) || calculationFailed) && <ValidationMessage id="tva-error">{t.invalid}</ValidationMessage>}
       {valid && ht !== null && ttc !== null && vat !== null && (
         <details className="group mt-4 rounded-2xl border border-[var(--border)] bg-[var(--background)]">
           <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-4 text-sm font-semibold text-[var(--foreground)]"><span>{t.how}</span><span className="text-lg text-[var(--muted)] transition-transform group-open:rotate-45">+</span></summary>
