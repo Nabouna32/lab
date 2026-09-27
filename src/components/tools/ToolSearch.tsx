@@ -168,7 +168,7 @@ export default function ToolSearch({
             type="button"
             onMouseDown={(event) => event.preventDefault()}
             onClick={() => openResult(0)}
-            disabled={results.length === 0}
+            disabled={query.trim().length === 0 || results.length === 0}
             className="hidden min-h-11 rounded-xl px-5 sm:inline-flex"
           >
             {t.tools.searchButton}
