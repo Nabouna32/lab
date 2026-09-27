@@ -25,9 +25,7 @@ export default async function CategoryPage({
   const { locale: localeParam, category: categoryId } = await params;
   const locale = localeParam as Locale;
   const category = categories.find((item) => item.id === categoryId);
-  const categoryTools = tools.filter(
-    (tool) => getPrimaryToolCategory(tool) === categoryId && isPublishedTool(tool),
-  );
+  const categoryTools = getToolsByCategory(categoryId);
 
   if (!category || categoryTools.length === 0 || !locales.includes(locale)) {
     notFound();
