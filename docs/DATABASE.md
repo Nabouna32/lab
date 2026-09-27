@@ -10,13 +10,21 @@ All client-provided data is untrusted. Enforce server-side validation, authoriza
 
 Tool lifecycle: draft → review → published → hidden → archived. Hard deletion is exceptional and protected.
 
-
 ## Implemented foundation
 
 The first account foundation is now deployed to Supabase: Supabase Auth remains the identity system, while `public.profiles` stores only user-owned profile metadata that is safe to synchronize. System-defined administrative roles and permissions use stable keys; their user-facing labels belong to the application i18n layer. Row Level Security restricts profile access to the owning user, and a database trigger creates the profile when an Auth user is created.
 
-This is intentionally a small first step. Catalog/editorial data, favorites, collections, preferences, community data and administration will be designed and moved into the database incrementally after the code/database boundary is reviewed.
+The editable tool catalog foundation is now also deployed. It separates catalog/editorial data from executable tool behavior: `tool_catalog` stores stable identity, URL slug, visual icon, complexity, access and lifecycle; translation, category, tag, alias and relation tables store editable discovery/editorial data. Technical capabilities, processing mode, browser requirements and executable implementation remain authoritative in Git.
 
+## Catalog database boundary
+
+The database catalog is deliberately **not** a second implementation of a tool.
+
+The stable tool ID is the bridge between the database catalog and the Git-backed registry. The database may change what a published tool is called, how it is categorized, which aliases help users find it, its SEO text, its lifecycle or other editable product metadata. It cannot grant a tool a capability, make a local tool network-enabled, change its processing location, or replace its executable module.
+
+Public reads expose published catalog entries and their related editable metadata. Administrative reads can include unpublished entries. Catalog administration uses the existing database-backed RBAC model with separate read, manage and publish permissions.
+
+Localized catalog/editorial text belongs in `tool_translations`; system administration labels continue to belong to application i18n because they are part of the application contract rather than editable product content.
 
 ## Administration foundation
 
