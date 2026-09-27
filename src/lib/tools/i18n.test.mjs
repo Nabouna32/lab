@@ -265,7 +265,7 @@ test("public shell interfaces keep user-facing labels and states behind the i18n
 
   for (const relativePath of publicShellFiles) {
     const source = readFileSync(fileURLToPath(new URL(relativePath, import.meta.url)), "utf8");
-    assert.match(source, /getMessages\((locale|currentLocale)\)/, relativePath);
+    if (relativePath.endsWith("MobileHeaderSearch.tsx")) {\n      assert.match(source, /searchLabel: string/);\n      assert.match(source, /closeLabel: string/);\n    } else {\n      assert.match(source, /getMessages\\((locale|currentLocale)\\)/, relativePath);\n    }
     assert.equal(source.includes('locale === "fr"'), false, relativePath);
     assert.equal(source.includes('locale === "en"'), false, relativePath);
   }
