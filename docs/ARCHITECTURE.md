@@ -198,9 +198,11 @@ Anonymous usage is mandatory for core functionality.
 
 ## Database
 
-A database is expected to become useful for:
+Supabase/PostgreSQL is the selected database foundation for the current platform.
 
-- users;
+The database owns domains that benefit from editable, queryable, or synchronized server-side state, including:
+
+- users and account metadata;
 - favorites;
 - collections;
 - synchronized preferences;
@@ -208,12 +210,19 @@ A database is expected to become useful for:
 - ratings;
 - comments;
 - moderation state;
-- tool metadata where appropriate;
-- privacy-conscious analytics data.
+- editable tool catalog/editorial metadata;
+- privacy-conscious analytics data where introduced.
 
-The initial database technology and hosting provider remain open until the implementation requirements are sufficiently known.
+The public catalog is being migrated progressively from the Git-backed catalog to the database-backed catalog through the catalog access boundary.
 
-A small paid database/infrastructure budget is acceptable once product revenue or traffic justifies it.
+The boundary is deliberately split:
+
+- **PostgreSQL/Supabase:** editable catalog/editorial data, publication state and other server-owned product data;
+- **Git/code:** executable tool modules, technical capabilities, processing behavior and other implementation truth.
+
+Database metadata must never be interpreted as permission to use a capability that the executable module does not declare.
+
+Infrastructure cost remains subject to the product's cost discipline; a larger paid database/infrastructure footprint should be justified by actual usage and product needs.
 
 ## Community architecture
 
