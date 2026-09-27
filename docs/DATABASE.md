@@ -18,6 +18,14 @@ The first account foundation is now deployed to Supabase: Supabase Auth remains 
 This is intentionally a small first step. Catalog/editorial data, favorites, collections, preferences, community data and administration will be designed and moved into the database incrementally after the code/database boundary is reviewed.
 
 
+## Catalog database boundary
+
+The editable tool catalog foundation is deployed and seeded with the current 12-tool catalog. `tool_catalog` stores stable product identity, slug, visual icon, complexity, access and lifecycle; translation, category, tag, alias and relation tables store editable discovery/editorial data.
+
+The database catalog is deliberately not a second implementation of a tool. The stable tool ID bridges database catalog records to the Git-backed registry. Database metadata may change product/editorial information, but it cannot grant capabilities, change processing location, replace executable modules or redefine technical behavior.
+
+Public reads expose published catalog entries. Administrative reads can include unpublished entries, with separate catalog read, manage and publish permissions. Localized editable product content uses `tool_translations`; system administration labels remain in application i18n.
+
 ## Administration foundation
 
 Administrative authorization now has a database foundation separate from executable tool behavior. Roles, permissions, role bindings, user-role assignments and the administrative audit log are stored in Supabase with Row Level Security. The first roles are `super_admin` and `admin`. No automatic first-user bootstrap exists; administrator assignment must be explicit.

@@ -497,3 +497,25 @@ System roles and permissions are part of the application contract, not editable 
 - User-facing labels and descriptions are translated through the normal locale system.
 - Future editable catalog/editorial content may use database translation tables because that content is intentionally administrable.
 - Authorization logic continues to use stable keys and never depends on translated text.
+
+## DEC-027 — Database owns editable catalog/editorial data, not executable behavior
+
+**Status:** Accepted
+
+### Decision
+
+PostgreSQL owns editable tool catalog and editorial data: stable tool identity, slug, visual metadata, lifecycle, access policy, localized names/descriptions/SEO, categories, tags, aliases and relations.
+
+Git/code remains authoritative for executable implementations and technical behavior: registry modules, processing mode, capabilities, browser requirements and actual tool logic.
+
+### Reason
+
+Utiluna needs an administrable catalog that can scale to a large number of tools without moving executable code into a database. The database is well suited to search, administration, publication workflows and editable product content, while Git remains the source of executable behavior.
+
+### Consequences
+
+- The stable tool ID links database catalog records to the Git-backed registry.
+- Public catalog reads expose only published tools.
+- Administrative permissions distinguish catalog reading, editing and publishing.
+- Database metadata must never be interpreted as permission to use a capability that the executable module does not actually declare.
+- Localized editable product content uses database translation rows; system labels remain in application i18n.
