@@ -11,7 +11,6 @@ import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { formatToolNumber, parseLocalizedNumber } from "@/lib/numbers";
 import { Select } from "@/components/ui/Select";
 import { getSpeedUnitLabel } from "@/lib/i18n/units";
-import { getSpeedUnitLabel } from "@/lib/i18n/units";
 
 export default function DownloadSpeedConverter() {
   const locale = useLocale();
