@@ -8,16 +8,13 @@ import { CalculatorShell } from "@/components/tools/calculator/CalculatorShell";
 import { calculateAge } from "@/lib/age";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
+import { formatPlural } from "@/lib/i18n/plural";
 
 function toInputDate(date: Date): string {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
-}
-
-function formatAgePart(value: number, singular: string, plural: string): string {
-  return `${value} ${value === 1 ? singular : plural}`;
 }
 
 export default function AgeCalculator() {
@@ -59,9 +56,9 @@ export default function AgeCalculator() {
         <div className="mt-6 rounded-2xl border border-[var(--border)] bg-[var(--background)] p-4">
           <p className="text-sm leading-6 text-[var(--muted)]">
             {t.summary(
-              formatAgePart(age.years, t.yearSingular, t.yearPlural),
-              formatAgePart(age.months, t.monthSingular, t.monthPlural),
-              formatAgePart(age.days, t.daySingular, t.dayPlural),
+              formatPlural(locale, age.years, { one: t.yearSingular, other: t.yearPlural }),
+              formatPlural(locale, age.months, { one: t.monthSingular, other: t.monthPlural }),
+              formatPlural(locale, age.days, { one: t.daySingular, other: t.dayPlural }),
             )}
           </p>
         </div>
