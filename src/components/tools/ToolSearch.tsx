@@ -199,7 +199,7 @@ export default function ToolSearch({
                     <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--accent-soft)] text-xl">{tool.icon}</span>
                     <span className="min-w-0 flex-1">
                       <span className="block truncate text-sm font-semibold text-[var(--foreground)]"><HighlightMatch text={content.name} query={query} /></span>
-                      <span className="mt-0.5 block truncate text-xs text-[var(--muted)]">{getCategoryName(locale, tool.categoryId)} · {content.description}</span>
+                      <span className="mt-0.5 block truncate text-xs text-[var(--muted)]">{getCategoryName(locale, getPrimaryToolCategory(tool))} · {content.description}</span>
                     </span>
                     <span className="text-[var(--muted)]">↗</span>
                   </a>
