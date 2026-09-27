@@ -126,6 +126,7 @@ test("calculator empty and error states explain what to do", async ({ page }) =>
   await expect(page.getByText("Prix après réduction", { exact: true }).locator("..")).toContainText("Renseignez le prix et la réduction");
   await page.getByRole("spinbutton", { name: "Prix initial" }).fill("100");
   await page.getByRole("spinbutton", { name: "Réduction" }).fill("101");
+  await expect(page.locator("#reduction-error")).toHaveAttribute("role", "alert");
   await expect(page.locator("#reduction-error")).toHaveText(/Saisissez un prix positif/);
   await expect(page.locator("#reduction-error")).toHaveClass(/text-\[var\(--danger\)\]/);
 });
