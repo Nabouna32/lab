@@ -80,6 +80,9 @@ body {
 }
 a { color: inherit; text-decoration: none; }
 .language-selector[open] > summary .language-flag { transform: scale(1.05); }
+.theme-icon-system-dark { display: none; }
+html.dark .theme-icon-system-light { display: none; }
+html.dark .theme-icon-system-dark { display: inline; }
 button, input, textarea, select { font: inherit; }
 ::selection { background: var(--accent-soft); color: var(--foreground); }
 @media (prefers-reduced-motion: reduce) {
