@@ -1,4 +1,3 @@
-import ToolSearch from "@/components/tools/ToolSearch";
 import ToolCard from "@/components/tools/ToolCard";
 import { categories, getCategoryName } from "@/lib/tools/categories";
 import { tools } from "@/lib/tools/tools";
@@ -21,7 +20,6 @@ export default async function ToolsPage({ params }: { params: Promise<{ locale: 
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--accent)]">{t.tools.eyebrow}</p>
           <h1 className="mt-2 text-3xl font-black tracking-[-0.04em] sm:text-5xl">{t.tools.title}</h1>
           <p className="mt-4 max-w-2xl text-base leading-7 text-[var(--muted)] sm:text-lg">{t.tools.description}</p>
-          <div className="mt-7 max-w-3xl"><ToolSearch locale={locale} /></div>
         </div>
       </div>
       <div className="mt-12 space-y-14">
