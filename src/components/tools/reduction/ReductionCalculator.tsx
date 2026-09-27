@@ -9,6 +9,7 @@ import { calculateDiscountAmount, calculateDiscountedPrice, isValidDiscountRate,
 import { useLocale } from "@/lib/i18n/use-locale";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { formatToolNumber } from "@/lib/numbers";
+import { ValidationMessage } from "@/components/ui/ValidationMessage";
 
 export default function ReductionCalculator() {
   const locale = useLocale();
@@ -33,10 +34,12 @@ export default function ReductionCalculator() {
         <CalculatorField label={t.discount} inputId="reduction-rate" min="0" max="100" value={discountValue} onChange={(event) => setDiscountValue(event.target.value)} placeholder={t.placeholderDiscount} unit="%"  aria-invalid={hasValues && (!hasNumericValues || !valid)} aria-describedby="reduction-error"/>
       </div>
       <div className="mt-6 grid gap-4 sm:grid-cols-2">
-        <CalculatorResult label={t.discountedPrice} tone="accent" value={discountedPrice === null ? "—" : `${formatToolNumber(discountedPrice, locale, 2)} €`} />
-        <CalculatorResult label={t.saved} value={discountAmount === null ? "—" : `${formatToolNumber(discountAmount, locale, 2)} €`} />
+        <CalculatorResult label={t.discountedPrice} tone="accent" value={discountedPrice === null ? null : `${formatToolNumber(discountedPrice, locale, 2)} €`}
+          emptyMessage={t.emptyResult} />
+        <CalculatorResult label={t.saved} value={discountAmount === null ? null : `${formatToolNumber(discountAmount, locale, 2)} €`}
+          emptyMessage={t.emptyResult} />
       </div>
-      {(hasValues && (!hasNumericValues || !valid)) || calculationFailed && <p id="reduction-error" role="alert" className="mt-4 text-sm font-medium text-[var(--foreground)]">{t.invalid}</p>}
+      {((hasValues && (!hasNumericValues || !valid)) || calculationFailed) && <ValidationMessage id="reduction-error">{t.invalid}</ValidationMessage>}
       {valid && discountedPrice !== null && discountAmount !== null && (
         <details className="group mt-4 rounded-2xl border border-[var(--border)] bg-[var(--background)]">
           <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-4 text-sm font-semibold text-[var(--foreground)]"><span>{t.how}</span><span className="text-lg text-[var(--muted)] transition-transform group-open:rotate-45">+</span></summary>

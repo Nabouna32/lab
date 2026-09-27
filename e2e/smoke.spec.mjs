@@ -120,6 +120,25 @@ test("English locale renders", async ({ page }) => {
   await expect(page.locator("main")).toBeVisible();
 });
 
+test("calculator empty and error states explain what to do", async ({ page }) => {
+  await page.goto(`${baseUrl}/fr/outils/calculs/reduction`, { waitUntil: "networkidle" });
+
+  await expect(page.getByText("Prix après réduction", { exact: true }).locator("..")).toContainText("Renseignez le prix et la réduction");
+  await page.getByRole("spinbutton", { name: "Prix initial" }).fill("100");
+  await page.getByRole("spinbutton", { name: "Réduction" }).fill("101");
+  await expect(page.locator("#reduction-error")).toHaveAttribute("role", "alert");
+  await expect(page.locator("#reduction-error")).toHaveText(/Saisissez un prix positif/);
+  await expect(page.locator("#reduction-error")).toHaveClass(/text-\[var\(--danger\)\]/);
+});
+
+test("calculator empty states are localized in English", async ({ page }) => {
+  await page.goto(`${baseUrl}/en/outils/dates/age`, { waitUntil: "networkidle" });
+
+  const emptyResults = page.getByText("Enter a birth date to see the calculated age.", { exact: true });
+  await expect(emptyResults).toHaveCount(3);
+  await expect(emptyResults.first()).toBeVisible();
+});
+
 test("file size calculator computes an estimated size", async ({ page }) => {
   await page.goto(`${baseUrl}/fr/outils/informatique/taille-fichier`, { waitUntil: "networkidle" });
   await expect(page.getByRole("heading", { name: "Calculateur de taille de fichier" })).toBeVisible();

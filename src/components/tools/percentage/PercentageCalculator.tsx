@@ -10,6 +10,7 @@ import { SegmentedControl } from "@/components/ui/SegmentedControl";
 import { Select } from "@/components/ui/Select";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
+import { ValidationMessage } from "@/components/ui/ValidationMessage";
 
 type Mode = "percentage" | "evolution" | "difference";
 
@@ -234,7 +235,7 @@ export default function PercentageCalculator() {
             {result === null && !error && (
               <p className="text-sm leading-6 text-[var(--muted)]">{t.emptyResult}</p>
             )}
-            {error && <p id="percentage-input-error" className="text-sm font-medium leading-6 text-[var(--danger)]">{error}</p>}
+            {error && <ValidationMessage id="percentage-input-error">{error}</ValidationMessage>}
             {result !== null && !error && (
               <>
                 <p className={"text-4xl font-black tracking-[-0.04em] sm:text-5xl " + resultToneClasses[resultTone].value}>{resultText}</p>

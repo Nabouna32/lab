@@ -11,6 +11,7 @@ import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { formatToolNumber, parseLocalizedNumber } from "@/lib/numbers";
 import { Select } from "@/components/ui/Select";
 import { getFileSizeUnitLabel } from "@/lib/i18n/units";
+import { ValidationMessage } from "@/components/ui/ValidationMessage";
 
 
 export default function FileSizeConverter() {
@@ -35,8 +36,8 @@ export default function FileSizeConverter() {
           {SIZE_UNITS.map((unit) => <option key={unit} value={unit}>{getFileSizeUnitLabel(locale, unit, "long")}</option>)}
         </Select>
       </div>
-      <div className="mt-6"><CalculatorResult label={t.result} value={result === null ? "—" : formatToolNumber(result, locale, 6) + " " + getFileSizeUnitLabel(locale, to)} /></div>
-      {hasInvalidInput && <p id="file-size-converter-error" role="alert" className="mt-4 text-sm font-medium text-[var(--danger)]">{t.invalid}</p>}
+      <div className="mt-6"><CalculatorResult label={t.result} value={result === null ? null : formatToolNumber(result, locale, 6) + " " + getFileSizeUnitLabel(locale, to)} emptyMessage={t.emptyResult} /></div>
+      {hasInvalidInput && <ValidationMessage id="file-size-converter-error">{t.invalid}</ValidationMessage>}
     </CalculatorShell>
   );
 }

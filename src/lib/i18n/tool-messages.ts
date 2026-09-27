@@ -3,13 +3,13 @@ import type { Locale } from "./config";
 type ToolMessages = {
   age: {
     birthDate: string; referenceDate: string; years: string; months: string; days: string;
-    invalidRange: string; summary: (years: string, months: string, days: string) => string;
+    invalidRange: string; emptyResult: string; summary: (years: string, months: string, days: string) => string;
     yearSingular: string; yearPlural: string; monthSingular: string; monthPlural: string;
     daySingular: string; dayPlural: string;
   };
   duration: {
     datesMode: string; timesMode: string; startDate: string; endDate: string; startTime: string; endTime: string;
-    days: string; hours: string; minutes: string; invalidRange: string;
+    days: string; hours: string; minutes: string; invalidRange: string; emptyResult: string;
     summaryDates: (days: string, hours: string, minutes: string) => string;
     summaryTimes: (hours: string, minutes: string) => string;
     overnight: string;
@@ -31,21 +31,21 @@ type ToolMessages = {
   };
   reduction: {
     price: string; discount: string; discountedPrice: string; saved: string; placeholderPrice: string; placeholderDiscount: string;
-    invalid: string; how: string; explanation: (amount: string) => string;
+    invalid: string; emptyResult: string; how: string; explanation: (amount: string) => string;
   };
   ruleOfThree: {
     firstValue: string; correspondingValue: string; secondValue: string; result: string;
-    placeholders: { first: string; corresponding: string; second: string }; invalid: string; how: string; explanation: string;
+    placeholders: { first: string; corresponding: string; second: string }; invalid: string; emptyResult: string; how: string; explanation: string;
   };
   vat: {
     htToTtc: string; ttcToHt: string; priceHt: string; priceTtc: string; rate: string; resultHt: string; vat: string; resultTtc: string;
-    placeholders: { ht: string; ttc: string; rate: string }; invalid: string; how: string; explanation: (rate: string, vat: string) => string;
+    placeholders: { ht: string; ttc: string; rate: string }; invalid: string; emptyResult: string; how: string; explanation: (rate: string, vat: string) => string;
   };
   fileSizeCalculator: {
-    duration: string; durationPlaceholder: string; durationUnit: string; bitrate: string; bitratePlaceholder: string; bitrateUnit: string; sizeUnit: string; result: string; note: string; invalid: string;
+    duration: string; durationPlaceholder: string; durationUnit: string; bitrate: string; bitratePlaceholder: string; bitrateUnit: string; sizeUnit: string; result: string; note: string; invalid: string; emptyResult: string;
   };
   fileSize: {
-    value: string; from: string; to: string; result: string; placeholder: string; invalid: string;
+    value: string; from: string; to: string; result: string; placeholder: string; invalid: string; emptyResult: string;
       };
   downloadTime: {
     fileSize: string; sizeUnit: string; speed: string; speedUnit: string; placeholderSize: string; placeholderSpeed: string;
@@ -53,7 +53,7 @@ type ToolMessages = {
 
   };
   downloadSpeed: {
-    value: string; from: string; to: string; result: string; placeholder: string; invalid: string;
+    value: string; from: string; to: string; result: string; placeholder: string; invalid: string; emptyResult: string;
     };
   textCounter: {
     input: string; placeholder: string; characters: string; charactersWithoutSpaces: string;
@@ -68,18 +68,18 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       bitrate: "Débit", bitratePlaceholder: "Ex. 8", bitrateUnit: "Unité de débit",
       sizeUnit: "Unité de taille",
       result: "Taille estimée", note: "Estimation théorique à débit constant. Les unités de taille et de débit sont décimales.",
-      invalid: "Saisissez une durée et un débit valides, positifs ou nuls.",
+      invalid: "Saisissez une durée et un débit valides, positifs ou nuls.", emptyResult: "Renseignez la durée et le débit pour voir la taille estimée.",
     },
     age: {
       birthDate: "Date de naissance", referenceDate: "Calculer au", years: "Années", months: "Mois", days: "Jours",
-      invalidRange: "La date de naissance doit être antérieure ou égale à la date de référence.",
+      invalidRange: "La date de naissance doit être antérieure ou égale à la date de référence.", emptyResult: "Renseignez une date de naissance pour voir l’âge calculé.",
       summary: (years, months, days) => `Vous avez ${years}, ${months} et ${days}.`,
       yearSingular: "an", yearPlural: "ans", monthSingular: "mois", monthPlural: "mois", daySingular: "jour", dayPlural: "jours",
     },
     duration: {
       datesMode: "📅 Entre deux dates", timesMode: "🕐 Entre deux horaires", startDate: "Date et heure de début", endDate: "Date et heure de fin",
       startTime: "Heure de début", endTime: "Heure de fin", days: "Jours", hours: "Heures", minutes: "Minutes",
-      invalidRange: "La date et l'heure de début doivent être antérieures ou égales à la date et l'heure de fin.",
+      invalidRange: "La date et l'heure de début doivent être antérieures ou égales à la date et l'heure de fin.", emptyResult: "Renseignez les dates ou horaires pour voir la durée.",
       summaryDates: (days, hours, minutes) => `La durée est de ${days}, ${hours} et ${minutes}.`,
       summaryTimes: (hours, minutes) => `La durée est de ${hours} et ${minutes}.`,
       overnight: "Le calcul considère que l'heure de fin est le lendemain.",
@@ -107,23 +107,23 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     reduction: {
       price: "Prix initial", discount: "Réduction", discountedPrice: "Prix après réduction", saved: "Montant économisé",
       placeholderPrice: "Ex. 150", placeholderDiscount: "Ex. 20", invalid: "Saisissez un prix positif et une réduction comprise entre 0 et 100 %",
-      how: "💡 Comment avons-nous trouvé ce résultat ?", explanation: (amount) => `La réduction représente ${amount} € sur le prix initial.`,
+      emptyResult: "Renseignez le prix et la réduction pour voir le résultat.", how: "💡 Comment avons-nous trouvé ce résultat ?", explanation: (amount) => `La réduction représente ${amount} € sur le prix initial.`,
     },
     ruleOfThree: {
       firstValue: "Première valeur", correspondingValue: "Valeur correspondante", secondValue: "Deuxième valeur", result: "Résultat",
       placeholders: { first: "Ex. 4", corresponding: "Ex. 10", second: "Ex. 6" },
-      invalid: "Saisissez trois nombres valides. La première valeur doit être différente de zéro.",
+      invalid: "Saisissez trois nombres valides. La première valeur doit être différente de zéro.", emptyResult: "Renseignez les trois valeurs pour voir le résultat.",
       how: "💡 Comment avons-nous trouvé ce résultat ?", explanation: "On conserve le même rapport entre les deux premières valeurs pour calculer la quatrième.",
     },
     vat: {
       htToTtc: "HT → TTC", ttcToHt: "TTC → HT", priceHt: "Prix HT", priceTtc: "Prix TTC", rate: "Taux de TVA",
       resultHt: "Prix HT", vat: "TVA", resultTtc: "Prix TTC", placeholders: { ht: "Ex. 100", ttc: "Ex. 120", rate: "Ex. 20" },
-      invalid: "Saisissez un prix supérieur ou égal à 0 et un taux de TVA compris entre 0 et 100 %.",
+      invalid: "Saisissez un prix supérieur ou égal à 0 et un taux de TVA compris entre 0 et 100 %.", emptyResult: "Renseignez les valeurs pour voir le calcul de TVA.",
       how: "💡 Comment avons-nous trouvé ce résultat ?", explanation: (rate, vat) => `Avec un taux de ${rate} %, la TVA représente ${vat} €.`,
     },
     fileSize: {
       value: "Valeur à convertir", from: "Unité de départ", to: "Unité d'arrivée", result: "Résultat", placeholder: "Ex. 1,5",
-      invalid: "Saisissez une valeur positive ou nulle.",
+      invalid: "Saisissez une valeur positive ou nulle.", emptyResult: "Renseignez une valeur pour voir la conversion.",
 
     },
     downloadTime: {
@@ -134,7 +134,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     },
     downloadSpeed: {
       value: "Vitesse à convertir", from: "Unité de départ", to: "Unité d'arrivée", result: "Résultat", placeholder: "Ex. 100",
-      invalid: "Saisissez une vitesse positive ou nulle.",
+      invalid: "Saisissez une vitesse positive ou nulle.", emptyResult: "Renseignez une vitesse pour voir la conversion.",
 
     },
     textCounter: {
@@ -148,18 +148,18 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       bitrate: "Bitrate", bitratePlaceholder: "e.g. 8", bitrateUnit: "Bitrate unit",
       sizeUnit: "Size unit",
       result: "Estimated size", note: "Theoretical estimate at a constant bitrate. Size and bitrate units are decimal.",
-      invalid: "Enter a valid duration and bitrate, both 0 or greater.",
+      invalid: "Enter a valid duration and bitrate, both 0 or greater.", emptyResult: "Enter the duration and bitrate to see the estimated size.",
     },
     age: {
       birthDate: "Birth date", referenceDate: "Calculate on", years: "Years", months: "Months", days: "Days",
-      invalidRange: "The birth date must be on or before the reference date.",
+      invalidRange: "The birth date must be on or before the reference date.", emptyResult: "Enter a birth date to see the calculated age.",
       summary: (years, months, days) => `You are ${years}, ${months}, and ${days} old.`,
       yearSingular: "year", yearPlural: "years", monthSingular: "month", monthPlural: "months", daySingular: "day", dayPlural: "days",
     },
     duration: {
       datesMode: "📅 Between two dates", timesMode: "🕐 Between two times", startDate: "Start date and time", endDate: "End date and time",
       startTime: "Start time", endTime: "End time", days: "Days", hours: "Hours", minutes: "Minutes",
-      invalidRange: "The start date and time must be on or before the end date and time.",
+      invalidRange: "The start date and time must be on or before the end date and time.", emptyResult: "Enter the dates or times to see the duration.",
       summaryDates: (days, hours, minutes) => `The duration is ${days}, ${hours}, and ${minutes}.`,
       summaryTimes: (hours, minutes) => `The duration is ${hours} and ${minutes}.`,
       overnight: "The calculation treats the end time as being on the following day.",
@@ -187,23 +187,23 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     reduction: {
       price: "Initial price", discount: "Discount", discountedPrice: "Price after discount", saved: "Amount saved",
       placeholderPrice: "e.g. 150", placeholderDiscount: "e.g. 20", invalid: "Enter a positive price and a discount between 0 and 100%",
-      how: "💡 How did we get this result?", explanation: (amount) => `The discount represents €${amount} of the initial price.`,
+      emptyResult: "Enter the price and discount to see the result.", how: "💡 How did we get this result?", explanation: (amount) => `The discount represents €${amount} of the initial price.`,
     },
     ruleOfThree: {
       firstValue: "First value", correspondingValue: "Corresponding value", secondValue: "Second value", result: "Result",
       placeholders: { first: "e.g. 4", corresponding: "e.g. 10", second: "e.g. 6" },
-      invalid: "Enter three valid numbers. The first value must be different from zero.",
+      invalid: "Enter three valid numbers. The first value must be different from zero.", emptyResult: "Enter the three values to see the result.",
       how: "💡 How did we get this result?", explanation: "We keep the same ratio between the first two values to calculate the fourth.",
     },
     vat: {
       htToTtc: "Net → Gross", ttcToHt: "Gross → Net", priceHt: "Net price", priceTtc: "Gross price", rate: "VAT rate",
       resultHt: "Net price", vat: "VAT", resultTtc: "Gross price", placeholders: { ht: "e.g. 100", ttc: "e.g. 120", rate: "e.g. 20" },
-      invalid: "Enter a price of at least 0 and a VAT rate between 0 and 100%.",
+      invalid: "Enter a price of at least 0 and a VAT rate between 0 and 100%.", emptyResult: "Enter the values to see the VAT calculation.",
       how: "💡 How did we get this result?", explanation: (rate, vat) => `At a ${rate}% rate, VAT is €${vat}.`,
     },
     fileSize: {
       value: "Value to convert", from: "From unit", to: "To unit", result: "Result", placeholder: "e.g. 1.5",
-      invalid: "Enter a value that is 0 or greater.",
+      invalid: "Enter a value that is 0 or greater.", emptyResult: "Enter a value to see the conversion.",
     },
     downloadTime: {
       fileSize: "File size", sizeUnit: "File size unit", speed: "Download speed", speedUnit: "Download speed unit",
@@ -213,7 +213,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     },
     downloadSpeed: {
       value: "Speed to convert", from: "From unit", to: "To unit", result: "Result", placeholder: "e.g. 100",
-      invalid: "Enter a speed that is 0 or greater.",
+      invalid: "Enter a speed that is 0 or greater.", emptyResult: "Enter a speed to see the conversion.",
     },
     textCounter: {
       input: "Your text", placeholder: "Type or paste your text here…", characters: "Characters",

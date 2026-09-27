@@ -11,6 +11,7 @@ import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { formatToolNumber, parseLocalizedNumber } from "@/lib/numbers";
 import { Select } from "@/components/ui/Select";
 import { getSpeedUnitLabel } from "@/lib/i18n/units";
+import { ValidationMessage } from "@/components/ui/ValidationMessage";
 
 export default function DownloadSpeedConverter() {
   const locale = useLocale();
@@ -37,8 +38,8 @@ export default function DownloadSpeedConverter() {
             {SPEED_UNITS.map((unit) => <option key={unit} value={unit}>{getSpeedUnitLabel(locale, unit, "long")}</option>)}
           </Select>
       </div>
-      <div className="mt-6"><CalculatorResult label={t.result} value={result === null ? "—" : `${formatToolNumber(result, locale, 6)} ${getSpeedUnitLabel(locale, to)}`} /></div>
-      {hasInvalidInput && <p id="download-speed-error" role="alert" className="mt-4 text-sm font-medium text-[var(--danger)]">{t.invalid}</p>}
+      <div className="mt-6"><CalculatorResult label={t.result} value={result === null ? null : `${formatToolNumber(result, locale, 6)} ${getSpeedUnitLabel(locale, to)}`} emptyMessage={t.emptyResult} /></div>
+      {hasInvalidInput && <ValidationMessage id="download-speed-error">{t.invalid}</ValidationMessage>}
     </CalculatorShell>
   );
 }
