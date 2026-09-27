@@ -46,7 +46,7 @@ type ToolMessages = {
   fileSizeCalculator: {
     duration: string; durationPlaceholder: string; durationUnit: string; durationUnits: Record<string, string>;
     bitrate: string; bitratePlaceholder: string; bitrateUnit: string; bitrateUnits: Record<string, string>;
-    sizeUnit: string; sizeUnits: Record<string, string>; result: string; note: string;
+    sizeUnit: string; sizeUnits: Record<string, string>; result: string; note: string; invalid: string;
   };
   fileSize: {
     value: string; from: string; to: string; result: string; placeholder: string; invalid: string;
@@ -75,6 +75,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       bitrateUnits: { kbps: "Kbit/s", mbps: "Mbit/s", gbps: "Gbit/s" },
       sizeUnit: "Unité de taille", sizeUnits: { mb: "Mégaoctets (Mo)", gb: "Gigaoctets (Go)" },
       result: "Taille estimée", note: "Estimation théorique à débit constant. Les unités de taille et de débit sont décimales.",
+      invalid: "Saisissez une durée et un débit valides, positifs ou nuls.",
     },
     age: {
       birthDate: "Date de naissance", referenceDate: "Calculer au", years: "Années", months: "Mois", days: "Jours",
@@ -156,6 +157,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       bitrateUnits: { kbps: "Kbit/s", mbps: "Mbit/s", gbps: "Gbit/s" },
       sizeUnit: "Size unit", sizeUnits: { mb: "Megabytes (MB)", gb: "Gigabytes (GB)" },
       result: "Estimated size", note: "Theoretical estimate at a constant bitrate. Size and bitrate units are decimal.",
+      invalid: "Enter a valid duration and bitrate, both 0 or greater.",
     },
     age: {
       birthDate: "Birth date", referenceDate: "Calculate on", years: "Years", months: "Months", days: "Days",
