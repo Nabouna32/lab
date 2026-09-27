@@ -9,8 +9,8 @@ export default function Hero({ locale }: { locale: Locale }) {
 
   return (
     <section className="relative z-10 isolate overflow-hidden">
-      <div className="pointer-events-none absolute -left-32 -top-24 -z-10 h-72 w-72 rounded-full bg-[var(--accent)]/10 blur-3xl" />
-      <div className="pointer-events-none absolute -right-24 top-4 -z-10 h-80 w-80 rounded-full bg-fuchsia-400/8 blur-3xl" />
+      <div className="decorative-glow pointer-events-none absolute -left-32 -top-24 -z-10 h-72 w-72 rounded-full" />
+      <div className="decorative-glow-fuchsia pointer-events-none absolute -right-24 top-4 -z-10 h-80 w-80 rounded-full" />
       <div className="mx-auto max-w-6xl px-4 pb-8 pt-10 sm:px-6 sm:pb-10 sm:pt-12 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface)]/80 px-3 py-1.5 text-xs font-semibold text-[var(--muted)] shadow-[var(--shadow-sm)] backdrop-blur">
