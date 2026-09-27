@@ -24,7 +24,7 @@ export default function ToolPage({
   const t = getMessages(locale);
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-3 sm:px-6 sm:py-5 lg:px-8 lg:py-6">
+    <main className="mx-auto max-w-6xl px-4 py-2 sm:px-6 sm:py-4 lg:px-8 lg:py-5">
       <Breadcrumbs locale={locale} items={[{ label: t.nav.tools, href: `/${locale}/outils` }, { label: getCategoryName(locale, getPrimaryToolCategory(tool)), href: `/${locale}/outils/${getPrimaryToolCategory(tool)}` }, { label: localizedContent.name }]} />
       <ToolPageHeader
         icon={tool.icon}
@@ -35,8 +35,8 @@ export default function ToolPage({
         locale={locale}
       />
       <ToolRuntimeProvider access={tool.access} capabilities={tool.capabilities}>
-        {children && <div className="mt-3 sm:mt-4">{children}</div>}
-        {content && <div className="mt-8 space-y-10 sm:mt-12 sm:space-y-12">{content}</div>}
+        {children && <div className="mt-2 sm:mt-3">{children}</div>}
+        {content && <div className="mt-8 space-y-10 sm:mt-10 sm:space-y-12">{content}</div>}
       </ToolRuntimeProvider>
     </main>
   );
