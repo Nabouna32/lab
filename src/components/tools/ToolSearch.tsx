@@ -1,15 +1,19 @@
 "use client";
 
-import { useDeferredValue, useEffect, useMemo, useState } from "react";
+import { useDeferredValue, useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
 import { formatPlural } from "@/lib/i18n/plural";
 import { getCategoryName } from "@/lib/tools/categories";
 import { getPrimaryToolCategory, getToolContent } from "@/lib/tools/types";
-import { getAllTools } from "@/lib/tools/catalog";
-import { normalizeSearchText, searchTools } from "@/lib/tools/search";
+import type { Tool } from "@/lib/tools/types";
 import { Button } from "@/components/ui/Button";
+
+type ToolSearchResult = {
+  tool: Tool;
+  score: number;
+};
 
 function getNormalizedMatchRange(text: string, query: string): [number, number] | null {
   const normalizedQuery = normalizeSearchText(query);
@@ -32,6 +36,10 @@ function getNormalizedMatchRange(text: string, query: string): [number, number] 
   const matchIndex = normalized.indexOf(normalizedQuery);
   if (matchIndex < 0) return null;
   return [starts[matchIndex], ends[matchIndex + normalizedQuery.length - 1]];
+}
+
+function normalizeSearchText(value: string): string {
+  return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase().trim();
 }
 
 function HighlightMatch({ text, query }: { text: string; query: string }) {
@@ -62,11 +70,32 @@ export default function ToolSearch({
   const [query, setQuery] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
+  const [results, setResults] = useState<ToolSearchResult[]>([]);
   const deferredQuery = useDeferredValue(query);
-  const results = useMemo(() => searchTools(getAllTools(), deferredQuery, locale).slice(0, 6), [deferredQuery, locale]);
+  const searchRequest = useRef(0);
   const showResults = isFocused && query.trim().length > 0;
   const inputId = instanceId + "-input";
   const resultsId = instanceId + "-results";
+
+  useEffect(() => {
+    const normalizedQuery = deferredQuery.trim();
+    if (!normalizedQuery) {
+      setResults([]);
+      return;
+    }
+
+    const requestId = ++searchRequest.current;
+    let cancelled = false;
+
+    import("@/lib/tools/search-client").then(({ searchToolCatalog }) => {
+      if (cancelled || requestId !== searchRequest.current) return;
+      setResults(searchToolCatalog(normalizedQuery, locale).slice(0, 6));
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [deferredQuery, locale]);
 
   useEffect(() => {
     function handlePointerDown(event: PointerEvent) {
