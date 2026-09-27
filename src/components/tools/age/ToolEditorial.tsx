@@ -18,9 +18,10 @@ const content = {
 } as const;
 
 export default function ToolEditorial({ locale }: { locale: Locale }) {
+  const t = content[locale];
   return (
     <>
-      {content[locale].sections.map((section) => (
+      {t.sections.map((section) => (
         <ToolSection key={section.title} title={section.title}>
           <p>{section.text}</p>
         </ToolSection>
