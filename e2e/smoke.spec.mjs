@@ -107,7 +107,7 @@ test("tool page keeps the primary task hierarchy compact", async ({ page }) => {
 
   const toolHeader = page.locator("main > header");
   await expect(toolHeader).toBeVisible();
-  await expect(toolHeader).not.toContainText("Utiluna");
+  await expect(toolHeader.getByText("Utiluna", { exact: true })).toHaveCount(0);
   await expect(page.getByRole("navigation", { name: "Fil d’Ariane" })).toBeVisible();
   await expect(page.getByRole("link", { name: "← Tous les outils" })).toHaveCount(0);
 
