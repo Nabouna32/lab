@@ -80,19 +80,22 @@ The platform standardizes infrastructure and trust requirements, while custom to
 
 ## DEC-005 — Sober and playful modes
 
-**Status:** Accepted
+**Status:** Accepted as a deferred, optional direction
 
 ### Decision
 
-Provide a user-selectable sober/playful presentation style.
+Keep a user-selectable sober/playful presentation style as a possible future product feature, but do not treat it as current committed scope or build dedicated architecture around it now.
 
 ### Reason
 
-Some users want maximum efficiency; others enjoy richer interactions. The product should support both without forcing either style.
+The concept can add personality and user choice, but it also introduces meaningful UX, design and maintenance cost. It is therefore explicitly lower priority than the core toolbox and platform foundations.
 
 ### Consequences
 
-Animations and visual effects must remain accessible and must respect reduced-motion preferences.
+- No dedicated implementation is required in the current product phase.
+- Existing themes and accessibility behavior must not be made more complex solely to prepare for this feature.
+- If the idea is revisited later, its scope should be re-evaluated before implementation.
+- Any future animations or visual effects must remain accessible and respect reduced-motion preferences.
 
 ---
 
