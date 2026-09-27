@@ -145,7 +145,7 @@ The product should expose complexity progressively. Users should not pay in load
 
 ### Personal Utiluna
 
-Over time, authenticated users should be able to create a personalized Utiluna space with favorites, collections, history, hidden tools, ordering, visible elements, theme, animation level, density/style, personalized home, privacy preferences, and contextual experience preferences where useful.
+Over time, authenticated users should be able to create a personalized Utiluna space, starting with favorites and collections. Broader personalization such as history, hidden tools, ordering, visible elements, theme, animation level, density/style, personalized home and contextual preferences remains a later optional direction.
 
 ### Three product layers
 
