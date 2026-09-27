@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { usePathname } from "next/navigation";
+import { useDeferredValue, useEffect, useMemo, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
 import { getCategoryName } from "@/lib/tools/categories";
@@ -9,12 +9,34 @@ import { tools } from "@/lib/tools/tools";
 import { normalizeSearchText, searchTools } from "@/lib/tools/search";
 import { Button } from "@/components/ui/Button";
 
-function HighlightMatch({ text, query }: { text: string; query: string }) {
+function getNormalizedMatchRange(text: string, query: string): [number, number] | null {
   const normalizedQuery = normalizeSearchText(query);
-  if (!normalizedQuery) return <>{text}</>;
-  const matchIndex = normalizeSearchText(text).indexOf(normalizedQuery);
-  if (matchIndex < 0) return <>{text}</>;
-  return <>{text.slice(0, matchIndex)}<mark className="rounded bg-[var(--accent-soft)] px-0.5 text-[var(--foreground)]">{text.slice(matchIndex, matchIndex + normalizedQuery.length)}</mark>{text.slice(matchIndex + normalizedQuery.length)}</>;
+  if (!normalizedQuery) return null;
+
+  let normalized = "";
+  const starts: number[] = [];
+  const ends: number[] = [];
+
+  for (let index = 0; index < text.length; index += 1) {
+    const chunk = normalizeSearchText(text[index]);
+    if (!chunk) continue;
+    for (const character of chunk) {
+      normalized += character;
+      starts.push(index);
+      ends.push(index + 1);
+    }
+  }
+
+  const matchIndex = normalized.indexOf(normalizedQuery);
+  if (matchIndex < 0) return null;
+  return [starts[matchIndex], ends[matchIndex + normalizedQuery.length - 1]];
+}
+
+function HighlightMatch({ text, query }: { text: string; query: string }) {
+  const range = getNormalizedMatchRange(text, query);
+  if (!range) return <>{text}</>;
+  const [start, end] = range;
+  return <>{text.slice(0, start)}<mark className="rounded bg-[var(--accent-soft)] px-0.5 text-[var(--foreground)]">{text.slice(start, end)}</mark>{text.slice(end)}</>;
 }
 
 export default function ToolSearch({
@@ -31,13 +53,15 @@ export default function ToolSearch({
   compact?: boolean;
 }) {
   const pathname = usePathname();
+  const router = useRouter();
   const segment = pathname.split("/")[1];
   const locale: Locale = localeProp ?? (isLocale(segment) ? segment : "fr");
   const t = getMessages(locale);
   const [query, setQuery] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
-  const results = useMemo(() => searchTools(tools, query, locale).slice(0, 6), [query, locale]);
+  const deferredQuery = useDeferredValue(query);
+  const results = useMemo(() => searchTools(tools, deferredQuery, locale).slice(0, 6), [deferredQuery, locale]);
   const showResults = isFocused && query.trim().length > 0;
   const inputId = instanceId + "-input";
   const resultsId = instanceId + "-results";
@@ -62,7 +86,7 @@ export default function ToolSearch({
 
   function openResult(index: number) {
     const result = results[index];
-    if (result) window.location.href = hrefFor(result.tool.slug, result.tool.categoryId);
+    if (result) router.push(hrefFor(result.tool.slug, result.tool.categoryId));
   }
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
