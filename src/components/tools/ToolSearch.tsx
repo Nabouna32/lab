@@ -1,15 +1,20 @@
 "use client";
 
-import { useDeferredValue, useEffect, useMemo, useState } from "react";
+import { useDeferredValue, useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
 import { formatPlural } from "@/lib/i18n/plural";
 import { getCategoryName } from "@/lib/tools/categories";
 import { getPrimaryToolCategory, getToolContent } from "@/lib/tools/types";
-import { getAllTools } from "@/lib/tools/catalog";
-import { normalizeSearchText, searchTools } from "@/lib/tools/search";
+import type { Tool } from "@/lib/tools/types";
+import { normalizeSearchText } from "@/lib/tools/search-utils";
 import { Button } from "@/components/ui/Button";
+
+type ToolSearchResult = {
+  tool: Tool;
+  score: number;
+};
 
 function getNormalizedMatchRange(text: string, query: string): [number, number] | null {
   const normalizedQuery = normalizeSearchText(query);
@@ -62,11 +67,31 @@ export default function ToolSearch({
   const [query, setQuery] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
+  const [results, setResults] = useState<ToolSearchResult[]>([]);
+  const [resultsQuery, setResultsQuery] = useState("");
   const deferredQuery = useDeferredValue(query);
-  const results = useMemo(() => searchTools(getAllTools(), deferredQuery, locale).slice(0, 6), [deferredQuery, locale]);
+  const searchRequest = useRef(0);
   const showResults = isFocused && query.trim().length > 0;
   const inputId = instanceId + "-input";
   const resultsId = instanceId + "-results";
+
+  useEffect(() => {
+    const normalizedQuery = deferredQuery.trim();
+    if (!normalizedQuery) return;
+
+    const requestId = ++searchRequest.current;
+    let cancelled = false;
+
+    import("@/lib/tools/search-client").then(({ searchToolCatalog }) => {
+      if (cancelled || requestId !== searchRequest.current) return;
+      setResults(searchToolCatalog(normalizedQuery, locale).slice(0, 6));
+      setResultsQuery(normalizedQuery);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [deferredQuery, locale]);
 
   useEffect(() => {
     function handlePointerDown(event: PointerEvent) {
@@ -86,8 +111,10 @@ export default function ToolSearch({
     return "/" + locale + "/outils/" + categoryId + "/" + slug;
   }
 
+  const visibleResults = normalizeSearchText(query) === resultsQuery ? results : [];
+
   function openResult(index: number) {
-    const result = results[index];
+    const result = visibleResults[index];
     if (result) router.push(hrefFor(result.tool.slug, getPrimaryToolCategory(result.tool)));
   }
 
@@ -97,14 +124,14 @@ export default function ToolSearch({
       setActiveIndex(-1);
       return;
     }
-    if (!showResults || results.length === 0) return;
+    if (!showResults || visibleResults.length === 0) return;
     if (event.key === "ArrowDown") {
       event.preventDefault();
-      setActiveIndex((index) => (index + 1) % results.length);
+      setActiveIndex((index) => (index + 1) % visibleResults.length);
     }
     if (event.key === "ArrowUp") {
       event.preventDefault();
-      setActiveIndex((index) => (index <= 0 ? results.length - 1 : index - 1));
+      setActiveIndex((index) => (index <= 0 ? visibleResults.length - 1 : index - 1));
     }
     if (event.key === "Enter") {
       event.preventDefault();
@@ -169,7 +196,7 @@ export default function ToolSearch({
             type="button"
             onMouseDown={(event) => event.preventDefault()}
             onClick={() => openResult(0)}
-            disabled={query.trim().length === 0 || results.length === 0}
+            disabled={query.trim().length === 0 || visibleResults.length === 0}
             className="hidden min-h-11 rounded-xl px-5 sm:inline-flex"
           >
             {t.tools.searchButton}
@@ -179,13 +206,13 @@ export default function ToolSearch({
 
       {showResults && (
         <div id={resultsId} role="listbox" className="absolute left-0 right-0 top-full z-[60] mt-2 overflow-hidden rounded-[1.25rem] border border-[var(--border)] bg-[var(--surface-elevated)] p-2 shadow-[var(--shadow-lg)]">
-          {results.length > 0 ? (
+          {visibleResults.length > 0 ? (
             <>
               <div className="flex items-center justify-between px-3 pb-2 pt-2">
                 <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[var(--muted)]">{t.tools.suggestions}</p>
-                <p className="text-xs text-[var(--muted)]">{formatPlural(locale, results.length, { one: t.tools.resultCountOne, other: t.tools.resultCountMany })}</p>
+                <p className="text-xs text-[var(--muted)]">{formatPlural(locale, visibleResults.length, { one: t.tools.resultCountOne, other: t.tools.resultCountMany })}</p>
               </div>
-              {results.map(({ tool }, index) => {
+              {visibleResults.map(({ tool }, index) => {
                 const content = getToolContent(tool, locale);
                 return (
                   <a

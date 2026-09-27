@@ -1,12 +1,9 @@
 import type { Locale } from "../i18n/config.ts";
 import { getPrimaryToolCategory, getToolContent, isPublishedTool } from "./types.ts";
 import type { Tool } from "@/lib/tools/types";
+import { normalizeSearchText } from "./search-utils.ts";
 
 export type ToolSearchResult = { tool: Tool; score: number };
-
-export function normalizeSearchText(value: string): string {
-  return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase().trim();
-}
 
 const SEARCH_STOP_WORDS = new Set([
   "a", "an", "and", "calculate", "calculates", "calculating", "calculer", "calcule", "calculez",
