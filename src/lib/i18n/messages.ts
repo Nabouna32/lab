@@ -5,7 +5,7 @@ export type Messages = {
   breadcrumbs: { label: string };
   footer: { tagline: string; explore: string; account: string };
   actions: { copy: string; copied: string; clear: string };
-  home: { badge: string; title: string; description: string; examples: string; explore: string; categoriesTitle: string; categoriesDescription: string };
+  home: { badge: string; title: string; description: string; examples: string; explore: string; discoveryTitle: string; discoveryDescription: string; discoveryOpen: string; categoriesTitle: string; categoriesDescription: string };
   tools: {
     eyebrow: string; title: string; description: string; explore: string; one: string; many: string; back: string;
     categoryDescription: string; searchLabel: string; searchPlaceholder: string; searchButton: string; suggestions: string;
@@ -33,6 +33,7 @@ export const messages: Record<Locale, Messages> = {
       description: "Calculs, conversions, dates, fichiers et bien plus.",
       examples: "Essayez : TVA, remise, internet, vidéo, âge...",
       explore: "Explorer",
+      discoveryTitle: "À découvrir", discoveryDescription: "Quelques outils pour commencer à explorer Utiluna.", discoveryOpen: "Ouvrir l’outil",
       categoriesTitle: "Trouvez l’outil dont vous avez besoin",
       categoriesDescription: "Parcourez nos différentes catégories pour trouver rapidement le bon outil.",
     },
@@ -80,6 +81,7 @@ export const messages: Record<Locale, Messages> = {
       description: "Calculations, conversions, dates, files, and much more.",
       examples: "Try: VAT, discount, internet, video, age...",
       explore: "Explore",
+      discoveryTitle: "Discover something useful", discoveryDescription: "A few tools to start exploring Utiluna.", discoveryOpen: "Open tool",
       categoriesTitle: "Find the tool you need",
       categoriesDescription: "Browse our categories to quickly find the right tool.",
     },
