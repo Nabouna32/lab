@@ -7,7 +7,7 @@ import { isValidUuid, readFormString } from "@/lib/validation";
 
 function readLocale(formData: FormData): Locale {
   const value = readFormString(formData, "locale");
-  return isLocale(value ?? undefined) ? value : "fr";
+  return value !== null && isLocale(value) ? value : "fr";
 }
 
 function readUserId(formData: FormData) {
