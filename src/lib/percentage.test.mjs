@@ -12,6 +12,11 @@ test("calculates a percentage of a value", () => {
   assert.equal(calculatePercentage(12.5, 80), 10);
 });
 
+test("rejects non-finite percentage results", () => {
+  assert.equal(calculatePercentage(Number.MAX_VALUE, Number.MAX_VALUE), null);
+  assert.equal(calculateEvolution(Number.MAX_VALUE, -Number.MAX_VALUE), null);
+});
+
 test("calculates percentage evolution", () => {
   assert.equal(calculateEvolution(120, 100), 20);
   assert.equal(calculateEvolution(80, 100), -20);
