@@ -50,5 +50,4 @@ export const toolSeo = {
     fr: { title: "Calculateur de bitrate vidéo | Utiluna", description: "Calculez le bitrate ou la taille approximative d'une vidéo." },
     en: { title: "Video Bitrate Calculator | Utiluna", description: "Calculate video bitrate or approximate file size." },
   },
-};
 } satisfies Record<ToolId, Record<Locale, ToolSeoMetadata>>;
