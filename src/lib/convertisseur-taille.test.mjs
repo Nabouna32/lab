@@ -24,14 +24,19 @@ test("keeps the value when source and target units match", () => {
 });
 
 test("rejects negative values", () => {
-  assert.throws(() => convertFileSize(-1, "mo", "go"), RangeError);
+  assert.equal(convertFileSize(-1, "mo", "go"), null);
 });
 
 test("rejects non-finite values", () => {
-  assert.throws(() => convertFileSize(Number.NaN, "mo", "go"), RangeError);
+  assert.equal(convertFileSize(Number.NaN, "mo", "go"), null);
 });
 
 
 test("rejects unknown units at runtime", () => {
-  assert.throws(() => convertFileSize(1, "ko", "unknown"), RangeError);
+  assert.equal(convertFileSize(1, "ko", "unknown"), null);
+});
+
+
+test("returns null when the result overflows the numeric range", () => {
+  assert.equal(convertFileSize(Number.MAX_VALUE, "to", "o"), null);
 });
