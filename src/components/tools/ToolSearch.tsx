@@ -8,6 +8,7 @@ import { formatPlural } from "@/lib/i18n/plural";
 import { getCategoryName } from "@/lib/tools/categories";
 import { getPrimaryToolCategory, getToolContent } from "@/lib/tools/types";
 import type { Tool } from "@/lib/tools/types";
+import { normalizeSearchText } from "@/lib/tools/search-utils";
 import { Button } from "@/components/ui/Button";
 
 type ToolSearchResult = {
@@ -36,10 +37,6 @@ function getNormalizedMatchRange(text: string, query: string): [number, number] 
   const matchIndex = normalized.indexOf(normalizedQuery);
   if (matchIndex < 0) return null;
   return [starts[matchIndex], ends[matchIndex + normalizedQuery.length - 1]];
-}
-
-function normalizeSearchText(value: string): string {
-  return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase().trim();
 }
 
 function HighlightMatch({ text, query }: { text: string; query: string }) {
