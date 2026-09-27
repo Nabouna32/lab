@@ -42,7 +42,9 @@ export default async function SignInPage({
           <p className="mt-4 rounded-2xl bg-[var(--success-soft)] p-4 text-sm text-[var(--success-foreground)]">{t.account.confirmation}</p>
         )}
         {query.error && (
-          <p className="mt-4 rounded-2xl bg-[var(--danger-soft)] p-4 text-sm text-[var(--danger-foreground)]">{t.account.signInError}</p>
+          <p className="mt-4 rounded-2xl bg-[var(--danger-soft)] p-4 text-sm text-[var(--danger-foreground)]">
+            {query.error === "rate-limited" ? t.account.authRateLimited : t.account.signInError}
+          </p>
         )}
         <form action={signIn} className="mt-6 space-y-5">
           <input type="hidden" name="locale" value={locale} />
