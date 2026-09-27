@@ -130,7 +130,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     },
     fileSize: {
       value: "Valeur à convertir", from: "Unité de départ", to: "Unité d'arrivée", result: "Résultat", placeholder: "Ex. 1,5",
-      units: { o: "Octets (o)", ko: "Kilo-octets (Ko)", mo: "Méga-octets (Mo)", go: "Giga-octets (Go)", to: "Téra-octets (To)" },
+      units: { o: "Octets (o)", ko: "Kilooctets (ko) — 1 000 o", mo: "Mégaoctets (Mo) — 1 000 000 o", go: "Gigaoctets (Go) — 1 000 000 000 o", to: "Téraoctets (To) — 1 000 000 000 000 o", kio: "Kio — 1 024 o", mio: "Mio — 1 048 576 o", gio: "Gio — 1 073 741 824 o", tio: "Tio — 1 099 511 627 776 o" },
     },
     downloadTime: {
       fileSize: "Taille du fichier", sizeUnit: "Unité de taille du fichier", speed: "Vitesse de téléchargement", speedUnit: "Unité de vitesse de téléchargement",
@@ -209,7 +209,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     },
     fileSize: {
       value: "Value to convert", from: "From unit", to: "To unit", result: "Result", placeholder: "e.g. 1.5",
-      units: { o: "Bytes (B)", ko: "Kilobytes (KB)", mo: "Megabytes (MB)", go: "Gigabytes (GB)", to: "Terabytes (TB)" },
+      units: { o: "Bytes (B)", ko: "Kilobytes (kB) — 1,000 B", mo: "Megabytes (MB) — 1,000,000 B", go: "Gigabytes (GB) — 1,000,000,000 B", to: "Terabytes (TB) — 1,000,000,000,000 B", kio: "Kibibytes (KiB) — 1,024 B", mio: "Mebibytes (MiB) — 1,048,576 B", gio: "Gibibytes (GiB) — 1,073,741,824 B", tio: "Tebibytes (TiB) — 1,099,511,627,776 B" },
     },
     downloadTime: {
       fileSize: "File size", sizeUnit: "File size unit", speed: "Download speed", speedUnit: "Download speed unit",
