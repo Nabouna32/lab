@@ -52,13 +52,13 @@
 - The central catalog/registry is sufficient for the current toolbox.
 - The category-page duplication was removed.
 - Editorial content is now owned by each tool module and loaded through the same registry as the executable tool; the former centralized switch has been removed.
-- Search now matches catalog tags and categories in addition to names, descriptions, keywords and aliases.
+- Search now matches structured tags, aliases and categories in addition to localized names and descriptions.
 - Related tools no longer require client-side routing context; the server route passes the locale directly.
 - User-facing global UI strings belong in the i18n layer; tool-specific names/descriptions/SEO are structured per locale.
+- The public `Tool` contract now uses structured metadata as its single runtime contract; legacy `name`, `description`, `keywords`, `available` and `categoryId` fields are no longer exposed.
 
 ## Not implemented yet
 
-- Database-backed catalog/editorial content.
 - User suspension/deletion and broader account-lifecycle administration.
 - Account/premium enforcement.
 - Runtime enforcement for browser capabilities beyond clipboard.
@@ -68,11 +68,12 @@
 
 ## Next actions
 
-1. Continue the tool-platform audit with registry scalability and catalog/module boundaries as the toolbox grows.
-2. Continue administration with the remaining account-lifecycle actions, especially account deletion and other account-lifecycle workflows.
-3. Define and implement the code/database boundary for editable catalog/editorial data before migrating those domains.
-4. Introduce persistence or sharing only when a concrete tool requirement justifies the corresponding runtime capability.
-5. Continue the UX audit with above-the-fold tool hierarchy and mobile behavior, then apply targeted fixes.
+1. Audit the functional behavior of every published tool, including invalid input, edge cases, rounding and user-facing errors.
+2. Continue the tool-platform audit with registry scalability and catalog/module boundaries as the toolbox grows.
+3. Continue administration with the remaining account-lifecycle actions, especially account deletion and other account-lifecycle workflows.
+4. Define and implement the code/database boundary for editable catalog/editorial data before migrating those domains.
+5. Introduce persistence or sharing only when a concrete tool requirement justifies the corresponding runtime capability.
+6. Continue the UX audit with above-the-fold tool hierarchy and mobile behavior, then apply targeted fixes.
 
 ## Important boundary
 
@@ -83,6 +84,7 @@ The code/module remains authoritative for executable behavior and technical capa
 
 - Supabase project `Utiluna` is active in `eu-west-2`.
 - First application table `public.profiles` is deployed with Row Level Security and ownership policies.
+- Next.js was upgraded from 16.3.5 to 16.3.6 to address the critical upstream security update released on September 22, 2026.
 - Email/password account creation, sign-in, sign-out and session refresh are wired into the Next.js application.
 - Email confirmation uses the Supabase PKCE callback flow.
 - The database currently stores only minimal profile metadata; tool/catalog migration remains a separate future step.
@@ -90,7 +92,7 @@ The code/module remains authoritative for executable behavior and technical capa
 ## Administration foundation
 
 - Database-backed granular roles and permissions are deployed to Supabase.
-- `super_admin` and `admin` roles are seeded; no user has been assigned a role yet.
+- `super_admin` and `admin` roles are seeded; the initial administrator account is assigned `super_admin`.
 - Administrative tables use Row Level Security and least-privilege grants.
 - A protected localized `/[locale]/admin` dashboard is implemented and checks `admin.dashboard.view` server-side.
 - The administration dashboard now acts as a module hub, keeping future areas visible without creating empty pages.
