@@ -139,7 +139,7 @@ export default function Header() {
                   {t.nav.explore}
                 </Link>
                 <Link href={"/" + locale + "/compte"} className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-[var(--foreground)] transition-colors hover:bg-[var(--surface-soft)]">
-                  <Icon><circle cx="12" cy="8" r="3.2" /><path d="M5.5 20c.8-3.1 3-4.7 6.5-4.7s5.7 1.6 6.5 4.7 6.5 20" /></Icon>
+                  <Icon><circle cx="12" cy="8" r="3.2" /><path d="M5.5 20c.8-3.1 3-4.7 6.5-4.7s5.7 1.6 6.5 4.7" /></Icon>
                   {t.nav.space}
                 </Link>
               </div>
