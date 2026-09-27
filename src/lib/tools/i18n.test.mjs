@@ -154,7 +154,7 @@ test("tool editorial locales keep the same content structure", () => {
 });
 
 test("tool content falls back to English when a requested locale is missing", async () => {
-  const { getToolContent } = await import("./types.ts");
+  const { getToolContent, isToolContentFallback, isToolProcessingDescriptionFallback } = await import("./types.ts");
   const tool = {
     content: {
       fr: { name: "Nom français", description: "Description française" },
@@ -164,6 +164,10 @@ test("tool content falls back to English when a requested locale is missing", as
   assert.deepEqual(getToolContent(tool, "de"), tool.content.en);
   assert.deepEqual(getToolContent(tool, "fr"), tool.content.fr);
   assert.deepEqual(getToolContent(tool, "en"), tool.content.en);
+  assert.equal(isToolContentFallback(tool, "de"), true);
+  assert.equal(isToolContentFallback(tool, "fr"), false);
+  assert.equal(isToolProcessingDescriptionFallback({ description: { en: "English" } }, "fr"), true);
+  assert.equal(isToolProcessingDescriptionFallback({ description: { fr: "Français", en: "English" } }, "fr"), false);
 });
 
 test("plural formatting uses locale-aware rules", () => {
@@ -189,4 +193,18 @@ test("audited pluralized UI components delegate plural selection to the i18n lay
   const units = readFileSync(fileURLToPath(new URL("../i18n/units.ts", import.meta.url)), "utf8");
   assert.equal(units.includes("value === 1 ?"), false);
   assert.match(units, /formatPlural\(locale, value/);
+});
+
+
+test("fallback messaging is wired into the tool page and processing status", () => {
+  const page = readFileSync(fileURLToPath(new URL("../../components/tools/ToolPage/ToolPage.tsx", import.meta.url)), "utf8");
+  const header = readFileSync(fileURLToPath(new URL("../../components/tools/ToolPage/ToolPageHeader.tsx", import.meta.url)), "utf8");
+  const processing = readFileSync(fileURLToPath(new URL("../../components/tools/ToolPage/ToolProcessingStatus.tsx", import.meta.url)), "utf8");
+
+  assert.match(page, /isToolContentFallback\(tool, locale\)/);
+  assert.match(page, /contentFallback=\{isContentFallback\}/);
+  assert.match(header, /contentFallback &&/);
+  assert.match(header, /fallbackNotice/);
+  assert.match(processing, /isToolProcessingDescriptionFallback\(processing, locale\)/);
+  assert.match(processing, /fallbackNotice/);
 });
