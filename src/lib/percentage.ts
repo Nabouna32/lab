@@ -1,5 +1,6 @@
-export function calculatePercentage(percentage: number, value: number): number {
-  return (percentage / 100) * value;
+export function calculatePercentage(percentage: number, value: number): number | null {
+  const result = (percentage / 100) * value;
+  return Number.isFinite(result) ? result : null;
 }
 
 export function calculateEvolution(
@@ -10,7 +11,8 @@ export function calculateEvolution(
     return null;
   }
 
-  return ((finalValue - startingValue) / startingValue) * 100;
+  const result = ((finalValue - startingValue) / startingValue) * 100;
+  return Number.isFinite(result) ? result : null;
 }
 
 export function calculateDifference(
@@ -23,5 +25,6 @@ export function calculateDifference(
     return null;
   }
 
-  return (Math.abs(firstValue - secondValue) / average) * 100;
+  const result = (Math.abs(firstValue - secondValue) / average) * 100;
+  return Number.isFinite(result) ? result : null;
 }
