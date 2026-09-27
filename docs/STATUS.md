@@ -59,8 +59,8 @@
 ### Catalog, editorial and i18n
 
 - The central catalog/registry is sufficient for the current toolbox.
-- Catalog consumers now go through a single catalog access layer; the current implementation remains Git-backed, while the boundary is ready for a future database-backed catalog without coupling pages and components to the storage location.
-- The first editable catalog schema is deployed and seeded in Supabase; public application reads have not yet switched to the database.
+- Catalog consumers now go through a single catalog access layer; public reads are being migrated progressively to the database-backed catalog without coupling pages and components to the storage location.
+- The first editable catalog schema is deployed and seeded in Supabase; the migration of public application reads is now an active platform task.
 - The category-page duplication was removed.
 - Editorial content is now owned by each tool module and loaded through the same registry as the executable tool; the former centralized switch has been removed.
 - Search now matches structured tags, aliases and categories in addition to localized names and descriptions.
@@ -74,7 +74,7 @@
 - Account/premium enforcement.
 - Runtime enforcement for browser capabilities beyond clipboard.
 - Generic sharing runtime.
-- Application reads from the database-backed catalog; the schema and initial data exist, but the current public catalog still reads from Git through the catalog access boundary.
+- Progressive migration of application reads to the database-backed catalog.
 - External-service integrations.
 
 ## Next actions
@@ -82,7 +82,7 @@
 1. Continue the functional behavior audit of every published tool, focusing on remaining edge cases, rounding conventions and user-facing result semantics.
 2. Continue the tool-platform audit with registry scalability and catalog/module boundaries as the toolbox grows.
 3. Continue administration with the remaining account-lifecycle actions, especially account deletion and other account-lifecycle workflows.
-4. Connect the existing catalog access boundary to the new database schema and switch reads progressively while keeping Git/code authoritative for executable behavior.
+4. Complete the progressive switch of catalog reads to the database while keeping Git/code authoritative for executable behavior.
 5. Introduce persistence or sharing only when a concrete tool requirement justifies the corresponding runtime capability.
 6. Continue the UX audit with above-the-fold tool hierarchy and mobile behavior, then apply targeted fixes, including keyboard/focus behavior where it affects tool completion.
 
@@ -99,7 +99,7 @@ The code/module remains authoritative for executable behavior and technical capa
 - The published file-size calculator now validates calculation units and rejects numeric overflow at the domain-function boundary.
 - Email/password account creation, sign-in, sign-out and session refresh are wired into the Next.js application.
 - Email confirmation uses the Supabase PKCE callback flow.
-- The database currently stores only minimal profile metadata; tool/catalog migration remains a separate future step.
+- The database stores the account foundation and the initial editable catalog data; public catalog reads are being migrated progressively.
 
 ## Administration foundation
 
