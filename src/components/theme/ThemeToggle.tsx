@@ -21,7 +21,7 @@ export default function ThemeToggle() {
   return (
     <details className="relative">
       <summary
-        className="flex h-10 w-10 cursor-pointer list-none items-center justify-center rounded-xl border border-transparent text-[var(--muted)] outline-none transition-all hover:border-[var(--border)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)] focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+        className="flex h-10 w-10 cursor-pointer list-none items-center justify-center rounded-xl border border-transparent text-[var(--muted)] outline-none transition-[border-color,background-color,color] hover:border-[var(--border)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)] focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
         aria-label={labels.choose + ": " + currentLabel}
         title={labels.title + ": " + currentLabel}
       >
