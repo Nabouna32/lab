@@ -39,11 +39,15 @@ test("mobile header keeps account action unique and opens search on demand", asy
   await expect(header.locator("#header-tool-search-mobile-input")).toHaveCount(0);
 });
 
-test("tools page renders", async ({ page }) => {
+test("tools page is search-first and exposes category discovery", async ({ page }) => {
   await page.goto(`${baseUrl}/fr/outils`, { waitUntil: "networkidle" });
 
   await expect(page.getByRole("heading", { name: "Tous les outils" })).toBeVisible();
-  await expect(page.getByText("Retrouvez tous nos outils gratuits")).toBeVisible();
+  await expect(page.getByLabel("Rechercher un outil")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Parcourir par catégorie" })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Calculs.*4 outils/ })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Informatique.*4 outils/ })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Calculateur de pourcentage" })).toHaveCount(0);
 });
 
 test("all published tool pages render", async ({ page }) => {
