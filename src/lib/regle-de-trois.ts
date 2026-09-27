@@ -2,7 +2,7 @@ export function calculateRuleOfThree(
   firstValue: number,
   firstResult: number,
   secondValue: number,
-): number {
+): number | null {
   if (!Number.isFinite(firstValue) || !Number.isFinite(firstResult) || !Number.isFinite(secondValue)) {
     throw new Error("Les valeurs doivent être des nombres finis.");
   }
@@ -11,7 +11,8 @@ export function calculateRuleOfThree(
     throw new Error("La première valeur ne peut pas être égale à zéro.");
   }
 
-  return (firstResult * secondValue) / firstValue;
+  const result = (firstResult * secondValue) / firstValue;
+  return Number.isFinite(result) ? result : null;
 }
 
 export function isValidRuleOfThreeInput(

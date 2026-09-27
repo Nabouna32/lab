@@ -23,7 +23,7 @@ type ToolMessages = {
     secondLabels: { percentage: string; evolution: string; difference: string };
     firstPlaceholders: { percentage: string; evolution: string; difference: string };
     secondPlaceholders: { percentage: string; evolution: string; difference: string };
-    evolutionZero: string; differenceZero: string;
+    evolutionZero: string; differenceZero: string; invalid: string;
     percentageExplanation: (first: string, second: string, result: string) => string;
     increaseExplanation: (from: string, to: string, result: string) => string;
     decreaseExplanation: (from: string, to: string, result: string) => string;
@@ -104,7 +104,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       secondLabels: { percentage: "Valeur", evolution: "Valeur de départ", difference: "Deuxième valeur" },
       firstPlaceholders: { percentage: "Ex. 20", evolution: "Ex. 120", difference: "Ex. 100" },
       secondPlaceholders: { percentage: "Ex. 150", evolution: "Ex. 100", difference: "Ex. 120" },
-      evolutionZero: "La valeur de départ ne peut pas être égale à 0.", differenceZero: "Les deux valeurs ne peuvent pas être égales à 0.",
+      evolutionZero: "La valeur de départ ne peut pas être égale à 0.", differenceZero: "Les deux valeurs ne peuvent pas être égales à 0.", invalid: "Le résultat dépasse la précision numérique disponible.",
       percentageExplanation: (first, second, result) => `${first} % de ${second} = ${result}`,
       increaseExplanation: (from, to, result) => `La valeur est passée de ${from} à ${to}, soit une augmentation de ${result} %.`,
       decreaseExplanation: (from, to, result) => `La valeur est passée de ${from} à ${to}, soit une diminution de ${result} %.`,
@@ -187,7 +187,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       secondLabels: { percentage: "Value", evolution: "Starting value", difference: "Second value" },
       firstPlaceholders: { percentage: "e.g. 20", evolution: "e.g. 120", difference: "e.g. 100" },
       secondPlaceholders: { percentage: "e.g. 150", evolution: "e.g. 100", difference: "e.g. 120" },
-      evolutionZero: "The starting value cannot be 0.", differenceZero: "The two values cannot both be 0.",
+      evolutionZero: "The starting value cannot be 0.", differenceZero: "The two values cannot both be 0.", invalid: "The result exceeds the available numeric precision.",
       percentageExplanation: (first, second, result) => `${first}% of ${second} = ${result}`,
       increaseExplanation: (from, to, result) => `The value changed from ${from} to ${to}, an increase of ${result}%.`,
       decreaseExplanation: (from, to, result) => `The value changed from ${from} to ${to}, a decrease of ${result}%.`,

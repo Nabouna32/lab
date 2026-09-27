@@ -1,12 +1,18 @@
-export function calculateDiscountAmount(price: number, discountRate: number): number {
-  return (price * discountRate) / 100;
+export function calculateDiscountAmount(price: number, discountRate: number): number | null {
+  if (!isValidReductionPrice(price) || !isValidDiscountRate(discountRate)) return null;
+  const result = (price * discountRate) / 100;
+  return Number.isFinite(result) ? result : null;
 }
 
 export function calculateDiscountedPrice(
   price: number,
   discountRate: number,
-): number {
-  return price - calculateDiscountAmount(price, discountRate);
+): number | null {
+  const discountAmount = calculateDiscountAmount(price, discountRate);
+  if (discountAmount === null) return null;
+
+  const result = price - discountAmount;
+  return Number.isFinite(result) ? result : null;
 }
 
 export function isValidDiscountRate(discountRate: number): boolean {

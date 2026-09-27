@@ -18,6 +18,10 @@ test("rejects a zero reference value", () => {
   assert.throws(() => calculateRuleOfThree(0, 10, 5));
 });
 
+test("rejects non-finite results", () => {
+  assert.equal(calculateRuleOfThree(Number.MAX_VALUE, Number.MAX_VALUE, 2), null);
+});
+
 test("rejects non-finite values", () => {
   assert.equal(isValidRuleOfThreeInput(Number.NaN, 10, 5), false);
   assert.equal(isValidRuleOfThreeInput(4, Number.POSITIVE_INFINITY, 5), false);

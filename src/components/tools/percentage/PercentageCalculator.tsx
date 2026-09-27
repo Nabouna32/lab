@@ -25,26 +25,26 @@ export default function PercentageCalculator() {
 
   const first = Number(firstValue);
   const second = Number(secondValue);
-  const hasValues =
-    firstValue.trim() !== "" &&
-    secondValue.trim() !== "" &&
-    Number.isFinite(first) &&
-    Number.isFinite(second);
+  const hasValues = firstValue.trim() !== "" && secondValue.trim() !== "";
+  const hasNumericValues = Number.isFinite(first) && Number.isFinite(second);
 
   let result: number | null = null;
   let error: string | null = null;
 
-  if (hasValues) {
+  if (hasValues && hasNumericValues) {
     if (mode === "percentage") result = calculatePercentage(first, second);
+    if (mode === "percentage" && result === null) error = t.invalid;
     if (mode === "evolution") {
       result = calculateEvolution(first, second);
-      if (result === null) error = t.evolutionZero;
+      if (result === null) error = second === 0 ? t.evolutionZero : t.invalid;
     }
     if (mode === "difference") {
       result = calculateDifference(first, second);
-      if (result === null) error = t.differenceZero;
+      if (result === null) error = first === 0 && second === 0 ? t.differenceZero : t.invalid;
     }
   }
+
+  if (hasValues && !hasNumericValues) error = t.invalid;
 
   const modes = [
     { id: "percentage" as const, ...t.modes.percentage },

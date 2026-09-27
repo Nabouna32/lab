@@ -22,9 +22,11 @@ export default function RuleOfThreeCalculator() {
   const first = Number(firstValue);
   const result = Number(firstResult);
   const second = Number(secondValue);
-  const hasValues = firstValue.trim() !== "" && firstResult.trim() !== "" && secondValue.trim() !== "" && Number.isFinite(first) && Number.isFinite(result) && Number.isFinite(second);
-  const valid = hasValues && isValidRuleOfThreeInput(first, result, second);
+  const hasValues = firstValue.trim() !== "" && firstResult.trim() !== "" && secondValue.trim() !== "";
+  const hasNumericValues = Number.isFinite(first) && Number.isFinite(result) && Number.isFinite(second);
+  const valid = hasValues && hasNumericValues && isValidRuleOfThreeInput(first, result, second);
   const calculatedValue = valid ? calculateRuleOfThree(first, result, second) : null;
+  const calculationFailed = valid && calculatedValue === null;
   function clearValues() { setFirstValue(""); setFirstResult(""); setSecondValue(""); }
 
   return (
@@ -36,7 +38,7 @@ export default function RuleOfThreeCalculator() {
         <CalculatorField label={t.secondValue} inputId="rule-second-value" value={secondValue} onChange={(event) => setSecondValue(event.target.value)} placeholder={t.placeholders.second} />
         <CalculatorResult label={t.result} tone="accent" value={calculatedValue === null ? "—" : formatNumber(calculatedValue, locale)} />
       </div>
-      {hasValues && !valid && <p className="mt-4 text-sm font-medium text-[var(--foreground)]">{t.invalid}</p>}
+      {(hasValues && (!hasNumericValues || !valid)) || calculationFailed && <p className="mt-4 text-sm font-medium text-[var(--foreground)]">{t.invalid}</p>}
       {valid && calculatedValue !== null && (
         <details className="group mt-4 rounded-2xl border border-[var(--border)] bg-[var(--background)]">
           <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-4 text-sm font-semibold text-[var(--foreground)]"><span>{t.how}</span><span className="text-lg text-[var(--muted)] transition-transform group-open:rotate-45">+</span></summary>
