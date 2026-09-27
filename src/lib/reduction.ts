@@ -1,4 +1,5 @@
 export function calculateDiscountAmount(price: number, discountRate: number): number | null {
+  if (!isValidReductionPrice(price) || !isValidDiscountRate(discountRate)) return null;
   const result = (price * discountRate) / 100;
   return Number.isFinite(result) ? result : null;
 }
