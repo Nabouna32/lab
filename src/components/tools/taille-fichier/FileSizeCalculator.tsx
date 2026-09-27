@@ -49,7 +49,7 @@ export default function FileSizeCalculator() {
           {Object.entries({ kbps: getBitrateUnitLabel(locale, "kbps"), mbps: getBitrateUnitLabel(locale, "mbps"), gbps: getBitrateUnitLabel(locale, "gbps") }).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
         </Select>
         <Select label={t.sizeUnit} id="file-size-output-unit" value={sizeUnit} onChange={(event) => setSizeUnit(event.target.value as FileSizeUnit)} className="sm:col-span-2">
-          {Object.entries({ mb: getFileSizeCalculatorUnitLabel(locale, "mb"), gb: getFileSizeCalculatorUnitLabel(locale, "gb") }).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+          {Object.entries({ mb: getFileSizeCalculatorUnitLabel(locale, "mb", "long"), gb: getFileSizeCalculatorUnitLabel(locale, "gb", "long") }).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
         </Select>
       </div>
       {hasInvalidInput && <p id="file-size-error" role="alert" className="mt-4 text-sm font-medium text-[var(--danger)]">{t.invalid}</p>}
