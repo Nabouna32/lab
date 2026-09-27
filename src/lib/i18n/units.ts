@@ -54,6 +54,18 @@ const DURATION_SHORT_LABELS: Record<Locale, { day: string; hour: string; minute:
   en: { day: "d", hour: "h", minute: "min", second: "s" },
 };
 
+
+const DURATION_PART_LABELS: Record<Locale, Record<"days" | "hours" | "minutes" | "seconds", { singular: string; plural: string }>> = {
+  fr: {
+    days: { singular: "jour", plural: "jours" }, hours: { singular: "heure", plural: "heures" },
+    minutes: { singular: "minute", plural: "minutes" }, seconds: { singular: "seconde", plural: "secondes" },
+  },
+  en: {
+    days: { singular: "day", plural: "days" }, hours: { singular: "hour", plural: "hours" },
+    minutes: { singular: "minute", plural: "minutes" }, seconds: { singular: "second", plural: "seconds" },
+  },
+};
+
 const BITRATE_LABELS: Record<Locale, Record<BitrateUnit, string>> = {
   fr: { kbps: "Kbit/s", mbps: "Mbit/s", gbps: "Gbit/s" },
   en: { kbps: "Kbit/s", mbps: "Mbit/s", gbps: "Gbit/s" },
@@ -94,4 +106,9 @@ export function getBitrateUnitLabel(locale: Locale, unit: BitrateUnit): string {
 
 export function getFileSizeCalculatorUnitLabel(locale: Locale, unit: FileSizeUnit): string {
   return FILE_SIZE_CALCULATOR_LABELS[locale][unit];
+}
+
+export function formatDurationPart(locale: Locale, unit: "days" | "hours" | "minutes" | "seconds", value: number): string {
+  const labels = DURATION_PART_LABELS[locale][unit];
+  return `${value} ${value === 1 ? labels.singular : labels.plural}`;
 }
