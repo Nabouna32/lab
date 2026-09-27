@@ -40,7 +40,7 @@ test("mobile header keeps account action unique and opens search on demand", asy
 });
 
 test("tools page is search-first and exposes category discovery", async ({ page }) => {
-  await page.goto(`${baseUrl}/fr/outils`, { waitUntil: "networkidle" });
+  await page.goto(`${baseUrl}/fr/outils`, { waitUntil: "domcontentloaded" });
 
   await expect(page.getByRole("heading", { name: "Tous les outils" })).toBeVisible();
   await expect(page.getByLabel("Rechercher un outil")).toBeVisible();
