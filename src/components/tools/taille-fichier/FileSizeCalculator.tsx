@@ -11,6 +11,7 @@ import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { calculateFileSize, type BitrateUnit, type DurationUnit, type FileSizeUnit } from "@/lib/taille-fichier";
 import { formatToolNumber, parseLocalizedNumber } from "@/lib/numbers";
 import { getBitrateUnitLabel, getDurationUnitLabel, getFileSizeCalculatorUnitLabel } from "@/lib/i18n/units";
+import { ValidationMessage } from "@/components/ui/ValidationMessage";
 
 
 export default function FileSizeCalculator() {
@@ -52,11 +53,12 @@ export default function FileSizeCalculator() {
           {Object.entries({ mb: getFileSizeCalculatorUnitLabel(locale, "mb", "long"), gb: getFileSizeCalculatorUnitLabel(locale, "gb", "long") }).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
         </Select>
       </div>
-      {hasInvalidInput && <p id="file-size-error" role="alert" className="mt-4 text-sm font-medium text-[var(--danger)]">{t.invalid}</p>}
+      {hasInvalidInput && <ValidationMessage id="file-size-error">{t.invalid}</ValidationMessage>}
       <div className="mt-6">
         <CalculatorResult
           label={t.result}
-          value={result === null ? "—" : `${formatToolNumber(result, locale, 2)} ${getFileSizeCalculatorUnitLabel(locale, sizeUnit)}`}
+          value={result === null ? null : `${formatToolNumber(result, locale, 2)} ${getFileSizeCalculatorUnitLabel(locale, sizeUnit)}`}
+          emptyMessage={t.emptyResult}
           tone="accent"
         />
       </div>
