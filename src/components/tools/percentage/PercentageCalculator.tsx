@@ -36,13 +36,14 @@ export default function PercentageCalculator() {
 
   if (hasValues) {
     if (mode === "percentage") result = calculatePercentage(first, second);
+    if (mode === "percentage" && result === null) error = t.invalid;
     if (mode === "evolution") {
       result = calculateEvolution(first, second);
-      if (result === null) error = t.evolutionZero;
+      if (result === null) error = second === 0 ? t.evolutionZero : t.invalid;
     }
     if (mode === "difference") {
       result = calculateDifference(first, second);
-      if (result === null) error = t.differenceZero;
+      if (result === null) error = first === 0 && second === 0 ? t.differenceZero : t.invalid;
     }
   }
 
