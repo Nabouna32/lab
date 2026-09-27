@@ -36,7 +36,7 @@ export default function ToolProcessingStatus({
           <span className="ml-0.5 text-[var(--accent)]" aria-hidden="true">ⓘ</span>
         </summary>
         <div className="absolute right-0 top-full z-20 mt-2 w-[min(30rem,calc(100vw-2rem))] rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-4 text-sm leading-6 text-[var(--muted)] shadow-[var(--shadow-lg)]">
-          <p className="text-[var(--foreground)]">{processing.description[locale] ?? processing.description.fr}</p>
+          <p className="text-[var(--foreground)]">{processing.description[locale] ?? processing.description.en}</p>
           {processing.mode === "local" ? (
             <p className="mt-3 border-t border-[var(--border)] pt-3">
               {t.localDetail}
