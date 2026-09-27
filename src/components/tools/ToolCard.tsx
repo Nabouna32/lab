@@ -1,15 +1,9 @@
-"use client";
-
-import { usePathname } from "next/navigation";
-import { isLocale, type Locale } from "@/lib/i18n/config";
+import type { Locale } from "@/lib/i18n/config";
 import { getPrimaryToolCategory, getToolContent } from "@/lib/tools/types";
 import type { Tool } from "@/lib/tools/types";
 import { Card } from "@/components/ui/Card";
 
-export default function ToolCard({ tool, categoryName }: { tool: Tool; categoryName?: string }) {
-  const pathname = usePathname();
-  const segment = pathname.split("/")[1];
-  const locale: Locale = isLocale(segment) ? segment : "fr";
+export default function ToolCard({ tool, locale, categoryName }: { tool: Tool; locale: Locale; categoryName?: string }) {
   const content = getToolContent(tool, locale);
   return (
     <Card href={"/" + locale + "/outils/" + getPrimaryToolCategory(tool) + "/" + tool.slug} className="group flex min-h-52 flex-col p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--accent)]/40 hover:shadow-[var(--shadow-md)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]">
