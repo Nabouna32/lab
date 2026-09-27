@@ -3,9 +3,40 @@ import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
 import { tools } from "@/lib/tools/tools";
 
+function getWeekNumber(date: Date): number {
+  const start = new Date(Date.UTC(2024, 0, 1));
+  const current = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+  return Math.floor((current - start.getTime()) / (7 * 24 * 60 * 60 * 1000));
+}
+
+function getDiscoveryTools() {
+  const availableTools = tools.filter((tool) => tool.available);
+  if (availableTools.length <= 6) return availableTools;
+
+  const offset = ((getWeekNumber(new Date()) % availableTools.length) + availableTools.length) % availableTools.length;
+  const rotated = [...availableTools.slice(offset), ...availableTools.slice(0, offset)];
+  const selected = [];
+  const seenCategories = new Set<string>();
+
+  for (const tool of rotated) {
+    if (!seenCategories.has(tool.categoryId)) {
+      selected.push(tool);
+      seenCategories.add(tool.categoryId);
+    }
+    if (selected.length === 6) return selected;
+  }
+
+  for (const tool of rotated) {
+    if (!selected.includes(tool)) selected.push(tool);
+    if (selected.length === 6) break;
+  }
+
+  return selected;
+}
+
 export default function DiscoverTools({ locale }: { locale: Locale }) {
   const t = getMessages(locale);
-  const featuredTools = tools.filter((tool) => tool.available).slice(0, 6);
+  const featuredTools = getDiscoveryTools();
 
   return (
     <section className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8" aria-labelledby="discover-tools-title">
