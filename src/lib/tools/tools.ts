@@ -65,9 +65,8 @@ const toolDefinitions: ToolDefinition[] = [
     complexity: "small",
     categories: ["calculs"],
     tags: ["%", "évolution", "différence", "variation", "taux"],
-    aliases: [],
-    lifecycle: "published",
-    capabilities: ["clipboard"],
+    aliases: ["%", "évolution", "différence", "variation", "taux"],
+    lifecycle: "published",    capabilities: ["clipboard"],
     content: {
       fr: { name: "Calculateur de pourcentage", description: "Calculez facilement un pourcentage, une évolution ou une différence." },
       en: { name: "Percentage Calculator", description: "Easily calculate a percentage, change, or difference." },
@@ -79,9 +78,8 @@ const toolDefinitions: ToolDefinition[] = [
     complexity: "small",
     categories: ["calculs"],
     tags: ["remise", "promotion", "solde", "prix", "économie"],
-    aliases: [],
-    lifecycle: "published",
-    content: {
+    aliases: ["remise", "promotion", "solde", "prix", "économie"],
+    lifecycle: "published",    content: {
       fr: { name: "Calculateur de réduction", description: "Calculez le prix après une réduction et le montant économisé." },
       en: { name: "Discount Calculator", description: "Calculate the price after a discount and the amount saved." },
     },
@@ -92,7 +90,7 @@ const toolDefinitions: ToolDefinition[] = [
     complexity: "small",
     categories: ["calculs"],
     tags: ["taxe", "hors taxe", "toutes taxes", "prix", "tva", "ht", "ttc"],
-    aliases: [],
+    aliases: ["taxe", "hors taxe", "toutes taxes", "prix", "tva", "ht", "ttc"],
     lifecycle: "published",    content: {
       fr: { name: "Calculateur TVA HT / TTC", description: "Convertissez facilement un prix HT en TTC et inversement." },
       en: { name: "VAT Calculator", description: "Convert prices between net and gross amounts with VAT." },
@@ -104,7 +102,7 @@ const toolDefinitions: ToolDefinition[] = [
     complexity: "small",
     categories: ["calculs"],
     tags: ["proportion", "proportionnalité", "ratio", "quantité", "prix"],
-    aliases: [],
+    aliases: ["proportion", "proportionnalité", "ratio", "quantité", "prix"],
     lifecycle: "published",
     content: {
       fr: { name: "Règle de trois", description: "Résolvez rapidement vos calculs de proportionnalité." },
@@ -117,7 +115,7 @@ const toolDefinitions: ToolDefinition[] = [
     complexity: "small",
     categories: ["dates"],
     tags: ["anniversaire", "naissance", "date"],
-    aliases: [],
+    aliases: ["anniversaire", "naissance", "date"],
     lifecycle: "published",
     content: {
       fr: { name: "Calculateur d'âge", description: "Calculez précisément votre âge à partir d'une date de naissance." },
@@ -130,7 +128,7 @@ const toolDefinitions: ToolDefinition[] = [
     complexity: "small",
     categories: ["dates"],
     tags: ["temps", "date", "heures", "jours", "intervalle"],
-    aliases: [],
+    aliases: ["temps", "date", "heures", "jours", "intervalle"],
     lifecycle: "published",
     content: {
       fr: { name: "Calculateur de durée", description: "Calculez la durée entre deux dates ou deux horaires." },
@@ -143,7 +141,7 @@ const toolDefinitions: ToolDefinition[] = [
     complexity: "small",
     categories: ["informatique"],
     tags: ["internet", "débit", "connexion", "megabit", "mégaoctet"],
-    aliases: [],
+    aliases: ["internet", "débit", "connexion", "megabit", "mégaoctet"],
     lifecycle: "published",
     content: {
       fr: { name: "Mbps ↔ Mo/s", description: "Convertissez une vitesse Internet entre Mbps et Mo/s." },
@@ -156,7 +154,7 @@ const toolDefinitions: ToolDefinition[] = [
     complexity: "small",
     categories: ["informatique"],
     tags: ["download", "internet", "débit", "fichier", "durée"],
-    aliases: [],
+    aliases: ["download", "internet", "débit", "fichier", "durée"],
     lifecycle: "published",
     content: {
       fr: { name: "Temps de téléchargement", description: "Estimez le temps nécessaire pour télécharger un fichier." },
@@ -169,7 +167,7 @@ const toolDefinitions: ToolDefinition[] = [
     complexity: "advanced",
     categories: ["informatique"],
     tags: ["poids", "taille", "stockage", "vidéo", "audio", "bitrate"],
-    aliases: [],
+    aliases: ["poids", "taille", "stockage", "vidéo", "audio", "bitrate"],
     lifecycle: "published",
     content: {
       fr: { name: "Calculateur de taille de fichier", description: "Estimez la taille d'un fichier selon sa durée et son débit." },
@@ -182,7 +180,7 @@ const toolDefinitions: ToolDefinition[] = [
     complexity: "small",
     categories: ["informatique"],
     tags: ["ko", "mo", "go", "to", "octets", "stockage"],
-    aliases: [],
+    aliases: ["ko", "mo", "go", "to", "octets", "stockage"],
     lifecycle: "published",
     content: {
       fr: { name: "Convertisseur de taille", description: "Convertissez facilement ko, Mo, Go, To, Kio, Mio, Gio, Tio et autres unités." },
@@ -195,7 +193,7 @@ const toolDefinitions: ToolDefinition[] = [
     complexity: "small",
     categories: ["fichiers"],
     tags: ["texte", "lettres", "compter", "ligne", "paragraphes"],
-    aliases: [],
+    aliases: ["texte", "lettres", "compter", "ligne", "paragraphes"],
     lifecycle: "published",
     capabilities: ["clipboard"],
     content: {
@@ -209,7 +207,7 @@ const toolDefinitions: ToolDefinition[] = [
     complexity: "advanced",
     categories: ["video"],
     tags: ["vidéo", "qualité", "débit", "encodage", "compression"],
-    aliases: [],
+    aliases: ["vidéo", "qualité", "débit", "encodage", "compression"],
     lifecycle: "draft",
     content: {
       fr: { name: "Calculateur bitrate vidéo", description: "Calculez le bitrate ou la taille approximative d'une vidéo." },
