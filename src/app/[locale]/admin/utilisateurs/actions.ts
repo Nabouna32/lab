@@ -39,7 +39,7 @@ export async function suspendUser(formData: FormData) {
   await updateSuspension(formData, "suspend");
 }
 
-export async function unsuspendUser(formData: FormData) {
+export async function revokeUserSessions(formData: FormData) {\n  const locale = readLocale(formData);\n  const userId = readUserId(formData);\n  if (!userId) redirect(`/${locale}/admin/utilisateurs?error=invalid`);\n  const supabase = await createClient();\n  const { error } = await supabase.functions.invoke("admin-user-sessions", { body: { targetUserId: userId } });\n  redirect(`/${locale}/admin/utilisateurs?status=${error ? "error" : "sessions-revoked"}`);\n}\n\nexport async function unsuspendUser(formData: FormData) {
   await updateSuspension(formData, "unsuspend");
 }
 
