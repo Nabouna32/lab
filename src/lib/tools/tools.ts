@@ -66,7 +66,8 @@ const toolDefinitions: ToolDefinition[] = [
     categories: ["calculs"],
     tags: ["%", "évolution", "différence", "variation", "taux"],
     aliases: [],
-    lifecycle: "published",    capabilities: ["clipboard"],
+    lifecycle: "published",
+    capabilities: ["clipboard"],
     content: {
       fr: { name: "Calculateur de pourcentage", description: "Calculez facilement un pourcentage, une évolution ou une différence." },
       en: { name: "Percentage Calculator", description: "Easily calculate a percentage, change, or difference." },
