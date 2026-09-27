@@ -24,6 +24,12 @@
 - Converted related-tool rendering to a server component using the route-resolved locale.
 - Moved published tool editorial content out of the central switch and into the corresponding tool modules.
 
+## Recent functional audit
+
+- Hardened published numeric tools against non-finite calculation results and surfaced invalid numeric input instead of silently hiding results.
+- Hardened the download-speed and file-size converters against numeric overflow at their domain boundaries.
+- Updated the text counter to count Unicode grapheme clusters, so joined emoji and other user-perceived characters are counted as one character.
+
 ## Platform audit conclusions
 
 ### Processing and external services
