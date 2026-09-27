@@ -615,3 +615,22 @@ Structural i18n tests can verify that translations exist and remain coherent, bu
 - French remains `complete` as the currently declared fully reviewed initial language.
 - Future translation work may change a locale from `partial` to `complete` only when the supported user-facing scope has been reviewed.
 - Structural tests protect translation integrity but do not automatically promote a locale's readiness status.
+
+## DEC-030 — Priorité limitée de la personnalisation
+
+**Status:** Accepted
+
+### Decision
+
+The account personalization direction is intentionally staged. **Favorites and collections** are the primary personalization capabilities to pursue when this area is prioritized. Broader personalization — personalized home, tool ordering, hidden tools, configurable visible elements, synchronized history, density/style preferences and similar controls — remains a later, optional direction.
+
+### Reason
+
+Personalization can add real recurring value, but building a broad preference system increases product and maintenance complexity. Utiluna should first validate the simpler, directly useful primitives of favorites and collections before committing to a larger personalization surface.
+
+### Consequences
+
+- Do not treat the full personalization list as current committed scope.
+- Favorites and collections remain the intended first scope for a future personalization phase.
+- Broader personalization must not drive current architecture or add maintenance cost prematurely.
+- This decision does not change anonymous-first usage or the long-term three-layer product model.
