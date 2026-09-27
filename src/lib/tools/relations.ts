@@ -14,7 +14,7 @@ function getTerms(tool: Tool): string[] {
  */
 export function getRelatedTools(
   tool: Tool,
-  allTools: Tool[],
+  allTools: readonly Tool[],
   limit = 3,
 ): Tool[] {
   const sourceTerms = new Set(getTerms(tool));
