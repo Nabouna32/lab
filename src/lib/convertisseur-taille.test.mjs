@@ -30,3 +30,8 @@ test("rejects negative values", () => {
 test("rejects non-finite values", () => {
   assert.throws(() => convertFileSize(Number.NaN, "mo", "go"), RangeError);
 });
+
+
+test("rejects unknown units at runtime", () => {
+  assert.throws(() => convertFileSize(1, "ko", "unknown"), RangeError);
+});
