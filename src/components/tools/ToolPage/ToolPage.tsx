@@ -24,7 +24,7 @@ export default function ToolPage({
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-3 sm:px-6 sm:py-5 lg:px-8 lg:py-6">
-      <Breadcrumbs locale={locale} items={[{ label: t.nav.tools, href: `/${locale}/outils` }, { label: getCategoryName(locale, getPrimaryToolCategory(tool)), href: `/${locale}/outils/${tool.categoryId}` }, { label: localizedContent.name }]} />
+      <Breadcrumbs locale={locale} items={[{ label: t.nav.tools, href: `/${locale}/outils` }, { label: getCategoryName(locale, getPrimaryToolCategory(tool)), href: `/${locale}/outils/${getPrimaryToolCategory(tool)}` }, { label: localizedContent.name }]} />
       <ToolPageHeader
         icon={tool.icon}
         title={localizedContent.name}
