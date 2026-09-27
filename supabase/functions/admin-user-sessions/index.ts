@@ -24,7 +24,6 @@ Deno.serve(async (req) => {
   }
 
   const client = createClient(url, publishableKey, { global: { headers: { Authorization: authHeader } }, auth: { autoRefreshToken: false, persistSession: false, detectSessionInUrl: false } });
-  const adminClient = createClient(url, secretKey, { auth: { autoRefreshToken: false, persistSession: false, detectSessionInUrl: false } });
 
   const { data: actor, error: actorError } = await client.auth.getUser();
   if (actorError || !actor.user) return Response.json({ error: "Unauthorized." }, { status: 401 });
