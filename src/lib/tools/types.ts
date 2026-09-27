@@ -84,6 +84,14 @@ export function getToolContent(tool: Tool, locale: Locale): ToolLocalizedContent
   return tool.content[locale] ?? tool.content.en;
 }
 
+export function isToolContentFallback(tool: Tool, locale: Locale): boolean {
+  return tool.content[locale] === undefined;
+}
+
+export function isToolProcessingDescriptionFallback(processing: ToolProcessingMetadata, locale: Locale): boolean {
+  return processing.description[locale] === undefined;
+}
+
 export function getPrimaryToolCategory(tool: Tool): string {
   const category = tool.categories[0];
   if (!category) throw new Error(`Tool "${tool.id}" must declare at least one category.`);
