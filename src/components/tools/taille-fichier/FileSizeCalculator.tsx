@@ -10,6 +10,7 @@ import { useLocale } from "@/lib/i18n/use-locale";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { calculateFileSize, type BitrateUnit, type DurationUnit, type FileSizeUnit } from "@/lib/taille-fichier";
 import { formatToolNumber, parseLocalizedNumber } from "@/lib/numbers";
+import { getBitrateUnitLabel, getDurationUnitLabel, getFileSizeCalculatorUnitLabel } from "@/lib/i18n/units";
 
 
 export default function FileSizeCalculator() {
@@ -41,21 +42,21 @@ export default function FileSizeCalculator() {
       <div className="mt-4 grid gap-5 sm:grid-cols-2">
         <CalculatorField label={t.duration} inputId="file-size-duration" min="0" step="any" value={duration} onChange={(event) => setDuration(event.target.value)} placeholder={t.durationPlaceholder}  aria-invalid={hasInvalidInput} aria-describedby="file-size-error"/>
         <Select label={t.durationUnit} id="file-size-duration-unit" value={durationUnit} onChange={(event) => setDurationUnit(event.target.value as DurationUnit)}>
-          {Object.entries(t.durationUnits).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+          {Object.entries({ seconds: getDurationUnitLabel(locale, "seconds"), minutes: getDurationUnitLabel(locale, "minutes"), hours: getDurationUnitLabel(locale, "hours") }).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
         </Select>
         <CalculatorField label={t.bitrate} inputId="file-size-bitrate" min="0" step="any" value={bitrate} onChange={(event) => setBitrate(event.target.value)} placeholder={t.bitratePlaceholder}  aria-invalid={hasInvalidInput} aria-describedby="file-size-error"/>
         <Select label={t.bitrateUnit} id="file-size-bitrate-unit" value={bitrateUnit} onChange={(event) => setBitrateUnit(event.target.value as BitrateUnit)}>
-          {Object.entries(t.bitrateUnits).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+          {Object.entries({ kbps: getBitrateUnitLabel(locale, "kbps"), mbps: getBitrateUnitLabel(locale, "mbps"), gbps: getBitrateUnitLabel(locale, "gbps") }).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
         </Select>
         <Select label={t.sizeUnit} id="file-size-output-unit" value={sizeUnit} onChange={(event) => setSizeUnit(event.target.value as FileSizeUnit)} className="sm:col-span-2">
-          {Object.entries(t.sizeUnits).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+          {Object.entries({ mb: getFileSizeCalculatorUnitLabel(locale, "mb"), gb: getFileSizeCalculatorUnitLabel(locale, "gb") }).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
         </Select>
       </div>
       {hasInvalidInput && <p id="file-size-error" role="alert" className="mt-4 text-sm font-medium text-[var(--danger)]">{t.invalid}</p>}
       <div className="mt-6">
         <CalculatorResult
           label={t.result}
-          value={result === null ? "—" : `${formatToolNumber(result, locale, 2)} ${sizeUnit === "mb" ? (locale === "fr" ? "Mo" : "MB") : (locale === "fr" ? "Go" : "GB")}`}
+          value={result === null ? "—" : `${formatToolNumber(result, locale, 2)} ${getFileSizeCalculatorUnitLabel(locale, sizeUnit)}`}
           tone="accent"
         />
       </div>
