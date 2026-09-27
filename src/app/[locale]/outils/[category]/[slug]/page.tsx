@@ -5,6 +5,7 @@ import { getToolByRoute, toolRegistry } from "@/lib/tools/registry";
 import { getPrimaryToolCategory } from "@/lib/tools/types";
 import ToolPage from "@/components/tools/ToolPage/ToolPage";
 import RelatedTools from "@/components/tools/RelatedTools";
+import ToolRenderer from "@/components/tools/ToolRenderer";
 
 export async function generateStaticParams() {
   return locales.flatMap((locale) =>
@@ -46,10 +47,7 @@ export default async function ToolRoute({
   if (!entry) notFound();
 
   const locale: Locale = localeParam;
-  const [{ default: ToolComponent }, { default: ToolEditorial }] = await Promise.all([
-    entry.module.load(),
-    entry.module.loadEditorial(),
-  ]);
+  const { default: ToolEditorial } = await entry.module.loadEditorial();
 
   return (
     <ToolPage
@@ -62,7 +60,7 @@ export default async function ToolRoute({
         </>
       }
     >
-      <ToolComponent />
+      <ToolRenderer toolId={entry.tool.id} />
     </ToolPage>
   );
 }

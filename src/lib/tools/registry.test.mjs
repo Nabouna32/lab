@@ -20,7 +20,7 @@ async function readPublishedToolIds() {
 test("every published tool has exactly one registry module", async () => {
   const source = await readFile(registryFile, "utf8");
   const publishedIds = await readPublishedToolIds();
-  const registeredIds = [...source.matchAll(/^\s+(?:"([^"]+)"|([a-z0-9-]+)): \{[\s\S]*?load:/gm)].map(
+  const registeredIds = [...source.matchAll(/^\s+(?:"([^"]+)"|([a-z0-9-]+)): \{[\s\S]*?loadEditorial:/gm)].map(
     ([, quotedId, bareId]) => quotedId ?? bareId,
   );
 
