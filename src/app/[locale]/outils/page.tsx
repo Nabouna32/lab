@@ -1,5 +1,6 @@
 import ToolCard from "@/components/tools/ToolCard";
-import { categories, getCategoryName } from "@/lib/tools/categories";
+import ToolSearch from "@/components/tools/ToolSearch";
+import { categories, getCategoryName, getToolCount } from "@/lib/tools/categories";
 import { getToolsByCategory } from "@/lib/tools/catalog";
 
 import { getMessages } from "@/lib/i18n/messages";
@@ -11,36 +12,65 @@ export default async function ToolsPage({ params }: { params: Promise<{ locale: 
   if (!isLocale(rawLocale)) notFound();
   const locale: Locale = rawLocale;
   const t = getMessages(locale);
-  const visibleCategories = categories.filter((category) => getToolsByCategory(category.id).length > 0);
+  const visibleCategories = categories.filter((category) => getToolCount(category.id) > 0);
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
-      <div className="relative overflow-visible rounded-[2rem] border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow-sm)] sm:p-8 lg:p-10">
+      <section className="relative overflow-visible rounded-[2rem] border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow-sm)] sm:p-8 lg:p-10">
         <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[var(--accent)]/8 blur-3xl" />
-        <div className="relative max-w-3xl">
+        <div className="relative mx-auto max-w-3xl text-center">
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--accent)]">{t.tools.eyebrow}</p>
           <h1 className="mt-2 text-3xl font-black tracking-[-0.04em] sm:text-5xl">{t.tools.title}</h1>
-          <p className="mt-4 max-w-2xl text-base leading-7 text-[var(--muted)] sm:text-lg">{t.tools.description}</p>
+          <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-[var(--muted)] sm:text-lg">{t.tools.description}</p>
+          <div className="mx-auto mt-7 max-w-2xl text-left">
+            <ToolSearch locale={locale} instanceId="tools-page-search" />
+          </div>
         </div>
-      </div>
-      <div className="mt-12 space-y-14">
-        {visibleCategories.map((category) => {
-          const categoryTools = getToolsByCategory(category.id);
-          return (
-            <section key={category.id}>
-              <div className="mb-5 flex items-end justify-between gap-4">
-                <div>
-                  <h2 className="text-xl font-bold tracking-[-0.02em] sm:text-2xl">{category.icon} {getCategoryName(locale, category.id)}</h2>
-                  <p className="mt-1 text-sm text-[var(--muted)]">{categoryTools.length} {categoryTools.length === 1 ? t.tools.one : t.tools.many}</p>
-                </div>
-              </div>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {categoryTools.map((tool) => <ToolCard key={tool.id} tool={tool} categoryName={getCategoryName(locale, category.id)} />)}
-              </div>
-            </section>
-          );
-        })}
-      </div>
+      </section>
+
+      <section className="mt-10 sm:mt-12" aria-labelledby="tools-categories-heading">
+        <div className="mb-5">
+          <h2 id="tools-categories-heading" className="text-xl font-bold tracking-[-0.02em] sm:text-2xl">{t.tools.categoriesTitle}</h2>
+          <p className="mt-1 text-sm leading-6 text-[var(--muted)]">{t.tools.categoriesDescription}</p>
+        </div>
+
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {visibleCategories.map((category) => {
+            const count = getToolCount(category.id);
+            return (
+              <a
+                key={category.id}
+                href={`/${locale}/outils/${category.id}`}
+                className="group flex items-center gap-4 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4 shadow-[var(--shadow-sm)] transition-all duration-200 hover:-translate-y-0.5 hover:border-[var(--accent)]/40 hover:shadow-[var(--shadow-md)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]"
+              >
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[var(--accent-soft)] text-2xl" aria-hidden="true">{category.icon}</span>
+                <span className="min-w-0 flex-1">
+                  <span className="block font-bold tracking-[-0.01em]">{getCategoryName(locale, category.id)}</span>
+                  <span className="mt-1 block text-sm text-[var(--muted)]">{count} {count === 1 ? t.tools.one : t.tools.many}</span>
+                </span>
+                <span className="text-lg text-[var(--muted)] transition-transform group-hover:translate-x-0.5" aria-hidden="true">→</span>
+              </a>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="mt-12 border-t border-[var(--border)] pt-10 sm:mt-14 sm:pt-12" aria-labelledby="tools-browse-heading">
+        <div className="mb-5 flex items-end justify-between gap-4">
+          <div>
+            <h2 id="tools-browse-heading" className="text-xl font-bold tracking-[-0.02em] sm:text-2xl">{t.tools.browseTitle}</h2>
+            <p className="mt-1 text-sm text-[var(--muted)]">{t.tools.browseDescription}</p>
+          </div>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {visibleCategories.flatMap((category) => {
+            const categoryName = getCategoryName(locale, category.id);
+            return getToolsByCategory(category.id).map((tool) => (
+              <ToolCard key={tool.id} tool={tool} categoryName={categoryName} />
+            ));
+          })}
+        </div>
+      </section>
     </main>
   );
 }
