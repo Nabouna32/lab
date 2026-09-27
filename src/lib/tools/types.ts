@@ -35,7 +35,7 @@ export type ToolExample = { label: string; description?: string };
 export type ToolSeoMetadata = { title: string; description: string };
 export type ToolProcessingMetadata = {
   mode: ToolProcessingMode;
-  description: Partial<Record<Locale, string>> & { fr: string };
+  description: Partial<Record<Locale, string>> & { en: string };
   dataCategories: string[];
   externalProviders: string[];
   storage: "none" | "local" | "utiluna" | "external" | "hybrid";
