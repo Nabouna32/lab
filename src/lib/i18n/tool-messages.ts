@@ -44,14 +44,11 @@ type ToolMessages = {
     placeholders: { ht: string; ttc: string; rate: string }; invalid: string; how: string; explanation: (rate: string, vat: string) => string;
   };
   fileSizeCalculator: {
-    duration: string; durationPlaceholder: string; durationUnit: string; durationUnits: Record<string, string>;
-    bitrate: string; bitratePlaceholder: string; bitrateUnit: string; bitrateUnits: Record<string, string>;
-    sizeUnit: string; sizeUnits: Record<string, string>; result: string; note: string; invalid: string;
+    duration: string; durationPlaceholder: string; durationUnit: string;     bitrate: string; bitratePlaceholder: string; bitrateUnit: string;     sizeUnit: string; sizeUnits: Record<string, string>; result: string; note: string; invalid: string;
   };
   fileSize: {
     value: string; from: string; to: string; result: string; placeholder: string; invalid: string;
-    units: Record<string, string>;
-  };
+      };
   downloadTime: {
     fileSize: string; sizeUnit: string; speed: string; speedUnit: string; placeholderSize: string; placeholderSpeed: string;
     estimated: string; seconds: (value: string) => string; note: string; invalid: string;
@@ -60,8 +57,7 @@ type ToolMessages = {
   };
   downloadSpeed: {
     value: string; from: string; to: string; result: string; placeholder: string; invalid: string;
-    units: Record<string, string>; shortUnits: Record<string, string>;
-  };
+    units: Record<string, string>;   };
   textCounter: {
     input: string; placeholder: string; characters: string; charactersWithoutSpaces: string;
     words: string; spaces: string; lines: string; clear: string; copyStats: string;
@@ -72,10 +68,8 @@ export const toolMessages: Record<Locale, ToolMessages> = {
   fr: {
     fileSizeCalculator: {
       duration: "Durée", durationPlaceholder: "Ex. 10", durationUnit: "Unité de durée",
-      durationUnits: { seconds: "Secondes", minutes: "Minutes", hours: "Heures" },
       bitrate: "Débit", bitratePlaceholder: "Ex. 8", bitrateUnit: "Unité de débit",
-      bitrateUnits: { kbps: "Kbit/s", mbps: "Mbit/s", gbps: "Gbit/s" },
-      sizeUnit: "Unité de taille", sizeUnits: { mb: "Mégaoctets (Mo)", gb: "Gigaoctets (Go)" },
+      sizeUnit: "Unité de taille",
       result: "Taille estimée", note: "Estimation théorique à débit constant. Les unités de taille et de débit sont décimales.",
       invalid: "Saisissez une durée et un débit valides, positifs ou nuls.",
     },
@@ -134,22 +128,18 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     fileSize: {
       value: "Valeur à convertir", from: "Unité de départ", to: "Unité d'arrivée", result: "Résultat", placeholder: "Ex. 1,5",
       invalid: "Saisissez une valeur positive ou nulle.",
-      units: { o: "Octets (o)", ko: "Kilooctets (ko) — 1 000 o", mo: "Mégaoctets (Mo) — 1 000 000 o", go: "Gigaoctets (Go) — 1 000 000 000 o", to: "Téraoctets (To) — 1 000 000 000 000 o", kio: "Kio — 1 024 o", mio: "Mio — 1 048 576 o", gio: "Gio — 1 073 741 824 o", tio: "Tio — 1 099 511 627 776 o" },
+
     },
     downloadTime: {
       fileSize: "Taille du fichier", sizeUnit: "Unité de taille du fichier", speed: "Vitesse de téléchargement", speedUnit: "Unité de vitesse de téléchargement",
       placeholderSize: "Ex. 10", placeholderSpeed: "Ex. 100", estimated: "Temps estimé", seconds: (value) => `Soit environ ${value} secondes.`,
       note: "Estimation théorique à débit constant. Les unités de taille et de débit sont décimales.",
       invalid: "Saisissez une taille valide et une vitesse strictement supérieure à 0.",
-      sizeUnits: { ko: "ko", mo: "Mo", go: "Go", to: "To" },
-      speedUnits: { kbps: "kb/s", mbps: "Mb/s", gbps: "Gb/s", "ko-s": "ko/s", "mo-s": "Mo/s", "go-s": "Go/s" },
-      duration: { day: "j", hour: "h", minute: "min", second: "s" },
     },
     downloadSpeed: {
       value: "Vitesse à convertir", from: "Unité de départ", to: "Unité d'arrivée", result: "Résultat", placeholder: "Ex. 100",
       invalid: "Saisissez une vitesse positive ou nulle.",
-      units: { mbps: "Mégabits/s (Mbit/s)", gbps: "Gigabits/s (Gbit/s)", "ko-s": "Kilooctets/s (ko/s)", "mo-s": "Mégaoctets/s (Mo/s)", "go-s": "Gigaoctets/s (Go/s)" },
-      shortUnits: { mbps: "Mbit/s", gbps: "Gbit/s", "ko-s": "ko/s", "mo-s": "Mo/s", "go-s": "Go/s" },
+
     },
     textCounter: {
       input: "Votre texte", placeholder: "Saisissez ou collez votre texte ici…", characters: "Caractères",
@@ -159,10 +149,8 @@ export const toolMessages: Record<Locale, ToolMessages> = {
   en: {
     fileSizeCalculator: {
       duration: "Duration", durationPlaceholder: "e.g. 10", durationUnit: "Duration unit",
-      durationUnits: { seconds: "Seconds", minutes: "Minutes", hours: "Hours" },
       bitrate: "Bitrate", bitratePlaceholder: "e.g. 8", bitrateUnit: "Bitrate unit",
-      bitrateUnits: { kbps: "Kbit/s", mbps: "Mbit/s", gbps: "Gbit/s" },
-      sizeUnit: "Size unit", sizeUnits: { mb: "Megabytes (MB)", gb: "Gigabytes (GB)" },
+      sizeUnit: "Size unit",
       result: "Estimated size", note: "Theoretical estimate at a constant bitrate. Size and bitrate units are decimal.",
       invalid: "Enter a valid duration and bitrate, both 0 or greater.",
     },
@@ -228,9 +216,6 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       placeholderSize: "e.g. 10", placeholderSpeed: "e.g. 100", estimated: "Estimated time", seconds: (value) => `About ${value} seconds.`,
       note: "Theoretical estimate at a constant rate. Size and speed units are decimal.",
       invalid: "Enter a valid file size and a speed greater than 0.",
-      sizeUnits: { ko: "kB", mo: "MB", go: "GB", to: "TB" },
-      speedUnits: { kbps: "kb/s", mbps: "Mb/s", gbps: "Gb/s", "ko-s": "kB/s", "mo-s": "MB/s", "go-s": "GB/s" },
-      duration: { day: "d", hour: "h", minute: "min", second: "s" },
     },
     downloadSpeed: {
       value: "Speed to convert", from: "From unit", to: "To unit", result: "Result", placeholder: "e.g. 100",
