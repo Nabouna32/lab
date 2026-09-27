@@ -81,7 +81,7 @@ export default async function AdminUsersPage({
       </form>
 
       {usersError ? (
-        <p className="mt-6 rounded-xl bg-[var(--danger-soft)] px-4 py-3 text-sm text-[var(--danger)]" role="alert">{usersError.message}</p>
+        <p className="mt-6 rounded-xl bg-[var(--danger-soft)] px-4 py-3 text-sm text-[var(--danger)]" role="alert">{t.admin.usersLoadError}</p>
       ) : users?.length ? (
         <section className="mt-8 space-y-4" aria-label={t.admin.usersTitle}>
           {(users as UserRow[]).map((user) => {

@@ -51,7 +51,7 @@ export default async function AdminAuditPage({
 
       {error ? (
         <p className="mt-8 rounded-xl bg-[var(--danger-soft)] px-4 py-3 text-sm text-[var(--danger)]" role="alert">
-          {error.message}
+          {t.admin.auditLoadError}
         </p>
       ) : entries.length === 0 ? (
         <p className="mt-8 rounded-2xl border border-[var(--border)] bg-[var(--surface-soft)] p-6 text-[var(--muted)]">
