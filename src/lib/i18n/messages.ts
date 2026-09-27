@@ -1,5 +1,5 @@
 import type { Locale } from "./config.ts";
-import { formatPlural } from "./plural";
+import { formatPlural } from "./plural.ts";
 
 export type Messages = {
   nav: { home: string; tools: string; explore: string; language: string; account: string; space: string; menu: string; closeSearch: string };
