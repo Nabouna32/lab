@@ -2,7 +2,7 @@ import test from "node:test";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import assert from "node:assert/strict";
-import { locales, languages } from "../i18n/config.ts";
+import { getIntlLocale, locales, languages } from "../i18n/config.ts";
 import { getMessages } from "../i18n/messages.ts";
 
 test("i18n registry exposes the initial languages", () => {
@@ -13,6 +13,10 @@ test("i18n registry exposes the initial languages", () => {
   assert.equal(languages.en.enabled, true);
   assert.equal(languages.fr.translationStatus, "complete");
   assert.equal(languages.en.translationStatus, "partial");
+  assert.equal(languages.fr.intlLocale, "fr-FR");
+  assert.equal(languages.en.intlLocale, "en-US");
+  assert.equal(getIntlLocale("fr"), "fr-FR");
+  assert.equal(getIntlLocale("en"), "en-US");
 });
 
 test("global messages are available in every enabled locale", () => {
