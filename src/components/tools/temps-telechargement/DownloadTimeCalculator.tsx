@@ -42,19 +42,19 @@ export default function DownloadTimeCalculator() {
       <CalculatorActions showClear={hasValues} onClear={() => { setSize(""); setSpeed(""); }} />
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <CalculatorField label={t.fileSize} inputId="download-time-size" type="number" min="0" step="any" value={size} onChange={(event) => setSize(event.target.value)} placeholder={t.placeholderSize}  aria-invalid={hasInvalidInput}/>
+          <CalculatorField label={t.fileSize} inputId="download-time-size" type="number" min="0" step="any" value={size} onChange={(event) => setSize(event.target.value)} placeholder={t.placeholderSize}  aria-invalid={hasInvalidInput} aria-describedby="download-time-error"/>
           <select aria-label={t.sizeUnit} value={sizeUnit} onChange={(event) => setSizeUnit(event.target.value as DownloadSizeUnit)} className="mt-2 block w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-base text-[var(--foreground)] outline-none transition focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/20">
             {DOWNLOAD_SIZE_UNITS.map((unit) => <option key={unit} value={unit}>{SIZE_LABELS[unit]}</option>)}
           </select>
         </div>
         <div>
-          <CalculatorField label={t.speed} inputId="download-time-speed" type="number" min="0" step="any" value={speed} onChange={(event) => setSpeed(event.target.value)} placeholder={t.placeholderSpeed}  aria-invalid={hasInvalidInput}/>
+          <CalculatorField label={t.speed} inputId="download-time-speed" type="number" min="0" step="any" value={speed} onChange={(event) => setSpeed(event.target.value)} placeholder={t.placeholderSpeed}  aria-invalid={hasInvalidInput} aria-describedby="download-time-error"/>
           <select aria-label={t.speedUnit} value={speedUnit} onChange={(event) => setSpeedUnit(event.target.value as DownloadSpeedUnit)} className="mt-2 block w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-base text-[var(--foreground)] outline-none transition focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/20">
             {DOWNLOAD_SPEED_UNITS.map((unit) => <option key={unit} value={unit}>{SPEED_LABELS[unit]}</option>)}
           </select>
         </div>
       </div>
-      {hasInvalidInput && <p role="alert" className="mt-4 text-sm font-medium text-[var(--danger)]">{t.invalid}</p>}
+      {hasInvalidInput && <p id="download-time-error" role="alert" className="mt-4 text-sm font-medium text-[var(--danger)]">{t.invalid}</p>}
       {result && <div className="mt-6 rounded-2xl border border-[var(--border)] bg-[var(--background)] p-4">
         <p className="text-sm leading-6 text-[var(--muted)]">{t.estimated}</p>
         <p className="mt-1 text-xl font-semibold text-[var(--foreground)]">{formatDuration(result.days, result.hours, result.minutes, result.seconds)}</p>
