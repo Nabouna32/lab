@@ -81,11 +81,9 @@ export function searchTools(tools: Tool[], query: string, locale: Locale = "fr")
     if (name.includes(normalizedQuery)) score += 40;
     if (tags.some((tag) => tag === normalizedQuery)) score += 35;
     if (aliases.some((alias) => alias === normalizedQuery)) score += 35;
-    if (tags.some((tag) => tag === normalizedQuery)) score += 30;
     if (categories.some((category) => category === normalizedQuery)) score += 25;
     if (tags.some((tag) => tag.startsWith(normalizedQuery))) score += 25;
     if (aliases.some((alias) => alias.startsWith(normalizedQuery))) score += 25;
-    if (tags.some((tag) => tag.startsWith(normalizedQuery))) score += 20;
     if (categories.some((category) => category.startsWith(normalizedQuery))) score += 15;
     if (description.includes(normalizedQuery)) score += 20;
     const allTermsMatch = terms.every((term) =>
