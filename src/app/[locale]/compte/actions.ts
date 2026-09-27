@@ -16,7 +16,7 @@ function localePath(locale: Locale, path: string) {
 
 function readLocale(formData: FormData): Locale {
   const value = readFormString(formData, "locale");
-  return isLocale(value ?? undefined) ? value : "fr";
+  return value !== null && isLocale(value) ? value : "fr";
 }
 
 function isRateLimited(error: unknown) {
