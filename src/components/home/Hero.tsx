@@ -13,7 +13,7 @@ export default function Hero({ locale }: { locale: Locale }) {
       <div className="decorative-glow-fuchsia pointer-events-none absolute -right-24 top-4 -z-10 h-80 w-80 rounded-full" />
       <div className="mx-auto max-w-6xl px-4 pb-8 pt-10 sm:px-6 sm:pb-10 sm:pt-12 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface)]/80 px-3 py-1.5 text-xs font-semibold text-[var(--muted)] shadow-[var(--shadow-sm)] backdrop-blur">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 py-1.5 text-xs font-semibold text-[var(--muted)] shadow-[var(--shadow-sm)]">
             <span className="h-2 w-2 rounded-full bg-[var(--accent)]" aria-hidden="true" />
             {t.home.badge}
           </div>
