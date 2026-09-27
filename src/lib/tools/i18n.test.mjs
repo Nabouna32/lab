@@ -71,3 +71,17 @@ test("tool editorial modules keep FR/EN content structured and out of JSX locale
     assert.equal(source.includes('locale === "en"'), false, relativePath);
   }
 });
+
+test("tool content falls back to English when a requested locale is missing", async () => {
+  const { getToolContent } = await import("./types.ts");
+  const tool = {
+    content: {
+      fr: { name: "Nom français", description: "Description française" },
+      en: { name: "English name", description: "English description" },
+    },
+  };
+
+  assert.deepEqual(getToolContent(tool, "de"), tool.content.en);
+  assert.deepEqual(getToolContent(tool, "fr"), tool.content.fr);
+  assert.deepEqual(getToolContent(tool, "en"), tool.content.en);
+});
