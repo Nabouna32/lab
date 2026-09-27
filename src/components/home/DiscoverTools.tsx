@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
+import { getPrimaryToolCategory, getToolContent, isPublishedTool } from "@/lib/tools/types";
 import { tools } from "@/lib/tools/tools";
 
 function getWeekNumber(date: Date): number {
@@ -10,7 +11,7 @@ function getWeekNumber(date: Date): number {
 }
 
 function getDiscoveryTools() {
-  const availableTools = tools.filter((tool) => tool.available);
+  const availableTools = tools.filter(isPublishedTool);
   if (availableTools.length <= 6) return availableTools;
 
   const offset = ((getWeekNumber(new Date()) % availableTools.length) + availableTools.length) % availableTools.length;
@@ -19,7 +20,7 @@ function getDiscoveryTools() {
   const seenCategories = new Set<string>();
 
   for (const tool of rotated) {
-    if (!seenCategories.has(tool.categoryId)) {
+    if (!seenCategories.has(getPrimaryToolCategory(tool))) {
       selected.push(tool);
       seenCategories.add(tool.categoryId);
     }
@@ -62,7 +63,7 @@ export default function DiscoverTools({ locale }: { locale: Locale }) {
         aria-label={t.home.discoveryTitle}
       >
         {featuredTools.map((tool) => {
-          const content = tool.content[locale] ?? tool.content.fr;
+          const content = getToolContent(tool, locale);
 
           return (
             <Link
