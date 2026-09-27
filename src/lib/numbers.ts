@@ -1,4 +1,4 @@
-import type { Locale } from "./i18n/config.ts";
+import { getIntlLocale, type Locale } from "./i18n/config.ts";
 
 export function parseLocalizedNumber(value: string): number | null {
   const trimmed = value.trim();
@@ -13,7 +13,7 @@ export function formatToolNumber(
   locale: Locale,
   maximumFractionDigits: number,
 ): string {
-  return new Intl.NumberFormat(locale === "fr" ? "fr-FR" : "en-US", {
+  return new Intl.NumberFormat(getIntlLocale(locale), {
     maximumFractionDigits,
   }).format(value);
 }
