@@ -11,8 +11,8 @@ async function readPublishedToolIds() {
   const ids = [];
   for (const entry of source.split(/\n\s*\{\n/).slice(1)) {
     const id = entry.match(/\bid:\s*"([^"]+)"/)?.[1];
-    const available = entry.match(/\bavailable:\s*(true|false)\b/)?.[1];
-    if (id && available === "true") ids.push(id);
+    const lifecycle = entry.match(/\blifecycle:\s*"([^"]+)"/)?.[1];
+    if (id && lifecycle === "published") ids.push(id);
   }
   return ids;
 }
