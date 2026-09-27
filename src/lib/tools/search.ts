@@ -1,7 +1,7 @@
 import type { Locale } from "../i18n/config.ts";
 import { getPrimaryToolCategory, getToolContent, isPublishedTool } from "./types.ts";
 import type { Tool } from "@/lib/tools/types";
-import { normalizeSearchText } from "./search-utils";
+import { normalizeSearchText } from "./search-utils.ts";
 
 export type ToolSearchResult = { tool: Tool; score: number };
 
