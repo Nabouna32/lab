@@ -1,9 +1,11 @@
 export function calculateTtc(ht: number, rate: number): number | null {
+  if (!Number.isFinite(ht) || ht < 0 || !isValidVatRate(rate)) return null;
   const result = ht * (1 + rate / 100);
   return Number.isFinite(result) ? result : null;
 }
 
 export function calculateHt(ttc: number, rate: number): number | null {
+  if (!Number.isFinite(ttc) || ttc < 0 || !isValidVatRate(rate)) return null;
   const result = ttc / (1 + rate / 100);
   return Number.isFinite(result) ? result : null;
 }
