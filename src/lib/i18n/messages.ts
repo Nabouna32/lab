@@ -15,7 +15,7 @@ export type Messages = {
   relatedTools: { title: string };
   theme: { choose: string; system: string; light: string; dark: string; title: string };
   admin: { label: string; title: string; description: string; dashboard: string; access: string; account: string; roles: string; permissions: string; auditLog: string; noAuditEntries: string; noAccess: string; notConfigured: string; modules: string; users: string; usersDescription: string; usersTitle: string; usersBack: string; usersSearch: string; usersSearchPlaceholder: string; usersSearchSubmit: string; usersNoResults: string; userEmail: string; userDisplayName: string; userCreated: string; userLastSignIn: string; userEmailConfirmed: string; userPending: string; userNeverSignedIn: string; userRoles: string; userAssignRole: string; userRemoveRole: string; userNoRoles: string; userUpdated: string; userActionError: string; tools: string; toolsDescription: string; moderation: string; moderationDescription: string; analytics: string; analyticsDescription: string; settings: string; settingsDescription: string; audit: string; auditDescription: string; auditTitle: string; auditBack: string; auditEmpty: string; auditActor: string; auditAction: string; auditTarget: string; auditDate: string; auditDetails: string; userAccess: string; userActive: string; userSuspendedUntil: string; userSuspend: string; userUnsuspend: string; userSuspended: string; userUnsuspended: string; userRevokeSessions: string; userSessionsRevoked: string; roleSuperAdmin: string; roleAdmin: string; available: string; comingSoon: string; },
-  account: { label: string; title: string; anonymousDescription: string; signIn: string; signUp: string; signOut: string; submitSignIn: string; submitSignUp: string; email: string; password: string; displayName: string; notSet: string; confirmation: string; alreadySignedIn: string; noAccount: string; hasAccount: string; signInError: string; signUpError: string };
+  account: { label: string; title: string; anonymousDescription: string; signIn: string; signUp: string; signOut: string; submitSignIn: string; submitSignUp: string; email: string; password: string; displayName: string; notSet: string; confirmation: string; alreadySignedIn: string; noAccount: string; hasAccount: string; signInError: string; signUpError: string; authRateLimited: string };
   processing: {
     localDetail: string; ariaLabel: string; more: string; storage: string; retention: string; externalProviders: string; dataCategories: string;
     localLabel: string; localSummary: string; externalLabel: string; externalSummary: string;
@@ -69,7 +69,7 @@ export const messages: Record<Locale, Messages> = {
       email: "Adresse e-mail", password: "Mot de passe", displayName: "Nom d’affichage",
       notSet: "Non renseigné",
       confirmation: "Votre compte est créé. Vérifiez votre e-mail pour confirmer votre adresse avant de vous connecter.",
-      alreadySignedIn: "Vous êtes déjà connecté.", noAccount: "Pas encore de compte ?", hasAccount: "Vous avez déjà un compte ?", signInError: "Impossible de vous connecter. Vérifiez votre adresse e-mail et votre mot de passe.", signUpError: "Impossible de créer le compte. Vérifiez les informations saisies et réessayez.",
+      alreadySignedIn: "Vous êtes déjà connecté.", noAccount: "Pas encore de compte ?", hasAccount: "Vous avez déjà un compte ?", signInError: "Impossible de vous connecter. Vérifiez votre adresse e-mail et votre mot de passe.", signUpError: "Impossible de créer le compte. Vérifiez les informations saisies et réessayez.", authRateLimited: "Trop de tentatives. Réessayez dans quelques instants.",
     },
     processing: {
       localDetail: "Aucune donnée n'est envoyée à un serveur ni stockée par Utiluna.", ariaLabel: "Informations sur le traitement des données", more: "Informations sur le traitement",
@@ -125,7 +125,7 @@ export const messages: Record<Locale, Messages> = {
       email: "Email address", password: "Password", displayName: "Display name",
       notSet: "Not set",
       confirmation: "Your account has been created. Check your email to confirm your address before signing in.",
-      alreadySignedIn: "You are already signed in.", noAccount: "Don't have an account yet?", hasAccount: "Already have an account?", signInError: "We couldn't sign you in. Check your email address and password and try again.", signUpError: "We couldn't create the account. Check the information and try again.",
+      alreadySignedIn: "You are already signed in.", noAccount: "Don't have an account yet?", hasAccount: "Already have an account?", signInError: "We couldn't sign you in. Check your email address and password and try again.", signUpError: "We couldn't create the account. Check the information and try again.", authRateLimited: "Too many attempts. Please try again in a few moments.",
     },
     processing: {
       localDetail: "No data is sent to a server or stored by Utiluna.", ariaLabel: "Data processing information", more: "Processing information",
