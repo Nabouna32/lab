@@ -4,6 +4,7 @@ import { useDeferredValue, useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
+import { formatPlural } from "@/lib/i18n/plural";
 import { getCategoryName } from "@/lib/tools/categories";
 import { getPrimaryToolCategory, getToolContent } from "@/lib/tools/types";
 import { getAllTools } from "@/lib/tools/catalog";
@@ -182,7 +183,7 @@ export default function ToolSearch({
             <>
               <div className="flex items-center justify-between px-3 pb-2 pt-2">
                 <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[var(--muted)]">{t.tools.suggestions}</p>
-                <p className="text-xs text-[var(--muted)]">{results.length} {results.length === 1 ? t.tools.resultCountOne : t.tools.resultCountMany}</p>
+                <p className="text-xs text-[var(--muted)]">{formatPlural(locale, results.length, { one: t.tools.resultCountOne, other: t.tools.resultCountMany })}</p>
               </div>
               {results.map(({ tool }, index) => {
                 const content = getToolContent(tool, locale);
