@@ -139,7 +139,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     },
     downloadSpeed: {
       value: "Vitesse à convertir", from: "Unité de départ", to: "Unité d'arrivée", result: "Résultat", placeholder: "Ex. 100",
-      units: { mbps: "Mégabits/s (Mbps)", gbps: "Gigabits/s (Gbps)", "ko-s": "Kilo-octets/s (Ko/s)", "mo-s": "Méga-octets/s (Mo/s)", "go-s": "Giga-octets/s (Go/s)" },
+      units: { mbps: "Mégabits/s (Mbps)", gbps: "Gigabits/s (Gbps)", "ko-s": "Kilooctets/s (ko/s)", "mo-s": "Mégaoctets/s (Mo/s)", "go-s": "Gigaoctets/s (Go/s)" },
     },
     textCounter: {
       input: "Votre texte", placeholder: "Saisissez ou collez votre texte ici…", characters: "Caractères",
@@ -218,7 +218,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     },
     downloadSpeed: {
       value: "Speed to convert", from: "From unit", to: "To unit", result: "Result", placeholder: "e.g. 100",
-      units: { mbps: "Megabits/s (Mbps)", gbps: "Gigabits/s (Gbps)", "ko-s": "Kilobytes/s (KB/s)", "mo-s": "Megabytes/s (MB/s)", "go-s": "Gigabytes/s (GB/s)" },
+      units: { mbps: "Megabits/s (Mbps)", gbps: "Gigabits/s (Gbps)", "ko-s": "Kilobytes/s (kB/s)", "mo-s": "Megabytes/s (MB/s)", "go-s": "Gigabytes/s (GB/s)" },
     },
     textCounter: {
       input: "Your text", placeholder: "Type or paste your text here…", characters: "Characters",
