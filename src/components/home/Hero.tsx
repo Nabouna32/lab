@@ -1,8 +1,8 @@
 import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
 
-export default function Hero({ locale: _locale }: { locale: Locale }) {
-  const t = getMessages(_locale);
+export default function Hero({ locale }: { locale: Locale }) {
+  const t = getMessages(locale);
 
   return (
     <section className="relative z-10 isolate overflow-hidden">
