@@ -11,14 +11,13 @@ function ThemeIcon({ theme }: { theme: string | undefined }) {
 }
 
 export default function ThemeToggle() {
-  const { theme, resolvedTheme, setTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
   const locale = useLocale();
   const labels = locale === "fr"
     ? { aria: "Choisir le thème", system: "Système", light: "Clair", dark: "Sombre", title: "Thème", automatic: "Automatique" }
     : { aria: "Choose theme", system: "System", light: "Light", dark: "Dark", title: "Theme", automatic: "Automatic" };
 
   const currentLabel = theme === "light" ? labels.light : theme === "dark" ? labels.dark : labels.system;
-  const visualTheme = theme === "dark" ? "dark" : theme === "light" ? "light" : resolvedTheme;
 
   return (
     <details className="relative">
@@ -28,7 +27,8 @@ export default function ThemeToggle() {
         title={labels.title + ": " + currentLabel}
       >
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-[1.1rem] w-[1.1rem]" aria-hidden="true">
-          <ThemeIcon theme={visualTheme} />
+          <span className="theme-icon-system-light" aria-hidden="true"><ThemeIcon theme="light" /></span>
+          <span className="theme-icon-system-dark" aria-hidden="true"><ThemeIcon theme="dark" /></span>
         </svg>
         <span className="sr-only">{currentLabel}</span>
       </summary>
