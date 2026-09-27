@@ -8,9 +8,13 @@ export type TextStats = {
 
 const wordPattern = /[\p{L}\p{N}\p{M}]+(?:['’\u2011-][\p{L}\p{N}\p{M}]+)*/gu;
 
+function countGraphemes(text: string): number {
+  return Array.from(new Intl.Segmenter(undefined, { granularity: "grapheme" }).segment(text)).length;
+}
+
 export function countTextStats(text: string): TextStats {
-  const characters = Array.from(text).length;
-  const charactersWithoutSpaces = Array.from(text.replace(/\s/gu, "")).length;
+  const characters = countGraphemes(text);
+  const charactersWithoutSpaces = countGraphemes(text.replace(/\s/gu, ""));
   const words = text.match(wordPattern)?.length ?? 0;
   const spaces = text.match(/[^\S\r\n]/gu)?.length ?? 0;
   const lines = text === "" ? 0 : text.split(/\r\n|\r|\n/gu).length;
