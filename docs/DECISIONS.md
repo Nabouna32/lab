@@ -565,3 +565,25 @@ The feature requires a higher Supabase plan and cannot currently be enabled thro
 - Security audits may mention the accepted limitation for visibility, but should not create a new implementation task unless the Supabase plan changes.
 - Revisit the decision if Utiluna moves to a plan that provides the feature or if the project's authentication/security requirements materially change.
 
+
+
+## DEC-030 — English is the product translation fallback
+
+**Status:** Accepted
+
+### Decision
+
+English is the fallback language for localized tool content when the requested locale has no translation. French remains a fully supported initial language, but missing translations must not fall back to French.
+
+Tool localized content therefore requires both French and English entries. Additional languages may be partial and fall back to English until translated.
+
+### Reason
+
+Utiluna is designed as an international product. English provides a neutral shared fallback as more languages are introduced, while French remains fully supported as the user's current native development language and one of the initial product languages.
+
+### Consequences
+
+- `getToolContent()` falls back to English.
+- Tool content contracts require both `fr` and `en`.
+- New locales do not inherit French content accidentally.
+- French translations remain unchanged and are still used whenever the locale is `fr`.
