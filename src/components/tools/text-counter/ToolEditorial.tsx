@@ -4,25 +4,28 @@ import { BackToTools } from "@/components/tools/ToolPage/EditorialPrimitives";
 
 const content = {
   fr: {
-    countTitle: "🔤 Que compte cet outil ?",
-    count: "Saisissez ou collez un texte pour obtenir instantanément le nombre de mots, de caractères, de caractères sans espaces, d'espaces et de lignes.",
-    purposeTitle: "💡 À quoi peut-il servir ?",
-    purpose: "Il peut aider à respecter une limite de caractères, préparer une publication, vérifier la longueur d'un texte ou contrôler rapidement un contenu avant de l'envoyer.",
+    sections: [
+      { title: "🔤 Que compte cet outil ?", text: "Saisissez ou collez un texte pour obtenir instantanément le nombre de mots, de caractères, de caractères sans espaces, d'espaces et de lignes." },
+      { title: "💡 À quoi peut-il servir ?", text: "Il peut aider à respecter une limite de caractères, préparer une publication, vérifier la longueur d'un texte ou contrôler rapidement un contenu avant de l'envoyer." },
+    ],
   },
   en: {
-    countTitle: "🔤 What does this tool count?",
-    count: "Enter or paste text to instantly count words, characters, characters without spaces, spaces, and lines.",
-    purposeTitle: "💡 What is it useful for?",
-    purpose: "It can help meet a character limit, prepare a post, check text length, or quickly review content before sending it.",
+    sections: [
+      { title: "🔤 What does this tool count?", text: "Enter or paste text to instantly count words, characters, characters without spaces, spaces, and lines." },
+      { title: "💡 What is it useful for?", text: "It can help meet a character limit, prepare a post, check text length, or quickly review content before sending it." },
+    ],
   },
-} satisfies Record<Locale, Record<string, string>>;
+} as const;
 
 export default function ToolEditorial({ locale }: { locale: Locale }) {
   const t = content[locale];
   return (
     <>
-      <ToolSection title={t.countTitle}><p>{t.count}</p></ToolSection>
-      <ToolSection title={t.purposeTitle}><p>{t.purpose}</p></ToolSection>
+      {t.sections.map((section) => (
+        <ToolSection key={section.title} title={section.title}>
+          <p>{section.text}</p>
+        </ToolSection>
+      ))}
       <BackToTools locale={locale} />
     </>
   );
