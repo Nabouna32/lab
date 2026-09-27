@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import type { Locale } from "@/lib/i18n/config";
+import { getMessages } from "@/lib/i18n/messages";
 
 export function BackToTools({ locale }: { locale: Locale }) {
   return (
@@ -9,7 +10,7 @@ export function BackToTools({ locale }: { locale: Locale }) {
         href={`/${locale}/outils`}
         className="text-sm font-medium text-[var(--accent)] hover:underline"
       >
-        {locale === "fr" ? "← Retour aux outils" : "← Back to all tools"}
+        {getMessages(locale).tools.back}
       </Link>
     </div>
   );
