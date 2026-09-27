@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { locales } from "./config.ts";
 import { getToolMessages } from "./tool-messages.ts";
-import { getDownloadDurationLabels, getDownloadSizeUnitLabel, getDownloadSpeedUnitLabel, getFileSizeUnitLabel, getSpeedUnitLabel } from "./units.ts";
+import { getDownloadDurationLabels, getDownloadSizeUnitLabel, getDownloadSpeedUnitLabel, getFileSizeUnitLabel, getSpeedUnitLabel, formatDurationPart } from "./units.ts";
 
 test("tool UI messages are available in every enabled locale", () => {
   for (const locale of locales) {
@@ -31,6 +31,10 @@ test("unit labels are centralized and localized", () => {
   assert.equal(getDownloadSpeedUnitLabel("en", "mo-s"), "MB/s");
   assert.equal(getDownloadDurationLabels("fr").day, "j");
   assert.equal(getDownloadDurationLabels("en").day, "d");
+  assert.equal(formatDurationPart("fr", "days", 1), "1 jour");
+  assert.equal(formatDurationPart("fr", "days", 2), "2 jours");
+  assert.equal(formatDurationPart("en", "hours", 1), "1 hour");
+  assert.equal(formatDurationPart("en", "hours", 2), "2 hours");
 });
 
 test("tool UI messages expose locale-specific wording", () => {
