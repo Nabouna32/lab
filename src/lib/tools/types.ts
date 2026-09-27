@@ -59,7 +59,7 @@ export type Tool = {
   version: number;
   complexity: ToolComplexity;
   categories: string[];
-  content: Partial<Record<Locale, ToolLocalizedContent>> & { fr: ToolLocalizedContent };
+  content: Partial<Record<Locale, ToolLocalizedContent>> & { fr: ToolLocalizedContent; en: ToolLocalizedContent };
   tags: string[];
   aliases: string[];
   seo: Record<Locale, ToolSeoMetadata>;
@@ -81,7 +81,7 @@ export function isPublishedTool(tool: Tool): boolean {
 }
 
 export function getToolContent(tool: Tool, locale: Locale): ToolLocalizedContent {
-  return tool.content[locale] ?? tool.content.fr;
+  return tool.content[locale] ?? tool.content.en;
 }
 
 export function getPrimaryToolCategory(tool: Tool): string {
