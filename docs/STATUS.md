@@ -45,7 +45,7 @@
 - Supabase is now used for the account foundation and administrative authorization.
 - Executable behavior and technical capabilities remain authoritative in Git/code.
 - The database may own account, administration, editable catalog/editorial data, publication state and community data as those domains are introduced deliberately.
-- Database-backed metadata must not be allowed to falsely redefine executable tool behavior.
+- Database-backed metadata must not be allowed to falsely redefine executable tool behavior.\n- The first editable catalog schema is now deployed to Supabase with published-only public reads and database-backed catalog permissions.
 
 ### Catalog, editorial and i18n
 
@@ -71,7 +71,7 @@
 1. Audit the functional behavior of every published tool, including invalid input, edge cases, rounding and user-facing errors.
 2. Continue the tool-platform audit with registry scalability and catalog/module boundaries as the toolbox grows.
 3. Continue administration with the remaining account-lifecycle actions, especially account deletion and other account-lifecycle workflows.
-4. Define and implement the code/database boundary for editable catalog/editorial data before migrating those domains.
+4. Connect the existing catalog access boundary to the new database schema, seed the current catalog, and keep Git/code authoritative for executable behavior.
 5. Introduce persistence or sharing only when a concrete tool requirement justifies the corresponding runtime capability.
 6. Continue the UX audit with above-the-fold tool hierarchy and mobile behavior, then apply targeted fixes.
 
@@ -88,7 +88,7 @@ The code/module remains authoritative for executable behavior and technical capa
 - The published file-size calculator now validates calculation units and rejects numeric overflow at the domain-function boundary.
 - Email/password account creation, sign-in, sign-out and session refresh are wired into the Next.js application.
 - Email confirmation uses the Supabase PKCE callback flow.
-- The database currently stores only minimal profile metadata; tool/catalog migration remains a separate future step.
+- The database stores minimal profile metadata and now has the first editable tool catalog schema; public application reads have not yet switched to the database.
 
 ## Administration foundation
 
