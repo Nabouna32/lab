@@ -39,7 +39,7 @@ export default async function SignUpPage({
         <p className="mb-2 text-sm font-semibold text-[var(--accent)]">{t.account.label}</p>
         <h1 className="text-3xl font-bold tracking-tight">{t.account.signUp}</h1>
         {query.error && (
-          <p className="mt-4 rounded-2xl bg-[var(--danger-soft)] p-4 text-sm text-[var(--danger-foreground)]">{query.error}</p>
+          <p className="mt-4 rounded-2xl bg-[var(--danger-soft)] p-4 text-sm text-[var(--danger-foreground)]">{t.account.signUpError}</p>
         )}
         <form action={signUp} className="mt-6 space-y-5">
           <input type="hidden" name="locale" value={locale} />
