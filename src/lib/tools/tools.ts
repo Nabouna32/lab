@@ -53,7 +53,12 @@ const localProcessingDescriptions: Record<string, { fr: string; en: string }> = 
   },
 };
 
-const toolDefinitions = [
+type ToolDefinition = Pick<
+  Tool,
+  "id" | "slug" | "icon" | "version" | "complexity" | "categories" | "tags" | "aliases" | "lifecycle" | "content"
+> & { capabilities?: ToolCapability[] };
+
+const toolDefinitions: ToolDefinition[] = [
   {
     id: "pourcentage", slug: "pourcentage", icon: "📊",
     version: 1,
