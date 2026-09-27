@@ -39,7 +39,7 @@ export default function ToolProcessingStatus({
           <p className="text-[var(--foreground)]">{processing.description[locale] ?? processing.description.fr}</p>
           {processing.mode === "local" ? (
             <p className="mt-3 border-t border-[var(--border)] pt-3">
-              {locale === "fr" ? "Aucune donnée n'est envoyée à un serveur ni stockée par Utiluna." : "No data is sent to a server or stored by Utiluna."}
+              {t.localDetail}
             </p>
           ) : (
             <div className="mt-3 grid gap-2 border-t border-[var(--border)] pt-3 sm:grid-cols-2">
