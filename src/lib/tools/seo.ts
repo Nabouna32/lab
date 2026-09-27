@@ -1,7 +1,7 @@
 import type { Locale } from "../i18n/config.ts";
-import type { ToolSeoMetadata } from "./types";
+import type { ToolId, ToolSeoMetadata } from "./types";
 
-export const toolSeo: Record<string, Record<Locale, ToolSeoMetadata>> = {
+export const toolSeo = {
   pourcentage: {
     fr: { title: "Calculateur de pourcentage gratuit | Utiluna", description: "Calculez facilement un pourcentage, une augmentation ou une diminution en pourcentage grâce à notre calculateur gratuit." },
     en: { title: "Free Percentage Calculator | Utiluna", description: "Easily calculate percentages, increases, and decreases with our free percentage calculator." },
@@ -50,10 +50,4 @@ export const toolSeo: Record<string, Record<Locale, ToolSeoMetadata>> = {
     fr: { title: "Calculateur de bitrate vidéo | Utiluna", description: "Calculez le bitrate ou la taille approximative d'une vidéo." },
     en: { title: "Video Bitrate Calculator | Utiluna", description: "Calculate video bitrate or approximate file size." },
   },
-};
-
-export function getToolSeo(toolId: string, locale: Locale): ToolSeoMetadata {
-  const seo = toolSeo[toolId]?.[locale];
-  if (!seo) throw new Error(`Missing ${locale} SEO metadata for tool "${toolId}".`);
-  return seo;
-}
+} satisfies Record<ToolId, Record<Locale, ToolSeoMetadata>>;

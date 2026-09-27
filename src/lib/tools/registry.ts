@@ -71,7 +71,7 @@ export const toolRegistry: readonly ToolRegistryEntry[] = getPublishedTools().ma
   return { tool, module: toolModule };
 });
 
-const registryById = new Map(toolRegistry.map((entry) => [entry.tool.id, entry]));
+const registryById = new Map<string, ToolRegistryEntry>(toolRegistry.map((entry) => [entry.tool.id, entry]));
 
 export function getToolRegistryEntry(toolId: string): ToolRegistryEntry | undefined {
   return registryById.get(toolId);

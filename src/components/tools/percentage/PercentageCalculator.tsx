@@ -5,16 +5,13 @@ import { CalculatorField } from "@/components/tools/calculator/CalculatorField";
 import { calculateDifference, calculateEvolution, calculatePercentage } from "@/lib/percentage";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
+import { formatToolNumber } from "@/lib/numbers";
 import { SegmentedControl } from "@/components/ui/SegmentedControl";
 import { Select } from "@/components/ui/Select";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
 
 type Mode = "percentage" | "evolution" | "difference";
-
-function formatNumber(value: number, locale: "fr" | "en"): string {
-  return new Intl.NumberFormat(locale === "fr" ? "fr-FR" : "en-US", { maximumFractionDigits: 2 }).format(value);
-}
 
 export default function PercentageCalculator() {
   const locale = useLocale();
@@ -65,9 +62,9 @@ export default function PercentageCalculator() {
   function getResultExplanation() {
     if (result === null || error) return null;
 
-    const firstText = formatNumber(first, locale);
-    const secondText = formatNumber(second, locale);
-    const resultText = formatNumber(Math.abs(result), locale);
+    const firstText = formatToolNumber(first, locale, 2);
+    const secondText = formatToolNumber(second, locale, 2);
+    const resultText = formatToolNumber(Math.abs(result), locale, 2);
 
     if (mode === "percentage") return t.percentageExplanation(firstText, secondText, resultText);
     if (mode === "evolution") {
@@ -84,8 +81,8 @@ export default function PercentageCalculator() {
     if (mode === "percentage") {
       return (
         <>
-          {formatNumber(second, locale)} × {formatNumber(first, locale)} ÷ 100 ={" "}
-          <strong>{formatNumber(result, locale)}</strong>
+          {formatToolNumber(second, locale, 2)} × {formatToolNumber(first, locale, 2)} ÷ 100 ={" "}
+          <strong>{formatToolNumber(result, locale, 2)}</strong>
         </>
       );
     }
@@ -93,9 +90,9 @@ export default function PercentageCalculator() {
     if (mode === "evolution") {
       return (
         <>
-          ({formatNumber(first, locale)} − {formatNumber(second, locale)}) ÷{" "}
-          {formatNumber(second, locale)} × 100 ={" "}
-          <strong>{formatNumber(result, locale)} %</strong>
+          ({formatToolNumber(first, locale, 2)} − {formatToolNumber(second, locale, 2)}) ÷{" "}
+          {formatToolNumber(second, locale, 2)} × 100 ={" "}
+          <strong>{formatToolNumber(result, locale, 2)} %</strong>
         </>
       );
     }
@@ -104,8 +101,8 @@ export default function PercentageCalculator() {
     const average = (Math.abs(first) + Math.abs(second)) / 2;
     return (
       <>
-        {formatNumber(difference, locale)} ÷ {formatNumber(average, locale)} × 100 ={" "}
-        <strong>{formatNumber(result, locale)} %</strong>
+        {formatToolNumber(difference, locale, 2)} ÷ {formatToolNumber(average, locale, 2)} × 100 ={" "}
+        <strong>{formatToolNumber(result, locale, 2)} %</strong>
       </>
     );
   }
@@ -115,7 +112,7 @@ export default function PercentageCalculator() {
       ? error
       : result === null
         ? t.waitingResult
-        : `${formatNumber(result, locale)}${mode !== "percentage" ? " %" : ""}`;
+        : `${formatToolNumber(result, locale, 2)}${mode !== "percentage" ? " %" : ""}`;
 
   const resultTone =
     error

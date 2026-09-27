@@ -1,8 +1,8 @@
-import type { Tool, ToolCapability } from "./types.ts";
+import type { Tool, ToolCapability, ToolId } from "./types.ts";
 import { validateToolCatalog } from "./metadata.ts";
 import { toolSeo } from "./seo.ts";
 
-const localProcessingDescriptions: Record<string, { fr: string; en: string }> = {
+const localProcessingDescriptions = {
   pourcentage: {
     fr: "Les calculs de pourcentage sont effectués directement dans votre navigateur.",
     en: "Percentage calculations are performed directly in your browser.",
@@ -51,7 +51,7 @@ const localProcessingDescriptions: Record<string, { fr: string; en: string }> = 
     fr: "Les calculs de bitrate vidéo sont effectués directement dans votre navigateur.",
     en: "Video bitrate calculations are performed directly in your browser.",
   },
-};
+} satisfies Record<ToolId, { fr: string; en: string }>;
 
 type ToolDefinition = Pick<
   Tool,
