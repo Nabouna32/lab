@@ -35,3 +35,8 @@ test("rejects non-finite values", () => {
 test("rejects unknown units at runtime", () => {
   assert.throws(() => convertFileSize(1, "ko", "unknown"), RangeError);
 });
+
+
+test("returns null when the result overflows the numeric range", () => {
+  assert.equal(convertFileSize(Number.MAX_VALUE, "to", "o"), null);
+});
