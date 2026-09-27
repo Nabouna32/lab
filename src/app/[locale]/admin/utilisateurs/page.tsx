@@ -150,6 +150,13 @@ export default async function AdminUsersPage({
                           {suspended ? t.admin.userUnsuspend : t.admin.userSuspend}
                         </button>
                       </form>
+                      <form className="mt-2" action={revokeUserSessions}>
+                        <input type="hidden" name="locale" value={locale} />
+                        <input type="hidden" name="userId" value={user.user_id} />
+                        <button type="submit" className="rounded-lg border border-[var(--border)] px-3 py-1.5 text-sm font-medium hover:bg-[var(--surface-soft)]">
+                          {t.admin.userRevokeSessions}
+                        </button>
+                      </form>
                     </div>
                   ) : null}
                 </div>
