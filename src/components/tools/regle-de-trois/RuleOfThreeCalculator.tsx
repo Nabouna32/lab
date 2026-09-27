@@ -9,6 +9,7 @@ import { calculateRuleOfThree, isValidRuleOfThreeInput } from "@/lib/regle-de-tr
 import { useLocale } from "@/lib/i18n/use-locale";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { formatToolNumber } from "@/lib/numbers";
+import { ValidationMessage } from "@/components/ui/ValidationMessage";
 
 export default function RuleOfThreeCalculator() {
   const locale = useLocale();
@@ -33,9 +34,10 @@ export default function RuleOfThreeCalculator() {
         <CalculatorField label={t.firstValue} inputId="rule-first-value" value={firstValue} onChange={(event) => setFirstValue(event.target.value)} placeholder={t.placeholders.first}  aria-invalid={hasValues && (!hasNumericValues || !valid)} aria-describedby="rule-error"/>
         <CalculatorField label={t.correspondingValue} inputId="rule-first-result" value={firstResult} onChange={(event) => setFirstResult(event.target.value)} placeholder={t.placeholders.corresponding}  aria-invalid={hasValues && (!hasNumericValues || !valid)} aria-describedby="rule-error"/>
         <CalculatorField label={t.secondValue} inputId="rule-second-value" value={secondValue} onChange={(event) => setSecondValue(event.target.value)} placeholder={t.placeholders.second}  aria-invalid={hasValues && (!hasNumericValues || !valid)} aria-describedby="rule-error"/>
-        <CalculatorResult label={t.result} tone="accent" value={calculatedValue === null ? "—" : formatToolNumber(calculatedValue, locale, 4)} />
+        <CalculatorResult label={t.result} tone="accent" value={calculatedValue === null ? null : formatToolNumber(calculatedValue, locale, 4)}
+          emptyMessage={t.emptyResult} />
       </div>
-      {(hasValues && (!hasNumericValues || !valid)) || calculationFailed && <p id="rule-error" role="alert" className="mt-4 text-sm font-medium text-[var(--foreground)]">{t.invalid}</p>}
+      {((hasValues && (!hasNumericValues || !valid)) || calculationFailed) && <ValidationMessage id="rule-error">{t.invalid}</ValidationMessage>}
       {valid && calculatedValue !== null && (
         <details className="group mt-4 rounded-2xl border border-[var(--border)] bg-[var(--background)]">
           <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-4 text-sm font-semibold text-[var(--foreground)]"><span>{t.how}</span><span className="text-lg text-[var(--muted)] transition-transform group-open:rotate-45">+</span></summary>
