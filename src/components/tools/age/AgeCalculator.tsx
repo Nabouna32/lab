@@ -9,6 +9,7 @@ import { calculateAge } from "@/lib/age";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { formatPlural } from "@/lib/i18n/plural";
+import { ValidationMessage } from "@/components/ui/ValidationMessage";
 
 function toInputDate(date: Date): string {
   const year = date.getFullYear();
@@ -35,9 +36,9 @@ export default function AgeCalculator() {
     setReferenceDate(toInputDate(new Date()));
   }
 
-  const years = age === null ? "—" : String(age.years);
-  const months = age === null ? "—" : String(age.months);
-  const days = age === null ? "—" : String(age.days);
+  const years = age === null ? null : String(age.years);
+  const months = age === null ? null : String(age.months);
+  const days = age === null ? null : String(age.days);
 
   return (
     <CalculatorShell>
@@ -47,11 +48,11 @@ export default function AgeCalculator() {
         <CalculatorField label={t.referenceDate} inputId="age-reference-date" type="date" value={referenceDate} onChange={(event) => setReferenceDate(event.target.value)}  aria-invalid={invalidRange} aria-describedby="age-error"/>
       </div>
       <div className="mt-6 grid gap-4 sm:grid-cols-3">
-        <CalculatorResult label={t.years} tone="accent" value={years} />
-        <CalculatorResult label={t.months} value={months} />
-        <CalculatorResult label={t.days} value={days} />
+        <CalculatorResult label={t.years} tone="accent" value={years} emptyMessage={t.emptyResult} />
+        <CalculatorResult label={t.months} value={months} emptyMessage={t.emptyResult} />
+        <CalculatorResult label={t.days} value={days} emptyMessage={t.emptyResult} />
       </div>
-      {invalidRange && <p id="age-error" role="alert" className="mt-4 text-sm font-medium text-[var(--foreground)]">{t.invalidRange}</p>}
+      {invalidRange && <ValidationMessage id="age-error">{t.invalidRange}</ValidationMessage>}
       {age && (
         <div className="mt-6 rounded-2xl border border-[var(--border)] bg-[var(--background)] p-4">
           <p className="text-sm leading-6 text-[var(--muted)]">
