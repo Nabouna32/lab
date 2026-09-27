@@ -45,15 +45,15 @@ export default function TVACalculator() {
         <CalculatorActions showClear={priceValue !== "" || rateValue !== "20"} onClear={clearValues} />
       </div>
       <div className="mt-5 grid gap-5 sm:grid-cols-2">
-        <CalculatorField label={mode === "ht-to-ttc" ? t.priceHt : t.priceTtc} inputId="tva-price" min="0" value={priceValue} onChange={(event) => setPriceValue(event.target.value)} placeholder={mode === "ht-to-ttc" ? t.placeholders.ht : t.placeholders.ttc} unit="€" />
-        <CalculatorField label={t.rate} inputId="tva-rate" min="0" max="100" value={rateValue} onChange={(event) => setRateValue(event.target.value)} placeholder={t.placeholders.rate} unit="%" />
+        <CalculatorField label={mode === "ht-to-ttc" ? t.priceHt : t.priceTtc} inputId="tva-price" min="0" value={priceValue} onChange={(event) => setPriceValue(event.target.value)} placeholder={mode === "ht-to-ttc" ? t.placeholders.ht : t.placeholders.ttc} unit="€"  aria-invalid={hasValues && (!hasNumericValues || !valid)}/>
+        <CalculatorField label={t.rate} inputId="tva-rate" min="0" max="100" value={rateValue} onChange={(event) => setRateValue(event.target.value)} placeholder={t.placeholders.rate} unit="%"  aria-invalid={hasValues && (!hasNumericValues || !valid)}/>
       </div>
       <div className="mt-6 grid gap-4 sm:grid-cols-3">
         <CalculatorResult label={t.resultHt} tone="accent" value={ht === null ? "—" : `${formatNumber(ht, locale)} €`} />
         <CalculatorResult label={t.vat} value={vat === null ? "—" : `${formatNumber(vat, locale)} €`} />
         <CalculatorResult label={t.resultTtc} value={ttc === null ? "—" : `${formatNumber(ttc, locale)} €`} />
       </div>
-      {(hasValues && (!hasNumericValues || !valid)) || calculationFailed && <p className="mt-4 text-sm font-medium text-[var(--foreground)]">{t.invalid}</p>}
+      {(hasValues && (!hasNumericValues || !valid)) || calculationFailed && <p role="alert" className="mt-4 text-sm font-medium text-[var(--foreground)]">{t.invalid}</p>}
       {valid && ht !== null && ttc !== null && vat !== null && (
         <details className="group mt-4 rounded-2xl border border-[var(--border)] bg-[var(--background)]">
           <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-4 text-sm font-semibold text-[var(--foreground)]"><span>{t.how}</span><span className="text-lg text-[var(--muted)] transition-transform group-open:rotate-45">+</span></summary>
