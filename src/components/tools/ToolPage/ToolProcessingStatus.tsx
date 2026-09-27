@@ -1,6 +1,6 @@
 import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
-import type { ToolProcessingMetadata } from "@/lib/tools/types";
+import { isToolProcessingDescriptionFallback, type ToolProcessingMetadata } from "@/lib/tools/types";
 import { getToolProcessingPresentation } from "@/lib/tools/processing";
 
 export default function ToolProcessingStatus({
@@ -12,6 +12,7 @@ export default function ToolProcessingStatus({
 }) {
   const t = getMessages(locale).processing;
   const presentation = getToolProcessingPresentation(processing, locale);
+  const isDescriptionFallback = isToolProcessingDescriptionFallback(processing, locale);
   const statusTone =
     processing.mode === "local"
       ? "success"
@@ -37,6 +38,11 @@ export default function ToolProcessingStatus({
         </summary>
         <div className="absolute right-0 top-full z-20 mt-2 w-[min(30rem,calc(100vw-2rem))] rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-4 text-sm leading-6 text-[var(--muted)] shadow-[var(--shadow-lg)]">
           <p className="text-[var(--foreground)]">{processing.description[locale] ?? processing.description.en}</p>
+          {isDescriptionFallback && (
+            <p className="mt-2 text-xs font-medium text-[var(--muted)]" role="status">
+              {t.fallbackNotice}
+            </p>
+          )}
           {processing.mode === "local" ? (
             <p className="mt-3 border-t border-[var(--border)] pt-3">
               {t.localDetail}
