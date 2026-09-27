@@ -17,7 +17,7 @@ const fixtureTools = [
     id: "regle-de-trois",
     tags: ["proportion"],
     aliases: ["ratio"],
-    available: true,
+    lifecycle: "published",
     content: {
       fr: { name: "Règle de trois", description: "Résolvez une proportionnalité." },
       en: { name: "Rule of Three Calculator", description: "Solve proportional calculations." },
@@ -27,7 +27,7 @@ const fixtureTools = [
     id: "temps-telechargement",
     tags: ["download", "internet"],
     aliases: ["telechargement"],
-    available: true,
+    lifecycle: "published",
     content: {
       fr: { name: "Temps de téléchargement", description: "Estimez une durée de téléchargement." },
       en: { name: "Download Time Calculator", description: "Estimate download time." },
