@@ -1,6 +1,6 @@
-import { getPrimaryToolCategory, isPublishedTool } from "@/lib/tools/types";
+import { getPrimaryToolCategory, isPublishedTool } from "./types.ts";
 import type { Tool } from "@/lib/tools/types";
-import { tools } from "@/lib/tools/tools";
+import { tools } from "./tools.ts";
 
 /**
  * Single access boundary for the tool catalog.
