@@ -55,22 +55,6 @@ export default async function ToolsPage({ params }: { params: Promise<{ locale: 
         </div>
       </section>
 
-      <section className="mt-12 border-t border-[var(--border)] pt-10 sm:mt-14 sm:pt-12" aria-labelledby="tools-browse-heading">
-        <div className="mb-5 flex items-end justify-between gap-4">
-          <div>
-            <h2 id="tools-browse-heading" className="text-xl font-bold tracking-[-0.02em] sm:text-2xl">{t.tools.browseTitle}</h2>
-            <p className="mt-1 text-sm text-[var(--muted)]">{t.tools.browseDescription}</p>
-          </div>
-        </div>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {visibleCategories.flatMap((category) => {
-            const categoryName = getCategoryName(locale, category.id);
-            return getToolsByCategory(category.id).map((tool) => (
-              <ToolCard key={tool.id} tool={tool} categoryName={categoryName} />
-            ));
-          })}
-        </div>
-      </section>
     </main>
   );
 }
