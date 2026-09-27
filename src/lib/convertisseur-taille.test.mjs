@@ -2,12 +2,21 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { convertFileSize } from "./convertisseur-taille.ts";
 
-test("converts megabytes to gigabytes", () => {
-  assert.equal(convertFileSize(1024, "mo", "go"), 1);
+test("uses decimal units for SI file sizes", () => {
+  assert.equal(convertFileSize(1_000, "ko", "o"), 1_000);
+  assert.equal(convertFileSize(1_000_000, "o", "mo"), 1);
+  assert.equal(convertFileSize(1, "go", "mo"), 1_000);
 });
 
-test("converts gigabytes to megabytes", () => {
-  assert.equal(convertFileSize(1, "go", "mo"), 1024);
+test("uses binary units for IEC file sizes", () => {
+  assert.equal(convertFileSize(1_024, "kio", "o"), 1_024);
+  assert.equal(convertFileSize(1_048_576, "o", "mio"), 1);
+  assert.equal(convertFileSize(1, "gio", "mio"), 1_024);
+});
+
+test("distinguishes decimal and binary units", () => {
+  assert.equal(convertFileSize(1, "ko", "kio"), 1_000 / 1_024);
+  assert.equal(convertFileSize(1, "kio", "ko"), 1_024 / 1_000);
 });
 
 test("keeps the value when source and target units match", () => {
