@@ -190,7 +190,7 @@ export default function ToolSearch({
                   <a
                     key={tool.id}
                     id={instanceId + "-result-" + index}
-                    href={hrefFor(tool.slug, tool.categoryId)}
+                    href={hrefFor(tool.slug, getPrimaryToolCategory(tool))}
                     role="option"
                     aria-selected={activeIndex === index}
                     onMouseEnter={() => setActiveIndex(index)}
