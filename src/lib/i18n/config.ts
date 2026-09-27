@@ -10,6 +10,7 @@ export type LanguageDefinition = {
   direction: "ltr" | "rtl";
   intlLocale: string;
   enabled: boolean;
+  // Product readiness signal; it is intentionally not inferred from structural i18n checks.
   translationStatus: "complete" | "partial";
   flagCode: string;
 };
