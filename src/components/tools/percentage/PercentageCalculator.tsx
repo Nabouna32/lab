@@ -203,7 +203,7 @@ export default function PercentageCalculator() {
               onChange={(event) => setFirstValue(event.target.value)}
               placeholder={firstPlaceholder}
               aria-describedby="percentage-input-help"
-            />
+             aria-invalid={error !== null}/>
             <CalculatorField
               label={secondLabel}
               inputId="second-value"
@@ -211,7 +211,7 @@ export default function PercentageCalculator() {
               onChange={(event) => setSecondValue(event.target.value)}
               placeholder={secondPlaceholder}
               aria-describedby="percentage-input-help"
-            />
+             aria-invalid={error !== null}/>
           </div>
 
           <p id="percentage-input-help" className="mt-3 text-xs leading-5 text-[var(--muted)]">
