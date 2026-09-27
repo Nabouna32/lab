@@ -14,7 +14,7 @@ export function getToolPageMetadata(tool: Tool, locale: Locale): Metadata {
     locales.map((availableLocale) => [
       availableLocale,
       new URL(
-        `/${availableLocale}/outils/${tool.categoryId}/${tool.slug}`,
+        `/${availableLocale}/outils/${getPrimaryToolCategory(tool)}/${tool.slug}`,
         siteUrl,
       ).toString(),
     ]),
