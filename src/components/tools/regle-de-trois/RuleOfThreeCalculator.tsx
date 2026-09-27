@@ -8,10 +8,7 @@ import { CalculatorShell } from "@/components/tools/calculator/CalculatorShell";
 import { calculateRuleOfThree, isValidRuleOfThreeInput } from "@/lib/regle-de-trois";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
-
-function formatNumber(value: number, locale: "fr" | "en"): string {
-  return new Intl.NumberFormat(locale === "fr" ? "fr-FR" : "en-US", { maximumFractionDigits: 4 }).format(value);
-}
+import { formatToolNumber } from "@/lib/numbers";
 
 export default function RuleOfThreeCalculator() {
   const locale = useLocale();
@@ -36,7 +33,7 @@ export default function RuleOfThreeCalculator() {
         <CalculatorField label={t.firstValue} inputId="rule-first-value" value={firstValue} onChange={(event) => setFirstValue(event.target.value)} placeholder={t.placeholders.first}  aria-invalid={hasValues && (!hasNumericValues || !valid)} aria-describedby="rule-error"/>
         <CalculatorField label={t.correspondingValue} inputId="rule-first-result" value={firstResult} onChange={(event) => setFirstResult(event.target.value)} placeholder={t.placeholders.corresponding}  aria-invalid={hasValues && (!hasNumericValues || !valid)} aria-describedby="rule-error"/>
         <CalculatorField label={t.secondValue} inputId="rule-second-value" value={secondValue} onChange={(event) => setSecondValue(event.target.value)} placeholder={t.placeholders.second}  aria-invalid={hasValues && (!hasNumericValues || !valid)} aria-describedby="rule-error"/>
-        <CalculatorResult label={t.result} tone="accent" value={calculatedValue === null ? "—" : formatNumber(calculatedValue, locale)} />
+        <CalculatorResult label={t.result} tone="accent" value={calculatedValue === null ? "—" : formatToolNumber(calculatedValue, locale, 4)} />
       </div>
       {(hasValues && (!hasNumericValues || !valid)) || calculationFailed && <p id="rule-error" role="alert" className="mt-4 text-sm font-medium text-[var(--foreground)]">{t.invalid}</p>}
       {valid && calculatedValue !== null && (
@@ -45,8 +42,8 @@ export default function RuleOfThreeCalculator() {
           <div className="border-t border-[var(--border)] px-4 pb-4 pt-4">
             <p className="text-sm leading-6 text-[var(--muted)]">{t.explanation}</p>
             <div className="mt-3 rounded-xl bg-[var(--surface-soft)] p-4">
-              <p className="font-mono text-sm leading-6 text-[var(--foreground)]">{formatNumber(first, locale)} × {formatNumber(calculatedValue, locale)} = {formatNumber(second, locale)} × {formatNumber(result, locale)}</p>
-              <p className="mt-2 font-mono text-sm leading-6 text-[var(--foreground)]">{formatNumber(result, locale)} × {formatNumber(second, locale)} ÷ {formatNumber(first, locale)} = {formatNumber(calculatedValue, locale)}</p>
+              <p className="font-mono text-sm leading-6 text-[var(--foreground)]">{formatToolNumber(first, locale, 4)} × {formatToolNumber(calculatedValue, locale, 4)} = {formatToolNumber(second, locale, 4)} × {formatToolNumber(result, locale, 4)}</p>
+              <p className="mt-2 font-mono text-sm leading-6 text-[var(--foreground)]">{formatToolNumber(result, locale, 4)} × {formatToolNumber(second, locale, 4)} ÷ {formatToolNumber(first, locale, 4)} = {formatToolNumber(calculatedValue, locale, 4)}</p>
             </div>
           </div>
         </details>
