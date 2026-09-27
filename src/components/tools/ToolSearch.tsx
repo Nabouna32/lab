@@ -6,7 +6,7 @@ import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
 import { getCategoryName } from "@/lib/tools/categories";
 import { getPrimaryToolCategory, getToolContent } from "@/lib/tools/types";
-import { tools } from "@/lib/tools/tools";
+import { getAllTools } from "@/lib/tools/catalog";
 import { normalizeSearchText, searchTools } from "@/lib/tools/search";
 import { Button } from "@/components/ui/Button";
 
@@ -62,7 +62,7 @@ export default function ToolSearch({
   const [isFocused, setIsFocused] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
   const deferredQuery = useDeferredValue(query);
-  const results = useMemo(() => searchTools(tools, deferredQuery, locale).slice(0, 6), [deferredQuery, locale]);
+  const results = useMemo(() => searchTools(getAllTools(), deferredQuery, locale).slice(0, 6), [deferredQuery, locale]);
   const showResults = isFocused && query.trim().length > 0;
   const inputId = instanceId + "-input";
   const resultsId = instanceId + "-results";
