@@ -143,7 +143,7 @@ export default function ToolSearch({
     <div id={instanceId} className={"relative " + className}>
       <label htmlFor={inputId} className="sr-only">{t.tools.searchLabel}</label>
       <div className={
-        "flex items-center border bg-[var(--surface)] transition-all duration-200 " +
+        "flex items-center border bg-[var(--surface)] transition-[border-color,box-shadow] duration-200 " +
         (compact
           ? "rounded-xl p-1 shadow-[var(--shadow-sm)] "
           : "rounded-[1.35rem] p-2 shadow-[var(--shadow-md)] ") +
