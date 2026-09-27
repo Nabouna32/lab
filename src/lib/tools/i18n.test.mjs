@@ -224,3 +224,26 @@ test("fallback messaging is wired into the tool page and processing status", () 
   assert.match(processing, /isToolProcessingDescriptionFallback\(processing, locale\)/);
   assert.match(processing, /fallbackNotice/);
 });
+
+test("published tool interfaces keep user-facing state messages behind the i18n layer", () => {
+  const publishedToolFiles = [
+    "../../components/tools/percentage/PercentageCalculator.tsx",
+    "../../components/tools/reduction/ReductionCalculator.tsx",
+    "../../components/tools/tva/TVACalculator.tsx",
+    "../../components/tools/regle-de-trois/RuleOfThreeCalculator.tsx",
+    "../../components/tools/age/AgeCalculator.tsx",
+    "../../components/tools/duree/DurationCalculator.tsx",
+    "../../components/tools/vitesse-telechargement/DownloadSpeedConverter.tsx",
+    "../../components/tools/temps-telechargement/DownloadTimeCalculator.tsx",
+    "../../components/tools/taille-fichier/FileSizeCalculator.tsx",
+    "../../components/tools/convertisseur-taille/FileSizeConverter.tsx",
+    "../../components/tools/text-counter/TextCounter.tsx",
+  ];
+
+  for (const relativePath of publishedToolFiles) {
+    const source = readFileSync(fileURLToPath(new URL(relativePath, import.meta.url)), "utf8");
+    assert.match(source, /getToolMessages\(locale\)/, relativePath);
+    assert.equal(source.includes('locale === "fr"'), false, relativePath);
+    assert.equal(source.includes('locale === "en"'), false, relativePath);
+  }
+});
