@@ -21,7 +21,7 @@ test("calculates VAT amount", () => {
 
 test("rejects non-finite calculation results", () => {
   assert.equal(calculateTtc(Number.MAX_VALUE, 100), null);
-  assert.equal(calculateHt(Number.MAX_VALUE, 100), null);
+  assert.equal(calculateHt(Number.MAX_VALUE, -100), null);
   assert.equal(calculateVatAmount(Number.MAX_VALUE, 100), null);
 });
 
