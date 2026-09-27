@@ -28,7 +28,7 @@ export async function signIn(formData: FormData) {
   const { error } = await supabase.auth.signInWithPassword({ email, password });
 
   if (error) {
-    redirect(localePath(locale, `/compte/connexion?error=${encodeURIComponent(error.message)}`));
+    redirect(localePath(locale, "/compte/connexion?error=auth-failed"));
   }
 
   redirect(localePath(locale, "/compte"));
@@ -65,7 +65,7 @@ export async function signUp(formData: FormData) {
   });
 
   if (error) {
-    redirect(localePath(locale, `/compte/inscription?error=${encodeURIComponent(error.message)}`));
+    redirect(localePath(locale, "/compte/inscription?error=auth-failed"));
   }
 
   if (data.session) {
