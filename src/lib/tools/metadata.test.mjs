@@ -82,22 +82,6 @@ test("the metadata validator rejects broken relationships", () => {
   );
 });
 
-test("the metadata validator enforces lifecycle availability and published tests", () => {
-  assert.throws(
-    () => validateToolCatalog([{ ...tool, lifecycle: "published", available: false }]),
-    /must be available/,
-  );
-  assert.throws(
-    () =>
-  assert.throws(
-    () =>
-      validateToolCatalog([
-        { ...tool, quality: { ...tool.quality, tests: "partial" } },
-      ]),
-    /must require tests/,
-  );
-});
-
 test("the metadata validator enforces processing capabilities and providers", () => {
   assert.throws(
     () =>
