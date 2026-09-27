@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { isLocale, locales, type Locale } from "@/lib/i18n/config";
 import { getToolPageMetadata } from "@/lib/tools/page-metadata";
 import { getToolByRoute, toolRegistry } from "@/lib/tools/registry";
+import { getPrimaryToolCategory } from "@/lib/tools/types";
 import ToolPage from "@/components/tools/ToolPage/ToolPage";
 import RelatedTools from "@/components/tools/RelatedTools";
 
@@ -9,7 +10,7 @@ export async function generateStaticParams() {
   return locales.flatMap((locale) =>
     toolRegistry.map(({ tool }) => ({
       locale,
-      category: tool.categoryId,
+      category: getPrimaryToolCategory(tool),
       slug: tool.slug,
     })),
   );

@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
 import { getCategoryName } from "@/lib/tools/categories";
+import { getPrimaryToolCategory, getToolContent } from "@/lib/tools/types";
 import { tools } from "@/lib/tools/tools";
 import { normalizeSearchText, searchTools } from "@/lib/tools/search";
 import { Button } from "@/components/ui/Button";
@@ -86,7 +87,7 @@ export default function ToolSearch({
 
   function openResult(index: number) {
     const result = results[index];
-    if (result) router.push(hrefFor(result.tool.slug, result.tool.categoryId));
+    if (result) router.push(hrefFor(result.tool.slug, getPrimaryToolCategory(result.tool)));
   }
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
@@ -184,12 +185,12 @@ export default function ToolSearch({
                 <p className="text-xs text-[var(--muted)]">{results.length} {results.length === 1 ? t.tools.resultCountOne : t.tools.resultCountMany}</p>
               </div>
               {results.map(({ tool }, index) => {
-                const content = tool.content[locale] ?? tool.content.fr;
+                const content = getToolContent(tool, locale);
                 return (
                   <a
                     key={tool.id}
                     id={instanceId + "-result-" + index}
-                    href={hrefFor(tool.slug, tool.categoryId)}
+                    href={hrefFor(tool.slug, getPrimaryToolCategory(tool))}
                     role="option"
                     aria-selected={activeIndex === index}
                     onMouseEnter={() => setActiveIndex(index)}
@@ -198,7 +199,7 @@ export default function ToolSearch({
                     <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--accent-soft)] text-xl">{tool.icon}</span>
                     <span className="min-w-0 flex-1">
                       <span className="block truncate text-sm font-semibold text-[var(--foreground)]"><HighlightMatch text={content.name} query={query} /></span>
-                      <span className="mt-0.5 block truncate text-xs text-[var(--muted)]">{getCategoryName(locale, tool.categoryId)} · {content.description}</span>
+                      <span className="mt-0.5 block truncate text-xs text-[var(--muted)]">{getCategoryName(locale, getPrimaryToolCategory(tool))} · {content.description}</span>
                     </span>
                     <span className="text-[var(--muted)]">↗</span>
                   </a>

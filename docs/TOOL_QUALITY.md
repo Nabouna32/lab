@@ -7,7 +7,7 @@ The tool quality contract is the minimum machine-checkable baseline for a catalo
 Every tool must have:
 
 - a unique `id` and URL-safe kebab-case `slug`;
-- at least one category, with `categoryId` as the primary category;
+- at least one category, with the first category acting as the primary route/category;
 - French name and description;
 - SEO title and description for every enabled locale;
 - a positive integer version;

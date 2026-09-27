@@ -1,15 +1,12 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { validateToolCatalog } from "./metadata.ts";
+import { getPrimaryToolCategory, isPublishedTool } from "./types.ts";
 
 const tool = {
   id: "fixture",
   slug: "fixture",
-  categoryId: "calculs",
   icon: "🧮",
-  name: "Fixture",
-  description: "Fixture",
-  available: true,
   version: 1,
   complexity: "small",
   categories: ["calculs"],
@@ -39,8 +36,19 @@ const tool = {
   relatedToolIds: [],
   quality: { accessibility: "required", performance: "standard", tests: "required" },
   lifecycle: "published",
+  access: "anonymous",
   contributor: { type: "internal" },
 };
+
+test("the canonical tool contract derives publication and primary category from structured metadata", () => {
+  assert.equal(isPublishedTool(tool), true);
+  assert.equal(getPrimaryToolCategory(tool), "calculs");
+  assert.equal("name" in tool, false);
+  assert.equal("description" in tool, false);
+  assert.equal("keywords" in tool, false);
+  assert.equal("available" in tool, false);
+  assert.equal("categoryId" in tool, false);
+});
 
 test("the metadata validator accepts a valid local published tool", () => {
   assert.doesNotThrow(() => validateToolCatalog([tool]));
@@ -71,27 +79,6 @@ test("the metadata validator rejects broken relationships", () => {
   assert.throws(
     () => validateToolCatalog([{ ...tool, relatedToolIds: [tool.id] }]),
     /cannot reference itself/,
-  );
-});
-
-test("the metadata validator enforces lifecycle availability and published tests", () => {
-  assert.throws(
-    () => validateToolCatalog([{ ...tool, lifecycle: "published", available: false }]),
-    /must be available/,
-  );
-  assert.throws(
-    () =>
-      validateToolCatalog([
-        { ...tool, lifecycle: "draft", available: true },
-      ]),
-    /Draft tool/,
-  );
-  assert.throws(
-    () =>
-      validateToolCatalog([
-        { ...tool, quality: { ...tool.quality, tests: "partial" } },
-      ]),
-    /must require tests/,
   );
 });
 
@@ -169,8 +156,8 @@ test("the metadata validator rejects incompatible offline, storage and network m
 
 test("the metadata validator requires the primary category and canonical taxonomy", () => {
   assert.throws(
-    () => validateToolCatalog([{ ...tool, categoryId: "dates" }]),
-    /must use categoryId as its primary category/,
+    () => validateToolCatalog([{ ...tool, categories: [] }]),
+    /must declare at least one category/,
   );
   assert.throws(
     () => validateToolCatalog([{ ...tool, tags: ["fixture", "fixture"] }]),

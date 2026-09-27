@@ -1,5 +1,6 @@
 import type { ComponentType } from "react";
 import type { Locale } from "@/lib/i18n/config";
+import { getPrimaryToolCategory, isPublishedTool } from "@/lib/tools/types";
 import type { Tool } from "@/lib/tools/types";
 import { tools } from "@/lib/tools/tools";
 
@@ -63,7 +64,7 @@ const moduleLoaders: Record<string, ToolModule> = {
 };
 
 export const toolRegistry: readonly ToolRegistryEntry[] = tools
-  .filter((tool) => tool.available)
+  .filter(isPublishedTool)
   .map((tool) => {
     const toolModule = moduleLoaders[tool.id];
     if (!toolModule) {
@@ -80,7 +81,7 @@ export function getToolRegistryEntry(toolId: string): ToolRegistryEntry | undefi
 
 export function getToolByRoute(category: string, slug: string): ToolRegistryEntry | undefined {
   const entry = toolRegistry.find(
-    ({ tool }) => tool.categoryId === category && tool.slug === slug,
+    ({ tool }) => getPrimaryToolCategory(tool) === category && tool.slug === slug,
   );
   return entry;
 }

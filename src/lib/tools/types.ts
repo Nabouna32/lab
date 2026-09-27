@@ -1,4 +1,4 @@
-import type { Locale } from "@/lib/i18n/config";
+import type { Locale } from "../i18n/config.ts";
 
 export type ToolComplexity = "small" | "advanced" | "mini-application";
 export type ToolProcessingMode = "local" | "external" | "utiluna-server" | "hybrid";
@@ -38,17 +38,10 @@ export type ToolQualityMetadata = {
 export type ToolContributor = { type: "internal" | "community"; name?: string };
 
 export type Tool = {
-  // Compatibility fields retained while the catalog UI migrates to structured content.
   id: string;
   slug: string;
-  categoryId: string;
   icon: string;
-  name: string;
-  description: string;
-  keywords?: string[];
-  available: boolean;
 
-  // Formal tool metadata contract.
   version: number;
   complexity: ToolComplexity;
   categories: string[];
@@ -68,6 +61,10 @@ export type Tool = {
   access: ToolAccess;
   contributor: ToolContributor;
 };
+
+export function isPublishedTool(tool: Tool): boolean {
+  return tool.lifecycle === "published";
+}
 
 export function getToolContent(tool: Tool, locale: Locale): ToolLocalizedContent {
   return tool.content[locale] ?? tool.content.fr;

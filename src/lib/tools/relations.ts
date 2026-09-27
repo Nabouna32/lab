@@ -1,8 +1,9 @@
+import { getPrimaryToolCategory, getToolContent, isPublishedTool } from "./types.ts";
 import type { Tool } from "./types";
 import { normalizeSearchText } from "./search.ts";
 
 function getTerms(tool: Tool): string[] {
-  return [tool.name, ...(tool.keywords ?? [])]
+  return [getToolContent(tool, "fr").name, ...tool.tags, ...tool.aliases]
     .flatMap((value) => normalizeSearchText(value).split(/\s+/))
     .filter((term) => term.length >= 3);
 }
@@ -19,20 +20,20 @@ export function getRelatedTools(
   const sourceTerms = new Set(getTerms(tool));
 
   return allTools
-    .filter((candidate) => candidate.available && candidate.id !== tool.id)
+    .filter((candidate) => isPublishedTool(candidate) && candidate.id !== tool.id)
     .map((candidate) => {
       const candidateTerms = getTerms(candidate);
       const sharedTerms = candidateTerms.filter((term) => sourceTerms.has(term));
       const score =
         sharedTerms.length * 10 +
-        (candidate.categoryId === tool.categoryId ? 5 : 0);
+        (getPrimaryToolCategory(candidate) === getPrimaryToolCategory(tool) ? 5 : 0);
 
       return { candidate, score };
     })
     .filter(({ score }) => score > 0)
     .sort(
       (a, b) =>
-        b.score - a.score || a.candidate.name.localeCompare(b.candidate.name, "fr"),
+        b.score - a.score || getToolContent(a.candidate, "fr").name.localeCompare(getToolContent(b.candidate, "fr").name, "fr"),
     )
     .slice(0, limit)
     .map(({ candidate }) => candidate);
