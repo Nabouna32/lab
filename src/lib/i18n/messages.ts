@@ -15,7 +15,7 @@ export type Messages = {
   admin: { label: string; title: string; description: string; dashboard: string; access: string; account: string; roles: string; permissions: string; auditLog: string; noAuditEntries: string; noAccess: string; notConfigured: string; modules: string; users: string; usersDescription: string; usersTitle: string; usersBack: string; usersSearch: string; usersSearchPlaceholder: string; usersSearchSubmit: string; usersNoResults: string; userEmail: string; userDisplayName: string; userCreated: string; userLastSignIn: string; userEmailConfirmed: string; userPending: string; userNeverSignedIn: string; userRoles: string; userAssignRole: string; userRemoveRole: string; userNoRoles: string; userUpdated: string; userActionError: string; tools: string; toolsDescription: string; moderation: string; moderationDescription: string; analytics: string; analyticsDescription: string; settings: string; settingsDescription: string; audit: string; auditDescription: string; auditTitle: string; auditBack: string; auditEmpty: string; auditActor: string; auditAction: string; auditTarget: string; auditDate: string; auditDetails: string; userAccess: string; userActive: string; userSuspendedUntil: string; userSuspend: string; userUnsuspend: string; userSuspended: string; userUnsuspended: string; userRevokeSessions: string; userSessionsRevoked: string; roleSuperAdmin: string; roleAdmin: string; available: string; comingSoon: string; },
   account: { label: string; title: string; anonymousDescription: string; signIn: string; signUp: string; signOut: string; submitSignIn: string; submitSignUp: string; email: string; password: string; displayName: string; notSet: string; confirmation: string; alreadySignedIn: string; noAccount: string; hasAccount: string };
   processing: {
-    ariaLabel: string; more: string; storage: string; retention: string; externalProviders: string; dataCategories: string;
+    localDetail: string; ariaLabel: string; more: string; storage: string; retention: string; externalProviders: string; dataCategories: string;
     localLabel: string; localSummary: string; externalLabel: string; externalSummary: string;
     serverLabel: string; serverSummary: string; hybridLabel: string; hybridSummary: string;
   };
@@ -42,7 +42,7 @@ export const messages: Record<Locale, Messages> = {
       description: "Retrouvez tous nos outils gratuits pour calculer, convertir et simplifier vos tâches du quotidien.",
       explore: "Explorer les outils", one: "outil", many: "outils", back: "← Tous les outils",
       categoryDescription: "Retrouvez les outils disponibles dans la catégorie",
-      searchLabel: "Rechercher un outil", searchPlaceholder: "Rechercher un outil : « TVA », « âge », « PDF »…", searchButton: "Rechercher",
+      searchLabel: "Rechercher un outil", searchPlaceholder: "Que cherchez-vous ? Ex. « TVA », « vitesse internet », « calcul d’âge »…", searchButton: "Rechercher",
       suggestions: "Suggestions", resultCountOne: "résultat", resultCountMany: "résultats",
       noResults: "Aucun outil trouvé pour", noResultsHelp: "Essayez « TVA », « internet », « vidéo » ou « âge ».",
       clearSearch: "Effacer la recherche",
@@ -62,7 +62,7 @@ export const messages: Record<Locale, Messages> = {
       alreadySignedIn: "Vous êtes déjà connecté.", noAccount: "Pas encore de compte ?", hasAccount: "Vous avez déjà un compte ?",
     },
     processing: {
-      ariaLabel: "Informations sur le traitement des données", more: "Informations sur le traitement",
+      localDetail: "Aucune donnée n'est envoyée à un serveur ni stockée par Utiluna.", ariaLabel: "Informations sur le traitement des données", more: "Informations sur le traitement",
       storage: "Stockage", retention: "Conservation", externalProviders: "Service(s) externe(s)", dataCategories: "Données concernées",
       localLabel: "Traitement local", localSummary: "Vos données restent sur votre appareil.",
       externalLabel: "Service externe", externalSummary: "Certaines données sont transmises à un service externe.",
@@ -90,7 +90,7 @@ export const messages: Record<Locale, Messages> = {
       description: "Free tools to calculate, convert, and simplify everyday tasks.",
       explore: "Explore tools", one: "tool", many: "tools", back: "← All tools",
       categoryDescription: "Browse the tools available in the",
-      searchLabel: "Search for a tool", searchPlaceholder: "Search for a tool: “VAT”, “age”, “PDF”...", searchButton: "Search",
+      searchLabel: "Search for a tool", searchPlaceholder: "What do you need? E.g. “VAT”, “internet speed”, “age calculator”...", searchButton: "Search",
       suggestions: "Suggestions", resultCountOne: "result", resultCountMany: "results",
       noResults: "No tool found for", noResultsHelp: "Try “VAT”, “internet”, “video”, or “age”.",
       clearSearch: "Clear search",
@@ -110,7 +110,7 @@ export const messages: Record<Locale, Messages> = {
       alreadySignedIn: "You are already signed in.", noAccount: "Don't have an account yet?", hasAccount: "Already have an account?",
     },
     processing: {
-      ariaLabel: "Data processing information", more: "Processing information",
+      localDetail: "No data is sent to a server or stored by Utiluna.", ariaLabel: "Data processing information", more: "Processing information",
       storage: "Storage", retention: "Retention", externalProviders: "External service(s)", dataCategories: "Data involved",
       localLabel: "Local processing", localSummary: "Your data stays on your device.",
       externalLabel: "External service", externalSummary: "Some data is sent to an external service.",
