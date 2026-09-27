@@ -44,7 +44,7 @@ type ToolMessages = {
     placeholders: { ht: string; ttc: string; rate: string }; invalid: string; how: string; explanation: (rate: string, vat: string) => string;
   };
   fileSizeCalculator: {
-    duration: string; durationPlaceholder: string; durationUnit: string;     bitrate: string; bitratePlaceholder: string; bitrateUnit: string;     sizeUnit: string; sizeUnits: Record<string, string>; result: string; note: string; invalid: string;
+    duration: string; durationPlaceholder: string; durationUnit: string; bitrate: string; bitratePlaceholder: string; bitrateUnit: string; sizeUnit: string; result: string; note: string; invalid: string;
   };
   fileSize: {
     value: string; from: string; to: string; result: string; placeholder: string; invalid: string;
@@ -52,12 +52,11 @@ type ToolMessages = {
   downloadTime: {
     fileSize: string; sizeUnit: string; speed: string; speedUnit: string; placeholderSize: string; placeholderSpeed: string;
     estimated: string; seconds: (value: string) => string; note: string; invalid: string;
-    sizeUnits: Record<string, string>; speedUnits: Record<string, string>;
-    duration: { day: string; hour: string; minute: string; second: string };
+
   };
   downloadSpeed: {
     value: string; from: string; to: string; result: string; placeholder: string; invalid: string;
-    units: Record<string, string>;   };
+    };
   textCounter: {
     input: string; placeholder: string; characters: string; charactersWithoutSpaces: string;
     words: string; spaces: string; lines: string; clear: string; copyStats: string;
@@ -209,7 +208,6 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     fileSize: {
       value: "Value to convert", from: "From unit", to: "To unit", result: "Result", placeholder: "e.g. 1.5",
       invalid: "Enter a value that is 0 or greater.",
-      units: { o: "Bytes (B)", ko: "Kilobytes (kB) — 1,000 B", mo: "Megabytes (MB) — 1,000,000 B", go: "Gigabytes (GB) — 1,000,000,000 B", to: "Terabytes (TB) — 1,000,000,000,000 B", kio: "Kibibytes (KiB) — 1,024 B", mio: "Mebibytes (MiB) — 1,048,576 B", gio: "Gibibytes (GiB) — 1,073,741,824 B", tio: "Tebibytes (TiB) — 1,099,511,627,776 B" },
     },
     downloadTime: {
       fileSize: "File size", sizeUnit: "File size unit", speed: "Download speed", speedUnit: "Download speed unit",
@@ -220,8 +218,6 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     downloadSpeed: {
       value: "Speed to convert", from: "From unit", to: "To unit", result: "Result", placeholder: "e.g. 100",
       invalid: "Enter a speed that is 0 or greater.",
-      units: { mbps: "Megabits/s (Mbps)", gbps: "Gigabits/s (Gbps)", "ko-s": "Kilobytes/s (kB/s)", "mo-s": "Megabytes/s (MB/s)", "go-s": "Gigabytes/s (GB/s)" },
-      shortUnits: { mbps: "Mbps", gbps: "Gbps", "ko-s": "kB/s", "mo-s": "MB/s", "go-s": "GB/s" },
     },
     textCounter: {
       input: "Your text", placeholder: "Type or paste your text here…", characters: "Characters",
