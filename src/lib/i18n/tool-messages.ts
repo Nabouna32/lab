@@ -49,7 +49,7 @@ type ToolMessages = {
     sizeUnit: string; sizeUnits: Record<string, string>; result: string; note: string;
   };
   fileSize: {
-    value: string; from: string; to: string; result: string; placeholder: string;
+    value: string; from: string; to: string; result: string; placeholder: string; invalid: string;
     units: Record<string, string>;
   };
   downloadTime: {
@@ -130,6 +130,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     },
     fileSize: {
       value: "Valeur à convertir", from: "Unité de départ", to: "Unité d'arrivée", result: "Résultat", placeholder: "Ex. 1,5",
+      invalid: "Saisissez une valeur positive ou nulle.",
       units: { o: "Octets (o)", ko: "Kilooctets (ko) — 1 000 o", mo: "Mégaoctets (Mo) — 1 000 000 o", go: "Gigaoctets (Go) — 1 000 000 000 o", to: "Téraoctets (To) — 1 000 000 000 000 o", kio: "Kio — 1 024 o", mio: "Mio — 1 048 576 o", gio: "Gio — 1 073 741 824 o", tio: "Tio — 1 099 511 627 776 o" },
     },
     downloadTime: {
@@ -210,6 +211,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     },
     fileSize: {
       value: "Value to convert", from: "From unit", to: "To unit", result: "Result", placeholder: "e.g. 1.5",
+      invalid: "Enter a value that is 0 or greater.",
       units: { o: "Bytes (B)", ko: "Kilobytes (kB) — 1,000 B", mo: "Megabytes (MB) — 1,000,000 B", go: "Gigabytes (GB) — 1,000,000,000 B", to: "Terabytes (TB) — 1,000,000,000,000 B", kio: "Kibibytes (KiB) — 1,024 B", mio: "Mebibytes (MiB) — 1,048,576 B", gio: "Gibibytes (GiB) — 1,073,741,824 B", tio: "Tebibytes (TiB) — 1,099,511,627,776 B" },
     },
     downloadTime: {
