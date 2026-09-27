@@ -9,7 +9,7 @@ export type Messages = {
   tools: {
     eyebrow: string; title: string; description: string; explore: string; one: string; many: string; back: string;
     categoryDescription: string; searchLabel: string; searchPlaceholder: string; searchButton: string; suggestions: string;
-    resultCountOne: string; resultCountMany: string; noResults: string; noResultsHelp: string; clearSearch: string;
+    resultCountOne: string; resultCountMany: string; noResults: string; noResultsHelp: string; tryThese: string; noResultsSuggestions: string[]; clearSearch: string;
     categoriesTitle: string; categoriesDescription: string;
   };
   relatedTools: { title: string };
@@ -52,7 +52,7 @@ export const messages: Record<Locale, Messages> = {
       categoryDescription: "Retrouvez les outils disponibles dans la catégorie",
       searchLabel: "Rechercher un outil", searchPlaceholder: "Rechercher : TVA, âge, PDF…", searchButton: "Rechercher",
       suggestions: "Suggestions", resultCountOne: "résultat", resultCountMany: "résultats",
-      noResults: "Aucun outil trouvé pour", noResultsHelp: "Essayez « TVA », « internet », « vidéo » ou « âge ».",
+      noResults: "Aucun outil trouvé pour", noResultsHelp: "Essayez une recherche plus courte ou l’une des suggestions ci-dessous.", tryThese: "Essayez plutôt", noResultsSuggestions: ["TVA", "internet", "vidéo", "âge"],
       clearSearch: "Effacer la recherche",
       categoriesTitle: "Parcourir par catégorie", categoriesDescription: "Si vous préférez explorer, choisissez une catégorie pour voir ses outils.",
     },
@@ -108,7 +108,7 @@ export const messages: Record<Locale, Messages> = {
       categoryDescription: "Browse the tools available in the",
       searchLabel: "Search for a tool", searchPlaceholder: "Search: VAT, age, PDF...", searchButton: "Search",
       suggestions: "Suggestions", resultCountOne: "result", resultCountMany: "results",
-      noResults: "No tool found for", noResultsHelp: "Try “VAT”, “internet”, “video”, or “age”.",
+      noResults: "No tool found for", noResultsHelp: "Try a shorter search or one of the suggestions below.", tryThese: "Try instead", noResultsSuggestions: ["VAT", "internet", "video", "age"],
       clearSearch: "Clear search",
       categoriesTitle: "Browse by category", categoriesDescription: "Prefer to explore? Choose a category to see its tools.",
     },
