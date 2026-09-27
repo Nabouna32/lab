@@ -4,6 +4,7 @@ import { ResultPanel } from "@/components/ui/ResultPanel";
 type CalculatorResultProps = {
   label: string;
   value: ReactNode;
+  emptyMessage?: string;
   tone?: "accent" | "neutral";
 };
 
