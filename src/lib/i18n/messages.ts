@@ -10,6 +10,7 @@ export type Messages = {
     eyebrow: string; title: string; description: string; explore: string; one: string; many: string; back: string;
     categoryDescription: string; searchLabel: string; searchPlaceholder: string; searchButton: string; suggestions: string;
     resultCountOne: string; resultCountMany: string; noResults: string; noResultsHelp: string; clearSearch: string;
+    categoriesTitle: string; categoriesDescription: string;
   };
   relatedTools: { title: string };
   theme: { choose: string; system: string; light: string; dark: string; title: string };
@@ -53,6 +54,7 @@ export const messages: Record<Locale, Messages> = {
       suggestions: "Suggestions", resultCountOne: "résultat", resultCountMany: "résultats",
       noResults: "Aucun outil trouvé pour", noResultsHelp: "Essayez « TVA », « internet », « vidéo » ou « âge ».",
       clearSearch: "Effacer la recherche",
+      categoriesTitle: "Parcourir par catégorie", categoriesDescription: "Si vous préférez explorer, choisissez une catégorie pour voir ses outils.",
     },
     relatedTools: { title: "Vous pourriez aussi avoir besoin de" },
     theme: { choose: "Choisir le thème", system: "Système", light: "Clair", dark: "Sombre", title: "Thème" },
@@ -108,6 +110,7 @@ export const messages: Record<Locale, Messages> = {
       suggestions: "Suggestions", resultCountOne: "result", resultCountMany: "results",
       noResults: "No tool found for", noResultsHelp: "Try “VAT”, “internet”, “video”, or “age”.",
       clearSearch: "Clear search",
+      categoriesTitle: "Browse by category", categoriesDescription: "Prefer to explore? Choose a category to see its tools.",
     },
     relatedTools: { title: "You may also need" },
     theme: { choose: "Choose theme", system: "System", light: "Light", dark: "Dark", title: "Theme" },
