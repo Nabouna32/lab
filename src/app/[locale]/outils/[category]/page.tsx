@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const t = getMessages(locale);
   return getPublicPageMetadata({
     title: `${categoryName} — Utiluna`,
-    description: `${t.tools.categoryDescription} ${categoryName.toLowerCase()}.`,
+    description: t.tools.categoryDescription(categoryName),
     path: `/${locale}/outils/${categoryId}`,
   }, locale);
 }
@@ -65,7 +65,7 @@ export default async function CategoryPage({
         </h1>
 
         <p className="mt-4 text-base leading-7 text-[var(--muted)]">
-          {t.tools.categoryDescription} {categoryName.toLowerCase()}.
+          {t.tools.categoryDescription(categoryName)}
         </p>
       </div>
 
