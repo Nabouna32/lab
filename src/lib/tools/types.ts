@@ -1,5 +1,19 @@
 import type { Locale } from "../i18n/config.ts";
 
+export type ToolId =
+  | "pourcentage"
+  | "reduction"
+  | "tva"
+  | "regle-de-trois"
+  | "age"
+  | "duree"
+  | "vitesse-telechargement"
+  | "temps-telechargement"
+  | "taille-fichier"
+  | "convertisseur-taille"
+  | "mots-caracteres"
+  | "bitrate-video";
+
 export type ToolComplexity = "small" | "advanced" | "mini-application";
 export type ToolProcessingMode = "local" | "external" | "utiluna-server" | "hybrid";
 export type ToolLifecycle = "draft" | "review" | "published" | "hidden" | "archived";
@@ -38,7 +52,7 @@ export type ToolQualityMetadata = {
 export type ToolContributor = { type: "internal" | "community"; name?: string };
 
 export type Tool = {
-  id: string;
+  id: ToolId;
   slug: string;
   icon: string;
 
