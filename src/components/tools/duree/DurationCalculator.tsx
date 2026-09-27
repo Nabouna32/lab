@@ -10,6 +10,7 @@ import { useLocale } from "@/lib/i18n/use-locale";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { SegmentedControl } from "@/components/ui/SegmentedControl";
 import { formatDurationPart } from "@/lib/i18n/units";
+import { ValidationMessage } from "@/components/ui/ValidationMessage";
 
 type Mode = "dates" | "horaires";
 
@@ -60,9 +61,9 @@ export default function DurationCalculator() {
     clearValues();
   }
 
-  const days = duration === null ? "—" : String(duration.days);
-  const hours = duration === null ? "—" : String(duration.hours);
-  const minutes = duration === null ? "—" : String(duration.minutes);
+  const days = duration === null ? null : String(duration.days);
+  const hours = duration === null ? null : String(duration.hours);
+  const minutes = duration === null ? null : String(duration.minutes);
 
   return (
     <CalculatorShell>
@@ -84,11 +85,11 @@ export default function DurationCalculator() {
         )}
       </div>
       <div className={`mt-6 grid gap-4 ${mode === "dates" ? "sm:grid-cols-3" : "sm:grid-cols-2"}`}>
-        {mode === "dates" && <CalculatorResult label={t.days} tone="accent" value={days} />}
-        <CalculatorResult label={t.hours} tone={mode === "horaires" ? "accent" : undefined} value={hours} />
-        <CalculatorResult label={t.minutes} value={minutes} />
+        {mode === "dates" && <CalculatorResult label={t.days} tone="accent" value={days} emptyMessage={t.emptyResult} />}
+        <CalculatorResult label={t.hours} tone={mode === "horaires" ? "accent" : undefined} value={hours} emptyMessage={t.emptyResult} />
+        <CalculatorResult label={t.minutes} value={minutes} emptyMessage={t.emptyResult} />
       </div>
-      {invalidRange && <p id="duration-error" role="alert" className="mt-4 text-sm font-medium text-[var(--foreground)]">{t.invalidRange}</p>}
+      {invalidRange && <ValidationMessage id="duration-error">{t.invalidRange}</ValidationMessage>}
       {duration && (
         <div className="mt-6 rounded-2xl border border-[var(--border)] bg-[var(--background)] p-4">
           <p className="text-sm leading-6 text-[var(--muted)]">
