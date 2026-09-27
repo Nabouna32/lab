@@ -9,10 +9,9 @@ const BYTES_PER_UNIT: Record<SizeUnit, number> = {
   kio: 1024, mio: 1024 ** 2, gio: 1024 ** 3, tio: 1024 ** 4,
 };
 
-export function convertFileSize(value: number, from: SizeUnit, to: SizeUnit): number {
-  if (!SIZE_UNIT_SET.has(from) || !SIZE_UNIT_SET.has(to)) throw new RangeError("Les unités de taille sont invalides.");
-  if (!Number.isFinite(value) || value < 0) throw new RangeError("La valeur doit être un nombre positif ou nul.");
+export function convertFileSize(value: number, from: SizeUnit, to: SizeUnit): number | null {
+  if (!SIZE_UNIT_SET.has(from) || !SIZE_UNIT_SET.has(to)) return null;
+  if (!Number.isFinite(value) || value < 0) return null;
   const result = (value * BYTES_PER_UNIT[from]) / BYTES_PER_UNIT[to];
-  if (!Number.isFinite(result)) throw new RangeError("Le résultat dépasse la plage numérique supportée.");
-  return result;
+  return Number.isFinite(result) ? result : null;
 }
