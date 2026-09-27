@@ -1,4 +1,5 @@
 import { locales } from "../i18n/config.ts";
+import { getPrimaryToolCategory, isPublishedTool } from "@/lib/tools/types";
 import type { Tool, ToolCapability, ToolProcessingMode } from "@/lib/tools/types";
 
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -21,7 +22,7 @@ function validateToolQuality(tool: Tool): void {
     throw new Error(`Tool "${tool.id}" must declare a URL-safe kebab-case slug.`);
   }
 
-  if (tool.categoryId !== tool.categories[0]) {
+  if (getPrimaryToolCategory(tool) !== tool.categories[0]) {
     throw new Error(`Tool "${tool.id}" must use categoryId as its primary category.`);
   }
 
@@ -40,17 +41,10 @@ function validateToolQuality(tool: Tool): void {
     throw new Error(`Tool "${tool.id}" must require accessibility validation.`);
   }
 
-  if (tool.lifecycle === "published") {
-    if (!tool.available) {
-      throw new Error(`Published tool "${tool.id}" must be available.`);
-    }
-    if (tool.quality.tests !== "required") {
+  if (isPublishedTool(tool)) {
+        if (tool.quality.tests !== "required") {
       throw new Error(`Published tool "${tool.id}" must require tests.`);
     }
-  }
-
-  if (tool.lifecycle === "draft" && tool.available) {
-    throw new Error(`Draft tool "${tool.id}" cannot be available.`);
   }
 
   if (tool.contributor.type === "community" && !tool.contributor.name?.trim()) {
