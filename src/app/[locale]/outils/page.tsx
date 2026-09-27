@@ -1,7 +1,7 @@
 import ToolCard from "@/components/tools/ToolCard";
 import { categories, getCategoryName } from "@/lib/tools/categories";
-import { tools } from "@/lib/tools/tools";
-import { getPrimaryToolCategory, isPublishedTool } from "@/lib/tools/types";
+import { getToolsByCategory } from "@/lib/tools/catalog";
+
 import { getMessages } from "@/lib/i18n/messages";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { notFound } from "next/navigation";
@@ -11,7 +11,7 @@ export default async function ToolsPage({ params }: { params: Promise<{ locale: 
   if (!isLocale(rawLocale)) notFound();
   const locale: Locale = rawLocale;
   const t = getMessages(locale);
-  const visibleCategories = categories.filter((category) => tools.some((tool) => getPrimaryToolCategory(tool) === category.id && isPublishedTool(tool)));
+  const visibleCategories = categories.filter((category) => getToolsByCategory(category.id).length > 0);
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
@@ -25,7 +25,7 @@ export default async function ToolsPage({ params }: { params: Promise<{ locale: 
       </div>
       <div className="mt-12 space-y-14">
         {visibleCategories.map((category) => {
-          const categoryTools = tools.filter((tool) => getPrimaryToolCategory(tool) === category.id && isPublishedTool(tool));
+          const categoryTools = getToolsByCategory(category.id);
           return (
             <section key={category.id}>
               <div className="mb-5 flex items-end justify-between gap-4">
