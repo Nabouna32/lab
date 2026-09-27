@@ -60,9 +60,9 @@ function loadEditorialContent(relativePath) {
     { compilerOptions: { module: typescript.ModuleKind.CommonJS, target: typescript.ScriptTarget.ES2022 } },
   ).outputText;
 
-  const module = { exports: {} };
-  vm.runInNewContext(compiled, { module, exports: module.exports });
-  return module.exports;
+  const sandboxModule = { exports: {} };
+  vm.runInNewContext(compiled, { module: sandboxModule, exports: sandboxModule.exports });
+  return sandboxModule.exports;
 }
 
 test("i18n registry exposes the initial languages", () => {
