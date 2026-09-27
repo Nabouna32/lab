@@ -10,7 +10,6 @@ function getKeyMap(name: string) {
 }
 
 const getPublishableKey = () => getKeyMap("SUPABASE_PUBLISHABLE_KEYS")?.default ?? Deno.env.get("SUPABASE_ANON_KEY");
-const getSecretKey = () => getKeyMap("SUPABASE_SECRET_KEYS")?.default ?? Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 
 Deno.serve(async (req) => {
   if (req.method !== "POST") return Response.json({ error: "Method not allowed." }, { status: 405 });
@@ -18,8 +17,7 @@ Deno.serve(async (req) => {
   const authHeader = req.headers.get("Authorization");
   const url = Deno.env.get("SUPABASE_URL");
   const publishableKey = getPublishableKey();
-  const secretKey = getSecretKey();
-  if (!authHeader || !url || !publishableKey || !secretKey) {
+  if (!authHeader || !url || !publishableKey) {
     return Response.json({ error: "Function is not configured." }, { status: 500 });
   }
 
