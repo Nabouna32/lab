@@ -61,7 +61,7 @@
 
 ## Not implemented yet
 
-- User suspension/deletion and broader account-lifecycle administration.
+- Account deletion and broader account-lifecycle administration.
 - Account/premium enforcement.
 - Runtime enforcement for browser capabilities beyond clipboard.
 - Generic sharing runtime.
@@ -100,7 +100,7 @@ The code/module remains authoritative for executable behavior and technical capa
 - A protected localized `/[locale]/admin` dashboard is implemented and checks `admin.dashboard.view` server-side.
 - The administration dashboard now acts as a module hub, keeping future areas visible without creating empty pages.
 - Administrative access is exposed from the account page only when the signed-in user has the dashboard permission.
-- A protected user-management workspace is implemented with search, account/profile metadata, administrator roles, audited role assignment/removal, and protection against removing the last `super_admin` role.
+- A protected user-management workspace is implemented with search, account/profile metadata, administrator roles, audited role assignment/removal, protection against removing the last `super_admin` role, account suspension/reactivation, and administrator-triggered session revocation.
 - A protected audit-log workspace is implemented with server-side permission checks and a read-only view of administrative actions.
 - User suspension/reactivation and administrator-triggered session revocation are implemented through Supabase Auth; account deletion and broader account-lifecycle administration are not implemented yet.
 - The initial administrator account has been explicitly assigned the `super_admin` role and can access the dashboard.
