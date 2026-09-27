@@ -1,4 +1,5 @@
 import type { Locale } from "@/lib/i18n/config";
+import { getMessages } from "@/lib/i18n/messages";
 import type { ToolProcessingMetadata } from "@/lib/tools/types";
 import ToolProcessingStatus from "./ToolProcessingStatus";
 
@@ -6,6 +7,7 @@ type ToolPageHeaderProps = {
   icon: string;
   title: string;
   description: string;
+  contentFallback: boolean;
   processing: ToolProcessingMetadata;
   locale: Locale;
 };
@@ -14,6 +16,7 @@ export default function ToolPageHeader({
   icon,
   title,
   description,
+  contentFallback,
   processing,
   locale,
 }: ToolPageHeaderProps) {
@@ -37,6 +40,11 @@ export default function ToolPageHeader({
             <p className="mt-1.5 max-w-3xl text-sm leading-6 text-[var(--muted)] sm:text-base">
               {description}
             </p>
+            {contentFallback && (
+              <p className="mt-2 text-xs font-medium text-[var(--muted)]" role="status">
+                {getMessages(locale).processing.fallbackNotice}
+              </p>
+            )}
           </div>
         </div>
 
