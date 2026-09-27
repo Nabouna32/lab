@@ -1,6 +1,6 @@
 export const SIZE_UNITS = ["o", "ko", "mo", "go", "to", "kio", "mio", "gio", "tio"] as const;
 
-type SizeUnit = (typeof SIZE_UNITS)[number];
+export type SizeUnit = (typeof SIZE_UNITS)[number];
 
 const SIZE_UNIT_SET = new Set<string>(SIZE_UNITS);
 
