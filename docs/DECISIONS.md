@@ -542,3 +542,26 @@ Using 1,024 while displaying decimal labels such as kB/ko makes the displayed un
 - 1 Mo = 1,000,000 o and 1 Mio = 1,048,576 o.
 - Download-time calculations continue to use decimal file sizes and decimal network speeds.
 - Speed conversion continues to use decimal units and preserves the 8-bit-per-byte relationship.
+
+---
+
+## DEC-029 — Supabase leaked password protection remains disabled on the Free plan
+
+**Status:** Accepted
+
+### Decision
+
+Keep Supabase Auth's leaked password protection disabled while Utiluna remains on the Supabase Free plan.
+
+This is an intentional infrastructure limitation, not an outstanding security task. Security audits should treat this setting as a known and accepted constraint rather than repeatedly flagging it for implementation.
+
+### Reason
+
+The feature requires a higher Supabase plan and cannot currently be enabled through the available project tooling on the Free plan. Upgrading solely to enable this feature is not justified at the current project stage.
+
+### Consequences
+
+- Do not repeatedly attempt to enable this setting as part of routine security hardening while the project remains on the Free plan.
+- Security audits may mention the accepted limitation for visibility, but should not create a new implementation task unless the Supabase plan changes.
+- Revisit the decision if Utiluna moves to a plan that provides the feature or if the project's authentication/security requirements materially change.
+
