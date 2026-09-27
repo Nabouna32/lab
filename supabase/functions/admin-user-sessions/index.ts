@@ -1,5 +1,5 @@
-import "jsr:@supabase/functions-js/edge-runtime.d.ts";
-import { createClient } from "npm:@supabase/supabase-js@2";
+// @ts-expect-error Resolved by the Deno Edge runtime, not the Node typecheck.\nimport "jsr:@supabase/functions-js/edge-runtime.d.ts";
+// @ts-expect-error Resolved by the Deno Edge runtime, not the Node typecheck.\nimport { createClient } from "npm:@supabase/supabase-js@2";\n\ndeclare const Deno: { env: { get(name: string): string | undefined } };
 
 type Payload = { targetUserId?: string };
 
@@ -11,7 +11,7 @@ function getKeyMap(name: string) {
 
 const getPublishableKey = () => getKeyMap("SUPABASE_PUBLISHABLE_KEYS")?.default ?? Deno.env.get("SUPABASE_ANON_KEY");
 
-Deno.serve(async (req) => {
+Deno.serve(async (req: Request) => {
   if (req.method !== "POST") return Response.json({ error: "Method not allowed." }, { status: 405 });
 
   const authHeader = req.headers.get("Authorization");
@@ -40,7 +40,7 @@ Deno.serve(async (req) => {
 
   const { data: roles, error: rolesError } = await client.from("admin_user_roles").select("role_key").eq("user_id", targetUserId);
   if (rolesError) return Response.json({ error: "Could not inspect target account." }, { status: 500 });
-  if ((roles ?? []).some((role) => role.role_key === "super_admin")) {
+  if ((roles ?? []).some((role: { role_key: string }) => role.role_key === "super_admin")) {
     return Response.json({ error: "Cannot revoke sessions for a super administrator." }, { status: 409 });
   }
 
