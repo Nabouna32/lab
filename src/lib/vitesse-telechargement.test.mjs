@@ -18,14 +18,18 @@ test("keeps the value when units match", () => {
   assert.equal(convertSpeed(42.5, "mo-s", "mo-s"), 42.5);
 });
 
-test("rejects invalid units at runtime", () => {
-  assert.throws(() => convertSpeed(1, "invalid", "mbps"), RangeError);
-  assert.throws(() => convertSpeed(1, "mbps", "invalid"), RangeError);
+test("returns null for invalid units at runtime", () => {
+  assert.equal(convertSpeed(1, "invalid", "mbps"), null);
+  assert.equal(convertSpeed(1, "mbps", "invalid"), null);
 });
 
-test("accepts zero and rejects invalid values", () => {
+test("accepts zero and returns null for invalid values", () => {
   assert.equal(convertSpeed(0, "mbps", "mo-s"), 0);
-  assert.throws(() => convertSpeed(-1, "mbps", "mo-s"), RangeError);
-  assert.throws(() => convertSpeed(Number.NaN, "mbps", "mo-s"), RangeError);
-  assert.throws(() => convertSpeed(Number.POSITIVE_INFINITY, "mbps", "mo-s"), RangeError);
+  assert.equal(convertSpeed(-1, "mbps", "mo-s"), null);
+  assert.equal(convertSpeed(Number.NaN, "mbps", "mo-s"), null);
+  assert.equal(convertSpeed(Number.POSITIVE_INFINITY, "mbps", "mo-s"), null);
+});
+
+test("returns null when the result overflows the numeric range", () => {
+  assert.equal(convertSpeed(Number.MAX_VALUE, "mbps", "go-s"), null);
 });
