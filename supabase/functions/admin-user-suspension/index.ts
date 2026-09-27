@@ -1,4 +1,5 @@
-// @ts-expect-error Resolved by the Deno Edge runtime, not the Node typecheck.\nimport { createClient } from "npm:@supabase/supabase-js@2";\n\ndeclare const Deno: { env: { get(name: string): string | undefined } };
+import { createClient } from "npm:@supabase/supabase-js@2";
+
 
 
 type Action = "suspend" | "unsuspend";
