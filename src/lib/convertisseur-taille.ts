@@ -6,10 +6,10 @@ const SIZE_UNIT_SET = new Set<string>(SIZE_UNITS);
 
 const BYTES_PER_UNIT: Record<SizeUnit, number> = {
   o: 1,
-  ko: 1024,
-  mo: 1024 ** 2,
-  go: 1024 ** 3,
-  to: 1024 ** 4,
+  ko: 1_000,
+  mo: 1_000_000,
+  go: 1_000_000_000,
+  to: 1_000_000_000_000,
 };
 
 export function convertFileSize(
