@@ -8,6 +8,7 @@ export type Messages = {
   actions: { copy: string; copied: string; clear: string };
   home: { metaTitle: string; badge: string; title: string; description: string; quickLinks: Array<{ label: string; toolId: string }>; explore: string; discoveryTitle: string; discoveryDescription: string; discoveryOpen: string; categoriesTitle: string; categoriesDescription: string; categoriesCount: (count: number) => string };
   tools: {
+    metaTitle: string;
     eyebrow: string; title: string; description: string; explore: string; one: string; many: string; back: string;
     categoryDescription: (category: string) => string; searchLabel: string; searchPlaceholder: string; searchButton: string; suggestions: string;
     resultCountOne: string; resultCountMany: string; noResults: string; noResultsHelp: string; tryThese: string; noResultsSuggestions: string[]; clearSearch: string;
