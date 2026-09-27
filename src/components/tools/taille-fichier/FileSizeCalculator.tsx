@@ -11,7 +11,6 @@ import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { calculateFileSize, type BitrateUnit, type DurationUnit, type FileSizeUnit } from "@/lib/taille-fichier";
 import { formatToolNumber, parseLocalizedNumber } from "@/lib/numbers";
 import { getBitrateUnitLabel, getDurationUnitLabel, getFileSizeCalculatorUnitLabel } from "@/lib/i18n/units";
-import { getBitrateUnitLabel, getDurationUnitLabel, getFileSizeCalculatorUnitLabel } from "@/lib/i18n/units";
 
 
 export default function FileSizeCalculator() {
