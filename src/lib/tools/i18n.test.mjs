@@ -190,3 +190,19 @@ test("audited pluralized UI components delegate plural selection to the i18n lay
   assert.equal(units.includes("value === 1 ?"), false);
   assert.match(units, /formatPlural\(locale, value/);
 });
+
+
+test("public route metadata and category copy use localized message keys", async () => {
+  const home = readFileSync(fileURLToPath(new URL("../../app/[locale]/page.tsx", import.meta.url)), "utf8");
+  const tools = readFileSync(fileURLToPath(new URL("../../app/[locale]/outils/page.tsx", import.meta.url)), "utf8");
+  const category = readFileSync(fileURLToPath(new URL("../../app/[locale]/outils/[category]/page.tsx", import.meta.url)), "utf8");
+  const messages = readFileSync(fileURLToPath(new URL("../i18n/messages.ts", import.meta.url)), "utf8");
+  assert.match(home, /title: t\\.home\\.metaTitle/);
+  assert.match(tools, /title: t\\.tools\\.metaTitle/);
+  assert.match(category, /t\\.tools\\.categoryDescription\\(categoryName\\)/);
+  assert.match(messages, /metaTitle: "Utiluna — Outils gratuits en ligne"/);
+  assert.match(messages, /metaTitle: "Utiluna — Free online tools"/);
+  assert.match(messages, /categoryDescription: \\(category\\) =>/);
+  assert.equal(messages.includes('locale === "fr" ? "Utiluna — Outils gratuits en ligne"'), false);
+  assert.equal(messages.includes('locale === "fr" ? "Tous les outils — Utiluna"'), false);
+});
