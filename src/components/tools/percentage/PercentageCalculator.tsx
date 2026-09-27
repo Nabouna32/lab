@@ -221,7 +221,7 @@ export default function PercentageCalculator() {
           <div
             aria-live="polite"
             className={[
-              "mt-3 flex min-h-36 flex-col justify-center rounded-[1.5rem] border p-5 transition-all sm:p-6",
+              "mt-3 flex min-h-36 flex-col justify-center rounded-[1.5rem] border p-5 transition-[background-color,border-color,color] sm:p-6",
               resultToneClasses[resultTone].panel,
             ].join(" ")}
           >
