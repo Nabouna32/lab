@@ -22,8 +22,8 @@
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "flag-icons": "^7.5.0",
-    "@supabase/ssr": "^0.10.2",
-    "@supabase/supabase-js": "^2.103.0"
+    "@supabase/ssr": "^0.12.7",
+    "@supabase/supabase-js": "^2.117.2"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
