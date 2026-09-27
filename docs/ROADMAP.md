@@ -32,7 +32,7 @@ Goal: make the first collection of tools genuinely useful.
 - selected developer utilities
 - local file utilities where browser technology allows
 - related-tool discovery
-- copy/reset/share primitives
+- copy/reset/share primitives (lightweight tool sharing first; result/state sharing when justified)
 - documentation accordions
 - SEO-ready tool pages
 
