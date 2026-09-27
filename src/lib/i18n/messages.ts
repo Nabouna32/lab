@@ -9,7 +9,7 @@ export type Messages = {
   home: { metaTitle: string; badge: string; title: string; description: string; quickLinks: Array<{ label: string; toolId: string }>; explore: string; discoveryTitle: string; discoveryDescription: string; discoveryOpen: string; categoriesTitle: string; categoriesDescription: string; categoriesCount: (count: number) => string };
   tools: {
     metaTitle: string;
-    eyebrow: string; title: string; description: string; explore: string; one: string; many: string; back: string;
+    eyebrow: string; title: string; description: string; explore: string; one: string; many: string;
     categoryDescription: (category: string) => string; searchLabel: string; searchPlaceholder: string; searchButton: string; suggestions: string;
     resultCountOne: string; resultCountMany: string; noResults: string; noResultsHelp: string; tryThese: string; noResultsSuggestions: string[]; clearSearch: string;
     categoriesTitle: string; categoriesDescription: string;
@@ -51,7 +51,7 @@ export const messages: Record<Locale, Messages> = {
     tools: {
       metaTitle: "Tous les outils — Utiluna", eyebrow: "Utiluna", title: "Tous les outils",
       description: "Retrouvez tous nos outils gratuits pour calculer, convertir et simplifier vos tâches du quotidien.",
-      explore: "Explorer les outils", one: "outil", many: "outils", back: "← Tous les outils",
+      explore: "Explorer les outils", one: "outil", many: "outils",
       categoryDescription: (category) => `Retrouvez les outils disponibles dans la catégorie ${category}.`,
       searchLabel: "Rechercher un outil", searchPlaceholder: "Rechercher : TVA, âge, PDF…", searchButton: "Rechercher",
       suggestions: "Suggestions", resultCountOne: "résultat", resultCountMany: "résultats",
@@ -108,7 +108,7 @@ export const messages: Record<Locale, Messages> = {
     tools: {
       metaTitle: "All tools — Utiluna", eyebrow: "Utiluna", title: "All tools",
       description: "Free tools to calculate, convert, and simplify everyday tasks.",
-      explore: "Explore tools", one: "tool", many: "tools", back: "← All tools",
+      explore: "Explore tools", one: "tool", many: "tools",
       categoryDescription: (category) => `Browse the tools available in the ${category}.`,
       searchLabel: "Search for a tool", searchPlaceholder: "Search: VAT, age, PDF...", searchButton: "Search",
       suggestions: "Suggestions", resultCountOne: "result", resultCountMany: "results",

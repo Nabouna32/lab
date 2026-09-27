@@ -101,6 +101,23 @@ test("all published tool pages render", async ({ page }) => {
   }
 });
 
+test("tool page keeps the primary task hierarchy compact", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(baseUrl + "/fr/outils/calculs/pourcentage", { waitUntil: "networkidle" });
+
+  const toolHeader = page.locator("main > header");
+  await expect(toolHeader).toBeVisible();
+  await expect(toolHeader.getByText("Utiluna", { exact: true })).toHaveCount(0);
+  await expect(page.getByRole("navigation", { name: "Fil d’Ariane" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "← Tous les outils" })).toHaveCount(0);
+
+  const headings = await page.locator("main h2").allTextContents();
+  expect(headings.indexOf("Vous pourriez aussi avoir besoin de")).toBeGreaterThanOrEqual(0);
+  expect(headings.indexOf("🧮 Comment calculer un pourcentage ?")).toBeGreaterThan(
+    headings.indexOf("Vous pourriez aussi avoir besoin de"),
+  );
+});
+
 test("processing status exposes an accessible information disclosure", async ({ page }) => {
   await page.goto(`${baseUrl}/fr/outils/calculs/pourcentage`, { waitUntil: "networkidle" });
 

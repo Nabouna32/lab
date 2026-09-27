@@ -27,7 +27,7 @@ type ToolMessages = {
     decreaseExplanation: (from: string, to: string, result: string) => string;
     unchangedExplanation: string;
     differenceExplanation: (first: string, second: string, result: string) => string;
-    formulaIntroWithValues: string; waitingResult: string; eyebrow: string; heading: string; intro: string; inputHint: string; emptyResult: string;
+    formulaIntroWithValues: string; waitingResult: string; inputHint: string; emptyResult: string;
   };
   reduction: {
     price: string; discount: string; discountedPrice: string; saved: string; placeholderPrice: string; placeholderDiscount: string;
@@ -102,7 +102,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       decreaseExplanation: (from, to, result) => `La valeur est passée de ${from} à ${to}, soit une diminution de ${result} %.`,
       unchangedExplanation: "La valeur n'a pas changé.",
       differenceExplanation: (first, second, result) => `L'écart entre ${first} et ${second} représente ${result} % de leur moyenne.`,
-      formulaIntroWithValues: "Voici le calcul réalisé à partir des valeurs que vous avez saisies :", waitingResult: "Le résultat apparaîtra ici dès que vous aurez renseigné les deux valeurs.", eyebrow: "Calculateur", heading: "Votre résultat, en un instant", intro: "Choisissez le calcul qui correspond à votre besoin, puis renseignez simplement les deux valeurs.", inputHint: "Le calcul se met à jour automatiquement. Vous pouvez modifier les valeurs à tout moment.", emptyResult: "Renseignez les deux valeurs pour voir le résultat ici.",
+      formulaIntroWithValues: "Voici le calcul réalisé à partir des valeurs que vous avez saisies :", waitingResult: "Le résultat apparaîtra ici dès que vous aurez renseigné les deux valeurs.", inputHint: "Le calcul se met à jour automatiquement. Vous pouvez modifier les valeurs à tout moment.", emptyResult: "Renseignez les deux valeurs pour voir le résultat ici.",
     },
     reduction: {
       price: "Prix initial", discount: "Réduction", discountedPrice: "Prix après réduction", saved: "Montant économisé",
@@ -182,7 +182,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       decreaseExplanation: (from, to, result) => `The value changed from ${from} to ${to}, a decrease of ${result}%.`,
       unchangedExplanation: "The value did not change.",
       differenceExplanation: (first, second, result) => `The difference between ${first} and ${second} is ${result}% of their average.`,
-      formulaIntroWithValues: "Here is the calculation based on the values you entered:", waitingResult: "Your result will appear here as soon as both values are filled in.", eyebrow: "Calculator", heading: "Your answer, in an instant", intro: "Choose the calculation that matches your need, then enter the two values.", inputHint: "The calculation updates automatically. You can change either value at any time.", emptyResult: "Enter both values to see the result here.",
+      formulaIntroWithValues: "Here is the calculation based on the values you entered:", waitingResult: "Your result will appear here as soon as both values are filled in.", inputHint: "The calculation updates automatically. You can change either value at any time.", emptyResult: "Enter both values to see the result here.",
     },
     reduction: {
       price: "Initial price", discount: "Discount", discountedPrice: "Price after discount", saved: "Amount saved",

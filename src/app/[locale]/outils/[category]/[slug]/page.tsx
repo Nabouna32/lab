@@ -53,14 +53,12 @@ export default async function ToolRoute({
     <ToolPage
       locale={locale}
       tool={entry.tool}
-      content={
-        <>
-          <div className="space-y-12"><ToolEditorial locale={locale} /></div>
-          <RelatedTools toolId={entry.tool.id} locale={locale} />
-        </>
-      }
+      content={<div className="space-y-12"><ToolEditorial locale={locale} /></div>}
     >
       <ToolRenderer toolId={entry.tool.id} />
+      <div className="mt-8">
+        <RelatedTools toolId={entry.tool.id} locale={locale} />
+      </div>
     </ToolPage>
   );
 }

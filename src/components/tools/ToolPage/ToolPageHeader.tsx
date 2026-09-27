@@ -31,9 +31,6 @@ export default function ToolPageHeader({
             {icon}
           </div>
           <div className="min-w-0">
-            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--accent)]">
-              Utiluna
-            </p>
             <h1 className="mt-0.5 text-2xl font-black tracking-[-0.035em] sm:text-3xl lg:text-4xl">
               {title}
             </h1>

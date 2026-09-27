@@ -149,15 +149,8 @@ export default function PercentageCalculator() {
 
   return (
     <section className="overflow-hidden rounded-[2rem] border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-md)]">
-      <div className="border-b border-[var(--border)] bg-[var(--surface-soft)] px-5 py-5 sm:px-7">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--accent)]">{t.eyebrow}</p>
-            <h2 className="mt-1 text-xl font-black tracking-tight sm:text-2xl">{t.heading}</h2>
-            <p className="mt-1 max-w-2xl text-sm leading-6 text-[var(--muted)]">{t.intro}</p>
-          </div>
-          {(firstValue !== "" || secondValue !== "") && <ClearButton onClear={clearValues} />}
-        </div>
+      <div className="flex justify-end px-5 pt-5 sm:px-7 sm:pt-7">
+        {(firstValue !== "" || secondValue !== "") && <ClearButton onClear={clearValues} />}
       </div>
 
       <div className="grid items-start lg:grid-cols-[minmax(0,1.35fr)_minmax(19rem,0.65fr)]">
