@@ -1,4 +1,4 @@
-import type { Locale } from "@/lib/i18n/config";
+import type { Locale } from "./i18n/config.ts";
 
 export function parseLocalizedNumber(value: string): number | null {
   const trimmed = value.trim();
