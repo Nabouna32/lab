@@ -1,8 +1,8 @@
 import type { ComponentType } from "react";
 import type { Locale } from "@/lib/i18n/config";
-import { getPrimaryToolCategory, isPublishedTool } from "@/lib/tools/types";
+import { getPrimaryToolCategory } from "@/lib/tools/types";
 import type { Tool } from "@/lib/tools/types";
-import { tools } from "@/lib/tools/tools";
+import { getPublishedTools } from "@/lib/tools/catalog";
 
 export type ToolEditorialComponent = ComponentType<{ locale: Locale }>;
 
@@ -63,15 +63,13 @@ const moduleLoaders: Record<string, ToolModule> = {
   },
 };
 
-export const toolRegistry: readonly ToolRegistryEntry[] = tools
-  .filter(isPublishedTool)
-  .map((tool) => {
-    const toolModule = moduleLoaders[tool.id];
-    if (!toolModule) {
-      throw new Error(`Published tool "${tool.id}" has no registered module.`);
-    }
-    return { tool, module: toolModule };
-  });
+export const toolRegistry: readonly ToolRegistryEntry[] = getPublishedTools().map((tool) => {
+  const toolModule = moduleLoaders[tool.id];
+  if (!toolModule) {
+    throw new Error(`Published tool "${tool.id}" has no registered module.`);
+  }
+  return { tool, module: toolModule };
+});
 
 const registryById = new Map(toolRegistry.map((entry) => [entry.tool.id, entry]));
 
@@ -80,8 +78,7 @@ export function getToolRegistryEntry(toolId: string): ToolRegistryEntry | undefi
 }
 
 export function getToolByRoute(category: string, slug: string): ToolRegistryEntry | undefined {
-  const entry = toolRegistry.find(
+  return toolRegistry.find(
     ({ tool }) => getPrimaryToolCategory(tool) === category && tool.slug === slug,
   );
-  return entry;
 }

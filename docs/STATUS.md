@@ -50,6 +50,7 @@
 ### Catalog, editorial and i18n
 
 - The central catalog/registry is sufficient for the current toolbox.
+- Catalog consumers now go through a single catalog access layer; the current implementation remains Git-backed, while the boundary is ready for a future database-backed catalog without coupling pages and components to the storage location.
 - The category-page duplication was removed.
 - Editorial content is now owned by each tool module and loaded through the same registry as the executable tool; the former centralized switch has been removed.
 - Search now matches structured tags, aliases and categories in addition to localized names and descriptions.
@@ -71,7 +72,7 @@
 1. Audit the functional behavior of every published tool, including invalid input, edge cases, rounding and user-facing errors.
 2. Continue the tool-platform audit with registry scalability and catalog/module boundaries as the toolbox grows.
 3. Continue administration with the remaining account-lifecycle actions, especially account deletion and other account-lifecycle workflows.
-4. Define and implement the code/database boundary for editable catalog/editorial data before migrating those domains.
+4. Define the database schema and migration path for editable catalog/editorial data before moving those domains out of Git.
 5. Introduce persistence or sharing only when a concrete tool requirement justifies the corresponding runtime capability.
 6. Continue the UX audit with above-the-fold tool hierarchy and mobile behavior, then apply targeted fixes.
 

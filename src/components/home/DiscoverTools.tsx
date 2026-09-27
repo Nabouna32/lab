@@ -1,8 +1,8 @@
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
-import { getPrimaryToolCategory, getToolContent, isPublishedTool } from "@/lib/tools/types";
-import { tools } from "@/lib/tools/tools";
+import { getPrimaryToolCategory, getToolContent } from "@/lib/tools/types";
+import { getPublishedTools } from "@/lib/tools/catalog";
 
 function getWeekNumber(date: Date): number {
   const start = new Date(Date.UTC(2024, 0, 1));
@@ -11,7 +11,7 @@ function getWeekNumber(date: Date): number {
 }
 
 function getDiscoveryTools() {
-  const availableTools = tools.filter(isPublishedTool);
+  const availableTools = getPublishedTools();
   if (availableTools.length <= 6) return availableTools;
 
   const offset = ((getWeekNumber(new Date()) % availableTools.length) + availableTools.length) % availableTools.length;

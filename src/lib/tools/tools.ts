@@ -1,6 +1,6 @@
-import type { Tool, ToolCapability } from "@/lib/tools/types";
-import { validateToolCatalog } from "@/lib/tools/metadata";
-import { toolSeo } from "@/lib/tools/seo";
+import type { Tool, ToolCapability } from "./types.ts";
+import { validateToolCatalog } from "./metadata.ts";
+import { toolSeo } from "./seo.ts";
 
 const localProcessingDescriptions: Record<string, { fr: string; en: string }> = {
   pourcentage: {

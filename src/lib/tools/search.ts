@@ -62,7 +62,7 @@ function hasFuzzyTermMatch(term: string, haystack: string): boolean {
     .some((candidate) => levenshteinDistance(term, candidate) <= tolerance);
 }
 
-export function searchTools(tools: Tool[], query: string, locale: Locale = "fr"): ToolSearchResult[] {
+export function searchTools(tools: readonly Tool[], query: string, locale: Locale = "fr"): ToolSearchResult[] {
   const normalizedQuery = normalizeSearchText(query);
   if (!normalizedQuery) return [];
   const terms = normalizedQuery.split(/\s+/).filter(Boolean);
