@@ -4,11 +4,11 @@ export function calculateRuleOfThree(
   secondValue: number,
 ): number | null {
   if (!Number.isFinite(firstValue) || !Number.isFinite(firstResult) || !Number.isFinite(secondValue)) {
-    throw new Error("Les valeurs doivent être des nombres finis.");
+    return null;
   }
 
   if (firstValue === 0) {
-    throw new Error("La première valeur ne peut pas être égale à zéro.");
+    return null;
   }
 
   const result = (firstResult * secondValue) / firstValue;
