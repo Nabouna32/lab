@@ -247,3 +247,31 @@ test("published tool interfaces keep user-facing state messages behind the i18n 
     assert.equal(source.includes('locale === "en"'), false, relativePath);
   }
 });
+
+
+test("public shell interfaces keep user-facing labels and states behind the i18n layer", () => {
+  const publicShellFiles = [
+    "../../components/layout/Header.tsx",
+    "../../components/layout/Footer.tsx",
+    "../../components/layout/Breadcrumbs.tsx",
+    "../../components/layout/LanguageSelector.tsx",
+    "../../components/layout/MobileHeaderSearch.tsx",
+    "../../components/theme/ThemeToggle.tsx",
+    "../../components/home/Hero.tsx",
+    "../../components/home/Categories.tsx",
+    "../../components/home/DiscoverTools.tsx",
+    "../../components/tools/ToolSearch.tsx",
+  ];
+
+  for (const relativePath of publicShellFiles) {
+    const source = readFileSync(fileURLToPath(new URL(relativePath, import.meta.url)), "utf8");
+    assert.match(source, /getMessages\(locale\)/, relativePath);
+    assert.equal(source.includes('locale === "fr"'), false, relativePath);
+    assert.equal(source.includes('locale === "en"'), false, relativePath);
+  }
+
+  const search = readFileSync(fileURLToPath(new URL("../../components/tools/ToolSearch.tsx", import.meta.url)), "utf8");
+  assert.match(search, /t\.tools\.noResults/);
+  assert.match(search, /t\.tools\.noResultsHelp/);
+  assert.match(search, /t\.tools\.clearSearch/);
+});
