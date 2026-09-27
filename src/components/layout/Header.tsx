@@ -69,7 +69,7 @@ export default function Header({ locale }: { locale: Locale }) {
               {t.nav.explore}
             </Link>
 
-            <MobileHeaderSearch locale={locale} label={t.tools.searchLabel} />
+            <MobileHeaderSearch locale={locale} searchLabel={t.tools.searchLabel} closeLabel={t.nav.closeSearch} />
 
             <Link
               prefetch={false}
