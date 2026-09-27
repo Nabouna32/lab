@@ -33,12 +33,12 @@ export default function RuleOfThreeCalculator() {
     <CalculatorShell>
       <CalculatorActions showClear={firstValue !== "" || firstResult !== "" || secondValue !== ""} onClear={clearValues} />
       <div className="mt-2 grid gap-5 sm:grid-cols-2">
-        <CalculatorField label={t.firstValue} inputId="rule-first-value" value={firstValue} onChange={(event) => setFirstValue(event.target.value)} placeholder={t.placeholders.first}  aria-invalid={hasValues && (!hasNumericValues || !valid)}/>
-        <CalculatorField label={t.correspondingValue} inputId="rule-first-result" value={firstResult} onChange={(event) => setFirstResult(event.target.value)} placeholder={t.placeholders.corresponding}  aria-invalid={hasValues && (!hasNumericValues || !valid)}/>
-        <CalculatorField label={t.secondValue} inputId="rule-second-value" value={secondValue} onChange={(event) => setSecondValue(event.target.value)} placeholder={t.placeholders.second}  aria-invalid={hasValues && (!hasNumericValues || !valid)}/>
+        <CalculatorField label={t.firstValue} inputId="rule-first-value" value={firstValue} onChange={(event) => setFirstValue(event.target.value)} placeholder={t.placeholders.first}  aria-invalid={hasValues && (!hasNumericValues || !valid)} aria-describedby="rule-error"/>
+        <CalculatorField label={t.correspondingValue} inputId="rule-first-result" value={firstResult} onChange={(event) => setFirstResult(event.target.value)} placeholder={t.placeholders.corresponding}  aria-invalid={hasValues && (!hasNumericValues || !valid)} aria-describedby="rule-error"/>
+        <CalculatorField label={t.secondValue} inputId="rule-second-value" value={secondValue} onChange={(event) => setSecondValue(event.target.value)} placeholder={t.placeholders.second}  aria-invalid={hasValues && (!hasNumericValues || !valid)} aria-describedby="rule-error"/>
         <CalculatorResult label={t.result} tone="accent" value={calculatedValue === null ? "—" : formatNumber(calculatedValue, locale)} />
       </div>
-      {(hasValues && (!hasNumericValues || !valid)) || calculationFailed && <p role="alert" className="mt-4 text-sm font-medium text-[var(--foreground)]">{t.invalid}</p>}
+      {(hasValues && (!hasNumericValues || !valid)) || calculationFailed && <p id="rule-error" role="alert" className="mt-4 text-sm font-medium text-[var(--foreground)]">{t.invalid}</p>}
       {valid && calculatedValue !== null && (
         <details className="group mt-4 rounded-2xl border border-[var(--border)] bg-[var(--background)]">
           <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-4 text-sm font-semibold text-[var(--foreground)]"><span>{t.how}</span><span className="text-lg text-[var(--muted)] transition-transform group-open:rotate-45">+</span></summary>
