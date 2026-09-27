@@ -156,8 +156,8 @@ test("the metadata validator rejects incompatible offline, storage and network m
 
 test("the metadata validator requires the primary category and canonical taxonomy", () => {
   assert.throws(
-    () => validateToolCatalog([{ ...tool, categoryId: "dates" }]),
-    /must use categoryId as its primary category/,
+    () => validateToolCatalog([{ ...tool, categories: [] }]),
+    /must declare at least one category/,
   );
   assert.throws(
     () => validateToolCatalog([{ ...tool, tags: ["fixture", "fixture"] }]),
