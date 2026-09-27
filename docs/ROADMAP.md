@@ -18,6 +18,8 @@ Goal: establish the platform that can grow without creating unnecessary technica
 - [x] Core design system
 - [x] Tool quality contract
 - [x] Architecture validation
+- [x] Database catalog schema and access boundary
+- [ ] Progressive public catalog migration
 
 ## Phase 1 — Core toolbox
 
@@ -40,7 +42,7 @@ Goal: make the first collection of tools genuinely useful.
 
 Goal: make a large catalog easy to navigate.
 
-- structured catalog
+- structured catalog (database-backed migration in progress)
 - categories
 - tags
 - aliases
