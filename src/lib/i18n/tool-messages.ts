@@ -138,6 +138,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       fileSize: "Taille du fichier", sizeUnit: "Unité de taille du fichier", speed: "Vitesse de téléchargement", speedUnit: "Unité de vitesse de téléchargement",
       placeholderSize: "Ex. 10", placeholderSpeed: "Ex. 100", estimated: "Temps estimé", seconds: (value) => `Soit environ ${value} secondes.`,
       note: "Estimation théorique à débit constant. Les unités de taille et de débit sont décimales.",
+      invalid: "Saisissez une taille valide et une vitesse strictement supérieure à 0.",
     },
     downloadSpeed: {
       value: "Vitesse à convertir", from: "Unité de départ", to: "Unité d'arrivée", result: "Résultat", placeholder: "Ex. 100",
@@ -220,6 +221,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       fileSize: "File size", sizeUnit: "File size unit", speed: "Download speed", speedUnit: "Download speed unit",
       placeholderSize: "e.g. 10", placeholderSpeed: "e.g. 100", estimated: "Estimated time", seconds: (value) => `About ${value} seconds.`,
       note: "Theoretical estimate at a constant rate. Size and speed units are decimal.",
+      invalid: "Enter a valid file size and a speed greater than 0.",
     },
     downloadSpeed: {
       value: "Speed to convert", from: "From unit", to: "To unit", result: "Result", placeholder: "e.g. 100",
