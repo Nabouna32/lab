@@ -3,7 +3,7 @@ import type { SpeedUnit } from "@/lib/vitesse-telechargement";
 import type { SizeUnit } from "@/lib/convertisseur-taille";
 import type { BitrateUnit, DurationUnit, FileSizeUnit } from "@/lib/taille-fichier";
 import type { Locale } from "./config";
-import { formatPlural } from "./plural";
+import { formatPlural } from "./plural.ts";
 
 type UnitStyle = "long" | "short";
 
