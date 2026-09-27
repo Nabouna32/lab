@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { defaultLocale, type Locale } from "@/lib/i18n/config";
-import { getToolContent, type Tool } from "@/lib/tools/types";
+import { getToolContent, isToolContentFallback, type Tool } from "@/lib/tools/types";
 import { getMessages } from "@/lib/i18n/messages";
 import { getCategoryName } from "@/lib/tools/categories";
 import { getPrimaryToolCategory } from "@/lib/tools/types";
@@ -20,6 +20,7 @@ export default function ToolPage({
   content?: ReactNode;
 }) {
   const localizedContent = getToolContent(tool, locale);
+  const isContentFallback = isToolContentFallback(tool, locale);
   const t = getMessages(locale);
 
   return (
@@ -29,6 +30,7 @@ export default function ToolPage({
         icon={tool.icon}
         title={localizedContent.name}
         description={localizedContent.description}
+        contentFallback={isContentFallback}
         processing={tool.processing}
         locale={locale}
       />
