@@ -75,8 +75,8 @@ export default function DurationCalculator() {
       <div className="grid gap-5 sm:grid-cols-2">
         {mode === "dates" ? (
           <>
-            <CalculatorField label={t.startDate} inputId="duration-start-date" type="datetime-local" value={startDateTime} onChange={(event) => setStartDateTime(event.target.value)}  aria-invalid={invalidRange}/>
-            <CalculatorField label={t.endDate} inputId="duration-end-date" type="datetime-local" value={endDateTime} onChange={(event) => setEndDateTime(event.target.value)}  aria-invalid={invalidRange}/>
+            <CalculatorField label={t.startDate} inputId="duration-start-date" type="datetime-local" value={startDateTime} onChange={(event) => setStartDateTime(event.target.value)}  aria-invalid={invalidRange} aria-describedby="duration-error"/>
+            <CalculatorField label={t.endDate} inputId="duration-end-date" type="datetime-local" value={endDateTime} onChange={(event) => setEndDateTime(event.target.value)}  aria-invalid={invalidRange} aria-describedby="duration-error"/>
           </>
         ) : (
           <>
@@ -90,7 +90,7 @@ export default function DurationCalculator() {
         <CalculatorResult label={t.hours} tone={mode === "horaires" ? "accent" : undefined} value={hours} />
         <CalculatorResult label={t.minutes} value={minutes} />
       </div>
-      {invalidRange && <p role="alert" className="mt-4 text-sm font-medium text-[var(--foreground)]">{t.invalidRange}</p>}
+      {invalidRange && <p id="duration-error" role="alert" className="mt-4 text-sm font-medium text-[var(--foreground)]">{t.invalidRange}</p>}
       {duration && (
         <div className="mt-6 rounded-2xl border border-[var(--border)] bg-[var(--background)] p-4">
           <p className="text-sm leading-6 text-[var(--muted)]">

@@ -32,14 +32,14 @@ export default function ReductionCalculator() {
     <CalculatorShell>
       <CalculatorActions showClear={priceValue !== "" || discountValue !== ""} onClear={clearValues} />
       <div className="mt-2 grid gap-5 sm:grid-cols-2">
-        <CalculatorField label={t.price} inputId="reduction-price" min="0.01" value={priceValue} onChange={(event) => setPriceValue(event.target.value)} placeholder={t.placeholderPrice} unit="€"  aria-invalid={hasValues && (!hasNumericValues || !valid)}/>
-        <CalculatorField label={t.discount} inputId="reduction-rate" min="0" max="100" value={discountValue} onChange={(event) => setDiscountValue(event.target.value)} placeholder={t.placeholderDiscount} unit="%"  aria-invalid={hasValues && (!hasNumericValues || !valid)}/>
+        <CalculatorField label={t.price} inputId="reduction-price" min="0.01" value={priceValue} onChange={(event) => setPriceValue(event.target.value)} placeholder={t.placeholderPrice} unit="€"  aria-invalid={hasValues && (!hasNumericValues || !valid)} aria-describedby="reduction-error"/>
+        <CalculatorField label={t.discount} inputId="reduction-rate" min="0" max="100" value={discountValue} onChange={(event) => setDiscountValue(event.target.value)} placeholder={t.placeholderDiscount} unit="%"  aria-invalid={hasValues && (!hasNumericValues || !valid)} aria-describedby="reduction-error"/>
       </div>
       <div className="mt-6 grid gap-4 sm:grid-cols-2">
         <CalculatorResult label={t.discountedPrice} tone="accent" value={discountedPrice === null ? "—" : `${formatNumber(discountedPrice, locale)} €`} />
         <CalculatorResult label={t.saved} value={discountAmount === null ? "—" : `${formatNumber(discountAmount, locale)} €`} />
       </div>
-      {(hasValues && (!hasNumericValues || !valid)) || calculationFailed && <p role="alert" className="mt-4 text-sm font-medium text-[var(--foreground)]">{t.invalid}</p>}
+      {(hasValues && (!hasNumericValues || !valid)) || calculationFailed && <p id="reduction-error" role="alert" className="mt-4 text-sm font-medium text-[var(--foreground)]">{t.invalid}</p>}
       {valid && discountedPrice !== null && discountAmount !== null && (
         <details className="group mt-4 rounded-2xl border border-[var(--border)] bg-[var(--background)]">
           <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-4 text-sm font-semibold text-[var(--foreground)]"><span>{t.how}</span><span className="text-lg text-[var(--muted)] transition-transform group-open:rotate-45">+</span></summary>

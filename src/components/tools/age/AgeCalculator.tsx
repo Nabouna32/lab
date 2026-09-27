@@ -46,15 +46,15 @@ export default function AgeCalculator() {
     <CalculatorShell>
       <CalculatorActions showClear={hasBirthDate || referenceDate !== today} onClear={clearValues} />
       <div className="grid gap-5 sm:grid-cols-2">
-        <CalculatorField label={t.birthDate} inputId="age-birth-date" type="date" value={birthDate} onChange={(event) => setBirthDate(event.target.value)}  aria-invalid={invalidRange}/>
-        <CalculatorField label={t.referenceDate} inputId="age-reference-date" type="date" value={referenceDate} onChange={(event) => setReferenceDate(event.target.value)}  aria-invalid={invalidRange}/>
+        <CalculatorField label={t.birthDate} inputId="age-birth-date" type="date" value={birthDate} onChange={(event) => setBirthDate(event.target.value)}  aria-invalid={invalidRange} aria-describedby="age-error"/>
+        <CalculatorField label={t.referenceDate} inputId="age-reference-date" type="date" value={referenceDate} onChange={(event) => setReferenceDate(event.target.value)}  aria-invalid={invalidRange} aria-describedby="age-error"/>
       </div>
       <div className="mt-6 grid gap-4 sm:grid-cols-3">
         <CalculatorResult label={t.years} tone="accent" value={years} />
         <CalculatorResult label={t.months} value={months} />
         <CalculatorResult label={t.days} value={days} />
       </div>
-      {invalidRange && <p role="alert" className="mt-4 text-sm font-medium text-[var(--foreground)]">{t.invalidRange}</p>}
+      {invalidRange && <p id="age-error" role="alert" className="mt-4 text-sm font-medium text-[var(--foreground)]">{t.invalidRange}</p>}
       {age && (
         <div className="mt-6 rounded-2xl border border-[var(--border)] bg-[var(--background)] p-4">
           <p className="text-sm leading-6 text-[var(--muted)]">
