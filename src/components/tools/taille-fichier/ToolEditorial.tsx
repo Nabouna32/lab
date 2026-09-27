@@ -16,18 +16,18 @@ const content = {
 } as const;
 
 export default function ToolEditorial({ locale }: { locale: Locale }) {
-  const data = content[locale];
+  const t = content[locale];
   return (
     <>
-      <ToolSection title={data.size.title}>
-        <p>{data.size.text}</p>
+      <ToolSection title={t.size.title}>
+        <p>{t.size.text}</p>
         <Formula>
-          <p className="font-semibold text-[var(--foreground)]">{data.principle}</p>
+          <p className="font-semibold text-[var(--foreground)]">{t.principle}</p>
           <p className="mt-2 font-mono text-sm text-[var(--foreground)]">file size = duration × bitrate ÷ 8</p>
         </Formula>
       </ToolSection>
-      <ToolSection title={data.example.title}>
-        <p>{data.example.text}</p>
+      <ToolSection title={t.example.title}>
+        <p>{t.example.text}</p>
       </ToolSection>
       <BackToTools locale={locale} />
     </>
