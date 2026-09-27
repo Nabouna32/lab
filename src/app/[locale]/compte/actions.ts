@@ -15,6 +15,10 @@ function readLocale(formData: FormData): Locale {
   return isLocale(candidate) ? candidate : "fr";
 }
 
+function isRateLimited(error: unknown) {
+  return typeof error === "object" && error !== null && "status" in error && error.status === 429;
+}
+
 export async function signIn(formData: FormData) {
   const locale = readLocale(formData);
   const email = String(formData.get("email") ?? "").trim();
@@ -28,7 +32,8 @@ export async function signIn(formData: FormData) {
   const { error } = await supabase.auth.signInWithPassword({ email, password });
 
   if (error) {
-    redirect(localePath(locale, "/compte/connexion?error=auth-failed"));
+    const errorCode = isRateLimited(error) ? "rate-limited" : "auth-failed";
+    redirect(localePath(locale, `/compte/connexion?error=${errorCode}`));
   }
 
   redirect(localePath(locale, "/compte"));
@@ -65,7 +70,8 @@ export async function signUp(formData: FormData) {
   });
 
   if (error) {
-    redirect(localePath(locale, "/compte/inscription?error=auth-failed"));
+    const errorCode = isRateLimited(error) ? "rate-limited" : "auth-failed";
+    redirect(localePath(locale, `/compte/inscription?error=${errorCode}`));
   }
 
   if (data.session) {
