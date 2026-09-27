@@ -1,13 +1,10 @@
-"use client";
-
 import type { ReactNode } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
-import LanguageFlag from "@/components/layout/LanguageFlag";
 import ToolSearch from "@/components/tools/ToolSearch";
 import ThemeToggle from "@/components/theme/ThemeToggle";
-import { getLanguage, isLocale, type Locale, locales } from "@/lib/i18n/config";
+import LanguageSelector from "@/components/layout/LanguageSelector";
+import MobileHeaderSearch from "@/components/layout/MobileHeaderSearch";
+import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
 
 function Icon({
@@ -30,20 +27,8 @@ const iconButton =
 const textLink =
   "flex h-10 shrink-0 items-center gap-2 rounded-xl border border-transparent px-3 text-sm font-semibold text-[var(--muted)] outline-none transition-all hover:border-[var(--border)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)] focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]";
 
-export default function Header() {
-  const pathname = usePathname();
-  const segment = pathname.split("/")[1];
-  const locale: Locale = isLocale(segment) ? segment : "fr";
+export default function Header({ locale }: { locale: Locale }) {
   const t = getMessages(locale);
-  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
-  const suffix = pathname.startsWith("/" + locale) ? pathname.slice(locale.length + 1) : "";
-  const currentLanguage = getLanguage(locale);
-
-  useEffect(() => {
-    if (!mobileSearchOpen) return;
-    const input = document.getElementById("header-tool-search-mobile-input");
-    if (input instanceof HTMLInputElement) input.focus();
-  }, [mobileSearchOpen]);
 
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--border)]/80 bg-[var(--background)]/88 backdrop-blur-2xl">
@@ -84,19 +69,7 @@ export default function Header() {
               {t.nav.explore}
             </Link>
 
-            <button
-              type="button"
-              className={iconButton + " w-10 sm:hidden"}
-              aria-label={t.tools.searchLabel}
-              aria-expanded={mobileSearchOpen}
-              title={t.tools.searchLabel}
-              onClick={() => setMobileSearchOpen((open) => !open)}
-            >
-              <Icon>
-                <circle cx="11" cy="11" r="6.5" />
-                <path d="m16 16 4 4" />
-              </Icon>
-            </button>
+            <MobileHeaderSearch locale={locale} label={t.tools.searchLabel} />
 
             <Link
               prefetch={false}
@@ -112,36 +85,7 @@ export default function Header() {
               <span className="hidden sm:inline">{t.nav.space}</span>
             </Link>
 
-            <details className="language-selector relative">
-              <summary
-                className={iconButton + " w-10 cursor-pointer list-none"}
-                aria-label={t.nav.language + ": " + currentLanguage.nativeLabel}
-                title={t.nav.language + ": " + currentLanguage.nativeLabel}
-              >
-                <LanguageFlag code={currentLanguage.flagCode} />
-                <span className="sr-only">{currentLanguage.nativeLabel}</span>
-              </summary>
-              <div className="absolute right-0 top-full z-50 mt-2 min-w-44 rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-1.5 shadow-[var(--shadow-md)]">
-                {locales.map((item) => {
-                  const language = getLanguage(item);
-                  const href = "/" + item + (suffix || "");
-                  return (
-                    <Link
-                      key={item}
-                      href={href}
-                      hrefLang={item}
-                      aria-current={item === locale ? "page" : undefined}
-                      className={item === locale
-                        ? "flex items-center gap-3 rounded-xl bg-[var(--accent-soft)] px-3 py-2.5 text-sm text-[var(--foreground)]"
-                        : "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-[var(--muted)] transition-colors hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)]"}
-                    >
-                      <LanguageFlag code={language.flagCode} />
-                      <span>{language.nativeLabel}</span>
-                    </Link>
-                  );
-                })}
-              </div>
-            </details>
+            <LanguageSelector locale={locale} />
 
             <ThemeToggle />
 
@@ -165,28 +109,3 @@ export default function Header() {
           </div>
         </div>
 
-        {mobileSearchOpen && (
-          <div className="flex items-start gap-2 pb-3 md:hidden">
-            <ToolSearch
-              locale={locale}
-              instanceId="header-tool-search-mobile"
-              compact
-              className="min-w-0 flex-1"
-            />
-            <button
-              type="button"
-              className={iconButton + " w-10"}
-              aria-label={t.nav.closeSearch}
-              title={t.nav.closeSearch}
-              onClick={() => setMobileSearchOpen(false)}
-            >
-              <Icon>
-                <path d="M6 6l12 12M18 6 6 18" />
-              </Icon>
-            </button>
-          </div>
-        )}
-      </div>
-    </header>
-  );
-}
