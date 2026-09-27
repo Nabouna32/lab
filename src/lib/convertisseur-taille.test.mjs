@@ -2,6 +2,14 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { convertFileSize } from "./convertisseur-taille.ts";
 
+test("converts 1024 bytes to one kilobyte", () => {
+  assert.equal(convertFileSize(1024, "o", "ko"), 1);
+});
+
+test("converts 1024 kilobytes to one megabyte", () => {
+  assert.equal(convertFileSize(1024, "ko", "mo"), 1);
+});
+
 test("converts megabytes to gigabytes", () => {
   assert.equal(convertFileSize(1024, "mo", "go"), 1);
 });
