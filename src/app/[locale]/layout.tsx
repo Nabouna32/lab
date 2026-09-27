@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Geist, Geist_Mono } from "next/font/google";
-import { getTheme } from "@teispace/next-themes/server";
 import ThemeProvider from "@/components/theme/ThemeProvider";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -37,13 +36,12 @@ export default async function LocaleLayout({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
 
-  const initialTheme = await getTheme();
   const direction = getLanguage(locale).direction;
 
   return (
     <html lang={locale} dir={direction} suppressHydrationWarning>
       <body className={geistSans.variable + " " + geistMono.variable}>
-        <ThemeProvider initialTheme={initialTheme ?? undefined}>
+        <ThemeProvider>
           <Header />
           {children}
           <Footer locale={locale} />
