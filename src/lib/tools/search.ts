@@ -8,6 +8,13 @@ export function normalizeSearchText(value: string): string {
   return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase().trim();
 }
 
+const SEARCH_STOP_WORDS = new Set([
+  "a", "an", "and", "calculate", "calculates", "calculating", "calculer", "calcule", "calculez",
+  "convert", "converter", "convertir", "convertissez", "conversion", "de", "des", "du", "en",
+  "et", "for", "find", "la", "le", "les", "ma", "me", "mon", "my", "of", "pour", "the", "to",
+  "un", "une", "what", "with",
+]);
+
 function getSearchText(tool: Tool, locale: Locale): string {
   const content = getToolContent(tool, locale);
   return normalizeSearchText([
@@ -18,6 +25,11 @@ function getSearchText(tool: Tool, locale: Locale): string {
     ...(tool.categories ?? []),
     getPrimaryToolCategory(tool),
   ].join(" "));
+}
+
+function tokenizeSearchQuery(query: string): string[] {
+  return (normalizeSearchText(query).match(/[a-z0-9%]+/g) ?? [])
+    .filter((term) => !/^\d+(?:[.,]\d+)?$/.test(term) && !SEARCH_STOP_WORDS.has(term));
 }
 
 function getTypoTolerance(term: string): number {
@@ -62,10 +74,40 @@ function hasFuzzyTermMatch(term: string, haystack: string): boolean {
     .some((candidate) => levenshteinDistance(term, candidate) <= tolerance);
 }
 
+function scoreTerm(
+  term: string,
+  name: string,
+  description: string,
+  tags: string[],
+  aliases: string[],
+  categories: string[],
+  haystack: string,
+): number {
+  let score = 0;
+  if (name === term) score += 100;
+  if (name.startsWith(term)) score += 60;
+  if (name.includes(term)) score += 40;
+  if (tags.some((tag) => tag === term)) score += 35;
+  if (aliases.some((alias) => alias === term)) score += 35;
+  if (categories.some((category) => category === term)) score += 25;
+  if (tags.some((tag) => tag.startsWith(term))) score += 25;
+  if (aliases.some((alias) => alias.startsWith(term))) score += 25;
+  if (categories.some((category) => category.startsWith(term))) score += 15;
+  if (description.includes(term)) score += 20;
+
+  if (score === 0 && hasFuzzyTermMatch(term, haystack)) {
+    score += 12;
+  }
+
+  return score;
+}
+
 export function searchTools(tools: readonly Tool[], query: string, locale: Locale = "fr"): ToolSearchResult[] {
   const normalizedQuery = normalizeSearchText(query);
   if (!normalizedQuery) return [];
-  const terms = normalizedQuery.split(/\s+/).filter(Boolean);
+
+  const terms = tokenizeSearchQuery(normalizedQuery);
+  if (terms.length === 0) return [];
 
   return tools.filter(isPublishedTool).map((tool) => {
     const content = getToolContent(tool, locale);
@@ -75,26 +117,15 @@ export function searchTools(tools: readonly Tool[], query: string, locale: Local
     const tags = tool.tags.map(normalizeSearchText);
     const categories = [...new Set([getPrimaryToolCategory(tool), ...tool.categories].filter(Boolean))].map(normalizeSearchText);
     const haystack = getSearchText(tool, locale);
-    let score = 0;
-    if (name === normalizedQuery) score += 100;
-    if (name.startsWith(normalizedQuery)) score += 60;
-    if (name.includes(normalizedQuery)) score += 40;
-    if (tags.some((tag) => tag === normalizedQuery)) score += 35;
-    if (aliases.some((alias) => alias === normalizedQuery)) score += 35;
-    if (categories.some((category) => category === normalizedQuery)) score += 25;
-    if (tags.some((tag) => tag.startsWith(normalizedQuery))) score += 25;
-    if (aliases.some((alias) => alias.startsWith(normalizedQuery))) score += 25;
-    if (categories.some((category) => category.startsWith(normalizedQuery))) score += 15;
-    if (description.includes(normalizedQuery)) score += 20;
-    const allTermsMatch = terms.every((term) =>
-      haystack.includes(term) || hasFuzzyTermMatch(term, haystack),
-    );
-    if (allTermsMatch) score += 15;
 
-    const fuzzyMatches = terms.filter(
-      (term) => !haystack.includes(term) && hasFuzzyTermMatch(term, haystack),
-    ).length;
-    score += fuzzyMatches * 12;
+    const termScores = terms.map((term) => scoreTerm(term, name, description, tags, aliases, categories, haystack));
+    const matchedTerms = termScores.filter((score) => score > 0).length;
+    if (matchedTerms === 0) return { tool, score: 0 };
+
+    const allTermsMatch = matchedTerms === terms.length;
+    const score = termScores.reduce((total, termScore) => total + termScore, 0)
+      + (allTermsMatch ? 30 : matchedTerms * 8);
+
     return { tool, score };
   }).filter(({ score }) => score > 0).sort((a, b) => {
     const aName = getToolContent(a.tool, locale).name;

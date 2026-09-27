@@ -57,8 +57,16 @@ test("tolerates a small typo in a tool name", () => {
   assert.equal(ids("telechargemnt")[0], "temps-telechargement");
 });
 
+test("supports natural-language queries with numbers and intent words", () => {
+  assert.equal(ids("calculer 17 % de 283")[0], "pourcentage");
+});
+
 test("supports multi-term queries with a typo", () => {
   assert.equal(ids("calculer pourcentge")[0], "pourcentage");
+});
+
+test("keeps relevant results when one query term is extra context", () => {
+  assert.equal(ids("calculer un pourcentage rapidement")[0], "pourcentage");
 });
 
 test("does not fuzzy-match very short terms", () => {

@@ -199,7 +199,7 @@ export default function ToolSearch({
                     <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--accent-soft)] text-xl">{tool.icon}</span>
                     <span className="min-w-0 flex-1">
                       <span className="block truncate text-sm font-semibold text-[var(--foreground)]"><HighlightMatch text={content.name} query={query} /></span>
-                      <span className="mt-0.5 block truncate text-xs text-[var(--muted)]">{getCategoryName(locale, getPrimaryToolCategory(tool))} · {content.description}</span>
+                      <span className="mt-1 block text-xs text-[var(--muted)]"><span className="font-medium text-[var(--foreground)]/70">{getCategoryName(locale, getPrimaryToolCategory(tool))}</span><span aria-hidden="true"> · </span>{content.description}</span>
                     </span>
                     <span className="text-[var(--muted)]">↗</span>
                   </a>
@@ -207,9 +207,22 @@ export default function ToolSearch({
               })}
             </>
           ) : (
-            <div className="px-4 py-7 text-center">
+            <div className="px-4 py-6">
               <p className="text-sm font-medium text-[var(--foreground)]">{t.tools.noResults} « {query.trim()} »</p>
               <p className="mt-1 text-xs text-[var(--muted)]">{t.tools.noResultsHelp}</p>
+              <div className="mt-4 flex flex-wrap gap-2" aria-label={t.tools.tryThese}>
+                {t.tools.noResultsSuggestions.map((suggestion) => (
+                  <button
+                    key={suggestion}
+                    type="button"
+                    onMouseDown={(event) => event.preventDefault()}
+                    onClick={() => { setQuery(suggestion); setActiveIndex(-1); setIsFocused(true); }}
+                    className="rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-xs font-medium text-[var(--foreground)] transition-colors hover:bg-[var(--surface-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+                  >
+                    {suggestion}
+                  </button>
+                ))}
+              </div>
             </div>
           )}
         </div>
