@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getSiteUrl } from "@/lib/site-url";
-import { locales, type Locale } from "@/lib/i18n/config";
+import { getIntlLocale, locales, type Locale } from "@/lib/i18n/config";
 import { getPrimaryToolCategory } from "./types";
 import type { Tool } from "./types";
 
@@ -33,7 +33,7 @@ export function getPublicPageMetadata(seo: PublicPageSeo, locale: Locale): Metad
       title: seo.title,
       description: seo.description,
       siteName: "Utiluna",
-      locale: locale === "fr" ? "fr_FR" : "en_US",
+      locale: getIntlLocale(locale).replace("-", "_"),
     },
   };
 }
@@ -67,7 +67,7 @@ export function getToolPageMetadata(tool: Tool, locale: Locale): Metadata {
       title: seo.title,
       description: seo.description,
       siteName: "Utiluna",
-      locale: locale === "fr" ? "fr_FR" : "en_US",
+      locale: getIntlLocale(locale).replace("-", "_"),
     },
   };
 }
