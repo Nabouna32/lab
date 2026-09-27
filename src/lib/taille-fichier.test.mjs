@@ -15,6 +15,16 @@ test("returns null for invalid values", () => {
   assert.equal(calculateFileSize(10, "minutes", Number.NaN, "mbps", "mb"), null);
 });
 
+test("returns null for invalid units", () => {
+  assert.equal(calculateFileSize(10, "weeks", 8, "mbps", "mb"), null);
+  assert.equal(calculateFileSize(10, "minutes", 8, "bps", "mb"), null);
+  assert.equal(calculateFileSize(10, "minutes", 8, "mbps", "tb"), null);
+});
+
+test("returns null when the result overflows the numeric range", () => {
+  assert.equal(calculateFileSize(Number.MAX_VALUE, "hours", Number.MAX_VALUE, "gbps", "gb"), null);
+});
+
 test("zero duration or bitrate produces zero", () => {
   assert.equal(calculateFileSize(0, "minutes", 8, "mbps", "mb"), 0);
   assert.equal(calculateFileSize(10, "minutes", 0, "mbps", "mb"), 0);
