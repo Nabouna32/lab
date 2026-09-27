@@ -3,13 +3,13 @@ import test from "node:test";
 import { convertFileSize } from "./convertisseur-taille.ts";
 
 test("uses decimal units for SI file sizes", () => {
-  assert.equal(convertFileSize(1_000, "ko", "o"), 1_000);
+  assert.equal(convertFileSize(1, "ko", "o"), 1_000);
   assert.equal(convertFileSize(1_000_000, "o", "mo"), 1);
   assert.equal(convertFileSize(1, "go", "mo"), 1_000);
 });
 
 test("uses binary units for IEC file sizes", () => {
-  assert.equal(convertFileSize(1_024, "kio", "o"), 1_024);
+  assert.equal(convertFileSize(1, "kio", "o"), 1_024);
   assert.equal(convertFileSize(1_048_576, "o", "mio"), 1);
   assert.equal(convertFileSize(1, "gio", "mio"), 1_024);
 });
