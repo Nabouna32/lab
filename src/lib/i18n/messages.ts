@@ -20,7 +20,7 @@ export type Messages = {
   account: { label: string; title: string; anonymousDescription: string; signIn: string; signUp: string; signOut: string; submitSignIn: string; submitSignUp: string; email: string; password: string; displayName: string; notSet: string; confirmation: string; alreadySignedIn: string; noAccount: string; hasAccount: string; signInError: string; signUpError: string; authRateLimited: string };
   processing: {
     localDetail: string; ariaLabel: string; more: string; storage: string; retention: string; externalProviders: string; dataCategories: string;
-    localLabel: string; localSummary: string; externalLabel: string; externalSummary: string;
+    localLabel: string; localSummary: string; externalLabel: string; externalSummary: string; fallbackNotice: string;
     serverLabel: string; serverSummary: string; hybridLabel: string; hybridSummary: string;
   };
 };
@@ -77,7 +77,7 @@ export const messages: Record<Locale, Messages> = {
     processing: {
       localDetail: "Aucune donnée n'est envoyée à un serveur ni stockée par Utiluna.", ariaLabel: "Informations sur le traitement des données", more: "Informations sur le traitement",
       storage: "Stockage", retention: "Conservation", externalProviders: "Service(s) externe(s)", dataCategories: "Données concernées",
-      localLabel: "Traitement local", localSummary: "Vos données restent sur votre appareil.",
+      localLabel: "Traitement local", localSummary: "Vos données restent sur votre appareil.", fallbackNotice: "Cette partie est actuellement disponible en anglais.",
       externalLabel: "Service externe", externalSummary: "Certaines données sont transmises à un service externe.",
       serverLabel: "Serveur Utiluna", serverSummary: "Ce traitement nécessite l’infrastructure Utiluna.",
       hybridLabel: "Traitement hybride", hybridSummary: "Le traitement local est complété par un service externe.",
@@ -134,7 +134,7 @@ export const messages: Record<Locale, Messages> = {
     processing: {
       localDetail: "No data is sent to a server or stored by Utiluna.", ariaLabel: "Data processing information", more: "Processing information",
       storage: "Storage", retention: "Retention", externalProviders: "External service(s)", dataCategories: "Data involved",
-      localLabel: "Local processing", localSummary: "Your data stays on your device.",
+      localLabel: "Local processing", localSummary: "Your data stays on your device.", fallbackNotice: "This part is currently available in English.",
       externalLabel: "External service", externalSummary: "Some data is sent to an external service.",
       serverLabel: "Utiluna server", serverSummary: "This processing requires Utiluna infrastructure.",
       hybridLabel: "Hybrid processing", hybridSummary: "Local processing is complemented by an external service.",
