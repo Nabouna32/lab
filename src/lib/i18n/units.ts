@@ -15,7 +15,7 @@ const FILE_SIZE_LABELS: Record<Locale, Record<SizeUnit, string>> = {
   en: {
     o: "Bytes (B)", ko: "Kilobytes (kB) — 1,000 B", mo: "Megabytes (MB) — 1,000,000 B",
     go: "Gigabytes (GB) — 1,000,000,000 B", to: "Terabytes (TB) — 1,000,000,000,000 B",
-    kio: "KiB — 1,024 B", mio: "MiB — 1,048,576 B", gio: "GiB — 1,073,741,824 B", tio: "TiB — 1,099,511,627,776 B",
+    kio: "Kibibytes (KiB) — 1,024 B", mio: "Mebibytes (MiB) — 1,048,576 B", gio: "Gibibytes (GiB) — 1,073,741,824 B", tio: "Tebibytes (TiB) — 1,099,511,627,776 B",
   },
 };
 
@@ -40,8 +40,8 @@ const DOWNLOAD_SIZE_SHORT_LABELS: Record<Locale, Record<DownloadSizeUnit, string
 };
 
 const DOWNLOAD_SPEED_SHORT_LABELS: Record<Locale, Record<DownloadSpeedUnit, string>> = {
-  fr: { kbps: "kbit/s", mbps: "Mbit/s", gbps: "Gbit/s", "ko-s": "ko/s", "mo-s": "Mo/s", "go-s": "Go/s" },
-  en: { kbps: "kbit/s", mbps: "Mbit/s", gbps: "Gbit/s", "ko-s": "kB/s", "mo-s": "MB/s", "go-s": "GB/s" },
+  fr: { kbps: "kb/s", mbps: "Mb/s", gbps: "Gb/s", "ko-s": "ko/s", "mo-s": "Mo/s", "go-s": "Go/s" },
+  en: { kbps: "kb/s", mbps: "Mb/s", gbps: "Gb/s", "ko-s": "kB/s", "mo-s": "MB/s", "go-s": "GB/s" },
 };
 
 const DURATION_LABELS: Record<Locale, Record<DurationUnit, string>> = {
