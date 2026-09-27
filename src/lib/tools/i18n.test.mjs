@@ -118,7 +118,7 @@ test("audited UI components consume localization instead of local bilingual stri
 
   assert.match(theme, /getMessages\(locale\)\.theme/);
   const breadcrumbs = readFileSync(fileURLToPath(new URL("../../components/layout/Breadcrumbs.tsx", import.meta.url)), "utf8");
-  assert.match(breadcrumbs, /getMessages\(locale\)\.breadcrumbs\.label/);
+  assert.match(breadcrumbs, /t\.breadcrumbs\.label/);
   assert.match(categories, /t\.home\.categoriesCount/);
   assert.match(downloadTime, /getDownloadSizeUnitLabel\(locale, unit\)/);
   assert.match(downloadTime, /getDownloadSpeedUnitLabel\(locale, unit\)/);
