@@ -98,7 +98,7 @@ test("global message locales keep the same structure and interpolation variables
 
 const localizedUiFiles = [
   "../../components/theme/ThemeToggle.tsx",
-  "../../components/tools/ToolPage/EditorialPrimitives.tsx",
+  "../../components/layout/Breadcrumbs.tsx",
   "../../components/home/Categories.tsx",
   "../../components/tools/temps-telechargement/DownloadTimeCalculator.tsx",
   "../../components/tools/vitesse-telechargement/DownloadSpeedConverter.tsx",
@@ -112,13 +112,13 @@ test("audited UI components consume localization instead of local bilingual stri
   }
 
   const theme = readFileSync(fileURLToPath(new URL("../../components/theme/ThemeToggle.tsx", import.meta.url)), "utf8");
-  const editorialPrimitives = readFileSync(fileURLToPath(new URL("../../components/tools/ToolPage/EditorialPrimitives.tsx", import.meta.url)), "utf8");
   const categories = readFileSync(fileURLToPath(new URL("../../components/home/Categories.tsx", import.meta.url)), "utf8");
   const downloadTime = readFileSync(fileURLToPath(new URL("../../components/tools/temps-telechargement/DownloadTimeCalculator.tsx", import.meta.url)), "utf8");
   const downloadSpeed = readFileSync(fileURLToPath(new URL("../../components/tools/vitesse-telechargement/DownloadSpeedConverter.tsx", import.meta.url)), "utf8");
 
   assert.match(theme, /getMessages\(locale\)\.theme/);
-  assert.match(editorialPrimitives, /getMessages\(locale\)\.tools\.back/);
+  const breadcrumbs = readFileSync(fileURLToPath(new URL("../../components/layout/Breadcrumbs.tsx", import.meta.url)), "utf8");
+  assert.match(breadcrumbs, /getMessages\(locale\)\.breadcrumbs\.label/);
   assert.match(categories, /t\.home\.categoriesCount/);
   assert.match(downloadTime, /getDownloadSizeUnitLabel\(locale, unit\)/);
   assert.match(downloadTime, /getDownloadSpeedUnitLabel\(locale, unit\)/);
