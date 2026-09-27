@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import { notFound } from "next/navigation";
 import ToolCard from "@/components/tools/ToolCard";
@@ -5,6 +6,7 @@ import { categories, getCategoryName } from "@/lib/tools/categories";
 import { getToolsByCategory } from "@/lib/tools/catalog";
 
 import { getMessages } from "@/lib/i18n/messages";
+import { getPublicPageMetadata } from "@/lib/tools/page-metadata";
 import { locales, type Locale } from "@/lib/i18n/config";
 
 export function generateStaticParams() {
@@ -15,6 +17,21 @@ export function generateStaticParams() {
       )
       .map((category) => ({ locale, category: category.id })),
   );
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string; category: string }> }): Promise<Metadata> {
+  const { locale: localeParam, category: categoryId } = await params;
+  if (!locales.includes(localeParam as Locale)) return {};
+  const category = categories.find((item) => item.id === categoryId);
+  if (!category || getToolsByCategory(categoryId).length === 0) return {};
+  const locale = localeParam as Locale;
+  const categoryName = getCategoryName(locale, categoryId);
+  const t = getMessages(locale);
+  return getPublicPageMetadata({
+    title: `${categoryName} — Utiluna`,
+    description: `${t.tools.categoryDescription} ${categoryName.toLowerCase()}.`,
+    path: `/${locale}/outils/${categoryId}`,
+  }, locale);
 }
 
 export default async function CategoryPage({

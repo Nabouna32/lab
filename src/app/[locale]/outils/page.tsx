@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import ToolCard from "@/components/tools/ToolCard";
 import { categories, getCategoryName } from "@/lib/tools/categories";
 import { getToolsByCategory } from "@/lib/tools/catalog";
@@ -5,6 +6,19 @@ import { getToolsByCategory } from "@/lib/tools/catalog";
 import { getMessages } from "@/lib/i18n/messages";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { notFound } from "next/navigation";
+import { getPublicPageMetadata } from "@/lib/tools/page-metadata";
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale: rawLocale } = await params;
+  if (!isLocale(rawLocale)) return {};
+  const locale: Locale = rawLocale;
+  const t = getMessages(locale);
+  return getPublicPageMetadata({
+    title: locale === "fr" ? "Tous les outils — Utiluna" : "All tools — Utiluna",
+    description: t.tools.description,
+    path: `/${locale}/outils`,
+  }, locale);
+}
 
 export default async function ToolsPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale: rawLocale } = await params;
