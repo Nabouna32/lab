@@ -113,12 +113,12 @@ const handler = async (req: Request): Promise<Response> => {
     return Response.json({ error: "Could not update the account." }, { status: 500 });
   }
 
-  const { error: auditError } = await userClient.rpc("record_admin_audit", {
+  const { error: revokeError } = await userClient.rpc("revoke_admin_user_sessions", { target_user_id: targetUserId });\n  if (revokeError) {\n    return Response.json({ error: "Account changed but existing sessions could not be revoked." }, { status: 500 });\n  }\n\n  const { error: auditError } = await userClient.rpc("record_admin_audit", {
     audit_action: action === "suspend" ? "admin.user.suspended" : "admin.user.unsuspended",
     audit_target_type: "user",
     audit_target_id: targetUserId,
     audit_metadata: {
-      banned_until: user.user?.banned_until ?? null,
+      banned_until: user.user?.banned_until ?? null,\n      sessions_revoked: true,
     },
   });
 
