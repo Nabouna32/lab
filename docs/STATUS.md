@@ -29,6 +29,7 @@
 - Hardened published numeric tools against non-finite calculation results and surfaced invalid numeric input instead of silently hiding results.
 - Hardened the download-speed and file-size converters against numeric overflow at their domain boundaries.
 - Updated the text counter to count Unicode grapheme clusters, so joined emoji and other user-perceived characters are counted as one character.
+- Completed the first accessibility pass across the published validation states: invalid inputs are now exposed with `aria-invalid`, and validation messages are announced with `role="alert"` instead of being visible-only.
 
 ## Platform audit conclusions
 
@@ -76,12 +77,12 @@
 
 ## Next actions
 
-1. Audit the functional behavior of every published tool, including invalid input, edge cases, rounding and user-facing errors.
+1. Continue the functional behavior audit of every published tool, focusing on remaining edge cases, rounding conventions and user-facing result semantics.
 2. Continue the tool-platform audit with registry scalability and catalog/module boundaries as the toolbox grows.
 3. Continue administration with the remaining account-lifecycle actions, especially account deletion and other account-lifecycle workflows.
 4. Connect the existing catalog access boundary to the new database schema and switch reads progressively while keeping Git/code authoritative for executable behavior.
 5. Introduce persistence or sharing only when a concrete tool requirement justifies the corresponding runtime capability.
-6. Continue the UX audit with above-the-fold tool hierarchy and mobile behavior, then apply targeted fixes.
+6. Continue the UX audit with above-the-fold tool hierarchy and mobile behavior, then apply targeted fixes, including keyboard/focus behavior where it affects tool completion.
 
 ## Important boundary
 
