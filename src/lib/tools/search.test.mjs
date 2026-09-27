@@ -7,6 +7,7 @@ const fixtureTools = [
     id: "pourcentage",
     tags: ["%", "taux"],
     aliases: ["pourcentage"],
+    categories: ["calculs"],
     lifecycle: "published",
     content: {
       fr: { name: "Calculateur de pourcentage", description: "Calculez un pourcentage." },
@@ -17,6 +18,7 @@ const fixtureTools = [
     id: "regle-de-trois",
     tags: ["proportion"],
     aliases: ["ratio"],
+    categories: ["calculs"],
     lifecycle: "published",
     content: {
       fr: { name: "Règle de trois", description: "Résolvez une proportionnalité." },
@@ -27,6 +29,7 @@ const fixtureTools = [
     id: "temps-telechargement",
     tags: ["download", "internet"],
     aliases: ["telechargement"],
+    categories: ["informatique"],
     lifecycle: "published",
     content: {
       fr: { name: "Temps de téléchargement", description: "Estimez une durée de téléchargement." },
