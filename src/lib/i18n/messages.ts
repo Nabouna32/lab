@@ -1,4 +1,5 @@
 import type { Locale } from "./config.ts";
+import { formatPlural } from "./plural";
 
 export type Messages = {
   nav: { home: string; tools: string; explore: string; language: string; account: string; space: string; menu: string; closeSearch: string };
@@ -43,7 +44,7 @@ export const messages: Record<Locale, Messages> = {
       discoveryTitle: "À découvrir", discoveryDescription: "Quelques outils pour commencer à explorer Utiluna.", discoveryOpen: "Ouvrir l’outil",
       categoriesTitle: "Trouvez l’outil dont vous avez besoin",
       categoriesDescription: "Parcourez nos différentes catégories pour trouver rapidement le bon outil.",
-      categoriesCount: (count) => `${count} ${count === 1 ? "catégorie" : "catégories"}`,
+      categoriesCount: (count) => formatPlural("fr", count, { one: "catégorie", other: "catégories" }),
     },
     tools: {
       eyebrow: "Utiluna", title: "Tous les outils",
@@ -99,7 +100,7 @@ export const messages: Record<Locale, Messages> = {
       discoveryTitle: "Discover something useful", discoveryDescription: "A few tools to start exploring Utiluna.", discoveryOpen: "Open tool",
       categoriesTitle: "Find the tool you need",
       categoriesDescription: "Browse our categories to quickly find the right tool.",
-      categoriesCount: (count) => `${count} ${count === 1 ? "category" : "categories"}`,
+      categoriesCount: (count) => formatPlural("en", count, { one: "category", other: "categories" }),
     },
     tools: {
       eyebrow: "Utiluna", title: "All tools",
