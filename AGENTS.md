@@ -73,7 +73,7 @@ When several reasonable options exist, make a recommendation and explain the tra
 
 ## Source of truth
 
-- The GitHub repository `Nabouna32/nabouna-project1` is the source of truth for the application code.
+- The GitHub repository `Nabouna32/nabouna-utiluna` is the source of truth for the application code.
 - Always inspect the current repository state before making a significant change.
 - Keep `main` deployable and stable.
 
