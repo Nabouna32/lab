@@ -60,9 +60,9 @@ Goal: add optional personalization without creating an account wall.
 - anonymous/local mode
 - favorites
 - collections
-- preferences
-- optional synchronized history
-- account settings
+- later: preferences and account settings
+- later: optional synchronized history
+- later: broader personalization
 - privacy controls
 
 ## Phase 4 — Community
@@ -132,7 +132,7 @@ The phases below should preserve the following capabilities as they become relev
 
 ### Personalization and collections
 
-The account direction may eventually cover:
+The first useful personalization scope is intentionally limited to favorites and collections. The account direction may eventually cover:
 - anonymous local favorites with deterministic account merge;
 - private/shareable/public collections;
 - personalized home and tool ordering;
