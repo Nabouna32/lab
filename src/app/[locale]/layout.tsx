@@ -42,7 +42,7 @@ export default async function LocaleLayout({
     <html lang={locale} dir={direction} suppressHydrationWarning>
       <body className={geistSans.variable + " " + geistMono.variable}>
         <ThemeProvider>
-          <Header />
+          <Header locale={locale} />
           {children}
           <Footer locale={locale} />
         </ThemeProvider>
