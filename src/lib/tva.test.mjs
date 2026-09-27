@@ -19,6 +19,12 @@ test("calculates VAT amount", () => {
   assert.ok(Math.abs(calculateVatAmount(150, 20) - 30) < 1e-10);
 });
 
+test("rejects non-finite calculation results", () => {
+  assert.equal(calculateTtc(Number.MAX_VALUE, 100), null);
+  assert.equal(calculateHt(Number.MAX_VALUE, 100), null);
+  assert.equal(calculateVatAmount(Number.MAX_VALUE, 100), null);
+});
+
 test("accepts VAT rates from 0 to 100", () => {
   assert.equal(isValidVatRate(0), true);
   assert.equal(isValidVatRate(20), true);
