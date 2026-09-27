@@ -202,7 +202,7 @@ export default function PercentageCalculator() {
               value={firstValue}
               onChange={(event) => setFirstValue(event.target.value)}
               placeholder={firstPlaceholder}
-              aria-describedby="percentage-input-help"
+              aria-describedby={"percentage-input-help" + (error ? " percentage-input-error" : "")}
              aria-invalid={error !== null}/>
             <CalculatorField
               label={secondLabel}
@@ -210,7 +210,7 @@ export default function PercentageCalculator() {
               value={secondValue}
               onChange={(event) => setSecondValue(event.target.value)}
               placeholder={secondPlaceholder}
-              aria-describedby="percentage-input-help"
+              aria-describedby={"percentage-input-help" + (error ? " percentage-input-error" : "")}
              aria-invalid={error !== null}/>
           </div>
 
@@ -237,7 +237,7 @@ export default function PercentageCalculator() {
             {result === null && !error && (
               <p className="text-sm leading-6 text-[var(--muted)]">{t.emptyResult}</p>
             )}
-            {error && <p className="text-sm font-medium leading-6 text-[var(--danger)]">{error}</p>}
+            {error && <p id="percentage-input-error" className="text-sm font-medium leading-6 text-[var(--danger)]">{error}</p>}
             {result !== null && !error && (
               <>
                 <p className={"text-4xl font-black tracking-[-0.04em] sm:text-5xl " + resultToneClasses[resultTone].value}>{resultText}</p>
