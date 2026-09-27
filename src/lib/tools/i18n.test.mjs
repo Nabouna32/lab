@@ -76,7 +76,7 @@ test("tool editorial modules keep FR/EN content structured and out of JSX locale
   }
 });
 
-test("tool content falls back to English when a requested locale is missing", async () => {
+test("localized tool and processing content fall back to English when a requested locale is missing", async () => {
   const { getToolContent } = await import("./types.ts");
   const tool = {
     content: {
