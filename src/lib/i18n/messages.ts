@@ -5,7 +5,7 @@ export type Messages = {
   breadcrumbs: { label: string };
   footer: { tagline: string; explore: string; account: string };
   actions: { copy: string; copied: string; clear: string };
-  home: { badge: string; title: string; description: string; examples: string; explore: string; discoveryTitle: string; discoveryDescription: string; discoveryOpen: string; categoriesTitle: string; categoriesDescription: string; categoriesCount: (count: number) => string };
+  home: { badge: string; title: string; description: string; quickLinks: Array<{ label: string; toolId: string }>; explore: string; discoveryTitle: string; discoveryDescription: string; discoveryOpen: string; categoriesTitle: string; categoriesDescription: string; categoriesCount: (count: number) => string };
   tools: {
     eyebrow: string; title: string; description: string; explore: string; one: string; many: string; back: string;
     categoryDescription: string; searchLabel: string; searchPlaceholder: string; searchButton: string; suggestions: string;
@@ -32,7 +32,12 @@ export const messages: Record<Locale, Messages> = {
       badge: "Un outil pour chaque besoin",
       title: "Qu’est-ce que vous cherchez à faire ?",
       description: "Trouvez rapidement l’outil adapté à votre besoin.",
-      examples: "Calculer une remise · Convertir une vitesse · Calculer mon âge · Convertir un fichier",
+      quickLinks: [
+        { label: "Calculer une remise", toolId: "reduction" },
+        { label: "Convertir une vitesse", toolId: "vitesse-telechargement" },
+        { label: "Calculer mon âge", toolId: "age" },
+        { label: "Convertir une taille de fichier", toolId: "convertisseur-taille" },
+      ],
       explore: "Explorer",
       discoveryTitle: "À découvrir", discoveryDescription: "Quelques outils pour commencer à explorer Utiluna.", discoveryOpen: "Ouvrir l’outil",
       categoriesTitle: "Trouvez l’outil dont vous avez besoin",
@@ -82,7 +87,12 @@ export const messages: Record<Locale, Messages> = {
       badge: "A tool for every need",
       title: "What are you looking to do?",
       description: "Quickly find the tool that fits your need.",
-      examples: "Calculate a discount · Convert a speed · Calculate my age · Convert a file",
+      quickLinks: [
+        { label: "Calculate a discount", toolId: "reduction" },
+        { label: "Convert a speed", toolId: "vitesse-telechargement" },
+        { label: "Calculate my age", toolId: "age" },
+        { label: "Convert a file size", toolId: "convertisseur-taille" },
+      ],
       explore: "Explore",
       discoveryTitle: "Discover something useful", discoveryDescription: "A few tools to start exploring Utiluna.", discoveryOpen: "Open tool",
       categoriesTitle: "Find the tool you need",
