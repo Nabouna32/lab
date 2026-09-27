@@ -4,6 +4,9 @@ export const DOWNLOAD_SPEED_UNITS = ["kbps", "mbps", "gbps", "ko-s", "mo-s", "go
 export type DownloadSizeUnit = (typeof DOWNLOAD_SIZE_UNITS)[number];
 export type DownloadSpeedUnit = (typeof DOWNLOAD_SPEED_UNITS)[number];
 
+const DOWNLOAD_SIZE_UNIT_SET = new Set<string>(DOWNLOAD_SIZE_UNITS);
+const DOWNLOAD_SPEED_UNIT_SET = new Set<string>(DOWNLOAD_SPEED_UNITS);
+
 const BYTES_PER_SIZE_UNIT: Record<DownloadSizeUnit, number> = {
   ko: 1_000,
   mo: 1_000_000,
@@ -34,12 +37,16 @@ export function calculateDownloadTime(
   speed: number,
   speedUnit: DownloadSpeedUnit,
 ): DownloadDuration | null {
+  if (!DOWNLOAD_SIZE_UNIT_SET.has(sizeUnit) || !DOWNLOAD_SPEED_UNIT_SET.has(speedUnit)) return null;
+
   if (!Number.isFinite(size) || size < 0 || !Number.isFinite(speed) || speed <= 0) {
     return null;
   }
 
   const totalSeconds =
     (size * BYTES_PER_SIZE_UNIT[sizeUnit] * 8) / (speed * BITS_PER_SPEED_UNIT[speedUnit]);
+  if (!Number.isFinite(totalSeconds)) return null;
+
   const roundedSeconds = Math.ceil(totalSeconds);
   const days = Math.floor(roundedSeconds / 86_400);
   const hours = Math.floor((roundedSeconds % 86_400) / 3_600);

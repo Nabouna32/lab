@@ -41,6 +41,12 @@ test("returns zero for a zero-size file", () => {
   });
 });
 
+test("rejects invalid units and overflowing results", () => {
+  assert.equal(calculateDownloadTime(1, "invalid", 100, "mbps"), null);
+  assert.equal(calculateDownloadTime(1, "go", 100, "invalid"), null);
+  assert.equal(calculateDownloadTime(Number.MAX_VALUE, "to", Number.MIN_VALUE, "mbps"), null);
+});
+
 test("rejects invalid size and speed", () => {
   assert.equal(calculateDownloadTime(-1, "go", 100, "mbps"), null);
   assert.equal(calculateDownloadTime(1, "go", 0, "mbps"), null);
