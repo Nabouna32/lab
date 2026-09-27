@@ -29,7 +29,9 @@
 - Hardened published numeric tools against non-finite calculation results and surfaced invalid numeric input instead of silently hiding results.
 - Hardened the download-speed and file-size converters against numeric overflow at their domain boundaries.
 - Updated the text counter to count Unicode grapheme clusters, so joined emoji and other user-perceived characters are counted as one character.
-- Completed the first accessibility pass across the published validation states: invalid inputs are now exposed with `aria-invalid`, and validation messages are announced with `role="alert"` instead of being visible-only.
+- Completed the first accessibility pass across the published validation states: invalid inputs are now exposed with `aria-invalid`, validation messages are announced with `role="alert"`, and invalid fields reference their visible validation message through `aria-describedby`.
+- Prevented empty global search submission from opening an arbitrary first result.
+- Aligned the rule-of-three calculation helper with the published nullable invalid-input contract: invalid and non-finite inputs now return `null` instead of throwing.
 
 ## Platform audit conclusions
 
