@@ -85,6 +85,7 @@ The code/module remains authoritative for executable behavior and technical capa
 - Supabase project `Utiluna` is active in `eu-west-2`.
 - First application table `public.profiles` is deployed with Row Level Security and ownership policies.
 - Next.js was upgraded from 16.3.5 to 16.3.6 to address the critical upstream security update released on September 22, 2026.
+- The published file-size calculator now validates calculation units and rejects numeric overflow at the domain-function boundary.
 - Email/password account creation, sign-in, sign-out and session refresh are wired into the Next.js application.
 - Email confirmation uses the Supabase PKCE callback flow.
 - The database currently stores only minimal profile metadata; tool/catalog migration remains a separate future step.
