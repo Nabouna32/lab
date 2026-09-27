@@ -45,7 +45,7 @@
 - Supabase is now used for the account foundation and administrative authorization.
 - Executable behavior and technical capabilities remain authoritative in Git/code.
 - The database may own account, administration, editable catalog/editorial data, publication state and community data as those domains are introduced deliberately.
-- Database-backed metadata must not be allowed to falsely redefine executable tool behavior.\n- The first editable catalog schema is now deployed to Supabase with published-only public reads and database-backed catalog permissions.
+- Database-backed metadata must not be allowed to falsely redefine executable tool behavior.\n- The first editable catalog schema is now deployed and seeded in Supabase with published-only public reads and database-backed catalog permissions.
 
 ### Catalog, editorial and i18n
 
@@ -88,7 +88,7 @@ The code/module remains authoritative for executable behavior and technical capa
 - The published file-size calculator now validates calculation units and rejects numeric overflow at the domain-function boundary.
 - Email/password account creation, sign-in, sign-out and session refresh are wired into the Next.js application.
 - Email confirmation uses the Supabase PKCE callback flow.
-- The database stores minimal profile metadata and now has the first editable tool catalog schema; public application reads have not yet switched to the database.
+- The database stores minimal profile metadata and a seeded snapshot of the current 12-tool catalog; public application reads have not yet switched to the database.
 
 ## Administration foundation
 
