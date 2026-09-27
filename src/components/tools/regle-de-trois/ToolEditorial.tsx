@@ -14,23 +14,23 @@ const content = {
 } as const;
 
 export default function ToolEditorial({ locale }: { locale: Locale }) {
-  const data = content[locale];
+  const t = content[locale];
   return (
     <>
-      <ToolSection title={data.main.title}>
-        <p>{data.main.text}</p>
+      <ToolSection title={t.main.title}>
+        <p>{t.main.text}</p>
         <Formula>
-          <p className="font-semibold text-[var(--foreground)]">{data.main.formula}</p>
+          <p className="font-semibold text-[var(--foreground)]">{t.main.formula}</p>
           <p className="mt-2 font-mono text-sm text-[var(--foreground)]">X = B × C ÷ A</p>
         </Formula>
-        <p className="mt-5">{data.main.example}</p>
+        <p className="mt-5">{t.main.example}</p>
         <Card>
           <p className="font-semibold text-[var(--foreground)]">10 × 6 ÷ 4 = 15</p>
-          <p className="mt-2 text-sm">{data.main.result}</p>
+          <p className="mt-2 text-sm">{t.main.result}</p>
         </Card>
       </ToolSection>
-      <ToolSection title={data.use.title}>
-        <p>{data.use.text}</p>
+      <ToolSection title={t.use.title}>
+        <p>{t.use.text}</p>
       </ToolSection>
       <BackToTools locale={locale} />
     </>
