@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import ToolSearch from "@/components/tools/ToolSearch";
 import { categories, getCategoryName, getToolCount } from "@/lib/tools/categories";
-import { getToolsByCategory } from "@/lib/tools/catalog";
 
 import { getMessages } from "@/lib/i18n/messages";
 import { isLocale, type Locale } from "@/lib/i18n/config";
