@@ -17,10 +17,12 @@ function Icon() {
 
 export default function MobileHeaderSearch({
   locale,
-  label,
+  searchLabel,
+  closeLabel,
 }: {
   locale: Locale;
-  label: string;
+  searchLabel: string;
+  closeLabel: string;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -35,9 +37,9 @@ export default function MobileHeaderSearch({
       <button
         type="button"
         className={iconButton + " w-10 sm:hidden"}
-        aria-label={label}
+        aria-label={searchLabel}
         aria-expanded="false"
-        title={label}
+        title={searchLabel}
         onClick={() => setOpen(true)}
       >
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4" aria-hidden="true">
@@ -53,9 +55,9 @@ export default function MobileHeaderSearch({
       <button
         type="button"
         className={iconButton + " w-10 sm:hidden"}
-        aria-label={label}
+        aria-label={searchLabel}
         aria-expanded="true"
-        title={label}
+        title={searchLabel}
         onClick={() => setOpen(false)}
       >
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4" aria-hidden="true">
@@ -73,8 +75,8 @@ export default function MobileHeaderSearch({
         <button
           type="button"
           className={iconButton + " w-10"}
-          aria-label={label}
-          title={label}
+          aria-label={closeLabel}
+          title={closeLabel}
           onClick={() => setOpen(false)}
         >
           <Icon />
