@@ -1,5 +1,7 @@
-// @ts-expect-error Resolved by the Deno Edge runtime, not the Node typecheck.\nimport "jsr:@supabase/functions-js/edge-runtime.d.ts";
-// @ts-expect-error Resolved by the Deno Edge runtime, not the Node typecheck.\nimport { createClient } from "npm:@supabase/supabase-js@2";\n\ndeclare const Deno: { env: { get(name: string): string | undefined } };
+import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+import { createClient } from "npm:@supabase/supabase-js@2";
+
+declare const Deno: { env: { get(name: string): string | undefined } };
 
 type Payload = { targetUserId?: string };
 
