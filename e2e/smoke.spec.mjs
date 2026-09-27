@@ -39,6 +39,34 @@ test("mobile header keeps account action unique and opens search on demand", asy
   await expect(header.locator("#header-tool-search-mobile-input")).toHaveCount(0);
 });
 
+test("tool search shows useful result context", async ({ page }) => {
+  await page.goto(`${baseUrl}/fr/outils`, { waitUntil: "domcontentloaded" });
+
+  const search = page.locator("#tools-page-search-input");
+  await search.fill("calculer 17 % de 283");
+  await expect(page.locator("#tools-page-search-results")).toBeVisible();
+  await expect(page.locator("#tools-page-search-results").getByText("Calculateur de pourcentage", { exact: true })).toBeVisible();
+  await expect(page.locator("#tools-page-search-results").getByText(/Calculs/)).toBeVisible();
+  await expect(page.locator("#tools-page-search-result-0")).toContainText("Calculez facilement un pourcentage");
+
+  await search.press("ArrowDown");
+  await expect(page.locator("#tools-page-search-result-0")).toHaveAttribute("aria-selected", "true");
+  await search.press("Enter");
+  await expect(page).toHaveURL(/\/fr\/outils\/calculs\/pourcentage$/);
+});
+
+test("tool search offers suggestions when nothing matches", async ({ page }) => {
+  await page.goto(`${baseUrl}/fr/outils`, { waitUntil: "domcontentloaded" });
+
+  const search = page.locator("#tools-page-search-input");
+  await search.fill("zzzzzzzz");
+  const results = page.locator("#tools-page-search-results");
+  await expect(results.getByText(/Aucun outil trouvé pour/)).toBeVisible();
+  await expect(results.getByRole("button", { name: "TVA", exact: true })).toBeVisible();
+  await results.getByRole("button", { name: "TVA", exact: true }).click();
+  await expect(results.getByText("TVA", { exact: true })).toBeVisible();
+});
+
 test("tools page is search-first and exposes category discovery", async ({ page }) => {
   await page.goto(`${baseUrl}/fr/outils`, { waitUntil: "domcontentloaded" });
 
