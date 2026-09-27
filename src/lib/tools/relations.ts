@@ -1,6 +1,6 @@
 import { getPrimaryToolCategory, getToolContent, isPublishedTool } from "./types.ts";
 import type { Tool } from "./types";
-import { normalizeSearchText } from "./search.ts";
+import { normalizeSearchText } from "./search-utils.ts";
 
 function getTerms(tool: Tool): string[] {
   return [getToolContent(tool, "fr").name, ...tool.tags, ...tool.aliases]
