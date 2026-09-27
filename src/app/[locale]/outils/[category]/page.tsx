@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import ToolCard from "@/components/tools/ToolCard";
 import { categories, getCategoryName } from "@/lib/tools/categories";
 import { tools } from "@/lib/tools/tools";
+import { getPrimaryToolCategory, isPublishedTool } from "@/lib/tools/types";
 import { getMessages } from "@/lib/i18n/messages";
 import { locales, type Locale } from "@/lib/i18n/config";
 
@@ -10,7 +11,7 @@ export function generateStaticParams() {
   return locales.flatMap((locale) =>
     categories
       .filter((category) =>
-        tools.some((tool) => tool.categoryId === category.id && tool.available),
+        tools.some((tool) => getPrimaryToolCategory(tool) === category.id && isPublishedTool(tool)),
       )
       .map((category) => ({ locale, category: category.id })),
   );
@@ -25,7 +26,7 @@ export default async function CategoryPage({
   const locale = localeParam as Locale;
   const category = categories.find((item) => item.id === categoryId);
   const categoryTools = tools.filter(
-    (tool) => tool.categoryId === categoryId && tool.available,
+    (tool) => getPrimaryToolCategory(tool) === categoryId && isPublishedTool(tool),
   );
 
   if (!category || categoryTools.length === 0 || !locales.includes(locale)) {
