@@ -1,4 +1,4 @@
-import { getPrimaryToolCategory, getToolContent, isPublishedTool } from "./types";
+import { getPrimaryToolCategory, getToolContent, isPublishedTool } from "./types.ts";
 import type { Tool } from "./types";
 import { normalizeSearchText } from "./search.ts";
 
