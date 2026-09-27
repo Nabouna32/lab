@@ -2,8 +2,8 @@ import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import { notFound } from "next/navigation";
 import ToolCard from "@/components/tools/ToolCard";
 import { categories, getCategoryName } from "@/lib/tools/categories";
-import { tools } from "@/lib/tools/tools";
-import { getPrimaryToolCategory, isPublishedTool } from "@/lib/tools/types";
+import { getToolsByCategory } from "@/lib/tools/catalog";
+
 import { getMessages } from "@/lib/i18n/messages";
 import { locales, type Locale } from "@/lib/i18n/config";
 
@@ -11,7 +11,7 @@ export function generateStaticParams() {
   return locales.flatMap((locale) =>
     categories
       .filter((category) =>
-        tools.some((tool) => getPrimaryToolCategory(tool) === category.id && isPublishedTool(tool)),
+        getToolsByCategory(category.id).length > 0,
       )
       .map((category) => ({ locale, category: category.id })),
   );
