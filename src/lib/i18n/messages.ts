@@ -5,7 +5,7 @@ export type Messages = {
   breadcrumbs: { label: string };
   footer: { tagline: string; explore: string; account: string };
   actions: { copy: string; copied: string; clear: string };
-  home: { badge: string; title: string; description: string; examples: string; explore: string; discoveryTitle: string; discoveryDescription: string; discoveryOpen: string; categoriesTitle: string; categoriesDescription: string; categoriesCount: (count: number) => string };
+  home: { badge: string; title: string; description: string; quickLinks: Array<{ label: string; toolId: string }>; explore: string; discoveryTitle: string; discoveryDescription: string; discoveryOpen: string; categoriesTitle: string; categoriesDescription: string; categoriesCount: (count: number) => string };
   tools: {
     eyebrow: string; title: string; description: string; explore: string; one: string; many: string; back: string;
     categoryDescription: string; searchLabel: string; searchPlaceholder: string; searchButton: string; suggestions: string;
@@ -29,10 +29,15 @@ export const messages: Record<Locale, Messages> = {
     footer: { tagline: "Une boîte à outils numérique, simple à utiliser et immense à explorer.", explore: "Explorer", account: "Votre espace" },
     actions: { copy: "Copier", copied: "Copié", clear: "Effacer" },
     home: {
-      badge: "Des outils simples pour le quotidien",
-      title: "Trouvez l’outil qu’il vous faut.",
-      description: "Calculs, conversions, dates, fichiers et bien plus.",
-      examples: "Essayez : TVA, remise, internet, vidéo, âge...",
+      badge: "Un outil pour chaque besoin",
+      title: "Qu’est-ce que vous cherchez à faire ?",
+      description: "Trouvez rapidement l’outil adapté à votre besoin.",
+      quickLinks: [
+        { label: "Calculer une remise", toolId: "reduction" },
+        { label: "Convertir une vitesse", toolId: "vitesse-telechargement" },
+        { label: "Calculer mon âge", toolId: "age" },
+        { label: "Convertir une taille de fichier", toolId: "convertisseur-taille" },
+      ],
       explore: "Explorer",
       discoveryTitle: "À découvrir", discoveryDescription: "Quelques outils pour commencer à explorer Utiluna.", discoveryOpen: "Ouvrir l’outil",
       categoriesTitle: "Trouvez l’outil dont vous avez besoin",
@@ -79,10 +84,15 @@ export const messages: Record<Locale, Messages> = {
     footer: { tagline: "A digital toolbox that is simple to use and made to explore.", explore: "Explore", account: "Your space" },
     actions: { copy: "Copy", copied: "Copied", clear: "Clear" },
     home: {
-      badge: "Simple tools for everyday tasks",
-      title: "Find the tool you need.",
-      description: "Calculations, conversions, dates, files, and much more.",
-      examples: "Try: VAT, discount, internet, video, age...",
+      badge: "A tool for every need",
+      title: "What are you looking to do?",
+      description: "Quickly find the tool that fits your need.",
+      quickLinks: [
+        { label: "Calculate a discount", toolId: "reduction" },
+        { label: "Convert a speed", toolId: "vitesse-telechargement" },
+        { label: "Calculate my age", toolId: "age" },
+        { label: "Convert a file size", toolId: "convertisseur-taille" },
+      ],
       explore: "Explore",
       discoveryTitle: "Discover something useful", discoveryDescription: "A few tools to start exploring Utiluna.", discoveryOpen: "Open tool",
       categoriesTitle: "Find the tool you need",

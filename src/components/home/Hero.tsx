@@ -1,5 +1,7 @@
 import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
+import { getToolById } from "@/lib/tools/catalog";
+import { getPrimaryToolCategory } from "@/lib/tools/types";
 import ToolSearch from "@/components/tools/ToolSearch";
 
 export default function Hero({ locale }: { locale: Locale }) {
@@ -23,9 +25,21 @@ export default function Hero({ locale }: { locale: Locale }) {
           </p>
           <div className="mx-auto mt-7 max-w-2xl text-left sm:mt-8">
             <ToolSearch locale={locale} instanceId="home-tool-search" />
-            <p className="mt-3 text-center text-xs text-[var(--muted)] sm:text-sm">
-              {t.home.examples}
-            </p>
+            <div className="mt-3 flex flex-wrap justify-center gap-2">
+              {t.home.quickLinks.map((link) => {
+                const tool = getToolById(link.toolId);
+                if (!tool) return null;
+                return (
+                  <a
+                    key={link.toolId}
+                    href={"/" + locale + "/outils/" + getPrimaryToolCategory(tool) + "/" + tool.slug}
+                    className="rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 py-1.5 text-xs font-medium text-[var(--muted)] transition-colors hover:border-[var(--accent)] hover:text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] sm:text-sm"
+                  >
+                    {link.label}
+                  </a>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
