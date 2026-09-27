@@ -176,8 +176,8 @@ export default function Header() {
             <button
               type="button"
               className={iconButton + " w-10"}
-              aria-label={t.tools.clearSearch}
-              title={t.tools.clearSearch}
+              aria-label={t.nav.closeSearch}
+              title={t.nav.closeSearch}
               onClick={() => setMobileSearchOpen(false)}
             >
               <Icon>
