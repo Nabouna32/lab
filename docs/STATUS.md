@@ -51,6 +51,7 @@
 
 - The central catalog/registry is sufficient for the current toolbox.
 - Catalog consumers now go through a single catalog access layer; the current implementation remains Git-backed, while the boundary is ready for a future database-backed catalog without coupling pages and components to the storage location.
+- The first editable catalog schema is deployed and seeded in Supabase; public application reads have not yet switched to the database.
 - The category-page duplication was removed.
 - Editorial content is now owned by each tool module and loaded through the same registry as the executable tool; the former centralized switch has been removed.
 - Search now matches structured tags, aliases and categories in addition to localized names and descriptions.
@@ -64,7 +65,7 @@
 - Account/premium enforcement.
 - Runtime enforcement for browser capabilities beyond clipboard.
 - Generic sharing runtime.
-- Database-backed catalog/editorial content.
+- Application reads from the database-backed catalog; the schema and initial data exist, but the current public catalog still reads from Git through the catalog access boundary.
 - External-service integrations.
 
 ## Next actions
@@ -72,7 +73,7 @@
 1. Audit the functional behavior of every published tool, including invalid input, edge cases, rounding and user-facing errors.
 2. Continue the tool-platform audit with registry scalability and catalog/module boundaries as the toolbox grows.
 3. Continue administration with the remaining account-lifecycle actions, especially account deletion and other account-lifecycle workflows.
-4. Define the database schema and migration path for editable catalog/editorial data before moving those domains out of Git.
+4. Connect the existing catalog access boundary to the new database schema and switch reads progressively while keeping Git/code authoritative for executable behavior.
 5. Introduce persistence or sharing only when a concrete tool requirement justifies the corresponding runtime capability.
 6. Continue the UX audit with above-the-fold tool hierarchy and mobile behavior, then apply targeted fixes.
 
