@@ -1,5 +1,6 @@
 import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
+import ToolSearch from "@/components/tools/ToolSearch";
 
 export default function Hero({ locale }: { locale: Locale }) {
   const t = getMessages(locale);
@@ -20,6 +21,12 @@ export default function Hero({ locale }: { locale: Locale }) {
           <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-[var(--muted)] sm:text-base sm:leading-7">
             {t.home.description}
           </p>
+          <div className="mx-auto mt-7 max-w-2xl text-left sm:mt-8">
+            <ToolSearch locale={locale} instanceId="home-tool-search" />
+            <p className="mt-3 text-center text-xs text-[var(--muted)] sm:text-sm">
+              {t.home.examples}
+            </p>
+          </div>
         </div>
       </div>
     </section>
