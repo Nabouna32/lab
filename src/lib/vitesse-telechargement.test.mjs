@@ -18,6 +18,11 @@ test("keeps the value when units match", () => {
   assert.equal(convertSpeed(42.5, "mo-s", "mo-s"), 42.5);
 });
 
+test("rejects invalid units at runtime", () => {
+  assert.throws(() => convertSpeed(1, "invalid", "mbps"), RangeError);
+  assert.throws(() => convertSpeed(1, "mbps", "invalid"), RangeError);
+});
+
 test("accepts zero and rejects invalid values", () => {
   assert.equal(convertSpeed(0, "mbps", "mo-s"), 0);
   assert.throws(() => convertSpeed(-1, "mbps", "mo-s"), RangeError);
