@@ -5,13 +5,14 @@ export type Messages = {
   breadcrumbs: { label: string };
   footer: { tagline: string; explore: string; account: string };
   actions: { copy: string; copied: string; clear: string };
-  home: { badge: string; title: string; description: string; examples: string; explore: string; discoveryTitle: string; discoveryDescription: string; discoveryOpen: string; categoriesTitle: string; categoriesDescription: string };
+  home: { badge: string; title: string; description: string; examples: string; explore: string; discoveryTitle: string; discoveryDescription: string; discoveryOpen: string; categoriesTitle: string; categoriesDescription: string; categoriesCount: (count: number) => string };
   tools: {
     eyebrow: string; title: string; description: string; explore: string; one: string; many: string; back: string;
     categoryDescription: string; searchLabel: string; searchPlaceholder: string; searchButton: string; suggestions: string;
     resultCountOne: string; resultCountMany: string; noResults: string; noResultsHelp: string; clearSearch: string;
   };
   relatedTools: { title: string };
+  theme: { choose: string; system: string; light: string; dark: string; title: string };
   admin: { label: string; title: string; description: string; dashboard: string; access: string; account: string; roles: string; permissions: string; auditLog: string; noAuditEntries: string; noAccess: string; notConfigured: string; modules: string; users: string; usersDescription: string; usersTitle: string; usersBack: string; usersSearch: string; usersSearchPlaceholder: string; usersSearchSubmit: string; usersNoResults: string; userEmail: string; userDisplayName: string; userCreated: string; userLastSignIn: string; userEmailConfirmed: string; userPending: string; userNeverSignedIn: string; userRoles: string; userAssignRole: string; userRemoveRole: string; userNoRoles: string; userUpdated: string; userActionError: string; tools: string; toolsDescription: string; moderation: string; moderationDescription: string; analytics: string; analyticsDescription: string; settings: string; settingsDescription: string; audit: string; auditDescription: string; auditTitle: string; auditBack: string; auditEmpty: string; auditActor: string; auditAction: string; auditTarget: string; auditDate: string; auditDetails: string; userAccess: string; userActive: string; userSuspendedUntil: string; userSuspend: string; userUnsuspend: string; userSuspended: string; userUnsuspended: string; userRevokeSessions: string; userSessionsRevoked: string; roleSuperAdmin: string; roleAdmin: string; available: string; comingSoon: string; },
   account: { label: string; title: string; anonymousDescription: string; signIn: string; signUp: string; signOut: string; submitSignIn: string; submitSignUp: string; email: string; password: string; displayName: string; notSet: string; confirmation: string; alreadySignedIn: string; noAccount: string; hasAccount: string; signInError: string; signUpError: string };
   processing: {
@@ -36,6 +37,7 @@ export const messages: Record<Locale, Messages> = {
       discoveryTitle: "À découvrir", discoveryDescription: "Quelques outils pour commencer à explorer Utiluna.", discoveryOpen: "Ouvrir l’outil",
       categoriesTitle: "Trouvez l’outil dont vous avez besoin",
       categoriesDescription: "Parcourez nos différentes catégories pour trouver rapidement le bon outil.",
+      categoriesCount: (count) => `${count} ${count === 1 ? "catégorie" : "catégories"}`,
     },
     tools: {
       eyebrow: "Utiluna", title: "Tous les outils",
@@ -48,6 +50,7 @@ export const messages: Record<Locale, Messages> = {
       clearSearch: "Effacer la recherche",
     },
     relatedTools: { title: "Vous pourriez aussi avoir besoin de" },
+    theme: { choose: "Choisir le thème", system: "Système", light: "Clair", dark: "Sombre", title: "Thème" },
     admin: {
       label: "Administration", title: "Administration Utiluna", description: "Gérez le site depuis un espace séparé du reste d’Utiluna.", dashboard: "Tableau de bord", access: "Accès", account: "Compte", roles: "Rôles", permissions: "Permissions", auditLog: "Journal des actions", noAuditEntries: "Aucune action administrative enregistrée.", noAccess: "Vous n’avez pas accès à cette administration.", notConfigured: "Aucun compte administrateur n’est encore configuré. Après la création de votre compte, le premier accès doit être attribué explicitement.", modules: "Modules", users: "Utilisateurs", usersDescription: "Comptes, accès et rôles.", usersTitle: "Gestion des utilisateurs", usersBack: "← Tableau de bord", usersSearch: "Rechercher un utilisateur", usersSearchPlaceholder: "E-mail ou nom d’affichage", usersSearchSubmit: "Rechercher", usersNoResults: "Aucun utilisateur trouvé.", userEmail: "E-mail", userDisplayName: "Nom d’affichage", userCreated: "Créé le", userLastSignIn: "Dernière connexion", userEmailConfirmed: "E-mail confirmé", userPending: "E-mail non confirmé", userNeverSignedIn: "Jamais connecté", userRoles: "Rôles", userAssignRole: "Attribuer un rôle", userRemoveRole: "Retirer", userNoRoles: "Aucun rôle administrateur", userUpdated: "Modification enregistrée.", userActionError: "La modification n’a pas pu être enregistrée.", tools: "Outils et contenu", toolsDescription: "Outils, catégories et publication.", moderation: "Modération", moderationDescription: "Commentaires, signalements et propositions.", analytics: "Statistiques", analyticsDescription: "Comprendre l’utilisation du service.", settings: "Réglages", settingsDescription: "Configuration générale d’Utiluna.", audit: "Journal des actions", auditDescription: "Voir les actions administratives importantes.", auditTitle: "Journal des actions", auditBack: "← Tableau de bord", auditEmpty: "Aucune action administrative enregistrée.", auditActor: "Administrateur", auditAction: "Action", auditTarget: "Cible", auditDate: "Date", auditDetails: "Détails", userAccess: "Accès au compte", userActive: "Compte actif.", userSuspendedUntil: "Suspendu jusqu’au", userSuspend: "Suspendre le compte", userUnsuspend: "Réactiver le compte", userSuspended: "Compte suspendu.", userUnsuspended: "Compte réactivé.", userRevokeSessions: "Révoquer les sessions", userSessionsRevoked: "Sessions révoquées.", roleSuperAdmin: "Super administrateur", roleAdmin: "Administrateur", available: "Disponible", comingSoon: "Bientôt",
     },
@@ -84,6 +87,7 @@ export const messages: Record<Locale, Messages> = {
       discoveryTitle: "Discover something useful", discoveryDescription: "A few tools to start exploring Utiluna.", discoveryOpen: "Open tool",
       categoriesTitle: "Find the tool you need",
       categoriesDescription: "Browse our categories to quickly find the right tool.",
+      categoriesCount: (count) => `${count} ${count === 1 ? "category" : "categories"}`,
     },
     tools: {
       eyebrow: "Utiluna", title: "All tools",
@@ -96,6 +100,7 @@ export const messages: Record<Locale, Messages> = {
       clearSearch: "Clear search",
     },
     relatedTools: { title: "You may also need" },
+    theme: { choose: "Choose theme", system: "System", light: "Light", dark: "Dark", title: "Theme" },
     admin: {
       label: "Administration", title: "Utiluna administration", description: "Manage the site from a workspace separate from the public Utiluna experience.", dashboard: "Dashboard", access: "Access", account: "Account", roles: "Roles", permissions: "Permissions", auditLog: "Audit log", noAuditEntries: "No administrative actions recorded.", noAccess: "You do not have access to this administration.", notConfigured: "No administrator account has been configured yet. After creating your account, the first access must be assigned explicitly.", modules: "Modules", users: "Users", usersDescription: "Accounts, access and roles.", usersTitle: "User management", usersBack: "← Dashboard", usersSearch: "Search for a user", usersSearchPlaceholder: "Email or display name", usersSearchSubmit: "Search", usersNoResults: "No user found.", userEmail: "Email", userDisplayName: "Display name", userCreated: "Created", userLastSignIn: "Last sign-in", userEmailConfirmed: "Email confirmed", userPending: "Email not confirmed", userNeverSignedIn: "Never signed in", userRoles: "Roles", userAssignRole: "Assign role", userRemoveRole: "Remove", userNoRoles: "No administrator role", userUpdated: "Change saved.", userActionError: "The change could not be saved.", tools: "Tools and content", toolsDescription: "Tools, categories and publishing.", moderation: "Moderation", moderationDescription: "Comments, reports and proposals.", analytics: "Analytics", analyticsDescription: "Understand how the service is used.", settings: "Settings", settingsDescription: "General Utiluna configuration.", audit: "Audit log", auditDescription: "Review important administrative actions.", auditTitle: "Audit log", auditBack: "← Dashboard", auditEmpty: "No administrative actions recorded.", auditActor: "Administrator", auditAction: "Action", auditTarget: "Target", auditDate: "Date", auditDetails: "Details", userAccess: "Account access", userActive: "Account is active.", userSuspendedUntil: "Suspended until", userSuspend: "Suspend account", userUnsuspend: "Reactivate account", userSuspended: "Account suspended.", userUnsuspended: "Account reactivated.", userRevokeSessions: "Revoke sessions", userSessionsRevoked: "Sessions revoked.", roleSuperAdmin: "Super administrator", roleAdmin: "Administrator", available: "Available", comingSoon: "Coming soon",
     },

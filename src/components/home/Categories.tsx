@@ -14,7 +14,7 @@ export default function Categories({ locale }: { locale: Locale }) {
           <p className="mt-3 max-w-2xl text-sm leading-6 text-[var(--muted)] sm:text-base">{t.home.categoriesDescription}</p>
         </div>
         <span className="hidden rounded-full bg-[var(--surface-soft)] px-3 py-1.5 text-xs font-semibold text-[var(--muted)] sm:inline-flex">
-          {visibleCategories.length} {locale === "fr" ? "catégories" : "categories"}
+          {t.home.categoriesCount(visibleCategories.length)}
         </span>
       </div>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

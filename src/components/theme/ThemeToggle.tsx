@@ -2,6 +2,7 @@
 
 import { useTheme } from "@teispace/next-themes";
 import { useLocale } from "@/lib/i18n/use-locale";
+import { getMessages } from "@/lib/i18n/messages";
 
 function ThemeIcon({ theme }: { theme: string | undefined }) {
   if (theme === "dark") {
@@ -13,9 +14,7 @@ function ThemeIcon({ theme }: { theme: string | undefined }) {
 export default function ThemeToggle() {
   const { theme, setTheme } = useTheme();
   const locale = useLocale();
-  const labels = locale === "fr"
-    ? { aria: "Choisir le thème", system: "Système", light: "Clair", dark: "Sombre", title: "Thème", automatic: "Automatique" }
-    : { aria: "Choose theme", system: "System", light: "Light", dark: "Dark", title: "Theme", automatic: "Automatic" };
+  const labels = getMessages(locale).theme;
 
   const currentLabel = theme === "light" ? labels.light : theme === "dark" ? labels.dark : labels.system;
 
@@ -23,7 +22,7 @@ export default function ThemeToggle() {
     <details className="relative">
       <summary
         className="flex h-10 w-10 cursor-pointer list-none items-center justify-center rounded-xl border border-transparent text-[var(--muted)] outline-none transition-all hover:border-[var(--border)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)] focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
-        aria-label={labels.aria + ": " + currentLabel}
+        aria-label={labels.choose + ": " + currentLabel}
         title={labels.title + ": " + currentLabel}
       >
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-[1.1rem] w-[1.1rem]" aria-hidden="true">
