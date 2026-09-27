@@ -132,13 +132,15 @@ The phases below should preserve the following capabilities as they become relev
 
 ### Personalization and collections
 
-The account phase should ultimately cover:
+The account direction may eventually cover:
 - anonymous local favorites with deterministic account merge;
 - private/shareable/public collections;
 - personalized home and tool ordering;
 - hidden tools and configurable visible elements;
 - theme, animation and density/style preferences;
 - privacy/history controls.
+
+These capabilities are not all current priorities. In particular, sober/playful presentation is an optional future direction and should not drive current architecture or implementation.
 
 ### Performance and resilience
 
