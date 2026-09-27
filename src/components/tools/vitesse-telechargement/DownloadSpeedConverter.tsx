@@ -32,7 +32,7 @@ export default function DownloadSpeedConverter() {
     <CalculatorShell>
       <CalculatorActions showClear={value !== ""} onClear={() => setValue("")} />
       <div className="grid gap-5 sm:grid-cols-2">
-        <CalculatorField label={t.value} inputId="download-speed-value" type="number" min="0" step="any" value={value} onChange={(event) => setValue(event.target.value)} placeholder={t.placeholder} />
+        <CalculatorField label={t.value} inputId="download-speed-value" type="number" min="0" step="any" value={value} onChange={(event) => setValue(event.target.value)} placeholder={t.placeholder}  aria-invalid={hasInvalidInput}/>
         <label htmlFor="download-speed-from" className="block text-sm font-medium text-[var(--foreground)]">{t.from}
           <select id="download-speed-from" value={from} onChange={(event) => setFrom(event.target.value as SpeedUnit)} className="mt-2 block w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-base text-[var(--foreground)] outline-none transition focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/20">
             {SPEED_UNITS.map((unit) => <option key={unit} value={unit}>{t.units[unit]}</option>)}
@@ -45,7 +45,7 @@ export default function DownloadSpeedConverter() {
         </label>
       </div>
       <div className="mt-6"><CalculatorResult label={t.result} value={result === null ? "—" : `${formatNumber(result, locale)} ${UNIT_SHORT_LABELS[to]}`} /></div>
-      {hasInvalidInput && <p className="mt-4 text-sm font-medium text-[var(--danger)]">{t.invalid}</p>}
+      {hasInvalidInput && <p role="alert" className="mt-4 text-sm font-medium text-[var(--danger)]">{t.invalid}</p>}
     </CalculatorShell>
   );
 }
