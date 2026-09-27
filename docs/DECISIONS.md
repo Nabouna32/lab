@@ -665,3 +665,31 @@ Sharing a useful tool or a concrete result can make Utiluna more useful in every
 - Result sharing should be introduced when a concrete tool has a meaningful use case rather than forcing every tool to support it.
 - Collections remain a separate, later sharing capability governed by their own privacy model.
 - QR-code sharing may be added later where it provides clear value, but is not required for the first implementation.
+
+
+---
+
+## DEC-034 — Progressive catalog migration to the database
+
+**Status:** Accepted
+
+### Decision
+
+Now that the catalog database schema and access boundary are in place, migrate the public catalog reads progressively to PostgreSQL/Supabase rather than waiting for the catalog to become large.
+
+The migration applies to editable catalog and editorial data only. Git/code remains authoritative for executable tool behavior and technical capabilities.
+
+### Reason
+
+The database foundation is now mature enough to support the catalog boundary, and the goal is to make the architecture ready for a large future toolbox before adding a much larger volume of tools.
+
+Delaying the migration would leave the platform with two parallel catalog models longer than necessary and make later migration more disruptive.
+
+### Consequences
+
+- The catalog access layer becomes the migration seam between consumers and storage.
+- Public reads should move progressively from the Git-backed catalog to the database-backed catalog.
+- The migration must preserve the stable tool ID ↔ Git registry relationship.
+- Database publication/editorial metadata must never grant capabilities that the executable module does not declare.
+- Git remains the source of truth for executable behavior.
+- New tool work can then focus primarily on adding user value rather than creating another catalog migration obligation.
