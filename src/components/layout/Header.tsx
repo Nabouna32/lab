@@ -109,3 +109,7 @@ export default function Header({ locale }: { locale: Locale }) {
           </div>
         </div>
 
+      </div>
+    </header>
+  );
+}
