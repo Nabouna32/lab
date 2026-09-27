@@ -13,8 +13,6 @@ type ToolMessages = {
     summaryDates: (days: string, hours: string, minutes: string) => string;
     summaryTimes: (hours: string, minutes: string) => string;
     overnight: string;
-    daySingular: string; dayPlural: string; hourSingular: string; hourPlural: string;
-    minuteSingular: string; minutePlural: string;
   };
   percentage: {
     type: string; result: string; how: string; formulaIntro: string; differenceNote: string;
@@ -85,7 +83,6 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       summaryDates: (days, hours, minutes) => `La durée est de ${days}, ${hours} et ${minutes}.`,
       summaryTimes: (hours, minutes) => `La durée est de ${hours} et ${minutes}.`,
       overnight: "Le calcul considère que l'heure de fin est le lendemain.",
-      daySingular: "jour", dayPlural: "jours", hourSingular: "heure", hourPlural: "heures", minuteSingular: "minute", minutePlural: "minutes",
     },
     percentage: {
       type: "Type de calcul", result: "Résultat", how: "💡 Comment avons-nous trouvé ce résultat ?", formulaIntro: "Voici le calcul réalisé à partir des valeurs que vous avez saisies :",
@@ -166,7 +163,6 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       summaryDates: (days, hours, minutes) => `The duration is ${days}, ${hours}, and ${minutes}.`,
       summaryTimes: (hours, minutes) => `The duration is ${hours} and ${minutes}.`,
       overnight: "The calculation treats the end time as being on the following day.",
-      daySingular: "day", dayPlural: "days", hourSingular: "hour", hourPlural: "hours", minuteSingular: "minute", minutePlural: "minutes",
     },
     percentage: {
       type: "Calculation type", result: "Result", how: "💡 How did we get this result?", formulaIntro: "Here is the calculation based on the values you entered:",
