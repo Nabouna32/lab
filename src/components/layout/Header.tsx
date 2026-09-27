@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import LanguageFlag from "@/components/layout/LanguageFlag";
 import ToolSearch from "@/components/tools/ToolSearch";
 import ThemeToggle from "@/components/theme/ThemeToggle";
@@ -34,8 +35,15 @@ export default function Header() {
   const segment = pathname.split("/")[1];
   const locale: Locale = isLocale(segment) ? segment : "fr";
   const t = getMessages(locale);
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const suffix = pathname.startsWith("/" + locale) ? pathname.slice(locale.length + 1) : "";
   const currentLanguage = getLanguage(locale);
+
+  useEffect(() => {
+    if (!mobileSearchOpen) return;
+    const input = document.getElementById("header-tool-search-mobile-input");
+    if (input instanceof HTMLInputElement) input.focus();
+  }, [mobileSearchOpen]);
 
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--border)]/80 bg-[var(--background)]/88 backdrop-blur-2xl">
@@ -75,6 +83,20 @@ export default function Header() {
               </Icon>
               {t.nav.explore}
             </Link>
+
+            <button
+              type="button"
+              className={iconButton + " w-10 sm:hidden"}
+              aria-label={t.tools.searchLabel}
+              aria-expanded={mobileSearchOpen}
+              title={t.tools.searchLabel}
+              onClick={() => setMobileSearchOpen((open) => !open)}
+            >
+              <Icon>
+                <circle cx="11" cy="11" r="6.5" />
+                <path d="m16 16 4 4" />
+              </Icon>
+            </button>
 
             <Link
               prefetch={false}
@@ -138,22 +160,32 @@ export default function Header() {
                   <Icon><rect x="4" y="4" width="6" height="6" rx="1" /><rect x="14" y="4" width="6" height="6" rx="1" /><rect x="4" y="14" width="6" height="6" rx="1" /><rect x="14" y="14" width="6" height="6" rx="1" /></Icon>
                   {t.nav.explore}
                 </Link>
-                <Link href={"/" + locale + "/compte"} className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-[var(--foreground)] transition-colors hover:bg-[var(--surface-soft)]">
-                  <Icon><circle cx="12" cy="8" r="3.2" /><path d="M5.5 20c.8-3.1 3-4.7 6.5-4.7s5.7 1.6 6.5 4.7" /></Icon>
-                  {t.nav.space}
-                </Link>
               </div>
             </details>
           </div>
         </div>
 
-        <div className="pb-3 md:hidden">
-          <ToolSearch
-            locale={locale}
-            instanceId="header-tool-search-mobile"
-            compact
-          />
-        </div>
+        {mobileSearchOpen && (
+          <div className="flex items-start gap-2 pb-3 md:hidden">
+            <ToolSearch
+              locale={locale}
+              instanceId="header-tool-search-mobile"
+              compact
+              className="min-w-0 flex-1"
+            />
+            <button
+              type="button"
+              className={iconButton + " w-10"}
+              aria-label={t.nav.closeSearch}
+              title={t.nav.closeSearch}
+              onClick={() => setMobileSearchOpen(false)}
+            >
+              <Icon>
+                <path d="M6 6l12 12M18 6 6 18" />
+              </Icon>
+            </button>
+          </div>
+        )}
       </div>
     </header>
   );

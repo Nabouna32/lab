@@ -1,7 +1,7 @@
 import type { Locale } from "./config.ts";
 
 export type Messages = {
-  nav: { home: string; tools: string; explore: string; language: string; account: string; space: string; menu: string };
+  nav: { home: string; tools: string; explore: string; language: string; account: string; space: string; menu: string; closeSearch: string };
   breadcrumbs: { label: string };
   footer: { tagline: string; explore: string; account: string };
   actions: { copy: string; copied: string; clear: string };
@@ -24,7 +24,7 @@ export type Messages = {
 
 export const messages: Record<Locale, Messages> = {
   fr: {
-    nav: { home: "Accueil", tools: "Outils", explore: "Explorer", language: "Langue", account: "Compte", space: "Mon espace", menu: "Menu" },
+    nav: { home: "Accueil", tools: "Outils", explore: "Explorer", language: "Langue", account: "Compte", space: "Mon espace", menu: "Menu", closeSearch: "Fermer la recherche" },
     breadcrumbs: { label: "Fil d’Ariane" },
     footer: { tagline: "Une boîte à outils numérique, simple à utiliser et immense à explorer.", explore: "Explorer", account: "Votre espace" },
     actions: { copy: "Copier", copied: "Copié", clear: "Effacer" },
@@ -79,7 +79,7 @@ export const messages: Record<Locale, Messages> = {
     },
   },
   en: {
-    nav: { home: "Home", tools: "Tools", explore: "Explore", language: "Language", account: "Account", space: "My space", menu: "Menu" },
+    nav: { home: "Home", tools: "Tools", explore: "Explore", language: "Language", account: "Account", space: "My space", menu: "Menu", closeSearch: "Close search" },
     breadcrumbs: { label: "Breadcrumb" },
     footer: { tagline: "A digital toolbox that is simple to use and made to explore.", explore: "Explore", account: "Your space" },
     actions: { copy: "Copy", copied: "Copied", clear: "Clear" },

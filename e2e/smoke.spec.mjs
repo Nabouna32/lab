@@ -23,6 +23,22 @@ test("French homepage renders", async ({ page }) => {
   await expect(page.getByRole("link").first()).toBeVisible();
 });
 
+test("mobile header keeps account action unique and opens search on demand", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(`${baseUrl}/fr`, { waitUntil: "networkidle" });
+
+  const header = page.locator("header");
+  await expect(header.getByRole("link", { name: "Compte" })).toHaveCount(1);
+  await expect(header.locator("#header-tool-search-mobile-input")).toHaveCount(0);
+
+  await header.getByRole("button", { name: "Rechercher un outil" }).click();
+  await expect(header.locator("#header-tool-search-mobile-input")).toBeVisible();
+  await expect(header.locator("#header-tool-search-mobile-input")).toBeFocused();
+
+  await header.getByRole("button", { name: "Fermer la recherche" }).click();
+  await expect(header.locator("#header-tool-search-mobile-input")).toHaveCount(0);
+});
+
 test("tools page renders", async ({ page }) => {
   await page.goto(`${baseUrl}/fr/outils`, { waitUntil: "networkidle" });
 
