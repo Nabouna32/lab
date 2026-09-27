@@ -9,6 +9,7 @@ import { calculateDateDuration, calculateTimeDuration } from "@/lib/duree";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { SegmentedControl } from "@/components/ui/SegmentedControl";
+import { formatDurationPart } from "@/lib/i18n/units";
 
 type Mode = "dates" | "horaires";
 
@@ -21,9 +22,6 @@ function toInputDateTime(date: Date): string {
   return `${year}-${month}-${day}T${hours}:${minutes}`;
 }
 
-function formatDurationPart(value: number, singular: string, plural: string): string {
-  return `${value} ${value === 1 ? singular : plural}`;
-}
 
 export default function DurationCalculator() {
   const locale = useLocale();
@@ -96,13 +94,13 @@ export default function DurationCalculator() {
           <p className="text-sm leading-6 text-[var(--muted)]">
             {mode === "dates"
               ? t.summaryDates(
-                  formatDurationPart(duration.days, t.daySingular, t.dayPlural),
-                  formatDurationPart(duration.hours, t.hourSingular, t.hourPlural),
-                  formatDurationPart(duration.minutes, t.minuteSingular, t.minutePlural),
+                  formatDurationPart(locale, "days", duration.days),
+                  formatDurationPart(locale, "hours", duration.hours),
+                  formatDurationPart(locale, "minutes", duration.minutes),
                 )
               : t.summaryTimes(
-                  formatDurationPart(duration.hours, t.hourSingular, t.hourPlural),
-                  formatDurationPart(duration.minutes, t.minuteSingular, t.minutePlural),
+                  formatDurationPart(locale, "hours", duration.hours),
+                  formatDurationPart(locale, "minutes", duration.minutes),
                 )}
           </p>
           {mode === "horaires" && endTime < startTime && <p className="mt-2 text-xs text-[var(--muted)]">{t.overnight}</p>}

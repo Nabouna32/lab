@@ -48,10 +48,11 @@ test("audited UI components consume localization instead of local bilingual stri
   assert.match(theme, /getMessages\(locale\)\.theme/);
   assert.match(editorialPrimitives, /getMessages\(locale\)\.tools\.back/);
   assert.match(categories, /t\.home\.categoriesCount/);
-  assert.match(downloadTime, /t\.sizeUnits/);
-  assert.match(downloadTime, /t\.speedUnits/);
-  assert.match(downloadTime, /t\.duration/);
-  assert.match(downloadSpeed, /t\.shortUnits/);
+  assert.match(downloadTime, /getDownloadSizeUnitLabel\(locale, unit\)/);
+  assert.match(downloadTime, /getDownloadSpeedUnitLabel\(locale, unit\)/);
+  assert.match(downloadTime, /getDownloadDurationLabels\(locale\)/);
+  assert.match(downloadSpeed, /getSpeedUnitLabel\(locale, unit, "long"\)/);
+  assert.match(downloadSpeed, /getSpeedUnitLabel\(locale, to\)/);
 });
 
 const editorialFiles = [
