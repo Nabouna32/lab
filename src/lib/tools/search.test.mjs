@@ -72,6 +72,7 @@ test("matches tags and categories", () => {
     name: "Internet tools",
     description: "Utilities for internet tasks.",
     tags: ["networking"],
+    aliases: [],
     categories: ["informatique"],
     lifecycle: "published",
     content: {
