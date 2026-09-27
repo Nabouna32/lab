@@ -29,6 +29,7 @@ export default function TVACalculator() {
   const ht = valid ? (mode === "ht-to-ttc" ? price : calculateHt(price, rate)) : null;
   const ttc = valid ? (mode === "ht-to-ttc" ? calculateTtc(price, rate) : price) : null;
   const vat = valid && ht !== null ? calculateVatAmount(ht, rate) : null;
+  const calculationFailed = valid && (ht === null || ttc === null || vat === null);
   const modes = [
     { id: "ht-to-ttc" as const, label: t.htToTtc },
     { id: "ttc-to-ht" as const, label: t.ttcToHt },
@@ -51,7 +52,7 @@ export default function TVACalculator() {
         <CalculatorResult label={t.vat} value={vat === null ? "—" : `${formatNumber(vat, locale)} €`} />
         <CalculatorResult label={t.resultTtc} value={ttc === null ? "—" : `${formatNumber(ttc, locale)} €`} />
       </div>
-      {hasValues && !valid && <p className="mt-4 text-sm font-medium text-[var(--foreground)]">{t.invalid}</p>}
+      {(hasValues && !valid) || calculationFailed && <p className="mt-4 text-sm font-medium text-[var(--foreground)]">{t.invalid}</p>}
       {valid && ht !== null && ttc !== null && vat !== null && (
         <details className="group mt-4 rounded-2xl border border-[var(--border)] bg-[var(--background)]">
           <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-4 text-sm font-semibold text-[var(--foreground)]"><span>{t.how}</span><span className="text-lg text-[var(--muted)] transition-transform group-open:rotate-45">+</span></summary>
