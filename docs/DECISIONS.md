@@ -519,3 +519,26 @@ Utiluna needs an administrable catalog that can scale to a large number of tools
 - Administrative permissions distinguish catalog reading, editing and publishing.
 - Database metadata must never be interpreted as permission to use a capability that the executable module does not actually declare.
 - Localized editable product content uses database translation rows; system labels remain in application i18n.
+
+---
+
+## DEC-028 — Explicit decimal and binary file-size units
+
+**Status:** Accepted
+
+### Decision
+
+File-size conversions distinguish decimal SI units from binary IEC units. Decimal units use powers of 1,000 (kB, MB, GB, TB; ko, Mo, Go, To in French). Binary units use powers of 1,024 and the IEC prefixes (KiB, MiB, GiB, TiB; Kio, Mio, Gio, Tio in French).
+
+Internet transfer rates remain decimal and are expressed in bits per second or their byte-per-second equivalents.
+
+### Reason
+
+Using 1,024 while displaying decimal labels such as kB/ko makes the displayed unit ambiguous. Supporting both conventions lets the tool handle the real conventions users encounter without silently changing the meaning of a unit.
+
+### Consequences
+
+- 1 ko = 1,000 o and 1 Kio = 1,024 o.
+- 1 Mo = 1,000,000 o and 1 Mio = 1,048,576 o.
+- Download-time calculations continue to use decimal file sizes and decimal network speeds.
+- Speed conversion continues to use decimal units and preserves the 8-bit-per-byte relationship.

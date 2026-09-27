@@ -183,8 +183,8 @@ const toolDefinitions: ToolDefinition[] = [
     aliases: ["ko", "mo", "go", "to", "octets", "stockage"],
     lifecycle: "published",
     content: {
-      fr: { name: "Convertisseur de taille", description: "Convertissez facilement Ko, Mo, Go, To et autres unités." },
-      en: { name: "File Size Converter", description: "Convert file sizes between bytes, KB, MB, GB, TB, and more." },
+      fr: { name: "Convertisseur de taille", description: "Convertissez facilement ko, Mo, Go, To, Kio, Mio, Gio, Tio et autres unités." },
+      en: { name: "File Size Converter", description: "Convert file sizes between bytes, kB, MB, GB, TB, KiB, MiB, GiB, TiB, and more." },
     },
   },
   {

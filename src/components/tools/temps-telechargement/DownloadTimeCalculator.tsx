@@ -8,8 +8,8 @@ import { calculateDownloadTime, DOWNLOAD_SIZE_UNITS, DOWNLOAD_SPEED_UNITS, type 
 import { useLocale } from "@/lib/i18n/use-locale";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 
-const SIZE_LABELS: Record<DownloadSizeUnit, string> = { ko: "KB", mo: "MB", go: "GB", to: "TB" };
-const SPEED_LABELS: Record<DownloadSpeedUnit, string> = { kbps: "Kbps", mbps: "Mbps", gbps: "Gbps", "ko-s": "KB/s", "mo-s": "MB/s", "go-s": "GB/s" };
+const SIZE_LABELS: Record<DownloadSizeUnit, string> = { ko: "kB", mo: "MB", go: "GB", to: "TB" };
+const SPEED_LABELS: Record<DownloadSpeedUnit, string> = { kbps: "kb/s", mbps: "Mb/s", gbps: "Gb/s", "ko-s": "kB/s", "mo-s": "MB/s", "go-s": "GB/s" };
 
 function formatNumber(value: number, locale: "fr" | "en"): string {
   return new Intl.NumberFormat(locale === "fr" ? "fr-FR" : "en-US", { maximumFractionDigits: 2 }).format(value);

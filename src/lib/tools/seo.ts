@@ -27,16 +27,16 @@ export const toolSeo: Record<string, Record<Locale, ToolSeoMetadata>> = {
     en: { title: "Duration Calculator | Utiluna", description: "Easily calculate a duration between two dates or two times." },
   },
   "convertisseur-taille": {
-    fr: { title: "Convertisseur de taille de fichier | Utiluna", description: "Convertissez facilement une taille de fichier entre octets, Ko, Mo, Go et To." },
-    en: { title: "File Size Converter | Utiluna", description: "Easily convert file sizes between bytes, KB, MB, GB, and TB." },
+    fr: { title: "Convertisseur de taille de fichier | Utiluna", description: "Convertissez facilement une taille de fichier entre octets, ko, Mo, Go, To, Kio, Mio, Gio et Tio." },
+    en: { title: "File Size Converter | Utiluna", description: "Easily convert file sizes between bytes, kB, MB, GB, TB, KiB, MiB, GiB, and TiB." },
   },
   "temps-telechargement": {
     fr: { title: "Temps de téléchargement | Utiluna", description: "Estimez le temps nécessaire pour télécharger un fichier selon sa taille et votre débit." },
     en: { title: "Download Time Calculator | Utiluna", description: "Estimate how long it takes to download a file based on its size and connection speed." },
   },
   "vitesse-telechargement": {
-    fr: { title: "Convertisseur Mbps Mo/s | Utiluna", description: "Convertissez une vitesse Internet entre Mbps, Gbps, Ko/s, Mo/s et Go/s." },
-    en: { title: "Download Speed Converter | Utiluna", description: "Convert internet speeds between Mbps, Gbps, KB/s, MB/s, and GB/s." },
+    fr: { title: "Convertisseur Mbps Mo/s | Utiluna", description: "Convertissez une vitesse Internet entre Mbps, Gbps, ko/s, Mo/s et Go/s." },
+    en: { title: "Download Speed Converter | Utiluna", description: "Convert internet speeds between Mbps, Gbps, kB/s, MB/s, and GB/s." },
   },
   "taille-fichier": {
     fr: { title: "Calculateur de taille de fichier | Utiluna", description: "Estimez la taille d'un fichier selon sa durée et son débit." },

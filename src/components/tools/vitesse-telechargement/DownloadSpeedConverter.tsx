@@ -9,7 +9,7 @@ import { convertSpeed, SPEED_UNITS, type SpeedUnit } from "@/lib/vitesse-telecha
 import { useLocale } from "@/lib/i18n/use-locale";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 
-const UNIT_SHORT_LABELS: Record<SpeedUnit, string> = { mbps: "Mbps", gbps: "Gbps", "ko-s": "KB/s", "mo-s": "MB/s", "go-s": "GB/s" };
+const UNIT_SHORT_LABELS: Record<SpeedUnit, string> = { mbps: "Mbps", gbps: "Gbps", "ko-s": "kB/s", "mo-s": "MB/s", "go-s": "GB/s" };
 
 function formatNumber(value: number, locale: "fr" | "en"): string {
   return new Intl.NumberFormat(locale === "fr" ? "fr-FR" : "en-US", { maximumFractionDigits: 6 }).format(value);
