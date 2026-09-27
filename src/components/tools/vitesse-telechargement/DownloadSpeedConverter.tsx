@@ -27,6 +27,7 @@ export default function DownloadSpeedConverter() {
     if (!Number.isFinite(numericValue) || numericValue < 0) return null;
     return convertSpeed(numericValue, from, to);
   }, [value, from, to]);
+  const hasInvalidInput = value.trim() !== "" && result === null;
   return (
     <CalculatorShell>
       <CalculatorActions showClear={value !== ""} onClear={() => setValue("")} />
@@ -44,6 +45,7 @@ export default function DownloadSpeedConverter() {
         </label>
       </div>
       <div className="mt-6"><CalculatorResult label={t.result} value={result === null ? "—" : `${formatNumber(result, locale)} ${UNIT_SHORT_LABELS[to]}`} /></div>
+      {hasInvalidInput && <p className="mt-4 text-sm font-medium text-[var(--danger)]">{t.invalid}</p>}
     </CalculatorShell>
   );
 }
