@@ -5,7 +5,7 @@ import ToolSearch from "@/components/tools/ToolSearch";
 import type { Locale } from "@/lib/i18n/config";
 
 const iconButton =
-  "flex h-10 shrink-0 items-center justify-center rounded-xl border border-transparent text-[var(--muted)] outline-none transition-all hover:border-[var(--border)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)] focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]";
+  "flex h-10 shrink-0 items-center justify-center rounded-xl border border-transparent text-[var(--muted)] outline-none transition-[border-color,background-color,color] hover:border-[var(--border)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)] focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]";
 
 function Icon() {
   return (
