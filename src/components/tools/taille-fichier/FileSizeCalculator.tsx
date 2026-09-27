@@ -9,16 +9,8 @@ import { CalculatorShell } from "@/components/tools/calculator/CalculatorShell";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { calculateFileSize, type BitrateUnit, type DurationUnit, type FileSizeUnit } from "@/lib/taille-fichier";
+import { formatToolNumber, parseLocalizedNumber } from "@/lib/numbers";
 
-function parseNumber(value: string): number | null {
-  if (value.trim() === "") return null;
-  const parsed = Number(value.replace(",", "."));
-  return Number.isFinite(parsed) && parsed >= 0 ? parsed : null;
-}
-
-function formatNumber(value: number, locale: "fr" | "en"): string {
-  return new Intl.NumberFormat(locale === "fr" ? "fr-FR" : "en-US", { maximumFractionDigits: 2 }).format(value);
-}
 
 export default function FileSizeCalculator() {
   const locale = useLocale();
@@ -30,9 +22,9 @@ export default function FileSizeCalculator() {
   const [sizeUnit, setSizeUnit] = useState<FileSizeUnit>("mb");
 
   const result = useMemo(() => {
-    const durationValue = parseNumber(duration);
-    const bitrateValue = parseNumber(bitrate);
-    if (durationValue === null || bitrateValue === null) return null;
+    const durationValue = parseLocalizedNumber(duration);
+    const bitrateValue = parseLocalizedNumber(bitrate);
+    if (durationValue === null || bitrateValue === null || durationValue < 0 || bitrateValue < 0) return null;
     return calculateFileSize(durationValue, durationUnit, bitrateValue, bitrateUnit, sizeUnit);
   }, [duration, durationUnit, bitrate, bitrateUnit, sizeUnit]);
   const hasValues = duration.trim() !== "" || bitrate.trim() !== "";
@@ -63,7 +55,7 @@ export default function FileSizeCalculator() {
       <div className="mt-6">
         <CalculatorResult
           label={t.result}
-          value={result === null ? "—" : `${formatNumber(result, locale)} ${sizeUnit === "mb" ? (locale === "fr" ? "Mo" : "MB") : (locale === "fr" ? "Go" : "GB")}`}
+          value={result === null ? "—" : `${formatToolNumber(result, locale, 2)} ${sizeUnit === "mb" ? (locale === "fr" ? "Mo" : "MB") : (locale === "fr" ? "Go" : "GB")}`}
           tone="accent"
         />
       </div>
