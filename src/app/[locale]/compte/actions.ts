@@ -4,15 +4,19 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getSiteUrl } from "@/lib/site-url";
 import { isLocale, type Locale } from "@/lib/i18n/config";
+import {
+  isValidEmail,
+  isValidLength,
+  readFormString,
+} from "@/lib/validation";
 
 function localePath(locale: Locale, path: string) {
   return `/${locale}${path}`;
 }
 
 function readLocale(formData: FormData): Locale {
-  const value = formData.get("locale");
-  const candidate = typeof value === "string" ? value : undefined;
-  return isLocale(candidate) ? candidate : "fr";
+  const value = readFormString(formData, "locale");
+  return value !== null && isLocale(value) ? value : "fr";
 }
 
 function isRateLimited(error: unknown) {
@@ -21,10 +25,10 @@ function isRateLimited(error: unknown) {
 
 export async function signIn(formData: FormData) {
   const locale = readLocale(formData);
-  const email = String(formData.get("email") ?? "").trim();
-  const password = String(formData.get("password") ?? "");
+  const email = readFormString(formData, "email")?.trim() ?? "";
+  const password = readFormString(formData, "password") ?? "";
 
-  if (!email || email.length > 254 || !password || password.length > 128) {
+  if (!isValidEmail(email) || !isValidLength(password, 1, 128)) {
     redirect(localePath(locale, "/compte/connexion?error=missing"));
   }
 
@@ -41,11 +45,11 @@ export async function signIn(formData: FormData) {
 
 export async function signUp(formData: FormData) {
   const locale = readLocale(formData);
-  const email = String(formData.get("email") ?? "").trim();
-  const password = String(formData.get("password") ?? "");
-  const displayName = String(formData.get("displayName") ?? "").trim().slice(0, 80);
+  const email = readFormString(formData, "email")?.trim() ?? "";
+  const password = readFormString(formData, "password") ?? "";
+  const displayName = readFormString(formData, "displayName")?.trim() ?? "";
 
-  if (!email || email.length > 254 || password.length < 8 || password.length > 128) {
+  if (!isValidEmail(email) || !isValidLength(password, 8, 128) || displayName.length > 80) {
     redirect(localePath(locale, "/compte/inscription?error=invalid"));
   }
 
