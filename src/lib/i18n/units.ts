@@ -71,9 +71,9 @@ const BITRATE_LABELS: Record<Locale, Record<BitrateUnit, string>> = {
   en: { kbps: "Kbit/s", mbps: "Mbit/s", gbps: "Gbit/s" },
 };
 
-const FILE_SIZE_CALCULATOR_LABELS: Record<Locale, Record<FileSizeUnit, string>> = {
-  fr: { mb: "Mégaoctets (Mo)", gb: "Gigaoctets (Go)" },
-  en: { mb: "Megabytes (MB)", gb: "Gigabytes (GB)" },
+const FILE_SIZE_CALCULATOR_LABELS: Record<Locale, { long: Record<FileSizeUnit, string>; short: Record<FileSizeUnit, string> }> = {
+  fr: { long: { mb: "Mégaoctets (Mo)", gb: "Gigaoctets (Go)" }, short: { mb: "Mo", gb: "Go" } },
+  en: { long: { mb: "Megabytes (MB)", gb: "Gigabytes (GB)" }, short: { mb: "MB", gb: "GB" } },
 };
 
 export function getFileSizeUnitLabel(locale: Locale, unit: SizeUnit, style: UnitStyle = "short"): string {
@@ -104,8 +104,8 @@ export function getBitrateUnitLabel(locale: Locale, unit: BitrateUnit): string {
   return BITRATE_LABELS[locale][unit];
 }
 
-export function getFileSizeCalculatorUnitLabel(locale: Locale, unit: FileSizeUnit): string {
-  return FILE_SIZE_CALCULATOR_LABELS[locale][unit];
+export function getFileSizeCalculatorUnitLabel(locale: Locale, unit: FileSizeUnit, style: UnitStyle = "short"): string {
+  return FILE_SIZE_CALCULATOR_LABELS[locale][style][unit];
 }
 
 export function formatDurationPart(locale: Locale, unit: "days" | "hours" | "minutes" | "seconds", value: number): string {
