@@ -14,7 +14,7 @@ Tool lifecycle: draft → review → published → hidden → archived. Hard del
 
 The first account foundation is now deployed to Supabase: Supabase Auth remains the identity system, while `public.profiles` stores only user-owned profile metadata that is safe to synchronize. System-defined administrative roles and permissions use stable keys; their user-facing labels belong to the application i18n layer. Row Level Security restricts profile access to the owning user, and a database trigger creates the profile when an Auth user is created.
 
-The editable tool catalog foundation is now also deployed. It separates catalog/editorial data from executable tool behavior: `tool_catalog` stores stable identity, URL slug, visual icon, complexity, access and lifecycle; translation, category, tag, alias and relation tables store editable discovery/editorial data. Technical capabilities, processing mode, browser requirements and executable implementation remain authoritative in Git.
+The editable tool catalog foundation is now also deployed and seeded with the current catalog snapshot. It separates catalog/editorial data from executable tool behavior: `tool_catalog` stores stable identity, URL slug, visual icon, complexity, access and lifecycle; translation, category, tag, alias and relation tables store editable discovery/editorial data. Technical capabilities, processing mode, browser requirements and executable implementation remain authoritative in Git.
 
 ## Catalog database boundary
 
