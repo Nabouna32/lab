@@ -35,6 +35,8 @@ export default function FileSizeCalculator() {
     if (durationValue === null || bitrateValue === null) return null;
     return calculateFileSize(durationValue, durationUnit, bitrateValue, bitrateUnit, sizeUnit);
   }, [duration, durationUnit, bitrate, bitrateUnit, sizeUnit]);
+  const hasValues = duration.trim() !== "" || bitrate.trim() !== "";
+  const hasInvalidInput = hasValues && result === null;
 
   return (
     <CalculatorShell>
@@ -57,6 +59,7 @@ export default function FileSizeCalculator() {
           {Object.entries(t.sizeUnits).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
         </Select>
       </div>
+      {hasInvalidInput && <p className="mt-4 text-sm font-medium text-[var(--danger)]">{t.invalid}</p>}
       <div className="mt-6">
         <CalculatorResult
           label={t.result}

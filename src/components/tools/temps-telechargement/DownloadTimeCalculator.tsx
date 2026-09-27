@@ -36,6 +36,7 @@ export default function DownloadTimeCalculator() {
     return calculateDownloadTime(Number(size.replace(",", ".")), sizeUnit, Number(speed.replace(",", ".")), speedUnit);
   }, [size, sizeUnit, speed, speedUnit]);
   const hasValues = size !== "" || speed !== "";
+  const hasInvalidInput = hasValues && result === null;
   return (
     <CalculatorShell>
       <CalculatorActions showClear={hasValues} onClear={() => { setSize(""); setSpeed(""); }} />
@@ -53,6 +54,7 @@ export default function DownloadTimeCalculator() {
           </select>
         </div>
       </div>
+      {hasInvalidInput && <p className="mt-4 text-sm font-medium text-[var(--danger)]">{t.invalid}</p>}
       {result && <div className="mt-6 rounded-2xl border border-[var(--border)] bg-[var(--background)] p-4">
         <p className="text-sm leading-6 text-[var(--muted)]">{t.estimated}</p>
         <p className="mt-1 text-xl font-semibold text-[var(--foreground)]">{formatDuration(result.days, result.hours, result.minutes, result.seconds)}</p>
