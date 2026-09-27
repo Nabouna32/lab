@@ -22,7 +22,7 @@ function getDiscoveryTools() {
   for (const tool of rotated) {
     if (!seenCategories.has(getPrimaryToolCategory(tool))) {
       selected.push(tool);
-      seenCategories.add(tool.categoryId);
+      seenCategories.add(getPrimaryToolCategory(tool));
     }
     if (selected.length === 6) return selected;
   }
@@ -68,7 +68,7 @@ export default function DiscoverTools({ locale }: { locale: Locale }) {
           return (
             <Link
               key={tool.id}
-              href={`/${locale}/outils/${tool.categoryId}/${tool.slug}`}
+              href={`/${locale}/outils/${getPrimaryToolCategory(tool)}/${tool.slug}`}
               className="group flex w-[min(78vw,20rem)] min-w-[min(78vw,20rem)] snap-start flex-col rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow-sm)] transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-1 hover:border-[var(--accent)]/40 hover:shadow-[var(--shadow-md)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] sm:w-72 sm:min-w-72"
             >
               <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--accent-soft)] text-2xl transition-transform duration-200 group-hover:scale-105" aria-hidden="true">
