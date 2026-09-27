@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { assignAdminRole, removeAdminRole, suspendUser, unsuspendUser } from "./actions";
+import { assignAdminRole, removeAdminRole, revokeUserSessions, suspendUser, unsuspendUser } from "./actions";
 import { requireAdminPermission } from "@/lib/admin/authorization";
 import { createClient } from "@/lib/supabase/server";
 import { getMessages } from "@/lib/i18n/messages";
@@ -65,9 +65,9 @@ export default async function AdminUsersPage({
         <p className="mt-3 max-w-2xl text-[var(--muted)]">{t.admin.usersDescription}</p>
       </header>
 
-      {status === "updated" || status === "suspended" || status === "unsuspended" ? (
+      {status === "updated" || status === "suspended" || status === "unsuspended" || status === "sessions-revoked" ? (
         <p className="mt-5 rounded-xl bg-[var(--success-soft)] px-4 py-3 text-sm font-medium text-[var(--success)]" role="status">
-          {status === "suspended" ? t.admin.userSuspended : status === "unsuspended" ? t.admin.userUnsuspended : t.admin.userUpdated}
+          {status === "suspended" ? t.admin.userSuspended : status === "unsuspended" ? t.admin.userUnsuspended : status === "sessions-revoked" ? t.admin.userSessionsRevoked : t.admin.userUpdated}
         </p>
       ) : null}
       {status === "error" || error ? (
