@@ -24,6 +24,7 @@ export default function ReductionCalculator() {
   const valid = hasValues && isValidReductionPrice(price) && isValidDiscountRate(discountRate);
   const discountAmount = valid ? calculateDiscountAmount(price, discountRate) : null;
   const discountedPrice = valid ? calculateDiscountedPrice(price, discountRate) : null;
+  const calculationFailed = valid && (discountAmount === null || discountedPrice === null);
   function clearValues() { setPriceValue(""); setDiscountValue(""); }
 
   return (
@@ -37,7 +38,7 @@ export default function ReductionCalculator() {
         <CalculatorResult label={t.discountedPrice} tone="accent" value={discountedPrice === null ? "—" : `${formatNumber(discountedPrice, locale)} €`} />
         <CalculatorResult label={t.saved} value={discountAmount === null ? "—" : `${formatNumber(discountAmount, locale)} €`} />
       </div>
-      {hasValues && !valid && <p className="mt-4 text-sm font-medium text-[var(--foreground)]">{t.invalid}</p>}
+      {(hasValues && !valid) || calculationFailed && <p className="mt-4 text-sm font-medium text-[var(--foreground)]">{t.invalid}</p>}
       {valid && discountedPrice !== null && discountAmount !== null && (
         <details className="group mt-4 rounded-2xl border border-[var(--border)] bg-[var(--background)]">
           <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-4 text-sm font-semibold text-[var(--foreground)]"><span>{t.how}</span><span className="text-lg text-[var(--muted)] transition-transform group-open:rotate-45">+</span></summary>
