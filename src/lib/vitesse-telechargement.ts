@@ -12,16 +12,11 @@ const BITS_PER_UNIT: Record<SpeedUnit, number> = {
   "go-s": 8_000_000_000,
 };
 
-export function convertSpeed(value: number, from: SpeedUnit, to: SpeedUnit): number {
-  if (!SPEED_UNIT_SET.has(from) || !SPEED_UNIT_SET.has(to)) {
-    throw new RangeError("Les unités de vitesse sont invalides.");
-  }
+export function convertSpeed(value: number, from: SpeedUnit, to: SpeedUnit): number | null {
+  if (!SPEED_UNIT_SET.has(from) || !SPEED_UNIT_SET.has(to)) return null;
 
-  if (!Number.isFinite(value) || value < 0) {
-    throw new RangeError("La valeur doit être un nombre positif ou nul.");
-  }
+  if (!Number.isFinite(value) || value < 0) return null;
 
   const result = (value * BITS_PER_UNIT[from]) / BITS_PER_UNIT[to];
-  if (!Number.isFinite(result)) throw new RangeError("Le résultat dépasse la plage numérique supportée.");
-  return result;
+  return Number.isFinite(result) ? result : null;
 }
