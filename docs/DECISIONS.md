@@ -587,3 +587,28 @@ Utiluna is designed as an international product. English provides a neutral shar
 - Tool content contracts require both `fr` and `en`.
 - New locales do not inherit French content accidentally.
 - French translations remain unchanged and are still used whenever the locale is `fr`.
+
+
+## DEC-031 — Translation status is an explicit readiness signal
+
+**Status:** Accepted
+
+### Decision
+
+`translationStatus` is a product readiness signal for each enabled locale. It is not derived automatically from matching translation keys, content structure, or fallback behavior.
+
+- **`complete`** means the currently supported user-facing translation scope for that locale has been reviewed and explicitly declared complete.
+- **`partial`** means the locale is usable, but completeness has not been established by that review or at least one user-facing translation domain is intentionally incomplete.
+
+A locale may therefore have complete technical structures and still remain `partial` until its translation scope has been reviewed.
+
+### Reason
+
+Structural i18n tests can verify that translations exist and remain coherent, but they cannot determine whether wording, terminology, editorial quality, or every user-facing translation domain has been product-reviewed.
+
+### Consequences
+
+- The current English status remains `partial`; this step does not claim that the English translation is complete.
+- French remains `complete` as the currently declared fully reviewed initial language.
+- Future translation work may change a locale from `partial` to `complete` only when the supported user-facing scope has been reviewed.
+- Structural tests protect translation integrity but do not automatically promote a locale's readiness status.
