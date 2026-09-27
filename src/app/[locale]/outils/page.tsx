@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const locale: Locale = rawLocale;
   const t = getMessages(locale);
   return getPublicPageMetadata({
-    title: locale === "fr" ? "Tous les outils — Utiluna" : "All tools — Utiluna",
+    title: t.tools.metaTitle,
     description: t.tools.description,
     path: `/${locale}/outils`,
   }, locale);

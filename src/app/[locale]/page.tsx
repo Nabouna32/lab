@@ -12,7 +12,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   if (!isLocale(locale)) return {};
   const t = getMessages(locale);
   return getPublicPageMetadata({
-    title: locale === "fr" ? "Utiluna — Outils gratuits en ligne" : "Utiluna — Free online tools",
+    title: t.home.metaTitle,
     description: t.home.description,
     path: `/${locale}`,
   }, locale);
