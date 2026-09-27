@@ -477,3 +477,23 @@ Utiluna will eventually have several administrative areas with different respons
 - The first administrator must be assigned explicitly; there is no automatic "first user becomes admin" bootstrap.
 - Executable tool behavior remains in Git/code and is not moved into the database by this decision.
 - The model can grow with future administration areas without changing the basic authorization mechanism.
+
+
+## DEC-026 — System administration labels belong to application i18n
+
+**Status:** Accepted
+
+### Decision
+
+Administrative roles and permissions are identified in the database by stable technical keys only. Human-readable names and descriptions for those system-defined objects belong to the application i18n layer rather than PostgreSQL columns.
+
+### Reason
+
+System roles and permissions are part of the application contract, not editable content. Storing one natural language description in the database would make localization incomplete and couple authorization data to a single language.
+
+### Consequences
+
+- `admin_roles` and `admin_permissions` store stable keys and operational metadata only.
+- User-facing labels and descriptions are translated through the normal locale system.
+- Future editable catalog/editorial content may use database translation tables because that content is intentionally administrable.
+- Authorization logic continues to use stable keys and never depends on translated text.

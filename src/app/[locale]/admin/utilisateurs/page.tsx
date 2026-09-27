@@ -46,7 +46,7 @@ export default async function AdminUsersPage({
   const [{ data: users, error: usersError }, { data: roles }, { data: rolePermissions }, { data: suspendPermission }] =
     await Promise.all([
       supabase.rpc("list_admin_users", { search_term: query || null }),
-      supabase.from("admin_roles").select("key, name").order("key"),
+      supabase.from("admin_roles").select("key").order("key"),
       supabase.from("admin_role_permissions").select("role_key, permission_key").eq("permission_key", "users.manage_roles"),
       supabase.rpc("has_admin_permission", { requested_permission: "users.suspend" }),
     ]);
@@ -131,7 +131,7 @@ export default async function AdminUsersPage({
                           <input type="hidden" name="locale" value={locale} />
                           <input type="hidden" name="userId" value={user.user_id} />
                           <input type="hidden" name="roleKey" value={role.key} />
-                          <button type="submit" className="rounded-lg border border-[var(--border)] px-3 py-1.5 text-sm font-medium hover:bg-[var(--surface-soft)]">{role.name}</button>
+                          <button type="submit" className="rounded-lg border border-[var(--border)] px-3 py-1.5 text-sm font-medium hover:bg-[var(--surface-soft)]">{role.key === "super_admin" ? t.admin.roleSuperAdmin : role.key === "admin" ? t.admin.roleAdmin : role.key}</button>
                         </form>
                       ))}
                     </div>
