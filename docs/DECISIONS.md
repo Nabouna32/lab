@@ -612,3 +612,21 @@ Structural i18n tests can verify that translations exist and remain coherent, bu
 - French remains `complete` as the currently declared fully reviewed initial language.
 - Future translation work may change a locale from `partial` to `complete` only when the supported user-facing scope has been reviewed.
 - Structural tests protect translation integrity but do not automatically promote a locale's readiness status.
+
+## DEC-032 — Product rename to Loculary
+
+**Status:** Accepted
+
+### Decision
+
+The product's public brand is **Loculary**. The previous name, Utiluna, remains only where it is needed to preserve historical decision and project context.
+
+### Reason
+
+The product identity has been explicitly changed while the underlying repository and infrastructure migration are handled separately through the rename workflow.
+
+### Consequences
+
+- Current product-facing documentation and implementation should use Loculary.
+- Historical decisions and archives may retain Utiluna when that name is part of the historical record.
+- Infrastructure names and identifiers are not assumed to change automatically; each migration is handled explicitly.
