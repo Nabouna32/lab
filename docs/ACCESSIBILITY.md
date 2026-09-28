@@ -1,4 +1,4 @@
-# Utiluna — Accessibility
+# Loculary — Accessibility
 
 WCAG 2.2 AA is the target and accessibility belongs in the tool quality gate.
 
