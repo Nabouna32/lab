@@ -1,4 +1,4 @@
-# Utiluna — Discussions and Deferred Ideas
+# Loculary — Discussions and Deferred Ideas
 
 This file preserves important ideas discussed during product discovery that are not yet durable implementation decisions. Ideas are not discarded merely because they are deferred.
 
@@ -83,17 +83,17 @@ A child-oriented mode may eventually adapt vocabulary, complexity, explanations,
 ## DISC-014 — Public user profile
 **Status:** Future / not current scope
 
-An authenticated user may eventually have an optional public profile containing selected elements such as pseudonym, avatar/photo, interests, favorite tools, public collections, and contributions. It must remain subordinate to the toolbox and not turn Utiluna into a social network.
+An authenticated user may eventually have an optional public profile containing selected elements such as pseudonym, avatar/photo, interests, favorite tools, public collections, and contributions. It must remain subordinate to the toolbox and not turn Loculary into a social network.
 
 ## DISC-015 — User-created themes
 **Status:** Future capability
 
 The personalization system may eventually allow users to create or customize themes beyond light/dark/system.
 
-## DISC-016 — Personal Utiluna space
+## DISC-016 — Personal Loculary space
 **Status:** Accepted direction
 
-Authenticated users should eventually personalize their Utiluna space: hidden tools, ordering/layout, visible elements, theme, animation level, density/style, personalized home, favorites, collections, history/privacy settings, and contextual experience/tone where feasible.
+Authenticated users should eventually personalize their Loculary space: hidden tools, ordering/layout, visible elements, theme, animation level, density/style, personalized home, favorites, collections, history/privacy settings, and contextual experience/tone where feasible.
 
 ## DISC-017 — Shared/private collections
 **Status:** Accepted direction
@@ -123,7 +123,7 @@ Some tools may include optional educational/contextual content such as history, 
 ## DISC-022 — Visual identity exploration
 **Status:** Future design work
 
-Utiluna should receive a real visual identity exploration rather than only a generic UI color palette: logo, typography, iconography, motion language, and the relationship between shared design and individual tool identities.
+Loculary should receive a real visual identity exploration rather than only a generic UI color palette: logo, typography, iconography, motion language, and the relationship between shared design and individual tool identities.
 
 ## DISC-023 — Three-level tool model
 **Status:** Accepted direction
