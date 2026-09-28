@@ -77,7 +77,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       yearSingular: "an", yearPlural: "ans", monthSingular: "mois", monthPlural: "mois", daySingular: "jour", dayPlural: "jours",
     },
     duration: {
-      datesMode: "📅 Entre deux dates", timesMode: "🕐 Entre deux horaires", startDate: "Date et heure de début", endDate: "Date et heure de fin",
+      datesMode: "Entre deux dates", timesMode: "Entre deux horaires", startDate: "Date et heure de début", endDate: "Date et heure de fin",
       startTime: "Heure de début", endTime: "Heure de fin", days: "Jours", hours: "Heures", minutes: "Minutes",
       invalidRange: "La date et l'heure de début doivent être antérieures ou égales à la date et l'heure de fin.", emptyResult: "Renseignez les dates ou horaires pour voir la durée.",
       summaryDates: (days, hours, minutes) => `La durée est de ${days}, ${hours} et ${minutes}.`,
@@ -85,7 +85,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       overnight: "Le calcul considère que l'heure de fin est le lendemain.",
     },
     percentage: {
-      type: "Type de calcul", result: "Résultat", how: "💡 Comment avons-nous trouvé ce résultat ?", formulaIntro: "Voici le calcul réalisé à partir des valeurs que vous avez saisies :",
+      type: "Type de calcul", result: "Résultat", how: "Voir le calcul", formulaIntro: "Voici le calcul réalisé à partir des valeurs que vous avez saisies :",
       differenceNote: "💡 Une différence en pourcentage peut dépasser 100 % lorsque les deux valeurs sont très éloignées. Ce résultat est normal : le calcul compare l'écart à la moyenne des deux valeurs.",
       modes: {
         percentage: { title: "X % de Y", description: "Calculer une part" },
@@ -102,28 +102,28 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       decreaseExplanation: (from, to, result) => `La valeur est passée de ${from} à ${to}, soit une diminution de ${result} %.`,
       unchangedExplanation: "La valeur n'a pas changé.",
       differenceExplanation: (first, second, result) => `L'écart entre ${first} et ${second} représente ${result} % de leur moyenne.`,
-      formulaIntroWithValues: "Voici le calcul réalisé à partir des valeurs que vous avez saisies :", waitingResult: "Le résultat apparaîtra ici dès que vous aurez renseigné les deux valeurs.", inputHint: "Le calcul se met à jour automatiquement. Vous pouvez modifier les valeurs à tout moment.", emptyResult: "Renseignez les deux valeurs pour voir le résultat ici.",
+      formulaIntroWithValues: "Voici le calcul réalisé à partir des valeurs que vous avez saisies :", waitingResult: "Le résultat apparaît ici dès que les deux valeurs sont renseignées.", inputHint: "Le résultat se met à jour automatiquement lorsque vous modifiez une valeur.", emptyResult: "Renseignez les deux valeurs pour voir le résultat ici.",
     },
     reduction: {
       price: "Prix initial", discount: "Réduction", discountedPrice: "Prix après réduction", saved: "Montant économisé",
       placeholderPrice: "Ex. 150", placeholderDiscount: "Ex. 20", invalid: "Saisissez un prix positif et une réduction comprise entre 0 et 100 %",
-      emptyResult: "Renseignez le prix et la réduction pour voir le résultat.", how: "💡 Comment avons-nous trouvé ce résultat ?", explanation: (amount) => `La réduction représente ${amount} € sur le prix initial.`,
+      emptyResult: "Saisissez le prix et la remise pour afficher le résultat.", how: "Voir le calcul", explanation: (amount) => `La réduction représente ${amount} € sur le prix initial.`,
     },
     ruleOfThree: {
       firstValue: "Première valeur", correspondingValue: "Valeur correspondante", secondValue: "Deuxième valeur", result: "Résultat",
       placeholders: { first: "Ex. 4", corresponding: "Ex. 10", second: "Ex. 6" },
-      invalid: "Saisissez trois nombres valides. La première valeur doit être différente de zéro.", emptyResult: "Renseignez les trois valeurs pour voir le résultat.",
-      how: "💡 Comment avons-nous trouvé ce résultat ?", explanation: "On conserve le même rapport entre les deux premières valeurs pour calculer la quatrième.",
+      invalid: "Saisissez trois nombres valides. La première valeur doit être différente de zéro.", emptyResult: "Saisissez les trois valeurs pour afficher le résultat.",
+      how: "Voir le calcul", explanation: "On conserve le même rapport entre les deux premières valeurs pour calculer la quatrième.",
     },
     vat: {
       htToTtc: "HT → TTC", ttcToHt: "TTC → HT", priceHt: "Prix HT", priceTtc: "Prix TTC", rate: "Taux de TVA",
       resultHt: "Prix HT", vat: "TVA", resultTtc: "Prix TTC", placeholders: { ht: "Ex. 100", ttc: "Ex. 120", rate: "Ex. 20" },
-      invalid: "Saisissez un prix supérieur ou égal à 0 et un taux de TVA compris entre 0 et 100 %.", emptyResult: "Renseignez les valeurs pour voir le calcul de TVA.",
-      how: "💡 Comment avons-nous trouvé ce résultat ?", explanation: (rate, vat) => `Avec un taux de ${rate} %, la TVA représente ${vat} €.`,
+      invalid: "Saisissez un prix supérieur ou égal à 0 et un taux de TVA compris entre 0 et 100 %.", emptyResult: "Saisissez les valeurs pour afficher le calcul de TVA.",
+      how: "Voir le calcul", explanation: (rate, vat) => `Avec un taux de ${rate} %, la TVA représente ${vat} €.`,
     },
     fileSize: {
       value: "Valeur à convertir", from: "Unité de départ", to: "Unité d'arrivée", result: "Résultat", placeholder: "Ex. 1,5",
-      invalid: "Saisissez une valeur positive ou nulle.", emptyResult: "Renseignez une valeur pour voir la conversion.",
+      invalid: "Saisissez une valeur positive ou nulle.", emptyResult: "Saisissez une valeur pour afficher la conversion.",
 
     },
     downloadTime: {
@@ -134,7 +134,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     },
     downloadSpeed: {
       value: "Vitesse à convertir", from: "Unité de départ", to: "Unité d'arrivée", result: "Résultat", placeholder: "Ex. 100",
-      invalid: "Saisissez une vitesse positive ou nulle.", emptyResult: "Renseignez une vitesse pour voir la conversion.",
+      invalid: "Saisissez une vitesse positive ou nulle.", emptyResult: "Saisissez une vitesse pour afficher la conversion.",
 
     },
     textCounter: {
@@ -165,8 +165,8 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       overnight: "The calculation treats the end time as being on the following day.",
     },
     percentage: {
-      type: "Calculation type", result: "Result", how: "💡 How did we get this result?", formulaIntro: "Here is the calculation based on the values you entered:",
-      differenceNote: "💡 A percentage difference can exceed 100% when the two values are far apart. This is expected: the calculation compares the gap with their average.",
+      type: "Calculation type", result: "Result", how: "Show the calculation", formulaIntro: "Here is the calculation based on the values you entered:",
+      differenceNote: "A percentage difference can exceed 100% when the two values are far apart. The result compares the gap with their average.",
       modes: {
         percentage: { title: "X% of Y", description: "Calculate a share" },
         evolution: { title: "Change", description: "Increase or decrease" },
@@ -182,24 +182,24 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       decreaseExplanation: (from, to, result) => `The value changed from ${from} to ${to}, a decrease of ${result}%.`,
       unchangedExplanation: "The value did not change.",
       differenceExplanation: (first, second, result) => `The difference between ${first} and ${second} is ${result}% of their average.`,
-      formulaIntroWithValues: "Here is the calculation based on the values you entered:", waitingResult: "Your result will appear here as soon as both values are filled in.", inputHint: "The calculation updates automatically. You can change either value at any time.", emptyResult: "Enter both values to see the result here.",
+      formulaIntroWithValues: "Here is the calculation based on the values you entered:", waitingResult: "Your result appears here once both values are filled in.", inputHint: "The result updates automatically as you change a value.", emptyResult: "Enter both values to see the result here.",
     },
     reduction: {
       price: "Initial price", discount: "Discount", discountedPrice: "Price after discount", saved: "Amount saved",
       placeholderPrice: "e.g. 150", placeholderDiscount: "e.g. 20", invalid: "Enter a positive price and a discount between 0 and 100%",
-      emptyResult: "Enter the price and discount to see the result.", how: "💡 How did we get this result?", explanation: (amount) => `The discount represents €${amount} of the initial price.`,
+      emptyResult: "Enter the price and discount to see the result.", how: "Show the calculation", explanation: (amount) => `The discount represents €${amount} of the initial price.`,
     },
     ruleOfThree: {
       firstValue: "First value", correspondingValue: "Corresponding value", secondValue: "Second value", result: "Result",
       placeholders: { first: "e.g. 4", corresponding: "e.g. 10", second: "e.g. 6" },
       invalid: "Enter three valid numbers. The first value must be different from zero.", emptyResult: "Enter the three values to see the result.",
-      how: "💡 How did we get this result?", explanation: "We keep the same ratio between the first two values to calculate the fourth.",
+      how: "Show the calculation", explanation: "We keep the same ratio between the first two values to calculate the fourth.",
     },
     vat: {
       htToTtc: "Net → Gross", ttcToHt: "Gross → Net", priceHt: "Net price", priceTtc: "Gross price", rate: "VAT rate",
       resultHt: "Net price", vat: "VAT", resultTtc: "Gross price", placeholders: { ht: "e.g. 100", ttc: "e.g. 120", rate: "e.g. 20" },
       invalid: "Enter a price of at least 0 and a VAT rate between 0 and 100%.", emptyResult: "Enter the values to see the VAT calculation.",
-      how: "💡 How did we get this result?", explanation: (rate, vat) => `At a ${rate}% rate, VAT is €${vat}.`,
+      how: "Show the calculation", explanation: (rate, vat) => `At a ${rate}% rate, VAT is €${vat}.`,
     },
     fileSize: {
       value: "Value to convert", from: "From unit", to: "To unit", result: "Result", placeholder: "e.g. 1.5",

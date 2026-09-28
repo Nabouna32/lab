@@ -25,10 +25,7 @@ export function SegmentedControl<T extends string>({
     <div
       role="group"
       aria-label={ariaLabel}
-      className={[
-        "grid gap-2 rounded-[var(--radius-xl)] bg-[var(--surface-soft)] p-2",
-        className,
-      ].join(" ")}
+      className={["grid gap-1 rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface-soft)] p-1", className].join(" ")}
     >
       {items.map((item) => {
         const active = value === item.id;
@@ -40,18 +37,16 @@ export function SegmentedControl<T extends string>({
             aria-pressed={active}
             onClick={() => onChange(item.id)}
             className={[
-              "rounded-[var(--radius-md)] px-4 py-3 text-left transition-colors",
+              "rounded-[var(--radius-md)] px-3.5 py-2.5 text-left transition-[background-color,color,box-shadow] duration-[var(--motion-standard)]",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-soft)]",
               active
                 ? "bg-[var(--surface)] text-[var(--foreground)] shadow-[var(--shadow-sm)]"
-                : "text-[var(--muted)] hover:bg-[var(--surface)]/60 hover:text-[var(--foreground)]",
+                : "text-[var(--muted)] hover:bg-[var(--surface)]/70 hover:text-[var(--foreground)]",
             ].join(" ")}
           >
             <span className="block font-semibold">{item.label}</span>
             {item.description && (
-              <span className="mt-0.5 block text-xs text-[var(--muted)]">
-                {item.description}
-              </span>
+              <span className="mt-0.5 block text-xs text-[var(--muted)]">{item.description}</span>
             )}
           </button>
         );

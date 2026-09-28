@@ -31,7 +31,7 @@ test("responsive header keeps search available on mobile and tablet", async ({ p
   await expect(header.getByRole("link", { name: "Compte" })).toHaveCount(1);
   await expect(header.locator("#header-tool-search-mobile-input")).toHaveCount(0);
 
-  await header.getByRole("button", { name: "Rechercher un outil" }).click();
+  await header.getByRole("button", { name: "Rechercher dans les outils" }).click();
   await expect(header.locator("#header-tool-search-mobile-input")).toBeVisible();
   await expect(header.locator("#header-tool-search-mobile-input")).toBeFocused();
 
@@ -41,8 +41,8 @@ test("responsive header keeps search available on mobile and tablet", async ({ p
   await page.setViewportSize({ width: 820, height: 900 });
   await page.reload({ waitUntil: "networkidle" });
   await expect(header.locator("#header-tool-search-mobile-input")).toHaveCount(0);
-  await expect(header.getByRole("button", { name: "Rechercher un outil" })).toBeVisible();
-  await header.getByRole("button", { name: "Rechercher un outil" }).click();
+  await expect(header.getByRole("button", { name: "Rechercher dans les outils" })).toBeVisible();
+  await header.getByRole("button", { name: "Rechercher dans les outils" }).click();
   await expect(header.locator("#header-tool-search-mobile-input")).toBeVisible();
   await header.getByRole("button", { name: "Fermer la recherche" }).click();
 
@@ -57,9 +57,9 @@ test("tool search shows useful result context", async ({ page }) => {
   const search = page.locator("#tools-page-search-input");
   await search.fill("calculer 17 % de 283");
   await expect(page.locator("#tools-page-search-results")).toBeVisible();
-  await expect(page.locator("#tools-page-search-results").getByText("Calculateur de pourcentage", { exact: true })).toBeVisible();
+  await expect(page.locator("#tools-page-search-results").getByText("Pourcentage", { exact: true })).toBeVisible();
   await expect(page.locator("#tools-page-search-results").getByText(/Calculs/)).toBeVisible();
-  await expect(page.locator("#tools-page-search-result-0")).toContainText("Calculez facilement un pourcentage");
+  await expect(page.locator("#tools-page-search-result-0")).toContainText("Calculez un pourcentage, une évolution ou l’écart entre deux valeurs.");
 
   await search.press("ArrowDown");
   await expect(page.locator("#tools-page-search-result-0")).toHaveAttribute("aria-selected", "true");
@@ -73,7 +73,7 @@ test("tool search offers suggestions when nothing matches", async ({ page }) => 
   const search = page.locator("#tools-page-search-input");
   await search.fill("zzzzzzzz");
   const results = page.locator("#tools-page-search-results");
-  await expect(results.getByText(/Aucun outil trouvé pour/)).toBeVisible();
+  await expect(results.getByText(/Aucun outil ne correspond à/)).toBeVisible();
   await expect(results.getByRole("button", { name: "TVA", exact: true })).toBeVisible();
   await results.getByRole("button", { name: "TVA", exact: true }).click();
   await expect(results.getByText("TVA", { exact: true })).toBeVisible();
@@ -87,7 +87,7 @@ test("tools page is search-first and exposes category discovery", async ({ page 
   await expect(page.getByRole("heading", { name: "Parcourir par catégorie" })).toBeVisible();
   await expect(page.getByRole("link", { name: /Calculs.*4 outils/ })).toBeVisible();
   await expect(page.getByRole("link", { name: /Informatique.*4 outils/ })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Calculateur de pourcentage" })).toHaveCount(0);
+  await expect(page.getByRole("heading", { name: "Pourcentage" })).toHaveCount(0);
 });
 
 test("all published tool pages render", async ({ page }) => {
@@ -126,9 +126,9 @@ test("tool page keeps the primary task hierarchy compact", async ({ page }) => {
   await expect(page.getByRole("link", { name: "← Tous les outils" })).toHaveCount(0);
 
   const headings = await page.locator("main h2").allTextContents();
-  expect(headings.indexOf("Vous pourriez aussi avoir besoin de")).toBeGreaterThanOrEqual(0);
+  expect(headings.indexOf("Pour continuer")).toBeGreaterThanOrEqual(0);
   expect(headings.indexOf("🧮 Comment calculer un pourcentage ?")).toBeGreaterThan(
-    headings.indexOf("Vous pourriez aussi avoir besoin de"),
+    headings.indexOf("Pour continuer"),
   );
 });
 
@@ -155,7 +155,7 @@ test("English locale renders", async ({ page }) => {
 test("calculator empty and error states explain what to do", async ({ page }) => {
   await page.goto(`${baseUrl}/fr/outils/calculs/reduction`, { waitUntil: "networkidle" });
 
-  await expect(page.getByText("Prix après réduction", { exact: true }).locator("..")).toContainText("Renseignez le prix et la réduction");
+  await expect(page.getByText("Prix après réduction", { exact: true }).locator("..")).toContainText("Saisissez le prix et la remise");
   await page.getByRole("spinbutton", { name: "Prix initial" }).fill("100");
   await page.getByRole("spinbutton", { name: "Réduction" }).fill("101");
   await expect(page.locator("#reduction-error")).toHaveAttribute("role", "alert");
@@ -173,7 +173,7 @@ test("calculator empty states are localized in English", async ({ page }) => {
 
 test("file size calculator computes an estimated size", async ({ page }) => {
   await page.goto(`${baseUrl}/fr/outils/informatique/taille-fichier`, { waitUntil: "networkidle" });
-  await expect(page.getByRole("heading", { name: "Calculateur de taille de fichier" })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: "Taille de fichier" })).toBeVisible();
   await page.getByRole("spinbutton", { name: "Durée" }).fill("10");
   await page.getByRole("spinbutton", { name: "Débit" }).fill("8");
   await expect(page.getByText("Taille estimée", { exact: true }).locator("..")).toContainText("600 Mo");
@@ -189,7 +189,7 @@ test("text counter tool renders and counts words", async ({ page }) => {
 
   await page.goto(`${baseUrl}/fr/outils/fichiers/mots-caracteres`, { waitUntil: "networkidle" });
 
-  await expect(page.getByRole("heading", { name: "Compteur de mots et caractères" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Mots & caractères" })).toBeVisible();
   const input = page.getByLabel("Votre texte");
   await input.fill("Bonjour le monde");
   await expect(page.getByText("Mots", { exact: true }).locator("..")).toContainText("3");
