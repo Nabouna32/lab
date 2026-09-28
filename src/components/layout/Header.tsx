@@ -37,14 +37,14 @@ export default function Header({ locale }: { locale: Locale }) {
           <Link
             href={"/" + locale}
             className="group flex shrink-0 items-center gap-2.5 rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] sm:gap-3 md:justify-self-start"
-            aria-label={"Utiluna - " + t.nav.home}
+            aria-label={"Loculary - " + t.nav.home}
           >
             <span className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-[0.9rem] bg-[var(--accent)] text-sm font-black text-white shadow-[var(--shadow-sm)] transition-transform duration-200 group-hover:scale-[1.03] sm:h-10 sm:w-10">
               <span className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,white/35,transparent_45%)]" />
               <span className="absolute right-[0.28rem] top-[0.3rem] h-1.5 w-1.5 rounded-full bg-white/80" />
               <span className="relative">U</span>
             </span>
-            <span className="hidden text-xl font-bold tracking-[-0.03em] sm:inline">Utiluna</span>
+            <span className="hidden text-xl font-bold tracking-[-0.03em] sm:inline">Loculary</span>
           </Link>
 
           <div className="hidden w-full max-w-[32rem] justify-self-center md:block">
