@@ -183,10 +183,12 @@ function render(node: JsonNode, indent: string, depth: number): string {
 
   if (node.kind === "array") {
     if (node.items.length === 0) return "[]";
+    if (indent === "") return "[" + node.items.map((item) => render(item, indent, depth + 1)).join(",") + "]";
     return "[\n" + node.items.map((item) => childPadding + render(item, indent, depth + 1)).join(",\n") + "\n" + padding + "]";
   }
 
   if (node.entries.length === 0) return "{}";
+  if (indent === "") return "{" + node.entries.map((entry) => entry.key + ":" + render(entry.value, indent, depth + 1)).join(",") + "}";
   const separator = indent === "" ? ":" : ": ";
   return "{\n" + node.entries.map((entry) => childPadding + entry.key + separator + render(entry.value, indent, depth + 1)).join(",\n") + "\n" + padding + "}";
 }
