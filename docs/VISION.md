@@ -51,14 +51,11 @@ Loculary should serve a casual user without training while still supporting adva
 
 Results should be presented visually when that improves comprehension, confidence, or enjoyment. Visual design must not become decoration that slows or obscures the task.
 
-### 6. Two modes of expression
+### 6. Modern visual expression
 
-Loculary should support both:
+Loculary should feel modern, polished, visual and pleasant to use. Tools may use animation, transitions, micro-interactions and distinctive visual identity when they improve comprehension, feedback or enjoyment. Accessibility and reduced-motion preferences remain mandatory.
 
-- **Sober** — focused, efficient, restrained.
-- **Playful** — richer motion, micro-interactions, visual feedback, and optional personality.
-
-The playful mode must never reduce usability or accessibility.
+A user-selectable Sober/Playful presentation mode is not current scope and is deferred for possible reconsideration much later.
 
 ### 7. Broad functional ambition
 
