@@ -4,12 +4,12 @@ import { Card, Formula } from "@/components/tools/ToolPage/EditorialPrimitives";
 
 const content = {
   fr: {
-    main: { title: "🏷️ Comment calculer une réduction ?", text: "Pour calculer une réduction, on commence par déterminer le montant de la remise, puis on le soustrait au prix initial.", formulas: "Formules", example: "Par exemple, pour un article à 150 € avec 20 % de réduction :", result: "La remise est donc de 30 €, et le prix après réduction est de 120 €." },
-    final: { title: "💡 Réduction et prix final", text: "Une réduction de 20 % ne signifie pas que le prix final représente 20 % du prix initial. Elle signifie que 20 % du prix initial sont retirés. Le prix final représente donc 80 % du prix de départ." },
+    main: { title: "Calculer une réduction", text: "Pour calculer une réduction, on commence par déterminer le montant de la remise, puis on le soustrait au prix initial.", formulas: "Formules", example: "Par exemple, pour un article à 150 € avec 20 % de réduction :", result: "La remise est donc de 30 €, et le prix après réduction est de 120 €." },
+    final: { title: "Réduction et prix final", text: "Une réduction de 20 % ne signifie pas que le prix final représente 20 % du prix initial. Elle signifie que 20 % du prix initial sont retirés. Le prix final représente donc 80 % du prix de départ." },
   },
   en: {
-    main: { title: "🏷️ How do you calculate a discount?", text: "To calculate a discount, first determine the discount amount, then subtract it from the original price.", formulas: "Formulas", example: "For example, for an item costing €150 with a 20% discount:", result: "The discount is €30, so the price after the discount is €120." },
-    final: { title: "💡 Discount and final price", text: "A 20% discount does not mean that the final price is 20% of the original price. It means that 20% of the original price is removed. The final price therefore represents 80% of the starting price." },
+    main: { title: "Calculate a discount", text: "To calculate a discount, first determine the discount amount, then subtract it from the original price.", formulas: "Formulas", example: "For example, for an item costing €150 with a 20% discount:", result: "The discount is €30, so the price after the discount is €120." },
+    final: { title: "Discount and final price", text: "A 20% discount does not mean that the final price is 20% of the original price. It means that 20% of the original price is removed. The final price therefore represents 80% of the starting price." },
   },
 } as const;
 

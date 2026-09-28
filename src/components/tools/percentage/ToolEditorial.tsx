@@ -4,26 +4,26 @@ import { Card, Formula } from "@/components/tools/ToolPage/EditorialPrimitives";
 
 const content = {
   fr: {
-    first: { title: "🧮 Comment calculer un pourcentage ?", text: "Un pourcentage permet d'exprimer une proportion par rapport à 100. Pour calculer un pourcentage d'une valeur, il suffit de multiplier cette valeur par le pourcentage puis de diviser le résultat par 100.", formula: "Formule", example: "Par exemple, pour calculer 20 % de 150 :", result: "20 % de 150 correspondent donc à 30." },
-    change: { title: "📈 Calculer une augmentation ou une diminution en pourcentage", text: "Pour mesurer l'évolution d'une valeur, on compare sa nouvelle valeur à sa valeur de départ. Le résultat indique le pourcentage d'augmentation ou de diminution.", formula: "Formule", example: "Par exemple, si un prix passe de 100 € à 120 €, son évolution est de :", result: "Le prix a donc augmenté de 20 %." },
+    first: { title: "Calculer un pourcentage", text: "Un pourcentage permet d'exprimer une proportion par rapport à 100. Pour calculer un pourcentage d'une valeur, il suffit de multiplier cette valeur par le pourcentage puis de diviser le résultat par 100.", formula: "Formule", example: "Par exemple, pour calculer 20 % de 150 :", result: "20 % de 150 correspondent donc à 30." },
+    change: { title: "Mesurer une évolution en pourcentage", text: "Pour mesurer l'évolution d'une valeur, on compare sa nouvelle valeur à sa valeur de départ. Le résultat indique le pourcentage d'augmentation ou de diminution.", formula: "Formule", example: "Par exemple, si un prix passe de 100 € à 120 €, son évolution est de :", result: "Le prix a donc augmenté de 20 %." },
     difference: {
-      title: "↔️ Évolution ou différence en pourcentage ?",
+      title: "Évolution ou différence en pourcentage ?",
       intro: "Les deux calculs comparent deux valeurs, mais ils ne répondent pas à la même question.",
-      changeTitle: "📈 Évolution en pourcentage",
+      changeTitle: "Évolution en pourcentage",
       changeText: "L'évolution utilise une valeur de départ comme référence. Elle permet de mesurer une augmentation ou une diminution entre deux moments ou deux états.",
-      differenceTitle: "↔️ Différence en pourcentage",
+      differenceTitle: "Différence en pourcentage",
       differenceText: "La différence en pourcentage compare deux valeurs sans privilégier une valeur de départ comme référence.",
     },
   },
   en: {
-    first: { title: "🧮 How do you calculate a percentage?", text: "A percentage expresses a proportion out of 100. To calculate a percentage of a value, multiply the value by the percentage and divide the result by 100.", formula: "Formula", example: "For example, to calculate 20% of 150:", result: "20% of 150 is therefore 30." },
-    change: { title: "📈 Calculate a percentage increase or decrease", text: "To measure how a value changes, compare its new value with its starting value. The result gives the percentage increase or decrease.", formula: "Formula", example: "For example, if a price goes from €100 to €120, its change is:", result: "The price therefore increased by 20%." },
+    first: { title: "Calculate a percentage", text: "A percentage expresses a proportion out of 100. To calculate a percentage of a value, multiply the value by the percentage and divide the result by 100.", formula: "Formula", example: "For example, to calculate 20% of 150:", result: "20% of 150 is therefore 30." },
+    change: { title: "Measure percentage change", text: "To measure how a value changes, compare its new value with its starting value. The result gives the percentage increase or decrease.", formula: "Formula", example: "For example, if a price goes from €100 to €120, its change is:", result: "The price therefore increased by 20%." },
     difference: {
-      title: "↔️ Percentage change or percentage difference?",
+      title: "Percentage change or percentage difference?",
       intro: "Both calculations compare two values, but they answer different questions.",
-      changeTitle: "📈 Percentage change",
+      changeTitle: "Percentage change",
       changeText: "Percentage change uses a starting value as its reference. It measures an increase or decrease between two points in time or two states.",
-      differenceTitle: "↔️ Percentage difference",
+      differenceTitle: "Percentage difference",
       differenceText: "Percentage difference compares two values without choosing either one as the starting reference.",
     },
   },
