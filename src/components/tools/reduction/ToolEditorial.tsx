@@ -30,7 +30,7 @@ export default function ToolEditorial({ locale }: { locale: Locale }) {
           <p className="mt-2 text-sm">{t.main.result}</p>
         </Card>
       </ToolSection>
-      <ToolSection title={t.final.title}>
+      <ToolSection title={t.final.title} collapsible>
         <p>{t.final.text}</p>
       </ToolSection>
     </>

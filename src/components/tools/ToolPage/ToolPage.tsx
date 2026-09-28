@@ -6,6 +6,7 @@ import { getCategoryName } from "@/lib/tools/categories";
 import { getPrimaryToolCategory } from "@/lib/tools/types";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import ToolPageHeader from "./ToolPageHeader";
+import ToolProcessingStatus from "./ToolProcessingStatus";
 import { ToolRuntimeProvider } from "./ToolRuntimeProvider";
 
 export default function ToolPage({
@@ -31,11 +32,13 @@ export default function ToolPage({
         title={localizedContent.name}
         description={localizedContent.description}
         contentFallback={isContentFallback}
-        processing={tool.processing}
         locale={locale}
       />
       <ToolRuntimeProvider access={tool.access} capabilities={tool.capabilities}>
-        {children && <div className="mt-2 sm:mt-3">{children}</div>}
+        <div data-tool-surface className="mt-3 sm:mt-4">
+          <ToolProcessingStatus processing={tool.processing} locale={locale} />
+          {children && <div className="mt-2 sm:mt-3">{children}</div>}
+        </div>
         {content && <div className="mt-8 space-y-10 sm:mt-10 sm:space-y-12">{content}</div>}
       </ToolRuntimeProvider>
     </main>

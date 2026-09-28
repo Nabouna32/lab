@@ -23,7 +23,7 @@ test("French homepage renders", async ({ page }) => {
   await expect(page.getByRole("link").first()).toBeVisible();
 });
 
-test("mobile header keeps account action unique and opens search on demand", async ({ page }) => {
+test("responsive header keeps search available on mobile and tablet", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(`${baseUrl}/fr`, { waitUntil: "networkidle" });
 
@@ -37,6 +37,18 @@ test("mobile header keeps account action unique and opens search on demand", asy
 
   await header.getByRole("button", { name: "Fermer la recherche" }).click();
   await expect(header.locator("#header-tool-search-mobile-input")).toHaveCount(0);
+
+  await page.setViewportSize({ width: 820, height: 900 });
+  await page.reload({ waitUntil: "networkidle" });
+  await expect(header.locator("#header-tool-search-mobile-input")).toHaveCount(0);
+  await expect(header.getByRole("button", { name: "Rechercher un outil" })).toBeVisible();
+  await header.getByRole("button", { name: "Rechercher un outil" }).click();
+  await expect(header.locator("#header-tool-search-mobile-input")).toBeVisible();
+  await header.getByRole("button", { name: "Fermer la recherche" }).click();
+
+  await page.setViewportSize({ width: 1024, height: 900 });
+  await page.reload({ waitUntil: "networkidle" });
+  await expect(header.locator("#header-tool-search-input")).toBeVisible();
 });
 
 test("tool search shows useful result context", async ({ page }) => {
@@ -109,6 +121,8 @@ test("tool page keeps the primary task hierarchy compact", async ({ page }) => {
   await expect(toolHeader).toBeVisible();
   await expect(toolHeader.getByText("Loculary", { exact: true })).toHaveCount(0);
   await expect(page.getByRole("navigation", { name: "Fil d’Ariane" })).toBeVisible();
+  await expect(page.getByRole("navigation", { name: "Fil d’Ariane" }).getByRole("link", { name: "Calculs" })).toBeVisible();
+  await expect(page.getByRole("navigation", { name: "Fil d’Ariane" }).getByRole("link", { name: "Accueil" })).toHaveCount(0);
   await expect(page.getByRole("link", { name: "← Tous les outils" })).toHaveCount(0);
 
   const headings = await page.locator("main h2").allTextContents();
@@ -123,6 +137,7 @@ test("processing status exposes an accessible information disclosure", async ({ 
 
   const status = page.getByText("Traitement local", { exact: true });
   await expect(status).toBeVisible();
+  await expect(page.locator("[data-tool-surface]").getByText("Traitement local", { exact: true })).toBeVisible();
 
   const info = page.locator('summary').filter({ hasText: "Traitement local" }).getByText("ⓘ", { exact: true });
   await expect(info).toBeVisible();

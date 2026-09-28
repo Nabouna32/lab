@@ -26,7 +26,7 @@ export default function ToolEditorial({ locale }: { locale: Locale }) {
           <p className="mt-2 font-mono text-sm text-[var(--foreground)]">file size = duration × bitrate ÷ 8</p>
         </Formula>
       </ToolSection>
-      <ToolSection title={t.example.title}>
+      <ToolSection title={t.example.title} collapsible>
         <p>{t.example.text}</p>
       </ToolSection>
     </>

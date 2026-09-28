@@ -36,7 +36,7 @@ export default function MobileHeaderSearch({
     return (
       <button
         type="button"
-        className={iconButton + " w-10 sm:hidden"}
+        className={iconButton + " w-10 lg:hidden"}
         aria-label={searchLabel}
         aria-expanded="false"
         title={searchLabel}
@@ -54,7 +54,7 @@ export default function MobileHeaderSearch({
     <div className="contents">
       <button
         type="button"
-        className={iconButton + " w-10 sm:hidden"}
+        className={iconButton + " w-10 lg:hidden"}
         aria-label={searchLabel}
         aria-expanded="true"
         title={searchLabel}
@@ -65,7 +65,7 @@ export default function MobileHeaderSearch({
           <path d="m16 16 4 4" />
         </svg>
       </button>
-      <div className="absolute left-0 right-0 top-full flex items-start gap-2 border-b border-[var(--border)] bg-[var(--background)] px-3 pb-3 pt-2 md:hidden sm:px-6">
+      <div className="absolute left-0 right-0 top-full flex items-start gap-2 border-b border-[var(--border)] bg-[var(--background)] px-3 pb-3 pt-2 lg:hidden sm:px-6">
         <ToolSearch
           locale={locale}
           instanceId="header-tool-search-mobile"
