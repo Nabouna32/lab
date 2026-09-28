@@ -45,7 +45,7 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Start Next.js
-        run: npm run start > /tmp/utiluna-next.log 2>&1 &
+        run: npm run start > /tmp/loculary-next.log 2>&1 &
 
       - name: Wait for Next.js
         run: npx --yes wait-on@9.0.1 http://127.0.0.1:3000/fr
@@ -61,5 +61,5 @@ jobs:
           path: |
             playwright-report/
             test-results/
-            /tmp/utiluna-next.log
+            /tmp/loculary-next.log
           if-no-files-found: ignore
