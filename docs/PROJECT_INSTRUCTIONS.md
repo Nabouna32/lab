@@ -10,7 +10,7 @@ Git and the current repository are the source of truth for the actual technical 
 Work incrementally and within the validated scope. Prefer production-quality, robust and maintainable solutions over hacks. Verify changes with appropriate tests and review the resulting diff. Do not hide errors to make checks pass. Keep main stable and deployable.
 
 ## Product principles
-Browser/local-first; anonymous-first core usage; transparent processing; simple by default and powerful when needed; result-first UX; visual when useful; sober or playful experience; reduced motion overrides playful motion; mobile/tablet/desktop/large screens are first-class; French and English initially with extensible i18n/RTL; ads never obstruct the main task; AI is optional.
+Browser/local-first; anonymous-first core usage; transparent processing; simple by default and powerful when needed; result-first UX; modern, polished and visually engaging design; meaningful animations, transitions and micro-interactions; mobile/tablet/desktop/large screens are first-class; accessibility and reduced-motion preferences; French and English initially with extensible i18n/RTL; ads never obstruct the main task; AI is optional.
 
 ## Architecture
 Think in three product layers: public discovery, tool execution, personal account/personalization. Think in three tool levels: small tools, advanced tools, mini-applications.
