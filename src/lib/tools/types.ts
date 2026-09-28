@@ -12,7 +12,8 @@ export type ToolId =
   | "taille-fichier"
   | "convertisseur-taille"
   | "mots-caracteres"
-  | "bitrate-video";
+  | "bitrate-video"
+  | "json-formatter";
 
 export type ToolComplexity = "small" | "advanced" | "mini-application";
 export type ToolProcessingMode = "local" | "external" | "server" | "hybrid";

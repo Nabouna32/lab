@@ -51,6 +51,10 @@ const localProcessingDescriptions = {
     fr: "Les calculs de bitrate vidéo sont effectués directement dans votre navigateur.",
     en: "Video bitrate calculations are performed directly in your browser.",
   },
+  "json-formatter": {
+    fr: "Le JSON saisi est validé et formaté directement dans votre navigateur.",
+    en: "The JSON you enter is validated and formatted directly in your browser.",
+  },
 } satisfies Record<ToolId, { fr: string; en: string }>;
 
 type ToolDefinition = Pick<
@@ -199,6 +203,19 @@ const toolDefinitions: ToolDefinition[] = [
     content: {
       fr: { name: "Mots & caractères", description: "Comptez les mots, caractères, espaces et lignes d’un texte." },
       en: { name: "Words & characters", description: "Count words, characters, spaces, and lines in a text." },
+    },
+  },
+  {
+    id: "json-formatter", slug: "json-formatter", icon: "{ }",
+    version: 1,
+    complexity: "advanced",
+    categories: ["developpement"],
+    tags: ["json", "formatter", "format", "validate", "validator", "pretty-print", "minify", "developer"],
+    aliases: ["json formatter", "json validator", "json format", "json formatteur", "json", "pretty print", "json minifier"],
+    lifecycle: "published", capabilities: ["clipboard"],
+    content: {
+      fr: { name: "Formateur et validateur JSON", description: "Validez, formatez et minifiez du JSON directement dans votre navigateur." },
+      en: { name: "JSON Formatter & Validator", description: "Validate, format, and minify JSON directly in your browser." },
     },
   },
   {
