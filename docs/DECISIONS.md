@@ -719,3 +719,25 @@ Utiluna's long-term value depends both on having a large, useful catalog and on 
 - Platform work is prioritized by concrete user value, scalability, reliability, security, UX or upcoming tool needs.
 - New architectural abstractions should normally be justified by an actual current or near-term requirement.
 - The roadmap should avoid a prolonged "platform only" phase once the catalog architecture is ready.
+
+
+## DEC-036 — Hybrid catalog growth strategy
+
+**Status:** Accepted
+
+### Decision
+
+Utiluna should grow its tool catalog through a hybrid selection strategy. User value and concrete usefulness guide the choice of upcoming tools, while the product also monitors coverage across the validated toolbox categories to avoid a strongly unbalanced catalog.
+
+Category coverage is a structural guide, not a quota: a family should not be filled artificially simply to achieve numerical balance.
+
+### Reason
+
+Prioritizing useful tools keeps catalog growth focused on real user value, while monitoring category coverage helps Utiluna develop into a broad toolbox rather than concentrating too heavily on a small subset of utility types.
+
+### Consequences
+
+- Upcoming tools should be selected primarily for concrete user value and usefulness.
+- Catalog planning should also identify important category gaps and representation imbalances.
+- Category coverage must not override a clearly stronger user-value opportunity merely to satisfy a target count.
+- This decision complements DEC-035: platform work and tool creation are balanced at the delivery level, while tool selection itself balances immediate value with progressive catalog coverage.
