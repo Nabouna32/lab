@@ -170,7 +170,7 @@ Architecture should be designed around product requirements rather than framewor
 
 ## DEC-010 — Tech lead / product owner autonomy
 
-**Status:** Accepted
+**Status:** Superseded by DEC-033
 
 ### Decision
 
@@ -619,7 +619,7 @@ Structural i18n tests can verify that translations exist and remain coherent, bu
 
 ### Decision
 
-The product's public brand is **Loculary**. The previous name, Loculary, remains only where it is needed to preserve historical decision and project context.
+The product's public brand is **Loculary**. The previous name was **Utiluna** and remains only where it is needed to preserve historical decision and project context.
 
 ### Reason
 
@@ -630,3 +630,27 @@ The product identity has been explicitly changed while the underlying repository
 - Current product-facing documentation and implementation should use Loculary.
 - Historical decisions and archives may retain Loculary when that name is part of the historical record.
 - Infrastructure names and identifiers are not assumed to change automatically; each migration is handled explicitly.
+
+
+## DEC-033 — Validated step-by-step collaboration workflow
+
+**Status:** Accepted
+
+### Decision
+
+Loculary work follows an incremental validation model. Before implementation, the assistant presents the step, its objective, intended scope, and relevant consequences for validation. After validation, implementation remains within that scope.
+
+Technical implementation details may be chosen autonomously when they are contained within the validated scope and do not materially alter product direction or architecture. Important product, architectural, or irreversible decisions require user validation.
+
+If implementation reveals an issue that exceeds the validated scope or requires a new consequential decision, work stops and the decision is presented before proceeding.
+
+### Reason
+
+This model preserves user control over consequential changes while allowing efficient execution of routine implementation work. It also makes scope, intent, and durable decisions easier to trace across conversations and contributors.
+
+### Consequences
+
+- DEC-010 is superseded as the current operating model, while its historical rationale remains preserved.
+- Project instructions and agent guidance follow this validated-step model.
+- New work should be proposed and validated one step at a time when it changes the product or project materially.
+- No silent scope expansion is permitted.
