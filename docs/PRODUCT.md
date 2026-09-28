@@ -1,4 +1,4 @@
-# Utiluna — Product Definition
+# Loculary — Product Definition
 
 ## Audience
 
@@ -22,7 +22,7 @@ The product should not assume professional technical knowledge.
 
 A user should be able to:
 
-1. arrive at Utiluna;
+1. arrive at Loculary;
 2. search or browse;
 3. understand what an available tool does;
 4. open it;
@@ -175,7 +175,7 @@ The contribution system is a future capability, but the architecture should not 
 
 ## Advertising
 
-Utiluna is intended to be free and sustainable through advertising.
+Loculary is intended to be free and sustainable through advertising.
 
 Preferred principle:
 
@@ -280,4 +280,4 @@ The platform defines a common trust, accessibility, processing, SEO, lifecycle, 
 
 ### Community remains secondary
 
-Community features are intended to improve the catalog, not turn Utiluna into a social network. Public profiles, public collections, proposals, ratings, comments, reports, and contributor attribution remain subordinate to the toolbox experience.
+Community features are intended to improve the catalog, not turn Loculary into a social network. Public profiles, public collections, proposals, ratings, comments, reports, and contributor attribution remain subordinate to the toolbox experience.
