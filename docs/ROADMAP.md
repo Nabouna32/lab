@@ -36,7 +36,7 @@ Goal: make the first collection of tools genuinely useful and establish a sustai
 - local file utilities where browser technology allows
 - related-tool discovery
 - copy/reset/share primitives (lightweight tool sharing first; result/state sharing when justified)
-- documentation accordions
+- documentation proportionate to tool complexity and comprehension needs
 - SEO-ready tool pages
 
 ## Phase 2 — Discovery
