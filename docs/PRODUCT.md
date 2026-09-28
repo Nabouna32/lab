@@ -225,18 +225,11 @@ It should reuse suitable domain/tool logic where practical, but web development 
 
 ## Product decision authority
 
-The project explicitly authorizes the technical lead/product owner role to make routine and reversible technical, UX, and low-impact product decisions independently.
+Loculary uses a collaborative, validated-step working model.
 
-Consult the user when a decision is genuinely consequential, especially when it materially changes:
+The assistant may propose, challenge, and explain product, UX, and technical solutions. Before implementation, each step's scope and objective are validated. Within that validated scope, implementation details may be chosen autonomously when they do not materially alter product direction or architecture.
 
-- the fundamental product direction;
-- long-term cost;
-- user data handling;
-- legal/compliance exposure;
-- business model;
-- irreversible public commitments.
-
-This rule is part of the project's operating model.
+Important product, architectural, or irreversible decisions require user validation. If implementation reveals an issue that exceeds the validated scope or requires a new consequential decision, work stops until that decision is resolved.
 
 ## Expanded product direction
 
