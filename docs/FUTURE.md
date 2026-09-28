@@ -4,4 +4,10 @@ Deferred ideas remain documented so they are not lost; they are not automaticall
 
 Candidates include PWA/installable web experience; public user profiles with pseudonym, avatar, interests, favorite tools, public collections and contributions; user-created themes; a future child-oriented mode with dedicated safety, privacy, legal and advertising design; search as a solution engine and eventual multi-tool composition; contextual tool tone; richer historical/educational context; Android; more languages and RTL; advanced AI assistance where justified; and stronger offline capabilities.
 
+## Indicative catalog map
+
+The catalog map is a planning and coverage aid, not a committed backlog. It may contain tool families, subfamilies and candidate ideas that have not been selected for implementation.
+
+Candidate areas can evolve as the toolbox grows; an item appearing here does not imply a delivery commitment. Actual tool selection follows the accepted catalog growth strategy: concrete user value guides selection while category coverage is monitored to avoid major gaps or imbalance.
+
 A deferred idea becomes durable scope only after the decision is recorded in DECISIONS.md and reflected in the relevant specification and roadmap.
