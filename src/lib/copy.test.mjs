@@ -12,8 +12,8 @@ test("copyTextToClipboard writes text through the browser clipboard", async () =
   });
 
   try {
-    assert.equal(await copyTextToClipboard("Utiluna"), true);
-    assert.equal(copied, "Utiluna");
+    assert.equal(await copyTextToClipboard("Loculary"), true);
+    assert.equal(copied, "Loculary");
   } finally {
     Object.defineProperty(globalThis, "navigator", {
       configurable: true,
@@ -31,7 +31,7 @@ test("copyTextToClipboard reports clipboard failures without throwing", async ()
   });
 
   try {
-    assert.equal(await copyTextToClipboard("Utiluna"), false);
+    assert.equal(await copyTextToClipboard("Loculary"), false);
   } finally {
     Object.defineProperty(globalThis, "navigator", {
       configurable: true,
@@ -49,7 +49,7 @@ test("copyTextToClipboard reports unavailable browser clipboard APIs", async () 
   });
 
   try {
-    assert.equal(await copyTextToClipboard("Utiluna"), false);
+    assert.equal(await copyTextToClipboard("Loculary"), false);
   } finally {
     Object.defineProperty(globalThis, "navigator", {
       configurable: true,
