@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 import type { ComponentType } from "react";
 import type { Locale } from "@/lib/i18n/config";
 import { getPrimaryToolCategory } from "@/lib/tools/types";
-import type { Tool } from "@/lib/tools/types";
+import type { Tool, ToolId } from "@/lib/tools/types";
 import { getPublishedTools } from "@/lib/tools/catalog";
 
 export type ToolEditorialComponent = ComponentType<{ locale: Locale }>;
@@ -15,7 +15,7 @@ export type ToolModule = {
   loadEditorial: () => Promise<{ default: ToolEditorialComponent }>;
 };
 
-type ToolRegistryEntry = {
+export type ToolRegistryEntry = {
   tool: Tool;
   module: ToolModule;
 };
@@ -31,7 +31,7 @@ function createToolModule(
   };
 }
 
-const moduleLoaders: Record<string, ToolModule> = {
+const moduleLoaders: Partial<Record<ToolId, ToolModule>> = {
   pourcentage: createToolModule(
     () => import("@/components/tools/percentage/PercentageCalculator"),
     () => import("@/components/tools/percentage/ToolEditorial"),
@@ -86,7 +86,7 @@ export const toolRegistry: readonly ToolRegistryEntry[] = getPublishedTools().ma
   return { tool, module: toolModule };
 });
 
-const registryById = new Map<string, ToolRegistryEntry>(
+const registryById = new Map<ToolId, ToolRegistryEntry>(
   toolRegistry.map((entry) => [entry.tool.id, entry]),
 );
 
