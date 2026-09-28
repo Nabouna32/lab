@@ -137,7 +137,7 @@ test("the metadata validator rejects incompatible offline, storage and network m
       validateToolCatalog([
         {
           ...tool,
-          processing: { ...tool.processing, storage: "utiluna" },
+          processing: { ...tool.processing, storage: "server" },
         },
       ]),
     /incompatible storage metadata/,
