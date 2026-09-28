@@ -63,7 +63,7 @@ Provide truthful progress when measurable and explicit stages otherwise. Where t
 ## DISC-010 — Core Web Vitals and accessibility
 **Status:** Accepted
 
-Core Web Vitals are important platform health indicators. WCAG 2.2 AA is the target accessibility level. System reduced-motion preferences can override a playful animation preference.
+Core Web Vitals are important platform health indicators. WCAG 2.2 AA is the target accessibility level. System reduced-motion preferences can reduce or disable non-essential animation.
 
 ## DISC-011 — Resilient external tools
 **Status:** Accepted direction
@@ -93,7 +93,7 @@ The personalization system may eventually allow users to create or customize the
 ## DISC-016 — Personal Loculary space
 **Status:** Accepted direction
 
-Authenticated users should eventually personalize their Loculary space: hidden tools, ordering/layout, visible elements, theme, animation level, density/style, personalized home, favorites, collections, history/privacy settings, and contextual experience/tone where feasible.
+Authenticated users should eventually personalize their Loculary space: hidden tools, ordering/layout, visible elements, theme, density/style, personalized home, favorites, collections, history/privacy settings, and contextual tool tone where feasible.
 
 ## DISC-017 — Shared/private collections
 **Status:** Accepted direction
@@ -113,7 +113,7 @@ Search should eventually understand a need rather than only a tool name. Example
 ## DISC-020 — Contextual tool tone
 **Status:** Future capability
 
-Tool tone may adapt to context while respecting the user's chosen experience mode.
+Tool tone may adapt to context while preserving clarity, usability and accessibility.
 
 ## DISC-021 — Rich contextual documentation
 **Status:** Future capability
