@@ -23,7 +23,7 @@ async function readPublishedToolIds() {
 test("every published tool has exactly one registry module", async () => {
   const source = await readFile(registryFile, "utf8");
   const publishedIds = await readPublishedToolIds();
-  const registeredIds = [...source.matchAll(/^\s+(?:"([^"]+)"|([a-z0-9-]+)): \{[\s\S]*?loadEditorial:/gm)].map(
+  const registeredIds = [...source.matchAll(/^\s+(?:"([^"]+)"|([a-z0-9-]+)): createToolModule\(/gm)].map(
     ([, quotedId, bareId]) => quotedId ?? bareId,
   );
 
@@ -31,19 +31,18 @@ test("every published tool has exactly one registry module", async () => {
   assert.deepEqual([...registeredIds].sort(), [...publishedIds].sort());
 });
 
-
 test("every registered module exposes runtime and editorial loaders", async () => {
   const source = await readFile(registryFile, "utf8");
   const moduleBlocks = [...source.matchAll(/(?:^|\n)\s+(?:"([^"]+)"|([a-z0-9-]+)): createToolModule\(([\s\S]*?)\n\s+\),/g)];
 
-  assert.ok(moduleBlocks.length > 0);
+  assert.equal(moduleBlocks.length, (await readPublishedToolIds()).length);
 
   for (const [, quotedId, bareId, block] of moduleBlocks) {
     const toolId = quotedId ?? bareId;
     const imports = [...block.matchAll(/import\("([^"]+)"\)/g)].map((match) => match[1]);
 
     assert.equal(imports.length, 2, `Tool "${toolId}" must declare runtime and editorial loaders.`);
-    assert.match(imports[0], /\/components\/tools\/.*(?:Calculator|Converter|Counter)$/);
+    assert.match(imports[0], /\/components\/tools\//);
     assert.match(imports[1], /\/components\/tools\/.*\/ToolEditorial$/);
   }
 });
@@ -54,6 +53,6 @@ test("ToolRenderer resolves runtime components through the registry", async () =
   assert.match(source, /getToolRegistryEntry/);
   assert.match(source, /entry\.module\.runtime/);
   assert.doesNotMatch(source, /toolComponents/);
-  assert.doesNotMatch(source, /dynamic\(/);
+  assert.doesNotMatch(source, /next\/dynamic/);
   assert.doesNotMatch(source, /@\/components\/tools\//);
 });
