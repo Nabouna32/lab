@@ -194,7 +194,6 @@ A decision materially affects:
 
 This allows the project to move quickly while preserving user control over consequential decisions.
 
-
 ---
 
 ## DEC-011 — Privacy is a product feature
@@ -221,6 +220,10 @@ Privacy and transparency are first-class product requirements, not merely compli
 ### Reason
 
 Users should be able to understand and control their relationship with Utiluna instead of being forced to trust an opaque system.
+
+### Consequences
+
+The data model must maintain clear ownership and deletion/export boundaries across identity, preferences, product data, community content, analytics, and security/moderation records.
 
 ---
 
@@ -293,7 +296,6 @@ Users should not need to navigate obscure settings or infer what is stored.
 ### Consequences
 
 The data model must maintain clear ownership and deletion/export boundaries across identity, preferences, product data, community content, analytics, and security/moderation records.
-
 
 ---
 
@@ -379,7 +381,6 @@ The validated brainstorming document is preserved as an immutable historical/con
 
 Canonical docs describe the current accepted direction; the brainstorming document preserves the richer original reasoning and ideas. Future agents must distinguish historical intent from currently committed scope.
 
-
 ---
 
 ## DEC-022 — First-class tool registry and dynamic execution route
@@ -405,7 +406,6 @@ A registry also provides a controlled boundary for progressive code loading and 
 - Shared platform concerns remain outside individual tool implementations.
 - Registry coverage must be validated by automated architecture tests.
 - The catalog/database and executable module remain separate concerns.
-
 
 ---
 
@@ -438,6 +438,7 @@ Separating access from processing also prevents an accidental architectural coup
 - Future browser, persistence, network and account capabilities should use the same controlled boundary.
 - Tool metadata remains authoritative for the declared requirement, while executable platform services enforce the actual permission at runtime.
 
+---
 
 ## DEC-024 — Account foundation before catalog migration
 
@@ -480,7 +481,6 @@ Utiluna will eventually have several administrative areas with different respons
 - The first administrator must be assigned explicitly; there is no automatic "first user becomes admin" bootstrap.
 - Executable tool behavior remains in Git/code and is not moved into the database by this decision.
 - The model can grow with future administration areas without changing the basic authorization mechanism.
-
 
 ## DEC-026 — System administration labels belong to application i18n
 
@@ -568,8 +568,6 @@ The feature requires a higher Supabase plan and cannot currently be enabled thro
 - Security audits may mention the accepted limitation for visibility, but should not create a new implementation task unless the Supabase plan changes.
 - Revisit the decision if Utiluna moves to a plan that provides the feature or if the project's authentication/security requirements materially change.
 
-
-
 ## DEC-030 — English is the product translation fallback
 
 **Status:** Accepted
@@ -587,10 +585,9 @@ Utiluna is designed as an international product. English provides a neutral shar
 ### Consequences
 
 - `getToolContent()` falls back to English.
-- Tool content contracts require both `fr` and `en`.
+- Tool content contracts require both `fr` and `en` entries.
 - New locales do not inherit French content accidentally.
 - French translations remain unchanged and are still used whenever the locale is `fr`.
-
 
 ## DEC-031 — Translation status is an explicit readiness signal
 
@@ -635,7 +632,6 @@ Personalization can add real recurring value, but building a broad preference sy
 - Broader personalization must not drive current architecture or add maintenance cost prematurely.
 - This decision does not change anonymous-first usage or the long-term three-layer product model.
 
-
 ## DEC-033 — Simple first-class tool sharing
 
 **Status:** Accepted as a future product capability
@@ -666,9 +662,6 @@ Sharing a useful tool or a concrete result can make Utiluna more useful in every
 - Collections remain a separate, later sharing capability governed by their own privacy model.
 - QR-code sharing may be added later where it provides clear value, but is not required for the first implementation.
 
-
----
-
 ## DEC-034 — Progressive catalog migration to the database
 
 **Status:** Accepted
@@ -694,9 +687,6 @@ Delaying the migration would leave the platform with two parallel catalog models
 - Git remains the source of truth for executable behavior.
 - New tool work can then focus primarily on adding user value rather than creating another catalog migration obligation.
 
-
----
-
 ## DEC-035 — Balanced platform and toolbox growth
 
 **Status:** Accepted
@@ -720,7 +710,6 @@ Utiluna's long-term value depends both on having a large, useful catalog and on 
 - New architectural abstractions should normally be justified by an actual current or near-term requirement.
 - The roadmap should avoid a prolonged "platform only" phase once the catalog architecture is ready.
 
-
 ## DEC-036 — Hybrid catalog growth strategy
 
 **Status:** Accepted
@@ -741,3 +730,29 @@ Prioritizing useful tools keeps catalog growth focused on real user value, while
 - Catalog planning should also identify important category gaps and representation imbalances.
 - Category coverage must not override a clearly stronger user-value opportunity merely to satisfy a target count.
 - This decision complements DEC-035: platform work and tool creation are balanced at the delivery level, while tool selection itself balances immediate value with progressive catalog coverage.
+
+## DEC-037 — Hybrid catalog planning
+
+**Status:** Accepted
+
+### Decision
+
+Utiluna should maintain a general catalog map covering the main tool families, subfamilies and candidate tool ideas.
+
+The map is a planning and coverage aid: it helps visualize the breadth of the toolbox, identify meaningful gaps, avoid unnecessary duplication and facilitate selection of future tools.
+
+The map is indicative and evolving. An idea appearing in the map is not automatically committed scope, and the map must not become a frozen development plan for hundreds of tools.
+
+Actual tool selection follows DEC-036: concrete user value guides selection while category coverage is monitored progressively.
+
+### Reason
+
+A broad toolbox benefits from having a visible structural map of what it could cover, but maintaining a fully scheduled list of hundreds of future tools would create false commitments and unnecessary maintenance.
+
+### Consequences
+
+- Maintain a high-level catalog map rather than a rigid long-term tool backlog.
+- Use the map to identify category gaps, overlaps and promising candidates.
+- Keep individual tool ideas explicitly non-committed until selected for implementation.
+- Review and evolve the map as the catalog and product evidence grow.
+- Do not use the map as a quota or as a substitute for the roadmap.
