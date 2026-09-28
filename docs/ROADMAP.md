@@ -23,8 +23,9 @@ Goal: establish the platform that can grow without creating unnecessary technica
 
 ## Phase 1 — Core toolbox
 
-Goal: make the first collection of tools genuinely useful.
+Goal: make the first collection of tools genuinely useful and establish a sustainable rhythm of tool creation plus targeted platform improvements.
 
+- continuously add high-value tools across the validated toolbox categories
 - calculators
 - converters
 - text utilities
@@ -155,3 +156,15 @@ The discovery phase can progress from catalog search to intent-aware search, the
 ### Future surfaces
 
 PWA/offline capabilities, public profiles, custom themes, contextual tool tone, richer educational content, Android, additional languages/RTL, stronger offline support, and child-oriented experiences remain deferred directions. Each requires its own decision/specification before becoming committed scope.
+
+
+## Delivery principle
+
+Once the catalog architecture is ready, product development follows a balanced loop:
+
+1. add useful tools and improve the breadth/depth of the catalog;
+2. strengthen platform foundations when a concrete tool, user need, scale concern, security issue or UX requirement justifies it;
+3. verify quality, performance, accessibility and privacy;
+4. repeat.
+
+The platform should support tool growth, not compete with it for its own sake.
