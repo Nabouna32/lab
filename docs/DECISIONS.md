@@ -693,3 +693,29 @@ Delaying the migration would leave the platform with two parallel catalog models
 - Database publication/editorial metadata must never grant capabilities that the executable module does not declare.
 - Git remains the source of truth for executable behavior.
 - New tool work can then focus primarily on adding user value rather than creating another catalog migration obligation.
+
+
+---
+
+## DEC-035 — Balanced platform and toolbox growth
+
+**Status:** Accepted
+
+### Decision
+
+After the current catalog architecture is ready, Utiluna should grow through a balanced rhythm of tool creation and platform work.
+
+New tools are a primary source of user value and should be added continuously. Platform, infrastructure, security, performance, accessibility and UX work should continue in parallel when it materially improves the toolbox or removes a concrete blocker.
+
+Platform work must not become an end in itself, and tool creation must not bypass necessary platform foundations.
+
+### Reason
+
+Utiluna's long-term value depends both on having a large, useful catalog and on having a platform capable of supporting that catalog sustainably.
+
+### Consequences
+
+- Tool creation becomes a recurring product priority rather than a late phase.
+- Platform work is prioritized by concrete user value, scalability, reliability, security, UX or upcoming tool needs.
+- New architectural abstractions should normally be justified by an actual current or near-term requirement.
+- The roadmap should avoid a prolonged "platform only" phase once the catalog architecture is ready.
