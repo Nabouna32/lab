@@ -1,4 +1,4 @@
-# Utiluna — Analytics
+# Loculary — Analytics
 
 Analytics use a provider-independent event interface so the catalog is not coupled to one vendor.
 
