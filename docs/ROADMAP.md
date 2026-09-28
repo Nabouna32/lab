@@ -25,7 +25,7 @@ Goal: establish the platform that can grow without creating unnecessary technica
 
 Goal: make the first collection of tools genuinely useful and establish a sustainable rhythm of tool creation plus targeted platform improvements.
 
-- continuously add high-value tools across the validated toolbox categories
+- continuously add high-value tools across the validated toolbox categories, using a hybrid selection strategy that prioritizes concrete user value while monitoring category coverage
 - calculators
 - converters
 - text utilities
