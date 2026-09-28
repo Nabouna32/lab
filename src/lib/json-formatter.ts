@@ -8,8 +8,11 @@ type JsonNode =
   | { kind: "array"; items: JsonNode[] };
 
 class JsonParseError extends Error {
-  constructor(public readonly index: number) {
+  readonly index: number;
+
+  constructor(index: number) {
     super("Invalid JSON");
+    this.index = index;
   }
 }
 
