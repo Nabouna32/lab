@@ -10,7 +10,7 @@ function expectedProcessingCapabilities(mode: ToolProcessingMode): Set<ToolCapab
       return new Set(["local-processing"]);
     case "external":
       return new Set(["network"]);
-    case "utiluna-server":
+    case "server":
       return new Set(["network"]);
     case "hybrid":
       return new Set(["local-processing", "network"]);
@@ -64,8 +64,8 @@ function validateToolQuality(tool: Tool): void {
     throw new Error(`External tool "${tool.id}" cannot require local processing.`);
   }
 
-  if (tool.processing.mode === "utiluna-server" && tool.capabilities.includes("local-processing")) {
-    throw new Error(`Utiluna-server tool "${tool.id}" cannot require local processing.`);
+  if (tool.processing.mode === "server" && tool.capabilities.includes("local-processing")) {
+    throw new Error(`Server-processing tool "${tool.id}" cannot require local processing.`);
   }
 
   if (tool.processing.mode === "local" && tool.processing.externalProviders.length > 0) {
@@ -80,8 +80,8 @@ function validateToolQuality(tool: Tool): void {
     throw new Error(`Local tool "${tool.id}" has incompatible storage metadata.`);
   }
 
-  if (tool.processing.mode === "utiluna-server" && tool.processing.storage === "external") {
-    throw new Error(`Utiluna-server tool "${tool.id}" cannot declare external-only storage.`);
+  if (tool.processing.mode === "server" && tool.processing.storage === "external") {
+    throw new Error(`Server-processing tool "${tool.id}" cannot declare external-only storage.`);
   }
 
   if (tool.offline && tool.processing.mode !== "local") {
