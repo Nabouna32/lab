@@ -1,8 +1,8 @@
-# Utiluna — Product Vision
+# Loculary — Product Vision
 
 ## Purpose
 
-Utiluna is a universal browser-based toolbox: a large, continuously growing collection of useful tools that people can discover and use immediately.
+Loculary is a universal browser-based toolbox: a large, continuously growing collection of useful tools that people can discover and use immediately.
 
 The product goal is not simply to maximize the number of tools. The goal is to make a very large catalog feel **organized, understandable, modern, fast, visual, and pleasant to explore**.
 
@@ -12,13 +12,13 @@ The core user journey is:
 
 ## Product promise
 
-Utiluna should feel like a digital toolbox that is always worth opening when a user needs to calculate, convert, generate, analyze, visualize, decide, create, compare, test, or otherwise accomplish a small task.
+Loculary should feel like a digital toolbox that is always worth opening when a user needs to calculate, convert, generate, analyze, visualize, decide, create, compare, test, or otherwise accomplish a small task.
 
 A working positioning statement is:
 
-> **Utiluna — une boîte à outils numérique, simple à utiliser, immense à explorer.**
+> **Loculary — une boîte à outils numérique, simple à utiliser, immense à explorer.**
 
-This wording is intentionally provisional. The product name remains **Utiluna**.
+This wording is intentionally provisional. The product name remains **Loculary**.
 
 ## Product principles
 
@@ -38,14 +38,14 @@ Examples:
 
 - **🔒 100 % local — vos données restent sur votre appareil**
 - **🌐 Service externe — certaines données sont transmises à une API**
-- **☁️ Serveur Utiluna — ce traitement nécessite notre infrastructure**
+- **☁️ Serveur Loculary — ce traitement nécessite notre infrastructure**
 - **🔒 + 🌐 Hybride — traitement local complété par un service externe**
 
 The exact visual language is an implementation detail; the transparency requirement is not.
 
 ### 4. Simple by default, powerful when needed
 
-Utiluna should serve a casual user without training while still supporting advanced users.
+Loculary should serve a casual user without training while still supporting advanced users.
 
 ### 5. Visual when visual helps
 
@@ -53,7 +53,7 @@ Results should be presented visually when that improves comprehension, confidenc
 
 ### 6. Two modes of expression
 
-Utiluna should support both:
+Loculary should support both:
 
 - **Sober** — focused, efficient, restrained.
 - **Playful** — richer motion, micro-interactions, visual feedback, and optional personality.
@@ -62,7 +62,7 @@ The playful mode must never reduce usability or accessibility.
 
 ### 7. Broad functional ambition
 
-Utiluna is not limited to calculators or converters. Any useful browser-realizable tool can belong in the catalog: technical, practical, creative, educational, analytical, visual, playful, emotional, symbolic, or other categories.
+Loculary is not limited to calculators or converters. Any useful browser-realizable tool can belong in the catalog: technical, practical, creative, educational, analytical, visual, playful, emotional, symbolic, or other categories.
 
 The practical boundary is technical feasibility, legal/safety constraints, operational cost, and product quality.
 
@@ -74,7 +74,7 @@ Advertising must not materially obstruct use of the tools.
 
 If revenue becomes meaningful, a portion can be reinvested into infrastructure, development, reliability, and user experience.
 
-## The Utiluna duality
+## The Loculary duality
 
 The catalog may eventually expose a deliberate spectrum between two complementary dimensions:
 
@@ -108,7 +108,7 @@ A future Android client is a possibility, not an MVP constraint.
 
 ## Non-goals
 
-At the current stage, Utiluna is not:
+At the current stage, Loculary is not:
 
 - a mandatory-account product;
 - a file-hosting service;
@@ -119,7 +119,7 @@ At the current stage, Utiluna is not:
 
 ## Success feeling
 
-The most important long-term product outcome is the user's feeling after using Utiluna:
+The most important long-term product outcome is the user's feeling after using Loculary:
 
 > **“That was easy, useful, and nicely made.”**
 
@@ -127,13 +127,13 @@ This is intentionally a product-quality goal rather than a single metric.
 
 ## Expanded product direction from validated brainstorming
 
-Utiluna is not merely a large list of utilities. The long-term product model is a **universal environment for solving needs** through micro-tools, advanced tools, and mini-applications.
+Loculary is not merely a large list of utilities. The long-term product model is a **universal environment for solving needs** through micro-tools, advanced tools, and mini-applications.
 
 The intended journey is:
 
-> **Besoin → Utiluna → recherche/découverte → outil(s) → résultat → action/partage/sauvegarde**
+> **Besoin → Loculary → recherche/découverte → outil(s) → résultat → action/partage/sauvegarde**
 
-The working positioning may evolve, but the product promise is that Utiluna helps users find simply how to accomplish something.
+The working positioning may evolve, but the product promise is that Loculary helps users find simply how to accomplish something.
 
 ### Universal scope
 
@@ -143,9 +143,9 @@ Any useful browser-realizable tool may belong in the catalog, including technica
 
 The product should expose complexity progressively. Users should not pay in loading time, memory, cognitive load, or interface complexity for capabilities they do not need.
 
-### Personal Utiluna
+### Personal Loculary
 
-Over time, authenticated users should be able to create a personalized Utiluna space with favorites, collections, history, hidden tools, ordering, visible elements, theme, animation level, density/style, personalized home, privacy preferences, and contextual experience preferences where useful.
+Over time, authenticated users should be able to create a personalized Loculary space with favorites, collections, history, hidden tools, ordering, visible elements, theme, animation level, density/style, personalized home, privacy preferences, and contextual experience preferences where useful.
 
 ### Three product layers
 
