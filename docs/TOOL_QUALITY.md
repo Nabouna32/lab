@@ -26,7 +26,7 @@ Published tools additionally must be available and require tests.
 The validator enforces these minimum invariants:
 
 - `local` processing cannot declare external providers and requires `local-processing`;
-- `external`, `utiluna-server` and `hybrid` processing require network access and an external provider;
+- `external`, `server` and `hybrid` processing require network access and an external provider;
 - `hybrid` processing also requires local processing capability;
 - offline tools must be local and must not require network access;
 - local tools may only use no storage or local storage;
