@@ -1,4 +1,4 @@
-# Utiluna — SEO
+# Loculary — SEO
 
 Public tools should have useful unique titles, descriptions, canonical URLs, structured headings and appropriate structured data. Tool pages must remain immediately usable; SEO content is not an excuse to bury the tool.
 
