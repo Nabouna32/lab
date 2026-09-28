@@ -24,7 +24,7 @@ export async function generateMetadata({
   if (!isLocale(locale)) return {};
   const messages = getMessages(locale);
   return {
-    title: "Utiluna",
+    title: "Loculary",
     description: messages.home.description,
   };
 }
