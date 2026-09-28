@@ -1,12 +1,12 @@
-# Utiluna — Privacy and Processing Principles
+# Loculary — Privacy and Processing Principles
 
 ## Goal
 
-Utiluna's privacy model is based on a simple principle:
+Loculary's privacy model is based on a simple principle:
 
 > **Transparency is part of trust.**
 
-Users should not have to guess what Utiluna does with their data. The product should make data flows understandable, inspectable, and controllable.
+Users should not have to guess what Loculary does with their data. The product should make data flows understandable, inspectable, and controllable.
 
 The default engineering position is:
 
@@ -43,9 +43,9 @@ The tool must explain:
 - relevant provider privacy policy;
 - failure/fallback behavior.
 
-### Utiluna server
+### Loculary server
 
-The operation requires Utiluna infrastructure.
+The operation requires Loculary infrastructure.
 
 The same transparency requirements apply, including:
 
@@ -169,7 +169,7 @@ The dashboard should allow a user to see, in understandable form:
 - active sessions where feasible;
 - data retention/deletion state.
 
-The goal is not an obscure legal settings page. Users should be able to understand what Utiluna knows about them and why.
+The goal is not an obscure legal settings page. Users should be able to understand what Loculary knows about them and why.
 
 ## Account deletion
 
@@ -203,7 +203,7 @@ Exports are sensitive and must require appropriate authentication and authorizat
 
 ## Data import
 
-Users may eventually be able to import supported Utiluna data.
+Users may eventually be able to import supported Loculary data.
 
 Imports must be treated as untrusted input.
 
@@ -232,7 +232,7 @@ The architecture should use:
 - encryption or tokenization of especially sensitive application data where justified;
 - strict secret management for credentials and API keys.
 
-Cryptography should use established, maintained primitives and libraries. Utiluna should not invent its own encryption scheme.
+Cryptography should use established, maintained primitives and libraries. Loculary should not invent its own encryption scheme.
 
 ## Cookies and consent
 
@@ -371,7 +371,7 @@ Tool code must not gain arbitrary access to:
 
 ## Trust philosophy
 
-Utiluna should aim to earn trust through three things:
+Loculary should aim to earn trust through three things:
 
 1. **Privacy** — collect and transmit as little as reasonably possible.
 2. **Transparency** — clearly explain what happens when data moves.

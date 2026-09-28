@@ -1,4 +1,4 @@
-# Utiluna — Database
+# Loculary — Database
 
 PostgreSQL is the planned relational source of truth for durable product, account and community data. Executable behavior remains in Git; business metadata and operational state live in the database.
 

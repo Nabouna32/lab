@@ -1,4 +1,4 @@
-# Utiluna — Product Brainstorming
+# Loculary — Product Brainstorming
 
 > **Status: VALIDÉ — direction produit issue du brainstorming.**
 >
@@ -8,17 +8,17 @@
 
 ## 1. Vision
 
-Utiluna doit devenir une **boîte à outils numérique universelle** : un ensemble potentiellement immense de milliers d'outils web, organisé pour rester simple, compréhensible, moderne, rapide, visuel, agréable et pratique.
+Loculary doit devenir une **boîte à outils numérique universelle** : un ensemble potentiellement immense de milliers d'outils web, organisé pour rester simple, compréhensible, moderne, rapide, visuel, agréable et pratique.
 
-La vision dépasse une simple collection de calculateurs : Utiluna est une plateforme de **micro-outils, outils avancés et mini-applications** permettant de partir d'un besoin et d'arriver rapidement à une solution.
+La vision dépasse une simple collection de calculateurs : Loculary est une plateforme de **micro-outils, outils avancés et mini-applications** permettant de partir d'un besoin et d'arriver rapidement à une solution.
 
 Parcours fondamental :
 
-**Besoin → Utiluna → recherche/découverte → outil(s) → résultat → action/partage/sauvegarde**
+**Besoin → Loculary → recherche/découverte → outil(s) → résultat → action/partage/sauvegarde**
 
 Positionnement de travail possible :
 
-> **Utiluna — trouvez simplement comment faire.**
+> **Loculary — trouvez simplement comment faire.**
 
 ## 2. Public et ambition
 
@@ -108,7 +108,7 @@ Un contrat commun existe, mais l'interface n'est pas uniformisée artificielleme
 
 ## 8. Identité visuelle
 
-Utiluna doit avoir une cohérence globale mais chaque outil peut avoir sa propre identité graphique et d'animation.
+Loculary doit avoir une cohérence globale mais chaque outil peut avoir sa propre identité graphique et d'animation.
 
 Le design system standardise notamment :
 - navigation ;
@@ -138,7 +138,7 @@ Niveaux d'animation possibles :
 
 Thèmes initiaux : clair, sombre, système. La création de thèmes personnalisés par l'utilisateur est une idée future.
 
-## 10. Personnalisation : « mon Utiluna »
+## 10. Personnalisation : « mon Loculary »
 
 Un utilisateur connecté pourra progressivement personnaliser son espace :
 - masquer des outils ;
@@ -202,7 +202,7 @@ Possibilités : URL, Web Share API, QR code et mécanismes natifs lorsqu'ils son
 Chaque outil doit indiquer son mode de traitement :
 - 100 % local ;
 - service externe ;
-- serveur Utiluna ;
+- serveur Loculary ;
 - hybride.
 
 Le détail doit expliquer :
@@ -227,7 +227,7 @@ Cette affirmation ne doit être utilisée que lorsque le comportement technique 
 Lorsque possible :
 **appareil → navigateur → traitement local → résultat**
 
-Éviter les gros uploads/downloads via l'infrastructure Utiluna par défaut.
+Éviter les gros uploads/downloads via l'infrastructure Loculary par défaut.
 
 Pour les traitements lourds, utiliser lorsque pertinent :
 - Web Workers ;
@@ -354,7 +354,7 @@ Une future décision PWA doit évaluer :
 
 ## 22. Communauté
 
-La communauté est secondaire au produit principal et ne doit pas transformer Utiluna en réseau social.
+La communauté est secondaire au produit principal et ne doit pas transformer Loculary en réseau social.
 
 Fonctions futures :
 - proposer un outil ;
@@ -516,7 +516,7 @@ Idée future :
 - collections publiques ;
 - contributions.
 
-Le profil doit rester secondaire et ne doit pas transformer Utiluna en réseau social.
+Le profil doit rester secondaire et ne doit pas transformer Loculary en réseau social.
 
 ## 31. Mode enfant
 
@@ -570,7 +570,7 @@ Le ton contextuel peut devenir configurable dans les préférences si cela appor
 
 ## 35. Vision long terme : moteur de solutions
 
-À terme, Utiluna pourrait évoluer de :
+À terme, Loculary pourrait évoluer de :
 **« trouver un outil »**
 vers :
 **« résoudre un besoin »**.
@@ -618,7 +618,7 @@ Le dépôt doit rester compréhensible par une autre IA ou un autre développeur
 
 ## 38. Résumé directeur
 
-Utiluna ne doit pas être pensé comme « un site avec beaucoup de petits outils », mais comme :
+Loculary ne doit pas être pensé comme « un site avec beaucoup de petits outils », mais comme :
 
 > **un environnement web universel permettant à chacun de trouver, utiliser, personnaliser et progressivement combiner des outils pour résoudre des besoins réels.**
 

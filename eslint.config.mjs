@@ -7,7 +7,7 @@ const eslintConfig = defineConfig([
   ...nextTs,
   {
     rules: {
-      // Utiluna contains French prose with normal apostrophes; requiring JSX entities
+      // Loculary contains French prose with normal apostrophes; requiring JSX entities
       // for every apostrophe creates noise without improving the rendered output.
       "react/no-unescaped-entities": "off",
     },

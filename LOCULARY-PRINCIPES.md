@@ -1,8 +1,8 @@
-# Utiluna — Principes produit
+# Loculary — Principes produit
 
 ## Philosophie
 
-Utiluna doit être un site d'outils grand public :
+Loculary doit être un site d'outils grand public :
 simple à comprendre, agréable à utiliser et utile immédiatement.
 
 L'utilisateur doit pouvoir obtenir son résultat sans avoir à apprendre
@@ -38,7 +38,7 @@ sans lui imposer de contenu.
    - Éviter les listes d'exemples numériques répétitifs.
 
 7. **Interface grand public**
-   - Utiluna ne doit pas donner l'impression d'être un outil réservé
+   - Loculary ne doit pas donner l'impression d'être un outil réservé
      aux utilisateurs techniques.
    - Vocabulaire simple, interface accueillante et visuelle.
 

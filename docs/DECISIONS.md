@@ -1,4 +1,4 @@
-# Utiluna — Architecture and Product Decisions
+# Loculary — Architecture and Product Decisions
 
 This file records durable decisions and the reasoning behind them. It should be updated when a decision materially changes.
 
@@ -32,7 +32,7 @@ Core tools must work without an account.
 
 ### Reason
 
-Utiluna is a utility site. Requiring registration before a simple calculation would add unnecessary friction.
+Loculary is a utility site. Requiring registration before a simple calculation would add unnecessary friction.
 
 ### Consequences
 
@@ -70,7 +70,7 @@ A shared platform contract must not force all tools to use the same visual inter
 
 ### Reason
 
-Utiluna's value includes visual, interactive, playful, and specialized experiences.
+Loculary's value includes visual, interactive, playful, and specialized experiences.
 
 ### Consequences
 
@@ -217,7 +217,7 @@ Privacy and transparency are first-class product requirements, not merely compli
 
 ### Reason
 
-Users should be able to understand and control their relationship with Utiluna instead of being forced to trust an opaque system.
+Users should be able to understand and control their relationship with Loculary instead of being forced to trust an opaque system.
 
 ---
 
@@ -235,7 +235,7 @@ Privacy controls should not become a maze of partner-by-partner decisions.
 
 ### Consequences
 
-Utiluna should provide clear high-level choices such as accept, refuse non-essential tracking, or customize, while retaining the granular controls required by the actual legal/provider setup.
+Loculary should provide clear high-level choices such as accept, refuse non-essential tracking, or customize, while retaining the granular controls required by the actual legal/provider setup.
 
 ---
 
@@ -281,7 +281,7 @@ The catalog must include provider, domain, purpose, transmitted data, authentica
 
 ### Decision
 
-Authenticated users should have a dedicated dashboard showing the data Utiluna stores or associates with their account and the relevant privacy/consent choices.
+Authenticated users should have a dedicated dashboard showing the data Loculary stores or associates with their account and the relevant privacy/consent choices.
 
 ### Reason
 
@@ -391,7 +391,7 @@ The registry owns the connection between product catalog entries and executable 
 
 ### Reason
 
-Utiluna is intended to grow to a large catalog. Maintaining one route, metadata wiring and page composition per tool would create unnecessary duplication and make cross-cutting platform changes expensive.
+Loculary is intended to grow to a large catalog. Maintaining one route, metadata wiring and page composition per tool would create unnecessary duplication and make cross-cutting platform changes expensive.
 
 A registry also provides a controlled boundary for progressive code loading and future capability enforcement without forcing every tool into a common UI renderer.
 
@@ -446,7 +446,7 @@ Introduce the database and authenticated account foundation before moving existi
 
 ### Reason
 
-Utiluna needs accounts and an administration surface eventually, but executable tool behavior must remain in Git until the code/database boundary is explicitly designed. Starting with the account foundation creates the necessary platform layer without coupling the tool engine to the database prematurely.
+Loculary needs accounts and an administration surface eventually, but executable tool behavior must remain in Git until the code/database boundary is explicitly designed. Starting with the account foundation creates the necessary platform layer without coupling the tool engine to the database prematurely.
 
 ### Consequences
 
@@ -468,7 +468,7 @@ The first foundation includes `super_admin` and `admin` roles, permissions for d
 
 ### Reason
 
-Utiluna will eventually have several administrative areas with different responsibilities. A single `is_admin` flag would make delegation and least-privilege access difficult and would force a later migration.
+Loculary will eventually have several administrative areas with different responsibilities. A single `is_admin` flag would make delegation and least-privilege access difficult and would force a later migration.
 
 ### Consequences
 
@@ -510,7 +510,7 @@ Git/code remains authoritative for executable implementations and technical beha
 
 ### Reason
 
-Utiluna needs an administrable catalog that can scale to a large number of tools without moving executable code into a database. The database is well suited to search, administration, publication workflows and editable product content, while Git remains the source of executable behavior.
+Loculary needs an administrable catalog that can scale to a large number of tools without moving executable code into a database. The database is well suited to search, administration, publication workflows and editable product content, while Git remains the source of executable behavior.
 
 ### Consequences
 
@@ -551,7 +551,7 @@ Using 1,024 while displaying decimal labels such as kB/ko makes the displayed un
 
 ### Decision
 
-Keep Supabase Auth's leaked password protection disabled while Utiluna remains on the Supabase Free plan.
+Keep Supabase Auth's leaked password protection disabled while Loculary remains on the Supabase Free plan.
 
 This is an intentional infrastructure limitation, not an outstanding security task. Security audits should treat this setting as a known and accepted constraint rather than repeatedly flagging it for implementation.
 
@@ -563,7 +563,7 @@ The feature requires a higher Supabase plan and cannot currently be enabled thro
 
 - Do not repeatedly attempt to enable this setting as part of routine security hardening while the project remains on the Free plan.
 - Security audits may mention the accepted limitation for visibility, but should not create a new implementation task unless the Supabase plan changes.
-- Revisit the decision if Utiluna moves to a plan that provides the feature or if the project's authentication/security requirements materially change.
+- Revisit the decision if Loculary moves to a plan that provides the feature or if the project's authentication/security requirements materially change.
 
 
 
@@ -579,7 +579,7 @@ Tool localized content therefore requires both French and English entries. Addit
 
 ### Reason
 
-Utiluna is designed as an international product. English provides a neutral shared fallback as more languages are introduced, while French remains fully supported as the user's current native development language and one of the initial product languages.
+Loculary is designed as an international product. English provides a neutral shared fallback as more languages are introduced, while French remains fully supported as the user's current native development language and one of the initial product languages.
 
 ### Consequences
 
@@ -619,7 +619,7 @@ Structural i18n tests can verify that translations exist and remain coherent, bu
 
 ### Decision
 
-The product's public brand is **Loculary**. The previous name, Utiluna, remains only where it is needed to preserve historical decision and project context.
+The product's public brand is **Loculary**. The previous name, Loculary, remains only where it is needed to preserve historical decision and project context.
 
 ### Reason
 
@@ -628,5 +628,5 @@ The product identity has been explicitly changed while the underlying repository
 ### Consequences
 
 - Current product-facing documentation and implementation should use Loculary.
-- Historical decisions and archives may retain Utiluna when that name is part of the historical record.
+- Historical decisions and archives may retain Loculary when that name is part of the historical record.
 - Infrastructure names and identifiers are not assumed to change automatically; each migration is handled explicitly.
