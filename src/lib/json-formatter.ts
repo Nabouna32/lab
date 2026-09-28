@@ -187,7 +187,8 @@ function render(node: JsonNode, indent: string, depth: number): string {
   }
 
   if (node.entries.length === 0) return "{}";
-  return "{\n" + node.entries.map((entry) => childPadding + entry.key + ": " + render(entry.value, indent, depth + 1)).join(",\n") + "\n" + padding + "}";
+  const separator = indent === "" ? ":" : ": ";
+  return "{\n" + node.entries.map((entry) => childPadding + entry.key + separator + render(entry.value, indent, depth + 1)).join(",\n") + "\n" + padding + "}";
 }
 
 export function formatJson(input: string, options: JsonFormatOptions): string {

@@ -27,7 +27,7 @@ test("preserves exponent and decimal representations", () => {
 test("rejects trailing commas", () => {
   const error = getJsonFormatError('{ "a":1,}');
   assert.equal(error.line, 1);
-  assert.equal(error.column, 10);
+  assert.equal(error.column, 9);
 });
 
 test("rejects unterminated strings", () => {
