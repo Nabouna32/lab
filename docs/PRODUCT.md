@@ -139,6 +139,8 @@ Expected checks include, as applicable:
 
 The exact automated contract will evolve with the tool platform.
 
+Documentation depth is proportional to the tool. Every published tool should explain its purpose and basic use clearly enough to stand alone; complex, specialized, or potentially ambiguous tools may require deeper explanations, examples, formulas, limitations, terminology, or usage guidance. Simple tools should remain concise rather than carrying unnecessary documentation.
+
 Publication quality is proportional to the tool. Every published tool must satisfy the applicable technical and trust contract and provide identifiable user value, while its expected level of UX, documentation, interaction design, testing, accessibility, performance and polish is calibrated to its complexity, importance and exposure. A small utility can remain deliberately lightweight; a complex tool or mini-application requires deeper finish and resilience. Technical functionality alone is not sufficient for publication.
 
 ## Tool diversity
