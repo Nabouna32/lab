@@ -656,3 +656,47 @@ This model preserves user control over consequential changes while allowing effi
 - Project instructions and agent guidance follow this validated-step model.
 - New work should be proposed and validated one step at a time when it changes the product or project materially.
 - No silent scope expansion is permitted.
+
+## DEC-034 — UX/UI direction reset and user-intention architecture
+
+**Status:** Accepted
+
+### Decision
+
+Loculary is formally restarting its UX/UI design direction from first principles.
+
+The new direction treats Loculary as a **modern digital utility toolbox**, not as a conventional SaaS landing page, dashboard or generic card-based catalog.
+
+The experience is organized around three primary user intentions:
+
+1. **Find something** — search for a known or approximately known need.
+2. **Figure out how to do something** — explore by intention when the user knows the goal but not the tool.
+3. **Discover** — browse the catalog and learn what Loculary can do.
+
+The preferred primary journey is:
+
+> **Need → Find or explore → Tool → Action → Result → Next action**
+
+The homepage is therefore action/search-first, with discovery following in depth. The tool page prioritizes the task, result and useful actions. Documentation and related tools remain secondary.
+
+The visual direction is **Modern Utility**: modernity should come primarily from hierarchy, typography, spacing, density, precision, feedback, coherent interaction patterns and purposeful motion rather than generic SaaS decoration.
+
+The platform must provide a common visual and interaction language without forcing every tool into an identical layout. Individual tools may use distinct compositions, visualizations, animations and interaction models when this improves comprehension, feedback or enjoyment.
+
+### Reason
+
+The existing UX can be functional while still feeling like a conventional web template or catalog. A superficial visual refresh would preserve that structural problem.
+
+The product needs a clearer identity centered on accomplishing tasks quickly while retaining the ability to explore a very large catalog.
+
+### Consequences
+
+- Existing UX/UI patterns are no longer protected merely because they already exist.
+- Future redesign work may remove, merge, move or replace existing screens and components.
+- Search becomes a primary product entry point rather than merely a header utility.
+- Explorer/navigation must support both intention-oriented and category-oriented discovery.
+- Tool pages must prioritize interaction and results over editorial content.
+- Related tools should represent useful next actions rather than generic filler.
+- Responsive layouts must be designed as first-class desktop, tablet and mobile experiences.
+- Visual design work must avoid adding decoration solely to create an appearance of modernity.
+- This decision does not change browser-first processing, privacy, accessibility, internationalization, anonymous-first usage or the separation between tool implementations and platform contracts.
