@@ -1,14 +1,11 @@
 import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
-import type { ToolProcessingMetadata } from "@/lib/tools/types";
-import ToolProcessingStatus from "./ToolProcessingStatus";
 
 type ToolPageHeaderProps = {
   icon: string;
   title: string;
   description: string;
   contentFallback: boolean;
-  processing: ToolProcessingMetadata;
   locale: Locale;
 };
 
@@ -17,7 +14,6 @@ export default function ToolPageHeader({
   title,
   description,
   contentFallback,
-  processing,
   locale,
 }: ToolPageHeaderProps) {
   return (
@@ -45,7 +41,6 @@ export default function ToolPageHeader({
           </div>
         </div>
 
-        <ToolProcessingStatus processing={processing} locale={locale} />
       </div>
     </header>
   );
