@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-const baseUrl = process.env.BASE_URL ?? "https://utiluna-coral.vercel.app";
+const baseUrl = process.env.BASE_URL ?? "https://loculary.vercel.app";
 
 const screenshots = [
   ["homepage-desktop", "/fr", { width: 1440, height: 1000 }],
