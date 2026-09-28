@@ -49,28 +49,13 @@ The tool author should choose the representation that best communicates the resu
 
 A visual treatment should have functional value. Animation must not be used merely because it is possible.
 
-## Tool modes
+## Visual expression and motion
 
-Loculary supports two user-facing expression modes:
+Loculary should provide a modern, polished and visually engaging experience. Tools may use meaningful animation, transitions, micro-interactions, visual feedback and distinctive visual identity when these improve comprehension, feedback or enjoyment.
 
-### Sober
+Motion and visual effects must remain subordinate to usability and must not be used merely because they are technically possible. System reduced-motion preferences must be respected.
 
-- restrained motion;
-- minimal decorative effects;
-- fast feedback;
-- information-first presentation.
-
-### Playful
-
-- richer transitions;
-- micro-interactions;
-- visual feedback;
-- optional decorative personality;
-- suitable for fun, creative, or exploratory tools.
-
-The two modes must preserve the same functionality.
-
-Respect accessibility preferences such as reduced motion regardless of the selected style.
+There is currently no user-selectable Sober/Playful presentation mode. Such a mode is deferred and must not be treated as a current product requirement.
 
 ## Input validation
 
