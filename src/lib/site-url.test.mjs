@@ -23,16 +23,16 @@ test.afterEach(restoreEnvironment);
 
 test("prefers the configured Vercel production URL in production", () => {
   process.env.NEXT_PUBLIC_SITE_URL = "https://stale.example";
-  process.env.VERCEL_PROJECT_PRODUCTION_URL = "utiluna.example";
+  process.env.VERCEL_PROJECT_PRODUCTION_URL = "loculary.example";
   process.env.VERCEL_ENV = "production";
 
-  assert.equal(getSiteUrl().origin, "https://utiluna.example");
+  assert.equal(getSiteUrl().origin, "https://loculary.example");
 });
 
 test("uses the explicit site URL outside Vercel production", () => {
-  process.env.NEXT_PUBLIC_SITE_URL = "https://utiluna.example";
+  process.env.NEXT_PUBLIC_SITE_URL = "https://loculary.example";
   process.env.VERCEL_PROJECT_PRODUCTION_URL = "preview.example";
   process.env.VERCEL_ENV = "preview";
 
-  assert.equal(getSiteUrl().origin, "https://utiluna.example");
+  assert.equal(getSiteUrl().origin, "https://loculary.example");
 });
