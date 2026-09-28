@@ -5,7 +5,9 @@ import { test } from "node:test";
 
 const registryFile = fileURLToPath(new URL("./registry.ts", import.meta.url));
 const toolsCatalogFile = fileURLToPath(new URL("./tools.ts", import.meta.url));
-const toolRendererFile = fileURLToPath(\n  new URL("../../components/tools/ToolRenderer.tsx", import.meta.url),\n);
+const toolRendererFile = fileURLToPath(
+  new URL("../../components/tools/ToolRenderer.tsx", import.meta.url),
+);
 
 async function readPublishedToolIds() {
   const source = await readFile(toolsCatalogFile, "utf8");
