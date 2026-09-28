@@ -123,7 +123,8 @@ For larger or risky changes, use a dedicated branch, validate locally, validate 
 - Every tool should eventually declare its processing/privacy classification.
 - Tool pages prioritize the tool and result above secondary documentation.
 - Desktop and mobile are first-class web experiences.
-- Sober and playful interaction modes must remain accessible.
+- The baseline UX must be modern, polished, responsive and visually engaging; animations, transitions and micro-interactions are welcome when they improve the experience.
+- Accessibility and performance must not be used to justify an austere, outdated or visually inferior baseline; adapt only when a real device or network constraint requires it.
 - Accounts are optional; core tools must work anonymously.
 - French and English are the initial supported languages; i18n must be extensible.
 - Advertising may fund the free product but must remain subordinate to the tool experience.
