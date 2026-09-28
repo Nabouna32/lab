@@ -226,7 +226,7 @@ export const tools: Tool[] = toolDefinitions.map((tool): Tool => ({
     dataCategories: [],
     externalProviders: [],
     storage: "none",
-    retention: "Aucune donnée n'est transmise ou stockée par Utiluna.",
+    retention: "Aucune donnée n'est transmise ou stockée par Loculary.",
     fallback: "Le traitement ne dépend pas d'un service distant.",
   },
   capabilities: ["local-processing", ...(tool.capabilities ?? [])] as ToolCapability[],
