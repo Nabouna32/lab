@@ -159,7 +159,7 @@ PWA/offline capabilities, public profiles, custom themes, contextual tool tone, 
 
 ## Catalog planning
 
-Catalog growth uses the indicative catalog map as a structural planning aid. It helps identify category gaps, overlaps and candidate tools without turning the map into a fixed long-term backlog or delivery commitment.
+Catalog growth uses the indicative catalog map as a structural planning aid. The map is intentionally lightweight at the global level and deepens progressively only when a family becomes relevant to active tool selection. It helps identify category gaps, overlaps and candidate tools without becoming a fixed long-term backlog or delivery commitment.
 
 ## Delivery principle
 
