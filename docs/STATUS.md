@@ -1,4 +1,4 @@
-# Utiluna — Current Status
+# Loculary — Current Status
 
 ## Current state
 
@@ -39,7 +39,7 @@
 
 - The current published catalog is local-only.
 - Processing metadata is validated against declared capabilities and providers.
-- No current published tool needs an external API or Utiluna server.
+- No current published tool needs an external API or Loculary server.
 - The architecture is ready for external/server tools, but they must explicitly declare network capability, provider metadata and the corresponding processing classification.
 
 ### State and sharing
@@ -93,7 +93,7 @@ The code/module remains authoritative for executable behavior and technical capa
 
 ## Account and database foundation
 
-- Supabase project `Utiluna` is active in `eu-west-2`.
+- Supabase project `Loculary` is active in `eu-west-2`.
 - First application table `public.profiles` is deployed with Row Level Security and ownership policies.
 - Next.js was upgraded from 16.3.5 to 16.3.6 to address the critical upstream security update released on September 22, 2026.
 - The published file-size calculator now validates calculation units and rejects numeric overflow at the domain-function boundary.
