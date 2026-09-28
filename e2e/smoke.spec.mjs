@@ -18,7 +18,7 @@ test.beforeEach(async ({ page }) => {
 test("French homepage renders", async ({ page }) => {
   await page.goto(`${baseUrl}/fr`, { waitUntil: "networkidle" });
 
-  await expect(page).toHaveTitle(/Utiluna/i);
+  await expect(page).toHaveTitle(/Loculary/i);
   await expect(page.locator("main")).toBeVisible();
   await expect(page.getByRole("link").first()).toBeVisible();
 });
@@ -107,7 +107,7 @@ test("tool page keeps the primary task hierarchy compact", async ({ page }) => {
 
   const toolHeader = page.locator("main > header");
   await expect(toolHeader).toBeVisible();
-  await expect(toolHeader.getByText("Utiluna", { exact: true })).toHaveCount(0);
+  await expect(toolHeader.getByText("Loculary", { exact: true })).toHaveCount(0);
   await expect(page.getByRole("navigation", { name: "Fil d’Ariane" })).toBeVisible();
   await expect(page.getByRole("link", { name: "← Tous les outils" })).toHaveCount(0);
 
@@ -128,7 +128,7 @@ test("processing status exposes an accessible information disclosure", async ({ 
   await expect(info).toBeVisible();
 
   await page.locator("summary").filter({ hasText: "Traitement local" }).click();
-  await expect(page.getByText("Aucune donnée n'est envoyée à un serveur ni stockée par Utiluna.", { exact: true })).toBeVisible();
+  await expect(page.getByText("Aucune donnée n'est envoyée à un serveur ni stockée par Loculary.", { exact: true })).toBeVisible();
 });
 
 test("English locale renders", async ({ page }) => {
