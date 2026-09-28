@@ -1,4 +1,4 @@
-# Utiluna — Search
+# Loculary — Search
 
 Search is both catalog navigation and, progressively, solution discovery.
 
