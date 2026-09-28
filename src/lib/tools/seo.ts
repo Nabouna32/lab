@@ -46,6 +46,10 @@ export const toolSeo = {
     fr: { title: "Compteur de mots et caractères | Loculary", description: "Comptez les mots, caractères, espaces et lignes d'un texte." },
     en: { title: "Word and Character Counter | Loculary", description: "Count words, characters, spaces, and lines in a text." },
   },
+  "json-formatter": {
+    fr: { title: "Formateur JSON et validateur en ligne | Loculary", description: "Validez, formatez et minifiez votre JSON gratuitement, directement dans votre navigateur." },
+    en: { title: "JSON Formatter & Validator | Loculary", description: "Validate, format, and minify JSON for free directly in your browser." },
+  },
   "bitrate-video": {
     fr: { title: "Calculateur de bitrate vidéo | Loculary", description: "Calculez le bitrate ou la taille approximative d'une vidéo." },
     en: { title: "Video Bitrate Calculator | Loculary", description: "Calculate video bitrate or approximate file size." },
