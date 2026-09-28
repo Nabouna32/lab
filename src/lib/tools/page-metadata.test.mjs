@@ -48,3 +48,20 @@ test("public metadata centralizes canonical, alternates and Open Graph fields", 
   assert.match(source, /languages: alternates/);
   assert.match(source, /openGraph:/);
 });
+test("SEO exposes sitemap and robots routes", async () => {
+  const sitemapSource = await readFile(
+    fileURLToPath(new URL("../../app/sitemap.ts", import.meta.url)),
+    "utf8",
+  );
+  const robotsSource = await readFile(
+    fileURLToPath(new URL("../../app/robots.ts", import.meta.url)),
+    "utf8",
+  );
+
+  assert.match(sitemapSource, /MetadataRoute\.Sitemap/);
+  assert.match(sitemapSource, /getPublishedTools/);
+  assert.match(sitemapSource, /getSiteUrl/);
+  assert.match(robotsSource, /MetadataRoute\.Robots/);
+  assert.match(robotsSource, /sitemap:/);
+  assert.match(robotsSource, /getSiteUrl/);
+});
