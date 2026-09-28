@@ -10,6 +10,6 @@ The catalog map is intentionally lightweight by default: it should show the main
 
 It may contain candidate ideas where a family is actively being explored, but detail should deepen progressively as a category becomes relevant to upcoming tool selection. An item appearing here does not imply a delivery commitment.
 
-Candidate areas can evolve as the toolbox grows; actual tool selection follows the accepted catalog growth strategy: concrete user value guides selection while category coverage is monitored to avoid major gaps or imbalance.
+Candidate areas can evolve as the toolbox grows; actual tool selection follows the accepted catalog growth strategy and multi-factor prioritization: concrete user value and demand are balanced with implementation/maintenance cost, product fit and category coverage.
 
 A deferred idea becomes durable scope only after the decision is recorded in DECISIONS.md and reflected in the relevant specification and roadmap.
