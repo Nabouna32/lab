@@ -24,7 +24,7 @@ test("tool metadata defines Open Graph fields", async () => {
 
   assert.match(source, /openGraph:/);
   assert.match(source, /type: "website"/);
-  assert.match(source, /siteName: "Utiluna"/);
+  assert.match(source, /siteName: "Loculary"/);
 });
 
 test("dynamic tool route resolves SEO metadata from the resolved tool", async () => {
