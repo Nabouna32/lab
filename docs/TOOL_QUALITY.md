@@ -1,4 +1,4 @@
-# Utiluna — Tool Quality Contract
+# Loculary — Tool Quality Contract
 
 The tool quality contract is the minimum machine-checkable baseline for a catalog entry. It complements the broader product, UX, accessibility, performance, SEO and privacy specifications.
 
