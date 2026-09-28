@@ -1,4 +1,4 @@
-# Utiluna — Architecture Direction
+# Loculary — Architecture Direction
 
 ## Status
 
@@ -62,13 +62,13 @@ External services must be explicit in the tool's processing-status metadata.
 
 ## File handling
 
-Large file uploads/downloads through Utiluna infrastructure are intentionally avoided as a default architecture.
+Large file uploads/downloads through Loculary infrastructure are intentionally avoided as a default architecture.
 
 If a file operation can be performed locally, the preferred flow is:
 
 > User device → browser → local processing → result
 
-No Utiluna upload is required.
+No Loculary upload is required.
 
 A server-side file workflow requires explicit product justification because it affects:
 
