@@ -142,7 +142,7 @@ The product should expose complexity progressively. Users should not pay in load
 
 ### Personal Loculary
 
-Over time, authenticated users should be able to create a personalized Loculary space with favorites, collections, history, hidden tools, ordering, visible elements, theme, animation level, density/style, personalized home, privacy preferences, and contextual experience preferences where useful.
+Over time, authenticated users should be able to create a personalized Loculary space with favorites, collections, history, hidden tools, ordering, visible elements, theme, animation level, density/style, personalized home, privacy preferences, and other non-mode personalization preferences where useful.
 
 ### Three product layers
 
