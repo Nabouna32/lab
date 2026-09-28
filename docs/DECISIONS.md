@@ -741,17 +741,22 @@ Utiluna should maintain a general catalog map covering the main tool families, s
 
 The map is a planning and coverage aid: it helps visualize the breadth of the toolbox, identify meaningful gaps, avoid unnecessary duplication and facilitate selection of future tools.
 
-The map is indicative and evolving. An idea appearing in the map is not automatically committed scope, and the map must not become a frozen development plan for hundreds of tools.
+The map is indicative and evolving. By default, it should remain relatively lightweight: major families and relevant subfamilies are enough to maintain the structural view. Detailed candidate lists should be developed progressively only for a family that becomes relevant to active tool selection or exploration.
+
+An idea appearing in the map is not automatically committed scope, and the map must not become a frozen development plan for hundreds of tools.
 
 Actual tool selection follows DEC-036: concrete user value guides selection while category coverage is monitored progressively.
 
 ### Reason
 
-A broad toolbox benefits from having a visible structural map of what it could cover, but maintaining a fully scheduled list of hundreds of future tools would create false commitments and unnecessary maintenance.
+A broad toolbox benefits from having a visible structural map of what it could cover, but maintaining a fully scheduled or exhaustively detailed list of hundreds of future tools would create false commitments and unnecessary maintenance.
+
+A lightweight map also keeps the planning artifact useful as the catalog evolves: it exposes structural gaps without turning documentation into a second backlog.
 
 ### Consequences
 
-- Maintain a high-level catalog map rather than a rigid long-term tool backlog.
+- Maintain the catalog map primarily at family/subfamily level.
+- Deepen a category progressively when it becomes relevant to upcoming tool selection.
 - Use the map to identify category gaps, overlaps and promising candidates.
 - Keep individual tool ideas explicitly non-committed until selected for implementation.
 - Review and evolve the map as the catalog and product evidence grow.
