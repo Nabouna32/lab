@@ -32,7 +32,7 @@ export function getPublicPageMetadata(seo: PublicPageSeo, locale: Locale): Metad
       url: url.toString(),
       title: seo.title,
       description: seo.description,
-      siteName: "Utiluna",
+      siteName: "Loculary",
       locale: getIntlLocale(locale).replace("-", "_"),
     },
   };
@@ -66,7 +66,7 @@ export function getToolPageMetadata(tool: Tool, locale: Locale): Metadata {
       url: url.toString(),
       title: seo.title,
       description: seo.description,
-      siteName: "Utiluna",
+      siteName: "Loculary",
       locale: getIntlLocale(locale).replace("-", "_"),
     },
   };
