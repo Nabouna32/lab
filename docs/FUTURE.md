@@ -12,4 +12,6 @@ It may contain candidate ideas where a family is actively being explored, but de
 
 Candidate areas can evolve as the toolbox grows; actual tool selection follows the accepted catalog growth strategy and multi-factor prioritization: concrete user value and demand are balanced with implementation/maintenance cost, product fit and category coverage.
 
+Future tool candidates are selected using the multi-factor prioritization defined in DEC-038 and, when implemented, must meet the publication quality bar with a level of finish proportionate to their complexity and importance.
+
 A deferred idea becomes durable scope only after the decision is recorded in DECISIONS.md and reflected in the relevant specification and roadmap.
