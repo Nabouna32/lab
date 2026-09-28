@@ -1,4 +1,4 @@
-# Utiluna — Future / Deferred
+# Loculary — Future / Deferred
 
 Deferred ideas remain documented so they are not lost; they are not automatically scheduled.
 
