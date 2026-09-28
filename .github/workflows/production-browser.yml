@@ -50,7 +50,7 @@ jobs:
 
       - name: Run production browser validation
         env:
-          BASE_URL: https://utiluna-coral.vercel.app
+          BASE_URL: https://loculary.vercel.app
           VERCEL_TRUSTED_OIDC_TOKEN: ${{ steps.vercel-oidc.outputs.token }}
         run: npx playwright test e2e/production-visual.spec.mjs
 
