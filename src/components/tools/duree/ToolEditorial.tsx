@@ -4,14 +4,14 @@ import ToolSection from "@/components/tools/ToolPage/ToolSection";
 const content = {
   fr: {
     sections: [
-      { title: "📅 Calculer une durée entre deux dates", text: "Saisissez une date de début et une date de fin pour connaître le nombre de jours, d'heures et de minutes qui les séparent." },
-      { title: "🕐 Calculer une durée entre deux horaires", text: "Utilisez le mode horaires pour calculer un intervalle dans une même journée. Si l'heure de fin est plus tôt que l'heure de début, le calcul considère qu'il s'agit du lendemain." },
+      { title: "Calculer une durée entre deux dates", text: "Saisissez une date de début et une date de fin pour connaître le nombre de jours, d'heures et de minutes qui les séparent." },
+      { title: "Calculer une durée entre deux horaires", text: "Utilisez le mode horaires pour calculer un intervalle dans une même journée. Si l'heure de fin est plus tôt que l'heure de début, le calcul considère qu'il s'agit du lendemain." },
     ],
   },
   en: {
     sections: [
-      { title: "📅 Calculate a duration between two dates", text: "Enter a start date and an end date to find the number of days, hours, and minutes between them." },
-      { title: "🕐 Calculate a duration between two times", text: "Use time mode to calculate an interval within a day. If the end time is earlier than the start time, the calculation treats it as the following day." },
+      { title: "Calculate a duration between two dates", text: "Enter a start date and an end date to find the number of days, hours, and minutes between them." },
+      { title: "Calculate a duration between two times", text: "Use time mode to calculate an interval within a day. If the end time is earlier than the start time, the calculation treats it as the following day." },
     ],
   },
 } as const;

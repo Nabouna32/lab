@@ -4,12 +4,12 @@ import { Card, Formula } from "@/components/tools/ToolPage/EditorialPrimitives";
 
 const content = {
   fr: {
-    main: { title: "💶 Comment calculer la TVA ?", text: "Pour passer d'un prix HT à un prix TTC, on ajoute la TVA au prix hors taxes. Pour retrouver le prix HT à partir d'un prix TTC, on retire la TVA en divisant par 1 + le taux de TVA.", formulas: "Formules", example: "Par exemple, avec 100 € HT et une TVA de 20 % :", result: "La TVA est donc de 20 € et le prix toutes taxes comprises est de 120 €." },
-    definitions: { title: "💡 HT, TTC et TVA", text: "Le prix HT correspond au prix hors taxes. La TVA est la taxe ajoutée selon un taux donné. Le prix TTC correspond au prix payé après ajout de cette taxe." },
+    main: { title: "Calculer la TVA", text: "Pour passer d'un prix HT à un prix TTC, on ajoute la TVA au prix hors taxes. Pour retrouver le prix HT à partir d'un prix TTC, on retire la TVA en divisant par 1 + le taux de TVA.", formulas: "Formules", example: "Par exemple, avec 100 € HT et une TVA de 20 % :", result: "La TVA est donc de 20 € et le prix toutes taxes comprises est de 120 €." },
+    definitions: { title: "Comprendre HT, TTC et TVA", text: "Le prix HT correspond au prix hors taxes. La TVA est la taxe ajoutée selon un taux donné. Le prix TTC correspond au prix payé après ajout de cette taxe." },
   },
   en: {
-    main: { title: "💶 How do you calculate VAT?", text: "To convert a net price to a gross price, add VAT to the net amount. To find the net price from a gross price, divide by 1 + the VAT rate.", formulas: "Formulas", example: "For example, with €100 net and 20% VAT:", result: "VAT is therefore €20 and the gross price is €120." },
-    definitions: { title: "💡 Net, gross, and VAT", text: "The net price is the amount before tax. VAT is the tax added at a given rate. The gross price is the amount paid after adding that tax." },
+    main: { title: "Calculate VAT", text: "To convert a net price to a gross price, add VAT to the net amount. To find the net price from a gross price, divide by 1 + the VAT rate.", formulas: "Formulas", example: "For example, with €100 net and 20% VAT:", result: "VAT is therefore €20 and the gross price is €120." },
+    definitions: { title: "Understanding net, gross, and VAT", text: "The net price is the amount before tax. VAT is the tax added at a given rate. The gross price is the amount paid after adding that tax." },
   },
 } as const;
 

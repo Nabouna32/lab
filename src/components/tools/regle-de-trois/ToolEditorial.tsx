@@ -4,12 +4,12 @@ import { Card, Formula } from "@/components/tools/ToolPage/EditorialPrimitives";
 
 const content = {
   fr: {
-    main: { title: "⚖️ Comment fonctionne la règle de trois ?", text: "La règle de trois permet de trouver une valeur inconnue lorsque deux grandeurs sont proportionnelles. Si A correspond à B et C correspond à X, alors X se calcule ainsi :", formula: "Formule", example: "Par exemple, si 4 articles coûtent 10 €, alors 6 articles coûtent 15 € lorsque le prix unitaire reste proportionnel.", result: "Le résultat est donc de 15 €." },
-    use: { title: "💡 Quand utiliser une règle de trois ?", text: "Elle est utile pour les conversions proportionnelles, les prix, les quantités, les recettes, les distances ou tout autre calcul où le rapport entre deux grandeurs reste constant." },
+    main: { title: "Calculer une proportion", text: "La règle de trois permet de trouver une valeur inconnue lorsque deux grandeurs sont proportionnelles. Si A correspond à B et C correspond à X, alors X se calcule ainsi :", formula: "Formule", example: "Par exemple, si 4 articles coûtent 10 €, alors 6 articles coûtent 15 € lorsque le prix unitaire reste proportionnel.", result: "Le résultat est donc de 15 €." },
+    use: { title: "Quand utiliser une règle de trois ?", text: "Elle est utile pour les conversions proportionnelles, les prix, les quantités, les recettes, les distances ou tout autre calcul où le rapport entre deux grandeurs reste constant." },
   },
   en: {
-    main: { title: "⚖️ How does the rule of three work?", text: "The rule of three finds an unknown value when two quantities are proportional. If A corresponds to B and C corresponds to X, then X is calculated as follows:", formula: "Formula", example: "For example, if 4 items cost €10, then 6 items cost €15 when the unit price remains proportional.", result: "The result is therefore €15." },
-    use: { title: "💡 When should you use the rule of three?", text: "It is useful for proportional conversions involving prices, quantities, recipes, distances, or any other calculation where the ratio between two quantities remains constant." },
+    main: { title: "Calculate a proportion", text: "The rule of three finds an unknown value when two quantities are proportional. If A corresponds to B and C corresponds to X, then X is calculated as follows:", formula: "Formula", example: "For example, if 4 items cost €10, then 6 items cost €15 when the unit price remains proportional.", result: "The result is therefore €15." },
+    use: { title: "When should you use the rule of three?", text: "It is useful for proportional conversions involving prices, quantities, recipes, distances, or any other calculation where the ratio between two quantities remains constant." },
   },
 } as const;
 
