@@ -9,7 +9,7 @@ export default function Footer({ locale }: { locale: Locale }) {
     <footer className="mt-16 border-t border-[var(--border)] bg-[var(--surface-soft)]/45">
       <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:grid-cols-[1.4fr_1fr_1fr] sm:px-6 lg:px-8">
         <div>
-          <Link href={"/" + locale} className="text-lg font-black tracking-[-0.03em]">Utiluna</Link>
+          <Link href={"/" + locale} className="text-lg font-black tracking-[-0.03em]">Loculary</Link>
           <p className="mt-2 max-w-sm text-sm leading-6 text-[var(--muted)]">{t.footer.tagline}</p>
         </div>
         <div>
@@ -27,7 +27,7 @@ export default function Footer({ locale }: { locale: Locale }) {
         </div>
       </div>
       <div className="mx-auto max-w-7xl border-t border-[var(--border)] px-4 py-4 text-xs text-[var(--muted)] sm:px-6 lg:px-8">
-        © {new Date().getFullYear()} Utiluna
+        © {new Date().getFullYear()} Loculary
       </div>
     </footer>
   );
