@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const categoryName = getCategoryName(locale, categoryId);
   const t = getMessages(locale);
   return getPublicPageMetadata({
-    title: `${categoryName} — Utiluna`,
+    title: `${categoryName} — Loculary`,
     description: t.tools.categoryDescription(categoryName),
     path: `/${locale}/outils/${categoryId}`,
   }, locale);
