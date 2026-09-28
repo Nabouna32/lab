@@ -155,3 +155,30 @@ Anonymous use must remain useful; personal features add depth rather than create
 ### Long-term solution engine
 
 The long-term ambition can evolve from finding a tool to solving a need. A complex request may eventually lead to several complementary tools or a composed workflow. This is future direction, not a requirement that the MVP implement multi-tool orchestration.
+
+
+## UX/UI direction reset — 2026-09-28
+
+Loculary's UX/UI direction has been explicitly reconsidered from first principles. Previous UX specifications and existing interface patterns are historical implementation context rather than constraints on the new design.
+
+The intended experience is a **modern utility toolbox** rather than a generic SaaS landing page, dashboard or cold catalog.
+
+The experience is organized around three user intentions:
+
+- **Find something** — search for a known or approximately known need.
+- **Figure out how to do something** — explore by intention when the user does not know the tool name.
+- **Discover** — browse the possibilities offered by Loculary.
+
+The preferred journey is:
+
+> **Need → Find or explore → Tool → Action → Result → Next action**
+
+The homepage should therefore foreground the user's action or need, especially search, and let discovery deepen below that primary entry point. A large marketing hero, excessive decorative sections and card-heavy layouts are not goals in themselves.
+
+Tool pages should make the task the dominant experience. The primary interaction and result take precedence over documentation and discovery content. Results should lead naturally to relevant actions such as copying, downloading, resetting, sharing or continuing with another tool when applicable.
+
+The platform should establish a coherent visual language without forcing every tool into an identical layout. Small utilities, advanced tools and mini-applications may use different compositions and visual treatments when this improves usability, comprehension or enjoyment.
+
+The new visual direction should derive its sense of quality from hierarchy, typography, spacing, density, precision, feedback and purposeful motion rather than generic SaaS decoration.
+
+This is an explicit evolution of the product's UX/UI direction. It does not change the browser-first, privacy, accessibility, internationalization, anonymous-first or tool-first product principles.

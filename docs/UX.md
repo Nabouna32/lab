@@ -243,3 +243,125 @@ Where useful, tool pages may provide lightweight feedback such as “Cet outil v
 ### Mobile and advertising
 
 Mobile is a first-class experience, not a compressed desktop layout. Advertising must never sit between the primary input and result, cover controls, or create forced interaction. Wide desktop layouts may use side rails; smaller layouts should prefer non-intrusive alternatives or omit the placement when necessary.
+
+
+## UX direction reset — 2026-09-28
+
+**Status:** Accepted and superseding the previous UX direction where it conflicts with this section.
+
+Loculary is intentionally restarting its UX/UI design exploration from first principles. Existing UI patterns, prior UX proposals and earlier visual conventions are references for implementation history, not constraints on the new design.
+
+The product should not be approached as a conventional SaaS landing page, dashboard or generic tool catalog. The target experience is a **modern utility toolbox**: direct, precise, pleasant and highly focused on helping a user accomplish a task.
+
+### User intentions
+
+The experience is organized around three primary user intentions:
+
+1. **Find something** — the user knows, approximately, what they need and searches for it.
+2. **Figure out how to do something** — the user knows the goal but not necessarily the appropriate tool; exploration and intent-oriented navigation help.
+3. **Discover** — the user wants to browse what Loculary can offer.
+
+These intentions must coexist without allowing discovery content to obstruct task completion.
+
+### Primary UX journey
+
+The preferred journey is:
+
+> **Need → Find or explore → Tool → Action → Result → Next action**
+
+The result is not necessarily the end of the experience. When meaningful, users should be able to copy, download, share, reset, modify, or continue with a complementary tool.
+
+### Homepage direction
+
+The homepage should be **action/search first, discovery in depth**, rather than a conventional marketing landing page.
+
+The primary visual question should be effectively:
+
+> **What do you want to do?**
+
+Search and action-oriented entry points should dominate the initial experience. Popular tools, intentions, categories and discovery content should follow naturally.
+
+Avoid relying on a large marketing hero, decorative sections, or a wall of cards to communicate value.
+
+### Navigation direction
+
+The primary navigation should remain small and understandable. Search is a first-class entry point, while an Explorer area can provide both:
+
+- intent-oriented discovery such as calculate, convert, transform, create, analyze, verify, generate or measure;
+- domain/category-oriented discovery such as images, text, files, development, finance or data.
+
+A large catalog must not become a visually overwhelming grid.
+
+### Tool-page direction
+
+The tool is the central product experience. A typical hierarchy is:
+
+1. concise identity/title;
+2. concise explanation;
+3. processing/privacy status;
+4. primary tool interaction;
+5. result;
+6. contextual actions;
+7. explanation/documentation;
+8. meaningful next tools or actions.
+
+This is a priority hierarchy, not a rigid template. Complex tools may require different compositions.
+
+Documentation must not compete with the primary task.
+
+### Result-first interaction
+
+Results should feel clear, immediate and trustworthy. Feedback for successful processing, copying, reset, validation, errors, progress and cancellation should be explicit and appropriately animated.
+
+The interface should make the transition from input to result understandable without decorative motion that adds no functional value.
+
+### Tool-specific interfaces
+
+Loculary must establish a shared visual and interaction language without forcing every tool into the same layout.
+
+Examples:
+
+- calculators may emphasize compact inputs and a prominent result;
+- file tools may emphasize drop zones, previews and processing controls;
+- generators may emphasize parameters and visual previews;
+- analysis tools may emphasize data, visualization and interpretation.
+
+Tool-specific identity is encouraged when it improves comprehension, feedback or enjoyment.
+
+### Visual design direction
+
+The new visual language should avoid generic "SaaS template" aesthetics as the primary identity. In particular, the redesign should not rely on gradients, large marketing headings, excessive rounded cards, nested cards, decorative shadows or hover effects merely to appear modern.
+
+Modernity should instead come from:
+
+- precise typography;
+- hierarchy;
+- spacing and density;
+- strong information architecture;
+- restrained surfaces;
+- coherent iconography;
+- purposeful motion;
+- excellent feedback;
+- consistent interaction patterns.
+
+The target feeling is **a well-designed digital toolbox**, not a startup landing page.
+
+### Discovery and related tools
+
+Related tools should be presented as useful next actions rather than filler cards. Recommendations should answer the likely question:
+
+> **What might you want to do next?**
+
+Relationships must be meaningful.
+
+### Responsive direction
+
+Desktop, tablet and mobile are distinct first-class compositions. Mobile must not be treated as a compressed desktop layout, and tablet layouts must not fall into an awkward intermediate state.
+
+The responsive design must preserve the hierarchy of search, tool interaction, result and actions at every viewport.
+
+### Architecture consequence
+
+The UX redesign may remove, merge, move or replace existing screens and components when the new user journey benefits from doing so. Existing routes and UI components are not themselves UX requirements.
+
+The redesign must still preserve core product constraints such as anonymous access to core tools, processing transparency, accessibility, internationalization and browser-first behavior.
