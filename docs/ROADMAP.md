@@ -157,6 +157,9 @@ The discovery phase can progress from catalog search to intent-aware search, the
 
 PWA/offline capabilities, public profiles, custom themes, contextual tool tone, richer educational content, Android, additional languages/RTL, stronger offline support, and child-oriented experiences remain deferred directions. Each requires its own decision/specification before becoming committed scope.
 
+## Catalog planning
+
+Catalog growth uses the indicative catalog map as a structural planning aid. It helps identify category gaps, overlaps and candidate tools without turning the map into a fixed long-term backlog or delivery commitment.
 
 ## Delivery principle
 
