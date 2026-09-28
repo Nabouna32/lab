@@ -234,7 +234,7 @@ Authenticated users should eventually be able to hide/reorder tools and page ele
 
 ### Contextual tone
 
-A professional tool can remain sober while a creative or exploratory tool can be more expressive. Contextual tone is an optional future capability and must remain subordinate to clarity and the user's selected experience mode.
+A professional tool can remain restrained while a creative or exploratory tool can be more expressive. Contextual tone is an optional future capability and must remain subordinate to clarity, usability and accessibility. It does not depend on a user-selectable presentation mode.
 
 ### Feedback and lightweight trust signals
 
