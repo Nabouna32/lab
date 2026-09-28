@@ -1,8 +1,8 @@
-# Utiluna — Tool Architecture
+# Loculary — Tool Architecture
 
 ## Model
 
-Utiluna supports three levels: small tools, advanced tools, and mini-applications. All share a common platform contract while retaining tool-specific UX and visual identity.
+Loculary supports three levels: small tools, advanced tools, and mini-applications. All share a common platform contract while retaining tool-specific UX and visual identity.
 
 ## Contract
 
