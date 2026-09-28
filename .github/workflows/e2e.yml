@@ -38,19 +38,13 @@ jobs:
       - name: Install Playwright test runner
         run: npm install --no-save --package-lock=false @playwright/test@1.63.0
 
-      - name: Build for production browser tests
-        if: github.event_name != 'pull_request'
+      - name: Build
         run: npm run build
 
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
-      - name: Start Next.js development server
-        if: github.event_name == 'pull_request'
-        run: npm run dev > /tmp/loculary-next.log 2>&1 &
-
-      - name: Start Next.js production server
-        if: github.event_name != 'pull_request'
+      - name: Start Next.js
         run: npm run start > /tmp/loculary-next.log 2>&1 &
 
       - name: Wait for Next.js
