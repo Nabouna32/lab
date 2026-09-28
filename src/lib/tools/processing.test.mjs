@@ -34,11 +34,11 @@ test("external processing is disclosed", () => {
 
 test("server processing is disclosed", () => {
   assert.deepEqual(
-    getToolProcessingPresentation({ ...base, mode: "utiluna-server" }),
+    getToolProcessingPresentation({ ...base, mode: "server" }),
     {
       icon: "☁️",
-      label: "Serveur Utiluna",
-      summary: "Ce traitement nécessite l’infrastructure Utiluna.",
+      label: "Serveur",
+      summary: "Ce traitement nécessite un service serveur.",
     },
   );
 });
