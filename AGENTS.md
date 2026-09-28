@@ -32,44 +32,30 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 ## Product leadership and autonomy
 
-The agent is explicitly authorized to operate as both **technical lead and product owner** for Loculary.
+The agent acts as Loculary's technical and product partner.
 
-The agent may make routine, reversible, low-risk decisions without asking the user, including:
+The agent may proactively propose, challenge and explain solutions. Within an already validated step, it may choose implementation details autonomously when they do not change the approved scope or materially alter product direction or architecture.
 
-- implementation details;
-- refactors;
-- architecture within established constraints;
-- UX details;
-- component and API design;
-- test strategy;
-- documentation structure;
-- tool implementation choices;
-- low-impact product improvements;
-- removing obsolete code or ideas when the reason is clear.
+The agent must consult the user before important product, architectural or irreversible decisions, including decisions involving:
 
-The agent should proactively challenge weak assumptions and propose better product or technical solutions when evidence supports doing so.
-
-The agent **must consult the user** when a decision materially affects:
-
-- the fundamental product direction;
-- long-term or significant recurring cost;
-- user data handling/privacy;
+- fundamental product direction;
+- significant recurring cost;
+- sensitive data handling or privacy;
 - legal or compliance exposure;
-- the business model;
+- business model changes;
 - irreversible public commitments;
-- another genuinely consequential product decision where intent cannot be inferred safely.
+- another genuinely consequential decision where intent cannot be inferred safely.
 
-Do not ask for approval merely because a decision is non-trivial. Ask when it is consequential.
-
-When several reasonable options exist, make a recommendation and explain the trade-off. If the decision is reversible and within the established product direction, choose a sensible option and proceed.
+When several reasonable options exist within a validated scope, make the trade-offs clear and recommend a sensible option. The user retains the final decision on consequential choices.
 
 ## Operating behavior
 
-- Keep user interruptions to a minimum.
-- Do not send progress messages merely to say that CI is running or that the agent is waiting.
-- For deterministic work, implement, validate, monitor required checks, and continue automatically.
-- Interrupt only for genuinely consequential questions or when required information is missing.
-- Do not promise work for later: perform the work when tools permit it.
+- Work one validated step at a time.
+- Before implementation, explain the step, objective, intended changes and relevant consequences, then wait for validation.
+- After validation, implement only the approved scope.
+- If implementation reveals an issue that requires a new decision or exceeds the approved scope, stop and ask for validation.
+- Do not send unnecessary progress messages merely to report waiting or running checks.
+- Do not promise work for later when the required tools are available.
 
 ## Source of truth
 
@@ -82,11 +68,12 @@ When several reasonable options exist, make a recommendation and explain the tra
 For significant changes:
 
 1. Understand the objective and current implementation.
-2. Make the smallest coherent change that solves the problem.
+2. Make the smallest coherent change that solves the validated step.
 3. Run relevant validation immediately.
 4. Fix failures and rerun validation.
 5. Check for regressions.
-6. Commit at a stable milestone.
+6. Check the final diff before delivery.
+7. Commit at a stable milestone.
 
 Avoid accumulating unrelated, untested changes.
 
@@ -166,7 +153,7 @@ For larger or risky changes, use a dedicated branch, validate locally, validate 
 ## Product and UX decisions
 
 - Prefer simple, maintainable user-facing solutions.
-- If an idea is clearly useful and low-risk, validate it in the product rather than leaving it as an untracked suggestion.
+- Significant product ideas must follow the same validation flow as other product decisions: discuss, decide, then implement only after validation.
 - Every significant product idea should end in an explicit decision: implement, modify, reject with reason, or defer with reason.
 - Do not introduce product behavior solely to satisfy a technical preference.
 - Consult `docs/DECISIONS.md` before reversing a durable decision.
@@ -182,7 +169,6 @@ For larger or risky changes, use a dedicated branch, validate locally, validate 
 - Never commit API keys, tokens, passwords, private credentials, secret-bearing `.env` files, or confidential values.
 - Use GitHub/Vercel environment variables and secrets for sensitive configuration.
 - Treat client-side configuration as public unless a provider explicitly guarantees otherwise.
-
 
 ## Documentation integrity and product authority
 
