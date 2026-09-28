@@ -15,7 +15,7 @@ export type ToolId =
   | "bitrate-video";
 
 export type ToolComplexity = "small" | "advanced" | "mini-application";
-export type ToolProcessingMode = "local" | "external" | "utiluna-server" | "hybrid";
+export type ToolProcessingMode = "local" | "external" | "server" | "hybrid";
 export type ToolLifecycle = "draft" | "review" | "published" | "hidden" | "archived";
 export type ToolAccess = "anonymous" | "account" | "premium";
 export type ToolSharingMode = "none" | "configuration" | "result" | "configuration-and-result";
@@ -38,7 +38,7 @@ export type ToolProcessingMetadata = {
   description: Partial<Record<Locale, string>> & { en: string };
   dataCategories: string[];
   externalProviders: string[];
-  storage: "none" | "local" | "utiluna" | "external" | "hybrid";
+  storage: "none" | "local" | "server" | "external" | "hybrid";
   retention: string;
   fallback: string;
 };
