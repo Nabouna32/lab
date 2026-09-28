@@ -700,3 +700,25 @@ The product needs a clearer identity centered on accomplishing tasks quickly whi
 - Responsive layouts must be designed as first-class desktop, tablet and mobile experiences.
 - Visual design work must avoid adding decoration solely to create an appearance of modernity.
 - This decision does not change browser-first processing, privacy, accessibility, internationalization, anonymous-first usage or the separation between tool implementations and platform contracts.
+
+
+## DEC-035 — Development tool category
+
+**Status:** Accepted
+
+### Decision
+
+Loculary adds a **Development / Développement** catalog category for browser-based developer and data utilities.
+
+The first published tool in this category is the JSON Formatter & Validator. The category is a catalog organization decision; it does not commit the project to implementing every related developer utility.
+
+### Reason
+
+The catalog is intended to grow beyond calculators and converters. Developer/data utilities are a coherent local-first family and fit Loculary's browser-first model particularly well.
+
+### Consequences
+
+- The stable category identifier is `developpement`.
+- The category is localized as “Développement” in French and “Development” in English.
+- Category identifiers remain stable URL segments while the locale prefix localizes the user-facing route context.
+- Future developer tools may reuse this category when they satisfy the normal tool quality gate.

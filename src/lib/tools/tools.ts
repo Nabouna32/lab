@@ -202,6 +202,19 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
+    id: "json-formatter", slug: "json-formatter", icon: "{ }",
+    version: 1,
+    complexity: "advanced",
+    categories: ["developpement"],
+    tags: ["json", "formatter", "format", "validate", "validator", "pretty-print", "minify", "developer"],
+    aliases: ["json formatter", "json validator", "json format", "json formatteur", "json", "pretty print", "json minifier"],
+    lifecycle: "published", capabilities: ["clipboard"],
+    content: {
+      fr: { name: "Formateur et validateur JSON", description: "Validez, formatez et minifiez du JSON directement dans votre navigateur." },
+      en: { name: "JSON Formatter & Validator", description: "Validate, format, and minify JSON directly in your browser." },
+    },
+  },
+  {
     id: "bitrate-video", slug: "bitrate-video", icon: "🎬",
     version: 1,
     complexity: "advanced",
