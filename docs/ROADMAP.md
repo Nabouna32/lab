@@ -1,4 +1,4 @@
-# Utiluna — Product Roadmap
+# Loculary — Product Roadmap
 
 This roadmap is intentionally capability-oriented. Exact dates are avoided until the product scope and architecture are sufficiently mature.
 
