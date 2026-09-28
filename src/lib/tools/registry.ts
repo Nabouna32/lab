@@ -76,6 +76,10 @@ const moduleLoaders: Partial<Record<ToolId, ToolModule>> = {
     () => import("@/components/tools/text-counter/TextCounter"),
     () => import("@/components/tools/text-counter/ToolEditorial"),
   ),
+  "json-formatter": createToolModule(
+    () => import("@/components/tools/json-formatter/JsonFormatter"),
+    () => import("@/components/tools/json-formatter/ToolEditorial"),
+  ),
 };
 
 export const toolRegistry: readonly ToolRegistryEntry[] = getPublishedTools().map((tool) => {
