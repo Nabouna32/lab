@@ -18,8 +18,11 @@ class JsonParseError extends Error {
 
 class JsonParser {
   private index = 0;
+  private readonly input: string;
 
-  constructor(private readonly input: string) {}
+  constructor(input: string) {
+    this.input = input;
+  }
 
   parse(): JsonNode {
     this.skipWhitespace();
