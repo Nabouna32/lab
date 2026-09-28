@@ -9,7 +9,7 @@ export function getToolProcessingPresentation(processing: ToolProcessingMetadata
   switch (processing.mode) {
     case "local": return { icon: "🔒", label: t.localLabel, summary: t.localSummary };
     case "external": return { icon: "🌐", label: t.externalLabel, summary: t.externalSummary };
-    case "utiluna-server": return { icon: "☁️", label: t.serverLabel, summary: t.serverSummary };
+    case "server": return { icon: "☁️", label: t.serverLabel, summary: t.serverSummary };
     case "hybrid": return { icon: "🔒 + 🌐", label: t.hybridLabel, summary: t.hybridSummary };
   }
 }
