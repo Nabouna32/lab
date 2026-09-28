@@ -1,4 +1,4 @@
-# Utiluna — UX Specification
+# Loculary — UX Specification
 
 ## Core rule
 
@@ -51,7 +51,7 @@ A visual treatment should have functional value. Animation must not be used mere
 
 ## Tool modes
 
-Utiluna supports two user-facing expression modes:
+Loculary supports two user-facing expression modes:
 
 ### Sober
 
@@ -126,7 +126,7 @@ Examples:
 
 > 🔵 **Service externe** — certaines données sont transmises à un service externe.
 
-> 🔵 **Serveur Utiluna** — ce traitement nécessite notre infrastructure.
+> 🔵 **Serveur Loculary** — ce traitement nécessite notre infrastructure.
 
 > 🟡 **Traitement hybride** — le traitement local est complété par un service externe.
 
