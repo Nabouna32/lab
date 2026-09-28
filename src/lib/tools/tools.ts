@@ -51,6 +51,10 @@ const localProcessingDescriptions = {
     fr: "Les calculs de bitrate vidéo sont effectués directement dans votre navigateur.",
     en: "Video bitrate calculations are performed directly in your browser.",
   },
+  "json-formatter": {
+    fr: "Le JSON saisi est validé et formaté directement dans votre navigateur.",
+    en: "The JSON you enter is validated and formatted directly in your browser.",
+  },
 } satisfies Record<ToolId, { fr: string; en: string }>;
 
 type ToolDefinition = Pick<
