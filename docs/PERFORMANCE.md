@@ -1,4 +1,4 @@
-# Utiluna — Performance
+# Loculary — Performance
 
 Performance is a product constraint. **La richesse doit être progressive.** Users should not pay in loading time, memory, complexity or cognitive load for features they do not need.
 
