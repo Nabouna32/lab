@@ -46,7 +46,7 @@ export default function ToolEditorial({ locale }: { locale: Locale }) {
         </Card>
       </ToolSection>
 
-      <ToolSection title={t.change.title}>
+      <ToolSection title={t.change.title} collapsible>
         <p>{t.change.text}</p>
         <Formula>
           <p className="font-semibold text-[var(--foreground)]">{t.change.formula}</p>
