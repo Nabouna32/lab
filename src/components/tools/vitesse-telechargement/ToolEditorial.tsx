@@ -20,8 +20,8 @@ export default function ToolEditorial({ locale }: { locale: Locale }) {
   const t = content[locale];
   return (
     <>
-      {t.sections.map((section) => (
-        <ToolSection key={section.title} title={section.title}>
+      {t.sections.map((section, index) => (
+        <ToolSection key={section.title} title={section.title} collapsible={index > 0}>
           <p>{section.text}</p>
         </ToolSection>
       ))}
