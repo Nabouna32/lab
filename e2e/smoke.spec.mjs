@@ -127,7 +127,7 @@ test("tool page keeps the primary task hierarchy compact", async ({ page }) => {
 
   const headings = await page.locator("main h2").allTextContents();
   expect(headings.indexOf("Pour continuer")).toBeGreaterThanOrEqual(0);
-  expect(headings.indexOf("🧮 Comment calculer un pourcentage ?")).toBeGreaterThan(
+  expect(headings.indexOf("Calculer un pourcentage")).toBeGreaterThan(
     headings.indexOf("Pour continuer"),
   );
 });
