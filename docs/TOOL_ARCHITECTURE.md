@@ -32,7 +32,7 @@ A server-backed or external tool is not automatically premium. Processing locati
 
 ## Processing
 
-Every tool identifies local, external-service, Utiluna-server or hybrid processing and explains what data is transmitted, where and why.
+Every tool identifies local, external-service, server or hybrid processing and explains what data is transmitted, where and why.
 
 ## Heavy tools
 
