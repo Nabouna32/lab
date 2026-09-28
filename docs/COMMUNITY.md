@@ -1,6 +1,6 @@
-# Utiluna — Community
+# Loculary — Community
 
-Community is a later phase and must not turn Utiluna into a social network.
+Community is a later phase and must not turn Loculary into a social network.
 
 Authenticated users may eventually propose tools, rate tools, comment, report content, create public collections and receive contributor credit. Ratings and comments require accounts; a user has one active rating per tool and can change it.
 
