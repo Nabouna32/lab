@@ -25,7 +25,7 @@ Goal: establish the platform that can grow without creating unnecessary technica
 
 Goal: make the first collection of tools genuinely useful and establish a sustainable rhythm of tool creation plus targeted platform improvements.
 
-- continuously add high-value tools across the validated toolbox categories, using a hybrid selection strategy that prioritizes concrete user value while monitoring category coverage
+- continuously add high-value tools across the validated toolbox categories, using the multi-factor prioritization approach from DEC-038: balancing concrete user value and demand with implementation/maintenance cost, catalog coverage and product principles
 - calculators
 - converters
 - text utilities
