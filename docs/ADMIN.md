@@ -1,4 +1,4 @@
-# Utiluna — Administration
+# Loculary — Administration
 
 The admin area is a real authenticated and authorized backend, not a hidden public page.
 
