@@ -761,3 +761,27 @@ A lightweight map also keeps the planning artifact useful as the catalog evolves
 - Keep individual tool ideas explicitly non-committed until selected for implementation.
 - Review and evolve the map as the catalog and product evidence grow.
 - Do not use the map as a quota or as a substitute for the roadmap.
+
+
+## DEC-038 — Multi-factor tool prioritization
+
+**Status:** Accepted
+
+### Decision
+
+Utiluna should prioritize candidate tools through a multi-factor product judgment rather than a single metric. The main factors are expected user value and identifiable demand, balanced against implementation and maintenance cost/complexity, catalog coverage and coherence, and alignment with Utiluna's product principles such as local-first processing, privacy, performance and accessibility.
+
+No mandatory numerical scoring formula is required. Category coverage remains a decision factor rather than a quota, and a strong value opportunity may take priority over artificial catalog balance.
+
+### Reason
+
+A single criterion can distort catalog growth: demand alone can over-focus the catalog, while estimated value alone can favor interesting but insufficiently useful projects. Considering value, demand, cost, coverage and product fit together supports sustainable growth without creating an unnecessary prioritization system to maintain.
+
+### Consequences
+
+- Candidate tools should be compared using the relevant factors for the decision at hand.
+- Demand and concrete usefulness remain important signals, but neither is an automatic gate.
+- Implementation and maintenance cost/complexity should be considered before committing to a tool.
+- Catalog coverage and coherence should inform selection without becoming artificial quotas.
+- Product principles such as privacy, local-first processing, accessibility and performance can materially affect prioritization.
+- The prioritization model remains qualitative unless future evidence justifies a more formal system.
