@@ -8,7 +8,6 @@ on:
 
 permissions:
   contents: read
-  id-token: write
 
 concurrency:
   group: production-browser-validation
@@ -39,19 +38,9 @@ jobs:
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
-      - name: Get GitHub Actions OIDC token
-        id: vercel-oidc
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const token = await core.getIDToken();
-            core.setSecret(token);
-            core.setOutput("token", token);
-
       - name: Run production browser validation
         env:
           BASE_URL: https://loculary.vercel.app
-          VERCEL_TRUSTED_OIDC_TOKEN: ${{ steps.vercel-oidc.outputs.token }}
         run: npx playwright test e2e/production-visual.spec.mjs
 
       - name: Upload production screenshots
