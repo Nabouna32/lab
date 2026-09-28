@@ -8,7 +8,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 <!-- END:nextjs-agent-rules -->
 
-# Utiluna development rules
+# Loculary development rules
 
 ## Product source of truth
 
@@ -32,7 +32,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 ## Product leadership and autonomy
 
-The agent is explicitly authorized to operate as both **technical lead and product owner** for Utiluna.
+The agent is explicitly authorized to operate as both **technical lead and product owner** for Loculary.
 
 The agent may make routine, reversible, low-risk decisions without asking the user, including:
 
@@ -73,7 +73,7 @@ When several reasonable options exist, make a recommendation and explain the tra
 
 ## Source of truth
 
-- The GitHub repository `Nabouna32/nabouna-project1` is the source of truth for the application code.
+- The GitHub repository `Nabouna32/lab` is the source of truth for the application code.
 - Always inspect the current repository state before making a significant change.
 - Keep `main` deployable and stable.
 
@@ -129,10 +129,10 @@ For larger or risky changes, use a dedicated branch, validate locally, validate 
 - User-facing complexity should remain hidden unless it directly helps the user.
 - Prefer powerful internals behind simple user experiences.
 
-## Utiluna product constraints
+## Loculary product constraints
 
 - Browser-first/local-first processing is the default.
-- Large file upload/download through Utiluna infrastructure is not a default capability.
+- Large file upload/download through Loculary infrastructure is not a default capability.
 - Every tool should eventually declare its processing/privacy classification.
 - Tool pages prioritize the tool and result above secondary documentation.
 - Desktop and mobile are first-class web experiences.
@@ -173,7 +173,7 @@ For larger or risky changes, use a dedicated branch, validate locally, validate 
 
 ## Naming and future renames
 
-- The product name is currently `Utiluna`.
+- The product name is currently `Loculary`.
 - Avoid unnecessary hard-coded coupling to the display name when introducing architecture.
 - If the name changes, search the repository systematically before changing identifiers, metadata, deployment settings, or public URLs.
 
