@@ -56,3 +56,28 @@ test("ToolRenderer resolves runtime components through the registry", async () =
   assert.doesNotMatch(source, /next\/dynamic/);
   assert.doesNotMatch(source, /@\/components\/tools\//);
 });
+
+
+test("registry module ids are valid ToolIds", async () => {
+  const registrySource = await readFile(registryFile, "utf8");
+  const typesSource = await readFile(fileURLToPath(new URL("./types.ts", import.meta.url)), "utf8");
+  const toolIds = [...typesSource.matchAll(/\|\s*"([^"]+)"/g)].map(([, id]) => id);
+  const registeredIds = [...registrySource.matchAll(/^\s+(?:"([^"]+)"|([a-z0-9-]+)): createToolModule\(/gm)].map(
+    ([, quotedId, bareId]) => quotedId ?? bareId,
+  );
+
+  for (const toolId of registeredIds) {
+    assert.ok(toolIds.includes(toolId), `Registry module "${toolId}" must be a declared ToolId.`);
+  }
+});
+
+test("registry module contract contains both runtime and editorial loaders", async () => {
+  const source = await readFile(registryFile, "utf8");
+  const modules = [...source.matchAll(/createToolModule\(\s*([\s\S]*?)\n\s*\),/g)];
+
+  assert.equal(modules.length, (await readPublishedToolIds()).length);
+  for (const [, block] of modules) {
+    const imports = [...block.matchAll(/import\("([^"]+)"\)/g)].map((match) => match[1]);
+    assert.equal(imports.length, 2);
+  }
+});
