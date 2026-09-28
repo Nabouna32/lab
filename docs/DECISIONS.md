@@ -80,19 +80,21 @@ The platform standardizes infrastructure and trust requirements, while custom to
 
 ## DEC-005 — Sober and playful modes
 
-**Status:** Accepted
+**Status:** Superseded — deferred
 
 ### Decision
 
-Provide a user-selectable sober/playful presentation style.
+The previously accepted user-selectable Sober/Playful presentation style is no longer part of the current product scope. It may be reconsidered much later, but no current implementation, architecture or UX requirement should assume that this mode exists.
+
+The current direction is a single modern, polished and visually engaging experience in which individual tools may use appropriate visual identity, animation, transitions and micro-interactions.
 
 ### Reason
 
-Some users want maximum efficiency; others enjoy richer interactions. The product should support both without forcing either style.
+The product should first establish a coherent modern visual language rather than introduce a global presentation-mode choice. This preserves room for distinctive tool experiences without forcing an artificial Sober/Playful split.
 
 ### Consequences
 
-Animations and visual effects must remain accessible and must respect reduced-motion preferences.
+Animations and visual effects remain valid product capabilities and must respect accessibility and reduced-motion preferences. Any future return to selectable presentation modes requires a new explicit product decision.
 
 ---
 
