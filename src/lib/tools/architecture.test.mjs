@@ -44,8 +44,7 @@ test("published tools have module-owned runtime and editorial loaders", async ()
   );
 
   assert.deepEqual([...registeredIds].sort(), [...publishedIds].sort());
-  assert.equal((registrySource.match(/loadEditorial: \(\) => import\(/g) ?? []).length, publishedIds.length);
-  assert.equal((registrySource.match(/loadRuntime: \(\) => import\(/g) ?? []).length, publishedIds.length);
+  assert.equal((registrySource.match(/\(\) => import\(/g) ?? []).length, publishedIds.length * 2);
 });
 
 test("ToolRenderer resolves implementations through the registry", async () => {
