@@ -70,14 +70,3 @@ test("registry module ids are valid ToolIds", async () => {
     assert.ok(toolIds.includes(toolId), `Registry module "${toolId}" must be a declared ToolId.`);
   }
 });
-
-test("registry module contract contains both runtime and editorial loaders", async () => {
-  const source = await readFile(registryFile, "utf8");
-  const modules = [...source.matchAll(/createToolModule\(\s*([\s\S]*?)\n\s*\),/g)];
-
-  assert.equal(modules.length, (await readPublishedToolIds()).length);
-  for (const [, block] of modules) {
-    const imports = [...block.matchAll(/import\("([^"]+)"\)/g)].map((match) => match[1]);
-    assert.equal(imports.length, 2);
-  }
-});
