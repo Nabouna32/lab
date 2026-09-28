@@ -29,3 +29,20 @@ Ask for validation before important product, architectural or irreversible decis
 
 ## Documentation integrity
 Product, UX and architecture Markdown are durable specifications, not code snapshots. Never rewrite them simply to match the current implementation. Before changing them, read and preserve existing decisions; distinguish vision, architecture, foundations, planned work and completed functionality. If code diverges from the vision, correct the code or explicitly document the gap rather than silently redefining the product. Any genuine vision change must be explicit and update the canonical document, its recorded decision and all dependent documents. Make surgical edits and preserve historical intent. Before implementing new functionality, audit the relevant Markdown specifications and decisions.
+
+
+## Current UX/UI direction
+
+The current accepted UX/UI direction is **Modern Utility**. Loculary is treated as a digital toolbox rather than a generic SaaS landing page, dashboard or card-heavy catalog.
+
+Design work should begin from user intentions:
+
+- find something;
+- figure out how to do something;
+- discover.
+
+The preferred journey is **need → find/explore → tool → action → result → next action**.
+
+The homepage should be action/search-first. Tool pages should prioritize the tool, result and relevant actions over documentation or discovery content. The shared design system must provide consistency without forcing every tool into an identical layout.
+
+When evaluating or redesigning UX/UI, existing screens and components may be challenged, removed, moved or replaced. Existing UX documents and implementation patterns must not be treated as immutable product requirements when they conflict with the current accepted direction. Durable changes must still be recorded explicitly in the canonical documentation and decisions.
