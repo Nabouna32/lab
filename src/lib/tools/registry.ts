@@ -4,6 +4,7 @@ import type { Locale } from "@/lib/i18n/config";
 import { getPrimaryToolCategory } from "@/lib/tools/types";
 import type { Tool, ToolId } from "@/lib/tools/types";
 import { getPublishedTools } from "@/lib/tools/catalog";
+import { getCategorySlug, getToolSlug } from "@/lib/tools/routes";
 
 export type ToolEditorialComponent = ComponentType<{ locale: Locale }>;
 export type ToolRuntimeComponent = ComponentType;
@@ -98,8 +99,13 @@ export function getToolRegistryEntry(toolId: string): ToolRegistryEntry | undefi
   return registryById.get(toolId);
 }
 
-export function getToolByRoute(category: string, slug: string): ToolRegistryEntry | undefined {
-  return toolRegistry.find(
-    ({ tool }) => getPrimaryToolCategory(tool) === category && tool.slug === slug,
+export function getToolByRoute(
+  locale: Locale,
+  categorySlug: string,
+  toolSlug: string,
+): ToolRegistryEntry | undefined {
+  return toolRegistry.find(({ tool }) =>
+    getCategorySlug(locale, getPrimaryToolCategory(tool)) === categorySlug &&
+    getToolSlug(locale, tool.id) === toolSlug,
   );
 }
