@@ -32,7 +32,7 @@ export default function Hero({ locale }: { locale: Locale }) {
                 return (
                   <a
                     key={link.toolId}
-                    href={"/" + locale + "/outils/" + getPrimaryToolCategory(tool) + "/" + tool.slug}
+                    href={getToolPath(locale, getPrimaryToolCategory(tool), tool.id)}
                     className="rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 py-1.5 text-xs font-medium text-[var(--muted)] transition-colors hover:border-[var(--accent)] hover:text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] sm:text-sm"
                   >
                     {link.label}
