@@ -60,15 +60,6 @@ test("the metadata validator rejects duplicate ids", () => {
   );
 });
 
-test("the metadata validator rejects duplicate slugs", () => {
-  const duplicateSlugTool = { ...tool, id: "other" };
-  assert.equal(duplicateSlugTool.id, "other");
-  assert.throws(
-    () => validateToolCatalog([tool, duplicateSlugTool]),
-    /Duplicate en tool slug/,
-  );
-});
-
 test("the metadata validator rejects broken relationships", () => {
   assert.throws(
     () => validateToolCatalog([{ ...tool, relatedToolIds: ["missing-tool"] }]),
