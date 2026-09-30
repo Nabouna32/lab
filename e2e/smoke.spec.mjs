@@ -79,7 +79,7 @@ test("tool search shows useful result context", async ({ page }) => {
   await search.press("ArrowDown");
   await expect(page.locator("#tools-page-search-result-0")).toHaveAttribute("aria-selected", "true");
   await search.press("Enter");
-  await expect(page).toHaveURL(/\/fr\/outils\/calculs\/pourcentage$/);
+  await expect(page).toHaveURL(/\/fr\/outils\/calculs\/calculateur-de-pourcentage$/);
 });
 
 test("tool search offers suggestions when nothing matches", async ({ page }) => {
@@ -179,7 +179,7 @@ test("calculator empty and error states explain what to do", async ({ page }) =>
 });
 
 test("calculator empty states are localized in English", async ({ page }) => {
-  await page.goto(`${baseUrl}/en/outils/dates/age`, { waitUntil: "networkidle" });
+  await page.goto(`${baseUrl}/en/tools/dates/age-calculator`, { waitUntil: "networkidle" });
 
   const emptyResults = page.getByText("Enter a birth date to see the calculated age.", { exact: true });
   await expect(emptyResults).toHaveCount(3);
