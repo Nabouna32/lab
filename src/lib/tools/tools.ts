@@ -27,7 +27,7 @@ const localProcessingDescriptions = {
     fr: "Le calcul de durée est effectué directement dans votre navigateur.",
     en: "Duration calculations are performed directly in your browser.",
   },
-  "vitesse-telechargement": {
+  "download-speed": {
     fr: "La conversion de débit est effectuée directement dans votre navigateur.",
     en: "Speed conversion is performed directly in your browser.",
   },
