@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
+import { getToolPath, getToolsPath } from "@/lib/tools/routes";
 import { getPrimaryToolCategory, getToolContent } from "@/lib/tools/types";
 import { getPublishedTools } from "@/lib/tools/catalog";
 
@@ -49,7 +50,7 @@ export default function DiscoverTools({ locale }: { locale: Locale }) {
           <p className="mt-2 text-sm text-[var(--muted)] sm:text-base">{t.home.discoveryDescription}</p>
         </div>
         <Link
-          href={`/${locale}/outils`}
+          href={getToolsPath(locale)}
           className="hidden shrink-0 rounded-full px-3 py-2 text-sm font-bold text-[var(--accent)] transition-colors hover:bg-[var(--accent-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] sm:inline-flex"
         >
           {t.home.explore}
@@ -68,7 +69,7 @@ export default function DiscoverTools({ locale }: { locale: Locale }) {
           return (
             <Link
               key={tool.id}
-              href={`/${locale}/outils/${getPrimaryToolCategory(tool)}/${tool.slug}`}
+              href={getToolPath(locale, getPrimaryToolCategory(tool), tool.id)}
               className="group flex w-[min(78vw,20rem)] min-w-[min(78vw,20rem)] snap-start flex-col rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow-sm)] transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-1 hover:border-[var(--accent)]/40 hover:shadow-[var(--shadow-md)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] sm:w-72 sm:min-w-72"
             >
               <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--accent-soft)] text-2xl transition-transform duration-200 group-hover:scale-105" aria-hidden="true">
