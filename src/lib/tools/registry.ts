@@ -4,6 +4,7 @@ import type { Locale } from "@/lib/i18n/config";
 import { getPrimaryToolCategory } from "@/lib/tools/types";
 import type { Tool, ToolId } from "@/lib/tools/types";
 import { getPublishedTools } from "@/lib/tools/catalog";
+import { getCategorySlug, getToolSlug } from "@/lib/tools/routes";
 
 export type ToolEditorialComponent = ComponentType<{ locale: Locale }>;
 export type ToolRuntimeComponent = ComponentType;
@@ -32,19 +33,19 @@ function createToolModule(
 }
 
 const moduleLoaders: Partial<Record<ToolId, ToolModule>> = {
-  pourcentage: createToolModule(
+  percentage: createToolModule(
     () => import("@/components/tools/percentage/PercentageCalculator"),
     () => import("@/components/tools/percentage/ToolEditorial"),
   ),
-  reduction: createToolModule(
+  discount: createToolModule(
     () => import("@/components/tools/reduction/ReductionCalculator"),
     () => import("@/components/tools/reduction/ToolEditorial"),
   ),
-  tva: createToolModule(
+  vat: createToolModule(
     () => import("@/components/tools/tva/TVACalculator"),
     () => import("@/components/tools/tva/ToolEditorial"),
   ),
-  "regle-de-trois": createToolModule(
+  "rule-of-three": createToolModule(
     () => import("@/components/tools/regle-de-trois/RuleOfThreeCalculator"),
     () => import("@/components/tools/regle-de-trois/ToolEditorial"),
   ),
@@ -52,27 +53,27 @@ const moduleLoaders: Partial<Record<ToolId, ToolModule>> = {
     () => import("@/components/tools/age/AgeCalculator"),
     () => import("@/components/tools/age/ToolEditorial"),
   ),
-  duree: createToolModule(
+  duration: createToolModule(
     () => import("@/components/tools/duree/DurationCalculator"),
     () => import("@/components/tools/duree/ToolEditorial"),
   ),
-  "vitesse-telechargement": createToolModule(
+  "download-speed": createToolModule(
     () => import("@/components/tools/vitesse-telechargement/DownloadSpeedConverter"),
     () => import("@/components/tools/vitesse-telechargement/ToolEditorial"),
   ),
-  "temps-telechargement": createToolModule(
+  "download-time": createToolModule(
     () => import("@/components/tools/temps-telechargement/DownloadTimeCalculator"),
     () => import("@/components/tools/temps-telechargement/ToolEditorial"),
   ),
-  "taille-fichier": createToolModule(
+  "file-size": createToolModule(
     () => import("@/components/tools/taille-fichier/FileSizeCalculator"),
     () => import("@/components/tools/taille-fichier/ToolEditorial"),
   ),
-  "convertisseur-taille": createToolModule(
+  "file-size-converter": createToolModule(
     () => import("@/components/tools/convertisseur-taille/FileSizeConverter"),
     () => import("@/components/tools/convertisseur-taille/ToolEditorial"),
   ),
-  "mots-caracteres": createToolModule(
+  "word-character-counter": createToolModule(
     () => import("@/components/tools/text-counter/TextCounter"),
     () => import("@/components/tools/text-counter/ToolEditorial"),
   ),
@@ -98,8 +99,13 @@ export function getToolRegistryEntry(toolId: string): ToolRegistryEntry | undefi
   return registryById.get(toolId);
 }
 
-export function getToolByRoute(category: string, slug: string): ToolRegistryEntry | undefined {
-  return toolRegistry.find(
-    ({ tool }) => getPrimaryToolCategory(tool) === category && tool.slug === slug,
+export function getToolByRoute(
+  locale: Locale,
+  categorySlug: string,
+  toolSlug: string,
+): ToolRegistryEntry | undefined {
+  return toolRegistry.find(({ tool }) =>
+    getCategorySlug(locale, getPrimaryToolCategory(tool)) === categorySlug &&
+    getToolSlug(locale, tool.id) === toolSlug,
   );
 }

@@ -10,6 +10,7 @@ import { getPrimaryToolCategory, getToolContent } from "@/lib/tools/types";
 import type { Tool } from "@/lib/tools/types";
 import { normalizeSearchText } from "@/lib/tools/search-utils";
 import { Button } from "@/components/ui/Button";
+import { getToolPath } from "@/lib/tools/routes";
 
 type ToolSearchResult = {
   tool: Tool;
@@ -107,15 +108,15 @@ export default function ToolSearch({
     return () => document.removeEventListener("pointerdown", handlePointerDown);
   }, [instanceId]);
 
-  function hrefFor(slug: string, categoryId: string) {
-    return "/" + locale + "/outils/" + categoryId + "/" + slug;
+  function hrefFor(toolId: string, categoryId: string) {
+    return getToolPath(locale, categoryId, toolId);
   }
 
   const visibleResults = normalizeSearchText(query) === resultsQuery ? results : [];
 
   function openResult(index: number) {
     const result = visibleResults[index];
-    if (result) router.push(hrefFor(result.tool.slug, getPrimaryToolCategory(result.tool)));
+    if (result) router.push(hrefFor(result.tool.id, getPrimaryToolCategory(result.tool)));
   }
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
@@ -218,7 +219,7 @@ export default function ToolSearch({
                   <a
                     key={tool.id}
                     id={instanceId + "-result-" + index}
-                    href={hrefFor(tool.slug, getPrimaryToolCategory(tool))}
+                    href={hrefFor(tool.id, getPrimaryToolCategory(tool))}
                     role="option"
                     aria-selected={activeIndex === index}
                     onMouseEnter={() => setActiveIndex(index)}

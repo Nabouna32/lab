@@ -6,6 +6,7 @@ import LanguageSelector from "@/components/layout/LanguageSelector";
 import MobileHeaderSearch from "@/components/layout/MobileHeaderSearch";
 import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
+import { getToolsPath } from "@/lib/tools/routes";
 
 function Icon({
   children,
@@ -57,7 +58,7 @@ export default function Header({ locale }: { locale: Locale }) {
 
           <div className="flex shrink-0 items-center justify-self-end gap-1 sm:gap-1.5">
             <Link
-              href={"/" + locale + "/outils"}
+              href={getToolsPath(locale)}
               className={textLink + " hidden sm:inline-flex"}
             >
               <Icon>
@@ -100,7 +101,7 @@ export default function Header({ locale }: { locale: Locale }) {
                 </Icon>
               </summary>
               <div className="absolute right-0 top-full z-50 mt-2 min-w-52 rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-1.5 shadow-[var(--shadow-md)]">
-                <Link href={"/" + locale + "/outils"} className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-[var(--foreground)] transition-colors hover:bg-[var(--surface-soft)]">
+                <Link href={getToolsPath(locale)} className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-[var(--foreground)] transition-colors hover:bg-[var(--surface-soft)]">
                   <Icon><rect x="4" y="4" width="6" height="6" rx="1" /><rect x="14" y="4" width="6" height="6" rx="1" /><rect x="4" y="14" width="6" height="6" rx="1" /><rect x="14" y="14" width="6" height="6" rx="1" /></Icon>
                   {t.nav.explore}
                 </Link>

@@ -1,6 +1,7 @@
 import { locales } from "../i18n/config.ts";
 import { isPublishedTool } from "./types.ts";
 import type { Tool, ToolCapability, ToolProcessingMode } from "./types.ts";
+import { getToolSlug } from "./routes.ts";
 
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
@@ -18,8 +19,11 @@ function expectedProcessingCapabilities(mode: ToolProcessingMode): Set<ToolCapab
 }
 
 function validateToolQuality(tool: Tool): void {
-  if (!slugPattern.test(tool.slug)) {
-    throw new Error(`Tool "${tool.id}" must declare a URL-safe kebab-case slug.`);
+  for (const locale of locales) {
+    const slug = getToolSlug(locale, tool.id);
+    if (!slugPattern.test(slug)) {
+      throw new Error(`Tool "${tool.id}" must declare a URL-safe kebab-case ${locale} route slug.`);
+    }
   }
 
   if (tool.tags.some((tag) => !tag.trim()) || new Set(tool.tags).size !== tool.tags.length) {
@@ -111,13 +115,17 @@ export function validateToolCatalog(tools: readonly Tool[]): void {
     ids.add(tool.id);
   }
 
-  for (let index = 0; index < tools.length; index += 1) {
-    for (let previousIndex = 0; previousIndex < index; previousIndex += 1) {
-      if (tools[previousIndex].slug === tools[index].slug) {
+  for (const locale of locales) {
+    const slugs = new Map<string, string>();
+    for (const tool of tools) {
+      const slug = getToolSlug(locale, tool.id);
+      const previousId = slugs.get(slug);
+      if (previousId) {
         throw new Error(
-          `Duplicate tool slug: ${tools[index].slug} (tools "${tools[previousIndex].id}" and "${tools[index].id}")`,
+          `Duplicate ${locale} tool slug: ${slug} (tools "${previousId}" and "${tool.id}")`,
         );
       }
+      slugs.set(slug, tool.id);
     }
   }
 

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
+import { getToolsPath } from "@/lib/tools/routes";
 
 export default function Footer({ locale }: { locale: Locale }) {
   const t = getMessages(locale);
@@ -15,7 +16,7 @@ export default function Footer({ locale }: { locale: Locale }) {
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--muted)]">{t.footer.explore}</p>
           <div className="mt-3 flex flex-col items-start gap-2 text-sm">
-            <Link href={"/" + locale + "/outils"} className="hover:text-[var(--accent)]">{t.nav.tools}</Link>
+            <Link href={getToolsPath(locale)} className="hover:text-[var(--accent)]">{t.nav.tools}</Link>
             <Link href={"/" + locale} className="hover:text-[var(--accent)]">{t.nav.home}</Link>
           </div>
         </div>

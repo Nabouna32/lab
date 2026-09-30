@@ -3,15 +3,15 @@ import { validateToolCatalog } from "./metadata.ts";
 import { toolSeo } from "./seo.ts";
 
 const localProcessingDescriptions = {
-  pourcentage: {
+  percentage: {
     fr: "Les calculs de pourcentage sont effectués directement dans votre navigateur.",
     en: "Percentage calculations are performed directly in your browser.",
   },
-  reduction: {
+  discount: {
     fr: "Les calculs de réduction sont effectués directement dans votre navigateur.",
     en: "Discount calculations are performed directly in your browser.",
   },
-  tva: {
+  vat: {
     fr: "Les calculs de TVA sont effectués directement dans votre navigateur.",
     en: "VAT calculations are performed directly in your browser.",
   },
@@ -23,7 +23,7 @@ const localProcessingDescriptions = {
     fr: "Le calcul de votre âge est effectué directement dans votre navigateur.",
     en: "Your age calculation is performed directly in your browser.",
   },
-  duree: {
+  duration: {
     fr: "Le calcul de durée est effectué directement dans votre navigateur.",
     en: "Duration calculations are performed directly in your browser.",
   },
@@ -59,15 +59,15 @@ const localProcessingDescriptions = {
 
 type ToolDefinition = Pick<
   Tool,
-  "id" | "slug" | "icon" | "version" | "complexity" | "categories" | "tags" | "aliases" | "lifecycle" | "content"
+  "id" | "icon" | "version" | "complexity" | "categories" | "tags" | "aliases" | "lifecycle" | "content"
 > & { capabilities?: ToolCapability[] };
 
 const toolDefinitions: ToolDefinition[] = [
   {
-    id: "pourcentage", slug: "pourcentage", icon: "📊",
+    id: "percentage", icon: "📊",
     version: 1,
     complexity: "small",
-    categories: ["calculs"],
+    categories: ["calculations"],
     tags: ["%", "évolution", "différence", "variation", "taux"],
     aliases: ["%", "évolution", "différence", "variation", "taux"],
     lifecycle: "published",    capabilities: ["clipboard"],
@@ -77,10 +77,10 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "reduction", slug: "reduction", icon: "🏷️",
+    id: "discount", icon: "🏷️",
     version: 1,
     complexity: "small",
-    categories: ["calculs"],
+    categories: ["calculations"],
     tags: ["remise", "promotion", "solde", "prix", "économie"],
     aliases: ["remise", "promotion", "solde", "prix", "économie"],
     lifecycle: "published",    content: {
@@ -89,10 +89,10 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "tva", slug: "tva", icon: "💶",
+    id: "vat", icon: "💶",
     version: 1,
     complexity: "small",
-    categories: ["calculs"],
+    categories: ["calculations"],
     tags: ["taxe", "hors taxe", "toutes taxes", "prix", "tva", "ht", "ttc"],
     aliases: ["taxe", "hors taxe", "toutes taxes", "prix", "tva", "ht", "ttc"],
     lifecycle: "published",    content: {
@@ -101,10 +101,10 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "regle-de-trois", slug: "regle-de-trois", icon: "⚖️",
+    id: "rule-of-three", icon: "⚖️",
     version: 1,
     complexity: "small",
-    categories: ["calculs"],
+    categories: ["calculations"],
     tags: ["proportion", "proportionnalité", "ratio", "quantité", "prix"],
     aliases: ["proportion", "proportionnalité", "ratio", "quantité", "prix"],
     lifecycle: "published",
@@ -114,7 +114,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "age", slug: "age", icon: "🎂",
+    id: "age", icon: "🎂",
     version: 1,
     complexity: "small",
     categories: ["dates"],
@@ -127,7 +127,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "duree", slug: "duree", icon: "⏱️",
+    id: "duration", icon: "⏱️",
     version: 1,
     complexity: "small",
     categories: ["dates"],
@@ -140,10 +140,10 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "vitesse-telechargement", slug: "vitesse-telechargement", icon: "🚀",
+    id: "download-speed", icon: "🚀",
     version: 1,
     complexity: "small",
-    categories: ["informatique"],
+    categories: ["computing"],
     tags: ["internet", "débit", "connexion", "megabit", "mégaoctet"],
     aliases: ["internet", "débit", "connexion", "megabit", "mégaoctet"],
     lifecycle: "published",
@@ -153,10 +153,10 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "temps-telechargement", slug: "temps-telechargement", icon: "⏳",
+    id: "download-time", icon: "⏳",
     version: 1,
     complexity: "small",
-    categories: ["informatique"],
+    categories: ["computing"],
     tags: ["download", "internet", "débit", "fichier", "durée"],
     aliases: ["download", "internet", "débit", "fichier", "durée"],
     lifecycle: "published",
@@ -166,10 +166,10 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "taille-fichier", slug: "taille-fichier", icon: "💾",
+    id: "file-size", icon: "💾",
     version: 1,
     complexity: "advanced",
-    categories: ["informatique"],
+    categories: ["computing"],
     tags: ["poids", "taille", "stockage", "vidéo", "audio", "bitrate"],
     aliases: ["poids", "taille", "stockage", "vidéo", "audio", "bitrate"],
     lifecycle: "published",
@@ -179,10 +179,10 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "convertisseur-taille", slug: "convertisseur-taille", icon: "🔄",
+    id: "file-size-converter", icon: "🔄",
     version: 1,
     complexity: "small",
-    categories: ["informatique"],
+    categories: ["computing"],
     tags: ["ko", "mo", "go", "to", "octets", "stockage"],
     aliases: ["ko", "mo", "go", "to", "octets", "stockage"],
     lifecycle: "published",
@@ -192,10 +192,10 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "mots-caracteres", slug: "mots-caracteres", icon: "🔤",
+    id: "word-character-counter", icon: "🔤",
     version: 1,
     complexity: "small",
-    categories: ["fichiers"],
+    categories: ["files"],
     tags: ["texte", "lettres", "compter", "ligne", "paragraphes"],
     aliases: ["texte", "lettres", "compter", "ligne", "paragraphes"],
     lifecycle: "published",
@@ -206,10 +206,10 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "json-formatter", slug: "json-formatter", icon: "{ }",
+    id: "json-formatter", icon: "{ }",
     version: 1,
     complexity: "advanced",
-    categories: ["developpement"],
+    categories: ["development"],
     tags: ["json", "formatter", "format", "validate", "validator", "pretty-print", "minify", "developer"],
     aliases: ["json formatter", "json validator", "json format", "json formatteur", "json", "pretty print", "json minifier"],
     lifecycle: "published", capabilities: ["clipboard"],
@@ -219,7 +219,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "bitrate-video", slug: "bitrate-video", icon: "🎬",
+    id: "video-bitrate", icon: "🎬",
     version: 1,
     complexity: "advanced",
     categories: ["video"],

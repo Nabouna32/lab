@@ -15,6 +15,21 @@ test.beforeEach(async ({ page }) => {
   }
 });
 
+test("root uses English as the default locale", async ({ page }) => {
+  await page.goto(baseUrl, { waitUntil: "networkidle" });
+  await expect(page).toHaveURL(/\/en$/);
+  await expect(page.locator("main")).toBeVisible();
+});
+
+test("language selector maps the same tool to its localized URL", async ({ page }) => {
+  await page.goto(`${baseUrl}/en/tools/calculations/percentage-calculator`, { waitUntil: "networkidle" });
+  await page.getByRole("button", { name: /language/i }).click().catch(() => {});
+  const frenchLink = page.getByRole("link", { name: "Français" });
+  await expect(frenchLink).toBeVisible();
+  await frenchLink.click();
+  await expect(page).toHaveURL(/\/fr\/outils\/calculs\/calculateur-de-pourcentage$/);
+});
+
 test("French homepage renders", async ({ page }) => {
   await page.goto(`${baseUrl}/fr`, { waitUntil: "networkidle" });
 
@@ -92,17 +107,17 @@ test("tools page is search-first and exposes category discovery", async ({ page 
 
 test("all published tool pages render", async ({ page }) => {
   const publishedToolRoutes = [
-    "/fr/outils/calculs/pourcentage",
-    "/fr/outils/calculs/reduction",
-    "/fr/outils/calculs/tva",
+    "/fr/outils/calculs/calculateur-de-pourcentage",
+    "/fr/outils/calculs/calculateur-de-reduction",
+    "/fr/outils/calculs/calculateur-de-tva",
     "/fr/outils/calculs/regle-de-trois",
-    "/fr/outils/dates/age",
-    "/fr/outils/dates/duree",
-    "/fr/outils/informatique/vitesse-telechargement",
-    "/fr/outils/informatique/temps-telechargement",
-    "/fr/outils/informatique/taille-fichier",
-    "/fr/outils/informatique/convertisseur-taille",
-    "/fr/outils/fichiers/mots-caracteres",
+    "/fr/outils/dates/calculateur-d-age",
+    "/fr/outils/dates/calculateur-de-duree",
+    "/fr/outils/informatique/convertisseur-de-debit-internet",
+    "/fr/outils/informatique/calculateur-de-temps-de-telechargement",
+    "/fr/outils/informatique/calculateur-de-taille-de-fichier",
+    "/fr/outils/informatique/convertisseur-de-taille-de-fichier",
+    "/fr/outils/fichiers/compteur-de-mots-et-caracteres",
   ];
 
   for (const route of publishedToolRoutes) {
@@ -115,7 +130,7 @@ test("all published tool pages render", async ({ page }) => {
 
 test("tool page keeps the primary task hierarchy compact", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto(baseUrl + "/fr/outils/calculs/pourcentage", { waitUntil: "networkidle" });
+  await page.goto(baseUrl + "/fr/outils/calculs/calculateur-de-pourcentage", { waitUntil: "networkidle" });
 
   const toolHeader = page.locator("main > header");
   await expect(toolHeader).toBeVisible();
@@ -133,7 +148,7 @@ test("tool page keeps the primary task hierarchy compact", async ({ page }) => {
 });
 
 test("processing status exposes an accessible information disclosure", async ({ page }) => {
-  await page.goto(`${baseUrl}/fr/outils/calculs/pourcentage`, { waitUntil: "networkidle" });
+  await page.goto(`${baseUrl}/fr/outils/calculs/calculateur-de-pourcentage`, { waitUntil: "networkidle" });
 
   const status = page.getByText("Traitement local", { exact: true });
   await expect(status).toBeVisible();
@@ -153,7 +168,7 @@ test("English locale renders", async ({ page }) => {
 });
 
 test("calculator empty and error states explain what to do", async ({ page }) => {
-  await page.goto(`${baseUrl}/fr/outils/calculs/reduction`, { waitUntil: "networkidle" });
+  await page.goto(`${baseUrl}/fr/outils/calculs/calculateur-de-reduction`, { waitUntil: "networkidle" });
 
   await expect(page.getByText("Prix après réduction", { exact: true }).locator("..")).toContainText("Saisissez le prix et la remise");
   await page.getByRole("spinbutton", { name: "Prix initial" }).fill("100");
@@ -172,7 +187,7 @@ test("calculator empty states are localized in English", async ({ page }) => {
 });
 
 test("file size calculator computes an estimated size", async ({ page }) => {
-  await page.goto(`${baseUrl}/fr/outils/informatique/taille-fichier`, { waitUntil: "networkidle" });
+  await page.goto(`${baseUrl}/fr/outils/informatique/calculateur-de-taille-de-fichier`, { waitUntil: "networkidle" });
   await expect(page.getByRole("heading", { level: 1, name: "Taille de fichier" })).toBeVisible();
   await page.getByRole("spinbutton", { name: "Durée" }).fill("10");
   await page.getByRole("spinbutton", { name: "Débit" }).fill("8");
@@ -187,7 +202,7 @@ test("text counter tool renders and counts words", async ({ page }) => {
     });
   });
 
-  await page.goto(`${baseUrl}/fr/outils/fichiers/mots-caracteres`, { waitUntil: "networkidle" });
+  await page.goto(`${baseUrl}/fr/outils/fichiers/compteur-de-mots-et-caracteres`, { waitUntil: "networkidle" });
 
   await expect(page.getByRole("heading", { name: "Mots & caractères" })).toBeVisible();
   const input = page.getByLabel("Votre texte");
