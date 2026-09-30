@@ -21,6 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     title: t.tools.metaTitle,
     description: t.tools.description,
     path: getToolsPath(locale),
+    alternatePaths: Object.fromEntries(locales.map((availableLocale) => [availableLocale, getToolsPath(availableLocale)])),
   }, locale);
 }
 
