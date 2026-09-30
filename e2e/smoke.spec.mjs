@@ -179,7 +179,7 @@ test("calculator empty and error states explain what to do", async ({ page }) =>
 });
 
 test("calculator empty states are localized in English", async ({ page }) => {
-  await page.goto(`${baseUrl}/en/outils/dates/age`, { waitUntil: "networkidle" });
+  await page.goto(`${baseUrl}/en/tools/dates/age-calculator`, { waitUntil: "networkidle" });
 
   const emptyResults = page.getByText("Enter a birth date to see the calculated age.", { exact: true });
   await expect(emptyResults).toHaveCount(3);
