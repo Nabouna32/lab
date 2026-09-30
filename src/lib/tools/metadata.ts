@@ -115,13 +115,17 @@ export function validateToolCatalog(tools: readonly Tool[]): void {
     ids.add(tool.id);
   }
 
-  for (let index = 0; index < tools.length; index += 1) {
-    for (let previousIndex = 0; previousIndex < index; previousIndex += 1) {
-      if (tools[previousIndex].slug === tools[index].slug) {
+  for (const locale of locales) {
+    const slugs = new Map<string, string>();
+    for (const tool of tools) {
+      const slug = getToolSlug(locale, tool.id);
+      const previousId = slugs.get(slug);
+      if (previousId) {
         throw new Error(
-          `Duplicate tool slug: ${tools[index].slug} (tools "${tools[previousIndex].id}" and "${tools[index].id}")`,
+          `Duplicate ${locale} tool slug: ${slug} (tools "${previousId}" and "${tool.id}")`,
         );
       }
+      slugs.set(slug, tool.id);
     }
   }
 
