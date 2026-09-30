@@ -10,7 +10,7 @@ const fixtureTools = [
     categories: ["calculations"],
     lifecycle: "published",
     content: {
-      fr: { name: "Calculateur de percentage", description: "Calculez un percentage." },
+      fr: { name: "Calculateur de pourcentage", description: "Calculez un pourcentage." },
       en: { name: "Percentage Calculator", description: "Calculate a percentage." },
     },
   },
@@ -66,7 +66,7 @@ test("supports multi-term queries with a typo", () => {
 });
 
 test("keeps relevant results when one query term is extra context", () => {
-  assert.equal(ids("calculer un percentage rapidement")[0], "percentage");
+  assert.equal(ids("calculer un pourcentage rapidement")[0], "percentage");
 });
 
 test("does not fuzzy-match very short terms", () => {
