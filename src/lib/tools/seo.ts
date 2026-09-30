@@ -3,7 +3,7 @@ import type { ToolId, ToolSeoMetadata } from "./types";
 
 export const toolSeo = {
   percentage: {
-    fr: { title: "Calcul de percentage | Loculary", description: "Calculez un percentage, une évolution ou une différence entre deux valeurs." },
+    fr: { title: "Calcul de pourcentage | Loculary", description: "Calculez un pourcentage, une évolution ou une différence entre deux valeurs." },
     en: { title: "Percentage calculator | Loculary", description: "Calculate a percentage, a change, or the difference between two values." },
   },
   discount: {
