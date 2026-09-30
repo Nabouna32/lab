@@ -4,28 +4,25 @@ import { getRelatedTools } from "./relations.ts";
 
 const tools = [
   {
-    id: "pourcentage",
-    slug: "pourcentage",
+    id: "percentage",
     icon: "📊",
-    content: { fr: { name: "Calculateur de pourcentage", description: "Calculez un pourcentage." } },
+    content: { fr: { name: "Calculateur de percentage", description: "Calculez un percentage." } },
     tags: ["prix", "taux"],
     aliases: [],
-    categories: ["calculs"],
+    categories: ["calculations"],
     lifecycle: "published",
   },
   {
-    id: "reduction",
-    slug: "reduction",
+    id: "discount",
     icon: "🏷️",
     content: { fr: { name: "Calculateur de réduction", description: "Calculez une remise." } },
     tags: ["prix", "remise"],
     aliases: [],
-    categories: ["calculs"],
+    categories: ["calculations"],
     lifecycle: "published",
   },
   {
     id: "age",
-    slug: "age",
     icon: "🎂",
     content: { fr: { name: "Calculateur d'âge", description: "Calculez un âge." } },
     tags: ["date", "naissance"],
@@ -34,23 +31,22 @@ const tools = [
     lifecycle: "published",
   },
   {
-    id: "tva",
-    slug: "tva",
+    id: "vat",
     icon: "💶",
     content: { fr: { name: "Calculateur TVA", description: "Calculez une TVA." } },
     tags: ["prix", "taxe"],
     aliases: [],
-    categories: ["calculs"],
+    categories: ["calculations"],
     lifecycle: "draft",
   },
 ];
 
 test("related tools use shared metadata and category", () => {
   const related = getRelatedTools(tools[0], tools);
-  assert.equal(related[0].id, "reduction");
+  assert.equal(related[0].id, "discount");
 });
 
 test("unavailable tools are never returned", () => {
   const related = getRelatedTools(tools[0], tools);
-  assert.equal(related.some((tool) => tool.id === "tva"), false);
+  assert.equal(related.some((tool) => tool.id === "vat"), false);
 });
