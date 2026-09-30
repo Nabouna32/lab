@@ -64,7 +64,7 @@ type ToolDefinition = Pick<
 
 const toolDefinitions: ToolDefinition[] = [
   {
-    id: "percentage", slug: "pourcentage", icon: "📊",
+    id: "percentage", icon: "📊",
     version: 1,
     complexity: "small",
     categories: ["calculations"],
@@ -77,7 +77,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "discount", slug: "reduction", icon: "🏷️",
+    id: "discount", icon: "🏷️",
     version: 1,
     complexity: "small",
     categories: ["calculations"],
@@ -89,7 +89,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "vat", slug: "tva", icon: "💶",
+    id: "vat", icon: "💶",
     version: 1,
     complexity: "small",
     categories: ["calculations"],
@@ -101,7 +101,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "rule-of-three", slug: "regle-de-trois", icon: "⚖️",
+    id: "rule-of-three", icon: "⚖️",
     version: 1,
     complexity: "small",
     categories: ["calculations"],
@@ -114,7 +114,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "age", slug: "age", icon: "🎂",
+    id: "age", icon: "🎂",
     version: 1,
     complexity: "small",
     categories: ["dates"],
@@ -127,7 +127,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "duration", slug: "duree", icon: "⏱️",
+    id: "duration", icon: "⏱️",
     version: 1,
     complexity: "small",
     categories: ["dates"],
@@ -140,7 +140,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "download-speed", slug: "vitesse-telechargement", icon: "🚀",
+    id: "download-speed", icon: "🚀",
     version: 1,
     complexity: "small",
     categories: ["computing"],
@@ -153,7 +153,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "download-time", slug: "temps-telechargement", icon: "⏳",
+    id: "download-time", icon: "⏳",
     version: 1,
     complexity: "small",
     categories: ["computing"],
@@ -166,7 +166,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "file-size", slug: "taille-fichier", icon: "💾",
+    id: "file-size", icon: "💾",
     version: 1,
     complexity: "advanced",
     categories: ["computing"],
@@ -179,7 +179,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "file-size-converter", slug: "convertisseur-taille", icon: "🔄",
+    id: "file-size-converter", icon: "🔄",
     version: 1,
     complexity: "small",
     categories: ["computing"],
@@ -192,7 +192,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "word-character-counter", slug: "mots-caracteres", icon: "🔤",
+    id: "word-character-counter", icon: "🔤",
     version: 1,
     complexity: "small",
     categories: ["files"],
@@ -206,7 +206,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "json-formatter", slug: "json-formatter", icon: "{ }",
+    id: "json-formatter", icon: "{ }",
     version: 1,
     complexity: "advanced",
     categories: ["development"],
@@ -219,7 +219,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "video-bitrate", slug: "bitrate-video", icon: "🎬",
+    id: "video-bitrate", icon: "🎬",
     version: 1,
     complexity: "advanced",
     categories: ["video"],
