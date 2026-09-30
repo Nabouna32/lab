@@ -79,7 +79,7 @@ test("tool search shows useful result context", async ({ page }) => {
   await search.press("ArrowDown");
   await expect(page.locator("#tools-page-search-result-0")).toHaveAttribute("aria-selected", "true");
   await search.press("Enter");
-  await expect(page).toHaveURL(/\/fr\/outils\/calculs\/pourcentage$/);
+  await expect(page).toHaveURL(/\/fr\/outils\/calculs\/calculateur-de-pourcentage$/);
 });
 
 test("tool search offers suggestions when nothing matches", async ({ page }) => {
