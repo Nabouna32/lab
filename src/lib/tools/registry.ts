@@ -32,47 +32,47 @@ function createToolModule(
 }
 
 const moduleLoaders: Partial<Record<ToolId, ToolModule>> = {
-  pourcentage: createToolModule(
+  percentage: createToolModule(
     () => import("@/components/tools/percentage/PercentageCalculator"),
     () => import("@/components/tools/percentage/ToolEditorial"),
   ),
-  reduction: createToolModule(
-    () => import("@/components/tools/reduction/ReductionCalculator"),
-    () => import("@/components/tools/reduction/ToolEditorial"),
+  discount: createToolModule(
+    () => import("@/components/tools/discount/ReductionCalculator"),
+    () => import("@/components/tools/discount/ToolEditorial"),
   ),
-  tva: createToolModule(
-    () => import("@/components/tools/tva/TVACalculator"),
-    () => import("@/components/tools/tva/ToolEditorial"),
+  vat: createToolModule(
+    () => import("@/components/tools/vat/TVACalculator"),
+    () => import("@/components/tools/vat/ToolEditorial"),
   ),
-  "regle-de-trois": createToolModule(
-    () => import("@/components/tools/regle-de-trois/RuleOfThreeCalculator"),
-    () => import("@/components/tools/regle-de-trois/ToolEditorial"),
+  "rule-of-three": createToolModule(
+    () => import("@/components/tools/rule-of-three/RuleOfThreeCalculator"),
+    () => import("@/components/tools/rule-of-three/ToolEditorial"),
   ),
   age: createToolModule(
     () => import("@/components/tools/age/AgeCalculator"),
     () => import("@/components/tools/age/ToolEditorial"),
   ),
-  duree: createToolModule(
-    () => import("@/components/tools/duree/DurationCalculator"),
-    () => import("@/components/tools/duree/ToolEditorial"),
+  duration: createToolModule(
+    () => import("@/components/tools/duration/DurationCalculator"),
+    () => import("@/components/tools/duration/ToolEditorial"),
   ),
-  "vitesse-telechargement": createToolModule(
-    () => import("@/components/tools/vitesse-telechargement/DownloadSpeedConverter"),
-    () => import("@/components/tools/vitesse-telechargement/ToolEditorial"),
+  "download-speed": createToolModule(
+    () => import("@/components/tools/download-speed/DownloadSpeedConverter"),
+    () => import("@/components/tools/download-speed/ToolEditorial"),
   ),
-  "temps-telechargement": createToolModule(
-    () => import("@/components/tools/temps-telechargement/DownloadTimeCalculator"),
-    () => import("@/components/tools/temps-telechargement/ToolEditorial"),
+  "download-time": createToolModule(
+    () => import("@/components/tools/download-time/DownloadTimeCalculator"),
+    () => import("@/components/tools/download-time/ToolEditorial"),
   ),
-  "taille-fichier": createToolModule(
-    () => import("@/components/tools/taille-fichier/FileSizeCalculator"),
-    () => import("@/components/tools/taille-fichier/ToolEditorial"),
+  "file-size": createToolModule(
+    () => import("@/components/tools/file-size/FileSizeCalculator"),
+    () => import("@/components/tools/file-size/ToolEditorial"),
   ),
-  "convertisseur-taille": createToolModule(
-    () => import("@/components/tools/convertisseur-taille/FileSizeConverter"),
-    () => import("@/components/tools/convertisseur-taille/ToolEditorial"),
+  "file-size-converter": createToolModule(
+    () => import("@/components/tools/file-size-converter/FileSizeConverter"),
+    () => import("@/components/tools/file-size-converter/ToolEditorial"),
   ),
-  "mots-caracteres": createToolModule(
+  "word-character-counter": createToolModule(
     () => import("@/components/tools/text-counter/TextCounter"),
     () => import("@/components/tools/text-counter/ToolEditorial"),
   ),
