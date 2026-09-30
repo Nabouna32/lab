@@ -3,6 +3,7 @@ import { getMessages } from "@/lib/i18n/messages";
 import { getToolById } from "@/lib/tools/catalog";
 import { getPrimaryToolCategory } from "@/lib/tools/types";
 import ToolSearch from "@/components/tools/ToolSearch";
+import { getToolPath } from "@/lib/tools/routes";
 
 export default function Hero({ locale }: { locale: Locale }) {
   const t = getMessages(locale);

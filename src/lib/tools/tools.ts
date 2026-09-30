@@ -15,7 +15,7 @@ const localProcessingDescriptions = {
     fr: "Les calculs de TVA sont effectués directement dans votre navigateur.",
     en: "VAT calculations are performed directly in your browser.",
   },
-  "regle-de-trois": {
+  "rule-of-three": {
     fr: "Les calculs de proportionnalité sont effectués directement dans votre navigateur.",
     en: "Proportionality calculations are performed directly in your browser.",
   },
