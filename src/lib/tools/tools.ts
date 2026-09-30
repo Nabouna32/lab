@@ -35,19 +35,19 @@ const localProcessingDescriptions = {
     fr: "L'estimation du temps de téléchargement est effectuée directement dans votre navigateur.",
     en: "Download time estimation is performed directly in your browser.",
   },
-  "taille-fichier": {
+  "file-size": {
     fr: "Le calcul de taille de fichier est effectué directement dans votre navigateur.",
     en: "File size calculations are performed directly in your browser.",
   },
-  "convertisseur-taille": {
+  "file-size-converter": {
     fr: "La conversion de taille est effectuée directement dans votre navigateur.",
     en: "File size conversion is performed directly in your browser.",
   },
-  "mots-caracteres": {
+  "word-character-counter": {
     fr: "Le texte saisi est analysé directement dans votre navigateur.",
     en: "The text you enter is analyzed directly in your browser.",
   },
-  "bitrate-video": {
+  "video-bitrate": {
     fr: "Les calculs de bitrate vidéo sont effectués directement dans votre navigateur.",
     en: "Video bitrate calculations are performed directly in your browser.",
   },
