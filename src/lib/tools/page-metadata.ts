@@ -9,6 +9,7 @@ export type PublicPageSeo = {
   title: string;
   description: string;
   path: string;
+  alternatePaths?: Partial<Record<Locale, string>>;
 };
 
 export function getPublicPageMetadata(seo: PublicPageSeo, locale: Locale): Metadata {
@@ -17,7 +18,7 @@ export function getPublicPageMetadata(seo: PublicPageSeo, locale: Locale): Metad
   const alternates = Object.fromEntries(
     locales.map((availableLocale) => [
       availableLocale,
-      new URL(`/${availableLocale}${seo.path.slice(`/${locale}`.length)}`, siteUrl).toString(),
+      new URL(seo.alternatePaths?.[availableLocale] ?? `/${availableLocale}${seo.path.slice(`/${locale}`.length)}`, siteUrl).toString(),
     ]),
   );
 
