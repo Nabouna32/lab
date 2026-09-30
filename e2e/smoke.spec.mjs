@@ -118,6 +118,7 @@ test("all published tool pages render", async ({ page }) => {
     "/fr/outils/informatique/calculateur-de-taille-de-fichier",
     "/fr/outils/informatique/convertisseur-de-taille-de-fichier",
     "/fr/outils/fichiers/compteur-de-mots-et-caracteres",
+  "/en/tools/files/word-character-counter",
   ];
 
   for (const route of publishedToolRoutes) {
