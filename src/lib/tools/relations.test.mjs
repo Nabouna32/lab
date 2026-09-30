@@ -6,7 +6,7 @@ const tools = [
   {
     id: "percentage",
     icon: "📊",
-    content: { fr: { name: "Calculateur de percentage", description: "Calculez un percentage." } },
+    content: { fr: { name: "Calculateur de pourcentage", description: "Calculez un pourcentage." } },
     tags: ["prix", "taux"],
     aliases: [],
     categories: ["calculations"],
