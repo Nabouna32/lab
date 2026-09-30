@@ -31,7 +31,7 @@ const localProcessingDescriptions = {
     fr: "La conversion de débit est effectuée directement dans votre navigateur.",
     en: "Speed conversion is performed directly in your browser.",
   },
-  "temps-telechargement": {
+  "download-time": {
     fr: "L'estimation du temps de téléchargement est effectuée directement dans votre navigateur.",
     en: "Download time estimation is performed directly in your browser.",
   },
