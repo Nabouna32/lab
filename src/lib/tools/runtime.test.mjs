@@ -31,7 +31,7 @@ test("clipboard access is enforced through the tool runtime", async () => {
   assert.match(copyButton, /useToolRuntime/);
   assert.doesNotMatch(copyButton, /copyTextToClipboard/);
 
-  for (const toolId of ["pourcentage", "mots-caracteres"]) {
+  for (const toolId of ["percentage", "word-character-counter"]) {
     const entry = tools.match(new RegExp(`id: "${toolId}"[\\s\\S]*?(?=\\n  \\},|\\n\\]\\.map)`));
     assert.ok(entry, `Tool "${toolId}" must exist in the catalog.`);
     assert.match(entry[0], /capabilities: \["clipboard"\]/);
