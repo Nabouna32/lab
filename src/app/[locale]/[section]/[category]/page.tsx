@@ -7,7 +7,7 @@ import { getToolsByCategory } from "@/lib/tools/catalog";
 import { getMessages } from "@/lib/i18n/messages";
 import { getPublicPageMetadata } from "@/lib/tools/page-metadata";
 import { locales, type Locale } from "@/lib/i18n/config";
-import { getCategoryIdBySlug, getCategoryPath, getToolsPath } from "@/lib/tools/routes";
+import { getCategoryIdBySlug, getCategoryPath, getCategorySlug, getToolsPath } from "@/lib/tools/routes";
 
 export function generateStaticParams() {
   return locales.flatMap((locale) =>
@@ -16,7 +16,7 @@ export function generateStaticParams() {
       .map((category) => ({
         locale,
         section: getToolsPath(locale).split("/")[2],
-        category: getCategoryIdBySlug(locale, getCategoryPath(locale, category.id).split("/").pop()!) ?? category.id,
+        category: getCategorySlug(locale, category.id),
       })),
   );
 }
