@@ -5,11 +5,10 @@ import { getPrimaryToolCategory, isPublishedTool } from "./types.ts";
 
 const tool = {
   id: "fixture",
-  slug: "fixture",
   icon: "🧮",
   version: 1,
   complexity: "small",
-  categories: ["calculs"],
+  categories: ["calculations"],
   content: {
     fr: { name: "Fixture", description: "Fixture" },
     en: { name: "Fixture", description: "Fixture" },
@@ -42,7 +41,7 @@ const tool = {
 
 test("the canonical tool contract derives publication and primary category from structured metadata", () => {
   assert.equal(isPublishedTool(tool), true);
-  assert.equal(getPrimaryToolCategory(tool), "calculs");
+  assert.equal(getPrimaryToolCategory(tool), "calculations");
   assert.equal("name" in tool, false);
   assert.equal("description" in tool, false);
   assert.equal("keywords" in tool, false);
@@ -62,12 +61,11 @@ test("the metadata validator rejects duplicate ids", () => {
 });
 
 test("the metadata validator rejects duplicate slugs", () => {
-  const duplicateSlugTool = { ...tool, id: "other", slug: "fixture" };
+  const duplicateSlugTool = { ...tool, id: "other" };
   assert.equal(duplicateSlugTool.id, "other");
-  assert.equal(duplicateSlugTool.slug, tool.slug);
   assert.throws(
     () => validateToolCatalog([tool, duplicateSlugTool]),
-    /Duplicate tool slug/,
+    /Duplicate en tool slug/,
   );
 });
 
