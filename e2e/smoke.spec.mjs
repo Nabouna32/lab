@@ -15,6 +15,21 @@ test.beforeEach(async ({ page }) => {
   }
 });
 
+test("root uses English as the default locale", async ({ page }) => {
+  await page.goto(baseUrl, { waitUntil: "networkidle" });
+  await expect(page).toHaveURL(/\/en$/);
+  await expect(page.locator("main")).toBeVisible();
+});
+
+test("language selector maps the same tool to its localized URL", async ({ page }) => {
+  await page.goto(`${baseUrl}/en/tools/calculations/percentage-calculator`, { waitUntil: "networkidle" });
+  await page.getByRole("button", { name: /language/i }).click().catch(() => {});
+  const frenchLink = page.getByRole("link", { name: "Français" });
+  await expect(frenchLink).toBeVisible();
+  await frenchLink.click();
+  await expect(page).toHaveURL(/\/fr\/outils\/calculs\/calculateur-de-pourcentage$/);
+});
+
 test("French homepage renders", async ({ page }) => {
   await page.goto(`${baseUrl}/fr`, { waitUntil: "networkidle" });
 
