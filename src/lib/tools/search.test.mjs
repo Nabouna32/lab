@@ -6,7 +6,7 @@ const fixtureTools = [
   {
     id: "percentage",
     tags: ["%", "taux"],
-    aliases: ["percentage"],
+    aliases: ["pourcentage"],
     categories: ["calculations"],
     lifecycle: "published",
     content: {
