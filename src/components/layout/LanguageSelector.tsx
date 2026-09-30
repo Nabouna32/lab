@@ -5,14 +5,13 @@ import { usePathname } from "next/navigation";
 import LanguageFlag from "@/components/layout/LanguageFlag";
 import { getLanguage, isLocale, type Locale, locales } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
+import { getLocalizedPath } from "@/lib/tools/routes";
 
 export default function LanguageSelector({ locale }: { locale: Locale }) {
   const pathname = usePathname();
   const segment = pathname.split("/")[1];
   const currentLocale: Locale = isLocale(segment) ? segment : locale;
-  const suffix = pathname.startsWith("/" + currentLocale)
-    ? pathname.slice(currentLocale.length + 1)
-    : "";
+
   const currentLanguage = getLanguage(currentLocale);
   const t = getMessages(currentLocale);
 
@@ -29,7 +28,7 @@ export default function LanguageSelector({ locale }: { locale: Locale }) {
       <div className="absolute right-0 top-full z-50 mt-2 min-w-44 rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-1.5 shadow-[var(--shadow-md)]">
         {locales.map((item) => {
           const language = getLanguage(item);
-          const href = "/" + item + (suffix || "");
+          const href = getLocalizedPath(pathname, item);
           return (
             <Link
               key={item}
