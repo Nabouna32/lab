@@ -108,8 +108,8 @@ export default function ToolSearch({
     return () => document.removeEventListener("pointerdown", handlePointerDown);
   }, [instanceId]);
 
-  function hrefFor(slug: string, categoryId: string) {
-    return getToolPath(locale, categoryId, slug);
+  function hrefFor(toolId: string, categoryId: string) {
+    return getToolPath(locale, categoryId, toolId);
   }
 
   const visibleResults = normalizeSearchText(query) === resultsQuery ? results : [];
