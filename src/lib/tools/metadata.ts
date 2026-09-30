@@ -1,6 +1,7 @@
 import { locales } from "../i18n/config.ts";
 import { isPublishedTool } from "./types.ts";
 import type { Tool, ToolCapability, ToolProcessingMode } from "./types.ts";
+import { getToolSlug } from "./routes.ts";
 
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
@@ -18,8 +19,11 @@ function expectedProcessingCapabilities(mode: ToolProcessingMode): Set<ToolCapab
 }
 
 function validateToolQuality(tool: Tool): void {
-  if (!slugPattern.test(tool.slug)) {
-    throw new Error(`Tool "${tool.id}" must declare a URL-safe kebab-case slug.`);
+  for (const locale of locales) {
+    const slug = getToolSlug(locale, tool.id);
+    if (!slugPattern.test(slug)) {
+      throw new Error(`Tool "${tool.id}" must declare a URL-safe kebab-case ${locale} route slug.`);
+    }
   }
 
   if (tool.tags.some((tag) => !tag.trim()) || new Set(tool.tags).size !== tool.tags.length) {
