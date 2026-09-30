@@ -87,7 +87,7 @@ export default function DiscoverTools({ locale }: { locale: Locale }) {
       </div>
 
       <Link
-        href={`/${locale}/outils`}
+        href={getToolsPath(locale)}
         className="mt-2 inline-flex rounded-full px-3 py-2 text-sm font-bold text-[var(--accent)] transition-colors hover:bg-[var(--accent-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] sm:hidden"
       >
         {t.home.explore}
