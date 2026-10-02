@@ -67,6 +67,10 @@ const localProcessingDescriptions = {
     fr: "Les UUID sont générés aléatoirement directement dans votre navigateur.",
     en: "UUIDs are generated randomly directly in your browser.",
   },
+  "unix-timestamp": {
+    fr: "Les conversions de timestamp Unix sont effectuées directement dans votre navigateur.",
+    en: "Unix timestamp conversions are performed directly in your browser.",
+  },
 } satisfies Record<ToolId, { fr: string; en: string }>;
 
 type ToolDefinition = Pick<
@@ -269,6 +273,19 @@ const toolDefinitions: ToolDefinition[] = [
     content: {
       fr: { name: "Encodeur et décodeur d’URL", description: "Encodez ou décodez du texte et des URL directement dans votre navigateur." },
       en: { name: "URL Encoder & Decoder", description: "Encode or decode text and URLs directly in your browser." },
+    },
+  },
+  {
+    id: "unix-timestamp", icon: "🕐",
+    version: 1,
+    complexity: "small",
+    categories: ["development"],
+    tags: ["unix", "timestamp", "epoch", "date", "time", "seconds", "milliseconds", "developer"],
+    aliases: ["unix timestamp", "unix time", "epoch", "epoch converter", "timestamp converter", "convertisseur timestamp", "timestamp unix"],
+    lifecycle: "published",
+    content: {
+      fr: { name: "Convertisseur de timestamp Unix", description: "Convertissez un timestamp Unix en date ou une date en timestamp, en secondes ou millisecondes." },
+      en: { name: "Unix Timestamp Converter", description: "Convert Unix timestamps to dates or dates to timestamps in seconds or milliseconds." },
     },
   },
   {
