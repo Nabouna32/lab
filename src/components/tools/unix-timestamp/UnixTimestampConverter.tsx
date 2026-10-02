@@ -47,7 +47,7 @@ export default function UnixTimestampConverter() {
   }
 
   const resultText = result
-    ? \`\${formatTimestamp(result.timestampSeconds)} \${t.seconds} · \${formatTimestamp(result.timestampMilliseconds)} \${t.milliseconds}\`
+    ? `${formatTimestamp(result.timestampSeconds)} ${t.seconds} · ${formatTimestamp(result.timestampMilliseconds)} ${t.milliseconds}`
     : "";
 
   return (
