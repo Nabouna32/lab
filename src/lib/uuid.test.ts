@@ -13,4 +13,6 @@ test("rejects counts outside the supported range", () => {
   assert.throws(() => generateUuids(0), RangeError);
   assert.throws(() => generateUuids(51), RangeError);
   assert.throws(() => generateUuids(1.5), RangeError);
+  assert.equal(generateUuids(1).length, 1);
+  assert.equal(generateUuids(50).length, 50);
 });
