@@ -27,7 +27,8 @@ export default function UnixTimestampConverter() {
   const [error, setError] = useState(false);
 
   function convertTimestamp() {
-    const next = timestampToDate(Number(timestamp.trim()), unit);
+    const raw = timestamp.trim();
+    const next = raw ? timestampToDate(Number(raw), unit) : null;
     setResult(next);
     setError(next === null);
   }
