@@ -1,5 +1,7 @@
 import { expect, test } from "@playwright/test";
 
+test.use({ timezoneId: "UTC" });
+
 test("Unix timestamp converter converts seconds to a UTC date", async ({ page }) => {
   await page.goto("/fr/outils/developpement/convertisseur-timestamp-unix");
   await expect(page.getByRole("heading", { name: /timestamp unix/i })).toBeVisible();
