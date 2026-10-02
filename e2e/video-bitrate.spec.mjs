@@ -23,7 +23,18 @@ test("video bitrate calculator estimates file size in English", async ({ page })
   await expect(page.getByText("750 MB · 0.75 GB", { exact: true })).toBeVisible();
 });
 
-test("video bitrate calculator supports kbps without unit ambiguity", async ({ page }) => {\n  await page.goto(baseUrl + "/fr/outils/video/calculateur-de-bitrate-video", { waitUntil: "networkidle" });\n\n  await page.getByRole("button", { name: "Estimer la taille" }).click();\n  await page.getByLabel("Minutes").fill("10");\n  await page.getByLabel("Bitrate total moyen").fill("700");\n  await page.getByLabel("Unité de débit").selectOption("kbps");\n\n  await expect(page.getByText("52,5 MB · 0,052 GB", { exact: true })).toBeVisible();\n});\n\ntest("video bitrate calculator rejects an invalid duration", async ({ page }) => {
+test("video bitrate calculator supports kbps without unit ambiguity", async ({ page }) => {
+  await page.goto(baseUrl + "/fr/outils/video/calculateur-de-bitrate-video", { waitUntil: "networkidle" });
+
+  await page.getByRole("button", { name: "Estimer la taille" }).click();
+  await page.getByLabel("Minutes").fill("10");
+  await page.getByLabel("Bitrate total moyen").fill("700");
+  await page.getByLabel("Unité de débit").selectOption("kbps");
+
+  await expect(page.getByText("52,5 MB · 0,053 GB", { exact: true })).toBeVisible();
+});
+
+test("video bitrate calculator rejects an invalid duration", async ({ page }) => {
   await page.goto(baseUrl + "/fr/outils/video/calculateur-de-bitrate-video", { waitUntil: "networkidle" });
 
   await page.getByLabel("Minutes").fill("60");
