@@ -5,17 +5,18 @@ import { getPublishedTools } from "@/lib/tools/catalog";
 export type ToolCategory = { id: string; icon: string };
 
 const categoryNames: Record<Locale, Record<string, string>> = {
-  fr: { calculs: "Calculs", dates: "Dates & temps", informatique: "Informatique", images: "Images", fichiers: "Fichiers & PDF", video: "Vidéo" },
-  en: { calculs: "Calculations", dates: "Dates & time", informatique: "Computing", images: "Images", fichiers: "Files & PDF", video: "Video" },
+  fr: { calculations: "Calculs", dates: "Dates & temps", computing: "Informatique", images: "Images", files: "Fichiers & PDF", video: "Vidéo", development: "Développement" },
+  en: { calculations: "Calculations", dates: "Dates & time", computing: "Computing", images: "Images", files: "Files & PDF", video: "Video", development: "Development" },
 };
 
 export const categories: ToolCategory[] = [
-  { id: "calculs", icon: "🧮" },
+  { id: "calculations", icon: "🧮" },
   { id: "dates", icon: "📅" },
-  { id: "informatique", icon: "💻" },
+  { id: "computing", icon: "💻" },
   { id: "images", icon: "🖼️" },
-  { id: "fichiers", icon: "📄" },
+  { id: "files", icon: "📄" },
   { id: "video", icon: "🎬" },
+  { id: "development", icon: "🧑‍💻" },
 ];
 
 export function getCategoryName(locale: Locale, categoryId: string): string {

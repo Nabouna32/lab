@@ -4,10 +4,10 @@ import { searchTools } from "./search.ts";
 
 const fixtureTools = [
   {
-    id: "pourcentage",
+    id: "percentage",
     tags: ["%", "taux"],
     aliases: ["pourcentage"],
-    categories: ["calculs"],
+    categories: ["calculations"],
     lifecycle: "published",
     content: {
       fr: { name: "Calculateur de pourcentage", description: "Calculez un pourcentage." },
@@ -15,10 +15,10 @@ const fixtureTools = [
     },
   },
   {
-    id: "regle-de-trois",
+    id: "rule-of-three",
     tags: ["proportion"],
     aliases: ["ratio"],
-    categories: ["calculs"],
+    categories: ["calculations"],
     lifecycle: "published",
     content: {
       fr: { name: "Règle de trois", description: "Résolvez une proportionnalité." },
@@ -26,10 +26,10 @@ const fixtureTools = [
     },
   },
   {
-    id: "temps-telechargement",
+    id: "download-time",
     tags: ["download", "internet"],
     aliases: ["telechargement"],
-    categories: ["informatique"],
+    categories: ["computing"],
     lifecycle: "published",
     content: {
       fr: { name: "Temps de téléchargement", description: "Estimez une durée de téléchargement." },
@@ -43,30 +43,30 @@ function ids(query, locale = "fr") {
 }
 
 test("matches localized names and ignores accents", () => {
-  assert.equal(ids("regle")[0], "regle-de-trois");
-  assert.equal(ids("règle")[0], "regle-de-trois");
+  assert.equal(ids("regle")[0], "rule-of-three");
+  assert.equal(ids("règle")[0], "rule-of-three");
 });
 
 test("matches aliases and keywords", () => {
-  assert.equal(ids("internet")[0], "temps-telechargement");
-  assert.equal(ids("telechargement")[0], "temps-telechargement");
+  assert.equal(ids("internet")[0], "download-time");
+  assert.equal(ids("telechargement")[0], "download-time");
 });
 
 test("tolerates a small typo in a tool name", () => {
-  assert.equal(ids("pourcentge")[0], "pourcentage");
-  assert.equal(ids("telechargemnt")[0], "temps-telechargement");
+  assert.equal(ids("pourcentge")[0], "percentage");
+  assert.equal(ids("telechargemnt")[0], "download-time");
 });
 
 test("supports natural-language queries with numbers and intent words", () => {
-  assert.equal(ids("calculer 17 % de 283")[0], "pourcentage");
+  assert.equal(ids("calculer 17 % de 283")[0], "percentage");
 });
 
 test("supports multi-term queries with a typo", () => {
-  assert.equal(ids("calculer pourcentge")[0], "pourcentage");
+  assert.equal(ids("calculer pourcentge")[0], "percentage");
 });
 
 test("keeps relevant results when one query term is extra context", () => {
-  assert.equal(ids("calculer un pourcentage rapidement")[0], "pourcentage");
+  assert.equal(ids("calculer un pourcentage rapidement")[0], "percentage");
 });
 
 test("does not fuzzy-match very short terms", () => {
@@ -81,7 +81,7 @@ test("matches tags and categories", () => {
     description: "Utilities for internet tasks.",
     tags: ["networking"],
     aliases: [],
-    categories: ["informatique"],
+    categories: ["computing"],
     lifecycle: "published",
     content: {
       fr: { name: "Outils Internet", description: "Outils pour les tâches Internet." },
@@ -90,5 +90,5 @@ test("matches tags and categories", () => {
   };
 
   assert.equal(searchTools([catalogFixture], "networking")[0]?.tool.id, "internet-tools");
-  assert.equal(searchTools([catalogFixture], "informatique")[0]?.tool.id, "internet-tools");
+  assert.equal(searchTools([catalogFixture], "computing")[0]?.tool.id, "internet-tools");
 });

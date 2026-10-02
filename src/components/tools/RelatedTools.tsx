@@ -4,6 +4,7 @@ import { getPrimaryToolCategory, getToolContent } from "@/lib/tools/types";
 import { getMessages } from "@/lib/i18n/messages";
 import { getAllTools, getToolById } from "@/lib/tools/catalog";
 import { getRelatedTools } from "@/lib/tools/relations";
+import { getToolPath } from "@/lib/tools/routes";
 
 export default function RelatedTools({ toolId, locale }: { toolId: string; locale: Locale }) {
   const t = getMessages(locale);
@@ -21,7 +22,7 @@ export default function RelatedTools({ toolId, locale }: { toolId: string; local
         {relatedTools.map((relatedTool) => {
           const content = getToolContent(relatedTool, locale);
           return (
-            <Link key={relatedTool.id} href={"/" + locale + "/outils/" + getPrimaryToolCategory(relatedTool) + "/" + relatedTool.slug} className="group rounded-2xl border border-[var(--border)] bg-[var(--background)] p-5 transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-0.5 hover:border-[var(--accent)] hover:shadow-lg hover:shadow-black/5">
+            <Link key={relatedTool.id} href={getToolPath(locale, getPrimaryToolCategory(relatedTool), relatedTool.id)} className="group rounded-2xl border border-[var(--border)] bg-[var(--background)] p-5 transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-0.5 hover:border-[var(--accent)] hover:shadow-lg hover:shadow-black/5">
               <span className="text-2xl" aria-hidden="true">{relatedTool.icon}</span>
               <h3 className="mt-4 font-semibold text-[var(--foreground)]">{content.name}</h3>
               <p className="mt-2 text-sm leading-6 text-[var(--muted)]">{content.description}</p>

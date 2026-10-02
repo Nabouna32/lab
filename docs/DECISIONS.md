@@ -700,3 +700,58 @@ The product needs a clearer identity centered on accomplishing tasks quickly whi
 - Responsive layouts must be designed as first-class desktop, tablet and mobile experiences.
 - Visual design work must avoid adding decoration solely to create an appearance of modernity.
 - This decision does not change browser-first processing, privacy, accessibility, internationalization, anonymous-first usage or the separation between tool implementations and platform contracts.
+
+
+## DEC-035 — Development tool category
+
+**Status:** Accepted
+
+### Decision
+
+Loculary adds a **Development / Développement** catalog category for browser-based developer and data utilities.
+
+The first published tool in this category is the JSON Formatter & Validator. The category is a catalog organization decision; it does not commit the project to implementing every related developer utility.
+
+### Reason
+
+The catalog is intended to grow beyond calculators and converters. Developer/data utilities are a coherent local-first family and fit Loculary's browser-first model particularly well.
+
+### Consequences
+
+- The stable category identifier is `developpement`.
+- The category is localized as “Développement” in French and “Development” in English.
+- Category identifiers remain stable URL segments while the locale prefix localizes the user-facing route context.
+- Future developer tools may reuse this category when they satisfy the normal tool quality gate.
+
+
+## DEC-036 — English reference locale and fully localized public tool URLs
+
+**Status:** Accepted
+
+### Decision
+
+English is Loculary's reference locale and default locale for the initial launch. French is the second launch locale. Both locales must be complete before launch; additional locales may be added later.
+
+Public tool URLs are fully localized rather than hybrid:
+
+- English: `/en/tools/<english-category>/<english-tool>`
+- French: `/fr/outils/<categorie-francaise>/<outil-francais>`
+
+Internal code identifiers remain English and language-neutral. Localized route segments are presentation/routing data and must never replace internal identifiers.
+
+The language selector must resolve the same resource to its equivalent localized URL. Canonical URLs, hreflang alternates, internal links, breadcrumbs and the sitemap must all use the localized public URL for the active locale.
+
+No legacy redirects are required for the pre-launch route structure.
+
+### Reason
+
+The product is intended to launch with English and French as first-class languages. Fully localized URLs keep the public information architecture coherent with the selected language while preserving stable English internal identifiers and a clean path for adding future locales.
+
+### Consequences
+
+- `defaultLocale` is `en`.
+- Every published tool has an English and French route slug.
+- Every published category has an English and French route slug.
+- English is the naming reference for new internal identifiers and public route conventions.
+- URL generation must be centralized rather than assembled ad hoc throughout UI components.
+- The former decision that used French category identifiers as stable URL segments is superseded for public routing; its historical record remains unchanged.

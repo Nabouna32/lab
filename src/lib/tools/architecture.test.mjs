@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { test } from "node:test";
 
-const routeFile = fileURLToPath(new URL("../../app/[locale]/outils/[category]/[slug]/page.tsx", import.meta.url));
+const routeFile = fileURLToPath(new URL("../../app/[locale]/[section]/[category]/[slug]/page.tsx", import.meta.url));
 const registryFile = fileURLToPath(new URL("./registry.ts", import.meta.url));
 const toolRendererFile = fileURLToPath(new URL("../../components/tools/ToolRenderer.tsx", import.meta.url));
 const toolsCatalogFile = fileURLToPath(new URL("./tools.ts", import.meta.url));

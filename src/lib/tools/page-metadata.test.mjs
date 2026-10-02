@@ -4,11 +4,11 @@ import { fileURLToPath } from "node:url";
 import { test } from "node:test";
 
 const metadataFile = fileURLToPath(new URL("./page-metadata.ts", import.meta.url));
-const routeFile = fileURLToPath(new URL("../../app/[locale]/outils/[category]/[slug]/page.tsx", import.meta.url));
+const routeFile = fileURLToPath(new URL("../../app/[locale]/[section]/[category]/[slug]/page.tsx", import.meta.url));
 const publicRoutes = [
   fileURLToPath(new URL("../../app/[locale]/page.tsx", import.meta.url)),
-  fileURLToPath(new URL("../../app/[locale]/outils/page.tsx", import.meta.url)),
-  fileURLToPath(new URL("../../app/[locale]/outils/[category]/page.tsx", import.meta.url)),
+  fileURLToPath(new URL("../../app/[locale]/[section]/page.tsx", import.meta.url)),
+  fileURLToPath(new URL("../../app/[locale]/[section]/[category]/page.tsx", import.meta.url)),
 ];
 
 test("tool metadata defines canonical and localized alternate URLs", async () => {

@@ -73,7 +73,7 @@ test("i18n registry exposes the initial languages", () => {
   assert.equal(languages.fr.enabled, true);
   assert.equal(languages.en.enabled, true);
   assert.equal(languages.fr.translationStatus, "complete");
-  assert.equal(languages.en.translationStatus, "partial");
+  assert.equal(languages.en.translationStatus, "complete");
   assert.equal(languages.fr.intlLocale, "fr-FR");
   assert.equal(languages.en.intlLocale, "en-US");
   assert.equal(getIntlLocale("fr"), "fr-FR");
@@ -179,7 +179,7 @@ test("plural formatting uses locale-aware rules", () => {
 
 test("audited pluralized UI components delegate plural selection to the i18n layer", () => {
   const localizedFiles = [
-    "../../app/[locale]/outils/page.tsx",
+    "../../app/[locale]/[section]/page.tsx",
     "../../components/tools/ToolSearch.tsx",
     "../../components/tools/age/AgeCalculator.tsx",
   ];
@@ -198,8 +198,8 @@ test("audited pluralized UI components delegate plural selection to the i18n lay
 
 test("public route metadata and category copy use localized message keys", async () => {
   const home = readFileSync(fileURLToPath(new URL("../../app/[locale]/page.tsx", import.meta.url)), "utf8");
-  const tools = readFileSync(fileURLToPath(new URL("../../app/[locale]/outils/page.tsx", import.meta.url)), "utf8");
-  const category = readFileSync(fileURLToPath(new URL("../../app/[locale]/outils/[category]/page.tsx", import.meta.url)), "utf8");
+  const tools = readFileSync(fileURLToPath(new URL("../../app/[locale]/[section]/page.tsx", import.meta.url)), "utf8");
+  const category = readFileSync(fileURLToPath(new URL("../../app/[locale]/[section]/[category]/page.tsx", import.meta.url)), "utf8");
   const messages = readFileSync(fileURLToPath(new URL("../i18n/messages.ts", import.meta.url)), "utf8");
   assert.match(home, /title: t\.home\.metaTitle/);
   assert.match(tools, /title: t\.tools\.metaTitle/);

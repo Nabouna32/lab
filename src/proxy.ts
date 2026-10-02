@@ -4,8 +4,7 @@ import { copySessionResponse, updateSession } from "./lib/supabase/proxy";
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const needsSupabaseSession =
-    pathname.includes("/compte") || pathname.includes("/auth/");
+  const needsSupabaseSession = /(^|\/)(compte|auth)(\/|$)/.test(pathname);
 
   const supabaseResponse = needsSupabaseSession ? await updateSession(request) : null;
 

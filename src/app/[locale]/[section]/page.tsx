@@ -1,28 +1,33 @@
 import type { Metadata } from "next";
 import ToolSearch from "@/components/tools/ToolSearch";
 import { categories, getCategoryName, getToolCount } from "@/lib/tools/categories";
-
 import { getMessages } from "@/lib/i18n/messages";
 import { formatPlural } from "@/lib/i18n/plural";
-import { isLocale, type Locale } from "@/lib/i18n/config";
+import { isLocale, type Locale, locales } from "@/lib/i18n/config";
 import { notFound } from "next/navigation";
 import { getPublicPageMetadata } from "@/lib/tools/page-metadata";
+import { getToolsPath, getCategoryPath } from "@/lib/tools/routes";
 
-export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
-  const { locale: rawLocale } = await params;
-  if (!isLocale(rawLocale)) return {};
+export function generateStaticParams() {
+  return locales.map((locale) => ({ locale, section: getToolsPath(locale).split("/")[2] }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string; section: string }> }): Promise<Metadata> {
+  const { locale: rawLocale, section } = await params;
+  if (!isLocale(rawLocale) || section !== getToolsPath(rawLocale).split("/")[2]) return {};
   const locale: Locale = rawLocale;
   const t = getMessages(locale);
   return getPublicPageMetadata({
     title: t.tools.metaTitle,
     description: t.tools.description,
-    path: `/${locale}/outils`,
+    path: getToolsPath(locale),
+    alternatePaths: Object.fromEntries(locales.map((availableLocale) => [availableLocale, getToolsPath(availableLocale)])),
   }, locale);
 }
 
-export default async function ToolsPage({ params }: { params: Promise<{ locale: string }> }) {
-  const { locale: rawLocale } = await params;
-  if (!isLocale(rawLocale)) notFound();
+export default async function ToolsPage({ params }: { params: Promise<{ locale: string; section: string }> }) {
+  const { locale: rawLocale, section } = await params;
+  if (!isLocale(rawLocale) || section !== getToolsPath(rawLocale).split("/")[2]) notFound();
   const locale: Locale = rawLocale;
   const t = getMessages(locale);
   const visibleCategories = categories.filter((category) => getToolCount(category.id) > 0);
@@ -46,14 +51,13 @@ export default async function ToolsPage({ params }: { params: Promise<{ locale: 
           <h2 id="tools-categories-heading" className="text-xl font-bold tracking-[-0.02em] sm:text-2xl">{t.tools.categoriesTitle}</h2>
           <p className="mt-1 text-sm leading-6 text-[var(--muted)]">{t.tools.categoriesDescription}</p>
         </div>
-
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {visibleCategories.map((category) => {
             const count = getToolCount(category.id);
             return (
               <a
                 key={category.id}
-                href={`/${locale}/outils/${category.id}`}
+                href={getCategoryPath(locale, category.id)}
                 className="group flex items-center gap-4 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4 shadow-[var(--shadow-sm)] transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-0.5 hover:border-[var(--accent)]/40 hover:shadow-[var(--shadow-md)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]"
               >
                 <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[var(--accent-soft)] text-2xl" aria-hidden="true">{category.icon}</span>

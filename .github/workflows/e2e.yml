@@ -53,6 +53,10 @@ jobs:
       - name: Run browser smoke tests
         run: npx playwright test e2e/smoke.spec.mjs
 
+      - name: Dump Next.js server log on failure
+        if: failure()
+        run: cat /tmp/loculary-next.log
+
       - name: Upload Playwright report on failure
         if: failure()
         uses: actions/upload-artifact@v7

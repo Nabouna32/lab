@@ -1,18 +1,19 @@
 import type { Locale } from "../i18n/config.ts";
 
 export type ToolId =
-  | "pourcentage"
-  | "reduction"
-  | "tva"
-  | "regle-de-trois"
+  | "percentage"
+  | "discount"
+  | "vat"
+  | "rule-of-three"
   | "age"
-  | "duree"
-  | "vitesse-telechargement"
-  | "temps-telechargement"
-  | "taille-fichier"
-  | "convertisseur-taille"
-  | "mots-caracteres"
-  | "bitrate-video";
+  | "duration"
+  | "download-speed"
+  | "download-time"
+  | "file-size"
+  | "file-size-converter"
+  | "word-character-counter"
+  | "video-bitrate"
+  | "json-formatter";
 
 export type ToolComplexity = "small" | "advanced" | "mini-application";
 export type ToolProcessingMode = "local" | "external" | "server" | "hybrid";
@@ -53,7 +54,6 @@ export type ToolContributor = { type: "internal" | "community"; name?: string };
 
 export type Tool = {
   id: ToolId;
-  slug: string;
   icon: string;
 
   version: number;
