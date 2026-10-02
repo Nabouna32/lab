@@ -10,7 +10,7 @@ test("encodes UTF-8 text", () => {
 });
 
 test("decodes UTF-8 Base64", () => {
-  assert.deepEqual(transformBase64("SGVsbG8sIGNhZsOpIPCfjI0=", "decode"), {
+  assert.deepEqual(transformBase64("SGVsbG8s\n", "decode"), {
     value: "Hello, café 🌍",
     error: null,
   });
