@@ -123,7 +123,14 @@ export default function VideoBitrateCalculator() {
                 </Select>
               </>
             ) : (
-              <CalculatorField label={t.bitrate} inputId="video-bitrate" min={0} step="any" value={bitrate} onChange={(e) => setBitrate(e.target.value)} placeholder={t.bitratePlaceholder} aria-invalid={Boolean(error)} />
+              <>
+                <CalculatorField label={t.bitrate} inputId="video-bitrate" min={0} step="any" value={bitrate} onChange={(e) => setBitrate(e.target.value)} placeholder={t.bitratePlaceholder} aria-invalid={Boolean(error)} />
+                <Select id="video-bitrate-unit" label={t.bitrateUnit} value={bitrateUnit} onChange={(e) => setBitrateUnit(e.target.value as BitrateUnit)}>
+                  <option value="kbps">Kbit/s</option>
+                  <option value="mbps">Mbit/s</option>
+                  <option value="gbps">Gbit/s</option>
+                </Select>
+              </>
             )}
           </div>
 
