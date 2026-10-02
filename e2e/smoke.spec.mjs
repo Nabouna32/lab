@@ -118,6 +118,8 @@ test("all published tool pages render", async ({ page }) => {
     "/fr/outils/informatique/calculateur-de-taille-de-fichier",
     "/fr/outils/informatique/convertisseur-de-taille-de-fichier",
     "/fr/outils/fichiers/compteur-de-mots-et-caracteres",
+    "/fr/outils/developpement/formateur-json",
+    "/fr/outils/developpement/encodeur-decodeur-url",
   "/en/tools/files/word-character-counter",
   ];
 
