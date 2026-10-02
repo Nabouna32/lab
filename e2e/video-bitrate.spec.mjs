@@ -3,7 +3,7 @@ import { test, expect } from "@playwright/test";
 const baseUrl = process.env.BASE_URL ?? "http://127.0.0.1:3000";
 
 test("video bitrate calculator finds bitrate from a target size in French", async ({ page }) => {
-  await page.goto(baseUrl + "/fr/outils/video/bitrate-video-calculator", { waitUntil: "networkidle" });
+  await page.goto(baseUrl + "/fr/outils/video/calculateur-de-bitrate-video", { waitUntil: "networkidle" });
   await expect(page.getByRole("heading", { level: 1, name: "Bitrate vidéo" })).toBeVisible();
 
   await page.getByLabel("Minutes").fill("10");
