@@ -120,6 +120,7 @@ test("all published tool pages render", async ({ page }) => {
     "/fr/outils/fichiers/compteur-de-mots-et-caracteres",
     "/fr/outils/developpement/formateur-json",
     "/fr/outils/developpement/encodeur-decodeur-url",
+    "/fr/outils/developpement/encodeur-base64",
   "/en/tools/files/word-character-counter",
   ];
 
