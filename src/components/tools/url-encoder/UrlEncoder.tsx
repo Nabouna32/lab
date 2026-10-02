@@ -58,6 +58,7 @@ export default function UrlEncoder() {
             spellCheck={false}
             className="min-h-[18rem] resize-y font-mono text-sm leading-6"
             aria-invalid={error !== null}
+            aria-describedby={error ? "url-encoder-error" : undefined}
           />
 
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
