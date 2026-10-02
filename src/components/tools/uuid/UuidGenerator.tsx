@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
-import { Input } from "@/components/ui/Input";
+import { TextField } from "@/components/ui/TextField";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { generateUuids } from "@/lib/uuid";
@@ -27,7 +27,7 @@ export default function UuidGenerator() {
   return (
     <section className="rounded-[var(--radius-2xl)] border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow-sm)] sm:p-8">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end">
-        <Input label={t.count} id="uuid-count" type="number" min={1} max={50} step={1} value={count}
+        <TextField label={t.count} inputId="uuid-count" type="number" min={1} max={50} step={1} value={count}
           onChange={(event) => { setCount(event.target.value); setError(false); }} placeholder={t.countPlaceholder}
           aria-invalid={error} aria-describedby={error ? "uuid-count-error" : undefined} />
         <div className="flex flex-wrap gap-2">
