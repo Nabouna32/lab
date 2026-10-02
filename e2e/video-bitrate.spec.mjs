@@ -9,7 +9,7 @@ test("video bitrate calculator finds bitrate from a target size in French", asyn
   await page.getByLabel("Minutes").fill("10");
   await page.getByLabel("Taille cible").fill("0.75");
 
-  await expect(page.getByText("10 Mbps", { exact: true })).toBeVisible();
+  await expect(page.getByText("10 Mbit/s", { exact: true })).toBeVisible();
 });
 
 test("video bitrate calculator estimates file size in English", async ({ page }) => {
@@ -21,6 +21,17 @@ test("video bitrate calculator estimates file size in English", async ({ page })
   await page.getByLabel("Average total bitrate").fill("10");
 
   await expect(page.getByText("750 MB · 0.75 GB", { exact: true })).toBeVisible();
+});
+
+test("video bitrate calculator supports kbps without unit ambiguity", async ({ page }) => {
+  await page.goto(baseUrl + "/fr/outils/video/calculateur-de-bitrate-video", { waitUntil: "networkidle" });
+
+  await page.getByRole("button", { name: "Estimer la taille" }).click();
+  await page.getByLabel("Minutes").fill("10");
+  await page.getByLabel("Bitrate total moyen").fill("700");
+  await page.getByLabel("Unité de débit").selectOption("kbps");
+
+  await expect(page.getByText("52,5 MB · 0,053 GB", { exact: true })).toBeVisible();
 });
 
 test("video bitrate calculator rejects an invalid duration", async ({ page }) => {

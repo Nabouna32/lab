@@ -8,6 +8,7 @@ test("calculates total bitrate from duration and decimal file size", () => {
 
 test("calculates decimal file size from duration and bitrate", () => {
   assert.equal(calculateVideoSizeBytes(600, 10), 750_000_000);
+  assert.equal(calculateVideoSizeBytes(600, 0.7), 52_500_000);
 });
 
 test("rejects invalid duration and negative values", () => {

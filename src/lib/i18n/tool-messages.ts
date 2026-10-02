@@ -80,7 +80,7 @@ type ToolMessages = {
   videoBitrate: {
     mode: string; duration: string; hours: string; minutes: string; seconds: string;
     hoursPlaceholder: string; minutesPlaceholder: string; secondsPlaceholder: string;
-    targetSize: string; sizeUnit: string; sizePlaceholder: string; bitrate: string; bitratePlaceholder: string;
+    targetSize: string; sizeUnit: string; sizePlaceholder: string; bitrate: string; bitratePlaceholder: string; bitrateUnit: string;
     result: string; emptyResult: string; inputHint: string; invalid: string; invalidDuration: string;
     invalidSize: string; invalidBitrate: string; bitrateResultNote: string; sizeResultNote: string;
     copy: string; copied: string;
@@ -185,9 +185,9 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     videoBitrate: {
       mode: "Mode de calcul", duration: "Durée", hours: "Heures", minutes: "Minutes", seconds: "Secondes",
       hoursPlaceholder: "0", minutesPlaceholder: "0", secondsPlaceholder: "0",
-      targetSize: "Taille cible", sizeUnit: "Unité de taille", sizePlaceholder: "Ex. 2", bitrate: "Bitrate total moyen", bitratePlaceholder: "Ex. 8",
+      targetSize: "Taille cible", sizeUnit: "Unité de taille", sizePlaceholder: "Ex. 2", bitrate: "Bitrate total moyen", bitratePlaceholder: "Ex. 8", bitrateUnit: "Unité de débit",
       result: "Résultat", emptyResult: "Renseignez la durée et la valeur à calculer pour voir le résultat.",
-      inputHint: "Les unités de taille sont décimales (1 GB = 1 000 000 000 octets). Le bitrate est exprimé en Mbps.",
+      inputHint: "Les unités de taille et de débit sont décimales. Choisissez l’unité du bitrate pour éviter toute ambiguïté entre kbit/s, Mbit/s et Gbit/s.",
       invalid: "Impossible de calculer ce résultat avec les valeurs saisies.", invalidDuration: "La durée doit être supérieure à 0, avec 0 à 59 minutes et secondes.",
       invalidSize: "La taille cible doit être positive ou nulle.", invalidBitrate: "Le bitrate doit être positif ou nul.",
       bitrateResultNote: "Débit total moyen nécessaire pour atteindre la taille cible.", sizeResultNote: "Taille théorique du fichier à débit constant.",
@@ -292,9 +292,9 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     videoBitrate: {
       mode: "Calculation mode", duration: "Duration", hours: "Hours", minutes: "Minutes", seconds: "Seconds",
       hoursPlaceholder: "0", minutesPlaceholder: "0", secondsPlaceholder: "0",
-      targetSize: "Target size", sizeUnit: "Size unit", sizePlaceholder: "e.g. 2", bitrate: "Average total bitrate", bitratePlaceholder: "e.g. 8",
+      targetSize: "Target size", sizeUnit: "Size unit", sizePlaceholder: "e.g. 2", bitrate: "Average total bitrate", bitratePlaceholder: "e.g. 8", bitrateUnit: "Bitrate unit",
       result: "Result", emptyResult: "Enter the duration and value to calculate the result.",
-      inputHint: "Size units are decimal (1 GB = 1,000,000,000 bytes). Bitrate is expressed in Mbps.",
+      inputHint: "Size and bitrate units are decimal. Choose the bitrate unit to distinguish kbps, Mbps, and Gbps.",
       invalid: "This result cannot be calculated from the values entered.", invalidDuration: "Duration must be greater than 0, with minutes and seconds from 0 to 59.",
       invalidSize: "Target size must be 0 or greater.", invalidBitrate: "Bitrate must be 0 or greater.",
       bitrateResultNote: "Average total bitrate required to reach the target size.", sizeResultNote: "Theoretical file size at a constant bitrate.",
