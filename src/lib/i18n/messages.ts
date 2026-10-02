@@ -37,10 +37,10 @@ export const messages: Record<Locale, Messages> = {
       title: "Que voulez-vous faire ?",
       description: "Décrivez votre besoin, trouvez l’outil et faites-le maintenant.",
       quickLinks: [
-        { label: "Calculer une remise", toolId: "reduction" },
-        { label: "Convertir une vitesse", toolId: "vitesse-telechargement" },
+        { label: "Calculer une remise", toolId: "discount" },
+        { label: "Convertir une vitesse", toolId: "download-speed" },
         { label: "Calculer mon âge", toolId: "age" },
-        { label: "Convertir une taille de fichier", toolId: "convertisseur-taille" },
+        { label: "Convertir une taille de fichier", toolId: "file-size-converter" },
       ],
       explore: "Voir tous les outils",
       discoveryTitle: "Quelques outils à essayer", discoveryDescription: "Des outils simples pour les besoins qui reviennent souvent.", discoveryOpen: "Utiliser l’outil",
