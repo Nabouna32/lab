@@ -77,6 +77,15 @@ type ToolMessages = {
     count: string; countPlaceholder: string; generate: string; copy: string; copied: string; clear: string; result: string;
     emptyResult: string; invalidCount: string; generatedOne: string; generatedMany: (count: number) => string;
   };
+  videoBitrate: {
+    mode: string; duration: string; hours: string; minutes: string; seconds: string;
+    hoursPlaceholder: string; minutesPlaceholder: string; secondsPlaceholder: string;
+    targetSize: string; sizeUnit: string; sizePlaceholder: string; bitrate: string; bitratePlaceholder: string;
+    result: string; emptyResult: string; inputHint: string; invalid: string; invalidDuration: string;
+    invalidSize: string; invalidBitrate: string; bitrateResultNote: string; sizeResultNote: string;
+    copy: string; copied: string;
+    modes: { bitrate: { title: string; description: string }; size: { title: string; description: string } };
+  };
 };
 
 export const toolMessages: Record<Locale, ToolMessages> = {
@@ -173,6 +182,17 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       input: "Votre texte", placeholder: "Saisissez du texte à encoder ou une chaîne Base64 à décoder…", output: "Résultat", encode: "Encoder", decode: "Décoder", copy: "Copier", clear: "Effacer",
       encoded: "Encodé en Base64", decoded: "Décodé", emptyResult: "Le résultat apparaîtra ici après transformation.", error: "La transformation n’a pas pu être effectuée.", invalidBase64: "La chaîne Base64 est invalide ou ne contient pas de texte UTF-8 valide.", invalidText: "Le texte ne peut pas être encodé.",
     },
+    videoBitrate: {
+      mode: "Mode de calcul", duration: "Durée", hours: "Heures", minutes: "Minutes", seconds: "Secondes",
+      hoursPlaceholder: "0", minutesPlaceholder: "0", secondsPlaceholder: "0",
+      targetSize: "Taille cible", sizeUnit: "Unité de taille", sizePlaceholder: "Ex. 2", bitrate: "Bitrate total moyen", bitratePlaceholder: "Ex. 8",
+      result: "Résultat", emptyResult: "Renseignez la durée et la valeur à calculer pour voir le résultat.",
+      inputHint: "Les unités de taille sont décimales (1 GB = 1 000 000 000 octets). Le bitrate est exprimé en Mbps.",
+      invalid: "Impossible de calculer ce résultat avec les valeurs saisies.", invalidDuration: "La durée doit être supérieure à 0, avec 0 à 59 minutes et secondes.",
+      invalidSize: "La taille cible doit être positive ou nulle.", invalidBitrate: "Le bitrate doit être positif ou nul.",
+      bitrateResultNote: "Débit total moyen nécessaire pour atteindre la taille cible.", sizeResultNote: "Taille théorique du fichier à débit constant.",
+      copy: "Copier", copied: "Copié", modes: { bitrate: { title: "Calculer le bitrate", description: "À partir d’une taille cible" }, size: { title: "Estimer la taille", description: "À partir du bitrate" } },
+    },
     uuidGenerator: {
       count: "Nombre d’UUID", countPlaceholder: "Ex. 5", generate: "Générer", copy: "Copier", copied: "Copié", clear: "Effacer", result: "UUID générés",
       emptyResult: "Générez des UUID pour les afficher ici.", invalidCount: "Choisissez un nombre entier compris entre 1 et 50.", generatedOne: "1 UUID généré", generatedMany: (count) => `${count} UUID générés`,
@@ -268,6 +288,17 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     base64: {
       input: "Your text", placeholder: "Enter text to encode or a Base64 string to decode…", output: "Result", encode: "Encode", decode: "Decode", copy: "Copy", clear: "Clear",
       encoded: "Base64 encoded", decoded: "Decoded", emptyResult: "The result will appear here after transformation.", error: "The transformation could not be completed.", invalidBase64: "The Base64 string is invalid or does not contain valid UTF-8 text.", invalidText: "The text could not be encoded.",
+    },
+    videoBitrate: {
+      mode: "Calculation mode", duration: "Duration", hours: "Hours", minutes: "Minutes", seconds: "Seconds",
+      hoursPlaceholder: "0", minutesPlaceholder: "0", secondsPlaceholder: "0",
+      targetSize: "Target size", sizeUnit: "Size unit", sizePlaceholder: "e.g. 2", bitrate: "Average total bitrate", bitratePlaceholder: "e.g. 8",
+      result: "Result", emptyResult: "Enter the duration and value to calculate the result.",
+      inputHint: "Size units are decimal (1 GB = 1,000,000,000 bytes). Bitrate is expressed in Mbps.",
+      invalid: "This result cannot be calculated from the values entered.", invalidDuration: "Duration must be greater than 0, with minutes and seconds from 0 to 59.",
+      invalidSize: "Target size must be 0 or greater.", invalidBitrate: "Bitrate must be 0 or greater.",
+      bitrateResultNote: "Average total bitrate required to reach the target size.", sizeResultNote: "Theoretical file size at a constant bitrate.",
+      copy: "Copy", copied: "Copied", modes: { bitrate: { title: "Calculate bitrate", description: "From a target size" }, size: { title: "Estimate size", description: "From a bitrate" } },
     },
     uuidGenerator: {
       count: "Number of UUIDs", countPlaceholder: "e.g. 5", generate: "Generate", copy: "Copy", copied: "Copied", clear: "Clear", result: "Generated UUIDs",

@@ -93,6 +93,10 @@ const moduleLoaders: Partial<Record<ToolId, ToolModule>> = {
     () => import("@/components/tools/uuid/UuidGenerator"),
     () => import("@/components/tools/uuid/ToolEditorial"),
   ),
+  "video-bitrate": createToolModule(
+    () => import("@/components/tools/video-bitrate/VideoBitrateCalculator"),
+    () => import("@/components/tools/video-bitrate/ToolEditorial"),
+  ),
 };
 
 export const toolRegistry: readonly ToolRegistryEntry[] = getPublishedTools().map((tool) => {

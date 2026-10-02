@@ -278,10 +278,10 @@ const toolDefinitions: ToolDefinition[] = [
     categories: ["video"],
     tags: ["vidéo", "qualité", "débit", "encodage", "compression"],
     aliases: ["vidéo", "qualité", "débit", "encodage", "compression"],
-    lifecycle: "draft",
+    lifecycle: "published",
     content: {
-      fr: { name: "Bitrate vidéo", description: "Calculez le débit vidéo ou estimez la taille d’une vidéo." },
-      en: { name: "Video bitrate calculator", description: "Calculate video bitrate or estimate a video file size." },
+      fr: { name: "Bitrate vidéo", description: "Calculez un bitrate moyen à partir d’une taille cible ou estimez la taille d’une vidéo à partir de son bitrate." },
+      en: { name: "Video bitrate calculator", description: "Calculate average bitrate from a target size or estimate video file size from bitrate." },
     },
   },
 ];
