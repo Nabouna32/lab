@@ -1,9 +1,11 @@
 import { expect, test } from "@playwright/test";
 
+const baseUrl = process.env.BASE_URL ?? "http://127.0.0.1:3000";
+
 test.use({ timezoneId: "UTC" });
 
 test("Unix timestamp converter converts seconds to a UTC date", async ({ page }) => {
-  await page.goto("/fr/outils/developpement/convertisseur-timestamp-unix");
+  await page.goto(`${baseUrl}/fr/outils/developpement/convertisseur-timestamp-unix`);
   await expect(page.getByRole("heading", { name: /timestamp unix/i })).toBeVisible();
   await page.getByLabel("Timestamp").fill("0");
   await page.getByLabel("Unité du timestamp").selectOption("seconds");
@@ -13,7 +15,7 @@ test("Unix timestamp converter converts seconds to a UTC date", async ({ page })
 });
 
 test("Unix timestamp converter converts a local date to Unix time", async ({ page }) => {
-  await page.goto("/en/tools/development/unix-timestamp-converter");
+  await page.goto(`${baseUrl}/en/tools/development/unix-timestamp-converter`);
   await expect(page.getByRole("heading", { name: /unix timestamp converter/i })).toBeVisible();
   await page.getByLabel("Date and time").fill("1970-01-01T00:00");
   await page.getByRole("button", { name: "Convert" }).click();
