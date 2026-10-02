@@ -30,6 +30,7 @@ const toolSlugs: Record<string, Record<Locale, string>> = {
   "video-bitrate": { en: "video-bitrate-calculator", fr: "calculateur-de-bitrate-video" },
   "json-formatter": { en: "json-formatter", fr: "formateur-json" },
   "url-encoder-decoder": { en: "url-encoder-decoder", fr: "encodeur-decodeur-url" },
+  "base64-encoder-decoder": { en: "base64-encoder-decoder", fr: "encodeur-base64" },
 };
 
 export function getToolsPath(locale: Locale): string {

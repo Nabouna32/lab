@@ -14,7 +14,8 @@ export type ToolId =
   | "word-character-counter"
   | "video-bitrate"
   | "json-formatter"
-  | "url-encoder-decoder";
+  | "url-encoder-decoder"
+  | "base64-encoder-decoder";
 
 export type ToolComplexity = "small" | "advanced" | "mini-application";
 export type ToolProcessingMode = "local" | "external" | "server" | "hybrid";

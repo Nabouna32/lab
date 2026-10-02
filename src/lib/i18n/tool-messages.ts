@@ -69,6 +69,10 @@ type ToolMessages = {
     operation: string; encode: string; decode: string; copy: string; clear: string; encoded: string; decoded: string;
     emptyResult: string; error: string; invalidEncoding: string; invalidText: string;
   };
+  base64: {
+    input: string; placeholder: string; output: string; encode: string; decode: string; copy: string; clear: string;
+    encoded: string; decoded: string; emptyResult: string; error: string; invalidBase64: string; invalidText: string;
+  };
 };
 
 export const toolMessages: Record<Locale, ToolMessages> = {
@@ -161,6 +165,10 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       operation: "Action", encode: "Encoder", decode: "Décoder", copy: "Copier", clear: "Effacer", encoded: "Encodé", decoded: "Décodé",
       emptyResult: "Le résultat apparaîtra ici après transformation.", error: "La transformation n’a pas pu être effectuée.", invalidEncoding: "L’encodage URL est invalide.", invalidText: "Le texte contient un caractère qui ne peut pas être encodé.",
     },
+    base64: {
+      input: "Votre texte", placeholder: "Saisissez du texte à encoder ou une chaîne Base64 à décoder…", output: "Résultat", encode: "Encoder", decode: "Décoder", copy: "Copier", clear: "Effacer",
+      encoded: "Encodé en Base64", decoded: "Décodé", emptyResult: "Le résultat apparaîtra ici après transformation.", error: "La transformation n’a pas pu être effectuée.", invalidBase64: "La chaîne Base64 est invalide ou ne contient pas de texte UTF-8 valide.", invalidText: "Le texte ne peut pas être encodé.",
+    },
   },
   en: {
     fileSizeCalculator: {
@@ -248,6 +256,10 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       input: "Your text", placeholder: "Enter text or a URL…", output: "Result", scope: "Encoding mode", component: "URL component", uri: "Complete URL",
       operation: "Action", encode: "Encode", decode: "Decode", copy: "Copy", clear: "Clear", encoded: "Encoded", decoded: "Decoded",
       emptyResult: "The result will appear here after transformation.", error: "The transformation could not be completed.", invalidEncoding: "The URL encoding is invalid.", invalidText: "The text contains a character that cannot be encoded.",
+    },
+    base64: {
+      input: "Your text", placeholder: "Enter text to encode or a Base64 string to decode…", output: "Result", encode: "Encode", decode: "Decode", copy: "Copy", clear: "Clear",
+      encoded: "Base64 encoded", decoded: "Decoded", emptyResult: "The result will appear here after transformation.", error: "The transformation could not be completed.", invalidBase64: "The Base64 string is invalid or does not contain valid UTF-8 text.", invalidText: "The text could not be encoded.",
     },
   },
 };

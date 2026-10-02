@@ -6,7 +6,7 @@
 - Global navigation now provides tool search from the header, shared breadcrumbs on category/tool pages, a lightweight shared footer, and a compact modern header with stable secondary controls.
 - Main uses the generic ToolPage shell, semantic processing/result status metadata, and the registry-based dynamic tool route.
 - Published tools are connected to independently loadable implementation modules through the central registry.
-- The published Development category now includes the browser-local URL Encoder & Decoder.
+- The published Development category now includes the browser-local URL Encoder & Decoder and Base64 Encoder & Decoder.
 - Tool runtime capabilities are scoped per tool; clipboard is currently the only browser capability enforced through the runtime.
 - SEO metadata now provides canonical URLs, localized alternates and Open Graph data for tool pages.
 - Category pages use the shared localized catalog metadata instead of duplicating French-only labels.
@@ -28,6 +28,7 @@
 ## Recent functional audit
 
 - Added the browser-local URL Encoder & Decoder with component/full-URL modes, EN/FR metadata and focused unit/E2E coverage.
+- Added the browser-local Base64 Encoder & Decoder for UTF-8 text with EN/FR metadata and focused unit/E2E coverage.
 - Hardened published numeric tools against non-finite calculation results and surfaced invalid numeric input instead of silently hiding results.
 - Hardened the download-speed and file-size converters against numeric overflow at their domain boundaries.
 - Updated the text counter to count Unicode grapheme clusters, so joined emoji and other user-perceived characters are counted as one character.
