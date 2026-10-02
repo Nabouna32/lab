@@ -9,8 +9,12 @@ export type TextStats = {
 const wordPattern = /[\p{L}\p{N}\p{M}]+(?:['’\u2011-][\p{L}\p{N}\p{M}]+)*/gu;
 
 function countGraphemes(text: string): number {
-  if (typeof Intl.Segmenter === "function") {
-    return Array.from(new Intl.Segmenter(undefined, { granularity: "grapheme" }).segment(text)).length;
+  if (typeof Intl !== "undefined" && typeof Intl.Segmenter === "function") {
+    try {
+      return Array.from(new Intl.Segmenter(undefined, { granularity: "grapheme" }).segment(text)).length;
+    } catch {
+      // Fall back to code-point counting when grapheme segmentation is unavailable.
+    }
   }
   return Array.from(text).length;
 }
