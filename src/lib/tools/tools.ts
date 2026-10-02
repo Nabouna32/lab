@@ -230,7 +230,7 @@ const toolDefinitions: ToolDefinition[] = [
     tags: ["url", "uri", "encode", "decode", "percent-encoding", "query", "web", "developer"],
     aliases: ["url encoder", "url decoder", "uri encoder", "uri decoder", "percent encoding", "encode url", "decode url"],
     lifecycle: "published",
-    capabilities: [],
+    capabilities: ["clipboard"],
     content: {
       fr: { name: "Encodeur et décodeur d’URL", description: "Encodez ou décodez du texte et des URL directement dans votre navigateur." },
       en: { name: "URL Encoder & Decoder", description: "Encode or decode text and URLs directly in your browser." },
