@@ -17,8 +17,7 @@ test("decodes UTF-8 Base64", () => {
 });
 
 test("accepts Base64 without padding and with whitespace", () => {
-  assert.deepEqual(transformBase64("SGVsbG8s
-", "decode"), {
+  assert.deepEqual(transformBase64("SGVsbG8s\\n", "decode"), {
     value: "Hello,",
     error: null,
   });
