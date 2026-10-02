@@ -32,6 +32,7 @@ const toolSlugs: Record<string, Record<Locale, string>> = {
   "url-encoder-decoder": { en: "url-encoder-decoder", fr: "encodeur-decodeur-url" },
   "base64-encoder-decoder": { en: "base64-encoder-decoder", fr: "encodeur-base64" },
   "uuid-generator": { en: "uuid-generator", fr: "generateur-uuid" },
+  "unix-timestamp": { en: "unix-timestamp-converter", fr: "convertisseur-timestamp-unix" },
 };
 
 export function getToolsPath(locale: Locale): string {
