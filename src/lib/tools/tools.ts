@@ -227,8 +227,8 @@ const toolDefinitions: ToolDefinition[] = [
     version: 1,
     complexity: "small",
     categories: ["development"],
-    tags: ["url", "uri", "encode", "decode", "percent-encoding", "query", "web", "developer"],
-    aliases: ["url encoder", "url decoder", "uri encoder", "uri decoder", "percent encoding", "encode url", "decode url"],
+    tags: ["url", "uri", "encode", "decode", "encodage", "décodage", "percent-encoding", "requête", "web", "developer"],
+    aliases: ["url encoder", "url decoder", "encodeur url", "décodeur url", "uri encoder", "uri decoder", "encodage url", "décodage url", "percent encoding", "encode url", "decode url"],
     lifecycle: "published",
     capabilities: ["clipboard"],
     content: {
