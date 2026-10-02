@@ -77,6 +77,12 @@ type ToolMessages = {
     count: string; countPlaceholder: string; generate: string; copy: string; copied: string; clear: string; result: string;
     emptyResult: string; invalidCount: string; generatedOne: string; generatedMany: (count: number) => string;
   };
+  unixTimestamp: {
+    timestampToDate: string; dateToTimestamp: string; timestamp: string; timestampPlaceholder: string;
+    timestampUnit: string; seconds: string; milliseconds: string; dateTime: string; timestampHint: string;
+    dateHint: string; convert: string; result: string; converted: string; localDate: string; utcDate: string;
+    timestampResult: string; emptyResult: string; invalid: string; copy: string; clear: string;
+  };
   videoBitrate: {
     mode: string; duration: string; hours: string; minutes: string; seconds: string;
     hoursPlaceholder: string; minutesPlaceholder: string; secondsPlaceholder: string;
@@ -192,6 +198,15 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       invalidSize: "La taille cible doit être positive ou nulle.", invalidBitrate: "Le bitrate doit être positif ou nul.",
       bitrateResultNote: "Débit total moyen nécessaire pour atteindre la taille cible.", sizeResultNote: "Taille théorique du fichier à débit constant.",
       copy: "Copier", copied: "Copié", modes: { bitrate: { title: "Calculer le bitrate", description: "À partir d’une taille cible" }, size: { title: "Estimer la taille", description: "À partir du bitrate" } },
+    },
+    unixTimestamp: {
+      timestampToDate: "Timestamp → date", dateToTimestamp: "Date → timestamp", timestamp: "Timestamp Unix",
+      timestampPlaceholder: "Ex. 1710000000", timestampUnit: "Unité du timestamp", seconds: "secondes", milliseconds: "millisecondes",
+      dateTime: "Date et heure", timestampHint: "Les timestamps en secondes sont courants sur Unix. Choisissez les millisecondes pour les valeurs JavaScript.",
+      dateHint: "La date et l’heure sont interprétées dans votre fuseau horaire local.",
+      convert: "Convertir", result: "Résultat", converted: "Conversion effectuée", localDate: "Heure locale",
+      utcDate: "UTC", timestampResult: "Timestamp", emptyResult: "Le résultat apparaîtra ici après conversion.",
+      invalid: "Saisissez une valeur de timestamp ou une date valide.", copy: "Copier", clear: "Effacer",
     },
     uuidGenerator: {
       count: "Nombre d’UUID", countPlaceholder: "Ex. 5", generate: "Générer", copy: "Copier", copied: "Copié", clear: "Effacer", result: "UUID générés",
