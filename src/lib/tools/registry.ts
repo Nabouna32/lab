@@ -93,6 +93,10 @@ const moduleLoaders: Partial<Record<ToolId, ToolModule>> = {
     () => import("@/components/tools/uuid/UuidGenerator"),
     () => import("@/components/tools/uuid/ToolEditorial"),
   ),
+  "unix-timestamp": createToolModule(
+    () => import("@/components/tools/unix-timestamp/UnixTimestampConverter"),
+    () => import("@/components/tools/unix-timestamp/ToolEditorial"),
+  ),
   "video-bitrate": createToolModule(
     () => import("@/components/tools/video-bitrate/VideoBitrateCalculator"),
     () => import("@/components/tools/video-bitrate/ToolEditorial"),
