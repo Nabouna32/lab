@@ -315,6 +315,15 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       bitrateResultNote: "Average total bitrate required to reach the target size.", sizeResultNote: "Theoretical file size at a constant bitrate.",
       copy: "Copy", copied: "Copied", modes: { bitrate: { title: "Calculate bitrate", description: "From a target size" }, size: { title: "Estimate size", description: "From a bitrate" } },
     },
+    unixTimestamp: {
+      timestampToDate: "Timestamp → date", dateToTimestamp: "Date → timestamp", timestamp: "Unix timestamp",
+      timestampPlaceholder: "e.g. 1710000000", timestampUnit: "Timestamp unit", seconds: "seconds", milliseconds: "milliseconds",
+      dateTime: "Date and time", timestampHint: "Seconds are the common Unix timestamp unit. Choose milliseconds for JavaScript timestamp values.",
+      dateHint: "The date and time are interpreted in your local time zone.",
+      convert: "Convert", result: "Result", converted: "Conversion complete", localDate: "Local time",
+      utcDate: "UTC", timestampResult: "Timestamp", emptyResult: "The result will appear here after conversion.",
+      invalid: "Enter a valid timestamp or date.", copy: "Copy", clear: "Clear",
+    },
     uuidGenerator: {
       count: "Number of UUIDs", countPlaceholder: "e.g. 5", generate: "Generate", copy: "Copy", copied: "Copied", clear: "Clear", result: "Generated UUIDs",
       emptyResult: "Generate UUIDs to see them here.", invalidCount: "Choose a whole number between 1 and 50.", generatedOne: "1 UUID generated", generatedMany: (count) => `${count} UUIDs generated`,
