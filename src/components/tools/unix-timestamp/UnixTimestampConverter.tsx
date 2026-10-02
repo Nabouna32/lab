@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/Button";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { Select } from "@/components/ui/Select";
-import { CalculatorField } from "@/components/ui/CalculatorField";
+import { CalculatorField } from "@/components/tools/calculator/CalculatorField";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { dateTimeLocalToTimestamp, formatTimestamp, timestampToDate, type TimestampUnit } from "@/lib/unix-timestamp";
