@@ -85,6 +85,10 @@ const moduleLoaders: Partial<Record<ToolId, ToolModule>> = {
     () => import("@/components/tools/url-encoder/UrlEncoder"),
     () => import("@/components/tools/url-encoder/ToolEditorial"),
   ),
+  "base64-encoder-decoder": createToolModule(
+    () => import("@/components/tools/base64/Base64Encoder"),
+    () => import("@/components/tools/base64/ToolEditorial"),
+  ),
 };
 
 export const toolRegistry: readonly ToolRegistryEntry[] = getPublishedTools().map((tool) => {
