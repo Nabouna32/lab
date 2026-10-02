@@ -80,7 +80,7 @@ type ToolMessages = {
   videoBitrate: {
     mode: string; duration: string; hours: string; minutes: string; seconds: string;
     hoursPlaceholder: string; minutesPlaceholder: string; secondsPlaceholder: string;
-    targetSize: string; sizeUnit: string; sizePlaceholder: string; bitrate: string; bitratePlaceholder: string;
+    targetSize: string; sizeUnit: string; sizePlaceholder: string; bitrate: string; bitratePlaceholder: string; bitrateUnit: string;
     result: string; emptyResult: string; inputHint: string; invalid: string; invalidDuration: string;
     invalidSize: string; invalidBitrate: string; bitrateResultNote: string; sizeResultNote: string;
     copy: string; copied: string;
