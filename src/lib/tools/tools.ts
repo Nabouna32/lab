@@ -281,7 +281,7 @@ const toolDefinitions: ToolDefinition[] = [
     lifecycle: "draft",
     content: {
       fr: { name: "Bitrate vidéo", description: "Calculez le débit vidéo ou estimez la taille d’une vidéo." },
-      en: { name: "Video bitrate calculator", description: "Calculate video bitrate or estimate a video file size." },
+      en: { name: "Video bitrate calculator", description: "Calculate average bitrate from a target size or estimate video file size from bitrate." },
     },
   },
 ];
