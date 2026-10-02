@@ -29,6 +29,7 @@ const toolSlugs: Record<string, Record<Locale, string>> = {
   "word-character-counter": { en: "word-character-counter", fr: "compteur-de-mots-et-caracteres" },
   "video-bitrate": { en: "video-bitrate-calculator", fr: "calculateur-de-bitrate-video" },
   "json-formatter": { en: "json-formatter", fr: "formateur-json" },
+  "url-encoder-decoder": { en: "url-encoder-decoder", fr: "encodeur-decodeur-url" },
 };
 
 export function getToolsPath(locale: Locale): string {
