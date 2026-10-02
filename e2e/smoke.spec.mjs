@@ -23,7 +23,7 @@ test("root uses English as the default locale", async ({ page }) => {
 
 test("language selector maps the same tool to its localized URL", async ({ page }) => {
   await page.goto(`${baseUrl}/en/tools/calculations/percentage-calculator`, { waitUntil: "networkidle" });
-  await page.getByRole("button", { name: /language/i }).click().catch(() => {});
+  await page.locator(".language-selector summary").click();
   const frenchLink = page.getByRole("link", { name: "Français" });
   await expect(frenchLink).toBeVisible();
   await frenchLink.click();
@@ -31,7 +31,7 @@ test("language selector maps the same tool to its localized URL", async ({ page 
 });
 
 test("French homepage renders", async ({ page }) => {
-  await page.goto(`${baseUrl}/fr`, { waitUntil: "networkidle" });
+  await page.goto(`${baseUrl}/fr`, { waitUntil: "domcontentloaded" });
 
   await expect(page).toHaveTitle(/Loculary/i);
   await expect(page.locator("main")).toBeVisible();
@@ -123,7 +123,7 @@ test("all published tool pages render", async ({ page }) => {
 
   for (const route of publishedToolRoutes) {
     const response = await page.goto(`${baseUrl}${route}`, { waitUntil: "networkidle" });
-    expect(response?.ok(), `Expected ${route} to return a successful response.`).toBe(true);
+    expect(response?.status(), `Expected ${route} to return HTTP 200.`).toBe(200);
     await expect(page.locator("main")).toBeVisible();
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   }
