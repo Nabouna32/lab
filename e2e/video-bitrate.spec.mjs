@@ -29,5 +29,5 @@ test("video bitrate calculator rejects an invalid duration", async ({ page }) =>
   await page.getByLabel("Minutes").fill("60");
   await page.getByLabel("Taille cible").fill("1");
 
-  await expect(page.getByText("La durée doit être supérieure à 0, avec 0 à 59 minutes et secondes.", { exact: true })).toBeVisible();
+  await expect(page.locator("#video-bitrate-error")).toHaveText("La durée doit être supérieure à 0, avec 0 à 59 minutes et secondes.");
 });
