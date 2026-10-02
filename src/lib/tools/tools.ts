@@ -63,6 +63,10 @@ const localProcessingDescriptions = {
     fr: "Le texte saisi est encodé ou décodé en Base64 directement dans votre navigateur.",
     en: "The text you enter is encoded or decoded as Base64 directly in your browser.",
   },
+  "uuid-generator": {
+    fr: "Les UUID sont générés aléatoirement directement dans votre navigateur.",
+    en: "UUIDs are generated randomly directly in your browser.",
+  },
 } satisfies Record<ToolId, { fr: string; en: string }>;
 
 type ToolDefinition = Pick<
@@ -224,6 +228,19 @@ const toolDefinitions: ToolDefinition[] = [
     content: {
       fr: { name: "Formateur et validateur JSON", description: "Validez, formatez et minifiez du JSON directement dans votre navigateur." },
       en: { name: "JSON Formatter & Validator", description: "Validate, format, and minify JSON directly in your browser." },
+    },
+  },
+  {
+    id: "uuid-generator", icon: "🆔",
+    version: 1,
+    complexity: "small",
+    categories: ["development"],
+    tags: ["uuid", "guid", "identifier", "random", "v4", "developer"],
+    aliases: ["uuid generator", "uuid v4 generator", "guid generator", "générateur uuid", "générateur guid"],
+    lifecycle: "published", capabilities: ["clipboard"],
+    content: {
+      fr: { name: "Générateur UUID", description: "Générez un ou plusieurs UUID v4 aléatoires directement dans votre navigateur." },
+      en: { name: "UUID generator", description: "Generate one or more random UUID v4 values directly in your browser." },
     },
   },
   {

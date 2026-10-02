@@ -73,6 +73,10 @@ type ToolMessages = {
     input: string; placeholder: string; output: string; encode: string; decode: string; copy: string; clear: string;
     encoded: string; decoded: string; emptyResult: string; error: string; invalidBase64: string; invalidText: string;
   };
+  uuidGenerator: {
+    count: string; countPlaceholder: string; generate: string; copy: string; copied: string; clear: string; result: string;
+    emptyResult: string; invalidCount: string; generatedOne: string; generatedMany: (count: number) => string;
+  };
 };
 
 export const toolMessages: Record<Locale, ToolMessages> = {
@@ -169,6 +173,10 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       input: "Votre texte", placeholder: "Saisissez du texte à encoder ou une chaîne Base64 à décoder…", output: "Résultat", encode: "Encoder", decode: "Décoder", copy: "Copier", clear: "Effacer",
       encoded: "Encodé en Base64", decoded: "Décodé", emptyResult: "Le résultat apparaîtra ici après transformation.", error: "La transformation n’a pas pu être effectuée.", invalidBase64: "La chaîne Base64 est invalide ou ne contient pas de texte UTF-8 valide.", invalidText: "Le texte ne peut pas être encodé.",
     },
+    uuidGenerator: {
+      count: "Nombre d’UUID", countPlaceholder: "Ex. 5", generate: "Générer", copy: "Copier", copied: "Copié", clear: "Effacer", result: "UUID générés",
+      emptyResult: "Générez des UUID pour les afficher ici.", invalidCount: "Choisissez un nombre entier compris entre 1 et 50.", generatedOne: "1 UUID généré", generatedMany: (count) => `${count} UUID générés`,
+    },
   },
   en: {
     fileSizeCalculator: {
@@ -260,6 +268,10 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     base64: {
       input: "Your text", placeholder: "Enter text to encode or a Base64 string to decode…", output: "Result", encode: "Encode", decode: "Decode", copy: "Copy", clear: "Clear",
       encoded: "Base64 encoded", decoded: "Decoded", emptyResult: "The result will appear here after transformation.", error: "The transformation could not be completed.", invalidBase64: "The Base64 string is invalid or does not contain valid UTF-8 text.", invalidText: "The text could not be encoded.",
+    },
+    uuidGenerator: {
+      count: "Number of UUIDs", countPlaceholder: "e.g. 5", generate: "Generate", copy: "Copy", copied: "Copied", clear: "Clear", result: "Generated UUIDs",
+      emptyResult: "Generate UUIDs to see them here.", invalidCount: "Choose a whole number between 1 and 50.", generatedOne: "1 UUID generated", generatedMany: (count) => `${count} UUIDs generated`,
     },
   },
 };

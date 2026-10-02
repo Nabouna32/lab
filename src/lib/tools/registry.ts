@@ -89,6 +89,10 @@ const moduleLoaders: Partial<Record<ToolId, ToolModule>> = {
     () => import("@/components/tools/base64/Base64Encoder"),
     () => import("@/components/tools/base64/ToolEditorial"),
   ),
+  "uuid-generator": createToolModule(
+    () => import("@/components/tools/uuid/UuidGenerator"),
+    () => import("@/components/tools/uuid/ToolEditorial"),
+  ),
 };
 
 export const toolRegistry: readonly ToolRegistryEntry[] = getPublishedTools().map((tool) => {

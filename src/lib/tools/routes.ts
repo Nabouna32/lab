@@ -31,6 +31,7 @@ const toolSlugs: Record<string, Record<Locale, string>> = {
   "json-formatter": { en: "json-formatter", fr: "formateur-json" },
   "url-encoder-decoder": { en: "url-encoder-decoder", fr: "encodeur-decodeur-url" },
   "base64-encoder-decoder": { en: "base64-encoder-decoder", fr: "encodeur-base64" },
+  "uuid-generator": { en: "uuid-generator", fr: "generateur-uuid" },
 };
 
 export function getToolsPath(locale: Locale): string {
