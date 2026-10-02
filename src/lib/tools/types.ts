@@ -13,7 +13,8 @@ export type ToolId =
   | "file-size-converter"
   | "word-character-counter"
   | "video-bitrate"
-  | "json-formatter";
+  | "json-formatter"
+  | "url-encoder-decoder";
 
 export type ToolComplexity = "small" | "advanced" | "mini-application";
 export type ToolProcessingMode = "local" | "external" | "server" | "hybrid";

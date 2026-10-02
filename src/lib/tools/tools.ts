@@ -55,6 +55,10 @@ const localProcessingDescriptions = {
     fr: "Le JSON saisi est validé et formaté directement dans votre navigateur.",
     en: "The JSON you enter is validated and formatted directly in your browser.",
   },
+  "url-encoder-decoder": {
+    fr: "Le texte saisi est encodé ou décodé directement dans votre navigateur.",
+    en: "The text you enter is encoded or decoded directly in your browser.",
+  },
 } satisfies Record<ToolId, { fr: string; en: string }>;
 
 type ToolDefinition = Pick<
@@ -216,6 +220,20 @@ const toolDefinitions: ToolDefinition[] = [
     content: {
       fr: { name: "Formateur et validateur JSON", description: "Validez, formatez et minifiez du JSON directement dans votre navigateur." },
       en: { name: "JSON Formatter & Validator", description: "Validate, format, and minify JSON directly in your browser." },
+    },
+  },
+  {
+    id: "url-encoder-decoder", icon: "🔗",
+    version: 1,
+    complexity: "small",
+    categories: ["development"],
+    tags: ["url", "uri", "encode", "decode", "encodage", "décodage", "percent-encoding", "requête", "web", "developer"],
+    aliases: ["url encoder", "url decoder", "encodeur url", "décodeur url", "uri encoder", "uri decoder", "encodage url", "décodage url", "percent encoding", "encode url", "decode url"],
+    lifecycle: "published",
+    capabilities: ["clipboard"],
+    content: {
+      fr: { name: "Encodeur et décodeur d’URL", description: "Encodez ou décodez du texte et des URL directement dans votre navigateur." },
+      en: { name: "URL Encoder & Decoder", description: "Encode or decode text and URLs directly in your browser." },
     },
   },
   {

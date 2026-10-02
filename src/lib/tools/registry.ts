@@ -81,6 +81,10 @@ const moduleLoaders: Partial<Record<ToolId, ToolModule>> = {
     () => import("@/components/tools/json-formatter/JsonFormatter"),
     () => import("@/components/tools/json-formatter/ToolEditorial"),
   ),
+  "url-encoder-decoder": createToolModule(
+    () => import("@/components/tools/url-encoder/UrlEncoder"),
+    () => import("@/components/tools/url-encoder/ToolEditorial"),
+  ),
 };
 
 export const toolRegistry: readonly ToolRegistryEntry[] = getPublishedTools().map((tool) => {

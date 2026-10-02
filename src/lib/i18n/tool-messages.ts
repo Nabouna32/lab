@@ -64,6 +64,11 @@ type ToolMessages = {
     indentation: string; spaces2: string; spaces4: string; tab: string; valid: string; invalid: string;
     emptyResult: string; formatted: string; minified: string; errorAt: (line: string, column: string) => string;
   };
+  urlEncoder: {
+    input: string; placeholder: string; output: string; scope: string; component: string; uri: string;
+    operation: string; encode: string; decode: string; copy: string; clear: string; encoded: string; decoded: string;
+    emptyResult: string; error: string; invalidEncoding: string; invalidText: string;
+  };
 };
 
 export const toolMessages: Record<Locale, ToolMessages> = {
@@ -151,6 +156,11 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       indentation: "Indentation", spaces2: "2 espaces", spaces4: "4 espaces", tab: "Tabulation", valid: "JSON valide", invalid: "JSON invalide",
       emptyResult: "Le résultat apparaîtra ici après validation.", formatted: "Formaté", minified: "Minifié", errorAt: (line, column) => "Ligne " + line + ", colonne " + column,
     },
+    urlEncoder: {
+      input: "Votre texte", placeholder: "Saisissez du texte ou une URL…", output: "Résultat", scope: "Mode d’encodage", component: "Composant d’URL", uri: "URL complète",
+      operation: "Action", encode: "Encoder", decode: "Décoder", copy: "Copier", clear: "Effacer", encoded: "Encodé", decoded: "Décodé",
+      emptyResult: "Le résultat apparaîtra ici après transformation.", error: "La transformation n’a pas pu être effectuée.", invalidEncoding: "L’encodage URL est invalide.", invalidText: "Le texte contient un caractère qui ne peut pas être encodé.",
+    },
   },
   en: {
     fileSizeCalculator: {
@@ -233,6 +243,11 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       input: "Your JSON", placeholder: '{\\n  "name": "Loculary"\\n}', output: "Result", format: "Format", minify: "Minify", copy: "Copy", clear: "Clear",
       indentation: "Indentation", spaces2: "2 spaces", spaces4: "4 spaces", tab: "Tab", valid: "Valid JSON", invalid: "Invalid JSON",
       emptyResult: "The result will appear here after validation.", formatted: "Formatted", minified: "Minified", errorAt: (line, column) => "Line " + line + ", column " + column,
+    },
+    urlEncoder: {
+      input: "Your text", placeholder: "Enter text or a URL…", output: "Result", scope: "Encoding mode", component: "URL component", uri: "Complete URL",
+      operation: "Action", encode: "Encode", decode: "Decode", copy: "Copy", clear: "Clear", encoded: "Encoded", decoded: "Decoded",
+      emptyResult: "The result will appear here after transformation.", error: "The transformation could not be completed.", invalidEncoding: "The URL encoding is invalid.", invalidText: "The text contains a character that cannot be encoded.",
     },
   },
 };
