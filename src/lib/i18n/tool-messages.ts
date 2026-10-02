@@ -157,7 +157,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       emptyResult: "Le résultat apparaîtra ici après validation.", formatted: "Formaté", minified: "Minifié", errorAt: (line, column) => "Ligne " + line + ", colonne " + column,
     },
     urlEncoder: {
-      input: "Votre texte", placeholder: "Saisissez du texte ou une URL…", output: "Résultat", scope: "Type de donnée", component: "Composant d’URL", uri: "URL complète",
+      input: "Votre texte", placeholder: "Saisissez du texte ou une URL…", output: "Résultat", scope: "Mode d’encodage", component: "Composant d’URL", uri: "URL complète",
       operation: "Action", encode: "Encoder", decode: "Décoder", copy: "Copier", clear: "Effacer", encoded: "Encodé", decoded: "Décodé",
       emptyResult: "Le résultat apparaîtra ici après transformation.", error: "La transformation n’a pas pu être effectuée.", invalidEncoding: "L’encodage URL est invalide.", invalidText: "Le texte contient un caractère qui ne peut pas être encodé.",
     },
@@ -245,7 +245,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       emptyResult: "The result will appear here after validation.", formatted: "Formatted", minified: "Minified", errorAt: (line, column) => "Line " + line + ", column " + column,
     },
     urlEncoder: {
-      input: "Your text", placeholder: "Enter text or a URL…", output: "Result", scope: "Data type", component: "URL component", uri: "Complete URL",
+      input: "Your text", placeholder: "Enter text or a URL…", output: "Result", scope: "Encoding mode", component: "URL component", uri: "Complete URL",
       operation: "Action", encode: "Encode", decode: "Decode", copy: "Copy", clear: "Clear", encoded: "Encoded", decoded: "Decoded",
       emptyResult: "The result will appear here after transformation.", error: "The transformation could not be completed.", invalidEncoding: "The URL encoding is invalid.", invalidText: "The text contains a character that cannot be encoded.",
     },
