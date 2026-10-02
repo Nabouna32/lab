@@ -17,6 +17,10 @@ describe("timestampToDate", () => {
   it("rejects non-finite values", () => {
     expect(timestampToDate(Number.NaN, "seconds")).toBeNull();
   });
+
+  it("rejects overflow", () => {
+    expect(timestampToDate(Number.MAX_VALUE, "milliseconds")).toBeNull();
+  });
 });
 
 describe("dateTimeLocalToTimestamp", () => {
