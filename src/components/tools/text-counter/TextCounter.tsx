@@ -13,7 +13,12 @@ export default function TextCounter() {
   const locale = useLocale();
   const t = getToolMessages(locale).textCounter;
   const [text, setText] = useState("");
-  const stats = useMemo(() => countTextStats(text), [text]);
+  const stats = useMemo(() => {
+    if (typeof window === "undefined") {
+      return { characters: 0, charactersWithoutSpaces: 0, words: 0, spaces: 0, lines: 0 };
+    }
+    return countTextStats(text);
+  }, [text]);
   const copyValue = [
     `${t.words}: ${stats.words}`,
     `${t.characters}: ${stats.characters}`,
