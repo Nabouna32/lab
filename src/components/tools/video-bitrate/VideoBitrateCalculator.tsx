@@ -10,6 +10,8 @@ import { ValidationMessage } from "@/components/ui/ValidationMessage";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { formatToolNumber, parseLocalizedNumber } from "@/lib/numbers";
+import { getBitrateUnitLabel } from "@/lib/i18n/units";
+import type { BitrateUnit } from "@/lib/taille-fichier";
 import { calculateVideoBitrateMbps, calculateVideoSizeBytes, formatDurationSeconds } from "@/lib/video-bitrate";
 
 type Mode = "bitrate" | "size";
@@ -27,6 +29,7 @@ export default function VideoBitrateCalculator() {
   const [size, setSize] = useState("");
   const [sizeUnit, setSizeUnit] = useState<SizeUnit>("GB");
   const [bitrate, setBitrate] = useState("");
+  const [bitrateUnit, setBitrateUnit] = useState<BitrateUnit>("mbps");
 
   const duration = formatDurationSeconds(
     parseLocalizedNumber(hours) ?? 0,
@@ -34,6 +37,7 @@ export default function VideoBitrateCalculator() {
     parseLocalizedNumber(seconds) ?? 0,
   );
   const value = mode === "bitrate" ? parseLocalizedNumber(size) : parseLocalizedNumber(bitrate);
+  const bitrateToMbps: Record<BitrateUnit, number> = { kbps: 0.001, mbps: 1, gbps: 1000 };
 
   let result: number | null = null;
   let error: string | null = null;
@@ -48,7 +52,7 @@ export default function VideoBitrateCalculator() {
   if (!error && duration !== null && value !== null) {
     result = mode === "bitrate"
       ? calculateVideoBitrateMbps(duration, value * SIZE_MULTIPLIERS[sizeUnit])
-      : calculateVideoSizeBytes(duration, value);
+      : calculateVideoSizeBytes(duration, value * bitrateToMbps[bitrateUnit]);
     if (result === null) error = t.invalid;
   }
 
@@ -64,7 +68,7 @@ export default function VideoBitrateCalculator() {
     result === null || error
       ? ""
       : mode === "bitrate"
-        ? `${formatToolNumber(result, locale, 3)} Mbps`
+        ? `${formatToolNumber(result / bitrateToMbps[bitrateUnit], locale, 3)} ${getBitrateUnitLabel(locale, bitrateUnit)}`
         : `${formatToolNumber(result / 1_000_000, locale, 2)} MB · ${formatToolNumber(result / 1_000_000_000, locale, 3)} GB`;
 
   const modes = [
