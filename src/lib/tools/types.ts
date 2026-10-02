@@ -15,7 +15,8 @@ export type ToolId =
   | "video-bitrate"
   | "json-formatter"
   | "url-encoder-decoder"
-  | "base64-encoder-decoder";
+  | "base64-encoder-decoder"
+  | "uuid-generator";
 
 export type ToolComplexity = "small" | "advanced" | "mini-application";
 export type ToolProcessingMode = "local" | "external" | "server" | "hybrid";

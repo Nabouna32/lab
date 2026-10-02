@@ -121,6 +121,7 @@ test("all published tool pages render", async ({ page }) => {
     "/fr/outils/developpement/formateur-json",
     "/fr/outils/developpement/encodeur-decodeur-url",
     "/fr/outils/developpement/encodeur-base64",
+    "/fr/outils/developpement/generateur-uuid",
   "/en/tools/files/word-character-counter",
   ];
 

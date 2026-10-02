@@ -50,6 +50,10 @@ export const toolSeo = {
     fr: { title: "Encodeur et décodeur Base64 | Loculary", description: "Encodez et décodez du texte UTF-8 en Base64 directement dans votre navigateur." },
     en: { title: "Base64 Encoder & Decoder | Loculary", description: "Encode and decode UTF-8 text as Base64 directly in your browser." },
   },
+  "uuid-generator": {
+    fr: { title: "Générateur UUID | Loculary", description: "Générez des UUID v4 aléatoires directement dans votre navigateur." },
+    en: { title: "UUID Generator | Loculary", description: "Generate random UUID v4 values directly in your browser." },
+  },
   "url-encoder-decoder": {
     fr: { title: "Encodeur et décodeur d’URL | Loculary", description: "Encodez et décodez du texte ou des URL directement dans votre navigateur." },
     en: { title: "URL Encoder & Decoder | Loculary", description: "Encode and decode text or URLs directly in your browser." },
