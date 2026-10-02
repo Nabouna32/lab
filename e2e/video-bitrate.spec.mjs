@@ -9,7 +9,7 @@ test("video bitrate calculator finds bitrate from a target size in French", asyn
   await page.getByLabel("Minutes").fill("10");
   await page.getByLabel("Taille cible").fill("0.75");
 
-  await expect(page.getByText("10 Mbps", { exact: true })).toBeVisible();
+  await expect(page.getByText("10 Mbit/s", { exact: true })).toBeVisible();
 });
 
 test("video bitrate calculator estimates file size in English", async ({ page }) => {
