@@ -46,6 +46,7 @@ test("UUID generator rejects an invalid count", async ({ page }) => {
   await page.getByLabel("Nombre d’UUID").fill("51");
   await page.getByRole("button", { name: "Générer" }).click();
 
-  await expect(page.getByRole("alert")).toHaveText("Choisissez un nombre entier compris entre 1 et 50.");
+  await expect(page.locator("#uuid-count-error")).toHaveText("Choisissez un nombre entier compris entre 1 et 50.");
+  await expect(page.locator("#uuid-count-error")).toHaveAttribute("role", "alert");
   await expect(page.locator("pre").last()).toHaveText(" ");
 });
