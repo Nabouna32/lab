@@ -59,6 +59,10 @@ const localProcessingDescriptions = {
     fr: "Le texte saisi est encodé ou décodé directement dans votre navigateur.",
     en: "The text you enter is encoded or decoded directly in your browser.",
   },
+  "base64-encoder-decoder": {
+    fr: "Le texte saisi est encodé ou décodé en Base64 directement dans votre navigateur.",
+    en: "The text you enter is encoded or decoded as Base64 directly in your browser.",
+  },
 } satisfies Record<ToolId, { fr: string; en: string }>;
 
 type ToolDefinition = Pick<
@@ -220,6 +224,20 @@ const toolDefinitions: ToolDefinition[] = [
     content: {
       fr: { name: "Formateur et validateur JSON", description: "Validez, formatez et minifiez du JSON directement dans votre navigateur." },
       en: { name: "JSON Formatter & Validator", description: "Validate, format, and minify JSON directly in your browser." },
+    },
+  },
+  {
+    id: "base64-encoder-decoder", icon: "🔐",
+    version: 1,
+    complexity: "small",
+    categories: ["development"],
+    tags: ["base64", "encode", "decode", "encodage", "décodage", "utf-8", "text", "developer"],
+    aliases: ["base64 encoder", "base64 decoder", "encodeur base64", "décodeur base64", "encodage base64", "décodage base64"],
+    lifecycle: "published",
+    capabilities: ["clipboard"],
+    content: {
+      fr: { name: "Encodeur et décodeur Base64", description: "Encodez ou décodez du texte UTF-8 en Base64 directement dans votre navigateur." },
+      en: { name: "Base64 Encoder & Decoder", description: "Encode or decode UTF-8 text as Base64 directly in your browser." },
     },
   },
   {
