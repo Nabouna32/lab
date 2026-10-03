@@ -71,6 +71,10 @@ const localProcessingDescriptions = {
     fr: "Le texte saisi est encodé ou décodé directement dans votre navigateur.",
     en: "The text you enter is encoded or decoded directly in your browser.",
   },
+  "url-parser": {
+    fr: "L’URL saisie est analysée directement dans votre navigateur.",
+    en: "The URL you enter is parsed directly in your browser.",
+  },
   "base64-encoder-decoder": {
     fr: "Le texte saisi est encodé ou décodé en Base64 directement dans votre navigateur.",
     en: "The text you enter is encoded or decoded as Base64 directly in your browser.",
@@ -390,6 +394,20 @@ const toolDefinitions: ToolDefinition[] = [
     content: {
       fr: { name: "Encodeur et décodeur d’URL", description: "Encodez ou décodez du texte et des URL directement dans votre navigateur." },
       en: { name: "URL Encoder & Decoder", description: "Encode or decode text and URLs directly in your browser." },
+    },
+  },
+  {
+    id: "url-parser", icon: "🔎",
+    version: 1,
+    complexity: "small",
+    categories: ["development"],
+    tags: ["url", "uri", "parser", "parse", "query", "parameters", "hostname", "web", "developer"],
+    aliases: ["url parser", "url analyzer", "url analyser", "url inspector", "parse url", "url query parser", "analyseur url", "analyseur d’url", "inspecteur url", "paramètres url"],
+    lifecycle: "published",
+    capabilities: ["clipboard"],
+    content: {
+      fr: { name: "Analyseur d’URL", description: "Analysez une URL pour inspecter son protocole, son hôte, son chemin et ses paramètres." },
+      en: { name: "URL Parser", description: "Inspect a URL's protocol, host, path, and query parameters." },
     },
   },
   {
