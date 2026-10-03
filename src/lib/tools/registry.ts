@@ -141,6 +141,10 @@ const moduleLoaders: Partial<Record<ToolId, ToolModule>> = {
     () => import("@/components/tools/jwt-decoder/JwtDecoder"),
     () => import("@/components/tools/jwt-decoder/ToolEditorial"),
   ),
+  "contrast-checker": createToolModule(
+    () => import("@/components/tools/contrast-checker/ContrastChecker"),
+    () => import("@/components/tools/contrast-checker/ToolEditorial"),
+  ),
   "video-bitrate": createToolModule(
     () => import("@/components/tools/video-bitrate/VideoBitrateCalculator"),
     () => import("@/components/tools/video-bitrate/ToolEditorial"),
