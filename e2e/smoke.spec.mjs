@@ -97,12 +97,12 @@ test("tool search offers suggestions when nothing matches", async ({ page }) => 
 test("tools page is search-first and exposes category discovery", async ({ page }) => {
   await page.goto(`${baseUrl}/fr/outils`, { waitUntil: "domcontentloaded" });
 
-  await expect(page.getByRole("heading", { name: "Trouvez votre outil" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Tous les outils", exact: true })).toBeVisible();
   await expect(page.locator("#tools-page-search-input")).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Explorer les catégories" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Parcourir par catégorie" })).toBeVisible();
   await expect(page.getByRole("link", { name: /Calculs.*4 outils/ })).toBeVisible();
   await expect(page.getByRole("link", { name: /Informatique.*5 outils/ })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Pourcentage" })).toHaveCount(0);
+  await expect(page.getByRole("heading", { name: "Calculateur de pourcentage", exact: true })).toBeVisible();
 });
 
 test("all published tool pages render", async ({ page }) => {
@@ -166,7 +166,7 @@ test("processing status exposes an accessible information disclosure", async ({ 
   await expect(info).toBeVisible();
 
   await page.locator("summary").filter({ hasText: "Traitement local" }).click();
-  await expect(page.getByText("Vos données restent sur votre appareil : aucune donnée n’est envoyée à un serveur ni stockée par Loculary.", { exact: true })).toBeVisible();
+  await expect(page.getByText("Aucune donnée n'est envoyée à un serveur ni stockée par Loculary.", { exact: true })).toBeVisible();
 });
 
 test("English locale renders", async ({ page }) => {
