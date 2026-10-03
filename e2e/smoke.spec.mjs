@@ -97,7 +97,7 @@ test("tool search offers suggestions when nothing matches", async ({ page }) => 
 test("tools page is search-first and exposes category discovery", async ({ page }) => {
   await page.goto(`${baseUrl}/fr/outils`, { waitUntil: "domcontentloaded" });
 
-  await expect(page.getByRole("heading", { name: "Tous les outils" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Tous les outils", exact: true })).toBeVisible();
   await expect(page.locator("#tools-page-search-input")).toBeVisible();
   await expect(page.getByRole("heading", { name: "Parcourir par catégorie" })).toBeVisible();
   await expect(page.getByRole("link", { name: /Calculs.*4 outils/ })).toBeVisible();
