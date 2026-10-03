@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { CopyButton } from "@/components/ui/CopyButton";
+import { TextField } from "@/components/ui/TextField";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
@@ -21,24 +22,31 @@ export default function ColorConverter() {
       <div className="grid gap-5 p-5 sm:p-7 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.85fr)] lg:p-8">
         <div className="space-y-5">
           <div>
-            <label htmlFor="color-converter-input" className="block text-sm font-semibold text-[var(--foreground)]">{t.input}</label>
-            <div className="mt-2 flex gap-2">
-              <input
-                type="color"
-                aria-label={t.picker}
-                value={result?.hex ?? "#000000"}
-                onChange={(event) => setValue(event.target.value)}
-                className="h-12 w-14 shrink-0 cursor-pointer rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background)] p-1"
-              />
-              <input
-                id="color-converter-input"
-                value={value}
-                onChange={(event) => setValue(event.target.value)}
-                placeholder={t.placeholder}
-                spellCheck={false}
-                autoCapitalize="none"
-                className="min-w-0 flex-1 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background)] px-3.5 py-2.5 font-mono text-sm text-[var(--foreground)] outline-none transition focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/20"
-              />
+            <div className="flex items-end gap-2">
+              <div className="min-w-0 flex-1">
+                <TextField
+                  label={t.input}
+                  inputId="color-converter-input"
+                  value={value}
+                  onChange={(event) => setValue(event.target.value)}
+                  placeholder={t.placeholder}
+                  spellCheck={false}
+                  autoCapitalize="none"
+                  aria-invalid={!result}
+                  className="font-mono"
+                />
+              </div>
+              <div className="shrink-0">
+                <label htmlFor="color-converter-picker" className="sr-only">{t.picker}</label>
+                <input
+                  id="color-converter-picker"
+                  type="color"
+                  aria-label={t.picker}
+                  value={result?.hex ?? "#000000"}
+                  onChange={(event) => setValue(event.target.value)}
+                  className="h-11 w-14 cursor-pointer rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background)] p-1 outline-none transition focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+                />
+              </div>
             </div>
             <p className="mt-2 text-xs text-[var(--muted)]">{t.hint}</p>
           </div>
