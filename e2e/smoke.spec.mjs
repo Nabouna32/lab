@@ -120,6 +120,7 @@ test("all published tool pages render", async ({ page }) => {
     "/fr/outils/informatique/generateur-de-mot-de-passe",
     "/fr/outils/fichiers/compteur-de-mots-et-caracteres",
     "/fr/outils/images/convertisseur-de-couleur",
+    "/fr/outils/images/generateur-de-palette-de-couleurs",
     "/fr/outils/developpement/formateur-json",
     "/fr/outils/developpement/encodeur-decodeur-url",
     "/fr/outils/developpement/encodeur-base64",
