@@ -10,7 +10,7 @@ const content = {
       },
       {
         title: "Catégories prises en charge",
-        text: "La version actuelle couvre les longueurs, masses, températures, volumes et surfaces. Les conversions sont calculées directement dans votre navigateur.",
+        text: "La version actuelle couvre les longueurs, masses, températures, volumes et surfaces. Les unités de volume usuelles américaines sont explicitement indiquées. Les conversions sont calculées directement dans votre navigateur.",
       },
       {
         title: "Traitement local",
@@ -26,7 +26,7 @@ const content = {
       },
       {
         title: "Supported categories",
-        text: "The current version covers length, mass, temperature, volume, and area. Conversions are calculated directly in your browser.",
+        text: "The current version covers length, mass, temperature, volume, and area. US customary volume units are explicitly marked. Conversions are calculated directly in your browser.",
       },
       {
         title: "Local processing",
