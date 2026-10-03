@@ -12,7 +12,7 @@ const toolRendererFile = fileURLToPath(
 async function readPublishedToolIds() {
   const source = await readFile(toolsCatalogFile, "utf8");
   const ids = [];
-  for (const entry of source.split(/\n\s*\{\n/).slice(1)) {
+  for (const entry of source.split(/\n  \{\n/).slice(1)) {
     const id = entry.match(/\bid:\s*"([^"]+)"/)?.[1];
     const lifecycle = entry.match(/\blifecycle:\s*"([^"]+)"/)?.[1];
     if (id && lifecycle === "published") ids.push(id);
