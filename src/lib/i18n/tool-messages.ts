@@ -78,6 +78,11 @@ type ToolMessages = {
     operation: string; encode: string; decode: string; copy: string; clear: string; encoded: string; decoded: string;
     emptyResult: string; error: string; invalidEncoding: string; invalidText: string;
   };
+  urlParser: {
+    input: string; placeholder: string; result: string; ready: string; emptyResult: string; invalid: string;
+    clear: string; copy: string; hint: string; emptyValue: string; queryParameters: string; noQueryParameters: string;
+    protocol: string; origin: string; username: string; host: string; hostname: string; port: string; pathname: string; search: string; hash: string;
+  };
   base64: {
     input: string; placeholder: string; output: string; encode: string; decode: string; copy: string; clear: string;
     encoded: string; decoded: string; emptyResult: string; error: string; invalidBase64: string; invalidText: string;
@@ -266,6 +271,12 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       operation: "Action", encode: "Encoder", decode: "Décoder", copy: "Copier", clear: "Effacer", encoded: "Encodé", decoded: "Décodé",
       emptyResult: "Le résultat apparaîtra ici après transformation.", error: "La transformation n’a pas pu être effectuée.", invalidEncoding: "L’encodage URL est invalide.", invalidText: "Le texte contient un caractère qui ne peut pas être encodé.",
     },
+    urlParser: {
+      input: "Votre URL", placeholder: "https://exemple.com/chemin?lang=fr#section", result: "Analyse", ready: "URL analysée", emptyResult: "Le résultat apparaîtra ici après analyse.", invalid: "Saisissez une URL absolue valide.",
+      clear: "Effacer", copy: "Copier l’URL", hint: "L’analyse est effectuée localement dans votre navigateur. Aucun service externe n’est utilisé.", emptyValue: "—",
+      queryParameters: "Paramètres de requête", noQueryParameters: "Aucun paramètre de requête.", protocol: "Protocole", origin: "Origine", username: "Nom d’utilisateur",
+      host: "Hôte", hostname: "Nom d’hôte", port: "Port", pathname: "Chemin", search: "Requête", hash: "Fragment",
+    },
     base64: {
       input: "Votre texte", placeholder: "Saisissez du texte à encoder ou une chaîne Base64 à décoder…", output: "Résultat", encode: "Encoder", decode: "Décoder", copy: "Copier", clear: "Effacer",
       encoded: "Encodé en Base64", decoded: "Décodé", emptyResult: "Le résultat apparaîtra ici après transformation.", error: "La transformation n’a pas pu être effectuée.", invalidBase64: "La chaîne Base64 est invalide ou ne contient pas de texte UTF-8 valide.", invalidText: "Le texte ne peut pas être encodé.",
@@ -437,6 +448,12 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       input: "Your text", placeholder: "Enter text or a URL…", output: "Result", scope: "Encoding mode", component: "URL component", uri: "Complete URL",
       operation: "Action", encode: "Encode", decode: "Decode", copy: "Copy", clear: "Clear", encoded: "Encoded", decoded: "Decoded",
       emptyResult: "The result will appear here after transformation.", error: "The transformation could not be completed.", invalidEncoding: "The URL encoding is invalid.", invalidText: "The text contains a character that cannot be encoded.",
+    },
+    urlParser: {
+      input: "Your URL", placeholder: "https://example.com/path?lang=en#section", result: "Analysis", ready: "URL parsed", emptyResult: "The result will appear here after parsing.", invalid: "Enter a valid absolute URL.",
+      clear: "Clear", copy: "Copy URL", hint: "Parsing happens locally in your browser. No external service is used.", emptyValue: "—",
+      queryParameters: "Query parameters", noQueryParameters: "No query parameters.", protocol: "Protocol", origin: "Origin", username: "Username",
+      host: "Host", hostname: "Hostname", port: "Port", pathname: "Path", search: "Query", hash: "Fragment",
     },
     base64: {
       input: "Your text", placeholder: "Enter text to encode or a Base64 string to decode…", output: "Result", encode: "Encode", decode: "Decode", copy: "Copy", clear: "Clear",
