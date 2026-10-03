@@ -123,7 +123,7 @@ function propertyName(key: string): string {
 type ObjectNode = Extract<Node, { kind: "object" }>;
 
 function collectObjects(root: Node): ObjectNode[] {
-  const result: Node[] = [];
+  const result: ObjectNode[] = [];
   const seen = new Set<string>();
   function visit(node: Node) {
     if (node.kind === "object") {
