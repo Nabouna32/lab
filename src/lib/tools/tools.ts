@@ -47,6 +47,10 @@ const localProcessingDescriptions = {
     fr: "Le texte saisi est analysé directement dans votre navigateur.",
     en: "The text you enter is analyzed directly in your browser.",
   },
+  "contrast-checker": {
+    fr: "Les couleurs saisies et le calcul de contraste sont traités directement dans votre navigateur.",
+    en: "The colors you enter and the contrast calculation are processed directly in your browser.",
+  },
   "video-bitrate": {
     fr: "Les calculs de bitrate vidéo sont effectués directement dans votre navigateur.",
     en: "Video bitrate calculations are performed directly in your browser.",
