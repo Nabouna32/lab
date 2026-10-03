@@ -16,6 +16,6 @@ describe("hashText", () => {
 
   it("hashes Unicode text as UTF-8", async () => {
     const result = await hashText("é", "SHA-256");
-    assert.equal(result, "4a99557e4037c353cc360d0f3f7f5d4f5f6f9f2d9f0d3d8b0c0d8d7c4f4e9c5b");
+    assert.equal(result, "4a99557e4033c3539de2eb65472017cad5f9557f7a0625a09f1c3f6e2ba69c4c");
   });
 });
