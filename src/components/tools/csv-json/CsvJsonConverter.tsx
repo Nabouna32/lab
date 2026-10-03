@@ -83,7 +83,11 @@ export default function CsvJsonConverter() {
             <ClearButton onClear={clear} disabled={!input && !result} label={t.clear} />
           </div>
 
-          {error && <p id="csv-json-error" role="alert" className="mt-4 text-sm font-medium text-[var(--danger)]">{t[error]}</p>}
+          {error && (
+            <p id="csv-json-error" role="alert" className="mt-4 text-sm font-medium text-[var(--danger)]">
+              {error === "invalid-csv" ? t.invalidCsv : error === "invalid-json" ? t.invalidJson : t.unsupportedJson}
+            </p>
+          )}
         </div>
 
         <div className="flex min-h-full flex-col bg-[var(--background)] p-4 sm:p-6 lg:p-7">
