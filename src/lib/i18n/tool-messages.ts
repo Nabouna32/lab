@@ -86,6 +86,11 @@ type ToolMessages = {
     input: string; placeholder: string; operation: string; encode: string; decode: string; result: string;
     ready: string; emptyResult: string; copy: string; clear: string;
   };
+  jsonToTypeScript: {
+    input: string; placeholder: string; rootName: string; rootPlaceholder: string; generate: string;
+    result: string; ready: string; emptyResult: string; copy: string; clear: string; error: string;
+    invalidJson: string; unsupportedRoot: string;
+  };
   csvJson: {
     input: string; placeholder: string; delimiter: string; csvToJson: string; jsonToCsv: string;
     result: string; ready: string; emptyResult: string; copy: string; clear: string; error: string;
@@ -269,6 +274,11 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       input: "Votre texte", placeholder: "Saisissez du HTML ou du texte à transformer…", operation: "Action", encode: "Encoder", decode: "Décoder",
       result: "Résultat", ready: "Transformation mise à jour", emptyResult: "Le résultat apparaîtra ici.", copy: "Copier", clear: "Effacer",
     },
+    jsonToTypeScript: {
+      input: "Votre JSON", placeholder: "Collez un objet ou un tableau JSON…", rootName: "Nom du type racine", rootPlaceholder: "Root", generate: "Générer",
+      result: "TypeScript généré", ready: "Génération terminée", emptyResult: "Le code TypeScript apparaîtra ici.", copy: "Copier", clear: "Effacer", error: "Le JSON n’a pas pu être converti.",
+      invalidJson: "Le JSON est invalide.", unsupportedRoot: "Utilisez un objet ou un tableau JSON comme valeur racine.",
+    },
     csvJson: {
       input: "Données", placeholder: "Collez un CSV ou un tableau JSON d’objets…", delimiter: "Séparateur CSV", csvToJson: "CSV → JSON", jsonToCsv: "JSON → CSV",
       result: "Résultat", ready: "Conversion mise à jour", emptyResult: "Le résultat apparaîtra ici.", copy: "Copier", clear: "Effacer", error: "La conversion n’a pas pu être effectuée.",
@@ -435,6 +445,11 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     htmlEntityEncoder: {
       input: "Your text", placeholder: "Enter HTML or text to transform…", operation: "Action", encode: "Encode", decode: "Decode",
       result: "Result", ready: "Transformation updated", emptyResult: "The result will appear here.", copy: "Copy", clear: "Clear",
+    },
+    jsonToTypeScript: {
+      input: "Your JSON", placeholder: "Paste a JSON object or array…", rootName: "Root type name", rootPlaceholder: "Root", generate: "Generate",
+      result: "Generated TypeScript", ready: "Generation complete", emptyResult: "Generated TypeScript will appear here.", copy: "Copy", clear: "Clear", error: "The JSON could not be converted.",
+      invalidJson: "The JSON is invalid.", unsupportedRoot: "Use a JSON object or array as the root value.",
     },
     csvJson: {
       input: "Data", placeholder: "Paste CSV or a JSON array of objects…", delimiter: "CSV delimiter", csvToJson: "CSV → JSON", jsonToCsv: "JSON → CSV",

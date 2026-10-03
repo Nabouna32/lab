@@ -37,6 +37,7 @@
 - Added the browser-local UUID Generator for random UUID v4 values with EN/FR metadata and focused unit/E2E coverage.
 - Added the browser-local HTML Entity Encoder & Decoder with local special-character encoding, common named/numeric entity decoding, EN/FR metadata, localized routes, SEO metadata, focused unit coverage, and Playwright coverage.
 - Added the browser-local CSV & JSON Converter with quoted-field parsing, delimiter support, EN/FR metadata, localized routes, SEO metadata, focused unit coverage, and Playwright coverage.
+- Added the browser-local JSON to TypeScript generator with nested object inference, array merging, optional properties, unions, EN/FR metadata, localized routes, SEO metadata, focused unit coverage, and Playwright coverage.
 - Added the browser-local Color Converter for HEX, RGB, and HSL with EN/FR metadata and focused unit/E2E coverage.
 - Added the browser-local Color Palette Generator with common color harmonies, EN/FR metadata and focused unit/E2E coverage.
 - Hardened published numeric tools against non-finite calculation results and surfaced invalid numeric input instead of silently hiding results.

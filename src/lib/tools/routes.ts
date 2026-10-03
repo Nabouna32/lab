@@ -34,6 +34,7 @@ const toolSlugs: Record<string, Record<Locale, string>> = {
   "url-encoder-decoder": { en: "url-encoder-decoder", fr: "encodeur-decodeur-url" },
   "base64-encoder-decoder": { en: "base64-encoder-decoder", fr: "encodeur-base64" },
   "html-entity-encoder-decoder": { en: "html-entity-encoder-decoder", fr: "encodeur-decodeur-entites-html" },
+  "json-to-typescript": { en: "json-to-typescript", fr: "json-vers-typescript" },
   "csv-json-converter": { en: "csv-json-converter", fr: "convertisseur-csv-json" },
   "uuid-generator": { en: "uuid-generator", fr: "generateur-uuid" },
   "unix-timestamp": { en: "unix-timestamp-converter", fr: "convertisseur-timestamp-unix" },
