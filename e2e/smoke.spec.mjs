@@ -244,6 +244,13 @@ test("text counter tool renders and counts words", async ({ page }) => {
 
 
 test("CSV and JSON converter transforms tabular data", async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, "clipboard", {
+      configurable: true,
+      value: { writeText: async () => {} },
+    });
+  });
+
   await page.goto(baseUrl + "/fr/outils/fichiers/convertisseur-csv-json", { waitUntil: "networkidle" });
 
   await expect(page.getByRole("heading", { name: "Convertisseur CSV et JSON" })).toBeVisible();
