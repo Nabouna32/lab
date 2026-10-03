@@ -13,6 +13,7 @@ export type ToolId =
   | "file-size-converter"
   | "word-character-counter"
   | "text-case-converter"
+  | "unit-converter"
   | "video-bitrate"
   | "json-formatter"
   | "url-encoder-decoder"

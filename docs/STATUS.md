@@ -28,6 +28,7 @@
 ## Recent tool additions
 
 - Added the browser-local Text Case Converter with EN/FR metadata, localized routes, SEO metadata, local processing disclosure, focused unit coverage and Playwright smoke coverage.
+- Added the browser-local Unit Converter with length, mass, temperature, volume, and area categories, localized routes/metadata, focused conversion coverage, and Playwright smoke coverage.
 
 ## Recent functional audit
 

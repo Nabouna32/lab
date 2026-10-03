@@ -63,6 +63,11 @@ type ToolMessages = {
     input: string; placeholder: string; mode: string; result: string; ready: string; emptyResult: string; copy: string; clear: string;
     modes: { uppercase: string; lowercase: string; title: string; camel: string; pascal: string; snake: string; kebab: string };
   };
+  unitConverter: {
+    value: string; category: string; from: string; to: string; result: string; placeholder: string; invalid: string;
+    emptyResult: string; copy: string; swap: string; hint: string;
+    categories: { length: string; mass: string; temperature: string; volume: string; area: string };
+  };
   jsonFormatter: {
     input: string; placeholder: string; output: string; format: string; minify: string; copy: string; clear: string;
     indentation: string; spaces2: string; spaces4: string; tab: string; valid: string; invalid: string;
@@ -232,6 +237,11 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       input: "Votre texte", placeholder: "Saisissez ou collez votre texte…", mode: "Transformer en", result: "Résultat", ready: "Transformation mise à jour", emptyResult: "Le résultat apparaîtra ici.", copy: "Copier", clear: "Effacer",
       modes: { uppercase: "MAJUSCULES", lowercase: "minuscules", title: "Title Case", camel: "camelCase", pascal: "PascalCase", snake: "snake_case", kebab: "kebab-case" },
     },
+    unitConverter: {
+      value: "Valeur à convertir", category: "Catégorie", from: "De", to: "Vers", result: "Résultat", placeholder: "Ex. 1,5", invalid: "Saisissez une valeur valide et compatible avec l’unité choisie.",
+      emptyResult: "Saisissez une valeur pour voir la conversion.", copy: "Copier", swap: "Inverser les unités", hint: "La conversion est calculée localement dans votre navigateur.",
+      categories: { length: "Longueur", mass: "Masse", temperature: "Température", volume: "Volume", area: "Surface" },
+    },
     jsonFormatter: {
       input: "Votre JSON", placeholder: '{\\n  "name": "Loculary"\\n}', output: "Résultat", format: "Formater", minify: "Minifier", copy: "Copier", clear: "Effacer",
       indentation: "Indentation", spaces2: "2 espaces", spaces4: "4 espaces", tab: "Tabulation", valid: "JSON valide", invalid: "JSON invalide",
@@ -384,6 +394,11 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     textCaseConverter: {
       input: "Your text", placeholder: "Type or paste your text here…", mode: "Transform to", result: "Result", ready: "Transformation updated", emptyResult: "The result will appear here.", copy: "Copy", clear: "Clear",
       modes: { uppercase: "UPPERCASE", lowercase: "lowercase", title: "Title Case", camel: "camelCase", pascal: "PascalCase", snake: "snake_case", kebab: "kebab-case" },
+    },
+    unitConverter: {
+      value: "Value to convert", category: "Category", from: "From", to: "To", result: "Result", placeholder: "e.g. 1.5", invalid: "Enter a valid value that is compatible with the selected unit.",
+      emptyResult: "Enter a value to see the conversion.", copy: "Copy", swap: "Swap units", hint: "The conversion is calculated locally in your browser.",
+      categories: { length: "Length", mass: "Mass", temperature: "Temperature", volume: "Volume", area: "Area" },
     },
     jsonFormatter: {
       input: "Your JSON", placeholder: '{\\n  "name": "Loculary"\\n}', output: "Result", format: "Format", minify: "Minify", copy: "Copy", clear: "Clear",
