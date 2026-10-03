@@ -57,16 +57,31 @@ export default async function CategoryPage({
   const categoryTools = getToolsByCategory(category.id);
 
   return (
-    <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      <div className="max-w-3xl">
-        <Breadcrumbs locale={locale} items={[{ label: t.nav.tools, href: getToolsPath(locale) }, { label: categoryName }]} />
-        <p className="mt-8 text-3xl" aria-hidden="true">{category.icon}</p>
-        <h1 className="mt-3 text-3xl font-bold tracking-tight text-[var(--foreground)] sm:text-4xl">{categoryName}</h1>
-        <p className="mt-4 text-base leading-7 text-[var(--muted)]">{t.tools.categoryDescription(categoryName)}</p>
-      </div>
-      <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {categoryTools.map((tool) => <ToolCard key={tool.id} tool={tool} locale={locale} categoryName={categoryName} />)}
-      </div>
+    <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
+      <Breadcrumbs locale={locale} items={[{ label: t.nav.tools, href: getToolsPath(locale) }, { label: categoryName }]} />
+      <header className="border-b border-[var(--border)] pb-7 pt-7 sm:pb-9">
+        <div className="flex items-start gap-4">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[var(--radius-md)] bg-[var(--accent-soft)] text-2xl" aria-hidden="true">{category.icon}</span>
+          <div className="min-w-0 max-w-3xl">
+            <h1 className="text-3xl font-black tracking-[-0.04em] sm:text-4xl">{categoryName}</h1>
+            <p className="mt-2 text-base leading-7 text-[var(--muted)]">{t.tools.categoryDescription(categoryName)}</p>
+          </div>
+        </div>
+      </header>
+      <section className="py-7 sm:py-9" aria-labelledby="category-tools-heading">
+        <div className="mb-4">
+          <h2 id="category-tools-heading" className="text-lg font-bold sm:text-xl">
+            {categoryTools.length} {formatCategoryCount(locale, categoryTools.length, t.tools.one, t.tools.many)}
+          </h2>
+        </div>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {categoryTools.map((tool) => <ToolCard key={tool.id} tool={tool} locale={locale} categoryName={categoryName} />)}
+        </div>
+      </section>
     </main>
   );
+}
+
+function formatCategoryCount(locale: Locale, count: number, one: string, many: string) {
+  return new Intl.PluralRules(locale).select(count) === "one" ? one : many;
 }
