@@ -1,6 +1,6 @@
-import test from "node:test";
 import assert from "node:assert/strict";
-import { getPreferredLocale } from "./request-locale";
+import { test } from "node:test";
+import { getPreferredLocale } from "./request-locale.ts";
 
 test("uses English when Accept-Language is missing", () => {
   assert.equal(getPreferredLocale(null), "en");
