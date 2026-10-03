@@ -9,10 +9,15 @@ function decodeBase64Url(value: string): string {
   if (!/^[A-Za-z0-9+/]*={0,2}$/.test(normalized) || normalized.length % 4 === 1) {
     throw new Error("Invalid base64url segment");
   }
-  const padded = normalized.padEnd(Math.ceil(normalized.length / 4) * 4, "=");
-  const binary = atob(padded);
-  const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
-  return new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+
+  try {
+    const padded = normalized.padEnd(Math.ceil(normalized.length / 4) * 4, "=");
+    const binary = atob(padded);
+    const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
+    return new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+  } catch {
+    throw new Error("Invalid base64url UTF-8 segment");
+  }
 }
 
 function decodeJsonSegment(segment: string): Record<string, unknown> {
