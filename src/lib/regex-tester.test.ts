@@ -24,7 +24,7 @@ describe("testRegex", () => {
   });
 
   it("supports case-insensitive and multiline flags", () => {
-    const result = testRegex("^cat$", "gim", "CAT\\ncat");
+    const result = testRegex("^cat$", "gim", "CAT\ncat");
     assert.equal(result.matches.length, 2);
   });
 
