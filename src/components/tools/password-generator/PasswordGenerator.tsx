@@ -59,19 +59,19 @@ export default function PasswordGenerator() {
 
           <fieldset className="mt-7">
             <legend className="text-sm font-medium text-[var(--foreground)]">{t.characters}</legend>
-            <div className="mt-3 grid gap-3 sm:grid-cols-2">
+            <div className="mt-3 grid gap-x-4 border-y border-[var(--border)] sm:grid-cols-2">
               {([
                 ["lowercase", t.lowercase],
                 ["uppercase", t.uppercase],
                 ["numbers", t.numbers],
                 ["symbols", t.symbols],
               ] as const).map(([key, label]) => (
-                <label key={key} className="flex cursor-pointer items-center gap-3 rounded-[var(--radius-md)] border border-[var(--border)] p-3 text-sm text-[var(--foreground)] transition-colors hover:bg-[var(--surface-soft)]">
+                <label key={key} className="flex min-h-12 cursor-pointer items-center gap-3 border-b border-[var(--border)] py-3 text-sm text-[var(--foreground)] transition-colors last:border-b-0 hover:text-[var(--accent)] focus-within:text-[var(--accent)] sm:[&:nth-child(3)]:border-b-0 sm:[&:nth-child(4)]:border-b-0">
                   <input
                     type="checkbox"
                     checked={options[key]}
                     onChange={(event) => update(key, event.target.checked)}
-                    className="size-4 accent-[var(--accent)]"
+                    className="size-4 shrink-0 accent-[var(--accent)]"
                   />
                   {label}
                 </label>
