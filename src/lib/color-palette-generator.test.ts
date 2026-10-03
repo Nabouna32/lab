@@ -1,31 +1,30 @@
-import { describe, expect, it } from "vitest";
-import { generatePalette } from "./color-palette-generator";
+import assert from "node:assert/strict";
+import { test } from "node:test";
+import { generatePalette } from "./color-palette-generator.ts";
 
-describe("generatePalette", () => {
-  it("generates deterministic harmonies from a valid color", () => {
-    const palette = generatePalette("#336699");
-    expect(palette?.base.hex).toBe("#336699");
-    expect(palette?.analogous).toHaveLength(5);
-    expect(palette?.complementary).toHaveLength(4);
-    expect(palette?.triadic).toHaveLength(3);
-    expect(palette?.splitComplementary).toHaveLength(3);
-    expect(palette?.monochromatic).toHaveLength(5);
-  });
+test("generates deterministic harmonies from a valid color", () => {
+  const palette = generatePalette("#336699");
+  assert.equal(palette?.base.hex, "#336699");
+  assert.equal(palette?.analogous.length, 5);
+  assert.equal(palette?.complementary.length, 4);
+  assert.equal(palette?.triadic.length, 3);
+  assert.equal(palette?.splitComplementary.length, 3);
+  assert.equal(palette?.monochromatic.length, 5);
+});
 
-  it("wraps hues across the 0/360 boundary", () => {
-    const palette = generatePalette("hsl(350, 100%, 50%)");
-    expect(palette?.analogous[0].hsl.h).toBe(320);
-    expect(palette?.analogous[4].hsl.h).toBe(20);
-  });
+test("wraps hues across the 0/360 boundary", () => {
+  const palette = generatePalette("hsl(350, 100%, 50%)");
+  assert.equal(palette?.analogous[0].hsl.h, 320);
+  assert.equal(palette?.analogous[4].hsl.h, 20);
+});
 
-  it("handles achromatic colors without inventing saturation", () => {
-    const palette = generatePalette("#808080");
-    expect(palette?.analogous.every((color) => color.hsl.s === 0)).toBe(true);
-    expect(palette?.triadic.every((color) => color.hsl.s === 0)).toBe(true);
-  });
+test("handles achromatic colors without inventing saturation", () => {
+  const palette = generatePalette("#808080");
+  assert.ok(palette?.analogous.every((color) => color.hsl.s === 0));
+  assert.ok(palette?.triadic.every((color) => color.hsl.s === 0));
+});
 
-  it("rejects invalid colors", () => {
-    expect(generatePalette("not-a-color")).toBeNull();
-    expect(generatePalette("rgb(256, 0, 0)")).toBeNull();
-  });
+test("rejects invalid colors", () => {
+  assert.equal(generatePalette("not-a-color"), null);
+  assert.equal(generatePalette("rgb(256, 0, 0)"), null);
 });
