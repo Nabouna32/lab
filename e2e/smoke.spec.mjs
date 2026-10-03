@@ -72,7 +72,7 @@ test("tool search shows useful result context", async ({ page }) => {
   const search = page.locator("#tools-page-search-input");
   await search.fill("calculer 17 % de 283");
   await expect(page.locator("#tools-page-search-results")).toBeVisible();
-  await expect(page.locator("#tools-page-search-results").getByText("Pourcentage", { exact: true })).toBeVisible();
+  await expect(page.locator("#tools-page-search-results").getByText("Calculateur de pourcentage", { exact: true })).toBeVisible();
   await expect(page.locator("#tools-page-search-results").getByText(/Calculs/)).toBeVisible();
   await expect(page.locator("#tools-page-search-result-0")).toContainText("Calculez un pourcentage, une évolution ou l’écart entre deux valeurs.");
 
@@ -120,6 +120,7 @@ test("all published tool pages render", async ({ page }) => {
     "/fr/outils/informatique/generateur-de-mot-de-passe",
     "/fr/outils/fichiers/compteur-de-mots-et-caracteres",
     "/fr/outils/images/convertisseur-de-couleur",
+    "/fr/outils/images/generateur-de-palette-de-couleurs",
     "/fr/outils/developpement/formateur-json",
     "/fr/outils/developpement/encodeur-decodeur-url",
     "/fr/outils/developpement/encodeur-base64",
@@ -211,7 +212,7 @@ test("text counter tool renders and counts words", async ({ page }) => {
 
   await page.goto(`${baseUrl}/fr/outils/fichiers/compteur-de-mots-et-caracteres`, { waitUntil: "networkidle" });
 
-  await expect(page.getByRole("heading", { name: "Mots & caractères" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Compteur de mots et caractères" })).toBeVisible();
   const input = page.getByLabel("Votre texte");
   await input.fill("Bonjour le monde");
   await expect(page.getByText("Mots", { exact: true }).locator("..")).toContainText("3");
