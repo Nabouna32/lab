@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { defaultLocale, locales } from "./lib/i18n/config";
+import { getPreferredLocale } from "./lib/i18n/request-locale";
 import { copySessionResponse, updateSession } from "./lib/supabase/proxy";
 
 export async function proxy(request: NextRequest) {
@@ -17,7 +18,8 @@ export async function proxy(request: NextRequest) {
   }
 
   const url = request.nextUrl.clone();
-  url.pathname = "/" + defaultLocale + pathname;
+  const preferredLocale = getPreferredLocale(request.headers.get("accept-language"));
+  url.pathname = "/" + preferredLocale + pathname;
 
   const redirectResponse = NextResponse.redirect(url);
   return supabaseResponse
