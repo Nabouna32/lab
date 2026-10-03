@@ -204,7 +204,7 @@ test("public route metadata and category copy use localized message keys", async
   assert.match(home, /title: t\.home\.metaTitle/);
   assert.match(tools, /title: t\.tools\.metaTitle/);
   assert.match(category, /t\.tools\.categoryDescription\(categoryName\)/);
-  assert.match(messages, /metaTitle: "Loculary — Outils gratuits en ligne"/);
+  assert.match(messages, /metaTitle: "Loculary — Outils en ligne gratuits"/);
   assert.match(messages, /metaTitle: "Loculary — Outils en ligne gratuits"/);
   assert.match(messages, /categoryDescription: \(category\) =>/);
   assert.equal(messages.includes('locale === "fr" ? "Loculary — Outils gratuits en ligne"'), false);
