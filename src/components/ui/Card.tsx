@@ -17,13 +17,6 @@ const baseClasses =
 export function Card({ children, className = "", href }: CardContainerProps) {
   const classes = [baseClasses, className].join(" ");
 
-  if (href) {
-    return (
-      <Link href={href} className={classes}>
-        {children}
-      </Link>
-    );
-  }
-
+  if (href) return <Link href={href} className={classes}>{children}</Link>;
   return <div className={classes}>{children}</div>;
 }
