@@ -126,6 +126,8 @@ test("all published tool pages render", async ({ page }) => {
     "/fr/outils/developpement/formateur-json",
     "/fr/outils/developpement/encodeur-decodeur-url",
     "/fr/outils/developpement/encodeur-base64",
+    "/fr/outils/developpement/encodeur-decodeur-entites-html",
+    "/en/tools/development/html-entity-encoder-decoder",
     "/fr/outils/developpement/generateur-uuid",
   "/en/tools/files/word-character-counter",
   ];
@@ -238,6 +240,29 @@ test("text counter tool renders and counts words", async ({ page }) => {
   await expect(input).toHaveValue("");
 });
 
+
+test("HTML entity encoder and decoder transform and copy text", async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, "clipboard", {
+      configurable: true,
+      value: { writeText: async () => {} },
+    });
+  });
+
+  await page.goto(baseUrl + "/fr/outils/developpement/encodeur-decodeur-entites-html", { waitUntil: "networkidle" });
+
+  await expect(page.getByRole("heading", { name: "Encodeur et décodeur d’entités HTML" })).toBeVisible();
+  const input = page.getByLabel("Votre texte");
+  await input.fill("<p>Tom & Jerry</p>");
+  await expect(page.locator("pre")).toContainText("&lt;p&gt;Tom &amp; Jerry&lt;/p&gt;");
+  await page.getByRole("button", { name: "Décoder" }).click();
+  await input.fill("&lt;p&gt;Bonjour &amp; bienvenue&lt;/p&gt;");
+  await expect(page.locator("pre")).toContainText("<p>Bonjour & bienvenue</p>");
+  await page.getByRole("button", { name: "Copier" }).click();
+  await expect(page.getByRole("button", { name: "Copié" })).toBeVisible();
+  await page.getByRole("button", { name: "Effacer" }).click();
+  await expect(input).toHaveValue("");
+});
 
 test("text case converter transforms and copies text", async ({ page }) => {
   await page.addInitScript(() => {
