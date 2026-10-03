@@ -25,6 +25,10 @@
 - Converted related-tool rendering to a server component using the route-resolved locale.
 - Moved published tool editorial content out of the central switch and into the corresponding tool modules.
 
+## Recent tool additions
+
+- Added the browser-local Text Case Converter with EN/FR metadata, localized routes, SEO metadata, local processing disclosure, focused unit coverage and Playwright smoke coverage.
+
 ## Recent functional audit
 
 - Added the browser-local URL Encoder & Decoder with component/full-URL modes, EN/FR metadata and focused unit/E2E coverage.
