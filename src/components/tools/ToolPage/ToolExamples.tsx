@@ -15,7 +15,7 @@ export default function ToolExamples({
       {examples.map((example) => (
         <div
           key={example.title}
-          className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5"
+          className="border-t border-[var(--border)] pt-4 first:border-t-0 sm:p-1 sm:first:border-t-0"
         >
           <h3 className="font-semibold text-[var(--foreground)]">
             {example.title}

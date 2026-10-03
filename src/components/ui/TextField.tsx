@@ -32,7 +32,9 @@ export function TextField({
           className={[
             "min-h-11 w-full rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] px-3.5 py-2.5 text-[var(--foreground)] outline-none transition-[border-color,box-shadow,background-color] duration-[var(--motion-standard)] placeholder:text-[var(--muted)]",
             "hover:border-[var(--border-strong)]",
+            "aria-[invalid=true]:border-[var(--danger)] aria-[invalid=true]:focus-visible:border-[var(--danger)] aria-[invalid=true]:focus-visible:ring-[var(--danger)]/20",
             "focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]",
+            "disabled:cursor-not-allowed disabled:bg-[var(--surface-soft)] disabled:opacity-60",
             unit ? "pr-12" : "",
             className,
           ].join(" ")}

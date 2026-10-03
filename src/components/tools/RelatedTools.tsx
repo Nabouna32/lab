@@ -16,16 +16,18 @@ export default function RelatedTools({ toolId, locale }: { toolId: string; local
   if (relatedTools.length === 0) return null;
 
   return (
-    <section className="rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-7" aria-labelledby="related-tools-title">
+    <section aria-labelledby="related-tools-title">
       <h2 id="related-tools-title" className="text-xl font-bold text-[var(--foreground)] sm:text-2xl">{t.relatedTools.title}</h2>
-      <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-4 grid divide-y divide-[var(--border)] border-y border-[var(--border)] sm:grid-cols-2 sm:divide-x sm:divide-y-0 lg:grid-cols-3">
         {relatedTools.map((relatedTool) => {
           const content = getToolContent(relatedTool, locale);
           return (
-            <Link key={relatedTool.id} href={getToolPath(locale, getPrimaryToolCategory(relatedTool), relatedTool.id)} className="group rounded-2xl border border-[var(--border)] bg-[var(--background)] p-5 transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-0.5 hover:border-[var(--accent)] hover:shadow-lg hover:shadow-black/5">
-              <span className="text-2xl" aria-hidden="true">{relatedTool.icon}</span>
-              <h3 className="mt-4 font-semibold text-[var(--foreground)]">{content.name}</h3>
-              <p className="mt-2 text-sm leading-6 text-[var(--muted)]">{content.description}</p>
+            <Link key={relatedTool.id} href={getToolPath(locale, getPrimaryToolCategory(relatedTool), relatedTool.id)} className="group flex min-w-0 items-start gap-3 p-4 transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] sm:p-5">
+              <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-[var(--radius-md)] bg-[var(--accent-soft)] text-lg" aria-hidden="true">{relatedTool.icon}</span>
+              <span className="min-w-0">
+                <h3 className="font-semibold text-[var(--foreground)]">{content.name}</h3>
+                <p className="mt-1 text-sm leading-5 text-[var(--muted)]">{content.description}</p>
+              </span>
             </Link>
           );
         })}

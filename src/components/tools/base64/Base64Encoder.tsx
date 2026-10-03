@@ -37,9 +37,9 @@ export default function Base64Encoder() {
   }
 
   return (
-    <section className="overflow-hidden rounded-[var(--radius-2xl)] border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-sm)]">
+    <section className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]">
       <div className="grid gap-0 lg:grid-cols-2">
-        <div className="p-5 sm:p-7 lg:border-r lg:border-[var(--border)] lg:p-8">
+        <div className="p-4 sm:p-6 lg:border-r lg:border-[var(--border)] lg:p-7">
           <TextArea
             label={t.input}
             inputId="base64-input"
@@ -68,7 +68,7 @@ export default function Base64Encoder() {
           </div>
         </div>
 
-        <div className="flex min-h-full flex-col bg-[var(--background)] p-5 sm:p-7 lg:p-8">
+        <div className="flex min-h-full flex-col bg-[var(--background)] p-4 sm:p-6 lg:p-7">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
               <p className="text-sm font-semibold text-[var(--muted)]">{t.output}</p>
@@ -81,7 +81,7 @@ export default function Base64Encoder() {
 
           <pre
             aria-live="polite"
-            className="mt-4 min-h-[18rem] flex-1 overflow-auto whitespace-pre-wrap break-words rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4 font-mono text-sm leading-6 text-[var(--foreground)]"
+            className="mt-4 min-h-[18rem] flex-1 overflow-auto whitespace-pre-wrap break-words border-y border-[var(--border)] py-4 font-mono text-sm leading-6 text-[var(--foreground)]"
           >
             {result || " "}
           </pre>
