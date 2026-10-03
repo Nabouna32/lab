@@ -147,12 +147,12 @@ function parsePickerValue(value: string): string {
   return /^#[0-9a-f]{6}$/i.test(value) ? value : "#000000";
 }
 
-function Criterion({ label, pass, level }: { label: string; pass: boolean; level: string }) {
+function Criterion({ label, pass }: { label: string; pass: boolean }) {
   return (
     <div className="flex items-center justify-between gap-3 rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3">
       <span className="text-sm text-[var(--foreground)]">{label}</span>
       <span className={pass ? "text-sm font-bold text-[var(--success)]" : "text-sm font-bold text-[var(--danger)]"}>
-        {level} · {pass ? "✓" : "—"}
+        {pass ? "✓" : "—"}
       </span>
     </div>
   );
