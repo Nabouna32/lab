@@ -2,7 +2,7 @@
 
 import { useDeferredValue, useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { isLocale, type Locale } from "@/lib/i18n/config";
+import { defaultLocale, isLocale, type Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
 import { formatPlural } from "@/lib/i18n/plural";
 import { getCategoryName } from "@/lib/tools/categories";
@@ -63,7 +63,7 @@ export default function ToolSearch({
   const pathname = usePathname();
   const router = useRouter();
   const segment = pathname.split("/")[1];
-  const locale: Locale = localeProp ?? (isLocale(segment) ? segment : "fr");
+  const locale: Locale = localeProp ?? (isLocale(segment) ? segment : defaultLocale);
   const t = getMessages(locale);
   const [query, setQuery] = useState("");
   const [isFocused, setIsFocused] = useState(false);
