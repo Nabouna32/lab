@@ -32,12 +32,11 @@ export function generatePassword(
   const alphabet = getAlphabet(options);
   if (!alphabet) throw new Error("empty-character-set");
 
-  const requiredSets = [
-    options.lowercase ? CHARACTER_SETS.lowercase : "",
-    options.uppercase ? CHARACTER_SETS.uppercase : "",
-    options.numbers ? CHARACTER_SETS.numbers : "",
-    options.symbols ? CHARACTER_SETS.symbols : "",
-  ].filter(Boolean);
+  const requiredSets = getSelectedCharacterSets(options)
+    .map((set) => options.excludeAmbiguous ? filterAmbiguous(set) : set)
+    .filter(Boolean);
+
+  if (requiredSets.length === 0) throw new Error("empty-character-set");
 
   const password = requiredSets.map((set) => set[randomIndex(set.length, randomUint32)]!);
 
@@ -67,6 +66,19 @@ export function getAlphabet(options: PasswordOptions): string {
     : alphabet.join("");
 }
 
+function getSelectedCharacterSets(options: PasswordOptions): string[] {
+  return [
+    options.lowercase ? CHARACTER_SETS.lowercase : "",
+    options.uppercase ? CHARACTER_SETS.uppercase : "",
+    options.numbers ? CHARACTER_SETS.numbers : "",
+    options.symbols ? CHARACTER_SETS.symbols : "",
+  ].filter(Boolean);
+}
+
+function filterAmbiguous(set: string): string {
+  return [...set].filter((character) => !AMBIGUOUS.has(character)).join("");
+}
+
 export function validateOptions(options: PasswordOptions): void {
   if (
     !Number.isInteger(options.length) ||
@@ -80,14 +92,11 @@ export function validateOptions(options: PasswordOptions): void {
     throw new Error("empty-character-set" satisfies PasswordGeneratorError);
   }
 
-  const selectedSets = [
-    options.lowercase ? CHARACTER_SETS.lowercase : "",
-    options.uppercase ? CHARACTER_SETS.uppercase : "",
-    options.numbers ? CHARACTER_SETS.numbers : "",
-    options.symbols ? CHARACTER_SETS.symbols : "",
-  ].filter(Boolean);
-
-  if (options.excludeAmbiguous && selectedSets.every((set) => [...set].every((character) => AMBIGUOUS.has(character)))) {
+  const selectedSets = getSelectedCharacterSets(options);
+  if (
+    options.excludeAmbiguous &&
+    selectedSets.some((set) => filterAmbiguous(set).length === 0)
+  ) {
     throw new Error("empty-character-set" satisfies PasswordGeneratorError);
   }
 }
