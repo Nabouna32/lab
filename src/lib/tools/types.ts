@@ -21,7 +21,7 @@ export type ToolId =
   | "hash-generator"
   | "jwt-decoder"
   | "regex-tester"
-  | "password-generator";
+  | "password-generator"\n  | "contrast-checker";
 
 export type ToolComplexity = "small" | "advanced" | "mini-application";
 export type ToolProcessingMode = "local" | "external" | "server" | "hybrid";
