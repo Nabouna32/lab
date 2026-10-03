@@ -25,7 +25,7 @@ test("URL parser displays URL components and query parameters", async ({ page })
   await expect(page.getByText("tag", { exact: true })).toBeVisible();
   await expect(page.getByText("web", { exact: true })).toBeVisible();
 
-  await page.getByRole("button", { name: "Copier" }).click();
+  await page.getByRole("button", { name: "Copier l’URL" }).click();
   await expect(page.getByRole("button", { name: "Copié" })).toBeVisible();
 
   await page.getByRole("button", { name: "Effacer" }).click();
