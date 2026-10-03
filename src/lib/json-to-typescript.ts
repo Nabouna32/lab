@@ -110,7 +110,7 @@ function nodeType(node: Node): string {
     case "boolean": return "boolean";
     case "null": return "null";
     case "unknown": return "unknown";
-    case "array": return `${nodeType(node.item)}[]`;
+    case "array": return node.item.kind === "union" ? `Array<${nodeType(node.item)}>` : `${nodeType(node.item)}[]`;
     case "object": return node.name;
     case "union": return node.items.map(nodeType).join(" | ");
   }
