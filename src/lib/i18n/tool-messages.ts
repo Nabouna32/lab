@@ -133,6 +133,12 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       hint: "Formats acceptés : #RGB, #RRGGBB, rgb(...) et hsl(...).", reset: "Réinitialiser", preview: "Aperçu", previewDescription: "Cette couleur est traitée localement dans votre navigateur.",
       result: "Conversions", copy: "Copier", copied: "Copié", invalid: "Saisissez une couleur HEX, RGB ou HSL valide.", emptyResult: "Le résultat apparaîtra ici après conversion.",
     },
+    colorPaletteGenerator: {
+      input: "Votre couleur de départ", picker: "Choisir une couleur", placeholder: "#336699 ou hsl(210, 50%, 40%)",
+      hint: "Formats acceptés : #RGB, #RRGGBB, rgb(...) et hsl(...).", reset: "Réinitialiser", basePreview: "Aperçu de la palette",
+      analogous: "Analogique", complementary: "Complémentaire", triadic: "Triadique", splitComplementary: "Complémentaire scindée", monochromatic: "Monochromatique",
+      copy: "Copier", copied: "Copié", invalid: "Saisissez une couleur HEX, RGB ou HSL valide.",
+    },
     contrastChecker: {
       foreground: "Texte / premier plan", background: "Arrière-plan", colorHint: "Formats acceptés : #RGB, #RRGGBB ou rgb(r, g, b).",
       swap: "Inverser", reset: "Réinitialiser", preview: "Aperçu", previewText: "Exemple de texte", previewDescription: "Utilisez cet aperçu pour vérifier le rendu du contraste.",
