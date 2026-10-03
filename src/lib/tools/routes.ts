@@ -35,6 +35,7 @@ const toolSlugs: Record<string, Record<Locale, string>> = {
   "unix-timestamp": { en: "unix-timestamp-converter", fr: "convertisseur-timestamp-unix" },
   "hash-generator": { en: "hash-generator", fr: "generateur-hash" },
   "regex-tester": { en: "regex-tester", fr: "testeur-regex" },
+  "password-generator": { en: "password-generator", fr: "generateur-de-mot-de-passe" },
   "jwt-decoder": { en: "jwt-decoder", fr: "decodeur-jwt" },
 };
 
