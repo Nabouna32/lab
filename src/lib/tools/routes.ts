@@ -34,6 +34,7 @@ const toolSlugs: Record<string, Record<Locale, string>> = {
   "uuid-generator": { en: "uuid-generator", fr: "generateur-uuid" },
   "unix-timestamp": { en: "unix-timestamp-converter", fr: "convertisseur-timestamp-unix" },
   "hash-generator": { en: "hash-generator", fr: "generateur-hash" },
+  "regex-tester": { en: "regex-tester", fr: "testeur-regex" },
   "jwt-decoder": { en: "jwt-decoder", fr: "decodeur-jwt" },
 };
 

@@ -19,7 +19,8 @@ export type ToolId =
   | "uuid-generator"
   | "unix-timestamp"
   | "hash-generator"
-  | "jwt-decoder";
+  | "jwt-decoder"
+  | "regex-tester";
 
 export type ToolComplexity = "small" | "advanced" | "mini-application";
 export type ToolProcessingMode = "local" | "external" | "server" | "hybrid";
