@@ -755,3 +755,28 @@ The product is intended to launch with English and French as first-class languag
 - English is the naming reference for new internal identifiers and public route conventions.
 - URL generation must be centralized rather than assembled ad hoc throughout UI components.
 - The former decision that used French category identifiers as stable URL segments is superseded for public routing; its historical record remains unchanged.
+
+
+## DEC-037 — Complete account lifecycle and deletion semantics
+
+**Status:** Accepted
+
+### Decision
+
+Loculary's account system is complete for the current product scope using Supabase Auth as the identity/session authority and `public.profiles` as the minimal application profile store. Email/password authentication, email confirmation, PKCE password recovery, signed-in password changes, native email-change confirmation, profile/locale management, logout and permanent self-deletion are supported.
+
+Account deletion permanently removes the Auth user. User-owned rows that reference `auth.users` cascade as defined by their foreign keys. Administrative audit history is retained for security/integrity, but direct references to the deleted user are anonymized. The last `super_admin` account cannot self-delete until another super administrator exists.
+
+Sensitive account operations are authorized server-side; UI state is never treated as authorization. Profile RLS additionally requires a live Auth session, and the account deletion service uses a server-only Supabase secret.
+
+### Reason
+
+The account system must be complete without introducing unnecessary personal-data domains or weakening Supabase's native confirmation and session protections.
+
+### Consequences
+
+- Password reset and email confirmation use PKCE callback routes.
+- Account deletion is irreversible and explicitly confirmed by the user.
+- Audit history survives account deletion in anonymized form.
+- Future user-owned tables must define explicit deletion/retention semantics before being added to the account lifecycle.
+- Deleting the last super administrator is intentionally blocked to preserve administrative recoverability.
