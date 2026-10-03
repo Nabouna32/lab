@@ -1,4 +1,4 @@
-import { convertColor, formatHex, hslToRgb, type HslColor } from "./color-converter";
+import { convertColor, formatHex, hslToRgb, type HslColor } from "./color-converter.ts";
 
 export type PaletteColor = { hex: string; hsl: HslColor };
 export type Palette = {
