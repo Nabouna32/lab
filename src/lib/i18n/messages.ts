@@ -32,7 +32,7 @@ export const messages: Record<Locale, Messages> = {
     footer: { tagline: "Des outils utiles, directement dans votre navigateur.", explore: "Voir tous les outils", account: "Votre espace" },
     actions: { copy: "Copier", copied: "Copié", clear: "Effacer" },
     home: {
-      metaTitle: "Loculary — Outils gratuits en ligne",
+      metaTitle: "Loculary — Outils en ligne gratuits",
       badge: "Des outils utiles, directement dans votre navigateur",
       title: "Que voulez-vous faire ?",
       description: "Trouvez le bon outil et utilisez-le directement dans votre navigateur.",
@@ -90,7 +90,7 @@ export const messages: Record<Locale, Messages> = {
     footer: { tagline: "Useful tools, ready to use in your browser.", explore: "View all tools", account: "Your space" },
     actions: { copy: "Copy", copied: "Copied", clear: "Clear" },
     home: {
-      metaTitle: "Loculary — Outils en ligne gratuits",
+      metaTitle: "Loculary — Free online tools",
       badge: "Useful tools, right in your browser",
       title: "What do you want to do?",
       description: "Find the right tool and use it directly in your browser.",
