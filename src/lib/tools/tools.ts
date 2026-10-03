@@ -75,6 +75,10 @@ const localProcessingDescriptions = {
     fr: "Le texte saisi est encodé ou décodé en Base64 directement dans votre navigateur.",
     en: "The text you enter is encoded or decoded as Base64 directly in your browser.",
   },
+  "json-to-typescript": {
+    fr: "Les types TypeScript sont inférés et générés directement dans votre navigateur.",
+    en: "TypeScript types are inferred and generated directly in your browser.",
+  },
   "html-entity-encoder-decoder": {
     fr: "Le texte est encodé ou décodé directement dans votre navigateur.",
     en: "Text is encoded or decoded directly in your browser.",
@@ -317,6 +321,20 @@ const toolDefinitions: ToolDefinition[] = [
     content: {
       fr: { name: "Convertisseur CSV et JSON", description: "Convertissez des données CSV en JSON et des tableaux JSON en CSV directement dans votre navigateur." },
       en: { name: "CSV & JSON Converter", description: "Convert CSV data to JSON and JSON object arrays to CSV directly in your browser." },
+    },
+  },
+  {
+    id: "json-to-typescript", icon: "TS",
+    version: 1,
+    complexity: "advanced",
+    categories: ["development"],
+    tags: ["json", "typescript", "type", "interface", "generator", "developer", "api"],
+    aliases: ["json to typescript", "json typescript", "typescript generator", "json type generator", "generate typescript"],
+    lifecycle: "published",
+    capabilities: ["clipboard"],
+    content: {
+      fr: { name: "JSON vers TypeScript", description: "Générez des interfaces et types TypeScript à partir d’un exemple JSON directement dans votre navigateur." },
+      en: { name: "JSON to TypeScript", description: "Generate TypeScript interfaces and types from a JSON sample directly in your browser." },
     },
   },
   {
