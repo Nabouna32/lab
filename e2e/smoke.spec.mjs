@@ -127,6 +127,8 @@ test("all published tool pages render", async ({ page }) => {
     "/fr/outils/developpement/encodeur-decodeur-url",
     "/fr/outils/developpement/encodeur-base64",
     "/fr/outils/developpement/encodeur-decodeur-entites-html",
+    "/fr/outils/fichiers/convertisseur-csv-json",
+    "/en/tools/files/csv-json-converter",
     "/en/tools/development/html-entity-encoder-decoder",
     "/fr/outils/developpement/generateur-uuid",
   "/en/tools/files/word-character-counter",
@@ -240,6 +242,32 @@ test("text counter tool renders and counts words", async ({ page }) => {
   await expect(input).toHaveValue("");
 });
 
+
+test("CSV and JSON converter transforms tabular data", async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, "clipboard", {
+      configurable: true,
+      value: { writeText: async () => {} },
+    });
+  });
+
+  await page.goto(baseUrl + "/fr/outils/fichiers/convertisseur-csv-json", { waitUntil: "networkidle" });
+
+  await expect(page.getByRole("heading", { name: "Convertisseur CSV et JSON" })).toBeVisible();
+  const input = page.getByRole("textbox", { name: "Données" });
+  await input.fill('name,city\nAlice,"Paris, France"');
+  await page.getByRole("button", { name: "CSV → JSON" }).click();
+  await expect(page.locator("pre")).toContainText('"city": "Paris, France"');
+
+  await page.getByRole("button", { name: "JSON → CSV" }).click();
+  await input.fill('[{"name":"Alice","city":"Paris, France"},{"name":"Bob","city":"Lyon"}]');
+  await page.getByRole("button", { name: "JSON → CSV" }).click();
+  await expect(page.locator("pre")).toContainText('Alice,"Paris, France"');
+  await page.getByRole("button", { name: "Copier" }).click();
+  await expect(page.getByRole("button", { name: "Copié" })).toBeVisible();
+  await page.getByRole("button", { name: "Effacer" }).click();
+  await expect(input).toHaveValue("");
+});
 
 test("HTML entity encoder and decoder transform and copy text", async ({ page }) => {
   await page.addInitScript(() => {

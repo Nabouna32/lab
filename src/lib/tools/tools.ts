@@ -79,6 +79,10 @@ const localProcessingDescriptions = {
     fr: "Le texte est encodé ou décodé directement dans votre navigateur.",
     en: "Text is encoded or decoded directly in your browser.",
   },
+  "csv-json-converter": {
+    fr: "Les données CSV et JSON sont converties directement dans votre navigateur.",
+    en: "CSV and JSON data are converted directly in your browser.",
+  },
   "uuid-generator": {
     fr: "Les UUID sont générés aléatoirement directement dans votre navigateur.",
     en: "UUIDs are generated randomly directly in your browser.",
@@ -299,6 +303,20 @@ const toolDefinitions: ToolDefinition[] = [
     content: {
       fr: { name: "Formateur et validateur JSON", description: "Validez, formatez et minifiez du JSON directement dans votre navigateur." },
       en: { name: "JSON Formatter & Validator", description: "Validate, format, and minify JSON directly in your browser." },
+    },
+  },
+  {
+    id: "csv-json-converter", icon: "{↔}",
+    version: 1,
+    complexity: "small",
+    categories: ["files"],
+    tags: ["csv", "json", "converter", "data", "table", "spreadsheet", "transform", "developer"],
+    aliases: ["csv json converter", "csv to json", "json to csv", "csv converter", "json csv", "convert csv", "convert json"],
+    lifecycle: "published",
+    capabilities: ["clipboard"],
+    content: {
+      fr: { name: "Convertisseur CSV et JSON", description: "Convertissez des données CSV en JSON et des tableaux JSON en CSV directement dans votre navigateur." },
+      en: { name: "CSV & JSON Converter", description: "Convert CSV data to JSON and JSON object arrays to CSV directly in your browser." },
     },
   },
   {
