@@ -204,7 +204,7 @@ Account data is intentionally small: Supabase Auth owns credentials, email verif
 
 Password recovery uses Supabase's PKCE reset flow. Password changes from the signed-in account require the current password. Email changes use Supabase's native confirmation flow and do not bypass Secure Email Change protections.
 
-Account deletion is a server-side Supabase Edge Function authenticated with the user's JWT. It permanently deletes the Auth user with the server-only secret key, allowing Auth cascades to remove account-owned rows. Administrative audit records are retained for security/integrity but direct actor/target user references are anonymized. Deleting the last `super_admin` is blocked until another super administrator exists.
+Account deletion is a server-side Supabase Edge Function authenticated with the user's JWT. It permanently deletes the Auth user with the server-only secret key, allowing Auth cascades to remove account-owned rows. Administrative audit records are retained for security/integrity but direct actor/target user references are anonymized. Deleting the last `super_admin` is blocked until another super administrator exists, with account deletion and `super_admin` role removal serialized at the database layer to preserve that invariant under concurrent requests.
 
 ## Database
 
