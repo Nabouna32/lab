@@ -196,6 +196,16 @@ Initial provider selection remains an implementation decision.
 
 Anonymous usage is mandatory for core functionality.
 
+### Implemented account authentication architecture
+
+Loculary uses Supabase Auth with the Next.js App Router and PKCE for email confirmation and recovery links. Server Components, Server Actions and Route Handlers use the SSR Supabase client; identity checks use `getClaims()` for route/session protection and `getUser()` where a fresh Auth user record is required. The Proxy refreshes Auth state on account, Auth and administrative routes.
+
+Account data is intentionally small: Supabase Auth owns credentials, email verification, sessions and the canonical email address; `public.profiles` stores only display name and locale. Profile RLS requires both ownership and a live `auth.sessions` row, so a revoked session cannot continue to read or modify profile data while its JWT is still unexpired.
+
+Password recovery uses Supabase's PKCE reset flow. Password changes from the signed-in account require the current password. Email changes use Supabase's native confirmation flow and do not bypass Secure Email Change protections.
+
+Account deletion is a server-side Supabase Edge Function authenticated with the user's JWT. It permanently deletes the Auth user with the server-only secret key, allowing Auth cascades to remove account-owned rows. Administrative audit records are retained for security/integrity but direct actor/target user references are anonymized. Deleting the last `super_admin` is blocked until another super administrator exists.
+
 ## Database
 
 A database is expected to become useful for:
