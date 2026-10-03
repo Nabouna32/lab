@@ -11,6 +11,7 @@ function parseCsv(input: string, delimiter: string): string[][] {
   let row: string[] = [];
   let field = "";
   let quoted = false;
+  let closedQuote = false;
 
   for (let i = 0; i < input.length; i += 1) {
     const char = input[i];
@@ -22,9 +23,28 @@ function parseCsv(input: string, delimiter: string): string[][] {
           i += 1;
         } else {
           quoted = false;
+          closedQuote = true;
         }
       } else {
         field += char;
+      }
+      continue;
+    }
+
+    if (closedQuote) {
+      if (char === delimiter) {
+        row.push(field);
+        field = "";
+        closedQuote = false;
+      } else if (char === "\n" || char === "\r") {
+        row.push(field);
+        rows.push(row);
+        row = [];
+        field = "";
+        closedQuote = false;
+        if (char === "\r" && input[i + 1] === "\n") i += 1;
+      } else {
+        throw new Error("invalid-csv");
       }
       continue;
     }
@@ -76,9 +96,9 @@ function csvEscape(value: unknown, delimiter: CsvDelimiter): string {
     : text;
 }
 
-function toJson(input: string, delimiter?: CsvDelimiter): CsvJsonResult {
+function toJson(input: string, delimiter: CsvDelimiter): CsvJsonResult {
   try {
-    const rows = parseCsv(input, delimiter ?? detectDelimiter(input));
+    const rows = parseCsv(input, delimiter);
     if (rows.length === 0 || rows[0].every((cell) => cell === "")) {
       return { value: "[]", error: null };
     }
@@ -131,5 +151,5 @@ export function transformCsvJson(
   delimiter: CsvDelimiter = ",",
 ): CsvJsonResult {
   if (!input.trim()) return { value: "", error: null };
-  return operation === "csv-to-json" ? toJson(input) : fromJson(input, delimiter);
+  return operation === "csv-to-json" ? toJson(input, delimiter === "," ? detectDelimiter(input) : delimiter) : fromJson(input, delimiter);
 }
