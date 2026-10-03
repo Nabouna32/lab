@@ -6,7 +6,7 @@ import { ClearButton } from "@/components/ui/ClearButton";
 import { TextField } from "@/components/ui/TextField";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
-import { evaluateContrast } from "@/lib/contrast-checker";
+import { evaluateContrast, parseColor } from "@/lib/contrast-checker";
 
 const DEFAULT_FOREGROUND = "#111827";
 const DEFAULT_BACKGROUND = "#ffffff";
@@ -127,7 +127,7 @@ function ColorField({
             placeholder="#112233"
             spellCheck={false}
             autoCapitalize="none"
-            aria-invalid={!/^#[0-9a-f]{6}$/i.test(value)}
+            aria-invalid={parseColor(value) === null}
             aria-describedby={id + "-hint"}
             className="font-mono"
           />
