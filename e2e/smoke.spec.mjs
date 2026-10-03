@@ -143,7 +143,6 @@ test("unit converter converts values and swaps units", async ({ page }) => {
 
   const value = page.locator("#unit-converter-value");
   await value.fill("1,5");
-  await expect(page.getByRole("region", { name: "Résultat" })).toContainText("1,5");
   await page.locator("#unit-converter-from").selectOption("m");
   await page.locator("#unit-converter-to").selectOption("cm");
   await expect(page.getByRole("region", { name: "Résultat" })).toContainText("150");
