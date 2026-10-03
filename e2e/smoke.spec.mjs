@@ -100,7 +100,7 @@ test("tools page is search-first and exposes category discovery", async ({ page 
   await expect(page.getByRole("heading", { name: "Tous les outils", exact: true })).toBeVisible();
   await expect(page.locator("#tools-page-search-input")).toBeVisible();
   await expect(page.getByRole("heading", { name: "Parcourir par catégorie" })).toBeVisible();
-  await expect(page.getByRole("link", { name: /Calculs.*4 outils/ })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Calculs.*5 outils/ })).toBeVisible();
   await expect(page.getByRole("link", { name: /Informatique.*5 outils/ })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Calculateur de pourcentage", exact: true })).toBeVisible();
 });
@@ -118,6 +118,7 @@ test("all published tool pages render", async ({ page }) => {
     "/fr/outils/informatique/calculateur-de-taille-de-fichier",
     "/fr/outils/informatique/convertisseur-de-taille-de-fichier",
     "/fr/outils/informatique/generateur-de-mot-de-passe",
+    "/fr/outils/calculs/convertisseur-d-unites",
     "/fr/outils/fichiers/compteur-de-mots-et-caracteres",
     "/fr/outils/fichiers/convertisseur-de-casse",
     "/fr/outils/images/convertisseur-de-couleur",
