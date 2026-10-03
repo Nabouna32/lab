@@ -86,6 +86,10 @@ export const toolSeo = {
     fr: { title: "Bitrate vidéo | Loculary", description: "Calculez le bitrate ou la taille approximative d'une vidéo." },
     en: { title: "Video Bitrate Calculator | Loculary", description: "Calculate video bitrate or approximate file size." },
   },
+  "color-converter": {
+    fr: { title: "Convertisseur de couleurs | Loculary", description: "Convertissez des couleurs entre HEX, RGB et HSL directement dans votre navigateur." },
+    en: { title: "Color Converter | Loculary", description: "Convert colors between HEX, RGB, and HSL directly in your browser." },
+  },
   "contrast-checker": {
     fr: { title: "Vérificateur de contraste des couleurs | Loculary", description: "Vérifiez le contraste entre deux couleurs et les seuils WCAG AA et AAA directement dans votre navigateur." },
     en: { title: "Color Contrast Checker | Loculary", description: "Check color contrast and WCAG AA and AAA thresholds directly in your browser." },
