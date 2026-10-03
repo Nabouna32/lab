@@ -18,6 +18,7 @@ export type ToolId =
   | "json-formatter"
   | "url-encoder-decoder"
   | "base64-encoder-decoder"
+  | "html-entity-encoder-decoder"
   | "uuid-generator"
   | "unix-timestamp"
   | "hash-generator"
