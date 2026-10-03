@@ -105,6 +105,11 @@ type ToolMessages = {
     input: string; picker: string; placeholder: string; hint: string; reset: string; preview: string;
     previewDescription: string; result: string; copy: string; copied: string; invalid: string; emptyResult: string;
   };
+  colorPaletteGenerator: {
+    input: string; picker: string; placeholder: string; hint: string; reset: string; basePreview: string;
+    analogous: string; complementary: string; triadic: string; splitComplementary: string; monochromatic: string;
+    copy: string; copied: string; invalid: string;
+  };
   contrastChecker: {
     foreground: string; background: string; colorHint: string; swap: string; reset: string;
     preview: string; previewText: string; previewDescription: string; result: string; ratio: string;
