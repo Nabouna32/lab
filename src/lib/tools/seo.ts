@@ -78,6 +78,10 @@ export const toolSeo = {
     fr: { title: "Encodeur et décodeur d’URL | Loculary", description: "Encodez et décodez du texte ou des URL directement dans votre navigateur." },
     en: { title: "URL Encoder & Decoder | Loculary", description: "Encode and decode text or URLs directly in your browser." },
   },
+  "url-parser": {
+    fr: { title: "Analyseur d’URL | Loculary", description: "Analysez les composants d’une URL et inspectez ses paramètres de requête directement dans votre navigateur." },
+    en: { title: "URL Parser | Loculary", description: "Inspect URL components and query parameters directly in your browser." },
+  },
   "json-formatter": {
     fr: { title: "Formateur JSON et validateur en ligne | Loculary", description: "Validez, formatez et minifiez votre JSON gratuitement, directement dans votre navigateur." },
     en: { title: "JSON Formatter & Validator | Loculary", description: "Validate, format, and minify JSON for free directly in your browser." },
