@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { defaultLocale, locales } from "./lib/i18n/config";
+import { locales } from "./lib/i18n/config";
 import { getPreferredLocale } from "./lib/i18n/request-locale";
 import { copySessionResponse, updateSession } from "./lib/supabase/proxy";
 
