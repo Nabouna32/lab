@@ -28,7 +28,7 @@ test("password reset form performs browser validation", async ({ page }) => {
   await expect(email).toHaveAttribute("type", "email");
   await email.fill("not-an-email");
   await page.getByRole("button", { name: "Mot de passe oublié ?" }).click();
-  await expect(email).toHaveAttribute("aria-invalid", /true|false/).catch(() => {});
+  await expect(email).toBeInvalid();
 });
 
 test("protected account security pages redirect unauthenticated users", async ({ page }) => {
