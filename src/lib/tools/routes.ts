@@ -28,6 +28,7 @@ const toolSlugs: Record<string, Record<Locale, string>> = {
   "file-size-converter": { en: "file-size-converter", fr: "convertisseur-de-taille-de-fichier" },
   "word-character-counter": { en: "word-character-counter", fr: "compteur-de-mots-et-caracteres" },
   "text-case-converter": { en: "text-case-converter", fr: "convertisseur-de-casse" },
+  "unit-converter": { en: "unit-converter", fr: "convertisseur-d-unites" },
   "video-bitrate": { en: "video-bitrate-calculator", fr: "calculateur-de-bitrate-video" },
   "json-formatter": { en: "json-formatter", fr: "formateur-json" },
   "url-encoder-decoder": { en: "url-encoder-decoder", fr: "encodeur-decodeur-url" },
