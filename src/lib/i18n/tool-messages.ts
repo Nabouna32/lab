@@ -101,6 +101,11 @@ type ToolMessages = {
     dateHint: string; convert: string; result: string; converted: string; localDate: string; utcDate: string;
     timestampResult: string; emptyResult: string; invalid: string; copy: string; clear: string;
   };
+  contrastChecker: {
+    foreground: string; background: string; colorHint: string; swap: string; reset: string;
+    preview: string; previewText: string; previewDescription: string; result: string; ratio: string;
+    normalText: string; largeText: string; invalid: string; thresholds: string;
+  };
   videoBitrate: {
     mode: string; duration: string; hours: string; minutes: string; seconds: string;
     hoursPlaceholder: string; minutesPlaceholder: string; secondsPlaceholder: string;
@@ -114,6 +119,13 @@ type ToolMessages = {
 
 export const toolMessages: Record<Locale, ToolMessages> = {
   fr: {
+    contrastChecker: {
+      foreground: "Texte / premier plan", background: "Arrière-plan", colorHint: "Formats acceptés : #RGB, #RRGGBB ou rgb(r, g, b).",
+      swap: "Inverser", reset: "Réinitialiser", preview: "Aperçu", previewText: "Exemple de texte", previewDescription: "Utilisez cet aperçu pour vérifier le rendu du contraste.",
+      result: "Résultat", ratio: "Ratio de contraste", normalText: "Texte courant", largeText: "Grand texte",
+      invalid: "Saisissez deux couleurs valides.", thresholds: "AA : 4,5:1 pour le texte courant et 3:1 pour le grand texte. AAA : 7:1 pour le texte courant et 4,5:1 pour le grand texte.",
+    },
+
     fileSizeCalculator: {
       duration: "Durée", durationPlaceholder: "Ex. 10", durationUnit: "Unité de durée",
       bitrate: "Débit", bitratePlaceholder: "Ex. 8", bitrateUnit: "Unité de débit",
@@ -247,6 +259,13 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     },
   },
   en: {
+    contrastChecker: {
+      foreground: "Text / foreground", background: "Background", colorHint: "Accepted formats: #RGB, #RRGGBB, or rgb(r, g, b).",
+      swap: "Swap", reset: "Reset", preview: "Preview", previewText: "Sample text", previewDescription: "Use this preview to check how the contrast looks.",
+      result: "Result", ratio: "Contrast ratio", normalText: "Normal text", largeText: "Large text",
+      invalid: "Enter two valid colors.", thresholds: "AA: 4.5:1 for normal text and 3:1 for large text. AAA: 7:1 for normal text and 4.5:1 for large text.",
+    },
+
     fileSizeCalculator: {
       duration: "Duration", durationPlaceholder: "e.g. 10", durationUnit: "Duration unit",
       bitrate: "Bitrate", bitratePlaceholder: "e.g. 8", bitrateUnit: "Bitrate unit",

@@ -37,6 +37,7 @@ const toolSlugs: Record<string, Record<Locale, string>> = {
   "regex-tester": { en: "regex-tester", fr: "testeur-regex" },
   "password-generator": { en: "password-generator", fr: "generateur-de-mot-de-passe" },
   "jwt-decoder": { en: "jwt-decoder", fr: "decodeur-jwt" },
+  "contrast-checker": { en: "color-contrast-checker", fr: "verificateur-de-contraste-des-couleurs" },
 };
 
 export function getToolsPath(locale: Locale): string {
