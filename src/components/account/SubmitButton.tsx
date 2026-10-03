@@ -1,6 +1,7 @@
 "use client";
 
 import { useFormStatus } from "react-dom";
+import { Button } from "@/components/ui/Button";
 
 export default function SubmitButton({
   children,
@@ -16,15 +17,22 @@ export default function SubmitButton({
   const { pending } = useFormStatus();
 
   return (
-    <button
-      className={className}
+    <Button
       type="submit"
       disabled={pending}
       aria-disabled={pending}
       data-pending={pending ? "true" : "false"}
       data-danger={danger ? "true" : "false"}
+      className={[
+        danger
+          ? "border-[var(--danger-foreground)] bg-[var(--danger-foreground)] text-white hover:bg-[var(--danger-foreground)]"
+          : "",
+        className,
+      ]
+        .filter(Boolean)
+        .join(" ")}
     >
       {pending ? pendingLabel : children}
-    </button>
+    </Button>
   );
 }
