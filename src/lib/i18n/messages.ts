@@ -101,10 +101,10 @@ export const messages: Record<Locale, Messages> = {
       description: "Describe what you need, find the right tool, and get it done.",
       quickLinksLabel: "Try one of these",
       quickLinks: [
-        { label: "Calculate a discount", toolId: "reduction" },
-        { label: "Convert a speed", toolId: "vitesse-telechargement" },
+        { label: "Calculate a discount", toolId: "discount" },
+        { label: "Convert a speed", toolId: "download-speed" },
         { label: "Calculate my age", toolId: "age" },
-        { label: "Convert a file size", toolId: "convertisseur-taille" },
+        { label: "Convert a file size", toolId: "file-size-converter" },
       ],
       explore: "View all tools",
       discoveryTitle: "A few tools worth trying", discoveryDescription: "Simple tools for tasks that come up again and again.", discoveryOpen: "Use tool",
