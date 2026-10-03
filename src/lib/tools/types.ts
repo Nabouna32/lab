@@ -17,6 +17,7 @@ export type ToolId =
   | "video-bitrate"
   | "json-formatter"
   | "url-encoder-decoder"
+  | "url-parser"
   | "base64-encoder-decoder"
   | "html-entity-encoder-decoder"
   | "json-to-typescript"
