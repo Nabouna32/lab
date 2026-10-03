@@ -59,6 +59,10 @@ type ToolMessages = {
     input: string; placeholder: string; characters: string; charactersWithoutSpaces: string;
     words: string; spaces: string; lines: string; clear: string; copyStats: string;
   };
+  textCaseConverter: {
+    input: string; placeholder: string; mode: string; result: string; ready: string; emptyResult: string; copy: string; clear: string;
+    modes: { uppercase: string; lowercase: string; title: string; camel: string; pascal: string; snake: string; kebab: string };
+  };
   jsonFormatter: {
     input: string; placeholder: string; output: string; format: string; minify: string; copy: string; clear: string;
     indentation: string; spaces2: string; spaces4: string; tab: string; valid: string; invalid: string;
@@ -224,6 +228,10 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       input: "Votre texte", placeholder: "Saisissez ou collez votre texte ici…", characters: "Caractères",
       charactersWithoutSpaces: "Caractères sans espaces", words: "Mots", spaces: "Espaces", lines: "Lignes", clear: "Effacer", copyStats: "Copier les statistiques",
     },
+    textCaseConverter: {
+      input: "Votre texte", placeholder: "Saisissez ou collez votre texte…", mode: "Transformer en", result: "Résultat", ready: "Transformation mise à jour", emptyResult: "Le résultat apparaîtra ici.", copy: "Copier", clear: "Effacer",
+      modes: { uppercase: "MAJUSCULES", lowercase: "minuscules", title: "Title Case", camel: "camelCase", pascal: "PascalCase", snake: "snake_case", kebab: "kebab-case" },
+    },
     jsonFormatter: {
       input: "Votre JSON", placeholder: '{\\n  "name": "Loculary"\\n}', output: "Résultat", format: "Formater", minify: "Minifier", copy: "Copier", clear: "Effacer",
       indentation: "Indentation", spaces2: "2 espaces", spaces4: "4 espaces", tab: "Tabulation", valid: "JSON valide", invalid: "JSON invalide",
@@ -372,6 +380,10 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     textCounter: {
       input: "Your text", placeholder: "Type or paste your text here…", characters: "Characters",
       charactersWithoutSpaces: "Characters without spaces", words: "Words", spaces: "Spaces", lines: "Lines", clear: "Clear", copyStats: "Copy statistics",
+    },
+    textCaseConverter: {
+      input: "Your text", placeholder: "Type or paste your text here…", mode: "Transform to", result: "Result", ready: "Transformation updated", emptyResult: "The result will appear here.", copy: "Copy", clear: "Clear",
+      modes: { uppercase: "UPPERCASE", lowercase: "lowercase", title: "Title Case", camel: "camelCase", pascal: "PascalCase", snake: "snake_case", kebab: "kebab-case" },
     },
     jsonFormatter: {
       input: "Your JSON", placeholder: '{\\n  "name": "Loculary"\\n}', output: "Result", format: "Format", minify: "Minify", copy: "Copy", clear: "Clear",
