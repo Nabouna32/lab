@@ -23,5 +23,12 @@ test("rejects JSON values that are not an array of objects", () => {
   assert.equal(transformCsvJson('{"name":"Alice"}',"json-to-csv").error, "unsupported-json");
 });
 test("rejects malformed CSV quoting", () => {
-  assert.equal(transformCsvJson('name,note\nAlice,"broken'," ,"csv-to-json").error, "invalid-csv");
+  assert.equal(transformCsvJson('name,note\nAlice,"broken"x', "csv-to-json").error, "invalid-csv");
+});
+
+
+test("auto-detects semicolon-delimited CSV", () => {
+  assert.deepEqual(JSON.parse(transformCsvJson("name;age\nAlice;30", "csv-to-json").value!), [
+    { name: "Alice", age: "30" },
+  ]);
 });
