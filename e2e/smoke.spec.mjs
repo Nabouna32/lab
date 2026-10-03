@@ -178,7 +178,7 @@ test("English locale renders", async ({ page }) => {
 test("calculator empty and error states explain what to do", async ({ page }) => {
   await page.goto(`${baseUrl}/fr/outils/calculs/calculateur-de-reduction`, { waitUntil: "networkidle" });
 
-  await expect(page.getByText("Prix après réduction", { exact: true }).locator("..")).toContainText("Saisissez le prix et la remise");
+  await expect(page.getByRole("region", { name: "Prix après réduction" })).toContainText("Saisissez le prix et la remise");
   await page.getByRole("spinbutton", { name: "Prix initial" }).fill("100");
   await page.getByRole("spinbutton", { name: "Réduction" }).fill("101");
   await expect(page.locator("#reduction-error")).toHaveAttribute("role", "alert");
@@ -199,7 +199,7 @@ test("file size calculator computes an estimated size", async ({ page }) => {
   await expect(page.getByRole("heading", { level: 1, name: "Taille de fichier" })).toBeVisible();
   await page.getByRole("spinbutton", { name: "Durée" }).fill("10");
   await page.getByRole("spinbutton", { name: "Débit" }).fill("8");
-  await expect(page.getByText("Taille estimée", { exact: true }).locator("..")).toContainText("600 Mo");
+  await expect(page.getByRole("region", { name: "Taille estimée" })).toContainText("600 Mo");
 });
 
 test("text counter tool renders and counts words", async ({ page }) => {
@@ -215,8 +215,8 @@ test("text counter tool renders and counts words", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "Compteur de mots et caractères" })).toBeVisible();
   const input = page.getByLabel("Votre texte");
   await input.fill("Bonjour le monde");
-  await expect(page.getByText("Mots", { exact: true }).locator("..")).toContainText("3");
-  await expect(page.getByText("Caractères", { exact: true }).locator("..")).toContainText("16");
+  await expect(page.getByRole("region", { name: "Mots" })).toContainText("3");
+  await expect(page.getByRole("region", { name: "Caractères" })).toContainText("16");
   await page.getByRole("button", { name: "Copier les statistiques" }).click();
   await expect(page.getByRole("button", { name: "Copié" })).toBeVisible();
   await page.getByRole("button", { name: "Effacer" }).click();
