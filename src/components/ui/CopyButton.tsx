@@ -29,16 +29,18 @@ export function CopyButton({ value, label, copiedLabel }: CopyButtonProps) {
     if (success) setCopied(true);
   }
 
+  const buttonLabel = copied ? copiedLabel ?? t.copied : label ?? t.copy;
+
   return (
     <Button
       variant="secondary"
       type="button"
       onClick={handleCopy}
       disabled={!value}
-      aria-live="polite"
+      aria-label={buttonLabel}
     >
       <span aria-hidden="true">{copied ? "✓" : "⧉"}</span>
-      {copied ? copiedLabel ?? t.copied : label ?? t.copy}
+      <span aria-live="polite">{buttonLabel}</span>
     </Button>
   );
 }
