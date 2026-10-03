@@ -2,6 +2,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { signOut, updateProfile } from "./actions";
 import SubmitButton from "@/components/account/SubmitButton";
+import { Panel } from "@/components/ui/Panel";
+import { TextField } from "@/components/ui/TextField";
+import { Select } from "@/components/ui/Select";
+import { Button } from "@/components/ui/Button";
 import { createClient } from "@/lib/supabase/server";
 import { getMessages } from "@/lib/i18n/messages";
 import { isLocale, type Locale } from "@/lib/i18n/config";
@@ -25,19 +29,22 @@ export default async function AccountPage({
   if (!userData.user) {
     return (
       <main className="mx-auto flex min-h-[calc(100vh-4.5rem)] max-w-2xl items-center px-4 py-12 sm:px-6">
-        <section className="w-full rounded-3xl border border-[var(--border)] bg-[var(--surface-elevated)] p-6 shadow-[var(--shadow-sm)] sm:p-8">
-          <p className="mb-2 text-sm font-semibold text-[var(--accent)]">{t.account.label}</p>
-          <h1 className="text-3xl font-bold tracking-tight">{t.account.title}</h1>
+        <Panel as="section" className="w-full">
+          <p className="text-sm font-semibold text-[var(--accent)]">{t.account.label}</p>
+          <h1 className="mt-2 text-3xl font-bold tracking-tight">{t.account.title}</h1>
           <p className="mt-3 text-[var(--muted)]">{t.account.anonymousDescription}</p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link className="rounded-xl bg-[var(--accent)] px-5 py-3 text-center font-semibold text-white" href={`/${locale}/compte/connexion`}>
-              {t.account.signIn}
-            </Link>
-            <Link className="rounded-xl border border-[var(--border)] px-5 py-3 text-center font-semibold" href={`/${locale}/compte/inscription`}>
+          <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+            <Button asChild className="w-full sm:w-auto">
+              <Link href={`/${locale}/compte/connexion`}>{t.account.signIn}</Link>
+            </Button>
+            <Link
+              className="inline-flex min-h-10 items-center justify-center rounded-[var(--radius-md)] border border-[var(--border)] px-4 py-2.5 font-semibold transition-colors hover:bg-[var(--surface-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+              href={`/${locale}/compte/inscription`}
+            >
               {t.account.signUp}
             </Link>
           </div>
-        </section>
+        </Panel>
       </main>
     );
   }
@@ -57,88 +64,113 @@ export default async function AccountPage({
 
   return (
     <main className="mx-auto min-h-[calc(100vh-4.5rem)] max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
-      <div className="space-y-6">
-        <section className="rounded-3xl border border-[var(--border)] bg-[var(--surface-elevated)] p-6 shadow-[var(--shadow-sm)] sm:p-8">
+      <div className="space-y-8">
+        <header className="space-y-2">
+          <p className="text-sm font-semibold text-[var(--accent)]">{t.account.label}</p>
           <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="mb-2 text-sm font-semibold text-[var(--accent)]">{t.account.label}</p>
-              <h1 className="text-3xl font-bold tracking-tight">{t.account.title}</h1>
-            </div>
+            <h1 className="text-3xl font-bold tracking-tight">{t.account.title}</h1>
             <p className="text-sm text-[var(--muted)]">{user.email}</p>
           </div>
+        </header>
 
-          {statusMessage ? (
-            <p className={`mt-6 rounded-2xl ${query.error ? "bg-[var(--danger-soft)] text-[var(--danger-foreground)]" : "bg-[var(--success-soft)] text-[var(--success-foreground)]"} p-4 text-sm`} role="status">
-              {statusMessage}
-            </p>
-          ) : null}
+        {statusMessage ? (
+          <p
+            className={`border-l-2 py-2 pl-3 text-sm ${
+              query.error
+                ? "border-[var(--danger)] text-[var(--danger-foreground)]"
+                : "border-[var(--success)] text-[var(--success-foreground)]"
+            }`}
+            role="status"
+          >
+            {statusMessage}
+          </p>
+        ) : null}
 
-          <form action={updateProfile} className="mt-8 space-y-5">
+        <Panel as="section">
+          <div>
+            <h2 className="text-lg font-semibold">{t.account.title}</h2>
+            <p className="mt-1 text-sm text-[var(--muted)]">{user.email}</p>
+          </div>
+          <form action={updateProfile} className="mt-6 space-y-5">
             <input type="hidden" name="locale" value={locale} />
-            <label className="block">
-              <span className="mb-2 block text-sm font-semibold">{t.account.displayName}</span>
-              <input
-                className="w-full rounded-xl border border-[var(--border)] bg-[var(--background)] px-4 py-3 outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
-                name="displayName"
-                type="text"
-                autoComplete="name"
-                maxLength={80}
-                defaultValue={profile?.display_name ?? ""}
-              />
-            </label>
-
-            <label className="block">
-              <span className="mb-2 block text-sm font-semibold">{t.account.preferredLanguage}</span>
-              <select
-                className="w-full rounded-xl border border-[var(--border)] bg-[var(--background)] px-4 py-3 outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
-                name="preferredLocale"
-                defaultValue={profile?.locale ?? locale}
-              >
-                <option value="en">{t.account.english}</option>
-                <option value="fr">{t.account.french}</option>
-              </select>
-            </label>
-
-            <SubmitButton
-              pendingLabel={t.account.saveProfile}
-              className="rounded-xl bg-[var(--accent)] px-5 py-3 font-semibold text-white transition-opacity hover:opacity-90 disabled:cursor-wait disabled:opacity-60"
+            <TextField
+              label={t.account.displayName}
+              inputId="display-name"
+              name="displayName"
+              type="text"
+              autoComplete="name"
+              maxLength={80}
+              defaultValue={profile?.display_name ?? ""}
+            />
+            <Select
+              label={t.account.preferredLanguage}
+              inputId="preferred-language"
+              name="preferredLocale"
+              defaultValue={profile?.locale ?? locale}
             >
+              <option value="en">{t.account.english}</option>
+              <option value="fr">{t.account.french}</option>
+            </Select>
+            <SubmitButton pendingLabel={t.account.saveProfile}>
               {t.account.saveProfile}
             </SubmitButton>
           </form>
-        </section>
+        </Panel>
 
-        <section className="grid gap-4 sm:grid-cols-2">
-          <Link className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-5 transition-colors hover:bg-[var(--surface-soft)]" href={`/${locale}/compte/email`}>
-            <h2 className="font-semibold">{t.account.changeEmail}</h2>
-            <p className="mt-1 text-sm text-[var(--muted)]">{user.email}</p>
-          </Link>
-          <Link className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-5 transition-colors hover:bg-[var(--surface-soft)]" href={`/${locale}/compte/mot-de-passe`}>
-            <h2 className="font-semibold">{t.account.changePassword}</h2>
+        <section aria-labelledby="account-security-title">
+          <div className="border-b border-[var(--border)] pb-3">
+            <h2 id="account-security-title" className="text-lg font-semibold">{t.account.changePassword}</h2>
             <p className="mt-1 text-sm text-[var(--muted)]">{t.account.password}</p>
-          </Link>
+          </div>
+          <div className="divide-y divide-[var(--border)] border-b border-[var(--border)]">
+            <Link
+              className="flex items-center justify-between gap-4 py-4 transition-colors hover:bg-[var(--surface-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
+              href={`/${locale}/compte/email`}
+            >
+              <span>
+                <span className="block font-semibold">{t.account.changeEmail}</span>
+                <span className="mt-1 block text-sm text-[var(--muted)]">{user.email}</span>
+              </span>
+              <span aria-hidden="true" className="text-[var(--muted)]">→</span>
+            </Link>
+            <Link
+              className="flex items-center justify-between gap-4 py-4 transition-colors hover:bg-[var(--surface-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
+              href={`/${locale}/compte/mot-de-passe`}
+            >
+              <span>
+                <span className="block font-semibold">{t.account.changePassword}</span>
+                <span className="mt-1 block text-sm text-[var(--muted)]">{t.account.password}</span>
+              </span>
+              <span aria-hidden="true" className="text-[var(--muted)]">→</span>
+            </Link>
+          </div>
         </section>
 
-        {isAdmin === true ? (
-          <Link className="inline-flex rounded-xl bg-[var(--accent)] px-5 py-3 font-semibold text-white" href={`/${locale}/admin`}>
-            {t.admin.label}
-          </Link>
-        ) : null}
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          {isAdmin === true ? (
+            <Link
+              className="inline-flex min-h-10 items-center justify-center rounded-[var(--radius-md)] bg-[var(--accent)] px-4 py-2.5 font-semibold text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+              href={`/${locale}/admin`}
+            >
+              {t.admin.label}
+            </Link>
+          ) : <span />}
+          <form action={signOut}>
+            <input type="hidden" name="locale" value={locale} />
+            <SubmitButton pendingLabel={t.account.signOut} className="border border-[var(--border)] bg-transparent text-[var(--foreground)] hover:bg-[var(--surface-soft)]">
+              {t.account.signOut}
+            </SubmitButton>
+          </form>
+        </div>
 
-        <form action={signOut} className="pt-2">
-          <input type="hidden" name="locale" value={locale} />
-          <SubmitButton
-            pendingLabel={t.account.signOut}
-            className="rounded-xl border border-[var(--border)] px-5 py-3 font-semibold transition-colors hover:bg-[var(--surface-soft)] disabled:cursor-wait disabled:opacity-60"
-          >
-            {t.account.signOut}
-          </SubmitButton>
-        </form>
-
-        <section className="rounded-3xl border border-[var(--danger-foreground)]/30 bg-[var(--danger-soft)] p-6">
+        <section className="border-t border-[var(--border)] pt-6" aria-labelledby="delete-account-title">
           <p className="text-sm font-semibold text-[var(--danger-foreground)]">{t.account.deleteAccount}</p>
-          <p className="mt-2 text-sm text-[var(--danger-foreground)]/90">{t.account.deleteAccountDescription}</p>
-          <Link className="mt-5 inline-flex rounded-xl border border-[var(--danger-foreground)]/40 px-5 py-3 font-semibold text-[var(--danger-foreground)] transition-colors hover:bg-[var(--danger-foreground)]/10" href={`/${locale}/compte/suppression`}>
+          <h2 id="delete-account-title" className="mt-1 text-lg font-semibold">{t.account.deleteAccountTitle}</h2>
+          <p className="mt-2 max-w-2xl text-sm text-[var(--muted)]">{t.account.deleteAccountDescription}</p>
+          <Link
+            className="mt-4 inline-flex min-h-10 items-center justify-center rounded-[var(--radius-md)] border border-[var(--danger)] px-4 py-2.5 font-semibold text-[var(--danger-foreground)] transition-colors hover:bg-[var(--danger-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+            href={`/${locale}/compte/suppression`}
+          >
             {t.account.deleteAccount}
           </Link>
         </section>
