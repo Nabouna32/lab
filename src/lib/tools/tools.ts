@@ -79,6 +79,10 @@ const localProcessingDescriptions = {
     fr: "Les JWT sont décodés directement dans votre navigateur.",
     en: "JWTs are decoded directly in your browser.",
   },
+  "regex-tester": {
+    fr: "Les expressions régulières sont évaluées directement dans votre navigateur.",
+    en: "Regular expressions are evaluated directly in your browser.",
+  },
 } satisfies Record<ToolId, { fr: string; en: string }>;
 
 type ToolDefinition = Pick<
@@ -307,6 +311,20 @@ const toolDefinitions: ToolDefinition[] = [
     content: {
       fr: { name: "Générateur de hash", description: "Calculez une empreinte SHA-1, SHA-256, SHA-384 ou SHA-512 à partir d’un texte." },
       en: { name: "Hash Generator", description: "Generate a SHA-1, SHA-256, SHA-384, or SHA-512 digest from text." },
+    },
+  },
+  {
+    id: "regex-tester", icon: ".*",
+    version: 1,
+    complexity: "small",
+    categories: ["development"],
+    tags: ["regex", "regexp", "regular expression", "pattern", "match", "developer"],
+    aliases: ["regex tester", "regexp tester", "regular expression tester", "regex checker", "testeur regex", "expression régulière", "regexp"],
+    lifecycle: "published",
+    capabilities: ["clipboard"],
+    content: {
+      fr: { name: "Testeur de regex", description: "Testez des expressions régulières JavaScript et visualisez leurs correspondances." },
+      en: { name: "Regex Tester", description: "Test JavaScript regular expressions and inspect their matches." },
     },
   },
   {

@@ -84,6 +84,13 @@ type ToolMessages = {
     input: string; placeholder: string; algorithm: string; generate: string; generating: string; clear: string;
     result: string; complete: string; emptyResult: string; copy: string; invalid: string;
   };
+  regexTester: {
+    pattern: string; patternPlaceholder: string; flags: string; flagsHint: string; input: string; inputPlaceholder: string;
+    test: string; clear: string; invalid: string; result: string; emptyResult: string; noMatches: string;
+    matchCount: (count: number) => string; position: string; captures: string; namedGroups: string; emptyMatch: string;
+    truncated: string; copy: string;
+  };
+
   unixTimestamp: {
     timestampToDate: string; dateToTimestamp: string; timestamp: string; timestampPlaceholder: string;
     timestampUnit: string; seconds: string; milliseconds: string; dateTime: string; timestampHint: string;
@@ -212,6 +219,11 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     hashGenerator: {
       input: "Votre texte", placeholder: "Saisissez ou collez votre texte…", algorithm: "Algorithme", generate: "Générer", generating: "Calcul…", clear: "Effacer", result: "Empreinte", complete: "Empreinte générée", emptyResult: "Le résultat apparaîtra ici après génération.", copy: "Copier", invalid: "Impossible de calculer cette empreinte.",
     },
+    regexTester: {
+      pattern: "Expression régulière", patternPlaceholder: "Ex. \\b\\d{4}\\b", flags: "Indicateurs", flagsHint: "g · i · m · s · u · y", input: "Texte à tester", inputPlaceholder: "Saisissez ou collez le texte à analyser…",
+      test: "Tester", clear: "Effacer", invalid: "L’expression régulière ou les indicateurs sont invalides.", result: "Résultats", emptyResult: "Lancez un test pour afficher les correspondances.", noMatches: "Aucune correspondance trouvée.",
+      matchCount: (count) => count === 1 ? "1 correspondance" : `${count} correspondances`, position: "Position", captures: "Groupes", namedGroups: "Groupes nommés", emptyMatch: "Correspondance vide", truncated: "Affichage limité aux 200 premières correspondances.", copy: "Copier les correspondances",
+    },
     unixTimestamp: {
       timestampToDate: "Timestamp → date", dateToTimestamp: "Date → timestamp", timestamp: "Timestamp Unix",
       timestampPlaceholder: "Ex. 1710000000", timestampUnit: "Unité du timestamp", seconds: "secondes", milliseconds: "millisecondes",
@@ -333,6 +345,11 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     },
     hashGenerator: {
       input: "Your text", placeholder: "Type or paste your text…", algorithm: "Hash algorithm", generate: "Generate", generating: "Hashing…", clear: "Clear", result: "Digest", complete: "Digest generated", emptyResult: "The result will appear here after generation.", copy: "Copy", invalid: "The digest could not be generated.",
+    },
+    regexTester: {
+      pattern: "Regular expression", patternPlaceholder: "e.g. \\b\\d{4}\\b", flags: "Flags", flagsHint: "g · i · m · s · u · y", input: "Test text", inputPlaceholder: "Type or paste text to analyze…",
+      test: "Test", clear: "Clear", invalid: "The regular expression or flags are invalid.", result: "Results", emptyResult: "Run a test to display matches.", noMatches: "No matches found.",
+      matchCount: (count) => count === 1 ? "1 match" : `${count} matches`, position: "Position", captures: "Captures", namedGroups: "Named groups", emptyMatch: "Empty match", truncated: "Showing only the first 200 matches.", copy: "Copy matches",
     },
     unixTimestamp: {
       timestampToDate: "Timestamp → date", dateToTimestamp: "Date → timestamp", timestamp: "Unix timestamp",
