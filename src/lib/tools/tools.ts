@@ -325,7 +325,7 @@ const toolDefinitions: ToolDefinition[] = [
     tags: ["password", "mot de passe", "random", "security", "crypto", "generator"],
     aliases: ["password generator", "secure password generator", "mot de passe aléatoire", "générateur de mot de passe", "générateur password"],
     lifecycle: "published",
-    capabilities: [],
+    capabilities: ["clipboard"],
     content: {
       fr: { name: "Générateur de mots de passe", description: "Générez des mots de passe aléatoires avec une longueur et des caractères personnalisables." },
       en: { name: "Password generator", description: "Generate random passwords with configurable length and character sets." },
