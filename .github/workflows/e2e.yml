@@ -21,6 +21,9 @@ jobs:
     name: Playwright smoke tests
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    env:
+      NEXT_PUBLIC_SUPABASE_URL: https://ahvwpekllibuzwpvxwjg.supabase.co
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: sb_publishable_Q_BLPlBSqSbk6XztmSaPDw_TaBX7ain
 
     steps:
       - name: Checkout
