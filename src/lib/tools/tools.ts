@@ -51,6 +51,10 @@ const localProcessingDescriptions = {
     fr: "Le texte saisi est transformé directement dans votre navigateur.",
     en: "The text you enter is transformed directly in your browser.",
   },
+  "unit-converter": {
+    fr: "Les conversions d’unités sont effectuées directement dans votre navigateur.",
+    en: "Unit conversions are performed directly in your browser.",
+  },
   "contrast-checker": {
     fr: "Les couleurs saisies et le calcul de contraste sont traités directement dans votre navigateur.",
     en: "The colors you enter and the contrast calculation are processed directly in your browser.",
@@ -265,6 +269,19 @@ const toolDefinitions: ToolDefinition[] = [
     content: {
       fr: { name: "Convertisseur de casse", description: "Transformez un texte en majuscules, minuscules, Title Case, camelCase, PascalCase, snake_case ou kebab-case." },
       en: { name: "Text Case Converter", description: "Transform text into uppercase, lowercase, Title Case, camelCase, PascalCase, snake_case, or kebab-case." },
+    },
+  },
+  {
+    id: "unit-converter", icon: "↔",
+    version: 1,
+    complexity: "small",
+    categories: ["calculations"],
+    tags: ["unité", "unités", "conversion", "longueur", "masse", "température", "volume", "surface", "metric", "imperial"],
+    aliases: ["unit converter", "unit conversion", "convertisseur d’unités", "convertisseur unités", "conversion unités", "métrique", "impérial"],
+    lifecycle: "published",
+    content: {
+      fr: { name: "Convertisseur d’unités", description: "Convertissez rapidement des longueurs, masses, températures, volumes et surfaces." },
+      en: { name: "Unit Converter", description: "Convert length, mass, temperature, volume, and area units instantly." },
     },
   },
   {
