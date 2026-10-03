@@ -37,5 +37,5 @@ test("URL parser reports malformed input", async ({ page }) => {
 
   await expect(page.getByRole("heading", { level: 1, name: "URL Parser" })).toBeVisible();
   await page.getByLabel("Your URL").fill("not a URL");
-  await expect(page.getByRole("alert")).toContainText("Enter a valid absolute URL.");
+  await expect(page.getByText("Enter a valid absolute URL.", { exact: true })).toBeVisible();
 });
