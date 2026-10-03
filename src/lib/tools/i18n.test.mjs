@@ -129,7 +129,7 @@ test("audited UI components consume localization instead of local bilingual stri
 
 const editorialFiles = [
   "age", "duree", "tva", "text-counter", "taille-fichier", "reduction",
-  "regle-de-trois", "convertisseur-taille", "temps-telechargement",
+  "regle-de-trois", "convertisseur-taille", "temps-telechargement", "unit-converter",
   "vitesse-telechargement", "percentage",
 ];
 
