@@ -155,7 +155,7 @@ export default function ToolSearch({
         <span
           className={
             "flex shrink-0 items-center justify-center rounded-lg text-[var(--muted)] " +
-            (compact ? "h-8 w-8 text-base" : "h-11 w-11 rounded-xl bg-[var(--surface-soft)] text-lg")
+            (compact ? "h-8 w-8 text-base" : "h-10 w-10 rounded-[var(--radius-md)] bg-[var(--surface-soft)] text-lg")
           }
           aria-hidden="true"
         >
@@ -177,7 +177,7 @@ export default function ToolSearch({
           onKeyDown={handleKeyDown}
           className={
             "min-w-0 flex-1 bg-transparent text-[var(--foreground)] outline-none placeholder:text-[var(--muted)] " +
-            (compact ? "px-2 py-2 text-sm" : "px-3 py-3 text-base sm:text-lg")
+            (compact ? "px-2 py-2 text-sm" : "px-3 py-2.5 text-base sm:text-lg")
           }
         />
         {query && (
@@ -198,7 +198,7 @@ export default function ToolSearch({
             onMouseDown={(event) => event.preventDefault()}
             onClick={() => openResult(0)}
             disabled={query.trim().length === 0 || visibleResults.length === 0}
-            className="hidden min-h-11 rounded-xl px-5 sm:inline-flex"
+            className="hidden min-h-10 rounded-[var(--radius-md)] px-5 sm:inline-flex"
           >
             {t.tools.searchButton}
           </Button>
@@ -206,7 +206,7 @@ export default function ToolSearch({
       </div>
 
       {showResults && (
-        <div id={resultsId} role="listbox" className="absolute left-0 right-0 top-full z-[60] mt-2 overflow-hidden rounded-[1.25rem] border border-[var(--border)] bg-[var(--surface-elevated)] p-2 shadow-[var(--shadow-lg)]">
+        <div id={resultsId} role="listbox" className="absolute left-0 right-0 top-full z-[60] mt-2 overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface-elevated)] p-1.5 shadow-[var(--shadow-md)]">
           {visibleResults.length > 0 ? (
             <>
               <div className="flex items-center justify-between px-3 pb-2 pt-2">
@@ -223,9 +223,9 @@ export default function ToolSearch({
                     role="option"
                     aria-selected={activeIndex === index}
                     onMouseEnter={() => setActiveIndex(index)}
-                    className={"flex items-center gap-3 rounded-xl px-3 py-3 text-left transition-colors " + (activeIndex === index ? "bg-[var(--accent-soft)]" : "hover:bg-[var(--surface-soft)]")}
+                    className={"flex items-center gap-3 rounded-[var(--radius-md)] px-3 py-3 text-left transition-colors " + (activeIndex === index ? "bg-[var(--accent-soft)]" : "hover:bg-[var(--surface-soft)]")}
                   >
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--accent-soft)] text-xl">{tool.icon}</span>
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-md)] bg-[var(--accent-soft)] text-xl">{tool.icon}</span>
                     <span className="min-w-0 flex-1">
                       <span className="block truncate text-sm font-semibold text-[var(--foreground)]"><HighlightMatch text={content.name} query={query} /></span>
                       <span className="mt-1 block text-xs text-[var(--muted)]"><span className="font-medium text-[var(--foreground)]/70">{getCategoryName(locale, getPrimaryToolCategory(tool))}</span><span aria-hidden="true"> · </span>{content.description}</span>
