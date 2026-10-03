@@ -254,6 +254,7 @@ test("CSV and JSON converter transforms tabular data", async ({ page }) => {
 
   await page.getByRole("button", { name: "JSON → CSV" }).click();
   await input.fill('[{"name":"Alice","city":"Paris, France"},{"name":"Bob","city":"Lyon"}]');
+  await page.getByRole("button", { name: "JSON → CSV" }).click();
   await expect(page.locator("pre")).toContainText('Alice,"Paris, France"');
   await page.getByRole("button", { name: "Copier" }).click();
   await expect(page.getByRole("button", { name: "Copié" })).toBeVisible();
