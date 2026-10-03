@@ -22,7 +22,6 @@ export default function ColorPaletteGenerator() {
         <div className="grid gap-5 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
           <div className="space-y-5">
             <div>
-              <label htmlFor="color-palette-input" className="block text-sm font-semibold text-[var(--foreground)]">{t.input}</label>
               <div className="flex items-end gap-2">
                 <div className="min-w-0 flex-1">
                   <TextField
