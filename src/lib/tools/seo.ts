@@ -58,6 +58,10 @@ export const toolSeo = {
     fr: { title: "Encodeur et décodeur Base64 | Loculary", description: "Encodez et décodez du texte UTF-8 en Base64 directement dans votre navigateur." },
     en: { title: "Base64 Encoder & Decoder | Loculary", description: "Encode and decode UTF-8 text as Base64 directly in your browser." },
   },
+  "csv-json-converter": {
+    fr: { title: "Convertisseur CSV et JSON | Loculary", description: "Convertissez des données CSV en JSON et des tableaux JSON en CSV directement dans votre navigateur." },
+    en: { title: "CSV & JSON Converter | Loculary", description: "Convert CSV data to JSON and JSON object arrays to CSV directly in your browser." },
+  },
   "html-entity-encoder-decoder": {
     fr: { title: "Encodeur et décodeur d’entités HTML | Loculary", description: "Encodez les caractères spéciaux HTML et décodez les entités nommées ou numériques directement dans votre navigateur." },
     en: { title: "HTML Entity Encoder & Decoder | Loculary", description: "Encode HTML-special characters and decode named or numeric entities directly in your browser." },
