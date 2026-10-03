@@ -91,6 +91,10 @@ const localProcessingDescriptions = {
     fr: "Les couleurs sont converties directement dans votre navigateur.",
     en: "Colors are converted directly in your browser.",
   },
+  "color-palette-generator": {
+    fr: "Les palettes de couleurs sont générées directement dans votre navigateur.",
+    en: "Color palettes are generated directly in your browser.",
+  },
   "regex-tester": {
     fr: "Les expressions régulières sont évaluées directement dans votre navigateur.",
     en: "Regular expressions are evaluated directly in your browser.",
@@ -351,6 +355,20 @@ const toolDefinitions: ToolDefinition[] = [
     content: {
       fr: { name: "Convertisseur de couleurs", description: "Convertissez une couleur entre HEX, RGB et HSL directement dans votre navigateur." },
       en: { name: "Color converter", description: "Convert a color between HEX, RGB, and HSL directly in your browser." },
+    },
+  },
+  {
+    id: "color-palette-generator", icon: "🌈",
+    version: 1,
+    complexity: "small",
+    categories: ["images"],
+    tags: ["palette", "couleur", "color", "harmonie", "design", "css", "web"],
+    aliases: ["color palette generator", "colour palette generator", "palette generator", "générateur palette couleurs", "palette de couleurs", "harmonie couleurs"],
+    lifecycle: "published",
+    capabilities: ["clipboard"],
+    content: {
+      fr: { name: "Générateur de palette de couleurs", description: "Générez plusieurs harmonies de couleurs à partir d’une couleur de départ, directement dans votre navigateur." },
+      en: { name: "Color palette generator", description: "Generate several color harmonies from a starting color directly in your browser." },
     },
   },
   {
