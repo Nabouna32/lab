@@ -37,5 +37,5 @@ Administrative authorization now has a database foundation separate from executa
 - Profile RLS is owner-only and additionally requires a live Auth session recorded in `auth.sessions`.
 - `admin_user_roles.user_id` cascades with the Auth user; `assigned_by` becomes null when the assigning account is deleted.
 - `admin_audit_log.actor_user_id` is nullable and uses `ON DELETE SET NULL` so security audit history cannot block account deletion. User target IDs are cleared during self-deletion preparation.
-- `private.prepare_account_deletion` is callable only by an authenticated user for their own UUID, requires a live session, and refuses deletion of the last `super_admin`.
+- `private.prepare_account_deletion` is callable only by an authenticated user for their own UUID, requires a live session, and refuses deletion of the last `super_admin`. Account deletion and administrative removal of the `super_admin` role serialize on the same transaction-scoped PostgreSQL advisory lock, so the invariant is preserved under concurrency.
 - The final Auth deletion is performed server-side by the `account-delete` Edge Function with the project secret key; no secret key is exposed to the browser.
