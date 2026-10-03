@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { calculateContrastRatio, evaluateContrast, parseColor } from "./contrast-checker";
+import { calculateContrastRatio, evaluateContrast, parseColor } from "./contrast-checker.ts";
 
 test("parses three and six digit hex colors", () => {
   assert.deepEqual(parseColor("#fff"), { r: 255, g: 255, b: 255 });
