@@ -14,6 +14,6 @@ test("color palette generator works in English", async ({ page }) => {
 test("color palette generator works in French", async ({ page }) => {
   await page.goto(baseUrl + "/fr/outils/images/generateur-de-palette-de-couleurs", { waitUntil: "networkidle" });
   await expect(page.getByRole("heading", { level: 1, name: "Générateur de palette de couleurs" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Complémentaire" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Complémentaire", exact: true })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Monochromatique" })).toBeVisible();
 });
