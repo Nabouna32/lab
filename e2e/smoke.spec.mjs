@@ -247,7 +247,7 @@ test("CSV and JSON converter transforms tabular data", async ({ page }) => {
   await page.goto(baseUrl + "/fr/outils/fichiers/convertisseur-csv-json", { waitUntil: "networkidle" });
 
   await expect(page.getByRole("heading", { name: "Convertisseur CSV et JSON" })).toBeVisible();
-  const input = page.getByLabel("Données");
+  const input = page.getByRole("textbox", { name: "Données" });
   await input.fill('name,city\nAlice,"Paris, France"');
   await page.getByRole("button", { name: "CSV → JSON" }).click();
   await expect(page.locator("pre")).toContainText('"city": "Paris, France"');
