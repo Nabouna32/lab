@@ -31,6 +31,13 @@ export default function JwtDecoder() {
     setError(false);
   }
 
+  const sections = decoded
+    ? [
+        { title: t.header, value: formatDecodedJwt(decoded.header) },
+        { title: t.payload, value: formatDecodedJwt(decoded.payload) },
+      ]
+    : [];
+
   return (
     <section className="rounded-[var(--radius-2xl)] border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow-sm)] sm:p-8">
       <label htmlFor="jwt-input" className="block text-sm font-medium text-[var(--foreground)]">{t.input}</label>
@@ -52,17 +59,14 @@ export default function JwtDecoder() {
 
       {decoded && (
         <div className="mt-6 grid gap-4 lg:grid-cols-2">
-          {[
-            [t.header, decoded.header],
-            [t.payload, decoded.payload],
-          ].map(([title, value]) => (
+          {sections.map(({ title, value }) => (
             <section key={title} className="rounded-2xl border border-[var(--border)] bg-[var(--background)] p-4">
               <div className="flex items-center justify-between gap-3">
                 <h2 className="text-sm font-semibold text-[var(--foreground)]">{title}</h2>
-                <CopyButton value={formatDecodedJwt(value as Record<string, unknown>)} label={t.copy} />
+                <CopyButton value={value} label={t.copy} />
               </div>
               <pre className="mt-3 max-h-80 overflow-auto whitespace-pre-wrap break-words rounded-xl border border-[var(--border)] bg-[var(--surface)] p-4 font-mono text-xs leading-6 text-[var(--foreground)]">
-                {formatDecodedJwt(value as Record<string, unknown>)}
+                {value}
               </pre>
             </section>
           ))}
