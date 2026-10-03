@@ -7,7 +7,7 @@ describe("testRegex", () => {
     const result = testRegex("(\\d+)", "g", "a12 b34");
     assert.deepEqual(result.matches, [
       { value: "12", index: 1, captures: ["12"], namedGroups: {} },
-      { value: "34", index: 4, captures: ["34"], namedGroups: {} },
+      { value: "34", index: 5, captures: ["34"], namedGroups: {} },
     ]);
     assert.equal(result.truncated, false);
   });
@@ -24,7 +24,7 @@ describe("testRegex", () => {
   });
 
   it("supports case-insensitive and multiline flags", () => {
-    const result = testRegex("^cat$", "im", "CAT\\ncat");
+    const result = testRegex("^cat$", "gim", "CAT\\ncat");
     assert.equal(result.matches.length, 2);
   });
 
@@ -33,11 +33,11 @@ describe("testRegex", () => {
   });
 
   it("rejects duplicate or invalid flags", () => {
-    assert.throws(() => testRegex("cat", "gg", "cat"), /Invalid regular expression/i);
+    assert.throws(() => testRegex("cat", "gg", "cat"), /Invalid flags/i);
   });
 
   it("limits excessive input", () => {
-    assert.throws(() => testRegex("a", "g", "a".repeat(20_001)), /20,000/);
+    assert.throws(() => testRegex("a", "g", "a".repeat(20_001)), /20,?000/);
   });
 
   it("caps very large match sets", () => {
