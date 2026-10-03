@@ -105,6 +105,11 @@ type ToolMessages = {
     input: string; picker: string; placeholder: string; hint: string; reset: string; preview: string;
     previewDescription: string; result: string; copy: string; copied: string; invalid: string; emptyResult: string;
   };
+  colorPaletteGenerator: {
+    input: string; picker: string; placeholder: string; hint: string; reset: string; basePreview: string;
+    analogous: string; complementary: string; triadic: string; splitComplementary: string; monochromatic: string;
+    copy: string; copied: string; invalid: string;
+  };
   contrastChecker: {
     foreground: string; background: string; colorHint: string; swap: string; reset: string;
     preview: string; previewText: string; previewDescription: string; result: string; ratio: string;
@@ -127,6 +132,12 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       input: "Votre couleur", picker: "Choisir une couleur", placeholder: "#336699, rgb(51, 102, 153) ou hsl(210, 50%, 40%)",
       hint: "Formats acceptés : #RGB, #RRGGBB, rgb(...) et hsl(...).", reset: "Réinitialiser", preview: "Aperçu", previewDescription: "Cette couleur est traitée localement dans votre navigateur.",
       result: "Conversions", copy: "Copier", copied: "Copié", invalid: "Saisissez une couleur HEX, RGB ou HSL valide.", emptyResult: "Le résultat apparaîtra ici après conversion.",
+    },
+    colorPaletteGenerator: {
+      input: "Votre couleur de départ", picker: "Choisir une couleur", placeholder: "#336699 ou hsl(210, 50%, 40%)",
+      hint: "Formats acceptés : #RGB, #RRGGBB, rgb(...) et hsl(...).", reset: "Réinitialiser", basePreview: "Aperçu de la palette",
+      analogous: "Analogique", complementary: "Complémentaire", triadic: "Triadique", splitComplementary: "Complémentaire scindée", monochromatic: "Monochromatique",
+      copy: "Copier", copied: "Copié", invalid: "Saisissez une couleur HEX, RGB ou HSL valide.",
     },
     contrastChecker: {
       foreground: "Texte / premier plan", background: "Arrière-plan", colorHint: "Formats acceptés : #RGB, #RRGGBB ou rgb(r, g, b).",
@@ -272,6 +283,12 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       input: "Your color", picker: "Choose a color", placeholder: "#336699, rgb(51, 102, 153), or hsl(210, 50%, 40%)",
       hint: "Accepted formats: #RGB, #RRGGBB, rgb(...), and hsl(...).", reset: "Reset", preview: "Preview", previewDescription: "This color is processed locally in your browser.",
       result: "Conversions", copy: "Copy", copied: "Copied", invalid: "Enter a valid HEX, RGB, or HSL color.", emptyResult: "The result will appear here after conversion.",
+    },
+    colorPaletteGenerator: {
+      input: "Starting color", picker: "Choose a color", placeholder: "#336699 or hsl(210, 50%, 40%)",
+      hint: "Accepted formats: #RGB, #RRGGBB, rgb(...), and hsl(...).", reset: "Reset", basePreview: "Palette preview",
+      analogous: "Analogous", complementary: "Complementary", triadic: "Triadic", splitComplementary: "Split-complementary", monochromatic: "Monochromatic",
+      copy: "Copy", copied: "Copied", invalid: "Enter a valid HEX, RGB, or HSL color.",
     },
     contrastChecker: {
       foreground: "Text / foreground", background: "Background", colorHint: "Accepted formats: #RGB, #RRGGBB, or rgb(r, g, b).",
