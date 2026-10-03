@@ -40,6 +40,7 @@
 - Added the browser-local JSON to TypeScript generator with nested object inference, array merging, optional properties, unions, EN/FR metadata, localized routes, SEO metadata, focused unit coverage, and Playwright coverage.
 - Added the browser-local Color Converter for HEX, RGB, and HSL with EN/FR metadata and focused unit/E2E coverage.
 - Added the browser-local Color Palette Generator with common color harmonies, EN/FR metadata and focused unit/E2E coverage.
+- Completed the browser-local Color Contrast Checker with HEX/RGB input, WCAG AA/AAA evaluation, EN/FR metadata, localized routes/SEO, focused unit coverage, and Playwright coverage.
 - Hardened published numeric tools against non-finite calculation results and surfaced invalid numeric input instead of silently hiding results.
 - Hardened the download-speed and file-size converters against numeric overflow at their domain boundaries.
 - Updated the text counter to count Unicode grapheme clusters, so joined emoji and other user-perceived characters are counted as one character.
