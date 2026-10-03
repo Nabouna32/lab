@@ -76,7 +76,7 @@
 
 ## Not implemented yet
 
-- Account deletion and broader account-lifecycle administration.
+- Account deletion and the current account lifecycle are implemented; broader administrative account lifecycle beyond the existing RBAC/suspension surface remains separate.
 - Account/premium enforcement.
 - Runtime enforcement for browser capabilities beyond clipboard.
 - Generic sharing runtime.
@@ -117,5 +117,5 @@ The code/module remains authoritative for executable behavior and technical capa
 - Administrative access is exposed from the account page only when the signed-in user has the dashboard permission.
 - A protected user-management workspace is implemented with search, account/profile metadata, administrator roles, audited role assignment/removal, protection against removing the last `super_admin` role, account suspension/reactivation, and administrator-triggered session revocation.
 - A protected audit-log workspace is implemented with server-side permission checks and a read-only view of administrative actions.
-- User suspension/reactivation and administrator-triggered session revocation are implemented through Supabase Auth; account deletion and broader account-lifecycle administration are not implemented yet.
+- User suspension/reactivation and administrator-triggered session revocation are implemented through Supabase Auth; self-service account deletion is now implemented separately and does not add an administrative user-deletion API.
 - The initial administrator account has been explicitly assigned the `super_admin` role and can access the dashboard.
