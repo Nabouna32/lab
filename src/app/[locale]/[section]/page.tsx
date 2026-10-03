@@ -109,7 +109,7 @@ export default async function ToolsPage({ params }: { params: Promise<{ locale: 
       <section className="py-8 sm:py-10" aria-labelledby="tools-all-heading">
         <div className="mb-5">
           <h2 id="tools-all-heading" className="text-xl font-bold tracking-[-0.02em] sm:text-2xl">{t.tools.allToolsTitle}</h2>
-          <p className="mt-1 text-sm text-[var(--muted)]">{publishedTools.length} {publishedTools.length === 1 ? t.tools.one : t.tools.many}</p>
+          <p className="mt-1 text-sm text-[var(--muted)]">{formatPlural(locale, publishedTools.length, { one: t.tools.one, other: t.tools.many })}</p>
         </div>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {publishedTools.map((tool) => <ToolCard key={tool.id} tool={tool} locale={locale} />)}
