@@ -11,7 +11,7 @@ test("converts CSV fields containing newlines", () => {
   assert.equal(transformCsvJson('name,note\nAlice,"line one\nline two"',"csv-to-json").error, null);
 });
 test("converts JSON objects to CSV and escapes values", () => {
-  assert.equal(transformCsvJson(JSON.stringify([{ name: "Alice", note: 'Hello, "world"' }]),"json-to-csv"), {
+  assert.deepEqual(transformCsvJson(JSON.stringify([{ name: "Alice", note: 'Hello, "world"' }]), "json-to-csv"), {
     value: 'name,note\r\nAlice,"Hello, ""world"""',
     error: null,
   });
