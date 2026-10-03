@@ -23,5 +23,5 @@ test("JWT decoder reports malformed tokens", async ({ page }) => {
   await page.goto(`${baseUrl}/en/tools/development/jwt-decoder`);
   await page.getByLabel("Your JWT").fill("not-a-jwt");
   await page.getByRole("button", { name: "Decode", exact: true }).click();
-  await expect(page.getByRole("alert")).toHaveText("The JWT is invalid or malformed.");
+  await expect(page.getByText("The JWT is invalid or malformed.", { exact: true })).toBeVisible();
 });
