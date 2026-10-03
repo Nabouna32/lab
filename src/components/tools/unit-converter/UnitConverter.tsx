@@ -54,7 +54,6 @@ export default function UnitConverter() {
     setValue("");
   }
 
-  const fromLabel = units.find((unit) => unit.id === from)?.symbol ?? from;
   const toLabel = units.find((unit) => unit.id === to)?.symbol ?? to;
   const formattedResult = result === null ? null : `${formatToolNumber(result, locale, 8)} ${toLabel}`;
 
