@@ -45,14 +45,15 @@ describe("password generator", () => {
     assert.throws(() => validateOptions({ ...options, lowercase: false, uppercase: false, numbers: false, symbols: false }), /empty-character-set/);
   });
 
-  it("rejects an alphabet emptied by the ambiguity filter", () => {
-    assert.throws(() => generatePassword({
-      length: 8,
+  it("removes ambiguous characters from generated passwords", () => {
+    const password = generatePassword({
+      ...options,
       lowercase: false,
-      uppercase: false,
+      uppercase: true,
       numbers: true,
       symbols: false,
       excludeAmbiguous: true,
-    }, () => 0), /empty-character-set/);
+    }, () => 0);
+    assert.equal([...password].some((character) => "O0Il1|".includes(character)), false);
   });
 });
