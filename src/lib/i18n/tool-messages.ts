@@ -86,6 +86,11 @@ type ToolMessages = {
     input: string; placeholder: string; operation: string; encode: string; decode: string; result: string;
     ready: string; emptyResult: string; copy: string; clear: string;
   };
+  csvJson: {
+    input: string; placeholder: string; delimiter: string; csvToJson: string; jsonToCsv: string;
+    result: string; ready: string; emptyResult: string; copy: string; clear: string; error: string;
+    invalidCsv: string; invalidJson: string; unsupportedJson: string;
+  };
   uuidGenerator: {
     count: string; countPlaceholder: string; generate: string; copy: string; copied: string; clear: string; result: string;
     emptyResult: string; invalidCount: string; generatedOne: string; generatedMany: (count: number) => string;
@@ -264,6 +269,11 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       input: "Votre texte", placeholder: "Saisissez du HTML ou du texte à transformer…", operation: "Action", encode: "Encoder", decode: "Décoder",
       result: "Résultat", ready: "Transformation mise à jour", emptyResult: "Le résultat apparaîtra ici.", copy: "Copier", clear: "Effacer",
     },
+    csvJson: {
+      input: "Données", placeholder: "Collez un CSV ou un tableau JSON d’objets…", delimiter: "Séparateur CSV", csvToJson: "CSV → JSON", jsonToCsv: "JSON → CSV",
+      result: "Résultat", ready: "Conversion mise à jour", emptyResult: "Le résultat apparaîtra ici.", copy: "Copier", clear: "Effacer", error: "La conversion n’a pas pu être effectuée.",
+      invalidCsv: "Le CSV est invalide ou mal formé.", invalidJson: "Le JSON est invalide.", unsupportedJson: "Utilisez un tableau JSON composé d’objets.",
+    },
     videoBitrate: {
       mode: "Mode de calcul", duration: "Durée", hours: "Heures", minutes: "Minutes", seconds: "Secondes",
       hoursPlaceholder: "0", minutesPlaceholder: "0", secondsPlaceholder: "0",
@@ -425,6 +435,11 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     htmlEntityEncoder: {
       input: "Your text", placeholder: "Enter HTML or text to transform…", operation: "Action", encode: "Encode", decode: "Decode",
       result: "Result", ready: "Transformation updated", emptyResult: "The result will appear here.", copy: "Copy", clear: "Clear",
+    },
+    csvJson: {
+      input: "Data", placeholder: "Paste CSV or a JSON array of objects…", delimiter: "CSV delimiter", csvToJson: "CSV → JSON", jsonToCsv: "JSON → CSV",
+      result: "Result", ready: "Conversion updated", emptyResult: "The result will appear here.", copy: "Copy", clear: "Clear", error: "The conversion could not be completed.",
+      invalidCsv: "The CSV is invalid or malformed.", invalidJson: "The JSON is invalid.", unsupportedJson: "Use a JSON array containing objects.",
     },
     videoBitrate: {
       mode: "Calculation mode", duration: "Duration", hours: "Hours", minutes: "Minutes", seconds: "Seconds",
