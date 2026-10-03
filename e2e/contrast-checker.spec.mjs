@@ -6,7 +6,7 @@ test("color contrast checker evaluates WCAG thresholds in French", async ({ page
   await page.goto(baseUrl + "/fr/outils/images/verificateur-de-contraste-des-couleurs", { waitUntil: "networkidle" });
   await expect(page.getByRole("heading", { level: 1, name: "Contraste des couleurs" })).toBeVisible();
 
-  await page.getByLabel("Texte / premier plan").fill("#767676");
+  await page.getByLabel("Texte / premier plan").fill("#777777");
   await page.getByLabel("Arrière-plan").fill("#ffffff");
 
   await expect(page.getByText("4.48:1", { exact: true })).toBeVisible();
