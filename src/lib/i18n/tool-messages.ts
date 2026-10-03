@@ -101,6 +101,10 @@ type ToolMessages = {
     dateHint: string; convert: string; result: string; converted: string; localDate: string; utcDate: string;
     timestampResult: string; emptyResult: string; invalid: string; copy: string; clear: string;
   };
+  colorConverter: {
+    input: string; picker: string; placeholder: string; hint: string; reset: string; preview: string;
+    previewDescription: string; result: string; copy: string; copied: string; invalid: string; emptyResult: string;
+  };
   contrastChecker: {
     foreground: string; background: string; colorHint: string; swap: string; reset: string;
     preview: string; previewText: string; previewDescription: string; result: string; ratio: string;
@@ -119,6 +123,11 @@ type ToolMessages = {
 
 export const toolMessages: Record<Locale, ToolMessages> = {
   fr: {
+    colorConverter: {
+      input: "Votre couleur", picker: "Choisir une couleur", placeholder: "#336699, rgb(51, 102, 153) ou hsl(210, 50%, 40%)",
+      hint: "Formats acceptés : #RGB, #RRGGBB, rgb(...) et hsl(...).", reset: "Réinitialiser", preview: "Aperçu", previewDescription: "Cette couleur est traitée localement dans votre navigateur.",
+      result: "Conversions", copy: "Copier", copied: "Copié", invalid: "Saisissez une couleur HEX, RGB ou HSL valide.", emptyResult: "Le résultat apparaîtra ici après conversion.",
+    },
     contrastChecker: {
       foreground: "Texte / premier plan", background: "Arrière-plan", colorHint: "Formats acceptés : #RGB, #RRGGBB ou rgb(r, g, b).",
       swap: "Inverser", reset: "Réinitialiser", preview: "Aperçu", previewText: "Exemple de texte", previewDescription: "Utilisez cet aperçu pour vérifier le rendu du contraste.",
@@ -259,6 +268,11 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     },
   },
   en: {
+    colorConverter: {
+      input: "Your color", picker: "Choose a color", placeholder: "#336699, rgb(51, 102, 153), or hsl(210, 50%, 40%)",
+      hint: "Accepted formats: #RGB, #RRGGBB, rgb(...), and hsl(...).", reset: "Reset", preview: "Preview", previewDescription: "This color is processed locally in your browser.",
+      result: "Conversions", copy: "Copy", copied: "Copied", invalid: "Enter a valid HEX, RGB, or HSL color.", emptyResult: "The result will appear here after conversion.",
+    },
     contrastChecker: {
       foreground: "Text / foreground", background: "Background", colorHint: "Accepted formats: #RGB, #RRGGBB, or rgb(r, g, b).",
       swap: "Swap", reset: "Reset", preview: "Preview", previewText: "Sample text", previewDescription: "Use this preview to check how the contrast looks.",
