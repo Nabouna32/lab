@@ -66,6 +66,10 @@ export const toolSeo = {
     fr: { title: "Convertisseur de timestamp Unix | Loculary", description: "Convertissez un timestamp Unix en date ou une date en timestamp, en secondes ou millisecondes." },
     en: { title: "Unix Timestamp Converter | Loculary", description: "Convert Unix timestamps to dates or dates to timestamps in seconds or milliseconds." },
   },
+  "password-generator": {
+    fr: { title: "Générateur de mots de passe | Loculary", description: "Générez des mots de passe aléatoires directement dans votre navigateur avec des options de longueur et de caractères." },
+    en: { title: "Password Generator | Loculary", description: "Generate random passwords directly in your browser with configurable length and character sets." },
+  },
   "regex-tester": {
     fr: { title: "Testeur de regex | Loculary", description: "Testez des expressions régulières JavaScript et visualisez les correspondances directement dans votre navigateur." },
     en: { title: "Regex Tester | Loculary", description: "Test JavaScript regular expressions and inspect matches directly in your browser." },

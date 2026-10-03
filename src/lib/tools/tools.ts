@@ -79,6 +79,10 @@ const localProcessingDescriptions = {
     fr: "Les JWT sont décodés directement dans votre navigateur.",
     en: "JWTs are decoded directly in your browser.",
   },
+  "password-generator": {
+    fr: "Les mots de passe sont générés localement avec l’API Web Crypto de votre navigateur.",
+    en: "Passwords are generated locally using your browser’s Web Crypto API.",
+  },
   "regex-tester": {
     fr: "Les expressions régulières sont évaluées directement dans votre navigateur.",
     en: "Regular expressions are evaluated directly in your browser.",
@@ -311,6 +315,20 @@ const toolDefinitions: ToolDefinition[] = [
     content: {
       fr: { name: "Générateur de hash", description: "Calculez une empreinte SHA-1, SHA-256, SHA-384 ou SHA-512 à partir d’un texte." },
       en: { name: "Hash Generator", description: "Generate a SHA-1, SHA-256, SHA-384, or SHA-512 digest from text." },
+    },
+  },
+  {
+    id: "password-generator", icon: "🔐",
+    version: 1,
+    complexity: "small",
+    categories: ["computing"],
+    tags: ["password", "mot de passe", "random", "security", "crypto", "generator"],
+    aliases: ["password generator", "secure password generator", "mot de passe aléatoire", "générateur de mot de passe", "générateur password"],
+    lifecycle: "published",
+    capabilities: ["clipboard"],
+    content: {
+      fr: { name: "Générateur de mots de passe", description: "Générez des mots de passe aléatoires avec une longueur et des caractères personnalisables." },
+      en: { name: "Password generator", description: "Generate random passwords with configurable length and character sets." },
     },
   },
   {

@@ -101,7 +101,7 @@ test("tools page is search-first and exposes category discovery", async ({ page 
   await expect(page.locator("#tools-page-search-input")).toBeVisible();
   await expect(page.getByRole("heading", { name: "Parcourir par catégorie" })).toBeVisible();
   await expect(page.getByRole("link", { name: /Calculs.*4 outils/ })).toBeVisible();
-  await expect(page.getByRole("link", { name: /Informatique.*4 outils/ })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Informatique.*5 outils/ })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Pourcentage" })).toHaveCount(0);
 });
 
@@ -117,6 +117,7 @@ test("all published tool pages render", async ({ page }) => {
     "/fr/outils/informatique/calculateur-de-temps-de-telechargement",
     "/fr/outils/informatique/calculateur-de-taille-de-fichier",
     "/fr/outils/informatique/convertisseur-de-taille-de-fichier",
+    "/fr/outils/informatique/generateur-de-mot-de-passe",
     "/fr/outils/fichiers/compteur-de-mots-et-caracteres",
     "/fr/outils/developpement/formateur-json",
     "/fr/outils/developpement/encodeur-decodeur-url",
