@@ -17,7 +17,7 @@ export default function ColorConverter() {
   const canReset = value !== DEFAULT_COLOR;
 
   return (
-    <section className="overflow-hidden rounded-[var(--radius-2xl)] border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-sm)]">
+    <section className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]">
       <div className="grid gap-5 p-5 sm:p-7 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.85fr)] lg:p-8">
         <div className="space-y-5">
           <div>
@@ -28,7 +28,7 @@ export default function ColorConverter() {
                 aria-label={t.picker}
                 value={result?.hex ?? "#000000"}
                 onChange={(event) => setValue(event.target.value)}
-                className="h-12 w-14 shrink-0 cursor-pointer rounded-xl border border-[var(--border)] bg-[var(--background)] p-1"
+                className="h-12 w-14 shrink-0 cursor-pointer rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background)] p-1"
               />
               <input
                 id="color-converter-input"
@@ -37,7 +37,7 @@ export default function ColorConverter() {
                 placeholder={t.placeholder}
                 spellCheck={false}
                 autoCapitalize="none"
-                className="min-w-0 flex-1 rounded-xl border border-[var(--border)] bg-[var(--background)] px-4 py-3 font-mono text-sm text-[var(--foreground)] outline-none transition focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/20"
+                className="min-w-0 flex-1 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background)] px-3.5 py-2.5 font-mono text-sm text-[var(--foreground)] outline-none transition focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/20"
               />
             </div>
             <p className="mt-2 text-xs text-[var(--muted)]">{t.hint}</p>
@@ -48,7 +48,7 @@ export default function ColorConverter() {
           </div>
 
           {result ? (
-            <div className="overflow-hidden rounded-[1.5rem] border border-[var(--border)]" style={{ backgroundColor: result.hex }}>
+            <div className="overflow-hidden rounded-[var(--radius-md)] border border-[var(--border)]" style={{ backgroundColor: result.hex }}>
               <div className="min-h-40 p-6" style={{ color: contrastText(result.rgb.r, result.rgb.g, result.rgb.b) }}>
                 <p className="text-xs font-semibold uppercase tracking-[0.14em] opacity-75">{t.preview}</p>
                 <p className="mt-3 text-3xl font-black tracking-tight">{result.hex}</p>
@@ -56,7 +56,7 @@ export default function ColorConverter() {
               </div>
             </div>
           ) : (
-            <div role="alert" className="rounded-2xl border border-[var(--danger)]/30 bg-[var(--danger)]/5 p-5 text-sm text-[var(--danger)]">{t.invalid}</div>
+            <div role="alert" className="border-t border-[var(--danger)]/30 pt-4 text-sm text-[var(--danger)]">{t.invalid}</div>
           )}
         </div>
 
@@ -69,7 +69,7 @@ export default function ColorConverter() {
               <ColorValue label="HSL" value={formatHsl(result.hsl)} copyLabel={t.copy} copiedLabel={t.copied} />
             </div>
           ) : (
-            <p className="mt-3 rounded-2xl border border-[var(--border)] bg-[var(--background)] p-5 text-sm text-[var(--muted)]">{t.emptyResult}</p>
+            <p className="mt-3 border-t border-[var(--border)] py-4 text-sm text-[var(--muted)]">{t.emptyResult}</p>
           )}
         </div>
       </div>
@@ -79,7 +79,7 @@ export default function ColorConverter() {
 
 function ColorValue({ label, value, copyLabel, copiedLabel }: { label: string; value: string; copyLabel: string; copiedLabel: string }) {
   return (
-    <div className="rounded-2xl border border-[var(--border)] bg-[var(--background)] p-4">
+    <div className="border-t border-[var(--border)] py-4">
       <div className="flex items-center justify-between gap-3">
         <p className="text-xs font-bold uppercase tracking-[0.14em] text-[var(--muted)]">{label}</p>
         <CopyButton value={value} label={copyLabel} copiedLabel={copiedLabel} />

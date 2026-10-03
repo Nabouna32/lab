@@ -16,7 +16,7 @@ export default function ColorPaletteGenerator() {
   const palette = generatePalette(value);
 
   return (
-    <section className="overflow-hidden rounded-[var(--radius-2xl)] border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-sm)]">
+    <section className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]">
       <div className="space-y-6 p-5 sm:p-7 lg:p-8">
         <div className="grid gap-5 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
           <div className="space-y-5">
@@ -28,7 +28,7 @@ export default function ColorPaletteGenerator() {
                   aria-label={t.picker}
                   value={palette?.base.hex ?? "#000000"}
                   onChange={(event) => setValue(event.target.value)}
-                  className="h-12 w-14 shrink-0 cursor-pointer rounded-xl border border-[var(--border)] bg-[var(--background)] p-1"
+                  className="h-12 w-14 shrink-0 cursor-pointer rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background)] p-1"
                 />
                 <input
                   id="color-palette-input"
@@ -37,7 +37,7 @@ export default function ColorPaletteGenerator() {
                   placeholder={t.placeholder}
                   spellCheck={false}
                   autoCapitalize="none"
-                  className="min-w-0 flex-1 rounded-xl border border-[var(--border)] bg-[var(--background)] px-4 py-3 font-mono text-sm text-[var(--foreground)] outline-none transition focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/20"
+                  className="min-w-0 flex-1 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background)] px-3.5 py-2.5 font-mono text-sm text-[var(--foreground)] outline-none transition focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/20"
                 />
               </div>
               <p className="mt-2 text-xs text-[var(--muted)]">{t.hint}</p>
@@ -46,7 +46,7 @@ export default function ColorPaletteGenerator() {
           </div>
 
           {palette ? (
-            <div className="grid min-h-40 grid-cols-2 overflow-hidden rounded-[1.5rem] border border-[var(--border)] sm:grid-cols-4" aria-label={t.basePreview}>
+            <div className="grid min-h-40 grid-cols-2 overflow-hidden rounded-[var(--radius-md)] border border-[var(--border)] sm:grid-cols-4" aria-label={t.basePreview}>
               {palette.analogous.slice(0, 4).map((color) => (
                 <div key={color.hex} className="min-h-24 p-3" style={{ backgroundColor: color.hex }}>
                   <code className="rounded-md bg-black/20 px-2 py-1 text-xs font-semibold text-white">{color.hex}</code>
@@ -54,7 +54,7 @@ export default function ColorPaletteGenerator() {
               ))}
             </div>
           ) : (
-            <div role="alert" className="rounded-2xl border border-[var(--danger)]/30 bg-[var(--danger)]/5 p-5 text-sm text-[var(--danger)]">{t.invalid}</div>
+            <div role="alert" className="border-t border-[var(--danger)]/30 pt-4 text-sm text-[var(--danger)]">{t.invalid}</div>
           )}
         </div>
 
@@ -76,12 +76,12 @@ function PaletteGroup({ title, colors, copyLabel, copiedLabel }: {
   title: string; colors: PaletteColor[]; copyLabel: string; copiedLabel: string;
 }) {
   return (
-    <section className="rounded-2xl border border-[var(--border)] bg-[var(--background)] p-4">
+    <section className="border-t border-[var(--border)] py-4">
       <h2 className="text-sm font-semibold text-[var(--foreground)]">{title}</h2>
       <div className="mt-3 grid gap-2">
         {colors.map((color) => (
           <div key={color.hex} className="flex items-center gap-3">
-            <span aria-hidden="true" className="h-10 w-10 shrink-0 rounded-lg border border-black/10" style={{ backgroundColor: color.hex }} />
+            <span aria-hidden="true" className="h-10 w-10 shrink-0 rounded-[var(--radius-sm)] border border-black/10" style={{ backgroundColor: color.hex }} />
             <code className="min-w-0 flex-1 font-mono text-sm text-[var(--foreground)]">{color.hex}</code>
             <CopyButton value={color.hex} label={copyLabel} copiedLabel={copiedLabel} />
           </div>

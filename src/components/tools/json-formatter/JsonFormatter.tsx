@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
+import { Select } from "@/components/ui/Select";
 import { TextArea } from "@/components/ui/TextArea";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { useLocale } from "@/lib/i18n/use-locale";
@@ -52,7 +53,7 @@ export default function JsonFormatter() {
   }
 
   return (
-    <section className="overflow-hidden rounded-[var(--radius-2xl)] border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-sm)]">
+    <section className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]">
       <div className="grid gap-0 lg:grid-cols-2">
         <div className="p-5 sm:p-7 lg:border-r lg:border-[var(--border)] lg:p-8">
           <TextArea
@@ -70,17 +71,11 @@ export default function JsonFormatter() {
           />
 
           <div className="mt-4 flex flex-wrap items-center gap-2">
-            <label className="text-sm font-medium text-[var(--foreground)]" htmlFor="json-indent">{t.indentation}</label>
-            <select
-              id="json-indent"
-              value={indent}
-              onChange={(event) => setIndent(event.target.value as Indent)}
-              className="min-h-10 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background)] px-3 text-sm text-[var(--foreground)] outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
-            >
+            <Select label={t.indentation} id="json-indent" value={indent} onChange={(event) => setIndent(event.target.value as Indent)}>
               <option value="  ">{t.spaces2}</option>
               <option value="    ">{t.spaces4}</option>
               <option value="\t">{t.tab}</option>
-            </select>
+            </Select>
           </div>
 
           {error && (
@@ -107,7 +102,7 @@ export default function JsonFormatter() {
 
           <pre
             aria-live="polite"
-            className="mt-4 min-h-[22rem] flex-1 overflow-auto rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4 font-mono text-sm leading-6 text-[var(--foreground)] whitespace-pre"
+            className="mt-4 min-h-[22rem] flex-1 overflow-auto border-y border-[var(--border)] bg-[var(--surface)] p-4 font-mono text-sm leading-6 text-[var(--foreground)] whitespace-pre"
           >
             {result || " "}
           </pre>

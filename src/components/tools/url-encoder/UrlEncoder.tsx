@@ -43,7 +43,7 @@ export default function UrlEncoder() {
   }
 
   return (
-    <section className="overflow-hidden rounded-[var(--radius-2xl)] border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-sm)]">
+    <section className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]">
       <div className="grid gap-0 lg:grid-cols-2">
         <div className="p-5 sm:p-7 lg:border-r lg:border-[var(--border)] lg:p-8">
           <TextArea
@@ -120,7 +120,7 @@ export default function UrlEncoder() {
 
           <pre
             aria-live="polite"
-            className="mt-4 min-h-[18rem] flex-1 overflow-auto whitespace-pre-wrap break-words rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4 font-mono text-sm leading-6 text-[var(--foreground)]"
+            className="mt-4 min-h-[18rem] flex-1 overflow-auto whitespace-pre-wrap break-words border-y border-[var(--border)] bg-[var(--surface)] p-4 font-mono text-sm leading-6 text-[var(--foreground)]"
           >
             {result || " "}
           </pre>
