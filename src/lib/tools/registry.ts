@@ -93,6 +93,10 @@ const moduleLoaders: Partial<Record<ToolId, ToolModule>> = {
     () => import("@/components/tools/url-encoder/UrlEncoder"),
     () => import("@/components/tools/url-encoder/ToolEditorial"),
   ),
+  "url-parser": createToolModule(
+    () => import("@/components/tools/url-parser/UrlParser"),
+    () => import("@/components/tools/url-parser/ToolEditorial"),
+  ),
   "base64-encoder-decoder": createToolModule(
     () => import("@/components/tools/base64/Base64Encoder"),
     () => import("@/components/tools/base64/ToolEditorial"),
