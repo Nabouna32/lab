@@ -128,6 +128,8 @@ test("all published tool pages render", async ({ page }) => {
     "/fr/outils/developpement/encodeur-base64",
     "/fr/outils/developpement/encodeur-decodeur-entites-html",
     "/fr/outils/fichiers/convertisseur-csv-json",
+    "/fr/outils/developpement/json-vers-typescript",
+    "/en/tools/development/json-to-typescript",
     "/en/tools/files/csv-json-converter",
     "/en/tools/development/html-entity-encoder-decoder",
     "/fr/outils/developpement/generateur-uuid",
@@ -242,6 +244,29 @@ test("text counter tool renders and counts words", async ({ page }) => {
   await expect(input).toHaveValue("");
 });
 
+
+test("JSON to TypeScript generator creates typed interfaces", async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, "clipboard", {
+      configurable: true,
+      value: { writeText: async () => {} },
+    });
+  });
+
+  await page.goto(baseUrl + "/fr/outils/developpement/json-vers-typescript", { waitUntil: "networkidle" });
+  await expect(page.getByRole("heading", { name: "JSON vers TypeScript" })).toBeVisible();
+
+  await page.getByRole("textbox", { name: "Votre JSON" }).fill('{"user":{"name":"Alice"},"active":true}');
+  await page.getByRole("textbox", { name: "Nom du type racine" }).fill("Profile");
+  await page.getByRole("button", { name: "Générer" }).click();
+  await expect(page.locator("pre")).toContainText("export interface Profile");
+  await expect(page.locator("pre")).toContainText("user: ProfileUser;");
+  await expect(page.locator("pre")).toContainText("active: boolean;");
+  await page.getByRole("button", { name: "Copier" }).click();
+  await expect(page.getByRole("button", { name: "Copié" })).toBeVisible();
+  await page.getByRole("button", { name: "Effacer" }).click();
+  await expect(page.getByRole("textbox", { name: "Votre JSON" })).toHaveValue("");
+});
 
 test("CSV and JSON converter transforms tabular data", async ({ page }) => {
   await page.addInitScript(() => {
