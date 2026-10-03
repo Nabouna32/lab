@@ -94,6 +94,10 @@ export const toolSeo = {
     fr: { title: "Générateur de palette de couleurs | Loculary", description: "Générez des palettes de couleurs harmonieuses à partir d’une couleur, directement dans votre navigateur." },
     en: { title: "Color Palette Generator | Loculary", description: "Generate harmonious color palettes from a starting color directly in your browser." },
   },
+  "color-palette-generator": {
+    fr: { title: "Générateur de palette de couleurs | Loculary", description: "Générez des palettes de couleurs harmonieuses à partir d’une couleur, directement dans votre navigateur." },
+    en: { title: "Color Palette Generator | Loculary", description: "Generate harmonious color palettes from a starting color directly in your browser." },
+  },
   "contrast-checker": {
     fr: { title: "Vérificateur de contraste des couleurs | Loculary", description: "Vérifiez le contraste entre deux couleurs et les seuils WCAG AA et AAA directement dans votre navigateur." },
     en: { title: "Color Contrast Checker | Loculary", description: "Check color contrast and WCAG AA and AAA thresholds directly in your browser." },
