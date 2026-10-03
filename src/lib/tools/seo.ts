@@ -70,6 +70,10 @@ export const toolSeo = {
     fr: { title: "Générateur de hash | Loculary", description: "Générez des empreintes SHA-1, SHA-256, SHA-384 ou SHA-512 directement dans votre navigateur." },
     en: { title: "Hash Generator | Loculary", description: "Generate SHA-1, SHA-256, SHA-384, or SHA-512 digests directly in your browser." },
   },
+  "jwt-decoder": {
+    fr: { title: "Décodeur JWT | Loculary", description: "Décodez des JSON Web Tokens et lisez leur en-tête et leur contenu directement dans votre navigateur." },
+    en: { title: "JWT Decoder | Loculary", description: "Decode JSON Web Tokens and inspect their header and payload directly in your browser." },
+  },
   "video-bitrate": {
     fr: { title: "Bitrate vidéo | Loculary", description: "Calculez le bitrate ou la taille approximative d'une vidéo." },
     en: { title: "Video Bitrate Calculator | Loculary", description: "Calculate video bitrate or approximate file size." },

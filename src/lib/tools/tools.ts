@@ -75,6 +75,10 @@ const localProcessingDescriptions = {
     fr: "Les empreintes cryptographiques sont calculées directement dans votre navigateur.",
     en: "Cryptographic digests are calculated directly in your browser.",
   },
+  "jwt-decoder": {
+    fr: "Les JWT sont décodés directement dans votre navigateur.",
+    en: "JWTs are decoded directly in your browser.",
+  },
 } satisfies Record<ToolId, { fr: string; en: string }>;
 
 type ToolDefinition = Pick<
@@ -303,6 +307,20 @@ const toolDefinitions: ToolDefinition[] = [
     content: {
       fr: { name: "Générateur de hash", description: "Calculez une empreinte SHA-1, SHA-256, SHA-384 ou SHA-512 à partir d’un texte." },
       en: { name: "Hash Generator", description: "Generate a SHA-1, SHA-256, SHA-384, or SHA-512 digest from text." },
+    },
+  },
+  {
+    id: "jwt-decoder", icon: "🔑",
+    version: 1,
+    complexity: "small",
+    categories: ["development"],
+    tags: ["jwt", "json web token", "token", "decode", "decoder", "json", "authentication", "developer"],
+    aliases: ["jwt decoder", "jwt decode", "json web token decoder", "décodeur jwt", "decodeur jwt", "jwt"],
+    lifecycle: "published",
+    capabilities: ["clipboard"],
+    content: {
+      fr: { name: "Décodeur JWT", description: "Décodez l’en-tête et le contenu d’un JSON Web Token directement dans votre navigateur." },
+      en: { name: "JWT Decoder", description: "Decode the header and payload of a JSON Web Token directly in your browser." },
     },
   },
   {
