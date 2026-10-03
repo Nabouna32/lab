@@ -18,7 +18,8 @@ export type ToolId =
   | "base64-encoder-decoder"
   | "uuid-generator"
   | "unix-timestamp"
-  | "hash-generator";
+  | "hash-generator"
+  | "jwt-decoder";
 
 export type ToolComplexity = "small" | "advanced" | "mini-application";
 export type ToolProcessingMode = "local" | "external" | "server" | "hybrid";
