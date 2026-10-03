@@ -19,6 +19,7 @@ export type ToolId =
   | "url-encoder-decoder"
   | "base64-encoder-decoder"
   | "html-entity-encoder-decoder"
+  | "json-to-typescript"
   | "csv-json-converter"
   | "uuid-generator"
   | "unix-timestamp"
