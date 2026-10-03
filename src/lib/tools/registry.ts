@@ -97,6 +97,10 @@ const moduleLoaders: Partial<Record<ToolId, ToolModule>> = {
     () => import("@/components/tools/base64/Base64Encoder"),
     () => import("@/components/tools/base64/ToolEditorial"),
   ),
+  "html-entity-encoder-decoder": createToolModule(
+    () => import("@/components/tools/html-entity-encoder/HtmlEntityEncoder"),
+    () => import("@/components/tools/html-entity-encoder/ToolEditorial"),
+  ),
   "uuid-generator": createToolModule(
     () => import("@/components/tools/uuid/UuidGenerator"),
     () => import("@/components/tools/uuid/ToolEditorial"),

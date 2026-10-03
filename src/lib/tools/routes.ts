@@ -33,6 +33,7 @@ const toolSlugs: Record<string, Record<Locale, string>> = {
   "json-formatter": { en: "json-formatter", fr: "formateur-json" },
   "url-encoder-decoder": { en: "url-encoder-decoder", fr: "encodeur-decodeur-url" },
   "base64-encoder-decoder": { en: "base64-encoder-decoder", fr: "encodeur-base64" },
+  "html-entity-encoder-decoder": { en: "html-entity-encoder-decoder", fr: "encodeur-decodeur-entites-html" },
   "uuid-generator": { en: "uuid-generator", fr: "generateur-uuid" },
   "unix-timestamp": { en: "unix-timestamp-converter", fr: "convertisseur-timestamp-unix" },
   "hash-generator": { en: "hash-generator", fr: "generateur-hash" },

@@ -75,6 +75,10 @@ const localProcessingDescriptions = {
     fr: "Le texte saisi est encodé ou décodé en Base64 directement dans votre navigateur.",
     en: "The text you enter is encoded or decoded as Base64 directly in your browser.",
   },
+  "html-entity-encoder-decoder": {
+    fr: "Le texte est encodé ou décodé directement dans votre navigateur.",
+    en: "Text is encoded or decoded directly in your browser.",
+  },
   "uuid-generator": {
     fr: "Les UUID sont générés aléatoirement directement dans votre navigateur.",
     en: "UUIDs are generated randomly directly in your browser.",
@@ -295,6 +299,20 @@ const toolDefinitions: ToolDefinition[] = [
     content: {
       fr: { name: "Formateur et validateur JSON", description: "Validez, formatez et minifiez du JSON directement dans votre navigateur." },
       en: { name: "JSON Formatter & Validator", description: "Validate, format, and minify JSON directly in your browser." },
+    },
+  },
+  {
+    id: "html-entity-encoder-decoder", icon: "<>",
+    version: 1,
+    complexity: "small",
+    categories: ["development"],
+    tags: ["html", "entity", "encode", "decode", "encoding", "html entities", "web", "developer"],
+    aliases: ["html entity encoder", "html entity decoder", "html entities", "entity encoder", "entity decoder", "encode html", "decode html", "entités html", "encodeur html", "décodeur html"],
+    lifecycle: "published",
+    capabilities: ["clipboard"],
+    content: {
+      fr: { name: "Encodeur et décodeur d’entités HTML", description: "Encodez les caractères spéciaux HTML et décodez les entités nommées ou numériques directement dans votre navigateur." },
+      en: { name: "HTML Entity Encoder & Decoder", description: "Encode HTML-special characters and decode named or numeric entities directly in your browser." },
     },
   },
   {
