@@ -4,7 +4,7 @@ const baseUrl = process.env.BASE_URL ?? "http://127.0.0.1:3000";
 
 test("account entry points render in French", async ({ page }) => {
   await page.goto(`${baseUrl}/fr/compte`, { waitUntil: "networkidle" });
-  await expect(page.getByRole("heading", { name: "Votre compte" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Compte" })).toBeVisible();
   await expect(page.getByRole("link", { name: "Se connecter" })).toBeVisible();
   await expect(page.getByRole("link", { name: "Créer un compte" })).toBeVisible();
 });
