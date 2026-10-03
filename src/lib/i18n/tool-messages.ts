@@ -84,6 +84,10 @@ type ToolMessages = {
     input: string; placeholder: string; algorithm: string; generate: string; generating: string; clear: string;
     result: string; complete: string; emptyResult: string; copy: string; invalid: string;
   };
+  passwordGenerator: {
+    length: string; characters: string; lowercase: string; uppercase: string; numbers: string; symbols: string;
+    excludeAmbiguous: string; generate: string; result: string; emptyResult: string; copy: string; invalid: string;
+  };
   regexTester: {
     pattern: string; patternPlaceholder: string; flags: string; flagsHint: string; input: string; inputPlaceholder: string;
     test: string; clear: string; invalid: string; result: string; emptyResult: string; noMatches: string;
@@ -219,6 +223,10 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     hashGenerator: {
       input: "Votre texte", placeholder: "Saisissez ou collez votre texte…", algorithm: "Algorithme", generate: "Générer", generating: "Calcul…", clear: "Effacer", result: "Empreinte", complete: "Empreinte générée", emptyResult: "Le résultat apparaîtra ici après génération.", copy: "Copier", invalid: "Impossible de calculer cette empreinte.",
     },
+    passwordGenerator: {
+      length: "Longueur", characters: "Types de caractères", lowercase: "Minuscules", uppercase: "Majuscules", numbers: "Chiffres", symbols: "Symboles",
+      excludeAmbiguous: "Exclure les caractères ambigus", generate: "Générer un mot de passe", result: "Mot de passe", emptyResult: "Générez un mot de passe pour l’afficher ici.", copy: "Copier", invalid: "Impossible de générer un mot de passe avec ces options.",
+    },
     regexTester: {
       pattern: "Expression régulière", patternPlaceholder: "Ex. \\b\\d{4}\\b", flags: "Indicateurs", flagsHint: "g · i · m · s · u · y", input: "Texte à tester", inputPlaceholder: "Saisissez ou collez le texte à analyser…",
       test: "Tester", clear: "Effacer", invalid: "L’expression régulière ou les indicateurs sont invalides.", result: "Résultats", emptyResult: "Lancez un test pour afficher les correspondances.", noMatches: "Aucune correspondance trouvée.",
@@ -345,6 +353,10 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     },
     hashGenerator: {
       input: "Your text", placeholder: "Type or paste your text…", algorithm: "Hash algorithm", generate: "Generate", generating: "Hashing…", clear: "Clear", result: "Digest", complete: "Digest generated", emptyResult: "The result will appear here after generation.", copy: "Copy", invalid: "The digest could not be generated.",
+    },
+    passwordGenerator: {
+      length: "Length", characters: "Character types", lowercase: "Lowercase", uppercase: "Uppercase", numbers: "Numbers", symbols: "Symbols",
+      excludeAmbiguous: "Exclude ambiguous characters", generate: "Generate password", result: "Password", emptyResult: "Generate a password to display it here.", copy: "Copy", invalid: "A password could not be generated with these options.",
     },
     regexTester: {
       pattern: "Regular expression", patternPlaceholder: "e.g. \\b\\d{4}\\b", flags: "Flags", flagsHint: "g · i · m · s · u · y", input: "Test text", inputPlaceholder: "Type or paste text to analyze…",
