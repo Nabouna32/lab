@@ -139,6 +139,10 @@ Expected checks include, as applicable:
 
 The exact automated contract will evolve with the tool platform.
 
+## Account experience
+
+Loculary remains anonymous-first for core tools. The account layer is an optional personal surface for display name, language preference, authentication, password/email management and account deletion. It must not become a prerequisite for using the core toolbox.
+
 ## Tool diversity
 
 A common tool framework must not force every tool to look identical.
