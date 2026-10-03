@@ -77,6 +77,12 @@ type ToolMessages = {
     count: string; countPlaceholder: string; generate: string; copy: string; copied: string; clear: string; result: string;
     emptyResult: string; invalidCount: string; generatedOne: string; generatedMany: (count: number) => string;
   };
+  unixTimestamp: {
+    timestampToDate: string; dateToTimestamp: string; timestamp: string; timestampPlaceholder: string;
+    timestampUnit: string; seconds: string; milliseconds: string; dateTime: string; timestampHint: string;
+    dateHint: string; convert: string; result: string; converted: string; localDate: string; utcDate: string;
+    timestampResult: string; emptyResult: string; invalid: string; copy: string; clear: string;
+  };
   videoBitrate: {
     mode: string; duration: string; hours: string; minutes: string; seconds: string;
     hoursPlaceholder: string; minutesPlaceholder: string; secondsPlaceholder: string;
@@ -193,6 +199,15 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       bitrateResultNote: "Débit total moyen nécessaire pour atteindre la taille cible.", sizeResultNote: "Taille théorique du fichier à débit constant.",
       copy: "Copier", copied: "Copié", modes: { bitrate: { title: "Calculer le bitrate", description: "À partir d’une taille cible" }, size: { title: "Estimer la taille", description: "À partir du bitrate" } },
     },
+    unixTimestamp: {
+      timestampToDate: "Timestamp → date", dateToTimestamp: "Date → timestamp", timestamp: "Timestamp Unix",
+      timestampPlaceholder: "Ex. 1710000000", timestampUnit: "Unité du timestamp", seconds: "secondes", milliseconds: "millisecondes",
+      dateTime: "Date et heure", timestampHint: "Les timestamps en secondes sont courants sur Unix. Choisissez les millisecondes pour les valeurs JavaScript.",
+      dateHint: "La date et l’heure sont interprétées dans votre fuseau horaire local.",
+      convert: "Convertir", result: "Résultat", converted: "Conversion effectuée", localDate: "Heure locale",
+      utcDate: "UTC", timestampResult: "Timestamp", emptyResult: "Le résultat apparaîtra ici après conversion.",
+      invalid: "Saisissez une valeur de timestamp ou une date valide.", copy: "Copier", clear: "Effacer",
+    },
     uuidGenerator: {
       count: "Nombre d’UUID", countPlaceholder: "Ex. 5", generate: "Générer", copy: "Copier", copied: "Copié", clear: "Effacer", result: "UUID générés",
       emptyResult: "Générez des UUID pour les afficher ici.", invalidCount: "Choisissez un nombre entier compris entre 1 et 50.", generatedOne: "1 UUID généré", generatedMany: (count) => `${count} UUID générés`,
@@ -299,6 +314,15 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       invalidSize: "Target size must be 0 or greater.", invalidBitrate: "Bitrate must be 0 or greater.",
       bitrateResultNote: "Average total bitrate required to reach the target size.", sizeResultNote: "Theoretical file size at a constant bitrate.",
       copy: "Copy", copied: "Copied", modes: { bitrate: { title: "Calculate bitrate", description: "From a target size" }, size: { title: "Estimate size", description: "From a bitrate" } },
+    },
+    unixTimestamp: {
+      timestampToDate: "Timestamp → date", dateToTimestamp: "Date → timestamp", timestamp: "Unix timestamp",
+      timestampPlaceholder: "e.g. 1710000000", timestampUnit: "Timestamp unit", seconds: "seconds", milliseconds: "milliseconds",
+      dateTime: "Date and time", timestampHint: "Seconds are the common Unix timestamp unit. Choose milliseconds for JavaScript timestamp values.",
+      dateHint: "The date and time are interpreted in your local time zone.",
+      convert: "Convert", result: "Result", converted: "Conversion complete", localDate: "Local time",
+      utcDate: "UTC", timestampResult: "Timestamp", emptyResult: "The result will appear here after conversion.",
+      invalid: "Enter a valid timestamp or date.", copy: "Copy", clear: "Clear",
     },
     uuidGenerator: {
       count: "Number of UUIDs", countPlaceholder: "e.g. 5", generate: "Generate", copy: "Copy", copied: "Copied", clear: "Clear", result: "Generated UUIDs",

@@ -16,7 +16,8 @@ export type ToolId =
   | "json-formatter"
   | "url-encoder-decoder"
   | "base64-encoder-decoder"
-  | "uuid-generator";
+  | "uuid-generator"
+  | "unix-timestamp";
 
 export type ToolComplexity = "small" | "advanced" | "mini-application";
 export type ToolProcessingMode = "local" | "external" | "server" | "hybrid";

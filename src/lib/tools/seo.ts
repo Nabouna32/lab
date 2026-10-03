@@ -62,6 +62,10 @@ export const toolSeo = {
     fr: { title: "Formateur JSON et validateur en ligne | Loculary", description: "Validez, formatez et minifiez votre JSON gratuitement, directement dans votre navigateur." },
     en: { title: "JSON Formatter & Validator | Loculary", description: "Validate, format, and minify JSON for free directly in your browser." },
   },
+  "unix-timestamp": {
+    fr: { title: "Convertisseur de timestamp Unix | Loculary", description: "Convertissez un timestamp Unix en date ou une date en timestamp, en secondes ou millisecondes." },
+    en: { title: "Unix Timestamp Converter | Loculary", description: "Convert Unix timestamps to dates or dates to timestamps in seconds or milliseconds." },
+  },
   "video-bitrate": {
     fr: { title: "Bitrate vidéo | Loculary", description: "Calculez le bitrate ou la taille approximative d'une vidéo." },
     en: { title: "Video Bitrate Calculator | Loculary", description: "Calculate video bitrate or approximate file size." },
