@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { dateTimeLocalToTimestamp, timestampToDate } from "./unix-timestamp";
+import { dateTimeLocalToTimestamp, timestampToDate } from "./unix-timestamp.ts";
 
 describe("timestampToDate", () => {
   it("converts Unix seconds", () => {
