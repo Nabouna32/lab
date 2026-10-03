@@ -32,3 +32,11 @@ test("auto-detects semicolon-delimited CSV", () => {
     { name: "Alice", age: "30" },
   ]);
 });
+
+test("rejects rows with inconsistent column counts", () => {
+  assert.equal(transformCsvJson("name,age\nAlice,30,extra", "csv-to-json").error, "invalid-csv");
+});
+
+test("accepts a UTF-8 BOM before CSV headers", () => {
+  assert.equal(transformCsvJson("\uFEFFname,age\nAlice,30", "csv-to-json").error, null);
+});
