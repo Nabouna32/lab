@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Button } from "@/components/ui/Button";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { TextField } from "@/components/ui/TextField";
 import { useLocale } from "@/lib/i18n/use-locale";
@@ -53,13 +54,9 @@ export default function ContrastChecker() {
           </div>
 
           <div className="flex flex-wrap gap-2">
-            <button
-              type="button"
-              onClick={swap}
-              className="rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] px-4 py-2.5 text-sm font-semibold text-[var(--foreground)] transition-colors hover:border-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
-            >
+            <Button type="button" variant="secondary" onClick={swap}>
               {t.swap}
-            </button>
+            </Button>
             <ClearButton onClear={clear} disabled={!canReset} label={t.reset} />
           </div>
 
