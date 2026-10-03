@@ -13,11 +13,18 @@ type ClearButtonProps = {
 export function ClearButton({ onClear, disabled = false, label }: ClearButtonProps) {
   const locale = useLocale();
   const t = getMessages(locale).actions;
+  const buttonLabel = label ?? t.clear;
 
   return (
-    <Button variant="secondary" type="button" onClick={onClear} disabled={disabled}>
+    <Button
+      variant="secondary"
+      type="button"
+      onClick={onClear}
+      disabled={disabled}
+      aria-label={buttonLabel}
+    >
       <span aria-hidden="true">↺</span>
-      {label ?? t.clear}
+      <span>{buttonLabel}</span>
     </Button>
   );
 }
