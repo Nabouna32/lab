@@ -29,7 +29,7 @@ as $$
   select exists (
     select 1
     from auth.sessions s
-    where s.id = ((select auth.jwt()) ->> 'session_id')::uuid
+    where s.id::text = ((select auth.jwt()) ->> 'session_id')
       and s.user_id = (select auth.uid())
   );
 $$;
