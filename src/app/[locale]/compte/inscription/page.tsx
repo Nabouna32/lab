@@ -40,7 +40,7 @@ export default async function SignUpPage({
         <h1 className="text-3xl font-bold tracking-tight">{t.account.signUp}</h1>
         {query.error && (
           <p className="mt-4 rounded-2xl bg-[var(--danger-soft)] p-4 text-sm text-[var(--danger-foreground)]">
-            {query.error === "rate-limited" ? t.account.authRateLimited : t.account.signUpError}
+            {query.error === "rate-limited" ? t.account.authRateLimited : query.error === "weak-password" ? t.account.weakPassword : t.account.signUpError}
           </p>
         )}
         <form action={signUp} className="mt-6 space-y-5">
