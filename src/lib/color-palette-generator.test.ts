@@ -10,6 +10,7 @@ test("generates deterministic harmonies from a valid color", () => {
   assert.equal(palette?.triadic.length, 3);
   assert.equal(palette?.splitComplementary.length, 3);
   assert.equal(palette?.monochromatic.length, 5);
+  assert.equal(palette?.triadic[1].hex, "#993366");
 });
 
 test("wraps hues across the 0/360 boundary", () => {
