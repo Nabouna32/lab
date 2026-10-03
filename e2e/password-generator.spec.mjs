@@ -10,8 +10,7 @@ test("password generator creates a configurable password", async ({ page }) => {
   await page.getByLabel("Symbols").uncheck();
   await page.getByRole("button", { name: "Generate password", exact: true }).click();
 
-  const result = page.getByRole("status").or(page.locator("output").last());
-  await expect(result).toContainText(/.+/);
+  await expect(page.locator("output").last()).not.toHaveText("Generate a password to display it here.");
 });
 
 test("password generator is available on the French localized route", async ({ page }) => {
