@@ -22,5 +22,7 @@ test("color contrast checker supports RGB input in English", async ({ page }) =>
   await page.getByLabel("Background").fill("rgb(255, 255, 255)");
 
   await expect(page.getByText("21.00:1", { exact: true })).toBeVisible();
+  await expect(page.getByLabel("Text / foreground")).toHaveAttribute("aria-invalid", "false");
+  await expect(page.getByLabel("Background")).toHaveAttribute("aria-invalid", "false");
   await expect(page.getByText("Normal text · AAA")).toContainText("✓");
 });
