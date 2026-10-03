@@ -98,7 +98,7 @@ function csvEscape(value: unknown, delimiter: CsvDelimiter): string {
 
 function toJson(input: string, delimiter: CsvDelimiter): CsvJsonResult {
   try {
-    const rows = parseCsv(input, delimiter);
+    const rows = parseCsv(input.replace(/^\uFEFF/, ""), delimiter);
     if (rows.length === 0 || rows[0].every((cell) => cell === "")) {
       return { value: "[]", error: null };
     }
@@ -109,6 +109,9 @@ function toJson(input: string, delimiter: CsvDelimiter): CsvJsonResult {
     }
 
     const records = rows.slice(1).filter((row) => row.some((cell) => cell !== ""));
+    if (records.some((row) => row.length !== headers.length)) {
+      return { value: null, error: "invalid-csv" };
+    }
     const result = records.map((row) => {
       const record: Record<string, string> = {};
       headers.forEach((header, index) => {
