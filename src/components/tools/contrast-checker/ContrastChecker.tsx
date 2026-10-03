@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ClearButton } from "@/components/ui/ClearButton";
+import { TextField } from "@/components/ui/TextField";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { evaluateContrast } from "@/lib/contrast-checker";
@@ -119,26 +120,34 @@ function ColorField({
 }) {
   return (
     <div>
-      <label htmlFor={id} className="block text-sm font-semibold text-[var(--foreground)]">{label}</label>
-      <div className="mt-2 flex gap-2">
-        <input
-          aria-label={label}
-          type="color"
-          value={parsePickerValue(value)}
-          onChange={(event) => onChange(event.target.value)}
-          className="h-12 w-14 shrink-0 cursor-pointer rounded-xl border border-[var(--border)] bg-[var(--background)] p-1"
-        />
-        <input
-          id={id}
-          value={value}
-          onChange={(event) => onChange(event.target.value)}
-          placeholder="#112233"
-          spellCheck={false}
-          autoCapitalize="none"
-          className="min-w-0 flex-1 rounded-xl border border-[var(--border)] bg-[var(--background)] px-4 py-3 font-mono text-sm text-[var(--foreground)] outline-none transition focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/20"
-        />
+      <div className="flex items-end gap-2">
+        <div className="min-w-0 flex-1">
+          <TextField
+            label={label}
+            inputId={id}
+            value={value}
+            onChange={(event) => onChange(event.target.value)}
+            placeholder="#112233"
+            spellCheck={false}
+            autoCapitalize="none"
+            aria-invalid={!/^#[0-9a-f]{6}$/i.test(value)}
+            aria-describedby={id + "-hint"}
+            className="font-mono"
+          />
+        </div>
+        <div className="shrink-0">
+          <label htmlFor={id + "-picker"} className="sr-only">{label}</label>
+          <input
+            id={id + "-picker"}
+            type="color"
+            aria-label={label}
+            value={parsePickerValue(value)}
+            onChange={(event) => onChange(event.target.value)}
+            className="h-11 w-14 cursor-pointer rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background)] p-1 outline-none transition focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+          />
+        </div>
       </div>
-      <p className="mt-2 text-xs text-[var(--muted)]">{hint}</p>
+      <p id={id + "-hint"} className="mt-2 text-xs text-[var(--muted)]">{hint}</p>
     </div>
   );
 }
