@@ -302,6 +302,20 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
+    id: "csv-json-converter", icon: "{↔}",
+    version: 1,
+    complexity: "small",
+    categories: ["files"],
+    tags: ["csv", "json", "converter", "data", "table", "spreadsheet", "transform", "developer"],
+    aliases: ["csv json converter", "csv to json", "json to csv", "csv converter", "json csv", "convert csv", "convert json"],
+    lifecycle: "published",
+    capabilities: ["clipboard"],
+    content: {
+      fr: { name: "Convertisseur CSV et JSON", description: "Convertissez des données CSV en JSON et des tableaux JSON en CSV directement dans votre navigateur." },
+      en: { name: "CSV & JSON Converter", description: "Convert CSV data to JSON and JSON object arrays to CSV directly in your browser." },
+    },
+  },
+  {
     id: "html-entity-encoder-decoder", icon: "<>",
     version: 1,
     complexity: "small",
