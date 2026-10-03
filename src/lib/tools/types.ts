@@ -23,7 +23,8 @@ export type ToolId =
   | "regex-tester"
   | "password-generator"
   | "contrast-checker"
-  | "color-converter";
+  | "color-converter"
+  | "color-palette-generator";
 
 export type ToolComplexity = "small" | "advanced" | "mini-application";
 export type ToolProcessingMode = "local" | "external" | "server" | "hybrid";
