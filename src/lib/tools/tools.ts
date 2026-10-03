@@ -87,6 +87,10 @@ const localProcessingDescriptions = {
     fr: "Les mots de passe sont générés localement avec l’API Web Crypto de votre navigateur.",
     en: "Passwords are generated locally using your browser’s Web Crypto API.",
   },
+  "color-converter": {
+    fr: "Les couleurs sont converties directement dans votre navigateur.",
+    en: "Colors are converted directly in your browser.",
+  },
   "regex-tester": {
     fr: "Les expressions régulières sont évaluées directement dans votre navigateur.",
     en: "Regular expressions are evaluated directly in your browser.",
@@ -333,6 +337,20 @@ const toolDefinitions: ToolDefinition[] = [
     content: {
       fr: { name: "Générateur de mots de passe", description: "Générez des mots de passe aléatoires avec une longueur et des caractères personnalisables." },
       en: { name: "Password generator", description: "Generate random passwords with configurable length and character sets." },
+    },
+  },
+  {
+    id: "color-converter", icon: "🎨",
+    version: 1,
+    complexity: "small",
+    categories: ["images"],
+    tags: ["couleur", "color", "hex", "rgb", "hsl", "design", "css", "web"],
+    aliases: ["color converter", "colour converter", "convertisseur couleur", "convertisseur de couleurs", "hex rgb hsl", "hex to rgb", "rgb to hex"],
+    lifecycle: "published",
+    capabilities: ["clipboard"],
+    content: {
+      fr: { name: "Convertisseur de couleurs", description: "Convertissez une couleur entre HEX, RGB et HSL directement dans votre navigateur." },
+      en: { name: "Color converter", description: "Convert a color between HEX, RGB, and HSL directly in your browser." },
     },
   },
   {
