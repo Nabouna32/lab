@@ -50,6 +50,10 @@ export const toolSeo = {
     fr: { title: "Convertisseur de casse | Loculary", description: "Transformez rapidement un texte en majuscules, minuscules, Title Case, camelCase, PascalCase, snake_case ou kebab-case." },
     en: { title: "Text Case Converter | Loculary", description: "Transform text into uppercase, lowercase, Title Case, camelCase, PascalCase, snake_case, or kebab-case." },
   },
+  "unit-converter": {
+    fr: { title: "Convertisseur d’unités | Loculary", description: "Convertissez des longueurs, masses, températures, volumes et surfaces directement dans votre navigateur." },
+    en: { title: "Unit Converter | Loculary", description: "Convert length, mass, temperature, volume, and area units directly in your browser." },
+  },
   "base64-encoder-decoder": {
     fr: { title: "Encodeur et décodeur Base64 | Loculary", description: "Encodez et décodez du texte UTF-8 en Base64 directement dans votre navigateur." },
     en: { title: "Base64 Encoder & Decoder | Loculary", description: "Encode and decode UTF-8 text as Base64 directly in your browser." },
