@@ -27,7 +27,18 @@ export default function ToolPage({
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-2 sm:px-6 sm:py-4 lg:px-8 lg:py-5">
-      <Breadcrumbs locale={locale} items={[{ label: t.nav.tools, href: getToolsPath(locale) }, { label: getCategoryName(locale, getPrimaryToolCategory(tool)), href: getCategoryPath(locale, getPrimaryToolCategory(tool)) }, { label: localizedContent.name }]} />
+      <Breadcrumbs
+        locale={locale}
+        items={[
+          { label: t.nav.tools, href: getToolsPath(locale) },
+          {
+            label: getCategoryName(locale, getPrimaryToolCategory(tool)),
+            href: getCategoryPath(locale, getPrimaryToolCategory(tool)),
+          },
+          { label: localizedContent.name },
+        ]}
+      />
+
       <ToolPageHeader
         icon={tool.icon}
         title={localizedContent.name}
@@ -35,12 +46,22 @@ export default function ToolPage({
         contentFallback={isContentFallback}
         locale={locale}
       />
+
       <ToolRuntimeProvider access={tool.access} capabilities={tool.capabilities}>
-        <div data-tool-surface className="mt-3 sm:mt-4">
+        <div data-tool-surface className="mt-4 sm:mt-5">
           <ToolProcessingStatus processing={tool.processing} locale={locale} />
-          {children && <div className="mt-2 sm:mt-3">{children}</div>}
+          {children && (
+            <section aria-label={t.nav.tools} className="mt-4 sm:mt-5">
+              {children}
+            </section>
+          )}
         </div>
-        {content && <div className="mt-8 space-y-10 sm:mt-10 sm:space-y-12">{content}</div>}
+
+        {content && (
+          <div className="mt-8 space-y-8 sm:mt-10 sm:space-y-10">
+            {content}
+          </div>
+        )}
       </ToolRuntimeProvider>
     </main>
   );

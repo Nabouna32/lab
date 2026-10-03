@@ -15,7 +15,7 @@ export function ResultPanel({ label, value, emptyMessage, tone = "neutral" }: Re
 
   return (
     <div className={["rounded-[var(--radius-lg)] border p-5", toneClass].join(" ")}>
-      <p className="text-sm font-medium text-[var(--muted)]">{label}</p>
+      <p className="text-xs font-semibold text-[var(--muted)]">{label}</p>
       <div className="mt-2 min-h-20 flex items-center">
         {isEmpty ? (
           <p className="text-sm leading-6 text-[var(--muted)]">{emptyMessage}</p>
