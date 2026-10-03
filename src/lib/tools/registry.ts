@@ -101,6 +101,10 @@ const moduleLoaders: Partial<Record<ToolId, ToolModule>> = {
     () => import("@/components/tools/csv-json/CsvJsonConverter"),
     () => import("@/components/tools/csv-json/ToolEditorial"),
   ),
+  "json-to-typescript": createToolModule(
+    () => import("@/components/tools/json-to-typescript/JsonToTypeScript"),
+    () => import("@/components/tools/json-to-typescript/ToolEditorial"),
+  ),
   "html-entity-encoder-decoder": createToolModule(
     () => import("@/components/tools/html-entity-encoder/HtmlEntityEncoder"),
     () => import("@/components/tools/html-entity-encoder/ToolEditorial"),
