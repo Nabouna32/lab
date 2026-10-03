@@ -40,7 +40,7 @@ export default function PasswordGenerator() {
   }
 
   return (
-    <section className="overflow-hidden rounded-[var(--radius-2xl)] border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-sm)]">
+    <section className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]">
       <div className="grid gap-8 p-5 sm:p-7 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,24rem)] lg:p-8">
         <div>
           <div className="flex items-end justify-between gap-4">
@@ -66,7 +66,7 @@ export default function PasswordGenerator() {
                 ["numbers", t.numbers],
                 ["symbols", t.symbols],
               ] as const).map(([key, label]) => (
-                <label key={key} className="flex cursor-pointer items-center gap-3 rounded-xl border border-[var(--border)] p-3 text-sm text-[var(--foreground)] transition hover:bg-[var(--background)]">
+                <label key={key} className="flex cursor-pointer items-center gap-3 rounded-[var(--radius-md)] border border-[var(--border)] p-3 text-sm text-[var(--foreground)] transition-colors hover:bg-[var(--surface-soft)]">
                   <input
                     type="checkbox"
                     checked={options[key]}
@@ -96,12 +96,12 @@ export default function PasswordGenerator() {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-[var(--border)] bg-[var(--background)] p-5">
+        <div className="border-t border-[var(--border)] pt-5">
           <div className="flex items-center justify-between gap-3">
             <p className="text-sm font-semibold text-[var(--foreground)]">{t.result}</p>
             {password && <CopyButton value={password} label={t.copy} />}
           </div>
-          <output aria-live="polite" className="mt-4 block min-h-28 break-all rounded-xl border border-[var(--border)] bg-[var(--surface)] p-4 font-mono text-sm leading-7 text-[var(--foreground)]">
+          <output aria-live="polite" className="mt-4 block min-h-28 break-all border border-[var(--border)] bg-[var(--surface)] p-4 font-mono text-sm leading-7 text-[var(--foreground)]">
             {password || t.emptyResult}
           </output>
         </div>
