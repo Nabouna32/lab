@@ -11,6 +11,8 @@ export type Messages = {
     metaTitle: string;
     eyebrow: string; title: string; description: string; explore: string; one: string; many: string;
     categoryDescription: (category: string) => string; searchLabel: string; searchPlaceholder: string; searchButton: string; suggestions: string;
+    intentsTitle: string; intentsDescription: string; intents: Array<{ id: string; label: string; icon: string }>;
+    allToolsTitle: string;
     resultCountOne: string; resultCountMany: string; noResults: string; noResultsHelp: string; tryThese: string; noResultsSuggestions: string[]; clearSearch: string;
     categoriesTitle: string; categoriesDescription: string;
   };
@@ -32,10 +34,10 @@ export const messages: Record<Locale, Messages> = {
     footer: { tagline: "Des outils utiles, directement dans votre navigateur.", explore: "Voir tous les outils", account: "Votre espace" },
     actions: { copy: "Copier", copied: "Copié", clear: "Effacer" },
     home: {
-      metaTitle: "Loculary — Outils en ligne gratuits",
-      badge: "Des outils utiles, directement dans votre navigateur",
+      metaTitle: "Loculary — Outils gratuits en ligne",
+      badge: "Des outils pour passer à l’action",
       title: "Que voulez-vous faire ?",
-      description: "Trouvez le bon outil et utilisez-le directement dans votre navigateur.",
+      description: "Décrivez votre besoin, trouvez l’outil et faites-le maintenant.",
       quickLinksLabel: "Essayez directement",
       quickLinks: [
         { label: "Calculer une remise", toolId: "discount" },
@@ -50,15 +52,18 @@ export const messages: Record<Locale, Messages> = {
       categoriesCount: (count) => formatPlural("fr", count, { one: "catégorie", other: "catégories" }),
     },
     tools: {
-      metaTitle: "Tous les outils — Loculary", eyebrow: "Loculary", title: "Trouvez votre outil",
-      description: "Recherchez par besoin ou explorez les catégories.",
+      metaTitle: "Tous les outils — Loculary", eyebrow: "Loculary", title: "Tous les outils",
+      description: "Tous les outils disponibles pour calculer, convertir, analyser et gagner du temps.",
       explore: "Explorer les outils", one: "outil", many: "outils",
       categoryDescription: (category) => `Retrouvez les outils disponibles dans la catégorie ${category}.`,
-      searchLabel: "Rechercher dans les outils", searchPlaceholder: "Que voulez-vous faire ? Ex. calculer une remise, convertir une taille de fichier…", searchButton: "Rechercher",
+      searchLabel: "Rechercher dans les outils", searchPlaceholder: "Que voulez-vous faire ? Ex. calculer une remise", searchButton: "Rechercher",
       suggestions: "Suggestions", resultCountOne: "résultat", resultCountMany: "résultats",
       noResults: "Aucun outil ne correspond à", noResultsHelp: "Essayez un terme plus simple ou choisissez une suggestion.", tryThese: "Vous cherchez peut-être", noResultsSuggestions: ["TVA", "taille de fichier", "vidéo", "âge"],
       clearSearch: "Effacer la recherche",
-      categoriesTitle: "Explorer les catégories", categoriesDescription: "Parcourez les catégories pour trouver l’outil adapté à votre besoin.",
+      categoriesTitle: "Parcourir par catégorie", categoriesDescription: "Si vous préférez explorer, choisissez une catégorie pour voir ses outils.",
+      intentsTitle: "Commencer par votre tâche", intentsDescription: "Si vous connaissez le résultat recherché sans connaître le nom de l’outil, partez de l’action.",
+      intents: [{ id: "calculate", label: "Calculer", icon: "∑" }, { id: "convert", label: "Convertir", icon: "↔" }, { id: "generate", label: "Générer", icon: "✦" }, { id: "analyze", label: "Analyser", icon: "⌁" }, { id: "measure", label: "Mesurer", icon: "◫" }],
+      allToolsTitle: "Explorer tous les outils",
     },
     relatedTools: { title: "Pour continuer" },
     theme: { choose: "Choisir le thème", system: "Système", light: "Clair", dark: "Sombre", title: "Thème" },
@@ -76,7 +81,7 @@ export const messages: Record<Locale, Messages> = {
       alreadySignedIn: "Vous êtes déjà connecté.", noAccount: "Pas encore de compte ?", hasAccount: "Vous avez déjà un compte ?", signInError: "Impossible de vous connecter. Vérifiez votre adresse e-mail et votre mot de passe.", signUpError: "Impossible de créer le compte. Vérifiez les informations saisies et réessayez.", authRateLimited: "Trop de tentatives. Réessayez dans quelques instants.",
     },
     processing: {
-      localDetail: "Vos données restent sur votre appareil : aucune donnée n’est envoyée à un serveur ni stockée par Loculary.", ariaLabel: "Informations sur le traitement des données", more: "Informations sur le traitement",
+      localDetail: "Aucune donnée n'est envoyée à un serveur ni stockée par Loculary.", ariaLabel: "Informations sur le traitement des données", more: "Informations sur le traitement",
       storage: "Stockage", retention: "Conservation", externalProviders: "Service(s) externe(s)", dataCategories: "Données concernées",
       localLabel: "Traitement local", localSummary: "Vos données restent sur votre appareil.", fallbackNotice: "Cette partie est actuellement disponible en anglais.",
       externalLabel: "Service externe", externalSummary: "Certaines données sont transmises à un service externe.",
@@ -90,16 +95,16 @@ export const messages: Record<Locale, Messages> = {
     footer: { tagline: "Useful tools, ready to use in your browser.", explore: "View all tools", account: "Your space" },
     actions: { copy: "Copy", copied: "Copied", clear: "Clear" },
     home: {
-      metaTitle: "Loculary — Free online tools",
-      badge: "Useful tools, right in your browser",
+      metaTitle: "Loculary — Outils en ligne gratuits",
+      badge: "Tools that get things done",
       title: "What do you want to do?",
-      description: "Find the right tool and use it directly in your browser.",
+      description: "Describe what you need, find the right tool, and get it done.",
       quickLinksLabel: "Try one of these",
       quickLinks: [
-        { label: "Calculate a discount", toolId: "discount" },
-        { label: "Convert a speed", toolId: "download-speed" },
+        { label: "Calculate a discount", toolId: "reduction" },
+        { label: "Convert a speed", toolId: "vitesse-telechargement" },
         { label: "Calculate my age", toolId: "age" },
-        { label: "Convert a file size", toolId: "file-size-converter" },
+        { label: "Convert a file size", toolId: "convertisseur-taille" },
       ],
       explore: "View all tools",
       discoveryTitle: "A few tools worth trying", discoveryDescription: "Simple tools for tasks that come up again and again.", discoveryOpen: "Use tool",
@@ -108,15 +113,18 @@ export const messages: Record<Locale, Messages> = {
       categoriesCount: (count) => formatPlural("en", count, { one: "category", other: "categories" }),
     },
     tools: {
-      metaTitle: "All tools — Loculary", eyebrow: "Loculary", title: "Find the right tool",
-      description: "Search by what you want to do or explore by category.",
+      metaTitle: "All tools — Loculary", eyebrow: "Loculary", title: "All tools",
+      description: "Tools to calculate, convert, analyze, and save time on everyday tasks.",
       explore: "Explore tools", one: "tool", many: "tools",
       categoryDescription: (category) => `Browse the tools available in the ${category}.`,
-      searchLabel: "Search the tools", searchPlaceholder: "What do you want to do? e.g. calculate a discount, convert a file size…", searchButton: "Search",
+      searchLabel: "Search the tools", searchPlaceholder: "What do you want to do? e.g. calculate a discount", searchButton: "Search",
       suggestions: "Suggestions", resultCountOne: "result", resultCountMany: "results",
       noResults: "No tool matches", noResultsHelp: "Try a simpler term or choose a suggestion.", tryThese: "You might be looking for", noResultsSuggestions: ["VAT", "file size", "video", "age"],
       clearSearch: "Clear search",
-      categoriesTitle: "Explore categories", categoriesDescription: "Browse categories to find the right tool for your task.",
+      categoriesTitle: "Browse by category", categoriesDescription: "Prefer to explore? Choose a category to see its tools.",
+      intentsTitle: "Start with your task", intentsDescription: "If you know the outcome you need but not the tool name, start with the action.",
+      intents: [{ id: "calculate", label: "Calculate", icon: "∑" }, { id: "convert", label: "Convert", icon: "↔" }, { id: "generate", label: "Generate", icon: "✦" }, { id: "analyze", label: "Analyze", icon: "⌁" }, { id: "measure", label: "Measure", icon: "◫" }],
+      allToolsTitle: "Explore all tools",
     },
     relatedTools: { title: "Keep going" },
     theme: { choose: "Choose theme", system: "System", light: "Light", dark: "Dark", title: "Theme" },
@@ -134,7 +142,7 @@ export const messages: Record<Locale, Messages> = {
       alreadySignedIn: "You are already signed in.", noAccount: "Don't have an account yet?", hasAccount: "Already have an account?", signInError: "We couldn't sign you in. Check your email address and password and try again.", signUpError: "We couldn't create the account. Check the information and try again.", authRateLimited: "Too many attempts. Please try again in a few moments.",
     },
     processing: {
-      localDetail: "Your data stays on your device: no data is sent to a server or stored by Loculary.", ariaLabel: "Data processing information", more: "Processing information",
+      localDetail: "No data is sent to a server or stored by Loculary.", ariaLabel: "Data processing information", more: "Processing information",
       storage: "Storage", retention: "Retention", externalProviders: "External service(s)", dataCategories: "Data involved",
       localLabel: "Local processing", localSummary: "Your data stays on your device.", fallbackNotice: "This part is currently available in English.",
       externalLabel: "External service", externalSummary: "Some data is sent to an external service.",
