@@ -62,6 +62,10 @@ export const toolSeo = {
     fr: { title: "Convertisseur CSV et JSON | Loculary", description: "Convertissez des données CSV en JSON et des tableaux JSON en CSV directement dans votre navigateur." },
     en: { title: "CSV & JSON Converter | Loculary", description: "Convert CSV data to JSON and JSON object arrays to CSV directly in your browser." },
   },
+  "json-to-typescript": {
+    fr: { title: "JSON vers TypeScript | Loculary", description: "Générez des interfaces et types TypeScript à partir d’un exemple JSON directement dans votre navigateur." },
+    en: { title: "JSON to TypeScript | Loculary", description: "Generate TypeScript interfaces and types from a JSON sample directly in your browser." },
+  },
   "html-entity-encoder-decoder": {
     fr: { title: "Encodeur et décodeur d’entités HTML | Loculary", description: "Encodez les caractères spéciaux HTML et décodez les entités nommées ou numériques directement dans votre navigateur." },
     en: { title: "HTML Entity Encoder & Decoder | Loculary", description: "Encode HTML-special characters and decode named or numeric entities directly in your browser." },
