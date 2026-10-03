@@ -132,6 +132,9 @@ function collectObjects(root: Node): Node[] {
     } else if (node.kind === "array") {
       visit(node.item);
     }
+    else if (node.kind === "union") {
+      node.items.forEach(visit);
+    }
   }
   visit(root);
   return result;
