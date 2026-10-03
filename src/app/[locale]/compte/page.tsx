@@ -89,7 +89,6 @@ export default async function AccountPage({
         <Panel as="section">
           <div>
             <h2 className="text-lg font-semibold">{t.account.profile}</h2>
-            <p className="mt-1 text-sm text-[var(--muted)]">{user.email}</p>
           </div>
           <form action={updateProfile} className="mt-6 space-y-5">
             <input type="hidden" name="locale" value={locale} />
