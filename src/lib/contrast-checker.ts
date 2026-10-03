@@ -41,7 +41,7 @@ export function parseColor(value: string): Rgb | null {
 function relativeLuminance({ r, g, b }: Rgb): number {
   const linearize = (channel: number) => {
     const normalized = channel / 255;
-    return normalized <= 0.03928
+    return normalized <= 0.04045
       ? normalized / 12.92
       : ((normalized + 0.055) / 1.055) ** 2.4;
   };
