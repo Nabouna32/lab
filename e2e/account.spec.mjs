@@ -28,7 +28,7 @@ test("password reset form performs browser validation", async ({ page }) => {
   await expect(email).toHaveAttribute("type", "email");
   await email.fill("not-an-email");
   await page.getByRole("button", { name: "Mot de passe oublié ?" }).click();
-  await expect.poll(() => email.evaluate((element) => (element as HTMLInputElement).checkValidity())).toBe(false);
+  await expect.poll(() => email.evaluate((element) => element.checkValidity())).toBe(false);
 });
 
 test("protected account security pages redirect unauthenticated users", async ({ page }) => {
