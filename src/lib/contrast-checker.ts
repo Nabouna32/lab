@@ -26,7 +26,7 @@ function parseHex(value: string): Rgb | null {
 }
 
 function parseRgb(value: string): Rgb | null {
-  const match = value.trim().match(/^rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})(?:\s*,\s*(?:0|1|0?\.\d+))?\s*\)$/i);
+  const match = value.trim().match(/^rgb\\(\\s*(\\d{1,3})\\s*,\\s*(\\d{1,3})\\s*,\\s*(\\d{1,3})\\s*\\)$/i);
   if (!match) return null;
 
   const channels = match.slice(1, 4).map(Number);
