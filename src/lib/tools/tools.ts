@@ -489,6 +489,20 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
+    id: "contrast-checker", icon: "◐",
+    version: 1,
+    complexity: "small",
+    categories: ["images"],
+    tags: ["contrast", "color", "wcag", "accessibility", "aa", "aaa", "design", "css", "web"],
+    aliases: ["color contrast checker", "contrast checker", "wcag contrast", "wcag checker", "vérificateur contraste", "contraste couleurs", "contraste wcag"],
+    lifecycle: "published",
+    capabilities: [],
+    content: {
+      fr: { name: "Vérificateur de contraste des couleurs", description: "Vérifiez le ratio de contraste entre deux couleurs et les seuils WCAG AA et AAA." },
+      en: { name: "Color Contrast Checker", description: "Check the contrast ratio between two colors and the WCAG AA and AAA thresholds." },
+    },
+  },
+  {
     id: "video-bitrate", icon: "🎬",
     version: 1,
     complexity: "advanced",
