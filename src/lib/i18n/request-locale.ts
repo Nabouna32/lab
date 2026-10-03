@@ -1,4 +1,4 @@
-import { defaultLocale, type Locale } from "./config";
+import { defaultLocale, type Locale } from "./config.ts";
 
 export function getPreferredLocale(acceptLanguage: string | null): Locale {
   if (!acceptLanguage) return defaultLocale;
