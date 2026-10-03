@@ -106,7 +106,7 @@ export default async function AccountPage({
             />
             <Select
               label={t.account.preferredLanguage}
-              inputId="preferred-language"
+              id="preferred-language"
               name="preferredLocale"
               defaultValue={profile?.locale ?? locale}
             >
