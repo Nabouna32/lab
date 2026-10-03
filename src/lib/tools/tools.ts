@@ -47,6 +47,10 @@ const localProcessingDescriptions = {
     fr: "Le texte saisi est analysé directement dans votre navigateur.",
     en: "The text you enter is analyzed directly in your browser.",
   },
+  "text-case-converter": {
+    fr: "Le texte saisi est transformé directement dans votre navigateur.",
+    en: "The text you enter is transformed directly in your browser.",
+  },
   "contrast-checker": {
     fr: "Les couleurs saisies et le calcul de contraste sont traités directement dans votre navigateur.",
     en: "The colors you enter and the contrast calculation are processed directly in your browser.",
@@ -247,6 +251,20 @@ const toolDefinitions: ToolDefinition[] = [
     content: {
       fr: { name: "Compteur de mots et caractères", description: "Comptez les mots, caractères, espaces et lignes d’un texte." },
       en: { name: "Words & characters", description: "Count words, characters, spaces, and lines in a text." },
+    },
+  },
+  {
+    id: "text-case-converter", icon: "Aa",
+    version: 1,
+    complexity: "small",
+    categories: ["files"],
+    tags: ["texte", "casse", "majuscules", "minuscules", "camelcase", "pascalcase", "snake case", "kebab case", "transformation"],
+    aliases: ["text case converter", "case converter", "uppercase", "lowercase", "title case", "camelCase", "PascalCase", "snake_case", "kebab-case", "convertisseur de casse", "majuscule", "minuscule"],
+    lifecycle: "published",
+    capabilities: ["clipboard"],
+    content: {
+      fr: { name: "Convertisseur de casse", description: "Transformez un texte en majuscules, minuscules, Title Case, camelCase, PascalCase, snake_case ou kebab-case." },
+      en: { name: "Text Case Converter", description: "Transform text into uppercase, lowercase, Title Case, camelCase, PascalCase, snake_case, or kebab-case." },
     },
   },
   {

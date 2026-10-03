@@ -77,6 +77,10 @@ const moduleLoaders: Partial<Record<ToolId, ToolModule>> = {
     () => import("@/components/tools/text-counter/TextCounter"),
     () => import("@/components/tools/text-counter/ToolEditorial"),
   ),
+  "text-case-converter": createToolModule(
+    () => import("@/components/tools/text-case-converter/TextCaseConverter"),
+    () => import("@/components/tools/text-case-converter/ToolEditorial"),
+  ),
   "json-formatter": createToolModule(
     () => import("@/components/tools/json-formatter/JsonFormatter"),
     () => import("@/components/tools/json-formatter/ToolEditorial"),

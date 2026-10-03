@@ -119,6 +119,7 @@ test("all published tool pages render", async ({ page }) => {
     "/fr/outils/informatique/convertisseur-de-taille-de-fichier",
     "/fr/outils/informatique/generateur-de-mot-de-passe",
     "/fr/outils/fichiers/compteur-de-mots-et-caracteres",
+    "/fr/outils/fichiers/convertisseur-de-casse",
     "/fr/outils/images/convertisseur-de-couleur",
     "/fr/outils/images/generateur-de-palette-de-couleurs",
     "/fr/outils/developpement/formateur-json",
@@ -218,6 +219,28 @@ test("text counter tool renders and counts words", async ({ page }) => {
   await expect(page.getByRole("region", { name: "Mots" })).toContainText("3");
   await expect(page.getByRole("region", { name: "Caractères", exact: true })).toContainText("16");
   await page.getByRole("button", { name: "Copier les statistiques" }).click();
+  await expect(page.getByRole("button", { name: "Copié" })).toBeVisible();
+  await page.getByRole("button", { name: "Effacer" }).click();
+  await expect(input).toHaveValue("");
+});
+
+
+test("text case converter transforms and copies text", async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, "clipboard", {
+      configurable: true,
+      value: { writeText: async () => {} },
+    });
+  });
+
+  await page.goto(`${baseUrl}/fr/outils/fichiers/convertisseur-de-casse`, { waitUntil: "networkidle" });
+
+  await expect(page.getByRole("heading", { name: "Convertisseur de casse" })).toBeVisible();
+  const input = page.getByLabel("Votre texte");
+  await input.fill("hello world");
+  await page.getByRole("button", { name: "camelCase" }).click();
+  await expect(page.locator("pre")).toContainText("helloWorld");
+  await page.getByRole("button", { name: "Copier" }).click();
   await expect(page.getByRole("button", { name: "Copié" })).toBeVisible();
   await page.getByRole("button", { name: "Effacer" }).click();
   await expect(input).toHaveValue("");

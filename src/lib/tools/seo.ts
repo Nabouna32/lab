@@ -46,6 +46,10 @@ export const toolSeo = {
     fr: { title: "Compteur de mots & caractères | Loculary", description: "Comptez les mots, caractères, espaces et lignes d'un texte." },
     en: { title: "Word and Character Counter | Loculary", description: "Count words, characters, spaces, and lines in a text." },
   },
+  "text-case-converter": {
+    fr: { title: "Convertisseur de casse | Loculary", description: "Transformez rapidement un texte en majuscules, minuscules, Title Case, camelCase, PascalCase, snake_case ou kebab-case." },
+    en: { title: "Text Case Converter | Loculary", description: "Transform text into uppercase, lowercase, Title Case, camelCase, PascalCase, snake_case, or kebab-case." },
+  },
   "base64-encoder-decoder": {
     fr: { title: "Encodeur et décodeur Base64 | Loculary", description: "Encodez et décodez du texte UTF-8 en Base64 directement dans votre navigateur." },
     en: { title: "Base64 Encoder & Decoder | Loculary", description: "Encode and decode UTF-8 text as Base64 directly in your browser." },
