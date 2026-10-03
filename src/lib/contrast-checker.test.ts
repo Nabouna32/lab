@@ -17,6 +17,11 @@ test("rejects malformed and out-of-range colors", () => {
   assert.equal(parseColor("rgb(256, 0, 0)"), null);
 });
 
+test("accepts the supported three-digit and RGB formats for contrast", () => {
+  assert.ok(calculateContrastRatio("#fff", "#000") !== null);
+  assert.ok(calculateContrastRatio("rgb(0, 0, 0)", "rgb(255, 255, 255)") !== null);
+});
+
 test("matches the WCAG black and white reference ratio", () => {
   const ratio = calculateContrastRatio("#000000", "#ffffff");
   assert.ok(ratio !== null);
