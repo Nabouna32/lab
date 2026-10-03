@@ -97,6 +97,11 @@ type ToolMessages = {
     dateHint: string; convert: string; result: string; converted: string; localDate: string; utcDate: string;
     timestampResult: string; emptyResult: string; invalid: string; copy: string; clear: string;
   };
+  contrastChecker: {
+    foreground: string; background: string; colorHint: string; swap: string; reset: string;
+    preview: string; previewText: string; previewDescription: string; result: string; ratio: string;
+    normalText: string; largeText: string; invalid: string; thresholds: string;
+  };
   videoBitrate: {
     mode: string; duration: string; hours: string; minutes: string; seconds: string;
     hoursPlaceholder: string; minutesPlaceholder: string; secondsPlaceholder: string;
