@@ -24,7 +24,7 @@ test("matches the WCAG black and white reference ratio", () => {
 });
 
 test("evaluates AA and AAA thresholds", () => {
-  const result = evaluateContrast("#767676", "#ffffff");
+  const result = evaluateContrast("#777777", "#ffffff");
   assert.ok(result);
   assert.equal(result.aaNormal, false);
   assert.equal(result.aaLarge, true);
