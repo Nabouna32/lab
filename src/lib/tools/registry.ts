@@ -101,6 +101,10 @@ const moduleLoaders: Partial<Record<ToolId, ToolModule>> = {
     () => import("@/components/tools/hash-generator/HashGenerator"),
     () => import("@/components/tools/hash-generator/ToolEditorial"),
   ),
+  "jwt-decoder": createToolModule(
+    () => import("@/components/tools/jwt-decoder/JwtDecoder"),
+    () => import("@/components/tools/jwt-decoder/ToolEditorial"),
+  ),
   "video-bitrate": createToolModule(
     () => import("@/components/tools/video-bitrate/VideoBitrateCalculator"),
     () => import("@/components/tools/video-bitrate/ToolEditorial"),
