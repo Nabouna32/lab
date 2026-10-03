@@ -10,8 +10,8 @@ test("color contrast checker evaluates WCAG thresholds in French", async ({ page
   await page.locator("#contrast-background").fill("#ffffff");
 
   await expect(page.getByText("4.48:1", { exact: true })).toBeVisible();
-  await expect(page.getByText("Texte courant · AA")).toContainText("—");
-  await expect(page.getByText("Grand texte · AA")).toContainText("✓");
+  await expect(page.getByText("Texte courant · AA", { exact: true })).toContainText("—");
+  await expect(page.getByText("Grand texte · AA", { exact: true })).toContainText("✓");
 });
 
 test("color contrast checker supports RGB input in English", async ({ page }) => {
@@ -24,5 +24,5 @@ test("color contrast checker supports RGB input in English", async ({ page }) =>
   await expect(page.getByText("21.00:1", { exact: true })).toBeVisible();
   await expect(page.getByLabel("Text / foreground")).toHaveAttribute("aria-invalid", "false");
   await expect(page.getByLabel("Background")).toHaveAttribute("aria-invalid", "false");
-  await expect(page.getByText("Normal text · AAA")).toContainText("✓");
+  await expect(page.getByText("Normal text · AAA", { exact: true })).toContainText("✓");
 });
