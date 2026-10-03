@@ -33,3 +33,9 @@ test("rejects invalid JSON and unsupported scalar roots", () => {
   assert.equal(generateTypeScript("{", "Root").error, "invalid-json");
   assert.equal(generateTypeScript("42", "Root").error, "unsupported-root");
 });
+
+test("preserves unions inside arrays", () => {
+  const result = generateTypeScript('{"values":[1,"two",true]}', "Data");
+  assert.equal(result.error, null);
+  assert.match(result.value!, /values: Array<number \| string \| boolean>;/);
+});
