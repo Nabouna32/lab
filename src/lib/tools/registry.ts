@@ -101,6 +101,10 @@ const moduleLoaders: Partial<Record<ToolId, ToolModule>> = {
     () => import("@/components/tools/hash-generator/HashGenerator"),
     () => import("@/components/tools/hash-generator/ToolEditorial"),
   ),
+  "password-generator": createToolModule(
+    () => import("@/components/tools/password-generator/PasswordGenerator"),
+    () => import("@/components/tools/password-generator/ToolEditorial"),
+  ),
   "regex-tester": createToolModule(
     () => import("@/components/tools/regex-tester/RegexTester"),
     () => import("@/components/tools/regex-tester/ToolEditorial"),
