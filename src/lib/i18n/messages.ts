@@ -6,7 +6,7 @@ export type Messages = {
   breadcrumbs: { label: string };
   footer: { tagline: string; explore: string; account: string };
   actions: { copy: string; copied: string; clear: string };
-  home: { metaTitle: string; badge: string; title: string; description: string; quickLinks: Array<{ label: string; toolId: string }>; explore: string; discoveryTitle: string; discoveryDescription: string; discoveryOpen: string; categoriesTitle: string; categoriesDescription: string; categoriesCount: (count: number) => string };
+  home: { metaTitle: string; badge: string; title: string; description: string; quickLinksLabel: string; quickLinks: Array<{ label: string; toolId: string }>; explore: string; discoveryTitle: string; discoveryDescription: string; discoveryOpen: string; categoriesTitle: string; categoriesDescription: string; categoriesCount: (count: number) => string };
   tools: {
     metaTitle: string;
     eyebrow: string; title: string; description: string; explore: string; one: string; many: string;
@@ -36,6 +36,7 @@ export const messages: Record<Locale, Messages> = {
       badge: "Des outils pour passer à l’action",
       title: "Que voulez-vous faire ?",
       description: "Décrivez votre besoin, trouvez l’outil et faites-le maintenant.",
+      quickLinksLabel: "Essayez directement",
       quickLinks: [
         { label: "Calculer une remise", toolId: "discount" },
         { label: "Convertir une vitesse", toolId: "download-speed" },
@@ -93,6 +94,7 @@ export const messages: Record<Locale, Messages> = {
       badge: "Tools that get things done",
       title: "What do you want to do?",
       description: "Describe what you need, find the right tool, and get it done.",
+      quickLinksLabel: "Try one of these",
       quickLinks: [
         { label: "Calculate a discount", toolId: "reduction" },
         { label: "Convert a speed", toolId: "vitesse-telechargement" },
