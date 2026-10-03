@@ -11,6 +11,8 @@ export type Messages = {
     metaTitle: string;
     eyebrow: string; title: string; description: string; explore: string; one: string; many: string;
     categoryDescription: (category: string) => string; searchLabel: string; searchPlaceholder: string; searchButton: string; suggestions: string;
+    intentsTitle: string; intentsDescription: string; intents: Array<{ id: string; label: string; icon: string }>;
+    allToolsTitle: string;
     resultCountOne: string; resultCountMany: string; noResults: string; noResultsHelp: string; tryThese: string; noResultsSuggestions: string[]; clearSearch: string;
     categoriesTitle: string; categoriesDescription: string;
   };
@@ -59,6 +61,9 @@ export const messages: Record<Locale, Messages> = {
       noResults: "Aucun outil ne correspond à", noResultsHelp: "Essayez un terme plus simple ou choisissez une suggestion.", tryThese: "Vous cherchez peut-être", noResultsSuggestions: ["TVA", "taille de fichier", "vidéo", "âge"],
       clearSearch: "Effacer la recherche",
       categoriesTitle: "Parcourir par catégorie", categoriesDescription: "Si vous préférez explorer, choisissez une catégorie pour voir ses outils.",
+      intentsTitle: "Commencer par votre tâche", intentsDescription: "Si vous connaissez le résultat recherché sans connaître le nom de l’outil, partez de l’action.",
+      intents: [{ id: "calculate", label: "Calculer", icon: "∑" }, { id: "convert", label: "Convertir", icon: "↔" }, { id: "generate", label: "Générer", icon: "✦" }, { id: "analyze", label: "Analyser", icon: "⌁" }, { id: "measure", label: "Mesurer", icon: "◫" }],
+      allToolsTitle: "Explorer tous les outils",
     },
     relatedTools: { title: "Pour continuer" },
     theme: { choose: "Choisir le thème", system: "Système", light: "Clair", dark: "Sombre", title: "Thème" },
@@ -117,6 +122,9 @@ export const messages: Record<Locale, Messages> = {
       noResults: "No tool matches", noResultsHelp: "Try a simpler term or choose a suggestion.", tryThese: "You might be looking for", noResultsSuggestions: ["VAT", "file size", "video", "age"],
       clearSearch: "Clear search",
       categoriesTitle: "Browse by category", categoriesDescription: "Prefer to explore? Choose a category to see its tools.",
+      intentsTitle: "Start with your task", intentsDescription: "If you know the outcome you need but not the tool name, start with the action.",
+      intents: [{ id: "calculate", label: "Calculate", icon: "∑" }, { id: "convert", label: "Convert", icon: "↔" }, { id: "generate", label: "Generate", icon: "✦" }, { id: "analyze", label: "Analyze", icon: "⌁" }, { id: "measure", label: "Measure", icon: "◫" }],
+      allToolsTitle: "Explore all tools",
     },
     relatedTools: { title: "Keep going" },
     theme: { choose: "Choose theme", system: "System", light: "Light", dark: "Dark", title: "Theme" },
