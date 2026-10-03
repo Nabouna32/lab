@@ -138,6 +138,20 @@ test("all published tool pages render", async ({ page }) => {
   }
 });
 
+test("unit converter converts values and swaps units", async ({ page }) => {
+  await page.goto(baseUrl + "/fr/outils/calculs/convertisseur-d-unites", { waitUntil: "networkidle" });
+
+  const value = page.locator("#unit-converter-value");
+  await value.fill("1,5");
+  await expect(page.getByRole("region", { name: "Résultat" })).toContainText("1,5");
+  await page.locator("#unit-converter-from").selectOption("m");
+  await page.locator("#unit-converter-to").selectOption("cm");
+  await expect(page.getByRole("region", { name: "Résultat" })).toContainText("150");
+
+  await page.getByRole("button", { name: "Inverser les unités" }).click();
+  await expect(page.getByRole("region", { name: "Résultat" })).toContainText("0,015");
+});
+
 test("tool page keeps the primary task hierarchy compact", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(baseUrl + "/fr/outils/calculs/calculateur-de-pourcentage", { waitUntil: "networkidle" });
