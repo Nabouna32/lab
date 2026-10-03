@@ -54,7 +54,7 @@ jobs:
         run: npx --yes wait-on@9.0.1 http://127.0.0.1:3000/fr
 
       - name: Run browser smoke tests
-        run: npx playwright test e2e/smoke.spec.mjs e2e/uuid.spec.mjs e2e/video-bitrate.spec.mjs e2e/unix-timestamp.spec.mjs e2e/hash-generator.spec.mjs e2e/jwt-decoder.spec.mjs e2e/regex-tester.spec.mjs e2e/password-generator.spec.mjs e2e/color-converter.spec.mjs e2e/color-palette-generator.spec.mjs e2e/account.spec.mjs
+        run: npx playwright test e2e/smoke.spec.mjs e2e/uuid.spec.mjs e2e/video-bitrate.spec.mjs e2e/unix-timestamp.spec.mjs e2e/hash-generator.spec.mjs e2e/jwt-decoder.spec.mjs e2e/regex-tester.spec.mjs e2e/password-generator.spec.mjs e2e/color-converter.spec.mjs e2e/color-palette-generator.spec.mjs e2e/contrast-checker.spec.mjs e2e/account.spec.mjs
 
       - name: Dump Next.js server log on failure
         if: failure()
