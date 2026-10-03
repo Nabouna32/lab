@@ -216,7 +216,7 @@ test("text counter tool renders and counts words", async ({ page }) => {
   const input = page.getByLabel("Votre texte");
   await input.fill("Bonjour le monde");
   await expect(page.getByRole("region", { name: "Mots" })).toContainText("3");
-  await expect(page.getByRole("region", { name: "Caractères" })).toContainText("16");
+  await expect(page.getByRole("region", { name: "Caractères", exact: true })).toContainText("16");
   await page.getByRole("button", { name: "Copier les statistiques" }).click();
   await expect(page.getByRole("button", { name: "Copié" })).toBeVisible();
   await page.getByRole("button", { name: "Effacer" }).click();
