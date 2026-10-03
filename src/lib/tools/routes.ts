@@ -39,6 +39,7 @@ const toolSlugs: Record<string, Record<Locale, string>> = {
   "jwt-decoder": { en: "jwt-decoder", fr: "decodeur-jwt" },
   "contrast-checker": { en: "color-contrast-checker", fr: "verificateur-de-contraste-des-couleurs" },
   "color-converter": { en: "color-converter", fr: "convertisseur-de-couleur" },
+  "color-palette-generator": { en: "color-palette-generator", fr: "generateur-de-palette-de-couleurs" },
 };
 
 export function getToolsPath(locale: Locale): string {
