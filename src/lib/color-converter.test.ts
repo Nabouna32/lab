@@ -32,6 +32,11 @@ test("round trips representative HSL colors", () => {
   }
 });
 
+test("handles achromatic colors without hue artifacts", () => {
+  assert.equal(formatHsl(rgbToHsl({ r: 0, g: 0, b: 0 })), "hsl(0°, 0%, 0%)");
+  assert.equal(formatHsl(rgbToHsl({ r: 255, g: 255, b: 255 })), "hsl(0°, 0%, 100%)");
+});
+
 test("rejects malformed and out-of-range colors", () => {
   assert.equal(convertColor(""), null);
   assert.equal(convertColor("#12"), null);
