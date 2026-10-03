@@ -7,7 +7,8 @@ type JsonObject = Record<string, unknown>;
 type Node =
   | { kind: "string" | "number" | "boolean" | "null" | "unknown" }
   | { kind: "object"; name: string; properties: Map<string, Node>; optional: Set<string> }
-  | { kind: "array"; item: Node };
+  | { kind: "array"; item: Node }
+  | { kind: "union"; items: Node[] };
 
 const reserved = new Set([
   "any","as","boolean","break","case","catch","class","const","constructor","continue","debugger","declare","default","delete",
@@ -43,7 +44,6 @@ function uniqueName(base: string, used: Set<string>): string {
 }
 
 function mergeNodes(left: Node, right: Node, nameHint: string, used: Set<string>): Node {
-  if (left.kind === right.kind && left.kind !== "object" && left.kind !== "array") return left;
   if (left.kind === "object" && right.kind === "object") {
     const properties = new Map(left.properties);
     const optional = new Set(left.optional);
@@ -60,19 +60,20 @@ function mergeNodes(left: Node, right: Node, nameHint: string, used: Set<string>
     }
     return { kind: "object", name: left.name, properties, optional };
   }
+
   if (left.kind === "array" && right.kind === "array") {
     return { kind: "array", item: mergeNodes(left.item, right.item, nameHint, used) };
   }
-  if (left.kind === "unknown") return right;
-  if (right.kind === "unknown") return left;
-  const kinds = new Set<string>();
-  const collect = (node: Node) => {
-    if (node.kind === "array") collect(node.item);
-    else kinds.add(node.kind === "object" ? node.name : node.kind);
-  };
-  collect(left); collect(right);
-  if (kinds.size === 1) return left;
-  return { kind: "unknown" };
+
+  const items: Node[] = [];
+  function add(node: Node) {
+    if (node.kind === "union") node.items.forEach(add);
+    else if (!items.some((item) => nodeType(item) === nodeType(node))) items.push(node);
+  }
+  add(left);
+  add(right);
+  if (items.length === 1) return items[0];
+  return { kind: "union", items };
 }
 
 function infer(value: unknown, hint: string, used: Set<string>): Node {
@@ -111,6 +112,7 @@ function nodeType(node: Node): string {
     case "unknown": return "unknown";
     case "array": return `${nodeType(node.item)}[]`;
     case "object": return node.name;
+    case "union": return node.items.map(nodeType).join(" | ");
   }
 }
 
