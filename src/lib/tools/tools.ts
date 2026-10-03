@@ -302,7 +302,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "html-entity-encoder-decoder", icon: "&lt;&gt;",
+    id: "html-entity-encoder-decoder", icon: "<>",
     version: 1,
     complexity: "small",
     categories: ["development"],
