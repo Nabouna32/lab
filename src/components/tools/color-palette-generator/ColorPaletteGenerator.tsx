@@ -1,0 +1,92 @@
+"use client";
+
+import { useState } from "react";
+import { CopyButton } from "@/components/ui/CopyButton";
+import { ClearButton } from "@/components/ui/ClearButton";
+import { useLocale } from "@/lib/i18n/use-locale";
+import { getToolMessages } from "@/lib/i18n/tool-messages";
+import { generatePalette, type PaletteColor } from "@/lib/color-palette-generator";
+
+const DEFAULT_COLOR = "#336699";
+
+export default function ColorPaletteGenerator() {
+  const locale = useLocale();
+  const t = getToolMessages(locale).colorPaletteGenerator;
+  const [value, setValue] = useState(DEFAULT_COLOR);
+  const palette = generatePalette(value);
+
+  return (
+    <section className="overflow-hidden rounded-[var(--radius-2xl)] border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-sm)]">
+      <div className="space-y-6 p-5 sm:p-7 lg:p-8">
+        <div className="grid gap-5 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
+          <div className="space-y-5">
+            <div>
+              <label htmlFor="color-palette-input" className="block text-sm font-semibold text-[var(--foreground)]">{t.input}</label>
+              <div className="mt-2 flex gap-2">
+                <input
+                  type="color"
+                  aria-label={t.picker}
+                  value={palette?.base.hex ?? "#000000"}
+                  onChange={(event) => setValue(event.target.value)}
+                  className="h-12 w-14 shrink-0 cursor-pointer rounded-xl border border-[var(--border)] bg-[var(--background)] p-1"
+                />
+                <input
+                  id="color-palette-input"
+                  value={value}
+                  onChange={(event) => setValue(event.target.value)}
+                  placeholder={t.placeholder}
+                  spellCheck={false}
+                  autoCapitalize="none"
+                  className="min-w-0 flex-1 rounded-xl border border-[var(--border)] bg-[var(--background)] px-4 py-3 font-mono text-sm text-[var(--foreground)] outline-none transition focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/20"
+                />
+              </div>
+              <p className="mt-2 text-xs text-[var(--muted)]">{t.hint}</p>
+            </div>
+            <ClearButton onClear={() => setValue(DEFAULT_COLOR)} disabled={value === DEFAULT_COLOR} label={t.reset} />
+          </div>
+
+          {palette ? (
+            <div className="grid min-h-40 grid-cols-2 overflow-hidden rounded-[1.5rem] border border-[var(--border)] sm:grid-cols-4" aria-label={t.basePreview}>
+              {palette.analogous.slice(0, 4).map((color) => (
+                <div key={color.hex} className="min-h-24 p-3" style={{ backgroundColor: color.hex }}>
+                  <code className="rounded-md bg-black/20 px-2 py-1 text-xs font-semibold text-white">{color.hex}</code>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div role="alert" className="rounded-2xl border border-[var(--danger)]/30 bg-[var(--danger)]/5 p-5 text-sm text-[var(--danger)]">{t.invalid}</div>
+          )}
+        </div>
+
+        {palette && (
+          <div className="grid gap-4 sm:grid-cols-2">
+            <PaletteGroup title={t.analogous} colors={palette.analogous} copyLabel={t.copy} copiedLabel={t.copied} />
+            <PaletteGroup title={t.complementary} colors={palette.complementary} copyLabel={t.copy} copiedLabel={t.copied} />
+            <PaletteGroup title={t.triadic} colors={palette.triadic} copyLabel={t.copy} copiedLabel={t.copied} />
+            <PaletteGroup title={t.splitComplementary} colors={palette.splitComplementary} copyLabel={t.copy} copiedLabel={t.copied} />
+            <PaletteGroup title={t.monochromatic} colors={palette.monochromatic} copyLabel={t.copy} copiedLabel={t.copied} />
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+function PaletteGroup({ title, colors, copyLabel, copiedLabel }: {
+  title: string; colors: PaletteColor[]; copyLabel: string; copiedLabel: string;
+}) {
+  return (
+    <section className="rounded-2xl border border-[var(--border)] bg-[var(--background)] p-4">
+      <h2 className="text-sm font-semibold text-[var(--foreground)]">{title}</h2>
+      <div className="mt-3 grid gap-2">
+        {colors.map((color) => (
+          <div key={color.hex} className="flex items-center gap-3">
+            <span aria-hidden="true" className="h-10 w-10 shrink-0 rounded-lg border border-black/10" style={{ backgroundColor: color.hex }} />
+            <code className="min-w-0 flex-1 font-mono text-sm text-[var(--foreground)]">{color.hex}</code>
+            <CopyButton value={color.hex} label={copyLabel} copiedLabel={copiedLabel} />
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
