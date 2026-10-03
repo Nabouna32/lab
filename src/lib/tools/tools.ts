@@ -79,6 +79,10 @@ const localProcessingDescriptions = {
     fr: "Le texte est encodé ou décodé directement dans votre navigateur.",
     en: "Text is encoded or decoded directly in your browser.",
   },
+  "csv-json-converter": {
+    fr: "Les données CSV et JSON sont converties directement dans votre navigateur.",
+    en: "CSV and JSON data are converted directly in your browser.",
+  },
   "uuid-generator": {
     fr: "Les UUID sont générés aléatoirement directement dans votre navigateur.",
     en: "UUIDs are generated randomly directly in your browser.",
