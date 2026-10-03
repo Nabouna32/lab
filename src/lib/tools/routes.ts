@@ -35,7 +35,7 @@ const toolSlugs: Record<string, Record<Locale, string>> = {
   "unix-timestamp": { en: "unix-timestamp-converter", fr: "convertisseur-timestamp-unix" },
   "hash-generator": { en: "hash-generator", fr: "generateur-hash" },
   "regex-tester": { en: "regex-tester", fr: "testeur-regex" },
-  "jwt-decoder": { en: "jwt-decoder", fr: "decodeur-jwt" },
+  "jwt-decoder": { en: "jwt-decoder", fr: "decodeur-jwt" },\n  "contrast-checker": { en: "color-contrast-checker", fr: "verificateur-de-contraste-des-couleurs" },
 };
 
 export function getToolsPath(locale: Locale): string {
