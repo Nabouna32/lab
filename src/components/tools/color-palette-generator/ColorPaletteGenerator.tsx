@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { ClearButton } from "@/components/ui/ClearButton";
+import { TextField } from "@/components/ui/TextField";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { generatePalette, type PaletteColor } from "@/lib/color-palette-generator";
@@ -21,26 +22,34 @@ export default function ColorPaletteGenerator() {
         <div className="grid gap-5 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
           <div className="space-y-5">
             <div>
-              <label htmlFor="color-palette-input" className="block text-sm font-semibold text-[var(--foreground)]">{t.input}</label>
-              <div className="mt-2 flex gap-2">
-                <input
-                  type="color"
-                  aria-label={t.picker}
-                  value={palette?.base.hex ?? "#000000"}
-                  onChange={(event) => setValue(event.target.value)}
-                  className="h-12 w-14 shrink-0 cursor-pointer rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background)] p-1"
-                />
-                <input
-                  id="color-palette-input"
-                  value={value}
-                  onChange={(event) => setValue(event.target.value)}
-                  placeholder={t.placeholder}
-                  spellCheck={false}
-                  autoCapitalize="none"
-                  className="min-w-0 flex-1 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background)] px-3.5 py-2.5 font-mono text-sm text-[var(--foreground)] outline-none transition focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/20"
-                />
+              <div className="flex items-end gap-2">
+                <div className="min-w-0 flex-1">
+                  <TextField
+                    label={t.input}
+                    inputId="color-palette-input"
+                    value={value}
+                    onChange={(event) => setValue(event.target.value)}
+                    placeholder={t.placeholder}
+                    spellCheck={false}
+                    autoCapitalize="none"
+                    aria-invalid={!palette}
+                    aria-describedby="color-palette-hint"
+                    className="font-mono"
+                  />
+                </div>
+                <div className="shrink-0">
+                  <label htmlFor="color-palette-picker" className="sr-only">{t.picker}</label>
+                  <input
+                    id="color-palette-picker"
+                    type="color"
+                    aria-label={t.picker}
+                    value={palette?.base.hex ?? "#000000"}
+                    onChange={(event) => setValue(event.target.value)}
+                    className="h-11 w-14 cursor-pointer rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background)] p-1 outline-none transition focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+                  />
+                </div>
               </div>
-              <p className="mt-2 text-xs text-[var(--muted)]">{t.hint}</p>
+              <p id="color-palette-hint" className="mt-2 text-xs text-[var(--muted)]">{t.hint}</p>
             </div>
             <ClearButton onClear={() => setValue(DEFAULT_COLOR)} disabled={value === DEFAULT_COLOR} label={t.reset} />
           </div>
