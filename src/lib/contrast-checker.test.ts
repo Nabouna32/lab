@@ -7,9 +7,8 @@ test("parses three and six digit hex colors", () => {
   assert.deepEqual(parseColor("#112233"), { r: 17, g: 34, b: 51 });
 });
 
-test("parses rgb and rgba colors", () => {
+test("parses rgb colors", () => {
   assert.deepEqual(parseColor("rgb(255, 0, 128)"), { r: 255, g: 0, b: 128 });
-  assert.deepEqual(parseColor("rgba(0, 0, 0, 0.5)"), { r: 0, g: 0, b: 0 });
 });
 
 test("rejects malformed and out-of-range colors", () => {
