@@ -83,10 +83,10 @@ export default function ContrastChecker() {
                 <p className="mt-2 text-4xl font-black tracking-[-0.04em] text-[var(--foreground)]">{ratio}:1</p>
               </div>
               <div className="space-y-2" aria-live="polite">
-                <Criterion label={t.normalText} pass={result.aaNormal} level="AA" />
-                <Criterion label={t.largeText} pass={result.aaLarge} level="AA" />
-                <Criterion label={t.normalText} pass={result.aaaNormal} level="AAA" />
-                <Criterion label={t.largeText} pass={result.aaaLarge} level="AAA" />
+                <Criterion label={`${t.normalText} · AA`} pass={result.aaNormal} />
+                <Criterion label={`${t.largeText} · AA`} pass={result.aaLarge} />
+                <Criterion label={`${t.normalText} · AAA`} pass={result.aaaNormal} />
+                <Criterion label={`${t.largeText} · AAA`} pass={result.aaaLarge} />
               </div>
             </div>
           ) : (
