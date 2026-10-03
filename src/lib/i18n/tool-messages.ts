@@ -139,12 +139,6 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       analogous: "Analogique", complementary: "Complémentaire", triadic: "Triadique", splitComplementary: "Complémentaire scindée", monochromatic: "Monochromatique",
       copy: "Copier", copied: "Copié", invalid: "Saisissez une couleur HEX, RGB ou HSL valide.",
     },
-    colorPaletteGenerator: {
-      input: "Starting color", picker: "Choose a color", placeholder: "#336699 or hsl(210, 50%, 40%)",
-      hint: "Accepted formats: #RGB, #RRGGBB, rgb(...), and hsl(...).", reset: "Reset", basePreview: "Palette preview",
-      analogous: "Analogous", complementary: "Complementary", triadic: "Triadic", splitComplementary: "Split-complementary", monochromatic: "Monochromatic",
-      copy: "Copy", copied: "Copied", invalid: "Enter a valid HEX, RGB, or HSL color.",
-    },
     contrastChecker: {
       foreground: "Texte / premier plan", background: "Arrière-plan", colorHint: "Formats acceptés : #RGB, #RRGGBB ou rgb(r, g, b).",
       swap: "Inverser", reset: "Réinitialiser", preview: "Aperçu", previewText: "Exemple de texte", previewDescription: "Utilisez cet aperçu pour vérifier le rendu du contraste.",
@@ -289,6 +283,12 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       input: "Your color", picker: "Choose a color", placeholder: "#336699, rgb(51, 102, 153), or hsl(210, 50%, 40%)",
       hint: "Accepted formats: #RGB, #RRGGBB, rgb(...), and hsl(...).", reset: "Reset", preview: "Preview", previewDescription: "This color is processed locally in your browser.",
       result: "Conversions", copy: "Copy", copied: "Copied", invalid: "Enter a valid HEX, RGB, or HSL color.", emptyResult: "The result will appear here after conversion.",
+    },
+    colorPaletteGenerator: {
+      input: "Starting color", picker: "Choose a color", placeholder: "#336699 or hsl(210, 50%, 40%)",
+      hint: "Accepted formats: #RGB, #RRGGBB, rgb(...), and hsl(...).", reset: "Reset", basePreview: "Palette preview",
+      analogous: "Analogous", complementary: "Complementary", triadic: "Triadic", splitComplementary: "Split-complementary", monochromatic: "Monochromatic",
+      copy: "Copy", copied: "Copied", invalid: "Enter a valid HEX, RGB, or HSL color.",
     },
     contrastChecker: {
       foreground: "Text / foreground", background: "Background", colorHint: "Accepted formats: #RGB, #RRGGBB, or rgb(r, g, b).",
