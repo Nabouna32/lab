@@ -779,4 +779,4 @@ The account system must be complete without introducing unnecessary personal-dat
 - Account deletion is irreversible and explicitly confirmed by the user.
 - Audit history survives account deletion in anonymized form.
 - Future user-owned tables must define explicit deletion/retention semantics before being added to the account lifecycle.
-- Deleting the last super administrator is intentionally blocked to preserve administrative recoverability.
+- Deleting the last super administrator is intentionally blocked to preserve administrative recoverability. The database serializes self-deletion and `super_admin` role removal checks so concurrent operations cannot bypass this invariant.
