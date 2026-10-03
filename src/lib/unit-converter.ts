@@ -42,11 +42,11 @@ export const UNIT_CONVERTER_UNITS = {
   volume: [
     { id: "ml", symbol: "mL", factor: 0.001 },
     { id: "l", symbol: "L", factor: 1 },
-    { id: "tsp", symbol: "tsp", factor: 0.00492892159375 },
-    { id: "tbsp", symbol: "tbsp", factor: 0.01478676478125 },
-    { id: "cup", symbol: "cup", factor: 0.2365882365 },
-    { id: "fl-oz", symbol: "fl oz", factor: 0.0295735295625 },
-    { id: "gal", symbol: "gal", factor: 3.785411784 },
+    { id: "tsp", symbol: "tsp (US)", factor: 0.00492892159375 },
+    { id: "tbsp", symbol: "tbsp (US)", factor: 0.01478676478125 },
+    { id: "cup", symbol: "cup (US)", factor: 0.2365882365 },
+    { id: "fl-oz", symbol: "fl oz (US)", factor: 0.0295735295625 },
+    { id: "gal", symbol: "gal (US)", factor: 3.785411784 },
   ],
   area: [
     { id: "mm2", symbol: "mm²", factor: 0.000001 },
