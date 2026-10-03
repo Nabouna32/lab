@@ -116,7 +116,7 @@ const toolDefinitions: ToolDefinition[] = [
     aliases: ["%", "évolution", "différence", "variation", "taux"],
     lifecycle: "published",    capabilities: ["clipboard"],
     content: {
-      fr: { name: "Pourcentage", description: "Calculez un pourcentage, une évolution ou l’écart entre deux valeurs." },
+      fr: { name: "Calculateur de pourcentage", description: "Calculez un pourcentage, une évolution ou l’écart entre deux valeurs." },
       en: { name: "Percentage calculator", description: "Calculate a percentage, a change, or the gap between two values." },
     },
   },
@@ -128,7 +128,7 @@ const toolDefinitions: ToolDefinition[] = [
     tags: ["remise", "promotion", "solde", "prix", "économie"],
     aliases: ["remise", "promotion", "solde", "prix", "économie"],
     lifecycle: "published",    content: {
-      fr: { name: "Réduction", description: "Calculez le prix après remise et voyez immédiatement ce que vous économisez." },
+      fr: { name: "Calculateur de réduction", description: "Calculez le prix après remise et voyez immédiatement ce que vous économisez." },
       en: { name: "Discount calculator", description: "Calculate the price after a discount and see how much you save." },
     },
   },
@@ -140,7 +140,7 @@ const toolDefinitions: ToolDefinition[] = [
     tags: ["taxe", "hors taxe", "toutes taxes", "prix", "tva", "ht", "ttc"],
     aliases: ["taxe", "hors taxe", "toutes taxes", "prix", "tva", "ht", "ttc"],
     lifecycle: "published",    content: {
-      fr: { name: "TVA", description: "Passez d’un prix HT à TTC, ou de TTC à HT, en quelques secondes." },
+      fr: { name: "Calculateur de TVA", description: "Passez d’un prix HT à TTC, ou de TTC à HT, en quelques secondes." },
       en: { name: "VAT calculator", description: "Convert between net and gross prices with VAT." },
     },
   },
@@ -154,7 +154,7 @@ const toolDefinitions: ToolDefinition[] = [
     lifecycle: "published",
     content: {
       fr: { name: "Règle de trois", description: "Trouvez une valeur inconnue à partir d’une proportion." },
-      en: { name: "Rule of three", description: "Find an unknown value from a known proportion." },
+      en: { name: "Rule of three calculator", description: "Find an unknown value from a known proportion." },
     },
   },
   {
@@ -166,7 +166,7 @@ const toolDefinitions: ToolDefinition[] = [
     aliases: ["anniversaire", "naissance", "date"],
     lifecycle: "published",
     content: {
-      fr: { name: "Âge", description: "Calculez votre âge exact à partir de votre date de naissance." },
+      fr: { name: "Calculateur d’âge", description: "Calculez votre âge exact à partir de votre date de naissance." },
       en: { name: "Age calculator", description: "Calculate your exact age from your date of birth." },
     },
   },
@@ -179,7 +179,7 @@ const toolDefinitions: ToolDefinition[] = [
     aliases: ["temps", "date", "heures", "jours", "intervalle"],
     lifecycle: "published",
     content: {
-      fr: { name: "Durée", description: "Mesurez l’intervalle entre deux dates ou deux horaires." },
+      fr: { name: "Calculateur de durée", description: "Calculez le temps entre deux dates ou deux heures, en jours, heures, minutes et secondes." },
       en: { name: "Duration calculator", description: "Measure the time between two dates or two times." },
     },
   },
@@ -192,7 +192,7 @@ const toolDefinitions: ToolDefinition[] = [
     aliases: ["internet", "débit", "connexion", "megabit", "mégaoctet"],
     lifecycle: "published",
     content: {
-      fr: { name: "Mbps ↔ Mo/s", description: "Convertissez rapidement un débit Internet entre Mbps et Mo/s." },
+      fr: { name: "Convertisseur de débit Internet", description: "Convertissez un débit Internet entre Mbps et Mo/s." },
       en: { name: "Download speed converter", description: "Convert internet speed between Mbps and MB/s." },
     },
   },
@@ -205,7 +205,7 @@ const toolDefinitions: ToolDefinition[] = [
     aliases: ["download", "internet", "débit", "fichier", "durée"],
     lifecycle: "published",
     content: {
-      fr: { name: "Temps de téléchargement", description: "Estimez le temps nécessaire pour récupérer un fichier selon sa taille et votre débit." },
+      fr: { name: "Calculateur de temps de téléchargement", description: "Estimez le temps nécessaire pour télécharger un fichier selon sa taille et votre débit." },
       en: { name: "Download time calculator", description: "Estimate how long a file will take to download." },
     },
   },
@@ -218,7 +218,7 @@ const toolDefinitions: ToolDefinition[] = [
     aliases: ["poids", "taille", "stockage", "vidéo", "audio", "bitrate"],
     lifecycle: "published",
     content: {
-      fr: { name: "Taille de fichier", description: "Estimez la taille d’un fichier à partir de sa durée et de son débit." },
+      fr: { name: "Calculateur de taille de fichier", description: "Estimez la taille d’un fichier à partir de sa durée et de son débit." },
       en: { name: "File size calculator", description: "Estimate a file size from its duration and bitrate." },
     },
   },
@@ -231,7 +231,7 @@ const toolDefinitions: ToolDefinition[] = [
     aliases: ["ko", "mo", "go", "to", "octets", "stockage"],
     lifecycle: "published",
     content: {
-      fr: { name: "Taille de fichier", description: "Convertissez des tailles entre octets, Ko, Mo, Go, To et leurs équivalents binaires." },
+      fr: { name: "Convertisseur de taille de fichier", description: "Convertissez des tailles entre octets, Ko, Mo, Go, To et leurs équivalents binaires." },
       en: { name: "File size converter", description: "Convert file sizes between bytes, kB, MB, GB, TB and binary units." },
     },
   },
@@ -245,7 +245,7 @@ const toolDefinitions: ToolDefinition[] = [
     lifecycle: "published",
     capabilities: ["clipboard"],
     content: {
-      fr: { name: "Mots & caractères", description: "Comptez les mots, caractères, espaces et lignes d’un texte." },
+      fr: { name: "Compteur de mots et caractères", description: "Comptez les mots, caractères, espaces et lignes d’un texte." },
       en: { name: "Words & characters", description: "Count words, characters, spaces, and lines in a text." },
     },
   },

@@ -72,7 +72,7 @@ test("tool search shows useful result context", async ({ page }) => {
   const search = page.locator("#tools-page-search-input");
   await search.fill("calculer 17 % de 283");
   await expect(page.locator("#tools-page-search-results")).toBeVisible();
-  await expect(page.locator("#tools-page-search-results").getByText("Pourcentage", { exact: true })).toBeVisible();
+  await expect(page.locator("#tools-page-search-results").getByText("Calculateur de pourcentage", { exact: true })).toBeVisible();
   await expect(page.locator("#tools-page-search-results").getByText(/Calculs/)).toBeVisible();
   await expect(page.locator("#tools-page-search-result-0")).toContainText("Calculez un pourcentage, une évolution ou l’écart entre deux valeurs.");
 
@@ -97,9 +97,9 @@ test("tool search offers suggestions when nothing matches", async ({ page }) => 
 test("tools page is search-first and exposes category discovery", async ({ page }) => {
   await page.goto(`${baseUrl}/fr/outils`, { waitUntil: "domcontentloaded" });
 
-  await expect(page.getByRole("heading", { name: "Tous les outils" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Trouvez votre outil" })).toBeVisible();
   await expect(page.locator("#tools-page-search-input")).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Parcourir par catégorie" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Explorer les catégories" })).toBeVisible();
   await expect(page.getByRole("link", { name: /Calculs.*4 outils/ })).toBeVisible();
   await expect(page.getByRole("link", { name: /Informatique.*5 outils/ })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Pourcentage" })).toHaveCount(0);
@@ -166,7 +166,7 @@ test("processing status exposes an accessible information disclosure", async ({ 
   await expect(info).toBeVisible();
 
   await page.locator("summary").filter({ hasText: "Traitement local" }).click();
-  await expect(page.getByText("Aucune donnée n'est envoyée à un serveur ni stockée par Loculary.", { exact: true })).toBeVisible();
+  await expect(page.getByText("Vos données restent sur votre appareil : aucune donnée n’est envoyée à un serveur ni stockée par Loculary.", { exact: true })).toBeVisible();
 });
 
 test("English locale renders", async ({ page }) => {
@@ -212,7 +212,7 @@ test("text counter tool renders and counts words", async ({ page }) => {
 
   await page.goto(`${baseUrl}/fr/outils/fichiers/compteur-de-mots-et-caracteres`, { waitUntil: "networkidle" });
 
-  await expect(page.getByRole("heading", { name: "Mots & caractères" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Compteur de mots et caractères" })).toBeVisible();
   const input = page.getByLabel("Votre texte");
   await input.fill("Bonjour le monde");
   await expect(page.getByText("Mots", { exact: true }).locator("..")).toContainText("3");
