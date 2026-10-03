@@ -193,6 +193,10 @@ Deletion must cover relevant domains, including:
 
 The implementation must be designed to avoid orphaned personal data.
 
+### Implemented account deletion behavior
+
+The current account implementation permanently deletes the Supabase Auth user rather than using a soft-delete. The `public.profiles` row and administrator role bindings reference `auth.users` with cascading deletion. Administrative audit records are security records and are not deleted with the account: direct references to the deleted user are cleared, while the event itself is retained so the audit history remains useful. This retention is limited to the audit record and its non-identifying metadata; it is not a general retention rule for future user-owned data.
+
 ## Data export
 
 Users should be able to export their personal data in a structured, documented format.
