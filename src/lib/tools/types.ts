@@ -20,7 +20,8 @@ export type ToolId =
   | "unix-timestamp"
   | "hash-generator"
   | "jwt-decoder"
-  | "regex-tester"\n  | "contrast-checker";
+  | "regex-tester"
+  | "contrast-checker";
 
 export type ToolComplexity = "small" | "advanced" | "mini-application";
 export type ToolProcessingMode = "local" | "external" | "server" | "hybrid";
