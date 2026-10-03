@@ -71,6 +71,10 @@ const localProcessingDescriptions = {
     fr: "Les conversions de timestamp Unix sont effectuées directement dans votre navigateur.",
     en: "Unix timestamp conversions are performed directly in your browser.",
   },
+  "hash-generator": {
+    fr: "Les empreintes cryptographiques sont calculées directement dans votre navigateur.",
+    en: "Cryptographic digests are calculated directly in your browser.",
+  },
 } satisfies Record<ToolId, { fr: string; en: string }>;
 
 type ToolDefinition = Pick<
@@ -286,6 +290,19 @@ const toolDefinitions: ToolDefinition[] = [
     content: {
       fr: { name: "Convertisseur de timestamp Unix", description: "Convertissez un timestamp Unix en date ou une date en timestamp, en secondes ou millisecondes." },
       en: { name: "Unix Timestamp Converter", description: "Convert Unix timestamps to dates or dates to timestamps in seconds or milliseconds." },
+    },
+  },
+  {
+    id: "hash-generator", icon: "#️⃣",
+    version: 1,
+    complexity: "small",
+    categories: ["development"],
+    tags: ["hash", "sha", "sha-1", "sha-256", "sha-384", "sha-512", "digest", "crypto", "developer"],
+    aliases: ["hash generator", "hash calculator", "sha generator", "sha256", "sha-256", "empreinte", "générateur hash", "générateur sha"],
+    lifecycle: "published",
+    content: {
+      fr: { name: "Générateur de hash", description: "Calculez une empreinte SHA-1, SHA-256, SHA-384 ou SHA-512 à partir d’un texte." },
+      en: { name: "Hash Generator", description: "Generate a SHA-1, SHA-256, SHA-384, or SHA-512 digest from text." },
     },
   },
   {

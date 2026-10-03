@@ -77,6 +77,10 @@ type ToolMessages = {
     count: string; countPlaceholder: string; generate: string; copy: string; copied: string; clear: string; result: string;
     emptyResult: string; invalidCount: string; generatedOne: string; generatedMany: (count: number) => string;
   };
+  hashGenerator: {
+    input: string; placeholder: string; algorithm: string; generate: string; generating: string; clear: string;
+    result: string; complete: string; emptyResult: string; copy: string; invalid: string;
+  };
   unixTimestamp: {
     timestampToDate: string; dateToTimestamp: string; timestamp: string; timestampPlaceholder: string;
     timestampUnit: string; seconds: string; milliseconds: string; dateTime: string; timestampHint: string;
@@ -199,6 +203,9 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       bitrateResultNote: "Débit total moyen nécessaire pour atteindre la taille cible.", sizeResultNote: "Taille théorique du fichier à débit constant.",
       copy: "Copier", copied: "Copié", modes: { bitrate: { title: "Calculer le bitrate", description: "À partir d’une taille cible" }, size: { title: "Estimer la taille", description: "À partir du bitrate" } },
     },
+    hashGenerator: {
+      input: "Votre texte", placeholder: "Saisissez ou collez votre texte…", algorithm: "Algorithme", generate: "Générer", generating: "Calcul…", clear: "Effacer", result: "Empreinte", complete: "Empreinte générée", emptyResult: "Le résultat apparaîtra ici après génération.", copy: "Copier", invalid: "Impossible de calculer cette empreinte.",
+    },
     unixTimestamp: {
       timestampToDate: "Timestamp → date", dateToTimestamp: "Date → timestamp", timestamp: "Timestamp Unix",
       timestampPlaceholder: "Ex. 1710000000", timestampUnit: "Unité du timestamp", seconds: "secondes", milliseconds: "millisecondes",
@@ -314,6 +321,9 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       invalidSize: "Target size must be 0 or greater.", invalidBitrate: "Bitrate must be 0 or greater.",
       bitrateResultNote: "Average total bitrate required to reach the target size.", sizeResultNote: "Theoretical file size at a constant bitrate.",
       copy: "Copy", copied: "Copied", modes: { bitrate: { title: "Calculate bitrate", description: "From a target size" }, size: { title: "Estimate size", description: "From a bitrate" } },
+    },
+    hashGenerator: {
+      input: "Your text", placeholder: "Type or paste your text…", algorithm: "Hash algorithm", generate: "Generate", generating: "Hashing…", clear: "Clear", result: "Digest", complete: "Digest generated", emptyResult: "The result will appear here after generation.", copy: "Copy", invalid: "The digest could not be generated.",
     },
     unixTimestamp: {
       timestampToDate: "Timestamp → date", dateToTimestamp: "Date → timestamp", timestamp: "Unix timestamp",

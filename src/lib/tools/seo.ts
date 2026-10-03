@@ -66,6 +66,10 @@ export const toolSeo = {
     fr: { title: "Convertisseur de timestamp Unix | Loculary", description: "Convertissez un timestamp Unix en date ou une date en timestamp, en secondes ou millisecondes." },
     en: { title: "Unix Timestamp Converter | Loculary", description: "Convert Unix timestamps to dates or dates to timestamps in seconds or milliseconds." },
   },
+  "hash-generator": {
+    fr: { title: "Générateur de hash | Loculary", description: "Générez des empreintes SHA-1, SHA-256, SHA-384 ou SHA-512 directement dans votre navigateur." },
+    en: { title: "Hash Generator | Loculary", description: "Generate SHA-1, SHA-256, SHA-384, or SHA-512 digests directly in your browser." },
+  },
   "video-bitrate": {
     fr: { title: "Bitrate vidéo | Loculary", description: "Calculez le bitrate ou la taille approximative d'une vidéo." },
     en: { title: "Video Bitrate Calculator | Loculary", description: "Calculate video bitrate or approximate file size." },
