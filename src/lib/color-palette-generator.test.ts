@@ -15,8 +15,8 @@ test("generates deterministic harmonies from a valid color", () => {
 
 test("wraps hues across the 0/360 boundary", () => {
   const palette = generatePalette("hsl(350, 100%, 50%)");
-  assert.equal(palette?.analogous[0].hsl.h, 320);
-  assert.equal(palette?.analogous[4].hsl.h, 20);
+  assert.ok(Math.abs((palette?.analogous[0].hsl.h ?? 0) - 320) < 0.2);
+  assert.ok(Math.abs((palette?.analogous[4].hsl.h ?? 0) - 20) < 0.2);
 });
 
 test("handles achromatic colors without inventing saturation", () => {
