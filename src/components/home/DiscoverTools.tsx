@@ -41,46 +41,39 @@ export default function DiscoverTools({ locale }: { locale: Locale }) {
   const featuredTools = getDiscoveryTools();
 
   return (
-    <section className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8" aria-labelledby="discover-tools-title">
-      <div className="mb-5 flex items-end justify-between gap-4">
+    <section className="mx-auto max-w-[var(--content-wide)] px-4 py-12 sm:px-6 lg:px-8 lg:py-16" aria-labelledby="discover-tools-title">
+      <div className="flex items-end justify-between gap-6 border-b border-[var(--border)] pb-5">
         <div>
-          <h2 id="discover-tools-title" className="text-2xl font-bold tracking-[-0.03em] sm:text-3xl">
+          <h2 id="discover-tools-title" className="text-2xl font-bold tracking-[-0.035em] sm:text-3xl">
             {t.home.discoveryTitle}
           </h2>
-          <p className="mt-2 text-sm text-[var(--muted)] sm:text-base">{t.home.discoveryDescription}</p>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--muted)] sm:text-base">{t.home.discoveryDescription}</p>
         </div>
         <Link
           href={getToolsPath(locale)}
-          className="hidden shrink-0 rounded-full px-3 py-2 text-sm font-bold text-[var(--accent)] transition-colors hover:bg-[var(--accent-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] sm:inline-flex"
+          className="hidden shrink-0 text-sm font-semibold text-[var(--accent)] transition-colors hover:text-[var(--accent-strong)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] sm:inline-flex"
         >
-          {t.home.explore}
-          <span className="ml-1" aria-hidden="true">→</span>
+          {t.home.explore}<span className="ml-1" aria-hidden="true">→</span>
         </Link>
       </div>
 
-      <div
-        className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-3 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8"
-        tabIndex={0}
-        aria-label={t.home.discoveryTitle}
-      >
+      <div className="mt-2 divide-y divide-[var(--border)]">
         {featuredTools.map((tool) => {
           const content = getToolContent(tool, locale);
-
           return (
             <Link
               key={tool.id}
               href={getToolPath(locale, getPrimaryToolCategory(tool), tool.id)}
-              className="group flex w-[min(78vw,20rem)] min-w-[min(78vw,20rem)] snap-start flex-col rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow-sm)] transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-1 hover:border-[var(--accent)]/40 hover:shadow-[var(--shadow-md)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] sm:w-72 sm:min-w-72"
+              className="group grid gap-3 py-5 transition-colors hover:bg-[var(--surface-soft)] sm:grid-cols-[auto_minmax(0,1fr)_auto] sm:items-center sm:px-4"
             >
-              <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--accent-soft)] text-2xl transition-transform duration-200 group-hover:scale-105" aria-hidden="true">
+              <span className="flex h-10 w-10 items-center justify-center rounded-[var(--radius-md)] bg-[var(--accent-soft)] text-xl" aria-hidden="true">
                 {tool.icon}
               </span>
-              <h3 className="mt-4 text-base font-bold tracking-[-0.02em]">{content.name}</h3>
-              <p className="mt-2 line-clamp-2 text-sm leading-6 text-[var(--muted)]">{content.description}</p>
-              <span className="mt-4 text-sm font-bold text-[var(--accent)]">
-                {t.home.discoveryOpen}
-                <span className="ml-1 inline-block transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">→</span>
+              <span className="min-w-0">
+                <span className="block text-base font-semibold text-[var(--foreground)]">{content.name}</span>
+                <span className="mt-1 block max-w-2xl truncate text-sm text-[var(--muted)]">{content.description}</span>
               </span>
+              <span className="text-sm font-semibold text-[var(--muted)] transition-colors group-hover:text-[var(--accent)]" aria-hidden="true">→</span>
             </Link>
           );
         })}
@@ -88,10 +81,9 @@ export default function DiscoverTools({ locale }: { locale: Locale }) {
 
       <Link
         href={getToolsPath(locale)}
-        className="mt-2 inline-flex rounded-full px-3 py-2 text-sm font-bold text-[var(--accent)] transition-colors hover:bg-[var(--accent-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] sm:hidden"
+        className="mt-5 inline-flex text-sm font-semibold text-[var(--accent)] transition-colors hover:text-[var(--accent-strong)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] sm:hidden"
       >
-        {t.home.explore}
-        <span className="ml-1" aria-hidden="true">→</span>
+        {t.home.explore}<span className="ml-1" aria-hidden="true">→</span>
       </Link>
     </section>
   );
