@@ -1,6 +1,6 @@
 export type JsonToTypeScriptResult = {
   value: string | null;
-  error: "invalid-json" | "unsupported-root";
+  error: "invalid-json" | "unsupported-root" | null;
 };
 
 type JsonObject = Record<string, unknown>;
@@ -120,7 +120,9 @@ function propertyName(key: string): string {
   return /^[A-Za-z_$][A-Za-z0-9_$]*$/.test(key) && !reserved.has(key) ? key : JSON.stringify(key);
 }
 
-function collectObjects(root: Node): Node[] {
+type ObjectNode = Extract<Node, { kind: "object" }>;
+
+function collectObjects(root: Node): ObjectNode[] {
   const result: Node[] = [];
   const seen = new Set<string>();
   function visit(node: Node) {
