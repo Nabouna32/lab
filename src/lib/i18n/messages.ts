@@ -180,7 +180,7 @@ export const messages: Record<Locale, Messages> = {
       forgotPasswordError: "We couldn’t send the email right now. Please try again later.",
       resetPassword: "Set a new password", resetPasswordTitle: "Set a new password",
       resetPasswordDescription: "Choose a new password for your account.",
-      passwordConfirmation: "Confirm password", passwordReset: "Your password has been reset. You can now sign in again.",
+      passwordConfirmation: "Confirm password",
       passwordResetError: "We couldn’t reset your password. The link may be expired or invalid.",
       weakPassword: "Choose a stronger password or check your account security requirements.",
       changePassword: "Change password", changePasswordTitle: "Change your password", currentPassword: "Current password",
