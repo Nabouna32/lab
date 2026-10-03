@@ -119,6 +119,7 @@ test("all published tool pages render", async ({ page }) => {
     "/fr/outils/informatique/convertisseur-de-taille-de-fichier",
     "/fr/outils/informatique/generateur-de-mot-de-passe",
     "/fr/outils/fichiers/compteur-de-mots-et-caracteres",
+    "/fr/outils/images/convertisseur-de-couleur",
     "/fr/outils/developpement/formateur-json",
     "/fr/outils/developpement/encodeur-decodeur-url",
     "/fr/outils/developpement/encodeur-base64",

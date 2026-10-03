@@ -22,7 +22,8 @@ export type ToolId =
   | "jwt-decoder"
   | "regex-tester"
   | "password-generator"
-  | "contrast-checker";
+  | "contrast-checker"
+  | "color-converter";
 
 export type ToolComplexity = "small" | "advanced" | "mini-application";
 export type ToolProcessingMode = "local" | "external" | "server" | "hybrid";
