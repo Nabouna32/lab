@@ -9,37 +9,40 @@ export default function Hero({ locale }: { locale: Locale }) {
   const t = getMessages(locale);
 
   return (
-    <section className="relative z-10 isolate overflow-hidden">
-      <div className="decorative-glow pointer-events-none absolute -left-32 -top-24 -z-10 h-72 w-72 rounded-full" />
-      <div className="decorative-glow-fuchsia pointer-events-none absolute -right-24 top-4 -z-10 h-80 w-80 rounded-full" />
-      <div className="mx-auto max-w-6xl px-4 pb-8 pt-10 sm:px-6 sm:pb-10 sm:pt-12 lg:px-8">
-        <div className="mx-auto max-w-3xl text-center">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 py-1.5 text-xs font-semibold text-[var(--muted)] shadow-[var(--shadow-sm)]">
-            <span className="h-2 w-2 rounded-full bg-[var(--accent)]" aria-hidden="true" />
-            {t.home.badge}
+    <section className="border-b border-[var(--border)]" aria-labelledby="home-title">
+      <div className="mx-auto max-w-[var(--content-wide)] px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
+        <div className="grid items-end gap-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(28rem,1.2fr)] lg:gap-16">
+          <div className="max-w-xl">
+            <p className="text-sm font-semibold text-[var(--accent)]">{t.home.badge}</p>
+            <h1 id="home-title" className="mt-3 text-balance text-4xl font-black tracking-[-0.05em] text-[var(--foreground)] sm:text-5xl lg:text-6xl">
+              {t.home.title}
+            </h1>
+            <p className="mt-4 max-w-lg text-base leading-7 text-[var(--muted)] sm:text-lg">
+              {t.home.description}
+            </p>
           </div>
-          <h1 className="text-balance text-3xl font-black tracking-[-0.045em] text-[var(--foreground)] sm:text-5xl lg:text-6xl">
-            {t.home.title}
-          </h1>
-          <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-[var(--muted)] sm:text-base sm:leading-7">
-            {t.home.description}
-          </p>
-          <div className="mx-auto mt-7 max-w-2xl text-left sm:mt-8">
+
+          <div>
             <ToolSearch locale={locale} instanceId="home-tool-search" />
-            <div className="mt-3 flex flex-wrap justify-center gap-2">
-              {t.home.quickLinks.map((link) => {
-                const tool = getToolById(link.toolId);
-                if (!tool) return null;
-                return (
-                  <a
-                    key={link.toolId}
-                    href={getToolPath(locale, getPrimaryToolCategory(tool), tool.id)}
-                    className="rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 py-1.5 text-xs font-medium text-[var(--muted)] transition-colors hover:border-[var(--accent)] hover:text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] sm:text-sm"
-                  >
-                    {link.label}
-                  </a>
-                );
-              })}
+            <div className="mt-4" aria-label={t.home.quickLinksLabel}>
+              <p className="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-[var(--muted)]">
+                {t.home.quickLinksLabel}
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {t.home.quickLinks.map((link) => {
+                  const tool = getToolById(link.toolId);
+                  if (!tool) return null;
+                  return (
+                    <a
+                      key={link.toolId}
+                      href={getToolPath(locale, getPrimaryToolCategory(tool), tool.id)}
+                      className="inline-flex min-h-9 items-center rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm font-medium text-[var(--foreground)] transition-[border-color,background-color] duration-[var(--motion-standard)] hover:border-[var(--border-strong)] hover:bg-[var(--surface-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+                    >
+                      {link.label}
+                    </a>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>
