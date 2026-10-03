@@ -14,5 +14,5 @@ test("French color converter route is localized", async ({ page }) => {
   await page.goto(`${baseUrl}/fr/outils/images/convertisseur-de-couleur`, { waitUntil: "networkidle" });
   await expect(page.getByRole("heading", { level: 1, name: "Convertisseur de couleurs" })).toBeVisible();
   await page.getByLabel("Votre couleur").fill("rgb(255, 0, 128)");
-  await expect(page.getByRole("code", { name: "#FF0080", exact: true })).toBeVisible();
+  await expect(page.locator("code").filter({ hasText: "#FF0080" })).toBeVisible();
 });
