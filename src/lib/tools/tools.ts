@@ -123,6 +123,10 @@ const localProcessingDescriptions = {
     fr: "Les expressions régulières sont évaluées directement dans votre navigateur.",
     en: "Regular expressions are evaluated directly in your browser.",
   },
+  "ip-subnet-calculator": {
+    fr: "Le calcul du sous-réseau IPv4 est effectué directement dans votre navigateur.",
+    en: "IPv4 subnet calculations are performed directly in your browser.",
+  },
 } satisfies Record<ToolId, { fr: string; en: string }>;
 
 type ToolDefinition = Pick<
@@ -518,6 +522,19 @@ const toolDefinitions: ToolDefinition[] = [
     content: {
       fr: { name: "Vérificateur de contraste des couleurs", description: "Vérifiez le ratio de contraste entre deux couleurs et les seuils WCAG AA et AAA." },
       en: { name: "Color Contrast Checker", description: "Check the contrast ratio between two colors and the WCAG AA and AAA thresholds." },
+    },
+  },
+  {
+    id: "ip-subnet-calculator", icon: "🌐",
+    version: 1,
+    complexity: "small",
+    categories: ["computing"],
+    tags: ["ipv4", "ip", "cidr", "subnet", "network", "mask", "broadcast", "networking"],
+    aliases: ["ipv4 subnet calculator", "subnet calculator", "cidr calculator", "calculateur subnet", "calculateur cidr", "sous-réseau ipv4"],
+    lifecycle: "published",
+    content: {
+      fr: { name: "Calculateur de sous-réseau IPv4", description: "Calculez le réseau, le masque, le broadcast et la plage d’hôtes à partir d’une adresse IPv4 en notation CIDR." },
+      en: { name: "IPv4 Subnet Calculator", description: "Calculate the network, subnet mask, broadcast address, and host range from an IPv4 CIDR." },
     },
   },
   {

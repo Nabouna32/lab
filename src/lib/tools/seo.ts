@@ -122,4 +122,8 @@ export const toolSeo = {
     fr: { title: "Vérificateur de contraste des couleurs | Loculary", description: "Vérifiez le contraste entre deux couleurs et les seuils WCAG AA et AAA directement dans votre navigateur." },
     en: { title: "Color Contrast Checker | Loculary", description: "Check color contrast and WCAG AA and AAA thresholds directly in your browser." },
   },
+  "ip-subnet-calculator": {
+    fr: { title: "Calculateur de sous-réseau IPv4 | Loculary", description: "Calculez le réseau, le masque, le broadcast et la plage d’hôtes d’une adresse IPv4 en notation CIDR." },
+    en: { title: "IPv4 Subnet Calculator | Loculary", description: "Calculate the network, subnet mask, broadcast address, and host range for an IPv4 CIDR." },
+  },
 } satisfies Record<ToolId, Record<Locale, ToolSeoMetadata>>;

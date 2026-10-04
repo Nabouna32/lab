@@ -101,7 +101,7 @@ test("tools page is search-first and exposes category discovery", async ({ page 
   await expect(page.locator("#tools-page-search-input")).toBeVisible();
   await expect(page.getByRole("heading", { name: "Parcourir par catégorie" })).toBeVisible();
   await expect(page.getByRole("link", { name: /Calculs.*5 outils/ })).toBeVisible();
-  await expect(page.getByRole("link", { name: /Informatique.*5 outils/ })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Informatique.*6 outils/ })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Calculateur de pourcentage", exact: true })).toBeVisible();
 });
 

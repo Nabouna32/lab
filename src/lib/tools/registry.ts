@@ -149,6 +149,10 @@ const moduleLoaders: Partial<Record<ToolId, ToolModule>> = {
     () => import("@/components/tools/contrast-checker/ContrastChecker"),
     () => import("@/components/tools/contrast-checker/ToolEditorial"),
   ),
+  "ip-subnet-calculator": createToolModule(
+    () => import("@/components/tools/ip-subnet-calculator/IpSubnetCalculator"),
+    () => import("@/components/tools/ip-subnet-calculator/ToolEditorial"),
+  ),
   "video-bitrate": createToolModule(
     () => import("@/components/tools/video-bitrate/VideoBitrateCalculator"),
     () => import("@/components/tools/video-bitrate/ToolEditorial"),
