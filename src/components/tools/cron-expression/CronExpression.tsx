@@ -3,7 +3,6 @@
 import { useMemo, useState } from "react";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
-import { TextInput } from "@/components/ui/TextInput";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { getNextCronRuns, parseCronExpression } from "@/lib/tools/cron-expression";
@@ -43,15 +42,16 @@ export default function CronExpression() {
       <div className="p-4 sm:p-6 lg:p-7">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
           <div className="min-w-0 flex-1">
-            <TextInput
-              label={t.input}
-              inputId="cron-expression"
+            <label htmlFor="cron-expression" className="mb-2 block text-sm font-medium text-[var(--foreground)]">{t.input}</label>
+            <input
+              id="cron-expression"
+              type="text"
               value={expression}
               onChange={(event) => setExpression(event.target.value)}
               placeholder={t.placeholder}
               spellCheck={false}
               autoComplete="off"
-              className="font-mono"
+              className="w-full rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] px-3 py-2.5 font-mono text-sm text-[var(--foreground)] outline-none transition placeholder:text-[var(--muted)] focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--accent)]/20"
             />
           </div>
           <div className="flex gap-2">
