@@ -48,6 +48,7 @@ const toolSlugs: Record<string, Record<Locale, string>> = {
   "number-base-converter": { en: "number-base-converter", fr: "convertisseur-de-bases" },
   "color-converter": { en: "color-converter", fr: "convertisseur-de-couleur" },
   "color-palette-generator": { en: "color-palette-generator", fr: "generateur-de-palette-de-couleurs" },
+  "cron-expression": { en: "cron-expression", fr: "expression-cron" },
 };
 
 export function getToolsPath(locale: Locale): string {
