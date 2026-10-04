@@ -142,4 +142,4 @@ export const toolSeo = {
     fr: { title: "Générateur et analyseur Cron | Loculary", description: "Analysez une expression Cron classique, comprenez son calendrier et prévisualisez ses prochaines exécutions." },
     en: { title: "Cron Expression Builder & Explainer | Loculary", description: "Parse classic Cron expressions, explain their schedule, and preview upcoming runs." },
   },
-} satisfies Record<ToolId, Record<Locale, ToolSeoMetadata>>;
+  "qr-code-generator": {\n    fr: { title: "Générateur de QR Code | Loculary", description: "Créez un QR Code à partir d’un texte ou d’une URL directement dans votre navigateur." },\n    en: { title: "QR Code Generator | Loculary", description: "Create a QR Code from text or a URL directly in your browser." },\n  },\n} satisfies Record<ToolId, Record<Locale, ToolSeoMetadata>>;
