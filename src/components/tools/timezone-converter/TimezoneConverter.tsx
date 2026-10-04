@@ -10,7 +10,9 @@ import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { convertTimeZone, formatOffset, getTimeZoneOptions } from "@/lib/timezone-converter";
 
-function getDefaultTimeZone(): string {\n  return "UTC";\n}
+function getDefaultTimeZone(): string {
+  return "UTC";
+}
 
 export default function TimezoneConverter() {
   const locale = useLocale();
