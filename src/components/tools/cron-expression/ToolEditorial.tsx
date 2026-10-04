@@ -10,7 +10,7 @@ const content = {
       },
       {
         title: "Un format Cron classique",
-        text: "Loculary utilise le format à cinq champs minute, heure, jour du mois, mois et jour de la semaine. Les caractères *, listes, plages et pas sont pris en charge. Les variantes Quartz à six ou sept champs ne sont pas prises en charge.",
+        text: "Loculary utilise le format numérique classique à cinq champs : minute, heure, jour du mois, mois et jour de la semaine. Les caractères *, listes, plages et pas sont pris en charge. Les variantes Quartz à six ou sept champs ne sont pas prises en charge.",
       },
       {
         title: "Calcul local des prochaines exécutions",
@@ -26,7 +26,7 @@ const content = {
       },
       {
         title: "Classic Cron format",
-        text: "Loculary uses the five-field format: minute, hour, day of month, month, and day of week. It supports *, lists, ranges, and steps. Quartz six- or seven-field variants are not supported.",
+        text: "Loculary uses the classic numeric five-field format: minute, hour, day of month, month, and day of week. It supports *, lists, ranges, and steps. Quartz six- or seven-field variants are not supported.",
       },
       {
         title: "Local upcoming-run calculation",
