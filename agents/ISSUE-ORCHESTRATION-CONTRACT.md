@@ -24,7 +24,7 @@ The Issue is a **mission index**, not the runtime state store. When an orchestra
 Do not collapse all mission information into one state machine. Keep these dimensions conceptually distinct:
 
 - **Mission lifecycle** — whether the mission is ready, active, awaiting a human decision, ready for delivery, merged or completed.
-- **Worker execution** — what the current Worker is doing (RUNNING, WAITING_CI, RESUME_REQUIRED, WAITING_HUMAN, etc.).
+- **Worker execution** — whether a Worker is running, waiting, requires resumption, needs a human decision, is blocked, or has reached a terminal execution state.
 - **Delivery** — branch, PR, head SHA, CI and merge state as reported exclusively by GitHub.
 - **Runtime orchestration** — claim, lease, dependency and resume coordination.
 
@@ -251,9 +251,11 @@ Then set the appropriate terminal state and close the Issue with an explicit rea
 
 ### Runtime event vocabulary
 
-A future orchestration runtime may record events such as:
+A runtime should record only coordination events that are its own durable facts, for example:
 
-MISSION_CREATED, MISSION_READY, MISSION_CLAIMED, MISSION_STARTED, PR_OPENED, CI_STARTED, CI_FAILED, CI_PASSED, RESUME_REQUIRED, WORKER_RESUME_REQUESTED, WORKER_RESUMED, HUMAN_DECISION_REQUIRED, HUMAN_DECISION_RECORDED, MERGE_READY, PR_MERGED, MISSION_COMPLETED, MISSION_ABANDONED, WORKER_LEASE_EXPIRED.
+MISSION_CREATED, MISSION_READY, MISSION_CLAIMED, WORKER_LEASE_EXPIRED, RESUME_REQUIRED, WORKER_RESUME_REQUESTED, WORKER_RESUMED, HUMAN_DECISION_REQUIRED, MISSION_BLOCKED, MISSION_COMPLETED, MISSION_ABANDONED.
+
+GitHub delivery events such as PR_OPENED, CI_STARTED, CI_FAILED, CI_PASSED, MERGE_READY and PR_MERGED remain external evidence. They may be consumed or referenced by orchestration logic when needed, but must not be mirrored into the runtime as competing state.
 
 Events are history, not authoritative project state. The current mission state is derived from durable coordination state plus Git/GitHub evidence.
 
