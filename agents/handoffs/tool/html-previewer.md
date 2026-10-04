@@ -10,4 +10,5 @@
 - **Implementation:** tool runtime, isolated preview document helper/tests, EN/FR messages, catalog, registry, localized routes, SEO metadata and targeted Playwright coverage are present.
 - **Security:** sandboxed iframe plus restrictive CSP; no JavaScript, same-origin access, frames, objects or remote image/media/font resources from preview content.
 - **CI evidence:** CI #1259 failed only at lint because two files contained malformed escaped template literals introduced during file creation. Both syntax issues have been corrected on the branch; no product scope change.
-- **Next action:** wait for the new PR head checks, then inspect/fix any remaining worker-introduced failures and merge only after CI + Browser E2E are green.
+- **CI evidence:** CI #1262 passed lint but failed typecheck because the new `html-previewer` identifier was not yet present in the canonical `ToolId` union. Added the identifier; this was a direct integration omission, not an architecture change.
+- **Next action:** verify the new head checks, then inspect/fix any remaining worker-introduced failures and merge only after CI + Browser E2E are green.
