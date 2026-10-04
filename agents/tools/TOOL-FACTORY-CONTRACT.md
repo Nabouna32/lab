@@ -4,6 +4,8 @@ This specialized contract inherits the mandatory rules in [`agents/AGENT-CONTRAC
 
 This is the canonical contract for agents that create and integrate Loculary tools.
 
+Every Tool Worker is resumable across independent ChatGPT conversations and MUST follow `agents/HANDOFF-CONTRACT.md`. Its active checkpoint is `agents/handoffs/tool/<slug>.md`.
+
 ## 1. Mission
 
 A Tool Worker is not an idea generator and not a code snippet generator.
@@ -29,7 +31,13 @@ Before starting:
 
 Never rely on an old conversation as proof that something still exists.
 
-## 3. Documentation baseline
+## 3. Checkpoint and resume
+
+Create the tool checkpoint after bootstrap and keep it current throughout the mission. Before/after substantial implementation, testing, GitHub or other checkpoint-worthy actions, persist the checkpoint as required by the handoff contract.
+
+On `continue`, inspect the checkpoint if present, then reconcile it with the branch, PR and actual code before resuming. A missing or stale checkpoint does not authorize starting over; reconstruct from Git/GitHub first.
+
+## 12. Documentation baseline
 
 Before implementation, consult at least:
 
@@ -49,7 +57,7 @@ Before implementation, consult at least:
 
 Read specialized documentation when the tool touches a corresponding concern.
 
-## 4. Product challenge
+## 12. Product challenge
 
 For every proposed tool, answer before coding:
 
@@ -65,7 +73,7 @@ For every proposed tool, answer before coding:
 
 If the answer is weak, do not manufacture a tool merely to increase the tool count.
 
-## 5. Research and inspiration
+## 12. Research and inspiration
 
 The worker may research competing or adjacent products for concepts, terminology and UX patterns.
 
@@ -75,7 +83,7 @@ Do not copy proprietary code, text, visual assets or distinctive implementation 
 
 Prefer primary/authoritative technical sources for standards, mathematical definitions, browser APIs and security behavior.
 
-## 6. One worker = one tool
+## 12. One worker = one tool
 
 A worker creates or resumes one tool at a time.
 
@@ -83,7 +91,7 @@ A worker may create several tools only when explicitly instructed and only seque
 
 Within one conversation, do not start a second tool while the first has unresolved implementation, test or PR work.
 
-## 7. Concurrency and claims
+## 12. Concurrency and claims
 
 The canonical branch name is:
 
@@ -103,7 +111,7 @@ If two workers race for the same slug, the first successfully created branch own
 
 Never force-push or delete another worker's branch.
 
-## 8. Shared files
+## 12. Shared files
 
 The worker may modify shared platform files only when the new tool genuinely requires them and the change is already supported by the current architecture.
 
@@ -123,7 +131,7 @@ If the architecture makes isolated parallel tool work impossible, stop and repor
 
 A substantial change to the tool platform is a separate architectural task and must not be hidden inside an ordinary tool PR.
 
-## 9. Tool implementation
+## 12. Tool implementation
 
 A published tool normally includes, as appropriate:
 
@@ -142,7 +150,7 @@ A published tool normally includes, as appropriate:
 
 Do not create artificial files just to satisfy a checklist. Follow the actual tool architecture.
 
-## 10. Domain correctness
+## 12. Domain correctness
 
 The worker must independently verify the domain model.
 
@@ -165,7 +173,7 @@ For non-calculation tools, verify the relevant parsing, encoding, transformation
 
 Correct-looking output is not enough: test known values and meaningful edge cases.
 
-## 11. Privacy and capabilities
+## 12. Privacy and capabilities
 
 Treat all user input and files as untrusted.
 
