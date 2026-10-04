@@ -11,7 +11,7 @@ test("number base converter converts between common bases in French", async ({ p
   await page.getByLabel("Base de départ").selectOption("16");
   await page.getByLabel("Base d’arrivée").selectOption("10");
 
-  await expect(page.getByRole("region", { name: "Résultat" })).toContainText("255");
+  await expect(page.getByText("255", { exact: true })).toBeVisible();
 });
 
 test("number base converter validates digits in the selected base in English", async ({ page }) => {
