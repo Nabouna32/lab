@@ -1,0 +1,25 @@
+# Agent-system checkpoint — worker orchestration contracts
+
+- Role: Meta-Agent
+- Mission: Formalize worker mission orchestration protocol (#307)
+- Branch: chore/agent-orchestration-contracts
+- Base SHA: dc50649fc7dc0a1e58b64f87541c2d46e9d491de
+- Current state: IMPLEMENTING
+- Validated scope: contract evolution only; no runtime/Supabase implementation
+- Completed milestones:
+  - Step 8 architecture contract validated by user
+  - Repository/bootstrap state rechecked
+  - Mission Issue #307 created
+  - Dedicated branch created
+- Current action: update orchestration/worker/handoff contracts
+- Next action: inspect diff and run relevant validation
+- Validated decisions:
+  - separate mission lifecycle, worker execution, GitHub delivery and runtime orchestration
+  - Git/GitHub remain project truth
+  - future PostgreSQL is coordination state, not project truth
+  - no second memory database
+- Decisions blocked: none currently
+- Files/areas: agents/* orchestration, handoff, feature/tool/audit/product contracts
+- Tests/checks: pending
+- Last durable commit: checkpoint commit for this mission
+- Timestamp: 2026-10-04
