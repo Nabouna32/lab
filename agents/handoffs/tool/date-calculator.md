@@ -10,12 +10,12 @@
 - Planned behavior: choose a start date, add or subtract a number of years/months/weeks/days, and display the resulting date with clear validation and locale-aware formatting.
 - Privacy: fully local; no network, storage, account, or external provider.
 - Completed milestones: bootstrap; current main/open PR/branch inspection; candidate selected; branch created.
-- Current action: wait for Browser E2E run #1089, then verify final PR state and merge when all required checks are green.
-- Expected outcome: Date Calculator PR #327 merged only after CI and Browser E2E both pass.
+- Current action: record final validation and verify PR #327 readiness for merge.
+- Expected outcome: PR #327 is merged only after the final head's CI and Browser E2E are green.
 - Next action: create domain logic, UI, catalog integration, tests, then validate and deliver PR.
 - Decisions blocked: none currently.
 - Important areas: `src/lib/tools/*`, `src/components/tools/*`, date-related existing tool implementation.
 - Tests/checks: local test execution unavailable because the execution environment cannot resolve github.com; implementation and diff are being structurally verified, with GitHub CI required for full validation.
-- Last durable commit: `8604b5331801db8b7c061b6f6dcb038dfee32232`.
+- Last durable commit: `be48e5f0188b65e64eeabf95590457fdf6aac436`.
 - Main moved to `06951c3c6fab47edf48c24fb6786e699268f1e87` after branch creation. No GitHub branch-update action is available; PR mergeability/CI will reconcile this one documentation-only main commit.
 - Latest checkpoint: 2026-10-04T22:40:00Z
