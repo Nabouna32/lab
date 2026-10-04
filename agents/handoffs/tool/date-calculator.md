@@ -10,7 +10,8 @@
 - Planned behavior: choose a start date, add or subtract a number of years/months/weeks/days, and display the resulting date with clear validation and locale-aware formatting.
 - Privacy: fully local; no network, storage, account, or external provider.
 - Completed milestones: bootstrap; current main/open PR/branch inspection; candidate selected; branch created.
-- Current action: inspect existing date/domain/UI patterns and implement the tool.
+- Current action: implement the date arithmetic domain logic and first-pass UI after inspecting existing date/domain/UI patterns.
+- Expected outcome: deterministic local date arithmetic with explicit add/subtract and unit semantics.
 - Next action: create domain logic, UI, catalog integration, tests, then validate and deliver PR.
 - Decisions blocked: none currently.
 - Important areas: `src/lib/tools/*`, `src/components/tools/*`, date-related existing tool implementation.
