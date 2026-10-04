@@ -10,14 +10,12 @@ function ModuleContent({ module, t }: { module: { title: string; description: st
     <>
       <div className="flex items-start justify-between gap-4">
         <h3 className="font-semibold">{module.title}</h3>
-        <span className={available ? "shrink-0 rounded-full bg-[var(--success-soft)] px-2.5 py-1 text-xs font-semibold text-[var(--success)]" : "shrink-0 rounded-full bg-[var(--surface-soft)] px-2.5 py-1 text-xs font-semibold text-[var(--muted)]"}>{module.status}</span>
+        <span className={available ? "shrink-0 text-xs font-semibold text-[var(--success)]" : "shrink-0 text-xs font-semibold text-[var(--muted)]"}>{module.status}</span>
       </div>
       <p className="mt-2 text-sm leading-6 text-[var(--muted)]">{module.description}</p>
     </>
   );
 }
-
-
 
 export default async function AdminPage({
   params,
@@ -25,9 +23,7 @@ export default async function AdminPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale: value } = await params;
-  if (!isLocale(value)) {
-    return null;
-  }
+  if (!isLocale(value)) return null;
 
   const locale: Locale = value;
   const access = await requireAdminPermission(locale, "admin.dashboard.view");
@@ -70,15 +66,13 @@ export default async function AdminPage({
 
   return (
     <main className="mx-auto min-h-[calc(100vh-4.5rem)] max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
-      <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <Link href={"/" + locale + "/compte"} className="text-sm font-semibold text-[var(--accent)]">
-            ← {t.admin.account}
-          </Link>
-          <p className="mt-5 text-sm font-semibold text-[var(--accent)]">{t.admin.label}</p>
-          <h1 className="mt-1 text-3xl font-bold tracking-tight sm:text-4xl">{t.admin.title}</h1>
-          <p className="mt-3 max-w-2xl text-[var(--muted)]">{t.admin.description}</p>
-        </div>
+      <div className="mb-8">
+        <Link href={"/" + locale + "/compte"} className="text-sm font-semibold text-[var(--accent)]">
+          ← {t.admin.account}
+        </Link>
+        <p className="mt-5 text-sm font-semibold text-[var(--accent)]">{t.admin.label}</p>
+        <h1 className="mt-1 text-3xl font-bold tracking-tight sm:text-4xl">{t.admin.title}</h1>
+        <p className="mt-3 max-w-2xl text-[var(--muted)]">{t.admin.description}</p>
       </div>
 
       <section aria-labelledby="admin-modules">
@@ -87,51 +81,46 @@ export default async function AdminPage({
           <p className="mt-1 text-sm text-[var(--muted)]">{t.admin.dashboard}</p>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="divide-y divide-[var(--border)] border-y border-[var(--border)]">
           {modules.map((module) => {
-            const available = module.status === t.admin.available;
-            return (
-              <article
+            const content = <ModuleContent module={module} t={t} />;
+            return module.href ? (
+              <Link
                 key={module.title}
-                className={
-                  available
-                    ? "rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-5 shadow-[var(--shadow-sm)] transition-colors hover:border-[var(--accent)]"
-                    : "rounded-2xl border border-[var(--border)] bg-[var(--surface-soft)]/60 p-5 opacity-75"
-                }
+                href={module.href}
+                className="block py-4 outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] sm:px-3"
               >
-                {module.href ? (
-                  <Link href={module.href} className="block rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]">
-                    <ModuleContent module={module} t={t} />
-                  </Link>
-                ) : (
-                  <ModuleContent module={module} t={t} />
-                )}
-              </article>
+                {content}
+              </Link>
+            ) : (
+              <div key={module.title} className="py-4 sm:px-3">
+                {content}
+              </div>
             );
           })}
         </div>
       </section>
 
-      <div className="mt-6 grid gap-4 lg:grid-cols-[1fr_1.4fr]">
-        <section className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-5 shadow-[var(--shadow-sm)]">
-          <h2 className="text-lg font-semibold">{t.admin.access}</h2>
-          <div className="mt-4 space-y-3">
-            <div className="rounded-xl bg-[var(--surface-soft)] p-4">
+      <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_1.4fr]">
+        <section aria-labelledby="admin-access">
+          <h2 id="admin-access" className="text-lg font-semibold">{t.admin.access}</h2>
+          <div className="mt-4 divide-y divide-[var(--border)] border-y border-[var(--border)]">
+            <div className="py-4">
               <p className="text-xs font-semibold uppercase tracking-wide text-[var(--muted)]">{t.admin.account}</p>
               <p className="mt-1 break-all font-medium">{access.email ?? "—"}</p>
             </div>
-            <div className="rounded-xl bg-[var(--surface-soft)] p-4">
+            <div className="py-4">
               <p className="text-xs font-semibold uppercase tracking-wide text-[var(--muted)]">{t.admin.roles}</p>
-              <p className="mt-1 font-medium">{roleKeys.join(", ") || "—"}</p>
+              <p className="mt-1 break-words font-medium">{roleKeys.join(", ") || "—"}</p>
             </div>
           </div>
         </section>
 
-        <section className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-5 shadow-[var(--shadow-sm)]">
-          <h2 className="text-lg font-semibold">{t.admin.permissions}</h2>
-          <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+        <section aria-labelledby="admin-permissions">
+          <h2 id="admin-permissions" className="text-lg font-semibold">{t.admin.permissions}</h2>
+          <ul className="mt-4 grid gap-x-6 divide-y divide-[var(--border)] border-y border-[var(--border)] sm:grid-cols-2 sm:divide-y-0">
             {permissionKeys.map((permission) => (
-              <li key={permission} className="rounded-xl bg-[var(--surface-soft)] px-3 py-2 text-sm text-[var(--muted)]">
+              <li key={permission} className="py-3 text-sm text-[var(--muted)] sm:border-b sm:border-[var(--border)]">
                 {permission}
               </li>
             ))}
@@ -139,13 +128,13 @@ export default async function AdminPage({
         </section>
       </div>
 
-      <section className="mt-4 rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-5 shadow-[var(--shadow-sm)]">
-        <div className="flex items-baseline justify-between gap-4">
-          <h2 className="text-lg font-semibold">{t.admin.auditLog}</h2>
+      <section aria-labelledby="admin-audit" className="mt-8 border-t border-[var(--border)] pt-6">
+        <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
+          <h2 id="admin-audit" className="text-lg font-semibold">{t.admin.auditLog}</h2>
           <span className="text-xs text-[var(--muted)]">{t.admin.auditDescription}</span>
         </div>
         {auditEntries?.length ? (
-          <div className="mt-4 divide-y divide-[var(--border)]">
+          <div className="mt-4 divide-y divide-[var(--border)] border-y border-[var(--border)]">
             {auditEntries.map((entry) => (
               <div key={entry.id} className="grid gap-1 py-3 sm:grid-cols-[1fr_auto]">
                 <div>
