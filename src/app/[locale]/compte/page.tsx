@@ -34,18 +34,12 @@ export default async function AccountPage({
           <h1 className="mt-2 text-3xl font-bold tracking-tight">{t.account.title}</h1>
           <p className="mt-3 text-[var(--muted)]">{t.account.anonymousDescription}</p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-            <Link
-              className="inline-flex min-h-10 items-center justify-center rounded-[var(--radius-md)] bg-[var(--accent)] px-4 py-2.5 font-semibold text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
-              href={`/${locale}/compte/connexion`}
-            >
+            <AccountActionLink href={`/${locale}/compte/connexion`} variant="primary">
               {t.account.signIn}
-            </Link>
-            <Link
-              className="inline-flex min-h-10 items-center justify-center rounded-[var(--radius-md)] border border-[var(--border)] px-4 py-2.5 font-semibold transition-colors hover:bg-[var(--surface-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
-              href={`/${locale}/compte/inscription`}
-            >
+            </AccountActionLink>
+            <AccountActionLink href={`/${locale}/compte/inscription`}>
               {t.account.signUp}
-            </Link>
+            </AccountActionLink>
           </div>
         </Panel>
       </main>
