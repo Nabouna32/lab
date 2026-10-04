@@ -177,6 +177,10 @@ const moduleLoaders: Partial<Record<ToolId, ToolModule>> = {
     () => import("@/components/tools/markdown-table-generator/MarkdownTableGenerator"),
     () => import("@/components/tools/markdown-table-generator/ToolEditorial"),
   ),
+  "image-compressor": createToolModule(
+    () => import("@/components/tools/image-compressor/ImageCompressor"),
+    () => import("@/components/tools/image-compressor/ToolEditorial"),
+  ),
   "video-bitrate": createToolModule(
     () => import("@/components/tools/video-bitrate/VideoBitrateCalculator"),
     () => import("@/components/tools/video-bitrate/ToolEditorial"),
