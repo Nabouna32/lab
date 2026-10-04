@@ -33,7 +33,9 @@ Never rely on an old conversation as proof that something still exists.
 
 ## 3. GitHub Issue tracking
 
-A Tool Worker MAY use a GitHub Issue for durable mission tracking. Search for an existing matching Issue before creating one and follow `agents/PRODUCT-ISSUE-CONTRACT.md`. The Issue complements the branch, PR and handoff; it never replaces them.
+A Tool Worker MUST use a GitHub Issue when the tool participates in the mission orchestration protocol. Search for an existing matching Issue before creating one and follow agents/PRODUCT-ISSUE-CONTRACT.md. The Issue is the durable mission index and complements the branch, PR and handoff; it never replaces them.
+
+The mission must expose its current orchestration state when applicable: claim/owner, execution state, PR/head SHA, CI state, blocker or human decision, and next action. Runtime coordination state must never be treated as proof of implementation or GitHub state.
 
 ## 4. Checkpoint and resume
 
