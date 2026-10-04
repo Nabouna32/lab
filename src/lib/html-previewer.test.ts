@@ -28,4 +28,6 @@ test("restricts network-capable resource types to local data", () => {
   const result = createHtmlPreviewDocument('<img src="https://example.com/image.png">');
   assert.ok(result.includes("img-src data: blob:"));
   assert.ok(result.includes("default-src 'none'"));
+  assert.ok(result.includes("script-src 'none'"));
+  assert.ok(result.includes("frame-src 'none'"));
 });
