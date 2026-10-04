@@ -138,4 +138,8 @@ export const toolSeo = {
     fr: { title: "Convertisseur de bases numériques | Loculary", description: "Convertissez des nombres entiers entre les bases 2 et 36, directement dans votre navigateur." },
     en: { title: "Number Base Converter | Loculary", description: "Convert integers between bases 2 and 36 directly in your browser." },
   },
+  "cron-expression": {
+    fr: { title: "Générateur et analyseur Cron | Loculary", description: "Analysez une expression Cron classique, comprenez son calendrier et prévisualisez ses prochaines exécutions." },
+    en: { title: "Cron Expression Builder & Explainer | Loculary", description: "Parse classic Cron expressions, explain their schedule, and preview upcoming runs." },
+  },
 } satisfies Record<ToolId, Record<Locale, ToolSeoMetadata>>;

@@ -139,6 +139,10 @@ const localProcessingDescriptions = {
     fr: "La conversion de base numérique est effectuée directement dans votre navigateur.",
     en: "Number base conversion is performed directly in your browser.",
   },
+  "cron-expression": {
+    fr: "L’analyse et le calcul des prochaines exécutions sont effectués directement dans votre navigateur.",
+    en: "Cron parsing and upcoming-run calculations are performed directly in your browser.",
+  },
 } satisfies Record<ToolId, { fr: string; en: string }>;
 
 type ToolDefinition = Pick<
@@ -588,6 +592,20 @@ const toolDefinitions: ToolDefinition[] = [
     content: {
       fr: { name: "Comparateur de texte", description: "Comparez deux versions d’un texte et repérez immédiatement les lignes ajoutées et supprimées." },
       en: { name: "Text Diff Checker", description: "Compare two versions of text and quickly spot added and removed lines." },
+    },
+  },
+  {
+    id: "cron-expression", icon: "⏰",
+    version: 1,
+    complexity: "advanced",
+    categories: ["development"],
+    tags: ["cron", "crontab", "schedule", "scheduler", "job", "automation", "developer", "unix"],
+    aliases: ["cron expression", "cron parser", "cron generator", "crontab", "cron schedule", "cron checker", "expression cron", "analyseur cron", "générateur cron", "planification cron"],
+    lifecycle: "published",
+    capabilities: ["clipboard"],
+    content: {
+      fr: { name: "Générateur et analyseur Cron", description: "Analysez une expression Cron classique, comprenez son planning et prévisualisez ses prochaines exécutions." },
+      en: { name: "Cron Expression Builder & Explainer", description: "Parse a classic Cron expression, understand its schedule, and preview upcoming runs." },
     },
   },
   {
