@@ -64,4 +64,7 @@ const handler = async (req: Request): Promise<Response> => {
   });
 };
 
-export default { fetch: handler };
+const dispatcher = { fetch: handler };
+
+export default dispatcher;
+
