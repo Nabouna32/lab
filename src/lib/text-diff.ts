@@ -56,7 +56,7 @@ export function diffText(left: string, right: string): DiffResult {
     const down = i < a.length ? table[(i + 1) * columns + j] : -1;
     const right = j < b.length ? table[i * columns + j + 1] : -1;
 
-    if (j < b.length && (i === a.length || right >= down)) {
+    if (j < b.length && (i === a.length || right > down)) {
       lines.push({ type: "added", text: b[j], newLine: j + 1 });
       j += 1;
     } else {
