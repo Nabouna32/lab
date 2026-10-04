@@ -521,7 +521,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "ip-subnet-calculator", icon: "⌘",
+    id: "ip-subnet-calculator", icon: "🌐",
     version: 1,
     complexity: "small",
     categories: ["computing"],
