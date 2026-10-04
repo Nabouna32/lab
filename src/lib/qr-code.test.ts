@@ -4,8 +4,8 @@ import { generateQrCode } from "./qr-code.ts";
 
 test("generates a valid-size QR matrix for a short URL", () => {
   const result = generateQrCode("https://example.com");
-  assert.equal(result.version, 1);
-  assert.equal(result.matrix.length, 21);
+  assert.equal(result.version, 2);
+  assert.equal(result.matrix.length, 25);
   assert.equal(result.matrix.every((row) => row.length === 21 && row.every((cell) => typeof cell === "boolean")), true);
 });
 
