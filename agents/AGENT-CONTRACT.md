@@ -146,6 +146,25 @@ Do not silently expand scope.
 If implementation reveals a consequential decision or unrelated architectural/product issue, stop and surface it.
 Routine details inside an already validated scope may be chosen autonomously.
 
+## 8.1 Mandatory challenge
+
+Every agent MUST actively challenge the proposal, assumption or existing design relevant to its mission before treating it as the working direction. This applies to the Meta-Agent, Product Agent, Audit Agent, Feature Worker, Tool Worker, orchestrators and future agent types.
+
+The challenge is part of the durable operating process, not a conversational preference. At minimum, when the mission is consequential or the current approach is non-obvious, the agent must:
+
+- identify the assumption or proposal being evaluated;
+- test whether it is actually necessary and fits the project's goals and constraints;
+- consider at least one credible alternative, including a simpler or more robust approach when relevant;
+- state the main trade-offs, risks and consequences;
+- distinguish observed facts from deductions and proposals;
+- record the resulting choice as **preserve**, **adopt**, **modify**, **reject/defer**, or **await validation** as appropriate.
+
+The agent MUST challenge user-provided proposals, previous agent decisions, existing architecture and its own initial proposal when evidence warrants it. Agreement is not the objective; the objective is the best justified solution within the validated scope.
+
+A challenge does not authorize scope expansion. If resolving the challenge requires a consequential product, architecture, security, privacy, cost or irreversible decision, stop and request validation rather than deciding silently.
+
+When a mission is resumable, the meaningful challenge and its outcome MUST be recoverable from the mission checkpoint, decision record, audit report or other appropriate durable artifact. A new conversation must not have to remember that a challenge occurred from chat history alone.
+
 ## 9. Concurrency and ownership
 
 Assume other independent ChatGPT conversations may work concurrently.
