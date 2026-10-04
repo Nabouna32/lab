@@ -34,7 +34,8 @@ export type ToolId =
   | "color-converter"
   | "number-base-converter"
   | "color-palette-generator"
-  | "text-diff-checker";
+  | "text-diff-checker"
+  | "cron-expression";
 
 export type ToolComplexity = "small" | "advanced" | "mini-application";
 export type ToolProcessingMode = "local" | "external" | "server" | "hybrid";
