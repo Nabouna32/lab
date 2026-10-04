@@ -159,6 +159,10 @@ const localProcessingDescriptions = {
     fr: "Les conversions de fuseaux horaires sont effectuées directement dans votre navigateur.",
     en: "Time zone conversions are performed directly in your browser.",
   },
+  "xml-formatter-validator": {
+    fr: "La validation et le formatage XML sont effectués directement dans votre navigateur.",
+    en: "XML validation and formatting are performed directly in your browser.",
+  },
   "html-previewer": {
     fr: "Le HTML saisi est rendu localement dans un aperçu isolé de votre navigateur.",
     en: "The HTML you enter is rendered locally in an isolated browser preview.",
@@ -436,6 +440,19 @@ const toolDefinitions: ToolDefinition[] = [
     content: {
       fr: { name: "Convertisseur de fuseaux horaires", description: "Convertissez une date et une heure entre deux fuseaux horaires IANA, y compris les changements d’heure." },
       en: { name: "Time Zone Converter", description: "Convert a date and time between IANA time zones, including daylight-saving changes." },
+    },
+  },
+  {
+    id: "xml-formatter-validator", icon: "</>",
+    version: 1,
+    complexity: "advanced",
+    categories: ["development"],
+    tags: ["xml", "formatter", "validator", "well-formed", "markup", "developer", "development"],
+    aliases: ["xml formatter", "xml validator", "xml beautifier", "xml checker", "format xml", "validate xml", "formateur xml", "validateur xml"],
+    lifecycle: "published",
+    content: {
+      fr: { name: "Formateur et validateur XML", description: "Validez et formatez du XML directement dans votre navigateur, sans envoyer votre contenu à un serveur." },
+      en: { name: "XML Formatter & Validator", description: "Validate and format XML directly in your browser without sending your content to a server." },
     },
   },
   {

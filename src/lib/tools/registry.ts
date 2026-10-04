@@ -57,6 +57,10 @@ const moduleLoaders: Partial<Record<ToolId, ToolModule>> = {
     () => import("@/components/tools/timezone-converter/TimezoneConverter"),
     () => import("@/components/tools/timezone-converter/ToolEditorial"),
   ),
+  "xml-formatter-validator": createToolModule(
+    () => import("@/components/tools/xml-formatter-validator/XMLFormatterValidator"),
+    () => import("@/components/tools/xml-formatter-validator/ToolEditorial"),
+  ),
   "date-calculator": createToolModule(
     () => import("@/components/tools/date-calculator/DateCalculator"),
     () => import("@/components/tools/date-calculator/ToolEditorial"),

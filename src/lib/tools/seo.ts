@@ -26,6 +26,10 @@ export const toolSeo = {
     fr: { title: "Convertisseur de fuseaux horaires | Loculary", description: "Convertissez une date et une heure entre deux fuseaux horaires IANA, directement dans votre navigateur." },
     en: { title: "Time Zone Converter | Loculary", description: "Convert a date and time between IANA time zones directly in your browser." },
   },
+  "xml-formatter-validator": {
+    fr: { title: "Formateur et validateur XML | Loculary", description: "Validez et formatez du XML directement dans votre navigateur, sans envoyer votre contenu à un serveur." },
+    en: { title: "XML Formatter & Validator | Loculary", description: "Validate and format XML directly in your browser without sending your content to a server." },
+  },
   "date-calculator": {
     fr: { title: "Calculateur de date | Loculary", description: "Ajoutez ou retirez des jours, semaines, mois ou années à une date." },
     en: { title: "Date Calculator | Loculary", description: "Add or subtract days, weeks, months, or years from a date." },

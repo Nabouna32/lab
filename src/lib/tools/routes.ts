@@ -23,6 +23,7 @@ const toolSlugs: Record<string, Record<Locale, string>> = {
   age: { en: "age-calculator", fr: "calculateur-d-age" },
   duration: { en: "duration-calculator", fr: "calculateur-de-duree" },
   "timezone-converter": { en: "time-zone-converter", fr: "convertisseur-de-fuseaux-horaires" },
+  "xml-formatter-validator": { en: "xml-formatter-validator", fr: "formateur-validateur-xml" },
   "date-calculator": { en: "date-calculator", fr: "calculateur-de-date" },
   "download-speed": { en: "download-speed-converter", fr: "convertisseur-de-debit-internet" },
   "download-time": { en: "download-time-calculator", fr: "calculateur-de-temps-de-telechargement" },

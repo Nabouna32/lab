@@ -41,7 +41,8 @@ export type ToolId =
   | "markdown-table-generator"
   | "image-compressor"
   | "html-previewer"
-  | "timezone-converter";
+  | "timezone-converter"
+  | "xml-formatter-validator";
 
 export type ToolComplexity = "small" | "advanced" | "mini-application";
 export type ToolProcessingMode = "local" | "external" | "server" | "hybrid";

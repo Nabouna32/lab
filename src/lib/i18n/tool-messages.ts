@@ -157,6 +157,10 @@ type ToolMessages = {
     ambiguous: string; sourceTime: string; destinationTime: string; sourceOffset: string; destinationOffset: string;
     copy: string; clear: string; zonesHint: string;
   };
+  xmlFormatterValidator: {
+    input: string; placeholder: string; output: string; indentation: string; spaces2: string; spaces4: string; tab: string;
+    format: string; validate: string; copy: string; clear: string; valid: string; invalid: string; formatted: string; emptyResult: string;
+  };
   unixTimestamp: {
     timestampToDate: string; dateToTimestamp: string; timestamp: string; timestampPlaceholder: string;
     timestampUnit: string; seconds: string; milliseconds: string; dateTime: string; timestampHint: string;
@@ -459,6 +463,12 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       sourceTime: "Heure source", destinationTime: "Heure convertie", sourceOffset: "Décalage source", destinationOffset: "Décalage de destination",
       copy: "Copier", clear: "Effacer", zonesHint: "Commencez à saisir un identifiant pour filtrer les fuseaux disponibles.",
     },
+    xmlFormatterValidator: {
+      input: "Votre XML", placeholder: "<catalog><item id=\"1\">Loculary</item></catalog>",
+      output: "XML formaté", indentation: "Indentation", spaces2: "2 espaces", spaces4: "4 espaces", tab: "Tabulation",
+      format: "Formater", validate: "Valider", copy: "Copier", clear: "Effacer", valid: "XML valide",
+      invalid: "XML invalide", formatted: "Formatage terminé", emptyResult: "Saisissez du XML pour commencer.",
+    },
     unixTimestamp: {
       timestampToDate: "Timestamp → date", dateToTimestamp: "Date → timestamp", timestamp: "Timestamp Unix",
       timestampPlaceholder: "Ex. 1710000000", timestampUnit: "Unité du timestamp", seconds: "secondes", milliseconds: "millisecondes",
@@ -716,6 +726,12 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       ambiguous: "This local time occurs twice because of a time-zone transition. Loculary uses the first occurrence.",
       sourceTime: "Source time", destinationTime: "Converted time", sourceOffset: "Source offset", destinationOffset: "Destination offset",
       copy: "Copy", clear: "Clear", zonesHint: "Start typing an identifier to filter the available time zones.",
+    },
+    xmlFormatterValidator: {
+      input: "Your XML", placeholder: "<catalog><item id=\"1\">Loculary</item></catalog>",
+      output: "Formatted XML", indentation: "Indentation", spaces2: "2 spaces", spaces4: "4 spaces", tab: "Tab",
+      format: "Format", validate: "Validate", copy: "Copy", clear: "Clear", valid: "Valid XML",
+      invalid: "Invalid XML", formatted: "Formatting complete", emptyResult: "Enter XML to get started.",
     },
     unixTimestamp: {
       timestampToDate: "Timestamp → date", dateToTimestamp: "Date → timestamp", timestamp: "Unix timestamp",
