@@ -7,6 +7,7 @@ export type ToolId =
   | "rule-of-three"
   | "age"
   | "duration"
+  | "date-calculator"
   | "download-speed"
   | "download-time"
   | "file-size"
