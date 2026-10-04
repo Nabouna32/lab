@@ -1,6 +1,6 @@
 import { strict as assert } from "node:assert";
 import test from "node:test";
-import { getNextCronRuns, parseCronExpression } from "./cron-expression";
+import { getNextCronRuns, parseCronExpression } from "./cron-expression.ts";
 
 test("parses a classic five-field weekday expression", () => {
   const schedule = parseCronExpression("0 9 * * 1-5");
