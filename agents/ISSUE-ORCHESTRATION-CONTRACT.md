@@ -175,6 +175,9 @@ A mission Issue is terminal only when:
 - implementation/PR state is resolved when applicable;
 - required CI/verification is green;
 - required decisions are recorded;
+- the active checkpoint has been removed from the final merged implementation/cleanup change;
 - the next action is either unnecessary or tracked by a separate Issue.
+
+For implementation missions, the Issue MUST remain non-terminal while the final PR is open or awaiting CI. The terminal Issue state is applied only after the PR containing the checkpoint cleanup has merged and its verification is confirmed.
 
 Then set the appropriate terminal state and close the Issue with an explicit reason.
