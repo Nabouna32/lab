@@ -425,7 +425,11 @@ begin
   end if;
 
   update private.agent_missions
-  set worker_state = 'IDLE',
+  set lifecycle_state = case
+        when lifecycle_state = 'ACTIVE' then 'READY'
+        else lifecycle_state
+      end,
+      worker_state = 'IDLE',
       runtime_state = 'UNCLAIMED',
       waiting_reason = p_reason,
       next_action = coalesce(p_reason, 'eligible for a new claim')
