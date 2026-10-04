@@ -53,6 +53,10 @@ const moduleLoaders: Partial<Record<ToolId, ToolModule>> = {
     () => import("@/components/tools/age/AgeCalculator"),
     () => import("@/components/tools/age/ToolEditorial"),
   ),
+  "timezone-converter": createToolModule(
+    () => import("@/components/tools/timezone-converter/TimezoneConverter"),
+    () => import("@/components/tools/timezone-converter/ToolEditorial"),
+  ),
   "date-calculator": createToolModule(
     () => import("@/components/tools/date-calculator/DateCalculator"),
     () => import("@/components/tools/date-calculator/ToolEditorial"),

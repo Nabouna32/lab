@@ -22,6 +22,10 @@ export const toolSeo = {
     fr: { title: "Calcul d’âge | Loculary", description: "Calculez précisément votre âge en années, mois et jours." },
     en: { title: "Age Calculator | Loculary", description: "Calculate your exact age in years, months, and days." },
   },
+  "timezone-converter": {
+    fr: { title: "Convertisseur de fuseaux horaires | Loculary", description: "Convertissez une date et une heure entre deux fuseaux horaires IANA, directement dans votre navigateur." },
+    en: { title: "Time Zone Converter | Loculary", description: "Convert a date and time between IANA time zones directly in your browser." },
+  },
   "date-calculator": {
     fr: { title: "Calculateur de date | Loculary", description: "Ajoutez ou retirez des jours, semaines, mois ou années à une date." },
     en: { title: "Date Calculator | Loculary", description: "Add or subtract days, weeks, months, or years from a date." },

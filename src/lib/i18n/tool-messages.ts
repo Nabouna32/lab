@@ -151,6 +151,12 @@ type ToolMessages = {
     truncated: string; copy: string;
   };
 
+  timezoneConverter: {
+    dateTime: string; source: string; destination: string; sourcePlaceholder: string; destinationPlaceholder: string;
+    hint: string; convert: string; result: string; converted: string; emptyResult: string; invalid: string;
+    ambiguous: string; sourceTime: string; destinationTime: string; sourceOffset: string; destinationOffset: string;
+    copy: string; clear: string; zonesHint: string;
+  };
   unixTimestamp: {
     timestampToDate: string; dateToTimestamp: string; timestamp: string; timestampPlaceholder: string;
     timestampUnit: string; seconds: string; milliseconds: string; dateTime: string; timestampHint: string;
@@ -442,6 +448,17 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       test: "Tester", clear: "Effacer", invalid: "L’expression régulière ou les indicateurs sont invalides.", result: "Résultats", emptyResult: "Lancez un test pour afficher les correspondances.", noMatches: "Aucune correspondance trouvée.",
       matchCount: (count) => count === 1 ? "1 correspondance" : `${count} correspondances`, position: "Position", captures: "Groupes", namedGroups: "Groupes nommés", emptyMatch: "Correspondance vide", truncated: "Affichage limité aux 200 premières correspondances.", copy: "Copier les correspondances",
     },
+    timezoneConverter: {
+      dateTime: "Date et heure", source: "Fuseau source", destination: "Fuseau de destination",
+      sourcePlaceholder: "Ex. Europe/Paris", destinationPlaceholder: "Ex. America/New_York",
+      hint: "Les noms de fuseaux utilisent les identifiants IANA. La conversion tient compte des changements d’heure.",
+      convert: "Convertir", result: "Résultat", converted: "Conversion effectuée",
+      emptyResult: "Le résultat apparaîtra ici après conversion.",
+      invalid: "Vérifiez la date, l’heure et les fuseaux horaires sélectionnés. Certaines heures n’existent pas pendant un changement d’heure.",
+      ambiguous: "Cette heure locale apparaît deux fois à cause d’un changement d’heure. Loculary utilise la première occurrence.",
+      sourceTime: "Heure source", destinationTime: "Heure convertie", sourceOffset: "Décalage source", destinationOffset: "Décalage de destination",
+      copy: "Copier", clear: "Effacer", zonesHint: "Commencez à saisir un identifiant pour filtrer les fuseaux disponibles.",
+    },
     unixTimestamp: {
       timestampToDate: "Timestamp → date", dateToTimestamp: "Date → timestamp", timestamp: "Timestamp Unix",
       timestampPlaceholder: "Ex. 1710000000", timestampUnit: "Unité du timestamp", seconds: "secondes", milliseconds: "millisecondes",
@@ -688,6 +705,17 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       pattern: "Regular expression", patternPlaceholder: "e.g. \\b\\d{4}\\b", flags: "Flags", flagsHint: "g · i · m · s · u · y", input: "Test text", inputPlaceholder: "Type or paste text to analyze…",
       test: "Test", clear: "Clear", invalid: "The regular expression or flags are invalid.", result: "Results", emptyResult: "Run a test to display matches.", noMatches: "No matches found.",
       matchCount: (count) => count === 1 ? "1 match" : `${count} matches`, position: "Position", captures: "Captures", namedGroups: "Named groups", emptyMatch: "Empty match", truncated: "Showing only the first 200 matches.", copy: "Copy matches",
+    },
+    timezoneConverter: {
+      dateTime: "Date and time", source: "Source time zone", destination: "Destination time zone",
+      sourcePlaceholder: "e.g. Europe/Paris", destinationPlaceholder: "e.g. America/New_York",
+      hint: "Time zone names use IANA identifiers. The conversion accounts for daylight-saving changes.",
+      convert: "Convert", result: "Result", converted: "Conversion complete",
+      emptyResult: "The result will appear here after conversion.",
+      invalid: "Check the date, time, and time zones. Some local times do not exist during a time-zone transition.",
+      ambiguous: "This local time occurs twice because of a time-zone transition. Loculary uses the first occurrence.",
+      sourceTime: "Source time", destinationTime: "Converted time", sourceOffset: "Source offset", destinationOffset: "Destination offset",
+      copy: "Copy", clear: "Clear", zonesHint: "Start typing an identifier to filter the available time zones.",
     },
     unixTimestamp: {
       timestampToDate: "Timestamp → date", dateToTimestamp: "Date → timestamp", timestamp: "Unix timestamp",
