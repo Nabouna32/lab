@@ -10,11 +10,12 @@
 - Planned behavior: choose a start date, add or subtract a number of years/months/weeks/days, and display the resulting date with clear validation and locale-aware formatting.
 - Privacy: fully local; no network, storage, account, or external provider.
 - Completed milestones: bootstrap; current main/open PR/branch inspection; candidate selected; branch created.
-- Current action: implement the date arithmetic domain logic and first-pass UI after inspecting existing date/domain/UI patterns.
-- Expected outcome: deterministic local date arithmetic with explicit add/subtract and unit semantics.
+- Current action: pre-PR scope/diff verification.
+- Expected outcome: all Date Calculator implementation pieces are integrated with no unrelated changes.
 - Next action: create domain logic, UI, catalog integration, tests, then validate and deliver PR.
 - Decisions blocked: none currently.
 - Important areas: `src/lib/tools/*`, `src/components/tools/*`, date-related existing tool implementation.
-- Tests/checks: not run yet.
-- Last durable commit: branch base `83bc48fafd3ec62a83e9bd4db217e6e4e6311e363`.
+- Tests/checks: local test execution unavailable because the execution environment cannot resolve github.com; implementation and diff are being structurally verified, with GitHub CI required for full validation.
+- Last durable commit: `1f00f3809e3926d37445ebf4105d8a5af8c17150`.
+- Main moved to `06951c3c6fab47edf48c24fb6786e699268f1e87` after branch creation. No GitHub branch-update action is available; PR mergeability/CI will reconcile this one documentation-only main commit.
 - Latest checkpoint: 2026-10-04T22:40:00Z
