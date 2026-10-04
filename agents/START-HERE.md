@@ -24,7 +24,7 @@ Every agent MUST read:
 
 1. `agents/AGENT-CONTRACT.md`;
 2. `AGENTS.md`;
-3. its specialized contract/mission;
+3. its specialized contract/mission (including `agents/product/PRODUCT-AGENT.md` for Product / Direction);
 4. `agents/HANDOFF-CONTRACT.md`;
 5. the required canonical project documents;
 6. current Git/GitHub state;
