@@ -114,6 +114,11 @@ type ToolMessages = {
     input: string; placeholder: string; hint: string; size: string; download: string; clear: string;
     preview: string; emptyResult: string; tooLong: string; version: (version: number) => string;
   };
+  markdownTable: {
+    table: string; hint: string; addColumn: string; addRow: string; removeColumn: string; removeRow: string; reset: string;
+    column: string; alignmentLabel: (column: number) => string; left: string; center: string; right: string;
+    headerCell: string; bodyCell: string; markdown: string; outputHint: string; preview: string; copy: string;
+  };
   jwtDecoder: {
     input: string; placeholder: string; decode: string; clear: string; header: string; payload: string; signature: string; copy: string; invalid: string; signatureNote: string;
   };
@@ -380,6 +385,14 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       emptyResult: "Saisissez un contenu pour générer votre QR Code.", tooLong: "Le contenu est trop long pour le format local pris en charge.",
       version: (version) => `Version ${version}`,
     },
+    markdownTable: {
+      table: "Tableau",
+      hint: "Saisissez les en-têtes et les valeurs. Le Markdown et l’aperçu se mettent à jour automatiquement.",
+      addColumn: "Ajouter une colonne", addRow: "Ajouter une ligne", removeColumn: "Supprimer une colonne", removeRow: "Supprimer une ligne", reset: "Réinitialiser",
+      column: "Colonne", alignmentLabel: (column) => "Alignement de la colonne " + column,
+      left: "Gauche", center: "Centré", right: "Droite", headerCell: "En-tête", bodyCell: "Cellule",
+      markdown: "Markdown", outputHint: "Copiez ce résultat dans un README, une documentation ou un autre contenu Markdown.", preview: "Aperçu", copy: "Copier",
+    },
     jwtDecoder: {
       input: "Votre JWT", placeholder: "Collez votre JSON Web Token ici…", decode: "Décoder", clear: "Effacer", header: "En-tête", payload: "Contenu", signature: "Signature encodée", copy: "Copier", invalid: "Le JWT est invalide ou mal formé.", signatureNote: "Le décodage ne vérifie pas la signature et ne confirme pas l’authenticité du token.",
     },
@@ -598,6 +611,14 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       size: "Size", download: "Download SVG", clear: "Clear", preview: "QR Code preview",
       emptyResult: "Enter content to generate your QR Code.", tooLong: "The content is too long for the supported local format.",
       version: (version) => "Version " + version,
+    },
+    markdownTable: {
+      table: "Table",
+      hint: "Enter headers and values. The Markdown and preview update automatically.",
+      addColumn: "Add column", addRow: "Add row", removeColumn: "Remove column", removeRow: "Remove row", reset: "Reset",
+      column: "Column", alignmentLabel: (column) => "Column " + column + " alignment",
+      left: "Left", center: "Center", right: "Right", headerCell: "Header", bodyCell: "Cell",
+      markdown: "Markdown", outputHint: "Copy this result into a README, documentation, or other Markdown content.", preview: "Preview", copy: "Copy",
     },
     jwtDecoder: {
       input: "Your JWT", placeholder: "Paste your JSON Web Token here…", decode: "Decode", clear: "Clear", header: "Header", payload: "Payload", signature: "Encoded signature", copy: "Copy", invalid: "The JWT is invalid or malformed.", signatureNote: "Decoding does not verify the signature or confirm that the token is authentic.",
