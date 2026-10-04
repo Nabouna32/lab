@@ -110,6 +110,11 @@ type ToolMessages = {
     count: string; countPlaceholder: string; generate: string; copy: string; copied: string; clear: string; result: string;
     emptyResult: string; invalidCount: string; generatedOne: string; generatedMany: (count: number) => string;
   };
+  imageCompressor: {
+    input: string; inputHint: string; format: string; maxDimension: string; original: string; quality: string; qualityHint: string;
+    processing: string; download: string; reset: string; preview: string; emptyResult: string; invalid: string; invalidType: string; tooLarge: string;
+    originalSize: string; compressedSize: string; reduction: string;
+  };
   qrCodeGenerator: {
     input: string; placeholder: string; hint: string; size: string; download: string; clear: string;
     preview: string; emptyResult: string; tooLong: string; version: (version: number) => string;
@@ -378,6 +383,14 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       bitrateResultNote: "Débit total moyen nécessaire pour atteindre la taille cible.", sizeResultNote: "Taille théorique du fichier à débit constant.",
       copy: "Copier", copied: "Copié", modes: { bitrate: { title: "Calculer le bitrate", description: "À partir d’une taille cible" }, size: { title: "Estimer la taille", description: "À partir du bitrate" } },
     },
+    imageCompressor: {
+      input: "Choisir une image", inputHint: "JPG, PNG, WebP ou autre image — traitement local dans votre navigateur.", format: "Format de sortie",
+      maxDimension: "Dimension maximale", original: "Conserver la dimension", quality: "Qualité", qualityHint: "La qualité agit surtout sur JPEG et WebP.",
+      processing: "Compression…", download: "Télécharger", reset: "Réinitialiser", preview: "Aperçu de l’image compressée",
+      emptyResult: "Sélectionnez une image pour afficher le résultat.", invalid: "Cette image ne peut pas être traitée dans votre navigateur.",
+      invalidType: "Sélectionnez un fichier image.", tooLarge: "Le fichier dépasse la limite de 25 Mo.",
+      originalSize: "Taille originale", compressedSize: "Taille compressée", reduction: "Réduction",
+    },
     qrCodeGenerator: {
       input: "Contenu à encoder", placeholder: "https://example.com ou votre texte…",
       hint: "Jusqu’à environ 100 octets. Le contenu reste dans votre navigateur.",
@@ -604,6 +617,14 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       invalidSize: "Target size must be 0 or greater.", invalidBitrate: "Bitrate must be 0 or greater.",
       bitrateResultNote: "Average total bitrate required to reach the target size.", sizeResultNote: "Theoretical file size at a constant bitrate.",
       copy: "Copy", copied: "Copied", modes: { bitrate: { title: "Calculate bitrate", description: "From a target size" }, size: { title: "Estimate size", description: "From a bitrate" } },
+    },
+    imageCompressor: {
+      input: "Choose an image", inputHint: "JPG, PNG, WebP, or another image — processed locally in your browser.", format: "Output format",
+      maxDimension: "Maximum dimension", original: "Keep original size", quality: "Quality", qualityHint: "Quality mainly affects JPEG and WebP.",
+      processing: "Compressing…", download: "Download", reset: "Reset", preview: "Compressed image preview",
+      emptyResult: "Select an image to see the result.", invalid: "This image cannot be processed in your browser.",
+      invalidType: "Select an image file.", tooLarge: "The file exceeds the 25 MB limit.",
+      originalSize: "Original size", compressedSize: "Compressed size", reduction: "Reduction",
     },
     qrCodeGenerator: {
       input: "Content to encode", placeholder: "https://example.com or your text…",
