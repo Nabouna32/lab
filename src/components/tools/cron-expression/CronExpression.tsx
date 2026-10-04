@@ -10,6 +10,17 @@ import { getNextCronRuns, parseCronExpression } from "@/lib/tools/cron-expressio
 
 const DEFAULT_EXPRESSION = "0 9 * * 1-5";
 
+function getDescription(
+  expression: string,
+  descriptions: ReturnType<typeof getToolMessages>["cronExpression"]["descriptions"],
+): string {
+  if (expression === "* * * * *") return descriptions.everyMinute;
+  if (expression === "0 * * * *") return descriptions.everyHour;
+  if (expression === "0 0 * * *") return descriptions.midnight;
+  if (expression === "0 9 * * 1-5") return descriptions.weekdayMorning;
+  return descriptions.custom(expression);
+}
+
 export default function CronExpression() {
   const locale = useLocale();
   const t = getToolMessages(locale).cronExpression;
@@ -63,7 +74,7 @@ export default function CronExpression() {
 
               {result.schedule ? (
                 <>
-                  <p className="mt-4 text-base font-medium text-[var(--foreground)]">{result.schedule.description}</p>
+                  <p className="mt-4 text-base font-medium text-[var(--foreground)]">{getDescription(result.schedule.expression, t.descriptions)}</p>
                   <div className="mt-5 grid gap-2 sm:grid-cols-2">
                     {(["minute", "hour", "dayOfMonth", "month", "dayOfWeek"] as const).map((fieldName) => {
                       const field = result.schedule.fields[fieldName];
