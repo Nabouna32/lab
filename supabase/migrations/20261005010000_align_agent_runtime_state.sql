@@ -315,17 +315,6 @@ begin
   where id = v_mission_id
     and execution_state not in ('COMPLETED', 'ABANDONED');
 
-  perform private.agent_record_event(
-    v_mission_id,
-    'MISSION_READY',
-    'worker',
-    p_worker_instance,
-    'agent_release_claim',
-    'release:' || p_claim_id::text,
-    null,
-    null,
-    jsonb_build_object('reason', p_reason)
-  );
 end;
 $$;
 
