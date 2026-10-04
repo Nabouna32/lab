@@ -9,4 +9,5 @@
 - **Security constraint:** preview must not grant same-origin access or script execution to the authored document. The implementation will use an iframe sandbox without `allow-scripts`/same-origin privileges and a restrictive document CSP where supported.
 - **Implementation:** tool runtime, isolated preview document helper/tests, EN/FR messages, catalog, registry, localized routes, SEO metadata and targeted Playwright coverage are present.
 - **Security:** sandboxed iframe plus restrictive CSP; no JavaScript, same-origin access, frames, objects or remote image/media/font resources from preview content.
-- **Next action:** inspect the complete branch diff, open the focused PR, then verify CI and browser E2E; fix only worker-introduced failures and merge when all required checks are green.
+- **CI evidence:** CI #1259 failed only at lint because two files contained malformed escaped template literals introduced during file creation. Both syntax issues have been corrected on the branch; no product scope change.
+- **Next action:** wait for the new PR head checks, then inspect/fix any remaining worker-introduced failures and merge only after CI + Browser E2E are green.
