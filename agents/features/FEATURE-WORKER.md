@@ -34,7 +34,6 @@ Then read `agents/HANDOFF-CONTRACT.md` and locate the active checkpoint for this
 
 Maintain `agents/handoffs/feature/<slug>.md` throughout resumable work. Before and after checkpoint-worthy actions, persist the checkpoint as required by `agents/HANDOFF-CONTRACT.md`. If the conversation ends, a new conversation must inspect that checkpoint and reconcile it with Git/GitHub before resuming.
 
-## OPERATING MODE
 ## Mission orchestration
 
 When this Worker is operating under the mission orchestration protocol, it must keep the mission Issue aligned with durable state and distinguish execution from delivery:
