@@ -5,9 +5,9 @@ export function parseNumber(value: string, base: number): bigint | null {
   const normalized = value.trim().toUpperCase();
   if (!/^[+-]?[0-9A-Z]+$/.test(normalized)) return null;
 
-  const sign = normalized.startsWith("-") ? -1n : 1n;
+  const sign = normalized.startsWith("-") ? BigInt(-1) : BigInt(1);
   const digits = normalized.replace(/^[+-]/, "");
-  let result = 0n;
+  let result = BigInt(0);
 
   for (const character of digits) {
     const digit = DIGITS.indexOf(character);
