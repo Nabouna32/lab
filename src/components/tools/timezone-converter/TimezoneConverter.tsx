@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
@@ -10,32 +10,20 @@ import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { convertTimeZone, formatOffset, getTimeZoneOptions } from "@/lib/timezone-converter";
 
-function getDefaultDateTime(): string {
-  const now = new Date();
-  const pad = (value: number) => String(value).padStart(2, "0");
-  return now.getFullYear() + "-" + pad(now.getMonth() + 1) + "-" + pad(now.getDate()) + "T" + pad(now.getHours()) + ":" + pad(now.getMinutes());
-}
-
-function getDefaultTimeZone(timeZones: string[]): string {
-  const zone = new Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
-  return timeZones.includes(zone) ? zone : "UTC";
-}
+function getDefaultTimeZone(): string {\n  return "UTC";\n}
 
 export default function TimezoneConverter() {
   const locale = useLocale();
   const t = getToolMessages(locale).timezoneConverter;
   const [dateTime, setDateTime] = useState("");
-  const [sourceTimeZone, setSourceTimeZone] = useState("UTC");
+  const [sourceTimeZone, setSourceTimeZone] = useState(getDefaultTimeZone);
   const [destinationTimeZone, setDestinationTimeZone] = useState("America/New_York");
   const [result, setResult] = useState<ReturnType<typeof convertTimeZone>>(null);
   const [error, setError] = useState(false);
   const timeZones = useMemo(() => getTimeZoneOptions(), []);
   const localeCode = locale === "fr" ? "fr-FR" : "en-US";
 
-  useEffect(() => {
-    setDateTime(getDefaultDateTime());
-    setSourceTimeZone(getDefaultTimeZone(timeZones));
-  }, [timeZones]);
+
 
   function convert() {
     const next = convertTimeZone(dateTime, sourceTimeZone, destinationTimeZone);
@@ -44,8 +32,8 @@ export default function TimezoneConverter() {
   }
 
   function clear() {
-    setDateTime(getDefaultDateTime());
-    setSourceTimeZone(getDefaultTimeZone(timeZones));
+    setDateTime("");
+    setSourceTimeZone(getDefaultTimeZone());
     setDestinationTimeZone("America/New_York");
     setResult(null);
     setError(false);
