@@ -84,3 +84,29 @@ select cron.schedule(
   '* * * * *',
   $$select private.agent_dispatcher_tick('pg_cron')$$
 );
+
+
+create or replace function public.agent_dispatcher_tick(
+  p_source text default 'edge_function',
+  p_source_run_id text default null
+)
+returns table (
+  expired_claims integer,
+  pending_resume_requests integer,
+  ready_missions integer
+)
+language sql
+security definer
+set search_path = ''
+as $$
+  select *
+  from private.agent_dispatcher_tick($1, $2);
+$$;
+
+revoke all on function public.agent_dispatcher_tick(text, text)
+  from public, anon, authenticated;
+grant execute on function public.agent_dispatcher_tick(text, text)
+  to service_role;
+
+comment on function public.agent_dispatcher_tick(text, text)
+  is 'Restricted server-side bridge to the private agent dispatcher; callable only with service_role.';
