@@ -344,15 +344,6 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       result: "Résultat", ready: "Conversion mise à jour", emptyResult: "Le résultat apparaîtra ici.", copy: "Copier", clear: "Effacer", error: "La conversion n’a pas pu être effectuée.",
       invalidCsv: "Le CSV est invalide ou mal formé.", invalidJson: "Le JSON est invalide.", unsupportedJson: "Utilisez un tableau JSON composé d’objets.",
     },
-    cronExpression: {
-      input: "Cron expression", placeholder: "e.g. 0 9 * * 1-5", result: "Analysis", valid: "Valid expression",
-      invalid: "Invalid Cron expression.", emptyResult: "Enter an expression to see its schedule.",
-      expressionHint: "Classic 5-field format: minute, hour, day of month, month, day of week.",
-      nextRuns: "Next runs", copy: "Copy", clear: "Clear", reset: "Reset",
-      fields: { minute: "Minute", hour: "Hour", dayOfMonth: "Day of month", month: "Month", dayOfWeek: "Day of week" },
-      examples: { everyMinute: "Every minute", everyWeekday: "At 9 AM, Monday through Friday", midnight: "At midnight every day" },
-      descriptions: { everyMinute: "Every minute", everyHour: "At the start of every hour", midnight: "At midnight every day", weekdayMorning: "At 9 AM, Monday through Friday", custom: (expression) => `Custom schedule: ${expression}` },
-    },
     textDiffChecker: {
       original: "Version originale", originalPlaceholder: "Collez le texte original…", updated: "Version modifiée", updatedPlaceholder: "Collez le texte modifié…",
       result: "Comparaison", emptyResult: "Collez deux versions pour afficher les différences.", resourceLimit: "Les textes sont trop volumineux pour être comparés en toute sécurité.", copy: "Copier le diff", clear: "Effacer", reset: "Réinitialiser",
@@ -564,6 +555,15 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       input: "Data", placeholder: "Paste CSV or a JSON array of objects…", delimiter: "CSV delimiter", csvToJson: "CSV → JSON", jsonToCsv: "JSON → CSV",
       result: "Result", ready: "Conversion updated", emptyResult: "The result will appear here.", copy: "Copy", clear: "Clear", error: "The conversion could not be completed.",
       invalidCsv: "The CSV is invalid or malformed.", invalidJson: "The JSON is invalid.", unsupportedJson: "Use a JSON array containing objects.",
+    },
+    cronExpression: {
+      input: "Cron expression", placeholder: "e.g. 0 9 * * 1-5", result: "Analysis", valid: "Valid expression",
+      invalid: "Invalid Cron expression.", emptyResult: "Enter an expression to see its schedule.",
+      expressionHint: "Classic 5-field format: minute, hour, day of month, month, day of week.",
+      nextRuns: "Next runs", copy: "Copy", clear: "Clear", reset: "Reset",
+      fields: { minute: "Minute", hour: "Hour", dayOfMonth: "Day of month", month: "Month", dayOfWeek: "Day of week" },
+      examples: { everyMinute: "Every minute", everyWeekday: "At 9 AM, Monday through Friday", midnight: "At midnight every day" },
+      descriptions: { everyMinute: "Every minute", everyHour: "At the start of every hour", midnight: "At midnight every day", weekdayMorning: "At 9 AM, Monday through Friday", custom: (expression) => `Custom schedule: ${expression}` },
     },
     textDiffChecker: {
       original: "Original version", originalPlaceholder: "Paste the original text…", updated: "Updated version", updatedPlaceholder: "Paste the updated text…",
