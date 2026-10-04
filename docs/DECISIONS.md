@@ -831,3 +831,35 @@ A dedicated product role prevents product direction and durable documentation fr
 - Feature and Tool Workers may use Issues for mission tracking while branch/PR/Git state remains authoritative for implementation.
 - A future GitHub Project, if supported by the available integration, should remain a visualization/orchestration layer rather than a required source of truth.
 - The Product Agent must not silently implement consequential product decisions; user validation remains required.
+
+
+## DEC-040 — PostgreSQL runtime orchestration boundary
+
+**Status:** Accepted
+
+### Decision
+
+Loculary's autonomous agent system uses Supabase PostgreSQL as a **runtime coordination layer**, not as a second project-state source of truth.
+
+The runtime stores mission coordination state such as mission identity, worker claims and leases, dependency readiness, idempotent orchestration events and durable resume requests. It does not store project code, checkpoints, audit reports, product decisions or full GitHub state.
+
+Runtime coordination is isolated in a non-exposed `private` PostgreSQL schema. Browser clients and the future Tampermonkey wake adapter must not access these tables directly. Privileged runtime access belongs behind server-side/Edge Function boundaries.
+
+Git/GitHub remain authoritative for implementation, branches, pull requests, CI and merge facts. A runtime claim does not prove implementation ownership; a resume request does not prove that a Worker resumed; lease expiry creates a recovery candidate and requires reconciliation before recovery.
+
+The runtime deliberately separates mission lifecycle, Worker execution, GitHub delivery and runtime coordination instead of collapsing them into one state machine.
+
+### Reason
+
+The Worker execution protocol needs durable coordination across conversations and intermittent ChatGPT Free execution without creating a duplicate project memory. PostgreSQL can persist what must happen next while Git/GitHub continue to record what actually happened to the project.
+
+### Consequences
+
+- Runtime tables live in the private schema and are not exposed through the Supabase Data API.
+- Claims use an atomic active-claim uniqueness invariant and expiring leases.
+- Dependencies are represented explicitly and cannot introduce dependency cycles through the runtime API.
+- External events carry stable source identity so repeated delivery is idempotent.
+- Resume requests are durable and distinguish requested, acknowledged and completed states.
+- Tampermonkey remains a wake adapter only; it does not become an orchestrator or source of truth.
+- Scheduled processing may later use pg_cron/pg_net, but scheduling is not itself the mission source of truth.
+- Database schema changes are versioned through repository migrations and deployed through the project's migration workflow.
