@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { generateQrCode } from "./qr-code";
+import { generateQrCode } from "./qr-code.ts";
 
 test("generates a valid-size QR matrix for a short URL", () => {
   const result = generateQrCode("https://example.com");
