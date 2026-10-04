@@ -73,6 +73,11 @@ type ToolMessages = {
     indentation: string; spaces2: string; spaces4: string; tab: string; valid: string; invalid: string;
     emptyResult: string; formatted: string; minified: string; errorAt: (line: string, column: string) => string;
   };
+  yamlFormatterValidator: {
+    input: string; placeholder: string; output: string; format: string; copy: string; clear: string;
+    indentation: string; spaces2: string; spaces4: string; tab: string; valid: string; invalid: string;
+    emptyResult: string; formatted: string; errorAt: (line: string, column: string) => string; resourceLimit: string;
+  };
   urlEncoder: {
     input: string; placeholder: string; output: string; scope: string; component: string; uri: string;
     operation: string; encode: string; decode: string; copy: string; clear: string; encoded: string; decoded: string;
@@ -292,6 +297,12 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       indentation: "Indentation", spaces2: "2 espaces", spaces4: "4 espaces", tab: "Tabulation", valid: "JSON valide", invalid: "JSON invalide",
       emptyResult: "Le résultat apparaîtra ici après validation.", formatted: "Formaté", minified: "Minifié", errorAt: (line, column) => "Ligne " + line + ", colonne " + column,
     },
+    yamlFormatterValidator: {
+      input: "Votre YAML", placeholder: "name: Loculary\\ntools:\\n  - JSON\\n  - YAML", output: "Résultat", format: "Formater", copy: "Copier", clear: "Effacer",
+      indentation: "Indentation", spaces2: "2 espaces", spaces4: "4 espaces", tab: "Tabulation", valid: "YAML valide", invalid: "YAML invalide",
+      emptyResult: "Le résultat apparaîtra ici après validation.", formatted: "Formaté", resourceLimit: "Le document est trop volumineux ou trop complexe à traiter en toute sécurité.",
+      errorAt: (line, column) => "Ligne " + line + ", colonne " + column,
+    },
     urlEncoder: {
       input: "Votre texte", placeholder: "Saisissez du texte ou une URL…", output: "Résultat", scope: "Mode d’encodage", component: "Composant d’URL", uri: "URL complète",
       operation: "Action", encode: "Encoder", decode: "Décoder", copy: "Copier", clear: "Effacer", encoded: "Encodé", decoded: "Décodé",
@@ -483,6 +494,12 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       input: "Your JSON", placeholder: '{\\n  "name": "Loculary"\\n}', output: "Result", format: "Format", minify: "Minify", copy: "Copy", clear: "Clear",
       indentation: "Indentation", spaces2: "2 spaces", spaces4: "4 spaces", tab: "Tab", valid: "Valid JSON", invalid: "Invalid JSON",
       emptyResult: "The result will appear here after validation.", formatted: "Formatted", minified: "Minified", errorAt: (line, column) => "Line " + line + ", column " + column,
+    },
+    yamlFormatterValidator: {
+      input: "Your YAML", placeholder: "name: Loculary\\ntools:\\n  - JSON\\n  - YAML", output: "Result", format: "Format", copy: "Copy", clear: "Clear",
+      indentation: "Indentation", spaces2: "2 spaces", spaces4: "4 spaces", tab: "Tab", valid: "Valid YAML", invalid: "Invalid YAML",
+      emptyResult: "The result will appear here after validation.", formatted: "Formatted", resourceLimit: "The document is too large or complex to process safely.",
+      errorAt: (line, column) => "Line " + line + ", column " + column,
     },
     urlEncoder: {
       input: "Your text", placeholder: "Enter text or a URL…", output: "Result", scope: "Encoding mode", component: "URL component", uri: "Complete URL",
