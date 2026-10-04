@@ -17,7 +17,7 @@ export default function ToolEditorial({ locale }: { locale: Locale }) {
         </p>
         <Card>
           <p className="font-mono text-sm leading-6 text-[var(--foreground)]">
-            {String.raw\`<h1>Bonjour</h1>\`}
+            {"<h1>Bonjour</h1>"}
           </p>
           <p className="mt-3 text-sm leading-6">
             {t.security}
