@@ -35,7 +35,8 @@ export type ToolId =
   | "number-base-converter"
   | "color-palette-generator"
   | "text-diff-checker"
-  | "cron-expression";
+  | "cron-expression"
+  | "qr-code-generator";
 
 export type ToolComplexity = "small" | "advanced" | "mini-application";
 export type ToolProcessingMode = "local" | "external" | "server" | "hybrid";

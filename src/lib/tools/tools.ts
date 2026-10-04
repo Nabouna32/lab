@@ -143,6 +143,10 @@ const localProcessingDescriptions = {
     fr: "L’analyse et le calcul des prochaines exécutions sont effectués directement dans votre navigateur.",
     en: "Cron parsing and upcoming-run calculations are performed directly in your browser.",
   },
+  "qr-code-generator": {
+    fr: "Le contenu du QR Code est traité et généré directement dans votre navigateur.",
+    en: "QR Code content is processed and generated directly in your browser.",
+  },
 } satisfies Record<ToolId, { fr: string; en: string }>;
 
 type ToolDefinition = Pick<
@@ -606,6 +610,19 @@ const toolDefinitions: ToolDefinition[] = [
     content: {
       fr: { name: "Générateur et analyseur Cron", description: "Analysez une expression Cron classique, comprenez son planning et prévisualisez ses prochaines exécutions." },
       en: { name: "Cron Expression Builder & Explainer", description: "Parse a classic Cron expression, understand its schedule, and preview upcoming runs." },
+    },
+  },
+  {
+    id: "qr-code-generator", icon: "▦",
+    version: 1,
+    complexity: "advanced",
+    categories: ["development"],
+    tags: ["qr", "qrcode", "qr code", "url", "text", "generator", "barcode", "developer"],
+    aliases: ["qr code generator", "qr code", "qrcode", "qr generator", "générateur qr code", "générateur qr", "code qr"],
+    lifecycle: "published",
+    content: {
+      fr: { name: "Générateur de QR Code", description: "Créez un QR Code à partir d’un texte ou d’une URL directement dans votre navigateur." },
+      en: { name: "QR Code Generator", description: "Create a QR Code from text or a URL directly in your browser." },
     },
   },
   {
