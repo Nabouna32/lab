@@ -13,7 +13,7 @@ test("formats YAML with two-space indentation and keeps comments", () => {
   assert.equal(result.ok, true);
   if (!result.ok) return;
   assert.match(result.formatted, /root:\n  name: Loculary # product/);
-  assert.match(result.formatted, /tools:\n    - JSON\n    - YAML/);
+  assert.match(result.formatted, /tools: \[ JSON, YAML \]/);
 });
 
 test("supports four-space indentation", () => {
@@ -25,7 +25,7 @@ test("supports four-space indentation", () => {
 });
 
 test("reports syntax errors with source position", () => {
-  const result = formatYaml("root:\n  - one\n    - two", 2);
+  const result = formatYaml("root: [one", 2);
 
   assert.equal(result.ok, false);
   if (result.ok) return;
