@@ -61,7 +61,7 @@ function parseField(expression: string, min: number, max: number, name: CronFiel
 
 export function parseCronExpression(expression: string): CronSchedule {
   const trimmed = expression.trim();
-  const parts = trimmed.split(/\\s+/);
+  const parts = trimmed.split(/\s+/);
   if (parts.length !== 5) throw new Error("Classic Cron expressions require exactly 5 fields.");
 
   const fields = {} as Record<CronFieldName, CronField>;
