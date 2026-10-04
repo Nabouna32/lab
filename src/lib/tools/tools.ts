@@ -123,6 +123,10 @@ const localProcessingDescriptions = {
     fr: "Les expressions régulières sont évaluées directement dans votre navigateur.",
     en: "Regular expressions are evaluated directly in your browser.",
   },
+  "ip-subnet-calculator": {
+    fr: "Le calcul du sous-réseau IPv4 est effectué directement dans votre navigateur.",
+    en: "IPv4 subnet calculations are performed directly in your browser.",
+  },
 } satisfies Record<ToolId, { fr: string; en: string }>;
 
 type ToolDefinition = Pick<
