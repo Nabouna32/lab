@@ -45,7 +45,7 @@ function maskFromPrefix(prefix: number): number {
 
 export function calculateIpv4Subnet(input: string): Ipv4Subnet | null {
   const trimmed = input.trim();
-  const match = /^([^/]+)\\/(\\d{1,2})$/.exec(trimmed);
+  const match = /^([^/]+)\/(\d{1,2})$/.exec(trimmed);
   if (!match) return null;
 
   const octets = parseIpv4(match[1]);
