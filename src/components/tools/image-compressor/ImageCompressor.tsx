@@ -13,7 +13,6 @@ import {
 } from "@/lib/image-compressor";
 
 const MAX_FILE_BYTES = 25 * 1024 * 1024;
-const MAX_PIXELS = 40_000_000;
 
 export default function ImageCompressor() {
   const locale = useLocale();
@@ -33,9 +32,6 @@ export default function ImageCompressor() {
   useEffect(() => {
     if (!file) return;
     let cancelled = false;
-    setBusy(true);
-    setError(null);
-
     compressImageFile(file, { format, quality, maxDimension })
       .then((next) => {
         if (cancelled) return;
@@ -74,6 +70,7 @@ export default function ImageCompressor() {
       return;
     }
     setError(null);
+    setBusy(true);
     setFile(next);
   }
 
@@ -120,7 +117,7 @@ export default function ImageCompressor() {
           <div className="grid gap-4 sm:grid-cols-3">
             <label className="text-sm font-medium text-[var(--foreground)]">
               <span className="mb-2 block">{t.format}</span>
-              <select value={format} onChange={(event) => setFormat(event.target.value as ImageOutputFormat)} className="h-11 w-full rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background)] px-3 text-sm">
+              <select value={format} onChange={(event) => { setBusy(true); setError(null); setFormat(event.target.value as ImageOutputFormat); }} className="h-11 w-full rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background)] px-3 text-sm">
                 <option value="webp">WebP</option>
                 <option value="jpeg">JPEG</option>
                 <option value="png">PNG</option>
@@ -128,7 +125,7 @@ export default function ImageCompressor() {
             </label>
             <label className="text-sm font-medium text-[var(--foreground)]">
               <span className="mb-2 block">{t.maxDimension}</span>
-              <select value={maxDimension ?? "original"} onChange={(event) => setMaxDimension(event.target.value === "original" ? null : Number(event.target.value))} className="h-11 w-full rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background)] px-3 text-sm">
+              <select value={maxDimension ?? "original"} onChange={(event) => { setBusy(true); setError(null); setMaxDimension(event.target.value === "original" ? null : Number(event.target.value)); }} className="h-11 w-full rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background)] px-3 text-sm">
                 <option value="1200">1200 px</option>
                 <option value="2400">2400 px</option>
                 <option value="3200">3200 px</option>
@@ -137,7 +134,7 @@ export default function ImageCompressor() {
             </label>
             <label className="text-sm font-medium text-[var(--foreground)]">
               <span className="mb-2 block">{t.quality}: {Math.round(quality * 100)}%</span>
-              <input type="range" min="10" max="100" step="5" value={Math.round(quality * 100)} onChange={(event) => setQuality(Number(event.target.value) / 100)} className="mt-3 w-full" />
+              <input type="range" min="10" max="100" step="5" value={Math.round(quality * 100)} onChange={(event) => { setBusy(true); setError(null); setQuality(Number(event.target.value) / 100); }} className="mt-3 w-full" />
               <span className="mt-1 block text-xs text-[var(--muted)]">{t.qualityHint}</span>
             </label>
           </div>
@@ -162,6 +159,8 @@ export default function ImageCompressor() {
           {result ? (
             <div className="w-full max-w-md space-y-3">
               <div className="overflow-hidden rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background)] p-2">
+                {/* Blob object URLs are local results; next/image cannot optimize them. */}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={result.url} alt={t.preview} className="max-h-80 w-full object-contain" />
               </div>
               <p className="text-center text-xs text-[var(--muted)]">{result.width} × {result.height} px</p>
