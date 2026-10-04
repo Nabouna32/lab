@@ -2,7 +2,7 @@
 
 ## Identité
 
-- **Audit ID :** 32
+- **Audit ID :** 31
 - **Slug :** update-modernization
 - **Mission :** `agents/audits/31-update-modernization.md`
 - **Rapports :** `docs/audits/31-update-modernization/`
@@ -21,7 +21,7 @@ Ordre conceptuel :
 2. **Audit 31 — Update / modernisation** ;
 3. implémentation des mises à jour validées ;
 4. vérifications et audits de régression pertinents ;
-5. **Audit 31 — Final / Red Team**, qui reste le dernier audit transversal.
+5. **Audit 32 — Final / Red Team**, qui reste le dernier audit transversal.
 
 L'audit 31 précède volontairement l'audit 32 : la modernisation est préparée avant le contrôle transversal final.
 
