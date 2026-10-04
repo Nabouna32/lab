@@ -127,6 +127,10 @@ const localProcessingDescriptions = {
     fr: "Le calcul du sous-réseau IPv4 est effectué directement dans votre navigateur.",
     en: "IPv4 subnet calculations are performed directly in your browser.",
   },
+  "number-base-converter": {
+    fr: "La conversion de base numérique est effectuée directement dans votre navigateur.",
+    en: "Number base conversion is performed directly in your browser.",
+  },
 } satisfies Record<ToolId, { fr: string; en: string }>;
 
 type ToolDefinition = Pick<
@@ -535,6 +539,20 @@ const toolDefinitions: ToolDefinition[] = [
     content: {
       fr: { name: "Calculateur de sous-réseau IPv4", description: "Calculez le réseau, le masque, le broadcast et la plage d’hôtes à partir d’une adresse IPv4 en notation CIDR." },
       en: { name: "IPv4 Subnet Calculator", description: "Calculate the network, subnet mask, broadcast address, and host range from an IPv4 CIDR." },
+    },
+  },
+  {
+    id: "number-base-converter", icon: "🔢",
+    version: 1,
+    complexity: "small",
+    categories: ["development"],
+    tags: ["number base", "binary", "decimal", "hexadecimal", "octal", "base converter", "developer"],
+    aliases: ["number base converter", "base converter", "binary converter", "decimal converter", "hex converter", "octal converter", "convertisseur de base", "binaire", "hexadécimal", "octal"],
+    lifecycle: "published",
+    capabilities: ["clipboard"],
+    content: {
+      fr: { name: "Convertisseur de bases", description: "Convertissez un nombre entier entre les bases 2 et 36, notamment binaire, décimal et hexadécimal." },
+      en: { name: "Number Base Converter", description: "Convert an integer between bases 2 and 36, including binary, decimal, and hexadecimal." },
     },
   },
   {
