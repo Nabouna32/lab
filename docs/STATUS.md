@@ -30,6 +30,7 @@
 - Added the browser-local Text Case Converter with EN/FR metadata, localized routes, SEO metadata, local processing disclosure, focused unit coverage and Playwright smoke coverage.
 - Added the browser-local Unit Converter with length, mass, temperature, volume, and area categories, localized routes/metadata, focused conversion coverage, and Playwright smoke coverage.
 - Added the browser-local IPv4 Subnet Calculator with CIDR parsing, network/broadcast/mask/host-range calculations, EN/FR metadata, localized routes, SEO metadata, focused unit coverage, and Playwright smoke coverage.
+- Added the browser-local Number Base Converter for integer bases 2–36, including arbitrary-precision BigInt conversion, EN/FR metadata, localized routes, SEO metadata, focused unit coverage, and Playwright browser coverage.
 
 ## Recent functional audit
 

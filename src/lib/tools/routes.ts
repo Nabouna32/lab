@@ -45,6 +45,7 @@ const toolSlugs: Record<string, Record<Locale, string>> = {
   "jwt-decoder": { en: "jwt-decoder", fr: "decodeur-jwt" },
   "contrast-checker": { en: "color-contrast-checker", fr: "verificateur-de-contraste-des-couleurs" },
   "ip-subnet-calculator": { en: "ipv4-subnet-calculator", fr: "calculateur-de-sous-reseau-ipv4" },
+  "number-base-converter": { en: "number-base-converter", fr: "convertisseur-de-bases" },
   "color-converter": { en: "color-converter", fr: "convertisseur-de-couleur" },
   "color-palette-generator": { en: "color-palette-generator", fr: "generateur-de-palette-de-couleurs" },
 };
