@@ -14,7 +14,8 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "test": "node --test"
+    "test": "node --test",
+    "validate:agents": "node agents/validate-agent-system.mjs"
   },
   "dependencies": {
     "@teispace/next-themes": "^3.0.2",

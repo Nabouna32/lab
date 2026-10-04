@@ -1,5 +1,7 @@
 # Loculary — Optional Tool Orchestrator
 
+This role inherits [`agents/AGENT-CONTRACT.md`](../AGENT-CONTRACT.md). Read and complete the common bootstrap gate before coordinating workers.
+
 This protocol is optional. The normal multi-chat mode does not require a dedicated orchestrator: several independent Tool Workers can operate simultaneously.
 
 Use this role when one ChatGPT conversation is specifically asked to supervise the overall tool pipeline.

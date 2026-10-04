@@ -1,5 +1,7 @@
 # Loculary — Autonomous Tool Factory Contract
 
+This specialized contract inherits the mandatory rules in [`agents/AGENT-CONTRACT.md`](../AGENT-CONTRACT.md). Read the common contract first. It defines conversation-independent bootstrap, anti-skipping, source precedence, ownership, verification and continuity requirements.
+
 This is the canonical contract for agents that create and integrate Loculary tools.
 
 ## 1. Mission

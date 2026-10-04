@@ -12,6 +12,14 @@ This directory contains reusable, version-controlled missions for autonomous age
 
 A mission file is not itself a product decision. An audit recommendation is not automatically approved scope.
 
+## Common agent contract
+
+[`agents/AGENT-CONTRACT.md`](./AGENT-CONTRACT.md) is the mandatory common contract for every autonomous agent. It is the durable, conversation-independent memory layer for operating rules. Specialized contracts refine it but may not weaken it.
+
+[`agents/START-HERE.md`](./START-HERE.md) defines the minimal launch prompt and the mandatory bootstrap sequence for a brand-new ChatGPT conversation.
+
+The agent-system validator is `agents/validate-agent-system.mjs` and is executed by CI. It checks mission numbering, final-audit ordering, contract references and core bootstrap invariants.
+
 ## Audit contract
 
 The canonical output and persistence rules for audits are defined in [`agents/AUDIT-CONTRACT.md`](./AUDIT-CONTRACT.md). Every audit mission must read and obey that contract. Mission files also repeat the essential output rules so they remain self-contained and cannot silently invent another convention.

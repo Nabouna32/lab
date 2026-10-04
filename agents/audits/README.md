@@ -1,5 +1,7 @@
 # Loculary audit missions
 
+All audit missions and audit orchestration inherit the mandatory common rules in [`agents/AGENT-CONTRACT.md`](../AGENT-CONTRACT.md). The common contract is the conversation-independent bootstrap and anti-skipping layer; `agents/AUDIT-CONTRACT.md` then adds audit-specific rules.
+
 Each Markdown file in this directory is a reusable autonomous audit prompt.
 
 **Mandatory contract:** read [`agents/AUDIT-CONTRACT.md`](../AUDIT-CONTRACT.md) before executing any mission. The mission itself must also state the essential report/path/history rules explicitly. If there is any conflict, the canonical contract wins unless a deliberate project decision changes it.
