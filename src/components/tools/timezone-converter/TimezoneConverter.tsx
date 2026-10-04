@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
@@ -16,20 +16,26 @@ function getDefaultDateTime(): string {
   return now.getFullYear() + "-" + pad(now.getMonth() + 1) + "-" + pad(now.getDate()) + "T" + pad(now.getHours()) + ":" + pad(now.getMinutes());
 }
 
-function getDefaultTimeZone(): string {
-  return new Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
+function getDefaultTimeZone(timeZones: string[]): string {
+  const zone = new Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
+  return timeZones.includes(zone) ? zone : "UTC";
 }
 
 export default function TimezoneConverter() {
   const locale = useLocale();
   const t = getToolMessages(locale).timezoneConverter;
-  const [dateTime, setDateTime] = useState(getDefaultDateTime);
-  const [sourceTimeZone, setSourceTimeZone] = useState(getDefaultTimeZone);
+  const [dateTime, setDateTime] = useState("");
+  const [sourceTimeZone, setSourceTimeZone] = useState("UTC");
   const [destinationTimeZone, setDestinationTimeZone] = useState("America/New_York");
   const [result, setResult] = useState<ReturnType<typeof convertTimeZone>>(null);
   const [error, setError] = useState(false);
   const timeZones = useMemo(() => getTimeZoneOptions(), []);
   const localeCode = locale === "fr" ? "fr-FR" : "en-US";
+
+  useEffect(() => {
+    setDateTime(getDefaultDateTime());
+    setSourceTimeZone(getDefaultTimeZone(timeZones));
+  }, [timeZones]);
 
   function convert() {
     const next = convertTimeZone(dateTime, sourceTimeZone, destinationTimeZone);
@@ -39,7 +45,7 @@ export default function TimezoneConverter() {
 
   function clear() {
     setDateTime(getDefaultDateTime());
-    setSourceTimeZone(getDefaultTimeZone());
+    setSourceTimeZone(getDefaultTimeZone(timeZones));
     setDestinationTimeZone("America/New_York");
     setResult(null);
     setError(false);
