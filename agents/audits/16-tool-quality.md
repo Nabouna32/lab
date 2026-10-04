@@ -66,3 +66,12 @@ Ne déclare jamais une recommandation comme « décidée » simplement parce que
 ### Chemin de sortie exact de cette mission
 
 Le rapport de cette mission doit être créé dans : `docs/audits/16-tool-quality/<TIMESTAMP>.md`. Le pointeur remplaçable est : `docs/audits/16-tool-quality/LATEST.md`.
+
+## Audit ET challenge — obligation explicite
+
+Pour **chaque axe important de cet audit**, effectue deux lectures successives mais liées :
+
+1. **Audit de l'existant** — établis ce qui existe réellement, ce qui fonctionne, ce qui échoue et ce qui est mesurable, avec preuves reproductibles.
+2. **Challenge de l'existant** — demande explicitement si ce choix est encore le meilleur pour Loculary. Cherche une approche plus simple, plus robuste, plus claire, plus moderne, plus sûre, plus accessible ou plus scalable lorsque pertinent. Ne conserve pas un choix uniquement parce qu'il fonctionne aujourd'hui.
+
+Le challenge doit porter aussi sur les choix qui semblent corrects : identifie les éléments à **préserver**, ceux à **améliorer**, ceux à **remplacer** et ceux à **supprimer**. Toute alternative substantielle doit être formulée comme une proposition et non comme une décision. Le rapport doit distinguer les problèmes observés des opportunités d'amélioration découvertes uniquement par le challenge.
