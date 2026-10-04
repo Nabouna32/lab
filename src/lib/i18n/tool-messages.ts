@@ -14,6 +14,12 @@ type ToolMessages = {
     summaryTimes: (hours: string, minutes: string) => string;
     overnight: string;
   };
+  dateCalculator: {
+    operation: string; add: string; subtract: string; startDate: string; amount: string; unit: string; result: string;
+    emptyResult: string; invalid: string;
+    units: { days: string; weeks: string; months: string; years: string };
+    summary: (start: string, amount: number, unit: string, direction: string, result: string) => string;
+  };
   percentage: {
     type: string; result: string; how: string; formulaIntro: string; differenceNote: string;
     modes: { percentage: { title: string; description: string }; evolution: { title: string; description: string }; difference: { title: string; description: string } };
@@ -252,6 +258,12 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       summaryTimes: (hours, minutes) => `La durée est de ${hours} et ${minutes}.`,
       overnight: "Le calcul considère que l'heure de fin est le lendemain.",
     },
+    dateCalculator: {
+      operation: "Opération", add: "Ajouter", subtract: "Retirer", startDate: "Date de départ", amount: "Quantité", unit: "Unité",
+      result: "Nouvelle date", emptyResult: "La nouvelle date apparaîtra ici.", invalid: "Saisissez une date et une quantité entière valide.",
+      units: { days: "jours", weeks: "semaines", months: "mois", years: "années" },
+      summary: (start, amount, unit, direction, result) => `À partir du ${start}, ${direction} ${amount} ${unit} donne le ${result}.`,
+    },
     percentage: {
       type: "Type de calcul", result: "Résultat", how: "Voir le calcul", formulaIntro: "Voici le calcul réalisé à partir des valeurs que vous avez saisies :",
       differenceNote: "💡 Une différence en pourcentage peut dépasser 100 % lorsque les deux valeurs sont très éloignées. Ce résultat est normal : le calcul compare l'écart à la moyenne des deux valeurs.",
@@ -488,6 +500,12 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       summaryDates: (days, hours, minutes) => `The duration is ${days}, ${hours}, and ${minutes}.`,
       summaryTimes: (hours, minutes) => `The duration is ${hours} and ${minutes}.`,
       overnight: "The calculation treats the end time as being on the following day.",
+    },
+    dateCalculator: {
+      operation: "Operation", add: "Add", subtract: "Subtract", startDate: "Start date", amount: "Amount", unit: "Unit",
+      result: "Resulting date", emptyResult: "The resulting date will appear here.", invalid: "Enter a valid date and a whole-number amount.",
+      units: { days: "days", weeks: "weeks", months: "months", years: "years" },
+      summary: (start, amount, unit, direction, result) => `Starting on ${start}, ${direction.toLowerCase()}ing ${amount} ${unit} gives ${result}.`,
     },
     percentage: {
       type: "Calculation type", result: "Result", how: "Show the calculation", formulaIntro: "Here is the calculation based on the values you entered:",

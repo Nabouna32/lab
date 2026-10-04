@@ -53,6 +53,10 @@ const moduleLoaders: Partial<Record<ToolId, ToolModule>> = {
     () => import("@/components/tools/age/AgeCalculator"),
     () => import("@/components/tools/age/ToolEditorial"),
   ),
+  "date-calculator": createToolModule(
+    () => import("@/components/tools/date-calculator/DateCalculator"),
+    () => import("@/components/tools/date-calculator/ToolEditorial"),
+  ),
   duration: createToolModule(
     () => import("@/components/tools/duree/DurationCalculator"),
     () => import("@/components/tools/duree/ToolEditorial"),
