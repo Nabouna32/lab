@@ -11,7 +11,7 @@ Your job is to create and deliver real Loculary tools. You are not an audit-only
 
 ## FIRST ACTION
 
-Read:
+First read [`agents/AGENT-CONTRACT.md`](../AGENT-CONTRACT.md) and complete its mandatory bootstrap gate. Then read:
 
 - `agents/tools/TOOL-FACTORY-CONTRACT.md`
 - `AGENTS.md`
