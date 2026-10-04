@@ -4,6 +4,8 @@ import { requireAdminPermission } from "@/lib/admin/authorization";
 import { createClient } from "@/lib/supabase/server";
 import { getMessages } from "@/lib/i18n/messages";
 import { isLocale, type Locale } from "@/lib/i18n/config";
+import { Button } from "@/components/ui/Button";
+import { TextField } from "@/components/ui/TextField";
 
 type UserRow = {
   user_id: string;
@@ -66,28 +68,36 @@ export default async function AdminUsersPage({
       </header>
 
       {status === "updated" || status === "suspended" || status === "unsuspended" || status === "sessions-revoked" ? (
-        <p className="mt-5 rounded-xl bg-[var(--success-soft)] px-4 py-3 text-sm font-medium text-[var(--success)]" role="status">
+        <p className="mt-5 border-l-2 border-[var(--success)] bg-[var(--success-soft)] px-4 py-3 text-sm font-medium text-[var(--success)]" role="status">
           {status === "suspended" ? t.admin.userSuspended : status === "unsuspended" ? t.admin.userUnsuspended : status === "sessions-revoked" ? t.admin.userSessionsRevoked : t.admin.userUpdated}
         </p>
       ) : null}
       {status === "error" || error ? (
-        <p className="mt-5 rounded-xl bg-[var(--danger-soft)] px-4 py-3 text-sm font-medium text-[var(--danger)]" role="alert">{t.admin.userActionError}</p>
+        <p className="mt-5 border-l-2 border-[var(--danger)] bg-[var(--danger-soft)] px-4 py-3 text-sm font-medium text-[var(--danger)]" role="alert">{t.admin.userActionError}</p>
       ) : null}
 
-      <form className="mt-8 flex flex-col gap-3 sm:flex-row" method="get">
-        <label className="sr-only" htmlFor="user-search">{t.admin.usersSearch}</label>
-        <input id="user-search" name="q" defaultValue={query} placeholder={t.admin.usersSearchPlaceholder} className="min-h-11 flex-1 rounded-xl border border-[var(--border)] bg-[var(--surface-elevated)] px-4 outline-none focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--focus-ring)]" />
-        <button type="submit" className="min-h-11 rounded-xl bg-[var(--accent)] px-5 font-semibold text-white hover:bg-[var(--accent-strong)]">{t.admin.usersSearchSubmit}</button>
+      <form className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-end" method="get">
+        <div className="flex-1">
+          <TextField
+            label={t.admin.usersSearch}
+            inputId="user-search"
+            name="q"
+            defaultValue={query}
+            placeholder={t.admin.usersSearchPlaceholder}
+            autoComplete="off"
+          />
+        </div>
+        <Button type="submit" className="sm:mb-0">{t.admin.usersSearchSubmit}</Button>
       </form>
 
       {usersError ? (
-        <p className="mt-6 rounded-xl bg-[var(--danger-soft)] px-4 py-3 text-sm text-[var(--danger)]" role="alert">{t.admin.usersLoadError}</p>
+        <p className="mt-6 border-l-2 border-[var(--danger)] bg-[var(--danger-soft)] px-4 py-3 text-sm text-[var(--danger)]" role="alert">{t.admin.usersLoadError}</p>
       ) : users?.length ? (
-        <section className="mt-8 space-y-4" aria-label={t.admin.usersTitle}>
+        <section className="mt-8 divide-y divide-[var(--border)] border-y border-[var(--border)]" aria-label={t.admin.usersTitle}>
           {(users as UserRow[]).map((user) => {
             const suspended = isSuspended(user.banned_until);
             return (
-              <article key={user.user_id} className="rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-5 shadow-[var(--shadow-sm)]">
+              <article key={user.user_id} className="py-6">
                 <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
                   <div className="min-w-0">
                     <h2 className="break-all text-lg font-semibold">{user.email ?? "—"}</h2>
@@ -99,7 +109,7 @@ export default async function AdminUsersPage({
                   </div>
                   <div className="shrink-0">
                     <p className="text-xs font-semibold uppercase tracking-wide text-[var(--muted)]">{t.admin.userEmail}</p>
-                    <p className={"mt-2 rounded-full px-3 py-1.5 text-sm font-semibold " + (user.email_confirmed_at ? "bg-[var(--success-soft)] text-[var(--success)]" : "bg-[var(--warning-soft)] text-[var(--warning)]")}>
+                    <p className={"mt-2 text-sm font-semibold " + (user.email_confirmed_at ? "text-[var(--success)]" : "text-[var(--warning)]")}>
                       {user.email_confirmed_at ? t.admin.userEmailConfirmed : t.admin.userPending}
                     </p>
                   </div>
@@ -107,16 +117,18 @@ export default async function AdminUsersPage({
 
                 <div className="mt-5 border-t border-[var(--border)] pt-5">
                   <p className="text-sm font-semibold">{t.admin.userRoles}</p>
-                  <div className="mt-2 flex flex-wrap gap-2">
+                  <div className="mt-2 flex flex-wrap gap-x-4 gap-y-2">
                     {user.roles.length ? user.roles.map((role) => (
-                      <div key={role} className="inline-flex items-center gap-2 rounded-full bg-[var(--accent-soft)] px-3 py-1.5 text-sm font-medium">
+                      <div key={role} className="inline-flex items-center gap-2 border-l-2 border-[var(--accent)] pl-2 text-sm font-medium">
                         <span>{role}</span>
                         {canManageRoles ? (
                           <form action={removeAdminRole}>
                             <input type="hidden" name="locale" value={locale} />
                             <input type="hidden" name="userId" value={user.user_id} />
                             <input type="hidden" name="roleKey" value={role} />
-                            <button type="submit" className="text-[var(--danger)] underline underline-offset-2">{t.admin.userRemoveRole}</button>
+                            <Button type="submit" variant="ghost" className="min-h-8 px-2 py-1 text-xs text-[var(--danger)] hover:text-[var(--danger)]">
+                              {t.admin.userRemoveRole}
+                            </Button>
                           </form>
                         ) : null}
                       </div>
@@ -124,14 +136,14 @@ export default async function AdminUsersPage({
                   </div>
 
                   {canManageRoles && roleOptions.some((role) => !user.roles.includes(role.key)) ? (
-                    <div className="mt-4 flex flex-wrap gap-2">
+                    <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2">
                       <span className="text-sm text-[var(--muted)]">{t.admin.userAssignRole}:</span>
                       {roleOptions.filter((role) => !user.roles.includes(role.key)).map((role) => (
                         <form key={role.key} action={assignAdminRole}>
                           <input type="hidden" name="locale" value={locale} />
                           <input type="hidden" name="userId" value={user.user_id} />
                           <input type="hidden" name="roleKey" value={role.key} />
-                          <button type="submit" className="rounded-lg border border-[var(--border)] px-3 py-1.5 text-sm font-medium hover:bg-[var(--surface-soft)]">{role.key === "super_admin" ? t.admin.roleSuperAdmin : role.key === "admin" ? t.admin.roleAdmin : role.key}</button>
+                          <Button type="submit" variant="secondary" className="min-h-9 px-3 py-2 text-xs">{role.key === "super_admin" ? t.admin.roleSuperAdmin : role.key === "admin" ? t.admin.roleAdmin : role.key}</Button>
                         </form>
                       ))}
                     </div>
@@ -143,20 +155,20 @@ export default async function AdminUsersPage({
                       <p className="mt-1 text-sm text-[var(--muted)]">
                         {suspended ? `${t.admin.userSuspendedUntil} ${formatDate(user.banned_until, locale)}` : t.admin.userActive}
                       </p>
-                      <form className="mt-3" action={suspended ? unsuspendUser : suspendUser}>
-                        <input type="hidden" name="locale" value={locale} />
-                        <input type="hidden" name="userId" value={user.user_id} />
-                        <button type="submit" className="rounded-lg border border-[var(--border)] px-3 py-1.5 text-sm font-medium hover:bg-[var(--surface-soft)]">
-                          {suspended ? t.admin.userUnsuspend : t.admin.userSuspend}
-                        </button>
-                      </form>
-                      <form className="mt-2" action={revokeUserSessions}>
-                        <input type="hidden" name="locale" value={locale} />
-                        <input type="hidden" name="userId" value={user.user_id} />
-                        <button type="submit" className="rounded-lg border border-[var(--border)] px-3 py-1.5 text-sm font-medium hover:bg-[var(--surface-soft)]">
-                          {t.admin.userRevokeSessions}
-                        </button>
-                      </form>
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        <form action={suspended ? unsuspendUser : suspendUser}>
+                          <input type="hidden" name="locale" value={locale} />
+                          <input type="hidden" name="userId" value={user.user_id} />
+                          <Button type="submit" variant="secondary" className="text-[var(--danger)] hover:text-[var(--danger)]">
+                            {suspended ? t.admin.userUnsuspend : t.admin.userSuspend}
+                          </Button>
+                        </form>
+                        <form action={revokeUserSessions}>
+                          <input type="hidden" name="locale" value={locale} />
+                          <input type="hidden" name="userId" value={user.user_id} />
+                          <Button type="submit" variant="secondary">{t.admin.userRevokeSessions}</Button>
+                        </form>
+                      </div>
                     </div>
                   ) : null}
                 </div>
@@ -165,7 +177,7 @@ export default async function AdminUsersPage({
           })}
         </section>
       ) : (
-        <p className="mt-8 rounded-2xl border border-[var(--border)] bg-[var(--surface-soft)] p-6 text-[var(--muted)]">{t.admin.usersNoResults}</p>
+        <p className="mt-8 border-y border-[var(--border)] bg-[var(--surface-soft)] px-4 py-5 text-[var(--muted)]">{t.admin.usersNoResults}</p>
       )}
     </main>
   );
