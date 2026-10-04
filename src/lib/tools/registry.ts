@@ -173,6 +173,10 @@ const moduleLoaders: Partial<Record<ToolId, ToolModule>> = {
     () => import("@/components/tools/qr-code-generator/QrCodeGenerator"),
     () => import("@/components/tools/qr-code-generator/ToolEditorial"),
   ),
+  "markdown-table-generator": createToolModule(
+    () => import("@/components/tools/markdown-table-generator/MarkdownTableGenerator"),
+    () => import("@/components/tools/markdown-table-generator/ToolEditorial"),
+  ),
   "video-bitrate": createToolModule(
     () => import("@/components/tools/video-bitrate/VideoBitrateCalculator"),
     () => import("@/components/tools/video-bitrate/ToolEditorial"),
