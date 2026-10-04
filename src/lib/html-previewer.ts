@@ -11,7 +11,7 @@ const CSP = [
   "style-src 'unsafe-inline'",
 ].join("; ");
 
-const CSP_META = \`<meta http-equiv="Content-Security-Policy" content="\${CSP}">\`;
+const CSP_META = `<meta http-equiv="Content-Security-Policy" content="${CSP}">`;
 
 export function createHtmlPreviewDocument(source: string): string {
   if (!source.trim()) return "";
@@ -26,8 +26,8 @@ export function createHtmlPreviewDocument(source: string): string {
   const htmlMatch = html.match(/<html\b[^>]*>/i);
   if (htmlMatch?.index !== undefined) {
     const end = htmlMatch.index + htmlMatch[0].length;
-    return html.slice(0, end) + \`<head>\${CSP_META}</head>\` + html.slice(end);
+    return html.slice(0, end) + `<head>${CSP_META}</head>` + html.slice(end);
   }
 
-  return \`<!doctype html><html><head>\${CSP_META}</head><body>\${html}</body></html>\`;
+  return `<!doctype html><html><head>${CSP_META}</head><body>${html}</body></html>`;
 }
