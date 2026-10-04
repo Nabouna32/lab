@@ -169,7 +169,8 @@ type ToolMessages = {
     input: string; placeholder: string; result: string; valid: string; invalid: string; emptyResult: string;
     expressionHint: string; nextRuns: string; copy: string; clear: string; reset: string;
     fields: { minute: string; hour: string; dayOfMonth: string; month: string; dayOfWeek: string };
-    examples: { everyMinute: string; everyWeekday: string; midnight: string };\n    descriptions: { everyMinute: string; everyHour: string; midnight: string; weekdayMorning: string; custom: (expression: string) => string };
+    examples: { everyMinute: string; everyWeekday: string; midnight: string };
+    descriptions: { everyMinute: string; everyHour: string; midnight: string; weekdayMorning: string; custom: (expression: string) => string };
   };
   videoBitrate: {
     mode: string; duration: string; hours: string; minutes: string; seconds: string;
@@ -304,12 +305,17 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       categories: { length: "Longueur", mass: "Masse", temperature: "Température", volume: "Volume", area: "Surface" },
     },
     jsonFormatter: {
-      input: "Votre JSON", placeholder: '{\\n  "name": "Loculary"\\n}', output: "Résultat", format: "Formater", minify: "Minifier", copy: "Copier", clear: "Effacer",
+      input: "Votre JSON", placeholder: '{\
+  "name": "Loculary"\
+}', output: "Résultat", format: "Formater", minify: "Minifier", copy: "Copier", clear: "Effacer",
       indentation: "Indentation", spaces2: "2 espaces", spaces4: "4 espaces", tab: "Tabulation", valid: "JSON valide", invalid: "JSON invalide",
       emptyResult: "Le résultat apparaîtra ici après validation.", formatted: "Formaté", minified: "Minifié", errorAt: (line, column) => "Ligne " + line + ", colonne " + column,
     },
     yamlFormatterValidator: {
-      input: "Votre YAML", placeholder: "name: Loculary\\ntools:\\n  - JSON\\n  - YAML", output: "Résultat", format: "Formater", copy: "Copier", clear: "Effacer",
+      input: "Votre YAML", placeholder: "name: Loculary\
+tools:\
+  - JSON\
+  - YAML", output: "Résultat", format: "Formater", copy: "Copier", clear: "Effacer",
       indentation: "Indentation", spaces2: "2 espaces", spaces4: "4 espaces", tab: "Tabulation", valid: "YAML valide", invalid: "YAML invalide",
       emptyResult: "Le résultat apparaîtra ici après validation.", formatted: "Formaté", resourceLimit: "Le document est trop volumineux ou trop complexe à traiter en toute sécurité.",
       errorAt: (line, column) => "Ligne " + line + ", colonne " + column,
@@ -354,7 +360,8 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       expressionHint: "Format classique numérique à 5 champs : minute, heure, jour du mois, mois, jour de la semaine.",
       nextRuns: "Prochaines exécutions", copy: "Copier", clear: "Effacer", reset: "Réinitialiser",
       fields: { minute: "Minute", hour: "Heure", dayOfMonth: "Jour du mois", month: "Mois", dayOfWeek: "Jour de la semaine" },
-      examples: { everyMinute: "Chaque minute", everyWeekday: "À 9 h, du lundi au vendredi", midnight: "À minuit chaque jour" },\n      descriptions: { everyMinute: "Chaque minute", everyHour: "Au début de chaque heure", midnight: "À minuit chaque jour", weekdayMorning: "À 9 h, du lundi au vendredi", custom: (expression) => `Planning personnalisé : ${expression}` },
+      examples: { everyMinute: "Chaque minute", everyWeekday: "À 9 h, du lundi au vendredi", midnight: "À minuit chaque jour" },
+      descriptions: { everyMinute: "Chaque minute", everyHour: "Au début de chaque heure", midnight: "À minuit chaque jour", weekdayMorning: "À 9 h, du lundi au vendredi", custom: (expression) => `Planning personnalisé : ${expression}` },
     },
     videoBitrate: {
       mode: "Mode de calcul", duration: "Durée", hours: "Heures", minutes: "Minutes", seconds: "Secondes",
@@ -515,12 +522,17 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       categories: { length: "Length", mass: "Mass", temperature: "Temperature", volume: "Volume", area: "Area" },
     },
     jsonFormatter: {
-      input: "Your JSON", placeholder: '{\\n  "name": "Loculary"\\n}', output: "Result", format: "Format", minify: "Minify", copy: "Copy", clear: "Clear",
+      input: "Your JSON", placeholder: '{\
+  "name": "Loculary"\
+}', output: "Result", format: "Format", minify: "Minify", copy: "Copy", clear: "Clear",
       indentation: "Indentation", spaces2: "2 spaces", spaces4: "4 spaces", tab: "Tab", valid: "Valid JSON", invalid: "Invalid JSON",
       emptyResult: "The result will appear here after validation.", formatted: "Formatted", minified: "Minified", errorAt: (line, column) => "Line " + line + ", column " + column,
     },
     yamlFormatterValidator: {
-      input: "Your YAML", placeholder: "name: Loculary\\ntools:\\n  - JSON\\n  - YAML", output: "Result", format: "Format", copy: "Copy", clear: "Clear",
+      input: "Your YAML", placeholder: "name: Loculary\
+tools:\
+  - JSON\
+  - YAML", output: "Result", format: "Format", copy: "Copy", clear: "Clear",
       indentation: "Indentation", spaces2: "2 spaces", spaces4: "4 spaces", tab: "Tab", valid: "Valid YAML", invalid: "Invalid YAML",
       emptyResult: "The result will appear here after validation.", formatted: "Formatted", resourceLimit: "The document is too large or complex to process safely.",
       errorAt: (line, column) => "Line " + line + ", column " + column,
@@ -565,7 +577,8 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       expressionHint: "Classic numeric 5-field format: minute, hour, day of month, month, day of week.",
       nextRuns: "Next runs", copy: "Copy", clear: "Clear", reset: "Reset",
       fields: { minute: "Minute", hour: "Hour", dayOfMonth: "Day of month", month: "Month", dayOfWeek: "Day of week" },
-      examples: { everyMinute: "Every minute", everyWeekday: "At 9 AM, Monday through Friday", midnight: "At midnight every day" },\n      descriptions: { everyMinute: "Every minute", everyHour: "At the start of every hour", midnight: "At midnight every day", weekdayMorning: "At 9 AM, Monday through Friday", custom: (expression) => `Custom schedule: ${expression}` },
+      examples: { everyMinute: "Every minute", everyWeekday: "At 9 AM, Monday through Friday", midnight: "At midnight every day" },
+      descriptions: { everyMinute: "Every minute", everyHour: "At the start of every hour", midnight: "At midnight every day", weekdayMorning: "At 9 AM, Monday through Friday", custom: (expression) => `Custom schedule: ${expression}` },
     },
     videoBitrate: {
       mode: "Calculation mode", duration: "Duration", hours: "Hours", minutes: "Minutes", seconds: "Seconds",
