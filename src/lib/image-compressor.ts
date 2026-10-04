@@ -1,3 +1,5 @@
+export const MAX_IMAGE_PIXELS = 40_000_000;
+
 export type ImageOutputFormat = "webp" | "jpeg" | "png";
 
 export type ImageDimensions = { width: number; height: number };
@@ -71,6 +73,10 @@ export async function compressImageFile(
     image.decoding = "async";
     image.src = url;
     await image.decode();
+
+    if (image.naturalWidth * image.naturalHeight > MAX_IMAGE_PIXELS) {
+      throw new Error("Image is too large to process safely.");
+    }
 
     const { width, height } = fitImageWithinDimensions(
       image.naturalWidth,
