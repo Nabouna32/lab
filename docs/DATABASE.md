@@ -56,3 +56,14 @@ The runtime contains only coordination data:
 It does not replace Git/GitHub, repository checkpoints, audit reports or canonical decisions. Git/GitHub remain authoritative for implementation and delivery facts. The future browser/Tampermonkey wake adapter must communicate through a controlled server-side/Edge Function boundary rather than accessing runtime tables directly.
 
 Schema changes are versioned under `supabase/migrations/` and should be deployed through the repository's migration workflow rather than ad-hoc production SQL.
+
+
+## Agent runtime dispatcher
+
+The first dispatcher runtime is designed for the Supabase Free plan.
+
+- pg_cron runs a lightweight reconciliation tick once per minute directly inside PostgreSQL, avoiding an Edge Function invocation for periodic housekeeping.
+- The tick expires stale worker leases, creates durable recovery requests and records an idempotent WORKER_LEASE_EXPIRED event.
+- The agent-dispatcher Edge Function is an authenticated server-side boundary for future service/adaptor-triggered dispatch. It uses the platform-provided database connection and never exposes the private schema.
+- Tampermonkey remains outside this boundary and must never receive database credentials or access runtime tables directly.
+- The design avoids paid-only infrastructure and does not create Supabase development branches.
