@@ -155,6 +155,10 @@ const localProcessingDescriptions = {
     fr: "Le contenu du QR Code est traité et généré directement dans votre navigateur.",
     en: "QR Code content is processed and generated directly in your browser.",
   },
+  "html-previewer": {
+    fr: "Le HTML saisi est rendu localement dans un aperçu isolé de votre navigateur.",
+    en: "The HTML you enter is rendered locally in an isolated browser preview.",
+  },
   "markdown-table-generator": {
     fr: "Le tableau Markdown est généré et prévisualisé directement dans votre navigateur.",
     en: "The Markdown table is generated and previewed directly in your browser.",
@@ -415,6 +419,19 @@ const toolDefinitions: ToolDefinition[] = [
     content: {
       fr: { name: "Encodeur et décodeur d’entités HTML", description: "Encodez les caractères spéciaux HTML et décodez les entités nommées ou numériques directement dans votre navigateur." },
       en: { name: "HTML Entity Encoder & Decoder", description: "Encode HTML-special characters and decode named or numeric entities directly in your browser." },
+    },
+  },
+  {
+    id: "html-previewer", icon: "▣",
+    version: 1,
+    complexity: "advanced",
+    categories: ["development"],
+    tags: ["html", "preview", "web", "frontend", "developer", "render", "markup"],
+    aliases: ["html preview", "html renderer", "html playground", "aperçu html", "rendu html", "prévisualisation html"],
+    lifecycle: "published",
+    content: {
+      fr: { name: "Aperçu HTML", description: "Prévisualisez du HTML directement dans votre navigateur, dans un aperçu isolé." },
+      en: { name: "HTML Previewer", description: "Preview HTML directly in your browser in an isolated rendering surface." },
     },
   },
   {

@@ -39,7 +39,8 @@ export type ToolId =
   | "cron-expression"
   | "qr-code-generator"
   | "markdown-table-generator"
-  | "image-compressor";
+  | "image-compressor"
+  | "html-previewer";
 
 export type ToolComplexity = "small" | "advanced" | "mini-application";
 export type ToolProcessingMode = "local" | "external" | "server" | "hybrid";

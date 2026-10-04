@@ -116,6 +116,9 @@ type ToolMessages = {
     count: string; countPlaceholder: string; generate: string; copy: string; copied: string; clear: string; result: string;
     emptyResult: string; invalidCount: string; generatedOne: string; generatedMany: (count: number) => string;
   };
+  htmlPreviewer: {
+    input: string; placeholder: string; hint: string; preview: string; ready: string; emptyResult: string; clear: string; security: string;
+  };
   imageCompressor: {
     input: string; inputHint: string; format: string; maxDimension: string; original: string; quality: string; qualityHint: string;
     processing: string; download: string; reset: string; preview: string; emptyResult: string; invalid: string; invalidType: string; tooLarge: string;
@@ -395,6 +398,12 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       bitrateResultNote: "Débit total moyen nécessaire pour atteindre la taille cible.", sizeResultNote: "Taille théorique du fichier à débit constant.",
       copy: "Copier", copied: "Copié", modes: { bitrate: { title: "Calculer le bitrate", description: "À partir d’une taille cible" }, size: { title: "Estimer la taille", description: "À partir du bitrate" } },
     },
+    htmlPreviewer: {
+      input: "Votre HTML", placeholder: "<h1>Bonjour</h1>\\n<p>Votre contenu…</p>",
+      hint: "Le rendu est effectué localement dans une iframe isolée. JavaScript et ressources externes sont bloqués.",
+      preview: "Aperçu", ready: "Aperçu mis à jour", emptyResult: "Saisissez du HTML pour afficher l’aperçu.", clear: "Effacer",
+      security: "L’aperçu n’a pas accès au domaine Loculary et n’exécute pas le JavaScript du contenu.",
+    },
     imageCompressor: {
       input: "Choisir une image", inputHint: "JPG, PNG, WebP ou autre image — traitement local dans votre navigateur.", format: "Format de sortie",
       maxDimension: "Dimension maximale", original: "Conserver la dimension", quality: "Qualité", qualityHint: "La qualité agit surtout sur JPEG et WebP.",
@@ -635,6 +644,12 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       invalidSize: "Target size must be 0 or greater.", invalidBitrate: "Bitrate must be 0 or greater.",
       bitrateResultNote: "Average total bitrate required to reach the target size.", sizeResultNote: "Theoretical file size at a constant bitrate.",
       copy: "Copy", copied: "Copied", modes: { bitrate: { title: "Calculate bitrate", description: "From a target size" }, size: { title: "Estimate size", description: "From a bitrate" } },
+    },
+    htmlPreviewer: {
+      input: "Your HTML", placeholder: "<h1>Hello</h1>\\n<p>Your content…</p>",
+      hint: "Rendering happens locally in an isolated iframe. JavaScript and external resources are blocked.",
+      preview: "Preview", ready: "Preview updated", emptyResult: "Enter HTML to display the preview.", clear: "Clear",
+      security: "The preview cannot access the Loculary origin and does not execute JavaScript from the content.",
     },
     imageCompressor: {
       input: "Choose an image", inputHint: "JPG, PNG, WebP, or another image — processed locally in your browser.", format: "Output format",

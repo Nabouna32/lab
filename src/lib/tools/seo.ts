@@ -74,6 +74,10 @@ export const toolSeo = {
     fr: { title: "Encodeur et décodeur d’entités HTML | Loculary", description: "Encodez les caractères spéciaux HTML et décodez les entités nommées ou numériques directement dans votre navigateur." },
     en: { title: "HTML Entity Encoder & Decoder | Loculary", description: "Encode HTML-special characters and decode named or numeric entities directly in your browser." },
   },
+  "html-previewer": {
+    fr: { title: "Aperçu HTML | Loculary", description: "Prévisualisez du HTML directement dans votre navigateur, dans un aperçu isolé et sans envoyer votre contenu à Loculary." },
+    en: { title: "HTML Previewer | Loculary", description: "Preview HTML directly in your browser in an isolated rendering surface without uploading it to Loculary." },
+  },
   "uuid-generator": {
     fr: { title: "Générateur UUID | Loculary", description: "Générez des UUID v4 aléatoires directement dans votre navigateur." },
     en: { title: "UUID Generator | Loculary", description: "Generate random UUID v4 values directly in your browser." },
