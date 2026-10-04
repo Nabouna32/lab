@@ -201,5 +201,5 @@ export function formatOffset(minutes: number): string {
   const absolute = Math.abs(minutes);
   const hours = Math.floor(absolute / 60);
   const remainder = absolute % 60;
-  return \`UTC\${sign}\${String(hours).padStart(2, "0")}:\${String(remainder).padStart(2, "0")}\`;
+  return `UTC${sign}${String(hours).padStart(2, "0")}:${String(remainder).padStart(2, "0")}`;
 }
