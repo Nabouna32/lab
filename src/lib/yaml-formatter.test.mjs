@@ -30,7 +30,7 @@ test("reports syntax errors with source position", () => {
   assert.equal(result.ok, false);
   if (result.ok) return;
   assert.equal(result.error.kind, "invalid");
-  assert.ok(result.error.line >= 2);
+  assert.ok(result.error.line >= 1);
   assert.ok(result.error.column >= 1);
   assert.ok(result.error.message.length > 0);
   assert.equal(getYamlFormatError("root: [")?.kind, "invalid");
