@@ -14,16 +14,20 @@ On a new Meta-Agent conversation, perform the bootstrap from `agents/START-HERE.
 
 A checkpoint records Worker execution state; it is not a replacement for runtime coordination state.
 
-When a mission is orchestrated, the following states have distinct meanings:
+For implementation missions, the execution vocabulary is intentionally minimal:
 
-- WAITING_CI — the current implementation is delivered and the relevant PR/head SHA is awaiting CI;
+- READY — eligible for a Worker claim;
+- RUNNING — a Worker is actively executing;
+- WAITING — no current Worker action is required, including while external delivery progresses;
 - RESUME_REQUIRED — durable state requires a Worker action;
-- WAITING_HUMAN — a consequential decision is required before the mission can continue;
-- MERGE_READY — GitHub evidence satisfies the merge prerequisites;
-- MERGED — GitHub confirms the PR merged;
-- COMPLETED — mission-specific cleanup and verification are complete.
+- WAITING_HUMAN — a consequential decision is required;
+- BLOCKED — execution cannot proceed under current conditions;
+- COMPLETED — mission-specific cleanup and verification is complete;
+- ABANDONED — the mission was explicitly abandoned.
 
-A request to resume is not proof of resumption. The Worker must record actual resumption only after opening the conversation/work context, bootstrapping, and reconciling Git/GitHub/checkpoint state.
+PR_OPEN, CI_WAITING, CI_FAILED, CI_PASSED, MERGE_READY and MERGED are GitHub delivery facts, not checkpoint/runtime execution states. A checkpoint may record them as observed evidence when needed for recovery, but GitHub remains authoritative.
+
+A request to resume is not proof of resumption. The Worker must record actual resumption only after opening the conversation/work context, bootstrapping, reconciling Git/GitHub/checkpoint state, and successfully claiming/resuming the mission.
 
 If a Worker lease expires, recovery MUST begin by reconciling the checkpoint with the current branch/PR and GitHub state. Lease expiry does not authorize overwriting another Worker.
 

@@ -24,11 +24,11 @@ The Issue is a **mission index**, not the runtime state store. When an orchestra
 Do not collapse all mission information into one state machine. Keep these dimensions conceptually distinct:
 
 - **Mission lifecycle** — whether the mission is ready, active, awaiting a human decision, ready for delivery, merged or completed.
-- **Worker execution** — what the current Worker is doing (RUNNING, WAITING_CI, RESUME_REQUIRED, WAITING_HUMAN, etc.).
-- **Delivery** — branch, PR, head SHA, CI and merge state as reported by GitHub.
+- **Worker execution** — whether a Worker is running, waiting, requires resumption, needs a human decision, is blocked, or has reached a terminal execution state.
+- **Delivery** — branch, PR, head SHA, CI and merge state as reported exclusively by GitHub.
 - **Runtime orchestration** — claim, lease, dependency and resume coordination.
 
-The Issue body may summarize these dimensions compactly. It must never present a runtime intent such as RESUME_REQUIRED as proof that a Worker has actually resumed, and it must never present a claimed mission as proof that code or a PR exists.
+The Issue body may summarize these dimensions compactly. It must never turn delivery facts into runtime state, or runtime intent into proof of delivery or Worker execution. `RESUME_REQUIRED` / `WORKER_RESUME_REQUESTED` means that a Worker action is requested; it does not prove that a Worker resumed. GitHub remains authoritative for PR, CI and merge facts.
 
 ## 2. Mission types
 
@@ -73,19 +73,20 @@ Labels are a navigation aid, not an authoritative state machine. If the GitHub c
 
 The existing role-specific Issue states remain human-readable lifecycle states. They are not a universal runtime state machine.
 
-For implementation missions, the orchestration protocol additionally recognizes these execution/runtime concepts:
+For implementation missions, the orchestration protocol recognizes these runtime execution states:
 
 - READY — eligible for a Worker claim;
-- CLAIMED — a Worker currently owns the mission lease;
-- RUNNING — the Worker is actively executing;
-- WAITING_CI — implementation is delivered and the current PR/head SHA is awaiting CI;
+- RUNNING — a Worker currently holds a valid claim and is actively executing;
+- WAITING — no active Worker action is currently required, for example while external delivery progresses;
 - RESUME_REQUIRED — durable state says a Worker action is required;
 - WAITING_HUMAN — a consequential decision is required;
-- MERGE_READY — GitHub evidence satisfies merge prerequisites;
-- MERGED — GitHub confirms the PR merged;
-- COMPLETED — mission-specific cleanup and verification are complete.
+- BLOCKED — execution cannot proceed under the current conditions;
+- COMPLETED — mission-specific cleanup and verification are complete;
+- ABANDONED — the mission was explicitly abandoned and must not be resumed.
 
-These concepts may be represented by Issue state fields, checkpoint state and/or a future runtime state. They must not be treated as competing sources of truth.
+CLAIMED is a runtime coordination fact represented by the active claim/lease; it is not a separate execution state.
+
+MERGE_READY, MERGED, PR_OPEN, CI_WAITING, CI_FAILED and CI_PASSED are GitHub delivery facts, not runtime execution states.
 
 A resume request is not a resume confirmation:
 - RESUME_REQUIRED / WORKER_RESUME_REQUESTED means work is requested;
@@ -103,7 +104,9 @@ A CI result is valid only for the corresponding PR/head SHA/run. Older CI result
 An audit can finish at `COMPLETED` without implementation if findings are informational, rejected, deferred, or already addressed.
 
 ### Feature / Tool
-`DISCOVERY → IMPLEMENTING → TESTING → PR_OPEN → CI_WAITING → READY_TO_MERGE → MERGED`
+`DISCOVERY → IMPLEMENTING → TESTING → READY_TO_MERGE → MERGED`
+
+`PR_OPEN` and `CI_WAITING` are delivery facts reported by GitHub, not runtime execution states. The mission may use `WAITING` while awaiting external delivery activity.
 
 Terminal alternatives are `BLOCKED` and `ABANDONED`.
 
@@ -248,9 +251,11 @@ Then set the appropriate terminal state and close the Issue with an explicit rea
 
 ### Runtime event vocabulary
 
-A future orchestration runtime may record events such as:
+A runtime should record only coordination events that are its own durable facts, for example:
 
-MISSION_CREATED, MISSION_READY, MISSION_CLAIMED, MISSION_STARTED, PR_OPENED, CI_STARTED, CI_FAILED, CI_PASSED, RESUME_REQUIRED, WORKER_RESUME_REQUESTED, WORKER_RESUMED, HUMAN_DECISION_REQUIRED, HUMAN_DECISION_RECORDED, MERGE_READY, PR_MERGED, MISSION_COMPLETED, MISSION_ABANDONED, WORKER_LEASE_EXPIRED.
+MISSION_CREATED, MISSION_READY, MISSION_CLAIMED, WORKER_LEASE_EXPIRED, RESUME_REQUIRED, WORKER_RESUME_REQUESTED, WORKER_RESUMED, HUMAN_DECISION_REQUIRED, MISSION_BLOCKED, MISSION_COMPLETED, MISSION_ABANDONED.
+
+GitHub delivery events such as PR_OPENED, CI_STARTED, CI_FAILED, CI_PASSED, MERGE_READY and PR_MERGED remain external evidence. They may be consumed or referenced by orchestration logic when needed, but must not be mirrored into the runtime as competing state.
 
 Events are history, not authoritative project state. The current mission state is derived from durable coordination state plus Git/GitHub evidence.
 

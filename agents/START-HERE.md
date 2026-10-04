@@ -26,11 +26,16 @@ When a mission is orchestrated, distinguish:
 - **Claim** — coordination ownership by a Worker, potentially protected by a lease.
 - **Checkpoint** — recoverable Worker execution state persisted in the repository.
 - **Dependency** — another mission that must reach its required terminal condition before this mission is ready.
-- **WAITING_CI** — implementation is delivered and the relevant PR/head SHA awaits CI.
+- **READY** — the mission is eligible for a Worker claim.
+- **RUNNING** — a Worker is actively executing under a valid claim.
+- **WAITING** — no current Worker action is required, including while external delivery progresses.
 - **RESUME_REQUIRED** — durable state says a Worker action is required.
 - **WAITING_HUMAN** — a consequential decision is required.
-- **MERGE_READY** — GitHub evidence satisfies merge prerequisites.
-- **COMPLETED** — mission-specific cleanup and verification are complete.
+- **BLOCKED** — execution cannot proceed under current conditions.
+- **COMPLETED** — mission-specific cleanup and verification is complete.
+- **ABANDONED** — the mission was explicitly abandoned and must not be resumed.
+
+`PR_OPEN`, `CI_WAITING`, `CI_FAILED`, `CI_PASSED`, `MERGE_READY` and `MERGED` remain GitHub delivery facts rather than runtime states.
 
 A claim is not proof of implementation. A resume request is not proof that a Worker resumed. Git/GitHub remain authoritative for code, branches, PRs, CI and merge state.
 
