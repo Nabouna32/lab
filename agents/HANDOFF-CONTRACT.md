@@ -2,6 +2,14 @@
 
 This contract defines how an agent survives the normal end, truncation, interruption or failure of a ChatGPT conversation.
 
+## Meta-Agent recovery
+
+The Meta-Agent has no permanent personal-memory checkpoint. When an `agent-system` mission is active, its mission checkpoint is stored at `agents/handoffs/agent-system/<mission-slug>.md` and records only that mission's resumable execution state.
+
+The checkpoint MUST NOT duplicate the whole project state. It records mission-specific scope, progress, blockers, decisions, verification and next action.
+
+On a new Meta-Agent conversation, perform the bootstrap from `agents/START-HERE.md`, identify active `agent-system` Issues and checkpoints, compare checkpoints with Git/GitHub, classify stale or conflicting information, and use authoritative sources rather than silently reconciling contradictions.
+
 ## 1. Core principle
 
 A ChatGPT conversation is disposable execution context.
