@@ -150,4 +150,8 @@ export const toolSeo = {
     fr: { title: "Générateur de QR Code | Loculary", description: "Créez un QR Code à partir d’un texte ou d’une URL directement dans votre navigateur." },
     en: { title: "QR Code Generator | Loculary", description: "Create a QR Code from text or a URL directly in your browser." },
   },
+  "image-compressor": {
+    fr: { title: "Compresseur d’image | Loculary", description: "Réduisez le poids de vos images directement dans votre navigateur, sans envoyer vos fichiers à un serveur." },
+    en: { title: "Image Compressor | Loculary", description: "Reduce image file sizes directly in your browser without uploading your files to a server." },
+  },
 } satisfies Record<ToolId, Record<Locale, ToolSeoMetadata>>;
