@@ -344,6 +344,15 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       result: "Résultat", ready: "Conversion mise à jour", emptyResult: "Le résultat apparaîtra ici.", copy: "Copier", clear: "Effacer", error: "La conversion n’a pas pu être effectuée.",
       invalidCsv: "Le CSV est invalide ou mal formé.", invalidJson: "Le JSON est invalide.", unsupportedJson: "Utilisez un tableau JSON composé d’objets.",
     },
+    cronExpression: {
+      input: "Cron expression", placeholder: "e.g. 0 9 * * 1-5", result: "Analysis", valid: "Valid expression",
+      invalid: "Invalid Cron expression.", emptyResult: "Enter an expression to see its schedule.",
+      expressionHint: "Classic 5-field format: minute, hour, day of month, month, day of week.",
+      nextRuns: "Next runs", copy: "Copy", clear: "Clear", reset: "Reset",
+      fields: { minute: "Minute", hour: "Hour", dayOfMonth: "Day of month", month: "Month", dayOfWeek: "Day of week" },
+      examples: { everyMinute: "Every minute", everyWeekday: "At 9 AM, Monday through Friday", midnight: "At midnight every day" },
+      descriptions: { everyMinute: "Every minute", everyHour: "At the start of every hour", midnight: "At midnight every day", weekdayMorning: "At 9 AM, Monday through Friday", custom: (expression) => `Custom schedule: ${expression}` },
+    },
     textDiffChecker: {
       original: "Version originale", originalPlaceholder: "Collez le texte original…", updated: "Version modifiée", updatedPlaceholder: "Collez le texte modifié…",
       result: "Comparaison", emptyResult: "Collez deux versions pour afficher les différences.", resourceLimit: "Les textes sont trop volumineux pour être comparés en toute sécurité.", copy: "Copier le diff", clear: "Effacer", reset: "Réinitialiser",
@@ -357,15 +366,6 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       fields: { minute: "Minute", hour: "Heure", dayOfMonth: "Jour du mois", month: "Mois", dayOfWeek: "Jour de la semaine" },
       examples: { everyMinute: "Chaque minute", everyWeekday: "À 9 h, du lundi au vendredi", midnight: "À minuit chaque jour" },
       descriptions: { everyMinute: "Chaque minute", everyHour: "Au début de chaque heure", midnight: "À minuit chaque jour", weekdayMorning: "À 9 h, du lundi au vendredi", custom: (expression) => `Planning personnalisé : ${expression}` },
-    },
-    cronExpression: {
-      input: "Cron expression", placeholder: "e.g. 0 9 * * 1-5", result: "Analysis", valid: "Valid expression",
-      invalid: "Invalid Cron expression.", emptyResult: "Enter an expression to see its schedule.",
-      expressionHint: "Classic 5-field format: minute, hour, day of month, month, day of week.",
-      nextRuns: "Next runs", copy: "Copy", clear: "Clear", reset: "Reset",
-      fields: { minute: "Minute", hour: "Hour", dayOfMonth: "Day of month", month: "Month", dayOfWeek: "Day of week" },
-      examples: { everyMinute: "Every minute", everyWeekday: "At 9 AM, Monday through Friday", midnight: "At midnight every day" },
-      descriptions: { everyMinute: "Every minute", everyHour: "At the start of every hour", midnight: "At midnight every day", weekdayMorning: "At 9 AM, Monday through Friday", custom: (expression) => `Custom schedule: ${expression}` },
     },
     videoBitrate: {
       mode: "Mode de calcul", duration: "Durée", hours: "Heures", minutes: "Minutes", seconds: "Secondes",
