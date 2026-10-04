@@ -521,6 +521,19 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
+    id: "ip-subnet-calculator", icon: "⌘",
+    version: 1,
+    complexity: "small",
+    categories: ["computing"],
+    tags: ["ipv4", "ip", "cidr", "subnet", "network", "mask", "broadcast", "networking"],
+    aliases: ["ipv4 subnet calculator", "subnet calculator", "cidr calculator", "calculateur subnet", "calculateur cidr", "sous-réseau ipv4"],
+    lifecycle: "published",
+    content: {
+      fr: { name: "Calculateur de sous-réseau IPv4", description: "Calculez le réseau, le masque, le broadcast et la plage d’hôtes à partir d’une adresse IPv4 en notation CIDR." },
+      en: { name: "IPv4 Subnet Calculator", description: "Calculate the network, subnet mask, broadcast address, and host range from an IPv4 CIDR." },
+    },
+  },
+  {
     id: "video-bitrate", icon: "🎬",
     version: 1,
     complexity: "advanced",
