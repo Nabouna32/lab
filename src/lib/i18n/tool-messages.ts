@@ -592,6 +592,13 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       bitrateResultNote: "Average total bitrate required to reach the target size.", sizeResultNote: "Theoretical file size at a constant bitrate.",
       copy: "Copy", copied: "Copied", modes: { bitrate: { title: "Calculate bitrate", description: "From a target size" }, size: { title: "Estimate size", description: "From a bitrate" } },
     },
+    qrCodeGenerator: {
+      input: "Content to encode", placeholder: "https://example.com or your text…",
+      hint: "Up to roughly 100 bytes. Your content stays in your browser.",
+      size: "Size", download: "Download SVG", clear: "Clear", preview: "QR Code preview",
+      emptyResult: "Enter content to generate your QR Code.", tooLong: "The content is too long for the supported local format.",
+      version: (version) => "Version " + version,
+    },
     jwtDecoder: {
       input: "Your JWT", placeholder: "Paste your JSON Web Token here…", decode: "Decode", clear: "Clear", header: "Header", payload: "Payload", signature: "Encoded signature", copy: "Copy", invalid: "The JWT is invalid or malformed.", signatureNote: "Decoding does not verify the signature or confirm that the token is authentic.",
     },
