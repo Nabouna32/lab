@@ -18,13 +18,13 @@
   - integrated tool type, catalog, registry, routes, SEO and i18n;
   - declared file-input capability;
   - added safety limits of 25 MB input and 40 million decoded pixels.
-- Current action: open PR and run CI/browser verification.
+- Current action: rerun CI/browser verification after fixing the React effect lint failure.
 - Next action: inspect CI/E2E, fix worker-caused failures, then merge when all required checks are green.
 - Decisions blocked: none.
 - Important areas: `src/components/tools/image-compressor/`, `src/lib/image-compressor.ts`, `src/lib/tools/`, `src/lib/i18n/tool-messages.ts`.
 - Verification: unit/lint/typecheck/build/E2E pending on GitHub; diff inspected against current main and contains only the tool plus checkpoint.
-- Last durable commit SHA: `9ee7ef05d1de6aa981b7b04c6d07044fd7a39852`.
-- Timestamp: 2026-10-04T22:27:00Z
+- Last durable commit SHA: `e42302cb56142b82817fa1b295817053530d2ecc`.
+- Timestamp: 2026-10-04T22:28:00Z
 
 ## Activity
 - 2026-10-04: bootstrapped mandatory contracts and canonical product/tool/privacy/i18n/decision documents.
@@ -33,3 +33,4 @@
 - 2026-10-04: implemented local Canvas compression with WebP/JPEG/PNG output, resizing, quality control, result statistics and download.
 - 2026-10-04: added 25 MB file and 40 million pixel safety limits.
 - 2026-10-04: integrated catalog/registry/routes/SEO/i18n/editorial content and targeted browser coverage.
+- 2026-10-04: CI lint caught a React set-state-in-effect violation and an unused constant; removed the synchronous effect state update and the unused constant, with a local blob-image lint exception justified for generated object URLs.
