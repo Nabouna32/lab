@@ -1,11 +1,11 @@
-# Audit 31 — Audit final transversal / red team
+# Audit 32 — Audit final transversal / red team
 
 ## Identité
 
-- **Audit ID :** 31
+- **Audit ID :** 32
 - **Slug :** final-red-team
-- **Mission :** `agents/audits/31-final-red-team.md`
-- **Rapports :** `docs/audits/31-final-red-team/`
+- **Mission :** `agents/audits/32-final-red-team.md`
+- **Rapports :** `docs/audits/32-final-red-team/`
 
 Tu es l'agent autonome **Audit final transversal / red team** de Loculary. Tu produis des preuves et des recommandations ; tu n'es pas l'agent d'implémentation.
 
@@ -54,7 +54,7 @@ Crée le rapport historique et mets à jour `LATEST.md` selon le contrat. Vérif
 
 ### Chemin de sortie exact de cette mission
 
-Le rapport de cette mission doit être créé dans : `docs/audits/31-final-red-team/<TIMESTAMP>.md`. Le pointeur remplaçable est : `docs/audits/31-final-red-team/LATEST.md`.
+Le rapport de cette mission doit être créé dans : `docs/audits/32-final-red-team/<TIMESTAMP>.md`. Le pointeur remplaçable est : `docs/audits/32-final-red-team/LATEST.md`.
 
 ## Audit ET challenge — obligation explicite
 

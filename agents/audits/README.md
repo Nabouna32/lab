@@ -58,6 +58,7 @@ Current planned audit sequence:
 28. Tests automatisés / stratégie QA
 29. Produit / vision / cohérence
 30. Documentation / gouvernance / continuité
-31. Audit final transversal / red team
+31. Update / modernisation technologique
+32. Audit final transversal / red team
 
-This list is an execution plan, not a declaration that all 31 audits must remain forever. Changes to the durable process should be documented through normal project decisions.
+This list is an execution plan, not a declaration that all audits must remain forever. Audit 31 is intentionally placed immediately before audit 32: modernization can be applied and reverified before the final red-team pass, while audit 32 remains the last transversal audit. The IDs are ordered with the execution sequence and are renumbered when a new audit is inserted before the final audit. Changes to the durable process should be documented through normal project decisions.
