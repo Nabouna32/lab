@@ -159,6 +159,10 @@ const localProcessingDescriptions = {
     fr: "Les conversions de fuseaux horaires sont effectuées directement dans votre navigateur.",
     en: "Time zone conversions are performed directly in your browser.",
   },
+  "xml-formatter-validator": {
+    fr: "La validation et le formatage XML sont effectués directement dans votre navigateur.",
+    en: "XML validation and formatting are performed directly in your browser.",
+  },
   "html-previewer": {
     fr: "Le HTML saisi est rendu localement dans un aperçu isolé de votre navigateur.",
     en: "The HTML you enter is rendered locally in an isolated browser preview.",
