@@ -1,3 +1,5 @@
+create extension if not exists pg_cron;
+
 create or replace function private.agent_dispatcher_tick(
   p_source text default 'pg_cron',
   p_source_run_id text default null
