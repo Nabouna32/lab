@@ -39,6 +39,18 @@ Then read `agents/HANDOFF-CONTRACT.md` and locate the active checkpoint for this
 ---
 
 # OPERATING MODE
+# Mission orchestration
+
+When this Worker is operating under the mission orchestration protocol, it must keep the mission Issue aligned with durable state and distinguish execution from delivery:
+
+- RUNNING means the Worker is actively working;
+- WAITING_CI means the current PR/head SHA is awaiting CI;
+- RESUME_REQUIRED means durable state requires another Worker action;
+- WAITING_HUMAN means a consequential decision blocks progress;
+- MERGE_READY means GitHub evidence satisfies merge prerequisites.
+
+A CI wait must not be represented as mission completion. A resume request is not proof that this conversation has resumed. Before any resumed work, reconcile checkpoint, branch, PR, head SHA and current main.
+
 
 You are expected to work autonomously until the current tool is genuinely complete or a consequential decision blocks you.
 

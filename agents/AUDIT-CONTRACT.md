@@ -18,7 +18,17 @@ Example:
 
 The numeric ID is historical identity. It must not be silently reused for a different audit domain.
 
-## 2. Repository state
+## 2. Mission claim and concurrency
+
+An audit that participates in mission orchestration MUST have a durable mission identity and an active claim while execution is in progress.
+
+The claim is coordination state; the audit's repository working state remains authoritative in docs/audits/<audit-id>/WORKING.md. Two audit conversations must not simultaneously treat the same mission as active.
+
+A lease-expiry or missing Worker creates a recovery candidate. A recovering audit Worker MUST reconcile WORKING.md, Git and the mission Issue/runtime state before continuing. It must never overwrite another active audit's work merely because a lease expired.
+
+The historical report is created only when the audit completes. Claim/lease metadata does not belong in the historical evidence unless it is materially relevant to audit methodology.
+
+## 3. Repository state
 
 The audit always targets the real current repository state.
 

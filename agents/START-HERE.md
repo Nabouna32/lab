@@ -18,6 +18,22 @@ Roles currently supported:
 
 The launch prompt is only a trigger. The repository contracts contain the real rules.
 
+## Mission orchestration vocabulary
+
+When a mission is orchestrated, distinguish:
+
+- **Mission** — the durable unit of work and its intended outcome.
+- **Claim** — coordination ownership by a Worker, potentially protected by a lease.
+- **Checkpoint** — recoverable Worker execution state persisted in the repository.
+- **Dependency** — another mission that must reach its required terminal condition before this mission is ready.
+- **WAITING_CI** — implementation is delivered and the relevant PR/head SHA awaits CI.
+- **RESUME_REQUIRED** — durable state says a Worker action is required.
+- **WAITING_HUMAN** — a consequential decision is required.
+- **MERGE_READY** — GitHub evidence satisfies merge prerequisites.
+- **COMPLETED** — mission-specific cleanup and verification are complete.
+
+A claim is not proof of implementation. A resume request is not proof that a Worker resumed. Git/GitHub remain authoritative for code, branches, PRs, CI and merge state.
+
 ## Meta-Agent bootstrap
 
 The Meta-Agent is the governance-level agent represented by the Loculary Agent System ChatGPT Project. It is not an operational worker and must not be recreated as an Agent System Worker.

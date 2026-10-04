@@ -10,6 +10,23 @@ The checkpoint MUST NOT duplicate the whole project state. It records mission-sp
 
 On a new Meta-Agent conversation, perform the bootstrap from `agents/START-HERE.md`, identify active `agent-system` Issues and checkpoints, compare checkpoints with Git/GitHub, classify stale or conflicting information, and use authoritative sources rather than silently reconciling contradictions.
 
+## Mission orchestration and resume semantics
+
+A checkpoint records Worker execution state; it is not a replacement for runtime coordination state.
+
+When a mission is orchestrated, the following states have distinct meanings:
+
+- WAITING_CI — the current implementation is delivered and the relevant PR/head SHA is awaiting CI;
+- RESUME_REQUIRED — durable state requires a Worker action;
+- WAITING_HUMAN — a consequential decision is required before the mission can continue;
+- MERGE_READY — GitHub evidence satisfies the merge prerequisites;
+- MERGED — GitHub confirms the PR merged;
+- COMPLETED — mission-specific cleanup and verification are complete.
+
+A request to resume is not proof of resumption. The Worker must record actual resumption only after opening the conversation/work context, bootstrapping, and reconciling Git/GitHub/checkpoint state.
+
+If a Worker lease expires, recovery MUST begin by reconciling the checkpoint with the current branch/PR and GitHub state. Lease expiry does not authorize overwriting another Worker.
+
 ## 1. Core principle
 
 A ChatGPT conversation is disposable execution context.

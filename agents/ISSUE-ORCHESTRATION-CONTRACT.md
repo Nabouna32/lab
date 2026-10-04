@@ -17,6 +17,19 @@ The authoritative state remains distributed by role:
 
 The Issue links these artifacts and summarizes current status.
 
+The Issue is a **mission index**, not the runtime state store. When an orchestration runtime exists, it may maintain coordination state such as claims, leases, dependencies and resume requests. That runtime must not override Git/GitHub evidence or canonical project decisions.
+
+### State dimensions
+
+Do not collapse all mission information into one state machine. Keep these dimensions conceptually distinct:
+
+- **Mission lifecycle** — whether the mission is ready, active, awaiting a human decision, ready for delivery, merged or completed.
+- **Worker execution** — what the current Worker is doing (RUNNING, WAITING_CI, RESUME_REQUIRED, WAITING_HUMAN, etc.).
+- **Delivery** — branch, PR, head SHA, CI and merge state as reported by GitHub.
+- **Runtime orchestration** — claim, lease, dependency and resume coordination.
+
+The Issue body may summarize these dimensions compactly. It must never present a runtime intent such as RESUME_REQUIRED as proof that a Worker has actually resumed, and it must never present a claimed mission as proof that code or a PR exists.
+
 ## 2. Mission types
 
 Use exactly one primary type:
@@ -57,6 +70,29 @@ The canonical label vocabulary is:
 Labels are a navigation aid, not an authoritative state machine. If the GitHub connector cannot create a missing label, the agent must not pretend it exists: keep the Issue body state explicit and continue without the label.
 
 ## 4. State model
+
+The existing role-specific Issue states remain human-readable lifecycle states. They are not a universal runtime state machine.
+
+For implementation missions, the orchestration protocol additionally recognizes these execution/runtime concepts:
+
+- READY — eligible for a Worker claim;
+- CLAIMED — a Worker currently owns the mission lease;
+- RUNNING — the Worker is actively executing;
+- WAITING_CI — implementation is delivered and the current PR/head SHA is awaiting CI;
+- RESUME_REQUIRED — durable state says a Worker action is required;
+- WAITING_HUMAN — a consequential decision is required;
+- MERGE_READY — GitHub evidence satisfies merge prerequisites;
+- MERGED — GitHub confirms the PR merged;
+- COMPLETED — mission-specific cleanup and verification are complete.
+
+These concepts may be represented by Issue state fields, checkpoint state and/or a future runtime state. They must not be treated as competing sources of truth.
+
+A resume request is not a resume confirmation:
+- RESUME_REQUIRED / WORKER_RESUME_REQUESTED means work is requested;
+- WORKER_RESUMED means a Worker actually resumed and verified the real state.
+
+A CI result is valid only for the corresponding PR/head SHA/run. Older CI results must not be applied to a newer commit.
+
 
 ### Product
 `DISCOVERY → PROPOSAL → AWAITING_VALIDATION → DECIDED → SPEC_READY → IMPLEMENTATION_HANDOFF → CLOSED`
@@ -110,6 +146,20 @@ Do not emit a comment for every shell command or trivial checkpoint.
 
 ## 7. Ownership and claiming
 
+A mission claim is a coordination primitive, not a Git branch claim by itself.
+
+For roles using Git branches as their implementation ownership boundary, the branch remains authoritative for code ownership. A runtime claim must be reconciled with the actual branch/PR before work begins.
+
+When a future runtime uses leases:
+
+- a claim has an owner and lease expiry;
+- only one active claim may exist for a mission;
+- lease expiry creates a **recovery candidate**, not automatic permission to overwrite another Worker;
+- the recovering Worker must inspect Git/GitHub/checkpoint state before modifying anything;
+- claims must be idempotent and transactional.
+
+For audits, the claim prevents duplicate active execution while docs/audits/<audit-id>/WORKING.md remains the audit's durable working state.
+
 Before creating or claiming:
 1. search for an existing matching Issue;
 2. inspect its state and recent comments;
@@ -135,6 +185,20 @@ If the Issue disagrees with Git/GitHub or canonical documentation, correct the I
 For `agent-system` missions, the recovery chain is `Issue → agent-system checkpoint → Git branch/PR → canonical contracts/decisions`. This recovers mission state, not a separate global Meta-Agent memory.
 
 ## 9. Automation boundary
+
+The orchestration layer may derive or request:
+
+- READY missions;
+- dependency readiness;
+- lease/claim status;
+- RESUME_REQUIRED;
+- WAITING_HUMAN;
+- candidate recovery after lease expiry.
+
+It must not invent project facts. GitHub remains authoritative for PR, CI and merge state.
+
+External events must carry stable source identity where available (source, source_event_id, and for CI run_id, pr_number, head_sha) so duplicate delivery can be ignored safely.
+
 
 Agents may autonomously:
 - search/create/reuse/update mission Issues;
@@ -169,6 +233,27 @@ When a mission changes owner:
 For an audit finding that becomes implementation work, link the correction Feature/Tool Issue to the audit Issue and historical report.
 
 ## 12. Completion
+
+A mission Issue is terminal only when:
+- the canonical artifact is persisted;
+- implementation/PR state is resolved when applicable;
+- required CI/verification is green;
+- required decisions are recorded;
+- the active checkpoint has been removed from the final merged implementation/cleanup change;
+- the next action is either unnecessary or tracked by a separate Issue.
+
+For implementation missions, the Issue MUST remain non-terminal while the final PR is open or awaiting CI. The terminal Issue state is applied only after the PR containing the checkpoint cleanup has merged and its verification is confirmed.
+
+Then set the appropriate terminal state and close the Issue with an explicit reason.
+
+### Runtime event vocabulary
+
+A future orchestration runtime may record events such as:
+
+MISSION_CREATED, MISSION_READY, MISSION_CLAIMED, MISSION_STARTED, PR_OPENED, CI_STARTED, CI_FAILED, CI_PASSED, RESUME_REQUIRED, WORKER_RESUME_REQUESTED, WORKER_RESUMED, HUMAN_DECISION_REQUIRED, HUMAN_DECISION_RECORDED, MERGE_READY, PR_MERGED, MISSION_COMPLETED, MISSION_ABANDONED, WORKER_LEASE_EXPIRED.
+
+Events are history, not authoritative project state. The current mission state is derived from durable coordination state plus Git/GitHub evidence.
+
 
 A mission Issue is terminal only when:
 - the canonical artifact is persisted;
