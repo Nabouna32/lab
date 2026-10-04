@@ -77,7 +77,7 @@ export function parseCronExpression(expression: string): CronSchedule {
   };
 }
 
-function matchesField(value: number, field: CronField): boolean {
+function isWildcard(expression: string): boolean {\n  return expression === "*";\n}\n\nfunction matchesField(value: number, field: CronField): boolean {
   return field.values.includes(value);
 }
 
