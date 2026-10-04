@@ -33,7 +33,8 @@ export type ToolId =
   | "ip-subnet-calculator"
   | "color-converter"
   | "number-base-converter"
-  | "color-palette-generator";
+  | "color-palette-generator"
+  | "text-diff-checker";
 
 export type ToolComplexity = "small" | "advanced" | "mini-application";
 export type ToolProcessingMode = "local" | "external" | "server" | "hybrid";
