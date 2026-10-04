@@ -58,6 +58,7 @@ Its persistent memory is distributed across durable repository/GitHub state:
 - `STATUS.md` when present;
 - Git branches and commits;
 - GitHub pull requests and their descriptions/checks;
+- GitHub Issues when a mission uses the shared Issue protocol;
 - immutable audit reports and `LATEST.md` pointers;
 - implementation/worker handoffs where defined.
 
