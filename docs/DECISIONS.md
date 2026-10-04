@@ -787,11 +787,11 @@ The account system must be complete without introducing unnecessary personal-dat
 
 ### Decision
 
-Loculary adds a dedicated **Audit 32 — Update / modernisation technologique** to the autonomous audit system.
+Loculary adds a dedicated **Audit 31 — Update / modernisation technologique** to the autonomous audit system.
 
 The audit evaluates runtime versions, frameworks, dependencies, development tooling, CI/CD actions, deployment/platform configuration, browser/Web Platform assumptions, deprecated APIs and migration debt. It does not blindly target the newest available versions: it must distinguish the latest release from the supported, compatible and recommended target for Loculary.
 
-Audit 32 is executed before **Audit 31 — Final / Red Team** when a modernization cycle is undertaken. Audit 31 remains the final transversal audit and is not renumbered.
+Audit 31 is executed before **Audit 32 — Final / Red Team** when a modernization cycle is undertaken. Audit 32 remains the final transversal audit and is not renumbered.
 
 ### Reason
 
@@ -802,7 +802,7 @@ A dedicated modernization pass reduces the risk of accumulating obsolete tooling
 ### Consequences
 
 - Audit 20 remains responsible for dependency and supply-chain health.
-- Audit 32 evaluates update and modernization opportunities across the broader technical stack.
+- Audit 31 evaluates update and modernization opportunities across the broader technical stack.
 - Major framework/runtime/infrastructure migrations remain subject to explicit validation when they materially affect architecture, cost, privacy, security or product direction.
 - Audit 32 must document what should be preserved, not only what should change.
 - Audit 31 remains the final cross-domain red-team pass after validated modernization work.
