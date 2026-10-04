@@ -9,8 +9,8 @@ test("cron expression tool validates and previews runs", async ({ page }) => {
 
   const input = page.getByLabel("Cron expression");
   await input.fill("0 0 * * *");
-  await expect(page.getByText("At midnight every day", { exact: true })).toBeVisible();
+  await expect(page.getByText("At midnight every day", { exact: true }).first()).toBeVisible();
 
   await input.fill("60 * * * *");
-  await expect(page.getByText("Invalid Cron expression.", { exact: true })).toBeVisible();
+  await expect(page.getByText("Invalid Cron expression.", { exact: true }).first()).toBeVisible();
 });
