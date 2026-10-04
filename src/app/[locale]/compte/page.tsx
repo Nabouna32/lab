@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { signOut, updateProfile } from "./actions";
+import AccountActionLink from "@/components/account/AccountActionLink";
 import SubmitButton from "@/components/account/SubmitButton";
 import { Panel } from "@/components/ui/Panel";
 import { TextField } from "@/components/ui/TextField";
@@ -90,7 +91,7 @@ export default async function AccountPage({
 
         <Panel as="section">
           <div>
-            <h2 className="text-lg font-semibold">{t.account.title}</h2>
+            <h2 className="text-lg font-semibold">{t.account.profile}</h2>
             <p className="mt-1 text-sm text-[var(--muted)]">{user.email}</p>
           </div>
           <form action={updateProfile} className="mt-6 space-y-5">
@@ -150,12 +151,9 @@ export default async function AccountPage({
 
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           {isAdmin === true ? (
-            <Link
-              className="inline-flex min-h-10 items-center justify-center rounded-[var(--radius-md)] bg-[var(--accent)] px-4 py-2.5 font-semibold text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
-              href={`/${locale}/admin`}
-            >
+            <AccountActionLink href={`/${locale}/admin`} variant="primary">
               {t.admin.label}
-            </Link>
+            </AccountActionLink>
           ) : <span />}
           <form action={signOut}>
             <input type="hidden" name="locale" value={locale} />
@@ -169,12 +167,13 @@ export default async function AccountPage({
           <p className="text-sm font-semibold text-[var(--danger-foreground)]">{t.account.deleteAccount}</p>
           <h2 id="delete-account-title" className="mt-1 text-lg font-semibold">{t.account.deleteAccountTitle}</h2>
           <p className="mt-2 max-w-2xl text-sm text-[var(--muted)]">{t.account.deleteAccountDescription}</p>
-          <Link
-            className="mt-4 inline-flex min-h-10 items-center justify-center rounded-[var(--radius-md)] border border-[var(--danger)] px-4 py-2.5 font-semibold text-[var(--danger-foreground)] transition-colors hover:bg-[var(--danger-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+          <AccountActionLink
+            className="mt-4"
             href={`/${locale}/compte/suppression`}
+            variant="danger"
           >
             {t.account.deleteAccount}
-          </Link>
+          </AccountActionLink>
         </section>
       </div>
     </main>
