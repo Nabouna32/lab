@@ -31,13 +31,17 @@ Before starting:
 
 Never rely on an old conversation as proof that something still exists.
 
-## 3. Checkpoint and resume
+## 3. GitHub Issue tracking
+
+A Tool Worker MAY use a GitHub Issue for durable mission tracking. Search for an existing matching Issue before creating one and follow `agents/PRODUCT-ISSUE-CONTRACT.md`. The Issue complements the branch, PR and handoff; it never replaces them.
+
+## 4. Checkpoint and resume
 
 Create the tool checkpoint after bootstrap and keep it current throughout the mission. Before/after substantial implementation, testing, GitHub or other checkpoint-worthy actions, persist the checkpoint as required by the handoff contract.
 
 On `continue`, inspect the checkpoint if present, then reconcile it with the branch, PR and actual code before resuming. A missing or stale checkpoint does not authorize starting over; reconstruct from Git/GitHub first.
 
-## 4. Documentation baseline
+## 5. Documentation baseline
 
 Before implementation, consult at least:
 
@@ -57,7 +61,7 @@ Before implementation, consult at least:
 
 Read specialized documentation when the tool touches a corresponding concern.
 
-## 5. Product challenge
+## 6. Product challenge
 
 For every proposed tool, answer before coding:
 
@@ -73,7 +77,7 @@ For every proposed tool, answer before coding:
 
 If the answer is weak, do not manufacture a tool merely to increase the tool count.
 
-## 6. Research and inspiration
+## 7. Research and inspiration
 
 The worker may research competing or adjacent products for concepts, terminology and UX patterns.
 
@@ -83,7 +87,7 @@ Do not copy proprietary code, text, visual assets or distinctive implementation 
 
 Prefer primary/authoritative technical sources for standards, mathematical definitions, browser APIs and security behavior.
 
-## 7. One worker = one tool
+## 8. One worker = one tool
 
 A worker creates or resumes one tool at a time.
 
@@ -91,7 +95,7 @@ A worker may create several tools only when explicitly instructed and only seque
 
 Within one conversation, do not start a second tool while the first has unresolved implementation, test or PR work.
 
-## 8. Concurrency and claims
+## 9. Concurrency and claims
 
 The canonical branch name is:
 
@@ -111,7 +115,7 @@ If two workers race for the same slug, the first successfully created branch own
 
 Never force-push or delete another worker's branch.
 
-## 9. Shared files
+## 10. Shared files
 
 The worker may modify shared platform files only when the new tool genuinely requires them and the change is already supported by the current architecture.
 
@@ -131,7 +135,7 @@ If the architecture makes isolated parallel tool work impossible, stop and repor
 
 A substantial change to the tool platform is a separate architectural task and must not be hidden inside an ordinary tool PR.
 
-## 10. Tool implementation
+## 11. Tool implementation
 
 A published tool normally includes, as appropriate:
 
@@ -150,7 +154,7 @@ A published tool normally includes, as appropriate:
 
 Do not create artificial files just to satisfy a checklist. Follow the actual tool architecture.
 
-## 11. Domain correctness
+## 12. Domain correctness
 
 The worker must independently verify the domain model.
 
@@ -173,7 +177,7 @@ For non-calculation tools, verify the relevant parsing, encoding, transformation
 
 Correct-looking output is not enough: test known values and meaningful edge cases.
 
-## 12. Privacy and capabilities
+## 13. Privacy and capabilities
 
 Treat all user input and files as untrusted.
 
@@ -193,7 +197,7 @@ Never add a secret to client code.
 
 Tool capability declarations must remain truthful and consistent with the runtime architecture.
 
-## 13. UX/UI
+## 14. UX/UI
 
 The tool is a mini-product.
 
@@ -217,7 +221,7 @@ Do not blindly reuse a poor pattern merely because an older tool uses it.
 
 Challenge existing shared patterns when the new tool exposes a genuine platform problem, but keep unrelated redesign out of the tool PR.
 
-## 14. Internationalization
+## 15. Internationalization
 
 English is the reference locale and French is required.
 
@@ -227,7 +231,7 @@ Internal identifiers remain language-neutral.
 
 Both locales must be complete enough that the tool does not look half-translated.
 
-## 15. Quality gates
+## 16. Quality gates
 
 Before opening the PR:
 
@@ -246,7 +250,7 @@ Fix problems introduced by the worker.
 
 Do not hide failures. If a check cannot run, report why.
 
-## 16. Git/PR lifecycle
+## 17. Git/PR lifecycle
 
 The worker must:
 
@@ -266,7 +270,7 @@ Never merge another worker's PR.
 
 Never claim a PR is merged without verifying GitHub's actual state.
 
-## 17. Main moved while working
+## 18. Main moved while working
 
 Other workers may merge while this worker is active.
 
@@ -279,7 +283,7 @@ Before final verification:
 
 If a conflict requires architectural changes or would modify another worker's work, stop and report the conflict instead of overwriting anything.
 
-## 18. Completion states
+## 19. Completion states
 
 Use these states in the PR description or final response:
 
@@ -295,7 +299,7 @@ Use these states in the PR description or final response:
 
 A tool is not complete merely because code exists.
 
-## 19. Continue semantics
+## 20. Continue semantics
 
 When the user says **"continue"**:
 
@@ -311,7 +315,7 @@ If the user says **"continue <slug>"**, resume that exact tool.
 
 If the user says **"add a tool"**, choose the best unclaimed candidate and start it.
 
-## 20. Autonomous decision boundary
+## 21. Autonomous decision boundary
 
 The worker may autonomously choose routine implementation details that do not materially alter product direction or architecture.
 
@@ -327,7 +331,7 @@ Stop and ask the user only when the work requires a consequential decision about
 
 Routine tool implementation does not require asking permission for every field, component or test.
 
-## 21. Final report
+## 22. Final report
 
 Every completed worker session must state:
 
@@ -344,7 +348,7 @@ Every completed worker session must state:
 
 If blocked, state the exact blocker and the smallest decision required.
 
-## 22. Non-negotiable rule
+## 23. Non-negotiable rule
 
 Do not optimize for the number of tools.
 

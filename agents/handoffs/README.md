@@ -1,11 +1,12 @@
 # Loculary — Active Agent Handoffs
 
-This directory contains temporary, branch-local checkpoints for resumable Tool and Feature Workers.
+This directory contains temporary, branch-local checkpoints for resumable Product, Tool and Feature Workers.
 
 ## Paths
 
 - Tool Worker: `agents/handoffs/tool/<slug>.md`
 - Feature Worker: `agents/handoffs/feature/<slug>.md`
+- Product / Direction Agent: `agents/handoffs/product/<mission-slug>.md`
 
 These files are **working state**, not product documentation and not historical evidence.
 

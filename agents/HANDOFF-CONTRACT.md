@@ -14,6 +14,7 @@ No handoff mechanism can guarantee persistence after a failure that occurs befor
 
 Every resumable mission MUST maintain one active checkpoint:
 
+- Product / Direction Agent: `agents/handoffs/product/<mission-slug>.md`
 - Tool Worker / Feature Worker: `agents/handoffs/<role>/<mission-slug>.md`
 - Audit Worker: `docs/audits/<audit-id>/WORKING.md`
 

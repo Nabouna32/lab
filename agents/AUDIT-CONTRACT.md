@@ -38,7 +38,11 @@ An audit may be interrupted before its historical report is written. To make tha
 
 `WORKING.md` is progress state, not historical evidence. It must never be cited as a completed audit report. On successful completion, create the historical report, update `LATEST.md`, then remove `WORKING.md`. If interrupted or abandoned, leave it in place until a later audit conversation resumes or explicitly cleans up the abandoned run.
 
-## 4. Allowed repository changes
+## 4. GitHub Issue tracking
+
+An audit MAY use a GitHub Issue as a concise mission tracker when useful. Follow `agents/PRODUCT-ISSUE-CONTRACT.md` for Issue hygiene, ownership and state. The Issue may summarize the audit state, severity counts, decisions required and links to the checkpoint/report/PRs, but it must never replace `WORKING.md` or the immutable historical report.
+
+## 5. Allowed repository changes
 
 An audit is not an implementation task.
 
@@ -62,7 +66,7 @@ The audit agent may persist its own result only by:
 
 No other repository modification is part of the audit output contract unless the mission explicitly grants additional scope.
 
-## 5. Historical report naming
+## 6. Historical report naming
 
 Every execution creates a new report:
 
@@ -83,7 +87,7 @@ Never overwrite an existing historical report.
 
 If a timestamp collision is possible, append a deterministic suffix rather than replacing the existing file.
 
-## 6. Historical immutability
+## 7. Historical immutability
 
 Previous reports are historical evidence.
 
@@ -107,7 +111,7 @@ When relevant, the new report must explicitly classify previous findings as:
 
 An old report does not prove that a finding still exists.
 
-## 7. LATEST.md
+## 8. LATEST.md
 
 After creating the historical report, update:
 
@@ -126,7 +130,7 @@ It should contain only concise pointer metadata, for example:
 
 It must not be the only location containing audit findings.
 
-## 8. Required report structure
+## 9. Required report structure
 
 Unless the mission has a justified domain-specific extension, the report must contain:
 
@@ -149,7 +153,7 @@ Unless the mission has a justified domain-specific extension, the report must co
 
 A mission may add sections when necessary, but must not remove information required to understand what was actually audited.
 
-## 9. Finding classification
+## 10. Finding classification
 
 Every material finding must distinguish its epistemic status.
 
@@ -165,7 +169,7 @@ Use one or more of these explicit labels:
 
 Do not present a proposal, deduction, or assumption as an observed fact.
 
-## 10. Severity
+## 11. Severity
 
 When the domain supports severity, classify findings consistently, for example:
 
@@ -177,7 +181,7 @@ When the domain supports severity, classify findings consistently, for example:
 
 Severity is distinct from epistemic status.
 
-## 11. Evidence
+## 12. Evidence
 
 Prefer evidence over assertions.
 
@@ -193,7 +197,7 @@ For important findings, record enough context to allow a later implementation ag
 
 Do not include secrets, credentials, tokens, or unnecessary personal data in the report.
 
-## 12. Previous audits
+## 13. Previous audits
 
 Previous reports are inputs, not authorities.
 
@@ -201,7 +205,7 @@ When previous reports exist, use them to identify regressions and verify the evo
 
 Do not copy stale findings into the new report without rechecking them.
 
-## 13. Implementation prompt
+## 14. Implementation prompt
 
 The report must end with a complete, copy-pastable prompt for an autonomous implementation agent.
 
@@ -219,7 +223,7 @@ That prompt must:
 
 The implementation prompt is a recommendation produced by the audit. It does not itself authorize implementation.
 
-## 14. Product decisions
+## 15. Product decisions
 
 An audit may recommend a change, but it must not silently convert a recommendation into a product decision.
 
@@ -235,7 +239,7 @@ In particular, audit agents must not directly rewrite:
 
 If a finding requires a product or architecture decision, record it under **Decisions requiring explicit validation**.
 
-## 15. Quality bar
+## 16. Quality bar
 
 The audit should:
 

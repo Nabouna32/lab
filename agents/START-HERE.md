@@ -13,6 +13,7 @@ Roles currently supported:
 - `Audit` → `agents/AUDIT-CONTRACT.md` + one mission in `agents/audits/`.
 - `Tool Worker` → `agents/tools/TOOL-WORKER.md`.
 - `Feature Worker` → `agents/features/FEATURE-WORKER.md` when that system is present on the current `main`.
+- `Product / Direction` → `agents/product/PRODUCT-AGENT.md`.
 - `Orchestrator` → the relevant `*-ORCHESTRATOR.md` when explicitly requested.
 
 The launch prompt is only a trigger. The repository contracts contain the real rules.
@@ -23,7 +24,7 @@ Every agent MUST read:
 
 1. `agents/AGENT-CONTRACT.md`;
 2. `AGENTS.md`;
-3. its specialized contract/mission;
+3. its specialized contract/mission (including `agents/product/PRODUCT-AGENT.md` for Product / Direction);
 4. `agents/HANDOFF-CONTRACT.md`;
 5. the required canonical project documents;
 6. current Git/GitHub state;

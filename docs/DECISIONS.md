@@ -807,3 +807,27 @@ A dedicated modernization pass reduces the risk of accumulating obsolete tooling
 - Audit 32 must document what should be preserved, not only what should change.
 - Audit 31 remains the final cross-domain red-team pass after validated modernization work.
 \n
+
+## DEC-039 — Agent product governance and GitHub Issue orchestration
+
+**Status:** Accepted
+
+### Decision
+
+Loculary adds a dedicated **Product / Documentation / Decision Agent** responsible for product direction, product reasoning, documentation governance and preparation of validated implementation specifications.
+
+GitHub Issues are adopted as a shared **orchestration and tracking layer** for agent missions when useful. Issues may track product decisions, audits, Feature Worker missions, Tool Worker missions and cross-agent blockers.
+
+Issues do not replace the repository/Git source of truth, canonical documentation, active handoff checkpoints, immutable audit reports or pull requests. Audit findings remain evidence/recommendations until the appropriate product or technical decision is explicitly validated.
+
+### Reason
+
+A dedicated product role prevents product direction and durable documentation from becoming accidental by-products of implementation workers or audit reports. Issues provide a durable, conversation-independent index for work that spans agents and ChatGPT conversations without duplicating the detailed state already held in Git and repository documentation.
+
+### Consequences
+
+- Product discussions can be resumed from repository documentation and an optional tracking Issue.
+- Audit missions may use Issues to expose concise status, findings, decisions and follow-up work while retaining reports and WORKING.md as their canonical artifacts.
+- Feature and Tool Workers may use Issues for mission tracking while branch/PR/Git state remains authoritative for implementation.
+- A future GitHub Project, if supported by the available integration, should remain a visualization/orchestration layer rather than a required source of truth.
+- The Product Agent must not silently implement consequential product decisions; user validation remains required.

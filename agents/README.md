@@ -20,6 +20,12 @@ A mission file is not itself a product decision. An audit recommendation is not 
 
 The agent-system validator is `agents/validate-agent-system.mjs` and is executed by CI. It checks mission numbering, final-audit ordering, contract references and core bootstrap invariants.
 
+## Product / Direction Agent
+
+`agents/product/PRODUCT-AGENT.md` defines the Product / Documentation / Decision Agent. It governs product reasoning, durable documentation and decision preparation without replacing user validation or implementation workers.
+
+`agents/PRODUCT-ISSUE-CONTRACT.md` defines the shared GitHub Issue protocol used for durable mission tracking across Product, Audit, Feature and Tool work.
+
 ## Audit contract
 
 The canonical output and persistence rules for audits are defined in [`agents/AUDIT-CONTRACT.md`](./AUDIT-CONTRACT.md). Every audit mission must read and obey that contract. Mission files also repeat the essential output rules so they remain self-contained and cannot silently invent another convention.
