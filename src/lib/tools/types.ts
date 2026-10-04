@@ -37,7 +37,8 @@ export type ToolId =
   | "text-diff-checker"
   | "cron-expression"
   | "qr-code-generator"
-  | "markdown-table-generator";
+  | "markdown-table-generator"
+  | "image-compressor";
 
 export type ToolComplexity = "small" | "advanced" | "mini-application";
 export type ToolProcessingMode = "local" | "external" | "server" | "hybrid";
