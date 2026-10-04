@@ -51,6 +51,7 @@ const toolSlugs: Record<string, Record<Locale, string>> = {
   "cron-expression": { en: "cron-expression", fr: "expression-cron" },
   "qr-code-generator": { en: "qr-code-generator", fr: "generateur-de-qr-code" },
   "markdown-table-generator": { en: "markdown-table-generator", fr: "generateur-de-tableau-markdown" },
+  "image-compressor": { en: "image-compressor", fr: "compresseur-d-image" },
 };
 
 export function getToolsPath(locale: Locale): string {
