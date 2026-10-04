@@ -5,7 +5,7 @@
 - Issue: #317
 - Branch: `feat/tool/markdown-table-generator`
 - Base ref: `main`
-- Current state: DISCOVERY
+- Current state: TESTING
 - Validated scope: browser/local Markdown table generation, editable structured table input, Markdown output + rendered preview, copy/reset actions, EN/FR, catalog/registry/routes/SEO/editorial integration, unit + targeted E2E coverage.
 - Non-goals: server processing, external providers, database catalog content, unrelated shared UI redesign.
 - Completed milestones:
@@ -20,8 +20,8 @@
 - Decisions validated: local/browser-only processing; no external provider.
 - Decisions blocked: none currently.
 - Important areas: `src/lib/tools/tools.ts`, `src/lib/tools/registry.ts`, tool components, tool routes/SEO/i18n.
-- Verification: bootstrap/document inspection complete; implementation not started.
-- Last durable commit SHA: branch base `main` (QR merge `5b824a5549c968889147f37b3f4e0de64a16926b`).
+- Verification: domain tests, UI, metadata, i18n, routes, SEO and registry integration implemented; CI/browser verification pending.
+- Last durable commit SHA: `b4bead7c124aae74502be3f9531c57be558bdec7` plus subsequent implementation commits on this branch.
 - Timestamp: 2026-10-04T22:04:00Z
 
 ## Activity
@@ -29,3 +29,4 @@
 - 2026-10-04: created Issue #317 and branch `feat/tool/markdown-table-generator`.
 - 2026-10-04: challenged overlap with CSV/JSON tools; selected a distinct grid-first Markdown authoring workflow.
 - 2026-10-04: fixed domain semantics before implementation: rectangular matrix, escaped pipes, normalized line breaks, per-column alignment, deterministic Markdown output.
+- 2026-10-04: implemented domain logic, unit tests, responsive grid UI, rendered preview, copy/reset controls, EN/FR editorial/messages, catalog/registry/routes/SEO integration, and targeted browser coverage.
