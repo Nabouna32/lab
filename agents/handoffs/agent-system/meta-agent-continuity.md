@@ -13,5 +13,5 @@
 - decisions already validated: Meta-Agent is governance-level; Product/Audit/Feature/Tool are operational roles; agent-system is a mission type, not an agent role; chat history is temporary; Git/docs/Issues/checkpoints remain distributed durable state
 - important files: agents/START-HERE.md; agents/AGENT-CONTRACT.md; agents/HANDOFF-CONTRACT.md; agents/ISSUE-ORCHESTRATION-CONTRACT.md
 - tests/checks: documentation consistency review performed; automated CI not yet run
-- last durable commit SHA: d649ae7bf96060ba862ad246b4a7ecfa835e1248
+- last durable commit SHA: 399ce4fc1603c048ed4f6a1fef86ae3d333ef9d9
 - timestamp: 2026-10-04
