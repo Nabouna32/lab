@@ -28,6 +28,8 @@ Then inspect the actual current code and GitHub state.
 
 Do not trust old chat context over the repository.
 
+Then read `agents/HANDOFF-CONTRACT.md` and locate the active checkpoint for this mission before substantive work. If none exists, create it before proceeding.
+
 ## OPERATING MODE
 
 Work autonomously through the feature until it is complete or a consequential decision blocks it.
