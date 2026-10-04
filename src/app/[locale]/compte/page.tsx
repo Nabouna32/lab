@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { signOut, updateProfile } from "./actions";
-import AccountActionLink from "@/components/account/AccountActionLink";
+import { AccountActionLink } from "@/components/account/AccountActionLink";
 import SubmitButton from "@/components/account/SubmitButton";
 import { Panel } from "@/components/ui/Panel";
 import { TextField } from "@/components/ui/TextField";
