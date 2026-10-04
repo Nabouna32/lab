@@ -27,11 +27,14 @@ export default function TimezoneConverter() {
   const [sourceTimeZone, setSourceTimeZone] = useState(getDefaultTimeZone);
   const [destinationTimeZone, setDestinationTimeZone] = useState("America/New_York");
   const [result, setResult] = useState<ReturnType<typeof convertTimeZone>>(null);
+  const [error, setError] = useState(false);
   const timeZones = useMemo(() => getTimeZoneOptions(), []);
   const localeCode = locale === "fr" ? "fr-FR" : "en-US";
 
   function convert() {
-    setResult(convertTimeZone(dateTime, sourceTimeZone, destinationTimeZone));
+    const next = convertTimeZone(dateTime, sourceTimeZone, destinationTimeZone);
+    setResult(next);
+    setError(next === null);
   }
 
   function clear() {
@@ -39,6 +42,7 @@ export default function TimezoneConverter() {
     setSourceTimeZone(getDefaultTimeZone());
     setDestinationTimeZone("America/New_York");
     setResult(null);
+    setError(false);
   }
 
   const copyValue = result
@@ -49,24 +53,25 @@ export default function TimezoneConverter() {
     <section className="overflow-hidden rounded-[var(--radius-2xl)] border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-sm)]">
       <div className="grid gap-0 lg:grid-cols-2">
         <div className="p-5 sm:p-7 lg:border-r lg:border-[var(--border)] lg:p-8">
-          <CalculatorField label={t.dateTime} inputId="timezone-date-time" type="datetime-local" value={dateTime}
-            onChange={(event) => { setDateTime(event.target.value); setResult(null); }} />
+          <CalculatorField label={t.dateTime} inputId="timezone-date-time" type="datetime-local" value={dateTime} aria-invalid={error}
+            onChange={(event) => { setDateTime(event.target.value); setResult(null); setError(false); }} />
 
           <div className="mt-4">
             <Select label={t.source} id="timezone-source" value={sourceTimeZone}
-              onChange={(event) => { setSourceTimeZone(event.target.value); setResult(null); }}>
+              onChange={(event) => { setSourceTimeZone(event.target.value); setResult(null); setError(false); }}>
               {timeZones.map((zone) => <option key={zone} value={zone}>{zone}</option>)}
             </Select>
           </div>
 
           <div className="mt-4">
             <Select label={t.destination} id="timezone-destination" value={destinationTimeZone}
-              onChange={(event) => { setDestinationTimeZone(event.target.value); setResult(null); }}>
+              onChange={(event) => { setDestinationTimeZone(event.target.value); setResult(null); setError(false); }}>
               {timeZones.map((zone) => <option key={zone} value={zone}>{zone}</option>)}
             </Select>
           </div>
 
           <p className="mt-4 text-sm leading-6 text-[var(--muted)]">{t.hint}</p>
+          {error && <p role="alert" className="mt-3 text-sm font-medium text-[var(--danger)]">{t.invalid}</p>}
           <p className="mt-2 text-xs leading-5 text-[var(--muted)]">{t.zonesHint}</p>
 
           <div className="mt-5 flex flex-wrap gap-2">
