@@ -12,6 +12,10 @@ This directory contains reusable, version-controlled missions for autonomous age
 
 A mission file is not itself a product decision. An audit recommendation is not automatically approved scope.
 
+## Audit contract
+
+The canonical output and persistence rules for audits are defined in [`agents/AUDIT-CONTRACT.md`](./AUDIT-CONTRACT.md). Every audit mission must read and obey that contract. Mission files also repeat the essential output rules so they remain self-contained and cannot silently invent another convention.
+
 ## Audit workflow
 
 1. Read the selected mission from `agents/audits/`.
