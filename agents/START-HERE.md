@@ -13,6 +13,7 @@ Roles currently supported:
 - `Audit` → `agents/AUDIT-CONTRACT.md` + one mission in `agents/audits/`.
 - `Tool Worker` → `agents/tools/TOOL-WORKER.md`.
 - `Feature Worker` → `agents/features/FEATURE-WORKER.md` when that system is present on the current `main`.
+- `Product / Direction` → `agents/product/PRODUCT-AGENT.md`.
 - `Orchestrator` → the relevant `*-ORCHESTRATOR.md` when explicitly requested.
 
 The launch prompt is only a trigger. The repository contracts contain the real rules.
