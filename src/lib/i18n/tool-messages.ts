@@ -268,13 +268,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       type: "Type de calcul", result: "Résultat", how: "Voir le calcul", formulaIntro: "Voici le calcul réalisé à partir des valeurs que vous avez saisies :",
       differenceNote: "💡 Une différence en pourcentage peut dépasser 100 % lorsque les deux valeurs sont très éloignées. Ce résultat est normal : le calcul compare l'écart à la moyenne des deux valeurs.",
       modes: {
-        dateCalculator: {
-      operation: "Operation", add: "Add", subtract: "Subtract", startDate: "Start date", amount: "Amount", unit: "Unit",
-      result: "Resulting date", emptyResult: "The resulting date will appear here.", invalid: "Enter a valid date and a whole-number amount.",
-      units: { days: "days", weeks: "weeks", months: "months", years: "years" },
-      summary: (start, amount, unit, direction, result) => `Starting on ${start}, ${direction.toLowerCase()}ing ${amount} ${unit} gives ${result}.`,
-    },
-    percentage: { title: "X % de Y", description: "Calculer une part" },
+        percentage: { title: "X % de Y", description: "Calculer une part" },
         evolution: { title: "Évolution", description: "Augmentation ou diminution" },
         difference: { title: "Différence", description: "Comparer deux valeurs" },
       },
@@ -506,6 +500,12 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       summaryDates: (days, hours, minutes) => `The duration is ${days}, ${hours}, and ${minutes}.`,
       summaryTimes: (hours, minutes) => `The duration is ${hours} and ${minutes}.`,
       overnight: "The calculation treats the end time as being on the following day.",
+    },
+    dateCalculator: {
+      operation: "Operation", add: "Add", subtract: "Subtract", startDate: "Start date", amount: "Amount", unit: "Unit",
+      result: "Resulting date", emptyResult: "The resulting date will appear here.", invalid: "Enter a valid date and a whole-number amount.",
+      units: { days: "days", weeks: "weeks", months: "months", years: "years" },
+      summary: (start, amount, unit, direction, result) => `Starting on ${start}, ${direction.toLowerCase()}ing ${amount} ${unit} gives ${result}.`,
     },
     percentage: {
       type: "Calculation type", result: "Result", how: "Show the calculation", formulaIntro: "Here is the calculation based on the values you entered:",
