@@ -30,6 +30,10 @@ Do not trust old chat context over the repository.
 
 Then read `agents/HANDOFF-CONTRACT.md` and locate the active checkpoint for this mission before substantive work. If none exists, create it before proceeding.
 
+## CHECKPOINT / RESUME
+
+Maintain `agents/handoffs/feature/<slug>.md` throughout resumable work. Before and after checkpoint-worthy actions, persist the checkpoint as required by `agents/HANDOFF-CONTRACT.md`. If the conversation ends, a new conversation must inspect that checkpoint and reconcile it with Git/GitHub before resuming.
+
 ## OPERATING MODE
 
 Work autonomously through the feature until it is complete or a consequential decision blocks it.
