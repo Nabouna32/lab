@@ -3,6 +3,27 @@
 This is the common, mandatory operating contract for every autonomous Loculary agent.
 Specialized contracts (audit, tool, feature, and future agent types) refine this contract; they must not weaken it.
 
+
+## Meta-Agent global state and reconstruction
+
+The Meta-Agent's global state is a **derived governance view**, not a second memory store. It is reconstructed from the durable sources already defined by this system.
+
+The global state consists of:
+
+- **identity and role** — this contract and `agents/START-HERE.md`;
+- **architecture and operating model** — agent contracts, canonical governance documents and validated decisions;
+- **validated decisions** — `docs/DECISIONS.md` and other canonical decision records;
+- **active missions** — GitHub Issues, linked branches/PRs and active checkpoints/handoffs;
+- **actual implementation state** — Git commits, branches, PRs and CI/verification evidence;
+- **interrupted execution state** — the active mission checkpoint required by `agents/HANDOFF-CONTRACT.md`;
+- **next governance action** — derived from unresolved decisions, active mission checkpoints, blockers and current repository/GitHub state.
+
+There is deliberately no `META-AGENT-CONTEXT.md`, memory database, duplicate mission ledger or chat transcript as a source of truth. A future navigation artifact may only index these sources and must never override them.
+
+When sources disagree, the Meta-Agent identifies the conflict and applies the project source hierarchy instead of averaging or silently rewriting sources. Chat history remains temporary context only.
+
+The Meta-Agent MUST reconstruct this view at the start of a new conversation and may load deeper material progressively to control context usage.
+
 ## 1. Conversation independence
 
 A ChatGPT conversation is temporary context, not project memory.
@@ -66,7 +87,7 @@ Its persistent memory is distributed across durable repository/GitHub state:
 A new conversation MUST reconstruct its context from these sources.
 Do not create a second informal memory system in chat messages.
 
-## 5. Conversation failure resilience
+## 6. Conversation failure resilience
 
 A conversation ending, truncating, timing out, or otherwise failing is a normal operating condition.
 
@@ -78,7 +99,7 @@ A checkpoint is a recovery aid, not a substitute for Git/GitHub truth. Git/GitHu
 
 The agent MUST NOT assume that a final response will ever be produced.
 
-## 5. Rule precedence and anti-skipping
+## 7. Rule precedence and anti-skipping
 
 Rules are cumulative unless a higher-authority source explicitly overrides a lower one.
 A specialized mission may narrow or add requirements but cannot remove common safety, source-of-truth, verification, ownership, or documentation rules.
@@ -94,7 +115,7 @@ Do not skip a rule because:
 
 When a rule matters to the current step, verify it from the canonical source rather than relying on memory.
 
-## 6. Work one validated scope at a time
+## 8. Work one validated scope at a time
 
 Before a significant change, establish:
 
@@ -108,7 +129,7 @@ Do not silently expand scope.
 If implementation reveals a consequential decision or unrelated architectural/product issue, stop and surface it.
 Routine details inside an already validated scope may be chosen autonomously.
 
-## 7. Concurrency and ownership
+## 9. Concurrency and ownership
 
 Assume other independent ChatGPT conversations may work concurrently.
 
@@ -123,7 +144,7 @@ Never modify, reset, force-push, close, or merge another worker's branch/PR unle
 
 Branches are ownership boundaries.
 
-## 8. Verification and evidence
+## 10. Verification and evidence
 
 Do not claim that something was read, tested, green, merged, verified, or complete unless it was actually verified.
 
@@ -137,14 +158,14 @@ After a change:
 
 For audits, distinguish observation, measurement, deduction, proposal and decision as required by the audit contract.
 
-## 9. Documentation continuity
+## 11. Documentation continuity
 
 Durable discoveries, decisions, architecture changes, blockers, and handoff state belong in the appropriate repository documentation or GitHub artifact.
 Do not rely on a final chat message as the only record of important state.
 
 Do not rewrite historical records to make the current state look cleaner.
 
-## 10. Completion receipt
+## 12. Completion receipt
 
 At the end of a meaningful run, report the durable state succinctly:
 

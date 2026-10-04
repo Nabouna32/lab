@@ -6,6 +6,8 @@ This contract refines `agents/PRODUCT-ISSUE-CONTRACT.md`. It defines how agents 
 
 An Issue is the durable, human-readable index for a mission that benefits from cross-conversation coordination.
 
+For `agent-system`, the Issue represents a concrete governance/evolution mission. It does not represent the Meta-Agent itself. The Meta-Agent remains the governance role above operational workers; there is no separate Agent System Worker role.
+
 The authoritative state remains distributed by role:
 - product intent: canonical `docs/` and validated decisions;
 - implementation: Git branch, commits and PR;
@@ -22,7 +24,7 @@ Use exactly one primary type:
 - `audit` — audit mission;
 - `feature` — Feature Worker mission;
 - `tool` — Tool Worker mission;
-- `agent-system` — agent-system/governance mission.
+- `agent-system` — concrete agent-system/governance mission handled by the Meta-Agent; this is a mission type, not an agent role.
 
 A mission that changes role must not silently change its primary type. Create a linked follow-up Issue when ownership genuinely changes.
 
@@ -129,6 +131,8 @@ On a new conversation:
 6. reconstruct the real state.
 
 If the Issue disagrees with Git/GitHub or canonical documentation, correct the Issue rather than the authoritative source.
+
+For `agent-system` missions, the recovery chain is `Issue → agent-system checkpoint → Git branch/PR → canonical contracts/decisions`. This recovers mission state, not a separate global Meta-Agent memory.
 
 ## 9. Automation boundary
 

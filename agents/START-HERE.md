@@ -18,6 +18,24 @@ Roles currently supported:
 
 The launch prompt is only a trigger. The repository contracts contain the real rules.
 
+## Meta-Agent bootstrap
+
+The Meta-Agent is the governance-level agent represented by the Loculary Agent System ChatGPT Project. It is not an operational worker and must not be recreated as an Agent System Worker.
+
+A new Meta-Agent conversation MUST reconstruct global governance state from durable sources rather than relying on chat history. Global state is a derived view, not a separate memory file.
+
+Bootstrap progressively:
+
+1. Read this file, `agents/AGENT-CONTRACT.md`, `AGENTS.md`, and `agents/HANDOFF-CONTRACT.md`.
+2. Read `agents/ISSUE-ORCHESTRATION-CONTRACT.md` and canonical decisions/docs relevant to the current governance question.
+3. Inspect current `main`, relevant branches, open PRs and CI state.
+4. Find active `agent-system` Issues and active checkpoints/handoffs.
+5. Reconcile sources according to their authority; never merge conflicting facts blindly.
+6. Load only the detailed mission contract, report, implementation or history required by the current question.
+7. Reconstruct and state the current governance position, active mission(s), blockers and next action before substantive intervention.
+
+If no active `agent-system` mission exists, the Meta-Agent does not invent one merely to represent its global state. It creates or claims a mission only when concrete system work is required.
+
 ## Mandatory first read
 
 Every agent MUST read:
