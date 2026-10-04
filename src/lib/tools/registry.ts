@@ -169,7 +169,7 @@ const moduleLoaders: Partial<Record<ToolId, ToolModule>> = {
     () => import("@/components/tools/cron-expression/CronExpression"),
     () => import("@/components/tools/cron-expression/ToolEditorial"),
   ),
-  "video-bitrate": createToolModule(
+  "qr-code-generator": createToolModule(\n    () => import("@/components/tools/qr-code-generator/QrCodeGenerator"),\n    () => import("@/components/tools/qr-code-generator/ToolEditorial"),\n  ),\n  "video-bitrate": createToolModule(
     () => import("@/components/tools/video-bitrate/VideoBitrateCalculator"),
     () => import("@/components/tools/video-bitrate/ToolEditorial"),
   ),
