@@ -10,7 +10,7 @@ test("tool UI messages are available in every enabled locale", () => {
     assert.ok(messages.age.birthDate.length > 0);
     assert.ok(messages.age.emptyResult.length > 0);
     assert.ok(messages.duration.startDate.length > 0);
-    assert.ok(messages.duration.emptyResult.length > 0);
+    assert.ok(messages.duration.emptyResult.length > 0);\n    assert.ok(messages.cronExpression.input.length > 0);\n    assert.ok(messages.cronExpression.nextRuns.length > 0);
     assert.ok(messages.percentage.result.length > 0);
     assert.ok(messages.reduction.price.length > 0);
     assert.ok(messages.ruleOfThree.result.length > 0);
