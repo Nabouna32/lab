@@ -53,3 +53,11 @@ A rerun always audits the current repository from scratch.
 It does **not** merge its findings into the previous report and does **not** erase the previous report. The new report records what was observed at that point in Git history.
 
 If a previous finding is no longer valid, the new report should explicitly say so rather than silently deleting the old finding from history.
+
+
+## Autonomous builders
+
+- `agents/tools/` contains the Tool Factory/Worker contract for independent tools.
+- `agents/features/` contains the Feature Factory/Worker contract for substantial product capabilities.
+
+Builders implement validated scope and deliver tested PRs; they do not replace the audit missions. A builder may challenge a candidate before implementation, but consequential product or architecture decisions still require explicit validation.
