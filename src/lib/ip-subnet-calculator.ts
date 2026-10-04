@@ -17,7 +17,7 @@ function parseIpv4(value: string): number[] | null {
   if (parts.length !== 4) return null;
 
   const octets = parts.map((part) => {
-    if (!/^\\d{1,3}$/.test(part)) return null;
+    if (!/^\d{1,3}$/.test(part)) return null;
     const number = Number(part);
     return number >= 0 && number <= 255 ? number : null;
   });
