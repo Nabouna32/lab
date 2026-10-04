@@ -35,6 +35,18 @@ Then read `agents/HANDOFF-CONTRACT.md` and locate the active checkpoint for this
 Maintain `agents/handoffs/feature/<slug>.md` throughout resumable work. Before and after checkpoint-worthy actions, persist the checkpoint as required by `agents/HANDOFF-CONTRACT.md`. If the conversation ends, a new conversation must inspect that checkpoint and reconcile it with Git/GitHub before resuming.
 
 ## OPERATING MODE
+## Mission orchestration
+
+When this Worker is operating under the mission orchestration protocol, it must keep the mission Issue aligned with durable state and distinguish execution from delivery:
+
+- RUNNING means the Worker is actively working;
+- WAITING_CI means the current PR/head SHA is awaiting CI;
+- RESUME_REQUIRED means durable state requires another Worker action;
+- WAITING_HUMAN means a consequential decision blocks progress;
+- MERGE_READY means GitHub evidence satisfies merge prerequisites.
+
+A CI wait must not be represented as mission completion. A resume request is not proof that this conversation has resumed. Before any resumed work, reconcile checkpoint, branch, PR, head SHA and current main.
+
 
 Work autonomously through the feature until it is complete or a consequential decision blocks it.
 
