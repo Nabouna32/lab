@@ -61,7 +61,7 @@ export default function TextDiffChecker() {
           <div>
             <p className="text-sm font-semibold text-[var(--foreground)]">{t.result}</p>
             <p className="mt-1 text-sm text-[var(--muted)]" aria-live="polite">
-              {result?.error ?? summary || t.emptyResult}
+              {result?.error ?? (summary || t.emptyResult)}
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
