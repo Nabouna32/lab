@@ -62,6 +62,7 @@ Keep the checkpoint compact. It MUST record:
 - next action;
 - decisions already validated;
 - decisions still blocked;
+- challenge performed: the important assumption/proposal/design challenged, credible alternative considered, outcome and unresolved trade-offs;
 - important files/areas touched;
 - tests/checks and their actual status;
 - last durable commit SHA;
@@ -110,12 +111,13 @@ At the start of every new conversation, after the mandatory bootstrap:
 3. inspect GitHub for the branch/PR;
 4. inspect the actual repository state;
 5. compare the checkpoint against Git/GitHub;
-6. classify the checkpoint as:
+6. verify any recorded challenge/decision against the current authoritative evidence; a stale challenge outcome must be re-evaluated rather than blindly replayed;
+7. classify the checkpoint as:
    - `CURRENT`;
    - `STALE`;
    - `CONFLICTING`;
    - `ORPHANED`;
-7. resume from the durable state rather than restarting.
+8. resume from the durable state rather than restarting.
 
 If the checkpoint conflicts with Git/GitHub, Git/GitHub wins. Do not blindly replay actions.
 
