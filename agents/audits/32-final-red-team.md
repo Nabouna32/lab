@@ -2,7 +2,7 @@
 
 ## Identité
 
-- **Audit ID :** 31
+- **Audit ID :** 32
 - **Slug :** final-red-team
 - **Mission :** `agents/audits/32-final-red-team.md`
 - **Rapports :** `docs/audits/32-final-red-team/`
