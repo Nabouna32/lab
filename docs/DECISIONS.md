@@ -849,6 +849,8 @@ Git/GitHub remain authoritative for implementation, branches, pull requests, CI 
 
 The runtime deliberately separates mission lifecycle, Worker execution, GitHub delivery and runtime coordination instead of collapsing them into one state machine.
 
+The runtime execution state is intentionally minimal: `READY`, `RUNNING`, `WAITING`, `RESUME_REQUIRED`, `WAITING_HUMAN`, `BLOCKED`, `COMPLETED` and `ABANDONED`. GitHub delivery facts such as PR state, CI state and merge state are not duplicated as runtime states. A `resume_request` is a durable wake request, not evidence that a Worker has resumed; successful resumption requires bootstrap, reconciliation and a valid claim.
+
 ### Reason
 
 The Worker execution protocol needs durable coordination across conversations and intermittent ChatGPT Free execution without creating a duplicate project memory. PostgreSQL can persist what must happen next while Git/GitHub continue to record what actually happened to the project.
@@ -859,8 +861,9 @@ The Worker execution protocol needs durable coordination across conversations an
 - Claims use an atomic active-claim uniqueness invariant and expiring leases.
 - Dependencies are represented explicitly and cannot introduce dependency cycles through the runtime API.
 - External events carry stable source identity so repeated delivery is idempotent.
-- Resume requests are durable and distinguish requested, acknowledged and completed states.
-- Tampermonkey remains a wake adapter only; it does not become an orchestrator or source of truth.
+- Resume requests are durable wake requests and distinguish requested, acknowledged and completed adapter state; they do not prove Worker resumption.
+- The future Wake Adapter is replaceable and consumes resume requests; it does not own mission truth or directly access private runtime tables.
+- Tampermonkey, if used, remains only one possible Wake Adapter; it does not become an orchestrator or source of truth.
 - Scheduled processing may later use pg_cron/pg_net, but scheduling is not itself the mission source of truth.
 - Database schema changes are versioned through repository migrations and deployed through the project's migration workflow.
 
@@ -871,7 +874,7 @@ The Worker execution protocol needs durable coordination across conversations an
 
 ### Decision
 
-The agent orchestration dispatcher uses Supabase PostgreSQL/pg_cron for periodic runtime reconciliation and Supabase Edge Functions as the authenticated server-side dispatcher boundary.
+The agent orchestration dispatcher uses Supabase PostgreSQL/pg_cron for periodic runtime reconciliation and Supabase Edge Functions as the authenticated server-side dispatcher boundary. A Wake Adapter remains optional and replaceable; it consumes durable resume requests through an authenticated server-side boundary and never receives database credentials or becomes an orchestrator/source of truth.
 
 The periodic path runs once per minute inside PostgreSQL. It expires stale worker leases, creates recovery requests and records durable orchestration events. This avoids unnecessary Edge Function invocations and keeps the design compatible with the Supabase Free plan.
 
