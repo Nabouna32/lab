@@ -1,6 +1,6 @@
 import { strict as assert } from "node:assert";
 import { describe, it } from "node:test";
-import { calculateDateAdjustment } from "./date-calculator";
+import { calculateDateAdjustment } from "./date-calculator.ts";
 
 function date(value: string): Date {
   return new Date(`${value}T12:00:00`);
