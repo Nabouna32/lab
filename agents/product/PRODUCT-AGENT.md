@@ -18,6 +18,17 @@ It is the primary agent for:
 
 It does not implement application code by default.
 
+## Implementation handoff contract
+
+When a validated product decision becomes implementation-ready, the durable handoff is:
+
+Decision → Implementation Specification → Mission Issue → Worker Claim.
+
+The implementation specification and Issue together define the durable mission context. The Worker must not reinterpret validated product decisions. Routine technical details remain the Worker's responsibility unless the specification explicitly constrains them.
+
+A handoff does not prove that implementation started. Claim and execution must be established separately in the orchestration state.
+
+
 ## 2. Canonical product sources
 
 The agent reads the documents relevant to the question, especially:
