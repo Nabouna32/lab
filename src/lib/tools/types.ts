@@ -29,6 +29,7 @@ export type ToolId =
   | "regex-tester"
   | "password-generator"
   | "contrast-checker"
+  | "ip-subnet-calculator"
   | "color-converter"
   | "color-palette-generator";
 
