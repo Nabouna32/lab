@@ -150,6 +150,11 @@ type ToolMessages = {
     firstUsableAddress: string; lastUsableAddress: string; totalAddresses: string; usableHosts: string;
     hostCountNote: string;
   };
+  numberBaseConverter: {
+    input: string; placeholder: string; fromBase: string; toBase: string; result: string;
+    emptyResult: string; invalid: string; hint: string; reset: string; swap: string;
+    copy: string; copied: string; baseLabel: (base: number) => string;
+  };
   videoBitrate: {
     mode: string; duration: string; hours: string; minutes: string; seconds: string;
     hoursPlaceholder: string; minutesPlaceholder: string; secondsPlaceholder: string;
@@ -186,6 +191,13 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       networkAddress: "Adresse réseau", broadcastAddress: "Adresse de broadcast", subnetMask: "Masque de sous-réseau", wildcardMask: "Masque générique",
       firstUsableAddress: "Première adresse hôte", lastUsableAddress: "Dernière adresse hôte", totalAddresses: "Adresses totales", usableHosts: "Hôtes utilisables",
       hostCountNote: "Pour /0 à /30, les adresses réseau et broadcast ne sont pas comptées comme hôtes utilisables. Les préfixes /31 et /32 suivent leurs usages IPv4 particuliers.",
+    },
+    numberBaseConverter: {
+      input: "Nombre à convertir", placeholder: "Ex. FF", fromBase: "Base de départ", toBase: "Base d’arrivée",
+      result: "Résultat", emptyResult: "Le résultat apparaîtra ici après conversion.",
+      invalid: "Saisissez un entier valide pour la base choisie.", hint: "Les bases 2 à 36 sont prises en charge. Les lettres A–Z représentent les chiffres 10–35.",
+      reset: "Réinitialiser", swap: "Inverser les bases", copy: "Copier", copied: "Copié",
+      baseLabel: (base) => "Base " + base,
     },
 
     fileSizeCalculator: {
@@ -373,6 +385,13 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       networkAddress: "Network address", broadcastAddress: "Broadcast address", subnetMask: "Subnet mask", wildcardMask: "Wildcard mask",
       firstUsableAddress: "First host address", lastUsableAddress: "Last host address", totalAddresses: "Total addresses", usableHosts: "Usable hosts",
       hostCountNote: "For /0 through /30, the network and broadcast addresses are excluded from the usable host count. /31 and /32 follow their special IPv4 usage.",
+    },
+    numberBaseConverter: {
+      input: "Number to convert", placeholder: "e.g. FF", fromBase: "Source base", toBase: "Target base",
+      result: "Result", emptyResult: "The result will appear here once you enter a number.",
+      invalid: "Enter a valid integer for the selected base.", hint: "Bases 2 through 36 are supported. Letters A–Z represent digits 10–35.",
+      reset: "Reset", swap: "Swap bases", copy: "Copy", copied: "Copied",
+      baseLabel: (base) => "Base " + base,
     },
 
     fileSizeCalculator: {
