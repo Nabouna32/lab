@@ -131,6 +131,10 @@ const localProcessingDescriptions = {
     fr: "Le calcul du sous-réseau IPv4 est effectué directement dans votre navigateur.",
     en: "IPv4 subnet calculations are performed directly in your browser.",
   },
+  "text-diff-checker": {
+    fr: "La comparaison des textes est effectuée directement dans votre navigateur.",
+    en: "Text comparison is performed directly in your browser.",
+  },
   "number-base-converter": {
     fr: "La conversion de base numérique est effectuée directement dans votre navigateur.",
     en: "Number base conversion is performed directly in your browser.",
@@ -570,6 +574,20 @@ const toolDefinitions: ToolDefinition[] = [
     content: {
       fr: { name: "Convertisseur de bases", description: "Convertissez un nombre entier entre les bases 2 et 36, notamment binaire, décimal et hexadécimal." },
       en: { name: "Number Base Converter", description: "Convert an integer between bases 2 and 36, including binary, decimal, and hexadecimal." },
+    },
+  },
+  {
+    id: "text-diff-checker", icon: "±",
+    version: 1,
+    complexity: "advanced",
+    categories: ["development"],
+    tags: ["text", "diff", "compare", "comparison", "changes", "code", "developer"],
+    aliases: ["text diff", "diff checker", "text comparison", "compare text", "difference checker", "comparateur de texte", "diff texte", "comparaison texte"],
+    lifecycle: "published",
+    capabilities: ["clipboard"],
+    content: {
+      fr: { name: "Comparateur de texte", description: "Comparez deux versions d’un texte et repérez immédiatement les lignes ajoutées et supprimées." },
+      en: { name: "Text Diff Checker", description: "Compare two versions of text and quickly spot added and removed lines." },
     },
   },
   {

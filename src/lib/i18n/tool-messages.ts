@@ -160,6 +160,11 @@ type ToolMessages = {
     emptyResult: string; invalid: string; hint: string; reset: string; swap: string;
     copy: string; copied: string; baseLabel: (base: number) => string;
   };
+  textDiffChecker: {
+    original: string; originalPlaceholder: string; updated: string; updatedPlaceholder: string;
+    result: string; emptyResult: string; resourceLimit: string; copy: string; clear: string; reset: string;
+    summary: (added: number, removed: number, unchanged: number) => string;
+  };
   videoBitrate: {
     mode: string; duration: string; hours: string; minutes: string; seconds: string;
     hoursPlaceholder: string; minutesPlaceholder: string; secondsPlaceholder: string;
@@ -331,6 +336,11 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       input: "Données", placeholder: "Collez un CSV ou un tableau JSON d’objets…", delimiter: "Séparateur CSV", csvToJson: "CSV → JSON", jsonToCsv: "JSON → CSV",
       result: "Résultat", ready: "Conversion mise à jour", emptyResult: "Le résultat apparaîtra ici.", copy: "Copier", clear: "Effacer", error: "La conversion n’a pas pu être effectuée.",
       invalidCsv: "Le CSV est invalide ou mal formé.", invalidJson: "Le JSON est invalide.", unsupportedJson: "Utilisez un tableau JSON composé d’objets.",
+    },
+    textDiffChecker: {
+      original: "Version originale", originalPlaceholder: "Collez le texte original…", updated: "Version modifiée", updatedPlaceholder: "Collez le texte modifié…",
+      result: "Comparaison", emptyResult: "Collez deux versions pour afficher les différences.", resourceLimit: "Les textes sont trop volumineux pour être comparés en toute sécurité.", copy: "Copier le diff", clear: "Effacer", reset: "Réinitialiser",
+      summary: (added, removed, unchanged) => `+${added} ajout${added === 1 ? "" : "s"} · -${removed} suppression${removed === 1 ? "" : "s"} · ${unchanged} ligne${unchanged === 1 ? "" : "s"} inchangée${unchanged === 1 ? "" : "s"}`,
     },
     videoBitrate: {
       mode: "Mode de calcul", duration: "Durée", hours: "Heures", minutes: "Minutes", seconds: "Secondes",
@@ -529,6 +539,11 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       input: "Data", placeholder: "Paste CSV or a JSON array of objects…", delimiter: "CSV delimiter", csvToJson: "CSV → JSON", jsonToCsv: "JSON → CSV",
       result: "Result", ready: "Conversion updated", emptyResult: "The result will appear here.", copy: "Copy", clear: "Clear", error: "The conversion could not be completed.",
       invalidCsv: "The CSV is invalid or malformed.", invalidJson: "The JSON is invalid.", unsupportedJson: "Use a JSON array containing objects.",
+    },
+    textDiffChecker: {
+      original: "Original version", originalPlaceholder: "Paste the original text…", updated: "Updated version", updatedPlaceholder: "Paste the updated text…",
+      result: "Comparison", emptyResult: "Paste two versions to see the differences.", resourceLimit: "The texts are too large to compare safely.", copy: "Copy diff", clear: "Clear", reset: "Reset",
+      summary: (added, removed, unchanged) => `+${added} addition${added === 1 ? "" : "s"} · -${removed} removal${removed === 1 ? "" : "s"} · ${unchanged} unchanged line${unchanged === 1 ? "" : "s"}`,
     },
     videoBitrate: {
       mode: "Calculation mode", duration: "Duration", hours: "Hours", minutes: "Minutes", seconds: "Seconds",
