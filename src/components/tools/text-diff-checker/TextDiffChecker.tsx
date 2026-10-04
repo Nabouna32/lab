@@ -81,7 +81,7 @@ export default function TextDiffChecker() {
             result.value.lines.map((line, index) => (
               <div
                 key={line.type + "-" + (line.oldLine ?? "") + "-" + (line.newLine ?? "") + "-" + index}
-                className="grid grid-cols-[3rem_3rem_minmax(0,1fr)] gap-2 rounded px-2 py-1"
+                className={"grid grid-cols-[3rem_3rem_minmax(0,1fr)] gap-2 rounded px-2 py-1 " + (line.type === "added" ? "bg-[var(--success-soft)]" : line.type === "removed" ? "bg-[var(--danger-soft)]" : "")}
               >
                 <span className="text-right text-[var(--muted)]" aria-hidden="true">{line.oldLine ?? ""}</span>
                 <span className="text-right text-[var(--muted)]" aria-hidden="true">{line.newLine ?? ""}</span>
