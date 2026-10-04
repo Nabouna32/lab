@@ -780,3 +780,30 @@ The account system must be complete without introducing unnecessary personal-dat
 - Audit history survives account deletion in anonymized form.
 - Future user-owned tables must define explicit deletion/retention semantics before being added to the account lifecycle.
 - Deleting the last super administrator is intentionally blocked to preserve administrative recoverability. The database serializes self-deletion and `super_admin` role removal checks so concurrent operations cannot bypass this invariant.
+
+## DEC-038 — Dedicated technology update and modernization audit
+
+**Status:** Accepted
+
+### Decision
+
+Loculary adds a dedicated **Audit 32 — Update / modernisation technologique** to the autonomous audit system.
+
+The audit evaluates runtime versions, frameworks, dependencies, development tooling, CI/CD actions, deployment/platform configuration, browser/Web Platform assumptions, deprecated APIs and migration debt. It does not blindly target the newest available versions: it must distinguish the latest release from the supported, compatible and recommended target for Loculary.
+
+Audit 32 is executed before **Audit 31 — Final / Red Team** when a modernization cycle is undertaken. Audit 31 remains the final transversal audit and is not renumbered.
+
+### Reason
+
+The existing dependency/supply-chain audit identifies dependency health and risk, while the final red-team audit evaluates the project transversally. Neither has the specific mission of systematically determining which parts of the technical stack should now be upgraded, migrated, replaced or deliberately kept.
+
+A dedicated modernization pass reduces the risk of accumulating obsolete tooling or missing important supported-version migrations while avoiding indiscriminate upgrades.
+
+### Consequences
+
+- Audit 20 remains responsible for dependency and supply-chain health.
+- Audit 32 evaluates update and modernization opportunities across the broader technical stack.
+- Major framework/runtime/infrastructure migrations remain subject to explicit validation when they materially affect architecture, cost, privacy, security or product direction.
+- Audit 32 must document what should be preserved, not only what should change.
+- Audit 31 remains the final cross-domain red-team pass after validated modernization work.
+\n
