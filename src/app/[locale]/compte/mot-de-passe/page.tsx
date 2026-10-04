@@ -32,7 +32,7 @@ export default async function ChangePasswordPage({
         <h1 className="mt-2 text-3xl font-bold tracking-tight">{t.account.changePasswordTitle}</h1>
         {query.error ? (
           <p className="mt-5 border-l-2 border-[var(--danger)] py-1 pl-3 text-sm text-[var(--danger-foreground)]" role="alert">
-            {query.error === "current-password" ? t.account.currentPasswordError : query.error === "weak-password" ? t.account.weakPassword : t.account.profileError}
+            {query.error === "current-password" ? t.account.currentPasswordError : query.error === "weak-password" ? t.account.weakPassword : t.account.passwordError}
           </p>
         ) : null}
         <form action={changePassword} className="mt-6 space-y-5">
