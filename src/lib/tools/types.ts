@@ -31,6 +31,7 @@ export type ToolId =
   | "contrast-checker"
   | "ip-subnet-calculator"
   | "color-converter"
+  | "number-base-converter"
   | "color-palette-generator";
 
 export type ToolComplexity = "small" | "advanced" | "mini-application";

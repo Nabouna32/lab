@@ -126,4 +126,8 @@ export const toolSeo = {
     fr: { title: "Calculateur de sous-réseau IPv4 | Loculary", description: "Calculez le réseau, le masque, le broadcast et la plage d’hôtes d’une adresse IPv4 en notation CIDR." },
     en: { title: "IPv4 Subnet Calculator | Loculary", description: "Calculate the network, subnet mask, broadcast address, and host range for an IPv4 CIDR." },
   },
+  "number-base-converter": {
+    fr: { title: "Convertisseur de bases numériques | Loculary", description: "Convertissez des nombres entiers entre les bases 2 et 36, directement dans votre navigateur." },
+    en: { title: "Number Base Converter | Loculary", description: "Convert integers between bases 2 and 36 directly in your browser." },
+  },
 } satisfies Record<ToolId, Record<Locale, ToolSeoMetadata>>;

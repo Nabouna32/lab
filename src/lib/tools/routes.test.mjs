@@ -19,6 +19,8 @@ test("French public URLs are fully localized", () => {
   assert.equal(getToolsPath("fr"), "/fr/outils");
   assert.equal(getCategoryPath("fr", "development"), "/fr/outils/developpement");
   assert.equal(getToolSlug("fr", "json-formatter"), "formateur-json");
+  assert.equal(getToolSlug("fr", "number-base-converter"), "convertisseur-de-bases");
+  assert.equal(getToolPath("en", "development", "number-base-converter"), "/en/tools/development/number-base-converter");
   assert.equal(
     getToolPath("fr", "calculations", "percentage"),
     "/fr/outils/calculs/calculateur-de-pourcentage",

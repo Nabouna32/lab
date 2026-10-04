@@ -133,6 +133,7 @@ test("all published tool pages render", async ({ page }) => {
     "/en/tools/files/csv-json-converter",
     "/en/tools/development/html-entity-encoder-decoder",
     "/fr/outils/developpement/generateur-uuid",
+    "/fr/outils/developpement/convertisseur-de-bases",
   "/en/tools/files/word-character-counter",
   ];
 

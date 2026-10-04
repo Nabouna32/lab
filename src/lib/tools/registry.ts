@@ -153,6 +153,10 @@ const moduleLoaders: Partial<Record<ToolId, ToolModule>> = {
     () => import("@/components/tools/ip-subnet-calculator/IpSubnetCalculator"),
     () => import("@/components/tools/ip-subnet-calculator/ToolEditorial"),
   ),
+  "number-base-converter": createToolModule(
+    () => import("@/components/tools/number-base-converter/NumberBaseConverter"),
+    () => import("@/components/tools/number-base-converter/ToolEditorial"),
+  ),
   "video-bitrate": createToolModule(
     () => import("@/components/tools/video-bitrate/VideoBitrateCalculator"),
     () => import("@/components/tools/video-bitrate/ToolEditorial"),
