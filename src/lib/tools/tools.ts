@@ -655,6 +655,7 @@ const toolDefinitions: ToolDefinition[] = [
     tags: ["image", "compression", "compresser", "photo", "webp", "jpeg", "png", "taille", "poids"],
     aliases: ["image compressor", "compress image", "photo compressor", "image compression", "compresseur image", "compresser image", "réduire image", "réduire poids image"],
     lifecycle: "published",
+    capabilities: ["file-input"],
     content: {
       fr: { name: "Compresseur d’image", description: "Réduisez le poids d’une image en choisissant le format, la qualité et la dimension maximale." },
       en: { name: "Image Compressor", description: "Reduce an image file size by choosing the format, quality, and maximum dimension." },
