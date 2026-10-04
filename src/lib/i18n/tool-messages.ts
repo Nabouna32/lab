@@ -165,6 +165,12 @@ type ToolMessages = {
     result: string; emptyResult: string; resourceLimit: string; copy: string; clear: string; reset: string;
     summary: (added: number, removed: number, unchanged: number) => string;
   };
+  cronExpression: {
+    input: string; placeholder: string; result: string; valid: string; invalid: string; emptyResult: string;
+    expressionHint: string; nextRuns: string; copy: string; clear: string; reset: string;
+    fields: { minute: string; hour: string; dayOfMonth: string; month: string; dayOfWeek: string };
+    examples: { everyMinute: string; everyWeekday: string; midnight: string };
+  };
   videoBitrate: {
     mode: string; duration: string; hours: string; minutes: string; seconds: string;
     hoursPlaceholder: string; minutesPlaceholder: string; secondsPlaceholder: string;
@@ -341,6 +347,14 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       original: "Version originale", originalPlaceholder: "Collez le texte original…", updated: "Version modifiée", updatedPlaceholder: "Collez le texte modifié…",
       result: "Comparaison", emptyResult: "Collez deux versions pour afficher les différences.", resourceLimit: "Les textes sont trop volumineux pour être comparés en toute sécurité.", copy: "Copier le diff", clear: "Effacer", reset: "Réinitialiser",
       summary: (added, removed, unchanged) => `+${added} ajout${added === 1 ? "" : "s"} · -${removed} suppression${removed === 1 ? "" : "s"} · ${unchanged} ligne${unchanged === 1 ? "" : "s"} inchangée${unchanged === 1 ? "" : "s"}`,
+    },
+    cronExpression: {
+      input: "Expression Cron", placeholder: "ex. 0 9 * * 1-5", result: "Analyse", valid: "Expression valide",
+      invalid: "Expression Cron invalide.", emptyResult: "Saisissez une expression pour voir son analyse.",
+      expressionHint: "Format classique à 5 champs : minute, heure, jour du mois, mois, jour de la semaine.",
+      nextRuns: "Prochaines exécutions", copy: "Copier", clear: "Effacer", reset: "Réinitialiser",
+      fields: { minute: "Minute", hour: "Heure", dayOfMonth: "Jour du mois", month: "Mois", dayOfWeek: "Jour de la semaine" },
+      examples: { everyMinute: "Chaque minute", everyWeekday: "À 9 h, du lundi au vendredi", midnight: "À minuit chaque jour" },
     },
     videoBitrate: {
       mode: "Mode de calcul", duration: "Durée", hours: "Heures", minutes: "Minutes", seconds: "Secondes",
@@ -544,6 +558,14 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       original: "Original version", originalPlaceholder: "Paste the original text…", updated: "Updated version", updatedPlaceholder: "Paste the updated text…",
       result: "Comparison", emptyResult: "Paste two versions to see the differences.", resourceLimit: "The texts are too large to compare safely.", copy: "Copy diff", clear: "Clear", reset: "Reset",
       summary: (added, removed, unchanged) => `+${added} addition${added === 1 ? "" : "s"} · -${removed} removal${removed === 1 ? "" : "s"} · ${unchanged} unchanged line${unchanged === 1 ? "" : "s"}`,
+    },
+    cronExpression: {
+      input: "Cron expression", placeholder: "e.g. 0 9 * * 1-5", result: "Analysis", valid: "Valid expression",
+      invalid: "Invalid Cron expression.", emptyResult: "Enter an expression to see its schedule.",
+      expressionHint: "Classic 5-field format: minute, hour, day of month, month, day of week.",
+      nextRuns: "Next runs", copy: "Copy", clear: "Clear", reset: "Reset",
+      fields: { minute: "Minute", hour: "Hour", dayOfMonth: "Day of month", month: "Month", dayOfWeek: "Day of week" },
+      examples: { everyMinute: "Every minute", everyWeekday: "At 9 AM, Monday through Friday", midnight: "At midnight every day" },
     },
     videoBitrate: {
       mode: "Calculation mode", duration: "Duration", hours: "Hours", minutes: "Minutes", seconds: "Seconds",
