@@ -47,6 +47,7 @@ has(handoff, 'WORKING.md', 'Handoff contract');
 has(handoff, 'last durable commit SHA', 'Handoff contract');
 has(auditContract, 'agents/AGENT-CONTRACT.md', 'Audit contract');
 has(auditContract, 'agents/HANDOFF-CONTRACT.md', 'Audit contract');
+has(auditContract, 'docs/audits/<audit-id>/WORKING.md', 'Audit contract');
 has(toolContract, 'agents/AGENT-CONTRACT.md', 'Tool contract');
 has(toolContract, 'agents/HANDOFF-CONTRACT.md', 'Tool contract');
 has(toolWorker, 'agents/AGENT-CONTRACT.md', 'Tool worker');
@@ -63,7 +64,7 @@ has(start, 'agents/AGENT-CONTRACT.md', 'Agent start guide');
 has(common, 'brand-new conversation', 'Common contract');
 has(common, 'MUST NOT begin implementation or audit conclusions', 'Common contract');
 has(common, 'tool output was truncated', 'Common contract');
-has(common, 'conversation failure resilience', 'Common contract');
+has(common, 'Conversation failure resilience', 'Common contract');
 has(common, 'HANDOFF-CONTRACT.md', 'Common contract');
 has(rootRules, 'Work one validated step at a time.', 'AGENTS.md');
 
