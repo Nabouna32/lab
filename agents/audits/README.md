@@ -2,6 +2,8 @@
 
 Each Markdown file in this directory is a reusable autonomous audit prompt.
 
+**Mandatory contract:** read [`agents/AUDIT-CONTRACT.md`](../AUDIT-CONTRACT.md) before executing any mission. The mission itself must also state the essential report/path/history rules explicitly. If there is any conflict, the canonical contract wins unless a deliberate project decision changes it.
+
 ## Contract for every audit mission
 
 Every mission should instruct the agent to:
@@ -10,11 +12,11 @@ Every mission should instruct the agent to:
 - read `AGENTS.md` and the relevant product/technical documentation;
 - challenge the current implementation rather than treating it as correct by default;
 - distinguish observed facts from deductions, proposals and decisions;
-- avoid modifying the repository during the audit;
+- do not modify product/project files during the audit; only create the new historical report and update that audit's `LATEST.md` pointer as defined by the canonical contract;
 - test or measure claims whenever practical;
 - identify both defects and suboptimal-but-working choices;
 - include a from-scratch challenge: **if Loculary were built today, what would you change?**
-- produce a complete audit report;
+- produce a complete audit report using the canonical naming, historical immutability and classification contract;
 - finish with a copy-pastable autonomous implementation-agent prompt;
 - state what should be preserved;
 - identify decisions that require explicit validation;
