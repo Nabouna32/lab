@@ -155,6 +155,10 @@ const localProcessingDescriptions = {
     fr: "Le contenu du QR Code est traité et généré directement dans votre navigateur.",
     en: "QR Code content is processed and generated directly in your browser.",
   },
+  "timezone-converter": {
+    fr: "Les conversions de fuseaux horaires sont effectuées directement dans votre navigateur.",
+    en: "Time zone conversions are performed directly in your browser.",
+  },
   "html-previewer": {
     fr: "Le HTML saisi est rendu localement dans un aperçu isolé de votre navigateur.",
     en: "The HTML you enter is rendered locally in an isolated browser preview.",
@@ -419,6 +423,19 @@ const toolDefinitions: ToolDefinition[] = [
     content: {
       fr: { name: "Encodeur et décodeur d’entités HTML", description: "Encodez les caractères spéciaux HTML et décodez les entités nommées ou numériques directement dans votre navigateur." },
       en: { name: "HTML Entity Encoder & Decoder", description: "Encode HTML-special characters and decode named or numeric entities directly in your browser." },
+    },
+  },
+  {
+    id: "timezone-converter", icon: "🌍",
+    version: 1,
+    complexity: "advanced",
+    categories: ["dates"],
+    tags: ["timezone", "time zone", "fuseau", "heure", "date", "iana", "dst", "daylight saving"],
+    aliases: ["timezone converter", "time zone converter", "world time converter", "timezone conversion", "convertisseur fuseau horaire", "convertisseur de fuseaux horaires", "conversion fuseau horaire"],
+    lifecycle: "published",
+    content: {
+      fr: { name: "Convertisseur de fuseaux horaires", description: "Convertissez une date et une heure entre deux fuseaux horaires IANA, y compris les changements d’heure." },
+      en: { name: "Time Zone Converter", description: "Convert a date and time between IANA time zones, including daylight-saving changes." },
     },
   },
   {
