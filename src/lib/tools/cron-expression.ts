@@ -77,61 +77,6 @@ export function parseCronExpression(expression: string): CronSchedule {
   };
 }
 
-function isWildcard(expression: string): boolean {
-  return expression === "*";
-}
-
-function describeList(values: number[]): string {
-  if (values.length === 0) return "";
-  if (values.length === 1) return String(values[0]);
-  return values.join(", ");
-}
-
-function describeField(field: CronField): string {
-  const { expression, values, name } = field;
-  if (isWildcard(expression)) {
-    if (name === "minute") return "every minute";
-    if (name === "hour") return "every hour";
-    if (name === "dayOfMonth") return "every day of the month";
-    if (name === "month") return "every month";
-    return "every day of the week";
-  }
-  if (expression.startsWith("*/")) {
-    const step = expression.slice(2);
-    if (name === "minute") return `every ${step} minutes`;
-    if (name === "hour") return `every ${step} hours`;
-    if (name === "month") return `every ${step} months`;
-  }
-  if (name === "dayOfWeek") {
-    const labels = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    return values.map((value) => labels[value]).join(", ");
-  }
-  return describeList(values);
-}
-
-function describeCron(fields: Record<CronFieldName, CronField>): string {
-  const minute = describeField(fields.minute);
-  const hour = describeField(fields.hour);
-  const day = describeField(fields.dayOfMonth);
-  const month = describeField(fields.month);
-  const weekday = describeField(fields.dayOfWeek);
-
-  if (fields.minute.expression === "*" && fields.hour.expression === "*" && fields.dayOfMonth.expression === "*" && fields.month.expression === "*" && fields.dayOfWeek.expression === "*") {
-    return "Every minute";
-  }
-  if (fields.minute.expression === "0" && fields.hour.expression === "*" && fields.dayOfMonth.expression === "*" && fields.month.expression === "*" && fields.dayOfWeek.expression === "*") {
-    return "At the start of every hour";
-  }
-  if (fields.minute.expression === "0" && fields.hour.expression === "0" && fields.dayOfMonth.expression === "*" && fields.month.expression === "*" && fields.dayOfWeek.expression === "*") {
-    return "At midnight every day";
-  }
-  if (fields.minute.expression === "0" && fields.hour.expression === "9" && fields.dayOfMonth.expression === "*" && fields.month.expression === "*" && fields.dayOfWeek.expression === "1-5") {
-    return "At 9:00 AM, Monday through Friday";
-  }
-
-  return `At minute ${minute} of hour ${hour}, on ${day}, in ${month}, when the day of week is ${weekday}.`;
-}
-
 function matchesField(value: number, field: CronField): boolean {
   return field.values.includes(value);
 }
