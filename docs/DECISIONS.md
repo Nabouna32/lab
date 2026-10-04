@@ -863,3 +863,30 @@ The Worker execution protocol needs durable coordination across conversations an
 - Tampermonkey remains a wake adapter only; it does not become an orchestrator or source of truth.
 - Scheduled processing may later use pg_cron/pg_net, but scheduling is not itself the mission source of truth.
 - Database schema changes are versioned through repository migrations and deployed through the project's migration workflow.
+
+
+## DEC-041 — Free-plan agent dispatcher runtime
+
+**Status:** Accepted
+
+### Decision
+
+The agent orchestration dispatcher uses Supabase PostgreSQL/pg_cron for periodic runtime reconciliation and Supabase Edge Functions as the authenticated server-side dispatcher boundary.
+
+The periodic path runs once per minute inside PostgreSQL. It expires stale worker leases, creates recovery requests and records durable orchestration events. This avoids unnecessary Edge Function invocations and keeps the design compatible with the Supabase Free plan.
+
+The Edge Function is intentionally small and authenticated with a Supabase secret key. It uses the platform-provided database connection and does not expose the private runtime schema.
+
+Tampermonkey remains an optional wake adapter only. It never receives database credentials and never becomes an orchestrator or source of truth.
+
+### Reason
+
+The Free plan is sufficient for the dispatcher if periodic housekeeping stays database-local. Supabase currently includes 500,000 Edge Function invocations on Free, while Edge Functions have a 150-second wall-clock and 2-second CPU limit. There is therefore no reason to spend an invocation every minute on routine lease reconciliation.
+
+### Consequences
+
+- No paid-only infrastructure is required.
+- No Supabase development branch is created for this runtime.
+- The periodic trigger is pg_cron at one-minute precision.
+- The Edge Function remains available for future authenticated service/adaptor-triggered dispatch.
+- Git/GitHub remain authoritative for implementation and delivery facts.
