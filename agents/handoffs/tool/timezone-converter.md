@@ -9,9 +9,9 @@
 - **Challenge:** A generic “world clock” would be visually attractive but less useful for deterministic tasks. A raw UTC-to-zone converter would avoid DST ambiguity but would be less natural for users. Chosen direction: convert a wall-clock date/time from a source IANA zone to a destination IANA zone, with explicit handling of nonexistent/ambiguous local times.
 - **Domain basis:** `Intl.DateTimeFormat` supports IANA `timeZone` identifiers and `formatToParts()`, allowing local conversion without a timezone database dependency in the application.
 - **Completed milestones:** domain conversion + DST tests; catalog/type/registry/routes/SEO integration; EN/FR UI/editorial content; targeted Playwright coverage; hydration-safe client defaults; final branch diff inspection.
-- **Current action:** verify the next PR head checks after the second lint fix.
+- **Current action:** verify the next PR head checks after correcting the local date parser regex.
 - **Decisions blocked:** none currently.
-- **Tests/checks:** CI #1270 failed at lint on two worker-introduced issues; both were corrected. CI #1273 then exposed one remaining escaped newline in the component and failed before typecheck. That syntax issue is now corrected. Browser E2E #1109 was running against the affected head.
+- **Tests/checks:** CI #1270 failed at lint on two worker-introduced issues; both were corrected. CI #1273 then exposed one remaining escaped newline in the component and failed before typecheck. That syntax issue was corrected. A direct source inspection then found the date parser regex still contained escaped literals from the initial file generation; it has now been corrected before the next CI run. Browser E2E #1109 was running against the affected head.
 - **Last durable commit:** 78e0116b1d8ebac43c46b002cc030ebfda64425b3
 - **Latest checkpoint:** 2026-10-05.
 - **Challenge outcome:** preserve the local-first IANA approach; use browser tzdata via Intl instead of shipping a timezone database or adding an external provider. Explicitly reject nonexistent local times and choose the earlier instant for repeated local times.
