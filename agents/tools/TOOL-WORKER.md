@@ -32,6 +32,8 @@ Then inspect the actual current code and GitHub state.
 
 Do not trust old chat context over the repository.
 
+Then read `agents/HANDOFF-CONTRACT.md` and locate the active checkpoint for this mission before substantive work. If none exists, create it before proceeding.
+
 ---
 
 # OPERATING MODE
@@ -112,6 +114,12 @@ Then implement the chosen tool completely.
 # WHEN THE USER SAYS "CONTINUE"
 
 First inspect the real Git/GitHub state.
+
+If this conversation already owns a tool branch or PR, first reconcile any active checkpoint with the actual branch, PR and code:
+
+- resume from the recorded state when it is current;
+- if it is stale, reconcile it rather than replaying actions;
+- if it is missing, reconstruct from Git/GitHub and create a checkpoint.
 
 If this conversation already owns a tool branch or PR:
 
