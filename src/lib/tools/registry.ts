@@ -157,7 +157,10 @@ const moduleLoaders: Partial<Record<ToolId, ToolModule>> = {
     () => import("@/components/tools/ip-subnet-calculator/IpSubnetCalculator"),
     () => import("@/components/tools/ip-subnet-calculator/ToolEditorial"),
   ),
-  "text-diff-checker": createToolModule(\n    () => import("@/components/tools/text-diff-checker/TextDiffChecker"),\n    () => import("@/components/tools/text-diff-checker/ToolEditorial"),\n  ),\n  "number-base-converter": createToolModule(
+  "text-diff-checker": createToolModule(
+    () => import("@/components/tools/text-diff-checker/TextDiffChecker"),
+    () => import("@/components/tools/text-diff-checker/ToolEditorial"),
+  ),\n  "number-base-converter": createToolModule(
     () => import("@/components/tools/number-base-converter/NumberBaseConverter"),
     () => import("@/components/tools/number-base-converter/ToolEditorial"),
   ),
