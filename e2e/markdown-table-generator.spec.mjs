@@ -10,8 +10,9 @@ test("Markdown Table Generator works in French", async ({ page }) => {
   await page.getByLabel("En-tête 1, Colonne 2").fill("Âge");
   await page.getByLabel("Corps 2, Colonne 1").fill("Ada");
   await page.getByLabel("Corps 2, Colonne 2").fill("36");
-  await expect(page.getByText("| Nom | Âge |", { exact: true })).toBeVisible();
-  await expect(page.getByText("| :--- | :--- |", { exact: true })).toBeVisible();
+  const output = page.getByRole("pre", { name: "Markdown" });
+  await expect(output).toContainText("| Nom | Âge |");
+  await expect(output).toContainText("| :--- | :--- |");
 });
 
 test("Markdown Table Generator is localized in English", async ({ page }) => {
