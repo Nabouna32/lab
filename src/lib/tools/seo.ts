@@ -142,6 +142,10 @@ export const toolSeo = {
     fr: { title: "Générateur et analyseur Cron | Loculary", description: "Analysez une expression Cron classique, comprenez son calendrier et prévisualisez ses prochaines exécutions." },
     en: { title: "Cron Expression Builder & Explainer | Loculary", description: "Parse classic Cron expressions, explain their schedule, and preview upcoming runs." },
   },
+  "markdown-table-generator": {
+    fr: { title: "Générateur de tableau Markdown | Loculary", description: "Créez, alignez et copiez des tableaux Markdown directement dans votre navigateur." },
+    en: { title: "Markdown Table Generator | Loculary", description: "Create, align, and copy Markdown tables directly in your browser." },
+  },
   "qr-code-generator": {
     fr: { title: "Générateur de QR Code | Loculary", description: "Créez un QR Code à partir d’un texte ou d’une URL directement dans votre navigateur." },
     en: { title: "QR Code Generator | Loculary", description: "Create a QR Code from text or a URL directly in your browser." },

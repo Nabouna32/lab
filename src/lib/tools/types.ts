@@ -36,7 +36,8 @@ export type ToolId =
   | "color-palette-generator"
   | "text-diff-checker"
   | "cron-expression"
-  | "qr-code-generator";
+  | "qr-code-generator"
+  | "markdown-table-generator";
 
 export type ToolComplexity = "small" | "advanced" | "mini-application";
 export type ToolProcessingMode = "local" | "external" | "server" | "hybrid";

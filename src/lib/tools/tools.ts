@@ -147,6 +147,10 @@ const localProcessingDescriptions = {
     fr: "Le contenu du QR Code est traité et généré directement dans votre navigateur.",
     en: "QR Code content is processed and generated directly in your browser.",
   },
+  "markdown-table-generator": {
+    fr: "Le tableau Markdown est généré et prévisualisé directement dans votre navigateur.",
+    en: "The Markdown table is generated and previewed directly in your browser.",
+  },
 } satisfies Record<ToolId, { fr: string; en: string }>;
 
 type ToolDefinition = Pick<
@@ -623,6 +627,20 @@ const toolDefinitions: ToolDefinition[] = [
     content: {
       fr: { name: "Générateur de QR Code", description: "Créez un QR Code à partir d’un texte ou d’une URL directement dans votre navigateur." },
       en: { name: "QR Code Generator", description: "Create a QR Code from text or a URL directly in your browser." },
+    },
+  },
+  {
+    id: "markdown-table-generator", icon: "▤",
+    version: 1,
+    complexity: "advanced",
+    categories: ["development"],
+    tags: ["markdown", "table", "developer", "documentation", "readme", "formatting", "generator"],
+    aliases: ["markdown table", "markdown table generator", "table markdown", "markdown table builder", "tableau markdown", "générateur tableau markdown"],
+    lifecycle: "published",
+    capabilities: ["clipboard"],
+    content: {
+      fr: { name: "Générateur de tableau Markdown", description: "Créez, alignez et copiez un tableau Markdown directement dans votre navigateur." },
+      en: { name: "Markdown Table Generator", description: "Create, align, and copy a Markdown table directly in your browser." },
     },
   },
   {
