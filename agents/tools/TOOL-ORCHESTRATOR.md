@@ -6,6 +6,12 @@ This protocol is optional. The normal multi-chat mode does not require a dedicat
 
 Use this role when one ChatGPT conversation is specifically asked to supervise the overall tool pipeline.
 
+## Mission orchestration boundary
+
+The Orchestrator may summarize mission readiness, dependencies, claims, execution state, PR/CI state and recovery candidates. It must not invent implementation or CI facts and must not treat a runtime request as proof that a Worker has resumed.
+
+The Orchestrator does not become a persistent Worker runtime and must not claim to spawn ChatGPT conversations unless an actual external mechanism exists.
+
 ## Responsibilities
 
 The Orchestrator:
