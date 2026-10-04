@@ -50,34 +50,34 @@ export default async function AdminAuditPage({
       </header>
 
       {error ? (
-        <p className="mt-8 rounded-xl bg-[var(--danger-soft)] px-4 py-3 text-sm text-[var(--danger)]" role="alert">
+        <p className="mt-8 border-y border-[var(--danger)]/30 bg-[var(--danger-soft)] px-1 py-3 text-sm text-[var(--danger)]" role="alert">
           {t.admin.auditLoadError}
         </p>
       ) : entries.length === 0 ? (
-        <p className="mt-8 rounded-2xl border border-[var(--border)] bg-[var(--surface-soft)] p-6 text-[var(--muted)]">
+        <p className="mt-8 border-y border-[var(--border)] py-5 text-[var(--muted)]">
           {t.admin.auditEmpty}
         </p>
       ) : (
-        <section className="mt-8 overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] shadow-[var(--shadow-sm)]">
+        <section className="mt-8 border-y border-[var(--border)]" aria-label={t.admin.auditTitle}>
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[720px] border-collapse text-sm">
-              <thead className="border-b border-[var(--border)] bg-[var(--surface-soft)] text-left">
+            <table className="w-full min-w-[760px] border-collapse text-sm">
+              <thead className="border-b border-[var(--border)] text-left text-[var(--muted)]">
                 <tr>
-                  <th scope="col" className="px-4 py-3 font-semibold">{t.admin.auditDate}</th>
-                  <th scope="col" className="px-4 py-3 font-semibold">{t.admin.auditActor}</th>
-                  <th scope="col" className="px-4 py-3 font-semibold">{t.admin.auditAction}</th>
-                  <th scope="col" className="px-4 py-3 font-semibold">{t.admin.auditTarget}</th>
-                  <th scope="col" className="px-4 py-3 font-semibold">{t.admin.auditDetails}</th>
+                  <th scope="col" className="px-3 py-3 font-semibold">{t.admin.auditDate}</th>
+                  <th scope="col" className="px-3 py-3 font-semibold">{t.admin.auditActor}</th>
+                  <th scope="col" className="px-3 py-3 font-semibold">{t.admin.auditAction}</th>
+                  <th scope="col" className="px-3 py-3 font-semibold">{t.admin.auditTarget}</th>
+                  <th scope="col" className="px-3 py-3 font-semibold">{t.admin.auditDetails}</th>
                 </tr>
               </thead>
               <tbody>
                 {entries.map((entry) => (
                   <tr key={entry.id} className="border-b border-[var(--border)] last:border-0">
-                    <td className="whitespace-nowrap px-4 py-4 align-top">{formatDate(entry.created_at, locale)}</td>
-                    <td className="max-w-52 break-all px-4 py-4 align-top">{entry.actor_email ?? "—"}</td>
-                    <td className="px-4 py-4 align-top font-medium">{entry.action}</td>
-                    <td className="max-w-72 break-all px-4 py-4 align-top">{formatTarget(entry)}</td>
-                    <td className="max-w-80 break-words px-4 py-4 align-top text-[var(--muted)]">
+                    <td className="whitespace-nowrap px-3 py-4 align-top text-[var(--muted)]">{formatDate(entry.created_at, locale)}</td>
+                    <td className="max-w-52 break-all px-3 py-4 align-top">{entry.actor_email ?? "—"}</td>
+                    <td className="px-3 py-4 align-top font-medium">{entry.action}</td>
+                    <td className="max-w-72 break-all px-3 py-4 align-top">{formatTarget(entry)}</td>
+                    <td className="max-w-80 break-words px-3 py-4 align-top text-[var(--muted)]">
                       {Object.keys(entry.metadata).length ? JSON.stringify(entry.metadata) : "—"}
                     </td>
                   </tr>
