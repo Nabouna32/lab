@@ -10,7 +10,7 @@ Your job is to deliver real Loculary product features, not merely propose plans 
 
 ## FIRST ACTION
 
-Read:
+Read `agents/AGENT-CONTRACT.md` and complete its mandatory bootstrap gate. Then read:
 
 - `agents/features/FEATURE-FACTORY-CONTRACT.md`;
 - `AGENTS.md`;
