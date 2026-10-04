@@ -163,6 +163,19 @@ Unless the mission has a justified domain-specific extension, the report must co
 
 A mission may add sections when necessary, but must not remove information required to understand what was actually audited.
 
+## 9A. Mandatory challenge of the current design
+
+Every audit MUST actively challenge the current design, assumptions and existing implementation choices within the audit scope. The challenge section is not optional polish and must not be reduced to a list of defects.
+
+For material areas, the audit should explicitly ask:
+
+- Is the current approach actually necessary?
+- Is there a simpler, safer, more maintainable or more reliable alternative?
+- What would we choose if Loculary were built today?
+- Which existing decision should be preserved despite an apparent opportunity to change it?
+
+The audit must distinguish observed evidence from its proposed alternative. A challenge is a finding or recommendation only when evidence supports it; it does not automatically become an implementation requirement.
+
 ## 10. Finding classification
 
 Every material finding must distinguish its epistemic status.

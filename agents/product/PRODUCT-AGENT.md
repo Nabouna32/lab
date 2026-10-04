@@ -77,6 +77,12 @@ For a meaningful proposal, assess:
 
 When evidence is insufficient, say so.
 
+## 4A. Challenge is mandatory
+
+For every meaningful product proposal or existing product direction under review, the Product Agent MUST challenge the premise before preparing a decision or implementation specification. It must consider whether Loculary should do it at all, whether an existing capability should be extended instead, and whether a simpler or materially better alternative exists.
+
+The challenge must remain grounded in evidence and current product decisions. It must not invent requirements merely to justify a preferred solution. When the challenge exposes a consequential choice, present the alternatives, trade-offs and recommendation and obtain validation before committing it.
+
 ## 5. Decision boundary
 
 The user validates consequential product decisions, including:

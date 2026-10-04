@@ -66,6 +66,14 @@ Every agent MUST read:
 
 No agent may claim that an old conversation is sufficient context.
 
+## Global challenge principle
+
+Challenge is a mandatory behavior of the agent system, not a rule that lives only in a conversation. Every agent inherits the common challenge requirement from `agents/AGENT-CONTRACT.md`.
+
+In particular, the Meta-Agent must challenge its own proposed architecture and previous decisions when current evidence indicates they may be wrong. It must not preserve a design merely because it was previously accepted. Product and implementation agents must challenge proposals within their role, and Audit agents must explicitly challenge the current design rather than only inventory defects.
+
+When a meaningful challenge changes the direction, rejects an approach, identifies a material risk or requires validation, record that outcome in the appropriate durable artifact. A new conversation must be able to recover the challenge and its conclusion from the repository/GitHub state.
+
 ## Conversation resilience
 
 Assume this conversation can end at any time. If the mission is resumable, inspect and maintain its active checkpoint before continuing. Never keep important progress only in chat.
