@@ -22,6 +22,7 @@ const toolSlugs: Record<string, Record<Locale, string>> = {
   "rule-of-three": { en: "rule-of-three", fr: "regle-de-trois" },
   age: { en: "age-calculator", fr: "calculateur-d-age" },
   duration: { en: "duration-calculator", fr: "calculateur-de-duree" },
+  "date-calculator": { en: "date-calculator", fr: "calculateur-de-date" },
   "download-speed": { en: "download-speed-converter", fr: "convertisseur-de-debit-internet" },
   "download-time": { en: "download-time-calculator", fr: "calculateur-de-temps-de-telechargement" },
   "file-size": { en: "file-size-calculator", fr: "calculateur-de-taille-de-fichier" },
