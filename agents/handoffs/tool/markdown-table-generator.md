@@ -21,7 +21,7 @@
 - Decisions blocked: none currently.
 - Important areas: `src/lib/tools/tools.ts`, `src/lib/tools/registry.ts`, tool components, tool routes/SEO/i18n.
 - Verification: domain tests, UI, metadata, i18n, routes, SEO and registry integration implemented; CI/browser verification pending.
-- Last durable commit SHA: `006fabe9ca1c5202226d184299db16c69bcb7de3`.
+- Last durable commit SHA: `6b16a207e6d961793d24db84b6bd42cfd2dddbaf`.
 - Timestamp: 2026-10-04T22:04:00Z
 
 ## Activity
@@ -31,3 +31,4 @@
 - 2026-10-04: fixed domain semantics before implementation: rectangular matrix, escaped pipes, normalized line breaks, per-column alignment, deterministic Markdown output.
 - 2026-10-04: implemented domain logic, unit tests, responsive grid UI, rendered preview, copy/reset controls, EN/FR editorial/messages, catalog/registry/routes/SEO integration, and targeted browser coverage.
 - 2026-10-04: hardened the targeted E2E output assertion to inspect the generated Markdown block rather than rely on exact text-node matching.
+- 2026-10-04: CI typecheck caught an invalid Vitest dependency; converted the domain tests to the repository’s native Node test runner before retrying.
