@@ -134,7 +134,7 @@ To make an interrupted audit recoverable, `WORKING.md` is the only additional te
 
 It may contain partial observations and progress, but it is not an audit report and MUST NOT be cited as historical evidence.
 
-When the audit completes:
+When an audit completes:
 
 1. create the immutable historical report;
 2. update `LATEST.md`;
@@ -146,7 +146,20 @@ If an audit fails or is interrupted, leave `WORKING.md` intact so the next audit
 
 A mission must not leave a misleading active checkpoint after reaching a terminal state.
 
-Before deleting the checkpoint, record the final durable state in the PR/report/history appropriate to the specialization.
+For implementation missions, completion MUST use this ordering:
+
+1. finish the implementation and verification work;
+2. update the checkpoint with the final known state and verification;
+3. include deletion of the active checkpoint in the final implementation/cleanup PR;
+4. keep the Issue non-terminal while that PR is open or awaiting CI;
+5. merge the PR only after required CI/verification is green;
+6. only after the merge, mark/close the Issue as terminal.
+
+The final PR MUST therefore contain the checkpoint deletion. An agent MUST NOT open a final implementation PR while leaving the active checkpoint intended to survive that merge.
+
+For abandoned missions, the checkpoint deletion MUST be included in the abandonment change before the Issue is closed whenever repository changes are applicable.
+
+Before deleting the checkpoint, record the final durable state in the PR/report/history appropriate to the specialization. Git history remains the historical trace.
 
 The next conversation must be able to determine that the mission is complete without the deleted checkpoint.
 
