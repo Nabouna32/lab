@@ -4,12 +4,30 @@ create extension if not exists pgtap with schema extensions;
 
 select plan(10);
 
-select has_schema('private', 'private schema exists');
-select has_table('private', 'agent_missions', 'mission table exists');
-select has_table('private', 'agent_worker_claims', 'claim table exists');
-select has_table('private', 'agent_mission_dependencies', 'dependency table exists');
-select has_table('private', 'agent_mission_events', 'event table exists');
-select has_table('private', 'agent_resume_requests', 'resume table exists');
+select ok(
+  exists(select 1 from information_schema.schemata where schema_name = 'private'),
+  'private schema exists'
+);
+select ok(
+  exists(select 1 from information_schema.tables where table_schema = 'private' and table_name = 'agent_missions'),
+  'mission table exists'
+);
+select ok(
+  exists(select 1 from information_schema.tables where table_schema = 'private' and table_name = 'agent_worker_claims'),
+  'claim table exists'
+);
+select ok(
+  exists(select 1 from information_schema.tables where table_schema = 'private' and table_name = 'agent_mission_dependencies'),
+  'dependency table exists'
+);
+select ok(
+  exists(select 1 from information_schema.tables where table_schema = 'private' and table_name = 'agent_mission_events'),
+  'event table exists'
+);
+select ok(
+  exists(select 1 from information_schema.tables where table_schema = 'private' and table_name = 'agent_resume_requests'),
+  'resume table exists'
+);
 
 select ok(
   private.agent_mission_is_ready(
