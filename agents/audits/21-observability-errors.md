@@ -51,3 +51,7 @@ Priorise les constats qui affectent réellement utilisateurs, fiabilité, sécur
 ## Résultat
 
 Crée le rapport historique et mets à jour `LATEST.md` selon le contrat. Vérifie que les rapports précédents sont intacts. Termine par le prompt d'implémentation complet, sans implémenter toi-même les corrections.
+
+### Chemin de sortie exact de cette mission
+
+Le rapport de cette mission doit être créé dans : `docs/audits/21-observability-errors/<TIMESTAMP>.md`. Le pointeur remplaçable est : `docs/audits/21-observability-errors/LATEST.md`.
