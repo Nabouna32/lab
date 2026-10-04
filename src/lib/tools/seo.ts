@@ -86,6 +86,10 @@ export const toolSeo = {
     fr: { title: "Formateur JSON et validateur en ligne | Loculary", description: "Validez, formatez et minifiez votre JSON gratuitement, directement dans votre navigateur." },
     en: { title: "JSON Formatter & Validator | Loculary", description: "Validate, format, and minify JSON for free directly in your browser." },
   },
+  "yaml-formatter-validator": {
+    fr: { title: "Formateur et validateur YAML | Loculary", description: "Validez et reformatez du YAML directement dans votre navigateur, sans envoyer votre contenu à un serveur." },
+    en: { title: "YAML Formatter & Validator | Loculary", description: "Validate and reformat YAML directly in your browser without sending your content to a server." },
+  },
   "unix-timestamp": {
     fr: { title: "Convertisseur de timestamp Unix | Loculary", description: "Convertissez un timestamp Unix en date ou une date en timestamp, en secondes ou millisecondes." },
     en: { title: "Unix Timestamp Converter | Loculary", description: "Convert Unix timestamps to dates or dates to timestamps in seconds or milliseconds." },

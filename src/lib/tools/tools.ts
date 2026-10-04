@@ -67,6 +67,10 @@ const localProcessingDescriptions = {
     fr: "Le JSON saisi est validé et formaté directement dans votre navigateur.",
     en: "The JSON you enter is validated and formatted directly in your browser.",
   },
+  "yaml-formatter-validator": {
+    fr: "Le YAML saisi est validé et formaté directement dans votre navigateur.",
+    en: "The YAML you enter is validated and formatted directly in your browser.",
+  },
   "url-encoder-decoder": {
     fr: "Le texte saisi est encodé ou décodé directement dans votre navigateur.",
     en: "The text you enter is encoded or decoded directly in your browser.",
@@ -306,6 +310,19 @@ const toolDefinitions: ToolDefinition[] = [
     content: {
       fr: { name: "Convertisseur d’unités", description: "Convertissez rapidement des longueurs, masses, températures, volumes et surfaces." },
       en: { name: "Unit Converter", description: "Convert length, mass, temperature, volume, and area units instantly." },
+    },
+  },
+  {
+    id: "yaml-formatter-validator", icon: "YAML",
+    version: 1,
+    complexity: "advanced",
+    categories: ["development"],
+    tags: ["yaml", "yml", "formatter", "validator", "format", "config", "configuration", "developer"],
+    aliases: ["yaml formatter", "yaml validator", "yaml format", "yaml checker", "yml formatter", "yml validator", "yaml", "yml", "formateur yaml", "validateur yaml"],
+    lifecycle: "published", capabilities: ["clipboard"],
+    content: {
+      fr: { name: "Formateur et validateur YAML", description: "Validez et reformatez du YAML directement dans votre navigateur, en conservant les commentaires." },
+      en: { name: "YAML Formatter & Validator", description: "Validate and reformat YAML directly in your browser while preserving comments." },
     },
   },
   {
