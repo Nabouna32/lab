@@ -56,6 +56,7 @@ When several reasonable options exist within a validated scope, make the trade-o
 - If implementation reveals an issue that requires a new decision or exceeds the approved scope, stop and ask for validation.
 - Do not send unnecessary progress messages merely to report waiting or running checks.
 - Do not promise work for later when the required tools are available.
+- Unless explicitly permitted by this file, do not use `grep` as a repository search or analysis shortcut; prefer direct file reads, structured repository/GitHub tools, or other targeted inspection methods.
 
 ## Source of truth
 
@@ -180,4 +181,4 @@ For larger or risky changes, use a dedicated branch, validate locally, validate 
 - If code diverges from the documented vision, fix the code or document the gap explicitly; never silently redefine the product to match the implementation.
 - A genuine change of product vision must be explicit: update the canonical document, record the decision/change, and update all dependent documents consistently.
 - Prefer surgical documentation changes over broad rewrites. Preserve historical intent and decision context.
-- Before any new implementation, audit the relevant existing Markdown specifications and decisions so implementation follows the documented product direction rather than accidentally redefining it.
+- Before any new implementation, audit the relevant existing Markdown specifications and decisions so implementation follows the documented product direction rather than accidentally redefining the product.
