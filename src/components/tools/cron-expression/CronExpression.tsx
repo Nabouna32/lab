@@ -25,11 +25,6 @@ export default function CronExpression() {
     }
   }, [expression, t.invalid]);
 
-  const runsText = result?.runs.map((date) => new Intl.DateTimeFormat(locale, {
-    dateStyle: "medium",
-    timeStyle: "short",
-  }).format(date)).join("\n") ?? "";
-
   const reset = () => setExpression(DEFAULT_EXPRESSION);
 
   return (
