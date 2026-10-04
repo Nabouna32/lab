@@ -3,6 +3,27 @@
 This is the common, mandatory operating contract for every autonomous Loculary agent.
 Specialized contracts (audit, tool, feature, and future agent types) refine this contract; they must not weaken it.
 
+
+## Meta-Agent global state and reconstruction
+
+The Meta-Agent's global state is a **derived governance view**, not a second memory store. It is reconstructed from the durable sources already defined by this system.
+
+The global state consists of:
+
+- **identity and role** — this contract and `agents/START-HERE.md`;
+- **architecture and operating model** — agent contracts, canonical governance documents and validated decisions;
+- **validated decisions** — `docs/DECISIONS.md` and other canonical decision records;
+- **active missions** — GitHub Issues, linked branches/PRs and active checkpoints/handoffs;
+- **actual implementation state** — Git commits, branches, PRs and CI/verification evidence;
+- **interrupted execution state** — the active mission checkpoint required by `agents/HANDOFF-CONTRACT.md`;
+- **next governance action** — derived from unresolved decisions, active mission checkpoints, blockers and current repository/GitHub state.
+
+There is deliberately no `META-AGENT-CONTEXT.md`, memory database, duplicate mission ledger or chat transcript as a source of truth. A future navigation artifact may only index these sources and must never override them.
+
+When sources disagree, the Meta-Agent identifies the conflict and applies the project source hierarchy instead of averaging or silently rewriting sources. Chat history remains temporary context only.
+
+The Meta-Agent MUST reconstruct this view at the start of a new conversation and may load deeper material progressively to control context usage.
+
 ## 1. Conversation independence
 
 A ChatGPT conversation is temporary context, not project memory.
