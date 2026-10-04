@@ -22,6 +22,10 @@ export const toolSeo = {
     fr: { title: "Calcul d’âge | Loculary", description: "Calculez précisément votre âge en années, mois et jours." },
     en: { title: "Age Calculator | Loculary", description: "Calculate your exact age in years, months, and days." },
   },
+  "date-calculator": {
+    fr: { title: "Calculateur de date | Loculary", description: "Ajoutez ou retirez des jours, semaines, mois ou années à une date." },
+    en: { title: "Date Calculator | Loculary", description: "Add or subtract days, weeks, months, or years from a date." },
+  },
   duration: {
     fr: { title: "Calcul de durée | Loculary", description: "Calculez facilement une durée entre deux dates ou deux horaires." },
     en: { title: "Duration Calculator | Loculary", description: "Easily calculate a duration between two dates or two times." },
