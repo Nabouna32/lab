@@ -143,6 +143,13 @@ type ToolMessages = {
     preview: string; previewText: string; previewDescription: string; result: string; ratio: string;
     normalText: string; largeText: string; invalid: string; thresholds: string;
   };
+  ipSubnetCalculator: {
+    input: string; placeholder: string; result: string; ready: string; emptyResult: string;
+    invalid: string; clear: string; reset: string; hint: string; copy: string;
+    networkAddress: string; broadcastAddress: string; subnetMask: string; wildcardMask: string;
+    firstUsableAddress: string; lastUsableAddress: string; totalAddresses: string; usableHosts: string;
+    hostCountNote: string;
+  };
   videoBitrate: {
     mode: string; duration: string; hours: string; minutes: string; seconds: string;
     hoursPlaceholder: string; minutesPlaceholder: string; secondsPlaceholder: string;
@@ -172,6 +179,13 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       swap: "Inverser", reset: "Réinitialiser", preview: "Aperçu", previewText: "Exemple de texte", previewDescription: "Utilisez cet aperçu pour vérifier le rendu du contraste.",
       result: "Résultat", ratio: "Ratio de contraste", normalText: "Texte courant", largeText: "Grand texte",
       invalid: "Saisissez deux couleurs valides.", thresholds: "AA : 4,5:1 pour le texte courant et 3:1 pour le grand texte. AAA : 7:1 pour le texte courant et 4,5:1 pour le grand texte.",
+    },
+    ipSubnetCalculator: {
+      input: "Réseau IPv4 (CIDR)", placeholder: "Ex. 192.168.1.42/24", result: "Résultat", ready: "Calcul mis à jour", emptyResult: "Le résultat apparaîtra ici après le calcul.",
+      invalid: "Saisissez une adresse IPv4 valide et un préfixe de /0 à /32.", clear: "Effacer", reset: "Réinitialiser", copy: "Copier", hint: "Le calcul accepte la notation CIDR IPv4, par exemple 192.168.1.42/24. Il est effectué localement dans votre navigateur.",
+      networkAddress: "Adresse réseau", broadcastAddress: "Adresse de broadcast", subnetMask: "Masque de sous-réseau", wildcardMask: "Masque générique",
+      firstUsableAddress: "Première adresse hôte", lastUsableAddress: "Dernière adresse hôte", totalAddresses: "Adresses totales", usableHosts: "Hôtes utilisables",
+      hostCountNote: "Pour /0 à /30, les adresses réseau et broadcast ne sont pas comptées comme hôtes utilisables. Les préfixes /31 et /32 suivent leurs usages IPv4 particuliers.",
     },
 
     fileSizeCalculator: {
@@ -352,6 +366,13 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       swap: "Swap", reset: "Reset", preview: "Preview", previewText: "Sample text", previewDescription: "Use this preview to check how the contrast looks.",
       result: "Result", ratio: "Contrast ratio", normalText: "Normal text", largeText: "Large text",
       invalid: "Enter two valid colors.", thresholds: "AA: 4.5:1 for normal text and 3:1 for large text. AAA: 7:1 for normal text and 4.5:1 for large text.",
+    },
+    ipSubnetCalculator: {
+      input: "IPv4 network (CIDR)", placeholder: "e.g. 192.168.1.42/24", result: "Result", ready: "Calculation updated", emptyResult: "The result will appear here after calculation.",
+      invalid: "Enter a valid IPv4 address and prefix from /0 to /32.", clear: "Clear", reset: "Reset", copy: "Copy", hint: "Use IPv4 CIDR notation, such as 192.168.1.42/24. The calculation runs locally in your browser.",
+      networkAddress: "Network address", broadcastAddress: "Broadcast address", subnetMask: "Subnet mask", wildcardMask: "Wildcard mask",
+      firstUsableAddress: "First host address", lastUsableAddress: "Last host address", totalAddresses: "Total addresses", usableHosts: "Usable hosts",
+      hostCountNote: "For /0 through /30, the network and broadcast addresses are excluded from the usable host count. /31 and /32 follow their special IPv4 usage.",
     },
 
     fileSizeCalculator: {
