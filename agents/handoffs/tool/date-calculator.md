@@ -10,8 +10,8 @@
 - Planned behavior: choose a start date, add or subtract a number of years/months/weeks/days, and display the resulting date with clear validation and locale-aware formatting.
 - Privacy: fully local; no network, storage, account, or external provider.
 - Completed milestones: bootstrap; current main/open PR/branch inspection; candidate selected; branch created.
-- Current action: pre-PR scope/diff verification.
-- Expected outcome: all Date Calculator implementation pieces are integrated with no unrelated changes.
+- Current action: fix CI test import failure in the new Date Calculator test.
+- Expected outcome: use the repository's explicit TypeScript test import convention, then rerun CI.
 - Next action: create domain logic, UI, catalog integration, tests, then validate and deliver PR.
 - Decisions blocked: none currently.
 - Important areas: `src/lib/tools/*`, `src/components/tools/*`, date-related existing tool implementation.
