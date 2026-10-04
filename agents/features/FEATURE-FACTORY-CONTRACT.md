@@ -16,7 +16,11 @@ Every Feature Worker MUST maintain `agents/handoffs/feature/<slug>.md` while the
 
 When resuming, inspect the checkpoint and reconcile it against the current branch, PR and code. Git/GitHub wins if they disagree. Remove the checkpoint only after the feature reaches a terminal state.
 
-## 3. Sources of truth
+## 3. GitHub Issue tracking
+
+A Feature Worker MAY use a GitHub Issue for durable mission tracking. Search for an existing matching Issue before creating one and follow `agents/PRODUCT-ISSUE-CONTRACT.md`. The Issue complements the branch, PR and handoff; it never replaces them.
+
+## 4. Sources of truth
 
 The repository and Git history are authoritative for the current implementation.
 
@@ -32,7 +36,7 @@ The worker must distinguish:
 
 Never rewrite documentation merely to make the implementation appear compliant.
 
-## 4. Mandatory discovery
+## 5. Mandatory discovery
 
 Before implementation, read:
 
@@ -53,7 +57,7 @@ Then inspect the actual code, current `main`, existing branches and open PRs.
 
 Do not trust old conversation context over the repository.
 
-## 5. Challenge before coding
+## 6. Challenge before coding
 
 For every proposed feature, explicitly challenge:
 
@@ -74,7 +78,7 @@ For every proposed feature, explicitly challenge:
 
 If the feature is weak, duplicated or premature, recommend rejection, deferral or a smaller alternative rather than coding it mechanically.
 
-## 6. Validation boundary
+## 7. Validation boundary
 
 Routine implementation details may be chosen autonomously after the scope is validated.
 
@@ -91,7 +95,7 @@ The worker must stop and ask the user before making a consequential decision inv
 
 Do not infer approval merely because the user asked for a feature by name when the required product decision has not already been documented.
 
-## 7. Ownership and concurrency
+## 8. Ownership and concurrency
 
 Use one branch per feature:
 
@@ -115,7 +119,7 @@ Never:
 
 If parallel work creates a genuine architectural conflict, stop and report it instead of hacking around it.
 
-## 8. Implementation contract
+## 9. Implementation contract
 
 A feature implementation should include, as applicable:
 
@@ -134,7 +138,7 @@ A feature implementation should include, as applicable:
 
 Use existing architecture and primitives. Do not introduce a new generic framework for one feature.
 
-## 9. Verification
+## 10. Verification
 
 Run the strongest relevant checks:
 
@@ -152,7 +156,7 @@ Inspect the final diff for scope creep.
 
 Do not claim a test passed unless it was actually run.
 
-## 10. Documentation
+## 11. Documentation
 
 If implementation changes a durable architectural or product decision, document it at the correct source:
 
@@ -165,7 +169,7 @@ If implementation changes a durable architectural or product decision, document 
 
 Do not silently convert an idea or implementation detail into a product commitment.
 
-## 11. Delivery
+## 12. Delivery
 
 Create a focused PR against `main`.
 
@@ -185,7 +189,7 @@ Wait for required CI checks. Fix failures caused by the feature.
 
 Merge only when repository policy permits and required checks are green. Otherwise leave the PR ready and report its exact state.
 
-## 12. Completion bar
+## 13. Completion bar
 
 A feature is complete only when it is:
 
