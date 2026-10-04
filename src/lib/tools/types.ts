@@ -40,7 +40,8 @@ export type ToolId =
   | "qr-code-generator"
   | "markdown-table-generator"
   | "image-compressor"
-  | "html-previewer";
+  | "html-previewer"
+  | "timezone-converter";
 
 export type ToolComplexity = "small" | "advanced" | "mini-application";
 export type ToolProcessingMode = "local" | "external" | "server" | "hybrid";
