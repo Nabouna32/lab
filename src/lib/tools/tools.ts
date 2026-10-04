@@ -59,6 +59,10 @@ const localProcessingDescriptions = {
     fr: "Les couleurs saisies et le calcul de contraste sont traités directement dans votre navigateur.",
     en: "The colors you enter and the contrast calculation are processed directly in your browser.",
   },
+  "image-compressor": {
+    fr: "Les images sont traitées et recompressées directement dans votre navigateur.",
+    en: "Images are processed and recompressed directly in your browser.",
+  },
   "video-bitrate": {
     fr: "Les calculs de bitrate vidéo sont effectués directement dans votre navigateur.",
     en: "Video bitrate calculations are performed directly in your browser.",
@@ -641,6 +645,19 @@ const toolDefinitions: ToolDefinition[] = [
     content: {
       fr: { name: "Générateur de tableau Markdown", description: "Créez, alignez et copiez un tableau Markdown directement dans votre navigateur." },
       en: { name: "Markdown Table Generator", description: "Create, align, and copy a Markdown table directly in your browser." },
+    },
+  },
+  {
+    id: "image-compressor", icon: "🗜️",
+    version: 1,
+    complexity: "advanced",
+    categories: ["images"],
+    tags: ["image", "compression", "compresser", "photo", "webp", "jpeg", "png", "taille", "poids"],
+    aliases: ["image compressor", "compress image", "photo compressor", "image compression", "compresseur image", "compresser image", "réduire image", "réduire poids image"],
+    lifecycle: "published",
+    content: {
+      fr: { name: "Compresseur d’image", description: "Réduisez le poids d’une image en choisissant le format, la qualité et la dimension maximale." },
+      en: { name: "Image Compressor", description: "Reduce an image file size by choosing the format, quality, and maximum dimension." },
     },
   },
   {
