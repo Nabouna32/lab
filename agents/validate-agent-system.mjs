@@ -34,6 +34,7 @@ const common = read('agents/AGENT-CONTRACT.md');
 const start = read('agents/START-HERE.md');
 const rootRules = read('AGENTS.md');
 const handoff = read('agents/HANDOFF-CONTRACT.md');
+const handoffReadme = read('agents/handoffs/README.md');
 const auditContract = read('agents/AUDIT-CONTRACT.md');
 const toolContract = read('agents/tools/TOOL-FACTORY-CONTRACT.md');
 const toolWorker = read('agents/tools/TOOL-WORKER.md');
@@ -42,6 +43,8 @@ const featureWorker = read('agents/features/FEATURE-WORKER.md');
 const featureOrchestrator = read('agents/features/FEATURE-ORCHESTRATOR.md');
 const agentsReadme = read('agents/README.md');
 
+has(handoffReadme, 'agents/handoffs/tool/', 'Handoff README');
+has(handoffReadme, 'agents/handoffs/feature/', 'Handoff README');
 has(handoff, 'Write-before / write-after protocol', 'Handoff contract');
 has(handoff, 'WORKING.md', 'Handoff contract');
 has(handoff, 'last durable commit SHA', 'Handoff contract');
