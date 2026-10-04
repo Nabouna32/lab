@@ -1,6 +1,6 @@
 # Loculary audit missions
 
-All audit missions and audit orchestration inherit the mandatory common rules in [`agents/AGENT-CONTRACT.md`](../AGENT-CONTRACT.md). The common contract is the conversation-independent bootstrap and anti-skipping layer; `agents/AUDIT-CONTRACT.md` then adds audit-specific rules.
+All audit missions and audit orchestration inherit the mandatory common rules in [`agents/AGENT-CONTRACT.md`](../AGENT-CONTRACT.md). The common contract is the conversation-independent bootstrap and anti-skipping layer; `agents/HANDOFF-CONTRACT.md` adds crash-resilient checkpointing; `agents/AUDIT-CONTRACT.md` then adds audit-specific rules.
 
 Each Markdown file in this directory is a reusable autonomous audit prompt.
 
@@ -19,6 +19,7 @@ Every mission should instruct the agent to:
 - identify both defects and suboptimal-but-working choices;
 - include a from-scratch challenge: **if Loculary were built today, what would you change?**
 - produce a complete audit report using the canonical naming, historical immutability and classification contract;
+- maintain `docs/audits/<id>/WORKING.md` while an audit is in progress so a new conversation can recover interrupted work;
 - finish with a copy-pastable autonomous implementation-agent prompt;
 - state what should be preserved;
 - identify decisions that require explicit validation;

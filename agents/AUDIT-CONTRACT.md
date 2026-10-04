@@ -32,7 +32,13 @@ The report must record:
 
 Do not infer the current state from an earlier conversation or an older audit report.
 
-## 3. Allowed repository changes
+## 3. Crash-resilient audit execution
+
+An audit may be interrupted before its historical report is written. To make that recoverable, the audit may maintain exactly one temporary `docs/audits/<audit-id>/WORKING.md` checkpoint as defined by `agents/HANDOFF-CONTRACT.md`.
+
+`WORKING.md` is progress state, not historical evidence. It must never be cited as a completed audit report. On successful completion, create the historical report, update `LATEST.md`, then remove `WORKING.md`. If interrupted or abandoned, leave it in place until a later audit conversation resumes or explicitly cleans up the abandoned run.
+
+## 4. Allowed repository changes
 
 An audit is not an implementation task.
 
@@ -49,12 +55,14 @@ During the audit, do **not** modify:
 
 The audit agent may persist its own result only by:
 
-1. creating a new historical report under its own `docs/audits/<audit-id>/` directory;
-2. updating that audit's `LATEST.md` pointer.
+1. maintaining its temporary `WORKING.md` checkpoint while the audit is active;
+2. creating a new historical report under its own `docs/audits/<audit-id>/` directory;
+3. updating that audit's `LATEST.md` pointer;
+4. removing `WORKING.md` after successful completion.
 
 No other repository modification is part of the audit output contract unless the mission explicitly grants additional scope.
 
-## 4. Historical report naming
+## 5. Historical report naming
 
 Every execution creates a new report:
 
@@ -75,7 +83,7 @@ Never overwrite an existing historical report.
 
 If a timestamp collision is possible, append a deterministic suffix rather than replacing the existing file.
 
-## 5. Historical immutability
+## 6. Historical immutability
 
 Previous reports are historical evidence.
 
@@ -99,7 +107,7 @@ When relevant, the new report must explicitly classify previous findings as:
 
 An old report does not prove that a finding still exists.
 
-## 6. LATEST.md
+## 7. LATEST.md
 
 After creating the historical report, update:
 
@@ -118,7 +126,7 @@ It should contain only concise pointer metadata, for example:
 
 It must not be the only location containing audit findings.
 
-## 7. Required report structure
+## 8. Required report structure
 
 Unless the mission has a justified domain-specific extension, the report must contain:
 
@@ -141,7 +149,7 @@ Unless the mission has a justified domain-specific extension, the report must co
 
 A mission may add sections when necessary, but must not remove information required to understand what was actually audited.
 
-## 8. Finding classification
+## 9. Finding classification
 
 Every material finding must distinguish its epistemic status.
 
@@ -157,7 +165,7 @@ Use one or more of these explicit labels:
 
 Do not present a proposal, deduction, or assumption as an observed fact.
 
-## 9. Severity
+## 10. Severity
 
 When the domain supports severity, classify findings consistently, for example:
 
@@ -169,7 +177,7 @@ When the domain supports severity, classify findings consistently, for example:
 
 Severity is distinct from epistemic status.
 
-## 10. Evidence
+## 11. Evidence
 
 Prefer evidence over assertions.
 
@@ -185,7 +193,7 @@ For important findings, record enough context to allow a later implementation ag
 
 Do not include secrets, credentials, tokens, or unnecessary personal data in the report.
 
-## 11. Previous audits
+## 12. Previous audits
 
 Previous reports are inputs, not authorities.
 
@@ -193,7 +201,7 @@ When previous reports exist, use them to identify regressions and verify the evo
 
 Do not copy stale findings into the new report without rechecking them.
 
-## 12. Implementation prompt
+## 13. Implementation prompt
 
 The report must end with a complete, copy-pastable prompt for an autonomous implementation agent.
 
@@ -211,7 +219,7 @@ That prompt must:
 
 The implementation prompt is a recommendation produced by the audit. It does not itself authorize implementation.
 
-## 13. Product decisions
+## 14. Product decisions
 
 An audit may recommend a change, but it must not silently convert a recommendation into a product decision.
 
@@ -227,7 +235,7 @@ In particular, audit agents must not directly rewrite:
 
 If a finding requires a product or architecture decision, record it under **Decisions requiring explicit validation**.
 
-## 14. Quality bar
+## 15. Quality bar
 
 The audit should:
 

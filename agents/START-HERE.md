@@ -24,11 +24,16 @@ Every agent MUST read:
 1. `agents/AGENT-CONTRACT.md`;
 2. `AGENTS.md`;
 3. its specialized contract/mission;
-4. the required canonical project documents;
-5. current Git/GitHub state;
-6. relevant current implementation.
+4. `agents/HANDOFF-CONTRACT.md`;
+5. the required canonical project documents;
+6. current Git/GitHub state;
+7. relevant current implementation.
 
 No agent may claim that an old conversation is sufficient context.
+
+## Conversation resilience
+
+Assume this conversation can end at any time. If the mission is resumable, inspect and maintain its active checkpoint before continuing. Never keep important progress only in chat.
 
 ## If reading is incomplete
 

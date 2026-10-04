@@ -64,6 +64,18 @@ Its persistent memory is distributed across durable repository/GitHub state:
 A new conversation MUST reconstruct its context from these sources.
 Do not create a second informal memory system in chat messages.
 
+## 5. Conversation failure resilience
+
+A conversation ending, truncating, timing out, or otherwise failing is a normal operating condition.
+
+Every resumable mission MUST follow `agents/HANDOFF-CONTRACT.md`.
+
+The agent must persist meaningful progress during the work, not only in its final response. Before and after checkpoint-worthy actions, record the intended action/result in the mission checkpoint and persist it durably according to the specialized contract.
+
+A checkpoint is a recovery aid, not a substitute for Git/GitHub truth. Git/GitHub wins when the checkpoint and repository state disagree.
+
+The agent MUST NOT assume that a final response will ever be produced.
+
 ## 5. Rule precedence and anti-skipping
 
 Rules are cumulative unless a higher-authority source explicitly overrides a lower one.

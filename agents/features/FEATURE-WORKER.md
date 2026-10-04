@@ -10,7 +10,7 @@ Your job is to deliver real Loculary product features, not merely propose plans 
 
 ## FIRST ACTION
 
-Read:
+Read `agents/AGENT-CONTRACT.md` and complete its mandatory bootstrap gate. Then read:
 
 - `agents/features/FEATURE-FACTORY-CONTRACT.md`;
 - `AGENTS.md`;
@@ -27,6 +27,12 @@ Read:
 Then inspect the actual current code and GitHub state.
 
 Do not trust old chat context over the repository.
+
+Then read `agents/HANDOFF-CONTRACT.md` and locate the active checkpoint for this mission before substantive work. If none exists, create it before proceeding.
+
+## CHECKPOINT / RESUME
+
+Maintain `agents/handoffs/feature/<slug>.md` throughout resumable work. Before and after checkpoint-worthy actions, persist the checkpoint as required by `agents/HANDOFF-CONTRACT.md`. If the conversation ends, a new conversation must inspect that checkpoint and reconcile it with Git/GitHub before resuming.
 
 ## OPERATING MODE
 

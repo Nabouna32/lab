@@ -1,5 +1,7 @@
 # Loculary — Autonomous Feature Factory Contract
 
+This specialized contract inherits the mandatory common rules in `agents/AGENT-CONTRACT.md` and the crash-resilient execution rules in `agents/HANDOFF-CONTRACT.md`.
+
 ## 1. Mission
 
 A Feature Worker delivers one substantial Loculary product feature from discovery through tested implementation and a focused pull request.
@@ -8,7 +10,13 @@ The worker is autonomous for ordinary engineering work but must stop for consequ
 
 A feature is a mini-product, not merely a code change.
 
-## 2. Sources of truth
+## 2. Checkpoint and resume
+
+Every Feature Worker MUST maintain `agents/handoffs/feature/<slug>.md` while the feature is active. Create it after bootstrap and checkpoint meaningful progress before and after substantial implementation, testing, GitHub or other checkpoint-worthy actions.
+
+When resuming, inspect the checkpoint and reconcile it against the current branch, PR and code. Git/GitHub wins if they disagree. Remove the checkpoint only after the feature reaches a terminal state.
+
+## 3. Sources of truth
 
 The repository and Git history are authoritative for the current implementation.
 
@@ -24,7 +32,7 @@ The worker must distinguish:
 
 Never rewrite documentation merely to make the implementation appear compliant.
 
-## 3. Mandatory discovery
+## 4. Mandatory discovery
 
 Before implementation, read:
 
@@ -45,7 +53,7 @@ Then inspect the actual code, current `main`, existing branches and open PRs.
 
 Do not trust old conversation context over the repository.
 
-## 4. Challenge before coding
+## 5. Challenge before coding
 
 For every proposed feature, explicitly challenge:
 
@@ -66,7 +74,7 @@ For every proposed feature, explicitly challenge:
 
 If the feature is weak, duplicated or premature, recommend rejection, deferral or a smaller alternative rather than coding it mechanically.
 
-## 5. Validation boundary
+## 6. Validation boundary
 
 Routine implementation details may be chosen autonomously after the scope is validated.
 
@@ -83,7 +91,7 @@ The worker must stop and ask the user before making a consequential decision inv
 
 Do not infer approval merely because the user asked for a feature by name when the required product decision has not already been documented.
 
-## 6. Ownership and concurrency
+## 7. Ownership and concurrency
 
 Use one branch per feature:
 
@@ -107,7 +115,7 @@ Never:
 
 If parallel work creates a genuine architectural conflict, stop and report it instead of hacking around it.
 
-## 7. Implementation contract
+## 8. Implementation contract
 
 A feature implementation should include, as applicable:
 
@@ -126,7 +134,7 @@ A feature implementation should include, as applicable:
 
 Use existing architecture and primitives. Do not introduce a new generic framework for one feature.
 
-## 8. Verification
+## 9. Verification
 
 Run the strongest relevant checks:
 
@@ -144,7 +152,7 @@ Inspect the final diff for scope creep.
 
 Do not claim a test passed unless it was actually run.
 
-## 9. Documentation
+## 10. Documentation
 
 If implementation changes a durable architectural or product decision, document it at the correct source:
 
@@ -157,7 +165,7 @@ If implementation changes a durable architectural or product decision, document 
 
 Do not silently convert an idea or implementation detail into a product commitment.
 
-## 10. Delivery
+## 11. Delivery
 
 Create a focused PR against `main`.
 
@@ -177,7 +185,7 @@ Wait for required CI checks. Fix failures caused by the feature.
 
 Merge only when repository policy permits and required checks are green. Otherwise leave the PR ready and report its exact state.
 
-## 11. Completion bar
+## 12. Completion bar
 
 A feature is complete only when it is:
 
