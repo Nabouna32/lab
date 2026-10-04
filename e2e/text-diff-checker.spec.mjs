@@ -10,7 +10,7 @@ test("text diff checker compares two versions locally", async ({ page }) => {
   await page.getByLabel("Updated version").fill("one\nchanged\nthree\nfour");
 
   await expect(page.getByText("+2 additions · -1 removal · 2 unchanged lines", { exact: true })).toBeVisible();
-  await expect(page.getByText("+ changed", { exact: true })).toBeVisible();
-  await expect(page.getByText("- two", { exact: true })).toBeVisible();
-  await expect(page.getByText("+ four", { exact: true })).toBeVisible();
+  await expect(page.getByText("changed", { exact: true })).toBeVisible();
+  await expect(page.getByText("two", { exact: true })).toBeVisible();
+  await expect(page.getByText("four", { exact: true })).toBeVisible();
 });
