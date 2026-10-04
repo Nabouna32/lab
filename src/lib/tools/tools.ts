@@ -27,6 +27,10 @@ const localProcessingDescriptions = {
     fr: "Le calcul de durée est effectué directement dans votre navigateur.",
     en: "Duration calculations are performed directly in your browser.",
   },
+  "date-calculator": {
+    fr: "Les calculs de date sont effectués directement dans votre navigateur.",
+    en: "Date calculations are performed directly in your browser.",
+  },
   "download-speed": {
     fr: "La conversion de débit est effectuée directement dans votre navigateur.",
     en: "Speed conversion is performed directly in your browser.",
@@ -237,6 +241,19 @@ const toolDefinitions: ToolDefinition[] = [
     content: {
       fr: { name: "Calculateur de durée", description: "Calculez le temps entre deux dates ou deux heures, en jours, heures, minutes et secondes." },
       en: { name: "Duration calculator", description: "Measure the time between two dates or two times." },
+    },
+  },
+  {
+    id: "date-calculator", icon: "📅",
+    version: 1,
+    complexity: "small",
+    categories: ["dates"],
+    tags: ["date", "ajouter", "soustraire", "jours", "semaines", "mois", "années", "calcul"],
+    aliases: ["date calculator", "add days", "subtract days", "date arithmetic", "calculateur de date", "ajouter des jours", "retirer des jours", "calcul de date"],
+    lifecycle: "published",
+    content: {
+      fr: { name: "Calculateur de date", description: "Ajoutez ou retirez des jours, semaines, mois ou années à une date." },
+      en: { name: "Date Calculator", description: "Add or subtract days, weeks, months, or years from a date." },
     },
   },
   {
