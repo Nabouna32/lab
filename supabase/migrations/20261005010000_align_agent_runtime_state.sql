@@ -205,6 +205,7 @@ declare
   v_mission private.agent_missions;
   v_claim private.agent_worker_claims;
   v_is_ready boolean;
+  v_was_resume_required boolean;
 begin
   if p_lease_seconds < 30 or p_lease_seconds > 3600 then
     raise exception 'Lease must be between 30 and 3600 seconds';
@@ -221,6 +222,7 @@ begin
   end if;
 
   v_is_ready := private.agent_mission_is_ready(p_mission_id);
+  v_was_resume_required := v_mission.execution_state = 'RESUME_REQUIRED';
 
   if not v_is_ready and v_mission.execution_state <> 'RESUME_REQUIRED' then
     raise exception 'Mission % is not claimable in its current state', p_mission_id;
@@ -270,7 +272,7 @@ begin
     'claim:' || v_claim.id::text
   );
 
-  if v_mission.execution_state = 'RESUME_REQUIRED' then
+  if v_was_resume_required then
     perform private.agent_record_event(
       p_mission_id,
       'WORKER_RESUMED',
