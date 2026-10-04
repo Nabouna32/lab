@@ -5,11 +5,11 @@
 - Issue: #309
 - Branch: `feat/agent-runtime-foundation`
 - Base: current `main` at mission start
-- State: PR_PREPARATION
+- State: CI_WAITING
 - Validated scope: Step 10B — runtime schema, atomic coordination functions, security boundary, migration, direct Supabase verification, documentation as required
 - Non-goals: Tampermonkey adapter, external dispatcher, product/application changes, second project-state database
-- Current action: inspect final diff and prepare PR
-- Next action: open PR, wait for CI, fix only mission-related failures
+- Current action: wait for PR #310 CI
+- Next action: if CI fails, reconcile the failing check and fix only mission-related issues; if green, verify merge readiness
 - Decisions validated:
   - PostgreSQL stores runtime coordination only.
   - Git/GitHub remain authoritative for code, branches, PRs, CI and merge.
