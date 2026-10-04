@@ -4,18 +4,18 @@
 - Mission: Build and integrate the Date Calculator tool.
 - Branch: `feat/tool/date-calculator`
 - Base: `main` at `83bc48fafd3ec62a83e9bd4db217e6e4e6311e363`
-- State: IMPLEMENTING
+- State: MERGED
 - Validated scope: browser-first/local date arithmetic tool; French and English; catalog/registry/routes/SEO/i18n/editorial integration; domain tests and targeted browser coverage.
 - Product rationale: complement the existing duration calculator with the inverse/common task of adding or subtracting a period from a known date. This is a distinct, deterministic utility and fits Loculary's local-first toolbox.
 - Planned behavior: choose a start date, add or subtract a number of years/months/weeks/days, and display the resulting date with clear validation and locale-aware formatting.
 - Privacy: fully local; no network, storage, account, or external provider.
 - Completed milestones: bootstrap; current main/open PR/branch inspection; candidate selected; branch created.
-- Current action: record final validation and verify PR #327 readiness for merge.
-- Expected outcome: PR #327 is merged only after the final head's CI and Browser E2E are green.
-- Next action: create domain logic, UI, catalog integration, tests, then validate and deliver PR.
+- Current action: mission completed; checkpoint is being removed after PR #327 merge.
+- Expected outcome: no active Date Calculator checkpoint remains after cleanup PR merge.
+- Next action: none; Date Calculator is merged.
 - Decisions blocked: none currently.
 - Important areas: `src/lib/tools/*`, `src/components/tools/*`, date-related existing tool implementation.
-- Tests/checks: local test execution unavailable because the execution environment cannot resolve github.com; implementation and diff are being structurally verified, with GitHub CI required for full validation.
-- Last durable commit: `be48e5f0188b65e64eeabf95590457fdf6aac436`.
+- Tests/checks: CI #1254 passed; Browser E2E #1090 passed. PR #327 merged at `4cacfc945f0ca9aa172c9be6cb3317585b08b7b7`. Local execution was unavailable because the environment could not resolve github.com.
+- Last durable commit: `4cacfc945f0ca9aa172c9be6cb3317585b08b7b7`.
 - Main moved to `06951c3c6fab47edf48c24fb6786e699268f1e87` after branch creation. No GitHub branch-update action is available; PR mergeability/CI will reconcile this one documentation-only main commit.
-- Latest checkpoint: 2026-10-04T22:40:00Z
+- Latest checkpoint: 2026-10-04T22:48:25Z
