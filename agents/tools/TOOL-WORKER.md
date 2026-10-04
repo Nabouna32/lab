@@ -30,9 +30,11 @@ First read [`agents/AGENT-CONTRACT.md`](../AGENT-CONTRACT.md) and complete its m
 
 Then inspect the actual current code and GitHub state.
 
+The active checkpoint path is `agents/handoffs/tool/<slug>.md`.
+
 Do not trust old chat context over the repository.
 
-Then read `agents/HANDOFF-CONTRACT.md` and locate the active checkpoint for this mission before substantive work. If none exists, create it before proceeding.
+Then read `agents/HANDOFF-CONTRACT.md` and locate the active checkpoint for this mission under `agents/handoffs/tool/<slug>.md` before substantive work. If none exists, create it before proceeding.
 
 ---
 
