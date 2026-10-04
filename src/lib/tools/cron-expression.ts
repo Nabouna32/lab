@@ -9,7 +9,6 @@ export type CronField = {
 export type CronSchedule = {
   expression: string;
   fields: Record<CronFieldName, CronField>;
-  description: string;
 };
 
 const FIELD_DEFINITIONS: ReadonlyArray<{ name: CronFieldName; min: number; max: number }> = [
@@ -73,7 +72,6 @@ export function parseCronExpression(expression: string): CronSchedule {
   return {
     expression: trimmed,
     fields,
-    description: describeCron(fields),
   };
 }
 
