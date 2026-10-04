@@ -77,14 +77,14 @@ export default function QrCodeGenerator() {
               <svg
                 ref={svgRef}
                 xmlns="http://www.w3.org/2000/svg"
-                viewBox={`0 0 ${result.qr.matrix.length} ${result.qr.matrix.length}`}
+                viewBox={`-4 -4 ${result.qr.matrix.length + 8} ${result.qr.matrix.length + 8}`}
                 width={size}
                 height={size}
                 role="img"
                 aria-label={t.preview}
                 shapeRendering="crispEdges"
               >
-                <rect width="100%" height="100%" fill="#fff" />
+                <rect x="-4" y="-4" width={result.qr.matrix.length + 8} height={result.qr.matrix.length + 8} fill="#fff" />
                 {result.qr.matrix.map((row, rowIndex) => row.map((dark, columnIndex) =>
                   dark ? <rect key={`${rowIndex}-${columnIndex}`} x={columnIndex} y={rowIndex} width="1" height="1" fill="#000" /> : null
                 ))}
