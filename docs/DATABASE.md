@@ -39,3 +39,20 @@ Administrative authorization now has a database foundation separate from executa
 - `admin_audit_log.actor_user_id` is nullable and uses `ON DELETE SET NULL` so security audit history cannot block account deletion. User target IDs are cleared during self-deletion preparation.
 - `private.prepare_account_deletion` is callable only by an authenticated user for their own UUID, requires a live session, and refuses deletion of the last `super_admin`. Account deletion and administrative removal of the `super_admin` role serialize on the same transaction-scoped PostgreSQL advisory lock, so the invariant is preserved under concurrency.
 - The final Auth deletion is performed server-side by the `account-delete` Edge Function with the project secret key; no secret key is exposed to the browser.
+
+
+## Agent runtime coordination boundary
+
+The agent system has a separate internal runtime domain in Supabase PostgreSQL. Runtime coordination is stored in the non-exposed `private` schema and is deliberately distinct from product/account/catalog data.
+
+The runtime contains only coordination data:
+
+- mission index and runtime state dimensions;
+- worker claims and leases;
+- mission dependencies;
+- append-only orchestration events;
+- resume requests.
+
+It does not replace Git/GitHub, repository checkpoints, audit reports or canonical decisions. Git/GitHub remain authoritative for implementation and delivery facts. The future browser/Tampermonkey wake adapter must communicate through a controlled server-side/Edge Function boundary rather than accessing runtime tables directly.
+
+Schema changes are versioned under `supabase/migrations/` and should be deployed through the repository's migration workflow rather than ad-hoc production SQL.
