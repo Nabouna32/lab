@@ -89,7 +89,7 @@ GitHub Actions is the baseline CI gate:
 - `npm test`
 - `npm run build`
 
-Node 24 is the production/runtime line. Node 26 is a compatibility check only.
+Node 24 is the production/runtime line.
 
 A pull request is not ready to merge while required validation is failing. Never merge known-broken work into `main`.
 
