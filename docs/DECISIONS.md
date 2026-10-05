@@ -297,7 +297,6 @@ The data model must maintain clear ownership and deletion/export boundaries acro
 ---
 
 ## DEC-016 — Three-layer product model
-
 **Status:** Accepted
 
 ### Decision
@@ -598,7 +597,6 @@ Loculary is designed as an international product. English provides a neutral sha
 ### Decision
 
 `translationStatus` is a product readiness signal for each enabled locale. It is not derived automatically from matching translation keys, content structure, or fallback behavior.
-
 - **`complete`** means the currently supported user-facing translation scope for that locale has been reviewed and explicitly declared complete.
 - **`partial`** means the locale is usable, but completeness has not been established by that review or at least one user-facing translation domain is intentionally incomplete.
 
@@ -835,61 +833,44 @@ A dedicated product role prevents product direction and durable documentation fr
 
 ## DEC-040 — PostgreSQL runtime orchestration boundary
 
-**Status:** Accepted
+**Status:** Superseded
 
 ### Decision
 
-Loculary's autonomous agent system uses Supabase PostgreSQL as a **runtime coordination layer**, not as a second project-state source of truth.
+The project previously used Supabase PostgreSQL as a runtime coordination layer for the autonomous agent system, isolated from product data and subordinate to Git/GitHub as the implementation and delivery authority.
 
-The runtime stores mission coordination state such as mission identity, worker claims and leases, dependency readiness, idempotent orchestration events and durable resume requests. It does not store project code, checkpoints, audit reports, product decisions or full GitHub state.
+That runtime was subsequently removed after an architecture challenge established that the current ChatGPT execution model does not provide a reliable external mechanism for waking/resuming a new Worker conversation. Keeping the runtime without a real consumer added operational state, security surface and maintenance cost without providing the promised recovery capability.
 
-Runtime coordination is isolated in a non-exposed `private` PostgreSQL schema. Browser clients and the future Tampermonkey wake adapter must not access these tables directly. Privileged runtime access belongs behind server-side/Edge Function boundaries.
-
-Git/GitHub remain authoritative for implementation, branches, pull requests, CI and merge facts. A runtime claim does not prove implementation ownership; a resume request does not prove that a Worker resumed; lease expiry creates a recovery candidate and requires reconciliation before recovery.
-
-The runtime deliberately separates mission lifecycle, Worker execution, GitHub delivery and runtime coordination instead of collapsing them into one state machine.
-
-The runtime execution state is intentionally minimal: `READY`, `RUNNING`, `WAITING`, `RESUME_REQUIRED`, `WAITING_HUMAN`, `BLOCKED`, `COMPLETED` and `ABANDONED`. GitHub delivery facts such as PR state, CI state and merge state are not duplicated as runtime states. A `resume_request` is a durable wake request, not evidence that a Worker has resumed; successful resumption requires bootstrap, reconciliation and a valid claim.
+The historical runtime implementation remains preserved in Git history and migration history for traceability. It is no longer part of the active production architecture.
 
 ### Reason
 
-The Worker execution protocol needs durable coordination across conversations and intermittent ChatGPT Free execution without creating a duplicate project memory. PostgreSQL can persist what must happen next while Git/GitHub continue to record what actually happened to the project.
+A coordination runtime is justified only when it has a real execution consumer. The current Worker protocol already uses durable Issues, checkpoints, Git branches/PRs and CI as recoverable sources of truth. Removing an unused runtime is simpler and more reliable than maintaining infrastructure that cannot complete the wake/resume loop.
 
 ### Consequences
 
-- Runtime tables live in the private schema and are not exposed through the Supabase Data API.
-- Claims use an atomic active-claim uniqueness invariant and expiring leases.
-- Dependencies are represented explicitly and cannot introduce dependency cycles through the runtime API.
-- External events carry stable source identity so repeated delivery is idempotent.
-- Resume requests are durable wake requests and distinguish requested, acknowledged and completed adapter state; they do not prove Worker resumption.
-- The future Wake Adapter is replaceable and consumes resume requests; it does not own mission truth or directly access private runtime tables.
-- Tampermonkey, if used, remains only one possible Wake Adapter; it does not become an orchestrator or source of truth.
-- Scheduled processing may later use pg_cron/pg_net, but scheduling is not itself the mission source of truth.
-- Database schema changes are versioned through repository migrations and deployed through the project's migration workflow.
+- Git/GitHub, canonical documentation and checkpoints remain the durable sources of truth.
+- Workers do not depend on Supabase for mission execution.
+- Historical runtime migrations and decision history are retained for auditability.
+- A future runtime may be reconsidered only when a real wake/resume adapter and its security model are available and validated.
 
+---
 
 ## DEC-041 — Free-plan agent dispatcher runtime
 
-**Status:** Accepted
+**Status:** Superseded
 
 ### Decision
 
-The agent orchestration dispatcher uses Supabase PostgreSQL/pg_cron for periodic runtime reconciliation and Supabase Edge Functions as the authenticated server-side dispatcher boundary. A Wake Adapter remains optional and replaceable; it consumes durable resume requests through an authenticated server-side boundary and never receives database credentials or becomes an orchestrator/source of truth.
-
-The periodic path runs once per minute inside PostgreSQL. It expires stale worker leases, creates recovery requests and records durable orchestration events. This avoids unnecessary Edge Function invocations and keeps the design compatible with the Supabase Free plan.
-
-The Edge Function is intentionally small and authenticated with a Supabase secret key. It uses the platform-provided database connection and does not expose the private runtime schema.
-
-Tampermonkey remains an optional wake adapter only. It never receives database credentials and never becomes an orchestrator or source of truth.
+The previously implemented Free-plan PostgreSQL/pg_cron dispatcher and authenticated agent-dispatcher Edge Function are retired and removed from the active architecture.
 
 ### Reason
 
-The Free plan is sufficient for the dispatcher if periodic housekeeping stays database-local. Supabase currently includes 500,000 Edge Function invocations on Free, while Edge Functions have a 150-second wall-clock and 2-second CPU limit. There is therefore no reason to spend an invocation every minute on routine lease reconciliation.
+The dispatcher depended on the PostgreSQL runtime coordination layer that had no real Worker wake/resume consumer. Keeping it would preserve dead infrastructure rather than improve autonomous execution.
 
 ### Consequences
 
-- No paid-only infrastructure is required.
-- No Supabase development branch is created for this runtime.
-- The periodic trigger is pg_cron at one-minute precision.
-- The Edge Function remains available for future authenticated service/adaptor-triggered dispatch.
-- Git/GitHub remain authoritative for implementation and delivery facts.
+- The production pg_cron dispatcher, runtime PostgreSQL objects and deployed agent-dispatcher source are being removed.
+- The repository retains the historical migrations and decision record; they are not replayed or deleted.
+- No Loculary application tables, account/auth objects, tool catalog objects, unrelated Edge Functions or unrelated cron jobs are affected.
+- A new dispatcher must be justified by a real end-to-end wake/resume mechanism before reintroduction.
