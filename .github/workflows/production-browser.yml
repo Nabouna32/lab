@@ -22,29 +22,63 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Detect documentation-only change
+        id: changes
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
+        run: |
+          docs_only=false
+
+          if [[ "$EVENT_NAME" == "push" && -n "$BASE_SHA" && ! "$BASE_SHA" =~ ^0+$ ]]; then
+            docs_only=true
+            while IFS= read -r -d '' path; do
+              case "$path" in
+                *.md|*.mdx|*.txt|LICENSE|LICENSE.*)
+                  ;;
+                *)
+                  docs_only=false
+                  break
+                  ;;
+              esac
+            done < <(git diff --name-only -z "$BASE_SHA" "$HEAD_SHA")
+          fi
+
+          echo "docs_only=$docs_only" >> "$GITHUB_OUTPUT"
+          echo "Documentation-only change: $docs_only"
 
       - name: Setup Node.js
+        if: steps.changes.outputs.docs_only != 'true'
         uses: actions/setup-node@v7
         with:
           node-version: 24.21.0
           cache: npm
 
       - name: Install dependencies
+        if: steps.changes.outputs.docs_only != 'true'
         run: npm ci
 
       - name: Install Playwright test runner
+        if: steps.changes.outputs.docs_only != 'true'
         run: npm install --no-save --package-lock=false @playwright/test@1.63.0
 
       - name: Install Playwright Chromium
+        if: steps.changes.outputs.docs_only != 'true'
         run: npx playwright install --with-deps chromium
 
       - name: Run production browser validation
+        if: steps.changes.outputs.docs_only != 'true'
         env:
           BASE_URL: https://loculary.vercel.app
         run: npx playwright test e2e/production-visual.spec.mjs
 
       - name: Upload production screenshots
-        if: always()
+        if: always() && steps.changes.outputs.docs_only != 'true'
         uses: actions/upload-artifact@v7
         with:
           name: production-screenshots
