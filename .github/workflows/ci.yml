@@ -29,7 +29,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Detect documentation-only change
+      - name: Detect dependency change
         id: changes
         shell: bash
         env:
@@ -37,41 +37,41 @@ jobs:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
         run: |
-          docs_only=false
+          dependency_changed=false
 
-          if [[ "$EVENT_NAME" == "pull_request" || "$EVENT_NAME" == "push" ]]; then
+          if [[ "$EVENT_NAME" == "pull_request" ]]; then
             if [[ -n "$BASE_SHA" && ! "$BASE_SHA" =~ ^0+$ ]]; then
-              docs_only=true
               while IFS= read -r -d '' path; do
                 case "$path" in
-                  *.md|*.mdx|*.txt|LICENSE|LICENSE.*)
-                    ;;
-                  *)
-                    docs_only=false
+                  package.json|package-lock.json)
+                    dependency_changed=true
                     break
                     ;;
                 esac
               done < <(git diff --name-only -z "$BASE_SHA" "$HEAD_SHA")
             fi
+          elif [[ "$EVENT_NAME" == "push" || "$EVENT_NAME" == "schedule" || "$EVENT_NAME" == "workflow_dispatch" ]]; then
+            dependency_changed=true
           fi
 
-          echo "docs_only=$docs_only" >> "$GITHUB_OUTPUT"
-          echo "Documentation-only change: $docs_only"
+          echo "dependency_changed=$dependency_changed" >> "$GITHUB_OUTPUT"
+          echo "Dependency change: $dependency_changed"
 
       - name: Setup Node.js
-        if: steps.changes.outputs.docs_only != 'true'
+        if: steps.changes.outputs.dependency_changed == 'true'
         uses: actions/setup-node@v7
         with:
           node-version: 24.21.0
           cache: npm
 
       - name: Install dependencies
-        if: steps.changes.outputs.docs_only != 'true'
+        if: steps.changes.outputs.dependency_changed == 'true'
         run: npm ci
 
       - name: Audit dependencies
-        if: steps.changes.outputs.docs_only != 'true'
+        if: steps.changes.outputs.dependency_changed == 'true'
         run: npm audit --audit-level=high
+
 
   validate:
     name: Node.js 24.21.0
