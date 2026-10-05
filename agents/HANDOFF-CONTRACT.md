@@ -26,9 +26,13 @@ For implementation missions, keep the execution vocabulary minimal:
 
 PR_OPEN, CI_WAITING, CI_FAILED, CI_PASSED, MERGE_READY and MERGED are GitHub delivery facts. A checkpoint may record them as observed evidence when needed for recovery, but GitHub remains authoritative.
 
-When resuming work, the Worker must open the current conversation/work context, bootstrap, reconcile the checkpoint with Git/GitHub state, and continue only from evidence that remains valid.
+A checkpoint MUST remain coherent with the latest durable milestone it records. In particular, `current state`, `completed milestones`, `current action`, `next action`, `tests/checks`, `last durable commit` and `timestamp` must describe the same effective point in the mission. A checkpoint that still describes an earlier phase after a later durable milestone has been reached is stale, even if it is otherwise complete.
+
+When resuming work, the Worker must open the current conversation/work context, bootstrap, reconcile the checkpoint with Git/GitHub state, and continue only from evidence that remains valid. If Git/GitHub has advanced the mission since the last checkpoint, reconcile the checkpoint before taking the next substantive action; do not replay work solely because the checkpoint is stale.
 
 A checkpoint never authorizes overwriting another Worker's branch or work.
+
+External delivery events such as a PR opening, a CI result, a mergeability change, a merge, or a synchronization with `main` are reconciliation points. Before the next substantive action, the Worker should update the checkpoint so its state, current/next action and verification evidence reflect the observed Git/GitHub state. This does not require a new checkpoint commit for every external event when several closely related events can be reconciled together.
 
 ## 1. Core principle
 
@@ -105,6 +109,8 @@ Checkpoint at minimum:
 
 A worker SHOULD checkpoint more frequently when the work is risky or the conversation is approaching context limits.
 
+Checkpoint frequency is not a substitute for checkpoint coherence: prefer fewer accurate milestone checkpoints over many stale snapshots.
+
 ## 6. Recovery protocol
 
 At the start of every new conversation, after the mandatory bootstrap:
@@ -173,13 +179,15 @@ For implementation missions, completion MUST use this ordering:
 1. finish the implementation and verification work;
 2. update the checkpoint with the final known state and verification;
 3. include deletion of the active checkpoint in the final implementation/cleanup PR;
-4. keep the Issue non-terminal while that PR is open or awaiting CI;
+4. if the mission is Issue-driven, keep the Issue non-terminal while that PR is open or awaiting CI;
 5. merge the PR only after required CI/verification is green;
-6. only after the merge, mark/close the Issue as terminal.
+6. if the mission is Issue-driven, mark/close the Issue as terminal only after the merge.
+
+For autonomous missions, the same delivery and checkpoint rules apply without requiring an Issue.
 
 The final PR MUST therefore contain the checkpoint deletion. An agent MUST NOT open a final implementation PR while leaving the active checkpoint intended to survive that merge.
 
-For abandoned missions, the checkpoint deletion MUST be included in the abandonment change before the Issue is closed whenever repository changes are applicable.
+For abandoned missions, the checkpoint deletion MUST be included in the abandonment change before any associated Issue is closed whenever repository changes are applicable.
 
 Before deleting the checkpoint, record the final durable state in the PR/report/history appropriate to the specialization. Git history remains the historical trace.
 
