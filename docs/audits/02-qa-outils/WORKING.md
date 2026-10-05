@@ -6,34 +6,26 @@
 - branch/ref: audit/02-qa-outils-20261005
 - base SHA: 35d0aa4458f578fc1519426c8f391d851b0a0311
 - current state: RUNNING
-- validated scope: audit the real published tool catalog, tool implementations, calculations/conversions, edge cases, common actions, cross-tool consistency, and challenge the current tool-platform choices; read-only product audit
+- validated scope: QA audit of the 42 published tools, calculations/conversions, edge cases, common actions, cross-tool consistency and tool-platform choices; read-only product audit
 - completed milestones:
   - mandatory bootstrap and contracts completed
-  - current main SHA and open PR state inspected
-  - Audit 02 mission loaded
-  - no prior Audit 02 historical report/checkpoint found
-  - Audit 01 latest report revalidated as historical input
-  - relevant product/tool contracts inspected
-  - current catalog measured at 42 published tools
-  - current tool platform and registry inspected
-  - current unit-test inventory measured at 45 src/lib test files, including 42 tool-specific test files plus platform tests
-  - representative calculator/converter/date/time/network/security-tool implementations and tests inspected
-  - common clear/copy action usage inspected
-  - local clone/test execution attempted but blocked because this runtime cannot resolve github.com
-- current action: synthesize evidence, perform final design challenge, and prepare immutable report
-- next action: create historical report and LATEST.md, then remove WORKING.md and open audit PR
-- decisions already validated: audit is read-only; recommendations are not product decisions
-- decisions still blocked: none required to complete the audit; product/architecture choices in findings remain proposals
-- challenge performed:
-  - preserve the registry/module architecture and unit-test-per-tool baseline
-  - challenge localized numeric input consistency; four core calculators use Number() instead of the shared parseLocalizedNumber()
-  - challenge cron search horizon; valid schedules can be missed when the next run is more than 366 days away
-  - challenge the current all-local/no-sharing/default-related-tool posture as a current MVP simplification rather than a complete long-term tool contract
-  - challenge relation scoring because it uses French terms regardless of active locale
-- important files/areas touched: docs/audits/02-qa-outils; src/lib/tools; src/lib numeric/date/time/calculation modules; src/components/tools; src/components/ui
-- tests/checks:
-  - no local npm test/lint/typecheck/build possible due network/DNS restriction in this runtime
-  - current main commit checks observed: Node 24 PASS, Playwright smoke PASS, production screenshots PASS, dependency audit FAIL, Node 26 skipped
-  - independent calculation/reasoning checks performed against source formulas; no claim of executing repository code locally
-- last durable commit SHA: 3b1cfc8bb7fdbc19193e7fd31056e81cf7b99c69
-- timestamp: 2026-10-05T18:15:00Z
+  - current main and open PR state verified
+  - 42 published tools measured
+  - 42 dedicated tool test files plus 3 platform test files verified under src/lib
+  - representative calculation/conversion/date/time/network/security implementations and tests inspected
+  - F01 localized decimal parsing inconsistency established
+  - F02 Cron 366-day horizon defect established with independent reference calculation
+  - F03 relation metadata/runtime authority mismatch established
+  - F04 French-only relation term scoring established
+  - F05 sharing remains disabled for all published tools and classified as proposal/opportunity, not defect
+  - historical report created
+- current action: finalize audit artifacts and prepare PR
+- next action: update LATEST.md, remove WORKING.md, inspect final branch diff, then open PR and verify CI
+- decisions already validated: audit remains read-only; no product correction is authorized by this report
+- decisions still blocked: decimal-input policy, Cron horizon, relation authority, sharing policy, machine proof of tests
+- challenge performed: preserve current registry/pure-calculation architecture; challenge numeric input consistency, Cron horizon, duplicated relation model, locale handling, and dormant sharing contract
+- important files/areas: docs/audits/02-qa-outils; src/lib/tools; src/lib numeric/date/time/calculation modules; src/components/tools; src/components/ui
+- tests/checks: local clone/test execution blocked by DNS; GitHub CI on audited main commit observed Node 24 PASS, Playwright smoke PASS, production screenshots PASS, dependency audit FAIL, Node 26 skipped
+- last durable commit SHA: 4fd6592d365eeb531ca0fdc1135f2b8e2138a46c
+- report: docs/audits/02-qa-outils/2026-10-05T18-20-00Z.md
+- timestamp: 2026-10-05T18:24:00Z
