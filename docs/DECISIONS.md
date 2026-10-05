@@ -908,3 +908,62 @@ where the final step is conditional on there being a meaningful continuation.
 - Generic discovery can still exist elsewhere in the product without being mislabeled as a next action.
 - Existing "Related Tools" UI and relation logic must be evaluated against this decision; implementation changes require their own validated scope.
 - This decision supersedes any current UX wording that treats related tools as a generic mandatory section or places them after documentation by default.
+
+
+## DEC-043 — Intent is a distinct discovery dimension
+
+**Status:** Accepted
+
+### Decision
+
+Loculary treats **intent** as a genuine discovery dimension: an intent represents what the user wants to accomplish, not merely a shortcut to one existing category.
+
+Intent navigation must therefore remain semantically distinct from the catalog's category hierarchy. An intent may lead to multiple relevant tools, categories, or future solution paths as the catalog grows.
+
+The current small-catalog implementation may use deterministic mappings as an interim mechanism, but those mappings must not define the long-term product semantics of intent.
+
+### Reason
+
+The catalog is expected to grow substantially. A small fixed mapping from an intent such as “Calculer” or “Analyser” to the first available category can become misleading as the number and diversity of tools increase.
+
+Separating intent from category now avoids designing the discovery model around today's catalog size and preserves a path toward richer intent/search/solution discovery.
+
+### Consequences
+
+- Intent and category are separate concepts in the product model.
+- An intent is not required to map one-to-one to a category.
+- Future intent implementations may use curated mappings, deterministic rules, search signals, or other mechanisms without changing the product semantics.
+- Generic category shortcuts must not be presented as if they fully represent an intent.
+- Any consequential implementation model beyond the validated product semantics requires its own evaluation.
+
+---
+
+## DEC-044 — Design the catalog for large scale; keep the backend choice open
+
+**Status:** Accepted
+
+### Decision
+
+Loculary must be designed from now for a potentially large catalog, including **thousands or tens of thousands of tools**, rather than treating the current catalog size as the architectural target.
+
+This is a scale/readiness decision, not a decision to migrate the catalog to a specific backend.
+
+The catalog architecture must be evaluated against large-scale requirements such as catalog querying, indexing, localization, administration, publication workflows, relations, search, caching, performance, reliability, cost and operational complexity.
+
+**Supabase is an explicit candidate for this evaluation**, especially given its existing use for authentication and account data, but no backend provider is mandated by this decision.
+
+### Reason
+
+The catalog is evolving quickly and several product directions already assume a much larger toolbox: progressive loading, search as solution discovery, contextual next actions, localization, administration and future community capabilities.
+
+Preparing only when the catalog is already large would risk an expensive architectural transition and could constrain product decisions around an undersized data model.
+
+### Consequences
+
+- Large-catalog behavior is a design constraint from now on.
+- Catalog storage and delivery must be considered independently from executable tool implementations.
+- The existing Git-backed executable registry remains distinct from editable catalog data.
+- Supabase should be compared with credible alternatives rather than adopted by assumption.
+- Any migration or provider commitment requires a separate architecture decision based on evidence, cost and operational trade-offs.
+- Performance, caching, indexing and progressive loading must be considered as first-class catalog concerns.
+
