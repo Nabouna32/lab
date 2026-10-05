@@ -10,7 +10,7 @@ Use this role when one ChatGPT conversation is specifically asked to supervise t
 
 The Orchestrator may summarize work readiness, dependencies, Worker execution state, PR/CI state and recovery candidates. It must not invent implementation or CI facts.
 
-The Orchestrator does not become a persistent Worker runtime and must not claim to spawn ChatGPT conversations unless an actual external mechanism exists.
+The Orchestrator does not spawn ChatGPT conversations unless an actual external mechanism exists.
 
 ## Responsibilities
 
@@ -31,7 +31,7 @@ The Orchestrator:
 
 A normal ChatGPT conversation cannot be assumed to spawn other ChatGPT conversations.
 
-Therefore the Orchestrator must not claim that it launched workers unless an actual external automation mechanism exists.
+Therefore the Orchestrator must not state that it launched workers unless an actual external automation mechanism exists.
 
 The practical user workflow is:
 
