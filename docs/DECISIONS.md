@@ -910,60 +910,80 @@ where the final step is conditional on there being a meaningful continuation.
 - This decision supersedes any current UX wording that treats related tools as a generic mandatory section or places them after documentation by default.
 
 
-## DEC-043 — Intent is a distinct discovery dimension
+## DEC-043 — Intent is distinct from category navigation
 
-**Status:** Accepted
+**Status:** Superseded by DEC-045
 
 ### Decision
 
-Loculary treats **intent** as a genuine discovery dimension: an intent represents what the user wants to accomplish, not merely a shortcut to one existing category.
+Loculary treats **intent as a first-class discovery object**, distinct from the category hierarchy.
 
-Intent navigation must therefore remain semantically distinct from the catalog's category hierarchy. An intent may lead to multiple relevant tools, categories, or future solution paths as the catalog grows.
+An intent represents what the user wants to accomplish. It may be associated with multiple tools, including tools from different categories. An intent is therefore not a category shortcut and is not required to map one-to-one to a category.
 
-The current small-catalog implementation may use deterministic mappings as an interim mechanism, but those mappings must not define the long-term product semantics of intent.
+The initial intent catalog may use curated editorial associations between intents and tools. Future deterministic metadata-based candidate generation or ranking may be added when justified by catalog scale and search evidence, without changing the underlying product semantics.
 
 ### Reason
 
-The catalog is expected to grow substantially. A small fixed mapping from an intent such as “Calculer” or “Analyser” to the first available category can become misleading as the number and diversity of tools increase.
+The previous category-based implementation reduced an intention such as “Calculer” or “Analyser” to the first available category. That does not represent the actual user goal and becomes increasingly misleading as the catalog grows.
 
-Separating intent from category now avoids designing the discovery model around today's catalog size and preserves a path toward richer intent/search/solution discovery.
+A first-class intent model allows Loculary to represent the product vision directly while leaving room for richer discovery and eventual solution-oriented search.
 
 ### Consequences
 
-- Intent and category are separate concepts in the product model.
-- An intent is not required to map one-to-one to a category.
-- Future intent implementations may use curated mappings, deterministic rules, search signals, or other mechanisms without changing the product semantics.
-- Generic category shortcuts must not be presented as if they fully represent an intent.
-- Any consequential implementation model beyond the validated product semantics requires its own evaluation.
+- Intent and category are separate discovery axes.
+- One intent may lead to multiple tools and multiple categories.
+- Intent associations are editorial data, not executable tool behavior.
+- Deterministic inference/ranking is an extension mechanism, not the definition of intent.
+- The current intent-to-category shortcut is transitional implementation debt.
 
 ---
 
-## DEC-044 — Design the catalog for large scale; keep the backend choice open
+## DEC-044 — Design the catalog for large scale; backend direction follows DEC-027
+
+**Status:** Superseded by DEC-027
+
+### Decision
+
+Loculary must be designed from now for a potentially large catalog, including **thousands or tens of thousands of tools**.
+
+The previous wording that reopened the catalog backend choice is superseded. The accepted persistence boundary remains DEC-027: PostgreSQL owns editable catalog/editorial data, while Git/code remains authoritative for executable implementations and technical behavior.
+
+### Reason
+
+Large-catalog readiness remains a valid product and architecture requirement, but backend ambiguity contradicted the already accepted catalog persistence boundary.
+
+### Consequences
+
+- Large-catalog behavior remains a design constraint.
+- Catalog/editorial data belongs to the database boundary defined by DEC-027.
+- Executable tool behavior remains in Git.
+- Performance, indexing, caching, localization, publication, relations, progressive loading and operational cost remain first-class concerns.
+- Supabase is the current PostgreSQL platform used by Loculary; changing catalog infrastructure remains an architecture matter subject to the existing decision boundaries.
+
+---
+
+## DEC-045 — Intents are first-class discovery objects
 
 **Status:** Accepted
 
 ### Decision
 
-Loculary must be designed from now for a potentially large catalog, including **thousands or tens of thousands of tools**, rather than treating the current catalog size as the architectural target.
+Loculary models **intent as a first-class discovery object**, distinct from the category hierarchy.
 
-This is a scale/readiness decision, not a decision to migrate the catalog to a specific backend.
+An intent represents what the user wants to accomplish and may be associated with multiple tools, including tools from different categories. Intent is therefore not a shortcut to one category.
 
-The catalog architecture must be evaluated against large-scale requirements such as catalog querying, indexing, localization, administration, publication workflows, relations, search, caching, performance, reliability, cost and operational complexity.
-
-**Supabase is an explicit candidate for this evaluation**, especially given its existing use for authentication and account data, but no backend provider is mandated by this decision.
+The initial intent catalog may use curated editorial associations between intents and tools. Future deterministic metadata-based candidate generation or ranking may enrich discovery when justified by catalog scale and search evidence, without changing the underlying product semantics.
 
 ### Reason
 
-The catalog is evolving quickly and several product directions already assume a much larger toolbox: progressive loading, search as solution discovery, contextual next actions, localization, administration and future community capabilities.
+The previous implementation reduced each intent to the first available category. That does not represent the user's actual goal and becomes increasingly misleading as the catalog grows.
 
-Preparing only when the catalog is already large would risk an expensive architectural transition and could constrain product decisions around an undersized data model.
+The new model directly represents the product vision while keeping the implementation simple enough for the current catalog and leaving room for richer search and eventual solution-oriented discovery.
 
 ### Consequences
 
-- Large-catalog behavior is a design constraint from now on.
-- Catalog storage and delivery must be considered independently from executable tool implementations.
-- The existing Git-backed executable registry remains distinct from editable catalog data.
-- Supabase should be compared with credible alternatives rather than adopted by assumption.
-- Any migration or provider commitment requires a separate architecture decision based on evidence, cost and operational trade-offs.
-- Performance, caching, indexing and progressive loading must be considered as first-class catalog concerns.
-
+- Intent and category are separate discovery axes.
+- One intent may lead to multiple tools and multiple categories.
+- Intent associations are editable discovery/editorial data, not executable tool behavior.
+- Deterministic inference or ranking is an extension mechanism, not the definition of intent.
+- Generic category shortcuts must not be presented as if they fully represent an intent.
