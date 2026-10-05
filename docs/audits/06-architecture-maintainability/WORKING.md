@@ -1,0 +1,24 @@
+# Audit 06 — WORKING checkpoint
+
+- Role / mission: Audit 06 — Architecture générale / maintenabilité
+- Branch/ref: audit/06-architecture-maintainability-2026-10-05
+- Base SHA: da5c28ac2fca0a8f60286faa0356f5fa957e6d30
+- Current state: RUNNING
+- Validated scope: structure des couches, couplage/cohésion, logique métier, catalogue, contrats, utilitaires partagés, configuration, conventions, dette technique, duplications, extensibilité et onboarding.
+- Completed milestones:
+  - Mandatory bootstrap completed from repository/GitHub.
+  - Current main SHA verified.
+  - Open branches/PRs inspected; no existing Audit 06 ownership/checkpoint found.
+  - Current architecture and tool-platform implementation inspected.
+  - Audit 02 report reviewed for overlap and prior findings.
+- Current action: inspect implementation evidence and quantify maintainability/architecture findings.
+- Next action: complete challenge analysis, then create immutable report and LATEST.md; remove WORKING.md after successful persistence.
+- Decisions already validated: audit is read-only; no product/architecture decision is made by this audit.
+- Decisions still blocked: any consequential refactor or catalog/database boundary change requires explicit validation.
+- Challenge performed so far:
+  - Current central registry was compared against a from-scratch alternative; preserve its role for executable module loading unless stronger evidence shows it is harmful.
+  - The broader tool metadata/catalog architecture is being challenged for duplicated sources of truth and onboarding cost.
+- Important areas: src/lib/tools, src/components/tools, src/app/[locale]/[section], src/lib/i18n, supabase/migrations, docs/ARCHITECTURE.md, docs/DATABASE.md.
+- Tests/checks: repository clone/test execution attempted locally but environment DNS could not resolve github.com; no local test result is claimed. GitHub CI state for audited main SHA currently returned no workflow runs.
+- Last durable commit SHA: da5c28ac2fca0a8f60286faa0356f5fa957e6d30
+- Timestamp: 2026-10-05T19:20:00Z
