@@ -20,7 +20,7 @@ When resuming, inspect the checkpoint and reconcile it against the current branc
 
 A Feature Worker does not require a GitHub Issue for every feature request.
 
-Use an Issue when:
+Use an Issue according to `agents/PRODUCT-ISSUE-CONTRACT.md` when:
 - the feature is explicitly assigned as an orchestrated mission;
 - the work is being resumed or handed off through GitHub;
 - the feature originates from an actionable audit finding;
