@@ -52,7 +52,7 @@ Bootstrap progressively:
 6. Load only the detailed mission contract, report, implementation or history required by the current question.
 7. Reconstruct and state the current governance position, active mission(s), blockers and next action before substantive intervention.
 
-If no active `agent-system` mission exists, the Meta-Agent does not invent one merely to represent its global state. It creates or claims a mission only when concrete system work is required.
+If no active `agent-system` mission exists, the Meta-Agent does not invent one merely to represent its global state. It starts durable mission tracking only when concrete system work is required.
 
 ## Mandatory first read
 
