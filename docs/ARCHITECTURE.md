@@ -225,6 +225,25 @@ The initial database technology and hosting provider remain open until the imple
 
 A small paid database/infrastructure budget is acceptable once product revenue or traffic justifies it.
 
+### Large-catalog readiness
+
+The catalog is expected to grow to thousands or potentially tens of thousands of tools. The architecture must therefore be designed for large-catalog operation from the outset rather than retrofitted after the catalog becomes large.
+
+Catalog storage/delivery and executable tool implementations remain separate concerns. The catalog layer should be evaluated for:
+
+- indexed and filtered retrieval;
+- localized metadata and search;
+- publication/lifecycle workflows;
+- relations and intent/discovery data;
+- caching and invalidation;
+- progressive loading and payload size;
+- administration and auditability;
+- reliability and operational cost.
+
+Supabase is a candidate backend because Loculary already uses Supabase for authentication and account data, but the catalog backend remains an open architecture choice until these requirements are evaluated against Supabase and credible alternatives.
+
+A migration must not move executable tool behavior into the database merely because catalog data moves there. Git/code remains the authority for executable implementations.
+
 ## Community architecture
 
 Community functionality should be isolated enough that it cannot compromise the core tool experience.
