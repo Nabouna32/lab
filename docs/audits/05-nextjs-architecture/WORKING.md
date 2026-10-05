@@ -1,0 +1,23 @@
+# Audit 05 — Working Checkpoint
+
+- role: Audit
+- mission: Audit 05 — Architecture Next.js
+- branch/ref: audit/05-nextjs-architecture-2026-10-05
+- base SHA: da5c28ac2fca0a8f60286faa0356f5fa957e6d30
+- current state: RUNNING
+- validated scope: Next.js App Router architecture, layouts/pages/special files, Server/Client boundaries, providers, data loading/rendering/caching, proxy, hydration, tool registry/loading, dependencies and scalability.
+- completed milestones:
+  - mandatory bootstrap read: START-HERE, AGENT-CONTRACT, AUDIT-CONTRACT, HANDOFF-CONTRACT, AGENTS.md, mission 05;
+  - current main SHA and open PR state inspected;
+  - relevant product/architecture/i18n/performance/decision documents inspected;
+  - App Router tree and key implementation files inspected;
+  - current Next.js 16 documentation cross-checked for root layouts, i18n, proxy and rendering.
+- current action: deepen evidence on route boundaries, client bundle/loading strategy, special-file coverage, tool registry scalability, and current CI/runtime evidence; then write immutable report.
+- next action: complete measurements/challenges, create historical report and LATEST.md, verify report, then remove WORKING.md.
+- decisions already validated: audit is read-only; recommendations remain proposals; Git/GitHub is source of truth.
+- decisions still blocked: any consequential architecture change discovered by the audit.
+- challenge performed: challenged the current generic dynamic tool route + central registry against a from-scratch scalable design; preliminary outcome is preserve the generic route/registry boundary, but challenge the current client/runtime duplication and special-file/error/loading coverage. Unresolved trade-off: database-backed catalog will eventually require reconciling static route generation with executable Git modules.
+- important areas: src/app/[locale], src/components/tools/ToolPage, src/components/tools/ToolRenderer, src/lib/tools/{catalog,registry,routes,search,types}, src/proxy.ts, next.config.ts, package.json, CI workflows.
+- tests/checks: current main has successful Browser E2E and Production Browser workflow runs for the docs-only commit, but those runs skipped build/browser steps because the change was documentation-only; current CI run has a dependency-audit failure, so no green full CI evidence exists for the audited SHA.
+- last durable commit SHA: da5c28ac2fca0a8f60286faa0356f5fa957e6d30
+- timestamp: 2026-10-05T19:18:00Z
