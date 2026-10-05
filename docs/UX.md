@@ -20,9 +20,9 @@ A typical tool page should follow this conceptual order:
 4. primary tool interface;
 5. result;
 6. common actions;
-7. secondary documentation;
-8. related tools;
-9. optional community information;
+7. contextual next actions, when a natural continuation exists;
+8. secondary documentation;
+9. optional discovery/community information;
 10. advertising that does not interfere with the primary task.
 
 Not every tool needs every section.
@@ -194,16 +194,26 @@ Tool pages should have:
 
 SEO must never justify making the primary tool difficult to reach.
 
-## Related tools
+## Next actions
 
-A tool page may expose:
+A tool page may expose **next actions** when a natural continuation of the user's task exists.
 
-- similar tools;
-- complementary tools;
-- popular nearby tools;
-- recently used tools.
+Next actions are not required on every tool page. They should be shown only when they can answer a useful question such as:
 
-Relationships should be meaningful rather than generated solely to fill page space.
+> **What might I want to do next?**
+
+A next action should normally continue or complement the current task rather than merely resemble the current tool.
+
+Examples include:
+
+- continuing a transformation or conversion workflow;
+- using a complementary calculation;
+- refining or validating the current result;
+- moving to the next obvious step of a multi-tool workflow.
+
+Generic similarity, popularity or catalog discovery must not be presented as a next action merely to fill available space. A tool may legitimately expose no next actions.
+
+The underlying recommendation mechanism is an implementation detail. The product meaning is the usefulness of the continuation, not the fact that two tools happen to share metadata or a category.
 
 ## Expanded experience direction
 
@@ -302,8 +312,8 @@ The tool is the central product experience. A typical hierarchy is:
 4. primary tool interaction;
 5. result;
 6. contextual actions;
-7. explanation/documentation;
-8. meaningful next tools or actions.
+7. meaningful next tools or actions, when a natural continuation exists;
+8. explanation/documentation;
 
 This is a priority hierarchy, not a rigid template. Complex tools may require different compositions.
 
@@ -346,13 +356,17 @@ Modernity should instead come from:
 
 The target feeling is **a well-designed digital toolbox**, not a startup landing page.
 
-### Discovery and related tools
+### Discovery and next actions
 
-Related tools should be presented as useful next actions rather than filler cards. Recommendations should answer the likely question:
+Next actions are distinct from generic discovery. They belong to the task flow and should appear when they provide a natural continuation of the current task.
+
+Recommendations should answer the likely question:
 
 > **What might you want to do next?**
 
-Relationships must be meaningful.
+Not every tool needs a next action. When no meaningful continuation exists, the interface should omit the section rather than invent recommendations.
+
+Generic discovery remains a separate product concern and may surface similar, popular, recent or exploratory tools elsewhere in the experience.
 
 ### Responsive direction
 
