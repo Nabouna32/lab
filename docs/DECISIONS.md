@@ -874,3 +874,37 @@ The dispatcher depended on the PostgreSQL runtime coordination layer that had no
 - The repository retains the historical migrations and decision record; they are not replayed or deleted.
 - No Loculary application tables, account/auth objects, tool catalog objects, unrelated Edge Functions or unrelated cron jobs are affected.
 - A new dispatcher must be justified by a real end-to-end wake/resume mechanism before reintroduction.
+
+
+## DEC-042 — Next actions are contextual and optional
+
+**Status:** Accepted
+
+### Decision
+
+Loculary treats **Next actions** as a contextual continuation of the user's current task, rather than as a mandatory "Related Tools" section.
+
+A tool may expose next actions only when a natural and useful continuation exists. A tool is not required to provide recommendations when no meaningful continuation can be identified.
+
+Next actions should primarily be complementary or workflow-continuing actions: they help the user refine, validate, transform, calculate, or otherwise continue from the current result. Generic similarity, popularity, recency or shared catalog metadata must not by themselves justify presenting an item as a next action.
+
+Generic discovery remains a separate product concern and must not be conflated with contextual next actions.
+
+### Reason
+
+The previous "Related Tools" concept mixed similarity, complementarity and continuation. Treating all three as the same product concept risks producing recommendations that are technically related but not useful to the user's immediate task.
+
+The accepted UX journey is therefore interpreted as:
+
+> **Need → Find or explore → Tool → Action → Result → Next action**
+
+where the final step is conditional on there being a meaningful continuation.
+
+### Consequences
+
+- Next actions are optional and may be absent from a tool page.
+- The default product semantics are continuation/complementarity, not generic similarity.
+- The recommendation engine is an implementation mechanism and must not define the product meaning of a next action.
+- Generic discovery can still exist elsewhere in the product without being mislabeled as a next action.
+- Existing "Related Tools" UI and relation logic must be evaluated against this decision; implementation changes require their own validated scope.
+- This decision supersedes any current UX wording that treats related tools as a generic mandatory section or places them after documentation by default.
