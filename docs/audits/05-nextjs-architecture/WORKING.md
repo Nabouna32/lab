@@ -11,13 +11,23 @@
   - current main SHA and open PR state inspected;
   - relevant product/architecture/i18n/performance/decision documents inspected;
   - App Router tree and key implementation files inspected;
-  - current Next.js 16 documentation cross-checked for root layouts, i18n, proxy and rendering.
-- current action: deepen evidence on route boundaries, client bundle/loading strategy, special-file coverage, tool registry scalability, and current CI/runtime evidence; then write immutable report.
-- next action: complete measurements/challenges, create historical report and LATEST.md, verify report, then remove WORKING.md.
+  - current Next.js 16 documentation cross-checked for root layouts, i18n, proxy and rendering;
+  - measured 42 published tool definitions and 42 registry module entries; 84 generated tool-route combinations before other locale/category routes;
+  - inspected CI/E2E workflow evidence: latest non-doc E2E run 37355359550 succeeded through install, build and Playwright smoke tests; current docs-only E2E skipped build/tests; current CI is red because Dependency audit fails;
+  - verified no root src/app/layout.tsx is required because Next.js 16 permits the root layout under the dynamic [locale] segment for i18n.
+- current action: finalize architecture findings and from-scratch challenge, especially special-file coverage, client bundle/search strategy, registry/build scaling, proxy/session boundary and static-vs-database catalog transition.
+- next action: create immutable historical report and LATEST.md, verify exact report content and audit branch state, then remove WORKING.md.
 - decisions already validated: audit is read-only; recommendations remain proposals; Git/GitHub is source of truth.
-- decisions still blocked: any consequential architecture change discovered by the audit.
-- challenge performed: challenged the current generic dynamic tool route + central registry against a from-scratch scalable design; preliminary outcome is preserve the generic route/registry boundary, but challenge the current client/runtime duplication and special-file/error/loading coverage. Unresolved trade-off: database-backed catalog will eventually require reconciling static route generation with executable Git modules.
+- decisions still blocked:
+  - whether to add localized not-found/error/loading boundaries;
+  - whether to change client-side catalog search architecture before catalog growth;
+  - whether to evolve static tool-route generation as the database catalog becomes authoritative.
+- challenge performed:
+  - generic dynamic tool route + central registry: PRESERVE as the correct abstraction for 42 tools; it avoids one App Router page per tool and supports isolated dynamic modules.
+  - challenge result: the registry currently resolves tool implementation twice (server route loads editorial; client ToolRenderer resolves the registry again) and the client search path dynamically imports the full static catalog/search algorithm. This is acceptable at current size but is a scaling boundary.
+  - from-scratch scale challenge: static generateStaticParams plus Git-backed executable registry is strong for the current 42-tool catalog, but does not scale indefinitely to hundreds/thousands without changing build/page-generation strategy. The future DB catalog decision must keep executable behavior in Git while avoiding an O(locales x tools) build bottleneck.
+  - special-file challenge: there is no custom loading.tsx, error.tsx, or not-found.tsx in the App Router tree. notFound() exists in route pages, but the user-facing failure/loading experience therefore falls back to framework defaults. This is an architecture/UX resilience gap, not a confirmed production failure.
 - important areas: src/app/[locale], src/components/tools/ToolPage, src/components/tools/ToolRenderer, src/lib/tools/{catalog,registry,routes,search,types}, src/proxy.ts, next.config.ts, package.json, CI workflows.
-- tests/checks: current main has successful Browser E2E and Production Browser workflow runs for the docs-only commit, but those runs skipped build/browser steps because the change was documentation-only; current CI run has a dependency-audit failure, so no green full CI evidence exists for the audited SHA.
-- last durable commit SHA: da5c28ac2fca0a8f60286faa0356f5fa957e6d30
-- timestamp: 2026-10-05T19:18:00Z
+- tests/checks: GitHub evidence confirms a non-documentation E2E run completed build and browser smoke tests successfully; no local build/browser execution was performed in this audit environment; current main CI dependency-audit job is failing.
+- last durable commit SHA: 3bac3c6b95ea746d686651f8ab30d034b43c0f42
+- timestamp: 2026-10-05T19:25:00Z
