@@ -217,9 +217,9 @@ The underlying recommendation mechanism is an implementation detail. The product
 
 ### Intent and category discovery
 
-Intent-oriented entry points represent **what the user wants to accomplish**, not merely a category shortcut. They may lead to several relevant tools or discovery paths as the catalog grows.
+Intent-oriented entry points represent **what the user wants to accomplish**, not a category shortcut. A first-class intent may lead to several relevant tools, including tools from different categories, as the catalog grows.
 
-A current deterministic mapping may be used as an interim implementation, but the UX must not imply that one category is the complete meaning of an intent. The distinction becomes increasingly important as the catalog grows beyond a small set of tools.
+The UX must never imply that one category fully represents an intent. Initial intent-to-tool associations may be curated editorial data; later deterministic discovery may enrich them without changing the product semantics.
 
 ## Expanded experience direction
 
