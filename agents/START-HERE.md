@@ -18,26 +18,23 @@ Roles currently supported:
 
 The launch prompt is only a trigger. The repository contracts contain the real rules.
 
-## Mission orchestration vocabulary
+## Work vocabulary
 
-When a mission is orchestrated, distinguish:
+When work is coordinated across conversations, distinguish:
 
 - **Mission** — the durable unit of work and its intended outcome.
-- **Claim** — coordination ownership by a Worker, potentially protected by a lease.
+- **Issue** — an optional durable work item used when coordination, follow-up or handoff benefits from GitHub tracking.
 - **Checkpoint** — recoverable Worker execution state persisted in the repository.
-- **Dependency** — another mission that must reach its required terminal condition before this mission is ready.
-- **READY** — the mission is eligible for a Worker claim.
-- **RUNNING** — a Worker is actively executing under a valid claim.
+- **Dependency** — another piece of work that must reach its required condition before this work can proceed.
+- **READY** — work is ready to start.
+- **RUNNING** — a Worker is actively executing.
 - **WAITING** — no current Worker action is required, including while external delivery progresses.
-- **RESUME_REQUIRED** — durable state says a Worker action is required.
 - **WAITING_HUMAN** — a consequential decision is required.
 - **BLOCKED** — execution cannot proceed under current conditions.
 - **COMPLETED** — mission-specific cleanup and verification is complete.
-- **ABANDONED** — the mission was explicitly abandoned and must not be resumed.
+- **ABANDONED** — the work was explicitly abandoned and must not be resumed.
 
-`PR_OPEN`, `CI_WAITING`, `CI_FAILED`, `CI_PASSED`, `MERGE_READY` and `MERGED` remain GitHub delivery facts rather than runtime states.
-
-A claim is not proof of implementation. A resume request is not proof that a Worker resumed. Git/GitHub remain authoritative for code, branches, PRs, CI and merge state.
+`PR_OPEN`, `CI_WAITING`, `CI_FAILED`, `CI_PASSED`, `MERGE_READY` and `MERGED` are GitHub delivery facts. Git/GitHub remain authoritative for code, branches, PRs, CI and merge state.
 
 ## Meta-Agent bootstrap
 
