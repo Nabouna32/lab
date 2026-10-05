@@ -21,9 +21,9 @@ Inspect current `main`, feature branches and open PRs.
 
 ## ORCHESTRATION STATE
 
-The Orchestrator may summarize mission readiness, dependencies, claims, execution state, PR/CI state and recovery candidates. It must not invent implementation or CI facts and must not treat a runtime request as proof that a Worker has resumed.
+The Orchestrator may summarize work readiness, dependencies, Worker execution state, PR/CI state and recovery candidates. It must not invent implementation or CI facts.
 
-The Orchestrator does not become a persistent Worker runtime and must not claim to spawn ChatGPT conversations unless an actual external mechanism exists.
+The Orchestrator does not spawn ChatGPT conversations unless an actual external mechanism exists.
 
 ## RESPONSIBILITIES
 

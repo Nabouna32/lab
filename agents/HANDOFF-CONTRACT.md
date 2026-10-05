@@ -10,26 +10,25 @@ The checkpoint MUST NOT duplicate the whole project state. It records mission-sp
 
 On a new Meta-Agent conversation, perform the bootstrap from `agents/START-HERE.md`, identify active `agent-system` Issues and checkpoints, compare checkpoints with Git/GitHub, classify stale or conflicting information, and use authoritative sources rather than silently reconciling contradictions.
 
-## Mission orchestration and resume semantics
+## Mission execution and recovery semantics
 
-A checkpoint records Worker execution state; it is not a replacement for runtime coordination state.
+A checkpoint records the Worker execution state needed to recover work across conversations. It does not create a second execution or ownership system.
 
-For implementation missions, the execution vocabulary is intentionally minimal:
+For implementation missions, keep the execution vocabulary minimal:
 
-- READY — eligible for a Worker claim;
+- READY — work is ready to start;
 - RUNNING — a Worker is actively executing;
 - WAITING — no current Worker action is required, including while external delivery progresses;
-- RESUME_REQUIRED — durable state requires a Worker action;
 - WAITING_HUMAN — a consequential decision is required;
 - BLOCKED — execution cannot proceed under current conditions;
 - COMPLETED — mission-specific cleanup and verification is complete;
 - ABANDONED — the mission was explicitly abandoned.
 
-PR_OPEN, CI_WAITING, CI_FAILED, CI_PASSED, MERGE_READY and MERGED are GitHub delivery facts, not checkpoint/runtime execution states. A checkpoint may record them as observed evidence when needed for recovery, but GitHub remains authoritative.
+PR_OPEN, CI_WAITING, CI_FAILED, CI_PASSED, MERGE_READY and MERGED are GitHub delivery facts. A checkpoint may record them as observed evidence when needed for recovery, but GitHub remains authoritative.
 
-A request to resume is not proof of resumption. The Worker must record actual resumption only after opening the conversation/work context, bootstrapping, reconciling Git/GitHub/checkpoint state, and successfully claiming/resuming the mission.
+When resuming work, the Worker must open the current conversation/work context, bootstrap, reconcile the checkpoint with Git/GitHub state, and continue only from evidence that remains valid.
 
-If a Worker lease expires, recovery MUST begin by reconciling the checkpoint with the current branch/PR and GitHub state. Lease expiry does not authorize overwriting another Worker.
+A checkpoint never authorizes overwriting another Worker's branch or work.
 
 ## 1. Core principle
 

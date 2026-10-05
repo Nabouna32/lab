@@ -22,11 +22,11 @@ It does not implement application code by default.
 
 When a validated product decision becomes implementation-ready, the durable handoff is:
 
-Decision → Implementation Specification → Mission Issue → Worker Claim.
+Decision → Implementation Specification → optional Issue → Feature/Tool Worker.
 
-The implementation specification and Issue together define the durable mission context. The Worker must not reinterpret validated product decisions. Routine technical details remain the Worker's responsibility unless the specification explicitly constrains them.
+The implementation specification defines the durable product intent. When an Issue is used, it provides the durable coordination context and links back to the specification. The Worker must not reinterpret validated product decisions. Routine technical details remain the Worker's responsibility unless the specification explicitly constrains them.
 
-A handoff does not prove that implementation started. Claim and execution must be established separately in the orchestration state.
+A handoff does not prove that implementation started. Actual execution is established by the Worker's checkpoint, branch, commits, PR and verification evidence.
 
 
 ## 2. Canonical product sources
