@@ -243,6 +243,10 @@ The homepage follows an **action/search first, discovery in depth** model. The p
 
 Intent-oriented navigation may expose actions such as:
 
+Intent is a product discovery dimension, not a synonym for category navigation. An intent expresses what the user is trying to accomplish and may eventually lead to multiple tools, categories, or solution paths. A deterministic category mapping may be used as an interim implementation for a small catalog, but it must not become the product definition of intent.
+
+The catalog should be designed from the outset for potentially thousands or tens of thousands of tools. This affects discovery, search, localization, administration, publication, relations, indexing, caching and progressive loading. Supabase is a candidate backend for the catalog, not a validated provider choice; the backend decision remains subject to architectural evaluation and comparison with alternatives.
+
 - Calculer
 - Convertir
 - Transformer
