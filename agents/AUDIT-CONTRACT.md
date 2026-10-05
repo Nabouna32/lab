@@ -50,7 +50,7 @@ An audit may be interrupted before its historical report is written. To make tha
 
 ## 4. GitHub Issue tracking
 
-An audit MAY use a GitHub Issue as a durable work item when useful.
+An audit MAY use a GitHub Issue as a durable work item when useful. The shared Issue rules are defined in `agents/PRODUCT-ISSUE-CONTRACT.md`.
 
 Use the Issue to:
 - summarize the audit mission or an actionable follow-up;
