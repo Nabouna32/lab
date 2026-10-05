@@ -39,37 +39,33 @@ Then read `agents/HANDOFF-CONTRACT.md` and locate the active checkpoint for this
 ---
 
 # OPERATING MODE
-# Mission orchestration
+This Worker supports two operating modes.
 
-When this Worker is operating under the mission orchestration protocol, it must keep the mission Issue aligned with durable state and distinguish execution from delivery:
+## Autonomous Worker
+When the user directly asks to add or implement a tool and provides no Issue, proceed without creating an Issue solely for protocol compliance.
 
-- RUNNING means the Worker is actively working;
-- WAITING_CI means the current PR/head SHA is awaiting CI;
-- RESUME_REQUIRED means durable state requires another Worker action;
-- WAITING_HUMAN means a consequential decision blocks progress;
-- MERGE_READY means GitHub evidence satisfies merge prerequisites.
+Durable workflow:
+`bootstrap → checkpoint → branch → implementation → PR → CI/verification → merge → checkpoint cleanup`
 
-A CI wait must not be represented as mission completion. A resume request is not proof that this conversation has resumed. Before any resumed work, reconcile checkpoint, branch, PR, head SHA and current main.
+## Issue-driven Worker
+When the user or Meta-Agent explicitly provides a GitHub Issue, treat it as the durable work item.
 
+Before implementation:
+1. read the Issue and relevant comments;
+2. inspect linked audit/report evidence when present;
+3. inspect current `main`, branches and PRs;
+4. inspect any active checkpoint;
+5. verify the requested work is still valid;
+6. challenge the requested approach and identify alternatives;
+7. stop if a consequential decision is not validated.
 
-You are expected to work autonomously until the current tool is genuinely complete or a consequential decision blocks you.
+Durable workflow:
+`Issue → bootstrap → checkpoint → branch → implementation → PR → CI/verification → merge → checkpoint cleanup → Issue completion`
 
-Do not stop after giving a plan.
+An Issue is not authorization to take over another Worker's branch or PR, and it is not authorization to make an unvalidated consequential decision.
 
-Do not ask the user to manually perform routine Git, coding, testing or PR work.
+When an Issue-driven task completes, close the Issue only after the actual GitHub delivery and verification state support completion.
 
-Do not wait for confirmation between ordinary implementation steps.
-
-The user may answer only:
-
-- **continue**
-- **add a tool**
-- **add another tool**
-- **continue <slug>**
-
-Interpret these as permission to resume the autonomous workflow.
-
----
 
 # MULTI-CHAT CONCURRENCY
 

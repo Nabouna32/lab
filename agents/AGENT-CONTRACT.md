@@ -4,23 +4,6 @@ This is the common, mandatory operating contract for every autonomous Loculary a
 Specialized contracts (audit, tool, feature, and future agent types) refine this contract; they must not weaken it.
 
 
-## Mission orchestration boundary
-
-When a mission participates in orchestration, distinguish four independent concerns:
-
-1. **Mission lifecycle** — what outcome the mission is pursuing.
-2. **Worker execution** — what the active Worker is doing.
-3. **GitHub delivery** — branch, PR, CI and merge evidence.
-4. **Runtime coordination** — claims, leases, dependencies and resume requests.
-
-Do not collapse these into a single state machine.
-
-A runtime claim grants coordination ownership; it does not prove branch ownership, implementation progress or PR state. A resume request means that a Worker action is required; it does not prove that a Worker has resumed.
-
-For external events, use stable source identity where available and make handlers idempotent. CI events must be tied to the relevant PR and head SHA/run. Git/GitHub remain authoritative for implementation, branch, PR, CI and merge facts. Runtime coordination state must never overwrite those facts.
-
-A Worker recovering an expired claim MUST inspect the actual Git/GitHub/checkpoint state before modifying implementation. Lease expiry creates a recovery candidate; it is not permission to overwrite another Worker's work.
-
 ## Meta-Agent global state and reconstruction
 
 The Meta-Agent's global state is a **derived governance view**, not a second memory store. It is reconstructed from the durable sources already defined by this system.

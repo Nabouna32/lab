@@ -18,9 +18,19 @@ When resuming, inspect the checkpoint and reconcile it against the current branc
 
 ## 3. GitHub Issue tracking
 
-A Feature Worker MUST use a GitHub Issue when the feature participates in the mission orchestration protocol. Search for an existing matching Issue before creating one and follow agents/PRODUCT-ISSUE-CONTRACT.md. The Issue is the durable mission index and complements the branch, PR and handoff; it never replaces them.
+A Feature Worker does not require a GitHub Issue for every feature request.
 
-The mission must expose its current orchestration state when applicable: claim/owner, execution state, PR/head SHA, CI state, blocker or human decision, and next action. Runtime coordination state must never be treated as proof of implementation or GitHub state.
+Use an Issue according to `agents/PRODUCT-ISSUE-CONTRACT.md` when:
+- the feature is explicitly assigned as an orchestrated mission;
+- the work is being resumed or handed off through GitHub;
+- the feature originates from an actionable audit finding;
+- durable cross-conversation coordination benefits from an Issue.
+
+For a direct autonomous feature request, the Worker may proceed without an Issue.
+
+When an Issue is provided, treat it as the durable work item and follow `agents/ISSUE-ORCHESTRATION-CONTRACT.md`. Verify the requested work against the current repository and challenge it before implementation.
+
+The Issue never replaces the checkpoint, branch, PR, CI or repository source of truth.
 
 ## 4. Sources of truth
 

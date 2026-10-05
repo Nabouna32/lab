@@ -2,114 +2,129 @@
 
 GitHub Issues are a durable orchestration and tracking layer for agent work. They complement, and never replace, repository/Git sources of truth.
 
-## 1. Source hierarchy
+## 1. When to use an Issue
 
-Use:
-1. Git/code for actual implementation;
-2. canonical docs for durable product/architecture intent;
-3. contracts and mission files for operating rules;
-4. Issues for mission tracking, coordination and concise status;
-5. conversation for temporary context.
+An Issue is a durable work item when work benefits from:
+- cross-conversation coordination;
+- explicit follow-up;
+- handoff between agents;
+- durable assignment;
+- tracking an actionable audit finding.
 
-An Issue must never be treated as authoritative merely because it is newer than a repository document.
+An Issue is not required for every autonomous Worker action.
 
-## 2. When to use an Issue
+Do not create an Issue for trivial work solely to satisfy a protocol.
 
-Create or reuse an Issue when a mission benefits from durable tracking across conversations, agents or PRs.
+## 2. Issue roles
 
-Good candidates:
-- product decisions or proposals spanning multiple conversations;
-- audits;
-- Feature Worker missions;
-- Tool Worker missions;
-- cross-agent blockers;
-- follow-up work from findings.
+Use an Issue for:
+- product or governance work that needs durable tracking;
+- an audit mission when tracking is useful;
+- a Feature or Tool mission explicitly run as Issue-driven work;
+- actionable follow-up work from an audit;
+- cross-agent blockers or handoffs.
 
-Do not create an Issue for every trivial action.
+For direct autonomous Worker requests, the Worker may operate without an Issue.
 
-## 3. Issue identity
+## 3. Source hierarchy
 
-An Issue should have a stable, concise title identifying the mission, for example:
-- product: decide <topic>
-- audit 12: <mission>
-- feature: <slug>
-- tool: <slug>
-- agent-system: <topic>
+Issues are tracking and coordination artifacts.
 
-If an existing Issue already represents the same mission, reuse it rather than creating a duplicate.
+They do not replace:
+1. Git and the current implementation;
+2. canonical product/architecture/decision documentation;
+3. agent contracts and mission files;
+4. checkpoints and handoffs;
+5. immutable audit reports;
+6. pull requests and CI evidence.
 
-## 4. Required mission information
+If an Issue conflicts with an authoritative source, update the Issue rather than changing the authoritative source to match it.
 
-When an Issue is used as a mission tracker, keep it concise and include:
+## 4. Issue content
+
+Keep an Issue concise and durable. When used as a work item, include as applicable:
 - objective;
+- type;
 - current state;
-- validated scope or scope under discussion;
-- decisions required;
-- links to canonical files;
-- branch/PR links when they exist;
-- latest meaningful status.
+- validated scope;
+- non-goals;
+- source/evidence;
+- decisions and decisions required;
+- checkpoint path;
+- branch/PR;
+- verification;
+- blockers;
+- next action.
 
-Do not duplicate the complete report, implementation or documentation.
+Do not paste complete reports, source files, logs, secrets or conversation transcripts.
 
-## 5. Audit Issues
+## 5. Audit follow-up
 
-An audit Issue MAY track:
-- audit ID and mission;
-- target/current main SHA when the audit starts;
-- audit state;
-- active checkpoint/report paths;
-- concise findings and severity counts;
-- decisions required;
-- resulting correction PRs;
-- completion status.
+An audit finding does not automatically become an Issue.
 
-The immutable audit report remains the historical evidence. WORKING.md remains the recovery checkpoint. The Issue is a navigational/tracking layer.
+Create or reuse an Issue when a finding is sufficiently actionable to justify durable implementation follow-up.
 
-Audit workers MUST NOT treat Issue comments as a substitute for WORKING.md or the historical report.
+The Issue must link to the historical audit report and preserve the distinction between:
+- observed evidence;
+- deduction;
+- proposal;
+- validated decision;
+- implementation work.
 
-## 6. Worker Issues
+An audit finding that still requires a consequential product or architecture decision remains a finding/proposal until that decision is validated.
 
-Feature and Tool Workers MAY use an Issue to track:
-DISCOVERY → IMPLEMENTING → TESTING → PR_OPEN → CI_WAITING → READY_TO_MERGE → MERGED/BLOCKED/ABANDONED.
+## 6. Issue-driven Worker
 
-The branch, PR and Git history remain authoritative for implementation state.
+When a Worker is explicitly given an Issue:
+1. read the Issue and relevant comments;
+2. inspect linked evidence;
+3. inspect current main, relevant branches and PRs;
+4. inspect the active checkpoint when present;
+5. verify that the requested work is still valid;
+6. challenge the requested approach;
+7. stop for an unvalidated consequential decision.
 
-## 7. Updates and concurrency
+The Issue is an entry point and coordination record. It is not authorization to take over another Worker or to make an unvalidated decision.
 
-Before creating or claiming a mission:
-- search for an existing matching Issue;
-- inspect its state and recent comments;
-- inspect branches and PRs;
-- identify ownership.
+## 7. Ownership and concurrency
 
-Do not claim another worker's mission merely because an Issue is open.
+Branches are the practical implementation ownership boundary.
 
-An Issue can coordinate ownership, but the branch/PR ownership boundary remains decisive for implementation.
+Before creating or reusing an Issue:
+- search for an existing matching work item;
+- inspect its state;
+- inspect relevant branches and PRs;
+- identify current ownership.
 
-## 8. Crash recovery
+An open Issue does not grant permission to modify another Worker's branch or PR.
 
-A new conversation should be able to reconstruct a mission from:
-Issue → checkpoint/handoff → Git branch/PR → canonical docs.
+## 8. Recovery
 
-If these disagree, Git/GitHub implementation state and canonical documentation take precedence according to their roles.
+An Issue-driven mission can be reconstructed from:
 
-## 9. Issue hygiene
+`Issue → checkpoint/handoff → Git branch/PR → canonical documentation`
 
-Keep Issues:
-- concise;
-- current enough to navigate;
-- free of secrets and private data;
-- linked to durable repository artifacts;
-- explicit about blockers and decisions.
+An autonomous Worker without an Issue can be reconstructed from its checkpoint, branch/PR and GitHub state when those exist.
 
-Do not rewrite history to make an Issue look cleaner. Correct stale status with an explicit update.
+Never invent an Issue merely to represent global agent state.
 
-## 10. Closing
+## 9. Closing
 
-Close an Issue only when its mission is terminal:
-- product decision recorded and no implementation remains in scope;
-- audit completed and report persisted;
-- worker PR merged or mission explicitly abandoned;
-- blocker moved to a separately tracked mission.
+Close an Issue only when its work is terminal:
+- the required decision is recorded;
+- the audit report is persisted;
+- the implementation PR is merged and verified;
+- the mission is explicitly abandoned; or
+- remaining work has been moved to a separate durable work item.
 
-Closing an Issue does not delete the underlying Git/report history.
+Closing an Issue does not delete the underlying repository, report or PR history.
+
+## 10. Prohibited uses
+
+Issues must not become:
+- a runtime state database;
+- a claim/lease mechanism;
+- a second implementation history;
+- a replacement for checkpoints;
+- a replacement for Git branches or PRs;
+- automatic authorization for consequential decisions.

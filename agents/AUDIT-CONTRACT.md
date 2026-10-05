@@ -18,15 +18,15 @@ Example:
 
 The numeric ID is historical identity. It must not be silently reused for a different audit domain.
 
-## 2. Mission claim and concurrency
+## 2. Concurrency and recovery
 
-An audit that participates in mission orchestration MUST have a durable mission identity and an active claim while execution is in progress.
+An audit's repository working state remains authoritative in `docs/audits/<audit-id>/WORKING.md`.
 
-The claim is coordination state; the audit's repository working state remains authoritative in docs/audits/<audit-id>/WORKING.md. Two audit conversations must not simultaneously treat the same mission as active.
+Only one active audit conversation should treat the same audit mission as active. Before continuing, inspect the current checkpoint, Git state and any linked GitHub Issue.
 
-A lease-expiry or missing Worker creates a recovery candidate. A recovering audit Worker MUST reconcile WORKING.md, Git and the mission Issue/runtime state before continuing. It must never overwrite another active audit's work merely because a lease expired.
+An Issue is optional for the audit itself. Use one when the audit benefits from durable coordination or when its findings will be handed to another Worker.
 
-The historical report is created only when the audit completes. Claim/lease metadata does not belong in the historical evidence unless it is materially relevant to audit methodology.
+A missing Issue does not prevent an audit from running, and an open Issue does not authorize takeover of another conversation's branch or checkpoint.
 
 ## 3. Repository state
 
@@ -50,7 +50,17 @@ An audit may be interrupted before its historical report is written. To make tha
 
 ## 4. GitHub Issue tracking
 
-An audit MAY use a GitHub Issue as a concise mission tracker when useful. Follow `agents/PRODUCT-ISSUE-CONTRACT.md` for Issue hygiene, ownership and state. The Issue may summarize the audit state, severity counts, decisions required and links to the checkpoint/report/PRs, but it must never replace `WORKING.md` or the immutable historical report.
+An audit MAY use a GitHub Issue as a durable work item when useful. The shared Issue rules are defined in `agents/PRODUCT-ISSUE-CONTRACT.md`.
+
+Use the Issue to:
+- summarize the audit mission or an actionable follow-up;
+- link the historical report and relevant checkpoint;
+- record decisions and next actions;
+- hand an actionable finding to a Feature, Tool or Meta-Agent Worker.
+
+Do not create an Issue for every finding. Informational findings, proposals awaiting validation, and observations that need no follow-up remain in the audit report.
+
+When a finding becomes actionable implementation work, create or reuse the appropriate Issue and link it to the historical audit report. The Issue does not replace the report.
 
 ## 5. Allowed repository changes
 
