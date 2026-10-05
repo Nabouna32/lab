@@ -3,7 +3,7 @@
 -- This migration is intentionally limited to agent-runtime objects. It does not
 -- touch Loculary application tables, functions, policies, or other cron jobs.
 
-drop job if exists "agent-runtime-dispatcher";
+select cron.unschedule(jobid) from cron.job where jobname = 'agent-runtime-dispatcher';
 
 drop function if exists public.agent_dispatcher_tick(text, text);
 drop function if exists private.agent_dispatcher_tick(text, text);
