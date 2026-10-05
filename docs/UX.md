@@ -215,6 +215,12 @@ Generic similarity, popularity or catalog discovery must not be presented as a n
 
 The underlying recommendation mechanism is an implementation detail. The product meaning is the usefulness of the continuation, not the fact that two tools happen to share metadata or a category.
 
+### Intent and category discovery
+
+Intent-oriented entry points represent **what the user wants to accomplish**, not merely a category shortcut. They may lead to several relevant tools or discovery paths as the catalog grows.
+
+A current deterministic mapping may be used as an interim implementation, but the UX must not imply that one category is the complete meaning of an intent. The distinction becomes increasingly important as the catalog grows beyond a small set of tools.
+
 ## Expanded experience direction
 
 ### Homepage experience
