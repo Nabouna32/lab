@@ -47,13 +47,13 @@ A result may be:
 
 The tool author should choose the representation that best communicates the result.
 
-A visual treatment should have functional value. Animation must not be used merely because it is possible.
+A visual treatment may provide functional, experiential, identity, or purely aesthetic value. Animation may be purely visual when it improves perceived quality, spatial continuity, delight, or the character of the tool. During initial design and implementation, richer visual treatments and motion are encouraged rather than suppressed preemptively; later audits may identify elements that should be reduced or removed based on real UX, accessibility, or performance evidence.
 
 ## Visual expression and motion
 
 Loculary should provide a modern, polished and visually engaging experience. Tools may use meaningful animation, transitions, micro-interactions, visual feedback and distinctive visual identity when these improve comprehension, feedback or enjoyment.
 
-Motion and visual effects must remain subordinate to usability and must not be used merely because they are technically possible. System reduced-motion preferences must be respected.
+Motion and visual effects should contribute to a polished, lively application experience without obstructing the task. Workers should err toward richer motion when choosing between otherwise coherent alternatives. Performance cost should be optimized and measured rather than used as a reason to suppress visual ideas preemptively. System reduced-motion preferences must be respected.
 
 There is currently no user-selectable Sober/Playful presentation mode. Such a mode is deferred and must not be treated as a current product requirement.
 
@@ -329,7 +329,7 @@ Documentation must not compete with the primary task.
 
 Results should feel clear, immediate and trustworthy. Feedback for successful processing, copying, reset, validation, errors, progress and cancellation should be explicit and appropriately animated.
 
-The interface should make the transition from input to result understandable without decorative motion that adds no functional value.
+The interface should make the transition from input to result understandable without motion or effects that add no meaningful functional, experiential, or identity value.
 
 ### Tool-specific interfaces
 

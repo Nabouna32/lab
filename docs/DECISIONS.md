@@ -987,3 +987,42 @@ The new model directly represents the product vision while keeping the implement
 - Intent associations are editable discovery/editorial data, not executable tool behavior.
 - Deterministic inference or ranking is an extension mechanism, not the definition of intent.
 - Generic category shortcuts must not be presented as if they fully represent an intent.
+
+
+## DEC-046 — Loculary visual language: rich-by-default expressive utility
+
+**Status:** Accepted
+
+### Decision
+
+Loculary adopts **Expressive Utility** as its visual direction: a coherent Loculary-native visual language that is modern, polished, lively and app-like while remaining utility-first.
+
+Visual richness is an intentional product goal, not something to minimize preemptively. Animations, transitions, micro-interactions, visual feedback, spatial continuity and purely experiential or aesthetic motion are explicitly allowed and encouraged when they improve the perceived quality, character or enjoyment of the application.
+
+For the initial design and implementation phase, workers should **err toward the richer, more expressive solution** when two otherwise coherent options are available. They must not suppress an animation or visual treatment merely because it has a non-zero performance cost or because its value is not strictly functional.
+
+Performance remains a real product constraint, but it is an optimization and validation concern rather than an aesthetic ideology. The expected sequence is to build the intended rich experience, optimize its implementation, measure its real impact, and then remove or reduce elements when evidence shows that they are excessive, distracting, inaccessible or materially harmful to performance.
+
+`prefers-reduced-motion` remains an accessibility adaptation for users who request reduced motion. It does not define the default visual philosophy for users who have not requested it.
+
+The shared platform establishes coherence through typography, semantic color, accessibility, iconography, responsive behavior, common feedback and motion principles. Individual tools may express their nature through distinctive composition, visualization, animation, transitions and visual identity within those shared constraints.
+
+### Reason
+
+The product direction explicitly aims for a modern, visual and pleasant utility toolbox. A conservative interpretation of performance guidance can cause workers to omit valuable visual ideas before the product has been experienced and audited. It is more useful at this stage to discover the expressive range of the application and then evaluate what is genuinely excessive.
+
+This does not authorize indiscriminate animation. Task obstruction, spectacle, accessibility regressions and demonstrable performance problems remain defects to be corrected.
+
+### Consequences
+
+- Feature and Tool Workers must not interpret performance guidance as a default instruction to make interfaces visually austere.
+- Rich motion and app-like interaction should be considered during initial implementation rather than added only after later polish work.
+- Purely visual motion is valid when it contributes to perceived quality, delight, spatial continuity or tool character.
+- Performance optimization should preserve visual intent whenever technically reasonable.
+- Later UX, accessibility and performance audits may identify motion or visual treatments that should be reduced, changed or removed; such findings do not invalidate the direction itself.
+- Reduced-motion behavior must preserve the same conceptual experience while adapting motion intensity appropriately.
+- This decision does not introduce a user-selectable Sober/Playful mode or a per-tool design free-for-all.
+
+### Implementation boundary
+
+This decision defines product/design intent. It does not prescribe exact colors, durations, easing curves, component APIs, icon libraries or CSS implementation. Those belong to the subsequent design-system specification and implementation work.
