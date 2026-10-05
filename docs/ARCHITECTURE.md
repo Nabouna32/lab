@@ -181,10 +181,10 @@ The catalog should support:
 - categories;
 - tags;
 - localization;
-- intent signals;
+- intent associations;
 - related tools.
 
-An intent layer may later map natural-language requests to tools.
+The catalog should model intents separately from categories, with many-to-many associations between intents and tools. Natural-language intent resolution may later generate or rank candidates through the search subsystem without changing the underlying catalog semantics.
 
 AI can be added behind the search abstraction if its value justifies cost and privacy trade-offs.
 
@@ -240,7 +240,7 @@ Catalog storage/delivery and executable tool implementations remain separate con
 - administration and auditability;
 - reliability and operational cost.
 
-Supabase is a candidate backend because Loculary already uses Supabase for authentication and account data, but the catalog backend remains an open architecture choice until these requirements are evaluated against Supabase and credible alternatives.
+The editable catalog follows the database boundary established by DEC-027, while executable tool implementations remain in Git. Large-catalog concerns such as indexing, caching, progressive loading, payload size, reliability and operational cost must be designed into the catalog architecture.
 
 A migration must not move executable tool behavior into the database merely because catalog data moves there. Git/code remains the authority for executable implementations.
 
