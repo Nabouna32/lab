@@ -676,36 +676,173 @@ This keeps the motion foundation concrete enough for a Worker to implement coher
 
 ## 9. Iconography
 
+Iconography is a platform foundation because icons carry navigation, action, status and tool identity across a large utility product.
+
 ### 9.1 Platform identity
 
-Platform-level icons should use a coherent visual treatment.
-
-This includes:
+Platform-level icons should use a coherent visual treatment for:
 
 - global navigation;
-- catalogue identity;
+- catalogue and discovery;
 - category identity;
 - shared tool metadata;
-- common actions.
+- common actions;
+- common interface states.
 
-The preferred platform treatment is a consistent icon primitive/registry rather than arbitrary emoji or Unicode glyphs.
+The platform should prefer one coherent icon source/treatment for shared UI rather than assembling unrelated icon families.
 
-### 9.2 Tool identity
+The exact icon library is intentionally **not mandated by this contract yet**. Selection should be based on:
 
-Tools may use custom visual symbols, diagrams, previews and iconography when these are part of the tool experience.
+- visual coherence with the Loculary typography and motion direction;
+- sufficient coverage of common utility actions and navigation;
+- consistent geometry and optical weight;
+- accessibility support and predictable semantics;
+- stroke/fill consistency appropriate to the target visual language;
+- tree-shaking or equivalent delivery characteristics;
+- licensing and long-term availability;
+- compatibility with the existing React/Next.js architecture without requiring a heavyweight runtime.
 
-The platform contract therefore separates:
+The current absence of a dedicated platform icon library is implementation evidence, not a requirement to introduce one immediately.
 
-**platform identity** → coherent icon treatment  
-**tool content/identity** → expressive visual freedom within accessibility constraints
+### 9.2 Icon roles and semantics
 
-### 9.3 Accessibility
+Icons should be treated according to their semantic role:
+
+- **navigation** — identifies a destination or navigation concept;
+- **action** — communicates an operation such as copy, reset, download or share;
+- **status** — reinforces information such as success, warning, error or processing;
+- **disclosure** — communicates expandable or collapsible state;
+- **identity** — represents a tool, category or product concept;
+- **decorative** — contributes to visual composition without carrying essential meaning.
+
+The icon's role should determine its accessibility behavior and visual treatment. A visual similarity between two icons is not sufficient reason to use the same semantic icon.
+
+### 9.3 Visual treatment
+
+Platform icons should share a coherent:
+
+- geometric language;
+- optical weight;
+- stroke/fill behavior;
+- corner and terminal treatment;
+- alignment behavior;
+- active/inactive treatment.
+
+Icons should normally be optically aligned with their surrounding text and controls rather than positioned only by their mathematical bounding box.
+
+Icon size should be expressed through semantic interface roles rather than a large catalogue of arbitrary pixel sizes. Multiple roles may intentionally share the same concrete size.
+
+Platform iconography should remain visually legible at the small sizes common to utility controls. Important icons may use stronger visual weight or larger treatment when hierarchy requires it.
+
+The system should avoid using icon size, stroke weight or decorative effects as a substitute for information hierarchy that should instead be expressed through typography, spacing, color or composition.
+
+### 9.4 Accessibility
 
 Icons must not be the sole carrier of essential meaning.
 
-Decorative icons should not create redundant accessible names.
+For interactive controls:
 
-Interactive icon-only controls require accessible names and predictable focus behavior.
+- icon-only controls require an accessible name;
+- icon + text controls should not duplicate the accessible name unnecessarily;
+- stateful icons must expose their state through accessible semantics, not only visual change;
+- focus behavior must remain consistent with the platform interaction-state contract.
+
+For decorative icons:
+
+- they should be hidden from assistive technology when they add no information;
+- they should not create redundant announcements;
+- their removal should not make essential content ambiguous.
+
+Status icons should reinforce, not replace, text or other non-color cues when the state is important.
+
+### 9.5 Iconography and color
+
+Icons may use semantic color when color contributes to hierarchy or state, but color must not be their only meaningful distinction.
+
+Platform actions should not acquire arbitrary colors merely because an icon is present.
+
+Status icons should remain compatible with the semantic status roles defined in section 3 and should remain understandable in light and dark themes.
+
+Tool-specific content may use literal colors when color is part of the content itself.
+
+### 9.6 Responsive, localization and RTL behavior
+
+Icons must remain usable across desktop, tablet and mobile compositions.
+
+Responsive implementations may:
+
+- change icon size when the surrounding control changes role;
+- move icons between leading and trailing positions when composition changes;
+- simplify decorative iconography when space is constrained;
+- preserve the same semantic meaning when labels wrap or disappear.
+
+Icon APIs must not assume fixed English/French text widths.
+
+Directional icons require particular care under localization and RTL support. Icons that communicate physical direction, movement, insertion, indentation or navigation may need mirroring when the meaning is directional. Icons representing an invariant concept should not be mirrored merely because the interface direction changes.
+
+The exact mirroring behavior should therefore follow semantic meaning, not a blanket RTL transform.
+
+### 9.7 Tool identity and custom visuals
+
+Tools may use custom symbols, diagrams, previews, illustrations and bespoke iconography when these are part of the tool experience.
+
+This is especially appropriate when:
+
+- the tool represents domain-specific concepts not covered well by the platform set;
+- the visual itself is part of the tool's result;
+- a custom symbol materially improves comprehension;
+- a tool's identity benefits from a distinct visual treatment;
+- the interface is a visualization or mini-application where icons are part of the content model.
+
+Custom tool visuals must still preserve accessibility and should not silently redefine the meaning of platform-level action or status icons.
+
+A tool-specific icon may therefore be expressive without becoming a new platform convention.
+
+### 9.8 Emoji and Unicode glyphs
+
+Emoji and arbitrary Unicode glyphs should not be used as substitutes for platform interface icons.
+
+They vary across operating systems, fonts, rendering environments and visual styles, making them unsuitable as the default platform icon language.
+
+Emoji remain valid when they are intentionally part of user-facing content or product copy rather than acting as a platform control icon.
+
+This rule does not prohibit expressive tool content from displaying emoji when emoji themselves are the content.
+
+### 9.9 Iconography governance
+
+Shared platform icons should come from the selected platform source/treatment wherever an appropriate icon exists.
+
+A custom platform icon may be introduced when:
+
+- the platform source lacks an appropriate concept;
+- the concept is specific to Loculary;
+- the source icon would communicate the wrong meaning;
+- a custom treatment is necessary for a validated visual-system requirement.
+
+Custom additions should document their semantic role and remain compatible with the platform's geometry, optical weight and accessibility rules.
+
+The system should avoid both extremes:
+
+- forcing every tool-specific symbol into the platform icon set;
+- allowing unrelated icon families to accumulate in shared UI.
+
+### 9.10 Exact library remains open
+
+The design contract intentionally leaves the exact platform icon library/treatment open.
+
+The implementation worker should evaluate candidate sources against representative platform surfaces and tool compositions before making the final selection. The evaluation should cover:
+
+- common navigation/actions;
+- status and disclosure icons;
+- small controls and touch targets;
+- dark and light themes;
+- responsive layouts;
+- localized/RTL compositions;
+- tree-shaking and bundle impact;
+- licensing and maintenance;
+- visual fit with the final typography, color and motion foundations.
+
+The result should be recorded as an explicit decision before broad platform adoption rather than inferred from whichever icon source is easiest to install.
 
 ## 10. Composition model
 
