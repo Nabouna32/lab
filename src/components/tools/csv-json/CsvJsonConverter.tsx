@@ -12,7 +12,7 @@ import { transformCsvJson, type CsvDelimiter, type CsvJsonOperation } from "@/li
 const delimiters: { value: CsvDelimiter; label: string }[] = [
   { value: ",", label: "," },
   { value: ";", label: ";" },
-  { value: "	", label: "Tab" },
+  { value: "\t", label: "Tab" },
 ];
 
 export default function CsvJsonConverter() {
@@ -27,9 +27,10 @@ export default function CsvJsonConverter() {
   const output = useMemo(() => input ? transformCsvJson(input, operation, delimiter) : { value: "", error: null }, [input, operation, delimiter]);
 
   function apply(nextOperation: CsvJsonOperation) {
+    const nextOutput = input ? transformCsvJson(input, nextOperation, delimiter) : { value: "", error: null };
     setOperation(nextOperation);
-    setResult(output.value ?? "");
-    setError(output.error);
+    setResult(nextOutput.value ?? "");
+    setError(nextOutput.error);
   }
 
   function clear() {
@@ -79,7 +80,7 @@ export default function CsvJsonConverter() {
             {result && <CopyButton value={result} label={t.copy} />}
           </div>
           <div className="relative mt-4 min-h-[18rem] flex-1 overflow-hidden bg-[var(--surface)]">
-            {hasResult ? <pre aria-live="polite" className="h-full max-h-[32rem] overflow-auto p-4 font-mono text-sm leading-6 text-[var(--foreground)]">{result}</pre> : <div className="flex min-h-[18rem] items-center justify-center border border-dashed border-[var(--border-strong)] p-6 text-center"><p className="max-w-sm text-sm leading-6 text-[var(--muted)]">{t.emptyResult}</p></div>}
+            {hasResult ? <pre className="h-full max-h-[32rem] overflow-auto p-4 font-mono text-sm leading-6 text-[var(--foreground)]">{result}</pre> : <div className="flex min-h-[18rem] items-center justify-center border border-dashed border-[var(--border-strong)] p-6 text-center"><p className="max-w-sm text-sm leading-6 text-[var(--muted)]">{t.emptyResult}</p></div>}
           </div>
         </div>
       </div>
