@@ -496,72 +496,183 @@ It must not silently remove essential tool capability merely to fit a viewport.
 
 ## 8. Motion system
 
+Motion is a first-class foundation because Loculary is intended to feel like a polished application rather than a static collection of pages.
+
 ### 8.1 Motion goals
 
-Motion should make Loculary feel like a polished application.
-
-It may provide:
+Motion may provide:
 
 - state feedback;
 - spatial continuity;
-- hierarchy;
+- hierarchy and emphasis;
 - perceived responsiveness;
 - tool identity;
 - delight;
 - ambient character;
 - visual polish.
 
-Purely visual motion is valid when it materially improves the experience.
+Purely visual motion is valid when it materially improves perceived quality, character or enjoyment.
 
-### 8.2 Semantic motion vocabulary
+Motion is not required for every interaction. Intentional stillness is part of the movement language too.
 
-The platform should provide a deliberately small vocabulary for:
+### 8.2 Motion intent families
 
-- fast interaction feedback;
-- standard transitions;
-- slower spatial transitions;
-- easing families;
-- movement/intensity levels.
+The platform should use a small semantic vocabulary based on **why motion exists**, not on the component that happens to use it.
 
-The goal is not to build a large animation framework.
+The initial families are:
 
-### 8.3 Motion rules
+- **feedback** — confirms an interaction or state change, such as press, selection, validation or completion;
+- **transition** — moves between related interface states without implying a change in spatial hierarchy;
+- **spatial** — communicates movement through the interface or a change in depth, containment or context;
+- **reveal** — introduces a newly available result, output, explanation or content region;
+- **loading** — communicates waiting, progress or an active process;
+- **manipulation** — responds to direct user movement such as dragging, resizing or repositioning;
+- **ambient** — provides restrained decorative or identity motion whose primary value is experiential.
+
+These families are semantic intent, not mandatory animation components. A single primitive may support several families, and a tool may create a local motion pattern when its task requires it.
+
+### 8.3 Motion dimensions
+
+A motion treatment should be describable through a small set of independent semantic dimensions:
+
+**Speed**
+
+- **fast** — immediate interaction feedback;
+- **standard** — ordinary state and interface transitions;
+- **slow** — deliberate spatial or compositional movement where the additional time supports comprehension or character.
+
+**Intensity**
+
+- **subtle** — small movement or opacity/scale change that keeps attention on the task;
+- **standard** — clearly perceptible movement used for ordinary transitions and feedback;
+- **expressive** — stronger movement reserved for meaningful emphasis, identity, reveal or intentionally decorative moments.
+
+**Easing**
+
+The system should provide a small set of semantic easing families rather than exposing arbitrary curves as the default vocabulary:
+
+- **standard** — general-purpose movement;
+- **enter** — movement into the visible composition;
+- **exit** — movement out of the visible composition;
+- **spatial** — movement that represents continuity through position or depth.
+
+Concrete durations, distances, easing curves and overshoot values remain implementation evidence and are not fixed by this contract.
+
+The dimensions are intentionally independent. For example, an expressive result reveal may use a standard speed, while a subtle control feedback may use fast speed. This prevents the vocabulary from becoming a catalogue of named animations.
+
+### 8.4 Motion rules
 
 Motion should:
 
-- remain subordinate to the task;
+- remain subordinate to the task while still allowing expressive moments;
 - preserve interaction responsiveness;
+- communicate meaningful state, hierarchy or spatial continuity when those are relevant;
 - avoid unnecessary repetition;
 - avoid causing layout instability;
-- work across responsive layouts;
-- have an intentional reduced-motion adaptation.
+- remain coherent across responsive compositions;
+- adapt intentionally to reduced-motion preferences.
 
-Workers should not reject motion solely because it is decorative.
+Workers should not reject motion solely because it is decorative or non-essential.
 
-They should reject or simplify it when evidence shows that it:
+They should reject or simplify a motion treatment when evidence shows that it:
 
 - obstructs the task;
-- creates confusion;
-- materially harms performance;
-- causes accessibility problems;
-- becomes visual noise.
+- creates confusion or false feedback;
+- materially harms responsiveness or performance;
+- causes an accessibility problem;
+- becomes repetitive or visually noisy;
+- makes repeated-use workflows feel slower than necessary.
 
-### 8.4 Motion as part of Loculary's signature
+Optimization should preserve the intended motion character whenever technically reasonable.
 
-Motion is allowed to be part of the recognisable Loculary experience, not merely an implementation detail of individual controls.
+### 8.5 Responsive and reduced-motion adaptation
 
-A future implementation should therefore consider a coherent **motion signature** covering how interfaces:
+Motion must be treated as responsive behavior, not a fixed desktop animation layer.
 
-- enter and leave;
-- reveal results;
-- communicate loading and waiting;
-- transition between related states or contexts;
-- respond to direct manipulation;
-- express tool-specific character.
+On smaller or constrained layouts, implementations may:
 
-This does not require every interaction to animate. The goal is a recognisable movement language, with intentional moments of stillness as well as motion.
+- reduce travel distance;
+- simplify multi-element choreography;
+- avoid animations that depend on unavailable spatial relationships;
+- preserve the key state/reveal cue while simplifying secondary movement.
 
-The signature must remain adaptable to responsive layouts and reduced-motion preferences. Its quality should be evaluated through real use rather than judged solely from isolated component examples.
+Reduced-motion adaptation should preserve the conceptual meaning of the interaction wherever possible.
+
+For example, a result reveal may retain immediate visual hierarchy and state change while removing or shortening movement. A loading state may remain clearly animated when the user has not requested reduced motion, but must not depend on continuous motion to communicate an essential state.
+
+`prefers-reduced-motion: reduce` is an accessibility adaptation, not the default visual direction.
+
+### 8.6 Motion and depth relationship
+
+Motion may reinforce the depth and containment model defined in section 6.
+
+Examples include:
+
+- a menu moving into a floating state;
+- a dragged surface responding to direct manipulation;
+- a result moving from an in-progress state into a prominent result state;
+- an overlay entering from the spatial relationship implied by its origin.
+
+The movement should explain the relationship rather than merely decorate the state change.
+
+Not every elevation or radius change should animate.
+
+### 8.7 Loculary motion signature
+
+Motion is allowed to become part of the recognisable Loculary experience rather than remaining a collection of unrelated component animations.
+
+A future implementation should evaluate a coherent signature across:
+
+- entry and exit;
+- result reveal;
+- loading and waiting;
+- related state/context transitions;
+- direct manipulation;
+- tool-specific character;
+- selected ambient or decorative moments.
+
+The signature should be recognizable through **relationships** between these moments — for example, consistent movement character and hierarchy — rather than through one mandatory animation repeated everywhere.
+
+Tool-specific motion may diverge when it improves comprehension or enjoyment, provided it remains compatible with the platform vocabulary and accessibility/performance contract.
+
+The quality of the signature must be evaluated in real compositions and repeated use, not only through isolated component demos.
+
+### 8.8 Motion governance
+
+Platform motion primitives should expose semantic intent and dimensions rather than raw animation details wherever a shared abstraction exists.
+
+Workers may use custom motion when:
+
+- the tool's task requires a distinct interaction;
+- the content itself is visual or spatial;
+- a custom effect contributes meaningfully to tool character;
+- a local composition would become less clear through forced platform reuse.
+
+Custom motion should still document its intent and remain compatible with accessibility, responsiveness and performance requirements.
+
+The system should avoid both extremes:
+
+- a large animation library containing a named effect for every interaction;
+- unrestricted ad-hoc animations that fragment Loculary's movement language.
+
+### 8.9 Concrete values remain open
+
+The design contract intentionally does not lock the current implementation's `120ms`, `180ms` and `240ms` values as the final motion scale.
+
+Those values are implementation evidence only.
+
+Final durations, distances, easing curves, intensity mappings and concrete motion-signature recipes should be chosen after representative target compositions exist and can be evaluated across:
+
+- common interactions;
+- result-heavy tools;
+- loading/waiting states;
+- mobile and desktop;
+- light and dark themes;
+- repeated-use workflows;
+- reduced-motion adaptation;
+- representative lower-capability devices.
+
+This keeps the motion foundation concrete enough for a Worker to implement coherently without prematurely freezing values that have not yet been validated in the target experience.
 
 ## 9. Iconography
 
