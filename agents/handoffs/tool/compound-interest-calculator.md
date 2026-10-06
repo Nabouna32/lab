@@ -4,6 +4,9 @@
 - **Branch:** `feat/tool/compound-interest-calculator`
 - **Base SHA:** current `main` at branch creation.
 - **Current state:** RUNNING
+- **Delivery:** PR #385 is open against main; CI/E2E pending.
+- **Current action:** wait for repository validation and inspect any worker-introduced failures.
+- **Next action:** fix failures, synchronize with main if required, merge when all required gates are green, then remove checkpoint.
 - **Progress:** implementation complete; domain tests and browser coverage authored; CI/E2E pending.
 - **Last durable commit:** `4b600c64e3a74fd1e76ba7d29e200f4ad25ee48c`.
 - **Challenge outcome:** dedicated calculator preserved over extending Percentage because periodic compounding is a distinct calculation model. Optional contributions are explicitly end-of-period.
