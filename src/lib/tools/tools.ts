@@ -183,6 +183,7 @@ type ToolDefinition = Pick<
 > & { capabilities?: ToolCapability[] };
 
 const nextActionToolIds: Partial<Record<ToolId, ToolId[]>> = {
+  "percentage": ["discount"],
   "download-speed": ["download-time"],
   "download-time": ["download-speed"],
   "file-size": ["video-bitrate"],
