@@ -100,7 +100,7 @@ test("tools page is search-first and exposes category discovery", async ({ page 
   await expect(page.getByRole("heading", { name: "Tous les outils", exact: true })).toBeVisible();
   await expect(page.locator("#tools-page-search-input")).toBeVisible();
   await expect(page.getByRole("heading", { name: "Parcourir par catégorie" })).toBeVisible();
-  await expect(page.getByRole("link", { name: /Calculs.*5 outils/ })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Calculs.*6 outils/ })).toBeVisible();
   await expect(page.getByRole("link", { name: /Informatique.*6 outils/ })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Calculateur de pourcentage", exact: true })).toBeVisible();
 });
@@ -108,6 +108,7 @@ test("tools page is search-first and exposes category discovery", async ({ page 
 test("all published tool pages render", async ({ page }) => {
   const publishedToolRoutes = [
     "/fr/outils/calculs/calculateur-de-pourcentage",
+    "/fr/outils/calculs/calculateur-d-interets-composes",
     "/fr/outils/calculs/calculateur-de-reduction",
     "/fr/outils/calculs/calculateur-de-tva",
     "/fr/outils/calculs/regle-de-trois",
