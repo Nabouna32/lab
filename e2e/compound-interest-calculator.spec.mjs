@@ -8,7 +8,7 @@ test.describe("Compound Interest Calculator", () => {
     await page.getByLabel("Capital initial").fill("1000");
     await page.getByLabel("Taux annuel").fill("5");
     await page.getByLabel("Durée").fill("10");
-    await expect(page.getByText("1 647,01")).toBeVisible();
+    await expect(page.getByText("1 647,01", { exact: true })).toBeVisible();
     await expect(page.getByText("Intérêts gagnés")).toBeVisible();
   });
 
