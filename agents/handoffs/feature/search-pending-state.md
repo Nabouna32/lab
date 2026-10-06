@@ -11,8 +11,8 @@
   - Bootstrap completed from START-HERE, common contract, Feature Worker contract, repository rules, relevant product/UX/architecture/privacy/i18n/accessibility/decision docs, Issue and current implementation.
   - Issue #359 revalidated on current main; no existing branch/PR claims the work.
   - Current ToolSearch.tsx confirms stale/empty visibleResults can render the no-results state while deferred search is pending.
-- Current action: verify the implementation diff and run available validation.
-- Next action: open a focused PR so GitHub Actions can execute the repository's required CI; inspect and fix any failures caused by this change.
+- Current action: correct the CI-discovered lint violation without changing scope, then re-run CI verification.
+- Next action: inspect the new CI and Browser E2E runs for the updated head; fix only failures caused by this mission.
 - Decisions already validated:
   - User approved implementation of Issue #359.
   - Keep search semantics unchanged.
@@ -20,6 +20,6 @@
 - Decisions still blocked: none currently.
 - Challenge: explicit pending state was compared with deriving state from query/results equality. Explicit state is preferred because pending is a real UI state and avoids coupling loading semantics to result data. No consequential product/architecture decision identified.
 - Important files/areas: src/components/tools/ToolSearch.tsx; src/lib/tools/search-client; tests/browser coverage for search if present.
-- Tests/checks: local execution unavailable because the execution environment cannot resolve github.com; implementation diff inspected via GitHub compare. GitHub Actions PR CI is required for executable validation.
-- Last durable commit SHA: 2b4337fa1a3a26c2780ed0b6757f4ddde80b05f1
+- Tests/checks: PR #372 CI run 1356 failed at lint because setIsSearching(false) was called synchronously in the effect; corrected by relying on the already-updated input state when the deferred query becomes empty. Browser E2E run 1191 was still in progress on the superseded head.
+- Last durable commit SHA: 3ed498fceaa59537db4ad9421ee6f008581b8f2a
 - Timestamp: 2026-10-06
