@@ -147,6 +147,7 @@ export default function PercentageCalculator() {
     neutral: {
       panel: "border-[var(--border)] bg-[var(--surface)]",
       value: "text-[var(--foreground)]",
+      mark: "bg-[var(--border-strong)]",
     },
   } as const;
 
