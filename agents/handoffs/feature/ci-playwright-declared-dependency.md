@@ -3,19 +3,24 @@
 - Role/mission: Feature Worker — Issue #375, declare Playwright as a reproducible project dependency.
 - Branch/ref: `feat/feature/playwright-declared-dependency`
 - Base SHA: `d1778ff37a366b3f3f1587607402e176c046da17`
-- Current state: RUNNING
-- Implementation milestone: package manifest, lockfile and E2E workflow updated; Playwright 1.63.0 confirmed as current stable/latest tag at implementation time; no cache or browser-test changes.
+- Current state: WAITING
 - Validated scope: add `@playwright/test` as a normal devDependency; update lockfile; remove CI-only ad hoc install; keep existing E2E behavior/browser target; no cache or unrelated CI changes.
 - Completed milestones:
   - Bootstrap contracts and Issue #375 read.
   - Current main/branch/PR state inspected.
   - Feature branch created from current main.
-- Current action: inspect current package manifest, lockfile and E2E workflow; verify the appropriate Playwright version from repository evidence.
-- Next action: perform challenge/version assessment, then implement the smallest scoped change.
+  - Playwright 1.63.0 verified as the current stable/latest npm release at implementation time.
+  - package.json, package-lock.json and .github/workflows/e2e.yml updated within scope.
+  - PR #378 opened against main.
+  - Browser E2E run 1202 completed successfully.
+  - CI run 1367: application job passed (install, agent validation, lint, typecheck, test, build); Dependency audit failed on six pre-existing high-severity vulnerabilities in the existing dependency tree.
+- Current action: waiting on the dependency-audit gate; do not merge while a required validation is failing.
+- Next action: resume only when the audit gate is resolved through its own validated mission (Issue #374) or repository policy explicitly establishes that this check is not a required merge gate.
 - Validated decisions: Issue #375 scope; no Chromium/browser cache in this mission.
-- Decisions still blocked: none currently.
-- Challenge: assumption under test is that declaring the Playwright runner in devDependencies is preferable to CI-only installation. Alternative considered: keep CI-only installation; rejected for reproducibility/lockfile consistency within the validated scope. Version `1.63.0` remains an observed CI value, not yet assumed as the correct declared version.
-- Important files/areas: `package.json`, `package-lock.json`, `.github/workflows/e2e.yml`.
-- Tests/checks: not run yet; discovery only.
-- Last durable commit SHA: branch base `d1778ff37a366b3f3f1587607402e176c046da17`.
+- Decisions still blocked: whether/when the existing dependency-audit gate is changed is outside Issue #375 and belongs to Issue #374.
+- Challenge: declaring Playwright is preferable to CI-only installation for reproducibility; current stable 1.63.0 is appropriate; browser caching remains separate because it needs measurement first. The CI audit failure does not justify adding vulnerability remediation to this issue.
+- Important files/areas: package.json, package-lock.json, .github/workflows/e2e.yml.
+- Tests/checks: Browser E2E 1202 SUCCESS. CI 1367 application job SUCCESS. CI 1367 Dependency audit FAILURE due pre-existing high-severity vulnerabilities; npm ci itself SUCCESS.
+- Last durable commit SHA: `6cc597bce1ef28f8b4efe72065bb5093bd2a0fa7` (feature implementation + checkpoint milestone).
+- PR: #378, open.
 - Timestamp: 2026-10-06
