@@ -20,7 +20,7 @@
 - **Challenge performed:** Compared explicit curated relations, deterministic contextual rules, a hybrid model, and stricter similarity. Outcome: **adopt explicit curated relations** for the current ~42-tool catalog. They give the strongest semantic guarantee, are simple to audit and maintain, naturally support zero recommendations, and avoid false positives. Existing `relatedToolIds` was replaced rather than repurposed because its name encoded the rejected generic-relation semantics.
 - **Important files / areas:** `src/lib/tools/types.ts`, `src/lib/tools/tools.ts`, `src/lib/tools/metadata.ts`, `src/lib/tools/metadata.test.mjs`, `src/lib/tools/relations.ts`, `src/lib/tools/relations.test.mjs`, `src/components/tools/RelatedTools.tsx`, `src/lib/i18n/messages.ts`.
 - **Tests / checks:** Not run since the implementation batch; validation pending.
-- **Last durable commit SHA:** `ea0a87362b67fb664c2ec2208abdd6db0ccda9ed`.
+- **Last durable commit SHA:** `61a3c01807cfef86e92e4e0e28d477a6f411d7ef`.
 - **Timestamp:** 2026-10-06T20:58:00+02:00
 
 ## Activity log
