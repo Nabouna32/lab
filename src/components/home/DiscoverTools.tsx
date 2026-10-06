@@ -42,7 +42,13 @@ export default function DiscoverTools({ locale }: { locale: Locale }) {
 
   return (
     <section className="relative mx-auto max-w-[var(--content-wide)] px-4 py-14 sm:px-6 lg:px-8 lg:py-20" aria-labelledby="discover-tools-title">
-      <div className="grid gap-8 lg:grid-cols-[0.7fr_1.3fr] lg:gap-16"><div className="lg:sticky lg:top-24 lg:self-start"><div className="flex items-end justify-between gap-6 border-b border-[var(--border)] pb-5">
+      <div className="grid gap-8 lg:grid-cols-[0.72fr_1.28fr] lg:gap-16">
+      <div className="lg:sticky lg:top-24 lg:self-start">
+        <div className="relative overflow-hidden rounded-[var(--radius-2xl)] border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow-sm)] sm:p-6">
+          <div className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-[var(--accent-soft)] blur-2xl" aria-hidden="true" />
+          <div className="relative">
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--accent)]">Loculary</p>
+            <div className="mt-3 flex items-end justify-between gap-4 border-b border-[var(--border)] pb-5">
         <div>
           <h2 id="discover-tools-title" className="text-2xl font-bold tracking-[-0.035em] sm:text-3xl">
             {t.home.discoveryTitle}
@@ -64,9 +70,9 @@ export default function DiscoverTools({ locale }: { locale: Locale }) {
             <Link
               key={tool.id}
               href={getToolPath(locale, getPrimaryToolCategory(tool), tool.id)}
-              className="group grid gap-3 py-5 transition-colors hover:bg-[var(--surface-soft)] sm:grid-cols-[auto_minmax(0,1fr)_auto] sm:items-center sm:px-4"
+              className={"group grid gap-3 py-5 transition-[background-color,transform] duration-[var(--motion-standard)] hover:bg-[var(--surface-soft)] sm:grid-cols-[auto_minmax(0,1fr)_auto] sm:items-center sm:px-4 " + (featuredTools.indexOf(tool) === 0 ? "sm:rounded-[var(--radius-lg)] sm:px-5 sm:py-6" : "")}
             >
-              <span className="flex h-10 w-10 items-center justify-center rounded-[var(--radius-md)] bg-[var(--accent-soft)] text-xl" aria-hidden="true">
+              <span className="flex h-10 w-10 items-center justify-center rounded-[var(--radius-md)] bg-[var(--accent-soft)] text-xl transition-transform duration-[var(--motion-standard)] group-hover:scale-[1.04]" aria-hidden="true">
                 {tool.icon}
               </span>
               <span className="min-w-0">
