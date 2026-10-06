@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getRelatedTools } from "./relations.ts";
+import { getNextActions } from "./relations.ts";
 
 const tools = [
   {
@@ -41,7 +41,7 @@ const tools = [
   },
 ];
 
-test("related tools use shared metadata and category", () => {
+test("next actions use explicit curated relations", () => {
   const related = getRelatedTools(tools[0], tools);
   assert.equal(related[0].id, "discount");
 });
