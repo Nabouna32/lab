@@ -353,21 +353,101 @@ Prefer open composition when containment would add visual noise.
 
 ### 6.2 Radius vocabulary
 
-The platform should maintain a small semantic radius vocabulary.
+The platform should maintain a deliberately small **semantic** radius vocabulary rather than expose a mechanical ladder of generic numeric sizes.
 
-Shared/platform components should prefer semantic radius roles.
+The initial semantic roles are:
 
-Tool-local radius choices remain allowed when they are part of an intentional visual composition.
+- **subtle** — small rounding for compact controls, technical surfaces or elements where containment should remain restrained;
+- **standard** — the normal platform radius for reusable controls and contained surfaces;
+- **prominent** — stronger rounding for major compositions, result surfaces or expressive containers where the shape contributes to the visual hierarchy;
+- **pill** — fully rounded treatment for controls or compact elements whose interaction model benefits from a capsule shape.
 
-Arbitrary radius values should require a clear reason rather than being introduced as casual stylistic variation.
+These roles describe visual intent, not mandatory pixel values. Multiple roles may map to the same concrete value when the resulting hierarchy remains clear.
 
-### 6.3 Elevation
+The current implementation's `sm/md/lg/xl/2xl` ladder is evidence to audit, not the target contract. Shared/platform components should consume semantic radius roles rather than selecting generic levels mechanically.
 
-Elevation should remain restrained.
+Tool-local radius choices remain allowed when they are part of an intentional visual composition or when the content itself requires a distinct shape.
 
-A small number of semantic levels is preferred over a large shadow catalogue.
+Arbitrary radius values should require a clear reason. Repeated local values expressing the same stable relationship should be consolidated into a semantic role rather than preserved as stylistic drift.
 
-Elevation should communicate hierarchy or interaction state, not simulate depth everywhere.
+The system should also avoid making every surface strongly rounded. Radius is one compositional signal among spacing, surface contrast, border and elevation.
+
+### 6.3 Elevation and depth
+
+Elevation describes a **relationship in depth**, not a requirement to add a shadow.
+
+The initial semantic vocabulary is:
+
+- **flat** — participates directly in the surrounding surface hierarchy without perceptible floating depth;
+- **raised** — visually separated from its surrounding context through surface contrast, border, subtle shadow or a combination of these;
+- **floating** — clearly above the surrounding composition, appropriate for transient overlays, menus, popovers, dialogs or intentionally prominent interactive surfaces.
+
+These roles describe hierarchy and spatial relationship. They do not prescribe one universal shadow formula.
+
+A raised surface may therefore use:
+
+- surface contrast without a shadow;
+- a border without a shadow;
+- a restrained shadow;
+- or a deliberate combination.
+
+Floating surfaces normally require stronger depth cues, but the implementation should still avoid gratuitous blur or shadow.
+
+Elevation should communicate hierarchy, interaction state or spatial continuity rather than simulate depth everywhere.
+
+The current `shadow-sm/md/lg` values are implementation evidence, not permanent product tokens. Concrete shadows should be validated in both light and dark themes because the same numerical shadow treatment does not necessarily produce the same perceived depth across themes.
+
+The design system should not introduce a dedicated `surface-elevated` color role merely to support this model at this stage. Surface contrast is one possible implementation of elevation; whether an additional semantic surface role is actually necessary should be decided from implementation evidence.
+
+### 6.4 Depth, containment and expressive composition
+
+Depth should reinforce the composition rather than turn Loculary into a collection of floating cards.
+
+Prefer flatter composition when:
+
+- spacing already communicates grouping;
+- content is part of the page canvas;
+- additional depth would create visual noise;
+- the tool benefits from an open workspace.
+
+Use stronger depth when it materially improves:
+
+- result emphasis;
+- task grouping;
+- transient-layer clarity;
+- interaction feedback;
+- spatial continuity;
+- the perceived quality or character of an intentionally expressive composition.
+
+Radius and elevation should therefore be considered together with spacing, surfaces and composition. A prominent radius does not automatically require a floating elevation, and a raised surface does not automatically require a large radius.
+
+### 6.5 Theme adaptation
+
+Light and dark themes must preserve the semantic roles while using theme-appropriate concrete mappings.
+
+Dark mode must not be treated as a simple inversion of light-mode shadows or surface colors. In particular:
+
+- perceived depth depends on surrounding luminance and contrast;
+- strong shadows can become muddy or visually heavy on dark surfaces;
+- surface contrast may communicate depth more effectively than a large shadow;
+- focus and interaction states must remain distinguishable from depth cues.
+
+Concrete radius values can normally remain shared across themes, while elevation treatment may require different shadow opacity, spread or surface contrast.
+
+### 6.6 Interaction and state relationship
+
+Elevation may change with interaction when that change communicates a meaningful spatial state.
+
+Examples include:
+
+- a menu becoming floating when opened;
+- a draggable surface becoming raised while actively manipulated;
+- a result surface becoming more prominent when newly revealed;
+- a selected control gaining surface separation without requiring a generic shadow.
+
+These are behavioral/compositional decisions, not permission to animate every elevation change.
+
+Motion may reinforce a depth transition when it improves spatial continuity, subject to the motion contract and reduced-motion adaptation.
 
 ### 6.4 Interaction states and focus
 
