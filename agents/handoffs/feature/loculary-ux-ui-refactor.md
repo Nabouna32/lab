@@ -5,12 +5,12 @@
 - PR: none yet
 - State: RUNNING
 - Step: homepage visual correction after prototype review
-- Validated scope: correct the merged homepage prototype within the already validated #400 homepage direction: radial ecosystem as leading candidate, one distinct color per category, visible category labels, smaller search/title composition, coherent Explorer button in both themes, and a visibly app-like homepage-to-Explorer transition with real hover interaction on ecosystem segments.
-- Challenge: current prototype proves the radial composition is more legible than the other variants, but the existing implementation is too low-information, too limited in color, has an oversized search/hero, uses an inconsistent foreground/background Explorer button, and its navigation/hover motion is not perceptually strong enough. Alternative considered: keep the prototype unchanged and select radial later; rejected because the user cannot meaningfully evaluate the intended interaction/motion if it is not actually visible.
-- Completed this step: current main, Issue #400 checkpoints, PR #405 merge state, relevant contracts/docs, and homepage implementation inspected. PR #405 is merged at 92e43a83bdd984d292181bf0e482f5a0fa5fa041.
-- Current action: implement the approved homepage polish on a fresh branch from current main.
-- Next action: inspect diff, run GitHub CI, fix only regressions from this step, then open focused PR and merge only after required checks are green.
+- Validated scope: correct the merged homepage prototype: radial ecosystem as leading candidate, one distinct color per category, visible category labels, smaller search/title composition, coherent Explorer button in both themes, and a visibly app-like homepage-to-Explorer transition with real hover interaction on ecosystem segments.
+- Challenge: unchanged prototype would not let the user evaluate the intended interaction/motion. The simpler alternative of selecting radial without polishing was rejected because the current implementation hides the interaction and has weak visual differentiation.
+- Completed: fresh branch from current main; compacted homepage scene/search; changed Explorer CTA to accent semantic tokens; added per-category color tokens in light/dark themes; labeled constellation/network domains; made radial segments keyboard/focus/hover interactive; anchored the Explorer page and CTA to the same named view-transition surface; strengthened the representative route animation.
+- Current action: verify the diff and submit the focused PR so GitHub Actions can validate the actual Next.js build/typecheck/lint/browser behavior.
+- Next action: inspect CI results, fix only regressions caused by this step, then merge only after required checks are green.
 - Decisions blocked: none within this validated visual prototype step.
-- Verification: source inspection complete; no local repository/runtime is available, so local tests are not claimed.
-- Last durable commit: branch creation from main at be228d1cdcb5da5ee3d22f151637517506593fde
-- Timestamp: 2026-10-06T22:45:00Z
+- Verification: source inspection complete; no local repository/runtime is available, so no local test result is claimed.
+- Last durable commit: d8a59e0714e14d737ef7d64f3b0c204120d4822f
+- Timestamp: 2026-10-06T22:52:00Z
