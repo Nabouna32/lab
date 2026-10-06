@@ -932,6 +932,151 @@ The system should prefer a small number of strong abstractions over either extre
 - duplicating every control independently; or
 - creating a universal component with enough variants to encode the entire product.
 
+### 10.6 Behavioral primitive contract
+
+Behavioral primitives are the smallest reusable platform abstractions that own a **stable interaction contract**. They are not simply the components that happen to be shared today, and they are not containers with a common visual treatment.
+
+A candidate belongs in the behavioral layer when most of the following are true:
+
+- the behavior recurs across unrelated tools or platform surfaces;
+- the interaction has stable semantic and accessibility requirements;
+- keyboard, focus, pointer, touch or state handling benefits from one reliable implementation;
+- the behavior has predictable interaction states;
+- consumers should not need to recreate the same state machine independently;
+- the abstraction can remain small without accumulating tool-specific variants.
+
+A candidate should remain a composition recipe or tool-local implementation when its value is primarily structural, editorial, visual, domain-specific or dependent on the task's information architecture.
+
+The default question is therefore **"what behavior must remain consistent?"**, not **"which existing component can we standardize?"**.
+
+### 10.7 Primitive families
+
+The platform should organize behavioral primitives around a small set of interaction responsibilities rather than a large component catalogue.
+
+#### Actions
+
+The action layer governs semantic activation and action states for controls such as buttons and actionable links. It covers activation semantics, keyboard/pointer interaction, disabled and unavailable states, busy/pending state where applicable, focus visibility, accessible naming, and interaction feedback/motion hooks.
+
+Different visual treatments do not automatically justify separate primitives. A tool may compose the same action behavior into a substantially different visual control when its task requires it.
+
+#### Inputs and value entry
+
+Input primitives govern reusable value-entry behavior such as text, numeric, multiline and other form controls where the platform can guarantee a common semantic contract.
+
+The contract includes label/description association, error and validation semantics, keyboard behavior, focus treatment, disabled/read-only/busy states where relevant, localization-safe sizing and content handling, and accessible naming/state communication.
+
+Specialized editors, code surfaces, canvases and other rich inputs remain tool-specific unless their interaction contract genuinely recurs across the platform.
+
+#### Selection and choice
+
+Selection primitives cover recurring choice behaviors such as single selection, multiple selection, toggles or segmented choices when the semantic interaction is shared.
+
+They define state, keyboard interaction, focus, selection semantics and appropriate mobile/touch behavior without prescribing one universal visual composition.
+
+#### Feedback and status
+
+Feedback primitives govern transient or persistent communication of state, including validation, success, warning, danger, information, progress and busy states.
+
+They should provide consistent semantics for status versus error, non-color-only communication, live-region behavior where appropriate, progress/waiting states, retry/cancellation affordances when relevant, and reduced-motion adaptation.
+
+A visual result presentation is not automatically a feedback primitive. Result emphasis belongs to composition unless the underlying status behavior is genuinely shared.
+
+#### Disclosure and transient layers
+
+Disclosure primitives cover reusable stateful visibility and transient interaction patterns such as expandable regions, popovers, dialogs, menus and similar layers when their semantics and focus management are platform-wide concerns.
+
+The primitive owns open/close state, keyboard escape/navigation where applicable, focus entry/restoration, outside interaction rules where appropriate, accessible relationships/roles, and responsive adaptation. Contents and visual composition remain consumer-owned.
+
+#### Navigation
+
+Navigation primitives govern recurring navigation semantics such as links, breadcrumbs, tabs or other navigational choices when a stable platform behavior exists.
+
+They must account for localization, responsive recomposition and RTL semantics. Navigation structure itself remains a composition concern: a tool workspace may require a bespoke navigation model without inventing a new platform primitive for every layout.
+
+### 10.8 Cross-cutting behavior is not a component family
+
+Some contracts apply to nearly every primitive but should not become separate wrapper components merely for architectural symmetry.
+
+These include focus-visible behavior, keyboard conventions, reduced-motion adaptation, accessible naming/descriptions, localization-safe sizing, interaction feedback/transition hooks, disabled/busy/error semantics, and touch-target/responsive constraints.
+
+These are **cross-cutting primitive contracts**. They should be implemented through shared foundations, utilities, hooks or platform infrastructure where appropriate, without forcing every consumer through a visual wrapper.
+
+### 10.9 What is deliberately not a behavioral primitive
+
+The following existing or plausible abstractions should not be promoted to behavioral primitives merely because they recur visually:
+
+- generic Card or Panel containers;
+- ResultPanel as a universal result component;
+- ToolPage as a primitive;
+- editorial content blocks such as formulas or explanatory cards;
+- generic spacing/layout wrappers;
+- tool-specific file drop zones, editors, canvases or visualizers;
+- CopyButton or ClearButton when their value is only a particular action recipe rather than a distinct shared interaction contract.
+
+These may still be useful implementation components. Their architectural layer should be determined by their actual responsibility: foundation, composition recipe, tool-specific UI or a thin consumer-level convenience component.
+
+In particular, **surface containment is not behavior**. A shared visual container should not become the universal answer to composition simply because it is easy to reuse.
+
+### 10.10 Primitive API and state boundaries
+
+A behavioral primitive should expose the smallest stable contract needed by consumers.
+
+Prefer:
+
+- semantic props over visual-token escape hatches;
+- explicit state over hidden global state;
+- native platform semantics where they already solve the problem well;
+- composition through children/slots when content genuinely varies;
+- controlled/uncontrolled behavior only when both modes provide real value;
+- explicit callbacks for meaningful state transitions;
+- accessible state reflected in the DOM rather than only in styling.
+
+Avoid:
+
+- large variant matrices covering unrelated use cases;
+- props that expose every CSS detail;
+- tool-specific business logic inside platform primitives;
+- primitive-level data fetching or persistence;
+- hidden analytics or product behavior;
+- abstractions created only to eliminate a small amount of duplication.
+
+A primitive may provide hooks or low-level behavior helpers instead of a rendered component when that produces a cleaner boundary.
+
+### 10.11 Primitive evaluation and promotion rule
+
+A new primitive should be promoted only when there is evidence of a stable cross-product need.
+
+The implementation worker should evaluate:
+
+1. Is the behavior actually recurring across independent tools or platform surfaces?
+2. Is its accessibility/state machine sufficiently stable to centralize?
+3. Does centralization reduce failure or drift rather than merely reduce lines of code?
+4. Can the abstraction remain small without anticipating every future tool?
+5. Does it preserve tool-specific composition and expressive freedom?
+6. Would a recipe, utility or native element be simpler and more robust?
+7. Is the ownership boundary clear between primitive behavior and composition styling?
+
+The answer may be **do not promote**. Duplication is acceptable when it protects a meaningful tool-specific interaction from an abstraction that would make the system worse.
+
+Promotion should therefore be evidence-driven rather than triggered by a fixed reuse count or by the existence of two visually similar components.
+
+### 10.12 Migration implication for the current implementation
+
+The current `src/components/ui/` and `src/components/tools/ToolPage/` trees are implementation evidence only.
+
+The implementation worker should audit each existing component against the behavioral contract and classify it as:
+
+- **retain** — already has a clean platform responsibility;
+- **refactor** — responsibility is valid but implementation combines or leaks concerns;
+- **decompose** — reusable behavior should be separated from composition;
+- **replace** — the abstraction conflicts with the target architecture;
+- **move to recipe/tool UI** — the component is composition rather than platform behavior;
+- **remove** — the abstraction has no durable role after the refactor.
+
+No compatibility layer should be preserved solely to avoid changing current call sites. Migration convenience is a technical consideration, not a design-system requirement.
+
+The worker should validate representative tools before freezing the final primitive inventory. A compact utility, a result-heavy tool, a data-dense/advanced tool and a visual or mini-application experience should all be able to consume the behavioral layer without being forced into the same composition.
+
 ## 11. Loculary visual signature
 
 Loculary should be recognisable as an **expressive utility application** even when the user moves between very different tools.
