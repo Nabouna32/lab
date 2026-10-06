@@ -79,12 +79,7 @@ export default function ToolSearch({
 
   useEffect(() => {
     const normalizedQuery = deferredQuery.trim();
-    if (!normalizedQuery) {
-      setIsSearching(false);
-      setResults([]);
-      setResultsQuery("");
-      return;
-    }
+    if (!normalizedQuery) return;
 
     const requestId = ++searchRequest.current;
     setIsSearching(true);
