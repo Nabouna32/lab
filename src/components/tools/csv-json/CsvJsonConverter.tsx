@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
@@ -24,7 +24,6 @@ export default function CsvJsonConverter() {
   const [result, setResult] = useState("");
   const [error, setError] = useState<"invalid-csv" | "invalid-json" | "unsupported-json" | null>(null);
 
-  const output = useMemo(() => input ? transformCsvJson(input, operation, delimiter) : { value: "", error: null }, [input, operation, delimiter]);
 
   function apply(nextOperation: CsvJsonOperation) {
     const nextOutput = input ? transformCsvJson(input, nextOperation, delimiter) : { value: "", error: null };
