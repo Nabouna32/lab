@@ -78,6 +78,25 @@ In particular:
 
 Reduced motion is an accessibility adaptation of the visual experience. It is not the default visual philosophy for users who do not request it.
 
+### 2.5 Expressive app personality
+
+Loculary should feel like a **real application with a distinct personality**, not merely a highly polished collection of web pages.
+
+The visual direction therefore intentionally allows:
+
+- expressive but coherent color;
+- visible interaction feedback;
+- purposeful transitions and spatial continuity;
+- pleasant loading and waiting states;
+- micro-interactions and decorative details whose primary value may be experiential rather than functional;
+- tool-specific visual character when the task benefits from it.
+
+The product does not adopt a rule that every visual element must have a strictly utilitarian purpose. Beauty, delight, character and perceived quality are legitimate product outcomes.
+
+The corresponding guardrail is **evaluate rather than suppress preemptively**: real usage, accessibility, responsiveness, performance and repeated-use experience may justify reducing, changing or removing an element after implementation. The initial design should not be artificially made austere merely because an element is decorative.
+
+The visual language may take inspiration from strong application design systems such as Fluent and Material, but Loculary must develop its own synthesis rather than reproduce either system or inherit their conventions wholesale.
+
 ## 3. Semantic color system
 
 Color is governed semantically rather than by component-specific palette decisions.
@@ -142,6 +161,14 @@ Literal colors remain valid when color is part of the content itself, for exampl
 - user-selected colors.
 
 They should not replace platform semantic roles for ordinary UI.
+
+### 3.5 Expressive use of color
+
+Color is allowed to contribute materially to Loculary's identity and atmosphere, not only to encode status or affordance.
+
+However, expressive color remains governed by semantic roles at the platform level. The system should avoid arbitrary per-tool palettes that fragment product identity or make status meanings inconsistent.
+
+The intended balance is **expressive, not multicolored by default**: color may be visually prominent when it strengthens hierarchy, identity or enjoyment, while ordinary UI still benefits from a controlled semantic vocabulary.
 
 ## 4. Typography
 
@@ -244,6 +271,26 @@ A small number of semantic levels is preferred over a large shadow catalogue.
 
 Elevation should communicate hierarchy or interaction state, not simulate depth everywhere.
 
+### 6.4 Interaction states and focus
+
+The foundation must define a coherent interaction-state vocabulary covering, as applicable:
+
+- default;
+- hover;
+- focus-visible;
+- pressed;
+- selected;
+- disabled;
+- loading;
+- success;
+- warning;
+- error;
+- dragging/active where the primitive requires it.
+
+Focus is a first-class foundation rather than only a color token. Its treatment must remain visible and meaningful across themes and component types, and must not depend on color alone.
+
+Shared interaction states should make the interface feel responsive and app-like while allowing tool-specific controls to express richer states when their task requires them.
+
 ## 7. Responsive behavior
 
 Responsive design is first-class.
@@ -320,6 +367,23 @@ They should reject or simplify it when evidence shows that it:
 - materially harms performance;
 - causes accessibility problems;
 - becomes visual noise.
+
+### 8.4 Motion as part of Loculary's signature
+
+Motion is allowed to be part of the recognisable Loculary experience, not merely an implementation detail of individual controls.
+
+A future implementation should therefore consider a coherent **motion signature** covering how interfaces:
+
+- enter and leave;
+- reveal results;
+- communicate loading and waiting;
+- transition between related states or contexts;
+- respond to direct manipulation;
+- express tool-specific character.
+
+This does not require every interaction to animate. The goal is a recognisable movement language, with intentional moments of stillness as well as motion.
+
+The signature must remain adaptable to responsive layouts and reduced-motion preferences. Its quality should be evaluated through real use rather than judged solely from isolated component examples.
 
 ## 9. Iconography
 
@@ -604,12 +668,12 @@ Implementation should proceed through small, independently verifiable steps.
 
 The following remain explicit decisions rather than assumptions:
 
-1. the final semantic color taxonomy and exact token mapping;
+1. the exact semantic color token mapping and contrast-validated values;
 2. the final typography-role values;
 3. the final spacing/radius/elevation token values;
-4. the exact motion easing/intensity vocabulary;
+4. the exact motion easing/intensity vocabulary and concrete motion signature recipes;
 5. the exact platform icon library/treatment;
-6. the concrete Loculary signature motif;
+6. the concrete Loculary signature motif beyond the validated expressive color/motion direction;
 7. the appropriate semantic ToolPage composition variants;
 8. the scope and CI policy for visual regression.
 
