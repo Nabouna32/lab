@@ -82,7 +82,6 @@ export default function ToolSearch({
     if (!normalizedQuery) return;
 
     const requestId = ++searchRequest.current;
-    setIsSearching(true);
     let cancelled = false;
 
     import("@/lib/tools/search-client").then(({ searchToolCatalog }) => {
@@ -252,7 +251,7 @@ export default function ToolSearch({
                     key={suggestion}
                     type="button"
                     onMouseDown={(event) => event.preventDefault()}
-                    onClick={() => { setQuery(suggestion); setActiveIndex(-1); setIsFocused(true); }}
+                    onClick={() => { setQuery(suggestion); setActiveIndex(-1); setIsFocused(true); setIsSearching(true); }}
                     className="rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-xs font-medium text-[var(--foreground)] transition-colors hover:bg-[var(--surface-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
                   >
                     {suggestion}
