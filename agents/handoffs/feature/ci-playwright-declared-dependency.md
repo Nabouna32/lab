@@ -1,0 +1,20 @@
+# Feature Worker checkpoint — Playwright declared dependency
+
+- Role/mission: Feature Worker — Issue #375, declare Playwright as a reproducible project dependency.
+- Branch/ref: `feat/feature/playwright-declared-dependency`
+- Base SHA: `d1778ff37a366b3f3f1587607402e176c046da17`
+- Current state: RUNNING
+- Validated scope: add `@playwright/test` as a normal devDependency; update lockfile; remove CI-only ad hoc install; keep existing E2E behavior/browser target; no cache or unrelated CI changes.
+- Completed milestones:
+  - Bootstrap contracts and Issue #375 read.
+  - Current main/branch/PR state inspected.
+  - Feature branch created from current main.
+- Current action: inspect current package manifest, lockfile and E2E workflow; verify the appropriate Playwright version from repository evidence.
+- Next action: perform challenge/version assessment, then implement the smallest scoped change.
+- Validated decisions: Issue #375 scope; no Chromium/browser cache in this mission.
+- Decisions still blocked: none currently.
+- Challenge: assumption under test is that declaring the Playwright runner in devDependencies is preferable to CI-only installation. Alternative considered: keep CI-only installation; rejected for reproducibility/lockfile consistency within the validated scope. Version `1.63.0` remains an observed CI value, not yet assumed as the correct declared version.
+- Important files/areas: `package.json`, `package-lock.json`, `.github/workflows/e2e.yml`.
+- Tests/checks: not run yet; discovery only.
+- Last durable commit SHA: branch base `d1778ff37a366b3f3f1587607402e176c046da17`.
+- Timestamp: 2026-10-06
