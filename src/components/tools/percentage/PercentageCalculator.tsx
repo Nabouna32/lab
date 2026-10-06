@@ -130,16 +130,19 @@ export default function PercentageCalculator() {
 
   const resultToneClasses = {
     danger: {
-      panel: "border-[var(--danger)]/25 bg-[var(--danger-soft)]",
+      panel: "border-[var(--danger)]/30 bg-[var(--danger-soft)]",
       value: "text-[var(--danger)]",
+      mark: "bg-[var(--danger)]",
     },
     success: {
-      panel: "border-[var(--success)]/25 bg-[var(--success-soft)]",
+      panel: "border-[var(--success)]/30 bg-[var(--success-soft)]",
       value: "text-[var(--success)]",
+      mark: "bg-[var(--success)]",
     },
     accent: {
-      panel: "border-[var(--accent)]/25 bg-[var(--accent-soft)]",
+      panel: "border-[var(--accent)]/30 bg-[var(--accent-soft)]",
       value: "text-[var(--foreground)]",
+      mark: "bg-[var(--accent)]",
     },
     neutral: {
       panel: "border-[var(--border)] bg-[var(--surface)]",
@@ -148,13 +151,18 @@ export default function PercentageCalculator() {
   } as const;
 
   return (
-    <section className="overflow-hidden rounded-[2rem] border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-md)]">
-      <div className="flex justify-end px-5 pt-5 sm:px-7 sm:pt-7">
+    <section className="relative overflow-hidden rounded-[2rem] border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-md)]">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-[var(--accent)]" aria-hidden="true" />
+      <div className="flex items-center justify-between gap-4 border-b border-[var(--border)] px-5 py-4 sm:px-7">
+        <div>
+          <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--accent)]">{t.type}</p>
+          <p className="mt-1 text-sm text-[var(--muted)]">{t.inputHint}</p>
+        </div>
         {(firstValue !== "" || secondValue !== "") && <ClearButton onClear={clearValues} />}
       </div>
 
-      <div className="grid items-start lg:grid-cols-[minmax(0,1.35fr)_minmax(19rem,0.65fr)]">
-        <div className="p-5 sm:p-7 lg:p-8">
+      <div className="grid items-start lg:grid-cols-[minmax(0,1.25fr)_minmax(20rem,0.75fr)]">
+        <div className="p-5 sm:p-7 lg:p-9">
           <div className="hidden sm:block">
             <SegmentedControl
               items={modes.map((item) => ({ id: item.id, label: item.title, description: item.description }))}
@@ -186,7 +194,7 @@ export default function PercentageCalculator() {
             </Select>
           </div>
 
-          <div className="mt-7 grid gap-5 sm:grid-cols-2">
+          <div className="mt-8 grid gap-5 sm:grid-cols-2">
             <CalculatorField
               label={firstLabel}
               inputId="first-value"
@@ -205,12 +213,14 @@ export default function PercentageCalculator() {
              aria-invalid={error !== null}/>
           </div>
 
-          <p id="percentage-input-help" className="mt-3 text-xs leading-5 text-[var(--muted)]">
-            {t.inputHint}
-          </p>
+          <div className="mt-7 flex items-center gap-3 text-xs font-medium text-[var(--muted)]">
+            <span className="h-px flex-1 bg-[var(--border)]" />
+            <span>{t.inputHint}</span>
+            <span className="h-px flex-1 bg-[var(--border)]" />
+          </div>
         </div>
 
-        <div className="flex flex-col border-t border-[var(--border)] bg-[var(--background)] p-5 sm:p-7 lg:border-l lg:border-t-0 lg:p-8">
+        <div className="flex flex-col border-t border-[var(--border)] bg-[var(--background)] min-h-[23rem] p-5 sm:p-7 lg:border-l lg:border-t-0 lg:p-9">
           <div className="flex items-center justify-between gap-3">
             <p className="text-sm font-semibold text-[var(--muted)]">{t.result}</p>
             {result !== null && !error && (
@@ -221,31 +231,35 @@ export default function PercentageCalculator() {
           <div
             aria-live="polite"
             className={[
-              "mt-3 flex min-h-36 flex-col justify-center rounded-[1.5rem] border p-5 transition-[background-color,border-color,color] sm:p-6",
+              "relative mt-5 flex min-h-44 flex-1 flex-col justify-center overflow-hidden rounded-[1.5rem] border p-6 transition-[background-color,border-color,color,transform] duration-[var(--motion-standard)] sm:p-7",
               resultToneClasses[resultTone].panel,
             ].join(" ")}
           >
+            <span className={"absolute left-0 top-0 h-full w-1 " + resultToneClasses[resultTone].mark} aria-hidden="true" />
             {result === null && !error && (
-              <p className="text-sm leading-6 text-[var(--muted)]">{t.emptyResult}</p>
+              <div className="max-w-xs">
+                <p className="text-2xl font-black tracking-[-0.03em] text-[var(--foreground)]">—</p>
+                <p className="mt-3 text-sm leading-6 text-[var(--muted)]">{t.emptyResult}</p>
+              </div>
             )}
             {error && <ValidationMessage id="percentage-input-error">{error}</ValidationMessage>}
             {result !== null && !error && (
               <>
-                <p className={"text-4xl font-black tracking-[-0.04em] sm:text-5xl " + resultToneClasses[resultTone].value}>{resultText}</p>
+                <p className={"text-5xl font-black tracking-[-0.055em] sm:text-6xl " + resultToneClasses[resultTone].value}>{resultText}</p>
                 <p className="mt-3 text-sm leading-6 text-[var(--muted)]">{getResultExplanation()}</p>
               </>
             )}
           </div>
 
           {result !== null && !error && (
-            <details className="group mt-4 rounded-2xl border border-[var(--border)] bg-[var(--surface)]">
+            <details className="group mt-4 border-t border-[var(--border)] pt-4">
               <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-4 text-sm font-semibold">
                 <span>{t.how}</span>
                 <span className="text-lg text-[var(--muted)] transition-transform group-open:rotate-45">+</span>
               </summary>
-              <div className="border-t border-[var(--border)] px-4 pb-4 pt-4">
+              <div className="pb-2 pt-3">
                 <p className="text-sm leading-6 text-[var(--muted)]">{t.formulaIntroWithValues}</p>
-                <div className="mt-3 rounded-xl bg-[var(--surface-soft)] p-4">
+                <div className="mt-3 overflow-x-auto rounded-xl bg-[var(--surface-soft)] p-4">
                   <p className="font-mono text-sm leading-6 text-[var(--foreground)]">{getFormula()}</p>
                 </div>
               </div>
