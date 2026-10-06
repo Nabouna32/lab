@@ -1,16 +1,16 @@
 # Feature Worker checkpoint - Loculary UX/UI refactor
 - Role: Feature Worker - Issue #400
-- Branch: feat/feature/loculary-ux-ui-refactor-next
-- Base SHA: 8ebbd9f21ab09bfcec0591fbcc8b776092ef4a03
-- PR: #404
+- Branch: feat/feature/loculary-ux-ui-home-polish
+- Base SHA: be228d1cdcb5da5ee3d22f151637517506593fde
+- PR: #406
 - State: RUNNING
-- Step: 5 - structural global UX refactor
-- Validated scope: continue autonomously across the global Loculary experience within #400.
-- Challenge: the first merged pass improved styling but preserved too much historical information architecture and card grammar. Outcome: structural discovery/search/catalog and tool-page hierarchy changes are warranted; no new product direction is introduced.
-- Completed this step: catalog/discovery/category surfaces changed from generic cards to editorial/list compositions; search interaction strengthened; tool identity header and page spacing structurally reworked.
-- Current action: wait for and inspect fresh PR verification, then correct regressions caused by this batch only.
-- Next action: after verification, continue the global audit into remaining legacy result/state/interaction patterns and responsive/theme/i18n/motion evidence.
-- Decisions blocked: none.
-- Verification: PR #404 open; no workflow runs were yet visible for the current head when last checked. Do not claim CI/E2E green.
-- Last durable commit: adda5509107b08518304228ff6bd067af198d29f
-- Timestamp: 2026-10-06T22:25:00Z
+- Step: homepage visual correction after prototype review
+- Validated scope: correct the merged homepage prototype: radial ecosystem as leading candidate, one distinct color per category, visible category labels, smaller search/title composition, coherent Explorer button in both themes, and a visibly app-like homepage-to-Explorer transition with real hover interaction on ecosystem segments.
+- Challenge: unchanged prototype would not let the user evaluate the intended interaction/motion. The simpler alternative of selecting radial without polishing was rejected because the current implementation hides the interaction and has weak visual differentiation.
+- Completed: fresh branch from current main; compacted homepage scene/search; changed Explorer CTA to accent semantic tokens; added per-category color tokens in light/dark themes; labeled constellation/network domains; made radial segments keyboard/focus/hover interactive; anchored the Explorer page and CTA to the same named view-transition surface; strengthened the representative route animation.
+- Current action: wait for and inspect PR #406 CI/verification.
+- Next action: inspect CI results, fix only regressions caused by this step, then merge only after required checks are green.
+- Decisions blocked: none within this validated visual prototype step.
+- Verification: source inspection complete; no local repository/runtime is available, so no local test result is claimed.
+- Last durable commit: d8a59e0714e14d737ef7d64f3b0c204120d4822f
+- Timestamp: 2026-10-06T22:55:00Z

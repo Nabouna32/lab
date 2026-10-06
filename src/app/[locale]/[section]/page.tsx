@@ -45,7 +45,10 @@ export default async function ToolsPage({ params }: { params: Promise<{ locale: 
   const publishedTools = getPublishedTools();
 
   return (
-    <main className="mx-auto max-w-[var(--content-wide)] px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
+    <main
+      style={{ viewTransitionName: "loculary-explorer-surface" }}
+      className="mx-auto max-w-[var(--content-wide)] rounded-[var(--radius-2xl)] border border-[var(--border)] bg-[var(--surface)] px-4 py-6 shadow-[var(--shadow-md)] sm:px-6 sm:py-8 lg:px-8 lg:py-10"
+    >
       <section className="relative overflow-hidden border-y border-[var(--border)] py-8 sm:py-10 lg:py-12" aria-labelledby="tools-page-title">
         <div className="pointer-events-none absolute -right-20 -top-24 h-64 w-64 rounded-full bg-[var(--accent-soft)] opacity-80 blur-3xl" aria-hidden="true" />
         <div className="relative grid gap-8 lg:grid-cols-[0.75fr_1.25fr] lg:items-end lg:gap-16">

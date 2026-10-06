@@ -7,12 +7,18 @@ import { getCategoryPath } from "@/lib/tools/routes";
 
 type VariantName = "constellation" | "radial" | "network" | "surfaces";
 
-function getTone(count: number, max: number): string {
-  if (max === 0) return "var(--muted)";
-  const ratio = count / max;
-  if (ratio >= 0.66) return "var(--accent)";
-  if (ratio >= 0.33) return "var(--info)";
-  return "var(--success)";
+const categoryColors: Record<string, string> = {
+  calculations: "var(--category-calculations)",
+  dates: "var(--category-dates)",
+  computing: "var(--category-computing)",
+  images: "var(--category-images)",
+  files: "var(--category-files)",
+  video: "var(--category-video)",
+  development: "var(--category-development)",
+};
+
+function getCategoryColor(categoryId: string): string {
+  return categoryColors[categoryId] ?? "var(--accent)";
 }
 
 function VariantHeading({ locale, variant }: { locale: Locale; variant: VariantName }) {
@@ -37,7 +43,7 @@ function CategoryLinks({ locale, counts }: { locale: Locale; counts: { id: strin
           href={getCategoryPath(locale, id)}
           className="group inline-flex min-h-9 items-center gap-2 rounded-full px-2.5 py-1 text-xs font-semibold text-[var(--muted)] outline-none transition-[background-color,color] duration-[var(--motion-fast)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
         >
-          <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: getTone(count, Math.max(...counts.map((item) => item.count))) }} aria-hidden="true" />
+          <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: getCategoryColor(id) }} aria-hidden="true" />
           {getCategoryName(locale, id)}
           <span className="text-[var(--foreground)]">{count}</span>
         </Link>
@@ -62,11 +68,12 @@ function Constellation({ locale, counts }: { locale: Locale; counts: { id: strin
           const y = 145 + Math.sin(angle) * radius * 0.86;
           const size = 9 + (item.count / max) * 15;
           return (
-            <g key={item.id}>
+            <g key={item.id} className="loculary-ecosystem-node">
               <line x1={center} y1="145" x2={x} y2={y} stroke="var(--border)" strokeDasharray="3 7" />
               <Link href={getCategoryPath(locale, item.id)}>
-                <circle cx={x} cy={y} r={size} fill={getTone(item.count, max)} fillOpacity="0.18" stroke={getTone(item.count, max)} strokeWidth="2" />
+                <circle cx={x} cy={y} r={size} fill={getCategoryColor(item.id)} fillOpacity="0.2" stroke={getCategoryColor(item.id)} strokeWidth="2" />
                 <text x={x} y={y + 3} textAnchor="middle" className="pointer-events-none fill-[var(--foreground)] text-[9px] font-bold">{item.count}</text>
+                <text x={x} y={y + (y < 145 ? -size - 8 : size + 14)} textAnchor="middle" className="pointer-events-none fill-[var(--foreground)] text-[9px] font-semibold">{getCategoryName(locale, item.id)}</text>
                 <title>{getCategoryName(locale, item.id)} — {item.count}</title>
               </Link>
             </g>
@@ -94,7 +101,12 @@ function Radial({ locale, counts }: { locale: Locale; counts: { id: string; coun
           const y1 = 130 + 91 * Math.sin(startRad);
           const x2 = 130 + 91 * Math.cos(endRad);
           const y2 = 130 + 91 * Math.sin(endRad);
-          return <path key={item.id} d={"M " + x1 + " " + y1 + " A 91 91 0 " + large + " 1 " + x2 + " " + y2} fill="none" stroke={getTone(item.count, max)} strokeWidth="24" strokeLinecap="round" />;
+          return (
+            <Link key={item.id} href={getCategoryPath(locale, item.id)} className="loculary-radial-segment">
+              <path d={"M " + x1 + " " + y1 + " A 91 91 0 " + large + " 1 " + x2 + " " + y2} fill="none" stroke={getCategoryColor(item.id)} strokeWidth="24" strokeLinecap="round" />
+              <title>{getCategoryName(locale, item.id)} — {item.count}</title>
+            </Link>
+          );
         })}
         <text x="130" y="126" textAnchor="middle" className="fill-[var(--foreground)] text-[28px] font-black">{total}</text>
         <text x="130" y="147" textAnchor="middle" className="fill-[var(--muted)] text-[9px] font-bold uppercase tracking-[0.18em]">outils</text>
@@ -102,7 +114,7 @@ function Radial({ locale, counts }: { locale: Locale; counts: { id: string; coun
       <div className="space-y-2">
         {counts.map((item) => (
           <Link key={item.id} href={getCategoryPath(locale, item.id)} className="group flex items-center gap-3 rounded-[var(--radius-md)] px-3 py-2.5 outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]">
-            <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ backgroundColor: getTone(item.count, max) }} aria-hidden="true" />
+            <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ backgroundColor: getCategoryColor(item.id) }} aria-hidden="true" />
             <span className="min-w-0 flex-1 truncate text-sm font-semibold">{getCategoryName(locale, item.id)}</span>
             <span className="text-sm tabular-nums text-[var(--muted)] group-hover:text-[var(--foreground)]">{item.count}</span>
           </Link>
@@ -126,11 +138,12 @@ function Network({ locale, counts }: { locale: Locale; counts: { id: string; cou
           const y = 165 + Math.sin(angle) * 105;
           const size = 22 + (item.count / max) * 18;
           return (
-            <g key={item.id}>
+            <g key={item.id} className="loculary-ecosystem-node">
               <line x1="380" y1="165" x2={x} y2={y} stroke="var(--border)" strokeWidth="1.5" />
               <Link href={getCategoryPath(locale, item.id)}>
-                <circle cx={x} cy={y} r={size} fill="var(--surface)" stroke={getTone(item.count, max)} strokeWidth="3" />
+                <circle cx={x} cy={y} r={size} fill="var(--surface)" stroke={getCategoryColor(item.id)} strokeWidth="3" />
                 <text x={x} y={y + 3} textAnchor="middle" className="pointer-events-none fill-[var(--foreground)] text-[9px] font-bold">{item.count}</text>
+                <text x={x} y={y + (y < 165 ? -size - 8 : size + 14)} textAnchor="middle" className="pointer-events-none fill-[var(--foreground)] text-[9px] font-semibold">{getCategoryName(locale, item.id)}</text>
                 <title>{getCategoryName(locale, item.id)} — {item.count}</title>
               </Link>
             </g>
@@ -149,7 +162,7 @@ function Surfaces({ locale, counts }: { locale: Locale; counts: { id: string; co
         const wide = index === 0 || item.count === max;
         return (
           <Link key={item.id} href={getCategoryPath(locale, item.id)} className={(wide ? "sm:col-span-3 " : "sm:col-span-2 ") + "group relative flex min-h-24 flex-col justify-between overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-4 shadow-[var(--shadow-sm)] outline-none transition-[transform,border-color,box-shadow] duration-[var(--motion-standard)] hover:-translate-y-0.5 hover:border-[var(--border-strong)] hover:shadow-[var(--shadow-md)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] sm:min-h-0"}>
-            <span className="absolute inset-y-0 left-0 w-1" style={{ backgroundColor: getTone(item.count, max) }} aria-hidden="true" />
+            <span className="absolute inset-y-0 left-0 w-1" style={{ backgroundColor: getCategoryColor(item.id) }} aria-hidden="true" />
             <span className="text-sm font-semibold">{getCategoryName(locale, item.id)}</span>
             <span className="flex items-end justify-between gap-3">
               <span className="text-3xl font-black tracking-[-0.05em] tabular-nums">{item.count}</span>
