@@ -5,13 +5,14 @@
 - branch/ref: product/design-system-primitives
 - base SHA: c628a23005d5dcdd33c3c3885093e6eb1661fc45
 - current state: RUNNING
+- completed milestone: behavioral primitive contract added to `docs/DESIGN-SYSTEM.md` in commit `ac4714710b1637d9255a19a4bf91655642a72879`.
 - validated scope: Step 2B.8 — define the contract and boundaries for reusable behavioral primitives; no application implementation.
 - completed milestones:
   - Steps 2B.1–2B.7 validated and merged into `main`.
   - Visual signature contract merged in PR #395.
   - Current implementation inspected as evidence; existing UI primitives are not assumed to be the target architecture.
-- current action: challenge the existing primitive/component landscape and define durable primitive boundaries in `docs/DESIGN-SYSTEM.md`.
-- next action: update the design-system contract, inspect diff, verify documentation coherence, open PR and run CI.
+- current action: inspect the documentation diff, validate scope/coherence, then prepare the PR.
+- next action: inspect diff and documentation coherence, then open PR and run CI.
 - decisions already validated:
   - Foundations → Behavioral primitives → Composition recipes → Tool-specific UI.
   - Existing primitives may be retained, refactored, decomposed, replaced or removed based on evidence.
