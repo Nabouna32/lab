@@ -249,20 +249,89 @@ No typography contract may depend on English-only line lengths or fixed dimensio
 
 ## 5. Spacing and layout rhythm
 
-Loculary should use a coherent spacing rhythm for platform surfaces.
+Spacing is a foundation for hierarchy, density and perceived quality, not merely a collection of numeric gaps.
 
-The design system should govern the **meaning** of spacing tiers rather than create a token for every possible pixel value.
+The design system should govern the **meaning and relationship** of spacing rather than create a token for every possible pixel value.
 
-At minimum, implementations should distinguish:
+### 5.1 Semantic spacing tiers
 
-- compact control spacing;
-- standard component spacing;
-- comfortable section spacing;
-- major page-section spacing.
+The platform should distinguish a deliberately small vocabulary of spatial roles:
 
-Direct low-level utility composition remains allowed.
+- **compact** — tightly related control parts, labels and small inline groups;
+- **standard** — normal internal spacing between related elements within a component or control group;
+- **comfortable** — separation between related blocks or component groups where additional breathing room improves scanability;
+- **section** — separation between major sections of one composition;
+- **page** — major outer rhythm between primary page regions or composition stages.
 
-Arbitrary spacing values should be exceptional and justified by a real visual or functional requirement.
+These tiers describe intent. Multiple tiers may share the same underlying implementation value when the resulting hierarchy remains clear.
+
+The goal is not to force every component to use a unique spacing token.
+
+### 5.2 Spacing as hierarchy
+
+Spacing should communicate relationships before decorative containers are introduced.
+
+Prefer:
+
+- tighter spacing for elements that belong together;
+- larger spacing when moving between conceptual groups;
+- deliberate asymmetry when it strengthens hierarchy or composition;
+- open space when it improves focus, rhythm or perceived quality.
+
+Do not add padding, borders or cards merely to create separation that spacing already communicates.
+
+Spacing may be expressive: generous whitespace can contribute to a premium or calm composition, while compact density can be appropriate for data-heavy or advanced tools.
+
+### 5.3 Internal, inter-component and compositional spacing
+
+Workers should distinguish three spatial responsibilities:
+
+1. **internal spacing** — relationships inside a control or primitive;
+2. **inter-component spacing** — relationships between adjacent reusable elements;
+3. **compositional spacing** — relationships between larger regions such as tool input, result, documentation and next actions.
+
+These responsibilities may use the same underlying scale, but should not be conflated when deciding layout hierarchy.
+
+### 5.4 Density is contextual
+
+Loculary does not require one global density.
+
+Density may legitimately vary according to:
+
+- task complexity;
+- information volume;
+- interaction frequency;
+- viewport size;
+- tool identity;
+- result prominence.
+
+A calculator, a data-heavy analysis tool and a visual generator should not be forced into the same spatial density merely for platform consistency.
+
+The platform should provide a coherent rhythm while allowing tool-specific density within that rhythm.
+
+### 5.5 Responsive spatial intent
+
+Responsive behavior should preserve relationships rather than simply multiply or divide every spacing value by a breakpoint.
+
+On narrower layouts, workers may:
+
+- reduce non-essential outer spacing;
+- tighten repeated controls when needed;
+- stack groups that were previously horizontal;
+- preserve larger separation around primary results or major task boundaries;
+- recompose the page when compression would damage hierarchy.
+
+On wider layouts, additional space may be used to improve hierarchy, focus and visual balance rather than simply increasing every gap.
+
+### 5.6 Concrete values remain implementation evidence
+
+The design contract intentionally does not lock a universal numeric spacing scale at this stage.
+
+Implementation workers should evaluate the existing UI and representative target compositions before choosing concrete values. A conventional 4/8-based scale may be useful, but it is not a product requirement.
+
+The implementation should prefer a small semantic token set and eliminate arbitrary values where they do not serve a real visual or functional purpose.
+
+Direct low-level utility composition remains allowed when a value is genuinely local and justified. Repeated arbitrary values that express a stable relationship should instead be promoted to an appropriate semantic role.
 
 ## 6. Surfaces, radii and elevation
 
