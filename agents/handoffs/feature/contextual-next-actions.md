@@ -11,7 +11,7 @@
   - Confirmed current relation engine uses shared names/tags/aliases/category rather than task continuation.
   - Confirmed current catalog has 42 published tools and the existing relation field is present but unused.
   - Confirmed only one unrelated open PR (#397) is active; no branch claims this mission.
-- **Current action:** Implement the selected explicit-curation model using a semantically named catalog field for Next actions.
+- **Current action:** Run focused validation and inspect the complete branch diff.
 - **Next action:** Rename `relatedToolIds` to `nextActionToolIds`, add a small curated relation map for genuinely natural continuations, replace similarity scoring with deterministic explicit lookup, update UI naming/tests/metadata validation, then run focused and repository validation.
 - **Decisions already validated:** DEC-042 — Next actions are contextual and optional; generic similarity/shared metadata is insufficient.
 - **Decisions still blocked:** None identified. No consequential product/architecture decision is required by the selected implementation.
