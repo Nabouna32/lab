@@ -1,52 +1,80 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getRelatedTools } from "./relations.ts";
+import { getNextActions } from "./relations.ts";
 
 const tools = [
   {
     id: "percentage",
     icon: "📊",
-    content: { fr: { name: "Calculateur de pourcentage", description: "Calculez un pourcentage." } },
+    content: {
+      fr: { name: "Calculateur de pourcentage", description: "Calculez un pourcentage." },
+      en: { name: "Percentage calculator", description: "Calculate a percentage." },
+    },
     tags: ["prix", "taux"],
     aliases: [],
     categories: ["calculations"],
     lifecycle: "published",
+    nextActionToolIds: ["discount"],
   },
   {
     id: "discount",
     icon: "🏷️",
-    content: { fr: { name: "Calculateur de réduction", description: "Calculez une remise." } },
+    content: {
+      fr: { name: "Calculateur de réduction", description: "Calculez une remise." },
+      en: { name: "Discount calculator", description: "Calculate a discount." },
+    },
     tags: ["prix", "remise"],
     aliases: [],
     categories: ["calculations"],
     lifecycle: "published",
+    nextActionToolIds: [],
   },
   {
     id: "age",
     icon: "🎂",
-    content: { fr: { name: "Calculateur d'âge", description: "Calculez un âge." } },
-    tags: ["date", "naissance"],
+    content: {
+      fr: { name: "Calculateur d'âge", description: "Calculez un âge." },
+      en: { name: "Age calculator", description: "Calculate age." },
+    },
+    tags: ["prix"],
     aliases: [],
     categories: ["dates"],
     lifecycle: "published",
+    nextActionToolIds: [],
   },
   {
     id: "vat",
     icon: "💶",
-    content: { fr: { name: "Calculateur TVA", description: "Calculez une TVA." } },
-    tags: ["prix", "taxe"],
+    content: {
+      fr: { name: "Calculateur TVA", description: "Calculez une TVA." },
+      en: { name: "VAT calculator", description: "Calculate VAT." },
+    },
+    tags: ["prix"],
     aliases: [],
     categories: ["calculations"],
     lifecycle: "draft",
+    nextActionToolIds: [],
   },
 ];
 
-test("related tools use shared metadata and category", () => {
-  const related = getRelatedTools(tools[0], tools);
-  assert.equal(related[0].id, "discount");
+test("next actions use explicit curated relations, not shared metadata", () => {
+  assert.deepEqual(
+    getNextActions(tools[0], tools).map((tool) => tool.id),
+    ["discount"],
+  );
 });
 
-test("unavailable tools are never returned", () => {
-  const related = getRelatedTools(tools[0], tools);
-  assert.equal(related.some((tool) => tool.id === "vat"), false);
+test("zero next actions is a valid outcome", () => {
+  assert.deepEqual(getNextActions(tools[1], tools), []);
+});
+
+test("unpublished next actions are never returned", () => {
+  assert.deepEqual(getNextActions({ ...tools[0], nextActionToolIds: ["vat"] }, tools), []);
+});
+
+test("curated order is preserved and limited", () => {
+  assert.deepEqual(
+    getNextActions({ ...tools[0], nextActionToolIds: ["discount", "age"] }, tools, 1).map((tool) => tool.id),
+    ["discount"],
+  );
 });

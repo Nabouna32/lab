@@ -5,7 +5,7 @@ import { getToolByRoute, toolRegistry } from "@/lib/tools/registry";
 import { getPrimaryToolCategory } from "@/lib/tools/types";
 import { getCategorySlug, getToolSlug, getToolsPath } from "@/lib/tools/routes";
 import ToolPage from "@/components/tools/ToolPage/ToolPage";
-import RelatedTools from "@/components/tools/RelatedTools";
+import NextActions from "@/components/tools/RelatedTools";
 import ToolRenderer from "@/components/tools/ToolRenderer";
 
 export async function generateStaticParams() {
@@ -53,7 +53,7 @@ export default async function ToolRoute({
     >
       <ToolRenderer toolId={entry.tool.id} />
       <div className="mt-8">
-        <RelatedTools toolId={entry.tool.id} locale={locale} />
+        <NextActions toolId={entry.tool.id} locale={locale} />
       </div>
     </ToolPage>
   );

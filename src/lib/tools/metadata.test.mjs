@@ -32,7 +32,7 @@ const tool = {
   browserRequirements: { apis: [] },
   offline: true,
   sharing: { supported: false, mode: "none" },
-  relatedToolIds: [],
+  nextActionToolIds: [],
   quality: { accessibility: "required", performance: "standard", tests: "required" },
   lifecycle: "published",
   access: "anonymous",
@@ -60,14 +60,14 @@ test("the metadata validator rejects duplicate ids", () => {
   );
 });
 
-test("the metadata validator rejects broken relationships", () => {
+test("the metadata validator rejects broken next action relationships", () => {
   assert.throws(
-    () => validateToolCatalog([{ ...tool, relatedToolIds: ["missing-tool"] }]),
-    /unknown related tool/,
+    () => validateToolCatalog([{ ...tool, nextActionToolIds: ["missing-tool"] }]),
+    /unknown next action/,
   );
   assert.throws(
-    () => validateToolCatalog([{ ...tool, relatedToolIds: [tool.id] }]),
-    /cannot reference itself/,
+    () => validateToolCatalog([{ ...tool, nextActionToolIds: [tool.id] }]),
+    /cannot reference itself as a next action/,
   );
 });
 

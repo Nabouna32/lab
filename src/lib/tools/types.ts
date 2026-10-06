@@ -100,7 +100,7 @@ export type Tool = {
   browserRequirements: ToolBrowserRequirements;
   offline: boolean;
   sharing: ToolSharingMetadata;
-  relatedToolIds: string[];
+  nextActionToolIds: ToolId[];
   quality: ToolQualityMetadata;
   lifecycle: ToolLifecycle;
   access: ToolAccess;
