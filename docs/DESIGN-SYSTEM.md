@@ -400,6 +400,48 @@ Repeated interaction structures may become documented recipes or small composabl
 
 Avoid creating large variant-heavy components whose main purpose is to encode every possible tool shape.
 
+### 10.4 Target architecture: foundations → behavior → composition → tool
+
+The validated target architecture is a layered system:
+
+1. **Foundations** — semantic color, typography, spacing, radius, elevation, focus, motion and responsive intent.
+2. **Behavioral primitives** — reusable interaction behavior such as actions, inputs, selection, feedback, disclosure and navigation.
+3. **Composition recipes** — reusable structures organized around interaction roles such as discovery, execution, result, editing, visualization and mini-app workspaces.
+4. **Tool-specific UI** — the actual task experience, with freedom to diverge substantially when the nature of the tool requires it.
+
+This is a **design-system architecture decision**, not a requirement to preserve the current component tree.
+
+The current implementation is evidence to audit, not a target architecture to reproduce.
+
+A current primitive may therefore be:
+
+- retained when it already expresses the intended contract;
+- refactored when its abstraction is useful but its behavior or visual model is insufficient;
+- decomposed when it combines unrelated responsibilities;
+- replaced when its abstraction actively conflicts with the target system;
+- removed when it creates duplication, rigidity or misleading reuse.
+
+The implementation worker must optimize for the quality and coherence of the target system rather than the maximum preservation of existing components.
+
+In particular, the worker must not treat `Card`, `Panel`, `ResultPanel`, `ToolPage` or any other existing component as architecturally sacred merely because it already exists.
+
+Refactoring or replacing an existing primitive is an expected and valid outcome when the audit demonstrates that doing so is the cleaner path to the validated product direction.
+
+### 10.5 Reuse boundary
+
+Reuse should follow **shared behavior and product meaning**, not superficial visual similarity.
+
+A primitive is a good candidate for platform reuse when it provides stable behavior, accessibility semantics, interaction states or a genuinely recurring visual role.
+
+A composition should remain a recipe when its structure is recurring but its content, density or visual expression legitimately varies.
+
+A tool-specific implementation should remain local when forcing it into a platform abstraction would reduce clarity, expressiveness or task quality.
+
+The system should prefer a small number of strong abstractions over either extreme:
+
+- duplicating every control independently; or
+- creating a universal component with enough variants to encode the entire product.
+
 ## 11. Loculary visual signature
 
 Loculary should develop a restrained signature that distinguishes it from a generic minimalist developer-tool aesthetic.
@@ -521,6 +563,30 @@ Those may be specified separately when evidence and product validation justify t
 ## 16. Implementation boundary
 
 This document establishes product/design intent.
+
+### 16.1 Refactor-first when the existing abstraction is wrong
+
+Implementation workers must not interpret this specification as a request to cosmetically retokenize the current UI.
+
+When the current component architecture prevents the target system from being expressed cleanly, the worker should propose and, within the validated implementation scope, execute the necessary refactor or replacement.
+
+A successful implementation is therefore not measured by:
+
+- how many existing components survive unchanged;
+- how few files are touched;
+- whether existing visual patterns can be preserved through additional variants.
+
+It is measured by whether the resulting system:
+
+- expresses the validated Expressive Utility direction;
+- provides coherent foundations;
+- exposes reusable behavior without over-abstraction;
+- preserves legitimate tool-specific freedom;
+- remains accessible, localized, responsive and performant;
+- is simpler or more coherent where refactoring was justified.
+
+Workers should still avoid unrelated redesign and uncontrolled migration. Refactoring is encouraged **when it is directly necessary to achieve the validated design-system target**.
+
 
 It does not authorize an implementation worker to:
 
