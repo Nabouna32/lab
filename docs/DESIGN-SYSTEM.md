@@ -449,7 +449,7 @@ These are behavioral/compositional decisions, not permission to animate every el
 
 Motion may reinforce a depth transition when it improves spatial continuity, subject to the motion contract and reduced-motion adaptation.
 
-### 6.4 Interaction states and focus
+### 6.7 Interaction states and focus
 
 The foundation must define a coherent interaction-state vocabulary covering, as applicable:
 
