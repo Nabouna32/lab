@@ -1,0 +1,24 @@
+# Product / Direction checkpoint — design-system primitives
+
+- role: Product / Direction
+- mission: Issue #369 — define concrete Loculary design tokens and primitives
+- branch/ref: product/design-system-primitives
+- base SHA: c628a23005d5dcdd33c3c3885093e6eb1661fc45
+- current state: RUNNING
+- validated scope: Step 2B.8 — define the contract and boundaries for reusable behavioral primitives; no application implementation.
+- completed milestones:
+  - Steps 2B.1–2B.7 validated and merged into `main`.
+  - Visual signature contract merged in PR #395.
+  - Current implementation inspected as evidence; existing UI primitives are not assumed to be the target architecture.
+- current action: challenge the existing primitive/component landscape and define durable primitive boundaries in `docs/DESIGN-SYSTEM.md`.
+- next action: update the design-system contract, inspect diff, verify documentation coherence, open PR and run CI.
+- decisions already validated:
+  - Foundations → Behavioral primitives → Composition recipes → Tool-specific UI.
+  - Existing primitives may be retained, refactored, decomposed, replaced or removed based on evidence.
+  - Expressive Utility / richer visual direction remains the product baseline.
+- decisions still blocked: exact implementation component inventory and concrete API shapes; these belong to the implementation worker unless later product validation is required.
+- challenge performed: current `src/components/ui` includes Button, Card, Panel, Select, TextArea, TextField, CopyButton, ClearButton, ResultPanel, SegmentedControl and ValidationMessage, plus ToolPage primitives. Alternative considered: promote the current UI folder wholesale into the design system. Outcome: reject; define primitives by stable cross-tool behavior and accessibility/state responsibilities, not by current filenames or visual containers. Trade-off: fewer platform abstractions and more tool-local composition, at the cost of some duplication where behavior is genuinely unique.
+- important files/areas: `docs/DESIGN-SYSTEM.md`; `src/components/ui/`; `src/components/tools/ToolPage/`; `src/components/layout/`.
+- tests/checks: documentation-only change planned; CI verification required after PR.
+- last durable commit: c628a23005d5dcdd33c3c3885093e6eb1661fc45
+- timestamp: 2026-10-06T18:38:00Z
