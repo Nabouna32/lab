@@ -41,8 +41,8 @@ export default function DiscoverTools({ locale }: { locale: Locale }) {
   const featuredTools = getDiscoveryTools();
 
   return (
-    <section className="mx-auto max-w-[var(--content-wide)] px-4 py-12 sm:px-6 lg:px-8 lg:py-16" aria-labelledby="discover-tools-title">
-      <div className="flex items-end justify-between gap-6 border-b border-[var(--border)] pb-5">
+    <section className="relative mx-auto max-w-[var(--content-wide)] px-4 py-14 sm:px-6 lg:px-8 lg:py-20" aria-labelledby="discover-tools-title">
+      <div className="grid gap-8 lg:grid-cols-[0.7fr_1.3fr] lg:gap-16"><div className="lg:sticky lg:top-24 lg:self-start"><div className="flex items-end justify-between gap-6 border-b border-[var(--border)] pb-5">
         <div>
           <h2 id="discover-tools-title" className="text-2xl font-bold tracking-[-0.035em] sm:text-3xl">
             {t.home.discoveryTitle}
