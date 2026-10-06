@@ -28,19 +28,22 @@ export default async function AccountPage({
 
   if (!userData.user) {
     return (
-      <main className="mx-auto flex min-h-[calc(100vh-4.5rem)] max-w-2xl items-center px-4 py-12 sm:px-6">
-        <Panel as="section" className="w-full">
-          <h1 className="text-3xl font-bold tracking-tight">{t.account.title}</h1>
-          <p className="mt-3 text-[var(--muted)]">{t.account.anonymousDescription}</p>
-          <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-            <AccountActionLink href={`/${locale}/compte/connexion`} variant="primary">
-              {t.account.signIn}
-            </AccountActionLink>
-            <AccountActionLink href={`/${locale}/compte/inscription`}>
-              {t.account.signUp}
-            </AccountActionLink>
-          </div>
-        </Panel>
+      <main className="min-h-full px-4 py-8 sm:px-6 sm:py-10">
+        <div className="mx-auto flex min-h-[calc(100svh-12rem)] max-w-2xl items-center">
+          <Panel as="section" className="w-full overflow-hidden p-6 sm:p-9">
+            <div className="mb-6 h-1.5 w-16 rounded-full bg-[var(--accent)]" aria-hidden="true" />
+            <h1 className="text-3xl font-black tracking-[-0.05em]">{t.account.title}</h1>
+            <p className="mt-3 max-w-xl leading-7 text-[var(--muted)]">{t.account.anonymousDescription}</p>
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+              <AccountActionLink href={`/${locale}/compte/connexion`} variant="primary">
+                {t.account.signIn}
+              </AccountActionLink>
+              <AccountActionLink href={`/${locale}/compte/inscription`}>
+                {t.account.signUp}
+              </AccountActionLink>
+            </div>
+          </Panel>
+        </div>
       </main>
     );
   }
@@ -59,21 +62,22 @@ export default async function AccountPage({
     null;
 
   return (
-    <main className="mx-auto min-h-[calc(100vh-4.5rem)] max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
-      <div className="space-y-8">
-        <header className="space-y-2">
+    <main className="min-h-full px-4 py-7 sm:px-6 sm:py-9 lg:px-10">
+      <div className="mx-auto max-w-3xl">
+        <header className="mb-5 rounded-[1.5rem] border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow-md)] sm:p-7">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-            <h1 className="text-3xl font-bold tracking-tight">{t.account.title}</h1>
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.16em] text-[var(--accent)]">{t.account.label}</p>
+              <h1 className="mt-2 text-3xl font-black tracking-[-0.05em]">{t.account.title}</h1>
+            </div>
             <p className="text-sm text-[var(--muted)]">{user.email}</p>
           </div>
         </header>
 
         {statusMessage ? (
           <p
-            className={`border-l-2 py-2 pl-3 text-sm ${
-              query.error
-                ? "border-[var(--danger)] text-[var(--danger-foreground)]"
-                : "border-[var(--success)] text-[var(--success-foreground)]"
+            className={`mb-5 rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-sm shadow-[var(--shadow-sm)] ${
+              query.error ? "text-[var(--danger)]" : "text-[var(--success)]"
             }`}
             role="status"
           >
@@ -81,91 +85,93 @@ export default async function AccountPage({
           </p>
         ) : null}
 
-        <Panel as="section">
-          <div>
-            <h2 className="text-lg font-semibold">{t.account.profile}</h2>
-            <p className="mt-1 text-sm text-[var(--muted)]">{user.email}</p>
-          </div>
-          <form action={updateProfile} className="mt-6 space-y-5">
-            <input type="hidden" name="locale" value={locale} />
-            <TextField
-              label={t.account.displayName}
-              inputId="display-name"
-              name="displayName"
-              type="text"
-              autoComplete="name"
-              maxLength={80}
-              defaultValue={profile?.display_name ?? ""}
-            />
-            <Select
-              label={t.account.preferredLanguage}
-              id="preferred-language"
-              name="preferredLocale"
-              defaultValue={profile?.locale ?? locale}
-            >
-              <option value="en">{t.account.english}</option>
-              <option value="fr">{t.account.french}</option>
-            </Select>
-            <SubmitButton pendingLabel={t.account.saveProfile}>
-              {t.account.saveProfile}
-            </SubmitButton>
-          </form>
-        </Panel>
+        <div className="space-y-5">
+          <Panel as="section">
+            <div>
+              <h2 className="text-lg font-black">{t.account.profile}</h2>
+              <p className="mt-1 text-sm text-[var(--muted)]">{user.email}</p>
+            </div>
+            <form action={updateProfile} className="mt-6 space-y-5">
+              <input type="hidden" name="locale" value={locale} />
+              <TextField
+                label={t.account.displayName}
+                inputId="display-name"
+                name="displayName"
+                type="text"
+                autoComplete="name"
+                maxLength={80}
+                defaultValue={profile?.display_name ?? ""}
+              />
+              <Select
+                label={t.account.preferredLanguage}
+                id="preferred-language"
+                name="preferredLocale"
+                defaultValue={profile?.locale ?? locale}
+              >
+                <option value="en">{t.account.english}</option>
+                <option value="fr">{t.account.french}</option>
+              </Select>
+              <SubmitButton pendingLabel={t.account.saveProfile}>
+                {t.account.saveProfile}
+              </SubmitButton>
+            </form>
+          </Panel>
 
-        <section aria-labelledby="account-security-title">
-          <div className="border-b border-[var(--border)] pb-3">
-            <h2 id="account-security-title" className="text-lg font-semibold">{t.account.security}</h2>
-          </div>
-          <div className="divide-y divide-[var(--border)] border-b border-[var(--border)]">
-            <Link
-              className="flex items-center justify-between gap-4 py-4 transition-colors hover:bg-[var(--surface-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
-              href={`/${locale}/compte/email`}
-            >
-              <span>
-                <span className="block font-semibold">{t.account.changeEmail}</span>
-                <span className="mt-1 block text-sm text-[var(--muted)]">{user.email}</span>
-              </span>
-              <span aria-hidden="true" className="text-[var(--muted)]">→</span>
-            </Link>
-            <Link
-              className="flex items-center justify-between gap-4 py-4 transition-colors hover:bg-[var(--surface-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
-              href={`/${locale}/compte/mot-de-passe`}
-            >
-              <span>
-                <span className="block font-semibold">{t.account.changePassword}</span>
-                <span className="mt-1 block text-sm text-[var(--muted)]">{t.account.password}</span>
-              </span>
-              <span aria-hidden="true" className="text-[var(--muted)]">→</span>
-            </Link>
-          </div>
-        </section>
+          <section className="rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow-sm)] sm:p-7" aria-labelledby="account-security-title">
+            <div className="border-b border-[var(--border)] pb-4">
+              <h2 id="account-security-title" className="text-lg font-black">{t.account.security}</h2>
+            </div>
+            <div className="mt-1 divide-y divide-[var(--border)]">
+              <Link
+                className="group flex items-center justify-between gap-4 rounded-xl px-2 py-4 transition-[background-color,transform] hover:bg-[var(--surface-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
+                href={`/${locale}/compte/email`}
+              >
+                <span>
+                  <span className="block font-bold">{t.account.changeEmail}</span>
+                  <span className="mt-1 block text-sm text-[var(--muted)]">{user.email}</span>
+                </span>
+                <span aria-hidden="true" className="text-[var(--muted)] transition-transform group-hover:translate-x-1">→</span>
+              </Link>
+              <Link
+                className="group flex items-center justify-between gap-4 rounded-xl px-2 py-4 transition-[background-color,transform] hover:bg-[var(--surface-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
+                href={`/${locale}/compte/mot-de-passe`}
+              >
+                <span>
+                  <span className="block font-bold">{t.account.changePassword}</span>
+                  <span className="mt-1 block text-sm text-[var(--muted)]">{t.account.password}</span>
+                </span>
+                <span aria-hidden="true" className="text-[var(--muted)] transition-transform group-hover:translate-x-1">→</span>
+              </Link>
+            </div>
+          </section>
 
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          {isAdmin === true ? (
-            <AccountActionLink href={`/${locale}/admin`} variant="primary">
-              {t.admin.label}
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            {isAdmin === true ? (
+              <AccountActionLink href={`/${locale}/admin`} variant="primary">
+                {t.admin.label}
+              </AccountActionLink>
+            ) : <span />}
+            <form action={signOut}>
+              <input type="hidden" name="locale" value={locale} />
+              <SubmitButton pendingLabel={t.account.signOut} className="border border-[var(--border)] bg-[var(--surface)] text-[var(--foreground)] hover:bg-[var(--surface-soft)]">
+                {t.account.signOut}
+              </SubmitButton>
+            </form>
+          </div>
+
+          <section className="rounded-[var(--radius-xl)] border border-[var(--danger)]/25 bg-[var(--danger-soft)]/40 p-5 sm:p-7" aria-labelledby="delete-account-title">
+            <p className="text-sm font-black text-[var(--danger)]">{t.account.dangerZone}</p>
+            <h2 id="delete-account-title" className="mt-1 text-lg font-black">{t.account.deleteAccountTitle}</h2>
+            <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--muted)]">{t.account.deleteAccountDescription}</p>
+            <AccountActionLink
+              className="mt-4"
+              href={`/${locale}/compte/suppression`}
+              variant="danger"
+            >
+              {t.account.deleteAccount}
             </AccountActionLink>
-          ) : <span />}
-          <form action={signOut}>
-            <input type="hidden" name="locale" value={locale} />
-            <SubmitButton pendingLabel={t.account.signOut} className="border border-[var(--border)] bg-transparent text-[var(--foreground)] hover:bg-[var(--surface-soft)]">
-              {t.account.signOut}
-            </SubmitButton>
-          </form>
+          </section>
         </div>
-
-        <section className="border-t border-[var(--border)] pt-6" aria-labelledby="delete-account-title">
-          <p className="text-sm font-semibold text-[var(--danger-foreground)]">{t.account.dangerZone}</p>
-          <h2 id="delete-account-title" className="mt-1 text-lg font-semibold">{t.account.deleteAccountTitle}</h2>
-          <p className="mt-2 max-w-2xl text-sm text-[var(--muted)]">{t.account.deleteAccountDescription}</p>
-          <AccountActionLink
-            className="mt-4"
-            href={`/${locale}/compte/suppression`}
-            variant="danger"
-          >
-            {t.account.deleteAccount}
-          </AccountActionLink>
-        </section>
       </div>
     </main>
   );
