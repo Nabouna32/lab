@@ -20,6 +20,12 @@ type ToolMessages = {
     units: { days: string; weeks: string; months: string; years: string };
     summary: (start: string, amount: number, unit: string, direction: string, result: string) => string;
   };
+  compoundInterest: {
+    principal: string; principalPlaceholder: string; rate: string; ratePlaceholder: string; years: string; yearsPlaceholder: string;
+    frequency: string; frequencies: Record<1 | 2 | 4 | 12 | 365, string>; contribution: string; contributionPlaceholder: string;
+    contributionHint: string; result: string; finalBalance: string; interestEarned: string; totalContributions: string;
+    resultHint: string; emptyResult: string; invalid: string;
+  };
   percentage: {
     type: string; result: string; how: string; formulaIntro: string; differenceNote: string;
     modes: { percentage: { title: string; description: string }; evolution: { title: string; description: string }; difference: { title: string; description: string } };
@@ -276,6 +282,15 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       result: "Nouvelle date", emptyResult: "La nouvelle date apparaîtra ici.", invalid: "Saisissez une date et une quantité entière valide.",
       units: { days: "jours", weeks: "semaines", months: "mois", years: "années" },
       summary: (start, amount, unit, direction, result) => `À partir du ${start}, ${direction} ${amount} ${unit} donne le ${result}.`,
+    },
+    compoundInterest: {
+      principal: "Capital initial", principalPlaceholder: "ex. 1 000", rate: "Taux annuel", ratePlaceholder: "ex. 5",
+      years: "Durée (années)", yearsPlaceholder: "ex. 10", frequency: "Capitalisation",
+      frequencies: { 1: "Annuelle", 2: "Semestrielle", 4: "Trimestrielle", 12: "Mensuelle", 365: "Quotidienne" },
+      contribution: "Versement par période", contributionPlaceholder: "Optionnel", contributionHint: "Chaque versement est considéré comme effectué en fin de période.",
+      result: "Résultat", finalBalance: "Capital final", interestEarned: "Intérêts gagnés", totalContributions: "Capital versé",
+      resultHint: "Calcul indicatif : il ne tient pas compte des impôts, frais ou variations de taux.",
+      emptyResult: "Saisissez les valeurs pour voir le résultat.", invalid: "Vérifiez les valeurs saisies. Le taux et les montants doivent être positifs ou nuls, et la durée doit être comprise entre 0 et 1 000 ans.",
     },
     percentage: {
       type: "Type de calcul", result: "Résultat", how: "Voir le calcul", formulaIntro: "Voici le calcul réalisé à partir des valeurs que vous avez saisies :",
@@ -542,6 +557,15 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       result: "Resulting date", emptyResult: "The resulting date will appear here.", invalid: "Enter a valid date and a whole-number amount.",
       units: { days: "days", weeks: "weeks", months: "months", years: "years" },
       summary: (start, amount, unit, direction, result) => `Starting on ${start}, ${direction.toLowerCase()}ing ${amount} ${unit} gives ${result}.`,
+    },
+    compoundInterest: {
+      principal: "Initial principal", principalPlaceholder: "e.g. 1,000", rate: "Annual rate", ratePlaceholder: "e.g. 5",
+      years: "Years", yearsPlaceholder: "e.g. 10", frequency: "Compounding",
+      frequencies: { 1: "Annually", 2: "Semi-annually", 4: "Quarterly", 12: "Monthly", 365: "Daily" },
+      contribution: "Contribution per period", contributionPlaceholder: "Optional", contributionHint: "Each contribution is treated as being made at the end of the period.",
+      result: "Result", finalBalance: "Final balance", interestEarned: "Interest earned", totalContributions: "Total contributions and principal",
+      resultHint: "Illustrative calculation only: taxes, fees, and rate changes are not included.",
+      emptyResult: "Enter the values to see the result.", invalid: "Check the values entered. Rates and amounts must be zero or greater, and duration must be between 0 and 1,000 years.",
     },
     percentage: {
       type: "Calculation type", result: "Result", how: "Show the calculation", formulaIntro: "Here is the calculation based on the values you entered:",

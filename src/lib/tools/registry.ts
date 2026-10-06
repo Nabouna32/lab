@@ -33,6 +33,10 @@ function createToolModule(
 }
 
 const moduleLoaders: Partial<Record<ToolId, ToolModule>> = {
+  "compound-interest": createToolModule(
+    () => import("@/components/tools/compound-interest/CompoundInterestCalculator"),
+    () => import("@/components/tools/compound-interest/ToolEditorial"),
+  ),
   percentage: createToolModule(
     () => import("@/components/tools/percentage/PercentageCalculator"),
     () => import("@/components/tools/percentage/ToolEditorial"),

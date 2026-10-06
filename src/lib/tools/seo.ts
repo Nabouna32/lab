@@ -2,6 +2,10 @@ import type { Locale } from "../i18n/config.ts";
 import type { ToolId, ToolSeoMetadata } from "./types";
 
 export const toolSeo = {
+  "compound-interest": {
+    fr: { title: "Calculateur d’intérêts composés | Loculary", description: "Calculez la croissance d’un capital avec capitalisation périodique et versements réguliers optionnels." },
+    en: { title: "Compound Interest Calculator | Loculary", description: "Calculate compound growth with periodic compounding and optional regular contributions." },
+  },
   percentage: {
     fr: { title: "Calcul de pourcentage | Loculary", description: "Calculez un pourcentage, une évolution ou une différence entre deux valeurs." },
     en: { title: "Percentage calculator | Loculary", description: "Calculate a percentage, a change, or the difference between two values." },
