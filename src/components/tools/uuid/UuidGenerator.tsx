@@ -33,7 +33,7 @@ export default function UuidGenerator() {
           <div className="flex h-full flex-col">
             <div>
               <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--accent)]">UUID</p>
-              <h2 className="mt-2 text-xl font-black tracking-[-0.03em] text-[var(--foreground)]">${t.count}</h2>
+              <h2 className="mt-2 text-xl font-black tracking-[-0.03em] text-[var(--foreground)]">{t.count}</h2>
             </div>
 
             <div className="mt-7">
@@ -63,9 +63,9 @@ export default function UuidGenerator() {
         <div className="min-w-0 p-5 sm:p-7 lg:p-9">
           <div className="flex items-end justify-between gap-4">
             <div>
-              <p className="text-sm font-bold text-[var(--foreground)]">${t.result}</p>
+              <p className="text-sm font-bold text-[var(--foreground)]">{t.result}</p>
               <p className="mt-1 text-sm leading-5 text-[var(--muted)]" aria-live="polite">
-                {!hasResult ? ${"t.emptyResult"} : result.length === 1 ? ${"t.generatedOne"} : ${"t.generatedMany(result.length)"}
+                {!hasResult ? {t.emptyResult} : result.length === 1 ? {t.generatedOne} : {t.generatedMany(result.length)}
               </p>
             </div>
             {hasResult && <CopyButton value={output} label={t.copy} />}
