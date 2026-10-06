@@ -2,15 +2,15 @@
 - Role: Feature Worker - Issue #400
 - Branch: feat/feature/loculary-ux-ui-refactor-next
 - Base SHA: 8ebbd9f21ab09bfcec0591fbcc8b776092ef4a03
-- PR: #403 merged; continuation branch for the still-open mission
+- PR: continuation PR pending
 - State: RUNNING
 - Step: 5 - structural global UX refactor
-- Validated scope: continue autonomously across the global Loculary experience; the user confirmed the current direction is acceptable but not yet visually transformative enough, so continue within the already validated #400 scope.
-- Challenge: the previous pass improved styling and representative tool compositions, but preserved too much of the historical information architecture and surface grammar. A lighter token-only pass would be simpler but would not satisfy the mission acceptance bar or the user's observed gap. Outcome: adopt a more structural refactor of navigation/search/catalog/discovery and then re-audit representative tools, without introducing a new product direction.
-- Completed milestones: representative tool compositions across percentage, UUID, CSV/JSON, palette and HTML; first expressive pass across homepage, header, ToolPage, catalog/category/discovery surfaces.
-- Current action: redesign the global discovery/search/catalog shell so it reads as a Loculary application rather than the previous catalog with stronger decoration.
-- Next action: verify the structural shell on desktop/mobile, FR/EN, light/dark, keyboard/focus and reduced motion; then continue into tool-page/result state polish where evidence still shows legacy grammar.
-- Decisions blocked: none within validated #400 scope.
-- Verification: PR #403 merged. Post-audit CI/E2E for the final pre-merge head were not observed as green; do not claim them. Fresh validation is required for this continuation.
-- Last durable commit: 8ebbd9f21ab09bfcec0591fbcc8b776092ef4a03
-- Timestamp: 2026-10-06T22:00:00Z
+- Validated scope: continue autonomously across the global Loculary experience within #400.
+- Challenge: the previous pass improved styling but preserved too much historical information architecture and card grammar. Outcome: structural discovery/search/catalog refactor is warranted; no new product direction is introduced.
+- Completed this step: discovery/category surfaces changed from card-heavy catalog presentation to editorial/list compositions; catalog page now foregrounds search, intent entry, category index and tool list; tool cards are now list-oriented rather than generic cards; search results received stronger app-like hierarchy.
+- Current action: inspect diff and prepare focused PR for fresh verification.
+- Next action: run GitHub CI/browser verification; fix only regressions from this step, then continue the same global audit into remaining legacy shell/tool/result patterns.
+- Decisions blocked: none.
+- Verification: no fresh CI/E2E claim yet for this continuation branch.
+- Last durable commit: 8ebbd9f21ab09bfcec0591fbcc8b776092ef4a03; checkpoint implementation commits follow on this branch.
+- Timestamp: 2026-10-06T22:15:00Z
