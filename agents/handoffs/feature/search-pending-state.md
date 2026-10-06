@@ -1,0 +1,25 @@
+# Loculary Feature Worker — Issue #359 checkpoint
+
+- Role: Feature Worker
+- Mission: fix(UX): distinguish search-in-progress from empty search results
+- Issue: #359
+- Branch/ref: fix/feature/search-pending-state
+- Base SHA: 47d5884d00b1f02623dd6c395a81765226a3e69b
+- Current state: RUNNING
+- Validated scope: distinguish asynchronous search-in-progress from completed zero-results in ToolSearch; preserve search semantics; no search redesign/ranking/catalog/intent changes.
+- Completed milestones:
+  - Bootstrap completed from START-HERE, common contract, Feature Worker contract, repository rules, relevant product/UX/architecture/privacy/i18n/accessibility/decision docs, Issue and current implementation.
+  - Issue #359 revalidated on current main; no existing branch/PR claims the work.
+  - Current ToolSearch.tsx confirms stale/empty visibleResults can render the no-results state while deferred search is pending.
+- Current action: establish durable checkpoint before implementation.
+- Next action: inspect relevant tests/search helpers, then implement the smallest explicit pending state and focused regression coverage.
+- Decisions already validated:
+  - User approved implementation of Issue #359.
+  - Keep search semantics unchanged.
+  - Prefer explicit searching state over inferring loading solely from result equality.
+- Decisions still blocked: none currently.
+- Challenge: explicit pending state was compared with deriving state from query/results equality. Explicit state is preferred because pending is a real UI state and avoids coupling loading semantics to result data. No consequential product/architecture decision identified.
+- Important files/areas: src/components/tools/ToolSearch.tsx; src/lib/tools/search-client; tests/browser coverage for search if present.
+- Tests/checks: not run yet.
+- Last durable commit SHA: 47d5884d00b1f02623dd6c395a81765226a3e69b
+- Timestamp: 2026-10-06
