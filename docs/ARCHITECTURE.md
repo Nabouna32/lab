@@ -181,10 +181,10 @@ The catalog should support:
 - categories;
 - tags;
 - localization;
-- intent signals;
+- intent associations;
 - related tools.
 
-An intent layer may later map natural-language requests to tools.
+The catalog should model intents separately from categories, with many-to-many associations between intents and tools. Natural-language intent resolution may later generate or rank candidates through the search subsystem without changing the underlying catalog semantics.
 
 AI can be added behind the search abstraction if its value justifies cost and privacy trade-offs.
 
@@ -224,6 +224,25 @@ A database is expected to become useful for:
 The initial database technology and hosting provider remain open until the implementation requirements are sufficiently known.
 
 A small paid database/infrastructure budget is acceptable once product revenue or traffic justifies it.
+
+### Large-catalog readiness
+
+The catalog is expected to grow to thousands or potentially tens of thousands of tools. The architecture must therefore be designed for large-catalog operation from the outset rather than retrofitted after the catalog becomes large.
+
+Catalog storage/delivery and executable tool implementations remain separate concerns. The catalog layer should be evaluated for:
+
+- indexed and filtered retrieval;
+- localized metadata and search;
+- publication/lifecycle workflows;
+- relations and intent/discovery data;
+- caching and invalidation;
+- progressive loading and payload size;
+- administration and auditability;
+- reliability and operational cost.
+
+The editable catalog follows the database boundary established by DEC-027, while executable tool implementations remain in Git. Large-catalog concerns such as indexing, caching, progressive loading, payload size, reliability and operational cost must be designed into the catalog architecture.
+
+A migration must not move executable tool behavior into the database merely because catalog data moves there. Git/code remains the authority for executable implementations.
 
 ## Community architecture
 

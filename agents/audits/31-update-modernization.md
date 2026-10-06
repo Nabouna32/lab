@@ -439,3 +439,15 @@ Le rapport de cette mission doit être créé dans :
 Le pointeur remplaçable est :
 
 `docs/audits/31-update-modernization/LATEST.md`
+
+## Post-audit interactive review
+
+After the historical audit report is complete, this mission enters the post-audit review mode defined by `agents/AUDIT-CONTRACT.md`.
+
+- Continuation commands such as **"vas-y"**, **"continue"** or **"passe à la suite"** mean continue explaining and sequencing the recommendations; they do **not** authorize implementation or validate every recommendation.
+- Present consequential recommendations one at a time, with evidence, impact, scope, non-goals and uncertainties, and obtain explicit human validation before treating one as approved.
+- Once a recommendation is explicitly validated and is actionable implementation work, create or reuse the appropriate durable GitHub Issue for the authorized Worker, following the canonical audit and Issue contracts.
+- The Audit Agent remains strictly non-implementation: it must never modify product code, tests, configuration or dependencies as a result of that validation.
+- Validation of one recommendation does not implicitly validate unrelated recommendations.
+
+The canonical contract in `agents/AUDIT-CONTRACT.md` defines the complete post-audit protocol and takes precedence over this mission-specific summary.

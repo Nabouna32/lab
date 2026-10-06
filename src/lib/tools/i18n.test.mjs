@@ -85,6 +85,7 @@ test("global messages are available in every enabled locale", () => {
     const messages = getMessages(locale);
     assert.ok(messages.nav.tools.length > 0);
     assert.ok(messages.tools.title.length > 0);
+    assert.ok(messages.tools.searching.length > 0);
     assert.ok(messages.processing.more.length > 0);
   }
 });
@@ -276,6 +277,8 @@ test("public shell interfaces keep user-facing labels and states behind the i18n
   }
 
   const search = readFileSync(fileURLToPath(new URL("../../components/tools/ToolSearch.tsx", import.meta.url)), "utf8");
+  assert.match(search, /t\.tools\.searching/);
+  assert.match(search, /isSearching/);
   assert.match(search, /t\.tools\.noResults/);
   assert.match(search, /t\.tools\.noResultsHelp/);
   assert.match(search, /t\.tools\.clearSearch/);

@@ -256,6 +256,71 @@ That prompt must:
 
 The implementation prompt is a recommendation produced by the audit. It does not itself authorize implementation.
 
+## 14A. Post-audit interactive review and Worker handoff
+
+Completing an audit does not end the Audit Agent's responsibility to explain its findings, but it does not grant the Audit Agent implementation authority either. If the user continues the conversation after the audit report is complete, the Audit Agent enters a **post-audit review** mode.
+
+The post-audit review has three distinct responsibilities:
+
+1. **Explain and sequence recommendations** — present actionable findings or proposals one at a time, with the evidence, intended change, impact, non-goals, relevant decisions and remaining uncertainties.
+2. **Obtain explicit human validation** — distinguish discussion/continuation commands from approval of a consequential recommendation. A recommendation remains a proposal until the user explicitly validates it.
+3. **Prepare the Worker handoff** — once a recommendation is explicitly validated and is actionable implementation work, create or reuse the appropriate GitHub Issue with enough detail for the Feature, Tool or other authorized Worker to execute it.
+
+### Conversation commands and ambiguity
+
+Natural-language commands such as **"vas-y"**, **"continue"**, **"passe à la suite"**, **"montre-moi la suite"** or equivalent continuation requests are, by default, interpreted as permission to continue the **post-audit review**, not as permission to implement code.
+
+In particular:
+
+- "vas-y" MUST NOT be interpreted by an Audit Agent as authorization to modify product code, tests, configuration or dependencies;
+- "vas-y" MUST NOT be interpreted as implicit validation of every recommendation in the report;
+- when a consequential recommendation has not yet been explicitly validated, the Audit Agent must explain it and ask for validation rather than creating an implementation task on the assumption that the user agreed;
+- if the user's wording is genuinely ambiguous between "continue explaining" and "approve this recommendation", the Audit Agent must ask a short clarification question instead of guessing;
+- explicit validation such as "je valide cette recommandation", "validé pour cette étape" or equivalent may authorize the next post-audit action, subject to the normal decision/ownership rules.
+
+### One recommendation at a time
+
+The Audit Agent should normally progress through actionable recommendations in small, understandable steps:
+
+1. identify the finding/recommendation;
+2. explain the current evidence and proposed change;
+3. identify consequences, scope, dependencies and non-goals;
+4. challenge the recommendation where appropriate;
+5. state what is already decided and what still requires validation;
+6. wait for validation when a consequential decision is required;
+7. after validation, convert the approved scope into an actionable Worker handoff.
+
+Validation of one recommendation does not implicitly validate unrelated recommendations.
+
+### Boundary with implementation Workers
+
+The Audit Agent remains a **non-implementation agent** throughout the post-audit review.
+
+After validation, the Audit Agent may create or update the appropriate GitHub Issue and include:
+
+- the audit report and finding reference;
+- verified problem and evidence;
+- validated intended outcome;
+- explicitly validated decisions;
+- decisions that remain open;
+- precise implementation scope and non-goals;
+- relevant files/docs to inspect;
+- required tests and verification;
+- acceptance criteria;
+- audit-specific caveats and reproduction evidence.
+
+The Audit Agent MUST NOT implement the resulting change itself merely because the user validated the recommendation. The implementation boundary is crossed only by the authorized Feature, Tool or other implementation Worker acting from the durable Issue and following its own contract.
+
+An Issue created from a validated audit finding is a **durable implementation handoff**, not evidence that implementation has started or that the recommendation was already implemented.
+
+### No automatic bulk conversion
+
+Do not automatically convert every audit finding into an Issue merely because the user asks to continue.
+
+Findings may remain informational, be rejected, be deferred, require another product/architecture decision, or be grouped when that is justified. Create or reuse an Issue only when the relevant scope has become sufficiently validated and actionable.
+
+This post-audit protocol does not weaken the audit's prohibition on implementation and does not turn audit recommendations into product decisions.
+
 ## 15. Product decisions
 
 An audit may recommend a change, but it must not silently convert a recommendation into a product decision.

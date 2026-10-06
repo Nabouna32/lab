@@ -20,9 +20,9 @@ A typical tool page should follow this conceptual order:
 4. primary tool interface;
 5. result;
 6. common actions;
-7. secondary documentation;
-8. related tools;
-9. optional community information;
+7. contextual next actions, when a natural continuation exists;
+8. secondary documentation;
+9. optional discovery/community information;
 10. advertising that does not interfere with the primary task.
 
 Not every tool needs every section.
@@ -47,13 +47,13 @@ A result may be:
 
 The tool author should choose the representation that best communicates the result.
 
-A visual treatment should have functional value. Animation must not be used merely because it is possible.
+A visual treatment may provide functional, experiential, identity, or purely aesthetic value. Animation may be purely visual when it improves perceived quality, spatial continuity, delight, or the character of the tool. During initial design and implementation, richer visual treatments and motion are encouraged rather than suppressed preemptively; later audits may identify elements that should be reduced or removed based on real UX, accessibility, or performance evidence.
 
 ## Visual expression and motion
 
 Loculary should provide a modern, polished and visually engaging experience. Tools may use meaningful animation, transitions, micro-interactions, visual feedback and distinctive visual identity when these improve comprehension, feedback or enjoyment.
 
-Motion and visual effects must remain subordinate to usability and must not be used merely because they are technically possible. System reduced-motion preferences must be respected.
+Motion and visual effects should contribute to a polished, lively application experience without obstructing the task. Workers should err toward richer motion when choosing between otherwise coherent alternatives. Performance cost should be optimized and measured rather than used as a reason to suppress visual ideas preemptively. System reduced-motion preferences must be respected.
 
 There is currently no user-selectable Sober/Playful presentation mode. Such a mode is deferred and must not be treated as a current product requirement.
 
@@ -194,16 +194,32 @@ Tool pages should have:
 
 SEO must never justify making the primary tool difficult to reach.
 
-## Related tools
+## Next actions
 
-A tool page may expose:
+A tool page may expose **next actions** when a natural continuation of the user's task exists.
 
-- similar tools;
-- complementary tools;
-- popular nearby tools;
-- recently used tools.
+Next actions are not required on every tool page. They should be shown only when they can answer a useful question such as:
 
-Relationships should be meaningful rather than generated solely to fill page space.
+> **What might I want to do next?**
+
+A next action should normally continue or complement the current task rather than merely resemble the current tool.
+
+Examples include:
+
+- continuing a transformation or conversion workflow;
+- using a complementary calculation;
+- refining or validating the current result;
+- moving to the next obvious step of a multi-tool workflow.
+
+Generic similarity, popularity or catalog discovery must not be presented as a next action merely to fill available space. A tool may legitimately expose no next actions.
+
+The underlying recommendation mechanism is an implementation detail. The product meaning is the usefulness of the continuation, not the fact that two tools happen to share metadata or a category.
+
+### Intent and category discovery
+
+Intent-oriented entry points represent **what the user wants to accomplish**, not a category shortcut. A first-class intent may lead to several relevant tools, including tools from different categories, as the catalog grows.
+
+The UX must never imply that one category fully represents an intent. Initial intent-to-tool associations may be curated editorial data; later deterministic discovery may enrich them without changing the product semantics.
 
 ## Expanded experience direction
 
@@ -302,8 +318,8 @@ The tool is the central product experience. A typical hierarchy is:
 4. primary tool interaction;
 5. result;
 6. contextual actions;
-7. explanation/documentation;
-8. meaningful next tools or actions.
+7. meaningful next tools or actions, when a natural continuation exists;
+8. explanation/documentation;
 
 This is a priority hierarchy, not a rigid template. Complex tools may require different compositions.
 
@@ -313,7 +329,7 @@ Documentation must not compete with the primary task.
 
 Results should feel clear, immediate and trustworthy. Feedback for successful processing, copying, reset, validation, errors, progress and cancellation should be explicit and appropriately animated.
 
-The interface should make the transition from input to result understandable without decorative motion that adds no functional value.
+The interface should make the transition from input to result understandable without motion or effects that add no meaningful functional, experiential, or identity value.
 
 ### Tool-specific interfaces
 
@@ -346,13 +362,17 @@ Modernity should instead come from:
 
 The target feeling is **a well-designed digital toolbox**, not a startup landing page.
 
-### Discovery and related tools
+### Discovery and next actions
 
-Related tools should be presented as useful next actions rather than filler cards. Recommendations should answer the likely question:
+Next actions are distinct from generic discovery. They belong to the task flow and should appear when they provide a natural continuation of the current task.
+
+Recommendations should answer the likely question:
 
 > **What might you want to do next?**
 
-Relationships must be meaningful.
+Not every tool needs a next action. When no meaningful continuation exists, the interface should omit the section rather than invent recommendations.
+
+Generic discovery remains a separate product concern and may surface similar, popular, recent or exploratory tools elsewhere in the experience.
 
 ### Responsive direction
 
