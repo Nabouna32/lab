@@ -3,6 +3,10 @@ import { validateToolCatalog } from "./metadata.ts";
 import { toolSeo } from "./seo.ts";
 
 const localProcessingDescriptions = {
+  "compound-interest": {
+    fr: "Le calcul des intérêts composés est effectué directement dans votre navigateur.",
+    en: "Compound interest calculations are performed directly in your browser.",
+  },
   percentage: {
     fr: "Les calculs de pourcentage sont effectués directement dans votre navigateur.",
     en: "Percentage calculations are performed directly in your browser.",
@@ -179,6 +183,19 @@ type ToolDefinition = Pick<
 > & { capabilities?: ToolCapability[] };
 
 const toolDefinitions: ToolDefinition[] = [
+  {
+    id: "compound-interest", icon: "📈",
+    version: 1,
+    complexity: "small",
+    categories: ["calculations"],
+    tags: ["compound interest", "interest", "savings", "investment", "finance", "calculator", "intérêts composés", "épargne"],
+    aliases: ["compound interest calculator", "compound interest", "interest calculator", "savings calculator", "calculateur intérêts composés", "intérêts composés", "calculateur épargne"],
+    lifecycle: "published",
+    content: {
+      fr: { name: "Calculateur d’intérêts composés", description: "Calculez la croissance d’un capital avec capitalisation périodique et versements réguliers optionnels." },
+      en: { name: "Compound Interest Calculator", description: "Calculate compound growth with periodic compounding and optional regular contributions." },
+    },
+  },
   {
     id: "percentage", icon: "📊",
     version: 1,
