@@ -70,6 +70,7 @@ export default function ToolSearch({
   const [activeIndex, setActiveIndex] = useState(-1);
   const [results, setResults] = useState<ToolSearchResult[]>([]);
   const [resultsQuery, setResultsQuery] = useState("");
+  const [isSearching, setIsSearching] = useState(false);
   const deferredQuery = useDeferredValue(query);
   const searchRequest = useRef(0);
   const showResults = isFocused && query.trim().length > 0;
@@ -78,15 +79,22 @@ export default function ToolSearch({
 
   useEffect(() => {
     const normalizedQuery = deferredQuery.trim();
-    if (!normalizedQuery) return;
+    if (!normalizedQuery) {
+      setIsSearching(false);
+      setResults([]);
+      setResultsQuery("");
+      return;
+    }
 
     const requestId = ++searchRequest.current;
+    setIsSearching(true);
     let cancelled = false;
 
     import("@/lib/tools/search-client").then(({ searchToolCatalog }) => {
       if (cancelled || requestId !== searchRequest.current) return;
       setResults(searchToolCatalog(normalizedQuery, locale).slice(0, 6));
       setResultsQuery(normalizedQuery);
+      setIsSearching(false);
     });
 
     return () => {
@@ -172,7 +180,7 @@ export default function ToolSearch({
           aria-expanded={showResults}
           aria-controls={resultsId}
           aria-activedescendant={activeIndex >= 0 ? instanceId + "-result-" + activeIndex : undefined}
-          onChange={(event) => { setQuery(event.target.value); setActiveIndex(-1); }}
+          onChange={(event) => { setQuery(event.target.value); setActiveIndex(-1); setIsSearching(event.target.value.trim().length > 0); }}
           onFocus={() => setIsFocused(true)}
           onKeyDown={handleKeyDown}
           className={
@@ -206,8 +214,12 @@ export default function ToolSearch({
       </div>
 
       {showResults && (
-        <div id={resultsId} role="listbox" className="absolute left-0 right-0 top-full z-[60] mt-2 overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface-elevated)] p-1.5 shadow-[var(--shadow-md)]">
-          {visibleResults.length > 0 ? (
+        <div id={resultsId} role="listbox" aria-busy={isSearching} className="absolute left-0 right-0 top-full z-[60] mt-2 overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface-elevated)] p-1.5 shadow-[var(--shadow-md)]">
+          {isSearching ? (
+            <div className="px-4 py-6" role="status">
+              <p className="text-sm font-medium text-[var(--foreground)]">{t.tools.searching}</p>
+            </div>
+          ) : visibleResults.length > 0 ? (
             <>
               <div className="flex items-center justify-between px-3 pb-2 pt-2">
                 <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[var(--muted)]">{t.tools.suggestions}</p>
