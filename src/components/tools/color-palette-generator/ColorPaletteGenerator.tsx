@@ -56,6 +56,17 @@ export default function ColorPaletteGenerator() {
   );
 }
 
-function getPaletteTextColor(hex: string) {\n  const normalized = hex.replace("#", "");\n  if (normalized.length !== 6) return "#ffffff";\n  const red = Number.parseInt(normalized.slice(0, 2), 16) / 255;\n  const green = Number.parseInt(normalized.slice(2, 4), 16) / 255;\n  const blue = Number.parseInt(normalized.slice(4, 6), 16) / 255;\n  const luminance = [red, green, blue].map((channel) => channel <= 0.03928 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4);\n  const relativeLuminance = 0.2126 * luminance[0] + 0.7152 * luminance[1] + 0.0722 * luminance[2];\n  return relativeLuminance > 0.179 ? "#111111" : "#ffffff";\n}\n\nfunction PaletteGroup({ title, colors, copyLabel, copiedLabel }: { title: string; colors: PaletteColor[]; copyLabel: string; copiedLabel: string; }) {
+function getPaletteTextColor(hex: string) {
+  const normalized = hex.replace("#", "");
+  if (normalized.length !== 6) return "#ffffff";
+  const red = Number.parseInt(normalized.slice(0, 2), 16) / 255;
+  const green = Number.parseInt(normalized.slice(2, 4), 16) / 255;
+  const blue = Number.parseInt(normalized.slice(4, 6), 16) / 255;
+  const luminance = [red, green, blue].map((channel) => channel <= 0.03928 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4);
+  const relativeLuminance = 0.2126 * luminance[0] + 0.7152 * luminance[1] + 0.0722 * luminance[2];
+  return relativeLuminance > 0.179 ? "#111111" : "#ffffff";
+}
+
+function PaletteGroup({ title, colors, copyLabel, copiedLabel }: { title: string; colors: PaletteColor[]; copyLabel: string; copiedLabel: string; }) {
   return <section className="border-t border-[var(--border)] pt-4"><h2 className="text-sm font-semibold text-[var(--foreground)]">{title}</h2><div className="mt-3 grid gap-2">{colors.map((color) => <div key={color.hex} className="flex items-center gap-3"><span aria-hidden="true" className="h-9 w-9 shrink-0 rounded-[var(--radius-sm)] border border-black/10" style={{ backgroundColor: color.hex }} /><code className="min-w-0 flex-1 font-mono text-sm text-[var(--foreground)]">{color.hex}</code><CopyButton value={color.hex} label={copyLabel} copiedLabel={copiedLabel} /></div>)}</div></section>;
 }
