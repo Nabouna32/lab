@@ -1,19 +1,16 @@
 # Feature Worker checkpoint - Loculary UX/UI refactor
 - Role: Feature Worker - Issue #400
-- Branch: feat/feature/loculary-ux-ui-refactor
-- Main SHA: 5f8928e8a88dade50f8ac0a48c1848252c2ac34e
-- PR: #403
+- Branch: feat/feature/loculary-ux-ui-refactor-next
+- Base SHA: 8ebbd9f21ab09bfcec0591fbcc8b776092ef4a03
+- PR: #403 merged; continuation branch for the still-open mission
 - State: RUNNING
-- Step: 4 - global surface audit
-- Validated scope: continue autonomously across data-dense, visual/generator, mini-app/workspace, then generalize only demonstrated patterns.
-- Completed: Percentage Calculator result-led workspace; UUID Generator asymmetric compact utility; ResultPanel lighter metric treatment; CalculatorShell structural workspace; CSV-JSON dense editor/result composition; Color Palette visual generator composition; HTML Previewer editor/preview composition.
-- Evidence: the same grammar is surviving across five different tool shapes: restrained structural frame, concentrated accent rail, clear execution/result relationship, and tool-specific proportions. A universal layout is still not justified.
-- Tool-local evidence: UUID configuration rail, Percentage semantic result tones/formula disclosure, palette swatch treatment, HTML preview frame, CSV editor density.
-- Current action: homepage, global header, ToolPage, catalog and category surfaces have received the first expressive pass; discovery markup was audited and repaired.
-- Next action: validate the current branch with fresh CI/E2E, then continue search/navigation behavior and the responsive/dark/accessibility/i18n/motion audit.
-- Decisions blocked: none; user explicitly validated autonomous global #400 scope, with stop only for consequential product/architecture/security/privacy/cost changes.
-- Verification: CI #1481 passed; Browser E2E #1316 passed; Dependency Review #76 passed on pre-audit head ea3dfe4. New verification pending after fixes.
-- Baseline verification: CI #1473 and Browser E2E #1308 passed before Step 3. New Step 3 verification pending.
-- Last durable source commit: current branch head (GitHub compare: 37 commits ahead, 2 behind main)
-- Verification state: current branch source audit performed; no fresh CI/E2E result is available yet for the post-audit commits, so none is claimed.
-- Timestamp: 2026-10-06T20:45:00Z
+- Step: 5 - structural global UX refactor
+- Validated scope: continue autonomously across the global Loculary experience; the user confirmed the current direction is acceptable but not yet visually transformative enough, so continue within the already validated #400 scope.
+- Challenge: the previous pass improved styling and representative tool compositions, but preserved too much of the historical information architecture and surface grammar. A lighter token-only pass would be simpler but would not satisfy the mission acceptance bar or the user's observed gap. Outcome: adopt a more structural refactor of navigation/search/catalog/discovery and then re-audit representative tools, without introducing a new product direction.
+- Completed milestones: representative tool compositions across percentage, UUID, CSV/JSON, palette and HTML; first expressive pass across homepage, header, ToolPage, catalog/category/discovery surfaces.
+- Current action: redesign the global discovery/search/catalog shell so it reads as a Loculary application rather than the previous catalog with stronger decoration.
+- Next action: verify the structural shell on desktop/mobile, FR/EN, light/dark, keyboard/focus and reduced motion; then continue into tool-page/result state polish where evidence still shows legacy grammar.
+- Decisions blocked: none within validated #400 scope.
+- Verification: PR #403 merged. Post-audit CI/E2E for the final pre-merge head were not observed as green; do not claim them. Fresh validation is required for this continuation.
+- Last durable commit: 8ebbd9f21ab09bfcec0591fbcc8b776092ef4a03
+- Timestamp: 2026-10-06T22:00:00Z
