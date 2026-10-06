@@ -63,7 +63,7 @@ test("the metadata validator rejects duplicate ids", () => {
 test("the metadata validator rejects broken relationships", () => {
   assert.throws(
     () => validateToolCatalog([{ ...tool, relatedToolIds: ["missing-tool"] }]),
-    /unknown related tool/,
+    /unknown next action/,
   );
   assert.throws(
     () => validateToolCatalog([{ ...tool, relatedToolIds: [tool.id] }]),
