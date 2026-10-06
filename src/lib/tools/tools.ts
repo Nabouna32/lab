@@ -188,7 +188,6 @@ type ToolDefinition = Pick<
 
 const nextActionToolIds: Partial<Record<ToolId, ToolId[]>> = {
   "\u0070ercentage": ["\u0064iscount"],
-  "percentage": ["discount"],
   "download-speed": ["download-time"],
   "download-time": ["download-speed"],
   "file-size": ["video-bitrate"],
@@ -765,6 +764,20 @@ const toolDefinitions: ToolDefinition[] = [
     content: {
       fr: { name: "Compresseur d’image", description: "Réduisez le poids d’une image en choisissant le format, la qualité et la dimension maximale." },
       en: { name: "Image Compressor", description: "Reduce an image file size by choosing the format, quality, and maximum dimension." },
+    },
+  },
+  {
+    id: "image-metadata", icon: "🖼️",
+    version: 1,
+    complexity: "advanced",
+    categories: ["images"],
+    tags: ["image", "metadata", "exif", "photo", "privacy", "gps", "dimensions"],
+    aliases: ["image metadata viewer", "exif viewer", "exif reader", "image metadata", "inspect image", "view exif", "métadonnées image", "lecteur exif", "voir exif"],
+    lifecycle: "published",
+    capabilities: ["file-input"],
+    content: {
+      fr: { name: "Analyseur de métadonnées d’image", description: "Inspectez les informations d’une image et supprimez ses métadonnées avant de la partager." },
+      en: { name: "Image Metadata Viewer", description: "Inspect image information and remove metadata before sharing it." },
     },
   },
   {
