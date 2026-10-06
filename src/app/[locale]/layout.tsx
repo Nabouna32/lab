@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import ThemeProvider from "@/components/theme/ThemeProvider";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import AppShell from "@/components/layout/AppShell";
 import { getMessages } from "@/lib/i18n/messages";
 import { getLanguage, isLocale, locales } from "@/lib/i18n/config";
 import "@/app/globals.css";
@@ -42,9 +43,12 @@ export default async function LocaleLayout({
     <html lang={locale} dir={direction} suppressHydrationWarning>
       <body className={geistSans.variable + " " + geistMono.variable}>
         <ThemeProvider>
-          <Header locale={locale} />
-          {children}
-          <Footer locale={locale} />
+          <AppShell
+            header={<Header locale={locale} />}
+            footer={<Footer locale={locale} />}
+          >
+            {children}
+          </AppShell>
         </ThemeProvider>
       </body>
     </html>
