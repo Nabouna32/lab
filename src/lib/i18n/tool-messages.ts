@@ -130,6 +130,12 @@ type ToolMessages = {
     processing: string; download: string; reset: string; preview: string; emptyResult: string; invalid: string; invalidType: string; tooLarge: string;
     originalSize: string; compressedSize: string; reduction: string;
   };
+  imageMetadata: {
+    input: string; inputHint: string; dimensions: string; format: string; fileSize: string; exif: string; noMetadata: string;
+    camera: string; dateTaken: string; orientation: string; gps: string; software: string; strip: string; stripping: string;
+    download: string; reset: string; preview: string; emptyResult: string; invalidType: string; tooLarge: string; invalid: string;
+    removed: string; local: string;
+  };
   qrCodeGenerator: {
     input: string; placeholder: string; hint: string; size: string; download: string; clear: string;
     preview: string; emptyResult: string; tooLong: string; version: (version: number) => string;
@@ -429,6 +435,14 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       preview: "Aperçu", ready: "Aperçu mis à jour", emptyResult: "Saisissez du HTML pour afficher l’aperçu.", clear: "Effacer",
       security: "L’aperçu n’a pas accès au domaine Loculary et n’exécute pas le JavaScript du contenu.",
     },
+    imageMetadata: {
+      input: "Choose an image", inputHint: "JPG, PNG, WebP, or another image — inspected locally in your browser.",
+      dimensions: "Dimensions", format: "Format", fileSize: "File size", exif: "EXIF metadata", noMetadata: "No supported EXIF metadata found.",
+      camera: "Camera", dateTaken: "Date taken", orientation: "Orientation", gps: "GPS location", software: "Software",
+      strip: "Remove metadata", stripping: "Removing metadata…", download: "Download clean image", reset: "Reset", preview: "Image preview",
+      emptyResult: "Select an image to inspect its metadata.", invalidType: "Select an image file.", tooLarge: "The file exceeds the 25 MB limit.", invalid: "This image cannot be read in your browser.",
+      removed: "Metadata removed. The cleaned image is ready to download.", local: "Your image stays on your device. Nothing is uploaded to Loculary.",
+    },
     imageCompressor: {
       input: "Choisir une image", inputHint: "JPG, PNG, WebP ou autre image — traitement local dans votre navigateur.", format: "Format de sortie",
       maxDimension: "Dimension maximale", original: "Conserver la dimension", quality: "Qualité", qualityHint: "La qualité agit surtout sur JPEG et WebP.",
@@ -709,6 +723,14 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       emptyResult: "Select an image to see the result.", invalid: "This image cannot be processed in your browser.",
       invalidType: "Select an image file.", tooLarge: "The file exceeds the 25 MB limit.",
       originalSize: "Original size", compressedSize: "Compressed size", reduction: "Reduction",
+    },
+    imageMetadata: {
+      input: "Choose an image", inputHint: "JPG, PNG, WebP, or another image — inspected locally in your browser.",
+      dimensions: "Dimensions", format: "Format", fileSize: "File size", exif: "EXIF metadata", noMetadata: "No supported EXIF metadata found.",
+      camera: "Camera", dateTaken: "Date taken", orientation: "Orientation", gps: "GPS location", software: "Software",
+      strip: "Remove metadata", stripping: "Removing metadata…", download: "Download clean image", reset: "Reset", preview: "Image preview",
+      emptyResult: "Select an image to inspect its metadata.", invalidType: "Select an image file.", tooLarge: "The file exceeds the 25 MB limit.", invalid: "This image cannot be read in your browser.",
+      removed: "Metadata removed. The cleaned image is ready to download.", local: "Your image stays on your device. Nothing is uploaded to Loculary.",
     },
     qrCodeGenerator: {
       input: "Content to encode", placeholder: "https://example.com or your text…",
