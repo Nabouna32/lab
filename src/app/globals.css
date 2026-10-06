@@ -96,7 +96,7 @@ button, input, textarea, select { font: inherit; }
 .theme-icon-system-dark { display: none; }
 html.dark .theme-icon-system-light { display: none; }
 html.dark .theme-icon-system-dark { display: inline; }
-@media (prefers-reduced-motion: reduce) {
+@keyframes loculary-reveal { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }\n.motion-reveal { animation: loculary-reveal 520ms cubic-bezier(.22,1,.36,1) both; }\n.motion-reveal-delay { animation-delay: 90ms; }\n\n@media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {
     animation-duration: .01ms !important;
