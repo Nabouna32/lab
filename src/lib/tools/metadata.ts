@@ -150,12 +150,12 @@ export function validateToolCatalog(tools: readonly Tool[]): void {
 
   const knownIds = new Set(ids);
   for (const tool of tools) {
-    for (const relatedId of tool.relatedToolIds) {
-      if (!knownIds.has(relatedId)) {
-        throw new Error(`Tool "${tool.id}" references unknown related tool "${relatedId}".`);
+    for (const nextActionId of tool.nextActionToolIds) {
+      if (!knownIds.has(nextActionId)) {
+        throw new Error(`Tool "${tool.id}" references unknown next action "${nextActionId}".`);
       }
-      if (relatedId === tool.id) {
-        throw new Error(`Tool "${tool.id}" cannot reference itself as related.`);
+      if (nextActionId === tool.id) {
+        throw new Error(`Tool "${tool.id}" cannot reference itself as a next action.`);
       }
     }
   }
