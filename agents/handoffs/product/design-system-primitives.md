@@ -11,8 +11,8 @@
   - Steps 2B.1–2B.7 validated and merged into `main`.
   - Visual signature contract merged in PR #395.
   - Current implementation inspected as evidence; existing UI primitives are not assumed to be the target architecture.
-- current action: inspect the documentation diff, validate scope/coherence, then prepare the PR.
-- next action: inspect diff and documentation coherence, then open PR and run CI.
+- current action: create the implementation PR, then reconcile its delivery state before checkpoint cleanup.
+- next action: open PR, record its head, then remove this temporary checkpoint within the same PR and run CI.
 - decisions already validated:
   - Foundations → Behavioral primitives → Composition recipes → Tool-specific UI.
   - Existing primitives may be retained, refactored, decomposed, replaced or removed based on evidence.
@@ -21,5 +21,5 @@
 - challenge performed: current `src/components/ui` includes Button, Card, Panel, Select, TextArea, TextField, CopyButton, ClearButton, ResultPanel, SegmentedControl and ValidationMessage, plus ToolPage primitives. Alternative considered: promote the current UI folder wholesale into the design system. Outcome: reject; define primitives by stable cross-tool behavior and accessibility/state responsibilities, not by current filenames or visual containers. Trade-off: fewer platform abstractions and more tool-local composition, at the cost of some duplication where behavior is genuinely unique.
 - important files/areas: `docs/DESIGN-SYSTEM.md`; `src/components/ui/`; `src/components/tools/ToolPage/`; `src/components/layout/`.
 - tests/checks: documentation-only change planned; CI verification required after PR.
-- last durable commit: c628a23005d5dcdd33c3c3885093e6eb1661fc45
+- last durable commit: ac4714710b1637d9255a19a4bf91655642a72879
 - timestamp: 2026-10-06T18:38:00Z
