@@ -28,21 +28,21 @@ export default function ToolPage({
   return (
     <main className="min-h-full px-4 py-5 sm:px-6 sm:py-7 lg:px-10 lg:py-9">
       <div className="mx-auto max-w-[var(--content-default)]">
-        <div className="mb-4 px-1">
-          <Breadcrumbs
-            locale={locale}
-            items={[
-              { label: t.nav.tools, href: getToolsPath(locale) },
-              {
-                label: getCategoryName(locale, getPrimaryToolCategory(tool)),
-                href: getCategoryPath(locale, getPrimaryToolCategory(tool)),
-              },
-              { label: localizedContent.name },
-            ]}
-          />
-        </div>
+          <header className="relative overflow-hidden rounded-[1.75rem] border border-[var(--border)] bg-[var(--surface)] px-5 py-6 shadow-[var(--shadow-lg)] sm:px-8 sm:py-8 lg:px-10">
+          <div className="mb-5 px-1">
+            <Breadcrumbs
+              locale={locale}
+              items={[
+                { label: t.nav.tools, href: getToolsPath(locale) },
+                {
+                  label: getCategoryName(locale, getPrimaryToolCategory(tool)),
+                  href: getCategoryPath(locale, getPrimaryToolCategory(tool)),
+                },
+                { label: localizedContent.name },
+              ]}
+            />
+          </div>
 
-        <header className="relative overflow-hidden rounded-[1.75rem] border border-[var(--border)] bg-[var(--surface)] px-5 py-6 shadow-[var(--shadow-lg)] sm:px-8 sm:py-8 lg:px-10">
           <div className="pointer-events-none absolute -right-12 -top-16 h-48 w-48 rounded-full bg-[var(--accent-soft)] blur-3xl" aria-hidden="true" />
           <div className="relative">
             <ToolPageHeader
