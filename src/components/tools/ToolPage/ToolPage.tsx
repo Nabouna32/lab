@@ -55,7 +55,7 @@ export default function ToolPage({
           </div>
         </header>
 
-        <ToolRuntimeProvider access={tool.access} capabilities={tool.capabilities}>
+      <ToolRuntimeProvider access={tool.access} capabilities={tool.capabilities}>
           <div data-tool-surface className="mt-4 overflow-hidden rounded-[1.75rem] border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-lg)]">
             <div className="p-5 sm:p-8 lg:p-10">
               <ToolProcessingStatus processing={tool.processing} locale={locale} />
