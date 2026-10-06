@@ -1,6 +1,7 @@
 import type { Locale } from "../i18n/config.ts";
 
 export type ToolId =
+  | "compound-interest"
   | "percentage"
   | "discount"
   | "vat"
