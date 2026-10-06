@@ -16,27 +16,27 @@ export default function ToolPageHeader({
   contentFallback,
   locale,
 }: ToolPageHeaderProps) {
+  const t = getMessages(locale);
+
   return (
-    <header className="relative overflow-hidden py-3 sm:py-5"><div className="pointer-events-none absolute -right-12 top-0 h-28 w-28 rounded-full bg-[var(--accent-soft)] opacity-70 blur-2xl" aria-hidden="true" />
-      <div className="relative flex min-w-0 items-start gap-3 sm:gap-4 motion-reveal">
-        <div
-          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--radius-xl)] border border-[var(--accent)]/20 bg-[var(--accent-soft)] shadow-[var(--shadow-sm)] text-2xl sm:h-12 sm:w-12 sm:text-3xl"
-          aria-hidden="true"
-        >
+    <header className="relative overflow-hidden border-y border-[var(--border)] py-5 sm:py-7">
+      <div className="pointer-events-none absolute -right-12 -top-12 h-36 w-36 rounded-full bg-[var(--accent-soft)] blur-3xl" aria-hidden="true" />
+      <div className="relative grid gap-5 lg:grid-cols-[auto_minmax(0,1fr)] lg:items-center lg:gap-7 motion-reveal">
+        <div className="relative flex h-16 w-16 shrink-0 items-center justify-center rounded-[var(--radius-xl)] border border-[var(--accent)]/25 bg-[var(--accent-soft)] text-3xl shadow-[var(--shadow-sm)] sm:h-20 sm:w-20 sm:text-4xl" aria-hidden="true">
+          <span className="absolute inset-x-0 top-0 h-0.5 rounded-full bg-[var(--accent)]" />
           {icon}
         </div>
         <div className="min-w-0">
-          <h1 className="mt-0.5 text-2xl font-black tracking-[-0.035em] sm:text-3xl lg:text-4xl">
-            {title}
-          </h1>
-          <p className="mt-1.5 max-w-3xl text-sm leading-6 text-[var(--muted)] sm:text-base">
-            {description}
-          </p>
-          {contentFallback && (
-            <p className="mt-2 text-xs font-medium text-[var(--muted)]" role="status">
-              {getMessages(locale).processing.fallbackNotice}
-            </p>
-          )}
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+            <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-[var(--accent)]">{t.nav.tools}</span>
+            {contentFallback && (
+              <span className="text-xs font-medium text-[var(--muted)]" role="status">
+                {t.processing.fallbackNotice}
+              </span>
+            )}
+          </div>
+          <h1 className="mt-1 text-3xl font-black tracking-[-0.05em] sm:text-4xl lg:text-5xl">{title}</h1>
+          <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--muted)] sm:text-base">{description}</p>
         </div>
       </div>
     </header>
