@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
 import EcosystemShowcase from "@/components/home/EcosystemShowcase";
-import PageTransition from "@/components/home/PageTransition";
 import ToolSearch from "@/components/tools/ToolSearch";
 import type { Locale } from "@/lib/i18n/config";
 import { isLocale } from "@/lib/i18n/config";
@@ -27,14 +26,13 @@ function IntentShortcuts({ locale }: { locale: Locale }) {
   return (
     <div className="flex flex-wrap items-center justify-center gap-2" aria-label={t.home.quickLinksLabel}>
       {t.home.quickLinks.map((link) => (
-        <button
+        <a
           key={link.toolId}
-          type="button"
+          href="#home-search"
           className="inline-flex min-h-9 items-center rounded-full border border-[var(--border)] bg-[var(--surface)] px-3.5 py-2 text-xs font-semibold text-[var(--muted)] shadow-[var(--shadow-sm)] outline-none transition-[border-color,background-color,color,transform] duration-[var(--motion-fast)] hover:-translate-y-0.5 hover:border-[var(--border-strong)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
-          onClick={() => document.querySelector<HTMLInputElement>('[data-home-search-input]')?.focus()}
         >
           {link.label}
-        </button>
+        </a>
       ))}
     </div>
   );
@@ -47,7 +45,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const total = getPublishedTools().length;
 
   return (
-    <PageTransition>
       <main className="min-h-[calc(100svh-4rem)] bg-[var(--background)]">
         <section className="relative flex min-h-[min(760px,calc(100svh-4rem))] items-center overflow-hidden px-4 py-14 sm:px-6 sm:py-20 lg:px-8 lg:py-24" aria-labelledby="home-title">
           <div className="pointer-events-none absolute inset-0" aria-hidden="true">
@@ -62,7 +59,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-[var(--muted)] sm:text-lg">{t.home.description}</p>
             </div>
 
-            <div className="mt-9 w-full max-w-4xl sm:mt-12">
+            <div id="home-search" className="mt-9 w-full max-w-4xl scroll-mt-24 sm:mt-12">
               <div className="relative rounded-[calc(var(--radius-2xl)+0.25rem)] border border-[var(--border-strong)] bg-[var(--surface)] p-2 shadow-[var(--shadow-lg)] sm:p-3">
                 <div className="rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--background)] p-3 sm:p-5">
                   <ToolSearch locale={locale} instanceId="home-tool-search-v2" />
@@ -91,6 +88,5 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
 
         <EcosystemShowcase locale={locale} />
       </main>
-    </PageTransition>
   );
 }
