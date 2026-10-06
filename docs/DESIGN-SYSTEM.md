@@ -934,29 +934,167 @@ The system should prefer a small number of strong abstractions over either extre
 
 ## 11. Loculary visual signature
 
-Loculary should develop a restrained signature that distinguishes it from a generic minimalist developer-tool aesthetic.
+Loculary should be recognisable as an **expressive utility application** even when the user moves between very different tools.
 
-The signature should emerge primarily from:
+The signature should come from a coherent combination of platform foundations rather than from one permanent decorative motif. The intended character can be summarized as:
 
-- typography;
-- semantic color;
-- iconography;
-- hierarchy;
-- spacing/density;
-- result emphasis;
-- purposeful motion;
-- interaction feedback;
-- composition quality.
+**restrained structure, concentrated expression, fluid response.**
 
-It should **not** depend on:
+This means the interface may remain calm and precise during ordinary task execution while becoming visibly more expressive at moments that matter: entering a tool, manipulating an important control, revealing a result, completing an operation or moving through a meaningful spatial transition.
 
-- a marketing hero;
-- decorative gradients everywhere;
-- arbitrary color coding per tool;
-- card walls;
-- visual noise.
+### 11.1 Signature principles
 
-The exact signature motif remains a design exploration to be validated against real UI examples.
+The visual signature should follow these principles:
+
+- **Structure first** — hierarchy, spacing and typography establish clarity before decoration.
+- **Expression at meaningful moments** — color, depth, motion and stronger typography may intensify around interaction, results, state changes and tool identity.
+- **Fluid continuity** — related states should feel connected rather than appearing as unrelated screens or abruptly swapping containers.
+- **Concentrated visual energy** — expressive treatment should have focal points instead of making every region equally loud.
+- **App-like responsiveness** — controls, results and transient states should visibly react to user actions when that reaction improves quality or comprehension.
+- **Coherence without uniformity** — shared foundations should be recognisable across the product while compositions remain free to fit the task.
+- **Delight is allowed** — decorative or experiential details may remain when they improve character, perceived quality or enjoyment, even when they are not strictly functional.
+
+### 11.2 Color signature
+
+Color should contribute to Loculary's identity without turning the product into a collection of unrelated palettes.
+
+The preferred pattern is:
+
+- a controlled semantic foundation for ordinary UI;
+- a clear accent presence where hierarchy or interaction benefits from it;
+- stronger color concentration around important actions, results or tool identity;
+- semantic status colors that remain recognisable across tools;
+- restrained use of multiple simultaneous expressive colors unless the tool's content genuinely requires them.
+
+Accent is therefore an instrument of hierarchy and identity, not a synonym for "important". A result may be emphasized through typography, spacing, surface contrast, motion or composition without necessarily becoming an accent-colored block.
+
+### 11.3 Typography and result emphasis
+
+Typography should provide much of the product's personality before decorative treatment is added.
+
+The platform should favour:
+
+- clear page and tool hierarchy;
+- strong but controlled tool titles;
+- readable body and supporting information;
+- visually significant result values;
+- technical typography where the content benefits from it.
+
+Important results may receive a noticeably stronger typographic treatment than ordinary UI. This is a core Loculary pattern because many tools culminate in a result or transformation.
+
+Typography should not become a permanent marketing aesthetic. Expressiveness should remain proportional to the task.
+
+### 11.4 Shape, surface and depth signature
+
+Loculary should prefer **intentional containment over universal cardisation**.
+
+The signature should emerge through relationships between:
+
+- open canvas;
+- restrained surfaces;
+- semantic radius;
+- selective raised or floating depth;
+- spacing that creates grouping before borders or shadows do.
+
+A composition may become visually richer through stronger containment when the task benefits from it, but the product should not accumulate nested cards simply because a reusable component exists.
+
+Prominent shapes and stronger depth should be concentrated around meaningful task boundaries, primary results, transient layers or intentionally expressive tool compositions.
+
+### 11.5 Motion signature
+
+The motion language should make Loculary feel alive without turning every interaction into spectacle.
+
+The shared character should favour:
+
+- responsive feedback;
+- spatial continuity between related states;
+- clear result reveals;
+- deliberate loading/waiting experiences;
+- consistent movement hierarchy;
+- occasional ambient or decorative motion where it contributes to personality.
+
+The signature is the **relationship between these moments**, not a single animation repeated throughout the application.
+
+A tool may introduce a stronger or unusual motion pattern when its task or identity warrants it. The platform should preserve the same underlying movement grammar—semantic intent, hierarchy, responsiveness and reduced-motion adaptation—without forcing identical choreography.
+
+### 11.6 Iconographic signature
+
+Shared platform icons should reinforce the same qualities as typography and motion:
+
+- precise;
+- coherent;
+- lightweight enough for utility work;
+- expressive enough to avoid a generic system-dashboard feel.
+
+Iconography should support hierarchy rather than compete with primary content. Tool-specific symbols may become more distinctive when the symbol itself is part of the tool experience.
+
+### 11.7 Tool divergence is part of the signature
+
+A tool does not need to look like every other Loculary tool to feel like Loculary.
+
+The platform identity should remain visible through foundations and shared behaviour while allowing divergence in:
+
+- composition;
+- density;
+- visualization;
+- workspace structure;
+- tool-specific color expression;
+- custom symbols;
+- motion;
+- interaction model.
+
+A calculator, editor, image-oriented tool or mini-application may therefore have substantially different visual compositions without being treated as design-system failures.
+
+The test is whether the divergence still feels like an intentional member of the same product rather than an unrelated website embedded inside it.
+
+### 11.8 Signature anti-patterns
+
+The following patterns should be treated as warning signs rather than absolute prohibitions:
+
+- decorative gradients or effects applied uniformly without compositional purpose;
+- a wall of equally styled cards;
+- excessive rounding on every element;
+- shadows used as the default separator;
+- rainbow-like colour coding where semantic roles would suffice;
+- every interaction receiving an animation;
+- one branded animation repeated regardless of context;
+- oversized typography that reduces utility or information density without improving hierarchy;
+- tool-specific styling that ignores platform accessibility, i18n or state semantics;
+- visually impressive effects that make repeated workflows feel slower or noisier.
+
+These are review signals. A tool may intentionally use a pattern when its task or content provides strong evidence for doing so.
+
+### 11.9 Validation before concrete token freezing
+
+The visual signature should be evaluated in representative compositions before the platform freezes the remaining concrete values.
+
+At minimum, evaluation should include:
+
+- a compact utility tool;
+- a result-heavy tool;
+- a data-dense or advanced tool;
+- a visual or generator-oriented tool;
+- a mini-application/workspace;
+- narrow/mobile and wide desktop;
+- light and dark themes;
+- first-use and repeated-use workflows;
+- reduced-motion behavior;
+- localized content with expansion pressure.
+
+The evaluation should ask:
+
+1. Does the product feel recognisably Loculary without every screen looking identical?
+2. Are expressive moments concentrated enough to remain meaningful?
+3. Does ordinary interaction still feel fast and precise?
+4. Do results receive appropriate visual emphasis?
+5. Does motion reinforce continuity rather than merely decorate?
+6. Can tools diverge substantially without losing platform identity?
+7. Does the richer direction remain accessible, responsive and understandable?
+8. Which concrete token values should be changed after observing the compositions?
+
+Concrete colors, spacing values, radii, shadows, motion durations and easing curves should be frozen only after this validation where the evidence materially affects the choice.
+
+The signature is therefore a **design constraint for evaluation**, not a mandate to add a fixed visual effect everywhere.
 
 ## 12. Design-system governance
 
