@@ -7,28 +7,22 @@ export default function Footer({ locale }: { locale: Locale }) {
   const t = getMessages(locale);
 
   return (
-    <footer className="mt-16 border-t border-[var(--border)] bg-[var(--surface-soft)]/45">
-      <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:grid-cols-[1.4fr_1fr_1fr] sm:px-6 lg:px-8">
-        <div>
-          <Link href={"/" + locale} className="text-lg font-black tracking-[-0.03em]">Loculary</Link>
-          <p className="mt-2 max-w-sm text-sm leading-6 text-[var(--muted)]">{t.footer.tagline}</p>
+    <footer className="border-t border-[var(--border)] bg-[var(--surface)]/70">
+      <div className="flex flex-col gap-3 px-4 py-3.5 text-xs text-[var(--muted)] sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-7">
+        <div className="flex min-w-0 items-center gap-3">
+          <span className="font-black tracking-[-0.03em] text-[var(--foreground)]">Loculary</span>
+          <span className="hidden h-1 w-1 rounded-full bg-[var(--border-strong)] sm:block" aria-hidden="true" />
+          <span className="truncate">{t.footer.tagline}</span>
         </div>
-        <div>
-          <p className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--muted)]">{t.footer.explore}</p>
-          <div className="mt-3 flex flex-col items-start gap-2 text-sm">
-            <Link href={getToolsPath(locale)} className="hover:text-[var(--accent)]">{t.nav.tools}</Link>
-            <Link href={"/" + locale} className="hover:text-[var(--accent)]">{t.nav.home}</Link>
-          </div>
+        <div className="flex items-center gap-1.5 sm:gap-2">
+          <Link href={getToolsPath(locale)} className="rounded-lg px-2.5 py-1.5 font-semibold transition-colors hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]">
+            {t.nav.tools}
+          </Link>
+          <Link href={"/" + locale + "/compte"} className="rounded-lg px-2.5 py-1.5 font-semibold transition-colors hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]">
+            {t.nav.account}
+          </Link>
+          <span className="ml-1 hidden border-l border-[var(--border)] pl-3 sm:inline">© {new Date().getFullYear()}</span>
         </div>
-        <div>
-          <p className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--muted)]">{t.footer.account}</p>
-          <div className="mt-3 flex flex-col items-start gap-2 text-sm">
-            <Link href={"/" + locale + "/compte"} className="hover:text-[var(--accent)]">{t.nav.account}</Link>
-          </div>
-        </div>
-      </div>
-      <div className="mx-auto max-w-7xl border-t border-[var(--border)] px-4 py-4 text-xs text-[var(--muted)] sm:px-6 lg:px-8">
-        © {new Date().getFullYear()} Loculary
       </div>
     </footer>
   );
