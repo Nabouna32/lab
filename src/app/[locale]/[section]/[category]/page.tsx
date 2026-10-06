@@ -57,11 +57,12 @@ export default async function CategoryPage({
   const categoryTools = getToolsByCategory(category.id);
 
   return (
-    <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
+    <main className="mx-auto max-w-[var(--content-wide)] px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
       <Breadcrumbs locale={locale} items={[{ label: t.nav.tools, href: getToolsPath(locale) }, { label: categoryName }]} />
-      <header className="border-b border-[var(--border)] pb-7 pt-7 sm:pb-9">
-        <div className="flex items-start gap-4">
-          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[var(--radius-md)] bg-[var(--accent-soft)] text-2xl" aria-hidden="true">{category.icon}</span>
+      <header className="relative overflow-hidden rounded-[var(--radius-2xl)] border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow-sm)] sm:p-7 lg:p-9">
+        <div className="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full bg-[var(--accent-soft)] blur-3xl" aria-hidden="true" />
+        <div className="relative flex items-start gap-4 motion-reveal">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[var(--radius-xl)] border border-[var(--accent)]/20 bg-[var(--accent-soft)] text-2xl shadow-[var(--shadow-sm)]" aria-hidden="true">{category.icon}</span>
           <div className="min-w-0 max-w-3xl">
             <h1 className="text-3xl font-black tracking-[-0.04em] sm:text-4xl">{categoryName}</h1>
             <p className="mt-2 text-base leading-7 text-[var(--muted)]">{t.tools.categoryDescription(categoryName)}</p>

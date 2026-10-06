@@ -45,14 +45,15 @@ export default async function ToolsPage({ params }: { params: Promise<{ locale: 
   const publishedTools = getPublishedTools();
 
   return (
-    <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
-      <section className="border-b border-[var(--border)] pb-8 sm:pb-10">
-        <div className="max-w-3xl">
+    <main className="mx-auto max-w-[var(--content-wide)] px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
+      <section className="relative overflow-hidden rounded-[var(--radius-2xl)] border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow-sm)] sm:p-7 lg:p-9">
+        <div className="pointer-events-none absolute -right-16 -top-20 h-52 w-52 rounded-full bg-[var(--accent-soft)] blur-3xl" aria-hidden="true" />
+        <div className="relative max-w-3xl">
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--accent)]">{t.tools.eyebrow}</p>
           <h1 className="mt-2 text-3xl font-black tracking-[-0.04em] sm:text-5xl">{t.tools.title}</h1>
           <p className="mt-3 max-w-2xl text-base leading-7 text-[var(--muted)] sm:text-lg">{t.tools.description}</p>
         </div>
-        <div className="mt-7 max-w-3xl">
+        <div className="relative mt-7 max-w-3xl">
           <ToolSearch locale={locale} instanceId="tools-page-search" />
         </div>
       </section>
@@ -70,7 +71,7 @@ export default async function ToolsPage({ params }: { params: Promise<{ locale: 
               <a
                 key={intent.id}
                 href={getCategoryPath(locale, categoryId)}
-                className="inline-flex min-h-10 items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface)] px-4 text-sm font-semibold transition-colors hover:border-[var(--accent)]/50 hover:bg-[var(--accent-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]"
+                className="group inline-flex min-h-10 items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface)] px-4 text-sm font-semibold transition-[transform,border-color,background-color] duration-[var(--motion-standard)] hover:-translate-y-0.5 hover:border-[var(--accent)]/50 hover:bg-[var(--accent-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]"
               >
                 <span aria-hidden="true">{intent.icon}</span>
                 {intent.label}

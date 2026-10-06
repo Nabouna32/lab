@@ -96,6 +96,10 @@ button, input, textarea, select { font: inherit; }
 .theme-icon-system-dark { display: none; }
 html.dark .theme-icon-system-light { display: none; }
 html.dark .theme-icon-system-dark { display: inline; }
+@keyframes loculary-reveal { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.motion-reveal { animation: loculary-reveal 520ms cubic-bezier(.22,1,.36,1) both; }
+.motion-reveal-delay { animation-delay: 90ms; }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {

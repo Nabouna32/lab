@@ -26,7 +26,7 @@ export default function ToolPage({
   const t = getMessages(locale);
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-2 sm:px-6 sm:py-4 lg:px-8 lg:py-5">
+    <main className="mx-auto max-w-[var(--content-default)] px-4 py-2 sm:px-6 sm:py-4 lg:px-8 lg:py-5">
       <Breadcrumbs
         locale={locale}
         items={[
@@ -51,7 +51,7 @@ export default function ToolPage({
         <div data-tool-surface className="mt-4 sm:mt-5">
           <ToolProcessingStatus processing={tool.processing} locale={locale} />
           {children && (
-            <section aria-label={t.nav.tools} className="mt-4 sm:mt-5">
+            <section aria-label={t.nav.tools} className="mt-4 sm:mt-5 motion-reveal">
               {children}
             </section>
           )}

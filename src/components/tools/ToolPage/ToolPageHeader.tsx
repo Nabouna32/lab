@@ -17,10 +17,10 @@ export default function ToolPageHeader({
   locale,
 }: ToolPageHeaderProps) {
   return (
-    <header className="py-1 sm:py-2">
-      <div className="flex min-w-0 items-start gap-3 sm:gap-4">
+    <header className="relative overflow-hidden py-3 sm:py-5"><div className="pointer-events-none absolute -right-12 top-0 h-28 w-28 rounded-full bg-[var(--accent-soft)] opacity-70 blur-2xl" aria-hidden="true" />
+      <div className="relative flex min-w-0 items-start gap-3 sm:gap-4 motion-reveal">
         <div
-          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--radius-lg)] bg-[var(--accent-soft)] text-2xl sm:h-12 sm:w-12 sm:text-3xl"
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--radius-xl)] border border-[var(--accent)]/20 bg-[var(--accent-soft)] shadow-[var(--shadow-sm)] text-2xl sm:h-12 sm:w-12 sm:text-3xl"
           aria-hidden="true"
         >
           {icon}
