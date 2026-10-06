@@ -4,6 +4,7 @@
 - Branch/ref: `feat/feature/playwright-declared-dependency`
 - Base SHA: `d1778ff37a366b3f3f1587607402e176c046da17`
 - Current state: RUNNING
+- Implementation milestone: package manifest, lockfile and E2E workflow updated; Playwright 1.63.0 confirmed as current stable/latest tag at implementation time; no cache or browser-test changes.
 - Validated scope: add `@playwright/test` as a normal devDependency; update lockfile; remove CI-only ad hoc install; keep existing E2E behavior/browser target; no cache or unrelated CI changes.
 - Completed milestones:
   - Bootstrap contracts and Issue #375 read.
