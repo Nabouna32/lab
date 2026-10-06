@@ -17,7 +17,7 @@ function Icon({ children, className = "h-4 w-4" }: { children: ReactNode; classN
 }
 
 const iconButton =
-  "flex h-9 shrink-0 items-center justify-center border border-transparent text-[var(--muted)] outline-none transition-[border-color,background-color,color] hover:border-[var(--border)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)] focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]";
+  "flex h-9 shrink-0 items-center justify-center border border-transparent text-[var(--muted)] outline-none transition-[border-color,background-color,color,transform] duration-[var(--motion-standard)] hover:-translate-y-0.5 hover:border-[var(--border)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)] focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]";
 
 const textLink =
   "flex h-9 shrink-0 items-center gap-2 border border-transparent px-2.5 text-sm font-semibold text-[var(--muted)] outline-none transition-[border-color,background-color,color] hover:border-[var(--border)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)] focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]";
@@ -26,7 +26,7 @@ export default function Header({ locale }: { locale: Locale }) {
   const t = getMessages(locale);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[var(--border)]/80 bg-[var(--background)]">
+    <header className="sticky top-0 z-50 border-b border-[var(--border)]/80 bg-[var(--background)]/92 backdrop-blur-xl">
       <div className="mx-auto max-w-[var(--content-wide)] px-3 sm:px-6 lg:px-8">
         <div className="grid h-14 grid-cols-[auto_1fr_auto] items-center gap-2 sm:h-16 sm:gap-3 lg:grid-cols-[1fr_minmax(20rem,32rem)_1fr]">
           <Link
