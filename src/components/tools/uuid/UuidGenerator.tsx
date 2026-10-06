@@ -65,7 +65,7 @@ export default function UuidGenerator() {
             <div>
               <p className="text-sm font-bold text-[var(--foreground)]">{t.result}</p>
               <p className="mt-1 text-sm leading-5 text-[var(--muted)]" aria-live="polite">
-                {!hasResult ? {t.emptyResult} : result.length === 1 ? {t.generatedOne} : {t.generatedMany(result.length)}
+                {!hasResult ? t.emptyResult : result.length === 1 ? t.generatedOne : t.generatedMany(result.length)}
               </p>
             </div>
             {hasResult && <CopyButton value={output} label={t.copy} />}
