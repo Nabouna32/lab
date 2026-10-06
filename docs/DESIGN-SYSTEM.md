@@ -78,6 +78,25 @@ In particular:
 
 Reduced motion is an accessibility adaptation of the visual experience. It is not the default visual philosophy for users who do not request it.
 
+### 2.5 Expressive app personality
+
+Loculary should feel like a **real application with a distinct personality**, not merely a highly polished collection of web pages.
+
+The visual direction therefore intentionally allows:
+
+- expressive but coherent color;
+- visible interaction feedback;
+- purposeful transitions and spatial continuity;
+- pleasant loading and waiting states;
+- micro-interactions and decorative details whose primary value may be experiential rather than functional;
+- tool-specific visual character when the task benefits from it.
+
+The product does not adopt a rule that every visual element must have a strictly utilitarian purpose. Beauty, delight, character and perceived quality are legitimate product outcomes.
+
+The corresponding guardrail is **evaluate rather than suppress preemptively**: real usage, accessibility, responsiveness, performance and repeated-use experience may justify reducing, changing or removing an element after implementation. The initial design should not be artificially made austere merely because an element is decorative.
+
+The visual language may take inspiration from strong application design systems such as Fluent and Material, but Loculary must develop its own synthesis rather than reproduce either system or inherit their conventions wholesale.
+
 ## 3. Semantic color system
 
 Color is governed semantically rather than by component-specific palette decisions.
@@ -143,14 +162,23 @@ Literal colors remain valid when color is part of the content itself, for exampl
 
 They should not replace platform semantic roles for ordinary UI.
 
+### 3.5 Expressive use of color
+
+Color is allowed to contribute materially to Loculary's identity and atmosphere, not only to encode status or affordance.
+
+However, expressive color remains governed by semantic roles at the platform level. The system should avoid arbitrary per-tool palettes that fragment product identity or make status meanings inconsistent.
+
+The intended balance is **expressive, not multicolored by default**: color may be visually prominent when it strengthens hierarchy, identity or enjoyment, while ordinary UI still benefits from a controlled semantic vocabulary.
+
 ## 4. Typography
 
 Typography is governed by semantic roles while remaining composable through the existing CSS/Tailwind layer.
 
 ### 4.1 Platform roles
 
-The system should expose a small vocabulary covering at least:
+The system should expose a deliberately small semantic vocabulary covering:
 
+- display;
 - page title;
 - tool title;
 - section title;
@@ -160,12 +188,39 @@ The system should expose a small vocabulary covering at least:
 - label;
 - control text;
 - result value;
-- result supporting text;
-- editorial heading/body.
+- result supporting text.
 
-Roles describe intent, not mandatory visual values.
+Roles describe intent and hierarchy, not mandatory visual values. They should not become a catalogue of arbitrary text sizes.
 
-### 4.2 Tool-specific typography
+Typography is **functional by default and expressive where hierarchy or identity justifies it**. Large titles, tool identity and important results may use stronger typographic expression without turning ordinary utility UI into marketing-style presentation.
+
+Not every role is required on every screen, and multiple roles may intentionally share the same underlying typographic level.
+
+### 4.2 Typeface foundation
+
+The current platform uses Geist Sans and Geist Mono.
+
+Geist remains the current candidate for the primary interface typeface, but the design contract does not make the current typeface an irreversible product decision. The implementation worker may evaluate an alternative family or combination when real UI evidence shows that it would better support Loculary's readability, personality or tool ecosystem.
+
+Geist Mono, or another monospace family if later validated, should be treated as a semantic technical role rather than a stylistic shortcut. Appropriate uses include:
+
+- code;
+- commands;
+- technical identifiers;
+- structured technical values;
+- data where monospace alignment materially helps comprehension.
+
+The choice of typeface must serve the semantic roles rather than the other way around.
+
+### 4.3 Result hierarchy
+
+Result value is a first-class role because results are often the central moment of a Loculary tool.
+
+Implementations should be able to give a primary result materially stronger typographic hierarchy than surrounding labels, explanations or metadata without inventing tool-specific heading scales.
+
+Result typography may be expressive when it improves recognition, delight or perceived quality, while remaining readable and responsive.
+
+### 4.4 Tool-specific typography
 
 Tools may intentionally depart from platform typography when typography is part of the tool's function or identity.
 
@@ -177,9 +232,9 @@ Examples include:
 - data-heavy interfaces;
 - visual generators.
 
-Such departures should remain deliberate rather than becoming accidental copies of arbitrary Tailwind values.
+Such departures should remain deliberate rather than becoming accidental copies of arbitrary utility classes.
 
-### 4.3 Content and localization
+### 4.5 Content and localization
 
 Typography must tolerate:
 
@@ -187,26 +242,96 @@ Typography must tolerate:
 - different word lengths;
 - pluralization;
 - user-generated content;
-- dynamic values.
+- dynamic values;
+- responsive width changes.
 
-No typography contract may depend on English-only line lengths.
+No typography contract may depend on English-only line lengths or fixed dimensions that fail under localization.
 
 ## 5. Spacing and layout rhythm
 
-Loculary should use a coherent spacing rhythm for platform surfaces.
+Spacing is a foundation for hierarchy, density and perceived quality, not merely a collection of numeric gaps.
 
-The design system should govern the **meaning** of spacing tiers rather than create a token for every possible pixel value.
+The design system should govern the **meaning and relationship** of spacing rather than create a token for every possible pixel value.
 
-At minimum, implementations should distinguish:
+### 5.1 Semantic spacing tiers
 
-- compact control spacing;
-- standard component spacing;
-- comfortable section spacing;
-- major page-section spacing.
+The platform should distinguish a deliberately small vocabulary of spatial roles:
 
-Direct low-level utility composition remains allowed.
+- **compact** — tightly related control parts, labels and small inline groups;
+- **standard** — normal internal spacing between related elements within a component or control group;
+- **comfortable** — separation between related blocks or component groups where additional breathing room improves scanability;
+- **section** — separation between major sections of one composition;
+- **page** — major outer rhythm between primary page regions or composition stages.
 
-Arbitrary spacing values should be exceptional and justified by a real visual or functional requirement.
+These tiers describe intent. Multiple tiers may share the same underlying implementation value when the resulting hierarchy remains clear.
+
+The goal is not to force every component to use a unique spacing token.
+
+### 5.2 Spacing as hierarchy
+
+Spacing should communicate relationships before decorative containers are introduced.
+
+Prefer:
+
+- tighter spacing for elements that belong together;
+- larger spacing when moving between conceptual groups;
+- deliberate asymmetry when it strengthens hierarchy or composition;
+- open space when it improves focus, rhythm or perceived quality.
+
+Do not add padding, borders or cards merely to create separation that spacing already communicates.
+
+Spacing may be expressive: generous whitespace can contribute to a premium or calm composition, while compact density can be appropriate for data-heavy or advanced tools.
+
+### 5.3 Internal, inter-component and compositional spacing
+
+Workers should distinguish three spatial responsibilities:
+
+1. **internal spacing** — relationships inside a control or primitive;
+2. **inter-component spacing** — relationships between adjacent reusable elements;
+3. **compositional spacing** — relationships between larger regions such as tool input, result, documentation and next actions.
+
+These responsibilities may use the same underlying scale, but should not be conflated when deciding layout hierarchy.
+
+### 5.4 Density is contextual
+
+Loculary does not require one global density.
+
+Density may legitimately vary according to:
+
+- task complexity;
+- information volume;
+- interaction frequency;
+- viewport size;
+- tool identity;
+- result prominence.
+
+A calculator, a data-heavy analysis tool and a visual generator should not be forced into the same spatial density merely for platform consistency.
+
+The platform should provide a coherent rhythm while allowing tool-specific density within that rhythm.
+
+### 5.5 Responsive spatial intent
+
+Responsive behavior should preserve relationships rather than simply multiply or divide every spacing value by a breakpoint.
+
+On narrower layouts, workers may:
+
+- reduce non-essential outer spacing;
+- tighten repeated controls when needed;
+- stack groups that were previously horizontal;
+- preserve larger separation around primary results or major task boundaries;
+- recompose the page when compression would damage hierarchy.
+
+On wider layouts, additional space may be used to improve hierarchy, focus and visual balance rather than simply increasing every gap.
+
+### 5.6 Concrete values remain implementation evidence
+
+The design contract intentionally does not lock a universal numeric spacing scale at this stage.
+
+Implementation workers should evaluate the existing UI and representative target compositions before choosing concrete values. A conventional 4/8-based scale may be useful, but it is not a product requirement.
+
+The implementation should prefer a small semantic token set and eliminate arbitrary values where they do not serve a real visual or functional purpose.
+
+Direct low-level utility composition remains allowed when a value is genuinely local and justified. Repeated arbitrary values that express a stable relationship should instead be promoted to an appropriate semantic role.
 
 ## 6. Surfaces, radii and elevation
 
@@ -243,6 +368,26 @@ Elevation should remain restrained.
 A small number of semantic levels is preferred over a large shadow catalogue.
 
 Elevation should communicate hierarchy or interaction state, not simulate depth everywhere.
+
+### 6.4 Interaction states and focus
+
+The foundation must define a coherent interaction-state vocabulary covering, as applicable:
+
+- default;
+- hover;
+- focus-visible;
+- pressed;
+- selected;
+- disabled;
+- loading;
+- success;
+- warning;
+- error;
+- dragging/active where the primitive requires it.
+
+Focus is a first-class foundation rather than only a color token. Its treatment must remain visible and meaningful across themes and component types, and must not depend on color alone.
+
+Shared interaction states should make the interface feel responsive and app-like while allowing tool-specific controls to express richer states when their task requires them.
 
 ## 7. Responsive behavior
 
@@ -320,6 +465,23 @@ They should reject or simplify it when evidence shows that it:
 - materially harms performance;
 - causes accessibility problems;
 - becomes visual noise.
+
+### 8.4 Motion as part of Loculary's signature
+
+Motion is allowed to be part of the recognisable Loculary experience, not merely an implementation detail of individual controls.
+
+A future implementation should therefore consider a coherent **motion signature** covering how interfaces:
+
+- enter and leave;
+- reveal results;
+- communicate loading and waiting;
+- transition between related states or contexts;
+- respond to direct manipulation;
+- express tool-specific character.
+
+This does not require every interaction to animate. The goal is a recognisable movement language, with intentional moments of stillness as well as motion.
+
+The signature must remain adaptable to responsive layouts and reduced-motion preferences. Its quality should be evaluated through real use rather than judged solely from isolated component examples.
 
 ## 9. Iconography
 
@@ -604,12 +766,12 @@ Implementation should proceed through small, independently verifiable steps.
 
 The following remain explicit decisions rather than assumptions:
 
-1. the final semantic color taxonomy and exact token mapping;
+1. the exact semantic color token mapping and contrast-validated values;
 2. the final typography-role values;
 3. the final spacing/radius/elevation token values;
-4. the exact motion easing/intensity vocabulary;
+4. the exact motion easing/intensity vocabulary and concrete motion signature recipes;
 5. the exact platform icon library/treatment;
-6. the concrete Loculary signature motif;
+6. the concrete Loculary signature motif beyond the validated expressive color/motion direction;
 7. the appropriate semantic ToolPage composition variants;
 8. the scope and CI policy for visual regression.
 

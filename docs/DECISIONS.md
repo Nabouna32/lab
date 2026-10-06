@@ -1026,3 +1026,46 @@ This does not authorize indiscriminate animation. Task obstruction, spectacle, a
 ### Implementation boundary
 
 This decision defines product/design intent. It does not prescribe exact colors, durations, easing curves, component APIs, icon libraries or CSS implementation. Those belong to the subsequent design-system specification and implementation work.
+
+
+## DEC-047 — Loculary expressive app experience
+
+**Status:** Accepted
+
+### Decision
+
+Loculary's validated Expressive Utility direction is explicitly an **expressive application experience**, not merely a polished utility website.
+
+The product should feel modern, fluid, animated, attractive and recognisably alive. Beauty, delight, personality and perceived quality are legitimate product outcomes in addition to functional clarity and efficiency.
+
+The initial visual direction therefore permits and encourages:
+
+- expressive but coherent semantic color;
+- visible interaction feedback;
+- purposeful transitions and spatial continuity;
+- pleasant loading and waiting experiences;
+- micro-interactions and decorative details whose primary value may be experiential rather than functional;
+- distinctive tool-specific visual expression when the task benefits from it.
+
+Fluent and Material Design may serve as reference points for useful interaction, surface, motion, accessibility and application-design patterns, but Loculary must synthesize its own visual language rather than copy either system.
+
+Motion is also considered a potential part of Loculary's visual signature. It may be functional, experiential or aesthetic. A loading animation or other non-essential visual treatment is therefore valid when it improves the experience.
+
+This direction does **not** mean that more effects are always better. The intended sequence is to design the richer coherent experience, implement it, evaluate it in real use, optimize it, and then reduce or remove elements when evidence shows that they are distracting, repetitive, inaccessible, unresponsive or materially harmful to performance.
+
+### Reason
+
+A strict utility-only interpretation would unnecessarily constrain the product and would make it difficult to achieve the intended app-like personality. Conversely, uncontrolled visual effects would damage clarity and usability. The appropriate boundary is therefore expressive-by-default design followed by evidence-based refinement.
+
+### Consequences
+
+- Workers must not reject visual expression solely because it is decorative or non-essential.
+- Workers should consider loading, waiting, transition and micro-interaction quality during initial implementation rather than treating them as forbidden polish.
+- Color may contribute materially to identity while remaining governed by semantic roles.
+- Motion may become part of a coherent Loculary movement language rather than a collection of unrelated component animations.
+- Real-world UX, accessibility and performance evaluation may lead to removal or reduction of individual effects without contradicting this decision.
+- The product must not become a clone of Fluent, Material or another external design system.
+
+### Implementation boundary
+
+This decision establishes product/design intent. It does not prescribe exact colors, token values, animation durations, easing curves, component APIs, icon libraries or CSS implementation.
