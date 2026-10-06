@@ -71,6 +71,10 @@ const localProcessingDescriptions = {
     fr: "Les images sont traitées et recompressées directement dans votre navigateur.",
     en: "Images are processed and recompressed directly in your browser.",
   },
+  "image-metadata": {
+    fr: "Les métadonnées d’image sont lues et traitées directement dans votre navigateur.",
+    en: "Image metadata is read and processed directly in your browser.",
+  },
   "video-bitrate": {
     fr: "Les calculs de bitrate vidéo sont effectués directement dans votre navigateur.",
     en: "Video bitrate calculations are performed directly in your browser.",
