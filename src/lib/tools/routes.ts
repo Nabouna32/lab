@@ -16,6 +16,7 @@ const categorySlugs: Record<string, Record<Locale, string>> = {
 };
 
 const toolSlugs: Record<string, Record<Locale, string>> = {
+  "compound-interest": { en: "compound-interest-calculator", fr: "calculateur-d-interets-composes" },
   percentage: { en: "percentage-calculator", fr: "calculateur-de-pourcentage" },
   discount: { en: "discount-calculator", fr: "calculateur-de-reduction" },
   vat: { en: "vat-calculator", fr: "calculateur-de-tva" },
