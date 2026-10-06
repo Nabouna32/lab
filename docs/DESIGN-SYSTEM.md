@@ -1077,6 +1077,190 @@ No compatibility layer should be preserved solely to avoid changing current call
 
 The worker should validate representative tools before freezing the final primitive inventory. A compact utility, a result-heavy tool, a data-dense/advanced tool and a visual or mini-application experience should all be able to consume the behavioral layer without being forced into the same composition.
 
+### 10.5 Composition recipe contract
+
+Composition recipes are reusable **structural patterns** that coordinate behavioral primitives, foundations and content without becoming universal components.
+
+A recipe is appropriate when the product repeatedly needs the same relationship between interaction regions, hierarchy and responsive behavior, while the actual content, density, visual expression or task model remains variable.
+
+Recipes should therefore describe **how a composition works**, not prescribe one permanent visual appearance.
+
+A recipe may define:
+
+- the semantic regions that participate in a task;
+- the expected hierarchy between those regions;
+- how behavioral primitives are coordinated;
+- responsive recomposition rules;
+- common loading, empty, error and completion relationships;
+- appropriate spacing, surface, depth and motion roles;
+- where tool-specific content and visual expression remain free.
+
+A recipe should not own domain data, tool business logic, persistence, fetching or a universal visual skin.
+
+### 10.6 Recipe families
+
+The initial recipe vocabulary should remain deliberately small. The following families are **composition patterns to evaluate**, not a mandatory catalogue of components:
+
+#### Discovery
+
+Used when the primary task is finding, choosing or orienting within capabilities or content.
+
+Typical structure may include identity, search/filtering, grouped choices and contextual information. The exact catalogue, search experience or navigation model may remain local when the task requires it.
+
+#### Execution / input
+
+Used when a user provides values, configures an operation and initiates processing.
+
+The recipe may coordinate input groups, primary action, supporting guidance, processing state and immediate feedback without prescribing whether the tool is a form, compact utility, workspace or richer editor.
+
+#### Result
+
+Used when a completed or transformed output is the central product moment.
+
+The recipe may establish result prominence, supporting metadata, secondary actions, status, copy/download/share affordances and follow-up actions. Result presentation may remain highly tool-specific, including visual canvases, generated media or structured data.
+
+#### Transformation / editor
+
+Used when the user repeatedly changes content and observes or produces a transformed state.
+
+The recipe may define relationships between source, controls and output while allowing substantial divergence for code, text, data, image and other editing tasks.
+
+#### Visualization
+
+Used when the output itself is spatial, graphical or otherwise visually represented.
+
+The recipe may coordinate controls, viewport/canvas, legend or status and supporting information, but must not turn visualization into a universal panel layout.
+
+#### Advanced / mini-application
+
+Used when a tool behaves more like a persistent workspace than a single submit-and-result flow.
+
+The recipe may establish workspace regions, persistent controls, contextual panels and task state while leaving the actual information architecture and interaction model tool-owned.
+
+A tool may combine several recipe families. Combination is preferable to inventing a new platform recipe whenever the existing roles explain the composition without reducing task quality.
+
+### 10.7 Recipe versus primitive versus tool UI
+
+The architectural test is responsibility, not reuse count or visual similarity:
+
+- **Foundation** — defines a visual or interaction invariant such as semantic color, spacing or focus treatment.
+- **Behavioral primitive** — owns a stable interaction contract such as activation, value entry, selection or disclosure.
+- **Composition recipe** — coordinates multiple primitives and regions into a recurring task structure.
+- **Tool-specific UI** — owns domain-specific information architecture, visualization, content and interactions that should remain free to diverge.
+
+A recipe should not absorb behavior merely because the behavior appears inside the recipe. If the same interaction contract is independently reusable, it belongs in the behavioral layer.
+
+Conversely, a recurring page arrangement is not automatically a recipe. If its structure exists only because one tool has a particular domain model, keeping it local is preferable.
+
+The key question is: **what relationship is genuinely recurring, and which decisions must remain free for the tool?**
+
+### 10.8 Recipe API and variation boundaries
+
+Recipes should expose a small structural contract rather than a large styling API.
+
+Prefer:
+
+- semantic regions or slots;
+- composition-level state that consumers genuinely need to coordinate;
+- explicit placement of primary and secondary actions;
+- responsive intent rather than breakpoint-specific styling knobs;
+- composition tokens and semantic roles from the platform foundations;
+- children or slots for tool-owned content;
+- optional regions only when their absence is a meaningful supported state.
+
+Avoid:
+
+- dozens of visual variants for every possible tool;
+- props exposing arbitrary spacing, radius, shadow or animation values;
+- recipe-level business logic or persistence;
+- hidden data fetching;
+- forcing all consumers into the same DOM hierarchy when the task does not require it;
+- compatibility variants whose only purpose is preserving obsolete current UI.
+
+A recipe may be implemented as a component, a layout utility, a documented pattern or a combination of these. The design-system contract does not require every recipe to become a rendered component.
+
+### 10.9 Recipe promotion and evidence
+
+A recurring composition should be promoted to a platform recipe only when evidence shows that the shared structure improves product quality.
+
+Workers should evaluate:
+
+1. Does the same structural relationship recur across genuinely different tools or platform surfaces?
+2. Does reuse preserve meaningful variation in density, content and visual expression?
+3. Does the recipe reduce composition drift or accessibility/responsive failures?
+4. Is its structural contract small enough to remain understandable?
+5. Would documenting the pattern be sufficient without introducing a component?
+6. Would forcing the structure into a recipe make a tool less expressive or less usable?
+7. Can the recipe compose existing behavioral primitives instead of duplicating their state machines?
+
+The answer may be **do not promote**. A well-designed local composition is preferable to a recipe that exists only to increase reuse.
+
+Recipes should therefore be promoted by evidence and repeated product need, not by a fixed number of call sites or by visual similarity alone.
+
+### 10.10 Responsive and state behavior
+
+A recipe must define how its structural relationships survive changes in viewport, content and task state.
+
+At minimum, workers should consider:
+
+- narrow/mobile recomposition;
+- wider desktop hierarchy;
+- localized text expansion;
+- empty and first-use states;
+- loading and waiting states;
+- validation and error states;
+- completed/result states;
+- reduced-motion adaptation;
+- touch interaction and target size where relevant.
+
+Responsive behavior may change structure rather than merely shrink dimensions. A two-column result composition may become sequential; a persistent side region may become a disclosure layer; secondary information may move below the primary task; controls may regroup around the thumb-reachable interaction area.
+
+The recipe should preserve task hierarchy and capability rather than preserve desktop geometry.
+
+### 10.11 Expressive freedom within recipes
+
+Recipes are not a mechanism for flattening Loculary into a single visual style.
+
+A recipe may provide a recognizable structural rhythm while allowing:
+
+- tool-specific surface treatment;
+- expressive result presentation;
+- custom visualization;
+- local motion and spatial choreography;
+- different density appropriate to the task;
+- bespoke symbols or content visuals;
+- intentional open or contained composition.
+
+Shared foundations and behavioral semantics remain the platform constraints. The recipe should establish the relationship between regions, not eliminate legitimate tool personality.
+
+### 10.12 Composition validation matrix
+
+Before a recipe becomes a broadly reusable implementation abstraction, it should be exercised in representative compositions rather than validated only in isolation.
+
+At minimum, evaluation should include:
+
+- a compact utility;
+- a result-heavy tool;
+- a data-dense or advanced tool;
+- a visual/generator-oriented tool;
+- a mini-application/workspace;
+- narrow/mobile and wide desktop;
+- light and dark themes;
+- first-use and repeated-use workflows;
+- French and English content with realistic text expansion;
+- reduced-motion behavior.
+
+The evaluation should ask:
+
+1. Does the recipe clarify hierarchy without forcing a generic page shape?
+2. Can a tool remain visually distinctive while using the structural pattern?
+3. Does responsive recomposition preserve the primary task and result?
+4. Are primitive responsibilities still clear?
+5. Does the recipe reduce real drift or failure, rather than merely reduce code duplication?
+6. Is the resulting composition fast, accessible and understandable in repeated use?
+
+Concrete recipe implementations should remain provisional until this matrix demonstrates that the abstraction is beneficial across more than one representative task.
+
 ## 11. Loculary visual signature
 
 Loculary should be recognisable as an **expressive utility application** even when the user moves between very different tools.
