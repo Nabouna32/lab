@@ -11,8 +11,8 @@
   - Bootstrap completed from START-HERE, common contract, Feature Worker contract, repository rules, relevant product/UX/architecture/privacy/i18n/accessibility/decision docs, Issue and current implementation.
   - Issue #359 revalidated on current main; no existing branch/PR claims the work.
   - Current ToolSearch.tsx confirms stale/empty visibleResults can render the no-results state while deferred search is pending.
-- Current action: correct the CI-discovered lint violation without changing scope, then re-run CI verification.
-- Next action: inspect the new CI and Browser E2E runs for the updated head; fix only failures caused by this mission.
+- Current action: remove all synchronous pending-state updates from the effect; keep state changes event/callback-driven, including suggestion clicks.
+- Next action: verify the new head through CI and Browser E2E, then inspect final diff and mergeability.
 - Decisions already validated:
   - User approved implementation of Issue #359.
   - Keep search semantics unchanged.
@@ -20,6 +20,6 @@
 - Decisions still blocked: none currently.
 - Challenge: explicit pending state was compared with deriving state from query/results equality. Explicit state is preferred because pending is a real UI state and avoids coupling loading semantics to result data. No consequential product/architecture decision identified.
 - Important files/areas: src/components/tools/ToolSearch.tsx; src/lib/tools/search-client; tests/browser coverage for search if present.
-- Tests/checks: PR #372 CI run 1356 failed at lint because setIsSearching(false) was called synchronously in the effect; corrected by relying on the already-updated input state when the deferred query becomes empty. Browser E2E run 1191 was still in progress on the superseded head.
-- Last durable commit SHA: 3ed498fceaa59537db4ad9421ee6f008581b8f2a
+- Tests/checks: CI run 1358 failed because setIsSearching(true) was also synchronous inside the effect. Corrected by making pending-state changes event/callback-driven; programmatic suggestion selection now sets pending state explicitly. Superseded Browser E2E run 1191/CI 1356-1358 remain historical failures on earlier heads.
+- Last durable commit SHA: 8b2a52ebfaff767a467467ecf725d3b38a74dc30
 - Timestamp: 2026-10-06
