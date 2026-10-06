@@ -22,7 +22,7 @@ export default function NextActions({ toolId, locale }: { toolId: string; locale
         {nextActions.map((nextAction) => {
           const content = getToolContent(nextAction, locale);
           return (
-            <Link key={nextAction.id} href={getToolPath(locale, getPrimaryToolCategory(nextAction), relatedTool.id)} className="group flex min-w-0 items-start gap-3 p-4 transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] sm:p-5">
+            <Link key={nextAction.id} href={getToolPath(locale, getPrimaryToolCategory(nextAction), nextAction.id)} className="group flex min-w-0 items-start gap-3 p-4 transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] sm:p-5">
               <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-[var(--radius-md)] bg-[var(--accent-soft)] text-lg" aria-hidden="true">{nextAction.icon}</span>
               <span className="min-w-0">
                 <h3 className="font-semibold text-[var(--foreground)]">{content.name}</h3>
