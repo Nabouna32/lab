@@ -10,8 +10,8 @@
   - 2B.8 behavioral primitive boundaries merged in PR #396.
   - current main and relevant open PRs inspected.
   - DESIGN-SYSTEM composition-related foundations reviewed.
-- current action: challenge and specify composition recipes as an intermediate layer between behavioral primitives and tool-specific UI.
-- next action: update canonical DESIGN-SYSTEM.md with composition boundaries, candidate recipe families, API/variation rules, promotion/evidence rules, and representative validation criteria.
+- current action: verify the canonical composition recipe specification and prepare the implementation handoff.
+- next action: create PR, then remove this temporary checkpoint in the final PR state; after merge, evaluate the next implementation-handoff step separately.
 - decisions already validated:
   - Expressive Utility / rich-by-default direction.
   - foundations → behavioral primitives → composition recipes → tool-specific UI.
@@ -19,6 +19,6 @@
 - decisions still blocked: concrete recipe inventory and implementation API should remain evidence-driven until implementation validation.
 - challenge performed: rejected both extremes of a universal page/component catalogue and completely ad hoc tool composition. Adopt a small recipe layer only for recurring structural/interaction patterns while preserving tool freedom.
 - important files/areas: docs/DESIGN-SYSTEM.md; current src/components/ui and src/components/tools/ToolPage as implementation evidence only.
-- tests/checks: not yet run; documentation-only mission.
-- last durable commit SHA: 6f144eead07b6399b75ebdae5b3c894569b0977b
+- tests/checks: documentation diff inspected; application tests not required for this documentation-only change; GitHub CI will validate the PR.
+- last durable commit SHA: 0987145a5babebd4cb274f45c8be9acbc8e1c668
 - timestamp: 2026-10-06
