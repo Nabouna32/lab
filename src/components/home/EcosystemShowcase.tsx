@@ -5,8 +5,7 @@ import { categories, getCategoryName, getToolCount } from "@/lib/tools/categorie
 import { getPublishedTools } from "@/lib/tools/catalog";
 import { getCategoryPath } from "@/lib/tools/routes";
 
-const variantNames = ["constellation", "radial", "network", "surfaces"] as const;
-type VariantName = (typeof variantNames)[number];
+type VariantName = "constellation" | "radial" | "network" | "surfaces";
 
 function getTone(count: number, max: number): string {
   if (max === 0) return "var(--muted)";
@@ -81,15 +80,13 @@ function Constellation({ locale, counts }: { locale: Locale; counts: { id: strin
 function Radial({ locale, counts }: { locale: Locale; counts: { id: string; count: number }[] }) {
   const total = counts.reduce((sum, item) => sum + item.count, 0);
   const max = Math.max(...counts.map((item) => item.count), 1);
-  let cursor = -90;
   return (
     <div className="mt-6 grid items-center gap-7 rounded-[var(--radius-xl)] bg-[var(--background)] p-5 sm:grid-cols-[minmax(16rem,0.9fr)_1.1fr] sm:p-7">
       <svg viewBox="0 0 260 260" className="mx-auto w-full max-w-[18rem]" role="img" aria-label={getMessages(locale).home.ecosystemVariants.radial}>
         <circle cx="130" cy="130" r="91" fill="none" stroke="var(--surface-soft)" strokeWidth="24" />
-        {counts.map((item) => {
+        {counts.map((item, index) => {
           const angle = (item.count / total) * 360;
-          const start = cursor;
-          cursor += angle;
+          const start = -90 + counts.slice(0, index).reduce((sum, segment) => sum + (segment.count / total) * 360, 0);
           const large = angle > 180 ? 1 : 0;
           const startRad = (start * Math.PI) / 180;
           const endRad = ((start + angle - 1) * Math.PI) / 180;
