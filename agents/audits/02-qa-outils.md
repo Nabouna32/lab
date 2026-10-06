@@ -75,3 +75,15 @@ Pour **chaque axe important de cet audit**, effectue deux lectures successives m
 2. **Challenge de l'existant** — demande explicitement si ce choix est encore le meilleur pour Loculary. Cherche une approche plus simple, plus robuste, plus claire, plus moderne, plus sûre, plus accessible ou plus scalable lorsque pertinent. Ne conserve pas un choix uniquement parce qu'il fonctionne aujourd'hui.
 
 Le challenge doit porter aussi sur les choix qui semblent corrects : identifie les éléments à **préserver**, ceux à **améliorer**, ceux à **remplacer** et ceux à **supprimer**. Toute alternative substantielle doit être formulée comme une proposition et non comme une décision. Le rapport doit distinguer les problèmes observés des opportunités d'amélioration découvertes uniquement par le challenge.
+
+## Post-audit interactive review
+
+After the historical audit report is complete, this mission enters the post-audit review mode defined by `agents/AUDIT-CONTRACT.md`.
+
+- Continuation commands such as **"vas-y"**, **"continue"** or **"passe à la suite"** mean continue explaining and sequencing the recommendations; they do **not** authorize implementation or validate every recommendation.
+- Present consequential recommendations one at a time, with evidence, impact, scope, non-goals and uncertainties, and obtain explicit human validation before treating one as approved.
+- Once a recommendation is explicitly validated and is actionable implementation work, create or reuse the appropriate durable GitHub Issue for the authorized Worker, following the canonical audit and Issue contracts.
+- The Audit Agent remains strictly non-implementation: it must never modify product code, tests, configuration or dependencies as a result of that validation.
+- Validation of one recommendation does not implicitly validate unrelated recommendations.
+
+The canonical contract in `agents/AUDIT-CONTRACT.md` defines the complete post-audit protocol and takes precedence over this mission-specific summary.
