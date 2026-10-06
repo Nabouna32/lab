@@ -2,23 +2,17 @@
 
 - **Role / mission:** Feature Worker — Issue #400 — refactor UX/UI around the validated Loculary design system
 - **Branch/ref:** `feat/feature/loculary-ux-ui-refactor`
-- **Base SHA:** `d97664c177c92d9018b8b101cfed9e75d50bd700` (current `main` at bootstrap)
+- **Current main SHA:** `5f8928e8a88dade50f8ac0a48c1848252c2ac34e`
+- **PR:** #403 — `feat(visual): explore Loculary expressive tool compositions`
 - **Current state:** WAITING_HUMAN
-- **Validated scope:** genuine UX/UI implementation of Issue #400; no product-semantic redesign, no React/Next/Tailwind replacement, no heavyweight design-system runtime, preserve browser-first/privacy/i18n/accessibility constraints.
-- **Completed milestones:**
-  - Bootstrapped from current `main`.
-  - Read mandatory agent contracts and canonical product/UX/accessibility/i18n/performance/design-system/decision sources.
-  - Inspected current shared UI primitives, ToolPage shell, layout/search, catalog/registry and representative compact/result-heavy/data-dense/visual/file-oriented tools.
-  - Inspected open concurrent PR/branch state; PR #399 is open and changes next-action relation semantics, so this mission will avoid conflicting relation semantics unless main advances and reconciliation shows it is safe.
-  - Established architecture challenge and migration proposal; no product code changed yet.
-- **Challenge performed:**
-  - Assumption challenged: the current `src/components/ui` tree should be preserved as the design-system architecture.
-  - Alternatives considered: (1) cosmetic retheming/compatibility variants; (2) uncontrolled rewrite; (3) preserve/refactor small behavioral primitives, replace misleading visual containers, and introduce composition recipes only where representative evidence demonstrates recurring structure.
-  - Outcome: **MODIFY**. Keep behavior-focused primitives such as Button, TextField, TextArea, Select, SegmentedControl and ValidationMessage where their contracts are sound; refactor their visual APIs/foundations. Treat Card/Panel as suspect visual containment abstractions: do not preserve their existing shape merely for call-site compatibility. Keep legitimate tool-local compositions. Establish a small recipe layer around recurring structural relationships rather than a universal ToolPage/component catalogue.
-  - Main unresolved validation: concrete token values, icon treatment, motion signature, ToolPage variants and visual-regression scope must be established from representative evidence before being frozen.
-- **Important files/areas inspected:** `src/app/globals.css`, `src/components/ui/*`, `src/components/tools/ToolPage/*`, `src/components/layout/*`, `src/components/home/*`, `src/lib/tools/{tools,types,registry}.ts`, representative tool modules, Playwright smoke/visual tests, UX/design-system/accessibility audits.
-- **Tests/checks:** not run yet; no implementation changes exist.
-- **Last durable commit SHA:** `d97664c177c92d9018b8b101cfed9e75d50bd700`
-- **Current action:** present Step 1 audit/diagnosis and migration plan for validation.
-- **Next action:** after validation, implement only the approved Step 2 semantic foundations on representative compositions, then verify before proceeding.
-- **Timestamp:** 2026-10-06T21:04:00+02:00
+- **Step:** 2 — controlled exploration of two representative surfaces
+- **Validated scope:** implement and compare ambitious compositions for Percentage Calculator and UUID Generator only; defer global token/recipe extraction until evidence exists.
+- **Completed:** Percentage Calculator is now a result-led workspace; UUID Generator is now an asymmetric compact utility with configuration/output regions. No global token expansion or site-wide recipe extraction was introduced.
+- **Evidence emerging:** shared pattern worth investigating is restrained outer structure + concentrated accent + result as a primary visual object. Execution/result regions appear reusable conceptually, but their proportions must remain tool-dependent. UUID rail, percentage formula disclosure and percentage semantic result tones remain tool-local for now.
+- **Validation:** Dependency Review #68 passed. CI #1473 passed: agent validation, lint, typecheck, tests and build. Browser E2E #1308 passed: build, server startup and smoke tests.
+- **Correction:** first CI/E2E attempt caught a JSX expression error in UUID status rendering; corrected and verified by the successful subsequent runs.
+- **Diff from current main:** 3 files, 116 additions, 35 deletions (checkpoint + two tool components). No shared UI primitive or global CSS changed.
+- **Branch note:** main advanced after bootstrap via #399/#402. PR #403 is mergeable against current main; no conflicting main changes were silently overwritten.
+- **Current action:** stop for human validation before extracting foundations/recipes or expanding the refactor.
+- **Next action after validation:** compare with additional representative families and extract only patterns demonstrated to be genuinely shared.
+- **Timestamp:** 2026-10-06T19:22:00Z
