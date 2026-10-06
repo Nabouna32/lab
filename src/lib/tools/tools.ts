@@ -182,6 +182,21 @@ type ToolDefinition = Pick<
   "id" | "icon" | "version" | "complexity" | "categories" | "tags" | "aliases" | "lifecycle" | "content"
 > & { capabilities?: ToolCapability[] };
 
+const nextActionToolIds: Partial<Record<ToolId, ToolId[]>> = {
+  "download-speed": ["download-time"],
+  "download-time": ["download-speed"],
+  "file-size": ["video-bitrate"],
+  "video-bitrate": ["file-size"],
+  "color-converter": ["color-palette-generator", "contrast-checker"],
+  "color-palette-generator": ["color-converter", "contrast-checker"],
+  "contrast-checker": ["color-converter", "color-palette-generator"],
+  "url-encoder-decoder": ["url-parser"],
+  "url-parser": ["url-encoder-decoder"],
+  "html-entity-encoder-decoder": ["html-previewer"],
+  "html-previewer": ["html-entity-encoder-decoder"],
+  "json-formatter": ["json-to-typescript"],
+};
+
 const toolDefinitions: ToolDefinition[] = [
   {
     id: "compound-interest", icon: "📈",
@@ -778,7 +793,7 @@ export const tools: Tool[] = toolDefinitions.map((tool): Tool => ({
   browserRequirements: { apis: [] },
   offline: true,
   sharing: { supported: false, mode: "none" },
-  relatedToolIds: [],
+  nextActionToolIds: nextActionToolIds[tool.id] ?? [],
   quality: { accessibility: "required", performance: "standard", tests: tool.lifecycle === "published" ? "required" : "not-yet" },
   access: "anonymous",
   contributor: { type: "internal" },
