@@ -32,7 +32,7 @@ const tool = {
   browserRequirements: { apis: [] },
   offline: true,
   sharing: { supported: false, mode: "none" },
-  relatedToolIds: [],
+  nextActionToolIds: [],
   quality: { accessibility: "required", performance: "standard", tests: "required" },
   lifecycle: "published",
   access: "anonymous",
