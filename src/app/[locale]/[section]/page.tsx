@@ -59,7 +59,7 @@ export default async function ToolsPage({ params }: { params: Promise<{ locale: 
               <p className="mt-4 max-w-xl text-base leading-7 text-[var(--muted)]">{t.tools.description}</p>
             </div>
             <div className="motion-reveal motion-reveal-delay">
-              <ToolSearch locale={locale} instanceId="tools-page-search-v2" />
+              <ToolSearch locale={locale} instanceId="tools-page-search" />
               <div className="mt-3 flex items-center justify-between gap-4 text-xs font-semibold text-[var(--muted)]">
                 <span>{formatPlural(locale, publishedTools.length, { one: t.tools.one, other: t.tools.many })}</span>
                 <span className="rounded-full bg-[var(--surface-soft)] px-2.5 py-1">{t.nav.explore}</span>
