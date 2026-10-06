@@ -1,0 +1,22 @@
+# Tool Worker checkpoint — dependency security gate
+
+- Role/mission: Tool Worker — Issue #374, separate PR dependency security review from global npm audit monitoring.
+- Branch/ref: `feat/tool/dependency-security-gate`
+- Base SHA: `d1778ff37a366b3f3f1587607402e176c046da17`
+- Current state: RUNNING
+- Validated scope: Dependency Review becomes the PR dependency-security gate; global `npm audit` moves to separate periodic/manual monitoring; remove `Dependency audit` from required PR checks only after replacement is configured; preserve application CI and main protection.
+- Challenge: current `npm audit` gate evaluates the complete resulting dependency tree, so pre-existing vulnerabilities can block unrelated PRs. GitHub Dependency Review is designed to fail on vulnerabilities introduced by a PR and supports severity thresholds. Alternative considered: keep npm audit as the required gate; rejected because it conflates PR delta security with global tree health.
+- Decision outcome: ADOPT separation. Exact severity threshold and monitoring triggers remain implementation details to validate against repository evidence; no product decision involved.
+- Completed milestones:
+  - Issue #374 read and validated.
+  - Mandatory agent bootstrap contracts read.
+  - Current main, CI workflow and Protect main ruleset inspected.
+  - Current required checks observed: Dependency audit, Node.js 24.21.0, Playwright smoke tests.
+  - GitHub Dependency Review official configuration verified.
+  - Branch created from current main.
+- Current action: implement the smallest CI/ruleset change matching Issue #374.
+- Next action: verify PR dependency review behavior and required checks on GitHub; then reconcile the Playwright PR #378.
+- Important files/areas: .github/workflows/ci.yml, new dependency review/security workflow, Protect main ruleset.
+- Tests/checks: not yet run for this mission.
+- Last durable commit SHA: `d1778ff37a366b3f3f1587607402e176c046da17` (base).
+- Timestamp: 2026-10-06
