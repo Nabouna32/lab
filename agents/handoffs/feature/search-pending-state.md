@@ -5,14 +5,14 @@
 - Issue: #359
 - Branch/ref: fix/feature/search-pending-state
 - Base SHA: 47d5884d00b1f02623dd6c395a81765226a3e69b
-- Current state: TESTING
+- Current state: READY_TO_MERGE
 - Validated scope: distinguish asynchronous search-in-progress from completed zero-results in ToolSearch; preserve search semantics; no search redesign/ranking/catalog/intent changes.
 - Completed milestones:
   - Bootstrap completed from START-HERE, common contract, Feature Worker contract, repository rules, relevant product/UX/architecture/privacy/i18n/accessibility/decision docs, Issue and current implementation.
   - Issue #359 revalidated on current main; no existing branch/PR claims the work.
   - Current ToolSearch.tsx confirms stale/empty visibleResults can render the no-results state while deferred search is pending.
-- Current action: remove all synchronous pending-state updates from the effect; keep state changes event/callback-driven, including suggestion clicks.
-- Next action: verify the new head through CI and Browser E2E, then inspect final diff and mergeability.
+- Current action: finalize the verified branch and prepare checkpoint cleanup for merge.
+- Next action: delete this checkpoint in the implementation PR, verify the final PR/CI state, then merge and close Issue #359 if GitHub state remains green.
 - Decisions already validated:
   - User approved implementation of Issue #359.
   - Keep search semantics unchanged.
@@ -20,6 +20,6 @@
 - Decisions still blocked: none currently.
 - Challenge: explicit pending state was compared with deriving state from query/results equality. Explicit state is preferred because pending is a real UI state and avoids coupling loading semantics to result data. No consequential product/architecture decision identified.
 - Important files/areas: src/components/tools/ToolSearch.tsx; src/lib/tools/search-client; tests/browser coverage for search if present.
-- Tests/checks: CI run 1358 failed because setIsSearching(true) was also synchronous inside the effect. Corrected by making pending-state changes event/callback-driven; programmatic suggestion selection now sets pending state explicitly. Superseded Browser E2E run 1191/CI 1356-1358 remain historical failures on earlier heads.
-- Last durable commit SHA: 8b2a52ebfaff767a467467ecf725d3b38a74dc30
+- Tests/checks: final CI run 1360 is SUCCESS: lint, typecheck, tests and build all passed. Final Browser E2E run 1195 is SUCCESS: build, app startup/wait and Playwright smoke tests passed. Earlier CI failures were fixed on subsequent commits.
+- Last durable commit SHA: 5a1023593910503a544f3fce9f3beed98ec97522
 - Timestamp: 2026-10-06
