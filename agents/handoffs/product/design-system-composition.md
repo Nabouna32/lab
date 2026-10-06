@@ -1,0 +1,24 @@
+# Design-system composition recipes checkpoint
+
+- role: Product / Direction
+- mission: 2B.9 Composition recipes
+- branch/ref: product/design-system-composition
+- current base SHA: 6f144eead07b6399b75ebdae5b3c894569b0977b
+- current state: RUNNING
+- validated scope: define durable boundaries and a compact vocabulary for reusable composition recipes; no application implementation.
+- completed milestones:
+  - 2B.8 behavioral primitive boundaries merged in PR #396.
+  - current main and relevant open PRs inspected.
+  - DESIGN-SYSTEM composition-related foundations reviewed.
+- current action: challenge and specify composition recipes as an intermediate layer between behavioral primitives and tool-specific UI.
+- next action: update canonical DESIGN-SYSTEM.md with composition boundaries, candidate recipe families, API/variation rules, promotion/evidence rules, and representative validation criteria.
+- decisions already validated:
+  - Expressive Utility / rich-by-default direction.
+  - foundations → behavioral primitives → composition recipes → tool-specific UI.
+  - current components are evidence, not architecture to preserve.
+- decisions still blocked: concrete recipe inventory and implementation API should remain evidence-driven until implementation validation.
+- challenge performed: rejected both extremes of a universal page/component catalogue and completely ad hoc tool composition. Adopt a small recipe layer only for recurring structural/interaction patterns while preserving tool freedom.
+- important files/areas: docs/DESIGN-SYSTEM.md; current src/components/ui and src/components/tools/ToolPage as implementation evidence only.
+- tests/checks: not yet run; documentation-only mission.
+- last durable commit SHA: 6f144eead07b6399b75ebdae5b3c894569b0977b
+- timestamp: 2026-10-06
