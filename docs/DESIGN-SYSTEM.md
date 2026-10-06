@@ -176,8 +176,9 @@ Typography is governed by semantic roles while remaining composable through the 
 
 ### 4.1 Platform roles
 
-The system should expose a small vocabulary covering at least:
+The system should expose a deliberately small semantic vocabulary covering:
 
+- display;
 - page title;
 - tool title;
 - section title;
@@ -187,12 +188,39 @@ The system should expose a small vocabulary covering at least:
 - label;
 - control text;
 - result value;
-- result supporting text;
-- editorial heading/body.
+- result supporting text.
 
-Roles describe intent, not mandatory visual values.
+Roles describe intent and hierarchy, not mandatory visual values. They should not become a catalogue of arbitrary text sizes.
 
-### 4.2 Tool-specific typography
+Typography is **functional by default and expressive where hierarchy or identity justifies it**. Large titles, tool identity and important results may use stronger typographic expression without turning ordinary utility UI into marketing-style presentation.
+
+Not every role is required on every screen, and multiple roles may intentionally share the same underlying typographic level.
+
+### 4.2 Typeface foundation
+
+The current platform uses Geist Sans and Geist Mono.
+
+Geist remains the current candidate for the primary interface typeface, but the design contract does not make the current typeface an irreversible product decision. The implementation worker may evaluate an alternative family or combination when real UI evidence shows that it would better support Loculary's readability, personality or tool ecosystem.
+
+Geist Mono, or another monospace family if later validated, should be treated as a semantic technical role rather than a stylistic shortcut. Appropriate uses include:
+
+- code;
+- commands;
+- technical identifiers;
+- structured technical values;
+- data where monospace alignment materially helps comprehension.
+
+The choice of typeface must serve the semantic roles rather than the other way around.
+
+### 4.3 Result hierarchy
+
+Result value is a first-class role because results are often the central moment of a Loculary tool.
+
+Implementations should be able to give a primary result materially stronger typographic hierarchy than surrounding labels, explanations or metadata without inventing tool-specific heading scales.
+
+Result typography may be expressive when it improves recognition, delight or perceived quality, while remaining readable and responsive.
+
+### 4.4 Tool-specific typography
 
 Tools may intentionally depart from platform typography when typography is part of the tool's function or identity.
 
@@ -204,9 +232,9 @@ Examples include:
 - data-heavy interfaces;
 - visual generators.
 
-Such departures should remain deliberate rather than becoming accidental copies of arbitrary Tailwind values.
+Such departures should remain deliberate rather than becoming accidental copies of arbitrary utility classes.
 
-### 4.3 Content and localization
+### 4.5 Content and localization
 
 Typography must tolerate:
 
@@ -214,9 +242,10 @@ Typography must tolerate:
 - different word lengths;
 - pluralization;
 - user-generated content;
-- dynamic values.
+- dynamic values;
+- responsive width changes.
 
-No typography contract may depend on English-only line lengths.
+No typography contract may depend on English-only line lengths or fixed dimensions that fail under localization.
 
 ## 5. Spacing and layout rhythm
 
