@@ -41,6 +41,7 @@ export type ToolId =
   | "qr-code-generator"
   | "markdown-table-generator"
   | "image-compressor"
+  | "image-metadata"
   | "html-previewer"
   | "timezone-converter"
   | "xml-formatter-validator";
