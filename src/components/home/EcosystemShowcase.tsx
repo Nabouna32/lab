@@ -68,11 +68,12 @@ function Constellation({ locale, counts }: { locale: Locale; counts: { id: strin
           const y = 145 + Math.sin(angle) * radius * 0.86;
           const size = 9 + (item.count / max) * 15;
           return (
-            <g key={item.id}>
+            <g key={item.id} className="loculary-ecosystem-node">
               <line x1={center} y1="145" x2={x} y2={y} stroke="var(--border)" strokeDasharray="3 7" />
               <Link href={getCategoryPath(locale, item.id)}>
                 <circle cx={x} cy={y} r={size} fill={getCategoryColor(item.id)} fillOpacity="0.2" stroke={getCategoryColor(item.id)} strokeWidth="2" />
                 <text x={x} y={y + 3} textAnchor="middle" className="pointer-events-none fill-[var(--foreground)] text-[9px] font-bold">{item.count}</text>
+                <text x={x} y={y + (y < 145 ? -size - 8 : size + 14)} textAnchor="middle" className="pointer-events-none fill-[var(--foreground)] text-[9px] font-semibold">{getCategoryName(locale, item.id)}</text>
                 <title>{getCategoryName(locale, item.id)} — {item.count}</title>
               </Link>
             </g>
@@ -100,7 +101,12 @@ function Radial({ locale, counts }: { locale: Locale; counts: { id: string; coun
           const y1 = 130 + 91 * Math.sin(startRad);
           const x2 = 130 + 91 * Math.cos(endRad);
           const y2 = 130 + 91 * Math.sin(endRad);
-          return <path key={item.id} d={"M " + x1 + " " + y1 + " A 91 91 0 " + large + " 1 " + x2 + " " + y2} fill="none" stroke={getTone(item.count, max)} strokeWidth="24" strokeLinecap="round" />;
+          return (
+            <Link key={item.id} href={getCategoryPath(locale, item.id)} className="loculary-radial-segment">
+              <path d={"M " + x1 + " " + y1 + " A 91 91 0 " + large + " 1 " + x2 + " " + y2} fill="none" stroke={getCategoryColor(item.id)} strokeWidth="24" strokeLinecap="round" />
+              <title>{getCategoryName(locale, item.id)} — {item.count}</title>
+            </Link>
+          );
         })}
         <text x="130" y="126" textAnchor="middle" className="fill-[var(--foreground)] text-[28px] font-black">{total}</text>
         <text x="130" y="147" textAnchor="middle" className="fill-[var(--muted)] text-[9px] font-bold uppercase tracking-[0.18em]">outils</text>
@@ -132,11 +138,12 @@ function Network({ locale, counts }: { locale: Locale; counts: { id: string; cou
           const y = 165 + Math.sin(angle) * 105;
           const size = 22 + (item.count / max) * 18;
           return (
-            <g key={item.id}>
+            <g key={item.id} className="loculary-ecosystem-node">
               <line x1="380" y1="165" x2={x} y2={y} stroke="var(--border)" strokeWidth="1.5" />
               <Link href={getCategoryPath(locale, item.id)}>
                 <circle cx={x} cy={y} r={size} fill="var(--surface)" stroke={getCategoryColor(item.id)} strokeWidth="3" />
                 <text x={x} y={y + 3} textAnchor="middle" className="pointer-events-none fill-[var(--foreground)] text-[9px] font-bold">{item.count}</text>
+                <text x={x} y={y + (y < 165 ? -size - 8 : size + 14)} textAnchor="middle" className="pointer-events-none fill-[var(--foreground)] text-[9px] font-semibold">{getCategoryName(locale, item.id)}</text>
                 <title>{getCategoryName(locale, item.id)} — {item.count}</title>
               </Link>
             </g>
@@ -155,7 +162,7 @@ function Surfaces({ locale, counts }: { locale: Locale; counts: { id: string; co
         const wide = index === 0 || item.count === max;
         return (
           <Link key={item.id} href={getCategoryPath(locale, item.id)} className={(wide ? "sm:col-span-3 " : "sm:col-span-2 ") + "group relative flex min-h-24 flex-col justify-between overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-4 shadow-[var(--shadow-sm)] outline-none transition-[transform,border-color,box-shadow] duration-[var(--motion-standard)] hover:-translate-y-0.5 hover:border-[var(--border-strong)] hover:shadow-[var(--shadow-md)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] sm:min-h-0"}>
-            <span className="absolute inset-y-0 left-0 w-1" style={{ backgroundColor: getTone(item.count, max) }} aria-hidden="true" />
+            <span className="absolute inset-y-0 left-0 w-1" style={{ backgroundColor: getCategoryColor(item.id) }} aria-hidden="true" />
             <span className="text-sm font-semibold">{getCategoryName(locale, item.id)}</span>
             <span className="flex items-end justify-between gap-3">
               <span className="text-3xl font-black tracking-[-0.05em] tabular-nums">{item.count}</span>
