@@ -4,6 +4,12 @@
 - **Branch:** `feat/tool/compound-interest-calculator`
 - **Base SHA:** current `main` at branch creation.
 - **Current state:** RUNNING
+- **Progress:** implementation complete; domain tests and browser coverage authored; CI/E2E pending.
+- **Last durable commit:** `4b600c64e3a74fd1e76ba7d29e200f4ad25ee48c`.
+- **Challenge outcome:** dedicated calculator preserved over extending Percentage because periodic compounding is a distinct calculation model. Optional contributions are explicitly end-of-period.
+- **Current action:** inspect final diff and validate through GitHub CI/E2E.
+- **Next action:** fix worker-introduced failures, merge when all gates are green, then remove checkpoint.
+
 - **Validated scope:** Browser-local compound-interest calculation with initial principal, annual rate, compounding frequency and duration; optional regular contribution aligned with the selected compounding period; EN/FR; catalog/registry/routes/SEO; focused domain tests and targeted Playwright coverage.
 - **Processing:** local-only; no network, storage, account or external provider.
 - **Challenge:** A compound-interest calculator is distinct from the existing percentage/discount/VAT tools because compounding introduces exponential growth and period-based accumulation. A broader investment planner was rejected as unnecessary scope; the tool will calculate deterministic accumulation only and will not provide financial advice.
