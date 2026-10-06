@@ -19,9 +19,9 @@
 - **Decisions still blocked:** None identified.
 - **Challenge performed:** Compared explicit curated relations, deterministic contextual rules, a hybrid model, and stricter similarity. Outcome: **adopt explicit curated relations** for the current ~42-tool catalog. They give the strongest semantic guarantee, are simple to audit and maintain, naturally support zero recommendations, and avoid false positives. Existing `relatedToolIds` was replaced rather than repurposed because its name encoded the rejected generic-relation semantics.
 - **Important files / areas:** `src/lib/tools/types.ts`, `src/lib/tools/tools.ts`, `src/lib/tools/metadata.ts`, `src/lib/tools/metadata.test.mjs`, `src/lib/tools/relations.ts`, `src/lib/tools/relations.test.mjs`, `src/components/tools/RelatedTools.tsx`, `src/lib/i18n/messages.ts`.
-- **Tests / checks:** CI and Browser E2E passed on the pre-sync head; the branch was then synchronized with main's documentation-only commit and validation will rerun on the synchronized head.
-- **Last durable commit SHA:** `d7455f9ba5aa2acf68d0ba38541ebb17a02d03ea`.
-- **Timestamp:** 2026-10-06T21:10:00+02:00
+- **Tests / checks:** CI and Browser E2E passed before the latest main synchronization; the branch now includes main's current image-metadata changes and validation is rerunning on the synchronized head.
+- **Last durable commit SHA:** `4ea0b0f0e094f9595f628e890a9360edf4b20073`.
+- **Timestamp:** 2026-10-06T21:15:00+02:00
 
 ## Activity log
 - 2026-10-06 — Bootstrap and Issue #361 verification completed.
