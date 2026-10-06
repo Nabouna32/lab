@@ -42,22 +42,22 @@ export default function ToolPage({
           />
         </div>
 
-        <section className="overflow-hidden rounded-[1.75rem] border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-lg)]">
-          <div className="relative overflow-hidden border-b border-[var(--border)] px-5 py-6 sm:px-8 sm:py-8 lg:px-10">
-            <div className="pointer-events-none absolute -right-12 -top-16 h-48 w-48 rounded-full bg-[var(--accent-soft)] blur-3xl" aria-hidden="true" />
-            <div className="relative">
-              <ToolPageHeader
-                icon={tool.icon}
-                title={localizedContent.name}
-                description={localizedContent.description}
-                contentFallback={isContentFallback}
-                locale={locale}
-              />
-            </div>
+        <header className="relative overflow-hidden rounded-[1.75rem] border border-[var(--border)] bg-[var(--surface)] px-5 py-6 shadow-[var(--shadow-lg)] sm:px-8 sm:py-8 lg:px-10">
+          <div className="pointer-events-none absolute -right-12 -top-16 h-48 w-48 rounded-full bg-[var(--accent-soft)] blur-3xl" aria-hidden="true" />
+          <div className="relative">
+            <ToolPageHeader
+              icon={tool.icon}
+              title={localizedContent.name}
+              description={localizedContent.description}
+              contentFallback={isContentFallback}
+              locale={locale}
+            />
           </div>
+        </header>
 
-          <ToolRuntimeProvider access={tool.access} capabilities={tool.capabilities}>
-            <div data-tool-surface className="p-5 sm:p-8 lg:p-10">
+        <ToolRuntimeProvider access={tool.access} capabilities={tool.capabilities}>
+          <div data-tool-surface className="mt-4 overflow-hidden rounded-[1.75rem] border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-lg)]">
+            <div className="p-5 sm:p-8 lg:p-10">
               <ToolProcessingStatus processing={tool.processing} locale={locale} />
               {children && (
                 <section aria-label={t.nav.tools} className="mt-5 sm:mt-7 motion-reveal">
@@ -71,8 +71,8 @@ export default function ToolPage({
                 <div className="space-y-8 sm:space-y-10">{content}</div>
               </div>
             )}
-          </ToolRuntimeProvider>
-        </section>
+          </div>
+        </ToolRuntimeProvider>
       </div>
     </main>
   );
