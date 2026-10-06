@@ -292,15 +292,6 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       resultHint: "Calcul indicatif : il ne tient pas compte des impôts, frais ou variations de taux.",
       emptyResult: "Saisissez les valeurs pour voir le résultat.", invalid: "Vérifiez les valeurs saisies. Le taux et les montants doivent être positifs ou nuls, et la durée doit être comprise entre 0 et 1 000 ans.",
     },
-    compoundInterest: {
-      principal: "Initial principal", principalPlaceholder: "e.g. 1,000", rate: "Annual rate", ratePlaceholder: "e.g. 5",
-      years: "Years", yearsPlaceholder: "e.g. 10", frequency: "Compounding",
-      frequencies: { 1: "Annually", 2: "Semi-annually", 4: "Quarterly", 12: "Monthly", 365: "Daily" },
-      contribution: "Contribution per period", contributionPlaceholder: "Optional", contributionHint: "Each contribution is treated as being made at the end of the period.",
-      result: "Result", finalBalance: "Final balance", interestEarned: "Interest earned", totalContributions: "Total contributions and principal",
-      resultHint: "Illustrative calculation only: taxes, fees, and rate changes are not included.",
-      emptyResult: "Enter the values to see the result.", invalid: "Check the values entered. Rates and amounts must be zero or greater, and duration must be between 0 and 1,000 years.",
-    },
     percentage: {
       type: "Type de calcul", result: "Résultat", how: "Voir le calcul", formulaIntro: "Voici le calcul réalisé à partir des valeurs que vous avez saisies :",
       differenceNote: "💡 Une différence en pourcentage peut dépasser 100 % lorsque les deux valeurs sont très éloignées. Ce résultat est normal : le calcul compare l'écart à la moyenne des deux valeurs.",
@@ -566,6 +557,15 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       result: "Resulting date", emptyResult: "The resulting date will appear here.", invalid: "Enter a valid date and a whole-number amount.",
       units: { days: "days", weeks: "weeks", months: "months", years: "years" },
       summary: (start, amount, unit, direction, result) => `Starting on ${start}, ${direction.toLowerCase()}ing ${amount} ${unit} gives ${result}.`,
+    },
+    compoundInterest: {
+      principal: "Initial principal", principalPlaceholder: "e.g. 1,000", rate: "Annual rate", ratePlaceholder: "e.g. 5",
+      years: "Years", yearsPlaceholder: "e.g. 10", frequency: "Compounding",
+      frequencies: { 1: "Annually", 2: "Semi-annually", 4: "Quarterly", 12: "Monthly", 365: "Daily" },
+      contribution: "Contribution per period", contributionPlaceholder: "Optional", contributionHint: "Each contribution is treated as being made at the end of the period.",
+      result: "Result", finalBalance: "Final balance", interestEarned: "Interest earned", totalContributions: "Total contributions and principal",
+      resultHint: "Illustrative calculation only: taxes, fees, and rate changes are not included.",
+      emptyResult: "Enter the values to see the result.", invalid: "Check the values entered. Rates and amounts must be zero or greater, and duration must be between 0 and 1,000 years.",
     },
     percentage: {
       type: "Calculation type", result: "Result", how: "Show the calculation", formulaIntro: "Here is the calculation based on the values you entered:",
