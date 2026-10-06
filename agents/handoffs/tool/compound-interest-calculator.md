@@ -4,7 +4,7 @@
 - **Branch:** `feat/tool/compound-interest-calculator`
 - **Base SHA:** current `main` at branch creation.
 - **Current state:** RUNNING
-- **Delivery:** PR #385 is open against main; CI/E2E pending.
+- **Delivery:** PR #385 is open against main; CI/E2E failed on validation: TypeScript reported incorrect validation-message props in the new component. The issue is corrected; rerun CI/E2E.
 - **Current action:** wait for repository validation and inspect any worker-introduced failures.
 - **Next action:** fix failures, synchronize with main if required, merge when all required gates are green, then remove checkpoint.
 - **Progress:** implementation complete; domain tests and browser coverage authored; CI/E2E pending.
