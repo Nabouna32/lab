@@ -42,7 +42,7 @@ const tools = [
 ];
 
 test("next actions use explicit curated relations", () => {
-  const related = getRelatedTools(tools[0], tools);
+  const nextActions = getNextActions(tools[0], tools);
   assert.equal(related[0].id, "discount");
 });
 
