@@ -1,16 +1,16 @@
 # Feature Worker checkpoint - Loculary UX/UI refactor
 - Role: Feature Worker - Issue #400
-- Branch: feat/feature/loculary-ux-ui-refactor-next
-- Base SHA: 8ebbd9f21ab09bfcec0591fbcc8b776092ef4a03
-- PR: #404
+- Branch: feat/feature/loculary-ux-ui-home-polish
+- Base SHA: be228d1cdcb5da5ee3d22f151637517506593fde
+- PR: none yet
 - State: RUNNING
-- Step: 5 - structural global UX refactor
-- Validated scope: continue autonomously across the global Loculary experience within #400.
-- Challenge: the first merged pass improved styling but preserved too much historical information architecture and card grammar. Outcome: structural discovery/search/catalog and tool-page hierarchy changes are warranted; no new product direction is introduced.
-- Completed this step: catalog/discovery/category surfaces changed from generic cards to editorial/list compositions; search interaction strengthened; tool identity header and page spacing structurally reworked.
-- Current action: wait for and inspect fresh PR verification, then correct regressions caused by this batch only.
-- Next action: after verification, continue the global audit into remaining legacy result/state/interaction patterns and responsive/theme/i18n/motion evidence.
-- Decisions blocked: none.
-- Verification: PR #404 open; no workflow runs were yet visible for the current head when last checked. Do not claim CI/E2E green.
-- Last durable commit: adda5509107b08518304228ff6bd067af198d29f
-- Timestamp: 2026-10-06T22:25:00Z
+- Step: homepage visual correction after prototype review
+- Validated scope: correct the merged homepage prototype within the already validated #400 homepage direction: radial ecosystem as leading candidate, one distinct color per category, visible category labels, smaller search/title composition, coherent Explorer button in both themes, and a visibly app-like homepage-to-Explorer transition with real hover interaction on ecosystem segments.
+- Challenge: current prototype proves the radial composition is more legible than the other variants, but the existing implementation is too low-information, too limited in color, has an oversized search/hero, uses an inconsistent foreground/background Explorer button, and its navigation/hover motion is not perceptually strong enough. Alternative considered: keep the prototype unchanged and select radial later; rejected because the user cannot meaningfully evaluate the intended interaction/motion if it is not actually visible.
+- Completed this step: current main, Issue #400 checkpoints, PR #405 merge state, relevant contracts/docs, and homepage implementation inspected. PR #405 is merged at 92e43a83bdd984d292181bf0e482f5a0fa5fa041.
+- Current action: implement the approved homepage polish on a fresh branch from current main.
+- Next action: inspect diff, run GitHub CI, fix only regressions from this step, then open focused PR and merge only after required checks are green.
+- Decisions blocked: none within this validated visual prototype step.
+- Verification: source inspection complete; no local repository/runtime is available, so local tests are not claimed.
+- Last durable commit: branch creation from main at be228d1cdcb5da5ee3d22f151637517506593fde
+- Timestamp: 2026-10-06T22:45:00Z
