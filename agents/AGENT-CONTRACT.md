@@ -177,6 +177,23 @@ After a change:
 
 For audits, distinguish observation, measurement, deduction, proposal and decision as required by the audit contract.
 
+## 10.1 Pull request auto-merge
+
+When an agent creates a pull request as part of an autonomous mission, it MUST enable GitHub auto-merge immediately after the PR is created, unless the PR is explicitly marked as requiring human validation before merge or repository policy prevents auto-merge.
+
+The required sequence is:
+
+1. open the PR against the intended base branch;
+2. enable GitHub auto-merge using the repository's configured merge method;
+3. monitor required CI/checks and mergeability only as needed to diagnose failures or blockers;
+4. fix failures introduced by the agent when permitted by the mission;
+5. do not perform a manual merge merely because checks become green — GitHub auto-merge is responsible for the merge once all required protections are satisfied;
+6. verify the actual GitHub merge state before reporting completion.
+
+Auto-merge does not weaken any branch protection, review, CI, security or human-validation requirement. It only delegates the final merge action to GitHub after those requirements are satisfied.
+
+If auto-merge cannot be enabled, the agent MUST record the concrete blocker and leave the PR in the appropriate ready state rather than silently substituting a manual merge.
+
 ## 11. Documentation continuity
 
 Durable discoveries, decisions, architecture changes, blockers, and handoff state belong in the appropriate repository documentation or GitHub artifact.
