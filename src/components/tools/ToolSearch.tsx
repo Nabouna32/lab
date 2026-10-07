@@ -146,17 +146,17 @@ export default function ToolSearch({
     <div id={instanceId} className={"relative " + className}>
       <label htmlFor={inputId} className="sr-only">{t.tools.searchLabel}</label>
       <div className={
-        "group flex items-center border bg-[var(--surface)] transition-[border-color,box-shadow,transform] duration-[var(--motion-standard)] " +
+        "flex items-center border bg-[var(--surface)] transition-[border-color,box-shadow] duration-200 " +
         (compact
-          ? "border-y-0 rounded-[var(--radius-md)] p-1 shadow-[var(--shadow-sm)] "
-          : "rounded-[var(--radius-2xl)] p-2 shadow-[var(--shadow-md)] ") +
+          ? "rounded-xl p-1 shadow-[var(--shadow-sm)] "
+          : "rounded-[1.35rem] p-2 shadow-[var(--shadow-md)] ") +
         (isFocused
           ? "border-[var(--accent)] ring-4 ring-[var(--accent)]/10"
           : "border-[var(--border)]")
       }>
         <span
           className={
-            "flex shrink-0 items-center justify-center rounded-[var(--radius-md)] text-[var(--muted)] transition-[transform,color] duration-[var(--motion-fast)] " +
+            "flex shrink-0 items-center justify-center rounded-lg text-[var(--muted)] " +
             (compact ? "h-8 w-8 text-base" : "h-10 w-10 rounded-[var(--radius-md)] bg-[var(--surface-soft)] text-lg")
           }
           aria-hidden="true"
@@ -208,7 +208,7 @@ export default function ToolSearch({
       </div>
 
       {showResults && (
-        <div id={resultsId} role="listbox" aria-busy={isSearching} className="absolute left-0 right-0 top-full z-[60] mt-3 overflow-hidden rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface-elevated)] p-1.5 shadow-[var(--shadow-lg)]">
+        <div id={resultsId} role="listbox" aria-busy={isSearching} className="absolute left-0 right-0 top-full z-[60] mt-2 overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface-elevated)] p-1.5 shadow-[var(--shadow-md)]">
           {isSearching ? (
             <div className="px-4 py-6" role="status">
               <p className="text-sm font-medium text-[var(--foreground)]">{t.tools.searching}</p>
@@ -229,14 +229,14 @@ export default function ToolSearch({
                     role="option"
                     aria-selected={activeIndex === index}
                     onMouseEnter={() => setActiveIndex(index)}
-                    className={"group flex items-center gap-3 rounded-[var(--radius-md)] px-3 py-3.5 text-left transition-[background-color,transform] duration-[var(--motion-fast)] " + (activeIndex === index ? "bg-[var(--accent-soft)]" : "hover:bg-[var(--surface-soft)]")}
+                    className={"flex items-center gap-3 rounded-[var(--radius-md)] px-3 py-3 text-left transition-colors " + (activeIndex === index ? "bg-[var(--accent-soft)]" : "hover:bg-[var(--surface-soft)]")}
                   >
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] text-xl transition-transform duration-[var(--motion-fast)] group-hover:scale-[1.04]">{tool.icon}</span>
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-md)] bg-[var(--accent-soft)] text-xl">{tool.icon}</span>
                     <span className="min-w-0 flex-1">
                       <span className="block truncate text-sm font-semibold text-[var(--foreground)]"><HighlightMatch text={content.name} query={query} /></span>
                       <span className="mt-1 block text-xs text-[var(--muted)]"><span className="font-medium text-[var(--foreground)]/70">{getCategoryName(locale, getPrimaryToolCategory(tool))}</span><span aria-hidden="true"> · </span>{content.description}</span>
                     </span>
-                    <span className="text-lg text-[var(--muted)] transition-[transform,color] duration-[var(--motion-fast)] group-hover:translate-x-0.5 group-hover:text-[var(--accent)]">→</span>
+                    <span className="text-[var(--muted)]">↗</span>
                   </a>
                 );
               })}
