@@ -1,0 +1,35 @@
+# CI main-only feedback
+
+- role: Meta-Agent / infrastructure worker
+- mission: Move non-blocking browser and dependency-review feedback from PRs to main while preserving fast PR validation.
+- branch/ref: chore/ci-main-only-feedback
+- current base SHA: c7756080820db82824166511cb889546d59a2237
+- current state: RUNNING
+- validated scope:
+  - Browser E2E triggers only on pushes to main and manual dispatch.
+  - Dependency Review triggers only on pushes to main and manual dispatch, comparing the pushed commit against the previous main revision.
+  - PR required validation remains the Node.js 24.21.0 CI job.
+  - No Vercel Preview deployment policy change.
+- completed milestones:
+  - verified Protect main now requires only Node.js 24.21.0;
+  - inspected current CI, E2E, dependency-review and Vercel deployment configuration;
+  - verified dependency-review-action supports base-ref/head-ref outside pull_request events.
+- current action: implement the validated workflow trigger changes.
+- next action: verify diff, checks, PR auto-merge and final GitHub state.
+- decisions already validated:
+  - E2E and Dependency Review must not block PR merges.
+  - PR path should be optimized for rapid auto-merge.
+- decisions still blocked: none within this scope.
+- challenge performed:
+  - assumption challenged: Dependency Review should simply be moved to a push workflow without changing its comparison inputs.
+  - alternative considered: remove it entirely and rely only on weekly npm audit.
+  - outcome: preserve Dependency Review as post-merge feedback using explicit base/head refs, because it still detects dependency-introduction issues without adding PR latency.
+  - Vercel Preview challenge: automatic PR previews would consume the daily deployment budget and duplicate the CI browser validation; preserve main-only deployment.
+- important files/areas:
+  - .github/workflows/e2e.yml
+  - .github/workflows/dependency-review.yml
+  - .github/workflows/ci.yml
+  - vercel.json
+- tests/checks: pending implementation
+- last durable commit SHA: c7756080820db82824166511cb889546d59a2237
+- timestamp: 2026-10-07
