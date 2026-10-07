@@ -5,7 +5,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import { useTheme } from "@teispace/next-themes";
 import { getLanguage, isLocale, locales, type Locale } from "@/lib/i18n/config";
-import { getLocalizedPath } from "@/lib/tools/routes";
+import { getLocalizedPath, getToolsPath } from "@/lib/tools/routes";
 import { getMessages } from "@/lib/i18n/messages";
 
 function Icon({ children, className = "h-4 w-4" }: { children: ReactNode; className?: string }) {
@@ -26,7 +26,7 @@ function Icon({ children, className = "h-4 w-4" }: { children: ReactNode; classN
 }
 
 const triggerClass =
-  "flex h-10 items-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 text-sm font-semibold text-[var(--foreground)] outline-none transition-[border-color,background-color,box-shadow,transform] duration-200 hover:bg-[var(--surface-soft)] focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]";
+  "flex h-10 items-center justify-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 text-sm font-semibold text-[var(--foreground)] outline-none transition-[border-color,background-color,box-shadow,transform] duration-200 hover:bg-[var(--surface-soft)] focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]";
 
 const optionClass =
   "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-[var(--muted)] outline-none transition-colors hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)] focus-visible:bg-[var(--surface-soft)] focus-visible:text-[var(--foreground)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]";
@@ -37,7 +37,6 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
   const t = getMessages(locale);
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-  const triggerRef = useRef<HTMLButtonElement>(null);
   const currentLocaleSegment = pathname.split("/")[1];
   const currentLocale: Locale = isLocale(currentLocaleSegment) ? currentLocaleSegment : locale;
 
@@ -74,29 +73,46 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
   }
 
   return (
-    <div ref={menuRef} className="relative hidden lg:block">
+    <div ref={menuRef} className="relative">
       <button
         type="button"
         className={triggerClass + (open ? " border-[var(--accent)] bg-[var(--surface-soft)] shadow-[var(--shadow-sm)]" : "")}
+        aria-label={t.nav.menu}
         aria-expanded={open}
-        aria-controls="desktop-header-menu"
+        aria-controls="header-menu"
         aria-haspopup="true"
         onClick={() => setOpen((value) => !value)}
       >
         <Icon>
           <path d="M5 7h14M5 12h14M5 17h14" />
         </Icon>
-        <span>{t.nav.menu}</span>
+        <span className="hidden lg:inline">{t.nav.menu}</span>
       </button>
 
       <div
-        id="desktop-header-menu"
+        id="header-menu"
         aria-hidden={!open}
         className={
-          "absolute right-0 top-full z-[70] mt-3 w-80 origin-top-right rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-2 shadow-[var(--shadow-lg)] transition-[opacity,transform] duration-150 " +
+          "absolute right-0 top-full z-[70] mt-3 w-[min(20rem,calc(100vw-1.5rem))] origin-top-right rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-2 shadow-[var(--shadow-lg)] transition-[opacity,transform] duration-150 " +
           (open ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-1 opacity-0")
         }
       >
+        <Link
+          href={getToolsPath(locale)}
+          onClick={closeMenu}
+          className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-[var(--foreground)] outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] lg:hidden"
+        >
+          <Icon>
+            <rect x="4" y="4" width="6" height="6" rx="1" />
+            <rect x="14" y="4" width="6" height="6" rx="1" />
+            <rect x="4" y="14" width="6" height="6" rx="1" />
+            <rect x="14" y="14" width="6" height="6" rx="1" />
+          </Icon>
+          {t.nav.explore}
+        </Link>
+
+        <div className="my-2 h-px bg-[var(--border)] lg:hidden" />
+
         <Link
           href={"/" + locale + "/compte"}
           prefetch={false}
