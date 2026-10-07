@@ -23,7 +23,7 @@ test("root uses English as the default locale", async ({ page }) => {
 
 test("language selector maps the same tool to its localized URL", async ({ page }) => {
   await page.goto(`${baseUrl}/en/tools/calculations/percentage-calculator`, { waitUntil: "networkidle" });
-  await page.locator(".language-selector summary").click();
+  await page.getByRole("button", { name: "Menu" }).click();
   const frenchLink = page.getByRole("link", { name: "Français" });
   await expect(frenchLink).toBeVisible();
   await frenchLink.click();
