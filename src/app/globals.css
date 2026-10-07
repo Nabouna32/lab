@@ -21,13 +21,6 @@
   --warning-soft: #fff4dc;
   --danger: #bf3f46;
   --danger-soft: #fff0f1;
-  --category-calculations: #7c3aed;
-  --category-dates: #0891b2;
-  --category-computing: #2563eb;
-  --category-images: #db2777;
-  --category-files: #ea580c;
-  --category-video: #dc2626;
-  --category-development: #059669;
   --radius-sm: 0.25rem;
   --radius-md: 0.5rem;
   --radius-lg: 0.75rem;
@@ -67,13 +60,6 @@
   --warning-soft: #3b2d14;
   --danger: #ff8a91;
   --danger-soft: #421d20;
-  --category-calculations: #a78bfa;
-  --category-dates: #22d3ee;
-  --category-computing: #60a5fa;
-  --category-images: #f472b6;
-  --category-files: #fb923c;
-  --category-video: #f87171;
-  --category-development: #34d399;
   --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.2);
   --shadow-md: 0 10px 28px rgb(0 0 0 / 0.24);
   --shadow-lg: 0 24px 56px rgb(0 0 0 / 0.34);
@@ -110,33 +96,6 @@ button, input, textarea, select { font: inherit; }
 .theme-icon-system-dark { display: none; }
 html.dark .theme-icon-system-light { display: none; }
 html.dark .theme-icon-system-dark { display: inline; }
-@keyframes loculary-reveal { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-.motion-reveal { animation: loculary-reveal 520ms cubic-bezier(.22,1,.36,1) both; }
-.motion-reveal-delay { animation-delay: 90ms; }
-
-.loculary-ecosystem-node { cursor: pointer; }
-.loculary-ecosystem-node circle {
-  transform-box: fill-box;
-  transform-origin: center;
-  transition: transform 180ms cubic-bezier(.22,1,.36,1), filter 180ms ease, stroke-width 180ms ease;
-}
-.loculary-ecosystem-node:hover circle,
-.loculary-ecosystem-node:focus-visible circle {
-  transform: scale(1.16);
-  filter: drop-shadow(0 0 10px rgb(91 77 227 / 0.34));
-  stroke-width: 4;
-}
-.loculary-radial-segment { cursor: pointer; }
-.loculary-radial-segment path {
-  transition: stroke-width 180ms cubic-bezier(.22,1,.36,1), filter 180ms ease;
-}
-.loculary-radial-segment:hover path,
-.loculary-radial-segment:focus-visible path {
-  stroke-width: 34;
-  filter: drop-shadow(0 0 12px rgb(91 77 227 / 0.42));
-}
-.loculary-radial-segment:focus-visible { outline: none; }
-
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {
@@ -144,48 +103,4 @@ html.dark .theme-icon-system-dark { display: inline; }
     animation-iteration-count: 1 !important;
     transition-duration: .01ms !important;
   }
-}
-
-
-/* Experimental app-like route continuity: only the validated homepage → Explorer path participates. */
-::view-transition-group(.loculary-page) {
-  animation-duration: 520ms;
-  animation-timing-function: cubic-bezier(.22,1,.36,1);
-}
-::view-transition-old(.loculary-page) {
-  animation: loculary-page-exit 520ms cubic-bezier(.22,1,.36,1) both;
-}
-::view-transition-new(.loculary-page) {
-  animation: loculary-page-enter 520ms cubic-bezier(.22,1,.36,1) both;
-}
-@keyframes loculary-page-exit {
-  from { opacity: 1; transform: scale(1); filter: blur(0); }
-  to { opacity: .35; transform: scale(.965) translateX(-42px); filter: blur(5px); }
-}
-@keyframes loculary-page-enter {
-  from { opacity: .35; transform: scale(1.035) translateX(42px); filter: blur(5px); }
-  to { opacity: 1; transform: scale(1) translateX(0); filter: blur(0); }
-}
-::view-transition-group(loculary-explorer-surface) {
-  animation-duration: 560ms;
-  animation-timing-function: cubic-bezier(.22,1,.36,1);
-}
-::view-transition-old(loculary-explorer-surface) {
-  animation: loculary-surface-old 560ms cubic-bezier(.22,1,.36,1) both;
-}
-::view-transition-new(loculary-explorer-surface) {
-  animation: loculary-surface-new 560ms cubic-bezier(.22,1,.36,1) both;
-}
-@keyframes loculary-surface-old {
-  from { opacity: 1; transform: scale(1); }
-  to { opacity: .72; transform: scale(.72) translateY(-4px); filter: saturate(.7) brightness(.9); }
-}
-@keyframes loculary-surface-new {
-  from { opacity: .72; transform: scale(.82) translateY(18px); filter: saturate(.8) brightness(.92); }
-  to { opacity: 1; transform: scale(1) translateY(0); filter: saturate(1) brightness(1); }
-}
-@media (prefers-reduced-motion: reduce) {
-  ::view-transition-group(.loculary-page),
-  ::view-transition-old(.loculary-page),
-  ::view-transition-new(.loculary-page) { animation-duration: .01ms !important; }
 }
