@@ -4,18 +4,20 @@
 - mission: Move non-blocking browser and dependency-review feedback from PRs to main while preserving fast PR validation.
 - branch/ref: chore/ci-main-only-feedback
 - current base SHA: c7756080820db82824166511cb889546d59a2237
-- current state: RUNNING
+- current state: WAITING
 - validated scope:
   - Browser E2E triggers only on pushes to main and manual dispatch.
   - Dependency Review triggers only on pushes to main and manual dispatch, comparing the pushed commit against the previous main revision.
   - PR required validation remains the Node.js 24.21.0 CI job.
   - No Vercel Preview deployment policy change.
 - completed milestones:
+  - changed Browser E2E to run only on pushes to main/manual dispatch;
+  - changed Dependency Review to run on pushes to main/manual dispatch with explicit previous/head refs;
   - verified Protect main now requires only Node.js 24.21.0;
   - inspected current CI, E2E, dependency-review and Vercel deployment configuration;
   - verified dependency-review-action supports base-ref/head-ref outside pull_request events.
-- current action: implement the validated workflow trigger changes.
-- next action: verify diff, checks, PR auto-merge and final GitHub state.
+- current action: prepare the final PR and remove the temporary checkpoint.
+- next action: open PR, enable auto-merge, verify required CI and merge state.
 - decisions already validated:
   - E2E and Dependency Review must not block PR merges.
   - PR path should be optimized for rapid auto-merge.
@@ -30,6 +32,6 @@
   - .github/workflows/dependency-review.yml
   - .github/workflows/ci.yml
   - vercel.json
-- tests/checks: pending implementation
-- last durable commit SHA: c7756080820db82824166511cb889546d59a2237
+- tests/checks: workflow configuration inspected; runtime verification pending PR CI
+- last durable commit SHA: f426ef929eb05512b7f0d9b995f73554a00925d4
 - timestamp: 2026-10-07
