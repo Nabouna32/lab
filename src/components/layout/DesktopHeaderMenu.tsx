@@ -81,6 +81,7 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
         aria-expanded={open}
         aria-controls="header-menu"
         aria-haspopup="true"
+        onClick={() => setOpen((value) => !value)}
       >
         <Icon>
           <path d="M5 7h14M5 12h14M5 17h14" />
