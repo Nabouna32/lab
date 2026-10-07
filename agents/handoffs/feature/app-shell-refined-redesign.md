@@ -1,0 +1,25 @@
+# Feature Worker checkpoint — refined Loculary redesign
+
+- role: Feature Worker
+- mission: Refine the former PR #407 expressive redesign on current main, keeping the useful workspace direction while removing the oversized application-frame treatment.
+- branch: feat/feature/app-shell-refined-redesign
+- base SHA: f699aacc9781057462a47055d7331c77c835b3b3
+- current state: RUNNING
+- validated scope:
+  - reuse the useful UX/layout direction from PR #407;
+  - keep the current merged desktop header from PR #417;
+  - use a sober premium neutral visual language inspired by Material/Fluent restraint;
+  - do not use orange as the primary brand/accent color;
+  - remove the large AppShell application frame rather than retaining it as a visual container;
+  - use the softer #405/#406-style page transition rather than PR #407's strong motion;
+  - keep mobile/tablet behavior first-class and avoid unrelated product changes.
+- challenge:
+  - challenged whether AppShell is architecturally necessary; current layout already owns header/content/footer, so a large shell adds visual and structural coupling mainly for presentation and transition naming.
+  - alternative: keep only the layout-level structure and put the transition target on the content wrapper.
+  - outcome: remove AppShell and preserve only the useful visual/transition behavior.
+  - challenged PR #407 orange identity; it conflicts with the newly validated sober/premium direction, so accent must be neutral/ restrained and semantic colors remain semantic.
+- current action: reconstruct the approved subset of PR #407 on current main without overwriting the independently merged header/CI work.
+- next action: update the affected pages/components/styles, then inspect diff and run validation.
+- tests/checks: not run yet.
+- last durable commit: f699aacc9781057462a47055d7331c77c835b3b3
+- timestamp: 2026-10-07
