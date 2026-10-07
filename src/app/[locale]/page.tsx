@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import Categories from "@/components/home/Categories";
-import DiscoverTools from "@/components/home/DiscoverTools";
 import Hero from "@/components/home/Hero";
 import type { Metadata } from "next";
 import { isLocale } from "@/lib/i18n/config";
@@ -25,7 +24,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   return (
     <main>
       <Hero locale={locale} />
-      <DiscoverTools locale={locale} />
       <Categories locale={locale} />
     </main>
   );
