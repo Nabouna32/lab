@@ -21,7 +21,7 @@ test("URL parser displays URL components and query parameters", async ({ page })
   await expect(page.getByText("example.com:8443", { exact: true })).toBeVisible();
   await expect(page.getByText("/docs", { exact: true })).toBeVisible();
   await expect(page.getByText("lang", { exact: true })).toBeVisible();
-  await expect(page.getByText("fr", { exact: true })).toBeVisible();
+  await expect(page.getByRole("region").getByText("fr", { exact: true })).toBeVisible();
   await expect(page.getByText("tag", { exact: true })).toBeVisible();
   await expect(page.getByText("web", { exact: true })).toBeVisible();
 
