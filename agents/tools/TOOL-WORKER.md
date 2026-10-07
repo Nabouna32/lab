@@ -280,13 +280,15 @@ The PR description must contain:
 - known limitations;
 - any decision requiring validation.
 
-Wait for CI.
+Immediately enable GitHub auto-merge using the repository's configured merge method.
+
+Wait for required CI/checks through the auto-merge lifecycle.
 
 Fix failures caused by your work.
 
-When all required checks are green, merge your own PR if repository policy permits autonomous merging.
+Do not manually merge a PR that has auto-merge enabled. GitHub performs the merge once all required protections are satisfied.
 
-Otherwise leave it ready and report the exact state.
+If auto-merge cannot be enabled because of an explicit repository-policy or human-validation requirement, leave it ready and report the exact blocker.
 
 ---
 
