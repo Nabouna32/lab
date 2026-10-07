@@ -4,7 +4,7 @@
 - Mission: redesign the Loculary desktop header experience
 - Branch: feat/header-desktop-redesign
 - Base SHA: 42fbaf82f99f6e7a7a6d5c31e8ca87b773212516
-- Current state: RUNNING
+- Current state: WAITING
 - Validated scope:
   - desktop-first header redesign only;
   - keep search prominent and central;
@@ -22,11 +22,11 @@
   - updated the header desktop layout to keep search and Explorer primary while hiding desktop account/language/theme controls behind the menu;
   - mobile/tablet behavior remains outside the approved scope;
   - refined the menu for keyboard/Escape/outside-click behavior and selection closure.
-- Current action: verify implementation and prepare delivery.
-- Next action: inspect final diff, run relevant checks, open focused PR with auto-merge, then verify CI/merge.
+- Current action: verify implementation and wait for required CI checks.
+- Next action: verify the updated PR diff and CI; if green, remove this checkpoint in the final delivery commit and verify merge.
 - Decisions already validated: desktop-first redesign; mobile deferred.
 - Decisions blocked: none within approved scope.
 - Important files/areas: src/components/layout/Header.tsx; src/components/layout/DesktopHeaderMenu.tsx; existing LanguageSelector.tsx; ThemeToggle.tsx; ToolSearch.tsx.
-- Tests/checks: not yet run after implementation.
-- Last durable commit SHA: 453c254540fc3ce7d87a3f392b2168da09a4d4ab
+- Tests/checks: GitHub Actions for PR #417 are running; local execution is unavailable in this environment.
+- Last durable commit SHA: 2c81e91f11996ddf908852269b1e9d7cb375c5b6
 - Timestamp: 2026-10-07
