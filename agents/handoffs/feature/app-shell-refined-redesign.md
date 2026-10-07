@@ -13,13 +13,21 @@
   - remove the large AppShell application frame rather than retaining it as a visual container;
   - use the softer #405/#406-style page transition rather than PR #407's strong motion;
   - keep mobile/tablet behavior first-class and avoid unrelated product changes.
+- completed milestones:
+  - branch created from current main after PR #418 merge;
+  - checkpoint created;
+  - restored refined #407 Explorer, homepage, account, footer, tool-page and shared Panel compositions;
+  - restored the #407/#406 ecosystem visualization with category-specific colors;
+  - replaced the former purple/orange visual identity with restrained blue/neutral tokens;
+  - removed the need for AppShell by keeping Header/Footer in the locale layout and using a content transition target;
+  - added the soft #405-style route transition template.
 - challenge:
-  - challenged whether AppShell is architecturally necessary; current layout already owns header/content/footer, so a large shell adds visual and structural coupling mainly for presentation and transition naming.
-  - alternative: keep only the layout-level structure and put the transition target on the content wrapper.
-  - outcome: remove AppShell and preserve only the useful visual/transition behavior.
-  - challenged PR #407 orange identity; it conflicts with the newly validated sober/premium direction, so accent must be neutral/ restrained and semantic colors remain semantic.
-- current action: reconstruct the approved subset of PR #407 on current main without overwriting the independently merged header/CI work.
-- next action: update the affected pages/components/styles, then inspect diff and run validation.
-- tests/checks: not run yet.
-- last durable commit: f699aacc9781057462a47055d7331c77c835b3b3
+  - AppShell was challenged as unnecessary because the locale layout already owns header/content/footer and the shell mainly added presentation coupling.
+  - Orange was challenged against the current sober/premium direction; blue is used as a restrained primary interaction/focus accent while semantic colors remain separate.
+  - The strong #407 transition was rejected in favor of the lighter #405/#406 dissolve/form effect.
+- current action: inspect the complete diff for scope regressions, then open the PR and let CI validate the implementation.
+- next action: create focused PR, enable auto-merge, inspect CI failures if any, then finish verification and remove this checkpoint in the final merge-ready state.
+- decisions blocked: none within the validated implementation scope.
+- tests/checks: not run yet; GitHub CI pending PR creation.
+- last durable commit: bf795182541cdbae6a97ebe56eb4a19df052ad4e
 - timestamp: 2026-10-07
