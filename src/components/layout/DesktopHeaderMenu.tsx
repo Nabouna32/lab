@@ -1,14 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import { useTheme } from "@teispace/next-themes";
 import { getLanguage, isLocale, locales, type Locale } from "@/lib/i18n/config";
 import { getLocalizedPath } from "@/lib/tools/routes";
 import { getMessages } from "@/lib/i18n/messages";
 
-function Icon({ children, className = "h-4 w-4" }: { children: React.ReactNode; className?: string }) {
+function Icon({ children, className = "h-4 w-4" }: { children: ReactNode; className?: string }) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -39,7 +39,6 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
   const menuRef = useRef<HTMLDivElement>(null);
   const currentLocaleSegment = pathname.split("/")[1];
   const currentLocale: Locale = isLocale(currentLocaleSegment) ? currentLocaleSegment : locale;
-  const currentLanguage = getLanguage(currentLocale);
 
   useEffect(() => {
     if (!open) return;
@@ -185,10 +184,6 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
             ))}
           </div>
         </div>
-
-        <p className="px-3 pb-2 pt-1 text-[11px] text-[var(--muted)]">
-          {currentLanguage.nativeLabel}
-        </p>
       </div>
     </div>
   );
