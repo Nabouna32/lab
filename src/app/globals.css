@@ -1,20 +1,20 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f7f7f8;
-  --foreground: #18181b;
+  --background: #f7f8fa;
+  --foreground: #1b1f24;
   --surface: #ffffff;
-  --surface-soft: #f1f1f3;
+  --surface-soft: #f1f3f5;
   --surface-elevated: #ffffff;
-  --muted: #68686f;
-  --border: #dedee3;
-  --border-strong: #c5c5cc;
-  --accent: #5b4de3;
-  --accent-strong: #493bc8;
-  --accent-soft: #eeecff;
+  --muted: #68717c;
+  --border: #d9dee5;
+  --border-strong: #b9c1ca;
+  --accent: #2563eb;
+  --accent-strong: #1d4ed8;
+  --accent-soft: #eaf2ff;
   --accent-foreground: #ffffff;
-  --info: #2563a8;
-  --info-soft: #eaf2fb;
+  --info: #2563eb;
+  --info-soft: #eaf2ff;
   --success: #167a55;
   --success-soft: #e8f5ef;
   --warning: #9a6500;
@@ -27,13 +27,13 @@
   --radius-xl: 1rem;
   --radius-2xl: 1.25rem;
   --radius-pill: 9999px;
-  --shadow-sm: 0 1px 2px rgb(23 23 27 / 0.04);
-  --shadow-md: 0 8px 24px rgb(23 23 27 / 0.08);
-  --shadow-lg: 0 20px 48px rgb(23 23 27 / 0.12);
+  --shadow-sm: 0 1px 2px rgb(23 31 42 / 0.05);
+  --shadow-md: 0 8px 24px rgb(23 31 42 / 0.08);
+  --shadow-lg: 0 18px 44px rgb(23 31 42 / 0.10);
   --focus-ring: var(--accent);
   --motion-fast: 120ms;
-  --motion-standard: 180ms;
-  --motion-slow: 240ms;
+  --motion-standard: 200ms;
+  --motion-slow: 420ms;
   --content-narrow: 48rem;
   --content-default: 72rem;
   --content-wide: 80rem;
@@ -48,12 +48,12 @@
   --muted: #a4a4ad;
   --border: #303036;
   --border-strong: #45454d;
-  --accent: #9b90ff;
-  --accent-strong: #b0a8ff;
-  --accent-soft: #29254a;
-  --accent-foreground: #121117;
-  --info: #83b7ee;
-  --info-soft: #182b41;
+  --accent: #60a5fa;
+  --accent-strong: #93c5fd;
+  --accent-soft: #172a46;
+  --accent-foreground: #07111f;
+  --info: #60a5fa;
+  --info-soft: #172a46;
   --success: #5bc99b;
   --success-soft: #15372a;
   --warning: #e3b35b;
@@ -96,6 +96,25 @@ button, input, textarea, select { font: inherit; }
 .theme-icon-system-dark { display: none; }
 html.dark .theme-icon-system-light { display: none; }
 html.dark .theme-icon-system-dark { display: inline; }
+::view-transition-group(.loculary-page) {
+  animation-duration: 420ms;
+  animation-timing-function: cubic-bezier(.22,1,.36,1);
+}
+::view-transition-old(.loculary-page) {
+  animation: loculary-page-exit 420ms cubic-bezier(.22,1,.36,1) both;
+}
+::view-transition-new(.loculary-page) {
+  animation: loculary-page-enter 420ms cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes loculary-page-exit {
+  from { opacity: 1; transform: scale(1); filter: blur(0); }
+  to { opacity: .5; transform: scale(.985) translateX(-18px); filter: blur(2px); }
+}
+@keyframes loculary-page-enter {
+  from { opacity: .5; transform: scale(1.015) translateX(18px); filter: blur(2px); }
+  to { opacity: 1; transform: scale(1) translateX(0); filter: blur(0); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {
