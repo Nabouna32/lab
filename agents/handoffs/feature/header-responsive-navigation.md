@@ -1,0 +1,29 @@
+# Feature Worker checkpoint — responsive header navigation
+
+- role: Feature Worker
+- mission: Unify Loculary header navigation across desktop, tablet and mobile so the new hierarchy is not desktop-only.
+- branch: feat/header-responsive-navigation
+- base SHA: 8ab3906fbc78c59bb5d0a8c3d5e11e1610526667
+- current state: RUNNING
+- validated scope:
+  - adapt the merged #417 header hierarchy to tablet and mobile;
+  - keep desktop search prominent;
+  - expose search access on narrower viewports;
+  - use one hamburger menu for account, language and theme below desktop;
+  - keep Explorer accessible without restoring the old standalone mobile controls;
+  - preserve EN/FR, accessibility and responsive behavior;
+  - avoid unrelated product or visual-system changes.
+- challenge:
+  - simply scaling the desktop header down would overcrowd narrow widths;
+  - keeping the old mobile/tablet header creates two incompatible navigation hierarchies;
+  - the chosen direction progressively compacts the same hierarchy instead of maintaining separate desktop and legacy mobile systems.
+- completed milestones:
+  - mandatory bootstrap completed against current main;
+  - current Header, DesktopHeaderMenu and MobileHeaderSearch inspected;
+  - no open PRs and no competing responsive-header branch found.
+- current action: implement the responsive navigation hierarchy.
+- next action: inspect diff, run lint/typecheck/tests/build as relevant, open focused PR, enable auto-merge, verify CI and final merge state.
+- decisions blocked: none within validated scope.
+- tests/checks: not run yet.
+- last durable commit: 8ab3906fbc78c59bb5d0a8c3d5e11e1610526667
+- timestamp: 2026-10-07
