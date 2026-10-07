@@ -6,7 +6,7 @@ export type Messages = {
   breadcrumbs: { label: string };
   footer: { tagline: string; explore: string; account: string };
   actions: { copy: string; copied: string; clear: string };
-  home: { metaTitle: string; badge: string; title: string; description: string; quickLinksLabel: string; quickLinks: Array<{ label: string; toolId: string }>; explore: string; discoveryTitle: string; discoveryDescription: string; discoveryOpen: string; categoriesTitle: string; categoriesDescription: string; categoriesCount: (count: number) => string };
+  home: { metaTitle: string; badge: string; title: string; description: string; quickLinksLabel: string; quickLinks: Array<{ label: string; toolId: string }>; explore: string; discoveryTitle: string; discoveryDescription: string; discoveryOpen: string; categoriesTitle: string; categoriesDescription: string; categoriesCount: (count: number) => string; ecosystemEyebrow: string; ecosystemTitle: string; ecosystemDescription: string; ecosystemToolsLabel: string; ecosystemVariantLabel: string; ecosystemVariantHint: string; ecosystemVariants: Record<"constellation" | "radial" | "network" | "surfaces", string>; };
   tools: {
     metaTitle: string;
     eyebrow: string; title: string; description: string; explore: string; one: string; many: string;
@@ -50,6 +50,7 @@ export const messages: Record<Locale, Messages> = {
       categoriesTitle: "Explorer par domaine",
       categoriesDescription: "Parcourez les domaines quand vous savez ce que vous cherchez, sans avoir besoin de connaître le nom de l’outil.",
       categoriesCount: (count) => formatPlural("fr", count, { one: "catégorie", other: "catégories" }),
+      ecosystemEyebrow: "L’écosystème Loculary", ecosystemTitle: "Les outils, par domaine", ecosystemDescription: "Une vue plus visuelle des domaines disponibles pour découvrir Loculary.", ecosystemToolsLabel: "outils", ecosystemVariantLabel: "Vue", ecosystemVariantHint: "Chaque vue raconte le même catalogue autrement.", ecosystemVariants: { constellation: "Constellation", radial: "Répartition", network: "Réseau", surfaces: "Surfaces" },
     },
     tools: {
       metaTitle: "Tous les outils — Loculary", eyebrow: "Loculary", title: "Tous les outils",
@@ -140,6 +141,7 @@ export const messages: Record<Locale, Messages> = {
       categoriesTitle: "Explore by domain",
       categoriesDescription: "Browse by domain when you know what kind of task you have, even if you do not know the tool name.",
       categoriesCount: (count) => formatPlural("en", count, { one: "category", other: "categories" }),
+      ecosystemEyebrow: "The Loculary ecosystem", ecosystemTitle: "Tools by domain", ecosystemDescription: "A more visual view of the available domains for discovering Loculary.", ecosystemToolsLabel: "tools", ecosystemVariantLabel: "View", ecosystemVariantHint: "Each view presents the same catalog differently.", ecosystemVariants: { constellation: "Constellation", radial: "Distribution", network: "Network", surfaces: "Surfaces" },
     },
     tools: {
       metaTitle: "All tools — Loculary", eyebrow: "Loculary", title: "All tools",
