@@ -1,18 +1,13 @@
-import type { ReactNode } from "react";
 import Link from "next/link";
 import ToolSearch from "@/components/tools/ToolSearch";
 import MobileHeaderSearch from "@/components/layout/MobileHeaderSearch";
 import DesktopHeaderMenu from "@/components/layout/DesktopHeaderMenu";
 import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
+import { getToolsPath } from "@/lib/tools/routes";
 
-function Icon({ children, className = "h-4 w-4" }: { children: ReactNode; className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
-      {children}
-    </svg>
-  );
-}
+const textLink =
+  "flex h-9 shrink-0 items-center gap-2 border border-transparent px-2.5 text-sm font-semibold text-[var(--muted)] outline-none transition-[border-color,background-color,color] hover:border-[var(--border)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)] focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]";
 
 export default function Header({ locale }: { locale: Locale }) {
   const t = getMessages(locale);
@@ -37,6 +32,9 @@ export default function Header({ locale }: { locale: Locale }) {
           </div>
 
           <div className="flex shrink-0 items-center justify-self-end gap-0.5 sm:gap-1">
+            <Link href={getToolsPath(locale)} className={textLink + " hidden lg:inline-flex"}>
+              {t.nav.explore}
+            </Link>
             <MobileHeaderSearch locale={locale} searchLabel={t.tools.searchLabel} closeLabel={t.nav.closeSearch} />
             <DesktopHeaderMenu locale={locale} />
           </div>
