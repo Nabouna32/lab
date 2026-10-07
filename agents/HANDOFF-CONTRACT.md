@@ -32,7 +32,7 @@ When resuming work, the Worker must open the current conversation/work context, 
 
 A checkpoint never authorizes overwriting another Worker's branch or work.
 
-External delivery events such as a PR opening, a CI result, a mergeability change, a merge, or a synchronization with `main` are reconciliation points. Before the next substantive action, the Worker should update the checkpoint so its state, current/next action and verification evidence reflect the observed Git/GitHub state. This does not require a new checkpoint commit for every external event when several closely related events can be reconciled together.
+External delivery events such as a PR opening, auto-merge activation, a CI result, a mergeability change, a merge, or a synchronization with `main` are reconciliation points. Before the next substantive action, the Worker should update the checkpoint so its state, current/next action and verification evidence reflect the observed Git/GitHub state. This does not require a new checkpoint commit for every external event when several closely related events can be reconciled together.
 
 ## 1. Core principle
 

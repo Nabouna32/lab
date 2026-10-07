@@ -271,12 +271,13 @@ The worker must:
 3. commit coherent changes;
 4. push/create the branch through the available GitHub workflow;
 5. open a PR targeting `main`;
-6. wait for CI;
-7. inspect failures;
-8. fix failures introduced by the worker;
-9. re-run verification;
-10. merge its own PR only if repository policy permits autonomous merging and all required checks are green;
-11. otherwise leave the PR clearly ready for merge and report its state.
+6. immediately enable GitHub auto-merge using the repository's configured merge method;
+7. wait for required CI/checks through the auto-merge lifecycle;
+8. inspect failures;
+9. fix failures introduced by the worker;
+10. re-run verification;
+11. do not manually merge a PR that has auto-merge enabled; GitHub performs the merge once all required protections are satisfied;
+12. if auto-merge cannot be enabled because of an explicit repository-policy or human-validation requirement, leave the PR clearly ready for the appropriate next action and report the concrete blocker.
 
 Never merge another worker's PR.
 

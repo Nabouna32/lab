@@ -205,9 +205,11 @@ Open a focused PR against `main`.
 
 Before finalizing, verify that `main` has not moved in a way that makes the branch stale or unsafe to merge.
 
-Wait for CI and fix failures caused by your work.
+Enable GitHub auto-merge immediately after opening the PR, unless human validation or repository policy explicitly prevents it.
 
-Merge your own PR only when repository policy permits and all required checks are green. Otherwise report the exact PR/CI state.
+Wait for required checks and fix failures caused by your work.
+
+Do not manually merge a PR when auto-merge is enabled. If auto-merge cannot be enabled, report the exact blocker and leave the PR ready for the appropriate next action.
 
 ## CONCURRENCY
 
