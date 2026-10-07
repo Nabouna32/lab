@@ -20,10 +20,13 @@
 - completed milestones:
   - mandatory bootstrap completed against current main;
   - current Header, DesktopHeaderMenu and MobileHeaderSearch inspected;
-  - no open PRs and no competing responsive-header branch found.
-- current action: implement the responsive navigation hierarchy.
-- next action: inspect diff, run lint/typecheck/tests/build as relevant, open focused PR, enable auto-merge, verify CI and final merge state.
+  - no open PRs and no competing responsive-header branch found;
+  - unified the header so MobileHeaderSearch handles search below lg and one responsive hamburger owns navigation/settings;
+  - moved Explorer into the shared menu below lg while retaining the desktop Explorer link;
+  - removed standalone mobile account/language/theme controls.
+- current action: inspect the implementation diff and validate through CI.
+- next action: open focused PR, enable auto-merge, inspect CI failures if any, then verify final merge state and remove this checkpoint.
 - decisions blocked: none within validated scope.
-- tests/checks: not run yet.
-- last durable commit: 8ab3906fbc78c59bb5d0a8c3d5e11e1610526667
+- tests/checks: not run yet; PR CI pending.
+- last durable commit: 614097842858c75db1934d316ef6b85891684025
 - timestamp: 2026-10-07
