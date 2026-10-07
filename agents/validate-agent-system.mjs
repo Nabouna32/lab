@@ -80,6 +80,10 @@ has(common, 'tool output was truncated', 'Common contract');
 has(common, 'Conversation failure resilience', 'Common contract');
 has(common, 'HANDOFF-CONTRACT.md', 'Common contract');
 has(rootRules, 'Work one validated step at a time.', 'AGENTS.md');
+has(common, 'enable GitHub auto-merge', 'Common contract');
+has(common, 'do not perform a manual merge merely because checks become green', 'Common contract');
+has(toolContract, 'immediately enable GitHub auto-merge', 'Tool factory contract');
+has(featureWorker, 'auto-merge', 'Feature worker');
 
 const auditDir = path.join(agentsDir, 'audits');
 const auditFiles = listMarkdown(auditDir).filter((name) => /^\d{2}-.+\.md$/.test(name));
