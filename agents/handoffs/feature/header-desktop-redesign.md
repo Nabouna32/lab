@@ -10,19 +10,23 @@
   - keep search prominent and central;
   - keep Explorer visible as a primary discovery entry;
   - move account, language and theme into a coherent secondary menu;
-  - replace current always-visible utility controls with a single desktop menu trigger;
-  - menu/popup interactions must close on outside click, Escape, toggle, and after a selection;
-  - use language labels/codes rather than country flags as the primary language convention;
+  - replace current always-visible desktop utility controls with a single desktop menu trigger;
+  - menu closes on outside click, Escape, toggle, and after a selection;
+  - use language codes/names rather than country flags in the desktop menu;
   - do not implement mobile adaptation in this mission.
 - Completed milestones:
   - mandatory bootstrap and current GitHub state inspection completed;
   - current header, search, language and theme implementations inspected;
-  - challenge completed: keeping account/language/theme all exposed in the main header preserves clutter; a desktop secondary menu gives clearer hierarchy. Alternative considered: keep all controls visible but visually reduce them; rejected because it does not solve the hierarchy problem.
-- Current action: implement the approved desktop header scope.
-- Next action: verify behavior, inspect diff, run relevant checks, open focused PR with auto-merge.
+  - challenge completed: keeping account/language/theme all exposed in the main header preserves clutter; a desktop secondary menu gives clearer hierarchy. Alternative considered: keep all controls visible but visually reduce them; rejected because it does not solve the hierarchy problem;
+  - added a desktop-only secondary menu component;
+  - updated the header desktop layout to keep search and Explorer primary while hiding desktop account/language/theme controls behind the menu;
+  - mobile/tablet behavior remains outside the approved scope;
+  - refined the menu for keyboard/Escape/outside-click behavior and selection closure.
+- Current action: verify implementation and prepare delivery.
+- Next action: inspect final diff, run relevant checks, open focused PR with auto-merge, then verify CI/merge.
 - Decisions already validated: desktop-first redesign; mobile deferred.
 - Decisions blocked: none within approved scope.
-- Important files/areas: src/components/layout/Header.tsx; LanguageSelector.tsx; ThemeToggle.tsx; ToolSearch.tsx; i18n messages/config.
+- Important files/areas: src/components/layout/Header.tsx; src/components/layout/DesktopHeaderMenu.tsx; existing LanguageSelector.tsx; ThemeToggle.tsx; ToolSearch.tsx.
 - Tests/checks: not yet run after implementation.
-- Last durable commit SHA: 42fbaf82f99f6e7a7a6d5c31e8ca87b773212516
+- Last durable commit SHA: 453c254540fc3ce7d87a3f392b2168da09a4d4ab
 - Timestamp: 2026-10-07
