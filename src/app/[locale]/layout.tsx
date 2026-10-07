@@ -43,7 +43,9 @@ export default async function LocaleLayout({
       <body className={geistSans.variable + " " + geistMono.variable}>
         <ThemeProvider>
           <Header locale={locale} />
-          {children}
+          <div className="min-h-0" style={{ viewTransitionName: "loculary-workspace" }}>
+            {children}
+          </div>
           <Footer locale={locale} />
         </ThemeProvider>
       </body>
