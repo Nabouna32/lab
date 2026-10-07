@@ -37,6 +37,7 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
   const t = getMessages(locale);
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
   const currentLocaleSegment = pathname.split("/")[1];
   const currentLocale: Locale = isLocale(currentLocaleSegment) ? currentLocaleSegment : locale;
 
