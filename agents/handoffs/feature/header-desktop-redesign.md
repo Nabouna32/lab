@@ -1,0 +1,28 @@
+# Feature Handoff — Desktop Header Redesign
+
+- Role: Feature Worker
+- Mission: redesign the Loculary desktop header experience
+- Branch: feat/header-desktop-redesign
+- Base SHA: 42fbaf82f99f6e7a7a6d5c31e8ca87b773212516
+- Current state: RUNNING
+- Validated scope:
+  - desktop-first header redesign only;
+  - keep search prominent and central;
+  - keep Explorer visible as a primary discovery entry;
+  - move account, language and theme into a coherent secondary menu;
+  - replace current always-visible utility controls with a single desktop menu trigger;
+  - menu/popup interactions must close on outside click, Escape, toggle, and after a selection;
+  - use language labels/codes rather than country flags as the primary language convention;
+  - do not implement mobile adaptation in this mission.
+- Completed milestones:
+  - mandatory bootstrap and current GitHub state inspection completed;
+  - current header, search, language and theme implementations inspected;
+  - challenge completed: keeping account/language/theme all exposed in the main header preserves clutter; a desktop secondary menu gives clearer hierarchy. Alternative considered: keep all controls visible but visually reduce them; rejected because it does not solve the hierarchy problem.
+- Current action: implement the approved desktop header scope.
+- Next action: verify behavior, inspect diff, run relevant checks, open focused PR with auto-merge.
+- Decisions already validated: desktop-first redesign; mobile deferred.
+- Decisions blocked: none within approved scope.
+- Important files/areas: src/components/layout/Header.tsx; LanguageSelector.tsx; ThemeToggle.tsx; ToolSearch.tsx; i18n messages/config.
+- Tests/checks: not yet run after implementation.
+- Last durable commit SHA: 42fbaf82f99f6e7a7a6d5c31e8ca87b773212516
+- Timestamp: 2026-10-07
