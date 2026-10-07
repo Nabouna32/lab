@@ -23,10 +23,11 @@
   - no open PRs and no competing responsive-header branch found;
   - unified the header so MobileHeaderSearch handles search below lg and one responsive hamburger owns navigation/settings;
   - moved Explorer into the shared menu below lg while retaining the desktop Explorer link;
-  - removed standalone mobile account/language/theme controls.
-- current action: inspect the implementation diff and validate through CI.
-- next action: open focused PR, enable auto-merge, inspect CI failures if any, then verify final merge state and remove this checkpoint.
+  - removed standalone mobile account/language/theme controls;
+  - inspected the PR diff and corrected the menu toggle plus preserved the desktop Explorer link before CI validation.
+- current action: validate the corrected implementation through CI.
+- next action: inspect CI results, fix only introduced failures, then verify final merge state and remove this checkpoint.
 - decisions blocked: none within validated scope.
-- tests/checks: not run yet; PR CI pending.
-- last durable commit: 614097842858c75db1934d316ef6b85891684025
+- tests/checks: PR CI pending.
+- last durable commit: e9561c1410f67466be8880665fddc2d0262f2bfa
 - timestamp: 2026-10-07
