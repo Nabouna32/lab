@@ -6,7 +6,7 @@ export type Messages = {
   breadcrumbs: { label: string };
   footer: { tagline: string; explore: string; account: string };
   actions: { copy: string; copied: string; clear: string };
-  home: { metaTitle: string; badge: string; title: string; description: string; quickLinksLabel: string; quickLinks: Array<{ label: string; toolId: string }>; explore: string; discoveryTitle: string; discoveryDescription: string; discoveryOpen: string; categoriesTitle: string; categoriesDescription: string; categoriesCount: (count: number) => string; ecosystemEyebrow: string; ecosystemTitle: string; ecosystemDescription: string; ecosystemToolsLabel: string; ecosystemVariantsCountLabel: string; ecosystemVariantLabel: string; ecosystemVariantHint: string; ecosystemVariants: { constellation: string; radial: string; network: string; surfaces: string }; };
+  home: { metaTitle: string; badge: string; title: string; description: string; quickLinksLabel: string; quickLinks: Array<{ label: string; toolId: string }>; explore: string; discoveryTitle: string; discoveryDescription: string; discoveryOpen: string; categoriesTitle: string; categoriesDescription: string; categoriesCount: (count: number) => string };
   tools: {
     metaTitle: string;
     eyebrow: string; title: string; description: string; explore: string; one: string; many: string;
@@ -50,7 +50,6 @@ export const messages: Record<Locale, Messages> = {
       categoriesTitle: "Explorer par domaine",
       categoriesDescription: "Parcourez les domaines quand vous savez ce que vous cherchez, sans avoir besoin de connaître le nom de l’outil.",
       categoriesCount: (count) => formatPlural("fr", count, { one: "catégorie", other: "catégories" }),
-      ecosystemEyebrow: "L’écosystème Loculary", ecosystemTitle: "Une carte de vos outils, pas un tableau de bord", ecosystemDescription: "Quatre compositions expérimentales basées sur les volumes réels du catalogue. Comparez la sensation, la lisibilité et la personnalité avant de choisir.", ecosystemToolsLabel: "outils", ecosystemVariantsCountLabel: "variantes visuelles", ecosystemVariantLabel: "Variante", ecosystemVariantHint: "Volumes réels · cliquez sur un domaine", ecosystemVariants: { constellation: "Constellation", radial: "Anneau radial", network: "Réseau", surfaces: "Surfaces spatiales" },
     },
     tools: {
       metaTitle: "Tous les outils — Loculary", eyebrow: "Loculary", title: "Tous les outils",
@@ -141,7 +140,6 @@ export const messages: Record<Locale, Messages> = {
       categoriesTitle: "Explore by domain",
       categoriesDescription: "Browse by domain when you know what kind of task you have, even if you do not know the tool name.",
       categoriesCount: (count) => formatPlural("en", count, { one: "category", other: "categories" }),
-      ecosystemEyebrow: "The Loculary ecosystem", ecosystemTitle: "A map of your tools, not a dashboard", ecosystemDescription: "Four experimental compositions built from the real catalog volumes. Compare the feel, clarity, and personality before choosing one.", ecosystemToolsLabel: "tools", ecosystemVariantsCountLabel: "visual variants", ecosystemVariantLabel: "Variant", ecosystemVariantHint: "Real volumes · select a domain", ecosystemVariants: { constellation: "Constellation", radial: "Radial ring", network: "Network", surfaces: "Spatial surfaces" },
     },
     tools: {
       metaTitle: "All tools — Loculary", eyebrow: "Loculary", title: "All tools",
