@@ -5,6 +5,7 @@
 - branch/ref: feat/home-remove-discover-tools
 - current base SHA: 42fbaf82f99f6e7a7a6d5c31e8ca87b773212516
 - current state: RUNNING
+- implementation milestone: DiscoverTools import/render removed from homepage and the unused component file deleted.
 - validated scope: Remove the existing homepage DiscoverTools block and its now-unused implementation/imports. Do not redesign the replacement area in this step.
 - completed milestones:
   - bootstrap completed
@@ -20,6 +21,6 @@
 - decisions still blocked: None for this step.
 - challenge performed: Challenged keeping six rotating tools on the anonymous homepage; alternative considered was retaining/reframing the block, but it would still duplicate Explorer and show arbitrary tools without user intent. Outcome: remove the block now; defer personalized favorites/recent tools to a separate decision.
 - important files/areas touched: src/app/[locale]/page.tsx; src/components/home/DiscoverTools.tsx
-- tests/checks: Not run yet.
-- last durable commit SHA: 42fbaf82f99f6e7a7a6d5c31e8ca87b773212516
+- tests/checks: Not run yet; GitHub CI will provide repository validation after PR creation.
+- last durable commit SHA: 8178355c896597b44b9b1ff0798483bd5d7b6393
 - timestamp: 2026-10-07T08:00:00+02:00
