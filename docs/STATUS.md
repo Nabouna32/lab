@@ -2,11 +2,11 @@
 
 ## Current state
 
-- UX V2 foundations through the homepage exploration cue are merged on `main`.
-- Global navigation now provides tool search from the header, shared breadcrumbs on category/tool pages, a lightweight shared footer, and a compact modern header with stable secondary controls.
+- The current homepage and navigation experience follows the merged UX direction from PRs #419 and #421, including the responsive shared navigation hierarchy.
+- Global navigation provides tool search, Explorer, shared breadcrumbs on category/tool pages, a lightweight shared footer, and responsive secondary controls.
 - Main uses the generic ToolPage shell, semantic processing/result status metadata, and the registry-based dynamic tool route.
 - Published tools are connected to independently loadable implementation modules through the central registry.
-- The published Development category now includes the browser-local URL Encoder & Decoder, Base64 Encoder & Decoder, and UUID Generator.
+- The published Development category includes the browser-local URL Encoder & Decoder, Base64 Encoder & Decoder, and UUID Generator.
 - Tool runtime capabilities are scoped per tool; clipboard is currently the only browser capability enforced through the runtime.
 - SEO metadata now provides canonical URLs, localized alternates and Open Graph data for tool pages.
 - Category pages use the shared localized catalog metadata instead of duplicating French-only labels.
@@ -26,6 +26,8 @@
 - Moved published tool editorial content out of the central switch and into the corresponding tool modules.
 
 ## Recent tool additions
+
+- The current published catalog contains 44 tools; historical audit reports that measured 42 tools remain historical and should not be read as the current count.
 
 - Added the browser-local Text Case Converter with EN/FR metadata, localized routes, SEO metadata, local processing disclosure, focused unit coverage and Playwright smoke coverage.
 - Added the browser-local Unit Converter with length, mass, temperature, volume, and area categories, localized routes/metadata, focused conversion coverage, and Playwright smoke coverage.
@@ -68,7 +70,7 @@
 
 ### Database boundary
 
-- Supabase is now used for the account foundation and administrative authorization.
+- Supabase is now the current database/authentication platform for the account foundation, administrative authorization and deployed catalog foundation.
 - Executable behavior and technical capabilities remain authoritative in Git/code.
 - The database may own account, administration, editable catalog/editorial data, publication state and community data as those domains are introduced deliberately.
 - Database-backed metadata must not be allowed to falsely redefine executable tool behavior.
@@ -87,7 +89,7 @@
 
 ## Not implemented yet
 
-- Account deletion and the current account lifecycle are implemented; broader administrative account lifecycle beyond the existing RBAC/suspension surface remains separate.
+- Account creation, authentication, recovery, self-service deletion and the current administrative account lifecycle are implemented; broader administrative lifecycle work remains separate.
 - Account/premium enforcement.
 - Runtime enforcement for browser capabilities beyond clipboard.
 - Generic sharing runtime.
@@ -98,7 +100,7 @@
 
 1. Continue the functional behavior audit of every published tool, focusing on remaining edge cases, rounding conventions and user-facing result semantics.
 2. Continue the tool-platform audit with registry scalability and catalog/module boundaries as the toolbox grows.
-3. Continue administration with the remaining account-lifecycle actions, especially account deletion and other account-lifecycle workflows.
+3. Continue administration with any remaining account-lifecycle work beyond the currently implemented deletion, suspension/reactivation and session-revocation flows.
 4. Connect the existing catalog access boundary to the new database schema and switch reads progressively while keeping Git/code authoritative for executable behavior.
 5. Introduce persistence or sharing only when a concrete tool requirement justifies the corresponding runtime capability.
 6. Continue the UX audit with above-the-fold tool hierarchy and mobile behavior, then apply targeted fixes, including keyboard/focus behavior where it affects tool completion.
