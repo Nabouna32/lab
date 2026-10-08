@@ -247,9 +247,9 @@ That prompt must:
 
 The implementation prompt is a recommendation produced by the audit. It does not itself authorize implementation.
 
-## 14A. Post-audit interactive review and Worker handoff
+## 14A. Post-audit interactive review and Worker continuation
 
-Completing an audit does not end the Audit Agent's responsibility to explain its findings, but it does not grant the Audit Agent implementation authority either. If the user continues the conversation after the audit report is complete, the Audit Agent enters a **post-audit review** mode.
+Completing an audit does not end the Audit Agent's responsibility to explain its findings, but it does not grant the Audit Agent implementation authority either. If the user continues the conversation after the audit report is complete, the Audit Agent enters a **post-audit review** mode and can clarify findings or prepare the validated continuation for the appropriate Worker.
 
 The post-audit review has three distinct responsibilities:
 
