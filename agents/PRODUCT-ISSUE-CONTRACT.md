@@ -19,7 +19,7 @@ Use an Issue for:
 - actionable follow-up work from an audit;
 - cross-agent blockers or handoffs.
 
-For direct autonomous Worker requests, the Worker may operate without an Issue.
+For a direct autonomous request that is fully atomic and completed in one validated action, the Worker may operate without an Issue. Resumable or multi-action work requires an Issue.
 
 ## 3. Source hierarchy
 
@@ -29,8 +29,8 @@ They do not replace:
 1. Git and the current implementation;
 2. canonical product/architecture/decision documentation;
 3. agent contracts and mission files;
-4. checkpoints and handoffs;
-5. immutable audit reports;
+4. immutable audit reports;
+5. pull requests and CI evidence;
 6. pull requests and CI evidence.
 
 If an Issue conflicts with an authoritative source, update the Issue rather than changing the authoritative source to match it.
@@ -74,7 +74,7 @@ When a Worker is explicitly given an Issue:
 1. read the Issue and relevant comments;
 2. inspect linked evidence;
 3. inspect current main, relevant branches and PRs;
-4. inspect the active checkpoint when present;
+4. inspect the Issue as the active mission checkpoint;
 5. verify that the requested work is still valid;
 6. challenge the requested approach;
 7. stop for an unvalidated consequential decision.
@@ -95,13 +95,13 @@ An open Issue does not grant permission to modify another Worker's branch or PR.
 
 ## 8. Recovery
 
-An Issue-driven mission can be reconstructed from:
+A resumable mission can be reconstructed from:
 
-`Issue → checkpoint/handoff → Git branch/PR → canonical documentation`
+`Issue → Git branch/PR → canonical documentation`
 
-An autonomous Worker without an Issue can be reconstructed from its checkpoint, branch/PR and GitHub state when those exist.
+The Issue records current state, progress, decisions, blockers, verification and next action. Git/GitHub remain authoritative for implementation and delivery.
 
-Never invent an Issue merely to represent global agent state.
+Never create a repository checkpoint file.
 
 ## 9. Closing
 
