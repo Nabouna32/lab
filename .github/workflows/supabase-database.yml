@@ -5,13 +5,17 @@ on:
     branches:
       - main
     paths:
-      - "supabase/**"
+      - "supabase/migrations/**"
+      - "supabase/tests/**"
+      - "supabase/config.toml"
       - ".github/workflows/supabase-database.yml"
   push:
     branches:
       - main
     paths:
-      - "supabase/**"
+      - "supabase/migrations/**"
+      - "supabase/tests/**"
+      - "supabase/config.toml"
       - ".github/workflows/supabase-database.yml"
   workflow_dispatch:
 
