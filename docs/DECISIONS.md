@@ -522,6 +522,30 @@ The feature requires a higher Supabase plan and cannot currently be enabled thro
 
 
 
+## DEC-047 — Clean Supabase application foundation before catalog redesign
+
+**Status:** Accepted
+
+### Decision
+
+The pre-launch Supabase database uses a clean application foundation containing only durable account continuity, administrative RBAC and security audit data. The legacy tool catalog schema and its catalog-specific permissions are removed rather than carried forward as migration archaeology.
+
+The clean baseline migration `20261008195413_clean_application_foundation` is the replayable foundation for fresh environments. Production migration history is aligned to that baseline, and normal future releases use the standard Supabase migration flow rather than a permanent cutover workflow.
+
+The tool catalog will be reintroduced only through the separately validated catalog redesign; executable tool behavior remains in Git/code.
+
+### Reason
+
+Loculary is pre-launch and the existing catalog data is disposable. Carrying obsolete schema and migration history forward would preserve unnecessary coupling and make future database evolution harder to reason about.
+
+### Consequences
+
+- The production database currently contains only the six retained foundation tables.
+- No legacy `tool_*` tables or `catalog.*` permissions should be recreated accidentally.
+- Future catalog work must define its new schema and migration path explicitly.
+- GitHub Actions runs database validation only when database-relevant paths change, and production uses the normal dry-run/apply/lint release flow.
+- The Supabase IPv4 Session Pooler connection remains the CI transport for GitHub-hosted runners.
+
 ## DEC-030 — English is the product translation fallback
 
 **Status:** Accepted
