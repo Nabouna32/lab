@@ -221,7 +221,7 @@ A database is expected to become useful for:
 - tool metadata where appropriate;
 - privacy-conscious analytics data.
 
-The initial database technology and hosting provider remain open until the implementation requirements are sufficiently known.
+Supabase/PostgreSQL is the current database platform and hosting boundary for the deployed account and catalog foundation. This does not make the platform immutable: a future replacement remains possible only after an explicit architecture decision supported by current requirements and evidence.
 
 A small paid database/infrastructure budget is acceptable once product revenue or traffic justifies it.
 
