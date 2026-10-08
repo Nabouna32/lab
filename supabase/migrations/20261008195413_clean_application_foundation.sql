@@ -58,14 +58,11 @@ create schema if not exists private;
 
 create table public.admin_roles (
   key text primary key,
-  name text not null,
-  description text not null,
   created_at timestamptz not null default now()
 );
 
 create table public.admin_permissions (
   key text primary key,
-  description text not null,
   created_at timestamptz not null default now()
 );
 
@@ -100,17 +97,17 @@ create index admin_audit_log_actor_idx on public.admin_audit_log(actor_user_id);
 create index admin_audit_log_target_idx on public.admin_audit_log(target_type, target_id);
 create index admin_audit_log_created_at_idx on public.admin_audit_log(created_at desc);
 
-insert into public.admin_roles (key, name, description) values
-  ('super_admin', 'Super administrator', 'Full administrative access.'),
-  ('admin', 'Administrator', 'Operational administration without permission management.');
+insert into public.admin_roles (key) values
+  ('super_admin'),
+  ('admin');
 
-insert into public.admin_permissions (key, description) values
-  ('admin.dashboard.view', 'View the administration dashboard.'),
-  ('users.view', 'View user accounts and profiles.'),
-  ('users.manage_roles', 'Assign and remove administrative roles.'),
-  ('users.suspend', 'Suspend user accounts.'),
-  ('audit.read', 'Read the administrative audit log.'),
-  ('audit.write', 'Create administrative audit entries.');
+insert into public.admin_permissions (key) values
+  ('admin.dashboard.view'),
+  ('users.view'),
+  ('users.manage_roles'),
+  ('users.suspend'),
+  ('audit.read'),
+  ('audit.write');
 
 insert into public.admin_role_permissions (role_key, permission_key)
 select 'super_admin', key from public.admin_permissions;
@@ -342,13 +339,6 @@ $$;
 
 revoke all on function public.revoke_admin_user_sessions(uuid) from public, anon;
 grant execute on function public.revoke_admin_user_sessions(uuid) to authenticated;
-
-alter table public.admin_roles
-  drop column name,
-  drop column description;
-
-alter table public.admin_permissions
-  drop column description;
 
 -- Cover the permission foreign key used by admin RBAC joins and deletes.
 create index if not exists admin_role_permissions_permission_idx
