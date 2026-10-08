@@ -69,9 +69,49 @@ jobs:
         if: always()
         run: supabase stop
 
+  detect-production-change:
+    name: Detect production database changes
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.detect.outputs.changed }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Detect migration or database config changes
+        id: detect
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [[ "${{ github.event_name }}" != "push" ]]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "Production migration is limited to pushes that contain actual migration/config changes."
+            exit 0
+          fi
+
+          before="${{ github.event.before }}"
+          if [[ "$before" == "0000000000000000000000000000000000000000" ]]; then
+            before="$(git rev-list --max-parents=0 "$GITHUB_SHA")"
+          fi
+
+          if git diff --quiet "$before" "$GITHUB_SHA" -- supabase/migrations supabase/config.toml; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No production migration/config changes detected."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "Production migration/config changes detected."
+          fi
+
   production-release:
     name: Apply Supabase migrations to production
-    if: github.ref == 'refs/heads/main'
+    needs: detect-production-change
+    if: github.ref == 'refs/heads/main' && needs.detect-production-change.outputs.changed == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     environment: supabase-production
