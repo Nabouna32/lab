@@ -51,11 +51,13 @@ Loculary should serve a casual user without training while still supporting adva
 
 Results should be presented visually when that improves comprehension, confidence, or enjoyment. Visual design must not become decoration that slows or obscures the task.
 
-### 6. Expressive Utility
+### 6. Material 3 shared visual foundation
 
-Loculary should feel modern, polished, visual, lively and app-like while remaining utility-first. Visual richness, expressive color, animation, transitions, micro-interactions and distinctive tool identity are valid product capabilities, including when their value is primarily experiential or aesthetic. The intended experience is expressive by default, then refined through real UX, accessibility and performance evidence.
+Loculary uses **Material 3 (M3)** as the reference for its shared platform visual and interaction language. M3 should guide semantic color, typography hierarchy, functional iconography, shared components, interaction states, surfaces, elevation and motion, adapted to a task-first digital toolbox.
 
-Accessibility and reduced-motion preferences remain mandatory. There is no user-selectable Sober/Playful presentation mode in the current product.
+This adopts Material 3, **not Material 3 Expressive**. Shared foundations must create coherence without forcing every tool into the same composition or interaction model. Tool-specific visualizations and interfaces remain valid when they serve the task and preserve the platform's accessibility, localization, responsiveness and trust requirements.
+
+The exact palette, typeface, concrete tokens and final brand/logo treatment remain open until evaluated and, where consequential, separately validated. Accessibility and reduced-motion preferences remain mandatory.
 
 ### 7. Broad functional ambition
 
