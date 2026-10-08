@@ -18,13 +18,26 @@ The first account foundation is now deployed to Supabase: Supabase Auth remains 
 This is intentionally a small first step. Catalog/editorial data, favorites, collections, preferences, community data and administration will be designed and moved into the database incrementally after the code/database boundary is reviewed.
 
 
-## Catalog database boundary
+## Database catalog boundary
 
-The editable tool catalog foundation is deployed and seeded with the current 12-tool catalog. `tool_catalog` stores stable product identity, slug, visual icon, complexity, access and lifecycle; translation, category, tag, alias and relation tables store editable discovery/editorial data.
+The catalog/editorial database boundary remains an accepted target architecture, but it is **not currently deployed**. The October 2026 clean-cut intentionally removed the legacy `tool_*` schema and catalog permissions so the database could return to a small, deterministic account/administration foundation before the catalog is redesigned.
 
-The database catalog is deliberately not a second implementation of a tool. The stable tool ID bridges database catalog records to the Git-backed registry. Database metadata may change product/editorial information, but it cannot grant capabilities, change processing location, replace executable modules or redefine technical behavior.
+The future catalog must remain separate from executable tool behavior: Git/code remains authoritative for registry modules, processing mode, capabilities and technical behavior, while database data may own editable discovery/editorial metadata. The validated catalog redesign is tracked separately and must define the new schema before any catalog tables are reintroduced.
 
-Public reads expose published catalog entries. Administrative reads can include unpublished entries, with separate catalog read, manage and publish permissions. Localized editable product content uses `tool_translations`; system administration labels remain in application i18n.
+The current production database therefore contains no `tool_catalog`, `tool_translations`, `tool_categories`, `tool_tags`, `tool_aliases` or `tool_relations` tables, and no `catalog.*` administrative permissions.
+
+## Current production baseline
+
+The current Supabase production baseline is the clean application foundation migration `20261008195413_clean_application_foundation`. It contains only the retained account, administrative RBAC and audit foundation:
+
+- `public.profiles`
+- `public.admin_roles`
+- `public.admin_permissions`
+- `public.admin_role_permissions`
+- `public.admin_user_roles`
+- `public.admin_audit_log`
+
+All six public foundation tables have Row Level Security enabled. The legacy catalog schema and catalog permissions were removed during the pre-launch clean-cut. The repository baseline is designed for fresh local replay; production already uses the corresponding baseline migration identity.
 
 ## Administration foundation
 
