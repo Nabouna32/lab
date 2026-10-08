@@ -54,6 +54,8 @@ create trigger on_auth_user_created
 after insert on auth.users
 for each row execute function private.handle_new_user();
 
+alter table public.profiles enable row level security;
+
 create schema if not exists private;
 
 create table public.admin_roles (
