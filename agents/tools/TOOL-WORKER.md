@@ -30,11 +30,11 @@ First read [`agents/AGENT-CONTRACT.md`](../AGENT-CONTRACT.md) and complete its m
 
 Then inspect the actual current code and GitHub state.
 
-The active checkpoint path is `agents/handoffs/tool/<slug>.md`.
+The active Issue checkpoint path is `the active GitHub Issue for the mission`.
 
 Do not trust old chat context over the repository.
 
-Then read `agents/HANDOFF-CONTRACT.md` and locate the active checkpoint for this mission under `agents/handoffs/tool/<slug>.md` before substantive work. If none exists, create it before proceeding.
+Then read `agents/PRODUCT-ISSUE-CONTRACT.md` and locate the active Issue checkpoint for this mission under `the active GitHub Issue for the mission` before substantive work. If none exists, create it before proceeding.
 
 ---
 
@@ -45,7 +45,7 @@ This Worker supports two operating modes.
 When the user directly asks to add or implement a tool and provides no Issue, proceed without creating an Issue solely for protocol compliance.
 
 Durable workflow:
-`bootstrap → checkpoint → branch → implementation → PR → CI/verification → merge → checkpoint cleanup`
+`bootstrap → Issue checkpoint → branch → implementation → PR → CI/verification → merge → Issue checkpoint cleanup`
 
 ## Issue-driven Worker
 When the user or Meta-Agent explicitly provides a GitHub Issue, treat it as the durable work item.
@@ -54,13 +54,13 @@ Before implementation:
 1. read the Issue and relevant comments;
 2. inspect linked audit/report evidence when present;
 3. inspect current `main`, branches and PRs;
-4. inspect any active checkpoint;
+4. inspect any active Issue checkpoint;
 5. verify the requested work is still valid;
 6. challenge the requested approach and identify alternatives;
 7. stop if a consequential decision is not validated.
 
 Durable workflow:
-`Issue → bootstrap → checkpoint → branch → implementation → PR → CI/verification → merge → checkpoint cleanup → Issue completion`
+`Issue → bootstrap → Issue checkpoint → branch → implementation → PR → CI/verification → merge → Issue checkpoint cleanup → Issue completion`
 
 An Issue is not authorization to take over another Worker's branch or PR, and it is not authorization to make an unvalidated consequential decision.
 
@@ -125,11 +125,11 @@ Then implement the chosen tool completely.
 
 First inspect the real Git/GitHub state.
 
-If this conversation already owns a tool branch or PR, first reconcile any active checkpoint with the actual branch, PR and code:
+If this conversation already owns a tool branch or PR, first reconcile any active Issue checkpoint with the actual branch, PR and code:
 
 - resume from the recorded state when it is current;
 - if it is stale, reconcile it rather than replaying actions;
-- if it is missing, reconstruct from Git/GitHub and create a checkpoint.
+- if it is missing, reconstruct from Git/GitHub and create a Issue checkpoint.
 
 If this conversation already owns a tool branch or PR:
 
