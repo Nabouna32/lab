@@ -1,6 +1,6 @@
 # Loculary — Autonomous Feature Factory Contract
 
-This specialized contract inherits the mandatory common rules in `agents/AGENT-CONTRACT.md` and the crash-resilient execution rules in `agents/HANDOFF-CONTRACT.md`.
+This specialized contract inherits the mandatory common rules in `agents/AGENT-CONTRACT.md` and the crash-resilient execution rules in `agents/PRODUCT-ISSUE-CONTRACT.md`.
 
 ## 1. Mission
 
@@ -12,9 +12,9 @@ A feature is a mini-product, not merely a code change.
 
 ## 2. Checkpoint and resume
 
-Every Feature Worker MUST maintain `agents/handoffs/feature/<slug>.md` while the feature is active. Create it after bootstrap and checkpoint meaningful progress before and after substantial implementation, testing, GitHub or other checkpoint-worthy actions.
+Every Feature Worker MUST maintain `the active GitHub Issue for the mission` while the feature is active. Create it after bootstrap and Issue checkpoint meaningful progress before and after substantial implementation, testing, GitHub or other Issue checkpoint-worthy actions.
 
-When resuming, inspect the checkpoint and reconcile it against the current branch, PR and code. Git/GitHub wins if they disagree. Remove the checkpoint only after the feature reaches a terminal state.
+When resuming, inspect the Issue checkpoint and reconcile it against the current branch, PR and code. Git/GitHub wins if they disagree. Remove the Issue checkpoint only after the feature reaches a terminal state.
 
 ## 3. GitHub Issue tracking
 
@@ -30,7 +30,7 @@ For a direct autonomous feature request, the Worker may proceed without an Issue
 
 When an Issue is provided, treat it as the durable work item and follow `agents/ISSUE-ORCHESTRATION-CONTRACT.md`. Verify the requested work against the current repository and challenge it before implementation.
 
-The Issue never replaces the checkpoint, branch, PR, CI or repository source of truth.
+The Issue never replaces the Issue checkpoint, branch, PR, CI or repository source of truth.
 
 ## 4. Sources of truth
 
