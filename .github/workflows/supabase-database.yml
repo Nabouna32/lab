@@ -74,6 +74,7 @@ jobs:
     env:
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
       SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+      SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
       SUPABASE_PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_ID }}
 
     steps:
@@ -89,7 +90,7 @@ jobs:
           version: latest
 
       - name: Link production project
-        run: supabase link --project-ref "$SUPABASE_PROJECT_ID" --password "$SUPABASE_DB_PASSWORD"
+        run: supabase link --project-ref "$SUPABASE_PROJECT_ID"
 
       - name: Remove legacy remote migration history
         shell: bash
@@ -120,17 +121,17 @@ jobs:
             20261005113540 \
             20261008203440
           do
-            supabase migration repair "$version" --status reverted
+            supabase migration repair "$version" --db-url "$SUPABASE_DB_URL" --status reverted
           done
 
       - name: Mark clean baseline as applied
-        run: supabase migration repair 20261008195413 --status applied
+        run: supabase migration repair 20261008195413 --db-url "$SUPABASE_DB_URL" --status applied
 
       - name: Verify migration history
         run: |
           set -euo pipefail
-          supabase migration list
-          supabase db push --dry-run
+          supabase migration list --db-url "$SUPABASE_DB_URL"
+          supabase db push --db-url "$SUPABASE_DB_URL" --dry-run
 
       - name: Lint production database
-        run: supabase db lint --linked --fail-on error
+        run: supabase db lint --db-url "$SUPABASE_DB_URL" --fail-on error
