@@ -36,18 +36,13 @@ Ask for validation before important product, architectural or irreversible decis
 ## Documentation integrity
 Product, UX and architecture Markdown are current-state specifications, not code snapshots. Update them when validated direction changes or when they contain obsolete current-state guidance; do not rewrite historical audit reports or historical records merely to make them look current. Before changing a canonical document, read the relevant decisions and preserve still-valid intent. If code diverges from the current vision, correct the code or explicitly document the gap rather than silently redefining the product. Any genuine vision change must be explicit and update the canonical document, its recorded decision and dependent documents. Before implementing new functionality, audit the relevant Markdown specifications and decisions.
 
+
 ## Current UX/UI direction
 
-The current accepted UX/UI direction is **Expressive Utility**: an expressive, modern application experience built around a digital utility toolbox. Loculary is treated as a digital toolbox rather than a generic SaaS landing page, dashboard or card-heavy catalog.
+The accepted shared visual-system direction is **Material 3 (M3)**, as defined by DEC-048 and `docs/DESIGN-SYSTEM.md`. Use M3 as the reference for semantic tonal color, typography, iconography, shared components, interaction states, surfaces, elevation and motion. Do not silently substitute Material 3 Expressive.
 
-Design work should begin from user intentions and from the richer visual/app experience defined by the current Expressive Utility direction:
+Loculary remains a task-first digital toolbox organized around the user's need: find something, figure out how to do something, or discover. The preferred journey is **need → find/explore → tool → action → result → next action**. The homepage should be action/search-first; tool pages prioritize the tool, result and relevant actions over documentation or discovery content.
 
-- find something;
-- figure out how to do something;
-- discover.
+M3 standardizes the shared platform without forcing every tool into an identical layout or interaction model. Existing screens and components may be challenged, refactored or replaced when they obstruct the validated direction. Preserve valid product principles: anonymous-first core usage, processing transparency, privacy, accessibility, responsive desktop/tablet/mobile experiences, reduced-motion support and extensible i18n.
 
-The preferred journey is **need → find/explore → tool → action → result → next action**.
-
-The homepage should be action/search-first. Tool pages should prioritize the tool, result and relevant actions over documentation or discovery content. The shared design system must provide consistency without forcing every tool into an identical layout.
-
-When evaluating or redesigning UX/UI, existing screens and components may be challenged, removed, moved or replaced. Existing UX documents and implementation patterns must not be treated as immutable product requirements when they conflict with the current accepted direction. Durable changes must still be recorded explicitly in the canonical documentation and decisions.
+The exact palette, typeface, token values and final brand/logo treatment are not implicitly decided by this direction. The brand mark remains distinct from functional interface iconography.
