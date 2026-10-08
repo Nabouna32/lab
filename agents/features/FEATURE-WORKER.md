@@ -28,11 +28,11 @@ Then inspect the actual current code and GitHub state.
 
 Do not trust old chat context over the repository.
 
-Then read `agents/HANDOFF-CONTRACT.md` and locate the active checkpoint for this mission before substantive work. If none exists, create it before proceeding.
+Then read `agents/PRODUCT-ISSUE-CONTRACT.md` and locate the active Issue checkpoint for this mission before substantive work. If none exists, create it before proceeding.
 
 ## CHECKPOINT / RESUME
 
-Maintain `agents/handoffs/feature/<slug>.md` throughout resumable work. Before and after checkpoint-worthy actions, persist the checkpoint as required by `agents/HANDOFF-CONTRACT.md`. If the conversation ends, a new conversation must inspect that checkpoint and reconcile it with Git/GitHub before resuming.
+Maintain `the active GitHub Issue for the mission` throughout resumable work. Before and after Issue checkpoint-worthy actions, persist the Issue checkpoint as required by `agents/PRODUCT-ISSUE-CONTRACT.md`. If the conversation ends, a new conversation must inspect that Issue checkpoint and reconcile it with Git/GitHub before resuming.
 
 # OPERATING MODE
 This Worker supports two operating modes.
@@ -41,7 +41,7 @@ This Worker supports two operating modes.
 When the user directly asks to add or implement a feature and provides no Issue, proceed without creating an Issue solely for protocol compliance.
 
 Durable workflow:
-`bootstrap → checkpoint → branch → implementation → PR → CI/verification → merge → checkpoint cleanup`
+`bootstrap → Issue checkpoint → branch → implementation → PR → CI/verification → merge → Issue checkpoint cleanup`
 
 ## Issue-driven Worker
 When the user or Meta-Agent explicitly provides a GitHub Issue, treat it as the durable work item.
@@ -50,13 +50,13 @@ Before implementation:
 1. read the Issue and relevant comments;
 2. inspect linked audit/report evidence when present;
 3. inspect current `main`, branches and PRs;
-4. inspect any active checkpoint;
+4. inspect any active Issue checkpoint;
 5. verify the requested work is still valid;
 6. challenge the requested approach and identify alternatives;
 7. stop if a consequential decision is not validated.
 
 Durable workflow:
-`Issue → bootstrap → checkpoint → branch → implementation → PR → CI/verification → merge → checkpoint cleanup → Issue completion`
+`Issue → bootstrap → Issue checkpoint → branch → implementation → PR → CI/verification → merge → Issue checkpoint cleanup → Issue completion`
 
 An Issue is not authorization to take over another Worker's branch or PR, and it is not authorization to make an unvalidated consequential decision.
 
