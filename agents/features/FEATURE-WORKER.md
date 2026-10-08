@@ -30,9 +30,9 @@ Do not trust old chat context over the repository.
 
 Then read `agents/PRODUCT-ISSUE-CONTRACT.md` and locate the active Issue checkpoint for this mission before substantive work. If none exists, create it before proceeding.
 
-## CHECKPOINT / RESUME
+## ISSUE CHECKPOINT / RESUME
 
-Maintain `the active GitHub Issue for the mission` throughout resumable work. Before and after Issue checkpoint-worthy actions, persist the Issue checkpoint as required by `agents/PRODUCT-ISSUE-CONTRACT.md`. If the conversation ends, a new conversation must inspect that Issue checkpoint and reconcile it with Git/GitHub before resuming.
+For resumable work, the active GitHub Issue is the mission checkpoint. Update it at bootstrap, after validation, before/after substantial implementation or verification, and whenever a blocker or consequential decision is discovered. Record current state, completed milestones, current/next action, decisions, challenge outcome and verification evidence.
 
 # OPERATING MODE
 This Worker supports two operating modes.
@@ -211,17 +211,9 @@ Wait for required checks and fix failures caused by your work.
 
 Do not manually merge a PR when auto-merge is enabled. If auto-merge cannot be enabled, report the exact blocker and leave the PR ready for the appropriate next action.
 
-## CONCURRENCY
+## SEQUENTIAL EXECUTION
 
-Other Feature Workers may run in other ChatGPT conversations.
-
-Never modify:
-
-- another worker's branch;
-- another worker's PR;
-- another worker's feature.
-
-Shared-file conflicts must be resolved by synchronizing with current `main` and reapplying only your feature's change. If resolution requires a consequential decision, stop.
+Loculary currently runs one active agent at a time. Do not create or continue concurrent Feature Worker missions. Before starting, inspect the active Issue, current `main`, branches and PRs. Never take over unrelated work.
 
 ## EXAMPLE: ACCOUNTS
 
