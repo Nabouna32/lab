@@ -160,7 +160,7 @@ The shared tool shell should own platform concerns such as navigation, tool iden
 
 Do not build the entire M3 component catalogue preemptively. Select components from actual product needs, validate them in representative tool compositions and keep each migration scope independently verifiable.
 
-## 11. Responsive composition
+## 10. Responsive composition
 
 Desktop, tablet and mobile are first-class experiences. Do not design a desktop interface and merely compress it.
 
