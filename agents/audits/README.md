@@ -19,7 +19,7 @@ Every mission should instruct the agent to:
 - identify both defects and suboptimal-but-working choices;
 - include a from-scratch challenge: **if Loculary were built today, what would you change?**
 - produce a complete audit report using the canonical naming, historical immutability and classification contract;
-- maintain `docs/audits/<id>/active audit Issue` while an audit is in progress so a new conversation can recover interrupted work;
+- maintain the active GitHub Issue while an audit is in progress so a new conversation can recover interrupted work;
 - finish with a copy-pastable autonomous implementation-agent prompt;
 - state what should be preserved;
 - identify decisions that require explicit validation;
