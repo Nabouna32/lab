@@ -80,7 +80,8 @@ Its persistent memory is distributed across durable repository/GitHub state:
 - Git branches and commits;
 - GitHub pull requests and their descriptions/checks;
 - the active GitHub Issue used as the mission checkpoint;
-- `agents/PRODUCT-ISSUE-CONTRACT.md` for Issue lifecycle and mission tracking;
+- GitHub Issues used to retain actionable follow-up work and durable constraints discovered during missions;
+- `agents/PRODUCT-ISSUE-CONTRACT.md` for Issue lifecycle, mission tracking, follow-up work and constraint tracking;
 - immutable audit reports and `LATEST.md` pointers.
 
 A new conversation MUST reconstruct its context from these sources.
