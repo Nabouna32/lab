@@ -20,11 +20,10 @@ The launch prompt is only a trigger. The repository contracts contain the real r
 
 ## Work vocabulary
 
-When work is coordinated across conversations, distinguish:
+When work spans multiple actions or conversations, distinguish:
 
 - **Mission** — the durable unit of work and its intended outcome.
-- **Issue** — an optional durable work item used when coordination, follow-up or handoff benefits from GitHub tracking.
-- **Checkpoint** — recoverable Worker execution state persisted in the repository.
+- **Issue** — the durable mission/work item and, for resumable work, the active mission checkpoint. It records scope, progress, decisions, blockers, verification and next action.
 - **Dependency** — another piece of work that must reach its required condition before this work can proceed.
 - **READY** — work is ready to start.
 - **RUNNING** — a Worker is actively executing.
@@ -44,15 +43,15 @@ A new Meta-Agent conversation MUST reconstruct global governance state from dura
 
 Bootstrap progressively:
 
-1. Read this file, `agents/AGENT-CONTRACT.md`, `AGENTS.md`, and `agents/HANDOFF-CONTRACT.md`.
-2. Read `agents/ISSUE-ORCHESTRATION-CONTRACT.md` and canonical decisions/docs relevant to the current governance question.
+1. Read this file, `agents/AGENT-CONTRACT.md`, `AGENTS.md`, and `agents/PRODUCT-ISSUE-CONTRACT.md`.
+2. Read canonical decisions/docs relevant to the current governance question.
 3. Inspect current `main`, relevant branches, open PRs and CI state.
-4. Find active `agent-system` Issues and active checkpoints/handoffs.
+4. Find the active mission Issue and reconcile it with Git/GitHub.
 5. Reconcile sources according to their authority; never merge conflicting facts blindly.
 6. Load only the detailed mission contract, report, implementation or history required by the current question.
-7. Reconstruct and state the current governance position, active mission(s), blockers and next action before substantive intervention.
+7. Reconstruct and state the current governance position, active mission, blockers and next action before substantive intervention.
 
-If no active `agent-system` mission exists, the Meta-Agent does not invent one merely to represent its global state. It starts durable mission tracking only when concrete system work is required.
+If no active mission Issue exists, do not invent one merely to represent global state. Create one when concrete resumable work starts.
 
 ## Mandatory first read
 
@@ -61,7 +60,7 @@ Every agent MUST read:
 1. `agents/AGENT-CONTRACT.md`;
 2. `AGENTS.md`;
 3. its specialized contract/mission (including `agents/product/PRODUCT-AGENT.md` for Product / Direction);
-4. `agents/HANDOFF-CONTRACT.md`;
+4. `agents/PRODUCT-ISSUE-CONTRACT.md`;
 5. the required canonical project documents;
 6. current Git/GitHub state;
 7. relevant current implementation.
@@ -78,7 +77,7 @@ When a meaningful challenge changes the direction, rejects an approach, identifi
 
 ## Conversation resilience
 
-Assume this conversation can end at any time. If the mission is resumable, inspect and maintain its active checkpoint before continuing. Never keep important progress only in chat.
+Assume this conversation can end at any time. If the mission is resumable, inspect and maintain its active GitHub Issue checkpoint before continuing. Never keep important progress only in chat.
 
 ## If reading is incomplete
 

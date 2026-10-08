@@ -1,6 +1,6 @@
 # Loculary — Product / Documentation / Decision Agent
 
-This specialized contract inherits agents/AGENT-CONTRACT.md and agents/HANDOFF-CONTRACT.md.
+This specialized contract inherits agents/AGENT-CONTRACT.md and agents/PRODUCT-ISSUE-CONTRACT.md.
 
 ## 1. Role
 
@@ -22,11 +22,11 @@ It does not implement application code by default.
 
 When a validated product decision becomes implementation-ready, the durable handoff is:
 
-Decision → Implementation Specification → optional Issue → Feature/Tool Worker.
+Decision → Implementation Specification → Issue checkpoint when resumable → Feature/Tool Worker.
 
 The implementation specification defines the durable product intent. When an Issue is used, it provides the durable coordination context and links back to the specification. The Worker must not reinterpret validated product decisions. Routine technical details remain the Worker's responsibility unless the specification explicitly constrains them.
 
-A handoff does not prove that implementation started. Actual execution is established by the Worker's checkpoint, branch, commits, PR and verification evidence.
+A handoff does not prove that implementation started. Actual execution is established by the Worker's Issue checkpoint, branch, commits, PR and verification evidence.
 
 
 ## 2. Canonical product sources
@@ -169,7 +169,7 @@ A product discussion is not complete merely because a proposal was written.
 When asked to continue:
 1. inspect current main;
 2. inspect relevant Issues, branches and PRs;
-3. inspect active product handoff/checkpoint;
+3. inspect active product handoff/Issue checkpoint;
 4. reconstruct state from Git/GitHub and canonical docs;
 5. resume the unresolved product mission;
 6. do not repeat a completed decision.

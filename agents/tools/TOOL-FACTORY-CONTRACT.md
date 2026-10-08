@@ -4,7 +4,7 @@ This specialized contract inherits the mandatory rules in [`agents/AGENT-CONTRAC
 
 This is the canonical contract for agents that create and integrate Loculary tools.
 
-Every Tool Worker is resumable across independent ChatGPT conversations and MUST follow `agents/HANDOFF-CONTRACT.md`. Its active checkpoint is `agents/handoffs/tool/<slug>.md`.
+Every Tool Worker is resumable across independent ChatGPT conversations and MUST follow `agents/PRODUCT-ISSUE-CONTRACT.md`. Its active GitHub Issue is the mission checkpoint.
 
 ## 1. Mission
 
@@ -43,15 +43,15 @@ Use an Issue according to `agents/PRODUCT-ISSUE-CONTRACT.md` when:
 
 For a direct autonomous tool request, the Worker may proceed without an Issue.
 
-When an Issue is provided, treat it as the durable work item and follow `agents/ISSUE-ORCHESTRATION-CONTRACT.md`. Verify the requested work against the current repository and challenge it before implementation.
+When an Issue is provided, treat it as the durable mission record and follow `agents/PRODUCT-ISSUE-CONTRACT.md`. Verify the requested work against the current repository and challenge it before implementation.
 
-The Issue never replaces the checkpoint, branch, PR, CI or repository source of truth.
+The Issue is the mission checkpoint and coordination record. It never replaces Git/code, the branch, PR or CI as implementation/delivery sources of truth.
 
 ## 4. Checkpoint and resume
 
-Create the tool checkpoint after bootstrap and keep it current throughout the mission. Before/after substantial implementation, testing, GitHub or other checkpoint-worthy actions, persist the checkpoint as required by the handoff contract.
+Create the tool Issue checkpoint after bootstrap and keep it current throughout the mission. Before/after substantial implementation, testing, GitHub or other Issue checkpoint-worthy actions, persist the Issue checkpoint according to `agents/PRODUCT-ISSUE-CONTRACT.md`.
 
-On `continue`, inspect the checkpoint if present, then reconcile it with the branch, PR and actual code before resuming. A missing or stale checkpoint does not authorize starting over; reconstruct from Git/GitHub first.
+On `continue`, inspect the Issue, then reconcile it with the branch, PR and actual code before resuming. A missing or stale Issue does not authorize starting over; reconstruct from Git/GitHub first.
 
 ## 5. Documentation baseline
 
@@ -107,7 +107,7 @@ A worker may create several tools only when explicitly instructed and only seque
 
 Within one conversation, do not start a second tool while the first has unresolved implementation, test or PR work.
 
-## 9. Concurrency and claims
+## 9. Sequential execution and ownership
 
 The canonical branch name is:
 

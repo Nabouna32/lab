@@ -28,11 +28,11 @@ Then inspect the actual current code and GitHub state.
 
 Do not trust old chat context over the repository.
 
-Then read `agents/HANDOFF-CONTRACT.md` and locate the active checkpoint for this mission before substantive work. If none exists, create it before proceeding.
+Then read `agents/PRODUCT-ISSUE-CONTRACT.md` and locate the active Issue for this mission before substantive work. If the mission spans multiple actions or conversations and no Issue exists, create it before proceeding.
 
-## CHECKPOINT / RESUME
+## ISSUE CHECKPOINT / RESUME
 
-Maintain `agents/handoffs/feature/<slug>.md` throughout resumable work. Before and after checkpoint-worthy actions, persist the checkpoint as required by `agents/HANDOFF-CONTRACT.md`. If the conversation ends, a new conversation must inspect that checkpoint and reconcile it with Git/GitHub before resuming.
+For resumable work, the active GitHub Issue is the mission checkpoint. Update it at bootstrap, after validation, before/after substantial implementation or verification, and whenever a blocker or consequential decision is discovered. Record current state, completed milestones, current/next action, decisions, challenge outcome and verification evidence.
 
 # OPERATING MODE
 This Worker supports two operating modes.
@@ -41,7 +41,7 @@ This Worker supports two operating modes.
 When the user directly asks to add or implement a feature and provides no Issue, proceed without creating an Issue solely for protocol compliance.
 
 Durable workflow:
-`bootstrap → checkpoint → branch → implementation → PR → CI/verification → merge → checkpoint cleanup`
+`bootstrap → Issue checkpoint → branch → implementation → PR → CI/verification → merge → Issue closure`
 
 ## Issue-driven Worker
 When the user or Meta-Agent explicitly provides a GitHub Issue, treat it as the durable work item.
@@ -50,13 +50,13 @@ Before implementation:
 1. read the Issue and relevant comments;
 2. inspect linked audit/report evidence when present;
 3. inspect current `main`, branches and PRs;
-4. inspect any active checkpoint;
+4. inspect the active Issue;
 5. verify the requested work is still valid;
 6. challenge the requested approach and identify alternatives;
 7. stop if a consequential decision is not validated.
 
 Durable workflow:
-`Issue → bootstrap → checkpoint → branch → implementation → PR → CI/verification → merge → checkpoint cleanup → Issue completion`
+`Issue checkpoint → bootstrap → branch → implementation → PR → CI/verification → merge → Issue completion`
 
 An Issue is not authorization to take over another Worker's branch or PR, and it is not authorization to make an unvalidated consequential decision.
 
@@ -211,17 +211,9 @@ Wait for required checks and fix failures caused by your work.
 
 Do not manually merge a PR when auto-merge is enabled. If auto-merge cannot be enabled, report the exact blocker and leave the PR ready for the appropriate next action.
 
-## CONCURRENCY
+## SEQUENTIAL EXECUTION
 
-Other Feature Workers may run in other ChatGPT conversations.
-
-Never modify:
-
-- another worker's branch;
-- another worker's PR;
-- another worker's feature.
-
-Shared-file conflicts must be resolved by synchronizing with current `main` and reapplying only your feature's change. If resolution requires a consequential decision, stop.
+Loculary currently runs one active agent at a time. Do not create or continue concurrent Feature Worker missions. Before starting, inspect the active Issue, current `main`, branches and PRs. Never take over unrelated work.
 
 ## EXAMPLE: ACCOUNTS
 

@@ -18,15 +18,13 @@ Example:
 
 The numeric ID is historical identity. It must not be silently reused for a different audit domain.
 
-## 2. Concurrency and recovery
+## 2. Sequential recovery
 
-An audit's repository working state remains authoritative in `docs/audits/<audit-id>/WORKING.md`.
+An audit mission is tracked by its active GitHub Issue when it spans multiple actions or conversations. The Issue is the durable execution checkpoint: update it with current state, completed milestones, current/next action, decisions, blockers, challenge outcome and verification evidence.
 
-Only one active audit conversation should treat the same audit mission as active. Before continuing, inspect the current checkpoint, Git state and any linked GitHub Issue.
+Only one agent is active at a time. Before continuing, inspect the active Issue, Git state and any linked PR.
 
-An Issue is optional for the audit itself. Use one when the audit benefits from durable coordination or when its findings will be handed to another Worker.
-
-A missing Issue does not prevent an audit from running, and an open Issue does not authorize takeover of another conversation's branch or checkpoint.
+Git/GitHub remain authoritative for repository and delivery state. The Issue is the durable mission checkpoint, not a second implementation history.
 
 ## 3. Repository state
 
@@ -42,11 +40,11 @@ The report must record:
 
 Do not infer the current state from an earlier conversation or an older audit report.
 
-## 3. Crash-resilient audit execution
+## 3A. Crash-resilient audit execution
 
-An audit may be interrupted before its historical report is written. To make that recoverable, the audit may maintain exactly one temporary `docs/audits/<audit-id>/WORKING.md` checkpoint as defined by `agents/HANDOFF-CONTRACT.md`.
+An audit may be interrupted before its historical report is written. Its active GitHub Issue is the recovery point for resumable audit work. Update the Issue before and after substantial audit actions and whenever a blocker or consequential decision is discovered.
 
-`WORKING.md` is progress state, not historical evidence. It must never be cited as a completed audit report. On successful completion, create the historical report, update `LATEST.md`, then remove `WORKING.md`. If interrupted or abandoned, leave it in place until a later audit conversation resumes or explicitly cleans up the abandoned run.
+Do not create `WORKING.md` or another repository checkpoint file. Historical audit reports remain immutable and are created only when the audit run is complete.
 
 ## 4. GitHub Issue tracking
 
@@ -54,7 +52,7 @@ An audit MAY use a GitHub Issue as a durable work item when useful. The shared I
 
 Use the Issue to:
 - summarize the audit mission or an actionable follow-up;
-- link the historical report and relevant checkpoint;
+- link the historical report and relevant Issue checkpoint;
 - record decisions and next actions;
 - hand an actionable finding to a Feature, Tool or Meta-Agent Worker.
 
@@ -77,14 +75,7 @@ During the audit, do **not** modify:
 - Git history;
 - previous audit reports.
 
-The audit agent may persist its own result only by:
-
-1. maintaining its temporary `WORKING.md` checkpoint while the audit is active;
-2. creating a new historical report under its own `docs/audits/<audit-id>/` directory;
-3. updating that audit's `LATEST.md` pointer;
-4. removing `WORKING.md` after successful completion.
-
-No other repository modification is part of the audit output contract unless the mission explicitly grants additional scope.
+The audit agent may persist its own durable mission state in the active GitHub Issue and, at completion, create the immutable historical report and update its `LATEST.md` pointer. No repository checkpoint file is created.
 
 ## 6. Historical report naming
 
