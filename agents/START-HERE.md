@@ -43,13 +43,13 @@ A new Meta-Agent conversation MUST reconstruct global governance state from dura
 
 Bootstrap progressively:
 
-1. Read this file, `agents/AGENT-CONTRACT.md`, `AGENTS.md`, and `agents/HANDOFF-CONTRACT.md`.
-2. Read `agents/ISSUE-ORCHESTRATION-CONTRACT.md` and canonical decisions/docs relevant to the current governance question.
+1. Read this file, `agents/AGENT-CONTRACT.md`, `AGENTS.md`, and `agents/PRODUCT-ISSUE-CONTRACT.md`.
+2. Read canonical decisions/docs relevant to the current governance question.
 3. Inspect current `main`, relevant branches, open PRs and CI state.
-4. Find active `agent-system` Issues and active checkpoints/handoffs.
+4. Find the active mission Issue and reconcile it with Git/GitHub.
 5. Reconcile sources according to their authority; never merge conflicting facts blindly.
 6. Load only the detailed mission contract, report, implementation or history required by the current question.
-7. Reconstruct and state the current governance position, active mission(s), blockers and next action before substantive intervention.
+7. Reconstruct and state the current governance position, active mission, blockers and next action before substantive intervention.
 
 If no active mission Issue exists, do not invent one merely to represent global state. Create one when concrete resumable work starts.
 
@@ -77,7 +77,7 @@ When a meaningful challenge changes the direction, rejects an approach, identifi
 
 ## Conversation resilience
 
-Assume this conversation can end at any time. If the mission is resumable, inspect and maintain its active checkpoint before continuing. Never keep important progress only in chat.
+Assume this conversation can end at any time. If the mission is resumable, inspect and maintain its active GitHub Issue checkpoint before continuing. Never keep important progress only in chat.
 
 ## If reading is incomplete
 
