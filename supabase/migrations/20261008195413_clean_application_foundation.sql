@@ -165,7 +165,7 @@ revoke all on table public.admin_roles, public.admin_permissions, public.admin_r
 
 grant select on public.admin_roles, public.admin_permissions, public.admin_role_permissions,
   public.admin_user_roles, public.admin_audit_log to authenticated;
-grant insert, update, delete on public.admin_user_roles to authenticated;
+grant insert, delete on public.admin_user_roles to authenticated;
 
 create policy "Admins can read roles"
 on public.admin_roles for select to authenticated
