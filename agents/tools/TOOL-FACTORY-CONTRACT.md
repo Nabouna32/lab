@@ -49,9 +49,9 @@ The Issue is the mission checkpoint and coordination record. It never replaces G
 
 ## 4. Checkpoint and resume
 
-Create the tool Issue checkpoint after bootstrap and keep it current throughout the mission. Before/after substantial implementation, testing, GitHub or other Issue checkpoint-worthy actions, persist the Issue checkpoint as required by the handoff contract.
+Create the tool Issue checkpoint after bootstrap and keep it current throughout the mission. Before/after substantial implementation, testing, GitHub or other Issue checkpoint-worthy actions, persist the Issue checkpoint according to `agents/PRODUCT-ISSUE-CONTRACT.md`.
 
-On `continue`, inspect the Issue checkpoint if present, then reconcile it with the branch, PR and actual code before resuming. A missing or stale Issue checkpoint does not authorize starting over; reconstruct from Git/GitHub first.
+On `continue`, inspect the Issue, then reconcile it with the branch, PR and actual code before resuming. A missing or stale Issue does not authorize starting over; reconstruct from Git/GitHub first.
 
 ## 5. Documentation baseline
 
@@ -107,7 +107,7 @@ A worker may create several tools only when explicitly instructed and only seque
 
 Within one conversation, do not start a second tool while the first has unresolved implementation, test or PR work.
 
-## 9. Concurrency and claims
+## 9. Sequential execution and ownership
 
 The canonical branch name is:
 
