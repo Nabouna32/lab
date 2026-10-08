@@ -145,7 +145,22 @@ Motion should:
 
 Exact durations, easing curves and transition recipes remain open for implementation and validation. Do not assume M3 Expressive motion guidance is part of this decision.
 
-## 9. Responsive composition
+## 9. Component architecture and composition
+
+Use a layered architecture that separates reusable behavior from page composition and tool-owned experience:
+
+1. **Foundations** — semantic color, typography, shape, elevation, focus, motion and responsive intent.
+2. **Behavioral primitives** — focused reusable interactions such as buttons, fields, selection, disclosure, feedback and navigation.
+3. **Composition patterns** — documented structures for discovery, execution/input, results, editing, visualization and advanced workspaces.
+4. **Tool-specific UI** — the actual task experience, which may combine or bypass shared composition patterns when a specialized structure is better.
+
+A pattern should be reused because its behavior or structural relationship genuinely recurs, not merely because two elements look similar. Prefer a documented pattern over a new component when code reuse adds little value. Avoid mega-components with many visual variants, arbitrary styling props, hidden business logic or forced DOM structures.
+
+The shared tool shell should own platform concerns such as navigation, tool identity, processing/privacy disclosure, responsive behavior and common secondary content. The tool owns its task-specific controls, result visualization and domain interaction. Refactor or replace existing abstractions when they obstruct the M3 target; do not preserve them solely to minimize changes.
+
+Do not build the entire M3 component catalogue preemptively. Select components from actual product needs, validate them in representative tool compositions and keep each migration scope independently verifiable.
+
+## 11. Responsive composition
 
 Desktop, tablet and mobile are first-class experiences. Do not design a desktop interface and merely compress it.
 
@@ -153,7 +168,7 @@ Responsive behavior should preserve task hierarchy and useful interaction target
 
 Advertising or secondary content must not reduce the usable tool area below an acceptable level or obstruct inputs, results, navigation or critical controls.
 
-## 10. Accessibility, localization and quality
+## 11. Accessibility, localization and quality
 
 M3 adoption does not replace Loculary's product quality requirements. All shared UI and tool interfaces must continue to support:
 
@@ -169,7 +184,7 @@ M3 adoption does not replace Loculary's product quality requirements. All shared
 
 Test behavior, not just visual resemblance to M3. A visually similar component that breaks keyboard navigation, localization or task flow is not compliant with this contract.
 
-## 11. Validation before freezing visual tokens
+## 12. Validation before freezing visual tokens
 
 Before finalizing concrete tokens or migrating the entire shared UI, evaluate representative compositions:
 
@@ -186,7 +201,7 @@ Before finalizing concrete tokens or migrating the entire shared UI, evaluate re
 
 The review should verify consistency with M3, task clarity, visual distinction between hierarchy levels, tool-specific flexibility, accessibility, responsiveness and the usefulness of the resulting interactions.
 
-## 12. Governance and implementation boundary
+## 13. Governance and implementation boundary
 
 This document establishes the current product/design contract; it does not prove that the application has been migrated.
 
@@ -194,7 +209,7 @@ Open details include the final color seed and mappings, typeface, exact token va
 
 Implementation should be staged into small, verifiable scopes. Workers may refactor or replace existing components when necessary to meet this contract, but must not silently change unrelated product behavior, privacy, architecture or scope.
 
-## 13. Relationship to canonical documents
+## 14. Relationship to canonical documents
 
 This contract is governed by DEC-048 and must remain coherent with:
 
