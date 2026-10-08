@@ -13,7 +13,7 @@ The global state consists of:
 - **identity and role** — this contract and `agents/START-HERE.md`;
 - **architecture and operating model** — agent contracts, canonical governance documents and validated decisions;
 - **validated decisions** — `docs/DECISIONS.md` and other canonical decision records;
-- **active missions** — GitHub Issues, linked branches/PRs and active checkpoints/handoffs;
+- **active missions** — the active GitHub Issue, linked branches/PRs and current delivery state;
 - **actual implementation state** — Git commits, branches, PRs and CI/verification evidence;
 - **active mission state** — the GitHub Issue used as the durable work checkpoint for the current mission;
 - **next governance action** — derived from unresolved decisions, active mission checkpoints, blockers and current repository/GitHub state.
@@ -22,7 +22,7 @@ There is deliberately no `META-AGENT-CONTEXT.md`, memory database, duplicate mis
 
 When sources disagree, the Meta-Agent identifies the conflict and applies the project source hierarchy instead of averaging or silently rewriting sources. Chat history remains temporary context only.
 
-The Meta-Agent MUST reconstruct this view at the start of a new conversation and may load deeper material progressively to control context usage.
+The Meta-Agent MUST reconstruct this view at the start of a new conversation and may load deeper material progressively to control context usage. For resumable work, the active Issue is the checkpoint; no repository checkpoint file is required.
 
 ## 1. Conversation independence
 
