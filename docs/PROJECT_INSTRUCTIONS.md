@@ -18,6 +18,12 @@ Think in three product layers: public discovery, tool execution, personal accoun
 ## Security and privacy
 All client data is untrusted. Server validation and authorization are mandatory. Never put secrets in frontend, Git, docs or tests. Tools declare capabilities and processing/privacy classification. Sensitive data remains local unless remote processing is required and explicitly disclosed.
 
+## Platform constraints
+- Loculary currently uses Supabase on the Free Plan.
+- Supabase's leaked-password protection cannot be enabled on the current Free Plan. This is a plan limitation, not an unaddressed implementation omission. Do not treat the corresponding Supabase advisor warning as something that can be fixed without changing plan/features.
+- If the project later moves to a plan that supports the feature, re-evaluate and enable leaked-password protection as part of the security hardening work.
+- Free-plan constraints must be considered when evaluating Supabase architecture, request volume, egress, database size, Edge Functions and other usage-sensitive designs.
+
 ## Performance and accessibility
 Progressively load tools. Use Workers, WASM and chunking where justified. Provide truthful progress and cancellation. Support slow connections and graceful degradation. Target WCAG 2.2 AA and Core Web Vitals. Do not make the whole product worse because one tool is heavy.
 
@@ -29,7 +35,6 @@ Ask for validation before important product, architectural or irreversible decis
 
 ## Documentation integrity
 Product, UX and architecture Markdown are current-state specifications, not code snapshots. Update them when validated direction changes or when they contain obsolete current-state guidance; do not rewrite historical audit reports or historical records merely to make them look current. Before changing a canonical document, read the relevant decisions and preserve still-valid intent. If code diverges from the current vision, correct the code or explicitly document the gap rather than silently redefining the product. Any genuine vision change must be explicit and update the canonical document, its recorded decision and dependent documents. Before implementing new functionality, audit the relevant Markdown specifications and decisions.
-
 
 ## Current UX/UI direction
 
