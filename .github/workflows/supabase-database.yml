@@ -20,7 +20,7 @@ permissions:
 
 concurrency:
   group: supabase-database-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
   validate:
@@ -66,14 +66,13 @@ jobs:
         run: supabase stop
 
   production-release:
-    name: Finalize Supabase clean cutover
-    if: github.event_name == 'workflow_dispatch'
+    name: Apply Supabase migrations to production
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     environment: supabase-production
     env:
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-      SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
       SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
       SUPABASE_PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_ID }}
 
@@ -92,46 +91,11 @@ jobs:
       - name: Link production project
         run: supabase link --project-ref "$SUPABASE_PROJECT_ID"
 
-      - name: Remove legacy remote migration history
-        shell: bash
-        run: |
-          set -euo pipefail
-          for version in \
-            20260926174300 \
-            20260926174401 \
-            20260926185339 \
-            20260926204100 \
-            20260926210229 \
-            20260926211909 \
-            20260927002950 \
-            20260927072057 \
-            20260927073952 \
-            20260927074002 \
-            20260927074102 \
-            20260927074253 \
-            20260927175816 \
-            20261003111925 \
-            20261003112038 \
-            20261003120219 \
-            20261004214521 \
-            20261004220957 \
-            20261004231223 \
-            20261005060330 \
-            20261005063828 \
-            20261005113540 \
-            20261008203440
-          do
-            supabase migration repair "$version" --db-url "$SUPABASE_DB_URL" --status reverted
-          done
+      - name: Preview pending migrations
+        run: supabase db push --db-url "$SUPABASE_DB_URL" --dry-run
 
-      - name: Mark clean baseline as applied
-        run: supabase migration repair 20261008195413 --db-url "$SUPABASE_DB_URL" --status applied
-
-      - name: Verify migration history
-        run: |
-          set -euo pipefail
-          supabase migration list --db-url "$SUPABASE_DB_URL"
-          supabase db push --db-url "$SUPABASE_DB_URL" --dry-run
+      - name: Apply migrations
+        run: supabase db push --db-url "$SUPABASE_DB_URL"
 
       - name: Lint production database
         run: supabase db lint --db-url "$SUPABASE_DB_URL" --fail-on error
