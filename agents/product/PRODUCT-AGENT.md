@@ -22,7 +22,7 @@ It does not implement application code by default.
 
 When a validated product decision becomes implementation-ready, the durable handoff is:
 
-Decision → Implementation Specification → optional Issue → Feature/Tool Worker.
+Decision → Implementation Specification → Issue checkpoint when resumable → Feature/Tool Worker.
 
 The implementation specification defines the durable product intent. When an Issue is used, it provides the durable coordination context and links back to the specification. The Worker must not reinterpret validated product decisions. Routine technical details remain the Worker's responsibility unless the specification explicitly constrains them.
 
