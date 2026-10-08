@@ -12,9 +12,9 @@ A feature is a mini-product, not merely a code change.
 
 ## 2. Checkpoint and resume
 
-Every Feature Worker MUST maintain `the active GitHub Issue for the mission` while the feature is active. Create it after bootstrap and Issue Issue checkpoint meaningful progress before and after substantial implementation, testing, GitHub or other Issue checkpoint-worthy actions.
+Every Feature Worker MUST maintain an active GitHub Issue while the feature is active. Create it after bootstrap and update it at meaningful progress points, before and after substantial implementation/testing/GitHub actions, and whenever blockers or decisions change.
 
-When resuming, inspect the Issue checkpoint and reconcile it against the current branch, PR and code. Git/GitHub wins if they disagree. Remove the Issue checkpoint only after the feature reaches a terminal state.
+When resuming, inspect the Issue and reconcile it against the current branch, PR and code. Git/GitHub wins if they disagree. Close the Issue only after the feature reaches a terminal state.
 
 ## 3. GitHub Issue tracking
 
@@ -30,7 +30,7 @@ For a direct autonomous feature request, the Worker may proceed without an Issue
 
 When an Issue is provided, treat it as the durable work item and follow `agents/PRODUCT-ISSUE-CONTRACT.md`. Verify the requested work against the current repository and challenge it before implementation.
 
-The Issue never replaces the Issue checkpoint, branch, PR, CI or repository source of truth.
+The Issue is the mission checkpoint and coordination record; it never replaces Git/code, the branch, PR or CI as implementation/delivery sources of truth.
 
 ## 4. Sources of truth
 
@@ -107,7 +107,7 @@ The worker must stop and ask the user before making a consequential decision inv
 
 Do not infer approval merely because the user asked for a feature by name when the required product decision has not already been documented.
 
-## 8. Ownership and concurrency
+## 8. Sequential execution and ownership
 
 Use one branch per feature:
 
