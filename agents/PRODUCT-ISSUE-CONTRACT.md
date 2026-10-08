@@ -4,14 +4,9 @@ GitHub Issues are a durable orchestration and tracking layer for agent work. The
 
 ## 1. When to use an Issue
 
-An Issue is a durable work item when work benefits from:
-- cross-conversation coordination;
-- explicit follow-up;
-- handoff between agents;
-- durable assignment;
-- tracking an actionable audit finding.
+An Issue is the durable mission record whenever work spans multiple actions, may cross a conversation boundary, needs follow-up, or represents an actionable audit/product/governance task. It is also the active checkpoint for that work.
 
-An Issue is not required for every autonomous Worker action.
+A trivial atomic change that starts and finishes in one validated action may omit an Issue.
 
 Do not create an Issue for trivial work solely to satisfy a protocol.
 
@@ -50,7 +45,7 @@ Keep an Issue concise and durable. When used as a work item, include as applicab
 - non-goals;
 - source/evidence;
 - decisions and decisions required;
-- checkpoint path;
+- current Issue checkpoint state;
 - branch/PR;
 - verification;
 - blockers;
@@ -125,6 +120,7 @@ Issues must not become:
 - a runtime state database;
 - a claim/lease mechanism;
 - a second implementation history;
-- a replacement for checkpoints;
 - a replacement for Git branches or PRs;
 - automatic authorization for consequential decisions.
+
+For active missions, however, the Issue is intentionally the durable execution checkpoint: update it rather than creating a repository checkpoint file.
