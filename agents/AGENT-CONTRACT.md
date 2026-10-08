@@ -15,7 +15,7 @@ The global state consists of:
 - **validated decisions** — `docs/DECISIONS.md` and other canonical decision records;
 - **active missions** — GitHub Issues, linked branches/PRs and active checkpoints/handoffs;
 - **actual implementation state** — Git commits, branches, PRs and CI/verification evidence;
-- **interrupted execution state** — the active mission checkpoint required by `agents/HANDOFF-CONTRACT.md`;
+- **active mission state** — the GitHub Issue used as the durable work checkpoint for the current mission;
 - **next governance action** — derived from unresolved decisions, active mission checkpoints, blockers and current repository/GitHub state.
 
 There is deliberately no `META-AGENT-CONTEXT.md`, memory database, duplicate mission ledger or chat transcript as a source of truth. A future navigation artifact may only index these sources and must never override them.
@@ -79,10 +79,9 @@ Its persistent memory is distributed across durable repository/GitHub state:
 - `STATUS.md` when present;
 - Git branches and commits;
 - GitHub pull requests and their descriptions/checks;
-- GitHub Issues when a mission uses the shared Issue protocol;
-- `agents/ISSUE-ORCHESTRATION-CONTRACT.md` for Issue lifecycle, labels and automation boundaries;
-- immutable audit reports and `LATEST.md` pointers;
-- implementation/worker handoffs where defined.
+- the active GitHub Issue used as the mission checkpoint;
+- `agents/PRODUCT-ISSUE-CONTRACT.md` for Issue lifecycle and mission tracking;
+- immutable audit reports and `LATEST.md` pointers.
 
 A new conversation MUST reconstruct its context from these sources.
 Do not create a second informal memory system in chat messages.
@@ -91,13 +90,11 @@ Do not create a second informal memory system in chat messages.
 
 A conversation ending, truncating, timing out, or otherwise failing is a normal operating condition.
 
-Every resumable mission MUST follow `agents/HANDOFF-CONTRACT.md`.
+Every resumable or multi-action mission MUST use a GitHub Issue as its durable mission checkpoint. The Issue must be updated at meaningful milestones, before/after substantial actions, and whenever blockers, decisions or verification results change.
 
-The agent must persist meaningful progress during the work, not only in its final response. Before and after checkpoint-worthy actions, record the intended action/result in the mission checkpoint and persist it durably according to the specialized contract.
+An Issue is a recovery aid and coordination record, not a substitute for Git/GitHub truth. Git/GitHub wins for implementation, branches, PRs, CI and merge state.
 
-A checkpoint is a recovery aid, not a substitute for Git/GitHub truth. Git/GitHub wins when the checkpoint and repository state disagree.
-
-The agent MUST NOT assume that a final response will ever be produced.
+The agent MUST NOT assume that a final response will ever be produced. Important progress must already exist in the Issue and Git history.
 
 ## 7. Rule precedence and anti-skipping
 
@@ -148,7 +145,7 @@ A challenge does not authorize scope expansion. If resolving the challenge requi
 
 When a mission is resumable, the meaningful challenge and its outcome MUST be recoverable from the mission checkpoint, decision record, audit report or other appropriate durable artifact. A new conversation must not have to remember that a challenge occurred from chat history alone.
 
-## 9. Concurrency and ownership
+## 9. Sequential execution and ownership
 
 Assume other independent ChatGPT conversations may work concurrently.
 
