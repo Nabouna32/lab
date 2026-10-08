@@ -3,7 +3,7 @@
 **Status:** Draft specification  
 **Scope:** Product / UX / visual-system contract  
 **Canonical direction:** DEC-046 — Expressive Utility  
-**Related decisions:** DEC-034, DEC-004, DEC-005, DEC-006, DEC-019  
+**Related decisions:** DEC-034, DEC-004, DEC-006, DEC-019  
 **Implementation status:** Not implemented by this document
 
 ## 1. Purpose

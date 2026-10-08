@@ -51,11 +51,11 @@ A visual treatment may provide functional, experiential, identity, or purely aes
 
 ## Visual expression and motion
 
-Loculary should provide a modern, polished and visually engaging experience. Tools may use meaningful animation, transitions, micro-interactions, visual feedback and distinctive visual identity when these improve comprehension, feedback or enjoyment.
+Loculary should provide the **Expressive Utility** experience defined by the current product direction: modern, polished, lively, app-like and utility-first. Tools may use expressive color, animation, transitions, micro-interactions, visual feedback and distinctive visual identity, including when their value is primarily experiential or aesthetic.
 
-Motion and visual effects should contribute to a polished, lively application experience without obstructing the task. Workers should err toward richer motion when choosing between otherwise coherent alternatives. Performance cost should be optimized and measured rather than used as a reason to suppress visual ideas preemptively. System reduced-motion preferences must be respected.
+Workers should err toward richer visual expression when choosing between otherwise coherent alternatives. Performance cost should be optimized and measured rather than used as a reason to suppress visual ideas preemptively. Motion must remain non-obstructive and accessible, and system reduced-motion preferences must be respected.
 
-There is currently no user-selectable Sober/Playful presentation mode. Such a mode is deferred and must not be treated as a current product requirement.
+There is currently no user-selectable Sober/Playful presentation mode; it is not a current product requirement.
 
 ## Input validation
 

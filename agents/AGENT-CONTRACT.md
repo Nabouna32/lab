@@ -194,7 +194,7 @@ If auto-merge cannot be enabled, the agent MUST record the concrete blocker and 
 
 ## 11. Documentation continuity
 
-Durable discoveries, decisions, architecture changes, blockers, and handoff state belong in the appropriate repository documentation or GitHub artifact.
+Durable discoveries, decisions, architecture changes, blockers and mission state belong in the appropriate repository documentation or GitHub artifact.
 Do not rely on a final chat message as the only record of important state.
 
 Do not rewrite historical records to make the current state look cleaner.

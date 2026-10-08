@@ -28,14 +28,14 @@ Durable information must be recorded in the appropriate project document. Implem
 Ask for validation before important product, architectural or irreversible decisions. Within an already validated step, technical implementation details may be chosen autonomously when they do not change the approved scope or direction. If implementation reveals an issue requiring a new decision or exceeding the validated scope, stop and ask for validation.
 
 ## Documentation integrity
-Product, UX and architecture Markdown are durable specifications, not code snapshots. Never rewrite them simply to match the current implementation. Before changing them, read and preserve existing decisions; distinguish vision, architecture, foundations, planned work and completed functionality. If code diverges from the vision, correct the code or explicitly document the gap rather than silently redefining the product. Any genuine vision change must be explicit and update the canonical document, its recorded decision and all dependent documents. Make surgical edits and preserve historical intent. Before implementing new functionality, audit the relevant Markdown specifications and decisions.
+Product, UX and architecture Markdown are current-state specifications, not code snapshots. Update them when validated direction changes or when they contain obsolete current-state guidance; do not rewrite historical audit reports or historical records merely to make them look current. Before changing a canonical document, read the relevant decisions and preserve still-valid intent. If code diverges from the current vision, correct the code or explicitly document the gap rather than silently redefining the product. Any genuine vision change must be explicit and update the canonical document, its recorded decision and dependent documents. Before implementing new functionality, audit the relevant Markdown specifications and decisions.
 
 
 ## Current UX/UI direction
 
-The current accepted UX/UI direction is **Modern Utility**. Loculary is treated as a digital toolbox rather than a generic SaaS landing page, dashboard or card-heavy catalog.
+The current accepted UX/UI direction is **Expressive Utility**: an expressive, modern application experience built around a digital utility toolbox. Loculary is treated as a digital toolbox rather than a generic SaaS landing page, dashboard or card-heavy catalog.
 
-Design work should begin from user intentions:
+Design work should begin from user intentions and from the richer visual/app experience defined by the current Expressive Utility direction:
 
 - find something;
 - figure out how to do something;

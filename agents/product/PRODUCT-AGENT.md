@@ -169,7 +169,7 @@ A product discussion is not complete merely because a proposal was written.
 When asked to continue:
 1. inspect current main;
 2. inspect relevant Issues, branches and PRs;
-3. inspect active product handoff/Issue checkpoint;
+3. inspect the active product Issue checkpoint when one exists;
 4. reconstruct state from Git/GitHub and canonical docs;
 5. resume the unresolved product mission;
 6. do not repeat a completed decision.

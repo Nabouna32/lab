@@ -19,7 +19,7 @@ Use an Issue for:
 - a Feature or Tool mission explicitly run as Issue-driven work;
 - actionable follow-up work discovered during a mission or audit but intentionally kept outside the current scope;
 - a technical, UX, security, privacy, accessibility, i18n, performance, cost, compatibility or architectural constraint discovered during a mission that must be remembered and considered by future work;
-- cross-agent blockers or handoffs when they require durable follow-up.
+- cross-agent dependencies or blockers when they require durable follow-up.
 
 An Issue may therefore represent **current work**, **work identified for later**, or a **constraint that requires future tracking**. The distinction must be explicit in the Issue body so a future agent can tell whether it is an active mission, deferred work, or a constraint to preserve.
 

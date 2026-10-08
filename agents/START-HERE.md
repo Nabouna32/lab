@@ -89,4 +89,4 @@ If tool output is truncated, a file cannot be accessed, or a required document i
 
 ## Resume principle
 
-A new conversation resumes from the repository, GitHub branches/PRs, durable documentation, and recorded handoffs. Chat history is optional context only.
+A new conversation resumes from the repository, GitHub branches/PRs, durable documentation, and GitHub Issue checkpoints. Chat history is optional context only.
