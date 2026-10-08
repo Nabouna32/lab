@@ -4,7 +4,7 @@ This specialized contract inherits the mandatory rules in [`agents/AGENT-CONTRAC
 
 This is the canonical contract for agents that create and integrate Loculary tools.
 
-Every Tool Worker is resumable across independent ChatGPT conversations and MUST follow `agents/PRODUCT-ISSUE-CONTRACT.md`. Its active Issue checkpoint is `the active GitHub Issue for the mission`.
+Every Tool Worker is resumable across independent ChatGPT conversations and MUST follow `agents/PRODUCT-ISSUE-CONTRACT.md`. Its active GitHub Issue is the mission checkpoint.
 
 ## 1. Mission
 
@@ -43,9 +43,9 @@ Use an Issue according to `agents/PRODUCT-ISSUE-CONTRACT.md` when:
 
 For a direct autonomous tool request, the Worker may proceed without an Issue.
 
-When an Issue is provided, treat it as the durable work item and follow `agents/ISSUE-ORCHESTRATION-CONTRACT.md`. Verify the requested work against the current repository and challenge it before implementation.
+When an Issue is provided, treat it as the durable mission record and follow `agents/PRODUCT-ISSUE-CONTRACT.md`. Verify the requested work against the current repository and challenge it before implementation.
 
-The Issue never replaces the Issue checkpoint, branch, PR, CI or repository source of truth.
+The Issue is the mission checkpoint and coordination record. It never replaces Git/code, the branch, PR or CI as implementation/delivery sources of truth.
 
 ## 4. Checkpoint and resume
 
