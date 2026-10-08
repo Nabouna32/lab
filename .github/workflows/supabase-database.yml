@@ -66,7 +66,7 @@ jobs:
         run: supabase stop
 
   production-release:
-    name: Release Supabase migrations
+    name: Finalize Supabase clean cutover
     if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -91,11 +91,46 @@ jobs:
       - name: Link production project
         run: supabase link --project-ref "$SUPABASE_PROJECT_ID" --password "$SUPABASE_DB_PASSWORD"
 
-      - name: Inspect migration history
-        run: supabase migration list
+      - name: Remove legacy remote migration history
+        shell: bash
+        run: |
+          set -euo pipefail
+          for version in \
+            20260926174300 \
+            20260926174401 \
+            20260926185339 \
+            20260926204100 \
+            20260926210229 \
+            20260926211909 \
+            20260927002950 \
+            20260927072057 \
+            20260927073952 \
+            20260927074002 \
+            20260927074102 \
+            20260927074253 \
+            20260927175816 \
+            20261003111925 \
+            20261003112038 \
+            20261003120219 \
+            20261004214521 \
+            20261004220957 \
+            20261004231223 \
+            20261005060330 \
+            20261005063828 \
+            20261005113540 \
+            20261008203440
+          do
+            supabase migration repair "$version" --status reverted
+          done
 
-      - name: Preview pending migrations
-        run: supabase db push --dry-run
+      - name: Mark clean baseline as applied
+        run: supabase migration repair 20261008195413 --status applied
 
-      - name: Apply migrations
-        run: supabase db push
+      - name: Verify migration history
+        run: |
+          set -euo pipefail
+          supabase migration list
+          supabase db push --dry-run
+
+      - name: Lint production database
+        run: supabase db lint --linked --fail-on error
