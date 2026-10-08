@@ -78,26 +78,6 @@ The platform standardizes infrastructure and trust requirements, while custom to
 
 ---
 
-## DEC-005 — Sober and playful modes
-
-**Status:** Superseded — deferred
-
-### Decision
-
-The previously accepted user-selectable Sober/Playful presentation style is no longer part of the current product scope. It may be reconsidered much later, but no current implementation, architecture or UX requirement should assume that this mode exists.
-
-The current direction is a single modern, polished and visually engaging experience in which individual tools may use appropriate visual identity, animation, transitions and micro-interactions.
-
-### Reason
-
-The product should first establish a coherent modern visual language rather than introduce a global presentation-mode choice. This preserves room for distinctive tool experiences without forcing an artificial Sober/Playful split.
-
-### Consequences
-
-Animations and visual effects remain valid product capabilities and must respect accessibility and reduced-motion preferences. Any future return to selectable presentation modes requires a new explicit product decision.
-
----
-
 ## DEC-006 — Advertising must remain subordinate
 
 **Status:** Accepted
@@ -167,32 +147,6 @@ The existing stack supports the current product requirements and avoids unnecess
 ### Consequences
 
 Architecture should be designed around product requirements rather than framework assumptions.
-
----
-
-## DEC-010 — Tech lead / product owner autonomy
-
-**Status:** Superseded by DEC-033
-
-### Decision
-
-The project grants the technical lead/product owner authority to make routine, reversible technical, UX, and low-impact product decisions without asking for approval.
-
-### Consult the user when
-
-A decision materially affects:
-
-- fundamental product direction;
-- long-term cost;
-- user data handling;
-- legal/compliance exposure;
-- business model;
-- irreversible public commitments.
-
-### Reason
-
-This allows the project to move quickly while preserving user control over consequential decisions.
-
 
 ---
 
@@ -650,12 +604,11 @@ This model preserves user control over consequential changes while allowing effi
 
 ### Consequences
 
-- DEC-010 is superseded as the current operating model, while its historical rationale remains preserved.
 - Project instructions and agent guidance follow this validated-step model.
 - New work should be proposed and validated one step at a time when it changes the product or project materially.
 - No silent scope expansion is permitted.
 
-## DEC-034 — UX/UI direction reset and user-intention architecture
+## DEC-034 — UX direction reset and user-intention architecture
 
 **Status:** Accepted
 
@@ -663,7 +616,7 @@ This model preserves user control over consequential changes while allowing effi
 
 Loculary is formally restarting its UX/UI design direction from first principles.
 
-The new direction treats Loculary as a **modern digital utility toolbox**, not as a conventional SaaS landing page, dashboard or generic card-based catalog.
+The product is treated as a digital utility toolbox rather than a conventional SaaS landing page, dashboard or generic card-based catalog.
 
 The experience is organized around three primary user intentions:
 
@@ -675,11 +628,11 @@ The preferred primary journey is:
 
 > **Need → Find or explore → Tool → Action → Result → Next action**
 
-The homepage is therefore action/search-first, with discovery following in depth. The tool page prioritizes the task, result and useful actions. Documentation and related tools remain secondary.
+The homepage is action/search-first, with discovery following in depth. The tool page prioritizes the task, result and useful actions. Documentation and contextual next actions remain secondary to the primary task.
 
-The visual direction is **Modern Utility**: modernity should come primarily from hierarchy, typography, spacing, density, precision, feedback, coherent interaction patterns and purposeful motion rather than generic SaaS decoration.
+The platform must provide a common visual and interaction language without forcing every tool into an identical layout. Individual tools may use distinct compositions, visualizations, animations and interaction models when this improves comprehension, feedback, enjoyment or tool character.
 
-The platform must provide a common visual and interaction language without forcing every tool into an identical layout. Individual tools may use distinct compositions, visualizations, animations and interaction models when this improves comprehension, feedback or enjoyment.
+Visual direction is governed separately by the current **Expressive Utility** decision.
 
 ### Reason
 
@@ -689,16 +642,15 @@ The product needs a clearer identity centered on accomplishing tasks quickly whi
 
 ### Consequences
 
-- Existing UX/UI patterns are no longer protected merely because they already exist.
+- Existing UX/UI patterns are not protected merely because they already exist.
 - Future redesign work may remove, merge, move or replace existing screens and components.
-- Search becomes a primary product entry point rather than merely a header utility.
+- Search is a primary product entry point rather than merely a header utility.
 - Explorer/navigation must support both intention-oriented and category-oriented discovery.
 - Tool pages must prioritize interaction and results over editorial content.
-- Related tools should represent useful next actions rather than generic filler.
+- Next actions must represent useful continuations rather than generic filler.
 - Responsive layouts must be designed as first-class desktop, tablet and mobile experiences.
-- Visual design work must avoid adding decoration solely to create an appearance of modernity.
-- This decision does not change browser-first processing, privacy, accessibility, internationalization, anonymous-first usage or the separation between tool implementations and platform contracts.
-
+- Visual richness and motion are governed by the Expressive Utility decision, not by this structural UX decision.
+- Core product constraints such as browser-first processing, privacy, accessibility, internationalization and anonymous-first usage remain unchanged.
 
 ## DEC-035 — Development tool category
 
@@ -806,75 +758,30 @@ A dedicated modernization pass reduces the risk of accumulating obsolete tooling
 - Audit 31 remains the final cross-domain red-team pass after validated modernization work.
 \n
 
-## DEC-039 — Agent product governance and GitHub Issue orchestration
+## DEC-039 — Agent product governance and GitHub Issue checkpoints
 
 **Status:** Accepted
 
 ### Decision
 
-Loculary adds a dedicated **Product / Documentation / Decision Agent** responsible for product direction, product reasoning, documentation governance and preparation of validated implementation specifications.
+Loculary has a dedicated **Product / Documentation / Decision Agent** responsible for product direction, product reasoning, documentation governance and preparation of validated implementation specifications.
 
-GitHub Issues are adopted as a shared **orchestration and tracking layer** for agent missions when useful. Issues may track product decisions, audits, Feature Worker missions, Tool Worker missions and cross-agent blockers.
+GitHub Issues are the durable orchestration and tracking mechanism for agent work that spans multiple actions, conversations or follow-up. For resumable current work, the **active GitHub Issue is the durable mission checkpoint**. Additional Issues may retain actionable future work and durable constraints discovered during missions.
 
-Issues do not replace the repository/Git source of truth, canonical documentation, active handoff checkpoints, immutable audit reports or pull requests. Audit findings remain evidence/recommendations until the appropriate product or technical decision is explicitly validated.
+Issues complement Git/GitHub and canonical documentation. They do not replace Git as the implementation source of truth, canonical specifications as the source of current product intent, historical audit reports, branches, pull requests or CI evidence.
 
 ### Reason
 
-A dedicated product role prevents product direction and durable documentation from becoming accidental by-products of implementation workers or audit reports. Issues provide a durable, conversation-independent index for work that spans agents and ChatGPT conversations without duplicating the detailed state already held in Git and repository documentation.
+A dedicated product role prevents product direction and durable documentation from becoming accidental by-products of implementation workers or audit reports. A GitHub Issue provides a durable, conversation-independent recovery point without introducing a second repository checkpoint system or requiring an external runtime.
 
 ### Consequences
 
-- Product discussions can be resumed from repository documentation and an optional tracking Issue.
-- Audit missions may use Issues to expose concise status, findings, decisions and follow-up work while retaining reports and WORKING.md as their canonical artifacts.
-- Feature and Tool Workers may use Issues for mission tracking while branch/PR/Git state remains authoritative for implementation.
-- A future GitHub Project, if supported by the available integration, should remain a visualization/orchestration layer rather than a required source of truth.
+- Product discussions can be resumed from canonical documentation and, when the work is resumable, the active Issue checkpoint.
+- Audit, Feature and Tool missions may use Issues for durable mission state and actionable follow-up.
+- The recovery path for resumable work is Issue → Git branch/PR → canonical documentation.
+- Repository checkpoint files and the former handoff/checkpoint-file model are not used.
+- An Issue is not authorization to take over another Worker's branch or PR or to make an unvalidated consequential decision.
 - The Product Agent must not silently implement consequential product decisions; user validation remains required.
-
-
-## DEC-040 — PostgreSQL runtime orchestration boundary
-
-**Status:** Superseded
-
-### Decision
-
-The project previously used Supabase PostgreSQL as a runtime coordination layer for the autonomous agent system, isolated from product data and subordinate to Git/GitHub as the implementation and delivery authority.
-
-That runtime was subsequently removed after an architecture challenge established that the current ChatGPT execution model does not provide a reliable external mechanism for waking/resuming a new Worker conversation. Keeping the runtime without a real consumer added operational state, security surface and maintenance cost without providing the promised recovery capability.
-
-The historical runtime implementation remains preserved in Git history and migration history for traceability. It is no longer part of the active production architecture.
-
-### Reason
-
-A coordination runtime is justified only when it has a real execution consumer. The current Worker protocol already uses durable Issues, checkpoints, Git branches/PRs and CI as recoverable sources of truth. Removing an unused runtime is simpler and more reliable than maintaining infrastructure that cannot complete the wake/resume loop.
-
-### Consequences
-
-- Git/GitHub, canonical documentation and checkpoints remain the durable sources of truth.
-- Workers do not depend on Supabase for mission execution.
-- Historical runtime migrations and decision history are retained for auditability.
-- A future runtime may be reconsidered only when a real wake/resume adapter and its security model are available and validated.
-
----
-
-## DEC-041 — Free-plan agent dispatcher runtime
-
-**Status:** Superseded
-
-### Decision
-
-The previously implemented Free-plan PostgreSQL/pg_cron dispatcher and authenticated agent-dispatcher Edge Function are retired and removed from the active architecture.
-
-### Reason
-
-The dispatcher depended on the PostgreSQL runtime coordination layer that had no real Worker wake/resume consumer. Keeping it would preserve dead infrastructure rather than improve autonomous execution.
-
-### Consequences
-
-- The production pg_cron dispatcher, runtime PostgreSQL objects and deployed agent-dispatcher source are being removed.
-- The repository retains the historical migrations and decision record; they are not replayed or deleted.
-- No Loculary application tables, account/auth objects, tool catalog objects, unrelated Edge Functions or unrelated cron jobs are affected.
-- A new dispatcher must be justified by a real end-to-end wake/resume mechanism before reintroduction.
-
 
 ## DEC-042 — Next actions are contextual and optional
 
@@ -910,58 +817,6 @@ where the final step is conditional on there being a meaningful continuation.
 - This decision supersedes any current UX wording that treats related tools as a generic mandatory section or places them after documentation by default.
 
 
-## DEC-043 — Intent is distinct from category navigation
-
-**Status:** Superseded by DEC-045
-
-### Decision
-
-Loculary treats **intent as a first-class discovery object**, distinct from the category hierarchy.
-
-An intent represents what the user wants to accomplish. It may be associated with multiple tools, including tools from different categories. An intent is therefore not a category shortcut and is not required to map one-to-one to a category.
-
-The initial intent catalog may use curated editorial associations between intents and tools. Future deterministic metadata-based candidate generation or ranking may be added when justified by catalog scale and search evidence, without changing the underlying product semantics.
-
-### Reason
-
-The previous category-based implementation reduced an intention such as “Calculer” or “Analyser” to the first available category. That does not represent the actual user goal and becomes increasingly misleading as the catalog grows.
-
-A first-class intent model allows Loculary to represent the product vision directly while leaving room for richer discovery and eventual solution-oriented search.
-
-### Consequences
-
-- Intent and category are separate discovery axes.
-- One intent may lead to multiple tools and multiple categories.
-- Intent associations are editorial data, not executable tool behavior.
-- Deterministic inference/ranking is an extension mechanism, not the definition of intent.
-- The current intent-to-category shortcut is transitional implementation debt.
-
----
-
-## DEC-044 — Design the catalog for large scale; backend direction follows DEC-027
-
-**Status:** Superseded by DEC-027
-
-### Decision
-
-Loculary must be designed from now for a potentially large catalog, including **thousands or tens of thousands of tools**.
-
-The previous wording that reopened the catalog backend choice is superseded. The accepted persistence boundary remains DEC-027: PostgreSQL owns editable catalog/editorial data, while Git/code remains authoritative for executable implementations and technical behavior.
-
-### Reason
-
-Large-catalog readiness remains a valid product and architecture requirement, but backend ambiguity contradicted the already accepted catalog persistence boundary.
-
-### Consequences
-
-- Large-catalog behavior remains a design constraint.
-- Catalog/editorial data belongs to the database boundary defined by DEC-027.
-- Executable tool behavior remains in Git.
-- Performance, indexing, caching, localization, publication, relations, progressive loading and operational cost remain first-class concerns.
-- Supabase is the current PostgreSQL platform used by Loculary; changing catalog infrastructure remains an architecture matter subject to the existing decision boundaries.
-
----
-
 ## DEC-045 — Intents are first-class discovery objects
 
 **Status:** Accepted
@@ -989,13 +844,13 @@ The new model directly represents the product vision while keeping the implement
 - Generic category shortcuts must not be presented as if they fully represent an intent.
 
 
-## DEC-046 — Loculary visual language: rich-by-default expressive utility
+## DEC-046 — Loculary Expressive Utility and expressive app experience
 
 **Status:** Accepted
 
 ### Decision
 
-Loculary adopts **Expressive Utility** as its visual direction: a coherent Loculary-native visual language that is modern, polished, lively and app-like while remaining utility-first.
+Loculary adopts **Expressive Utility** as its visual direction: a coherent Loculary-native visual language that is modern, polished, lively and app-like while remaining utility-first. Loculary is an expressive application experience, not merely a polished utility website.
 
 Visual richness is an intentional product goal, not something to minimize preemptively. Animations, transitions, micro-interactions, visual feedback, spatial continuity and purely experiential or aesthetic motion are explicitly allowed and encouraged when they improve the perceived quality, character or enjoyment of the application.
 
@@ -1005,7 +860,7 @@ Performance remains a real product constraint, but it is an optimization and val
 
 `prefers-reduced-motion` remains an accessibility adaptation for users who request reduced motion. It does not define the default visual philosophy for users who have not requested it.
 
-The shared platform establishes coherence through typography, semantic color, accessibility, iconography, responsive behavior, common feedback and motion principles. Individual tools may express their nature through distinctive composition, visualization, animation, transitions and visual identity within those shared constraints.
+The shared platform establishes coherence through typography, semantic color, accessibility, iconography, responsive behavior, common feedback and motion principles. Expressive color, visible interaction feedback, purposeful transitions, pleasant loading/waiting experiences and distinctive tool-specific expression are valid parts of that experience. Individual tools may express their nature through distinctive composition, visualization, animation, transitions and visual identity within those shared constraints.
 
 ### Reason
 
@@ -1021,51 +876,8 @@ This does not authorize indiscriminate animation. Task obstruction, spectacle, a
 - Performance optimization should preserve visual intent whenever technically reasonable.
 - Later UX, accessibility and performance audits may identify motion or visual treatments that should be reduced, changed or removed; such findings do not invalidate the direction itself.
 - Reduced-motion behavior must preserve the same conceptual experience while adapting motion intensity appropriately.
-- This decision does not introduce a user-selectable Sober/Playful mode or a per-tool design free-for-all.
+- This decision does not introduce a user-selectable Sober/Playful mode or a per-tool design free-for-all. Fluent, Material and other external systems may inform individual interaction patterns, but Loculary must retain its own visual language.
 
 ### Implementation boundary
 
 This decision defines product/design intent. It does not prescribe exact colors, durations, easing curves, component APIs, icon libraries or CSS implementation. Those belong to the subsequent design-system specification and implementation work.
-
-
-## DEC-047 — Loculary expressive app experience
-
-**Status:** Accepted
-
-### Decision
-
-Loculary's validated Expressive Utility direction is explicitly an **expressive application experience**, not merely a polished utility website.
-
-The product should feel modern, fluid, animated, attractive and recognisably alive. Beauty, delight, personality and perceived quality are legitimate product outcomes in addition to functional clarity and efficiency.
-
-The initial visual direction therefore permits and encourages:
-
-- expressive but coherent semantic color;
-- visible interaction feedback;
-- purposeful transitions and spatial continuity;
-- pleasant loading and waiting experiences;
-- micro-interactions and decorative details whose primary value may be experiential rather than functional;
-- distinctive tool-specific visual expression when the task benefits from it.
-
-Fluent and Material Design may serve as reference points for useful interaction, surface, motion, accessibility and application-design patterns, but Loculary must synthesize its own visual language rather than copy either system.
-
-Motion is also considered a potential part of Loculary's visual signature. It may be functional, experiential or aesthetic. A loading animation or other non-essential visual treatment is therefore valid when it improves the experience.
-
-This direction does **not** mean that more effects are always better. The intended sequence is to design the richer coherent experience, implement it, evaluate it in real use, optimize it, and then reduce or remove elements when evidence shows that they are distracting, repetitive, inaccessible, unresponsive or materially harmful to performance.
-
-### Reason
-
-A strict utility-only interpretation would unnecessarily constrain the product and would make it difficult to achieve the intended app-like personality. Conversely, uncontrolled visual effects would damage clarity and usability. The appropriate boundary is therefore expressive-by-default design followed by evidence-based refinement.
-
-### Consequences
-
-- Workers must not reject visual expression solely because it is decorative or non-essential.
-- Workers should consider loading, waiting, transition and micro-interaction quality during initial implementation rather than treating them as forbidden polish.
-- Color may contribute materially to identity while remaining governed by semantic roles.
-- Motion may become part of a coherent Loculary movement language rather than a collection of unrelated component animations.
-- Real-world UX, accessibility and performance evaluation may lead to removal or reduction of individual effects without contradicting this decision.
-- The product must not become a clone of Fluent, Material or another external design system.
-
-### Implementation boundary
-
-This decision establishes product/design intent. It does not prescribe exact colors, token values, animation durations, easing curves, component APIs, icon libraries or CSS implementation.
