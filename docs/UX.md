@@ -51,11 +51,11 @@ A visual treatment may provide functional, experiential, identity, or purely aes
 
 ## Visual expression and motion
 
-Loculary should provide the **Expressive Utility** experience defined by the current product direction: modern, polished, lively, app-like and utility-first. Tools may use expressive color, animation, transitions, micro-interactions, visual feedback and distinctive visual identity, including when their value is primarily experiential or aesthetic.
+Loculary's shared visual language follows **Material 3 (M3)** as defined by DEC-048 and `docs/DESIGN-SYSTEM.md`. Shared navigation, controls, typography, semantic color, iconography, interaction states and motion should follow M3 principles while serving the task-first utility toolbox.
 
-Workers should err toward richer visual expression when choosing between otherwise coherent alternatives. Performance cost should be optimized and measured rather than used as a reason to suppress visual ideas preemptively. Motion must remain non-obstructive and accessible, and system reduced-motion preferences must be respected.
+M3 does not require every tool to use the same layout or visual composition. Tool-specific interfaces may differ when their task benefits from a specialized interaction model, visualization or density. All tools must preserve platform navigation, accessibility, localization, responsiveness and trust requirements.
 
-There is currently no user-selectable Sober/Playful presentation mode; it is not a current product requirement.
+Use motion when it clarifies feedback, state changes or spatial continuity; do not add it indiscriminately. Respect system reduced-motion preferences. Exact palette, typeface, logo treatment and concrete token values are not fixed by this UX document and must follow the canonical design-system decision and any required validation.
 
 ## Input validation
 
@@ -346,21 +346,11 @@ Tool-specific identity is encouraged when it improves comprehension, feedback or
 
 ### Visual design direction
 
-The new visual language should avoid generic "SaaS template" aesthetics as the primary identity. In particular, the redesign should not rely on gradients, large marketing headings, excessive rounded cards, nested cards, decorative shadows or hover effects merely to appear modern.
+The shared visual system follows **Material 3 (M3)**, not Material 3 Expressive. Use M3 as the reference for semantic tonal color, typography hierarchy, shape, surfaces, elevation, iconography, shared component states and motion. Adapt those foundations to Loculary's task-first utility toolbox rather than copying a Google product screen or adopting a generic SaaS template.
 
-Modernity should instead come from:
+The redesign must challenge existing UI patterns when they prevent a coherent M3 experience. The objective is not to retokenize the current interface while preserving every existing component; refactor or replace abstractions when justified by the validated design target.
 
-- precise typography;
-- hierarchy;
-- spacing and density;
-- strong information architecture;
-- restrained surfaces;
-- coherent iconography;
-- purposeful motion;
-- excellent feedback;
-- consistent interaction patterns.
-
-The target feeling is **a well-designed digital toolbox**, not a startup landing page.
+The exact palette, primary typeface and final Loculary logo treatment remain open. The brand mark should remain distinct from functional interface icons. Shared consistency must not erase meaningful visual and interaction differences between specialized tools.
 
 ### Discovery and next actions
 
