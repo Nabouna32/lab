@@ -31,6 +31,11 @@
 .previewCards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin-top:2rem}.previewCards article,.infoCard{padding:1.1rem;border:1px solid var(--lab-outline);border-radius:var(--lab-radius);background:var(--lab-surface)}
 .previewCards strong,.resultList strong{display:block;margin-top:.7rem}.previewCards p,.resultList p,.infoCard p{color:var(--lab-muted);font-size:.85rem;line-height:1.5}
 .cardIcon{display:inline-grid;place-items:center;width:2.6rem;height:2.6rem;border-radius:var(--lab-radius-small);background:var(--lab-primary-soft);color:var(--lab-primary);font-size:1.25rem;font-weight:800}
+/* Hybrid lab palette: keep blue for primary actions and use vivid secondary hues selectively. */
+.accentSecondary{background:color-mix(in srgb,var(--lab-secondary) 14%,var(--lab-surface));color:var(--lab-secondary)}
+.accentTertiary{background:color-mix(in srgb,var(--lab-tertiary) 14%,var(--lab-surface));color:var(--lab-tertiary)}
+.chipSecondary{border-color:var(--lab-secondary);background:color-mix(in srgb,var(--lab-secondary) 10%,var(--lab-surface));color:var(--lab-secondary)}
+.chipTertiary{border-color:var(--lab-tertiary);background:color-mix(in srgb,var(--lab-tertiary) 10%,var(--lab-surface));color:var(--lab-tertiary)}
 .exploreTitle{margin-bottom:1.2rem}.resultList{display:grid;gap:.7rem;margin-top:1.3rem}.resultList article{display:flex;align-items:center;gap:.9rem;padding:1rem;border:1px solid var(--lab-outline);border-radius:var(--lab-radius)}.resultList article>div{flex:1}.resultList p{margin:.3rem 0 0}
 .chip,.chipSelected{border:1px solid var(--lab-outline);border-radius:999px;padding:.55rem .8rem;background:transparent;color:var(--lab-text);font-size:.8rem}.chipSelected{border-color:var(--lab-primary);background:var(--lab-primary-soft);color:var(--lab-primary)}
 .calculator{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;max-width:38rem;margin-top:1.5rem;padding:1.2rem;border:1px solid var(--lab-outline);border-radius:var(--lab-radius);background:var(--lab-bg)}
