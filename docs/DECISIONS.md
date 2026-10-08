@@ -656,7 +656,7 @@ The homepage is action/search-first, with discovery following in depth. The tool
 
 The platform must provide a common visual and interaction language without forcing every tool into an identical layout. Individual tools may use distinct compositions, visualizations, animations and interaction models when this improves comprehension, feedback, enjoyment or tool character.
 
-Visual direction is governed separately by the current **Expressive Utility** decision.
+Visual direction is governed by DEC-048 — Material 3 as Loculary's shared design-system foundation.
 
 ### Reason
 
@@ -673,7 +673,7 @@ The product needs a clearer identity centered on accomplishing tasks quickly whi
 - Tool pages must prioritize interaction and results over editorial content.
 - Next actions must represent useful continuations rather than generic filler.
 - Responsive layouts must be designed as first-class desktop, tablet and mobile experiences.
-- Visual richness and motion are governed by the Expressive Utility decision, not by this structural UX decision.
+- Shared visual foundations and motion are governed by DEC-048; this structural UX decision does not require identical compositions across tools.
 - Core product constraints such as browser-first processing, privacy, accessibility, internationalization and anonymous-first usage remain unchanged.
 
 ## DEC-035 — Development tool category
@@ -867,41 +867,30 @@ The new model directly represents the product vision while keeping the implement
 - Deterministic inference or ranking is an extension mechanism, not the definition of intent.
 - Generic category shortcuts must not be presented as if they fully represent an intent.
 
-
-## DEC-046 — Loculary Expressive Utility and expressive app experience
+## DEC-048 — Material 3 as Loculary's shared design-system foundation
 
 **Status:** Accepted
 
 ### Decision
 
-Loculary adopts **Expressive Utility** as its visual direction: a coherent Loculary-native visual language that is modern, polished, lively and app-like while remaining utility-first. Loculary is an expressive application experience, not merely a polished utility website.
+Loculary adopts **Material 3 (M3)** as the reference design system for the shared platform experience. Shared foundations and components should follow M3's design principles for semantic tonal color, typography hierarchy, shape, elevation, iconography, interaction states and motion, adapted to the needs of a responsive web utility toolbox.
 
-Visual richness is an intentional product goal, not something to minimize preemptively. Animations, transitions, micro-interactions, visual feedback, spatial continuity and purely experiential or aesthetic motion are explicitly allowed and encouraged when they improve the perceived quality, character or enjoyment of the application.
+This decision adopts **Material 3, not Material 3 Expressive**. Do not introduce M3 Expressive as an assumed part of the direction.
 
-For the initial design and implementation phase, workers should **err toward the richer, more expressive solution** when two otherwise coherent options are available. They must not suppress an animation or visual treatment merely because it has a non-zero performance cost or because its value is not strictly functional.
+M3 establishes a coherent platform language without requiring every tool to share the same layout or visual composition. Tool-specific interfaces remain first-class when their task benefits from a specialized interaction model or visual treatment, subject to common navigation, accessibility, localization and platform behavior.
 
-Performance remains a real product constraint, but it is an optimization and validation concern rather than an aesthetic ideology. The expected sequence is to build the intended rich experience, optimize its implementation, measure its real impact, and then remove or reduce elements when evidence shows that they are excessive, distracting, inaccessible or materially harmful to performance.
-
-`prefers-reduced-motion` remains an accessibility adaptation for users who request reduced motion. It does not define the default visual philosophy for users who have not requested it.
-
-The shared platform establishes coherence through typography, semantic color, accessibility, iconography, responsive behavior, common feedback and motion principles. Expressive color, visible interaction feedback, purposeful transitions, pleasant loading/waiting experiences and distinctive tool-specific expression are valid parts of that experience. Individual tools may express their nature through distinctive composition, visualization, animation, transitions and visual identity within those shared constraints.
+The Loculary brand mark remains distinct from functional interface iconography. The supplied SVG is a candidate for further brand exploration, not an approved final logo.
 
 ### Reason
 
-The product direction explicitly aims for a modern, visual and pleasant utility toolbox. A conservative interpretation of performance guidance can cause workers to omit valuable visual ideas before the product has been experienced and audited. It is more useful at this stage to discover the expressive range of the application and then evaluate what is genuinely excessive.
-
-This does not authorize indiscriminate animation. Task obstruction, spectacle, accessibility regressions and demonstrable performance problems remain defects to be corrected.
+The current bespoke visual language and shared primitives do not provide a sufficiently consistent, established design-system reference. Adopting M3 gives the platform a coherent basis for navigation, controls, typography, color roles, states and responsive interaction instead of continuing to combine loosely related visual conventions.
 
 ### Consequences
 
-- Feature and Tool Workers must not interpret performance guidance as a default instruction to make interfaces visually austere.
-- Rich motion and app-like interaction should be considered during initial implementation rather than added only after later polish work.
-- Purely visual motion is valid when it contributes to perceived quality, delight, spatial continuity or tool character.
-- Performance optimization should preserve visual intent whenever technically reasonable.
-- Later UX, accessibility and performance audits may identify motion or visual treatments that should be reduced, changed or removed; such findings do not invalidate the direction itself.
-- Reduced-motion behavior must preserve the same conceptual experience while adapting motion intensity appropriately.
-- This decision does not introduce a user-selectable Sober/Playful mode or a per-tool design free-for-all. Fluent, Material and other external systems may inform individual interaction patterns, but Loculary must retain its own visual language.
-
-### Implementation boundary
-
-This decision defines product/design intent. It does not prescribe exact colors, durations, easing curves, component APIs, icon libraries or CSS implementation. Those belong to the subsequent design-system specification and implementation work.
+- The previous visual-direction decision is superseded and its obsolete entry is removed from this canonical file. Git history remains the record of prior versions.
+- `docs/DESIGN-SYSTEM.md` defines the M3-based platform contract and Loculary-specific boundaries.
+- `docs/UX.md` and `docs/PROJECT_INSTRUCTIONS.md` must remain consistent with this direction.
+- Exact palette and theme mappings, typeface, detailed token values, component-library choices and final brand/logo treatment remain open until separately evaluated and validated where consequential.
+- Existing components and screens may be refactored or replaced when required for a coherent M3 implementation; the direction does not require preserving current abstractions.
+- DEC-004 remains in force: M3 standardizes shared platform foundations and behavior, not every specialized tool's composition.
+- Adoption is not proof of implementation. Code migration, visual verification and responsive/accessibility checks require a separate implementation scope.
