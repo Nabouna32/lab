@@ -13,11 +13,17 @@ Do not create an Issue for trivial work solely to satisfy a protocol.
 ## 2. Issue roles
 
 Use an Issue for:
+- an active mission that needs durable tracking and recovery across actions or conversations;
 - product or governance work that needs durable tracking;
 - an audit mission when tracking is useful;
 - a Feature or Tool mission explicitly run as Issue-driven work;
-- actionable follow-up work from an audit;
-- cross-agent blockers or handoffs.
+- actionable follow-up work discovered during a mission or audit but intentionally kept outside the current scope;
+- a technical, UX, security, privacy, accessibility, i18n, performance, cost, compatibility or architectural constraint discovered during a mission that must be remembered and considered by future work;
+- cross-agent blockers or handoffs when they require durable follow-up.
+
+An Issue may therefore represent **current work**, **work identified for later**, or a **constraint that requires future tracking**. The distinction must be explicit in the Issue body so a future agent can tell whether it is an active mission, deferred work, or a constraint to preserve.
+
+Discoveries do not automatically require an Issue. Create one when the discovery is actionable, durable, or important enough that losing it across a conversation boundary would create a meaningful risk. A simple observation that requires no follow-up can remain in the current mission record or other appropriate documentation.
 
 For a direct autonomous request that is fully atomic and completed in one validated action, the Worker may operate without an Issue. Resumable or multi-action work requires an Issue.
 
