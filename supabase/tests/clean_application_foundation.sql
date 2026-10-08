@@ -1,6 +1,6 @@
 begin;
 
-select plan(15);
+select plan(16);
 
 select ok(
   exists (select 1 from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='public' and c.relname='profiles' and c.relkind='r'),
@@ -77,6 +77,11 @@ select ok(
 select ok(
   (select has_table_privilege('authenticated', 'public.profiles', 'SELECT')),
   'authenticated can SELECT profiles subject to RLS'
+);
+
+select ok(
+  (select has_table_privilege('authenticated', 'public.admin_user_roles', 'UPDATE') is false),
+  'authenticated has no direct admin_user_roles UPDATE privilege'
 );
 
 select ok(
