@@ -699,10 +699,6 @@ grant execute on function private.list_admin_audit_log(integer) to authenticated
 revoke all on function private.revoke_admin_user_sessions(uuid) from public, anon, authenticated;
 grant execute on function private.revoke_admin_user_sessions(uuid) to authenticated;
 
--- Explicit least-privilege profile grants. RLS is the row boundary; anonymous clients do not need table privileges.
-revoke all on table public.profiles from anon, authenticated;
-grant select, insert, update on table public.profiles to authenticated;
-
 -- Explicit least-privilege profile grants.
 revoke all on table public.profiles from anon, authenticated;
 grant select, insert, update on table public.profiles to authenticated;
