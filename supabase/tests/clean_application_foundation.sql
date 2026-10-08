@@ -1,6 +1,6 @@
 begin;
 
-select plan(16);
+select plan(15);
 
 select ok(
   exists (select 1 from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='public' and c.relname='profiles' and c.relkind='r'),
