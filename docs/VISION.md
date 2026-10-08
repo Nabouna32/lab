@@ -51,11 +51,11 @@ Loculary should serve a casual user without training while still supporting adva
 
 Results should be presented visually when that improves comprehension, confidence, or enjoyment. Visual design must not become decoration that slows or obscures the task.
 
-### 6. Modern visual expression
+### 6. Expressive Utility
 
-Loculary should feel modern, polished, visual and pleasant to use. Tools may use animation, transitions, micro-interactions and distinctive visual identity when they improve comprehension, feedback or enjoyment. Accessibility and reduced-motion preferences remain mandatory.
+Loculary should feel modern, polished, visual, lively and app-like while remaining utility-first. Visual richness, expressive color, animation, transitions, micro-interactions and distinctive tool identity are valid product capabilities, including when their value is primarily experiential or aesthetic. The intended experience is expressive by default, then refined through real UX, accessibility and performance evidence.
 
-A user-selectable Sober/Playful presentation mode is not current scope and is deferred for possible reconsideration much later.
+Accessibility and reduced-motion preferences remain mandatory. There is no user-selectable Sober/Playful presentation mode in the current product.
 
 ### 7. Broad functional ambition
 
