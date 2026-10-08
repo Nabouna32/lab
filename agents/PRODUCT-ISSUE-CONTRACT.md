@@ -1,6 +1,6 @@
 # Loculary — GitHub Issue Protocol
 
-GitHub Issues are a durable orchestration and tracking layer for agent work. They complement, and never replace, repository/Git sources of truth.
+GitHub Issues are a durable orchestration and tracking layer for agent work. The active GitHub Issue is the durable mission checkpoint for resumable current work; additional Issues retain actionable future work and constraints discovered during missions. They complement, and never replace, repository/Git sources of truth.
 
 ## 1. When to use an Issue
 
