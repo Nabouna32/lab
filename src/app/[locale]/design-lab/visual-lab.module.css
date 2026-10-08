@@ -75,3 +75,10 @@
 .switchOn:focus-visible,.switchOff:focus-visible{outline:3px solid var(--lab-tertiary);outline-offset:3px}
 .preferenceState{min-width:4.4rem;color:var(--lab-muted);font-size:.72rem;text-align:right}
 @media(max-width:560px){.preferenceRow{grid-template-columns:minmax(0,1fr) auto}.preferenceState{grid-column:1/-1;grid-row:2;text-align:left}.switchOn,.switchOff{grid-column:2;grid-row:1}}
+
+/* Primary-color expressive experiment: keep the yellow vivid but reserve it for tinted surfaces, with readable foregrounds. */
+.primaryTrio .accentTertiary{background:color-mix(in srgb,var(--lab-tertiary) 28%,var(--lab-surface));color:#604700}
+.primaryTrio .chipTertiary{border-color:var(--lab-tertiary);background:color-mix(in srgb,var(--lab-tertiary) 24%,var(--lab-surface));color:#604700}
+.primaryTrio.darkPalette .accentTertiary{background:color-mix(in srgb,var(--lab-tertiary) 25%,var(--lab-surface));color:#F9E8AE}
+.primaryTrio.darkPalette .chipTertiary{border-color:var(--lab-tertiary);background:color-mix(in srgb,var(--lab-tertiary) 22%,var(--lab-surface));color:#F9E8AE}
+.primaryTrio button:focus-visible,.primaryTrio input:focus-visible,.primaryTrio select:focus-visible{outline-color:var(--lab-primary)}
