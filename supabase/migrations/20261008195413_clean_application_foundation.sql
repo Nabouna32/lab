@@ -1,15 +1,10 @@
 -- Loculary clean-cut application foundation baseline.
 --
--- This is a deliberately squashed baseline of the retained account, RBAC and audit
--- foundation only. Legacy tool-catalog and agent-runtime migrations are intentionally
--- excluded. Production data preservation and the remote migration-history reset are
--- separate, explicitly validated cutover operations; this migration must replay from
--- an empty local Supabase database without depending on production data.
---
--- Generated as a single baseline on 2026-10-08 after the target foundation was audited
--- against the current application contract.
+-- Retained foundation only: Auth continuity, profiles, administrative RBAC and audit.
+-- The legacy tool catalog and removed agent-runtime schema are intentionally absent.
+-- This migration is designed for a fresh local Supabase reset. Production data
+-- preservation and migration-history reset are separate cutover operations.
 
--- ===== squashed from supabase/migrations/20260926174300_create_profiles_and_account_foundation.sql =====
 create table public.profiles (
   id uuid primary key references auth.users(id) on delete cascade,
   display_name text,
@@ -19,23 +14,6 @@ create table public.profiles (
 );
 
 comment on table public.profiles is 'User-owned profile and account preferences that are safe to synchronize.';
-
-create index profiles_locale_idx on public.profiles(locale);
-
-alter table public.profiles enable row level security;
-
-create policy "Users can view their own profile"
-  on public.profiles for select to authenticated
-  using ((select auth.uid()) = id);
-
-create policy "Users can insert their own profile"
-  on public.profiles for insert to authenticated
-  with check ((select auth.uid()) = id);
-
-create policy "Users can update their own profile"
-  on public.profiles for update to authenticated
-  using ((select auth.uid()) = id)
-  with check ((select auth.uid()) = id);
 
 create or replace function public.set_profile_updated_at()
 returns trigger
@@ -76,10 +54,6 @@ create trigger on_auth_user_created
 after insert on auth.users
 for each row execute function private.handle_new_user();
 
--- ===== squashed from supabase/migrations/20260926174401_remove_unused_profile_locale_index.sql =====
-drop index if exists public.profiles_locale_idx;
-
--- ===== squashed from supabase/migrations/20260926185339_create_admin_rbac_foundation.sql =====
 create schema if not exists private;
 
 create table public.admin_roles (
@@ -229,48 +203,8 @@ create policy "Authorized admins can read audit log"
 on public.admin_audit_log for select to authenticated
 using ((select private.has_admin_permission('audit.read')));
 
-create or replace function public.record_admin_audit(
-  audit_action text,
-  audit_target_type text default null,
-  audit_target_id uuid default null,
-  audit_metadata jsonb default '{}'::jsonb
-)
-returns uuid
-language plpgsql
-security definer
-set search_path = ''
-as $$
-declare
-  audit_id uuid;
-begin
-  if not (select private.has_admin_permission('audit.write')) then
-    raise exception 'Insufficient permission';
-  end if;
 
-  insert into public.admin_audit_log (
-    actor_user_id,
-    action,
-    target_type,
-    target_id,
-    metadata
-  )
-  values (
-    (select auth.uid()),
-    audit_action,
-    audit_target_type,
-    audit_target_id,
-    audit_metadata
-  )
-  returning id into audit_id;
 
-  return audit_id;
-end;
-$$;
-
-revoke all on function public.record_admin_audit(text, text, uuid, jsonb) from public, anon;
-grant execute on function public.record_admin_audit(text, text, uuid, jsonb) to authenticated;
-
--- ===== squashed from supabase/migrations/20260926204100_create_admin_user_management.sql =====
 create or replace function private.list_admin_users(search_term text default null)
 returns table (user_id uuid,email text,display_name text,locale text,created_at timestamptz,last_sign_in_at timestamptz,email_confirmed_at timestamptz,banned_until timestamptz,roles text[])
 language sql stable security definer set search_path = ''
@@ -313,30 +247,8 @@ returns boolean language sql security invoker set search_path = ''
 as $$ select private.assign_admin_role(target_user_id,target_role_key); $$;
 revoke all on function public.assign_admin_role(uuid,text) from public,anon;
 grant execute on function public.assign_admin_role(uuid,text) to authenticated;
-create or replace function private.remove_admin_role(target_user_id uuid,target_role_key text)
-returns boolean language plpgsql security definer set search_path = ''
-as $$
-declare remaining_super_admins integer;
-begin
-  if not (select private.has_admin_permission('users.manage_roles')) then raise exception 'Insufficient permission'; end if;
-  if target_role_key='super_admin' then
-    select count(*) into remaining_super_admins from public.admin_user_roles where role_key='super_admin' and user_id<>target_user_id;
-    if remaining_super_admins=0 then raise exception 'Cannot remove the last super_admin role'; end if;
-  end if;
-  delete from public.admin_user_roles where user_id=target_user_id and role_key=target_role_key;
-  if found then insert into public.admin_audit_log(actor_user_id,action,target_type,target_id,metadata)
-    values((select auth.uid()),'admin.role.removed','user',target_user_id,jsonb_build_object('role_key',target_role_key)); end if;
-  return true;
-end; $$;
-revoke all on function private.remove_admin_role(uuid,text) from public,anon,authenticated;
-grant execute on function private.remove_admin_role(uuid,text) to authenticated;
-create or replace function public.remove_admin_role(target_user_id uuid,target_role_key text)
-returns boolean language sql security invoker set search_path = ''
-as $$ select private.remove_admin_role(target_user_id,target_role_key); $$;
-revoke all on function public.remove_admin_role(uuid,text) from public,anon;
-grant execute on function public.remove_admin_role(uuid,text) to authenticated;
 
--- ===== squashed from supabase/migrations/20260926211909_harden_admin_audit_function.sql =====
+
 create or replace function private.record_admin_audit(
   audit_action text,
   audit_target_type text default null,
@@ -395,28 +307,6 @@ $$;
 revoke all on function public.record_admin_audit(text, text, uuid, jsonb) from public, anon;
 grant execute on function public.record_admin_audit(text, text, uuid, jsonb) to authenticated;
 
--- ===== squashed from supabase/migrations/20260926230001_create_admin_audit_log_reader.sql =====
-create or replace function private.list_admin_audit_log(limit_count integer default 50)
-returns table (id uuid,actor_user_id uuid,actor_email text,action text,target_type text,target_id uuid,metadata jsonb,created_at timestamptz)
-language sql stable security definer set search_path = ''
-as $$
-  select a.id,a.actor_user_id,u.email,a.action,a.target_type,a.target_id,a.metadata,a.created_at
-  from public.admin_audit_log a
-  join auth.users u on u.id=a.actor_user_id
-  where (select private.has_admin_permission('audit.read'))
-  order by a.created_at desc
-  limit least(greatest(coalesce(limit_count,50),1),100);
-$$;
-revoke all on function private.list_admin_audit_log(integer) from public,anon,authenticated;
-grant execute on function private.list_admin_audit_log(integer) to authenticated;
-create or replace function public.list_admin_audit_log(limit_count integer default 50)
-returns table (id uuid,actor_user_id uuid,actor_email text,action text,target_type text,target_id uuid,metadata jsonb,created_at timestamptz)
-language sql stable security invoker set search_path = ''
-as $$ select * from private.list_admin_audit_log(limit_count); $$;
-revoke all on function public.list_admin_audit_log(integer) from public,anon;
-grant execute on function public.list_admin_audit_log(integer) to authenticated;
-
--- ===== squashed from supabase/migrations/20260927002950_add_admin_session_revocation.sql =====
 create or replace function private.revoke_admin_user_sessions(target_user_id uuid)
 returns integer
 language plpgsql
@@ -453,7 +343,6 @@ $$;
 revoke all on function public.revoke_admin_user_sessions(uuid) from public, anon;
 grant execute on function public.revoke_admin_user_sessions(uuid) to authenticated;
 
--- ===== squashed from supabase/migrations/20260927072057_localize_admin_system_metadata.sql =====
 alter table public.admin_roles
   drop column name,
   drop column description;
@@ -461,12 +350,10 @@ alter table public.admin_roles
 alter table public.admin_permissions
   drop column description;
 
--- ===== squashed from supabase/migrations/20260927180000_add_admin_rbac_foreign_key_index.sql =====
 -- Cover the permission foreign key used by admin RBAC joins and deletes.
 create index if not exists admin_role_permissions_permission_idx
   on public.admin_role_permissions(permission_key);
 
--- ===== squashed from supabase/migrations/20260927190000_consolidate_admin_user_roles_select_policy.sql =====
 drop policy if exists "Users can read their own admin roles" on public.admin_user_roles;
 drop policy if exists "Authorized admins can read assigned roles" on public.admin_user_roles;
 
@@ -479,7 +366,6 @@ using (
   or (select private.has_admin_permission('users.view'))
 );
 
--- ===== squashed from supabase/migrations/20261003111925_complete_account_lifecycle.sql =====
 -- Complete account lifecycle hardening.
 -- Audit history is retained after account deletion, but direct user identity references are
 -- cleared so the audit log does not block deletion or retain the deleted user's Auth id.
@@ -624,7 +510,6 @@ create policy "Users with a valid session can update their own profile"
   using ((select private.has_valid_session()) and (select auth.uid()) = id)
   with check ((select private.has_valid_session()) and (select auth.uid()) = id);
 
--- ===== squashed from supabase/migrations/20261003112038_preserve_anonymized_audit_entries.sql =====
 create or replace function private.list_admin_audit_log(limit_count integer default 50)
 returns table(
   id uuid,
@@ -660,7 +545,6 @@ $function$;
 revoke all on function private.list_admin_audit_log(integer) from public, anon;
 grant execute on function private.list_admin_audit_log(integer) to authenticated;
 
--- ===== squashed from supabase/migrations/20261003130000_harden_super_admin_concurrency.sql =====
 -- Preserve the last-super-admin invariant under concurrent account deletion and role removal.
 --
 -- Both self-deletion and administrative removal of the super_admin role serialize on
@@ -779,7 +663,6 @@ $$;
 revoke all on function private.remove_admin_role(uuid,text) from public,anon,authenticated;
 grant execute on function private.remove_admin_role(uuid,text) to authenticated;
 
--- ===== squashed from supabase/migrations/20261006220000_restore_account_private_grants.sql =====
 -- Restore application-private function access after the agent runtime schema hardening.
 --
 -- The agent runtime migration revoked all access to schema private for
@@ -817,5 +700,9 @@ revoke all on function private.revoke_admin_user_sessions(uuid) from public, ano
 grant execute on function private.revoke_admin_user_sessions(uuid) to authenticated;
 
 -- Explicit least-privilege profile grants. RLS is the row boundary; anonymous clients do not need table privileges.
+revoke all on table public.profiles from anon, authenticated;
+grant select, insert, update on table public.profiles to authenticated;
+
+-- Explicit least-privilege profile grants.
 revoke all on table public.profiles from anon, authenticated;
 grant select, insert, update on table public.profiles to authenticated;
