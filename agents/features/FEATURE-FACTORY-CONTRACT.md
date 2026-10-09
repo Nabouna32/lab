@@ -21,7 +21,7 @@ When resuming, inspect the Issue and reconcile it against the current branch, PR
 A assistant does not require a GitHub Issue for every feature request.
 
 Use an Issue according to `agents/PRODUCT-ISSUE-CONTRACT.md` when:
-- the feature is explicitly assigned as an orchestrated mission;
+- the feature is a multi-step or resumable mission requiring a durable checkpoint;
 - the work is being resumed or handed off through GitHub;
 - the feature originates from an actionable audit finding;
 - durable cross-conversation coordination benefits from an Issue.
