@@ -1,7 +1,6 @@
 import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
 import { getToolById } from "@/lib/tools/catalog";
-import { getPrimaryToolCategory } from "@/lib/tools/types";
 import ToolSearch from "@/components/tools/ToolSearch";
 import { getToolPath } from "@/lib/tools/routes";
 
@@ -35,7 +34,7 @@ export default function Hero({ locale }: { locale: Locale }) {
                   return (
                     <a
                       key={link.toolId}
-                      href={getToolPath(locale, getPrimaryToolCategory(tool), tool.id)}
+                      href={getToolPath(locale, tool.id)}
                       className="inline-flex min-h-9 items-center rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm font-medium text-[var(--foreground)] transition-[border-color,background-color] duration-[var(--motion-standard)] hover:border-[var(--border-strong)] hover:bg-[var(--surface-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
                     >
                       {link.label}
