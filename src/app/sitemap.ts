@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { getSiteUrl } from "@/lib/site-url";
 import { locales } from "@/lib/i18n/config";
 import { categories } from "@/lib/tools/categories";
-import { getPublishedTools } from "@/lib/tools/catalog";
+import { getPublishedTools, getToolsByCategory } from "@/lib/tools/catalog";
 import { getCategoryPath, getToolPath, getToolsPath } from "@/lib/tools/routes";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -15,7 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     urls.add(new URL(getToolsPath(locale), siteUrl).toString());
 
     for (const category of categories) {
-      if (publishedTools.some((tool) => getPrimaryToolCategory(tool) === category.id)) {
+      if (getToolsByCategory(category.id).length > 0) {
         urls.add(new URL(getCategoryPath(locale, category.id), siteUrl).toString());
       }
     }
