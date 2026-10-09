@@ -7,7 +7,7 @@
 - **Mission :** `agents/audits/25-browser-compatibility.md`
 - **Rapports :** `docs/audits/25-browser-compatibility/`
 
-Tu es l'agent autonome **Compatibilité navigateurs** de Loculary. Tu produis des preuves et des recommandations ; tu n'es pas l'agent d'implémentation.
+Cette procédure guide l'assistant unique lors de l'audit **Compatibilité navigateurs** de Loculary. Elle exige des preuves reproductibles, le challenge des choix existants et la séparation entre audit en lecture seule et étape d'implémentation validée.
 
 ## Objectif et périmètre
 
@@ -40,7 +40,7 @@ Lis d'abord `agents/AUDIT-CONTRACT.md` et respecte-le intégralement. Cette miss
 - Classe les constats : **OBSERVÉ**, **MESURÉ**, **DÉDUIT**, **PROPOSÉ**, **À VALIDER**, **CORRIGÉ DEPUIS UN AUDIT PRÉCÉDENT**, **TOUJOURS PRÉSENT**. La sévérité CRITICAL/HIGH/MEDIUM/LOW/INFO est distincte.
 - Fournis des preuves reproductibles et ne mets jamais de secrets, tokens ou données personnelles inutiles dans le rapport.
 - Une recommandation n'est jamais une décision. Toute décision structurante va dans « Décisions nécessitant validation ».
-- Le rapport finit par un prompt copiable pour l'agent d'implémentation, avec périmètre, décisions, fichiers, tests, vérification, diff et documentation.
+- Le rapport finit par un plan copiable pour la prochaine étape d'implémentation validée, avec périmètre, décisions, fichiers, tests, vérification, diff et documentation.
 - Réponds aussi : **si Loculary était construit aujourd'hui, qu'est-ce que nous changerions ?**
 
 
@@ -65,14 +65,15 @@ Pour **chaque axe important de cet audit**, effectue deux lectures successives m
 
 Le challenge doit porter aussi sur les choix qui semblent corrects : identifie les éléments à **préserver**, ceux à **améliorer**, ceux à **remplacer** et ceux à **supprimer**. Toute alternative substantielle doit être formulée comme une proposition et non comme une décision. Le rapport doit distinguer les problèmes observés des opportunités d'amélioration découvertes uniquement par le challenge.
 
-## Post-audit interactive review
+## Revue après audit et poursuite validée
 
-After the historical audit report is complete, this mission enters the post-audit review mode defined by `agents/AUDIT-CONTRACT.md`.
+Une fois le rapport historique terminé, l'utilisateur peut discuter les constats et décider du travail suivant. L'assistant poursuit alors séquentiellement avec l'utilisateur :
 
-- Continuation commands such as **"vas-y"**, **"continue"** or **"passe à la suite"** mean continue explaining and sequencing the recommendations; they do **not** authorize implementation or validate every recommendation.
-- Present consequential recommendations one at a time, with evidence, impact, scope, non-goals and uncertainties, and obtain explicit human validation before treating one as approved.
-- Once a recommendation is explicitly validated and is actionable implementation work, create or reuse the appropriate durable GitHub Issue for the authorized Worker, following the canonical audit and Issue contracts.
-- The Audit Agent remains strictly non-implementation: it must never modify product code, tests, configuration or dependencies as a result of that validation.
-- Validation of one recommendation does not implicitly validate unrelated recommendations.
+- « continue », « vas-y » ou « passe à la suite » autorise à poursuivre l'explication et l'examen des recommandations, mais ne valide pas automatiquement une implémentation ni toutes les recommandations.
+- Présente chaque recommandation conséquente avec preuves, impact, périmètre, non-objectifs, incertitudes, options et recommandation.
+- Demande validation explicite avant une décision conséquente ou un changement de périmètre.
+- Pour une découverte actionnable hors périmètre, demande explicitement s'il faut créer une Issue ou rattacher le sujet à une Issue existante qui le couvre réellement.
+- Après validation d'une étape, mets à jour l'Issue de mission et exécute uniquement le périmètre autorisé ; inspecte le diff et les vérifications avant de déclarer l'étape terminée.
+- Valider une recommandation n'en valide pas d'autres par implication.
 
-The canonical contract in `agents/AUDIT-CONTRACT.md` defines the complete post-audit protocol and takes precedence over this mission-specific summary.
+La procédure canonique `agents/AUDIT-CONTRACT.md` définit les exigences communes et prévaut sur ce résumé spécifique.
