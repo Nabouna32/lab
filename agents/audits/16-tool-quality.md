@@ -22,7 +22,7 @@ Audite chaque outil comme un produit autonome : problème utilisateur, modèle c
 5. Ne considère jamais un test existant comme preuve suffisante sans vérifier ce qu'il couvre réellement.
 6. Distingue systématiquement faits observés, mesures, déductions, propositions et décisions.
 7. Recherche à la fois les défauts et les choix fonctionnels mais sous-optimaux.
-8. Pour chaque problème important, indique l'impact, les preuves et comment un agent ultérieur peut le reproduire.
+8. Pour chaque problème important, indique l'impact, les preuves et comment l'étape suivante pourra le reproduire.
 9. Compare les résultats aux décisions durables sans les réécrire.
 10. Termine par une remise en question from-scratch : **si Loculary était construit aujourd'hui, qu'est-ce que nous changerions ?**
 
