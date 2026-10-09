@@ -15,12 +15,9 @@ import {
   getCategoryIdBySlug,
   getCategoryPath,
   getCategorySlug,
-  getToolIdBySlug,
-  getToolPath,
   getToolSlug,
   getToolsPath,
 } from "@/lib/tools/routes";
-import { getToolById } from "@/lib/tools/catalog";
 import { getToolByRoute, toolRegistry } from "@/lib/tools/registry";
 import { getPrimaryToolCategory } from "@/lib/tools/types";
 
