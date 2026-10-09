@@ -46,15 +46,18 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   const userId = userData.user.id;
-  const { data: prepared, error: prepareError } = await userClient.rpc(
-    "prepare_account_deletion",
+  // This read-only preflight preserves a useful error for the normal UX path.
+  // The auth.users DELETE trigger is authoritative and rechecks under the shared
+  // advisory lock because this RPC transaction ends before the Auth Admin request.
+  const { data: canDelete, error: checkError } = await userClient.rpc(
+    "check_account_deletion",
     { target_user_id: userId },
   );
 
-  if (prepareError || prepared !== true) {
-    const isLastSuperAdmin = prepareError?.message?.includes("last super_admin") === true;
+  if (checkError || canDelete !== true) {
+    const isLastSuperAdmin = checkError?.message?.includes("last super_admin") === true;
     return Response.json(
-      { error: isLastSuperAdmin ? "LAST_SUPER_ADMIN" : "Could not prepare account deletion." },
+      { error: isLastSuperAdmin ? "LAST_SUPER_ADMIN" : "Could not verify account deletion." },
       { status: isLastSuperAdmin ? 409 : 500 },
     );
   }
