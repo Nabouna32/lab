@@ -65,27 +65,7 @@ jobs:
           fi
 
           changed_files="$(git diff --name-only "$base" "$head")"
-          validate=false
-          production=false
-
-          while IFS= read -r path; do
-            [[ -z "$path" ]] && continue
-            case "$path" in
-              supabase/migrations/*|supabase/tests/*|supabase/config.toml|.github/workflows/supabase-database.yml)
-                validate=true
-                ;;
-            esac
-            case "$path" in
-              supabase/migrations/*|supabase/config.toml)
-                production=true
-                ;;
-            esac
-          done <<< "$changed_files"
-
-          echo "validate=$validate" >> "$GITHUB_OUTPUT"
-          echo "production=$production" >> "$GITHUB_OUTPUT"
-          echo "Database validation required: $validate"
-          echo "Production migration required: $production"
+          CHANGED_FILES="$changed_files" node agents/supabase-workflow-policy.mjs detect
 
   run-validation:
     name: Run Supabase database validation
@@ -137,39 +117,24 @@ jobs:
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 2
+    outputs:
+      production_allowed: ${{ steps.gate.outputs.production_allowed }}
     steps:
-      - name: Require validation when relevant files changed
-        shell: bash
+      - name: Evaluate validation and production gates
+        id: gate
         env:
           DETECTION_RESULT: ${{ needs.detect-changes.result }}
           VALIDATION_REQUIRED: ${{ needs.detect-changes.outputs.validate }}
           VALIDATION_RESULT: ${{ needs.run-validation.result }}
-        run: |
-          set -euo pipefail
-
-          if [[ "$DETECTION_RESULT" != "success" ]]; then
-            echo "Change detection did not succeed; refusing to report a successful validation check." >&2
-            exit 1
-          fi
-
-          if [[ "$VALIDATION_REQUIRED" == "true" ]]; then
-            if [[ "$VALIDATION_RESULT" != "success" ]]; then
-              echo "Supabase validation was required but ended with: $VALIDATION_RESULT" >&2
-              exit 1
-            fi
-            echo "Supabase database validation passed."
-          else
-            if [[ "$VALIDATION_RESULT" != "skipped" ]]; then
-              echo "Unexpected validation job result for a change set that did not require database validation: $VALIDATION_RESULT" >&2
-              exit 1
-            fi
-            echo "No Supabase-related files changed; successful no-op validation."
-          fi
+          EVENT_NAME: ${{ github.event_name }}
+          GITHUB_REF: ${{ github.ref }}
+          PRODUCTION_REQUIRED: ${{ needs.detect-changes.outputs.production }}
+        run: node agents/supabase-workflow-policy.mjs gate
 
   production-release:
     name: Apply Supabase migrations to production
     needs: [detect-changes, run-validation, validate]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.detect-changes.outputs.production == 'true' && needs.run-validation.result == 'success' && needs.validate.result == 'success'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.detect-changes.outputs.production == 'true' && needs.run-validation.result == 'success' && needs.validate.result == 'success' && needs.validate.outputs.production_allowed == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     environment: supabase-production
