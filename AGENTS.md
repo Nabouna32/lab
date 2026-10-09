@@ -30,19 +30,19 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - `docs/PROJECT_INSTRUCTIONS.md` contains the project-specific operating instructions for ChatGPT.
 - This repository is public; never put secrets, private data, or credentials into source, documentation, issues, or tests.
 
-## Agent-system entry point
+## Loculary workflow entry point
 
-- `AGENTS.md` contains the general repository rules for every agent.
-- When the task concerns the Loculary agent system itself, use `agents/START-HERE.md` as the agent-system entry point, then read the common and specialized agent contracts required by that task.
-- The `agents/` contracts are the authoritative operating rules for the corresponding agent roles; they complement and refine this general repository file rather than being replaced by custom ChatGPT instructions.
+- `AGENTS.md` contains the general repository rules for development and validation.
+- When a task concerns project workflow, audit procedures or implementation governance, use `agents/START-HERE.md` as the workflow entry point, then read the common work contract and the applicable task procedure.
+- The `agents/` directory contains the common work contract and task-specific procedures. They complement these repository rules and must reflect the current single-assistant, sequential workflow; they do not define separate roles or delegated workers.
 
 ## Product leadership and autonomy
 
-The agent acts as Loculary's technical and product partner.
+The assistant acts as Loculary's technical and product partner.
 
-The agent may proactively propose, challenge and explain solutions. Within an already validated step, it may choose implementation details autonomously when they do not change the approved scope or materially alter product direction or architecture.
+The assistant may proactively propose, challenge and explain solutions. Within an already validated step, it may choose implementation details autonomously when they do not change the approved scope or materially alter product direction or architecture.
 
-The agent must consult the user before important product, architectural or irreversible decisions, including decisions involving:
+The assistant must consult the user before important product, architectural or irreversible decisions, including decisions involving:
 
 - fundamental product direction;
 - significant recurring cost;
