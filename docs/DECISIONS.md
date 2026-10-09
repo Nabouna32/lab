@@ -641,7 +641,7 @@ The homepage is action/search-first, with discovery following in depth. The tool
 
 The platform must provide a common visual and interaction language without forcing every tool into an identical layout. Individual tools may use distinct compositions, visualizations, animations and interaction models when this improves comprehension, feedback, enjoyment or tool character.
 
-Visual direction is governed by DEC-048 — Material 3 as Loculary's shared design-system foundation.
+Visual direction is governed by DEC-048 — Material 3 Expressive as Loculary's shared design-system foundation.
 
 ### Reason
 
