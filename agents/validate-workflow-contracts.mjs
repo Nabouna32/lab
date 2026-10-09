@@ -62,9 +62,6 @@ has(productWorkflow, 'consequential', 'Product workflow');
 has(readme, 'single ChatGPT assistant', 'Workflow README');
 has(auditsReadme, 'historical audit reports', 'Audit README');
 has(governanceAudit, 'Revue après audit et poursuite validée', 'Governance audit procedure');
-if (/agent autonome|agent d'implémentation|nouvel agent|Audit Agent|authorized Worker|orchestrated mission/i.test(governanceAudit)) {
-  fail('Audit 30 still describes obsolete delegated agent roles.');
-}
 has(rootRules, 'Work one validated step at a time.', 'AGENTS.md');
 
 const coreText = common + start + readme;
@@ -98,6 +95,11 @@ for (let i = 0; i < sortedIds.length; i += 1) {
 }
 for (const audit of audits) {
   has(audit.content, 'agents/AUDIT-CONTRACT.md', 'Audit procedure ' + audit.name);
+  has(audit.content, 'Revue après audit et poursuite validée', 'Audit continuation procedure ' + audit.name);
+  has(audit.content, 'Issue', 'Audit mission checkpoint ' + audit.name);
+  if (/(?:agent autonome|agent d'implémentation|agent ultérieur|prompt (?:complet|copiable) pour l'agent|authorized Worker|Worker handoff|Audit Agent|orchestrated mission|agents\\/HANDOFF-CONTRACT\\.md|agents\\/features\\/FEATURE-WORKER\\.md|agents\\/tools\\/TOOL-WORKER\\.md)/i.test(audit.content)) {
+    fail('Audit procedure ' + audit.name + ' still contains obsolete delegated-role wording or references.');
+  }
   const slug = audit.name.replace(/^\d{2}-/, '').replace(/\.md$/, '');
   const reportDir = path.join(root, 'docs', 'audits', String(audit.id).padStart(2, '0') + '-' + slug);
   if (!fs.existsSync(reportDir)) warn('No report directory currently exists for ' + audit.name + ': expected ' + path.relative(root, reportDir));

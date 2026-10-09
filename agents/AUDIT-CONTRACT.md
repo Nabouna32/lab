@@ -2,7 +2,7 @@
 
 This specialized contract inherits the mandatory rules in [`agents/AGENT-CONTRACT.md`](./AGENT-CONTRACT.md). Read the common contract first. It defines conversation-independent bootstrap, anti-skipping, source precedence, ownership, verification and continuity requirements.
 
-This document is the canonical output contract for every autonomous Loculary audit mission.
+This document is the canonical procedure and report contract for every Loculary audit.
 
 Each mission in `agents/audits/` must read and obey this contract. If a mission contains more specific rules, they may refine the contract only when they do not weaken or contradict these requirements.
 
@@ -48,17 +48,13 @@ Do not create `WORKING.md` or another repository checkpoint file. Historical aud
 
 ## 4. GitHub Issue tracking
 
-An audit MAY use a GitHub Issue as a durable work item when useful. The shared Issue rules are defined in `agents/PRODUCT-ISSUE-CONTRACT.md`.
+The active mission Issue is mandatory whenever the audit spans multiple actions or must survive interruption or a conversation change. Follow `agents/PRODUCT-ISSUE-CONTRACT.md`.
 
-Use the Issue to:
-- summarize the audit mission or an actionable follow-up;
-- link the historical report and relevant Issue checkpoint;
-- record decisions and next actions;
-- record actionable follow-up and, after validation, continue it as a separately scoped step with the same assistant.
+Update the Issue whenever mission state changes and at each meaningful milestone, including the current objective/scope, completed work, evidence, decisions, blockers, verification and next action. Link the final historical report when it is created. The Issue is a checkpoint, not a duplicate report.
 
-Do not create an Issue for every finding. Informational findings, proposals awaiting validation, and observations that need no follow-up remain in the audit report.
+For every actionable discovery that will not be handled in the current validated step, present the evidence, consequences, uncertainty and options to the user, then explicitly ask whether to create a dedicated Issue or attach it to an existing Issue that genuinely covers the work. Do not independently dismiss it as too minor. After validation, establish durable tracking immediately with enough context for independent resumption.
 
-When a finding becomes actionable implementation work, create or reuse the appropriate Issue and link it to the historical audit report. The Issue does not replace the report.
+Informational observations that do not imply actionable work may remain in the report. A finding or recommendation is not automatically a requirement or authorization to implement it.
 
 ## 5. Allowed repository changes
 
@@ -231,7 +227,7 @@ Do not copy stale findings into the new report without rechecking them.
 
 ## 14. Implementation prompt
 
-The report must end with a complete, copy-pastable prompt for an autonomous implementation step.
+The report must end with a complete, copy-pastable plan for the next implementation step, executed by the same assistant with the user after the required validation.
 
 That prompt must:
 
@@ -245,7 +241,7 @@ That prompt must:
 - require documentation updates where appropriate;
 - prohibit unrelated scope expansion.
 
-The implementation prompt is a recommendation produced by the audit. It does not itself authorize implementation.
+The implementation plan is a recommendation produced by the audit. It does not itself authorize implementation.
 
 ## 14A. Post-audit review and validated continuation
 
@@ -269,7 +265,7 @@ The audit execution itself remains read-only for product code, tests, configurat
 
 An audit may recommend a change, but it must not silently convert a recommendation into a product decision.
 
-In particular, assistant conducting the audits must not directly rewrite:
+In particular, the assistant conducting an audit must not directly rewrite:
 
 - `docs/VISION.md`;
 - `docs/PRODUCT.md`;
