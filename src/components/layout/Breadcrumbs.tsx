@@ -20,12 +20,11 @@ export default function Breadcrumbs({ locale, items }: { locale: Locale; items: 
         </li>
         {items.map((item, index) => {
           const isCurrent = index === items.length - 1;
-          const mobileHidden = index === 0;
 
           return (
             <li
               key={item.label}
-              className={(mobileHidden ? "hidden sm:flex " : "flex ") + "min-w-0 items-center gap-1 sm:gap-1.5"}
+              className="flex min-w-0 items-center gap-1 sm:gap-1.5"
             >
               <span aria-hidden="true" className="shrink-0 text-[var(--muted)]/50">
                 ›
