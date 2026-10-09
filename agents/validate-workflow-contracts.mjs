@@ -38,6 +38,7 @@ const toolWorkflow = read('agents/tools/TOOL-WORKFLOW.md');
 const productWorkflow = read('agents/product/PRODUCT-WORKFLOW.md');
 const readme = read('agents/README.md');
 const auditsReadme = read('agents/audits/README.md');
+const governanceAudit = read('agents/audits/30-documentation-governance.md');
 
 has(common, 'single ChatGPT assistant', 'Common contract');
 has(common, 'Mandatory challenge and optimization', 'Common contract');
@@ -60,6 +61,10 @@ has(toolWorkflow, 'TOOL-FACTORY-CONTRACT.md', 'Tool launch checklist');
 has(productWorkflow, 'consequential', 'Product workflow');
 has(readme, 'single ChatGPT assistant', 'Workflow README');
 has(auditsReadme, 'historical audit reports', 'Audit README');
+has(governanceAudit, 'Revue après audit et poursuite validée', 'Governance audit procedure');
+if (/agent autonome|agent d'implémentation|nouvel agent|Audit Agent|authorized Worker|orchestrated mission/i.test(governanceAudit)) {
+  fail('Audit 30 still describes obsolete delegated agent roles.');
+}
 has(rootRules, 'Work one validated step at a time.', 'AGENTS.md');
 
 const coreText = common + start + readme;
