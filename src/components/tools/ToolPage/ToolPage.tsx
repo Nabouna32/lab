@@ -2,9 +2,7 @@ import type { ReactNode } from "react";
 import { defaultLocale, type Locale } from "@/lib/i18n/config";
 import { getToolContent, isToolContentFallback, type Tool } from "@/lib/tools/types";
 import { getMessages } from "@/lib/i18n/messages";
-import { getCategoryName } from "@/lib/tools/categories";
-import { getCategoryPath, getToolsPath } from "@/lib/tools/routes";
-import { getPrimaryToolCategory } from "@/lib/tools/types";
+import { getToolsPath } from "@/lib/tools/routes";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import ToolPageHeader from "./ToolPageHeader";
 import ToolProcessingStatus from "./ToolProcessingStatus";
@@ -33,10 +31,6 @@ export default function ToolPage({
             locale={locale}
             items={[
               { label: t.nav.tools, href: getToolsPath(locale) },
-              {
-                label: getCategoryName(locale, getPrimaryToolCategory(tool)),
-                href: getCategoryPath(locale, getPrimaryToolCategory(tool)),
-              },
               { label: localizedContent.name },
             ]}
           />
