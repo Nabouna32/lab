@@ -176,7 +176,7 @@ test('workflow CLI reports a successful no-op and never enables production relea
         PRODUCTION_REQUIRED: 'false',
       },
     });
-    assert.equal(readFileSync(outputPath, 'utf8'), 'production_allowed=false\\n');
+    assert.equal(readFileSync(outputPath, 'utf8'), 'production_allowed=false\n');
   } finally {
     rmSync(directory, { recursive: true, force: true });
   }
