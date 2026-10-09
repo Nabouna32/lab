@@ -148,7 +148,7 @@ test('workflow CLI keeps production release disabled when validation fails', () 
         VALIDATION_REQUIRED: 'true',
         VALIDATION_RESULT: 'failure',
         EVENT_NAME: 'push',
-        GITHUB_REF: 'refs/heads/main',
+        WORKFLOW_REF: 'refs/heads/main',
         PRODUCTION_REQUIRED: 'true',
       },
       stdio: 'pipe',
