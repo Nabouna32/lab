@@ -89,7 +89,7 @@
 .categoryPreview{margin-top:clamp(1.8rem,4vw,3rem)}
 .categoryGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.7rem}
 .categoryCard{display:flex;align-items:center;gap:.75rem;min-width:0;padding:.9rem;border:1px solid color-mix(in srgb,var(--category-color) 34%,var(--lab-outline));border-radius:var(--lab-radius-small);background:color-mix(in srgb,var(--category-color) 12%,var(--lab-surface));color:var(--lab-text)}
-.categoryGlyph{display:grid;place-items:center;flex:0 0 2.6rem;width:2.6rem;height:2.6rem;border-radius:calc(var(--lab-radius-small) * .8);background:color-mix(in srgb,var(--category-color) 18%,var(--lab-surface));color:var(--category-color);font-weight:850}
+.categoryGlyph{display:grid;place-items:center;flex:0 0 2.6rem;width:2.6rem;height:2.6rem;border:1px solid color-mix(in srgb,var(--category-color) 28%,var(--lab-outline));border-radius:calc(var(--lab-radius-small) * .8);background:var(--lab-surface);color:var(--category-color);font-weight:850}
 .categoryCard>div{display:grid;gap:.2rem;min-width:0}
 .categoryCard strong{font-size:.84rem;overflow-wrap:anywhere}
 .categoryCard small{color:var(--lab-muted);font-size:.72rem;font-variant-numeric:tabular-nums}
