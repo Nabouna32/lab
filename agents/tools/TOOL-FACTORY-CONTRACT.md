@@ -1,20 +1,20 @@
-# Loculary — Autonomous Tool Factory Contract
+# Loculary — Tool Creation Workflow
 
 This specialized contract inherits the mandatory rules in [`agents/AGENT-CONTRACT.md`](../AGENT-CONTRACT.md). Read the common contract first. It defines conversation-independent bootstrap, anti-skipping, source precedence, ownership, verification and continuity requirements.
 
-This is the canonical contract for agents that create and integrate Loculary tools.
+This is the canonical procedure for the assistant creating and integrating Loculary tools.
 
-Every Tool Worker is resumable across independent ChatGPT conversations and MUST follow `agents/PRODUCT-ISSUE-CONTRACT.md`. Its active GitHub Issue is the mission checkpoint.
+Every assistant is resumable across independent ChatGPT conversations and MUST follow `agents/PRODUCT-ISSUE-CONTRACT.md`. Its active GitHub Issue is the mission checkpoint.
 
 ## 1. Mission
 
-A Tool Worker is not an idea generator and not a code snippet generator.
+A assistant is not an idea generator and not a code snippet generator.
 
 Its job is to take one tool from concept to a tested, reviewable, production-ready pull request.
 
 A valid result is a real Loculary tool integrated into the current architecture, with domain logic, UX, i18n, metadata and tests appropriate to the tool.
 
-The worker must challenge the proposed tool before implementing it. A tool should only be built when it provides distinct user value and fits Loculary's product strategy.
+The assistant must challenge the proposed tool before implementing it. A tool should only be built when it provides distinct user value and fits Loculary's product strategy.
 
 ## 2. Repository truth
 
@@ -33,7 +33,7 @@ Never rely on an old conversation as proof that something still exists.
 
 ## 3. GitHub Issue tracking
 
-A Tool Worker does not require a GitHub Issue for every tool request.
+A assistant does not require a GitHub Issue for every tool request.
 
 Use an Issue according to `agents/PRODUCT-ISSUE-CONTRACT.md` when:
 - the tool is explicitly assigned as an orchestrated mission;
@@ -41,7 +41,7 @@ Use an Issue according to `agents/PRODUCT-ISSUE-CONTRACT.md` when:
 - the work originates from an actionable audit finding;
 - durable cross-conversation coordination benefits from an Issue.
 
-For a direct autonomous tool request, the Worker may proceed without an Issue.
+For a direct autonomous tool request, the assistant may proceed without an Issue.
 
 When an Issue is provided, treat it as the durable mission record and follow `agents/PRODUCT-ISSUE-CONTRACT.md`. Verify the requested work against the current repository and challenge it before implementation.
 
@@ -91,7 +91,7 @@ If the answer is weak, do not manufacture a tool merely to increase the tool cou
 
 ## 7. Research and inspiration
 
-The worker may research competing or adjacent products for concepts, terminology and UX patterns.
+The assistant may research competing or adjacent products for concepts, terminology and UX patterns.
 
 Research is inspiration, not source code.
 
@@ -99,53 +99,17 @@ Do not copy proprietary code, text, visual assets or distinctive implementation 
 
 Prefer primary/authoritative technical sources for standards, mathematical definitions, browser APIs and security behavior.
 
-## 8. One worker = one tool
+## 8. One tool at a time
 
-A worker creates or resumes one tool at a time.
+Handle one tool mission at a time. Do not automatically choose another tool when the current one is complete; wait for the user's next direction. A new tool, extension or refactor must be evaluated on its own value and validated scope.
 
-A worker may create several tools only when explicitly instructed and only sequentially unless the user is deliberately running multiple independent conversations.
+## 9. Branch and scope ownership
 
-Within one conversation, do not start a second tool while the first has unresolved implementation, test or PR work.
-
-## 9. Sequential execution and ownership
-
-The canonical branch name is:
-
-`feat/tool/<english-kebab-case-slug>`
-
-Before implementation:
-
-1. refresh repository state;
-2. verify that `feat/tool/<slug>` does not already exist;
-3. inspect open PRs/branches for the same concept;
-4. if claimed, choose another tool unless explicitly resuming that task;
-5. create the branch from the current `main`.
-
-Creating the branch is the practical Git-level claim.
-
-If two workers race for the same slug, the first successfully created branch owns it. The other worker must abandon that candidate and choose another.
-
-Never force-push or delete another worker's branch.
+Before implementation, refresh repository state, inspect current main, branches, open PRs and the active Issue, then create a dedicated branch from current main when required. Keep the change isolated to the validated tool scope. If shared architecture changes are necessary, assess whether they require a separate consequential decision rather than hiding them in an ordinary tool change.
 
 ## 10. Shared files
 
-The worker may modify shared platform files only when the new tool genuinely requires them and the change is already supported by the current architecture.
-
-Avoid unnecessary edits to:
-
-- central registry files;
-- global catalogs;
-- shared UI primitives;
-- global i18n dictionaries;
-- routing infrastructure;
-- package manifests;
-- global configuration.
-
-A tool-specific change must stay tool-specific whenever possible.
-
-If the architecture makes isolated parallel tool work impossible, stop and report the architectural constraint rather than inventing a risky workaround.
-
-A substantial change to the tool platform is a separate architectural task and must not be hidden inside an ordinary tool PR.
+Modify shared platform files only when the tool genuinely requires it and the change is supported by the validated architecture. Avoid unrelated edits to registries, catalogs, shared UI, global i18n, routing, package manifests and global configuration. If safe implementation requires a substantial platform change, stop and present the architectural choice for validation.
 
 ## 11. Tool implementation
 
@@ -168,7 +132,7 @@ Do not create artificial files just to satisfy a checklist. Follow the actual to
 
 ## 12. Domain correctness
 
-The worker must independently verify the domain model.
+The assistant must independently verify the domain model.
 
 For calculations/conversions, verify:
 
@@ -258,13 +222,13 @@ Before opening the PR:
 - verify accessibility-critical states;
 - verify no unrelated files were changed.
 
-Fix problems introduced by the worker.
+Fix problems introduced by the assistant.
 
 Do not hide failures. If a check cannot run, report why.
 
 ## 17. Git/PR lifecycle
 
-The worker must:
+The assistant must:
 
 1. create its own branch;
 2. implement the tool;
@@ -274,27 +238,18 @@ The worker must:
 6. immediately enable GitHub auto-merge using the repository's configured merge method;
 7. wait for required CI/checks through the auto-merge lifecycle;
 8. inspect failures;
-9. fix failures introduced by the worker;
+9. fix failures introduced by the assistant;
 10. re-run verification;
 11. do not manually merge a PR that has auto-merge enabled; GitHub performs the merge once all required protections are satisfied;
 12. if auto-merge cannot be enabled because of an explicit repository-policy or human-validation requirement, leave the PR clearly ready for the appropriate next action and report the concrete blocker.
 
-Never merge another worker's PR.
+Never merge a PR outside the validated mission.
 
 Never claim a PR is merged without verifying GitHub's actual state.
 
-## 18. Main moved while working
+## 18. Main changes during work
 
-Other workers may merge while this worker is active.
-
-Before final verification:
-
-- inspect the current `main`;
-- inspect the PR's mergeability;
-- update the branch from `main` when supported and necessary;
-- rerun the affected tests.
-
-If a conflict requires architectural changes or would modify another worker's work, stop and report the conflict instead of overwriting anything.
+Before final verification, inspect current main and PR mergeability. Reconcile the branch with changes that landed meanwhile and rerun affected checks. If a conflict requires a consequential architectural change or risks overwriting unrelated work, stop and ask how to proceed.
 
 ## 19. Completion states
 
@@ -314,23 +269,11 @@ A tool is not complete merely because code exists.
 
 ## 20. Continue semantics
 
-When the user says **"continue"**:
-
-1. inspect GitHub and the current repository state;
-2. identify this conversation's existing tool branch/PR if one exists;
-3. resume unresolved work on that tool;
-4. if the tool is merged, choose the next unclaimed tool;
-5. if no tool is assigned, select a valuable unclaimed candidate;
-6. never redo completed work unnecessarily;
-7. never wait for the user between routine implementation steps.
-
-If the user says **"continue <slug>"**, resume that exact tool.
-
-If the user says **"add a tool"**, choose the best unclaimed candidate and start it.
+When the user says "continue", inspect the active Issue, branch, PR and current repository state, then resume the unresolved current mission. Do not restart completed work or automatically select a new tool. If the current tool is complete and no next task was specified, report completion and ask what the user wants to tackle next. If the user says "add a tool", evaluate candidates and recommend the most valuable option before proceeding within the validated scope.
 
 ## 21. Autonomous decision boundary
 
-The worker may autonomously choose routine implementation details that do not materially alter product direction or architecture.
+The assistant may autonomously choose routine implementation details that do not materially alter product direction or architecture.
 
 Stop and ask the user only when the work requires a consequential decision about:
 
@@ -346,7 +289,7 @@ Routine tool implementation does not require asking permission for every field, 
 
 ## 22. Final report
 
-Every completed worker session must state:
+Every completed implementation session must state:
 
 - tool chosen;
 - why it was chosen;

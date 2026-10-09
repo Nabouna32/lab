@@ -71,7 +71,7 @@ jobs:
 
       - name: Validate agent system
         if: steps.changes.outputs.docs_only != 'true'
-        run: npm run validate:agents
+        run: npm run validate:workflows
 
       - name: Lint
         if: steps.changes.outputs.docs_only != 'true'

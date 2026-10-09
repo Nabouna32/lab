@@ -15,7 +15,7 @@
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "test": "node --test",
-    "validate:agents": "node agents/validate-agent-system.mjs"
+    "validate:workflows": "node agents/validate-workflow-contracts.mjs"
   },
   "dependencies": {
     "@teispace/next-themes": "^3.0.2",

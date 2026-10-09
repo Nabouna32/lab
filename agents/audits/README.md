@@ -1,67 +1,30 @@
-# Loculary audit missions
+# Loculary audit procedures
 
-All audit missions and audit orchestration inherit the mandatory common rules in [`agents/AGENT-CONTRACT.md`](../AGENT-CONTRACT.md). The common contract is the conversation-independent bootstrap and anti-skipping layer; `agents/PRODUCT-ISSUE-CONTRACT.md` adds crash-resilient Issue checkpointing; `agents/AUDIT-CONTRACT.md` then adds audit-specific rules.
+All audit procedures inherit the mandatory rules in agents/AGENT-CONTRACT.md. The common contract defines bootstrap, challenge, source precedence, verification and continuity; agents/PRODUCT-ISSUE-CONTRACT.md defines mission checkpointing; agents/AUDIT-CONTRACT.md defines audit-specific evidence and reporting rules.
 
-Each Markdown file in this directory is a reusable autonomous audit prompt.
+Each Markdown file in this directory is a reusable audit procedure for the same assistant. Read agents/AUDIT-CONTRACT.md before executing a mission. A mission may add domain-specific checks but cannot weaken the common contract.
 
-**Mandatory contract:** read [`agents/AUDIT-CONTRACT.md`](../AUDIT-CONTRACT.md) before executing any mission. The mission itself must also state the essential report/path/history rules explicitly. If there is any conflict, the canonical contract wins unless a deliberate project decision changes it.
+## Requirements for every audit
 
-## Contract for every audit mission
-
-Every mission should instruct the agent to:
-
-- inspect the real current repository;
-- read `AGENTS.md` and the relevant product/technical documentation;
-- challenge the current implementation rather than treating it as correct by default;
-- distinguish observed facts from deductions, proposals and decisions;
-- do not modify product/project files during the audit; only create the new historical report and update that audit's `LATEST.md` pointer as defined by the canonical contract;
-- test or measure claims whenever practical;
-- identify both defects and suboptimal-but-working choices;
-- include a from-scratch challenge: **if Loculary were built today, what would you change?**
-- produce a complete audit report using the canonical naming, historical immutability and classification contract;
-- maintain the active GitHub Issue while an audit is in progress so a new conversation can recover interrupted work;
-- finish with a copy-pastable autonomous implementation-agent prompt;
-- state what should be preserved;
-- identify decisions that require explicit validation;
-- define implementation scope, tests, verification and documentation expectations.
+- Inspect the real current repository and relevant project documentation.
+- Challenge the current implementation rather than treating it as correct by default.
+- Identify both defects and suboptimal-but-working choices.
+- Ask what we would change if Loculary were built today.
+- Distinguish observed facts, measurements, deductions, proposals and decisions.
+- Test or measure claims whenever practical.
+- Keep the audit itself read-only except for its new historical report and the replaceable LATEST.md pointer.
+- Maintain the active Issue checkpoint while the audit is in progress.
+- Include elements to preserve, recommendations, decisions requiring validation and a concrete next-step plan.
+- Do not convert a finding into a requirement without validation.
 
 ## Stable audit IDs
 
-The numeric prefix is stable and must not be reused for another domain. The filename may evolve if the domain name changes, but the ID remains the historical identity of the audit.
+Numeric prefixes identify audit domains and should not be reused for unrelated work. The list is an execution sequence, not a commitment that every audit must remain forever.
 
-Current planned audit sequence:
+The final/red-team audit stays last so that modernization and other corrections can be verified before the final transversal review. Change the sequence only through the normal validated workflow.
 
-1. QA global / qualité produit
-2. QA spécialisé outils
-3. Sécurité / Privacy
-4. Internationalisation
-5. Architecture Next.js
-6. Architecture générale / maintenabilité
-7. UX
-8. UI
-9. Design system
-10. Accessibilité
-11. Performance
-12. SEO
-13. Responsive / multi-device
-14. Navigation / routing / liens
-15. Catalogue / stratégie des outils
-16. Qualité / pertinence des outils
-17. Contenu / UX writing
-18. Plateforme / infrastructure
-19. CI/CD / Git / release
-20. Dépendances / supply chain
-21. Observabilité / monitoring / erreurs
-22. Analytics / mesure produit
-23. Publicité / monétisation
-24. PWA / expérience installable
-25. Compatibilité navigateurs
-26. RGPD / conformité
-27. Fiabilité / résilience
-28. Tests automatisés / stratégie QA
-29. Produit / vision / cohérence
-30. Documentation / gouvernance / continuité
-31. Update / modernisation technologique
-32. Audit final transversal / red team
+## Report lifecycle
 
-This list is an execution plan, not a declaration that all audits must remain forever. Audit 31 is intentionally placed immediately before audit 32: modernization can be applied and reverified before the final red-team pass, while audit 32 remains the last transversal audit. The IDs are ordered with the execution sequence and are renumbered when a new audit is inserted before the final audit. Changes to the durable process should be documented through normal project decisions.
+Each completed run creates a new timestamped report under docs/audits/<id>-<slug>/ and updates that directory's LATEST.md pointer. The timestamp identifies the run, not the current validity of each finding.
+
+Never overwrite or delete historical audit reports merely because a new audit exists. Revalidate old findings against current code before acting on them.

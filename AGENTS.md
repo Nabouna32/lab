@@ -186,5 +186,5 @@ For larger or risky changes, use a dedicated branch, validate locally, validate 
 - Distinguish clearly between product vision, architecture, foundations/infrastructure, planned functionality and functionality actually completed in code.
 - If code diverges from the documented vision, fix the code or document the gap explicitly; never silently redefine the product to match the implementation.
 - A genuine change of product vision must be explicit: update the canonical document, record the decision/change, and update all dependent documents consistently.
-- Prefer surgical documentation changes over broad rewrites. Preserve historical intent and decision context.
+- Keep active documentation concise and current. Git preserves ordinary history; remove obsolete decisions and context after checking references and explicit immutability obligations. Do not preserve stale material merely because it existed.
 - Before any new implementation, audit the relevant existing Markdown specifications and decisions so implementation follows the documented product direction rather than accidentally redefining the product.

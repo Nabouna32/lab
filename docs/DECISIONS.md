@@ -319,19 +319,6 @@ Search must remain useful without an AI provider and must expose no-result recov
 
 ---
 
-## DEC-021 — Product brainstorming is durable historical context
-
-**Status:** Accepted
-
-### Decision
-
-The validated brainstorming document is preserved as an immutable historical/contextual record of the product exploration. Its content may be propagated into canonical specifications and decisions, but the brainstorming document itself must not be rewritten to reflect later implementation changes.
-
-### Consequences
-
-Canonical docs describe the current accepted direction; the brainstorming document preserves the richer original reasoning and ideas. Future agents must distinguish historical intent from currently committed scope.
-
-
 ---
 
 ## DEC-022 — First-class tool registry and dynamic execution route
