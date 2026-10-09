@@ -98,7 +98,7 @@ test("tool search recovers from a failed search-chunk load in French and English
     try {
       await searchPage.goto(`${baseUrl}/${locale === "fr" ? "fr/outils" : "en/tools"}`, { waitUntil: "networkidle" });
 
-      let shouldFailChunk = true;
+      let shouldFailChunk = false;
       let failedChunkUrl = "";
       await searchPage.route("**/_next/static/chunks/**", async (route) => {
         if (shouldFailChunk && route.request().resourceType() === "script") {
@@ -112,12 +112,13 @@ test("tool search recovers from a failed search-chunk load in French and English
 
       const search = searchPage.locator("#tools-page-search-input");
       const results = searchPage.locator("#tools-page-search-results");
+      shouldFailChunk = true;
       await search.fill(locale === "fr" ? "pourcentage" : "percentage");
       await expect(results.getByRole("alert")).toBeVisible();
       await expect(results).toHaveAttribute("aria-busy", "false");
       const retry = results.getByRole("button", { name: locale === "fr" ? "Réessayer" : "Try again" });
       await expect(retry).toBeVisible();
-      expect(failedChunkUrl, "Expected the lazy search chunk request to fail").not.toBe("");
+      expect(failedChunkUrl, "Expected the lazy search chunk request to fail").toContain("/_next/static/chunks/");
 
       await retry.click();
       await expect(results.getByRole("option").first()).toBeVisible();
