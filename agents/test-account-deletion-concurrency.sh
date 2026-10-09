@@ -8,6 +8,8 @@ session_b='00000000-0000-0000-0000-000000000204'
 lock_key='loculary.account-deletion.super-admin'
 work_dir="$(mktemp -d)"
 holder_pid=''
+delete_pid=''
+remove_role_pid=''
 
 db_url="$(supabase status -o env | sed -n 's/^DB_URL=//p' | tr -d '"')"
 if [[ -z "$db_url" ]]; then
@@ -20,10 +22,12 @@ if ! command -v psql >/dev/null 2>&1; then
 fi
 
 cleanup() {
-  if [[ -n "$holder_pid" ]]; then
-    kill "$holder_pid" >/dev/null 2>&1 || true
-    wait "$holder_pid" >/dev/null 2>&1 || true
-  fi
+  for pid in "$delete_pid" "$remove_role_pid" "$holder_pid"; do
+    if [[ -n "$pid" ]]; then
+      kill "$pid" >/dev/null 2>&1 || true
+      wait "$pid" >/dev/null 2>&1 || true
+    fi
+  done
   psql "$db_url" -v ON_ERROR_STOP=1 >/dev/null 2>&1 <<SQL || true
 delete from public.admin_audit_log
  where actor_user_id in ('$user_a'::uuid, '$user_b'::uuid)
@@ -119,7 +123,7 @@ remove_role_pid=$!
 # Do not merely hope the race overlaps: require both contenders to be waiting
 # on the advisory lock before allowing the holder to release it.
 both_waiting=false
-for _ in $(seq 1 100); do
+for _ in $(seq 1 150); do
   waiting_count="$(psql "$db_url" -Atqc "select count(*) from pg_locks where locktype = 'advisory' and not granted" 2>/dev/null || true)"
   if [[ "$waiting_count" == '2' ]]; then
     both_waiting=true
@@ -136,8 +140,10 @@ fi
 set +e
 wait "$delete_pid"
 delete_status=$?
+delete_pid=''
 wait "$remove_role_pid"
 remove_role_status=$?
+remove_role_pid=''
 wait "$holder_pid"
 holder_status=$?
 set -e
