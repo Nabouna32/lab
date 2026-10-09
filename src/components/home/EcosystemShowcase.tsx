@@ -56,12 +56,12 @@ function Constellation({ locale, counts }: { locale: Locale; counts: { id: strin
           return (
             <g key={item.id} className="loculary-ecosystem-node">
               <line x1={center} y1="145" x2={x} y2={y} stroke="var(--border)" strokeDasharray="3 7" />
-              <Link href={getCategoryPath(locale, item.id)}>
+              <g>
                 <circle cx={x} cy={y} r={size} fill={getCategoryColor(item.id)} fillOpacity="0.2" stroke={getCategoryColor(item.id)} strokeWidth="2" />
                 <text x={x} y={y + 3} textAnchor="middle" className="pointer-events-none fill-[var(--foreground)] text-[9px] font-bold">{item.count}</text>
                 <text x={x} y={y + (y < 145 ? -size - 8 : size + 14)} textAnchor="middle" className="pointer-events-none fill-[var(--foreground)] text-[9px] font-semibold">{getCategoryName(locale, item.id)}</text>
                 <title>{getCategoryName(locale, item.id)} — {item.count}</title>
-              </Link>
+              </g>
             </g>
           );
         })}
@@ -88,10 +88,10 @@ function Radial({ locale, counts }: { locale: Locale; counts: { id: string; coun
           const x2 = 130 + 91 * Math.cos(endRad);
           const y2 = 130 + 91 * Math.sin(endRad);
           return (
-            <Link key={item.id} href={getCategoryPath(locale, item.id)} className="loculary-radial-segment">
+            <g key={item.id}>
               <path d={"M " + x1 + " " + y1 + " A 91 91 0 " + large + " 1 " + x2 + " " + y2} fill="none" stroke={getCategoryColor(item.id)} strokeWidth="24" strokeLinecap="round" />
               <title>{getCategoryName(locale, item.id)} — {item.count}</title>
-            </Link>
+            </g>
           );
         })}
         <text x="130" y="126" textAnchor="middle" className="fill-[var(--foreground)] text-[28px] font-black">{total}</text>
@@ -126,12 +126,12 @@ function Network({ locale, counts }: { locale: Locale; counts: { id: string; cou
           return (
             <g key={item.id} className="loculary-ecosystem-node">
               <line x1="380" y1="165" x2={x} y2={y} stroke="var(--border)" strokeWidth="1.5" />
-              <Link href={getCategoryPath(locale, item.id)}>
+              <g>
                 <circle cx={x} cy={y} r={size} fill="var(--surface)" stroke={getCategoryColor(item.id)} strokeWidth="3" />
                 <text x={x} y={y + 3} textAnchor="middle" className="pointer-events-none fill-[var(--foreground)] text-[9px] font-bold">{item.count}</text>
                 <text x={x} y={y + (y < 165 ? -size - 8 : size + 14)} textAnchor="middle" className="pointer-events-none fill-[var(--foreground)] text-[9px] font-semibold">{getCategoryName(locale, item.id)}</text>
                 <title>{getCategoryName(locale, item.id)} — {item.count}</title>
-              </Link>
+              </g>
             </g>
           );
         })}
