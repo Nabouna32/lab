@@ -3,7 +3,6 @@ import { getSiteUrl } from "@/lib/site-url";
 import { locales } from "@/lib/i18n/config";
 import { categories } from "@/lib/tools/categories";
 import { getPublishedTools } from "@/lib/tools/catalog";
-import { getPrimaryToolCategory } from "@/lib/tools/types";
 import { getCategoryPath, getToolPath, getToolsPath } from "@/lib/tools/routes";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -23,7 +22,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     for (const tool of publishedTools) {
       urls.add(
-        new URL(getToolPath(locale, getPrimaryToolCategory(tool), tool.id), siteUrl).toString(),
+        new URL(getToolPath(locale, tool.id), siteUrl).toString(),
       );
     }
   }
