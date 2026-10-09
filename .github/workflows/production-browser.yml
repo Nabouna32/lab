@@ -74,7 +74,7 @@ jobs:
           expected="$HEAD_SHA"
           observed=""
           for attempt in $(seq 1 60); do
-            response_headers="$(curl -fsSI --max-time 5 "$BASE_URL" 2>/dev/null || true)"
+            response_headers="$(curl -fsSL -D - -o /dev/null --max-time 8 "$BASE_URL" 2>/dev/null || true)"
             observed="$(printf '%s\n' "$response_headers" | awk 'tolower($1) == "x-loculary-commit:" { value=$2 } END { print value }')"
             if [[ "$observed" == "$expected" ]]; then
               echo "Production alias serves expected commit $expected."
