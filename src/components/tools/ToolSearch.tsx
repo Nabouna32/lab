@@ -72,6 +72,8 @@ export default function ToolSearch({
   const [results, setResults] = useState<ToolSearchResult[]>([]);
   const [resultsQuery, setResultsQuery] = useState("");
   const [isSearching, setIsSearching] = useState(false);
+  const [searchError, setSearchError] = useState(false);
+  const [searchRetryCount, setSearchRetryCount] = useState(0);
   const deferredQuery = useDeferredValue(query);
   const searchRequest = useRef(0);
   const showResults = isFocused && query.trim().length > 0;
@@ -80,22 +82,33 @@ export default function ToolSearch({
 
   useEffect(() => {
     const normalizedQuery = deferredQuery.trim();
-    if (!normalizedQuery) return;
+    if (!normalizedQuery) {
+      setIsSearching(false);
+      setSearchError(false);
+      return;
+    }
 
     const requestId = ++searchRequest.current;
     let cancelled = false;
+    setIsSearching(true);
+    setSearchError(false);
 
     import("@/lib/tools/search-client").then(({ searchToolCatalog }) => {
       if (cancelled || requestId !== searchRequest.current) return;
       setResults(searchToolCatalog(normalizedQuery, locale).slice(0, 6));
       setResultsQuery(normalizedQuery);
+      setSearchError(false);
+      setIsSearching(false);
+    }).catch(() => {
+      if (cancelled || requestId !== searchRequest.current) return;
+      setSearchError(true);
       setIsSearching(false);
     });
 
     return () => {
       cancelled = true;
     };
-  }, [deferredQuery, locale]);
+  }, [deferredQuery, locale, searchRetryCount]);
 
   useEffect(() => {
     function handlePointerDown(event: PointerEvent) {
@@ -175,7 +188,7 @@ export default function ToolSearch({
           aria-expanded={showResults}
           aria-controls={resultsId}
           aria-activedescendant={activeIndex >= 0 ? instanceId + "-result-" + activeIndex : undefined}
-          onChange={(event) => { setQuery(event.target.value); setActiveIndex(-1); setIsSearching(event.target.value.trim().length > 0); }}
+          onChange={(event) => { const nextQuery = event.target.value; setQuery(nextQuery); setActiveIndex(-1); setSearchError(false); setIsSearching(nextQuery.trim().length > 0); }}
           onFocus={() => setIsFocused(true)}
           onKeyDown={handleKeyDown}
           className={
@@ -188,7 +201,7 @@ export default function ToolSearch({
             variant="ghost"
             type="button"
             onMouseDown={(event) => event.preventDefault()}
-            onClick={() => { setQuery(""); setActiveIndex(-1); setIsFocused(true); }}
+            onClick={() => { setQuery(""); setActiveIndex(-1); setIsFocused(true); setIsSearching(false); setSearchError(false); }}
             className={(compact ? "min-h-8 w-8 text-base " : "min-h-10 w-10 text-lg ") + "rounded-lg p-0"}
             aria-label={t.tools.clearSearch}
           >
@@ -213,6 +226,19 @@ export default function ToolSearch({
           {isSearching ? (
             <div className="px-4 py-6" role="status">
               <p className="text-sm font-medium text-[var(--foreground)]">{t.tools.searching}</p>
+            </div>
+          ) : searchError ? (
+            <div className="px-4 py-6" role="alert">
+              <p className="text-sm font-medium text-[var(--foreground)]">{t.tools.searchError}</p>
+              <Button
+                type="button"
+                variant="secondary"
+                onMouseDown={(event) => event.preventDefault()}
+                onClick={() => { setSearchError(false); setIsSearching(true); setSearchRetryCount((count) => count + 1); }}
+                className="mt-3 min-h-9 rounded-[var(--radius-md)] px-4"
+              >
+                {t.tools.retrySearch}
+              </Button>
             </div>
           ) : visibleResults.length > 0 ? (
             <>
@@ -252,7 +278,7 @@ export default function ToolSearch({
                     key={suggestion}
                     type="button"
                     onMouseDown={(event) => event.preventDefault()}
-                    onClick={() => { setQuery(suggestion); setActiveIndex(-1); setIsFocused(true); setIsSearching(true); }}
+                    onClick={() => { setQuery(suggestion); setActiveIndex(-1); setIsFocused(true); setSearchError(false); setIsSearching(true); }}
                     className="rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-xs font-medium text-[var(--foreground)] transition-colors hover:bg-[var(--surface-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
                   >
                     {suggestion}
