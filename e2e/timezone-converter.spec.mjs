@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 const baseUrl = process.env.BASE_URL ?? "http://127.0.0.1:3000";
 
 test("Time zone converter converts Paris to New York in French", async ({ page }) => {
-  await page.goto(`${baseUrl}/fr/outils/dates/convertisseur-de-fuseaux-horaires`);
+  await page.goto(`${baseUrl}/fr/outils/convertisseur-de-fuseaux-horaires`);
   await expect(page.getByRole("heading", { name: "Convertisseur de fuseaux horaires", exact: true })).toBeVisible();
   await page.getByLabel("Date et heure").fill("2024-01-15T12:00");
   await page.getByLabel("Fuseau source").selectOption("Europe/Paris");
@@ -15,7 +15,7 @@ test("Time zone converter converts Paris to New York in French", async ({ page }
 });
 
 test("Time zone converter explains an ambiguous DST time in English", async ({ page }) => {
-  await page.goto(`${baseUrl}/en/tools/dates/time-zone-converter`);
+  await page.goto(`${baseUrl}/en/tools/time-zone-converter`);
   await expect(page.getByRole("heading", { name: "Time Zone Converter", exact: true })).toBeVisible();
   await page.getByLabel("Date and time").fill("2024-11-03T01:30");
   await page.getByLabel("Source time zone").selectOption("America/New_York");
@@ -26,7 +26,7 @@ test("Time zone converter explains an ambiguous DST time in English", async ({ p
 });
 
 test("Time zone converter reports a nonexistent DST time", async ({ page }) => {
-  await page.goto(`${baseUrl}/en/tools/dates/time-zone-converter`);
+  await page.goto(`${baseUrl}/en/tools/time-zone-converter`);
   await page.getByLabel("Date and time").fill("2024-03-10T02:30");
   await page.getByLabel("Source time zone").selectOption("America/New_York");
   await page.getByLabel("Destination time zone").selectOption("Europe/Paris");
