@@ -1,7 +1,6 @@
 import dynamic from "next/dynamic";
 import type { ComponentType } from "react";
 import type { Locale } from "@/lib/i18n/config";
-import { getPrimaryToolCategory } from "@/lib/tools/types";
 import type { Tool, ToolId } from "@/lib/tools/types";
 import { getPublishedTools } from "@/lib/tools/catalog";
 import { getToolSlug } from "@/lib/tools/routes";
