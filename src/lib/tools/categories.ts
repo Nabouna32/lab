@@ -18,25 +18,8 @@ export const categories: ToolCategory[] = [
   { id: "development", icon: "🧑‍💻" },
 ];
 
-const categoryColorVariables: Record<string, string> = {
-  calculations: "--category-calculations",
-  dates: "--category-dates",
-  computing: "--category-computing",
-  images: "--category-images",
-  files: "--category-files",
-  video: "--category-video",
-  development: "--category-development",
-};
-
-export function getCategoryColor(categoryId: string): string {
-  const variable = categoryColorVariables[categoryId];
-  return variable ? `var(${variable})` : "var(--accent)";
-}
-
-export function getCategoryContainerColor(categoryId: string): string {
-  const variable = categoryColorVariables[categoryId];
-  return variable ? `var(${variable}-container)` : "var(--accent-soft)";
-}
+export { getCategoryColor, getCategoryContainerColor } from "./category-colors.ts";
+import { getCategoryColor, getCategoryContainerColor } from "./category-colors.ts";
 
 export function getCategoryName(locale: Locale, categoryId: string): string {
   return categoryNames[locale][categoryId] ?? categoryId;
