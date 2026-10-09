@@ -319,8 +319,6 @@ Search must remain useful without an AI provider and must expose no-result recov
 
 ---
 
----
-
 ## DEC-022 — First-class tool registry and dynamic execution route
 
 **Status:** Accepted
