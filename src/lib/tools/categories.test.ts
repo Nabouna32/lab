@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { test } from "node:test";
-import { categories, getCategoryColor, getCategoryContainerColor } from "./categories.ts";
+import { categoryColorIds, getCategoryColor, getCategoryContainerColor } from "./category-colors.ts";
 
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
 
@@ -9,8 +9,8 @@ test("every category has a distinct light and dark identity color with a contain
   const lightColors = new Set<string>();
   const darkColors = new Set<string>();
 
-  for (const category of categories) {
-    const token = `--category-${category.id}`;
+  for (const categoryId of categoryColorIds) {
+    const token = `--category-${categoryId}`;
     const declaration = new RegExp(`^${token}:\\s*(#[0-9a-f]{6});`, "gim");
     const values = [...globalCss.matchAll(declaration)].map((match) => match[1]);
 
@@ -21,19 +21,19 @@ test("every category has a distinct light and dark identity color with a contain
     darkColors.add(values[1]);
 
     assert.ok(globalCss.includes(`${token}-container:`), `${token} should have a container role`);
-    assert.equal(getCategoryColor(category.id), `var(${token})`);
-    assert.equal(getCategoryContainerColor(category.id), `var(${token}-container)`);
+    assert.equal(getCategoryColor(categoryId), `var(${token})`);
+    assert.equal(getCategoryContainerColor(categoryId), `var(${token}-container)`);
   }
 
-  assert.equal(lightColors.size, categories.length, "light category colors should be unique");
-  assert.equal(darkColors.size, categories.length, "dark category colors should be unique");
+  assert.equal(lightColors.size, categoryColorIds.length, "light category colors should be unique");
+  assert.equal(darkColors.size, categoryColorIds.length, "dark category colors should be unique");
 });
 
 test("category colors stay separate from semantic status colors", () => {
   const statusTokens = ["--success", "--warning", "--error", "--info"];
 
-  for (const category of categories) {
-    const categoryToken = `--category-${category.id}`;
+  for (const categoryId of categoryColorIds) {
+    const categoryToken = `--category-${categoryId}`;
     const categoryValues = [...globalCss.matchAll(new RegExp(`^${categoryToken}:\\s*(#[0-9a-f]{6});`, "gim"))]
       .map((match) => match[1]);
 
@@ -46,4 +46,9 @@ test("category colors stay separate from semantic status colors", () => {
       }
     }
   }
+});
+
+test("unknown category IDs fall back to the shared primary tokens", () => {
+  assert.equal(getCategoryColor("unknown"), "var(--accent)");
+  assert.equal(getCategoryContainerColor("unknown"), "var(--accent-soft)");
 });
