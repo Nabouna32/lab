@@ -107,6 +107,9 @@ jobs:
             echo "No pgTAP tests are present yet; migration replay and database lint remain the active CI checks."
           fi
 
+      - name: Exercise concurrent account deletion and role removal
+        run: bash agents/test-account-deletion-concurrency.sh
+
       - name: Stop local Supabase
         if: always()
         run: supabase stop
