@@ -1,6 +1,6 @@
 begin;
 
-select plan(62);
+select plan(63);
 
 -- Transaction-scoped Auth fixtures for exercising the guarded role RPCs.
 -- The test file rolls back at the end; these users/sessions never persist.
@@ -466,6 +466,11 @@ $ordinary_user$;
 select lives_ok(
   'select public.check_account_deletion(''00000000-0000-0000-0000-000000000102''::uuid)',
   'ordinary user can preflight their own account deletion'
+);
+
+select lives_ok(
+  'select public.prepare_account_deletion(''00000000-0000-0000-0000-000000000102''::uuid)',
+  'legacy RPC remains safe for an older deployed Edge Function'
 );
 
 reset role;
