@@ -10,7 +10,7 @@ test("URL encoder encodes and decodes a URL component", async ({ page }) => {
     });
   });
 
-  await page.goto(baseUrl + "/fr/outils/developpement/encodeur-decodeur-url", { waitUntil: "networkidle" });
+  await page.goto(baseUrl + "/fr/outils/encodeur-decodeur-url", { waitUntil: "networkidle" });
 
   await expect(page.getByRole("heading", { level: 1, name: "Encodeur et décodeur d’URL" })).toBeVisible();
 

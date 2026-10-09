@@ -22,7 +22,7 @@ test("root uses English as the default locale", async ({ page }) => {
 });
 
 test("language selector maps the same tool to its localized URL", async ({ page }) => {
-  await page.goto(`${baseUrl}/en/tools/calculations/percentage-calculator`, { waitUntil: "networkidle" });
+  await page.goto(`${baseUrl}/en/tools/percentage-calculator`, { waitUntil: "networkidle" });
   await page.getByRole("button", { name: "Menu" }).click();
   const frenchLink = page.getByRole("link", { name: "Français" });
   await expect(frenchLink).toBeVisible();
@@ -105,40 +105,40 @@ test("tools page is search-first and exposes category discovery", async ({ page 
   await expect(page.getByRole("heading", { name: "Calculateur de pourcentage", exact: true })).toBeVisible();
 });
 
-test("all published tool pages render", async ({ page }) => {
-  const publishedToolRoutes = [
-    "/fr/outils/calculs/calculateur-de-pourcentage",
-    "/fr/outils/calculs/calculateur-d-interets-composes",
-    "/fr/outils/calculs/calculateur-de-reduction",
-    "/fr/outils/calculs/calculateur-de-tva",
-    "/fr/outils/calculs/regle-de-trois",
-    "/fr/outils/dates/calculateur-d-age",
-    "/fr/outils/dates/calculateur-de-duree",
-    "/fr/outils/informatique/convertisseur-de-debit-internet",
-    "/fr/outils/informatique/calculateur-de-temps-de-telechargement",
-    "/fr/outils/informatique/calculateur-de-taille-de-fichier",
-    "/fr/outils/informatique/convertisseur-de-taille-de-fichier",
-    "/fr/outils/informatique/generateur-de-mot-de-passe",
-    "/fr/outils/calculs/convertisseur-d-unites",
-    "/fr/outils/fichiers/compteur-de-mots-et-caracteres",
-    "/fr/outils/fichiers/convertisseur-de-casse",
-    "/fr/outils/images/convertisseur-de-couleur",
-    "/fr/outils/images/generateur-de-palette-de-couleurs",
-    "/fr/outils/developpement/formateur-json",
-    "/fr/outils/developpement/encodeur-decodeur-url",
-    "/fr/outils/developpement/encodeur-base64",
-    "/fr/outils/developpement/encodeur-decodeur-entites-html",
-    "/fr/outils/fichiers/convertisseur-csv-json",
-    "/fr/outils/developpement/json-vers-typescript",
-    "/en/tools/development/json-to-typescript",
-    "/en/tools/files/csv-json-converter",
-    "/en/tools/development/html-entity-encoder-decoder",
-    "/fr/outils/developpement/generateur-uuid",
-    "/fr/outils/developpement/convertisseur-de-bases",
-  "/en/tools/files/word-character-counter",
+test("representative published tool pages render", async ({ page }) => {
+  const representativeToolRoutes = [
+    "/fr/outils/calculateur-de-pourcentage",
+    "/fr/outils/calculateur-d-interets-composes",
+    "/fr/outils/calculateur-de-reduction",
+    "/fr/outils/calculateur-de-tva",
+    "/fr/outils/regle-de-trois",
+    "/fr/outils/calculateur-d-age",
+    "/fr/outils/calculateur-de-duree",
+    "/fr/outils/convertisseur-de-debit-internet",
+    "/fr/outils/calculateur-de-temps-de-telechargement",
+    "/fr/outils/calculateur-de-taille-de-fichier",
+    "/fr/outils/convertisseur-de-taille-de-fichier",
+    "/fr/outils/generateur-de-mot-de-passe",
+    "/fr/outils/convertisseur-d-unites",
+    "/fr/outils/compteur-de-mots-et-caracteres",
+    "/fr/outils/convertisseur-de-casse",
+    "/fr/outils/convertisseur-de-couleur",
+    "/fr/outils/generateur-de-palette-de-couleurs",
+    "/fr/outils/formateur-json",
+    "/fr/outils/encodeur-decodeur-url",
+    "/fr/outils/encodeur-base64",
+    "/fr/outils/encodeur-decodeur-entites-html",
+    "/fr/outils/convertisseur-csv-json",
+    "/fr/outils/json-vers-typescript",
+    "/en/tools/json-to-typescript",
+    "/en/tools/csv-json-converter",
+    "/en/tools/html-entity-encoder-decoder",
+    "/fr/outils/generateur-uuid",
+    "/fr/outils/convertisseur-de-bases",
+  "/en/tools/word-character-counter",
   ];
 
-  for (const route of publishedToolRoutes) {
+  for (const route of representativeToolRoutes) {
     const response = await page.goto(`${baseUrl}${route}`, { waitUntil: "networkidle" });
     expect(response?.status(), `Expected ${route} to return HTTP 200.`).toBe(200);
     await expect(page.locator("main")).toBeVisible();
@@ -147,7 +147,7 @@ test("all published tool pages render", async ({ page }) => {
 });
 
 test("unit converter converts values and swaps units", async ({ page }) => {
-  await page.goto(baseUrl + "/fr/outils/calculs/convertisseur-d-unites", { waitUntil: "networkidle" });
+  await page.goto(baseUrl + "/fr/outils/convertisseur-d-unites", { waitUntil: "networkidle" });
 
   const value = page.locator("#unit-converter-value");
   await value.fill("1,5");
@@ -161,7 +161,7 @@ test("unit converter converts values and swaps units", async ({ page }) => {
 
 test("tool page keeps the primary task hierarchy compact", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto(baseUrl + "/fr/outils/calculs/calculateur-de-pourcentage", { waitUntil: "networkidle" });
+  await page.goto(baseUrl + "/fr/outils/calculateur-de-pourcentage", { waitUntil: "networkidle" });
 
   const toolHeader = page.locator("main > header");
   await expect(toolHeader).toBeVisible();
@@ -179,7 +179,7 @@ test("tool page keeps the primary task hierarchy compact", async ({ page }) => {
 });
 
 test("processing status exposes an accessible information disclosure", async ({ page }) => {
-  await page.goto(`${baseUrl}/fr/outils/calculs/calculateur-de-pourcentage`, { waitUntil: "networkidle" });
+  await page.goto(`${baseUrl}/fr/outils/calculateur-de-pourcentage`, { waitUntil: "networkidle" });
 
   const status = page.getByText("Traitement local", { exact: true });
   await expect(status).toBeVisible();
@@ -199,7 +199,7 @@ test("English locale renders", async ({ page }) => {
 });
 
 test("calculator empty and error states explain what to do", async ({ page }) => {
-  await page.goto(`${baseUrl}/fr/outils/calculs/calculateur-de-reduction`, { waitUntil: "networkidle" });
+  await page.goto(`${baseUrl}/fr/outils/calculateur-de-reduction`, { waitUntil: "networkidle" });
 
   await expect(page.getByRole("region", { name: "Prix après réduction" })).toContainText("Saisissez le prix et la remise");
   await page.getByRole("spinbutton", { name: "Prix initial" }).fill("100");
@@ -210,7 +210,7 @@ test("calculator empty and error states explain what to do", async ({ page }) =>
 });
 
 test("calculator empty states are localized in English", async ({ page }) => {
-  await page.goto(`${baseUrl}/en/tools/dates/age-calculator`, { waitUntil: "networkidle" });
+  await page.goto(`${baseUrl}/en/tools/age-calculator`, { waitUntil: "networkidle" });
 
   const emptyResults = page.getByText("Enter a birth date to see the calculated age.", { exact: true });
   await expect(emptyResults).toHaveCount(3);
@@ -218,7 +218,7 @@ test("calculator empty states are localized in English", async ({ page }) => {
 });
 
 test("file size calculator computes an estimated size", async ({ page }) => {
-  await page.goto(`${baseUrl}/fr/outils/informatique/calculateur-de-taille-de-fichier`, { waitUntil: "networkidle" });
+  await page.goto(`${baseUrl}/fr/outils/calculateur-de-taille-de-fichier`, { waitUntil: "networkidle" });
   await expect(page.getByRole("heading", { level: 1, name: "Taille de fichier" })).toBeVisible();
   await page.getByRole("spinbutton", { name: "Durée" }).fill("10");
   await page.getByRole("spinbutton", { name: "Débit" }).fill("8");
@@ -233,7 +233,7 @@ test("text counter tool renders and counts words", async ({ page }) => {
     });
   });
 
-  await page.goto(`${baseUrl}/fr/outils/fichiers/compteur-de-mots-et-caracteres`, { waitUntil: "networkidle" });
+  await page.goto(`${baseUrl}/fr/outils/compteur-de-mots-et-caracteres`, { waitUntil: "networkidle" });
 
   await expect(page.getByRole("heading", { name: "Compteur de mots et caractères" })).toBeVisible();
   const input = page.getByLabel("Votre texte");
@@ -255,7 +255,7 @@ test("JSON to TypeScript generator creates typed interfaces", async ({ page }) =
     });
   });
 
-  await page.goto(baseUrl + "/fr/outils/developpement/json-vers-typescript", { waitUntil: "networkidle" });
+  await page.goto(baseUrl + "/fr/outils/json-vers-typescript", { waitUntil: "networkidle" });
   await expect(page.getByRole("heading", { name: "JSON vers TypeScript" })).toBeVisible();
 
   await page.getByRole("textbox", { name: "Votre JSON" }).fill('{"user":{"name":"Alice"},"active":true}');
@@ -278,7 +278,7 @@ test("CSV and JSON converter transforms tabular data", async ({ page }) => {
     });
   });
 
-  await page.goto(baseUrl + "/fr/outils/fichiers/convertisseur-csv-json", { waitUntil: "networkidle" });
+  await page.goto(baseUrl + "/fr/outils/convertisseur-csv-json", { waitUntil: "networkidle" });
 
   await expect(page.getByRole("heading", { name: "Convertisseur CSV et JSON" })).toBeVisible();
   const input = page.getByRole("textbox", { name: "Données" });
@@ -304,7 +304,7 @@ test("HTML entity encoder and decoder transform and copy text", async ({ page })
     });
   });
 
-  await page.goto(baseUrl + "/fr/outils/developpement/encodeur-decodeur-entites-html", { waitUntil: "networkidle" });
+  await page.goto(baseUrl + "/fr/outils/encodeur-decodeur-entites-html", { waitUntil: "networkidle" });
 
   await expect(page.getByRole("heading", { name: "Encodeur et décodeur d’entités HTML" })).toBeVisible();
   const input = page.getByLabel("Votre texte");
@@ -327,7 +327,7 @@ test("text case converter transforms and copies text", async ({ page }) => {
     });
   });
 
-  await page.goto(`${baseUrl}/fr/outils/fichiers/convertisseur-de-casse`, { waitUntil: "networkidle" });
+  await page.goto(`${baseUrl}/fr/outils/convertisseur-de-casse`, { waitUntil: "networkidle" });
 
   await expect(page.getByRole("heading", { name: "Convertisseur de casse" })).toBeVisible();
   const input = page.getByLabel("Votre texte");

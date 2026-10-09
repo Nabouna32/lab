@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 
 test.describe("Date calculator", () => {
   test("loads in French with the primary controls", async ({ page }) => {
-    await page.goto("/fr/outils/dates/calculateur-de-date");
+    await page.goto("/fr/outils/calculateur-de-date");
     await expect(page).toHaveTitle(/Calculateur de date/);
     await expect(page.getByLabel("Date de départ")).toBeVisible();
     await expect(page.getByLabel("Quantité")).toBeVisible();
@@ -11,7 +11,7 @@ test.describe("Date calculator", () => {
   });
 
   test("loads in English with the primary controls", async ({ page }) => {
-    await page.goto("/en/tools/dates/date-calculator");
+    await page.goto("/en/tools/date-calculator");
     await expect(page).toHaveTitle(/Date Calculator/);
     await expect(page.getByLabel("Start date")).toBeVisible();
     await expect(page.getByLabel("Amount")).toBeVisible();

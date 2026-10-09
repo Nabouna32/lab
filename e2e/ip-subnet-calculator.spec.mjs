@@ -3,7 +3,7 @@ import { test, expect } from "@playwright/test";
 const baseUrl = process.env.BASE_URL ?? "http://127.0.0.1:3000";
 
 test("IPv4 subnet calculator computes a CIDR range in French", async ({ page }) => {
-  await page.goto(baseUrl + "/fr/outils/informatique/calculateur-de-sous-reseau-ipv4", { waitUntil: "networkidle" });
+  await page.goto(baseUrl + "/fr/outils/calculateur-de-sous-reseau-ipv4", { waitUntil: "networkidle" });
 
   await expect(page.getByRole("heading", { level: 1, name: "Calculateur de sous-réseau IPv4" })).toBeVisible();
 
@@ -17,7 +17,7 @@ test("IPv4 subnet calculator computes a CIDR range in French", async ({ page }) 
 });
 
 test("IPv4 subnet calculator reports invalid input in English", async ({ page }) => {
-  await page.goto(baseUrl + "/en/tools/computing/ipv4-subnet-calculator", { waitUntil: "networkidle" });
+  await page.goto(baseUrl + "/en/tools/ipv4-subnet-calculator", { waitUntil: "networkidle" });
 
   await expect(page.getByRole("heading", { level: 1, name: "IPv4 Subnet Calculator" })).toBeVisible();
 

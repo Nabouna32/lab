@@ -4,7 +4,7 @@ import { validateToolCatalog } from "./metadata.ts";
 import { getPrimaryToolCategory, isPublishedTool } from "./types.ts";
 
 const tool = {
-  id: "fixture",
+  id: "json-formatter",
   icon: "🧮",
   version: 1,
   complexity: "small",

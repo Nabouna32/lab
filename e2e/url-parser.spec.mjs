@@ -10,7 +10,7 @@ test("URL parser displays URL components and query parameters", async ({ page })
     });
   });
 
-  await page.goto(baseUrl + "/fr/outils/developpement/analyseur-url", { waitUntil: "networkidle" });
+  await page.goto(baseUrl + "/fr/outils/analyseur-url", { waitUntil: "networkidle" });
 
   await expect(page.getByRole("heading", { level: 1, name: "Analyseur d’URL" })).toBeVisible();
 
@@ -33,7 +33,7 @@ test("URL parser displays URL components and query parameters", async ({ page })
 });
 
 test("URL parser reports malformed input", async ({ page }) => {
-  await page.goto(baseUrl + "/en/tools/development/url-parser", { waitUntil: "networkidle" });
+  await page.goto(baseUrl + "/en/tools/url-parser", { waitUntil: "networkidle" });
 
   await expect(page.getByRole("heading", { level: 1, name: "URL Parser" })).toBeVisible();
   await page.getByLabel("Your URL").fill("not a URL");

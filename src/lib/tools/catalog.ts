@@ -1,4 +1,4 @@
-import { getPrimaryToolCategory, isPublishedTool } from "./types.ts";
+import { isPublishedTool } from "./types.ts";
 import type { Tool } from "@/lib/tools/types";
 import { tools } from "./tools.ts";
 
@@ -23,6 +23,6 @@ export function getToolById(toolId: string): Tool | undefined {
 
 export function getToolsByCategory(categoryId: string): Tool[] {
   return tools.filter(
-    (tool) => getPrimaryToolCategory(tool) === categoryId && isPublishedTool(tool),
+    (tool) => tool.categories.includes(categoryId) && isPublishedTool(tool),
   );
 }

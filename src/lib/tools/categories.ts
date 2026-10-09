@@ -1,5 +1,4 @@
 import type { Locale } from "@/lib/i18n/config";
-import { getPrimaryToolCategory } from "@/lib/tools/types";
 import { getPublishedTools } from "@/lib/tools/catalog";
 
 export type ToolCategory = { id: string; icon: string };
@@ -24,5 +23,5 @@ export function getCategoryName(locale: Locale, categoryId: string): string {
 }
 
 export function getToolCount(categoryId: string): number {
-  return getPublishedTools().filter((tool) => getPrimaryToolCategory(tool) === categoryId).length;
+  return getPublishedTools().filter((tool) => tool.categories.includes(categoryId)).length;
 }

@@ -13,7 +13,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test("TVA calculator converts HT to TTC", async ({ page }) => {
-  await page.goto(`${baseUrl}/fr/outils/calculs/calculateur-de-tva`, { waitUntil: "networkidle" });
+  await page.goto(`${baseUrl}/fr/outils/calculateur-de-tva`, { waitUntil: "networkidle" });
 
   await expect(page.getByRole("heading", { name: "Calculateur TVA HT / TTC" })).toBeVisible();
 
@@ -23,7 +23,7 @@ test("TVA calculator converts HT to TTC", async ({ page }) => {
 });
 
 test("TVA calculator converts TTC to HT", async ({ page }) => {
-  await page.goto(`${baseUrl}/fr/outils/calculs/calculateur-de-tva`, { waitUntil: "networkidle" });
+  await page.goto(`${baseUrl}/fr/outils/calculateur-de-tva`, { waitUntil: "networkidle" });
 
   await page.getByRole("button", { name: "TTC → HT" }).click();
   await page.getByLabel("Prix TTC").fill("120");

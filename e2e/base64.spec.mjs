@@ -10,7 +10,7 @@ test("Base64 encoder encodes and decodes UTF-8 text", async ({ page }) => {
     });
   });
 
-  await page.goto(baseUrl + "/fr/outils/developpement/encodeur-base64", { waitUntil: "networkidle" });
+  await page.goto(baseUrl + "/fr/outils/encodeur-base64", { waitUntil: "networkidle" });
 
   await expect(page.getByRole("heading", { level: 1, name: "Encodeur et décodeur Base64" })).toBeVisible();
 
