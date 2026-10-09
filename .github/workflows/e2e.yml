@@ -86,7 +86,7 @@ jobs:
 
       - name: Run browser smoke tests
         if: steps.changes.outputs.docs_only != 'true'
-        run: npx playwright test e2e/smoke.spec.mjs e2e/compound-interest-calculator.spec.mjs e2e/uuid.spec.mjs e2e/video-bitrate.spec.mjs e2e/unix-timestamp.spec.mjs e2e/hash-generator.spec.mjs e2e/jwt-decoder.spec.mjs e2e/regex-tester.spec.mjs e2e/url-parser.spec.mjs e2e/password-generator.spec.mjs e2e/color-converter.spec.mjs e2e/color-palette-generator.spec.mjs e2e/contrast-checker.spec.mjs e2e/ip-subnet-calculator.spec.mjs e2e/yaml-formatter-validator.spec.mjs e2e/text-diff-checker.spec.mjs e2e/cron-expression.spec.mjs e2e/account.spec.mjs
+        run: npx playwright test e2e/smoke.spec.mjs e2e/compound-interest-calculator.spec.mjs e2e/uuid.spec.mjs e2e/video-bitrate.spec.mjs e2e/unix-timestamp.spec.mjs e2e/hash-generator.spec.mjs e2e/jwt-decoder.spec.mjs e2e/regex-tester.spec.mjs e2e/url-parser.spec.mjs e2e/password-generator.spec.mjs e2e/color-converter.spec.mjs e2e/color-palette-generator.spec.mjs e2e/contrast-checker.spec.mjs e2e/ip-subnet-calculator.spec.mjs e2e/yaml-formatter-validator.spec.mjs e2e/text-diff-checker.spec.mjs e2e/cron-expression.spec.mjs e2e/account.spec.mjs e2e/design-lab.spec.mjs
 
       - name: Dump Next.js server log on failure
         if: failure() && steps.changes.outputs.docs_only != 'true'
