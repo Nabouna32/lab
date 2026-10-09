@@ -117,7 +117,7 @@ select ok(
     cross join lateral aclexplode(coalesce(p.proacl, acldefault('f', p.proowner))) acl
     where n.nspname = 'public'
       and p.proname = 'assign_admin_role'
-      and pg_get_function_identity_arguments(p.oid) = 'target_user_id uuid, target_role_key text'
+      and pg_get_function_identity_arguments(p.oid) = 'uuid, text'
       and acl.grantee = 0
       and acl.privilege_type = 'EXECUTE'
   ),
@@ -142,7 +142,7 @@ select ok(
     cross join lateral aclexplode(coalesce(p.proacl, acldefault('f', p.proowner))) acl
     where n.nspname = 'public'
       and p.proname = 'remove_admin_role'
-      and pg_get_function_identity_arguments(p.oid) = 'target_user_id uuid, target_role_key text'
+      and pg_get_function_identity_arguments(p.oid) = 'uuid, text'
       and acl.grantee = 0
       and acl.privilege_type = 'EXECUTE'
   ),
