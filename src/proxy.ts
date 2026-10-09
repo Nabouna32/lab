@@ -3,6 +3,12 @@ import { locales } from "./lib/i18n/config";
 import { getPreferredLocale } from "./lib/i18n/request-locale";
 import { copySessionResponse, updateSession } from "./lib/supabase/proxy";
 
+function withDeploymentCommit(response: NextResponse): NextResponse {
+  const commit = process.env.VERCEL_GIT_COMMIT_SHA;
+  if (commit) response.headers.set("X-Loculary-Commit", commit);
+  return response;
+}
+
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const needsSupabaseSession = /(^|\/)(compte|auth|admin)(\/|$)/.test(pathname);
@@ -14,7 +20,7 @@ export async function proxy(request: NextRequest) {
   );
 
   if (pathnameHasLocale) {
-    return supabaseResponse ?? NextResponse.next();
+    return withDeploymentCommit(supabaseResponse ?? NextResponse.next());
   }
 
   const url = request.nextUrl.clone();
@@ -22,9 +28,11 @@ export async function proxy(request: NextRequest) {
   url.pathname = "/" + preferredLocale + pathname;
 
   const redirectResponse = NextResponse.redirect(url);
-  return supabaseResponse
-    ? copySessionResponse(supabaseResponse, redirectResponse)
-    : redirectResponse;
+  return withDeploymentCommit(
+    supabaseResponse
+      ? copySessionResponse(supabaseResponse, redirectResponse)
+      : redirectResponse,
+  );
 }
 
 export const config = {
