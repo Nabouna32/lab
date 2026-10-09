@@ -14,8 +14,6 @@ const securityHeaders = [
   },
 ];
 
-const deploymentCommit = process.env.VERCEL_GIT_COMMIT_SHA;
-
 const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
@@ -23,12 +21,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/:path*",
-        headers: [
-          ...securityHeaders,
-          ...(deploymentCommit
-            ? [{ key: "X-Loculary-Commit", value: deploymentCommit }]
-            : []),
-        ],
+        headers: securityHeaders,
       },
     ];
   },
