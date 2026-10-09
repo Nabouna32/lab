@@ -1,6 +1,6 @@
 begin;
 
-select plan(56);
+select plan(59);
 
 -- Transaction-scoped Auth fixtures for exercising the guarded role RPCs.
 -- The test file rolls back at the end; these users/sessions never persist.
@@ -40,12 +40,19 @@ values
   );
 
 insert into auth.sessions (id, user_id, created_at, updated_at)
-values (
-  '00000000-0000-0000-0000-000000000103',
-  '00000000-0000-0000-0000-000000000101',
-  now(),
-  now()
-);
+values
+  (
+    '00000000-0000-0000-0000-000000000103',
+    '00000000-0000-0000-0000-000000000101',
+    now(),
+    now()
+  ),
+  (
+    '00000000-0000-0000-0000-000000000105',
+    '00000000-0000-0000-0000-000000000102',
+    now(),
+    now()
+  );
 
 -- Seed the actor as the sole super_admin for this transaction so the test
 -- can verify both ordinary role operations and the last-super-admin guard.
@@ -70,6 +77,13 @@ values
     'test.account.delete.target',
     'user',
     '00000000-0000-0000-0000-000000000104',
+    '{}'::jsonb
+  ),
+  (
+    '00000000-0000-0000-0000-000000000102',
+    'test.account.delete.preflight',
+    'user',
+    '00000000-0000-0000-0000-000000000102',
     '{}'::jsonb
   );
 
@@ -400,6 +414,51 @@ select throws_ok(
   'Unauthorized account deletion request',
   'read-only preflight rejects checking another user account'
 );
+
+do $ordinary_user$
+begin
+  perform set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000102', true);
+  perform set_config(
+    'request.jwt.claims',
+    '{"sub":"00000000-0000-0000-0000-000000000102","session_id":"00000000-0000-0000-0000-000000000105","role":"authenticated","aud":"authenticated"}',
+    true
+  );
+end;
+$ordinary_user$;
+
+select lives_ok(
+  'select public.check_account_deletion(''00000000-0000-0000-0000-000000000102''::uuid)',
+  'ordinary user can preflight their own account deletion'
+);
+
+reset role;
+
+select is(
+  (select actor_user_id from public.admin_audit_log
+   where action = 'test.account.delete.preflight'),
+  '00000000-0000-0000-0000-000000000102'::uuid,
+  'successful read-only preflight does not anonymize audit actors'
+);
+
+select is(
+  (select target_id from public.admin_audit_log
+   where action = 'test.account.delete.preflight'),
+  '00000000-0000-0000-0000-000000000102'::uuid,
+  'successful read-only preflight does not clear audit targets'
+);
+
+do $restore_actor$
+begin
+  perform set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000101', true);
+  perform set_config(
+    'request.jwt.claims',
+    '{"sub":"00000000-0000-0000-0000-000000000101","session_id":"00000000-0000-0000-0000-000000000103","role":"authenticated","aud":"authenticated"}',
+    true
+  );
+end;
+$restore_actor$;
+
+set local role authenticated;
 
 
 select throws_ok(
