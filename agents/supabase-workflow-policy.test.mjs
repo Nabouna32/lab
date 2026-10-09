@@ -158,3 +158,44 @@ test('workflow CLI keeps production release disabled when validation fails', () 
     rmSync(directory, { recursive: true, force: true });
   }
 });
+
+
+test('workflow CLI reports a successful no-op and never enables production release for application-only changes', () => {
+  const directory = mkdtempSync(path.join(os.tmpdir(), 'supabase-policy-'));
+  try {
+    const outputPath = path.join(directory, 'output.txt');
+    execFileSync(process.execPath, ['agents/supabase-workflow-policy.mjs', 'gate'], {
+      env: {
+        ...process.env,
+        GITHUB_OUTPUT: outputPath,
+        DETECTION_RESULT: 'success',
+        VALIDATION_REQUIRED: 'false',
+        VALIDATION_RESULT: 'skipped',
+        EVENT_NAME: 'pull_request',
+        WORKFLOW_REF: 'refs/pull/123/merge',
+        PRODUCTION_REQUIRED: 'false',
+      },
+    });
+    assert.equal(readFileSync(outputPath, 'utf8'), 'production_allowed=false\\n');
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
+});
+
+test('GitHub Actions workflow is wired to the tested policy and keeps release fail-closed', async () => {
+  const { parse } = await import('yaml');
+  const workflowPath = new URL('../.github/workflows/supabase-database.yml', import.meta.url);
+  const workflow = parse(readFileSync(workflowPath, 'utf8'));
+  const jobs = workflow.jobs;
+
+  assert.equal(jobs['detect-changes'].outputs.validate, '${{ steps.detect.outputs.validate }}');
+  assert.equal(jobs['detect-changes'].outputs.production, '${{ steps.detect.outputs.production }}');
+  assert.equal(jobs['detect-changes'].steps.find((step) => step.id === 'detect').run.includes('supabase-workflow-policy.mjs detect'), true);
+  assert.equal(jobs['run-validation'].if, "needs.detect-changes.outputs.validate == 'true'");
+  assert.equal(jobs.validate.if, 'always()');
+  assert.equal(jobs.validate.outputs.production_allowed, '${{ steps.gate.outputs.production_allowed }}');
+  assert.equal(jobs.validate.steps.find((step) => step.id === 'gate').run, 'node agents/supabase-workflow-policy.mjs gate');
+  assert.equal(jobs['production-release'].if.includes("needs.run-validation.result == 'success'"), true);
+  assert.equal(jobs['production-release'].if.includes("needs.validate.result == 'success'"), true);
+  assert.equal(jobs['production-release'].if.includes("needs.validate.outputs.production_allowed == 'true'"), true);
+});
