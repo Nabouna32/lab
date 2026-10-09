@@ -222,7 +222,7 @@ export default function ToolSearch({
       </div>
 
       {showResults && (
-        <div id={resultsId} role="listbox" aria-busy={isSearching} className="absolute left-0 right-0 top-full z-[60] mt-2 overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface-elevated)] p-1.5 shadow-[var(--shadow-md)]">
+        <div id={resultsId} role={searchError ? "region" : "listbox"} aria-label={searchError ? t.tools.searchLabel : undefined} aria-busy={isSearching} className="absolute left-0 right-0 top-full z-[60] mt-2 overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface-elevated)] p-1.5 shadow-[var(--shadow-md)]">
           {isSearching ? (
             <div className="px-4 py-6" role="status">
               <p className="text-sm font-medium text-[var(--foreground)]">{t.tools.searching}</p>
