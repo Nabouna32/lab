@@ -1,6 +1,6 @@
 begin;
 
-select plan(59);
+select plan(60);
 
 -- Transaction-scoped Auth fixtures for exercising the guarded role RPCs.
 -- The test file rolls back at the end; these users/sessions never persist.
@@ -353,9 +353,18 @@ select is(
   'rejected Auth deletion does not clear the audit target'
 );
 
+-- This account is a second super_admin, so deleting it must succeed while
+-- the original super_admin remains. The trigger still performs atomic cleanup.
+insert into public.admin_user_roles (user_id, role_key, assigned_by)
+values (
+  '00000000-0000-0000-0000-000000000104',
+  'super_admin',
+  '00000000-0000-0000-0000-000000000101'
+);
+
 select lives_ok(
   'delete from auth.users where id = ''00000000-0000-0000-0000-000000000104''::uuid',
-  'ordinary Auth account deletion succeeds when no invariant is violated'
+  'deleting one of two super_admin accounts succeeds'
 );
 
 select ok(
@@ -363,7 +372,15 @@ select ok(
     select 1 from auth.users
     where id = '00000000-0000-0000-0000-000000000104'
   ),
-  'ordinary Auth account is deleted'
+  'second super_admin Auth account is deleted'
+);
+
+select ok(
+  not exists (
+    select 1 from public.admin_user_roles
+    where user_id = '00000000-0000-0000-0000-000000000104'
+  ),
+  'deleted super_admin role binding is removed by the Auth cascade'
 );
 
 select is(
