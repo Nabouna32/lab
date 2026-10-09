@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 
 test.describe("Image Compressor", () => {
   test("exposes the compression controls and local workflow", async ({ page }) => {
-    await page.goto("/fr/outils/image-compressor");
+    await page.goto("/fr/outils/compresseur-d-image");
     await expect(page.getByText("Compresseur d’image")).toBeVisible();
     await expect(page.getByLabel("Format")).toBeVisible();
     await expect(page.getByLabel("Dimension maximale")).toBeVisible();
