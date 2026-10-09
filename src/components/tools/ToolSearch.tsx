@@ -119,7 +119,7 @@ export default function ToolSearch({
 
   function openResult(index: number) {
     const result = visibleResults[index];
-    if (result) router.push(hrefFor(result.tool.id, getPrimaryToolCategory(result.tool)));
+    if (result) router.push(hrefFor(result.tool.id));
   }
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
