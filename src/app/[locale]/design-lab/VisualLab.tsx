@@ -4,24 +4,22 @@ import type { CSSProperties } from "react";
 import styles from "./visual-lab.module.css";
 
 type Locale = "en" | "fr";
-type PaletteKey = "violet" | "blue" | "hybrid" | "coral" | "saturatedBlue" | "expressiveMulti" | "balanced" | "blueMulticolor" | "expressivePrimaries";
+type PaletteKey = "violet" | "blue" | "coral" | "forest" | "expressiveMulti" | "blueMulticolor" | "expressivePrimaries";
 type Theme = "light" | "dark";
 type Mode = "m3" | "expressive";
 type Screen = "home" | "explore" | "tool";
 const palettes: Record<PaletteKey, { name: string; nameFr: string; seed: string; primary: string; secondary: string; tertiary: string; surface: string; primarySoft: string; darkPrimary: string; darkPrimarySoft: string; description: string; descriptionFr: string; darkSecondary?: string; darkTertiary?: string; darkOnPrimary?: string }> = {
   violet: { name: "Violet", nameFr: "Violet", seed: "#6750A4", primary: "#6750A4", secondary: "#625B71", tertiary: "#7D5260", surface: "#F7F2FA", primarySoft: "#EADDFF", darkPrimary: "#D0BCFF", darkPrimarySoft: "#4A3C63", description: "Distinctive and creative; close to familiar Material purple.", descriptionFr: "Créative et distinctive, proche du violet Material familier." },
   blue: { name: "Blue", nameFr: "Bleu", seed: "#386A9F", primary: "#386A9F", secondary: "#526070", tertiary: "#6B5778", surface: "#F2F6FB", primarySoft: "#D7E6FA", darkPrimary: "#A7C8F5", darkPrimarySoft: "#354A62", description: "Clear, dependable and more conventional.", descriptionFr: "Une identité classique, claire et rassurante." },
-  hybrid: { name: "Violet + blue", nameFr: "Violet + bleu", seed: "#6750A4", primary: "#6750A4", secondary: "#4267A9", tertiary: "#806080", surface: "#F5F3FA", primarySoft: "#EADDFF", darkPrimary: "#D0BCFF", darkPrimarySoft: "#4A3C63", description: "Violet identity with a cooler blue supporting accent.", descriptionFr: "Une identité violette soutenue par un bleu plus froid." },
+  forest: { name: "Teal + green", nameFr: "Turquoise + vert", seed: "#0F766E", primary: "#0F766E", secondary: "#3F6212", tertiary: "#B45309", surface: "#F3FAF7", primarySoft: "#CDEFE8", darkPrimary: "#5EEAD4", darkPrimarySoft: "#174A43", darkSecondary: "#B9F27C", darkTertiary: "#FDBA74", darkOnPrimary: "#003731", description: "A calmer nature-inspired direction with teal, green and amber accents.", descriptionFr: "Une direction plus apaisée, inspirée de la nature, entre turquoise, vert et ambre." },
   coral: { name: "Coral + teal", nameFr: "Corail + turquoise", seed: "#9A4057", primary: "#9A4057", secondary: "#42675F", tertiary: "#76558F", surface: "#FBF2F1", primarySoft: "#F8DCE1", darkPrimary: "#FFB2C0", darkPrimarySoft: "#5B303D", description: "A warm alternative that challenges the obvious choices.", descriptionFr: "Une alternative chaleureuse au corail et au turquoise." },
-  saturatedBlue: { name: "Bold primary colors", nameFr: "Couleurs franches", seed: "#0B57D0", primary: "#0B57D0", secondary: "#E52521", tertiary: "#F9AB00", surface: "#F5F8FF", primarySoft: "#D9E2FF", darkPrimary: "#A8C7FA", darkPrimarySoft: "#30466F", description: "A vivid blue identity with clear red and yellow accents.", descriptionFr: "Un bleu intense, accompagné de rouge franc et de jaune lumineux." },
   expressiveMulti: { name: "Expressive multicolor", nameFr: "Expressive multicolore", seed: "#3F51B5", primary: "#3F51B5", secondary: "#7B1FA2", tertiary: "#00897B", surface: "#F8F7FF", primarySoft: "#E0E0FF", darkPrimary: "#C5C9FF", darkPrimarySoft: "#35385F", description: "Strong indigo, purple and teal for a playful, colorful toolbox.", descriptionFr: "Indigo, violet et turquoise soutenus pour une boîte à outils vivante." },
-  balanced: { name: "Saturated, balanced", nameFr: "Saturé et équilibré", seed: "#155EEF", primary: "#155EEF", secondary: "#D92D20", tertiary: "#FEC84B", surface: "#F8FAFF", primarySoft: "#DCE8FF", darkPrimary: "#B2CCFF", darkPrimarySoft: "#2D4268", description: "Confident accents on restrained surfaces to preserve hierarchy.", descriptionFr: "Des accents saturés sur des surfaces sobres pour garder une bonne hiérarchie." },
   blueMulticolor: { name: "Blue + vivid accents", nameFr: "Bleu + accents multicolores", seed: "#0B57D0", primary: "#0B57D0", secondary: "#7B1FA2", tertiary: "#00897B", surface: "#F5F8FF", primarySoft: "#D9E6FF", darkPrimary: "#A8C7FA", darkPrimarySoft: "#30466F", darkSecondary: "#D8B9FF", darkTertiary: "#72D9CB", darkOnPrimary: "#062E69", description: "Blue anchors the brand; saturated purple and teal are reserved for meaningful accents and categories.", descriptionFr: "Le bleu ancre l’identité ; le violet et le turquoise saturés servent d’accents et de couleurs de catégories." },
   expressivePrimaries: { name: "Expressive primary colors", nameFr: "Expressive bleu, rouge et jaune", seed: "#155EEF", primary: "#155EEF", secondary: "#D92D20", tertiary: "#F9C80E", surface: "#F7F9FC", primarySoft: "#DCE8FF", darkPrimary: "#A9C7FF", darkPrimarySoft: "#263E66", darkSecondary: "#FFB4A9", darkTertiary: "#F9D66B", darkOnPrimary: "#102B55", description: "True blue, red and yellow with calm surfaces; yellow is used as a soft accent surface, not tiny low-contrast text.", descriptionFr: "Du vrai bleu, rouge et jaune sur des surfaces reposantes ; le jaune sert de fond d’accent plutôt que de petit texte peu lisible." },
 };
 const copy = {
   en: {
-    eyebrow:"Experimental playground · not production",title:"Find Loculary’s visual personality.",intro:"Change one dimension at a time. Compare the same interface across palettes, themes and expressive treatments before choosing what belongs in the real product.",
+    eyebrow:"Experimental playground · not production",title:"Find Loculary’s visual personality.",intro:"Change one dimension at a time. Compare the same interface across palettes, themes and expressive treatments before choosing what belongs in the real product.",paletteGuidance:"Google’s Material 3 examples use a baseline violet scheme, but M3 does not prescribe one universal palette. These are curated visual directions, not exported production tokens; category identity colors stay fixed so you can judge the full combination.",categoryColors:"Category identity colors",categoryColorsHelp:"The category colors remain the same across palettes. Compare whether their vivid accents feel distinctive or too busy alongside each overall interface palette.",
     palette:"Palette",theme:"Theme",style:"Visual language",viewport:"Preview width",language:"Preview language",light:"Light",dark:"Dark",classic:"Material 3",expressive:"M3 Expressive",desktop:"Desktop",tablet:"Tablet",mobile:"Mobile",
     home:"Home",explore:"Explore",tool:"Tool page",search:"What do you need to do?",searchButton:"Find a tool",quick:"Popular tasks",welcome:"A toolbox for your next idea",subhead:"Small tasks, useful tools, less friction.",browse:"Explore tools",
     results:"Suggested tools",resultOne:"Percentage calculator",resultTwo:"Image converter",resultThree:"Text cleaner",toolTitle:"Percentage calculator",toolDesc:"Calculate a percentage of any value.",value:"Value",percent:"Percentage",calculate:"Calculate",output:"Your result",
@@ -32,7 +30,7 @@ const copy = {
     note:"Nothing here changes Loculary’s production design. This is a decision aid; the final palette and style remain open.",closeDialog:"Close dialog",fieldHelp:"Shape, spacing and type respond to the selected visual language.",actionsHelp:"Use the controls above to compare the same components.",
   },
   fr: {
-    eyebrow:"Laboratoire expérimental · hors production",title:"Trouvons la personnalité visuelle de Loculary.",intro:"Change une dimension à la fois. Compare la même interface selon les palettes, les thèmes et le style expressif avant de décider ce qui mérite d’entrer dans le vrai produit.",
+    eyebrow:"Laboratoire expérimental · hors production",title:"Trouvons la personnalité visuelle de Loculary.",intro:"Change une dimension à la fois. Compare la même interface selon les palettes, les thèmes et le style expressif avant de décider ce qui mérite d’entrer dans le vrai produit.",paletteGuidance:"Les exemples Material 3 de Google utilisent un violet de référence, mais M3 n’impose pas une palette universelle. Ces propositions sont des directions visuelles, pas des tokens de production exportés ; les couleurs des catégories restent fixes pour juger l’ensemble.",categoryColors:"Couleurs d’identité des catégories",categoryColorsHelp:"Les couleurs des catégories restent identiques d’une palette à l’autre. Vérifie si leurs accents francs sont distinctifs ou trop chargés avec chaque palette d’interface.",
     palette:"Palette",theme:"Thème",style:"Langage visuel",viewport:"Largeur d’aperçu",language:"Langue de l’aperçu",light:"Clair",dark:"Sombre",classic:"Material 3",expressive:"M3 Expressive",desktop:"Ordinateur",tablet:"Tablette",mobile:"Mobile",
     home:"Accueil",explore:"Explorer",tool:"Page outil",search:"De quoi as-tu besoin ?",searchButton:"Trouver un outil",quick:"Actions populaires",welcome:"Une boîte à outils pour tes idées",subhead:"Des tâches simples, des outils utiles, moins de friction.",browse:"Explorer les outils",
     results:"Outils suggérés",resultOne:"Calcul de pourcentage",resultTwo:"Convertisseur d’image",resultThree:"Nettoyeur de texte",toolTitle:"Calcul de pourcentage",toolDesc:"Calcule un pourcentage de n’importe quelle valeur.",value:"Valeur",percent:"Pourcentage",calculate:"Calculer",output:"Ton résultat",
@@ -59,7 +57,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const togglePreference=(key:keyof typeof preferences)=>setPreferences(current=>({...current,[key]:!current[key]}));
   const t=copy[locale];
   const palette=palettes[paletteKey];
-  const isMulticolorPalette=paletteKey==="blueMulticolor"||paletteKey==="expressivePrimaries";
+  const isMulticolorPalette=paletteKey==="expressiveMulti"||paletteKey==="blueMulticolor"||paletteKey==="expressivePrimaries";
   const tokens=useMemo(()=> {
     const dark=theme==="dark";
     return {
@@ -82,6 +80,15 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const amount=Number(value)*Number(percent)/100;
   const result=Number.isFinite(amount)?amount.toLocaleString(locale==="fr"?"fr-FR":"en-US",{maximumFractionDigits:3}):"—";
   const stageClass=[styles.stage,styles[viewport],theme==="dark"?styles.dark:styles.light,mode==="expressive"?styles.expressive:styles.classic].join(" ");
+  const categoryItems = [
+    { key: "calculations", name: locale === "fr" ? "Calculs" : "Calculations", icon: "％", light: "#D92D20", dark: "#FF6B5E" },
+    { key: "dates", name: locale === "fr" ? "Dates" : "Dates", icon: "◷", light: "#A16207", dark: "#FDBA74" },
+    { key: "computing", name: locale === "fr" ? "Informatique" : "Computing", icon: "⌘", light: "#7A5AF8", dark: "#BDB4FE" },
+    { key: "images", name: locale === "fr" ? "Images" : "Images", icon: "▧", light: "#C11574", dark: "#FDA4D5" },
+    { key: "files", name: locale === "fr" ? "Fichiers" : "Files", icon: "▤", light: "#0E7490", dark: "#67E8F9" },
+    { key: "video", name: locale === "fr" ? "Vidéo" : "Video", icon: "▷", light: "#0F766E", dark: "#5EEAD4" },
+    { key: "development", name: locale === "fr" ? "Développement" : "Development", icon: "{ }", light: "#155EEF", dark: "#9AB8FF" },
+  ];
 
   return <main className={`${styles.lab} ${paletteKey==="expressivePrimaries"?styles.primaryTrio:""} ${theme==="dark"?styles.darkPalette:""}`} style={tokens}>
     <header className={styles.intro}>
@@ -94,7 +101,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
         {(Object.entries(palettes) as [PaletteKey,typeof palettes[PaletteKey]][]).map(([key,item])=><button key={key} type="button" aria-pressed={paletteKey===key} className={paletteKey===key?styles.paletteSelected:styles.paletteOption} onClick={()=>setPaletteKey(key)}>
           <span className={styles.swatchGroup} aria-hidden="true"><i style={{background:item.primary}}/><i style={{background:item.secondary}}/><i style={{background:item.tertiary}}/></span><span className={styles.paletteText}><strong>{locale==="fr"?item.nameFr:item.name}</strong><small>{item.seed}</small></span>{paletteKey===key&&<span className={styles.check} aria-hidden="true">✓</span>}
         </button>)}
-      </div><p className={styles.paletteDescription}>{locale==="fr"?palette.descriptionFr:palette.description}</p></div>
+      </div><p className={styles.paletteDescription}>{locale==="fr"?palette.descriptionFr:palette.description}</p><p className={styles.paletteGuidance}>{t.paletteGuidance}</p></div>
       <div className={styles.controlRow}>
         <fieldset className={styles.segmentField}><legend>{t.theme}</legend><div className={styles.segmented}><button type="button" aria-pressed={theme==="light"} onClick={()=>setTheme("light")}>☀ {t.light}</button><button type="button" aria-pressed={theme==="dark"} onClick={()=>setTheme("dark")}>☾ {t.dark}</button></div></fieldset>
         <fieldset className={styles.segmentField}><legend>{t.style}</legend><div className={styles.segmented}><button type="button" aria-pressed={mode==="m3"} onClick={()=>setMode("m3")}>{t.classic}</button><button type="button" aria-pressed={mode==="expressive"} onClick={()=>setMode("expressive")}>{t.expressive}</button></div></fieldset>
@@ -111,6 +118,15 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
         {screen==="explore"&&<div className={styles.compositionContent}><div className={styles.exploreTitle}><span className={styles.pill}>{t.filter}</span><h3>{t.results}</h3><p>{t.subhead}</p></div><div className={styles.searchBox}><span>⌕</span><span>{t.search}</span></div><div className={styles.chipRow}><button type="button" className={styles.chipSelected}>{t.selected}</button><button type="button" className={`${styles.chip} ${isMulticolorPalette?styles.chipSecondary:""}`}>{t.chip}</button><button type="button" className={`${styles.chip} ${isMulticolorPalette?styles.chipTertiary:""}`}>{t.filter}</button></div><div className={styles.resultList}>{[t.resultOne,t.resultTwo,t.resultThree].map((name,index)=><article key={name}><span className={`${styles.cardIcon} ${isMulticolorPalette?(index===1?styles.accentSecondary:index===2?styles.accentTertiary:""):""}`}>{["％","▧","¶"][index]}</span><div><strong>{name}</strong><p>{t.cardText}</p></div><span aria-hidden="true">↗</span></article>)}</div></div>}
         {screen==="tool"&&<div className={styles.compositionContent}><div className={styles.toolIntro}><span className={styles.pill}>✦ {t.tool}</span><h3>{t.toolTitle}</h3><p>{t.toolDesc}</p></div><div className={styles.calculator}><label>{t.value}<input value={value} inputMode="decimal" onChange={e=>setValue(e.target.value)}/></label><label>{t.percent}<input value={percent} inputMode="decimal" onChange={e=>setPercent(e.target.value)}/></label><div className={styles.resultPanel}><span>{t.output}</span><strong>{result}</strong></div><button type="button">{t.calculate}</button></div></div>}
       </div></div>
+      <section className={styles.categoryPreview} aria-labelledby="category-preview-title">
+        <div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>01B / {t.categoryColors}</span><h2 id="category-preview-title">{t.categoryColors}</h2><p>{t.categoryColorsHelp}</p></div></div>
+        <div className={styles.categoryGrid}>
+          {categoryItems.map((item) => <article key={item.key} className={styles.categoryCard} style={{ "--category-color": theme === "dark" ? item.dark : item.light } as CSSProperties}>
+            <span className={styles.categoryGlyph} aria-hidden="true">{item.icon}</span>
+            <div><strong>{item.name}</strong><small>{theme === "dark" ? item.dark : item.light}</small></div>
+          </article>)}
+        </div>
+      </section>
     </section>
     <section className={styles.gallerySection} aria-labelledby="gallery-title"><div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>02 / {t.components}</span><h2 id="gallery-title">{t.components}</h2><p>{t.actionsHelp}</p></div></div>
       <div className={styles.galleryGrid}>
