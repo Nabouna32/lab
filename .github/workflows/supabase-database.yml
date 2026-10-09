@@ -127,7 +127,7 @@ jobs:
           VALIDATION_REQUIRED: ${{ needs.detect-changes.outputs.validate }}
           VALIDATION_RESULT: ${{ needs.run-validation.result }}
           EVENT_NAME: ${{ github.event_name }}
-          GITHUB_REF: ${{ github.ref }}
+          WORKFLOW_REF: ${{ github.ref }}
           PRODUCTION_REQUIRED: ${{ needs.detect-changes.outputs.production }}
         run: node agents/supabase-workflow-policy.mjs gate
 
