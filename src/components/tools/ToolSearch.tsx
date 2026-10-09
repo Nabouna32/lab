@@ -7,6 +7,7 @@ import { getMessages } from "@/lib/i18n/messages";
 import { formatPlural } from "@/lib/i18n/plural";
 import { getCategoryName } from "@/lib/tools/categories";
 import { getPrimaryToolCategory, getToolContent } from "@/lib/tools/types";
+import type { ToolId } from "@/lib/tools/types";
 import type { Tool } from "@/lib/tools/types";
 import { normalizeSearchText } from "@/lib/tools/search-utils";
 import { Button } from "@/components/ui/Button";
@@ -110,8 +111,8 @@ export default function ToolSearch({
     return () => document.removeEventListener("pointerdown", handlePointerDown);
   }, [instanceId]);
 
-  function hrefFor(toolId: string, categoryId: string) {
-    return getToolPath(locale, categoryId, toolId);
+  function hrefFor(toolId: ToolId) {
+    return getToolPath(locale, toolId);
   }
 
   const visibleResults = normalizeSearchText(query) === resultsQuery ? results : [];
@@ -225,7 +226,7 @@ export default function ToolSearch({
                   <a
                     key={tool.id}
                     id={instanceId + "-result-" + index}
-                    href={hrefFor(tool.id, getPrimaryToolCategory(tool))}
+                    href={hrefFor(tool.id)}
                     role="option"
                     aria-selected={activeIndex === index}
                     onMouseEnter={() => setActiveIndex(index)}
