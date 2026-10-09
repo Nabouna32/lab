@@ -114,7 +114,7 @@ The code/module remains authoritative for executable behavior and technical capa
 
 - Supabase project `Loculary` is active in `eu-west-2`.
 - The account table `public.profiles` is deployed with Row Level Security and ownership policies.
-- Historical security update: Next.js was upgraded from 16.3.5 to 16.3.6 to address the critical upstream security update released on September 22, 2026. The current pinned version in `package.json` and `package-lock.json` is 16.3.8.
+- The current pinned version of Next.js in `package.json` and `package-lock.json` is 16.3.8.
 - The published file-size calculator now validates calculation units and rejects numeric overflow at the domain-function boundary.
 - Email/password account creation, sign-in, sign-out and session refresh are wired into the Next.js application.
 - Email confirmation uses the Supabase PKCE callback flow.
