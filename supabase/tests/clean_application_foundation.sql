@@ -1,6 +1,6 @@
 begin;
 
-select plan(61);
+select plan(62);
 
 -- Transaction-scoped Auth fixtures for exercising the guarded role RPCs.
 -- The test file rolls back at the end; these users/sessions never persist.
@@ -289,12 +289,24 @@ select ok(
 );
 
 select ok(
-  not exists (
-    select 1 from pg_proc p
+  exists (
+    select 1
+    from pg_proc p
     join pg_namespace n on n.oid = p.pronamespace
-    where n.nspname = 'public' and p.proname = 'prepare_account_deletion'
+    where n.nspname = 'public'
+      and p.proname = 'prepare_account_deletion'
+      and not p.prosecdef
+      and position(
+        'private.check_account_deletion'
+        in pg_get_functiondef(p.oid)
+      ) > 0
   ),
-  'side-effecting public prepare_account_deletion RPC is removed'
+  'legacy prepare_account_deletion RPC is a read-only SECURITY INVOKER alias'
+);
+
+select ok(
+  not has_function_privilege('anon', 'public.prepare_account_deletion(uuid)', 'EXECUTE'),
+  'anon cannot execute the read-only legacy deletion preflight'
 );
 
 select ok(
