@@ -39,10 +39,10 @@ Product, UX and architecture Markdown are current-state specifications, not code
 
 ## Current UX/UI direction
 
-The accepted shared visual-system direction is **Material 3 (M3)**, as defined by DEC-048 and `docs/DESIGN-SYSTEM.md`. Use M3 as the reference for semantic tonal color, typography, iconography, shared components, interaction states, surfaces, elevation and motion. Do not silently substitute Material 3 Expressive.
+The accepted shared visual-system direction is **Material 3 Expressive**, as defined by DEC-048 and `docs/DESIGN-SYSTEM.md`. Apply it consistently to shared foundations and components—including headers/navigation, buttons, fields, switches, menus, dialogs/popups, cards, feedback, typography, semantic color, iconography, states, surfaces and motion—to create a polished, Android-inspired web-app experience. Do not treat Expressive as a palette-only change or copy Android layouts literally.
+
+The default appearance is an expressive multicolor palette with indigo seed #3F51B5. Offer curated palette choices rather than an unrestricted color picker, with deliberate light/dark mappings and stable semantic status colors. Anonymous preferences should persist locally; account synchronization is a planned behavior for signed-in users, not an implemented capability until the relevant settings and persistence are delivered.
 
 Loculary remains a task-first digital toolbox organized around the user's need: find something, figure out how to do something, or discover. The preferred journey is **need → find/explore → tool → action → result → next action**. The homepage should be action/search-first; tool pages prioritize the tool, result and relevant actions over documentation or discovery content.
 
-M3 standardizes the shared platform without forcing every tool into an identical layout or interaction model. Existing screens and components may be challenged, refactored or replaced when they obstruct the validated direction. Preserve valid product principles: anonymous-first core usage, processing transparency, privacy, accessibility, responsive desktop/tablet/mobile experiences, reduced-motion support and extensible i18n.
-
-The exact palette, typeface, token values and final brand/logo treatment are not implicitly decided by this direction. The brand mark remains distinct from functional interface iconography.
+Expressive foundations standardize the shared platform without forcing every tool into an identical layout or interaction model. Existing screens and components may be challenged, refactored or replaced when they obstruct the validated direction. Preserve anonymous-first core usage, processing transparency, privacy, WCAG 2.2 AA, responsive desktop/tablet/mobile experiences, reduced-motion support and extensible i18n. The brand mark remains distinct from functional interface iconography.
