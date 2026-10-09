@@ -105,8 +105,8 @@ test("tools page is search-first and exposes category discovery", async ({ page 
   await expect(page.getByRole("heading", { name: "Calculateur de pourcentage", exact: true })).toBeVisible();
 });
 
-test("all published tool pages render", async ({ page }) => {
-  const publishedToolRoutes = [
+test("representative published tool pages render", async ({ page }) => {
+  const representativeToolRoutes = [
     "/fr/outils/calculateur-de-pourcentage",
     "/fr/outils/calculateur-d-interets-composes",
     "/fr/outils/calculateur-de-reduction",
@@ -138,7 +138,7 @@ test("all published tool pages render", async ({ page }) => {
   "/en/tools/word-character-counter",
   ];
 
-  for (const route of publishedToolRoutes) {
+  for (const route of representativeToolRoutes) {
     const response = await page.goto(`${baseUrl}${route}`, { waitUntil: "networkidle" });
     expect(response?.status(), `Expected ${route} to return HTTP 200.`).toBe(200);
     await expect(page.locator("main")).toBeVisible();
