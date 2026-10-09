@@ -110,7 +110,7 @@ export default async function ToolsPage({ params }: { params: Promise<{ locale: 
                     href={getCategoryPath(locale, category.id)}
                     className="group flex min-h-20 items-center gap-4 rounded-2xl border border-[var(--border)] bg-[var(--surface-soft)]/45 p-3.5 outline-none transition-[transform,border-color,background-color,box-shadow] duration-[var(--motion-standard)] hover:-translate-y-0.5 hover:border-[var(--accent)]/35 hover:bg-[var(--accent-soft)] hover:shadow-[var(--shadow-sm)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
                   >
-                    <span className="font-mono text-[10px] font-bold">{String(index + 1).padStart(2, "0")</span>
+                    <span className="font-mono text-[10px] font-bold">{String(index + 1).padStart(2, "0")}</span>
                     <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--radius-lg)] border border-transparent text-xl shadow-[var(--shadow-sm)] transition-transform duration-[var(--motion-standard)] group-hover:scale-105" style={{ color: getCategoryColor(category.id), backgroundColor: getCategoryContainerColor(category.id) }} aria-hidden="true">{category.icon}</span>
                     <span className="min-w-0 flex-1">
                       <span className="block truncate font-black">{getCategoryName(locale, category.id)}</span>
