@@ -12,7 +12,7 @@ type CardContainerProps = CardProps & (
 );
 
 const baseClasses =
-  "rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]";
+  "rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)]";
 
 export function Card({ children, className = "", href }: CardContainerProps) {
   const classes = [baseClasses, className].join(" ");
