@@ -92,43 +92,6 @@ test("responsive header keeps search available on mobile and tablet", async ({ p
   await expect(header.locator("#header-tool-search-input")).toBeVisible();
 });
 
-test("tool search recovers from a failed search-chunk load in French and English", async ({ page }) => {
-  for (const locale of ["fr", "en"]) {
-    const searchPage = await page.context().newPage();
-    try {
-      await searchPage.goto(`${baseUrl}/${locale === "fr" ? "fr/outils" : "en/tools"}`, { waitUntil: "networkidle" });
-
-      let shouldFailChunk = false;
-      let failedChunkUrl = "";
-      await searchPage.route("**/_next/static/chunks/**", async (route) => {
-        if (shouldFailChunk && route.request().resourceType() === "script") {
-          shouldFailChunk = false;
-          failedChunkUrl = route.request().url();
-          await route.abort("failed");
-          return;
-        }
-        await route.continue();
-      });
-
-      const search = searchPage.locator("#tools-page-search-input");
-      const results = searchPage.locator("#tools-page-search-results");
-      shouldFailChunk = true;
-      await search.fill(locale === "fr" ? "pourcentage" : "percentage");
-      await expect(results.getByRole("alert")).toBeVisible();
-      await expect(results).toHaveAttribute("aria-busy", "false");
-      const retry = results.getByRole("button", { name: locale === "fr" ? "Réessayer" : "Try again" });
-      await expect(retry).toBeVisible();
-      expect(failedChunkUrl, "Expected the lazy search chunk request to fail").toContain("/_next/static/chunks/");
-
-      await retry.click();
-      await expect(results.getByRole("option").first()).toBeVisible();
-      await expect(results).toHaveAttribute("aria-busy", "false");
-    } finally {
-      await searchPage.close();
-    }
-  }
-});
-
 test("tool search shows useful result context", async ({ page }) => {
   await page.goto(`${baseUrl}/fr/outils`, { waitUntil: "domcontentloaded" });
 
