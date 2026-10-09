@@ -136,7 +136,21 @@
   --category-files: #67e8f9;
   --category-video: #6ce9a6;
   --category-development: #84adff;
+  --category-calculations-container: color-mix(in srgb, var(--category-calculations) 20%, var(--surface));
+  --category-dates-container: color-mix(in srgb, var(--category-dates) 20%, var(--surface));
+  --category-computing-container: color-mix(in srgb, var(--category-computing) 20%, var(--surface));
+  --category-images-container: color-mix(in srgb, var(--category-images) 20%, var(--surface));
+  --category-files-container: color-mix(in srgb, var(--category-files) 20%, var(--surface));
+  --category-video-container: color-mix(in srgb, var(--category-video) 20%, var(--surface));
+  --category-development-container: color-mix(in srgb, var(--category-development) 20%, var(--surface));
 
+  /* Rebind aliases in the active theme; inherited computed aliases would retain light-mode values. */
+  --accent: var(--primary);
+  --accent-soft: var(--primary-container);
+  --accent-foreground: var(--on-primary);
+  --focus-ring: var(--primary);
+  --danger: var(--error);
+  --danger-soft: var(--error-container);
   --accent-strong: #dbe0ff;
   --shadow-sm: 0 1px 3px rgb(0 0 0 / 0.28);
   --shadow-md: 0 8px 22px rgb(0 0 0 / 0.28);
