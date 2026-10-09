@@ -37,7 +37,7 @@
   --on-error: #ffffff;
   --error-container: #ffdad6;
   --on-error-container: #410002;
-  --info: #155eef;
+  --info: #175cd3;
   --info-soft: #eaf0ff;
   --success: #087f5b;
   --success-soft: #e2f6ec;
@@ -46,11 +46,11 @@
 
   /* Vivid category identity colors: deliberately separate from semantic status colors. */
   --category-calculations: #d92d20;
-  --category-dates: #b54708;
+  --category-dates: #a16207;
   --category-computing: #7a5af8;
   --category-images: #c11574;
   --category-files: #0e7490;
-  --category-video: #087f5b;
+  --category-video: #0f766e;
   --category-development: #155eef;
   --category-calculations-container: color-mix(in srgb, var(--category-calculations) 13%, var(--surface));
   --category-dates-container: color-mix(in srgb, var(--category-dates) 13%, var(--surface));
@@ -130,12 +130,12 @@
   --warning-soft: #3d2c12;
 
   --category-calculations: #ff6b5e;
-  --category-dates: #fec84b;
+  --category-dates: #fdba74;
   --category-computing: #bdb4fe;
   --category-images: #fda4d5;
   --category-files: #67e8f9;
-  --category-video: #6ce9a6;
-  --category-development: #84adff;
+  --category-video: #5eead4;
+  --category-development: #9ab8ff;
   --category-calculations-container: color-mix(in srgb, var(--category-calculations) 20%, var(--surface));
   --category-dates-container: color-mix(in srgb, var(--category-dates) 20%, var(--surface));
   --category-computing-container: color-mix(in srgb, var(--category-computing) 20%, var(--surface));
