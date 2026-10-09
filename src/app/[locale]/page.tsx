@@ -8,7 +8,7 @@ import { isLocale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
 import { getPublicPageMetadata } from "@/lib/tools/page-metadata";
 import { getPublishedTools } from "@/lib/tools/catalog";
-import { getToolsPath } from "@/lib/tools/routes";
+import { getToolPath, getToolsPath } from "@/lib/tools/routes";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
