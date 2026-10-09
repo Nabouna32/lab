@@ -19,7 +19,6 @@ import {
   getToolsPath,
 } from "@/lib/tools/routes";
 import { getToolByRoute, toolRegistry } from "@/lib/tools/registry";
-import { getPrimaryToolCategory } from "@/lib/tools/types";
 
 export function generateStaticParams() {
   return locales.flatMap((locale) => [
