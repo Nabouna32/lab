@@ -1,6 +1,6 @@
 begin;
 
-select plan(16);
+select plan(25);
 
 select ok(
   exists (select 1 from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='public' and c.relname='profiles' and c.relkind='r'),
@@ -82,6 +82,71 @@ select ok(
 select ok(
   (select has_table_privilege('authenticated', 'public.admin_user_roles', 'UPDATE') is false),
   'authenticated has no direct admin_user_roles UPDATE privilege'
+);
+
+select ok(
+  (select has_table_privilege('authenticated', 'public.admin_user_roles', 'INSERT') is false),
+  'authenticated cannot INSERT admin_user_roles directly through the Data API'
+);
+
+select ok(
+  (select has_table_privilege('authenticated', 'public.admin_user_roles', 'DELETE') is false),
+  'authenticated cannot DELETE admin_user_roles directly through the Data API'
+);
+
+select ok(
+  (select has_table_privilege('authenticated', 'public.admin_user_roles', 'SELECT')),
+  'authenticated retains SELECT on admin_user_roles'
+);
+
+select ok(
+  has_function_privilege('authenticated', 'public.assign_admin_role(uuid,text)', 'EXECUTE'),
+  'authenticated can execute the guarded assign_admin_role RPC'
+);
+
+select ok(
+  not has_function_privilege('anon', 'public.assign_admin_role(uuid,text)', 'EXECUTE'),
+  'anon cannot execute assign_admin_role and receives no PUBLIC EXECUTE grant'
+);
+
+select ok(
+  not exists (
+    select 1
+    from pg_proc p
+    join pg_namespace n on n.oid = p.pronamespace
+    cross join lateral aclexplode(coalesce(p.proacl, acldefault('f', p.proowner))) acl
+    where n.nspname = 'public'
+      and p.proname = 'assign_admin_role'
+      and pg_get_function_identity_arguments(p.oid) = 'target_user_id uuid, target_role_key text'
+      and acl.grantee = 0
+      and acl.privilege_type = 'EXECUTE'
+  ),
+  'assign_admin_role has no direct EXECUTE grant to PUBLIC'
+);
+
+select ok(
+  has_function_privilege('authenticated', 'public.remove_admin_role(uuid,text)', 'EXECUTE'),
+  'authenticated can execute the guarded remove_admin_role RPC'
+);
+
+select ok(
+  not has_function_privilege('anon', 'public.remove_admin_role(uuid,text)', 'EXECUTE'),
+  'anon cannot execute remove_admin_role and receives no PUBLIC EXECUTE grant'
+);
+
+select ok(
+  not exists (
+    select 1
+    from pg_proc p
+    join pg_namespace n on n.oid = p.pronamespace
+    cross join lateral aclexplode(coalesce(p.proacl, acldefault('f', p.proowner))) acl
+    where n.nspname = 'public'
+      and p.proname = 'remove_admin_role'
+      and pg_get_function_identity_arguments(p.oid) = 'target_user_id uuid, target_role_key text'
+      and acl.grantee = 0
+      and acl.privilege_type = 'EXECUTE'
+  ),
+  'remove_admin_role has no direct EXECUTE grant to PUBLIC'
 );
 
 select ok(
