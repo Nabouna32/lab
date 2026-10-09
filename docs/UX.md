@@ -51,11 +51,11 @@ A visual treatment may provide functional, experiential, identity, or purely aes
 
 ## Visual expression and motion
 
-Loculary's shared visual language follows **Material 3 (M3)** as defined by DEC-048 and `docs/DESIGN-SYSTEM.md`. Shared navigation, controls, typography, semantic color, iconography, interaction states and motion should follow M3 principles while serving the task-first utility toolbox.
+Loculary's shared visual language follows **Material 3 Expressive** as defined by DEC-048 and `docs/DESIGN-SYSTEM.md`. Expressive foundations apply across navigation and headers, buttons, fields, switches, menus, dialogs/popups, cards, feedback, typography, semantic color, iconography, interaction states, surfaces and motion.
 
-M3 does not require every tool to use the same layout or visual composition. Tool-specific interfaces may differ when their task benefits from a specialized interaction model, visualization or density. All tools must preserve platform navigation, accessibility, localization, responsiveness and trust requirements.
+The intended feel is a polished, responsive web application with the clarity and immediacy of a modern Android app, not a literal Android screen replica. Shared behavior and foundations should be consistent, while tool-specific interfaces may use specialized layouts, visualizations or density when these better serve the task. Preserve the task-first journey and platform-wide accessibility, localization, responsiveness, performance and trust requirements.
 
-Use motion when it clarifies feedback, state changes or spatial continuity; do not add it indiscriminately. Respect system reduced-motion preferences. Exact palette, typeface, logo treatment and concrete token values are not fixed by this UX document and must follow the canonical design-system decision and any required validation.
+Use expressive shape, color and motion to clarify hierarchy, state changes and spatial continuity—not as decoration on every element. Respect system reduced-motion preferences. The default palette is multicolor with indigo seed #3F51B5; curated user-selectable palettes and deliberate light/dark mappings are part of the direction. Exact tonal roles and implementation tokens belong in the canonical design-system contract.
 
 ## Input validation
 
@@ -346,11 +346,11 @@ Tool-specific identity is encouraged when it improves comprehension, feedback or
 
 ### Visual design direction
 
-The shared visual system follows **Material 3 (M3)**, not Material 3 Expressive. Use M3 as the reference for semantic tonal color, typography hierarchy, shape, surfaces, elevation, iconography, shared component states and motion. Adapt those foundations to Loculary's task-first utility toolbox rather than copying a Google product screen or adopting a generic SaaS template.
+The shared visual system follows **Material 3 Expressive**, as defined by DEC-048 and `docs/DESIGN-SYSTEM.md`. Apply its foundations to semantic color, typography, shape, surfaces, elevation, iconography, shared component states and motion, adapted to Loculary's task-first utility toolbox rather than copying a Google product screen or adopting a generic SaaS template.
 
-The redesign must challenge existing UI patterns when they prevent a coherent M3 experience. The objective is not to retokenize the current interface while preserving every existing component; refactor or replace abstractions when justified by the validated design target.
+The redesign must challenge existing UI patterns when they prevent a coherent Expressive experience. The objective is not to retokenize the current interface while preserving every existing component; refactor or replace abstractions when justified by the validated design target.
 
-The exact palette, primary typeface and final Loculary logo treatment remain open. The brand mark should remain distinct from functional interface icons. Shared consistency must not erase meaningful visual and interaction differences between specialized tools.
+The default is an expressive multicolor palette with indigo seed #3F51B5, alongside curated palette choices and accessible light/dark mappings. The final tonal tokens and primary typeface must follow the design-system contract. The brand mark remains distinct from functional interface icons, and shared consistency must not erase meaningful differences between specialized tools.
 
 ### Discovery and next actions
 

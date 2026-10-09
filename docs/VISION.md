@@ -51,13 +51,15 @@ Loculary should serve a casual user without training while still supporting adva
 
 Results should be presented visually when that improves comprehension, confidence, or enjoyment. Visual design must not become decoration that slows or obscures the task.
 
-### 6. Material 3 shared visual foundation
+### 6. Material 3 Expressive shared visual foundation
 
-Loculary uses **Material 3 (M3)** as the reference for its shared platform visual and interaction language. M3 should guide semantic color, typography hierarchy, functional iconography, shared components, interaction states, surfaces, elevation and motion, adapted to a task-first digital toolbox.
+Loculary adopts **Material 3 Expressive** as the shared visual and interaction direction for its web platform. Expressive color, shape, typography, motion and component behavior should give the product a distinctive, lively, Android-inspired feel while preserving Loculary's task-first utility experience.
 
-This adopts Material 3, **not Material 3 Expressive**. Shared foundations must create coherence without forcing every tool into the same composition or interaction model. Tool-specific visualizations and interfaces remain valid when they serve the task and preserve the platform's accessibility, localization, responsiveness and trust requirements.
+The default appearance is an **expressive multicolor palette with indigo seed #3F51B5**. Users should be able to choose among curated palettes in appearance settings. The seed is an input to accessible semantic tonal mappings, not a requirement to paint every primary role with the literal seed color. Light and dark themes must each use deliberate mappings, and success, warning, error and other status colors must retain their semantic meaning.
 
-The exact palette, typeface, concrete tokens and final brand/logo treatment remain open until evaluated and, where consequential, separately validated. Accessibility and reduced-motion preferences remain mandatory.
+The shared direction covers navigation and headers, buttons, fields, switches, selection controls, menus, dialogs/popups, cards, feedback, typography, icons, surfaces and motion. Coherence comes from shared foundations and behavior, not from making every screen or tool identical. Specialized tool interfaces remain valid when they serve the task and preserve accessibility, localization, responsiveness, performance and trust requirements. The goal is a native-feeling web application, not a pixel-for-pixel copy of Android.
+
+Curated palette preference should work locally for anonymous users and synchronize to the account when signed-in preference persistence is implemented. This is a product direction, not a claim that palette settings or account synchronization already exist. WCAG 2.2 AA and reduced-motion preferences remain mandatory.
 
 ### 7. Broad functional ambition
 

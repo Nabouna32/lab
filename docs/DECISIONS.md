@@ -641,7 +641,7 @@ The homepage is action/search-first, with discovery following in depth. The tool
 
 The platform must provide a common visual and interaction language without forcing every tool into an identical layout. Individual tools may use distinct compositions, visualizations, animations and interaction models when this improves comprehension, feedback, enjoyment or tool character.
 
-Visual direction is governed by DEC-048 — Material 3 as Loculary's shared design-system foundation.
+Visual direction is governed by DEC-048 — Material 3 Expressive as Loculary's shared design-system foundation.
 
 ### Reason
 
@@ -856,30 +856,32 @@ The new model directly represents the product vision while keeping the implement
 - Deterministic inference or ranking is an extension mechanism, not the definition of intent.
 - Generic category shortcuts must not be presented as if they fully represent an intent.
 
-## DEC-048 — Material 3 as Loculary's shared design-system foundation
+## DEC-048 — Material 3 Expressive as Loculary's shared design-system foundation
 
 **Status:** Accepted
 
 ### Decision
 
-Loculary adopts **Material 3 (M3)** as the reference design system for the shared platform experience. Shared foundations and components should follow M3's design principles for semantic tonal color, typography hierarchy, shape, elevation, iconography, interaction states and motion, adapted to the needs of a responsive web utility toolbox.
+Loculary adopts **Material 3 Expressive** as the production reference for the shared platform experience. Expressive foundations and component behavior apply to navigation and headers, buttons, fields, switches, selection controls, menus, dialogs/popups, cards, feedback, typography, semantic color, iconography, surfaces, elevation and motion.
 
-This decision adopts **Material 3, not Material 3 Expressive**. Do not introduce M3 Expressive as an assumed part of the direction.
+The intended experience is a distinctive, polished, Android-inspired web application—not a pixel-for-pixel Android replica and not a generic SaaS template. Shared foundations establish consistency without forcing every tool into the same layout or interaction model. Specialized tool interfaces remain first-class when their task benefits from a distinct composition or interaction, subject to shared navigation, accessibility, localization, responsiveness and platform behavior.
 
-M3 establishes a coherent platform language without requiring every tool to share the same layout or visual composition. Tool-specific interfaces remain first-class when their task benefits from a specialized interaction model or visual treatment, subject to common navigation, accessibility, localization and platform behavior.
+The default appearance is an **expressive multicolor palette with indigo seed #3F51B5**. Users should be able to choose from curated palettes in appearance settings. The seed informs semantic tonal mappings; it does not mean every primary role must use the literal seed value. Light and dark themes require deliberate, contrast-checked mappings. Success, warning, error and other semantic status colors must retain their meaning.
 
-The Loculary brand mark remains distinct from functional interface iconography. The supplied SVG is a candidate for further brand exploration, not an approved final logo.
+Palette preference should persist locally for anonymous users and synchronize to the user's account when signed-in preference persistence is implemented. This decision records the product direction; it does not claim that palette settings, production tokens or account synchronization have already been implemented.
+
+The Loculary brand mark remains distinct from functional interface iconography. The supplied SVG remains a candidate for further brand exploration, not an approved final logo.
 
 ### Reason
 
-The current bespoke visual language and shared primitives do not provide a sufficiently consistent, established design-system reference. Adopting M3 gives the platform a coherent basis for navigation, controls, typography, color roles, states and responsive interaction instead of continuing to combine loosely related visual conventions.
+Loculary needs a coherent, recognizable visual and interaction language that feels more like a modern application than a conventional web template. Material 3 Expressive provides a stronger basis for expressive color, shape, typography, component behavior and motion while preserving a task-first toolbox and meaningful tool diversity.
 
 ### Consequences
 
-- The previous visual-direction decision is superseded and its obsolete entry is removed from this canonical file. Git history remains the record of prior versions.
-- `docs/DESIGN-SYSTEM.md` defines the M3-based platform contract and Loculary-specific boundaries.
-- `docs/UX.md` and `docs/PROJECT_INSTRUCTIONS.md` must remain consistent with this direction.
-- Exact palette and theme mappings, typeface, detailed token values, component-library choices and final brand/logo treatment remain open until separately evaluated and validated where consequential.
-- Existing components and screens may be refactored or replaced when required for a coherent M3 implementation; the direction does not require preserving current abstractions.
-- DEC-004 remains in force: M3 standardizes shared platform foundations and behavior, not every specialized tool's composition.
-- Adoption is not proof of implementation. Code migration, visual verification and responsive/accessibility checks require a separate implementation scope.
+- This decision supersedes the previous M3-only direction. Git history retains prior wording; no historical audit report is rewritten.
+- `docs/DESIGN-SYSTEM.md` defines the Expressive platform contract, palette rules and Loculary-specific boundaries.
+- `docs/VISION.md`, `docs/UX.md` and `docs/PROJECT_INSTRUCTIONS.md` must remain consistent with this direction.
+- Shared components and screens may be refactored or replaced when required for a coherent M3 Expressive implementation; the direction does not require preserving current abstractions.
+- DEC-004 remains in force: shared foundations and behavior do not require identical compositions across specialized tools.
+- Accessibility, WCAG 2.2 AA, reduced motion, responsive desktop/tablet/mobile behavior, localization, privacy and performance remain mandatory.
+- Adoption is not proof of implementation. Production migration, curated palette settings, preference persistence, account synchronization and visual/accessibility verification must be delivered and verified in separate implementation scopes.
