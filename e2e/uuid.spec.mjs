@@ -13,7 +13,7 @@ async function stubClipboard(page) {
 
 test("UUID generator creates, copies and clears UUID v4 values in French", async ({ page }) => {
   await stubClipboard(page);
-  await page.goto(baseUrl + "/fr/outils/developpement/generateur-uuid", { waitUntil: "networkidle" });
+  await page.goto(baseUrl + "/fr/outils/generateur-uuid", { waitUntil: "networkidle" });
 
   await expect(page.getByRole("heading", { level: 1, name: "Générateur UUID" })).toBeVisible();
   await page.getByLabel("Nombre d’UUID").fill("3");
@@ -32,7 +32,7 @@ test("UUID generator creates, copies and clears UUID v4 values in French", async
 });
 
 test("UUID generator is fully localized in English", async ({ page }) => {
-  await page.goto(baseUrl + "/en/tools/development/uuid-generator", { waitUntil: "networkidle" });
+  await page.goto(baseUrl + "/en/tools/uuid-generator", { waitUntil: "networkidle" });
 
   await expect(page.getByRole("heading", { level: 1, name: "UUID Generator" })).toBeVisible();
   await expect(page.getByLabel("Number of UUIDs")).toBeVisible();
@@ -41,7 +41,7 @@ test("UUID generator is fully localized in English", async ({ page }) => {
 });
 
 test("UUID generator rejects an invalid count", async ({ page }) => {
-  await page.goto(baseUrl + "/fr/outils/developpement/generateur-uuid", { waitUntil: "networkidle" });
+  await page.goto(baseUrl + "/fr/outils/generateur-uuid", { waitUntil: "networkidle" });
 
   await page.getByLabel("Nombre d’UUID").fill("51");
   await page.getByRole("button", { name: "Générer" }).click();
