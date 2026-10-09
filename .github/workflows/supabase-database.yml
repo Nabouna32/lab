@@ -4,19 +4,9 @@ on:
   pull_request:
     branches:
       - main
-    paths:
-      - "supabase/migrations/**"
-      - "supabase/tests/**"
-      - "supabase/config.toml"
-      - ".github/workflows/supabase-database.yml"
   push:
     branches:
       - main
-    paths:
-      - "supabase/migrations/**"
-      - "supabase/tests/**"
-      - "supabase/config.toml"
-      - ".github/workflows/supabase-database.yml"
   workflow_dispatch:
 
 permissions:
@@ -27,8 +17,80 @@ concurrency:
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
-  validate:
-    name: Validate Supabase migrations
+  detect-changes:
+    name: Detect Supabase-related changes
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      validate: ${{ steps.detect.outputs.validate }}
+      production: ${{ steps.detect.outputs.production }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Detect validation and production changes
+        id: detect
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PUSH_BEFORE_SHA: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+
+          if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
+            echo "validate=true" >> "$GITHUB_OUTPUT"
+            echo "production=false" >> "$GITHUB_OUTPUT"
+            echo "Manual runs validate the database but never release to production."
+            exit 0
+          fi
+
+          if [[ "$EVENT_NAME" == "pull_request" ]]; then
+            base="$PR_BASE_SHA"
+            head="$PR_HEAD_SHA"
+          elif [[ "$EVENT_NAME" == "push" ]]; then
+            base="$PUSH_BEFORE_SHA"
+            head="$GITHUB_SHA"
+            if [[ "$base" == "0000000000000000000000000000000000000000" ]]; then
+              base="$(git rev-list --max-parents=0 "$head")"
+            fi
+          else
+            echo "Unsupported event: $EVENT_NAME" >&2
+            exit 1
+          fi
+
+          changed_files="$(git diff --name-only "$base" "$head")"
+          validate=false
+          production=false
+
+          while IFS= read -r path; do
+            [[ -z "$path" ]] && continue
+            case "$path" in
+              supabase/migrations/*|supabase/tests/*|supabase/config.toml|.github/workflows/supabase-database.yml)
+                validate=true
+                ;;
+            esac
+            case "$path" in
+              supabase/migrations/*|supabase/config.toml)
+                production=true
+                ;;
+            esac
+          done <<< "$changed_files"
+
+          echo "validate=$validate" >> "$GITHUB_OUTPUT"
+          echo "production=$production" >> "$GITHUB_OUTPUT"
+          echo "Database validation required: $validate"
+          echo "Production migration required: $production"
+
+  run-validation:
+    name: Run Supabase database validation
+    needs: detect-changes
+    if: needs.detect-changes.outputs.validate == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -69,49 +131,45 @@ jobs:
         if: always()
         run: supabase stop
 
-  detect-production-change:
-    name: Detect production database changes
-    if: github.ref == 'refs/heads/main'
+  validate:
+    name: Validate Supabase migrations
+    needs: [detect-changes, run-validation]
+    if: always()
     runs-on: ubuntu-latest
-    outputs:
-      changed: ${{ steps.detect.outputs.changed }}
-
+    timeout-minutes: 2
     steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-
-      - name: Detect migration or database config changes
-        id: detect
+      - name: Require validation when relevant files changed
         shell: bash
+        env:
+          DETECTION_RESULT: ${{ needs.detect-changes.result }}
+          VALIDATION_REQUIRED: ${{ needs.detect-changes.outputs.validate }}
+          VALIDATION_RESULT: ${{ needs.run-validation.result }}
         run: |
           set -euo pipefail
 
-          if [[ "${{ github.event_name }}" != "push" ]]; then
-            echo "changed=false" >> "$GITHUB_OUTPUT"
-            echo "Production migration is limited to pushes that contain actual migration/config changes."
-            exit 0
+          if [[ "$DETECTION_RESULT" != "success" ]]; then
+            echo "Change detection did not succeed; refusing to report a successful validation check." >&2
+            exit 1
           fi
 
-          before="${{ github.event.before }}"
-          if [[ "$before" == "0000000000000000000000000000000000000000" ]]; then
-            before="$(git rev-list --max-parents=0 "$GITHUB_SHA")"
-          fi
-
-          if git diff --quiet "$before" "$GITHUB_SHA" -- supabase/migrations supabase/config.toml; then
-            echo "changed=false" >> "$GITHUB_OUTPUT"
-            echo "No production migration/config changes detected."
+          if [[ "$VALIDATION_REQUIRED" == "true" ]]; then
+            if [[ "$VALIDATION_RESULT" != "success" ]]; then
+              echo "Supabase validation was required but ended with: $VALIDATION_RESULT" >&2
+              exit 1
+            fi
+            echo "Supabase database validation passed."
           else
-            echo "changed=true" >> "$GITHUB_OUTPUT"
-            echo "Production migration/config changes detected."
+            if [[ "$VALIDATION_RESULT" != "skipped" ]]; then
+              echo "Unexpected validation job result for a change set that did not require database validation: $VALIDATION_RESULT" >&2
+              exit 1
+            fi
+            echo "No Supabase-related files changed; successful no-op validation."
           fi
 
   production-release:
     name: Apply Supabase migrations to production
-    needs: detect-production-change
-    if: github.ref == 'refs/heads/main' && needs.detect-production-change.outputs.changed == 'true'
+    needs: [detect-changes, run-validation, validate]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.detect-changes.outputs.production == 'true' && needs.run-validation.result == 'success' && needs.validate.result == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     environment: supabase-production
