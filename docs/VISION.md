@@ -51,7 +51,7 @@ Loculary should serve a casual user without training while still supporting adva
 
 Results should be presented visually when that improves comprehension, confidence, or enjoyment. Visual design must not become decoration that slows or obscures the task.
 
-### 6. Material 3 shared visual foundation
+### 6. Material 3 Expressive shared visual foundation
 
 Loculary adopts **Material 3 Expressive** as the shared visual and interaction direction for its web platform. Expressive color, shape, typography, motion and component behavior should give the product a distinctive, lively, Android-inspired feel while preserving Loculary's task-first utility experience.
 
