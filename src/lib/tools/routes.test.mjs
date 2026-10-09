@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
+import { getPublishedTools } from "./catalog.ts";
 import {
   getCategoriesPath,
   getCategoryIdBySlug,
@@ -27,6 +28,17 @@ test("published tool slugs are explicit and localized", () => {
   assert.equal(getToolIdBySlug("en", "image-metadata-viewer"), "image-metadata");
   assert.equal(getToolIdBySlug("fr", "formateur-validateur-yaml"), "yaml-formatter-validator");
   assert.equal(getToolIdBySlug("fr", "comparateur-de-texte"), "text-diff-checker");
+});
+
+test("every published tool has a unique reversible slug in each locale", () => {
+  const publishedTools = getPublishedTools();
+  for (const locale of ["en", "fr"]) {
+    const slugs = publishedTools.map((tool) => getToolSlug(locale, tool.id));
+    assert.equal(new Set(slugs).size, slugs.length, `Tool slugs must be unique in ${locale}.`);
+    for (const tool of publishedTools) {
+      assert.equal(getToolIdBySlug(locale, getToolSlug(locale, tool.id)), tool.id);
+    }
+  }
 });
 
 test("localized paths resolve back to the same resource", () => {
