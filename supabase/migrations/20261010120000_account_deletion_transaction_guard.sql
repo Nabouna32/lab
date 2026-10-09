@@ -62,6 +62,22 @@ $$;
 revoke all on function public.check_account_deletion(uuid) from public, anon;
 grant execute on function public.check_account_deletion(uuid) to authenticated;
 
+-- Keep the old RPC name as a read-only compatibility alias: Supabase Edge
+-- Functions are not deployed by the repository's current CI workflow, so an
+-- already-deployed account-delete function may still call this name. It must
+-- no longer perform any irreversible preparation side effect.
+create or replace function public.prepare_account_deletion(target_user_id uuid)
+returns boolean
+language sql
+security invoker
+set search_path = ''
+as $
+  select private.check_account_deletion(target_user_id);
+$;
+
+revoke all on function public.prepare_account_deletion(uuid) from public, anon;
+grant execute on function public.prepare_account_deletion(uuid) to authenticated;
+
 create or replace function private.guard_auth_user_deletion()
 returns trigger
 language plpgsql
