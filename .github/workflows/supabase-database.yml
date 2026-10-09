@@ -90,7 +90,8 @@ jobs:
         run: supabase --version
 
       - name: Start local Supabase
-        run: supabase db start
+        # The Auth Admin integration test needs the local Auth/API services, not only Postgres.
+        run: supabase start
 
       - name: Reset local database from migrations
         run: supabase db reset
