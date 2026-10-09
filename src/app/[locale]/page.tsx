@@ -26,14 +26,14 @@ function IntentShortcuts({ locale }: { locale: Locale }) {
   return (
     <div className="flex flex-wrap items-center justify-center gap-2" aria-label={t.home.quickLinksLabel}>
       {t.home.quickLinks.map((link) => (
-        <a
+        <Link
           key={link.toolId}
-          href="#home-search"
+          href={getToolPath(locale, link.toolId)}
           className="group inline-flex min-h-9 items-center gap-1.5 rounded-full border border-[var(--border)] bg-[var(--surface)]/75 px-3.5 py-2 text-xs font-bold text-[var(--muted)] shadow-[var(--shadow-sm)] outline-none transition-[transform,border-color,background-color,color] duration-[var(--motion-standard)] hover:-translate-y-0.5 hover:border-[var(--accent)]/40 hover:bg-[var(--accent-soft)] hover:text-[var(--foreground)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
         >
           <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)] opacity-60 transition-transform duration-[var(--motion-fast)] group-hover:scale-125" aria-hidden="true" />
           {link.label}
-        </a>
+        </Link>
       ))}
     </div>
   );

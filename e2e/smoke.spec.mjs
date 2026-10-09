@@ -38,6 +38,31 @@ test("French homepage renders", async ({ page }) => {
   await expect(page.getByRole("link").first()).toBeVisible();
 });
 
+test("homepage quick-task shortcuts use localized tool routes", async ({ page }) => {
+  const shortcuts = {
+    fr: [
+      ["Calculer une remise", "/fr/outils/calculateur-de-reduction"],
+      ["Convertir une vitesse", "/fr/outils/convertisseur-de-debit-internet"],
+      ["Calculer mon âge", "/fr/outils/calculateur-d-age"],
+      ["Convertir une taille de fichier", "/fr/outils/convertisseur-de-taille-de-fichier"],
+    ],
+    en: [
+      ["Calculate a discount", "/en/tools/discount-calculator"],
+      ["Convert a speed", "/en/tools/download-speed-converter"],
+      ["Calculate my age", "/en/tools/age-calculator"],
+      ["Convert a file size", "/en/tools/file-size-converter"],
+    ],
+  };
+
+  for (const [locale, links] of Object.entries(shortcuts)) {
+    await page.goto(`${baseUrl}/${locale}`, { waitUntil: "domcontentloaded" });
+
+    for (const [label, destination] of links) {
+      await expect(page.getByRole("link", { name: label, exact: true })).toHaveAttribute("href", destination);
+    }
+  }
+});
+
 test("responsive header keeps search available on mobile and tablet", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(`${baseUrl}/fr`, { waitUntil: "networkidle" });

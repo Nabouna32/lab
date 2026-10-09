@@ -1,4 +1,5 @@
 import type { Locale } from "./config.ts";
+import type { ToolId } from "@/lib/tools/types";
 import { formatPlural } from "./plural.ts";
 
 export type Messages = {
@@ -6,7 +7,7 @@ export type Messages = {
   breadcrumbs: { label: string };
   footer: { tagline: string; explore: string; account: string };
   actions: { copy: string; copied: string; clear: string };
-  home: { metaTitle: string; badge: string; title: string; description: string; quickLinksLabel: string; quickLinks: Array<{ label: string; toolId: string }>; explore: string; discoveryTitle: string; discoveryDescription: string; discoveryOpen: string; categoriesTitle: string; categoriesDescription: string; categoriesCount: (count: number) => string; ecosystemEyebrow: string; ecosystemTitle: string; ecosystemDescription: string; ecosystemToolsLabel: string; ecosystemVariantLabel: string; ecosystemVariantHint: string; ecosystemVariants: Record<"constellation" | "radial" | "network" | "surfaces", string>; };
+  home: { metaTitle: string; badge: string; title: string; description: string; quickLinksLabel: string; quickLinks: Array<{ label: string; toolId: ToolId }>; explore: string; discoveryTitle: string; discoveryDescription: string; discoveryOpen: string; categoriesTitle: string; categoriesDescription: string; categoriesCount: (count: number) => string; ecosystemEyebrow: string; ecosystemTitle: string; ecosystemDescription: string; ecosystemToolsLabel: string; ecosystemVariantLabel: string; ecosystemVariantHint: string; ecosystemVariants: Record<"constellation" | "radial" | "network" | "surfaces", string>; };
   tools: {
     metaTitle: string;
     eyebrow: string; title: string; description: string; explore: string; one: string; many: string;
