@@ -78,7 +78,7 @@ SQL
 # Hold the shared lock until both competing operations have started. They then
 # race for one serialization point: delete A versus removing B's super_admin role.
 psql "$db_url" -v ON_ERROR_STOP=1 \
-  -c "begin; select pg_advisory_xact_lock(hashtextextended('$lock_key', 0)); select pg_sleep(8); commit;" \
+  -c "begin; select pg_advisory_xact_lock(hashtextextended('$lock_key', 0)); select pg_sleep(20); commit;" \
   >"$work_dir/lock.log" 2>&1 &
 holder_pid=$!
 
@@ -115,6 +115,23 @@ select public.remove_admin_role('$user_b'::uuid, 'super_admin');
 commit;
 SQL
 remove_role_pid=$!
+
+# Do not merely hope the race overlaps: require both contenders to be waiting
+# on the advisory lock before allowing the holder to release it.
+both_waiting=false
+for _ in $(seq 1 100); do
+  waiting_count="$(psql "$db_url" -Atqc "select count(*) from pg_locks where locktype = 'advisory' and not granted" 2>/dev/null || true)"
+  if [[ "$waiting_count" == '2' ]]; then
+    both_waiting=true
+    break
+  fi
+  sleep 0.1
+done
+if [[ "$both_waiting" != true ]]; then
+  echo "Both competing operations did not reach the shared advisory lock." >&2
+  cat "$work_dir/delete.log" "$work_dir/remove-role.log" >&2 || true
+  exit 1
+fi
 
 set +e
 wait "$delete_pid"
