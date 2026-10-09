@@ -37,7 +37,7 @@ Existing screens, CSS tokens and shared primitives are not immutable. If their s
 
 ### 2.4 Brand identity is not the component system
 
-Loculary's logo and wordmark are brand assets. Functional icons, navigation symbols and action icons belong to the interface iconography system. They should be coherent with M3 without forcing the brand mark to look like a generic Material icon. The supplied SVG remains a candidate, not an approved final asset.
+Loculary's logo and wordmark are brand assets. Functional icons, navigation symbols and action icons belong to the interface iconography system. They should be coherent with the Material 3 Expressive interface language without forcing the brand mark to look like a generic Material icon. The supplied SVG remains a candidate, not an approved final asset.
 
 ## 3. Color and themes
 
@@ -120,7 +120,7 @@ Icons must communicate the same action consistently across the platform. Common 
 
 Shared components should follow the relevant M3 component guidance where that component exists. This includes buttons, icon buttons, text fields, selection controls, checkboxes, switches, chips, menus, dialogs, tooltips, navigation patterns, tabs and progress indicators as used by the product.
 
-The platform should provide coherent variants and state behavior instead of component-specific visual inventions. Do not implement every M3 component just because it exists in the specification; include components based on real product needs.
+The platform should provide coherent variants and state behavior instead of component-specific visual inventions. Follow M3 Expressive component guidance where it exists, while retaining the underlying M3 semantic and accessibility contracts. Do not implement every component just because it exists in the specification; include components based on real product needs.
 
 Interactive components must define, where applicable:
 
@@ -131,7 +131,7 @@ Interactive components must define, where applicable:
 - touch-friendly target size;
 - responsive behavior and content overflow.
 
-A semantic HTML control or small focused component is preferable to a custom interaction abstraction when it already meets the contract. Refactor when the current primitive cannot express the required M3 behavior cleanly; do not preserve weak abstractions only to minimize the diff.
+A semantic HTML control or small focused component is preferable to a custom interaction abstraction when it already meets the contract. Refactor when the current primitive cannot express the required M3 Expressive behavior cleanly; do not preserve weak abstractions only to minimize the diff.
 
 ## 8. Motion and feedback
 
@@ -172,7 +172,7 @@ Advertising or secondary content must not reduce the usable tool area below an a
 
 ## 11. Accessibility, localization and quality
 
-M3 adoption does not replace Loculary's product quality requirements. All shared UI and tool interfaces must continue to support:
+M3 Expressive adoption does not replace Loculary's product quality requirements. All shared UI and tool interfaces must continue to support:
 
 - WCAG 2.2 AA as the project target;
 - complete keyboard operation and visible focus;
@@ -184,7 +184,7 @@ M3 adoption does not replace Loculary's product quality requirements. All shared
 - longer translations without clipping or broken layouts;
 - privacy and processing transparency where relevant.
 
-Test behavior, not just visual resemblance to M3. A visually similar component that breaks keyboard navigation, localization or task flow is not compliant with this contract.
+Test behavior, not just visual resemblance to M3 Expressive. A visually similar component that breaks keyboard navigation, localization or task flow is not compliant with this contract.
 
 ## 12. Validation before freezing visual tokens
 
