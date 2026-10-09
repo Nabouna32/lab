@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 
 test.describe("XML Formatter & Validator", () => {
   test("formats valid XML and validates it", async ({ page }) => {
-    await page.goto("/fr/outils/developpement/formateur-validateur-xml");
+    await page.goto("/fr/outils/formateur-validateur-xml");
 
     await page.getByLabel("Votre XML").fill("<root><item id=\"1\">Loculary</item><empty/></root>");
     await page.getByRole("button", { name: "Formater" }).click();
@@ -13,7 +13,7 @@ test.describe("XML Formatter & Validator", () => {
   });
 
   test("rejects malformed XML", async ({ page }) => {
-    await page.goto("/fr/outils/developpement/formateur-validateur-xml");
+    await page.goto("/fr/outils/formateur-validateur-xml");
 
     await page.getByLabel("Votre XML").fill("<root><item></root>");
     await page.getByRole("button", { name: "Valider" }).click();
