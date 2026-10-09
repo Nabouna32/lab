@@ -1,0 +1,1 @@
+Temporary CI probe: this file intentionally changes no Supabase migration, database test, configuration, or workflow. It exists only to verify that application/documentation-only pull requests skip Supabase validation while the stable gate succeeds. Do not merge this probe.
