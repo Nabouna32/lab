@@ -1,6 +1,6 @@
 begin;
 
-select plan(38);
+select plan(56);
 
 -- Transaction-scoped Auth fixtures for exercising the guarded role RPCs.
 -- The test file rolls back at the end; these users/sessions never persist.
@@ -27,6 +27,16 @@ values
     '{"display_name":"pgTAP role target"}'::jsonb,
     now(),
     now()
+  ),
+  (
+    '00000000-0000-0000-0000-000000000104',
+    'authenticated',
+    'authenticated',
+    'pgtap-delete-target@example.invalid',
+    '{"provider":"email","providers":["email"]}'::jsonb,
+    '{"display_name":"pgTAP delete target"}'::jsonb,
+    now(),
+    now()
   );
 
 insert into auth.sessions (id, user_id, created_at, updated_at)
@@ -45,6 +55,23 @@ values (
   'super_admin',
   '00000000-0000-0000-0000-000000000101'
 );
+
+insert into public.admin_audit_log (actor_user_id, action, target_type, target_id, metadata)
+values
+  (
+    '00000000-0000-0000-0000-000000000101',
+    'test.account.delete.last-super-admin',
+    'user',
+    '00000000-0000-0000-0000-000000000101',
+    '{}'::jsonb
+  ),
+  (
+    '00000000-0000-0000-0000-000000000104',
+    'test.account.delete.target',
+    'user',
+    '00000000-0000-0000-0000-000000000104',
+    '{}'::jsonb
+  );
 
 select ok(
   exists (select 1 from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='public' and c.relname='profiles' and c.relkind='r'),
@@ -211,10 +238,153 @@ select ok(
     from pg_proc p
     join pg_namespace n on n.oid=p.pronamespace
     where n.nspname='private'
-      and p.proname='prepare_account_deletion'
+      and p.proname='check_account_deletion'
       and p.prosecdef
   ),
-  'private.prepare_account_deletion is SECURITY DEFINER'
+  'private.check_account_deletion is SECURITY DEFINER'
+);
+
+select ok(
+  exists (
+    select 1
+    from pg_trigger t
+    join pg_class c on c.oid = t.tgrelid
+    join pg_namespace n on n.oid = c.relnamespace
+    where n.nspname = 'auth'
+      and c.relname = 'users'
+      and t.tgname = 'guard_auth_user_deletion'
+      and not t.tgisinternal
+  ),
+  'Auth user deletion is guarded by a BEFORE DELETE trigger'
+);
+
+select ok(
+  position(
+    'loculary.account-deletion.super-admin'
+    in pg_get_functiondef('private.guard_auth_user_deletion()'::regprocedure)
+  ) > 0,
+  'Auth deletion trigger uses the shared super-admin advisory lock'
+);
+
+select ok(
+  not exists (
+    select 1 from pg_proc p
+    join pg_namespace n on n.oid = p.pronamespace
+    where n.nspname = 'public' and p.proname = 'prepare_account_deletion'
+  ),
+  'side-effecting public prepare_account_deletion RPC is removed'
+);
+
+select ok(
+  not exists (
+    select 1 from pg_proc p
+    join pg_namespace n on n.oid = p.pronamespace
+    where n.nspname = 'private' and p.proname = 'prepare_account_deletion'
+  ),
+  'obsolete private prepare_account_deletion function is removed'
+);
+
+select ok(
+  has_function_privilege('authenticated', 'public.check_account_deletion(uuid)', 'EXECUTE'),
+  'authenticated can call the read-only account-deletion preflight'
+);
+
+select ok(
+  not has_function_privilege('anon', 'public.check_account_deletion(uuid)', 'EXECUTE'),
+  'anon cannot call the account-deletion preflight'
+);
+
+select ok(
+  not exists (
+    select 1
+    from pg_proc p
+    join pg_namespace n on n.oid = p.pronamespace
+    cross join lateral aclexplode(coalesce(p.proacl, acldefault('f', p.proowner))) acl
+    where n.nspname = 'public'
+      and p.proname = 'check_account_deletion'
+      and pg_get_function_identity_arguments(p.oid) = 'uuid'
+      and acl.grantee = 0
+      and acl.privilege_type = 'EXECUTE'
+  ),
+  'account-deletion preflight has no direct EXECUTE grant to PUBLIC'
+);
+
+select throws_ok(
+  'delete from auth.users where id = ''00000000-0000-0000-0000-000000000101''::uuid',
+  'P0001',
+  'Cannot delete the last super_admin account',
+  'Auth deletion trigger refuses to delete the last super_admin'
+);
+
+select ok(
+  exists (
+    select 1 from public.admin_user_roles
+    where user_id = '00000000-0000-0000-0000-000000000101'
+      and role_key = 'super_admin'
+  ),
+  'rejected Auth deletion preserves the last super_admin role'
+);
+
+select is(
+  (select actor_user_id from public.admin_audit_log
+   where action = 'test.account.delete.last-super-admin'),
+  '00000000-0000-0000-0000-000000000101'::uuid,
+  'rejected Auth deletion does not anonymize the audit actor'
+);
+
+select is(
+  (select target_id from public.admin_audit_log
+   where action = 'test.account.delete.last-super-admin'),
+  '00000000-0000-0000-0000-000000000101'::uuid,
+  'rejected Auth deletion does not clear the audit target'
+);
+
+select lives_ok(
+  'delete from auth.users where id = ''00000000-0000-0000-0000-000000000104''::uuid',
+  'ordinary Auth account deletion succeeds when no invariant is violated'
+);
+
+select ok(
+  not exists (
+    select 1 from auth.users
+    where id = '00000000-0000-0000-0000-000000000104'
+  ),
+  'ordinary Auth account is deleted'
+);
+
+select is(
+  (select actor_user_id from public.admin_audit_log
+   where action = 'test.account.delete.target'),
+  null::uuid,
+  'Auth deletion atomically clears audit actor through the foreign key'
+);
+
+select is(
+  (select target_id from public.admin_audit_log
+   where action = 'test.account.delete.target'),
+  null::uuid,
+  'Auth deletion trigger clears polymorphic user audit targets'
+);
+
+select throws_ok(
+  'select public.check_account_deletion(''00000000-0000-0000-0000-000000000101''::uuid)',
+  'P0001',
+  'Cannot delete the last super_admin account',
+  'read-only preflight reports the last-super-admin restriction'
+);
+
+select is(
+  (select target_id from public.admin_audit_log
+   where action = 'test.account.delete.last-super-admin'),
+  '00000000-0000-0000-0000-000000000101'::uuid,
+  'read-only preflight leaves audit references unchanged'
+);
+
+select throws_ok(
+  'select public.check_account_deletion(''00000000-0000-0000-0000-000000000102''::uuid)',
+  'P0001',
+  'Unauthorized account deletion request',
+  'read-only preflight rejects checking another user account'
 );
 
 -- Exercise the public RPCs as authenticated with a valid Auth session.
