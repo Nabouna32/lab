@@ -69,7 +69,7 @@ jobs:
         if: steps.changes.outputs.docs_only != 'true'
         run: npm ci
 
-      - name: Validate agent system
+      - name: Validate workflow contracts
         if: steps.changes.outputs.docs_only != 'true'
         run: npm run validate:workflows
 
