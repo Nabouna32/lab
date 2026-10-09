@@ -1,32 +1,32 @@
-# Loculary — Autonomous Feature Factory Contract
+# Loculary — Feature Implementation Workflow
 
 This specialized contract inherits the mandatory common rules in `agents/AGENT-CONTRACT.md` and the crash-resilient execution rules in `agents/PRODUCT-ISSUE-CONTRACT.md`.
 
 ## 1. Mission
 
-A Feature Worker delivers one substantial Loculary product feature from discovery through tested implementation and a focused pull request.
+The assistant delivers one substantial Loculary product feature from discovery through tested implementation and a focused pull request.
 
-The worker is autonomous for ordinary engineering work but must stop for consequential product, architecture, privacy, security, legal/compliance, cost or irreversible decisions that are not already validated.
+The assistant is autonomous for ordinary engineering work but must stop for consequential product, architecture, privacy, security, legal/compliance, cost or irreversible decisions that are not already validated.
 
 A feature is a mini-product, not merely a code change.
 
 ## 2. Checkpoint and resume
 
-Every Feature Worker MUST maintain an active GitHub Issue while the feature is active. Create it after bootstrap and update it at meaningful progress points, before and after substantial implementation/testing/GitHub actions, and whenever blockers or decisions change.
+Every assistant MUST maintain an active GitHub Issue while the feature is active. Create it after bootstrap and update it at meaningful progress points, before and after substantial implementation/testing/GitHub actions, and whenever blockers or decisions change.
 
 When resuming, inspect the Issue and reconcile it against the current branch, PR and code. Git/GitHub wins if they disagree. Close the Issue only after the feature reaches a terminal state.
 
 ## 3. GitHub Issue tracking
 
-A Feature Worker does not require a GitHub Issue for every feature request.
+A assistant does not require a GitHub Issue for every feature request.
 
 Use an Issue according to `agents/PRODUCT-ISSUE-CONTRACT.md` when:
-- the feature is explicitly assigned as an orchestrated mission;
+- the feature is a multi-step or resumable mission requiring a durable checkpoint;
 - the work is being resumed or handed off through GitHub;
 - the feature originates from an actionable audit finding;
 - durable cross-conversation coordination benefits from an Issue.
 
-For a direct autonomous feature request, the Worker may proceed without an Issue.
+For a direct autonomous feature request, the assistant may proceed without an Issue.
 
 When an Issue is provided, treat it as the durable work item and follow `agents/PRODUCT-ISSUE-CONTRACT.md`. Verify the requested work against the current repository and challenge it before implementation.
 
@@ -36,7 +36,7 @@ The Issue is the mission checkpoint and coordination record; it never replaces G
 
 The repository and Git history are authoritative for the current implementation.
 
-The worker must distinguish:
+The assistant must distinguish:
 
 - vision;
 - documented product direction;
@@ -94,7 +94,7 @@ If the feature is weak, duplicated or premature, recommend rejection, deferral o
 
 Routine implementation details may be chosen autonomously after the scope is validated.
 
-The worker must stop and ask the user before making a consequential decision involving, for example:
+The assistant must stop and ask the user before making a consequential decision involving, for example:
 
 - a fundamental product-direction change;
 - a new durable data domain or major schema model;
@@ -107,29 +107,9 @@ The worker must stop and ask the user before making a consequential decision inv
 
 Do not infer approval merely because the user asked for a feature by name when the required product decision has not already been documented.
 
-## 8. Sequential execution and ownership
+## 8. Sequential execution and branch ownership
 
-Use one branch per feature:
-
-`feat/feature/<english-kebab-case-slug>`
-
-Before choosing a feature:
-
-1. inspect current `main`;
-2. inspect feature branches;
-3. inspect open PRs;
-4. verify the candidate is not already claimed or implemented.
-
-If the candidate is claimed, choose another candidate unless the user explicitly asks to resume that feature.
-
-Never:
-
-- force-push another worker's branch;
-- modify another worker's PR;
-- reset another worker's work;
-- make unrelated changes to shared infrastructure.
-
-If parallel work creates a genuine architectural conflict, stop and report it instead of hacking around it.
+Work on one validated feature scope at a time. Before implementation, inspect current main, the active Issue, branches and PRs. Create a dedicated branch from current main when the repository workflow requires it. If main changes during the work, reconcile the branch and rerun affected verification before delivery. Never overwrite unrelated changes.
 
 ## 9. Implementation contract
 

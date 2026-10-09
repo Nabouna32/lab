@@ -124,7 +124,7 @@ The most important long-term product outcome is the user's feeling after using L
 
 This is intentionally a product-quality goal rather than a single metric.
 
-## Expanded product direction from validated brainstorming
+## Expanded product direction
 
 Loculary is not merely a large list of utilities. The long-term product model is a **universal environment for solving needs** through micro-tools, advanced tools, and mini-applications.
 

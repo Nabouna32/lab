@@ -319,21 +319,6 @@ Search must remain useful without an AI provider and must expose no-result recov
 
 ---
 
-## DEC-021 — Product brainstorming is durable historical context
-
-**Status:** Accepted
-
-### Decision
-
-The validated brainstorming document is preserved as an immutable historical/contextual record of the product exploration. Its content may be propagated into canonical specifications and decisions, but the brainstorming document itself must not be rewritten to reflect later implementation changes.
-
-### Consequences
-
-Canonical docs describe the current accepted direction; the brainstorming document preserves the richer original reasoning and ideas. Future agents must distinguish historical intent from currently committed scope.
-
-
----
-
 ## DEC-022 — First-class tool registry and dynamic execution route
 
 **Status:** Accepted
@@ -764,7 +749,7 @@ The account system must be complete without introducing unnecessary personal-dat
 
 ### Decision
 
-Loculary adds a dedicated **Audit 31 — Update / modernisation technologique** to the autonomous audit system.
+Loculary adds a dedicated **Audit 31 — Update / modernisation technologique** to the reusable audit procedures.
 
 The audit evaluates runtime versions, frameworks, dependencies, development tooling, CI/CD actions, deployment/platform configuration, browser/Web Platform assumptions, deprecated APIs and migration debt. It does not blindly target the newest available versions: it must distinguish the latest release from the supported, compatible and recommended target for Loculary.
 
@@ -782,33 +767,34 @@ A dedicated modernization pass reduces the risk of accumulating obsolete tooling
 - Audit 31 evaluates update and modernization opportunities across the broader technical stack.
 - Major framework/runtime/infrastructure migrations remain subject to explicit validation when they materially affect architecture, cost, privacy, security or product direction.
 - Audit 32 must document what should be preserved, not only what should change.
-- Audit 31 remains the final cross-domain red-team pass after validated modernization work.
+- Audit 32 remains the final cross-domain red-team pass after validated modernization work.
 \n
 
-## DEC-039 — Agent product governance and GitHub Issue checkpoints
+## DEC-039 — Single-assistant workflow and GitHub Issue checkpoints
 
 **Status:** Accepted
 
 ### Decision
 
-Loculary has a dedicated **Product / Documentation / Decision Agent** responsible for product direction, product reasoning, documentation governance and preparation of validated implementation specifications.
+Loculary development proceeds through one assistant working directly with the user, one validated step at a time. There is no separate product, audit, feature or tool agent role and no delegated worker/orchestrator workflow.
 
-GitHub Issues are the durable orchestration and tracking mechanism for agent work that spans multiple actions, conversations or follow-up. For resumable current work, the **active GitHub Issue is the durable mission checkpoint**. Additional Issues may retain actionable future work and durable constraints discovered during missions.
+GitHub Issues provide durable mission checkpoints for work that spans multiple actions, conversations or follow-up. The active mission Issue records current scope, decisions, changes, evidence, verification, blockers and the next action. Separate actionable work outside the current scope is tracked only after the user is asked whether to create a dedicated Issue or attach it to an existing Issue that genuinely covers the work.
 
-Issues complement Git/GitHub and canonical documentation. They do not replace Git as the implementation source of truth, canonical specifications as the source of current product intent, historical audit reports, branches, pull requests or CI evidence.
+Issues complement Git and canonical documentation. They do not replace Git as the implementation source of truth, canonical specifications as the source of current product intent, immutable audit reports, branches, pull requests or CI evidence.
 
 ### Reason
 
-A dedicated product role prevents product direction and durable documentation from becoming accidental by-products of implementation workers or audit reports. A GitHub Issue provides a durable, conversation-independent recovery point without introducing a second repository checkpoint system or requiring an external runtime.
+Sequential collaboration keeps decisions and scope explicit while allowing the same assistant to challenge, plan, implement and verify work with the user. GitHub Issues provide conversation-independent recovery without duplicate repository checkpoints or delegated-role handoffs.
 
 ### Consequences
 
-- Product discussions can be resumed from canonical documentation and, when the work is resumable, the active Issue checkpoint.
-- Audit, Feature and Tool missions may use Issues for durable mission state and actionable follow-up.
-- The recovery path for resumable work is Issue → Git branch/PR → canonical documentation.
-- Repository checkpoint files and the former handoff/checkpoint-file model are not used.
-- An Issue is not authorization to take over another Worker's branch or PR or to make an unvalidated consequential decision.
-- The Product Agent must not silently implement consequential product decisions; user validation remains required.
+- Product reasoning, audits, feature work and tool work are procedures followed by the same assistant, not separate agent identities.
+- Work proceeds one validated scope at a time; consequential decisions still require user validation.
+- The recovery path for resumable work is Issue → Git branch/PR → canonical documentation and verification evidence.
+- No repository checkpoint files or delegated-role handoffs are used.
+- An Issue is not blanket authorization to exceed scope or make an unvalidated consequential decision.
+- Actionable out-of-scope findings must be presented to the user, who decides whether they need a dedicated Issue or belong to an existing one.
+- Keep active documentation concise and current; ordinary Git history preserves prior versions.
 
 ## DEC-042 — Next actions are contextual and optional
 

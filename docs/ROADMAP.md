@@ -126,7 +126,7 @@ The web remains the primary platform until evidence supports expansion.
 
 Deferred does not mean forbidden forever.
 
-## Directional additions from validated brainstorming
+## Additional future directions
 
 The phases below should preserve the following capabilities as they become relevant; they are not claims that the functionality already exists.
 

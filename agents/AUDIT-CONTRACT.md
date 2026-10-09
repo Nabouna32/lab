@@ -22,7 +22,7 @@ The numeric ID is historical identity. It must not be silently reused for a diff
 
 An audit mission is tracked by its active GitHub Issue when it spans multiple actions or conversations. The Issue is the durable execution checkpoint: update it with current state, completed milestones, current/next action, decisions, blockers, challenge outcome and verification evidence.
 
-Only one agent is active at a time. Before continuing, inspect the active Issue, Git state and any linked PR.
+The same assistant conducts the audit sequentially with the user. Before continuing, inspect the active Issue, Git state and any linked PR.
 
 Git/GitHub remain authoritative for repository and delivery state. The Issue is the durable mission checkpoint, not a second implementation history.
 
@@ -54,7 +54,7 @@ Use the Issue to:
 - summarize the audit mission or an actionable follow-up;
 - link the historical report and relevant Issue checkpoint;
 - record decisions and next actions;
-- hand an actionable finding to a Feature, Tool or Meta-Agent Worker.
+- record actionable follow-up and, after validation, continue it as a separately scoped step with the same assistant.
 
 Do not create an Issue for every finding. Informational findings, proposals awaiting validation, and observations that need no follow-up remain in the audit report.
 
@@ -75,7 +75,7 @@ During the audit, do **not** modify:
 - Git history;
 - previous audit reports.
 
-The audit agent may persist its own durable mission state in the active GitHub Issue and, at completion, create the immutable historical report and update its `LATEST.md` pointer. No repository checkpoint file is created.
+The assistant conducting the audit may persist durable mission state in the active GitHub Issue and, at completion, create the immutable historical report and update its `LATEST.md` pointer. No repository checkpoint file is created.
 
 ## 6. Historical report naming
 
@@ -159,7 +159,7 @@ Unless the mission has a justified domain-specific extension, the report must co
 12. **Decisions requiring explicit validation**
 13. **Implementation scope and plan**
 14. **Tests and verification**
-15. **Autonomous implementation-agent prompt**
+15. **Implementation continuation prompt**
 16. **Conclusion**
 
 A mission may add sections when necessary, but must not remove information required to understand what was actually audited.
@@ -209,7 +209,7 @@ Severity is distinct from epistemic status.
 
 Prefer evidence over assertions.
 
-For important findings, record enough context to allow a later implementation agent to reproduce or verify the claim, such as:
+For important findings, record enough context to allow a later implementation step to reproduce or verify the claim, such as:
 
 - file/path;
 - relevant symbol or route;
@@ -231,7 +231,7 @@ Do not copy stale findings into the new report without rechecking them.
 
 ## 14. Implementation prompt
 
-The report must end with a complete, copy-pastable prompt for an autonomous implementation agent.
+The report must end with a complete, copy-pastable prompt for an autonomous implementation step.
 
 That prompt must:
 
@@ -247,76 +247,29 @@ That prompt must:
 
 The implementation prompt is a recommendation produced by the audit. It does not itself authorize implementation.
 
-## 14A. Post-audit interactive review and Worker continuation
+## 14A. Post-audit review and validated continuation
 
-Completing an audit does not end the Audit Agent's responsibility to explain its findings, but it does not grant the Audit Agent implementation authority either. If the user continues the conversation after the audit report is complete, the Audit Agent enters a **post-audit review** mode and can clarify findings or prepare the validated continuation for the appropriate Worker.
+Completing an audit does not end the discussion. The same assistant may explain findings, challenge proposed fixes, compare alternatives and continue with implementation in a new, explicitly scoped step after the user validates it.
 
-The post-audit review has three distinct responsibilities:
+When the user continues after the report:
+1. Clarify the finding and its evidence.
+2. Present meaningful alternatives, risks, consequences and a recommendation.
+3. Ask for validation when the recommendation requires a consequential decision or changes scope.
+4. For actionable work outside the current scope, ask whether to create a dedicated Issue or attach it to an existing relevant Issue.
+5. Once the next step is validated, update the active mission Issue and implement only that scope.
+6. Verify implementation, documentation, tests and diff before reporting completion.
 
-1. **Explain and sequence recommendations** — present actionable findings or proposals one at a time, with the evidence, intended change, impact, non-goals, relevant decisions and remaining uncertainties.
-2. **Obtain explicit human validation** — distinguish discussion/continuation commands from approval of a consequential recommendation. A recommendation remains a proposal until the user explicitly validates it.
-3. **Prepare the Worker handoff** — once a recommendation is explicitly validated and is actionable implementation work, create or reuse the appropriate GitHub Issue with enough detail for the Feature, Tool or other authorized Worker to execute it.
+A request to continue the explanation is not automatically approval for a consequential change. If the user's intent is genuinely ambiguous, ask a short clarification question.
 
-### Conversation commands and ambiguity
+### Audit boundary
 
-Natural-language commands such as **"vas-y"**, **"continue"**, **"passe à la suite"**, **"montre-moi la suite"** or equivalent continuation requests are, by default, interpreted as permission to continue the **post-audit review**, not as permission to implement code.
-
-In particular:
-
-- "vas-y" MUST NOT be interpreted by an Audit Agent as authorization to modify product code, tests, configuration or dependencies;
-- "vas-y" MUST NOT be interpreted as implicit validation of every recommendation in the report;
-- when a consequential recommendation has not yet been explicitly validated, the Audit Agent must explain it and ask for validation rather than creating an implementation task on the assumption that the user agreed;
-- if the user's wording is genuinely ambiguous between "continue explaining" and "approve this recommendation", the Audit Agent must ask a short clarification question instead of guessing;
-- explicit validation such as "je valide cette recommandation", "validé pour cette étape" or equivalent may authorize the next post-audit action, subject to the normal decision/ownership rules.
-
-### One recommendation at a time
-
-The Audit Agent should normally progress through actionable recommendations in small, understandable steps:
-
-1. identify the finding/recommendation;
-2. explain the current evidence and proposed change;
-3. identify consequences, scope, dependencies and non-goals;
-4. challenge the recommendation where appropriate;
-5. state what is already decided and what still requires validation;
-6. wait for validation when a consequential decision is required;
-7. after validation, convert the approved scope into an actionable Worker handoff.
-
-Validation of one recommendation does not implicitly validate unrelated recommendations.
-
-### Boundary with implementation Workers
-
-The Audit Agent remains a **non-implementation agent** throughout the post-audit review.
-
-After validation, the Audit Agent may create or update the appropriate GitHub Issue and include:
-
-- the audit report and finding reference;
-- verified problem and evidence;
-- validated intended outcome;
-- explicitly validated decisions;
-- decisions that remain open;
-- precise implementation scope and non-goals;
-- relevant files/docs to inspect;
-- required tests and verification;
-- acceptance criteria;
-- audit-specific caveats and reproduction evidence.
-
-The Audit Agent MUST NOT implement the resulting change itself merely because the user validated the recommendation. The implementation boundary is crossed only by the authorized Feature, Tool or other implementation Worker acting from the durable Issue and following its own contract.
-
-An Issue created from a validated audit finding is a **durable implementation handoff**, not evidence that implementation has started or that the recommendation was already implemented.
-
-### No automatic bulk conversion
-
-Do not automatically convert every audit finding into an Issue merely because the user asks to continue.
-
-Findings may remain informational, be rejected, be deferred, require another product/architecture decision, or be grouped when that is justified. Create or reuse an Issue only when the relevant scope has become sufficiently validated and actionable.
-
-This post-audit protocol does not weaken the audit's prohibition on implementation and does not turn audit recommendations into product decisions.
+The audit execution itself remains read-only for product code, tests, configuration and canonical specifications. It may create the new immutable report and update that audit's LATEST.md pointer as defined by this contract. A validated implementation is a separate step by the same assistant, not delegated to a separate role.
 
 ## 15. Product decisions
 
 An audit may recommend a change, but it must not silently convert a recommendation into a product decision.
 
-In particular, audit agents must not directly rewrite:
+In particular, assistant conducting the audits must not directly rewrite:
 
 - `docs/VISION.md`;
 - `docs/PRODUCT.md`;
