@@ -27,7 +27,7 @@ test("language selector maps the same tool to its localized URL", async ({ page 
   const frenchLink = page.getByRole("link", { name: "Français" });
   await expect(frenchLink).toBeVisible();
   await frenchLink.click();
-  await expect(page).toHaveURL(/\/fr\/outils\/calculs\/calculateur-de-pourcentage$/);
+  await expect(page).toHaveURL(/\/fr\/outils\/calculateur-de-pourcentage$/);
 });
 
 test("French homepage renders", async ({ page }) => {
@@ -43,7 +43,8 @@ test("responsive header keeps search available on mobile and tablet", async ({ p
   await page.goto(`${baseUrl}/fr`, { waitUntil: "networkidle" });
 
   const header = page.locator("header");
-  await expect(header.getByRole("link", { name: "Compte" })).toHaveCount(1);
+  await header.getByRole("button", { name: "Menu" }).click();
+  await expect(header.getByRole("link", { name: "Compte" })).toBeVisible();
   await expect(header.locator("#header-tool-search-mobile-input")).toHaveCount(0);
 
   await header.getByRole("button", { name: "Rechercher dans les outils" }).click();
@@ -79,7 +80,7 @@ test("tool search shows useful result context", async ({ page }) => {
   await search.press("ArrowDown");
   await expect(page.locator("#tools-page-search-result-0")).toHaveAttribute("aria-selected", "true");
   await search.press("Enter");
-  await expect(page).toHaveURL(/\/fr\/outils\/calculs\/calculateur-de-pourcentage$/);
+  await expect(page).toHaveURL(/\/fr\/outils\/calculateur-de-pourcentage$/);
 });
 
 test("tool search offers suggestions when nothing matches", async ({ page }) => {
@@ -167,7 +168,7 @@ test("tool page keeps the primary task hierarchy compact", async ({ page }) => {
   await expect(toolHeader).toBeVisible();
   await expect(toolHeader.getByText("Loculary", { exact: true })).toHaveCount(0);
   await expect(page.getByRole("navigation", { name: "Fil d’Ariane" })).toBeVisible();
-  await expect(page.getByRole("navigation", { name: "Fil d’Ariane" }).getByRole("link", { name: "Calculs" })).toBeVisible();
+  await expect(page.getByRole("navigation", { name: "Fil d’Ariane" }).getByRole("link", { name: "Outils" })).toHaveAttribute("href", "/fr/outils");
   await expect(page.getByRole("navigation", { name: "Fil d’Ariane" }).getByRole("link", { name: "Accueil" })).toHaveCount(0);
   await expect(page.getByRole("link", { name: "← Tous les outils" })).toHaveCount(0);
 
