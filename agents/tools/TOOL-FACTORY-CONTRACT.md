@@ -36,7 +36,7 @@ Never rely on an old conversation as proof that something still exists.
 A assistant does not require a GitHub Issue for every tool request.
 
 Use an Issue according to `agents/PRODUCT-ISSUE-CONTRACT.md` when:
-- the tool is explicitly assigned as an orchestrated mission;
+- the tool work is a multi-step or resumable mission requiring a durable checkpoint;
 - the tool is being resumed or handed off through GitHub;
 - the work originates from an actionable audit finding;
 - durable cross-conversation coordination benefits from an Issue.
