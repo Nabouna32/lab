@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 const baseUrl = process.env.BASE_URL ?? "http://127.0.0.1:3000";
 
 test("YAML formatter validates and formats a document", async ({ page }) => {
-  await page.goto(`${baseUrl}/en/tools/development/yaml-formatter-validator`);
+  await page.goto(`${baseUrl}/en/tools/yaml-formatter-validator`);
   await expect(page.getByRole("heading", { name: "YAML Formatter & Validator", exact: true })).toBeVisible();
   await page.getByLabel("Your YAML").fill("root:\n    name: Loculary\n    tools:\n      - JSON\n      - YAML");
   await page.getByRole("button", { name: "Format", exact: true }).click();
