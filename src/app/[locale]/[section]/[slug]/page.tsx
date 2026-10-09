@@ -5,7 +5,7 @@ import ToolCard from "@/components/tools/ToolCard";
 import ToolPage from "@/components/tools/ToolPage/ToolPage";
 import NextActions from "@/components/tools/RelatedTools";
 import ToolRenderer from "@/components/tools/ToolRenderer";
-import { categories, getCategoryName } from "@/lib/tools/categories";
+import { categories, getCategoryColor, getCategoryContainerColor, getCategoryName } from "@/lib/tools/categories";
 import { getToolsByCategory } from "@/lib/tools/catalog";
 import { getMessages } from "@/lib/i18n/messages";
 import { getPublicPageMetadata, getToolPageMetadata } from "@/lib/tools/page-metadata";
@@ -98,7 +98,7 @@ export default async function LocalizedToolOrCategoryPage({
         <Breadcrumbs locale={locale} items={[{ label: t.nav.tools, href: getToolsPath(locale) }, { label: categoryName }]} />
         <header className="border-b border-[var(--border)] pb-7 pt-7 sm:pb-9">
           <div className="flex items-start gap-4">
-            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[var(--radius-md)] bg-[var(--accent-soft)] text-2xl" aria-hidden="true">{category.icon}</span>
+            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[var(--radius-lg)] text-2xl" style={{ color: getCategoryColor(category.id), backgroundColor: getCategoryContainerColor(category.id) }} aria-hidden="true">{category.icon}</span>
             <div className="min-w-0 max-w-3xl">
               <h1 className="text-3xl font-black tracking-[-0.04em] sm:text-4xl">{categoryName}</h1>
               <p className="mt-2 text-base leading-7 text-[var(--muted)]">{t.tools.categoryDescription(categoryName)}</p>
@@ -112,7 +112,7 @@ export default async function LocalizedToolOrCategoryPage({
             </h2>
           </div>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {categoryTools.map((tool) => <ToolCard key={tool.id} tool={tool} locale={locale} categoryName={categoryName} />)}
+            {categoryTools.map((tool) => <ToolCard key={tool.id} tool={tool} locale={locale} categoryName={categoryName} categoryId={category.id} />)}
           </div>
         </section>
       </main>
