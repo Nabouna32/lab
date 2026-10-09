@@ -71,9 +71,9 @@ returns boolean
 language sql
 security invoker
 set search_path = ''
-as $
+as $$
   select private.check_account_deletion(target_user_id);
-$;
+$$;
 
 revoke all on function public.prepare_account_deletion(uuid) from public, anon;
 grant execute on function public.prepare_account_deletion(uuid) to authenticated;
