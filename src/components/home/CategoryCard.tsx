@@ -14,7 +14,7 @@ export default function CategoryCard({ category, name, toolLabel, toolCount, loc
   return (
     <a
       href={getCategoryPath(locale, category.id)}
-      className="group flex min-h-24 items-center gap-4 border-t border-[var(--border)] py-5 transition-[background-color,padding] duration-[var(--motion-standard)] hover:bg-[var(--surface-soft)] sm:px-3"
+      className="group flex min-h-24 items-center gap-4 rounded-[var(--radius-lg)] border-t border-[var(--border)] py-5 outline-none transition-[background-color,padding] duration-[var(--motion-standard)] hover:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)] sm:px-3"
     >
       <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--radius-lg)] text-2xl transition-transform duration-[var(--motion-standard)] group-hover:scale-105" style={{ color: getCategoryColor(category.id), backgroundColor: getCategoryContainerColor(category.id) }} aria-hidden="true">
         {category.icon}
