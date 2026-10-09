@@ -3,7 +3,7 @@ import { test, expect } from "@playwright/test";
 const baseUrl = process.env.BASE_URL ?? "http://127.0.0.1:3000";
 
 test("cron expression tool validates and previews runs", async ({ page }) => {
-  await page.goto(`${baseUrl}/en/tools/development/cron-expression`);
+  await page.goto(`${baseUrl}/en/tools/cron-expression`);
   await expect(page.getByLabel("Cron expression")).toHaveValue("0 9 * * 1-5");
   await expect(page.getByRole("status").filter({ hasText: "Valid expression" })).toBeVisible();
 
