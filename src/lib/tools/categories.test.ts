@@ -11,7 +11,7 @@ test("every category has a distinct light and dark identity color with a contain
 
   for (const categoryId of categoryColorIds) {
     const token = `--category-${categoryId}`;
-    const declaration = new RegExp(`^${token}:\\s*(#[0-9a-f]{6});`, "gim");
+    const declaration = new RegExp(`^\\s*${token}:\\s*(#[0-9a-f]{6});`, "gim");
     const values = [...globalCss.matchAll(declaration)].map((match) => match[1]);
 
     assert.equal(values.length, 2, `${token} should be defined for light and dark themes`);
@@ -34,11 +34,11 @@ test("category colors stay separate from semantic status colors", () => {
 
   for (const categoryId of categoryColorIds) {
     const categoryToken = `--category-${categoryId}`;
-    const categoryValues = [...globalCss.matchAll(new RegExp(`^${categoryToken}:\\s*(#[0-9a-f]{6});`, "gim"))]
+    const categoryValues = [...globalCss.matchAll(new RegExp(`^\\s*${categoryToken}:\\s*(#[0-9a-f]{6});`, "gim"))]
       .map((match) => match[1]);
 
     for (const statusToken of statusTokens) {
-      const statusValues = [...globalCss.matchAll(new RegExp(`^${statusToken}:\\s*(#[0-9a-f]{6});`, "gim"))]
+      const statusValues = [...globalCss.matchAll(new RegExp(`^\\s*${statusToken}:\\s*(#[0-9a-f]{6});`, "gim"))]
         .map((match) => match[1]);
 
       for (const categoryValue of categoryValues) {
