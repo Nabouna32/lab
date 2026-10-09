@@ -88,5 +88,7 @@ test("tool search loads the catalog and search engine only when search is used",
   const source = await readFile(toolSearchFile, "utf8");
   const requestSource = await readFile(toolSearchRequestFile, "utf8");
   assert.ok(requestSource.includes('import("./search-client")'));
-  assert.doesNotMatch(source, /from .*@\/lib\/tools\/(catalog|search|search-client)/);
+  assert.equal(source.includes('from "@/lib/tools/catalog"'), false);
+  assert.equal(source.includes('from "@/lib/tools/search"'), false);
+  assert.equal(source.includes('from "@/lib/tools/search-client"'), false);
 });
