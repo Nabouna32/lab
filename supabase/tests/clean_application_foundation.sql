@@ -366,6 +366,20 @@ select is(
   'Auth deletion trigger clears polymorphic user audit targets'
 );
 
+-- Exercise the public RPCs as authenticated with a valid Auth session.
+do $fixtures$
+begin
+  perform set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000101', true);
+  perform set_config(
+    'request.jwt.claims',
+    '{"sub":"00000000-0000-0000-0000-000000000101","session_id":"00000000-0000-0000-0000-000000000103","role":"authenticated","aud":"authenticated"}',
+    true
+  );
+end;
+$fixtures$;
+
+set local role authenticated;
+
 select throws_ok(
   'select public.check_account_deletion(''00000000-0000-0000-0000-000000000101''::uuid)',
   'P0001',
@@ -387,19 +401,6 @@ select throws_ok(
   'read-only preflight rejects checking another user account'
 );
 
--- Exercise the public RPCs as authenticated with a valid Auth session.
-do $fixtures$
-begin
-  perform set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000101', true);
-  perform set_config(
-    'request.jwt.claims',
-    '{"sub":"00000000-0000-0000-0000-000000000101","session_id":"00000000-0000-0000-0000-000000000103","role":"authenticated","aud":"authenticated"}',
-    true
-  );
-end;
-$fixtures$;
-
-set local role authenticated;
 
 select throws_ok(
   'insert into public.admin_user_roles (user_id, role_key, assigned_by) values (''00000000-0000-0000-0000-000000000102''::uuid, ''admin'', ''00000000-0000-0000-0000-000000000101''::uuid)',
