@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import ToolSearch from "@/components/tools/ToolSearch";
 import ToolCard from "@/components/tools/ToolCard";
-import { categories, getCategoryName, getToolCount } from "@/lib/tools/categories";
+import { categories, getCategoryColor, getCategoryContainerColor, getCategoryName, getToolCount } from "@/lib/tools/categories";
 import { getPublishedTools } from "@/lib/tools/catalog";
 import { getMessages } from "@/lib/i18n/messages";
 import { formatPlural } from "@/lib/i18n/plural";
@@ -110,13 +110,13 @@ export default async function ToolsPage({ params }: { params: Promise<{ locale: 
                     href={getCategoryPath(locale, category.id)}
                     className="group flex min-h-20 items-center gap-4 rounded-2xl border border-[var(--border)] bg-[var(--surface-soft)]/45 p-3.5 outline-none transition-[transform,border-color,background-color,box-shadow] duration-[var(--motion-standard)] hover:-translate-y-0.5 hover:border-[var(--accent)]/35 hover:bg-[var(--accent-soft)] hover:shadow-[var(--shadow-sm)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
                   >
-                    <span className="font-mono text-[10px] font-bold text-[var(--muted)]">{String(index + 1).padStart(2, "0")}</span>
-                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--surface)] text-xl shadow-[var(--shadow-sm)] transition-transform duration-[var(--motion-standard)] group-hover:scale-105" aria-hidden="true">{category.icon}</span>
+                    <span className="font-mono text-[10px] font-bold">{String(index + 1).padStart(2, "0")}</span>
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--radius-lg)] border border-transparent text-xl shadow-[var(--shadow-sm)] transition-transform duration-[var(--motion-standard)] group-hover:scale-105" style={{ color: getCategoryColor(category.id), backgroundColor: getCategoryContainerColor(category.id) }} aria-hidden="true">{category.icon}</span>
                     <span className="min-w-0 flex-1">
                       <span className="block truncate font-black">{getCategoryName(locale, category.id)}</span>
                       <span className="mt-0.5 block text-xs text-[var(--muted)]">{formatPlural(locale, getToolCount(category.id), { one: t.tools.one, other: t.tools.many })}</span>
                     </span>
-                    <span className="text-lg text-[var(--muted)] transition-transform duration-[var(--motion-fast)] group-hover:translate-x-1 group-hover:text-[var(--accent)]" aria-hidden="true">→</span>
+                    <span className="text-lg transition-transform duration-[var(--motion-fast)] group-hover:translate-x-1" style={{ color: getCategoryColor(category.id) }} aria-hidden="true">→</span>
                   </a>
                 ))}
               </div>

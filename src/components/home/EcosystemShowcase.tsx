@@ -1,25 +1,11 @@
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
-import { categories, getCategoryName, getToolCount } from "@/lib/tools/categories";
+import { categories, getCategoryColor, getCategoryName, getToolCount } from "@/lib/tools/categories";
 import { getPublishedTools } from "@/lib/tools/catalog";
 import { getCategoryPath } from "@/lib/tools/routes";
 
 type VariantName = "constellation" | "radial" | "network" | "surfaces";
-
-const categoryColors: Record<string, string> = {
-  calculations: "var(--category-calculations)",
-  dates: "var(--category-dates)",
-  computing: "var(--category-computing)",
-  images: "var(--category-images)",
-  files: "var(--category-files)",
-  video: "var(--category-video)",
-  development: "var(--category-development)",
-};
-
-function getCategoryColor(categoryId: string): string {
-  return categoryColors[categoryId] ?? "var(--accent)";
-}
 
 function VariantHeading({ locale, variant }: { locale: Locale; variant: VariantName }) {
   const t = getMessages(locale);

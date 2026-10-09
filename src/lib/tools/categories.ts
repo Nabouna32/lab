@@ -18,6 +18,8 @@ export const categories: ToolCategory[] = [
   { id: "development", icon: "🧑‍💻" },
 ];
 
+export { getCategoryColor, getCategoryContainerColor } from "./category-colors.ts";
+
 export function getCategoryName(locale: Locale, categoryId: string): string {
   return categoryNames[locale][categoryId] ?? categoryId;
 }
