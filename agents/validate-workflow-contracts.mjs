@@ -97,7 +97,7 @@ for (const audit of audits) {
   has(audit.content, 'agents/AUDIT-CONTRACT.md', 'Audit procedure ' + audit.name);
   has(audit.content, 'Revue après audit et poursuite validée', 'Audit continuation procedure ' + audit.name);
   has(audit.content, 'Issue', 'Audit mission checkpoint ' + audit.name);
-  if (/(?:agent autonome|agent d'implémentation|agent ultérieur|prompt (?:complet|copiable) pour l'agent|authorized Worker|Worker handoff|Audit Agent|orchestrated mission|agents\\/HANDOFF-CONTRACT\\.md|agents\\/features\\/FEATURE-WORKER\\.md|agents\\/tools\\/TOOL-WORKER\\.md)/i.test(audit.content)) {
+  if (/(?:agent autonome|agent d'implémentation|agent ultérieur|prompt .*pour l'agent d'implémentation|authorized Worker|Worker handoff|Audit Agent|orchestrated mission|agents\\/HANDOFF-CONTRACT\\.md|agents\\/features\\/FEATURE-WORKER\\.md|agents\\/tools\\/TOOL-WORKER\\.md)/i.test(audit.content)) {
     fail('Audit procedure ' + audit.name + ' still contains obsolete delegated-role wording or references.');
   }
   const slug = audit.name.replace(/^\d{2}-/, '').replace(/\.md$/, '');

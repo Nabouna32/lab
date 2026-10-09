@@ -396,7 +396,7 @@ En plus du contrat canonique :
 - Ne modifie jamais le lockfile ou les dépendances pour « tester » une mise à jour sans que cette action fasse partie d'une étape d'implémentation explicitement autorisée.
 - Si une expérimentation locale temporaire est indispensable, elle doit rester hors du dépôt audité et ne doit pas devenir une modification persistante.
 - Toute migration majeure, changement de framework, changement de runtime, changement d'infrastructure, coût significatif, exposition de données ou décision d'architecture doit apparaître dans **Décisions nécessitant validation**.
-- Le rapport doit finir par un prompt complet et copiable pour l'agent d'implémentation.
+- Le rapport doit finir par un plan complet et copiable pour la prochaine étape d'implémentation validée.
 - Ce plan doit prévoir que nous traitions les mises à jour par petits lots cohérents, avec tests et rollback clair, plutôt que de mélanger toutes les migrations dans un seul changement.
 - Le rapport doit explicitement proposer un ordre de migration lorsque plusieurs upgrades sont liés.
 
