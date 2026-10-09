@@ -119,7 +119,7 @@ function runGate() {
   });
   const productionAllowed = gate.passed && shouldReleaseProduction({
     eventName: process.env.EVENT_NAME,
-    ref: process.env.GITHUB_REF,
+    ref: process.env.WORKFLOW_REF,
     productionRequired: process.env.PRODUCTION_REQUIRED,
     validationResult: process.env.VALIDATION_RESULT,
     validationGatePassed: gate.passed,
