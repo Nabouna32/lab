@@ -11,9 +11,12 @@ holder_pid=''
 delete_pid=''
 remove_role_pid=''
 
-db_url="$(supabase status -o env | sed -n 's/^DB_URL=//p' | tr -d '"')"
-if [[ -z "$db_url" ]]; then
-  echo "Could not resolve the local Supabase DB_URL." >&2
+status_env="$(supabase status -o env)"
+db_url="$(printf '%s\n' "$status_env" | sed -n 's/^DB_URL=//p' | tr -d '"')"
+api_url="$(printf '%s\n' "$status_env" | sed -n 's/^API_URL=//p' | tr -d '"')"
+service_role_key="$(printf '%s\n' "$status_env" | sed -n 's/^SERVICE_ROLE_KEY=//p' | tr -d '"')"
+if [[ -z "$db_url" || -z "$api_url" || -z "$service_role_key" ]]; then
+  echo "Could not resolve local Supabase DB_URL, API_URL and SERVICE_ROLE_KEY." >&2
   exit 1
 fi
 if ! command -v psql >/dev/null 2>&1; then
@@ -171,4 +174,36 @@ if [[ "$remaining_super_admins" != '1' ]]; then
   exit 1
 fi
 
-echo "Concurrent account deletion and super_admin role removal preserved the invariant (delete exit=$delete_status, role-removal exit=$remove_role_status)."
+# Prove the actual Supabase Auth Admin API runs the trigger, not just direct SQL.
+# The race above leaves exactly one super_admin. Deleting that user through the
+# same Admin endpoint used by the Edge Function must fail and roll back audit cleanup.
+remaining_user="$(psql "$db_url" -Atqc "select user_id::text from public.admin_user_roles where role_key = 'super_admin' and user_id in ('$user_a'::uuid, '$user_b'::uuid)")"
+if [[ -z "$remaining_user" ]]; then
+  echo "Could not identify the surviving super_admin for Auth API verification." >&2
+  exit 1
+fi
+
+psql "$db_url" -v ON_ERROR_STOP=1 >/dev/null <<SQL
+insert into public.admin_audit_log (actor_user_id, action, target_type, target_id, metadata)
+values ('$remaining_user'::uuid, 'test.account.delete.auth-admin-rejected', 'user', '$remaining_user'::uuid, '{}'::jsonb);
+SQL
+
+auth_status="$(curl -sS -o "$work_dir/auth-delete.json" -w '%{http_code}' \
+  -X DELETE "$api_url/auth/v1/admin/users/$remaining_user" \
+  -H "apikey: $service_role_key" \
+  -H "Authorization: Bearer $service_role_key")"
+if [[ "$auth_status" -lt 400 ]]; then
+  echo "Auth Admin API unexpectedly deleted the last super_admin (HTTP $auth_status)." >&2
+  cat "$work_dir/auth-delete.json" >&2
+  exit 1
+fi
+
+auth_invariant="$(psql "$db_url" -Atqc "select (exists (select 1 from auth.users where id = '$remaining_user'::uuid))::text || ':' || (select actor_user_id::text || ':' || target_id::text from public.admin_audit_log where action = 'test.account.delete.auth-admin-rejected')")"
+expected_invariant="$remaining_user:$remaining_user"
+if [[ "$auth_invariant" != "true:$expected_invariant" ]]; then
+  echo "Auth Admin rejection did not preserve the user and audit references: $auth_invariant" >&2
+  cat "$work_dir/auth-delete.json" >&2
+  exit 1
+fi
+
+echo "Concurrent deletion/role removal preserved the invariant, and Supabase Auth Admin API rejected last-super_admin deletion with audit references unchanged (HTTP $auth_status)."
