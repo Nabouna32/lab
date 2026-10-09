@@ -1,6 +1,6 @@
 begin;
 
-select plan(60);
+select plan(61);
 
 -- Transaction-scoped Auth fixtures for exercising the guarded role RPCs.
 -- The test file rolls back at the end; these users/sessions never persist.
@@ -278,6 +278,14 @@ select ok(
     in pg_get_functiondef('private.guard_auth_user_deletion()'::regprocedure)
   ) > 0,
   'Auth deletion trigger uses the shared super-admin advisory lock'
+);
+
+select ok(
+  position(
+    'loculary.account-deletion.super-admin'
+    in pg_get_functiondef('private.remove_admin_role(uuid,text)'::regprocedure)
+  ) > 0,
+  'guarded role removal uses the same advisory lock as Auth deletion'
 );
 
 select ok(
