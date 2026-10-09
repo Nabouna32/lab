@@ -1,36 +1,83 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f7f8fa;
-  --foreground: #1b1f24;
+  color-scheme: light;
+
+  /* Material 3 Expressive semantic roles — default multicolor palette, indigo seed #3F51B5. */
+  --primary: #3f51b5;
+  --on-primary: #ffffff;
+  --primary-container: #e0e5ff;
+  --on-primary-container: #151f55;
+  --secondary: #006b5f;
+  --on-secondary: #ffffff;
+  --secondary-container: #a6f2e5;
+  --on-secondary-container: #00201b;
+  --tertiary: #7d5260;
+  --on-tertiary: #ffffff;
+  --tertiary-container: #ffd9e3;
+  --on-tertiary-container: #31101d;
+
+  --background: #f7f7fb;
+  --foreground: #191b23;
   --surface: #ffffff;
-  --surface-soft: #f1f3f5;
+  --surface-soft: #f0f0f7;
   --surface-elevated: #ffffff;
-  --muted: #68717c;
-  --border: #d9dee5;
-  --border-strong: #b9c1ca;
-  --accent: #2563eb;
-  --accent-strong: #1d4ed8;
-  --accent-soft: #eaf2ff;
-  --accent-foreground: #ffffff;
-  --info: #2563eb;
-  --info-soft: #eaf2ff;
-  --success: #167a55;
-  --success-soft: #e8f5ef;
-  --warning: #9a6500;
-  --warning-soft: #fff4dc;
-  --danger: #bf3f46;
-  --danger-soft: #fff0f1;
-  --radius-sm: 0.25rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
-  --radius-2xl: 1.25rem;
+  --surface-variant: #e4e3ec;
+  --on-surface-variant: #454653;
+  --muted: #626473;
+  --border: #c7c6d2;
+  --border-strong: #777887;
+  --outline: #777887;
+  --outline-variant: #c7c6d2;
+  --inverse-surface: #2e3039;
+  --inverse-on-surface: #f0eff7;
+  --inverse-primary: #bac3ff;
+
+  --error: #ba1a1a;
+  --on-error: #ffffff;
+  --error-container: #ffdad6;
+  --on-error-container: #410002;
+  --info: #155eef;
+  --info-soft: #eaf0ff;
+  --success: #087f5b;
+  --success-soft: #e2f6ec;
+  --warning: #b54708;
+  --warning-soft: #fff0cf;
+
+  /* Vivid category identity colors: deliberately separate from semantic status colors. */
+  --category-calculations: #d92d20;
+  --category-dates: #b54708;
+  --category-computing: #7a5af8;
+  --category-images: #c11574;
+  --category-files: #0e7490;
+  --category-video: #087f5b;
+  --category-development: #155eef;
+  --category-calculations-container: color-mix(in srgb, var(--category-calculations) 13%, var(--surface));
+  --category-dates-container: color-mix(in srgb, var(--category-dates) 13%, var(--surface));
+  --category-computing-container: color-mix(in srgb, var(--category-computing) 13%, var(--surface));
+  --category-images-container: color-mix(in srgb, var(--category-images) 13%, var(--surface));
+  --category-files-container: color-mix(in srgb, var(--category-files) 13%, var(--surface));
+  --category-video-container: color-mix(in srgb, var(--category-video) 13%, var(--surface));
+  --category-development-container: color-mix(in srgb, var(--category-development) 13%, var(--surface));
+
+  /* Compatibility aliases: existing screens migrate incrementally to semantic roles. */
+  --accent: var(--primary);
+  --accent-strong: #303f9f;
+  --accent-soft: var(--primary-container);
+  --accent-foreground: var(--on-primary);
+  --danger: var(--error);
+  --danger-soft: var(--error-container);
+  --focus-ring: var(--primary);
+
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-2xl: 1.75rem;
   --radius-pill: 9999px;
-  --shadow-sm: 0 1px 2px rgb(23 31 42 / 0.05);
-  --shadow-md: 0 8px 24px rgb(23 31 42 / 0.08);
-  --shadow-lg: 0 18px 44px rgb(23 31 42 / 0.10);
-  --focus-ring: var(--accent);
+  --shadow-sm: 0 1px 3px rgb(25 27 35 / 0.08), 0 1px 2px rgb(25 27 35 / 0.04);
+  --shadow-md: 0 6px 18px rgb(25 27 35 / 0.08);
+  --shadow-lg: 0 16px 40px rgb(25 27 35 / 0.10);
   --motion-fast: 120ms;
   --motion-standard: 200ms;
   --motion-slow: 420ms;
@@ -40,29 +87,60 @@
 }
 
 .dark {
-  --background: #101012;
-  --foreground: #f4f4f5;
-  --surface: #17171a;
-  --surface-soft: #202024;
-  --surface-elevated: #1b1b1f;
-  --muted: #a4a4ad;
-  --border: #303036;
-  --border-strong: #45454d;
-  --accent: #60a5fa;
-  --accent-strong: #93c5fd;
-  --accent-soft: #172a46;
-  --accent-foreground: #07111f;
-  --info: #60a5fa;
-  --info-soft: #172a46;
-  --success: #5bc99b;
-  --success-soft: #15372a;
-  --warning: #e3b35b;
-  --warning-soft: #3b2d14;
-  --danger: #ff8a91;
-  --danger-soft: #421d20;
-  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.2);
-  --shadow-md: 0 10px 28px rgb(0 0 0 / 0.24);
-  --shadow-lg: 0 24px 56px rgb(0 0 0 / 0.34);
+  color-scheme: dark;
+
+  --primary: #bac3ff;
+  --on-primary: #202b70;
+  --primary-container: #37469d;
+  --on-primary-container: #e0e5ff;
+  --secondary: #4ddbc7;
+  --on-secondary: #003731;
+  --secondary-container: #005047;
+  --on-secondary-container: #a6f2e5;
+  --tertiary: #f0b8c8;
+  --on-tertiary: #4a2533;
+  --tertiary-container: #633b49;
+  --on-tertiary-container: #ffd9e3;
+
+  --background: #101116;
+  --foreground: #f1f0f8;
+  --surface: #181a22;
+  --surface-soft: #22242e;
+  --surface-elevated: #20222b;
+  --surface-variant: #454653;
+  --on-surface-variant: #c6c5d3;
+  --muted: #c0bfce;
+  --border: #454653;
+  --border-strong: #9293a3;
+  --outline: #9293a3;
+  --outline-variant: #454653;
+  --inverse-surface: #e3e1ea;
+  --inverse-on-surface: #30313a;
+  --inverse-primary: #3f51b5;
+
+  --error: #ffb4ab;
+  --on-error: #690005;
+  --error-container: #93000a;
+  --on-error-container: #ffdad6;
+  --info: #84adff;
+  --info-soft: #1c2d50;
+  --success: #6ce9a6;
+  --success-soft: #14382b;
+  --warning: #fec84b;
+  --warning-soft: #3d2c12;
+
+  --category-calculations: #ff6b5e;
+  --category-dates: #fec84b;
+  --category-computing: #bdb4fe;
+  --category-images: #fda4d5;
+  --category-files: #67e8f9;
+  --category-video: #6ce9a6;
+  --category-development: #84adff;
+
+  --accent-strong: #dbe0ff;
+  --shadow-sm: 0 1px 3px rgb(0 0 0 / 0.28);
+  --shadow-md: 0 8px 22px rgb(0 0 0 / 0.28);
+  --shadow-lg: 0 18px 44px rgb(0 0 0 / 0.36);
 }
 
 @theme inline {
@@ -84,7 +162,7 @@ body {
 }
 a { color: inherit; text-decoration: none; }
 button, input, textarea, select { font: inherit; }
-::selection { background: var(--accent-soft); color: var(--foreground); }
+::selection { background: var(--accent-soft); color: var(--on-primary-container); }
 .language-selector[open] > summary .language-flag { transform: scale(1.05); }
 .decorative-glow, .decorative-glow-fuchsia { display: none; }
 .language-flag[data-flag-code="fr"] {
