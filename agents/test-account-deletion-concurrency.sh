@@ -1,15 +1,18 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-user_a='00000000-0000-0000-0000-000000000201'
-user_b='00000000-0000-0000-0000-000000000202'
+email_a='pgtap-concurrency-a@example.invalid'
+email_b='pgtap-concurrency-b@example.invalid'
+email_control='pgtap-concurrency-control@example.invalid'
 session_a='00000000-0000-0000-0000-000000000203'
-session_b='00000000-0000-0000-0000-000000000204'
 lock_key='loculary.account-deletion.super-admin'
 work_dir="$(mktemp -d)"
 holder_pid=''
 delete_pid=''
 remove_role_pid=''
+user_a=''
+user_b=''
+user_control=''
 
 status_env="$(supabase status -o env)"
 db_url="$(printf '%s\n' "$status_env" | sed -n 's/^DB_URL=//p' | tr -d '"')"
@@ -19,10 +22,12 @@ if [[ -z "$db_url" || -z "$api_url" || -z "$service_role_key" ]]; then
   echo "Could not resolve local Supabase DB_URL, API_URL and SERVICE_ROLE_KEY." >&2
   exit 1
 fi
-if ! command -v psql >/dev/null 2>&1; then
-  echo "psql is required for the concurrent account-deletion test." >&2
-  exit 1
-fi
+for command in psql curl jq; do
+  if ! command -v "$command" >/dev/null 2>&1; then
+    echo "$command is required for the account-deletion integration test." >&2
+    exit 1
+  fi
+done
 
 cleanup() {
   for pid in "$delete_pid" "$remove_role_pid" "$holder_pid"; do
@@ -33,53 +38,76 @@ cleanup() {
   done
   psql "$db_url" -v ON_ERROR_STOP=1 >/dev/null 2>&1 <<SQL || true
 delete from public.admin_audit_log
- where actor_user_id in ('$user_a'::uuid, '$user_b'::uuid)
-    or target_id in ('$user_a'::uuid, '$user_b'::uuid);
+ where action like 'test.account.delete.integration.%'
+    or actor_user_id in (
+      select id from auth.users where email in ('$email_a', '$email_b', '$email_control')
+    )
+    or target_id in (
+      select id from auth.users where email in ('$email_a', '$email_b', '$email_control')
+    );
 delete from public.admin_user_roles
- where user_id in ('$user_a'::uuid, '$user_b'::uuid);
+ where user_id in (
+   select id from auth.users where email in ('$email_a', '$email_b', '$email_control')
+ );
 delete from auth.users
- where id in ('$user_a'::uuid, '$user_b'::uuid);
+ where email in ('$email_a', '$email_b', '$email_control');
 SQL
   rm -rf "$work_dir"
 }
 trap cleanup EXIT
 
-# Ensure a previous interrupted run cannot leave fixtures behind.
+# Clean fixtures from an interrupted run. Fixtures are created through Auth Admin
+# below so the API-under-test recognizes them as real Auth users.
 psql "$db_url" -v ON_ERROR_STOP=1 >/dev/null <<SQL
 delete from public.admin_audit_log
- where actor_user_id in ('$user_a'::uuid, '$user_b'::uuid)
-    or target_id in ('$user_a'::uuid, '$user_b'::uuid);
+ where action like 'test.account.delete.integration.%'
+    or actor_user_id in (
+      select id from auth.users where email in ('$email_a', '$email_b', '$email_control')
+    )
+    or target_id in (
+      select id from auth.users where email in ('$email_a', '$email_b', '$email_control')
+    );
 delete from public.admin_user_roles
- where user_id in ('$user_a'::uuid, '$user_b'::uuid);
+ where user_id in (
+   select id from auth.users where email in ('$email_a', '$email_b', '$email_control')
+ );
 delete from auth.users
- where id in ('$user_a'::uuid, '$user_b'::uuid);
+ where email in ('$email_a', '$email_b', '$email_control');
+SQL
 
-insert into auth.users (
-  id, aud, role, email, raw_app_meta_data, raw_user_meta_data, created_at, updated_at
-)
-values
-  (
-    '$user_a', 'authenticated', 'authenticated',
-    'pgtap-concurrency-a@example.invalid',
-    '{"provider":"email","providers":["email"]}'::jsonb,
-    '{"display_name":"Concurrency A"}'::jsonb, now(), now()
-  ),
-  (
-    '$user_b', 'authenticated', 'authenticated',
-    'pgtap-concurrency-b@example.invalid',
-    '{"provider":"email","providers":["email"]}'::jsonb,
-    '{"display_name":"Concurrency B"}'::jsonb, now(), now()
-  );
+create_auth_user() {
+  local email="$1"
+  local display_name="$2"
+  local response_file="$3"
+  local status
+  status="$(curl -sS -o "$response_file" -w '%{http_code}' \
+    -X POST "$api_url/auth/v1/admin/users" \
+    -H "apikey: $service_role_key" \
+    -H "Authorization: Bearer $service_role_key" \
+    -H 'Content-Type: application/json' \
+    --data "$(jq -cn --arg email "$email" --arg name "$display_name" \
+      --arg password "Local-Integration-Only-$(date +%s%N)-Aa9!" \
+      '{email:$email,password:$password,email_confirm:true,user_metadata:{display_name:$name}}')")"
+  if [[ "$status" -lt 200 || "$status" -ge 300 ]]; then
+    echo "Auth Admin fixture creation failed for $email (HTTP $status)." >&2
+    cat "$response_file" >&2
+    return 1
+  fi
+  jq -er '.id | select(type == "string" and length > 0)' "$response_file"
+}
 
+user_a="$(create_auth_user "$email_a" "Concurrency A" "$work_dir/create-a.json")"
+user_b="$(create_auth_user "$email_b" "Concurrency B" "$work_dir/create-b.json")"
+user_control="$(create_auth_user "$email_control" "Deletion control" "$work_dir/create-control.json")"
+
+psql "$db_url" -v ON_ERROR_STOP=1 >/dev/null <<SQL
 insert into auth.sessions (id, user_id, created_at, updated_at)
-values
-  ('$session_a', '$user_a', now(), now()),
-  ('$session_b', '$user_b', now(), now());
+values ('$session_a', '$user_a'::uuid, now(), now());
 
 insert into public.admin_user_roles (user_id, role_key, assigned_by)
 values
-  ('$user_a', 'super_admin', '$user_a'),
-  ('$user_b', 'super_admin', '$user_b');
+  ('$user_a'::uuid, 'super_admin', '$user_a'::uuid),
+  ('$user_b'::uuid, 'super_admin', '$user_b'::uuid);
 SQL
 
 # Hold the shared lock until both competing operations have started. They then
@@ -123,8 +151,7 @@ commit;
 SQL
 remove_role_pid=$!
 
-# Do not merely hope the race overlaps: require both contenders to be waiting
-# on the advisory lock before allowing the holder to release it.
+# Require both contenders to wait on the shared lock before releasing it.
 both_waiting=false
 for _ in $(seq 1 150); do
   waiting_count="$(psql "$db_url" -Atqc "select count(*) from pg_locks where locktype = 'advisory' and not granted" 2>/dev/null || true)"
@@ -158,8 +185,6 @@ if [[ "$holder_status" -ne 0 ]]; then
   exit 1
 fi
 
-# Exactly one operation must win. Both succeeding or both failing would indicate
-# that the last-super-admin invariant was not preserved across the race.
 if { [[ "$delete_status" -eq 0 ]] && [[ "$remove_role_status" -eq 0 ]]; } ||
    { [[ "$delete_status" -ne 0 ]] && [[ "$remove_role_status" -ne 0 ]]; }; then
   echo "Expected exactly one concurrent operation to succeed; got delete=$delete_status remove-role=$remove_role_status." >&2
@@ -174,36 +199,66 @@ if [[ "$remaining_super_admins" != '1' ]]; then
   exit 1
 fi
 
-# Prove the actual Supabase Auth Admin API runs the trigger, not just direct SQL.
-# The race above leaves exactly one super_admin. Deleting that user through the
-# same Admin endpoint used by the Edge Function must fail and roll back audit cleanup.
 remaining_user="$(psql "$db_url" -Atqc "select user_id::text from public.admin_user_roles where role_key = 'super_admin' and user_id in ('$user_a'::uuid, '$user_b'::uuid)")"
 if [[ -z "$remaining_user" ]]; then
   echo "Could not identify the surviving super_admin for Auth API verification." >&2
   exit 1
 fi
 
+# Control: prove this Auth Admin endpoint and service-role credential can delete
+# a valid ordinary Auth user, and that the trigger clears audit references atomically.
 psql "$db_url" -v ON_ERROR_STOP=1 >/dev/null <<SQL
 insert into public.admin_audit_log (actor_user_id, action, target_type, target_id, metadata)
-values ('$remaining_user'::uuid, 'test.account.delete.auth-admin-rejected', 'user', '$remaining_user'::uuid, '{}'::jsonb);
+values ('$user_control'::uuid, 'test.account.delete.integration.control', 'user', '$user_control'::uuid, '{}'::jsonb);
+SQL
+
+control_status="$(curl -sS -o "$work_dir/control-delete.json" -w '%{http_code}' \
+  -X DELETE "$api_url/auth/v1/admin/users/$user_control" \
+  -H "apikey: $service_role_key" \
+  -H "Authorization: Bearer $service_role_key")"
+if [[ "$control_status" -lt 200 || "$control_status" -ge 300 ]]; then
+  echo "Auth Admin control deletion of an ordinary user failed (HTTP $control_status)." >&2
+  cat "$work_dir/control-delete.json" >&2
+  exit 1
+fi
+
+control_invariant="$(psql "$db_url" -Atqc "select (not exists (select 1 from auth.users where id = '$user_control'::uuid))::text || ':' || (select (actor_user_id is null and target_id is null)::text from public.admin_audit_log where action = 'test.account.delete.integration.control')")"
+if [[ "$control_invariant" != 'true:true' ]]; then
+  echo "Successful Auth Admin control deletion did not remove the user and clear audit references: $control_invariant" >&2
+  exit 1
+fi
+
+# Confirm Auth Admin can find the actual surviving user before attempting deletion.
+lookup_status="$(curl -sS -o "$work_dir/auth-lookup.json" -w '%{http_code}' \
+  "$api_url/auth/v1/admin/users/$remaining_user" \
+  -H "apikey: $service_role_key" \
+  -H "Authorization: Bearer $service_role_key")"
+if [[ "$lookup_status" != '200' ]] || [[ "$(jq -r '.id // empty' "$work_dir/auth-lookup.json")" != "$remaining_user" ]]; then
+  echo "Auth Admin could not retrieve the surviving super_admin fixture (HTTP $lookup_status)." >&2
+  cat "$work_dir/auth-lookup.json" >&2
+  exit 1
+fi
+
+psql "$db_url" -v ON_ERROR_STOP=1 >/dev/null <<SQL
+insert into public.admin_audit_log (actor_user_id, action, target_type, target_id, metadata)
+values ('$remaining_user'::uuid, 'test.account.delete.integration.last-super-admin', 'user', '$remaining_user'::uuid, '{}'::jsonb);
 SQL
 
 auth_status="$(curl -sS -o "$work_dir/auth-delete.json" -w '%{http_code}' \
   -X DELETE "$api_url/auth/v1/admin/users/$remaining_user" \
   -H "apikey: $service_role_key" \
   -H "Authorization: Bearer $service_role_key")"
-if [[ "$auth_status" -lt 400 ]]; then
-  echo "Auth Admin API unexpectedly deleted the last super_admin (HTTP $auth_status)." >&2
+if [[ "$auth_status" -lt 500 || "$auth_status" -ge 600 ]]; then
+  echo "Expected a database-trigger rejection (HTTP 5xx) when deleting the last super_admin; got HTTP $auth_status." >&2
   cat "$work_dir/auth-delete.json" >&2
   exit 1
 fi
 
-auth_invariant="$(psql "$db_url" -Atqc "select (exists (select 1 from auth.users where id = '$remaining_user'::uuid))::text || ':' || (select actor_user_id::text || ':' || target_id::text from public.admin_audit_log where action = 'test.account.delete.auth-admin-rejected')")"
-expected_invariant="$remaining_user:$remaining_user"
-if [[ "$auth_invariant" != "true:$expected_invariant" ]]; then
+auth_invariant="$(psql "$db_url" -Atqc "select (exists (select 1 from auth.users where id = '$remaining_user'::uuid))::text || ':' || (select (actor_user_id = '$remaining_user'::uuid and target_id = '$remaining_user'::uuid)::text from public.admin_audit_log where action = 'test.account.delete.integration.last-super-admin')")"
+if [[ "$auth_invariant" != 'true:true' ]]; then
   echo "Auth Admin rejection did not preserve the user and audit references: $auth_invariant" >&2
   cat "$work_dir/auth-delete.json" >&2
   exit 1
 fi
 
-echo "Concurrent deletion/role removal preserved the invariant, and Supabase Auth Admin API rejected last-super_admin deletion with audit references unchanged (HTTP $auth_status)."
+echo "Concurrency invariant preserved; Auth Admin successfully deleted an ordinary user (HTTP $control_status), then rejected last-super_admin deletion (HTTP $auth_status) with user and audit references unchanged."
