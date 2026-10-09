@@ -10,6 +10,7 @@ import { getPrimaryToolCategory, getToolContent } from "@/lib/tools/types";
 import type { ToolId } from "@/lib/tools/types";
 import type { Tool } from "@/lib/tools/types";
 import { normalizeSearchText } from "@/lib/tools/search-utils";
+import { executeToolSearch } from "@/lib/tools/search-request";
 import { Button } from "@/components/ui/Button";
 import { getToolPath } from "@/lib/tools/routes";
 
@@ -87,15 +88,16 @@ export default function ToolSearch({
     const requestId = ++searchRequest.current;
     let cancelled = false;
 
-    import("@/lib/tools/search-client").then(({ searchToolCatalog }) => {
+    void executeToolSearch(normalizedQuery, locale).then((outcome) => {
       if (cancelled || requestId !== searchRequest.current) return;
-      setResults(searchToolCatalog(normalizedQuery, locale).slice(0, 6));
+      if (outcome.status === "error") {
+        setSearchError(true);
+        setIsSearching(false);
+        return;
+      }
+      setResults(outcome.results);
       setResultsQuery(normalizedQuery);
       setSearchError(false);
-      setIsSearching(false);
-    }).catch(() => {
-      if (cancelled || requestId !== searchRequest.current) return;
-      setSearchError(true);
       setIsSearching(false);
     });
 

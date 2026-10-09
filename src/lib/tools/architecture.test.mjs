@@ -82,9 +82,13 @@ test("the tool route renders through the client tool renderer", async () => {
 });
 
 const toolSearchFile = fileURLToPath(new URL("../../components/tools/ToolSearch.tsx", import.meta.url));
+const toolSearchRequestFile = fileURLToPath(new URL("./search-request.ts", import.meta.url));
 
 test("tool search loads the catalog and search engine only when search is used", async () => {
   const source = await readFile(toolSearchFile, "utf8");
-  assert.match(source, /import\("@\/lib\/tools\/search-client"\)/);
-  assert.doesNotMatch(source, /from ["']@\/lib\/tools\/(catalog|search)["']/);
+  const requestSource = await readFile(toolSearchRequestFile, "utf8");
+  assert.ok(requestSource.includes('import("./search-client")'));
+  assert.equal(source.includes('from "@/lib/tools/catalog"'), false);
+  assert.equal(source.includes('from "@/lib/tools/search"'), false);
+  assert.equal(source.includes('from "@/lib/tools/search-client"'), false);
 });
