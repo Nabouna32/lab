@@ -1,5 +1,5 @@
 import type { Locale } from "@/lib/i18n/config";
-import { getPrimaryToolCategory, getToolContent } from "@/lib/tools/types";
+import { getToolContent } from "@/lib/tools/types";
 import type { Tool } from "@/lib/tools/types";
 import { Card } from "@/components/ui/Card";
 import { getToolPath } from "@/lib/tools/routes";
@@ -9,7 +9,7 @@ export default function ToolCard({ tool, locale, categoryName }: { tool: Tool; l
 
   return (
     <Card
-      href={getToolPath(locale, getPrimaryToolCategory(tool), tool.id)}
+      href={getToolPath(locale, tool.id)}
       className="group flex min-h-40 flex-col p-4 transition-colors duration-200 hover:border-[var(--accent)]/40 hover:bg-[var(--surface-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]"
     >
       <div className="flex items-center gap-3">
