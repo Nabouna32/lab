@@ -14,7 +14,7 @@ export type Messages = {
     categoryDescription: (category: string) => string; searchLabel: string; searchPlaceholder: string; searchButton: string; suggestions: string;
     intentsTitle: string; intentsDescription: string; intents: Array<{ id: string; label: string; icon: string }>;
     allToolsTitle: string;
-    resultCountOne: string; resultCountMany: string; searching: string; noResults: string; noResultsHelp: string; tryThese: string; noResultsSuggestions: string[]; clearSearch: string;
+    resultCountOne: string; resultCountMany: string; searching: string; searchError: string; retrySearch: string; noResults: string; noResultsHelp: string; tryThese: string; noResultsSuggestions: string[]; clearSearch: string;
     categoriesTitle: string; categoriesDescription: string;
   };
   nextActions: { title: string };
@@ -59,7 +59,7 @@ export const messages: Record<Locale, Messages> = {
       explore: "Explorer les outils", one: "outil", many: "outils",
       categoryDescription: (category) => `Retrouvez les outils disponibles dans la catégorie ${category}.`,
       searchLabel: "Rechercher dans les outils", searchPlaceholder: "Que voulez-vous faire ? Ex. calculer une remise", searchButton: "Rechercher",
-      suggestions: "Suggestions", resultCountOne: "résultat", resultCountMany: "résultats", searching: "Recherche en cours…",
+      suggestions: "Suggestions", resultCountOne: "résultat", resultCountMany: "résultats", searching: "Recherche en cours…", searchError: "La recherche n’a pas pu se charger. Réessayez.", retrySearch: "Réessayer",
       noResults: "Aucun outil ne correspond à", noResultsHelp: "Essayez un terme plus simple ou choisissez une suggestion.", tryThese: "Vous cherchez peut-être", noResultsSuggestions: ["TVA", "taille de fichier", "vidéo", "âge"],
       clearSearch: "Effacer la recherche",
       categoriesTitle: "Parcourir par catégorie", categoriesDescription: "Si vous préférez explorer, choisissez une catégorie pour voir ses outils.",
@@ -150,7 +150,7 @@ export const messages: Record<Locale, Messages> = {
       explore: "Explore tools", one: "tool", many: "tools",
       categoryDescription: (category) => `Browse the tools available in the ${category}.`,
       searchLabel: "Search the tools", searchPlaceholder: "What do you want to do? e.g. calculate a discount", searchButton: "Search",
-      suggestions: "Suggestions", resultCountOne: "result", resultCountMany: "results", searching: "Searching…",
+      suggestions: "Suggestions", resultCountOne: "result", resultCountMany: "results", searching: "Searching…", searchError: "Search could not be loaded. Please try again.", retrySearch: "Try again",
       noResults: "No tool matches", noResultsHelp: "Try a simpler term or choose a suggestion.", tryThese: "You might be looking for", noResultsSuggestions: ["VAT", "file size", "video", "age"],
       clearSearch: "Clear search",
       categoriesTitle: "Browse by category", categoriesDescription: "Prefer to explore? Choose a category to see its tools.",
