@@ -70,7 +70,7 @@
 
 ### Database boundary
 
-- Supabase is now the current database/authentication platform for the account foundation, administrative authorization and deployed catalog foundation.
+- Supabase is the current database/authentication platform for the deployed account, administrative RBAC and audit foundation. The PostgreSQL catalog remains an accepted target architecture, not a deployed schema; the public catalog remains Git-backed pending the redesign tracked in #444.
 - Executable behavior and technical capabilities remain authoritative in Git/code.
 - The database may own account, administration, editable catalog/editorial data, publication state and community data as those domains are introduced deliberately.
 - Database-backed metadata must not be allowed to falsely redefine executable tool behavior.
@@ -79,7 +79,7 @@
 
 - The central catalog/registry is sufficient for the current toolbox.
 - Catalog consumers now go through a single catalog access layer; the current implementation remains Git-backed, while the boundary is ready for a future database-backed catalog without coupling pages and components to the storage location.
-- The first editable catalog schema is deployed and seeded in Supabase; public application reads have not yet switched to the database.
+- The PostgreSQL catalog schema is not currently deployed. The October 2026 clean-cut removed the transitional catalog tables; catalog redesign and migration are tracked in #444. Public application reads remain Git-backed.
 - The category-page duplication was removed.
 - Editorial content is now owned by each tool module and loaded through the same registry as the executable tool; the former centralized switch has been removed.
 - Search now matches structured tags, aliases and categories in addition to localized names and descriptions.
@@ -93,7 +93,7 @@
 - Account/premium enforcement.
 - Runtime enforcement for browser capabilities beyond clipboard.
 - Generic sharing runtime.
-- Application reads from the database-backed catalog; the schema and initial data exist, but the current public catalog still reads from Git through the catalog access boundary.
+- The database-backed catalog schema and public catalog reads are not implemented yet; the catalog remains Git-backed pending the redesign and migration tracked in #444.
 - External-service integrations.
 
 ## Next actions
@@ -101,7 +101,7 @@
 1. Continue the functional behavior audit of every published tool, focusing on remaining edge cases, rounding conventions and user-facing result semantics.
 2. Continue the tool-platform audit with registry scalability and catalog/module boundaries as the toolbox grows.
 3. Continue administration with any remaining account-lifecycle work beyond the currently implemented deletion, suspension/reactivation and session-revocation flows.
-4. Connect the existing catalog access boundary to the new database schema and switch reads progressively while keeping Git/code authoritative for executable behavior.
+4. Complete the catalog redesign and migration tracked in #444, then connect the catalog access boundary to the validated schema and migrate public reads when the implementation is ready, keeping Git/code authoritative for executable behavior.
 5. Introduce persistence or sharing only when a concrete tool requirement justifies the corresponding runtime capability.
 6. Continue the UX audit with above-the-fold tool hierarchy and mobile behavior, then apply targeted fixes, including keyboard/focus behavior where it affects tool completion.
 
@@ -113,12 +113,12 @@ The code/module remains authoritative for executable behavior and technical capa
 ## Account and database foundation
 
 - Supabase project `Loculary` is active in `eu-west-2`.
-- First application table `public.profiles` is deployed with Row Level Security and ownership policies.
-- Next.js was upgraded from 16.3.5 to 16.3.6 to address the critical upstream security update released on September 22, 2026.
+- The account table `public.profiles` is deployed with Row Level Security and ownership policies.
+- Historical security update: Next.js was upgraded from 16.3.5 to 16.3.6 to address the critical upstream security update released on September 22, 2026. The current pinned version in `package.json` and `package-lock.json` is 16.3.8.
 - The published file-size calculator now validates calculation units and rejects numeric overflow at the domain-function boundary.
 - Email/password account creation, sign-in, sign-out and session refresh are wired into the Next.js application.
 - Email confirmation uses the Supabase PKCE callback flow.
-- The database currently stores only minimal profile metadata; tool/catalog migration remains a separate future step.
+- The database stores profile metadata plus the administrative RBAC and audit foundation; catalog migration remains a separate future step tracked in #444.
 
 ## Administration foundation
 

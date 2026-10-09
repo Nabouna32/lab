@@ -221,7 +221,7 @@ A database is expected to become useful for:
 - tool metadata where appropriate;
 - privacy-conscious analytics data.
 
-Supabase/PostgreSQL is the current database platform and hosting boundary for the deployed account and catalog foundation. This does not make the platform immutable: a future replacement remains possible only after an explicit architecture decision supported by current requirements and evidence.
+Supabase/PostgreSQL is the current database platform for the deployed account, administrative RBAC and audit foundation. The editable catalog's PostgreSQL boundary is an accepted target under DEC-027, but its schema is not currently deployed; the public catalog remains Git-backed until the redesign and migration tracked in #444 are completed. This does not make the platform immutable: a future replacement remains possible only after an explicit architecture decision supported by current requirements and evidence.
 
 A small paid database/infrastructure budget is acceptable once product revenue or traffic justifies it.
 
