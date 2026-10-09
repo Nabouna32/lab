@@ -82,16 +82,10 @@ export default function ToolSearch({
 
   useEffect(() => {
     const normalizedQuery = deferredQuery.trim();
-    if (!normalizedQuery) {
-      setIsSearching(false);
-      setSearchError(false);
-      return;
-    }
+    if (!normalizedQuery) return;
 
     const requestId = ++searchRequest.current;
     let cancelled = false;
-    setIsSearching(true);
-    setSearchError(false);
 
     import("@/lib/tools/search-client").then(({ searchToolCatalog }) => {
       if (cancelled || requestId !== searchRequest.current) return;
@@ -188,7 +182,7 @@ export default function ToolSearch({
           aria-expanded={showResults}
           aria-controls={resultsId}
           aria-activedescendant={activeIndex >= 0 ? instanceId + "-result-" + activeIndex : undefined}
-          onChange={(event) => { const nextQuery = event.target.value; setQuery(nextQuery); setActiveIndex(-1); setSearchError(false); setIsSearching(nextQuery.trim().length > 0); }}
+          onChange={(event) => { const nextQuery = event.target.value; searchRequest.current += 1; setQuery(nextQuery); setActiveIndex(-1); setSearchError(false); setIsSearching(nextQuery.trim().length > 0); }}
           onFocus={() => setIsFocused(true)}
           onKeyDown={handleKeyDown}
           className={
@@ -201,7 +195,7 @@ export default function ToolSearch({
             variant="ghost"
             type="button"
             onMouseDown={(event) => event.preventDefault()}
-            onClick={() => { setQuery(""); setActiveIndex(-1); setIsFocused(true); setIsSearching(false); setSearchError(false); }}
+            onClick={() => { searchRequest.current += 1; setQuery(""); setActiveIndex(-1); setIsFocused(true); setIsSearching(false); setSearchError(false); }}
             className={(compact ? "min-h-8 w-8 text-base " : "min-h-10 w-10 text-lg ") + "rounded-lg p-0"}
             aria-label={t.tools.clearSearch}
           >
@@ -278,7 +272,7 @@ export default function ToolSearch({
                     key={suggestion}
                     type="button"
                     onMouseDown={(event) => event.preventDefault()}
-                    onClick={() => { setQuery(suggestion); setActiveIndex(-1); setIsFocused(true); setSearchError(false); setIsSearching(true); }}
+                    onClick={() => { searchRequest.current += 1; setQuery(suggestion); setActiveIndex(-1); setIsFocused(true); setSearchError(false); setIsSearching(true); }}
                     className="rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-xs font-medium text-[var(--foreground)] transition-colors hover:bg-[var(--surface-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
                   >
                     {suggestion}
