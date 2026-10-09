@@ -190,7 +190,14 @@ The required sequence is:
 
 Auto-merge does not weaken any branch protection, review, CI, security or human-validation requirement. It only delegates the final merge action to GitHub after those requirements are satisfied.
 
-If auto-merge cannot be enabled, the agent MUST record the concrete blocker and leave the PR in the appropriate ready state rather than silently substituting a manual merge.
+If auto-merge cannot be enabled, the agent MUST record the concrete blocker and leave the PR in the appropriate ready state. A normal GitHub merge is permitted as a narrow fallback ONLY when all of the following are verified on the exact current PR head immediately before merging:
+
+- GitHub rejected auto-merge specifically because the PR is already in a clean status (all required checks have completed successfully), rather than because of a failing/pending check, review requirement, policy restriction, or other blocker.
+- The PR is open, ready for review, and mergeable; every required status check configured by the active branch protection/ruleset has succeeded for the current head.
+- The applicable branch protection/ruleset is active and its required checks and review/thread requirements are satisfied. No administrative bypass, protection override, or force merge is used.
+- The merge is performed through GitHub's normal merge operation using a repository-allowed merge method, and the resulting merge state is verified.
+
+This exception does NOT permit manual merging merely because checks become green while auto-merge is enabled or could still be enabled. If any precondition cannot be verified, leave the PR open and record the blocker.
 
 ## 11. Documentation continuity
 
