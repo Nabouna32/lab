@@ -40,7 +40,7 @@ Lis d'abord `agents/AUDIT-CONTRACT.md` et respecte-le intégralement. Cette miss
 - Classe les constats : **OBSERVÉ**, **MESURÉ**, **DÉDUIT**, **PROPOSÉ**, **À VALIDER**, **CORRIGÉ DEPUIS UN AUDIT PRÉCÉDENT**, **TOUJOURS PRÉSENT**. La sévérité CRITICAL/HIGH/MEDIUM/LOW/INFO est distincte.
 - Fournis des preuves reproductibles et ne mets jamais de secrets, tokens ou données personnelles inutiles dans le rapport.
 - Une recommandation n'est jamais une décision. Toute décision structurante va dans « Décisions nécessitant validation ».
-- Le rapport finit par un prompt copiable pour l'agent d'implémentation, avec périmètre, décisions, fichiers, tests, vérification, diff et documentation.
+- Le rapport finit par un plan copiable pour la prochaine étape d'implémentation validée, avec périmètre, décisions, fichiers, tests, vérification, diff et documentation.
 - Réponds aussi : **si Loculary était construit aujourd'hui, qu'est-ce que nous changerions ?**
 
 
