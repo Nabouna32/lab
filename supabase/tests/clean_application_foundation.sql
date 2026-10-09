@@ -218,7 +218,7 @@ select ok(
 );
 
 -- Exercise the public RPCs as authenticated with a valid Auth session.
-do $
+do $fixtures$
 begin
   perform set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000101', true);
   perform set_config(
@@ -227,28 +227,26 @@ begin
     true
   );
 end;
-$;
+$fixtures$;
 
 set local role authenticated;
 
 select throws_ok(
-  $insert into public.admin_user_roles (user_id, role_key, assigned_by)
-    values ('00000000-0000-0000-0000-000000000102', 'admin', '00000000-0000-0000-0000-000000000101')$,
+  'insert into public.admin_user_roles (user_id, role_key, assigned_by) values (''00000000-0000-0000-0000-000000000102''::uuid, ''admin'', ''00000000-0000-0000-0000-000000000101''::uuid)',
   '42501',
   'permission denied for table admin_user_roles',
   'authenticated direct INSERT is rejected'
 );
 
 select throws_ok(
-  $delete from public.admin_user_roles
-    where user_id = '00000000-0000-0000-0000-000000000101' and role_key = 'super_admin'$,
+  'delete from public.admin_user_roles where user_id = ''00000000-0000-0000-0000-000000000101''::uuid and role_key = ''super_admin''',
   '42501',
   'permission denied for table admin_user_roles',
   'authenticated direct DELETE is rejected'
 );
 
 select lives_ok(
-  $select public.assign_admin_role('00000000-0000-0000-0000-000000000102'::uuid, 'admin')$,
+  'select public.assign_admin_role(''00000000-0000-0000-0000-000000000102''::uuid, ''admin'')',
   'guarded RPC assigns a role to an existing user'
 );
 
@@ -278,7 +276,7 @@ select is(
 );
 
 select lives_ok(
-  $select public.assign_admin_role('00000000-0000-0000-0000-000000000102'::uuid, 'admin')$,
+  'select public.assign_admin_role(''00000000-0000-0000-0000-000000000102''::uuid, ''admin'')',
   'repeating role assignment remains successful'
 );
 
@@ -293,7 +291,7 @@ select is(
 );
 
 select lives_ok(
-  $select public.remove_admin_role('00000000-0000-0000-0000-000000000102'::uuid, 'admin')$,
+  'select public.remove_admin_role(''00000000-0000-0000-0000-000000000102''::uuid, ''admin'')',
   'guarded RPC removes an assigned role'
 );
 
@@ -315,7 +313,7 @@ select is(
 );
 
 select throws_ok(
-  $select public.remove_admin_role('00000000-0000-0000-0000-000000000101'::uuid, 'super_admin')$,
+  'select public.remove_admin_role(''00000000-0000-0000-0000-000000000101''::uuid, ''super_admin'')',
   'P0001',
   'Cannot remove the last super_admin role',
   'guarded RPC refuses to remove the last super_admin role'
