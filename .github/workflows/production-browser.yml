@@ -17,7 +17,7 @@ jobs:
   browser:
     name: Production Playwright screenshots
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 25
 
     steps:
       - name: Checkout
@@ -52,6 +52,51 @@ jobs:
           echo "docs_only=$docs_only" >> "$GITHUB_OUTPUT"
           echo "Documentation-only change: $docs_only"
 
+      - name: Report documentation-only validation skip
+        if: steps.changes.outputs.docs_only == 'true'
+        env:
+          HEAD_SHA: ${{ github.sha }}
+        run: |
+          {
+            echo "## Production browser validation"
+            echo "**Status:** SKIPPED — this commit changes documentation only."
+            echo "No production browser screenshots or hydration checks were run for commit `$HEAD_SHA`."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Wait for production alias to serve this commit
+        if: steps.changes.outputs.docs_only != 'true'
+        id: deployment
+        shell: bash
+        env:
+          HEAD_SHA: ${{ github.sha }}
+          BASE_URL: https://loculary.vercel.app/fr
+        run: |
+          expected="$HEAD_SHA"
+          observed=""
+          for attempt in $(seq 1 60); do
+            response_headers="$(curl -fsSL -D - -o /dev/null --max-time 8 "$BASE_URL" 2>/dev/null || true)"
+            observed="$(printf '%s\n' "$response_headers" | tr -d '\r' | awk 'tolower($1) == "x-loculary-commit:" { value=$2 } END { print value }')"
+            if [[ "$observed" == "$expected" ]]; then
+              echo "Production alias serves expected commit $expected."
+              echo "tested_sha=$observed" >> "$GITHUB_OUTPUT"
+              {
+                echo "## Production browser validation"
+                echo "**Deployment SHA verified:** `$observed`"
+                echo "Production alias: `$BASE_URL`"
+              } >> "$GITHUB_STEP_SUMMARY"
+              exit 0
+            fi
+            echo "Waiting for production deployment (attempt $attempt/60; expected $expected; observed ${observed:-no commit header})."
+            sleep 10
+          done
+          {
+            echo "## Production browser validation"
+            echo "**Status:** FAILED before browser tests — production alias did not serve the expected commit."
+            echo "- Expected SHA: `$expected`"
+            echo "- Last observed SHA: `${observed:-no commit header}`"
+          } >> "$GITHUB_STEP_SUMMARY"
+          exit 1
+
       - name: Setup Node.js
         if: steps.changes.outputs.docs_only != 'true'
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
@@ -72,10 +117,23 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Run production browser validation
+        id: production_browser
         if: steps.changes.outputs.docs_only != 'true'
         env:
           BASE_URL: https://loculary.vercel.app
         run: npx playwright test e2e/production-visual.spec.mjs
+
+      - name: Summarize production browser result
+        if: always() && steps.changes.outputs.docs_only != 'true'
+        env:
+          TEST_OUTCOME: ${{ steps.production_browser.outcome }}
+          TESTED_SHA: ${{ steps.deployment.outputs.tested_sha }}
+        run: |
+          {
+            echo "## Production browser test result"
+            echo "- Tested commit: `${TESTED_SHA:-unverified}`"
+            echo "- Browser test outcome: `${TEST_OUTCOME:-not run}`"
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload production screenshots
         if: always() && steps.changes.outputs.docs_only != 'true'
