@@ -8,6 +8,10 @@ type PaletteKey = "violet" | "blue" | "coral" | "forest" | "expressiveMulti" | "
 type Theme = "light" | "dark";
 type Mode = "m3" | "expressive";
 type Screen = "home" | "explore" | "tool";
+type CategorySet = "current" | "vivid" | "blue";
+type CategoryStyle = "soft" | "stripe" | "solid";
+type SurfacePreset = "neutral" | "tonal" | "contrast";
+type TypePreset = "geist" | "system" | "classic";
 const palettes: Record<PaletteKey, { name: string; nameFr: string; seed: string; primary: string; secondary: string; tertiary: string; surface: string; primarySoft: string; darkPrimary: string; darkPrimarySoft: string; description: string; descriptionFr: string; darkSecondary?: string; darkTertiary?: string; darkOnPrimary?: string }> = {
   violet: { name: "Violet", nameFr: "Violet", seed: "#6750A4", primary: "#6750A4", secondary: "#625B71", tertiary: "#7D5260", surface: "#F7F2FA", primarySoft: "#EADDFF", darkPrimary: "#D0BCFF", darkPrimarySoft: "#4A3C63", description: "Distinctive and creative; close to familiar Material purple.", descriptionFr: "Créative et distinctive, proche du violet Material familier." },
   blue: { name: "Blue", nameFr: "Bleu", seed: "#386A9F", primary: "#386A9F", secondary: "#526070", tertiary: "#6B5778", surface: "#F2F6FB", primarySoft: "#D7E6FA", darkPrimary: "#A7C8F5", darkPrimarySoft: "#354A62", description: "Clear, dependable and more conventional.", descriptionFr: "Une identité classique, claire et rassurante." },
@@ -19,8 +23,8 @@ const palettes: Record<PaletteKey, { name: string; nameFr: string; seed: string;
 };
 const copy = {
   en: {
-    eyebrow:"Experimental playground · not production",title:"Find Loculary’s visual personality.",intro:"Change one dimension at a time. Compare the same interface across palettes, themes and expressive treatments before choosing what belongs in the real product.",paletteGuidance:"Google’s Material 3 examples use a baseline violet scheme, but M3 does not prescribe one universal palette. These are curated visual directions, not exported production tokens; category identity colors stay fixed so you can judge the full combination.",categoryColors:"Category identity colors",categoryColorsHelp:"Keep category identity independent from the global palette. Compare balanced colors with more vivid, hue-separated accents in both themes.",
-    palette:"Palette",theme:"Theme",style:"Visual language",viewport:"Preview width",categoryTone:"Category colors",balancedColors:"Balanced",vividColors:"Vivid",language:"Preview language",light:"Light",dark:"Dark",classic:"Material 3",expressive:"M3 Expressive",desktop:"Desktop",tablet:"Tablet",mobile:"Mobile",
+    eyebrow:"Experimental playground · not production",title:"Find Loculary’s visual personality.",intro:"Change one dimension at a time. Compare the same interface across palettes, themes and expressive treatments before choosing what belongs in the real product.",paletteGuidance:"Google’s Material 3 examples use a baseline violet scheme, but M3 does not prescribe one universal palette. These are curated visual directions, not exported production tokens; category identity colors stay fixed so you can judge the full combination.",categoryColors:"Category identity colors",categoryColorsHelp:"These category colors are independent from the brand palette. Compare distinct color sets and visible treatments; the solid option uses matching foreground colors for readability.",
+    palette:"Palette",theme:"Theme",style:"Visual language",viewport:"Preview width",categorySet:"Category color set",currentSet:"Current",vividSet:"Vivid multicolor",blueSet:"Blue-forward",categoryStyle:"Category treatment",softStyle:"Soft tint",stripeStyle:"Strong stripe",solidStyle:"Solid color",surfacePreset:"Surface palette",neutralSurface:"Neutral",tonalSurface:"Tonal",contrastSurface:"Higher contrast",typeface:"Typeface",geistTypeface:"Geist",systemTypeface:"System",classicTypeface:"Arial / sans-serif",language:"Preview language",light:"Light",dark:"Dark",classic:"Material 3",expressive:"M3 Expressive",desktop:"Desktop",tablet:"Tablet",mobile:"Mobile",
     home:"Home",explore:"Explore",tool:"Tool page",search:"What do you need to do?",searchButton:"Find a tool",quick:"Popular tasks",welcome:"A toolbox for your next idea",subhead:"Small tasks, useful tools, less friction.",browse:"Explore tools",
     results:"Suggested tools",resultOne:"Percentage calculator",resultTwo:"Image converter",resultThree:"Text cleaner",toolTitle:"Percentage calculator",toolDesc:"Calculate a percentage of any value.",value:"Value",percent:"Percentage",calculate:"Calculate",output:"Your result",
     components:"Component gallery",settings:"Account & preferences",settingsHelp:"Examples of options a user can turn on or off.",syncFavorites:"Sync favorites",syncFavoritesHelp:"Keep your favorites available on your account.",automaticTheme:"Use device theme",automaticThemeHelp:"Follow your phone or computer light/dark setting.",reducedMotion:"Reduce motion",reducedMotionHelp:"Limit non-essential animations.",switchOnLabel:"On",switchOffLabel:"Off",actions:"Actions & controls",forms:"Forms & selection",surfaces:"Surfaces & feedback",type:"Typography & shape",states:"Interaction states",filled:"Primary action",tonal:"Tonal action",outlined:"Outlined",textButton:"Text action",disabled:"Unavailable action",focus:"Keyboard focus",motion:"Replay motion",
@@ -30,8 +34,8 @@ const copy = {
     note:"Nothing here changes Loculary’s production design. This is a decision aid; the final palette and style remain open.",closeDialog:"Close dialog",fieldHelp:"Shape, spacing and type respond to the selected visual language.",actionsHelp:"Use the controls above to compare the same components.",
   },
   fr: {
-    eyebrow:"Laboratoire expérimental · hors production",title:"Trouvons la personnalité visuelle de Loculary.",intro:"Change une dimension à la fois. Compare la même interface selon les palettes, les thèmes et le style expressif avant de décider ce qui mérite d’entrer dans le vrai produit.",paletteGuidance:"Les exemples Material 3 de Google utilisent un violet de référence, mais M3 n’impose pas une palette universelle. Ces propositions sont des directions visuelles, pas des tokens de production exportés ; les couleurs des catégories restent fixes pour juger l’ensemble.",categoryColors:"Couleurs d’identité des catégories",categoryColorsHelp:"L’identité des catégories reste indépendante de la palette globale. Compare les couleurs équilibrées à une variante plus vive et mieux séparée en teinte, dans les deux thèmes.",
-    palette:"Palette",theme:"Thème",style:"Langage visuel",viewport:"Largeur d’aperçu",categoryTone:"Couleurs des catégories",balancedColors:"Équilibrées",vividColors:"Vives",language:"Langue de l’aperçu",light:"Clair",dark:"Sombre",classic:"Material 3",expressive:"M3 Expressive",desktop:"Ordinateur",tablet:"Tablette",mobile:"Mobile",
+    eyebrow:"Laboratoire expérimental · hors production",title:"Trouvons la personnalité visuelle de Loculary.",intro:"Change une dimension à la fois. Compare la même interface selon les palettes, les thèmes et le style expressif avant de décider ce qui mérite d’entrer dans le vrai produit.",paletteGuidance:"Les exemples Material 3 de Google utilisent un violet de référence, mais M3 n’impose pas une palette universelle. Ces propositions sont des directions visuelles, pas des tokens de production exportés ; les couleurs des catégories restent fixes pour juger l’ensemble.",categoryColors:"Couleurs d’identité des catégories",categoryColorsHelp:"Les couleurs des catégories sont indépendantes de la palette de marque. Compare des jeux franchement différents et des traitements visibles ; les aplats utilisent une couleur de texte adaptée pour rester lisibles.",
+    palette:"Palette",theme:"Thème",style:"Langage visuel",viewport:"Largeur d’aperçu",categorySet:"Jeu de couleurs des catégories",currentSet:"Actuel",vividSet:"Multicolore vif",blueSet:"Dominante bleue",categoryStyle:"Traitement des catégories",softStyle:"Teinte légère",stripeStyle:"Bande franche",solidStyle:"Aplat coloré",surfacePreset:"Palette des surfaces",neutralSurface:"Neutre",tonalSurface:"Teintée",contrastSurface:"Contraste renforcé",typeface:"Police de caractères",geistTypeface:"Geist",systemTypeface:"Système",classicTypeface:"Arial / sans-serif",language:"Langue de l’aperçu",light:"Clair",dark:"Sombre",classic:"Material 3",expressive:"M3 Expressive",desktop:"Ordinateur",tablet:"Tablette",mobile:"Mobile",
     home:"Accueil",explore:"Explorer",tool:"Page outil",search:"De quoi as-tu besoin ?",searchButton:"Trouver un outil",quick:"Actions populaires",welcome:"Une boîte à outils pour tes idées",subhead:"Des tâches simples, des outils utiles, moins de friction.",browse:"Explorer les outils",
     results:"Outils suggérés",resultOne:"Calcul de pourcentage",resultTwo:"Convertisseur d’image",resultThree:"Nettoyeur de texte",toolTitle:"Calcul de pourcentage",toolDesc:"Calcule un pourcentage de n’importe quelle valeur.",value:"Valeur",percent:"Pourcentage",calculate:"Calculer",output:"Ton résultat",
     components:"Galerie de composants",settings:"Compte et préférences",settingsHelp:"Exemples d’options que l’utilisateur peut activer ou désactiver.",syncFavorites:"Synchroniser les favoris",syncFavoritesHelp:"Retrouver les favoris sur son compte.",automaticTheme:"Suivre le thème de l’appareil",automaticThemeHelp:"Utiliser le mode clair ou sombre du téléphone ou de l’ordinateur.",reducedMotion:"Réduire les animations",reducedMotionHelp:"Limiter les animations non essentielles.",switchOnLabel:"Activé",switchOffLabel:"Désactivé",actions:"Actions et commandes",forms:"Formulaires et choix",surfaces:"Surfaces et retours",type:"Typographie et formes",states:"États d’interaction",filled:"Action principale",tonal:"Action tonale",outlined:"Contour",textButton:"Action texte",disabled:"Action indisponible",focus:"Focus clavier",motion:"Rejouer l’animation",
@@ -49,7 +53,10 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const [mode,setMode]=useState<Mode>("expressive");
   const [screen,setScreen]=useState<Screen>("home");
   const [viewport,setViewport]=useState<"desktop"|"tablet"|"mobile">("desktop");
-  const [categoryTone,setCategoryTone]=useState<"balanced"|"vivid">("balanced");
+  const [categorySet,setCategorySet]=useState<CategorySet>("current");
+  const [categoryStyle,setCategoryStyle]=useState<CategoryStyle>("soft");
+  const [surfacePreset,setSurfacePreset]=useState<SurfacePreset>("neutral");
+  const [typePreset,setTypePreset]=useState<TypePreset>("geist");
   const [dialogOpen,setDialogOpen]=useState(true);
   const [motionReplay,setMotionReplay]=useState(0);
   const [value,setValue]=useState("180");
@@ -62,9 +69,10 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const tokens=useMemo(()=> {
     const dark=theme==="dark";
     return {
-      "--lab-bg":dark?"#111318":palette.surface,
-      "--lab-surface":dark?"#1B1D24":"#FFFFFF",
-      "--lab-surface-2":dark?"#252832":"#F1EDF6",
+      "--lab-bg":dark?(surfacePreset==="tonal"?"#14121A":surfacePreset==="contrast"?"#0B1020":"#111318"):(surfacePreset==="tonal"?palette.surface:surfacePreset==="contrast"?"#E8EDF7":"#F5F6FA"),
+      "--lab-surface":dark?(surfacePreset==="tonal"?"#1D1A24":surfacePreset==="contrast"?"#151D31":"#1B1D24"):(surfacePreset==="tonal"?"#FFFFFF":surfacePreset==="contrast"?"#FDFEFF":"#FFFFFF"),
+      "--lab-surface-2":dark?(surfacePreset==="tonal"?"#292532":surfacePreset==="contrast"?"#202B45":"#252832"):(surfacePreset==="tonal"?"#F1EDF6":surfacePreset==="contrast"?"#DDE6F4":"#EEF1F7"),
+      "--lab-font":typePreset==="geist"?"var(--font-geist-sans), sans-serif":typePreset==="system"?"system-ui, -apple-system, \"Segoe UI\", sans-serif":"Arial, Helvetica, sans-serif",
       "--lab-text":dark?"#F2EFF7":"#1D1A22",
       "--lab-muted":dark?"#C4BECC":"#625D69",
       "--lab-outline":dark?"#494550":"#CAC4D0",
@@ -77,21 +85,21 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
       "--lab-radius-small":mode==="expressive"?"1rem":"0.35rem",
       "--lab-motion":mode==="expressive"?"420ms":"180ms",
     } as CSSProperties & Record<string,string>;
-  },[palette,paletteKey,mode,theme]);
+  },[palette,paletteKey,mode,theme,surfacePreset,typePreset]);
   const amount=Number(value)*Number(percent)/100;
   const result=Number.isFinite(amount)?amount.toLocaleString(locale==="fr"?"fr-FR":"en-US",{maximumFractionDigits:3}):"—";
   const stageClass=[styles.stage,styles[viewport],theme==="dark"?styles.dark:styles.light,mode==="expressive"?styles.expressive:styles.classic].join(" ");
   const categoryItems = [
-    { key: "calculations", name: locale === "fr" ? "Calculs" : "Calculations", icon: "％", light: "#D92D20", dark: "#FF6B5E", vividLight: "#D92D20", vividDark: "#FF756B" },
-    { key: "dates", name: locale === "fr" ? "Dates" : "Dates", icon: "◷", light: "#A16207", dark: "#FDBA74", vividLight: "#A15C00", vividDark: "#FFC05C" },
-    { key: "computing", name: locale === "fr" ? "Informatique" : "Computing", icon: "⌘", light: "#7A5AF8", dark: "#BDB4FE", vividLight: "#6941C6", vividDark: "#B7A0FF" },
-    { key: "images", name: locale === "fr" ? "Images" : "Images", icon: "▧", light: "#C11574", dark: "#FDA4D5", vividLight: "#C11574", vividDark: "#FF8CC8" },
-    { key: "files", name: locale === "fr" ? "Fichiers" : "Files", icon: "▤", light: "#0E7490", dark: "#67E8F9", vividLight: "#0077B6", vividDark: "#61D5F2" },
-    { key: "video", name: locale === "fr" ? "Vidéo" : "Video", icon: "▷", light: "#0F766E", dark: "#5EEAD4", vividLight: "#00875A", vividDark: "#55D6A0" },
-    { key: "development", name: locale === "fr" ? "Développement" : "Development", icon: "{ }", light: "#155EEF", dark: "#9AB8FF", vividLight: "#3538CD", vividDark: "#9EA7FF" },
+    { key: "calculations", name: locale === "fr" ? "Calculs" : "Calculations", icon: "％", currentLight: "#D92D20", currentDark: "#FF6B5E", vividLight: "#D32F2F", vividDark: "#FF625A", blueLight: "#2563EB", blueDark: "#60A5FA", onLight: "#FFFFFF", onDark: "#31100D" },
+    { key: "dates", name: locale === "fr" ? "Dates" : "Dates", icon: "◷", currentLight: "#A16207", currentDark: "#FDBA74", vividLight: "#F59E0B", vividDark: "#FBBF24", blueLight: "#0EA5E9", blueDark: "#38BDF8", onLight: "#241600", onDark: "#2A1D00" },
+    { key: "computing", name: locale === "fr" ? "Informatique" : "Computing", icon: "⌘", currentLight: "#7A5AF8", currentDark: "#BDB4FE", vividLight: "#7C3AED", vividDark: "#A78BFA", blueLight: "#4F46E5", blueDark: "#818CF8", onLight: "#FFFFFF", onDark: "#211044" },
+    { key: "images", name: locale === "fr" ? "Images" : "Images", icon: "▧", currentLight: "#C11574", currentDark: "#FDA4D5", vividLight: "#DB2777", vividDark: "#F472B6", blueLight: "#7C3AED", blueDark: "#C4B5FD", onLight: "#FFFFFF", onDark: "#30103D" },
+    { key: "files", name: locale === "fr" ? "Fichiers" : "Files", icon: "▤", currentLight: "#0E7490", currentDark: "#67E8F9", vividLight: "#0891B2", vividDark: "#22D3EE", blueLight: "#0284C7", blueDark: "#38BDF8", onLight: "#062A35", onDark: "#062A35" },
+    { key: "video", name: locale === "fr" ? "Vidéo" : "Video", icon: "▷", currentLight: "#0F766E", currentDark: "#5EEAD4", vividLight: "#059669", vividDark: "#34D399", blueLight: "#0D9488", blueDark: "#2DD4BF", onLight: "#062E25", onDark: "#06352E" },
+    { key: "development", name: locale === "fr" ? "Développement" : "Development", icon: "{ }", currentLight: "#155EEF", currentDark: "#9AB8FF", vividLight: "#2563EB", vividDark: "#818CF8", blueLight: "#1D4ED8", blueDark: "#93C5FD", onLight: "#FFFFFF", onDark: "#111B46" },
   ];
 
-  return <main className={`${styles.lab} ${paletteKey==="expressivePrimaries"?styles.primaryTrio:""} ${theme==="dark"?styles.darkPalette:""} ${categoryTone==="vivid"?styles.vividCategoryColors:""}`} style={tokens}>
+  return <main data-category-set={categorySet} data-category-style={categoryStyle} data-surface-preset={surfacePreset} data-type-preset={typePreset} className={`${styles.lab} ${paletteKey==="expressivePrimaries"?styles.primaryTrio:""} ${theme==="dark"?styles.darkPalette:""} ${styles[`categoryStyle_${categoryStyle}`]}`} style={tokens}>
     <header className={styles.intro}>
       <div className={styles.introTop}><span className={styles.eyebrow}><span className={styles.sparkle} aria-hidden="true">✳</span>{t.eyebrow}</span>
         <label className={styles.compactControl}>{t.language}<select value={locale} onChange={e=>setLocale(e.target.value as Locale)}><option value="fr">Français</option><option value="en">English</option></select></label>
@@ -107,7 +115,10 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
         <fieldset className={styles.segmentField}><legend>{t.theme}</legend><div className={styles.segmented}><button type="button" aria-pressed={theme==="light"} onClick={()=>setTheme("light")}>☀ {t.light}</button><button type="button" aria-pressed={theme==="dark"} onClick={()=>setTheme("dark")}>☾ {t.dark}</button></div></fieldset>
         <fieldset className={styles.segmentField}><legend>{t.style}</legend><div className={styles.segmented}><button type="button" aria-pressed={mode==="m3"} onClick={()=>setMode("m3")}>{t.classic}</button><button type="button" aria-pressed={mode==="expressive"} onClick={()=>setMode("expressive")}>{t.expressive}</button></div></fieldset>
         <fieldset className={styles.segmentField}><legend>{t.viewport}</legend><div className={styles.segmented}>{(["desktop","tablet","mobile"] as const).map(size=><button key={size} type="button" aria-pressed={viewport===size} onClick={()=>setViewport(size)}>{t[size]}</button>)}</div></fieldset>
-        <fieldset className={styles.segmentField}><legend>{t.categoryTone}</legend><div className={styles.segmented}><button type="button" aria-pressed={categoryTone==="balanced"} onClick={()=>setCategoryTone("balanced")}>{t.balancedColors}</button><button type="button" aria-pressed={categoryTone==="vivid"} onClick={()=>setCategoryTone("vivid")}>{t.vividColors}</button></div></fieldset>
+        <fieldset className={styles.segmentField}><legend>{t.categorySet}</legend><div className={styles.segmented}><button type="button" aria-pressed={categorySet==="current"} onClick={()=>setCategorySet("current")}>{t.currentSet}</button><button type="button" aria-pressed={categorySet==="vivid"} onClick={()=>setCategorySet("vivid")}>{t.vividSet}</button><button type="button" aria-pressed={categorySet==="blue"} onClick={()=>setCategorySet("blue")}>{t.blueSet}</button></div></fieldset>
+        <fieldset className={styles.segmentField}><legend>{t.categoryStyle}</legend><div className={styles.segmented}><button type="button" aria-pressed={categoryStyle==="soft"} onClick={()=>setCategoryStyle("soft")}>{t.softStyle}</button><button type="button" aria-pressed={categoryStyle==="stripe"} onClick={()=>setCategoryStyle("stripe")}>{t.stripeStyle}</button><button type="button" aria-pressed={categoryStyle==="solid"} onClick={()=>setCategoryStyle("solid")}>{t.solidStyle}</button></div></fieldset>
+        <fieldset className={styles.segmentField}><legend>{t.surfacePreset}</legend><div className={styles.segmented}><button type="button" aria-pressed={surfacePreset==="neutral"} onClick={()=>setSurfacePreset("neutral")}>{t.neutralSurface}</button><button type="button" aria-pressed={surfacePreset==="tonal"} onClick={()=>setSurfacePreset("tonal")}>{t.tonalSurface}</button><button type="button" aria-pressed={surfacePreset==="contrast"} onClick={()=>setSurfacePreset("contrast")}>{t.contrastSurface}</button></div></fieldset>
+        <fieldset className={styles.segmentField}><legend>{t.typeface}</legend><div className={styles.segmented}><button type="button" aria-pressed={typePreset==="geist"} onClick={()=>setTypePreset("geist")}>{t.geistTypeface}</button><button type="button" aria-pressed={typePreset==="system"} onClick={()=>setTypePreset("system")}>{t.systemTypeface}</button><button type="button" aria-pressed={typePreset==="classic"} onClick={()=>setTypePreset("classic")}>{t.classicTypeface}</button></div></fieldset>
       </div>
     </section>
     <section className={styles.previewSection} aria-labelledby="composition-title">
@@ -123,7 +134,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
       <section className={styles.categoryPreview} aria-labelledby="category-preview-title">
         <div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>01B / {t.categoryColors}</span><h2 id="category-preview-title">{t.categoryColors}</h2><p>{t.categoryColorsHelp}</p></div></div>
         <div className={styles.categoryGrid}>
-          {categoryItems.map((item) => <article key={item.key} className={styles.categoryCard} style={{ "--category-color": theme === "dark" ? (categoryTone === "vivid" ? item.vividDark : item.dark) : (categoryTone === "vivid" ? item.vividLight : item.light) } as CSSProperties}>
+          {categoryItems.map((item) => <article key={item.key} className={styles.categoryCard} style={{ "--category-color": theme === "dark" ? (categorySet === "current" ? item.currentDark : categorySet === "vivid" ? item.vividDark : item.blueDark) : (categorySet === "current" ? item.currentLight : categorySet === "vivid" ? item.vividLight : item.blueLight), "--category-foreground": theme === "dark" ? item.onDark : item.onLight } as CSSProperties}>
             <span className={styles.categoryGlyph} aria-hidden="true">{item.icon}</span>
             <div><strong>{item.name}</strong><small>{theme === "dark" ? item.dark : item.light}</small></div>
           </article>)}
