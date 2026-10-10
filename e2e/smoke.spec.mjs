@@ -260,7 +260,7 @@ test("search suggestions escape clipping and expose one consistent clear control
 
   const homePopupGeometry = await homePopup.evaluate((element) => {
     const rect = element.getBoundingClientRect();
-    const hit = document.elementFromPoint(rect.left + 4, rect.top + 4);
+    const hit = document.elementFromPoint(rect.left + rect.width / 2, rect.top + 20);
     return {
       position: getComputedStyle(element).position,
       withinViewport: rect.left >= 0 && rect.right <= window.innerWidth && rect.top >= 0 && rect.bottom <= window.innerHeight,
