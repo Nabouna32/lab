@@ -125,10 +125,7 @@ export default function ToolSearch({
   }, [deferredQuery, locale, searchRetryCount]);
 
   useEffect(() => {
-    if (!showResults) {
-      setOverlayPosition(null);
-      return;
-    }
+    if (!showResults) return;
 
     const anchor = rootRef.current;
     if (!anchor) return;
@@ -155,13 +152,14 @@ export default function ToolSearch({
       setOverlayPosition({ top, left, width, maxHeight, placement: opensAbove ? "above" : "below" });
     }
 
-    updatePosition();
+    const initialFrame = window.requestAnimationFrame(updatePosition);
     window.addEventListener("resize", updatePosition);
     window.addEventListener("scroll", updatePosition, true);
     window.visualViewport?.addEventListener("resize", updatePosition);
     window.visualViewport?.addEventListener("scroll", updatePosition);
 
     return () => {
+      window.cancelAnimationFrame(initialFrame);
       window.removeEventListener("resize", updatePosition);
       window.removeEventListener("scroll", updatePosition, true);
       window.visualViewport?.removeEventListener("resize", updatePosition);
@@ -210,6 +208,7 @@ export default function ToolSearch({
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.key === "Escape") {
+      event.preventDefault();
       setIsFocused(false);
       setActiveIndex(-1);
       return;
