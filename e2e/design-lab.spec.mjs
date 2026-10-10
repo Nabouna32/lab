@@ -32,6 +32,7 @@ test("design lab generates real Material Color Utilities schemes and exposes its
   await expect(lab).toHaveAttribute("data-type-preset", "roboto");
   await expect(page.getByTestId("category-mcu-rainbow")).toHaveCount(7);
   await expect(page.getByTestId("category-direct-rainbow")).toHaveCount(7);
+  await expect.poll(() => lab.evaluate(el => getComputedStyle(el).fontFamily)).toContain("Roboto");
   await expect(lab).toHaveAttribute("data-spec-version", "2025");
 
   await specSelect.selectOption("2021");
@@ -89,10 +90,10 @@ test("source seed validation, contrast, light/dark, and category colors are inde
   await expect(lab).toHaveAttribute("data-category-set", "vivid");
   await expect(directCalculations).toHaveAttribute("data-category-color", "#D32F2F");
 
-  const softBackground = await calculations.evaluate(el => getComputedStyle(el).backgroundColor);
+  const softBackground = await directCalculations.evaluate(el => getComputedStyle(el).backgroundColor);
   await page.getByRole("button", { name: "Aplat coloré" }).click();
   await expect(lab).toHaveAttribute("data-category-style", "solid");
-  const solidBackground = await calculations.evaluate(el => getComputedStyle(el).backgroundColor);
+  const solidBackground = await directCalculations.evaluate(el => getComputedStyle(el).backgroundColor);
   expect(solidBackground).not.toBe(softBackground);
 
   await page.getByRole("button", { name: "Système", exact: true }).click();
