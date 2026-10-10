@@ -15,6 +15,9 @@ import {
 } from "@material/material-color-utilities";
 import type { DynamicScheme } from "@material/material-color-utilities";
 
+export type SchemeSpecVersion = "2021" | "2025";
+export type SchemePlatform = "phone" | "watch";
+
 export type SchemeVariant =
   | "content"
   | "expressive"
@@ -76,18 +79,20 @@ export function createM3Scheme(
   variant: SchemeVariant,
   isDark: boolean,
   contrastLevel: number,
+  specVersion: SchemeSpecVersion = "2021",
+  platform: SchemePlatform = "phone",
 ): DynamicScheme {
   const source = Hct.fromInt(argbFromHex(seed));
   switch (variant) {
-    case "content": return new SchemeContent(source, isDark, contrastLevel);
-    case "expressive": return new SchemeExpressive(source, isDark, contrastLevel);
-    case "fidelity": return new SchemeFidelity(source, isDark, contrastLevel);
-    case "fruit-salad": return new SchemeFruitSalad(source, isDark, contrastLevel);
-    case "monochrome": return new SchemeMonochrome(source, isDark, contrastLevel);
-    case "neutral": return new SchemeNeutral(source, isDark, contrastLevel);
-    case "rainbow": return new SchemeRainbow(source, isDark, contrastLevel);
-    case "tonal-spot": return new SchemeTonalSpot(source, isDark, contrastLevel);
-    case "vibrant": return new SchemeVibrant(source, isDark, contrastLevel);
+    case "content": return new SchemeContent(source, isDark, contrastLevel, specVersion, platform);
+    case "expressive": return new SchemeExpressive(source, isDark, contrastLevel, specVersion, platform);
+    case "fidelity": return new SchemeFidelity(source, isDark, contrastLevel, specVersion, platform);
+    case "fruit-salad": return new SchemeFruitSalad(source, isDark, contrastLevel, specVersion, platform);
+    case "monochrome": return new SchemeMonochrome(source, isDark, contrastLevel, specVersion, platform);
+    case "neutral": return new SchemeNeutral(source, isDark, contrastLevel, specVersion, platform);
+    case "rainbow": return new SchemeRainbow(source, isDark, contrastLevel, specVersion, platform);
+    case "tonal-spot": return new SchemeTonalSpot(source, isDark, contrastLevel, specVersion, platform);
+    case "vibrant": return new SchemeVibrant(source, isDark, contrastLevel, specVersion, platform);
   }
 }
 
