@@ -2,25 +2,25 @@
 import { useMemo, useState } from "react";
 import type { CSSProperties } from "react";
 import styles from "./visual-lab.module.css";
+import {
+  colorHex,
+  createM3Scheme,
+  getRolePairs,
+  getSemanticRoles,
+  getTonalPalettes,
+  normalizeHexSeed,
+  schemeVariants,
+  seedPresets,
+  type SchemeVariant,
+} from "./m3-theme";
 
 type Locale = "en" | "fr";
-type PaletteKey = "violet" | "blue" | "coral" | "forest" | "expressiveMulti" | "blueMulticolor" | "expressivePrimaries";
 type Theme = "light" | "dark";
 type Mode = "m3" | "expressive";
 type Screen = "home" | "explore" | "tool";
 type CategorySet = "current" | "vivid" | "blue";
 type CategoryStyle = "soft" | "stripe" | "solid";
-type SurfacePreset = "neutral" | "tonal" | "contrast";
 type TypePreset = "geist" | "system" | "classic";
-const palettes: Record<PaletteKey, { name: string; nameFr: string; seed: string; primary: string; secondary: string; tertiary: string; surface: string; primarySoft: string; darkPrimary: string; darkPrimarySoft: string; description: string; descriptionFr: string; darkSecondary?: string; darkTertiary?: string; darkOnPrimary?: string }> = {
-  violet: { name: "Violet", nameFr: "Violet", seed: "#6750A4", primary: "#6750A4", secondary: "#625B71", tertiary: "#7D5260", surface: "#F7F2FA", primarySoft: "#EADDFF", darkPrimary: "#D0BCFF", darkPrimarySoft: "#4A3C63", description: "Distinctive and creative; close to familiar Material purple.", descriptionFr: "Créative et distinctive, proche du violet Material familier." },
-  blue: { name: "Blue", nameFr: "Bleu", seed: "#386A9F", primary: "#386A9F", secondary: "#526070", tertiary: "#6B5778", surface: "#F2F6FB", primarySoft: "#D7E6FA", darkPrimary: "#A7C8F5", darkPrimarySoft: "#354A62", description: "Clear, dependable and more conventional.", descriptionFr: "Une identité classique, claire et rassurante." },
-  forest: { name: "Teal + green", nameFr: "Turquoise + vert", seed: "#0F766E", primary: "#0F766E", secondary: "#3F6212", tertiary: "#B45309", surface: "#F3FAF7", primarySoft: "#CDEFE8", darkPrimary: "#5EEAD4", darkPrimarySoft: "#174A43", darkSecondary: "#B9F27C", darkTertiary: "#FDBA74", darkOnPrimary: "#003731", description: "A calmer nature-inspired direction with teal, green and amber accents.", descriptionFr: "Une direction plus apaisée, inspirée de la nature, entre turquoise, vert et ambre." },
-  coral: { name: "Coral + teal", nameFr: "Corail + turquoise", seed: "#9A4057", primary: "#9A4057", secondary: "#42675F", tertiary: "#76558F", surface: "#FBF2F1", primarySoft: "#F8DCE1", darkPrimary: "#FFB2C0", darkPrimarySoft: "#5B303D", description: "A warm alternative that challenges the obvious choices.", descriptionFr: "Une alternative chaleureuse au corail et au turquoise." },
-  expressiveMulti: { name: "Expressive multicolor", nameFr: "Expressive multicolore", seed: "#3F51B5", primary: "#3F51B5", secondary: "#7B1FA2", tertiary: "#00897B", surface: "#F8F7FF", primarySoft: "#E0E0FF", darkPrimary: "#C5C9FF", darkPrimarySoft: "#35385F", description: "Strong indigo, purple and teal for a playful, colorful toolbox.", descriptionFr: "Indigo, violet et turquoise soutenus pour une boîte à outils vivante." },
-  blueMulticolor: { name: "Blue + vivid accents", nameFr: "Bleu + accents multicolores", seed: "#0B57D0", primary: "#0B57D0", secondary: "#7B1FA2", tertiary: "#00897B", surface: "#F5F8FF", primarySoft: "#D9E6FF", darkPrimary: "#A8C7FA", darkPrimarySoft: "#30466F", darkSecondary: "#D8B9FF", darkTertiary: "#72D9CB", darkOnPrimary: "#062E69", description: "Blue anchors the brand; saturated purple and teal are reserved for meaningful accents and categories.", descriptionFr: "Le bleu ancre l’identité ; le violet et le turquoise saturés servent d’accents et de couleurs de catégories." },
-  expressivePrimaries: { name: "Expressive primary colors", nameFr: "Expressive bleu, rouge et jaune", seed: "#155EEF", primary: "#155EEF", secondary: "#D92D20", tertiary: "#F9C80E", surface: "#F7F9FC", primarySoft: "#DCE8FF", darkPrimary: "#A9C7FF", darkPrimarySoft: "#263E66", darkSecondary: "#FFB4A9", darkTertiary: "#F9D66B", darkOnPrimary: "#102B55", description: "True blue, red and yellow with calm surfaces; yellow is used as a soft accent surface, not tiny low-contrast text.", descriptionFr: "Du vrai bleu, rouge et jaune sur des surfaces reposantes ; le jaune sert de fond d’accent plutôt que de petit texte peu lisible." },
-};
 const copy = {
   en: {
     eyebrow:"Experimental playground · not production",title:"Find Loculary’s visual personality.",intro:"Change one dimension at a time. Compare the same interface across palettes, themes and expressive treatments before choosing what belongs in the real product.",paletteGuidance:"Google’s Material 3 examples use a baseline violet scheme, but M3 does not prescribe one universal palette. These are curated visual directions, not exported production tokens; category identity colors stay fixed so you can judge the full combination.",categoryColors:"Category identity colors",categoryColorsHelp:"These category colors are independent from the brand palette. Compare distinct color sets and visible treatments; the solid option uses matching foreground colors for readability.",
@@ -30,7 +30,7 @@ const copy = {
     components:"Component gallery",settings:"Account & preferences",settingsHelp:"Examples of options a user can turn on or off.",syncFavorites:"Sync favorites",syncFavoritesHelp:"Keep your favorites available on your account.",automaticTheme:"Use device theme",automaticThemeHelp:"Follow your phone or computer light/dark setting.",reducedMotion:"Reduce motion",reducedMotionHelp:"Limit non-essential animations.",switchOnLabel:"On",switchOffLabel:"Off",actions:"Actions & controls",forms:"Forms & selection",surfaces:"Surfaces & feedback",type:"Typography & shape",states:"Interaction states",filled:"Primary action",tonal:"Tonal action",outlined:"Outlined",textButton:"Text action",disabled:"Unavailable action",focus:"Keyboard focus",motion:"Replay motion",
     email:"Email address",choose:"Choose a category",selected:"Selected",chip:"Image tools",filter:"Filters",tabA:"Overview",tabB:"Details",cardTitle:"A useful result",cardText:"Keep the task clear and the next step obvious.",
     dialogTitle:"Ready to continue?",dialogText:"This is a sample dialog preview, not a real confirmation.",close:"Not now",confirm:"Continue",success:"Everything looks good",warning:"Check this value",error:"Enter a valid email address",
-    composition:"Real-world compositions",compositionHelp:"Illustrative layouts using the selected tokens, not screenshots of the current production UI.",contrast:"Contrast review",contrastHelp:"Validate actual contrast before adopting a palette.",wcag:"Prototype swatches only — not a WCAG certification.",seed:"Seed color",
+    composition:"Real-world compositions",compositionHelp:"Illustrative layouts using the selected tokens, not screenshots of the current production UI.",contrast:"Contrast review",contrastHelp:"Review computed role pairs before adopting a palette.",wcag:"Material contrast is informative, not a full WCAG audit.",seed:"Source color",sourceColor:"Source color (hex)",sourceColorHelp:"Choose any color or start from a reference preset. Generated roles come from the official Material Color Utilities engine.",invalidSeed:"Enter a valid 3- or 6-digit hex color.",seedPresets:"Reference presets",variant:"Dynamic scheme variant",variantHelp:"Official Material Color Utilities variant; category mapping and font family remain Loculary-specific choices.",contrastLevel:"Contrast level",normalContrast:"Default · 0",reducedContrast:"Reduced · −1",highContrast:"Higher · 0.5",maxContrast:"Maximum · 1",semanticRoles:"Semantic color roles",rolePairs:"Foreground/background contrast pairs",tonalPalettes:"Generated tonal palettes",typeScale:"Material 3 type scale",typeScaleHelp:"Official M3 role/size conventions; the selected web font family is an independent, non-prescriptive choice.",fontProvenance:"Font family is a custom web comparison, not a font mandated by Material 3.",categorySourceHelp:"Category seeds are curated Loculary examples. Their tones and on-colors are generated by the selected MCU variant; category-to-color assignment is not an official M3 rule.",
     note:"Nothing here changes Loculary’s production design. This is a decision aid; the final palette and style remain open.",closeDialog:"Close dialog",fieldHelp:"Shape, spacing and type respond to the selected visual language.",actionsHelp:"Use the controls above to compare the same components.",
   },
   fr: {
@@ -41,21 +41,23 @@ const copy = {
     components:"Galerie de composants",settings:"Compte et préférences",settingsHelp:"Exemples d’options que l’utilisateur peut activer ou désactiver.",syncFavorites:"Synchroniser les favoris",syncFavoritesHelp:"Retrouver les favoris sur son compte.",automaticTheme:"Suivre le thème de l’appareil",automaticThemeHelp:"Utiliser le mode clair ou sombre du téléphone ou de l’ordinateur.",reducedMotion:"Réduire les animations",reducedMotionHelp:"Limiter les animations non essentielles.",switchOnLabel:"Activé",switchOffLabel:"Désactivé",actions:"Actions et commandes",forms:"Formulaires et choix",surfaces:"Surfaces et retours",type:"Typographie et formes",states:"États d’interaction",filled:"Action principale",tonal:"Action tonale",outlined:"Contour",textButton:"Action texte",disabled:"Action indisponible",focus:"Focus clavier",motion:"Rejouer l’animation",
     email:"Adresse e-mail",choose:"Choisir une catégorie",selected:"Sélectionné",chip:"Outils image",filter:"Filtres",tabA:"Aperçu",tabB:"Détails",cardTitle:"Un résultat utile",cardText:"La tâche reste claire et la prochaine étape évidente.",
     dialogTitle:"Prêt à continuer ?",dialogText:"Ceci est un aperçu de dialogue, pas une vraie confirmation.",close:"Pas maintenant",confirm:"Continuer",success:"Tout semble correct",warning:"Vérifie cette valeur",error:"Saisis une adresse e-mail valide",
-    composition:"Mises en situation",compositionHelp:"Compositions illustratives avec les tokens sélectionnés, pas des captures de l’interface actuelle.",contrast:"Vérification du contraste",contrastHelp:"Valide réellement les contrastes avant d’adopter une palette.",wcag:"Échantillons expérimentaux — aucune certification WCAG.",seed:"Couleur de départ",
+    composition:"Mises en situation",compositionHelp:"Compositions illustratives avec les tokens sélectionnés, pas des captures de l’interface actuelle.",contrast:"Vérification du contraste",contrastHelp:"Examine les paires de rôles calculées avant d’adopter une palette.",wcag:"Le contraste Material est informatif, pas un audit WCAG complet.",seed:"Couleur source",sourceColor:"Couleur source (hex)",sourceColorHelp:"Choisis n’importe quelle couleur ou pars d’un preset de référence. Les rôles sont générés par le moteur officiel Material Color Utilities.",invalidSeed:"Saisis une couleur hexadécimale valide à 3 ou 6 chiffres.",seedPresets:"Presets de référence",variant:"Variante de schéma dynamique",variantHelp:"Variante officielle de Material Color Utilities ; l’affectation des catégories et la police restent des choix propres à Loculary.",contrastLevel:"Niveau de contraste",normalContrast:"Défaut · 0",reducedContrast:"Réduit · −1",highContrast:"Renforcé · 0,5",maxContrast:"Maximum · 1",semanticRoles:"Rôles de couleur sémantiques",rolePairs:"Paires premier plan / arrière-plan",tonalPalettes:"Palettes tonales générées",typeScale:"Échelle typographique Material 3",typeScaleHelp:"Conventions officielles des rôles et tailles M3 ; la famille de polices web est un choix indépendant et non prescriptif.",fontProvenance:"La famille de polices est une comparaison web personnalisée, pas une police imposée par Material 3.",categorySourceHelp:"Les couleurs source des catégories sont des exemples choisis par Loculary. Leurs tons et couleurs de texte sont générés par la variante MCU ; leur affectation n’est pas une règle officielle M3.",
     note:"Rien ici ne modifie le design de production de Loculary. C’est un outil d’aide à la décision ; palette et style restent à choisir.",closeDialog:"Fermer le dialogue",fieldHelp:"Formes, espacements et typographie suivent le langage visuel sélectionné.",actionsHelp:"Utilise les contrôles ci-dessus pour comparer les mêmes composants.",
   },
 };
 
 export default function VisualLab({ initialLocale }: { initialLocale: string }) {
   const [locale,setLocale]=useState<Locale>(initialLocale==="fr"?"fr":"en");
-  const [paletteKey,setPaletteKey]=useState<PaletteKey>("violet");
+  const [seedInput,setSeedInput]=useState("#3F51B5");
+  const [seed,setSeed]=useState("#3F51B5");
+  const [variant,setVariant]=useState<SchemeVariant>("expressive");
+  const [contrastLevel,setContrastLevel]=useState(0);
   const [theme,setTheme]=useState<Theme>("light");
   const [mode,setMode]=useState<Mode>("expressive");
   const [screen,setScreen]=useState<Screen>("home");
   const [viewport,setViewport]=useState<"desktop"|"tablet"|"mobile">("desktop");
   const [categorySet,setCategorySet]=useState<CategorySet>("current");
   const [categoryStyle,setCategoryStyle]=useState<CategoryStyle>("soft");
-  const [surfacePreset,setSurfacePreset]=useState<SurfacePreset>("neutral");
   const [typePreset,setTypePreset]=useState<TypePreset>("geist");
   const [dialogOpen,setDialogOpen]=useState(true);
   const [motionReplay,setMotionReplay]=useState(0);
@@ -64,68 +66,113 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const [preferences,setPreferences]=useState({syncFavorites:true,automaticTheme:false,reducedMotion:true});
   const togglePreference=(key:keyof typeof preferences)=>setPreferences(current=>({...current,[key]:!current[key]}));
   const t=copy[locale];
-  const palette=palettes[paletteKey];
-  const isMulticolorPalette=paletteKey==="expressiveMulti"||paletteKey==="blueMulticolor"||paletteKey==="expressivePrimaries";
-  const tokens=useMemo(()=> {
-    const dark=theme==="dark";
-    return {
-      "--lab-bg":dark?(surfacePreset==="tonal"?"#14121A":surfacePreset==="contrast"?"#0B1020":"#111318"):(surfacePreset==="tonal"?palette.surface:surfacePreset==="contrast"?"#E8EDF7":"#F5F6FA"),
-      "--lab-surface":dark?(surfacePreset==="tonal"?"#1D1A24":surfacePreset==="contrast"?"#151D31":"#1B1D24"):(surfacePreset==="tonal"?"#FFFFFF":surfacePreset==="contrast"?"#FDFEFF":"#FFFFFF"),
-      "--lab-surface-2":dark?(surfacePreset==="tonal"?"#292532":surfacePreset==="contrast"?"#202B45":"#252832"):(surfacePreset==="tonal"?"#F1EDF6":surfacePreset==="contrast"?"#DDE6F4":"#EEF1F7"),
-      "--lab-font":typePreset==="geist"?"var(--font-geist-sans), sans-serif":typePreset==="system"?"system-ui, -apple-system, \"Segoe UI\", sans-serif":"Arial, Helvetica, sans-serif",
-      "--lab-text":dark?"#F2EFF7":"#1D1A22",
-      "--lab-muted":dark?"#C4BECC":"#625D69",
-      "--lab-outline":dark?"#494550":"#CAC4D0",
-      "--lab-primary":dark?palette.darkPrimary:palette.primary,
-      "--lab-on-primary":dark?(palette.darkOnPrimary ?? "#30234B"):"#FFFFFF",
-      "--lab-primary-soft":dark?palette.darkPrimarySoft:palette.primarySoft,
-      "--lab-secondary":dark?(palette.darkSecondary ?? "#D0C7DC"):palette.secondary,
-      "--lab-tertiary":dark?(palette.darkTertiary ?? "#E8B9CF"):palette.tertiary,
-      "--lab-radius":mode==="expressive"?"1.65rem":"0.8rem",
-      "--lab-radius-small":mode==="expressive"?"1rem":"0.35rem",
-      "--lab-motion":mode==="expressive"?"420ms":"180ms",
-    } as CSSProperties & Record<string,string>;
-  },[palette,mode,theme,surfacePreset,typePreset]);
+  const normalizedInput=normalizeHexSeed(seedInput);
+  const handleSeedChange=(nextValue:string)=>{
+    setSeedInput(nextValue);
+    const normalized=normalizeHexSeed(nextValue);
+    if(normalized) setSeed(normalized);
+  };
+  const scheme=useMemo(()=>createM3Scheme(seed,variant,theme==="dark",contrastLevel),[seed,variant,theme,contrastLevel]);
+  const roleColors=useMemo(()=>getSemanticRoles(scheme),[scheme]);
+  const rolePairs=useMemo(()=>getRolePairs(scheme),[scheme]);
+  const tonalPalettes=useMemo(()=>getTonalPalettes(scheme),[scheme]);
+  const isMulticolorPalette=variant==="expressive"||variant==="vibrant"||variant==="rainbow"||variant==="fruit-salad";
+  const tokens=useMemo(()=>({
+    "--lab-bg":colorHex(scheme.background),
+    "--lab-surface":colorHex(scheme.surface),
+    "--lab-surface-2":colorHex(scheme.surfaceVariant),
+    "--lab-font":typePreset==="geist"?"var(--font-geist-sans), sans-serif":typePreset==="system"?"system-ui, -apple-system, \"Segoe UI\", sans-serif":"Arial, Helvetica, sans-serif",
+    "--lab-text":colorHex(scheme.onSurface),
+    "--lab-muted":colorHex(scheme.onSurfaceVariant),
+    "--lab-outline":colorHex(scheme.outline),
+    "--lab-primary":colorHex(scheme.primary),
+    "--lab-on-primary":colorHex(scheme.onPrimary),
+    "--lab-primary-soft":colorHex(scheme.primaryContainer),
+    "--lab-secondary":colorHex(scheme.secondary),
+    "--lab-tertiary":colorHex(scheme.tertiary),
+    "--lab-error":colorHex(scheme.error),
+    "--lab-on-error":colorHex(scheme.onError),
+    "--lab-radius":mode==="expressive"?"1.65rem":"0.8rem",
+    "--lab-radius-small":mode==="expressive"?"1rem":"0.35rem",
+    "--lab-motion":mode==="expressive"?"420ms":"180ms",
+  } as CSSProperties & Record<string,string>),[scheme,mode,typePreset]);
   const amount=Number(value)*Number(percent)/100;
   const result=Number.isFinite(amount)?amount.toLocaleString(locale==="fr"?"fr-FR":"en-US",{maximumFractionDigits:3}):"—";
   const stageClass=[styles.stage,styles[viewport],theme==="dark"?styles.dark:styles.light,mode==="expressive"?styles.expressive:styles.classic].join(" ");
   const categoryItems = [
-    { key: "calculations", name: locale === "fr" ? "Calculs" : "Calculations", icon: "％", currentLight: "#D92D20", currentDark: "#FF6B5E", vividLight: "#D32F2F", vividDark: "#FF625A", blueLight: "#2563EB", blueDark: "#60A5FA", onLight: "#FFFFFF", onDark: "#31100D", onVividLight: "#FFFFFF", onVividDark: "#31100D", onBlueLight: "#FFFFFF", onBlueDark: "#10213A" },
-    { key: "dates", name: locale === "fr" ? "Dates" : "Dates", icon: "◷", currentLight: "#A16207", currentDark: "#FDBA74", vividLight: "#F59E0B", vividDark: "#FBBF24", blueLight: "#0EA5E9", blueDark: "#38BDF8", onLight: "#FFFFFF", onDark: "#2A1D00", onVividLight: "#241600", onVividDark: "#2A1D00", onBlueLight: "#082F49", onBlueDark: "#082F49" },
-    { key: "computing", name: locale === "fr" ? "Informatique" : "Computing", icon: "⌘", currentLight: "#7A5AF8", currentDark: "#BDB4FE", vividLight: "#7C3AED", vividDark: "#A78BFA", blueLight: "#4F46E5", blueDark: "#818CF8", onLight: "#FFFFFF", onDark: "#211044", onVividLight: "#FFFFFF", onVividDark: "#211044", onBlueLight: "#FFFFFF", onBlueDark: "#171344" },
-    { key: "images", name: locale === "fr" ? "Images" : "Images", icon: "▧", currentLight: "#C11574", currentDark: "#FDA4D5", vividLight: "#DB2777", vividDark: "#F472B6", blueLight: "#7C3AED", blueDark: "#C4B5FD", onLight: "#FFFFFF", onDark: "#30103D", onVividLight: "#FFFFFF", onVividDark: "#30103D", onBlueLight: "#FFFFFF", onBlueDark: "#281044" },
-    { key: "files", name: locale === "fr" ? "Fichiers" : "Files", icon: "▤", currentLight: "#0E7490", currentDark: "#67E8F9", vividLight: "#0891B2", vividDark: "#22D3EE", blueLight: "#0369A1", blueDark: "#38BDF8", onLight: "#FFFFFF", onDark: "#062A35", onVividLight: "#000000", onVividDark: "#062A35", onBlueLight: "#FFFFFF", onBlueDark: "#082F49" },
-    { key: "video", name: locale === "fr" ? "Vidéo" : "Video", icon: "▷", currentLight: "#0F766E", currentDark: "#5EEAD4", vividLight: "#059669", vividDark: "#34D399", blueLight: "#0F766E", blueDark: "#2DD4BF", onLight: "#FFFFFF", onDark: "#06352E", onVividLight: "#000000", onVividDark: "#06352E", onBlueLight: "#FFFFFF", onBlueDark: "#06352E" },
-    { key: "development", name: locale === "fr" ? "Développement" : "Development", icon: "{ }", currentLight: "#155EEF", currentDark: "#9AB8FF", vividLight: "#2563EB", vividDark: "#818CF8", blueLight: "#1D4ED8", blueDark: "#93C5FD", onLight: "#FFFFFF", onDark: "#111B46", onVividLight: "#FFFFFF", onVividDark: "#111B46", onBlueLight: "#FFFFFF", onBlueDark: "#10213A" },
+    { key: "calculations", name: locale === "fr" ? "Calculs" : "Calculations", icon: "％", currentSeed: "#D92D20", vividSeed: "#D32F2F", blueSeed: "#2563EB" },
+    { key: "dates", name: locale === "fr" ? "Dates" : "Dates", icon: "◷", currentSeed: "#A16207", vividSeed: "#F59E0B", blueSeed: "#0EA5E9" },
+    { key: "computing", name: locale === "fr" ? "Informatique" : "Computing", icon: "⌘", currentSeed: "#7A5AF8", vividSeed: "#7C3AED", blueSeed: "#4F46E5" },
+    { key: "images", name: locale === "fr" ? "Images" : "Images", icon: "▧", currentSeed: "#C11574", vividSeed: "#DB2777", blueSeed: "#7C3AED" },
+    { key: "files", name: locale === "fr" ? "Fichiers" : "Files", icon: "▤", currentSeed: "#0E7490", vividSeed: "#0891B2", blueSeed: "#0369A1" },
+    { key: "video", name: locale === "fr" ? "Vidéo" : "Video", icon: "▷", currentSeed: "#0F766E", vividSeed: "#059669", blueSeed: "#0F766E" },
+    { key: "development", name: locale === "fr" ? "Développement" : "Development", icon: "{ }", currentSeed: "#155EEF", vividSeed: "#2563EB", blueSeed: "#1D4ED8" },
+  ];
+  const categoryCards = categoryItems.map((item) => {
+    const categorySeed = categorySet === "current" ? item.currentSeed : categorySet === "vivid" ? item.vividSeed : item.blueSeed;
+    const categoryScheme = createM3Scheme(categorySeed, variant, theme === "dark", contrastLevel);
+    return { ...item, categorySeed, categoryColor: colorHex(categoryScheme.primary), categoryForeground: colorHex(categoryScheme.onPrimary) };
+  });
+  const typeScaleSamples = [
+    { role: "Display large", roleFr: "Affichage grand", size: 57 },
+    { role: "Headline medium", roleFr: "Titre moyen", size: 28 },
+    { role: "Title large", roleFr: "Titre grand", size: 22 },
+    { role: "Body large", roleFr: "Texte courant grand", size: 16 },
+    { role: "Body medium", roleFr: "Texte courant moyen", size: 14 },
+    { role: "Label large", roleFr: "Libellé grand", size: 14 },
   ];
 
-  return <main data-category-set={categorySet} data-category-style={categoryStyle} data-surface-preset={surfacePreset} data-type-preset={typePreset} className={`${styles.lab} ${paletteKey==="expressivePrimaries"?styles.primaryTrio:""} ${theme==="dark"?styles.darkPalette:""} ${styles[`categoryStyle_${categoryStyle}`]}`} style={tokens}>
+  return <main data-category-set={categorySet} data-category-style={categoryStyle} data-scheme-variant={variant} data-theme={theme} data-seed={seed} data-contrast={contrastLevel} data-type-preset={typePreset} className={`${styles.lab} ${theme==="dark"?styles.darkPalette:""} ${styles[`categoryStyle_${categoryStyle}`]}`} style={tokens}>
     <header className={styles.intro}>
       <div className={styles.introTop}><span className={styles.eyebrow}><span className={styles.sparkle} aria-hidden="true">✳</span>{t.eyebrow}</span>
         <label className={styles.compactControl}>{t.language}<select value={locale} onChange={e=>setLocale(e.target.value as Locale)}><option value="fr">Français</option><option value="en">English</option></select></label>
       </div><h1>{t.title}</h1><p>{t.intro}</p>
     </header>
-    <section className={styles.controlPanel} aria-label={t.palette}>
-      <div><span className={styles.controlLabel}>{t.palette}</span><div className={styles.paletteOptions}>
-        {(Object.entries(palettes) as [PaletteKey,typeof palettes[PaletteKey]][]).map(([key,item])=><button key={key} type="button" aria-pressed={paletteKey===key} className={paletteKey===key?styles.paletteSelected:styles.paletteOption} onClick={()=>setPaletteKey(key)}>
-          <span className={styles.swatchGroup} aria-hidden="true"><i style={{background:item.primary}}/><i style={{background:item.secondary}}/><i style={{background:item.tertiary}}/></span><span className={styles.paletteText}><strong>{locale==="fr"?item.nameFr:item.name}</strong><small>{item.seed}</small></span>{paletteKey===key&&<span className={styles.check} aria-hidden="true">✓</span>}
-        </button>)}
-      </div><p className={styles.paletteDescription}>{locale==="fr"?palette.descriptionFr:palette.description}</p><p className={styles.paletteGuidance}>{t.paletteGuidance}</p></div>
+    <section className={styles.controlPanel} aria-label={t.sourceColor}>
+      <div className={styles.sourceColorPanel}>
+        <div className={styles.sourceColorHeading}><span className={styles.controlLabel}>{t.sourceColor}</span><p className={styles.helper}>{t.sourceColorHelp}</p></div>
+        <div className={styles.sourceColorInputs}>
+          <input type="color" value={seed} onChange={e=>handleSeedChange(e.target.value)} aria-label={t.sourceColor} />
+          <label className={styles.fieldLabel}>{t.seed}<input value={seedInput} onChange={e=>handleSeedChange(e.target.value)} aria-invalid={!normalizedInput} aria-describedby="seed-help" spellCheck={false} autoCapitalize="none" /></label>
+        </div>
+        <p id="seed-help" className={normalizedInput?styles.helper:styles.seedError}>{normalizedInput ? `${t.seed}: ${seed}` : t.invalidSeed}</p>
+        <div className={styles.seedPresets} aria-label={t.seedPresets}>
+          {seedPresets.map(item=><button key={item.seed} type="button" aria-pressed={seed===item.seed} onClick={()=>handleSeedChange(item.seed)}><span aria-hidden="true" style={{background:item.seed}}/><span>{locale==="fr"?item.nameFr:item.name}</span><small>{item.seed}</small></button>)}
+        </div>
+      </div>
+      <div className={styles.engineControls}>
+        <label className={styles.fieldLabel}>{t.variant}
+          <select data-testid="scheme-variant" value={variant} onChange={e=>setVariant(e.target.value as SchemeVariant)}>
+            {schemeVariants.map(item=><option key={item.key} value={item.key}>{locale==="fr"?item.nameFr:item.name}</option>)}
+          </select>
+        </label>
+        <p className={styles.helper}>{schemeVariants.find(item=>item.key===variant)?.[locale==="fr"?"descriptionFr":"description"]} {t.variantHelp}</p>
+        <div className={styles.contrastControl}>
+          <div className={styles.contrastHeading}><label htmlFor="contrast-level">{t.contrastLevel}</label><output htmlFor="contrast-level">{contrastLevel.toFixed(1)}</output></div>
+          <input id="contrast-level" data-testid="contrast-level" type="range" min={-1} max={1} step={0.1} value={contrastLevel} onChange={e=>setContrastLevel(Number(e.target.value))} />
+          <div className={styles.contrastPresets}>
+            <button type="button" aria-pressed={contrastLevel===-1} onClick={()=>setContrastLevel(-1)}>{t.reducedContrast}</button>
+            <button type="button" aria-pressed={contrastLevel===0} onClick={()=>setContrastLevel(0)}>{t.normalContrast}</button>
+            <button type="button" aria-pressed={contrastLevel===0.5} onClick={()=>setContrastLevel(0.5)}>{t.highContrast}</button>
+            <button type="button" aria-pressed={contrastLevel===1} onClick={()=>setContrastLevel(1)}>{t.maxContrast}</button>
+          </div>
+        </div>
+      </div>
       <div className={styles.controlRow}>
         <fieldset className={styles.segmentField}><legend>{t.theme}</legend><div className={styles.segmented}><button type="button" aria-pressed={theme==="light"} onClick={()=>setTheme("light")}>☀ {t.light}</button><button type="button" aria-pressed={theme==="dark"} onClick={()=>setTheme("dark")}>☾ {t.dark}</button></div></fieldset>
         <fieldset className={styles.segmentField}><legend>{t.style}</legend><div className={styles.segmented}><button type="button" aria-pressed={mode==="m3"} onClick={()=>setMode("m3")}>{t.classic}</button><button type="button" aria-pressed={mode==="expressive"} onClick={()=>setMode("expressive")}>{t.expressive}</button></div></fieldset>
         <fieldset className={styles.segmentField}><legend>{t.viewport}</legend><div className={styles.segmented}>{(["desktop","tablet","mobile"] as const).map(size=><button key={size} type="button" aria-pressed={viewport===size} onClick={()=>setViewport(size)}>{t[size]}</button>)}</div></fieldset>
-        <fieldset className={styles.segmentField}><legend>{t.categorySet}</legend><div className={styles.segmented}><button type="button" aria-pressed={categorySet==="current"} onClick={()=>setCategorySet("current")}>{t.currentSet}</button><button type="button" aria-pressed={categorySet==="vivid"} onClick={()=>setCategorySet("vivid")}>{t.vividSet}</button><button type="button" aria-pressed={categorySet==="blue"} onClick={()=>setCategorySet("blue")}>{t.blueSet}</button></div></fieldset>
+        <fieldset className={styles.segmentField}><legend>{t.categorySet}</legend><div className={styles.segmented}><button type="button" aria-pressed={categorySet==="current"} onClick={()=>setCategorySet("current")}>{t.currentSet}</button><button type="button" aria-pressed={categorySet==="vivid"} onClick={()=>setCategorySet("vivid")}>{t.vividSet}</button><button type="button" aria-pressed={categorySet==="blue"} onClick={()=>setCategorySet("blue")}>{t.blueSet}</button></div><p className={styles.helper}>{t.categorySourceHelp}</p></fieldset>
         <fieldset className={styles.segmentField}><legend>{t.categoryStyle}</legend><div className={styles.segmented}><button type="button" aria-pressed={categoryStyle==="soft"} onClick={()=>setCategoryStyle("soft")}>{t.softStyle}</button><button type="button" aria-pressed={categoryStyle==="stripe"} onClick={()=>setCategoryStyle("stripe")}>{t.stripeStyle}</button><button type="button" aria-pressed={categoryStyle==="solid"} onClick={()=>setCategoryStyle("solid")}>{t.solidStyle}</button></div></fieldset>
-        <fieldset className={styles.segmentField}><legend>{t.surfacePreset}</legend><div className={styles.segmented}><button type="button" aria-pressed={surfacePreset==="neutral"} onClick={()=>setSurfacePreset("neutral")}>{t.neutralSurface}</button><button type="button" aria-pressed={surfacePreset==="tonal"} onClick={()=>setSurfacePreset("tonal")}>{t.tonalSurface}</button><button type="button" aria-pressed={surfacePreset==="contrast"} onClick={()=>setSurfacePreset("contrast")}>{t.contrastSurface}</button></div></fieldset>
-        <fieldset className={styles.segmentField}><legend>{t.typeface}</legend><div className={styles.segmented}><button type="button" aria-pressed={typePreset==="geist"} onClick={()=>setTypePreset("geist")}>{t.geistTypeface}</button><button type="button" aria-pressed={typePreset==="system"} onClick={()=>setTypePreset("system")}>{t.systemTypeface}</button><button type="button" aria-pressed={typePreset==="classic"} onClick={()=>setTypePreset("classic")}>{t.classicTypeface}</button></div></fieldset>
+        <fieldset className={styles.segmentField}><legend>{t.typeface}</legend><div className={styles.segmented}><button type="button" aria-pressed={typePreset==="geist"} onClick={()=>setTypePreset("geist")}>{t.geistTypeface}</button><button type="button" aria-pressed={typePreset==="system"} onClick={()=>setTypePreset("system")}>{t.systemTypeface}</button><button type="button" aria-pressed={typePreset==="classic"} onClick={()=>setTypePreset("classic")}>{t.classicTypeface}</button></div><p className={styles.helper}>{t.fontProvenance}</p></fieldset>
       </div>
+      <p className={styles.provenanceNote}><strong>Provenance:</strong> {locale==="fr"?"Les variantes et rôles de couleur sont générés par le moteur officiel MCU. Les graines de catégories, leur affectation et les familles de polices sont des choix personnalisés de Loculary.":"Scheme variants and semantic color roles are generated by the official MCU engine. Category seeds/mappings and font families are Loculary-specific choices."}</p>
     </section>
     <section className={styles.previewSection} aria-labelledby="composition-title">
       <div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>01 / {t.composition}</span><h2 id="composition-title">{t.composition}</h2><p>{t.compositionHelp}</p></div>
         <div className={styles.screenTabs} role="group" aria-label={t.composition}>{(["home","explore","tool"] as const).map(item=><button key={item} type="button" aria-pressed={screen===item} onClick={()=>setScreen(item)}>{t[item]}</button>)}</div>
       </div>
-      <div className={stageClass} key={viewport+theme+mode+paletteKey}><div className={styles.mockApp}>
+      <div className={stageClass} key={viewport+theme+mode+seed+variant+contrastLevel}><div className={styles.mockApp}>
         <div className={styles.mockHeader}><div className={styles.brand}><span className={styles.brandMark}>L</span><strong>Loculary</strong></div><nav className={styles.mockNav} aria-label="Preview navigation"><span>{t.home}</span><span>{t.explore}</span><span aria-hidden="true">⌕</span></nav><button type="button" className={styles.avatar} aria-label="Profile preview">N</button></div>
         {screen==="home"&&<div className={styles.compositionContent}><div className={styles.heroText}><span className={styles.pill}>✦ {t.welcome}</span><h3>{t.welcome}</h3><p>{t.subhead}</p></div><div className={styles.searchBox}><span aria-hidden="true">⌕</span><span>{t.search}</span><button type="button">{t.searchButton} ↗</button></div><div className={styles.quickTasks}><span>{t.quick}</span><div><span>％ {t.resultOne}</span><span>▧ {t.resultTwo}</span><span>¶ {t.resultThree}</span></div></div><div className={styles.previewCards}><article><span className={styles.cardIcon}>✳</span><strong>{t.resultOne}</strong><p>25% × 180</p></article><article><span className={`${styles.cardIcon} ${isMulticolorPalette?styles.accentSecondary:""}`}>▧</span><strong>{t.resultTwo}</strong><p>PNG · JPG · WEBP</p></article></div></div>}
         {screen==="explore"&&<div className={styles.compositionContent}><div className={styles.exploreTitle}><span className={styles.pill}>{t.filter}</span><h3>{t.results}</h3><p>{t.subhead}</p></div><div className={styles.searchBox}><span>⌕</span><span>{t.search}</span></div><div className={styles.chipRow}><button type="button" className={styles.chipSelected}>{t.selected}</button><button type="button" className={`${styles.chip} ${isMulticolorPalette?styles.chipSecondary:""}`}>{t.chip}</button><button type="button" className={`${styles.chip} ${isMulticolorPalette?styles.chipTertiary:""}`}>{t.filter}</button></div><div className={styles.resultList}>{[t.resultOne,t.resultTwo,t.resultThree].map((name,index)=><article key={name}><span className={`${styles.cardIcon} ${isMulticolorPalette?(index===1?styles.accentSecondary:index===2?styles.accentTertiary:""):""}`}>{["％","▧","¶"][index]}</span><div><strong>{name}</strong><p>{t.cardText}</p></div><span aria-hidden="true">↗</span></article>)}</div></div>}
@@ -134,13 +181,25 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
       <section className={styles.categoryPreview} aria-labelledby="category-preview-title">
         <div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>01B / {t.categoryColors}</span><h2 id="category-preview-title">{t.categoryColors}</h2><p>{t.categoryColorsHelp}</p></div></div>
         <div className={styles.categoryGrid}>
-          {categoryItems.map((item) => <article key={item.key} className={styles.categoryCard} style={{ "--category-color": theme === "dark" ? (categorySet === "current" ? item.currentDark : categorySet === "vivid" ? item.vividDark : item.blueDark) : (categorySet === "current" ? item.currentLight : categorySet === "vivid" ? item.vividLight : item.blueLight), "--category-foreground": categorySet === "blue" ? (theme === "dark" ? item.onBlueDark : item.onBlueLight) : categorySet === "vivid" ? (theme === "dark" ? item.onVividDark : item.onVividLight) : (theme === "dark" ? item.onDark : item.onLight) } as CSSProperties}>
+          {categoryCards.map((item) => <article key={item.key} data-category-seed={item.categorySeed} className={styles.categoryCard} style={{ "--category-color": item.categoryColor, "--category-foreground": item.categoryForeground } as CSSProperties}>
             <span className={styles.categoryGlyph} aria-hidden="true">{item.icon}</span>
-            <div><strong>{item.name}</strong><small>{theme === "dark" ? (categorySet === "current" ? item.currentDark : categorySet === "vivid" ? item.vividDark : item.blueDark) : (categorySet === "current" ? item.currentLight : categorySet === "vivid" ? item.vividLight : item.blueLight)}</small></div>
+            <div><strong>{item.name}</strong><small>{item.categorySeed} · {item.categoryColor}</small></div>
           </article>)}
         </div>
       </section>
       </div>
+    </section>
+    <section className={styles.roleSection} aria-labelledby="roles-title">
+      <div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>02 / {t.semanticRoles}</span><h2 id="roles-title">{t.semanticRoles}</h2><p>{locale==="fr"?"Ces rôles sont calculés à partir de la couleur source, de la variante, du thème et du contraste sélectionnés.":"These roles are computed from the selected source color, variant, theme and contrast level."}</p></div></div>
+      <h3 className={styles.subsectionTitle}>{t.rolePairs}</h3>
+      <div className={styles.rolePairGrid}>{rolePairs.map(pair=><article key={pair.name} className={styles.rolePair} style={{"--role-bg":pair.background,"--role-fg":pair.foreground} as CSSProperties}><div><strong>{pair.name}</strong><small>{pair.background} · {pair.foreground}</small></div><span className={styles.roleSample}>Aa</span><small className={styles.contrastRatio}>{pair.ratio.toFixed(2)}:1 {pair.ratio>=4.5?"✓ ≥ 4.5":"⚠ < 4.5"}</small></article>)}</div>
+      <h3 className={styles.subsectionTitle}>{locale==="fr"?"Tous les rôles sémantiques":"All semantic roles"}</h3>
+      <div className={styles.semanticRoleGrid}>{roleColors.map(role=><div className={styles.semanticRole} key={role.name}><span style={{background:role.color}}/><strong>{role.name}</strong><small>{role.color}</small></div>)}</div>
+      <h3 className={styles.subsectionTitle}>{t.tonalPalettes}</h3>
+      <p className={styles.helper}>{locale==="fr"?"Les tons sont produits par les palettes tonales MCU ; ils ne sont pas saisis manuellement.":"Tones come directly from MCU tonal palettes; they are not hand-authored values."}</p>
+      <div className={styles.tonalPaletteGrid}>{tonalPalettes.map(palette=><article className={styles.tonalPalette} key={palette.name}><h4>{palette.name}</h4><div>{palette.tones.map(tone=><span key={tone.tone} title={`Tone ${tone.tone}: ${tone.color}`} style={{background:tone.color}}><small>{tone.tone}</small></span>)}</div></article>)}</div>
+      <h3 className={styles.subsectionTitle}>{t.typeScale}</h3><p className={styles.helper}>{t.typeScaleHelp}</p>
+      <div className={styles.typeScaleGrid}>{typeScaleSamples.map(sample=><article key={sample.role}><small>{locale==="fr"?sample.roleFr:sample.role} · {sample.size}px</small><span style={{fontSize:`${sample.size}px`}}>Loculary</span></article>)}</div>
     </section>
     <section className={styles.gallerySection} aria-labelledby="gallery-title"><div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>02 / {t.components}</span><h2 id="gallery-title">{t.components}</h2><p>{t.actionsHelp}</p></div></div>
       <div className={styles.galleryGrid}>
@@ -156,6 +215,6 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
     <section className={styles.gallerySection} aria-labelledby="states-title"><div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>03 / {t.states}</span><h2 id="states-title">{t.states}</h2><p>{t.dialogText}</p></div><button type="button" className={styles.outlined} onClick={()=>setDialogOpen(true)}>{t.confirm} · dialog</button></div>
       {dialogOpen&&<div className={styles.dialogPreview} role="group" aria-label={t.states}><div className={styles.dialogIcon}>✦</div><h3>{t.dialogTitle}</h3><p>{t.dialogText}</p><div><button type="button" className={styles.textButton} onClick={()=>setDialogOpen(false)}>{t.close}</button><button type="button" className={styles.filled} onClick={()=>setDialogOpen(false)}>{t.confirm}</button></div></div>}
     </section>
-    <footer className={styles.labFooter}><p>{t.note}</p><div><span>{t.seed}: <strong>{palette.seed}</strong></span><span>{t.contrast}</span><small>{t.contrastHelp} {t.wcag}</small></div></footer>
+    <footer className={styles.labFooter}><p>{t.note}</p><div><span>{t.seed}: <strong>{seed}</strong></span><span>{locale==="fr"?"Variante MCU":"MCU variant"}: <strong>{schemeVariants.find(item=>item.key===variant)?.[locale==="fr"?"nameFr":"name"]}</strong></span><span>{t.contrast}: <strong>{contrastLevel.toFixed(1)}</strong></span><small>{t.contrastHelp} {t.wcag}</small></div></footer>
   </main>;
 }
