@@ -1,12 +1,19 @@
 name: Supabase Database CI
 
 on:
-  pull_request:
-    branches:
-      - main
   push:
     branches:
       - main
+    paths:
+      - "supabase/migrations/**"
+      - "supabase/tests/**"
+      - "supabase/config.toml"
+      - "supabase/seed.sql"
+      - ".github/workflows/ci.yml"
+      - ".github/workflows/supabase-database.yml"
+      - "agents/supabase-workflow-policy.mjs"
+      - "agents/supabase-workflow-policy.test.mjs"
+      - "agents/test-account-deletion-concurrency.sh"
   workflow_dispatch:
 
 permissions:
@@ -37,8 +44,6 @@ jobs:
         shell: bash
         env:
           EVENT_NAME: ${{ github.event_name }}
-          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
-          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
           PUSH_BEFORE_SHA: ${{ github.event.before }}
         run: |
           set -euo pipefail
@@ -50,18 +55,15 @@ jobs:
             exit 0
           fi
 
-          if [[ "$EVENT_NAME" == "pull_request" ]]; then
-            base="$PR_BASE_SHA"
-            head="$PR_HEAD_SHA"
-          elif [[ "$EVENT_NAME" == "push" ]]; then
-            base="$PUSH_BEFORE_SHA"
-            head="$GITHUB_SHA"
-            if [[ "$base" == "0000000000000000000000000000000000000000" ]]; then
-              base="$(git rev-list --max-parents=0 "$head")"
-            fi
-          else
+          if [[ "$EVENT_NAME" != "push" ]]; then
             echo "Unsupported event: $EVENT_NAME" >&2
             exit 1
+          fi
+
+          base="$PUSH_BEFORE_SHA"
+          head="$GITHUB_SHA"
+          if [[ "$base" == "0000000000000000000000000000000000000000" ]]; then
+            base="$(git rev-list --max-parents=0 "$head")"
           fi
 
           changed_files="$(git diff --name-only "$base" "$head")"

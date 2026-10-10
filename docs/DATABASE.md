@@ -53,3 +53,9 @@ Administrative authorization now has a database foundation separate from executa
 - `public.check_account_deletion` is the sole read-only preflight for an authenticated user deleting their own UUID; it requires a live session and refuses deletion of the last `super_admin`. The obsolete `public.prepare_account_deletion` compatibility alias is removed by a forward migration.
 - `private.guard_auth_user_deletion` is the authoritative deletion guard. It takes the same transaction-scoped PostgreSQL advisory lock as `private.remove_admin_role`, rechecks the last-`super_admin` invariant, and clears audit target references. Actor-reference cleanup is handled by the foreign key. A rejected deletion rolls back all trigger changes. Local Supabase CI verifies the concurrent deletion/role-removal race and the actual Auth Admin API success/rejection paths.
 - The final Auth deletion is performed server-side by the `account-delete` Edge Function with the project secret key; no secret key is exposed to the browser.
+
+## Supabase CI and migration release
+
+- Pull requests use the existing CI workflow's path detector. The required `Validate Supabase migrations` check runs the local migration replay, database lint, pgTAP tests when present, and account-deletion concurrency integration test only when database validation dependencies change. Unrelated PRs skip the database runner while preserving the required check context.
+- The standalone `.github/workflows/supabase-database.yml` is not triggered by pull requests. On `main`, it starts only for database-relevant paths and keeps production migration application behind successful local validation, a dry-run, and the `supabase-production` environment. Manual dispatch validates the database but never releases to production.
+- The shared path classifier is `agents/supabase-workflow-policy.mjs`; update its tests and both workflow path lists together when validation dependencies change.

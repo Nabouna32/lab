@@ -4,9 +4,17 @@ const VALIDATION_PATHS = [
   'supabase/migrations/',
   'supabase/tests/',
 ];
+const VALIDATION_FILES = [
+  '.github/workflows/ci.yml',
+  '.github/workflows/supabase-database.yml',
+  'agents/supabase-workflow-policy.mjs',
+  'agents/supabase-workflow-policy.test.mjs',
+  'agents/test-account-deletion-concurrency.sh',
+  'supabase/config.toml',
+  'supabase/seed.sql',
+];
 const PRODUCTION_PATHS = ['supabase/migrations/'];
 const DATABASE_CONFIG = 'supabase/config.toml';
-const WORKFLOW_PATH = '.github/workflows/supabase-database.yml';
 
 function isEnabled(value) {
   return value === true || value === 'true';
@@ -23,8 +31,7 @@ export function classifySupabaseChanges(paths) {
   for (const path of paths) {
     if (
       VALIDATION_PATHS.some((prefix) => path.startsWith(prefix)) ||
-      path === DATABASE_CONFIG ||
-      path === WORKFLOW_PATH
+      VALIDATION_FILES.includes(path)
     ) {
       validate = true;
     }
