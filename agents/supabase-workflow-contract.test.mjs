@@ -34,12 +34,13 @@ test('database validation and production release are manually dispatched only', 
   assert.equal(release.steps.some((step) => step.run === 'supabase db push --db-url "$SUPABASE_DB_URL"'), true);
 });
 
-test('the required database check is a skipped compatibility shim, not a validation result', () => {
+test('database validation is manual-only and is not a required CI compatibility job', () => {
   const ci = workflow('../.github/workflows/ci.yml');
+  const database = workflow('../.github/workflows/supabase-database.yml');
 
-  assert.equal(ci.jobs['supabase-validation'].name, 'Validate Supabase migrations');
-  assert.equal(ci.jobs['supabase-validation'].if, '${{ false }}');
-  assert.equal(ci.jobs['supabase-validation'].steps.length, 1);
+  assert.equal(ci.jobs['supabase-validation'], undefined);
+  assert.equal(Object.keys(database.on).length, 1);
+  assert.equal(database.on.workflow_dispatch !== undefined, true);
   assert.equal(ci.jobs['detect-changes'].outputs.supabase_validate, undefined);
   assert.equal(ci.jobs['detect-changes'].steps.some((step) => String(step.run ?? '').includes('supabase-workflow-policy')), false);
 });
