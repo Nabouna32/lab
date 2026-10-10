@@ -207,7 +207,7 @@ test('PR validation lives in CI and production migration release stays on main p
 
   assert.equal(production.on.pull_request, undefined);
   assert.deepEqual(production.on.push.branches, ['main']);
-  assert.equal(production.on.push.paths.includes('.github/workflows/ci.yml'), true);
+  assert.deepEqual(production.on.push.paths, ['supabase/migrations/**', 'supabase/config.toml']);
   assert.equal(production.jobs['production-release'].if.includes("github.event_name == 'push'"), true);
   assert.equal(production.jobs['production-release'].if.includes("needs.run-validation.result == 'success'"), true);
   assert.equal(production.jobs['production-release'].if.includes("needs.validate.outputs.production_allowed == 'true'"), true);
