@@ -1,5 +1,5 @@
 /* Isolated prototype styles: no production token or component selectors. */
-.lab{width:min(100%,92rem);margin-inline:auto;padding:clamp(1rem,3vw,2.75rem);color:var(--lab-text)}
+.lab{width:min(100%,92rem);margin-inline:auto;padding:clamp(1rem,3vw,2.75rem);color:var(--lab-text);font-family:var(--lab-font,inherit)}
 .lab *{box-sizing:border-box}.lab button,.lab input,.lab select{font:inherit}.lab button{cursor:pointer;transition:background-color var(--lab-motion),color var(--lab-motion),border-color var(--lab-motion),transform var(--lab-motion),box-shadow var(--lab-motion)}
 .lab button:focus-visible,.lab input:focus-visible,.lab select:focus-visible{outline:3px solid var(--lab-tertiary);outline-offset:3px}
 .intro{padding-block:clamp(1.5rem,5vw,4rem);max-width:58rem}.introTop{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
@@ -84,16 +84,20 @@
 .primaryTrio button:focus-visible,.primaryTrio input:focus-visible,.primaryTrio select:focus-visible{outline-color:var(--lab-primary)}
 
 
-/* Fixed category identity hues stay visible while the overall palette changes. */
+/* Fixed category identities are independent from the brand palette. The lab exposes deliberately distinct treatments. */
 .paletteGuidance{margin:.8rem 0 0;color:var(--lab-muted);font-size:.78rem;line-height:1.55;max-width:72rem}
 .categoryPreview{margin-top:clamp(1.8rem,4vw,3rem)}
 .categoryGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.7rem}
-.categoryCard{display:flex;align-items:center;gap:.75rem;min-width:0;padding:.9rem;border:1px solid color-mix(in srgb,var(--category-color) 34%,var(--lab-outline));border-radius:var(--lab-radius-small);background:color-mix(in srgb,var(--category-color) 12%,var(--lab-surface));color:var(--lab-text)}
-.vividCategoryColors .categoryCard{border-color:color-mix(in srgb,var(--category-color) 58%,var(--lab-outline));background:color-mix(in srgb,var(--category-color) 19%,var(--lab-surface))}
-.vividCategoryColors .categoryGlyph{border-color:color-mix(in srgb,var(--category-color) 48%,var(--lab-outline));background:color-mix(in srgb,var(--category-color) 14%,var(--lab-surface))}
-.categoryGlyph{display:grid;place-items:center;flex:0 0 2.6rem;width:2.6rem;height:2.6rem;border:1px solid color-mix(in srgb,var(--category-color) 28%,var(--lab-outline));border-radius:calc(var(--lab-radius-small) * .8);background:var(--lab-surface);color:var(--category-color);font-weight:850}
+.categoryCard{display:flex;align-items:center;gap:.75rem;min-width:0;padding:.9rem;border:1px solid color-mix(in srgb,var(--category-color) 42%,var(--lab-outline));border-radius:var(--lab-radius-small);background:color-mix(in srgb,var(--category-color) 15%,var(--lab-surface));color:var(--lab-text);transition:background-color var(--lab-motion),border-color var(--lab-motion),color var(--lab-motion)}
+.categoryStyle_stripe .categoryCard{border-inline-start:.35rem solid var(--category-color);background:color-mix(in srgb,var(--category-color) 9%,var(--lab-surface))}
+.categoryStyle_solid .categoryCard{border-color:var(--category-color);background:var(--category-color);color:var(--category-foreground)}
+.categoryGlyph{display:grid;place-items:center;flex:0 0 2.6rem;width:2.6rem;height:2.6rem;border:1px solid color-mix(in srgb,var(--category-color) 42%,var(--lab-outline));border-radius:calc(var(--lab-radius-small) * .8);background:color-mix(in srgb,var(--category-color) 16%,var(--lab-surface));color:var(--category-color);font-weight:850}
+.categoryStyle_stripe .categoryGlyph{border-color:color-mix(in srgb,var(--category-color) 34%,var(--lab-outline));background:var(--lab-surface)}
+.categoryStyle_solid .categoryGlyph{border-color:color-mix(in srgb,var(--category-foreground) 25%,var(--category-color));background:color-mix(in srgb,var(--category-foreground) 13%,var(--category-color));color:var(--category-foreground)}
 .categoryCard>div{display:grid;gap:.2rem;min-width:0}
 .categoryCard strong{font-size:.84rem;overflow-wrap:anywhere}
 .categoryCard small{color:var(--lab-muted);font-size:.72rem;font-variant-numeric:tabular-nums}
+.categoryStyle_solid .categoryCard small{color:var(--category-foreground);opacity:.92}
+.categoryStyle_solid .categoryCard strong{font-weight:800}
 @media(max-width:760px){.categoryGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:420px){.categoryCard{padding:.65rem;gap:.5rem}.categoryGlyph{flex-basis:2.2rem;width:2.2rem;height:2.2rem}.categoryCard strong{font-size:.78rem}}
