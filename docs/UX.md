@@ -350,7 +350,7 @@ The shared visual system follows **Material 3 Expressive**, as defined by DEC-04
 
 The redesign must challenge existing UI patterns when they prevent a coherent Expressive experience. The objective is not to retokenize the current interface while preserving every existing component; refactor or replace abstractions when justified by the validated design target.
 
-The default is an expressive multicolor palette with indigo seed #3F51B5, alongside curated palette choices and accessible light/dark mappings. The final tonal tokens and primary typeface must follow the design-system contract. The brand mark remains distinct from functional interface icons, and shared consistency must not erase meaningful differences between specialized tools.
+The default semantic color seed is #6750A4, with Roboto as the validated default interface typeface. MCU-generated Rainbow tonal colors are intended for expressive surfaces and frame/container backgrounds; saturated direct seven-color accents are intended for compact category differentiation. Curated palette choices and accessible light/dark mappings remain part of the design-system contract. The brand mark remains distinct from functional interface icons, and shared consistency must not erase meaningful differences between specialized tools.
 
 ### Discovery and next actions
 
