@@ -26,10 +26,10 @@ function Icon({ children, className = "h-4 w-4" }: { children: ReactNode; classN
 }
 
 const triggerClass =
-  "flex h-10 items-center justify-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 text-sm font-semibold text-[var(--foreground)] outline-none transition-[border-color,background-color,box-shadow,transform] duration-200 hover:bg-[var(--surface-soft)] focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]";
+  "flex h-12 items-center justify-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 text-sm font-semibold text-[var(--foreground)] outline-none transition-[border-color,background-color,box-shadow,transform] duration-200 hover:bg-[var(--surface-soft)] focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]";
 
 const optionClass =
-  "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-[var(--muted)] outline-none transition-colors hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)] focus-visible:bg-[var(--surface-soft)] focus-visible:text-[var(--foreground)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]";
+  "flex min-h-12 items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-[var(--muted)] outline-none transition-colors hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)] focus-visible:bg-[var(--surface-soft)] focus-visible:text-[var(--foreground)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]";
 
 export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
   const pathname = usePathname();
@@ -82,7 +82,7 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
       <button
         ref={triggerRef}
         type="button"
-        className={triggerClass + (open ? " border-[var(--accent)] bg-[var(--surface-soft)] shadow-[var(--shadow-sm)]" : "")}
+        className={triggerClass + " lg:h-10" + (open ? " border-[var(--accent)] bg-[var(--surface-soft)] shadow-[var(--shadow-sm)]" : "")}
         aria-label={t.nav.menu}
         aria-expanded={open}
         aria-controls="header-menu"
