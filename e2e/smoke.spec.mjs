@@ -38,27 +38,47 @@ test("French homepage renders", async ({ page }) => {
   await expect(page.getByRole("link").first()).toBeVisible();
 });
 
-test("homepage quick-task shortcuts use localized tool routes", async ({ page }) => {
-  const shortcuts = {
-    fr: [
-      ["Calculer une remise", "/fr/outils/calculateur-de-reduction"],
-      ["Convertir une vitesse", "/fr/outils/convertisseur-de-debit-internet"],
-      ["Calculer mon âge", "/fr/outils/calculateur-d-age"],
-      ["Convertir une taille de fichier", "/fr/outils/convertisseur-de-taille-de-fichier"],
-    ],
-    en: [
-      ["Calculate a discount", "/en/tools/discount-calculator"],
-      ["Convert a speed", "/en/tools/download-speed-converter"],
-      ["Calculate my age", "/en/tools/age-calculator"],
-      ["Convert a file size", "/en/tools/file-size-converter"],
-    ],
-  };
+test("homepage search stays concise and category discovery adapts to viewport", async ({ page }) => {
+  const locales = [
+    { locale: "fr", placeholder: "Rechercher…", allTools: "Tous les outils", categories: "Catégories" },
+    { locale: "en", placeholder: "Search…", allTools: "All tools", categories: "Categories" },
+  ];
+  const widths = [320, 390, 768, 1024, 1440];
 
-  for (const [locale, links] of Object.entries(shortcuts)) {
-    await page.goto(`${baseUrl}/${locale}`, { waitUntil: "domcontentloaded" });
+  for (const { locale, placeholder, allTools, categories } of locales) {
+    await page.setViewportSize({ width: 320, height: 800 });
+    await page.goto(`${baseUrl}/${locale}`, { waitUntil: "networkidle" });
 
-    for (const [label, destination] of links) {
-      await expect(page.getByRole("link", { name: label, exact: true })).toHaveAttribute("href", destination);
+    const search = page.locator("#home-tool-search-v4-input");
+    await expect(search).toHaveAttribute("placeholder", placeholder);
+    await expect(page.locator("main").getByRole("link", { name: allTools, exact: true })).toHaveCount(1);
+    await expect(page.locator("main").getByRole("navigation", { name: categories })).toBeVisible();
+
+    for (const width of widths) {
+      await page.setViewportSize({ width, height: 800 });
+      const measurements = await page.evaluate(() => {
+        const input = document.querySelector<HTMLInputElement>("#home-tool-search-v4-input");
+        const navigation = document.querySelector<HTMLElement>("main nav");
+        if (!input || !navigation) return null;
+
+        const style = getComputedStyle(input);
+        const canvas = document.createElement("canvas");
+        const context = canvas.getContext("2d");
+        if (!context) return null;
+
+        context.font = style.font;
+        return {
+          documentWidth: document.documentElement.scrollWidth,
+          placeholderWidth: context.measureText(input.placeholder).width,
+          availableWidth: input.clientWidth - Number.parseFloat(style.paddingLeft) - Number.parseFloat(style.paddingRight),
+          navigationDisplay: getComputedStyle(navigation).display,
+        };
+      });
+
+      expect(measurements, `Expected search and category navigation at ${width}px.`).not.toBeNull();
+      expect(measurements.documentWidth, `Unexpected horizontal overflow at ${width}px in ${locale}.`).toBeLessThanOrEqual(width);
+      expect(measurements.placeholderWidth + 8, `Placeholder should fit the input at ${width}px in ${locale}.`).toBeLessThanOrEqual(measurements.availableWidth);
+      expect(measurements.navigationDisplay).toBe(width >= 1024 ? "grid" : "flex");
     }
   }
 });
