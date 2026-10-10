@@ -11,7 +11,7 @@ export type Messages = {
   tools: {
     metaTitle: string;
     eyebrow: string; title: string; description: string; explore: string; one: string; many: string;
-    categoryDescription: (category: string) => string; searchLabel: string; searchPlaceholder: string; searchButton: string; suggestions: string;
+    categoryDescription: (category: string) => string; searchLabel: string; searchPlaceholder: string; suggestions: string;
     intentsTitle: string; intentsDescription: string; intents: Array<{ id: string; label: string; icon: string }>;
     allToolsTitle: string;
     resultCountOne: string; resultCountMany: string; searching: string; searchError: string; retrySearch: string; noResults: string; noResultsHelp: string; tryThese: string; noResultsSuggestions: string[]; clearSearch: string;
@@ -57,7 +57,7 @@ export const messages: Record<Locale, Messages> = {
       description: "Tous les outils disponibles pour calculer, convertir, analyser et gagner du temps.",
       explore: "Explorer les outils", one: "outil", many: "outils",
       categoryDescription: (category) => `Retrouvez les outils disponibles dans la catégorie ${category}.`,
-      searchLabel: "Rechercher dans les outils", searchPlaceholder: "Rechercher…", searchButton: "Rechercher",
+      searchLabel: "Rechercher dans les outils", searchPlaceholder: "Rechercher…",
       suggestions: "Suggestions", resultCountOne: "résultat", resultCountMany: "résultats", searching: "Recherche en cours…", searchError: "La recherche n’a pas pu se charger. Réessaie.", retrySearch: "Réessayer",
       noResults: "Aucun outil ne correspond à", noResultsHelp: "Essaie un terme plus simple ou choisis une suggestion.", tryThese: "Tu cherches peut-être", noResultsSuggestions: ["TVA", "taille de fichier", "vidéo", "âge"],
       clearSearch: "Effacer la recherche",
@@ -147,7 +147,7 @@ export const messages: Record<Locale, Messages> = {
       description: "Tools to calculate, convert, analyze, and save time on everyday tasks.",
       explore: "Explore tools", one: "tool", many: "tools",
       categoryDescription: (category) => `Browse the tools available in the ${category}.`,
-      searchLabel: "Search the tools", searchPlaceholder: "Search…", searchButton: "Search",
+      searchLabel: "Search the tools", searchPlaceholder: "Search…",
       suggestions: "Suggestions", resultCountOne: "result", resultCountMany: "results", searching: "Searching…", searchError: "Search could not be loaded. Please try again.", retrySearch: "Try again",
       noResults: "No tool matches", noResultsHelp: "Try a simpler term or choose a suggestion.", tryThese: "You might be looking for", noResultsSuggestions: ["VAT", "file size", "video", "age"],
       clearSearch: "Clear search",
