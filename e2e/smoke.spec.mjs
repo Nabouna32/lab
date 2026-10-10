@@ -232,7 +232,7 @@ test("search suggestions escape clipping and expose one consistent clear control
 
   const mobilePopupGeometry = await mobilePopup.evaluate((element) => {
     const rect = element.getBoundingClientRect();
-    const hit = document.elementFromPoint(rect.left + 4, rect.top + 4);
+    const hit = document.elementFromPoint(rect.left + rect.width / 2, rect.top + 20);
     return {
       position: getComputedStyle(element).position,
       zIndex: Number(getComputedStyle(element).zIndex),
@@ -245,8 +245,11 @@ test("search suggestions escape clipping and expose one consistent clear control
   expect(mobilePopupGeometry.withinViewport).toBe(true);
   expect(mobilePopupGeometry.hitIsPopup).toBe(true);
 
-  await page.locator("#home-tool-search-v4-input").click();
+  // The overlay can cover the hero's search field, so dismiss through a
+  // header control that is guaranteed to sit outside the popup's viewport.
+  await header.getByRole("button", { name: "Menu" }).click();
   await expect(mobileSearch).toHaveCount(0);
+  await page.locator("#home-title").click();
 
   const homeSearch = page.locator("#home-tool-search-v4-input");
   await homeSearch.fill("json");
