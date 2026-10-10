@@ -159,7 +159,7 @@ export default function ToolSearch({
         "flex items-center border bg-[var(--surface)] transition-[border-color,box-shadow] duration-200 " +
         (compact
           ? "rounded-xl p-1 shadow-[var(--shadow-sm)] "
-          : "rounded-[1.35rem] p-2 shadow-[var(--shadow-md)] ") +
+          : "rounded-[1.5rem] p-2 shadow-[var(--shadow-md)] ") +
         (isFocused
           ? "border-[var(--accent)] ring-4 ring-[var(--accent)]/10"
           : "border-[var(--border)]")
@@ -171,7 +171,10 @@ export default function ToolSearch({
           }
           aria-hidden="true"
         >
-          ⌕
+          <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
+            <circle cx="10.8" cy="10.8" r="6.3" />
+            <path d="m15.5 15.5 4.2 4.2" />
+          </svg>
         </span>
         <input
           id={inputId}
