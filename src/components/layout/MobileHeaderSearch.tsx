@@ -39,7 +39,14 @@ export default function MobileHeaderSearch({
   const rootRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const restoreFocusRef = useRef(false);
-  const previousPathnameRef = useRef(pathname);
+  const [lastPathname, setLastPathname] = useState(pathname);
+
+  // React's guarded render-time state adjustment avoids a cascading effect
+  // update while ensuring the old search panel never survives navigation.
+  if (lastPathname !== pathname) {
+    setLastPathname(pathname);
+    if (open) setOpen(false);
+  }
 
   useEffect(() => {
     if (!open) return;
@@ -89,15 +96,6 @@ export default function MobileHeaderSearch({
     triggerRef.current?.focus();
     restoreFocusRef.current = false;
   }, [open]);
-
-  useEffect(() => {
-    if (previousPathnameRef.current === pathname) return;
-    previousPathnameRef.current = pathname;
-    if (open) {
-      restoreFocusRef.current = false;
-      setOpen(false);
-    }
-  }, [pathname, open]);
 
   function closeSearch() {
     restoreFocusRef.current = true;
