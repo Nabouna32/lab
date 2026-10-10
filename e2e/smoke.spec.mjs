@@ -28,6 +28,9 @@ test("language selector maps the same tool to its localized URL", async ({ page 
   await expect(frenchLink).toBeVisible();
   await frenchLink.click();
   await expect(page).toHaveURL(/\/fr\/outils\/calculateur-de-pourcentage$/);
+  const header = page.locator("header");
+  await expect(header.locator("#header-menu")).toBeVisible();
+  await expect(header.getByRole("link", { name: /English/ })).toBeVisible();
 });
 
 test("French homepage renders", async ({ page }) => {
@@ -137,6 +140,7 @@ test("responsive header keeps search available on mobile and tablet", async ({ p
 
   await header.getByRole("button", { name: "Fermer la recherche" }).click();
   await expect(header.locator("#header-tool-search-mobile-input")).toHaveCount(0);
+  await expect(header.getByRole("button", { name: "Rechercher dans les outils" })).toBeFocused();
 
   await page.setViewportSize({ width: 820, height: 900 });
   await page.reload({ waitUntil: "networkidle" });
@@ -149,6 +153,61 @@ test("responsive header keeps search available on mobile and tablet", async ({ p
   await page.setViewportSize({ width: 1024, height: 900 });
   await page.reload({ waitUntil: "networkidle" });
   await expect(header.locator("#header-tool-search-input")).toBeVisible();
+});
+
+test("mobile header search dismisses outside and on Escape with predictable focus", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(`${baseUrl}/fr`, { waitUntil: "networkidle" });
+
+  const header = page.locator("header");
+  const trigger = header.getByRole("button", { name: "Rechercher dans les outils" });
+  const input = header.locator("#header-tool-search-mobile-input");
+
+  await trigger.click();
+  await expect(input).toBeFocused();
+  await input.fill("json");
+  const suggestions = header.locator("#header-tool-search-mobile [role='listbox']");
+  await expect(suggestions).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(input).toBeVisible();
+  await expect(suggestions).toHaveCount(0);
+  await page.keyboard.press("Escape");
+  await expect(input).toHaveCount(0);
+  await expect(trigger).toBeFocused();
+
+  await trigger.click();
+  await expect(input).toBeVisible();
+  const homepageSearch = page.locator("#home-tool-search-v4-input");
+  await homepageSearch.click();
+  await expect(input).toHaveCount(0);
+  await expect(homepageSearch).toBeFocused();
+});
+
+test("header settings stay open for theme and language changes, then dismiss predictably", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(`${baseUrl}/fr`, { waitUntil: "networkidle" });
+
+  const header = page.locator("header");
+  const trigger = header.getByRole("button", { name: "Menu" });
+  const panel = header.locator("#header-menu");
+
+  await trigger.click();
+  await panel.getByRole("button", { name: "Sombre" }).click();
+  await expect(panel).toBeVisible();
+  await expect(panel.getByRole("button", { name: "Sombre" })).toHaveAttribute("aria-pressed", "true");
+
+  await panel.getByRole("button", { name: "Clair" }).click();
+  await expect(panel).toBeVisible();
+  await expect(panel.getByRole("button", { name: "Clair" })).toHaveAttribute("aria-pressed", "true");
+
+  await page.keyboard.press("Escape");
+  await expect(trigger).toHaveAttribute("aria-expanded", "false");
+  await expect(trigger).toBeFocused();
+
+  await trigger.click();
+  await expect(panel).toBeVisible();
+  await page.locator("main").click({ position: { x: 12, y: 12 } });
+  await expect(trigger).toHaveAttribute("aria-expanded", "false");
 });
 
 test("tool search shows useful result context", async ({ page }) => {

@@ -375,3 +375,26 @@ The responsive design must preserve the hierarchy of search, tool interaction, r
 The UX redesign may remove, merge, move or replace existing screens and components when the new user journey benefits from doing so. Existing routes and UI components are not themselves UX requirements.
 
 The redesign must still preserve core product constraints such as anonymous access to core tools, processing transparency, accessibility, internationalization and browser-first behavior.
+
+## Public header, navigation popovers and mobile search
+
+The public header keeps the homepage task-first: the current homepage body and canonical palette are not changed as part of header/footer work. The shared SVG brand mark is distinct from functional icons; use `LocularyLogo` rather than duplicating logo markup.
+
+### Hamburger disclosure
+
+The current header panel contains both navigation and settings, so it uses disclosure/popover behavior rather than claiming ARIA `menu` semantics without the corresponding keyboard model.
+
+- Theme choices and the language selector are persistent controls: applying a choice does not close the panel. The panel updates to the selected language and keeps its state when the shared shell remains mounted.
+- Ordinary destination links close the panel as navigation begins.
+- Pointer interaction outside the panel and Escape dismiss it.
+- Escape restores focus to the trigger. Outside dismissal must not pull focus away from the element the user clicked.
+- When closed, panel descendants must be removed from keyboard interaction, not merely visually faded or marked `aria-hidden`.
+
+### Mobile header search
+
+- Opening the search places focus in the search input.
+- Outside pointer, explicit close and route change close the panel. Escape first dismisses an active suggestions/error surface; a subsequent Escape closes the panel.
+- Escape that closes the panel and explicit close return focus to the search trigger; Escape that only dismisses suggestions keeps focus in the field. Outside dismissal preserves the user's pointer/focus target.
+- Keep the interaction non-modal unless the implementation actually provides modal behavior and its full focus handling.
+- Test the behavior in French and English and at mobile/tablet/desktop breakpoints. Prefer native links/buttons, visible focus and touch targets around 48 CSS px on mobile.
+
