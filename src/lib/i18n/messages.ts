@@ -1,12 +1,13 @@
 import type { Locale } from "./config.ts";
 import type { ToolId } from "@/lib/tools/types";
+import { formatPlural } from "./plural.ts";
 
 export type Messages = {
   nav: { home: string; tools: string; explore: string; language: string; account: string; space: string; menu: string; closeSearch: string };
   breadcrumbs: { label: string };
   footer: { tagline: string; explore: string; account: string };
   actions: { copy: string; copied: string; clear: string };
-  home: { metaTitle: string; badge: string; title: string; description: string; quickLinksLabel: string; quickLinks: Array<{ label: string; toolId: ToolId }>; explore: string; discoveryEyebrow: string; discoveryTitle: string; discoveryDescription: string; categoriesTitle: string; categoriesDescription: string; toolsCountLabel: string; };
+  home: { metaTitle: string; badge: string; title: string; description: string; quickLinksLabel: string; quickLinks: Array<{ label: string; toolId: ToolId }>; explore: string; discoveryEyebrow: string; discoveryTitle: string; discoveryDescription: string; categoriesTitle: string; categoriesDescription: string; categoriesCount: (count: number) => string; toolsCountLabel: string; };
   tools: {
     metaTitle: string;
     eyebrow: string; title: string; description: string; explore: string; one: string; many: string;
@@ -49,6 +50,7 @@ export const messages: Record<Locale, Messages> = {
       discoveryEyebrow: "Pour tes tâches du quotidien", discoveryTitle: "Quelques outils à découvrir", discoveryDescription: "Des outils concrets pour calculer, créer et transformer sans perdre de temps.",
       categoriesTitle: "Explore les catégories",
       categoriesDescription: "Tu sais ce que tu cherches ? Parcours les domaines pour trouver le bon outil.",
+      categoriesCount: (count) => formatPlural("fr", count, { one: "catégorie", other: "catégories" }),
       toolsCountLabel: "outils",
     },
     tools: {
@@ -139,6 +141,7 @@ export const messages: Record<Locale, Messages> = {
       discoveryEyebrow: "For everyday tasks", discoveryTitle: "A few tools to explore", discoveryDescription: "Practical tools to calculate, create, and transform without the busywork.",
       categoriesTitle: "Explore by category",
       categoriesDescription: "Know what you need? Browse by domain to find the right tool.",
+      categoriesCount: (count) => formatPlural("en", count, { one: "category", other: "categories" }),
       toolsCountLabel: "tools",
     },
     tools: {
