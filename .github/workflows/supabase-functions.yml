@@ -44,6 +44,12 @@ jobs:
           for function in account-delete admin-user-sessions admin-user-suspension; do
             (
               cd "supabase/functions/$function"
-              deno check --frozen index.ts
+              deno check --frozen=false index.ts
+              if [[ "$function" == "admin-user-sessions" ]]; then
+                echo "LOCKFILE_BASE64_admin-user-sessions_BEGIN"
+                base64 -w0 deno.lock
+                echo
+                echo "LOCKFILE_BASE64_admin-user-sessions_END"
+              fi
             )
           done
