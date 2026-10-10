@@ -60,7 +60,7 @@ jobs:
           {
             echo "## Production browser validation"
             echo "**Status:** SKIPPED — this commit changes documentation only."
-            echo "No production browser screenshots or hydration checks were run for commit `$HEAD_SHA`."
+            echo "No production browser screenshots or hydration checks were run for commit \`$HEAD_SHA\`."
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Wait for production alias to serve this commit
@@ -81,8 +81,8 @@ jobs:
               echo "tested_sha=$observed" >> "$GITHUB_OUTPUT"
               {
                 echo "## Production browser validation"
-                echo "**Deployment SHA verified:** `$observed`"
-                echo "Production alias: `$BASE_URL`"
+                echo "**Deployment SHA verified:** \`$observed\`"
+                echo "Production alias: \`$BASE_URL\`"
               } >> "$GITHUB_STEP_SUMMARY"
               exit 0
             fi
@@ -92,8 +92,8 @@ jobs:
           {
             echo "## Production browser validation"
             echo "**Status:** FAILED before browser tests — production alias did not serve the expected commit."
-            echo "- Expected SHA: `$expected`"
-            echo "- Last observed SHA: `${observed:-no commit header}`"
+            echo "- Expected SHA: \`$expected\`"
+            echo "- Last observed SHA: \`${observed:-no commit header}\`"
           } >> "$GITHUB_STEP_SUMMARY"
           exit 1
 
@@ -131,8 +131,8 @@ jobs:
         run: |
           {
             echo "## Production browser test result"
-            echo "- Tested commit: `${TESTED_SHA:-unverified}`"
-            echo "- Browser test outcome: `${TEST_OUTCOME:-not run}`"
+            echo "- Tested commit: \`${TESTED_SHA:-unverified}\`"
+            echo "- Browser test outcome: \`${TEST_OUTCOME:-not run}\`"
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload production screenshots
