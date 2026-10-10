@@ -79,6 +79,9 @@ if (/ask explicitly whether to create|only after explicitly asking the user whet
   fail('Active workflow docs still require user permission before creating or attaching Issue tracking.');
 }
 has(decisions, '## DEC-049 — Controlled manual merge as the default delivery workflow', 'Current merge decision');
+if (/\bsupersedes\b|\bsuperseded\b|Git history retains prior wording|Historical decisions and archives may retain/i.test(decisions)) {
+  fail('DECISIONS.md must describe current decisions only; Git preserves prior versions.');
+}
 has(common, 'Controlled manual merge is the default: do not enable GitHub auto-merge.', 'Common merge lifecycle');
 has(common, "merge through GitHub's normal merge action without bypassing branch protections", 'Common merge lifecycle');
 has(toolContract, 'do not enable GitHub auto-merge by default', 'Tool merge lifecycle');
