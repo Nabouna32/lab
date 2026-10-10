@@ -17,18 +17,15 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  detect-changes:
-    name: Detect CI scope
+  validate:
+    name: Node.js 24.21.0
     runs-on: ubuntu-latest
-    outputs:
-      docs_only: ${{ steps.changes.outputs.docs_only }}
-      dependencies_changed: ${{ steps.changes.outputs.dependencies_changed }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          fetch-depth: 0
+          fetch-depth: 1
           persist-credentials: false
 
       - name: Detect documentation-only and dependency changes
@@ -36,16 +33,40 @@ jobs:
         shell: bash
         env:
           EVENT_NAME: ${{ github.event_name }}
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
-          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_CHANGED_FILES: ${{ github.event.pull_request.changed_files }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           docs_only=false
           dependencies_changed=false
 
-          if [[ "$EVENT_NAME" == "pull_request" && -n "$BASE_SHA" && -n "$HEAD_SHA" ]]; then
+          if [[ "$EVENT_NAME" == "pull_request" ]]; then
+            if [[ ! "$PR_CHANGED_FILES" =~ ^[0-9]+$ ]]; then
+              echo "::error::Pull request changed-file count is missing or invalid."
+              exit 1
+            fi
+            if (( PR_CHANGED_FILES > 3000 )); then
+              echo "::error::This PR exceeds the GitHub API's 3000-file listing limit; CI scope cannot be classified safely."
+              exit 1
+            fi
+
+            changed_paths_file="$RUNNER_TEMP/ci-changed-paths"
+            gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER/files?per_page=100" \
+              | jq -j '.[][] | .filename, "\u0000"' > "$changed_paths_file"
+            mapfile -d '' -t changed_paths < "$changed_paths_file"
+
+            if (( ${#changed_paths[@]} != PR_CHANGED_FILES )); then
+              echo "::error::GitHub returned ${#changed_paths[@]} changed paths, but the PR event reports $PR_CHANGED_FILES. Refusing to skip validation on incomplete scope data."
+              exit 1
+            fi
+            if (( ${#changed_paths[@]} == 0 )); then
+              echo "::error::No changed paths were returned for a pull request. Refusing to classify the PR as documentation-only."
+              exit 1
+            fi
+
             docs_only=true
-            while IFS= read -r -d '' path; do
+            for path in "${changed_paths[@]}"; do
               case "$path" in
                 *.md|*.mdx|*.txt|LICENSE|LICENSE.*)
                   ;;
@@ -59,20 +80,11 @@ jobs:
                   dependencies_changed=true
                   ;;
               esac
-            done < <(git diff --name-only -z "$BASE_SHA" "$HEAD_SHA")
+            done
           fi
 
           echo "docs_only=$docs_only" >> "$GITHUB_OUTPUT"
           echo "dependencies_changed=$dependencies_changed" >> "$GITHUB_OUTPUT"
-
-  validate:
-    name: Node.js 24.21.0
-    needs: detect-changes
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Verify PR base is current
         if: github.event_name == 'pull_request'
@@ -80,7 +92,8 @@ jobs:
         env:
           EVENT_BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
-          git fetch origin main --no-tags
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin main
           current_main_sha="$(git rev-parse FETCH_HEAD)"
           if [[ "$EVENT_BASE_SHA" != "$current_main_sha" ]]; then
             echo "::error::main advanced after this PR event. Update the PR branch against current main and rerun CI."
@@ -91,39 +104,39 @@ jobs:
           echo "PR base matches current main: $current_main_sha"
 
       - name: Review dependency changes
-        if: github.event_name == 'pull_request' && needs.detect-changes.outputs.dependencies_changed == 'true'
+        if: github.event_name == 'pull_request' && steps.changes.outputs.dependencies_changed == 'true'
         uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0
         with:
           fail-on-severity: high
           fail-on-scopes: runtime, development
 
       - name: Setup Node.js
-        if: needs.detect-changes.outputs.docs_only != 'true'
+        if: steps.changes.outputs.docs_only != 'true'
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24.21.0
           cache: npm
 
       - name: Install dependencies
-        if: needs.detect-changes.outputs.docs_only != 'true'
+        if: steps.changes.outputs.docs_only != 'true'
         run: npm ci
 
       - name: Validate workflow contracts
-        if: needs.detect-changes.outputs.docs_only != 'true'
+        if: steps.changes.outputs.docs_only != 'true'
         run: npm run validate:workflows
 
       - name: Lint
-        if: needs.detect-changes.outputs.docs_only != 'true'
+        if: steps.changes.outputs.docs_only != 'true'
         run: npm run lint
 
       - name: Typecheck
-        if: needs.detect-changes.outputs.docs_only != 'true'
+        if: steps.changes.outputs.docs_only != 'true'
         run: npm run typecheck
 
       - name: Test
-        if: needs.detect-changes.outputs.docs_only != 'true'
+        if: steps.changes.outputs.docs_only != 'true'
         run: npm test
 
       - name: Build
-        if: needs.detect-changes.outputs.docs_only != 'true'
+        if: steps.changes.outputs.docs_only != 'true'
         run: npm run build

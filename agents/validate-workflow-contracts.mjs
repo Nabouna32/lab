@@ -94,6 +94,7 @@ for (let i = 0; i < sortedIds.length; i += 1) {
   if (sortedIds[i] !== i + 1) fail('Audit IDs are not contiguous: expected ' + String(i + 1).padStart(2, '0') + ', found ' + String(sortedIds[i]).padStart(2, '0'));
 }
 for (const audit of audits) {
+  has(auditsReadme, '](./' + audit.name + ')', 'Audit README catalogue ' + audit.name);
   has(audit.content, 'agents/AUDIT-CONTRACT.md', 'Audit procedure ' + audit.name);
   has(audit.content, 'Revue après audit et poursuite validée', 'Audit continuation procedure ' + audit.name);
   has(audit.content, 'Issue de mission', 'Audit mission checkpoint ' + audit.name);
@@ -113,6 +114,16 @@ if (pkg.scripts?.['validate:workflows'] !== 'node agents/validate-workflow-contr
 if (pkg.scripts?.['validate:agents'] !== undefined) fail('package.json still exposes the obsolete validate:agents script.');
 const ci = read('.github/workflows/ci.yml');
 has(ci, 'npm run validate:workflows', 'CI workflow');
+has(ci, 'name: Node.js 24.21.0', 'CI required check name');
+has(ci, 'fetch-depth: 1', 'CI shallow checkout');
+has(ci, 'gh api --paginate --slurp', 'CI changed-file detection');
+has(ci, 'git fetch --no-tags --depth=1 origin main', 'CI shallow base freshness check');
+has(ci, 'cron: "30 3 * * 1"', 'CI weekly schedule');
+has(ci, 'workflow_dispatch:', 'CI manual trigger');
+has(ci, 'pull-requests: read', 'CI pull request metadata permission');
+if (ci.includes('fetch-depth: 0')) fail('CI must not fetch the full Git history just to classify changes.');
+if (ci.includes('detect-changes:')) fail('CI still uses a separate change-detection job.');
+if (!ci.includes("steps.changes.outputs.dependencies_changed == 'true'")) fail('CI must gate Dependency Review on detected dependency changes.');
 if (ci.includes('npm run validate:agents')) fail('CI still calls the obsolete agent validator.');
 
 if (errors.length) {

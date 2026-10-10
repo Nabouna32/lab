@@ -41,8 +41,7 @@ test('database validation is manual-only and is not a required CI compatibility 
   assert.equal(ci.jobs['supabase-validation'], undefined);
   assert.equal(Object.keys(database.on).length, 1);
   assert.equal(database.on.workflow_dispatch !== undefined, true);
-  assert.equal(ci.jobs['detect-changes'].outputs.supabase_validate, undefined);
-  assert.equal(ci.jobs['detect-changes'].steps.some((step) => String(step.run ?? '').includes('supabase-workflow-policy')), false);
+  assert.equal(ci.jobs.validate.steps.some((step) => String(step.run ?? '').includes('supabase-workflow-policy')), false);
 });
 
 test('Edge Function lockfile and type checks run for relevant PRs or on demand, not again after merge', () => {
@@ -57,13 +56,20 @@ test('Edge Function lockfile and type checks run for relevant PRs or on demand, 
 
 test('dependency review blocks vulnerable dependency changes only inside the existing required PR CI check', () => {
   const ci = workflow('../.github/workflows/ci.yml');
-  const detect = ci.jobs['detect-changes'];
   const validate = ci.jobs.validate;
+  const detect = validate.steps.find((step) => step.id === 'changes');
   const review = validate.steps.find((step) => step.name === 'Review dependency changes');
+  const setupNode = validate.steps.find((step) => step.name === 'Setup Node.js');
+  const freshness = validate.steps.find((step) => step.name === 'Verify PR base is current');
 
-  assert.equal(detect.outputs.dependencies_changed, '${{ steps.changes.outputs.dependencies_changed }}');
-  assert.equal(detect.steps.some((step) => String(step.run ?? '').includes('package.json|package-lock.json')), true);
-  assert.equal(review.if, "github.event_name == 'pull_request' && needs.detect-changes.outputs.dependencies_changed == 'true'");
+  assert.equal(Object.keys(ci.jobs).length, 1);
+  assert.equal(validate.name, 'Node.js 24.21.0');
+  assert.equal(detect.run.includes('gh api --paginate --slurp'), true);
+  assert.equal(detect.run.includes('PR_CHANGED_FILES'), true);
+  assert.equal(detect.run.includes('package.json|package-lock.json'), true);
+  assert.equal(setupNode.if, "steps.changes.outputs.docs_only != 'true'");
+  assert.equal(freshness.run.includes('git fetch --no-tags --depth=1 origin main'), true);
+  assert.equal(review.if, "github.event_name == 'pull_request' && steps.changes.outputs.dependencies_changed == 'true'");
   assert.equal(review.uses, 'actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294');
   assert.equal(review.with['fail-on-severity'], 'high');
   assert.equal(review.with['fail-on-scopes'], 'runtime, development');
