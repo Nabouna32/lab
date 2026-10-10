@@ -2,9 +2,9 @@
 
 GitHub Issues provide durable mission checkpoints and follow-up tracking. They do not replace Git, implementation evidence or canonical decisions.
 
-## 1. When a mission Issue is required
+## 1. Mission Issue requirement
 
-Create or reuse an active Issue for work that spans multiple actions, may cross a conversation boundary, needs follow-up, or represents a substantive product, technical, audit or governance task. A genuinely atomic change completed in one validated action may omit an Issue.
+Every Loculary mission requires an active GitHub Issue checkpoint, including implementation, audit, product, documentation, governance and other repository work. Reuse an existing Issue when it genuinely covers the scope; otherwise create a dedicated Issue after bootstrap. A question or discussion that is not a repository mission does not require an Issue.
 
 Before creating an Issue, search existing Issues and inspect relevant branches and PRs. Reuse an Issue only when it actually covers the work.
 

@@ -18,17 +18,11 @@ When resuming, inspect the Issue and reconcile it against the current branch, PR
 
 ## 3. GitHub Issue tracking
 
-A assistant does not require a GitHub Issue for every feature request.
+Every feature implementation mission must have an active GitHub Issue checkpoint.
 
-Use an Issue according to `agents/PRODUCT-ISSUE-CONTRACT.md` when:
-- the feature is a multi-step or resumable mission requiring a durable checkpoint;
-- the work is being resumed or handed off through GitHub;
-- the feature originates from an actionable audit finding;
-- durable cross-conversation coordination benefits from an Issue.
+Before starting, search for an existing Issue that genuinely covers the feature scope. Reuse and update that Issue when it matches; otherwise create a dedicated Issue after bootstrap. Keep the Issue aligned with scope, decisions, implementation, verification, blockers and next action according to `agents/PRODUCT-ISSUE-CONTRACT.md`.
 
-For a direct autonomous feature request, the assistant may proceed without an Issue.
-
-When an Issue is provided, treat it as the durable work item and follow `agents/PRODUCT-ISSUE-CONTRACT.md`. Verify the requested work against the current repository and challenge it before implementation.
+Verify the requested work against the current repository and challenge it before implementation. Track actionable discoveries outside the validated scope through the same Issue contract, but do not implement them without user validation.
 
 The Issue is the mission checkpoint and coordination record; it never replaces Git/code, the branch, PR or CI as implementation/delivery sources of truth.
 
@@ -125,7 +119,7 @@ A feature implementation should include, as applicable:
 - persistence/data model when required;
 - security/privacy controls;
 - telemetry/analytics only when justified and consistent with project decisions;
-- unit/integration/E2E coverage;
+- relevant unit/domain/integration test coverage;
 - documentation and durable decisions when the feature changes them.
 
 Use existing architecture and primitives. Do not introduce a new generic framework for one feature.
@@ -138,8 +132,8 @@ Run the strongest relevant checks:
 - typecheck;
 - unit tests;
 - build;
-- targeted integration/E2E tests;
-- browser verification for important UI flows;
+- targeted integration tests;
+- manual browser verification for important UI flows when an available remote environment supports it; E2E workflows are manual-only during the active redesign and are not PR gates;
 - both EN and FR;
 - accessibility checks;
 - security/privacy checks for data-bearing behavior.

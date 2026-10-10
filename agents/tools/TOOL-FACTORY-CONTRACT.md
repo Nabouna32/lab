@@ -33,17 +33,11 @@ Never rely on an old conversation as proof that something still exists.
 
 ## 3. GitHub Issue tracking
 
-A assistant does not require a GitHub Issue for every tool request.
+Every tool implementation mission must have an active GitHub Issue checkpoint.
 
-Use an Issue according to `agents/PRODUCT-ISSUE-CONTRACT.md` when:
-- the tool work is a multi-step or resumable mission requiring a durable checkpoint;
-- the tool is being resumed or handed off through GitHub;
-- the work originates from an actionable audit finding;
-- durable cross-conversation coordination benefits from an Issue.
+Before starting, search for an existing Issue that genuinely covers the tool scope. Reuse and update that Issue when it matches; otherwise create a dedicated Issue after bootstrap. Keep the Issue aligned with scope, decisions, implementation, verification, blockers and next action according to `agents/PRODUCT-ISSUE-CONTRACT.md`.
 
-For a direct autonomous tool request, the assistant may proceed without an Issue.
-
-When an Issue is provided, treat it as the durable mission record and follow `agents/PRODUCT-ISSUE-CONTRACT.md`. Verify the requested work against the current repository and challenge it before implementation.
+Verify the requested work against the current repository and challenge it before implementation. Track actionable discoveries outside the validated scope through the same Issue contract, but do not implement them without user validation.
 
 The Issue is the mission checkpoint and coordination record. It never replaces Git/code, the branch, PR or CI as implementation/delivery sources of truth.
 
@@ -126,7 +120,7 @@ A published tool normally includes, as appropriate:
 - validation and error states;
 - reset and useful actions;
 - unit/domain tests;
-- browser/E2E coverage when appropriate.
+- manual browser verification when appropriate and available; E2E workflows are manual-only during the active redesign and are not PR gates.
 
 Do not create artificial files just to satisfy a checklist. Follow the actual tool architecture.
 
@@ -216,7 +210,7 @@ Before opening the PR:
 - run lint;
 - run typecheck;
 - run build;
-- run relevant browser/E2E tests;
+- do not add or require automated E2E/screenshots as a PR gate during the active redesign; manually dispatch the relevant GitHub Actions workflow only when the task genuinely warrants it;
 - verify the tool directly when browser verification is available;
 - verify both locales;
 - verify accessibility-critical states;

@@ -36,7 +36,7 @@ Within validated scope, implement relevant corrections and optimizations that ne
 
 ## 5. Issues and durable follow-up
 
-Every resumable or multi-action mission requires an active GitHub Issue as its checkpoint. Find a relevant existing Issue before creating one. Keep the Issue aligned with objective, scope, state, decisions, changes, evidence, tests, blockers and next action. Update it at meaningful milestones, whenever state changes, and before interruption or completion. The Issue is a checkpoint, not a duplicate implementation history.
+Every mission requires an active GitHub Issue as its checkpoint. Find a relevant existing Issue before creating one. Keep the Issue aligned with objective, scope, state, decisions, changes, evidence, tests, blockers and next action. Update it at meaningful milestones, whenever state changes, and before interruption or completion. The Issue is a checkpoint, not a duplicate implementation history.
 
 For every actionable discovery outside the current scope, record the evidence, consequences, uncertainty and likely next action; search for an existing matching Issue first. Update that Issue if it genuinely covers the work, otherwise create a dedicated Issue with enough context for independent resumption. Tell the user what was tracked and why. Do not ask permission merely to create durable tracking, and do not implement the discovery without user validation. Do not independently dismiss actionable work as too minor.
 
