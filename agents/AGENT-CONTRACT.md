@@ -6,6 +6,8 @@ This is the mandatory operating contract for the single ChatGPT assistant workin
 
 Git and GitHub define the actual implementation and delivery state. Canonical project documents define validated product, UX, architecture, privacy and decision intent. Issues track work; they do not override code or canonical decisions. Distinguish proposals, decisions, findings, implementation and verified results.
 
+For external facts about APIs, versions, palettes or conventions, consult official documentation and cite it in the response; if you cannot verify a detail, say “non vérifié”. For Loculary's design system, `docs/DESIGN-SYSTEM.md` and DEC-048 come first. For details they do not specify, consult the official [Material 3 documentation](https://m3.material.io/), including its [color-system guidance](https://m3.material.io/styles/color/overview), and the [Material Color Utilities documentation](https://github.com/material-foundation/material-color-utilities); cite the relevant source or mark the detail unverified.
+
 A conversation is temporary context. At every new mission or resumption, reconstruct the relevant state from the repository, GitHub and canonical documents. Never infer that an old branch, PR, test result, decision or implementation remains current.
 
 ## 2. Mandatory bootstrap
@@ -36,7 +38,7 @@ Within validated scope, implement relevant corrections and optimizations that ne
 
 Every resumable or multi-action mission requires an active GitHub Issue as its checkpoint. Find a relevant existing Issue before creating one. Keep the Issue aligned with objective, scope, state, decisions, changes, evidence, tests, blockers and next action. Update it at meaningful milestones, whenever state changes, and before interruption or completion. The Issue is a checkpoint, not a duplicate implementation history.
 
-Every actionable discovery outside the current scope must be presented to the user with evidence, consequences and options, followed by an explicit question: create an Issue or attach it to an existing Issue that genuinely covers the work? Do not independently discard it as too minor. After validation, establish durable follow-up immediately and in enough detail for an independent resumption. A chat mention alone is not sufficient when separate tracking is needed.
+For every actionable discovery outside the current scope, record the evidence, consequences, uncertainty and likely next action; search for an existing matching Issue first. Update that Issue if it genuinely covers the work, otherwise create a dedicated Issue with enough context for independent resumption. Tell the user what was tracked and why. Do not ask permission merely to create durable tracking, and do not implement the discovery without user validation. Do not independently dismiss actionable work as too minor.
 
 Close the mission Issue only when its work is completed and verified, explicitly abandoned, or remaining work has been moved to appropriate durable tracking.
 
@@ -54,4 +56,4 @@ Follow the repository's Git/PR/CI workflow. CI should validate pull requests, no
 
 ## 8. Completion receipt
 
-Before concluding or suspending work, ensure every relevant change, decision, discovery, documentation correction and deferred task is completed, awaiting validation, or durably tracked. State what was proposed, validated, changed and actually verified; include the Issue, branch/PR, test results, blockers and next action when applicable.
+Before concluding or suspending work, ensure every relevant change, decision, discovery, documentation correction and deferred task is completed, awaiting validation, or durably tracked. State what was proposed, validated, changed and actually verified; include the Issue, branch/PR, test results, blockers and next action when applicable. User-facing responses should be warm, direct and readable, lead with material risks or assumptions before agreement, and end with a precise next action plus this status line: `Contrôle : challenge ✔/✘/n.a. · sources ✔/✘/n.a. · issues ✔/✘/n.a. · docs ✔/✘/n.a. · prochaine étape ✔/✘/n.a.` Use `n.a.` only when a check genuinely does not apply; never mark a check as verified without evidence.

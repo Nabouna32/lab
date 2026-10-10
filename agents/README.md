@@ -18,7 +18,7 @@ This directory contains the operating contract, task-specific procedures and reu
 
 Work sequentially, one validated scope at a time. Challenge assumptions, current code/design and proposed solutions; seek optimizations as well as defects. Consequential decisions require user validation.
 
-Resumable work uses a GitHub Issue checkpoint. Actionable discoveries outside scope must be presented to the user, who decides whether to create or attach an Issue. Keep active documentation current and concise. Git preserves ordinary history; historical audit reports remain immutable.
+Resumable work uses a GitHub Issue checkpoint. For actionable discoveries outside scope, search for a matching Issue, update it or create one if needed, then notify the user; implementation still requires scope validation. Keep active documentation current and concise. Git preserves ordinary history; historical audit reports remain immutable.
 
 ## Validation
 

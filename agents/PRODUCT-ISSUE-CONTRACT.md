@@ -26,12 +26,12 @@ Do not paste complete reports, source files, logs, secrets or conversation trans
 ## 3. Actionable discoveries outside scope
 
 For every actionable discovery that will not be handled in the current validated step:
-1. explain the observed evidence, consequences, uncertainty and viable options to the user;
-2. ask explicitly whether to create a dedicated Issue or attach it to an existing Issue;
-3. verify that a proposed existing Issue genuinely covers the work;
-4. after validation, create or update durable tracking immediately with enough context for independent resumption.
+1. record the evidence, consequences, uncertainty and likely next action;
+2. search existing Issues for one that genuinely covers the work;
+3. update the matching Issue, or create a dedicated Issue if none exists, with enough context for independent resumption;
+4. tell the user what was tracked and why.
 
-Do not silently decide that a discovery is too minor to track. Do not turn a finding or proposal into a product requirement without validation. A chat mention or a note in the mission Issue is not a substitute for a dedicated Issue when separate work needs independent tracking.
+Do not ask permission merely to create durable tracking, and do not implement the discovery without user validation. Do not silently dismiss actionable work as too minor or turn a finding into a product requirement without validation. A chat mention alone is not a substitute for durable tracking.
 
 ## 4. Decision and status integrity
 
