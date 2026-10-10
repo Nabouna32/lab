@@ -271,6 +271,13 @@ test("search suggestions escape clipping and expose one consistent clear control
   await page.locator("#home-tool-search-v4").getByRole("button", { name: "Effacer la recherche" }).click();
   await expect(homeSearch).toHaveValue("");
   await expect(homePopup).toHaveCount(0);
+
+  await header.getByRole("button", { name: "Rechercher dans les outils" }).click();
+  await mobileSearch.fill("json");
+  const mobileResult = page.locator('[data-search-popup-owner="header-tool-search-mobile"] [role="option"]').first();
+  await expect(mobileResult).toBeVisible();
+  await mobileResult.click();
+  await expect(page).toHaveURL(/\/fr\/outils\//);
 });
 
 test("tool search shows useful result context", async ({ page }) => {
