@@ -7,7 +7,7 @@ import { getPublishedTools, getToolById } from "@/lib/tools/catalog";
 import { getCategoryPath, getToolsPath, getToolPath } from "@/lib/tools/routes";
 import { getPrimaryToolCategory, getToolContent, isPublishedTool, type ToolId } from "@/lib/tools/types";
 
-const featuredToolIds: ToolId[] = ["vat", "qr-code-generator", "json-formatter"];
+const featuredToolIds: ToolId[] = ["vat", "image-compressor", "json-formatter"];
 
 export default function HomeDiscovery({ locale }: { locale: Locale }) {
   const t = getMessages(locale);
