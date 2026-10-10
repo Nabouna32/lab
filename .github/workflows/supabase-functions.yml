@@ -37,18 +37,13 @@ jobs:
         with:
           deno-version: 2.1.4
 
-      - name: Resolve pinned dependencies and verify function types
+      - name: Validate locked dependencies and function types
         shell: bash
         run: |
           set -euo pipefail
           for function in account-delete admin-user-sessions admin-user-suspension; do
             (
               cd "supabase/functions/$function"
-              deno cache --frozen=false index.ts
               deno check --frozen index.ts
-              echo "LOCKFILE_BASE64_${function}_BEGIN"
-              base64 -w0 deno.lock
-              echo
-              echo "LOCKFILE_BASE64_${function}_END"
             )
           done
