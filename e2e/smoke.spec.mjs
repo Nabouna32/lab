@@ -140,6 +140,7 @@ test("responsive header keeps search available on mobile and tablet", async ({ p
 
   await header.getByRole("button", { name: "Fermer la recherche" }).click();
   await expect(header.locator("#header-tool-search-mobile-input")).toHaveCount(0);
+  await expect(header.getByRole("button", { name: "Rechercher dans les outils" })).toBeFocused();
 
   await page.setViewportSize({ width: 820, height: 900 });
   await page.reload({ waitUntil: "networkidle" });
@@ -176,8 +177,10 @@ test("mobile header search dismisses outside and on Escape with predictable focu
 
   await trigger.click();
   await expect(input).toBeVisible();
-  await page.locator("main").click({ position: { x: 12, y: 12 } });
+  const homepageSearch = page.locator("#home-tool-search-v4-input");
+  await homepageSearch.click();
   await expect(input).toHaveCount(0);
+  await expect(homepageSearch).toBeFocused();
 });
 
 test("header settings stay open for theme and language changes, then dismiss predictably", async ({ page }) => {
