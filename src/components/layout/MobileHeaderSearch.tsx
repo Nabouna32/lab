@@ -17,18 +17,9 @@ function SearchIcon() {
   );
 }
 
-function CloseIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4" aria-hidden="true">
-      <path d="M6 6l12 12M18 6 6 18" />
-    </svg>
-  );
-}
-
 type MobileHeaderSearchProps = {
   locale: Locale;
   searchLabel: string;
-  closeLabel: string;
 };
 
 export default function MobileHeaderSearch(props: MobileHeaderSearchProps) {
@@ -39,7 +30,6 @@ export default function MobileHeaderSearch(props: MobileHeaderSearchProps) {
 function MobileHeaderSearchPanel({
   locale,
   searchLabel,
-  closeLabel,
 }: MobileHeaderSearchProps) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -54,7 +44,11 @@ function MobileHeaderSearchPanel({
 
     function handlePointerDown(event: PointerEvent) {
       const target = event.target;
-      if (!(target instanceof Node) || rootRef.current?.contains(target)) return;
+      if (!(target instanceof Node)) return;
+      const searchPopup = target instanceof Element
+        ? target.closest('[data-search-popup-owner="header-tool-search-mobile"]')
+        : null;
+      if (rootRef.current?.contains(target) || searchPopup) return;
 
       // Do not steal focus from the control the user clicked outside.
       restoreFocusRef.current = false;
@@ -64,15 +58,9 @@ function MobileHeaderSearchPanel({
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key !== "Escape") return;
 
-      // Let an active suggestion/error surface consume Escape first. A second
-      // Escape dismisses the surrounding mobile search panel.
-      const target = event.target;
-      if (
-        target instanceof HTMLInputElement &&
-        rootRef.current?.querySelector(
-          "#header-tool-search-mobile [role='listbox'], #header-tool-search-mobile [role='region']",
-        )
-      ) {
+      // The portal/input consumes Escape while suggestions or status feedback are open.
+      // A later Escape closes this surrounding panel.
+      if (document.querySelector('[data-search-popup-owner="header-tool-search-mobile"]')) {
         return;
       }
 
@@ -132,15 +120,6 @@ function MobileHeaderSearchPanel({
             compact
             className="min-w-0 flex-1"
           />
-          <button
-            type="button"
-            className={iconButton}
-            aria-label={closeLabel}
-            title={closeLabel}
-            onClick={closeSearch}
-          >
-            <CloseIcon />
-          </button>
         </div>
       )}
     </div>

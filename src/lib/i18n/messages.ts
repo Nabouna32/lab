@@ -3,7 +3,7 @@ import type { ToolId } from "@/lib/tools/types";
 import { formatPlural } from "./plural.ts";
 
 export type Messages = {
-  nav: { home: string; tools: string; explore: string; language: string; account: string; space: string; menu: string; closeSearch: string };
+  nav: { home: string; tools: string; explore: string; language: string; account: string; space: string; menu: string };
   breadcrumbs: { label: string };
   footer: { tagline: string; explore: string; account: string };
   actions: { copy: string; copied: string; clear: string };
@@ -30,7 +30,7 @@ export type Messages = {
 
 export const messages: Record<Locale, Messages> = {
   fr: {
-    nav: { home: "Accueil", tools: "Outils", explore: "Voir tous les outils", language: "Langue", account: "Compte", space: "Mon espace", menu: "Menu", closeSearch: "Fermer la recherche" },
+    nav: { home: "Accueil", tools: "Outils", explore: "Voir tous les outils", language: "Langue", account: "Compte", space: "Mon espace", menu: "Menu" },
     breadcrumbs: { label: "Fil d’Ariane" },
     footer: { tagline: "Des outils utiles, directement dans ton navigateur.", explore: "Tous les outils", account: "Ton espace" },
     actions: { copy: "Copier", copied: "Copié", clear: "Effacer" },
@@ -121,7 +121,7 @@ export const messages: Record<Locale, Messages> = {
     },
   },
   en: {
-    nav: { home: "Home", tools: "Tools", explore: "View all tools", language: "Language", account: "Account", space: "My space", menu: "Menu", closeSearch: "Close search" },
+    nav: { home: "Home", tools: "Tools", explore: "View all tools", language: "Language", account: "Account", space: "My space", menu: "Menu" },
     breadcrumbs: { label: "Breadcrumb" },
     footer: { tagline: "Useful tools, ready to use in your browser.", explore: "All tools", account: "Your space" },
     actions: { copy: "Copy", copied: "Copied", clear: "Clear" },
