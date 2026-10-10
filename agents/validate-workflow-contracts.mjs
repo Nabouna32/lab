@@ -60,7 +60,7 @@ has(toolContract, 'tool', 'Tool workflow');
 has(toolWorkflow, 'TOOL-FACTORY-CONTRACT.md', 'Tool launch checklist');
 has(productWorkflow, 'consequential', 'Product workflow');
 has(readme, 'single ChatGPT assistant', 'Workflow README');
-has(auditsReadme, 'historical audit reports', 'Audit README');
+  has(auditsReadme, '](' + audit.name + ')', 'Audit README catalogue ' + audit.name);
 has(governanceAudit, 'Revue après audit et poursuite validée', 'Governance audit procedure');
 has(rootRules, 'Work one validated step at a time.', 'AGENTS.md');
 
