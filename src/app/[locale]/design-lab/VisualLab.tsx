@@ -85,7 +85,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const [locale,setLocale]=useState<Locale>(initialLocale==="fr"?"fr":"en");
   const [seedInput,setSeedInput]=useState("#1E88E5");
   const [seed,setSeed]=useState("#1E88E5");
-  const [variant,setVariant]=useState<SchemeVariant>("expressive");
+  const [variant,setVariant]=useState<SchemeVariant>("vibrant");
   const [contrastLevel,setContrastLevel]=useState(0);
   const [specVersion,setSpecVersion]=useState<SchemeSpecVersion>("2025");
   const [platform,setPlatform]=useState<SchemePlatform>("phone");
