@@ -130,7 +130,7 @@ export const messages: Record<Locale, Messages> = {
       badge: "From idea to done",
       title: "A toolbox for your ideas.",
       description: "Calculate, convert, create, analyze — find the tool you need.",
-      searchPlaceholder: "What do you need?",
+      searchPlaceholder: "Need a tool?",
       quickLinksLabel: "Jump straight into a tool",
       quickLinks: [
         { label: "Calculate a discount", toolId: "discount" },
