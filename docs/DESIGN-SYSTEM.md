@@ -70,7 +70,14 @@ Theme support must be tested using the actual resolved colors, including text, i
 
 ### 3.3 Default palette and user choice
 
-The default appearance is an **expressive multicolor palette with indigo seed #3F51B5**. Treat the seed as an input to the semantic tonal palette, not as a mandate to use that literal value for every primary component. The complete light/dark role mappings must be generated or selected deliberately and validated for contrast and state clarity.
+The default appearance uses **Material Purple seed #6750A4** to generate the semantic tonal palette. Treat the seed as an input, not as a mandate to use that literal value for every primary component. The complete light/dark role mappings must be generated or selected deliberately and validated for contrast and state clarity.
+
+Loculary uses two complementary rainbow treatments rather than choosing one and discarding the other:
+
+- **MCU-generated Rainbow tonal colors** provide expressive, coordinated tonal surfaces and container/frame backgrounds where the softer tonal treatment supports hierarchy without overwhelming content.
+- **Loculary's direct saturated seven-color palette** provides clear, vivid category differentiation in compact accents such as pills, badges, markers or category indicators. Use it where an unmistakable color distinction adds meaning, not as a second competing global theme.
+
+These treatments serve different roles. Do not use the saturated category colors as default large text/background pairs without checking contrast, and do not spread rainbow decoration across every component. Semantic success, warning and error colors remain independent of both brand seed and category colors.
 
 Users should be able to choose from a curated set of predefined palettes in appearance settings. The initial product should not expose an unrestricted arbitrary-color picker: curated palettes are easier to validate, keep semantic roles coherent and reduce the number of combinations that must be tested. Palette previews must represent the actual semantic mappings, not just a row of brand swatches.
 
@@ -84,7 +91,7 @@ Success, warning, informational and other domain-specific colors may be added as
 
 Typography should follow M3's role-based hierarchy, adapted to the density and task requirements of a utility toolbox. The system should define clear roles for display, headline, title, body and label scales, using the appropriate levels rather than inventing arbitrary per-component sizes.
 
-The concrete typeface, font files, weight mappings, sizes, line heights and letter spacing remain open. Geist Sans/Mono are existing implementation facts, not a validated requirement to keep them or a decision to replace them. Evaluate the current family against the chosen M3 type scale and representative screens before freezing the typeface.
+**Roboto is the validated default interface typeface**, consistent with the Material/Android reference. The M3 type scale, weight mappings, sizes, line heights and letter spacing still require implementation and responsive validation. Geist Sans/Mono may remain appropriate for existing technical or monospace use where they serve a clear purpose, but they are not the default interface family.
 
 Technical content may use a monospace role where it improves alignment or readability. Results may receive stronger hierarchy when they are the primary outcome of a tool.
 
