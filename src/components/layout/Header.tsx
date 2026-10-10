@@ -15,7 +15,7 @@ export default function Header({ locale }: { locale: Locale }) {
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--border)]/80 bg-[var(--background)]">
       <div className="mx-auto max-w-[var(--content-wide)] px-3 sm:px-6 lg:px-8">
-        <div className="grid h-14 grid-cols-[auto_1fr_auto] items-center gap-2 sm:h-16 sm:gap-3 lg:grid-cols-[1fr_minmax(24rem,36rem)_1fr]">
+        <div className="grid h-14 grid-cols-[auto_1fr_auto] items-center gap-2 sm:h-16 sm:gap-3 lg:grid-cols-[1fr_minmax(20rem,32rem)_1fr] xl:grid-cols-[1fr_minmax(24rem,36rem)_1fr]">
           <Link
             href={"/" + locale}
             className="group flex shrink-0 items-center gap-2 rounded-[var(--radius-lg)] outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] sm:gap-2.5 md:justify-self-start"
