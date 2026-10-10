@@ -26,7 +26,12 @@ test("design lab generates real Material Color Utilities schemes and exposes its
   await expect(variantSelect.locator("option")).toHaveCount(9);
   await expect(specSelect.locator("option")).toHaveCount(2);
   await expect(platformSelect.locator("option")).toHaveCount(2);
-  await expect(lab).toHaveAttribute("data-seed", "#3F51B5");
+  await expect(lab).toHaveAttribute("data-seed", "#1E88E5");
+  await expect(lab).toHaveAttribute("data-category-set", "compare");
+  await expect(lab).toHaveAttribute("data-category-style", "stripe");
+  await expect(lab).toHaveAttribute("data-type-preset", "roboto");
+  await expect(page.getByTestId("category-mcu-rainbow")).toHaveCount(7);
+  await expect(page.getByTestId("category-direct-rainbow")).toHaveCount(7);
   await expect(lab).toHaveAttribute("data-spec-version", "2025");
 
   await specSelect.selectOption("2021");
@@ -52,7 +57,8 @@ test("source seed validation, contrast, light/dark, and category colors are inde
 
   const lab = page.locator("main[data-scheme-variant]");
   const seedInput = page.locator('input[aria-describedby="seed-help"]');
-  const calculations = page.locator('[class*="categoryCard"]').filter({ hasText: "Calculs" });
+  const calculations = page.getByTestId("category-mcu-rainbow").filter({ hasText: "Calculs" });
+  const directCalculations = page.getByTestId("category-direct-rainbow").filter({ hasText: "Calculs" });
   const categorySeedBefore = await calculations.getAttribute("data-category-seed");
 
   await seedInput.fill("#ff0000");
@@ -76,9 +82,12 @@ test("source seed validation, contrast, light/dark, and category colors are inde
   await page.getByRole("button", { name: "Renforcé · 0,5" }).click();
   await expect(lab).toHaveAttribute("data-contrast", "0.5");
 
-  await page.getByRole("button", { name: "Multicolore vif" }).click();
+  const generatedRainbowColor = await calculations.getAttribute("data-category-color");
+  const directRainbowColor = await directCalculations.getAttribute("data-category-color");
+  expect(generatedRainbowColor).not.toBe(directRainbowColor);
+  await page.getByTestId("category-set-vivid").click();
   await expect(lab).toHaveAttribute("data-category-set", "vivid");
-  await expect(calculations).not.toHaveAttribute("data-category-seed", categorySeedBefore);
+  await expect(directCalculations).toHaveAttribute("data-category-color", "#D32F2F");
 
   const softBackground = await calculations.evaluate(el => getComputedStyle(el).backgroundColor);
   await page.getByRole("button", { name: "Aplat coloré" }).click();
