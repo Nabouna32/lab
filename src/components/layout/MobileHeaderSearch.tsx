@@ -96,7 +96,7 @@ export default function MobileHeaderSearch({
       <button
         ref={triggerRef}
         type="button"
-        className={iconButton + " w-10 lg:hidden"}
+        className={iconButton + " lg:hidden"}
         aria-label={searchLabel}
         aria-expanded={open}
         aria-controls={open ? "header-tool-search-mobile-panel" : undefined}
@@ -125,7 +125,7 @@ export default function MobileHeaderSearch({
           />
           <button
             type="button"
-            className={iconButton + " w-10"}
+            className={iconButton}
             aria-label={closeLabel}
             title={closeLabel}
             onClick={closeSearch}
