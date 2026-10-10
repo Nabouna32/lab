@@ -85,7 +85,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
       "--lab-radius-small":mode==="expressive"?"1rem":"0.35rem",
       "--lab-motion":mode==="expressive"?"420ms":"180ms",
     } as CSSProperties & Record<string,string>;
-  },[palette,paletteKey,mode,theme,surfacePreset,typePreset]);
+  },[palette,mode,theme,surfacePreset,typePreset]);
   const amount=Number(value)*Number(percent)/100;
   const result=Number.isFinite(amount)?amount.toLocaleString(locale==="fr"?"fr-FR":"en-US",{maximumFractionDigits:3}):"—";
   const stageClass=[styles.stage,styles[viewport],theme==="dark"?styles.dark:styles.light,mode==="expressive"?styles.expressive:styles.classic].join(" ");
@@ -136,7 +136,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
         <div className={styles.categoryGrid}>
           {categoryItems.map((item) => <article key={item.key} className={styles.categoryCard} style={{ "--category-color": theme === "dark" ? (categorySet === "current" ? item.currentDark : categorySet === "vivid" ? item.vividDark : item.blueDark) : (categorySet === "current" ? item.currentLight : categorySet === "vivid" ? item.vividLight : item.blueLight), "--category-foreground": categorySet === "blue" ? (theme === "dark" ? item.onBlueDark : item.onBlueLight) : categorySet === "vivid" ? (theme === "dark" ? item.onVividDark : item.onVividLight) : (theme === "dark" ? item.onDark : item.onLight) } as CSSProperties}>
             <span className={styles.categoryGlyph} aria-hidden="true">{item.icon}</span>
-            <div><strong>{item.name}</strong><small>{theme === "dark" ? item.dark : item.light}</small></div>
+            <div><strong>{item.name}</strong><small>{theme === "dark" ? (categorySet === "current" ? item.currentDark : categorySet === "vivid" ? item.vividDark : item.blueDark) : (categorySet === "current" ? item.currentLight : categorySet === "vivid" ? item.vividLight : item.blueLight)}</small></div>
           </article>)}
         </div>
       </section>
