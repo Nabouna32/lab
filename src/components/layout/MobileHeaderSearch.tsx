@@ -25,28 +25,26 @@ function CloseIcon() {
   );
 }
 
-export default function MobileHeaderSearch({
-  locale,
-  searchLabel,
-  closeLabel,
-}: {
+type MobileHeaderSearchProps = {
   locale: Locale;
   searchLabel: string;
   closeLabel: string;
-}) {
+};
+
+export default function MobileHeaderSearch(props: MobileHeaderSearchProps) {
   const pathname = usePathname();
+  return <MobileHeaderSearchPanel key={pathname} {...props} />;
+}
+
+function MobileHeaderSearchPanel({
+  locale,
+  searchLabel,
+  closeLabel,
+}: MobileHeaderSearchProps) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const restoreFocusRef = useRef(false);
-  const [lastPathname, setLastPathname] = useState(pathname);
-
-  // React's guarded render-time state adjustment avoids a cascading effect
-  // update while ensuring the old search panel never survives navigation.
-  if (lastPathname !== pathname) {
-    setLastPathname(pathname);
-    if (open) setOpen(false);
-  }
 
   useEffect(() => {
     if (!open) return;
