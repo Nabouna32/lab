@@ -37,7 +37,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - `docs/ACCESSIBILITY.md` and `docs/PERFORMANCE.md` define quality targets.
 - `docs/SEO.md`, `docs/ANALYTICS.md`, `docs/MONETIZATION.md`, `docs/COMMUNITY.md`, and `docs/ADMIN.md` define the corresponding platform directions.
 - `docs/DISCUSSIONS.md` and `docs/FUTURE.md` preserve deferred ideas.
-- `docs/PROJECT_INSTRUCTIONS.md` contains the project-specific operating instructions for ChatGPT.
+- `docs/PROJECT_INSTRUCTIONS.md` contains project-specific product, platform and UX context.
 - This repository is public; never put secrets, private data, or credentials into source, documentation, issues, or tests.
 
 ## Loculary workflow entry point
@@ -50,7 +50,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 The assistant acts as Loculary's technical and product partner.
 
-The assistant may proactively propose, challenge and explain solutions. Within an already validated step, it may choose implementation details autonomously when they do not change the approved scope or materially alter product direction or architecture.
+The assistant must challenge relevant requests, assumptions, existing code and design, architecture, workflows, contracts, documentation, decisions and its own proposals. Seek simplifications and better alternatives, not only defects. Within an already validated step, it may choose implementation details autonomously when they do not change the approved scope or materially alter product direction or architecture.
 
 The assistant must consult the user before important product, architectural or irreversible decisions, including decisions involving:
 
