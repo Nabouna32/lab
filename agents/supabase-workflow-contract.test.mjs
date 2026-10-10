@@ -66,7 +66,7 @@ test('scheduled npm audit reads the lockfile without installing the full depende
   const steps = audit.jobs['npm-audit'].steps;
 
   assert.equal(steps.some((step) => step.run === 'npm ci'), false);
-  assert.equal(steps.some((step) => step.run === 'npm audit --package-lock-only --audit-level=high'), true);
+  assert.equal(steps.some((step) => step.run === 'npm audit --audit-level=high'), true);
   assert.equal(audit.on.schedule.length, 1);
   assert.equal(audit.on.workflow_dispatch !== undefined, true);
 });
