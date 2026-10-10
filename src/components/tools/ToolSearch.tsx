@@ -174,6 +174,7 @@ export default function ToolSearch({
       if (rootRef.current?.contains(target) || popupRef.current?.contains(target)) return;
       setIsFocused(false);
       setActiveIndex(-1);
+      setOverlayPosition(null);
     }
     document.addEventListener("pointerdown", handlePointerDown);
     return () => document.removeEventListener("pointerdown", handlePointerDown);
@@ -204,6 +205,7 @@ export default function ToolSearch({
     }
     setIsFocused(false);
     setActiveIndex(-1);
+    setOverlayPosition(null);
   }
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
@@ -211,6 +213,7 @@ export default function ToolSearch({
       event.preventDefault();
       setIsFocused(false);
       setActiveIndex(-1);
+      setOverlayPosition(null);
       return;
     }
     if (!showResults || visibleResults.length === 0) return;
@@ -265,7 +268,7 @@ export default function ToolSearch({
           aria-activedescendant={showResults && activeIndex >= 0 ? instanceId + "-result-" + activeIndex : undefined}
           inputMode="search"
           enterKeyHint="search"
-          onChange={(event) => { const nextQuery = event.target.value; searchRequest.current += 1; setQuery(nextQuery); setActiveIndex(-1); setSearchError(false); setIsSearching(nextQuery.trim().length > 0); }}
+          onChange={(event) => { const nextQuery = event.target.value; searchRequest.current += 1; setQuery(nextQuery); setActiveIndex(-1); setSearchError(false); setIsSearching(nextQuery.trim().length > 0); if (!nextQuery.trim()) setOverlayPosition(null); }}
           onFocus={() => setIsFocused(true)}
           ref={inputRef}
           onKeyDown={handleKeyDown}
@@ -286,6 +289,7 @@ export default function ToolSearch({
               setIsFocused(true);
               setIsSearching(false);
               setSearchError(false);
+              setOverlayPosition(null);
               inputRef.current?.focus();
             }}
             className="min-h-10 w-10 shrink-0 rounded-full p-0"
@@ -316,6 +320,7 @@ export default function ToolSearch({
             event.preventDefault();
             setIsFocused(false);
             setActiveIndex(-1);
+            setOverlayPosition(null);
             inputRef.current?.focus();
           }}
           style={{
