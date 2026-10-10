@@ -94,7 +94,7 @@ for (let i = 0; i < sortedIds.length; i += 1) {
   if (sortedIds[i] !== i + 1) fail('Audit IDs are not contiguous: expected ' + String(i + 1).padStart(2, '0') + ', found ' + String(sortedIds[i]).padStart(2, '0'));
 }
 for (const audit of audits) {
-  has(auditsReadme, '](' + audit.name + ')', 'Audit README catalogue ' + audit.name);
+  has(auditsReadme, '](./' + audit.name + ')', 'Audit README catalogue ' + audit.name);
   has(audit.content, 'agents/AUDIT-CONTRACT.md', 'Audit procedure ' + audit.name);
   has(audit.content, 'Revue après audit et poursuite validée', 'Audit continuation procedure ' + audit.name);
   has(audit.content, 'Issue de mission', 'Audit mission checkpoint ' + audit.name);
