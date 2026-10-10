@@ -106,13 +106,16 @@ function listMarkdownRecursive(dir, prefix = '') {
   }).sort();
 }
 const activeAgentMarkdown = listMarkdownRecursive(path.join(root, 'agents'));
-const activeAgentText = activeAgentMarkdown.map((file) => fs.readFileSync(path.join(root, 'agents', file), 'utf8')).join('\\n');
-const governanceText = rootRules + '\\n' + activeAgentText;
+const activeAgentText = activeAgentMarkdown.map((file) => fs.readFileSync(path.join(root, 'agents', file), 'utf8')).join('\n');
+const governanceText = rootRules + '\n' + activeAgentText;
 const obsoleteSolutionMinimizationRules = [
   /make the smallest coherent change/i,
+  /make the smallest change that solves/i,
   /update the smallest coherent set of canonical documents/i,
-  /is the proposed scope the smallest useful version/i,
+  /(?:proposed|implementation) scope is the smallest useful version/i,
   /implement the smallest useful version/i,
+  /smallest coherent implementation sequence/i,
+  /(?:choose|prefer) the smallest (?:coherent )?(?:change|scope|solution|implementation)/i,
 ];
 for (const rule of obsoleteSolutionMinimizationRules) {
   if (rule.test(governanceText)) fail('Active governance still prioritizes the smallest change or scope: ' + rule);
@@ -129,6 +132,8 @@ for (const rule of obsoleteDecisionProtectionRules) {
 }
 has(rootRules, 'Pursue the best solution for the validated objective, not the smallest diff.', 'AGENTS.md solution-quality rule');
 has(common, 'Pursue the best solution for the objective, not the smallest change.', 'Common contract solution-quality rule');
+has(rootRules, 'Scope is an authorization boundary, not a quality ceiling', 'AGENTS.md scope-quality boundary');
+has(common, 'Scope is an authorization boundary, not a quality ceiling', 'Common contract scope-quality boundary');
 has(common, 'Vision, decisions and principles are challengeable', 'Common contract decision challenge');
 has(productWorkflow, 'Update every canonical and dependent document needed', 'Product workflow documentation consistency');
 has(auditContract, 'Elements worth retaining or changing, with reasons', 'Audit report challenge structure');
