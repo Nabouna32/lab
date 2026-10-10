@@ -249,7 +249,7 @@ const toolDefinitions: ToolDefinition[] = [
     tags: ["taxe", "hors taxe", "toutes taxes", "prix", "tva", "ht", "ttc"],
     aliases: ["taxe", "hors taxe", "toutes taxes", "prix", "tva", "ht", "ttc"],
     lifecycle: "published",    content: {
-      fr: { name: "Calculateur de TVA", description: "Passez d’un prix HT à TTC, ou de TTC à HT, en quelques secondes." },
+      fr: { name: "Calculateur de TVA", description: "Passe d’un prix HT à TTC, ou de TTC à HT, en quelques secondes." },
       en: { name: "VAT calculator", description: "Convert between net and gross prices with VAT." },
     },
   },
@@ -420,7 +420,7 @@ const toolDefinitions: ToolDefinition[] = [
     aliases: ["json formatter", "json validator", "json format", "json formatteur", "json", "pretty print", "json minifier"],
     lifecycle: "published", capabilities: ["clipboard"],
     content: {
-      fr: { name: "Formateur et validateur JSON", description: "Validez, formatez et minifiez du JSON directement dans votre navigateur." },
+      fr: { name: "Formateur et validateur JSON", description: "Valide, formate et minifie du JSON directement dans ton navigateur." },
       en: { name: "JSON Formatter & Validator", description: "Validate, format, and minify JSON directly in your browser." },
     },
   },
@@ -762,7 +762,7 @@ const toolDefinitions: ToolDefinition[] = [
     lifecycle: "published",
     capabilities: ["file-input"],
     content: {
-      fr: { name: "Compresseur d’image", description: "Réduisez le poids d’une image en choisissant le format, la qualité et la dimension maximale." },
+      fr: { name: "Compresseur d’image", description: "Réduis le poids de ton image en choisissant le format, la qualité et la dimension maximale." },
       en: { name: "Image Compressor", description: "Reduce an image file size by choosing the format, quality, and maximum dimension." },
     },
   },
