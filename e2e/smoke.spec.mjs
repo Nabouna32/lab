@@ -247,9 +247,10 @@ test("search suggestions escape clipping and expose one consistent clear control
 
   // The overlay can cover the hero's search field, so dismiss through a
   // header control that is guaranteed to sit outside the popup's viewport.
-  await header.getByRole("button", { name: "Menu" }).click();
+  const menuTrigger = header.getByRole("button", { name: "Menu" });
+  await menuTrigger.click();
   await expect(mobileSearch).toHaveCount(0);
-  await page.locator("#home-title").click();
+  await menuTrigger.click();
 
   const homeSearch = page.locator("#home-tool-search-v4-input");
   await homeSearch.fill("json");
