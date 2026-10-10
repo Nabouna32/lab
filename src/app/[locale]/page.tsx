@@ -35,12 +35,12 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               <div className="pointer-events-none absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-[var(--primary)]/35 to-transparent" aria-hidden="true" />
 
               <div className="relative z-10 max-w-4xl">
-                <p className="motion-reveal inline-flex items-center gap-2 rounded-full bg-[var(--surface-soft)] px-3.5 py-2 text-xs font-bold tracking-wide text-[var(--accent)]">
+                <p className="motion-reveal inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-[var(--surface-soft)] px-3.5 py-2 text-xs font-bold tracking-wide text-[var(--accent)]">
                   <span className="h-2 w-2 rounded-full bg-current" aria-hidden="true" />
                   {t.home.badge}
                 </p>
 
-                <h1 id="home-title" className="motion-reveal mt-5 max-w-3xl text-[clamp(2.6rem,6.5vw,5.4rem)] font-black leading-[.96] tracking-[-0.065em] text-[var(--foreground)]">
+                <h1 id="home-title" className="motion-reveal mt-5 max-w-4xl text-balance text-[clamp(2.6rem,6.5vw,5.4rem)] font-black leading-[.96] tracking-[-0.065em] text-[var(--foreground)]">
                   {t.home.title}
                 </h1>
 
@@ -48,7 +48,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                   {t.home.description}
                 </p>
 
-                <div id="home-search" className="motion-reveal motion-reveal-delay mt-7 max-w-3xl scroll-mt-28 sm:mt-9">
+                <div id="home-search" className="motion-reveal motion-reveal-delay mx-auto mt-7 max-w-3xl scroll-mt-28 sm:mt-9">
                   <ToolSearch locale={locale} instanceId="home-tool-search-v4" placeholder={t.home.searchPlaceholder} />
                 </div>
 
@@ -56,10 +56,10 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                   href={getToolsPath(locale)}
                   className="mt-5 inline-flex min-h-12 items-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold text-[var(--accent)] outline-none transition-[background-color,transform] duration-[var(--motion-standard)] hover:-translate-y-0.5 hover:bg-[var(--accent-soft)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
                 >
-                  {t.home.explore}
                   <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M5 12h14M13 6l6 6-6 6" />
                   </svg>
+                  {t.home.explore}
                 </Link>
               </div>
             </div>
