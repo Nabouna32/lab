@@ -11,9 +11,10 @@ const featuredToolIds: ToolId[] = ["vat", "qr-code-generator", "json-formatter"]
 
 export default function HomeDiscovery({ locale }: { locale: Locale }) {
   const t = getMessages(locale);
-  const featuredTools = featuredToolIds
-    .map((id) => getToolById(id))
-    .filter((tool) => tool !== undefined && isPublishedTool(tool));
+  const featuredTools = featuredToolIds.flatMap((id) => {
+    const tool = getToolById(id);
+    return tool && isPublishedTool(tool) ? [tool] : [];
+  });
   const visibleCategories = categories
     .map((category) => ({ ...category, count: getToolCount(category.id) }))
     .filter((category) => category.count > 0);
