@@ -44,14 +44,14 @@
   --warning: #b54708;
   --warning-soft: #fff0cf;
 
-  /* Vivid category identity colors: deliberately separate from semantic status colors. */
-  --category-calculations: #d92d20;
-  --category-dates: #a16207;
-  --category-computing: #7a5af8;
-  --category-images: #c11574;
-  --category-files: #0e7490;
-  --category-video: #0f766e;
-  --category-development: #155eef;
+  /* Loculary direct Rainbow: red, orange, yellow, green, blue, indigo, violet. */
+  --category-calculations: #d32f2f;
+  --category-dates: #fb8c00;
+  --category-computing: #fdd835;
+  --category-images: #43a047;
+  --category-files: #1976d2;
+  --category-video: #3949ab;
+  --category-development: #8e24aa;
   --category-calculations-container: color-mix(in srgb, var(--category-calculations) 13%, var(--surface));
   --category-dates-container: color-mix(in srgb, var(--category-dates) 13%, var(--surface));
   --category-computing-container: color-mix(in srgb, var(--category-computing) 13%, var(--surface));
@@ -129,13 +129,14 @@
   --warning: #fec84b;
   --warning-soft: #3d2c12;
 
-  --category-calculations: #ff6b5e;
-  --category-dates: #fdba74;
-  --category-computing: #bdb4fe;
-  --category-images: #fda4d5;
-  --category-files: #67e8f9;
-  --category-video: #5eead4;
-  --category-development: #9ab8ff;
+  /* Keep the same direct Rainbow hues; only the container blend adapts to the dark surface. */
+  --category-calculations: #d32f2f;
+  --category-dates: #fb8c00;
+  --category-computing: #fdd835;
+  --category-images: #43a047;
+  --category-files: #1976d2;
+  --category-video: #3949ab;
+  --category-development: #8e24aa;
   --category-calculations-container: color-mix(in srgb, var(--category-calculations) 20%, var(--surface));
   --category-dates-container: color-mix(in srgb, var(--category-dates) 20%, var(--surface));
   --category-computing-container: color-mix(in srgb, var(--category-computing) 20%, var(--surface));
