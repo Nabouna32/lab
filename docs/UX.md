@@ -384,7 +384,7 @@ The public header keeps the homepage task-first: the current homepage body and c
 
 The current header panel contains both navigation and settings, so it uses disclosure/popover behavior rather than claiming ARIA `menu` semantics without the corresponding keyboard model.
 
-- Theme choices and the language selector are persistent controls: applying a choice does not close the panel. The panel updates to the selected language and keeps its state when the shared shell remains mounted.
+- Theme choices and the language selector do not close the panel. Locale changes can recreate the root layout, so the open state is handed off once through tab-scoped session state; it is not a long-lived preference and is cleared by the next menu interaction. The panel then updates to the selected language.
 - Ordinary destination links close the panel as navigation begins.
 - Pointer interaction outside the panel and Escape dismiss it.
 - Escape restores focus to the trigger. Outside dismissal must not pull focus away from the element the user clicked.
