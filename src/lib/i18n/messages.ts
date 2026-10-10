@@ -7,13 +7,13 @@ export type Messages = {
   breadcrumbs: { label: string };
   footer: { tagline: string; explore: string; account: string };
   actions: { copy: string; copied: string; clear: string };
-  home: { metaTitle: string; badge: string; title: string; description: string; quickLinksLabel: string; quickLinks: Array<{ label: string; toolId: ToolId }>; explore: string; categoriesTitle: string; categoriesDescription: string; categoriesCount: (count: number) => string; toolsCountLabel: string; };
+  home: { metaTitle: string; badge: string; title: string; description: string; searchPlaceholder: string; quickLinksLabel: string; quickLinks: Array<{ label: string; toolId: ToolId }>; explore: string; categoriesTitle: string; categoriesDescription: string; categoriesCount: (count: number) => string; toolsCountLabel: string; };
   tools: {
     metaTitle: string;
     eyebrow: string; title: string; description: string; explore: string; one: string; many: string;
     categoryDescription: (category: string) => string; searchLabel: string; searchPlaceholder: string; suggestions: string;
     intentsTitle: string; intentsDescription: string; intents: Array<{ id: string; label: string; icon: string }>;
-    allToolsTitle: string;
+    allToolsTitle: string; searchSubmit: string; searchResultsTitle: (query: string) => string; searchResultsMetaTitle: string;
     resultCountOne: string; resultCountMany: string; searching: string; searchError: string; retrySearch: string; noResults: string; noResultsHelp: string; tryThese: string; noResultsSuggestions: string[]; clearSearch: string;
     categoriesTitle: string; categoriesDescription: string;
   };
@@ -39,6 +39,7 @@ export const messages: Record<Locale, Messages> = {
       badge: "De l’idée à l’action",
       title: "Une boîte à outils pour tes idées.",
       description: "Calculer, convertir, créer, analyser : trouve l’outil qu’il te faut.",
+      searchPlaceholder: "Que veux-tu faire ?",
       quickLinksLabel: "Accès directs aux outils",
       quickLinks: [
         { label: "Calculer une remise", toolId: "discount" },
@@ -57,7 +58,7 @@ export const messages: Record<Locale, Messages> = {
       description: "Tous les outils disponibles pour calculer, convertir, analyser et gagner du temps.",
       explore: "Explorer les outils", one: "outil", many: "outils",
       categoryDescription: (category) => `Retrouvez les outils disponibles dans la catégorie ${category}.`,
-      searchLabel: "Rechercher dans les outils", searchPlaceholder: "Rechercher…",
+      searchLabel: "Rechercher dans les outils", searchPlaceholder: "Rechercher…", searchSubmit: "Lancer la recherche", searchResultsTitle: (query) => `Résultats pour « ${query} »`, searchResultsMetaTitle: "Résultats de recherche — Loculary",
       suggestions: "Suggestions", resultCountOne: "résultat", resultCountMany: "résultats", searching: "Recherche en cours…", searchError: "La recherche n’a pas pu se charger. Réessaie.", retrySearch: "Réessayer",
       noResults: "Aucun outil ne correspond à", noResultsHelp: "Essaie un terme plus simple ou choisis une suggestion.", tryThese: "Tu cherches peut-être", noResultsSuggestions: ["TVA", "taille de fichier", "vidéo", "âge"],
       clearSearch: "Effacer la recherche",
@@ -129,6 +130,7 @@ export const messages: Record<Locale, Messages> = {
       badge: "From idea to done",
       title: "A toolbox for your ideas.",
       description: "Calculate, convert, create, analyze — find the tool you need.",
+      searchPlaceholder: "What do you need?",
       quickLinksLabel: "Jump straight into a tool",
       quickLinks: [
         { label: "Calculate a discount", toolId: "discount" },
@@ -147,7 +149,7 @@ export const messages: Record<Locale, Messages> = {
       description: "Tools to calculate, convert, analyze, and save time on everyday tasks.",
       explore: "Explore tools", one: "tool", many: "tools",
       categoryDescription: (category) => `Browse the tools available in the ${category}.`,
-      searchLabel: "Search the tools", searchPlaceholder: "Search…",
+      searchLabel: "Search the tools", searchPlaceholder: "Search…", searchSubmit: "Search tools", searchResultsTitle: (query) => `Results for “${query}”`, searchResultsMetaTitle: "Search results — Loculary",
       suggestions: "Suggestions", resultCountOne: "result", resultCountMany: "results", searching: "Searching…", searchError: "Search could not be loaded. Please try again.", retrySearch: "Try again",
       noResults: "No tool matches", noResultsHelp: "Try a simpler term or choose a suggestion.", tryThese: "You might be looking for", noResultsSuggestions: ["VAT", "file size", "video", "age"],
       clearSearch: "Clear search",

@@ -12,7 +12,8 @@ import type { Tool } from "@/lib/tools/types";
 import { normalizeSearchText } from "@/lib/tools/search-utils";
 import { executeToolSearch } from "@/lib/tools/search-request";
 import { Button } from "@/components/ui/Button";
-import { getToolPath } from "@/lib/tools/routes";
+import { IconButton } from "@/components/ui/IconButton";
+import { getSearchResultsPath, getToolPath } from "@/lib/tools/routes";
 
 type ToolSearchResult = {
   tool: Tool;
@@ -52,27 +53,31 @@ function HighlightMatch({ text, query }: { text: string; query: string }) {
 export default function ToolSearch({
   className = "",
   placeholder,
+  initialQuery,
   locale: localeProp,
   instanceId = "tool-search",
   compact = false,
+  onSearchSubmitted,
 }: {
   className?: string;
   placeholder?: string;
+  initialQuery?: string;
   locale?: Locale;
   instanceId?: string;
   compact?: boolean;
+  onSearchSubmitted?: (query: string) => void;
 }) {
   const pathname = usePathname();
   const router = useRouter();
   const segment = pathname.split("/")[1];
   const locale: Locale = localeProp ?? (isLocale(segment) ? segment : defaultLocale);
   const t = getMessages(locale);
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(initialQuery ?? "");
   const [isFocused, setIsFocused] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
   const [results, setResults] = useState<ToolSearchResult[]>([]);
   const [resultsQuery, setResultsQuery] = useState("");
-  const [isSearching, setIsSearching] = useState(false);
+  const [isSearching, setIsSearching] = useState(Boolean(initialQuery?.trim()));
   const [searchError, setSearchError] = useState(false);
   const [searchRetryCount, setSearchRetryCount] = useState(0);
   const deferredQuery = useDeferredValue(query);
@@ -124,11 +129,27 @@ export default function ToolSearch({
     return getToolPath(locale, toolId);
   }
 
-  const visibleResults = normalizeSearchText(query) === resultsQuery ? results : [];
+  const visibleResults = !isSearching && !searchError && normalizeSearchText(query) === normalizeSearchText(resultsQuery) ? results : [];
 
   function openResult(index: number) {
     const result = visibleResults[index];
     if (result) router.push(hrefFor(result.tool.id));
+  }
+
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const submittedQuery = query.trim().slice(0, 120);
+    if (!submittedQuery) return;
+
+    if (visibleResults.length === 1) {
+      router.push(hrefFor(visibleResults[0].tool.id));
+    } else if (onSearchSubmitted) {
+      onSearchSubmitted(submittedQuery);
+    } else {
+      router.push(getSearchResultsPath(locale, submittedQuery));
+    }
+    setIsFocused(false);
+    setActiveIndex(-1);
   }
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
@@ -141,19 +162,18 @@ export default function ToolSearch({
     if (event.key === "ArrowDown") {
       event.preventDefault();
       setActiveIndex((index) => (index + 1) % visibleResults.length);
-    }
-    if (event.key === "ArrowUp") {
+    } else if (event.key === "ArrowUp") {
       event.preventDefault();
       setActiveIndex((index) => (index <= 0 ? visibleResults.length - 1 : index - 1));
-    }
-    if (event.key === "Enter") {
+    } else if (event.key === "Enter" && activeIndex >= 0) {
       event.preventDefault();
-      openResult(activeIndex >= 0 ? activeIndex : 0);
+      openResult(activeIndex);
     }
   }
 
   return (
     <div id={instanceId} className={"relative " + className}>
+      <form role="search" aria-label={t.tools.searchLabel} onSubmit={handleSubmit}>
       <label htmlFor={inputId} className="sr-only">{t.tools.searchLabel}</label>
       <div className={
         "flex items-center border bg-[var(--surface)] transition-[border-color,box-shadow] duration-200 " +
@@ -182,6 +202,7 @@ export default function ToolSearch({
           value={query}
           placeholder={placeholder ?? t.tools.searchPlaceholder}
           autoComplete="off"
+          maxLength={120}
           role="combobox"
           aria-autocomplete="list"
           aria-expanded={showResults}
@@ -207,7 +228,13 @@ export default function ToolSearch({
             ×
           </Button>
         )}
+        <IconButton label={t.tools.searchSubmit} type="submit" disabled={!query.trim()} size={compact ? "compact" : "default"}>
+          <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </IconButton>
       </div>
+      </form>
 
       {showResults && (
         <div id={resultsId} role={searchError ? "region" : "listbox"} aria-label={searchError ? t.tools.searchLabel : undefined} aria-busy={isSearching} className="absolute left-0 right-0 top-full z-[60] mt-2 overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface-elevated)] p-1.5 shadow-[var(--shadow-md)]">

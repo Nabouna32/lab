@@ -72,6 +72,19 @@ export function getToolsPath(locale: Locale): string {
   return `/${locale}/${toolsPathSegments[locale]}`;
 }
 
+const searchPathSegments: Record<Locale, string> = {
+  en: "search",
+  fr: "recherche",
+};
+
+export function getSearchResultsPagePath(locale: Locale): string {
+  return `/${locale}/${searchPathSegments[locale]}`;
+}
+
+export function getSearchResultsPath(locale: Locale, query: string): string {
+  return `${getSearchResultsPagePath(locale)}#q=${encodeURIComponent(query.trim())}`;
+}
+
 export function getCategoriesPath(locale: Locale): string {
   return `/${locale}/${categoriesPathSegments[locale]}`;
 }
@@ -109,6 +122,10 @@ export function getLocalizedPath(pathname: string, targetLocale: Locale): string
 
   const currentToolsSegment = toolsPathSegments[currentLocale];
   const currentCategoriesSegment = categoriesPathSegments[currentLocale];
+
+  if (segments.length === 2 && segments[1] === searchPathSegments[currentLocale]) {
+    return getSearchResultsPagePath(targetLocale);
+  }
 
   if (segments.length === 2 && segments[1] === currentToolsSegment) {
     return getToolsPath(targetLocale);

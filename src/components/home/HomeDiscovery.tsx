@@ -12,7 +12,7 @@ export default function HomeDiscovery({ locale }: { locale: Locale }) {
 
   return (
     <section className="mx-auto max-w-[var(--content-wide)] px-4 pb-12 pt-5 sm:px-6 sm:pb-16 sm:pt-7 lg:px-10" aria-labelledby="home-discovery-title">
-      <div className="border-t border-[var(--outline-variant)] pt-7 sm:pt-9">
+      <div className="pt-2 sm:pt-3">
         <h2 id="home-discovery-title" className="text-2xl font-bold tracking-[-0.04em] sm:text-3xl">{t.home.categoriesTitle}</h2>
 
         <nav aria-label={t.home.categoriesTitle} className="mt-5 grid grid-cols-1 gap-3 sm:mt-7 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

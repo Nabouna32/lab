@@ -3,6 +3,8 @@ import { test } from "node:test";
 import { getPublishedTools } from "./catalog.ts";
 import {
   getCategoriesPath,
+  getSearchResultsPagePath,
+  getSearchResultsPath,
   getCategoryIdBySlug,
   getCategoryPath,
   getLocalizedPath,
@@ -15,6 +17,10 @@ import {
 test("tool and category routes use distinct localized namespaces", () => {
   assert.equal(getToolsPath("en"), "/en/tools");
   assert.equal(getToolsPath("fr"), "/fr/outils");
+  assert.equal(getSearchResultsPagePath("en"), "/en/search");
+  assert.equal(getSearchResultsPagePath("fr"), "/fr/recherche");
+  assert.equal(getSearchResultsPath("fr", "taille de fichier"), "/fr/recherche#q=taille%20de%20fichier");
+  assert.equal(getSearchResultsPath("en", "json"), "/en/search#q=json");
   assert.equal(getCategoriesPath("en"), "/en/categories");
   assert.equal(getCategoriesPath("fr"), "/fr/categories");
   assert.equal(getCategoryPath("en", "development"), "/en/categories/development");
@@ -48,6 +54,8 @@ test("localized paths resolve back to the same resource", () => {
   assert.equal(getLocalizedPath("/en/categories/development", "fr"), "/fr/categories/developpement");
   assert.equal(getLocalizedPath("/fr/categories/developpement", "en"), "/en/categories/development");
   assert.equal(getLocalizedPath("/en/tools", "fr"), "/fr/outils");
+  assert.equal(getLocalizedPath("/fr/recherche", "en"), "/en/search");
+  assert.equal(getLocalizedPath("/en/search", "fr"), "/fr/recherche");
 });
 
 test("unknown tool and category routes fall back to the target locale root", () => {

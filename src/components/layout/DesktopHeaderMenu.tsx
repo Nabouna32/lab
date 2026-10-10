@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "@teispace/next-themes";
 import { getLanguage, isLocale, locales, type Locale } from "@/lib/i18n/config";
-import { getLocalizedPath, getToolsPath } from "@/lib/tools/routes";
+import { getLocalizedPath, getSearchResultsPagePath, getToolsPath } from "@/lib/tools/routes";
 import { getMessages } from "@/lib/i18n/messages";
 
 function Icon({ children, className = "h-4 w-4" }: { children: ReactNode; className?: string }) {
@@ -33,6 +33,7 @@ const optionClass =
 
 export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
   const pathname = usePathname();
+  const router = useRouter();
   const { theme, setTheme } = useTheme();
   const t = getMessages(locale);
   const [open, setOpen] = useState(false);
@@ -147,7 +148,13 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
                   href={href}
                   hrefLang={item}
                   aria-current={active ? "page" : undefined}
-                  onClick={closeMenu}
+                  onClick={(event) => {
+                    closeMenu();
+                    if (pathname === getSearchResultsPagePath(currentLocale) && window.location.hash) {
+                      event.preventDefault();
+                      router.push(href + window.location.hash);
+                    }
+                  }}
                   className={
                     "flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] " +
                     (active
