@@ -1,6 +1,7 @@
 "use client";
 
 import { useDeferredValue, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { usePathname, useRouter } from "next/navigation";
 import { defaultLocale, isLocale, type Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
@@ -18,6 +19,13 @@ import { getSearchResultsPath, getToolPath } from "@/lib/tools/routes";
 type ToolSearchResult = {
   tool: Tool;
   score: number;
+};
+
+type SearchOverlayPosition = {
+  top: number;
+  left: number;
+  width: number;
+  maxHeight: number;
 };
 
 function getNormalizedMatchRange(text: string, query: string): [number, number] | null {
@@ -80,8 +88,12 @@ export default function ToolSearch({
   const [isSearching, setIsSearching] = useState(Boolean(initialQuery?.trim()));
   const [searchError, setSearchError] = useState(false);
   const [searchRetryCount, setSearchRetryCount] = useState(0);
+  const [overlayPosition, setOverlayPosition] = useState<SearchOverlayPosition | null>(null);
   const deferredQuery = useDeferredValue(query);
   const searchRequest = useRef(0);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const popupRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const showResults = isFocused && query.trim().length > 0;
   const inputId = instanceId + "-input";
   const resultsId = instanceId + "-results";
@@ -112,18 +124,63 @@ export default function ToolSearch({
   }, [deferredQuery, locale, searchRetryCount]);
 
   useEffect(() => {
+    if (!showResults) {
+      setOverlayPosition(null);
+      return;
+    }
+
+    const anchor = rootRef.current;
+    if (!anchor) return;
+
+    function updatePosition() {
+      const rect = anchor.getBoundingClientRect();
+      const viewport = window.visualViewport;
+      const viewportLeft = viewport?.offsetLeft ?? 0;
+      const viewportTop = viewport?.offsetTop ?? 0;
+      const viewportWidth = viewport?.width ?? window.innerWidth;
+      const viewportHeight = viewport?.height ?? window.innerHeight;
+      const margin = 12;
+      const gap = 8;
+      const maxRight = viewportLeft + viewportWidth - margin;
+      const width = Math.min(rect.width, Math.max(0, viewportWidth - margin * 2));
+      const left = Math.max(viewportLeft + margin, Math.min(rect.left, maxRight - width));
+      const belowSpace = viewportTop + viewportHeight - margin - (rect.bottom + gap);
+      const aboveSpace = rect.top - viewportTop - margin - gap;
+      const opensAbove = belowSpace < 200 && aboveSpace > belowSpace;
+      const availableSpace = opensAbove ? aboveSpace : belowSpace;
+      const maxHeight = Math.max(80, Math.min(360, availableSpace));
+      const top = opensAbove
+        ? Math.max(viewportTop + margin, rect.top - gap - maxHeight)
+        : rect.bottom + gap;
+
+      setOverlayPosition({ top, left, width, maxHeight });
+    }
+
+    updatePosition();
+    window.addEventListener("resize", updatePosition);
+    window.addEventListener("scroll", updatePosition, true);
+    window.visualViewport?.addEventListener("resize", updatePosition);
+    window.visualViewport?.addEventListener("scroll", updatePosition);
+
+    return () => {
+      window.removeEventListener("resize", updatePosition);
+      window.removeEventListener("scroll", updatePosition, true);
+      window.visualViewport?.removeEventListener("resize", updatePosition);
+      window.visualViewport?.removeEventListener("scroll", updatePosition);
+    };
+  }, [showResults]);
+
+  useEffect(() => {
     function handlePointerDown(event: PointerEvent) {
       const target = event.target;
       if (!(target instanceof Node)) return;
-      const search = document.getElementById(instanceId);
-      if (search && !search.contains(target)) {
-        setIsFocused(false);
-        setActiveIndex(-1);
-      }
+      if (rootRef.current?.contains(target) || popupRef.current?.contains(target)) return;
+      setIsFocused(false);
+      setActiveIndex(-1);
     }
     document.addEventListener("pointerdown", handlePointerDown);
     return () => document.removeEventListener("pointerdown", handlePointerDown);
-  }, [instanceId]);
+  }, []);
 
   function hrefFor(toolId: ToolId) {
     return getToolPath(locale, toolId);
@@ -172,7 +229,7 @@ export default function ToolSearch({
   }
 
   return (
-    <div id={instanceId} className={"relative " + className}>
+    <div id={instanceId} ref={rootRef} className={"relative " + className}>
       <form role="search" aria-label={t.tools.searchLabel} onSubmit={handleSubmit}>
       <label htmlFor={inputId} className="sr-only">{t.tools.searchLabel}</label>
       <div className={
@@ -198,18 +255,21 @@ export default function ToolSearch({
         </span>
         <input
           id={inputId}
-          type="search"
+          type="text"
           value={query}
           placeholder={placeholder ?? t.tools.searchPlaceholder}
           autoComplete="off"
           maxLength={120}
           role="combobox"
           aria-autocomplete="list"
-          aria-expanded={showResults}
-          aria-controls={resultsId}
-          aria-activedescendant={activeIndex >= 0 ? instanceId + "-result-" + activeIndex : undefined}
+          aria-expanded={showResults && visibleResults.length > 0}
+          aria-controls={showResults && visibleResults.length > 0 ? resultsId : undefined}
+          aria-activedescendant={showResults && activeIndex >= 0 ? instanceId + "-result-" + activeIndex : undefined}
+          inputMode="search"
+          enterKeyHint="search"
           onChange={(event) => { const nextQuery = event.target.value; searchRequest.current += 1; setQuery(nextQuery); setActiveIndex(-1); setSearchError(false); setIsSearching(nextQuery.trim().length > 0); }}
           onFocus={() => setIsFocused(true)}
+          ref={inputRef}
           onKeyDown={handleKeyDown}
           className={
             "min-w-0 flex-1 bg-transparent text-[var(--foreground)] outline-none placeholder:text-[var(--muted)] " +
@@ -221,11 +281,22 @@ export default function ToolSearch({
             variant="ghost"
             type="button"
             onMouseDown={(event) => event.preventDefault()}
-            onClick={() => { searchRequest.current += 1; setQuery(""); setActiveIndex(-1); setIsFocused(true); setIsSearching(false); setSearchError(false); }}
-            className={(compact ? "min-h-8 w-8 text-base " : "min-h-10 w-10 text-lg ") + "rounded-lg p-0"}
+            onClick={() => {
+              searchRequest.current += 1;
+              setQuery("");
+              setActiveIndex(-1);
+              setIsFocused(true);
+              setIsSearching(false);
+              setSearchError(false);
+              inputRef.current?.focus();
+            }}
+            className="min-h-10 w-10 shrink-0 rounded-full p-0"
             aria-label={t.tools.clearSearch}
+            title={t.tools.clearSearch}
           >
-            ×
+            <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
+              <path d="M6 6l12 12M18 6 6 18" />
+            </svg>
           </Button>
         )}
         <IconButton label={t.tools.searchSubmit} type="submit" disabled={!query.trim()} size={compact ? "compact" : "default"}>
@@ -236,65 +307,127 @@ export default function ToolSearch({
       </div>
       </form>
 
-      {showResults && (
-        <div id={resultsId} role={searchError ? "region" : "listbox"} aria-label={searchError ? t.tools.searchLabel : undefined} aria-busy={isSearching} className="absolute left-0 right-0 top-full z-[60] mt-2 overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface-elevated)] p-1.5 shadow-[var(--shadow-md)]">
+      {showResults && overlayPosition && typeof document !== "undefined" && createPortal(
+        <div
+          ref={popupRef}
+          data-search-popup-owner={instanceId}
+          role="region"
+          aria-label={t.tools.searchLabel}
+          onKeyDown={(event) => {
+            if (event.key !== "Escape") return;
+            event.preventDefault();
+            setIsFocused(false);
+            setActiveIndex(-1);
+            inputRef.current?.focus();
+          }}
+          style={{
+            position: "fixed",
+            top: overlayPosition.top,
+            left: overlayPosition.left,
+            width: overlayPosition.width,
+            maxHeight: overlayPosition.maxHeight,
+            zIndex: 1000,
+          }}
+          className="overflow-y-auto overscroll-contain rounded-[var(--radius-xl)] border border-[var(--outline-variant)] bg-[var(--surface-elevated)] p-2 text-[var(--foreground)] shadow-[var(--shadow-lg)]"
+        >
           {isSearching ? (
-            <div className="px-4 py-6" role="status">
+            <div className="flex items-center gap-3 px-4 py-5" role="status" aria-live="polite">
+              <span className="h-4 w-4 shrink-0 animate-pulse rounded-full bg-[var(--primary)]" aria-hidden="true" />
               <p className="text-sm font-medium text-[var(--foreground)]">{t.tools.searching}</p>
             </div>
           ) : searchError ? (
-            <div className="px-4 py-6" role="alert">
+            <div className="px-4 py-5" role="alert">
               <p className="text-sm font-medium text-[var(--foreground)]">{t.tools.searchError}</p>
               <Button
                 type="button"
                 variant="secondary"
                 onMouseDown={(event) => event.preventDefault()}
                 onClick={() => { setSearchError(false); setIsSearching(true); setSearchRetryCount((count) => count + 1); }}
-                className="mt-3 min-h-9 rounded-[var(--radius-md)] px-4"
+                className="mt-3 min-h-10 rounded-full px-4"
               >
                 {t.tools.retrySearch}
               </Button>
             </div>
           ) : visibleResults.length > 0 ? (
             <>
-              <div className="flex items-center justify-between px-3 pb-2 pt-2">
-                <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[var(--muted)]">{t.tools.suggestions}</p>
-                <p className="text-xs text-[var(--muted)]">{formatPlural(locale, visibleResults.length, { one: t.tools.resultCountOne, other: t.tools.resultCountMany })}</p>
+              <div className="flex items-center justify-between gap-3 px-3 pb-2 pt-1">
+                <p className="text-xs font-semibold text-[var(--muted)]">{t.tools.suggestions}</p>
+                <p className="rounded-full bg-[var(--surface-soft)] px-2.5 py-1 text-xs font-medium text-[var(--muted)]">
+                  {formatPlural(locale, visibleResults.length, { one: t.tools.resultCountOne, other: t.tools.resultCountMany })}
+                </p>
               </div>
-              {visibleResults.map(({ tool }, index) => {
-                const content = getToolContent(tool, locale);
-                return (
-                  <a
-                    key={tool.id}
-                    id={instanceId + "-result-" + index}
-                    href={hrefFor(tool.id)}
-                    role="option"
-                    aria-selected={activeIndex === index}
-                    onMouseEnter={() => setActiveIndex(index)}
-                    className={"flex items-center gap-3 rounded-[var(--radius-md)] px-3 py-3 text-left transition-colors " + (activeIndex === index ? "bg-[var(--accent-soft)]" : "hover:bg-[var(--surface-soft)]")}
-                  >
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-md)] bg-[var(--accent-soft)] text-xl">{tool.icon}</span>
-                    <span className="min-w-0 flex-1">
-                      <span className="block truncate text-sm font-semibold text-[var(--foreground)]"><HighlightMatch text={content.name} query={query} /></span>
-                      <span className="mt-1 block text-xs text-[var(--muted)]"><span className="font-medium text-[var(--foreground)]/70">{getCategoryName(locale, getPrimaryToolCategory(tool))}</span><span aria-hidden="true"> · </span>{content.description}</span>
-                    </span>
-                    <span className="text-[var(--muted)]">↗</span>
-                  </a>
-                );
-              })}
+              <div id={resultsId} role="listbox" aria-label={t.tools.suggestions} aria-busy={false} className="grid gap-1">
+                {visibleResults.map(({ tool }, index) => {
+                  const content = getToolContent(tool, locale);
+                  const selected = activeIndex === index;
+                  return (
+                    <a
+                      key={tool.id}
+                      id={instanceId + "-result-" + index}
+                      href={hrefFor(tool.id)}
+                      role="option"
+                      aria-selected={selected}
+                      tabIndex={-1}
+                      onMouseEnter={() => setActiveIndex(index)}
+                      onMouseDown={(event) => event.preventDefault()}
+                      className={
+                        "group flex min-h-[4.25rem] items-center gap-3 rounded-[var(--radius-lg)] px-3 py-2.5 text-left outline-none transition-colors " +
+                        (selected
+                          ? "bg-[var(--primary-container)] text-[var(--on-primary-container)]"
+                          : "text-[var(--foreground)] hover:bg-[var(--surface-soft)]")
+                      }
+                    >
+                      <span
+                        className={
+                          "flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--radius-md)] text-xl " +
+                          (selected
+                            ? "bg-[var(--on-primary-container)]/10"
+                            : "bg-[var(--surface-variant)] text-[var(--on-surface-variant)]")
+                        }
+                        aria-hidden="true"
+                      >
+                        {tool.icon}
+                      </span>
+                      <span className="min-w-0 flex-1">
+                        <span className="block truncate text-sm font-semibold">
+                          <HighlightMatch text={content.name} query={query} />
+                        </span>
+                        <span className="mt-1 block line-clamp-2 text-xs leading-5 opacity-80">
+                          <span className="font-medium">{getCategoryName(locale, getPrimaryToolCategory(tool))}</span>
+                          <span aria-hidden="true"> · </span>
+                          {content.description}
+                        </span>
+                      </span>
+                      <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 opacity-70" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <path d="M5 12h14M13 6l6 6-6 6" />
+                      </svg>
+                    </a>
+                  );
+                })}
+              </div>
             </>
           ) : (
-            <div className="px-4 py-6">
-              <p className="text-sm font-medium text-[var(--foreground)]">{t.tools.noResults} « {query.trim()} »</p>
-              <p className="mt-1 text-xs text-[var(--muted)]">{t.tools.noResultsHelp}</p>
+            <div className="px-3 py-4">
+              <p className="text-sm font-semibold text-[var(--foreground)]" role="status">
+                {t.tools.noResults} « {query.trim()} »
+              </p>
+              <p className="mt-1 text-sm leading-5 text-[var(--muted)]">{t.tools.noResultsHelp}</p>
               <div className="mt-4 flex flex-wrap gap-2" aria-label={t.tools.tryThese}>
                 {t.tools.noResultsSuggestions.map((suggestion) => (
                   <button
                     key={suggestion}
                     type="button"
                     onMouseDown={(event) => event.preventDefault()}
-                    onClick={() => { searchRequest.current += 1; setQuery(suggestion); setActiveIndex(-1); setIsFocused(true); setSearchError(false); setIsSearching(true); }}
-                    className="rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-xs font-medium text-[var(--foreground)] transition-colors hover:bg-[var(--surface-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+                    onClick={() => {
+                      searchRequest.current += 1;
+                      setQuery(suggestion);
+                      setActiveIndex(-1);
+                      setIsFocused(true);
+                      setSearchError(false);
+                      setIsSearching(true);
+                      inputRef.current?.focus();
+                    }}
+                    className="min-h-10 rounded-full border border-[var(--outline-variant)] bg-[var(--surface-soft)] px-4 py-2 text-xs font-medium text-[var(--foreground)] transition-colors hover:border-[var(--primary)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
                   >
                     {suggestion}
                   </button>
@@ -302,7 +435,8 @@ export default function ToolSearch({
               </div>
             </div>
           )}
-        </div>
+        </div>,
+        document.body,
       )}
     </div>
   );
