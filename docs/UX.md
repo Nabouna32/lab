@@ -393,8 +393,8 @@ The current header panel contains both navigation and settings, so it uses discl
 ### Mobile header search
 
 - Opening the search places focus in the search input.
-- Outside pointer, Escape, explicit close and route change close the panel.
-- Escape and explicit close return focus to the search trigger; outside dismissal preserves the user's pointer/focus target.
+- Outside pointer, explicit close and route change close the panel. Escape first dismisses an active suggestions/error surface; a subsequent Escape closes the panel.
+- Escape that closes the panel and explicit close return focus to the search trigger; Escape that only dismisses suggestions keeps focus in the field. Outside dismissal preserves the user's pointer/focus target.
 - Keep the interaction non-modal unless the implementation actually provides modal behavior and its full focus handling.
 - Test the behavior in French and English and at mobile/tablet/desktop breakpoints. Prefer native links/buttons, visible focus and touch targets around 48 CSS px on mobile.
 
