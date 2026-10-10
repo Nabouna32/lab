@@ -51,7 +51,12 @@ test("homepage search stays concise and category discovery adapts to viewport", 
 
     const search = page.locator("#home-tool-search-v4-input");
     await expect(search).toHaveAttribute("placeholder", placeholder);
-    await expect(page.locator("main").getByRole("link", { name: allTools, exact: true })).toHaveCount(1);
+    const allToolsLink = page.locator("main").getByRole("link", { name: allTools, exact: true });
+    await expect(allToolsLink).toHaveCount(1);
+    expect(
+      await allToolsLink.evaluate((link) => link.firstElementChild?.tagName.toLowerCase() === "svg"),
+      `The ${locale} all-tools link should lead with its navigation arrow.`,
+    ).toBe(true);
     await expect(page.locator("main").getByRole("navigation", { name: categories })).toBeVisible();
     const submitButton = page.locator("#home-tool-search-v4").getByRole("button", { name: submitLabel, exact: true });
     await expect(submitButton).toBeVisible();
@@ -59,10 +64,32 @@ test("homepage search stays concise and category discovery adapts to viewport", 
 
     for (const width of widths) {
       await page.setViewportSize({ width, height: 800 });
-      const measurements = await page.evaluate(() => {
+      const measurements = await page.evaluate((locale) => {
         const input = document.querySelector("#home-tool-search-v4-input");
         const navigation = document.querySelector("main nav");
-        if (!input || !navigation) return null;
+        const searchBlock = document.querySelector("#home-search");
+        const contentBlock = searchBlock?.parentElement;
+        const title = document.querySelector("#home-title");
+        if (!input || !navigation || !searchBlock || !contentBlock || !title) return null;
+
+        const searchRect = searchBlock.getBoundingClientRect();
+        const contentRect = contentBlock.getBoundingClientRect();
+        let finalWordLineOffset = null;
+        if (locale === "fr") {
+          const titleText = title.textContent ?? "";
+          const ideaIndex = titleText.lastIndexOf("idées");
+          const tesIndex = titleText.lastIndexOf("tes", ideaIndex);
+          const textNode = title.firstChild;
+          if (textNode && ideaIndex >= 0 && tesIndex >= 0) {
+            const tesRange = document.createRange();
+            tesRange.setStart(textNode, tesIndex);
+            tesRange.setEnd(textNode, tesIndex + 3);
+            const ideaRange = document.createRange();
+            ideaRange.setStart(textNode, ideaIndex);
+            ideaRange.setEnd(textNode, ideaIndex + 5);
+            finalWordLineOffset = Math.abs(tesRange.getBoundingClientRect().top - ideaRange.getBoundingClientRect().top);
+          }
+        }
 
         const style = getComputedStyle(input);
         const canvas = document.createElement("canvas");
@@ -72,15 +99,21 @@ test("homepage search stays concise and category discovery adapts to viewport", 
         context.font = style.font;
         return {
           documentWidth: document.documentElement.scrollWidth,
+          searchCenterOffset: Math.abs((searchRect.left + searchRect.width / 2) - (contentRect.left + contentRect.width / 2)),
+          finalWordLineOffset,
           placeholderWidth: context.measureText(input.placeholder).width,
           availableWidth: input.clientWidth - Number.parseFloat(style.paddingLeft) - Number.parseFloat(style.paddingRight),
           navigationDisplay: getComputedStyle(navigation).display,
           navigationColumns: getComputedStyle(navigation).gridTemplateColumns.split(" ").length,
         };
-      });
+      }, locale);
 
       expect(measurements, `Expected search and category navigation at ${width}px.`).not.toBeNull();
       expect(measurements.documentWidth, `Unexpected horizontal overflow at ${width}px in ${locale}.`).toBeLessThanOrEqual(width);
+      expect(measurements.searchCenterOffset, `Search should be centered in the hero content at ${width}px in ${locale}.`).toBeLessThanOrEqual(1);
+      if (locale === "fr") {
+        expect(measurements.finalWordLineOffset, `“idées” should share a line with “tes” at ${width}px.`).toBeLessThanOrEqual(1);
+      }
       expect(measurements.placeholderWidth + 8, `Placeholder should fit the input at ${width}px in ${locale}.`).toBeLessThanOrEqual(measurements.availableWidth);
       expect(measurements.navigationDisplay).toBe("grid");
       expect(measurements.navigationColumns).toBe(width < 640 ? 1 : width < 1024 ? 2 : width < 1280 ? 3 : 4);
