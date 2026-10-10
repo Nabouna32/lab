@@ -177,9 +177,9 @@ The PR should explain:
 - known limitations;
 - decisions requiring validation.
 
-Wait for required CI checks. Fix failures caused by the feature.
+Wait for all required CI checks and inspect their actual GitHub results. Fix failures caused by the feature.
 
-Merge only when repository policy permits and required checks are green. Otherwise leave the PR ready and report its exact state.
+Immediately before merging, verify the PR is mergeable, the checked head SHA has not changed, and its base is current with `main`. Controlled manual merge through GitHub's normal merge action is the default; do not enable auto-merge or bypass branch protections. If repository policy explicitly requires auto-merge, follow that verified exception. Otherwise merge only when every required protection is satisfied; if blocked, report the exact state.
 
 ## 13. Completion bar
 

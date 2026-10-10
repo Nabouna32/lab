@@ -235,13 +235,11 @@ The assistant must:
 3. commit coherent changes;
 4. push/create the branch through the available GitHub workflow;
 5. open a PR targeting `main`;
-6. immediately enable GitHub auto-merge using the repository's configured merge method;
-7. wait for required CI/checks through the auto-merge lifecycle;
-8. inspect failures;
-9. fix failures introduced by the assistant;
-10. re-run verification;
-11. do not manually merge a PR that has auto-merge enabled; GitHub performs the merge once all required protections are satisfied;
-12. if auto-merge cannot be enabled because of an explicit repository-policy or human-validation requirement, leave the PR clearly ready for the appropriate next action and report the concrete blocker.
+6. wait for every required CI/check to complete and inspect its actual GitHub result;
+7. fix failures introduced by the assistant and rerun the relevant verification;
+8. verify immediately before merge that the PR is mergeable, the checked head SHA has not changed, and its base is current with `main`;
+9. merge manually through GitHub's normal merge action only when all required protections are satisfied; never bypass branch protection;
+10. do not enable GitHub auto-merge by default. If auto-merge is explicitly required by repository policy, verify that requirement and follow the common contract's exception; if auto-merge is already enabled but cannot be disabled with the available tools, report the blocker instead of attempting a workaround.
 
 Never merge a PR outside the validated mission.
 

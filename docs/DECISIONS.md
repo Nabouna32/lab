@@ -582,7 +582,7 @@ Structural i18n tests can verify that translations exist and remain coherent, bu
 
 ### Decision
 
-The product's public brand is **Loculary**. The previous name was **Utiluna** and remains only where it is needed to preserve historical decision and project context.
+The product's public brand is **Loculary**.
 
 ### Reason
 
@@ -591,7 +591,6 @@ The product identity has been explicitly changed while the underlying repository
 ### Consequences
 
 - Current product-facing documentation and implementation should use Loculary.
-- Historical decisions and archives may retain Loculary when that name is part of the historical record.
 - Infrastructure names and identifiers are not assumed to change automatically; each migration is handled explicitly.
 
 
@@ -717,7 +716,7 @@ The product is intended to launch with English and French as first-class languag
 - Every published category has an English and French route slug.
 - English is the naming reference for new internal identifiers and public route conventions.
 - URL generation must be centralized rather than assembled ad hoc throughout UI components.
-- The former category-bearing tool URL shape is superseded for public routing; Git history retains the previous document version.
+- Public tool routes use the current generic route shape without category-bearing segments.
 
 ## DEC-037 — Complete account lifecycle and deletion semantics
 
@@ -827,7 +826,7 @@ where the final step is conditional on there being a meaningful continuation.
 - The recommendation engine is an implementation mechanism and must not define the product meaning of a next action.
 - Generic discovery can still exist elsewhere in the product without being mislabeled as a next action.
 - Existing "Related Tools" UI and relation logic must be evaluated against this decision; implementation changes require their own validated scope.
-- This decision supersedes any current UX wording that treats related tools as a generic mandatory section or places them after documentation by default.
+- Related tools are not a mandatory generic section and are not placed after documentation by default.
 
 
 ## DEC-045 — Intents are first-class discovery objects
@@ -878,10 +877,33 @@ Loculary needs a coherent, recognizable visual and interaction language that fee
 
 ### Consequences
 
-- This decision supersedes the previous M3-only direction. Git history retains prior wording; no historical audit report is rewritten.
 - `docs/DESIGN-SYSTEM.md` defines the Expressive platform contract, palette rules and Loculary-specific boundaries.
 - `docs/VISION.md`, `docs/UX.md` and `docs/PROJECT_INSTRUCTIONS.md` must remain consistent with this direction.
 - Shared components and screens may be refactored or replaced when required for a coherent M3 Expressive implementation; the direction does not require preserving current abstractions.
 - DEC-004 remains in force: shared foundations and behavior do not require identical compositions across specialized tools.
 - Accessibility, WCAG 2.2 AA, reduced motion, responsive desktop/tablet/mobile behavior, localization, privacy and performance remain mandatory.
 - Adoption is not proof of implementation. Production migration, curated palette settings, preference persistence, account synchronization and visual/accessibility verification must be delivered and verified in separate implementation scopes.
+
+
+## DEC-049 — Controlled manual merge as the default delivery workflow
+
+**Status:** Accepted
+
+### Decision
+
+Pull requests use a controlled manual merge by default. Do not enable GitHub auto-merge as part of the normal assistant workflow.
+
+Before merging, wait for every required check, inspect the actual GitHub results, verify that the checked PR head has not changed, confirm the PR is mergeable and based on the current `main`, then use GitHub's normal merge action. Never bypass branch protections.
+
+Auto-merge is an exception only when an explicit repository policy requires it. If auto-merge is already enabled and cannot be disabled through the available tools, report the blocker rather than attempting to work around GitHub's protections.
+
+### Reason
+
+The project prioritizes a short, predictable delivery loop. Explicitly checking the green CI state and current base before merging is easier to diagnose than waiting indefinitely for auto-merge, while retaining required GitHub protections.
+
+### Consequences
+
+- New PRs must not enable auto-merge by default.
+- The assistant owns the final pre-merge freshness and required-check verification.
+- A successful merge must be confirmed from GitHub's actual PR and `main` state before closing the mission Issue.
+- Repository rulesets and required checks remain authoritative; this decision never authorizes bypassing them.
