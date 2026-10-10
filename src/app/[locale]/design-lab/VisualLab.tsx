@@ -48,6 +48,16 @@ const copy = {
   },
 };
 
+const categorySeedDefinitions = [
+  { key: "calculations", name: "Calculations", nameFr: "Calculs", icon: "％", currentSeed: "#D92D20", vividSeed: "#D32F2F", blueSeed: "#2563EB" },
+  { key: "dates", name: "Dates", nameFr: "Dates", icon: "◷", currentSeed: "#A16207", vividSeed: "#F59E0B", blueSeed: "#0EA5E9" },
+  { key: "computing", name: "Computing", nameFr: "Informatique", icon: "⌘", currentSeed: "#7A5AF8", vividSeed: "#7C3AED", blueSeed: "#4F46E5" },
+  { key: "images", name: "Images", nameFr: "Images", icon: "▧", currentSeed: "#C11574", vividSeed: "#DB2777", blueSeed: "#7C3AED" },
+  { key: "files", name: "Files", nameFr: "Fichiers", icon: "▤", currentSeed: "#0E7490", vividSeed: "#0891B2", blueSeed: "#0369A1" },
+  { key: "video", name: "Video", nameFr: "Vidéo", icon: "▷", currentSeed: "#0F766E", vividSeed: "#059669", blueSeed: "#0F766E" },
+  { key: "development", name: "Development", nameFr: "Développement", icon: "{ }", currentSeed: "#155EEF", vividSeed: "#2563EB", blueSeed: "#1D4ED8" },
+] as const;
+
 export default function VisualLab({ initialLocale }: { initialLocale: string }) {
   const [locale,setLocale]=useState<Locale>(initialLocale==="fr"?"fr":"en");
   const [seedInput,setSeedInput]=useState("#3F51B5");
@@ -103,20 +113,11 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const amount=Number(value)*Number(percent)/100;
   const result=Number.isFinite(amount)?amount.toLocaleString(locale==="fr"?"fr-FR":"en-US",{maximumFractionDigits:3}):"—";
   const stageClass=[styles.stage,styles[viewport],theme==="dark"?styles.dark:styles.light,mode==="expressive"?styles.expressive:styles.classic].join(" ");
-  const categoryItems = [
-    { key: "calculations", name: locale === "fr" ? "Calculs" : "Calculations", icon: "％", currentSeed: "#D92D20", vividSeed: "#D32F2F", blueSeed: "#2563EB" },
-    { key: "dates", name: locale === "fr" ? "Dates" : "Dates", icon: "◷", currentSeed: "#A16207", vividSeed: "#F59E0B", blueSeed: "#0EA5E9" },
-    { key: "computing", name: locale === "fr" ? "Informatique" : "Computing", icon: "⌘", currentSeed: "#7A5AF8", vividSeed: "#7C3AED", blueSeed: "#4F46E5" },
-    { key: "images", name: locale === "fr" ? "Images" : "Images", icon: "▧", currentSeed: "#C11574", vividSeed: "#DB2777", blueSeed: "#7C3AED" },
-    { key: "files", name: locale === "fr" ? "Fichiers" : "Files", icon: "▤", currentSeed: "#0E7490", vividSeed: "#0891B2", blueSeed: "#0369A1" },
-    { key: "video", name: locale === "fr" ? "Vidéo" : "Video", icon: "▷", currentSeed: "#0F766E", vividSeed: "#059669", blueSeed: "#0F766E" },
-    { key: "development", name: locale === "fr" ? "Développement" : "Development", icon: "{ }", currentSeed: "#155EEF", vividSeed: "#2563EB", blueSeed: "#1D4ED8" },
-  ];
-  const categoryCards = categoryItems.map((item) => {
+  const categoryCards = useMemo(()=>categorySeedDefinitions.map((item) => {
     const categorySeed = categorySet === "current" ? item.currentSeed : categorySet === "vivid" ? item.vividSeed : item.blueSeed;
     const categoryScheme = createM3Scheme(categorySeed, variant, theme === "dark", contrastLevel, specVersion, platform);
-    return { ...item, categorySeed, categoryColor: colorHex(categoryScheme.primary), categoryForeground: colorHex(categoryScheme.onPrimary) };
-  });
+    return { ...item, name: locale === "fr" ? item.nameFr : item.name, categorySeed, categoryColor: colorHex(categoryScheme.primary), categoryForeground: colorHex(categoryScheme.onPrimary) };
+  }),[locale,categorySet,variant,theme,contrastLevel,specVersion,platform]);
   const typeScaleSamples = [
     { role: "Display large", roleFr: "Affichage grand", size: 57 },
     { role: "Display medium", roleFr: "Affichage moyen", size: 45 },
