@@ -112,6 +112,7 @@ test("homepage search stays concise and category discovery adapts to viewport", 
       expect(measurements.documentWidth, `Unexpected horizontal overflow at ${width}px in ${locale}.`).toBeLessThanOrEqual(width);
       expect(measurements.searchCenterOffset, `Search should be centered in the hero content at ${width}px in ${locale}.`).toBeLessThanOrEqual(1);
       if (locale === "fr") {
+        expect(measurements.finalWordLineOffset, `Could not measure the French title line grouping at ${width}px.`).not.toBeNull();
         expect(measurements.finalWordLineOffset, `“idées” should share a line with “tes” at ${width}px.`).toBeLessThanOrEqual(1);
       }
       expect(measurements.placeholderWidth + 8, `Placeholder should fit the input at ${width}px in ${locale}.`).toBeLessThanOrEqual(measurements.availableWidth);
