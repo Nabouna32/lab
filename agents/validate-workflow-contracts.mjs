@@ -66,6 +66,8 @@ has(auditContract, 'Historical immutability', 'Audit contract');
 has(auditContract, 'LATEST.md', 'Audit contract');
 has(auditContract, 'read-only', 'Audit contract');
 has(featureContract, 'mandatory', 'Feature workflow');
+has(featureContract, 'Every feature implementation mission must have an active GitHub Issue', 'Feature Issue checkpoint');
+has(toolContract, 'Every tool implementation mission must have an active GitHub Issue', 'Tool Issue checkpoint');
 has(featureWorkflow, 'FEATURE-FACTORY-CONTRACT.md', 'Feature launch checklist');
 has(toolContract, 'tool', 'Tool workflow');
 has(toolWorkflow, 'TOOL-FACTORY-CONTRACT.md', 'Tool launch checklist');
@@ -97,6 +99,11 @@ function listMarkdownRecursive(dir, prefix = '') {
   }).sort();
 }
 const activeAgentMarkdown = listMarkdownRecursive(path.join(root, 'agents'));
+const issueExemptions = /does not require a GitHub Issue for every (?:feature|tool) request|may proceed without an Issue/i;
+for (const file of activeAgentMarkdown) {
+  const content = fs.readFileSync(path.join(root, 'agents', file), 'utf8');
+  if (content.split('\n').some((line) => issueExemptions.test(line))) fail('Issue checkpoint exemption conflicts with the common contract in agents/' + file);
+}
 const autoMergeContradictions = /^\s*(?:\d+\.\s*)?(?:immediately\s+)?enable GitHub auto-merge\b|^\s*When opening a PR, enable GitHub auto-merge\b|do not manually merge a PR that has auto-merge enabled|wait for required CI\/checks through the auto-merge lifecycle|GitHub performs the merge once all required protections are satisfied/i;
 for (const file of activeAgentMarkdown) {
   const content = fs.readFileSync(path.join(root, 'agents', file), 'utf8');
