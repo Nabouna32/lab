@@ -127,10 +127,11 @@ export default function ToolSearch({
   useEffect(() => {
     if (!showResults) return;
 
-    const anchor = rootRef.current;
-    if (!anchor) return;
+    if (!rootRef.current) return;
 
     function updatePosition() {
+      const anchor = rootRef.current;
+      if (!anchor) return;
       const rect = anchor.getBoundingClientRect();
       const viewport = window.visualViewport;
       const viewportLeft = viewport?.offsetLeft ?? 0;
