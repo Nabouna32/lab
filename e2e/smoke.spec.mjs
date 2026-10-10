@@ -141,9 +141,9 @@ test("responsive header keeps search available on mobile and tablet", async ({ p
   await expect(header.locator("#header-tool-search-mobile-input")).toBeVisible();
   await expect(header.locator("#header-tool-search-mobile-input")).toBeFocused();
 
-  await header.getByRole("button", { name: "Fermer la recherche" }).click();
+  await expect(header.getByRole("button", { name: "Fermer la recherche" })).toHaveCount(0);
+  await page.locator("#home-title").click();
   await expect(header.locator("#header-tool-search-mobile-input")).toHaveCount(0);
-  await expect(header.getByRole("button", { name: "Rechercher dans les outils" })).toBeFocused();
 
   await page.setViewportSize({ width: 820, height: 900 });
   await page.reload({ waitUntil: "networkidle" });
@@ -151,7 +151,8 @@ test("responsive header keeps search available on mobile and tablet", async ({ p
   await expect(header.getByRole("button", { name: "Rechercher dans les outils" })).toBeVisible();
   await header.getByRole("button", { name: "Rechercher dans les outils" }).click();
   await expect(header.locator("#header-tool-search-mobile-input")).toBeVisible();
-  await header.getByRole("button", { name: "Fermer la recherche" }).click();
+  await page.locator("#home-title").click();
+  await expect(header.locator("#header-tool-search-mobile-input")).toHaveCount(0);
 
   await page.setViewportSize({ width: 1024, height: 900 });
   await page.reload({ waitUntil: "networkidle" });
@@ -168,8 +169,9 @@ test("mobile header search dismisses outside and on Escape with predictable focu
 
   await trigger.click();
   await expect(input).toBeFocused();
+  await expect(header.getByRole("button", { name: "Fermer la recherche" })).toHaveCount(0);
   await input.fill("json");
-  const suggestions = header.locator("#header-tool-search-mobile [role='listbox']");
+  const suggestions = page.locator("#header-tool-search-mobile-results");
   await expect(suggestions).toBeVisible();
   await page.keyboard.press("Escape");
   await expect(input).toBeVisible();
@@ -211,6 +213,64 @@ test("header settings stay open for theme and language changes, then dismiss pre
   await expect(panel).toBeVisible();
   await page.locator("main").click({ position: { x: 12, y: 12 } });
   await expect(trigger).toHaveAttribute("aria-expanded", "false");
+});
+
+test("search suggestions escape clipping and expose one consistent clear control", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 800 });
+  await page.goto(`${baseUrl}/fr`, { waitUntil: "networkidle" });
+
+  const header = page.locator("header");
+  await header.getByRole("button", { name: "Rechercher dans les outils" }).click();
+  const mobileSearch = page.locator("#header-tool-search-mobile-input");
+  await mobileSearch.fill("json");
+
+  const mobilePopup = page.locator('[data-search-popup-owner="header-tool-search-mobile"]');
+  await expect(mobilePopup).toBeVisible();
+  await expect(mobilePopup.getByRole("option").first()).toBeVisible();
+  await expect(mobileSearch).toHaveAttribute("type", "text");
+  await expect(header.getByRole("button", { name: "Effacer la recherche" })).toHaveCount(1);
+
+  const mobilePopupGeometry = await mobilePopup.evaluate((element) => {
+    const rect = element.getBoundingClientRect();
+    const hit = document.elementFromPoint(rect.left + 4, rect.top + 4);
+    return {
+      position: getComputedStyle(element).position,
+      zIndex: Number(getComputedStyle(element).zIndex),
+      withinViewport: rect.left >= 0 && rect.right <= window.innerWidth && rect.top >= 0 && rect.bottom <= window.innerHeight,
+      hitIsPopup: hit === element || Boolean(hit && element.contains(hit)),
+    };
+  });
+  expect(mobilePopupGeometry.position).toBe("fixed");
+  expect(mobilePopupGeometry.zIndex).toBeGreaterThanOrEqual(1000);
+  expect(mobilePopupGeometry.withinViewport).toBe(true);
+  expect(mobilePopupGeometry.hitIsPopup).toBe(true);
+
+  await page.locator("#home-tool-search-v4-input").click();
+  await expect(mobileSearch).toHaveCount(0);
+
+  const homeSearch = page.locator("#home-tool-search-v4-input");
+  await homeSearch.fill("json");
+  const homePopup = page.locator('[data-search-popup-owner="home-tool-search-v4"]');
+  await expect(homePopup.getByRole("option").first()).toBeVisible();
+  await expect(page.locator("#home-tool-search-v4").getByRole("button", { name: "Effacer la recherche" })).toHaveCount(1);
+  expect(await homePopup.evaluate((element) => !document.querySelector(".home-command-surface")?.contains(element))).toBe(true);
+
+  const homePopupGeometry = await homePopup.evaluate((element) => {
+    const rect = element.getBoundingClientRect();
+    const hit = document.elementFromPoint(rect.left + 4, rect.top + 4);
+    return {
+      position: getComputedStyle(element).position,
+      withinViewport: rect.left >= 0 && rect.right <= window.innerWidth && rect.top >= 0 && rect.bottom <= window.innerHeight,
+      hitIsPopup: hit === element || Boolean(hit && element.contains(hit)),
+    };
+  });
+  expect(homePopupGeometry.position).toBe("fixed");
+  expect(homePopupGeometry.withinViewport).toBe(true);
+  expect(homePopupGeometry.hitIsPopup).toBe(true);
+
+  await page.locator("#home-tool-search-v4").getByRole("button", { name: "Effacer la recherche" }).click();
+  await expect(homeSearch).toHaveValue("");
+  await expect(homePopup).toHaveCount(0);
 });
 
 test("tool search shows useful result context", async ({ page }) => {
@@ -256,7 +316,7 @@ test("search submission opens all matching tools and handles unique/no-result qu
   await page.goto(`${baseUrl}/fr`, { waitUntil: "domcontentloaded" });
   const unmatchedSearch = page.locator("#home-tool-search-v4-input");
   await unmatchedSearch.fill("zzzzzzzz");
-  await expect(page.locator("#home-tool-search-v4-results").getByText(/Aucun outil ne correspond à/)).toBeVisible();
+  await expect(page.locator('[data-search-popup-owner="home-tool-search-v4"]').getByText(/Aucun outil ne correspond à/)).toBeVisible();
   await page.locator("#home-tool-search-v4").getByRole("button", { name: "Lancer la recherche" }).click();
   await expect(page).toHaveURL(`${baseUrl}/fr/recherche#q=zzzzzzzz`);
   await expect(page.getByRole("heading", { name: /Aucun outil ne correspond à/ })).toBeVisible();
