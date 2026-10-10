@@ -123,7 +123,7 @@ export function getSemanticRoles(scheme: DynamicScheme): Array<{
   name: SemanticRoleName;
   color: string | null;
 }> {
-  const colors: Record<SemanticRoleName, number> = {
+  const colors: Record<SemanticRoleName, number | undefined> = {
     primary: scheme.primary,
     onPrimary: scheme.onPrimary,
     primaryContainer: scheme.primaryContainer,
