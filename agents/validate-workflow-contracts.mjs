@@ -48,7 +48,7 @@ has(common, 'Mandatory challenge and optimization', 'Common contract');
 has(common, 'actionable discovery outside the current scope', 'Common contract');
 has(common, 'consult official documentation and cite it', 'Common contract source verification');
 has(common, 'search for an existing matching Issue first', 'Common contract Issue tracking');
-has(common, 'Do not implement the discovery without user validation', 'Common contract scope boundary');
+has(common, 'do not implement the discovery without user validation', 'Common contract scope boundary');
 has(common, 'Contrôle : challenge', 'Common contract response receipt');
 has(common, 'Git retains ordinary history', 'Common contract');
 has(common, 'Inspect the complete diff', 'Common contract');
@@ -74,7 +74,7 @@ has(readme, 'single ChatGPT assistant', 'Workflow README');
 has(toolReadme, 'check for a matching Issue', 'Tool README Issue tracking');
 has(projectContext, 'Current UX/UI direction', 'Project context');
 has(decisions, 'Issue tracking does not authorize implementation outside the validated scope', 'DEC-039 scope boundary');
-const activeWorkflowText = [common, start, issueContract, auditContract, productWorkflow, readme, toolReadme, decisions].join('\\n');
+const activeWorkflowText = [common, start, issueContract, auditContract, productWorkflow, readme, toolReadme, decisions].join('\n');
 if (/ask explicitly whether to create|only after explicitly asking the user whether to create|who decides whether to create or attach|only after asking the user whether to create or attach/i.test(activeWorkflowText)) {
   fail('Active workflow docs still require user permission before creating or attaching Issue tracking.');
 }
