@@ -7,7 +7,7 @@ export type Messages = {
   breadcrumbs: { label: string };
   footer: { tagline: string; explore: string; account: string };
   actions: { copy: string; copied: string; clear: string };
-  home: { metaTitle: string; badge: string; title: string; description: string; quickLinksLabel: string; quickLinks: Array<{ label: string; toolId: ToolId }>; explore: string; discoveryTitle: string; discoveryDescription: string; discoveryOpen: string; categoriesTitle: string; categoriesDescription: string; categoriesCount: (count: number) => string; ecosystemEyebrow: string; ecosystemTitle: string; ecosystemDescription: string; ecosystemToolsLabel: string; ecosystemVariantLabel: string; ecosystemVariantHint: string; ecosystemVariants: Record<"constellation" | "radial" | "network" | "surfaces", string>; };
+  home: { metaTitle: string; badge: string; title: string; description: string; quickLinksLabel: string; quickLinks: Array<{ label: string; toolId: ToolId }>; explore: string; discoveryEyebrow: string; discoveryTitle: string; discoveryDescription: string; categoriesTitle: string; categoriesDescription: string; toolsCountLabel: string; };
   tools: {
     metaTitle: string;
     eyebrow: string; title: string; description: string; explore: string; one: string; many: string;
@@ -32,26 +32,25 @@ export const messages: Record<Locale, Messages> = {
   fr: {
     nav: { home: "Accueil", tools: "Outils", explore: "Voir tous les outils", language: "Langue", account: "Compte", space: "Mon espace", menu: "Menu", closeSearch: "Fermer la recherche" },
     breadcrumbs: { label: "Fil d’Ariane" },
-    footer: { tagline: "Des outils utiles, directement dans votre navigateur.", explore: "Voir tous les outils", account: "Votre espace" },
+    footer: { tagline: "Des outils utiles, directement dans ton navigateur.", explore: "Tous les outils", account: "Ton espace" },
     actions: { copy: "Copier", copied: "Copié", clear: "Effacer" },
     home: {
-      metaTitle: "Loculary — Outils gratuits en ligne",
-      badge: "Des outils pour passer à l’action",
-      title: "Que voulez-vous faire ?",
-      description: "Décrivez votre besoin, trouvez l’outil et faites-le maintenant.",
-      quickLinksLabel: "Essayez directement",
+      metaTitle: "Loculary — Outils en ligne gratuits",
+      badge: "De l’idée à l’action",
+      title: "Une boîte à outils pour tes idées.",
+      description: "Des tâches simples, des outils utiles, moins de friction.",
+      quickLinksLabel: "Accès directs aux outils",
       quickLinks: [
         { label: "Calculer une remise", toolId: "discount" },
         { label: "Convertir une vitesse", toolId: "download-speed" },
         { label: "Calculer mon âge", toolId: "age" },
         { label: "Convertir une taille de fichier", toolId: "file-size-converter" },
       ],
-      explore: "Voir tous les outils",
-      discoveryTitle: "Quelques outils à essayer", discoveryDescription: "Des outils simples pour les besoins qui reviennent souvent.", discoveryOpen: "Utiliser l’outil",
-      categoriesTitle: "Explorer par domaine",
-      categoriesDescription: "Parcourez les domaines quand vous savez ce que vous cherchez, sans avoir besoin de connaître le nom de l’outil.",
-      categoriesCount: (count) => formatPlural("fr", count, { one: "catégorie", other: "catégories" }),
-      ecosystemEyebrow: "L’écosystème Loculary", ecosystemTitle: "Les outils, par domaine", ecosystemDescription: "Une vue plus visuelle des domaines disponibles pour découvrir Loculary.", ecosystemToolsLabel: "outils", ecosystemVariantLabel: "Vue", ecosystemVariantHint: "Chaque vue raconte le même catalogue autrement.", ecosystemVariants: { constellation: "Constellation", radial: "Répartition", network: "Réseau", surfaces: "Surfaces" },
+      explore: "Tous les outils",
+      discoveryEyebrow: "Pour tes tâches du quotidien", discoveryTitle: "Quelques outils à découvrir", discoveryDescription: "Des outils concrets pour calculer, créer et transformer sans perdre de temps.",
+      categoriesTitle: "Explore les catégories",
+      categoriesDescription: "Tu sais ce que tu cherches ? Parcours les domaines pour trouver le bon outil.",
+      toolsCountLabel: "outils",
     },
     tools: {
       metaTitle: "Tous les outils — Loculary", eyebrow: "Loculary", title: "Tous les outils",
@@ -123,26 +122,25 @@ export const messages: Record<Locale, Messages> = {
   en: {
     nav: { home: "Home", tools: "Tools", explore: "View all tools", language: "Language", account: "Account", space: "My space", menu: "Menu", closeSearch: "Close search" },
     breadcrumbs: { label: "Breadcrumb" },
-    footer: { tagline: "Useful tools, ready to use in your browser.", explore: "View all tools", account: "Your space" },
+    footer: { tagline: "Useful tools, ready to use in your browser.", explore: "All tools", account: "Your space" },
     actions: { copy: "Copy", copied: "Copied", clear: "Clear" },
     home: {
       metaTitle: "Loculary — Outils en ligne gratuits",
-      badge: "Tools that get things done",
-      title: "What do you want to do?",
-      description: "Describe what you need, find the right tool, and get it done.",
-      quickLinksLabel: "Try one of these",
+      badge: "From idea to done",
+      title: "A toolbox for your ideas.",
+      description: "Small tasks, useful tools, less friction.",
+      quickLinksLabel: "Jump straight into a tool",
       quickLinks: [
         { label: "Calculate a discount", toolId: "discount" },
         { label: "Convert a speed", toolId: "download-speed" },
         { label: "Calculate my age", toolId: "age" },
         { label: "Convert a file size", toolId: "file-size-converter" },
       ],
-      explore: "View all tools",
-      discoveryTitle: "A few tools worth trying", discoveryDescription: "Simple tools for tasks that come up again and again.", discoveryOpen: "Use tool",
-      categoriesTitle: "Explore by domain",
-      categoriesDescription: "Browse by domain when you know what kind of task you have, even if you do not know the tool name.",
-      categoriesCount: (count) => formatPlural("en", count, { one: "category", other: "categories" }),
-      ecosystemEyebrow: "The Loculary ecosystem", ecosystemTitle: "Tools by domain", ecosystemDescription: "A more visual view of the available domains for discovering Loculary.", ecosystemToolsLabel: "tools", ecosystemVariantLabel: "View", ecosystemVariantHint: "Each view presents the same catalog differently.", ecosystemVariants: { constellation: "Constellation", radial: "Distribution", network: "Network", surfaces: "Surfaces" },
+      explore: "All tools",
+      discoveryEyebrow: "For everyday tasks", discoveryTitle: "A few tools to explore", discoveryDescription: "Practical tools to calculate, create, and transform without the busywork.",
+      categoriesTitle: "Explore by category",
+      categoriesDescription: "Know what you need? Browse by domain to find the right tool.",
+      toolsCountLabel: "tools",
     },
     tools: {
       metaTitle: "All tools — Loculary", eyebrow: "Loculary", title: "All tools",
