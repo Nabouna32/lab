@@ -132,6 +132,8 @@ for (const rule of obsoleteDecisionProtectionRules) {
 }
 has(rootRules, 'Pursue the best solution for the validated objective, not the smallest diff.', 'AGENTS.md solution-quality rule');
 has(common, 'Pursue the best solution for the objective, not the smallest change.', 'Common contract solution-quality rule');
+has(rootRules, 'Scope is an authorization boundary, not a quality ceiling', 'AGENTS.md scope-quality boundary');
+has(common, 'Scope is an authorization boundary, not a quality ceiling', 'Common contract scope-quality boundary');
 has(common, 'Vision, decisions and principles are challengeable', 'Common contract decision challenge');
 has(productWorkflow, 'Update every canonical and dependent document needed', 'Product workflow documentation consistency');
 has(auditContract, 'Elements worth retaining or changing, with reasons', 'Audit report challenge structure');
