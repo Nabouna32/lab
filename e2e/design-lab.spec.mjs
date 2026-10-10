@@ -32,7 +32,7 @@ test("design lab generates real Material Color Utilities schemes and exposes its
   await expect(page.locator('[class*="rolePairGrid"] > article')).toHaveCount(12);
   await expect(page.locator('[class*="semanticRoleGrid"] > div')).toHaveCount(29);
   await expect(page.locator('[class*="tonalPaletteGrid"] > article')).toHaveCount(6);
-  await expect(page.locator('[class*="typeScaleGrid"] article')).toHaveCount(6);
+  await expect(page.locator('[class*="typeScaleGrid"] article')).toHaveCount(15);
 });
 
 test("source seed validation, contrast, light/dark, and category colors are independent", async ({ page }) => {
@@ -68,10 +68,11 @@ test("source seed validation, contrast, light/dark, and category colors are inde
   await expect(lab).toHaveAttribute("data-category-set", "vivid");
   await expect(calculations).not.toHaveAttribute("data-category-seed", categorySeedBefore);
 
+  const softBackground = await calculations.evaluate(el => getComputedStyle(el).backgroundColor);
   await page.getByRole("button", { name: "Aplat coloré" }).click();
   await expect(lab).toHaveAttribute("data-category-style", "solid");
   const solidBackground = await calculations.evaluate(el => getComputedStyle(el).backgroundColor);
-  expect(solidBackground).not.toBe("rgba(0, 0, 0, 0)");
+  expect(solidBackground).not.toBe(softBackground);
 
   await page.getByRole("button", { name: "Système", exact: true }).click();
   await expect(lab).toHaveAttribute("data-type-preset", "system");
