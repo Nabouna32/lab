@@ -5,7 +5,7 @@ import { getMessages } from "@/lib/i18n/messages";
 import { getToolsPath } from "@/lib/tools/routes";
 
 const footerLink =
-  "inline-flex min-h-10 items-center rounded-full px-3 text-sm font-semibold text-[var(--muted)] outline-none transition-colors hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]";
+  "inline-flex min-h-12 items-center rounded-full px-3 text-sm font-semibold text-[var(--muted)] outline-none transition-colors hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]";
 
 export default function Footer({ locale }: { locale: Locale }) {
   const t = getMessages(locale);
