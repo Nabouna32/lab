@@ -67,7 +67,7 @@ export default function HomeDiscovery({ locale }: { locale: Locale }) {
             <h2 className="text-xl font-bold tracking-[-0.03em] sm:text-2xl">{t.home.categoriesTitle}</h2>
             <p className="mt-1 max-w-xl text-sm leading-6 text-[var(--muted)]">{t.home.categoriesDescription}</p>
           </div>
-          <p className="text-sm text-[var(--muted)]">{total} {t.home.ecosystemToolsLabel}</p>
+          <p className="text-sm text-[var(--muted)]">{total} {t.home.toolsCountLabel}</p>
         </div>
 
         <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
