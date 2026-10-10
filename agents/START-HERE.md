@@ -1,6 +1,6 @@
 # Loculary — Work Entry Point
 
-This guide helps the single ChatGPT assistant resume work from the real repository state. It is a task-procedure index, not a multi-agent system.
+This guide helps the single ChatGPT assistant resume work from the real repository state. It is a task-procedure index, not a multi-agent system. Run this checklist when starting or resuming a mission, not at every follow-up within an ongoing validated step.
 
 ## Start or resume a mission
 
@@ -23,7 +23,7 @@ This guide helps the single ChatGPT assistant resume work from the real reposito
 - After validation, complete the authorized step and verify it before reporting.
 - Do not expand scope or make consequential decisions silently.
 - Update the mission Issue at meaningful milestones and before interruption or completion.
-- Track actionable out-of-scope discoveries only after explicitly asking the user whether to create or attach an Issue.
+- For every actionable out-of-scope discovery, check for an existing matching Issue first; update it or create one if needed, then tell the user. Tracking does not authorize implementation: do not implement outside the validated scope without user validation.
 - Keep active docs concise and current. Git preserves ordinary history; immutable audit reports remain unchanged.
 - Never rely on chat history in place of repository/GitHub evidence.
 
