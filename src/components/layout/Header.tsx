@@ -36,7 +36,7 @@ export default function Header({ locale }: { locale: Locale }) {
             <Link href={getToolsPath(locale)} className={textLink + " hidden lg:inline-flex"}>
               {t.nav.explore}
             </Link>
-            <MobileHeaderSearch locale={locale} searchLabel={t.tools.searchLabel} closeLabel={t.nav.closeSearch} />
+            <MobileHeaderSearch locale={locale} searchLabel={t.tools.searchLabel} />
             <DesktopHeaderMenu locale={locale} />
           </div>
         </div>
