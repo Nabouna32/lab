@@ -94,7 +94,7 @@ function listMarkdownRecursive(dir, prefix = '') {
   }).sort();
 }
 const activeAgentMarkdown = listMarkdownRecursive(path.join(root, 'agents'));
-const autoMergeContradictions = /^\s*(?:\d+\.\s*)?(?:immediately enable GitHub auto-merge|enable GitHub auto-merge by default|When opening a PR, enable GitHub auto-merge)|do not manually merge a PR that has auto-merge enabled|wait for required CI\/checks through the auto-merge lifecycle|GitHub performs the merge once all required protections are satisfied/i;
+const autoMergeContradictions = /^\s*(?:\d+\.\s*)?(?:immediately\s+)?enable GitHub auto-merge\b|^\s*When opening a PR, enable GitHub auto-merge\b|do not manually merge a PR that has auto-merge enabled|wait for required CI\/checks through the auto-merge lifecycle|GitHub performs the merge once all required protections are satisfied/i;
 for (const file of activeAgentMarkdown) {
   const content = fs.readFileSync(path.join(root, 'agents', file), 'utf8');
   if (content.split('\n').some((line) => autoMergeContradictions.test(line))) fail('Contradictory auto-merge instruction in agents/' + file);
