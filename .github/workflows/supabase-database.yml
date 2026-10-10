@@ -90,7 +90,8 @@ jobs:
         run: supabase --version
 
       - name: Start local Supabase
-        run: supabase db start
+        # The Auth Admin integration test needs the local Auth/API services, not only Postgres.
+        run: supabase start
 
       - name: Reset local database from migrations
         run: supabase db reset
@@ -106,6 +107,9 @@ jobs:
           else
             echo "No pgTAP tests are present yet; migration replay and database lint remain the active CI checks."
           fi
+
+      - name: Exercise concurrent account deletion and role removal
+        run: bash agents/test-account-deletion-concurrency.sh
 
       - name: Stop local Supabase
         if: always()

@@ -1,6 +1,6 @@
 begin;
 
-select plan(38);
+select plan(63);
 
 -- Transaction-scoped Auth fixtures for exercising the guarded role RPCs.
 -- The test file rolls back at the end; these users/sessions never persist.
@@ -27,15 +27,32 @@ values
     '{"display_name":"pgTAP role target"}'::jsonb,
     now(),
     now()
+  ),
+  (
+    '00000000-0000-0000-0000-000000000104',
+    'authenticated',
+    'authenticated',
+    'pgtap-delete-target@example.invalid',
+    '{"provider":"email","providers":["email"]}'::jsonb,
+    '{"display_name":"pgTAP delete target"}'::jsonb,
+    now(),
+    now()
   );
 
 insert into auth.sessions (id, user_id, created_at, updated_at)
-values (
-  '00000000-0000-0000-0000-000000000103',
-  '00000000-0000-0000-0000-000000000101',
-  now(),
-  now()
-);
+values
+  (
+    '00000000-0000-0000-0000-000000000103',
+    '00000000-0000-0000-0000-000000000101',
+    now(),
+    now()
+  ),
+  (
+    '00000000-0000-0000-0000-000000000105',
+    '00000000-0000-0000-0000-000000000102',
+    now(),
+    now()
+  );
 
 -- Seed the actor as the sole super_admin for this transaction so the test
 -- can verify both ordinary role operations and the last-super-admin guard.
@@ -45,6 +62,30 @@ values (
   'super_admin',
   '00000000-0000-0000-0000-000000000101'
 );
+
+insert into public.admin_audit_log (actor_user_id, action, target_type, target_id, metadata)
+values
+  (
+    '00000000-0000-0000-0000-000000000101',
+    'test.account.delete.last-super-admin',
+    'user',
+    '00000000-0000-0000-0000-000000000101',
+    '{}'::jsonb
+  ),
+  (
+    '00000000-0000-0000-0000-000000000104',
+    'test.account.delete.target',
+    'user',
+    '00000000-0000-0000-0000-000000000104',
+    '{}'::jsonb
+  ),
+  (
+    '00000000-0000-0000-0000-000000000102',
+    'test.account.delete.preflight',
+    'user',
+    '00000000-0000-0000-0000-000000000102',
+    '{}'::jsonb
+  );
 
 select ok(
   exists (select 1 from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='public' and c.relname='profiles' and c.relkind='r'),
@@ -211,10 +252,169 @@ select ok(
     from pg_proc p
     join pg_namespace n on n.oid=p.pronamespace
     where n.nspname='private'
-      and p.proname='prepare_account_deletion'
+      and p.proname='check_account_deletion'
       and p.prosecdef
   ),
-  'private.prepare_account_deletion is SECURITY DEFINER'
+  'private.check_account_deletion is SECURITY DEFINER'
+);
+
+select ok(
+  exists (
+    select 1
+    from pg_trigger t
+    join pg_class c on c.oid = t.tgrelid
+    join pg_namespace n on n.oid = c.relnamespace
+    where n.nspname = 'auth'
+      and c.relname = 'users'
+      and t.tgname = 'guard_auth_user_deletion'
+      and not t.tgisinternal
+  ),
+  'Auth user deletion is guarded by a BEFORE DELETE trigger'
+);
+
+select ok(
+  position(
+    'loculary.account-deletion.super-admin'
+    in pg_get_functiondef('private.guard_auth_user_deletion()'::regprocedure)
+  ) > 0,
+  'Auth deletion trigger uses the shared super-admin advisory lock'
+);
+
+select ok(
+  position(
+    'loculary.account-deletion.super-admin'
+    in pg_get_functiondef('private.remove_admin_role(uuid,text)'::regprocedure)
+  ) > 0,
+  'guarded role removal uses the same advisory lock as Auth deletion'
+);
+
+select ok(
+  exists (
+    select 1
+    from pg_proc p
+    join pg_namespace n on n.oid = p.pronamespace
+    where n.nspname = 'public'
+      and p.proname = 'prepare_account_deletion'
+      and not p.prosecdef
+      and position(
+        'private.check_account_deletion'
+        in pg_get_functiondef(p.oid)
+      ) > 0
+  ),
+  'legacy prepare_account_deletion RPC is a read-only SECURITY INVOKER alias'
+);
+
+select ok(
+  not has_function_privilege('anon', 'public.prepare_account_deletion(uuid)', 'EXECUTE'),
+  'anon cannot execute the read-only legacy deletion preflight'
+);
+
+select ok(
+  not exists (
+    select 1 from pg_proc p
+    join pg_namespace n on n.oid = p.pronamespace
+    where n.nspname = 'private' and p.proname = 'prepare_account_deletion'
+  ),
+  'obsolete private prepare_account_deletion function is removed'
+);
+
+select ok(
+  has_function_privilege('authenticated', 'public.check_account_deletion(uuid)', 'EXECUTE'),
+  'authenticated can call the read-only account-deletion preflight'
+);
+
+select ok(
+  not has_function_privilege('anon', 'public.check_account_deletion(uuid)', 'EXECUTE'),
+  'anon cannot call the account-deletion preflight'
+);
+
+select ok(
+  not exists (
+    select 1
+    from pg_proc p
+    join pg_namespace n on n.oid = p.pronamespace
+    cross join lateral aclexplode(coalesce(p.proacl, acldefault('f', p.proowner))) acl
+    where n.nspname = 'public'
+      and p.proname = 'check_account_deletion'
+      and pg_get_function_identity_arguments(p.oid) = 'uuid'
+      and acl.grantee = 0
+      and acl.privilege_type = 'EXECUTE'
+  ),
+  'account-deletion preflight has no direct EXECUTE grant to PUBLIC'
+);
+
+select throws_ok(
+  'delete from auth.users where id = ''00000000-0000-0000-0000-000000000101''::uuid',
+  'P0001',
+  'Cannot delete the last super_admin account',
+  'Auth deletion trigger refuses to delete the last super_admin'
+);
+
+select ok(
+  exists (
+    select 1 from public.admin_user_roles
+    where user_id = '00000000-0000-0000-0000-000000000101'
+      and role_key = 'super_admin'
+  ),
+  'rejected Auth deletion preserves the last super_admin role'
+);
+
+select is(
+  (select actor_user_id from public.admin_audit_log
+   where action = 'test.account.delete.last-super-admin'),
+  '00000000-0000-0000-0000-000000000101'::uuid,
+  'rejected Auth deletion does not anonymize the audit actor'
+);
+
+select is(
+  (select target_id from public.admin_audit_log
+   where action = 'test.account.delete.last-super-admin'),
+  '00000000-0000-0000-0000-000000000101'::uuid,
+  'rejected Auth deletion does not clear the audit target'
+);
+
+-- This account is a second super_admin, so deleting it must succeed while
+-- the original super_admin remains. The trigger still performs atomic cleanup.
+insert into public.admin_user_roles (user_id, role_key, assigned_by)
+values (
+  '00000000-0000-0000-0000-000000000104',
+  'super_admin',
+  '00000000-0000-0000-0000-000000000101'
+);
+
+select lives_ok(
+  'delete from auth.users where id = ''00000000-0000-0000-0000-000000000104''::uuid',
+  'deleting one of two super_admin accounts succeeds'
+);
+
+select ok(
+  not exists (
+    select 1 from auth.users
+    where id = '00000000-0000-0000-0000-000000000104'
+  ),
+  'second super_admin Auth account is deleted'
+);
+
+select ok(
+  not exists (
+    select 1 from public.admin_user_roles
+    where user_id = '00000000-0000-0000-0000-000000000104'
+  ),
+  'deleted super_admin role binding is removed by the Auth cascade'
+);
+
+select is(
+  (select actor_user_id from public.admin_audit_log
+   where action = 'test.account.delete.target'),
+  null::uuid,
+  'Auth deletion atomically clears audit actor through the foreign key'
+);
+
+select is(
+  (select target_id from public.admin_audit_log
+   where action = 'test.account.delete.target'),
+  null::uuid,
+  'Auth deletion trigger clears polymorphic user audit targets'
 );
 
 -- Exercise the public RPCs as authenticated with a valid Auth session.
@@ -230,6 +430,78 @@ end;
 $fixtures$;
 
 set local role authenticated;
+
+select throws_ok(
+  'select public.check_account_deletion(''00000000-0000-0000-0000-000000000101''::uuid)',
+  'P0001',
+  'Cannot delete the last super_admin account',
+  'read-only preflight reports the last-super-admin restriction'
+);
+
+select is(
+  (select target_id from public.admin_audit_log
+   where action = 'test.account.delete.last-super-admin'),
+  '00000000-0000-0000-0000-000000000101'::uuid,
+  'read-only preflight leaves audit references unchanged'
+);
+
+select throws_ok(
+  'select public.check_account_deletion(''00000000-0000-0000-0000-000000000102''::uuid)',
+  'P0001',
+  'Unauthorized account deletion request',
+  'read-only preflight rejects checking another user account'
+);
+
+do $ordinary_user$
+begin
+  perform set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000102', true);
+  perform set_config(
+    'request.jwt.claims',
+    '{"sub":"00000000-0000-0000-0000-000000000102","session_id":"00000000-0000-0000-0000-000000000105","role":"authenticated","aud":"authenticated"}',
+    true
+  );
+end;
+$ordinary_user$;
+
+select lives_ok(
+  'select public.check_account_deletion(''00000000-0000-0000-0000-000000000102''::uuid)',
+  'ordinary user can preflight their own account deletion'
+);
+
+select lives_ok(
+  'select public.prepare_account_deletion(''00000000-0000-0000-0000-000000000102''::uuid)',
+  'legacy RPC remains safe for an older deployed Edge Function'
+);
+
+reset role;
+
+select is(
+  (select actor_user_id from public.admin_audit_log
+   where action = 'test.account.delete.preflight'),
+  '00000000-0000-0000-0000-000000000102'::uuid,
+  'successful read-only preflight does not anonymize audit actors'
+);
+
+select is(
+  (select target_id from public.admin_audit_log
+   where action = 'test.account.delete.preflight'),
+  '00000000-0000-0000-0000-000000000102'::uuid,
+  'successful read-only preflight does not clear audit targets'
+);
+
+do $restore_actor$
+begin
+  perform set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000101', true);
+  perform set_config(
+    'request.jwt.claims',
+    '{"sub":"00000000-0000-0000-0000-000000000101","session_id":"00000000-0000-0000-0000-000000000103","role":"authenticated","aud":"authenticated"}',
+    true
+  );
+end;
+$restore_actor$;
+
+set local role authenticated;
+
 
 select throws_ok(
   'insert into public.admin_user_roles (user_id, role_key, assigned_by) values (''00000000-0000-0000-0000-000000000102''::uuid, ''admin'', ''00000000-0000-0000-0000-000000000101''::uuid)',

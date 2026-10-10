@@ -195,7 +195,7 @@ The implementation must be designed to avoid orphaned personal data.
 
 ### Implemented account deletion behavior
 
-The current account implementation permanently deletes the Supabase Auth user rather than using a soft-delete. The `public.profiles` row and administrator role bindings reference `auth.users` with cascading deletion. Administrative audit records are security records and are not deleted with the account: direct references to the deleted user are cleared, while the event itself is retained so the audit history remains useful. This retention is limited to the audit record and its non-identifying metadata; it is not a general retention rule for future user-owned data.
+The current account implementation permanently deletes the Supabase Auth user rather than using a soft-delete. The `public.profiles` row and administrator role bindings reference `auth.users` with cascading deletion. Administrative audit records are security records and are not deleted with the account: a `BEFORE DELETE ON auth.users` trigger clears polymorphic user-target references in the same transaction, while the `actor_user_id` foreign key sets actor references to null. The event itself is retained so the audit history remains useful. If deletion is rejected, the trigger's audit cleanup rolls back with the deletion. This retention is limited to the audit record and its non-identifying metadata; it is not a general retention rule for future user-owned data.
 
 ## Data export
 
