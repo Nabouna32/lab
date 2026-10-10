@@ -55,7 +55,7 @@ Loculary's shared visual language follows **Material 3 Expressive** as defined b
 
 The intended feel is a polished, responsive web application with the clarity and immediacy of a modern Android app, not a literal Android screen replica. Shared behavior and foundations should be consistent, while tool-specific interfaces may use specialized layouts, visualizations or density when these better serve the task. Preserve the task-first journey and platform-wide accessibility, localization, responsiveness, performance and trust requirements.
 
-Use expressive shape, color and motion to clarify hierarchy, state changes and spatial continuity—not as decoration on every element. Respect system reduced-motion preferences. The default palette is multicolor with indigo seed #3F51B5; curated user-selectable palettes and deliberate light/dark mappings are part of the direction. Exact tonal roles and implementation tokens belong in the canonical design-system contract.
+Use expressive shape, color and motion to clarify hierarchy, state changes and spatial continuity—not as decoration on every element. Respect system reduced-motion preferences. The default semantic palette uses the Material Purple seed #6750A4, with Roboto as the validated default interface typeface. Keep both rainbow treatments: use MCU-generated tonal Rainbow colors for suitable expressive surfaces and frame/container backgrounds, and the saturated direct seven-color palette for vivid category pills, badges and compact differentiation. They have complementary roles, not interchangeable ones. Validate actual light/dark contrast and preserve independent semantic status colors. Exact tonal mappings and implementation tokens belong in the canonical design-system contract.
 
 ## Input validation
 
