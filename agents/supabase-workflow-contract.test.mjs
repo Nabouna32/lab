@@ -18,7 +18,7 @@ test('database validation and production release are manually dispatched only', 
   const validation = database.jobs['validate-database'];
   assert.equal(validation.steps.some((step) => step.run === 'supabase db reset'), true);
   assert.equal(validation.steps.some((step) => step.run === 'supabase db lint --local --fail-on error'), true);
-  assert.equal(validation.steps.some((step) => step.run.includes('supabase test db')), true);
+  assert.equal(validation.steps.some((step) => String(step.run ?? '').includes('supabase test db')), true);
   assert.equal(validation.steps.some((step) => step.run === 'bash agents/test-account-deletion-concurrency.sh'), true);
 
   const requestGuard = database.jobs.request.steps.find((step) => step.name === 'Require main for production release');
@@ -30,7 +30,7 @@ test('database validation and production release are manually dispatched only', 
   assert.equal(release.if.includes("github.ref == 'refs/heads/main'"), true);
   assert.equal(release.if.includes("needs.validate-database.result == 'success'"), true);
   assert.equal(release.environment, 'supabase-production');
-  assert.equal(release.steps.some((step) => step.run.includes('--dry-run')), true);
+  assert.equal(release.steps.some((step) => String(step.run ?? '').includes('--dry-run')), true);
   assert.equal(release.steps.some((step) => step.run === 'supabase db push --db-url "$SUPABASE_DB_URL"'), true);
 });
 
