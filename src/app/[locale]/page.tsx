@@ -7,7 +7,7 @@ import type { Locale } from "@/lib/i18n/config";
 import { isLocale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
 import { getPublicPageMetadata } from "@/lib/tools/page-metadata";
-import { getToolPath, getToolsPath } from "@/lib/tools/routes";
+import { getToolsPath } from "@/lib/tools/routes";
 import { getRainbowFrameStyle } from "@/lib/design-system/rainbow-tones";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
@@ -21,24 +21,6 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   }, locale);
 }
 
-function TaskShortcuts({ locale }: { locale: Locale }) {
-  const t = getMessages(locale);
-  return (
-    <nav className="flex flex-wrap items-center gap-2" aria-label={t.home.quickLinksLabel}>
-      {t.home.quickLinks.map((link) => (
-        <Link
-          key={link.toolId}
-          href={getToolPath(locale, link.toolId)}
-          className="group inline-flex min-h-10 items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface)] px-3.5 py-2 text-sm font-semibold text-[var(--foreground)] outline-none transition-[transform,border-color,background-color] duration-[var(--motion-standard)] hover:-translate-y-0.5 hover:border-[var(--accent)] hover:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
-        >
-          <span className="h-2 w-2 rounded-full bg-[var(--accent)]" aria-hidden="true" />
-          {link.label}
-        </Link>
-      ))}
-    </nav>
-  );
-}
-
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
@@ -48,13 +30,12 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     <main className="min-h-full">
       <section className="px-4 pb-5 pt-5 sm:px-6 sm:pb-8 sm:pt-8 lg:px-10 lg:pt-10" aria-labelledby="home-title">
         <div className="mx-auto w-full max-w-[var(--content-wide)]">
-          <div className="home-rainbow-frame rounded-[calc(var(--radius-xl)+1px)] p-[2px]" style={getRainbowFrameStyle()}>
-            <div className="home-command-surface relative isolate overflow-hidden rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] px-5 py-8 shadow-[var(--shadow-md)] sm:px-8 sm:py-10 lg:px-12 lg:py-14">
-              <div className="pointer-events-none absolute -right-16 -top-20 z-0 h-64 w-64 rounded-full bg-[var(--primary-container)] opacity-65 blur-3xl sm:h-80 sm:w-80" aria-hidden="true" />
-              <div className="pointer-events-none absolute -bottom-28 left-[35%] z-0 h-64 w-64 rounded-full bg-[var(--tertiary-container)] opacity-45 blur-3xl" aria-hidden="true" />
+          <div className="home-rainbow-frame rounded-[2rem] p-px sm:rounded-[2.5rem]" style={getRainbowFrameStyle()}>
+            <div className="home-command-surface relative isolate overflow-hidden rounded-[calc(2rem-1px)] bg-[var(--surface)] px-5 py-8 sm:rounded-[calc(2.5rem-1px)] sm:px-8 sm:py-10 lg:px-12 lg:py-14">
+              <div className="pointer-events-none absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-[var(--primary)]/35 to-transparent" aria-hidden="true" />
 
               <div className="relative z-10 max-w-4xl">
-                <p className="motion-reveal inline-flex items-center gap-2 rounded-full bg-[var(--surface-soft)] px-3 py-1.5 text-xs font-bold tracking-wide text-[var(--accent)]">
+                <p className="motion-reveal inline-flex items-center gap-2 rounded-full bg-[var(--surface-soft)] px-3.5 py-2 text-xs font-bold tracking-wide text-[var(--accent)]">
                   <span className="h-2 w-2 rounded-full bg-current" aria-hidden="true" />
                   {t.home.badge}
                 </p>
@@ -71,17 +52,14 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                   <ToolSearch locale={locale} instanceId="home-tool-search-v4" />
                 </div>
 
-                <div className="motion-reveal motion-reveal-delay-2 mt-5">
-                  <p className="mb-2.5 text-xs font-semibold text-[var(--muted)]">{t.home.quickLinksLabel}</p>
-                  <TaskShortcuts locale={locale} />
-                </div>
-
                 <Link
                   href={getToolsPath(locale)}
-                  className="mt-5 inline-flex min-h-10 items-center gap-2 rounded-full px-3 py-2 text-sm font-semibold text-[var(--accent)] outline-none transition-colors hover:bg-[var(--accent-soft)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+                  className="mt-5 inline-flex min-h-12 items-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold text-[var(--accent)] outline-none transition-[background-color,transform] duration-[var(--motion-standard)] hover:-translate-y-0.5 hover:bg-[var(--accent-soft)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
                 >
                   {t.home.explore}
-                  <span aria-hidden="true">→</span>
+                  <svg aria-hidden="true" viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+                  </svg>
                 </Link>
               </div>
             </div>
