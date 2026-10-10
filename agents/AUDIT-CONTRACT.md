@@ -150,7 +150,7 @@ Unless the mission has a justified domain-specific extension, the report must co
 7. **Findings and anomalies**
 8. **Weaknesses and suboptimal choices**
 9. **Challenges to the current design**
-10. **Elements to preserve**
+10. **Elements worth retaining or changing, with reasons**
 11. **Proposals**
 12. **Decisions requiring explicit validation**
 13. **Implementation scope and plan**
@@ -169,7 +169,7 @@ For material areas, the audit should explicitly ask:
 - Is the current approach actually necessary?
 - Is there a simpler, safer, more maintainable or more reliable alternative?
 - What would we choose if Loculary were built today?
-- Which existing decision should be preserved despite an apparent opportunity to change it?
+- Which existing decisions and principles should be retained, adjusted or replaced based on evidence, and why?
 
 The audit must distinguish observed evidence from its proposed alternative. A challenge is a finding or recommendation only when evidence supports it; it does not automatically become an implementation requirement.
 
@@ -286,7 +286,7 @@ The audit should:
 - identify both defects and suboptimal working choices;
 - challenge the current design;
 - include a from-scratch question: **If Loculary were built today, what would we change?**
-- state clearly what should be preserved;
+- state clearly what is worth retaining, what should change, and the evidence and reasoning for each;
 - avoid unnecessary recommendations that do not improve the product.
 
 The goal is actionable evidence, not a long list of theoretical concerns.

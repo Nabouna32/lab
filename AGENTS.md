@@ -85,7 +85,7 @@ When several reasonable options exist within a validated scope, make the trade-o
 For significant changes:
 
 1. Understand the objective and current implementation.
-2. Make the smallest coherent change that solves the validated step.
+2. Pursue the best solution for the validated objective, not the smallest diff. If it exceeds the planned scope, explain the additional scope, cost and trade-offs, then ask the user to validate it rather than reducing solution quality.
 3. Run relevant validation immediately.
 4. Fix failures and rerun validation.
 5. Check for regressions.
@@ -175,7 +175,7 @@ For larger or risky changes, use a dedicated branch, validate through available 
 - Significant product ideas must follow the same validation flow as other product decisions: discuss, decide, then implement only after validation.
 - Every significant product idea should end in an explicit decision: implement, modify, reject with reason, or defer with reason.
 - Do not introduce product behavior solely to satisfy a technical preference.
-- Consult `docs/DECISIONS.md` before reversing a durable decision.
+- Consult `docs/DECISIONS.md` to understand the current rationale and dependencies before deliberately proposing a change. Decisions are not immutable: challenge them, discuss consequential changes with the user, then update the decision and all dependent documents consistently after validation.
 
 ## Naming and future renames
 
@@ -193,9 +193,9 @@ For larger or risky changes, use a dedicated branch, validate through available 
 
 - Product, UX, architecture and other canonical Markdown documents are durable project specifications, not mirrors of the current implementation.
 - Never rewrite product/UX/architecture Markdown merely to make it match the latest code.
-- Before modifying any Markdown specification, read the existing decisions and preserve them unless an explicit product evolution supersedes them.
+- Before modifying any Markdown specification, read the current specifications and decisions to understand their intent, rationale and dependencies. Vision, decisions and principles are open to challenge; do not treat them as immutable or automatically preserve them. When evidence suggests a better direction, present options, consequences and a recommendation, then discuss consequential changes with the user before acting.
 - Distinguish clearly between product vision, architecture, foundations/infrastructure, planned functionality and functionality actually completed in code.
 - If code diverges from the documented vision, fix the code or document the gap explicitly; never silently redefine the product to match the implementation.
-- A genuine change of product vision must be explicit: update the canonical document, record the decision/change, and update all dependent documents consistently.
+- After the user validates a change of product vision, principles or a durable decision, update the canonical document, record the current decision where appropriate, and update all dependent documents consistently. Never change direction silently.
 - Keep active documentation concise and current. Git preserves ordinary history; remove obsolete decisions and context after checking references and explicit immutability obligations. Do not preserve stale material merely because it existed.
 - Before any new implementation, audit the relevant existing Markdown specifications and decisions so implementation follows the documented product direction rather than accidentally redefining the product.

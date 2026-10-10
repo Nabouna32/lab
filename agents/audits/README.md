@@ -53,7 +53,7 @@ When adding, renaming or removing a numbered procedure, update this catalogue in
 - Test or measure claims whenever practical.
 - Keep the audit itself read-only except for its new historical report and the replaceable LATEST.md pointer.
 - Maintain the active Issue checkpoint while the audit is in progress.
-- Include elements to preserve, recommendations, decisions requiring validation and a concrete next-step plan.
+- Include elements worth retaining or changing (with reasons), recommendations, decisions requiring validation and a concrete next-step plan.
 - Do not convert a finding into a requirement without validation.
 
 ## Stable audit IDs

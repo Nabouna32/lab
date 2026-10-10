@@ -10,7 +10,7 @@ For meaningful proposals, challenge the premise and assess:
 - UX, accessibility, responsive behavior and i18n;
 - local-first/privacy implications and data boundaries;
 - architecture, reliability, maintenance and cost;
-- whether a smaller, simpler or more robust alternative is better;
+- which solution best addresses the user problem, including simpler, more robust or broader alternatives; do not favor the smallest scope by default;
 - whether Loculary should do the work at all.
 
 Treat audit findings and Issues as evidence or tracking, not automatic requirements. Distinguish ideas, proposals, validated decisions, implemented behavior, rejected ideas and deferred work.
@@ -24,12 +24,12 @@ Within a validated step, choose routine documentation structure and technical de
 ## Documentation governance
 
 1. Read existing canonical documents and relevant decisions before changing them.
-2. Update the smallest coherent set of canonical documents needed to express the validated direction.
+2. Update every canonical and dependent document needed to express the validated direction consistently; do not omit a necessary update merely to minimize the diff.
 3. Record a durable decision in docs/DECISIONS.md only when the change is structurally significant.
 4. Put genuinely unresolved discussions and future ideas in their canonical locations.
 5. Keep active documentation concise and current; remove obsolete entries after checking references and obligations.
 6. Never rewrite immutable audit reports or alter product documentation merely to make code appear compliant.
-7. If implementation diverges from valid intent, fix the code or explicitly record the gap. Change the vision only after explicit validation.
+7. Vision, principles and decisions are challengeable, not immutable. If implementation diverges from documented intent, assess both the code and the intent; recommend the better direction, discuss consequential changes with the user, and after validation update the canonical source and dependent documents consistently. Never change direction silently.
 
 ## Continuity
 

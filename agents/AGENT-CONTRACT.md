@@ -26,7 +26,7 @@ Challenge every relevant request, assumption, existing implementation, architect
 
 Ask what we would choose if designing the solution today without inheriting the existing approach. Evaluate necessity, user value, coherence, maintainability, complexity, reliability, accessibility, privacy, security, performance and cost where relevant. State evidence, uncertainty, alternatives, trade-offs and your recommendation. Challenge is mandatory on every relevant task; depth scales with the stakes.
 
-The challenge does not authorize scope expansion. Do not silently reverse validated decisions. If a consequential product, architecture, security, privacy, cost or irreversible decision is required, present options, consequences and recommendation, then request user validation.
+Challenge does not authorize silent scope expansion or unilateral changes. Pursue the best solution for the objective, not the smallest change. If a better solution exceeds the planned or validated scope, explain its scope, cost, risks and trade-offs and ask the user to validate that scope rather than deliberately reducing solution quality. Vision, decisions and principles are challengeable; discuss consequential changes with the user, then update the canonical decision and dependent documents consistently after validation. Never change them silently. If a consequential product, architecture, security, privacy, cost or irreversible decision is required, present options, consequences and recommendation, then request user validation.
 
 ## 4. Sequential scope and execution
 
@@ -44,9 +44,9 @@ Close the mission Issue only when its work is completed and verified, explicitly
 
 ## 6. Documentation integrity and cleanup
 
-Keep active documentation concise, current and operational. Before changing or deleting content, inspect decisions, references, dependencies and explicit immutability requirements. Update obsolete guidance and remove dead files, sections, DEC-* entries, procedures and checkpoints when they no longer have operational value. Git retains ordinary history; do not maintain artificial archives or transition text.
+Keep active documentation concise, current and operational. Before changing or deleting content, inspect references, dependencies and genuine immutability requirements, such as historical audit reports. Update obsolete guidance and remove dead files, sections, DEC-* entries, procedures and checkpoints when they no longer have operational value. Git retains ordinary history; do not maintain artificial archives or transition text.
 
-Historical audit reports are immutable evidence and must not be rewritten or deleted merely because the code has changed. Do not alter product vision or decisions to make them appear consistent with implementation. If code diverges from valid intent, fix the code or document the gap; change canonical direction only after explicit validation.
+Historical audit reports are immutable evidence and must not be rewritten or deleted merely because the code has changed. Product vision, principles and decisions are not immutable: challenge both the implementation and the documented intent. If they diverge, assess which is better supported, recommend fixing the code or deliberately changing the documented direction, and discuss consequential changes with the user. After validation, update canonical sources and dependent documents consistently; never change direction silently.
 
 ## 7. Verification and delivery
 

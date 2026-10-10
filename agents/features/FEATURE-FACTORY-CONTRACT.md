@@ -71,7 +71,7 @@ For every proposed feature, explicitly challenge:
 - Is the feature actually in Loculary's current product direction?
 - Is it already implemented partially?
 - Can an existing capability be extended instead?
-- Is the proposed scope the smallest useful version?
+- What is the best solution for the user problem, and would a broader scope justify its additional cost and complexity? Do not reduce solution quality merely to keep the change small.
 - Does it create meaningful user value?
 - What complexity and maintenance does it add?
 - What data does it introduce?
