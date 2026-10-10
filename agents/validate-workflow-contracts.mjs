@@ -106,6 +106,32 @@ function listMarkdownRecursive(dir, prefix = '') {
   }).sort();
 }
 const activeAgentMarkdown = listMarkdownRecursive(path.join(root, 'agents'));
+const activeAgentText = activeAgentMarkdown.map((file) => fs.readFileSync(path.join(root, 'agents', file), 'utf8')).join('\\n');
+const governanceText = rootRules + '\\n' + activeAgentText;
+const obsoleteSolutionMinimizationRules = [
+  /make the smallest coherent change/i,
+  /update the smallest coherent set of canonical documents/i,
+  /is the proposed scope the smallest useful version/i,
+  /implement the smallest useful version/i,
+];
+for (const rule of obsoleteSolutionMinimizationRules) {
+  if (rule.test(governanceText)) fail('Active governance still prioritizes the smallest change or scope: ' + rule);
+}
+const obsoleteDecisionProtectionRules = [
+  /preserve them unless an explicit product evolution supersedes them/i,
+  /consult [\x60']?docs\\/DECISIONS\\.md[\x60']? before reversing a durable decision/i,
+  /which existing decision should be preserved despite an apparent opportunity to change it/i,
+  /change the vision only after explicit validation/i,
+  /keep validated decisions fixed unless evidence requires revisiting them/i,
+];
+for (const rule of obsoleteDecisionProtectionRules) {
+  if (rule.test(governanceText)) fail('Active governance still treats vision/decisions as protected: ' + rule);
+}
+has(rootRules, 'Pursue the best solution for the validated objective, not the smallest diff.', 'AGENTS.md solution-quality rule');
+has(common, 'Pursue the best solution for the objective, not the smallest change.', 'Common contract solution-quality rule');
+has(common, 'Vision, decisions and principles are challengeable', 'Common contract decision challenge');
+has(productWorkflow, 'Update every canonical and dependent document needed', 'Product workflow documentation consistency');
+has(auditContract, 'Elements worth retaining or changing, with reasons', 'Audit report challenge structure');
 const issueExemptions = /does not require a GitHub Issue for every (?:feature|tool) request|may proceed without an Issue|A genuinely atomic change completed in one validated action may omit an Issue/i;
 for (const file of activeAgentMarkdown) {
   const content = fs.readFileSync(path.join(root, 'agents', file), 'utf8');
