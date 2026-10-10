@@ -29,7 +29,10 @@ test("language selector maps the same tool to its localized URL", async ({ page 
   await frenchLink.click();
   await expect(page).toHaveURL(/\/fr\/outils\/calculateur-de-pourcentage$/);
   const header = page.locator("header");
-  await expect(header.locator("#header-menu")).toBeVisible();
+  const menuTrigger = header.getByRole("button", { name: "Menu" });
+  const menuPanel = header.locator("#header-menu");
+  await expect(menuTrigger).toHaveAttribute("aria-expanded", "true");
+  await expect(menuPanel).toHaveAttribute("aria-hidden", "false");
   await expect(header.getByRole("link", { name: /English/ })).toBeVisible();
 });
 

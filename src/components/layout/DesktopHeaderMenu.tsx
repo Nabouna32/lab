@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useSyncExternalStore, type ReactNode } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "@teispace/next-themes";
 import { getLanguage, isLocale, locales, type Locale } from "@/lib/i18n/config";
@@ -31,16 +31,77 @@ const triggerClass =
 const optionClass =
   "flex min-h-12 items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-[var(--muted)] outline-none transition-colors hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)] focus-visible:bg-[var(--surface-soft)] focus-visible:text-[var(--foreground)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]";
 
+const menuOpenAfterLocaleSwitchKey = "loculary:header-menu-open-after-locale-switch";
+const menuOpenListeners = new Set<() => void>();
+let menuOpenSnapshot = false;
+let menuOpenRestoreHandled = false;
+
+function subscribeMenuOpen(listener: () => void) {
+  menuOpenListeners.add(listener);
+  return () => menuOpenListeners.delete(listener);
+}
+
+function getMenuOpenSnapshot() {
+  return menuOpenSnapshot;
+}
+
+function getServerMenuOpenSnapshot() {
+  return false;
+}
+
+function clearMenuOpenRestoreMarker() {
+  if (typeof window === "undefined") return;
+  try {
+    window.sessionStorage.removeItem(menuOpenAfterLocaleSwitchKey);
+  } catch {
+    // Session storage can be unavailable in restricted browsing contexts.
+  }
+}
+
+function setMenuOpen(next: boolean) {
+  clearMenuOpenRestoreMarker();
+  if (menuOpenSnapshot === next) return;
+  menuOpenSnapshot = next;
+  menuOpenListeners.forEach((listener) => listener());
+}
+
+function restoreMenuOpenAfterLocaleSwitch() {
+  if (menuOpenRestoreHandled || typeof window === "undefined") return;
+  menuOpenRestoreHandled = true;
+
+  let shouldOpen = false;
+  try {
+    shouldOpen = window.sessionStorage.getItem(menuOpenAfterLocaleSwitchKey) === "open";
+    window.sessionStorage.removeItem(menuOpenAfterLocaleSwitchKey);
+  } catch {
+    // Session storage can be unavailable in restricted browsing contexts.
+  }
+  setMenuOpen(shouldOpen);
+}
+
+function preserveMenuOpenForLocaleSwitch() {
+  if (typeof window === "undefined") return;
+  try {
+    window.sessionStorage.setItem(menuOpenAfterLocaleSwitchKey, "open");
+  } catch {
+    // If storage is unavailable, the popup still stays open for SPA navigation.
+  }
+}
+
 export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
   const pathname = usePathname();
   const router = useRouter();
   const { theme, setTheme } = useTheme();
   const t = getMessages(locale);
-  const [open, setOpen] = useState(false);
+  const open = useSyncExternalStore(subscribeMenuOpen, getMenuOpenSnapshot, getServerMenuOpenSnapshot);
   const menuRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const currentLocaleSegment = pathname.split("/")[1];
   const currentLocale: Locale = isLocale(currentLocaleSegment) ? currentLocaleSegment : locale;
+
+  useEffect(() => {
+    restoreMenuOpenAfterLocaleSwitch();
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -48,13 +109,13 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
     function handlePointerDown(event: PointerEvent) {
       const target = event.target;
       if (!(target instanceof Node)) return;
-      if (!menuRef.current?.contains(target)) setOpen(false);
+      if (!menuRef.current?.contains(target)) setMenuOpen(false);
     }
 
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
         event.preventDefault();
-        setOpen(false);
+        setMenuOpen(false);
         triggerRef.current?.focus();
       }
     }
@@ -68,12 +129,13 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
   }, [open]);
 
   function closeMenu() {
-    setOpen(false);
+    setMenuOpen(false);
   }
 
   function selectTheme(value: string) {
     // Theme controls are persistent settings inside this disclosure, not
     // one-shot menu commands: keep the surface open for further choices.
+    clearMenuOpenRestoreMarker();
     setTheme(value);
   }
 
@@ -86,7 +148,7 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
         aria-label={t.nav.menu}
         aria-expanded={open}
         aria-controls="header-menu"
-        onClick={() => setOpen((value) => !value)}
+        onClick={() => setMenuOpen(!open)}
       >
         <Icon>
           <path d="M5 7h14M5 12h14M5 17h14" />
@@ -154,15 +216,26 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
                   hrefLang={item}
                   aria-current={active ? "page" : undefined}
                   onClick={(event) => {
-                    // Language is a setting: preserve the disclosure while
-                    // the localized route and selected state update.
+                    // Locale changes recreate the root layout. Keep this tab's
+                    // popup open across that navigation, without persisting it
+                    // as a long-lived preference.
+                    if (
+                      item !== currentLocale &&
+                      event.button === 0 &&
+                      !event.metaKey &&
+                      !event.ctrlKey &&
+                      !event.shiftKey &&
+                      !event.altKey
+                    ) {
+                      preserveMenuOpenForLocaleSwitch();
+                    }
                     if (pathname === getSearchResultsPagePath(currentLocale) && window.location.hash) {
                       event.preventDefault();
                       router.push(href + window.location.hash);
                     }
                   }}
                   className={
-                    "flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] " +
+                    "flex min-h-12 items-center gap-2 rounded-xl px-3 py-2.5 text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] " +
                     (active
                       ? "bg-[var(--accent-soft)] font-semibold text-[var(--foreground)]"
                       : "text-[var(--muted)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)]")
