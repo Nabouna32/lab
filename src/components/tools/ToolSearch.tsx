@@ -159,15 +159,15 @@ export default function ToolSearch({
         "flex items-center border bg-[var(--surface)] transition-[border-color,box-shadow] duration-200 " +
         (compact
           ? "rounded-xl p-1 shadow-[var(--shadow-sm)] "
-          : "min-h-12 rounded-[1.25rem] p-0.5 shadow-[var(--shadow-md)] sm:rounded-[1.5rem] sm:p-2 ") +
+          : "min-h-12 rounded-full p-1 shadow-[var(--shadow-sm)] sm:min-h-14 sm:p-1.5 ") +
         (isFocused
-          ? "border-[var(--accent)] ring-4 ring-[var(--accent)]/10"
-          : "border-[var(--border)]")
+          ? "border-[var(--primary)] ring-2 ring-[var(--primary)]/12"
+          : "border-[var(--outline-variant)]")
       }>
         <span
           className={
             "flex shrink-0 items-center justify-center rounded-lg text-[var(--muted)] " +
-            (compact ? "h-8 w-8 text-base" : "h-10 w-10 rounded-[var(--radius-md)] text-base sm:bg-[var(--surface-soft)] sm:text-lg")
+            (compact ? "h-8 w-8 text-base" : "h-10 w-10 rounded-full text-base sm:text-lg")
           }
           aria-hidden="true"
         >
@@ -192,7 +192,7 @@ export default function ToolSearch({
           onKeyDown={handleKeyDown}
           className={
             "min-w-0 flex-1 bg-transparent text-[var(--foreground)] outline-none placeholder:text-[var(--muted)] " +
-            (compact ? "px-2 py-2 text-sm" : "px-2 py-2 text-base sm:px-3 sm:py-2.5 sm:text-lg")
+            (compact ? "px-2 py-2 text-sm" : "px-2 py-2 text-base sm:px-3 sm:py-3 sm:text-lg")
           }
         />
         {query && (
@@ -205,17 +205,6 @@ export default function ToolSearch({
             aria-label={t.tools.clearSearch}
           >
             ×
-          </Button>
-        )}
-        {!compact && (
-          <Button
-            type="button"
-            onMouseDown={(event) => event.preventDefault()}
-            onClick={() => openResult(0)}
-            disabled={query.trim().length === 0 || visibleResults.length === 0}
-            className="hidden min-h-10 rounded-[var(--radius-md)] px-5 sm:inline-flex"
-          >
-            {t.tools.searchButton}
           </Button>
         )}
       </div>
