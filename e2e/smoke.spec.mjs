@@ -333,7 +333,7 @@ test("tool search offers suggestions when nothing matches", async ({ page }) => 
 
   const search = page.locator("#tools-page-search-input");
   await search.fill("zzzzzzzz");
-  const results = page.locator("#tools-page-search-results");
+  const results = page.locator('[data-search-popup-owner="tools-page-search"]');
   await expect(results.getByText(/Aucun outil ne correspond à/)).toBeVisible();
   await expect(results.getByRole("button", { name: "TVA", exact: true })).toBeVisible();
   await results.getByRole("button", { name: "TVA", exact: true }).click();
