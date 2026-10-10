@@ -106,15 +106,22 @@ export const semanticRoleNames = [
   "tertiary", "onTertiary", "tertiaryContainer", "onTertiaryContainer",
   "error", "onError", "errorContainer", "onErrorContainer",
   "background", "onBackground", "surface", "onSurface",
-  "surfaceVariant", "onSurfaceVariant", "outline", "outlineVariant",
-  "shadow", "scrim", "inverseSurface", "inverseOnSurface", "inversePrimary",
+  "surfaceVariant", "onSurfaceVariant", "surfaceDim", "surfaceBright",
+  "surfaceContainerLowest", "surfaceContainerLow", "surfaceContainer",
+  "surfaceContainerHigh", "surfaceContainerHighest", "surfaceTint",
+  "outline", "outlineVariant", "shadow", "scrim",
+  "inverseSurface", "inverseOnSurface", "inversePrimary",
+  "primaryDim", "secondaryDim", "tertiaryDim", "errorDim",
+  "primaryFixed", "primaryFixedDim", "onPrimaryFixed", "onPrimaryFixedVariant",
+  "secondaryFixed", "secondaryFixedDim", "onSecondaryFixed", "onSecondaryFixedVariant",
+  "tertiaryFixed", "tertiaryFixedDim", "onTertiaryFixed", "onTertiaryFixedVariant",
 ] as const;
 
 export type SemanticRoleName = (typeof semanticRoleNames)[number];
 
 export function getSemanticRoles(scheme: DynamicScheme): Array<{
   name: SemanticRoleName;
-  color: string;
+  color: string | null;
 }> {
   const colors: Record<SemanticRoleName, number> = {
     primary: scheme.primary,
@@ -139,6 +146,14 @@ export function getSemanticRoles(scheme: DynamicScheme): Array<{
     onSurface: scheme.onSurface,
     surfaceVariant: scheme.surfaceVariant,
     onSurfaceVariant: scheme.onSurfaceVariant,
+    surfaceDim: scheme.surfaceDim,
+    surfaceBright: scheme.surfaceBright,
+    surfaceContainerLowest: scheme.surfaceContainerLowest,
+    surfaceContainerLow: scheme.surfaceContainerLow,
+    surfaceContainer: scheme.surfaceContainer,
+    surfaceContainerHigh: scheme.surfaceContainerHigh,
+    surfaceContainerHighest: scheme.surfaceContainerHighest,
+    surfaceTint: scheme.surfaceTint,
     outline: scheme.outline,
     outlineVariant: scheme.outlineVariant,
     shadow: scheme.shadow,
@@ -146,8 +161,27 @@ export function getSemanticRoles(scheme: DynamicScheme): Array<{
     inverseSurface: scheme.inverseSurface,
     inverseOnSurface: scheme.inverseOnSurface,
     inversePrimary: scheme.inversePrimary,
+    primaryDim: scheme.primaryDim,
+    secondaryDim: scheme.secondaryDim,
+    tertiaryDim: scheme.tertiaryDim,
+    errorDim: scheme.errorDim,
+    primaryFixed: scheme.primaryFixed,
+    primaryFixedDim: scheme.primaryFixedDim,
+    onPrimaryFixed: scheme.onPrimaryFixed,
+    onPrimaryFixedVariant: scheme.onPrimaryFixedVariant,
+    secondaryFixed: scheme.secondaryFixed,
+    secondaryFixedDim: scheme.secondaryFixedDim,
+    onSecondaryFixed: scheme.onSecondaryFixed,
+    onSecondaryFixedVariant: scheme.onSecondaryFixedVariant,
+    tertiaryFixed: scheme.tertiaryFixed,
+    tertiaryFixedDim: scheme.tertiaryFixedDim,
+    onTertiaryFixed: scheme.onTertiaryFixed,
+    onTertiaryFixedVariant: scheme.onTertiaryFixedVariant,
   };
-  return semanticRoleNames.map((name) => ({ name, color: colorHex(colors[name]) }));
+  return semanticRoleNames.map((name) => {
+    const color = colors[name];
+    return { name, color: color === undefined ? null : colorHex(color) };
+  });
 }
 
 export function getRolePairs(scheme: DynamicScheme): Array<{
@@ -169,8 +203,18 @@ export function getRolePairs(scheme: DynamicScheme): Array<{
     { name: "Surface variant", background: scheme.surfaceVariant, foreground: scheme.onSurfaceVariant },
     { name: "Background / on-background", background: scheme.background, foreground: scheme.onBackground },
     { name: "Inverse surface", background: scheme.inverseSurface, foreground: scheme.inverseOnSurface },
+    { name: "Primary dim", background: scheme.primaryDim, foreground: scheme.onPrimary },
+    { name: "Secondary dim", background: scheme.secondaryDim, foreground: scheme.onSecondary },
+    { name: "Tertiary dim", background: scheme.tertiaryDim, foreground: scheme.onTertiary },
+    { name: "Error dim", background: scheme.errorDim, foreground: scheme.onError },
+    { name: "Primary fixed", background: scheme.primaryFixed, foreground: scheme.onPrimaryFixed },
+    { name: "Primary fixed dim", background: scheme.primaryFixedDim, foreground: scheme.onPrimaryFixed },
+    { name: "Secondary fixed", background: scheme.secondaryFixed, foreground: scheme.onSecondaryFixed },
+    { name: "Secondary fixed dim", background: scheme.secondaryFixedDim, foreground: scheme.onSecondaryFixed },
+    { name: "Tertiary fixed", background: scheme.tertiaryFixed, foreground: scheme.onTertiaryFixed },
+    { name: "Tertiary fixed dim", background: scheme.tertiaryFixedDim, foreground: scheme.onTertiaryFixed },
   ];
-  return pairs.map((pair) => ({
+  return pairs.filter((pair): pair is { name: string; background: number; foreground: number } => pair.background !== undefined).map((pair) => ({
     name: pair.name,
     background: colorHex(pair.background),
     foreground: colorHex(pair.foreground),
