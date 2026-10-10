@@ -40,12 +40,12 @@ test("French homepage renders", async ({ page }) => {
 
 test("homepage search stays concise and category discovery adapts to viewport", async ({ page }) => {
   const locales = [
-    { locale: "fr", placeholder: "Rechercher…", allTools: "Tous les outils", categories: "Catégories" },
-    { locale: "en", placeholder: "Search…", allTools: "All tools", categories: "Categories" },
+    { locale: "fr", placeholder: "Que veux-tu faire ?", submitLabel: "Lancer la recherche", allTools: "Tous les outils", categories: "Catégories" },
+    { locale: "en", placeholder: "What do you need?", submitLabel: "Search tools", allTools: "All tools", categories: "Categories" },
   ];
   const widths = [320, 390, 768, 1024, 1440];
 
-  for (const { locale, placeholder, allTools, categories } of locales) {
+  for (const { locale, placeholder, submitLabel, allTools, categories } of locales) {
     await page.setViewportSize({ width: 320, height: 800 });
     await page.goto(`${baseUrl}/${locale}`, { waitUntil: "networkidle" });
 
@@ -53,7 +53,9 @@ test("homepage search stays concise and category discovery adapts to viewport", 
     await expect(search).toHaveAttribute("placeholder", placeholder);
     await expect(page.locator("main").getByRole("link", { name: allTools, exact: true })).toHaveCount(1);
     await expect(page.locator("main").getByRole("navigation", { name: categories })).toBeVisible();
-    await expect(page.locator("#home-tool-search-v4").getByRole("button", { name: locale === "fr" ? "Rechercher" : "Search", exact: true })).toHaveCount(0);
+    const submitButton = page.locator("#home-tool-search-v4").getByRole("button", { name: submitLabel, exact: true });
+    await expect(submitButton).toBeVisible();
+    await expect(submitButton).toBeDisabled();
 
     for (const width of widths) {
       await page.setViewportSize({ width, height: 800 });
@@ -129,6 +131,45 @@ test("tool search shows useful result context", async ({ page }) => {
   await expect(page.locator("#tools-page-search-result-0")).toHaveAttribute("aria-selected", "true");
   await search.press("Enter");
   await expect(page).toHaveURL(/\/fr\/outils\/calculateur-de-pourcentage$/);
+});
+
+test("search submission opens all matching tools and handles unique/no-result queries", async ({ page }) => {
+  for (const locale of [
+    { code: "fr", submitLabel: "Lancer la recherche", route: `${baseUrl}/fr/recherche#q=json`, heading: /Résultats pour/ },
+    { code: "en", submitLabel: "Search tools", route: `${baseUrl}/en/search#q=json`, heading: /Results for/ },
+  ]) {
+    await page.goto(`${baseUrl}/${locale.code}`, { waitUntil: "domcontentloaded" });
+    const search = page.locator("#home-tool-search-v4-input");
+    await search.fill("json");
+    const suggestions = page.locator("#home-tool-search-v4-results");
+    await expect(suggestions.getByRole("option").nth(1)).toBeVisible();
+    await page.locator("#home-tool-search-v4").getByRole("button", { name: locale.submitLabel }).click();
+    await expect(page).toHaveURL(locale.route);
+    await expect(page.getByRole("heading", { name: locale.heading })).toBeVisible();
+    const resultCount = await page.locator("#search-results-list a").count();
+    expect(resultCount).toBeGreaterThan(1);
+  }
+
+  await page.goto(`${baseUrl}/fr`, { waitUntil: "domcontentloaded" });
+  const uniqueSearch = page.locator("#home-tool-search-v4-input");
+  await uniqueSearch.fill("calculer 17 % de 283");
+  await expect(page.locator("#home-tool-search-v4-results").getByRole("option").first()).toBeVisible();
+  await page.locator("#home-tool-search-v4").getByRole("button", { name: "Lancer la recherche" }).click();
+  await expect(page).toHaveURL(`${baseUrl}/fr/outils/calculateur-de-pourcentage`);
+
+  await page.goto(`${baseUrl}/fr`, { waitUntil: "domcontentloaded" });
+  const unmatchedSearch = page.locator("#home-tool-search-v4-input");
+  await unmatchedSearch.fill("zzzzzzzz");
+  await expect(page.locator("#home-tool-search-v4-results").getByText(/Aucun outil ne correspond à/)).toBeVisible();
+  await page.locator("#home-tool-search-v4").getByRole("button", { name: "Lancer la recherche" }).click();
+  await expect(page).toHaveURL(`${baseUrl}/fr/recherche#q=zzzzzzzz`);
+  await expect(page.getByRole("heading", { name: /Aucun outil ne correspond à/ })).toBeVisible();
+  await expect(page.getByRole("link", { name: "TVA", exact: true })).toBeVisible();
+
+  await page.goto(`${baseUrl}/en/search#q=json`, { waitUntil: "domcontentloaded" });
+  await page.getByRole("button", { name: "Menu" }).click();
+  await page.getByRole("link", { name: "Français" }).click();
+  await expect(page).toHaveURL(`${baseUrl}/fr/recherche#q=json`);
 });
 
 test("tool search offers suggestions when nothing matches", async ({ page }) => {

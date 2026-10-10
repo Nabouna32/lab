@@ -49,7 +49,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                 </p>
 
                 <div id="home-search" className="motion-reveal motion-reveal-delay mt-7 max-w-3xl scroll-mt-28 sm:mt-9">
-                  <ToolSearch locale={locale} instanceId="home-tool-search-v4" />
+                  <ToolSearch locale={locale} instanceId="home-tool-search-v4" placeholder={t.home.searchPlaceholder} />
                 </div>
 
                 <Link
