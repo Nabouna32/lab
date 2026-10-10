@@ -188,7 +188,7 @@ test("mobile header search dismisses outside and on Escape with predictable focu
   await expect(homepageSearch).toBeFocused();
 });
 
-test("header settings stay open for theme and language changes, then dismiss predictably", async ({ page }) => {
+test("header settings stay open across theme and language changes, then dismiss predictably", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(`${baseUrl}/fr`, { waitUntil: "networkidle" });
 
@@ -198,21 +198,33 @@ test("header settings stay open for theme and language changes, then dismiss pre
 
   await trigger.click();
   await panel.getByRole("button", { name: "Sombre" }).click();
-  await expect(panel).toBeVisible();
+  await expect(panel).toHaveAttribute("aria-hidden", "false");
   await expect(panel.getByRole("button", { name: "Sombre" })).toHaveAttribute("aria-pressed", "true");
 
   await panel.getByRole("button", { name: "Clair" }).click();
-  await expect(panel).toBeVisible();
+  await expect(panel).toHaveAttribute("aria-hidden", "false");
   await expect(panel.getByRole("button", { name: "Clair" })).toHaveAttribute("aria-pressed", "true");
+
+  // Locale navigation rebuilds part of the layout. The disclosure should
+  // remain available so a second setting can be changed without reopening it.
+  await panel.getByRole("link", { name: /English/ }).click();
+  await expect(page).toHaveURL(/\/en$/);
+  await expect(panel).toHaveAttribute("aria-hidden", "false");
+
+  await panel.getByRole("button", { name: "Dark" }).click();
+  await expect(panel).toHaveAttribute("aria-hidden", "false");
+  await expect(panel.getByRole("button", { name: "Dark" })).toHaveAttribute("aria-pressed", "true");
 
   await page.keyboard.press("Escape");
   await expect(trigger).toHaveAttribute("aria-expanded", "false");
+  await expect(panel).toHaveAttribute("aria-hidden", "true");
   await expect(trigger).toBeFocused();
 
   await trigger.click();
-  await expect(panel).toBeVisible();
+  await expect(panel).toHaveAttribute("aria-hidden", "false");
   await page.locator("main").click({ position: { x: 12, y: 12 } });
   await expect(trigger).toHaveAttribute("aria-expanded", "false");
+  await expect(panel).toHaveAttribute("aria-hidden", "true");
 });
 
 test("search suggestions escape clipping and expose one consistent clear control", async ({ page }) => {
