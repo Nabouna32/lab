@@ -164,6 +164,12 @@ test("mobile header search dismisses outside and on Escape with predictable focu
 
   await trigger.click();
   await expect(input).toBeFocused();
+  await input.fill("json");
+  const suggestions = header.locator("#header-tool-search-mobile [role='listbox']");
+  await expect(suggestions).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(input).toBeVisible();
+  await expect(suggestions).toHaveCount(0);
   await page.keyboard.press("Escape");
   await expect(input).toHaveCount(0);
   await expect(trigger).toBeFocused();
