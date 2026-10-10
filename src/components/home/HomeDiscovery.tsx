@@ -68,9 +68,8 @@ export default function HomeDiscovery({ locale }: { locale: Locale }) {
               <text x="130" y="125" textAnchor="middle" className="fill-[var(--foreground)] text-[36px] font-black tracking-[-0.05em]">{totalTools}</text>
               <text x="130" y="148" textAnchor="middle" className="fill-[var(--muted)] text-[11px] font-semibold">{t.home.toolsCountLabel}</text>
             </svg>
-            <div className="mt-1 flex flex-wrap justify-center gap-2 text-xs text-[var(--muted)]">
+            <div className="mt-1 flex justify-center text-xs text-[var(--muted)]">
               <span className="rounded-full bg-[var(--surface-soft)] px-3 py-1.5 font-semibold">{t.home.categoriesCount(visibleCategories.length)}</span>
-              <span className="rounded-full bg-[var(--surface-soft)] px-3 py-1.5 font-semibold">{totalTools} {t.home.toolsCountLabel}</span>
             </div>
           </div>
 
