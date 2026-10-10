@@ -4,6 +4,8 @@ const baseUrl = process.env.BASE_URL ?? "https://loculary.vercel.app";
 
 const screenshots = [
   ["homepage-desktop", "/fr", { width: 1440, height: 1000 }],
+  ["homepage-mobile-390", "/fr", { width: 390, height: 844 }],
+  ["homepage-narrow-mobile-320", "/fr", { width: 320, height: 780 }],
   ["tools-tablet", "/fr/outils", { width: 1024, height: 900 }],
   ["percentage-mobile", "/fr/outils/calculateur-de-pourcentage", { width: 390, height: 844 }],
 ];

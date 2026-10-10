@@ -7,7 +7,7 @@ export type Messages = {
   breadcrumbs: { label: string };
   footer: { tagline: string; explore: string; account: string };
   actions: { copy: string; copied: string; clear: string };
-  home: { metaTitle: string; badge: string; title: string; description: string; quickLinksLabel: string; quickLinks: Array<{ label: string; toolId: ToolId }>; explore: string; discoveryEyebrow: string; discoveryTitle: string; discoveryDescription: string; categoriesTitle: string; categoriesDescription: string; categoriesCount: (count: number) => string; toolsCountLabel: string; };
+  home: { metaTitle: string; badge: string; title: string; description: string; quickLinksLabel: string; quickLinks: Array<{ label: string; toolId: ToolId }>; explore: string; categoriesTitle: string; categoriesDescription: string; categoriesCount: (count: number) => string; toolsCountLabel: string; };
   tools: {
     metaTitle: string;
     eyebrow: string; title: string; description: string; explore: string; one: string; many: string;
@@ -38,7 +38,7 @@ export const messages: Record<Locale, Messages> = {
       metaTitle: "Loculary — Outils en ligne gratuits",
       badge: "De l’idée à l’action",
       title: "Une boîte à outils pour tes idées.",
-      description: "Des tâches simples, des outils utiles, moins de friction.",
+      description: "Calculer, convertir, créer, analyser : trouve l’outil qu’il te faut.",
       quickLinksLabel: "Accès directs aux outils",
       quickLinks: [
         { label: "Calculer une remise", toolId: "discount" },
@@ -47,8 +47,7 @@ export const messages: Record<Locale, Messages> = {
         { label: "Convertir une taille de fichier", toolId: "file-size-converter" },
       ],
       explore: "Tous les outils",
-      discoveryEyebrow: "Pour tes tâches du quotidien", discoveryTitle: "Quelques outils à découvrir", discoveryDescription: "Des outils concrets pour calculer, créer et transformer sans perdre de temps.",
-      categoriesTitle: "Explore les catégories",
+      categoriesTitle: "Catégories",
       categoriesDescription: "Tu sais ce que tu cherches ? Parcours les domaines pour trouver le bon outil.",
       categoriesCount: (count) => formatPlural("fr", count, { one: "catégorie", other: "catégories" }),
       toolsCountLabel: "outils",
@@ -58,7 +57,7 @@ export const messages: Record<Locale, Messages> = {
       description: "Tous les outils disponibles pour calculer, convertir, analyser et gagner du temps.",
       explore: "Explorer les outils", one: "outil", many: "outils",
       categoryDescription: (category) => `Retrouvez les outils disponibles dans la catégorie ${category}.`,
-      searchLabel: "Rechercher dans les outils", searchPlaceholder: "Ex. calculer une remise", searchButton: "Rechercher",
+      searchLabel: "Rechercher dans les outils", searchPlaceholder: "Rechercher…", searchButton: "Rechercher",
       suggestions: "Suggestions", resultCountOne: "résultat", resultCountMany: "résultats", searching: "Recherche en cours…", searchError: "La recherche n’a pas pu se charger. Réessaie.", retrySearch: "Réessayer",
       noResults: "Aucun outil ne correspond à", noResultsHelp: "Essaie un terme plus simple ou choisis une suggestion.", tryThese: "Tu cherches peut-être", noResultsSuggestions: ["TVA", "taille de fichier", "vidéo", "âge"],
       clearSearch: "Effacer la recherche",
@@ -129,7 +128,7 @@ export const messages: Record<Locale, Messages> = {
       metaTitle: "Loculary — Free online tools",
       badge: "From idea to done",
       title: "A toolbox for your ideas.",
-      description: "Small tasks, useful tools, less friction.",
+      description: "Calculate, convert, create, analyze — find the tool you need.",
       quickLinksLabel: "Jump straight into a tool",
       quickLinks: [
         { label: "Calculate a discount", toolId: "discount" },
@@ -138,8 +137,7 @@ export const messages: Record<Locale, Messages> = {
         { label: "Convert a file size", toolId: "file-size-converter" },
       ],
       explore: "All tools",
-      discoveryEyebrow: "For everyday tasks", discoveryTitle: "A few tools to explore", discoveryDescription: "Practical tools to calculate, create, and transform without the busywork.",
-      categoriesTitle: "Explore by category",
+      categoriesTitle: "Categories",
       categoriesDescription: "Know what you need? Browse by domain to find the right tool.",
       categoriesCount: (count) => formatPlural("en", count, { one: "category", other: "categories" }),
       toolsCountLabel: "tools",
@@ -149,7 +147,7 @@ export const messages: Record<Locale, Messages> = {
       description: "Tools to calculate, convert, analyze, and save time on everyday tasks.",
       explore: "Explore tools", one: "tool", many: "tools",
       categoryDescription: (category) => `Browse the tools available in the ${category}.`,
-      searchLabel: "Search the tools", searchPlaceholder: "e.g. calculate VAT", searchButton: "Search",
+      searchLabel: "Search the tools", searchPlaceholder: "Search…", searchButton: "Search",
       suggestions: "Suggestions", resultCountOne: "result", resultCountMany: "results", searching: "Searching…", searchError: "Search could not be loaded. Please try again.", retrySearch: "Try again",
       noResults: "No tool matches", noResultsHelp: "Try a simpler term or choose a suggestion.", tryThese: "You might be looking for", noResultsSuggestions: ["VAT", "file size", "video", "age"],
       clearSearch: "Clear search",
