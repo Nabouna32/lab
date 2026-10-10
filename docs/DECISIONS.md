@@ -885,3 +885,27 @@ Loculary needs a coherent, recognizable visual and interaction language that fee
 - DEC-004 remains in force: shared foundations and behavior do not require identical compositions across specialized tools.
 - Accessibility, WCAG 2.2 AA, reduced motion, responsive desktop/tablet/mobile behavior, localization, privacy and performance remain mandatory.
 - Adoption is not proof of implementation. Production migration, curated palette settings, preference persistence, account synchronization and visual/accessibility verification must be delivered and verified in separate implementation scopes.
+
+
+## DEC-049 — Controlled manual merge as the default delivery workflow
+
+**Status:** Accepted
+
+### Decision
+
+Pull requests use a controlled manual merge by default. Do not enable GitHub auto-merge as part of the normal assistant workflow.
+
+Before merging, wait for every required check, inspect the actual GitHub results, verify that the checked PR head has not changed, confirm the PR is mergeable and based on the current `main`, then use GitHub's normal merge action. Never bypass branch protections.
+
+Auto-merge is an exception only when an explicit repository policy requires it. If auto-merge is already enabled and cannot be disabled through the available tools, report the blocker rather than attempting to work around GitHub's protections.
+
+### Reason
+
+The project prioritizes a short, predictable delivery loop. Explicitly checking the green CI state and current base before merging is easier to diagnose than waiting indefinitely for auto-merge, while retaining required GitHub protections.
+
+### Consequences
+
+- New PRs must not enable auto-merge by default.
+- The assistant owns the final pre-merge freshness and required-check verification.
+- A successful merge must be confirmed from GitHub's actual PR and `main` state before closing the mission Issue.
+- Repository rulesets and required checks remain authoritative; this decision never authorizes bypassing them.
