@@ -20,7 +20,7 @@ jobs:
     name: Detect CI scope
     runs-on: ubuntu-latest
     outputs:
-      docs_only: ${{ needs.detect-changes.outputs.docs_only }}
+      docs_only: ${{ steps.changes.outputs.docs_only }}
       supabase_validate: ${{ steps.changes.outputs.validate }}
 
     steps:
