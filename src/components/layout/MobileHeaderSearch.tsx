@@ -58,6 +58,19 @@ export default function MobileHeaderSearch({
 
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key !== "Escape") return;
+
+      // Let an active suggestion/error surface consume Escape first. A second
+      // Escape dismisses the surrounding mobile search panel.
+      const target = event.target;
+      if (
+        target instanceof HTMLInputElement &&
+        rootRef.current?.querySelector(
+          "#header-tool-search-mobile [role='listbox'], #header-tool-search-mobile [role='region']",
+        )
+      ) {
+        return;
+      }
+
       event.preventDefault();
       restoreFocusRef.current = true;
       setOpen(false);
