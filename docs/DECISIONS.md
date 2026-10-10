@@ -582,7 +582,7 @@ Structural i18n tests can verify that translations exist and remain coherent, bu
 
 ### Decision
 
-The product's public brand is **Loculary**. The previous name was **Utiluna** and remains only where it is needed to preserve historical decision and project context.
+The product's public brand is **Loculary**.
 
 ### Reason
 
@@ -591,7 +591,6 @@ The product identity has been explicitly changed while the underlying repository
 ### Consequences
 
 - Current product-facing documentation and implementation should use Loculary.
-- Historical decisions and archives may retain Loculary when that name is part of the historical record.
 - Infrastructure names and identifiers are not assumed to change automatically; each migration is handled explicitly.
 
 
@@ -717,7 +716,7 @@ The product is intended to launch with English and French as first-class languag
 - Every published category has an English and French route slug.
 - English is the naming reference for new internal identifiers and public route conventions.
 - URL generation must be centralized rather than assembled ad hoc throughout UI components.
-- The former category-bearing tool URL shape is superseded for public routing; Git history retains the previous document version.
+- Public tool routes use the current generic route shape without category-bearing segments.
 
 ## DEC-037 — Complete account lifecycle and deletion semantics
 
@@ -827,7 +826,7 @@ where the final step is conditional on there being a meaningful continuation.
 - The recommendation engine is an implementation mechanism and must not define the product meaning of a next action.
 - Generic discovery can still exist elsewhere in the product without being mislabeled as a next action.
 - Existing "Related Tools" UI and relation logic must be evaluated against this decision; implementation changes require their own validated scope.
-- This decision supersedes any current UX wording that treats related tools as a generic mandatory section or places them after documentation by default.
+- Related tools are not a mandatory generic section and are not placed after documentation by default.
 
 
 ## DEC-045 — Intents are first-class discovery objects
@@ -878,7 +877,6 @@ Loculary needs a coherent, recognizable visual and interaction language that fee
 
 ### Consequences
 
-- This decision supersedes the previous M3-only direction. Git history retains prior wording; no historical audit report is rewritten.
 - `docs/DESIGN-SYSTEM.md` defines the Expressive platform contract, palette rules and Loculary-specific boundaries.
 - `docs/VISION.md`, `docs/UX.md` and `docs/PROJECT_INSTRUCTIONS.md` must remain consistent with this direction.
 - Shared components and screens may be refactored or replaced when required for a coherent M3 Expressive implementation; the direction does not require preserving current abstractions.
