@@ -81,7 +81,7 @@ test('manual browser workflows do not retain obsolete path detection or full git
   for (const parsed of [e2e, productionBrowser, screenshots]) {
     for (const job of Object.values(parsed.jobs)) {
       for (const step of job.steps) {
-        assert.equal(step.with?.['fetch-depth'], 0, false);
+        assert.notEqual(step.with?.['fetch-depth'], 0);
       }
     }
   }
