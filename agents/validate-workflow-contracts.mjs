@@ -119,7 +119,7 @@ for (const rule of obsoleteSolutionMinimizationRules) {
 }
 const obsoleteDecisionProtectionRules = [
   /preserve them unless an explicit product evolution supersedes them/i,
-  /consult [\x60']?docs\\/DECISIONS\\.md[\x60']? before reversing a durable decision/i,
+  /consult .*before reversing a durable decision/i,
   /which existing decision should be preserved despite an apparent opportunity to change it/i,
   /change the vision only after explicit validation/i,
   /keep validated decisions fixed unless evidence requires revisiting them/i,
