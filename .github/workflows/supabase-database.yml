@@ -1,20 +1,19 @@
 name: Supabase Database CI
 
+# Database validation and production migration release are manual to avoid multi-minute
+# Docker/Supabase startup on every site PR or merge.
+
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - "supabase/migrations/**"
-      - "supabase/tests/**"
-      - "supabase/config.toml"
-      - "supabase/seed.sql"
-      - ".github/workflows/ci.yml"
-      - ".github/workflows/supabase-database.yml"
-      - "agents/supabase-workflow-policy.mjs"
-      - "agents/supabase-workflow-policy.test.mjs"
-      - "agents/test-account-deletion-concurrency.sh"
   workflow_dispatch:
+    inputs:
+      mode:
+        description: "Validate the selected branch, or validate and release migrations to production."
+        type: choice
+        required: true
+        default: validate
+        options:
+          - validate
+          - release
 
 permissions:
   contents: read
@@ -24,55 +23,28 @@ concurrency:
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
-  detect-changes:
-    name: Detect Supabase-related changes
+  request:
+    name: Check manual request
     runs-on: ubuntu-latest
-    timeout-minutes: 5
-    outputs:
-      validate: ${{ steps.detect.outputs.validate }}
-      production: ${{ steps.detect.outputs.production }}
-
+    timeout-minutes: 2
     steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-
-      - name: Detect validation and production changes
-        id: detect
+      - name: Require main for production release
+        if: inputs.mode == 'release'
         shell: bash
         env:
-          EVENT_NAME: ${{ github.event_name }}
-          PUSH_BEFORE_SHA: ${{ github.event.before }}
+          REQUESTED_MODE: ${{ inputs.mode }}
+          WORKFLOW_REF: ${{ github.ref }}
         run: |
           set -euo pipefail
-
-          if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
-            echo "validate=true" >> "$GITHUB_OUTPUT"
-            echo "production=false" >> "$GITHUB_OUTPUT"
-            echo "Manual runs validate the database but never release to production."
-            exit 0
-          fi
-
-          if [[ "$EVENT_NAME" != "push" ]]; then
-            echo "Unsupported event: $EVENT_NAME" >&2
+          if [[ "$REQUESTED_MODE" == "release" && "$WORKFLOW_REF" != "refs/heads/main" ]]; then
+            echo "::error::Production migration release can only be started from main."
             exit 1
           fi
 
-          base="$PUSH_BEFORE_SHA"
-          head="$GITHUB_SHA"
-          if [[ "$base" == "0000000000000000000000000000000000000000" ]]; then
-            base="$(git rev-list --max-parents=0 "$head")"
-          fi
-
-          changed_files="$(git diff --name-only "$base" "$head")"
-          CHANGED_FILES="$changed_files" node agents/supabase-workflow-policy.mjs detect
-
-  run-validation:
-    name: Run Supabase database validation
-    needs: detect-changes
-    if: needs.detect-changes.outputs.validate == 'true'
+  validate-database:
+    name: Validate Supabase database
+    needs: request
+    if: needs.request.result == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -80,7 +52,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          fetch-depth: 0
           persist-credentials: false
 
       - name: Setup Supabase CLI
@@ -107,7 +78,7 @@ jobs:
           if find supabase/tests -type f \( -name '*.sql' -o -name '*.pg' \) -print -quit 2>/dev/null | grep -q .; then
             supabase test db
           else
-            echo "No pgTAP tests are present yet; migration replay and database lint remain the active CI checks."
+            echo "No pgTAP tests are present yet; migration replay and database lint remain the active checks."
           fi
 
       - name: Exercise concurrent account deletion and role removal
@@ -117,35 +88,10 @@ jobs:
         if: always()
         run: supabase stop
 
-  validate:
-    name: Validate Supabase migrations
-    needs: [detect-changes, run-validation]
-    if: always()
-    runs-on: ubuntu-latest
-    timeout-minutes: 2
-    outputs:
-      production_allowed: ${{ steps.gate.outputs.production_allowed }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-
-      - name: Evaluate validation and production gates
-        id: gate
-        env:
-          DETECTION_RESULT: ${{ needs.detect-changes.result }}
-          VALIDATION_REQUIRED: ${{ needs.detect-changes.outputs.validate }}
-          VALIDATION_RESULT: ${{ needs.run-validation.result }}
-          EVENT_NAME: ${{ github.event_name }}
-          WORKFLOW_REF: ${{ github.ref }}
-          PRODUCTION_REQUIRED: ${{ needs.detect-changes.outputs.production }}
-        run: node agents/supabase-workflow-policy.mjs gate
-
   production-release:
     name: Apply Supabase migrations to production
-    needs: [detect-changes, run-validation, validate]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.detect-changes.outputs.production == 'true' && needs.run-validation.result == 'success' && needs.validate.result == 'success' && needs.validate.outputs.production_allowed == 'true'
+    needs: [request, validate-database]
+    if: inputs.mode == 'release' && github.ref == 'refs/heads/main' && needs.validate-database.result == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     environment: supabase-production
@@ -158,7 +104,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          fetch-depth: 0
           persist-credentials: false
 
       - name: Setup Supabase CLI

@@ -56,6 +56,10 @@ Administrative authorization now has a database foundation separate from executa
 
 ## Supabase CI and migration release
 
-- Pull requests use the existing CI workflow's path detector. The required `Validate Supabase migrations` check runs the local migration replay, database lint, pgTAP tests when present, and account-deletion concurrency integration test only when database validation dependencies change. Unrelated PRs skip the database runner while preserving the required check context.
-- The standalone `.github/workflows/supabase-database.yml` is not triggered by pull requests. On `main`, it starts only for database-relevant paths and keeps production migration application behind successful local validation, a dry-run, and the `supabase-production` environment. Manual dispatch validates the database but never releases to production.
-- The shared path classifier is `agents/supabase-workflow-policy.mjs`; update its tests and both workflow path lists together when validation dependencies change.
+Database checks and production migration releases are manual to avoid adding multi-minute Supabase/Docker startup to ordinary site PRs and merges.
+
+- **Before merging database changes:** open [Supabase Database CI](../.github/workflows/supabase-database.yml) in GitHub Actions, choose the branch containing the changes, select `validate`, and run the workflow. Confirm `Validate Supabase database` succeeds before merging. This runs local migration replay, database lint, pgTAP tests when present, and the account-deletion concurrency/Auth integration test.
+- **To apply migrations to production:** after the validated change is merged, run the same workflow from `main` with mode `release`. It repeats local validation, previews pending production migrations, applies them, then lints production. The `supabase-production` environment and its configured protection/secrets remain required.
+- The workflow has no automatic `push` or pull-request trigger. The `validate` mode never writes to production; `release` is rejected unless run from `main`.
+- The required status context `Validate Supabase migrations` is temporarily retained as a skipped compatibility job because the repository ruleset still requires that name. A skipped job does **not** prove database validation passed. Remove this context from `Protect main` after this workflow change is merged, then remove the compatibility job in a follow-up cleanup. Until then, manually run the workflow and verify its result for every DB change before merging.
+- Supabase Edge Function dependency/type validation remains automatic on PRs touching `supabase/functions/**` and can also be started manually. Its redundant post-merge run is removed.

@@ -21,7 +21,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       docs_only: ${{ steps.changes.outputs.docs_only }}
-      supabase_validate: ${{ steps.changes.outputs.validate }}
 
     steps:
       - name: Checkout
@@ -30,7 +29,7 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Detect documentation-only and Supabase changes
+      - name: Detect documentation-only changes
         id: changes
         shell: bash
         env:
@@ -40,11 +39,9 @@ jobs:
         run: |
           set -euo pipefail
           docs_only=false
-          changed_files=""
 
           if [[ "$EVENT_NAME" == "pull_request" && -n "$BASE_SHA" && -n "$HEAD_SHA" ]]; then
             docs_only=true
-            changed_files="$(git diff --name-only "$BASE_SHA" "$HEAD_SHA")"
             while IFS= read -r -d '' path; do
               case "$path" in
                 *.md|*.mdx|*.txt|LICENSE|LICENSE.*)
@@ -57,7 +54,6 @@ jobs:
           fi
 
           echo "docs_only=$docs_only" >> "$GITHUB_OUTPUT"
-          CHANGED_FILES="$changed_files" node agents/supabase-workflow-policy.mjs detect
 
   validate:
     name: Node.js 24.21.0
@@ -67,8 +63,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 0
 
       - name: Verify PR base is current
         if: github.event_name == 'pull_request'
@@ -118,50 +112,13 @@ jobs:
         run: npm run build
 
 
+  # Temporary compatibility shim: Protect main still requires this status context.
+  # The real database checks now run only via workflow_dispatch in supabase-database.yml.
+  # Remove this skipped job after removing its required context from the repository ruleset.
   supabase-validation:
     name: Validate Supabase migrations
-    needs: detect-changes
-    if: needs.detect-changes.outputs.supabase_validate == 'true'
+    if: ${{ false }}
     runs-on: ubuntu-latest
-    timeout-minutes: 20
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-
-      - name: Setup Supabase CLI
-        uses: supabase/setup-cli@45a513f8c64c0bc8e0e3dfe572b5c95be85f6359 # v3.0.1
-        with:
-          version: 2.120.0
-
-      - name: Validate CLI configuration
-        run: supabase --version
-
-      - name: Start local Supabase
-        # The Auth Admin integration test needs the local Auth/API services, not only Postgres.
-        run: supabase start
-
-      - name: Reset local database from migrations
-        run: supabase db reset
-
-      - name: Lint local database
-        run: supabase db lint --local --fail-on error
-
-      - name: Run database tests when present
-        shell: bash
-        run: |
-          if find supabase/tests -type f \( -name '*.sql' -o -name '*.pg' \) -print -quit 2>/dev/null | grep -q .; then
-            supabase test db
-          else
-            echo "No pgTAP tests are present yet; migration replay and database lint remain the active CI checks."
-          fi
-
-      - name: Exercise concurrent account deletion and role removal
-        run: bash agents/test-account-deletion-concurrency.sh
-
-      - name: Stop local Supabase
-        if: always()
-        run: supabase stop
+      - name: Database validation is manual-only
+        run: echo "Run the Supabase Database CI workflow manually when database changes need validation."

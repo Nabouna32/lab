@@ -24,71 +24,32 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 0
-
-      - name: Detect documentation-only change
-        id: changes
-        shell: bash
-        env:
-          EVENT_NAME: ${{ github.event_name }}
-          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
-          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
-        run: |
-          docs_only=false
-
-          if [[ "$EVENT_NAME" == "pull_request" || "$EVENT_NAME" == "push" ]]; then
-            if [[ -n "$BASE_SHA" && ! "$BASE_SHA" =~ ^0+$ ]]; then
-              docs_only=true
-              while IFS= read -r -d '' path; do
-                case "$path" in
-                  *.md|*.mdx|*.txt|LICENSE|LICENSE.*)
-                    ;;
-                  *)
-                    docs_only=false
-                    break
-                    ;;
-                esac
-              done < <(git diff --name-only -z "$BASE_SHA" "$HEAD_SHA")
-            fi
-          fi
-
-          echo "docs_only=$docs_only" >> "$GITHUB_OUTPUT"
-          echo "Documentation-only change: $docs_only"
-
       - name: Setup Node.js
-        if: steps.changes.outputs.docs_only != 'true'
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24.21.0
           cache: npm
 
       - name: Install dependencies
-        if: steps.changes.outputs.docs_only != 'true'
         run: npm ci
 
       - name: Build
-        if: steps.changes.outputs.docs_only != 'true'
         run: npm run build
 
       - name: Install Playwright Chromium
-        if: steps.changes.outputs.docs_only != 'true'
         run: npx playwright install --with-deps chromium
 
       - name: Start Next.js
-        if: steps.changes.outputs.docs_only != 'true'
         run: npm run start > /tmp/loculary-next.log 2>&1 &
 
       - name: Wait for Next.js
-        if: steps.changes.outputs.docs_only != 'true'
         run: npx --yes wait-on@9.0.1 http://127.0.0.1:3000/fr
 
       - name: Run browser smoke tests
-        if: steps.changes.outputs.docs_only != 'true'
         run: npx playwright test e2e/smoke.spec.mjs e2e/compound-interest-calculator.spec.mjs e2e/uuid.spec.mjs e2e/video-bitrate.spec.mjs e2e/unix-timestamp.spec.mjs e2e/hash-generator.spec.mjs e2e/jwt-decoder.spec.mjs e2e/regex-tester.spec.mjs e2e/url-parser.spec.mjs e2e/password-generator.spec.mjs e2e/color-converter.spec.mjs e2e/color-palette-generator.spec.mjs e2e/contrast-checker.spec.mjs e2e/ip-subnet-calculator.spec.mjs e2e/yaml-formatter-validator.spec.mjs e2e/text-diff-checker.spec.mjs e2e/cron-expression.spec.mjs e2e/account.spec.mjs e2e/design-lab.spec.mjs
 
       - name: Dump Next.js server log on failure
-        if: failure() && steps.changes.outputs.docs_only != 'true'
+        if: failure()
         run: cat /tmp/loculary-next.log
 
       - name: Upload Playwright report on failure
