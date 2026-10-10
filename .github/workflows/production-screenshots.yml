@@ -41,7 +41,7 @@ jobs:
           observed=""
           for attempt in $(seq 1 60); do
             response_headers="$(curl -fsSL -D - -o /dev/null --max-time 5 "$BASE_URL" 2>/dev/null || true)"
-            observed="$(printf '%s\\n' "$response_headers" | tr -d '\\r' | awk 'tolower($1) == "x-loculary-commit:" { value=$2 } END { print value }')"
+            observed="$(printf '%s\n' "$response_headers" | tr -d '\r' | awk 'tolower($1) == "x-loculary-commit:" { value=$2 } END { print value }')"
             if [[ "$observed" == "$expected" ]]; then
               echo "Production alias serves expected commit $expected."
               echo "tested_sha=$observed" >> "$GITHUB_OUTPUT"
