@@ -20,9 +20,13 @@ Work sequentially, one validated scope at a time. Challenge assumptions, current
 
 Resumable work uses a GitHub Issue checkpoint. For actionable discoveries outside scope, search for a matching Issue, update it or create one if needed, then notify the user; implementation still requires scope validation. Keep active documentation current and concise. Git preserves ordinary history; historical audit reports remain immutable.
 
+## Delivery
+
+Controlled manual merge through GitHub is the default: wait for required checks, verify the PR head and base are current, then merge without bypassing branch protections. Do not enable auto-merge by default. The common contract defines the exact checks and the narrow exception for explicit repository policy.
+
 ## Validation
 
-Run npm run validate:workflows to check the task procedures, contract references and audit mission numbering. CI runs the same validator.
+Run npm run validate:workflows to check the task procedures, contract references, merge lifecycle consistency and audit mission numbering. CI runs the same validator.
 
 ## Audit lifecycle
 
