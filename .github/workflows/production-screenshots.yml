@@ -1,4 +1,4 @@
-name: Production Browser Validation
+name: Production Screenshots
 
 on:
   workflow_dispatch:
@@ -7,12 +7,12 @@ permissions:
   contents: read
 
 concurrency:
-  group: production-browser-validation
+  group: production-screenshots
   cancel-in-progress: true
 
 jobs:
-  browser:
-    name: Production runtime and hydration smoke
+  screenshots:
+    name: Capture production screenshots
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
@@ -26,7 +26,7 @@ jobs:
         shell: bash
         run: |
           if [[ "$GITHUB_REF" != "refs/heads/main" ]]; then
-            echo "Run this workflow from main so the checked SHA can be matched to production."
+            echo "Run this workflow from main so the screenshots can be matched to production."
             exit 1
           fi
 
@@ -46,7 +46,7 @@ jobs:
               echo "Production alias serves expected commit $expected."
               echo "tested_sha=$observed" >> "$GITHUB_OUTPUT"
               {
-                echo "## Production browser validation"
+                echo "## Production screenshots"
                 echo "**Deployment SHA verified:** \`$observed\`"
                 echo "Production alias: \`$BASE_URL\`"
               } >> "$GITHUB_STEP_SUMMARY"
@@ -56,8 +56,8 @@ jobs:
             sleep 5
           done
           {
-            echo "## Production browser validation"
-            echo "**Status:** FAILED before browser tests — production alias did not serve the expected commit."
+            echo "## Production screenshots"
+            echo "**Status:** FAILED before capture — production alias did not serve the expected commit."
             echo "- Expected SHA: \`$expected\`"
             echo "- Last observed SHA: \`${observed:-no commit header}\`"
           } >> "$GITHUB_STEP_SUMMARY"
@@ -75,31 +75,31 @@ jobs:
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
 
-      - name: Run production runtime and hydration checks
-        id: production_browser
+      - name: Capture production screenshots
+        id: capture
         env:
           BASE_URL: https://loculary.vercel.app
-          CAPTURE_SCREENSHOTS: "false"
+          CAPTURE_SCREENSHOTS: "true"
         run: npx playwright test e2e/production-visual.spec.mjs
 
-      - name: Summarize production browser result
+      - name: Summarize screenshot result
         if: always()
         env:
-          TEST_OUTCOME: ${{ steps.production_browser.outcome }}
+          CAPTURE_OUTCOME: ${{ steps.capture.outcome }}
           TESTED_SHA: ${{ steps.deployment.outputs.tested_sha }}
         run: |
           {
-            echo "## Production browser test result"
+            echo "## Production screenshot result"
             echo "- Tested commit: \`${TESTED_SHA:-unverified}\`"
-            echo "- Browser test outcome: \`${TEST_OUTCOME:-not run}\`"
-            echo "- Screenshots: not captured by this workflow; use Production Screenshots manually."
+            echo "- Capture outcome: \`${CAPTURE_OUTCOME:-not run}\`"
+            echo "- Viewports: desktop, mobile 390px, narrow mobile 320px, tablet, percentage tool mobile."
           } >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Upload production diagnostics on failure
-        if: failure()
+      - name: Upload production screenshots
+        if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: production-browser-diagnostics
+          name: production-screenshots
           path: test-results/
-          if-no-files-found: ignore
+          if-no-files-found: warn
           retention-days: 7
