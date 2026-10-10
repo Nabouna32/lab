@@ -55,11 +55,24 @@ test('Edge Function lockfile and type checks run for relevant PRs or on demand, 
   assert.equal(functions.jobs.validate.steps.some((step) => String(step.run ?? '').includes('deno check --frozen index.ts')), true);
 });
 
-test('post-merge dependency review starts only when npm manifests or lockfile change', () => {
-  const dependencyReview = workflow('../.github/workflows/dependency-review.yml');
+test('dependency review blocks vulnerable dependency changes only inside the existing required PR CI check', () => {
+  const ci = workflow('../.github/workflows/ci.yml');
+  const detect = ci.jobs['detect-changes'];
+  const validate = ci.jobs.validate;
+  const review = validate.steps.find((step) => step.name === 'Review dependency changes');
 
-  assert.deepEqual(dependencyReview.on.push.paths, ['package.json', 'package-lock.json']);
-  assert.equal(dependencyReview.on.pull_request, undefined);
+  assert.equal(detect.outputs.dependencies_changed, '${{ steps.changes.outputs.dependencies_changed }}');
+  assert.equal(detect.steps.some((step) => String(step.run ?? '').includes('package.json|package-lock.json')), true);
+  assert.equal(review.if, "github.event_name == 'pull_request' && needs.detect-changes.outputs.dependencies_changed == 'true'");
+  assert.equal(review.uses, 'actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294');
+  assert.equal(review.with['fail-on-severity'], 'high');
+  assert.equal(review.with['fail-on-scopes'], 'runtime, development');
+  assert.equal(ci.permissions['pull-requests'], 'read');
+
+  const monitoring = workflow('../.github/workflows/dependency-security-monitoring.yml');
+  assert.equal(monitoring.on.push, undefined);
+  assert.equal(monitoring.on.schedule.length, 1);
+  assert.equal(monitoring.on.workflow_dispatch !== undefined, true);
 });
 
 test('scheduled npm audit reads the lockfile without installing the full dependency tree', () => {
