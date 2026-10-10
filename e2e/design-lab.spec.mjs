@@ -26,7 +26,26 @@ test("design lab generates real Material Color Utilities schemes and exposes its
   await expect(variantSelect.locator("option")).toHaveCount(9);
   await expect(specSelect.locator("option")).toHaveCount(2);
   await expect(platformSelect.locator("option")).toHaveCount(2);
-  await expect(lab).toHaveAttribute("data-seed", "#3F51B5");
+  await expect(lab).toHaveAttribute("data-seed", "#1E88E5");
+  await expect(lab).toHaveAttribute("data-category-set", "compare");
+  await expect(lab).toHaveAttribute("data-category-style", "stripe");
+  await expect(lab).toHaveAttribute("data-type-preset", "roboto");
+  await expect(lab).toHaveAttribute("data-scheme-variant", "vibrant");
+  await expect(page.getByTestId("category-mcu-rainbow")).toHaveCount(7);
+  await expect(page.getByTestId("category-direct-rainbow")).toHaveCount(7);
+  const accentContrasts = await page.getByTestId("category-direct-rainbow").evaluateAll(cards => cards.map(card => {
+    const style = getComputedStyle(card);
+    const luminance = (hex) => {
+      const channels = hex.replace("#", "").match(/.{2}/g).map(value => parseInt(value, 16) / 255);
+      const linear = channels.map(value => value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4);
+      return 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2];
+    };
+    const foreground = luminance(style.getPropertyValue("--category-foreground").trim());
+    const background = luminance(style.getPropertyValue("--category-color").trim());
+    return (Math.max(foreground, background) + 0.05) / (Math.min(foreground, background) + 0.05);
+  }));
+  expect(accentContrasts.every(ratio => ratio >= 4.5)).toBe(true);
+  await expect.poll(() => lab.evaluate(el => getComputedStyle(el).fontFamily)).toContain("Roboto");
   await expect(lab).toHaveAttribute("data-spec-version", "2025");
 
   await specSelect.selectOption("2021");
@@ -52,8 +71,23 @@ test("source seed validation, contrast, light/dark, and category colors are inde
 
   const lab = page.locator("main[data-scheme-variant]");
   const seedInput = page.locator('input[aria-describedby="seed-help"]');
-  const calculations = page.locator('[class*="categoryCard"]').filter({ hasText: "Calculs" });
+  const calculations = page.getByTestId("category-mcu-rainbow").filter({ hasText: "Calculs" });
+  const directCalculations = page.getByTestId("category-direct-rainbow").filter({ hasText: "Calculs" });
   const categorySeedBefore = await calculations.getAttribute("data-category-seed");
+  const readStatusContrasts = () => lab.evaluate(el => {
+    const style = getComputedStyle(el);
+    const luminance = (hex) => {
+      const channels = hex.replace("#", "").match(/.{2}/g).map(value => parseInt(value, 16) / 255);
+      const linear = channels.map(value => value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4);
+      return 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2];
+    };
+    return [["success","--lab-success-text","--lab-success-bg"],["warning","--lab-warning-text","--lab-warning-bg"],["error","--lab-error-text","--lab-error-bg"]].map(([name,fg,bg]) => {
+      const foreground = luminance(style.getPropertyValue(fg).trim());
+      const background = luminance(style.getPropertyValue(bg).trim());
+      return { name, ratio: (Math.max(foreground, background) + 0.05) / (Math.min(foreground, background) + 0.05) };
+    });
+  });
+  expect((await readStatusContrasts()).every(pair => pair.ratio >= 4.5)).toBe(true);
 
   await seedInput.fill("#ff0000");
   await expect(lab).toHaveAttribute("data-seed", "#FF0000");
@@ -70,20 +104,24 @@ test("source seed validation, contrast, light/dark, and category colors are inde
   const lightPrimary = await lab.evaluate(el => getComputedStyle(el).getPropertyValue("--lab-primary").trim());
   await page.getByRole("button", { name: "Sombre" }).click();
   await expect(lab).toHaveAttribute("data-theme", "dark");
+  expect((await readStatusContrasts()).every(pair => pair.ratio >= 4.5)).toBe(true);
   const darkPrimary = await lab.evaluate(el => getComputedStyle(el).getPropertyValue("--lab-primary").trim());
   expect(darkPrimary).not.toBe(lightPrimary);
 
   await page.getByRole("button", { name: "Renforcé · 0,5" }).click();
   await expect(lab).toHaveAttribute("data-contrast", "0.5");
 
-  await page.getByRole("button", { name: "Multicolore vif" }).click();
+  const generatedRainbowColor = await calculations.getAttribute("data-category-color");
+  const directRainbowColor = await directCalculations.getAttribute("data-category-color");
+  expect(generatedRainbowColor).not.toBe(directRainbowColor);
+  await page.getByTestId("category-set-vivid").click();
   await expect(lab).toHaveAttribute("data-category-set", "vivid");
-  await expect(calculations).not.toHaveAttribute("data-category-seed", categorySeedBefore);
+  await expect(directCalculations).toHaveAttribute("data-category-color", "#D32F2F");
 
-  const softBackground = await calculations.evaluate(el => getComputedStyle(el).backgroundColor);
+  const softBackground = await directCalculations.evaluate(el => getComputedStyle(el).backgroundColor);
   await page.getByRole("button", { name: "Aplat coloré" }).click();
   await expect(lab).toHaveAttribute("data-category-style", "solid");
-  const solidBackground = await calculations.evaluate(el => getComputedStyle(el).backgroundColor);
+  const solidBackground = await directCalculations.evaluate(el => getComputedStyle(el).backgroundColor);
   expect(solidBackground).not.toBe(softBackground);
 
   await page.getByRole("button", { name: "Système", exact: true }).click();

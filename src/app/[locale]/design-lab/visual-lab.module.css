@@ -154,3 +154,14 @@
 @media(max-width:850px){.seedPresets{grid-template-columns:repeat(3,minmax(0,1fr))}.rolePairGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.semanticRoleGrid{grid-template-columns:repeat(4,minmax(0,1fr))}.typeScaleGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){.seedPresets{grid-template-columns:repeat(2,minmax(0,1fr))}.engineControls{grid-template-columns:1fr}.rolePairGrid{grid-template-columns:1fr}.semanticRoleGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.typeScaleGrid{grid-template-columns:1fr}.sourceColorInputs{max-width:none}}
 
+
+
+/* Compare the official MCU Rainbow variant with the same seeds used as direct, saturated category accents. */
+.categoryCompareGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;align-items:start}
+.categoryComparison{min-width:0}
+.categoryComparison h3{margin:.4rem 0;font-size:1rem}
+.categoryComparison>.helper{min-height:3.2em}
+.categoryComparison .categoryGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.categoryStyle_stripe .categoryCardDirect{border-color:var(--lab-outline);background:var(--lab-surface)}
+.categoryCardDirect .categoryGlyph{border-color:transparent;background:var(--category-color);color:var(--category-foreground)}
+@media(max-width:850px){.categoryCompareGrid{grid-template-columns:1fr}}

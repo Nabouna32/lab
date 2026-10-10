@@ -20,49 +20,72 @@ type Locale = "en" | "fr";
 type Theme = "light" | "dark";
 type Mode = "m3" | "expressive";
 type Screen = "home" | "explore" | "tool";
-type CategorySet = "current" | "vivid" | "blue";
+type CategorySet = "compare" | "current" | "mcu-rainbow" | "vivid" | "blue";
 type CategoryStyle = "soft" | "stripe" | "solid";
-type TypePreset = "geist" | "system" | "classic";
+type TypePreset = "roboto" | "geist" | "system";
 const copy = {
   en: {
     eyebrow:"Experimental playground · not production",title:"Find Loculary’s visual personality.",intro:"Change one dimension at a time. Compare the same interface across palettes, themes and expressive treatments before choosing what belongs in the real product.",categoryColors:"Category identity colors",categoryColorsHelp:"These category colors are independent from the brand palette. Compare distinct color sets and visible treatments; the solid option uses matching foreground colors for readability.",
-    theme:"Theme",style:"Visual language",viewport:"Preview width",categorySet:"Category color set",currentSet:"Current",vividSet:"Vivid multicolor",blueSet:"Blue-forward",categoryStyle:"Category treatment",softStyle:"Soft tint",stripeStyle:"Strong stripe",solidStyle:"Solid color",typeface:"Typeface",geistTypeface:"Geist",systemTypeface:"System",classicTypeface:"Arial / sans-serif",language:"Preview language",light:"Light",dark:"Dark",classic:"Material 3",expressive:"M3 Expressive",desktop:"Desktop",tablet:"Tablet",mobile:"Mobile",
+    theme:"Theme",style:"Visual language",viewport:"Preview width",categorySet:"Category color set",compareSet:"Compare both rainbows",currentSet:"Current",mcuRainbowSet:"M3 Rainbow · generated",vividSet:"Rainbow · direct accents",blueSet:"Blue-forward",categoryStyle:"Category treatment",softStyle:"Soft tint",stripeStyle:"Strong stripe",solidStyle:"Solid color",typeface:"Typeface",robotoTypeface:"Roboto · Material reference",geistTypeface:"Geist (compare)",systemTypeface:"System",language:"Preview language",light:"Light",dark:"Dark",classic:"Material 3",expressive:"M3 Expressive",desktop:"Desktop",tablet:"Tablet",mobile:"Mobile",
     home:"Home",explore:"Explore",tool:"Tool page",search:"What do you need to do?",searchButton:"Find a tool",quick:"Popular tasks",welcome:"A toolbox for your next idea",subhead:"Small tasks, useful tools, less friction.",browse:"Explore tools",
     results:"Suggested tools",resultOne:"Percentage calculator",resultTwo:"Image converter",resultThree:"Text cleaner",toolTitle:"Percentage calculator",toolDesc:"Calculate a percentage of any value.",value:"Value",percent:"Percentage",calculate:"Calculate",output:"Your result",
     components:"Component gallery",settings:"Account & preferences",settingsHelp:"Examples of options a user can turn on or off.",syncFavorites:"Sync favorites",syncFavoritesHelp:"Keep your favorites available on your account.",automaticTheme:"Use device theme",automaticThemeHelp:"Follow your phone or computer light/dark setting.",reducedMotion:"Reduce motion",reducedMotionHelp:"Limit non-essential animations.",switchOnLabel:"On",switchOffLabel:"Off",actions:"Actions & controls",forms:"Forms & selection",surfaces:"Surfaces & feedback",type:"Typography & shape",states:"Interaction states",filled:"Primary action",tonal:"Tonal action",outlined:"Outlined",textButton:"Text action",disabled:"Unavailable action",focus:"Keyboard focus",motion:"Replay motion",
     email:"Email address",choose:"Choose a category",selected:"Selected",chip:"Image tools",filter:"Filters",tabA:"Overview",tabB:"Details",cardTitle:"A useful result",cardText:"Keep the task clear and the next step obvious.",
     dialogTitle:"Ready to continue?",dialogText:"This is a sample dialog preview, not a real confirmation.",close:"Not now",confirm:"Continue",success:"Everything looks good",warning:"Check this value",error:"Enter a valid email address",
-    composition:"Real-world compositions",compositionHelp:"Illustrative layouts using the selected tokens, not screenshots of the current production UI.",contrast:"Contrast review",contrastHelp:"Review computed role pairs before adopting a palette.",wcag:"Material contrast is informative, not a full WCAG audit.",seed:"Source color",sourceColor:"Source color (hex)",sourceColorHelp:"Choose any color or start from a reference preset. Generated roles come from the official Material Color Utilities engine.",invalidSeed:"Enter a valid 3- or 6-digit hex color.",seedPresets:"Reference presets",variant:"Dynamic scheme variant",variantHelp:"Official Material Color Utilities variant; category mapping and font family remain Loculary-specific choices.",specVersion:"Material spec version",platform:"Target platform",phone:"Phone",watch:"Watch",platform2021:"Platform only affects the 2025 spec; it is ignored for the 2021 spec.",platform2025:"The 2025 spec supports phone and watch platform tuning.",contrastLevel:"Contrast level",normalContrast:"Default · 0",reducedContrast:"Reduced · −1",highContrast:"Higher · 0.5",maxContrast:"Maximum · 1",semanticRoles:"Semantic color roles",rolePairs:"Foreground/background contrast pairs",tonalPalettes:"Generated tonal palettes",typeScale:"Material 3 type scale",typeScaleHelp:"Official M3 role/size conventions; the selected web font family is an independent, non-prescriptive choice.",fontProvenance:"Font family is a custom web comparison, not a font mandated by Material 3.",categorySourceHelp:"Category seeds are curated Loculary examples. Their tones and on-colors are generated by the selected MCU variant; category-to-color assignment is not an official M3 rule.",
+    composition:"Real-world compositions",compositionHelp:"Illustrative layouts using the selected tokens, not screenshots of the current production UI.",contrast:"Contrast review",contrastHelp:"Review computed role pairs before adopting a palette.",wcag:"Material contrast is informative, not a full WCAG audit.",seed:"Source color",sourceColor:"Source color (hex)",sourceColorHelp:"Choose any color or start from a reference preset. Generated roles come from the official Material Color Utilities engine.",invalidSeed:"Enter a valid 3- or 6-digit hex color.",seedPresets:"Reference presets",variant:"Dynamic scheme variant",variantHelp:"Official Material Color Utilities variant; category mapping and font family remain Loculary-specific choices.",specVersion:"Material spec version",platform:"Target platform",phone:"Phone",watch:"Watch",platform2021:"Platform only affects the 2025 spec; it is ignored for the 2021 spec.",platform2025:"The 2025 spec supports phone and watch platform tuning.",contrastLevel:"Contrast level",normalContrast:"Default · 0",reducedContrast:"Reduced · −1",highContrast:"Higher · 0.5",maxContrast:"Maximum · 1",semanticRoles:"Semantic color roles",rolePairs:"Foreground/background contrast pairs",tonalPalettes:"Generated tonal palettes",typeScale:"Material 3 type scale",typeScaleHelp:"Official M3 role/size conventions; the selected web font family is an independent, non-prescriptive choice.",fontProvenance:"Font family is a custom web comparison, not a font mandated by Material 3.",categorySourceHelp:"Compare the official MCU Rainbow dynamic-scheme algorithm applied to the same seven Loculary seed colors against those colors used directly as saturated accents. M3 does not define an official seven-category rainbow palette.",mcuRainbowHelp:"Official MCU Rainbow variant applied to each matching category seed; the seed-to-category assignment remains Loculary-specific.",directRainbowHelp:"Loculary-selected saturated rainbow accents used directly, without tonal scheme generation.",
     note:"Nothing here changes Loculary’s production design. This is a decision aid; the final palette and style remain open.",closeDialog:"Close dialog",fieldHelp:"Shape, spacing and type respond to the selected visual language.",actionsHelp:"Use the controls above to compare the same components.",
   },
   fr: {
     eyebrow:"Laboratoire expérimental · hors production",title:"Trouvons la personnalité visuelle de Loculary.",intro:"Change une dimension à la fois. Compare la même interface selon les palettes, les thèmes et le style expressif avant de décider ce qui mérite d’entrer dans le vrai produit.",categoryColors:"Couleurs d’identité des catégories",categoryColorsHelp:"Les couleurs des catégories sont indépendantes de la palette de marque. Compare des jeux franchement différents et des traitements visibles ; les aplats utilisent une couleur de texte adaptée pour rester lisibles.",
-    theme:"Thème",style:"Langage visuel",viewport:"Largeur d’aperçu",categorySet:"Jeu de couleurs des catégories",currentSet:"Actuel",vividSet:"Multicolore vif",blueSet:"Dominante bleue",categoryStyle:"Traitement des catégories",softStyle:"Teinte légère",stripeStyle:"Bande franche",solidStyle:"Aplat coloré",typeface:"Police de caractères",geistTypeface:"Geist",systemTypeface:"Système",classicTypeface:"Arial / sans-serif",language:"Langue de l’aperçu",light:"Clair",dark:"Sombre",classic:"Material 3",expressive:"M3 Expressive",desktop:"Ordinateur",tablet:"Tablette",mobile:"Mobile",
+    theme:"Thème",style:"Langage visuel",viewport:"Largeur d’aperçu",categorySet:"Jeu de couleurs des catégories",compareSet:"Comparer les deux arcs-en-ciel",currentSet:"Actuel",mcuRainbowSet:"Rainbow M3 · généré",vividSet:"Arc-en-ciel · accents directs",blueSet:"Dominante bleue",categoryStyle:"Traitement des catégories",softStyle:"Teinte légère",stripeStyle:"Bande franche",solidStyle:"Aplat coloré",typeface:"Police de caractères",robotoTypeface:"Roboto · référence Material",geistTypeface:"Geist (comparaison)",systemTypeface:"Système",language:"Langue de l’aperçu",light:"Clair",dark:"Sombre",classic:"Material 3",expressive:"M3 Expressive",desktop:"Ordinateur",tablet:"Tablette",mobile:"Mobile",
     home:"Accueil",explore:"Explorer",tool:"Page outil",search:"De quoi as-tu besoin ?",searchButton:"Trouver un outil",quick:"Actions populaires",welcome:"Une boîte à outils pour tes idées",subhead:"Des tâches simples, des outils utiles, moins de friction.",browse:"Explorer les outils",
     results:"Outils suggérés",resultOne:"Calcul de pourcentage",resultTwo:"Convertisseur d’image",resultThree:"Nettoyeur de texte",toolTitle:"Calcul de pourcentage",toolDesc:"Calcule un pourcentage de n’importe quelle valeur.",value:"Valeur",percent:"Pourcentage",calculate:"Calculer",output:"Ton résultat",
     components:"Galerie de composants",settings:"Compte et préférences",settingsHelp:"Exemples d’options que l’utilisateur peut activer ou désactiver.",syncFavorites:"Synchroniser les favoris",syncFavoritesHelp:"Retrouver les favoris sur son compte.",automaticTheme:"Suivre le thème de l’appareil",automaticThemeHelp:"Utiliser le mode clair ou sombre du téléphone ou de l’ordinateur.",reducedMotion:"Réduire les animations",reducedMotionHelp:"Limiter les animations non essentielles.",switchOnLabel:"Activé",switchOffLabel:"Désactivé",actions:"Actions et commandes",forms:"Formulaires et choix",surfaces:"Surfaces et retours",type:"Typographie et formes",states:"États d’interaction",filled:"Action principale",tonal:"Action tonale",outlined:"Contour",textButton:"Action texte",disabled:"Action indisponible",focus:"Focus clavier",motion:"Rejouer l’animation",
     email:"Adresse e-mail",choose:"Choisir une catégorie",selected:"Sélectionné",chip:"Outils image",filter:"Filtres",tabA:"Aperçu",tabB:"Détails",cardTitle:"Un résultat utile",cardText:"La tâche reste claire et la prochaine étape évidente.",
     dialogTitle:"Prêt à continuer ?",dialogText:"Ceci est un aperçu de dialogue, pas une vraie confirmation.",close:"Pas maintenant",confirm:"Continuer",success:"Tout semble correct",warning:"Vérifie cette valeur",error:"Saisis une adresse e-mail valide",
-    composition:"Mises en situation",compositionHelp:"Compositions illustratives avec les tokens sélectionnés, pas des captures de l’interface actuelle.",contrast:"Vérification du contraste",contrastHelp:"Examine les paires de rôles calculées avant d’adopter une palette.",wcag:"Le contraste Material est informatif, pas un audit WCAG complet.",seed:"Couleur source",sourceColor:"Couleur source (hex)",sourceColorHelp:"Choisis n’importe quelle couleur ou pars d’un preset de référence. Les rôles sont générés par le moteur officiel Material Color Utilities.",invalidSeed:"Saisis une couleur hexadécimale valide à 3 ou 6 chiffres.",seedPresets:"Presets de référence",variant:"Variante de schéma dynamique",variantHelp:"Variante officielle de Material Color Utilities ; l’affectation des catégories et la police restent des choix propres à Loculary.",specVersion:"Version de la spécification Material",platform:"Plateforme cible",phone:"Téléphone",watch:"Montre",platform2021:"La plateforme n’influence que la spécification 2025 ; elle est ignorée en 2021.",platform2025:"La spécification 2025 adapte les palettes aux plateformes téléphone et montre.",contrastLevel:"Niveau de contraste",normalContrast:"Défaut · 0",reducedContrast:"Réduit · −1",highContrast:"Renforcé · 0,5",maxContrast:"Maximum · 1",semanticRoles:"Rôles de couleur sémantiques",rolePairs:"Paires premier plan / arrière-plan",tonalPalettes:"Palettes tonales générées",typeScale:"Échelle typographique Material 3",typeScaleHelp:"Conventions officielles des rôles et tailles M3 ; la famille de polices web est un choix indépendant et non prescriptif.",fontProvenance:"La famille de polices est une comparaison web personnalisée, pas une police imposée par Material 3.",categorySourceHelp:"Les couleurs source des catégories sont des exemples choisis par Loculary. Leurs tons et couleurs de texte sont générés par la variante MCU ; leur affectation n’est pas une règle officielle M3.",
+    composition:"Mises en situation",compositionHelp:"Compositions illustratives avec les tokens sélectionnés, pas des captures de l’interface actuelle.",contrast:"Vérification du contraste",contrastHelp:"Examine les paires de rôles calculées avant d’adopter une palette.",wcag:"Le contraste Material est informatif, pas un audit WCAG complet.",seed:"Couleur source",sourceColor:"Couleur source (hex)",sourceColorHelp:"Choisis n’importe quelle couleur ou pars d’un preset de référence. Les rôles sont générés par le moteur officiel Material Color Utilities.",invalidSeed:"Saisis une couleur hexadécimale valide à 3 ou 6 chiffres.",seedPresets:"Presets de référence",variant:"Variante de schéma dynamique",variantHelp:"Variante officielle de Material Color Utilities ; l’affectation des catégories et la police restent des choix propres à Loculary.",specVersion:"Version de la spécification Material",platform:"Plateforme cible",phone:"Téléphone",watch:"Montre",platform2021:"La plateforme n’influence que la spécification 2025 ; elle est ignorée en 2021.",platform2025:"La spécification 2025 adapte les palettes aux plateformes téléphone et montre.",contrastLevel:"Niveau de contraste",normalContrast:"Défaut · 0",reducedContrast:"Réduit · −1",highContrast:"Renforcé · 0,5",maxContrast:"Maximum · 1",semanticRoles:"Rôles de couleur sémantiques",rolePairs:"Paires premier plan / arrière-plan",tonalPalettes:"Palettes tonales générées",typeScale:"Échelle typographique Material 3",typeScaleHelp:"Conventions officielles des rôles et tailles M3 ; la famille de polices web est un choix indépendant et non prescriptif.",fontProvenance:"La famille de polices est une comparaison web personnalisée, pas une police imposée par Material 3.",categorySourceHelp:"Compare la variante officielle Rainbow de MCU appliquée aux sept mêmes couleurs source choisies par Loculary avec ces couleurs utilisées directement comme accents saturés. M3 ne définit pas de palette arc-en-ciel officielle pour sept catégories.",mcuRainbowHelp:"Variante officielle Rainbow de MCU appliquée à chaque couleur source ; l’affectation aux catégories reste propre à Loculary.",directRainbowHelp:"Accents arc-en-ciel saturés choisis par Loculary et utilisés directement, sans génération de schéma tonal.",
     note:"Rien ici ne modifie le design de production de Loculary. C’est un outil d’aide à la décision ; palette et style restent à choisir.",closeDialog:"Fermer le dialogue",fieldHelp:"Formes, espacements et typographie suivent le langage visuel sélectionné.",actionsHelp:"Utilise les contrôles ci-dessus pour comparer les mêmes composants.",
   },
 };
 
+function readableForeground(hex: string) {
+  const luminance = (color: string) => {
+    const channels = color.replace("#", "").match(/.{2}/g)?.map(value => parseInt(value, 16) / 255) ?? [0, 0, 0];
+    const linear = channels.map(value => value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4);
+    return 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2];
+  };
+  const background = luminance(hex);
+  const contrast = (foreground: string) => {
+    const foregroundLuminance = luminance(foreground);
+    return (Math.max(background, foregroundLuminance) + 0.05) / (Math.min(background, foregroundLuminance) + 0.05);
+  };
+  return contrast("#111827") >= contrast("#FFFFFF") ? "#111827" : "#FFFFFF";
+}
+
+function buildCategoryCards(categorySet: Exclude<CategorySet, "compare">, locale: Locale, variant: SchemeVariant, theme: Theme, contrastLevel: number, specVersion: SchemeSpecVersion, platform: SchemePlatform) {
+  return categorySeedDefinitions.map(item => {
+    const categorySeed = categorySet === "current" ? item.currentSeed : categorySet === "blue" ? item.blueSeed : item.vividSeed;
+    const directRainbow = categorySet === "vivid";
+    const categoryScheme = createM3Scheme(categorySeed, categorySet === "mcu-rainbow" ? "rainbow" : variant, theme === "dark", contrastLevel, specVersion, platform);
+    return { ...item, name: locale === "fr" ? item.nameFr : item.name, categorySeed, categoryColor: directRainbow ? categorySeed : colorHex(categoryScheme.primary), categoryForeground: directRainbow ? readableForeground(categorySeed) : colorHex(categoryScheme.onPrimary), directRainbow };
+  });
+}
+
 const categorySeedDefinitions = [
   { key: "calculations", name: "Calculations", nameFr: "Calculs", icon: "％", currentSeed: "#D92D20", vividSeed: "#D32F2F", blueSeed: "#2563EB" },
-  { key: "dates", name: "Dates", nameFr: "Dates", icon: "◷", currentSeed: "#A16207", vividSeed: "#F59E0B", blueSeed: "#0EA5E9" },
-  { key: "computing", name: "Computing", nameFr: "Informatique", icon: "⌘", currentSeed: "#7A5AF8", vividSeed: "#7C3AED", blueSeed: "#4F46E5" },
-  { key: "images", name: "Images", nameFr: "Images", icon: "▧", currentSeed: "#C11574", vividSeed: "#DB2777", blueSeed: "#7C3AED" },
-  { key: "files", name: "Files", nameFr: "Fichiers", icon: "▤", currentSeed: "#0E7490", vividSeed: "#0891B2", blueSeed: "#0369A1" },
-  { key: "video", name: "Video", nameFr: "Vidéo", icon: "▷", currentSeed: "#0F766E", vividSeed: "#059669", blueSeed: "#0F766E" },
-  { key: "development", name: "Development", nameFr: "Développement", icon: "{ }", currentSeed: "#155EEF", vividSeed: "#2563EB", blueSeed: "#1D4ED8" },
+  { key: "dates", name: "Dates", nameFr: "Dates", icon: "◷", currentSeed: "#A16207", vividSeed: "#FB8C00", blueSeed: "#0EA5E9" },
+  { key: "computing", name: "Computing", nameFr: "Informatique", icon: "⌘", currentSeed: "#7A5AF8", vividSeed: "#FDD835", blueSeed: "#4F46E5" },
+  { key: "images", name: "Images", nameFr: "Images", icon: "▧", currentSeed: "#C11574", vividSeed: "#43A047", blueSeed: "#7C3AED" },
+  { key: "files", name: "Files", nameFr: "Fichiers", icon: "▤", currentSeed: "#0E7490", vividSeed: "#1976D2", blueSeed: "#0369A1" },
+  { key: "video", name: "Video", nameFr: "Vidéo", icon: "▷", currentSeed: "#0F766E", vividSeed: "#3949AB", blueSeed: "#0F766E" },
+  { key: "development", name: "Development", nameFr: "Développement", icon: "{ }", currentSeed: "#155EEF", vividSeed: "#8E24AA", blueSeed: "#1D4ED8" },
 ] as const;
 
 export default function VisualLab({ initialLocale }: { initialLocale: string }) {
   const [locale,setLocale]=useState<Locale>(initialLocale==="fr"?"fr":"en");
-  const [seedInput,setSeedInput]=useState("#3F51B5");
-  const [seed,setSeed]=useState("#3F51B5");
-  const [variant,setVariant]=useState<SchemeVariant>("expressive");
+  const [seedInput,setSeedInput]=useState("#1E88E5");
+  const [seed,setSeed]=useState("#1E88E5");
+  const [variant,setVariant]=useState<SchemeVariant>("vibrant");
   const [contrastLevel,setContrastLevel]=useState(0);
   const [specVersion,setSpecVersion]=useState<SchemeSpecVersion>("2025");
   const [platform,setPlatform]=useState<SchemePlatform>("phone");
@@ -70,9 +93,9 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const [mode,setMode]=useState<Mode>("expressive");
   const [screen,setScreen]=useState<Screen>("home");
   const [viewport,setViewport]=useState<"desktop"|"tablet"|"mobile">("desktop");
-  const [categorySet,setCategorySet]=useState<CategorySet>("current");
-  const [categoryStyle,setCategoryStyle]=useState<CategoryStyle>("soft");
-  const [typePreset,setTypePreset]=useState<TypePreset>("geist");
+  const [categorySet,setCategorySet]=useState<CategorySet>("compare");
+  const [categoryStyle,setCategoryStyle]=useState<CategoryStyle>("stripe");
+  const [typePreset,setTypePreset]=useState<TypePreset>("roboto");
   const [dialogOpen,setDialogOpen]=useState(true);
   const [motionReplay,setMotionReplay]=useState(0);
   const [value,setValue]=useState("180");
@@ -95,7 +118,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
     "--lab-bg":colorHex(scheme.background),
     "--lab-surface":colorHex(scheme.surface),
     "--lab-surface-2":colorHex(scheme.surfaceVariant),
-    "--lab-font":typePreset==="geist"?"var(--font-geist-sans), sans-serif":typePreset==="system"?"system-ui, -apple-system, \"Segoe UI\", sans-serif":"Arial, Helvetica, sans-serif",
+    "--lab-font":typePreset==="roboto"?"var(--font-roboto), Roboto, Arial, sans-serif":typePreset==="geist"?"var(--font-geist-sans), sans-serif":"system-ui, -apple-system, \"Segoe UI\", sans-serif",
     "--lab-text":colorHex(scheme.onSurface),
     "--lab-muted":colorHex(scheme.onSurfaceVariant),
     "--lab-outline":colorHex(scheme.outline),
@@ -106,24 +129,23 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
     "--lab-tertiary":colorHex(scheme.tertiary),
     "--lab-error":colorHex(scheme.error),
     "--lab-on-error":colorHex(scheme.onError),
-    "--lab-success-bg":colorHex(scheme.tertiaryContainer),
-    "--lab-success-text":colorHex(scheme.onTertiaryContainer),
-    "--lab-warning-bg":colorHex(scheme.secondaryContainer),
-    "--lab-warning-text":colorHex(scheme.onSecondaryContainer),
-    "--lab-error-bg":colorHex(scheme.errorContainer),
-    "--lab-error-text":colorHex(scheme.onErrorContainer),
+    "--lab-success-bg":theme==="dark"?"#173B2A":"#D5F5D6",
+    "--lab-success-text":theme==="dark"?"#A7F3C0":"#14532D",
+    "--lab-warning-bg":theme==="dark"?"#4A350F":"#FFF0B3",
+    "--lab-warning-text":theme==="dark"?"#FFE08A":"#704400",
+    "--lab-error-bg":theme==="dark"?"#4B1F24":"#FFE0E0",
+    "--lab-error-text":theme==="dark"?"#FFB4AB":"#8F1717",
     "--lab-radius":mode==="expressive"?"1.65rem":"0.8rem",
     "--lab-radius-small":mode==="expressive"?"1rem":"0.35rem",
     "--lab-motion":mode==="expressive"?"420ms":"180ms",
-  } as CSSProperties & Record<string,string>),[scheme,mode,typePreset]);
+  } as CSSProperties & Record<string,string>),[scheme,mode,typePreset,theme]);
   const amount=Number(value)*Number(percent)/100;
   const result=Number.isFinite(amount)?amount.toLocaleString(locale==="fr"?"fr-FR":"en-US",{maximumFractionDigits:3}):"—";
   const stageClass=[styles.stage,styles[viewport],theme==="dark"?styles.dark:styles.light,mode==="expressive"?styles.expressive:styles.classic].join(" ");
-  const categoryCards = useMemo(()=>categorySeedDefinitions.map((item) => {
-    const categorySeed = categorySet === "current" ? item.currentSeed : categorySet === "vivid" ? item.vividSeed : item.blueSeed;
-    const categoryScheme = createM3Scheme(categorySeed, variant, theme === "dark", contrastLevel, specVersion, platform);
-    return { ...item, name: locale === "fr" ? item.nameFr : item.name, categorySeed, categoryColor: colorHex(categoryScheme.primary), categoryForeground: colorHex(categoryScheme.onPrimary) };
-  }),[locale,categorySet,variant,theme,contrastLevel,specVersion,platform]);
+  const mcuRainbowCards = useMemo(()=>buildCategoryCards("mcu-rainbow",locale,variant,theme,contrastLevel,specVersion,platform),[locale,variant,theme,contrastLevel,specVersion,platform]);
+  const directRainbowCards = useMemo(()=>buildCategoryCards("vivid",locale,variant,theme,contrastLevel,specVersion,platform),[locale,variant,theme,contrastLevel,specVersion,platform]);
+  const categoryCards = useMemo(()=>categorySet==="compare"?mcuRainbowCards:buildCategoryCards(categorySet,locale,variant,theme,contrastLevel,specVersion,platform),[categorySet,locale,variant,theme,contrastLevel,specVersion,platform,mcuRainbowCards]);
+  const categoryGroups = categorySet==="compare" ? [{key:"mcu-rainbow",title:t.mcuRainbowSet,help:t.mcuRainbowHelp,cards:mcuRainbowCards},{key:"vivid",title:t.vividSet,help:t.directRainbowHelp,cards:directRainbowCards}] : [{key:categorySet,title:"",help:"",cards:categoryCards}];
   const typeScaleSamples = [
     { role: "Display large", roleFr: "Affichage grand", size: 57 },
     { role: "Display medium", roleFr: "Affichage moyen", size: 45 },
@@ -193,11 +215,11 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
         <fieldset className={styles.segmentField}><legend>{t.theme}</legend><div className={styles.segmented}><button type="button" aria-pressed={theme==="light"} onClick={()=>setTheme("light")}>☀ {t.light}</button><button type="button" aria-pressed={theme==="dark"} onClick={()=>setTheme("dark")}>☾ {t.dark}</button></div></fieldset>
         <fieldset className={styles.segmentField}><legend>{t.style}</legend><div className={styles.segmented}><button type="button" aria-pressed={mode==="m3"} onClick={()=>setMode("m3")}>{t.classic}</button><button type="button" aria-pressed={mode==="expressive"} onClick={()=>setMode("expressive")}>{t.expressive}</button></div></fieldset>
         <fieldset className={styles.segmentField}><legend>{t.viewport}</legend><div className={styles.segmented}>{(["desktop","tablet","mobile"] as const).map(size=><button key={size} type="button" aria-pressed={viewport===size} onClick={()=>setViewport(size)}>{t[size]}</button>)}</div></fieldset>
-        <fieldset className={styles.segmentField}><legend>{t.categorySet}</legend><div className={styles.segmented}><button type="button" aria-pressed={categorySet==="current"} onClick={()=>setCategorySet("current")}>{t.currentSet}</button><button type="button" aria-pressed={categorySet==="vivid"} onClick={()=>setCategorySet("vivid")}>{t.vividSet}</button><button type="button" aria-pressed={categorySet==="blue"} onClick={()=>setCategorySet("blue")}>{t.blueSet}</button></div><p className={styles.helper}>{t.categorySourceHelp}</p></fieldset>
+        <fieldset className={styles.segmentField}><legend>{t.categorySet}</legend><div className={styles.segmented}><button data-testid="category-set-compare" type="button" aria-pressed={categorySet==="compare"} onClick={()=>setCategorySet("compare")}>{t.compareSet}</button><button data-testid="category-set-current" type="button" aria-pressed={categorySet==="current"} onClick={()=>setCategorySet("current")}>{t.currentSet}</button><button data-testid="category-set-mcu-rainbow" type="button" aria-pressed={categorySet==="mcu-rainbow"} onClick={()=>setCategorySet("mcu-rainbow")}>{t.mcuRainbowSet}</button><button data-testid="category-set-vivid" type="button" aria-pressed={categorySet==="vivid"} onClick={()=>setCategorySet("vivid")}>{t.vividSet}</button><button data-testid="category-set-blue" type="button" aria-pressed={categorySet==="blue"} onClick={()=>setCategorySet("blue")}>{t.blueSet}</button></div><p className={styles.helper}>{t.categorySourceHelp}</p></fieldset>
         <fieldset className={styles.segmentField}><legend>{t.categoryStyle}</legend><div className={styles.segmented}><button type="button" aria-pressed={categoryStyle==="soft"} onClick={()=>setCategoryStyle("soft")}>{t.softStyle}</button><button type="button" aria-pressed={categoryStyle==="stripe"} onClick={()=>setCategoryStyle("stripe")}>{t.stripeStyle}</button><button type="button" aria-pressed={categoryStyle==="solid"} onClick={()=>setCategoryStyle("solid")}>{t.solidStyle}</button></div></fieldset>
-        <fieldset className={styles.segmentField}><legend>{t.typeface}</legend><div className={styles.segmented}><button type="button" aria-pressed={typePreset==="geist"} onClick={()=>setTypePreset("geist")}>{t.geistTypeface}</button><button type="button" aria-pressed={typePreset==="system"} onClick={()=>setTypePreset("system")}>{t.systemTypeface}</button><button type="button" aria-pressed={typePreset==="classic"} onClick={()=>setTypePreset("classic")}>{t.classicTypeface}</button></div><p className={styles.helper}>{t.fontProvenance}</p></fieldset>
+        <fieldset className={styles.segmentField}><legend>{t.typeface}</legend><div className={styles.segmented}><button type="button" aria-pressed={typePreset==="roboto"} onClick={()=>setTypePreset("roboto")}>{t.robotoTypeface}</button><button type="button" aria-pressed={typePreset==="geist"} onClick={()=>setTypePreset("geist")}>{t.geistTypeface}</button><button type="button" aria-pressed={typePreset==="system"} onClick={()=>setTypePreset("system")}>{t.systemTypeface}</button></div><p className={styles.helper}>{t.fontProvenance}</p></fieldset>
       </div>
-      <p className={styles.provenanceNote}><strong>Provenance:</strong> {locale==="fr"?"Les variantes et rôles de couleur sont générés par le moteur officiel MCU. Les graines de catégories, leur affectation, les rôles de statut, le bouton actif vert inspiré d’Android et les familles de polices sont des choix personnalisés de Loculary.":"Scheme variants and semantic color roles are generated by the official MCU engine. Category seeds/mappings, status-to-role mappings, the green Android-like active switch and font families are Loculary-specific choices."}</p>
+      <p className={styles.provenanceNote}><strong>Provenance:</strong> {locale==="fr"?"Les variantes et rôles de couleur sont générés par le moteur officiel MCU. La comparaison oppose Rainbow de MCU appliqué aux graines choisies par Loculary à ces mêmes couleurs utilisées directement ; la répartition en sept catégories n’est pas une palette officielle M3. Les couleurs de statut et les familles de polices restent des choix distincts.":"Scheme variants and semantic color roles are generated by the official MCU engine. The side-by-side category comparison applies MCU Rainbow to Loculary-selected seeds versus using the same seeds directly; the seven-category mapping itself is not an official M3 palette. Status colors and font-family comparisons are separate Loculary choices."}</p>
     </section>
     <section className={styles.previewSection} aria-labelledby="composition-title">
       <div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>01 / {t.composition}</span><h2 id="composition-title">{t.composition}</h2><p>{t.compositionHelp}</p></div>
@@ -211,11 +233,16 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
       </div>
       <section className={styles.categoryPreview} aria-labelledby="category-preview-title">
         <div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>01B / {t.categoryColors}</span><h2 id="category-preview-title">{t.categoryColors}</h2><p>{t.categoryColorsHelp}</p></div></div>
-        <div className={styles.categoryGrid}>
-          {categoryCards.map((item) => <article key={item.key} data-category-seed={item.categorySeed} className={styles.categoryCard} style={{ "--category-color": item.categoryColor, "--category-foreground": item.categoryForeground } as CSSProperties}>
-            <span className={styles.categoryGlyph} aria-hidden="true">{item.icon}</span>
-            <div><strong>{item.name}</strong><small>{item.categorySeed} · {item.categoryColor}</small></div>
-          </article>)}
+        <div className={categorySet==="compare"?styles.categoryCompareGrid:""}>
+          {categoryGroups.map(group=><section key={group.key} className={categorySet==="compare"?styles.categoryComparison:""}>
+            {categorySet==="compare"&&<><h3>{group.title}</h3><p className={styles.helper}>{group.help}</p></>}
+            <div className={styles.categoryGrid}>
+              {group.cards.map(item=><article key={item.key} data-testid={group.key==="mcu-rainbow"?"category-mcu-rainbow":group.key==="vivid"?"category-direct-rainbow":undefined} data-category-seed={item.categorySeed} data-category-color={item.categoryColor} className={`${styles.categoryCard} ${item.directRainbow?styles.categoryCardDirect:""}`} style={{ "--category-color": item.categoryColor, "--category-foreground": item.categoryForeground } as CSSProperties}>
+                <span className={styles.categoryGlyph} aria-hidden="true">{item.icon}</span>
+                <div><strong>{item.name}</strong><small>{item.categorySeed} · {item.categoryColor}</small></div>
+              </article>)}
+            </div>
+          </section>)}
         </div>
       </section>
       </div>
