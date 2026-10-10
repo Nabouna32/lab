@@ -94,6 +94,51 @@ for (let i = 0; i < sortedIds.length; i += 1) {
   if (sortedIds[i] !== i + 1) fail('Audit IDs are not contiguous: expected ' + String(i + 1).padStart(2, '0') + ', found ' + String(sortedIds[i]).padStart(2, '0'));
 }
 for (const audit of audits) {
+  has(auditsReadme, `](${audit.name})`.replace('
+  has(audit.content, 'Revue après audit et poursuite validée', 'Audit continuation procedure ' + audit.name);
+  has(audit.content, 'Issue de mission', 'Audit mission checkpoint ' + audit.name);
+  if (/(?:agent autonome|agent d'implémentation|agent ultérieur|prompt .*pour l'agent d'implémentation|authorized Worker|Worker handoff|Audit Agent|orchestrated mission|HANDOFF-CONTRACT\\.md|FEATURE-WORKER\\.md|TOOL-WORKER\\.md)/i.test(audit.content)) {
+    fail('Audit procedure ' + audit.name + ' still contains obsolete delegated-role wording or references.');
+  }
+  const slug = audit.name.replace(/^\d{2}-/, '').replace(/\.md$/, '');
+  const reportDir = path.join(root, 'docs', 'audits', String(audit.id).padStart(2, '0') + '-' + slug);
+  if (!fs.existsSync(reportDir)) warn('No report directory currently exists for ' + audit.name + ': expected ' + path.relative(root, reportDir));
+}
+const finalAudits = audits.filter((audit) => /final|red[- ]team/i.test(audit.name));
+if (finalAudits.length !== 1) fail('Expected exactly one final/red-team audit procedure, found ' + finalAudits.length + '.');
+else if (finalAudits[0].id !== Math.max(...ids)) fail('Final/red-team audit ' + finalAudits[0].name + ' is not the last numbered procedure.');
+
+const pkg = JSON.parse(read('package.json'));
+if (pkg.scripts?.['validate:workflows'] !== 'node agents/validate-workflow-contracts.mjs') fail('package.json: missing scripts.validate:workflows = node agents/validate-workflow-contracts.mjs');
+if (pkg.scripts?.['validate:agents'] !== undefined) fail('package.json still exposes the obsolete validate:agents script.');
+const ci = read('.github/workflows/ci.yml');
+has(ci, 'npm run validate:workflows', 'CI workflow');
+has(ci, 'name: Node.js 24.21.0', 'CI required check name');
+has(ci, 'fetch-depth: 1', 'CI shallow checkout');
+has(ci, 'gh api --paginate --slurp', 'CI changed-file detection');
+has(ci, 'git fetch --no-tags --depth=1 origin main', 'CI shallow base freshness check');
+has(ci, 'cron: "30 3 * * 1"', 'CI weekly schedule');
+has(ci, 'workflow_dispatch:', 'CI manual trigger');
+has(ci, 'pull-requests: read', 'CI pull request metadata permission');
+if (ci.includes('fetch-depth: 0')) fail('CI must not fetch the full Git history just to classify changes.');
+if (ci.includes('detect-changes:')) fail('CI still uses a separate change-detection job.');
+if (!ci.includes("steps.changes.outputs.dependencies_changed == 'true'")) fail('CI must gate Dependency Review on detected dependency changes.');
+if (ci.includes('npm run validate:agents')) fail('CI still calls the obsolete agent validator.');
+
+if (errors.length) {
+  console.error('Workflow validation failed with ' + errors.length + ' error(s):');
+  for (const error of errors) console.error('- ' + error);
+  if (warnings.length) {
+    console.error('Warnings (' + warnings.length + '):');
+    for (const warning of warnings) console.error('- ' + warning);
+  }
+  process.exit(1);
+}
+console.log('Workflow validation passed: ' + audits.length + ' audit procedures checked.');
+if (warnings.length) {
+  console.log('Warnings (' + warnings.length + '):');
+  for (const warning of warnings) console.log('- ' + warning);
+}, ''), 'Audit README catalogue ' + audit.name);
   has(audit.content, 'agents/AUDIT-CONTRACT.md', 'Audit procedure ' + audit.name);
   has(audit.content, 'Revue après audit et poursuite validée', 'Audit continuation procedure ' + audit.name);
   has(audit.content, 'Issue de mission', 'Audit mission checkpoint ' + audit.name);
