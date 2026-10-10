@@ -120,7 +120,7 @@ A published tool normally includes, as appropriate:
 - validation and error states;
 - reset and useful actions;
 - unit/domain tests;
-- browser/E2E coverage when appropriate.
+- manual browser verification when appropriate and available; E2E workflows are manual-only during the active redesign and are not PR gates.
 
 Do not create artificial files just to satisfy a checklist. Follow the actual tool architecture.
 
@@ -210,7 +210,7 @@ Before opening the PR:
 - run lint;
 - run typecheck;
 - run build;
-- run relevant browser/E2E tests;
+- do not add or require automated E2E/screenshots as a PR gate during the active redesign; manually dispatch the relevant GitHub Actions workflow only when the task genuinely warrants it;
 - verify the tool directly when browser verification is available;
 - verify both locales;
 - verify accessibility-critical states;
