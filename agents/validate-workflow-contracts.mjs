@@ -73,7 +73,8 @@ has(toolContract, 'Every tool implementation mission must have an active GitHub 
 has(featureContract, 'E2E workflows are manual-only during the active redesign and are not PR gates', 'Feature E2E policy');
 has(toolContract, 'E2E workflows are manual-only during the active redesign and are not PR gates', 'Tool E2E policy');
 has(rootRules, 'manual-only via `workflow_dispatch`', 'Root browser/E2E policy');
-if (/unit\\/integration\\/E2E coverage|targeted integration\\/E2E tests|run relevant browser\\/E2E tests|browser\\/E2E coverage when appropriate/i.test(featureContract + toolContract)) fail('Feature/tool contracts must not require automated E2E coverage or tests as PR gates during the active redesign.');
+const implementationTestContradictions = new RegExp('unit/integration/E2E coverage|targeted integration/E2E tests|run relevant browser/E2E tests|browser/E2E coverage when appropriate', 'i');
+if (implementationTestContradictions.test(featureContract + toolContract)) fail('Feature/tool contracts must not require automated E2E coverage or tests as PR gates during the active redesign.');
 has(featureWorkflow, 'FEATURE-FACTORY-CONTRACT.md', 'Feature launch checklist');
 has(toolContract, 'tool', 'Tool workflow');
 has(toolWorkflow, 'TOOL-FACTORY-CONTRACT.md', 'Tool launch checklist');
