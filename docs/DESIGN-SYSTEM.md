@@ -230,3 +230,15 @@ This contract is governed by DEC-048 and must remain coherent with:
 - `docs/DECISIONS.md`.
 
 When a conflict is found, surface it and resolve it through the documented decision process rather than silently retaining obsolete guidance.
+
+## Shared navigation and transient surfaces
+
+- The Loculary mark/wordmark is a brand asset, separate from functional SVG icons. Use the shared `LocularyLogo` component rather than recreating a letter tile or drawing a brand mark from an interface icon.
+- Header popovers that mix navigation links with settings are disclosures, not automatically ARIA `menu` widgets. Use a real menu role only when its full menu keyboard interaction model is implemented.
+- Keep the popup open while the user changes an inline setting (for example, light/dark/system theme or language) so related choices can be made without reopening it. Ordinary navigation links close it; clicking outside or pressing Escape dismisses it.
+- Closed popovers must not leave their descendants keyboard-focusable. Use `inert` or an equivalent robust hidden-state implementation alongside the appropriate expanded state.
+- Escape returns focus to the control that opened a popup. An outside pointer action must not steal focus back from the control the user actually selected.
+- On mobile, primary icon controls and footer links should provide a practical touch target around 48 CSS px where layout permits. Preserve visible focus, sufficient contrast, responsive fit and reduced-motion preferences.
+- Mobile header search opens with focus in the field and closes on outside pointer, Escape, explicit close or route change. Explicit close/Escape restore focus to the trigger; outside pointer dismissal leaves focus with the clicked target.
+- Treat Android/Material guidance as a reference adapted to the web platform, not as a mandate to copy native screens or force a navigation drawer where a compact disclosure better fits the small number of destinations and mixed settings.
+
