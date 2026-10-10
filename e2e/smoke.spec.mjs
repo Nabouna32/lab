@@ -53,6 +53,7 @@ test("homepage search stays concise and category discovery adapts to viewport", 
     await expect(search).toHaveAttribute("placeholder", placeholder);
     await expect(page.locator("main").getByRole("link", { name: allTools, exact: true })).toHaveCount(1);
     await expect(page.locator("main").getByRole("navigation", { name: categories })).toBeVisible();
+    await expect(page.locator("#home-tool-search-v4").getByRole("button", { name: locale === "fr" ? "Rechercher" : "Search", exact: true })).toHaveCount(0);
 
     for (const width of widths) {
       await page.setViewportSize({ width, height: 800 });
@@ -72,13 +73,15 @@ test("homepage search stays concise and category discovery adapts to viewport", 
           placeholderWidth: context.measureText(input.placeholder).width,
           availableWidth: input.clientWidth - Number.parseFloat(style.paddingLeft) - Number.parseFloat(style.paddingRight),
           navigationDisplay: getComputedStyle(navigation).display,
+          navigationColumns: getComputedStyle(navigation).gridTemplateColumns.split(" ").length,
         };
       });
 
       expect(measurements, `Expected search and category navigation at ${width}px.`).not.toBeNull();
       expect(measurements.documentWidth, `Unexpected horizontal overflow at ${width}px in ${locale}.`).toBeLessThanOrEqual(width);
       expect(measurements.placeholderWidth + 8, `Placeholder should fit the input at ${width}px in ${locale}.`).toBeLessThanOrEqual(measurements.availableWidth);
-      expect(measurements.navigationDisplay).toBe(width >= 1024 ? "grid" : "flex");
+      expect(measurements.navigationDisplay).toBe("grid");
+      expect(measurements.navigationColumns).toBe(width < 640 ? 1 : width < 1024 ? 2 : width < 1280 ? 3 : 4);
     }
   }
 });
