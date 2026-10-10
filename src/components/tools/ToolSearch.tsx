@@ -263,9 +263,9 @@ export default function ToolSearch({
           maxLength={120}
           role="combobox"
           aria-autocomplete="list"
-          aria-expanded={showResults && visibleResults.length > 0}
-          aria-controls={showResults && visibleResults.length > 0 ? resultsId : undefined}
-          aria-activedescendant={showResults && activeIndex >= 0 ? instanceId + "-result-" + activeIndex : undefined}
+          aria-expanded={showResults && overlayPosition !== null && visibleResults.length > 0}
+          aria-controls={showResults && overlayPosition !== null && visibleResults.length > 0 ? resultsId : undefined}
+          aria-activedescendant={showResults && overlayPosition !== null && activeIndex >= 0 ? instanceId + "-result-" + activeIndex : undefined}
           inputMode="search"
           enterKeyHint="search"
           onChange={(event) => { const nextQuery = event.target.value; searchRequest.current += 1; setQuery(nextQuery); setActiveIndex(-1); setSearchError(false); setIsSearching(nextQuery.trim().length > 0); if (!nextQuery.trim()) setOverlayPosition(null); }}
@@ -416,7 +416,7 @@ export default function ToolSearch({
                 {t.tools.noResults} « {query.trim()} »
               </p>
               <p className="mt-1 text-sm leading-5 text-[var(--muted)]">{t.tools.noResultsHelp}</p>
-              <div className="mt-4 flex flex-wrap gap-2" aria-label={t.tools.tryThese}>
+              <div className="mt-4 flex flex-wrap gap-2" role="group" aria-label={t.tools.tryThese}>
                 {t.tools.noResultsSuggestions.map((suggestion) => (
                   <button
                     key={suggestion}
