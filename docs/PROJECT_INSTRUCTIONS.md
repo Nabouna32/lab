@@ -26,7 +26,7 @@ All client data is untrusted. Server validation and authorization are mandatory.
 
 ## Database CI
 
-Supabase database validation and production migration release are manual-only. When working on migrations, database tests, configuration or seed data, instruct the user to run `.github/workflows/supabase-database.yml` in GitHub Actions with mode `validate` on the working branch and verify it before merge. Production migrations are applied only by a separate manual run from `main` with mode `release`; that mode repeats validation and is protected by the `supabase-production` environment. Never imply that a skipped compatibility status check validates the database.
+Supabase database validation and production migration release are manual-only. When working on migrations, database tests, configuration or seed data, run `.github/workflows/supabase-database.yml` in GitHub Actions with mode `validate` on the working branch and verify it before merge. Production migrations are applied only by a separate manual run from `main` with mode `release`; that mode repeats validation and is protected by the `supabase-production` environment. The ordinary PR CI is not a database validation gate.
 
 ## Performance and accessibility
 Progressively load tools. Use Workers, WASM and chunking where justified. Provide truthful progress and cancellation. Support slow connections and graceful degradation. Target WCAG 2.2 AA and Core Web Vitals. Do not make the whole product worse because one tool is heavy.
