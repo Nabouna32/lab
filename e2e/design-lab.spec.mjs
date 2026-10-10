@@ -21,8 +21,20 @@ test("design lab generates real Material Color Utilities schemes and exposes its
 
   const lab = page.locator("main[data-scheme-variant]");
   const variantSelect = page.getByTestId("scheme-variant");
+  const specSelect = page.getByTestId("scheme-spec-version");
+  const platformSelect = page.getByTestId("scheme-platform");
   await expect(variantSelect.locator("option")).toHaveCount(9);
+  await expect(specSelect.locator("option")).toHaveCount(2);
+  await expect(platformSelect.locator("option")).toHaveCount(2);
   await expect(lab).toHaveAttribute("data-seed", "#3F51B5");
+  await expect(lab).toHaveAttribute("data-spec-version", "2025");
+
+  await specSelect.selectOption("2021");
+  await expect(platformSelect).toBeDisabled();
+  await specSelect.selectOption("2025");
+  await platformSelect.selectOption("watch");
+  await expect(lab).toHaveAttribute("data-platform", "watch");
+  await platformSelect.selectOption("phone");
 
   for (const variant of variants) {
     await variantSelect.selectOption(variant);
