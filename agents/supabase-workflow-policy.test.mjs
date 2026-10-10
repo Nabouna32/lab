@@ -31,14 +31,19 @@ test('database tests require validation but do not trigger production migration 
   ]), { validate: true, production: false });
 });
 
-test('database workflow changes require validation but do not themselves trigger a production release', () => {
+test('database workflows, policy, and integration-test dependencies require validation but not production release', () => {
   assert.deepEqual(classifySupabaseChanges([
+    '.github/workflows/ci.yml',
     '.github/workflows/supabase-database.yml',
+    'agents/supabase-workflow-policy.mjs',
+    'agents/supabase-workflow-policy.test.mjs',
+    'agents/test-account-deletion-concurrency.sh',
   ]), { validate: true, production: false });
 });
 
-test('database config changes require validation and production migration handling', () => {
+test('database seed and config changes require validation; only config changes trigger production migration handling', () => {
   assert.deepEqual(classifySupabaseChanges([
+    'supabase/seed.sql',
     'supabase/config.toml',
   ]), { validate: true, production: true });
 });
@@ -182,20 +187,23 @@ test('workflow CLI reports a successful no-op and never enables production relea
   }
 });
 
-test('GitHub Actions workflow is wired to the tested policy and keeps release fail-closed', async () => {
+test('PR validation lives in CI and production migration release stays on main pushes', async () => {
   const { parse } = await import('yaml');
-  const workflowPath = new URL('../.github/workflows/supabase-database.yml', import.meta.url);
-  const workflow = parse(readFileSync(workflowPath, 'utf8'));
-  const jobs = workflow.jobs;
+  const ciPath = new URL('../.github/workflows/ci.yml', import.meta.url);
+  const supabasePath = new URL('../.github/workflows/supabase-database.yml', import.meta.url);
+  const ci = parse(readFileSync(ciPath, 'utf8'));
+  const production = parse(readFileSync(supabasePath, 'utf8'));
 
-  assert.equal(jobs['detect-changes'].outputs.validate, '${{ steps.detect.outputs.validate }}');
-  assert.equal(jobs['detect-changes'].outputs.production, '${{ steps.detect.outputs.production }}');
-  assert.equal(jobs['detect-changes'].steps.find((step) => step.id === 'detect').run.includes('supabase-workflow-policy.mjs detect'), true);
-  assert.equal(jobs['run-validation'].if, "needs.detect-changes.outputs.validate == 'true'");
-  assert.equal(jobs.validate.if, 'always()');
-  assert.equal(jobs.validate.outputs.production_allowed, '${{ steps.gate.outputs.production_allowed }}');
-  assert.equal(jobs.validate.steps.find((step) => step.id === 'gate').run, 'node agents/supabase-workflow-policy.mjs gate');
-  assert.equal(jobs['production-release'].if.includes("needs.run-validation.result == 'success'"), true);
-  assert.equal(jobs['production-release'].if.includes("needs.validate.result == 'success'"), true);
-  assert.equal(jobs['production-release'].if.includes("needs.validate.outputs.production_allowed == 'true'"), true);
+  assert.equal(ci.jobs['detect-changes'].outputs.supabase_validate, '${{ steps.changes.outputs.validate }}');
+  assert.equal(ci.jobs['supabase-validation'].name, 'Validate Supabase migrations');
+  assert.equal(ci.jobs['supabase-validation'].if, "needs.detect-changes.outputs.supabase_validate == 'true'");
+  assert.equal(ci.jobs['supabase-validation'].steps.some((step) => step.run === 'supabase db reset'), true);
+  assert.equal(ci.jobs['supabase-validation'].steps.some((step) => step.run === 'supabase db lint --local --fail-on error'), true);
+
+  assert.equal(production.on.pull_request, undefined);
+  assert.deepEqual(production.on.push.branches, ['main']);
+  assert.equal(production.on.push.paths.includes('.github/workflows/ci.yml'), true);
+  assert.equal(production.jobs['production-release'].if.includes("github.event_name == 'push'"), true);
+  assert.equal(production.jobs['production-release'].if.includes("needs.run-validation.result == 'success'"), true);
+  assert.equal(production.jobs['production-release'].if.includes("needs.validate.outputs.production_allowed == 'true'"), true);
 });
