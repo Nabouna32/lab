@@ -8,6 +8,16 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 <!-- END:nextjs-agent-rules -->
 
+
+## Repository access model (remote-only sessions)
+
+- The working environment for this assistant is the remote GitHub repository. Do not assume that a local clone, shell, installed dependencies or `node_modules` exists.
+- Inspect and modify files through the available GitHub repository/branch/PR operations. Do not block work solely because there is no local working tree, and do not ask the user to create one as a prerequisite.
+- For the generated Next.js agent-rules block above: when a local checkout is genuinely available, read the installed guide it specifies. In a remote-only session, use the repository's exact pinned Next.js version (from `package.json` and the lockfile) to consult the corresponding version-matched official Next.js documentation/source remotely. Be explicit if a particular local-only artifact cannot be verified; never claim to have read local files that are not available.
+- Validate through GitHub Actions and other available remote checks. Do not claim local tests, local builds, browser checks or installed-package inspection unless those were actually performed in an available environment. If a check cannot be run remotely, report it as unverified and explain the remaining risk.
+- Use a feature branch and pull request for repository changes, reconcile concurrent remote changes before writing, inspect the resulting diff, and keep `main` stable. Do not bypass access/security controls when a remote write is rejected.
+
+
 # Loculary development rules
 
 ## Product source of truth
@@ -99,7 +109,7 @@ Node 24 is the production/runtime line.
 
 A pull request is not ready to merge while required validation is failing. Never merge known-broken work into `main`.
 
-For larger or risky changes, use a dedicated branch, validate locally, validate GitHub Actions, perform browser/functional verification when relevant, merge only after checks are green, and verify production when applicable.
+For larger or risky changes, use a dedicated branch, validate through available remote checks and GitHub Actions, perform browser/functional verification when an available remote environment supports it, merge only after required checks are green, and verify production when applicable. Never imply local verification when no local environment was available.
 
 ## Browser and E2E validation
 
