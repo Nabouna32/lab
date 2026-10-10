@@ -1,12 +1,19 @@
 name: Supabase Database CI
 
 on:
-  pull_request:
-    branches:
-      - main
   push:
     branches:
       - main
+    paths:
+      - "supabase/migrations/**"
+      - "supabase/tests/**"
+      - "supabase/config.toml"
+      - "supabase/seed.sql"
+      - ".github/workflows/ci.yml"
+      - ".github/workflows/supabase-database.yml"
+      - "agents/supabase-workflow-policy.mjs"
+      - "agents/supabase-workflow-policy.test.mjs"
+      - "agents/test-account-deletion-concurrency.sh"
   workflow_dispatch:
 
 permissions:
