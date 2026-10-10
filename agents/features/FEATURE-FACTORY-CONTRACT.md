@@ -119,7 +119,7 @@ A feature implementation should include, as applicable:
 - persistence/data model when required;
 - security/privacy controls;
 - telemetry/analytics only when justified and consistent with project decisions;
-- unit/integration/E2E coverage;
+- relevant unit/domain/integration test coverage;
 - documentation and durable decisions when the feature changes them.
 
 Use existing architecture and primitives. Do not introduce a new generic framework for one feature.
@@ -132,8 +132,8 @@ Run the strongest relevant checks:
 - typecheck;
 - unit tests;
 - build;
-- targeted integration/E2E tests;
-- browser verification for important UI flows;
+- targeted integration tests;
+- manual browser verification for important UI flows when an available remote environment supports it; E2E workflows are manual-only during the active redesign and are not PR gates;
 - both EN and FR;
 - accessibility checks;
 - security/privacy checks for data-bearing behavior.
