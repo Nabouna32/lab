@@ -1,9 +1,8 @@
 name: Browser E2E
 
+# Manual during the active redesign; run from Actions when browser coverage is needed.
+
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 permissions:
