@@ -41,7 +41,7 @@ test("French homepage renders", async ({ page }) => {
 test("homepage search stays concise and category discovery adapts to viewport", async ({ page }) => {
   const locales = [
     { locale: "fr", placeholder: "Que veux-tu faire ?", submitLabel: "Lancer la recherche", allTools: "Tous les outils", categories: "Catégories" },
-    { locale: "en", placeholder: "What do you need?", submitLabel: "Search tools", allTools: "All tools", categories: "Categories" },
+    { locale: "en", placeholder: "Need a tool?", submitLabel: "Search tools", allTools: "All tools", categories: "Categories" },
   ];
   const widths = [320, 390, 768, 1024, 1440];
 
