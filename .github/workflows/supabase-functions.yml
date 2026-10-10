@@ -35,7 +35,7 @@ jobs:
       - name: Setup Deno
         uses: denoland/setup-deno@22d081ff2d3a40755e97629de92e3bcbfa7cf2ed # v2.0.5
         with:
-          deno-version: 2.9.7
+          deno-version: 2.1.4
 
       - name: Resolve pinned dependencies and verify function types
         shell: bash
@@ -46,9 +46,9 @@ jobs:
               cd "supabase/functions/$function"
               deno cache --frozen=false index.ts
               deno check --frozen index.ts
-              echo "LOCKFILE_BASE64_$function_BEGIN"
+              echo "LOCKFILE_BASE64_${function}_BEGIN"
               base64 -w0 deno.lock
               echo
-              echo "LOCKFILE_BASE64_$function_END"
+              echo "LOCKFILE_BASE64_${function}_END"
             )
           done
