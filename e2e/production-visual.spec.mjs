@@ -11,7 +11,7 @@ const screenshots = [
 ];
 
 for (const [name, route, viewport] of screenshots) {
-  test(`production screenshot: ${name}`, async ({ page }, testInfo) => {
+  test(`production browser check: ${name}`, async ({ page }, testInfo) => {
     const consoleErrors = [];
     page.on("console", (message) => {
       if (message.type() === "error") consoleErrors.push(message.text());
@@ -27,10 +27,12 @@ for (const [name, route, viewport] of screenshots) {
     await expect(page.locator("main")).toBeVisible();
     await expect(page.locator("h1").first()).toBeVisible();
 
-    await page.screenshot({
-      path: testInfo.outputPath(`${name}.png`),
-      fullPage: true,
-    });
+    if (process.env.CAPTURE_SCREENSHOTS === "true") {
+      await page.screenshot({
+        path: testInfo.outputPath(`${name}.png`),
+        fullPage: true,
+      });
+    }
 
     expect(consoleErrors, `Console errors on ${route}`).toEqual([]);
   });
