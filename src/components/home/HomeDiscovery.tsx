@@ -17,13 +17,17 @@ export default function HomeDiscovery({ locale }: { locale: Locale }) {
   const totalTools = getPublishedTools().length;
   const totalCategoryAssignments = visibleCategories.reduce((sum, category) => sum + category.count, 0);
 
-  let offset = 0;
-  const ringSegments = visibleCategories.map((category) => {
+  const ringSegments = visibleCategories.map((category, index) => {
     const segmentLength = (category.count / totalCategoryAssignments) * RING_CIRCUMFERENCE;
     const visibleLength = Math.max(0, segmentLength - 4);
-    const segment = { ...category, dashArray: `${visibleLength} ${RING_CIRCUMFERENCE - visibleLength}`, dashOffset: -offset };
-    offset += segmentLength;
-    return segment;
+    const precedingLength = visibleCategories
+      .slice(0, index)
+      .reduce((sum, previous) => sum + (previous.count / totalCategoryAssignments) * RING_CIRCUMFERENCE, 0);
+    return {
+      ...category,
+      dashArray: `${visibleLength} ${RING_CIRCUMFERENCE - visibleLength}`,
+      dashOffset: -precedingLength,
+    };
   });
 
   return (
