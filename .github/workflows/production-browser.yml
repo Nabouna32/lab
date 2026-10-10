@@ -1,9 +1,6 @@
 name: Production Browser Validation
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 permissions:
@@ -15,9 +12,9 @@ concurrency:
 
 jobs:
   browser:
-    name: Production Playwright screenshots
+    name: Production runtime and hydration smoke
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 20
 
     steps:
       - name: Checkout
@@ -25,46 +22,15 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Detect documentation-only change
-        id: changes
+      - name: Require main branch
         shell: bash
-        env:
-          EVENT_NAME: ${{ github.event_name }}
-          BASE_SHA: ${{ github.event.before }}
-          HEAD_SHA: ${{ github.sha }}
         run: |
-          docs_only=false
-
-          if [[ "$EVENT_NAME" == "push" && -n "$BASE_SHA" && ! "$BASE_SHA" =~ ^0+$ ]]; then
-            docs_only=true
-            while IFS= read -r -d '' path; do
-              case "$path" in
-                *.md|*.mdx|*.txt|LICENSE|LICENSE.*)
-                  ;;
-                *)
-                  docs_only=false
-                  break
-                  ;;
-              esac
-            done < <(git diff --name-only -z "$BASE_SHA" "$HEAD_SHA")
+          if [[ "$GITHUB_REF" != "refs/heads/main" ]]; then
+            echo "Run this workflow from main so the checked SHA can be matched to production."
+            exit 1
           fi
 
-          echo "docs_only=$docs_only" >> "$GITHUB_OUTPUT"
-          echo "Documentation-only change: $docs_only"
-
-      - name: Report documentation-only validation skip
-        if: steps.changes.outputs.docs_only == 'true'
-        env:
-          HEAD_SHA: ${{ github.sha }}
-        run: |
-          {
-            echo "## Production browser validation"
-            echo "**Status:** SKIPPED — this commit changes documentation only."
-            echo "No production browser screenshots or hydration checks were run for commit \`$HEAD_SHA\`."
-          } >> "$GITHUB_STEP_SUMMARY"
-
       - name: Wait for production alias to serve this commit
-        if: steps.changes.outputs.docs_only != 'true'
         id: deployment
         shell: bash
         env:
@@ -74,8 +40,8 @@ jobs:
           expected="$HEAD_SHA"
           observed=""
           for attempt in $(seq 1 60); do
-            response_headers="$(curl -fsSL -D - -o /dev/null --max-time 8 "$BASE_URL" 2>/dev/null || true)"
-            observed="$(printf '%s\n' "$response_headers" | tr -d '\r' | awk 'tolower($1) == "x-loculary-commit:" { value=$2 } END { print value }')"
+            response_headers="$(curl -fsSL -D - -o /dev/null --max-time 5 "$BASE_URL" 2>/dev/null || true)"
+            observed="$(printf '%s\\n' "$response_headers" | tr -d '\\r' | awk 'tolower($1) == "x-loculary-commit:" { value=$2 } END { print value }')"
             if [[ "$observed" == "$expected" ]]; then
               echo "Production alias serves expected commit $expected."
               echo "tested_sha=$observed" >> "$GITHUB_OUTPUT"
@@ -87,7 +53,7 @@ jobs:
               exit 0
             fi
             echo "Waiting for production deployment (attempt $attempt/60; expected $expected; observed ${observed:-no commit header})."
-            sleep 10
+            sleep 5
           done
           {
             echo "## Production browser validation"
@@ -98,33 +64,26 @@ jobs:
           exit 1
 
       - name: Setup Node.js
-        if: steps.changes.outputs.docs_only != 'true'
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24.21.0
           cache: npm
 
       - name: Install dependencies
-        if: steps.changes.outputs.docs_only != 'true'
         run: npm ci
 
-      - name: Install Playwright test runner
-        if: steps.changes.outputs.docs_only != 'true'
-        run: npm install --no-save --package-lock=false @playwright/test@1.63.0
-
       - name: Install Playwright Chromium
-        if: steps.changes.outputs.docs_only != 'true'
         run: npx playwright install --with-deps chromium
 
-      - name: Run production browser validation
+      - name: Run production runtime and hydration checks
         id: production_browser
-        if: steps.changes.outputs.docs_only != 'true'
         env:
           BASE_URL: https://loculary.vercel.app
+          CAPTURE_SCREENSHOTS: "false"
         run: npx playwright test e2e/production-visual.spec.mjs
 
       - name: Summarize production browser result
-        if: always() && steps.changes.outputs.docs_only != 'true'
+        if: always()
         env:
           TEST_OUTCOME: ${{ steps.production_browser.outcome }}
           TESTED_SHA: ${{ steps.deployment.outputs.tested_sha }}
@@ -133,12 +92,14 @@ jobs:
             echo "## Production browser test result"
             echo "- Tested commit: \`${TESTED_SHA:-unverified}\`"
             echo "- Browser test outcome: \`${TEST_OUTCOME:-not run}\`"
+            echo "- Screenshots: not captured by this workflow; use Production Screenshots manually."
           } >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Upload production screenshots
-        if: always() && steps.changes.outputs.docs_only != 'true'
+      - name: Upload production diagnostics on failure
+        if: failure()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: production-screenshots
+          name: production-browser-diagnostics
           path: test-results/
-          if-no-files-found: warn
+          if-no-files-found: ignore
+          retention-days: 7
