@@ -233,7 +233,7 @@ When a conflict is found, surface it and resolve it through the documented decis
 
 ## Shared navigation and transient surfaces
 
-- The Loculary mark/wordmark is a brand asset, separate from functional SVG icons. Use the shared `LocularyLogo` component rather than recreating a letter tile or drawing a brand mark from an interface icon.
+- The Loculary mark/wordmark is a brand asset, separate from functional SVG icons. The current SVG in `LocularyLogo` is an initial implementation candidate, not a final brand decision. Use the shared component rather than recreating a letter tile or drawing a brand mark from an interface icon.
 - Header popovers that mix navigation links with settings are disclosures, not automatically ARIA `menu` widgets. Use a real menu role only when its full menu keyboard interaction model is implemented.
 - Keep the popup open while the user changes an inline setting (for example, light/dark/system theme or language) so related choices can be made without reopening it. Ordinary navigation links close it; clicking outside or pressing Escape dismisses it.
 - Closed popovers must not leave their descendants keyboard-focusable. Use `inert` or an equivalent robust hidden-state implementation alongside the appropriate expanded state.
