@@ -2,6 +2,7 @@ import Link from "next/link";
 import ToolSearch from "@/components/tools/ToolSearch";
 import MobileHeaderSearch from "@/components/layout/MobileHeaderSearch";
 import DesktopHeaderMenu from "@/components/layout/DesktopHeaderMenu";
+import LocularyLogo from "@/components/brand/LocularyLogo";
 import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
 import { getToolsPath } from "@/lib/tools/routes";
@@ -21,10 +22,10 @@ export default function Header({ locale }: { locale: Locale }) {
             className="group flex shrink-0 items-center gap-2 rounded-[var(--radius-lg)] outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] sm:gap-2.5 md:justify-self-start"
             aria-label={"Loculary - " + t.nav.home}
           >
-            <span className="flex h-8 w-8 items-center justify-center rounded-[var(--radius-xl)] bg-[var(--primary)] text-sm font-black text-[var(--on-primary)] transition-transform duration-200 group-hover:scale-[1.03] sm:h-9 sm:w-9">
-              L
-            </span>
-            <span className="hidden text-lg font-bold tracking-[-0.03em] sm:inline">Loculary</span>
+            <LocularyLogo
+              className="gap-2 sm:gap-2.5 transition-transform duration-200 group-hover:scale-[1.01]"
+              wordmarkClassName="text-base font-bold tracking-[-0.03em] sm:text-lg"
+            />
           </Link>
 
           <div className="hidden w-full max-w-[36rem] justify-self-center lg:block">
