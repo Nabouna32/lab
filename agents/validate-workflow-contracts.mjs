@@ -60,7 +60,7 @@ has(toolContract, 'tool', 'Tool workflow');
 has(toolWorkflow, 'TOOL-FACTORY-CONTRACT.md', 'Tool launch checklist');
 has(productWorkflow, 'consequential', 'Product workflow');
 has(readme, 'single ChatGPT assistant', 'Workflow README');
-  has(auditsReadme, '](' + audit.name + ')', 'Audit README catalogue ' + audit.name);
+has(auditsReadme, 'historical audit reports', 'Audit README');
 has(governanceAudit, 'Revue après audit et poursuite validée', 'Governance audit procedure');
 has(rootRules, 'Work one validated step at a time.', 'AGENTS.md');
 
@@ -94,7 +94,8 @@ for (let i = 0; i < sortedIds.length; i += 1) {
   if (sortedIds[i] !== i + 1) fail('Audit IDs are not contiguous: expected ' + String(i + 1).padStart(2, '0') + ', found ' + String(sortedIds[i]).padStart(2, '0'));
 }
 for (const audit of audits) {
-  has(auditsReadme, `](${audit.name})`.replace('
+  has(auditsReadme, '](' + audit.name + ')', 'Audit README catalogue ' + audit.name);
+  has(audit.content, 'agents/AUDIT-CONTRACT.md', 'Audit procedure ' + audit.name);
   has(audit.content, 'Revue après audit et poursuite validée', 'Audit continuation procedure ' + audit.name);
   has(audit.content, 'Issue de mission', 'Audit mission checkpoint ' + audit.name);
   if (/(?:agent autonome|agent d'implémentation|agent ultérieur|prompt .*pour l'agent d'implémentation|authorized Worker|Worker handoff|Audit Agent|orchestrated mission|HANDOFF-CONTRACT\\.md|FEATURE-WORKER\\.md|TOOL-WORKER\\.md)/i.test(audit.content)) {
