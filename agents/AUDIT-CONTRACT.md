@@ -52,7 +52,7 @@ The active mission Issue is mandatory whenever the audit spans multiple actions 
 
 Update the Issue whenever mission state changes and at each meaningful milestone, including the current objective/scope, completed work, evidence, decisions, blockers, verification and next action. Link the final historical report when it is created. The Issue is a checkpoint, not a duplicate report.
 
-For every actionable discovery that will not be handled in the current validated step, present the evidence, consequences, uncertainty and options to the user, then explicitly ask whether to create a dedicated Issue or attach it to an existing Issue that genuinely covers the work. Do not independently dismiss it as too minor. After validation, establish durable tracking immediately with enough context for independent resumption.
+For every actionable discovery that will not be handled in the current validated step, record its evidence, consequences, uncertainty and likely next action; search for an existing Issue that genuinely covers it. Update that Issue or create a dedicated one if none exists, then tell the user what was tracked and why. Do not ask permission merely to create tracking, dismiss actionable work as too minor, or implement it without user validation.
 
 Informational observations that do not imply actionable work may remain in the report. A finding or recommendation is not automatically a requirement or authorization to implement it.
 
@@ -251,7 +251,7 @@ When the user continues after the report:
 1. Clarify the finding and its evidence.
 2. Present meaningful alternatives, risks, consequences and a recommendation.
 3. Ask for validation when the recommendation requires a consequential decision or changes scope.
-4. For actionable work outside the current scope, ask whether to create a dedicated Issue or attach it to an existing relevant Issue.
+4. For actionable work outside the current scope, check for a matching Issue, update it or create one if needed, and notify the user; do not implement it without validation.
 5. Once the next step is validated, update the active mission Issue and implement only that scope.
 6. Verify implementation, documentation, tests and diff before reporting completion.
 
