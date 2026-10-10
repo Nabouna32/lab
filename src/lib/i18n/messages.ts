@@ -124,7 +124,7 @@ export const messages: Record<Locale, Messages> = {
     footer: { tagline: "Useful tools, ready to use in your browser.", explore: "All tools", account: "Your space" },
     actions: { copy: "Copy", copied: "Copied", clear: "Clear" },
     home: {
-      metaTitle: "Loculary — Outils en ligne gratuits",
+      metaTitle: "Loculary — Free online tools",
       badge: "From idea to done",
       title: "A toolbox for your ideas.",
       description: "Small tasks, useful tools, less friction.",
