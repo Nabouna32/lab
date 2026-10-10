@@ -1,0 +1,54 @@
+name: Supabase Edge Functions CI
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "supabase/functions/**"
+      - ".github/workflows/supabase-functions.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "supabase/functions/**"
+      - ".github/workflows/supabase-functions.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: supabase-functions-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  validate:
+    name: Validate Edge Function dependencies
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@22d081ff2d3a40755e97629de92e3bcbfa7cf2ed # v2.0.5
+        with:
+          deno-version: 2.9.7
+
+      - name: Resolve pinned dependencies and verify function types
+        shell: bash
+        run: |
+          set -euo pipefail
+          for function in account-delete admin-user-sessions admin-user-suspension; do
+            (
+              cd "supabase/functions/$function"
+              deno cache --lock-write index.ts
+              deno check --frozen index.ts
+              echo "LOCKFILE_BASE64_$function_BEGIN"
+              base64 -w0 deno.lock
+              echo
+              echo "LOCKFILE_BASE64_$function_END"
+            )
+          done
