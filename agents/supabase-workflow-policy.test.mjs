@@ -41,9 +41,14 @@ test('database workflows, policy, and integration-test dependencies require vali
   ]), { validate: true, production: false });
 });
 
-test('database seed and config changes require validation; only config changes trigger production migration handling', () => {
+test('database seed changes require validation but do not trigger production migration handling', () => {
   assert.deepEqual(classifySupabaseChanges([
     'supabase/seed.sql',
+  ]), { validate: true, production: false });
+});
+
+test('database config changes require validation and production migration handling', () => {
+  assert.deepEqual(classifySupabaseChanges([
     'supabase/config.toml',
   ]), { validate: true, production: true });
 });
