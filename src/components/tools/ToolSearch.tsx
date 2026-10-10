@@ -26,6 +26,7 @@ type SearchOverlayPosition = {
   left: number;
   width: number;
   maxHeight: number;
+  placement: "above" | "below";
 };
 
 function getNormalizedMatchRange(text: string, query: string): [number, number] | null {
@@ -149,11 +150,9 @@ export default function ToolSearch({
       const opensAbove = belowSpace < 200 && aboveSpace > belowSpace;
       const availableSpace = opensAbove ? aboveSpace : belowSpace;
       const maxHeight = Math.max(80, Math.min(360, availableSpace));
-      const top = opensAbove
-        ? Math.max(viewportTop + margin, rect.top - gap - maxHeight)
-        : rect.bottom + gap;
+      const top = opensAbove ? rect.top - gap : rect.bottom + gap;
 
-      setOverlayPosition({ top, left, width, maxHeight });
+      setOverlayPosition({ top, left, width, maxHeight, placement: opensAbove ? "above" : "below" });
     }
 
     updatePosition();
@@ -326,6 +325,7 @@ export default function ToolSearch({
             left: overlayPosition.left,
             width: overlayPosition.width,
             maxHeight: overlayPosition.maxHeight,
+            transform: overlayPosition.placement === "above" ? "translateY(-100%)" : undefined,
             zIndex: 1000,
           }}
           className="overflow-y-auto overscroll-contain rounded-[var(--radius-xl)] border border-[var(--outline-variant)] bg-[var(--surface-elevated)] p-2 text-[var(--foreground)] shadow-[var(--shadow-lg)]"
