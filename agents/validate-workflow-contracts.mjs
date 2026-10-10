@@ -74,7 +74,7 @@ has(readme, 'single ChatGPT assistant', 'Workflow README');
 has(toolReadme, 'check for a matching Issue', 'Tool README Issue tracking');
 has(projectContext, 'Current UX/UI direction', 'Project context');
 has(decisions, 'Issue tracking does not authorize implementation outside the validated scope', 'DEC-039 scope boundary');
-const activeWorkflowText = [common, start, issueContract, auditContract, featureContract, featureWorkflow, toolContract, toolWorkflow, productWorkflow, readme, toolReadme, decisions].join('\\n');
+const activeWorkflowText = [common, start, issueContract, auditContract, featureContract, featureWorkflow, toolContract, toolWorkflow, productWorkflow, readme, toolReadme, decisions].join('\n');
 if (/ask explicitly whether to create|only after explicitly asking the user whether to create|who decides whether to create or attach|only after asking the user whether to create or attach/i.test(activeWorkflowText)) {
   fail('Active workflow docs still require user permission before creating or attaching Issue tracking.');
 }
@@ -94,10 +94,10 @@ function listMarkdownRecursive(dir, prefix = '') {
   }).sort();
 }
 const activeAgentMarkdown = listMarkdownRecursive(path.join(root, 'agents'));
-const autoMergeContradictions = /immediately enable GitHub auto-merge|enable GitHub auto-merge by default|do not manually merge a PR that has auto-merge enabled|wait for required CI\\/checks through the auto-merge lifecycle|GitHub performs the merge once all required protections are satisfied/i;
+const autoMergeContradictions = /^\s*(?:\d+\.\s*)?(?:immediately enable GitHub auto-merge|enable GitHub auto-merge by default|When opening a PR, enable GitHub auto-merge)|do not manually merge a PR that has auto-merge enabled|wait for required CI\/checks through the auto-merge lifecycle|GitHub performs the merge once all required protections are satisfied/i;
 for (const file of activeAgentMarkdown) {
   const content = fs.readFileSync(path.join(root, 'agents', file), 'utf8');
-  if (autoMergeContradictions.test(content)) fail('Contradictory auto-merge instruction in agents/' + file);
+  if (content.split('\n').some((line) => autoMergeContradictions.test(line))) fail('Contradictory auto-merge instruction in agents/' + file);
 }
 if (/The assistant may proactively propose, challenge/i.test(rootRules)) fail('AGENTS.md still makes mandatory challenge optional.');
 has(rootRules, 'The assistant must challenge relevant requests', 'AGENTS.md mandatory challenge');
