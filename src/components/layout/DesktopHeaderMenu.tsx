@@ -38,6 +38,7 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
   const t = getMessages(locale);
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
   const currentLocaleSegment = pathname.split("/")[1];
   const currentLocale: Locale = isLocale(currentLocaleSegment) ? currentLocaleSegment : locale;
 
@@ -52,7 +53,9 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
 
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
+        event.preventDefault();
         setOpen(false);
+        triggerRef.current?.focus();
       }
     }
 
@@ -69,19 +72,20 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
   }
 
   function selectTheme(value: string) {
+    // Theme controls are persistent settings inside this disclosure, not
+    // one-shot menu commands: keep the surface open for further choices.
     setTheme(value);
-    closeMenu();
   }
 
   return (
     <div ref={menuRef} className="relative">
       <button
+        ref={triggerRef}
         type="button"
         className={triggerClass + (open ? " border-[var(--accent)] bg-[var(--surface-soft)] shadow-[var(--shadow-sm)]" : "")}
         aria-label={t.nav.menu}
         aria-expanded={open}
         aria-controls="header-menu"
-        aria-haspopup="true"
         onClick={() => setOpen((value) => !value)}
       >
         <Icon>
@@ -93,6 +97,7 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
       <div
         id="header-menu"
         aria-hidden={!open}
+        inert={!open}
         className={
           "absolute right-0 top-full z-[70] mt-3 w-[min(20rem,calc(100vw-1.5rem))] origin-top-right rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-2 shadow-[var(--shadow-lg)] transition-[opacity,transform] duration-150 " +
           (open ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-1 opacity-0")
@@ -149,7 +154,8 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
                   hrefLang={item}
                   aria-current={active ? "page" : undefined}
                   onClick={(event) => {
-                    closeMenu();
+                    // Language is a setting: preserve the disclosure while
+                    // the localized route and selected state update.
                     if (pathname === getSearchResultsPagePath(currentLocale) && window.location.hash) {
                       event.preventDefault();
                       router.push(href + window.location.hash);
