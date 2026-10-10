@@ -3,11 +3,11 @@
 :root {
   color-scheme: light;
 
-  /* Material 3 Expressive semantic roles — default multicolor palette, indigo seed #3F51B5. */
-  --primary: #3f51b5;
+  /* Material 3 Expressive semantic roles — Material Purple seed #6750A4. */
+  --primary: #6750a4;
   --on-primary: #ffffff;
-  --primary-container: #e0e5ff;
-  --on-primary-container: #151f55;
+  --primary-container: #eaddff;
+  --on-primary-container: #21005d;
   --secondary: #006b5f;
   --on-secondary: #ffffff;
   --secondary-container: #a6f2e5;
@@ -31,7 +31,7 @@
   --outline-variant: #c7c6d2;
   --inverse-surface: #2e3039;
   --inverse-on-surface: #f0eff7;
-  --inverse-primary: #bac3ff;
+  --inverse-primary: #d0bcff;
 
   --error: #ba1a1a;
   --on-error: #ffffff;
@@ -89,10 +89,10 @@
 .dark {
   color-scheme: dark;
 
-  --primary: #bac3ff;
-  --on-primary: #202b70;
-  --primary-container: #37469d;
-  --on-primary-container: #e0e5ff;
+  --primary: #d0bcff;
+  --on-primary: #381e72;
+  --primary-container: #4f378b;
+  --on-primary-container: #eaddff;
   --secondary: #4ddbc7;
   --on-secondary: #003731;
   --secondary-container: #005047;
@@ -116,7 +116,7 @@
   --outline-variant: #454653;
   --inverse-surface: #e3e1ea;
   --inverse-on-surface: #30313a;
-  --inverse-primary: #3f51b5;
+  --inverse-primary: #6750a4;
 
   --error: #ffb4ab;
   --on-error: #690005;
@@ -160,18 +160,36 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-roboto);
+  --font-mono: var(--font-roboto-mono);
 }
 
 * { box-sizing: border-box; }
+
+.home-rainbow-frame {
+  background: linear-gradient(
+    125deg,
+    var(--home-rainbow-primary-light),
+    var(--home-rainbow-secondary-light) 52%,
+    var(--home-rainbow-tertiary-light)
+  );
+}
+
+.dark .home-rainbow-frame {
+  background: linear-gradient(
+    125deg,
+    var(--home-rainbow-primary-dark),
+    var(--home-rainbow-secondary-dark) 52%,
+    var(--home-rainbow-tertiary-dark)
+  );
+}
 html { background: var(--background); color-scheme: light; scroll-behavior: smooth; }
 html.dark { color-scheme: dark; }
 body {
   margin: 0;
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), sans-serif;
+  font-family: var(--font-roboto), sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 a { color: inherit; text-decoration: none; }
