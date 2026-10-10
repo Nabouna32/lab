@@ -57,8 +57,8 @@ test("homepage search stays concise and category discovery adapts to viewport", 
     for (const width of widths) {
       await page.setViewportSize({ width, height: 800 });
       const measurements = await page.evaluate(() => {
-        const input = document.querySelector<HTMLInputElement>("#home-tool-search-v4-input");
-        const navigation = document.querySelector<HTMLElement>("main nav");
+        const input = document.querySelector("#home-tool-search-v4-input");
+        const navigation = document.querySelector("main nav");
         if (!input || !navigation) return null;
 
         const style = getComputedStyle(input);
