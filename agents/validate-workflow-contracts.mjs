@@ -66,8 +66,14 @@ has(auditContract, 'Historical immutability', 'Audit contract');
 has(auditContract, 'LATEST.md', 'Audit contract');
 has(auditContract, 'read-only', 'Audit contract');
 has(featureContract, 'mandatory', 'Feature workflow');
+has(common, 'Every mission requires an active GitHub Issue as its checkpoint', 'Common mission Issue requirement');
+has(issueContract, 'Every Loculary mission requires an active GitHub Issue checkpoint', 'Issue contract mission requirement');
 has(featureContract, 'Every feature implementation mission must have an active GitHub Issue', 'Feature Issue checkpoint');
 has(toolContract, 'Every tool implementation mission must have an active GitHub Issue', 'Tool Issue checkpoint');
+has(featureContract, 'E2E workflows are manual-only during the active redesign and are not PR gates', 'Feature E2E policy');
+has(toolContract, 'E2E workflows are manual-only during the active redesign and are not PR gates', 'Tool E2E policy');
+has(rootRules, 'manual-only via `workflow_dispatch`', 'Root browser/E2E policy');
+if (/unit\\/integration\\/E2E coverage|targeted integration\\/E2E tests|run relevant browser\\/E2E tests|browser\\/E2E coverage when appropriate/i.test(featureContract + toolContract)) fail('Feature/tool contracts must not require automated E2E coverage or tests as PR gates during the active redesign.');
 has(featureWorkflow, 'FEATURE-FACTORY-CONTRACT.md', 'Feature launch checklist');
 has(toolContract, 'tool', 'Tool workflow');
 has(toolWorkflow, 'TOOL-FACTORY-CONTRACT.md', 'Tool launch checklist');
@@ -99,7 +105,7 @@ function listMarkdownRecursive(dir, prefix = '') {
   }).sort();
 }
 const activeAgentMarkdown = listMarkdownRecursive(path.join(root, 'agents'));
-const issueExemptions = /does not require a GitHub Issue for every (?:feature|tool) request|may proceed without an Issue/i;
+const issueExemptions = /does not require a GitHub Issue for every (?:feature|tool) request|may proceed without an Issue|A genuinely atomic change completed in one validated action may omit an Issue/i;
 for (const file of activeAgentMarkdown) {
   const content = fs.readFileSync(path.join(root, 'agents', file), 'utf8');
   if (content.split('\n').some((line) => issueExemptions.test(line))) fail('Issue checkpoint exemption conflicts with the common contract in agents/' + file);
