@@ -1,9 +1,6 @@
 name: CI
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
@@ -28,6 +25,22 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
+
+      - name: Verify PR base is current
+        if: github.event_name == 'pull_request'
+        shell: bash
+        env:
+          EVENT_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git fetch origin main --no-tags
+          current_main_sha="$(git rev-parse FETCH_HEAD)"
+          if [[ "$EVENT_BASE_SHA" != "$current_main_sha" ]]; then
+            echo "::error::main advanced after this PR event. Update the PR branch against current main and rerun CI."
+            echo "PR event base: $EVENT_BASE_SHA"
+            echo "Current main:  $current_main_sha"
+            exit 1
+          fi
+          echo "PR base matches current main: $current_main_sha"
 
       - name: Detect documentation-only change
         id: changes
