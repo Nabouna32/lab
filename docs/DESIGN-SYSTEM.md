@@ -214,7 +214,7 @@ The review should verify consistency with M3 Expressive, task clarity, visual di
 
 This document establishes the current product/design contract; it does not prove that the application has been migrated.
 
-The default color seed is #3F51B5 and the default direction is expressive multicolor. Remaining implementation details include complete tonal mappings, curated palette inventory, typeface, exact token values, component inventory, package/loading choices, final logo treatment and migration sequencing. Validate the resulting palettes and representative screens before freezing concrete tokens.
+The default semantic color seed is #6750A4 and Roboto is the validated default interface typeface. Both rainbow treatments have complementary roles: MCU-generated Rainbow tonal colors for expressive surfaces and frame/container backgrounds; direct saturated seven-color accents for compact category differentiation. Remaining implementation details include complete light/dark tonal mappings, curated palette inventory, exact token values, component inventory, package/loading choices, final logo treatment and migration sequencing. Validate the resulting palettes and representative screens before freezing concrete tokens.
 
 Implementation should be staged into small, verifiable scopes. Existing components may be refactored or replaced when necessary to meet this contract, but must not silently change unrelated product behavior, privacy, architecture or scope.
 
