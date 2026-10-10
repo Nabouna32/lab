@@ -50,7 +50,7 @@ Historical audit reports are immutable evidence and must not be rewritten or del
 
 Before and after modifications, check the branch and concurrent changes. Inspect the complete diff, run relevant tests and checks, fix regressions within scope, and verify documentation and Issue consistency. Distinguish real regressions from obsolete tests or environment failures. Never claim that a read, test, CI run, PR, merge or verification succeeded without evidence.
 
-Follow the repository's Git/PR/CI workflow. When opening a PR, enable GitHub auto-merge if required by repository policy and permitted by the validated scope. Do not manually merge a PR with auto-merge enabled. If auto-merge is blocked, record the actual reason and verify all prerequisites before using any documented fallback. Keep main stable.
+Follow the repository's Git/PR/CI workflow. CI should validate pull requests, not repeat the same full suite automatically after each merge to `main`. Before merging, ensure the PR has been validated against the latest `main`; the required branch ruleset should enforce up-to-date branches (`strict_required_status_checks_policy: true`). CI also checks that the PR event's base SHA still matches current `main`, but this workflow check alone cannot eliminate a race if `main` advances after the check completes. Do not remove the post-merge CI trigger until the repository ruleset actually enforces branch freshness. When opening a PR, enable GitHub auto-merge if required by repository policy and permitted by the validated scope. Do not manually merge a PR with auto-merge enabled. If auto-merge is blocked, record the actual reason and verify all prerequisites before using any documented fallback. Keep main stable.
 
 ## 8. Completion receipt
 
