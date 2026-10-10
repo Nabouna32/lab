@@ -62,7 +62,7 @@
 
   /* Compatibility aliases: existing screens migrate incrementally to semantic roles. */
   --accent: var(--primary);
-  --accent-strong: #303f9f;
+  --accent-strong: #4f378b;
   --accent-soft: var(--primary-container);
   --accent-foreground: var(--on-primary);
   --danger: var(--error);
