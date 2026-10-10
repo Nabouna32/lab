@@ -114,11 +114,12 @@ For larger or risky changes, use a dedicated branch, validate through available 
 ## Browser and E2E validation
 
 - Playwright provides browser-level smoke/E2E validation.
-- Keep the smoke baseline small and reliable.
-- Add targeted E2E coverage for important stable user flows.
+- Keep the smoke baseline small and reliable; add targeted coverage for important stable user flows.
 - Vercel Preview deployments are intentionally disabled for branches and pull requests.
 - Browser E2E runs against the Next.js application in GitHub Actions and does not depend on Vercel Preview.
-- Production verification remains appropriate for deployment/runtime changes.
+- During the active redesign, Browser E2E, Production Browser Validation, and Production Screenshots are manual-only via `workflow_dispatch`; none is a PR gate or runs automatically after merges.
+- Production Browser Validation keeps runtime/hydration assertions but does not capture screenshots; Production Screenshots is separate and uploads short-lived artifacts.
+- Revisit browser triggers after the redesign stabilizes. Manual execution must not suppress or delete useful assertions.
 
 ## Vercel deployment policy
 
