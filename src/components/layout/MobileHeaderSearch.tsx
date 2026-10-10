@@ -58,10 +58,8 @@ function MobileHeaderSearchPanel({
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key !== "Escape") return;
 
-      // Let an active suggestion/error surface consume Escape first. A second
-      // Escape dismisses the surrounding mobile search panel.
-      // The search suggestions live in a portal outside this component's DOM.
-      // Let the popup/input consume the first Escape; a later Escape closes this panel.
+      // The portal/input consumes Escape while suggestions or status feedback are open.
+      // A later Escape closes this surrounding panel.
       if (document.querySelector('[data-search-popup-owner="header-tool-search-mobile"]')) {
         return;
       }
