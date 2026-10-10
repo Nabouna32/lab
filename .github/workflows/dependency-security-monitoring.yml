@@ -23,4 +23,4 @@ jobs:
           node-version: 24.21.0
 
       - name: Audit locked dependency graph
-        run: npm audit --package-lock-only --audit-level=high
+        run: npm audit --audit-level=high
