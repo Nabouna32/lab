@@ -70,6 +70,7 @@ When several reasonable options exist within a validated scope, make the trade-o
 - Before implementation, explain the step, objective, intended changes and relevant consequences, then wait for validation.
 - After validation, implement only the approved scope.
 - If implementation reveals an issue that requires a new decision or exceeds the approved scope, stop and ask for validation.
+- Scope is an authorization boundary, not a quality ceiling: do not substitute a knowingly inferior implementation to fit it. Explain the better option, its added scope, cost and risks, and ask for validation; continue only after the scope is approved.
 - Do not send unnecessary progress messages merely to report waiting or running checks.
 - Do not promise work for later when the required tools are available.
 - Unless explicitly permitted by this file, do not use `grep` as a repository search or analysis shortcut; prefer direct file reads, structured repository/GitHub tools, or other targeted inspection methods.
