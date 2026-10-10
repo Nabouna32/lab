@@ -163,5 +163,5 @@
 .categoryComparison>.helper{min-height:3.2em}
 .categoryComparison .categoryGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
 .categoryStyle_stripe .categoryCardDirect{border-color:var(--lab-outline);background:var(--lab-surface)}
-.categoryStyle_stripe .categoryCardDirect .categoryGlyph{border-color:transparent;background:var(--category-color);color:var(--category-foreground)}
+.categoryCardDirect .categoryGlyph{border-color:transparent;background:var(--category-color);color:var(--category-foreground)}
 @media(max-width:850px){.categoryCompareGrid{grid-template-columns:1fr}}
