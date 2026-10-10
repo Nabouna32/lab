@@ -74,9 +74,30 @@ has(readme, 'single ChatGPT assistant', 'Workflow README');
 has(toolReadme, 'check for a matching Issue', 'Tool README Issue tracking');
 has(projectContext, 'Current UX/UI direction', 'Project context');
 has(decisions, 'Issue tracking does not authorize implementation outside the validated scope', 'DEC-039 scope boundary');
-const activeWorkflowText = [common, start, issueContract, auditContract, productWorkflow, readme, toolReadme, decisions].join('\n');
+const activeWorkflowText = [common, start, issueContract, auditContract, featureContract, featureWorkflow, toolContract, toolWorkflow, productWorkflow, readme, toolReadme, decisions].join('\\n');
 if (/ask explicitly whether to create|only after explicitly asking the user whether to create|who decides whether to create or attach|only after asking the user whether to create or attach/i.test(activeWorkflowText)) {
   fail('Active workflow docs still require user permission before creating or attaching Issue tracking.');
+}
+has(decisions, '## DEC-049 — Controlled manual merge as the default delivery workflow', 'Current merge decision');
+has(common, 'Controlled manual merge is the default: do not enable GitHub auto-merge.', 'Common merge lifecycle');
+has(common, "merge through GitHub's normal merge action without bypassing branch protections", 'Common merge lifecycle');
+has(toolContract, 'do not enable GitHub auto-merge by default', 'Tool merge lifecycle');
+has(featureContract, "Controlled manual merge through GitHub's normal merge action is the default", 'Feature merge lifecycle');
+
+function listMarkdownRecursive(dir, prefix = '') {
+  if (!fs.existsSync(dir)) return [];
+  return fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    const relative = prefix ? prefix + '/' + entry.name : entry.name;
+    const absolute = path.join(dir, entry.name);
+    if (entry.isDirectory()) return listMarkdownRecursive(absolute, relative);
+    return entry.isFile() && entry.name.endsWith('.md') ? [relative] : [];
+  }).sort();
+}
+const activeAgentMarkdown = listMarkdownRecursive(path.join(root, 'agents'));
+const autoMergeContradictions = /immediately enable GitHub auto-merge|enable GitHub auto-merge by default|do not manually merge a PR that has auto-merge enabled|wait for required CI\\/checks through the auto-merge lifecycle|GitHub performs the merge once all required protections are satisfied/i;
+for (const file of activeAgentMarkdown) {
+  const content = fs.readFileSync(path.join(root, 'agents', file), 'utf8');
+  if (autoMergeContradictions.test(content)) fail('Contradictory auto-merge instruction in agents/' + file);
 }
 if (/The assistant may proactively propose, challenge/i.test(rootRules)) fail('AGENTS.md still makes mandatory challenge optional.');
 has(rootRules, 'The assistant must challenge relevant requests', 'AGENTS.md mandatory challenge');
