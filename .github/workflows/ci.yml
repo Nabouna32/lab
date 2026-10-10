@@ -110,15 +110,3 @@ jobs:
       - name: Build
         if: needs.detect-changes.outputs.docs_only != 'true'
         run: npm run build
-
-
-  # Temporary compatibility shim: Protect main still requires this status context.
-  # The real database checks now run only via workflow_dispatch in supabase-database.yml.
-  # Remove this skipped job after removing its required context from the repository ruleset.
-  supabase-validation:
-    name: Validate Supabase migrations
-    if: ${{ false }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Database validation is manual-only
-        run: echo "Run the Supabase Database CI workflow manually when database changes need validation."
