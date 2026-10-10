@@ -41,8 +41,8 @@ test("design lab generates real Material Color Utilities schemes and exposes its
     await expect(lab).toHaveAttribute("data-scheme-variant", variant);
   }
 
-  await expect(page.locator('[class*="rolePairGrid"] > article')).toHaveCount(12);
-  await expect(page.locator('[class*="semanticRoleGrid"] > div')).toHaveCount(29);
+  await expect(page.locator('[class*="rolePairGrid"] > article')).toHaveCount(22);
+  await expect(page.locator('[class*="semanticRoleGrid"] > div')).toHaveCount(53);
   await expect(page.locator('[class*="tonalPaletteGrid"] > article')).toHaveCount(6);
   await expect(page.locator('[class*="typeScaleGrid"] article')).toHaveCount(15);
 });
