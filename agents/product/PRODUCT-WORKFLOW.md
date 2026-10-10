@@ -33,4 +33,4 @@ Within a validated step, choose routine documentation structure and technical de
 
 ## Continuity
 
-Use a GitHub Issue checkpoint for resumable product/documentation work. Keep it current at meaningful milestones. Any actionable out-of-scope discovery must be presented to the user, with an explicit question about creating or attaching an Issue.
+Use a GitHub Issue checkpoint for resumable product/documentation work. Keep it current at meaningful milestones. For actionable out-of-scope discoveries, check for a matching Issue, update it or create one if needed, then notify the user. Never implement outside the validated scope without user validation.
