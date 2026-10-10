@@ -10,6 +10,7 @@ on:
 
 permissions:
   contents: read
+  pull-requests: read
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
@@ -21,6 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       docs_only: ${{ steps.changes.outputs.docs_only }}
+      dependencies_changed: ${{ steps.changes.outputs.dependencies_changed }}
 
     steps:
       - name: Checkout
@@ -29,7 +31,7 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Detect documentation-only changes
+      - name: Detect documentation-only and dependency changes
         id: changes
         shell: bash
         env:
@@ -39,6 +41,7 @@ jobs:
         run: |
           set -euo pipefail
           docs_only=false
+          dependencies_changed=false
 
           if [[ "$EVENT_NAME" == "pull_request" && -n "$BASE_SHA" && -n "$HEAD_SHA" ]]; then
             docs_only=true
@@ -50,10 +53,17 @@ jobs:
                   docs_only=false
                   ;;
               esac
+
+              case "$path" in
+                package.json|package-lock.json)
+                  dependencies_changed=true
+                  ;;
+              esac
             done < <(git diff --name-only -z "$BASE_SHA" "$HEAD_SHA")
           fi
 
           echo "docs_only=$docs_only" >> "$GITHUB_OUTPUT"
+          echo "dependencies_changed=$dependencies_changed" >> "$GITHUB_OUTPUT"
 
   validate:
     name: Node.js 24.21.0
@@ -79,6 +89,13 @@ jobs:
             exit 1
           fi
           echo "PR base matches current main: $current_main_sha"
+
+      - name: Review dependency changes
+        if: github.event_name == 'pull_request' && needs.detect-changes.outputs.dependencies_changed == 'true'
+        uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0
+        with:
+          fail-on-severity: high
+          fail-on-scopes: runtime, development
 
       - name: Setup Node.js
         if: needs.detect-changes.outputs.docs_only != 'true'
