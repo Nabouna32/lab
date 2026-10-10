@@ -15,7 +15,6 @@ const VALIDATION_FILES = [
 ];
 const PRODUCTION_PATHS = ['supabase/migrations/'];
 const DATABASE_CONFIG = 'supabase/config.toml';
-const WORKFLOW_PATH = '.github/workflows/supabase-database.yml';
 
 function isEnabled(value) {
   return value === true || value === 'true';
