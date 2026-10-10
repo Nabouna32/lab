@@ -106,13 +106,16 @@ function listMarkdownRecursive(dir, prefix = '') {
   }).sort();
 }
 const activeAgentMarkdown = listMarkdownRecursive(path.join(root, 'agents'));
-const activeAgentText = activeAgentMarkdown.map((file) => fs.readFileSync(path.join(root, 'agents', file), 'utf8')).join('\\n');
-const governanceText = rootRules + '\\n' + activeAgentText;
+const activeAgentText = activeAgentMarkdown.map((file) => fs.readFileSync(path.join(root, 'agents', file), 'utf8')).join('\n');
+const governanceText = rootRules + '\n' + activeAgentText;
 const obsoleteSolutionMinimizationRules = [
   /make the smallest coherent change/i,
+  /make the smallest change that solves/i,
   /update the smallest coherent set of canonical documents/i,
-  /is the proposed scope the smallest useful version/i,
+  /(?:proposed|implementation) scope is the smallest useful version/i,
   /implement the smallest useful version/i,
+  /smallest coherent implementation sequence/i,
+  /(?:choose|prefer) the smallest (?:coherent )?(?:change|scope|solution|implementation)/i,
 ];
 for (const rule of obsoleteSolutionMinimizationRules) {
   if (rule.test(governanceText)) fail('Active governance still prioritizes the smallest change or scope: ' + rule);
