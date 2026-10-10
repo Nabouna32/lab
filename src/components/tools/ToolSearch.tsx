@@ -159,7 +159,7 @@ export default function ToolSearch({
         "flex items-center border bg-[var(--surface)] transition-[border-color,box-shadow] duration-200 " +
         (compact
           ? "rounded-xl p-1 shadow-[var(--shadow-sm)] "
-          : "rounded-[1.25rem] p-1 shadow-[var(--shadow-md)] sm:rounded-[1.5rem] sm:p-2 ") +
+          : "min-h-12 rounded-[1.25rem] p-0.5 shadow-[var(--shadow-md)] sm:rounded-[1.5rem] sm:p-2 ") +
         (isFocused
           ? "border-[var(--accent)] ring-4 ring-[var(--accent)]/10"
           : "border-[var(--border)]")
@@ -192,7 +192,7 @@ export default function ToolSearch({
           onKeyDown={handleKeyDown}
           className={
             "min-w-0 flex-1 bg-transparent text-[var(--foreground)] outline-none placeholder:text-[var(--muted)] " +
-            (compact ? "px-2 py-2 text-sm" : "px-2 py-2.5 text-base sm:px-3 sm:text-lg")
+            (compact ? "px-2 py-2 text-sm" : "px-2 py-2 text-base sm:px-3 sm:py-2.5 sm:text-lg")
           }
         />
         {query && (
