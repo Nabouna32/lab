@@ -778,7 +778,7 @@ A dedicated modernization pass reduces the risk of accumulating obsolete tooling
 
 Loculary development proceeds through one assistant working directly with the user, one validated step at a time. There is no separate product, audit, feature or tool agent role and no delegated worker/orchestrator workflow.
 
-GitHub Issues provide durable mission checkpoints for work that spans multiple actions, conversations or follow-up. The active mission Issue records current scope, decisions, changes, evidence, verification, blockers and the next action. Separate actionable work outside the current scope is tracked only after the user is asked whether to create a dedicated Issue or attach it to an existing Issue that genuinely covers the work.
+GitHub Issues provide durable mission checkpoints for work that spans multiple actions, conversations or follow-up. The active mission Issue records current scope, decisions, changes, evidence, verification, blockers and the next action. For actionable work outside the current scope, first search for a matching Issue, update it or create one if needed, then notify the user. Issue tracking does not authorize implementation outside the validated scope.
 
 Issues complement Git and canonical documentation. They do not replace Git as the implementation source of truth, canonical specifications as the source of current product intent, immutable audit reports, branches, pull requests or CI evidence.
 
@@ -793,7 +793,7 @@ Sequential collaboration keeps decisions and scope explicit while allowing the s
 - The recovery path for resumable work is Issue → Git branch/PR → canonical documentation and verification evidence.
 - No repository checkpoint files or delegated-role handoffs are used.
 - An Issue is not blanket authorization to exceed scope or make an unvalidated consequential decision.
-- Actionable out-of-scope findings must be presented to the user, who decides whether they need a dedicated Issue or belong to an existing one.
+- Actionable out-of-scope findings must be tracked in a matching or new Issue after checking for duplicates, and the user must be informed; implementation still requires validation.
 - Keep active documentation concise and current; ordinary Git history preserves prior versions.
 
 ## DEC-042 — Next actions are contextual and optional
