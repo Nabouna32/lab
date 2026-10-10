@@ -50,10 +50,10 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         <div className="mx-auto w-full max-w-[var(--content-wide)]">
           <div className="home-rainbow-frame rounded-[calc(var(--radius-xl)+1px)] p-[2px]" style={getRainbowFrameStyle()}>
             <div className="home-command-surface relative isolate overflow-hidden rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] px-5 py-8 shadow-[var(--shadow-md)] sm:px-8 sm:py-10 lg:px-12 lg:py-14">
-              <div className="pointer-events-none absolute -right-16 -top-20 -z-10 h-64 w-64 rounded-full bg-[var(--primary-container)] opacity-65 blur-3xl sm:h-80 sm:w-80" aria-hidden="true" />
-              <div className="pointer-events-none absolute -bottom-28 left-[35%] -z-10 h-64 w-64 rounded-full bg-[var(--tertiary-container)] opacity-45 blur-3xl" aria-hidden="true" />
+              <div className="pointer-events-none absolute -right-16 -top-20 z-0 h-64 w-64 rounded-full bg-[var(--primary-container)] opacity-65 blur-3xl sm:h-80 sm:w-80" aria-hidden="true" />
+              <div className="pointer-events-none absolute -bottom-28 left-[35%] z-0 h-64 w-64 rounded-full bg-[var(--tertiary-container)] opacity-45 blur-3xl" aria-hidden="true" />
 
-              <div className="relative max-w-4xl">
+              <div className="relative z-10 max-w-4xl">
                 <p className="motion-reveal inline-flex items-center gap-2 rounded-full bg-[var(--surface-soft)] px-3 py-1.5 text-xs font-bold tracking-wide text-[var(--accent)]">
                   <span className="h-2 w-2 rounded-full bg-current" aria-hidden="true" />
                   {t.home.badge}
