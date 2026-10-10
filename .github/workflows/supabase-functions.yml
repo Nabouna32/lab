@@ -7,19 +7,14 @@ on:
     paths:
       - "supabase/functions/**"
       - ".github/workflows/supabase-functions.yml"
-  push:
-    branches:
-      - main
-    paths:
-      - "supabase/functions/**"
-      - ".github/workflows/supabase-functions.yml"
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: supabase-functions-${{ github.ref }}
-  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+  group: supabase-functions-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   validate:
