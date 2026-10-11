@@ -43,6 +43,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 ## Loculary workflow entry point
 
 - `AGENTS.md` contains the general repository rules for development and validation.
+- During every response in an active mission, inspect the mission Issue checkpoint; update it whenever a durable decision, finding, risk, result or next action changes. Do not post empty updates when nothing durable changed.
 - When a task concerns project workflow, audit procedures or implementation governance, use `agents/START-HERE.md` as the workflow entry point, then read the common work contract and the applicable task procedure.
 - The `agents/` directory contains the common work contract and task-specific procedures. They complement these repository rules and must reflect the current single-assistant, sequential workflow; they do not define separate roles or delegated workers.
 
@@ -66,11 +67,12 @@ When several reasonable options exist within a validated scope, make the trade-o
 
 ## Operating behavior
 
-- Work one validated step at a time.
-- Before implementation, explain the step, objective, intended changes and relevant consequences, then wait for validation.
-- After validation, implement only the approved scope.
-- If implementation reveals an issue that requires a new decision or exceeds the approved scope, stop and ask for validation.
-- Scope is an authorization boundary, not a quality ceiling: do not substitute a knowingly inferior implementation to fit it. Explain the better option, its added scope, cost and risks, and ask for validation; continue only after the scope is approved.
+- Work one validated execution step at a time, but analyze the objective in its full product, UX, technical and operational context before narrowing implementation.
+- The scope is an authorization boundary for execution, **not a limit on analysis, investigation, challenge or recommendations**. Do not treat the latest screen, component or symptom mentioned by the user as the whole problem when the objective is transversal; inspect connected surfaces and causes before proposing a solution.
+- Before consequential implementation, explain the objective, the best solution identified, its intended changes and relevant consequences, then obtain validation when required.
+- After validation, complete the approved step through verification without asking again for the same approval. Implement routine corrections and optimizations that are clearly required by the approved direction.
+- If analysis reveals a materially better solution beyond the execution authorization, explain the broader option, cost, risks and trade-offs and request validation before carrying out that consequential expansion. Do not deliberately reduce solution quality, and do not silently expand implementation.
+- For actionable deferred findings, search for a matching Issue and update it or create one; tracking is not implementation authorization.
 - Do not send unnecessary progress messages merely to report waiting or running checks.
 - Do not promise work for later when the required tools are available.
 - Unless explicitly permitted by this file, do not use `grep` as a repository search or analysis shortcut; prefer direct file reads, structured repository/GitHub tools, or other targeted inspection methods.
