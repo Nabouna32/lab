@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { validateAuditCatalogue, validateAuditMetadata } from './validate-workflow-contracts.rules.mjs';
 
 const root = process.cwd();
 const errors = [];
@@ -102,6 +103,7 @@ const audits = auditFiles.map((name) => ({
   content: read('agents/audits/' + name),
 }));
 const byName = new Map(audits.map((audit) => [audit.name, audit]));
+errors.push(...validateAuditMetadata(audits));
 const seenIds = new Set();
 for (const audit of audits) {
   if (seenIds.has(audit.id)) fail('Duplicate audit ID: ' + String(audit.id).padStart(2, '0'));
@@ -110,53 +112,7 @@ for (const audit of audits) {
 
   const slug = audit.name.replace(/^\d{2}-/, '').replace(/\.md$/, '');
   const idText = String(audit.id).padStart(2, '0');
-  const metadataFields = [
-    {
-      label: 'Audit ID',
-      pattern: /^\s*-\s*\*\*Audit ID\s*:\*\*\s*(.*?)\s*$/,
-      accepted: [idText, String(audit.id)],
-      description: 'ID',
-    },
-    {
-      label: 'Slug',
-      pattern: /^\s*-\s*\*\*Slug\s*:\*\*\s*(.*?)\s*$/,
-      accepted: [slug],
-      description: 'slug',
-    },
-    {
-      label: 'procedure path',
-      pattern: /^\s*-\s*\*\*(?:Mission|Procedure)\s*:\*\*\s*(.*?)\s*$/,
-      accepted: ['agents/audits/' + audit.name],
-      description: 'procedure path',
-    },
-    {
-      label: 'report path',
-      pattern: /^\s*-\s*\*\*(?:Rapports|Reports|New reports)\s*:\*\*\s*(.*?)\s*$/,
-      accepted: ['docs/audits/' + idText + '-' + slug + '/'],
-      description: 'report path',
-    },
-  ];
 
-  for (const field of metadataFields) {
-    const values = audit.content.split(/\r?\n/)
-      .map((line) => field.pattern.exec(line))
-      .filter(Boolean)
-      .map((match) => match[1].trim());
-    if (values.length !== 1) {
-      fail('Audit ' + field.description + ' metadata in ' + audit.name +
-        ': expected exactly one supported metadata line, found ' + values.length);
-      continue;
-    }
-    const rawValue = values[0];
-    const tick = String.fromCharCode(96);
-    const value = rawValue.startsWith(tick) && rawValue.endsWith(tick)
-      ? rawValue.slice(1, -1)
-      : rawValue;
-    if (!field.accepted.includes(value)) {
-      fail('Audit ' + field.description + ' metadata in ' + audit.name +
-        ': expected exact value ' + field.accepted.join(' or ') + ', found ' + rawValue);
-    }
-  }
 }
 
 const specialistAudits = audits.filter(({ id }) => id !== 99).sort((a, b) => a.id - b.id);
@@ -183,63 +139,8 @@ if (!audits.some(({ id, name }) => id === 32 && name === '32-agent-system.md')) 
   fail('Missing audit 32 — agent-system governance and workflow');
 }
 
-// Enforce a bijection between numbered procedures and links in the active catalogue.
-const catalogueHeading = /^## Procedure catalogue\s*$/m.exec(auditIndex);
-if (!catalogueHeading) {
-  fail('Audit catalogue is missing the "Procedure catalogue" section');
-} else {
-  const catalogueBodyStart = catalogueHeading.index + catalogueHeading[0].length;
-  const remainingCatalogueText = auditIndex.slice(catalogueBodyStart).replace(/^\r?\n/, '');
-  const nextCatalogueHeading = /^## /m.exec(remainingCatalogueText);
-  const catalogueBody = nextCatalogueHeading
-    ? remainingCatalogueText.slice(0, nextCatalogueHeading.index)
-    : remainingCatalogueText;
-  const catalogueLines = catalogueBody.split(/\r?\n/).filter((line) => /^\s*-\s+/.test(line));
-  const catalogueEntries = [];
-  const seenTargets = new Set();
-  const seenCatalogueIds = new Set();
-
-  for (const line of catalogueLines) {
-    const link = /^\s*-\s+\[(\d{2})\s+—\s+[^\]]+\]\(([^)]+)\)\s*$/.exec(line);
-    if (!link) {
-      fail('Malformed or non-numbered entry in audit procedure catalogue: ' + line.trim());
-      continue;
-    }
-    const id = Number(link[1]);
-    const target = link[2];
-    const targetMatch = /^\.\//.test(target) ? /^\.\/(\d{2}-.+\.md)$/.exec(target) : null;
-    if (!targetMatch) {
-      fail('Audit catalogue link must be a relative numbered procedure path: ' + target);
-      continue;
-    }
-    const targetName = targetMatch[1];
-    if (!byName.has(targetName)) fail('Audit catalogue entry points to a missing procedure: ' + targetName);
-    if (Number(/^(\d{2})-/.exec(targetName)[1]) !== id) {
-      fail('Audit catalogue label ID ' + link[1] + ' does not match target ' + targetName);
-    }
-    if (seenCatalogueIds.has(id)) fail('Duplicate audit catalogue ID: ' + link[1]);
-    seenCatalogueIds.add(id);
-    if (seenTargets.has(targetName)) fail('Duplicate audit catalogue target: ' + targetName);
-    seenTargets.add(targetName);
-    catalogueEntries.push({ id, targetName });
-  }
-
-  for (const audit of audits) {
-    const occurrences = catalogueEntries.filter((entry) => entry.targetName === audit.name).length;
-    if (occurrences !== 1) {
-      fail('Audit procedure ' + audit.name + ' must appear exactly once in catalogue; found ' + occurrences);
-    }
-  }
-  for (const entry of catalogueEntries) {
-    if (!byName.has(entry.targetName)) {
-      fail('Stale audit catalogue target: ' + entry.targetName);
-    }
-  }
-  if (catalogueEntries.length !== audits.length) {
-    fail('Audit catalogue must contain exactly ' + audits.length +
-      ' procedure entries; found ' + catalogueEntries.length);
-  }
-}
+// Validate catalogue integrity with controlled, independently testable inputs.
+errors.push(...validateAuditCatalogue(audits, auditIndex));
 
 if (/use emojis sparingly|emojis? without clutter|concise visual control receipt being trialed/i.test(governanceText)) {
   fail('Active agent guidance still restricts emoji use or requires a mechanical response receipt');
