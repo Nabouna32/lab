@@ -1,31 +1,28 @@
 # Loculary — Work Entry Point
 
-This guide helps the single ChatGPT assistant resume work from the real repository state. It is a task-procedure index, not a multi-agent system. Run this checklist when starting or resuming a mission, not at every follow-up within an ongoing validated step.
+Use this guide when starting or resuming a repository mission. The single assistant works directly with the user; specialist guides provide task-specific checks, not delegated roles.
 
-## Start or resume a mission
+## Bootstrap
 
-1. Read AGENTS.md, agents/AGENT-CONTRACT.md and agents/PRODUCT-ISSUE-CONTRACT.md.
-2. Read the relevant procedure:
-   - Product direction and documentation: agents/product/PRODUCT-WORKFLOW.md
-   - Tool creation: agents/tools/TOOL-FACTORY-CONTRACT.md and agents/tools/TOOL-WORKFLOW.md
-   - Feature implementation: agents/features/FEATURE-FACTORY-CONTRACT.md and agents/features/FEATURE-WORKFLOW.md
-   - Audit: agents/AUDIT-CONTRACT.md and the relevant mission in agents/audits/
-3. Read relevant canonical specifications and decisions.
-4. Inspect current main, the implementation, branches, open PRs, Issues and CI as relevant.
-5. Identify the active mission Issue or create one when resumable work begins.
-6. Challenge the proposed approach and existing design, including opportunities to simplify or optimize.
-7. State the objective, scope, non-goals, decisions requiring validation and next action.
+1. Read `AGENTS.md`, `agents/AGENT-CONTRACT.md` and `agents/PRODUCT-ISSUE-CONTRACT.md`.
+2. Read the relevant specialist contract/procedure:
+   - Product/documentation: `agents/product/PRODUCT-WORKFLOW.md`
+   - Feature: `agents/features/FEATURE-FACTORY-CONTRACT.md` and `agents/features/FEATURE-WORKFLOW.md`
+   - Tool: `agents/tools/TOOL-FACTORY-CONTRACT.md` and `agents/tools/TOOL-WORKFLOW.md`
+   - Audit: `agents/AUDIT-CONTRACT.md` and the relevant `agents/audits/` procedure
+3. Read the canonical product, UX, architecture, privacy and decision documents relevant to the task.
+4. Reconstruct current GitHub state: `main` HEAD, branches, open PRs, relevant Issues, CI and merge conditions. Never rely on conversation history as evidence.
+5. Read the complete active mission Issue and relevant comments. Reconcile its plan, decisions, dependencies and next action against current reality.
 
-## Operating principles
+## Collaboration
 
-- One assistant works directly with the user; execute one validated step at a time.
-- Challenge is mandatory, not limited to audits or obvious defects.
-- Analyze the full relevant system and experience by default. The scope limits execution authorization, not analysis: do not narrow a transversal problem to the last-mentioned component or screen.
-- Recommend the best coherent implementation scope after that analysis; do not default to tiny slices. Propose a broader coordinated scope when warranted, so it can be validated as a whole. Sequence execution technically without repeated approval for substeps already authorized; ask before consequential expansion.
-- After validation, complete the authorized step and verify it before reporting. Ask before consequential decisions or material expansion of implementation, not for every routine correction.
-- At every response during an active mission, check the mission Issue; update it when durable state changes, without empty updates.
-- For every actionable deferred discovery, check for an existing matching Issue first; update it or create one if needed, then tell the user. Tracking does not authorize implementation: do not implement it without validation when required.
-- Keep active docs concise and current. Git preserves ordinary history; immutable audit reports remain unchanged.
-- Never rely on chat history in place of repository/GitHub evidence.
+- Analyze the full relevant problem, dependencies, user journey and root causes. Challenge the request, current approach, decisions and your own recommendations.
+- Recommend the best coherent solution and explain meaningful trade-offs. The user retains final authority over consequential product and architecture decisions.
+- Discussion/decision and concrete implementation-plan approval are distinct. An objection is not closure; continue until the user makes the retained decision explicit.
+- Put the concrete operational plan in the mission Issue. Begin implementation after explicit plan validation, then execute it autonomously without repeated approval for routine steps.
+- After plan validation, provide a ready-to-copy prompt for a fresh implementation conversation by default. It must point back to the Issue and require a fresh state check rather than duplicate the plan.
+- Keep the Issue current at meaningful checkpoints. Track actionable deferred findings in existing or new Issues; tracking does not itself authorize implementation.
+- Distinguish observed facts, measurements, deductions, hypotheses, proposals and unverified points. Never claim checks passed without evidence.
+- Keep active documentation current. Historical audit reports are immutable.
 
-If a required file is missing or a read is incomplete, retrieve it before continuing. If contracts conflict with this single-assistant workflow, report the divergence and reconcile the governing documentation rather than silently following stale instructions.
+If a required read is missing or incomplete, retrieve it before proceeding. If active documents conflict, resolve the contradiction explicitly rather than silently following stale guidance.
