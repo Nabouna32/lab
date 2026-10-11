@@ -95,6 +95,7 @@ jobs:
           # Ubuntu runners provide Node.js. This validator has no external dependencies,
           # so governance-only PRs do not need setup-node, npm ci, or a separate job.
           if [[ "$governance_changed" == "true" ]]; then
+            node --test agents/validate-workflow-contracts.test.mjs
             node agents/validate-workflow-contracts.mjs
           fi
 
