@@ -102,7 +102,6 @@ const audits = auditFiles.map((name) => ({
   id: Number(/^(\d{2})-/.exec(name)[1]),
   content: read('agents/audits/' + name),
 }));
-const byName = new Map(audits.map((audit) => [audit.name, audit]));
 errors.push(...validateAuditMetadata(audits));
 const seenIds = new Set();
 for (const audit of audits) {
