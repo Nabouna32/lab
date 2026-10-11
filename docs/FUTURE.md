@@ -1,7 +1,5 @@
-# Loculary — Future / Deferred
+# Loculary — Deferred Ideas
 
-Deferred ideas remain documented so they are not lost; they are not automatically scheduled.
+The canonical discovery backlog is `docs/DISCUSSIONS.md`, where each idea has its own identifier, status and context. This file intentionally does not maintain a parallel summary that can drift.
 
-Candidates include PWA/installable web experience; an advanced personal workspace; public user profiles with pseudonym, avatar, interests, favorite tools, public collections and contributions; user-created themes and deeper personalization; richer visual identities for tools; a future child-oriented mode with dedicated safety, privacy, legal and advertising design; search as a solution engine and eventual multi-tool composition; contextual tool tone; richer historical/educational context; Android; more languages and RTL; advanced AI assistance where justified; and stronger offline capabilities.
-
-A deferred idea becomes durable scope only after the decision is recorded in DECISIONS.md and reflected in the relevant specification and roadmap.
+A deferred idea is not automatically scheduled. When an idea becomes a product commitment, record the validated decision in `docs/DECISIONS.md` and update the relevant specification and roadmap. Track actionable implementation work in a matching GitHub Issue.
