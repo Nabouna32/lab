@@ -72,7 +72,7 @@ has(featureGuide, 'manual-only', 'Feature E2E policy');
 has(toolGuide, 'manual-only', 'Tool E2E policy');
 has(productGuide, 'Never change direction silently', 'Product workflow');
 has(workflowIndex, 'Specialist guides retain domain checks only', 'Workflow index');
-has(workflowIndex, 'contiguous specialist IDs 01–32', 'Workflow index numbering policy');
+has(workflowIndex, 'contiguous IDs 01–32', 'Workflow index numbering policy');
 if (/Audit procedures have stable, unique IDs but need not be contiguous/i.test(workflowIndex)) fail('Workflow index still permits non-contiguous audit IDs');
 has(auditIndex, 'contiguous specialist IDs 01–32', 'Audit numbering policy');
 has(decisions, '## DEC-049 — Controlled manual merge as the default delivery workflow', 'Merge decision');
