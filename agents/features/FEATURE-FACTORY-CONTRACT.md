@@ -8,18 +8,33 @@ A feature is a user-facing capability, not merely a code change. Evaluate the co
 
 Inspect relevant canonical specifications before changing implementation or product documentation: `docs/VISION.md`, `docs/PRODUCT.md`, `docs/UX.md`, `docs/ARCHITECTURE.md`, `docs/PRIVACY.md`, `docs/I18N.md`, `docs/DECISIONS.md` and relevant specialist documents. Inspect actual code and current GitHub state.
 
-## Feature-specific checks
+## Implementation requirements
 
-As applicable, validate:
-- end-to-end user journey and meaningful loading, empty, error and success states;
-- responsive layouts, keyboard and screen-reader accessibility, focus and reduced motion;
-- French and English copy, localization structure and extensibility;
-- privacy, processing location, data minimization and server authorization;
-- performance, bundle impact, resilience and maintainability;
-- tests for meaningful logic and boundaries, documentation and cross-references.
+As applicable, the coherent feature includes:
+- domain/business logic and meaningful loading, empty, error and success states;
+- responsive UI and keyboard/screen-reader accessibility, focus and reduced motion;
+- French and English localization, with no hard-coded user-facing strings when the i18n architecture applies;
+- SEO/discoverability, validation and error handling;
+- persistence/data-model changes, server authorization and privacy controls when required;
+- telemetry/analytics only when justified and consistent with validated decisions;
+- relevant unit/domain/integration tests and active documentation.
 
-Do not require automated browser E2E or screenshot capture on PRs during the active redesign. Those workflows remain manual-only unless the project policy is explicitly changed.
+Use existing architecture and primitives. Do not introduce a generic framework solely for one feature. Do not silently turn an idea or implementation detail into a product commitment.
 
-## Delivery
+## Verification
 
-Use the active mission Issue for the validated operational plan and checkpoints. Implement the complete agreed feature coherently, including necessary shared components, navigation, copy, styling, tests and documentation. Inspect the complete diff and follow the common branch/PR/CI/merge contract. Escalate only for a consequential decision or material change in direction.
+Run the strongest relevant checks available and appropriate to the changes: lint, typecheck, unit/domain/integration tests, build, targeted manual browser verification for important UI flows, both EN and FR, accessibility checks, and security/privacy checks for data-bearing behavior. E2E and automated screenshot workflows remain manual-only during the active redesign and are not PR gates.
+
+Inspect the complete diff, verify no unrelated files changed, and fix problems introduced by the implementation. Never claim a check passed unless it actually ran; explain any unavailable check.
+
+## Documentation and delivery
+
+Update the correct canonical source when durable behavior changes:
+- decision → `docs/DECISIONS.md`;
+- architecture → `docs/ARCHITECTURE.md`;
+- product direction → `docs/PRODUCT.md`;
+- UX rules → `docs/UX.md`;
+- privacy behavior → `docs/PRIVACY.md`;
+- data model → relevant database documentation.
+
+The PR description should explain the user problem, rationale and challenged alternatives, architecture, data/privacy model, UX/i18n/accessibility, checks, known limitations and decisions still requiring validation. Follow the common branch/PR/CI/merge contract.
