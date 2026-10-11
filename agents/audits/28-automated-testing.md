@@ -15,6 +15,8 @@ Audite la pyramide de tests : unitaires métier, composants, intégration, E2E/b
 
 ## Méthode
 
+Applique le contrat commun de `agents/AUDIT-CONTRACT.md` et les règles de collaboration de `agents/AGENT-CONTRACT.md`.
+
 1. Vérifie l'état Git réel et le commit audité.
 2. Lis `AGENTS.md` et les documents de référence pertinents.
 3. Inspecte le code réellement implémenté : la documentation seule n'est jamais une preuve.
