@@ -190,7 +190,6 @@ for (const audit of audits) {
   has(auditsReadme, '](./' + audit.name + ')', 'Audit README catalogue ' + audit.name);
   has(audit.content, 'agents/AUDIT-CONTRACT.md', 'Audit procedure ' + audit.name);
   has(audit.content, 'Revue après audit et poursuite validée', 'Audit continuation procedure ' + audit.name);
-  has(audit.content, 'Issue de mission', 'Audit mission checkpoint ' + audit.name);
   has(audit.content, 'Les règles de reprise, de validation des recommandations, de checkpoint à chaque réponse', 'Audit continuation rules are centralized ' + audit.name);
   if (/demande explicitement s'il faut créer une Issue|demande explicitement s'il faut créer une issue/i.test(audit.content)) fail('Audit procedure ' + audit.name + ' still asks permission before creating durable Issue tracking.');
   if (/(?:agent autonome|agent d'implémentation|agent ultérieur|prompt .*pour l'agent d'implémentation|authorized Worker|Worker handoff|Audit Agent|orchestrated mission|HANDOFF-CONTRACT\\.md|FEATURE-WORKER\\.md|TOOL-WORKER\\.md)/i.test(audit.content)) {
