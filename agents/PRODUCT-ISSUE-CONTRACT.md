@@ -10,7 +10,7 @@ Before creating an Issue, search existing Issues and inspect relevant branches a
 
 ## 2. Mission checkpoint
 
-The active Issue is the durable checkpoint for resumable work. Keep it concise and update it at every meaningful milestone, whenever decisions, blockers or verification state change, and before interruption or completion.
+The active Issue is the durable checkpoint for resumable work. **At every response during an active mission, check it against the actual repository state and the current conversation.** Update it whenever a durable decision, clarification, finding, risk, result, blocker or next action changes; do not post empty updates when nothing durable changed. Keep it concise and update it before interruption or completion.
 
 Include as applicable:
 - objective, type and current state;
@@ -39,7 +39,7 @@ Clearly distinguish observed evidence, deduction, proposal, decision awaiting va
 
 ## 5. Scope and authorization
 
-An Issue records and tracks work; it does not grant blanket authorization to exceed the validated scope or make consequential product, architecture, security, privacy, cost or irreversible decisions. Present options, consequences and a recommendation, then request validation when required.
+An Issue records and tracks work; it does not grant blanket authorization for implementation or consequential decisions. The validated scope limits execution authorization, **not the breadth of analysis**: investigate the complete relevant system, dependencies and root causes, and recommend the best solution even when it is broader than first expected. Present options, consequences and a recommendation, then request validation before consequential changes or material expansion of implementation authorization.
 
 Within validated scope, perform relevant routine corrections and optimizations without artificial deferral.
 
