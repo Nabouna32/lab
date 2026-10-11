@@ -72,13 +72,15 @@ has(featureGuide, 'manual-only', 'Feature E2E policy');
 has(toolGuide, 'manual-only', 'Tool E2E policy');
 has(productGuide, 'Never change direction silently', 'Product workflow');
 has(workflowIndex, 'Specialist guides retain domain checks only', 'Workflow index');
+has(workflowIndex, 'contiguous IDs 01–32', 'Workflow index numbering policy');
+if (/Audit procedures have stable, unique IDs but need not be contiguous/i.test(workflowIndex)) fail('Workflow index still permits non-contiguous audit IDs');
 has(auditIndex, 'contiguous specialist IDs 01–32', 'Audit numbering policy');
 has(decisions, '## DEC-049 — Controlled manual merge as the default delivery workflow', 'Merge decision');
 has(common, 'Never bypass protections', 'Protected merge policy');
 
 const activeAgentFiles = listMarkdownRecursive(path.join(root, 'agents'));
 const activeAgentText = activeAgentFiles.map((file) => read(`agents/${file}`)).join('\n');
-const governanceText = `${rootRules}\n${common}\n${start}\n${issueContract}\n${activeAgentText}\n${read('docs/PRODUCT.md')}\n${read('docs/PROJECT_INSTRUCTIONS.md')}`;
+const governanceText = `${rootRules}\n${common}\n${start}\n${issueContract}\n${workflowIndex}\n${activeAgentText}\n${read('docs/PRODUCT.md')}\n${read('docs/PROJECT_INSTRUCTIONS.md')}`;
 const staleRules = [
   [/make the smallest coherent change/i, 'smallest-change rule'],
   [/make the smallest change that solves/i, 'smallest-change rule'],
@@ -97,30 +99,77 @@ const auditFiles = listMarkdown(path.join(root, 'agents', 'audits'))
 const audits = auditFiles.map((name) => ({
   name,
   id: Number(/^(\d{2})-/.exec(name)[1]),
-  content: read(`agents/audits/${name}`),
+  content: read('agents/audits/' + name),
 }));
-const seen = new Set();
+const byName = new Map(audits.map((audit) => [audit.name, audit]));
+const seenIds = new Set();
 for (const audit of audits) {
-  if (seen.has(audit.id)) fail(`Duplicate audit ID: ${String(audit.id).padStart(2, '0')}`);
-  seen.add(audit.id);
-  has(auditIndex, `](./${audit.name})`, `Audit catalogue ${audit.name}`);
-  has(audit.content, 'agents/AUDIT-CONTRACT.md', `Audit contract reference ${audit.name}`);
+  if (seenIds.has(audit.id)) fail('Duplicate audit ID: ' + String(audit.id).padStart(2, '0'));
+  seenIds.add(audit.id);
+  has(audit.content, 'agents/AUDIT-CONTRACT.md', 'Audit contract reference ' + audit.name);
+
   const slug = audit.name.replace(/^\d{2}-/, '').replace(/\.md$/, '');
   const idText = String(audit.id).padStart(2, '0');
-  if (!(audit.content.includes('**Audit ID :** ' + idText) || audit.content.includes('**Audit ID:** ' + audit.id))) fail('Audit ID metadata ' + audit.name);
-  if (!(audit.content.includes('**Slug :** ' + slug) || audit.content.includes('**Slug:** ' + slug))) fail('Audit slug metadata ' + audit.name);
-  if (!(audit.content.includes('**Mission :** `agents/audits/' + audit.name + '`') || audit.content.includes('**Procedure:** `agents/audits/' + audit.name + '`'))) fail('Audit procedure path metadata ' + audit.name);
-  if (!(audit.content.includes('**Rapports :** `docs/audits/' + idText + '-' + slug + '/`') || audit.content.includes('**Reports:** `docs/audits/' + idText + '-' + slug + '/`') || audit.content.includes('**New reports:** `docs/audits/' + idText + '-' + slug + '/`'))) fail('Audit report path metadata ' + audit.name);
+  const metadataFields = [
+    {
+      label: 'Audit ID',
+      pattern: /^\s*-\s*\*\*Audit ID\s*:\*\*\s*(.*?)\s*$/,
+      accepted: [idText, String(audit.id)],
+      description: 'ID',
+    },
+    {
+      label: 'Slug',
+      pattern: /^\s*-\s*\*\*Slug\s*:\*\*\s*(.*?)\s*$/,
+      accepted: [slug],
+      description: 'slug',
+    },
+    {
+      label: 'procedure path',
+      pattern: /^\s*-\s*\*\*(?:Mission|Procedure)\s*:\*\*\s*(.*?)\s*$/,
+      accepted: ['agents/audits/' + audit.name],
+      description: 'procedure path',
+    },
+    {
+      label: 'report path',
+      pattern: /^\s*-\s*\*\*(?:Rapports|Reports|New reports)\s*:\*\*\s*(.*?)\s*$/,
+      accepted: ['docs/audits/' + idText + '-' + slug + '/'],
+      description: 'report path',
+    },
+  ];
+
+  for (const field of metadataFields) {
+    const values = audit.content.split(/\r?\n/)
+      .map((line) => field.pattern.exec(line))
+      .filter(Boolean)
+      .map((match) => match[1].trim());
+    if (values.length !== 1) {
+      fail('Audit ' + field.description + ' metadata in ' + audit.name +
+        ': expected exactly one supported metadata line, found ' + values.length);
+      continue;
+    }
+    const rawValue = values[0];
+    const tick = String.fromCharCode(96);
+    const value = rawValue.startsWith(tick) && rawValue.endsWith(tick)
+      ? rawValue.slice(1, -1)
+      : rawValue;
+    if (!field.accepted.includes(value)) {
+      fail('Audit ' + field.description + ' metadata in ' + audit.name +
+        ': expected exact value ' + field.accepted.join(' or ') + ', found ' + rawValue);
+    }
+  }
 }
+
 const specialistAudits = audits.filter(({ id }) => id !== 99).sort((a, b) => a.id - b.id);
 const expectedSpecialistIds = Array.from({ length: 32 }, (_, index) => index + 1);
 const actualSpecialistIds = specialistAudits.map(({ id }) => id);
 if (JSON.stringify(actualSpecialistIds) !== JSON.stringify(expectedSpecialistIds)) {
-  fail('Specialist audit IDs must be contiguous 01–32; found [' + actualSpecialistIds.map((id) => String(id).padStart(2, '0')).join(', ') + ']');
+  fail('Specialist audit IDs must be contiguous 01–32; found [' +
+    actualSpecialistIds.map((id) => String(id).padStart(2, '0')).join(', ') + ']');
 }
 const finalProcedures = audits.filter(({ name }) => /final|red[- ]team/i.test(name));
 if (finalProcedures.length !== 1 || finalProcedures[0].name !== '99-final-launch.md') {
-  fail('Expected exactly one final-launch procedure, 99-final-launch.md; found ' + finalProcedures.map(({ name }) => name).join(', '));
+  fail('Expected exactly one final-launch procedure, 99-final-launch.md; found ' +
+    finalProcedures.map(({ name }) => name).join(', '));
 }
 const finalAudits = audits.filter(({ id }) => id === 99);
 if (finalAudits.length !== 1) fail('Expected exactly one reserved audit 99, found ' + finalAudits.length);
@@ -133,6 +182,65 @@ if (audits.some(({ id }) => id > 32 && id !== 99)) {
 if (!audits.some(({ id, name }) => id === 32 && name === '32-agent-system.md')) {
   fail('Missing audit 32 — agent-system governance and workflow');
 }
+
+// Enforce a bijection between numbered procedures and links in the active catalogue.
+const catalogueHeading = /^## Procedure catalogue\s*$/m.exec(auditIndex);
+if (!catalogueHeading) {
+  fail('Audit catalogue is missing the "Procedure catalogue" section');
+} else {
+  const catalogueBodyStart = catalogueHeading.index + catalogueHeading[0].length;
+  const remainingCatalogueText = auditIndex.slice(catalogueBodyStart).replace(/^\r?\n/, '');
+  const nextCatalogueHeading = /^## /m.exec(remainingCatalogueText);
+  const catalogueBody = nextCatalogueHeading
+    ? remainingCatalogueText.slice(0, nextCatalogueHeading.index)
+    : remainingCatalogueText;
+  const catalogueLines = catalogueBody.split(/\r?\n/).filter((line) => /^\s*-\s+/.test(line));
+  const catalogueEntries = [];
+  const seenTargets = new Set();
+  const seenCatalogueIds = new Set();
+
+  for (const line of catalogueLines) {
+    const link = /^\s*-\s+\[(\d{2})\s+—\s+[^\]]+\]\(([^)]+)\)\s*$/.exec(line);
+    if (!link) {
+      fail('Malformed or non-numbered entry in audit procedure catalogue: ' + line.trim());
+      continue;
+    }
+    const id = Number(link[1]);
+    const target = link[2];
+    const targetMatch = /^\.\//.test(target) ? /^\.\/(\d{2}-.+\.md)$/.exec(target) : null;
+    if (!targetMatch) {
+      fail('Audit catalogue link must be a relative numbered procedure path: ' + target);
+      continue;
+    }
+    const targetName = targetMatch[1];
+    if (!byName.has(targetName)) fail('Audit catalogue entry points to a missing procedure: ' + targetName);
+    if (Number(/^(\d{2})-/.exec(targetName)[1]) !== id) {
+      fail('Audit catalogue label ID ' + link[1] + ' does not match target ' + targetName);
+    }
+    if (seenCatalogueIds.has(id)) fail('Duplicate audit catalogue ID: ' + link[1]);
+    seenCatalogueIds.add(id);
+    if (seenTargets.has(targetName)) fail('Duplicate audit catalogue target: ' + targetName);
+    seenTargets.add(targetName);
+    catalogueEntries.push({ id, targetName });
+  }
+
+  for (const audit of audits) {
+    const occurrences = catalogueEntries.filter((entry) => entry.targetName === audit.name).length;
+    if (occurrences !== 1) {
+      fail('Audit procedure ' + audit.name + ' must appear exactly once in catalogue; found ' + occurrences);
+    }
+  }
+  for (const entry of catalogueEntries) {
+    if (!byName.has(entry.targetName)) {
+      fail('Stale audit catalogue target: ' + entry.targetName);
+    }
+  }
+  if (catalogueEntries.length !== audits.length) {
+    fail('Audit catalogue must contain exactly ' + audits.length +
+      ' procedure entries; found ' + catalogueEntries.length);
+  }
+}
+
 if (/use emojis sparingly|emojis? without clutter|concise visual control receipt being trialed/i.test(governanceText)) {
   fail('Active agent guidance still restricts emoji use or requires a mechanical response receipt');
 }
