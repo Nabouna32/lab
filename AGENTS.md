@@ -36,7 +36,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - `docs/I18N.md` defines localization and language architecture.
 - `docs/ACCESSIBILITY.md` and `docs/PERFORMANCE.md` define quality targets.
 - `docs/SEO.md`, `docs/ANALYTICS.md`, `docs/MONETIZATION.md`, `docs/COMMUNITY.md`, and `docs/ADMIN.md` define the corresponding platform directions.
-- `docs/DISCUSSIONS.md` is the canonical deferred-idea register; `docs/FUTURE.md` is only a short pointer to it.
+- `docs/DISCUSSIONS.md` is the canonical deferred-idea register.
 - `docs/PROJECT_INSTRUCTIONS.md` contains project-specific product, platform and UX context.
 - This repository is public; never put secrets, private data, or credentials into source, documentation, issues, or tests.
 
