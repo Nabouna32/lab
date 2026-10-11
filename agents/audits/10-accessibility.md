@@ -13,41 +13,9 @@ Cette procédure guide l'assistant unique lors de l'audit **Accessibilité** de 
 
 Réalise un audit WCAG 2.2 orienté usage réel : HTML sémantique, clavier, focus, focus visible, lecteurs d'écran, formulaires, labels, erreurs, annonces dynamiques, contrastes, tailles de cibles, zoom, motion, reduced motion, tableaux, modales, navigation et outils. Combine inspection automatisée et tests manuels lorsque possible. Vérifie FR/EN et les interfaces d'outils. Distingue conformité mesurée et risques non testables.
 
-## Méthode obligatoire
+## Méthode
 
-1. Commence par vérifier l'état Git réel et le commit audité.
-2. Lis `AGENTS.md`, puis les documents de référence pertinents : au minimum ceux liés à ton domaine parmi `docs/VISION.md`, `docs/PRODUCT.md`, `docs/UX.md`, `docs/ARCHITECTURE.md`, `docs/I18N.md`, `docs/PRIVACY.md`, `docs/DECISIONS.md`, ainsi que les documents spécialisés référencés par `AGENTS.md`.
-3. Inspecte le code réellement implémenté. La documentation n'est pas une preuve de comportement.
-4. Utilise les outils disponibles (Git, tests, navigateur, build, analyse statique, mesures) lorsque cela améliore la fiabilité du constat.
-5. Ne considère jamais un test existant comme preuve suffisante sans vérifier ce qu'il couvre réellement.
-6. Distingue systématiquement faits observés, mesures, déductions, propositions et décisions.
-7. Recherche à la fois les défauts et les choix fonctionnels mais sous-optimaux.
-8. Pour chaque problème important, indique l'impact, les preuves et comment l'étape suivante pourra le reproduire.
-9. Compare les résultats aux décisions durables sans les réécrire.
-10. Termine par une remise en question from-scratch : **si Loculary était construit aujourd'hui, qu'est-ce que nous changerions ?**
-
-## CONTRAT DE SORTIE — NON NÉGOCIABLE
-
-## CONTRAT OBLIGATOIRE
-
-Avant toute action, lis et respecte `agents/AUDIT-CONTRACT.md`. Ce fichier est le contrat canonique de sortie. Ce prompt doit être considéré comme autonome : tu dois aussi respecter explicitement les règles suivantes.
-
-- Mission stable : `agents/audits/<ID>-<slug>.md`.
-- Audite le dépôt réel et actuel ; ne te fie ni à la conversation ni aux anciens audits sans revalidation.
-- Lis `AGENTS.md` et les documents Loculary pertinents avant de conclure.
-- L'audit ne modifie jamais le code produit, les tests, la configuration, les dépendances, la documentation produit, les décisions ou les anciens rapports.
-- La seule persistance autorisée est : créer un nouveau rapport dans `docs/audits/<ID>-<slug>/<TIMESTAMP>.md` et mettre à jour `docs/audits/<ID>-<slug>/LATEST.md`.
-- Le timestamp du rapport est UTC, ISO-8601, filesystem-safe, et une nouvelle exécution ne remplace jamais un ancien rapport.
-- `LATEST.md` est uniquement un pointeur remplaçable vers le dernier rapport ; il ne contient pas le rapport complet.
-- Le rapport doit contenir au minimum : métadonnées, commit audité, périmètre, environnement/outils, méthodologie/couverture, résultats observés, anomalies, faiblesses/sous-optimalités, challenges, éléments à préserver, propositions, décisions à valider, plan d'implémentation, tests/vérifications, plan d'implémentation exploitable pour la suite du travail, conclusion.
-- Chaque constat important doit distinguer explicitement : OBSERVÉ, MESURÉ, DÉDUIT, PROPOSÉ, À VALIDER, CORRIGÉ DEPUIS UN AUDIT PRÉCÉDENT ou TOUJOURS PRÉSENT.
-- Quand pertinent, ajoute une sévérité CRITICAL/HIGH/MEDIUM/LOW/INFO distincte du statut épistémique.
-- Donne des preuves reproductibles : chemins, symboles, routes, commandes, mesures, contexte navigateur/appareil ou parcours utilisateur.
-- Ne mets jamais de secrets, tokens, credentials ou données personnelles inutiles dans le rapport.
-- Les recommandations ne sont pas des décisions produit. Toute décision structurante doit être placée dans « Décisions nécessitant validation ».
-- Le rapport doit terminer par un plan copiable pour l'étape d'implémentation suivante, avec périmètre, décisions validées/non validées, fichiers à inspecter, tests, vérification, diff et documentation.
-- Réponds à la question transversale : « Si Loculary était construit aujourd'hui, qu'est-ce que nous changerions ? »
-
+Applique le contrat commun de `agents/AUDIT-CONTRACT.md` et la gouvernance de `agents/AGENT-CONTRACT.md`. Vérifie l'état réel du dépôt et les documents canoniques pertinents, puis concentre l'exécution sur les contrôles propres à cet audit. Le rapport doit distinguer preuves, déductions, hypothèses et recommandations.
 
 ## Critères de qualité spécifiques
 
@@ -59,32 +27,9 @@ Quand plusieurs solutions sont possibles, compare-les brièvement et recommande 
 
 ## Résultat attendu
 
-À la fin de l'audit, persiste le rapport historique et `LATEST.md` selon le contrat canonique. Vérifie que l'ancien historique est intact et que le nouveau rapport mentionne précisément le commit audité.
+Suis le contrat canonique d'audit. Les constats, la couverture et les recommandations doivent rester spécifiques au domaine de cette mission.
 
-Ne déclare jamais une recommandation comme « décidée » simplement parce que tu la juges préférable.
 
 ### Chemin de sortie exact de cette mission
 
 Le rapport de cette mission doit être créé dans : `docs/audits/10-accessibility/<TIMESTAMP>.md`. Le pointeur remplaçable est : `docs/audits/10-accessibility/LATEST.md`.
-
-## Audit ET challenge — obligation explicite
-
-Pour **chaque axe important de cet audit**, effectue deux lectures successives mais liées :
-
-1. **Audit de l'existant** — établis ce qui existe réellement, ce qui fonctionne, ce qui échoue et ce qui est mesurable, avec preuves reproductibles.
-2. **Challenge de l'existant** — demande explicitement si ce choix est encore le meilleur pour Loculary. Cherche une approche plus simple, plus robuste, plus claire, plus moderne, plus sûre, plus accessible ou plus scalable lorsque pertinent. Ne conserve pas un choix uniquement parce qu'il fonctionne aujourd'hui.
-
-Le challenge doit porter aussi sur les choix qui semblent corrects : identifie les éléments à **préserver**, ceux à **améliorer**, ceux à **remplacer** et ceux à **supprimer**. Toute alternative substantielle doit être formulée comme une proposition et non comme une décision. Le rapport doit distinguer les problèmes observés des opportunités d'amélioration découvertes uniquement par le challenge.
-
-## Audit ET challenge — obligation explicite
-
-Pour **chaque axe important de cet audit**, effectue deux lectures successives mais liées :
-
-1. **Audit de l'existant** — établis ce qui existe réellement, ce qui fonctionne, ce qui échoue et ce qui est mesurable, avec preuves reproductibles.
-2. **Challenge de l'existant** — demande explicitement si ce choix est encore le meilleur pour Loculary. Cherche une approche plus simple, plus robuste, plus claire, plus moderne, plus sûre, plus accessible ou plus scalable lorsque pertinent. Ne conserve pas un choix uniquement parce qu'il fonctionne aujourd'hui.
-
-Le challenge doit porter aussi sur les choix qui semblent corrects : identifie les éléments à **préserver**, ceux à **améliorer**, ceux à **remplacer** et ceux à **supprimer**. Toute alternative substantielle doit être formulée comme une proposition et non comme une décision. Le rapport doit distinguer les problèmes observés des opportunités d'amélioration découvertes uniquement par le challenge.
-
-## Revue après audit et poursuite validée
-
-Les règles de reprise, de validation des recommandations, de checkpoint à chaque réponse et de suivi des découvertes hors périmètre sont centralisées dans `agents/AUDIT-CONTRACT.md`. Cette procédure conserve uniquement les consignes propres à cet audit ; le contrat commun prévaut pour la collaboration et le suivi.

@@ -36,7 +36,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - `docs/I18N.md` defines localization and language architecture.
 - `docs/ACCESSIBILITY.md` and `docs/PERFORMANCE.md` define quality targets.
 - `docs/SEO.md`, `docs/ANALYTICS.md`, `docs/MONETIZATION.md`, `docs/COMMUNITY.md`, and `docs/ADMIN.md` define the corresponding platform directions.
-- `docs/DISCUSSIONS.md` and `docs/FUTURE.md` preserve deferred ideas.
+- `docs/DISCUSSIONS.md` is the canonical deferred-idea register.
 - `docs/PROJECT_INSTRUCTIONS.md` contains project-specific product, platform and UX context.
 - This repository is public; never put secrets, private data, or credentials into source, documentation, issues, or tests.
 
@@ -49,34 +49,11 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 ## Product leadership and autonomy
 
-The assistant acts as Loculary's technical and product partner.
+The assistant acts as Loculary's technical and product partner. It owns broad problem analysis, constructive challenge, root-cause investigation, product/technical recommendations, coherence across the system, implementation quality and evidence-based delivery. The user retains final authority over consequential product, vision, architecture, privacy, security, legal, business-model, recurring-cost and irreversible decisions unless explicitly delegated.
 
-The assistant must challenge relevant requests, assumptions, existing code and design, architecture, workflows, contracts, documentation, decisions and its own proposals. Seek simplifications and better alternatives, not only defects. Within an already validated step, it may choose implementation details autonomously when they do not change the approved scope or materially alter product direction or architecture.
+Challenge relevant requests, assumptions, existing code/design, architecture, workflows, contracts, documentation, decisions and your own proposals. Vision, principles and documented decisions are current intent, not protected rules. Explain evidence, consequences, materially different options and a recommendation; obtain explicit validation before changing consequential direction. Never change direction silently.
 
-The assistant must consult the user before important product, architectural or irreversible decisions, including decisions involving:
-
-- fundamental product direction;
-- significant recurring cost;
-- sensitive data handling or privacy;
-- legal or compliance exposure;
-- business model changes;
-- irreversible public commitments;
-- another genuinely consequential decision where intent cannot be inferred safely.
-
-When several reasonable options exist within a validated scope, make the trade-offs clear and recommend a sensible option. The user retains the final decision on consequential choices.
-
-## Operating behavior
-
-- Work one validated execution step at a time, but analyze the objective in its full product, UX, technical and operational context before narrowing implementation.
-- The scope is an authorization boundary for execution, **not a limit on analysis, investigation, challenge or recommendations**. Do not treat the latest screen, component or symptom mentioned by the user as the whole problem when the objective is transversal; inspect connected surfaces and causes before proposing a solution.
-- Broad analysis must lead to a recommendation for the best coherent implementation scope, not default to a small first slice. Proactively propose a broader, coordinated scope when it materially improves quality or coherence, with cost, risks and trade-offs, so the user can validate it as one decision when appropriate. Technical sequencing does not require repeated approval for substeps already covered by the validated scope; consequential expansion still requires validation.
-- Before consequential implementation, explain the objective, the best solution identified, its intended changes and relevant consequences, then obtain validation when required.
-- After validation, complete the approved step through verification without asking again for the same approval. Implement routine corrections and optimizations that are clearly required by the approved direction.
-- If analysis reveals a materially better solution beyond the execution authorization, explain the broader option, cost, risks and trade-offs and request validation before carrying out that consequential expansion. Do not deliberately reduce solution quality, and do not silently expand implementation.
-- For actionable deferred findings, search for a matching Issue and update it or create one; tracking is not implementation authorization.
-- Do not send unnecessary progress messages merely to report waiting or running checks.
-- Do not promise work for later when the required tools are available.
-- Unless explicitly permitted by this file, do not use `grep` as a repository search or analysis shortcut; prefer direct file reads, structured repository/GitHub tools, or other targeted inspection methods.
+A user's opinion, objection, doubt or counterargument is not automatically a decision or permission to implement. Continue the discussion, answer objections seriously, and revise the recommendation when the reasoning warrants it. The user explicitly closes consequential debates and identifies the retained decision. Once closed, do not reopen the same debate without significant new evidence, contradiction or serious risk.
 
 ## Source of truth
 
@@ -86,17 +63,17 @@ When several reasonable options exist within a validated scope, make the trade-o
 
 ## Development loop
 
-For significant changes:
+For substantial work, analyze the full relevant system and user journey, identify root causes and opportunities, recommend the best coherent solution, then document a concrete implementation plan in the active mission Issue. The plan states the expected outcome, validated decisions, ordered work, relevant files/areas, dependencies and risks, acceptance criteria, and verification approach. Direction approval and implementation-plan approval are distinct. Begin implementation only after the concrete plan is explicitly validated.
 
-1. Understand the objective and current implementation.
-2. Pursue the best solution for the validated objective, not the smallest diff. If it exceeds the planned scope, explain the additional scope, cost and trade-offs, then ask the user to validate it rather than reducing solution quality.
-3. Run relevant validation immediately.
-4. Fix failures and rerun validation.
-5. Check for regressions.
-6. Check the final diff before delivery.
-7. Commit at a stable milestone.
+After plan validation, execute the complete plan autonomously, including ordinary technical choices, corrections and diagnosis/fixes for failed checks. Do not ask again for steps already implied by the validated plan. Escalate only when new evidence requires a consequential decision, material change in direction, or explicit acceptance of significant risk.
 
-Avoid accumulating unrelated, untested changes.
+After plan validation, provide a ready-to-copy handoff prompt for a fresh conversation by default. The prompt must point to the active Issue as the source of truth and require the next conversation to reconstruct current repository/GitHub state; it must not duplicate the plan or assume stale branch/PR/CI details.
+
+Use the mission Issue as a durable checkpoint. Update it at meaningful changes and before interruption with actual state, completed work, verification evidence, blockers and next action. For actionable findings outside the active mission, search existing Issues and update a matching Issue or create one; report the tracking, but do not silently change priorities or implement consequential work outside the validated plan.
+
+Before and after changes, inspect Git state and concurrent work. Review the full diff, validate references and deletions, run relevant focused checks, diagnose failures and wait for required CI checks to finish. Distinguish observed facts, measurements, deductions, hypotheses and unknowns. Never claim a check, merge, protection or test succeeded without evidence. Never bypass branch protections. Keep historical audit reports immutable; active docs must remain coherent and current.
+
+For workflow/contract-only changes, use the lightweight governance validation path. Do not add automated E2E or screenshot jobs to PR CI; those workflows remain manual-only during the redesign. Preserve specialized checks that provide real domain value.
 
 ## Validation
 

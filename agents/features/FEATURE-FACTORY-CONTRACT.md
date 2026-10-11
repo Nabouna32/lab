@@ -1,193 +1,40 @@
-# Loculary — Feature Implementation Workflow
+# Loculary — Feature Engineering Contract
 
-This specialized contract inherits the mandatory common rules in `agents/AGENT-CONTRACT.md` and the crash-resilient execution rules in `agents/PRODUCT-ISSUE-CONTRACT.md`.
+This contract adds feature-specific requirements to `agents/AGENT-CONTRACT.md` and `agents/PRODUCT-ISSUE-CONTRACT.md`; it does not duplicate shared collaboration or delivery rules.
 
-## 1. Mission
+## Feature quality
 
-The assistant delivers one substantial Loculary product feature from discovery through tested implementation and a focused pull request.
+A feature is a user-facing capability, not merely a code change. Evaluate the complete user problem and journey, existing behavior, product direction, alternatives, dependencies and root causes before implementation. Challenge whether the capability should exist, whether an existing feature should be extended or consolidated, and whether the proposed experience is the best coherent solution.
 
-The assistant is autonomous for ordinary engineering work but must stop for consequential product, architecture, privacy, security, legal/compliance, cost or irreversible decisions that are not already validated.
+Inspect relevant canonical specifications before changing implementation or product documentation: `docs/VISION.md`, `docs/PRODUCT.md`, `docs/UX.md`, `docs/ARCHITECTURE.md`, `docs/PRIVACY.md`, `docs/I18N.md`, `docs/DECISIONS.md` and relevant specialist documents. Inspect actual code and current GitHub state.
 
-A feature is a mini-product, not merely a code change.
+## Implementation requirements
 
-## 2. Checkpoint and resume
+As applicable, the coherent feature includes:
+- domain/business logic and meaningful loading, empty, error and success states;
+- responsive UI and keyboard/screen-reader accessibility, focus and reduced motion;
+- French and English localization, with no hard-coded user-facing strings when the i18n architecture applies;
+- SEO/discoverability, validation and error handling;
+- persistence/data-model changes, server authorization and privacy controls when required;
+- telemetry/analytics only when justified and consistent with validated decisions;
+- relevant unit/domain/integration tests and active documentation.
 
-Maintain an active GitHub Issue while the feature is active. At every response, check that checkpoint against the real repository state and current decisions; update it whenever durable state changes, without empty updates. Also update it before interruption or completion.
+Use existing architecture and primitives. Do not introduce a generic framework solely for one feature. Do not silently turn an idea or implementation detail into a product commitment.
 
-When resuming, inspect the Issue and reconcile it against the current branch, PR and code. Git/GitHub wins if they disagree. Close the Issue only after the feature reaches a terminal state.
+## Verification
 
-## 3. GitHub Issue tracking
+Run the strongest relevant checks available and appropriate to the changes: lint, typecheck, unit/domain/integration tests, build, targeted manual browser verification for important UI flows, both EN and FR, accessibility checks, and security/privacy checks for data-bearing behavior. E2E and automated screenshot workflows remain manual-only during the active redesign and are not PR gates.
 
-Every feature implementation mission must have an active GitHub Issue checkpoint.
+Inspect the complete diff, verify no unrelated files changed, and fix problems introduced by the implementation. Never claim a check passed unless it actually ran; explain any unavailable check.
 
-Before starting, search for an existing Issue that genuinely covers the feature scope. Reuse and update that Issue when it matches; otherwise create a dedicated Issue after bootstrap. Keep the Issue aligned with scope, decisions, implementation, verification, blockers and next action according to `agents/PRODUCT-ISSUE-CONTRACT.md`.
+## Documentation and delivery
 
-Verify the requested work against the current repository and challenge it before implementation. Track actionable discoveries outside the validated scope through the same Issue contract, but do not implement them without user validation.
-
-The Issue is the mission checkpoint and coordination record; it never replaces Git/code, the branch, PR or CI as implementation/delivery sources of truth.
-
-## 4. Sources of truth
-
-The repository and Git history are authoritative for the current implementation.
-
-The assistant must distinguish:
-
-- vision;
-- documented product direction;
-- decisions;
-- planned functionality;
-- implemented functionality;
-- deferred/future ideas;
-- current code.
-
-Never rewrite documentation merely to make the implementation appear compliant.
-
-## 5. Mandatory discovery
-
-Before implementation, read:
-
-- `AGENTS.md`;
-- `docs/VISION.md`;
-- `docs/PRODUCT.md`;
-- `docs/UX.md`;
-- `docs/ARCHITECTURE.md`;
-- `docs/PRIVACY.md`;
-- `docs/I18N.md`;
-- `docs/DECISIONS.md`;
-- relevant specialist documentation;
-- `STATUS.md` when present.
-
-For data-bearing features also inspect the relevant database/auth/search/privacy documentation.
-
-Then inspect the actual code, current `main`, existing branches and open PRs.
-
-Do not trust old conversation context over the repository.
-
-## 6. Challenge before coding
-
-For every proposed feature, explicitly challenge:
-
-- Is there a real user problem?
-- Is the feature actually in Loculary's current product direction?
-- Is it already implemented partially?
-- Can an existing capability be extended instead?
-- What is the best solution for the user problem, and would a broader scope justify its additional cost and complexity? Do not reduce solution quality merely to keep the change small.
-- Does it create meaningful user value?
-- What complexity and maintenance does it add?
-- What data does it introduce?
-- Can the feature remain browser-first/local-first?
-- Does it require accounts, server processing, external services or paid infrastructure?
-- What are the privacy/security implications?
-- What accessibility and i18n consequences exist?
-- Does it create moderation, abuse, support or operational requirements?
-- Is the feature worth its long-term cost?
-
-If the feature is weak, duplicated or premature, recommend rejection, deferral or a smaller alternative rather than coding it mechanically.
-
-## 7. Validation boundary
-
-Routine implementation details may be chosen autonomously after the scope is validated.
-
-The assistant must stop and ask the user before making a consequential decision involving, for example:
-
-- a fundamental product-direction change;
-- a new durable data domain or major schema model;
-- authentication/identity architecture;
-- sensitive or personal data handling;
-- significant recurring infrastructure/provider cost;
-- legal/compliance exposure;
-- public sharing or community behavior with material abuse/moderation implications;
-- an irreversible public commitment.
-
-Do not infer approval merely because the user asked for a feature by name when the required product decision has not already been documented.
-
-## 8. Sequential execution and branch ownership
-
-Analyze the full user problem, connected UX surfaces, architecture and dependencies before choosing implementation boundaries. The feature scope limits execution authorization, not analysis. Before implementation, inspect current main, the active Issue, branches and PRs. Create a dedicated branch from current main when the repository workflow requires it. If main changes during the work, reconcile the branch and rerun affected verification before delivery. Never overwrite unrelated changes.
-
-## 9. Implementation contract
-
-A feature implementation should include, as applicable:
-
-- domain/business logic;
-- UI and interaction states;
-- responsive behavior;
-- accessibility;
-- EN/FR localization;
-- SEO/discoverability where relevant;
-- validation and error handling;
-- persistence/data model when required;
-- security/privacy controls;
-- telemetry/analytics only when justified and consistent with project decisions;
-- relevant unit/domain/integration test coverage;
-- documentation and durable decisions when the feature changes them.
-
-Use existing architecture and primitives. Do not introduce a new generic framework for one feature.
-
-## 10. Verification
-
-Run the strongest relevant checks:
-
-- lint;
-- typecheck;
-- unit tests;
-- build;
-- targeted integration tests;
-- manual browser verification for important UI flows when an available remote environment supports it; E2E workflows are manual-only during the active redesign and are not PR gates;
-- both EN and FR;
-- accessibility checks;
-- security/privacy checks for data-bearing behavior.
-
-Inspect the final diff for scope creep.
-
-Do not claim a test passed unless it was actually run.
-
-## 11. Documentation
-
-If implementation changes a durable architectural or product decision, document it at the correct source:
-
+Update the correct canonical source when durable behavior changes:
 - decision → `docs/DECISIONS.md`;
 - architecture → `docs/ARCHITECTURE.md`;
-- product scope → `docs/PRODUCT.md`;
+- product direction → `docs/PRODUCT.md`;
 - UX rules → `docs/UX.md`;
 - privacy behavior → `docs/PRIVACY.md`;
 - data model → relevant database documentation.
 
-Do not silently convert an idea or implementation detail into a product commitment.
-
-## 12. Delivery
-
-Create a focused PR against `main`.
-
-The PR should explain:
-
-- user problem;
-- rationale and challenged alternatives;
-- scope;
-- architecture;
-- data/privacy model;
-- UX/i18n/accessibility;
-- tests;
-- known limitations;
-- decisions requiring validation.
-
-Wait for all required CI checks and inspect their actual GitHub results. Fix failures caused by the feature.
-
-Immediately before merging, verify the PR is mergeable, the checked head SHA has not changed, and its base is current with `main`. Controlled manual merge through GitHub's normal merge action is the default; do not enable auto-merge or bypass branch protections. If repository policy explicitly requires auto-merge, follow that verified exception. Otherwise merge only when every required protection is satisfied; if blocked, report the exact state.
-
-## 13. Completion bar
-
-A feature is complete only when it is:
-
-- useful;
-- correctly scoped;
-- integrated;
-- localized;
-- accessible;
-- secure/privacy-consistent;
-- tested;
-- maintainable;
-- documented where necessary;
-- verified through the real GitHub state.
-
-Do not ship features merely to increase the feature count.
+The PR description should explain the user problem, rationale and challenged alternatives, architecture, data/privacy model, UX/i18n/accessibility, checks, known limitations and decisions still requiring validation. Follow the common branch/PR/CI/merge contract.

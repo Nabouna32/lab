@@ -13,7 +13,7 @@ Cet audit ne consiste **pas** à appliquer aveuglément les dernières versions 
 
 ## Position dans le processus
 
-L'audit 31 est volontairement exécuté **avant l'audit 32 — Final / Red Team** lorsqu'une campagne de modernisation est envisagée.
+L'audit 31 est volontairement exécuté **avant l'audit 99 — Final pre-launch readiness** lorsqu'une campagne de modernisation est envisagée.
 
 Ordre conceptuel :
 
@@ -21,9 +21,9 @@ Ordre conceptuel :
 2. **Audit 31 — Update / modernisation** ;
 3. implémentation des mises à jour validées ;
 4. vérifications et audits de régression pertinents ;
-5. **Audit 32 — Final / Red Team**, qui reste le dernier audit transversal.
+5. **Audit 99 — Final pre-launch readiness**, qui reste le dernier audit transversal.
 
-L'audit 31 précède volontairement l'audit 32 : la modernisation est préparée avant le contrôle transversal final.
+L'audit 31 précède volontairement l'audit 99 : la modernisation est préparée avant le contrôle transversal final.
 
 ## Objectif
 
@@ -69,7 +69,7 @@ Inventorie et évalue :
 - doublons fonctionnels ;
 - dépendances dont la maintenance ou le coût de migration n'est plus justifié.
 
-Coordonne mentalement cet axe avec l'audit 20 : **l'audit 20 analyse la santé/supply chain ; l'audit 32 décide si une évolution de version ou de technologie mérite d'être envisagée.** Ne duplique pas inutilement ses constats.
+Coordonne mentalement cet axe avec l'audit 20 : **l'audit 20 analyse la santé/supply chain ; l'audit 31 évalue si une évolution de version ou de technologie est justifiée.** Ne duplique pas inutilement ses constats.
 
 ### 3. Frameworks et conventions
 
@@ -320,7 +320,6 @@ Une recommandation ne devient pas une décision produit simplement parce qu'elle
    - `docs/PRIVACY.md`
    - `docs/DECISIONS.md`
    - `docs/DISCUSSIONS.md`
-   - `docs/FUTURE.md`
    - documents spécialisés référencés par `AGENTS.md).
 3. Inspecte le code et les fichiers de configuration réellement présents.
 4. Vérifie les versions réellement installées, pas seulement les déclarations de documentation.
@@ -365,40 +364,14 @@ Demande :
 
 Le challenge doit également protéger les bons choix : identifie ce qui doit être **préservé** et pourquoi.
 
-## Contrat de sortie — non négociable
+## Rapport
 
-Avant toute action, lis et respecte `agents/AUDIT-CONTRACT.md`.
+Applique `agents/AUDIT-CONTRACT.md` pour les exigences communes de preuve, de sortie et d'immuabilité. Ce guide ne répète que les exigences propres à la modernisation :
+- classer les mises à jour par risque, valeur et urgence;
+- ne pas modifier les dépendances ou le lockfile pendant l'audit;
+- fournir un ordre de migration lorsque plusieurs mises à jour sont liées;
+- recommander des lots cohérents, avec tests et rollback clair, plutôt qu'un changement massif indifférencié.
 
-En plus du contrat canonique :
-
-- Mission stable : `agents/audits/31-update-modernization.md`.
-- Audite le dépôt réel actuel ; ne te fie ni à la conversation ni à des versions mémorisées.
-- L'audit ne modifie jamais le code produit, les tests, la configuration, les dépendances, la documentation produit, les décisions ou les anciens rapports.
-- La seule persistance autorisée est :
-  - un nouveau rapport dans `docs/audits/31-update-modernization/<TIMESTAMP>.md` ;
-  - la mise à jour de `docs/audits/31-update-modernization/LATEST.md`.
-- Le timestamp est UTC, ISO-8601, filesystem-safe et unique.
-- Les rapports historiques sont immuables.
-- `LATEST.md` est seulement un pointeur vers le dernier rapport.
-- Le rapport doit contenir les sections minimales du contrat canonique.
-- Chaque constat important doit distinguer explicitement :
-  - **OBSERVÉ**
-  - **MESURÉ**
-  - **DÉDUIT**
-  - **PROPOSÉ**
-  - **À VALIDER**
-  - **CORRIGÉ DEPUIS UN AUDIT PRÉCÉDENT**
-  - **TOUJOURS PRÉSENT**
-- Quand pertinent, ajoute une sévérité **CRITICAL / HIGH / MEDIUM / LOW / INFO**.
-- Les recommandations de mise à jour doivent indiquer les preuves de version et de support.
-- Ne mets jamais de secrets, tokens, credentials ou données personnelles inutiles dans le rapport.
-- Ne crée pas de commit de mise à jour pendant l'audit.
-- Ne modifie jamais le lockfile ou les dépendances pour « tester » une mise à jour sans que cette action fasse partie d'une étape d'implémentation explicitement autorisée.
-- Si une expérimentation locale temporaire est indispensable, elle doit rester hors du dépôt audité et ne doit pas devenir une modification persistante.
-- Toute migration majeure, changement de framework, changement de runtime, changement d'infrastructure, coût significatif, exposition de données ou décision d'architecture doit apparaître dans **Décisions nécessitant validation**.
-- Le rapport doit finir par un plan complet et copiable pour la prochaine étape d'implémentation validée.
-- Ce plan doit prévoir que nous traitions les mises à jour par petits lots cohérents, avec tests et rollback clair, plutôt que de mélanger toutes les migrations dans un seul changement.
-- Le rapport doit explicitement proposer un ordre de migration lorsque plusieurs upgrades sont liés.
 
 ## Éléments à préserver
 
@@ -419,7 +392,7 @@ En particulier, vérifie avant de proposer un changement :
 
 ## Résultat attendu
 
-À la fin, le rapport doit fournir une feuille de route claire, par exemple :
+À la fin, le rapport doit fournir une feuille de route claire et copiable pour la suite, avec des lots cohérents, des tests, des possibilités de rollback et l'ordre recommandé des migrations. Par exemple :
 
 1. **À faire immédiatement**
 2. **À faire avant le lancement si pertinent**
@@ -439,7 +412,3 @@ Le rapport de cette mission doit être créé dans :
 Le pointeur remplaçable est :
 
 `docs/audits/31-update-modernization/LATEST.md`
-
-## Revue après audit et poursuite validée
-
-Les règles de reprise, de validation des recommandations, de checkpoint à chaque réponse et de suivi des découvertes hors périmètre sont centralisées dans `agents/AUDIT-CONTRACT.md`. Cette procédure conserve uniquement les consignes propres à cet audit ; le contrat commun prévaut pour la collaboration et le suivi.

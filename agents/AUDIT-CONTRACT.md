@@ -1,292 +1,78 @@
-# Audit mission output contract
+# Loculary — Audit Contract
 
-This specialized contract inherits the mandatory rules in [`agents/AGENT-CONTRACT.md`](./AGENT-CONTRACT.md). Read the common contract first. It defines conversation-independent bootstrap, anti-skipping, source precedence, ownership, verification and continuity requirements.
+This contract defines audit-specific methodology and immutable reporting. Collaboration, decisions, mission Issues and delivery inherit `agents/AGENT-CONTRACT.md` and `agents/PRODUCT-ISSUE-CONTRACT.md`.
 
-This document is the canonical procedure and report contract for every Loculary audit.
+## 1. Audit identity and procedure
 
-Each mission in `agents/audits/` must read and obey this contract. If a mission contains more specific rules, they may refine the contract only when they do not weaken or contradict these requirements.
+Each audit procedure has a stable numeric ID and slug under `agents/audits/`. The ID identifies its audit domain; do not silently reuse it for another domain. IDs need not be contiguous. The catalogue and validator must check uniqueness, valid filenames and references, not force renumbering when a procedure is removed.
 
-## 1. Audit identity
+Read the relevant procedure and canonical product/technical sources before drawing conclusions. The procedure defines the domain-specific questions and evidence, not a limit on investigating connected systems or root causes.
 
-Every mission has a stable numeric audit ID and a mission slug.
+## 2. Read-only audit and report lifecycle
 
-Example:
+An audit examines the real current repository state. During the audit, do not change product code, tests, configuration, dependencies or canonical product documents. The audit's active Issue is the operational checkpoint and may be updated as work proceeds.
 
-- mission: `agents/audits/11-performance.md`
-- audit ID: `11`
-- report directory: `docs/audits/11-performance/`
+At completion, create a new historical report at:
 
-The numeric ID is historical identity. It must not be silently reused for a different audit domain.
+`docs/audits/<id>-<slug>/<UTC timestamp>.md`
 
-## 2. Sequential recovery
+Use a filesystem-safe ISO-8601 UTC timestamp, for example `2026-10-11T21-30-00Z.md`. Never overwrite or delete an existing historical report. Update the replaceable `LATEST.md` pointer only after creating the new report. If a run is interrupted, update the Issue; do not create repository checkpoint files or incomplete historical reports.
 
-An audit mission is tracked by its active GitHub Issue when it spans multiple actions or conversations. The Issue is the durable execution checkpoint: update it with current state, completed milestones, current/next action, decisions, blockers, challenge outcome and verification evidence.
+## 3. Required report content
 
-The same assistant conducts the audit sequentially with the user. Before continuing, inspect the active Issue, Git state and any linked PR.
+Unless a justified domain-specific extension is needed, every report includes:
 
-Git/GitHub remain authoritative for repository and delivery state. The Issue is the durable mission checkpoint, not a second implementation history.
+1. Metadata and audited commit SHA.
+2. Execution timestamp, branch/ref and environment/tooling.
+3. Audit objective and coverage.
+4. Methodology and evidence sources.
+5. Observed results and measurements.
+6. Findings, anomalies, weaknesses and suboptimal choices.
+7. Challenge to the current design and assumptions.
+8. Elements worth retaining or changing, with reasons.
+9. Recommendations and materially different alternatives.
+10. Decisions requiring explicit validation.
+11. Verification performed, results and limitations.
+12. Conclusion and links to resulting Issues when applicable.
 
-## 3. Repository state
+An audit report is historical evidence, not the active implementation plan. The mission Issue owns the operational plan for any follow-up implementation. An audit recommendation does not itself authorize implementation.
 
-The audit always targets the real current repository state.
+## 4. Mandatory challenge
 
-The report must record:
+Challenge relevant assumptions and current implementation, including choices that work but may be unnecessarily complex, fragile, expensive or inconsistent. Ask what we would choose if building the solution today. Assess connected systems and root causes where needed for a sound conclusion.
 
-- repository;
-- audited Git commit SHA;
-- branch/ref when relevant;
-- audit execution timestamp in UTC;
-- relevant environment/tooling information.
+Challenge is evidence-led, not a mandate to invent defects. Distinguish observed facts from deductions, hypotheses and proposals. A finding does not automatically become a product requirement.
 
-Do not infer the current state from an earlier conversation or an older audit report.
+## 5. Evidence and uncertainty
 
-## 3A. Crash-resilient audit execution
+Use explicit epistemic labels for material claims:
 
-An audit may be interrupted before its historical report is written. Its active GitHub Issue is the recovery point for resumable audit work. Update the Issue before and after substantial audit actions and whenever a blocker or consequential decision is discovered.
+- **OBSERVED** — directly established from repository or execution.
+- **MEASURED** — supported by a concrete measurement.
+- **DEDUCED** — reasoned from observed evidence.
+- **HYPOTHESIS** — plausible but not yet established.
+- **PROPOSED** — suggested improvement, not a current fact.
+- **À VALIDER** — requires a consequential decision.
+- **NON VÉRIFIÉ** — the available tools or evidence could not establish it.
 
-Do not create `WORKING.md` or another repository checkpoint file. Historical audit reports remain immutable and are created only when the audit run is complete.
+Record paths, symbols, commands, measurements, expected/actual behavior or user journey context sufficient to reproduce important findings. Never include secrets or unnecessary personal data.
 
-## 4. GitHub Issue tracking
+## 6. Severity
 
-Every active audit mission has a GitHub Issue checkpoint. At every response during the audit, check it against the actual repository state and current decisions; update it whenever durable state changes, without empty updates. Follow `agents/PRODUCT-ISSUE-CONTRACT.md`.
+Where useful, classify findings independently of their evidence status:
 
-Update the Issue whenever mission state changes and at each meaningful milestone, including the current objective/scope, completed work, evidence, decisions, blockers, verification and next action. Link the final historical report when it is created. The Issue is a checkpoint, not a duplicate report.
-
-For every actionable discovery that will not be handled in the current validated step, record its evidence, consequences, uncertainty and likely next action; search for an existing Issue that genuinely covers it. Update that Issue or create a dedicated one if none exists, then tell the user what was tracked and why. Do not ask permission merely to create tracking, dismiss actionable work as too minor, or implement it without user validation.
-
-Informational observations that do not imply actionable work may remain in the report. A finding or recommendation is not automatically a requirement or authorization to implement it.
-
-## 5. Allowed repository changes
-
-An audit is not an implementation task.
-
-During the audit, do **not** modify:
-
-- product code;
-- tests;
-- configuration;
-- dependencies;
-- product documentation;
-- architecture/UX/vision/decision documents;
-- Git history;
-- previous audit reports.
-
-The assistant conducting the audit may persist durable mission state in the active GitHub Issue and, at completion, create the immutable historical report and update its `LATEST.md` pointer. No repository checkpoint file is created.
-
-## 6. Historical report naming
-
-Every execution creates a new report:
-
-`docs/audits/<audit-id>/<timestamp>.md`
-
-The timestamp must be:
-
-- UTC;
-- ISO-8601;
-- filesystem-safe;
-- unique for the execution.
-
-Canonical example:
-
-`docs/audits/11-performance/2026-10-04T09-30-00Z.md`
-
-Never overwrite an existing historical report.
-
-If a timestamp collision is possible, append a deterministic suffix rather than replacing the existing file.
-
-## 7. Historical immutability
-
-Previous reports are historical evidence.
-
-Never:
-
-- delete an older report;
-- overwrite an older report;
-- rewrite an older report to reflect current code;
-- merge a new run into an older report.
-
-A rerun audits the current repository independently.
-
-When relevant, the new report must explicitly classify previous findings as:
-
-- still present;
-- corrected since the previous audit;
-- changed;
-- no longer reproducible;
-- superseded;
-- not rechecked.
-
-An old report does not prove that a finding still exists.
-
-## 8. LATEST.md
-
-After creating the historical report, update:
-
-`docs/audits/<audit-id>/LATEST.md`
-
-`LATEST.md` is a replaceable index, not historical evidence.
-
-It should contain only concise pointer metadata, for example:
-
-- audit ID;
-- mission path;
-- latest report path;
-- audited commit;
-- execution timestamp;
-- status.
-
-It must not be the only location containing audit findings.
-
-## 9. Required report structure
-
-Unless the mission has a justified domain-specific extension, the report must contain:
-
-1. **Metadata**
-2. **Audited commit**
-3. **Scope**
-4. **Environment and tools**
-5. **Methodology and coverage**
-6. **Observed results**
-7. **Findings and anomalies**
-8. **Weaknesses and suboptimal choices**
-9. **Challenges to the current design**
-10. **Elements worth retaining or changing, with reasons**
-11. **Proposals**
-12. **Decisions requiring explicit validation**
-13. **Implementation scope and plan**
-14. **Tests and verification**
-15. **Implementation continuation prompt**
-16. **Conclusion**
-
-A mission may add sections when necessary, but must not remove information required to understand what was actually audited.
-
-## 9A. Mandatory challenge of the current design
-
-Every audit MUST actively challenge the current design, assumptions and existing implementation choices relevant to its objective. Its topic defines the audit's focus, not a prohibition on examining connected systems, root causes or adjacent dependencies needed for a correct conclusion. The challenge section is not optional polish and must not be reduced to a list of defects.
-
-For material areas, the audit should explicitly ask:
-
-- Is the current approach actually necessary?
-- Is there a simpler, safer, more maintainable or more reliable alternative?
-- What would we choose if Loculary were built today?
-- Which existing decisions and principles should be retained, adjusted or replaced based on evidence, and why?
-
-The audit must distinguish observed evidence from its proposed alternative. A challenge is a finding or recommendation only when evidence supports it; it does not automatically become an implementation requirement.
-
-## 10. Finding classification
-
-Every material finding must distinguish its epistemic status.
-
-Use one or more of these explicit labels:
-
-- **OBSERVED** — directly established from the repository or execution;
-- **MEASURED** — supported by a concrete measurement;
-- **DEDUCED** — reasoned from observed evidence;
-- **PROPOSED** — a suggested improvement, not a current fact;
-- **À VALIDER** — requires an explicit product/architecture/security/etc. decision;
-- **CORRIGÉ DEPUIS UN AUDIT PRÉCÉDENT** — a previous finding was verified as corrected;
-- **TOUJOURS PRÉSENT** — a previous finding was reverified and remains valid.
-
-Do not present a proposal, deduction, or assumption as an observed fact.
-
-## 11. Severity
-
-When the domain supports severity, classify findings consistently, for example:
-
-- **CRITICAL** — severe security, data-loss, production, or product failure;
-- **HIGH** — major reliability, security, accessibility, UX, performance, or correctness issue;
-- **MEDIUM** — meaningful weakness or technical/product debt;
-- **LOW** — limited impact or polish issue;
+- **CRITICAL** — severe security, data-loss, production or core-product failure.
+- **HIGH** — major reliability, security, accessibility, UX, performance or correctness issue.
+- **MEDIUM** — meaningful weakness or debt.
+- **LOW** — limited impact or polish.
 - **INFO** — useful observation without a direct defect.
 
-Severity is distinct from epistemic status.
+## 7. Previous reports
 
-## 12. Evidence
+Previous reports are inputs, not current truth. Revalidate old findings against the current repository. When a new report revisits them, classify each as still present, corrected, changed, no longer reproducible, superseded or not rechecked. Historical reports remain immutable.
 
-Prefer evidence over assertions.
+## 8. Follow-up
 
-For important findings, record enough context to allow a later implementation step to reproduce or verify the claim, such as:
+Search for a matching Issue for each actionable finding. Link the report and evidence; update a genuinely matching Issue or create a dedicated one. Prioritize by severity, dependencies, risk, cost of delay and rework. Do not implement consequential follow-up without the normal discussion and plan-validation process.
 
-- file/path;
-- relevant symbol or route;
-- command/test used;
-- measurement;
-- browser/device context;
-- expected vs actual behavior;
-- affected user journey.
-
-Do not include secrets, credentials, tokens, or unnecessary personal data in the report.
-
-## 13. Previous audits
-
-Previous reports are inputs, not authorities.
-
-When previous reports exist, use them to identify regressions and verify the evolution of findings, but always validate against the current repository.
-
-Do not copy stale findings into the new report without rechecking them.
-
-## 14. Implementation prompt
-
-The report must end with a complete, copy-pastable plan for the next implementation step, executed by the same assistant with the user after the required validation.
-
-That prompt must:
-
-- restate the verified problem;
-- identify the intended scope;
-- distinguish facts from proposals;
-- identify decisions already validated vs decisions still requiring validation;
-- specify relevant files/docs to inspect;
-- require tests and verification;
-- require diff review;
-- require documentation updates where appropriate;
-- prohibit unrelated implementation expansion without validation; do not constrain relevant analysis of connected systems, root causes or alternatives.
-
-The implementation plan is a recommendation produced by the audit. It does not itself authorize implementation.
-
-## 14A. Post-audit review and validated continuation
-
-Completing an audit does not end the discussion. The same assistant may explain findings, challenge proposed fixes, compare alternatives and continue with implementation after the user validates the relevant execution step. An audit's narrow topic must not suppress broad analysis of the problem or its connected context.
-
-When the user continues after the report:
-1. Clarify the finding and its evidence.
-2. Present meaningful alternatives, risks, consequences and a recommendation.
-3. Ask for validation when the recommendation requires a consequential decision or changes scope.
-4. For actionable work not included in the current execution step, check for a matching Issue, update it or create one if needed, and notify the user; do not implement it without validation when validation is required.
-5. Once the next step is validated, update the active mission Issue and implement only that scope.
-6. Verify implementation, documentation, tests and diff before reporting completion.
-
-A request to continue the explanation is not automatically approval for a consequential change. If the user's intent is genuinely ambiguous, ask a short clarification question.
-
-### Audit boundary
-
-The audit execution itself remains read-only for product code, tests, configuration and canonical specifications. It may create the new immutable report and update that audit's LATEST.md pointer as defined by this contract. A validated implementation is a separate step by the same assistant, not delegated to a separate role.
-
-## 15. Product decisions
-
-An audit may recommend a change, but it must not silently convert a recommendation into a product decision.
-
-In particular, the assistant conducting an audit must not directly rewrite:
-
-- `docs/VISION.md`;
-- `docs/PRODUCT.md`;
-- `docs/UX.md`;
-- `docs/ARCHITECTURE.md`;
-- `docs/DECISIONS.md`;
-- `docs/FUTURE.md`;
-- `AGENTS.md`.
-
-If a finding requires a product or architecture decision, record it under **Decisions requiring explicit validation**.
-
-## 16. Quality bar
-
-The audit should:
-
-- inspect the real implementation rather than only documentation;
-- test or measure important claims whenever practical;
-- identify both defects and suboptimal working choices;
-- challenge the current design;
-- include a from-scratch question: **If Loculary were built today, what would we change?**
-- state clearly what is worth retaining, what should change, and the evidence and reasoning for each;
-- avoid unnecessary recommendations that do not improve the product.
-
-The goal is actionable evidence, not a long list of theoretical concerns.
+The implementation handoff prompt is generated after the user validates the operational plan in the follow-up Issue, not as a substitute for that validation.

@@ -227,14 +227,6 @@ A native or cross-platform Android application is a possible future product surf
 
 It should reuse suitable domain/tool logic where practical, but web development must not be slowed down by premature mobile abstractions.
 
-## Product decision authority
-
-Loculary uses a collaborative, validated-step working model.
-
-The assistant may propose, challenge, and explain product, UX, and technical solutions. Before implementation, each step's scope and objective are validated. Within that validated scope, implementation details may be chosen autonomously when they do not materially alter product direction or architecture.
-
-Important product, architectural, or irreversible decisions require user validation. If implementation reveals an issue that exceeds the validated scope or requires a new consequential decision, work stops until that decision is resolved.
-
 ## Expanded product direction
 
 ### Homepage and discovery

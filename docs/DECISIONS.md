@@ -594,27 +594,31 @@ The product identity has been explicitly changed while the underlying repository
 - Infrastructure names and identifiers are not assumed to change automatically; each migration is handled explicitly.
 
 
-## DEC-033 — Validated step-by-step collaboration workflow
+## DEC-033 — Discussion, plan validation and autonomous execution
 
 **Status:** Accepted
 
 ### Decision
 
-Loculary work follows an incremental validation model. Before implementation, the assistant presents the step, its objective, intended scope, and relevant consequences for validation. After validation, implementation remains within that scope.
+Substantial work separates three distinct moments: discussion and decision of the direction; explicit validation of the concrete operational plan; autonomous execution and verification of that plan.
 
-Technical implementation details may be chosen autonomously when they are contained within the validated scope and do not materially alter product direction or architecture. Important product, architectural, or irreversible decisions require user validation.
+The assistant analyzes the full relevant problem, challenges assumptions and existing decisions, recommends the best coherent solution and explains meaningful trade-offs. The user retains final authority over consequential product, architecture, privacy, security, legal, cost and irreversible decisions unless explicitly delegated. Documented decisions remain open to critique, but cannot be changed silently.
 
-If implementation reveals an issue that exceeds the validated scope or requires a new consequential decision, work stops and the decision is presented before proceeding.
+An objection or opinion is not automatically a decision or permission to implement. Discussion continues until the user explicitly identifies the retained direction. The operational plan is written in the active mission Issue and must state expected outcome, acceptance criteria, validated decisions, ordered work, dependencies, risks and verification. Direction approval does not replace explicit plan validation.
+
+After plan validation, the assistant executes the plan autonomously, including routine engineering choices, relevant corrections, failed-check diagnosis and verification. Escalation is reserved for a consequential new decision, material change of direction or significant risk requiring explicit acceptance.
 
 ### Reason
 
-This model preserves user control over consequential changes while allowing efficient execution of routine implementation work. It also makes scope, intent, and durable decisions easier to trace across conversations and contributors.
+This preserves user authority over consequential direction without forcing repetitive approvals for routine execution or fragmenting coherent work into artificially small steps.
 
 ### Consequences
 
-- Project instructions and agent guidance follow this validated-step model.
-- New work should be proposed and validated one step at a time when it changes the product or project materially.
-- No silent scope expansion is permitted.
+- The mission Issue is the canonical operational plan and durable checkpoint.
+- Technical sequencing is internal execution, not a series of approval requests.
+- A validated plan is followed by a ready-to-copy handoff prompt for a fresh implementation conversation by default.
+- Vision and decisions can be challenged; changes require explicit validation and consistent updates to dependent active documents.
+- No silent change of direction or material risk acceptance is permitted.
 
 ## DEC-034 — UX direction reset and user-intention architecture
 
@@ -752,7 +756,7 @@ Loculary adds a dedicated **Audit 31 — Update / modernisation technologique** 
 
 The audit evaluates runtime versions, frameworks, dependencies, development tooling, CI/CD actions, deployment/platform configuration, browser/Web Platform assumptions, deprecated APIs and migration debt. It does not blindly target the newest available versions: it must distinguish the latest release from the supported, compatible and recommended target for Loculary.
 
-Audit 31 is executed before **Audit 32 — Final / Red Team** when a modernization cycle is undertaken. Audit 32 remains the final transversal audit and is not renumbered.
+Audit 31 is executed before **Audit 99 — Final pre-launch readiness** when a modernization cycle is undertaken. Audit 99 is the final transversal launch-readiness procedure.
 
 ### Reason
 
@@ -775,27 +779,30 @@ A dedicated modernization pass reduces the risk of accumulating obsolete tooling
 
 ### Decision
 
-Loculary development proceeds through one assistant working directly with the user, one validated execution step at a time. There is no separate product, audit, feature or tool agent role and no delegated worker/orchestrator workflow.
+Loculary work is conducted by one assistant working directly with the user. Product, feature, tool and audit guides are specialist procedures, not separate agent identities or delegated workers.
 
-Analysis is not constrained to the latest-mentioned component or a narrow initial implementation boundary. The assistant examines the full relevant user problem, connected experience, dependencies and root causes, then recommends the best solution. The validated scope governs what may be implemented without further approval; consequential decisions or material expansions of implementation authorization require discussion and validation.
+The assistant investigates the complete relevant problem, user journey, dependencies and root causes; challenges existing choices and its own proposals; and recommends the best coherent solution. The user retains final authority over consequential decisions unless explicitly delegated.
 
-Every response during an active mission checks the current GitHub Issue checkpoint against actual repository state and current decisions. Update it whenever durable state changes, without empty updates. For actionable deferred work, search for a matching Issue, update it or create one if needed, then notify the user. Issue tracking does not authorize implementation.
+The collaboration sequence is discussion and explicit direction decision → concrete operational plan in the active GitHub Issue → explicit plan validation → autonomous implementation and evidence-based verification. Routine technical substeps do not require repeated approval. The assistant escalates only for consequential new decisions, material direction changes or significant risks needing explicit acceptance.
+
+After plan validation, the assistant provides a self-contained, ready-to-copy prompt for a fresh implementation conversation. That prompt points to the Issue as the source of truth and requires fresh inspection of current repository/GitHub state; it does not duplicate the plan or assume stale branch/PR/CI state.
+
+Every resumable mission uses a GitHub Issue checkpoint. At meaningful milestones and before interruption, update it with actual state, decisions, completed work, verification evidence, blockers and next action. For actionable deferred work, search for a matching Issue, update it or create one if needed, and tell the user. Tracking does not silently change priority or authorize implementation.
 
 Issues complement Git and canonical documentation. They do not replace Git as the implementation source of truth, canonical specifications as the source of current product intent, immutable audit reports, branches, pull requests or CI evidence.
 
 ### Reason
 
-Sequential collaboration keeps decisions and scope explicit while allowing the same assistant to challenge, plan, implement and verify work with the user. GitHub Issues provide conversation-independent recovery without duplicate repository checkpoints or delegated-role handoffs.
+This gives the user a critical product/technical partner while preserving final authority over consequential decisions. It supports coherent end-to-end execution, independent resumption and traceability without duplicated repository checkpoints or delegated-role handoffs.
 
 ### Consequences
 
-- Product reasoning, audits, feature work and tool work are procedures followed by the same assistant, not separate agent identities.
-- Work proceeds one validated execution step at a time; analyze the full relevant system before choosing implementation boundaries, and require user validation for consequential decisions or material expansion of implementation authorization.
-- The recovery path for resumable work is Issue → Git branch/PR → canonical documentation and verification evidence.
-- No repository checkpoint files or delegated-role handoffs are used.
-- An Issue is not blanket authorization to exceed scope or make an unvalidated consequential decision.
-- Actionable deferred findings must be tracked in a matching or new Issue after checking for duplicates, and the user must be informed; tracking does not authorize implementation.
+- One assistant conducts product reasoning, audits, feature work, tool work, implementation and verification.
+- The Issue is the operational plan/checkpoint; audit reports remain immutable historical evidence.
+- The handoff prompt launches a new conversation but does not compete with the Issue's plan.
+- Actionable deferred findings are durably tracked after duplicate checks; tracking does not authorize implementation.
 - Keep active documentation concise and current; ordinary Git history preserves prior versions.
+
 
 ## DEC-042 — Next actions are contextual and optional
 
@@ -827,7 +834,7 @@ where the final step is conditional on there being a meaningful continuation.
 - The default product semantics are continuation/complementarity, not generic similarity.
 - The recommendation engine is an implementation mechanism and must not define the product meaning of a next action.
 - Generic discovery can still exist elsewhere in the product without being mislabeled as a next action.
-- Existing "Related Tools" UI and relation logic must be evaluated against this decision; implementation changes require their own validated scope.
+- Existing "Related Tools" UI and relation logic must be evaluated against this decision; implementation changes must follow the normal discussion and validated-plan process.
 - Related tools are not a mandatory generic section and are not placed after documentation by default.
 
 
@@ -884,7 +891,7 @@ Loculary needs a coherent, recognizable visual and interaction language that fee
 - Shared components and screens may be refactored or replaced when required for a coherent M3 Expressive implementation; the direction does not require preserving current abstractions.
 - DEC-004 remains in force: shared foundations and behavior do not require identical compositions across specialized tools.
 - Accessibility, WCAG 2.2 AA, reduced motion, responsive desktop/tablet/mobile behavior, localization, privacy and performance remain mandatory.
-- Adoption is not proof of implementation. Production migration, curated palette settings, preference persistence, account synchronization and visual/accessibility verification must be delivered and verified in separate implementation scopes.
+- Adoption is not proof of implementation. Production migration, curated palette settings, preference persistence, account synchronization and visual/accessibility verification must be delivered and verified through explicit implementation plans.
 
 
 ## DEC-049 — Controlled manual merge as the default delivery workflow
