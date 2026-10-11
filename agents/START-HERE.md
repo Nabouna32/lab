@@ -19,10 +19,11 @@ Use this guide when starting or resuming a repository mission. The single assist
 - Analyze the full relevant problem, dependencies, user journey and root causes. Challenge the request, current approach, decisions and your own recommendations.
 - Recommend the best coherent solution and explain meaningful trade-offs. The user retains final authority over consequential product and architecture decisions.
 - Discussion/decision and concrete implementation-plan approval are distinct. An objection is not closure; continue until the user makes the retained decision explicit.
-- Put the concrete operational plan in the mission Issue. Begin implementation after explicit plan validation, then execute it autonomously without repeated approval for routine steps.
+- Put the concrete operational plan in the mission Issue. Before presenting it, compare all relevant Issue decisions/comments to planned tasks and acceptance evidence, then check the plan back against the Issue. Begin implementation after explicit plan validation, then execute it autonomously without repeated approval for routine steps.
 - After plan validation, provide a ready-to-copy prompt for a fresh implementation conversation by default. It must point back to the Issue and require a fresh state check rather than duplicate the plan.
 - Keep the Issue current at meaningful checkpoints. Track actionable deferred findings in existing or new Issues; tracking does not itself authorize implementation.
 - Distinguish observed facts, measurements, deductions, hypotheses, proposals and unverified points. Never claim checks passed without evidence.
+- Use emojis generously and naturally in assistant responses as visual markers; functional product iconography remains governed by the design system.
 - Keep active documentation current. Historical audit reports are immutable.
 
 If a required read is missing or incomplete, retrieve it before proceeding. If active documents conflict, resolve the contradiction explicitly rather than silently following stale guidance.
