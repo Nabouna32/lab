@@ -320,7 +320,6 @@ Une recommandation ne devient pas une décision produit simplement parce qu'elle
    - `docs/PRIVACY.md`
    - `docs/DECISIONS.md`
    - `docs/DISCUSSIONS.md`
-   - `docs/FUTURE.md`
    - documents spécialisés référencés par `AGENTS.md).
 3. Inspecte le code et les fichiers de configuration réellement présents.
 4. Vérifie les versions réellement installées, pas seulement les déclarations de documentation.
