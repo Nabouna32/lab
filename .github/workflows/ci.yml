@@ -60,7 +60,7 @@ jobs:
               exit 1
             fi
             if (( ${#changed_paths[@]} == 0 )); then
-              echo "::error::No changed paths were returned for a pull request. Refusing to classify the PR as documentation-only."
+              echo "::error::No changed paths were returned for a pull request. Refusing to classify the PR as lightweight."
               exit 1
             fi
 
