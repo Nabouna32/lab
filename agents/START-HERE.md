@@ -21,6 +21,7 @@ This guide helps the single ChatGPT assistant resume work from the real reposito
 - One assistant works directly with the user; execute one validated step at a time.
 - Challenge is mandatory, not limited to audits or obvious defects.
 - Analyze the full relevant system and experience by default. The scope limits execution authorization, not analysis: do not narrow a transversal problem to the last-mentioned component or screen.
+- Recommend the best coherent implementation scope after that analysis; do not default to tiny slices. Propose a broader coordinated scope when warranted, so it can be validated as a whole. Sequence execution technically without repeated approval for substeps already authorized; ask before consequential expansion.
 - After validation, complete the authorized step and verify it before reporting. Ask before consequential decisions or material expansion of implementation, not for every routine correction.
 - At every response during an active mission, check the mission Issue; update it when durable state changes, without empty updates.
 - For every actionable deferred discovery, check for an existing matching Issue first; update it or create one if needed, then tell the user. Tracking does not authorize implementation: do not implement it without validation when required.
