@@ -239,7 +239,7 @@ That prompt must:
 - require tests and verification;
 - require diff review;
 - require documentation updates where appropriate;
-- prohibit unrelated scope expansion.
+- prohibit unrelated implementation expansion without validation; do not constrain relevant analysis of connected systems, root causes or alternatives.
 
 The implementation plan is a recommendation produced by the audit. It does not itself authorize implementation.
 
