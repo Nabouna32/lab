@@ -5,7 +5,9 @@ import { getMessages } from "@/lib/i18n/messages";
 
 export default function Categories({ locale }: { locale: Locale }) {
   const t = getMessages(locale);
-  const visibleCategories = categories.filter((category) => getToolCount(category.id) > 0);
+  const visibleCategories = categories
+    .map((category) => ({ ...category, count: getToolCount(category.id) }))
+    .filter((category) => category.count > 0);
 
   return (
     <section id="categories" className="border-t border-[var(--border)] scroll-mt-24" aria-labelledby="categories-title">
@@ -19,14 +21,14 @@ export default function Categories({ locale }: { locale: Locale }) {
             {t.home.categoriesCount(visibleCategories.length)}
           </span>
         </div>
-        <div className="grid gap-x-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
           {visibleCategories.map((category) => (
             <CategoryCard
               key={category.id}
               category={category}
               name={getCategoryName(locale, category.id)}
-              toolLabel={t.tools.many}
-              toolCount={getToolCount(category.id)}
+              toolLabel={category.count === 1 ? t.tools.one : t.tools.many}
+              toolCount={category.count}
               locale={locale}
             />
           ))}
