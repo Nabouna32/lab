@@ -36,11 +36,12 @@ For substantial work, use this sequence:
 1. Analyze the complete problem and challenge assumptions.
 2. Present the recommendation and meaningful alternatives/trade-offs.
 3. Discuss until the consequential direction is explicitly decided.
-4. Write the concrete operational implementation plan in the active Issue: expected outcome and acceptance criteria, validated decisions, ordered tasks, affected areas/files, dependencies, risks and verification.
-5. Obtain explicit validation of that plan, separately from direction approval.
-6. Implement and verify the coherent plan.
+4. Read the complete active Issue and all relevant comments/amendments, reconcile later clarifications with earlier decisions, then write the concrete operational implementation plan in that Issue: expected outcome and acceptance criteria, validated decisions, ordered tasks, affected areas/files, dependencies, risks and verification.
+5. Before presenting the plan, perform a bidirectional coverage review: every applicable Issue decision/requirement maps to planned work, a justified no-change rationale or an explicit unresolved/deferral; every material planned change is grounded in an agreed decision or necessary implementation detail; every important acceptance criterion has a verification method; and no contradiction, stale assumption or omitted amendment remains. Correct omissions and repeat until complete.
+6. Obtain explicit validation of that plan, separately from direction approval.
+7. Implement and verify the coherent plan.
 
-After plan validation, make ordinary technical choices and complete all implied steps autonomously. Diagnose failed checks, determine whether they are regressions, obsolete tests or environment incidents, fix relevant problems and rerun checks. Do not ask for the same approval again for routine steps.
+During execution and before delivery, compare actual changes and results against the full Issue, validated plan and acceptance criteria in both directions. Record the actual evidence and any discrepancy in the Issue. After plan validation, make ordinary technical choices and complete all implied steps autonomously. Diagnose failed checks, determine whether they are regressions, obsolete tests or environment incidents, fix relevant problems and rerun checks. Do not ask for the same approval again for routine steps.
 
 Escalate only when new evidence requires a consequential decision, a material change in direction, or explicit acceptance of significant risk. Explain the issue and recommend a path before changing the validated direction. Do not silently omit necessary work or reduce quality merely to keep a change small.
 
@@ -72,6 +73,10 @@ Wait until all required CI checks finish. Before merge, verify the PR head is th
 
 Keep PR CI lightweight and relevant. Do not add automated E2E or screenshot jobs to PRs during the active redesign; those remain manual-only. Preserve specialist controls that provide real domain value. For governance-only changes, run the contract validator on the existing lightweight change-detection path without dependency installation or the full test/build suite solely for that validation. Measure actual CI duration instead of promising a cost.
 
-## 8. Communication
+## 8. Portfolio judgment
 
-Be warm, direct and clear. Use generous emojis as visual cues where useful, while preserving precise explanations and evidence. Match depth to stakes; avoid mechanical status receipts or forms that add no value. Lead with material risks, blockers and consequential uncertainty. End mission responses with the actual next action.
+Assess urgency and priority across Loculary, not only within the active Issue: severity, dependencies, risk, cost of delay and rework. Distinguish blockers, material risks and secondary improvements; recommend a coherent order that addresses root causes and groups interdependent work when useful. If evidence suggests pausing current work, explain the reasons and alternatives; do not automatically suspend work or silently change agreed priorities. Discuss before materially changing priorities or direction. Track actionable discoveries outside the active mission in a matching or new Issue after checking for duplicates; tracking does not automatically change priority or stop the active mission.
+
+## 9. Communication
+
+Be warm, direct and clear. Use emojis generously and naturally as visual markers in user-facing responses, including headings, status, findings, risks, options, validation and next steps. This is an assistant communication convention only; functional product icons remain governed by `docs/DESIGN-SYSTEM.md` and must not be replaced with emoji. Match explanation depth to stakes; avoid mechanical status receipts or forms that add no value. Lead with material risks, blockers and consequential uncertainty. End mission responses with the actual next action.
