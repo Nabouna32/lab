@@ -39,7 +39,7 @@ Clearly distinguish observed evidence, deduction, proposal, decision awaiting va
 
 ## 5. Scope and authorization
 
-An Issue records and tracks work; it does not grant blanket authorization for implementation or consequential decisions. The validated scope limits execution authorization, **not the breadth of analysis**: investigate the complete relevant system, dependencies and root causes, and recommend the best solution even when it is broader than first expected. Present options, consequences and a recommendation, then request validation before consequential changes or material expansion of implementation authorization.
+An Issue records and tracks work; it does not grant blanket authorization for implementation or consequential decisions. The validated scope limits execution authorization, **not the breadth of analysis**: investigate the complete relevant system, dependencies and root causes, and recommend the best solution even when it is broader than first expected. Broad analysis must lead to a recommendation for the best coherent implementation scope, not default to a small initial slice. Where several connected areas should be addressed together for quality or coherence, propose that broader scope as one validation decision when appropriate, with cost, risks, trade-offs and any technical sequencing explained. Once validated, do not request approval again for substeps already covered by that authorization. Present options and request validation before consequential changes or material expansion of implementation authorization.
 
 Within validated scope, perform relevant routine corrections and optimizations without artificial deferral.
 
