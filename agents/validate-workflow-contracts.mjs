@@ -65,6 +65,7 @@ has(issueContract, 'independent resumption', 'Issue contract');
 has(auditContract, 'Historical immutability', 'Audit contract');
 has(auditContract, 'LATEST.md', 'Audit contract');
 has(auditContract, 'read-only', 'Audit contract');
+has(auditContract, 'At every response during the audit', 'Audit per-response checkpoint rule');
 has(featureContract, 'mandatory', 'Feature workflow');
 has(common, 'Every mission requires an active GitHub Issue as its checkpoint', 'Common mission Issue requirement');
 has(common, 'At every response during an active mission', 'Common per-response checkpoint rule');
@@ -84,7 +85,7 @@ has(productWorkflow, 'consequential', 'Product workflow');
 has(readme, 'single ChatGPT assistant', 'Workflow README');
 has(toolReadme, 'check for a matching Issue', 'Tool README Issue tracking');
 has(projectContext, 'Current UX/UI direction', 'Project context');
-has(decisions, 'Issue tracking does not authorize implementation outside the validated scope', 'DEC-039 scope boundary');
+has(decisions, 'Issue tracking does not authorize implementation.', 'DEC-039 execution boundary');
 const activeWorkflowText = [common, start, issueContract, auditContract, featureContract, featureWorkflow, toolContract, toolWorkflow, productWorkflow, readme, toolReadme, decisions].join('\n');
 if (/ask explicitly whether to create|only after explicitly asking the user whether to create|who decides whether to create or attach|only after asking the user whether to create or attach|demande explicitement s'il faut créer une Issue|demande explicitement s'il faut créer une issue/i.test(activeWorkflowText)) {
   fail('Active workflow docs still require user permission before creating or attaching Issue tracking.');
@@ -190,7 +191,7 @@ for (const audit of audits) {
   has(audit.content, 'agents/AUDIT-CONTRACT.md', 'Audit procedure ' + audit.name);
   has(audit.content, 'Revue après audit et poursuite validée', 'Audit continuation procedure ' + audit.name);
   has(audit.content, 'Issue de mission', 'Audit mission checkpoint ' + audit.name);
-  has(audit.content, "Le suivi n'autorise pas l'implémentation sans validation.", 'Audit deferred discovery tracking ' + audit.name);
+  has(audit.content, 'Les règles de reprise, de validation des recommandations, de checkpoint à chaque réponse', 'Audit continuation rules are centralized ' + audit.name);
   if (/demande explicitement s'il faut créer une Issue|demande explicitement s'il faut créer une issue/i.test(audit.content)) fail('Audit procedure ' + audit.name + ' still asks permission before creating durable Issue tracking.');
   if (/(?:agent autonome|agent d'implémentation|agent ultérieur|prompt .*pour l'agent d'implémentation|authorized Worker|Worker handoff|Audit Agent|orchestrated mission|HANDOFF-CONTRACT\\.md|FEATURE-WORKER\\.md|TOOL-WORKER\\.md)/i.test(audit.content)) {
     fail('Audit procedure ' + audit.name + ' still contains obsolete delegated-role wording or references.');
