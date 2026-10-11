@@ -746,32 +746,33 @@ The account system must be complete without introducing unnecessary personal-dat
 - Future user-owned tables must define explicit deletion/retention semantics before being added to the account lifecycle.
 - Deleting the last super administrator is intentionally blocked to preserve administrative recoverability. The database serializes self-deletion and `super_admin` role removal checks so concurrent operations cannot bypass this invariant.
 
-## DEC-038 — Dedicated technology update and modernization audit
+## DEC-038 — Audit coverage and launch-readiness sequence
 
 **Status:** Accepted
 
 ### Decision
 
-Loculary adds a dedicated **Audit 31 — Update / modernisation technologique** to the reusable audit procedures.
+Loculary maintains three complementary audit responsibilities in the active audit sequence:
 
-The audit evaluates runtime versions, frameworks, dependencies, development tooling, CI/CD actions, deployment/platform configuration, browser/Web Platform assumptions, deprecated APIs and migration debt. It does not blindly target the newest available versions: it must distinguish the latest release from the supported, compatible and recommended target for Loculary.
+- **Audit 31 — Update / modernisation technologique** evaluates runtime versions, frameworks, dependencies, development tooling, CI/CD actions, deployment/platform configuration, browser/Web Platform assumptions, deprecated APIs and migration debt. It distinguishes the latest release from the supported, compatible and recommended target for Loculary.
+- **Audit 32 — Agent-system governance and workflow** evaluates the instruction system, collaboration workflow, validation contracts, audit governance, continuity, verification and delivery reliability.
+- **Audit 99 — Final pre-launch readiness** is the reserved final transversal readiness review before launch.
 
-Audit 31 is executed before **Audit 99 — Final pre-launch readiness** when a modernization cycle is undertaken. Audit 99 is the final transversal launch-readiness procedure.
+Audit 99 is not part of the contiguous specialist sequence 01–32. Active specialist procedure IDs are contiguous from 01 through 32. Procedure identity is the pair numeric ID + slug; reuse of a retired number is permitted only after checking active references and history, and never permits modifying historical reports.
 
 ### Reason
 
-The existing dependency/supply-chain audit identifies dependency health and risk, while the final red-team audit evaluates the project transversally. Neither has the specific mission of systematically determining which parts of the technical stack should now be upgraded, migrated, replaced or deliberately kept.
-
-A dedicated modernization pass reduces the risk of accumulating obsolete tooling or missing important supported-version migrations while avoiding indiscriminate upgrades.
+Technology modernization, agent-system governance and final launch readiness address different failure modes. Dependency health alone does not cover broad modernization; a final readiness review must not be conflated with a specialist governance audit.
 
 ### Consequences
 
 - Audit 20 remains responsible for dependency and supply-chain health.
 - Audit 31 evaluates update and modernization opportunities across the broader technical stack.
 - Major framework/runtime/infrastructure migrations remain subject to explicit validation when they materially affect architecture, cost, privacy, security or product direction.
-- Audit 32 must document what should be preserved, not only what should change.
-- Audit 32 remains the final cross-domain red-team pass after validated modernization work.
-\n
+- Audit 32 examines whether the agent system should be preserved, changed, consolidated or rebuilt, with evidence and recommendations.
+- Audit 99 remains the unique final transversal launch-readiness procedure.
+- Historical audit reports remain immutable; current numbering and report paths must not be used to rewrite historical evidence.
+
 
 ## DEC-039 — Single-assistant workflow and GitHub Issue checkpoints
 
