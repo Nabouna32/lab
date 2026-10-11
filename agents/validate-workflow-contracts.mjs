@@ -109,8 +109,7 @@ for (const audit of audits) {
   seenIds.add(audit.id);
   has(audit.content, 'agents/AUDIT-CONTRACT.md', 'Audit contract reference ' + audit.name);
 
-  const slug = audit.name.replace(/^\d{2}-/, '').replace(/\.md$/, '');
-  const idText = String(audit.id).padStart(2, '0');
+  
 
 }
 
