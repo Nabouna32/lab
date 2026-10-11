@@ -10,7 +10,7 @@ A published tool normally includes the catalog metadata, registry/module integra
 
 ## Domain correctness
 
-Independently verify the domain model. For calculations and conversions, test formulas, units and dimensions, precision, rounding, boundaries, zero/negative values, invalid/non-finite values, overflow, empty input, localized formatting and real-world interpretation. For other tools, verify relevant parsing, encoding, transformation, generation or validation semantics. Test known values and meaningful edge cases; plausible-looking output is not proof of correctness.
+Independently verify the domain model. For calculations and conversions, test formulas, units, conversion factors and dimensions, precision, rounding, boundaries, zero/negative values, invalid/non-finite values, overflow, empty input, localized formatting and real-world interpretation. For other tools, verify relevant parsing, encoding, transformation, generation or validation semantics. Test known values and meaningful edge cases; plausible-looking output is not proof of correctness.
 
 ## Privacy and capabilities
 
