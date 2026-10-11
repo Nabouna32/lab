@@ -36,4 +36,4 @@ Assess whether Loculary's agent instructions and collaboration workflow remain t
 
 ## Output
 
-Follow `agents/AUDIT-CONTRACT.md`. Record findings, severity, evidence, contradictions, challenge of the current design, recommended architecture, decisions requiring validation and actionable follow-up Issues. Create a new immutable report under `docs/audits/33-agent-system/<UTC timestamp>.md` and update that directory's `LATEST.md` pointer only after the report exists.
+Follow `agents/AUDIT-CONTRACT.md`. Record findings, severity, evidence, contradictions, challenge of the current design, recommended architecture, decisions requiring validation and actionable follow-up Issues. Create a new immutable report under `docs/audits/32-agent-system/<UTC timestamp>.md` and update that directory's `LATEST.md` pointer only after the report exists.
