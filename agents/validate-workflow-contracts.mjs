@@ -110,7 +110,7 @@ for (const audit of audits) {
   if (!(audit.content.includes('**Audit ID :** ' + idText) || audit.content.includes('**Audit ID:** ' + audit.id))) fail('Audit ID metadata ' + audit.name);
   if (!(audit.content.includes('**Slug :** ' + slug) || audit.content.includes('**Slug:** ' + slug))) fail('Audit slug metadata ' + audit.name);
   if (!(audit.content.includes('**Mission :** `agents/audits/' + audit.name + '`') || audit.content.includes('**Procedure:** `agents/audits/' + audit.name + '`'))) fail('Audit procedure path metadata ' + audit.name);
-  if (!(audit.content.includes('**Rapports :** `docs/audits/' + idText + '-' + slug + '/`') || audit.content.includes('**Reports:** `docs/audits/' + idText + '-' + slug + '/`'))) fail('Audit report path metadata ' + audit.name);
+  if (!(audit.content.includes('**Rapports :** `docs/audits/' + idText + '-' + slug + '/`') || audit.content.includes('**Reports:** `docs/audits/' + idText + '-' + slug + '/`') || audit.content.includes('**New reports:** `docs/audits/' + idText + '-' + slug + '/`'))) fail('Audit report path metadata ' + audit.name);
 }
 const specialistAudits = audits.filter(({ id }) => id !== 99).sort((a, b) => a.id - b.id);
 const expectedSpecialistIds = Array.from({ length: 32 }, (_, index) => index + 1);
