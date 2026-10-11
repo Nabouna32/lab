@@ -439,7 +439,3 @@ Le rapport de cette mission doit être créé dans :
 Le pointeur remplaçable est :
 
 `docs/audits/31-update-modernization/LATEST.md`
-
-## Revue après audit et poursuite validée
-
-Les règles de reprise, de validation des recommandations, de checkpoint à chaque réponse et de suivi des découvertes hors périmètre sont centralisées dans `agents/AUDIT-CONTRACT.md`. Cette procédure conserve uniquement les consignes propres à cet audit ; le contrat commun prévaut pour la collaboration et le suivi.
