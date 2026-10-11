@@ -98,6 +98,9 @@ test('manual browser workflows do not retain obsolete path detection or full git
 
   assert.deepEqual(Object.keys(e2e.on), ['workflow_dispatch']);
   assert.equal(e2e.jobs.browser.steps.some((step) => step.name === 'Detect documentation-only change'), false);
+  const artifactUpload = e2e.jobs.browser.steps.find((step) => step.name === 'Upload Playwright report on failure');
+  assert.equal(artifactUpload.if, 'failure()');
+  assert.equal(e2e.jobs.browser.steps.some((step) => String(step.if ?? '').includes('steps.changes.outputs.docs_only')), false);
   for (const parsed of [e2e, productionBrowser, screenshots]) {
     for (const job of Object.values(parsed.jobs)) {
       for (const step of job.steps) {
