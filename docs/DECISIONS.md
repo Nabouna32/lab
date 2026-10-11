@@ -624,7 +624,7 @@ This model preserves user control over consequential changes while allowing effi
 
 Loculary is formally restarting its UX/UI design direction from first principles.
 
-The product is treated as a digital utility toolbox rather than a conventional SaaS landing page, dashboard or generic card-based catalog.
+The product is treated as a digital utility toolbox rather than a conventional SaaS landing page or dashboard. Catalog composition may use Material 3 cards when they support discovery and task clarity, rather than following a generic template.
 
 The experience is organized around three primary user intentions:
 
@@ -863,7 +863,7 @@ The new model directly represents the product vision while keeping the implement
 
 Loculary adopts **Material 3 Expressive** as the production reference for the shared platform experience. Expressive foundations and component behavior apply to navigation and headers, buttons, fields, switches, selection controls, menus, dialogs/popups, cards, feedback, typography, semantic color, iconography, surfaces, elevation and motion.
 
-The intended experience is a distinctive, polished, Android-inspired web application—not a pixel-for-pixel Android replica and not a generic SaaS template. Shared foundations establish consistency without forcing every tool into the same layout or interaction model. Specialized tool interfaces remain first-class when their task benefits from a distinct composition or interaction, subject to shared navigation, accessibility, localization, responsiveness and platform behavior.
+The intended experience is a distinctive, polished, Android-inspired web application—not a pixel-for-pixel Android replica and not a generic SaaS template. Material 3 cards are first-class components and must not be avoided by default; use appropriate card variants and compositions where they support discovery, grouping or interaction. Shared foundations establish consistency without forcing every tool into the same layout or interaction model. Specialized tool interfaces remain first-class when their task benefits from a distinct composition or interaction, subject to shared navigation, accessibility, localization, responsiveness and platform behavior.
 
 The default semantic palette uses **Material Purple seed #6750A4**; the seed informs generated tonal roles rather than requiring every primary role to use the literal value. **Roboto** is the validated default interface typeface. Two rainbow treatments are retained for complementary purposes: MCU-generated Rainbow tonal colors for expressive surfaces and frame/container backgrounds; and Loculary's saturated direct seven-color palette for vivid category pills, badges, markers and compact differentiation. They must not compete as interchangeable global themes, and semantic success, warning and error colors remain independent. Light/dark mappings and actual foreground contrast must be validated.
 
