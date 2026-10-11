@@ -1,33 +1,25 @@
 # Loculary work procedures
 
-This directory contains the operating contract, task-specific procedures and reusable audit missions used by the single ChatGPT assistant working directly with the user.
+This is the directory index. For a new or resumed mission, start at `agents/START-HERE.md`.
 
-## Core workflow
+## Canonical shared rules
 
-- AGENTS.md defines repository-wide development rules.
-- agents/AGENT-CONTRACT.md defines the common work, challenge, continuity and verification rules.
-- agents/START-HERE.md is the entry point for starting or resuming work.
-- agents/PRODUCT-ISSUE-CONTRACT.md defines mission checkpoints and follow-up tracking.
-- agents/product/PRODUCT-WORKFLOW.md covers product reasoning and documentation decisions.
-- agents/features/FEATURE-FACTORY-CONTRACT.md and FEATURE-WORKFLOW.md cover feature implementation.
-- agents/tools/TOOL-FACTORY-CONTRACT.md and TOOL-WORKFLOW.md cover tool creation.
-- agents/AUDIT-CONTRACT.md defines audit evidence, report structure and immutability.
-- agents/audits/ contains numbered audit procedures, not separate agent identities.
+- `AGENTS.md`: repository-wide technical and security requirements.
+- `agents/AGENT-CONTRACT.md`: collaboration, decisions, execution autonomy and delivery.
+- `agents/PRODUCT-ISSUE-CONTRACT.md`: operational plans, checkpoints and follow-up Issues.
+- `agents/AUDIT-CONTRACT.md`: audit methodology, evidence and immutable reports.
 
-## Working rules
+## Specialist entry points
 
-Work sequentially, one validated execution step at a time. Challenge assumptions, current code/design and proposed solutions; seek optimizations as well as defects. Analyze the full relevant system by default: scope limits implementation authorization, not investigation or recommendations. Consequential decisions require user validation.
+- Product and documentation: `agents/product/PRODUCT-WORKFLOW.md`
+- Features: `agents/features/FEATURE-WORKFLOW.md` and `FEATURE-FACTORY-CONTRACT.md`
+- Tools: `agents/tools/TOOL-WORKFLOW.md` and `TOOL-FACTORY-CONTRACT.md`
+- Audits: `agents/audits/README.md` and the relevant numbered procedure
 
-Every active mission response checks its GitHub Issue checkpoint; update it whenever durable state changes, without empty updates. For actionable deferred discoveries, search for a matching Issue, update it or create one if needed, then notify the user; tracking does not authorize implementation. Keep active documentation current and concise. Git preserves ordinary history; historical audit reports remain immutable.
+Specialist guides retain domain checks only. Shared governance must be maintained in the common contract rather than copied into each procedure.
 
-## Delivery
+## Validation and audit lifecycle
 
-Controlled manual merge through GitHub is the default: wait for required checks, verify the PR head and base are current, then merge without bypassing branch protections. Do not enable auto-merge by default. The common contract defines the exact checks and the narrow exception for explicit repository policy.
+Run `npm run validate:workflows` for the focused contract validator. Governance-file PRs run this validator through the lightweight CI change-detection path; unrelated documentation changes skip it, and this path does not install dependencies or run the full test/build suite.
 
-## Validation
-
-Run npm run validate:workflows to check the task procedures, contract references, merge lifecycle consistency and audit mission numbering. CI runs the same validator.
-
-## Audit lifecycle
-
-An audit procedure defines scope and required evidence. Each completed run creates a new timestamped report under docs/audits/<id>-<slug>/ and updates that directory's LATEST.md pointer. Never overwrite or delete historical audit reports merely because findings have changed. Revalidate old findings against current code before acting on them.
+Audit procedures have stable, unique IDs but need not be contiguous. Each completed audit run creates a new timestamped report under `docs/audits/` and updates its replaceable `LATEST.md` pointer. Never edit or delete historical reports.
