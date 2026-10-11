@@ -22,4 +22,4 @@ Specialist guides retain domain checks only. Shared governance must be maintaine
 
 Run `npm run validate:workflows` for the focused contract validator. Governance-file PRs run this validator through the lightweight CI change-detection path; unrelated documentation changes skip it, and this path does not install dependencies or run the full test/build suite.
 
-Audit procedures have stable, unique IDs but need not be contiguous. Each completed audit run creates a new timestamped report under `docs/audits/` and updates its replaceable `LATEST.md` pointer. Never edit or delete historical reports.
+Specialist audit procedures use contiguous IDs 01–32; audit 99 is reserved for final pre-launch readiness. Each active procedure is identified by its numeric ID and slug. Each completed audit run creates a new timestamped report in its slug-separated `docs/audits/` directory and updates its replaceable `LATEST.md` pointer. Never edit or delete historical reports.
