@@ -39,10 +39,10 @@ The numbered files below define specialist audit procedures; they are not claims
 - [29 — Product vision coherence](./29-product-vision-coherence.md)
 - [30 — Documentation governance](./30-documentation-governance.md)
 - [31 — Updates and modernization](./31-update-modernization.md)
-- [33 — Agent-system governance and workflow](./33-agent-system.md)
+- [32 — Agent-system governance and workflow](./32-agent-system.md)
 - [99 — Final pre-launch readiness](./99-final-launch.md)
 
-When adding, renaming or removing a numbered procedure, update this catalogue in the same change. The workflow contract validator checks ID uniqueness and catalogue links; IDs may contain gaps and are never renumbered merely to make the sequence contiguous.
+When adding, renaming or removing a numbered procedure, update this catalogue in the same change. The workflow contract validator enforces contiguous specialist IDs 01–32, validates each procedure's ID/slug/path metadata and catalogue link, and reserves 99 exclusively for final launch readiness.
 
 ## Requirements for every audit
 
@@ -57,11 +57,9 @@ When adding, renaming or removing a numbered procedure, update this catalogue in
 - Include elements worth retaining or changing (with reasons), recommendations, decisions requiring validation and a concrete next-step plan.
 - Do not convert a finding into a requirement without validation.
 
-## Stable audit IDs
+## Audit identity and numbering
 
-Numeric prefixes identify audit domains and should not be reused for unrelated work. Numeric IDs are stable identities, not sequence positions; gaps are valid when a procedure is retired.
-
-Audit 99 is reserved for the final transversal pre-launch readiness review. Audit 33 covers agent-system governance and workflow. IDs are stable identities, not positions; gaps are valid, and 99 remains the final pre-launch audit even when other procedures are retired.
+An active procedure is identified by the pair **numeric ID + slug**. Specialist procedures must use contiguous IDs 01–32; 99 is excluded from that sequence and reserved exclusively for final pre-launch readiness. A retired numeric ID may be reused only after checking active references and repository history; a reused number with a different slug does not authorize overwriting or renaming historical reports. Report directories remain slug-separated.
 
 ## Report lifecycle
 
