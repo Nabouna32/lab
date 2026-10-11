@@ -39,7 +39,8 @@ The numbered files below define specialist audit procedures; they are not claims
 - [29 — Product vision coherence](./29-product-vision-coherence.md)
 - [30 — Documentation governance](./30-documentation-governance.md)
 - [31 — Updates and modernization](./31-update-modernization.md)
-- [32 — Final red-team review](./32-final-red-team.md)
+- [33 — Agent-system governance and workflow](./33-agent-system.md)
+- [99 — Final pre-launch readiness](./99-final-launch.md)
 
 When adding, renaming or removing a numbered procedure, update this catalogue in the same change. The workflow contract validator checks ID uniqueness and catalogue links; IDs may contain gaps and are never renumbered merely to make the sequence contiguous.
 
@@ -60,7 +61,7 @@ When adding, renaming or removing a numbered procedure, update this catalogue in
 
 Numeric prefixes identify audit domains and should not be reused for unrelated work. Numeric IDs are stable identities, not sequence positions; gaps are valid when a procedure is retired.
 
-The final/red-team audit stays last so that modernization and other corrections can be verified before the final transversal review. Change the sequence only through the normal validated workflow.
+Audit 99 is reserved for the final transversal pre-launch readiness review. Audit 33 covers agent-system governance and workflow. IDs are stable identities, not positions; gaps are valid, and 99 remains the final pre-launch audit even when other procedures are retired.
 
 ## Report lifecycle
 
