@@ -4,7 +4,7 @@ This contract defines audit-specific methodology and immutable reporting. Collab
 
 ## 1. Audit identity and procedure
 
-Each audit procedure has a stable numeric ID and slug under `agents/audits/`. The ID identifies its audit domain; do not silently reuse it for another domain. IDs need not be contiguous. The catalogue and validator must check uniqueness, valid filenames and references, not force renumbering when a procedure is removed.
+Each active audit procedure is identified by the pair **numeric ID + slug** under `agents/audits/`. Specialist procedure IDs must be contiguous from `01` through `32`; audit `99` is excluded from that sequence and reserved uniquely for final pre-launch readiness. The validator checks the sequence, uniqueness, declared ID/slug and procedure/report paths, and catalogue references. A retired numeric ID may be reused only after checking active references and repository history. Reuse does not permit overwriting, deleting or renaming historical reports: report directories remain separated by slug.
 
 Read the relevant procedure and canonical product/technical sources before drawing conclusions. The procedure defines the domain-specific questions and evidence, not a limit on investigating connected systems or root causes.
 
