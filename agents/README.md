@@ -16,9 +16,9 @@ This directory contains the operating contract, task-specific procedures and reu
 
 ## Working rules
 
-Work sequentially, one validated scope at a time. Challenge assumptions, current code/design and proposed solutions; seek optimizations as well as defects. Consequential decisions require user validation.
+Work sequentially, one validated execution step at a time. Challenge assumptions, current code/design and proposed solutions; seek optimizations as well as defects. Analyze the full relevant system by default: scope limits implementation authorization, not investigation or recommendations. Consequential decisions require user validation.
 
-Resumable work uses a GitHub Issue checkpoint. For actionable discoveries outside scope, search for a matching Issue, update it or create one if needed, then notify the user; implementation still requires scope validation. Keep active documentation current and concise. Git preserves ordinary history; historical audit reports remain immutable.
+Every active mission response checks its GitHub Issue checkpoint; update it whenever durable state changes, without empty updates. For actionable deferred discoveries, search for a matching Issue, update it or create one if needed, then notify the user; tracking does not authorize implementation. Keep active documentation current and concise. Git preserves ordinary history; historical audit reports remain immutable.
 
 ## Delivery
 

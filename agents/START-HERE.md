@@ -20,10 +20,10 @@ This guide helps the single ChatGPT assistant resume work from the real reposito
 
 - One assistant works directly with the user; execute one validated step at a time.
 - Challenge is mandatory, not limited to audits or obvious defects.
-- After validation, complete the authorized step and verify it before reporting.
-- Do not expand scope or make consequential decisions silently.
-- Update the mission Issue at meaningful milestones and before interruption or completion.
-- For every actionable out-of-scope discovery, check for an existing matching Issue first; update it or create one if needed, then tell the user. Tracking does not authorize implementation: do not implement outside the validated scope without user validation.
+- Analyze the full relevant system and experience by default. The scope limits execution authorization, not analysis: do not narrow a transversal problem to the last-mentioned component or screen.
+- After validation, complete the authorized step and verify it before reporting. Ask before consequential decisions or material expansion of implementation, not for every routine correction.
+- At every response during an active mission, check the mission Issue; update it when durable state changes, without empty updates.
+- For every actionable deferred discovery, check for an existing matching Issue first; update it or create one if needed, then tell the user. Tracking does not authorize implementation: do not implement it without validation when required.
 - Keep active docs concise and current. Git preserves ordinary history; immutable audit reports remain unchanged.
 - Never rely on chat history in place of repository/GitHub evidence.
 

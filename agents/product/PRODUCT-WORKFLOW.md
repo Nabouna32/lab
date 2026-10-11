@@ -17,7 +17,7 @@ Treat audit findings and Issues as evidence or tracking, not automatic requireme
 
 ## Decision boundary
 
-The user validates consequential changes to product vision, scope, major UX or architecture, sensitive data handling, significant recurring cost, legal/compliance exposure and irreversible public behavior. Present options, consequences, uncertainty and a recommendation before asking for validation.
+The user validates consequential changes to product vision, major UX or architecture, sensitive data handling, significant recurring cost, legal/compliance exposure, irreversible public behavior and material expansions of implementation authorization. Present options, consequences, uncertainty and a recommendation before asking for validation. Do not treat the current scope or the last-mentioned screen as a limit on analysis: assess the whole relevant experience and connected system before recommending a solution.
 
 Within a validated step, choose routine documentation structure and technical details autonomously when they do not change the approved direction.
 
@@ -33,4 +33,4 @@ Within a validated step, choose routine documentation structure and technical de
 
 ## Continuity
 
-Use a GitHub Issue checkpoint for resumable product/documentation work. Keep it current at meaningful milestones. For actionable out-of-scope discoveries, check for a matching Issue, update it or create one if needed, then notify the user. Never implement outside the validated scope without user validation.
+Use a GitHub Issue checkpoint for resumable product/documentation work. At every response during an active mission, check the Issue and update it whenever durable state changes; do not post empty updates. For actionable out-of-scope discoveries, check for a matching Issue, update it or create one if needed, then notify the user. Never implement outside the validated scope without user validation.

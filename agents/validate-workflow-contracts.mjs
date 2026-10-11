@@ -49,7 +49,7 @@ has(common, 'actionable discovery outside the current scope', 'Common contract')
 has(common, 'consult official documentation and cite it', 'Common contract source verification');
 has(common, 'search for an existing matching Issue first', 'Common contract Issue tracking');
 has(common, 'do not implement the discovery without user validation', 'Common contract scope boundary');
-has(common, 'Contrôle : challenge', 'Common contract response receipt');
+has(common, 'concise visual control receipt being trialed', 'Common contract response receipt');
 has(common, 'Git retains ordinary history', 'Common contract');
 has(common, 'Inspect the complete diff', 'Common contract');
 has(start, 'one validated step at a time', 'Start guide');
@@ -65,8 +65,11 @@ has(issueContract, 'independent resumption', 'Issue contract');
 has(auditContract, 'Historical immutability', 'Audit contract');
 has(auditContract, 'LATEST.md', 'Audit contract');
 has(auditContract, 'read-only', 'Audit contract');
+has(auditContract, 'At every response during the audit', 'Audit per-response checkpoint rule');
 has(featureContract, 'mandatory', 'Feature workflow');
 has(common, 'Every mission requires an active GitHub Issue as its checkpoint', 'Common mission Issue requirement');
+has(common, 'At every response during an active mission', 'Common per-response checkpoint rule');
+has(issueContract, 'At every response during an active mission', 'Issue contract per-response checkpoint rule');
 has(issueContract, 'Every Loculary mission requires an active GitHub Issue checkpoint', 'Issue contract mission requirement');
 has(featureContract, 'Every feature implementation mission must have an active GitHub Issue', 'Feature Issue checkpoint');
 has(toolContract, 'Every tool implementation mission must have an active GitHub Issue', 'Tool Issue checkpoint');
@@ -82,9 +85,9 @@ has(productWorkflow, 'consequential', 'Product workflow');
 has(readme, 'single ChatGPT assistant', 'Workflow README');
 has(toolReadme, 'check for a matching Issue', 'Tool README Issue tracking');
 has(projectContext, 'Current UX/UI direction', 'Project context');
-has(decisions, 'Issue tracking does not authorize implementation outside the validated scope', 'DEC-039 scope boundary');
+has(decisions, 'Issue tracking does not authorize implementation.', 'DEC-039 execution boundary');
 const activeWorkflowText = [common, start, issueContract, auditContract, featureContract, featureWorkflow, toolContract, toolWorkflow, productWorkflow, readme, toolReadme, decisions].join('\n');
-if (/ask explicitly whether to create|only after explicitly asking the user whether to create|who decides whether to create or attach|only after asking the user whether to create or attach/i.test(activeWorkflowText)) {
+if (/ask explicitly whether to create|only after explicitly asking the user whether to create|who decides whether to create or attach|only after asking the user whether to create or attach|demande explicitement s'il faut créer une Issue|demande explicitement s'il faut créer une issue/i.test(activeWorkflowText)) {
   fail('Active workflow docs still require user permission before creating or attaching Issue tracking.');
 }
 has(decisions, '## DEC-049 — Controlled manual merge as the default delivery workflow', 'Current merge decision');
@@ -132,8 +135,8 @@ for (const rule of obsoleteDecisionProtectionRules) {
 }
 has(rootRules, 'Pursue the best solution for the validated objective, not the smallest diff.', 'AGENTS.md solution-quality rule');
 has(common, 'Pursue the best solution for the objective, not the smallest change.', 'Common contract solution-quality rule');
-has(rootRules, 'Scope is an authorization boundary, not a quality ceiling', 'AGENTS.md scope-quality boundary');
-has(common, 'Scope is an authorization boundary, not a quality ceiling', 'Common contract scope-quality boundary');
+has(rootRules, 'not a limit on analysis, investigation, challenge or recommendations', 'AGENTS.md analysis breadth');
+has(common, '**Scope limits execution authorization, not analysis.**', 'Common contract analysis/execution distinction');
 has(common, 'Vision, decisions and principles are challengeable', 'Common contract decision challenge');
 has(productWorkflow, 'Update every canonical and dependent document needed', 'Product workflow documentation consistency');
 has(auditContract, 'Elements worth retaining or changing, with reasons', 'Audit report challenge structure');
@@ -152,7 +155,7 @@ has(rootRules, 'The assistant must challenge relevant requests', 'AGENTS.md mand
 has(rootRules, 'project-specific product, platform and UX context', 'AGENTS.md project context reference');
 has(auditsReadme, 'historical audit reports', 'Audit README');
 has(governanceAudit, 'Revue après audit et poursuite validée', 'Governance audit procedure');
-has(rootRules, 'Work one validated step at a time.', 'AGENTS.md');
+has(rootRules, 'Work one validated execution step at a time', 'AGENTS.md execution sequence');
 
 const coreText = common + start + readme;
 if (/Meta-Agent|Feature Worker|Tool Worker|Feature Orchestrator|Tool Orchestrator|Product \/ Direction Agent/.test(coreText)) {
@@ -187,7 +190,8 @@ for (const audit of audits) {
   has(auditsReadme, '](./' + audit.name + ')', 'Audit README catalogue ' + audit.name);
   has(audit.content, 'agents/AUDIT-CONTRACT.md', 'Audit procedure ' + audit.name);
   has(audit.content, 'Revue après audit et poursuite validée', 'Audit continuation procedure ' + audit.name);
-  has(audit.content, 'Issue de mission', 'Audit mission checkpoint ' + audit.name);
+  has(audit.content, 'Les règles de reprise, de validation des recommandations, de checkpoint à chaque réponse', 'Audit continuation rules are centralized ' + audit.name);
+  if (/demande explicitement s'il faut créer une Issue|demande explicitement s'il faut créer une issue/i.test(audit.content)) fail('Audit procedure ' + audit.name + ' still asks permission before creating durable Issue tracking.');
   if (/(?:agent autonome|agent d'implémentation|agent ultérieur|prompt .*pour l'agent d'implémentation|authorized Worker|Worker handoff|Audit Agent|orchestrated mission|HANDOFF-CONTRACT\\.md|FEATURE-WORKER\\.md|TOOL-WORKER\\.md)/i.test(audit.content)) {
     fail('Audit procedure ' + audit.name + ' still contains obsolete delegated-role wording or references.');
   }

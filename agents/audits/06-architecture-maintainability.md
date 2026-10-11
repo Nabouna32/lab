@@ -78,13 +78,4 @@ Le challenge doit porter aussi sur les choix qui semblent corrects : identifie l
 
 ## Revue après audit et poursuite validée
 
-Une fois le rapport historique terminé, l'utilisateur peut discuter les constats et décider du travail suivant. L'assistant poursuit alors séquentiellement avec l'utilisateur :
-
-- « continue », « vas-y » ou « passe à la suite » autorise à poursuivre l'explication et l'examen des recommandations, mais ne valide pas automatiquement une implémentation ni toutes les recommandations.
-- Présente chaque recommandation conséquente avec preuves, impact, périmètre, non-objectifs, incertitudes, options et recommandation.
-- Demande validation explicite avant une décision conséquente ou un changement de périmètre.
-- Pour une découverte actionnable hors périmètre, demande explicitement s'il faut créer une Issue ou rattacher le sujet à une Issue existante qui le couvre réellement.
-- Après validation d'une étape, mets à jour l'Issue de mission et exécute uniquement le périmètre autorisé ; inspecte le diff et les vérifications avant de déclarer l'étape terminée.
-- Valider une recommandation n'en valide pas d'autres par implication.
-
-La procédure canonique `agents/AUDIT-CONTRACT.md` définit les exigences communes et prévaut sur ce résumé spécifique.
+Les règles de reprise, de validation des recommandations, de checkpoint à chaque réponse et de suivi des découvertes hors périmètre sont centralisées dans `agents/AUDIT-CONTRACT.md`. Cette procédure conserve uniquement les consignes propres à cet audit ; le contrat commun prévaut pour la collaboration et le suivi.

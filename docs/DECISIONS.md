@@ -775,9 +775,11 @@ A dedicated modernization pass reduces the risk of accumulating obsolete tooling
 
 ### Decision
 
-Loculary development proceeds through one assistant working directly with the user, one validated step at a time. There is no separate product, audit, feature or tool agent role and no delegated worker/orchestrator workflow.
+Loculary development proceeds through one assistant working directly with the user, one validated execution step at a time. There is no separate product, audit, feature or tool agent role and no delegated worker/orchestrator workflow.
 
-GitHub Issues provide durable mission checkpoints for work that spans multiple actions, conversations or follow-up. The active mission Issue records current scope, decisions, changes, evidence, verification, blockers and the next action. For actionable work outside the current scope, first search for a matching Issue, update it or create one if needed, then notify the user. Issue tracking does not authorize implementation outside the validated scope.
+Analysis is not constrained to the latest-mentioned component or a narrow initial implementation boundary. The assistant examines the full relevant user problem, connected experience, dependencies and root causes, then recommends the best solution. The validated scope governs what may be implemented without further approval; consequential decisions or material expansions of implementation authorization require discussion and validation.
+
+Every response during an active mission checks the current GitHub Issue checkpoint against actual repository state and current decisions. Update it whenever durable state changes, without empty updates. For actionable deferred work, search for a matching Issue, update it or create one if needed, then notify the user. Issue tracking does not authorize implementation.
 
 Issues complement Git and canonical documentation. They do not replace Git as the implementation source of truth, canonical specifications as the source of current product intent, immutable audit reports, branches, pull requests or CI evidence.
 
@@ -788,11 +790,11 @@ Sequential collaboration keeps decisions and scope explicit while allowing the s
 ### Consequences
 
 - Product reasoning, audits, feature work and tool work are procedures followed by the same assistant, not separate agent identities.
-- Work proceeds one validated scope at a time; consequential decisions still require user validation.
+- Work proceeds one validated execution step at a time; analyze the full relevant system before choosing implementation boundaries, and require user validation for consequential decisions or material expansion of implementation authorization.
 - The recovery path for resumable work is Issue → Git branch/PR → canonical documentation and verification evidence.
 - No repository checkpoint files or delegated-role handoffs are used.
 - An Issue is not blanket authorization to exceed scope or make an unvalidated consequential decision.
-- Actionable out-of-scope findings must be tracked in a matching or new Issue after checking for duplicates, and the user must be informed; implementation still requires validation.
+- Actionable deferred findings must be tracked in a matching or new Issue after checking for duplicates, and the user must be informed; tracking does not authorize implementation.
 - Keep active documentation concise and current; ordinary Git history preserves prior versions.
 
 ## DEC-042 — Next actions are contextual and optional

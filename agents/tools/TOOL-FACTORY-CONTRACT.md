@@ -43,7 +43,7 @@ The Issue is the mission checkpoint and coordination record. It never replaces G
 
 ## 4. Checkpoint and resume
 
-Create the tool Issue checkpoint after bootstrap and keep it current throughout the mission. Before/after substantial implementation, testing, GitHub or other Issue checkpoint-worthy actions, persist the Issue checkpoint according to `agents/PRODUCT-ISSUE-CONTRACT.md`.
+Create the tool Issue checkpoint after bootstrap. At every response, check it against the actual repository state and current decisions, and update it whenever durable state changes; do not post empty updates. Also update it before interruption or completion.
 
 On `continue`, inspect the Issue, then reconcile it with the branch, PR and actual code before resuming. A missing or stale Issue does not authorize starting over; reconstruct from Git/GitHub first.
 
@@ -99,7 +99,7 @@ Handle one tool mission at a time. Do not automatically choose another tool when
 
 ## 9. Branch and scope ownership
 
-Before implementation, refresh repository state, inspect current main, branches, open PRs and the active Issue, then create a dedicated branch from current main when required. Keep the change isolated to the validated tool scope. If shared architecture changes are necessary, assess whether they require a separate consequential decision rather than hiding them in an ordinary tool change.
+Before implementation, refresh repository state, inspect current main, branches, open PRs and the active Issue, then create a dedicated branch from current main when required. Analyze the complete relevant user journey, catalog/registry, shared architecture and dependencies before setting implementation boundaries. The validated tool scope limits execution authorization, not analysis. If a better solution requires shared architecture changes or a broader implementation, present the options, consequences and recommendation before proceeding; do not hide a consequential change inside an ordinary tool change.
 
 ## 10. Shared files
 

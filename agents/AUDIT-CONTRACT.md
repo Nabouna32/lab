@@ -48,7 +48,7 @@ Do not create `WORKING.md` or another repository checkpoint file. Historical aud
 
 ## 4. GitHub Issue tracking
 
-The active mission Issue is mandatory whenever the audit spans multiple actions or must survive interruption or a conversation change. Follow `agents/PRODUCT-ISSUE-CONTRACT.md`.
+Every active audit mission has a GitHub Issue checkpoint. At every response during the audit, check it against the actual repository state and current decisions; update it whenever durable state changes, without empty updates. Follow `agents/PRODUCT-ISSUE-CONTRACT.md`.
 
 Update the Issue whenever mission state changes and at each meaningful milestone, including the current objective/scope, completed work, evidence, decisions, blockers, verification and next action. Link the final historical report when it is created. The Issue is a checkpoint, not a duplicate report.
 
@@ -162,7 +162,7 @@ A mission may add sections when necessary, but must not remove information requi
 
 ## 9A. Mandatory challenge of the current design
 
-Every audit MUST actively challenge the current design, assumptions and existing implementation choices within the audit scope. The challenge section is not optional polish and must not be reduced to a list of defects.
+Every audit MUST actively challenge the current design, assumptions and existing implementation choices relevant to its objective. Its topic defines the audit's focus, not a prohibition on examining connected systems, root causes or adjacent dependencies needed for a correct conclusion. The challenge section is not optional polish and must not be reduced to a list of defects.
 
 For material areas, the audit should explicitly ask:
 
@@ -239,19 +239,19 @@ That prompt must:
 - require tests and verification;
 - require diff review;
 - require documentation updates where appropriate;
-- prohibit unrelated scope expansion.
+- prohibit unrelated implementation expansion without validation; do not constrain relevant analysis of connected systems, root causes or alternatives.
 
 The implementation plan is a recommendation produced by the audit. It does not itself authorize implementation.
 
 ## 14A. Post-audit review and validated continuation
 
-Completing an audit does not end the discussion. The same assistant may explain findings, challenge proposed fixes, compare alternatives and continue with implementation in a new, explicitly scoped step after the user validates it.
+Completing an audit does not end the discussion. The same assistant may explain findings, challenge proposed fixes, compare alternatives and continue with implementation after the user validates the relevant execution step. An audit's narrow topic must not suppress broad analysis of the problem or its connected context.
 
 When the user continues after the report:
 1. Clarify the finding and its evidence.
 2. Present meaningful alternatives, risks, consequences and a recommendation.
 3. Ask for validation when the recommendation requires a consequential decision or changes scope.
-4. For actionable work outside the current scope, check for a matching Issue, update it or create one if needed, and notify the user; do not implement it without validation.
+4. For actionable work not included in the current execution step, check for a matching Issue, update it or create one if needed, and notify the user; do not implement it without validation when validation is required.
 5. Once the next step is validated, update the active mission Issue and implement only that scope.
 6. Verify implementation, documentation, tests and diff before reporting completion.
 
