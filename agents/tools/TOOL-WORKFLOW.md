@@ -1,7 +1,9 @@
-# Tool creation launch checklist
+# Tool implementation guide
 
-Read AGENTS.md, agents/AGENT-CONTRACT.md, agents/PRODUCT-ISSUE-CONTRACT.md, agents/tools/TOOL-FACTORY-CONTRACT.md and the relevant canonical catalog, tool, UX, privacy, i18n and architecture documents.
+Read `AGENTS.md`, `agents/AGENT-CONTRACT.md`, `agents/PRODUCT-ISSUE-CONTRACT.md` and `agents/tools/TOOL-FACTORY-CONTRACT.md`, then the relevant catalog, tool, UX, privacy, i18n and architecture specifications.
 
-Inspect current main, the catalog and registry, the active Issue, branches and PRs. Challenge the complete user problem and journey, not only the proposed tool: whether it deserves to exist, duplicates an existing capability, should extend or merge with something, and what simpler or more valuable alternative exists. Evaluate domain correctness, processing/privacy, capabilities, UX, accessibility, i18n, maintenance and cost. The validated scope limits execution authorization, not analysis.
+Challenge the user problem, whether a tool is needed, catalog duplication and alternatives. In addition to shared UX/accessibility/i18n/security/performance checks, verify domain correctness (formulas, units, precision, limits, edge cases), browser capabilities, processing/privacy classification, data handling and error states.
 
-After the scope is validated, implement the complete tool, test important boundaries and both locales, inspect the diff, update documentation and the mission Issue, and deliver through the normal Git/PR/CI workflow. Do not automatically choose a new tool after completion.
+Use the mission Issue for the validated plan and checkpoints. After plan validation, implement the full agreed tool, test domain boundaries and both initial locales where relevant, update catalog/documentation, inspect the complete diff and deliver through the normal branch/PR/CI workflow. Routine technical steps do not need repeated approval; escalate consequential new decisions.
+
+Automated browser E2E and screenshots remain manual-only during the active redesign and are not PR gates.
