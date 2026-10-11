@@ -71,8 +71,8 @@ Une fois le rapport historique terminé, l'utilisateur peut discuter les constat
 
 - « continue », « vas-y » ou « passe à la suite » autorise à poursuivre l'explication et l'examen des recommandations, mais ne valide pas automatiquement une implémentation ni toutes les recommandations.
 - Présente chaque recommandation conséquente avec preuves, impact, périmètre, non-objectifs, incertitudes, options et recommandation.
-- Demande validation explicite avant une décision conséquente ou un changement de périmètre.
-- Pour une découverte actionnable hors périmètre, demande explicitement s'il faut créer une Issue ou rattacher le sujet à une Issue existante qui le couvre réellement.
+- Demande validation explicite avant une décision conséquente ou une extension matérielle de l'autorisation d'exécution. Cette frontière ne limite ni l'analyse globale ni la recommandation de la meilleure solution.
+- Pour une découverte actionnable à traiter plus tard, recherche d'abord une Issue existante qui couvre réellement le sujet ; mets-la à jour si elle convient, sinon crée une Issue dédiée avec les preuves, conséquences, incertitudes et prochaine action. Informe l'utilisateur du suivi créé. Le suivi n'autorise pas l'implémentation sans validation.
 - Après validation d'une étape, mets à jour l'Issue de mission et exécute uniquement le périmètre autorisé ; inspecte le diff et les vérifications avant de déclarer l'étape terminée.
 - Valider une recommandation n'en valide pas d'autres par implication.
 
