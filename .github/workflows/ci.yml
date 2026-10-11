@@ -26,7 +26,7 @@ jobs:
           fetch-depth: 1
           persist-credentials: false
 
-      - name: Detect documentation-only and dependency changes
+      - name: Detect lightweight and dependency changes
         id: changes
         shell: bash
         env:
@@ -36,7 +36,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          docs_only=false
+          lightweight_only=false
           dependencies_changed=false
           governance_changed=false
 
@@ -64,13 +64,13 @@ jobs:
               exit 1
             fi
 
-            docs_only=true
+            lightweight_only=true
             for path in "${changed_paths[@]}"; do
               case "$path" in
-                *.md|*.mdx|*.txt|LICENSE|LICENSE.*)
+                *.md|*.mdx|*.txt|LICENSE|LICENSE.*|AGENTS.md|agents/**|docs/DECISIONS.md|docs/PRODUCT.md|docs/PROJECT_INSTRUCTIONS.md|.github/workflows/**)
                   ;;
                 *)
-                  docs_only=false
+                  lightweight_only=false
                   ;;
               esac
 
@@ -81,14 +81,14 @@ jobs:
               esac
 
               case "$path" in
-                AGENTS.md|agents/**|docs/DECISIONS.md|docs/PRODUCT.md|docs/PROJECT_INSTRUCTIONS.md)
+                AGENTS.md|agents/**|docs/DECISIONS.md|docs/PRODUCT.md|docs/PROJECT_INSTRUCTIONS.md|.github/workflows/**)
                   governance_changed=true
                   ;;
               esac
             done
           fi
 
-          echo "docs_only=$docs_only" >> "$GITHUB_OUTPUT"
+          echo "lightweight_only=$lightweight_only" >> "$GITHUB_OUTPUT"
           echo "dependencies_changed=$dependencies_changed" >> "$GITHUB_OUTPUT"
           echo "governance_changed=$governance_changed" >> "$GITHUB_OUTPUT"
 
@@ -123,7 +123,7 @@ jobs:
           fail-on-scopes: runtime, development
 
       - name: Setup Node.js
-        if: steps.changes.outputs.docs_only != 'true'
+        if: steps.changes.outputs.lightweight_only != 'true'
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24.21.0
