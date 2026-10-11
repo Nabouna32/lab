@@ -118,6 +118,10 @@ const actualSpecialistIds = specialistAudits.map(({ id }) => id);
 if (JSON.stringify(actualSpecialistIds) !== JSON.stringify(expectedSpecialistIds)) {
   fail('Specialist audit IDs must be contiguous 01–32; found [' + actualSpecialistIds.map((id) => String(id).padStart(2, '0')).join(', ') + ']');
 }
+const finalProcedures = audits.filter(({ name }) => /final|red[- ]team/i.test(name));
+if (finalProcedures.length !== 1 || finalProcedures[0].name !== '99-final-launch.md') {
+  fail('Expected exactly one final-launch procedure, 99-final-launch.md; found ' + finalProcedures.map(({ name }) => name).join(', '));
+}
 const finalAudits = audits.filter(({ id }) => id === 99);
 if (finalAudits.length !== 1) fail('Expected exactly one reserved audit 99, found ' + finalAudits.length);
 else if (finalAudits[0].name !== '99-final-launch.md') {
