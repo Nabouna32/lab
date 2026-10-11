@@ -213,8 +213,7 @@ if (!catalogueHeading) {
       continue;
     }
     const targetName = targetMatch[1];
-    const procedure = byName.get(targetName);
-    if (!procedure) fail('Audit catalogue entry points to a missing procedure: ' + targetName);
+    if (!byName.has(targetName)) fail('Audit catalogue entry points to a missing procedure: ' + targetName);
     if (Number(/^(\d{2})-/.exec(targetName)[1]) !== id) {
       fail('Audit catalogue label ID ' + link[1] + ' does not match target ' + targetName);
     }
