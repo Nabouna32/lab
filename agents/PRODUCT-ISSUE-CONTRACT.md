@@ -32,7 +32,7 @@ During implementation and before delivery, compare actual changes and results ag
 
 Approval of a recommendation is not approval of the implementation plan. The conversational decision brief must clearly request approval of the concrete plan, not just agreement with the direction. Begin implementation only after the user explicitly validates that plan.
 
-After plan validation, provide a ready-to-copy prompt for a fresh conversation by default. It points to this Issue, asks the new conversation to read the complete Issue and relevant comments plus current repository instructions, recheck GitHub state, verify the plan remains valid, and implement autonomously. The prompt is a launch instruction, not a second plan; it must not duplicate the plan or assume a stale branch, commit, PR or CI state.
+After plan validation, follow the default and exception defined in the common work contract and DEC-050 in `docs/DECISIONS.md`: a generic “validé, continue” does not cancel the fresh-conversation handoff. The ready-to-copy prompt points to this Issue and asks the new conversation to read the complete Issue/comments and repository instructions, reconstruct GitHub state, verify the plan remains valid, and implement autonomously. It is a launch instruction, not a second plan, and must not assume stale branch, commit, PR or CI state.
 
 ## 5. Checkpoints and evidence
 
