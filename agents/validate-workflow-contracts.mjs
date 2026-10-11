@@ -72,7 +72,7 @@ has(featureGuide, 'manual-only', 'Feature E2E policy');
 has(toolGuide, 'manual-only', 'Tool E2E policy');
 has(productGuide, 'Never change direction silently', 'Product workflow');
 has(workflowIndex, 'Specialist guides retain domain checks only', 'Workflow index');
-has(auditIndex, 'gaps are valid', 'Audit identity policy');
+has(auditIndex, 'contiguous specialist IDs 01–32', 'Audit numbering policy');
 has(decisions, '## DEC-049 — Controlled manual merge as the default delivery workflow', 'Merge decision');
 has(common, 'Never bypass protections', 'Protected merge policy');
 
@@ -105,13 +105,29 @@ for (const audit of audits) {
   seen.add(audit.id);
   has(auditIndex, `](./${audit.name})`, `Audit catalogue ${audit.name}`);
   has(audit.content, 'agents/AUDIT-CONTRACT.md', `Audit contract reference ${audit.name}`);
+  const slug = audit.name.replace(/^\d{2}-/, '').replace(/\.md$/, '');
+  const idText = String(audit.id).padStart(2, '0');
+  has(audit.content, '**Audit ID:** ' + audit.id, 'Audit ID metadata ' + audit.name);
+  has(audit.content, '**Slug:** ' + slug, 'Audit slug metadata ' + audit.name);
+  has(audit.content, '**Procedure:** `agents/audits/' + audit.name + '`', 'Audit procedure path metadata ' + audit.name);
+  has(audit.content, '**Reports:** `docs/audits/' + idText + '-' + slug + '/`', 'Audit report path metadata ' + audit.name);
 }
-const finalAudits = audits.filter(({ name }) => /final|red[- ]team/i.test(name));
-if (!audits.some(({ id }) => id === 33)) fail('Missing audit 33 — agent-system governance and workflow');
-if (!audits.some(({ id }) => id === 99)) fail('Missing audit 99 — final pre-launch readiness');
-if (finalAudits.length !== 1) fail(`Expected one final pre-launch audit procedure, found ${finalAudits.length}`);
-else if (finalAudits[0].id !== 99 || finalAudits[0].id !== Math.max(...audits.map(({ id }) => id))) {
-  fail(`Audit 99 must be the unique final pre-launch procedure and highest current ID; found ${finalAudits[0].name}`);
+const specialistAudits = audits.filter(({ id }) => id !== 99).sort((a, b) => a.id - b.id);
+const expectedSpecialistIds = Array.from({ length: 32 }, (_, index) => index + 1);
+const actualSpecialistIds = specialistAudits.map(({ id }) => id);
+if (JSON.stringify(actualSpecialistIds) !== JSON.stringify(expectedSpecialistIds)) {
+  fail('Specialist audit IDs must be contiguous 01–32; found [' + actualSpecialistIds.map((id) => String(id).padStart(2, '0')).join(', ') + ']');
+}
+const finalAudits = audits.filter(({ id }) => id === 99);
+if (finalAudits.length !== 1) fail('Expected exactly one reserved audit 99, found ' + finalAudits.length);
+else if (finalAudits[0].name !== '99-final-launch.md') {
+  fail('Audit 99 must be the reserved final-launch procedure; found ' + finalAudits[0].name);
+}
+if (audits.some(({ id }) => id > 32 && id !== 99)) {
+  fail('Only audit 99 may exist outside the specialist sequence 01–32');
+}
+if (!audits.some(({ id, name }) => id === 32 && name === '32-agent-system.md')) {
+  fail('Missing audit 32 — agent-system governance and workflow');
 }
 if (/use emojis sparingly|emojis? without clutter|concise visual control receipt being trialed/i.test(governanceText)) {
   fail('Active agent guidance still restricts emoji use or requires a mechanical response receipt');
@@ -138,4 +154,4 @@ if (errors.length) {
   }
   process.exit(1);
 }
-console.log(`Workflow validation passed: ${audits.length} audit procedures checked; IDs are unique and may contain gaps.`);
+console.log(`Workflow validation passed: ${audits.length} audit procedures checked; specialist IDs are contiguous 01–32, audit 99 is reserved, and procedure metadata/catalogue references agree.`);
