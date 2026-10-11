@@ -184,11 +184,17 @@ if (!audits.some(({ id, name }) => id === 32 && name === '32-agent-system.md')) 
 }
 
 // Enforce a bijection between numbered procedures and links in the active catalogue.
-const catalogueSection = auditIndex.match(/^## Procedure catalogue\s*\r?\n([\s\S]*?)(?=^## |\s*$)/m);
-if (!catalogueSection) {
+const catalogueHeading = /^## Procedure catalogue\s*$/m.exec(auditIndex);
+if (!catalogueHeading) {
   fail('Audit catalogue is missing the "Procedure catalogue" section');
 } else {
-  const catalogueLines = catalogueSection[1].split(/\r?\n/).filter((line) => /^\s*-\s+/.test(line));
+  const catalogueBodyStart = catalogueHeading.index + catalogueHeading[0].length;
+  const remainingCatalogueText = auditIndex.slice(catalogueBodyStart).replace(/^\r?\n/, '');
+  const nextCatalogueHeading = /^## /m.exec(remainingCatalogueText);
+  const catalogueBody = nextCatalogueHeading
+    ? remainingCatalogueText.slice(0, nextCatalogueHeading.index)
+    : remainingCatalogueText;
+  const catalogueLines = catalogueBody.split(/\r?\n/).filter((line) => /^\s*-\s+/.test(line));
   const catalogueEntries = [];
   const seenTargets = new Set();
   const seenCatalogueIds = new Set();
