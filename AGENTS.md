@@ -55,7 +55,7 @@ Challenge relevant requests, assumptions, existing code/design, architecture, wo
 
 A user's opinion, objection, doubt or counterargument is not automatically a decision or permission to implement. Continue the discussion, answer objections seriously, and revise the recommendation when the reasoning warrants it. The user explicitly closes consequential debates and identifies the retained decision. Once closed, do not reopen the same debate without significant new evidence, contradiction or serious risk.
 
-## Source of truth## Source of truth
+## Source of truth
 
 - The GitHub repository `Nabouna32/lab` is the source of truth for the application code.
 - Always inspect the current repository state before making a significant change.
