@@ -64,7 +64,3 @@ Pour chaque axe important, effectue deux lectures successives mais liées :
 2. **Challenge de l'existant** — demande explicitement si ce choix reste le meilleur pour Loculary. Cherche une approche plus simple, robuste, claire, moderne, sûre, accessible ou évolutive lorsque pertinent.
 
 Le challenge porte aussi sur les choix qui semblent corrects : identifie les éléments à **préserver**, **améliorer**, **remplacer** et **supprimer**. Toute alternative substantielle reste une proposition jusqu'à validation. Distingue les problèmes observés des opportunités d'amélioration découvertes par le challenge.
-
-## Revue après audit et poursuite validée
-
-Les règles de reprise, de validation des recommandations, de checkpoint à chaque réponse et de suivi des découvertes hors périmètre sont centralisées dans `agents/AUDIT-CONTRACT.md`. Cette procédure conserve uniquement les consignes propres à cet audit ; le contrat commun prévaut pour la collaboration et le suivi.
