@@ -15,6 +15,8 @@ Audite AGENTS.md, documentation produit/technique, décisions, discussions, futu
 
 ## Méthode
 
+Applique le contrat commun de `agents/AUDIT-CONTRACT.md` et les règles de collaboration de `agents/AGENT-CONTRACT.md`.
+
 1. Vérifie l'état Git réel et le commit audité.
 2. Lis `AGENTS.md`, les contrats applicables et les documents de référence pertinents.
 3. Inspecte l'implémentation réelle : la documentation seule n'est jamais une preuve.
