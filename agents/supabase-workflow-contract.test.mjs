@@ -67,7 +67,7 @@ test('dependency review blocks vulnerable dependency changes only inside the exi
   assert.equal(detect.run.includes('gh api --paginate --slurp'), true);
   assert.equal(detect.run.includes('PR_CHANGED_FILES'), true);
   assert.equal(detect.run.includes('package.json|package-lock.json'), true);
-  assert.equal(setupNode.if, "steps.changes.outputs.docs_only != 'true'");
+  assert.equal(setupNode.if, "steps.changes.outputs.lightweight_only != 'true'");
   assert.equal(freshness.run.includes('git fetch --no-tags --depth=1 origin main'), true);
   assert.equal(review.if, "github.event_name == 'pull_request' && steps.changes.outputs.dependencies_changed == 'true'");
   assert.equal(review.uses, 'actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294');
