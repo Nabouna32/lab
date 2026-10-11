@@ -101,11 +101,10 @@ Typography must support longer translations, pluralization, dynamic values, user
 
 Use M3's shape and surface principles to express hierarchy and interaction. Concrete shape tokens and values remain implementation choices to validate against representative Loculary screens.
 
-- Do not round every element by default.
-- Do not turn every region into a card.
-- Use containment when it clarifies grouping, result emphasis or interaction.
-- Use open composition when spacing and hierarchy already communicate relationships.
-- Use elevation and overlays to communicate meaningful depth or transient interaction, not as decoration on every surface.
+- Cards are first-class Material 3 components and are a normal, encouraged option wherever they help group content, express hierarchy or present an interactive destination. Do not avoid cards by default.
+- Choose the appropriate M3 card variant and composition for the content and interaction; the official M3 guidance defines multiple card variants rather than one universal card style. See [Material 3 cards](https://developer.android.com/develop/ui/compose/components/card?hl=fr).
+- Compose screens with cards, open layouts or a mixture according to the task, hierarchy, responsiveness and visual identity. No general rule requires either using cards everywhere or avoiding them.
+- Use shape, elevation and overlays deliberately to express hierarchy, interaction and depth; avoid adding visual effects without a purpose.
 - Validate surfaces and elevation in both light and dark themes.
 
 The implementation should consolidate repeated stable values into semantic roles rather than preserve a large arbitrary ladder of CSS utility values. Tool-local shapes and surfaces remain possible when they are intentional and do not undermine platform behavior.
