@@ -917,3 +917,31 @@ The project prioritizes a short, predictable delivery loop. Explicitly checking 
 - The assistant owns the final pre-merge freshness and required-check verification.
 - A successful merge must be confirmed from GitHub's actual PR and `main` state before closing the mission Issue.
 - Repository rulesets and required checks remain authoritative; this decision never authorizes bypassing them.
+
+## DEC-050 — Explicit exception to fresh-conversation handoff
+
+**Status:** Accepted
+
+### Decision
+
+After the user explicitly validates a concrete implementation plan, the assistant provides a ready-to-copy prompt for a fresh implementation conversation by default.
+
+A generic **“validé, continue”** confirms the plan and authorizes the next workflow stage; it does not, by itself, request implementation in the current conversation or cancel the default handoff.
+
+The assistant stays in the current conversation only when the user explicitly asks to continue here (for example, “continue ici” or “implémente dans cette conversation”), or when the current task's context already establishes a deliberate same-conversation exception.
+
+The handoff prompt is the deliverable for the next workflow stage, not a second plan. It links to the active mission Issue and instructs the new conversation to reread repository instructions and the complete Issue/comments, reconstruct the actual GitHub state, verify that the approved plan remains valid, and then implement autonomously. It must not copy assumptions about branches, commits, pull requests or CI from the previous conversation.
+
+The common work contract contains the operational wording; other active contracts refer to it without duplicating the policy.
+
+### Reason
+
+Conversation length limits make a fresh implementation conversation the reliable default after planning. Treating a generic continuation phrase as an implicit exception silently discards that default and makes workflow continuity depend on an unsupported assumption.
+
+### Consequences
+
+- The default fresh-conversation handoff remains in force after explicit plan approval.
+- A generic continuation phrase is not an exception; an explicit request or already-established intentional exception is required to stay in the current conversation.
+- The handoff prompt must rely on the mission Issue and fresh repository/GitHub inspection rather than stale conversation details.
+- The handoff is not a second plan and must not ask the user to validate the same plan again.
+- This rule clarifies workflow behavior only; it does not change CI triggers, Node.js 24, CodeQL, branch protections or E2E policy.
