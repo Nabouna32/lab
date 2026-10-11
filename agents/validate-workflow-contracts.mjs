@@ -67,9 +67,9 @@ has(featureGuide, 'manual-only', 'Feature E2E policy');
 has(toolGuide, 'manual-only', 'Tool E2E policy');
 has(productGuide, 'Never change direction silently', 'Product workflow');
 has(workflowIndex, 'Specialist guides retain domain checks only', 'Workflow index');
-has(auditIndex, 'IDs need not be contiguous', 'Audit identity policy');
+has(auditIndex, 'gaps are valid', 'Audit identity policy');
 has(decisions, '## DEC-049 — Controlled manual merge as the default delivery workflow', 'Merge decision');
-has(common, 'Never bypass protections', 'Protected merge policy');
+has(common, 'Never bypass branch protections', 'Protected merge policy');
 
 const activeAgentFiles = listMarkdownRecursive(path.join(root, 'agents'));
 const activeAgentText = activeAgentFiles.map((file) => read(`agents/${file}`)).join('\n');
