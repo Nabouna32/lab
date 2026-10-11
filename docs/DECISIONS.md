@@ -624,7 +624,7 @@ This model preserves user control over consequential changes while allowing effi
 
 Loculary is formally restarting its UX/UI design direction from first principles.
 
-The product is treated as a digital utility toolbox rather than a conventional SaaS landing page, dashboard or generic card-based catalog.
+The product is treated as a digital utility toolbox rather than a conventional SaaS landing page or dashboard. Catalog composition may use Material 3 cards when they support discovery and task clarity, rather than following a generic template.
 
 The experience is organized around three primary user intentions:
 
