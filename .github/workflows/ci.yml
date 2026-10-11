@@ -38,6 +38,7 @@ jobs:
           set -euo pipefail
           docs_only=false
           dependencies_changed=false
+          governance_changed=false
 
           if [[ "$EVENT_NAME" == "pull_request" ]]; then
             if [[ ! "$PR_CHANGED_FILES" =~ ^[0-9]+$ ]]; then
@@ -78,11 +79,24 @@ jobs:
                   dependencies_changed=true
                   ;;
               esac
+
+              case "$path" in
+                AGENTS.md|agents/**|docs/DECISIONS.md|docs/PRODUCT.md|docs/PROJECT_INSTRUCTIONS.md)
+                  governance_changed=true
+                  ;;
+              esac
             done
           fi
 
           echo "docs_only=$docs_only" >> "$GITHUB_OUTPUT"
           echo "dependencies_changed=$dependencies_changed" >> "$GITHUB_OUTPUT"
+          echo "governance_changed=$governance_changed" >> "$GITHUB_OUTPUT"
+
+          # Ubuntu runners provide Node.js. This validator has no external dependencies,
+          # so governance-only PRs do not need setup-node, npm ci, or a separate job.
+          if [[ "$governance_changed" == "true" ]]; then
+            node agents/validate-workflow-contracts.mjs
+          fi
 
       - name: Verify PR base is current
         if: github.event_name == 'pull_request'
