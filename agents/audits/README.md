@@ -6,7 +6,7 @@ Each Markdown file in this directory is a reusable audit procedure for the same 
 
 ## Procedure catalogue
 
-The numbered files below define audit scopes; they are procedures, not claims that every audit has been run recently or that its findings remain current.
+The numbered files below define specialist audit procedures; they are not claims that every audit has been run recently or that its findings remain current.
 
 - [01 — Global QA](./01-qa-global.md)
 - [02 — Tool QA](./02-qa-outils.md)
@@ -41,7 +41,7 @@ The numbered files below define audit scopes; they are procedures, not claims th
 - [31 — Updates and modernization](./31-update-modernization.md)
 - [32 — Final red-team review](./32-final-red-team.md)
 
-When adding, renaming or removing a numbered procedure, update this catalogue in the same change. The workflow contract validator checks audit IDs and catalogue links.
+When adding, renaming or removing a numbered procedure, update this catalogue in the same change. The workflow contract validator checks ID uniqueness and catalogue links; IDs may contain gaps and are never renumbered merely to make the sequence contiguous.
 
 ## Requirements for every audit
 
@@ -58,7 +58,7 @@ When adding, renaming or removing a numbered procedure, update this catalogue in
 
 ## Stable audit IDs
 
-Numeric prefixes identify audit domains and should not be reused for unrelated work. The list is an execution sequence, not a commitment that every audit must remain forever.
+Numeric prefixes identify audit domains and should not be reused for unrelated work. Numeric IDs are stable identities, not sequence positions; gaps are valid when a procedure is retired.
 
 The final/red-team audit stays last so that modernization and other corrections can be verified before the final transversal review. Change the sequence only through the normal validated workflow.
 
