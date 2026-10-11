@@ -113,7 +113,7 @@ if (finalAudits.length !== 1) fail(`Expected one final pre-launch audit procedur
 else if (finalAudits[0].id !== 99 || finalAudits[0].id !== Math.max(...audits.map(({ id }) => id))) {
   fail(`Audit 99 must be the unique final pre-launch procedure and highest current ID; found ${finalAudits[0].name}`);
 }
-if (/use emojis sparingly|emojis? without clutter|concise visual control receipt being trialed/i.test(activeAgentText)) {
+if (/use emojis sparingly|emojis? without clutter|concise visual control receipt being trialed/i.test(governanceText)) {
   fail('Active agent guidance still restricts emoji use or requires a mechanical response receipt');
 }
 
