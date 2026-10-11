@@ -1,6 +1,7 @@
 import type { Locale } from "@/lib/i18n/config";
+import { Card } from "@/components/ui/Card";
 import { getCategoryPath } from "@/lib/tools/routes";
-import { getCategoryColor, getCategoryContainerColor, type ToolCategory } from "@/lib/tools/categories";
+import { getCategoryColor, type ToolCategory } from "@/lib/tools/categories";
 
 type CategoryCardProps = {
   category: ToolCategory;
@@ -12,18 +13,24 @@ type CategoryCardProps = {
 
 export default function CategoryCard({ category, name, toolLabel, toolCount, locale }: CategoryCardProps) {
   return (
-    <a
+    <Card
       href={getCategoryPath(locale, category.id)}
-      className="group flex min-h-24 items-center gap-4 rounded-[var(--radius-lg)] border-t border-[var(--border)] py-5 outline-none transition-[background-color,padding] duration-[var(--motion-standard)] hover:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)] sm:px-3"
+      variant="filled"
+      className="group grid min-h-20 min-w-0 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 p-3 outline-none transition-[background-color,box-shadow,transform] duration-[var(--motion-standard)] hover:-translate-y-0.5 hover:shadow-[var(--shadow-md)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)] sm:min-h-44 sm:grid-cols-2 sm:grid-rows-[auto_1fr] sm:items-start sm:gap-0 sm:p-5"
     >
-      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--radius-lg)] text-2xl transition-transform duration-[var(--motion-standard)] group-hover:scale-105" style={{ color: getCategoryColor(category.id), backgroundColor: getCategoryContainerColor(category.id) }} aria-hidden="true">
+      <span className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--radius-lg)] bg-[var(--surface-soft)] text-2xl transition-transform duration-[var(--motion-standard)] group-hover:scale-105 sm:h-12 sm:w-12" aria-hidden="true">
         {category.icon}
+        <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full ring-2 ring-[var(--surface-variant)]" style={{ backgroundColor: getCategoryColor(category.id) }} />
       </span>
-      <span className="min-w-0 flex-1">
-        <span className="block font-semibold tracking-[-0.015em] text-[var(--foreground)]">{name}</span>
+
+      <span className="min-w-0 sm:col-span-2 sm:row-start-2 sm:mt-5">
+        <span className="block font-semibold tracking-[-0.015em] text-[var(--foreground)] text-pretty">{name}</span>
         <span className="mt-1 block text-sm text-[var(--muted)]">{toolCount} {toolLabel}</span>
       </span>
-      <span className="text-[var(--muted)] transition-[transform,color] duration-[var(--motion-standard)] group-hover:translate-x-1" style={{ color: getCategoryColor(category.id) }} aria-hidden="true">→</span>
-    </a>
+
+      <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5 shrink-0 text-[var(--muted)] transition-[transform,color] duration-[var(--motion-standard)] group-hover:translate-x-0.5 group-hover:text-[var(--foreground)] sm:col-start-2 sm:row-start-1 sm:justify-self-end" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M5 12h14M13 6l6 6-6 6" />
+      </svg>
+    </Card>
   );
 }
