@@ -12,7 +12,7 @@ A feature is a mini-product, not merely a code change.
 
 ## 2. Checkpoint and resume
 
-Every assistant MUST maintain an active GitHub Issue while the feature is active. Create it after bootstrap and update it at meaningful progress points, before and after substantial implementation/testing/GitHub actions, and whenever blockers or decisions change.
+Maintain an active GitHub Issue while the feature is active. At every response, check that checkpoint against the real repository state and current decisions; update it whenever durable state changes, without empty updates. Also update it before interruption or completion.
 
 When resuming, inspect the Issue and reconcile it against the current branch, PR and code. Git/GitHub wins if they disagree. Close the Issue only after the feature reaches a terminal state.
 
@@ -103,7 +103,7 @@ Do not infer approval merely because the user asked for a feature by name when t
 
 ## 8. Sequential execution and branch ownership
 
-Work on one validated feature scope at a time. Before implementation, inspect current main, the active Issue, branches and PRs. Create a dedicated branch from current main when the repository workflow requires it. If main changes during the work, reconcile the branch and rerun affected verification before delivery. Never overwrite unrelated changes.
+Analyze the full user problem, connected UX surfaces, architecture and dependencies before choosing implementation boundaries. The feature scope limits execution authorization, not analysis. Before implementation, inspect current main, the active Issue, branches and PRs. Create a dedicated branch from current main when the repository workflow requires it. If main changes during the work, reconcile the branch and rerun affected verification before delivery. Never overwrite unrelated changes.
 
 ## 9. Implementation contract
 
