@@ -51,12 +51,17 @@ const ci = read('.github/workflows/ci.yml');
 
 has(common, 'single ChatGPT assistant', 'Common contract');
 has(common, 'The user retains final authority', 'Decision authority');
+has(common, 'bidirectional coverage review', 'Plan traceability');
+has(common, 'Assess urgency and priority across Loculary', 'Portfolio prioritization');
+has(common, 'Use emojis generously and naturally as visual markers in user-facing responses', 'Assistant emoji convention');
+has(common, 'functional product icons remain governed by', 'Product iconography distinction');
 has(common, 'A user\'s opinion, objection, doubt or counterargument is not automatically a decision', 'Discussion closure');
 has(common, 'concrete operational implementation plan in the active Issue', 'Plan ownership');
 has(common, 'ready-to-copy handoff prompt for a fresh implementation conversation by default', 'Implementation handoff');
 has(common, '**OBSERVED**', 'Evidence integrity');
 has(issueContract, 'Operational plan', 'Issue contract plan structure');
 has(issueContract, 'Plan validation and fresh-conversation handoff', 'Issue contract handoff');
+has(issueContract, 'Decision-to-plan traceability', 'Issue decision-to-plan coverage');
 has(auditContract, 'Historical reports remain immutable', 'Audit immutability');
 has(auditContract, 'The mission Issue owns the operational plan', 'Audit/Issue separation');
 has(start, 'Read the complete active mission Issue and relevant comments', 'Bootstrap');
@@ -102,9 +107,14 @@ for (const audit of audits) {
   has(audit.content, 'agents/AUDIT-CONTRACT.md', `Audit contract reference ${audit.name}`);
 }
 const finalAudits = audits.filter(({ name }) => /final|red[- ]team/i.test(name));
-if (finalAudits.length !== 1) fail(`Expected one final/red-team audit procedure, found ${finalAudits.length}`);
-else if (finalAudits[0].id !== Math.max(...audits.map(({ id }) => id))) {
-  fail(`Final/red-team audit ${finalAudits[0].name} must have the highest current ID`);
+if (!audits.some(({ id }) => id === 33)) fail('Missing audit 33 — agent-system governance and workflow');
+if (!audits.some(({ id }) => id === 99)) fail('Missing audit 99 — final pre-launch readiness');
+if (finalAudits.length !== 1) fail(`Expected one final pre-launch audit procedure, found ${finalAudits.length}`);
+else if (finalAudits[0].id !== 99 || finalAudits[0].id !== Math.max(...audits.map(({ id }) => id))) {
+  fail(`Audit 99 must be the unique final pre-launch procedure and highest current ID; found ${finalAudits[0].name}`);
+}
+if (/use emojis sparingly|emojis? without clutter|concise visual control receipt being trialed/i.test(activeAgentText)) {
+  fail('Active agent guidance still restricts emoji use or requires a mechanical response receipt');
 }
 
 if (packageJson.scripts?.['validate:workflows'] !== 'node agents/validate-workflow-contracts.mjs') {
