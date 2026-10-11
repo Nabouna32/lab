@@ -834,7 +834,7 @@ where the final step is conditional on there being a meaningful continuation.
 - The default product semantics are continuation/complementarity, not generic similarity.
 - The recommendation engine is an implementation mechanism and must not define the product meaning of a next action.
 - Generic discovery can still exist elsewhere in the product without being mislabeled as a next action.
-- Existing "Related Tools" UI and relation logic must be evaluated against this decision; implementation changes require their own validated scope.
+- Existing "Related Tools" UI and relation logic must be evaluated against this decision; implementation changes must follow the normal discussion and validated-plan process.
 - Related tools are not a mandatory generic section and are not placed after documentation by default.
 
 
@@ -891,7 +891,7 @@ Loculary needs a coherent, recognizable visual and interaction language that fee
 - Shared components and screens may be refactored or replaced when required for a coherent M3 Expressive implementation; the direction does not require preserving current abstractions.
 - DEC-004 remains in force: shared foundations and behavior do not require identical compositions across specialized tools.
 - Accessibility, WCAG 2.2 AA, reduced motion, responsive desktop/tablet/mobile behavior, localization, privacy and performance remain mandatory.
-- Adoption is not proof of implementation. Production migration, curated palette settings, preference persistence, account synchronization and visual/accessibility verification must be delivered and verified in separate implementation scopes.
+- Adoption is not proof of implementation. Production migration, curated palette settings, preference persistence, account synchronization and visual/accessibility verification must be delivered and verified through explicit implementation plans.
 
 
 ## DEC-049 — Controlled manual merge as the default delivery workflow
