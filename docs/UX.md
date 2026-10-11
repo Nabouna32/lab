@@ -297,7 +297,7 @@ The primary visual question should be effectively:
 
 Search and action-oriented entry points should dominate the initial experience. Popular tools, intentions, categories and discovery content should follow naturally.
 
-Avoid relying on a large marketing hero, decorative sections, or a wall of cards to communicate value.
+Cards and card grids are valid Material 3 composition options, including for category discovery. Choose their variant and density to make destinations easy to scan and select; do not avoid cards by default. Keep search and useful entry points obvious, and use the composition that best communicates Loculary's value rather than relying on a large marketing hero.
 
 ### Navigation direction
 
