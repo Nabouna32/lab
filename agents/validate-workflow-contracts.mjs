@@ -56,7 +56,7 @@ has(common, 'Assess urgency and priority across Loculary', 'Portfolio prioritiza
 has(common, 'Use emojis generously and naturally as visual markers in user-facing responses', 'Assistant emoji convention');
 has(common, 'functional product icons remain governed by', 'Product iconography distinction');
 has(common, 'A user\'s opinion, objection, doubt or counterargument is not automatically a decision', 'Discussion closure');
-has(common, 'concrete operational implementation plan in the active Issue', 'Plan ownership');
+has(common, 'active mission Issue stores the operational plan', 'Plan ownership');
 has(common, 'ready-to-copy handoff prompt for a fresh implementation conversation by default', 'Implementation handoff');
 has(common, '**OBSERVED**', 'Evidence integrity');
 has(issueContract, 'Operational plan', 'Issue contract plan structure');
