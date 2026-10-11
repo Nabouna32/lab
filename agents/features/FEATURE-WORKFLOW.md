@@ -1,7 +1,9 @@
-# Feature implementation launch checklist
+# Feature implementation guide
 
-Read AGENTS.md, agents/AGENT-CONTRACT.md, agents/PRODUCT-ISSUE-CONTRACT.md, agents/features/FEATURE-FACTORY-CONTRACT.md and the relevant canonical product and technical documents.
+Read `AGENTS.md`, `agents/AGENT-CONTRACT.md`, `agents/PRODUCT-ISSUE-CONTRACT.md` and `agents/features/FEATURE-FACTORY-CONTRACT.md`, then the relevant canonical product, UX, architecture, privacy, localization and decision documents.
 
-Inspect the active Issue, current main, implementation, branches and PRs. Challenge the full user problem and connected experience, not only the component named in the request: assess user value, duplication, simpler alternatives, data/privacy, security, accessibility, i18n, reliability, maintenance and cost. The validated scope limits execution authorization, not analysis.
+Analyze the full user problem and journey. Challenge whether the feature should exist, whether an existing capability should be extended or consolidated, and what coherent solution best serves users. Consider UX, accessibility, i18n, privacy, security, performance, maintenance and cost.
 
-Establish a validated scope and implement it completely. Ask before consequential product or architecture decisions. Run relevant tests/checks, inspect the final diff, update documentation and the mission Issue, and deliver through the normal Git/PR/CI workflow. This is a procedure for the same assistant, not a separate worker or handoff.
+Use the mission Issue for the validated implementation plan and checkpoints. After plan validation, implement the full agreed result, test meaningful boundaries, update active documentation, inspect the complete diff and deliver through the normal branch/PR/CI workflow. Routine technical steps do not need repeated approval; escalate consequential new decisions.
+
+Automated browser E2E and screenshots remain manual-only during the active redesign and are not PR gates.
