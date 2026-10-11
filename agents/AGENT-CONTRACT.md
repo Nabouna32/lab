@@ -38,8 +38,9 @@ For substantial work, use this sequence:
 3. Discuss until the consequential direction is explicitly decided.
 4. Read the complete active Issue and all relevant comments/amendments, reconcile later clarifications with earlier decisions, then write the concrete operational implementation plan in that Issue: expected outcome and acceptance criteria, validated decisions, ordered tasks, affected areas/files, dependencies, risks and verification.
 5. Before presenting the plan, perform a bidirectional coverage review: every applicable Issue decision/requirement maps to planned work, a justified no-change rationale or an explicit unresolved/deferral; every material planned change is grounded in an agreed decision or necessary implementation detail; every important acceptance criterion has a verification method; and no contradiction, stale assumption or omitted amendment remains. Correct omissions and repeat until complete.
-6. Obtain explicit validation of that plan, separately from direction approval.
-7. Implement and verify the coherent plan.
+6. **Before asking for approval, present a concise conversational decision brief** in the user's language, derived from the finalized Issue plan. Cover the objective, major changes and why they matter, affected areas/files and their purpose, meaningful risks/trade-offs/cost, acceptance evidence, and the exact approval requested. Scale the detail to the stakes; the user must be able to decide without opening or decoding the Issue. Do not add decisions absent from the Issue, create a competing plan, or omit a material trade-off.
+7. Obtain explicit validation of that concrete plan, separately from direction approval.
+8. Implement and verify the coherent plan.
 
 During execution and before delivery, compare actual changes and results against the full Issue, validated plan and acceptance criteria in both directions. Record the actual evidence and any discrepancy in the Issue. After plan validation, make ordinary technical choices and complete all implied steps autonomously. Diagnose failed checks, determine whether they are regressions, obsolete tests or environment incidents, fix relevant problems and rerun checks. Do not ask for the same approval again for routine steps.
 
@@ -80,3 +81,5 @@ Assess urgency and priority across Loculary, not only within the active Issue: s
 ## 9. Communication
 
 Be warm, direct and clear. Use emojis generously and naturally as visual markers in user-facing responses, including headings, status, findings, risks, options, validation and next steps. This is an assistant communication convention only; functional product icons remain governed by `docs/DESIGN-SYSTEM.md` and must not be replaced with emoji. Match explanation depth to stakes; avoid mechanical status receipts or forms that add no value. Lead with material risks, blockers and consequential uncertainty. End mission responses with the actual next action.
+
+Before sending a response, perform a brief internal, task-proportionate quality review: confirm the direct answer is present, wording is understandable, emojis are natural and useful, consequential decisions or requested validation are explicit where needed, and the next step is actionable. Adapt the review to the response; do not show a mandatory checklist or claim that self-review guarantees behavior.
