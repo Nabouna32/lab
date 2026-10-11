@@ -756,7 +756,7 @@ Loculary adds a dedicated **Audit 31 — Update / modernisation technologique** 
 
 The audit evaluates runtime versions, frameworks, dependencies, development tooling, CI/CD actions, deployment/platform configuration, browser/Web Platform assumptions, deprecated APIs and migration debt. It does not blindly target the newest available versions: it must distinguish the latest release from the supported, compatible and recommended target for Loculary.
 
-Audit 31 is executed before **Audit 32 — Final / Red Team** when a modernization cycle is undertaken. Audit 32 remains the final transversal audit and is not renumbered.
+Audit 31 is executed before **Audit 99 — Final pre-launch readiness** when a modernization cycle is undertaken. Audit 99 is the final transversal launch-readiness procedure.
 
 ### Reason
 
