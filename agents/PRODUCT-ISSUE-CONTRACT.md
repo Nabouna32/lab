@@ -61,7 +61,7 @@ A mission must be recoverable from the Issue, its branch/PR and linked canonical
 
 ### Creation and triage
 
-- Choose exactly one state and one type from the canonical taxonomy. Select the type by the Issue's primary outcome and the state by its actual readiness; add relevant area labels only when useful.
+- Choose exactly one `state:*` label and exactly one `type:*` label from the canonical taxonomy. Select the type by the Issue's primary outcome and the state by its actual readiness; add relevant area labels only when useful.
 - For a newly discovered nonconforming open Issue, correct its labels at the next meaningful touch. The automated live-label workflow detects drift and only repairs unambiguous unknown labels when a single canonical label already determines the intended family value.
 
 ### Checkpoints, transitions and blockers
