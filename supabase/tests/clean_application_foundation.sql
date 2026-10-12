@@ -1,6 +1,6 @@
 begin;
 
-select plan(81);
+select plan(82);
 
 -- Transaction-scoped Auth fixtures for exercising the guarded role RPCs.
 -- The test file rolls back at the end; these users/sessions never persist.
@@ -246,6 +246,18 @@ select ok(
 select ok(
   not has_table_privilege('authenticated', 'public.profiles', 'INSERT'),
   'authenticated has no direct INSERT privilege on profiles'
+);
+
+select ok(
+  not exists (
+    select 1
+    from pg_policies
+    where schemaname = 'public'
+      and tablename = 'profiles'
+      and cmd = 'INSERT'
+      and 'authenticated'::name = any(roles)
+  ),
+  'profiles has no INSERT policy for authenticated'
 );
 
 select ok(
