@@ -3,20 +3,20 @@ import { readFileSync } from 'node:fs';
 const MAX_CHANGED_FILES = 3000;
 
 const LIGHTWEIGHT_PATHS = [
-  /^.*\.(?:md|mdx|txt)$/,
+  /^[\s\S]*\.(?:md|mdx|txt)$/,
   /^LICENSE$/,
-  /^LICENSE\..*$/,
+  /^LICENSE\.[\s\S]*$/,
   /^AGENTS\.md$/,
-  /^agents\/.*$/,
+  /^agents\/[\s\S]*$/,
   /^docs\/(?:DECISIONS|PRODUCT|PROJECT_INSTRUCTIONS)\.md$/,
-  /^\.github\/workflows\/.*$/,
+  /^\.github\/workflows\/[\s\S]*$/,
 ];
 
 const GOVERNANCE_PATHS = [
   /^AGENTS\.md$/,
-  /^agents\/.*$/,
+  /^agents\/[\s\S]*$/,
   /^docs\/(?:DECISIONS|PRODUCT|PROJECT_INSTRUCTIONS)\.md$/,
-  /^\.github\/workflows\/.*$/,
+  /^\.github\/workflows\/[\s\S]*$/,
 ];
 
 export function parseChangedPathsNul(contents) {
