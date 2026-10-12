@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { validateAuditCatalogue, validateAuditMetadata } from './validate-workflow-contracts.rules.mjs';
+import { validateApprovalWorkflowContracts, validateAuditCatalogue, validateAuditMetadata } from './validate-workflow-contracts.rules.mjs';
 
 const root = process.cwd();
 const errors = [];
@@ -60,14 +60,15 @@ has(common, 'functional product icons remain governed by', 'Product iconography 
 has(common, 'A user\'s opinion, objection, doubt or counterargument is not automatically a decision', 'Discussion closure');
 has(common, 'active mission Issue stores the operational plan', 'Plan ownership');
 has(common, 'ready-to-copy handoff prompt for a fresh implementation conversation by default', 'Implementation handoff');
+errors.push(...validateApprovalWorkflowContracts({ common, start, rootRules, issueContract, featureGuide, toolGuide, productGuide, decisions }));
 has(common, '**OBSERVED**', 'Evidence integrity');
 has(issueContract, 'Operational plan', 'Issue contract plan structure');
-has(issueContract, 'Plan validation and fresh-conversation handoff', 'Issue contract handoff');
+has(issueContract, 'Approval and fresh-conversation handoff', 'Issue contract handoff');
 has(issueContract, 'Decision-to-plan traceability', 'Issue decision-to-plan coverage');
 has(auditContract, 'Historical reports remain immutable', 'Audit immutability');
 has(auditContract, 'The mission Issue owns the operational plan', 'Audit/Issue separation');
 has(start, 'Read the complete active mission Issue and relevant comments', 'Bootstrap');
-has(rootRules, 'After plan validation, provide a ready-to-copy handoff prompt', 'Repository handoff rule');
+has(rootRules, 'After approval of the proposed changes, provide a ready-to-copy handoff prompt', 'Repository handoff rule');
 has(featureContract, 'feature-specific requirements', 'Feature specialization');
 has(toolContract, 'formulas, units, conversion factors', 'Tool domain checks');
 has(featureGuide, 'manual-only', 'Feature E2E policy');
