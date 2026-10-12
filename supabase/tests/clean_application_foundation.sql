@@ -586,11 +586,8 @@ set local role authenticated;
 -- The Auth trigger has already created the fixture profile. Confirm an ordinary
 -- permitted update still invokes the trigger even though API roles lack EXECUTE.
 update public.profiles
-set updated_at = '2000-01-01 00:00:00+00'
-where id = '00000000-0000-0000-0000-000000000101';
-
-update public.profiles
-set display_name = 'pgTAP profile updated'
+set display_name = 'pgTAP profile updated',
+    updated_at = '2000-01-01 00:00:00+00'
 where id = '00000000-0000-0000-0000-000000000101';
 
 select is(
