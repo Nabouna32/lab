@@ -66,3 +66,17 @@ test("unknown tool and category routes fall back to the target locale root", () 
 test("non-tool routes keep their suffix when switching locale", () => {
   assert.equal(getLocalizedPath("/en/compte", "fr"), "/fr/compte");
 });
+
+test("search URLs safely encode fragment queries and preserve localized routes", () => {
+  const query = 'café & "JSON" #1';
+  assert.equal(
+    getSearchResultsPath("en", query),
+    "/en/search#q=caf%C3%A9%20%26%20%22JSON%22%20%231",
+  );
+  assert.equal(
+    getSearchResultsPath("fr", query),
+    "/fr/recherche#q=caf%C3%A9%20%26%20%22JSON%22%20%231",
+  );
+  assert.equal(getLocalizedPath("/en/search", "fr"), "/fr/recherche");
+  assert.equal(getLocalizedPath("/fr/recherche", "en"), "/en/search");
+});
