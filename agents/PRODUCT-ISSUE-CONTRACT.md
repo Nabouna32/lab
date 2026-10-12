@@ -72,5 +72,5 @@ A mission must be recoverable from the Issue, its branch/PR and linked canonical
 
 ### Closure and reopening
 
-- Close completed or intentionally abandoned work using GitHub's native state and an appropriate native close reason. Never use `state:completed`.
+- Close completed or intentionally abandoned work using GitHub's native Issue state and an appropriate native close reason. Never use `state:completed`.
 - On reopening, re-triage the Issue and restore exactly one appropriate state label and one type label. Verify the labels actually stored by GitHub.
