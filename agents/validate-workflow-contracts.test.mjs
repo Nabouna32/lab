@@ -62,7 +62,7 @@ const validApprovalSources = {
     "Approval is for the explained change proposal, not the investigation, audit, implementation method or operational plan",
     "The plan records outcome, acceptance criteria, decisions, ordered tasks, files/areas, dependencies, risks and verification. It is an internal execution document, not an approval request",
     "If new evidence means the implementation would materially change the approved outcome, scope, direction or significant risk, pause the affected work",
-    "After the user approves the proposed changes, provide a ready-to-copy handoff prompt for a fresh implementation conversation by default",
+    "Do not require a handoff prompt by default",
   ].join("\n"),
   issueContract: [
     "The plan is an internal execution document for the assistant, not a document the user must validate",
@@ -71,10 +71,10 @@ const validApprovalSources = {
   featureGuide: '',
   toolGuide: '',
   productGuide: '',
-  decisions: '## DEC-050 — Fresh-conversation handoff with an explicit same-conversation option',
+  decisions: '## DEC-050 — No mandatory fresh-conversation handoff',
 };
 
-test('accepts the proposal-approval boundary, internal plan, escalation and handoff', () => {
+test('accepts the proposal-approval boundary, internal plan, escalation and optional handoff', () => {
   assert.deepEqual(validateApprovalWorkflowContracts(validApprovalSources), []);
 });
 
@@ -86,12 +86,12 @@ test('rejects the old plan-approval gate', () => {
   assert.ok(errors.some((error) => error.includes('plan validation as implementation gate')));
 });
 
-test('rejects missing internal-plan and fresh-conversation safeguards', () => {
+test('rejects missing internal-plan and continuity safeguards', () => {
   const errors = validateApprovalWorkflowContracts({
     ...validApprovalSources,
     issueContract: '',
     decisions: '',
   });
   assert.ok(errors.some((error) => error.includes('Issue plan ownership')));
-  assert.ok(errors.some((error) => error.includes('DEC-050 handoff decision')));
+  assert.ok(errors.some((error) => error.includes('DEC-050 continuity decision')));
 });
