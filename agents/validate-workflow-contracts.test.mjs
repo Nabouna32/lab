@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { validateAuditCatalogue, validateAuditMetadata } from './validate-workflow-contracts.rules.mjs';
+import { validateAuditCatalogue, validateAuditMetadata, validateIssueLabelPolicy } from './validate-workflow-contracts.rules.mjs';
 const audit = (id, name, content = '') => ({ id, name, content });
 function metadata(id, name, options = {}) {
   const slug = name.replace(/^\d{2}-/, '').replace(/\.md$/, '');
@@ -52,3 +52,49 @@ test('rejects malformed or non-numbered entries', () => {
   assert.ok(errors.some((e) => e.includes('Malformed or non-numbered entry')));
 });
 test('accepts a complete one-to-one catalogue', () => assert.deepEqual(validateAuditCatalogue(audits, validCatalogue), []));
+
+
+const labelTaxonomy = [
+  ['state:ready', 'state:investigating', 'state:implementing', 'state:testing', 'state:blocked', 'state:waiting', 'state:deferred'],
+  ['type:bug', 'type:feature', 'type:maintenance', 'type:audit', 'type:documentation'],
+  ['area:agent-system', 'area:product', 'area:workflow', 'area:ci', 'area:accessibility', 'area:design'],
+  ['dependencies', 'npm', 'github-actions'],
+].flat();
+const commonLabelContract = (labels = labelTaxonomy) => [
+  '## 10. Issue-label lifecycle',
+  '',
+  '| Label | Role and intended use |',
+  '| --- | --- |',
+  ...labels.map((label) => '| `' + label + '` | Description. |'),
+  '',
+  '### State transitions and maintenance',
+  'The state labels are maintained.',
+].join('\n');
+const issueLabelContract = [
+  '### Creation and triage',
+  '### Checkpoints, transitions and blockers',
+  '### Closure and reopening',
+  'state:waiting state:deferred resumption next state:blocked prerequisite state:completed',
+].join('\n');
+const dependabotLabels = 'labels:\n  - dependencies\n  - npm\n  - github-actions\n';
+
+test('accepts the complete canonical issue-label taxonomy and Dependabot labels', () => {
+  assert.deepEqual(validateIssueLabelPolicy(commonLabelContract(), issueLabelContract, dependabotLabels), []);
+});
+test('rejects missing and duplicate taxonomy labels without depending on prose wording', () => {
+  const labels = labelTaxonomy.filter((label) => label !== 'state:waiting');
+  labels.push('state:ready');
+  const errors = validateIssueLabelPolicy(commonLabelContract(labels), issueLabelContract, dependabotLabels);
+  assert.ok(errors.some((error) => error.includes('state:waiting exactly once')));
+  assert.ok(errors.some((error) => error.includes('state:ready exactly once')));
+});
+test('rejects unexpected taxonomy labels and missing Dependabot automation labels', () => {
+  const errors = validateIssueLabelPolicy(commonLabelContract([...labelTaxonomy, 'state:completed']), issueLabelContract, 'labels:\n  - dependencies\n  - npm\n');
+  assert.ok(errors.some((error) => error.includes('Unexpected label') && error.includes('state:completed')));
+  assert.ok(errors.some((error) => error.includes('github-actions')));
+});
+test('requires explicit waiting, deferred, blocked, closure and checkpoint guidance', () => {
+  const errors = validateIssueLabelPolicy(commonLabelContract(), '### Creation and triage\n### Closure and reopening', dependabotLabels);
+  assert.ok(errors.some((error) => error.includes('Checkpoints, transitions and blockers')));
+  assert.ok(errors.some((error) => error.includes('state:waiting')));
+});
