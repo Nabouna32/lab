@@ -1,6 +1,6 @@
 # Product and documentation workflow
 
-Use `agents/AGENT-CONTRACT.md` for collaboration, decision rights, plan validation and delivery; use `agents/PRODUCT-ISSUE-CONTRACT.md` for the mission plan and checkpoint.
+Use `agents/AGENT-CONTRACT.md` for collaboration, decision rights, proposal approval and delivery; use `agents/PRODUCT-ISSUE-CONTRACT.md` for the internal mission plan and checkpoint.
 
 Before changing product intent, read the relevant canonical specifications and `docs/DECISIONS.md`. Challenge existing decisions when evidence or a better solution warrants it. Distinguish current product intent from implemented behavior and proposals.
 
