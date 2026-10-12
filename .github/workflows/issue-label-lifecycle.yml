@@ -1,0 +1,37 @@
+name: Issue label lifecycle
+
+on:
+  issues:
+    types: [opened, edited, reopened, labeled, unlabeled]
+  schedule:
+    - cron: '23 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+concurrency:
+  group: issue-label-lifecycle-${{ github.event.issue.number || github.event_name }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate live Issue labels
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Fetch the versioned standalone validator without checkout
+        shell: bash
+        env:
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          source_url="https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/${SOURCE_SHA}/agents/issue-label-lifecycle.mjs"
+          curl --fail --silent --show-error --location "$source_url" --output "$RUNNER_TEMP/issue-label-lifecycle.mjs"
+          node --check "$RUNNER_TEMP/issue-label-lifecycle.mjs"
+
+      - name: Validate and safely correct live labels
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node "$RUNNER_TEMP/issue-label-lifecycle.mjs"
