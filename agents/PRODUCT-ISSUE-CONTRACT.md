@@ -8,31 +8,35 @@ Every resumable repository mission requires an active Issue. Search existing Iss
 
 ## 2. Operational plan
 
-After the direction is decided and before implementation begins, write the concrete plan in the mission Issue. It must be understandable without the chat and include, as applicable:
+After the user has explicitly approved the explained change proposal, write the concrete operational plan in this mission Issue before or as implementation begins. The plan is an internal execution document for the assistant, not a document the user must validate.
 
-- **Objective and expected outcome** — the user problem and what success looks like.
-- **Acceptance criteria** — observable conditions for completion.
-- **Validated decisions** — current direction and boundaries that must not be silently changed.
-- **Ordered work** — coherent implementation tasks, files/areas, required removals/consolidations and cross-cutting updates.
-- **Dependencies and risks** — concurrent work, technical constraints, uncertainty and material trade-offs.
+Include, as applicable:
+
+- **Objective and expected outcome** — the user problem and observable result.
+- **Acceptance criteria** — conditions that establish completion.
+- **Approved decisions and boundaries** — the agreed direction and exclusions that must not be silently changed.
+- **Ordered work** — coherent tasks, files/areas, removals/consolidations and cross-cutting updates.
+- **Dependencies and risks** — concurrent work, constraints, uncertainty and material trade-offs.
 - **Verification plan** — targeted checks, expected evidence, CI and delivery requirements.
-- **Current state and next action** — exact progress, branch/PR and outstanding work.
+- **Current state and next action** — actual progress, branch/PR and remaining work.
 
-The plan is a living operational checkpoint: update it when evidence reveals necessary changes. Routine technical sequencing does not require repeated approval. A material change in direction or risk requires discussion and explicit validation.
+The plan is a living operational checkpoint. Update it when evidence reveals necessary technical work or changes to the execution sequence. Routine implementation details do not require user approval. If new evidence materially changes the approved outcome, scope, direction or significant risk, pause the affected work and discuss the new decision before proceeding.
 
-After the plan is finalized and reconciled, present a concise decision brief in the conversation before requesting approval, following the common work contract. Summarize the plan and meaningful trade-offs in the user's language; do not make the user open the Issue to understand the decision.
+The Issue can be updated during read-only investigation to preserve factual checkpoints. Such updates record state; they do not authorize implementation.
 
-## 3. Decision-to-plan traceability
+## 3. Traceability and verification
 
-Before presenting a plan for validation, read the complete active Issue body and all relevant comments, amendments and decisions. Reconcile chronology and identify requirements, constraints, dependencies, risks and unresolved questions. Compare the plan against every applicable Issue requirement: map each to a task, a justified no-change rationale or an explicit unresolved/deferral. Then compare the plan back to the Issue to ensure every material change is grounded in a validated decision or a necessary implementation detail. Map important acceptance criteria to concrete verification evidence. Repeat the review until coverage and consistency are complete.
+Read the complete active Issue body and relevant comments/amendments before planning or resuming. Reconcile chronology and compare every approved requirement against the operational plan: map it to planned work, a justified no-change rationale or an explicit follow-up. Check in the opposite direction that every material planned change is grounded in the approved proposal or is a necessary implementation detail. Map important acceptance criteria to concrete verification evidence.
 
-During implementation and before delivery, compare actual changes and results against the Issue decisions, validated plan and acceptance criteria. Record discrepancies and actual verification evidence; routine adjustments consistent with the validated direction are autonomous, while consequential direction or risk changes require validation.
+During implementation and before delivery, compare actual changes and results against the approved proposal, Issue and acceptance criteria. Record discrepancies, evidence and limitations. Routine adjustments consistent with the approved outcome are autonomous; consequential direction or risk changes require discussion.
 
-## 4. Plan validation and fresh-conversation handoff
+## 4. Approval and fresh-conversation handoff
 
-Approval of a recommendation is not approval of the implementation plan. The conversational decision brief must clearly request approval of the concrete plan, not just agreement with the direction. Begin implementation only after the user explicitly validates that plan.
+Before any repository modification, present the user with a detailed, accessible explanation of the proposed changes: the concrete problem, expected result, why each change is needed, materially different alternatives, recommendation, trade-offs, risks, uncertainties, exclusions and supporting evidence. The user must be able to decide without opening this Issue, audit reports or code.
 
-After plan validation, follow the default and exception defined in the common work contract and DEC-050 in `docs/DECISIONS.md`: a generic “validé, continue” does not cancel the fresh-conversation handoff. The ready-to-copy prompt points to this Issue and asks the new conversation to read the complete Issue/comments and repository instructions, reconstruct GitHub state, verify the plan remains valid, and implement autonomously. It is a launch instruction, not a second plan, and must not assume stale branch, commit, PR or CI state.
+The explicit green light applies to this explained proposal. It does not ask the user to approve read-only investigation, an audit, the implementation method or the operational plan. After approval, the assistant writes and uses the detailed Issue plan and implements autonomously.
+
+After approval of the proposed changes, follow the default and explicit same-conversation exception in the common work contract and DEC-050 in `docs/DECISIONS.md`: provide a ready-to-copy prompt for a fresh implementation conversation by default, because discussion and investigation may have consumed much of the available context. The user may instead explicitly ask to continue in the current conversation. The prompt points to this Issue and asks the new conversation to read the complete Issue/comments and repository instructions, reconstruct GitHub state, verify that the approved outcome remains valid, and implement autonomously. It is a launch instruction, not a second plan, and must not assume stale branch, commit, PR or CI state.
 
 ## 5. Checkpoints and evidence
 
