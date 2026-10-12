@@ -141,9 +141,3 @@ export function validateIssueLabelPolicy(commonContract, issueContract, dependab
   }
   return errors;
 }
-, 'm').test(dependabotConfig)) {
-      errors.push('Dependabot configuration is missing automation label: ' + label);
-    }
-  }
-  return errors;
-}
