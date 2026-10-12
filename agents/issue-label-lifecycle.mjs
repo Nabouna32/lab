@@ -79,10 +79,9 @@ async function listOpenIssues(repo, token) {
   return issues;
 }
 
-async function setLabels(repo, issue, labels, token) {
-  return githubRequest('/repos/' + repo + '/issues/' + issue.number + '/labels', token, {
-    method: 'PUT',
-    body: JSON.stringify({ labels }),
+async function removeLabel(repo, issue, label, token) {
+  return githubRequest('/repos/' + repo + '/issues/' + issue.number + '/labels/' + encodeURIComponent(label), token, {
+    method: 'DELETE',
   });
 }
 
@@ -123,9 +122,7 @@ async function main() {
   for (const issue of issues) {
     let result = validateIssueLabels(issue);
     if (result.removableLabels.length) {
-      const currentNames = labelNames(issue.labels);
-      const updatedNames = currentNames.filter((name) => !result.removableLabels.includes(name));
-      await setLabels(repo, issue, updatedNames, token);
+      for (const label of result.removableLabels) await removeLabel(repo, issue, label, token);
       corrections += 1;
       const refreshed = await fetchIssue(repo, issue.number, token);
       result = validateIssueLabels(refreshed);
