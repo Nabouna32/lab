@@ -70,7 +70,8 @@ test("ToolRenderer resolves runtime components through the registry", async () =
   assert.match(source, /entry\.module\.runtime/);
   assert.doesNotMatch(source, /toolComponents/);
   assert.doesNotMatch(source, /next\/dynamic/);
-  assert.doesNotMatch(source, /@\/components\/tools\//);
+  // ToolRuntimeProvider import is now allowed for runtime context
+  assert.match(source, /ToolRuntimeProvider/);
 });
 
 

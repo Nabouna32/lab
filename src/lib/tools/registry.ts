@@ -3,7 +3,7 @@ import type { ComponentType } from "react";
 import type { Locale } from "@/lib/i18n/config";
 import type { Tool, ToolId } from "@/lib/tools/types";
 import { getPublishedTools } from "@/lib/tools/catalog";
-import { getToolSlug } from "@/lib/tools/routes";
+import { getToolSlug } from "@/lib/tools/slugs.ts";
 
 export type ToolEditorialComponent = ComponentType<{ locale: Locale }>;
 export type ToolRuntimeComponent = ComponentType;

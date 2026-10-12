@@ -128,3 +128,16 @@ export function getPrimaryToolCategory(tool: Tool): string {
   if (!category) throw new Error(`Tool "${tool.id}" must declare at least one category.`);
   return category;
 }
+
+import { tools } from "./tools.ts";
+
+export function getAllTools() {
+  return tools;
+}
+
+export function getToolById(locale: Locale, slug: string) {
+  return tools.find((tool) => {
+    const toolSlug = tool.content[locale]?.name?.toLowerCase().replace(/\s+/g, "-") ?? tool.id;
+    return toolSlug === slug || tool.id === slug;
+  });
+}

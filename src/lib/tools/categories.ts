@@ -27,3 +27,11 @@ export function getCategoryName(locale: Locale, categoryId: string): string {
 export function getToolCount(categoryId: string): number {
   return getPublishedTools().filter((tool) => tool.categories.includes(categoryId)).length;
 }
+
+export function getAllCategories(): ToolCategory[] {
+  return categories;
+}
+
+export function getCategoryTools(categoryId: string) {
+  return getPublishedTools().filter((tool) => tool.categories.includes(categoryId));
+}

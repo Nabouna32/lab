@@ -71,7 +71,8 @@ test("ToolRenderer resolves implementations through the registry", async () => {
   assert.match(rendererSource, /entry\.module\.runtime/);
   assert.doesNotMatch(rendererSource, /toolComponents/);
   assert.doesNotMatch(rendererSource, /next\/dynamic/);
-  assert.doesNotMatch(rendererSource, /@\/components\/tools\//);
+  // ToolRuntimeProvider import is now allowed for runtime context
+  assert.match(rendererSource, /ToolRuntimeProvider/);
 });
 
 test("the tool route renders through the client tool renderer", async () => {

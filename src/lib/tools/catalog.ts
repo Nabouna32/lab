@@ -9,6 +9,8 @@ import { tools } from "./tools.ts";
  * this boundary lets the catalog move to a database later without making every
  * page/component know where catalog data comes from.
  */
+export { tools };
+
 export function getAllTools(): readonly Tool[] {
   return tools;
 }

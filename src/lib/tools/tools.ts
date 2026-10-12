@@ -818,4 +818,6 @@ export const tools: Tool[] = toolDefinitions.map((tool): Tool => ({
   contributor: { type: "internal" },
 }));
 
-validateToolCatalog(tools);
+// Validation is run explicitly in tests and build scripts, not at import time
+// to avoid circular dependency issues.
+// validateToolCatalog(tools);

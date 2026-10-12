@@ -1,7 +1,7 @@
 import { locales } from "../i18n/config.ts";
 import { isPublishedTool } from "./types.ts";
 import type { Tool, ToolCapability, ToolProcessingMode } from "./types.ts";
-import { getToolSlug } from "./routes.ts";
+import { getToolSlug } from "./slugs.ts";
 
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
