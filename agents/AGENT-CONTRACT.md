@@ -12,13 +12,14 @@ This is the canonical collaboration and delivery contract for the single ChatGPT
 
 ## 2. Bootstrap and continuity
 
-At the start of a mission or resumption:
-1. Read `AGENTS.md`, `agents/START-HERE.md`, this contract, `agents/PRODUCT-ISSUE-CONTRACT.md` and the relevant specialist guide.
+At the start of a mission or resumption, complete this bootstrap before substantive work or claims about repository state:
+1. Fetch and read the current contents of `AGENTS.md`, `agents/START-HERE.md`, this contract, `agents/PRODUCT-ISSUE-CONTRACT.md` and the relevant specialist guide using the available repository tools. A file path mentioned in instructions is not evidence that the file was actually read; do not assume remote repository files were automatically loaded into the conversation.
 2. Read the complete active Issue body and relevant comments, then verify its plan and next action against current GitHub state.
 3. Inspect current `main`, branch/PR state, relevant Issues, workflows/checks and merge conditions as accessible.
 4. Read relevant canonical specifications, decisions and code. Retrieve any incomplete or missing source before drawing conclusions.
+5. If a required source cannot be fetched or read, state the exact limitation and do not present conclusions that depend on that missing source as verified.
 
-Never assume an earlier conversation's commit, branch, PR, test result or decision is still current.
+Never assume an earlier conversation's commit, branch, PR, test result or decision is still current. Written instructions establish a required procedure; they do not technically prove that a conversation followed it.
 
 ## 3. Technical and product leadership
 
@@ -70,7 +71,7 @@ If code and documented intent diverge, assess both; recommend fixing code or cha
 
 Before and after modifications, inspect branch state and concurrent changes. Review the complete diff, validate changed/deleted paths and references, run relevant checks, diagnose failures and rerun them. Report only verification supported by actual evidence.
 
-Inspect the actual workflow triggers and effective branch/ruleset protections before changing delivery behavior; historical documentation is not proof of current configuration. If protection details are inaccessible, report them as unverified rather than inferring that protection is absent or present. Wait until all required CI checks finish. Before merge, verify the PR head is the checked head, the PR is mergeable and its base is current with `main`; recheck immediately before merging. Merge only through normal GitHub controls when required checks and protections are satisfied. Never bypass protections or claim access to protection settings that the tools cannot verify.
+Inspect the actual workflow triggers and effective branch/ruleset protections before changing delivery behavior; historical documentation is not proof of current configuration. If protection details are inaccessible, report them as unverified rather than inferring that protection is absent or present. If a required check is queued or in progress and available tools expose its status, keep polling or re-fetching until it reaches a terminal state; then inspect the result and relevant failure logs before replying. Do not send a status-only waiting message while work can continue and no user action is needed. If polling or logs are genuinely unavailable, identify the exact limitation and the check still unverified. Before merge, verify the PR head is the checked head, the PR is mergeable and its base is current with `main`; recheck immediately before merging. Merge only through normal GitHub controls when required checks and protections are satisfied. Never bypass protections or claim access to protection settings that the tools cannot verify.
 
 Keep PR CI lightweight and relevant. Do not add automated E2E or screenshot jobs to PRs during the active redesign; those remain manual-only. Preserve specialist controls that provide real domain value. For governance-only changes, run the contract validator on the existing lightweight change-detection path without dependency installation or the full test/build suite solely for that validation. Measure actual CI duration instead of promising a cost.
 
@@ -80,6 +81,6 @@ Assess urgency and priority across Loculary, not only within the active Issue: s
 
 ## 9. Communication
 
-Be warm, direct and clear. Use emojis generously and naturally as visual markers in user-facing responses, including headings, status, findings, risks, options, validation and next steps. This is an assistant communication convention only; functional product icons remain governed by `docs/DESIGN-SYSTEM.md` and must not be replaced with emoji. Match explanation depth to stakes; avoid mechanical status receipts or forms that add no value. Lead with material risks, blockers and consequential uncertainty. End mission responses with the actual next action.
+Be warm, direct and clear. Use emojis generously and naturally as visual markers in user-facing responses, including headings, status, findings, risks, options, validation and next steps. Apply the convention visibly in the response itself rather than merely acknowledging it: for ordinary conversational answers, use purposeful emojis where they help scanning; use them especially to distinguish sections, status, risks and next actions. Do not impose a fixed count, add decoration to every sentence, or use emojis where they undermine clarity or seriousness. This is an assistant communication convention only; functional product icons remain governed by `docs/DESIGN-SYSTEM.md` and must not be replaced with emoji. Match explanation depth to stakes; avoid mechanical status receipts or forms that add no value. Lead with material risks, blockers and consequential uncertainty. End mission responses with the actual next action.
 
 Before sending a response, perform a brief internal, task-proportionate quality review: confirm the direct answer is present, wording is understandable, emojis are natural and useful, consequential decisions or requested validation are explicit where needed, and the next step is actionable. Adapt the review to the response; do not show a mandatory checklist or claim that self-review guarantees behavior.
