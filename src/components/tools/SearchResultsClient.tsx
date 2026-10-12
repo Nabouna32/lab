@@ -18,7 +18,7 @@ export default function SearchResultsClient({ locale }: { locale: Locale }) {
   const t = getMessages(locale);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<ToolSearchResult[]>([]);
-  const [isSearching, setIsSearching] = useState(true);
+  const [isSearching, setIsSearching] = useState(false);
   const [searchError, setSearchError] = useState(false);
   const [searchRetryCount, setSearchRetryCount] = useState(0);
   const requestId = useRef(0);
@@ -46,7 +46,10 @@ export default function SearchResultsClient({ locale }: { locale: Locale }) {
     const syncFromHash = () => {
       const nextQuery = new URLSearchParams(window.location.hash.slice(1)).get("q")?.trim().slice(0, 120) ?? "";
       if (!nextQuery) {
-        router.replace(getToolsPath(locale));
+        setQuery("");
+        setResults([]);
+        setIsSearching(false);
+        setSearchError(false);
         return;
       }
       setQuery(nextQuery);
@@ -91,21 +94,19 @@ export default function SearchResultsClient({ locale }: { locale: Locale }) {
                 </p>
               )}
             </div>
-            {query && (
-              <div className="motion-reveal motion-reveal-delay min-w-0">
-                <ToolSearch
-                  key={query}
-                  locale={locale}
-                  instanceId="search-results-page-search"
-                  initialQuery={query}
-                  onSearchSubmitted={handleSearchSubmitted}
-                />
-              </div>
-            )}
+            <div className="motion-reveal motion-reveal-delay min-w-0">
+              <ToolSearch
+                key={query || "empty"}
+                locale={locale}
+                instanceId="search-results-page-search"
+                initialQuery={query}
+                onSearchSubmitted={handleSearchSubmitted}
+              />
+            </div>
           </div>
         </section>
 
-        {isSearching ? (
+        {!query ? null : isSearching ? (
           <section className="mt-5 rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8" role="status">
             <p className="text-sm font-medium text-[var(--foreground)]">{t.tools.searching}</p>
           </section>
