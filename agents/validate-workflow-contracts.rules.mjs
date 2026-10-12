@@ -82,7 +82,7 @@ export function validateIssueLabelPolicy(commonContract, issueContract, dependab
   if (!/^### State transitions and maintenance\s*$/m.test(section)) {
     errors.push('Canonical label policy is missing the state-transitions section');
   }
-  const checklistHeading = /^### Operational checklist\\s*$/m.exec(section);
+  const checklistHeading = /^### Operational checklist\s*$/m.exec(section);
   const checklistRest = checklistHeading ? section.slice(checklistHeading.index + checklistHeading[0].length) : '';
   const checklistNext = /^### |^## /m.exec(checklistRest);
   const checklist = checklistHeading ? [checklistHeading[0], checklistNext ? checklistRest.slice(0, checklistNext.index) : checklistRest] : null;
@@ -134,7 +134,7 @@ export function validateIssueLabelPolicy(commonContract, issueContract, dependab
     if (!pattern.test(issueContract)) errors.push('Issue contract is missing required policy: ' + description);
   }
   for (const label of ['dependencies', 'npm', 'github-actions']) {
-    if (!new RegExp('^\\s*-\\s+' + label.replace('-', '\\-') + '\\s*$', 'm').test(dependabotConfig)) {
+    if (!new RegExp('^\s*-\s+' + label.replace('-', '\\-') + '\s*$', 'm').test(dependabotConfig)) {
       errors.push('Dependabot configuration is missing automation label: ' + label);
     }
   }
