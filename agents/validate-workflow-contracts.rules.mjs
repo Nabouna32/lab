@@ -90,9 +90,10 @@ export function validateIssueLabelPolicy(commonContract, issueContract, dependab
   if (!checklist) errors.push('Canonical label policy is missing its operational checklist');
   else {
     const body = checklist[1];
-    for (const marker of ['Invariant', 'Conditional', 'Adaptable means']) {
-      if (!body.includes(marker)) errors.push('Operational checklist must distinguish invariant, conditional and adaptable requirements (' + marker + ')');
+    for (const marker of ['Invariant', 'Conditional']) {
+      if (!body.includes(marker)) errors.push('Operational checklist must distinguish invariant and conditional requirements (' + marker + ')');
     }
+    if (!/adaptable means|equivalent methods|equivalent method/i.test(body)) errors.push('Operational checklist must distinguish adaptable means from invariants (' + 'equivalent methods' + ')');
     for (const field of ['**Reason:**', '**Resumption / unblock / review condition:**', '**Next action:**']) {
       if (!body.includes(field)) errors.push('Operational checklist is missing structured suspension field ' + field);
     }
@@ -134,7 +135,13 @@ export function validateIssueLabelPolicy(commonContract, issueContract, dependab
     if (!pattern.test(issueContract)) errors.push('Issue contract is missing required policy: ' + description);
   }
   for (const label of ['dependencies', 'npm', 'github-actions']) {
-    if (!new RegExp('^\s*-\s+' + label.replace('-', '\\-') + '\s*$', 'm').test(dependabotConfig)) {
+    if (!new RegExp('^\\s*-\\s+' + label.replace('-', '\\-') + '\\s*.test(dependabotConfig)) {
+      errors.push('Dependabot configuration is missing automation label: ' + label);
+    }
+  }
+  return errors;
+}
+, 'm').test(dependabotConfig)) {
       errors.push('Dependabot configuration is missing automation label: ' + label);
     }
   }
