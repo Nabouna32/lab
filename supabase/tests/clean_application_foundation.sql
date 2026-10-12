@@ -1,6 +1,6 @@
 begin;
 
-select plan(61);
+select plan(82);
 
 -- Transaction-scoped Auth fixtures for exercising the guarded role RPCs.
 -- The test file rolls back at the end; these users/sessions never persist.
@@ -150,18 +150,244 @@ select ok(
 );
 
 select ok(
+  (select relrowsecurity from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='public' and c.relname='admin_roles'),
+  'admin_roles has RLS enabled'
+);
+
+select ok(
+  (select relrowsecurity from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='public' and c.relname='admin_permissions'),
+  'admin_permissions has RLS enabled'
+);
+
+select ok(
+  (select relrowsecurity from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='public' and c.relname='admin_role_permissions'),
+  'admin_role_permissions has RLS enabled'
+);
+
+select ok(
   (select relrowsecurity from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='public' and c.relname='admin_user_roles'),
   'admin_user_roles has RLS enabled'
 );
 
 select ok(
-  (select has_table_privilege('anon', 'public.profiles', 'SELECT') is false),
-  'anon has no profile SELECT privilege'
+  (select relrowsecurity from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='public' and c.relname='admin_audit_log'),
+  'admin_audit_log has RLS enabled'
+);
+
+select ok(
+  not exists (
+    select 1
+    from (values
+      ('public.profiles'::text),
+      ('public.admin_roles'::text),
+      ('public.admin_permissions'::text),
+      ('public.admin_role_permissions'::text),
+      ('public.admin_user_roles'::text),
+      ('public.admin_audit_log'::text)
+    ) as tables(table_name)
+    where has_table_privilege('anon', table_name, 'SELECT')
+  ),
+  'anon has no SELECT privilege on any public foundation table'
+);
+
+select ok(
+  not exists (
+    select 1
+    from (values
+      ('public.profiles'::text),
+      ('public.admin_roles'::text),
+      ('public.admin_permissions'::text),
+      ('public.admin_role_permissions'::text),
+      ('public.admin_user_roles'::text),
+      ('public.admin_audit_log'::text)
+    ) as tables(table_name)
+    where has_table_privilege('anon', table_name, 'INSERT')
+  ),
+  'anon has no INSERT privilege on any public foundation table'
+);
+
+select ok(
+  not exists (
+    select 1
+    from (values
+      ('public.profiles'::text),
+      ('public.admin_roles'::text),
+      ('public.admin_permissions'::text),
+      ('public.admin_role_permissions'::text),
+      ('public.admin_user_roles'::text),
+      ('public.admin_audit_log'::text)
+    ) as tables(table_name)
+    where has_table_privilege('anon', table_name, 'UPDATE')
+  ),
+  'anon has no UPDATE privilege on any public foundation table'
+);
+
+select ok(
+  not exists (
+    select 1
+    from (values
+      ('public.profiles'::text),
+      ('public.admin_roles'::text),
+      ('public.admin_permissions'::text),
+      ('public.admin_role_permissions'::text),
+      ('public.admin_user_roles'::text),
+      ('public.admin_audit_log'::text)
+    ) as tables(table_name)
+    where has_table_privilege('anon', table_name, 'DELETE')
+  ),
+  'anon has no DELETE privilege on any public foundation table'
 );
 
 select ok(
   (select has_table_privilege('authenticated', 'public.profiles', 'SELECT')),
   'authenticated can SELECT profiles subject to RLS'
+);
+
+select ok(
+  not has_table_privilege('authenticated', 'public.profiles', 'INSERT'),
+  'authenticated has no direct INSERT privilege on profiles'
+);
+
+select ok(
+  not exists (
+    select 1
+    from pg_policies
+    where schemaname = 'public'
+      and tablename = 'profiles'
+      and cmd = 'INSERT'
+      and 'authenticated'::name = any(roles)
+  ),
+  'profiles has no INSERT policy for authenticated'
+);
+
+select ok(
+  exists (
+    select 1
+    from pg_proc p
+    join pg_namespace n on n.oid = p.pronamespace
+    cross join lateral aclexplode(coalesce(p.proacl, acldefault('f', p.proowner))) acl
+    where n.nspname = 'private'
+      and p.proname = 'handle_new_user'
+      and acl.grantee = 0
+      and acl.privilege_type = 'EXECUTE'
+  ) is false,
+  'Auth-trigger function has no direct EXECUTE grant to PUBLIC'
+);
+
+select ok(
+  not has_function_privilege('anon', 'private.handle_new_user()', 'EXECUTE'),
+  'anon cannot execute the Auth-trigger function directly'
+);
+
+select ok(
+  not has_function_privilege('authenticated', 'private.handle_new_user()', 'EXECUTE'),
+  'authenticated cannot execute the Auth-trigger function directly'
+);
+
+select ok(
+  not exists (
+    select 1
+    from pg_proc p
+    join pg_namespace n on n.oid = p.pronamespace
+    cross join lateral aclexplode(coalesce(p.proacl, acldefault('f', p.proowner))) acl
+    where n.nspname = 'public'
+      and p.proname = 'set_profile_updated_at'
+      and acl.grantee = 0
+      and acl.privilege_type = 'EXECUTE'
+  ),
+  'profile timestamp trigger has no direct EXECUTE grant to PUBLIC'
+);
+
+select ok(
+  not has_function_privilege('anon', 'public.set_profile_updated_at()', 'EXECUTE'),
+  'anon cannot execute the profile timestamp trigger directly'
+);
+
+select ok(
+  not has_function_privilege('authenticated', 'public.set_profile_updated_at()', 'EXECUTE'),
+  'authenticated cannot execute the profile timestamp trigger directly'
+);
+
+select ok(
+  exists (
+    select 1
+    from pg_default_acl d
+    where d.defaclrole = 'postgres'::regrole
+      and d.defaclnamespace = 0
+      and d.defaclobjtype = 'f'
+  )
+  and not exists (
+    select 1
+    from pg_default_acl d
+    cross join lateral aclexplode(d.defaclacl) acl
+    where d.defaclrole = 'postgres'::regrole
+      and d.defaclnamespace = 0
+      and d.defaclobjtype = 'f'
+      and acl.grantee = 0
+      and acl.privilege_type = 'EXECUTE'
+  ),
+  'postgres global function defaults revoke EXECUTE from PUBLIC'
+);
+
+select ok(
+  not exists (
+    select 1
+    from pg_default_acl d
+    join pg_namespace n on n.oid = d.defaclnamespace
+    cross join lateral aclexplode(d.defaclacl) acl
+    where d.defaclrole = 'postgres'::regrole
+      and d.defaclobjtype = 'f'
+      and n.nspname = 'public'
+      and acl.grantee in (
+        'anon'::regrole,
+        'authenticated'::regrole,
+        'service_role'::regrole
+      )
+      and acl.privilege_type = 'EXECUTE'
+  ),
+  'postgres public-schema function defaults grant no EXECUTE to API roles'
+);
+
+select ok(
+  not exists (
+    select 1
+    from unnest(array[
+      'public.has_admin_permission(text)'::regprocedure,
+      'public.list_admin_users(text)'::regprocedure,
+      'public.assign_admin_role(uuid,text)'::regprocedure,
+      'public.record_admin_audit(text,text,uuid,jsonb)'::regprocedure,
+      'public.revoke_admin_user_sessions(uuid)'::regprocedure,
+      'public.check_account_deletion(uuid)'::regprocedure,
+      'public.remove_admin_role(uuid,text)'::regprocedure
+    ]) as rpc(function_oid)
+    where not has_function_privilege('authenticated', rpc.function_oid, 'EXECUTE')
+  ),
+  'authenticated retains EXECUTE on every intended public application RPC'
+);
+
+select ok(
+  not exists (
+    select 1
+    from unnest(array[
+      'public.has_admin_permission(text)'::regprocedure,
+      'public.list_admin_users(text)'::regprocedure,
+      'public.assign_admin_role(uuid,text)'::regprocedure,
+      'public.record_admin_audit(text,text,uuid,jsonb)'::regprocedure,
+      'public.revoke_admin_user_sessions(uuid)'::regprocedure,
+      'public.check_account_deletion(uuid)'::regprocedure,
+      'public.remove_admin_role(uuid,text)'::regprocedure
+    ]) as rpc(function_oid)
+    where has_function_privilege('anon', rpc.function_oid, 'EXECUTE')
+       or exists (
+         select 1
+         from pg_proc p
+         cross join lateral aclexplode(coalesce(p.proacl, acldefault('f', p.proowner))) acl
+         where p.oid = rpc.function_oid
+           and acl.grantee = 0
+           and acl.privilege_type = 'EXECUTE'
+       )
+  ),
+  'intended public application RPCs are not executable by anon or PUBLIC'
 );
 
 select ok(
@@ -414,6 +640,27 @@ end;
 $fixtures$;
 
 set local role authenticated;
+
+-- The Auth trigger has already created the fixture profile. Confirm an ordinary
+-- permitted update still invokes the trigger even though API roles lack EXECUTE.
+update public.profiles
+set display_name = 'pgTAP profile updated',
+    updated_at = '2000-01-01 00:00:00+00'
+where id = '00000000-0000-0000-0000-000000000101';
+
+select is(
+  (select updated_at from public.profiles
+   where id = '00000000-0000-0000-0000-000000000101'),
+  now(),
+  'permitted profile update still invokes the timestamp trigger'
+);
+
+select throws_ok(
+  'insert into public.profiles (id, display_name) values (''00000000-0000-0000-0000-000000000101''::uuid, ''direct insert'')',
+  '42501',
+  'permission denied for table profiles',
+  'authenticated direct profile INSERT is rejected'
+);
 
 select throws_ok(
   'select public.check_account_deletion(''00000000-0000-0000-0000-000000000101''::uuid)',

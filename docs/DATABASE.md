@@ -13,7 +13,7 @@ Tool lifecycle: draft → review → published → hidden → archived. Hard del
 
 ## Implemented foundation
 
-The first account foundation is now deployed to Supabase: Supabase Auth remains the identity system, while `public.profiles` stores only user-owned profile metadata that is safe to synchronize. System-defined administrative roles and permissions use stable keys; their user-facing labels belong to the application i18n layer. Row Level Security restricts profile access to the owning user, and a database trigger creates the profile when an Auth user is created.
+The first account foundation is now deployed to Supabase: Supabase Auth remains the identity system, while `public.profiles` stores only user-owned profile metadata that is safe to synchronize. System-defined administrative roles and permissions use stable keys; their user-facing labels belong to the application i18n layer. Row Level Security restricts profile access to the owning user, and the `auth.users` insert trigger is the sole supported profile-creation path. Authenticated clients do not insert profiles directly.
 
 This is intentionally a small first step. Catalog/editorial data, favorites, collections, preferences, community data and administration will be designed and moved into the database incrementally after the code/database boundary is reviewed.
 
@@ -46,6 +46,8 @@ Administrative authorization now has a database foundation separate from executa
 
 ## Account lifecycle security
 
+- Profile creation is performed by the `private.handle_new_user()` trigger on `auth.users`; `authenticated` has no direct `INSERT` privilege or profile INSERT policy. The trigger function is not directly executable by `anon` or `authenticated`.
+- Function privileges are least-privilege by default for functions created by the `postgres` application migration owner: global default `EXECUTE` for `PUBLIC` and schema-specific default grants to `anon`, `authenticated` and `service_role` in `public` are revoked. Each exposed RPC must explicitly grant `EXECUTE` to its intended caller in its defining migration. Trigger functions should not receive direct API execution grants unless they are also an intentionally supported RPC.
 - `public.profiles.id` references `auth.users.id` with `ON DELETE CASCADE`.
 - Profile RLS is owner-only and additionally requires a live Auth session recorded in `auth.sessions`.
 - `admin_user_roles.user_id` cascades with the Auth user; `assigned_by` becomes null when the assigning account is deleted.
