@@ -67,6 +67,7 @@ export function validateApprovalWorkflowContracts(sources) {
     [/Obtain explicit validation of that concrete plan/i, 'explicit approval of the technical plan'],
     [/Ask for explicit plan approval/i, 'request to approve the technical plan'],
     [/After plan validation/i, 'handoff or execution tied to plan validation'],
+    [/provide a ready-to-copy handoff prompt for a fresh implementation conversation by default/i, 'mandatory fresh-conversation handoff'],
     [/Plan validation and fresh-conversation handoff/i, 'old Issue-contract approval model'],
     [/explicit plan validation/i, 'explicit plan validation as a required step'],
   ];
