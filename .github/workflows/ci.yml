@@ -54,6 +54,9 @@ jobs:
             gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER/files?per_page=100" \
               | jq -j '.[][] | .filename, "\u0000"' > "$changed_paths_file"
             classification_output="$(node agents/classify-ci-changes.mjs "$PR_CHANGED_FILES" "$changed_paths_file")"
+            lightweight_only_seen=false
+            dependencies_changed_seen=false
+            governance_changed_seen=false
             while IFS='=' read -r key value; do
               case "$value" in
                 true|false) ;;
@@ -63,15 +66,31 @@ jobs:
                   ;;
               esac
               case "$key" in
-                lightweight_only) lightweight_only="$value" ;;
-                dependencies_changed) dependencies_changed="$value" ;;
-                governance_changed) governance_changed="$value" ;;
+                lightweight_only)
+                  [[ "$lightweight_only_seen" == false ]] || { echo "::error::Classifier duplicated lightweight_only."; exit 1; }
+                  lightweight_only_seen=true
+                  lightweight_only="$value"
+                  ;;
+                dependencies_changed)
+                  [[ "$dependencies_changed_seen" == false ]] || { echo "::error::Classifier duplicated dependencies_changed."; exit 1; }
+                  dependencies_changed_seen=true
+                  dependencies_changed="$value"
+                  ;;
+                governance_changed)
+                  [[ "$governance_changed_seen" == false ]] || { echo "::error::Classifier duplicated governance_changed."; exit 1; }
+                  governance_changed_seen=true
+                  governance_changed="$value"
+                  ;;
                 *)
                   echo "::error::Classifier returned an unexpected output key."
                   exit 1
                   ;;
               esac
             done <<< "$classification_output"
+            if [[ "$lightweight_only_seen" != true || "$dependencies_changed_seen" != true || "$governance_changed_seen" != true ]]; then
+              echo "::error::Classifier omitted a required output."
+              exit 1
+            fi
           fi
 
           echo "lightweight_only=$lightweight_only" >> "$GITHUB_OUTPUT"
