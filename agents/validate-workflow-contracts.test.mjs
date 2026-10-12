@@ -95,5 +95,5 @@ test('rejects unexpected taxonomy labels and missing Dependabot automation label
 test('requires explicit waiting, deferred, blocked, closure and checkpoint guidance', () => {
   const errors = validateIssueLabelPolicy(commonLabelContract(), '### Creation and triage\n### Closure and reopening', dependabotLabels);
   assert.ok(errors.some((error) => error.includes('Checkpoints, transitions and blockers')));
-  assert.ok(errors.some((error) => error.includes('state:waiting')));
+  assert.ok(errors.some((error) => error.includes('waiting state')));
 });
