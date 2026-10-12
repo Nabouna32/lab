@@ -57,24 +57,20 @@ A mission must be recoverable from the Issue, its branch/PR and linked canonical
 
 ## 8. Issue-label lifecycle
 
-Labels must reflect the Issue's current operational state, not merely its original intent. Follow the canonical taxonomy and transition rules in `agents/AGENT-CONTRACT.md`; this contract defines how to apply those rules to mission tracking.
+`agents/AGENT-CONTRACT.md` §10 is the single canonical source for label taxonomy and the operational checklist. Apply it to mission Issues without duplicating its general requirements here.
 
 ### Creation and triage
 
-- When creating an Issue, apply exactly one `state:*` label and exactly one `type:*` label. Add zero or more relevant `area:*` labels only when they improve routing or context.
-- Choose `state:ready` for actionable, triaged work; `state:investigating` when scope or root cause remains materially uncertain. Choose the type from the Issue's primary outcome, not from its current phase.
-- If an Issue is discovered without the required labels, correct it at the next meaningful touch rather than leaving the contract unenforced.
+- Choose exactly one state and one type from the canonical taxonomy. Select the type by the Issue's primary outcome and the state by its actual readiness; add relevant area labels only when useful.
+- For a newly discovered nonconforming open Issue, correct its labels at the next meaningful touch. The automated live-label workflow detects drift and only repairs unambiguous unknown labels when a single canonical label already determines the intended family value.
 
 ### Checkpoints, transitions and blockers
 
-- Update the state label whenever work moves between ready, investigation, implementation and verification. Remove the old `state:*` label as the new one is applied; never leave multiple lifecycle states on an open Issue.
-- For an internal blocker, use `state:blocked` and name the specific prerequisite, dependency or decision that must be resolved, including the next action.
-- For an external dependency or response, use `state:waiting`. Record the reason, the condition that permits resumption or review, and the next follow-up action.
-- For deliberately postponed work, use `state:deferred`. Record the reason for postponement, the condition or date/event for reconsideration, and the next review action. Deferred work must not become an unowned parking lot.
-- At every meaningful checkpoint and before interruption, keep the label and Issue body consistent with actual progress, evidence, decisions, blockers, dependencies and next action. Reassess waiting/deferred Issues when their review condition is met.
+- Apply the canonical checklist at mission start/resumption, meaningful checkpoints, state transitions and before interruption. The Issue body must remain independently resumable and consistent with actual work.
+- When the state is `state:waiting`, `state:blocked` or `state:deferred`, use explicit fields in the Issue body: **Reason**, **Resumption / unblock / review condition**, and **Next action**. Explain the specific external dependency, internal prerequisite, or deliberate postponement respectively.
+- The live-label workflow reports missing labels and competing canonical labels for explicit human resolution; it must not infer the intended state or type from prose.
 
 ### Closure and reopening
 
-- Close completed or intentionally abandoned work using GitHub's native Issue state and an appropriate native close reason. Do not apply a `state:completed` label.
-- Before closure, record the actual outcome and verification evidence, and ensure remaining work is tracked in a separate Issue when needed.
-- When a closed Issue is reopened, reassess its type, areas and operational state and restore exactly one appropriate `state:*` label and one `type:*` label.
+- Close completed or intentionally abandoned work using GitHub's native state and an appropriate native close reason. Never use `state:completed`.
+- On reopening, re-triage the Issue and restore exactly one appropriate state label and one type label. Verify the labels actually stored by GitHub.
