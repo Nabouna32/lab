@@ -68,6 +68,12 @@ const commonLabelContract = (labels = labelTaxonomy) => [
   '',
   '### State transitions and maintenance',
   'The state labels are maintained.',
+  '### Operational checklist',
+  'Invariant: check actual state.',
+  'Conditional: apply only when triggered.',
+  'Adaptable means equivalent methods provide evidence.',
+  '**Reason** **Resumption / unblock / review condition** **Next action**',
+  'Evidence unavailable must be reported.',
 ].join('\n');
 const issueLabelContract = [
   '### Creation and triage',
@@ -96,4 +102,15 @@ test('requires explicit waiting, deferred, blocked, closure and checkpoint guida
   const errors = validateIssueLabelPolicy(commonLabelContract(), '### Creation and triage\n### Closure and reopening', dependabotLabels);
   assert.ok(errors.some((error) => error.includes('Checkpoints, transitions and blockers')));
   assert.ok(errors.some((error) => error.includes('waiting state')));
+});
+
+test('requires a canonical checklist with adaptable, conditional and evidence guarantees', () => {
+  const common = commonLabelContract().replace('### Operational checklist\\n', '');
+  const errors = validateIssueLabelPolicy(common, issueLabelContract, dependabotLabels);
+  assert.ok(errors.some((error) => error.includes('operational checklist')));
+});
+
+test('accepts equivalent explanatory wording while requiring structured field labels', () => {
+  const common = commonLabelContract().replace('Invariant: check actual state.', 'Invariant: verify the actual state.').replace('Adaptable means equivalent methods provide evidence.', 'Equivalent methods are acceptable when they provide the same evidence.');
+  assert.deepEqual(validateIssueLabelPolicy(common, issueLabelContract, dependabotLabels), []);
 });
