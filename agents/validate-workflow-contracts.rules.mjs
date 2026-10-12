@@ -135,7 +135,7 @@ export function validateIssueLabelPolicy(commonContract, issueContract, dependab
     if (!pattern.test(issueContract)) errors.push('Issue contract is missing required policy: ' + description);
   }
   for (const label of ['dependencies', 'npm', 'github-actions']) {
-    if (!new RegExp('^\\s*-\\s+' + label.replace('-', '\\-') + '\\s*.test(dependabotConfig)) {
+    if (!new RegExp('^\s*-\s+' + label.replace('-', '\\-') + '\s*$', 'm').test(dependabotConfig)) {
       errors.push('Dependabot configuration is missing automation label: ' + label);
     }
   }
