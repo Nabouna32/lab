@@ -82,7 +82,11 @@ export function validateIssueLabelPolicy(commonContract, issueContract, dependab
   if (!/^### State transitions and maintenance\s*$/m.test(section)) {
     errors.push('Canonical label policy is missing the state-transitions section');
   }
-  const checklist = /^### Operational checklist\s*$\n([\s\S]*?)(?=^### |^## |\s*$)/m.exec(section);
+  const checklistHeading = /^### Operational checklist\\s*$/m.exec(section);
+  const checklistRest = checklistHeading ? section.slice(checklistHeading.index + checklistHeading[0].length) : '';
+  const checklistNext = /^### |^## /m.exec(checklistRest);
+  const checklist = checklistHeading ? [checklistHeading[0], checklistNext ? checklistRest.slice(0, checklistNext.index) : checklistRest] : null;
+
   if (!checklist) errors.push('Canonical label policy is missing its operational checklist');
   else {
     const body = checklist[1];
