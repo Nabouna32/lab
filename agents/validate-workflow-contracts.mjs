@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { validateAuditCatalogue, validateAuditMetadata, validateIssueLabelPolicy } from './validate-workflow-contracts.rules.mjs';
+import { validateAuditCatalogue, validateAuditMetadata } from './validate-workflow-contracts.rules.mjs';
 
 const root = process.cwd();
 const errors = [];
@@ -49,11 +49,7 @@ const auditIndex = read('agents/audits/README.md');
 const decisions = read('docs/DECISIONS.md');
 const packageJson = JSON.parse(read('package.json'));
 const ci = read('.github/workflows/ci.yml');
-const liveLabelWorkflow = read('.github/workflows/issue-label-lifecycle.yml');
-const liveLabelScript = read('agents/issue-label-lifecycle.mjs');
-const liveLabelTests = read('agents/issue-label-lifecycle.test.mjs');
-const dependabot = read('.github/dependabot.yml');
-errors.push(...validateIssueLabelPolicy(common, issueContract, dependabot));
+
 
 has(common, 'single ChatGPT assistant', 'Common contract');
 has(common, 'The user retains final authority', 'Decision authority');
@@ -162,16 +158,6 @@ has(ci, 'workflow_dispatch:', 'CI manual trigger');
 if (/^  schedule:/m.test(ci)) fail('Full CI must not run on a weekly schedule');
 if (ci.includes('fetch-depth: 0')) fail('CI must not fetch full Git history for change classification');
 if (ci.includes('npm run validate:agents')) fail('CI still invokes the obsolete validator');
-if (!liveLabelWorkflow.includes('opened, edited, reopened, labeled, unlabeled')) fail('Live Issue-label workflow must target Issue lifecycle events');
-if (!liveLabelWorkflow.includes("cron: '23 6 * * 1'")) fail('Live Issue-label workflow must retain its weekly safety audit');
-if (!liveLabelWorkflow.includes('workflow_dispatch:')) fail('Live Issue-label workflow must support manual audit');
-if (!/^permissions:\n  issues: write\n/m.test(liveLabelWorkflow)) fail('Live Issue-label workflow must use only issues: write permissions');
-if (/actions\/checkout|npm ci|setup-node|uses:\s/i.test(liveLabelWorkflow)) fail('Live Issue-label workflow must not require checkout, dependency installation, setup-node or external actions');
-has(liveLabelWorkflow, 'raw.githubusercontent.com/${GITHUB_REPOSITORY}/${SOURCE_SHA}/agents/issue-label-lifecycle.mjs', 'Versioned standalone live-label validator source');
-has(liveLabelScript, 'export function validateIssueLabels(issue)', 'Pure live Issue-label classifier');
-has(liveLabelScript, 'workflow_dispatch', 'Manual audit behavior');
-has(liveLabelTests, 'multiple canonical state or type labels', 'Ambiguous live-label regression coverage');
-has(liveLabelTests, 'structured fields', 'Suspended-state structured field coverage');
 
 if (errors.length) {
   console.error(`Workflow validation failed with ${errors.length} error(s):`);

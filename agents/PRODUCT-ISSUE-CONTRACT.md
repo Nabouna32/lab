@@ -53,24 +53,3 @@ Tracking does not silently change priority or authorize implementation. Do not d
 ## 7. Closure and recovery
 
 A mission must be recoverable from the Issue, its branch/PR and linked canonical documents/evidence. Close it only when completed and verified, explicitly abandoned, or remaining work is durably tracked elsewhere. Before closure, record actual final state, verification and any remaining limitations.
-
-
-## 8. Issue-label lifecycle
-
-`agents/AGENT-CONTRACT.md` §10 is the single canonical source for label taxonomy and the operational checklist. Apply it to mission Issues without duplicating its general requirements here.
-
-### Creation and triage
-
-- Choose exactly one `state:*` label and exactly one `type:*` label from the canonical taxonomy. Select the type by the Issue's primary outcome and the state by its actual readiness; add relevant area labels only when useful.
-- For a newly discovered nonconforming open Issue, correct its labels at the next meaningful touch. The automated live-label workflow detects drift and only repairs unambiguous unknown labels when a single canonical label already determines the intended family value.
-
-### Checkpoints, transitions and blockers
-
-- Apply the canonical checklist at mission start/resumption, meaningful checkpoints, state transitions and before interruption. The Issue body must remain independently resumable and consistent with actual work.
-- When the state is `state:waiting`, `state:blocked` or `state:deferred`, use explicit fields in the Issue body: **Reason:**, **Resumption / unblock / review condition:**, and **Next action:**. Explain the specific external dependency, internal prerequisite, or deliberate postponement respectively.
-- The live-label workflow reports missing labels and competing canonical labels for explicit human resolution; it must not infer the intended state or type from prose.
-
-### Closure and reopening
-
-- Close completed or intentionally abandoned work using GitHub's native Issue state and an appropriate native close reason. Never use `state:completed`.
-- On reopening, re-triage the Issue and restore exactly one appropriate state label and one type label. Verify the labels actually stored by GitHub.
