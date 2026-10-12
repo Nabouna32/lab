@@ -78,10 +78,10 @@ export function validateApprovalWorkflowContracts(sources) {
     [sources.common, 'Approval is for the explained change proposal, not the investigation, audit, implementation method or operational plan', 'Approval boundary'],
     [sources.common, 'The plan records outcome, acceptance criteria, decisions, ordered tasks, files/areas, dependencies, risks and verification. It is an internal execution document, not an approval request', 'Internal operational plan'],
     [sources.common, 'If new evidence means the implementation would materially change the approved outcome, scope, direction or significant risk, pause the affected work', 'Material-change escalation'],
-    [sources.common, 'After the user approves the proposed changes, provide a ready-to-copy handoff prompt for a fresh implementation conversation by default', 'Fresh-conversation handoff'],
+    [sources.common, 'Do not require a handoff prompt by default', 'No mandatory conversation handoff'],
     [sources.issueContract, 'The plan is an internal execution document for the assistant, not a document the user must validate', 'Issue plan ownership'],
     [sources.issueContract, 'The Issue can be updated during read-only investigation to preserve factual checkpoints. Such updates record state; they do not authorize implementation', 'Checkpoint authorization boundary'],
-    [sources.decisions, '## DEC-050 — Fresh-conversation handoff with an explicit same-conversation option', 'DEC-050 handoff decision'],
+    [sources.decisions, '## DEC-050 — No mandatory fresh-conversation handoff', 'DEC-050 continuity decision'],
   ];
   for (const [source, phrase, label] of required) {
     if (!String(source ?? '').includes(phrase)) errors.push('Missing workflow invariant: ' + label);
