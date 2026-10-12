@@ -48,8 +48,6 @@ function dependencyPaths(packageName, vulnerable) {
         .filter(([key, entry]) => key && entry.name === packageName)
         .map(([key]) => key));
   const paths = [];
-  const rootDependencies = dependenciesOf(root);
-
   function visit(parentKey, chain, seen) {
     if (paths.length >= 10 || chain.length > 100) return;
     for (const name of Object.keys(dependenciesOf(packages[parentKey] ?? {}))) {
@@ -86,7 +84,7 @@ function fixDescription(value) {
 console.log("## npm audit — rapport de sécurité");
 console.log(`Résumé : ${findings.length} paquet(s) vulnérable(s) signalé(s).`);
 console.log(`Sévérités : ${severityOrder.map((level) => `${level}=${counts[level] ?? 0}`).join(", ")}.`);
-console.log(`Dépendances totales : ${counts.total ?? "non communiqué"}.`);
+console.log(`Vulnérabilités comptabilisées : ${counts.total ?? "non communiqué"}.`);
 
 if (findings.length === 0) {
   console.log("Aucune vulnérabilité n’est présente dans le rapport JSON.");
