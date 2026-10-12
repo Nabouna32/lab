@@ -53,7 +53,6 @@ test('rejects malformed or non-numbered entries', () => {
 });
 test('accepts a complete one-to-one catalogue', () => assert.deepEqual(validateAuditCatalogue(audits, validCatalogue), []));
 
-
 const labelTaxonomy = [
   ['state:ready', 'state:investigating', 'state:implementing', 'state:testing', 'state:blocked', 'state:waiting', 'state:deferred'],
   ['type:bug', 'type:feature', 'type:maintenance', 'type:audit', 'type:documentation'],

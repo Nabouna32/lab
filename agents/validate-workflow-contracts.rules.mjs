@@ -54,7 +54,6 @@ export function validateAuditCatalogue(audits, auditIndex) {
   return errors;
 }
 
-
 const requiredIssueLabels = [
   'state:ready', 'state:investigating', 'state:implementing', 'state:testing',
   'state:blocked', 'state:waiting', 'state:deferred',
@@ -66,36 +65,52 @@ const requiredIssueLabels = [
 
 export function validateIssueLabelPolicy(commonContract, issueContract, dependabotConfig) {
   const errors = [];
-  const heading = /^## 10\. Issue-label lifecycle\s*$/m.exec(commonContract);
+  const heading = /^## \d+\. Issue-label lifecycle\s*$/m.exec(commonContract);
   if (!heading) return ['Common contract is missing the canonical Issue-label lifecycle section'];
   const rest = commonContract.slice(heading.index + heading[0].length);
   const nextHeading = /^## /m.exec(rest);
   const section = nextHeading ? rest.slice(0, nextHeading.index) : rest;
-  const tableRows = section.split(/\r?\n/).filter((line) => /^\|\s*`[^\`]+`\s*\|/.test(line));
-  const labels = tableRows.map((line) => /^\|\s*`([^\`]+)`\s*\|/.exec(line)?.[1]).filter(Boolean);
+  const tableRows = section.split(/\r?\n/).filter((line) => /^\|\s*\x60[^\x60]+\x60\s*\|/.test(line));
+  const labels = tableRows.map((line) => /^\|\s*\x60([^\x60]+)\x60\s*\|/.exec(line)?.[1]).filter(Boolean);
   const expected = new Set(requiredIssueLabels);
-  const actual = new Set(labels);
   for (const label of requiredIssueLabels) {
     const count = labels.filter((item) => item === label).length;
     if (count !== 1) errors.push('Canonical Issue-label taxonomy must define ' + label + ' exactly once; found ' + count);
   }
   for (const label of labels) if (!expected.has(label)) errors.push('Unexpected label in canonical Issue-label taxonomy: ' + label);
   if (labels.length !== requiredIssueLabels.length) errors.push('Canonical Issue-label taxonomy must contain exactly ' + requiredIssueLabels.length + ' definitions; found ' + labels.length);
-
-  for (const title of ['State transitions and maintenance']) {
-    if (!new RegExp('^### ' + title + '\\s*$', 'm').test(section)) errors.push('Canonical label policy is missing section: ' + title);
+  if (!/^### State transitions and maintenance\s*$/m.test(section)) {
+    errors.push('Canonical label policy is missing the state-transitions section');
   }
-  const issueHeadings = [
-    '### Creation and triage',
-    '### Checkpoints, transitions and blockers',
-    '### Closure and reopening',
+
+  const requiredIssueSections = [
+    /^### Creation and triage\s*$/im,
+    /^### Checkpoints, transitions and blockers\s*$/im,
+    /^### Closure and reopening\s*$/im,
   ];
-  for (const title of issueHeadings) if (!issueContract.includes(title)) errors.push('Issue contract is missing label-lifecycle section: ' + title);
-  for (const token of ['state:waiting', 'state:deferred', 'resumption', 'next', 'state:blocked', 'prerequisite', 'state:completed']) {
-    if (!issueContract.includes(token)) errors.push('Issue contract is missing required lifecycle concept: ' + token);
+  for (const pattern of requiredIssueSections) {
+    if (!pattern.test(issueContract)) errors.push('Issue contract is missing required label-lifecycle guidance: ' + pattern.source);
+  }
+  const requiredPolicy = [
+    [/exactly one \x60state:\*\x60 label/i, 'exactly one state label on open Issues'],
+    [/exactly one \x60type:\*\x60 label/i, 'exactly one type label on open Issues'],
+    [/state:waiting/i, 'waiting state'],
+    [/state:deferred/i, 'deferred state'],
+    [/reason/i, 'a documented waiting/deferred reason'],
+    [/(?:resumption|reconsideration|review) condition/i, 'a resumption or review condition'],
+    [/next (?:follow-up )?action/i, 'a next action'],
+    [/state:blocked/i, 'blocked state'],
+    [/prerequisite/i, 'the prerequisite for an internal block'],
+    [/GitHub's native Issue state/i, 'native GitHub closure rather than a completed label'],
+    [/state:completed/i, 'explicit prohibition of state:completed'],
+  ];
+  for (const [pattern, description] of requiredPolicy) {
+    if (!pattern.test(issueContract)) errors.push('Issue contract is missing required policy: ' + description);
   }
   for (const label of ['dependencies', 'npm', 'github-actions']) {
-    if (!dependabotConfig.includes('- ' + label)) errors.push('Dependabot configuration is missing automation label: ' + label);
+    if (!new RegExp('^\\s*-\\s+' + label.replace('-', '\\-') + '\\s*$', 'm').test(dependabotConfig)) {
+      errors.push('Dependabot configuration is missing automation label: ' + label);
+    }
   }
   return errors;
 }
