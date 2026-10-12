@@ -163,7 +163,7 @@ if (ci.includes('npm run validate:agents')) fail('CI still invokes the obsolete 
 if (!liveLabelWorkflow.includes('opened, edited, reopened, labeled, unlabeled')) fail('Live Issue-label workflow must target Issue lifecycle events');
 if (!liveLabelWorkflow.includes("cron: '23 6 * * 1'")) fail('Live Issue-label workflow must retain its weekly safety audit');
 if (!liveLabelWorkflow.includes('workflow_dispatch:')) fail('Live Issue-label workflow must support manual audit');
-if (!/^permissions:\\n  issues: write\\n/m.test(liveLabelWorkflow)) fail('Live Issue-label workflow must use only issues: write permissions');
+if (!/^permissions:\n  issues: write\n/m.test(liveLabelWorkflow)) fail('Live Issue-label workflow must use only issues: write permissions');
 if (/actions\\/checkout|npm ci|setup-node|uses:\\s/i.test(liveLabelWorkflow)) fail('Live Issue-label workflow must not require checkout, dependency installation, setup-node or external actions');
 has(liveLabelWorkflow, 'raw.githubusercontent.com/${GITHUB_REPOSITORY}/${SOURCE_SHA}/agents/issue-label-lifecycle.mjs', 'Versioned standalone live-label validator source');
 has(liveLabelScript, 'export function validateIssueLabels(issue)', 'Pure live Issue-label classifier');
