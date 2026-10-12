@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { validateAuditCatalogue, validateAuditMetadata } from './validate-workflow-contracts.rules.mjs';
+import { validateApprovalWorkflowContracts, validateAuditCatalogue, validateAuditMetadata } from './validate-workflow-contracts.rules.mjs';
 const audit = (id, name, content = '') => ({ id, name, content });
 function metadata(id, name, options = {}) {
   const slug = name.replace(/^\d{2}-/, '').replace(/\.md$/, '');
@@ -52,3 +52,46 @@ test('rejects malformed or non-numbered entries', () => {
   assert.ok(errors.some((e) => e.includes('Malformed or non-numbered entry')));
 });
 test('accepts a complete one-to-one catalogue', () => assert.deepEqual(validateAuditCatalogue(audits, validCatalogue), []));
+
+
+const validApprovalSources = {
+  rootRules: '',
+  start: '',
+  common: [
+    "Read-only investigation, audits, source inspection, factual checkpoint updates to the mission Issue and comparison of options are the assistant's responsibility",
+    "Approval is for the explained change proposal, not the investigation, audit, implementation method or operational plan",
+    "The plan records outcome, acceptance criteria, decisions, ordered tasks, files/areas, dependencies, risks and verification. It is an internal execution document, not an approval request",
+    "If new evidence means the implementation would materially change the approved outcome, scope, direction or significant risk, pause the affected work",
+    "After the user approves the proposed changes, provide a ready-to-copy handoff prompt for a fresh implementation conversation by default",
+  ].join("\n"),
+  issueContract: [
+    "The plan is an internal execution document for the assistant, not a document the user must validate",
+    "The Issue can be updated during read-only investigation to preserve factual checkpoints. Such updates record state; they do not authorize implementation",
+  ].join("\n"),
+  featureGuide: '',
+  toolGuide: '',
+  productGuide: '',
+  decisions: '## DEC-050 — Fresh-conversation handoff with an explicit same-conversation option',
+};
+
+test('accepts the proposal-approval boundary, internal plan, escalation and handoff', () => {
+  assert.deepEqual(validateApprovalWorkflowContracts(validApprovalSources), []);
+});
+
+test('rejects the old plan-approval gate', () => {
+  const errors = validateApprovalWorkflowContracts({
+    ...validApprovalSources,
+    common: validApprovalSources.common + "\nBegin implementation only after the concrete plan is explicitly validated.",
+  });
+  assert.ok(errors.some((error) => error.includes('plan validation as implementation gate')));
+});
+
+test('rejects missing internal-plan and fresh-conversation safeguards', () => {
+  const errors = validateApprovalWorkflowContracts({
+    ...validApprovalSources,
+    issueContract: '',
+    decisions: '',
+  });
+  assert.ok(errors.some((error) => error.includes('Issue plan ownership')));
+  assert.ok(errors.some((error) => error.includes('DEC-050 handoff decision')));
+});
