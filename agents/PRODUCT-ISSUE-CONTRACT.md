@@ -30,13 +30,13 @@ Read the complete active Issue body and relevant comments/amendments before plan
 
 During implementation and before delivery, compare actual changes and results against the approved proposal, Issue and acceptance criteria. Record discrepancies, evidence and limitations. Routine adjustments consistent with the approved outcome are autonomous; consequential direction or risk changes require discussion.
 
-## 4. Approval and fresh-conversation handoff
+## 4. Approval and continuity
 
 Before any repository modification, present the user with a detailed, accessible explanation of the proposed changes: the concrete problem, expected result, why each change is needed, materially different alternatives, recommendation, trade-offs, risks, uncertainties, exclusions and supporting evidence. The user must be able to decide without opening this Issue, audit reports or code.
 
 The explicit green light applies to this explained proposal. It does not ask the user to approve read-only investigation, an audit, the implementation method or the operational plan. After approval, the assistant writes and uses the detailed Issue plan and implements autonomously.
 
-After approval of the proposed changes, follow the default and explicit same-conversation exception in the common work contract and DEC-050 in `docs/DECISIONS.md`: provide a ready-to-copy prompt for a fresh implementation conversation by default, because discussion and investigation may have consumed much of the available context. The user may instead explicitly ask to continue in the current conversation. The prompt points to this Issue and asks the new conversation to read the complete Issue/comments and repository instructions, reconstruct GitHub state, verify that the approved outcome remains valid, and implement autonomously. It is a launch instruction, not a second plan, and must not assume stale branch, commit, PR or CI state.
+Continue the work in the current conversation while it remains useful; changing conversations is optional, not a workflow phase. Do not require a handoff prompt by default. If context limits or a genuine continuity need make a handoff useful, update this Issue with the actual state and next action first, then provide a concise prompt that directs the next conversation to read repository instructions and this Issue/comments and reconstruct current GitHub state. Do not duplicate the operational plan or assume stale branch, commit, PR or CI state.
 
 ## 5. Checkpoints and evidence
 
