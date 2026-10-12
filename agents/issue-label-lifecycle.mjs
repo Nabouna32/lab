@@ -121,17 +121,17 @@ async function main() {
   let failures = 0, corrections = 0, compliant = 0;
   for (const issue of issues) {
     let result = validateIssueLabels(issue);
-    if (result.removableLabels.length && !result.errors.length) {
+    if (result.removableLabels.length) {
       const currentNames = labelNames(issue.labels);
       const updatedNames = currentNames.filter((name) => !result.removableLabels.includes(name));
       await setLabels(repo, issue, updatedNames, token);
+      corrections += 1;
       const refreshed = await fetchIssue(repo, issue.number, token);
       result = validateIssueLabels(refreshed);
       if (result.errors.length || result.removableLabels.length) {
         failures += 1;
         printResult(refreshed, result);
       } else {
-        corrections += 1;
         console.log('Issue #' + issue.number + ': deterministically removed unknown family label(s); revalidation passed.');
       }
     } else if (result.errors.length) {
