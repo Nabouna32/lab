@@ -45,7 +45,7 @@ For substantial work, use this sequence:
 
 During execution and before delivery, compare actual changes and results against the full Issue and approved proposal in both directions. Record discrepancies and actual verification evidence. Routine adjustments consistent with the approved outcome are autonomous; consequential direction or risk changes require discussion and explicit validation.
 
-After the user approves the proposed changes, provide a ready-to-copy handoff prompt for a fresh implementation conversation by default. This is deliberate protection against conversation-length limits after discussion and investigation. The prompt must link to the active Issue, direct the new conversation to read repository instructions and the complete Issue/comments, reconstruct current GitHub state, verify that the approved outcome remains valid, and implement autonomously. It is a launch instruction, not a second plan; do not duplicate the plan or assume stale branch, commit, PR or CI details. Continue in the current conversation only when the user explicitly asks to do so (for example, “continue ici”, “vas-y, fais-le ici” or “implémente dans cette conversation”). See DEC-050 in `docs/DECISIONS.md`.
+Continue in the current conversation while it remains useful; a new conversation is a practical option, not a workflow phase. Do not require a handoff prompt by default. If context limits or a genuine continuity need make a handoff useful, update the mission Issue first with the actual state and next action, then provide a concise prompt grounded in that checkpoint and fresh GitHub state. Never duplicate the Issue plan in the prompt or assume stale branch, PR or CI details.
 
 
 ## 5. Issues and durable follow-up
