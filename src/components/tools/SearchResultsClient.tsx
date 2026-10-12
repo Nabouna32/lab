@@ -46,6 +46,7 @@ export default function SearchResultsClient({ locale }: { locale: Locale }) {
     const syncFromHash = () => {
       const nextQuery = new URLSearchParams(window.location.hash.slice(1)).get("q")?.trim().slice(0, 120) ?? "";
       if (!nextQuery) {
+        requestId.current += 1;
         setQuery("");
         setResults([]);
         setIsSearching(false);
