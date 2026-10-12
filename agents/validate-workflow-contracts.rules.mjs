@@ -82,6 +82,19 @@ export function validateIssueLabelPolicy(commonContract, issueContract, dependab
   if (!/^### State transitions and maintenance\s*$/m.test(section)) {
     errors.push('Canonical label policy is missing the state-transitions section');
   }
+  const checklist = /^### Operational checklist\s*$\n([\s\S]*?)(?=^### |^## |\s*$)/m.exec(section);
+  if (!checklist) errors.push('Canonical label policy is missing its operational checklist');
+  else {
+    const body = checklist[1];
+    for (const marker of ['Invariant', 'Conditional', 'Adaptable means']) {
+      if (!body.includes(marker)) errors.push('Operational checklist must distinguish invariant, conditional and adaptable requirements (' + marker + ')');
+    }
+    for (const field of ['**Reason**', '**Resumption / unblock / review condition**', '**Next action**']) {
+      if (!body.includes(field)) errors.push('Operational checklist is missing structured suspension field ' + field);
+    }
+    if (!/equivalent methods|equivalent method/i.test(body)) errors.push('Operational checklist must permit evidence-equivalent methods');
+    if (!/unavailable|could not be checked/i.test(body)) errors.push('Operational checklist must define behavior when evidence is unavailable');
+  }
 
   const requiredIssueSections = [
     /^### Creation and triage\s*$/im,
@@ -104,6 +117,15 @@ export function validateIssueLabelPolicy(commonContract, issueContract, dependab
     [/GitHub's native Issue state/i, 'native GitHub closure rather than a completed label'],
     [/state:completed/i, 'explicit prohibition of state:completed'],
   ];
+  const checklistFields = ['**Reason**', '**Resumption / unblock / review condition**', '**Next action**'];
+  for (const field of checklistFields) {
+    if (!commonContract.includes(field)) errors.push('Canonical operational checklist is missing structured field ' + field);
+  }
+  if (!/exactly one `state:\*` label/i.test(issueContract) || !/exactly one `type:\*` label/i.test(issueContract)) {
+    errors.push('Issue contract must reference exactly one canonical state label and one canonical type label');
+  }
+  if (!/live-label workflow/i.test(issueContract)) errors.push('Issue contract must explain the live-label workflow boundary');
+  if (!/explicit human resolution/i.test(issueContract)) errors.push('Issue contract must require human resolution for ambiguous labels');
   for (const [pattern, description] of requiredPolicy) {
     if (!pattern.test(issueContract)) errors.push('Issue contract is missing required policy: ' + description);
   }
