@@ -2,6 +2,8 @@
 
 Use this guide when starting or resuming a repository mission. The single assistant works directly with the user; specialist guides provide task-specific checks, not delegated roles.
 
+The bootstrap below is a required action, not an assumption about context: fetch and read the current repository files through the available GitHub tools. Do not infer that a new conversation has already loaded them. If a required file cannot be read, report the limitation before relying on it.
+
 ## Bootstrap
 
 1. Read `AGENTS.md`, `agents/AGENT-CONTRACT.md` and `agents/PRODUCT-ISSUE-CONTRACT.md`.
