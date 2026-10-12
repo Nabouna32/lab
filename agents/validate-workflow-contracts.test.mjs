@@ -72,7 +72,7 @@ const commonLabelContract = (labels = labelTaxonomy) => [
   'Invariant: check actual state.',
   'Conditional: apply only when triggered.',
   'Adaptable means equivalent methods provide evidence.',
-  '**Reason** **Resumption / unblock / review condition** **Next action**',
+  '**Reason:** **Resumption / unblock / review condition:** **Next action:**',
   'Evidence unavailable must be reported.',
 ].join('\n');
 const issueLabelContract = [
