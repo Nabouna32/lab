@@ -315,12 +315,16 @@ select ok(
     where d.defaclrole = 'postgres'::regrole
       and d.defaclnamespace = 0
       and d.defaclobjtype = 'f'
-      and not exists (
-        select 1
-        from lateral aclexplode(d.defaclacl) acl
-        where acl.grantee = 0
-          and acl.privilege_type = 'EXECUTE'
-      )
+  )
+  and not exists (
+    select 1
+    from pg_default_acl d
+    cross join lateral aclexplode(d.defaclacl) acl
+    where d.defaclrole = 'postgres'::regrole
+      and d.defaclnamespace = 0
+      and d.defaclobjtype = 'f'
+      and acl.grantee = 0
+      and acl.privilege_type = 'EXECUTE'
   ),
   'postgres global function defaults revoke EXECUTE from PUBLIC'
 );
