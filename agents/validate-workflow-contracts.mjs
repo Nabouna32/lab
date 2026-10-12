@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { validateAuditCatalogue, validateAuditMetadata } from './validate-workflow-contracts.rules.mjs';
+import { validateApprovalWorkflowContracts, validateAuditCatalogue, validateAuditMetadata } from './validate-workflow-contracts.rules.mjs';
 
 const root = process.cwd();
 const errors = [];
@@ -53,21 +53,22 @@ const ci = read('.github/workflows/ci.yml');
 
 has(common, 'single ChatGPT assistant', 'Common contract');
 has(common, 'The user retains final authority', 'Decision authority');
-has(common, 'bidirectional coverage review', 'Plan traceability');
+has(common, 'approved proposal and Issue criteria', 'Proposal-to-implementation traceability');
 has(common, 'Assess urgency and priority across Loculary', 'Portfolio prioritization');
 has(common, 'Use emojis generously and naturally as visual markers in user-facing responses', 'Assistant emoji convention');
 has(common, 'functional product icons remain governed by', 'Product iconography distinction');
 has(common, 'A user\'s opinion, objection, doubt or counterargument is not automatically a decision', 'Discussion closure');
 has(common, 'active mission Issue stores the operational plan', 'Plan ownership');
 has(common, 'ready-to-copy handoff prompt for a fresh implementation conversation by default', 'Implementation handoff');
+errors.push(...validateApprovalWorkflowContracts({ common, start, rootRules, issueContract, featureGuide, toolGuide, productGuide, decisions }));
 has(common, '**OBSERVED**', 'Evidence integrity');
 has(issueContract, 'Operational plan', 'Issue contract plan structure');
-has(issueContract, 'Plan validation and fresh-conversation handoff', 'Issue contract handoff');
-has(issueContract, 'Decision-to-plan traceability', 'Issue decision-to-plan coverage');
+has(issueContract, 'Approval and fresh-conversation handoff', 'Issue contract handoff');
+has(issueContract, 'Traceability and verification', 'Issue decision-to-implementation traceability');
 has(auditContract, 'Historical reports remain immutable', 'Audit immutability');
 has(auditContract, 'The mission Issue owns the operational plan', 'Audit/Issue separation');
 has(start, 'Read the complete active mission Issue and relevant comments', 'Bootstrap');
-has(rootRules, 'After plan validation, provide a ready-to-copy handoff prompt', 'Repository handoff rule');
+has(rootRules, 'After approval of the proposed changes, provide a ready-to-copy handoff prompt', 'Repository handoff rule');
 has(featureContract, 'feature-specific requirements', 'Feature specialization');
 has(toolContract, 'formulas, units, conversion factors', 'Tool domain checks');
 has(featureGuide, 'manual-only', 'Feature E2E policy');
