@@ -79,7 +79,7 @@ const issueLabelContract = [
   '### Creation and triage',
   '### Checkpoints, transitions and blockers',
   '### Closure and reopening',
-  'exactly one `state:*` label exactly one `type:*` label state:waiting state:deferred reason condition for resumption or review next follow-up action state:blocked prerequisite GitHub\'s native Issue state state:completed',
+  'exactly one `state:*` label exactly one `type:*` label state:waiting state:deferred reason condition for resumption or review next follow-up action state:blocked prerequisite GitHub\'s native Issue state state:completed live-label workflow explicit human resolution',
 ].join('\n');
 const dependabotLabels = 'labels:\n  - dependencies\n  - npm\n  - github-actions\n';
 
