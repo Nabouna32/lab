@@ -93,7 +93,7 @@ export function validateIssueLabelPolicy(commonContract, issueContract, dependab
     for (const marker of ['Invariant', 'Conditional', 'Adaptable means']) {
       if (!body.includes(marker)) errors.push('Operational checklist must distinguish invariant, conditional and adaptable requirements (' + marker + ')');
     }
-    for (const field of ['**Reason**', '**Resumption / unblock / review condition**', '**Next action**']) {
+    for (const field of ['**Reason:**', '**Resumption / unblock / review condition:**', '**Next action:**']) {
       if (!body.includes(field)) errors.push('Operational checklist is missing structured suspension field ' + field);
     }
     if (!/equivalent methods|equivalent method/i.test(body)) errors.push('Operational checklist must permit evidence-equivalent methods');
@@ -121,7 +121,7 @@ export function validateIssueLabelPolicy(commonContract, issueContract, dependab
     [/GitHub's native Issue state/i, 'native GitHub closure rather than a completed label'],
     [/state:completed/i, 'explicit prohibition of state:completed'],
   ];
-  const checklistFields = ['**Reason**', '**Resumption / unblock / review condition**', '**Next action**'];
+  const checklistFields = ['**Reason:**', '**Resumption / unblock / review condition:**', '**Next action:**'];
   for (const field of checklistFields) {
     if (!commonContract.includes(field)) errors.push('Canonical operational checklist is missing structured field ' + field);
   }
