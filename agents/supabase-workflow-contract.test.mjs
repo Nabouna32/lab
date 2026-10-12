@@ -154,7 +154,7 @@ test('npm audit reporter prints advisory metadata, lockfile paths, and fix avail
     assert.match(result.stdout, /Avis indirect : vulnérabilité propagée par micromatch/);
     assert.match(result.stdout, /Paquets signalés comme vulnérables : 1/);
     assert.match(result.stdout, /ne représente pas nécessairement des avis distincts/);
-    assert.match(result.stdout, /Code de sortie de la commande npm audit reste la référence/);
+    assert.match(result.stdout, /code de sortie de la commande npm audit reste la référence/);
     assert.match(result.stdout, /CWE-400/);
     assert.match(result.stdout, /Score CVSS : 7\.5/);
   } finally {
