@@ -67,7 +67,7 @@ A mission must be recoverable from the Issue, its branch/PR and linked canonical
 ### Checkpoints, transitions and blockers
 
 - Apply the canonical checklist at mission start/resumption, meaningful checkpoints, state transitions and before interruption. The Issue body must remain independently resumable and consistent with actual work.
-- When the state is `state:waiting`, `state:blocked` or `state:deferred`, use explicit fields in the Issue body: **Reason**, **Resumption / unblock / review condition**, and **Next action**. Explain the specific external dependency, internal prerequisite, or deliberate postponement respectively.
+- When the state is `state:waiting`, `state:blocked` or `state:deferred`, use explicit fields in the Issue body: **Reason:**, **Resumption / unblock / review condition:**, and **Next action:**. Explain the specific external dependency, internal prerequisite, or deliberate postponement respectively.
 - The live-label workflow reports missing labels and competing canonical labels for explicit human resolution; it must not infer the intended state or type from prose.
 
 ### Closure and reopening
