@@ -152,7 +152,9 @@ if (/use emojis sparingly|emojis? without clutter|concise visual control receipt
 if (packageJson.scripts?.['validate:workflows'] !== 'node agents/validate-workflow-contracts.mjs') {
   fail('package.json must expose validate:workflows as the focused Node validator');
 }
-has(ci, 'governance_changed=true', 'CI governance change detection');
+has(ci, 'agents/classify-ci-changes.mjs', 'CI change classification');
+has(ci, 'governance_changed="$value"', 'CI governance change detection');
+has(ci, 'node --test agents/classify-ci-changes.test.mjs', 'CI classifier behavioral tests');
 has(ci, 'node agents/validate-workflow-contracts.mjs', 'CI lightweight governance validation');
 has(ci, 'git fetch --no-tags --depth=1 origin main', 'CI main freshness check');
 has(ci, 'name: Node.js 24.21.0', 'CI check name');
