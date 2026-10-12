@@ -17,7 +17,7 @@ Assess whether Loculary's agent instructions and collaboration workflow remain t
 2. **Decision rights:** challenge of vision and existing decisions; user authority over consequential choices; distinction between opinion, decision, approval of the explained change proposal and routine implementation.
 3. **Proposal-to-implementation traceability:** compare the complete active Issue and relevant comments bidirectionally against the approved change proposal, internal operational plan, acceptance criteria, implementation and evidence. The user approves the explained changes, not the internal plan.
 4. **Autonomy and escalation:** verify that read-only investigation and factual checkpoints need no approval, routine technical work and failed-check diagnosis proceed without repetitive approval, and material changes to the approved outcome or significant risk are escalated.
-5. **Issue continuity:** checkpoints, fresh-conversation handoff, recovery after interruption, deferred findings and duplicate-Issue checks.
+5. **Issue continuity:** useful checkpoints, optional handoff only when context or continuity requires it, recovery after interruption, deferred findings and duplicate-Issue checks.
 6. **Contract coherence:** identify duplicated, contradictory, stale or overly mechanical instructions across shared and specialist procedures.
 7. **Validator quality:** inspect what the validator actually proves, its structural assumptions, stale wording checks, audit IDs and reference integrity.
 8. **CI efficiency and coverage:** verify exact path triggers, lightweight governance validation, full-suite gating, required checks and the manual-only PR policy for E2E/screenshots.
