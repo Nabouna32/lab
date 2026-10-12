@@ -14,9 +14,9 @@ Assess whether Loculary's agent instructions and collaboration workflow remain t
 ## Required coverage
 
 1. **Bootstrap and source of truth:** `AGENTS.md`, `agents/START-HERE.md`, the common contract, mission Issue contract, canonical product documents and current GitHub state.
-2. **Decision rights:** challenge of vision and existing decisions; user authority over consequential choices; distinction between opinion, decision, plan approval and routine implementation.
-3. **Plan traceability:** compare the complete active Issue and relevant comments bidirectionally against the operational plan, acceptance criteria, implementation and evidence.
-4. **Autonomy and escalation:** verify that routine technical work and failed-check diagnosis proceed without repetitive approval, while material direction/risk changes are escalated.
+2. **Decision rights:** challenge of vision and existing decisions; user authority over consequential choices; distinction between opinion, decision, approval of the explained change proposal and routine implementation.
+3. **Proposal-to-implementation traceability:** compare the complete active Issue and relevant comments bidirectionally against the approved change proposal, internal operational plan, acceptance criteria, implementation and evidence. The user approves the explained changes, not the internal plan.
+4. **Autonomy and escalation:** verify that read-only investigation and factual checkpoints need no approval, routine technical work and failed-check diagnosis proceed without repetitive approval, and material changes to the approved outcome or significant risk are escalated.
 5. **Issue continuity:** checkpoints, fresh-conversation handoff, recovery after interruption, deferred findings and duplicate-Issue checks.
 6. **Contract coherence:** identify duplicated, contradictory, stale or overly mechanical instructions across shared and specialist procedures.
 7. **Validator quality:** inspect what the validator actually proves, its structural assumptions, stale wording checks, audit IDs and reference integrity.
