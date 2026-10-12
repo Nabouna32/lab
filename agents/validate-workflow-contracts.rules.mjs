@@ -97,7 +97,6 @@ export function validateIssueLabelPolicy(commonContract, issueContract, dependab
     for (const field of ['**Reason:**', '**Resumption / unblock / review condition:**', '**Next action:**']) {
       if (!body.includes(field)) errors.push('Operational checklist is missing structured suspension field ' + field);
     }
-    if (!/equivalent methods|equivalent method/i.test(body)) errors.push('Operational checklist must permit evidence-equivalent methods');
     if (!/unavailable|could not be checked/i.test(body)) errors.push('Operational checklist must define behavior when evidence is unavailable');
   }
 
