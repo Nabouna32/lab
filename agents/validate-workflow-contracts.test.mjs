@@ -86,6 +86,14 @@ test('rejects the old plan-approval gate', () => {
   assert.ok(errors.some((error) => error.includes('plan validation as implementation gate')));
 });
 
+test('rejects mandatory fresh-conversation handoff', () => {
+  const errors = validateApprovalWorkflowContracts({
+    ...validApprovalSources,
+    common: validApprovalSources.common + "\nAfter the user approves the proposed changes, provide a ready-to-copy handoff prompt for a fresh implementation conversation by default",
+  });
+  assert.ok(errors.some((error) => error.includes('mandatory fresh-conversation handoff')));
+});
+
 test('rejects missing internal-plan and continuity safeguards', () => {
   const errors = validateApprovalWorkflowContracts({
     ...validApprovalSources,
