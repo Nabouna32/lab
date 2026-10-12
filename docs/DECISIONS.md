@@ -594,32 +594,6 @@ The product identity has been explicitly changed while the underlying repository
 - Infrastructure names and identifiers are not assumed to change automatically; each migration is handled explicitly.
 
 
-## DEC-033 — Discussion, plan validation and autonomous execution
-
-**Status:** Accepted
-
-### Decision
-
-Substantial work separates three distinct moments: discussion and decision of the direction; explicit validation of the concrete operational plan; autonomous execution and verification of that plan.
-
-The assistant analyzes the full relevant problem, challenges assumptions and existing decisions, recommends the best coherent solution and explains meaningful trade-offs. The user retains final authority over consequential product, architecture, privacy, security, legal, cost and irreversible decisions unless explicitly delegated. Documented decisions remain open to critique, but cannot be changed silently.
-
-An objection or opinion is not automatically a decision or permission to implement. Discussion continues until the user explicitly identifies the retained direction. The operational plan is written in the active mission Issue and must state expected outcome, acceptance criteria, validated decisions, ordered work, dependencies, risks and verification. Direction approval does not replace explicit plan validation.
-
-After plan validation, the assistant executes the plan autonomously, including routine engineering choices, relevant corrections, failed-check diagnosis and verification. Escalation is reserved for a consequential new decision, material change of direction or significant risk requiring explicit acceptance.
-
-### Reason
-
-This preserves user authority over consequential direction without forcing repetitive approvals for routine execution or fragmenting coherent work into artificially small steps.
-
-### Consequences
-
-- The mission Issue is the canonical operational plan and durable checkpoint.
-- Technical sequencing is internal execution, not a series of approval requests.
-- A validated plan is followed by a ready-to-copy handoff prompt for a fresh implementation conversation by default.
-- Vision and decisions can be challenged; changes require explicit validation and consistent updates to dependent active documents.
-- No silent change of direction or material risk acceptance is permitted.
-
 ## DEC-034 — UX direction reset and user-intention architecture
 
 **Status:** Accepted
@@ -782,28 +756,27 @@ Technology modernization, agent-system governance and final launch readiness add
 
 Loculary work is conducted by one assistant working directly with the user. Product, feature, tool and audit guides are specialist procedures, not separate agent identities or delegated workers.
 
-The assistant investigates the complete relevant problem, user journey, dependencies and root causes; challenges existing choices and its own proposals; and recommends the best coherent solution. The user retains final authority over consequential decisions unless explicitly delegated.
+The assistant autonomously investigates the complete relevant problem, user journey, code, contracts, dependencies and current GitHub state in read-only mode; challenges existing choices and its own proposals; and recommends the best coherent solution. Read-only investigation, audits and factual Issue checkpoints do not require user approval.
 
-The collaboration sequence is discussion and explicit direction decision → concrete operational plan in the active GitHub Issue → explicit plan validation → autonomous implementation and evidence-based verification. Routine technical substeps do not require repeated approval. The assistant escalates only for consequential new decisions, material direction changes or significant risks needing explicit acceptance.
+Before modifying repository files, the assistant presents an accessible, evidence-based explanation of the concrete proposed changes, reasons, alternatives, recommendation, risks, trade-offs, uncertainties and exclusions. The user's explicit green light applies to that proposal, not to an audit or technical plan. After approval, the detailed operational plan lives in the active mission Issue as an internal execution document; it is not submitted for user approval.
 
-After plan validation, the assistant provides a self-contained, ready-to-copy prompt for a fresh implementation conversation. That prompt points to the Issue as the source of truth and requires fresh inspection of current repository/GitHub state; it does not duplicate the plan or assume stale branch/PR/CI state.
+The assistant implements and verifies the approved outcome autonomously, including routine technical choices and diagnosis/fixes for failed checks. If new evidence materially changes the approved outcome, scope, direction or significant risk, the assistant pauses the affected work and discusses the new decision before proceeding.
 
-Every resumable mission uses a GitHub Issue checkpoint. At meaningful milestones and before interruption, update it with actual state, decisions, completed work, verification evidence, blockers and next action. For actionable deferred work, search for a matching Issue, update it or create one if needed, and tell the user. Tracking does not silently change priority or authorize implementation.
-
-Issues complement Git and canonical documentation. They do not replace Git as the implementation source of truth, canonical specifications as the source of current product intent, immutable audit reports, branches, pull requests or CI evidence.
+Every resumable mission uses a GitHub Issue checkpoint. At meaningful milestones and before interruption, update it with actual state, decisions, completed work, verification evidence, blockers and next action. Search for a matching Issue before creating one for actionable deferred work. Tracking does not silently change priority or authorize implementation.
 
 ### Reason
 
-This gives the user a critical product/technical partner while preserving final authority over consequential decisions. It supports coherent end-to-end execution, independent resumption and traceability without duplicated repository checkpoints or delegated-role handoffs.
+This preserves the user's authority over consequential direction while allowing the assistant to own investigation and execution. It avoids making the user approve technical process documents instead of the changes they are being asked to authorize.
 
 ### Consequences
 
 - One assistant conducts product reasoning, audits, feature work, tool work, implementation and verification.
 - The Issue is the operational plan/checkpoint; audit reports remain immutable historical evidence.
-- The handoff prompt launches a new conversation but does not compete with the Issue's plan.
+- The explicit green light precedes repository modifications and approves the explained change proposal.
+- The plan is internal execution guidance; routine implementation does not require repeated approval.
+- Material changes to the approved outcome or significant risk require renewed discussion.
 - Actionable deferred findings are durably tracked after duplicate checks; tracking does not authorize implementation.
 - Keep active documentation concise and current; ordinary Git history preserves prior versions.
-
 
 ## DEC-042 — Next actions are contextual and optional
 
@@ -918,30 +891,28 @@ The project prioritizes a short, predictable delivery loop. Explicitly checking 
 - A successful merge must be confirmed from GitHub's actual PR and `main` state before closing the mission Issue.
 - Repository rulesets and required checks remain authoritative; this decision never authorizes bypassing them.
 
-## DEC-050 — Explicit exception to fresh-conversation handoff
+## DEC-050 — Fresh-conversation handoff with an explicit same-conversation option
 
 **Status:** Accepted
 
 ### Decision
 
-After the user explicitly validates a concrete implementation plan, the assistant provides a ready-to-copy prompt for a fresh implementation conversation by default.
+After the user explicitly approves the explained change proposal and before implementation starts, the assistant provides a ready-to-copy prompt for a fresh implementation conversation by default.
 
-A generic **“validé, continue”** confirms the plan and authorizes the next workflow stage; it does not, by itself, request implementation in the current conversation or cancel the default handoff.
+This default is intentional: discussion, investigation and decision-making may consume much of the available conversation context, and continuing implementation in an exhausted conversation risks interruption or failure at the point where code changes begin. The handoff prompt is a practical reliability measure, not a ceremony to remove.
 
-The assistant stays in the current conversation only when the user explicitly asks to continue here (for example, “continue ici” or “implémente dans cette conversation”), or when the current task's context already establishes a deliberate same-conversation exception.
+The user can choose either to open a new conversation with the prompt or to explicitly ask the assistant to continue implementation in the current conversation. A generic “validé, continue” does not by itself cancel the default handoff; an explicit same-conversation request does.
 
-The handoff prompt is the deliverable for the next workflow stage, not a second plan. It links to the active mission Issue and instructs the new conversation to reread repository instructions and the complete Issue/comments, reconstruct the actual GitHub state, verify that the approved plan remains valid, and then implement autonomously. It must not copy assumptions about branches, commits, pull requests or CI from the previous conversation.
-
-The common work contract contains the operational wording; other active contracts refer to it without duplicating the policy.
+The handoff prompt links to the active mission Issue and instructs the new conversation to read the current repository instructions and complete Issue/comments, reconstruct actual GitHub state, verify that the approved outcome remains valid, then implement autonomously. It must not duplicate the operational plan or assume stale branch, commit, PR or CI details. It is not a second approval step.
 
 ### Reason
 
-Conversation length limits make a fresh implementation conversation the reliable default after planning. Treating a generic continuation phrase as an implicit exception silently discards that default and makes workflow continuity depend on an unsupported assumption.
+Fresh context protects implementation from conversation-length limits after lengthy discussion and investigation, while an explicit option to continue here avoids needless friction when the user prefers it and context is sufficient.
 
 ### Consequences
 
-- The default fresh-conversation handoff remains in force after explicit plan approval.
-- A generic continuation phrase is not an exception; an explicit request or already-established intentional exception is required to stay in the current conversation.
-- The handoff prompt must rely on the mission Issue and fresh repository/GitHub inspection rather than stale conversation details.
-- The handoff is not a second plan and must not ask the user to validate the same plan again.
-- This rule clarifies workflow behavior only; it does not change CI triggers, Node.js 24, CodeQL, branch protections or E2E policy.
+- The default fresh-conversation handoff remains in force after approval of the proposed changes.
+- The user may explicitly choose to continue in the current conversation.
+- The prompt relies on the mission Issue and fresh repository/GitHub inspection rather than stale conversation details.
+- The handoff is not a second plan and must not ask the user to validate the same changes again.
+- This rule does not change CI triggers, Node.js, branch protections or E2E policy.
