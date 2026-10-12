@@ -11,7 +11,6 @@ The bootstrap below is a required action, not an assumption about context: fetch
    - Product/documentation: `agents/product/PRODUCT-WORKFLOW.md`
    - Feature: `agents/features/FEATURE-FACTORY-CONTRACT.md` and `agents/features/FEATURE-WORKFLOW.md`
    - Tool: `agents/tools/TOOL-FACTORY-CONTRACT.md` and `agents/tools/TOOL-WORKFLOW.md`
-   - Audit: `agents/AUDIT-CONTRACT.md` and the relevant `agents/audits/` procedure
 3. Read the canonical product, UX, architecture, privacy and decision documents relevant to the task.
 4. Reconstruct current GitHub state: `main` HEAD, branches, open PRs, relevant Issues, CI and merge conditions. Never rely on conversation history as evidence.
 5. Read the complete active mission Issue and relevant comments. Reconcile its plan, decisions, dependencies and next action against current reality.
@@ -28,6 +27,6 @@ The bootstrap below is a required action, not an assumption about context: fetch
 - Continue in the current conversation while it remains useful; do not require a new conversation or handoff prompt by default. If a handoff becomes genuinely useful because of context limits or continuity needs, update the Issue checkpoint first and ground the prompt in current repository/GitHub state.
 - Keep the Issue current at meaningful checkpoints. Track actionable deferred findings in existing or new Issues; tracking does not itself authorize implementation.
 - Distinguish observed facts, measurements, deductions, hypotheses, proposals and unverified points. Never claim checks passed without evidence.
-- Keep active documentation current. Historical audit reports are immutable.
+- Keep active documentation current. Record investigation conclusions when they remain useful for a decision or actionable follow-up; do not create permanent reports by default.
 
 If a required read is missing or incomplete, retrieve it before proceeding. If active documents conflict, resolve the contradiction explicitly rather than silently following stale guidance.

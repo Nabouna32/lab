@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { validateApprovalWorkflowContracts, validateAuditCatalogue, validateAuditMetadata } from './validate-workflow-contracts.rules.mjs';
+import { validateApprovalWorkflowContracts } from './validate-workflow-contracts.rules.mjs';
 
 const root = process.cwd();
 const errors = [];
@@ -17,13 +17,6 @@ const read = (relative) => {
 const has = (text, value, label) => {
   if (!text.includes(value)) fail(`${label}: missing "${value}"`);
 };
-const listMarkdown = (directory) => {
-  if (!fs.existsSync(directory)) return [];
-  return fs.readdirSync(directory, { withFileTypes: true })
-    .filter((entry) => entry.isFile() && entry.name.endsWith('.md'))
-    .map((entry) => entry.name)
-    .sort();
-};
 const listMarkdownRecursive = (directory, prefix = '') => {
   if (!fs.existsSync(directory)) return [];
   return fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
@@ -38,14 +31,12 @@ const common = read('agents/AGENT-CONTRACT.md');
 const start = read('agents/START-HERE.md');
 const rootRules = read('AGENTS.md');
 const issueContract = read('agents/PRODUCT-ISSUE-CONTRACT.md');
-const auditContract = read('agents/AUDIT-CONTRACT.md');
 const featureContract = read('agents/features/FEATURE-FACTORY-CONTRACT.md');
 const featureGuide = read('agents/features/FEATURE-WORKFLOW.md');
 const toolContract = read('agents/tools/TOOL-FACTORY-CONTRACT.md');
 const toolGuide = read('agents/tools/TOOL-WORKFLOW.md');
 const productGuide = read('agents/product/PRODUCT-WORKFLOW.md');
 const workflowIndex = read('agents/README.md');
-const auditIndex = read('agents/audits/README.md');
 const decisions = read('docs/DECISIONS.md');
 const packageJson = JSON.parse(read('package.json'));
 const ci = read('.github/workflows/ci.yml');
@@ -65,8 +56,6 @@ has(common, '**OBSERVED**', 'Evidence integrity');
 has(issueContract, 'Operational plan', 'Issue contract plan structure');
 has(issueContract, 'Approval and continuity', 'Issue contract continuity');
 has(issueContract, 'Traceability and verification', 'Issue decision-to-implementation traceability');
-has(auditContract, 'Historical reports remain immutable', 'Audit immutability');
-has(auditContract, 'The mission Issue owns the operational plan', 'Audit/Issue separation');
 has(start, 'Read the complete active mission Issue and relevant comments', 'Bootstrap');
 has(rootRules, 'Do not require a new conversation or a handoff prompt by default', 'Optional repository handoff');
 has(featureContract, 'feature-specific requirements', 'Feature specialization');
@@ -74,10 +63,6 @@ has(toolContract, 'formulas, units, conversion factors', 'Tool domain checks');
 has(featureGuide, 'manual-only', 'Feature E2E policy');
 has(toolGuide, 'manual-only', 'Tool E2E policy');
 has(productGuide, 'Never change direction silently', 'Product workflow');
-has(workflowIndex, 'Specialist guides retain domain checks only', 'Workflow index');
-has(workflowIndex, 'contiguous IDs 01–32', 'Workflow index numbering policy');
-if (/Audit procedures have stable, unique IDs but need not be contiguous/i.test(workflowIndex)) fail('Workflow index still permits non-contiguous audit IDs');
-has(auditIndex, 'contiguous specialist IDs 01–32', 'Audit numbering policy');
 has(decisions, '## DEC-049 — Controlled manual merge as the default delivery workflow', 'Merge decision');
 has(common, 'Never bypass protections', 'Protected merge policy');
 
@@ -97,50 +82,6 @@ for (const [pattern, label] of staleRules) {
   if (pattern.test(governanceText)) fail(`Obsolete collaboration framing remains: ${label}`);
 }
 
-const auditFiles = listMarkdown(path.join(root, 'agents', 'audits'))
-  .filter((name) => /^\d{2}-.+\.md$/.test(name));
-const audits = auditFiles.map((name) => ({
-  name,
-  id: Number(/^(\d{2})-/.exec(name)[1]),
-  content: read('agents/audits/' + name),
-}));
-errors.push(...validateAuditMetadata(audits));
-const seenIds = new Set();
-for (const audit of audits) {
-  if (seenIds.has(audit.id)) fail('Duplicate audit ID: ' + String(audit.id).padStart(2, '0'));
-  seenIds.add(audit.id);
-  has(audit.content, 'agents/AUDIT-CONTRACT.md', 'Audit contract reference ' + audit.name);
-
-  
-
-}
-
-const specialistAudits = audits.filter(({ id }) => id !== 99).sort((a, b) => a.id - b.id);
-const expectedSpecialistIds = Array.from({ length: 32 }, (_, index) => index + 1);
-const actualSpecialistIds = specialistAudits.map(({ id }) => id);
-if (JSON.stringify(actualSpecialistIds) !== JSON.stringify(expectedSpecialistIds)) {
-  fail('Specialist audit IDs must be contiguous 01–32; found [' +
-    actualSpecialistIds.map((id) => String(id).padStart(2, '0')).join(', ') + ']');
-}
-const finalProcedures = audits.filter(({ name }) => /final|red[- ]team/i.test(name));
-if (finalProcedures.length !== 1 || finalProcedures[0].name !== '99-final-launch.md') {
-  fail('Expected exactly one final-launch procedure, 99-final-launch.md; found ' +
-    finalProcedures.map(({ name }) => name).join(', '));
-}
-const finalAudits = audits.filter(({ id }) => id === 99);
-if (finalAudits.length !== 1) fail('Expected exactly one reserved audit 99, found ' + finalAudits.length);
-else if (finalAudits[0].name !== '99-final-launch.md') {
-  fail('Audit 99 must be the reserved final-launch procedure; found ' + finalAudits[0].name);
-}
-if (audits.some(({ id }) => id > 32 && id !== 99)) {
-  fail('Only audit 99 may exist outside the specialist sequence 01–32');
-}
-if (!audits.some(({ id, name }) => id === 32 && name === '32-agent-system.md')) {
-  fail('Missing audit 32 — agent-system governance and workflow');
-}
-
-// Validate catalogue integrity with controlled, independently testable inputs.
-errors.push(...validateAuditCatalogue(audits, auditIndex));
 
 if (/use emojis sparingly|emojis? without clutter|concise visual control receipt being trialed/i.test(governanceText)) {
   fail('Active agent guidance still restricts emoji use or requires a mechanical response receipt');
@@ -169,4 +110,4 @@ if (errors.length) {
   }
   process.exit(1);
 }
-console.log(`Workflow validation passed: ${audits.length} audit procedures checked; specialist IDs are contiguous 01–32, audit 99 is reserved, and procedure metadata/catalogue references agree.`);
+console.log('Workflow validation passed: collaboration contracts and CI governance checks are consistent.');
