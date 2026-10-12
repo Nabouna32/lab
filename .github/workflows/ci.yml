@@ -53,39 +53,44 @@ jobs:
             changed_paths_file="$RUNNER_TEMP/ci-changed-paths"
             gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER/files?per_page=100" \
               | jq -j '.[][] | .filename, "\u0000"' > "$changed_paths_file"
-            mapfile -d '' -t changed_paths < "$changed_paths_file"
-
-            if (( ${#changed_paths[@]} != PR_CHANGED_FILES )); then
-              echo "::error::GitHub returned ${#changed_paths[@]} changed paths, but the PR event reports $PR_CHANGED_FILES. Refusing to skip validation on incomplete scope data."
-              exit 1
-            fi
-            if (( ${#changed_paths[@]} == 0 )); then
-              echo "::error::No changed paths were returned for a pull request. Refusing to classify the PR as lightweight."
-              exit 1
-            fi
-
-            lightweight_only=true
-            for path in "${changed_paths[@]}"; do
-              case "$path" in
-                *.md|*.mdx|*.txt|LICENSE|LICENSE.*|AGENTS.md|agents/**|docs/DECISIONS.md|docs/PRODUCT.md|docs/PROJECT_INSTRUCTIONS.md|.github/workflows/**)
+            classification_output="$(node agents/classify-ci-changes.mjs "$PR_CHANGED_FILES" "$changed_paths_file")"
+            lightweight_only_seen=false
+            dependencies_changed_seen=false
+            governance_changed_seen=false
+            while IFS='=' read -r key value; do
+              case "$value" in
+                true|false) ;;
+                *)
+                  echo "::error::Classifier returned an invalid boolean value."
+                  exit 1
+                  ;;
+              esac
+              case "$key" in
+                lightweight_only)
+                  [[ "$lightweight_only_seen" == false ]] || { echo "::error::Classifier duplicated lightweight_only."; exit 1; }
+                  lightweight_only_seen=true
+                  lightweight_only="$value"
+                  ;;
+                dependencies_changed)
+                  [[ "$dependencies_changed_seen" == false ]] || { echo "::error::Classifier duplicated dependencies_changed."; exit 1; }
+                  dependencies_changed_seen=true
+                  dependencies_changed="$value"
+                  ;;
+                governance_changed)
+                  [[ "$governance_changed_seen" == false ]] || { echo "::error::Classifier duplicated governance_changed."; exit 1; }
+                  governance_changed_seen=true
+                  governance_changed="$value"
                   ;;
                 *)
-                  lightweight_only=false
+                  echo "::error::Classifier returned an unexpected output key."
+                  exit 1
                   ;;
               esac
-
-              case "$path" in
-                package.json|package-lock.json)
-                  dependencies_changed=true
-                  ;;
-              esac
-
-              case "$path" in
-                AGENTS.md|agents/**|docs/DECISIONS.md|docs/PRODUCT.md|docs/PROJECT_INSTRUCTIONS.md|.github/workflows/**)
-                  governance_changed=true
-                  ;;
-              esac
-            done
+            done <<< "$classification_output"
+            if [[ "$lightweight_only_seen" != true || "$dependencies_changed_seen" != true || "$governance_changed_seen" != true ]]; then
+              echo "::error::Classifier omitted a required output."
+              exit 1
+            fi
           fi
 
           echo "lightweight_only=$lightweight_only" >> "$GITHUB_OUTPUT"
@@ -95,7 +100,7 @@ jobs:
           # Ubuntu runners provide Node.js. This validator has no external dependencies,
           # so governance-only PRs do not need setup-node, npm ci, or a separate job.
           if [[ "$governance_changed" == "true" ]]; then
-            node --test agents/validate-workflow-contracts.test.mjs agents/issue-label-lifecycle.test.mjs
+            node --test agents/classify-ci-changes.test.mjs agents/validate-workflow-contracts.test.mjs agents/issue-label-lifecycle.test.mjs
             node agents/validate-workflow-contracts.mjs
           fi
 
