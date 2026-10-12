@@ -6,7 +6,7 @@ The bootstrap below is a required action, not an assumption about context: fetch
 
 ## Bootstrap
 
-1. Read `AGENTS.md`, `agents/AGENT-CONTRACT.md` and `agents/PRODUCT-ISSUE-CONTRACT.md`.
+1. Read `AGENTS.md`, `agents/AGENT-CONTRACT.md` and `agents/PRODUCT-ISSUE-CONTRACT.md`; the common contract is canonical for Issue-label taxonomy and lifecycle.
 2. Read the relevant specialist contract/procedure:
    - Product/documentation: `agents/product/PRODUCT-WORKFLOW.md`
    - Feature: `agents/features/FEATURE-FACTORY-CONTRACT.md` and `agents/features/FEATURE-WORKFLOW.md`

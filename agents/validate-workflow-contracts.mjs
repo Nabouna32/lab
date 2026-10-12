@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { validateAuditCatalogue, validateAuditMetadata } from './validate-workflow-contracts.rules.mjs';
+import { validateAuditCatalogue, validateAuditMetadata, validateIssueLabelPolicy } from './validate-workflow-contracts.rules.mjs';
 
 const root = process.cwd();
 const errors = [];
@@ -49,6 +49,8 @@ const auditIndex = read('agents/audits/README.md');
 const decisions = read('docs/DECISIONS.md');
 const packageJson = JSON.parse(read('package.json'));
 const ci = read('.github/workflows/ci.yml');
+const dependabot = read('.github/dependabot.yml');
+errors.push(...validateIssueLabelPolicy(common, issueContract, dependabot));
 
 has(common, 'single ChatGPT assistant', 'Common contract');
 has(common, 'The user retains final authority', 'Decision authority');

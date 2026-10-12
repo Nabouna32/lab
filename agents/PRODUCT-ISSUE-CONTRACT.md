@@ -53,3 +53,28 @@ Tracking does not silently change priority or authorize implementation. Do not d
 ## 7. Closure and recovery
 
 A mission must be recoverable from the Issue, its branch/PR and linked canonical documents/evidence. Close it only when completed and verified, explicitly abandoned, or remaining work is durably tracked elsewhere. Before closure, record actual final state, verification and any remaining limitations.
+
+
+## 8. Issue-label lifecycle
+
+Labels must reflect the Issue's current operational state, not merely its original intent. Follow the canonical taxonomy and transition rules in `agents/AGENT-CONTRACT.md`; this contract defines how to apply those rules to mission tracking.
+
+### Creation and triage
+
+- When creating an Issue, apply exactly one `state:*` label and exactly one `type:*` label. Add zero or more relevant `area:*` labels only when they improve routing or context.
+- Choose `state:ready` for actionable, triaged work; `state:investigating` when scope or root cause remains materially uncertain. Choose the type from the Issue's primary outcome, not from its current phase.
+- If an Issue is discovered without the required labels, correct it at the next meaningful touch rather than leaving the contract unenforced.
+
+### Checkpoints, transitions and blockers
+
+- Update the state label whenever work moves between ready, investigation, implementation and verification. Remove the old `state:*` label as the new one is applied; never leave multiple lifecycle states on an open Issue.
+- For an internal blocker, use `state:blocked` and name the specific prerequisite, dependency or decision that must be resolved, including the next action.
+- For an external dependency or response, use `state:waiting`. Record the reason, the condition that permits resumption or review, and the next follow-up action.
+- For deliberately postponed work, use `state:deferred`. Record the reason for postponement, the condition or date/event for reconsideration, and the next review action. Deferred work must not become an unowned parking lot.
+- At every meaningful checkpoint and before interruption, keep the label and Issue body consistent with actual progress, evidence, decisions, blockers, dependencies and next action. Reassess waiting/deferred Issues when their review condition is met.
+
+### Closure and reopening
+
+- Close completed or intentionally abandoned work using GitHub's native Issue state and an appropriate native close reason. Do not apply a `state:completed` label.
+- Before closure, record the actual outcome and verification evidence, and ensure remaining work is tracked in a separate Issue when needed.
+- When a closed Issue is reopened, reassess its type, areas and operational state and restore exactly one appropriate `state:*` label and one `type:*` label.
