@@ -22,4 +22,6 @@ test("localized search routes share the existing search page and validate their 
 test("search page remains usable without a fragment and syncs query history", () => {
   assert.match(clientSource, /<ToolSearch[\s\S]*?initialQuery=\{query\}/);
   assert.ok(clientSource.includes('if (!nextQuery) {\n        requestId.current += 1;\n        setQuery("");'));
+  assert.match(clientSource, /addEventListener\("hashchange", syncFromHash\)/);
+  assert.match(clientSource, /addEventListener\("popstate", syncFromHash\)/);
 });
