@@ -53,39 +53,18 @@ jobs:
             changed_paths_file="$RUNNER_TEMP/ci-changed-paths"
             gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER/files?per_page=100" \
               | jq -j '.[][] | .filename, "\u0000"' > "$changed_paths_file"
-            mapfile -d '' -t changed_paths < "$changed_paths_file"
-
-            if (( ${#changed_paths[@]} != PR_CHANGED_FILES )); then
-              echo "::error::GitHub returned ${#changed_paths[@]} changed paths, but the PR event reports $PR_CHANGED_FILES. Refusing to skip validation on incomplete scope data."
-              exit 1
-            fi
-            if (( ${#changed_paths[@]} == 0 )); then
-              echo "::error::No changed paths were returned for a pull request. Refusing to classify the PR as lightweight."
-              exit 1
-            fi
-
-            lightweight_only=true
-            for path in "${changed_paths[@]}"; do
-              case "$path" in
-                *.md|*.mdx|*.txt|LICENSE|LICENSE.*|AGENTS.md|agents/**|docs/DECISIONS.md|docs/PRODUCT.md|docs/PROJECT_INSTRUCTIONS.md|.github/workflows/**)
+            classification_output="$(node agents/classify-ci-changes.mjs "$PR_CHANGED_FILES" "$changed_paths_file")"
+            while IFS='=' read -r key value; do
+              case "$key" in
+                lightweight_only|dependencies_changed|governance_changed)
+                  printf '%s=%s\n' "$key" "$value" >> "$GITHUB_OUTPUT"
                   ;;
                 *)
-                  lightweight_only=false
+                  echo "::error::Classifier returned an unexpected output key."
+                  exit 1
                   ;;
               esac
-
-              case "$path" in
-                package.json|package-lock.json)
-                  dependencies_changed=true
-                  ;;
-              esac
-
-              case "$path" in
-                AGENTS.md|agents/**|docs/DECISIONS.md|docs/PRODUCT.md|docs/PROJECT_INSTRUCTIONS.md|.github/workflows/**)
-                  governance_changed=true
-                  ;;
-              esac
-            done
+            done <<< "$classification_output"
           fi
 
           echo "lightweight_only=$lightweight_only" >> "$GITHUB_OUTPUT"
