@@ -62,7 +62,7 @@ Close the mission Issue only after the work is completed and verified, explicitl
 
 Keep active documentation concise, current and operational. Check references and consumers before removing or consolidating material. Git preserves ordinary history; do not keep stale active guidance solely because it existed.
 
-Historical audit reports under `docs/audits/` are immutable evidence and must not be edited or deleted to reflect later changes. Audit procedures and replaceable `LATEST.md` pointers are active material and may be updated.
+Investigations and audits are initiated when useful and shaped around the question at hand; no numbered audit catalogue or permanent report archive is required. Keep conclusions in the active Issue or canonical documentation only when they remain useful for decisions, verification or actionable follow-up.
 
 If code and documented intent diverge, assess both; recommend fixing code or changing the intended direction. After user validation, update the canonical source and all dependent active references consistently. Never silently redefine the product to match implementation.
 

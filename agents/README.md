@@ -1,25 +1,23 @@
-# Loculary work procedures
+# Loculary agent workspace
 
-This is the directory index. For a new or resumed mission, start at `agents/START-HERE.md`.
+This directory contains the shared collaboration rules and the specialist guidance that genuinely helps with recurring work.
 
-## Canonical shared rules
+Start or resume a mission with `agents/START-HERE.md`. The common collaboration contract is `agents/AGENT-CONTRACT.md`; mission checkpoints live in the relevant GitHub Issue.
+
+## Shared rules
 
 - `AGENTS.md`: repository-wide technical and security requirements.
-- `agents/AGENT-CONTRACT.md`: collaboration, decisions, execution autonomy and delivery.
-- `agents/PRODUCT-ISSUE-CONTRACT.md`: operational plans, checkpoints and follow-up Issues.
-- `agents/AUDIT-CONTRACT.md`: audit methodology, evidence and immutable reports.
+- `agents/AGENT-CONTRACT.md`: collaboration, challenge, decisions, execution and delivery.
+- `agents/PRODUCT-ISSUE-CONTRACT.md`: durable Issue checkpoints and continuity.
 
-## Specialist entry points
+## Specialist guidance
 
 - Product and documentation: `agents/product/PRODUCT-WORKFLOW.md`
 - Features: `agents/features/FEATURE-WORKFLOW.md` and `FEATURE-FACTORY-CONTRACT.md`
 - Tools: `agents/tools/TOOL-WORKFLOW.md` and `TOOL-FACTORY-CONTRACT.md`
-- Audits: `agents/audits/README.md` and the relevant numbered procedure
 
-Specialist guides retain domain checks only. Shared governance must be maintained in the common contract rather than copied into each procedure.
+Investigations and audits are initiated when they are useful during our work, and are adapted to the question. There is no mandatory audit catalogue, numbered procedure or report archive. Keep meaningful findings in the active Issue or canonical project documentation when they need to remain actionable.
 
-## Validation and audit lifecycle
+## Validation
 
-Run `npm run validate:workflows` for the focused contract validator. Governance-file PRs run this validator through the lightweight CI change-detection path; unrelated documentation changes skip it, and this path does not install dependencies or run the full test/build suite.
-
-Specialist audit procedures use contiguous IDs 01–32; audit 99 is reserved for final pre-launch readiness. Each active procedure is identified by its numeric ID and slug. Each completed audit run creates a new timestamped report in its slug-separated `docs/audits/` directory and updates its replaceable `LATEST.md` pointer. Never edit or delete historical reports.
+Run `npm run validate:workflows` for the focused collaboration-contract validator. Governance-file PRs run it through the lightweight CI change-detection path; unrelated documentation changes skip it, and this path does not install dependencies or run the full test/build suite.

@@ -720,33 +720,19 @@ The account system must be complete without introducing unnecessary personal-dat
 - Future user-owned tables must define explicit deletion/retention semantics before being added to the account lifecycle.
 - Deleting the last super administrator is intentionally blocked to preserve administrative recoverability. The database serializes self-deletion and `super_admin` role removal checks so concurrent operations cannot bypass this invariant.
 
-## DEC-038 — Audit coverage and launch-readiness sequence
+## DEC-038 — On-demand investigations replace numbered audits
 
-**Status:** Accepted
+**Status:** Superseded
 
-### Decision
+### Previous decision and current direction
 
-Loculary maintains three complementary audit responsibilities in the active audit sequence:
+This decision previously established a fixed catalogue of numbered specialist audits and a separate final-launch audit. That system has been retired.
 
-- **Audit 31 — Update / modernisation technologique** evaluates runtime versions, frameworks, dependencies, development tooling, CI/CD actions, deployment/platform configuration, browser/Web Platform assumptions, deprecated APIs and migration debt. It distinguishes the latest release from the supported, compatible and recommended target for Loculary.
-- **Audit 32 — Agent-system governance and workflow** evaluates the instruction system, collaboration workflow, validation contracts, audit governance, continuity, verification and delivery reliability.
-- **Audit 99 — Final pre-launch readiness** is the reserved final transversal readiness review before launch.
+Investigations and audits now happen when either the user or assistant identifies a useful question during the work. Their scope and method are chosen for that question; no fixed numbered procedure, mandatory audit sequence, timestamped report or permanent audit archive is required. Keep conclusions only where they remain useful: the active Issue checkpoint, a canonical project document, or a dedicated follow-up Issue when action is needed.
 
-Audit 99 is not part of the contiguous specialist sequence 01–32. Active specialist procedure IDs are contiguous from 01 through 32. Procedure identity is the pair numeric ID + slug; reuse of a retired number is permitted only after checking active references and history, and never permits modifying historical reports.
+This supersedes the previous numbering, catalogue, report-retention and final-audit requirements. It does not remove the expectation to investigate risks carefully, use evidence, challenge current choices or verify consequential claims.
 
-### Reason
-
-Technology modernization, agent-system governance and final launch readiness address different failure modes. Dependency health alone does not cover broad modernization; a final readiness review must not be conflated with a specialist governance audit.
-
-### Consequences
-
-- Audit 20 remains responsible for dependency and supply-chain health.
-- Audit 31 evaluates update and modernization opportunities across the broader technical stack.
-- Major framework/runtime/infrastructure migrations remain subject to explicit validation when they materially affect architecture, cost, privacy, security or product direction.
-- Audit 32 examines whether the agent system should be preserved, changed, consolidated or rebuilt, with evidence and recommendations.
-- Audit 99 remains the unique final transversal launch-readiness procedure.
-- Historical audit reports remain immutable; current numbering and report paths must not be used to rewrite historical evidence.
-
+---
 
 ## DEC-039 — Single-assistant workflow and GitHub Issue checkpoints
 
@@ -754,7 +740,7 @@ Technology modernization, agent-system governance and final launch readiness add
 
 ### Decision
 
-Loculary work is conducted by one assistant working directly with the user. Product, feature, tool and audit guides are specialist procedures, not separate agent identities or delegated workers.
+Loculary work is conducted by one assistant working directly with the user. Product, feature and tool guides are specialist procedures, not separate agent identities or delegated workers. Investigations and audits are initiated as needed and tailored to the question, not triggered by a fixed procedure catalogue.
 
 The assistant autonomously investigates the complete relevant problem, user journey, code, contracts, dependencies and current GitHub state in read-only mode; challenges existing choices and its own proposals; and recommends the best coherent solution. Read-only investigation, audits and factual Issue checkpoints do not require user approval.
 
@@ -764,7 +750,7 @@ The assistant implements and verifies the approved outcome autonomously, includi
 
 Every resumable mission uses a GitHub Issue checkpoint. At meaningful milestones and before interruption, update it with actual state, decisions, completed work, verification evidence, blockers and next action. Search for a matching Issue before creating one for actionable deferred work. Tracking does not silently change priority or authorize implementation.
 
-Issues complement Git and canonical documentation. They do not replace Git as the implementation source of truth, canonical specifications as the source of current product intent, immutable audit reports, branches, pull requests or CI evidence.
+Issues complement Git and canonical documentation. They do not replace Git as the implementation source of truth, canonical specifications as the source of current product intent, branches, pull requests or CI evidence.
 
 ### Reason
 
@@ -773,7 +759,7 @@ This preserves the user's authority over consequential direction while allowing 
 ### Consequences
 
 - One assistant conducts product reasoning, audits, feature work, tool work, implementation and verification.
-- The Issue is the operational plan/checkpoint; audit reports remain immutable historical evidence.
+- Investigations and audits are performed on demand; useful findings are retained in Issues or canonical documentation when needed.
 - The explicit green light precedes repository modifications and approves the explained change proposal.
 - The plan is internal execution guidance; routine implementation does not require repeated approval.
 - Material changes to the approved outcome or significant risk require renewed discussion.
