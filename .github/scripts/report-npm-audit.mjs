@@ -71,20 +71,20 @@ function dependencyPaths(packageName, vulnerable) {
 }
 
 function fixDescription(value) {
-  if (value === false) return "Aucun correctif proposé par npm";
-  if (value === true) return "Correctif disponible (version compatible)";
+  if (value === false) return "Aucun correctif proposé par npm pour ce paquet dans cet arbre";
+  if (value === true) return "Correctif disponible dans l’arbre de dépendances (détail non précisé par npm)";
   if (value && typeof value === "object") {
     const version = value.version ? `version ${value.version}` : "version non précisée";
     const major = value.isSemVerMajor ? " ; mise à jour majeure requise" : "";
-    return `Correctif proposé : ${value.name ?? "paquet concerné"} ${version}${major}`;
+    return `Remédiation proposée par npm pour l’arbre : ${value.name ?? "paquet concerné"} ${version}${major}`;
   }
   return "Disponibilité du correctif non précisée par npm";
 }
 
 console.log("## npm audit — rapport de sécurité");
-console.log(`Résumé : ${findings.length} paquet(s) vulnérable(s) signalé(s).`);
-console.log(`Sévérités : ${severityOrder.map((level) => `${level}=${counts[level] ?? 0}`).join(", ")}.`);
-console.log(`Vulnérabilités comptabilisées : ${counts.total ?? "non communiqué"}.`);
+console.log(`Paquets signalés comme vulnérables : ${findings.length}.`);
+console.log(`Résumé npm par sévérité : ${severityOrder.map((level) => `${level}=${counts[level] ?? 0}`).join(", ")}.`);
+console.log(`Total déclaré par npm : ${counts.total ?? "non communiqué"} (ce nombre ne représente pas nécessairement des avis distincts).`);
 
 if (findings.length === 0) {
   console.log("Aucune vulnérabilité n’est présente dans le rapport JSON.");
@@ -107,9 +107,14 @@ for (const [packageName, vulnerability] of findings) {
     console.log("- Aucun chemin n’a pu être reconstruit depuis package-lock.json.");
   }
 
-  const advisories = (vulnerability.via ?? []).filter((item) => item && typeof item === "object");
-  if (!advisories.length) {
-    console.log("Avis : npm n’a fourni aucun objet d’avis détaillé pour ce paquet.");
+  const via = vulnerability.via ?? [];
+  const advisories = via.filter((item) => item && typeof item === "object");
+  const inherited = via.filter((item) => typeof item === "string");
+  for (const name of inherited) {
+    console.log(`Avis indirect : vulnérabilité propagée par ${name} (voir l’entrée de ce paquet pour les détails disponibles).`);
+  }
+  if (!advisories.length && !inherited.length) {
+    console.log("Avis : aucun détail d’avis fourni par npm pour ce paquet.");
   }
   for (const advisory of advisories) {
     const advisoryId = advisory.url?.split("/").filter(Boolean).at(-1)
@@ -129,5 +134,6 @@ for (const [packageName, vulnerability] of findings) {
 }
 
 console.log("");
-console.log(`Résultat npm audit : ${audit.error?.code ?? "aucune erreur reportée par npm"}.`);
+console.log(`Code d’erreur inclus dans le JSON : ${audit.error?.code ?? "aucun"}.`);
 if (audit.error?.summary) console.log(audit.error.summary);
+console.log("Le code de sortie de la commande npm audit reste la référence pour le succès ou l’échec du contrôle.");
