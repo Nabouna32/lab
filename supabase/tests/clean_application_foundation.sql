@@ -1,6 +1,6 @@
 begin;
 
-select plan(79);
+select plan(81);
 
 -- Transaction-scoped Auth fixtures for exercising the guarded role RPCs.
 -- The test file rolls back at the end; these users/sessions never persist.
@@ -330,6 +330,48 @@ select ok(
       and acl.privilege_type = 'EXECUTE'
   ),
   'postgres public-schema function defaults grant no EXECUTE to API roles'
+);
+
+select ok(
+  not exists (
+    select 1
+    from unnest(array[
+      'public.has_admin_permission(text)'::regprocedure,
+      'public.list_admin_users(text)'::regprocedure,
+      'public.assign_admin_role(uuid,text)'::regprocedure,
+      'public.record_admin_audit(text,text,uuid,jsonb)'::regprocedure,
+      'public.revoke_admin_user_sessions(uuid)'::regprocedure,
+      'public.check_account_deletion(uuid)'::regprocedure,
+      'public.remove_admin_role(uuid,text)'::regprocedure
+    ]) as rpc(function_oid)
+    where not has_function_privilege('authenticated', rpc.function_oid, 'EXECUTE')
+  ),
+  'authenticated retains EXECUTE on every intended public application RPC'
+);
+
+select ok(
+  not exists (
+    select 1
+    from unnest(array[
+      'public.has_admin_permission(text)'::regprocedure,
+      'public.list_admin_users(text)'::regprocedure,
+      'public.assign_admin_role(uuid,text)'::regprocedure,
+      'public.record_admin_audit(text,text,uuid,jsonb)'::regprocedure,
+      'public.revoke_admin_user_sessions(uuid)'::regprocedure,
+      'public.check_account_deletion(uuid)'::regprocedure,
+      'public.remove_admin_role(uuid,text)'::regprocedure
+    ]) as rpc(function_oid)
+    where has_function_privilege('anon', rpc.function_oid, 'EXECUTE')
+       or exists (
+         select 1
+         from pg_proc p
+         cross join lateral aclexplode(coalesce(p.proacl, acldefault('f', p.proowner))) acl
+         where p.oid = rpc.function_oid
+           and acl.grantee = 0
+           and acl.privilege_type = 'EXECUTE'
+       )
+  ),
+  'intended public application RPCs are not executable by anon or PUBLIC'
 );
 
 select ok(
