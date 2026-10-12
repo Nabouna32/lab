@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import { pathToFileURL } from 'node:url';
 
 export const CANONICAL_STATE_LABELS = [
   'state:ready', 'state:investigating', 'state:implementing', 'state:testing',
@@ -157,7 +158,7 @@ async function main() {
   if (failures) process.exitCode = 1;
 }
 
-if (process.env.GITHUB_ACTIONS === 'true') {
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   main().catch((error) => {
     console.error('::error::' + error.message);
     process.exitCode = 1;
