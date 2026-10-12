@@ -68,12 +68,18 @@ const commonLabelContract = (labels = labelTaxonomy) => [
   '',
   '### State transitions and maintenance',
   'The state labels are maintained.',
+  '### Operational checklist',
+  'Invariant: check actual state.',
+  'Conditional: apply only when triggered.',
+  'Adaptable means equivalent methods provide evidence.',
+  '**Reason:** **Resumption / unblock / review condition:** **Next action:**',
+  'Evidence unavailable must be reported.',
 ].join('\n');
 const issueLabelContract = [
   '### Creation and triage',
   '### Checkpoints, transitions and blockers',
   '### Closure and reopening',
-  'exactly one `state:*` label exactly one `type:*` label state:waiting state:deferred reason condition for resumption or review next follow-up action state:blocked prerequisite GitHub\'s native Issue state state:completed',
+  'exactly one `state:*` label exactly one `type:*` label state:waiting state:deferred reason condition for resumption or review next follow-up action state:blocked prerequisite GitHub\'s native Issue state state:completed live-label workflow explicit human resolution',
 ].join('\n');
 const dependabotLabels = 'labels:\n  - dependencies\n  - npm\n  - github-actions\n';
 
@@ -96,4 +102,15 @@ test('requires explicit waiting, deferred, blocked, closure and checkpoint guida
   const errors = validateIssueLabelPolicy(commonLabelContract(), '### Creation and triage\n### Closure and reopening', dependabotLabels);
   assert.ok(errors.some((error) => error.includes('Checkpoints, transitions and blockers')));
   assert.ok(errors.some((error) => error.includes('waiting state')));
+});
+
+test('requires a canonical checklist with adaptable, conditional and evidence guarantees', () => {
+  const common = commonLabelContract().replace('### Operational checklist\n', '');
+  const errors = validateIssueLabelPolicy(common, issueLabelContract, dependabotLabels);
+  assert.ok(errors.some((error) => error.includes('operational checklist')));
+});
+
+test('accepts equivalent explanatory wording while requiring structured field labels', () => {
+  const common = commonLabelContract().replace('Invariant: check actual state.', 'Invariant: verify the actual state.').replace('Adaptable means equivalent methods provide evidence.', 'Equivalent methods are acceptable when they provide the same evidence.');
+  assert.deepEqual(validateIssueLabelPolicy(common, issueLabelContract, dependabotLabels), []);
 });
