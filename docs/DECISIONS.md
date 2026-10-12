@@ -764,6 +764,8 @@ The assistant implements and verifies the approved outcome autonomously, includi
 
 Every resumable mission uses a GitHub Issue checkpoint. At meaningful milestones and before interruption, update it with actual state, decisions, completed work, verification evidence, blockers and next action. Search for a matching Issue before creating one for actionable deferred work. Tracking does not silently change priority or authorize implementation.
 
+Issues complement Git and canonical documentation. They do not replace Git as the implementation source of truth, canonical specifications as the source of current product intent, immutable audit reports, branches, pull requests or CI evidence.
+
 ### Reason
 
 This preserves the user's authority over consequential direction while allowing the assistant to own investigation and execution. It avoids making the user approve technical process documents instead of the changes they are being asked to authorize.
