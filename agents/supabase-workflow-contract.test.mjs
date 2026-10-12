@@ -128,7 +128,7 @@ test('npm audit reporter prints advisory metadata, lockfile paths, and fix avail
           isDirect: false,
           range: '<=3.0.3',
           nodes: ['node_modules/braces'],
-          via: [{
+          via: ["micromatch", {
             source: 12345,
             name: 'braces',
             title: 'Example stack exhaustion advisory',
@@ -151,6 +151,10 @@ test('npm audit reporter prints advisory metadata, lockfile paths, and fix avail
     assert.match(result.stdout, /braces@<=3\.0\.3/);
     assert.match(result.stdout, /loculary@0\.1\.0 → eslint-config-next@16\.3\.8 → braces@3\.0\.3/);
     assert.match(result.stdout, /Aucun correctif proposé par npm/);
+    assert.match(result.stdout, /Avis indirect : vulnérabilité propagée par micromatch/);
+    assert.match(result.stdout, /Paquets signalés comme vulnérables : 1/);
+    assert.match(result.stdout, /ne représente pas nécessairement des avis distincts/);
+    assert.match(result.stdout, /Code de sortie de la commande npm audit reste la référence/);
     assert.match(result.stdout, /CWE-400/);
     assert.match(result.stdout, /Score CVSS : 7\.5/);
   } finally {
