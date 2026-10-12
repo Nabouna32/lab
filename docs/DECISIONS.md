@@ -893,28 +893,23 @@ The project prioritizes a short, predictable delivery loop. Explicitly checking 
 - A successful merge must be confirmed from GitHub's actual PR and `main` state before closing the mission Issue.
 - Repository rulesets and required checks remain authoritative; this decision never authorizes bypassing them.
 
-## DEC-050 — Fresh-conversation handoff with an explicit same-conversation option
+## DEC-050 — No mandatory fresh-conversation handoff
 
 **Status:** Accepted
 
 ### Decision
 
-After the user explicitly approves the explained change proposal and before implementation starts, the assistant provides a ready-to-copy prompt for a fresh implementation conversation by default.
+Continue work in the current conversation while it remains useful. A new conversation and a handoff prompt are optional tools, not mandatory workflow phases.
 
-This default is intentional: discussion, investigation and decision-making may consume much of the available conversation context, and continuing implementation in an exhausted conversation risks interruption or failure at the point where code changes begin. The handoff prompt is a practical reliability measure, not a ceremony to remove.
-
-The user can choose either to open a new conversation with the prompt or to explicitly ask the assistant to continue implementation in the current conversation. A generic “validé, continue” does not by itself cancel the default handoff; an explicit same-conversation request does.
-
-The handoff prompt links to the active mission Issue and instructs the new conversation to read the current repository instructions and complete Issue/comments, reconstruct actual GitHub state, verify that the approved outcome remains valid, then implement autonomously. It must not duplicate the operational plan or assume stale branch, commit, PR or CI details. It is not a second approval step.
+If context limits or a genuine continuity need make a handoff useful, update the active mission Issue with the actual state, decisions, verification and next action first. Then provide a concise prompt grounded in that checkpoint and fresh GitHub state. Do not duplicate the operational plan or assume stale branch, PR or CI details.
 
 ### Reason
 
-Fresh context protects implementation from conversation-length limits after lengthy discussion and investigation, while an explicit option to continue here avoids needless friction when the user prefers it and context is sufficient.
+Mandatory conversation transfers add friction and make the user manage the assistant's process rather than focus on Loculary. Durable continuity belongs in the mission Issue; a new conversation is only a practical choice when it improves reliability.
 
 ### Consequences
 
-- The default fresh-conversation handoff remains in force after approval of the proposed changes.
-- The user may explicitly choose to continue in the current conversation.
-- The prompt relies on the mission Issue and fresh repository/GitHub inspection rather than stale conversation details.
-- The handoff is not a second plan and must not ask the user to validate the same changes again.
-- This rule does not change CI triggers, Node.js, branch protections or E2E policy.
+- No default handoff prompt after approval.
+- The assistant may recommend a new conversation when there is a concrete reason, while continuing in the current conversation remains the default.
+- The Issue remains the durable checkpoint; the prompt, when useful, points to it rather than duplicating it.
+- This decision does not change approval boundaries, CI triggers, branch protections or delivery requirements.

@@ -73,6 +73,6 @@ Previous reports are inputs, not current truth. Revalidate old findings against 
 
 ## 8. Follow-up
 
-Search for a matching Issue for each actionable finding. Link the report and evidence; update a genuinely matching Issue or create a dedicated one. Prioritize by severity, dependencies, risk, cost of delay and rework. Do not implement consequential follow-up without the normal discussion and plan-validation process.
+Search for a matching Issue for each actionable finding. Link the report and evidence; update a genuinely matching Issue or create a dedicated one. Prioritize by severity, dependencies, risk, cost of delay and rework. Do not implement consequential follow-up without the normal discussion and explicit approval of the explained change proposal; the operational plan is internal to the assistant and does not require user approval.
 
-The implementation handoff prompt is generated after the user validates the operational plan in the follow-up Issue, not as a substitute for that validation.
+A new-conversation handoff is optional, not a default step. If context limits or continuity needs make one useful, update the mission Issue checkpoint first and ground the prompt in current repository state.
