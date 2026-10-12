@@ -97,7 +97,7 @@ export function validateIssueLabelPolicy(commonContract, issueContract, dependab
     [/state:waiting/i, 'waiting state'],
     [/state:deferred/i, 'deferred state'],
     [/reason/i, 'a documented waiting/deferred reason'],
-    [/(?:resumption|reconsideration|review) condition/i, 'a resumption or review condition'],
+    [/condition.{0,60}(?:resumption|reconsideration|review)|(?:resumption|reconsideration|review).{0,60}condition/i, 'a resumption or review condition'],
     [/next (?:follow-up )?action/i, 'a next action'],
     [/state:blocked/i, 'blocked state'],
     [/prerequisite/i, 'the prerequisite for an internal block'],

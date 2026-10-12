@@ -73,7 +73,7 @@ const issueLabelContract = [
   '### Creation and triage',
   '### Checkpoints, transitions and blockers',
   '### Closure and reopening',
-  'state:waiting state:deferred resumption next state:blocked prerequisite state:completed',
+  'state:waiting state:deferred reason condition for resumption or review next follow-up action state:blocked prerequisite GitHub\'s native Issue state state:completed',
 ].join('\n');
 const dependabotLabels = 'labels:\n  - dependencies\n  - npm\n  - github-actions\n';
 
