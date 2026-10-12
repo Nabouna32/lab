@@ -93,8 +93,8 @@ test('scheduled npm audit reads the lockfile without installing the full depende
   const auditStep = steps.find((step) => step.name === 'Audit locked dependency graph');
   assert.equal(auditStep.shell, 'bash');
   assert.match(auditStep.run, /npm audit --audit-level=high --json/);
-  assert.match(auditStep.run, /report-npm-audit\\.mjs npm-audit\\.json/);
-  assert.match(auditStep.run, /exit "\\$audit_status"/);
+  assert.match(auditStep.run, /report-npm-audit\.mjs npm-audit\.json/);
+  assert.match(auditStep.run, /exit "\$audit_status"/);
   assert.equal(audit.on.schedule.length, 1);
   assert.equal(audit.on.workflow_dispatch !== undefined, true);
 });
