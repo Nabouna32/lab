@@ -44,6 +44,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 - `AGENTS.md` contains the general repository rules for development and validation.
 - During every response in an active mission, inspect the mission Issue checkpoint; update it whenever a durable decision, finding, risk, result or next action changes. Do not post empty updates when nothing durable changed.
+- At every new conversation or mission resumption, fetch and read the current `AGENTS.md` and `agents/START-HERE.md` contents before substantive repository work; then read the common work contract and applicable task procedure. Do not assume remote files were automatically loaded, and do not treat the instruction itself as proof that the read happened. If a required file cannot be read, state the limitation and avoid claims that depend on it.
 - When a task concerns project workflow, audit procedures or implementation governance, use `agents/START-HERE.md` as the workflow entry point, then read the common work contract and the applicable task procedure.
 - The `agents/` directory contains the common work contract and task-specific procedures. They complement these repository rules and must reflect the current single-assistant, sequential workflow; they do not define separate roles or delegated workers.
 
