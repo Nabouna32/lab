@@ -105,7 +105,7 @@ test('requires explicit waiting, deferred, blocked, closure and checkpoint guida
 });
 
 test('requires a canonical checklist with adaptable, conditional and evidence guarantees', () => {
-  const common = commonLabelContract().replace('### Operational checklist\\n', '');
+  const common = commonLabelContract().replace('### Operational checklist\n', '');
   const errors = validateIssueLabelPolicy(common, issueLabelContract, dependabotLabels);
   assert.ok(errors.some((error) => error.includes('operational checklist')));
 });
