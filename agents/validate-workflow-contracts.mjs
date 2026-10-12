@@ -53,7 +53,7 @@ const ci = read('.github/workflows/ci.yml');
 
 has(common, 'single ChatGPT assistant', 'Common contract');
 has(common, 'The user retains final authority', 'Decision authority');
-has(common, 'bidirectional coverage review', 'Plan traceability');
+has(common, 'approved proposal and Issue criteria', 'Proposal-to-implementation traceability');
 has(common, 'Assess urgency and priority across Loculary', 'Portfolio prioritization');
 has(common, 'Use emojis generously and naturally as visual markers in user-facing responses', 'Assistant emoji convention');
 has(common, 'functional product icons remain governed by', 'Product iconography distinction');
@@ -64,7 +64,7 @@ errors.push(...validateApprovalWorkflowContracts({ common, start, rootRules, iss
 has(common, '**OBSERVED**', 'Evidence integrity');
 has(issueContract, 'Operational plan', 'Issue contract plan structure');
 has(issueContract, 'Approval and fresh-conversation handoff', 'Issue contract handoff');
-has(issueContract, 'Decision-to-plan traceability', 'Issue decision-to-plan coverage');
+has(issueContract, 'Traceability and verification', 'Issue decision-to-implementation traceability');
 has(auditContract, 'Historical reports remain immutable', 'Audit immutability');
 has(auditContract, 'The mission Issue owns the operational plan', 'Audit/Issue separation');
 has(start, 'Read the complete active mission Issue and relevant comments', 'Bootstrap');
