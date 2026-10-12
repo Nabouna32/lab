@@ -124,3 +124,16 @@ The mission Issue's labels are operational metadata, not decoration. Apply them 
 - For `state:waiting` and `state:deferred`, document the reason, the concrete resumption/review condition, and the next action with an owner or review point when known. For `state:blocked`, name the blocking prerequisite and what will unblock the work.
 - `dependencies`, `npm` and `github-actions` are automation labels maintained by Dependabot configuration; they do not replace the required state or type classification for manually managed Issues. Do not alter these names without updating the automation configuration consistently.
 - GitHub's native closed state is the completion signal. Do not create or apply `state:completed`; on closure, the open-Issue state-label requirement no longer applies. Remove stale lifecycle labels if an Issue is reopened and re-triaged.
+
+### Operational checklist
+
+Apply this checklist when its trigger occurs; it defines required outcomes, not an inflexible implementation sequence.
+
+- **Invariant — start or resume:** read the current instructions and applicable procedures; inspect the mission Issue, its effective labels, concurrent work, branch, PRs and relevant checks in GitHub. Conversation history is not current-state evidence.
+- **Invariant — meaningful transition:** align the Issue's body and labels with actual progress. For an open Issue, verify that exactly one `state:*` and one `type:*` label are present; remove the prior state label and re-read the effective labels after mutation.
+- **Conditional — waiting, blocked or deferred:** record the applicable structured fields in the Issue body: **Reason**, **Resumption / unblock / review condition**, and **Next action**. For blocked work, identify the prerequisite; for waiting, identify the external dependency; for deferred work, identify when or what triggers reconsideration.
+- **Invariant — checkpoint:** record actual decisions, changes, checks attempted and observed results, blockers, and the next action. Before interruption or closure, re-check effective GitHub labels and leave a durable, resumable checkpoint.
+- **Invariant — closure:** close only when complete or explicitly abandoned, with the appropriate native GitHub close reason. Do not invent a completed-state label; ensure unfinished work is tracked separately.
+- **Adaptable means:** equivalent methods are acceptable when they provide the same evidence and guarantees. Omit a step only when its trigger does not apply, never to conceal an unavailable or unperformed verification.
+- **Evidence limit:** this checklist guides agent behavior; contract tests only verify that the guidance remains present. The separate live-label workflow checks GitHub metadata, and neither mechanism proves that an agent followed every operational step in a particular conversation.
+- **Unavailable evidence:** state exactly what could not be checked and how that limits confidence. Never infer success or fabricate evidence.
