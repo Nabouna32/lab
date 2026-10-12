@@ -55,10 +55,17 @@ jobs:
               | jq -j '.[][] | .filename, "\u0000"' > "$changed_paths_file"
             classification_output="$(node agents/classify-ci-changes.mjs "$PR_CHANGED_FILES" "$changed_paths_file")"
             while IFS='=' read -r key value; do
-              case "$key" in
-                lightweight_only|dependencies_changed|governance_changed)
-                  printf '%s=%s\n' "$key" "$value" >> "$GITHUB_OUTPUT"
+              case "$value" in
+                true|false) ;;
+                *)
+                  echo "::error::Classifier returned an invalid boolean value."
+                  exit 1
                   ;;
+              esac
+              case "$key" in
+                lightweight_only) lightweight_only="$value" ;;
+                dependencies_changed) dependencies_changed="$value" ;;
+                governance_changed) governance_changed="$value" ;;
                 *)
                   echo "::error::Classifier returned an unexpected output key."
                   exit 1
