@@ -82,10 +82,9 @@ test('accepts exactly 3,000 valid changed paths', () => {
 });
 
 test('parses NUL-delimited paths without splitting spaces or newlines in filenames', () => {
-  assert.deepEqual(parseChangedPathsNul('docs/a file.md\0docs/line\nbreak.txt\0'), [
-    'docs/a file.md',
-    'docs/line\nbreak.txt',
-  ]);
+  const paths = parseChangedPathsNul('docs/a file.md\0docs/line\nbreak.txt\0');
+  assert.deepEqual(paths, ['docs/a file.md', 'docs/line\nbreak.txt']);
+  assert.equal(classifyCiChanges(paths, 2).lightweight_only, true);
 });
 
 test('rejects empty, unterminated, or internally empty NUL-delimited input', () => {
