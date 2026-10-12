@@ -23,4 +23,24 @@ jobs:
           node-version: 24.21.0
 
       - name: Audit locked dependency graph
-        run: npm audit --audit-level=high
+        shell: bash
+        run: |
+          if npm audit --audit-level=high --json > npm-audit.json; then
+            audit_status=0
+          else
+            audit_status=$?
+          fi
+
+          if node .github/scripts/report-npm-audit.mjs npm-audit.json; then
+            report_status=0
+          else
+            report_status=$?
+          fi
+
+          # Preserve the audit's failure even when the report was generated successfully.
+          if [ "$audit_status" -ne 0 ]; then
+            exit "$audit_status"
+          fi
+
+          # A broken reporter must also fail the job instead of hiding missing diagnostics.
+          exit "$report_status"
