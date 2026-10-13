@@ -7,6 +7,7 @@ import Footer from "@/components/layout/Footer";
 import { getMessages } from "@/lib/i18n/messages";
 import { getLanguage, isLocale, locales } from "@/lib/i18n/config";
 import "@/app/globals.css";
+import { getLocularyThemeStyle } from "@/lib/design-system/rainbow-tones";
 
 const roboto = Roboto({ variable: "--font-roboto", subsets: ["latin"], weight: ["400", "700"] });
 
@@ -38,7 +39,7 @@ export default async function LocaleLayout({
   const direction = getLanguage(locale).direction;
 
   return (
-    <html lang={locale} dir={direction} suppressHydrationWarning>
+    <html lang={locale} dir={direction} suppressHydrationWarning style={getLocularyThemeStyle()}>
       <body className={roboto.variable}>
         <ThemeProvider>
           <Header locale={locale} />
