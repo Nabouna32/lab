@@ -507,30 +507,6 @@ The feature requires a higher Supabase plan and cannot currently be enabled thro
 
 
 
-## DEC-047 — Clean Supabase application foundation before catalog redesign
-
-**Status:** Accepted
-
-### Decision
-
-The pre-launch Supabase database uses a clean application foundation containing only durable account continuity, administrative RBAC and security audit data. The legacy tool catalog schema and its catalog-specific permissions are removed rather than carried forward as migration archaeology.
-
-The clean baseline migration `20261008195413_clean_application_foundation` is the replayable foundation for fresh environments. Production migration history is aligned to that baseline. Future production migrations are applied through the Supabase connector after review, with the exact remote migration version reconciled against the versioned SQL in Git.
-
-The tool catalog will be reintroduced only through the separately validated catalog redesign; executable tool behavior remains in Git/code.
-
-### Reason
-
-Loculary is pre-launch and the existing catalog data is disposable. Carrying obsolete schema and migration history forward would preserve unnecessary coupling and make future database evolution harder to reason about.
-
-### Consequences
-
-- The production database currently contains only the six retained foundation tables.
-- No legacy `tool_*` tables or `catalog.*` permissions should be recreated accidentally.
-- Future catalog work must define its new schema and migration path explicitly.
-- Direct connector-based migrations must preserve a versioned SQL file in Git and verify the exact remote migration registry immediately after application.
-- The separate Edge Functions CI remains responsible only for dependency-lock and type validation of Edge Functions; it does not deploy them or apply database migrations.
-
 ## DEC-030 — English is the product translation fallback
 
 **Status:** Accepted
@@ -810,6 +786,30 @@ The new model directly represents the product vision while keeping the implement
 - Intent associations are editable discovery/editorial data, not executable tool behavior.
 - Deterministic inference or ranking is an extension mechanism, not the definition of intent.
 - Generic category shortcuts must not be presented as if they fully represent an intent.
+
+## DEC-047 — Clean Supabase application foundation before catalog redesign
+
+**Status:** Accepted
+
+### Decision
+
+The pre-launch Supabase database uses a clean application foundation containing only durable account continuity, administrative RBAC and security audit data. The legacy tool catalog schema and its catalog-specific permissions are removed rather than carried forward as migration archaeology.
+
+The clean baseline migration `20261008195413_clean_application_foundation` is the replayable foundation for fresh environments. Production migration history is aligned to that baseline. Future production migrations are applied through the Supabase connector after review, with the exact remote migration version reconciled against the versioned SQL in Git.
+
+The tool catalog will be reintroduced only through the separately validated catalog redesign; executable tool behavior remains in Git/code.
+
+### Reason
+
+Loculary is pre-launch and the existing catalog data is disposable. Carrying obsolete schema and migration history forward would preserve unnecessary coupling and make future database evolution harder to reason about.
+
+### Consequences
+
+- The production database currently contains only the six retained foundation tables.
+- No legacy `tool_*` tables or `catalog.*` permissions should be recreated accidentally.
+- Future catalog work must define its new schema and migration path explicitly.
+- Direct connector-based migrations must preserve a versioned SQL file in Git and verify the exact remote migration registry immediately after application.
+- The separate Edge Functions CI remains responsible only for dependency-lock and type validation of Edge Functions; it does not deploy them or apply database migrations.
 
 ## DEC-048 — Material 3 Expressive as Loculary's shared design-system foundation
 
