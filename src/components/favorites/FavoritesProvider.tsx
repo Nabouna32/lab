@@ -80,7 +80,7 @@ export function FavoritesProvider({ children, toolIds }: { children: ReactNode; 
 
       // Keep a retry bound to its original account, while including current anonymous
       // favorites if that same account signs in again after a failed merge.
-      const pending = reconcileMigrationWithAnonymous(
+      let pending = reconcileMigrationWithAnonymous(
         migrationRef.current, userId, anonymousRef.current, validIds,
       );
       if (pending !== migrationRef.current) persistMigration(pending);
