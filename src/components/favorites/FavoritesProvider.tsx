@@ -3,7 +3,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { createClient } from "@/lib/supabase/client";
 import {
-  ANONYMOUS_FAVORITES_KEY, FAVORITE_MIGRATION_KEY, mergeFavoriteIds,
+  ANONYMOUS_FAVORITES_KEY, FAVORITE_MIGRATION_KEY,
   getVisibleFavoriteIds, normalizeFavoriteIds, parseFavoriteMigrationPayload,
   reconcileAnonymousAfterMerge, reconcileVerifiedMigration, type FavoriteMigrationPayload,
 } from "@/lib/favorites";
