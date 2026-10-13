@@ -515,7 +515,7 @@ The feature requires a higher Supabase plan and cannot currently be enabled thro
 
 The pre-launch Supabase database uses a clean application foundation containing only durable account continuity, administrative RBAC and security audit data. The legacy tool catalog schema and its catalog-specific permissions are removed rather than carried forward as migration archaeology.
 
-The clean baseline migration `20261008195413_clean_application_foundation` is the replayable foundation for fresh environments. Production migration history is aligned to that baseline, and normal future releases use the standard Supabase migration flow rather than a permanent cutover workflow.
+The clean baseline migration `20261008195413_clean_application_foundation` is the replayable foundation for fresh environments. Production migration history is aligned to that baseline. Future production migrations are applied through the Supabase connector after review, with the exact remote migration version reconciled against the versioned SQL in Git.
 
 The tool catalog will be reintroduced only through the separately validated catalog redesign; executable tool behavior remains in Git/code.
 
@@ -528,8 +528,8 @@ Loculary is pre-launch and the existing catalog data is disposable. Carrying obs
 - The production database currently contains only the six retained foundation tables.
 - No legacy `tool_*` tables or `catalog.*` permissions should be recreated accidentally.
 - Future catalog work must define its new schema and migration path explicitly.
-- GitHub Actions runs database validation only when database-relevant paths change, and production uses the normal dry-run/apply/lint release flow.
-- The Supabase IPv4 Session Pooler connection remains the CI transport for GitHub-hosted runners.
+- Direct connector-based migrations must preserve a versioned SQL file in Git and verify the exact remote migration registry immediately after application.
+- The separate Edge Functions CI remains responsible only for dependency-lock and type validation of Edge Functions; it does not deploy them or apply database migrations.
 
 ## DEC-030 — English is the product translation fallback
 
