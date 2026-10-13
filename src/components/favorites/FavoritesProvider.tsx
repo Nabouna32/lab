@@ -49,19 +49,24 @@ export function FavoritesProvider({ children, toolIds }: { children: ReactNode; 
 
   useEffect(() => {
     let mounted = true;
+    let initialAnonymous: string[] = [];
+    let storedMigration: FavoriteMigrationPayload | null = null;
     try {
       const rawAnonymous = localStorage.getItem(ANONYMOUS_FAVORITES_KEY);
       const parsedAnonymous: unknown = rawAnonymous ? JSON.parse(rawAnonymous) : [];
-      const initialAnonymous = normalizeFavoriteIds(parsedAnonymous, validIds);
-      anonymousRef.current = initialAnonymous;
-      setAnonymousIds(initialAnonymous);
-      const stored = parseFavoriteMigrationPayload(localStorage.getItem(FAVORITE_MIGRATION_KEY), validIds);
-      migrationRef.current = stored;
-      setMigration(stored);
+      initialAnonymous = normalizeFavoriteIds(parsedAnonymous, validIds);
+      storedMigration = parseFavoriteMigrationPayload(localStorage.getItem(FAVORITE_MIGRATION_KEY), validIds);
     } catch {
       // Restricted storage must not break core tool usage.
     }
-    setReady(true);
+    anonymousRef.current = initialAnonymous;
+    migrationRef.current = storedMigration;
+    queueMicrotask(() => {
+      if (!mounted) return;
+      setAnonymousIds(initialAnonymous);
+      setMigration(storedMigration);
+      setReady(true);
+    });
 
     const supabase = createClient();
     async function loadAccount(userId: string | null) {
