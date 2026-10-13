@@ -20,7 +20,7 @@ export async function generateMetadata({
   searchParams,
 }: {
   params: Promise<{ locale: string; section: string }>;
-  searchParams: Promise<{ intent?: string }>;
+  searchParams: Promise<{ intent?: string | string[] }>;
 }): Promise<Metadata> {
   const [{ locale: rawLocale, section }, query] = await Promise.all([params, searchParams]);
   if (!isLocale(rawLocale) || section !== getToolsPath(rawLocale).split("/")[2]) return {};
@@ -50,7 +50,8 @@ export default async function ToolsPage({
   const t = getMessages(locale);
   const visibleCategories = categories.filter((category) => getToolCount(category.id) > 0);
   const publishedTools = getPublishedTools();
-  const selectedIntentId = isIntentId(query.intent) ? query.intent : null;
+  const rawIntent = Array.isArray(query.intent) ? query.intent[0] : query.intent;
+  const selectedIntentId = isIntentId(rawIntent) ? rawIntent : null;
   const selectedIntent = selectedIntentId ? t.tools.intents.find((intent) => intent.id === selectedIntentId) : undefined;
   const intentTools = selectedIntentId ? getToolsForIntent(selectedIntentId, publishedTools) : [];
 
@@ -102,7 +103,7 @@ export default async function ToolsPage({
 
           <div className="min-w-0 rounded-[1.5rem] border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-md)]">
             {selectedIntent ? (
-              <section className="border-b border-[var(--border)] p-5 sm:p-7" aria-labelledby="tools-intent-results-heading">
+              <section className="border-b border-[var(--border)] p-5 sm:p-7" aria-labelledby="tools-intent-results-heading" data-testid="intent-results" data-intent-id={selectedIntent.id}>
                 <div className="flex flex-col gap-3 border-b border-[var(--border)] pb-5 sm:flex-row sm:items-end sm:justify-between">
                   <div>
                     <p className="text-xs font-black uppercase tracking-[0.16em] text-[var(--accent)]">01</p>
@@ -112,7 +113,7 @@ export default async function ToolsPage({
                   <a href={getToolsPath(locale)} className="inline-flex min-h-10 items-center justify-center rounded-xl border border-[var(--border)] px-3 text-sm font-bold hover:bg-[var(--surface-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]">{t.tools.clearIntent}</a>
                 </div>
                 <div className="mt-5 divide-y divide-[var(--border)] overflow-hidden rounded-2xl border border-[var(--border)]">
-                  {intentTools.map((tool) => <ToolCard key={tool.id} tool={tool} locale={locale} />)}
+                  {intentTools.map((tool) => <div key={tool.id} data-testid="intent-result"><ToolCard tool={tool} locale={locale} /></div>)}
                 </div>
               </section>
             ) : null}
