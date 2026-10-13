@@ -58,9 +58,9 @@ Goal: make a large catalog easy to navigate.
 Goal: synchronize favorites, personal collections and the light/dark theme preference without creating an account wall.
 
 - [x] Supabase email/password authentication and profile foundation
-- [partial] All published tools are usable anonymously; local favorites and account synchronization are implemented, while collections remain to be completed
+- [x] All published tools are usable anonymously; local favorites and account synchronization are implemented
 - [x] Anonymous favorites and account synchronization with deterministic sign-in merge
-- [ ] Collections
+- [x] Personal collections with private-by-default access and optional link sharing
 - [partial] Local light/dark theme mode and profile locale exist; account-synchronized theme preference does not
 - [partial] Profile, email/password and account-lifecycle screens exist; account preference synchronization remains incomplete
 - [partial] Processing disclosures and account deletion exist; comprehensive privacy/consent controls are incomplete
@@ -80,7 +80,7 @@ Goal: improve discovery and tool assistance where justified.
 
 AI is not a goal by itself.
 
-Current boundary: the deployed Supabase database contains the account/profile and administrative RBAC/audit foundation plus the account-owned `public.user_favorites` table. The executable tool catalog and curated intent associations remain Git-backed; personal collections and account-synchronized theme preferences are not implemented. Account controls stay within the existing simple settings experience; no dedicated privacy dashboard or community features are planned.
+Current boundary: the deployed Supabase database contains the account/profile and administrative RBAC/audit foundation, `public.user_favorites`, `public.user_collections` and `public.user_collection_items`. Personal collections are implemented with private-by-default RLS and explicit link sharing. The executable tool catalog and curated intent associations remain Git-backed; account-synchronized theme preferences are not implemented. Account controls stay within the existing simple settings experience; no dedicated privacy dashboard or community features are planned.
 
 ## Phase 5 — Sustainability and scale
 
@@ -119,10 +119,10 @@ The phases below should preserve the following capabilities as they become relev
 
 ### Personalization and collections
 
-The account phase should cover:
+The account phase covers:
 - anonymous local favorites with deterministic account merge (implemented);
-- personal collections that are private by default and optionally shareable by link;
-- light/dark theme preference, stored locally for anonymous users and synchronized with the account when implemented.
+- personal collections, private by default with optional link sharing (implemented);
+- light/dark theme preference, stored locally for anonymous users; account synchronization remains unimplemented.
 
 ### Performance and resilience
 
