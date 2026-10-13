@@ -59,15 +59,15 @@ Goal: make a large catalog easy to navigate.
 Goal: synchronize favorites, personal collections and the light/dark theme preference without creating an account wall.
 
 - [x] Supabase email/password authentication and profile foundation
-- [partial] All published tools are usable anonymously; local favorites exist, while account synchronization and collections remain to be completed
-- [partial] Favorites (anonymous local favorites exist; account synchronization remains to be completed)
+- [partial] All published tools are usable anonymously; local favorites and account synchronization are implemented, while collections remain to be completed
+- [x] Anonymous favorites and account synchronization with deterministic sign-in merge
 - [ ] Collections
 - [partial] Local light/dark theme mode and profile locale exist; account-synchronized theme preference does not
 - [partial] Profile, email/password and account-lifecycle screens exist; account preference synchronization remains incomplete
 - [partial] Processing disclosures and account deletion exist; comprehensive privacy/consent controls are incomplete
 - [deferred] AI-specific privacy controls depend on an approved AI use case
 
-## Phase 5 — Advanced intelligence
+## Phase 4 — Advanced intelligence
 
 Goal: improve discovery and tool assistance where justified.
 
@@ -81,9 +81,9 @@ Goal: improve discovery and tool assistance where justified.
 
 AI is not a goal by itself.
 
-Current boundary: the deployed Supabase database contains account/profile and administrative RBAC/audit foundations only. The executable tool catalog and curated intent associations remain Git-backed; account favorites and collections are not yet deployed, and an editable database catalog remains deferred under DEC-051 until its criteria are met.
+Current boundary: the deployed Supabase database contains the account/profile and administrative RBAC/audit foundation plus the account-owned `public.user_favorites` table. The executable tool catalog and curated intent associations remain Git-backed; personal collections and account-synchronized theme preferences are not implemented. An editable database catalog remains deferred under DEC-051 until its criteria are met.
 
-## Phase 6 — Sustainability and scale
+## Phase 5 — Sustainability and scale
 
 Goal: support real traffic while protecting the user experience.
 
@@ -95,7 +95,7 @@ Goal: support real traffic while protecting the user experience.
 - [partial] Authentication throttling and administrative RBAC/RLS exist; broader abuse controls remain incomplete
 - [ ] Cost observability
 
-## Phase 7 — Future clients
+## Phase 6 — Future clients
 
 Potential future surfaces:
 
@@ -121,7 +121,7 @@ The phases below should preserve the following capabilities as they become relev
 ### Personalization and collections
 
 The account phase should cover:
-- anonymous local favorites with deterministic account merge;
+- anonymous local favorites with deterministic account merge (implemented);
 - personal collections that are private by default and optionally shareable by link;
 - light/dark theme preference, stored locally for anonymous users and synchronized with the account when implemented.
 

@@ -82,7 +82,7 @@ An account can unlock features such as:
 - personal collections, with optional sharing by link;
 - account preferences, including the light/dark theme preference.
 
-Anonymous users should be able to retain favorites and the light/dark theme preference locally. When signing in, local favorites can merge into account favorites with deterministic conflict handling. Collections are private by default and may be shared explicitly through a link. Shared links must not expose sensitive data unintentionally. Account synchronization describes the intended behavior, not a claim that all of these capabilities are already implemented.
+Anonymous users can retain favorites locally, and signing in merges local favorites into account favorites with deterministic conflict handling. Personal collections are not yet implemented; when introduced, they must be private by default and shareable only through an explicit link. Shared links must not expose sensitive data unintentionally. The light/dark theme preference currently works locally; account synchronization of that preference remains unimplemented.
 
 The product should support anonymous/local usage first and account creation when it adds value.
 
