@@ -2,6 +2,8 @@
 
 This roadmap is intentionally capability-oriented. Exact dates are avoided until the product scope and architecture are sufficiently mature.
 
+**Implementation status snapshot — 2026-10-13:** statuses below were checked against the current repository code and database contract. `[x]` means implemented; `[partial]` means the capability exists but does not yet satisfy the full target; `[ ]` means not implemented; `[deferred]` means intentionally not part of the current delivery scope. An implemented foundation does not imply that all future enhancements in that area are complete.
+
 ## Phase 0 — Foundation
 
 Goal: establish the platform that can grow without creating unnecessary technical debt.
@@ -23,95 +25,97 @@ Goal: establish the platform that can grow without creating unnecessary technica
 
 Goal: make the first collection of tools genuinely useful.
 
-- calculators
-- converters
-- text utilities
-- date/time utilities
-- random/generator tools
-- visual tools
-- selected developer utilities
-- local file utilities where browser technology allows
-- related-tool discovery
-- copy/reset/share primitives
-- documentation accordions
-- SEO-ready tool pages
+- [x] Calculators
+- [x] Converters
+- [x] Text utilities
+- [x] Date/time utilities
+- [x] Random/generator tools
+- [x] Visual tools
+- [x] Selected developer utilities
+- [partial] Browser-local file/image utilities (image compression and metadata exist; this is not a broad file-processing suite)
+- [x] Contextual next-action discovery (curated relations, not generic similarity)
+- [partial] Reusable copy/clear controls exist; universal reset and tool/result sharing are not implemented (tool sharing metadata is currently disabled)
+- [x] Documentation accordions
+- [x] SEO-ready tool pages and localized sitemap
 
 ## Phase 2 — Discovery
 
 Goal: make a large catalog easy to navigate.
 
-- structured catalog
-- categories
-- tags
-- aliases
-- tool search
-- popular tools
-- recent tools
-- new tools
-- related tools
-- intent-aware search foundation
-- search quality instrumentation
+- [partial] Typed Git-backed catalog and explicit runtime registry exist; editable PostgreSQL catalog is intentionally absent after the clean-cut
+- [x] Categories
+- [x] Tags
+- [x] Search aliases
+- [x] Deterministic catalog search with localized names, descriptions, aliases, tags, categories and typo tolerance
+- [ ] Popular-tool ranking
+- [ ] Recent-tool history/surface
+- [ ] New-tool discovery surface
+- [x] Curated contextual next actions
+- [partial] Natural-language-like queries work through deterministic ranking, but intents are not first-class catalog entities associated with tools
+- [ ] Search quality instrumentation
 
 ## Phase 3 — Accounts
 
 Goal: add optional personalization without creating an account wall.
 
-- authentication
-- anonymous/local mode
-- favorites
-- collections
-- preferences
-- optional synchronized history
-- account settings
-- privacy controls
+- [x] Supabase email/password authentication and profile foundation
+- [partial] All published tools are usable anonymously and process locally; anonymous favorites and personalization do not exist
+- [ ] Favorites
+- [ ] Collections
+- [partial] Local theme mode and profile locale exist; account-synchronized personalization preferences do not
+- [ ] Optional synchronized history
+- [partial] Profile, email/password and account-lifecycle screens exist; personalization settings are incomplete
+- [deferred] AI-specific privacy controls depend on an approved AI use case
 
 ## Phase 4 — Community
 
 Goal: make the catalog participatory without sacrificing quality.
 
-- propose an idea
-- propose a tool
-- ratings
-- comments
-- moderation
-- contributor attribution
-- contribution history
-- community guidelines
+- [ ] Propose an idea
+- [ ] Propose a tool
+- [ ] Ratings
+- [ ] Comments
+- [ ] Community moderation (the admin dashboard currently labels moderation as coming soon)
+- [ ] Contributor attribution
+- [ ] Contribution history
+- [ ] Community guidelines and contribution workflow
 
 ## Phase 5 — Advanced intelligence
 
 Goal: improve discovery and tool assistance where justified.
 
-- natural-language tool search
-- intent recognition
-- optional direct task execution
-- carefully evaluated AI assistance
-- cost controls
+- [partial] Deterministic natural-language-like search; no AI-backed search
+- [partial] Intent shortcuts exist in the UX, but there is no first-class intent model in tool metadata
+- [ ] Optional direct task execution
+- [ ] AI assistance (AI remains optional, not foundational)
+- [deferred] Define if and when an AI provider is selected
 - privacy controls
-- fallback behavior when AI is unavailable
+- [deferred] Define only if an AI-backed capability is introduced
 
 AI is not a goal by itself.
+
+Current boundary: the deployed Supabase database contains account/profile and administrative RBAC/audit foundations only. The executable tool catalog remains Git-backed; favorites, collections, community records and an editable database catalog are not currently deployed.
 
 ## Phase 6 — Sustainability and scale
 
 Goal: support real traffic while protecting the user experience.
 
-- advertising integration
-- privacy-conscious analytics
-- performance monitoring
-- database scaling where necessary
-- caching
-- reliability improvements
-- abuse protection
-- cost observability
-- revenue reinvestment into infrastructure and product quality
+- [ ] Advertising integration
+- [ ] Privacy-conscious product analytics
+- [ ] Dedicated runtime performance monitoring
+- [deferred] Revisit only when evidence justifies a database-backed catalog or higher scale
+- [partial] Framework/static generation is used; a deliberate catalog/data caching strategy is not implemented
+- [partial] CI, unit tests, metadata validation and browser smoke/E2E foundations exist; product-level resilience remains incomplete
+- [partial] Authentication throttling and administrative RBAC/RLS exist; community anti-abuse controls do not
+- [ ] Cost observability
+- [deferred] Strategic principle for a future revenue model, not an implemented capability
 
 ## Phase 7 — Future clients
 
 Potential future surfaces:
 
-- Android application;
-- additional clients if there is demonstrated demand.
+- [deferred] Android application;
+- [deferred] Additional clients if there is demonstrated demand.
 
 The web remains the primary platform until evidence supports expansion.
 
