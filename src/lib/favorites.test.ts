@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { mergeFavoriteIds, normalizeFavoriteIds, parseFavoriteMigrationPayload, sortFavoriteIds } from "./favorites.ts";
+import { getVisibleFavoriteIds, mergeFavoriteIds, normalizeFavoriteIds, parseFavoriteMigrationPayload, reconcileAnonymousAfterMerge, reconcileVerifiedMigration, sortFavoriteIds } from "./favorites.ts";
 
 const catalog = ["percentage", "age", "unit-converter", "uuid-generator"];
 
@@ -25,4 +25,32 @@ test("parses only account-bound migration payloads and filters unknown IDs", () 
   );
   assert.equal(parseFavoriteMigrationPayload(JSON.stringify({ toolIds: ["age"] }), catalog), null);
   assert.equal(parseFavoriteMigrationPayload("{broken", catalog), null);
+});
+
+test("account transitions expose only the active account and anonymous state after sign-out", () => {
+  const migration = { targetUserId: "user-a", toolIds: ["age"] };
+  assert.deepEqual(getVisibleFavoriteIds({
+    userId: "user-a", remoteIds: ["percentage"], anonymousIds: ["uuid-generator"], migration, catalogOrder: catalog,
+  }), ["percentage", "age"]);
+  assert.deepEqual(getVisibleFavoriteIds({
+    userId: "user-b", remoteIds: ["unit-converter"], anonymousIds: ["uuid-generator"], migration, catalogOrder: catalog,
+  }), ["unit-converter"]);
+  assert.deepEqual(getVisibleFavoriteIds({
+    userId: null, remoteIds: [], anonymousIds: ["uuid-generator"], migration, catalogOrder: catalog,
+  }), ["uuid-generator"]);
+});
+
+test("failed verification retains migration and anonymous payload for retry", () => {
+  const migration = { targetUserId: "user-a", toolIds: ["age", "percentage"] };
+  assert.deepEqual(reconcileVerifiedMigration(migration, "user-a", migration.toolIds, ["age"]), migration);
+  assert.deepEqual(reconcileAnonymousAfterMerge(migration.toolIds, migration.toolIds, ["age"]), migration.toolIds);
+});
+
+test("successful verification clears only the confirmed migration IDs", () => {
+  const migration = { targetUserId: "user-a", toolIds: ["age", "percentage", "unit-converter"] };
+  assert.deepEqual(
+    reconcileVerifiedMigration(migration, "user-a", ["age", "percentage"], ["age", "percentage"]),
+    { targetUserId: "user-a", toolIds: ["unit-converter"] },
+  );
+  assert.equal(reconcileVerifiedMigration({ targetUserId: "user-a", toolIds: ["age"] }, "user-b", ["age"], ["age"])?.targetUserId, "user-a");
 });
