@@ -35,7 +35,8 @@ export function parseFavoriteMigrationPayload(
     if (typeof value !== "object" || value === null || !("targetUserId" in value) || !("toolIds" in value)) return null;
     const candidate = value as { targetUserId?: unknown; toolIds?: unknown };
     if (typeof candidate.targetUserId !== "string" || candidate.targetUserId.length === 0 || !Array.isArray(candidate.toolIds)) return null;
-    return { targetUserId: candidate.targetUserId, toolIds: normalizeFavoriteIds(candidate.toolIds, validToolIds) };
+    const toolIds = normalizeFavoriteIds(candidate.toolIds, validToolIds);
+    return toolIds.length ? { targetUserId: candidate.targetUserId, toolIds } : null;
   } catch {
     return null;
   }
@@ -47,6 +48,7 @@ export function reconcileMigrationWithAnonymous(
   anonymousIds: readonly string[],
   validToolIds: readonly string[],
 ): FavoriteMigrationPayload | null {
+  if (payload && payload.toolIds.length === 0) payload = null;
   if (payload && payload.targetUserId !== userId) return payload;
   const toolIds = normalizeFavoriteIds([...(payload?.toolIds ?? []), ...anonymousIds], validToolIds);
   if (payload && toolIds.length === payload.toolIds.length && toolIds.every((id, index) => id === payload.toolIds[index])) {
