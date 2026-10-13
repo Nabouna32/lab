@@ -32,7 +32,7 @@ A server-backed or external tool is not automatically premium. Processing locati
 
 ## Lifecycle
 
-Tool definitions in the Git-backed catalog use the lifecycle states `draft`, `review`, `published`, `hidden` and `archived`. Only published tools are exposed through the public catalog. Lifecycle state does not imply that catalog editing or publishing is available through an admin UI; catalog definitions are maintained in Git. Remove a tool from active use through its lifecycle state rather than casually deleting its definition.
+Tool definitions in the Git-backed catalog use the lifecycle states `draft`, `review`, `published`, `hidden` and `archived`. Only published tools are exposed through the public catalog. These states are Git-backed metadata; they do not imply that catalog editing or publishing is available through an admin UI.
 
 ## Processing
 
