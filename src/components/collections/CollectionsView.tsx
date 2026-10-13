@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n/config";
-import { getToolsPath } from "@/lib/tools/routes";
 import { useCollections } from "./CollectionsProvider";
 
 export type CollectionTool = { id: string; icon: string; name: string; description: string; href: string };
