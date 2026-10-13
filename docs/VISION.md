@@ -65,14 +65,6 @@ Loculary is not limited to calculators or converters. Any useful browser-realiza
 
 The practical boundary is technical feasibility, legal/safety constraints, operational cost, and product quality.
 
-### 8. Free and sustainable
-
-The core service is intended to remain free to users and may be funded primarily through advertising.
-
-Advertising must not materially obstruct use of the tools.
-
-If revenue becomes meaningful, a portion can be reinvested into infrastructure, development, reliability, and user experience.
-
 ### Helpful explanations and editorial quality
 
 Loculary should deliver the useful result first while letting curious users understand more without forcing an explanation on everyone. When an explanation adds value, contextualize it using the user's actual inputs or result where appropriate. Prefer one realistic, relevant example over a list of repetitive or artificial examples. Every explanatory or editorial passage must help users understand, decide or use the tool; never add filler solely to lengthen a page or target search engines. Hide unnecessary complexity from the primary interaction without removing advanced capability that genuinely helps.
@@ -130,4 +122,4 @@ This is intentionally a product-quality goal rather than a single metric.
 
 ## Future evolution
 
-Loculary may evolve from helping users find one useful tool to helping them solve broader needs through complementary tools or composed workflows. Personalization may add favorites, collections, history and preferences without making an account mandatory for core use. These are conditional long-term directions, not MVP commitments; each must earn its complexity through demonstrated user value, feasibility and a sustainable operating cost.
+Loculary may evolve from helping users find one useful tool to helping them solve broader needs through complementary tools or composed workflows. Favorites, collections and light/dark theme preferences should remain optional additions that do not make an account mandatory for core use. Further directions should be evaluated on demonstrated user value, feasibility and operating cost.
