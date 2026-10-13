@@ -13,11 +13,7 @@ Start or resume a mission with `agents/START-HERE.md`. The common collaboration 
 ## Specialist guidance
 
 - Product and documentation: `agents/product/PRODUCT-WORKFLOW.md`
-- Features: `agents/features/FEATURE-WORKFLOW.md` and `FEATURE-FACTORY-CONTRACT.md`
-- Tools: `agents/tools/TOOL-WORKFLOW.md` and `TOOL-FACTORY-CONTRACT.md`
+- Features: `agents/features/FEATURE-WORKFLOW.md`
+- Tools: `agents/tools/TOOL-WORKFLOW.md`
 
 Investigations and audits are initiated when they are useful during our work, and are adapted to the question. There is no mandatory audit catalogue, numbered procedure or report archive. Keep meaningful findings in the active Issue or canonical project documentation when they need to remain actionable.
-
-## Validation
-
-Run `npm run validate:workflows` for the focused collaboration-contract validator. Governance-file PRs run it through the lightweight CI change-detection path; unrelated documentation changes skip it, and this path does not install dependencies or run the full test/build suite.
