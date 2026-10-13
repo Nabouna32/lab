@@ -1,6 +1,6 @@
 # Loculary — Product and Platform Context
 
-This document contains project-specific product, platform and UX context. Shared collaboration rules live in `agents/AGENT-CONTRACT.md`; repository-wide technical rules live in `AGENTS.md`. Keep those rules out of this context document to avoid competing sources of truth.
+This document contains project-specific product, platform and UX context. `AGENTS.md` is the single mandatory guide for assistant work in this repository. Keep shared collaboration and repository-wide technical rules there; this document provides additional product and platform context, not a competing instruction contract.
 
 ## Product principles
 Browser/local-first; anonymous-first core usage; transparent processing; simple by default and powerful when needed; result-first UX; modern, polished and visually engaging design; meaningful animations, transitions and micro-interactions; mobile/tablet/desktop/large screens are first-class; accessibility and reduced-motion preferences; French and English initially with extensible i18n/RTL; ads never obstruct the main task; AI is optional.
