@@ -1,124 +1,17 @@
-name: Supabase Database CI
-
-# Database validation and production migration release are manual to avoid multi-minute
-# Docker/Supabase startup on every site PR or merge.
+name: Supabase Database Workflow (retired)
 
 on:
   workflow_dispatch:
-    inputs:
-      mode:
-        description: "Validate the selected branch, or validate and release migrations to production."
-        type: choice
-        required: true
-        default: validate
-        options:
-          - validate
-          - release
 
 permissions:
   contents: read
 
-concurrency:
-  group: supabase-database-${{ github.ref }}
-  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
-
 jobs:
-  request:
-    name: Check manual request
+  retired:
+    name: Retired — use the Supabase connector
     runs-on: ubuntu-latest
-    timeout-minutes: 2
     steps:
-      - name: Require main for production release
-        if: inputs.mode == 'release'
-        shell: bash
-        env:
-          REQUESTED_MODE: ${{ inputs.mode }}
-          WORKFLOW_REF: ${{ github.ref }}
+      - name: Explain replacement
         run: |
-          set -euo pipefail
-          if [[ "$REQUESTED_MODE" == "release" && "$WORKFLOW_REF" != "refs/heads/main" ]]; then
-            echo "::error::Production migration release can only be started from main."
-            exit 1
-          fi
-
-  validate-database:
-    name: Validate Supabase database
-    needs: request
-    if: needs.request.result == 'success'
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-
-      - name: Setup Supabase CLI
-        uses: supabase/setup-cli@45a513f8c64c0bc8e0e3dfe572b5c95be85f6359 # v3.0.1
-        with:
-          version: 2.120.0
-
-      - name: Validate CLI configuration
-        run: supabase --version
-
-      - name: Start local Supabase
-        # The Auth Admin integration test needs the local Auth/API services, not only Postgres.
-        run: supabase start
-
-      - name: Reset local database from migrations
-        run: supabase db reset
-
-      - name: Lint local database
-        run: supabase db lint --local --fail-on error
-
-      - name: Run database tests when present
-        shell: bash
-        run: |
-          if find supabase/tests -type f \( -name '*.sql' -o -name '*.pg' \) -print -quit 2>/dev/null | grep -q .; then
-            supabase test db
-          else
-            echo "No pgTAP tests are present yet; migration replay and database lint remain the active checks."
-          fi
-
-      - name: Exercise concurrent account deletion and role removal
-        run: bash .github/scripts/test-account-deletion-concurrency.sh
-
-      - name: Stop local Supabase
-        if: always()
-        run: supabase stop
-
-  production-release:
-    name: Apply Supabase migrations to production
-    needs: [request, validate-database]
-    if: inputs.mode == 'release' && github.ref == 'refs/heads/main' && needs.validate-database.result == 'success'
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    environment: supabase-production
-    env:
-      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-      SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
-      SUPABASE_PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_ID }}
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-
-      - name: Setup Supabase CLI
-        uses: supabase/setup-cli@45a513f8c64c0bc8e0e3dfe572b5c95be85f6359 # v3.0.1
-        with:
-          version: 2.120.0
-
-      - name: Link production project
-        run: supabase link --project-ref "$SUPABASE_PROJECT_ID"
-
-      - name: Preview pending migrations
-        run: supabase db push --db-url "$SUPABASE_DB_URL" --dry-run
-
-      - name: Apply migrations
-        run: supabase db push --db-url "$SUPABASE_DB_URL"
-
-      - name: Lint production database
-        run: supabase db lint --db-url "$SUPABASE_DB_URL" --fail-on error
+          echo "::notice::This workflow no longer validates or releases database migrations."
+          echo "Use the reviewed direct Supabase connector procedure in docs/DATABASE.md."
