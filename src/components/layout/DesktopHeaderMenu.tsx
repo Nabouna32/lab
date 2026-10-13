@@ -191,6 +191,18 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
           </span>
         </Link>
 
+        <Link
+          href={`/${locale}/collections`}
+          onClick={closeMenu}
+          className="group flex items-center gap-3 rounded-xl px-3 py-3 outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
+        >
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--m3-light-secondary-container)] text-[var(--m3-light-on-secondary-container)] dark:bg-[var(--m3-dark-secondary-container)] dark:text-[var(--m3-dark-on-secondary-container)]" aria-hidden="true">▤</span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-sm font-semibold text-[var(--foreground)]">{locale === "fr" ? "Mes collections" : "My collections"}</span>
+            <span className="mt-0.5 block text-xs text-[var(--muted)]">{locale === "fr" ? "Organise tes outils" : "Organize your tools"}</span>
+          </span>
+        </Link>
+
         <div className="my-2 h-px bg-[var(--border)]" />
 
         <Link
