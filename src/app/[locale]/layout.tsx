@@ -9,7 +9,7 @@ import { getLanguage, isLocale, locales } from "@/lib/i18n/config";
 import "@/app/globals.css";
 import { getLocularyThemeStyle } from "@/lib/design-system/rainbow-tones";
 
-const roboto = Roboto({ variable: "--font-roboto", subsets: ["latin"], weight: ["400", "700"] });
+const roboto = Roboto({ variable: "--font-roboto", subsets: ["latin"], weight: ["400", "500", "700"] });
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
