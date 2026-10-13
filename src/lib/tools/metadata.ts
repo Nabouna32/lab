@@ -47,8 +47,8 @@ function validateToolQuality(tool: Tool): void {
     }
   }
 
-  if (tool.contributor.type !== "internal") {
-    throw new Error(`Tool "${tool.id}" has an unsupported contributor type.`);
+  if (tool.contributor.type !== "internal" && !tool.contributor.name?.trim()) {
+    throw new Error(`Tool "${tool.id}" must identify its contributor.`);
   }
 
   const expected = expectedProcessingCapabilities(tool.processing.mode);
