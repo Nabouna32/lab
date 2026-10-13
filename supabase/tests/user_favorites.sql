@@ -1,6 +1,6 @@
 begin;
 
-select plan(10);
+select plan(11);
 
 insert into auth.users (
   id, aud, role, email, raw_app_meta_data, raw_user_meta_data, created_at, updated_at
@@ -51,6 +51,14 @@ select ok(
 select ok(
   exists (select 1 from pg_constraint where conrelid = 'public.user_favorites'::regclass and contype = 'p'),
   'user and tool ID are unique together'
+);
+
+reset role;
+delete from auth.users where id = '00000000-0000-0000-0000-000000000202';
+select is(
+  (select count(*)::integer from public.user_favorites where user_id = '00000000-0000-0000-0000-000000000202'),
+  0,
+  'deleting an Auth account cascades to its favorites'
 );
 
 select * from finish();
