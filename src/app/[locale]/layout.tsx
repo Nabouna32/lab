@@ -47,11 +47,11 @@ export default async function LocaleLayout({
         <ThemeProvider>
           <FavoritesProvider toolIds={getPublishedTools().map((tool) => tool.id)}>
             <CollectionsProvider toolIds={getPublishedTools().map((tool) => tool.id)}>
-            <Header locale={locale} />
-            <div className="min-h-0" style={{ viewTransitionName: "loculary-workspace" }}>
-              {children}
-            </div>
-            <Footer locale={locale} />
+              <Header locale={locale} />
+              <div className="min-h-0" style={{ viewTransitionName: "loculary-workspace" }}>
+                {children}
+              </div>
+              <Footer locale={locale} />
             </CollectionsProvider>
           </FavoritesProvider>
         </ThemeProvider>
