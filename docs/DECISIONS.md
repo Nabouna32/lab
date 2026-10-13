@@ -853,7 +853,7 @@ Do not reintroduce browser E2E or screenshot automation as a default project req
 
 ### Reason
 
-Loculary is actively being redesigned. UI selectors, page structure, labels, and expected flows change frequently, so browser tests can become stale and fail for reasons that do not represent product regressions. Maintaining and diagnosing those constraints creates disproportionate friction for a two-person project. The manual workflows also duplicate production-browser coverage and screenshot capture around the same test file.
+Loculary is actively being redesigned. UI selectors, page structure, labels, and expected flows change frequently, so browser tests can become stale and fail for reasons that do not represent product regressions. Maintaining and diagnosing those constraints creates disproportionate friction for a project maintained by one human and one AI assistant. The manual workflows also duplicate production-browser coverage and screenshot capture around the same test file.
 
 ### Consequences
 
