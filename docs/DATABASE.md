@@ -70,7 +70,6 @@ The retained `.github/scripts/test-account-deletion-concurrency.sh` script can b
 
 The separate [Supabase Edge Functions CI](../.github/workflows/supabase-functions.yml) remains automatic for pull requests that touch `supabase/functions/**`. It validates locked dependencies and types; it does not deploy Edge Functions or apply database migrations.
 
-
 ## Favorites schema
 
 The versioned migration `20261013090000_user_favorites.sql` introduces a minimal `public.user_favorites` table with a stable text tool ID, an Auth-user owner, creation timestamp, a composite user/tool primary key, owner-only RLS and only the SELECT/INSERT/DELETE privileges needed by the client. Auth user deletion cascades to favorites. The tool registry remains Git-backed; no catalog table or catalog foreign key is introduced.
