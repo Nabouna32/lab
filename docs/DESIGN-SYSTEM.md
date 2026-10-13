@@ -177,7 +177,7 @@ Desktop, tablet and mobile are first-class experiences. Do not design a desktop 
 
 Responsive behavior should preserve task hierarchy and useful interaction targets. Recompose navigation, tool controls, result areas, dialogs and menus when the viewport changes. Test long localized strings, zoom, narrow widths, touch interaction and landscape layouts.
 
-Advertising or secondary content must not reduce the usable tool area below an acceptable level or obstruct inputs, results, navigation or critical controls.
+Secondary content must not reduce the usable tool area below an acceptable level or obstruct inputs, results, navigation or critical controls.
 
 ## 11. Accessibility, localization and quality
 
