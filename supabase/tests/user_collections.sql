@@ -22,7 +22,13 @@ insert into public.user_collection_items (collection_id, tool_id) values
 select ok((select relrowsecurity from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='public' and c.relname='user_collections'), 'collections RLS enabled');
 select ok((select relrowsecurity from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='public' and c.relname='user_collection_items'), 'collection items RLS enabled');
 select ok(not has_table_privilege('anon', 'public.user_collections', 'INSERT'), 'anonymous users cannot create collections');
-select ok(has_table_privilege('authenticated', 'public.user_collections', 'SELECT,INSERT,UPDATE,DELETE'), 'authenticated users have required collection privileges');
+select ok(
+  has_table_privilege('authenticated', 'public.user_collections', 'SELECT')
+  and has_table_privilege('authenticated', 'public.user_collections', 'INSERT')
+  and has_table_privilege('authenticated', 'public.user_collections', 'UPDATE')
+  and has_table_privilege('authenticated', 'public.user_collections', 'DELETE'),
+  'authenticated users have required collection privileges'
+);
 
 set local role authenticated;
 select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000301', true);
@@ -35,7 +41,7 @@ set local role anon;
 select set_config('request.headers', '{"x-loculary-share-token":"c2c2c2c2-c2c2-42c2-82c2-c2c2c2c2c2c2"}', true);
 select is((select count(*)::integer from public.user_collections), 1, 'valid share token reveals only the explicitly shared collection');
 select is((select count(*)::integer from public.user_collection_items), 1, 'valid share token reveals only that collection items');
-select is((with changed as (delete from public.user_collections returning 1) select count(*)::integer from changed), 0, 'anonymous users cannot delete collections');
+select ok(not has_table_privilege('anon', 'public.user_collections', 'DELETE'), 'anonymous users cannot delete collections');
 
 select * from finish();
 rollback;
