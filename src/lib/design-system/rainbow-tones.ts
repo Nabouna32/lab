@@ -6,6 +6,7 @@ import {
   hexFromArgb,
 } from "@material/material-color-utilities";
 import type { CSSProperties } from "react";
+import { createRainbowCategorySeed, rainbowCategoryHueSeeds } from "./rainbow-palette";
 
 const BRAND_SEED = "#4285F4";
 const SPEC_VERSION = "2025" as const;
@@ -15,17 +16,6 @@ const lightExpressive = new SchemeExpressive(source, false, 0, SPEC_VERSION, PLA
 const darkExpressive = new SchemeExpressive(source, true, 0, SPEC_VERSION, PLATFORM);
 const lightRainbow = new SchemeRainbow(source, false, 0, SPEC_VERSION, PLATFORM);
 const darkRainbow = new SchemeRainbow(source, true, 0, SPEC_VERSION, PLATFORM);
-
-const categoryHueSeeds = {
-  // Hue anchors preserve familiar rainbow differentiation; MCU generates every actual color and tone.
-  calculations: 8,
-  dates: 48,
-  computing: 88,
-  images: 142,
-  files: 205,
-  video: 255,
-  development: 305,
-} as const;
 
 const semanticTokens = {
   primary: "primary",
@@ -72,8 +62,8 @@ function addSchemeTokens(
 }
 
 function addCategoryTokens(style: Record<string, string>, prefix: "light" | "dark", isDark: boolean) {
-  for (const [category, hue] of Object.entries(categoryHueSeeds)) {
-    const seed = Hct.from(hue, 72, 50);
+  for (const [category, hue] of Object.entries(rainbowCategoryHueSeeds)) {
+    const seed = createRainbowCategorySeed(hue);
     const scheme = new SchemeRainbow(seed, isDark, 0, SPEC_VERSION, PLATFORM);
     style[`--m3-${prefix}-category-${category}`] = toHex(scheme.primary);
     style[`--m3-${prefix}-category-${category}-foreground`] = toHex(scheme.onPrimary);
