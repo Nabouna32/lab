@@ -1,6 +1,6 @@
 # Tool implementation guide
 
-Inspect the relevant catalog, tool, UX, privacy, i18n and architecture specifications before changing a tool or its documentation. Challenge the user problem, whether a tool is needed, catalog duplication and alternatives.
+Inspect the current catalog, registry, implementation, relevant decisions and the catalog, tool, UX, privacy, i18n and architecture specifications before changing a tool or its documentation. Challenge whether the tool solves a real user need, whether the catalog already covers it, and whether extending or consolidating an existing capability would be better.
 
 ## Tool correctness and value
 
