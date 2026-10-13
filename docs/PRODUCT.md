@@ -60,7 +60,7 @@ The homepage is action/search-first, with deeper discovery through popular tools
 
 The catalog should be able to grow substantially over time, but storage, indexing, caching, administration and loading strategies must be justified by current scale, measured performance and actual editorial needs. The current catalog remains Git-backed; DEC-051 defines when a database-backed catalog should be reconsidered. Executable tool behavior remains in Git.
 
-Search should progressively support exact/prefix matching, descriptions, aliases, synonyms, tags, categories, typo tolerance, related queries and natural-language intent. Where safe and deterministic, it may prefill or directly execute a task. No-result states should help users reformulate, discover related tools/categories and eventually propose a missing tool.
+Search should progressively support exact/prefix matching, descriptions, aliases, synonyms, tags, categories, typo tolerance, related queries and natural-language intent. Where safe and deterministic, it may prefill or directly execute a task. No-result states should help users reformulate, discover related tools/categories and identify useful alternatives when no direct match exists.
 
 ### AI
 
@@ -162,7 +162,7 @@ Contextual tone and richer educational content are optional tool-level enhanceme
 
 ## Account experience
 
-Loculary remains anonymous-first for core tools. The account layer is an optional personal surface for display name, language preference, authentication, password/email management and account deletion. It must not become a prerequisite for using the core toolbox.
+Loculary remains anonymous-first for core tools. The account layer is an optional personal surface for display name, language preference, authentication, password/email management, favorites and account deletion. Keep its settings straightforward; do not add a dedicated privacy dashboard or community features. It must not become a prerequisite for using the core toolbox.
 
 ## Tool diversity
 
