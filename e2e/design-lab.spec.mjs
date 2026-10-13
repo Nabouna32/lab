@@ -26,14 +26,13 @@ test("design lab generates real Material Color Utilities schemes and exposes its
   await expect(variantSelect.locator("option")).toHaveCount(9);
   await expect(specSelect.locator("option")).toHaveCount(2);
   await expect(platformSelect.locator("option")).toHaveCount(2);
-  await expect(lab).toHaveAttribute("data-seed", "#1E88E5");
-  await expect(lab).toHaveAttribute("data-category-set", "compare");
+  await expect(lab).toHaveAttribute("data-seed", "#4285F4");
+  await expect(lab).toHaveAttribute("data-category-set", "mcu-rainbow");
   await expect(lab).toHaveAttribute("data-category-style", "stripe");
   await expect(lab).toHaveAttribute("data-type-preset", "roboto");
   await expect(lab).toHaveAttribute("data-scheme-variant", "vibrant");
   await expect(page.getByTestId("category-mcu-rainbow")).toHaveCount(7);
-  await expect(page.getByTestId("category-direct-rainbow")).toHaveCount(7);
-  const accentContrasts = await page.getByTestId("category-direct-rainbow").evaluateAll(cards => cards.map(card => {
+  const accentContrasts = await page.getByTestId("category-mcu-rainbow").evaluateAll(cards => cards.map(card => {
     const style = getComputedStyle(card);
     const luminance = (hex) => {
       const channels = hex.replace("#", "").match(/.{2}/g).map(value => parseInt(value, 16) / 255);
@@ -72,8 +71,8 @@ test("source seed validation, contrast, light/dark, and category colors are inde
   const lab = page.locator("main[data-scheme-variant]");
   const seedInput = page.locator('input[aria-describedby="seed-help"]');
   const calculations = page.getByTestId("category-mcu-rainbow").filter({ hasText: "Calculs" });
-  const directCalculations = page.getByTestId("category-direct-rainbow").filter({ hasText: "Calculs" });
   const categorySeedBefore = await calculations.getAttribute("data-category-seed");
+  const categoryColorBefore = await calculations.getAttribute("data-category-color");
   const readStatusContrasts = () => lab.evaluate(el => {
     const style = getComputedStyle(el);
     const luminance = (hex) => {
@@ -92,6 +91,7 @@ test("source seed validation, contrast, light/dark, and category colors are inde
   await seedInput.fill("#ff0000");
   await expect(lab).toHaveAttribute("data-seed", "#FF0000");
   await expect(calculations).toHaveAttribute("data-category-seed", categorySeedBefore);
+  await expect(calculations).toHaveAttribute("data-category-color", categoryColorBefore);
 
   await seedInput.fill("not-a-color");
   await expect(seedInput).toHaveAttribute("aria-invalid", "true");
@@ -112,16 +112,16 @@ test("source seed validation, contrast, light/dark, and category colors are inde
   await expect(lab).toHaveAttribute("data-contrast", "0.5");
 
   const generatedRainbowColor = await calculations.getAttribute("data-category-color");
-  const directRainbowColor = await directCalculations.getAttribute("data-category-color");
-  expect(generatedRainbowColor).not.toBe(directRainbowColor);
-  await page.getByTestId("category-set-vivid").click();
-  await expect(lab).toHaveAttribute("data-category-set", "vivid");
-  await expect(directCalculations).toHaveAttribute("data-category-color", "#D32F2F");
+  await page.getByTestId("category-set-blue").click();
+  await expect(lab).toHaveAttribute("data-category-set", "blue");
+  await page.getByTestId("category-set-mcu-rainbow").click();
+  await expect(lab).toHaveAttribute("data-category-set", "mcu-rainbow");
+  expect(await calculations.getAttribute("data-category-color")).toBe(generatedRainbowColor);
 
-  const softBackground = await directCalculations.evaluate(el => getComputedStyle(el).backgroundColor);
+  const softBackground = await calculations.evaluate(el => getComputedStyle(el).backgroundColor);
   await page.getByRole("button", { name: "Aplat coloré" }).click();
   await expect(lab).toHaveAttribute("data-category-style", "solid");
-  const solidBackground = await directCalculations.evaluate(el => getComputedStyle(el).backgroundColor);
+  const solidBackground = await calculations.evaluate(el => getComputedStyle(el).backgroundColor);
   expect(solidBackground).not.toBe(softBackground);
 
   await page.getByRole("button", { name: "Système", exact: true }).click();
@@ -131,4 +131,46 @@ test("source seed validation, contrast, light/dark, and category colors are inde
   await page.getByLabel("Langue de l’aperçu").selectOption("en");
   await expect(page.getByRole("heading", { name: "Category identity colors" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Semantic color roles" })).toBeVisible();
+});
+
+test("production pages apply generated blue M3 roles and distinct Rainbow categories", async ({ page }) => {
+  await page.goto(`${baseUrl}/fr`, { waitUntil: "networkidle" });
+
+  const readTheme = () => page.locator("html").evaluate(element => {
+    const style = getComputedStyle(element);
+    const categories = ["calculations", "dates", "computing", "images", "files", "video", "development"];
+    const prefix = element.classList.contains("dark") ? "--m3-dark" : "--m3-light";
+    return {
+      primary: style.getPropertyValue("--primary").trim(),
+      generatedPrimary: style.getPropertyValue("--m3-light-primary").trim(),
+      categoryPairs: categories.map(category => ({
+        color: style.getPropertyValue(`--category-${category}`).trim(),
+        foreground: style.getPropertyValue(`${prefix}-category-${category}-foreground`).trim(),
+      })),
+    };
+  });
+  const assertCategoryContrast = (pairs) => {
+    const luminance = (hex) => {
+      const channels = hex.replace("#", "").match(/.{2}/g).map(value => parseInt(value, 16) / 255);
+      const linear = channels.map(value => value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4);
+      return 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2];
+    };
+    return pairs.every(({ color, foreground }) => {
+      const bg = luminance(color);
+      const fg = luminance(foreground);
+      return (Math.max(fg, bg) + 0.05) / (Math.min(fg, bg) + 0.05) >= 4.5;
+    });
+  };
+
+  const light = await readTheme();
+  expect(light.generatedPrimary).toMatch(/^#[0-9a-f]{6}$/i);
+  expect(light.primary).not.toBe("#6750a4");
+  expect(new Set(light.categoryPairs.map(pair => pair.color)).size).toBe(7);
+  expect(assertCategoryContrast(light.categoryPairs)).toBe(true);
+
+  await page.locator("html").evaluate(element => element.classList.add("dark"));
+  const dark = await readTheme();
+  expect(dark.primary).not.toBe(light.primary);
+  expect(new Set(dark.categoryPairs.map(pair => pair.color)).size).toBe(7);
+  expect(assertCategoryContrast(dark.categoryPairs)).toBe(true);
 });

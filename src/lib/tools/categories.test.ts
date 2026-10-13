@@ -4,47 +4,42 @@ import { test } from "node:test";
 import { categoryColorIds, getCategoryColor, getCategoryContainerColor } from "./category-colors.ts";
 
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
+const rainbowSource = readFileSync(new URL("../design-system/rainbow-tones.ts", import.meta.url), "utf8");
+const rainbowPaletteSource = readFileSync(new URL("../design-system/rainbow-palette.ts", import.meta.url), "utf8");
 
-test("every category has a distinct light and dark identity color with a container role", () => {
-  const lightColors = new Set<string>();
-  const darkColors = new Set<string>();
+test("semantic theme tokens use the accepted blue M3 Expressive seed", () => {
+  assert.ok(rainbowSource.includes('const BRAND_SEED = "#4285F4"'));
+  assert.ok(rainbowSource.includes("new SchemeExpressive(source, false"));
+  assert.ok(rainbowSource.includes("new SchemeExpressive(source, true"));
+  assert.ok(globalCss.includes("--primary: var(--m3-light-primary"));
+  assert.ok(globalCss.includes("--primary: var(--m3-dark-primary"));
+  assert.ok(!globalCss.toLowerCase().includes("#6750a4"), "the old purple seed must not remain in production CSS");
+});
+
+test("every category is wired to generated official MCU Rainbow colors for both themes", () => {
+  assert.ok(rainbowSource.includes("new SchemeRainbow(seed, isDark"));
+  assert.ok(rainbowPaletteSource.includes("Hct.from(hue, 72, 50)"));
 
   for (const categoryId of categoryColorIds) {
     const token = `--category-${categoryId}`;
-    const declaration = new RegExp(`^\\s*${token}:\\s*(#[0-9a-f]{6});`, "gim");
-    const values = [...globalCss.matchAll(declaration)].map((match) => match[1]);
-
-    assert.equal(values.length, 2, `${token} should be defined for light and dark themes`);
-    assert.ok(values[0], `${token} should have a light theme color`);
-    assert.ok(values[1], `${token} should have a dark theme color`);
-    lightColors.add(values[0]);
-    darkColors.add(values[1]);
-
-    assert.ok(globalCss.includes(`${token}-container:`), `${token} should have a container role`);
+    assert.ok(rainbowPaletteSource.includes(`${categoryId}:`), `${categoryId} should have one shared hue anchor`);
+    assert.ok(globalCss.includes(`${token}: var(--m3-light-category-${categoryId}`), `${token} should use generated light-theme color`);
+    assert.ok(globalCss.includes(`${token}: var(--m3-dark-category-${categoryId}`), `${token} should use generated dark-theme color`);
+    assert.ok(globalCss.includes(`${token}-container: var(--m3-light-category-${categoryId}-container`), `${token} should have a generated light container`);
+    assert.ok(globalCss.includes(`${token}-container: var(--m3-dark-category-${categoryId}-container`), `${token} should have a generated dark container`);
     assert.equal(getCategoryColor(categoryId), `var(${token})`);
     assert.equal(getCategoryContainerColor(categoryId), `var(${token}-container)`);
   }
 
-  assert.equal(lightColors.size, categoryColorIds.length, "light category colors should be unique");
-  assert.equal(darkColors.size, categoryColorIds.length, "dark category colors should be unique");
+  assert.ok(!globalCss.includes("#d32f2f"), "the old direct Rainbow palette must not remain in production CSS");
+  assert.ok(!globalCss.includes("#fb8c00"), "the old direct Rainbow palette must not remain in production CSS");
 });
 
-test("category colors stay separate from semantic status colors", () => {
-  const statusTokens = ["--success", "--warning", "--error", "--info"];
-
-  for (const categoryId of categoryColorIds) {
-    const categoryToken = `--category-${categoryId}`;
-    const categoryValues = [...globalCss.matchAll(new RegExp(`^\\s*${categoryToken}:\\s*(#[0-9a-f]{6});`, "gim"))]
-      .map((match) => match[1]);
-
-    for (const statusToken of statusTokens) {
-      const statusValues = [...globalCss.matchAll(new RegExp(`^\\s*${statusToken}:\\s*(#[0-9a-f]{6});`, "gim"))]
-        .map((match) => match[1]);
-
-      for (const categoryValue of categoryValues) {
-        assert.ok(!statusValues.includes(categoryValue), `${categoryToken} must not reuse ${statusToken}`);
-      }
-    }
+test("semantic status colors stay independent from generated category colors", () => {
+  for (const statusToken of ["--success", "--warning", "--error", "--info"]) {
+    assert.match(globalCss, new RegExp(`^\\s*${statusToken}:\\s*#[0-9a-f]{6};`, "m"));
+    assert.ok(!globalCss.includes(`${statusToken}: var(--m3-light-category-`));
+    assert.ok(!globalCss.includes(`${statusToken}: var(--m3-dark-category-`));
   }
 });
 

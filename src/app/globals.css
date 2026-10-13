@@ -3,35 +3,35 @@
 :root {
   color-scheme: light;
 
-  /* Material 3 Expressive semantic roles — Material Purple seed #6750A4. */
-  --primary: #6750a4;
-  --on-primary: #ffffff;
-  --primary-container: #eaddff;
-  --on-primary-container: #21005d;
-  --secondary: #625b71;
-  --on-secondary: #ffffff;
-  --secondary-container: #e8def8;
-  --on-secondary-container: #1d192b;
-  --tertiary: #7d5260;
-  --on-tertiary: #ffffff;
-  --tertiary-container: #ffd8e4;
-  --on-tertiary-container: #31111d;
+  /* Semantic roles are generated from the blue M3 Expressive seed in rainbow-tones.ts. */
+  --primary: var(--m3-light-primary, #0b57d0);
+  --on-primary: var(--m3-light-on-primary, #ffffff);
+  --primary-container: var(--m3-light-primary-container, #d3e3fd);
+  --on-primary-container: var(--m3-light-on-primary-container, #041e49);
+  --secondary: var(--m3-light-secondary, #535f70);
+  --on-secondary: var(--m3-light-on-secondary, #ffffff);
+  --secondary-container: var(--m3-light-secondary-container, #d7e3f7);
+  --on-secondary-container: var(--m3-light-on-secondary-container, #101c2b);
+  --tertiary: var(--m3-light-tertiary, #705575);
+  --on-tertiary: var(--m3-light-on-tertiary, #ffffff);
+  --tertiary-container: var(--m3-light-tertiary-container, #f8d8f2);
+  --on-tertiary-container: var(--m3-light-on-tertiary-container, #29132e);
 
-  --background: #fef7ff;
-  --foreground: #1d1b20;
-  --surface: #fffbfe;
-  --surface-soft: #f3edf7;
-  --surface-elevated: #fffbfe;
-  --surface-variant: #e7e0ec;
-  --on-surface-variant: #49454f;
-  --muted: #625b71;
-  --border: #cac4d0;
-  --border-strong: #79747e;
-  --outline: #79747e;
-  --outline-variant: #cac4d0;
-  --inverse-surface: #322f35;
-  --inverse-on-surface: #f5eff7;
-  --inverse-primary: #d0bcff;
+  --background: var(--m3-light-background, #f8f9ff);
+  --foreground: var(--m3-light-foreground, #191b20);
+  --surface: var(--m3-light-surface, #f8f9ff);
+  --surface-soft: var(--m3-light-surface-soft, #edf1f8);
+  --surface-elevated: var(--m3-light-surface-elevated, #e8edf6);
+  --surface-variant: var(--m3-light-surface-variant, #dfe2eb);
+  --on-surface-variant: var(--m3-light-on-surface-variant, #44474f);
+  --muted: var(--m3-light-muted, #44474f);
+  --border: var(--m3-light-border, #c4c7d0);
+  --border-strong: var(--m3-light-border-strong, #747780);
+  --outline: var(--m3-light-outline, #747780);
+  --outline-variant: var(--m3-light-outline-variant, #c4c7d0);
+  --inverse-surface: var(--m3-light-inverse-surface, #2e3036);
+  --inverse-on-surface: var(--m3-light-inverse-on-surface, #f0f0f7);
+  --inverse-primary: var(--m3-light-inverse-primary, #a8c7fa);
 
   --error: #ba1a1a;
   --on-error: #ffffff;
@@ -44,25 +44,25 @@
   --warning: #b54708;
   --warning-soft: #fff0cf;
 
-  /* Loculary direct Rainbow: red, orange, yellow, green, blue, indigo, violet. */
-  --category-calculations: #d32f2f;
-  --category-dates: #fb8c00;
-  --category-computing: #fdd835;
-  --category-images: #43a047;
-  --category-files: #1976d2;
-  --category-video: #3949ab;
-  --category-development: #8e24aa;
-  --category-calculations-container: color-mix(in srgb, var(--category-calculations) 13%, var(--surface));
-  --category-dates-container: color-mix(in srgb, var(--category-dates) 13%, var(--surface));
-  --category-computing-container: color-mix(in srgb, var(--category-computing) 13%, var(--surface));
-  --category-images-container: color-mix(in srgb, var(--category-images) 13%, var(--surface));
-  --category-files-container: color-mix(in srgb, var(--category-files) 13%, var(--surface));
-  --category-video-container: color-mix(in srgb, var(--category-video) 13%, var(--surface));
-  --category-development-container: color-mix(in srgb, var(--category-development) 13%, var(--surface));
+  /* Category accents are generated through the official MCU Rainbow scheme. */
+  --category-calculations: var(--m3-light-category-calculations, var(--primary));
+  --category-dates: var(--m3-light-category-dates, var(--primary));
+  --category-computing: var(--m3-light-category-computing, var(--primary));
+  --category-images: var(--m3-light-category-images, var(--primary));
+  --category-files: var(--m3-light-category-files, var(--primary));
+  --category-video: var(--m3-light-category-video, var(--primary));
+  --category-development: var(--m3-light-category-development, var(--primary));
+  --category-calculations-container: var(--m3-light-category-calculations-container, var(--primary-container));
+  --category-dates-container: var(--m3-light-category-dates-container, var(--primary-container));
+  --category-computing-container: var(--m3-light-category-computing-container, var(--primary-container));
+  --category-images-container: var(--m3-light-category-images-container, var(--primary-container));
+  --category-files-container: var(--m3-light-category-files-container, var(--primary-container));
+  --category-video-container: var(--m3-light-category-video-container, var(--primary-container));
+  --category-development-container: var(--m3-light-category-development-container, var(--primary-container));
 
   /* Compatibility aliases: existing screens migrate incrementally to semantic roles. */
   --accent: var(--primary);
-  --accent-strong: #4f378b;
+  --accent-strong: var(--primary);
   --accent-soft: var(--primary-container);
   --accent-foreground: var(--on-primary);
   --danger: var(--error);
@@ -89,34 +89,34 @@
 .dark {
   color-scheme: dark;
 
-  --primary: #d0bcff;
-  --on-primary: #381e72;
-  --primary-container: #4f378b;
-  --on-primary-container: #eaddff;
-  --secondary: #ccc2dc;
-  --on-secondary: #332d41;
-  --secondary-container: #4a4458;
-  --on-secondary-container: #e8def8;
-  --tertiary: #efb8c8;
-  --on-tertiary: #492532;
-  --tertiary-container: #633b48;
-  --on-tertiary-container: #ffd8e4;
+  --primary: var(--m3-dark-primary, #a8c7fa);
+  --on-primary: var(--m3-dark-on-primary, #062e6f);
+  --primary-container: var(--m3-dark-primary-container, #0842a0);
+  --on-primary-container: var(--m3-dark-on-primary-container, #d3e3fd);
+  --secondary: var(--m3-dark-secondary, #bbc7db);
+  --on-secondary: var(--m3-dark-on-secondary, #243140);
+  --secondary-container: var(--m3-dark-secondary-container, #3c4858);
+  --on-secondary-container: var(--m3-dark-on-secondary-container, #d7e3f7);
+  --tertiary: var(--m3-dark-tertiary, #ddc0e4);
+  --on-tertiary: var(--m3-dark-on-tertiary, #39293f);
+  --tertiary-container: var(--m3-dark-tertiary-container, #513b56);
+  --on-tertiary-container: var(--m3-dark-on-tertiary-container, #f8d8f2);
 
-  --background: #141218;
-  --foreground: #e6e0e9;
-  --surface: #141218;
-  --surface-soft: #211f26;
-  --surface-elevated: #211f26;
-  --surface-variant: #49454f;
-  --on-surface-variant: #cac4d0;
-  --muted: #cac4d0;
-  --border: #49454f;
-  --border-strong: #938f99;
-  --outline: #938f99;
-  --outline-variant: #49454f;
-  --inverse-surface: #e6e0e9;
-  --inverse-on-surface: #322f35;
-  --inverse-primary: #6750a4;
+  --background: var(--m3-dark-background, #111318);
+  --foreground: var(--m3-dark-foreground, #e2e2e9);
+  --surface: var(--m3-dark-surface, #111318);
+  --surface-soft: var(--m3-dark-surface-soft, #1c1f26);
+  --surface-elevated: var(--m3-dark-surface-elevated, #22262e);
+  --surface-variant: var(--m3-dark-surface-variant, #44474f);
+  --on-surface-variant: var(--m3-dark-on-surface-variant, #c4c7d0);
+  --muted: var(--m3-dark-muted, #c4c7d0);
+  --border: var(--m3-dark-border, #44474f);
+  --border-strong: var(--m3-dark-border-strong, #8e9099);
+  --outline: var(--m3-dark-outline, #8e9099);
+  --outline-variant: var(--m3-dark-outline-variant, #44474f);
+  --inverse-surface: var(--m3-dark-inverse-surface, #e2e2e9);
+  --inverse-on-surface: var(--m3-dark-inverse-on-surface, #2e3036);
+  --inverse-primary: var(--m3-dark-inverse-primary, #0b57d0);
 
   --error: #ffb4ab;
   --on-error: #690005;
@@ -129,21 +129,21 @@
   --warning: #fec84b;
   --warning-soft: #3d2c12;
 
-  /* Keep the same direct Rainbow hues; only the container blend adapts to the dark surface. */
-  --category-calculations: #d32f2f;
-  --category-dates: #fb8c00;
-  --category-computing: #fdd835;
-  --category-images: #43a047;
-  --category-files: #1976d2;
-  --category-video: #3949ab;
-  --category-development: #8e24aa;
-  --category-calculations-container: color-mix(in srgb, var(--category-calculations) 20%, var(--surface));
-  --category-dates-container: color-mix(in srgb, var(--category-dates) 20%, var(--surface));
-  --category-computing-container: color-mix(in srgb, var(--category-computing) 20%, var(--surface));
-  --category-images-container: color-mix(in srgb, var(--category-images) 20%, var(--surface));
-  --category-files-container: color-mix(in srgb, var(--category-files) 20%, var(--surface));
-  --category-video-container: color-mix(in srgb, var(--category-video) 20%, var(--surface));
-  --category-development-container: color-mix(in srgb, var(--category-development) 20%, var(--surface));
+  /* Category accents and containers use the official MCU Rainbow scheme for dark mode. */
+  --category-calculations: var(--m3-dark-category-calculations, var(--primary));
+  --category-dates: var(--m3-dark-category-dates, var(--primary));
+  --category-computing: var(--m3-dark-category-computing, var(--primary));
+  --category-images: var(--m3-dark-category-images, var(--primary));
+  --category-files: var(--m3-dark-category-files, var(--primary));
+  --category-video: var(--m3-dark-category-video, var(--primary));
+  --category-development: var(--m3-dark-category-development, var(--primary));
+  --category-calculations-container: var(--m3-dark-category-calculations-container, var(--primary-container));
+  --category-dates-container: var(--m3-dark-category-dates-container, var(--primary-container));
+  --category-computing-container: var(--m3-dark-category-computing-container, var(--primary-container));
+  --category-images-container: var(--m3-dark-category-images-container, var(--primary-container));
+  --category-files-container: var(--m3-dark-category-files-container, var(--primary-container));
+  --category-video-container: var(--m3-dark-category-video-container, var(--primary-container));
+  --category-development-container: var(--m3-dark-category-development-container, var(--primary-container));
 
   /* Rebind aliases in the active theme; inherited computed aliases would retain light-mode values. */
   --accent: var(--primary);
@@ -152,7 +152,7 @@
   --focus-ring: var(--primary);
   --danger: var(--error);
   --danger-soft: var(--error-container);
-  --accent-strong: #dbe0ff;
+  --accent-strong: var(--primary);
   --shadow-sm: 0 1px 3px rgb(0 0 0 / 0.28);
   --shadow-md: 0 8px 22px rgb(0 0 0 / 0.28);
   --shadow-lg: 0 18px 44px rgb(0 0 0 / 0.36);
