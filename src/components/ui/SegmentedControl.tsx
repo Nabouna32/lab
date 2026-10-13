@@ -27,8 +27,12 @@ export function SegmentedControl<T extends string>({
       aria-label={ariaLabel}
       className={["grid grid-flow-col auto-cols-fr gap-0 rounded-full border border-[var(--outline-variant)] bg-[var(--surface-soft)] p-1", className].join(" ")}
     >
-      {items.map((item) => {
+      {items.map((item, index) => {
         const active = value === item.id;
+        const edgeShape = [
+          index === 0 ? "rounded-l-full" : "rounded-l-sm",
+          index === items.length - 1 ? "rounded-r-full" : "rounded-r-sm",
+        ].join(" ");
 
         return (
           <button
@@ -37,10 +41,11 @@ export function SegmentedControl<T extends string>({
             aria-pressed={active}
             onClick={() => onChange(item.id)}
             className={[
-              "min-w-0 rounded-full px-3 py-2.5 text-center text-sm transition-[background-color,color,box-shadow,transform] duration-[var(--motion-standard)]",
+              "relative min-h-10 min-w-0 px-3 py-2.5 text-center text-sm transition-[background-color,color,box-shadow,transform] duration-[var(--motion-standard)]",
+              edgeShape,
               "focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-soft)]",
               active
-                ? "bg-[var(--secondary-container)] text-[var(--on-secondary-container)] font-semibold shadow-[var(--shadow-sm)]"
+                ? "z-[1] bg-[var(--secondary-container)] font-semibold text-[var(--on-secondary-container)] shadow-[var(--shadow-sm)]"
                 : "text-[var(--on-surface-variant)] hover:bg-[var(--surface-elevated)] hover:text-[var(--foreground)]",
             ].join(" ")}
           >
