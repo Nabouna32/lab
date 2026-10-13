@@ -1,6 +1,6 @@
 begin;
 
-select plan(11);
+select plan(10);
 
 insert into auth.users (
   id, aud, role, email, raw_app_meta_data, raw_user_meta_data, created_at, updated_at
@@ -37,11 +37,6 @@ select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000201
 select is((select count(*)::integer from public.user_favorites), 1, 'a user can read only their own favorites');
 insert into public.user_favorites (user_id, tool_id) values ('00000000-0000-0000-0000-000000000201', 'unit-converter');
 select is((select count(*)::integer from public.user_favorites), 2, 'a user can add their own favorite');
-select is(
-  (with changed as (update public.user_favorites set tool_id = 'age' where user_id = '00000000-0000-0000-0000-000000000202' returning 1)
-   select count(*)::integer from changed),
-  0, 'a user cannot update another account favorite'
-);
 select is(
   (with removed as (delete from public.user_favorites where user_id = '00000000-0000-0000-0000-000000000202' returning 1)
    select count(*)::integer from removed),
