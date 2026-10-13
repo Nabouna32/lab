@@ -134,11 +134,11 @@ Search architecture should allow an intelligence layer without requiring one fro
 
 ## DEC-009 — Current web stack remains the baseline
 
-**Status:** Accepted provisionally
+**Status:** Accepted
 
 ### Decision
 
-Continue with Next.js, React, TypeScript, Tailwind CSS, Vercel, GitHub Actions, and Playwright unless implementation evidence justifies a change.
+Keep Next.js, React, TypeScript, Tailwind CSS, Vercel, GitHub Actions, and Playwright as the current baseline unless implementation evidence justifies a change.
 
 ### Reason
 
@@ -720,51 +720,36 @@ The account system must be complete without introducing unnecessary personal-dat
 - Future user-owned tables must define explicit deletion/retention semantics before being added to the account lifecycle.
 - Deleting the last super administrator is intentionally blocked to preserve administrative recoverability. The database serializes self-deletion and `super_admin` role removal checks so concurrent operations cannot bypass this invariant.
 
-## DEC-038 — On-demand investigations replace numbered audits
-
-**Status:** Superseded
-
-### Previous decision and current direction
-
-This decision previously established a fixed catalogue of numbered specialist audits and a separate final-launch audit. That system has been retired.
-
-Investigations and audits now happen when either the user or assistant identifies a useful question during the work. Their scope and method are chosen for that question; no fixed numbered procedure, mandatory audit sequence, timestamped report or permanent audit archive is required. Keep conclusions only where they remain useful: the active Issue checkpoint, a canonical project document, or a dedicated follow-up Issue when action is needed.
-
-This supersedes the previous numbering, catalogue, report-retention and final-audit requirements. It does not remove the expectation to investigate risks carefully, use evidence, challenge current choices or verify consequential claims.
-
----
-
 ## DEC-039 — Single-assistant workflow and GitHub Issue checkpoints
 
 **Status:** Accepted
 
 ### Decision
 
-Loculary work is conducted by one assistant working directly with the user. Product, feature and tool guides are specialist procedures, not separate agent identities or delegated workers. Investigations and audits are initiated as needed and tailored to the question, not triggered by a fixed procedure catalogue.
+Loculary work is conducted by one assistant working directly with the user. Product, feature and tool guides are specialist references, not separate agent identities or delegated workers. Investigations and audits happen when a useful question arises; there is no mandatory numbered procedure catalogue.
 
-The assistant autonomously investigates the complete relevant problem, user journey, code, contracts, dependencies and current GitHub state in read-only mode; challenges existing choices and its own proposals; and recommends the best coherent solution. Read-only investigation, audits and factual Issue checkpoints do not require user approval.
+The assistant investigates the relevant problem, user journey, code, contracts, dependencies and current GitHub state; challenges existing choices and its own proposals; and recommends a coherent solution. Read-only investigation and factual Issue checkpoints do not require approval.
 
-Before modifying repository files, the assistant presents an accessible, evidence-based explanation of the concrete proposed changes, reasons, alternatives, recommendation, risks, trade-offs, uncertainties and exclusions. The user's explicit green light applies to that proposal, not to an audit or technical plan. After approval, the detailed operational plan lives in the active mission Issue as an internal execution document; it is not submitted for user approval.
+Before consequential repository changes, explain the proposed outcome, reasons, relevant alternatives, risks, trade-offs, uncertainties and exclusions in accessible terms, then obtain the user's explicit agreement. That agreement authorizes the described change, not a separate operational plan for approval. Afterward, the assistant handles routine technical decisions, implementation and verification autonomously. If evidence materially changes the scope, direction or significant risk, pause the affected work and discuss the change before proceeding.
 
-The assistant implements and verifies the approved outcome autonomously, including routine technical choices and diagnosis/fixes for failed checks. If new evidence materially changes the approved outcome, scope, direction or significant risk, the assistant pauses the affected work and discusses the new decision before proceeding.
+Every multi-step mission or task with durable decisions uses a relevant GitHub Issue as a living checkpoint. Update it as work progresses and before interruptions, recording the actual state, discoveries, user decisions, completed changes, PR/CI or other verification evidence, risks, blockers and next action. Check for an existing matching Issue before creating one for deferred work. Use comments when they preserve important context or decisions. Do not create an artificial activity log, and do not defer all updates until the end.
 
-Every resumable mission uses a GitHub Issue checkpoint. At meaningful milestones and before interruption, update it with actual state, decisions, completed work, verification evidence, blockers and next action. Search for a matching Issue before creating one for actionable deferred work. Tracking does not silently change priority or authorize implementation.
-
-Issues complement Git and canonical documentation. They do not replace Git as the implementation source of truth, canonical specifications as the source of current product intent, branches, pull requests or CI evidence.
+Issues complement Git and canonical documentation: they are the durable work/resumption record, not a replacement for implementation, current product intent, pull requests or verification evidence. Tracking a deferred finding does not silently authorize implementing it.
 
 ### Reason
 
-This preserves the user's authority over consequential direction while allowing the assistant to own investigation and execution. It avoids making the user approve technical process documents instead of the changes they are being asked to authorize.
+This preserves the user's authority over consequential direction while allowing the assistant to own investigation and execution. A living Issue checkpoint protects continuity when conversations are interrupted without making the user approve a formal plan or manage the assistant's process.
 
 ### Consequences
 
-- One assistant conducts product reasoning, audits, feature work, tool work, implementation and verification.
-- Investigations and audits are performed on demand; useful findings are retained in Issues or canonical documentation when needed.
-- The explicit green light precedes repository modifications and approves the explained change proposal.
-- The plan is internal execution guidance; routine implementation does not require repeated approval.
+- One assistant conducts product reasoning, investigations, implementation and verification.
+- Investigation is evidence-driven and on demand, not triggered by a fixed catalogue.
+- The user approves consequential change proposals, not routine technical choices or a separate formal plan.
+- Routine implementation and diagnosis of failed checks proceed autonomously within the approved scope.
 - Material changes to the approved outcome or significant risk require renewed discussion.
-- Actionable deferred findings are durably tracked after duplicate checks; tracking does not authorize implementation.
-- Keep active documentation concise and current; ordinary Git history preserves prior versions.
+- Update the active Issue at meaningful milestones and before interruption; preserve useful findings and decisions, not empty status noise.
+- Search for duplicate Issues before creating follow-up work, and do not treat tracking as implementation approval.
+- Keep canonical documentation concise and current; ordinary Git history preserves prior file versions.
 
 ## DEC-042 — Next actions are contextual and optional
 
@@ -796,7 +781,7 @@ where the final step is conditional on there being a meaningful continuation.
 - The default product semantics are continuation/complementarity, not generic similarity.
 - The recommendation engine is an implementation mechanism and must not define the product meaning of a next action.
 - Generic discovery can still exist elsewhere in the product without being mislabeled as a next action.
-- Existing "Related Tools" UI and relation logic must be evaluated against this decision; implementation changes must follow the normal discussion and validated-plan process.
+- Existing "Related Tools" UI and relation logic must be evaluated against this decision; implementation changes must follow the normal discussion and decision process.
 - Related tools are not a mandatory generic section and are not placed after documentation by default.
 
 
@@ -854,48 +839,3 @@ Loculary needs a coherent, recognizable visual and interaction language that fee
 - DEC-004 remains in force: shared foundations and behavior do not require identical compositions across specialized tools.
 - Accessibility, WCAG 2.2 AA, reduced motion, responsive desktop/tablet/mobile behavior, localization, privacy and performance remain mandatory.
 - Adoption is not proof of implementation. Production migration, curated palette settings, preference persistence, account synchronization and visual/accessibility verification must be delivered and verified through explicit implementation plans.
-
-
-## DEC-049 — Controlled manual merge as the default delivery workflow
-
-**Status:** Accepted
-
-### Decision
-
-Pull requests use a controlled manual merge by default. Do not enable GitHub auto-merge as part of the normal assistant workflow.
-
-Before merging, wait for every required check, inspect the actual GitHub results, verify that the checked PR head has not changed, confirm the PR is mergeable and based on the current `main`, then use GitHub's normal merge action. Never bypass branch protections.
-
-Auto-merge is an exception only when an explicit repository policy requires it. If auto-merge is already enabled and cannot be disabled through the available tools, report the blocker rather than attempting to work around GitHub's protections.
-
-### Reason
-
-The project prioritizes a short, predictable delivery loop. Explicitly checking the green CI state and current base before merging is easier to diagnose than waiting indefinitely for auto-merge, while retaining required GitHub protections.
-
-### Consequences
-
-- New PRs must not enable auto-merge by default.
-- The assistant owns the final pre-merge freshness and required-check verification.
-- A successful merge must be confirmed from GitHub's actual PR and `main` state before closing the mission Issue.
-- Repository rulesets and required checks remain authoritative; this decision never authorizes bypassing them.
-
-## DEC-050 — No mandatory fresh-conversation handoff
-
-**Status:** Accepted
-
-### Decision
-
-Continue work in the current conversation while it remains useful. A new conversation and a handoff prompt are optional tools, not mandatory workflow phases.
-
-If context limits or a genuine continuity need make a handoff useful, update the active mission Issue with the actual state, decisions, verification and next action first. Then provide a concise prompt grounded in that checkpoint and fresh GitHub state. Do not duplicate the operational plan or assume stale branch, PR or CI details.
-
-### Reason
-
-Mandatory conversation transfers add friction and make the user manage the assistant's process rather than focus on Loculary. Durable continuity belongs in the mission Issue; a new conversation is only a practical choice when it improves reliability.
-
-### Consequences
-
-- No default handoff prompt after approval.
-- The assistant may recommend a new conversation when there is a concrete reason, while continuing in the current conversation remains the default.
-- The Issue remains the durable checkpoint; the prompt, when useful, points to it rather than duplicating it.
-- This decision does not change approval boundaries, CI triggers, branch protections or delivery requirements.
