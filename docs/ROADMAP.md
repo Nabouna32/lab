@@ -96,7 +96,7 @@ Goal: improve discovery and tool assistance where justified.
 
 AI is not a goal by itself.
 
-Current boundary: the deployed Supabase database contains account/profile and administrative RBAC/audit foundations only. The executable tool catalog and curated intent associations remain Git-backed; favorites, collections, community records and an editable database catalog are not currently deployed.
+Current boundary: the deployed Supabase database contains account/profile and administrative RBAC/audit foundations only. The executable tool catalog and curated intent associations remain Git-backed; favorites, collections, community records and an editable database catalog are not currently deployed. A database-backed catalog remains deferred under DEC-051 until its criteria are met.
 
 ## Phase 6 — Sustainability and scale
 
@@ -105,7 +105,7 @@ Goal: support real traffic while protecting the user experience.
 - [ ] Advertising integration
 - [ ] Privacy-conscious product analytics
 - [ ] Dedicated runtime performance monitoring
-- [deferred] Revisit only when evidence justifies a database-backed catalog or higher scale
+- [deferred] Reconsider a database-backed catalog only when DEC-051's concrete product or operational triggers are demonstrated; catalog size alone is insufficient
 - [partial] Framework/static generation is used; a deliberate catalog/data caching strategy is not implemented
 - [partial] CI, unit tests and metadata validation exist; product-level resilience remains incomplete. Browser E2E and screenshot automation are intentionally absent (DEC-049).
 - [partial] Authentication throttling and administrative RBAC/RLS exist; community anti-abuse controls do not

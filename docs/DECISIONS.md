@@ -440,7 +440,9 @@ System roles and permissions are part of the application contract, not editable 
 
 ## DEC-027 — Database owns editable catalog/editorial data, not executable behavior
 
-**Status:** Accepted
+**Status:** Superseded in part by DEC-051 (historical context retained)
+
+**Current interpretation:** DEC-051 supersedes the unconditional choice of PostgreSQL as the catalog store. The separation between editable metadata and executable behavior remains valid if a database-backed catalog is later justified.
 
 ### Decision
 
@@ -887,3 +889,33 @@ Loculary benefits from current tooling, security updates, and a small, understan
 - Preserve full-SHA pinning for GitHub Actions where appropriate; do not replace it with floating tags merely to appear more up to date.
 - Avoid adding reproducibility systems, duplicate checks, or team-oriented ceremony unless a concrete need justifies the cost.
 - Browser E2E and screenshot automation remain governed separately by DEC-049 and are not reintroduced by default.
+
+
+## DEC-051 — Database-backed catalog is conditional on demonstrated need
+
+**Status:** Accepted
+
+### Decision
+
+The public tool catalog remains Git-backed. PostgreSQL is not a committed destination for editable catalog data and no migration is scheduled by default. DEC-027's separation between editable metadata and executable behavior remains valid as a boundary if a database catalog is later justified; its unconditional storage target is superseded by this decision.
+
+Reconsider a database-backed catalog when at least one concrete product or operational requirement is demonstrated that the current Git-backed workflow cannot reasonably serve. Evidence may include:
+
+- authorized editorial publishing or lifecycle management that must happen without code deployment;
+- measured search, build, catalog-delivery or performance bottlenecks that a database-backed design is likely to resolve;
+- administration, auditability or collaboration requirements that cannot be met proportionately by the current workflow.
+
+Catalog size or an aspiration to support thousands of tools is not, by itself, sufficient justification. Any proposal must compare the actual benefits with schema/migration work, operational complexity, security, performance and maintenance cost. Before implementation, define the proposed scope and acceptance criteria, review the schema and migration path, and obtain explicit approval for the consequential architecture change.
+
+Git/code remains authoritative for executable tool implementations, registry modules, processing mode, capabilities and technical behavior, regardless of where editable metadata is stored.
+
+### Reason
+
+The deployed product currently uses a Git-backed catalog, and the database catalog schema was deliberately removed during the October 2026 clean-cut. Building the database catalog without a demonstrated publishing, search or operational need would add cost and complexity before proving its value.
+
+### Consequences
+
+- The catalog remains Git-backed until the criteria above are met and a new implementation proposal is approved.
+- Product and architecture documents must describe database catalog storage as conditional, not inevitable.
+- The closed #444 issue is not an active implementation plan; a new issue should be created only if evidence makes the work worth pursuing.
+- No catalog schema or production migration is authorized by this decision.

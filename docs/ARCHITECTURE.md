@@ -221,28 +221,11 @@ A database is expected to become useful for:
 - tool metadata where appropriate;
 - privacy-conscious analytics data.
 
-Supabase/PostgreSQL is the current database platform for the deployed account, administrative RBAC and audit foundation. The editable catalog's PostgreSQL boundary is an accepted target under DEC-027, but its schema is not currently deployed; the public catalog remains Git-backed until the redesign and migration tracked in #444 are completed. This does not make the platform immutable: a future replacement remains possible only after an explicit architecture decision supported by current requirements and evidence.
+Supabase/PostgreSQL is the current database platform for the deployed account, administrative RBAC and audit foundation. The public tool catalog remains Git-backed, and the legacy database catalog schema is not deployed. Issue #444, which previously tracked a redesign, was closed as not planned; no catalog migration is currently scheduled.
 
-A small paid database/infrastructure budget is acceptable once product revenue or traffic justifies it.
+A database-backed catalog may be reconsidered when a concrete product or operational need cannot be served well by the Git-backed model. Relevant evidence includes a demonstrated publishing workflow that needs authorized edits without code deployment, a measured search/build/delivery bottleneck, or administration and audit requirements that Git cannot reasonably meet. Catalog size by itself is not sufficient justification. See DEC-051 for the decision criteria.
 
-### Large-catalog readiness
-
-The catalog is expected to grow to thousands or potentially tens of thousands of tools. The architecture must therefore be designed for large-catalog operation from the outset rather than retrofitted after the catalog becomes large.
-
-Catalog storage/delivery and executable tool implementations remain separate concerns. The catalog layer should be evaluated for:
-
-- indexed and filtered retrieval;
-- localized metadata and search;
-- publication/lifecycle workflows;
-- relations and intent/discovery data;
-- caching and invalidation;
-- progressive loading and payload size;
-- administration and auditability;
-- reliability and operational cost.
-
-The editable catalog follows the database boundary established by DEC-027, while executable tool implementations remain in Git. Large-catalog concerns such as indexing, caching, progressive loading, payload size, reliability and operational cost must be designed into the catalog architecture.
-
-A migration must not move executable tool behavior into the database merely because catalog data moves there. Git/code remains the authority for executable implementations.
+Catalog storage and delivery must remain separate from executable tool implementations. Git/code remains authoritative for registry modules, processing mode, capabilities and actual tool logic. Any future data-store change must preserve that boundary and justify its operational cost.
 
 ## Community architecture
 
