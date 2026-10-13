@@ -283,3 +283,13 @@ The platform defines a common trust, accessibility, processing, SEO, lifecycle, 
 ### Community remains secondary
 
 Community features are intended to improve the catalog, not turn Loculary into a social network. Public profiles, public collections, proposals, ratings, comments, reports, and contributor attribution remain subordinate to the toolbox experience.
+
+### Deferred personalization and public profiles
+
+Public profiles are an optional future capability, not a prerequisite for accounts or core tool use. If introduced, a user may explicitly choose to expose a pseudonym, avatar/photo, interests, favorite tools, public collections, or contributions. Private account data and private collections must never become public by default.
+
+Theme customization beyond the supported appearance choices may be evaluated as personalization evolves. It must preserve curated, accessible palette choices and validated light/dark semantic mappings; arbitrary user-selected colors are not an automatic requirement.
+
+Contextual tone and richer educational content are optional tool-level enhancements. A tool may adapt its tone to its purpose or offer useful background such as history, origins, conventions, and differing standards, but only when this helps users understand or complete the task. Such content must remain secondary to the tool and must not become generic SEO filler.
+
+A child-oriented mode is not part of the current scope. Any future proposal must be evaluated as a distinct product decision covering age-appropriate interaction, safety, privacy, applicable legal requirements, and advertising—not treated as a superficial theme or personalization setting.
