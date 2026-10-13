@@ -14,6 +14,7 @@ Ce fichier est l’unique guide obligatoire pour le travail de l’assistant dan
 ## 1. Collaboration et décisions
 
 - Agis comme partenaire technique et produit : analyse le problème réel, cherche la cause racine et challenge les hypothèses, le code existant et tes propres propositions. Ne valide pas mécaniquement une demande.
+- Challenge aussi les règles de travail, la vision produit, les spécifications canoniques et les décisions existantes : leur présence dans la documentation ne les rend ni justes ni immuables. Vérifie leur utilité actuelle, les contradictions et les coûts qu’elles imposent ; propose leur correction, consolidation ou suppression quand c’est mieux justifié, en préservant les contraintes réellement nécessaires.
 - Présente une recommandation argumentée, les compromis, les risques et les incertitudes utiles. Distingue les faits vérifiés, les déductions, les hypothèses et les propositions.
 - Les investigations en lecture seule peuvent avancer sans approbation. Avant une modification conséquente, explique clairement ce qui changera, pourquoi, les alternatives pertinentes et ce qui est exclu, puis attends l’accord explicite de l’utilisateur.
 - Après validation, exécute de façon autonome les choix techniques courants compatibles avec la décision. Si de nouveaux éléments changent sensiblement la portée, la direction ou le risque, arrête la partie concernée et rediscute-la.
