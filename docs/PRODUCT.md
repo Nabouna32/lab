@@ -145,7 +145,6 @@ Expected checks include, as applicable:
 - performance appropriate to the tool;
 - documentation;
 - related-tool metadata;
-- contribution attribution when applicable.
 
 The exact automated contract will evolve with the tool platform.
 
