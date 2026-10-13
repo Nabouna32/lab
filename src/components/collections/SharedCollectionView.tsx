@@ -5,7 +5,7 @@ import Link from "next/link";
 import { createBrowserClient } from "@supabase/ssr";
 import type { Locale } from "@/lib/i18n/config";
 import { getPublishedTools } from "@/lib/tools/catalog";
-import { getToolContent } from "@/lib/tools/types";
+import { getToolContent, type ToolId } from "@/lib/tools/types";
 import { getToolPath } from "@/lib/tools/routes";
 
 type SharedData = { name: string; tools: Array<{ id: string; icon: string; name: string; description: string; href: string }> };
@@ -31,7 +31,7 @@ export default function SharedCollectionView({ locale, token }: { locale: Locale
         const content = getToolContent(tool, locale);
         return [tool.id, { id: tool.id, icon: tool.icon, name: content.name, description: content.description, href: getToolPath(locale, tool.id) }];
       }));
-      const tools = (collection.user_collection_items ?? []).map((item: { tool_id: string }) => byId.get(item.tool_id)).filter((tool): tool is NonNullable<typeof tool> => Boolean(tool));
+      const tools = (collection.user_collection_items ?? []).map((item: { tool_id: string }) => byId.get(item.tool_id as ToolId)).filter((tool): tool is NonNullable<typeof tool> => Boolean(tool));
       setData({ name: collection.name, tools });
       setLoading(false);
     }
