@@ -56,14 +56,14 @@ Goal: make a large catalog easy to navigate.
 
 ## Phase 3 — Accounts
 
-Goal: add optional personalization without creating an account wall.
+Goal: synchronize favorites, personal collections and the light/dark theme preference without creating an account wall.
 
 - [x] Supabase email/password authentication and profile foundation
 - [partial] All published tools are usable anonymously; local favorites exist, while account synchronization and collections remain to be completed
-- [ ] Favorites
+- [partial] Favorites (anonymous local favorites exist; account synchronization remains to be completed)
 - [ ] Collections
-- [partial] Local theme mode and profile locale exist; account-synchronized personalization preferences do not
-- [partial] Profile, email/password and account-lifecycle screens exist; personalization settings are incomplete
+- [partial] Local light/dark theme mode and profile locale exist; account-synchronized theme preference does not
+- [partial] Profile, email/password and account-lifecycle screens exist; account preference synchronization remains incomplete
 - [partial] Processing disclosures and account deletion exist; comprehensive privacy/consent controls are incomplete
 - [deferred] AI-specific privacy controls depend on an approved AI use case
 
