@@ -128,36 +128,6 @@ The most important long-term product outcome is the user's feeling after using L
 
 This is intentionally a product-quality goal rather than a single metric.
 
-## Expanded product direction
+## Future evolution
 
-Loculary is not merely a large list of utilities. The long-term product model is a **universal environment for solving needs** through micro-tools, advanced tools, and mini-applications.
-
-The intended journey is:
-
-> **Besoin → Loculary → recherche/découverte → outil(s) → résultat → action/partage/sauvegarde**
-
-The working positioning may evolve, but the product promise is that Loculary helps users find simply how to accomplish something.
-
-### Universal scope
-
-Any useful browser-realizable tool may belong in the catalog, including technical, practical, creative, analytical, visual, educational, playful, emotional, introspective, symbolic, or spiritual experiences, subject to technical feasibility, safety/legal constraints, cost, and product quality. Symbolic or spiritual tools must be presented honestly rather than as scientific facts when they are not scientific claims.
-
-### Progressive richness
-
-The product should expose complexity progressively. Users should not pay in loading time, memory, cognitive load, or interface complexity for capabilities they do not need.
-
-### Personal Loculary
-
-Over time, authenticated users should be able to create a personalized Loculary space with favorites, collections, history, hidden tools, ordering, visible elements, theme, animation level, density/style, personalized home, privacy preferences, and other non-mode personalization preferences where useful.
-
-### Three product layers
-
-- **Public:** search, catalog, discovery.
-- **Tool:** execution, result, explanation, actions, sharing.
-- **Personal:** favorites, collections, history, preferences, personalization, profile.
-
-Anonymous use must remain useful; personal features add depth rather than create an account wall.
-
-### Long-term solution engine
-
-The long-term ambition can evolve from finding a tool to solving a need. A complex request may eventually lead to several complementary tools or a composed workflow. This is future direction, not a requirement that the MVP implement multi-tool orchestration.
+Loculary may evolve from helping users find one useful tool to helping them solve broader needs through complementary tools or composed workflows. Personalization may add favorites, collections, history and preferences without making an account mandatory for core use. These are conditional long-term directions, not MVP commitments; each must earn its complexity through demonstrated user value, feasibility and a sustainable operating cost.
