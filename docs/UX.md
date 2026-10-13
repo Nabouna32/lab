@@ -135,8 +135,7 @@ A typical tool page should follow this conceptual order:
 6. common actions;
 7. contextual next actions, when a natural continuation exists;
 8. secondary documentation;
-9. optional discovery/community information;
-10. advertising that does not interfere with the primary task.
+9. optional discovery information.
 
 Not every tool needs every section.
 
@@ -260,23 +259,6 @@ Desktop and mobile are both first-class experiences.
 
 The application should not be designed as desktop-only and then merely compressed.
 
-When viewport width is insufficient for side advertising, side advertising should disappear rather than reduce the usable tool area below an acceptable level.
-
-## Advertising UX
-
-Advertising must remain visually and functionally subordinate to the tool.
-
-Preferred behavior:
-
-- side rail(s) on sufficiently wide desktop layouts;
-- alternative lower-page placement on narrower layouts;
-- no obstruction of inputs, results, navigation, or critical controls;
-- no autoplay audio;
-- no deceptive interaction;
-- no forced interaction with ads.
-
-A sticky lower ad may be considered where technically and commercially appropriate, provided it does not cover essential UI and includes appropriate spacing.
-
 ## Accessibility
 
 Accessibility is a product requirement.
@@ -338,7 +320,7 @@ The UX must never imply that one category fully represents an intent. Initial in
 
 ## Personal experience and contextual content
 
-Authenticated users may eventually hide or reorder tools and page elements, customize the homepage, choose theme and animation level, adjust density/style, manage favorites and collections, and control privacy/history behavior. These controls should enhance the experience without making anonymous usage feel second-class.
+Favorites, personal collections and the light/dark theme preference should be easy to access without making anonymous usage feel second-class. The signed-in homepage may optionally surface favorites and collections as quick-access pills; this is a possibility, not a commitment to a configurable or personalized homepage.
 
 Contextual tone is an optional future capability: a professional tool may remain restrained while a creative or exploratory tool may be more expressive. It must remain subordinate to clarity, usability and accessibility and does not depend on a user-selectable presentation mode.
 
