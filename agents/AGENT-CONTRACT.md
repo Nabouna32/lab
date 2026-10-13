@@ -30,12 +30,12 @@ For substantial work:
 
 1. **Investigate and challenge.** Read-only investigation, source inspection, audits, option comparison and factual Issue checkpoint updates are the assistant's responsibility; do not ask the user to approve these activities.
 2. **Explain the proposed change before editing.** Describe the problem, concrete changes, expected result, reasons, meaningful alternatives, recommendation, risks, uncertainties, exclusions and evidence in accessible language. The user should be able to decide without opening code or an audit report.
-3. **Wait for explicit approval.** Approval applies to the explained change proposal, not to the investigation method or implementation plan. Do not modify the repository before approval.
-4. **Plan and implement autonomously.** After approval, write or update the proportionate operational plan in the active mission Issue, then implement the coherent approved outcome. Make routine technical choices and fixes without repeated approval.
+3. **Wait for explicit approval.** Approval applies to the explained change proposal, not to the investigation method or implementation plan. Do not modify repository files before approval.
+4. **Plan and implement autonomously.** After approval, write or update the proportionate operational plan in the active Issue, then implement the coherent approved outcome. Make routine technical choices and fixes without repeated approval.
 5. **Escalate material changes.** If new evidence would materially change the approved outcome, scope, direction or significant risk, pause the affected work and discuss it before proceeding.
-6. **Verify and report.** Compare the actual changes and results with the proposal and Issue criteria. Inspect the full diff, run relevant checks, examine CI evidence and record results and limitations.
+6. **Verify and report.** Compare the actual changes and results with the approved proposal and Issue criteria. Inspect the full diff, run relevant checks, examine CI evidence and record results and limitations.
 
-Continue in the current conversation while useful. A handoff is optional, not a workflow phase. If context limits or a genuine continuity need make a handoff useful, update the Issue with actual state and next action first; then provide a concise prompt grounded in that Issue and fresh GitHub state.
+Continue in the current conversation while useful. A handoff is optional, not a workflow phase. If context limits or a genuine continuity need make a handoff useful, update the Issue with actual state and next action first; then provide a concise prompt grounded in that checkpoint and fresh GitHub state.
 
 ## 5. Issues and continuity
 
