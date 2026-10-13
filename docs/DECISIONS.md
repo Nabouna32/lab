@@ -36,7 +36,7 @@ Loculary is a utility site. Requiring registration before a simple calculation w
 
 ### Consequences
 
-Local browser state can provide history and preferences before authentication.
+Local browser state can provide preferences before authentication.
 
 Accounts add synchronization and personalization rather than basic access.
 
@@ -129,7 +129,6 @@ Privacy and transparency are first-class product requirements, not merely compli
 - never request data a tool does not need;
 - disclose every meaningful data transfer;
 - provide understandable privacy details;
-- provide a transparency/data dashboard for authenticated users;
 - support export;
 - support account deletion with deletion or strong anonymization where deletion is impossible;
 - make non-essential consent refusal easy;
@@ -192,25 +191,6 @@ External dependencies affect privacy, cost, availability, security, and user tru
 ### Consequences
 
 The catalog must include provider, domain, purpose, transmitted data, authentication model, policy reference, cost/quota, fallback behavior, and ownership.
-
----
-
-## DEC-015 — User data transparency dashboard
-
-**Status:** Accepted as product direction
-
-### Decision
-
-Authenticated users should have a dedicated dashboard showing the data Loculary stores or associates with their account and the relevant privacy/consent choices.
-
-### Reason
-
-Users should not need to navigate obscure settings or infer what is stored.
-
-### Consequences
-
-The data model must maintain clear ownership and deletion/export boundaries across identity, preferences, favorites, collections, analytics, and security records.
-
 
 ---
 
@@ -279,7 +259,7 @@ Search is not limited to tool-name matching. It progressively supports catalog m
 
 ### Consequences
 
-Search must remain useful without an AI provider and must expose no-result recovery paths such as related queries, related tools and eventually tool proposals.
+Search must remain useful without an AI provider and must expose no-result recovery paths such as related queries, related tools and relevant categories.
 
 ---
 
@@ -306,7 +286,6 @@ A registry also provides a controlled boundary for progressive code loading and 
 - Shared platform concerns remain outside individual tool implementations.
 - Registry coverage must be validated by automated architecture tests.
 - The catalog/database and executable module remain separate concerns.
-
 
 ---
 
@@ -339,27 +318,6 @@ Separating access from processing also prevents an accidental architectural coup
 - Future browser, persistence, network and account capabilities should use the same controlled boundary.
 - Tool metadata remains authoritative for the declared requirement, while executable platform services enforce the actual permission at runtime.
 
-
-## DEC-024 — Account foundation before catalog migration
-
-**Status:** Accepted
-
-### Decision
-
-Introduce the database and authenticated account foundation before moving existing tool/catalog behavior out of Git. The first database scope is intentionally limited to user identity integration and minimal profile metadata.
-
-### Reason
-
-Loculary needs accounts and an administration surface eventually, but executable tool behavior must remain in Git until the code/database boundary is explicitly designed. Starting with the account foundation creates the necessary platform layer without coupling the tool engine to the database prematurely.
-
-### Consequences
-
-- Supabase Auth is the identity provider.
-- User profile metadata is stored in `public.profiles` with Row Level Security.
-- Core tools remain anonymous-first.
-- Tool/catalog/editorial data is not migrated as part of this step.
-- Future administration will use explicit permissions rather than an ad-hoc client-side admin flag.
-
 ## DEC-025 — Granular admin RBAC in the database
 
 **Status:** Accepted
@@ -381,7 +339,6 @@ Loculary will eventually have several administrative areas with different respon
 - The first administrator must be assigned explicitly; there is no automatic "first user becomes admin" bootstrap.
 - Executable tool behavior remains in Git/code and is not moved into the database by this decision.
 - The model can grow with future administration areas without changing the basic authorization mechanism.
-
 
 ## DEC-026 — System administration labels belong to application i18n
 
@@ -423,30 +380,6 @@ Using 1,024 while displaying decimal labels such as kB/ko makes the displayed un
 - Download-time calculations continue to use decimal file sizes and decimal network speeds.
 - Speed conversion continues to use decimal units and preserves the 8-bit-per-byte relationship.
 
----
-
-## DEC-029 — Supabase leaked password protection remains disabled on the Free plan
-
-**Status:** Accepted
-
-### Decision
-
-Keep Supabase Auth's leaked password protection disabled while Loculary remains on the Supabase Free plan.
-
-This is an intentional infrastructure limitation, not an outstanding security task. Security audits should treat this setting as a known and accepted constraint rather than repeatedly flagging it for implementation.
-
-### Reason
-
-The feature requires a higher Supabase plan and cannot currently be enabled through the available project tooling on the Free plan. Upgrading solely to enable this feature is not justified at the current project stage.
-
-### Consequences
-
-- Do not repeatedly attempt to enable this setting as part of routine security hardening while the project remains on the Free plan.
-- Security audits may mention the accepted limitation for visibility, but should not create a new implementation task unless the Supabase plan changes.
-- Revisit the decision if Loculary moves to a plan that provides the feature or if the project's authentication/security requirements materially change.
-
-
-
 ## DEC-030 — English is the product translation fallback
 
 **Status:** Accepted
@@ -467,7 +400,6 @@ Loculary is designed as an international product. English provides a neutral sha
 - Tool content contracts require both `fr` and `en`.
 - New locales do not inherit French content accidentally.
 - French translations remain unchanged and are still used whenever the locale is `fr`.
-
 
 ## DEC-031 — Translation status is an explicit readiness signal
 
@@ -491,24 +423,6 @@ Structural i18n tests can verify that translations exist and remain coherent, bu
 - French remains `complete` as the currently declared fully reviewed initial language.
 - Future translation work may change a locale from `partial` to `complete` only when the supported user-facing scope has been reviewed.
 - Structural tests protect translation integrity but do not automatically promote a locale's readiness status.
-
-## DEC-032 — Product rename to Loculary
-
-**Status:** Accepted
-
-### Decision
-
-The product's public brand is **Loculary**.
-
-### Reason
-
-The product identity has been explicitly changed while the underlying repository and infrastructure migration are handled separately through the rename workflow.
-
-### Consequences
-
-- Current product-facing documentation and implementation should use Loculary.
-- Infrastructure names and identifiers are not assumed to change automatically; each migration is handled explicitly.
-
 
 ## DEC-034 — UX direction reset and user-intention architecture
 
@@ -554,28 +468,6 @@ The product needs a clearer identity centered on accomplishing tasks quickly whi
 - Shared visual foundations and motion are governed by DEC-048; this structural UX decision does not require identical compositions across tools.
 - Core product constraints such as browser-first processing, privacy, accessibility, internationalization and anonymous-first usage remain unchanged.
 
-## DEC-035 — Development tool category
-
-**Status:** Accepted
-
-### Decision
-
-Loculary adds a **Development / Développement** catalog category for browser-based developer and data utilities.
-
-The first published tool in this category is the JSON Formatter & Validator. The category is a catalog organization decision; it does not commit the project to implementing every related developer utility.
-
-### Reason
-
-The catalog is intended to grow beyond calculators and converters. Developer/data utilities are a coherent local-first family and fit Loculary's browser-first model particularly well.
-
-### Consequences
-
-- The stable category identifier is `developpement`.
-- The category is localized as “Développement” in French and “Development” in English.
-- Category identifiers remain stable URL segments while the locale prefix localizes the user-facing route context.
-- Future developer tools may reuse this category when they satisfy the normal tool quality gate.
-
-
 ## DEC-036 — English reference locale and fully localized public tool URLs
 
 **Status:** Accepted
@@ -597,7 +489,7 @@ Internal code identifiers remain English and language-neutral. Localized route s
 
 The language selector must resolve the same resource to its equivalent localized URL. Canonical URLs, hreflang alternates, internal links, breadcrumbs and the sitemap must all use the localized public URL for the active locale.
 
-No legacy redirects are required for the pre-launch route structure. Future redirects for URL changes after launch are tracked separately in #475.
+No legacy redirects are required for the pre-launch route structure. Future redirects for public URL changes after launch should be decided when a concrete change is planned.
 
 ### Reason
 
@@ -636,31 +528,6 @@ The account system must be complete without introducing unnecessary personal-dat
 - Future user-owned tables must define explicit deletion/retention semantics before being added to the account lifecycle.
 - Deleting the last super administrator is intentionally blocked to preserve administrative recoverability. The database serializes self-deletion and `super_admin` role removal checks so concurrent operations cannot bypass this invariant.
 
-## DEC-039 — Single-assistant workflow and evidence-driven collaboration
-
-**Status:** Accepted
-
-### Decision
-
-Loculary work is conducted by one assistant working directly with the user. Product, feature and tool guides are specialist references, not separate agent identities or delegated workers. Investigations and audits happen when a useful question arises; there is no mandatory numbered procedure catalogue.
-
-The assistant investigates the relevant problem, user journey, code, contracts, dependencies and current repository state; challenges existing choices and its own proposals; and recommends a coherent solution. Read-only investigation does not require approval.
-
-Before consequential repository changes, explain the proposed outcome, reasons, relevant alternatives, risks, trade-offs, uncertainties and exclusions in accessible terms, then obtain the user's explicit agreement. That agreement authorizes the described change, not a separate operational plan for approval. Afterward, the assistant handles routine technical decisions, implementation and verification autonomously. If evidence materially changes the scope, direction or significant risk, pause the affected work and discuss the change before proceeding.
-
-### Reason
-
-This preserves the user's authority over consequential direction while allowing the assistant to own investigation and execution without imposing a separate formal plan or administrative tracking process.
-
-### Consequences
-
-- One assistant conducts product reasoning, investigations, implementation and verification.
-- Investigation is evidence-driven and on demand, not triggered by a fixed catalogue.
-- The user approves consequential change proposals, not routine technical choices or a separate formal plan.
-- Routine implementation and diagnosis of failed checks proceed autonomously within the approved scope.
-- Material changes to the approved outcome or significant risk require renewed discussion.
-- Keep canonical documentation concise and current; ordinary Git history preserves prior file versions.
-
 ## DEC-042 — Next actions are contextual and optional
 
 **Status:** Accepted
@@ -693,7 +560,6 @@ where the final step is conditional on there being a meaningful continuation.
 - Generic discovery can still exist elsewhere in the product without being mislabeled as a next action.
 - Existing "Related Tools" UI and relation logic must be evaluated against this decision; implementation changes must follow the normal discussion and decision process.
 - Related tools are not a mandatory generic section and are not placed after documentation by default.
-
 
 ## DEC-045 — Intents are first-class discovery objects
 
@@ -757,7 +623,7 @@ The intended experience is a distinctive, polished, Android-inspired web applica
 
 The default semantic palette uses the blue seed **#4285F4** to generate tonal roles; the seed does not require every primary role to use the literal value. **Roboto** is the validated default interface typeface. Loculary uses the official Material Color Utilities (MCU) Rainbow scheme as its sole rainbow palette. Its tonal range should serve both expressive surfaces/frame backgrounds and vivid compact accents such as category pills, badges and markers; choose tones appropriate to the context and validate foreground contrast. Do not retain a parallel Loculary-specific palette merely to obtain stronger colors. Semantic success, warning and error colors remain independent of the brand seed and Rainbow palette. Light/dark mappings and actual foreground contrast must be validated.
 
-Palette preference should persist locally for anonymous users and synchronize to the user's account when signed-in preference persistence is implemented. This decision records the product direction; it does not claim that palette settings, production tokens or account synchronization have already been implemented.
+Theme preference should persist locally for anonymous users and synchronize to the user's account when signed-in preference persistence is implemented. This decision records the product direction; it does not claim that palette settings, production tokens or account synchronization have already been implemented.
 
 The Loculary brand mark remains distinct from functional interface iconography. The supplied SVG remains a candidate for further brand exploration, not an approved final logo.
 
@@ -772,8 +638,7 @@ Loculary needs a coherent, recognizable visual and interaction language that fee
 - Shared components and screens may be refactored or replaced when required for a coherent M3 Expressive implementation; the direction does not require preserving current abstractions.
 - DEC-004 remains in force: shared foundations and behavior do not require identical compositions across specialized tools.
 - Accessibility, WCAG 2.2 AA, reduced motion, responsive desktop/tablet/mobile behavior, localization, privacy and performance remain mandatory.
-- Adoption is not proof of implementation. Production migration, curated palette settings, preference persistence, account synchronization and visual/accessibility verification remain implementation work that must be tracked and verified with appropriate evidence.
-
+- Adoption is not proof of implementation. Production migration, palette settings, preference persistence, account synchronization and visual/accessibility verification remain implementation work and must not be described as complete without evidence.
 
 ## DEC-049 — Defer browser E2E and screenshot automation during active redesign
 
@@ -796,32 +661,6 @@ Loculary is actively being redesigned. UI selectors, page structure, labels, and
 - Unit-level and repository-level automated checks remain the primary regression safeguards.
 - Screenshots and browser artifacts are not required inputs to routine assistant work.
 - Any future browser automation must be small, justified by a concrete failure mode, and kept aligned with the current product rather than treated as a permanent checklist.
-
-
-## DEC-050 — Latest compatible tooling and lightweight collaboration
-
-**Status:** Accepted
-
-### Decision
-
-Use the latest stable versions that are compatible with Loculary’s actual framework and toolchain. Keep runtimes, dependencies, developer tools, and GitHub Actions current; verify compatibility and CI rather than retaining old versions by inertia or for theoretical reproducibility.
-
-Continue using Dependabot for routine dependency and GitHub Actions updates. Pin third-party GitHub Actions to full commit SHAs where appropriate and retain readable version comments; refresh those pins through updates. SHA pinning is a supply-chain security control, not a reason to freeze an action on an old release.
-
-The intended working model is a collaboration between the user and the assistant. Do not add process, abstraction, duplicate validation, or infrastructure designed for a hypothetical larger team. Each mechanism must solve a concrete project need.
-
-### Reason
-
-Loculary benefits from current tooling, security updates, and a small, understandable engineering workflow. Unnecessary compatibility scaffolding and process increase maintenance cost without improving the product. At the same time, immutable action references provide a meaningful security boundary and should not be confused with keeping dependencies outdated.
-
-### Consequences
-
-- Prefer current stable compatible releases, with explicit compatibility constraints documented only where real and verified.
-- Keep the existing Dependabot update workflow and review meaningful updates promptly.
-- Preserve full-SHA pinning for GitHub Actions where appropriate; do not replace it with floating tags merely to appear more up to date.
-- Avoid adding reproducibility systems, duplicate checks, or team-oriented ceremony unless a concrete need justifies the cost.
-- Browser E2E and screenshot automation remain governed separately by DEC-049 and are not reintroduced by default.
-
 
 ## DEC-051 — Database-backed catalog is conditional on demonstrated need
 
