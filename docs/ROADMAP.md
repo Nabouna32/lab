@@ -11,7 +11,7 @@ Goal: establish the platform that can grow without creating unnecessary technica
 - [x] Public repository
 - [x] Main-only Vercel deployment
 - [x] GitHub Actions CI
-- [deferred] Browser E2E and screenshot automation remain excluded; reconsider only for a concrete regression risk that justifies the maintenance cost
+- [deferred] Browser E2E and screenshot automation are out of scope unless the user explicitly revisits that decision
 - [x] Product direction documented
 - [x] Formal tool metadata contract
 - [x] Shared tool page shell
