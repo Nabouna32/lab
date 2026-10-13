@@ -5,6 +5,7 @@ import { categoryColorIds, getCategoryColor, getCategoryContainerColor } from ".
 
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
 const rainbowSource = readFileSync(new URL("../design-system/rainbow-tones.ts", import.meta.url), "utf8");
+const rainbowPaletteSource = readFileSync(new URL("../design-system/rainbow-palette.ts", import.meta.url), "utf8");
 
 test("semantic theme tokens use the accepted blue M3 Expressive seed", () => {
   assert.ok(rainbowSource.includes('const BRAND_SEED = "#4285F4"'));
@@ -17,11 +18,11 @@ test("semantic theme tokens use the accepted blue M3 Expressive seed", () => {
 
 test("every category is wired to generated official MCU Rainbow colors for both themes", () => {
   assert.ok(rainbowSource.includes("new SchemeRainbow(seed, isDark"));
-  const hueAnchors = ["calculations", "dates", "computing", "images", "files", "video", "development"];
+  assert.ok(rainbowPaletteSource.includes("Hct.from(hue, 72, 50)"));
 
   for (const categoryId of categoryColorIds) {
     const token = `--category-${categoryId}`;
-    assert.ok(hueAnchors.includes(categoryId));
+    assert.ok(rainbowPaletteSource.includes(`${categoryId}:`), `${categoryId} should have one shared hue anchor`);
     assert.ok(globalCss.includes(`${token}: var(--m3-light-category-${categoryId}`), `${token} should use generated light-theme color`);
     assert.ok(globalCss.includes(`${token}: var(--m3-dark-category-${categoryId}`), `${token} should use generated dark-theme color`);
     assert.ok(globalCss.includes(`${token}-container: var(--m3-light-category-${categoryId}-container`), `${token} should have a generated light container`);
