@@ -148,6 +148,14 @@ Across all phases, apply progressive loading, tool/page performance budgets, low
 
 The discovery phase can progress from catalog search to intent-aware search, then to solution discovery and eventually multi-tool composition when product evidence justifies it. AI remains optional and must earn its recurring cost, privacy, latency, and reliability trade-offs.
 
-### Future surfaces
+### Future surfaces and evaluation boundaries
 
-PWA/offline capabilities, public profiles, custom themes, contextual tool tone, richer educational content, Android, additional languages/RTL, stronger offline support, and child-oriented experiences remain deferred directions. Each requires its own decision/specification before becoming committed scope.
+These remain future directions, not commitments to implement in the current phase:
+
+- **PWA and stronger offline support:** keep the normal web experience excellent first. If evaluated, compare concrete offline use cases and user value against installation UX, cache/storage complexity, update reliability, browser support, and performance costs. Offline indicators must describe actual tool capability; network-dependent tools must not be excluded from the catalog.
+- **Public profiles:** if introduced, make them optional and limited to explicitly selected information such as pseudonym, avatar, interests, favorite tools, public collections, and contributions. Keep profiles subordinate to finding and using tools; do not turn Loculary into a social network.
+- **Theme customization:** evaluate customization beyond light/dark/system only when it adds meaningful value. Preserve accessible, curated palette choices and validated light/dark semantic mappings; do not assume an unrestricted color picker is desirable.
+- **Contextual tool tone and richer educational content:** allow tool-specific tone or optional content about origins, history, conventions, or differing standards only when it improves the task. Neither should displace the tool or add generic filler.
+- **Child-oriented experience:** treat this as a separate product and risk decision, not a theme toggle. Any proposal must address age-appropriate language and interaction, child safety, privacy, applicable legal requirements, and advertising policy before scope is approved.
+- **Additional languages and RTL:** expand through the language registry, reviewed translation readiness, localized SEO, and deliberate right-to-left layout support rather than assuming translation alone is sufficient.
+- **Future clients:** Android or other clients should be justified by demonstrated demand and must not slow down the web product prematurely.
