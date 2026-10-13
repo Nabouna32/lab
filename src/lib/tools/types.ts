@@ -81,7 +81,7 @@ export type ToolQualityMetadata = {
   performance: "standard" | "heavy";
   tests: "required" | "partial" | "not-yet";
 };
-export type ToolContributor = { type: "internal" | "community"; name?: string };
+export type ToolContributor = { type: "internal"; name?: string };
 
 export type Tool = {
   id: ToolId;
