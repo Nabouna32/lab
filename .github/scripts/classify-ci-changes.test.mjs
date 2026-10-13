@@ -10,9 +10,25 @@ test('classifies documentation-only changes as lightweight', () => {
   });
 });
 
-test('classifies governance-only changes as lightweight and governance-touched', () => {
-  assert.deepEqual(classifyCiChanges(['agents/START-HERE.md', '.github/workflows/ci.yml'], 2), {
+test('classifies governance documentation as lightweight and governance-touched', () => {
+  assert.deepEqual(classifyCiChanges(['AGENTS.md', 'docs/DECISIONS.md'], 2), {
     lightweight_only: true,
+    dependencies_changed: false,
+    governance_changed: true,
+  });
+});
+
+test('workflow changes require full CI while still exercising classifier tests', () => {
+  assert.deepEqual(classifyCiChanges(['.github/workflows/ci.yml'], 1), {
+    lightweight_only: false,
+    dependencies_changed: false,
+    governance_changed: true,
+  });
+});
+
+test('CI tooling changes require full CI and exercise classifier tests', () => {
+  assert.deepEqual(classifyCiChanges(['.github/scripts/classify-ci-changes.mjs'], 1), {
+    lightweight_only: false,
     dependencies_changed: false,
     governance_changed: true,
   });
@@ -27,7 +43,7 @@ test('runtime changes force the full suite even when mixed with documentation', 
 });
 
 test('governance mixed with runtime still marks governance but disables lightweight mode', () => {
-  assert.deepEqual(classifyCiChanges(['agents/START-HERE.md', 'src/app/page.tsx'], 2), {
+  assert.deepEqual(classifyCiChanges(['AGENTS.md', 'src/app/page.tsx'], 2), {
     lightweight_only: false,
     dependencies_changed: false,
     governance_changed: true,
@@ -43,7 +59,7 @@ test('dependency manifests force the full suite and dependency review', () => {
 });
 
 test('dependency changes mixed with governance preserve both flags', () => {
-  assert.deepEqual(classifyCiChanges(['agents/START-HERE.md', 'package-lock.json'], 2), {
+  assert.deepEqual(classifyCiChanges(['AGENTS.md', 'package-lock.json'], 2), {
     lightweight_only: false,
     dependencies_changed: true,
     governance_changed: true,

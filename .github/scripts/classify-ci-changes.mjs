@@ -7,16 +7,14 @@ const LIGHTWEIGHT_PATHS = [
   /^LICENSE$/,
   /^LICENSE\.[\s\S]*$/,
   /^AGENTS\.md$/,
-  /^agents\/[\s\S]*$/,
   /^docs\/(?:DECISIONS|PRODUCT|PROJECT_INSTRUCTIONS)\.md$/,
-  /^\.github\/workflows\/[\s\S]*$/,
 ];
 
 const GOVERNANCE_PATHS = [
   /^AGENTS\.md$/,
-  /^agents\/[\s\S]*$/,
   /^docs\/(?:DECISIONS|PRODUCT|PROJECT_INSTRUCTIONS)\.md$/,
   /^\.github\/workflows\/[\s\S]*$/,
+  /^\.github\/scripts\/[\s\S]*$/,
 ];
 
 export function parseChangedPathsNul(contents) {
@@ -63,7 +61,7 @@ export function classifyCiChanges(paths, expectedCount) {
 if (process.argv[1] && import.meta.url === new URL(`file://${process.argv[1]}`).href) {
   const [expectedCountArgument, pathsFile] = process.argv.slice(2);
   if (!expectedCountArgument || !pathsFile || process.argv.length !== 4) {
-    throw new Error('Usage: node agents/classify-ci-changes.mjs <expected-count> <nul-delimited-paths-file>');
+    throw new Error('Usage: node .github/scripts/classify-ci-changes.mjs <expected-count> <nul-delimited-paths-file>');
   }
 
   if (!/^\d+$/.test(expectedCountArgument)) {
