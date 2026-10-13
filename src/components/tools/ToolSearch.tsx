@@ -302,7 +302,7 @@ export default function ToolSearch({
             </svg>
           </Button>
         )}
-        <IconButton label={t.tools.searchSubmit} type="submit" disabled={!query.trim()} size={compact ? "compact" : "default"}>
+        <IconButton label={t.tools.searchSubmit} type="submit" disabled={!query.trim()} variant="filled" size={compact ? "compact" : "default"}>
           <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <path d="M5 12h14M13 6l6 6-6 6" />
           </svg>
