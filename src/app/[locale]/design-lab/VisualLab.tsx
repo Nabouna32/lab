@@ -15,6 +15,7 @@ import {
   type SchemeSpecVersion,
   type SchemePlatform,
 } from "./m3-theme";
+import { createRainbowCategorySeed, rainbowCategoryHueSeeds } from "@/lib/design-system/rainbow-palette";
 
 type Locale = "en" | "fr";
 type Theme = "light" | "dark";
@@ -50,20 +51,20 @@ const copy = {
 
 function buildCategoryCards(categorySet: CategorySet, locale: Locale, variant: SchemeVariant, theme: Theme, contrastLevel: number, specVersion: SchemeSpecVersion, platform: SchemePlatform) {
   return categorySeedDefinitions.map(item => {
-    const categorySeed = categorySet === "current" ? item.currentSeed : categorySet === "blue" ? item.blueSeed : item.rainbowSeed;
+    const categorySeed = categorySet === "current" ? item.currentSeed : categorySet === "blue" ? item.blueSeed : colorHex(createRainbowCategorySeed(rainbowCategoryHueSeeds[item.key]).toInt());
     const categoryScheme = createM3Scheme(categorySeed, categorySet === "mcu-rainbow" ? "rainbow" : variant, theme === "dark", contrastLevel, specVersion, platform);
     return { ...item, name: locale === "fr" ? item.nameFr : item.name, categorySeed, categoryColor: colorHex(categoryScheme.primary), categoryForeground: colorHex(categoryScheme.onPrimary) };
   });
 }
 
 const categorySeedDefinitions = [
-  { key: "calculations", name: "Calculations", nameFr: "Calculs", icon: "％", currentSeed: "#D92D20", rainbowSeed: "#D32F2F", blueSeed: "#2563EB" },
-  { key: "dates", name: "Dates", nameFr: "Dates", icon: "◷", currentSeed: "#A16207", rainbowSeed: "#FB8C00", blueSeed: "#0EA5E9" },
-  { key: "computing", name: "Computing", nameFr: "Informatique", icon: "⌘", currentSeed: "#7A5AF8", rainbowSeed: "#FDD835", blueSeed: "#4F46E5" },
-  { key: "images", name: "Images", nameFr: "Images", icon: "▧", currentSeed: "#C11574", rainbowSeed: "#43A047", blueSeed: "#7C3AED" },
-  { key: "files", name: "Files", nameFr: "Fichiers", icon: "▤", currentSeed: "#0E7490", rainbowSeed: "#1976D2", blueSeed: "#0369A1" },
-  { key: "video", name: "Video", nameFr: "Vidéo", icon: "▷", currentSeed: "#0F766E", rainbowSeed: "#3949AB", blueSeed: "#0F766E" },
-  { key: "development", name: "Development", nameFr: "Développement", icon: "{ }", currentSeed: "#155EEF", rainbowSeed: "#8E24AA", blueSeed: "#1D4ED8" },
+  { key: "calculations", name: "Calculations", nameFr: "Calculs", icon: "％", currentSeed: "#D92D20", blueSeed: "#2563EB" },
+  { key: "dates", name: "Dates", nameFr: "Dates", icon: "◷", currentSeed: "#A16207", blueSeed: "#0EA5E9" },
+  { key: "computing", name: "Computing", nameFr: "Informatique", icon: "⌘", currentSeed: "#7A5AF8", blueSeed: "#4F46E5" },
+  { key: "images", name: "Images", nameFr: "Images", icon: "▧", currentSeed: "#C11574", blueSeed: "#7C3AED" },
+  { key: "files", name: "Files", nameFr: "Fichiers", icon: "▤", currentSeed: "#0E7490", blueSeed: "#0369A1" },
+  { key: "video", name: "Video", nameFr: "Vidéo", icon: "▷", currentSeed: "#0F766E", blueSeed: "#0F766E" },
+  { key: "development", name: "Development", nameFr: "Développement", icon: "{ }", currentSeed: "#155EEF", blueSeed: "#1D4ED8" },
 ] as const;
 
 export default function VisualLab({ initialLocale }: { initialLocale: string }) {
