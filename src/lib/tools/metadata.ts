@@ -47,8 +47,8 @@ function validateToolQuality(tool: Tool): void {
     }
   }
 
-  if (tool.contributor.type === "community" && !tool.contributor.name?.trim()) {
-    throw new Error(`Community tool "${tool.id}" must identify its contributor.`);
+  if (tool.contributor.type !== "internal") {
+    throw new Error(`Tool "${tool.id}" has an unsupported contributor type.`);
   }
 
   const expected = expectedProcessingCapabilities(tool.processing.mode);
