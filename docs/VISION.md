@@ -57,7 +57,7 @@ Loculary adopts **Material 3 Expressive** as the shared visual and interaction d
 
 The detailed visual contract—including the blue seed, official MCU Rainbow palette, Roboto, semantic colors, light/dark contrast, components and motion—is maintained in [docs/DESIGN-SYSTEM.md](DESIGN-SYSTEM.md). Shared foundations should create coherence without forcing every tool into an identical layout. Specialized interfaces remain valid when they better serve the task and preserve accessibility, localization, responsiveness, performance and trust.
 
-Appearance preferences should work locally for anonymous users and synchronize to an account when signed-in preference persistence is implemented. This is a product direction, not a claim that the feature already exists. WCAG 2.2 AA and reduced-motion preferences remain mandatory.
+The light/dark theme preference should work locally for anonymous users and synchronize to an account when signed-in preference persistence is implemented. This is a product direction, not a claim that the feature already exists. WCAG 2.2 AA and reduced-motion preferences remain mandatory.
 
 ### 7. Broad functional ambition
 
