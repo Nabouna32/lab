@@ -53,12 +53,19 @@
   --category-video: var(--m3-light-category-video, var(--primary));
   --category-development: var(--m3-light-category-development, var(--primary));
   --category-calculations-container: var(--m3-light-category-calculations-container, var(--primary-container));
+  --category-calculations-on-container: var(--m3-light-category-calculations-on-container, var(--on-primary-container));
   --category-dates-container: var(--m3-light-category-dates-container, var(--primary-container));
+  --category-dates-on-container: var(--m3-light-category-dates-on-container, var(--on-primary-container));
   --category-computing-container: var(--m3-light-category-computing-container, var(--primary-container));
+  --category-computing-on-container: var(--m3-light-category-computing-on-container, var(--on-primary-container));
   --category-images-container: var(--m3-light-category-images-container, var(--primary-container));
+  --category-images-on-container: var(--m3-light-category-images-on-container, var(--on-primary-container));
   --category-files-container: var(--m3-light-category-files-container, var(--primary-container));
+  --category-files-on-container: var(--m3-light-category-files-on-container, var(--on-primary-container));
   --category-video-container: var(--m3-light-category-video-container, var(--primary-container));
+  --category-video-on-container: var(--m3-light-category-video-on-container, var(--on-primary-container));
   --category-development-container: var(--m3-light-category-development-container, var(--primary-container));
+  --category-development-on-container: var(--m3-light-category-development-on-container, var(--on-primary-container));
 
   /* Compatibility aliases: existing screens migrate incrementally to semantic roles. */
   --accent: var(--primary);
@@ -138,12 +145,19 @@
   --category-video: var(--m3-dark-category-video, var(--primary));
   --category-development: var(--m3-dark-category-development, var(--primary));
   --category-calculations-container: var(--m3-dark-category-calculations-container, var(--primary-container));
+  --category-calculations-on-container: var(--m3-dark-category-calculations-on-container, var(--on-primary-container));
   --category-dates-container: var(--m3-dark-category-dates-container, var(--primary-container));
+  --category-dates-on-container: var(--m3-dark-category-dates-on-container, var(--on-primary-container));
   --category-computing-container: var(--m3-dark-category-computing-container, var(--primary-container));
+  --category-computing-on-container: var(--m3-dark-category-computing-on-container, var(--on-primary-container));
   --category-images-container: var(--m3-dark-category-images-container, var(--primary-container));
+  --category-images-on-container: var(--m3-dark-category-images-on-container, var(--on-primary-container));
   --category-files-container: var(--m3-dark-category-files-container, var(--primary-container));
+  --category-files-on-container: var(--m3-dark-category-files-on-container, var(--on-primary-container));
   --category-video-container: var(--m3-dark-category-video-container, var(--primary-container));
+  --category-video-on-container: var(--m3-dark-category-video-on-container, var(--on-primary-container));
   --category-development-container: var(--m3-dark-category-development-container, var(--primary-container));
+  --category-development-on-container: var(--m3-dark-category-development-on-container, var(--on-primary-container));
 
   /* Rebind aliases in the active theme; inherited computed aliases would retain light-mode values. */
   --accent: var(--primary);
