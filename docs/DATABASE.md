@@ -56,16 +56,10 @@ Administrative authorization now has a database foundation separate from executa
 - `private.guard_auth_user_deletion` is the authoritative deletion guard. It takes the same transaction-scoped PostgreSQL advisory lock as `private.remove_admin_role`, rechecks the last-`super_admin` invariant, and clears audit target references. Actor-reference cleanup is handled by the foreign key. A rejected deletion rolls back all trigger changes. The dedicated `.github/scripts/test-account-deletion-concurrency.sh` script exercises the concurrent deletion/role-removal race and the Auth Admin API success/rejection paths when run against a local Supabase stack; a direct production migration does not execute this test automatically.
 - The final Auth deletion is performed server-side by the `account-delete` Edge Function with the project secret key; no secret key is exposed to the browser.
 
-## Supabase migrations and production verification
+## Supabase migrations
 
-Database migrations are applied directly through the Supabase connector rather than through a separate GitHub Actions release workflow. The migration SQL and its exact version remain versioned in Git; direct application does not remove the need for review or verification.
+Schema migrations are applied by the assistant through the available Supabase connector; there is no separate GitHub Actions database-release workflow. Migration SQL remains versioned in Git.
 
-1. **Prepare and review the migration in Git first.** Inspect the SQL, privileges, RLS policies, triggers, constraints, data impact and rollback/forward-fix implications. Do not apply consequential or destructive changes without explicit user approval.
-2. **Apply through the Supabase connector only after review.** Use the migration operation for DDL; do not substitute ad-hoc SQL execution for a versioned schema migration.
-3. **Immediately verify the remote migration registry.** Read the version and name actually recorded by Supabase. Align the migration filename in Git to the exact remote version if the connector generated a different timestamp; never guess a timestamp or assume the requested name guarantees the version.
-4. **Verify production state.** Inspect the affected schema objects, grants, RLS policies and relevant security/performance advisors. Report precisely which checks were run. Do not claim local replay, pgTAP, lint or concurrency tests passed unless they were actually executed.
-5. **Commit the aligned migration and documentation in Git.** Review the final diff for SQL and version consistency. If a migration has already been applied remotely, do not reapply it just to make Git history look consistent.
+For each change, review its SQL and impact before applying it, obtain explicit user approval for consequential or destructive operations, and verify the migration version recorded remotely plus the affected schema/security state. Report only checks actually performed; applying a migration does not mean local tests or pgTAP/concurrency checks ran.
 
-The retained `.github/scripts/test-account-deletion-concurrency.sh` script can be run against a local Supabase stack to exercise the account-deletion race and Auth Admin API paths. Keep the script and pgTAP tests as useful regression checks; they are not automatically run by direct connector-based production migrations.
-
-The separate [Supabase Edge Functions CI](../.github/workflows/supabase-functions.yml) remains automatic for pull requests that touch `supabase/functions/**`. It validates locked dependencies and types; it does not deploy Edge Functions or apply database migrations.
+The retained `.github/scripts/test-account-deletion-concurrency.sh` script and pgTAP tests remain useful regression checks, but are not run automatically by the connector. The separate [Supabase Edge Functions CI](../.github/workflows/supabase-functions.yml) validates locked dependencies and types for changes under `supabase/functions/**`; it does not deploy functions or apply database migrations.
