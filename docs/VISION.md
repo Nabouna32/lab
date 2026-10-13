@@ -75,6 +75,10 @@ Advertising must not materially obstruct use of the tools.
 
 If revenue becomes meaningful, a portion can be reinvested into infrastructure, development, reliability, and user experience.
 
+### Helpful explanations and editorial quality
+
+Loculary should deliver the useful result first while letting curious users understand more without forcing an explanation on everyone. When an explanation adds value, contextualize it using the user's actual inputs or result where appropriate. Prefer one realistic, relevant example over a list of repetitive or artificial examples. Every explanatory or editorial passage must help users understand, decide or use the tool; never add filler solely to lengthen a page or target search engines. Hide unnecessary complexity from the primary interaction without removing advanced capability that genuinely helps.
+
 ## The Loculary duality
 
 The catalog may eventually expose a deliberate spectrum between two complementary dimensions:
