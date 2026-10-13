@@ -442,6 +442,8 @@ System roles and permissions are part of the application contract, not editable 
 
 **Status:** Superseded in part by DEC-051 (historical context retained)
 
+**Current interpretation:** DEC-051 supersedes the unconditional choice of PostgreSQL as the catalog store. The separation between editable metadata and executable behavior remains valid if a database-backed catalog is later justified.
+
 ### Decision
 
 PostgreSQL owns editable tool catalog and editorial data: stable tool identity, slug, visual metadata, lifecycle, access policy, localized names/descriptions/SEO, categories, tags, aliases and relations.
