@@ -142,9 +142,7 @@ User data should be logically separated into domains:
 - identity/authentication;
 - preferences and personalization;
 - product data such as favorites and collections;
-- synchronized history;
-- community content;
-- moderation/security records;
+- security records;
 - analytics/telemetry.
 
 This separation should support least-privilege access, retention rules, deletion, export, and auditing.
@@ -159,10 +157,6 @@ The dashboard should allow a user to see, in understandable form:
 - stored preferences;
 - favorites;
 - collections;
-- synchronized history;
-- community contributions;
-- ratings/comments;
-- public profile data;
 - privacy and consent choices;
 - relevant analytics/personalization data;
 - connected authentication providers;
@@ -185,10 +179,6 @@ Deletion must cover relevant domains, including:
 - preferences;
 - favorites;
 - collections;
-- synchronized history;
-- public profile data;
-- ratings/comments where technically and legally possible;
-- contributor attribution where applicable;
 - analytics identifiers where applicable.
 
 The implementation must be designed to avoid orphaned personal data.
@@ -252,14 +242,7 @@ The refusal path should be as easy as the acceptance path.
 
 The product should not force users through dozens of partner-by-partner switches merely to refuse non-essential tracking.
 
-Consent categories should distinguish at least:
-
-- necessary;
-- analytics;
-- advertising;
-- personalization.
-
-The exact legal implementation must follow the jurisdictions served and the actual providers used.
+Consent categories must reflect the actual technologies and data flows in use, and the applicable jurisdictions. Do not predeclare provider-specific categories before the corresponding technology is selected.
 
 ## Analytics
 
@@ -277,16 +260,6 @@ Events should focus on product behavior, for example:
 - technical error.
 
 The analytics abstraction must make it possible to change providers without rewriting product code.
-
-## Advertising
-
-Advertising must not be treated as permission to expose tool inputs or personal content.
-
-Ad technology should be isolated behind a provider abstraction such as:
-
-`<AdSlot />` → `AdProvider`
-
-The product should be able to disable or replace the provider without changing individual tool implementations.
 
 ## External API catalog
 
@@ -331,23 +304,7 @@ Examples include:
 - external API calls;
 - authentication endpoints;
 - account recovery;
-- community submissions;
-- comments;
-- ratings;
-- proposal creation;
 - expensive server-side operations.
-
-## Moderation automation
-
-Automated moderation may classify content as:
-
-- safe;
-- suspicious;
-- blocked.
-
-Automation should not silently become the final authority for ambiguous cases.
-
-Suspicious content should be reviewable by human moderators. Moderation actions must be auditable.
 
 ## Tool capability isolation
 
