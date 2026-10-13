@@ -48,9 +48,9 @@ export const schemeVariants: Array<{
 ];
 
 export const seedPresets = [
+  { name: "Google Blue", nameFr: "Bleu Google", seed: "#4285F4" },
   { name: "Material Purple", nameFr: "Violet Material", seed: "#6750A4" },
   { name: "Loculary Indigo", nameFr: "Indigo Loculary", seed: "#3F51B5" },
-  { name: "Google Blue", nameFr: "Bleu Google", seed: "#4285F4" },
   { name: "Deep Blue", nameFr: "Bleu franc", seed: "#0B57D0" },
   { name: "Teal", nameFr: "Turquoise", seed: "#00897B" },
   { name: "Green", nameFr: "Vert", seed: "#2E7D32" },
