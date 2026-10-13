@@ -12,7 +12,7 @@ import { getPublishedTools } from "@/lib/tools/catalog";
 import { FavoritesProvider } from "@/components/favorites/FavoritesProvider";
 import { CollectionsProvider } from "@/components/collections/CollectionsProvider";
 
-const roboto = Roboto({ variable: "--font-roboto", subsets: ["latin"], weight: ["400", "500", "700"] });
+const roboto = Roboto({ variable: "--font-roboto", subsets: ["latin"], weight: ["400", "500", "600", "700", "800", "900"] });
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
