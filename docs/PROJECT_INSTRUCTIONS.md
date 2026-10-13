@@ -17,10 +17,6 @@ All client data is untrusted. Server validation and authorization are mandatory.
 - If the project later moves to a plan that supports the feature, re-evaluate and enable leaked-password protection as part of the security hardening work.
 - Free-plan constraints must be considered when evaluating Supabase architecture, request volume, egress, database size, Edge Functions and other usage-sensitive designs.
 
-## Database migrations
-
-Use the Supabase connector for direct database migrations; the repository no longer maintains a separate GitHub Actions database release workflow. Follow the migration and production-verification procedure in [`docs/DATABASE.md`](DATABASE.md). Keep migration SQL versioned in Git and verify the exact remote migration version immediately after applying it. The ordinary application CI does not validate or apply database migrations.
-
 ## Performance and accessibility
 Progressively load tools. Use Workers, WASM and chunking where justified. Provide truthful progress and cancellation. Support slow connections and graceful degradation. Target WCAG 2.2 AA and Core Web Vitals. Do not make the whole product worse because one tool is heavy.
 
