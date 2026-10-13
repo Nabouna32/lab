@@ -424,13 +424,13 @@ Structural i18n tests can verify that translations exist and remain coherent, bu
 - Future translation work may change a locale from `partial` to `complete` only when the supported user-facing scope has been reviewed.
 - Structural tests protect translation integrity but do not automatically promote a locale's readiness status.
 
-## DEC-034 — UX direction reset and user-intention architecture
+## DEC-034 — Task-first toolbox and intention-based discovery
 
 **Status:** Accepted
 
 ### Decision
 
-Loculary is formally restarting its UX/UI design direction from first principles.
+Loculary is a task-first digital utility toolbox organized around finding tools, exploring by intention, and discovering useful capabilities.
 
 The product is treated as a digital utility toolbox rather than a conventional SaaS landing page or dashboard. Catalog composition may use Material 3 cards when they support discovery and task clarity, rather than following a generic template.
 
@@ -587,7 +587,7 @@ The new model directly represents the product vision while keeping the implement
 - Deterministic inference or ranking is an extension mechanism, not the definition of intent.
 - Generic category shortcuts must not be presented as if they fully represent an intent.
 
-## DEC-047 — Clean Supabase application foundation before catalog redesign
+## DEC-047 — Clean Supabase application foundation
 
 **Status:** Accepted
 
@@ -601,7 +601,7 @@ The tool catalog will be reintroduced only through the separately validated cata
 
 ### Reason
 
-Loculary is pre-launch and the existing catalog data is disposable. Carrying obsolete schema and migration history forward would preserve unnecessary coupling and make future database evolution harder to reason about.
+The current database boundary keeps durable account continuity, administrative authorization and security audit data separate from the Git-backed tool catalog. Obsolete catalog schema should not be retained or recreated.
 
 ### Consequences
 
@@ -640,7 +640,7 @@ Loculary needs a coherent, recognizable visual and interaction language that fee
 - Accessibility, WCAG 2.2 AA, reduced motion, responsive desktop/tablet/mobile behavior, localization, privacy and performance remain mandatory.
 - Adoption is not proof of implementation. Production migration, palette settings, preference persistence, account synchronization and visual/accessibility verification remain implementation work and must not be described as complete without evidence.
 
-## DEC-049 — Defer browser E2E and screenshot automation during active redesign
+## DEC-049 — Browser E2E and screenshot automation are excluded by default
 
 **Status:** Accepted
 
@@ -648,11 +648,11 @@ Loculary needs a coherent, recognizable visual and interaction language that fee
 
 Remove the manually triggered Playwright E2E, production-browser validation, and production-screenshot workflows, along with their browser tests and the Playwright dependency. Keep the existing CI baseline: Node.js tests, lint, TypeScript checks, production build, dependency/security checks, and targeted Supabase Edge Function validation.
 
-Do not reintroduce browser E2E or screenshot automation as a default project requirement. Reconsider a narrowly scoped browser check only when the interface and key journeys have stabilized and a concrete regression risk demonstrates that its value exceeds its maintenance cost.
+Do not reintroduce browser E2E, Playwright, production-browser checks, or screenshot automation. Unit, integration, static, and repository-level checks remain the default validation approach.
 
 ### Reason
 
-Loculary is actively being redesigned. UI selectors, page structure, labels, and expected flows change frequently, so browser tests can become stale and fail for reasons that do not represent product regressions. Maintaining and diagnosing those constraints creates disproportionate friction for a project maintained by one human and one AI assistant. The manual workflows also duplicate production-browser coverage and screenshot capture around the same test file.
+Browser tests and screenshot workflows add ongoing maintenance and can become brittle when page structure, labels, and flows change. Maintaining and diagnosing those constraints creates disproportionate friction for a project maintained by one human and one AI assistant. The manual workflows also duplicate production-browser coverage and screenshot capture around the same test file.
 
 ### Consequences
 
@@ -660,7 +660,7 @@ Loculary is actively being redesigned. UI selectors, page structure, labels, and
 - `@playwright/test` and its lockfile-only dependencies are removed.
 - Unit-level and repository-level automated checks remain the primary regression safeguards.
 - Screenshots and browser artifacts are not required inputs to routine assistant work.
-- Any future browser automation must be small, justified by a concrete failure mode, and kept aligned with the current product rather than treated as a permanent checklist.
+- Browser automation is out of scope unless the user explicitly revisits this decision.
 
 ## DEC-051 — Database-backed catalog is conditional on demonstrated need
 
