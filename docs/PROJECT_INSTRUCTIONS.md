@@ -3,7 +3,7 @@
 This document contains project-specific product, platform and UX context. `AGENTS.md` is the single mandatory guide for assistant work in this repository. Keep shared collaboration and repository-wide technical rules there; this document provides additional product and platform context, not a competing instruction contract.
 
 ## Product principles
-Browser/local-first; anonymous-first core usage; transparent processing; simple by default and powerful when needed; result-first UX; modern, polished and visually engaging design; meaningful animations, transitions and micro-interactions; mobile/tablet/desktop/large screens are first-class; accessibility and reduced-motion preferences; French and English initially with extensible i18n/RTL; ads never obstruct the main task; AI is optional.
+Browser/local-first; anonymous-first core usage; transparent processing; simple by default and powerful when needed; result-first UX; modern, polished and visually engaging design; meaningful animations, transitions and micro-interactions; mobile/tablet/desktop/large screens are first-class; accessibility and reduced-motion preferences; French and English initially with extensible i18n/RTL; AI is optional.
 
 ## Architecture
 Think in three product layers: public discovery, tool execution, personal account/personalization. Think in three tool levels: small tools, advanced tools, mini-applications.
