@@ -47,10 +47,6 @@ function validateToolQuality(tool: Tool): void {
     }
   }
 
-  if (tool.contributor.type === "community" && !tool.contributor.name?.trim()) {
-    throw new Error(`Community tool "${tool.id}" must identify its contributor.`);
-  }
-
   const expected = expectedProcessingCapabilities(tool.processing.mode);
   for (const capability of expected) {
     if (!tool.capabilities.includes(capability)) {
