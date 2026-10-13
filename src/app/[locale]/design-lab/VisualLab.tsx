@@ -48,7 +48,7 @@ const copy = {
   },
 };
 
-function buildCategoryCards(categorySet: Exclude<CategorySet, "compare">, locale: Locale, variant: SchemeVariant, theme: Theme, contrastLevel: number, specVersion: SchemeSpecVersion, platform: SchemePlatform) {
+function buildCategoryCards(categorySet: CategorySet, locale: Locale, variant: SchemeVariant, theme: Theme, contrastLevel: number, specVersion: SchemeSpecVersion, platform: SchemePlatform) {
   return categorySeedDefinitions.map(item => {
     const categorySeed = categorySet === "current" ? item.currentSeed : categorySet === "blue" ? item.blueSeed : item.rainbowSeed;
     const categoryScheme = createM3Scheme(categorySeed, categorySet === "mcu-rainbow" ? "rainbow" : variant, theme === "dark", contrastLevel, specVersion, platform);
