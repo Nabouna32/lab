@@ -58,7 +58,7 @@ Where safe and deterministic, search may prefill or directly execute a simple ca
 
 The homepage is action/search-first, with deeper discovery through popular tools, categories, recent/new content and relevant recommendations. Navigation may expose user intentions such as calculating, converting, transforming, creating, analyzing, verifying, generating, measuring and discovering. An intent expresses a goal, not a category shortcut: one intent may lead to tools across several categories. Initial associations may be curated editorial data; deterministic inference or ranking may enrich them later.
 
-The catalog should support growth to thousands or tens of thousands of tools. Discovery, search, localization, administration, publication, relations, indexing, caching and progressive loading must account for that scale. Editable catalog/editorial data follows the database boundary established by DEC-027; executable tool behavior remains in Git.
+The catalog should be able to grow substantially over time, but storage, indexing, caching, administration and loading strategies must be justified by current scale, measured performance and actual editorial needs. The current catalog remains Git-backed; DEC-051 defines when a database-backed catalog should be reconsidered. Executable tool behavior remains in Git.
 
 Search should progressively support exact/prefix matching, descriptions, aliases, synonyms, tags, categories, typo tolerance, related queries and natural-language intent. Where safe and deterministic, it may prefill or directly execute a task. No-result states should help users reformulate, discover related tools/categories and eventually propose a missing tool.
 
@@ -102,7 +102,7 @@ Tool input/content must not automatically become cloud history. Sensitive conten
 
 The platform supports three levels of tool complexity: small tools, advanced tools and mini-applications. A common framework must standardize navigation, metadata, privacy indicators, accessibility, common actions, analytics boundaries, SEO, error handling, lifecycle and discovery without forcing every tool into the same layout or interaction model.
 
-The catalog is expected to become very large.
+There is no artificial limit on catalog categories or tool types; implementation complexity must remain proportionate to demonstrated needs.
 
 It may contain:
 

@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { getVisibleFavoriteIds, mergeFavoriteIds, normalizeFavoriteIds, parseFavoriteMigrationPayload, reconcileAnonymousAfterMerge, reconcileVerifiedMigration, sortFavoriteIds } from "./favorites.ts";
+import { getVisibleFavoriteIds, mergeFavoriteIds, normalizeFavoriteIds, parseFavoriteMigrationPayload, reconcileAnonymousAfterMerge, reconcileMigrationWithAnonymous, reconcileVerifiedMigration, sortFavoriteIds } from "./favorites.ts";
 
 const catalog = ["percentage", "age", "unit-converter", "uuid-generator"];
 
@@ -53,4 +53,18 @@ test("successful verification clears only the confirmed migration IDs", () => {
     { targetUserId: "user-a", toolIds: ["unit-converter"] },
   );
   assert.equal(reconcileVerifiedMigration({ targetUserId: "user-a", toolIds: ["age"] }, "user-b", ["age"], ["age"])?.targetUserId, "user-a");
+});
+
+
+test("extends a failed migration with current anonymous favorites only for its bound account", () => {
+  const pending = { targetUserId: "user-a", toolIds: ["age", "percentage"] };
+  assert.deepEqual(
+    reconcileMigrationWithAnonymous(pending, "user-a", ["age", "uuid-generator"], catalog),
+    { targetUserId: "user-a", toolIds: ["age", "percentage", "uuid-generator"] },
+  );
+  assert.equal(reconcileMigrationWithAnonymous(pending, "user-b", ["uuid-generator"], catalog), pending);
+  assert.deepEqual(
+    reconcileMigrationWithAnonymous(null, "user-a", ["uuid-generator"], catalog),
+    { targetUserId: "user-a", toolIds: ["uuid-generator"] },
+  );
 });

@@ -5,7 +5,7 @@ import { createClient } from "@/lib/supabase/client";
 import {
   ANONYMOUS_FAVORITES_KEY, FAVORITE_MIGRATION_KEY,
   getVisibleFavoriteIds, normalizeFavoriteIds, parseFavoriteMigrationPayload,
-  reconcileAnonymousAfterMerge, reconcileVerifiedMigration, type FavoriteMigrationPayload,
+  reconcileAnonymousAfterMerge, reconcileMigrationWithAnonymous, reconcileVerifiedMigration, type FavoriteMigrationPayload,
 } from "@/lib/favorites";
 
 type AccountFavorites = { userId: string; ids: string[]; loading: boolean; error: boolean };
@@ -78,13 +78,12 @@ export function FavoritesProvider({ children, toolIds }: { children: ReactNode; 
       }
       setAccount({ userId, ids: [], loading: true, error: false });
 
-      let pending = migrationRef.current;
-      // Bind a pending anonymous merge to the first account that signs in.
-      // A failed merge must never silently migrate to a different account.
-      if (!pending && anonymousRef.current.length) {
-        pending = { targetUserId: userId, toolIds: [...anonymousRef.current] };
-        persistMigration(pending);
-      }
+      // Keep a retry bound to its original account, while including current anonymous
+      // favorites if that same account signs in again after a failed merge.
+      const pending = reconcileMigrationWithAnonymous(
+        migrationRef.current, userId, anonymousRef.current, validIds,
+      );
+      if (pending !== migrationRef.current) persistMigration(pending);
 
       const { data: initialRows, error: initialError } = await supabase
         .from("user_favorites").select("tool_id").eq("user_id", userId);
@@ -146,7 +145,14 @@ export function FavoritesProvider({ children, toolIds }: { children: ReactNode; 
     const currentAccount = account;
     if (!currentAccount) {
       const current = anonymousRef.current;
-      persistAnonymous(current.includes(toolId) ? current.filter((id) => id !== toolId) : [...current, toolId]);
+      const next = current.includes(toolId) ? current.filter((id) => id !== toolId) : [...current, toolId];
+      persistAnonymous(next);
+      const pending = migrationRef.current;
+      // Removing a local favorite must also remove it from a failed retry payload,
+      // otherwise a later sign-in could resurrect a choice the user just removed.
+      if (pending?.toolIds.includes(toolId) && !next.includes(toolId)) {
+        persistMigration({ targetUserId: pending.targetUserId, toolIds: pending.toolIds.filter((id) => id !== toolId) });
+      }
       return;
     }
     if (currentAccount.loading || currentAccount.error) return;

@@ -53,13 +53,11 @@ Results should be presented visually when that improves comprehension, confidenc
 
 ### 6. Material 3 Expressive shared visual foundation
 
-Loculary adopts **Material 3 Expressive** as the shared visual and interaction direction for its web platform. Expressive color, shape, typography, motion and component behavior should give the product a distinctive, lively, Android-inspired feel while preserving Loculary's task-first utility experience.
+Loculary adopts **Material 3 Expressive** as the shared visual and interaction direction for its web platform. The intended feel is distinctive, lively and Android-inspired: a polished web application that remains task-first rather than copying Android screens literally.
 
-The default semantic palette uses the blue seed **#4285F4**, and **Roboto** is the validated default interface typeface. Use the official Material Color Utilities (MCU) Rainbow scheme as the sole rainbow palette for expressive surfaces and stronger compact accents. Its tonal range should provide both softer surfaces and saturated differentiation where appropriate; validate actual contrast in light and dark themes. The seed is an input to accessible semantic tonal mappings, not a requirement to paint every primary role with the literal seed color. Success, warning, error and other status colors must retain their semantic meaning.
+The detailed visual contract—including the blue seed, official MCU Rainbow palette, Roboto, semantic colors, light/dark contrast, components and motion—is maintained in [docs/DESIGN-SYSTEM.md](DESIGN-SYSTEM.md). Shared foundations should create coherence without forcing every tool into an identical layout. Specialized interfaces remain valid when they better serve the task and preserve accessibility, localization, responsiveness, performance and trust.
 
-The shared direction covers navigation and headers, buttons, fields, switches, selection controls, menus, dialogs/popups, cards, feedback, typography, icons, surfaces and motion. Coherence comes from shared foundations and behavior, not from making every screen or tool identical. Specialized tool interfaces remain valid when they serve the task and preserve accessibility, localization, responsiveness, performance and trust requirements. The goal is a native-feeling web application, not a pixel-for-pixel copy of Android.
-
-Curated palette preference should work locally for anonymous users and synchronize to the account when signed-in preference persistence is implemented. This is a product direction, not a claim that palette settings or account synchronization already exist. WCAG 2.2 AA and reduced-motion preferences remain mandatory.
+Appearance preferences should work locally for anonymous users and synchronize to an account when signed-in preference persistence is implemented. This is a product direction, not a claim that the feature already exists. WCAG 2.2 AA and reduced-motion preferences remain mandatory.
 
 ### 7. Broad functional ambition
 
@@ -130,63 +128,6 @@ The most important long-term product outcome is the user's feeling after using L
 
 This is intentionally a product-quality goal rather than a single metric.
 
-## Expanded product direction
+## Future evolution
 
-Loculary is not merely a large list of utilities. The long-term product model is a **universal environment for solving needs** through micro-tools, advanced tools, and mini-applications.
-
-The intended journey is:
-
-> **Besoin → Loculary → recherche/découverte → outil(s) → résultat → action/partage/sauvegarde**
-
-The working positioning may evolve, but the product promise is that Loculary helps users find simply how to accomplish something.
-
-### Universal scope
-
-Any useful browser-realizable tool may belong in the catalog, including technical, practical, creative, analytical, visual, educational, playful, emotional, introspective, symbolic, or spiritual experiences, subject to technical feasibility, safety/legal constraints, cost, and product quality. Symbolic or spiritual tools must be presented honestly rather than as scientific facts when they are not scientific claims.
-
-### Progressive richness
-
-The product should expose complexity progressively. Users should not pay in loading time, memory, cognitive load, or interface complexity for capabilities they do not need.
-
-### Personal Loculary
-
-Over time, authenticated users should be able to create a personalized Loculary space with favorites, collections, history, hidden tools, ordering, visible elements, theme, animation level, density/style, personalized home, privacy preferences, and other non-mode personalization preferences where useful.
-
-### Three product layers
-
-- **Public:** search, catalog, discovery.
-- **Tool:** execution, result, explanation, actions, sharing.
-- **Personal:** favorites, collections, history, preferences, personalization, profile.
-
-Anonymous use must remain useful; personal features add depth rather than create an account wall.
-
-### Long-term solution engine
-
-The long-term ambition can evolve from finding a tool to solving a need. A complex request may eventually lead to several complementary tools or a composed workflow. This is future direction, not a requirement that the MVP implement multi-tool orchestration.
-
-
-## UX/UI direction reset — 2026-09-28
-
-Loculary's UX/UI direction has been explicitly reconsidered from first principles. Previous UX specifications and existing interface patterns are historical implementation context rather than constraints on the new design.
-
-The intended experience is a **modern utility toolbox** rather than a generic SaaS landing page, dashboard or cold catalog.
-
-The experience is organized around three user intentions:
-
-- **Find something** — search for a known or approximately known need.
-- **Figure out how to do something** — explore by intention when the user does not know the tool name.
-- **Discover** — browse the possibilities offered by Loculary.
-
-The preferred journey is:
-
-> **Need → Find or explore → Tool → Action → Result → Next action**
-
-The homepage should therefore foreground the user's action or need, especially search, and let discovery deepen below that primary entry point. A large marketing hero, excessive decorative sections and card-heavy layouts are not goals in themselves.
-
-Tool pages should make the task the dominant experience. The primary interaction and result take precedence over documentation and discovery content. Results should lead naturally to relevant actions such as copying, downloading, resetting, sharing or continuing with another tool when applicable.
-
-The platform should establish a coherent visual language without forcing every tool into an identical layout. Small utilities, advanced tools and mini-applications may use different compositions and visual treatments when this improves usability, comprehension or enjoyment.
-
-The new visual direction should derive its sense of quality from hierarchy, typography, spacing, density, precision, feedback and purposeful motion rather than generic SaaS decoration.
-
-This is an explicit evolution of the product's UX/UI direction. It does not change the browser-first, privacy, accessibility, internationalization, anonymous-first or tool-first product principles.
+Loculary may evolve from helping users find one useful tool to helping them solve broader needs through complementary tools or composed workflows. Personalization may add favorites, collections, history and preferences without making an account mandatory for core use. These are conditional long-term directions, not MVP commitments; each must earn its complexity through demonstrated user value, feasibility and a sustainable operating cost.

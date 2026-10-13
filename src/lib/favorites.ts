@@ -41,6 +41,20 @@ export function parseFavoriteMigrationPayload(
   }
 }
 
+export function reconcileMigrationWithAnonymous(
+  payload: FavoriteMigrationPayload | null,
+  userId: string,
+  anonymousIds: readonly string[],
+  validToolIds: readonly string[],
+): FavoriteMigrationPayload | null {
+  if (payload && payload.targetUserId !== userId) return payload;
+  const toolIds = normalizeFavoriteIds([...(payload?.toolIds ?? []), ...anonymousIds], validToolIds);
+  if (payload && toolIds.length === payload.toolIds.length && toolIds.every((id, index) => id === payload.toolIds[index])) {
+    return payload;
+  }
+  return toolIds.length ? { targetUserId: userId, toolIds } : null;
+}
+
 export function getVisibleFavoriteIds({
   userId,
   remoteIds,

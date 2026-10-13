@@ -1,8 +1,8 @@
 # Loculary — Database
 
-PostgreSQL is the planned relational source of truth for durable product, account and community data. Executable behavior remains in Git; business metadata and operational state live in the database.
+PostgreSQL is the source of truth for the durable account, administrative RBAC and audit data currently deployed. It may support additional product or community domains when their requirements justify the schema and operational cost. Executable behavior remains in Git; a database is not the default destination for every kind of product data.
 
-Expected domains include users/auth identities, preferences, languages/translations, tools and versions, lifecycle state, categories/tags, examples/SEO content, favorites, collections, history metadata, ratings, comments, reports, moderation, proposals, contributors, permissions, audit logs, analytics metadata and privacy/consent state.
+Potential future domains include synchronized preferences, favorites, collections, community records, moderation, editorial metadata, analytics metadata and privacy/consent state. These are candidates, not commitments to deploy them all.
 
 Sensitive tool inputs and file contents are not stored by default. Each tool defines what history can retain. Anonymous local favorites may be merged into account favorites after login with deterministic conflict handling.
 
@@ -15,16 +15,18 @@ Tool lifecycle: draft → review → published → hidden → archived. Hard del
 
 The first account foundation is now deployed to Supabase: Supabase Auth remains the identity system, while `public.profiles` stores only user-owned profile metadata that is safe to synchronize. System-defined administrative roles and permissions use stable keys; their user-facing labels belong to the application i18n layer. Row Level Security restricts profile access to the owning user, and the `auth.users` insert trigger is the sole supported profile-creation path. Authenticated clients do not insert profiles directly.
 
-This is intentionally a small first step. Catalog/editorial data, favorites, collections, preferences, community data and administration will be designed and moved into the database incrementally after the code/database boundary is reviewed.
+This is intentionally a small first step. Additional domains such as favorites, collections, preferences, catalog/editorial data and community records may be considered incrementally when concrete requirements justify their database and operational costs; they are not committed migrations.
 
 
 ## Database catalog boundary
 
-The catalog/editorial database boundary remains an accepted target architecture, but it is **not currently deployed**. The October 2026 clean-cut intentionally removed the legacy `tool_*` schema and catalog permissions so the database could return to a small, deterministic account/administration foundation before the catalog is redesigned.
+A database-backed catalog is a possible future option, not an active target or scheduled migration. The October 2026 clean-cut removed the legacy `tool_*` schema and catalog permissions, leaving a small account/administration foundation. The public catalog remains Git-backed.
 
-The future catalog must remain separate from executable tool behavior: Git/code remains authoritative for registry modules, processing mode, capabilities and technical behavior, while database data may own editable discovery/editorial metadata. The validated catalog redesign is tracked separately and must define the new schema before any catalog tables are reintroduced.
+Reconsider a database catalog only when a concrete requirement cannot be served well by Git, such as authorized editorial publishing without code deployment, measured search/build/delivery bottlenecks, or administration/audit needs that the current workflow cannot reasonably meet. Catalog size alone is not a trigger. DEC-051 records the decision and its criteria. No catalog tables should be reintroduced before a separately reviewed design and explicit approval.
 
-The current production database therefore contains no `tool_catalog`, `tool_translations`, `tool_categories`, `tool_tags`, `tool_aliases` or `tool_relations` tables, and no `catalog.*` administrative permissions.
+Executable tool behavior remains in Git/code: registry modules, processing mode, capabilities and technical behavior are never moved into the database merely because editable metadata changes storage.
+
+The current production database contains no `tool_catalog`, `tool_translations`, `tool_categories`, `tool_tags`, `tool_aliases` or `tool_relations` tables, and no `catalog.*` administrative permissions.
 
 ## Current production baseline
 
@@ -56,22 +58,15 @@ Administrative authorization now has a database foundation separate from executa
 - `private.guard_auth_user_deletion` is the authoritative deletion guard. It takes the same transaction-scoped PostgreSQL advisory lock as `private.remove_admin_role`, rechecks the last-`super_admin` invariant, and clears audit target references. Actor-reference cleanup is handled by the foreign key. A rejected deletion rolls back all trigger changes. The dedicated `.github/scripts/test-account-deletion-concurrency.sh` script exercises the concurrent deletion/role-removal race and the Auth Admin API success/rejection paths when run against a local Supabase stack; a direct production migration does not execute this test automatically.
 - The final Auth deletion is performed server-side by the `account-delete` Edge Function with the project secret key; no secret key is exposed to the browser.
 
-## Supabase migrations and production verification
+## Supabase migrations
 
-Database migrations are applied directly through the Supabase connector rather than through a separate GitHub Actions release workflow. The migration SQL and its exact version remain versioned in Git; direct application does not remove the need for review or verification.
+Schema migrations are applied by the assistant through the available Supabase connector; there is no separate GitHub Actions database-release workflow. Migration SQL remains versioned in Git.
 
-1. **Prepare and review the migration in Git first.** Inspect the SQL, privileges, RLS policies, triggers, constraints, data impact and rollback/forward-fix implications. Do not apply consequential or destructive changes without explicit user approval.
-2. **Apply through the Supabase connector only after review.** Use the migration operation for DDL; do not substitute ad-hoc SQL execution for a versioned schema migration.
-3. **Immediately verify the remote migration registry.** Read the version and name actually recorded by Supabase. Align the migration filename in Git to the exact remote version if the connector generated a different timestamp; never guess a timestamp or assume the requested name guarantees the version.
-4. **Verify production state.** Inspect the affected schema objects, grants, RLS policies and relevant security/performance advisors. Report precisely which checks were run. Do not claim local replay, pgTAP, lint or concurrency tests passed unless they were actually executed.
-5. **Commit the aligned migration and documentation in Git.** Review the final diff for SQL and version consistency. If a migration has already been applied remotely, do not reapply it just to make Git history look consistent.
+For each change, review its SQL and impact before applying it, obtain explicit user approval for consequential or destructive operations, and verify the migration version recorded remotely plus the affected schema/security state. Report only checks actually performed; applying a migration does not mean local tests or pgTAP/concurrency checks ran.
 
-The retained `.github/scripts/test-account-deletion-concurrency.sh` script can be run against a local Supabase stack to exercise the account-deletion race and Auth Admin API paths. Keep the script and pgTAP tests as useful regression checks; they are not automatically run by direct connector-based production migrations.
+The retained `.github/scripts/test-account-deletion-concurrency.sh` script and pgTAP tests remain useful regression checks, but are not run automatically by the connector. The separate [Supabase Edge Functions CI](../.github/workflows/supabase-functions.yml) validates locked dependencies and types for changes under `supabase/functions/**`; it does not deploy functions or apply database migrations.
 
-The separate [Supabase Edge Functions CI](../.github/workflows/supabase-functions.yml) remains automatic for pull requests that touch `supabase/functions/**`. It validates locked dependencies and types; it does not deploy Edge Functions or apply database migrations.
 
-## Favorites schema
+## Account favorites
 
-The versioned migration `20261013034700_user_favorites.sql` introduces a minimal `public.user_favorites` table with a stable text tool ID, an Auth-user owner, creation timestamp, a composite user/tool primary key, owner-only RLS and only the SELECT/INSERT/DELETE privileges needed by the client. Auth user deletion cascades to favorites. The tool registry remains Git-backed; no catalog table or catalog foreign key is introduced.
-
-**Production status:** this migration is prepared in Git for review and has not been applied to production. Follow the migration verification procedure above only after separate explicit approval.
+The account-favorites migration is versioned at `supabase/migrations/20261013034700_user_favorites.sql`. It creates `public.user_favorites` with owner-only Row Level Security, least-privilege authenticated access, a composite primary key and Auth-account deletion cascade. The pgTAP regression test is `supabase/tests/user_favorites.sql`; it is not run by the standard GitHub Actions CI. The migration is committed in Git but has **not** been applied to production; applying it requires separate explicit approval through the Supabase connector.

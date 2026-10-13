@@ -138,7 +138,7 @@ Search architecture should allow an intelligence layer without requiring one fro
 
 ### Decision
 
-Keep Next.js, React, TypeScript, Tailwind CSS, Vercel, GitHub Actions, and Playwright as the current baseline unless implementation evidence justifies a change.
+Keep Next.js, React, TypeScript, Tailwind CSS, Vercel, and GitHub Actions as the current baseline unless implementation evidence justifies a change. Browser-level E2E automation is governed separately by DEC-049.
 
 ### Reason
 
@@ -440,7 +440,9 @@ System roles and permissions are part of the application contract, not editable 
 
 ## DEC-027 — Database owns editable catalog/editorial data, not executable behavior
 
-**Status:** Accepted
+**Status:** Superseded in part by DEC-051 (historical context retained)
+
+**Current interpretation:** DEC-051 supersedes the unconditional choice of PostgreSQL as the catalog store. The separation between editable metadata and executable behavior remains valid if a database-backed catalog is later justified.
 
 ### Decision
 
@@ -819,7 +821,7 @@ Loculary is pre-launch and the existing catalog data is disposable. Carrying obs
 
 Loculary adopts **Material 3 Expressive** as the production reference for the shared platform experience. Expressive foundations and component behavior apply to navigation and headers, buttons, fields, switches, selection controls, menus, dialogs/popups, cards, feedback, typography, semantic color, iconography, surfaces, elevation and motion.
 
-The intended experience deliberately looks and feels like a polished modern Android/Pixel application, adapted to the Web—not a pixel-for-pixel Android replica and not a generic SaaS template. The target is not merely to borrow Material colors: component shape, iconography, typography, navigation, interaction states, feedback and motion must collectively create an application-like experience. Material 3 cards are first-class components and must not be avoided by default; use appropriate card variants and compositions where they support discovery, grouping or interaction. Shared foundations establish consistency without forcing every tool into the same layout or interaction model. Specialized tool interfaces remain first-class when their task benefits from a distinct composition or interaction, subject to shared navigation, accessibility, localization, responsiveness and platform behavior.
+The intended experience is a distinctive, polished, Android-inspired web application—not a pixel-for-pixel Android replica and not a generic SaaS template. Material 3 cards are first-class components and must not be avoided by default; use appropriate card variants and compositions where they support discovery, grouping or interaction. Shared foundations establish consistency without forcing every tool into the same layout or interaction model. Specialized tool interfaces remain first-class when their task benefits from a distinct composition or interaction, subject to shared navigation, accessibility, localization, responsiveness and platform behavior.
 
 The default semantic palette uses the blue seed **#4285F4** to generate tonal roles; the seed does not require every primary role to use the literal value. **Roboto** is the validated default interface typeface. Loculary uses the official Material Color Utilities (MCU) Rainbow scheme as its sole rainbow palette. Its tonal range should serve both expressive surfaces/frame backgrounds and vivid compact accents such as category pills, badges and markers; choose tones appropriate to the context and validate foreground contrast. Do not retain a parallel Loculary-specific palette merely to obtain stronger colors. Semantic success, warning and error colors remain independent of the brand seed and Rainbow palette. Light/dark mappings and actual foreground contrast must be validated.
 
@@ -839,3 +841,81 @@ Loculary needs a coherent, recognizable visual and interaction language that fee
 - DEC-004 remains in force: shared foundations and behavior do not require identical compositions across specialized tools.
 - Accessibility, WCAG 2.2 AA, reduced motion, responsive desktop/tablet/mobile behavior, localization, privacy and performance remain mandatory.
 - Adoption is not proof of implementation. Production migration, curated palette settings, preference persistence, account synchronization and visual/accessibility verification remain implementation work that must be tracked and verified with appropriate evidence.
+
+
+## DEC-049 — Defer browser E2E and screenshot automation during active redesign
+
+**Status:** Accepted
+
+### Decision
+
+Remove the manually triggered Playwright E2E, production-browser validation, and production-screenshot workflows, along with their browser tests and the Playwright dependency. Keep the existing CI baseline: Node.js tests, lint, TypeScript checks, production build, dependency/security checks, and targeted Supabase Edge Function validation.
+
+Do not reintroduce browser E2E or screenshot automation as a default project requirement. Reconsider a narrowly scoped browser check only when the interface and key journeys have stabilized and a concrete regression risk demonstrates that its value exceeds its maintenance cost.
+
+### Reason
+
+Loculary is actively being redesigned. UI selectors, page structure, labels, and expected flows change frequently, so browser tests can become stale and fail for reasons that do not represent product regressions. Maintaining and diagnosing those constraints creates disproportionate friction for a project maintained by one human and one AI assistant. The manual workflows also duplicate production-browser coverage and screenshot capture around the same test file.
+
+### Consequences
+
+- The `e2e/` directory and the three browser/screenshot workflows are removed.
+- `@playwright/test` and its lockfile-only dependencies are removed.
+- Unit-level and repository-level automated checks remain the primary regression safeguards.
+- Screenshots and browser artifacts are not required inputs to routine assistant work.
+- Any future browser automation must be small, justified by a concrete failure mode, and kept aligned with the current product rather than treated as a permanent checklist.
+
+
+## DEC-050 — Latest compatible tooling and lightweight collaboration
+
+**Status:** Accepted
+
+### Decision
+
+Use the latest stable versions that are compatible with Loculary’s actual framework and toolchain. Keep runtimes, dependencies, developer tools, and GitHub Actions current; verify compatibility and CI rather than retaining old versions by inertia or for theoretical reproducibility.
+
+Continue using Dependabot for routine dependency and GitHub Actions updates. Pin third-party GitHub Actions to full commit SHAs where appropriate and retain readable version comments; refresh those pins through updates. SHA pinning is a supply-chain security control, not a reason to freeze an action on an old release.
+
+The intended working model is a collaboration between the user and the assistant. Do not add process, abstraction, duplicate validation, or infrastructure designed for a hypothetical larger team. Each mechanism must solve a concrete project need.
+
+### Reason
+
+Loculary benefits from current tooling, security updates, and a small, understandable engineering workflow. Unnecessary compatibility scaffolding and process increase maintenance cost without improving the product. At the same time, immutable action references provide a meaningful security boundary and should not be confused with keeping dependencies outdated.
+
+### Consequences
+
+- Prefer current stable compatible releases, with explicit compatibility constraints documented only where real and verified.
+- Keep the existing Dependabot update workflow and review meaningful updates promptly.
+- Preserve full-SHA pinning for GitHub Actions where appropriate; do not replace it with floating tags merely to appear more up to date.
+- Avoid adding reproducibility systems, duplicate checks, or team-oriented ceremony unless a concrete need justifies the cost.
+- Browser E2E and screenshot automation remain governed separately by DEC-049 and are not reintroduced by default.
+
+
+## DEC-051 — Database-backed catalog is conditional on demonstrated need
+
+**Status:** Accepted
+
+### Decision
+
+The public tool catalog remains Git-backed. PostgreSQL is not a committed destination for editable catalog data and no migration is scheduled by default. DEC-027's separation between editable metadata and executable behavior remains valid as a boundary if a database catalog is later justified; its unconditional storage target is superseded by this decision.
+
+Reconsider a database-backed catalog when at least one concrete product or operational requirement is demonstrated that the current Git-backed workflow cannot reasonably serve. Evidence may include:
+
+- authorized editorial publishing or lifecycle management that must happen without code deployment;
+- measured search, build, catalog-delivery or performance bottlenecks that a database-backed design is likely to resolve;
+- administration, auditability or collaboration requirements that cannot be met proportionately by the current workflow.
+
+Catalog size or an aspiration to support thousands of tools is not, by itself, sufficient justification. Any proposal must compare the actual benefits with schema/migration work, operational complexity, security, performance and maintenance cost. Before implementation, define the proposed scope and acceptance criteria, review the schema and migration path, and obtain explicit approval for the consequential architecture change.
+
+Git/code remains authoritative for executable tool implementations, registry modules, processing mode, capabilities and technical behavior, regardless of where editable metadata is stored.
+
+### Reason
+
+The deployed product currently uses a Git-backed catalog, and the database catalog schema was deliberately removed during the October 2026 clean-cut. Building the database catalog without a demonstrated publishing, search or operational need would add cost and complexity before proving its value.
+
+### Consequences
+
+- The catalog remains Git-backed until the criteria above are met and a new implementation proposal is approved.
+- Product and architecture documents must describe database catalog storage as conditional, not inevitable.
+- The closed #444 issue is not an active implementation plan; a new issue should be created only if evidence makes the work worth pursuing.
+- No catalog schema or production migration is authorized by this decision.
