@@ -815,7 +815,6 @@ export const tools: Tool[] = toolDefinitions.map((tool): Tool => ({
   nextActionToolIds: nextActionToolIds[tool.id] ?? [],
   quality: { accessibility: "required", performance: "standard", tests: tool.lifecycle === "published" ? "required" : "not-yet" },
   access: "anonymous",
-  contributor: { type: "internal" },
 }));
 
 validateToolCatalog(tools);
