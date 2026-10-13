@@ -4,7 +4,8 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 import { createClient } from "@/lib/supabase/client";
 import {
   ANONYMOUS_FAVORITES_KEY, FAVORITE_MIGRATION_KEY, mergeFavoriteIds,
-  normalizeFavoriteIds, parseFavoriteMigrationPayload, type FavoriteMigrationPayload,
+  getVisibleFavoriteIds, normalizeFavoriteIds, parseFavoriteMigrationPayload,
+  reconcileAnonymousAfterMerge, reconcileVerifiedMigration, type FavoriteMigrationPayload,
 } from "@/lib/favorites";
 
 type AccountFavorites = { userId: string; ids: string[]; loading: boolean; error: boolean };
@@ -122,13 +123,8 @@ export function FavoritesProvider({ children, toolIds }: { children: ReactNode; 
         }
 
         // Clear only the exact payload that was confirmed by a fresh server read.
-        const current = migrationRef.current;
-        if (current?.targetUserId === userId) {
-          const remaining = current.toolIds.filter((id) => !pendingIds.includes(id));
-          persistMigration(remaining.length ? { targetUserId: userId, toolIds: remaining } : null);
-        }
-        const currentAnonymous = anonymousRef.current;
-        persistAnonymous(currentAnonymous.filter((id) => !pendingIds.includes(id)));
+        persistMigration(reconcileVerifiedMigration(migrationRef.current, userId, pendingIds, remoteIds));
+        persistAnonymous(reconcileAnonymousAfterMerge(anonymousRef.current, pendingIds, remoteIds));
       }
       if (mounted) setAccount({ userId, ids: remoteIds, loading: false, error: false });
     }
@@ -189,13 +185,13 @@ export function FavoritesProvider({ children, toolIds }: { children: ReactNode; 
       ? { ...previous, ids: [...new Set([...previous.ids, toolId])] } : previous);
   }, [account, persistAnonymous, persistMigration, ready, validIds]);
 
-  const effectiveIds = useMemo(() => {
-    if (account) {
-      const pending = migration?.targetUserId === account.userId ? migration.toolIds : [];
-      return mergeFavoriteIds(pending, account.ids, validIds);
-    }
-    return mergeFavoriteIds(anonymousIds, [], validIds);
-  }, [account, anonymousIds, migration, validIds]);
+  const effectiveIds = useMemo(() => getVisibleFavoriteIds({
+    userId: account?.userId ?? null,
+    remoteIds: account?.ids ?? [],
+    anonymousIds,
+    migration,
+    catalogOrder: validIds,
+  }), [account, anonymousIds, migration, validIds]);
 
   const value = useMemo<FavoritesContextValue>(() => ({
     favoriteIds: effectiveIds,
