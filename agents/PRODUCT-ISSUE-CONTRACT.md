@@ -1,59 +1,40 @@
 # Loculary — Mission Issue Protocol
 
-GitHub Issues provide the durable operational plan and checkpoint for resumable work. They do not replace Git, implementation evidence or canonical product/architecture decisions.
+GitHub Issues provide the durable plan and checkpoint for resumable work. They do not replace Git, implementation evidence or canonical product/architecture decisions.
 
-## 1. Mission Issue
+## 1. When to use a mission Issue
 
-Every resumable repository mission requires an active Issue. Search existing Issues and related branches/PRs before creating one; reuse an Issue only when it genuinely covers the work.
+Create or reuse an active Issue for work that needs a durable decision trail, multiple steps, cross-session continuity or meaningful delivery checkpoint. Search existing Issues and related branches/PRs first; reuse an Issue only when it genuinely covers the work. Do not create an Issue for every micro-task.
 
-## 2. Operational plan
+## 2. Plan proportionate to the work
 
-After the user has explicitly approved the explained change proposal, write the concrete operational plan in this mission Issue before or as implementation begins. The plan is an internal execution document for the assistant, not a document the user must validate.
+After the user approves the explained change proposal, write or update the operational plan before or as implementation begins. This plan is for execution, not another approval round. Its detail should match the scope and risk.
 
-Include, as applicable:
+Include what is useful for the mission:
+- **Objective and expected result** — the user problem and observable outcome.
+- **Acceptance criteria** — how completion will be recognized.
+- **Decisions and boundaries** — approved direction and exclusions.
+- **Ordered work** — coherent tasks and relevant files/areas.
+- **Dependencies and risks** — constraints, uncertainty and material trade-offs.
+- **Verification** — relevant checks and required delivery evidence.
+- **Checkpoint** — actual progress, branch/PR, blockers and next action.
 
-- **Objective and expected outcome** — the user problem and observable result.
-- **Acceptance criteria** — conditions that establish completion.
-- **Approved decisions and boundaries** — the agreed direction and exclusions that must not be silently changed.
-- **Ordered work** — coherent tasks, files/areas, removals/consolidations and cross-cutting updates.
-- **Dependencies and risks** — concurrent work, constraints, uncertainty and material trade-offs.
-- **Verification plan** — targeted checks, expected evidence, CI and delivery requirements.
-- **Current state and next action** — actual progress, branch/PR and remaining work.
+Update the plan when evidence changes the implementation sequence or reveals necessary work. Routine implementation details do not need approval. If evidence materially changes the approved outcome, scope, direction or significant risk, pause the affected work and discuss the decision first. Factual checkpoint updates during read-only investigation are allowed and do not authorize implementation.
 
-The plan is a living operational checkpoint. Update it when evidence reveals necessary technical work or changes to the execution sequence. Routine implementation details do not require user approval. If new evidence materially changes the approved outcome, scope, direction or significant risk, pause the affected work and discuss the new decision before proceeding.
+## 3. Traceability and evidence
 
-The Issue can be updated during read-only investigation to preserve factual checkpoints. Such updates record state; they do not authorize implementation.
+Read the complete active Issue and relevant comments/amendments before planning or resuming. Reconcile the checkpoint with current code and GitHub state; never treat stale Issue text as proof of the current branch, PR, checks or implementation.
 
-## 3. Traceability and verification
+For substantial changes, ensure each approved requirement is accounted for by planned work, a justified no-change decision or a tracked follow-up. Ensure material planned changes are grounded in the approved proposal or necessary implementation details. Before delivery, compare the actual diff and results with the proposal and relevant acceptance criteria; record material discrepancies, verification evidence and limitations.
 
-Read the complete active Issue body and relevant comments/amendments before planning or resuming. Reconcile chronology and compare every approved requirement against the operational plan: map it to planned work, a justified no-change rationale or an explicit follow-up. Check in the opposite direction that every material planned change is grounded in the approved proposal or is a necessary implementation detail. Map important acceptance criteria to concrete verification evidence.
+Distinguish observed facts, measurements, deductions, hypotheses, proposals, decisions and unverified details. Do not paste entire source files, reports, logs, secrets or chat transcripts. Git/GitHub remain authoritative for code, branches, PRs, CI and merge state.
 
-During implementation and before delivery, compare actual changes and results against the approved proposal, Issue and acceptance criteria. Record discrepancies, evidence and limitations. Routine adjustments consistent with the approved outcome are autonomous; consequential direction or risk changes require discussion.
+## 4. Checkpoints and follow-up
 
-## 4. Approval and continuity
+Update the Issue at meaningful milestones and before interruption or completion. Keep it concise but independently resumable: actual state, decisions, changes, verification results, blockers and next action. Do not post empty updates.
 
-Before any repository modification, present the user with a detailed, accessible explanation of the proposed changes: the concrete problem, expected result, why each change is needed, materially different alternatives, recommendation, trade-offs, risks, uncertainties, exclusions and supporting evidence. The user must be able to decide without opening this Issue, audit reports or code.
+For actionable work outside the active mission, search for a matching Issue. Update it if it genuinely covers the finding; otherwise create a dedicated Issue when separate tracking is useful. Record the evidence, consequence, uncertainty and likely next action, and tell the user what was tracked. Tracking does not authorize implementation or silently change priorities.
 
-The explicit green light applies to this explained proposal. It does not ask the user to approve read-only investigation, an audit, the implementation method or the operational plan. After approval, the assistant writes and uses the detailed Issue plan and implements autonomously.
+## 5. Closure and recovery
 
-Continue the work in the current conversation while it remains useful; changing conversations is optional, not a workflow phase. Do not require a handoff prompt by default. If context limits or a genuine continuity need make a handoff useful, update this Issue with the actual state and next action first, then provide a concise prompt that directs the next conversation to read repository instructions and this Issue/comments and reconstruct current GitHub state. Do not duplicate the operational plan or assume stale branch, commit, PR or CI state.
-
-## 5. Checkpoints and evidence
-
-Update the Issue at meaningful milestones and before interruption or completion. Keep it concise but independently resumable. Record actual changes, exact branch/PR, verification commands or workflows and their observed results, blockers, decisions and next action. Distinguish observed facts, measurements, deductions, hypotheses, proposals, decisions and unverified details.
-
-Do not paste entire source files, reports, logs, secrets or chat transcripts. Git/GitHub are authoritative for code, branches, PRs, CI and merge state.
-
-## 6. Actionable discoveries
-
-For actionable work not completed in the current mission:
-1. Search for a matching existing Issue.
-2. Update it if it genuinely covers the finding; otherwise create a dedicated Issue.
-3. Record evidence, consequence, uncertainty and likely next action.
-4. Tell the user what was tracked and why.
-
-Tracking does not silently change priority or authorize implementation. Do not dismiss actionable findings as too minor.
-
-## 7. Closure and recovery
-
-A mission must be recoverable from the Issue, its branch/PR and linked canonical documents/evidence. Close it only when completed and verified, explicitly abandoned, or remaining work is durably tracked elsewhere. Before closure, record actual final state, verification and any remaining limitations.
+The Issue, its branch/PR and linked canonical documents or evidence should make the mission recoverable. Close it only when work is completed and verified, explicitly abandoned, or remaining work is durably tracked elsewhere. Record the actual final state, verification and remaining limitations before closure.
