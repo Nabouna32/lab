@@ -25,7 +25,7 @@ export default function SubmitButton({
       data-danger={danger ? "true" : "false"}
       className={[
         danger
-          ? "border-[var(--danger-foreground)] bg-[var(--danger-foreground)] text-white hover:bg-[var(--danger-foreground)]"
+          ? "border-[var(--error)] bg-[var(--error)] text-[var(--on-error)] hover:brightness-[.94]"
           : "",
         className,
       ]
