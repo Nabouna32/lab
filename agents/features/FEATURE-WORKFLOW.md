@@ -1,21 +1,10 @@
 # Feature implementation guide
 
-Read `AGENTS.md`, `agents/AGENT-CONTRACT.md` and `agents/PRODUCT-ISSUE-CONTRACT.md`, then the relevant canonical product, UX, architecture, privacy, localization and decision documents.
-
-Analyze the full user problem and journey. Challenge whether the feature should exist, whether an existing capability should be extended or consolidated, and what coherent solution best serves users. Consider UX, accessibility, i18n, privacy, security, performance, maintenance and cost.
-
-Use the mission Issue for the internal implementation plan and checkpoints. After the user approves the explained change proposal, implement the full agreed result, test meaningful boundaries, update active documentation, inspect the complete diff and deliver through the normal branch/PR/CI workflow. Do not ask the user to approve the plan. Routine technical steps do not need repeated approval; pause and discuss if new evidence materially changes the approved outcome or significant risk.
-
-Automated browser E2E and screenshots remain manual-only during the active redesign and are not PR gates.
-
-
----
+Before changing implementation or product documentation, inspect the canonical specifications relevant to the feature: `docs/VISION.md`, `docs/PRODUCT.md`, `docs/UX.md`, `docs/ARCHITECTURE.md`, `docs/PRIVACY.md`, `docs/I18N.md`, `docs/DECISIONS.md` and relevant specialist documents.
 
 ## Feature quality
 
-A feature is a user-facing capability, not merely a code change. Evaluate the complete user problem and journey, existing behavior, product direction, alternatives, dependencies and root causes before implementation. Challenge whether the capability should exist, whether an existing feature should be extended or consolidated, and whether the proposed experience is the best coherent solution.
-
-Inspect relevant canonical specifications before changing implementation or product documentation: `docs/VISION.md`, `docs/PRODUCT.md`, `docs/UX.md`, `docs/ARCHITECTURE.md`, `docs/PRIVACY.md`, `docs/I18N.md`, `docs/DECISIONS.md` and relevant specialist documents. Inspect actual code and current GitHub state.
+A feature is a user-facing capability, not merely a code change. Evaluate the complete user problem and journey, existing behavior, product direction, alternatives, dependencies and root causes. Challenge whether the capability should exist, whether an existing feature should be extended or consolidated, and whether the proposed experience is the best coherent solution.
 
 ## Implementation requirements
 
@@ -32,11 +21,9 @@ Use existing architecture and primitives. Do not introduce a generic framework s
 
 ## Verification
 
-Run the strongest relevant checks available and appropriate to the changes: lint, typecheck, unit/domain/integration tests, build, targeted manual browser verification for important UI flows, both EN and FR, accessibility checks, and security/privacy checks for data-bearing behavior. E2E and automated screenshot workflows remain manual-only during the active redesign and are not PR gates.
+Choose checks based on the feature's actual risks: relevant unit/domain/integration tests, lint, typecheck and build; targeted manual browser verification for important UI flows; both EN and FR; accessibility checks; and security/privacy checks for data-bearing behavior. Automated browser E2E and screenshot workflows remain manual-only during the active redesign and are not PR gates.
 
-Inspect the complete diff, verify no unrelated files changed, and fix problems introduced by the implementation. Never claim a check passed unless it actually ran; explain any unavailable check.
-
-## Documentation and delivery
+## Documentation
 
 Update the correct canonical source when durable behavior changes:
 - decision → `docs/DECISIONS.md`;
@@ -45,5 +32,3 @@ Update the correct canonical source when durable behavior changes:
 - UX rules → `docs/UX.md`;
 - privacy behavior → `docs/PRIVACY.md`;
 - data model → relevant database documentation.
-
-The PR description should explain the user problem, rationale and challenged alternatives, architecture, data/privacy model, UX/i18n/accessibility, checks, known limitations and decisions still requiring validation. Follow the common branch/PR/CI/merge contract.
