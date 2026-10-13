@@ -194,7 +194,7 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
         <div className="my-2 h-px bg-[var(--border)]" />
 
         <Link
-          href={"/" + locale + "/compte"
+          href={"/" + locale + "/compte"}
           prefetch={false}
           onClick={closeMenu}
           className="group flex items-center gap-3 rounded-xl px-3 py-3 outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
