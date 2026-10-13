@@ -113,7 +113,7 @@ export default async function ToolsPage({
                   <a href={getToolsPath(locale)} className="inline-flex min-h-10 items-center justify-center rounded-xl border border-[var(--border)] px-3 text-sm font-bold hover:bg-[var(--surface-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]">{t.tools.clearIntent}</a>
                 </div>
                 <div className="mt-5 divide-y divide-[var(--border)] overflow-hidden rounded-2xl border border-[var(--border)]">
-                  {intentTools.map((tool) => <div key={tool.id} data-testid="intent-result"><ToolCard tool={tool} locale={locale} /></div>)}
+                  {intentTools.map((tool) => <div key={tool.id} data-testid="intent-result"><ToolCard tool={tool} locale={locale} categoryName={getCategoryName(locale, tool.categories[0])} categoryId={tool.categories[0]} /></div>)}
                 </div>
               </section>
             ) : null}
