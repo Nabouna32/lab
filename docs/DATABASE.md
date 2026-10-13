@@ -15,7 +15,7 @@ Tool lifecycle: draft → review → published → hidden → archived. Hard del
 
 The first account foundation is now deployed to Supabase: Supabase Auth remains the identity system, while `public.profiles` stores only user-owned profile metadata that is safe to synchronize. System-defined administrative roles and permissions use stable keys; their user-facing labels belong to the application i18n layer. Row Level Security restricts profile access to the owning user, and the `auth.users` insert trigger is the sole supported profile-creation path. Authenticated clients do not insert profiles directly.
 
-This is intentionally a small first step. Catalog/editorial data, favorites, collections, preferences, community data and administration will be designed and moved into the database incrementally after the code/database boundary is reviewed.
+This is intentionally a small first step. Additional domains such as favorites, collections, preferences, catalog/editorial data and community records may be considered incrementally when concrete requirements justify their database and operational costs; they are not committed migrations.
 
 
 ## Database catalog boundary
