@@ -838,4 +838,4 @@ Loculary needs a coherent, recognizable visual and interaction language that fee
 - Shared components and screens may be refactored or replaced when required for a coherent M3 Expressive implementation; the direction does not require preserving current abstractions.
 - DEC-004 remains in force: shared foundations and behavior do not require identical compositions across specialized tools.
 - Accessibility, WCAG 2.2 AA, reduced motion, responsive desktop/tablet/mobile behavior, localization, privacy and performance remain mandatory.
-- Adoption is not proof of implementation. Production migration, curated palette settings, preference persistence, account synchronization and visual/accessibility verification must be delivered and verified through explicit implementation plans.
+- Adoption is not proof of implementation. Production migration, curated palette settings, preference persistence, account synchronization and visual/accessibility verification remain implementation work that must be tracked and verified with appropriate evidence.
