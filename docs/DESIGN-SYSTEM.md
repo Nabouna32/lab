@@ -84,9 +84,7 @@ The default appearance uses the blue seed **#4285F4** to generate semantic tonal
 
 Use the **official MCU Rainbow scheme as Loculary's single rainbow palette**. Its tonal range should serve both expressive surfaces/frame backgrounds and vivid category differentiation: use softer tones for large surfaces and stronger, more saturated tones for compact accents such as pills, badges and markers where they remain legible. Do not keep a parallel Loculary-specific palette merely to obtain vivid colors; first use the official scheme's available tones. Avoid rainbow decoration on every component, and validate foreground contrast for each use. Semantic success, warning and error colors remain independent of the brand seed and Rainbow palette.
 
-Users should be able to choose from a curated set of predefined palettes in appearance settings. The initial product should not expose an unrestricted arbitrary-color picker: curated palettes are easier to validate, keep semantic roles coherent and reduce the number of combinations that must be tested. Palette previews must represent the actual semantic mappings, not just a row of brand swatches.
-
-Anonymous preference persistence is local-first. Synchronization to the signed-in account is a planned capability and must use the account-preference architecture when implemented; this document does not claim that the settings UI or synchronization already exists. Dynamic system color is optional and must never silently override the user's explicit palette choice or compromise brand consistency and accessibility.
+The light/dark theme preference is local-first for anonymous users and may be synchronized with the signed-in account when account-preference persistence is implemented. This document does not claim that the settings UI or synchronization already exists.
 
 ### 3.4 Status and content colors
 
