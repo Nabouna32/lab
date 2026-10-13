@@ -147,23 +147,9 @@ User data should be logically separated into domains:
 
 This separation should support least-privilege access, retention rules, deletion, export, and auditing.
 
-## Transparency dashboard
+## Account-facing privacy controls
 
-Authenticated users should eventually have a dedicated privacy/data dashboard.
-
-The dashboard should allow a user to see, in understandable form:
-
-- account and identity data;
-- stored preferences;
-- favorites;
-- collections;
-- privacy and consent choices;
-- relevant analytics data;
-- connected authentication providers;
-- active sessions where feasible;
-- data retention/deletion state.
-
-The goal is not an obscure legal settings page. Users should be able to understand what Loculary knows about them and why.
+Privacy, consent, identity and preference controls should remain understandable and accessible from the existing account settings. Keep the account experience simple; do not introduce a dedicated privacy/data dashboard unless a concrete future need justifies it.
 
 ## Account deletion
 
