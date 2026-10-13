@@ -25,7 +25,7 @@ export function SegmentedControl<T extends string>({
     <div
       role="group"
       aria-label={ariaLabel}
-      className={["grid grid-flow-col auto-cols-fr gap-0 overflow-hidden rounded-full border border-[var(--outline-variant)] bg-[var(--surface-soft)] p-1", className].join(" ")}
+      className={["grid grid-flow-col auto-cols-fr gap-0 rounded-full border border-[var(--outline-variant)] bg-[var(--surface-soft)] p-1", className].join(" ")}
     >
       {items.map((item, index) => {
         const active = value === item.id;
