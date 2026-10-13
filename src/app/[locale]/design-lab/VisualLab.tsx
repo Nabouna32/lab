@@ -216,9 +216,9 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
       </div>
       <section className={styles.categoryPreview} aria-labelledby="category-preview-title">
         <div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>01B / {t.categoryColors}</span><h2 id="category-preview-title">{t.categoryColors}</h2><p>{t.categoryColorsHelp}</p></div></div>
-        <div className={categorySet==="compare"?styles.categoryCompareGrid:""}>
-          {categoryGroups.map(group=><section key={group.key} className={categorySet==="compare"?styles.categoryComparison:""}>
-            {categorySet==="compare"&&<><h3>{group.title}</h3><p className={styles.helper}>{group.help}</p></>}
+        <div>
+          {categoryGroups.map(group=><section key={group.key}>
+
             <div className={styles.categoryGrid}>
               {group.cards.map(item=><article key={item.key} data-testid={group.key==="mcu-rainbow"?"category-mcu-rainbow":undefined} data-category-seed={item.categorySeed} data-category-color={item.categoryColor} className={styles.categoryCard} style={{ "--category-color": item.categoryColor, "--category-foreground": item.categoryForeground } as CSSProperties}>
                 <span className={styles.categoryGlyph} aria-hidden="true">{item.icon}</span>
