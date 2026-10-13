@@ -38,10 +38,7 @@ Appropriate for:
 - synchronized user metadata;
 - favorites and collections;
 - account preferences;
-- optional synchronized history;
 - catalog metadata when beneficial;
-- community features;
-- moderation;
 - lightweight analytics;
 - selected external API orchestration;
 - operations that genuinely require a server.
@@ -214,10 +211,6 @@ A database is expected to become useful for:
 - favorites;
 - collections;
 - synchronized preferences;
-- community proposals;
-- ratings;
-- comments;
-- moderation state;
 - tool metadata where appropriate;
 - privacy-conscious analytics data.
 
@@ -226,21 +219,6 @@ Supabase/PostgreSQL is the current database platform for the deployed account, a
 A database-backed catalog may be reconsidered when a concrete product or operational need cannot be served well by the Git-backed model. Relevant evidence includes a demonstrated publishing workflow that needs authorized edits without code deployment, a measured search/build/delivery bottleneck, or administration and audit requirements that Git cannot reasonably meet. Catalog size by itself is not sufficient justification. See DEC-051 for the decision criteria.
 
 Catalog storage and delivery must remain separate from executable tool implementations. Git/code remains authoritative for registry modules, processing mode, capabilities and actual tool logic. Any future data-store change must preserve that boundary and justify its operational cost.
-
-## Community architecture
-
-Community functionality should be isolated enough that it cannot compromise the core tool experience.
-
-Potential entities:
-
-- tool proposal;
-- contribution;
-- rating;
-- comment;
-- moderation action;
-- contributor attribution.
-
-All user-generated content requires validation/moderation.
 
 ## Analytics architecture
 
@@ -288,7 +266,7 @@ The architecture should preserve a clear separation between:
 
 1. **Public discovery** — catalog, search, categories, SEO, related tools;
 2. **Tool execution** — inputs, processing, results, actions, sharing;
-3. **Personal layer** — identity, preferences, favorites, collections, history, personalization, community participation.
+3. **Personal layer** — identity, preferences, favorites and collections.
 
 This separation allows anonymous-first usage while providing a coherent path to authenticated personalization.
 
@@ -312,7 +290,7 @@ For heavier local workloads, prefer progressive escalation: main-thread processi
 
 ### State and synchronization
 
-Use the least powerful persistence layer that satisfies the requirement: React/local state for transient state, URL state for safe shareable configuration, localStorage for small preferences, IndexedDB for larger local structured state, and account-backed persistence for selected cross-device metadata. Sensitive raw tool content should remain local by default.
+Use the least powerful persistence layer that satisfies the requirement: React/local state for transient state, URL state for safe shareable configuration, localStorage for small preferences, IndexedDB for larger local structured state, and account-backed persistence for selected cross-device metadata such as favorites, collections and theme preference. Sensitive raw tool content should remain local by default.
 
 When local and account state are merged, the synchronization strategy and conflict behavior must be deterministic and explicit.
 
@@ -322,7 +300,7 @@ Search is a platform subsystem rather than a simple filter. It should support ca
 
 ### External services
 
-Every external API/provider should be traceable through an integration catalog containing purpose, domain, transmitted data, authentication model, cost/quota, fallback behavior, ownership, and relevant policy references. Provider-specific analytics and advertising implementations should also remain behind abstractions.
+Every external API/provider should be traceable through an integration catalog containing purpose, domain, transmitted data, authentication model, cost/quota, fallback behavior, ownership, and relevant policy references. Provider-specific analytics implementations should remain behind abstractions.
 
 ### Resilience and performance
 
