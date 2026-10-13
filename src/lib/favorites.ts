@@ -40,3 +40,43 @@ export function parseFavoriteMigrationPayload(
     return null;
   }
 }
+
+export function getVisibleFavoriteIds({
+  userId,
+  remoteIds,
+  anonymousIds,
+  migration,
+  catalogOrder,
+}: {
+  userId: string | null;
+  remoteIds: readonly string[];
+  anonymousIds: readonly string[];
+  migration: FavoriteMigrationPayload | null;
+  catalogOrder: readonly string[];
+}): string[] {
+  if (!userId) return sortFavoriteIds(anonymousIds, catalogOrder);
+  const pending = migration?.targetUserId === userId ? migration.toolIds : [];
+  return mergeFavoriteIds(pending, remoteIds, catalogOrder);
+}
+
+export function reconcileVerifiedMigration(
+  payload: FavoriteMigrationPayload | null,
+  userId: string,
+  attemptedIds: readonly string[],
+  verifiedRemoteIds: readonly string[],
+): FavoriteMigrationPayload | null {
+  if (!payload || payload.targetUserId !== userId || !attemptedIds.every((id) => verifiedRemoteIds.includes(id))) {
+    return payload;
+  }
+  const remaining = payload.toolIds.filter((id) => !attemptedIds.includes(id));
+  return remaining.length ? { targetUserId: userId, toolIds: remaining } : null;
+}
+
+export function reconcileAnonymousAfterMerge(
+  anonymousIds: readonly string[],
+  attemptedIds: readonly string[],
+  verifiedRemoteIds: readonly string[],
+): string[] {
+  if (!attemptedIds.every((id) => verifiedRemoteIds.includes(id))) return [...anonymousIds];
+  return anonymousIds.filter((id) => !attemptedIds.includes(id));
+}
