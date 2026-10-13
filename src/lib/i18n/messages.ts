@@ -1,4 +1,5 @@
 import type { Locale } from "./config.ts";
+import type { IntentId } from "@/lib/tools/intents";
 import type { ToolId } from "@/lib/tools/types";
 import { formatPlural } from "./plural.ts";
 
@@ -12,7 +13,8 @@ export type Messages = {
     metaTitle: string;
     eyebrow: string; title: string; description: string; explore: string; one: string; many: string;
     categoryDescription: (category: string) => string; searchLabel: string; searchPlaceholder: string; suggestions: string;
-    intentsTitle: string; intentsDescription: string; intents: Array<{ id: string; label: string; icon: string }>;
+    intentsTitle: string; intentsDescription: string; intents: Array<{ id: IntentId; label: string; icon: string }>;
+    intentResultsTitle: (intent: string) => string; intentResultsDescription: string; clearIntent: string;
     allToolsTitle: string; searchSubmit: string; searchResultsTitle: (query: string) => string; searchResultsMetaTitle: string;
     resultCountOne: string; resultCountMany: string; searching: string; searchError: string; retrySearch: string; noResults: string; noResultsHelp: string; tryThese: string; noResultsSuggestions: string[]; clearSearch: string;
     categoriesTitle: string; categoriesDescription: string;
@@ -65,6 +67,7 @@ export const messages: Record<Locale, Messages> = {
       categoriesTitle: "Parcourir par catégorie", categoriesDescription: "Tu préfères explorer ? Choisis une catégorie pour voir ses outils.",
       intentsTitle: "Commence par ta tâche", intentsDescription: "Tu sais quel résultat tu veux, mais pas quel outil utiliser ? Pars de l’action.",
       intents: [{ id: "calculate", label: "Calculer", icon: "∑" }, { id: "convert", label: "Convertir", icon: "↔" }, { id: "generate", label: "Générer", icon: "✦" }, { id: "analyze", label: "Analyser", icon: "⌁" }, { id: "measure", label: "Mesurer", icon: "◫" }],
+      intentResultsTitle: (intent) => `Outils pour : ${intent}`, intentResultsDescription: "Une sélection d’outils adaptés à cette tâche, dans plusieurs catégories si nécessaire.", clearIntent: "Voir tous les outils",
       allToolsTitle: "Explorer tous les outils",
     },
     nextActions: { title: "Pour continuer" },
@@ -156,6 +159,7 @@ export const messages: Record<Locale, Messages> = {
       categoriesTitle: "Browse by category", categoriesDescription: "Prefer to explore? Choose a category to see its tools.",
       intentsTitle: "Start with your task", intentsDescription: "If you know the outcome you need but not the tool name, start with the action.",
       intents: [{ id: "calculate", label: "Calculate", icon: "∑" }, { id: "convert", label: "Convert", icon: "↔" }, { id: "generate", label: "Generate", icon: "✦" }, { id: "analyze", label: "Analyze", icon: "⌁" }, { id: "measure", label: "Measure", icon: "◫" }],
+      intentResultsTitle: (intent) => `Tools for: ${intent}`, intentResultsDescription: "A curated set of tools for this task, spanning categories when useful.", clearIntent: "Show all tools",
       allToolsTitle: "Explore all tools",
     },
     nextActions: { title: "Keep going" },
