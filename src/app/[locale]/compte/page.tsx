@@ -130,7 +130,7 @@ export default async function AccountPage({
                   <span className="block font-bold">{t.account.changeEmail}</span>
                   <span className="mt-1 block text-sm text-[var(--muted)]">{user.email}</span>
                 </span>
-                <span aria-hidden="true" className="text-[var(--muted)] transition-transform group-hover:translate-x-1">→</span>
+                <svg viewBox="0 0 24 24" className="h-5 w-5 text-[var(--muted)] transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
               </Link>
               <Link
                 className="group flex items-center justify-between gap-4 rounded-xl px-2 py-4 transition-[background-color,transform] hover:bg-[var(--surface-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
@@ -140,7 +140,7 @@ export default async function AccountPage({
                   <span className="block font-bold">{t.account.changePassword}</span>
                   <span className="mt-1 block text-sm text-[var(--muted)]">{t.account.password}</span>
                 </span>
-                <span aria-hidden="true" className="text-[var(--muted)] transition-transform group-hover:translate-x-1">→</span>
+                <svg viewBox="0 0 24 24" className="h-5 w-5 text-[var(--muted)] transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
               </Link>
             </div>
           </section>
@@ -153,7 +153,7 @@ export default async function AccountPage({
             ) : <span />}
             <form action={signOut}>
               <input type="hidden" name="locale" value={locale} />
-              <SubmitButton pendingLabel={t.account.signOut} className="border border-[var(--border)] bg-[var(--surface)] text-[var(--foreground)] hover:bg-[var(--surface-soft)]">
+              <SubmitButton pendingLabel={t.account.signOut} variant="secondary">
                 {t.account.signOut}
               </SubmitButton>
             </form>

@@ -7,6 +7,8 @@ import { useTheme } from "@teispace/next-themes";
 import { getLanguage, isLocale, locales, type Locale } from "@/lib/i18n/config";
 import { getLocalizedPath, getSearchResultsPagePath, getToolsPath } from "@/lib/tools/routes";
 import { getMessages } from "@/lib/i18n/messages";
+import { StarIcon } from "@/components/ui/StarIcon";
+import { CollectionIcon } from "@/components/ui/CollectionIcon";
 
 function Icon({ children, className = "h-4 w-4" }: { children: ReactNode; className?: string }) {
   return (
@@ -184,7 +186,7 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
           onClick={closeMenu}
           className="group flex items-center gap-3 rounded-xl px-3 py-3 outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
         >
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--m3-light-primary-container)] text-[var(--m3-light-on-primary-container)] dark:bg-[var(--m3-dark-primary-container)] dark:text-[var(--m3-dark-on-primary-container)]" aria-hidden="true">★</span>
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--primary-container)] text-[var(--on-primary-container)]" aria-hidden="true"><StarIcon filled className="h-5 w-5" /></span>
           <span className="min-w-0 flex-1">
             <span className="block text-sm font-semibold text-[var(--foreground)]">{locale === "fr" ? "Mes favoris" : "My favorites"}</span>
             <span className="mt-0.5 block text-xs text-[var(--muted)]">{locale === "fr" ? "Tes outils enregistrés" : "Your saved tools"}</span>
@@ -196,7 +198,7 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
           onClick={closeMenu}
           className="group flex items-center gap-3 rounded-xl px-3 py-3 outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
         >
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--m3-light-secondary-container)] text-[var(--m3-light-on-secondary-container)] dark:bg-[var(--m3-dark-secondary-container)] dark:text-[var(--m3-dark-on-secondary-container)]" aria-hidden="true">▤</span>
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--secondary-container)] text-[var(--on-secondary-container)]" aria-hidden="true"><CollectionIcon className="h-5 w-5" /></span>
           <span className="min-w-0 flex-1">
             <span className="block text-sm font-semibold text-[var(--foreground)]">{locale === "fr" ? "Mes collections" : "My collections"}</span>
             <span className="mt-0.5 block text-xs text-[var(--muted)]">{locale === "fr" ? "Organise tes outils" : "Organize your tools"}</span>
@@ -221,7 +223,7 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
             <span className="block text-sm font-semibold text-[var(--foreground)]">{t.nav.space}</span>
             <span className="mt-0.5 block text-xs text-[var(--muted)]">{t.nav.account}</span>
           </span>
-          <span className="text-[var(--muted)] transition-transform group-hover:translate-x-0.5" aria-hidden="true">↗</span>
+          <svg viewBox="0 0 24 24" className="h-4 w-4 text-[var(--muted)] transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg>
         </Link>
 
         <div className="my-2 h-px bg-[var(--border)]" />
@@ -306,7 +308,7 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
                   )}
                 </Icon>
                 <span className="flex-1 text-left">{option.label}</span>
-                {theme === option.value && <span aria-hidden="true">✓</span>}
+                {theme === option.value && <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6" /></svg>}
               </button>
             ))}
           </div>
