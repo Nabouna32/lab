@@ -54,6 +54,14 @@ and identify the appropriate tool.
 
 Where safe and deterministic, search may prefill or directly execute a simple calculation.
 
+### Discovery experience
+
+The homepage is action/search-first, with deeper discovery through popular tools, categories, recent/new content and relevant recommendations. Navigation may expose user intentions such as calculating, converting, transforming, creating, analyzing, verifying, generating, measuring and discovering. An intent expresses a goal, not a category shortcut: one intent may lead to tools across several categories. Initial associations may be curated editorial data; deterministic inference or ranking may enrich them later.
+
+The catalog should support growth to thousands or tens of thousands of tools. Discovery, search, localization, administration, publication, relations, indexing, caching and progressive loading must account for that scale. Editable catalog/editorial data follows the database boundary established by DEC-027; executable tool behavior remains in Git.
+
+Search should progressively support exact/prefix matching, descriptions, aliases, synonyms, tags, categories, typo tolerance, related queries and natural-language intent. Where safe and deterministic, it may prefill or directly execute a task. No-result states should help users reformulate, discover related tools/categories and eventually propose a missing tool.
+
 ### AI
 
 External AI may eventually improve intent recognition or tool discovery, but it is **not required for the initial architecture**.
@@ -74,7 +82,11 @@ An account can unlock features such as:
 - collections;
 - preferences;
 - synchronized history where appropriate;
-- future personalization features.
+- future personalization features, including optional homepage/tool ordering and appearance preferences.
+
+Anonymous users should be able to retain appropriate local state such as favorites and preferences. When signing in, local favorites can merge into account favorites with deterministic conflict handling. Collections may be private, shareable or public by explicit choice. Sharing may expose a blank tool, configured tool or current result/state depending on the tool; sensitive data must never be exposed unintentionally through URLs or shared state.
+
+Public profiles are an optional future capability, not a prerequisite for accounts or core tool use. If introduced, users must explicitly choose what to expose, and private account data and collections must never become public by default. Theme customization should use curated, accessible choices and validated light/dark semantic mappings rather than assuming arbitrary colors are desirable.
 
 The product should support anonymous/local usage first and account creation when it adds value.
 
@@ -87,6 +99,8 @@ With an account, selected metadata can be synchronized.
 Tool input/content must not automatically become cloud history. Sensitive content should remain local unless a feature explicitly requires remote processing and clearly explains it.
 
 ## Tool catalog
+
+The platform supports three levels of tool complexity: small tools, advanced tools and mini-applications. A common framework must standardize navigation, metadata, privacy indicators, accessibility, common actions, analytics boundaries, SEO, error handling, lifecycle and discovery without forcing every tool into the same layout or interaction model.
 
 The catalog is expected to become very large.
 
@@ -139,6 +153,8 @@ Expected checks include, as applicable:
 
 The exact automated contract will evolve with the tool platform.
 
+Contextual tone and richer educational content are optional tool-level enhancements. They may provide useful background, origins, conventions or differing standards only when they help users understand or complete the task. They must remain secondary to the tool and must not become generic SEO filler.
+
 ### Explanation and content quality
 
 - Put the useful result and primary interaction first; make explanations available without making them a barrier to use.
@@ -185,6 +201,8 @@ Community content must be moderated and validated. It must not be allowed to com
 A contributor may receive visible attribution/credit on an accepted tool or contribution.
 
 The contribution system is a future capability, but the architecture should not make it impossible.
+
+Community exists to improve the catalog, not to turn Loculary into a social network. Public profiles, public collections, proposals, ratings, comments, reports and contributor attribution remain subordinate to finding and using tools.
 
 ## Advertising
 
@@ -235,61 +253,3 @@ Translations must be treated as product content, not scattered hard-coded string
 A native or cross-platform Android application is a possible future product surface.
 
 It should reuse suitable domain/tool logic where practical, but web development must not be slowed down by premature mobile abstractions.
-
-## Expanded product direction
-
-### Homepage and discovery
-
-The homepage follows an **action/search first, discovery in depth** model. The primary question is effectively “Que voulez-vous faire ?”, followed by popular tools, categories, recent/new content, recommendations, and personalized content where applicable.
-
-Intent-oriented navigation may expose actions such as:
-
-Intent is a first-class product discovery object, distinct from category navigation. An intent expresses what the user is trying to accomplish and may be associated with multiple tools, including tools from different categories. Initial associations may be curated editorial data; future deterministic inference or ranking may extend discovery without redefining the semantics of intent.
-
-The catalog should be designed from the outset for potentially thousands or tens of thousands of tools. This affects discovery, search, localization, administration, publication, relations, indexing, caching and progressive loading. Editable catalog/editorial data follows the database boundary established by DEC-027; executable tool behavior remains in Git.
-
-- Calculer
-- Convertir
-- Transformer
-- Créer
-- Analyser
-- Vérifier
-- Générer
-- Mesurer
-- Découvrir
-
-These are presentation concepts; the internal catalog remains structured with hierarchical categories and centrally managed tags/aliases.
-
-### Search as solution discovery
-
-Search must not require users to know a tool name. It should progressively support exact/prefix matching, descriptions, aliases, synonyms, tags, categories, typo tolerance, related queries, and natural-language intent. Deterministic requests may eventually be prefilled or executed directly where safe.
-
-No-result states should help the user reformulate, discover related tools/categories, and eventually propose a missing tool.
-
-### Anonymous-first personalization
-
-Anonymous users should be able to use core tools and retain appropriate local state such as preferences or favorites. When signing in, local favorites can merge into account favorites with deterministic conflict handling.
-
-Account features should progressively include synchronized preferences, collections, compatible history, personalization, community participation, and privacy/data controls.
-
-### Collections and sharing
-
-Collections are first-class user objects and may be private, shareable, or public by explicit choice. Sharing may expose a blank tool, a configured tool, or a current result/state depending on the tool. Sensitive data must never be exposed unintentionally through sharing URLs or state.
-
-### Tool diversity
-
-The platform defines a common trust, accessibility, processing, SEO, lifecycle, and interaction contract, but tools retain the freedom to have distinct layouts, visualizations, animations, and interaction models. The catalog supports three complexity levels: small tools, advanced tools, and mini-applications.
-
-### Community remains secondary
-
-Community features are intended to improve the catalog, not turn Loculary into a social network. Public profiles, public collections, proposals, ratings, comments, reports, and contributor attribution remain subordinate to the toolbox experience.
-
-### Deferred personalization and public profiles
-
-Public profiles are an optional future capability, not a prerequisite for accounts or core tool use. If introduced, a user may explicitly choose to expose a pseudonym, avatar/photo, interests, favorite tools, public collections, or contributions. Private account data and private collections must never become public by default.
-
-Theme customization beyond the supported appearance choices may be evaluated as personalization evolves. It must preserve curated, accessible palette choices and validated light/dark semantic mappings; arbitrary user-selected colors are not an automatic requirement.
-
-Contextual tone and richer educational content are optional tool-level enhancements. A tool may adapt its tone to its purpose or offer useful background such as history, origins, conventions, and differing standards, but only when this helps users understand or complete the task. Such content must remain secondary to the tool and must not become generic SEO filler.
-
-A child-oriented mode is not part of the current scope. Any future proposal must be evaluated as a distinct product decision covering age-appropriate interaction, safety, privacy, applicable legal requirements, and advertising—not treated as a superficial theme or personalization setting.
