@@ -2,7 +2,7 @@
 
 PostgreSQL is the source of truth for the durable account, administrative RBAC and audit data currently deployed. It may support additional product domains when their requirements justify the schema and operational cost. Executable behavior remains in Git; a database is not the default destination for every kind of product data.
 
-Potential future domains include synchronized preferences, favorites, collections, editorial metadata, analytics metadata and privacy/consent state. These are candidates, not commitments to deploy them all.
+The deployed account domains include favorites alongside identity/profile and administrative security data. Potential future domains include personal collections, synchronized preferences, editorial metadata, analytics metadata and privacy/consent state; these remain candidates, not commitments to deploy them all.
 
 Sensitive tool inputs and file contents are not stored by default. Anonymous local favorites may be merged into account favorites after login with deterministic conflict handling.
 
@@ -15,7 +15,7 @@ Tool lifecycle: draft → review → published → hidden → archived. Hard del
 
 The first account foundation is now deployed to Supabase: Supabase Auth remains the identity system, while `public.profiles` stores only user-owned profile metadata that is safe to synchronize. System-defined administrative roles and permissions use stable keys; their user-facing labels belong to the application i18n layer. Row Level Security restricts profile access to the owning user, and the `auth.users` insert trigger is the sole supported profile-creation path. Authenticated clients do not insert profiles directly.
 
-This is intentionally a small first step. Additional domains such as favorites, collections, preferences and catalog/editorial data may be considered incrementally when concrete requirements justify their database and operational costs; they are not committed migrations.
+This remains an intentionally small account foundation. Favorites have since been added as a separate, owner-scoped domain. Additional domains such as collections, synchronized preferences and catalog/editorial data may be considered incrementally when concrete requirements justify their database and operational costs.
 
 
 ## Database catalog boundary
@@ -30,7 +30,7 @@ The current production database contains no `tool_catalog`, `tool_translations`,
 
 ## Current production baseline
 
-The current Supabase production baseline is the clean application foundation migration `20261008195413_clean_application_foundation`. It contains only the retained account, administrative RBAC and audit foundation:
+The initial production foundation migration is `20261008195413_clean_application_foundation`; subsequent migrations extend that baseline. The current deployed public tables include the retained account, administrative RBAC and audit foundation, plus account favorites:
 
 - `public.profiles`
 - `public.admin_roles`
@@ -38,8 +38,9 @@ The current Supabase production baseline is the clean application foundation mig
 - `public.admin_role_permissions`
 - `public.admin_user_roles`
 - `public.admin_audit_log`
+- `public.user_favorites`
 
-All six public foundation tables have Row Level Security enabled. The legacy catalog schema and catalog permissions were removed during the pre-launch clean-cut. The repository baseline is designed for fresh local replay; production already uses the corresponding baseline migration identity.
+All seven listed public tables have Row Level Security enabled. `public.user_favorites` is defined by migration `20261013180750_user_favorites` and is applied in production with owner-only read/insert/delete policies and authenticated-only table grants. The legacy catalog schema and catalog permissions were removed during the pre-launch clean-cut. The repository baseline is designed for fresh local replay; production already uses the corresponding baseline migration identity.
 
 ## Administration foundation
 
@@ -69,4 +70,4 @@ The retained `.github/scripts/test-account-deletion-concurrency.sh` script and p
 
 ## Account favorites
 
-The account-favorites migration is versioned at `supabase/migrations/20261013034700_user_favorites.sql`. It creates `public.user_favorites` with owner-only Row Level Security, least-privilege authenticated access, a composite primary key and Auth-account deletion cascade. The pgTAP regression test is `supabase/tests/user_favorites.sql`; it is not run by the standard GitHub Actions CI. The migration is committed in Git but has **not** been applied to production; applying it requires separate explicit approval through the Supabase connector.
+The account-favorites migration is versioned at `supabase/migrations/20261013180750_user_favorites.sql` and is applied in production. It creates `public.user_favorites` with owner-only Row Level Security, least-privilege authenticated access, a composite primary key and Auth-account deletion cascade. The deployed migration version, table, three owner-only policies and authenticated table grants were verified directly during the 2026-10-13 audit. The pgTAP regression test is `supabase/tests/user_favorites.sql`; it is not run by the standard GitHub Actions CI and was not executed during that production-state check.
