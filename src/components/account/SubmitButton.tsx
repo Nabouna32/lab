@@ -19,18 +19,12 @@ export default function SubmitButton({
   return (
     <Button
       type="submit"
+      variant={danger ? "danger" : "primary"}
       disabled={pending}
       aria-disabled={pending}
       data-pending={pending ? "true" : "false"}
       data-danger={danger ? "true" : "false"}
-      className={[
-        danger
-          ? "border-[var(--error)] bg-[var(--error)] text-[var(--on-error)] hover:brightness-[.94]"
-          : "",
-        className,
-      ]
-        .filter(Boolean)
-        .join(" ")}
+      className={className}
     >
       {pending ? pendingLabel : children}
     </Button>
