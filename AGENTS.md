@@ -26,7 +26,7 @@ Ce fichier est l’unique guide obligatoire pour le travail de l’assistant dan
 - Le dépôt GitHub `Nabouna32/lab` est la source de vérité pour le code, les branches, les PR et la CI. Vérifie l’état actuel avant toute modification importante.
 - Consulte les documents canoniques pertinents avant d’implémenter : notamment `docs/VISION.md`, `docs/PRODUCT.md`, `docs/UX.md`, `docs/ARCHITECTURE.md`, `docs/PRIVACY.md`, `docs/I18N.md`, `docs/DECISIONS.md`, `docs/DESIGN-SYSTEM.md`, ainsi que les documents spécialisés concernés.
 - Ces documents expriment l’intention du produit, pas forcément l’état du code. Ne modifie jamais une spécification simplement pour la faire correspondre à l’implémentation. Si code et intention divergent, évalue les deux et propose une résolution.
-- Utilise une Issue existante ou crée-en une pour une mission qui exige plusieurs étapes, une décision durable ou une reprise ultérieure ; pas pour chaque petite tâche. Lis l’Issue et ses commentaires pertinents à la reprise. Mets à jour le checkpoint aux étapes importantes et avant une interruption, avec l’état réel, les décisions, les preuves, les blocages et la prochaine action. Une Issue ne remplace ni le code ni les preuves.
+- À chaque reprise ou nouveau tchat, reconstruis l’état à partir du dépôt actuel : branche, changements présents, PR, CI, code, tests et documentation pertinente. Ne dépends pas d’un résumé conversationnel ou d’un registre parallèle ; si le contexte manque, déduis uniquement ce que les éléments vérifiables permettent et signale l’incertitude.
 - Consulte la documentation officielle pour les API, versions et conventions qui peuvent changer. Si une vérification est impossible, dis-le clairement.
 
 ## 3. Mise en œuvre de qualité
