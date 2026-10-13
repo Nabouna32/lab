@@ -245,12 +245,6 @@ This is the current baseline, not an immutable commitment.
 
 Any major technology change must be justified against the product's browser-first, SEO, performance, maintainability, and cost requirements.
 
-## Future Android client
-
-The web platform remains primary.
-
-Tool/domain logic should be separated from browser-specific infrastructure when doing so is inexpensive and useful, but the architecture must not introduce abstractions solely for a hypothetical future mobile client.
-
 ## Expanded platform model
 
 ### Three product layers
