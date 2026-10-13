@@ -78,7 +78,7 @@ Light and dark themes must implement the same semantic contract with theme-appro
 
 Theme support must be tested using the actual resolved colors, including text, icons, borders, focus indicators, disabled states, overlays and status messages.
 
-### 3.3 Default palette and user choice
+### 3.3 Default palette
 
 The default appearance uses the blue seed **#4285F4** to generate semantic tonal roles and the official Material Color Utilities (MCU) Rainbow scheme. The seed is an input, not a mandate to use that literal value for every primary component. Generate or select complete light/dark role mappings deliberately and validate their actual contrast and state clarity.
 
