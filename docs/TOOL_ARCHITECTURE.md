@@ -6,7 +6,7 @@ Loculary supports three levels: small tools, advanced tools, and mini-applicatio
 
 ## Contract
 
-A tool should declare identity, slug, localized content, complexity, version, categories, centrally managed tags and aliases, SEO metadata, examples, processing/privacy classification, capabilities, browser requirements, offline capability, sharing/state behavior, related tools, accessibility/performance expectations, lifecycle state and contributor attribution.
+A tool should declare identity, slug, localized content, complexity, version, categories, centrally managed tags and aliases, SEO metadata, examples, processing/privacy classification, capabilities, browser requirements, offline capability, sharing/state behavior, related tools, accessibility/performance expectations, and lifecycle state.
 
 ## UX contract
 
