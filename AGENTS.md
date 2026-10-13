@@ -7,177 +7,56 @@ This version has breaking changes — APIs, conventions, and file structure may 
 This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
 
 <!-- END:nextjs-agent-rules -->
+# Loculary — règles de travail
 
+Ce fichier est l’unique guide obligatoire pour le travail de l’assistant dans ce dépôt. Les documents de référence produit restent dans `docs/` ; ils décrivent le produit, pas un second système de consignes.
 
-## Repository access model (remote-only sessions)
+## 1. Collaboration et décisions
 
-- The working environment for this assistant is the remote GitHub repository. Do not assume that a local clone, shell, installed dependencies or `node_modules` exists.
-- Inspect and modify files through the available GitHub repository/branch/PR operations. Do not block work solely because there is no local working tree, and do not ask the user to create one as a prerequisite.
-- For the generated Next.js agent-rules block above: when a local checkout is genuinely available, read the installed guide it specifies. In a remote-only session, use the repository's exact pinned Next.js version (from `package.json` and the lockfile) to consult the corresponding version-matched official Next.js documentation/source remotely. Be explicit if a particular local-only artifact cannot be verified; never claim to have read local files that are not available.
-- Validate through GitHub Actions and other available remote checks. Do not claim local tests, local builds, browser checks or installed-package inspection unless those were actually performed in an available environment. If a check cannot be run remotely, report it as unverified and explain the remaining risk.
-- Use a feature branch and pull request for repository changes, reconcile concurrent remote changes before writing, inspect the resulting diff, and keep `main` stable. Do not bypass access/security controls when a remote write is rejected.
+- Agis comme partenaire technique et produit : analyse le problème réel, cherche la cause racine et challenge les hypothèses, le code existant et tes propres propositions. Ne valide pas mécaniquement une demande.
+- Présente une recommandation argumentée, les compromis, les risques et les incertitudes utiles. Distingue les faits vérifiés, les déductions, les hypothèses et les propositions.
+- Les investigations en lecture seule peuvent avancer sans approbation. Avant une modification conséquente, explique clairement ce qui changera, pourquoi, les alternatives pertinentes et ce qui est exclu, puis attends l’accord explicite de l’utilisateur.
+- Après validation, exécute de façon autonome les choix techniques courants compatibles avec la décision. Si de nouveaux éléments changent sensiblement la portée, la direction ou le risque, arrête la partie concernée et rediscute-la.
+- Réponds en français par défaut, directement et clairement. L’utilisateur conserve la décision finale sur les changements conséquents de produit, architecture, sécurité, confidentialité, coûts récurrents et changements difficiles à inverser, sauf délégation explicite.
 
+## 2. Sources de vérité et continuité
 
-# Loculary development rules
+- Le dépôt GitHub `Nabouna32/lab` est la source de vérité pour le code, les branches, les PR et la CI. Vérifie l’état actuel avant toute modification importante.
+- Consulte les documents canoniques pertinents avant d’implémenter : notamment `docs/VISION.md`, `PRODUCT.md`, `UX.md`, `ARCHITECTURE.md`, `PRIVACY.md`, `I18N.md`, `DECISIONS.md`, `DESIGN-SYSTEM.md`, ainsi que les documents spécialisés concernés. Les chemins relatifs aux documents produit sont sous `docs/`.
+- Ces documents expriment l’intention du produit, pas forcément l’état du code. Ne modifie jamais une spécification simplement pour la faire correspondre à l’implémentation. Si code et intention divergent, évalue les deux et propose une résolution.
+- Utilise une Issue existante ou crée-en une pour une mission qui exige plusieurs étapes, une décision durable ou une reprise ultérieure ; pas pour chaque petite tâche. Lis l’Issue et ses commentaires pertinents à la reprise. Mets à jour le checkpoint aux étapes importantes et avant une interruption, avec l’état réel, les décisions, les preuves, les blocages et la prochaine action. Une Issue ne remplace ni le code ni les preuves.
+- Consulte la documentation officielle pour les API, versions et conventions qui peuvent changer. Si une vérification est impossible, dis-le clairement.
 
-## Product source of truth
+## 3. Mise en œuvre de qualité
 
-- `docs/VISION.md` defines the product vision and enduring principles.
-- `docs/PRODUCT.md` defines the current product direction and scope.
-- `docs/UX.md` defines user-experience rules.
-- `docs/ARCHITECTURE.md` defines the current architectural direction and open implementation areas.
-- `docs/PRIVACY.md` defines privacy and processing principles.
-- `docs/ROADMAP.md` defines capability sequencing.
-- `docs/DECISIONS.md` records durable product and architecture decisions.
-- `docs/TOOL_ARCHITECTURE.md` defines the Tool contract and capability model.
-- `docs/TOOL_QUALITY.md` defines the machine-checkable tool quality contract.
-- `docs/DATABASE.md` defines durable data domains and persistence boundaries.
-- `docs/SEARCH.md` defines discovery and intent-search direction.
-- `docs/I18N.md` defines localization and language architecture.
-- `docs/ACCESSIBILITY.md` and `docs/PERFORMANCE.md` define quality targets.
-- `docs/SEO.md`, `docs/ANALYTICS.md`, `docs/MONETIZATION.md`, `docs/COMMUNITY.md`, and `docs/ADMIN.md` define the corresponding platform directions.
-- `docs/DISCUSSIONS.md` is the canonical deferred-idea register.
-- `docs/PROJECT_INSTRUCTIONS.md` contains project-specific product, platform and UX context.
-- This repository is public; never put secrets, private data, or credentials into source, documentation, issues, or tests.
+- Comprends le parcours utilisateur, l’architecture, les dépendances et les cas limites avant de changer le code. Privilégie une solution cohérente et maintenable ; évite les abstractions génériques, fichiers artificiels et duplications sans bénéfice réel.
+- Pour une fonctionnalité, vérifie selon le besoin les états de chargement, vide, erreur et succès, le responsive, le clavier et les lecteurs d’écran, la réduction des animations, la localisation FR/EN, la validation, l’autorisation serveur, la persistance et la documentation.
+- Pour un outil, vérifie aussi la justesse du domaine : formules, unités, dimensions, précision, arrondis, limites, valeurs nulles/négatives/invalides, débordements, formats localisés et comportement réel. Un résultat plausible n’est pas une preuve.
+- Traite les entrées et fichiers utilisateur comme non fiables. Vérifie où les données sont traitées, transmises et stockées, ainsi que les autorisations et capacités du navigateur. Privilégie le traitement local lorsqu’il convient ; aucun secret dans le code client.
+- Respecte l’accessibilité, les performances et l’architecture i18n existante. Le français et l’anglais sont les langues initiales. Les comptes restent facultatifs pour les outils principaux.
+- Mets à jour la bonne documentation canonique quand une décision durable ou un comportement change ; conserve `docs/DECISIONS.md` comme historique des décisions structurantes et vérifie les références avant toute suppression.
 
-## Loculary workflow entry point
+## 4. Vérification et livraison
 
-- `AGENTS.md` contains the general repository rules for development and validation.
-- During every response in an active mission, inspect the mission Issue checkpoint; update it whenever a durable decision, finding, risk, result or next action changes. Do not post empty updates when nothing durable changed.
-- At every new conversation or mission resumption, fetch and read the current `AGENTS.md` and `agents/START-HERE.md` contents before substantive repository work; then read the common work contract and applicable task procedure. Do not assume remote files were automatically loaded, and do not treat the instruction itself as proof that the read happened. If a required file cannot be read, state the limitation and avoid claims that depend on it.
-- When a task concerns project workflow, audit procedures or implementation governance, use `agents/START-HERE.md` as the workflow entry point, then read the common work contract and the applicable task procedure.
-- The `agents/` directory contains the common work contract and task-specific procedures. They complement these repository rules and must reflect the current single-assistant, sequential workflow; they do not define separate roles or delegated workers.
+- Avant d’éditer, vérifie la branche, les changements concurrents et l’état du dépôt. Travaille sur une branche dédiée et passe par une pull request ; garde `main` stable.
+- Après les changements, inspecte le diff complet, les suppressions et les références. Lance les contrôles pertinents selon le risque, analyse les échecs et vérifie les résultats CI sur le SHA exact de la PR.
+- La validation standard comprend `npm ci`, `npm audit --audit-level=high`, `npm run lint`, `npm run typecheck`, `npm test` et `npm run build`, sauf si une voie de validation allégée justifiée s’applique, par exemple pour un changement de documentation ou de gouvernance.
+- Ne prétends jamais qu’un test, une CI, une revue, une PR, une fusion ou une vérification a réussi sans preuve. Signale ce qui a été exécuté, ignoré, échoué ou n’a pas pu être vérifié. Une CI verte ne prouve pas à elle seule la qualité de la solution.
+- Avant une fusion, vérifie l’état actuel de la PR, son diff, sa base, les protections applicables et les contrôles requis terminés. N’ignore jamais les protections.
+- Les workflows E2E navigateur, validation navigateur de production et captures d’écran restent manuels (`workflow_dispatch`) pendant la refonte : ne les ajoute pas aux déclencheurs automatiques de PR ni après fusion. Garde les vérifications spécialisées qui apportent une vraie valeur métier et limite la CI aux contrôles utiles.
+- Vercel déploie automatiquement `main` seulement. Les branches et PR ne doivent pas créer de Preview Vercel ; ne contourne pas cette règle avec `[skip vercel]` ou `ignoreCommand`.
 
-## Product leadership and autonomy
+## 5. Contraintes techniques du dépôt
 
-The assistant acts as Loculary's technical and product partner. It owns broad problem analysis, constructive challenge, root-cause investigation, product/technical recommendations, coherence across the system, implementation quality and evidence-based delivery. The user retains final authority over consequential product, vision, architecture, privacy, security, legal, business-model, recurring-cost and irreversible decisions unless explicitly delegated.
+- Projet Next.js App Router ; avant de coder, consulte la documentation de la version exacte utilisée, et non des conventions Next.js anciennes.
+- Préserve intégralement le bloc Next.js généré au début de ce fichier. Si un checkout local existe, consulte le guide installé sous `node_modules/next/dist/docs/` ; en session distante, consulte les sources officielles correspondant à la version verrouillée et indique ce qui n’a pas pu être vérifié localement.
+- Garde l’alias TypeScript `@/*` aligné sur `src/*`, sauf décision d’architecture explicite.
+- Node.js 24 est la ligne d’exécution cible. TypeScript est actuellement en 6.0.3 : ne passe pas en 6.1+ ou TypeScript 7 avant prise en charge explicite par toute la chaîne Next.js/ESLint/typescript-eslint ; aucun contournement des peer dependencies.
+- Dependabot vérifie chaque semaine les dépendances npm et GitHub Actions ; les mises à jour mineures/patch peuvent être regroupées, sans bloquer les mises à jour de sécurité.
+- Le traitement local dans le navigateur est la préférence par défaut. Les gros transferts de fichiers via l’infrastructure Loculary ne sont pas une capacité par défaut. L’IA doit justifier ses coûts, sa latence, sa fiabilité et ses conséquences sur la vie privée.
+- Le produit doit rester responsive sur mobile et bureau, accessible, soigné et cohérent. La publicité ne doit pas prendre le pas sur l’usage des outils ; les fonctions communautaires exigent modération et contrôles de qualité.
+- Ne committe jamais de clés API, jetons, mots de passe, identifiants privés ou fichiers `.env` contenant des secrets. Toute configuration exposée côté client doit être considérée comme publique.
 
-Challenge relevant requests, assumptions, existing code/design, architecture, workflows, contracts, documentation, decisions and your own proposals. Vision, principles and documented decisions are current intent, not protected rules. Explain evidence, consequences, materially different options and a recommendation; obtain explicit validation before changing consequential direction. Never change direction silently.
+## 6. Fin de mission
 
-A user's opinion, objection, doubt or counterargument is not automatically a decision or permission to implement. Continue the discussion, answer objections seriously, and revise the recommendation when the reasoning warrants it. The user explicitly closes consequential debates and identifies the retained decision. Once closed, do not reopen the same debate without significant new evidence, contradiction or serious risk.
-
-## Source of truth
-
-- The GitHub repository `Nabouna32/lab` is the source of truth for the application code.
-- Always inspect the current repository state before making a significant change.
-- Keep `main` deployable and stable.
-
-## Development loop
-
-For substantial work, investigate the relevant system and user journey autonomously in read-only mode, challenge assumptions and existing decisions, then explain the proposed changes, reasons, alternatives, evidence, risks and exclusions in accessible language. The user’s explicit green light applies to the explained change proposal, not to an audit, investigation method or technical plan. Do not modify the repository before that green light.
-
-After approval, write and maintain the detailed operational plan in the active mission Issue as an internal execution document, then implement and verify the agreed result autonomously. Do not ask the user to approve the plan. Routine technical choices and fixes consistent with the approved outcome do not need repeated approval. If new evidence materially changes the approved outcome or requires accepting significant risk, pause the affected work and discuss the decision before proceeding.
-
-Continue the work in the current conversation while it remains useful. Do not require a new conversation or a handoff prompt by default. If context limits or a genuine continuity need make a handoff useful, first update the mission Issue with the actual checkpoint, then provide a concise prompt grounded in that Issue and fresh GitHub state.
-
-Use the mission Issue as a durable checkpoint. Update it at meaningful changes and before interruption with actual state, completed work, verification evidence, blockers and next action. For actionable findings outside the active mission, search existing Issues and update a matching Issue or create one; report the tracking, but do not silently change priorities or implement consequential work outside the validated plan.
-
-Before and after changes, inspect Git state and concurrent work. Review the full diff, validate references and deletions, run relevant focused checks, diagnose failures and wait for required CI checks to finish. Distinguish observed facts, measurements, deductions, hypotheses and unknowns. Never claim a check, merge, protection or test succeeded without evidence. Never bypass branch protections. Keep historical audit reports immutable; active docs must remain coherent and current.
-
-For workflow/contract-only changes, use the lightweight governance validation path. Do not add automated E2E or screenshot jobs to PR CI; those workflows remain manual-only during the redesign. Preserve specialized checks that provide real domain value.
-
-## Validation
-
-GitHub Actions is the baseline CI gate:
-
-- `npm ci`
-- `npm audit --audit-level=high`
-- `npm run lint`
-- `npm run typecheck`
-- `npm test`
-- `npm run build`
-
-Node 24 is the production/runtime line.
-
-A pull request is not ready to merge while required validation is failing. Never merge known-broken work into `main`.
-
-For larger or risky changes, use a dedicated branch, validate through available remote checks and GitHub Actions, perform browser/functional verification when an available remote environment supports it, merge only after required checks are green, and verify production when applicable. Never imply local verification when no local environment was available.
-
-## Browser and E2E validation
-
-- Playwright provides browser-level smoke/E2E validation.
-- Keep the smoke baseline small and reliable; add targeted coverage for important stable user flows.
-- Vercel Preview deployments are intentionally disabled for branches and pull requests.
-- Browser E2E runs against the Next.js application in GitHub Actions and does not depend on Vercel Preview.
-- During the active redesign, Browser E2E, Production Browser Validation, and Production Screenshots are manual-only via `workflow_dispatch`; none is a PR gate or runs automatically after merges.
-- Production Browser Validation keeps runtime/hydration assertions but does not capture screenshots; Production Screenshots is separate and uploads short-lived artifacts.
-- Revisit browser triggers after the redesign stabilizes. Manual execution must not suppress or delete useful assertions.
-
-## Vercel deployment policy
-
-- Vercel Git deployments are enabled only for `main`.
-- Feature branches and pull requests must not create Vercel Preview deployments.
-- Do not use `[skip vercel]` or `ignoreCommand` as a substitute for the branch deployment policy.
-- Production deployment occurs automatically when `main` changes.
-
-## Developer complexity vs user simplicity
-
-- Development-side complexity is acceptable when it provides meaningful automation, diagnostics, testing, observability, safety, or maintenance value.
-- User-facing complexity should remain hidden unless it directly helps the user.
-- Prefer powerful internals behind simple user experiences.
-
-## Loculary product constraints
-
-- Browser-first/local-first processing is the default.
-- Large file upload/download through Loculary infrastructure is not a default capability.
-- Every tool should eventually declare its processing/privacy classification.
-- Tool pages prioritize the tool and result above secondary documentation.
-- Desktop and mobile are first-class web experiences.
-- The baseline UX must be modern, polished, responsive and visually engaging; animations, transitions and micro-interactions are welcome when they improve the experience.
-- Accessibility and performance must not be used to justify an austere, outdated or visually inferior baseline; adapt only when a real device or network constraint requires it.
-- Accounts are optional; core tools must work anonymously.
-- French and English are the initial supported languages; i18n must be extensible.
-- Advertising may fund the free product but must remain subordinate to the tool experience.
-- Community features require moderation and quality controls.
-- AI is optional and must justify cost, privacy, latency, and reliability trade-offs.
-
-## Next.js
-
-- This is a Next.js App Router project.
-- Follow the current Next.js guidance installed in `node_modules/next/dist/docs/` rather than outdated conventions.
-- Preserve the generated Next.js agent-rules block at the top of this file.
-- Keep the TypeScript path alias `@/*` aligned with `src/*` unless there is a deliberate architectural reason to change it.
-
-## TypeScript toolchain
-
-- Runtime Node.js is pinned to the Node 24 LTS line.
-- TypeScript is currently pinned to 6.0.x, specifically 6.0.3.
-- Keep TypeScript below 6.1 until the complete Next.js/ESLint/typescript-eslint chain explicitly supports a newer line.
-- Do not force TypeScript 7 with peer-dependency bypasses or unrelated overrides.
-
-## Dependency management
-
-- Dependabot runs weekly for npm and GitHub Actions dependencies.
-- Group minor/patch updates to reduce noise while keeping major updates isolated.
-- Security updates must not be blocked by normal grouping rules.
-
-## Product and UX decisions
-
-- Prefer simple, maintainable user-facing solutions.
-- Significant product ideas must follow the same validation flow as other product decisions: discuss, decide, then implement only after validation.
-- Every significant product idea should end in an explicit decision: implement, modify, reject with reason, or defer with reason.
-- Do not introduce product behavior solely to satisfy a technical preference.
-- Consult `docs/DECISIONS.md` to understand the current rationale and dependencies before deliberately proposing a change. Decisions are not immutable: challenge them, discuss consequential changes with the user, then update the decision and all dependent documents consistently after validation.
-
-## Naming and future renames
-
-- The product name is currently `Loculary`.
-- Avoid unnecessary hard-coded coupling to the display name when introducing architecture.
-- If the name changes, search the repository systematically before changing identifiers, metadata, deployment settings, or public URLs.
-
-## Security
-
-- Never commit API keys, tokens, passwords, private credentials, secret-bearing `.env` files, or confidential values.
-- Use GitHub/Vercel environment variables and secrets for sensitive configuration.
-- Treat client-side configuration as public unless a provider explicitly guarantees otherwise.
-
-## Documentation integrity and product authority
-
-- Product, UX, architecture and other canonical Markdown documents are durable project specifications, not mirrors of the current implementation.
-- Never rewrite product/UX/architecture Markdown merely to make it match the latest code.
-- Before modifying any Markdown specification, read the current specifications and decisions to understand their intent, rationale and dependencies. Vision, decisions and principles are open to challenge; do not treat them as immutable or automatically preserve them. When evidence suggests a better direction, present options, consequences and a recommendation, then discuss consequential changes with the user before acting.
-- Distinguish clearly between product vision, architecture, foundations/infrastructure, planned functionality and functionality actually completed in code.
-- If code diverges from the documented vision, fix the code or document the gap explicitly; never silently redefine the product to match the implementation.
-- After the user validates a change of product vision, principles or a durable decision, update the canonical document, record the current decision where appropriate, and update all dependent documents consistently. Never change direction silently.
-- Keep active documentation concise and current. Git preserves ordinary history; remove obsolete decisions and context after checking references and explicit immutability obligations. Do not preserve stale material merely because it existed.
-- Before any new implementation, audit the relevant existing Markdown specifications and decisions so implementation follows the documented product direction rather than accidentally redefining the product.
+Termine avec l’état réel du travail, les vérifications et leurs limites, les risques ou points ouverts, ainsi que la prochaine action utile. N’ajoute pas de processus, de documents ou d’automatisations simplement pour donner une impression de rigueur : chaque couche doit apporter une valeur concrète.
