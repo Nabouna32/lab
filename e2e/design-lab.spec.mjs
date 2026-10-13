@@ -139,20 +139,38 @@ test("production pages apply generated blue M3 roles and distinct Rainbow catego
   const readTheme = () => page.locator("html").evaluate(element => {
     const style = getComputedStyle(element);
     const categories = ["calculations", "dates", "computing", "images", "files", "video", "development"];
+    const prefix = element.classList.contains("dark") ? "--m3-dark" : "--m3-light";
     return {
       primary: style.getPropertyValue("--primary").trim(),
       generatedPrimary: style.getPropertyValue("--m3-light-primary").trim(),
-      categories: categories.map(category => style.getPropertyValue(`--category-${category}`).trim()),
+      categoryPairs: categories.map(category => ({
+        color: style.getPropertyValue(`--category-${category}`).trim(),
+        foreground: style.getPropertyValue(`${prefix}-category-${category}-foreground`).trim(),
+      })),
     };
   });
+  const assertCategoryContrast = (pairs) => {
+    const luminance = (hex) => {
+      const channels = hex.replace("#", "").match(/.{2}/g).map(value => parseInt(value, 16) / 255);
+      const linear = channels.map(value => value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4);
+      return 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2];
+    };
+    return pairs.every(({ color, foreground }) => {
+      const bg = luminance(color);
+      const fg = luminance(foreground);
+      return (Math.max(fg, bg) + 0.05) / (Math.min(fg, bg) + 0.05) >= 4.5;
+    });
+  };
 
   const light = await readTheme();
   expect(light.generatedPrimary).toMatch(/^#[0-9a-f]{6}$/i);
   expect(light.primary).not.toBe("#6750a4");
-  expect(new Set(light.categories).size).toBe(7);
+  expect(new Set(light.categoryPairs.map(pair => pair.color)).size).toBe(7);
+  expect(assertCategoryContrast(light.categoryPairs)).toBe(true);
 
   await page.locator("html").evaluate(element => element.classList.add("dark"));
   const dark = await readTheme();
   expect(dark.primary).not.toBe(light.primary);
-  expect(new Set(dark.categories).size).toBe(7);
+  expect(new Set(dark.categoryPairs.map(pair => pair.color)).size).toBe(7);
+  expect(assertCategoryContrast(dark.categoryPairs)).toBe(true);
 });
