@@ -7,10 +7,10 @@ The bootstrap below is a required action, not an assumption about context: fetch
 ## Bootstrap
 
 1. Read `AGENTS.md`, `agents/AGENT-CONTRACT.md` and `agents/PRODUCT-ISSUE-CONTRACT.md`; the common contract is canonical for shared collaboration, continuity and delivery rules.
-2. Read the relevant specialist contract/procedure:
+2. Read the relevant specialist guide:
    - Product/documentation: `agents/product/PRODUCT-WORKFLOW.md`
-   - Feature: `agents/features/FEATURE-FACTORY-CONTRACT.md` and `agents/features/FEATURE-WORKFLOW.md`
-   - Tool: `agents/tools/TOOL-FACTORY-CONTRACT.md` and `agents/tools/TOOL-WORKFLOW.md`
+   - Feature: `agents/features/FEATURE-WORKFLOW.md`
+   - Tool: `agents/tools/TOOL-WORKFLOW.md`
 3. Read the canonical product, UX, architecture, privacy and decision documents relevant to the task.
 4. Reconstruct current GitHub state: `main` HEAD, branches, open PRs, relevant Issues, CI and merge conditions. Never rely on conversation history as evidence.
 5. Read the complete active mission Issue and relevant comments. Reconcile its plan, decisions, dependencies and next action against current reality.
