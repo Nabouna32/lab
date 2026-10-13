@@ -24,6 +24,7 @@ test("parses only account-bound migration payloads and filters unknown IDs", () 
     { targetUserId: "user-a", toolIds: ["age"] },
   );
   assert.equal(parseFavoriteMigrationPayload(JSON.stringify({ toolIds: ["age"] }), catalog), null);
+  assert.equal(parseFavoriteMigrationPayload(JSON.stringify({ targetUserId: "user-a", toolIds: [] }), catalog), null);
   assert.equal(parseFavoriteMigrationPayload("{broken", catalog), null);
 });
 
@@ -66,5 +67,9 @@ test("extends a failed migration with current anonymous favorites only for its b
   assert.deepEqual(
     reconcileMigrationWithAnonymous(null, "user-a", ["uuid-generator"], catalog),
     { targetUserId: "user-a", toolIds: ["uuid-generator"] },
+  );
+  assert.deepEqual(
+    reconcileMigrationWithAnonymous({ targetUserId: "user-a", toolIds: [] }, "user-b", ["uuid-generator"], catalog),
+    { targetUserId: "user-b", toolIds: ["uuid-generator"] },
   );
 });
