@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { getPublishedTools } from "./catalog.ts";
+import { getMessages } from "../i18n/messages.ts";
 import {
   getIntentDefinition,
   getToolsForIntent,
@@ -51,4 +52,12 @@ test("intent lookup is stable and unknown IDs are rejected", () => {
   assert.equal(isIntentId("not-an-intent"), false);
   assert.equal(isIntentId(undefined), false);
   assert.equal(getIntentDefinition("convert").id, "convert");
+});
+
+test("French and English expose the same stable localized intent IDs", () => {
+  for (const locale of ["fr", "en"]) {
+    const intents = getMessages(locale).tools.intents;
+    assert.deepEqual(intents.map((intent) => intent.id), [...intentIds]);
+    assert.ok(intents.every((intent) => intent.label.trim().length > 0));
+  }
 });
