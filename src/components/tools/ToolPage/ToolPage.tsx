@@ -44,6 +44,7 @@ export default function ToolPage({
             description={localizedContent.description}
             contentFallback={isContentFallback}
             locale={locale}
+            toolId={tool.id}
           />
         </div>
       </header>

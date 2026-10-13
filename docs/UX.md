@@ -87,6 +87,8 @@ Tool-specific identity is encouraged when it improves comprehension, feedback or
 
 The shared visual system follows **Material 3 Expressive**, as defined by DEC-048 and `docs/DESIGN-SYSTEM.md`. Apply its foundations to semantic color, typography, shape, surfaces, elevation, iconography, shared component states and motion, adapted to Loculary's task-first utility toolbox rather than copying a Google product screen or adopting a generic SaaS template.
 
+Loculary intentionally aims to **look and feel like a polished modern Android/Pixel application**, adapted to the Web. Expressive color should be confident and vivid where it communicates action or identity—not uniformly desaturated or pastel. Pair strong accents with quiet tonal surfaces, preserve contrast and semantic hierarchy, and use fluid, meaningful interaction feedback across shared components. Honor reduced-motion preferences and responsive web behavior.
+
 The redesign must challenge existing UI patterns when they prevent a coherent Expressive experience. The objective is not to retokenize the current interface while preserving every existing component; refactor or replace abstractions when justified by the validated design target.
 
 The default semantic color seed is #4285F4, with Roboto as the validated default interface typeface. The official MCU Rainbow scheme is the sole rainbow palette; use its tonal range for expressive surfaces and vivid compact accents, with validated light/dark contrast. The brand mark remains distinct from functional interface icons, and shared consistency must not erase meaningful differences between specialized tools.
