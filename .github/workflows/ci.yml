@@ -99,7 +99,7 @@ jobs:
 
           # Exercise the CI change classifier before deciding whether to skip the full suite.
           if [[ "$governance_changed" == "true" ]]; then
-            node --test .github/scripts/classify-ci-changes.test.mjs
+            node --test .github/scripts/*.test.mjs
           fi
 
       - name: Verify PR base is current
