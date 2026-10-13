@@ -20,6 +20,17 @@ function contrastRatio(foreground: string, background: string): number {
   return (Math.max(fg, bg) + 0.05) / (Math.min(fg, bg) + 0.05);
 }
 
+test("semantic theme tokens are generated from the accepted blue M3 Expressive seed", () => {
+  const lightPrimary = generatedTokens["--m3-light-primary"];
+  const darkPrimary = generatedTokens["--m3-dark-primary"];
+  assert.match(lightPrimary, /^#[0-9a-f]{6}$/i);
+  assert.match(darkPrimary, /^#[0-9a-f]{6}$/i);
+  assert.notEqual(lightPrimary, "#6750a4", "the old Material Purple seed must not remain the generated primary");
+  assert.notEqual(lightPrimary, darkPrimary, "light and dark schemes must use deliberate theme-specific roles");
+  assert.ok(generatedTokens["--m3-light-primary-container"]);
+  assert.ok(generatedTokens["--m3-dark-primary-container"]);
+});
+
 test("every category uses distinct official MCU Rainbow colors in light and dark themes", () => {
   const lightColors = new Set<string>();
   const darkColors = new Set<string>();
