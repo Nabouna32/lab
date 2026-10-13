@@ -132,3 +132,27 @@ test("source seed validation, contrast, light/dark, and category colors are inde
   await expect(page.getByRole("heading", { name: "Category identity colors" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Semantic color roles" })).toBeVisible();
 });
+
+test("production pages apply generated blue M3 roles and distinct Rainbow categories", async ({ page }) => {
+  await page.goto(`${baseUrl}/fr`, { waitUntil: "networkidle" });
+
+  const readTheme = () => page.locator("html").evaluate(element => {
+    const style = getComputedStyle(element);
+    const categories = ["calculations", "dates", "computing", "images", "files", "video", "development"];
+    return {
+      primary: style.getPropertyValue("--primary").trim(),
+      generatedPrimary: style.getPropertyValue("--m3-light-primary").trim(),
+      categories: categories.map(category => style.getPropertyValue(`--category-${category}`).trim()),
+    };
+  });
+
+  const light = await readTheme();
+  expect(light.generatedPrimary).toMatch(/^#[0-9a-f]{6}$/i);
+  expect(light.primary).not.toBe("#6750a4");
+  expect(new Set(light.categories).size).toBe(7);
+
+  await page.locator("html").evaluate(element => element.classList.add("dark"));
+  const dark = await readTheme();
+  expect(dark.primary).not.toBe(light.primary);
+  expect(new Set(dark.categories).size).toBe(7);
+});
