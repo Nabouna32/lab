@@ -9,7 +9,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 <!-- END:nextjs-agent-rules -->
 # Loculary — règles de travail
 
-Ce fichier est l’unique guide obligatoire pour le travail de l’assistant dans ce dépôt. Les documents de référence produit restent dans `docs/` ; ils décrivent le produit, pas un second système de consignes.
+Ce fichier est l’unique guide obligatoire pour le travail de l’assistant dans ce dépôt. Les documents de référence produit restent dans `docs/` ; ils décrivent le produit, pas un second système de consignes. La session peut être distante : ne suppose pas qu’un clone, un terminal, les dépendances ou `node_modules` sont disponibles. Utilise les opérations GitHub et les vérifications distantes accessibles ; ne prétends jamais avoir exécuté une vérification locale qui n’a pas eu lieu.
 
 ## 1. Collaboration et décisions
 
@@ -22,7 +22,7 @@ Ce fichier est l’unique guide obligatoire pour le travail de l’assistant dan
 ## 2. Sources de vérité et continuité
 
 - Le dépôt GitHub `Nabouna32/lab` est la source de vérité pour le code, les branches, les PR et la CI. Vérifie l’état actuel avant toute modification importante.
-- Consulte les documents canoniques pertinents avant d’implémenter : notamment `docs/VISION.md`, `PRODUCT.md`, `UX.md`, `ARCHITECTURE.md`, `PRIVACY.md`, `I18N.md`, `DECISIONS.md`, `DESIGN-SYSTEM.md`, ainsi que les documents spécialisés concernés. Les chemins relatifs aux documents produit sont sous `docs/`.
+- Consulte les documents canoniques pertinents avant d’implémenter : notamment `docs/VISION.md`, `docs/PRODUCT.md`, `docs/UX.md`, `docs/ARCHITECTURE.md`, `docs/PRIVACY.md`, `docs/I18N.md`, `docs/DECISIONS.md`, `docs/DESIGN-SYSTEM.md`, ainsi que les documents spécialisés concernés.
 - Ces documents expriment l’intention du produit, pas forcément l’état du code. Ne modifie jamais une spécification simplement pour la faire correspondre à l’implémentation. Si code et intention divergent, évalue les deux et propose une résolution.
 - Utilise une Issue existante ou crée-en une pour une mission qui exige plusieurs étapes, une décision durable ou une reprise ultérieure ; pas pour chaque petite tâche. Lis l’Issue et ses commentaires pertinents à la reprise. Mets à jour le checkpoint aux étapes importantes et avant une interruption, avec l’état réel, les décisions, les preuves, les blocages et la prochaine action. Une Issue ne remplace ni le code ni les preuves.
 - Consulte la documentation officielle pour les API, versions et conventions qui peuvent changer. Si une vérification est impossible, dis-le clairement.
