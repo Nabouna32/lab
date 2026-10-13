@@ -11,7 +11,7 @@ Goal: establish the platform that can grow without creating unnecessary technica
 - [x] Public repository
 - [x] Main-only Vercel deployment
 - [x] GitHub Actions CI
-- [deferred] Browser smoke/E2E baseline intentionally removed during active redesign; reconsider after the interface stabilizes and a concrete regression risk justifies it
+- [deferred] Browser E2E and screenshot automation remain excluded; reconsider only for a concrete regression risk that justifies the maintenance cost
 - [x] Product direction documented
 - [x] Formal tool metadata contract
 - [x] Shared tool page shell
@@ -48,7 +48,6 @@ Goal: make a large catalog easy to navigate.
 - [x] Search aliases
 - [x] Deterministic catalog search with localized names, descriptions, aliases, tags, categories and typo tolerance
 - [ ] Popular-tool ranking
-- [ ] Recent-tool history/surface
 - [ ] New-tool discovery surface
 - [x] Curated contextual next actions
 - [x] Curated intent-to-tool associations are separate from categories; free-form query intent recognition remains deterministic and limited
@@ -81,7 +80,7 @@ Goal: improve discovery and tool assistance where justified.
 
 AI is not a goal by itself.
 
-Current boundary: the deployed Supabase database contains the account/profile and administrative RBAC/audit foundation plus the account-owned `public.user_favorites` table. The executable tool catalog and curated intent associations remain Git-backed; personal collections and account-synchronized theme preferences are not implemented. An editable database catalog remains deferred under DEC-051 until its criteria are met.
+Current boundary: the deployed Supabase database contains the account/profile and administrative RBAC/audit foundation plus the account-owned `public.user_favorites` table. The executable tool catalog and curated intent associations remain Git-backed; personal collections and account-synchronized theme preferences are not implemented. Account controls stay within the existing simple settings experience; no dedicated privacy dashboard or community features are planned.
 
 ## Phase 5 — Sustainability and scale
 
