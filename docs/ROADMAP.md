@@ -107,7 +107,7 @@ Goal: support real traffic while protecting the user experience.
 - [ ] Dedicated runtime performance monitoring
 - [deferred] Revisit only when evidence justifies a database-backed catalog or higher scale
 - [partial] Framework/static generation is used; a deliberate catalog/data caching strategy is not implemented
-- [partial] CI, unit tests, metadata validation and browser smoke/E2E foundations exist; product-level resilience remains incomplete
+- [partial] CI, unit tests and metadata validation exist; product-level resilience remains incomplete. Browser E2E and screenshot automation are intentionally absent (DEC-049).
 - [partial] Authentication throttling and administrative RBAC/RLS exist; community anti-abuse controls do not
 - [ ] Cost observability
 - [deferred] Strategic principle for a future revenue model, not an implemented capability
