@@ -8,7 +8,6 @@ export type PersonalCollection = {
   name: string;
   share_token: string | null;
   created_at: string;
-  updated_at: string;
   user_collection_items: Array<{ tool_id: string }>;
 };
 
@@ -54,7 +53,7 @@ export function CollectionsProvider({ children, toolIds }: { children: ReactNode
     setLoading(true);
     const { data, error: loadError } = await supabase
       .from("user_collections")
-      .select("id,name,share_token,created_at,updated_at,user_collection_items(tool_id)")
+      .select("id,name,share_token,created_at,user_collection_items(tool_id)")
       .eq("user_id", user.id)
       .order("created_at", { ascending: false });
     if (loadError) {
