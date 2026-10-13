@@ -38,10 +38,11 @@ export function FavoritesProvider({ children, toolIds }: { children: ReactNode; 
   }, [validIds]);
 
   const persistMigration = useCallback((payload: FavoriteMigrationPayload | null) => {
-    migrationRef.current = payload;
-    setMigration(payload);
+    const normalized = payload?.toolIds.length ? payload : null;
+    migrationRef.current = normalized;
+    setMigration(normalized);
     try {
-      if (payload?.toolIds.length) localStorage.setItem(FAVORITE_MIGRATION_KEY, JSON.stringify(payload));
+      if (normalized) localStorage.setItem(FAVORITE_MIGRATION_KEY, JSON.stringify(normalized));
       else localStorage.removeItem(FAVORITE_MIGRATION_KEY);
     } catch {
       // Keep the in-memory payload available for retry during this session.
