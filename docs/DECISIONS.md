@@ -862,3 +862,28 @@ Loculary is actively being redesigned. UI selectors, page structure, labels, and
 - Unit-level and repository-level automated checks remain the primary regression safeguards.
 - Screenshots and browser artifacts are not required inputs to routine assistant work.
 - Any future browser automation must be small, justified by a concrete failure mode, and kept aligned with the current product rather than treated as a permanent checklist.
+
+
+## DEC-050 — Latest compatible tooling and lightweight collaboration
+
+**Status:** Accepted
+
+### Decision
+
+Use the latest stable versions that are compatible with Loculary’s actual framework and toolchain. Keep runtimes, dependencies, developer tools, and GitHub Actions current; verify compatibility and CI rather than retaining old versions by inertia or for theoretical reproducibility.
+
+Continue using Dependabot for routine dependency and GitHub Actions updates. Pin third-party GitHub Actions to full commit SHAs where appropriate and retain readable version comments; refresh those pins through updates. SHA pinning is a supply-chain security control, not a reason to freeze an action on an old release.
+
+The intended working model is a collaboration between the user and the assistant. Do not add process, abstraction, duplicate validation, or infrastructure designed for a hypothetical larger team. Each mechanism must solve a concrete project need.
+
+### Reason
+
+Loculary benefits from current tooling, security updates, and a small, understandable engineering workflow. Unnecessary compatibility scaffolding and process increase maintenance cost without improving the product. At the same time, immutable action references provide a meaningful security boundary and should not be confused with keeping dependencies outdated.
+
+### Consequences
+
+- Prefer current stable compatible releases, with explicit compatibility constraints documented only where real and verified.
+- Keep the existing Dependabot update workflow and review meaningful updates promptly.
+- Preserve full-SHA pinning for GitHub Actions where appropriate; do not replace it with floating tags merely to appear more up to date.
+- Avoid adding reproducibility systems, duplicate checks, or team-oriented ceremony unless a concrete need justifies the cost.
+- Browser E2E and screenshot automation remain governed separately by DEC-049 and are not reintroduced by default.
