@@ -11,8 +11,6 @@ Automated browser E2E and screenshots remain manual-only during the active redes
 
 ---
 
-## Tool-specific engineering requirements
-
 ## Tool correctness and value
 
 A tool is a product capability with domain-specific correctness obligations. Challenge whether it solves a real user need, whether the catalog already covers it, and whether extending or consolidating an existing capability would be better. Inspect the current catalog, registry, actual implementation, canonical product/architecture/UX/privacy/i18n documents and relevant decisions.
