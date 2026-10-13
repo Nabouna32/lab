@@ -82,7 +82,7 @@ jobs:
           fi
 
       - name: Exercise concurrent account deletion and role removal
-        run: bash agents/test-account-deletion-concurrency.sh
+        run: bash .github/scripts/test-account-deletion-concurrency.sh
 
       - name: Stop local Supabase
         if: always()
