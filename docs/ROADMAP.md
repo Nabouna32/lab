@@ -65,6 +65,7 @@ Goal: add optional personalization without creating an account wall.
 - [partial] Local theme mode and profile locale exist; account-synchronized personalization preferences do not
 - [ ] Optional synchronized history
 - [partial] Profile, email/password and account-lifecycle screens exist; personalization settings are incomplete
+- [partial] Processing disclosures and account deletion exist; comprehensive privacy/consent controls are incomplete
 - [deferred] AI-specific privacy controls depend on an approved AI use case
 
 ## Phase 4 — Community
@@ -78,7 +79,8 @@ Goal: make the catalog participatory without sacrificing quality.
 - [ ] Community moderation (the admin dashboard currently labels moderation as coming soon)
 - [ ] Contributor attribution
 - [ ] Contribution history
-- [ ] Community guidelines and contribution workflow
+- [x] Community guidelines documented
+- [ ] Contribution workflow
 
 ## Phase 5 — Advanced intelligence
 
@@ -88,9 +90,9 @@ Goal: improve discovery and tool assistance where justified.
 - [partial] Intent shortcuts exist in the UX, but there is no first-class intent model in tool metadata
 - [ ] Optional direct task execution
 - [ ] AI assistance (AI remains optional, not foundational)
-- [deferred] Define if and when an AI provider is selected
-- privacy controls
-- [deferred] Define only if an AI-backed capability is introduced
+- [deferred] Cost controls until an AI provider is selected
+- [deferred] AI-specific privacy controls depend on an approved AI use case
+- [deferred] Fallback behavior if an AI-backed capability is introduced
 
 AI is not a goal by itself.
 
