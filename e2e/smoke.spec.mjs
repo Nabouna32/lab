@@ -608,3 +608,24 @@ test("text case converter transforms and copies text", async ({ page }) => {
   await page.getByRole("button", { name: "Effacer" }).click();
   await expect(input).toHaveValue("");
 });
+
+for (const scenario of [
+  { locale: "fr", path: "/fr/outils", label: "Calculer", title: "Outils pour : Calculer", clear: "Voir tous les outils" },
+  { locale: "en", path: "/en/tools", label: "Calculate", title: "Tools for: Calculate", clear: "Show all tools" },
+]) {
+  test(`the ${scenario.locale} task intent opens its curated tool set`, async ({ page }) => {
+    await page.goto(`${baseUrl}${scenario.path}`, { waitUntil: "networkidle" });
+    await page.getByRole("link", { name: scenario.label, exact: true }).click();
+
+    await expect(page).toHaveURL(new RegExp(`${scenario.path.replaceAll("/", "\\/")}\\?intent=calculate$`));
+    const results = page.getByTestId("intent-results");
+    await expect(results).toBeVisible();
+    await expect(results).toHaveAttribute("data-intent-id", "calculate");
+    await expect(results.getByRole("heading", { level: 2, name: scenario.title })).toBeVisible();
+    await expect(results.getByTestId("intent-result")).toHaveCount(7);
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
+
+    await page.getByRole("link", { name: scenario.clear, exact: true }).click();
+    await expect(page).toHaveURL(`${baseUrl}${scenario.path}`);
+  });
+}
