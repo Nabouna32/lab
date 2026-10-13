@@ -8,6 +8,8 @@ import { getMessages } from "@/lib/i18n/messages";
 import { getLanguage, isLocale, locales } from "@/lib/i18n/config";
 import "@/app/globals.css";
 import { getLocularyThemeStyle } from "@/lib/design-system/rainbow-tones";
+import { getPublishedTools } from "@/lib/tools/catalog";
+import { FavoritesProvider } from "@/components/favorites/FavoritesProvider";
 
 const roboto = Roboto({ variable: "--font-roboto", subsets: ["latin"], weight: ["400", "500", "700"] });
 
@@ -42,11 +44,13 @@ export default async function LocaleLayout({
     <html lang={locale} dir={direction} suppressHydrationWarning style={getLocularyThemeStyle()}>
       <body className={roboto.variable}>
         <ThemeProvider>
-          <Header locale={locale} />
-          <div className="min-h-0" style={{ viewTransitionName: "loculary-workspace" }}>
-            {children}
-          </div>
-          <Footer locale={locale} />
+          <FavoritesProvider toolIds={getPublishedTools().map((tool) => tool.id)}>
+            <Header locale={locale} />
+            <div className="min-h-0" style={{ viewTransitionName: "loculary-workspace" }}>
+              {children}
+            </div>
+            <Footer locale={locale} />
+          </FavoritesProvider>
         </ThemeProvider>
       </body>
     </html>

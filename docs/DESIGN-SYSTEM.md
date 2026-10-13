@@ -12,6 +12,16 @@ Loculary adopts **Material 3 Expressive** as the reference for its shared platfo
 
 This is a production direction, not merely an experimental palette. Use M3 Expressive guidance across shared foundations and components, adapting Android-oriented patterns to the Web rather than reproducing Android screens literally.
 
+**Loculary's deliberate target is the look and feel of a polished modern Android/Pixel app.** This is an intentional product choice, not just a loose source of inspiration: the web interface should feel tactile, lively and application-like through component shapes, iconography, typography, responsive navigation, feedback, state transitions and motion. Adapt platform patterns to web conventions; do not imitate individual Android screens or compromise keyboard, pointer, touch, browser navigation or responsive behavior.
+
+#### Expressive color and motion in practice
+
+- Use the blue-seeded semantic scheme and official MCU Rainbow tones with confidence. The interface must not drift into an all-pastel, uniformly muted or washed-out look. Prefer vivid, saturated accents for primary actions, selected states, category markers and small expressive surfaces; use softer tonal containers for larger areas and dense content.
+- Strong color is a hierarchy tool, not decoration everywhere. Preserve semantic roles, readable foregrounds, contrast, focus visibility and calm surfaces around the task. Never force every component to use a different rainbow color.
+- Use Material-like shape, component state and motion as one coherent system: clear pressed/selected/focused/disabled feedback, fluid but brief transitions, and spatial continuity where it helps users understand a change. Motion may add delight, but should not delay the task or become noise.
+- Honor `prefers-reduced-motion`, keyboard navigation, screen readers, WCAG 2.2 AA, light/dark parity and mobile/tablet/desktop behavior. Reduced motion must remove nonessential movement without removing state feedback.
+- Build from shared tokens and components first. Do not introduce per-screen palettes, arbitrary one-off motion curves or inconsistent icon families to simulate Expressive design.
+
 The design-system contract follows this hierarchy:
 
 1. **Expressive foundations** — semantic color roles, typography hierarchy, shape, elevation, iconography, motion and states.

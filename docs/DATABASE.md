@@ -65,3 +65,8 @@ Schema migrations are applied by the assistant through the available Supabase co
 For each change, review its SQL and impact before applying it, obtain explicit user approval for consequential or destructive operations, and verify the migration version recorded remotely plus the affected schema/security state. Report only checks actually performed; applying a migration does not mean local tests or pgTAP/concurrency checks ran.
 
 The retained `.github/scripts/test-account-deletion-concurrency.sh` script and pgTAP tests remain useful regression checks, but are not run automatically by the connector. The separate [Supabase Edge Functions CI](../.github/workflows/supabase-functions.yml) validates locked dependencies and types for changes under `supabase/functions/**`; it does not deploy functions or apply database migrations.
+
+
+## Account favorites
+
+The account-favorites migration is versioned at `supabase/migrations/20261013034700_user_favorites.sql`. It creates `public.user_favorites` with owner-only Row Level Security, least-privilege authenticated access, a composite primary key and Auth-account deletion cascade. The pgTAP regression test is `supabase/tests/user_favorites.sql`; it is not run by the standard GitHub Actions CI. The migration is committed in Git but has **not** been applied to production; applying it requires separate explicit approval through the Supabase connector.
