@@ -1,5 +1,120 @@
 # Loculary — UX Specification
 
+## Current UX direction
+
+**Status:** Accepted. This direction governs where older UX wording conflicts with it.
+
+Loculary's current UX direction is a task-first utility toolbox. Existing UI patterns, prior UX proposals and earlier visual conventions are implementation history, not constraints on the current design.
+
+The product should not be approached as a conventional SaaS landing page, dashboard or generic tool catalog. The target experience is a **modern utility toolbox**: direct, precise, pleasant and highly focused on helping a user accomplish a task.
+
+### User intentions
+
+The experience is organized around three primary user intentions:
+
+1. **Find something** — the user knows, approximately, what they need and searches for it.
+2. **Figure out how to do something** — the user knows the goal but not necessarily the appropriate tool; exploration and intent-oriented navigation help.
+3. **Discover** — the user wants to browse what Loculary can offer.
+
+These intentions must coexist without allowing discovery content to obstruct task completion.
+
+### Primary UX journey
+
+The preferred journey is:
+
+> **Need → Find or explore → Tool → Action → Result → Next action**
+
+The result is not necessarily the end of the experience. When meaningful, users should be able to copy, download, share, reset, modify, or continue with a complementary tool.
+
+### Homepage direction
+
+The homepage should be **action/search first, discovery in depth**, rather than a conventional marketing landing page.
+
+The primary visual question should be effectively:
+
+> **What do you want to do?**
+
+Search and action-oriented entry points should dominate the initial experience. Popular tools, intentions, categories and discovery content should follow naturally.
+
+Cards and card grids are valid Material 3 composition options, including for category discovery. Choose their variant and density to make destinations easy to scan and select; do not avoid cards by default. Keep search and useful entry points obvious, and use the composition that best communicates Loculary's value rather than relying on a large marketing hero.
+
+### Navigation direction
+
+The primary navigation should remain small and understandable. Search is a first-class entry point, while an Explorer area can provide both:
+
+- intent-oriented discovery such as calculate, convert, transform, create, analyze, verify, generate or measure;
+- domain/category-oriented discovery such as images, text, files, development, finance or data.
+
+A large catalog must not become a visually overwhelming grid.
+
+### Tool-page direction
+
+The tool is the central product experience. A typical hierarchy is:
+
+1. concise identity/title;
+2. concise explanation;
+3. processing/privacy status;
+4. primary tool interaction;
+5. result;
+6. contextual actions;
+7. meaningful next tools or actions, when a natural continuation exists;
+8. explanation/documentation;
+
+This is a priority hierarchy, not a rigid template. Complex tools may require different compositions.
+
+Documentation must not compete with the primary task.
+
+### Result-first interaction
+
+Results should feel clear, immediate and trustworthy. Feedback for successful processing, copying, reset, validation, errors, progress and cancellation should be explicit and appropriately animated.
+
+The interface should make the transition from input to result understandable without motion or effects that add no meaningful functional, experiential, or identity value.
+
+### Tool-specific interfaces
+
+Loculary must establish a shared visual and interaction language without forcing every tool into the same layout.
+
+Examples:
+
+- calculators may emphasize compact inputs and a prominent result;
+- file tools may emphasize drop zones, previews and processing controls;
+- generators may emphasize parameters and visual previews;
+- analysis tools may emphasize data, visualization and interpretation.
+
+Tool-specific identity is encouraged when it improves comprehension, feedback or enjoyment.
+
+### Visual design direction
+
+The shared visual system follows **Material 3 Expressive**, as defined by DEC-048 and `docs/DESIGN-SYSTEM.md`. Apply its foundations to semantic color, typography, shape, surfaces, elevation, iconography, shared component states and motion, adapted to Loculary's task-first utility toolbox rather than copying a Google product screen or adopting a generic SaaS template.
+
+The redesign must challenge existing UI patterns when they prevent a coherent Expressive experience. The objective is not to retokenize the current interface while preserving every existing component; refactor or replace abstractions when justified by the validated design target.
+
+The default semantic color seed is #4285F4, with Roboto as the validated default interface typeface. The official MCU Rainbow scheme is the sole rainbow palette; use its tonal range for expressive surfaces and vivid compact accents, with validated light/dark contrast. The brand mark remains distinct from functional interface icons, and shared consistency must not erase meaningful differences between specialized tools.
+
+### Discovery and next actions
+
+Next actions are distinct from generic discovery. They belong to the task flow and should appear when they provide a natural continuation of the current task.
+
+Recommendations should answer the likely question:
+
+> **What might you want to do next?**
+
+Not every tool needs a next action. When no meaningful continuation exists, the interface should omit the section rather than invent recommendations.
+
+Generic discovery remains a separate product concern and may surface similar, popular, recent or exploratory tools elsewhere in the experience.
+
+### Responsive direction
+
+Desktop, tablet and mobile are distinct first-class compositions. Mobile must not be treated as a compressed desktop layout, and tablet layouts must not fall into an awkward intermediate state.
+
+The responsive design must preserve the hierarchy of search, tool interaction, result and actions at every viewport.
+
+### Architecture consequence
+
+The UX redesign may remove, merge, move or replace existing screens and components when the new user journey benefits from doing so. Existing routes and UI components are not themselves UX requirements.
+
+The redesign must still preserve core product constraints such as anonymous access to core tools, processing transparency, accessibility, internationalization and browser-first behavior.
+
 ## Core rule
 
 A user opening a tool should immediately see:
@@ -55,7 +170,7 @@ Loculary's shared visual language follows **Material 3 Expressive** as defined b
 
 The intended feel is a polished, responsive web application with the clarity and immediacy of a modern Android app, not a literal Android screen replica. Shared behavior and foundations should be consistent, while tool-specific interfaces may use specialized layouts, visualizations or density when these better serve the task. Preserve the task-first journey and platform-wide accessibility, localization, responsiveness, performance and trust requirements.
 
-Use expressive shape, color and motion to clarify hierarchy, state changes and spatial continuity—not as decoration on every element. Respect system reduced-motion preferences. The default semantic palette uses the Material Purple seed #6750A4, with Roboto as the validated default interface typeface. Keep both rainbow treatments: use MCU-generated tonal Rainbow colors for suitable expressive surfaces and frame/container backgrounds, and the saturated direct seven-color palette for vivid category pills, badges and compact differentiation. They have complementary roles, not interchangeable ones. Validate actual light/dark contrast and preserve independent semantic status colors. Exact tonal mappings and implementation tokens belong in the canonical design-system contract.
+Use expressive shape, color and motion to clarify hierarchy, state changes and spatial continuity—not as decoration on every element. Respect system reduced-motion preferences. The default semantic palette uses the blue seed #4285F4, with Roboto as the validated default interface typeface. Use the official MCU Rainbow scheme as the sole rainbow palette for both expressive surfaces and vivid compact accents, choosing tones appropriate to each context. Validate light/dark contrast and preserve independent semantic status colors. Exact mappings and implementation tokens belong in the canonical design-system contract.
 
 ## Input validation
 
@@ -225,160 +340,14 @@ Intent-oriented entry points represent **what the user wants to accomplish**, no
 
 The UX must never imply that one category fully represents an intent. Initial intent-to-tool associations may be curated editorial data; later deterministic discovery may enrich them without changing the product semantics.
 
-## Expanded experience direction
+## Personal experience and contextual content
 
-### Homepage experience
+Authenticated users may eventually hide or reorder tools and page elements, customize the homepage, choose theme and animation level, adjust density/style, manage favorites and collections, and control privacy/history behavior. These controls should enhance the experience without making anonymous usage feel second-class.
 
-The default homepage should foreground the user's action or need rather than a wall of categories. Search/action is primary; discovery depth follows through popular tools, categories, suggestions, recent tools, and personalized content for authenticated users.
+Contextual tone is an optional future capability: a professional tool may remain restrained while a creative or exploratory tool may be more expressive. It must remain subordinate to clarity, usability and accessibility and does not depend on a user-selectable presentation mode.
 
-### Result-first interaction
+Where useful, tool pages may offer lightweight feedback such as “Cet outil vous a été utile ? 👍 👎” or authenticated ratings without distracting from the task.
 
-The recommended hierarchy is:
-
-1. inputs;
-2. primary result;
-3. actions;
-4. explanation;
-5. documentation;
-6. related/discovery content.
-
-For simple tools, the result should appear with minimal interaction. “How did we get this result?” can be available as an expandable secondary explanation.
-
-### Tool-specific identity
-
-A common design system should establish trust and consistency without making every tool visually identical. Small utilities may be compact; advanced tools and mini-applications may use richer layouts. Visual and animation identity can vary by tool when this improves comprehension or enjoyment.
-
-### Personal experience
-
-Authenticated users should eventually be able to hide/reorder tools and page elements, customize the home, choose theme and animation level, adjust density/style, manage favorites and collections, and control privacy/history behavior. These controls should enhance the experience without making anonymous usage feel second-class.
-
-### Contextual tone
-
-A professional tool can remain restrained while a creative or exploratory tool can be more expressive. Contextual tone is an optional future capability and must remain subordinate to clarity, usability and accessibility. It does not depend on a user-selectable presentation mode.
-
-### Feedback and lightweight trust signals
-
-Where useful, tool pages may provide lightweight feedback such as “Cet outil vous a été utile ? 👍 👎” and authenticated ratings without distracting from the task.
-
-### Mobile and advertising
-
-Mobile is a first-class experience, not a compressed desktop layout. Advertising must never sit between the primary input and result, cover controls, or create forced interaction. Wide desktop layouts may use side rails; smaller layouts should prefer non-intrusive alternatives or omit the placement when necessary.
-
-
-## UX direction reset — 2026-09-28
-
-**Status:** Accepted and superseding the previous UX direction where it conflicts with this section.
-
-Loculary is intentionally restarting its UX/UI design exploration from first principles. Existing UI patterns, prior UX proposals and earlier visual conventions are references for implementation history, not constraints on the new design.
-
-The product should not be approached as a conventional SaaS landing page, dashboard or generic tool catalog. The target experience is a **modern utility toolbox**: direct, precise, pleasant and highly focused on helping a user accomplish a task.
-
-### User intentions
-
-The experience is organized around three primary user intentions:
-
-1. **Find something** — the user knows, approximately, what they need and searches for it.
-2. **Figure out how to do something** — the user knows the goal but not necessarily the appropriate tool; exploration and intent-oriented navigation help.
-3. **Discover** — the user wants to browse what Loculary can offer.
-
-These intentions must coexist without allowing discovery content to obstruct task completion.
-
-### Primary UX journey
-
-The preferred journey is:
-
-> **Need → Find or explore → Tool → Action → Result → Next action**
-
-The result is not necessarily the end of the experience. When meaningful, users should be able to copy, download, share, reset, modify, or continue with a complementary tool.
-
-### Homepage direction
-
-The homepage should be **action/search first, discovery in depth**, rather than a conventional marketing landing page.
-
-The primary visual question should be effectively:
-
-> **What do you want to do?**
-
-Search and action-oriented entry points should dominate the initial experience. Popular tools, intentions, categories and discovery content should follow naturally.
-
-Cards and card grids are valid Material 3 composition options, including for category discovery. Choose their variant and density to make destinations easy to scan and select; do not avoid cards by default. Keep search and useful entry points obvious, and use the composition that best communicates Loculary's value rather than relying on a large marketing hero.
-
-### Navigation direction
-
-The primary navigation should remain small and understandable. Search is a first-class entry point, while an Explorer area can provide both:
-
-- intent-oriented discovery such as calculate, convert, transform, create, analyze, verify, generate or measure;
-- domain/category-oriented discovery such as images, text, files, development, finance or data.
-
-A large catalog must not become a visually overwhelming grid.
-
-### Tool-page direction
-
-The tool is the central product experience. A typical hierarchy is:
-
-1. concise identity/title;
-2. concise explanation;
-3. processing/privacy status;
-4. primary tool interaction;
-5. result;
-6. contextual actions;
-7. meaningful next tools or actions, when a natural continuation exists;
-8. explanation/documentation;
-
-This is a priority hierarchy, not a rigid template. Complex tools may require different compositions.
-
-Documentation must not compete with the primary task.
-
-### Result-first interaction
-
-Results should feel clear, immediate and trustworthy. Feedback for successful processing, copying, reset, validation, errors, progress and cancellation should be explicit and appropriately animated.
-
-The interface should make the transition from input to result understandable without motion or effects that add no meaningful functional, experiential, or identity value.
-
-### Tool-specific interfaces
-
-Loculary must establish a shared visual and interaction language without forcing every tool into the same layout.
-
-Examples:
-
-- calculators may emphasize compact inputs and a prominent result;
-- file tools may emphasize drop zones, previews and processing controls;
-- generators may emphasize parameters and visual previews;
-- analysis tools may emphasize data, visualization and interpretation.
-
-Tool-specific identity is encouraged when it improves comprehension, feedback or enjoyment.
-
-### Visual design direction
-
-The shared visual system follows **Material 3 Expressive**, as defined by DEC-048 and `docs/DESIGN-SYSTEM.md`. Apply its foundations to semantic color, typography, shape, surfaces, elevation, iconography, shared component states and motion, adapted to Loculary's task-first utility toolbox rather than copying a Google product screen or adopting a generic SaaS template.
-
-The redesign must challenge existing UI patterns when they prevent a coherent Expressive experience. The objective is not to retokenize the current interface while preserving every existing component; refactor or replace abstractions when justified by the validated design target.
-
-The default semantic color seed is #6750A4, with Roboto as the validated default interface typeface. MCU-generated Rainbow tonal colors are intended for expressive surfaces and frame/container backgrounds; saturated direct seven-color accents are intended for compact category differentiation. Curated palette choices and accessible light/dark mappings remain part of the design-system contract. The brand mark remains distinct from functional interface icons, and shared consistency must not erase meaningful differences between specialized tools.
-
-### Discovery and next actions
-
-Next actions are distinct from generic discovery. They belong to the task flow and should appear when they provide a natural continuation of the current task.
-
-Recommendations should answer the likely question:
-
-> **What might you want to do next?**
-
-Not every tool needs a next action. When no meaningful continuation exists, the interface should omit the section rather than invent recommendations.
-
-Generic discovery remains a separate product concern and may surface similar, popular, recent or exploratory tools elsewhere in the experience.
-
-### Responsive direction
-
-Desktop, tablet and mobile are distinct first-class compositions. Mobile must not be treated as a compressed desktop layout, and tablet layouts must not fall into an awkward intermediate state.
-
-The responsive design must preserve the hierarchy of search, tool interaction, result and actions at every viewport.
-
-### Architecture consequence
-
-The UX redesign may remove, merge, move or replace existing screens and components when the new user journey benefits from doing so. Existing routes and UI components are not themselves UX requirements.
-
-The redesign must still preserve core product constraints such as anonymous access to core tools, processing transparency, accessibility, internationalization and browser-first behavior.
 
 ## Public header, navigation popovers and mobile search
 
