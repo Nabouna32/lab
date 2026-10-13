@@ -44,6 +44,7 @@ export function CollectionsProvider({ children, toolIds }: { children: ReactNode
       return;
     }
     setUserId(user?.id ?? null);
+    setCollections([]);
     if (!user) {
       setCollections([]);
       setError(false);
