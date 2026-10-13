@@ -43,7 +43,7 @@ Ce fichier est l’unique guide obligatoire pour le travail de l’assistant dan
 - La validation standard comprend `npm ci`, `npm audit --audit-level=high`, `npm run lint`, `npm run typecheck`, `npm test` et `npm run build`, sauf si une voie de validation allégée justifiée s’applique, par exemple pour un changement de documentation ou de gouvernance.
 - Ne prétends jamais qu’un test, une CI, une revue, une PR, une fusion ou une vérification a réussi sans preuve. Signale ce qui a été exécuté, ignoré, échoué ou n’a pas pu être vérifié. Une CI verte ne prouve pas à elle seule la qualité de la solution.
 - Avant une fusion, vérifie l’état actuel de la PR, son diff, sa base, les protections applicables et les contrôles requis terminés. N’ignore jamais les protections.
-- Les workflows E2E navigateur, validation navigateur de production et captures d’écran restent manuels (`workflow_dispatch`) pendant la refonte : ne les ajoute pas aux déclencheurs automatiques de PR ni après fusion. Garde les vérifications spécialisées qui apportent une vraie valeur métier et limite la CI aux contrôles utiles.
+- Les tests E2E navigateur, tests visuels, Playwright et workflows de validation navigateur (y compris `workflow_dispatch`) sont exclus : ne les ajoute pas et ne les recrée pas. Préfère les tests unitaires, les tests d’intégration non navigateur, les contrôles statiques et une CI ciblée qui apporte une valeur métier concrète.
 - Vercel déploie automatiquement `main` seulement. Les branches et PR ne doivent pas créer de Preview Vercel ; ne contourne pas cette règle avec `[skip vercel]` ou `ignoreCommand`.
 
 ## 5. Contraintes techniques du dépôt
