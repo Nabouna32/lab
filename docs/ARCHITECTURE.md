@@ -245,7 +245,7 @@ The current repository uses:
 - GitHub Actions for CI;
 - Node.js tests, linting, type checking, and production builds as the automated validation baseline.
 
-Browser-level E2E and screenshot automation are intentionally excluded during the active redesign. Reconsider them only when the interface stabilizes and a concrete regression risk justifies their maintenance cost.
+Browser-level E2E, Playwright and screenshot automation are out of scope unless the user explicitly revisits that decision.
 
 This is the current baseline, not an immutable commitment.
 
