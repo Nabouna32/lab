@@ -51,7 +51,7 @@ Goal: make a large catalog easy to navigate.
 - [ ] Recent-tool history/surface
 - [ ] New-tool discovery surface
 - [x] Curated contextual next actions
-- [partial] Natural-language-like queries work through deterministic ranking, but intents are not first-class catalog entities associated with tools
+- [x] Curated intent-to-tool associations are separate from categories; free-form query intent recognition remains deterministic and limited
 - [ ] Search quality instrumentation
 
 ## Phase 3 — Accounts
@@ -87,7 +87,7 @@ Goal: make the catalog participatory without sacrificing quality.
 Goal: improve discovery and tool assistance where justified.
 
 - [partial] Deterministic natural-language-like search; no AI-backed search
-- [partial] Intent shortcuts exist in the UX, but there is no first-class intent model in tool metadata
+- [partial] First-class curated intent associations exist; automatic intent recognition from free-form queries remains unimplemented
 - [ ] Optional direct task execution
 - [ ] AI assistance (AI remains optional, not foundational)
 - [deferred] Cost controls until an AI provider is selected
@@ -96,7 +96,7 @@ Goal: improve discovery and tool assistance where justified.
 
 AI is not a goal by itself.
 
-Current boundary: the deployed Supabase database contains account/profile and administrative RBAC/audit foundations only. The executable tool catalog remains Git-backed; favorites, collections, community records and an editable database catalog are not currently deployed.
+Current boundary: the deployed Supabase database contains account/profile and administrative RBAC/audit foundations only. The executable tool catalog and curated intent associations remain Git-backed; favorites, collections, community records and an editable database catalog are not currently deployed.
 
 ## Phase 6 — Sustainability and scale
 
