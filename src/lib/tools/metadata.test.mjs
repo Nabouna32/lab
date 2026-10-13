@@ -36,7 +36,6 @@ const tool = {
   quality: { accessibility: "required", performance: "standard", tests: "required" },
   lifecycle: "published",
   access: "anonymous",
-  contributor: { type: "internal" },
 };
 
 test("the canonical tool contract derives publication and primary category from structured metadata", () => {

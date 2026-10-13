@@ -81,7 +81,6 @@ export type ToolQualityMetadata = {
   performance: "standard" | "heavy";
   tests: "required" | "partial" | "not-yet";
 };
-export type ToolContributor = { type: "internal" };
 
 export type Tool = {
   id: ToolId;
@@ -104,7 +103,6 @@ export type Tool = {
   quality: ToolQualityMetadata;
   lifecycle: ToolLifecycle;
   access: ToolAccess;
-  contributor: ToolContributor;
 };
 
 export function isPublishedTool(tool: Tool): boolean {
