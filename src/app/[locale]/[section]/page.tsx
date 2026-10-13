@@ -41,7 +41,7 @@ export default async function ToolsPage({
   searchParams,
 }: {
   params: Promise<{ locale: string; section: string }>;
-  searchParams: Promise<{ intent?: string }>;
+  searchParams: Promise<{ intent?: string | string[] }>;
 }) {
   const [{ locale: rawLocale, section }, query] = await Promise.all([params, searchParams]);
   if (!isLocale(rawLocale) || section !== getToolsPath(rawLocale).split("/")[2]) notFound();
