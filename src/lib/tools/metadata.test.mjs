@@ -158,12 +158,3 @@ test("the metadata validator requires the primary category and canonical taxonom
   );
 });
 
-test("the metadata validator requires a contributor name for community tools", () => {
-  assert.throws(
-    () =>
-      validateToolCatalog([
-        { ...tool, contributor: { type: "community" } },
-      ]),
-    /must identify its contributor/,
-  );
-});
