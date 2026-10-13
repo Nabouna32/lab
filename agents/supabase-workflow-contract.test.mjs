@@ -70,7 +70,8 @@ test('dependency review blocks vulnerable dependency changes only inside the exi
   assert.equal(validate.name, 'Node.js 24.21.0');
   assert.equal(detect.run.includes('gh api --paginate --slurp'), true);
   assert.equal(detect.run.includes('PR_CHANGED_FILES'), true);
-  assert.equal(detect.run.includes('package.json|package-lock.json'), true);
+  const classifier = readFileSync(new URL('./classify-ci-changes.mjs', import.meta.url), 'utf8');
+  assert.equal(classifier.includes("path === 'package.json' || path === 'package-lock.json'"), true);
   assert.equal(setupNode.if, "steps.changes.outputs.lightweight_only != 'true'");
   assert.equal(freshness.run.includes('git fetch --no-tags --depth=1 origin main'), true);
   assert.equal(review.if, "github.event_name == 'pull_request' && steps.changes.outputs.dependencies_changed == 'true'");

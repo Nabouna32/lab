@@ -14,8 +14,7 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "test": "node --test",
-    "validate:workflows": "node agents/validate-workflow-contracts.mjs"
+    "test": "node --test"
   },
   "dependencies": {
     "@material/material-color-utilities": "0.4.0",
