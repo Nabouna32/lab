@@ -214,7 +214,7 @@ A database is expected to become useful for:
 - tool metadata where appropriate;
 - privacy-conscious analytics data.
 
-Supabase/PostgreSQL is the current database platform for the deployed account, administrative RBAC and audit foundation. The public tool catalog remains Git-backed, and the legacy database catalog schema is not deployed. Issue #444, which previously tracked a redesign, was closed as not planned; no catalog migration is currently scheduled.
+Supabase/PostgreSQL is the current database platform for the deployed account, administrative RBAC and audit foundation. The public tool catalog remains Git-backed, and the legacy database catalog schema is not deployed; no catalog migration is currently scheduled.
 
 A database-backed catalog may be reconsidered when a concrete product or operational need cannot be served well by the Git-backed model. Relevant evidence includes a demonstrated publishing workflow that needs authorized edits without code deployment, a measured search/build/delivery bottleneck, or administration and audit requirements that Git cannot reasonably meet. Catalog size by itself is not sufficient justification. See DEC-051 for the decision criteria.
 
