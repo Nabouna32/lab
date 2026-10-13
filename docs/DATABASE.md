@@ -72,6 +72,6 @@ The separate [Supabase Edge Functions CI](../.github/workflows/supabase-function
 
 ## Favorites schema
 
-The versioned migration `20261013090000_user_favorites.sql` introduces a minimal `public.user_favorites` table with a stable text tool ID, an Auth-user owner, creation timestamp, a composite user/tool primary key, owner-only RLS and only the SELECT/INSERT/DELETE privileges needed by the client. Auth user deletion cascades to favorites. The tool registry remains Git-backed; no catalog table or catalog foreign key is introduced.
+The versioned migration `20261013034700_user_favorites.sql` introduces a minimal `public.user_favorites` table with a stable text tool ID, an Auth-user owner, creation timestamp, a composite user/tool primary key, owner-only RLS and only the SELECT/INSERT/DELETE privileges needed by the client. Auth user deletion cascades to favorites. The tool registry remains Git-backed; no catalog table or catalog foreign key is introduced.
 
 **Production status:** this migration is prepared in Git for review and has not been applied to production. Follow the migration verification procedure above only after separate explicit approval.
