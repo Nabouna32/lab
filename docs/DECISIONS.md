@@ -636,7 +636,7 @@ The account system must be complete without introducing unnecessary personal-dat
 - Future user-owned tables must define explicit deletion/retention semantics before being added to the account lifecycle.
 - Deleting the last super administrator is intentionally blocked to preserve administrative recoverability. The database serializes self-deletion and `super_admin` role removal checks so concurrent operations cannot bypass this invariant.
 
-## DEC-039 — Single-assistant workflow and GitHub Issue checkpoints
+## DEC-039 — Single-assistant workflow and evidence-driven collaboration
 
 **Status:** Accepted
 
@@ -644,17 +644,13 @@ The account system must be complete without introducing unnecessary personal-dat
 
 Loculary work is conducted by one assistant working directly with the user. Product, feature and tool guides are specialist references, not separate agent identities or delegated workers. Investigations and audits happen when a useful question arises; there is no mandatory numbered procedure catalogue.
 
-The assistant investigates the relevant problem, user journey, code, contracts, dependencies and current GitHub state; challenges existing choices and its own proposals; and recommends a coherent solution. Read-only investigation and factual Issue checkpoints do not require approval.
+The assistant investigates the relevant problem, user journey, code, contracts, dependencies and current repository state; challenges existing choices and its own proposals; and recommends a coherent solution. Read-only investigation does not require approval.
 
 Before consequential repository changes, explain the proposed outcome, reasons, relevant alternatives, risks, trade-offs, uncertainties and exclusions in accessible terms, then obtain the user's explicit agreement. That agreement authorizes the described change, not a separate operational plan for approval. Afterward, the assistant handles routine technical decisions, implementation and verification autonomously. If evidence materially changes the scope, direction or significant risk, pause the affected work and discuss the change before proceeding.
 
-Every multi-step mission or task with durable decisions uses a relevant GitHub Issue as a living checkpoint. Update it as work progresses and before interruptions, recording the actual state, discoveries, user decisions, completed changes, PR/CI or other verification evidence, risks, blockers and next action. Check for an existing matching Issue before creating one for deferred work. Use comments when they preserve important context or decisions. Do not create an artificial activity log, and do not defer all updates until the end.
-
-Issues complement Git and canonical documentation: they are the durable work/resumption record, not a replacement for implementation, current product intent, pull requests or verification evidence. Tracking a deferred finding does not silently authorize implementing it.
-
 ### Reason
 
-This preserves the user's authority over consequential direction while allowing the assistant to own investigation and execution. A living Issue checkpoint protects continuity when conversations are interrupted without making the user approve a formal plan or manage the assistant's process.
+This preserves the user's authority over consequential direction while allowing the assistant to own investigation and execution without imposing a separate formal plan or administrative tracking process.
 
 ### Consequences
 
@@ -663,8 +659,6 @@ This preserves the user's authority over consequential direction while allowing 
 - The user approves consequential change proposals, not routine technical choices or a separate formal plan.
 - Routine implementation and diagnosis of failed checks proceed autonomously within the approved scope.
 - Material changes to the approved outcome or significant risk require renewed discussion.
-- Update the active Issue at meaningful milestones and before interruption; preserve useful findings and decisions, not empty status noise.
-- Search for duplicate Issues before creating follow-up work, and do not treat tracking as implementation approval.
 - Keep canonical documentation concise and current; ordinary Git history preserves prior file versions.
 
 ## DEC-042 — Next actions are contextual and optional
@@ -855,5 +849,4 @@ The deployed product currently uses a Git-backed catalog, and the database catal
 
 - The catalog remains Git-backed until the criteria above are met and a new implementation proposal is approved.
 - Product and architecture documents must describe database catalog storage as conditional, not inevitable.
-- The closed #444 issue is not an active implementation plan; a new issue should be created only if evidence makes the work worth pursuing.
 - No catalog schema or production migration is authorized by this decision.
