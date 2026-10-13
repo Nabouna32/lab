@@ -185,11 +185,7 @@ AI can be added behind the search abstraction if its value justifies cost and pr
 
 ## Authentication
 
-Authentication should support popular providers in addition to a low-friction account option.
-
-Initial provider selection remains an implementation decision.
-
-Anonymous usage is mandatory for core functionality.
+The implemented account provider is Supabase email/password authentication. Core tools remain usable anonymously. Additional sign-in providers are optional future work, not a current requirement; add one only when a demonstrated user need justifies the extra account, configuration and support surface.
 
 ### Implemented account authentication architecture
 
