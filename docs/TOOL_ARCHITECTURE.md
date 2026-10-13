@@ -30,6 +30,10 @@ Access is a separate axis from processing:
 
 A server-backed or external tool is not automatically premium. Processing location and access policy remain independent decisions.
 
+## Lifecycle
+
+Tool definitions in the Git-backed catalog use the lifecycle states `draft`, `review`, `published`, `hidden` and `archived`. Only published tools are exposed through the public catalog. Lifecycle state does not imply that catalog editing or publishing is available through an admin UI; catalog definitions are maintained in Git. Remove a tool from active use through its lifecycle state rather than casually deleting its definition.
+
 ## Processing
 
 Every tool identifies local, external-service, server or hybrid processing and explains what data is transmitted, where and why.
