@@ -56,6 +56,7 @@ Ce fichier est l’unique guide obligatoire pour le travail de l’assistant dan
 - Le traitement local dans le navigateur est la préférence par défaut. Les gros transferts de fichiers via l’infrastructure Loculary ne sont pas une capacité par défaut. L’IA doit justifier ses coûts, sa latence, sa fiabilité et ses conséquences sur la vie privée.
 - Le produit doit rester responsive sur mobile et bureau, accessible, soigné et cohérent. La publicité ne doit pas prendre le pas sur l’usage des outils ; les fonctions communautaires exigent modération et contrôles de qualité.
 - Ne committe jamais de clés API, jetons, mots de passe, identifiants privés ou fichiers `.env` contenant des secrets. Toute configuration exposée côté client doit être considérée comme publique.
+- Le dépôt reste public pour conserver les minutes CI gratuites : considère tout son contenu comme publiquement accessible, et ne confonds jamais discrétion documentaire et sécurité. Réduis les détails internes sans valeur publique uniquement si cela ne nuit ni aux sources de vérité, ni à l’auditabilité, ni au travail des agents. Avant de proposer la suppression d’un document, vérifie ses références, transfère tout contenu encore utile et présente la suppression fichier par fichier pour validation. Supprimer un fichier ne l’efface pas de l’historique Git ; ne tente pas de purge ou de réécriture d’historique sans décision explicite distincte.
 
 ## 6. Fin de mission
 
