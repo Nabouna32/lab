@@ -1,6 +1,6 @@
 import type { ButtonHTMLAttributes } from "react";
 
-type ButtonVariant = "primary" | "tonal" | "outlined" | "text" | "danger" | "secondary" | "ghost";
+export type ButtonVariant = "primary" | "tonal" | "outlined" | "text" | "danger" | "secondary" | "ghost";
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & { variant?: ButtonVariant };
 
