@@ -25,7 +25,7 @@ export function IconButton({
   variant = "standard",
   ...props
 }: IconButtonProps) {
-  const dimensions = size === "compact" ? "h-10 w-10" : "h-11 w-11 sm:h-12 sm:w-12";
+  const dimensions = size === "compact" ? "h-10 w-10" : "h-12 w-12";
 
   return (
     <button
