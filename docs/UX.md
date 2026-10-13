@@ -101,6 +101,10 @@ Possible sections:
 
 Documentation should still be real page content so users and search engines can understand the tool.
 
+### Explanations and examples
+
+Keep the primary task and result visually dominant. Offer formulas, reasoning and longer explanations as secondary content that users can choose to open when they want more detail. Where relevant, connect explanations to the user's actual inputs or result. Use a small number of realistic examples that clarify distinct cases; avoid artificial or repetitive example lists. Every text block must help users understand or use the tool—SEO alone is not a reason to add filler or lengthen a page.
+
 ## Processing transparency
 
 Every tool should expose a concise status indicator.
