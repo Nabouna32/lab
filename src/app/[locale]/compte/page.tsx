@@ -153,7 +153,7 @@ export default async function AccountPage({
             ) : <span />}
             <form action={signOut}>
               <input type="hidden" name="locale" value={locale} />
-              <SubmitButton pendingLabel={t.account.signOut} className="border border-[var(--border)] bg-[var(--surface)] text-[var(--foreground)] hover:bg-[var(--surface-soft)]">
+              <SubmitButton pendingLabel={t.account.signOut} variant="secondary">
                 {t.account.signOut}
               </SubmitButton>
             </form>
