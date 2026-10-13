@@ -18,22 +18,22 @@
   },
   "dependencies": {
     "@material/material-color-utilities": "0.4.0",
-    "@teispace/next-themes": "^3.0.2",
-    "next": "16.3.8",
-    "react": "19.3.0",
-    "react-dom": "19.3.0",
     "@supabase/ssr": "^0.12.7",
     "@supabase/supabase-js": "^2.117.3",
+    "@teispace/next-themes": "^3.0.2",
+    "next": "16.4.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
     "yaml": "^2.9.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^24.13.4",
+    "@types/node": "^24.19.2",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "9.39.5",
-    "eslint-config-next": "16.3.8",
+    "eslint-config-next": "16.4.0",
     "tailwindcss": "^4",
     "typescript": "~6.0.3"
   }
