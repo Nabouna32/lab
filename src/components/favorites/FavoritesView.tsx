@@ -3,6 +3,7 @@
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n/config";
 import { getToolsPath } from "@/lib/tools/routes";
+import { StarIcon } from "@/components/ui/StarIcon";
 import { useFavorites } from "./FavoritesProvider";
 
 export type FavoriteToolItem = { id: string; icon: string; name: string; description: string; href: string };
@@ -51,7 +52,7 @@ export default function FavoritesView({ locale, tools }: { locale: Locale; tools
               <div className="mt-auto flex justify-end pt-4">
                 <button type="button" disabled={favorites.loading || favorites.error} onClick={() => void favorites.toggleFavorite(tool.id)}
                   className="min-h-11 rounded-full px-3 text-sm font-bold text-[var(--primary)] transition-colors hover:bg-[var(--surface-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] disabled:opacity-55">
-                  <span aria-hidden="true">★ </span>{locale === "fr" ? "Retirer des favoris" : "Remove from favorites"}
+                  <StarIcon filled className="h-4 w-4" />{locale === "fr" ? "Retirer des favoris" : "Remove from favorites"}
                 </button>
               </div>
             </li>
@@ -59,10 +60,10 @@ export default function FavoritesView({ locale, tools }: { locale: Locale; tools
         </ul>
       ) : (
         <section className="rounded-[var(--radius-xl)] border border-dashed border-[var(--border-strong)] bg-[var(--surface)] px-6 py-10 text-center sm:px-10" aria-labelledby="favorites-empty-title">
-          <span aria-hidden="true" className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[var(--m3-light-primary-container)] text-3xl text-[var(--m3-light-on-primary-container)] dark:bg-[var(--m3-dark-primary-container)] dark:text-[var(--m3-dark-on-primary-container)]">☆</span>
+          <span aria-hidden="true" className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[var(--primary-container)] text-[var(--on-primary-container)]"><StarIcon className="h-8 w-8" /></span>
           <h2 id="favorites-empty-title" className="mt-4 text-xl font-black">{text.emptyTitle}</h2>
           <p className="mx-auto mt-2 max-w-lg text-sm leading-6 text-[var(--muted)]">{text.emptyDescription}</p>
-          <Link href={getToolsPath(locale)} className="mt-6 inline-flex min-h-12 items-center justify-center rounded-full bg-[var(--m3-light-primary)] px-5 font-bold text-[var(--m3-light-on-primary)] transition-transform hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] dark:bg-[var(--m3-dark-primary)] dark:text-[var(--m3-dark-on-primary)]">{text.explore}</Link>
+          <Link href={getToolsPath(locale)} className="mt-6 inline-flex min-h-12 items-center justify-center rounded-full bg-[var(--primary)] px-5 font-semibold text-[var(--on-primary)] transition-[filter,transform] duration-[var(--motion-standard)] hover:brightness-[.94] active:scale-[.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]">{text.explore}</Link>
         </section>
       )}
     </main>
