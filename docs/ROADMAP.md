@@ -56,31 +56,16 @@ Goal: make a large catalog easy to navigate.
 
 ## Phase 3 — Accounts
 
-Goal: add optional personalization without creating an account wall.
+Goal: synchronize favorites, personal collections and the light/dark theme preference without creating an account wall.
 
 - [x] Supabase email/password authentication and profile foundation
-- [partial] All published tools are usable anonymously and process locally; anonymous favorites and personalization do not exist
-- [ ] Favorites
+- [partial] All published tools are usable anonymously; local favorites exist, while account synchronization and collections remain to be completed
+- [partial] Favorites (anonymous local favorites exist; account synchronization remains to be completed)
 - [ ] Collections
-- [partial] Local theme mode and profile locale exist; account-synchronized personalization preferences do not
-- [ ] Optional synchronized history
-- [partial] Profile, email/password and account-lifecycle screens exist; personalization settings are incomplete
+- [partial] Local light/dark theme mode and profile locale exist; account-synchronized theme preference does not
+- [partial] Profile, email/password and account-lifecycle screens exist; account preference synchronization remains incomplete
 - [partial] Processing disclosures and account deletion exist; comprehensive privacy/consent controls are incomplete
 - [deferred] AI-specific privacy controls depend on an approved AI use case
-
-## Phase 4 — Community
-
-Goal: make the catalog participatory without sacrificing quality.
-
-- [ ] Propose an idea
-- [ ] Propose a tool
-- [ ] Ratings
-- [ ] Comments
-- [ ] Community moderation (the admin dashboard currently labels moderation as coming soon)
-- [ ] Contributor attribution
-- [ ] Contribution history
-- [x] Community guidelines documented
-- [ ] Contribution workflow
 
 ## Phase 5 — Advanced intelligence
 
@@ -96,21 +81,19 @@ Goal: improve discovery and tool assistance where justified.
 
 AI is not a goal by itself.
 
-Current boundary: the deployed Supabase database contains account/profile and administrative RBAC/audit foundations only. The executable tool catalog and curated intent associations remain Git-backed; favorites, collections, community records and an editable database catalog are not currently deployed. A database-backed catalog remains deferred under DEC-051 until its criteria are met.
+Current boundary: the deployed Supabase database contains account/profile and administrative RBAC/audit foundations only. The executable tool catalog and curated intent associations remain Git-backed; account favorites and collections are not yet deployed, and an editable database catalog remains deferred under DEC-051 until its criteria are met.
 
 ## Phase 6 — Sustainability and scale
 
 Goal: support real traffic while protecting the user experience.
 
-- [ ] Advertising integration
 - [ ] Privacy-conscious product analytics
 - [ ] Dedicated runtime performance monitoring
 - [deferred] Reconsider a database-backed catalog only when DEC-051's concrete product or operational triggers are demonstrated; catalog size alone is insufficient
 - [partial] Framework/static generation is used; a deliberate catalog/data caching strategy is not implemented
 - [partial] CI, unit tests and metadata validation exist; product-level resilience remains incomplete. Browser E2E and screenshot automation are intentionally absent (DEC-049).
-- [partial] Authentication throttling and administrative RBAC/RLS exist; community anti-abuse controls do not
+- [partial] Authentication throttling and administrative RBAC/RLS exist; broader abuse controls remain incomplete
 - [ ] Cost observability
-- [deferred] Strategic principle for a future revenue model, not an implemented capability
 
 ## Phase 7 — Future clients
 
@@ -127,7 +110,6 @@ The web remains the primary platform until evidence supports expansion.
 - mandatory accounts;
 - custom-trained AI infrastructure;
 - premature multi-cloud architecture;
-- a full social network;
 - mobile-first implementation constraints before the web product is mature.
 
 Deferred does not mean forbidden forever.
@@ -138,13 +120,10 @@ The phases below should preserve the following capabilities as they become relev
 
 ### Personalization and collections
 
-The account phase should ultimately cover:
+The account phase should cover:
 - anonymous local favorites with deterministic account merge;
-- private/shareable/public collections;
-- personalized home and tool ordering;
-- hidden tools and configurable visible elements;
-- theme, animation and density/style preferences;
-- privacy/history controls.
+- personal collections that are private by default and optionally shareable by link;
+- light/dark theme preference, stored locally for anonymous users and synchronized with the account when implemented.
 
 ### Performance and resilience
 
@@ -159,8 +138,6 @@ The discovery phase can progress from catalog search to intent-aware search, the
 These remain future directions, not commitments to implement in the current phase:
 
 - **PWA and stronger offline support:** keep the normal web experience excellent first. If evaluated, compare concrete offline use cases and user value against installation UX, cache/storage complexity, update reliability, browser support, and performance costs. Offline indicators must describe actual tool capability; network-dependent tools must not be excluded from the catalog.
-- **Public profiles:** if introduced, make them optional and limited to explicitly selected information such as pseudonym, avatar, interests, favorite tools, public collections, and contributions. Keep profiles subordinate to finding and using tools; do not turn Loculary into a social network.
-- **Theme customization:** evaluate customization beyond light/dark/system only when it adds meaningful value. Preserve accessible, curated palette choices and validated light/dark semantic mappings; do not assume an unrestricted color picker is desirable.
 - **Contextual tool tone and richer educational content:** allow tool-specific tone or optional content about origins, history, conventions, or differing standards only when it improves the task. Neither should displace the tool or add generic filler.
 - **Additional languages and RTL:** expand through the language registry, reviewed translation readiness, localized SEO, and deliberate right-to-left layout support rather than assuming translation alone is sufficient.
 - **Future clients:** Android or other clients should be justified by demonstrated demand and must not slow down the web product prematurely.

@@ -78,15 +78,11 @@ Users must be able to use core tools without signing in.
 
 An account can unlock features such as:
 
-- synchronized favorites;
-- collections;
-- preferences;
-- synchronized history where appropriate;
-- future personalization features, including optional homepage/tool ordering and appearance preferences.
+- favorites synchronized with the account;
+- personal collections, with optional sharing by link;
+- account preferences, including the light/dark theme preference.
 
-Anonymous users should be able to retain appropriate local state such as favorites and preferences. When signing in, local favorites can merge into account favorites with deterministic conflict handling. Collections may be private, shareable or public by explicit choice. Sharing may expose a blank tool, configured tool or current result/state depending on the tool; sensitive data must never be exposed unintentionally through URLs or shared state.
-
-Public profiles are an optional future capability, not a prerequisite for accounts or core tool use. If introduced, users must explicitly choose what to expose, and private account data and collections must never become public by default. Theme customization should use curated, accessible choices and validated light/dark semantic mappings rather than assuming arbitrary colors are desirable.
+Anonymous users should be able to retain favorites and the light/dark theme preference locally. When signing in, local favorites can merge into account favorites with deterministic conflict handling. Collections are private by default and may be shared explicitly through a link. Shared links must not expose sensitive data unintentionally. Account synchronization describes the intended behavior, not a claim that all of these capabilities are already implemented.
 
 The product should support anonymous/local usage first and account creation when it adds value.
 
@@ -96,7 +92,7 @@ Without an account, useful non-sensitive state may be stored locally in the brow
 
 With an account, selected metadata can be synchronized.
 
-Tool input/content must not automatically become cloud history. Sensitive content should remain local unless a feature explicitly requires remote processing and clearly explains it.
+Tool input and content must not be synchronized or stored by default. Sensitive content should remain local unless a feature explicitly requires remote processing and clearly explains it.
 
 ## Tool catalog
 
@@ -185,41 +181,6 @@ The platform should standardize:
 - lifecycle and discovery.
 
 Individual tools may still have distinctive layouts, visualizations, animations, and interactions.
-
-## Community direction
-
-A future community layer may allow users to:
-
-- propose tool ideas;
-- suggest improvements;
-- rate tools;
-- comment;
-- discuss use cases.
-
-Community content must be moderated and validated. It must not be allowed to compromise the quality, safety, or trustworthiness of the catalog.
-
-A contributor may receive visible attribution/credit on an accepted tool or contribution.
-
-The contribution system is a future capability, but the architecture should not make it impossible.
-
-Community exists to improve the catalog, not to turn Loculary into a social network. Public profiles, public collections, proposals, ratings, comments, reports and contributor attribution remain subordinate to finding and using tools.
-
-## Advertising
-
-Loculary is intended to be free and sustainable through advertising.
-
-Preferred principle:
-
-> Advertising is visible, but the tool remains the dominant experience.
-
-Potential desktop placement:
-
-- side rail(s) when sufficient space exists;
-- otherwise a less intrusive lower-page placement.
-
-A persistent/sticky advertising unit may be considered when appropriate to the viewport and ad network rules, but it must not cover tool controls, results, navigation, or essential content.
-
-Advertising placement must be responsive and must degrade gracefully on smaller screens.
 
 ## Analytics
 

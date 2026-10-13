@@ -1,10 +1,10 @@
 # Loculary — Database
 
-PostgreSQL is the source of truth for the durable account, administrative RBAC and audit data currently deployed. It may support additional product or community domains when their requirements justify the schema and operational cost. Executable behavior remains in Git; a database is not the default destination for every kind of product data.
+PostgreSQL is the source of truth for the durable account, administrative RBAC and audit data currently deployed. It may support additional product domains when their requirements justify the schema and operational cost. Executable behavior remains in Git; a database is not the default destination for every kind of product data.
 
-Potential future domains include synchronized preferences, favorites, collections, community records, moderation, editorial metadata, analytics metadata and privacy/consent state. These are candidates, not commitments to deploy them all.
+Potential future domains include synchronized preferences, favorites, collections, editorial metadata, analytics metadata and privacy/consent state. These are candidates, not commitments to deploy them all.
 
-Sensitive tool inputs and file contents are not stored by default. Each tool defines what history can retain. Anonymous local favorites may be merged into account favorites after login with deterministic conflict handling.
+Sensitive tool inputs and file contents are not stored by default. Anonymous local favorites may be merged into account favorites after login with deterministic conflict handling.
 
 All client-provided data is untrusted. Enforce server-side validation, authorization, constraints, uniqueness and auditability.
 
@@ -15,7 +15,7 @@ Tool lifecycle: draft → review → published → hidden → archived. Hard del
 
 The first account foundation is now deployed to Supabase: Supabase Auth remains the identity system, while `public.profiles` stores only user-owned profile metadata that is safe to synchronize. System-defined administrative roles and permissions use stable keys; their user-facing labels belong to the application i18n layer. Row Level Security restricts profile access to the owning user, and the `auth.users` insert trigger is the sole supported profile-creation path. Authenticated clients do not insert profiles directly.
 
-This is intentionally a small first step. Additional domains such as favorites, collections, preferences, catalog/editorial data and community records may be considered incrementally when concrete requirements justify their database and operational costs; they are not committed migrations.
+This is intentionally a small first step. Additional domains such as favorites, collections, preferences and catalog/editorial data may be considered incrementally when concrete requirements justify their database and operational costs; they are not committed migrations.
 
 
 ## Database catalog boundary

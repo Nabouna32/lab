@@ -30,7 +30,6 @@ The validator enforces these minimum invariants:
 - `hybrid` processing also requires local processing capability;
 - offline tools must be local and must not require network access;
 - local tools may only use no storage or local storage;
-- community tools must identify their contributor.
 
 ## Scope
 

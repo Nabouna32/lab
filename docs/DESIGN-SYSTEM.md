@@ -78,15 +78,13 @@ Light and dark themes must implement the same semantic contract with theme-appro
 
 Theme support must be tested using the actual resolved colors, including text, icons, borders, focus indicators, disabled states, overlays and status messages.
 
-### 3.3 Default palette and user choice
+### 3.3 Default palette
 
 The default appearance uses the blue seed **#4285F4** to generate semantic tonal roles and the official Material Color Utilities (MCU) Rainbow scheme. The seed is an input, not a mandate to use that literal value for every primary component. Generate or select complete light/dark role mappings deliberately and validate their actual contrast and state clarity.
 
 Use the **official MCU Rainbow scheme as Loculary's single rainbow palette**. Its tonal range should serve both expressive surfaces/frame backgrounds and vivid category differentiation: use softer tones for large surfaces and stronger, more saturated tones for compact accents such as pills, badges and markers where they remain legible. Do not keep a parallel Loculary-specific palette merely to obtain vivid colors; first use the official scheme's available tones. Avoid rainbow decoration on every component, and validate foreground contrast for each use. Semantic success, warning and error colors remain independent of the brand seed and Rainbow palette.
 
-Users should be able to choose from a curated set of predefined palettes in appearance settings. The initial product should not expose an unrestricted arbitrary-color picker: curated palettes are easier to validate, keep semantic roles coherent and reduce the number of combinations that must be tested. Palette previews must represent the actual semantic mappings, not just a row of brand swatches.
-
-Anonymous preference persistence is local-first. Synchronization to the signed-in account is a planned capability and must use the account-preference architecture when implemented; this document does not claim that the settings UI or synchronization already exists. Dynamic system color is optional and must never silently override the user's explicit palette choice or compromise brand consistency and accessibility.
+The light/dark theme preference is local-first for anonymous users and may be synchronized with the signed-in account when account-preference persistence is implemented. This document does not claim that the settings UI or synchronization already exists.
 
 ### 3.4 Status and content colors
 
@@ -179,7 +177,7 @@ Desktop, tablet and mobile are first-class experiences. Do not design a desktop 
 
 Responsive behavior should preserve task hierarchy and useful interaction targets. Recompose navigation, tool controls, result areas, dialogs and menus when the viewport changes. Test long localized strings, zoom, narrow widths, touch interaction and landscape layouts.
 
-Advertising or secondary content must not reduce the usable tool area below an acceptable level or obstruct inputs, results, navigation or critical controls.
+Secondary content must not reduce the usable tool area below an acceptable level or obstruct inputs, results, navigation or critical controls.
 
 ## 11. Accessibility, localization and quality
 
@@ -218,7 +216,7 @@ The review should verify consistency with M3 Expressive, task clarity, visual di
 
 This document establishes the current product/design contract; it does not prove that the application has been migrated.
 
-The default semantic color seed is #4285F4 and Roboto is the validated default interface typeface. The official MCU Rainbow scheme is the sole rainbow palette; use its tonal range for both expressive surfaces and vivid compact accents, validating saturation and contrast for each context. Remaining implementation details include complete light/dark tonal mappings, curated palette inventory, exact token values, component inventory, package/loading choices, final logo treatment and migration sequencing. Validate the resulting palettes and representative screens before freezing concrete tokens.
+The default semantic color seed is #4285F4 and Roboto is the validated default interface typeface. The official MCU Rainbow scheme is the sole rainbow palette; use its tonal range for both expressive surfaces and vivid compact accents, validating saturation and contrast for each context. Remaining implementation details include complete light/dark tonal mappings, exact token values, component inventory, package/loading choices, final logo treatment and migration sequencing. Validate the resulting palettes and representative screens before freezing concrete tokens.
 
 Implementation should be staged into small, verifiable scopes. Existing components may be refactored or replaced when necessary to meet this contract, but must not silently change unrelated product behavior, privacy, architecture or scope.
 

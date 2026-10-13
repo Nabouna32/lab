@@ -57,21 +57,13 @@ Loculary adopts **Material 3 Expressive** as the shared visual and interaction d
 
 The detailed visual contract—including the blue seed, official MCU Rainbow palette, Roboto, semantic colors, light/dark contrast, components and motion—is maintained in [docs/DESIGN-SYSTEM.md](DESIGN-SYSTEM.md). Shared foundations should create coherence without forcing every tool into an identical layout. Specialized interfaces remain valid when they better serve the task and preserve accessibility, localization, responsiveness, performance and trust.
 
-Appearance preferences should work locally for anonymous users and synchronize to an account when signed-in preference persistence is implemented. This is a product direction, not a claim that the feature already exists. WCAG 2.2 AA and reduced-motion preferences remain mandatory.
+The light/dark theme preference should work locally for anonymous users and synchronize to an account when signed-in preference persistence is implemented. This is a product direction, not a claim that the feature already exists. WCAG 2.2 AA and reduced-motion preferences remain mandatory.
 
 ### 7. Broad functional ambition
 
 Loculary is not limited to calculators or converters. Any useful browser-realizable tool can belong in the catalog: technical, practical, creative, educational, analytical, visual, playful, emotional, symbolic, or other categories.
 
 The practical boundary is technical feasibility, legal/safety constraints, operational cost, and product quality.
-
-### 8. Free and sustainable
-
-The core service is intended to remain free to users and may be funded primarily through advertising.
-
-Advertising must not materially obstruct use of the tools.
-
-If revenue becomes meaningful, a portion can be reinvested into infrastructure, development, reliability, and user experience.
 
 ### Helpful explanations and editorial quality
 
@@ -130,4 +122,4 @@ This is intentionally a product-quality goal rather than a single metric.
 
 ## Future evolution
 
-Loculary may evolve from helping users find one useful tool to helping them solve broader needs through complementary tools or composed workflows. Personalization may add favorites, collections, history and preferences without making an account mandatory for core use. These are conditional long-term directions, not MVP commitments; each must earn its complexity through demonstrated user value, feasibility and a sustainable operating cost.
+Loculary may evolve from helping users find one useful tool to helping them solve broader needs through complementary tools or composed workflows. Favorites, collections and light/dark theme preferences should remain optional additions that do not make an account mandatory for core use. Further directions should be evaluated on demonstrated user value, feasibility and operating cost.
