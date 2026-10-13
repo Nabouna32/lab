@@ -8,41 +8,52 @@ import { formatPlural } from "@/lib/i18n/plural";
 import { isLocale, type Locale, locales } from "@/lib/i18n/config";
 import { notFound } from "next/navigation";
 import { getPublicPageMetadata } from "@/lib/tools/page-metadata";
+import { getToolsForIntent, isIntentId } from "@/lib/tools/intents";
 import { getCategoryPath, getToolsPath } from "@/lib/tools/routes";
-
-const intentCategoryMap: Record<string, string[]> = {
-  calculate: ["calculations"],
-  convert: ["computing"],
-  generate: ["development"],
-  analyze: ["files", "video"],
-  measure: ["dates", "calculations"],
-};
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale, section: getToolsPath(locale).split("/")[2] }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ locale: string; section: string }> }): Promise<Metadata> {
-  const { locale: rawLocale, section } = await params;
+export async function generateMetadata({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ locale: string; section: string }>;
+  searchParams: Promise<{ intent?: string | string[] }>;
+}): Promise<Metadata> {
+  const [{ locale: rawLocale, section }, query] = await Promise.all([params, searchParams]);
   if (!isLocale(rawLocale) || section !== getToolsPath(rawLocale).split("/")[2]) return {};
   const locale: Locale = rawLocale;
   const t = getMessages(locale);
-  return getPublicPageMetadata({
+  const metadata = getPublicPageMetadata({
     title: t.tools.metaTitle,
     description: t.tools.description,
     path: getToolsPath(locale),
     alternatePaths: Object.fromEntries(locales.map((availableLocale) => [availableLocale, getToolsPath(availableLocale)])),
   }, locale);
+
+  return query.intent ? { ...metadata, robots: { index: false, follow: true } } : metadata;
 }
 
-export default async function ToolsPage({ params }: { params: Promise<{ locale: string; section: string }> }) {
-  const { locale: rawLocale, section } = await params;
+export default async function ToolsPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ locale: string; section: string }>;
+  searchParams: Promise<{ intent?: string | string[] }>;
+}) {
+  const [{ locale: rawLocale, section }, query] = await Promise.all([params, searchParams]);
   if (!isLocale(rawLocale) || section !== getToolsPath(rawLocale).split("/")[2]) notFound();
 
   const locale: Locale = rawLocale;
   const t = getMessages(locale);
   const visibleCategories = categories.filter((category) => getToolCount(category.id) > 0);
   const publishedTools = getPublishedTools();
+  const rawIntent = Array.isArray(query.intent) ? query.intent[0] : query.intent;
+  const selectedIntentId = isIntentId(rawIntent) ? rawIntent : null;
+  const selectedIntent = selectedIntentId ? t.tools.intents.find((intent) => intent.id === selectedIntentId) : undefined;
+  const intentTools = selectedIntentId ? getToolsForIntent(selectedIntentId, publishedTools) : [];
 
   return (
     <main className="min-h-full px-4 py-6 sm:px-6 sm:py-8 lg:px-10 lg:py-10">
@@ -75,25 +86,37 @@ export default async function ToolsPage({ params }: { params: Promise<{ locale: 
               <p className="mt-2 text-xs leading-5 text-[var(--muted)]">{t.tools.intentsDescription}</p>
             </div>
             <div className="mt-3 flex gap-2 overflow-x-auto pb-1 lg:block lg:space-y-1">
-              {t.tools.intents.map((intent) => {
-                const categoryId = (intentCategoryMap[intent.id] ?? []).find((id) => getToolCount(id) > 0);
-                if (!categoryId) return null;
-                return (
-                  <a
-                    key={intent.id}
-                    href={getCategoryPath(locale, categoryId)}
-                    className="group inline-flex min-h-10 shrink-0 items-center gap-2 rounded-xl border border-transparent px-3 text-sm font-bold outline-none transition-[transform,background-color,border-color] duration-[var(--motion-standard)] hover:-translate-y-0.5 hover:border-[var(--border)] hover:bg-[var(--accent-soft)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] lg:flex"
-                  >
-                    <span aria-hidden="true">{intent.icon}</span>
-                    <span>{intent.label}</span>
-                    <span className="ml-auto hidden text-[var(--muted)] group-hover:inline" aria-hidden="true">↗</span>
-                  </a>
-                );
-              })}
+              {t.tools.intents.map((intent) => (
+                <a
+                  key={intent.id}
+                  href={`${getToolsPath(locale)}?intent=${intent.id}`}
+                  aria-current={selectedIntentId === intent.id ? "page" : undefined}
+                  className={`group inline-flex min-h-10 shrink-0 items-center gap-2 rounded-xl border px-3 text-sm font-bold outline-none transition-[transform,background-color,border-color] duration-[var(--motion-standard)] hover:-translate-y-0.5 hover:border-[var(--border)] hover:bg-[var(--accent-soft)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] lg:flex ${selectedIntentId === intent.id ? "border-[var(--accent)] bg-[var(--accent-soft)] text-[var(--accent)]" : "border-transparent"}`}
+                >
+                  <span aria-hidden="true">{intent.icon}</span>
+                  <span>{intent.label}</span>
+                  <span className="ml-auto hidden text-[var(--muted)] group-hover:inline" aria-hidden="true">↗</span>
+                </a>
+              ))}
             </div>
           </aside>
 
           <div className="min-w-0 rounded-[1.5rem] border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-md)]">
+            {selectedIntent ? (
+              <section className="border-b border-[var(--border)] p-5 sm:p-7" aria-labelledby="tools-intent-results-heading" data-testid="intent-results" data-intent-id={selectedIntent.id}>
+                <div className="flex flex-col gap-3 border-b border-[var(--border)] pb-5 sm:flex-row sm:items-end sm:justify-between">
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-[0.16em] text-[var(--accent)]">01</p>
+                    <h2 id="tools-intent-results-heading" className="mt-1 text-2xl font-black tracking-[-0.04em] sm:text-3xl">{t.tools.intentResultsTitle(selectedIntent.label)}</h2>
+                    <p className="mt-2 max-w-xl text-sm leading-6 text-[var(--muted)]">{t.tools.intentResultsDescription}</p>
+                  </div>
+                  <a href={getToolsPath(locale)} className="inline-flex min-h-10 items-center justify-center rounded-xl border border-[var(--border)] px-3 text-sm font-bold hover:bg-[var(--surface-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]">{t.tools.clearIntent}</a>
+                </div>
+                <div className="mt-5 divide-y divide-[var(--border)] overflow-hidden rounded-2xl border border-[var(--border)]">
+                  {intentTools.map((tool) => <div key={tool.id} data-testid="intent-result"><ToolCard tool={tool} locale={locale} categoryName={getCategoryName(locale, tool.categories[0])} categoryId={tool.categories[0]} /></div>)}
+                </div>
+              </section>
+            ) : null}
             <section className="p-5 sm:p-7" aria-labelledby="tools-categories-heading">
               <div className="flex flex-col gap-2 border-b border-[var(--border)] pb-5 sm:flex-row sm:items-end sm:justify-between">
                 <div>
