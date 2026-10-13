@@ -76,8 +76,6 @@
   --danger-soft: var(--error-container);
   --danger-foreground: var(--on-error-container);
   --success-foreground: var(--success);
-  --danger-foreground: var(--on-error-container);
-  --success-foreground: var(--success);
   --focus-ring: var(--primary);
 
   --radius-sm: 0.5rem;
@@ -170,6 +168,8 @@
   --focus-ring: var(--primary);
   --danger: var(--error);
   --danger-soft: var(--error-container);
+  --danger-foreground: var(--on-error-container);
+  --success-foreground: var(--success);
   --accent-strong: var(--primary);
   --shadow-sm: 0 1px 3px rgb(0 0 0 / 0.28);
   --shadow-md: 0 8px 22px rgb(0 0 0 / 0.28);
