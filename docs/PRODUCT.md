@@ -139,6 +139,15 @@ Expected checks include, as applicable:
 
 The exact automated contract will evolve with the tool platform.
 
+### Explanation and content quality
+
+- Put the useful result and primary interaction first; make explanations available without making them a barrier to use.
+- Where useful, explain a result using the values the user actually entered rather than a disconnected generic explanation.
+- Prefer concise, realistic examples that clarify a concept; avoid repetitive examples that add no new understanding.
+- Editorial content must provide genuine help. Search visibility is not a justification for filler or artificially lengthened pages.
+- Keep advanced options available when they provide real value, but prevent them from overwhelming the default experience.
+- A feature, recommendation or content block should exist because it helps the user, not merely because the layout or catalog has room for it.
+
 ## Account experience
 
 Loculary remains anonymous-first for core tools. The account layer is an optional personal surface for display name, language preference, authentication, password/email management and account deletion. It must not become a prerequisite for using the core toolbox.
