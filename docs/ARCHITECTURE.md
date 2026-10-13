@@ -26,7 +26,6 @@ Preferred location for:
 - client-side visualization;
 - interactive simulations;
 - random generators;
-- local history;
 - anonymous preferences;
 - other operations that can safely run locally.
 
