@@ -85,11 +85,9 @@ Tool-specific identity is encouraged when it improves comprehension, feedback or
 
 ### Visual design direction
 
-The shared visual system follows **Material 3 Expressive**, as defined by DEC-048 and `docs/DESIGN-SYSTEM.md`. Apply its foundations to semantic color, typography, shape, surfaces, elevation, iconography, shared component states and motion, adapted to Loculary's task-first utility toolbox rather than copying a Google product screen or adopting a generic SaaS template.
+The shared visual system follows **Material 3 Expressive**, governed by DEC-048 and the [design-system contract](DESIGN-SYSTEM.md). Apply that shared language to Loculary's task-first utility toolbox; do not copy a Google product screen or adopt a generic SaaS template.
 
-The redesign must challenge existing UI patterns when they prevent a coherent Expressive experience. The objective is not to retokenize the current interface while preserving every existing component; refactor or replace abstractions when justified by the validated design target.
-
-The default semantic color seed is #4285F4, with Roboto as the validated default interface typeface. The official MCU Rainbow scheme is the sole rainbow palette; use its tonal range for expressive surfaces and vivid compact accents, with validated light/dark contrast. The brand mark remains distinct from functional interface icons, and shared consistency must not erase meaningful differences between specialized tools.
+Challenge existing UI patterns when they prevent a coherent experience. Refactor or replace abstractions when justified by the validated design target, while preserving meaningful differences between specialized tools. The brand mark remains distinct from functional interface iconography.
 
 ### Discovery and next actions
 
@@ -166,11 +164,9 @@ A visual treatment may provide functional, experiential, identity, or purely aes
 
 ## Visual expression and motion
 
-Loculary's shared visual language follows **Material 3 Expressive** as defined by DEC-048 and `docs/DESIGN-SYSTEM.md`. Expressive foundations apply across navigation and headers, buttons, fields, switches, menus, dialogs/popups, cards, feedback, typography, semantic color, iconography, interaction states, surfaces and motion.
-
 The intended feel is a polished, responsive web application with the clarity and immediacy of a modern Android app, not a literal Android screen replica. Shared behavior and foundations should be consistent, while tool-specific interfaces may use specialized layouts, visualizations or density when these better serve the task. Preserve the task-first journey and platform-wide accessibility, localization, responsiveness, performance and trust requirements.
 
-Use expressive shape, color and motion to clarify hierarchy, state changes and spatial continuity—not as decoration on every element. Respect system reduced-motion preferences. The default semantic palette uses the blue seed #4285F4, with Roboto as the validated default interface typeface. Use the official MCU Rainbow scheme as the sole rainbow palette for both expressive surfaces and vivid compact accents, choosing tones appropriate to each context. Validate light/dark contrast and preserve independent semantic status colors. Exact mappings and implementation tokens belong in the canonical design-system contract.
+Use expressive shape, color and motion to clarify hierarchy, state changes and spatial continuity—not as decoration on every element. Motion may add delight and identity, but must not obstruct task completion; respect system reduced-motion preferences. Follow [the design-system contract](DESIGN-SYSTEM.md) for canonical color, typography, iconography, component-state and theme rules.
 
 ## Input validation
 
