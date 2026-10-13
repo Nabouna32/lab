@@ -78,42 +78,6 @@ The platform standardizes infrastructure and trust requirements, while custom to
 
 ---
 
-## DEC-006 — Advertising must remain subordinate
-
-**Status:** Accepted
-
-### Decision
-
-Advertising can fund the free product, but it must not obstruct the primary tool experience.
-
-### Reason
-
-The product needs a sustainable business model without undermining the reason users visit it.
-
-### Consequences
-
-Desktop side placements are preferred where space permits. Alternative placements may be used on smaller screens.
-
----
-
-## DEC-007 — Optional community
-
-**Status:** Accepted as future direction
-
-### Decision
-
-A moderated community layer may allow tool proposals, ideas, ratings, comments, and contributor attribution.
-
-### Reason
-
-User participation can improve discovery and give the catalog a living, interactive character.
-
-### Consequences
-
-A database, moderation workflow, abuse controls, and contribution metadata will eventually be required.
-
----
-
 ## DEC-008 — AI is conditional, not foundational
 
 **Status:** Accepted
@@ -245,7 +209,7 @@ Users should not need to navigate obscure settings or infer what is stored.
 
 ### Consequences
 
-The data model must maintain clear ownership and deletion/export boundaries across identity, preferences, product data, community content, analytics, and security/moderation records.
+The data model must maintain clear ownership and deletion/export boundaries across identity, preferences, favorites, collections, analytics, and security records.
 
 
 ---
@@ -259,17 +223,17 @@ Structure the product conceptually around three layers: **Public discovery**, **
 
 ### Consequences
 
-Anonymous users can use the public and tool layers without an account. Authentication adds favorites, collections, history, preferences, personalization and community capabilities without creating an account wall.
+Anonymous users can use the public and tool layers without an account. Authentication may add synchronized favorites, personal collections and account preferences without creating an account wall. Local-only state remains local unless a separate product requirement justifies otherwise.
 
 ---
 
-## DEC-017 — First-class collections and safe sharing
+## DEC-017 — First-class collections and explicit link sharing
 
 **Status:** Accepted
 
 ### Decision
 
-Collections are first-class user objects and may be private, shareable, or public by explicit choice. Tool sharing may preserve a blank configuration, configured state, or current result when appropriate.
+Collections are first-class user-owned objects, private by default, with optional sharing through an explicit link. Tool sharing may preserve a blank configuration, configured state, or current result when appropriate.
 
 ### Consequences
 
@@ -437,32 +401,6 @@ System roles and permissions are part of the application contract, not editable 
 - User-facing labels and descriptions are translated through the normal locale system.
 - Future editable catalog/editorial content may use database translation tables because that content is intentionally administrable.
 - Authorization logic continues to use stable keys and never depends on translated text.
-
-## DEC-027 — Database owns editable catalog/editorial data, not executable behavior
-
-**Status:** Superseded in part by DEC-051 (historical context retained)
-
-**Current interpretation:** DEC-051 supersedes the unconditional choice of PostgreSQL as the catalog store. The separation between editable metadata and executable behavior remains valid if a database-backed catalog is later justified.
-
-### Decision
-
-PostgreSQL owns editable tool catalog and editorial data: stable tool identity, slug, visual metadata, lifecycle, access policy, localized names/descriptions/SEO, categories, tags, aliases and relations.
-
-Git/code remains authoritative for executable implementations and technical behavior: registry modules, processing mode, capabilities, browser requirements and actual tool logic.
-
-### Reason
-
-Loculary needs an administrable catalog that can scale to a large number of tools without moving executable code into a database. The database is well suited to search, administration, publication workflows and editable product content, while Git remains the source of executable behavior.
-
-### Consequences
-
-- The stable tool ID links database catalog records to the Git-backed registry.
-- Public catalog reads expose only published tools.
-- Administrative permissions distinguish catalog reading, editing and publishing.
-- Database metadata must never be interpreted as permission to use a capability that the executable module does not actually declare.
-- Localized editable product content uses database translation rows; system labels remain in application i18n.
-
----
 
 ## DEC-028 — Explicit decimal and binary file-size units
 
@@ -897,7 +835,7 @@ Loculary benefits from current tooling, security updates, and a small, understan
 
 ### Decision
 
-The public tool catalog remains Git-backed. PostgreSQL is not a committed destination for editable catalog data and no migration is scheduled by default. DEC-027's separation between editable metadata and executable behavior remains valid as a boundary if a database catalog is later justified; its unconditional storage target is superseded by this decision.
+The public tool catalog remains Git-backed. PostgreSQL is not a committed destination for editable catalog data and no migration is scheduled by default. Editable metadata and executable behavior must remain separate if a database-backed catalog is later justified.
 
 Reconsider a database-backed catalog when at least one concrete product or operational requirement is demonstrated that the current Git-backed workflow cannot reasonably serve. Evidence may include:
 
