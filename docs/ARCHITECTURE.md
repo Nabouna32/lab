@@ -95,7 +95,6 @@ A conceptual tool definition may contain:
 - SEO metadata;
 - related tools;
 - documentation;
-- contribution attribution;
 - validation/test metadata.
 
 The exact schema is not frozen yet.
@@ -204,14 +203,13 @@ Account deletion is a server-side Supabase Edge Function authenticated with the 
 
 ## Database
 
-A database is expected to become useful for:
+The deployed database currently supports:
 
-- users;
-- favorites;
-- collections;
-- synchronized preferences;
-- tool metadata where appropriate;
-- privacy-conscious analytics data.
+- account identity/profile metadata;
+- favorites and personal collections;
+- administrative RBAC and audit data.
+
+Synchronized preferences, tool metadata and privacy-conscious analytics remain possible future domains only when justified by concrete requirements.
 
 Supabase/PostgreSQL is the current database platform for the deployed account, administrative RBAC and audit foundation. The public tool catalog remains Git-backed, and the legacy database catalog schema is not deployed; no catalog migration is currently scheduled.
 
