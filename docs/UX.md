@@ -4,7 +4,7 @@
 
 **Status:** Accepted. This direction governs where older UX wording conflicts with it.
 
-Loculary's current UX direction is a task-first utility toolbox. Existing UI patterns, prior UX proposals and earlier visual conventions are implementation history, not constraints on the current design.
+Loculary is a task-first utility toolbox. Existing UI patterns and visual conventions may be changed whenever they no longer serve the current product direction.
 
 The product should not be approached as a conventional SaaS landing page, dashboard or generic tool catalog. The target experience is a **modern utility toolbox**: direct, precise, pleasant and highly focused on helping a user accomplish a task.
 
