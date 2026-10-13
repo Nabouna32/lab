@@ -10,8 +10,9 @@ import "@/app/globals.css";
 import { getLocularyThemeStyle } from "@/lib/design-system/rainbow-tones";
 import { getPublishedTools } from "@/lib/tools/catalog";
 import { FavoritesProvider } from "@/components/favorites/FavoritesProvider";
+import { CollectionsProvider } from "@/components/collections/CollectionsProvider";
 
-const roboto = Roboto({ variable: "--font-roboto", subsets: ["latin"], weight: ["400", "500", "700"] });
+const roboto = Roboto({ variable: "--font-roboto", subsets: ["latin"], weight: ["400", "500", "600", "700", "800", "900"] });
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -45,11 +46,13 @@ export default async function LocaleLayout({
       <body className={roboto.variable}>
         <ThemeProvider>
           <FavoritesProvider toolIds={getPublishedTools().map((tool) => tool.id)}>
-            <Header locale={locale} />
-            <div className="min-h-0" style={{ viewTransitionName: "loculary-workspace" }}>
-              {children}
-            </div>
-            <Footer locale={locale} />
+            <CollectionsProvider toolIds={getPublishedTools().map((tool) => tool.id)}>
+              <Header locale={locale} />
+              <div className="min-h-0" style={{ viewTransitionName: "loculary-workspace" }}>
+                {children}
+              </div>
+              <Footer locale={locale} />
+            </CollectionsProvider>
           </FavoritesProvider>
         </ThemeProvider>
       </body>

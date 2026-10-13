@@ -31,7 +31,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       <section className="px-4 pb-5 pt-5 sm:px-6 sm:pb-8 sm:pt-8 lg:px-10 lg:pt-10" aria-labelledby="home-title">
         <div className="mx-auto w-full max-w-[var(--content-wide)]">
           <div className="home-rainbow-frame rounded-[2rem] p-px sm:rounded-[2.5rem]" style={getRainbowFrameStyle()}>
-            <div className="home-command-surface relative isolate overflow-hidden rounded-[calc(2rem-1px)] bg-[var(--surface)] px-5 py-8 sm:rounded-[calc(2.5rem-1px)] sm:px-8 sm:py-10 lg:px-12 lg:py-14">
+            <div className="home-command-surface relative isolate overflow-hidden rounded-[calc(2rem-1px)] bg-[var(--surface)] px-5 py-7 sm:rounded-[calc(2.5rem-1px)] sm:px-8 sm:py-8 lg:px-12 lg:py-10">
               <div className="pointer-events-none absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-[var(--primary)]/35 to-transparent" aria-hidden="true" />
 
               <div className="relative z-10 max-w-4xl">
@@ -40,15 +40,15 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                   {t.home.badge}
                 </p>
 
-                <h1 id="home-title" className="motion-reveal mt-5 max-w-4xl text-balance text-[clamp(2.6rem,6.5vw,5.4rem)] font-black leading-[.96] tracking-[-0.065em] text-[var(--foreground)]">
+                <h1 id="home-title" className="motion-reveal mt-5 max-w-4xl text-balance text-[clamp(2.3rem,5.4vw,4.6rem)] font-black leading-[1] tracking-[-0.055em] text-[var(--foreground)]">
                   {t.home.title}
                 </h1>
 
-                <p className="motion-reveal motion-reveal-delay mt-5 max-w-2xl text-base leading-7 text-[var(--muted)] sm:text-lg sm:leading-8">
+                <p className="motion-reveal motion-reveal-delay mt-4 max-w-2xl text-base leading-7 text-[var(--muted)] sm:text-lg sm:leading-8">
                   {t.home.description}
                 </p>
 
-                <div id="home-search" className="motion-reveal motion-reveal-delay mx-auto mt-7 max-w-3xl scroll-mt-28 sm:mt-9">
+                <div id="home-search" className="motion-reveal motion-reveal-delay mx-auto mt-6 max-w-3xl scroll-mt-28 sm:mt-7">
                   <ToolSearch locale={locale} instanceId="home-tool-search-v4" placeholder={t.home.searchPlaceholder} />
                 </div>
 

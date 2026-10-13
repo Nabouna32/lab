@@ -20,3 +20,9 @@ export function getCategoryContainerColor(categoryId: string): string {
   const variable = categoryColorVariables[categoryId as CategoryColorId];
   return variable ? `var(${variable}-container)` : "var(--accent-soft)";
 }
+
+
+export function getCategoryOnContainerColor(categoryId: string): string {
+  const variable = categoryColorVariables[categoryId as CategoryColorId];
+  return variable ? `var(${variable}-on-container)` : "var(--on-primary-container)";
+}

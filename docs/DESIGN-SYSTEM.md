@@ -1,6 +1,6 @@
 # Loculary — Material 3 Expressive Design System Contract
 
-**Status:** Accepted production design direction; detailed tokens and implementation remain to be validated  
+**Status:** Accepted production design direction; implementation audit and incremental conformance work are in progress  
 **Canonical direction:** DEC-048 — Material 3 Expressive as Loculary's shared design-system foundation  
 **Related decisions:** DEC-004, DEC-034, DEC-048  
 **Scope:** Shared platform UX, foundations and reusable components  
