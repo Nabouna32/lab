@@ -138,7 +138,7 @@ Search architecture should allow an intelligence layer without requiring one fro
 
 ### Decision
 
-Keep Next.js, React, TypeScript, Tailwind CSS, Vercel, GitHub Actions, and Playwright as the current baseline unless implementation evidence justifies a change.
+Keep Next.js, React, TypeScript, Tailwind CSS, Vercel, and GitHub Actions as the current baseline unless implementation evidence justifies a change. Browser-level E2E automation is governed separately by DEC-049.
 
 ### Reason
 
@@ -839,3 +839,26 @@ Loculary needs a coherent, recognizable visual and interaction language that fee
 - DEC-004 remains in force: shared foundations and behavior do not require identical compositions across specialized tools.
 - Accessibility, WCAG 2.2 AA, reduced motion, responsive desktop/tablet/mobile behavior, localization, privacy and performance remain mandatory.
 - Adoption is not proof of implementation. Production migration, curated palette settings, preference persistence, account synchronization and visual/accessibility verification remain implementation work that must be tracked and verified with appropriate evidence.
+
+
+## DEC-049 — Defer browser E2E and screenshot automation during active redesign
+
+**Status:** Accepted
+
+### Decision
+
+Remove the manually triggered Playwright E2E, production-browser validation, and production-screenshot workflows, along with their browser tests and the Playwright dependency. Keep the existing CI baseline: Node.js tests, lint, TypeScript checks, production build, dependency/security checks, and targeted Supabase Edge Function validation.
+
+Do not reintroduce browser E2E or screenshot automation as a default project requirement. Reconsider a narrowly scoped browser check only when the interface and key journeys have stabilized and a concrete regression risk demonstrates that its value exceeds its maintenance cost.
+
+### Reason
+
+Loculary is actively being redesigned. UI selectors, page structure, labels, and expected flows change frequently, so browser tests can become stale and fail for reasons that do not represent product regressions. Maintaining and diagnosing those constraints creates disproportionate friction for a two-person project. The manual workflows also duplicate production-browser coverage and screenshot capture around the same test file.
+
+### Consequences
+
+- The `e2e/` directory and the three browser/screenshot workflows are removed.
+- `@playwright/test` and its lockfile-only dependencies are removed.
+- Unit-level and repository-level automated checks remain the primary regression safeguards.
+- Screenshots and browser artifacts are not required inputs to routine assistant work.
+- Any future browser automation must be small, justified by a concrete failure mode, and kept aligned with the current product rather than treated as a permanent checklist.

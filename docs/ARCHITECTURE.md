@@ -283,7 +283,9 @@ The current repository uses:
 - Tailwind CSS;
 - Vercel for production hosting;
 - GitHub Actions for CI;
-- Playwright for browser-level validation.
+- Node.js tests, linting, type checking, and production builds as the automated validation baseline.
+
+Browser-level E2E and screenshot automation are intentionally excluded during the active redesign. Reconsider them only when the interface stabilizes and a concrete regression risk justifies their maintenance cost.
 
 This is the current baseline, not an immutable commitment.
 
