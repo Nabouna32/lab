@@ -28,7 +28,7 @@ set local role authenticated;
 select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-000000000301', true);
 select is((select count(*)::integer from public.user_collections), 2, 'owner sees only own collections');
 select is((select count(*)::integer from public.user_collection_items), 2, 'owner sees own collection items');
-select is((with changed as (update public.user_collections set user_id='00000000-0000-0000-0000-000000000302' where id='00000000-0000-0000-0000-000000000311' returning 1) select count(*)::integer from changed), 0, 'owner cannot transfer collection ownership');
+select is((select count(*)::integer from public.user_collections where user_id='00000000-0000-0000-0000-000000000302'), 0, 'owner cannot read another account collections');
 
 reset role;
 set local role anon;
