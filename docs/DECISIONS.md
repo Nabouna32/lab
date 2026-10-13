@@ -138,7 +138,7 @@ Search architecture should allow an intelligence layer without requiring one fro
 
 ### Decision
 
-Keep Next.js, React, TypeScript, Tailwind CSS, Vercel, GitHub Actions, and Playwright as the current baseline unless implementation evidence justifies a change.
+Keep Next.js, React, TypeScript, Tailwind CSS, Vercel, and GitHub Actions as the current baseline unless implementation evidence justifies a change. Browser-level E2E automation is governed separately by DEC-049.
 
 ### Reason
 
@@ -839,3 +839,51 @@ Loculary needs a coherent, recognizable visual and interaction language that fee
 - DEC-004 remains in force: shared foundations and behavior do not require identical compositions across specialized tools.
 - Accessibility, WCAG 2.2 AA, reduced motion, responsive desktop/tablet/mobile behavior, localization, privacy and performance remain mandatory.
 - Adoption is not proof of implementation. Production migration, curated palette settings, preference persistence, account synchronization and visual/accessibility verification remain implementation work that must be tracked and verified with appropriate evidence.
+
+
+## DEC-049 — Defer browser E2E and screenshot automation during active redesign
+
+**Status:** Accepted
+
+### Decision
+
+Remove the manually triggered Playwright E2E, production-browser validation, and production-screenshot workflows, along with their browser tests and the Playwright dependency. Keep the existing CI baseline: Node.js tests, lint, TypeScript checks, production build, dependency/security checks, and targeted Supabase Edge Function validation.
+
+Do not reintroduce browser E2E or screenshot automation as a default project requirement. Reconsider a narrowly scoped browser check only when the interface and key journeys have stabilized and a concrete regression risk demonstrates that its value exceeds its maintenance cost.
+
+### Reason
+
+Loculary is actively being redesigned. UI selectors, page structure, labels, and expected flows change frequently, so browser tests can become stale and fail for reasons that do not represent product regressions. Maintaining and diagnosing those constraints creates disproportionate friction for a two-person project. The manual workflows also duplicate production-browser coverage and screenshot capture around the same test file.
+
+### Consequences
+
+- The `e2e/` directory and the three browser/screenshot workflows are removed.
+- `@playwright/test` and its lockfile-only dependencies are removed.
+- Unit-level and repository-level automated checks remain the primary regression safeguards.
+- Screenshots and browser artifacts are not required inputs to routine assistant work.
+- Any future browser automation must be small, justified by a concrete failure mode, and kept aligned with the current product rather than treated as a permanent checklist.
+
+
+## DEC-050 — Latest compatible tooling and lightweight collaboration
+
+**Status:** Accepted
+
+### Decision
+
+Use the latest stable versions that are compatible with Loculary’s actual framework and toolchain. Keep runtimes, dependencies, developer tools, and GitHub Actions current; verify compatibility and CI rather than retaining old versions by inertia or for theoretical reproducibility.
+
+Continue using Dependabot for routine dependency and GitHub Actions updates. Pin third-party GitHub Actions to full commit SHAs where appropriate and retain readable version comments; refresh those pins through updates. SHA pinning is a supply-chain security control, not a reason to freeze an action on an old release.
+
+The intended working model is a collaboration between the user and the assistant. Do not add process, abstraction, duplicate validation, or infrastructure designed for a hypothetical larger team. Each mechanism must solve a concrete project need.
+
+### Reason
+
+Loculary benefits from current tooling, security updates, and a small, understandable engineering workflow. Unnecessary compatibility scaffolding and process increase maintenance cost without improving the product. At the same time, immutable action references provide a meaningful security boundary and should not be confused with keeping dependencies outdated.
+
+### Consequences
+
+- Prefer current stable compatible releases, with explicit compatibility constraints documented only where real and verified.
+- Keep the existing Dependabot update workflow and review meaningful updates promptly.
+- Preserve full-SHA pinning for GitHub Actions where appropriate; do not replace it with floating tags merely to appear more up to date.
+- Avoid adding reproducibility systems, duplicate checks, or team-oriented ceremony unless a concrete need justifies the cost.
+- Browser E2E and screenshot automation remain governed separately by DEC-049 and are not reintroduced by default.

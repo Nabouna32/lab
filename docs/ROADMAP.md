@@ -11,7 +11,7 @@ Goal: establish the platform that can grow without creating unnecessary technica
 - [x] Public repository
 - [x] Main-only Vercel deployment
 - [x] GitHub Actions CI
-- [x] Browser smoke/E2E baseline
+- [deferred] Browser smoke/E2E baseline intentionally removed during active redesign; reconsider after the interface stabilizes and a concrete regression risk justifies it
 - [x] Product direction documented
 - [x] Formal tool metadata contract
 - [x] Shared tool page shell
