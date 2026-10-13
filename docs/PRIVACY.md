@@ -140,7 +140,7 @@ A tool must not be classified as local-only if it can transmit user file content
 User data should be logically separated into domains:
 
 - identity/authentication;
-- preferences and personalization;
+- preferences, including the light/dark theme;
 - product data such as favorites and collections;
 - security records;
 - analytics/telemetry.
@@ -158,7 +158,7 @@ The dashboard should allow a user to see, in understandable form:
 - favorites;
 - collections;
 - privacy and consent choices;
-- relevant analytics/personalization data;
+- relevant analytics data;
 - connected authentication providers;
 - active sessions where feasible;
 - data retention/deletion state.
