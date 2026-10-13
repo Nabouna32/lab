@@ -8,9 +8,6 @@ Sensitive tool inputs and file contents are not stored by default. Anonymous loc
 
 All client-provided data is untrusted. Enforce server-side validation, authorization, constraints, uniqueness and auditability.
 
-Tool lifecycle: draft → review → published → hidden → archived. Hard deletion is exceptional and protected.
-
-
 ## Implemented foundation
 
 The first account foundation is now deployed to Supabase: Supabase Auth remains the identity system, while `public.profiles` stores only user-owned profile metadata that is safe to synchronize. System-defined administrative roles and permissions use stable keys; their user-facing labels belong to the application i18n layer. Row Level Security restricts profile access to the owning user, and the `auth.users` insert trigger is the sole supported profile-creation path. Authenticated clients do not insert profiles directly.
