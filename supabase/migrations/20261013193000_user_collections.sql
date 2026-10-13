@@ -6,7 +6,6 @@ create table public.user_collections (
   name text not null check (char_length(btrim(name)) between 1 and 80),
   share_token text unique check (share_token is null or share_token ~ '^[0-9a-f-]{36}$'),
   created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now()
 );
 
 create table public.user_collection_items (
