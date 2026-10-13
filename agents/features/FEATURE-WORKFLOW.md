@@ -11,8 +11,6 @@ Automated browser E2E and screenshots remain manual-only during the active redes
 
 ---
 
-## Feature-specific engineering requirements
-
 ## Feature quality
 
 A feature is a user-facing capability, not merely a code change. Evaluate the complete user problem and journey, existing behavior, product direction, alternatives, dependencies and root causes before implementation. Challenge whether the capability should exist, whether an existing feature should be extended or consolidated, and whether the proposed experience is the best coherent solution.
