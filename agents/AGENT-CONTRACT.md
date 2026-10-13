@@ -35,7 +35,7 @@ For substantial work:
 5. **Escalate material changes.** If new evidence would materially change the approved outcome, scope, direction or significant risk, pause the affected work and discuss it before proceeding.
 6. **Verify and report.** Compare the actual changes and results with the approved proposal and Issue criteria. Inspect the full diff, run relevant checks, examine CI evidence and record results and limitations.
 
-Continue in the current conversation while useful. A handoff is optional, not a workflow phase. If context limits or a genuine continuity need make one useful, update the Issue with actual state and next action first; then provide a concise prompt grounded in that checkpoint and fresh GitHub state.
+Continue in the current conversation while useful. A handoff is optional, not a workflow phase. If context limits or a genuine continuity need make a handoff useful, update the Issue with actual state and next action first; then provide a concise prompt grounded in that checkpoint and fresh GitHub state.
 
 ## 5. Issues and continuity
 
@@ -56,6 +56,16 @@ If code and documented intent diverge, assess both and recommend either fixing t
 ## 7. Verification and delivery
 
 Inspect branch state and concurrent changes before editing; review the complete diff and changed/deleted paths; check references; run relevant tests; diagnose failures and re-run checks when appropriate. Report only results supported by actual evidence.
+
+Before considering a PR ready, review it against the approved outcome and ask:
+
+- **Correctness and regressions:** Does the change solve the actual problem? What plausible failure modes, edge cases or unintended behavior could it introduce?
+- **Design and maintainability:** Is the solution coherent with the architecture, understandable, and free of unnecessary complexity or duplication?
+- **Tests and risk:** Do the tests exercise the important behavior and boundaries at a level proportionate to the risk? What remains untested?
+- **Security and user impact:** Where relevant, are privacy, authorization, accessibility, localization, performance and failure states handled correctly?
+- **Evidence and scope:** Does the diff contain only justified changes? Do CI results correspond to the actual PR head, and are all claims about checks supported by evidence?
+
+A green CI is necessary when required, but it does not by itself establish that the solution is correct, maintainable or appropriate.
 
 Inspect effective workflow triggers and branch/ruleset protections before changing delivery behavior. Historical documentation is not proof of current configuration. If protection details or check results are inaccessible, state the limitation rather than guessing. Wait for required checks to reach a terminal state when their status is available, inspect relevant failure logs, and verify that the PR head is the checked head, the PR is mergeable and its base is current before merging. Recheck immediately before merge. Use normal GitHub controls and never bypass protections or claim access that the tools do not provide.
 

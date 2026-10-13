@@ -1,8 +1,6 @@
 # Loculary agent workspace
 
-This directory contains the shared collaboration rules and the specialist guidance that genuinely helps with recurring work.
-
-Start or resume a mission with `agents/START-HERE.md`. The common collaboration contract is `agents/AGENT-CONTRACT.md`; mission checkpoints live in the relevant GitHub Issue.
+This directory contains shared collaboration rules and specialist guidance. Read the root `AGENTS.md` first for repository-wide rules, then use `agents/START-HERE.md` to navigate the workflow and select the relevant contracts and task guide. Mission checkpoints live in the relevant GitHub Issue.
 
 ## Shared rules
 
@@ -16,4 +14,4 @@ Start or resume a mission with `agents/START-HERE.md`. The common collaboration 
 - Features: `agents/features/FEATURE-WORKFLOW.md`
 - Tools: `agents/tools/TOOL-WORKFLOW.md`
 
-Investigations and audits are initiated when they are useful during our work, and are adapted to the question. There is no mandatory audit catalogue, numbered procedure or report archive. Keep meaningful findings in the active Issue or canonical project documentation when they need to remain actionable.
+Investigations and audits are initiated when useful and adapted to the question. There is no mandatory audit catalogue, numbered procedure or report archive. Keep meaningful findings in the active Issue or canonical project documentation when they need to remain actionable.
