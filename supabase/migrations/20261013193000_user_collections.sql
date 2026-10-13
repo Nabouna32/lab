@@ -5,7 +5,7 @@ create table public.user_collections (
   user_id uuid not null references auth.users(id) on delete cascade,
   name text not null check (char_length(btrim(name)) between 1 and 80),
   share_token text unique check (share_token is null or share_token ~ '^[0-9a-f-]{36}$'),
-  created_at timestamptz not null default now(),
+  created_at timestamptz not null default now()
 );
 
 create table public.user_collection_items (
