@@ -65,7 +65,7 @@ export function FavoritesProvider({ children, toolIds }: { children: ReactNode; 
 
     const supabase = createClient();
     async function loadAccount(userId: string | null) {
-      if (!mounted) return;
+      if (!mounted || (userId !== null && activeUserRef.current !== userId)) return;
       if (!userId) {
         setAccount(null);
         return;
@@ -82,7 +82,7 @@ export function FavoritesProvider({ children, toolIds }: { children: ReactNode; 
 
       const { data: initialRows, error: initialError } = await supabase
         .from("user_favorites").select("tool_id").eq("user_id", userId);
-      if (!mounted) return;
+      if (!mounted || (userId !== null && activeUserRef.current !== userId)) return;
       if (initialError) {
         setAccount({ userId, ids: [], loading: false, error: true });
         return;
@@ -97,7 +97,7 @@ export function FavoritesProvider({ children, toolIds }: { children: ReactNode; 
           pendingIds.map((tool_id) => ({ user_id: userId, tool_id })),
           { onConflict: "user_id,tool_id", ignoreDuplicates: true },
         );
-        if (!mounted) return;
+        if (!mounted || (userId !== null && activeUserRef.current !== userId)) return;
         if (mergeError) {
           setAccount({ userId, ids: remoteIds, loading: false, error: true });
           return;
@@ -105,7 +105,7 @@ export function FavoritesProvider({ children, toolIds }: { children: ReactNode; 
 
         const { data: verifiedRows, error: verifyError } = await supabase
           .from("user_favorites").select("tool_id").eq("user_id", userId);
-        if (!mounted) return;
+        if (!mounted || (userId !== null && activeUserRef.current !== userId)) return;
         if (verifyError) {
           setAccount({ userId, ids: remoteIds, loading: false, error: true });
           return;
@@ -157,6 +157,7 @@ export function FavoritesProvider({ children, toolIds }: { children: ReactNode; 
     if (currentlyFavorite) {
       const { error } = await createClient().from("user_favorites").delete()
         .eq("user_id", currentAccount.userId).eq("tool_id", toolId);
+      if (activeUserRef.current !== currentAccount.userId) return;
       if (error) {
         setAccount((previous) => previous?.userId === currentAccount.userId ? { ...previous, error: true } : previous);
         return;
@@ -174,6 +175,7 @@ export function FavoritesProvider({ children, toolIds }: { children: ReactNode; 
       { user_id: currentAccount.userId, tool_id: toolId },
       { onConflict: "user_id,tool_id", ignoreDuplicates: true },
     );
+    if (activeUserRef.current !== currentAccount.userId) return;
     if (error) {
       setAccount((previous) => previous?.userId === currentAccount.userId ? { ...previous, error: true } : previous);
       return;
