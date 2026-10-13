@@ -25,7 +25,7 @@ export function SegmentedControl<T extends string>({
     <div
       role="group"
       aria-label={ariaLabel}
-      className={["grid gap-1 rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface-soft)] p-1", className].join(" ")}
+      className={["grid grid-flow-col auto-cols-fr gap-0 rounded-full border border-[var(--outline-variant)] bg-[var(--surface-soft)] p-1", className].join(" ")}
     >
       {items.map((item) => {
         const active = value === item.id;
@@ -37,16 +37,16 @@ export function SegmentedControl<T extends string>({
             aria-pressed={active}
             onClick={() => onChange(item.id)}
             className={[
-              "rounded-[var(--radius-md)] px-3.5 py-2.5 text-left transition-[background-color,color,box-shadow] duration-[var(--motion-standard)]",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-soft)]",
+              "min-w-0 rounded-full px-3 py-2.5 text-center text-sm transition-[background-color,color,box-shadow,transform] duration-[var(--motion-standard)]",
+              "focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-soft)]",
               active
-                ? "bg-[var(--surface)] text-[var(--foreground)] shadow-[var(--shadow-sm)]"
-                : "text-[var(--muted)] hover:bg-[var(--surface)]/70 hover:text-[var(--foreground)]",
+                ? "bg-[var(--secondary-container)] text-[var(--on-secondary-container)] font-semibold shadow-[var(--shadow-sm)]"
+                : "text-[var(--on-surface-variant)] hover:bg-[var(--surface-elevated)] hover:text-[var(--foreground)]",
             ].join(" ")}
           >
-            <span className="block font-semibold">{item.label}</span>
+            <span className="block">{item.label}</span>
             {item.description && (
-              <span className="mt-0.5 block text-xs text-[var(--muted)]">{item.description}</span>
+              <span className="mt-0.5 block text-xs font-normal opacity-80">{item.description}</span>
             )}
           </button>
         );

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { test } from "node:test";
-import { categoryColorIds, getCategoryColor, getCategoryContainerColor } from "./category-colors.ts";
+import { categoryColorIds, getCategoryColor, getCategoryContainerColor, getCategoryOnContainerColor } from "./category-colors.ts";
 
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
 const rainbowSource = readFileSync(new URL("../design-system/rainbow-tones.ts", import.meta.url), "utf8");
@@ -29,6 +29,9 @@ test("every category is wired to generated official MCU Rainbow colors for both 
     assert.ok(globalCss.includes(`${token}-container: var(--m3-dark-category-${categoryId}-container`), `${token} should have a generated dark container`);
     assert.equal(getCategoryColor(categoryId), `var(${token})`);
     assert.equal(getCategoryContainerColor(categoryId), `var(${token}-container)`);
+    assert.ok(globalCss.includes(`${token}-on-container: var(--m3-light-category-${categoryId}-on-container`), `${token} should have a generated light foreground`);
+    assert.ok(globalCss.includes(`${token}-on-container: var(--m3-dark-category-${categoryId}-on-container`), `${token} should have a generated dark foreground`);
+    assert.equal(getCategoryOnContainerColor(categoryId), `var(${token}-on-container)`);
   }
 
   assert.ok(!globalCss.includes("#d32f2f"), "the old direct Rainbow palette must not remain in production CSS");
@@ -46,4 +49,5 @@ test("semantic status colors stay independent from generated category colors", (
 test("unknown category IDs fall back to the shared primary tokens", () => {
   assert.equal(getCategoryColor("unknown"), "var(--accent)");
   assert.equal(getCategoryContainerColor("unknown"), "var(--accent-soft)");
+  assert.equal(getCategoryOnContainerColor("unknown"), "var(--on-primary-container)");
 });
