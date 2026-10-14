@@ -218,3 +218,5 @@ Disabled-state follow-up: both shared primitives now use explicit semantic disab
 ### Follow-up call-site audit: favorites
 
 The compact favorite toggle previously used a local 40×40px button, below the 48×48px M3 icon-button touch target documented by Android. It now delegates to the shared `IconButton` when compact and the shared `Button` when labeled, preserving the pressed/busy/disabled semantics and using the canonical filled-tonal/outlined treatments. A regression test guards against reintroducing the undersized local control.
+
+- The number-base converter's swap action now uses the shared outlined `IconButton` with a 24px Material Symbols icon instead of a one-off button style.
