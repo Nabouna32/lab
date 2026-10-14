@@ -78,7 +78,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const [motionReplay,setMotionReplay]=useState(0);\n  const [snackbarOpen,setSnackbarOpen]=useState(false);\n  const [bottomSheetOpen,setBottomSheetOpen]=useState(false);\n  const [sampleChecked,setSampleChecked]=useState(true);\n  const [sampleProgress,setSampleProgress]=useState(55);
   const [value,setValue]=useState("180");
   const [percent,setPercent]=useState("25");
-  const [preferences,setPreferences]=useState({syncFavorites:true,automaticTheme:false,reducedMotion:true});
+  const [preferences,setPreferences]=useState({syncFavorites:true,automaticTheme:false,reducedMotion:false});
   const togglePreference=(key:keyof typeof preferences)=>setPreferences(current=>({...current,[key]:!current[key]}));
   const t=copy[locale];
   const scheme=useMemo(()=>createM3Scheme(seed,"fidelity",theme==="dark",0,"2025","phone"),[theme,seed]);
@@ -127,7 +127,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
       </div>
       <div className={styles.singlePreview} style={createLabTokens(scheme,theme)}>      <div className={`${styles.directionStage} ${styles["directionViewport_"+viewport]}`} data-direction={direction} data-theme={theme}>
         <header className={styles.directionHeader}><span className={styles.directionBrand}><span aria-hidden="true"><LabIcon name="sparkles" size={18} /></span> Loculary</span><button type="button" aria-label={locale==="fr"?"Notifications":"Notifications"}><LabIcon name="bell" /></button></header>
-        <div className={styles.directionContent}>
+        <div key={screen} className={styles.directionContent}>
           {screen==="home"&&<>
             <span className={styles.directionEyebrow}>{t.directionEyebrow}</span>
             <h3>{t.welcome}</h3><p className={styles.directionSubtitle}>{t.subhead}</p>
