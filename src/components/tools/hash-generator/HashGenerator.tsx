@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
@@ -17,24 +17,35 @@ export default function HashGenerator() {
   const [result, setResult] = useState("");
   const [error, setError] = useState(false);
   const [busy, setBusy] = useState(false);
+  const requestRef = useRef(0);
+
+  useEffect(() => () => { requestRef.current += 1; }, []);
 
   async function generate() {
+    const requestId = ++requestRef.current;
+    const value = input;
+    const selectedAlgorithm = algorithm;
     setBusy(true);
     setError(false);
     try {
-      setResult(await hashText(input, algorithm));
+      const nextResult = await hashText(value, selectedAlgorithm);
+      if (requestId !== requestRef.current) return;
+      setResult(nextResult);
     } catch {
+      if (requestId !== requestRef.current) return;
       setResult("");
       setError(true);
     } finally {
-      setBusy(false);
+      if (requestId === requestRef.current) setBusy(false);
     }
   }
 
   function clear() {
+    requestRef.current += 1;
     setInput("");
     setResult("");
     setError(false);
+    setBusy(false);
   }
 
   return (
@@ -45,7 +56,7 @@ export default function HashGenerator() {
           <textarea
             id="hash-input"
             value={input}
-            onChange={(event) => { setInput(event.target.value); setResult(""); setError(false); }}
+            onChange={(event) => { requestRef.current += 1; setBusy(false); setInput(event.target.value); setResult(""); setError(false); }}
             placeholder={t.placeholder}
             rows={8}
             className="min-h-48 w-full resize-y rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] px-3.5 py-3 text-sm text-[var(--foreground)] outline-none transition-[border-color,box-shadow] duration-[var(--motion-standard)] placeholder:text-[var(--muted)] hover:border-[var(--border-strong)] focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] disabled:cursor-not-allowed disabled:bg-[var(--surface-soft)] disabled:opacity-60"
@@ -53,7 +64,7 @@ export default function HashGenerator() {
           />
         </div>
         <div>
-          <Select label={t.algorithm} id="hash-algorithm" value={algorithm} onChange={(event) => { setAlgorithm(event.target.value as HashAlgorithm); setResult(""); setError(false); }} aria-invalid={error}>
+          <Select label={t.algorithm} id="hash-algorithm" value={algorithm} onChange={(event) => { requestRef.current += 1; setBusy(false); setAlgorithm(event.target.value as HashAlgorithm); setResult(""); setError(false); }} aria-invalid={error}>
             <option value="SHA-1">SHA-1</option>
             <option value="SHA-256">SHA-256</option>
             <option value="SHA-384">SHA-384</option>
