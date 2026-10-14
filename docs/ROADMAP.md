@@ -46,8 +46,6 @@ Goal: make a large catalog easy to navigate.
 - [x] Tags
 - [x] Search aliases
 - [x] Deterministic catalog search with localized names, descriptions, aliases, tags, categories and typo tolerance
-- [ ] Popular-tool ranking
-- [ ] New-tool discovery surface
 - [x] Curated contextual next actions
 - [x] Curated intent-to-tool associations are separate from categories; free-form query intent recognition remains deterministic and limited
 
