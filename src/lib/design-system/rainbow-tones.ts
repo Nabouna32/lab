@@ -1,6 +1,6 @@
 import {
   Hct,
-  SchemeExpressive,
+  SchemeFidelity,
   SchemeRainbow,
   argbFromHex,
   hexFromArgb,
@@ -12,8 +12,8 @@ const BRAND_SEED = "#4285F4";
 const SPEC_VERSION = "2025" as const;
 const PLATFORM = "phone" as const;
 const source = Hct.fromInt(argbFromHex(BRAND_SEED));
-const lightExpressive = new SchemeExpressive(source, false, 0, SPEC_VERSION, PLATFORM);
-const darkExpressive = new SchemeExpressive(source, true, 0, SPEC_VERSION, PLATFORM);
+const lightFidelity = new SchemeFidelity(source, false, 0, SPEC_VERSION, PLATFORM);
+const darkFidelity = new SchemeFidelity(source, true, 0, SPEC_VERSION, PLATFORM);
 const lightRainbow = new SchemeRainbow(source, false, 0, SPEC_VERSION, PLATFORM);
 const darkRainbow = new SchemeRainbow(source, true, 0, SPEC_VERSION, PLATFORM);
 
@@ -30,6 +30,10 @@ const semanticTokens = {
   "on-tertiary": "onTertiary",
   "tertiary-container": "tertiaryContainer",
   "on-tertiary-container": "onTertiaryContainer",
+  error: "error",
+  "on-error": "onError",
+  "error-container": "errorContainer",
+  "on-error-container": "onErrorContainer",
   background: "background",
   foreground: "onBackground",
   surface: "surface",
@@ -54,10 +58,10 @@ function toHex(argb: number): string {
 function addSchemeTokens(
   style: Record<string, string>,
   prefix: "light" | "dark",
-  scheme: SchemeExpressive,
+  scheme: SchemeFidelity,
 ) {
   for (const [token, role] of Object.entries(semanticTokens)) {
-    style[`--m3-${prefix}-${token}`] = toHex(scheme[role as keyof SchemeExpressive] as number);
+    style[`--m3-${prefix}-${token}`] = toHex(scheme[role as keyof SchemeFidelity] as number);
   }
 }
 
@@ -73,14 +77,14 @@ function addCategoryTokens(style: Record<string, string>, prefix: "light" | "dar
 }
 
 /**
- * Server-generated M3 Expressive semantic roles and official MCU Rainbow
+ * Server-generated M3 Fidelity semantic roles and official MCU Rainbow
  * category accents. Both light and dark values are emitted together so theme
  * switching remains CSS-only and does not introduce hydration differences.
  */
 export function getLocularyThemeStyle(): CSSProperties {
   const style: Record<string, string> = {};
-  addSchemeTokens(style, "light", lightExpressive);
-  addSchemeTokens(style, "dark", darkExpressive);
+  addSchemeTokens(style, "light", lightFidelity);
+  addSchemeTokens(style, "dark", darkFidelity);
   addCategoryTokens(style, "light", false);
   addCategoryTokens(style, "dark", true);
   return style as CSSProperties;

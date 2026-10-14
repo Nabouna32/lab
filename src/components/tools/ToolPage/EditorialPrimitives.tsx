@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
 export function Card({ children }: { children: ReactNode }) {
-  return <div className="mt-4 rounded-[var(--radius-md)] bg-[var(--accent-soft)] p-4">{children}</div>;
+  return <div className="mt-4 rounded-[var(--radius-md)] bg-[var(--accent-soft)] p-4 text-[var(--on-primary-container)]">{children}</div>;
 }
 
 export function Formula({ children }: { children: ReactNode }) {

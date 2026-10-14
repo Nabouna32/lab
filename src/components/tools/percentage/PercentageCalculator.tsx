@@ -138,7 +138,7 @@ export default function PercentageCalculator() {
       value: "text-[var(--success)]",
     },
     accent: {
-      panel: "border-[var(--accent)]/25 bg-[var(--accent-soft)]",
+      panel: "border-[var(--accent)]/25 bg-[var(--surface-soft)]",
       value: "text-[var(--foreground)]",
     },
     neutral: {

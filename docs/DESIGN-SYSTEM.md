@@ -229,6 +229,7 @@ This contract is governed by DEC-026 and must remain coherent with:
 - `docs/PERFORMANCE.md`;
 - `docs/I18N.md`;
 - `docs/DECISIONS.md`.
+- `docs/M3-CONFORMANCE-AUDIT.md` — dated implementation findings, official references and conformance acceptance gate.
 
 When a conflict is found, surface it and resolve it through the documented decision process rather than silently retaining obsolete guidance.
 

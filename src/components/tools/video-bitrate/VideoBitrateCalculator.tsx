@@ -143,7 +143,7 @@ export default function VideoBitrateCalculator() {
             <p className="text-sm font-semibold text-[var(--muted)]">{t.result}</p>
             {result !== null && !error && <CopyButton value={resultText} label={t.copy} copiedLabel={t.copied} />}
           </div>
-          <div aria-live="polite" className="mt-3 flex min-h-36 flex-col justify-center rounded-[1.5rem] border border-[var(--accent)]/25 bg-[var(--accent-soft)] p-5 sm:p-6">
+          <div aria-live="polite" className="mt-3 flex min-h-36 flex-col justify-center rounded-[1.5rem] border border-[var(--accent)]/25 bg-[var(--surface-soft)] p-5 sm:p-6">
             {error && <p className="text-sm leading-6 text-[var(--danger)]">{error}</p>}
             {!error && result === null && <p className="text-sm leading-6 text-[var(--muted)]">{t.emptyResult}</p>}
             {!error && result !== null && (

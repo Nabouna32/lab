@@ -6,14 +6,23 @@ import { categoryColorIds, getCategoryColor, getCategoryContainerColor, getCateg
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
 const rainbowSource = readFileSync(new URL("../design-system/rainbow-tones.ts", import.meta.url), "utf8");
 const rainbowPaletteSource = readFileSync(new URL("../design-system/rainbow-palette.ts", import.meta.url), "utf8");
+const buttonSource = readFileSync(new URL("../../components/ui/Button.tsx", import.meta.url), "utf8");
 
-test("semantic theme tokens use the accepted blue M3 Expressive seed", () => {
+test("semantic theme tokens use the accepted blue M3 Fidelity seed", () => {
   assert.ok(rainbowSource.includes('const BRAND_SEED = "#4285F4"'));
-  assert.ok(rainbowSource.includes("new SchemeExpressive(source, false"));
-  assert.ok(rainbowSource.includes("new SchemeExpressive(source, true"));
+  assert.ok(rainbowSource.includes("new SchemeFidelity(source, false"));
+  assert.ok(rainbowSource.includes("new SchemeFidelity(source, true"));
   assert.ok(globalCss.includes("--primary: var(--m3-light-primary"));
   assert.ok(globalCss.includes("--primary: var(--m3-dark-primary"));
+  assert.ok(rainbowSource.includes('error: "error"'));
+  assert.ok(rainbowSource.includes('"on-error": "onError"'));
+  assert.ok(globalCss.includes("--error: var(--m3-light-error"));
+  assert.ok(globalCss.includes("--error: var(--m3-dark-error"));
   assert.ok(!globalCss.toLowerCase().includes("#6750a4"), "the old purple seed must not remain in production CSS");
+});
+
+test("tonal buttons use Material 3 secondary container roles", () => {
+  assert.ok(buttonSource.includes('tonal: "border border-transparent bg-[var(--secondary-container)] text-[var(--on-secondary-container)]'));
 });
 
 test("every category is wired to generated official MCU Rainbow colors for both themes", () => {
@@ -39,8 +48,13 @@ test("every category is wired to generated official MCU Rainbow colors for both 
 });
 
 test("semantic status colors stay independent from generated category colors", () => {
-  for (const statusToken of ["--success", "--warning", "--error", "--info"]) {
+  for (const statusToken of ["--success", "--warning", "--info"]) {
     assert.match(globalCss, new RegExp(`^\\s*${statusToken}:\\s*#[0-9a-f]{6};`, "m"));
+  }
+  assert.match(globalCss, new RegExp("^\\s*--error:\\s*var\\(--m3-light-error,", "m"));
+  assert.match(globalCss, new RegExp("^\\s*--error:\\s*var\\(--m3-dark-error,", "m"));
+
+  for (const statusToken of ["--success", "--warning", "--error", "--info"]) {
     assert.ok(!globalCss.includes(`${statusToken}: var(--m3-light-category-`));
     assert.ok(!globalCss.includes(`${statusToken}: var(--m3-dark-category-`));
   }

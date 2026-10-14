@@ -91,7 +91,7 @@ export default async function ToolsPage({
                   key={intent.id}
                   href={`${getToolsPath(locale)}?intent=${intent.id}`}
                   aria-current={selectedIntentId === intent.id ? "page" : undefined}
-                  className={`group inline-flex min-h-10 shrink-0 items-center gap-2 rounded-xl border px-3 text-sm font-bold outline-none transition-[transform,background-color,border-color] duration-[var(--motion-standard)] hover:-translate-y-0.5 hover:border-[var(--border)] hover:bg-[var(--accent-soft)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] lg:flex ${selectedIntentId === intent.id ? "border-[var(--accent)] bg-[var(--accent-soft)] text-[var(--accent)]" : "border-transparent"}`}
+                  className={`group inline-flex min-h-10 shrink-0 items-center gap-2 rounded-xl border px-3 text-sm font-bold outline-none transition-[transform,background-color,border-color] duration-[var(--motion-standard)] hover:-translate-y-0.5 hover:border-[var(--border)] hover:bg-[var(--accent-soft)] hover:text-[var(--on-primary-container)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] lg:flex ${selectedIntentId === intent.id ? "border-[var(--accent)] bg-[var(--accent-soft)] text-[var(--on-primary-container)]" : "border-transparent"}`}
                 >
                   <span aria-hidden="true">{intent.icon}</span>
                   <span>{intent.label}</span>
@@ -131,7 +131,7 @@ export default async function ToolsPage({
                   <a
                     key={category.id}
                     href={getCategoryPath(locale, category.id)}
-                    className="group flex min-h-20 items-center gap-4 rounded-2xl border border-[var(--border)] bg-[var(--surface-soft)]/45 p-3.5 outline-none transition-[transform,border-color,background-color,box-shadow] duration-[var(--motion-standard)] hover:-translate-y-0.5 hover:border-[var(--accent)]/35 hover:bg-[var(--accent-soft)] hover:shadow-[var(--shadow-sm)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+                    className="group flex min-h-20 items-center gap-4 rounded-2xl border border-[var(--border)] bg-[var(--surface-soft)]/45 p-3.5 outline-none transition-[transform,border-color,background-color,box-shadow] duration-[var(--motion-standard)] hover:-translate-y-0.5 hover:border-[var(--accent)]/35 hover:bg-[var(--surface-soft)] hover:shadow-[var(--shadow-sm)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
                   >
                     <span className="font-mono text-[10px] font-bold">{String(index + 1).padStart(2, "0")}</span>
                     <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--radius-lg)] border border-transparent text-xl shadow-[var(--shadow-sm)] transition-transform duration-[var(--motion-standard)] group-hover:scale-105" style={{ color: getCategoryColor(category.id), backgroundColor: getCategoryContainerColor(category.id) }} aria-hidden="true">{category.icon}</span>

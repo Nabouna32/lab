@@ -213,7 +213,7 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
           onClick={closeMenu}
           className="group flex items-center gap-3 rounded-xl px-3 py-3 outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
         >
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--accent-soft)] text-[var(--accent)]">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--accent-soft)] text-[var(--on-primary-container)]">
             <Icon className="h-[1.1rem] w-[1.1rem]">
               <circle cx="12" cy="8" r="3.2" />
               <path d="M5.5 20c.8-3.1 3-4.7 6.5-4.7s5.7 1.6 6.5 4.7" />
@@ -263,7 +263,7 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
                   className={
                     "flex min-h-12 items-center gap-2 rounded-xl px-3 py-2.5 text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] " +
                     (active
-                      ? "bg-[var(--accent-soft)] font-semibold text-[var(--foreground)]"
+                      ? "bg-[var(--accent-soft)] font-semibold text-[var(--on-primary-container)]"
                       : "text-[var(--muted)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)]")
                   }
                 >

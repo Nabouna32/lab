@@ -3,7 +3,7 @@
 :root {
   color-scheme: light;
 
-  /* Semantic roles are generated from the blue M3 Expressive seed in rainbow-tones.ts. */
+  /* Semantic roles are generated from the blue M3 Fidelity seed in rainbow-tones.ts. */
   --primary: var(--m3-light-primary, #0b57d0);
   --on-primary: var(--m3-light-on-primary, #ffffff);
   --primary-container: var(--m3-light-primary-container, #d3e3fd);
@@ -33,10 +33,10 @@
   --inverse-on-surface: var(--m3-light-inverse-on-surface, #f0f0f7);
   --inverse-primary: var(--m3-light-inverse-primary, #a8c7fa);
 
-  --error: #ba1a1a;
-  --on-error: #ffffff;
-  --error-container: #ffdad6;
-  --on-error-container: #410002;
+  --error: var(--m3-light-error, #ba1a1a);
+  --on-error: var(--m3-light-on-error, #ffffff);
+  --error-container: var(--m3-light-error-container, #ffdad6);
+  --on-error-container: var(--m3-light-on-error-container, #410002);
   --info: #175cd3;
   --info-soft: #eaf0ff;
   --success: #087f5b;
@@ -127,10 +127,10 @@
   --inverse-on-surface: var(--m3-dark-inverse-on-surface, #2e3036);
   --inverse-primary: var(--m3-dark-inverse-primary, #0b57d0);
 
-  --error: #ffb4ab;
-  --on-error: #690005;
-  --error-container: #93000a;
-  --on-error-container: #ffdad6;
+  --error: var(--m3-dark-error, #ffb4ab);
+  --on-error: var(--m3-dark-on-error, #690005);
+  --error-container: var(--m3-dark-error-container, #93000a);
+  --on-error-container: var(--m3-dark-on-error-container, #ffdad6);
   --info: #84adff;
   --info-soft: #1c2d50;
   --success: #6ce9a6;

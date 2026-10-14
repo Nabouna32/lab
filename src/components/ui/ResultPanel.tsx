@@ -11,7 +11,7 @@ type ResultPanelProps = {
 export function ResultPanel({ label, value, emptyMessage, tone = "neutral", actions }: ResultPanelProps) {
   const toneClass =
     tone === "accent"
-      ? "border-[var(--accent)]/25 bg-[var(--accent-soft)]"
+      ? "border-[var(--accent)]/25 bg-[var(--surface-soft)]"
       : "border-[var(--border)] bg-[var(--surface-soft)]";
   const isEmpty = value === null || value === undefined;
 

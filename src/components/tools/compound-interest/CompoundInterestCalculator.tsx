@@ -54,7 +54,7 @@ export default function CompoundInterestCalculator() {
         </div>
         <div className="flex flex-col border-t border-[var(--border)] bg-[var(--background)] p-5 sm:p-7 lg:border-l lg:border-t-0 lg:p-8">
           <div className="flex items-center justify-between gap-3"><p className="text-sm font-semibold text-[var(--muted)]">{t.result}</p>{result && !invalid && <CopyButton value={copyValue} />}</div>
-          <div aria-live="polite" className="mt-3 rounded-[1.5rem] border border-[var(--accent)]/25 bg-[var(--accent-soft)] p-5 sm:p-6">
+          <div aria-live="polite" className="mt-3 rounded-[1.5rem] border border-[var(--accent)]/25 bg-[var(--surface-soft)] p-5 sm:p-6">
             {invalid ? <ValidationMessage id="compound-interest-result-error">{t.invalid}</ValidationMessage> : result ? <><p className="text-sm text-[var(--muted)]">{t.finalBalance}</p><p className="mt-1 text-4xl font-black tracking-[-0.04em] sm:text-5xl">{number(result.finalBalance)}</p><dl className="mt-5 grid gap-3 text-sm"><div className="flex justify-between gap-4"><dt className="text-[var(--muted)]">{t.interestEarned}</dt><dd className="font-semibold">{number(result.interestEarned)}</dd></div><div className="flex justify-between gap-4"><dt className="text-[var(--muted)]">{t.totalContributions}</dt><dd className="font-semibold">{number(result.totalContributions + principal)}</dd></div></dl></> : <p className="text-sm leading-6 text-[var(--muted)]">{t.emptyResult}</p>}
           </div>
           {result && !invalid && <p className="mt-4 text-xs leading-5 text-[var(--muted)]">{t.resultHint}</p>}

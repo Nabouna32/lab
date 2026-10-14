@@ -145,7 +145,7 @@ export default function SearchResultsClient({ locale }: { locale: Locale }) {
                 <a
                   key={suggestion}
                   href={getSearchResultsPath(locale, suggestion)}
-                  className="inline-flex min-h-10 items-center rounded-full border border-[var(--border)] bg-[var(--surface-soft)] px-4 py-2 text-sm font-semibold text-[var(--foreground)] outline-none transition-colors hover:border-[var(--accent)]/40 hover:bg-[var(--accent-soft)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+                  className="inline-flex min-h-10 items-center rounded-full border border-[var(--border)] bg-[var(--surface-soft)] px-4 py-2 text-sm font-semibold text-[var(--foreground)] outline-none transition-colors hover:border-[var(--accent)]/40 hover:bg-[var(--surface-elevated)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
                 >
                   {suggestion}
                 </a>
@@ -153,7 +153,7 @@ export default function SearchResultsClient({ locale }: { locale: Locale }) {
             </div>
             <a
               href={getToolsPath(locale)}
-              className="mt-6 inline-flex min-h-11 items-center rounded-full px-4 py-2 text-sm font-semibold text-[var(--accent)] outline-none transition-colors hover:bg-[var(--accent-soft)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+              className="mt-6 inline-flex min-h-11 items-center rounded-full px-4 py-2 text-sm font-semibold text-[var(--accent)] outline-none transition-colors hover:bg-[var(--accent-soft)] hover:text-[var(--on-primary-container)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
             >
               {t.tools.allToolsTitle}
             </a>
