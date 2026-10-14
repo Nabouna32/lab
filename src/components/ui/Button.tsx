@@ -13,8 +13,8 @@ const variants: Record<ButtonVariant, string> = {
   text: "border border-transparent bg-transparent text-[var(--primary)] hover:bg-[color-mix(in_srgb,var(--on-surface)_8%,transparent)] active:bg-[color-mix(in_srgb,var(--on-surface)_12%,transparent)]",
   // App-specific compatibility variants. Prefer the M3 variants above for new call sites.
   danger: "border border-transparent bg-[var(--error)] text-[var(--on-error)] hover:bg-[color-mix(in_srgb,var(--error)_92%,var(--on-error))] active:bg-[color-mix(in_srgb,var(--error)_88%,var(--on-error))]",
-  secondary: "border border-[var(--outline)] bg-[var(--surface)] text-[var(--foreground)] hover:bg-[color-mix(in_srgb,var(--surface)_92%,var(--foreground))] active:bg-[color-mix(in_srgb,var(--surface)_88%,var(--foreground))]",
-  ghost: "border border-transparent bg-transparent text-[var(--muted)] hover:bg-[color-mix(in_srgb,var(--on-surface-variant)_8%,transparent)] hover:text-[var(--foreground)] active:bg-[color-mix(in_srgb,var(--on-surface-variant)_12%,transparent)]",
+  secondary: "border border-[var(--outline)] bg-transparent text-[var(--primary)] hover:bg-[color-mix(in_srgb,var(--primary)_8%,transparent)] active:bg-[color-mix(in_srgb,var(--primary)_12%,transparent)]",
+  ghost: "border border-transparent bg-transparent text-[var(--primary)] hover:bg-[color-mix(in_srgb,var(--primary)_8%,transparent)] active:bg-[color-mix(in_srgb,var(--primary)_12%,transparent)]",
 };
 
 export function Button({ variant = "primary", className = "", type = "button", ...props }: ButtonProps) {
