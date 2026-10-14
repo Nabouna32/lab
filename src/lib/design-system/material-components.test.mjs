@@ -7,6 +7,11 @@ const switchSource = readFileSync(new URL("../../components/ui/Switch.tsx", impo
 const iconSource = readFileSync(new URL("../../components/ui/MaterialIcon.tsx", import.meta.url), "utf8");
 const labSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
 const passwordSource = readFileSync(new URL("../../components/tools/password-generator/PasswordGenerator.tsx", import.meta.url), "utf8");
+const imageSource = readFileSync(new URL("../../components/tools/image-compressor/ImageCompressor.tsx", import.meta.url), "utf8");
+const sliderSource = readFileSync(new URL("../../components/ui/Slider.tsx", import.meta.url), "utf8");
+const sliderCss = readFileSync(new URL("../../components/ui/slider.module.css", import.meta.url), "utf8");
+const progressSource = readFileSync(new URL("../../components/ui/ProgressIndicator.tsx", import.meta.url), "utf8");
+const progressCss = readFileSync(new URL("../../components/ui/progress-indicator.module.css", import.meta.url), "utf8");
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
 
 function luminance(hex) {
@@ -39,17 +44,30 @@ test("custom status foregrounds meet WCAG AA contrast on their light and dark co
 
 test("shared switch uses native checkbox semantics with the switch role and M3 semantic colors", () => {
   assert.match(switchSource, /role="switch"/);
-  assert.match(switchSource, /peer-checked:bg-\[var\(--primary\)\]/);
-  assert.match(switchSource, /peer-checked:after:bg-\[var\(--on-primary\)\]/);
+  assert.ok(switchSource.includes("peer-checked:bg-[var(--switch-active,var(--primary))]"));
+  assert.ok(switchSource.includes("peer-checked:after:bg-[var(--switch-on-thumb,var(--on-primary))]"));
   assert.match(switchSource, /peer-focus-visible:ring-2/);
   assert.doesNotMatch(switchSource, /#[0-9a-fA-F]{3,8}/);
 });
 
 test("shared checkbox uses M3 foreground/background roles and a visible keyboard focus", () => {
-  assert.match(checkboxSource, /peer-checked:bg-\[var\(--primary\)\]/);
-  assert.match(checkboxSource, /text-\[var\(--on-primary\)\]/);
+  assert.ok(checkboxSource.includes("peer-checked:bg-[var(--checkbox-active,var(--primary))]"));
+  assert.ok(checkboxSource.includes("text-[var(--checkbox-on-active,var(--on-primary))]"));
   assert.match(checkboxSource, /peer-focus-visible:ring-2/);
   assert.doesNotMatch(checkboxSource, /accent-\[#/);
+});
+
+test("shared slider and progress indicator expose accessible M3 states", () => {
+  assert.match(sliderSource, /type="range"/);
+  assert.match(sliderSource, /aria-valuetext=\{valueText\}/);
+  assert.match(sliderCss, /height: 48px/);
+  assert.match(sliderCss, /:focus-visible/);
+  assert.match(sliderCss, /var\(--slider-active, var\(--primary\)\)/);
+  assert.match(progressSource, /role="progressbar"/);
+  assert.match(progressSource, /aria-valuenow/);
+  assert.match(progressSource, /data-indeterminate=/);
+  assert.match(progressCss, /prefers-reduced-motion: reduce/);
+  assert.match(progressCss, /repeating-linear-gradient/);
 });
 
 test("functional icons use bundled Material Symbols paths and inherit currentColor", () => {
@@ -87,9 +105,23 @@ test("common navigation and identity icons use the shared Material Symbols compo
   assert.doesNotMatch(headerSource, /function Icon\(/);
 });
 
-test("real checkbox and switch call sites use shared primitives", () => {
+test("real tools and the Lab use shared checkbox, switch, slider and progress primitives", () => {
   assert.match(labSource, /import \{ Switch \} from "@\/components\/ui\/Switch"/);
   assert.match(labSource, /<Switch /);
+  assert.match(labSource, /<Checkbox/);
+  assert.match(labSource, /<Slider/);
+  assert.match(labSource, /<ProgressIndicator/);
+  assert.doesNotMatch(labSource, /type="checkbox"/);
+  assert.doesNotMatch(labSource, /type="range"/);
   assert.match(passwordSource, /import \{ Checkbox \} from "@\/components\/ui\/Checkbox"/);
+  assert.match(passwordSource, /import \{ Slider \} from "@\/components\/ui\/Slider"/);
   assert.match(passwordSource, /<Checkbox/);
+  assert.match(passwordSource, /<Slider/);
+  assert.doesNotMatch(passwordSource, /type="checkbox"/);
+  assert.doesNotMatch(passwordSource, /type="range"/);
+  assert.match(imageSource, /import \{ Slider \} from "@\/components\/ui\/Slider"/);
+  assert.match(imageSource, /import \{ ProgressIndicator \} from "@\/components\/ui\/ProgressIndicator"/);
+  assert.match(imageSource, /<Slider/);
+  assert.match(imageSource, /<ProgressIndicator/);
+  assert.doesNotMatch(imageSource, /type="range"/);
 });
