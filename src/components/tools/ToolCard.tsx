@@ -4,6 +4,7 @@ import type { Tool } from "@/lib/tools/types";
 import { Card } from "@/components/ui/Card";
 import { getCategoryColor } from "@/lib/tools/categories";
 import { getToolPath } from "@/lib/tools/routes";
+import { MaterialIcon } from "@/components/ui/MaterialIcon";
 
 export default function ToolCard({ tool, locale, categoryName, categoryId }: { tool: Tool; locale: Locale; categoryName?: string; categoryId?: string }) {
   const content = getToolContent(tool, locale);
@@ -19,7 +20,7 @@ export default function ToolCard({ tool, locale, categoryName, categoryId }: { t
           <h3 className="truncate font-bold tracking-[-0.02em]">{content.name}</h3>
           {categoryName && <span className="mt-0.5 block truncate text-[11px] font-bold uppercase tracking-[0.12em]" style={{ color: categoryId ? getCategoryColor(categoryId) : "var(--accent)" }}>{categoryName}</span>}
         </span>
-        <span className="text-[var(--muted)] transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true"><MaterialIcon name="arrow_outward" size={18} /></span>
+        <span className="text-[var(--muted)] transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true"><MaterialIcon name="chevron_right" size={18} /></span>
       </div>
       <p className="mt-3 line-clamp-2 text-sm leading-5 text-[var(--muted)]">{content.description}</p>
     </Card>
