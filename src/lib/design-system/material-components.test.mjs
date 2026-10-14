@@ -170,8 +170,8 @@ test("Fidelity theme source declares the intended scheme and semantic foreground
   ];
 
   for (const [container, foreground] of rolePairs) {
-    assert.ok(tokenSource.includes(`"${container}":`), `missing Material role ${container}`);
-    assert.ok(tokenSource.includes(`"${foreground}":`), `missing paired foreground role ${foreground}`);
+    assert.ok(tokenSource.includes(`${container}:`) || tokenSource.includes(`"${container}":`), `missing Material role ${container}`);
+    assert.ok(tokenSource.includes(`${foreground}:`) || tokenSource.includes(`"${foreground}":`), `missing paired foreground role ${foreground}`);
   }
 });
 
