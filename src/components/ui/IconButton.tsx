@@ -33,7 +33,7 @@ export function IconButton({
       aria-label={label}
       className={[
         "inline-flex shrink-0 items-center justify-center rounded-full",
-        "transition-[background-color,border-color,color,box-shadow,transform,filter] duration-[var(--motion-standard)]",
+        "transition-[background-color,border-color,color,box-shadow,transform] duration-[var(--motion-standard)]",
         "active:scale-[.96]",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]",
         "focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]",
