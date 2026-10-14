@@ -25,3 +25,14 @@ test("collection refresh clears previous account data when identity cannot be co
   assert.match(authErrorBranch, /setUserId\(null\)/);
   assert.match(authErrorBranch, /setCollections\(\[\]\)/);
 });
+
+test("sign-in and sign-out clear the previous account before refreshing", async () => {
+  const source = await readProvider();
+  const authChangeBranch = source.match(/onAuthStateChange\(\(event\) => \{([\s\S]*?)\n    \}\);/)?.[1];
+
+  assert.ok(authChangeBranch, "auth state change handler exists");
+  assert.match(authChangeBranch, /event === "SIGNED_IN" \|\| event === "SIGNED_OUT"/);
+  assert.match(authChangeBranch, /setUserId\(null\)/);
+  assert.match(authChangeBranch, /setCollections\(\[\]\)/);
+  assert.ok(authChangeBranch.indexOf("setCollections([])") < authChangeBranch.indexOf("void load()"));
+});
