@@ -8,6 +8,8 @@ type SwitchStyle = CSSProperties & {
   "--switch-outline"?: string;
   "--switch-focus-ring"?: string;
   "--switch-focus-offset"?: string;
+  "--switch-disabled-track"?: string;
+  "--switch-disabled-thumb"?: string;
 };
 
 type SwitchProps = Omit<
@@ -39,6 +41,8 @@ export function Switch({
     "--switch-outline": "var(--outline)",
     "--switch-focus-ring": "var(--focus-ring)",
     "--switch-focus-offset": "var(--background)",
+    "--switch-disabled-track": "color-mix(in srgb, var(--on-surface) 12%, transparent)",
+    "--switch-disabled-thumb": "color-mix(in srgb, var(--on-surface) 38%, transparent)",
     ...style,
   };
 
@@ -62,7 +66,8 @@ export function Switch({
           "transition-[background-color,border-color] duration-[var(--motion-standard)]",
           "peer-checked:border-[var(--switch-active)] peer-checked:bg-[var(--switch-active)]",
           "peer-focus-visible:outline-none peer-focus-visible:ring-2 peer-focus-visible:ring-[var(--switch-focus-ring)] peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-[var(--switch-focus-offset)]",
-          "peer-disabled:cursor-not-allowed peer-disabled:opacity-45",
+          "peer-disabled:cursor-not-allowed peer-disabled:border-[var(--switch-disabled-track)] peer-disabled:bg-[var(--switch-disabled-track)] peer-disabled:after:bg-[var(--switch-disabled-thumb)]",
+          "peer-checked:peer-disabled:border-[var(--switch-disabled-track)] peer-checked:peer-disabled:bg-[var(--switch-disabled-track)] peer-checked:after:bg-[var(--switch-disabled-thumb)]",
           "after:absolute after:left-[7px] after:top-[7px] after:h-4 after:w-4 after:rounded-full after:bg-[var(--switch-thumb)]",
           "after:transition-[width,height,transform,background-color] after:duration-[var(--motion-standard)]",
           "peer-checked:after:left-[7px] peer-checked:after:top-[3px] peer-checked:after:h-6 peer-checked:after:w-6 peer-checked:after:translate-x-[18px] peer-checked:after:bg-[var(--switch-on-thumb)]",
