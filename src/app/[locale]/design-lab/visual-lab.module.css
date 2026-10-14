@@ -169,7 +169,7 @@
 /* Material 3 Expressive exploration: one composition, three deliberately distinct Android-inspired directions. */
 .directionSection{margin-top:clamp(2.5rem,5vw,4.5rem)}
 .directionHelp{max-width:64rem;margin:-.45rem 0 1rem;color:var(--lab-muted);font-size:.9rem;line-height:1.5}
- .directionStage{--direction-surface:var(--lab-surface-container);--direction-card:var(--lab-surface-low);--direction-shape:1.4rem;--direction-gap:.8rem;max-width:46rem;margin-inline:auto;overflow:hidden;border:1px solid var(--lab-outline);border-radius:2rem;background:var(--lab-bg);color:var(--lab-text);box-shadow:0 12px 38px #0000000d}
+.directionStage{--direction-surface:var(--lab-surface-container);--direction-card:var(--lab-surface-low);--direction-shape:1.4rem;--direction-gap:.8rem;max-width:46rem;margin-inline:auto;overflow:hidden;border:1px solid var(--lab-outline);border-radius:2rem;background:var(--lab-bg);color:var(--lab-text);box-shadow:0 12px 38px #0000000d}
 .directionStage[data-theme="dark"]{box-shadow:0 12px 38px #00000030}
 .directionHeader{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.2rem;border-bottom:1px solid var(--lab-outline);background:var(--lab-surface-container)}
 .directionBrand{display:flex;align-items:center;gap:.55rem;font-weight:850;letter-spacing:-.025em}
@@ -242,7 +242,6 @@
 .directionCalculator label{display:grid;gap:.4rem;font-size:.8rem;font-weight:750}
 .directionCalculator input{width:100%;min-height:3rem;padding:.7rem .8rem;border:1px solid var(--lab-outline);border-radius:.75rem;background:var(--direction-surface);color:var(--lab-text);font:inherit}
 .directionResult{display:grid;gap:.35rem;padding:1rem;border-radius:1rem;background:var(--lab-primary-soft);color:var(--lab-on-primary-soft)}
-.directionResult span{color:inherit;opacity:.82}
-.directionResult span{font-size:.8rem;color:var(--lab-muted)}
+.directionResult span{font-size:.8rem;color:inherit;opacity:.82}
 .directionResult strong{font-size:1.8rem;font-weight:850}
 .directionCalculator .directionPrimary{margin-top:.2rem}
