@@ -130,7 +130,7 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
                       <option value="">{copy.choose}</option>
                       {tools.filter((tool) => !active.user_collection_items.some((item) => item.tool_id === tool.id)).map((tool) => <option key={tool.id} value={tool.id}>{tool.name}</option>)}
                     </select>
-                    <button type="button" disabled={!addingTool || adding} onClick={() => void add()} className="min-h-12 rounded-full bg-[var(--accent-soft)] px-5 text-sm font-bold text-[var(--foreground)] transition-[filter,transform] duration-[var(--motion-standard)] hover:brightness-[.97] active:scale-[.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface)] disabled:cursor-not-allowed disabled:opacity-50">{adding ? (fr ? "Ajout…" : "Adding…") : copy.save}</button>
+                    <button type="button" disabled={!addingTool || adding} onClick={() => void add()} className="min-h-12 rounded-full bg-[var(--accent-soft)] px-5 text-sm font-bold text-[var(--on-primary-container)] transition-[filter,transform] duration-[var(--motion-standard)] hover:brightness-[.97] active:scale-[.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface)] disabled:cursor-not-allowed disabled:opacity-50">{adding ? (fr ? "Ajout…" : "Adding…") : copy.save}</button>
                   </div>
                   {active.user_collection_items.length ? <ul className="mt-4 divide-y divide-[var(--border)]">
                     {active.user_collection_items.map((item) => {
