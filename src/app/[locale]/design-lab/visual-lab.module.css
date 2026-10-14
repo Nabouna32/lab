@@ -219,3 +219,25 @@
 .directionStage[data-direction="utility"] .directionPrimary{min-height:2.9rem;border-radius:.85rem}
 .directionStage[data-direction="utility"] .directionBottomNav{padding-block:.4rem}
 @media(max-width:560px){.directionGrid{grid-template-columns:1fr}.directionStage{border-radius:1.5rem}.directionContent h3{font-size:2rem}}
+
+
+/* Focused Android screen comparison: realistic phone-first viewport and working preview navigation. */
+.directionViewport_mobile{max-width:25rem;min-height:42rem;display:flex;flex-direction:column}
+.directionViewport_tablet{max-width:38rem;min-height:40rem;display:flex;flex-direction:column}
+.directionViewport_desktop{max-width:46rem;min-height:38rem;display:flex;flex-direction:column}
+.directionViewport_mobile .directionContent{flex:1;padding:1rem}
+.directionViewport_mobile .directionContent h3{font-size:1.8rem}
+.directionViewport_mobile .directionGrid{grid-template-columns:1fr}
+.directionViewport_tablet .directionGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.directionBottomNav button{display:grid;justify-items:center;align-content:center;gap:.2rem;min-width:0;padding:.35rem .1rem;border:0;background:transparent;color:var(--lab-muted);font:inherit;font-size:.68rem;font-weight:700;cursor:pointer}
+.directionBottomNav button b{display:grid;place-items:center;width:3rem;height:1.8rem;border-radius:999px;font-size:1.1rem;font-weight:600}
+.directionBottomNav button[aria-current="page"]{color:var(--lab-primary)}
+.directionBottomNav button[aria-current="page"] b{background:var(--lab-primary-soft)}
+.directionBack{margin:0 0 1rem;padding:.5rem .25rem;border:0;background:transparent;color:var(--lab-primary);font:inherit;font-weight:750;text-align:left;cursor:pointer}
+.directionCalculator{display:grid;gap:.85rem;margin-top:1rem}
+.directionCalculator label{display:grid;gap:.4rem;font-size:.8rem;font-weight:750}
+.directionCalculator input{width:100%;min-height:3rem;padding:.7rem .8rem;border:1px solid var(--lab-outline);border-radius:.75rem;background:var(--direction-surface);color:var(--lab-text);font:inherit}
+.directionResult{display:grid;gap:.35rem;padding:1rem;border-radius:1rem;background:var(--lab-primary-soft);color:var(--lab-text)}
+.directionResult span{font-size:.8rem;color:var(--lab-muted)}
+.directionResult strong{font-size:1.8rem;font-weight:850}
+.directionCalculator .directionPrimary{margin-top:.2rem}
