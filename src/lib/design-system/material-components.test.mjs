@@ -122,3 +122,28 @@ test("Pixel preview bottom navigation uses readable selected labels and explicit
   assert.match(labCss, /\.directionStage\[data-direction="pixel"\] \.directionBottomNav button:active/);
   assert.match(labCss, /\.directionStage\[data-direction="pixel"\] \.directionBottomNav button:focus-visible/);
 });
+
+test("shared action controls use semantic state-layer colors instead of brightness filters", () => {
+  const buttonSource = readFileSync(new URL("../../components/ui/Button.tsx", import.meta.url), "utf8");
+  const iconButtonSource = readFileSync(new URL("../../components/ui/IconButton.tsx", import.meta.url), "utf8");
+  const favoriteSource = readFileSync(new URL("../../components/favorites/FavoriteButton.tsx", import.meta.url), "utf8");
+  const accountActionSource = readFileSync(new URL("../../components/account/AccountActionLink.tsx", import.meta.url), "utf8");
+  const collectionsSource = readFileSync(new URL("../../components/collections/CollectionsView.tsx", import.meta.url), "utf8");
+
+  for (const [name, source] of [
+    ["Button", buttonSource],
+    ["IconButton", iconButtonSource],
+    ["FavoriteButton", favoriteSource],
+    ["AccountActionLink", accountActionSource],
+    ["CollectionsView", collectionsSource],
+  ]) {
+    assert.doesNotMatch(source, /hover:brightness|filter:brightness|transition-\[[^\]]*filter/ , `${name} should not dim foreground content through a whole-element brightness filter`);
+  }
+
+  assert.match(buttonSource, /var\(--primary\)_92%,var\(--on-primary\)/);
+  assert.match(buttonSource, /var\(--secondary-container\)_92%,var\(--on-secondary-container\)/);
+  assert.match(iconButtonSource, /var\(--primary\)_92%,var\(--on-primary\)/);
+  assert.match(favoriteSource, /var\(--primary\)_92%,var\(--on-primary\)/);
+  assert.match(accountActionSource, /var\(--primary\)_92%,var\(--on-primary\)/);
+  assert.match(collectionsSource, /var\(--primary\)_92%,var\(--on-primary\)/);
+});
