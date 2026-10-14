@@ -2,6 +2,7 @@ import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
 import { isToolProcessingDescriptionFallback, type ToolProcessingMetadata } from "@/lib/tools/types";
 import { getToolProcessingPresentation } from "@/lib/tools/processing";
+import { MaterialIcon } from "@/components/ui/MaterialIcon";
 
 export default function ToolProcessingStatus({
   processing,
@@ -31,10 +32,10 @@ export default function ToolProcessingStatus({
       <details className="group">
         <summary className="flex min-h-9 w-fit max-w-full cursor-pointer list-none items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface-soft)] px-3 py-1.5 text-xs font-semibold text-[var(--foreground)] outline-none transition-colors hover:border-[var(--accent)]/40 hover:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] sm:text-sm">
           <span className={"flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[11px] " + toneClasses[statusTone]} aria-hidden="true">
-            {presentation.icon}
+            <MaterialIcon name={presentation.icon} size={14} />
           </span>
           <span>{presentation.label}</span>
-          <span className="text-[var(--muted)]" aria-hidden="true">ⓘ</span>
+          <span className="text-[var(--muted)]" aria-hidden="true"><MaterialIcon name="info" size={16} /></span>
         </summary>
         <div className="mt-2 w-full max-w-2xl rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface-elevated)] p-4 text-sm leading-6 text-[var(--muted)] shadow-[var(--shadow-sm)]">
           <p className="text-[var(--foreground)]">{processing.description[locale] ?? processing.description.en}</p>
