@@ -2,11 +2,14 @@ import type { ButtonHTMLAttributes, ReactNode } from "react";
 
 type IconButtonVariant = "standard" | "filled" | "tonal" | "outlined";
 
-type IconButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "aria-label" | "children"> & {
+type IconButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "aria-label" | "children" | "aria-pressed"> & {
   label: string;
   children: ReactNode;
+  /** Kept for call-site compatibility. Touch targets remain at least 48×48px. */
   size?: "default" | "compact";
   variant?: IconButtonVariant;
+  /** Pass only for toggle actions; momentary actions should omit it. */
+  selected?: boolean;
 };
 
 const variants: Record<IconButtonVariant, string> = {
@@ -23,22 +26,29 @@ export function IconButton({
   type = "button",
   size = "default",
   variant = "standard",
+  selected,
   ...props
 }: IconButtonProps) {
-  const dimensions = size === "compact" ? "h-10 w-10" : "h-12 w-12";
+  // M3 icon buttons require a 48×48px minimum touch target and typically a 24px icon.
+  // "compact" is retained as an API alias but must not shrink the interactive target.
+  const selectedStyles = selected
+    ? "bg-[var(--secondary-container)] text-[var(--on-secondary-container)]"
+    : "";
+  const dimensions = "h-12 min-h-12 w-12 min-w-12";
 
   return (
     <button
       type={type}
       aria-label={label}
+      aria-pressed={selected}
       className={[
         "inline-flex shrink-0 items-center justify-center rounded-full",
-        "transition-[background-color,border-color,color,box-shadow,transform] duration-[var(--motion-standard)]",
-        "active:scale-[.96]",
+        "transition-[background-color,border-color,color,box-shadow] duration-[var(--motion-standard)]",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]",
         "focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]",
         "disabled:pointer-events-none disabled:opacity-45",
         variants[variant],
+        selectedStyles,
         dimensions,
         className,
       ].join(" ")}
