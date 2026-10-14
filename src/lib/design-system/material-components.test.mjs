@@ -44,15 +44,15 @@ test("custom status foregrounds meet WCAG AA contrast on their light and dark co
 
 test("shared switch uses native checkbox semantics with the switch role and M3 semantic colors", () => {
   assert.match(switchSource, /role="switch"/);
-  assert.ok(switchSource.includes("peer-checked:bg-[var(--switch-active,var(--primary))]"));
-  assert.ok(switchSource.includes("peer-checked:after:bg-[var(--switch-on-thumb,var(--on-primary))]"));
+  assert.ok(switchSource.includes("peer-checked:bg-[var(--switch-active)]"));
+  assert.ok(switchSource.includes("peer-checked:after:bg-[var(--switch-on-thumb)]"));
   assert.match(switchSource, /peer-focus-visible:ring-2/);
   assert.doesNotMatch(switchSource, /#[0-9a-fA-F]{3,8}/);
 });
 
 test("shared checkbox uses M3 foreground/background roles and a visible keyboard focus", () => {
-  assert.ok(checkboxSource.includes("peer-checked:bg-[var(--checkbox-active,var(--primary))]"));
-  assert.ok(checkboxSource.includes("text-[var(--checkbox-on-active,var(--on-primary))]"));
+  assert.ok(checkboxSource.includes("peer-checked:bg-[var(--checkbox-active)]"));
+  assert.ok(checkboxSource.includes("text-[var(--checkbox-on-active)]"));
   assert.match(checkboxSource, /peer-focus-visible:ring-2/);
   assert.doesNotMatch(checkboxSource, /accent-\[#/);
 });
