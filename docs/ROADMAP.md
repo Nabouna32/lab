@@ -11,7 +11,6 @@ Goal: establish the platform that can grow without creating unnecessary technica
 - [x] Public repository
 - [x] Main-only Vercel deployment
 - [x] GitHub Actions CI
-- [deferred] Browser E2E and screenshot automation are out of scope unless the user explicitly revisits that decision
 - [x] Product direction documented
 - [x] Formal tool metadata contract
 - [x] Shared tool page shell
@@ -51,7 +50,6 @@ Goal: make a large catalog easy to navigate.
 - [ ] New-tool discovery surface
 - [x] Curated contextual next actions
 - [x] Curated intent-to-tool associations are separate from categories; free-form query intent recognition remains deterministic and limited
-- [ ] Search quality instrumentation
 
 ## Phase 3 — Accounts
 
@@ -71,7 +69,7 @@ Goal: support real traffic while protecting the user experience.
 
 - [deferred] Reconsider a database-backed catalog only when DEC-027's concrete product or operational triggers are demonstrated; catalog size alone is insufficient
 - [partial] Framework/static generation is used; a deliberate catalog/data caching strategy is not implemented
-- [partial] CI, unit tests and metadata validation exist; product-level resilience remains incomplete. Browser E2E and screenshot automation are excluded by the repository rules in `AGENTS.md`.
+- [partial] CI, unit tests and metadata validation exist; product-level resilience remains incomplete.
 - [partial] Authentication throttling and administrative RBAC/RLS exist; broader abuse controls remain incomplete
 
 ## Explicitly deferred
