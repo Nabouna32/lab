@@ -80,9 +80,9 @@ Theme support must be tested using the actual resolved colors, including text, i
 
 ### 3.3 Default palette
 
-The default appearance uses the blue seed **#4285F4** to generate semantic tonal roles and the official Material Color Utilities (MCU) Rainbow scheme. The seed is an input, not a mandate to use that literal value for every primary component. Generate or select complete light/dark role mappings deliberately and validate their actual contrast and state clarity.
+The default semantic appearance uses the blue seed **#4285F4** with the official Material Color Utilities (MCU) **Fidelity** scheme for seed-derived roles. The seed is an input, not a mandate to use that literal value for every primary component. Generate complete light/dark role mappings and validate their actual contrast and state clarity.
 
-Use the **official MCU Rainbow scheme as Loculary's single rainbow palette**. Its tonal range should serve both expressive surfaces/frame backgrounds and vivid category differentiation: use softer tones for large surfaces and stronger, more saturated tones for compact accents such as pills, badges and markers where they remain legible. Do not keep a parallel Loculary-specific palette merely to obtain vivid colors; first use the official scheme's available tones. Avoid rainbow decoration on every component, and validate foreground contrast for each use. Semantic success, warning and error colors remain independent of the brand seed and Rainbow palette.
+Use the **official MCU Rainbow scheme as Loculary's single category-color palette**, not as a competing semantic theme. Apply its tones to category identity only where they improve recognition; do not use rainbow colors to decorate general surfaces or override the seed-derived Fidelity roles. Do not keep a parallel Loculary-specific palette merely to obtain stronger colors. Validate foreground contrast for every category treatment. Semantic success, warning and error colors remain independent of the brand seed and Rainbow palette.
 
 The light/dark theme preference is local-first for anonymous users and may be synchronized with the signed-in account when account-preference persistence is implemented. This document does not claim that the settings UI or synchronization already exists.
 
