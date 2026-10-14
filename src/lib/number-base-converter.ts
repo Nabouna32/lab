@@ -26,6 +26,7 @@ export function formatNumber(value: bigint, base: number): string {
 }
 
 export function convertNumber(value: string, fromBase: number, toBase: number): string | null {
+  if (!isValidBase(fromBase) || !isValidBase(toBase)) return null;
   const parsed = parseNumber(value, fromBase);
   return parsed === null ? null : formatNumber(parsed, toBase);
 }

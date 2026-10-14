@@ -34,6 +34,9 @@ test("rejects invalid input and bases", () => {
   assert.equal(parseNumber("+", 10), null);
   assert.equal(parseNumber("10", 1), null);
   assert.equal(parseNumber("10", 37), null);
+  assert.equal(convertNumber("10", 10, 1), null);
+  assert.equal(convertNumber("10", 10, 37), null);
+  assert.equal(convertNumber("10", 1, 10), null);
   assert.equal(isValidBase(2), true);
   assert.equal(isValidBase(36), true);
   assert.equal(isValidBase(1), false);
