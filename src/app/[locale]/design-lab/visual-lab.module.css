@@ -242,7 +242,8 @@
 .directionStage .directionContent{animation:labScreenEnter 220ms cubic-bezier(.2,.8,.2,1) both}
 @keyframes labScreenEnter{from{opacity:.65;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
 .lab[data-reduced-motion="true"] .motionDemo span{animation:none;opacity:1;transform:none}
-.lab[data-reduced-motion="true"] .directionContent{animation:none}
+.lab[data-reduced-motion="true"] .directionContent,.lab[data-reduced-motion="true"] .sampleBottomSheet,.lab[data-reduced-motion="true"] .sampleSnackbar{animation:none}
+.lab[data-reduced-motion="true"] button,.lab[data-reduced-motion="true"] .sampleProgress span{transition:none}
 .sampleCheck{display:flex;align-items:center;gap:.65rem;min-height:2.75rem;color:var(--lab-text);font-size:.9rem}
 .sampleCheck input{width:1.25rem;height:1.25rem;flex:0 0 auto}
 .sampleSlider{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.65rem;align-items:center;margin-top:1rem;color:var(--lab-text);font-size:.9rem;font-weight:650}
