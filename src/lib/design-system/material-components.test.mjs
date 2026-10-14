@@ -93,3 +93,22 @@ test("real checkbox and switch call sites use shared primitives", () => {
   assert.match(passwordSource, /import \{ Checkbox \} from "@\/components\/ui\/Checkbox"/);
   assert.match(passwordSource, /<Checkbox/);
 });
+
+test("standard functional UI surfaces do not reintroduce one-off inline SVG icons", () => {
+  const sharedFunctionalIconCallSites = [
+    "../../app/[locale]/compte/page.tsx",
+    "../../app/[locale]/design-lab/VisualLab.tsx",
+    "../../components/home/CategoryCard.tsx",
+    "../../components/layout/DesktopHeaderMenu.tsx",
+    "../../components/layout/LanguageFlag.tsx",
+    "../../components/layout/MobileHeaderSearch.tsx",
+    "../../components/theme/ThemeToggle.tsx",
+    "../../components/tools/ToolSearch.tsx",
+    "../../components/tools/number-base-converter/NumberBaseConverter.tsx",
+  ];
+
+  for (const relativePath of sharedFunctionalIconCallSites) {
+    const source = readFileSync(new URL(relativePath, import.meta.url), "utf8");
+    assert.doesNotMatch(source, /<svg\\b/, `${relativePath} should use the shared MaterialIcon component for standard UI icons`);
+  }
+});
