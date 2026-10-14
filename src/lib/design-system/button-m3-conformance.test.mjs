@@ -122,8 +122,8 @@ test("collection and favorites action buttons use the shared M3 Button", () => {
     assert.ok(collectionsView.includes(variant), "missing collection action variant: " + variant);
   }
   assert.ok(!collectionsView.includes('<button type="submit"'));
-  assert.ok(!collectionsView.includes('onClick={() => void data.removeTool'));
-  assert.ok(!collectionsView.includes('onClick={() => void data.toggleSharing'));
+  assert.ok(!collectionsView.includes('<button type="button" onClick={() => void data.removeTool'));
+  assert.ok(!collectionsView.includes('<button type="button" onClick={() => void data.toggleSharing'));
   assert.ok(collectionsView.includes('className="!text-[var(--error)]"'));
   assert.ok(collectionsView.includes('className="!text-[var(--muted)]"'));
   assert.ok(favoritesView.includes('import { Button } from "@/components/ui/Button"'));
