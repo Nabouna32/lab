@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useSyncExternalStore, type ReactNode } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "@teispace/next-themes";
 import { getLanguage, isLocale, locales, type Locale } from "@/lib/i18n/config";
@@ -9,23 +9,7 @@ import { getLocalizedPath, getSearchResultsPagePath, getToolsPath } from "@/lib/
 import { getMessages } from "@/lib/i18n/messages";
 import { StarIcon } from "@/components/ui/StarIcon";
 import { CollectionIcon } from "@/components/ui/CollectionIcon";
-
-function Icon({ children, className = "h-4 w-4" }: { children: ReactNode; className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-      aria-hidden="true"
-    >
-      {children}
-    </svg>
-  );
-}
+import { MaterialIcon } from "@/components/ui/MaterialIcon";
 
 const triggerClass =
   "flex h-12 min-w-12 items-center justify-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 text-sm font-semibold text-[var(--foreground)] outline-none transition-[border-color,background-color,box-shadow,transform] duration-200 hover:bg-[var(--surface-soft)] focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]";
@@ -152,9 +136,7 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
         aria-controls="header-menu"
         onClick={() => setMenuOpen(!open)}
       >
-        <Icon>
-          <path d="M5 7h14M5 12h14M5 17h14" />
-        </Icon>
+        <MaterialIcon name="menu" size={18} />
         <span className="hidden lg:inline">{t.nav.menu}</span>
       </button>
 
@@ -172,12 +154,7 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
           onClick={closeMenu}
           className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-semibold text-[var(--foreground)] outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] lg:hidden"
         >
-          <Icon>
-            <rect x="4" y="4" width="6" height="6" rx="1" />
-            <rect x="14" y="4" width="6" height="6" rx="1" />
-            <rect x="4" y="14" width="6" height="6" rx="1" />
-            <rect x="14" y="14" width="6" height="6" rx="1" />
-          </Icon>
+          <MaterialIcon name="apps" size={18} />
           {t.nav.explore}
         </Link>
 
@@ -214,16 +191,13 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
           className="group flex items-center gap-3 rounded-xl px-3 py-3 outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
         >
           <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--accent-soft)] text-[var(--on-primary-container)]">
-            <Icon className="h-[1.1rem] w-[1.1rem]">
-              <circle cx="12" cy="8" r="3.2" />
-              <path d="M5.5 20c.8-3.1 3-4.7 6.5-4.7s5.7 1.6 6.5 4.7" />
-            </Icon>
+            <MaterialIcon name="person" size={18} className="h-[1.1rem] w-[1.1rem]" />
           </span>
           <span className="min-w-0 flex-1">
             <span className="block text-sm font-semibold text-[var(--foreground)]">{t.nav.space}</span>
             <span className="mt-0.5 block text-xs text-[var(--muted)]">{t.nav.account}</span>
           </span>
-          <svg viewBox="0 0 24 24" className="h-4 w-4 text-[var(--muted)] transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg>
+          <MaterialIcon name="chevron_right" size={16} className="h-4 w-4 text-[var(--muted)] transition-transform group-hover:translate-x-0.5" />
         </Link>
 
         <div className="my-2 h-px bg-[var(--border)]" />
@@ -292,23 +266,9 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
                 className={optionClass + " w-full"}
                 aria-pressed={theme === option.value}
               >
-                <Icon>
-                  {option.icon === "system" ? (
-                    <>
-                      <rect x="3.5" y="4" width="17" height="12" rx="1.8" />
-                      <path d="M8 20h8M12 16v4" />
-                    </>
-                  ) : option.icon === "dark" ? (
-                    <path d="M20 15.2A8.5 8.5 0 0 1 8.8 4 8.5 8.5 0 1 0 20 15.2Z" />
-                  ) : (
-                    <>
-                      <circle cx="12" cy="12" r="4" />
-                      <path d="M12 3v2M12 19v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M3 12h2M19 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" />
-                    </>
-                  )}
-                </Icon>
+                <MaterialIcon name={option.icon === "system" ? "devices" : option.icon === "dark" ? "dark_mode" : "light_mode"} size={16} />
                 <span className="flex-1 text-left">{option.label}</span>
-                {theme === option.value && <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6" /></svg>}
+                {theme === option.value && <MaterialIcon name="check" size={16} />}
               </button>
             ))}
           </div>

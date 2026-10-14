@@ -124,7 +124,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
             <span className={styles.seedSwatch} style={{backgroundColor:seed}} aria-hidden="true" />
             <span>{locale==="fr"?"Choisir une couleur":"Choose a color"}</span>
             <code>{seed}</code>
-            <span aria-hidden="true">{paletteOpen?"⌃":"⌄"}</span>
+            <span aria-hidden="true"><MaterialIcon name={paletteOpen ? "keyboard_arrow_up" : "keyboard_arrow_down"} size={20} /></span>
           </button>
           {paletteOpen&&<div className={styles.seedPalette} id="design-lab-color-palette">
             <div className={styles.seedPaletteHeading}>{locale==="fr"?"Couleurs de départ":"Color presets"}</div>

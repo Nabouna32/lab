@@ -14,6 +14,7 @@ import { normalizeSearchText } from "@/lib/tools/search-utils";
 import { executeToolSearch } from "@/lib/tools/search-request";
 import { Button } from "@/components/ui/Button";
 import { IconButton } from "@/components/ui/IconButton";
+import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import { getSearchResultsPath, getToolPath } from "@/lib/tools/routes";
 
 type ToolSearchResult = {
@@ -250,10 +251,7 @@ export default function ToolSearch({
           }
           aria-hidden="true"
         >
-          <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
-            <circle cx="10.8" cy="10.8" r="6.3" />
-            <path d="m15.5 15.5 4.2 4.2" />
-          </svg>
+          <MaterialIcon name="search" size={20} />
         </span>
         <input
           id={inputId}
@@ -297,15 +295,11 @@ export default function ToolSearch({
             aria-label={t.tools.clearSearch}
             title={t.tools.clearSearch}
           >
-            <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
-              <path d="M6 6l12 12M18 6 6 18" />
-            </svg>
+            <MaterialIcon name="close" size={16} />
           </Button>
         )}
         <IconButton label={t.tools.searchSubmit} type="submit" disabled={!query.trim()} variant="filled" size={compact ? "compact" : "default"}>
-          <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <path d="M5 12h14M13 6l6 6-6 6" />
-          </svg>
+          <MaterialIcon name="arrow_forward" size={20} />
         </IconButton>
       </div>
       </form>
@@ -403,9 +397,7 @@ export default function ToolSearch({
                           {content.description}
                         </span>
                       </span>
-                      <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 opacity-70" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                        <path d="M5 12h14M13 6l6 6-6 6" />
-                      </svg>
+                      <MaterialIcon name="chevron_right" size={16} className="shrink-0 opacity-70" />
                     </a>
                   );
                 })}
