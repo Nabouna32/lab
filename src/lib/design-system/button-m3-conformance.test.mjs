@@ -5,11 +5,13 @@ import { test } from "node:test";
 const button = readFileSync(new URL("../../components/ui/Button.tsx", import.meta.url), "utf8");
 const iconButton = readFileSync(new URL("../../components/ui/IconButton.tsx", import.meta.url), "utf8");
 
-test("shared Button exposes M3 variants and prevents squeezed multi-line labels", () => {
-  for (const variant of ["filled", "elevated", "filled-tonal", "outlined", "text", "primary", "tonal"]) {
-    assert.ok(button.includes(variant + ":"), "missing button variant: " + variant);
-  }
+test("shared Button exposes canonical M3 variants and prevents squeezed labels", () => {
   for (const required of [
+    'filled: "border',
+    'elevated: "border',
+    '"filled-tonal": "border',
+    'outlined: "border',
+    'text: "border',
     "min-h-10",
     "min-w-16",
     "whitespace-nowrap",
@@ -20,6 +22,7 @@ test("shared Button exposes M3 variants and prevents squeezed multi-line labels"
     "var(--on-secondary-container)",
     'secondary: "border border-[var(--outline)] bg-transparent text-[var(--primary)]',
     'ghost: "border border-transparent bg-transparent text-[var(--primary)]',
+    'variant = "filled"',
   ]) {
     assert.ok(button.includes(required), "missing Button conformance rule: " + required);
   }
@@ -27,6 +30,8 @@ test("shared Button exposes M3 variants and prevents squeezed multi-line labels"
 
 test("shared IconButton preserves 48px touch target and supports accessible toggle state", () => {
   for (const required of [
+    'type IconButtonVariant = "standard" | "filled" | "filled-tonal"',
+    ' "filled-tonal": "border',
     "h-12 min-h-12 w-12 min-w-12",
     "selected?: boolean",
     "aria-pressed={selected}",
@@ -39,7 +44,10 @@ test("shared IconButton preserves 48px touch target and supports accessible togg
   }
 });
 
-test("button compatibility variants are explicitly distinguished from canonical M3 variants", () => {
+test("non-canonical names are compatibility aliases, not custom M3 variants", () => {
   assert.ok(button.includes("App-specific compatibility variants"));
-  assert.ok(button.includes('"primary" is the app\'s compatibility name for M3\'s filled button'));
+  assert.ok(button.includes("primary:"));
+  assert.ok(button.includes("tonal:"));
+  assert.ok(button.includes("secondary:"));
+  assert.ok(button.includes("ghost:"));
 });
