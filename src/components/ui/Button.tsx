@@ -5,14 +5,14 @@ export type ButtonVariant = "primary" | "tonal" | "outlined" | "text" | "danger"
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & { variant?: ButtonVariant };
 
 const variants: Record<ButtonVariant, string> = {
-  primary: "border border-transparent bg-[var(--primary)] text-[var(--on-primary)] hover:brightness-[.94] active:scale-[.98]",
-  tonal: "border border-transparent bg-[var(--secondary-container)] text-[var(--on-secondary-container)] hover:brightness-[.97] active:scale-[.98]",
-  outlined: "border border-[var(--outline)] bg-transparent text-[var(--primary)] hover:bg-[var(--surface-soft)] active:scale-[.98]",
-  text: "border border-transparent bg-transparent text-[var(--primary)] hover:bg-[var(--surface-soft)] active:scale-[.98]",
-  danger: "border border-transparent bg-[var(--error)] text-[var(--on-error)] hover:brightness-[.94] active:scale-[.98]",
+  primary: "border border-transparent bg-[var(--primary)] text-[var(--on-primary)] hover:bg-[color-mix(in_srgb,var(--primary)_92%,var(--on-primary))] active:bg-[color-mix(in_srgb,var(--primary)_88%,var(--on-primary))] active:scale-[.98]",
+  tonal: "border border-transparent bg-[var(--secondary-container)] text-[var(--on-secondary-container)] hover:bg-[color-mix(in_srgb,var(--secondary-container)_92%,var(--on-secondary-container))] active:bg-[color-mix(in_srgb,var(--secondary-container)_88%,var(--on-secondary-container))] active:scale-[.98]",
+  outlined: "border border-[var(--outline)] bg-transparent text-[var(--primary)] hover:bg-[color-mix(in_srgb,var(--surface)_92%,var(--primary))] active:bg-[color-mix(in_srgb,var(--surface)_88%,var(--primary))] active:scale-[.98]",
+  text: "border border-transparent bg-transparent text-[var(--primary)] hover:bg-[color-mix(in_srgb,var(--surface)_92%,var(--primary))] active:bg-[color-mix(in_srgb,var(--surface)_88%,var(--primary))] active:scale-[.98]",
+  danger: "border border-transparent bg-[var(--error)] text-[var(--on-error)] hover:bg-[color-mix(in_srgb,var(--error)_92%,var(--on-error))] active:bg-[color-mix(in_srgb,var(--error)_88%,var(--on-error))] active:scale-[.98]",
   // Compatibility names retained while existing call sites migrate by intent.
-  secondary: "border border-[var(--outline)] bg-[var(--surface)] text-[var(--foreground)] hover:bg-[var(--surface-soft)] active:scale-[.98]",
-  ghost: "border border-transparent bg-transparent text-[var(--muted)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)]",
+  secondary: "border border-[var(--outline)] bg-[var(--surface)] text-[var(--foreground)] hover:bg-[color-mix(in_srgb,var(--surface)_92%,var(--foreground))] active:bg-[color-mix(in_srgb,var(--surface)_88%,var(--foreground))] active:scale-[.98]",
+  ghost: "border border-transparent bg-transparent text-[var(--muted)] hover:bg-[color-mix(in_srgb,var(--surface)_92%,var(--on-surface-variant))] hover:text-[var(--foreground)] active:bg-[color-mix(in_srgb,var(--surface)_88%,var(--on-surface-variant))]",
 };
 
 export function Button({ variant = "primary", className = "", type = "button", ...props }: ButtonProps) {
