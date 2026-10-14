@@ -6,7 +6,7 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & { variant?: ButtonV
 
 const variants: Record<ButtonVariant, string> = {
   primary: "border border-transparent bg-[var(--primary)] text-[var(--on-primary)] hover:brightness-[.94] active:scale-[.98]",
-  tonal: "border border-transparent bg-[var(--primary-container)] text-[var(--on-primary-container)] hover:brightness-[.97] active:scale-[.98]",
+  tonal: "border border-transparent bg-[var(--secondary-container)] text-[var(--on-secondary-container)] hover:brightness-[.97] active:scale-[.98]",
   outlined: "border border-[var(--outline)] bg-transparent text-[var(--primary)] hover:bg-[var(--surface-soft)] active:scale-[.98]",
   text: "border border-transparent bg-transparent text-[var(--primary)] hover:bg-[var(--surface-soft)] active:scale-[.98]",
   danger: "border border-transparent bg-[var(--error)] text-[var(--on-error)] hover:brightness-[.94] active:scale-[.98]",
