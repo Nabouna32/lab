@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { test } from "node:test";
+import { Contrast, Hct, SchemeFidelity, argbFromHex } from "@material/material-color-utilities";
 
 const checkboxSource = readFileSync(new URL("../../components/ui/Checkbox.tsx", import.meta.url), "utf8");
 const switchSource = readFileSync(new URL("../../components/ui/Switch.tsx", import.meta.url), "utf8");
@@ -146,4 +147,41 @@ test("shared action controls use semantic state-layer colors instead of brightne
   assert.match(favoriteSource, /var\(--primary\)_92%,var\(--on-primary\)/);
   assert.match(accountActionSource, /var\(--primary\)_92%,var\(--on-primary\)/);
   assert.match(collectionsSource, /var\(--primary\)_92%,var\(--on-primary\)/);
+});
+
+test("Fidelity semantic foreground roles retain accessible contrast across representative seeds and themes", () => {
+  const seeds = ["#4285F4", "#F9A825", "#777777"];
+  const rolePairs = [
+    ["primary", "onPrimary"],
+    ["primaryContainer", "onPrimaryContainer"],
+    ["secondary", "onSecondary"],
+    ["secondaryContainer", "onSecondaryContainer"],
+    ["tertiary", "onTertiary"],
+    ["tertiaryContainer", "onTertiaryContainer"],
+    ["error", "onError"],
+    ["errorContainer", "onErrorContainer"],
+    ["surface", "onSurface"],
+    ["surfaceVariant", "onSurfaceVariant"],
+    ["background", "onBackground"],
+    ["inverseSurface", "inverseOnSurface"],
+    ["primaryFixed", "onPrimaryFixed"],
+    ["secondaryFixed", "onSecondaryFixed"],
+    ["tertiaryFixed", "onTertiaryFixed"],
+  ];
+
+  for (const seed of seeds) {
+    const source = Hct.fromInt(argbFromHex(seed));
+    for (const isDark of [false, true]) {
+      const scheme = new SchemeFidelity(source, isDark, 0, "2021", "phone");
+      for (const [backgroundRole, foregroundRole] of rolePairs) {
+        const background = scheme[backgroundRole];
+        const foreground = scheme[foregroundRole];
+        const ratio = Contrast.ratioOfTones(Hct.fromInt(foreground).tone, Hct.fromInt(background).tone);
+        assert.ok(
+          ratio >= 4.5,
+          `${seed} ${isDark ? "dark" : "light"} ${backgroundRole}/${foregroundRole} contrast is ${ratio.toFixed(2)}:1`,
+        );
+      }
+    }
+  }
 });
