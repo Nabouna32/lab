@@ -34,7 +34,7 @@ export function IconButton({
   const selectedStyles = selected
     ? "bg-[var(--secondary-container)] text-[var(--on-secondary-container)]"
     : "";
-  const dimensions = "h-12 min-h-12 w-12 min-w-12";
+  const dimensions = size === "compact" ? "h-12 min-h-12 w-12 min-w-12" : "h-12 min-h-12 w-12 min-w-12";
 
   return (
     <button
