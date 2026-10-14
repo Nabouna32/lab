@@ -9,8 +9,8 @@ const operationRef=useRef(0);
 useEffect(()=>()=>{if(clean)URL.revokeObjectURL(clean);if(preview)URL.revokeObjectURL(preview)},[clean,preview]);
 useEffect(()=>()=>{operationRef.current+=1},[]);
 async function select(next:File|null){
+if(!next)return;
 const operation=++operationRef.current;
-if(!next){setBusy(false);return;}
 if(!next.type.startsWith("image/")||next.size>MAX){
 setFile(null);setData(null);setClean(null);setPreview(null);setBusy(false);
 setError(!next.type.startsWith("image/")?t.invalidType:t.tooLarge);return;
