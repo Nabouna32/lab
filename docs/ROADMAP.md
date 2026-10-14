@@ -88,9 +88,9 @@ Goal: support real traffic while protecting the user experience.
 
 - [ ] Privacy-conscious product analytics
 - [ ] Dedicated runtime performance monitoring
-- [deferred] Reconsider a database-backed catalog only when DEC-051's concrete product or operational triggers are demonstrated; catalog size alone is insufficient
+- [deferred] Reconsider a database-backed catalog only when DEC-030's concrete product or operational triggers are demonstrated; catalog size alone is insufficient
 - [partial] Framework/static generation is used; a deliberate catalog/data caching strategy is not implemented
-- [partial] CI, unit tests and metadata validation exist; product-level resilience remains incomplete. Browser E2E and screenshot automation are intentionally absent (DEC-049).
+- [partial] CI, unit tests and metadata validation exist; product-level resilience remains incomplete. Browser E2E and screenshot automation are excluded by the repository rules in `AGENTS.md`.
 - [partial] Authentication throttling and administrative RBAC/RLS exist; broader abuse controls remain incomplete
 - [ ] Cost observability
 

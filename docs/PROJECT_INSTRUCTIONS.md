@@ -22,7 +22,7 @@ Progressively load tools. Use Workers, WASM and chunking where justified. Provid
 
 ## Current UX/UI direction
 
-Loculary's accepted visual direction is **Material 3 Expressive**, as defined by DEC-048 and the [design-system contract](DESIGN-SYSTEM.md). Follow that contract for shared component behavior, iconography, semantic color, typography, motion, palette rules and light/dark contrast. It describes the intended direction, not a claim that the current UI already conforms.
+Loculary's accepted visual direction is **Material 3 Expressive**, as defined by DEC-029 and the [design-system contract](DESIGN-SYSTEM.md). Follow that contract for shared component behavior, iconography, semantic color, typography, motion, palette rules and light/dark contrast. It describes the intended direction, not a claim that the current UI already conforms.
 
 The product remains a task-first digital toolbox: help people find a tool, figure out how to accomplish something, or discover what's possible. The homepage prioritizes search and action; tool pages prioritize the task, result and useful next actions over documentation or generic discovery. See the [UX specification](UX.md) for the canonical journey and composition guidance.
 

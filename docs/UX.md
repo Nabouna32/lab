@@ -85,7 +85,7 @@ Tool-specific identity is encouraged when it improves comprehension, feedback or
 
 ### Visual design direction
 
-The shared visual system follows **Material 3 Expressive**, governed by DEC-048 and the [design-system contract](DESIGN-SYSTEM.md). Apply that shared language to Loculary's task-first utility toolbox; do not copy a Google product screen or adopt a generic SaaS template.
+The shared visual system follows **Material 3 Expressive**, governed by DEC-029 and the [design-system contract](DESIGN-SYSTEM.md). Apply that shared language to Loculary's task-first utility toolbox; do not copy a Google product screen or adopt a generic SaaS template.
 
 Challenge existing UI patterns when they prevent a coherent experience. Refactor or replace abstractions when justified by the validated design target, while preserving meaningful differences between specialized tools. The brand mark remains distinct from functional interface iconography.
 
