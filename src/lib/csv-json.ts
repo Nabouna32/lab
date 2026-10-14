@@ -78,10 +78,31 @@ function parseCsv(input: string, delimiter: string): string[][] {
 }
 
 function detectDelimiter(input: string): CsvDelimiter {
-  const firstLine = input.split(/\r?\n/, 1)[0] ?? "";
   const candidates: CsvDelimiter[] = [",", ";", "\t"];
+  const counts = new Map<CsvDelimiter, number>(candidates.map((candidate) => [candidate, 0]));
+  let quoted = false;
+
+  for (let index = 0; index < input.length; index += 1) {
+    const character = input[index];
+
+    if (character === '"') {
+      if (quoted && input[index + 1] === '"') {
+        index += 1;
+      } else {
+        quoted = !quoted;
+      }
+      continue;
+    }
+
+    if (!quoted && (character === "\n" || character === "\r")) break;
+    if (!quoted && counts.has(character as CsvDelimiter)) {
+      const delimiter = character as CsvDelimiter;
+      counts.set(delimiter, (counts.get(delimiter) ?? 0) + 1);
+    }
+  }
+
   return candidates.reduce((best, candidate) =>
-    firstLine.split(candidate).length > firstLine.split(best).length ? candidate : best,
+    (counts.get(candidate) ?? 0) > (counts.get(best) ?? 0) ? candidate : best,
   ",");
 }
 
