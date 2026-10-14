@@ -1,6 +1,6 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 
-type IconButtonVariant = "standard" | "filled" | "tonal" | "outlined";
+type IconButtonVariant = "standard" | "filled" | "filled-tonal" | "tonal" | "outlined";
 
 type IconButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "aria-label" | "children" | "aria-pressed"> & {
   label: string;
@@ -13,6 +13,8 @@ type IconButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "aria-label
 const variants: Record<IconButtonVariant, string> = {
   standard: "border border-transparent bg-transparent text-[var(--on-surface-variant)] hover:bg-[color-mix(in_srgb,var(--on-surface-variant)_8%,transparent)] hover:text-[var(--foreground)] active:bg-[color-mix(in_srgb,var(--on-surface-variant)_12%,transparent)]",
   filled: "border border-transparent bg-[var(--primary)] text-[var(--on-primary)] hover:bg-[color-mix(in_srgb,var(--primary)_92%,var(--on-primary))] active:bg-[color-mix(in_srgb,var(--primary)_88%,var(--on-primary))] shadow-[var(--shadow-sm)]",
+  "filled-tonal": "border border-transparent bg-[var(--secondary-container)] text-[var(--on-secondary-container)] hover:bg-[color-mix(in_srgb,var(--secondary-container)_92%,var(--on-secondary-container))] active:bg-[color-mix(in_srgb,var(--secondary-container)_88%,var(--on-secondary-container))]",
+  // Compatibility name retained for existing call sites.
   tonal: "border border-transparent bg-[var(--secondary-container)] text-[var(--on-secondary-container)] hover:bg-[color-mix(in_srgb,var(--secondary-container)_92%,var(--on-secondary-container))] active:bg-[color-mix(in_srgb,var(--secondary-container)_88%,var(--on-secondary-container))]",
   outlined: "border border-[var(--outline)] bg-transparent text-[var(--on-surface-variant)] hover:bg-[color-mix(in_srgb,var(--on-surface-variant)_8%,transparent)] active:bg-[color-mix(in_srgb,var(--on-surface-variant)_12%,transparent)]",
 };
