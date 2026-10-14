@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes, ReactNode } from "react";
+import type { ButtonHTMLAttributes, ReactNode, Ref } from "react";
 
 type IconButtonVariant = "standard" | "filled" | "filled-tonal" | "tonal" | "outlined";
 
@@ -8,6 +8,7 @@ type IconButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "aria-label
   variant?: IconButtonVariant;
   /** Pass only for toggle actions; momentary actions should omit it. */
   selected?: boolean;
+  ref?: Ref<HTMLButtonElement>;
 };
 
 const standard = "border border-transparent bg-transparent text-[var(--on-surface-variant)] hover:bg-[color-mix(in_srgb,var(--on-surface-variant)_8%,transparent)] hover:text-[var(--foreground)] active:bg-[color-mix(in_srgb,var(--on-surface-variant)_12%,transparent)] disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]";
@@ -31,6 +32,7 @@ export function IconButton({
   type = "button",
   variant = "standard",
   selected,
+  ref,
   ...props
 }: IconButtonProps) {
   // M3 icon buttons require a 48×48px minimum touch target and typically a 24px icon.
@@ -41,6 +43,7 @@ export function IconButton({
 
   return (
     <button
+      ref={ref}
       type={type}
       aria-label={label}
       aria-pressed={selected}
