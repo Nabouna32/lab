@@ -35,7 +35,7 @@ export function Switch({
       <span
         aria-hidden="true"
         className={[
-          "relative inline-flex h-8 w-[52px] shrink-0 rounded-full border border-[var(--outline)] bg-[var(--surface-variant)]",
+          "relative inline-flex h-8 w-[52px] shrink-0 rounded-full border border-[var(--outline)] bg-[var(--surface-container-highest)]",
           "transition-[background-color,border-color] duration-[var(--motion-standard)]",
           "peer-checked:border-[var(--primary)] peer-checked:bg-[var(--primary)]",
           "peer-focus-visible:outline-none peer-focus-visible:ring-2 peer-focus-visible:ring-[var(--focus-ring)] peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-[var(--background)]",
