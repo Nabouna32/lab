@@ -222,3 +222,6 @@ The compact favorite toggle previously used a local 40×40px button, below the 4
 - The number-base converter's swap action now uses the shared outlined `IconButton` with a 24px Material Symbols icon instead of a one-off button style.
 
 - Theme and language dropdown triggers are disclosure summaries rather than native buttons, so they remain disclosure controls; their icon-only hit areas are now 48×48px and circular to match the M3 icon-button target geometry.
+
+- The mobile header search trigger now uses the shared `IconButton` rather than a parallel local style. The shared primitive accepts a button ref so Escape-close focus restoration still returns to the trigger; the open state is also exposed as a selected toggle state.
+- The compact favorite icon now renders at the documented 24px glyph size, not merely a 24px CSS box around a 20px glyph.
