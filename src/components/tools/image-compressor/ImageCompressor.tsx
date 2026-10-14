@@ -121,12 +121,12 @@ export default function ImageCompressor() {
           )}
 
           <div className="grid gap-4 sm:grid-cols-3">
-            <Select id="image-compressor-format" label={t.format} value={format} onChange={(event) => { setBusy(true); setError(null); setFormat(event.target.value as ImageOutputFormat); }}>
+            <Select id="image-compressor-format" label={t.format} value={format} onChange={(event) => { setBusy(Boolean(file)); setError(null); setFormat(event.target.value as ImageOutputFormat); }}>
               <option value="webp">WebP</option>
               <option value="jpeg">JPEG</option>
               <option value="png">PNG</option>
             </Select>
-            <Select id="image-compressor-dimension" label={t.maxDimension} value={maxDimension ?? "original"} onChange={(event) => { setBusy(true); setError(null); setMaxDimension(event.target.value === "original" ? null : Number(event.target.value)); }}>
+            <Select id="image-compressor-dimension" label={t.maxDimension} value={maxDimension ?? "original"} onChange={(event) => { setBusy(Boolean(file)); setError(null); setMaxDimension(event.target.value === "original" ? null : Number(event.target.value)); }}>
               <option value="1200">1200 px</option>
               <option value="2400">2400 px</option>
               <option value="3200">3200 px</option>
@@ -141,7 +141,7 @@ export default function ImageCompressor() {
               max={100}
               step={5}
               description={t.qualityHint}
-              onValueChange={(nextValue) => { setBusy(true); setError(null); setQuality(nextValue / 100); }}
+              onValueChange={(nextValue) => { setBusy(Boolean(file)); setError(null); setQuality(nextValue / 100); }}
             />
           </div>
 
