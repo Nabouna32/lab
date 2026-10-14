@@ -9,7 +9,7 @@ const variants: Record<Variant, string> = {
   secondary:
     "border border-[var(--outline)] bg-[var(--surface)] text-[var(--foreground)] hover:bg-[var(--surface-soft)] active:scale-[.98]",
   danger:
-    "border border-[var(--error)] bg-transparent text-[var(--error)] hover:bg-[var(--error-container)] active:scale-[.98]",
+    "border border-[var(--error)] bg-transparent text-[var(--error)] hover:bg-[var(--error-container)] hover:text-[var(--on-error-container)] active:scale-[.98]",
 };
 
 type AccountActionLinkProps = LinkProps &
