@@ -10,10 +10,6 @@ type Locale = "en" | "fr";
 type Theme = "light" | "dark";
 type Screen = "home" | "explore" | "tool" | "saved" | "profile";
 type DesignDirection = "pixel" | "utility";
-type Locale = "en" | "fr";
-type Theme = "light" | "dark";
-type Screen = "home" | "explore" | "tool" | "saved" | "profile";
-type DesignDirection = "pixel" | "utility";
 type LabIconName = "home" | "search" | "heart" | "user" | "calculator" | "image" | "text" | "arrow-up-right" | "plus" | "bell" | "sun" | "sparkles" | "back" | "check" | "close";
 const labIconNames: Record<LabIconName, MaterialIconName> = {
   home: "home",
