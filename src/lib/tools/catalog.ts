@@ -6,8 +6,8 @@ import { tools } from "./tools.ts";
  * Single access boundary for the tool catalog.
  *
  * The current implementation is static and Git-backed. Keeping consumers behind
- * this boundary lets the catalog move to a database later without making every
- * page/component know where catalog data comes from.
+ * this boundary localizes data-source changes if a concrete product or operational
+ * requirement ever justifies them; a database-backed catalog is not a planned migration.
  */
 export function getAllTools(): readonly Tool[] {
   return tools;

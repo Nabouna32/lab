@@ -185,11 +185,7 @@ AI can be added behind the search abstraction if its value justifies cost and pr
 
 ## Authentication
 
-Authentication should support popular providers in addition to a low-friction account option.
-
-Initial provider selection remains an implementation decision.
-
-Anonymous usage is mandatory for core functionality.
+The implemented account provider is Supabase email/password authentication. Core tools remain usable anonymously. Additional sign-in providers are optional future work, not a current requirement; add one only when a demonstrated user need justifies the extra account, configuration and support surface.
 
 ### Implemented account authentication architecture
 
@@ -248,12 +244,6 @@ Browser-level E2E, Playwright and screenshot automation are out of scope unless 
 This is the current baseline, not an immutable commitment.
 
 Any major technology change must be justified against the product's browser-first, SEO, performance, maintainability, and cost requirements.
-
-## Future Android client
-
-The web platform remains primary.
-
-Tool/domain logic should be separated from browser-specific infrastructure when doing so is inexpensive and useful, but the architecture must not introduce abstractions solely for a hypothetical future mobile client.
 
 ## Expanded platform model
 

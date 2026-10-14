@@ -58,7 +58,6 @@ export default async function AdminPage({
   const modules = [
     { title: t.admin.users, description: t.admin.usersDescription, status: t.admin.available, href: `/${locale}/admin/utilisateurs` },
     { title: t.admin.tools, description: t.admin.toolsDescription, status: t.admin.comingSoon, href: null },
-    { title: t.admin.moderation, description: t.admin.moderationDescription, status: t.admin.comingSoon, href: null },
     { title: t.admin.analytics, description: t.admin.analyticsDescription, status: t.admin.comingSoon, href: null },
     { title: t.admin.settings, description: t.admin.settingsDescription, status: t.admin.comingSoon, href: null },
     { title: t.admin.audit, description: t.admin.auditDescription, status: t.admin.available, href: `/${locale}/admin/audit` },
