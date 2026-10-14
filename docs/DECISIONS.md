@@ -634,27 +634,6 @@ Loculary needs a coherent, recognizable visual and interaction language that fee
 - Accessibility, WCAG 2.2 AA, reduced motion, responsive desktop/tablet/mobile behavior, localization, privacy and performance remain mandatory.
 - Adoption is not proof of implementation. Production migration, palette settings, preference persistence, account synchronization and visual/accessibility verification remain implementation work and must not be described as complete without evidence.
 
-## DEC-049 — Browser E2E and screenshot automation are excluded by default
-
-**Status:** Accepted
-
-### Decision
-
-Remove the manually triggered Playwright E2E, production-browser validation, and production-screenshot workflows, along with their browser tests and the Playwright dependency. Keep the existing CI baseline: Node.js tests, lint, TypeScript checks, production build, dependency/security checks, and targeted Supabase Edge Function validation.
-
-Do not reintroduce browser E2E, Playwright, production-browser checks, or screenshot automation. Unit, integration, static, and repository-level checks remain the default validation approach.
-
-### Reason
-
-Browser tests and screenshot workflows add ongoing maintenance and can become brittle when page structure, labels, and flows change. Maintaining and diagnosing those constraints creates disproportionate friction for a project maintained by one human and one AI assistant. The manual workflows also duplicate production-browser coverage and screenshot capture around the same test file.
-
-### Consequences
-
-- The `e2e/` directory and the three browser/screenshot workflows are removed.
-- `@playwright/test` and its lockfile-only dependencies are removed.
-- Unit-level and repository-level automated checks remain the primary regression safeguards.
-- Screenshots and browser artifacts are not required inputs to routine assistant work.
-- Browser automation is out of scope unless the user explicitly revisits this decision.
 
 ## DEC-030 — Database-backed catalog is conditional on demonstrated need
 
