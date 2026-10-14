@@ -4,19 +4,6 @@ import { createClient } from "@/lib/supabase/server";
 import { getMessages } from "@/lib/i18n/messages";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 
-function ModuleContent({ module, t }: { module: { title: string; description: string; status: string }; t: ReturnType<typeof getMessages> }) {
-  const available = module.status === t.admin.available;
-  return (
-    <>
-      <div className="flex items-start justify-between gap-4">
-        <h3 className="font-semibold">{module.title}</h3>
-        <span className={available ? "shrink-0 text-xs font-semibold text-[var(--success)]" : "shrink-0 text-xs font-semibold text-[var(--muted)]"}>{module.status}</span>
-      </div>
-      <p className="mt-2 text-sm leading-6 text-[var(--muted)]">{module.description}</p>
-    </>
-  );
-}
-
 export default async function AdminPage({
   params,
 }: {
@@ -56,11 +43,8 @@ export default async function AdminPage({
   }
 
   const modules = [
-    { title: t.admin.users, description: t.admin.usersDescription, status: t.admin.available, href: `/${locale}/admin/utilisateurs` },
-    { title: t.admin.tools, description: t.admin.toolsDescription, status: t.admin.comingSoon, href: null },
-    { title: t.admin.analytics, description: t.admin.analyticsDescription, status: t.admin.comingSoon, href: null },
-    { title: t.admin.settings, description: t.admin.settingsDescription, status: t.admin.comingSoon, href: null },
-    { title: t.admin.audit, description: t.admin.auditDescription, status: t.admin.available, href: `/${locale}/admin/audit` },
+    { title: t.admin.users, description: t.admin.usersDescription, href: `/${locale}/admin/utilisateurs` },
+    { title: t.admin.audit, description: t.admin.auditDescription, href: `/${locale}/admin/audit` },
   ];
 
   return (
@@ -81,22 +65,16 @@ export default async function AdminPage({
         </div>
 
         <div className="divide-y divide-[var(--border)] border-y border-[var(--border)]">
-          {modules.map((module) => {
-            const content = <ModuleContent module={module} t={t} />;
-            return module.href ? (
-              <Link
-                key={module.title}
-                href={module.href}
-                className="block py-4 outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] sm:px-3"
-              >
-                {content}
-              </Link>
-            ) : (
-              <div key={module.title} className="py-4 sm:px-3">
-                {content}
-              </div>
-            );
-          })}
+          {modules.map((module) => (
+            <Link
+              key={module.title}
+              href={module.href}
+              className="block py-4 outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] sm:px-3"
+            >
+              <h3 className="font-semibold">{module.title}</h3>
+              <p className="mt-2 text-sm leading-6 text-[var(--muted)]">{module.description}</p>
+            </Link>
+          ))}
         </div>
       </section>
 
