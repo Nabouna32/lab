@@ -163,7 +163,7 @@ A visual treatment may provide functional, experiential, identity, or purely aes
 
 ## Visual expression and motion
 
-The intended feel is a polished, responsive web application with the clarity and immediacy of a modern Android app, not a literal Android screen replica. Shared behavior and foundations should be consistent, while tool-specific interfaces may use specialized layouts, visualizations or density when these better serve the task. Preserve the task-first journey and platform-wide accessibility, localization, responsiveness, performance and trust requirements.
+The intended feel is a polished, responsive web application with the clarity and immediacy of current Pixel / Material interfaces, not a literal Android screen replica. Shared behavior and foundations should be consistent, while tool-specific interfaces may use specialized layouts, visualizations or density when these better serve the task. Preserve the task-first journey and platform-wide accessibility, localization, responsiveness, performance and trust requirements.
 
 Use Pixel-faithful shape, tonal color and motion to clarify hierarchy, state changes and spatial continuity—not as decoration on every element. Motion may improve feedback, but must not obstruct task completion; respect system reduced-motion preferences. Follow [the design-system contract](DESIGN-SYSTEM.md) for canonical color, typography, iconography, component-state and theme rules.
 
