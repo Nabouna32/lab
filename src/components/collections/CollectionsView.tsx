@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n/config";
 import { useCollections } from "./CollectionsProvider";
@@ -14,6 +14,10 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
   const [activeCollection, setActiveCollection] = useState<string | null>(null);
   const [addingTool, setAddingTool] = useState("");
   const [message, setMessage] = useState("");
+  const [creating, setCreating] = useState(false);
+  const [adding, setAdding] = useState(false);
+  const creatingRef = useRef(false);
+  const addingRef = useRef(false);
   const fr = locale === "fr";
   const copy = {
     title: fr ? "Mes collections" : "My collections",
@@ -41,13 +45,32 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
   const active = data.collections.find((collection) => collection.id === activeCollection);
 
   async function create() {
-    if (await data.createCollection(name)) { setName(""); setMessage(""); }
-    else setMessage(copy.error);
+    if (creatingRef.current || !name.trim() || data.loading) return;
+    creatingRef.current = true;
+    setCreating(true);
+    try {
+      if (await data.createCollection(name)) { setName(""); setMessage(""); }
+      else setMessage(copy.error);
+    } catch {
+      setMessage(copy.error);
+    } finally {
+      creatingRef.current = false;
+      setCreating(false);
+    }
   }
   async function add() {
-    if (!active || !addingTool) return;
-    if (await data.addTool(active.id, addingTool)) setAddingTool("");
-    else setMessage(copy.error);
+    if (addingRef.current || !active || !addingTool) return;
+    addingRef.current = true;
+    setAdding(true);
+    try {
+      if (await data.addTool(active.id, addingTool)) { setAddingTool(""); setMessage(""); }
+      else setMessage(copy.error);
+    } catch {
+      setMessage(copy.error);
+    } finally {
+      addingRef.current = false;
+      setAdding(false);
+    }
   }
   async function copyLink(token: string) {
     try {
@@ -76,7 +99,7 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
         <>
           <form className="mb-6 flex flex-col gap-3 rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-4 sm:flex-row" onSubmit={(event) => { event.preventDefault(); void create(); }}>
             <input value={name} onChange={(event) => setName(event.target.value)} maxLength={80} required placeholder={copy.placeholder} aria-label={copy.placeholder} className="min-h-12 min-w-0 flex-1 rounded-[var(--radius-lg)] border border-[var(--outline)] bg-[var(--surface)] px-4 text-[var(--foreground)] outline-none transition-[border-color,box-shadow] duration-[var(--motion-standard)] hover:border-[var(--border-strong)] focus-visible:border-[var(--primary)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface)]" />
-            <button type="submit" disabled={data.loading || !name.trim()} className="min-h-12 rounded-full bg-[var(--primary)] px-5 text-sm font-semibold text-[var(--on-primary)] transition-[filter,transform] duration-[var(--motion-standard)] hover:brightness-[.94] active:scale-[.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface)] disabled:cursor-not-allowed disabled:opacity-45">{copy.create}</button>
+            <button type="submit" disabled={data.loading || creating || !name.trim()} className="min-h-12 rounded-full bg-[var(--primary)] px-5 text-sm font-semibold text-[var(--on-primary)] transition-[filter,transform] duration-[var(--motion-standard)] hover:brightness-[.94] active:scale-[.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface)] disabled:cursor-not-allowed disabled:opacity-45">{creating ? (fr ? "Création…" : "Creating…") : copy.create}</button>
           </form>
 
           {data.loading ? <p className="py-8 text-center text-sm text-[var(--muted)]">{fr ? "Chargement…" : "Loading…"}</p> : data.collections.length === 0 ? (
@@ -107,7 +130,7 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
                       <option value="">{copy.choose}</option>
                       {tools.filter((tool) => !active.user_collection_items.some((item) => item.tool_id === tool.id)).map((tool) => <option key={tool.id} value={tool.id}>{tool.name}</option>)}
                     </select>
-                    <button type="button" disabled={!addingTool} onClick={() => void add()} className="min-h-12 rounded-full bg-[var(--accent-soft)] px-5 text-sm font-bold text-[var(--foreground)] transition-[filter,transform] duration-[var(--motion-standard)] hover:brightness-[.97] active:scale-[.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface)] disabled:cursor-not-allowed disabled:opacity-50">{copy.save}</button>
+                    <button type="button" disabled={!addingTool || adding} onClick={() => void add()} className="min-h-12 rounded-full bg-[var(--accent-soft)] px-5 text-sm font-bold text-[var(--foreground)] transition-[filter,transform] duration-[var(--motion-standard)] hover:brightness-[.97] active:scale-[.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface)] disabled:cursor-not-allowed disabled:opacity-50">{adding ? (fr ? "Ajout…" : "Adding…") : copy.save}</button>
                   </div>
                   {active.user_collection_items.length ? <ul className="mt-4 divide-y divide-[var(--border)]">
                     {active.user_collection_items.map((item) => {
