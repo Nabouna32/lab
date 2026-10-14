@@ -15,16 +15,19 @@ test("shared Button exposes M3 variants and prevents squeezed multi-line labels"
   assert.match(button, /shrink-0/);
   assert.match(button, /px-6/);
   assert.match(button, /text-sm font-medium leading-5/);
-  assert.match(button, /var\(--secondary-container\)/);
-  assert.match(button, /var\(--on-secondary-container\)/);
+  assert.match(button, /var\\(--secondary-container\\)/);
+  assert.match(button, /var\\(--on-secondary-container\\)/);
+  assert.match(button, /secondary: "border border-\\[var\\(--outline\\)\\] bg-transparent text-\\[var\\(--primary\\)\\]/);
+  assert.match(button, /ghost: "border border-transparent bg-transparent text-\\[var\\(--primary\\)\\]/);
 });
 
 test("shared IconButton preserves 48px touch target and supports accessible toggle state", () => {
   assert.match(iconButton, /h-12 min-h-12 w-12 min-w-12/);
-  assert.match(iconButton, /selected\?: boolean/);
-  assert.match(iconButton, /aria-pressed=\{selected\}/);
-  assert.match(iconButton, /var\(--secondary-container\)/);
-  assert.match(iconButton, /var\(--on-secondary-container\)/);
+  assert.match(iconButton, /selected\\?: boolean/);
+  assert.match(iconButton, /aria-pressed=\\{selected\\}/);
+  assert.match(iconButton, /var\\(--secondary-container\\)/);
+  assert.match(iconButton, /var\\(--on-secondary-container\\)/);
+  assert.match(iconButton, /selected && \\(variant === "standard" \\|\\| variant === "outlined"\\)/);
   assert.match(iconButton, /label: string/);
 });
 
