@@ -26,7 +26,6 @@ export function Checkbox({
       htmlFor={inputId}
       className={[
         "group flex min-h-12 cursor-pointer items-center gap-3 text-sm text-[var(--foreground)]",
-        "disabled:cursor-not-allowed",
         disabled ? "cursor-not-allowed opacity-45" : "",
         className,
       ].join(" ")}
