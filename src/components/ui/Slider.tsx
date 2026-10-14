@@ -7,6 +7,7 @@ type SliderStyle = CSSProperties & {
   "--slider-label-color"?: string;
   "--slider-value-color"?: string;
   "--slider-description-color"?: string;
+  "--slider-focus-ring"?: string;
 };
 
 type SliderProps = {
