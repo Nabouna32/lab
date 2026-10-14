@@ -198,7 +198,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
         <nav className={styles.directionBottomNav} aria-label={locale==="fr"?"Navigation de l’aperçu":"Preview navigation"}>
           <button type="button" aria-current={screen==="home"?"page":undefined} onClick={()=>setScreen("home")}><b>⌂</b>{t.directionBottomHome}</button><button type="button" aria-current={screen==="explore"?"page":undefined} onClick={()=>setScreen("explore")}><b>⌕</b>{t.directionBottomExplore}</button><button type="button" aria-current={screen==="saved"?"page":undefined} onClick={()=>setScreen("saved")}><b>♡</b>{t.directionBottomSaved}</button><button type="button" aria-current={screen==="profile"?"page":undefined} onClick={()=>setScreen("profile")}><b>○</b>{t.directionBottomProfile}</button>
         </nav>
-      </div></div>
+      </div></div>}
     </section>
     <section className={styles.gallerySection} aria-labelledby="gallery-title"><div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>02 / {t.components}</span><h2 id="gallery-title">{t.components}</h2><p>{t.actionsHelp}</p></div></div>
       <div className={styles.galleryGrid}>
