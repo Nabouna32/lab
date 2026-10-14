@@ -80,6 +80,7 @@ test("favorite action uses shared M3 controls and never shrinks icon touch targe
   assert.ok(favoriteButton.includes('import { IconButton } from "@/components/ui/IconButton"'));
   assert.ok(favoriteButton.includes('if (compact)'));
   assert.ok(favoriteButton.includes("<IconButton"));
+  assert.ok(favoriteButton.includes('<StarIcon filled={active} className="h-6 w-6 shrink-0" />'));
   assert.ok(favoriteButton.includes('variant={active ? "filled-tonal" : "outlined"}'));
   assert.ok(favoriteButton.includes("selected={active}"));
   assert.ok(!favoriteButton.includes("min-h-10 min-w-10"));
