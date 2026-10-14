@@ -6,6 +6,7 @@ const button = readFileSync(new URL("../../components/ui/Button.tsx", import.met
 const iconButton = readFileSync(new URL("../../components/ui/IconButton.tsx", import.meta.url), "utf8");
 const labCss = readFileSync(new URL("../../app/[locale]/design-lab/visual-lab.module.css", import.meta.url), "utf8");
 const labSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
+const favoriteButton = readFileSync(new URL("../../components/favorites/FavoriteButton.tsx", import.meta.url), "utf8");
 const toolSearch = readFileSync(new URL("../../components/tools/ToolSearch.tsx", import.meta.url), "utf8");
 
 test("shared Button exposes canonical M3 variants, stable labels and semantic disabled states", () => {
@@ -67,4 +68,14 @@ test("legacy names are aliases to canonical M3 treatments", () => {
   assert.ok(labSource.includes('variant="filled-tonal"><MaterialIcon name="search" size={24}'));
   assert.ok(toolSearch.includes('<MaterialIcon name="close" size={24} />'));
   assert.ok(toolSearch.includes('<MaterialIcon name="arrow_forward" size={24} />'));
+});
+
+test("favorite action uses shared M3 controls and never shrinks icon touch target below 48px", () => {
+  assert.ok(favoriteButton.includes('import { Button } from "@/components/ui/Button"'));
+  assert.ok(favoriteButton.includes('import { IconButton } from "@/components/ui/IconButton"'));
+  assert.ok(favoriteButton.includes('if (compact)'));
+  assert.ok(favoriteButton.includes("<IconButton"));
+  assert.ok(favoriteButton.includes('variant={active ? "filled-tonal" : "outlined"}'));
+  assert.ok(favoriteButton.includes("selected={active}"));
+  assert.ok(!favoriteButton.includes("min-h-10 min-w-10"));
 });
