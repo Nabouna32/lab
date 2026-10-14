@@ -298,7 +298,7 @@ export default function ToolSearch({
             <MaterialIcon name="close" size={16} />
           </Button>
         )}
-        <IconButton label={t.tools.searchSubmit} type="submit" disabled={!query.trim()} variant="filled" size={compact ? "compact" : "default"}>
+        <IconButton label={t.tools.searchSubmit} type="submit" disabled={!query.trim()} variant="filled">
           <MaterialIcon name="arrow_forward" size={20} />
         </IconButton>
       </div>
