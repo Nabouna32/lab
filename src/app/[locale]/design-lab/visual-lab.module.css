@@ -179,3 +179,52 @@
 .directionResult span{color:inherit;opacity:.9}
 @media(max-width:900px){.previewComparison{grid-template-columns:1fr}.comparisonPreview{padding:.55rem}.comparisonPane .directionStage{max-width:25rem}}
 @media(max-width:560px){.controlRow{padding:.75rem}.controlRow .segmentField{flex-basis:100%}.controlRow .segmented{width:100%}.controlRow .segmented button{padding:.6rem .55rem;font-size:.75rem}.previewComparison{gap:.8rem}}
+
+
+/* Pixel / Material 3 refinements: color is an accent, not a blanket fill. */
+.seedPicker{position:relative;display:grid;gap:.4rem;flex:1 1 13rem;min-width:12rem}
+.seedPickerLabel{font-size:.72rem;font-weight:750;color:var(--lab-muted)}
+.seedPickerTrigger{display:flex;align-items:center;gap:.55rem;min-height:2.8rem;padding:.45rem .65rem;border:1px solid var(--lab-outline);border-radius:1rem;background:var(--lab-surface);color:var(--lab-text);font:inherit;font-size:.8rem;font-weight:650;text-align:left;cursor:pointer}
+.seedPickerTrigger:hover{background:var(--lab-surface-high)}
+.seedPickerTrigger:focus-visible,.seedPreset:focus-visible,.customSeedControl input:focus-visible{outline:3px solid var(--lab-primary);outline-offset:2px}
+.seedPickerTrigger code{margin-left:auto;color:var(--lab-muted);font-size:.72rem}
+.seedPalette{position:absolute;z-index:10;top:calc(100% + .45rem);left:0;width:min(21rem,calc(100vw - 3rem));padding:.9rem;border:1px solid var(--lab-outline);border-radius:1.25rem;background:var(--lab-surface);color:var(--lab-text);box-shadow:0 12px 32px #0002}
+.seedPaletteHeading{margin-bottom:.7rem;font-size:.8rem;font-weight:800}
+.seedSwatch{width:1.4rem;height:1.4rem;flex:0 0 1.4rem;border:1px solid #0002;border-radius:50%}
+.seedSwatchGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.35rem}
+.seedPreset{display:grid;justify-items:center;gap:.25rem;min-width:0;padding:.35rem .15rem;border:1px solid transparent;border-radius:.7rem;background:transparent;color:var(--lab-text);font:inherit;cursor:pointer}
+.seedPreset[aria-pressed="true"]{border-color:var(--lab-primary);background:var(--lab-primary-soft);color:var(--lab-on-primary-soft)}
+.seedPreset>span{width:1.8rem;height:1.8rem;border:1px solid #0002;border-radius:50%}
+.seedPreset small{max-width:100%;overflow:hidden;font-size:.63rem;text-overflow:ellipsis;white-space:nowrap}
+.customSeedControl{display:flex;align-items:center;justify-content:space-between;gap:.75rem;margin-top:.8rem;padding-top:.75rem;border-top:1px solid var(--lab-outline);font-size:.78rem;font-weight:700}
+.customSeedControl input{width:2.6rem;height:2.3rem;padding:.15rem;border:1px solid var(--lab-outline);border-radius:.6rem;background:var(--lab-surface);cursor:pointer}
+
+/* Pixel / Material 3: restrained dynamic color, tonal cards and readable hierarchy. */
+.directionStage[data-direction="pixel"]{border-color:var(--lab-outline);background:var(--lab-surface);box-shadow:0 1px 2px #0000000a}
+.directionStage[data-direction="pixel"] .directionHeader{min-height:4rem;padding:.55rem 1rem;border:0;background:var(--lab-surface)}
+.directionStage[data-direction="pixel"] .directionBrand{font-weight:700;letter-spacing:0}
+.directionStage[data-direction="pixel"] .directionBrand>span{width:1.8rem;height:1.8rem;background:var(--lab-primary-soft);color:var(--lab-on-primary-soft)}
+.directionStage[data-direction="pixel"] .directionHeader button{background:var(--lab-surface-container);color:var(--lab-text)}
+.directionStage[data-direction="pixel"] .directionContent{padding:1.25rem 1rem 1rem}
+.directionStage[data-direction="pixel"] .directionEyebrow{display:block;width:fit-content;max-width:100%;margin:0 0 .65rem;padding:0;border-radius:0;background:transparent;color:var(--lab-primary);font-size:.75rem;font-weight:650;letter-spacing:.015em;text-transform:none}
+.directionStage[data-direction="pixel"] .directionContent h3{margin:.2rem 0 .55rem;font-size:2rem;font-weight:600;line-height:1.15;letter-spacing:-.035em}
+.directionStage[data-direction="pixel"] .directionSubtitle{margin-bottom:1.25rem;color:var(--lab-muted);font-size:.9rem;line-height:1.5}
+.directionStage[data-direction="pixel"] .directionSearch{min-height:3.5rem;border:1px solid var(--lab-outline);border-radius:1.1rem;background:var(--lab-surface-high);color:var(--lab-muted);font-size:.9rem}
+.directionStage[data-direction="pixel"] .directionSearchAction{width:2.4rem;height:2.4rem;border-radius:.8rem;background:var(--lab-primary);color:var(--lab-on-primary)}
+.directionStage[data-direction="pixel"] .directionSectionTitle{margin:1.6rem 0 .7rem}
+.directionStage[data-direction="pixel"] .directionSectionTitle strong{font-size:1.05rem;font-weight:650;letter-spacing:-.01em}
+.directionStage[data-direction="pixel"] .directionSectionTitle button{font-size:.8rem;font-weight:650}
+.directionStage[data-direction="pixel"] .directionCard,
+.directionStage[data-direction="pixel"] .directionGrid .directionCard:nth-child(2),
+.directionStage[data-direction="pixel"] .directionGrid .directionCard:nth-child(3){border:0;border-radius:1.1rem;background:var(--lab-surface-low);box-shadow:none}
+.directionStage[data-direction="pixel"] .directionIcon{border-radius:.85rem;background:var(--lab-primary-soft);color:var(--lab-on-primary-soft)}
+.directionStage[data-direction="pixel"] .directionGrid .directionCard:nth-child(2) .directionIcon{background:var(--lab-secondary-container);color:var(--lab-on-secondary-container)}
+.directionStage[data-direction="pixel"] .directionGrid .directionCard:nth-child(3) .directionIcon{background:var(--lab-tertiary-container);color:var(--lab-on-tertiary-container)}
+.directionStage[data-direction="pixel"] .directionPrimary{min-height:3.25rem;margin-top:1.2rem;border-radius:1rem;box-shadow:none;font-weight:650}
+.directionStage[data-direction="pixel"] .directionBottomNav{border:0;background:var(--lab-surface-container)}
+.directionStage[data-direction="pixel"] .directionBottomNav button{font-weight:600}
+.directionStage[data-direction="pixel"] .directionBottomNav button b{width:3.5rem;height:2rem}
+.directionStage[data-direction="pixel"] .directionBottomNav button[aria-current="page"] b{background:var(--lab-secondary-container);color:var(--lab-on-secondary-container)}
+.directionStage[data-direction="pixel"] .directionCalculator input{border-radius:.75rem;background:var(--lab-surface-low)}
+.directionStage[data-direction="pixel"] .directionResult{border-radius:1.1rem;background:var(--lab-primary-soft);color:var(--lab-on-primary-soft)}
+@media(max-width:560px){.seedPicker{min-width:0}.seedPalette{width:min(21rem,calc(100vw - 2.5rem))}.directionStage[data-direction="pixel"] .directionContent h3{font-size:1.9rem}}
