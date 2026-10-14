@@ -33,11 +33,33 @@ const copy = {
   },
 };
 
+function createLabTokens(scheme: ReturnType<typeof createM3Scheme>, theme: Theme): CSSProperties & Record<string,string> {
+  return {
+    "--lab-bg":colorHex(scheme.background),"--lab-surface":colorHex(scheme.surface),"--lab-surface-2":colorHex(scheme.surfaceVariant),
+    "--lab-surface-low":colorHex(scheme.surfaceContainerLow),"--lab-surface-container":colorHex(scheme.surfaceContainer),
+    "--lab-surface-high":colorHex(scheme.surfaceContainerHigh),"--lab-surface-highest":colorHex(scheme.surfaceContainerHighest),
+    "--lab-font":"var(--font-roboto), Roboto, Arial, sans-serif","--lab-text":colorHex(scheme.onSurface),
+    "--lab-muted":colorHex(scheme.onSurfaceVariant),"--lab-outline":colorHex(scheme.outline),
+    "--lab-primary":colorHex(scheme.primary),"--lab-on-primary":colorHex(scheme.onPrimary),
+    "--lab-primary-soft":colorHex(scheme.primaryContainer),"--lab-on-primary-soft":colorHex(scheme.onPrimaryContainer),
+    "--lab-secondary":colorHex(scheme.secondary),"--lab-on-secondary":colorHex(scheme.onSecondary),
+    "--lab-secondary-container":colorHex(scheme.secondaryContainer),"--lab-on-secondary-container":colorHex(scheme.onSecondaryContainer),
+    "--lab-tertiary":colorHex(scheme.tertiary),"--lab-on-tertiary":colorHex(scheme.onTertiary),
+    "--lab-tertiary-container":colorHex(scheme.tertiaryContainer),"--lab-on-tertiary-container":colorHex(scheme.onTertiaryContainer),
+    "--lab-error":colorHex(scheme.error),"--lab-on-error":colorHex(scheme.onError),
+    "--lab-success-bg":theme==="dark"?"#173B2A":"#D5F5D6","--lab-success-text":theme==="dark"?"#A7F3C0":"#14532D",
+    "--lab-warning-bg":theme==="dark"?"#4A350F":"#FFF0B3","--lab-warning-text":theme==="dark"?"#FFE08A":"#704400",
+    "--lab-error-bg":theme==="dark"?"#4B1F24":"#FFE0E0","--lab-error-text":theme==="dark"?"#FFB4AB":"#8F1717",
+    "--lab-radius":"0.8rem","--lab-radius-small":"0.35rem","--lab-motion":"180ms",
+  } as CSSProperties & Record<string,string>;
+}
 export default function VisualLab({ initialLocale }: { initialLocale: string }) {
-  const [locale,setLocale]=useState<Locale>(initialLocale==="fr"?"fr":"en");
+  const locale: Locale = initialLocale==="fr"?"fr":"en";
   const [theme,setTheme]=useState<Theme>("light");
   const [screen,setScreen]=useState<Screen>("home");
   const [direction,setDirection]=useState<DesignDirection>("pixel");
+  const [variant,setVariant]=useState<"tonal-spot"|"fidelity">("tonal-spot");
+  const [compareVariants,setCompareVariants]=useState(false);
   const [viewport,setViewport]=useState<"desktop"|"tablet"|"mobile">("mobile");
   const [dialogOpen,setDialogOpen]=useState(true);
   const [motionReplay,setMotionReplay]=useState(0);
@@ -46,43 +68,8 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const [preferences,setPreferences]=useState({syncFavorites:true,automaticTheme:false,reducedMotion:true});
   const togglePreference=(key:keyof typeof preferences)=>setPreferences(current=>({...current,[key]:!current[key]}));
   const t=copy[locale];
-  const scheme=useMemo(()=>createM3Scheme("#4285F4","tonal-spot",theme==="dark",0,"2025","phone"),[theme]);
-  const tokens=useMemo(()=>({
-    "--lab-bg":colorHex(scheme.background),
-    "--lab-surface":colorHex(scheme.surface),
-    "--lab-surface-2":colorHex(scheme.surfaceVariant),
-     "--lab-surface-low":colorHex(scheme.surfaceContainerLow),
-     "--lab-surface-container":colorHex(scheme.surfaceContainer),
-     "--lab-surface-high":colorHex(scheme.surfaceContainerHigh),
-     "--lab-surface-highest":colorHex(scheme.surfaceContainerHighest),
-    "--lab-font":"var(--font-roboto), Roboto, Arial, sans-serif",
-    "--lab-text":colorHex(scheme.onSurface),
-    "--lab-muted":colorHex(scheme.onSurfaceVariant),
-    "--lab-outline":colorHex(scheme.outline),
-    "--lab-primary":colorHex(scheme.primary),
-    "--lab-on-primary":colorHex(scheme.onPrimary),
-    "--lab-primary-soft":colorHex(scheme.primaryContainer),
-     "--lab-on-primary-soft":colorHex(scheme.onPrimaryContainer),
-    "--lab-secondary":colorHex(scheme.secondary),
-     "--lab-on-secondary":colorHex(scheme.onSecondary),
-     "--lab-secondary-container":colorHex(scheme.secondaryContainer),
-     "--lab-on-secondary-container":colorHex(scheme.onSecondaryContainer),
-    "--lab-tertiary":colorHex(scheme.tertiary),
-     "--lab-on-tertiary":colorHex(scheme.onTertiary),
-     "--lab-tertiary-container":colorHex(scheme.tertiaryContainer),
-     "--lab-on-tertiary-container":colorHex(scheme.onTertiaryContainer),
-    "--lab-error":colorHex(scheme.error),
-    "--lab-on-error":colorHex(scheme.onError),
-    "--lab-success-bg":theme==="dark"?"#173B2A":"#D5F5D6",
-    "--lab-success-text":theme==="dark"?"#A7F3C0":"#14532D",
-    "--lab-warning-bg":theme==="dark"?"#4A350F":"#FFF0B3",
-    "--lab-warning-text":theme==="dark"?"#FFE08A":"#704400",
-    "--lab-error-bg":theme==="dark"?"#4B1F24":"#FFE0E0",
-    "--lab-error-text":theme==="dark"?"#FFB4AB":"#8F1717",
-    "--lab-radius":"0.8rem",
-    "--lab-radius-small":"0.35rem",
-    "--lab-motion":"180ms",
-  } as CSSProperties & Record<string,string>),[scheme,theme]);
+  const scheme=useMemo(()=>createM3Scheme("#4285F4",variant,theme==="dark",0,"2025","phone"),[theme,variant]);
+  const tokens=useMemo(()=>createLabTokens(scheme,theme),[scheme,theme]);
   const amount=Number(value)*Number(percent)/100;
   const result=Number.isFinite(amount)?amount.toLocaleString(locale==="fr"?"fr-FR":"en-US",{maximumFractionDigits:3}):"—";
   const isMulticolorPalette=true;
@@ -90,7 +77,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   return <main data-theme={theme} className={`${styles.lab} ${theme==="dark"?styles.darkPalette:""}`} style={tokens}>
     <header className={styles.intro}>
       <div className={styles.introTop}><span className={styles.eyebrow}><span className={styles.sparkle} aria-hidden="true">✳</span>{t.eyebrow}</span>
-        <label className={styles.compactControl}>{t.language}<select value={locale} onChange={e=>setLocale(e.target.value as Locale)}><option value="fr">Français</option><option value="en">English</option></select></label>
+        
       </div><h1>{t.title}</h1><p>{t.intro}</p>
     </header>
     <section className={styles.directionSection} aria-labelledby="directions-title">
@@ -103,11 +90,12 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
       <p className={styles.directionHelp}>{t[direction==="pixel"?"pixelDirectionHelp":"utilityDirectionHelp"]}</p>
       <div className={styles.controlRow}>
         <fieldset className={styles.segmentField}><legend>{t.theme}</legend><div className={styles.segmented}><button type="button" aria-pressed={theme==="light"} onClick={()=>setTheme("light")}>☀ {t.light}</button><button type="button" aria-pressed={theme==="dark"} onClick={()=>setTheme("dark")}>☾ {t.dark}</button></div></fieldset>
-        <fieldset className={styles.segmentField}><legend>{t.language}</legend><div className={styles.segmented}><button type="button" aria-pressed={locale==="fr"} onClick={()=>setLocale("fr")}>Français</button><button type="button" aria-pressed={locale==="en"} onClick={()=>setLocale("en")}>English</button></div></fieldset>
         <fieldset className={styles.segmentField}><legend>{t.viewport}</legend><div className={styles.segmented}>{(["mobile","tablet","desktop"] as const).map(size=><button key={size} type="button" aria-pressed={viewport===size} onClick={()=>setViewport(size)}>{t[size]}</button>)}</div></fieldset>
         <fieldset className={styles.segmentField}><legend>{t.home} / {t.explore} / {t.tool}</legend><div className={styles.segmented}>{(["home","explore","tool"] as const).map(item=><button key={item} type="button" aria-pressed={screen===item} onClick={()=>setScreen(item)}>{t[item]}</button>)}</div></fieldset>
+        <fieldset className={styles.segmentField}><legend>{locale==="fr"?"Palette Material":"Material palette"}</legend><div className={styles.segmented}><button type="button" aria-pressed={variant==="tonal-spot"&&!compareVariants} onClick={()=>{setVariant("tonal-spot");setCompareVariants(false)}}>Tonal Spot</button><button type="button" aria-pressed={variant==="fidelity"&&!compareVariants} onClick={()=>{setVariant("fidelity");setCompareVariants(false)}}>Fidelity</button><button type="button" aria-pressed={compareVariants} onClick={()=>setCompareVariants(v=>!v)}>{locale==="fr"?"Comparer":"Compare"}</button></div></fieldset>
       </div>
-      <div className={`${styles.directionStage} ${styles["directionViewport_"+viewport]}`} data-direction={direction} data-theme={theme}>
+      {compareVariants ? <div className={styles.previewComparison}>
+        {(["tonal-spot","fidelity"] as const).map(item=><article className={styles.comparisonPane} key={item}><header><strong>{item==="tonal-spot"?"Tonal Spot":"Fidelity"}</strong><span>{item==="tonal-spot"?(locale==="fr"?"Base Android équilibrée":"Balanced Android baseline"):(locale==="fr"?"Couleurs plus proches de la source":"Closer to source color")}</span></header><div className={styles.comparisonPreview} style={createLabTokens(createM3Scheme("#4285F4",item,theme==="dark",0,"2025","phone"),theme)}>      <div className={`${styles.directionStage} ${styles["directionViewport_"+viewport]}`} data-direction={direction} data-theme={theme}>
         <header className={styles.directionHeader}><span className={styles.directionBrand}><span aria-hidden="true">✳</span> Loculary</span><button type="button" aria-label={locale==="fr"?"Notifications":"Notifications"}>♧</button></header>
         <div className={styles.directionContent}>
           {screen==="home"&&<>
@@ -158,7 +146,59 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
         <nav className={styles.directionBottomNav} aria-label={locale==="fr"?"Navigation de l’aperçu":"Preview navigation"}>
           <button type="button" aria-current={screen==="home"?"page":undefined} onClick={()=>setScreen("home")}><b>⌂</b>{t.directionBottomHome}</button><button type="button" aria-current={screen==="explore"?"page":undefined} onClick={()=>setScreen("explore")}><b>⌕</b>{t.directionBottomExplore}</button><button type="button" aria-current={screen==="saved"?"page":undefined} onClick={()=>setScreen("saved")}><b>♡</b>{t.directionBottomSaved}</button><button type="button" aria-current={screen==="profile"?"page":undefined} onClick={()=>setScreen("profile")}><b>○</b>{t.directionBottomProfile}</button>
         </nav>
-      </div>
+      </div></div></article>)}
+      </div> : <div className={styles.singlePreview} style={createLabTokens(scheme,theme)}>      <div className={`${styles.directionStage} ${styles["directionViewport_"+viewport]}`} data-direction={direction} data-theme={theme}>
+        <header className={styles.directionHeader}><span className={styles.directionBrand}><span aria-hidden="true">✳</span> Loculary</span><button type="button" aria-label={locale==="fr"?"Notifications":"Notifications"}>♧</button></header>
+        <div className={styles.directionContent}>
+          {screen==="home"&&<>
+            <span className={styles.directionEyebrow}>{t.directionEyebrow}</span>
+            <h3>{t.welcome}</h3><p className={styles.directionSubtitle}>{t.subhead}</p>
+            <div className={styles.directionSearch}><span aria-hidden="true">⌕</span><span>{t.search}</span><span className={styles.directionSearchAction} aria-hidden="true">↵</span></div>
+            <div className={styles.directionSectionTitle}><strong>{t.quick}</strong><button type="button" onClick={()=>setScreen("explore")}>{t.directionBrowse} ↗</button></div>
+            <div className={styles.directionGrid}>
+              <article className={styles.directionCard}><span className={styles.directionIcon}>％</span><div><strong>{t.resultOne}</strong><small>{t.directionRecent}</small></div><span aria-hidden="true">↗</span></article>
+              <article className={styles.directionCard}><span className={styles.directionIcon}>▧</span><div><strong>{t.resultTwo}</strong><small>PNG · JPG · WEBP</small></div><span aria-hidden="true">↗</span></article>
+              <article className={styles.directionCard}><span className={styles.directionIcon}>¶</span><div><strong>{t.resultThree}</strong><small>{t.cardText}</small></div><span aria-hidden="true">↗</span></article>
+            </div>
+            <button type="button" className={styles.directionPrimary} onClick={()=>setScreen("explore")}><span aria-hidden="true">＋</span> {t.directionAction}</button>
+          </>}
+          {screen==="explore"&&<>
+            <span className={styles.directionEyebrow}>{t.filter}</span><h3>{t.results}</h3><p className={styles.directionSubtitle}>{t.subhead}</p>
+            <div className={styles.directionSearch}><span aria-hidden="true">⌕</span><span>{t.search}</span></div>
+            <div className={styles.directionSectionTitle}><strong>{t.quick}</strong><button type="button">{t.selected} · 3</button></div>
+            <div className={styles.directionGrid}>
+              {[t.resultOne,t.resultTwo,t.resultThree].map((name,index)=><article className={styles.directionCard} key={name}><span className={styles.directionIcon}>{["％","▧","¶"][index]}</span><div><strong>{name}</strong><small>{t.cardText}</small></div><span aria-hidden="true">↗</span></article>)}
+            </div>
+          </>}
+          {screen==="saved"&&<>
+            <span className={styles.directionEyebrow}>{t.directionBottomSaved}</span><h3>{t.directionBottomSaved}</h3><p className={styles.directionSubtitle}>{t.directionRecent}</p>
+            <div className={styles.directionGrid}>
+              <article className={styles.directionCard}><span className={styles.directionIcon}>％</span><div><strong>{t.resultOne}</strong><small>{t.cardText}</small></div><button type="button" aria-label={t.toolTitle} onClick={()=>setScreen("tool")}>↗</button></article>
+              <article className={styles.directionCard}><span className={styles.directionIcon}>▧</span><div><strong>{t.resultTwo}</strong><small>PNG · JPG · WEBP</small></div><span aria-hidden="true">↗</span></article>
+            </div>
+          </>}
+          {screen==="profile"&&<>
+            <span className={styles.directionEyebrow}>{t.directionBottomProfile}</span><h3>{t.settings}</h3><p className={styles.directionSubtitle}>{t.settingsHelp}</p>
+            <div className={styles.directionGrid}>
+              <article className={styles.directionCard}><span className={styles.directionIcon}>☼</span><div><strong>{t.automaticTheme}</strong><small>{t.automaticThemeHelp}</small></div><button type="button" aria-pressed={theme==="dark"} onClick={()=>setTheme(theme==="dark"?"light":"dark")}>{theme==="dark"?t.dark:t.light}</button></article>
+              <article className={styles.directionCard}><span className={styles.directionIcon}>♡</span><div><strong>{t.syncFavorites}</strong><small>{t.syncFavoritesHelp}</small></div><span aria-hidden="true">›</span></article>
+            </div>
+          </>}
+          {screen==="tool"&&<>
+            <button type="button" className={styles.directionBack} onClick={()=>setScreen("home")}>← {t.home}</button>
+            <span className={styles.directionEyebrow}>{t.tool}</span><h3>{t.toolTitle}</h3><p className={styles.directionSubtitle}>{t.toolDesc}</p>
+            <div className={styles.directionCalculator}>
+              <label>{t.value}<input value={value} inputMode="decimal" onChange={e=>setValue(e.target.value)}/></label>
+              <label>{t.percent}<input value={percent} inputMode="decimal" onChange={e=>setPercent(e.target.value)}/></label>
+              <div className={styles.directionResult}><span>{t.output}</span><strong>{result}</strong></div>
+              <button type="button" className={styles.directionPrimary} onClick={()=>setScreen("home")}>{t.calculate}</button>
+            </div>
+          </>}
+        </div>
+        <nav className={styles.directionBottomNav} aria-label={locale==="fr"?"Navigation de l’aperçu":"Preview navigation"}>
+          <button type="button" aria-current={screen==="home"?"page":undefined} onClick={()=>setScreen("home")}><b>⌂</b>{t.directionBottomHome}</button><button type="button" aria-current={screen==="explore"?"page":undefined} onClick={()=>setScreen("explore")}><b>⌕</b>{t.directionBottomExplore}</button><button type="button" aria-current={screen==="saved"?"page":undefined} onClick={()=>setScreen("saved")}><b>♡</b>{t.directionBottomSaved}</button><button type="button" aria-current={screen==="profile"?"page":undefined} onClick={()=>setScreen("profile")}><b>○</b>{t.directionBottomProfile}</button>
+        </nav>
+      </div></div>}
     </section>
     <section className={styles.gallerySection} aria-labelledby="gallery-title"><div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>02 / {t.components}</span><h2 id="gallery-title">{t.components}</h2><p>{t.actionsHelp}</p></div></div>
       <div className={styles.galleryGrid}>

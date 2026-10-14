@@ -156,3 +156,26 @@
 .directionResult span{font-size:.8rem;color:inherit;opacity:.82}
 .directionResult strong{font-size:1.8rem;font-weight:850}
 .directionCalculator .directionPrimary{margin-top:.2rem}
+
+/* Workbench layout: controls first, then a direct side-by-side comparison. */
+.previewComparison{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start;gap:1rem;margin-top:1.2rem}
+.comparisonPane{min-width:0;overflow:hidden;border:1px solid var(--lab-outline);border-radius:1.25rem;background:var(--lab-surface);box-shadow:0 8px 24px #17131f0b}
+.comparisonPane>header{display:grid;gap:.25rem;padding:1rem 1.1rem;border-bottom:1px solid var(--lab-outline)}
+.comparisonPane>header strong{font-size:1rem;font-weight:850}
+.comparisonPane>header span{font-size:.78rem;color:var(--lab-muted);line-height:1.45}
+.comparisonPreview{padding:.8rem;background:var(--lab-bg);color:var(--lab-text)}
+.comparisonPreview .directionStage,.singlePreview .directionStage{margin-inline:auto;max-width:100%;width:100%}
+.singlePreview{margin-top:1rem;padding:0;background:transparent}
+.controlRow{align-items:end;padding:1rem;border:1px solid var(--lab-outline);border-radius:1.25rem;background:var(--lab-surface);box-shadow:0 8px 24px #17131f08}
+.controlRow .segmentField{flex:1 1 13rem}
+.controlRow .segmented{border-radius:1rem;background:var(--lab-bg)}
+.controlRow .segmented button{flex:1}
+.directionEyebrow{background:var(--lab-primary-soft);color:var(--lab-on-primary-soft);letter-spacing:.055em}
+.directionPrimary{background:var(--lab-primary);color:var(--lab-on-primary);box-shadow:0 2px 0 color-mix(in srgb,var(--lab-primary) 55%,transparent)}
+.directionGrid .directionCard:nth-child(2) .directionIcon{background:var(--lab-secondary);color:var(--lab-on-secondary)}
+.directionGrid .directionCard:nth-child(3) .directionIcon{background:var(--lab-tertiary);color:var(--lab-on-tertiary)}
+.directionBottomNav button[aria-current="page"] b{background:var(--lab-primary);color:var(--lab-on-primary)}
+.directionResult{background:var(--lab-primary);color:var(--lab-on-primary)}
+.directionResult span{color:inherit;opacity:.9}
+@media(max-width:900px){.previewComparison{grid-template-columns:1fr}.comparisonPreview{padding:.55rem}.comparisonPane .directionStage{max-width:25rem}}
+@media(max-width:560px){.controlRow{padding:.75rem}.controlRow .segmentField{flex-basis:100%}.controlRow .segmented{width:100%}.controlRow .segmented button{padding:.6rem .55rem;font-size:.75rem}.previewComparison{gap:.8rem}}
