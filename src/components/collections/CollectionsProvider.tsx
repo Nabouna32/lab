@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { createClient } from "@/lib/supabase/client";
 
 export type PersonalCollection = {
@@ -32,35 +32,46 @@ export function CollectionsProvider({ children, toolIds }: { children: ReactNode
   const [userId, setUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const refreshRequestRef = useRef(0);
   const validToolIds = useMemo(() => new Set(toolIds), [toolIds]);
 
   const refresh = useCallback(async () => {
+    const requestId = ++refreshRequestRef.current;
+    const isCurrentRequest = () => requestId === refreshRequestRef.current;
     const supabase = createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
+    if (!isCurrentRequest()) return;
     if (authError) {
+      // Never leave another account's data visible when identity cannot be confirmed.
+      setUserId(null);
+      setCollections([]);
       setError(true);
       setLoading(false);
       return;
     }
+
     setUserId(user?.id ?? null);
     setCollections([]);
     if (!user) {
-      setCollections([]);
       setError(false);
       setLoading(false);
       return;
     }
+
     setLoading(true);
     const { data, error: loadError } = await supabase
       .from("user_collections")
       .select("id,name,share_token,created_at,user_collection_items(tool_id)")
       .eq("user_id", user.id)
       .order("created_at", { ascending: false });
+    if (!isCurrentRequest()) return;
     if (loadError) {
+      setCollections([]);
       setError(true);
       setLoading(false);
       return;
     }
+
     setCollections((data ?? []).map((row) => ({
       ...row,
       user_collection_items: (row.user_collection_items ?? []).filter((item) => validToolIds.has(item.tool_id)),
@@ -82,6 +93,8 @@ export function CollectionsProvider({ children, toolIds }: { children: ReactNode
     });
     return () => {
       active = false;
+      // Invalidate in-flight requests on unmount or when the effect is replaced.
+      refreshRequestRef.current += 1;
       subscription.unsubscribe();
     };
   }, [refresh]);
