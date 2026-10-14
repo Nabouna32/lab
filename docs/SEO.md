@@ -4,4 +4,4 @@ Public tools should have useful unique titles, descriptions, canonical URLs, str
 
 Examples, FAQ and documentation should answer real needs. Avoid thin mass-produced pages and low-value AI-generated content.
 
-French and English SEO should be localized and prepared for additional languages. Shareable URLs may encode safe configuration/state but must never expose sensitive values accidentally.
+French and English SEO must be localized. Support for additional languages requires a separate product decision. Shareable URLs may encode safe configuration/state but must never expose sensitive values accidentally.
