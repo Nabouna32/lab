@@ -93,7 +93,7 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
         <section className="rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-6">
           <h2 className="text-xl font-black">{fr ? "Tes collections, sur tous tes appareils" : "Your collections, across devices"}</h2>
           <p className="mt-2 text-sm leading-6 text-[var(--muted)]">{copy.signIn}</p>
-          <Link href={`/${locale}/compte`} className="mt-5 inline-flex min-h-12 items-center rounded-full bg-[var(--primary)] px-5 text-sm font-semibold text-[var(--on-primary)] transition-[filter,transform] duration-[var(--motion-standard)] hover:brightness-[.94] active:scale-[.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]">{fr ? "Accéder à mon compte" : "Go to account"}</Link>
+          <Link href={`/${locale}/compte`} className="mt-5 inline-flex min-h-12 items-center rounded-full bg-[var(--primary)] px-5 text-sm font-semibold text-[var(--on-primary)] transition-[background-color,transform] duration-[var(--motion-standard)] hover:bg-[color-mix(in_srgb,var(--primary)_92%,var(--on-primary))] active:bg-[color-mix(in_srgb,var(--primary)_88%,var(--on-primary))] active:scale-[.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]">{fr ? "Accéder à mon compte" : "Go to account"}</Link>
         </section>
       ) : (
         <>
