@@ -259,6 +259,72 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
           />
           <p className={styles.helper}>{locale==="fr"?"Le curseur pilote la barre de progression.":"The slider controls the progress indicator."}</p>
         </article>
+        <article className={styles.galleryCard}>
+          <h3>{locale==="fr"?"États désactivés":"Disabled states"}</h3>
+          <Checkbox
+            inputId="lab-disabled-checkbox"
+            label={locale==="fr"?"Option sélectionnée mais indisponible":"Selected but unavailable"}
+            checked
+            disabled
+            onCheckedChange={() => undefined}
+            style={{
+              "--checkbox-active": "var(--lab-primary)",
+              "--checkbox-on-active": "var(--lab-on-primary)",
+              "--checkbox-outline": "var(--lab-outline)",
+              "--checkbox-surface": "var(--lab-surface)",
+              "--checkbox-focus-ring": "var(--lab-primary)",
+              "--checkbox-focus-offset": "var(--lab-surface)",
+              "--checkbox-label-color": "color-mix(in srgb, var(--lab-text) 38%, transparent)",
+              "--checkbox-disabled-active": "color-mix(in srgb, var(--lab-text) 12%, transparent)",
+              "--checkbox-disabled-outline": "color-mix(in srgb, var(--lab-text) 38%, transparent)",
+              "--checkbox-disabled-icon": "color-mix(in srgb, var(--lab-text) 38%, transparent)",
+              "--checkbox-disabled-label": "color-mix(in srgb, var(--lab-text) 38%, transparent)",
+            }}
+          />
+          <div className={styles.disabledSwitchRow}>
+            <span>{locale==="fr"?"Réglage indisponible":"Unavailable setting"}</span>
+            <Switch
+              id="lab-disabled-switch"
+              label={locale==="fr"?"Réglage indisponible":"Unavailable setting"}
+              checked
+              disabled
+              onCheckedChange={() => undefined}
+              style={{
+                "--switch-active": "var(--lab-primary)",
+                "--switch-on-thumb": "var(--lab-on-primary)",
+                "--switch-track": "var(--lab-surface-2)",
+                "--switch-thumb": "var(--lab-outline)",
+                "--switch-outline": "var(--lab-outline)",
+                "--switch-focus-ring": "var(--lab-primary)",
+                "--switch-focus-offset": "var(--lab-surface)",
+                "--switch-disabled-track": "color-mix(in srgb, var(--lab-text) 12%, transparent)",
+                "--switch-disabled-thumb": "color-mix(in srgb, var(--lab-text) 38%, transparent)",
+              }}
+            />
+          </div>
+          <Slider
+            inputId="lab-disabled-slider"
+            label={locale==="fr"?"Niveau indisponible":"Unavailable level"}
+            value={45}
+            valueLabel="45%"
+            min={0}
+            max={100}
+            disabled
+            onValueChange={() => undefined}
+            style={{
+              "--slider-active": "var(--lab-primary)",
+              "--slider-inactive": "var(--lab-surface-2)",
+              "--slider-label-color": "var(--lab-text)",
+              "--slider-value-color": "var(--lab-primary)",
+              "--slider-focus-ring": "var(--lab-primary)",
+              "--slider-disabled-active": "color-mix(in srgb, var(--lab-text) 38%, transparent)",
+              "--slider-disabled-inactive": "color-mix(in srgb, var(--lab-text) 12%, transparent)",
+              "--slider-disabled-thumb": "color-mix(in srgb, var(--lab-text) 38%, transparent)",
+              "--slider-disabled-label": "color-mix(in srgb, var(--lab-text) 38%, transparent)",
+            }}
+          />
+          <p className={styles.helper}>{locale==="fr"?"Les contrôles indisponibles utilisent les rôles désactivés plutôt qu’une simple baisse d’opacité globale.":"Disabled controls use disabled semantic roles instead of globally fading every part."}</p>
+        </article>
         <article className={styles.galleryCard}><h3>{locale==="fr"?"Retour et panneau inférieur":"Feedback & bottom sheet"}</h3><div className={styles.sampleActions}><button type="button" className={styles.tonal} onClick={()=>setSnackbarOpen(true)}>{locale==="fr"?"Afficher un snackbar":"Show snackbar"}</button><button type="button" className={styles.outlined} onClick={()=>setBottomSheetOpen(open=>!open)}>{bottomSheetOpen?(locale==="fr"?"Fermer le panneau":"Close sheet"):(locale==="fr"?"Ouvrir un panneau":"Open bottom sheet")}</button></div>{bottomSheetOpen&&<div className={styles.sampleBottomSheet} role="region" aria-label={locale==="fr"?"Panneau inférieur de démonstration":"Demo bottom sheet"}><div className={styles.sheetHandle}/><strong>{locale==="fr"?"Actions rapides":"Quick actions"}</strong><p>{locale==="fr"?"Un panneau ancré au bas de l’écran, avec une hiérarchie claire.":"A bottom-anchored panel with a clear content hierarchy."}</p><button type="button" className={styles.textButton} onClick={()=>setBottomSheetOpen(false)}>{locale==="fr"?"Terminé":"Done"}</button></div>}{snackbarOpen&&<div className={styles.sampleSnackbar} role="status"><span>{locale==="fr"?"Préférence enregistrée":"Preference saved"}</span><button type="button" onClick={()=>setSnackbarOpen(false)} aria-label={locale==="fr"?"Fermer":"Dismiss"}><LabIcon name="close" size={18}/></button></div>}</article>
       </div>
     </section>
