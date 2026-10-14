@@ -2,6 +2,7 @@ import type { Locale } from "@/lib/i18n/config";
 import { Card } from "@/components/ui/Card";
 import { getCategoryPath } from "@/lib/tools/routes";
 import { getCategoryColor, getCategoryContainerColor, getCategoryOnContainerColor, type ToolCategory } from "@/lib/tools/categories";
+import { MaterialIcon } from "@/components/ui/MaterialIcon";
 
 type CategoryCardProps = {
   category: ToolCategory;
@@ -28,9 +29,7 @@ export default function CategoryCard({ category, name, toolLabel, toolCount, loc
         <span className="mt-1 block text-sm text-[var(--muted)]">{toolCount} {toolLabel}</span>
       </span>
 
-      <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5 shrink-0 text-[var(--on-surface-variant)] transition-[transform,color] duration-[var(--motion-standard)] group-hover:translate-x-0.5 group-hover:text-[var(--primary)] sm:col-start-2 sm:row-start-1 sm:justify-self-end" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M5 12h14M13 6l6 6-6 6" />
-      </svg>
+      <MaterialIcon name="chevron_right" size={20} className="h-5 w-5 shrink-0 text-[var(--on-surface-variant)] transition-[transform,color] duration-[var(--motion-standard)] group-hover:translate-x-0.5 group-hover:text-[var(--primary)] sm:col-start-2 sm:row-start-1 sm:justify-self-end" />
     </Card>
   );
 }
