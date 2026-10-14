@@ -1,5 +1,6 @@
 "use client";
 import { useMemo, useState } from "react";
+import type { CSSProperties } from "react";
 import styles from "./visual-lab.module.css";
 import { colorHex, createM3Scheme } from "./m3-theme";
 
@@ -70,28 +71,10 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
     "--lab-radius":"0.8rem",
     "--lab-radius-small":"0.35rem",
     "--lab-motion":"180ms",
-  } as React.CSSProperties & Record<string,string>),[scheme,theme]);
+  } as CSSProperties & Record<string,string>),[scheme,theme]);
   const amount=Number(value)*Number(percent)/100;
   const result=Number.isFinite(amount)?amount.toLocaleString(locale==="fr"?"fr-FR":"en-US",{maximumFractionDigits:3}):"—";
-  const categoryCards = useMemo(()=>buildCategoryCards(categorySet,locale,variant,theme,contrastLevel,specVersion,platform),[categorySet,locale,variant,theme,contrastLevel,specVersion,platform]);
-  const categoryGroups = [{key:categorySet,title:"",help:"",cards:categoryCards}];
-  const typeScaleSamples = [
-    { role: "Display large", roleFr: "Affichage grand", size: 57 },
-    { role: "Display medium", roleFr: "Affichage moyen", size: 45 },
-    { role: "Display small", roleFr: "Affichage petit", size: 36 },
-    { role: "Headline large", roleFr: "Titre principal grand", size: 32 },
-    { role: "Headline medium", roleFr: "Titre principal moyen", size: 28 },
-    { role: "Headline small", roleFr: "Titre principal petit", size: 24 },
-    { role: "Title large", roleFr: "Titre grand", size: 22 },
-    { role: "Title medium", roleFr: "Titre moyen", size: 16 },
-    { role: "Title small", roleFr: "Titre petit", size: 14 },
-    { role: "Body large", roleFr: "Texte courant grand", size: 16 },
-    { role: "Body medium", roleFr: "Texte courant moyen", size: 14 },
-    { role: "Body small", roleFr: "Texte courant petit", size: 12 },
-    { role: "Label large", roleFr: "Libellé grand", size: 14 },
-    { role: "Label medium", roleFr: "Libellé moyen", size: 12 },
-    { role: "Label small", roleFr: "Libellé petit", size: 11 },
-  ];
+  const isMulticolorPalette=true;
 
   return <main data-theme={theme} className={`${styles.lab} ${theme==="dark"?styles.darkPalette:""}`} style={tokens}>
     <header className={styles.intro}>
