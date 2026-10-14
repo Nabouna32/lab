@@ -204,3 +204,10 @@ Additional call-site fixes in this pass:
 - The Unit Converter's icon-only swap action now uses the shared IconButton and Material Symbols icon instead of a text glyph inside a general Button.
 - Removed the local 36px sizing override from the admin role action so the shared control owns its dimensions.
 - Selected icon-button colors are variant-aware; selecting a filled button no longer incorrectly replaces its primary container with the tonal container.
+
+
+### Official web implementation decision
+
+The current `Button` and `IconButton` are Loculary-owned React primitives; they are **not** imported Google Material Web components. The official `@material/web` project does provide M3 web components, but its own README states that the project is in maintenance mode pending new maintainers ([official repository](https://github.com/material-components/material-web)). Do not claim the current primitives are official components, and do not wholesale-replace the React controls without a compatibility review of Next.js SSR/hydration, form semantics, dynamic Loculary color roles, accessibility and bundle impact. For now, align the React primitives to the documented M3 variants/tokens and keep this migration decision explicit for a separate architecture review.
+
+The canonical API names are now exposed for `filled`, `elevated`, `filled-tonal`, `outlined` and `text`; old `primary` / `tonal` and app-specific names remain as compatibility aliases while call sites migrate by intent.
