@@ -50,7 +50,7 @@ export default function ThemeToggle() {
               setTheme(option.value);
             }}
             className={"flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm " + (theme === option.value
-              ? "bg-[var(--accent-soft)] text-[var(--foreground)]"
+              ? "bg-[var(--accent-soft)] text-[var(--on-primary-container)]"
               : "text-[var(--muted)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)]")}
             aria-pressed={theme === option.value}
           >
