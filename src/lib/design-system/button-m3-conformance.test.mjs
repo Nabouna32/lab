@@ -6,7 +6,7 @@ const button = readFileSync(new URL("../../components/ui/Button.tsx", import.met
 const iconButton = readFileSync(new URL("../../components/ui/IconButton.tsx", import.meta.url), "utf8");
 
 test("shared Button exposes M3 variants and prevents squeezed multi-line labels", () => {
-  for (const variant of ["primary", "elevated", "tonal", "outlined", "text"]) {
+  for (const variant of ["filled", "elevated", "filled-tonal", "outlined", "text", "primary", "tonal"]) {
     assert.ok(button.includes(variant + ":"), "missing button variant: " + variant);
   }
   for (const required of [
