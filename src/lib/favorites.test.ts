@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { getVisibleFavoriteIds, mergeFavoriteIds, normalizeFavoriteIds, parseFavoriteMigrationPayload, reconcileAnonymousAfterMerge, reconcileMigrationWithAnonymous, reconcileVerifiedMigration, sortFavoriteIds } from "./favorites.ts";
+import { acquireFavoriteMutationLock, getVisibleFavoriteIds, mergeFavoriteIds, normalizeFavoriteIds, parseFavoriteMigrationPayload, reconcileAnonymousAfterMerge, reconcileMigrationWithAnonymous, reconcileVerifiedMigration, sortFavoriteIds } from "./favorites.ts";
 
 const catalog = ["percentage", "age", "unit-converter", "uuid-generator"];
 
@@ -72,4 +72,13 @@ test("extends a failed migration with current anonymous favorites only for its b
     reconcileMigrationWithAnonymous({ targetUserId: "user-a", toolIds: [] }, "user-b", ["uuid-generator"], catalog),
     { targetUserId: "user-b", toolIds: ["uuid-generator"] },
   );
+});
+
+test("favorite mutation locks reject duplicate in-flight toggles but allow other tools", () => {
+  const pending = new Set<string>();
+  assert.equal(acquireFavoriteMutationLock(pending, "age"), true);
+  assert.equal(acquireFavoriteMutationLock(pending, "age"), false);
+  assert.equal(acquireFavoriteMutationLock(pending, "percentage"), true);
+  pending.delete("age");
+  assert.equal(acquireFavoriteMutationLock(pending, "age"), true);
 });

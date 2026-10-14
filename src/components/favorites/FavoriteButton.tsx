@@ -7,6 +7,7 @@ import { useFavorites } from "./FavoritesProvider";
 export default function FavoriteButton({ toolId, locale, compact = false }: { toolId: string; locale: Locale; compact?: boolean }) {
   const favorites = useFavorites();
   const active = favorites.isFavorite(toolId);
+  const pending = favorites.isPending(toolId);
   const label = locale === "fr"
     ? active ? "Retirer des favoris" : "Ajouter aux favoris"
     : active ? "Remove from favorites" : "Add to favorites";
@@ -15,9 +16,10 @@ export default function FavoriteButton({ toolId, locale, compact = false }: { to
     <button
       type="button"
       aria-pressed={active}
+      aria-busy={pending}
       aria-label={label}
       title={label}
-      disabled={favorites.loading || favorites.error}
+      disabled={favorites.loading || favorites.error || pending}
       onClick={() => void favorites.toggleFavorite(toolId)}
       className={[
         "inline-flex items-center justify-center gap-2 rounded-full border text-sm font-semibold",

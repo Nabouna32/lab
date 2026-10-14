@@ -96,3 +96,10 @@ export function reconcileAnonymousAfterMerge(
   if (!attemptedIds.every((id) => verifiedRemoteIds.includes(id))) return [...anonymousIds];
   return anonymousIds.filter((id) => !attemptedIds.includes(id));
 }
+
+/** Prevent overlapping authenticated mutations for the same favorite. */
+export function acquireFavoriteMutationLock(pendingToolIds: Set<string>, toolId: string): boolean {
+  if (pendingToolIds.has(toolId)) return false;
+  pendingToolIds.add(toolId);
+  return true;
+}

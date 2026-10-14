@@ -4,14 +4,14 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 import { createClient } from "@/lib/supabase/client";
 import {
   ANONYMOUS_FAVORITES_KEY, FAVORITE_MIGRATION_KEY,
-  getVisibleFavoriteIds, normalizeFavoriteIds, parseFavoriteMigrationPayload,
+  acquireFavoriteMutationLock, getVisibleFavoriteIds, normalizeFavoriteIds, parseFavoriteMigrationPayload,
   reconcileAnonymousAfterMerge, reconcileMigrationWithAnonymous, reconcileVerifiedMigration, type FavoriteMigrationPayload,
 } from "@/lib/favorites";
 
 type AccountFavorites = { userId: string; ids: string[]; loading: boolean; error: boolean };
 type FavoritesContextValue = {
   favoriteIds: string[]; userId: string | null; loading: boolean; error: boolean;
-  isFavorite: (toolId: string) => boolean; toggleFavorite: (toolId: string) => Promise<void>;
+  isFavorite: (toolId: string) => boolean; isPending: (toolId: string) => boolean; toggleFavorite: (toolId: string) => Promise<void>;
 };
 const FavoritesContext = createContext<FavoritesContextValue | null>(null);
 
@@ -20,9 +20,11 @@ export function FavoritesProvider({ children, toolIds }: { children: ReactNode; 
   const [migration, setMigration] = useState<FavoriteMigrationPayload | null>(null);
   const [account, setAccount] = useState<AccountFavorites | null>(null);
   const [ready, setReady] = useState(false);
+  const [pendingToolIds, setPendingToolIds] = useState<string[]>([]);
   const migrationRef = useRef<FavoriteMigrationPayload | null>(null);
   const anonymousRef = useRef<string[]>([]);
   const activeUserRef = useRef<string | null>(null);
+  const pendingToolIdsRef = useRef(new Set<string>());
   const validIds = useMemo(() => [...toolIds], [toolIds]);
 
   const persistAnonymous = useCallback((ids: string[]) => {
@@ -167,38 +169,45 @@ export function FavoritesProvider({ children, toolIds }: { children: ReactNode; 
     }
     if (currentAccount.loading || currentAccount.error) return;
 
-    const currentMigration = migrationRef.current;
-    const pendingForUser = currentMigration?.targetUserId === currentAccount.userId ? currentMigration.toolIds : [];
-    const currentlyFavorite = currentAccount.ids.includes(toolId) || pendingForUser.includes(toolId);
+    if (!acquireFavoriteMutationLock(pendingToolIdsRef.current, toolId)) return;
+    setPendingToolIds([...pendingToolIdsRef.current]);
+    try {
+      const currentMigration = migrationRef.current;
+      const pendingForUser = currentMigration?.targetUserId === currentAccount.userId ? currentMigration.toolIds : [];
+      const currentlyFavorite = currentAccount.ids.includes(toolId) || pendingForUser.includes(toolId);
 
-    if (currentlyFavorite) {
-      const { error } = await createClient().from("user_favorites").delete()
-        .eq("user_id", currentAccount.userId).eq("tool_id", toolId);
+      if (currentlyFavorite) {
+        const { error } = await createClient().from("user_favorites").delete()
+          .eq("user_id", currentAccount.userId).eq("tool_id", toolId);
+        if (activeUserRef.current !== currentAccount.userId) return;
+        if (error) {
+          setAccount((previous) => previous?.userId === currentAccount.userId ? { ...previous, error: true } : previous);
+          return;
+        }
+        if (currentMigration?.targetUserId === currentAccount.userId && currentMigration.toolIds.includes(toolId)) {
+          persistMigration({ targetUserId: currentAccount.userId, toolIds: currentMigration.toolIds.filter((id) => id !== toolId) });
+        }
+        if (anonymousRef.current.includes(toolId)) persistAnonymous(anonymousRef.current.filter((id) => id !== toolId));
+        setAccount((previous) => previous?.userId === currentAccount.userId
+          ? { ...previous, ids: previous.ids.filter((id) => id !== toolId) } : previous);
+        return;
+      }
+
+      const { error } = await createClient().from("user_favorites").upsert(
+        { user_id: currentAccount.userId, tool_id: toolId },
+        { onConflict: "user_id,tool_id", ignoreDuplicates: true },
+      );
       if (activeUserRef.current !== currentAccount.userId) return;
       if (error) {
         setAccount((previous) => previous?.userId === currentAccount.userId ? { ...previous, error: true } : previous);
         return;
       }
-      if (currentMigration?.targetUserId === currentAccount.userId && currentMigration.toolIds.includes(toolId)) {
-        persistMigration({ targetUserId: currentAccount.userId, toolIds: currentMigration.toolIds.filter((id) => id !== toolId) });
-      }
-      if (anonymousRef.current.includes(toolId)) persistAnonymous(anonymousRef.current.filter((id) => id !== toolId));
       setAccount((previous) => previous?.userId === currentAccount.userId
-        ? { ...previous, ids: previous.ids.filter((id) => id !== toolId) } : previous);
-      return;
+        ? { ...previous, ids: [...new Set([...previous.ids, toolId])] } : previous);
+    } finally {
+      pendingToolIdsRef.current.delete(toolId);
+      setPendingToolIds([...pendingToolIdsRef.current]);
     }
-
-    const { error } = await createClient().from("user_favorites").upsert(
-      { user_id: currentAccount.userId, tool_id: toolId },
-      { onConflict: "user_id,tool_id", ignoreDuplicates: true },
-    );
-    if (activeUserRef.current !== currentAccount.userId) return;
-    if (error) {
-      setAccount((previous) => previous?.userId === currentAccount.userId ? { ...previous, error: true } : previous);
-      return;
-    }
-    setAccount((previous) => previous?.userId === currentAccount.userId
-      ? { ...previous, ids: [...new Set([...previous.ids, toolId])] } : previous);
   }, [account, persistAnonymous, persistMigration, ready, validIds]);
 
   const effectiveIds = useMemo(() => getVisibleFavoriteIds({
@@ -215,8 +224,9 @@ export function FavoritesProvider({ children, toolIds }: { children: ReactNode; 
     loading: !ready || Boolean(account?.loading),
     error: Boolean(account?.error),
     isFavorite: (toolId) => effectiveIds.includes(toolId),
+    isPending: (toolId) => pendingToolIds.includes(toolId),
     toggleFavorite,
-  }), [account, effectiveIds, ready, toggleFavorite]);
+  }), [account, effectiveIds, pendingToolIds, ready, toggleFavorite]);
 
   return <FavoritesContext.Provider value={value}>{children}</FavoritesContext.Provider>;
 }
