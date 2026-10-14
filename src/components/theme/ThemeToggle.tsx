@@ -19,7 +19,7 @@ export default function ThemeToggle() {
         aria-label={labels.choose + ": " + currentLabel}
         title={labels.title + ": " + currentLabel}
       >
-<MaterialIcon name={theme === "dark" ? "dark_mode" : theme === "system" ? "devices" : "light_mode"} size={20} />
+<MaterialIcon name={theme === "dark" ? "dark_mode" : theme === "light" ? "light_mode" : "devices"} size={20} />
         <span className="sr-only">{currentLabel}</span>
       </summary>
 
