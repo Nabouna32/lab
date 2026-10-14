@@ -216,3 +216,16 @@ test("Design Lab includes extended Material 3 navigation, field, list, menu, pro
   assert.match(labSource, /checked=\{sampleRadio==="all"\}/);
   assert.match(labSource, /aria-expanded=\{sampleMenuOpen\}/);
 });
+
+
+test("Design Lab renders the shared production UI primitives against the active Material 3 scheme", () => {
+  const labSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
+  const labCss = readFileSync(new URL("../../app/[locale]/design-lab/visual-lab.module.css", import.meta.url), "utf8");
+  for (const component of ["Button", "IconButton", "Card", "Panel", "ResultPanel", "Checkbox", "TextField", "TextArea", "Select", "SegmentedControl", "ValidationMessage", "Switch"]) {
+    assert.match(labSource, new RegExp(`import \\{ ${component} \\} from "@\\/components\\/ui\\/${component}"`), `missing shared component import: ${component}`);
+  }
+  for (const token of ["--foreground:var(--lab-text)", "--surface:var(--lab-surface)", "--surface-soft:var(--lab-surface-container)", "--secondary-container:var(--lab-secondary-container)", "--error:var(--lab-error)", "--focus-ring:var(--lab-primary)"]) {
+    assert.ok(labCss.includes(token), `missing scoped token bridge: ${token}`);
+  }
+  assert.match(labSource, /aria-labelledby="shared-components-title"/);
+});
