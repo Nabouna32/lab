@@ -322,8 +322,6 @@ The UX must never imply that one category fully represents an intent. Initial in
 
 Favorites, personal collections and the light/dark theme preference should be easy to access without making anonymous usage feel second-class. The signed-in homepage may optionally surface favorites and collections as quick-access pills; this is a possibility, not a commitment to a configurable or personalized homepage.
 
-Contextual tone is an optional future capability: a professional tool may remain restrained while a creative or exploratory tool may be more expressive. It must remain subordinate to clarity, usability and accessibility and does not depend on a user-selectable presentation mode.
-
 Where useful, tool pages may offer lightweight feedback such as “Cet outil vous a été utile ? 👍 👎” or authenticated ratings without distracting from the task.
 
 
