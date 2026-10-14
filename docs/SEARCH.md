@@ -1,6 +1,6 @@
 # Loculary — Search
 
-Search is both catalog navigation and, progressively, solution discovery.
+Search supports catalog navigation and intent-based tool discovery.
 
 ## Search field and suggestion surface
 
