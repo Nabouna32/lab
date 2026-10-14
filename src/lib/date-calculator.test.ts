@@ -31,4 +31,10 @@ describe("calculateDateAdjustment", () => {
     assert.equal(calculateDateAdjustment(date("2026-01-01"), -1, "days", "add"), null);
     assert.equal(calculateDateAdjustment(date("2026-01-01"), 1.5, "days", "add"), null);
   });
+
+  it("rejects month and year adjustments outside the supported Date range", () => {
+    const start = date("2026-01-01");
+    assert.equal(calculateDateAdjustment(start, Number.MAX_SAFE_INTEGER, "months", "add"), null);
+    assert.equal(calculateDateAdjustment(start, Number.MAX_SAFE_INTEGER, "years", "subtract"), null);
+  });
 });
