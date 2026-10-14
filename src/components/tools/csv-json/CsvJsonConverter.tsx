@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/Button";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { TextArea } from "@/components/ui/TextArea";
+import { Select } from "@/components/ui/Select";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { transformCsvJson, type CsvDelimiter, type CsvJsonOperation } from "@/lib/csv-json";
@@ -61,20 +62,19 @@ export default function CsvJsonConverter() {
             aria-describedby={error ? "csv-json-error" : undefined}
           />
 
-          <div className="mt-5">
-            <label htmlFor="csv-json-delimiter" className="text-sm font-semibold text-[var(--foreground)]">{t.delimiter}</label>
-            <select
+          <div className="mt-5 max-w-xs">
+            <Select
               id="csv-json-delimiter"
+              label={t.delimiter}
               value={delimiter}
               onChange={(event) => {
                 setDelimiter(event.target.value as CsvDelimiter);
                 setResult("");
                 setError(null);
               }}
-              className="mt-2 block min-h-10 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background)] px-3 text-sm text-[var(--foreground)]"
             >
               {delimiters.map((item) => <option key={item.value} value={item.value}>{item.label}</option>)}
-            </select>
+            </Select>
           </div>
 
           <div className="mt-5 flex flex-wrap gap-2">
