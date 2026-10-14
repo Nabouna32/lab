@@ -24,11 +24,23 @@ test("shared checkbox uses M3 foreground/background roles and a visible keyboard
 });
 
 test("functional icons use bundled Material Symbols paths and inherit currentColor", () => {
-  for (const name of ["content_copy", "restart_alt", "arrow_outward", "lock", "public", "cloud", "warning"]) {
+  for (const name of ["content_copy", "restart_alt", "arrow_outward", "lock", "public", "cloud", "warning", "star_fill", "collections_bookmark", "keyboard_arrow_down", "swap_horiz", "apps", "language"]) {
     assert.ok(iconSource.includes(name), `missing Material Symbol: ${name}`);
   }
   assert.match(iconSource, /fill="currentColor"/);
   assert.match(iconSource, /viewBox="0 -960 960 960"/);
+});
+
+test("common navigation and identity icons use the shared Material Symbols component", () => {
+  const starSource = readFileSync(new URL("../../components/ui/StarIcon.tsx", import.meta.url), "utf8");
+  const collectionSource = readFileSync(new URL("../../components/ui/CollectionIcon.tsx", import.meta.url), "utf8");
+  const searchSource = readFileSync(new URL("../../components/tools/ToolSearch.tsx", import.meta.url), "utf8");
+  const headerSource = readFileSync(new URL("../../components/layout/DesktopHeaderMenu.tsx", import.meta.url), "utf8");
+  assert.match(starSource, /MaterialIcon name=\{filled \? "star_fill" : "star"\}/);
+  assert.match(collectionSource, /MaterialIcon name="collections_bookmark"/);
+  assert.match(searchSource, /MaterialIcon name="search"/);
+  assert.match(headerSource, /MaterialIcon name="apps"/);
+  assert.doesNotMatch(headerSource, /function Icon\(/);
 });
 
 test("real checkbox and switch call sites use shared primitives", () => {
