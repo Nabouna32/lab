@@ -8,6 +8,8 @@ const labCss = readFileSync(new URL("../../app/[locale]/design-lab/visual-lab.mo
 const labSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
 const favoriteButton = readFileSync(new URL("../../components/favorites/FavoriteButton.tsx", import.meta.url), "utf8");
 const baseConverter = readFileSync(new URL("../../components/tools/number-base-converter/NumberBaseConverter.tsx", import.meta.url), "utf8");
+const themeToggle = readFileSync(new URL("../../components/theme/ThemeToggle.tsx", import.meta.url), "utf8");
+const languageSelector = readFileSync(new URL("../../components/layout/LanguageSelector.tsx", import.meta.url), "utf8");
 const toolSearch = readFileSync(new URL("../../components/tools/ToolSearch.tsx", import.meta.url), "utf8");
 
 test("shared Button exposes canonical M3 variants, stable labels and semantic disabled states", () => {
@@ -88,4 +90,11 @@ test("number-base swap action uses the shared M3 IconButton with a 24px icon", (
   assert.ok(baseConverter.includes('<IconButton label={t.swap} title={t.swap} variant="outlined" onClick={swapBases}'));
   assert.ok(baseConverter.includes('<MaterialIcon name="swap_horiz" size={24} />'));
   assert.ok(!baseConverter.includes('<button type="button" onClick={swapBases}'));
+});
+
+test("icon-only theme and language menu triggers meet the 48px M3 target", () => {
+  assert.ok(themeToggle.includes("h-12 w-12 cursor-pointer list-none items-center justify-center rounded-full"));
+  assert.ok(languageSelector.includes("h-12 w-12 shrink-0 cursor-pointer list-none items-center justify-center rounded-full"));
+  assert.ok(themeToggle.includes('aria-label={labels.choose + ": " + currentLabel}'));
+  assert.ok(languageSelector.includes('aria-label={t.nav.language + ": " + currentLanguage.nativeLabel}'));
 });
