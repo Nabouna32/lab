@@ -173,6 +173,6 @@ Initial languages:
 - French;
 - English.
 
-The architecture must be prepared for additional languages.
+Keep localization data-driven so additional languages can be supported if a concrete need arises, without committing to a broader locale roadmap.
 
 Translations must be treated as product content, not scattered hard-coded strings.
