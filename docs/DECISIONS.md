@@ -538,17 +538,17 @@ Account continuity and administrative security have concrete requirements. A dat
 - Any catalog database proposal must meet DEC-027 and receive explicit approval before implementation.
 - The number of account/security tables may evolve when requirements justify it.
 
-## DEC-026 — Material 3 Expressive as Loculary's shared design-system foundation
+## DEC-026 — Material 3 Fidelity and Pixel-inspired interface
 
 **Status:** Accepted
 
 ### Decision
 
-Loculary adopts **Material 3 Expressive** as the production reference for the shared platform experience. Expressive foundations and component behavior apply to navigation and headers, buttons, fields, switches, selection controls, menus, dialogs/popups, cards, feedback, typography, semantic color, iconography, surfaces, elevation and motion.
+Loculary adopts **Material 3's Fidelity color scheme and the visual language of current Google Pixel / Android interfaces** as the production reference for the shared platform experience. Core Material 3 foundations and components apply to navigation and headers, buttons, fields, switches, selection controls, menus, dialogs/popups, cards, feedback, typography, semantic color, iconography, surfaces, elevation and motion. The goal is faithful M3 / Pixel styling—not the distinct Material 3 Expressive direction.
 
 The intended experience is a distinctive, polished, Android-inspired web application—not a pixel-for-pixel Android replica and not a generic SaaS template. Material 3 cards are first-class components and must not be avoided by default; use appropriate card variants and compositions where they support discovery, grouping or interaction. Shared foundations establish consistency without forcing every tool into the same layout or interaction model. Specialized tool interfaces remain first-class when their task benefits from a distinct composition or interaction, subject to shared navigation, accessibility, localization, responsiveness and platform behavior.
 
-Blue is Loculary's primary brand direction: the interface should use a clear, confident, vivid blue for primary actions and selected/high-emphasis states, not a washed-out or uniformly pastel treatment. **#4285F4 is the current blue seed candidate**, not a requirement to use that literal value for every primary role; final resolved tones must be judged in representative light/dark screens and checked for contrast. **Roboto** is the validated default interface typeface. Loculary uses the official Material Color Utilities (MCU) Rainbow scheme as its sole rainbow palette, supporting the blue-led identity with expressive surfaces and vivid compact category accents such as pills, badges and markers. Do not retain a parallel Loculary-specific Rainbow palette merely to obtain stronger colors: first validate whether the official scheme provides sufficiently vivid, legible tones for each context. Semantic success, warning and error colors remain independent of the brand seed and Rainbow palette. Light/dark mappings and actual foreground contrast must be validated.
+Blue is Loculary's primary brand direction: the interface should use a clear, confident, vivid blue for primary actions and selected/high-emphasis states, not a washed-out or uniformly pastel treatment. **#4285F4 is the current blue seed candidate**, not a requirement to use that literal value for every primary role; final resolved tones must be judged in representative light/dark screens and checked for contrast. **Roboto** is the validated default interface typeface. Loculary uses the official Material Color Utilities (MCU) Rainbow scheme as its sole rainbow palette, supporting the blue-led identity with seed-faithful tonal colors and restrained, legible category accents such as pills, badges and markers. Do not retain a parallel Loculary-specific Rainbow palette merely to obtain stronger colors: first validate whether the official scheme provides sufficiently vivid, legible tones for each context. Semantic success, warning and error colors remain independent of the brand seed and Rainbow palette. Light/dark mappings and actual foreground contrast must be validated.
 
 Theme preference should persist locally for anonymous users and synchronize to the user's account when signed-in preference persistence is implemented. This decision records the product direction; it does not claim that palette settings, production tokens or account synchronization have already been implemented.
 
@@ -556,13 +556,13 @@ The Loculary brand mark remains distinct from functional interface iconography. 
 
 ### Reason
 
-Loculary needs a coherent, recognizable visual and interaction language that feels more like a modern application than a conventional web template. Material 3 Expressive provides a stronger basis for expressive color, shape, typography, component behavior and motion while preserving a task-first toolbox and meaningful tool diversity.
+Loculary needs a coherent, recognizable visual and interaction language that feels more like a modern application than a conventional web template. Material 3 Fidelity provides seed-faithful semantic color roles, while current Pixel / Android interfaces provide the visual reference for shape, typography, component treatment and motion. This preserves a task-first toolbox and meaningful tool diversity without adopting the separate Expressive style.
 
 ### Consequences
 
-- `docs/DESIGN-SYSTEM.md` defines the Expressive platform contract, palette rules and Loculary-specific boundaries.
+- `docs/DESIGN-SYSTEM.md` defines the M3 Fidelity / Pixel platform contract, palette rules and Loculary-specific boundaries.
 - `docs/VISION.md` and `docs/UX.md` must remain consistent with this direction.
-- Shared components and screens may be refactored or replaced when required for a coherent M3 Expressive implementation; the direction does not require preserving current abstractions.
+- Shared components and screens may be refactored or replaced when required for a faithful M3 / Pixel implementation; the direction does not require preserving current abstractions.
 - DEC-004 remains in force: shared foundations and behavior do not require identical compositions across specialized tools.
 - Accessibility, WCAG 2.2 AA, reduced motion, responsive desktop/tablet/mobile behavior, localization, privacy and performance remain mandatory.
 - Adoption is not proof of implementation. Production migration, palette settings, preference persistence, account synchronization and visual/accessibility verification remain implementation work and must not be described as complete without evidence.
