@@ -101,7 +101,7 @@ export default function ImageCompressor() {
         <div className="space-y-5">
           <label
             htmlFor="image-compressor-file"
-            className="block cursor-pointer rounded-[var(--radius-md)] border-2 border-dashed border-[var(--border)] bg-[var(--background)] p-6 text-center transition hover:border-[var(--accent)] focus-within:border-[var(--accent)]"
+            className="block cursor-pointer rounded-[var(--radius-md)] border-2 border-dashed border-[var(--border)] bg-[var(--background)] p-6 text-center transition hover:border-[var(--accent)] focus-within:border-[var(--accent)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--focus-ring)] focus-within:ring-offset-2 focus-within:ring-offset-[var(--surface)]"
           >
             <span className="block text-sm font-semibold text-[var(--foreground)]">{t.input}</span>
             <span className="mt-2 block text-sm text-[var(--muted)]">{t.inputHint}</span>
