@@ -102,3 +102,75 @@ A component should be added when it improves a real product flow and can be impl
 - [ ] Representative compositions are checked: home/search, explorer, account/preferences, compact tool, result-heavy tool and advanced tool.
 - [ ] Automated lint, typecheck, tests and build pass after each implementation slice.
 - [ ] Any remaining deviation is recorded as an intentional Loculary decision, not mislabeled as an Android rule.
+
+## Follow-up audit — expanded component coverage (2026-10-14)
+
+This section records the next static pass. It distinguishes **confirmed source findings** from **browser checks still required**; it does not claim a screenshot-based or runtime visual audit.
+
+### Confirmed follow-up finding
+
+| Priority | Area | Evidence | Correction / remaining verification |
+|---|---|---|---|
+| P1 | Pixel preview bottom navigation | `src/app/[locale]/design-lab/visual-lab.module.css` used the primary color for the selected navigation label while the selected indicator already used secondary-container roles. Navigation buttons also lacked an explicit 48px minimum height and dedicated Pixel hover/pressed/focus states. | **Corrected on the follow-up branch:** selected label now uses the Lab surface foreground; selected icon indicator retains secondary-container / on-secondary-container; items have a 48px minimum height and explicit hover, pressed and focus-visible treatment. Verify actual contrast and wrapping at mobile widths in a running browser. |
+
+### Expanded audit inventory
+
+Every family below is in scope. A family being listed does **not** mean every instance has already been inspected or passed.
+
+| Family | Production call sites / primitives to inventory | Required checks |
+|---|---|---|
+| Theme foundations | `rainbow-tones.ts`, `m3-theme.ts`, `globals.css`, theme toggle, category-role helpers | Fidelity scheme consistency; complete light/dark roles; generated foreground/container pairs; no hard-coded per-component palette; seed/contrast-level behavior; no Rainbow colors outside category identity unless explicitly approved |
+| Buttons and actions | `ui/Button.tsx`, `ui/IconButton.tsx`, account forms, search actions, all tool-local buttons, Lab examples | Correct filled / filled-tonal / outlined / text / elevated intent; paired semantic roles; hover, focus-visible, pressed, disabled, loading; keyboard activation; icon spacing; minimum target size; no whole-element brightness filter as a substitute for a defined state layer |
+| Navigation and app shell | desktop/mobile headers, breadcrumbs, menus, theme/language menus, bottom navigation examples, account navigation | Correct selected vs unselected semantics; readable labels; responsive adaptation; menu focus and Escape behavior; active route semantics; safe-area insets where applicable; no selected state communicated by color alone |
+| Text inputs and search | `TextField`, `TextArea`, `Select`, mobile search, tool-local inputs | Persistent visible labels; helper/error association; invalid, disabled and focus states; placeholder contrast; numeric keyboard hints; autofill; keyboard behavior; no placeholder used as the only label |
+| Selection controls | `Checkbox`, `Switch`, segmented controls, chips, native select/radio groups and raw tool checkboxes | Correct single-choice vs multi-choice vs on/off semantics; label and description association; checked/selected contrast; keyboard operation; disabled state; touch target; no switch used for multi-select or navigation |
+| Surfaces and data display | `Card`, `Panel`, result panels, calculator outputs, tool sections, empty states, category cards | Surface-container hierarchy; appropriate `onSurface` / `onSurfaceVariant`; mixed-content panels stay neutral; tonal elevation only when meaningful; borders not overused; content hierarchy and overflow |
+| Feedback and status | copy/reset feedback, loading indicators, validation, success/warning/error panels, snackbar, dialogs | Reusable pattern where behavior repeats; status text/icons plus color; announcement semantics; snackbar dismissal and timing; confirmation for destructive actions; no fake success feedback |
+| Overlays and disclosure | dialogs, bottom sheets, popovers, tooltips, collapsible sections, dropdown menus | Focus management and return; Escape/outside-click behavior; accessible name; stacking and clipping; scroll locking; pointer and keyboard parity; tooltip not required to reveal essential information |
+| Icons and imagery | `MaterialIcon`, navigation/action icons, tool/category identity, logos, flags, QR output | One shared functional icon source; correct size and optical alignment; `currentColor` and semantic role; decorative vs labelled accessible name; intentional exceptions documented; no custom inline SVG for standard actions |
+| Typography and shape | global type styles, headings, helper text, button labels, radii | Roboto and defined type scale; readable hierarchy at zoom; line-height and wrapping; consistent component shape; no clipped labels at localization or 200% zoom |
+| Motion and state layers | global motion tokens, button transitions, screen transitions, Lab motion demo | Distinct enabled/hover/focus/pressed/selected/disabled/loading states; reduced-motion support; no unnecessary scaling or brightness filters; no motion that delays interaction |
+| Accessibility and responsive behavior | all shared primitives and routes, mobile/tablet/desktop layouts | WCAG 2.2 AA contrast for text and UI components; keyboard-only walkthrough; visible focus; screen-reader names and status announcements; 200% zoom/reflow; target size; reduced motion; light/dark parity |
+| Forms and account settings | login/account forms, preferences, destructive and save actions | Field-level validation and error text; submit/loading/disabled states; real persistence before claiming a preference is saved; confirmation where loss/destruction is possible; correct autocomplete and password behavior |
+| Specialized tools | calculators, converters, generators, image/file tools, result/export controls | Preserve task-specific layouts; use shared primitives where behavior repeats; audit each unique state and output; don't force every tool into a generic card/template |
+
+### Evidence-based color rules
+
+- For content placed on a filled role, use its paired foreground role: `primary` with `onPrimary`, `primaryContainer` with `onPrimaryContainer`, and likewise for secondary, tertiary, error and inverse surfaces.
+- For neutral mixed-content panels, prefer the appropriate surface role with `onSurface` / `onSurfaceVariant`; do not use a colorful container if some text or icons still inherit unrelated neutral colors.
+- A generated Material scheme is a starting point, not proof that custom CSS overrides, opacity, overlays, disabled states or gradients remain accessible. Test the rendered pairings.
+- Use state layers / subtle state-specific colors rather than indiscriminate brightness filters that alter the entire component and its content.
+- Keep contrast and role pairing separate from brand preference: a chosen blue seed does not justify using the primary color for every label or active state.
+
+### Official references used for this pass
+
+- Android Developers, [Material 3 design system and color accessibility](https://developer.android.com/develop/ui/compose/designsystems/material3): semantic roles, correct foreground/container pairings, dynamic color and the need to re-check customized components.
+- Android Developers, [Navigation bar](https://developer.android.com/develop/ui/compose/components/navigation-bar): intended use for 3–5 destinations on compact layouts and selected destination semantics.
+- Android Developers, [NavigationBarItem API](https://developer.android.com/reference/kotlin/androidx/compose/material3/NavigationBarItem.composable): selected state, label, icon, and component color configuration.
+- Android Developers, [Material 3 Surface API](https://developer.android.com/reference/kotlin/androidx/compose/material3/Surface.composable): surface content color, tonal elevation and the distinction between tonal and shadow elevation.
+
+These references guide design semantics. Native Compose behavior is not assumed to transfer automatically to HTML; web accessibility and interaction behavior must be tested in the browser.
+
+### Acceptance gate remains open
+
+- [ ] Run the repository's relevant test suite, lint, typecheck and production build.
+- [ ] Inspect every production route at mobile, tablet and desktop widths in both themes.
+- [ ] Inspect every interactive component in enabled, hover, focus-visible, pressed, selected, disabled, loading and error states where applicable.
+- [ ] Measure rendered text and non-text contrast, including generated palette seeds and dark mode.
+- [ ] Perform keyboard-only and screen-reader checks for navigation, dialogs, menus, fields and transient feedback.
+- [ ] Confirm reduced-motion behavior and 200% zoom/reflow.
+- [ ] Re-run the source inventory when new UI components or one-off tool controls are added.
+
+### Additional confirmed shared-action finding
+
+| Priority | Area | Evidence | Correction / remaining verification |
+|---|---|---|---|
+| P1 | Hover contrast on shared actions | `Button.tsx`, `IconButton.tsx`, `FavoriteButton.tsx`, `AccountActionLink.tsx` and the signed-out Collections call-to-action used `hover:brightness` on the whole element. This changes the foreground and container together, rather than expressing a Material state layer, and can make text/icons harder to read. | **Corrected on the follow-up branch:** primary, tonal, neutral and danger actions now use explicit semantic color mixes for hover/pressed states without dimming their foreground content. Added regression assertions. Verify generated CSS and actual contrast in both themes after the production build. |
+
+### Additional confirmed foundation finding — incomplete surface-role aliases
+
+| Priority | Area | Evidence | Correction / remaining verification |
+|---|---|---|---|
+| P1 | Production semantic surface roles | `rainbow-tones.ts` generated the full Fidelity scheme internally but exposed only a subset of neutral surface roles through CSS aliases. Components could not consistently request modern M3 roles such as `surfaceContainerHighest`, `surfaceDim`, `surfaceBright` or `onSurface` through the shared semantic token layer. The shared Switch consequently used the older `surface-variant` role for its unchecked track. | **Corrected on the follow-up branch:** expose `on-background`, `on-surface`, surface dim/bright, all five surface-container levels and surface tint in generated tokens and light/dark CSS aliases. The shared Switch now uses `surface-container-highest`, with the old role retained only as a resilient fallback. Regression tests guard the aliases. |
+
+The added Fidelity contrast regression uses the production MCU scheme version (2025) and checks core foreground/container pairs across three representative seeds and both themes. This automated test complements—not replaces—contrast checks on actual rendered components, especially custom opacity, disabled states, state layers and borders.

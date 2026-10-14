@@ -41,6 +41,7 @@ test("shared switch uses native checkbox semantics with the switch role and M3 s
   assert.match(switchSource, /role="switch"/);
   assert.match(switchSource, /peer-checked:bg-\[var\(--primary\)\]/);
   assert.match(switchSource, /peer-checked:after:bg-\[var\(--on-primary\)\]/);
+  assert.match(switchSource, /bg-\[var\(--surface-container-highest\)\]/);
   assert.match(switchSource, /peer-focus-visible:ring-2/);
   assert.doesNotMatch(switchSource, /#[0-9a-fA-F]{3,8}/);
 });
@@ -92,4 +93,104 @@ test("real checkbox and switch call sites use shared primitives", () => {
   assert.match(labSource, /<Switch /);
   assert.match(passwordSource, /import \{ Checkbox \} from "@\/components\/ui\/Checkbox"/);
   assert.match(passwordSource, /<Checkbox/);
+});
+
+test("standard functional UI surfaces do not reintroduce one-off inline SVG icons", () => {
+  const sharedFunctionalIconCallSites = [
+    "../../app/[locale]/compte/page.tsx",
+    "../../app/[locale]/design-lab/VisualLab.tsx",
+    "../../components/home/CategoryCard.tsx",
+    "../../components/layout/DesktopHeaderMenu.tsx",
+    "../../components/layout/LanguageFlag.tsx",
+    "../../components/layout/MobileHeaderSearch.tsx",
+    "../../components/theme/ThemeToggle.tsx",
+    "../../components/tools/ToolSearch.tsx",
+    "../../components/tools/number-base-converter/NumberBaseConverter.tsx",
+  ];
+
+  for (const relativePath of sharedFunctionalIconCallSites) {
+    const source = readFileSync(new URL(relativePath, import.meta.url), "utf8");
+    assert.doesNotMatch(source, /<svg\b/, `${relativePath} should use the shared MaterialIcon component for standard UI icons`);
+  }
+});
+
+test("Pixel preview bottom navigation uses readable selected labels and explicit interaction states", () => {
+  const labCss = readFileSync(new URL("../../app/[locale]/design-lab/visual-lab.module.css", import.meta.url), "utf8");
+  assert.match(labCss, /\.directionBottomNav button\{[^}]*min-height:3rem/);
+  assert.match(labCss, /\.directionStage\[data-direction="pixel"\] \.directionBottomNav button\[aria-current="page"\]\{color:var\(--lab-text\)\}/);
+  assert.match(labCss, /\.directionStage\[data-direction="pixel"\] \.directionBottomNav button\[aria-current="page"\] b\{background:var\(--lab-secondary-container\);color:var\(--lab-on-secondary-container\)\}/);
+  assert.match(labCss, /\.directionStage\[data-direction="pixel"\] \.directionBottomNav button:hover/);
+  assert.match(labCss, /\.directionStage\[data-direction="pixel"\] \.directionBottomNav button:active/);
+  assert.match(labCss, /\.directionStage\[data-direction="pixel"\] \.directionBottomNav button:focus-visible/);
+});
+
+test("shared action controls use semantic state-layer colors instead of brightness filters", () => {
+  const buttonSource = readFileSync(new URL("../../components/ui/Button.tsx", import.meta.url), "utf8");
+  const iconButtonSource = readFileSync(new URL("../../components/ui/IconButton.tsx", import.meta.url), "utf8");
+  const favoriteSource = readFileSync(new URL("../../components/favorites/FavoriteButton.tsx", import.meta.url), "utf8");
+  const accountActionSource = readFileSync(new URL("../../components/account/AccountActionLink.tsx", import.meta.url), "utf8");
+  const collectionsSource = readFileSync(new URL("../../components/collections/CollectionsView.tsx", import.meta.url), "utf8");
+
+  for (const [name, source] of [
+    ["Button", buttonSource],
+    ["IconButton", iconButtonSource],
+    ["FavoriteButton", favoriteSource],
+    ["AccountActionLink", accountActionSource],
+    ["CollectionsView", collectionsSource],
+  ]) {
+    assert.doesNotMatch(source, /hover:brightness|filter:brightness|transition-\[[^\]]*filter/ , `${name} should not dim foreground content through a whole-element brightness filter`);
+  }
+
+  assert.match(buttonSource, /var\(--primary\)_92%,var\(--on-primary\)/);
+  assert.match(buttonSource, /var\(--secondary-container\)_92%,var\(--on-secondary-container\)/);
+  assert.match(iconButtonSource, /var\(--primary\)_92%,var\(--on-primary\)/);
+  assert.match(favoriteSource, /var\(--primary\)_92%,var\(--on-primary\)/);
+  assert.match(accountActionSource, /var\(--primary\)_92%,var\(--on-primary\)/);
+  assert.match(collectionsSource, /var\(--primary\)_92%,var\(--on-primary\)/);
+});
+
+test("Fidelity theme source declares the intended scheme and semantic foreground role pairs", () => {
+  const tokenSource = readFileSync(new URL("./rainbow-tones.ts", import.meta.url), "utf8");
+  assert.match(tokenSource, /new SchemeFidelity\(source, false, 0, SPEC_VERSION, PLATFORM\)/);
+  assert.match(tokenSource, /new SchemeFidelity\(source, true, 0, SPEC_VERSION, PLATFORM\)/);
+  assert.match(tokenSource, /const SPEC_VERSION = "2025"/);
+
+  const rolePairs = [
+    ["primary", "on-primary"],
+    ["primary-container", "on-primary-container"],
+    ["secondary", "on-secondary"],
+    ["secondary-container", "on-secondary-container"],
+    ["tertiary", "on-tertiary"],
+    ["tertiary-container", "on-tertiary-container"],
+    ["error", "on-error"],
+    ["error-container", "on-error-container"],
+    ["surface", "on-surface"],
+    ["background", "on-background"],
+    ["inverse-surface", "inverse-on-surface"],
+  ];
+
+  for (const [container, foreground] of rolePairs) {
+    assert.ok(tokenSource.includes(`${container}:`) || tokenSource.includes(`"${container}":`), `missing Material role ${container}`);
+    assert.ok(tokenSource.includes(`${foreground}:`) || tokenSource.includes(`"${foreground}":`), `missing paired foreground role ${foreground}`);
+  }
+});
+
+test("production theme exposes modern Material 3 surface roles in both themes", () => {
+  const tokenSource = readFileSync(new URL("./rainbow-tones.ts", import.meta.url), "utf8");
+  for (const [token, role] of [
+    ["on-background", "onBackground"],
+    ["on-surface", "onSurface"],
+    ["surface-dim", "surfaceDim"],
+    ["surface-bright", "surfaceBright"],
+    ["surface-container-lowest", "surfaceContainerLowest"],
+    ["surface-container-low", "surfaceContainerLow"],
+    ["surface-container", "surfaceContainer"],
+    ["surface-container-high", "surfaceContainerHigh"],
+    ["surface-container-highest", "surfaceContainerHighest"],
+    ["surface-tint", "surfaceTint"],
+  ]) {
+    assert.ok(tokenSource.includes(`"${token}": "${role}"`), `missing generated M3 role ${token}`);
+  }
+  assert.match(globalCss, /--surface-container-highest:\s*var\(--m3-light-surface-container-highest/);
+  assert.match(globalCss, /--surface-container-highest:\s*var\(--m3-dark-surface-container-highest/);
 });
