@@ -80,7 +80,7 @@ An account can unlock features such as:
 
 - favorites synchronized with the account;
 - personal collections, with optional sharing by link;
-- account preferences, including the light/dark theme preference.
+- account preferences; theme preference synchronization remains future work.
 
 Anonymous users can retain favorites locally, and signing in merges local favorites into account favorites with deterministic conflict handling. Signed-in users can create, rename and delete personal collections, add or remove tools, and optionally share a collection through an explicit link. Collections are private by default; a share token grants read access only to the selected collection and its items. Do not put sensitive tool input or result data into collections or shared links. The light/dark theme preference currently works locally; account synchronization of that preference remains unimplemented.
 
