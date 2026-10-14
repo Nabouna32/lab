@@ -26,7 +26,7 @@ export default function FavoriteButton({ toolId, locale, compact = false }: { to
         disabled={disabled}
         onClick={() => void favorites.toggleFavorite(toolId)}
       >
-        <StarIcon filled={active} className="h-5 w-5 shrink-0" />
+        <StarIcon filled={active} className="h-6 w-6 shrink-0" />
       </IconButton>
     );
   }
