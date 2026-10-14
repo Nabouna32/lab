@@ -31,5 +31,6 @@ test("sign-in and sign-out clear the previous account before refreshing", async 
   assert.match(authChangeBranch, /event === "SIGNED_IN" \|\| event === "SIGNED_OUT"/);
   assert.match(authChangeBranch, /setUserId\(null\)/);
   assert.match(authChangeBranch, /setCollections\(\[\]\)/);
+  assert.match(authChangeBranch, /setTimeout\(\(\) =>/);
   assert.ok(authChangeBranch.indexOf("setCollections([])") < authChangeBranch.indexOf("void load()"));
 });
