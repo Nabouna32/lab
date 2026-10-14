@@ -9,6 +9,10 @@ type CheckboxStyle = CSSProperties & {
   "--checkbox-focus-ring"?: string;
   "--checkbox-focus-offset"?: string;
   "--checkbox-label-color"?: string;
+  "--checkbox-disabled-active"?: string;
+  "--checkbox-disabled-outline"?: string;
+  "--checkbox-disabled-icon"?: string;
+  "--checkbox-disabled-label"?: string;
 };
 
 type CheckboxProps = Omit<
@@ -40,7 +44,11 @@ export function Checkbox({
     "--checkbox-surface": "var(--surface)",
     "--checkbox-focus-ring": "var(--focus-ring)",
     "--checkbox-focus-offset": "var(--surface)",
-    "--checkbox-label-color": "var(--foreground)",
+    "--checkbox-label-color": disabled ? "var(--checkbox-disabled-label)" : "var(--foreground)",
+    "--checkbox-disabled-active": "color-mix(in srgb, var(--on-surface) 12%, transparent)",
+    "--checkbox-disabled-outline": "color-mix(in srgb, var(--on-surface) 38%, transparent)",
+    "--checkbox-disabled-icon": "color-mix(in srgb, var(--on-surface) 38%, transparent)",
+    "--checkbox-disabled-label": "color-mix(in srgb, var(--on-surface) 38%, transparent)",
     ...style,
   };
 
@@ -50,7 +58,7 @@ export function Checkbox({
       style={semanticStyle}
       className={[
         "group flex min-h-12 cursor-pointer items-center gap-3 text-sm text-[var(--checkbox-label-color)]",
-        disabled ? "cursor-not-allowed opacity-45" : "",
+        disabled ? "cursor-not-allowed" : "",
         className,
       ].join(" ")}
     >
@@ -68,12 +76,13 @@ export function Checkbox({
         className={[
           "relative inline-flex size-5 shrink-0 items-center justify-center rounded-[4px] border border-[var(--checkbox-outline)] bg-[var(--checkbox-surface)]",
           "transition-[background-color,border-color,box-shadow] duration-[var(--motion-standard)]",
-          "peer-checked:border-[var(--checkbox-active)] peer-checked:bg-[var(--checkbox-active)]",
+          "peer-checked:border-[var(--checkbox-active)] peer-checked:bg-[var(--checkbox-active)] peer-checked:text-[var(--checkbox-on-active)]",
           "peer-focus-visible:outline-none peer-focus-visible:ring-2 peer-focus-visible:ring-[var(--checkbox-focus-ring)] peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-[var(--checkbox-focus-offset)]",
-          "peer-disabled:cursor-not-allowed",
+          "peer-disabled:cursor-not-allowed peer-disabled:border-[var(--checkbox-disabled-outline)] peer-disabled:text-[var(--checkbox-disabled-icon)]",
+          "peer-checked:peer-disabled:border-[var(--checkbox-disabled-active)] peer-checked:peer-disabled:bg-[var(--checkbox-disabled-active)] peer-checked:peer-disabled:text-[var(--checkbox-disabled-icon)]",
         ].join(" ")}
       >
-        {checked && <MaterialIcon name="check" size={16} className="text-[var(--checkbox-on-active)]" />}
+        {checked && <MaterialIcon name="check" size={16} />}
       </span>
       <span>{label}</span>
     </label>
