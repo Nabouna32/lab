@@ -16,6 +16,6 @@ test("image selection ignores stale metadata results and clears invalid selectio
 test("metadata stripping cannot publish a result for a replaced or reset image", async () => {
   const source = await readFile(componentFile, "utf8");
   assert.match(source, /const selected=file,operation=operationRef\.current/);
-  assert.match(source, /if\(operation!==operationRef\.current\)return;const url=URL\.createObjectURL\(blob\)/);
+  assert.match(source, /if\\(operation!==operationRef\\.current\\)return;\\s*const url=URL\\.createObjectURL\\(blob\\)/);
   assert.match(source, /function reset\(\)\{operationRef\.current\+=1/);
 });
