@@ -7,6 +7,7 @@ const iconButton = readFileSync(new URL("../../components/ui/IconButton.tsx", im
 const labCss = readFileSync(new URL("../../app/[locale]/design-lab/visual-lab.module.css", import.meta.url), "utf8");
 const labSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
 const favoriteButton = readFileSync(new URL("../../components/favorites/FavoriteButton.tsx", import.meta.url), "utf8");
+const baseConverter = readFileSync(new URL("../../components/tools/number-base-converter/NumberBaseConverter.tsx", import.meta.url), "utf8");
 const toolSearch = readFileSync(new URL("../../components/tools/ToolSearch.tsx", import.meta.url), "utf8");
 
 test("shared Button exposes canonical M3 variants, stable labels and semantic disabled states", () => {
@@ -78,4 +79,11 @@ test("favorite action uses shared M3 controls and never shrinks icon touch targe
   assert.ok(favoriteButton.includes('variant={active ? "filled-tonal" : "outlined"}'));
   assert.ok(favoriteButton.includes("selected={active}"));
   assert.ok(!favoriteButton.includes("min-h-10 min-w-10"));
+});
+
+test("number-base swap action uses the shared M3 IconButton with a 24px icon", () => {
+  assert.ok(baseConverter.includes('import { IconButton } from "@/components/ui/IconButton"'));
+  assert.ok(baseConverter.includes('<IconButton label={t.swap} title={t.swap} variant="outlined" onClick={swapBases}'));
+  assert.ok(baseConverter.includes('<MaterialIcon name="swap_horiz" size={24} />'));
+  assert.ok(!baseConverter.includes('<button type="button" onClick={swapBases}'));
 });
