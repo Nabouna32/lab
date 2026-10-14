@@ -1,33 +1,16 @@
 "use client";
 import { useMemo, useState } from "react";
-import type { CSSProperties } from "react";
 import styles from "./visual-lab.module.css";
-import {
-  colorHex,
-  createM3Scheme,
-  getRolePairs,
-  getSemanticRoles,
-  getTonalPalettes,
-  normalizeHexSeed,
-  schemeVariants,
-  seedPresets,
-  type SchemeVariant,
-  type SchemeSpecVersion,
-  type SchemePlatform,
-} from "./m3-theme";
-import { createRainbowCategorySeed, rainbowCategoryHueSeeds } from "@/lib/design-system/rainbow-palette";
+import { colorHex, createM3Scheme } from "./m3-theme";
 
 type Locale = "en" | "fr";
 type Theme = "light" | "dark";
-type Mode = "m3" | "expressive";
 type Screen = "home" | "explore" | "tool";
-type CategorySet = "current" | "mcu-rainbow" | "blue";
-type CategoryStyle = "soft" | "stripe" | "solid";
-type DesignDirection = "pixel" | "expressive" | "utility";
+type DesignDirection = "pixel" | "utility";
 const copy = {
   en: {
-    eyebrow:"Experimental playground · not production",title:"Find Loculary’s visual personality.",intro:"Change one dimension at a time. Compare the same interface across palettes, themes and expressive treatments before choosing what belongs in the real product.",categoryColors:"Category identity colors",categoryColorsHelp:"Category colors stay independent from the brand color. The official MCU Rainbow scheme generates their hues and tonal values; the solid option uses generated foreground colors for readability.",
-    directions:"Android style directions",directionsHelp:"Compare three coherent interpretations of Android’s visual language. These are exploratory directions, not official Google screenshots.",pixelDirection:"Pixel / faithful M3",pixelDirectionHelp:"Quiet tonal surfaces, familiar Android navigation and restrained emphasis.",expressiveDirection:"Expressive",expressiveDirectionHelp:"Bolder hierarchy, playful shape contrast and a more noticeable primary action.",utilityDirection:"Productivity",utilityDirectionHelp:"Compact, information-first layout with clear grouping and efficient scanning.",directionEyebrow:"Direction preview",directionAction:"Open tool",directionRecent:"Continue where you left off",directionBrowse:"Browse categories",directionBottomHome:"Home",directionBottomExplore:"Explore",directionBottomSaved:"Saved",directionBottomProfile:"Profile",theme:"Theme",style:"Visual language",viewport:"Preview width",categorySet:"Category color set",currentSet:"Current seeds",mcuRainbowSet:"Official M3 Rainbow",blueSet:"Blue-forward",categoryStyle:"Category treatment",softStyle:"Soft tint",stripeStyle:"Strong stripe",solidStyle:"Solid color",language:"Preview language",light:"Light",dark:"Dark",classic:"Material 3",expressive:"M3 Expressive",desktop:"Desktop",tablet:"Tablet",mobile:"Mobile",
+    eyebrow:"Experimental playground · not production",title:"Find Loculary’s visual personality.",intro:"Compare the same phone interface in two Android-inspired directions. Change only the options that help judge the experience.",categoryColors:"Category identity colors",categoryColorsHelp:"Category colors stay independent from the brand color. The official MCU Rainbow scheme generates their hues and tonal values; the solid option uses generated foreground colors for readability.",
+    directions:"Android style directions",directionsHelp:"Compare the same phone interface in two directions. These are exploratory interpretations, not official Google screenshots.",pixelDirection:"Pixel / faithful M3",pixelDirectionHelp:"Quiet tonal surfaces, familiar Android navigation and restrained emphasis.",expressiveDirection:"Expressive",expressiveDirectionHelp:"Bolder hierarchy, playful shape contrast and a more noticeable primary action.",utilityDirection:"Productivity",utilityDirectionHelp:"Compact, information-first layout with clear grouping and efficient scanning.",directionEyebrow:"Direction preview",directionAction:"Open tool",directionRecent:"Continue where you left off",directionBrowse:"Browse categories",directionBottomHome:"Home",directionBottomExplore:"Explore",directionBottomSaved:"Saved",directionBottomProfile:"Profile",theme:"Theme",style:"Visual language",viewport:"Preview width",categorySet:"Category color set",currentSet:"Current seeds",mcuRainbowSet:"Official M3 Rainbow",blueSet:"Blue-forward",categoryStyle:"Category treatment",softStyle:"Soft tint",stripeStyle:"Strong stripe",solidStyle:"Solid color",language:"Preview language",light:"Light",dark:"Dark",classic:"Material 3",expressive:"M3 Expressive",desktop:"Desktop",tablet:"Tablet",mobile:"Mobile",
     home:"Home",explore:"Explore",tool:"Tool page",search:"What do you need to do?",searchButton:"Find a tool",quick:"Popular tasks",welcome:"A toolbox for your next idea",subhead:"Small tasks, useful tools, less friction.",browse:"Explore tools",
     results:"Suggested tools",resultOne:"Percentage calculator",resultTwo:"Image converter",resultThree:"Text cleaner",toolTitle:"Percentage calculator",toolDesc:"Calculate a percentage of any value.",value:"Value",percent:"Percentage",calculate:"Calculate",output:"Your result",
     components:"Component gallery",settings:"Account & preferences",settingsHelp:"Examples of options a user can turn on or off.",syncFavorites:"Sync favorites",syncFavoritesHelp:"Keep your favorites available on your account.",automaticTheme:"Use device theme",automaticThemeHelp:"Follow your phone or computer light/dark setting.",reducedMotion:"Reduce motion",reducedMotionHelp:"Limit non-essential animations.",switchOnLabel:"On",switchOffLabel:"Off",actions:"Actions & controls",forms:"Forms & selection",surfaces:"Surfaces & feedback",type:"Typography & shape",states:"Interaction states",filled:"Primary action",tonal:"Tonal action",outlined:"Outlined",textButton:"Text action",disabled:"Unavailable action",focus:"Keyboard focus",motion:"Replay motion",
@@ -37,7 +20,7 @@ const copy = {
     note:"Nothing here changes Loculary’s production design. This is a decision aid; the final palette and style remain open.",closeDialog:"Close dialog",fieldHelp:"Shape, spacing and type respond to the selected visual language.",actionsHelp:"Use the controls above to compare the same components.",
   },
   fr: {
-    eyebrow:"Laboratoire expérimental · hors production",title:"Trouvons la personnalité visuelle de Loculary.",intro:"Change une dimension à la fois. Compare la même interface selon les palettes, les thèmes et le style expressif avant de décider ce qui mérite d’entrer dans le vrai produit.",categoryColors:"Couleurs d’identité des catégories",categoryColorsHelp:"Les couleurs des catégories restent indépendantes de la couleur de marque. La variante officielle Rainbow de MCU génère leurs teintes et tons ; les aplats utilisent une couleur de texte générée pour rester lisibles.",
+    eyebrow:"Laboratoire expérimental · hors production",title:"Trouvons la personnalité visuelle de Loculary.",intro:"Compare la même interface de téléphone selon deux pistes inspirées d’Android. Garde uniquement les réglages utiles pour juger le rendu.",categoryColors:"Couleurs d’identité des catégories",categoryColorsHelp:"Les couleurs des catégories restent indépendantes de la couleur de marque. La variante officielle Rainbow de MCU génère leurs teintes et tons ; les aplats utilisent une couleur de texte générée pour rester lisibles.",
     directions:"Pistes de style Android",directionsHelp:"Compare trois interprétations cohérentes du langage visuel Android. Ce sont des pistes d’exploration, pas des captures officielles de Google.",pixelDirection:"Pixel / M3 fidèle",pixelDirectionHelp:"Surfaces tonales discrètes, navigation Android familière et accentuation mesurée.",expressiveDirection:"Expressif",expressiveDirectionHelp:"Hiérarchie plus marquée, contraste de formes ludique et action principale visible.",utilityDirection:"Productivité",utilityDirectionHelp:"Mise en page compacte, priorité à l’information et lecture rapide.",directionEyebrow:"Aperçu de la piste",directionAction:"Ouvrir l’outil",directionRecent:"Reprendre là où tu en étais",directionBrowse:"Parcourir les catégories",directionBottomHome:"Accueil",directionBottomExplore:"Explorer",directionBottomSaved:"Enregistrés",directionBottomProfile:"Profil",theme:"Thème",style:"Langage visuel",viewport:"Largeur d’aperçu",categorySet:"Jeu de couleurs des catégories",currentSet:"Sources actuelles",mcuRainbowSet:"Rainbow officiel M3",blueSet:"Dominante bleue",categoryStyle:"Traitement des catégories",softStyle:"Teinte légère",stripeStyle:"Bande franche",solidStyle:"Aplat coloré",language:"Langue de l’aperçu",light:"Clair",dark:"Sombre",classic:"Material 3",expressive:"M3 Expressive",desktop:"Ordinateur",tablet:"Tablette",mobile:"Mobile",
     home:"Accueil",explore:"Explorer",tool:"Page outil",search:"De quoi as-tu besoin ?",searchButton:"Trouver un outil",quick:"Actions populaires",welcome:"Une boîte à outils pour tes idées",subhead:"Des tâches simples, des outils utiles, moins de friction.",browse:"Explorer les outils",
     results:"Outils suggérés",resultOne:"Calcul de pourcentage",resultTwo:"Convertisseur d’image",resultThree:"Nettoyeur de texte",toolTitle:"Calcul de pourcentage",toolDesc:"Calcule un pourcentage de n’importe quelle valeur.",value:"Valeur",percent:"Pourcentage",calculate:"Calculer",output:"Ton résultat",
@@ -49,39 +32,12 @@ const copy = {
   },
 };
 
-function buildCategoryCards(categorySet: CategorySet, locale: Locale, variant: SchemeVariant, theme: Theme, contrastLevel: number, specVersion: SchemeSpecVersion, platform: SchemePlatform) {
-  return categorySeedDefinitions.map(item => {
-    const categorySeed = categorySet === "current" ? item.currentSeed : categorySet === "blue" ? item.blueSeed : colorHex(createRainbowCategorySeed(rainbowCategoryHueSeeds[item.key]).toInt());
-    const categoryScheme = createM3Scheme(categorySeed, categorySet === "mcu-rainbow" ? "rainbow" : variant, theme === "dark", contrastLevel, specVersion, platform);
-    return { ...item, name: locale === "fr" ? item.nameFr : item.name, categorySeed, categoryColor: colorHex(categoryScheme.primary), categoryForeground: colorHex(categoryScheme.onPrimary) };
-  });
-}
-
-const categorySeedDefinitions = [
-  { key: "calculations", name: "Calculations", nameFr: "Calculs", icon: "％", currentSeed: "#D92D20", blueSeed: "#2563EB" },
-  { key: "dates", name: "Dates", nameFr: "Dates", icon: "◷", currentSeed: "#A16207", blueSeed: "#0EA5E9" },
-  { key: "computing", name: "Computing", nameFr: "Informatique", icon: "⌘", currentSeed: "#7A5AF8", blueSeed: "#4F46E5" },
-  { key: "images", name: "Images", nameFr: "Images", icon: "▧", currentSeed: "#C11574", blueSeed: "#7C3AED" },
-  { key: "files", name: "Files", nameFr: "Fichiers", icon: "▤", currentSeed: "#0E7490", blueSeed: "#0369A1" },
-  { key: "video", name: "Video", nameFr: "Vidéo", icon: "▷", currentSeed: "#0F766E", blueSeed: "#0F766E" },
-  { key: "development", name: "Development", nameFr: "Développement", icon: "{ }", currentSeed: "#155EEF", blueSeed: "#1D4ED8" },
-] as const;
-
 export default function VisualLab({ initialLocale }: { initialLocale: string }) {
   const [locale,setLocale]=useState<Locale>(initialLocale==="fr"?"fr":"en");
-  const [seedInput,setSeedInput]=useState("#4285F4");
-  const [seed,setSeed]=useState("#4285F4");
-  const [variant,setVariant]=useState<SchemeVariant>("vibrant");
-  const [contrastLevel,setContrastLevel]=useState(0);
-  const [specVersion,setSpecVersion]=useState<SchemeSpecVersion>("2025");
-  const [platform,setPlatform]=useState<SchemePlatform>("phone");
   const [theme,setTheme]=useState<Theme>("light");
-  const [mode,setMode]=useState<Mode>("expressive");
   const [screen,setScreen]=useState<Screen>("home");
   const [direction,setDirection]=useState<DesignDirection>("pixel");
-  const [viewport,setViewport]=useState<"desktop"|"tablet"|"mobile">("desktop");
-  const [categorySet,setCategorySet]=useState<CategorySet>("mcu-rainbow");
-  const [categoryStyle,setCategoryStyle]=useState<CategoryStyle>("stripe");
+  const [viewport,setViewport]=useState<"desktop"|"tablet"|"mobile">("mobile");
   const [dialogOpen,setDialogOpen]=useState(true);
   const [motionReplay,setMotionReplay]=useState(0);
   const [value,setValue]=useState("180");
@@ -89,17 +45,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const [preferences,setPreferences]=useState({syncFavorites:true,automaticTheme:false,reducedMotion:true});
   const togglePreference=(key:keyof typeof preferences)=>setPreferences(current=>({...current,[key]:!current[key]}));
   const t=copy[locale];
-  const normalizedInput=normalizeHexSeed(seedInput);
-  const handleSeedChange=(nextValue:string)=>{
-    setSeedInput(nextValue);
-    const normalized=normalizeHexSeed(nextValue);
-    if(normalized) setSeed(normalized);
-  };
-  const scheme=useMemo(()=>createM3Scheme(seed,variant,theme==="dark",contrastLevel,specVersion,platform),[seed,variant,theme,contrastLevel,specVersion,platform]);
-  const roleColors=useMemo(()=>getSemanticRoles(scheme),[scheme]);
-  const rolePairs=useMemo(()=>getRolePairs(scheme),[scheme]);
-  const tonalPalettes=useMemo(()=>getTonalPalettes(scheme),[scheme]);
-  const isMulticolorPalette=variant==="expressive"||variant==="vibrant"||variant==="rainbow"||variant==="fruit-salad";
+  const scheme=useMemo(()=>createM3Scheme("#4285F4","vibrant",theme==="dark",0,"2025","phone"),[theme]);
   const tokens=useMemo(()=>({
     "--lab-bg":colorHex(scheme.background),
     "--lab-surface":colorHex(scheme.surface),
@@ -121,13 +67,12 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
     "--lab-warning-text":theme==="dark"?"#FFE08A":"#704400",
     "--lab-error-bg":theme==="dark"?"#4B1F24":"#FFE0E0",
     "--lab-error-text":theme==="dark"?"#FFB4AB":"#8F1717",
-    "--lab-radius":mode==="expressive"?"1.65rem":"0.8rem",
-    "--lab-radius-small":mode==="expressive"?"1rem":"0.35rem",
-    "--lab-motion":mode==="expressive"?"420ms":"180ms",
-  } as CSSProperties & Record<string,string>),[scheme,mode,theme]);
+    "--lab-radius":"0.8rem",
+    "--lab-radius-small":"0.35rem",
+    "--lab-motion":"180ms",
+  } as React.CSSProperties & Record<string,string>),[scheme,theme]);
   const amount=Number(value)*Number(percent)/100;
   const result=Number.isFinite(amount)?amount.toLocaleString(locale==="fr"?"fr-FR":"en-US",{maximumFractionDigits:3}):"—";
-  const stageClass=[styles.stage,styles[viewport],theme==="dark"?styles.dark:styles.light,mode==="expressive"?styles.expressive:styles.classic].join(" ");
   const categoryCards = useMemo(()=>buildCategoryCards(categorySet,locale,variant,theme,contrastLevel,specVersion,platform),[categorySet,locale,variant,theme,contrastLevel,specVersion,platform]);
   const categoryGroups = [{key:categorySet,title:"",help:"",cards:categoryCards}];
   const typeScaleSamples = [
@@ -148,127 +93,64 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
     { role: "Label small", roleFr: "Libellé petit", size: 11 },
   ];
 
-  return <main data-category-set={categorySet} data-category-style={categoryStyle} data-scheme-variant={variant} data-theme={theme} data-seed={seed} data-contrast={contrastLevel} data-spec-version={specVersion} data-platform={platform} data-effective-spec-version={scheme.specVersion} className={`${styles.lab} ${theme==="dark"?styles.darkPalette:""} ${styles[`categoryStyle_${categoryStyle}`]}`} style={tokens}>
+  return <main data-theme={theme} className={`${styles.lab} ${theme==="dark"?styles.darkPalette:""}`} style={tokens}>
     <header className={styles.intro}>
       <div className={styles.introTop}><span className={styles.eyebrow}><span className={styles.sparkle} aria-hidden="true">✳</span>{t.eyebrow}</span>
         <label className={styles.compactControl}>{t.language}<select value={locale} onChange={e=>setLocale(e.target.value as Locale)}><option value="fr">Français</option><option value="en">English</option></select></label>
       </div><h1>{t.title}</h1><p>{t.intro}</p>
     </header>
-    <section className={styles.controlPanel} aria-label={t.sourceColor}>
-      <div className={styles.sourceColorPanel}>
-        <div className={styles.sourceColorHeading}><span className={styles.controlLabel}>{t.sourceColor}</span><p className={styles.helper}>{t.sourceColorHelp}</p></div>
-        <div className={styles.sourceColorInputs}>
-          <input type="color" value={seed} onChange={e=>handleSeedChange(e.target.value)} aria-label={t.sourceColor} />
-          <label className={styles.fieldLabel}>{t.seed}<input value={seedInput} onChange={e=>handleSeedChange(e.target.value)} aria-invalid={!normalizedInput} aria-describedby="seed-help" spellCheck={false} autoCapitalize="none" /></label>
-        </div>
-        <p id="seed-help" className={normalizedInput?styles.helper:styles.seedError}>{normalizedInput ? `${t.seed}: ${seed}` : t.invalidSeed}</p>
-        <div className={styles.seedPresets} aria-label={t.seedPresets}>
-          {seedPresets.map(item=><button key={item.seed} type="button" aria-pressed={seed===item.seed} onClick={()=>handleSeedChange(item.seed)}><span aria-hidden="true" style={{background:item.seed}}/><span>{locale==="fr"?item.nameFr:item.name}</span><small>{item.seed}</small></button>)}
-        </div>
-      </div>
-      <div className={styles.engineControls}>
-        <label className={styles.fieldLabel}>{t.variant}
-          <select data-testid="scheme-variant" value={variant} onChange={e=>setVariant(e.target.value as SchemeVariant)}>
-            {schemeVariants.map(item=><option key={item.key} value={item.key}>{locale==="fr"?item.nameFr:item.name}</option>)}
-          </select>
-        </label>
-        <p className={styles.helper}>{schemeVariants.find(item=>item.key===variant)?.[locale==="fr"?"descriptionFr":"description"]} {t.variantHelp}</p>
-        <label className={styles.fieldLabel}>{t.specVersion}
-          <select data-testid="scheme-spec-version" value={specVersion} onChange={e=>setSpecVersion(e.target.value as SchemeSpecVersion)}>
-            <option value="2021">2021</option><option value="2025">2025</option>
-          </select>
-        </label>
-        <label className={styles.fieldLabel}>{t.platform}
-          <select data-testid="scheme-platform" value={platform} disabled={specVersion==="2021"} onChange={e=>setPlatform(e.target.value as SchemePlatform)}>
-            <option value="phone">{t.phone}</option><option value="watch">{t.watch}</option>
-          </select>
-          <span className={styles.helper}>{specVersion==="2021"?t.platform2021:t.platform2025}</span>
-        </label>
-        <div className={styles.contrastControl}>
-          <div className={styles.contrastHeading}><label htmlFor="contrast-level">{t.contrastLevel}</label><output htmlFor="contrast-level">{contrastLevel.toFixed(1)}</output></div>
-          <input id="contrast-level" data-testid="contrast-level" type="range" min={-1} max={1} step={0.1} value={contrastLevel} onChange={e=>setContrastLevel(Number(e.target.value))} />
-          <div className={styles.contrastPresets}>
-            <button type="button" aria-pressed={contrastLevel===-1} onClick={()=>setContrastLevel(-1)}>{t.reducedContrast}</button>
-            <button type="button" aria-pressed={contrastLevel===0} onClick={()=>setContrastLevel(0)}>{t.normalContrast}</button>
-            <button type="button" aria-pressed={contrastLevel===0.5} onClick={()=>setContrastLevel(0.5)}>{t.highContrast}</button>
-            <button type="button" aria-pressed={contrastLevel===1} onClick={()=>setContrastLevel(1)}>{t.maxContrast}</button>
-          </div>
-        </div>
-      </div>
-      <div className={styles.controlRow}>
-        <fieldset className={styles.segmentField}><legend>{t.theme}</legend><div className={styles.segmented}><button type="button" aria-pressed={theme==="light"} onClick={()=>setTheme("light")}>☀ {t.light}</button><button type="button" aria-pressed={theme==="dark"} onClick={()=>setTheme("dark")}>☾ {t.dark}</button></div></fieldset>
-        <fieldset className={styles.segmentField}><legend>{t.style}</legend><div className={styles.segmented}><button type="button" aria-pressed={mode==="m3"} onClick={()=>setMode("m3")}>{t.classic}</button><button type="button" aria-pressed={mode==="expressive"} onClick={()=>setMode("expressive")}>{t.expressive}</button></div></fieldset>
-        <fieldset className={styles.segmentField}><legend>{t.viewport}</legend><div className={styles.segmented}>{(["desktop","tablet","mobile"] as const).map(size=><button key={size} type="button" aria-pressed={viewport===size} onClick={()=>setViewport(size)}>{t[size]}</button>)}</div></fieldset>
-        <fieldset className={styles.segmentField}><legend>{t.categorySet}</legend><div className={styles.segmented}><button data-testid="category-set-current" type="button" aria-pressed={categorySet==="current"} onClick={()=>setCategorySet("current")}>{t.currentSet}</button><button data-testid="category-set-mcu-rainbow" type="button" aria-pressed={categorySet==="mcu-rainbow"} onClick={()=>setCategorySet("mcu-rainbow")}>{t.mcuRainbowSet}</button><button data-testid="category-set-blue" type="button" aria-pressed={categorySet==="blue"} onClick={()=>setCategorySet("blue")}>{t.blueSet}</button></div><p className={styles.helper}>{t.categorySourceHelp}</p></fieldset>
-        <fieldset className={styles.segmentField}><legend>{t.categoryStyle}</legend><div className={styles.segmented}><button type="button" aria-pressed={categoryStyle==="soft"} onClick={()=>setCategoryStyle("soft")}>{t.softStyle}</button><button type="button" aria-pressed={categoryStyle==="stripe"} onClick={()=>setCategoryStyle("stripe")}>{t.stripeStyle}</button><button type="button" aria-pressed={categoryStyle==="solid"} onClick={()=>setCategoryStyle("solid")}>{t.solidStyle}</button></div></fieldset>
-      </div>
-      <p className={styles.provenanceNote}><strong>Provenance:</strong> {locale==="fr"?"Les variantes et rôles de couleur sont générés par le moteur officiel MCU. La comparaison oppose Rainbow de MCU appliqué aux graines choisies par Loculary à ces mêmes couleurs utilisées directement ; la répartition en sept catégories n’est pas une palette officielle M3. Les couleurs de statut restent un choix propre à Loculary.":"Scheme variants and semantic color roles are generated by the official MCU engine. The side-by-side category comparison applies MCU Rainbow to Loculary-selected seeds versus using the same seeds directly; the seven-category mapping itself is not an official M3 palette. Status colors remain a separate Loculary choice."}</p>
-    </section>
     <section className={styles.directionSection} aria-labelledby="directions-title">
       <div className={styles.sectionHeading}>
-        <div><span className={styles.sectionKicker}>00 / {t.directions}</span><h2 id="directions-title">{t.directions}</h2><p>{t.directionsHelp}</p></div>
+        <div><span className={styles.sectionKicker}>01 / {t.directions}</span><h2 id="directions-title">{t.directions}</h2><p>{t.directionsHelp}</p></div>
         <div className={styles.screenTabs} role="tablist" aria-label={t.directions}>
-          {(["pixel","expressive","utility"] as const).map(item=><button key={item} type="button" role="tab" aria-selected={direction===item} aria-pressed={direction===item} onClick={()=>setDirection(item)}>{t[item==="pixel"?"pixelDirection":item==="expressive"?"expressiveDirection":"utilityDirection"]}</button>)}
+          {(["pixel","utility"] as const).map(item=><button key={item} type="button" role="tab" aria-selected={direction===item} onClick={()=>setDirection(item)}>{t[item==="pixel"?"pixelDirection":"utilityDirection"]}</button>)}
         </div>
       </div>
-      <p className={styles.directionHelp}>{t[direction==="pixel"?"pixelDirectionHelp":direction==="expressive"?"expressiveDirectionHelp":"utilityDirectionHelp"]}</p>
-      <div className={styles.directionStage} data-direction={direction} data-theme={theme}>
+      <p className={styles.directionHelp}>{t[direction==="pixel"?"pixelDirectionHelp":"utilityDirectionHelp"]}</p>
+      <div className={styles.controlRow}>
+        <fieldset className={styles.segmentField}><legend>{t.theme}</legend><div className={styles.segmented}><button type="button" aria-pressed={theme==="light"} onClick={()=>setTheme("light")}>☀ {t.light}</button><button type="button" aria-pressed={theme==="dark"} onClick={()=>setTheme("dark")}>☾ {t.dark}</button></div></fieldset>
+        <fieldset className={styles.segmentField}><legend>{t.language}</legend><div className={styles.segmented}><button type="button" aria-pressed={locale==="fr"} onClick={()=>setLocale("fr")}>Français</button><button type="button" aria-pressed={locale==="en"} onClick={()=>setLocale("en")}>English</button></div></fieldset>
+        <fieldset className={styles.segmentField}><legend>{t.viewport}</legend><div className={styles.segmented}>{(["mobile","tablet","desktop"] as const).map(size=><button key={size} type="button" aria-pressed={viewport===size} onClick={()=>setViewport(size)}>{t[size]}</button>)}</div></fieldset>
+        <fieldset className={styles.segmentField}><legend>{t.home} / {t.explore} / {t.tool}</legend><div className={styles.segmented}>{(["home","explore","tool"] as const).map(item=><button key={item} type="button" aria-pressed={screen===item} onClick={()=>setScreen(item)}>{t[item]}</button>)}</div></fieldset>
+      </div>
+      <div className={`${styles.directionStage} ${styles["directionViewport_"+viewport]}`} data-direction={direction} data-theme={theme}>
         <header className={styles.directionHeader}><span className={styles.directionBrand}><span aria-hidden="true">✳</span> Loculary</span><button type="button" aria-label={locale==="fr"?"Notifications":"Notifications"}>♧</button></header>
         <div className={styles.directionContent}>
-          <span className={styles.directionEyebrow}>{t.directionEyebrow}</span>
-          <h3>{t.welcome}</h3>
-          <p className={styles.directionSubtitle}>{t.subhead}</p>
-          <div className={styles.directionSearch}><span aria-hidden="true">⌕</span><span>{t.search}</span><span className={styles.directionSearchAction} aria-hidden="true">↵</span></div>
-          <div className={styles.directionSectionTitle}><strong>{t.quick}</strong><button type="button">{t.directionBrowse} ↗</button></div>
-          <div className={styles.directionGrid}>
-            <article className={styles.directionCard}><span className={styles.directionIcon}>％</span><div><strong>{t.resultOne}</strong><small>{t.directionRecent}</small></div><span aria-hidden="true">↗</span></article>
-            <article className={styles.directionCard}><span className={styles.directionIcon}>▧</span><div><strong>{t.resultTwo}</strong><small>PNG · JPG · WEBP</small></div><span aria-hidden="true">↗</span></article>
-            <article className={styles.directionCard}><span className={styles.directionIcon}>¶</span><div><strong>{t.resultThree}</strong><small>{t.cardText}</small></div><span aria-hidden="true">↗</span></article>
-          </div>
-          <button type="button" className={styles.directionPrimary}><span aria-hidden="true">＋</span> {t.directionAction}</button>
+          {screen==="home"&&<>
+            <span className={styles.directionEyebrow}>{t.directionEyebrow}</span>
+            <h3>{t.welcome}</h3><p className={styles.directionSubtitle}>{t.subhead}</p>
+            <div className={styles.directionSearch}><span aria-hidden="true">⌕</span><span>{t.search}</span><span className={styles.directionSearchAction} aria-hidden="true">↵</span></div>
+            <div className={styles.directionSectionTitle}><strong>{t.quick}</strong><button type="button" onClick={()=>setScreen("explore")}>{t.directionBrowse} ↗</button></div>
+            <div className={styles.directionGrid}>
+              <article className={styles.directionCard}><span className={styles.directionIcon}>％</span><div><strong>{t.resultOne}</strong><small>{t.directionRecent}</small></div><span aria-hidden="true">↗</span></article>
+              <article className={styles.directionCard}><span className={styles.directionIcon}>▧</span><div><strong>{t.resultTwo}</strong><small>PNG · JPG · WEBP</small></div><span aria-hidden="true">↗</span></article>
+              <article className={styles.directionCard}><span className={styles.directionIcon}>¶</span><div><strong>{t.resultThree}</strong><small>{t.cardText}</small></div><span aria-hidden="true">↗</span></article>
+            </div>
+            <button type="button" className={styles.directionPrimary} onClick={()=>setScreen("explore")}><span aria-hidden="true">＋</span> {t.directionAction}</button>
+          </>}
+          {screen==="explore"&&<>
+            <span className={styles.directionEyebrow}>{t.filter}</span><h3>{t.results}</h3><p className={styles.directionSubtitle}>{t.subhead}</p>
+            <div className={styles.directionSearch}><span aria-hidden="true">⌕</span><span>{t.search}</span></div>
+            <div className={styles.directionSectionTitle}><strong>{t.quick}</strong><button type="button">{t.selected} · 3</button></div>
+            <div className={styles.directionGrid}>
+              {[t.resultOne,t.resultTwo,t.resultThree].map((name,index)=><article className={styles.directionCard} key={name}><span className={styles.directionIcon}>{["％","▧","¶"][index]}</span><div><strong>{name}</strong><small>{t.cardText}</small></div><span aria-hidden="true">↗</span></article>)}
+            </div>
+          </>}
+          {screen==="tool"&&<>
+            <button type="button" className={styles.directionBack} onClick={()=>setScreen("home")}>← {t.home}</button>
+            <span className={styles.directionEyebrow}>{t.tool}</span><h3>{t.toolTitle}</h3><p className={styles.directionSubtitle}>{t.toolDesc}</p>
+            <div className={styles.directionCalculator}>
+              <label>{t.value}<input value={value} inputMode="decimal" onChange={e=>setValue(e.target.value)}/></label>
+              <label>{t.percent}<input value={percent} inputMode="decimal" onChange={e=>setPercent(e.target.value)}/></label>
+              <div className={styles.directionResult}><span>{t.output}</span><strong>{result}</strong></div>
+              <button type="button" className={styles.directionPrimary} onClick={()=>setScreen("home")}>{t.calculate}</button>
+            </div>
+          </>}
         </div>
         <nav className={styles.directionBottomNav} aria-label={locale==="fr"?"Navigation de l’aperçu":"Preview navigation"}>
-          <span aria-current="page"><b>⌂</b>{t.directionBottomHome}</span><span><b>⌕</b>{t.directionBottomExplore}</span><span><b>♡</b>{t.directionBottomSaved}</span><span><b>○</b>{t.directionBottomProfile}</span>
+          <button type="button" aria-current={screen==="home"?"page":undefined} onClick={()=>setScreen("home")}><b>⌂</b>{t.directionBottomHome}</button><button type="button" aria-current={screen==="explore"?"page":undefined} onClick={()=>setScreen("explore")}><b>⌕</b>{t.directionBottomExplore}</button><button type="button" aria-current="false"><b>♡</b>{t.directionBottomSaved}</button><button type="button" aria-current="false"><b>○</b>{t.directionBottomProfile}</button>
         </nav>
       </div>
-    </section>
-    <section className={styles.previewSection} aria-labelledby="composition-title">
-      <div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>01 / {t.composition}</span><h2 id="composition-title">{t.composition}</h2><p>{t.compositionHelp}</p></div>
-        <div className={styles.screenTabs} role="group" aria-label={t.composition}>{(["home","explore","tool"] as const).map(item=><button key={item} type="button" aria-pressed={screen===item} onClick={()=>setScreen(item)}>{t[item]}</button>)}</div>
-      </div>
-      <div className={stageClass} key={viewport+theme+mode+seed+variant+contrastLevel}><div className={styles.mockApp}>
-        <div className={styles.mockHeader}><div className={styles.brand}><span className={styles.brandMark}>L</span><strong>Loculary</strong></div><nav className={styles.mockNav} aria-label="Preview navigation"><span>{t.home}</span><span>{t.explore}</span><span aria-hidden="true">⌕</span></nav><button type="button" className={styles.avatar} aria-label="Profile preview">N</button></div>
-        {screen==="home"&&<div className={styles.compositionContent}><div className={styles.heroText}><span className={styles.pill}>✦ {t.welcome}</span><h3>{t.welcome}</h3><p>{t.subhead}</p></div><div className={styles.searchBox}><span aria-hidden="true">⌕</span><span>{t.search}</span><button type="button">{t.searchButton} ↗</button></div><div className={styles.quickTasks}><span>{t.quick}</span><div><span>％ {t.resultOne}</span><span>▧ {t.resultTwo}</span><span>¶ {t.resultThree}</span></div></div><div className={styles.previewCards}><article><span className={styles.cardIcon}>✳</span><strong>{t.resultOne}</strong><p>25% × 180</p></article><article><span className={`${styles.cardIcon} ${isMulticolorPalette?styles.accentSecondary:""}`}>▧</span><strong>{t.resultTwo}</strong><p>PNG · JPG · WEBP</p></article></div></div>}
-        {screen==="explore"&&<div className={styles.compositionContent}><div className={styles.exploreTitle}><span className={styles.pill}>{t.filter}</span><h3>{t.results}</h3><p>{t.subhead}</p></div><div className={styles.searchBox}><span>⌕</span><span>{t.search}</span></div><div className={styles.chipRow}><button type="button" className={styles.chipSelected}>{t.selected}</button><button type="button" className={`${styles.chip} ${isMulticolorPalette?styles.chipSecondary:""}`}>{t.chip}</button><button type="button" className={`${styles.chip} ${isMulticolorPalette?styles.chipTertiary:""}`}>{t.filter}</button></div><div className={styles.resultList}>{[t.resultOne,t.resultTwo,t.resultThree].map((name,index)=><article key={name}><span className={`${styles.cardIcon} ${isMulticolorPalette?(index===1?styles.accentSecondary:index===2?styles.accentTertiary:""):""}`}>{["％","▧","¶"][index]}</span><div><strong>{name}</strong><p>{t.cardText}</p></div><span aria-hidden="true">↗</span></article>)}</div></div>}
-        {screen==="tool"&&<div className={styles.compositionContent}><div className={styles.toolIntro}><span className={styles.pill}>✦ {t.tool}</span><h3>{t.toolTitle}</h3><p>{t.toolDesc}</p></div><div className={styles.calculator}><label>{t.value}<input value={value} inputMode="decimal" onChange={e=>setValue(e.target.value)}/></label><label>{t.percent}<input value={percent} inputMode="decimal" onChange={e=>setPercent(e.target.value)}/></label><div className={styles.resultPanel}><span>{t.output}</span><strong>{result}</strong></div><button type="button">{t.calculate}</button></div></div>}
-      </div>
-      <section className={styles.categoryPreview} aria-labelledby="category-preview-title">
-        <div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>01B / {t.categoryColors}</span><h2 id="category-preview-title">{t.categoryColors}</h2><p>{t.categoryColorsHelp}</p></div></div>
-        <div>
-          {categoryGroups.map(group=><section key={group.key}>
-
-            <div className={styles.categoryGrid}>
-              {group.cards.map(item=><article key={item.key} data-testid={group.key==="mcu-rainbow"?"category-mcu-rainbow":undefined} data-category-seed={item.categorySeed} data-category-color={item.categoryColor} className={styles.categoryCard} style={{ "--category-color": item.categoryColor, "--category-foreground": item.categoryForeground } as CSSProperties}>
-                <span className={styles.categoryGlyph} aria-hidden="true">{item.icon}</span>
-                <div><strong>{item.name}</strong><small>{item.categorySeed} · {item.categoryColor}</small></div>
-              </article>)}
-            </div>
-          </section>)}
-        </div>
-      </section>
-      </div>
-    </section>
-    <section className={styles.roleSection} aria-labelledby="roles-title">
-      <div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>02 / {t.semanticRoles}</span><h2 id="roles-title">{t.semanticRoles}</h2><p>{locale==="fr"?"Ces rôles sont calculés à partir de la couleur source, de la variante, du thème et du contraste sélectionnés.":"These roles are computed from the selected source color, variant, theme and contrast level."}</p></div></div>
-      <h3 className={styles.subsectionTitle}>{t.rolePairs}</h3>
-      <div className={styles.rolePairGrid}>{rolePairs.map(pair=><article key={pair.name} className={styles.rolePair} style={{"--role-bg":pair.background,"--role-fg":pair.foreground} as CSSProperties}><div><strong>{pair.name}</strong><small>{pair.background} · {pair.foreground}</small></div><span className={styles.roleSample}>Aa</span><small className={styles.contrastRatio}>{pair.ratio.toFixed(2)}:1 {pair.ratio>=4.5?"✓ ≥ 4.5":"⚠ < 4.5"}</small></article>)}</div>
-      <h3 className={styles.subsectionTitle}>{locale==="fr"?"Tous les rôles sémantiques":"All semantic roles"}</h3>
-      <div className={styles.semanticRoleGrid}>{roleColors.map(role=><div className={styles.semanticRole} key={role.name}><span style={{background:role.color??"transparent"}}/><strong>{role.name}</strong><small>{role.color??(locale==="fr"?"Indisponible dans cette spécification":"Not available in this spec")}</small></div>)}</div>
-      <h3 className={styles.subsectionTitle}>{t.tonalPalettes}</h3>
-      <p className={styles.helper}>{locale==="fr"?"Les tons sont produits par les palettes tonales MCU ; ils ne sont pas saisis manuellement.":"Tones come directly from MCU tonal palettes; they are not hand-authored values."}</p>
-      <div className={styles.tonalPaletteGrid}>{tonalPalettes.map(palette=><article className={styles.tonalPalette} key={palette.name}><h4>{palette.name}</h4><div>{palette.tones.map(tone=><span key={tone.tone} title={`Tone ${tone.tone}: ${tone.color}`} style={{background:tone.color}}><small>{tone.tone}</small></span>)}</div></article>)}</div>
-      <h3 className={styles.subsectionTitle}>{t.typeScale}</h3><p className={styles.helper}>{t.typeScaleHelp}</p>
-      <div className={styles.typeScaleGrid}>{typeScaleSamples.map(sample=><article key={sample.role}><small>{locale==="fr"?sample.roleFr:sample.role} · {sample.size}px</small><span style={{fontSize:`${sample.size}px`}}>Loculary</span></article>)}</div>
     </section>
     <section className={styles.gallerySection} aria-labelledby="gallery-title"><div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>02 / {t.components}</span><h2 id="gallery-title">{t.components}</h2><p>{t.actionsHelp}</p></div></div>
       <div className={styles.galleryGrid}>
@@ -278,12 +160,11 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
             {([{key:"syncFavorites",title:t.syncFavorites,help:t.syncFavoritesHelp},{key:"automaticTheme",title:t.automaticTheme,help:t.automaticThemeHelp},{key:"reducedMotion",title:t.reducedMotion,help:t.reducedMotionHelp}] as const).map(item=><div className={styles.preferenceRow} key={item.key}><div className={styles.preferenceCopy}><strong>{item.title}</strong><p>{item.help}</p></div><button type="button" role="switch" aria-checked={preferences[item.key]} aria-label={item.title} className={preferences[item.key]?styles.switchOn:styles.switchOff} onClick={()=>togglePreference(item.key)}><span className={styles.switchThumb}/></button><span className={styles.preferenceState}>{preferences[item.key]?t.switchOnLabel:t.switchOffLabel}</span></div>)}
           </div></article>
         <article className={styles.galleryCard}><h3>{t.surfaces}</h3><div className={styles.infoCard}><span className={`${styles.cardIcon} ${isMulticolorPalette?styles.accentTertiary:""}`}>✳</span><strong>{t.cardTitle}</strong><p>{t.cardText}</p><button type="button" className={styles.textButton}>{t.browse} ↗</button></div><div className={styles.status} role="status"><span>✓</span>{t.success}</div><div className={styles.statusWarning}><span>!</span>{t.warning}</div><div className={styles.statusError} role="alert"><span>×</span>{t.error}</div></article>
-        <article className={styles.galleryCard}><h3>{t.type}</h3><div className={styles.typeSample}><span>Display</span><strong>Ag</strong><h4>{t.welcome}</h4><p>{t.cardText}</p><small>Label · Supporting text</small></div><div className={styles.shapeRow}><span/><span/><span/><span/></div><p className={styles.helper}>{t.fieldHelp}</p></article>
       </div>
     </section>
     <section className={styles.gallerySection} aria-labelledby="states-title"><div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>03 / {t.states}</span><h2 id="states-title">{t.states}</h2><p>{t.dialogText}</p></div><button type="button" className={styles.outlined} onClick={()=>setDialogOpen(true)}>{t.confirm} · dialog</button></div>
       {dialogOpen&&<div className={styles.dialogPreview} role="group" aria-label={t.states}><div className={styles.dialogIcon}>✦</div><h3>{t.dialogTitle}</h3><p>{t.dialogText}</p><div><button type="button" className={styles.textButton} onClick={()=>setDialogOpen(false)}>{t.close}</button><button type="button" className={styles.filled} onClick={()=>setDialogOpen(false)}>{t.confirm}</button></div></div>}
     </section>
-    <footer className={styles.labFooter}><p>{t.note}</p><div><span>{t.seed}: <strong>{seed}</strong></span><span>{locale==="fr"?"Variante MCU":"MCU variant"}: <strong>{schemeVariants.find(item=>item.key===variant)?.[locale==="fr"?"nameFr":"name"]}</strong></span><span>{t.contrast}: <strong>{contrastLevel.toFixed(1)}</strong></span><span>{t.specVersion}: <strong>{specVersion}</strong> · {t.platform}: <strong>{platform}</strong> · {locale==="fr"?"spécification effective":"effective spec"}: <strong>{scheme.specVersion}</strong></span><small>{t.contrastHelp} {t.wcag}</small></div></footer>
+    <footer className={styles.labFooter}><p>{t.note}</p></footer>
   </main>;
 }
