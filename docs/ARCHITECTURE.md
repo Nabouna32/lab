@@ -38,7 +38,6 @@ Appropriate for:
 - favorites and collections;
 - account preferences;
 - catalog metadata when beneficial;
-- lightweight analytics;
 - selected external API orchestration;
 - operations that genuinely require a server.
 
@@ -52,7 +51,7 @@ Examples may include:
 - public data;
 - exchange rates;
 - selected enrichment;
-- future AI-assisted search.
+
 
 External services must be explicit in the tool's processing-status metadata.
 
@@ -114,7 +113,6 @@ Possible implementation classes include:
 - local file processors;
 - simulations;
 - API-backed tools;
-- future AI-assisted tools.
 
 ## Tool definitions vs custom experiences
 
@@ -179,9 +177,7 @@ The catalog should support:
 - intent associations;
 - related tools.
 
-The catalog should model intents separately from categories, with many-to-many associations between intents and tools. Natural-language intent resolution may later generate or rank candidates through the search subsystem without changing the underlying catalog semantics.
-
-AI can be added behind the search abstraction if its value justifies cost and privacy trade-offs.
+The catalog models intents separately from categories, with many-to-many associations between intents and tools.
 
 ## Authentication
 
@@ -205,27 +201,13 @@ The deployed database currently supports:
 - favorites and personal collections;
 - administrative RBAC and audit data.
 
-Additional synchronized preferences, tool metadata and privacy-conscious analytics remain possible future domains only when justified by concrete requirements.
+Additional synchronized preferences or tool metadata should be considered only when concrete requirements justify their database and operational costs.
 
 Supabase/PostgreSQL is the current database platform for the deployed account, administrative RBAC and audit foundation. The public tool catalog remains Git-backed, and the legacy database catalog schema is not deployed; no catalog migration is currently scheduled.
 
 A database-backed catalog may be reconsidered when a concrete product or operational need cannot be served well by the Git-backed model. Relevant evidence includes a demonstrated publishing workflow that needs authorized edits without code deployment, a measured search/build/delivery bottleneck, or administration and audit requirements that Git cannot reasonably meet. Catalog size by itself is not sufficient justification. See DEC-030 for the decision criteria.
 
 Catalog storage and delivery must remain separate from executable tool implementations. Git/code remains authoritative for registry modules, processing mode, capabilities and actual tool logic. Any future data-store change must preserve that boundary and justify its operational cost.
-
-## Analytics architecture
-
-Analytics should measure product behavior without collecting tool input content by default.
-
-The system should be capable of answering questions such as:
-
-- Which tools are used?
-- Which searches produce no useful result?
-- Which tools have poor engagement?
-- Which categories are growing?
-- Where are technical failures occurring?
-
-The exact provider is not decided yet.
 
 ## Technology baseline
 
@@ -239,60 +221,6 @@ The current repository uses:
 - GitHub Actions for CI;
 - Node.js tests, linting, type checking, and production builds as the automated validation baseline.
 
-Browser-level E2E, Playwright and screenshot automation are out of scope unless the user explicitly revisits that decision.
-
 This is the current baseline, not an immutable commitment.
 
 Any major technology change must be justified against the product's browser-first, SEO, performance, maintainability, and cost requirements.
-
-## Expanded platform model
-
-### Three product layers
-
-The architecture should preserve a clear separation between:
-
-1. **Public discovery** — catalog, search, categories, SEO, related tools;
-2. **Tool execution** — inputs, processing, results, actions, sharing;
-3. **Personal layer** — identity, preferences, favorites and collections.
-
-This separation allows anonymous-first usage while providing a coherent path to authenticated personalization.
-
-### Tool complexity levels
-
-The platform supports three implementation levels:
-
-- **small tools** for deterministic/simple tasks;
-- **advanced tools** for richer analysis, editing, processing, or technical workflows;
-- **mini-applications** for multi-step or state-rich experiences.
-
-All levels share platform contracts for trust, privacy, capabilities, accessibility, performance, SEO, lifecycle, and discovery. Complexity should not force the entire platform to pay the cost of the heaviest tool.
-
-### Capability model
-
-Tool capabilities should be explicit and eventually enforceable. Examples include local processing, file input, clipboard, camera, microphone, geolocation, external network/API access, account data, and server/database access. A tool should receive only the capabilities it requires.
-
-### Browser processing escalation
-
-For heavier local workloads, prefer progressive escalation: main-thread processing for small tasks, Web Workers for expensive work, WebAssembly where justified, and chunking/streaming for large local datasets. Long-running operations should expose truthful progress and cancellation when technically possible.
-
-### State and synchronization
-
-Use the least powerful persistence layer that satisfies the requirement: React/local state for transient state, URL state for safe shareable configuration, localStorage for small preferences, IndexedDB for larger local structured state, and account-backed persistence for selected cross-device metadata such as favorites and collections. Theme preference synchronization is not implemented; the preference remains local until that capability is deliberately added. Sensitive raw tool content should remain local by default.
-
-When local and account state are merged, the synchronization strategy and conflict behavior must be deterministic and explicit.
-
-### Search and solution discovery
-
-Search is a platform subsystem rather than a simple filter. It should support catalog matching, aliases/synonyms/tags/categories, typo tolerance, intent, and eventually a solution-engine layer that can connect multiple tools. AI may sit behind this abstraction but must remain optional.
-
-### External services
-
-Every external API/provider should be traceable through an integration catalog containing purpose, domain, transmitted data, authentication model, cost/quota, fallback behavior, ownership, and relevant policy references. Provider-specific analytics implementations should remain behind abstractions.
-
-### Resilience and performance
-
-External tools should use appropriate timeout, controlled retry, fallback, and clear error patterns. The platform should progressively load tools, enforce page/tool performance budgets, support graceful degradation, and test simple tools and heavy mini-applications separately.
-
-### Future clients
-
-Web remains the primary product. Android and other clients are future surfaces. Shared domain/tool logic may be extracted when it has immediate value, but the web architecture must not acquire costly abstractions solely for hypothetical clients.
