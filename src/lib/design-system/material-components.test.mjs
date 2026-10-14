@@ -173,7 +173,7 @@ test("Fidelity semantic foreground roles retain accessible contrast across repre
   for (const seed of seeds) {
     const source = Hct.fromInt(argbFromHex(seed));
     for (const isDark of [false, true]) {
-      const scheme = new SchemeFidelity(source, isDark, 0, "2021", "phone");
+      const scheme = new SchemeFidelity(source, isDark, 0, "2025", "phone");
       for (const [backgroundRole, foregroundRole] of rolePairs) {
         const background = scheme[backgroundRole];
         const foreground = scheme[foregroundRole];
