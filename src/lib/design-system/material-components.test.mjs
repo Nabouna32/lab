@@ -175,6 +175,14 @@ test("Fidelity theme source declares the intended scheme and semantic foreground
   }
 });
 
+test("Design Lab dialog uses a tonal surface and switches follow the selected preview palette", () => {
+  const labCss = readFileSync(new URL("../../app/[locale]/design-lab/visual-lab.module.css", import.meta.url), "utf8");
+  assert.match(labCss, /--primary:var\(--lab-primary\)/);
+  assert.match(labCss, /--on-primary:var\(--lab-on-primary\)/);
+  assert.match(labCss, /--surface-container-highest:var\(--lab-surface-highest\)/);
+  assert.match(labCss, /\.dialogPreview\{[^}]*background:var\(--lab-surface-high\);color:var\(--lab-text\)/);
+});
+
 test("production theme exposes modern Material 3 surface roles in both themes", () => {
   const tokenSource = readFileSync(new URL("./rainbow-tones.ts", import.meta.url), "utf8");
   for (const [token, role] of [
