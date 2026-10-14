@@ -6,6 +6,7 @@ import SubmitButton from "@/components/account/SubmitButton";
 import { Panel } from "@/components/ui/Panel";
 import { TextField } from "@/components/ui/TextField";
 import { Select } from "@/components/ui/Select";
+import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import { createClient } from "@/lib/supabase/server";
 import { getMessages } from "@/lib/i18n/messages";
 import { isLocale, type Locale } from "@/lib/i18n/config";
@@ -130,7 +131,7 @@ export default async function AccountPage({
                   <span className="block font-bold">{t.account.changeEmail}</span>
                   <span className="mt-1 block text-sm text-[var(--muted)]">{user.email}</span>
                 </span>
-                <svg viewBox="0 0 24 24" className="h-5 w-5 text-[var(--muted)] transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                <MaterialIcon name="chevron_right" size={20} className="h-5 w-5 text-[var(--muted)] transition-transform group-hover:translate-x-1" />
               </Link>
               <Link
                 className="group flex items-center justify-between gap-4 rounded-xl px-2 py-4 transition-[background-color,transform] hover:bg-[var(--surface-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
@@ -140,7 +141,7 @@ export default async function AccountPage({
                   <span className="block font-bold">{t.account.changePassword}</span>
                   <span className="mt-1 block text-sm text-[var(--muted)]">{t.account.password}</span>
                 </span>
-                <svg viewBox="0 0 24 24" className="h-5 w-5 text-[var(--muted)] transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                <MaterialIcon name="chevron_right" size={20} className="h-5 w-5 text-[var(--muted)] transition-transform group-hover:translate-x-1" />
               </Link>
             </div>
           </section>
