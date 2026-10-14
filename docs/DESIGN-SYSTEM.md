@@ -189,7 +189,7 @@ M3 Expressive adoption does not replace Loculary's product quality requirements.
 - sufficient text and non-text contrast in every theme;
 - understandable validation and error feedback;
 - reduced-motion preferences;
-- French and English initially, with extensible localization and future RTL support;
+- French and English initially; locale direction remains explicit so the architecture does not assume every language is left-to-right;
 - longer translations without clipping or broken layouts;
 - privacy and processing transparency where relevant.
 
