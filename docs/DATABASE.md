@@ -6,6 +6,13 @@ The deployed account domains include favorites and personal collections alongsid
 
 Sensitive tool inputs and file contents are not stored by default. Anonymous local favorites may be merged into account favorites after login with deterministic conflict handling.
 
+## Supabase plan constraints
+
+- Loculary currently uses Supabase on the Free Plan.
+- Leaked-password protection cannot be enabled on the current Free Plan. This is a plan limitation, not an unaddressed implementation omission; the corresponding Supabase advisor warning cannot be resolved without changing the plan or available features.
+- If the project moves to a plan that supports leaked-password protection, re-evaluate and enable it as part of security hardening.
+- Consider Free-plan limits when evaluating Supabase architecture, request volume, egress, database size, Edge Functions and other usage-sensitive designs.
+
 All client-provided data is untrusted. Enforce server-side validation, authorization, constraints, uniqueness and auditability.
 
 ## Implemented foundation

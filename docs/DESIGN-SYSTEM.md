@@ -225,7 +225,6 @@ Implementation should be staged into small, verifiable scopes. Existing componen
 This contract is governed by DEC-026 and must remain coherent with:
 
 - `docs/UX.md`;
-- `docs/PROJECT_INSTRUCTIONS.md`;
 - `docs/ACCESSIBILITY.md`;
 - `docs/PERFORMANCE.md`;
 - `docs/I18N.md`;
