@@ -167,3 +167,10 @@ These references guide design semantics. Native Compose behavior is not assumed 
 |---|---|---|---|
 | P1 | Hover contrast on shared actions | `Button.tsx`, `IconButton.tsx`, `FavoriteButton.tsx`, `AccountActionLink.tsx` and the signed-out Collections call-to-action used `hover:brightness` on the whole element. This changes the foreground and container together, rather than expressing a Material state layer, and can make text/icons harder to read. | **Corrected on the follow-up branch:** primary, tonal, neutral and danger actions now use explicit semantic color mixes for hover/pressed states without dimming their foreground content. Added regression assertions. Verify generated CSS and actual contrast in both themes after the production build. |
 
+### Additional confirmed foundation finding — incomplete surface-role aliases
+
+| Priority | Area | Evidence | Correction / remaining verification |
+|---|---|---|---|
+| P1 | Production semantic surface roles | `rainbow-tones.ts` generated the full Fidelity scheme internally but exposed only a subset of neutral surface roles through CSS aliases. Components could not consistently request modern M3 roles such as `surfaceContainerHighest`, `surfaceDim`, `surfaceBright` or `onSurface` through the shared semantic token layer. The shared Switch consequently used the older `surface-variant` role for its unchecked track. | **Corrected on the follow-up branch:** expose `on-background`, `on-surface`, surface dim/bright, all five surface-container levels and surface tint in generated tokens and light/dark CSS aliases. The shared Switch now uses `surface-container-highest`, with the old role retained only as a resilient fallback. Regression tests guard the aliases. |
+
+The added Fidelity contrast regression uses the production MCU scheme version (2025) and checks core foreground/container pairs across three representative seeds and both themes. This automated test complements—not replaces—contrast checks on actual rendered components, especially custom opacity, disabled states, state layers and borders.
