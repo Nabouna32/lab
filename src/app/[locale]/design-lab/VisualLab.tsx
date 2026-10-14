@@ -46,7 +46,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const [preferences,setPreferences]=useState({syncFavorites:true,automaticTheme:false,reducedMotion:true});
   const togglePreference=(key:keyof typeof preferences)=>setPreferences(current=>({...current,[key]:!current[key]}));
   const t=copy[locale];
-  const scheme=useMemo(()=>createM3Scheme("#4285F4","vibrant",theme==="dark",0,"2025","phone"),[theme]);
+  const scheme=useMemo(()=>createM3Scheme("#4285F4","fidelity",theme==="dark",0,"2025","phone"),[theme]);
   const tokens=useMemo(()=>({
     "--lab-bg":colorHex(scheme.background),
     "--lab-surface":colorHex(scheme.surface),
