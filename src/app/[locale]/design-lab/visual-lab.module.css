@@ -238,7 +238,7 @@
 .lab[data-reduced-motion="true"] .motionDemo span{animation:none;opacity:1;transform:none}
 .lab[data-reduced-motion="true"] .directionContent,.lab[data-reduced-motion="true"] .sampleBottomSheet,.lab[data-reduced-motion="true"] .sampleSnackbar{animation:none}
 .lab[data-reduced-motion="true"] button,.lab[data-reduced-motion="true"] .sampleProgress span,.lab[data-reduced-motion="true"] .sampleSlider input::-webkit-slider-thumb,.lab[data-reduced-motion="true"] .sampleSlider input::-moz-range-thumb{transition:none}.lab[data-reduced-motion="true"] input[type="checkbox"]+span,.lab[data-reduced-motion="true"] input[type="checkbox"]+span::after{transition:none}
-.sampleCheck{display:flex;align-items:center;gap:.65rem;min-height:2.75rem;color:var(--lab-text);font-size:.9rem}
+.sampleCheck{display:flex;align-items:center;gap:.65rem;min-height:3rem;color:var(--lab-text);font-size:.9rem}
 .disabledSwitchRow{display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:3rem;color:color-mix(in srgb,var(--lab-text) 38%,transparent);font-size:.9rem}
 
 .sampleSlider{margin-top:1rem}
