@@ -48,6 +48,8 @@ test("shared switch uses native checkbox semantics with the switch role and M3 s
   assert.ok(switchSource.includes("peer-checked:bg-[var(--switch-active)]"));
   assert.ok(switchSource.includes("peer-checked:after:bg-[var(--switch-on-thumb)]"));
   assert.match(switchSource, /peer-focus-visible:ring-2/);
+  assert.match(switchSource, /on-surface\) 12%/);
+  assert.match(switchSource, /on-surface\) 38%/);
   assert.doesNotMatch(switchSource, /#[0-9a-fA-F]{3,8}/);
 });
 
@@ -55,6 +57,8 @@ test("shared checkbox uses M3 foreground/background roles and a visible keyboard
   assert.ok(checkboxSource.includes("peer-checked:bg-[var(--checkbox-active)]"));
   assert.ok(checkboxSource.includes("text-[var(--checkbox-on-active)]"));
   assert.match(checkboxSource, /peer-focus-visible:ring-2/);
+  assert.match(checkboxSource, /on-surface\) 12%/);
+  assert.match(checkboxSource, /on-surface\) 38%/);
   assert.doesNotMatch(checkboxSource, /accent-\[#/);
 });
 
@@ -63,6 +67,8 @@ test("shared slider and progress indicator expose accessible M3 states", () => {
   assert.match(sliderSource, /aria-valuetext=\{valueText\}/);
   assert.match(sliderCss, /height: 48px/);
   assert.match(sliderCss, /:focus-visible/);
+  assert.match(sliderCss, /slider-disabled-active/);
+  assert.match(sliderCss, /slider-disabled-inactive/);
   assert.match(sliderCss, /var\(--slider-active, var\(--primary\)\)/);
   assert.match(progressSource, /role="progressbar"/);
   assert.match(progressSource, /aria-valuenow/);
@@ -115,6 +121,9 @@ test("real tools and the Lab use shared checkbox, switch, slider and progress pr
   assert.match(labSource, /--switch-active/);
   assert.match(labSource, /--checkbox-active/);
   assert.match(labSource, /--slider-active/);
+  assert.match(labSource, /lab-disabled-checkbox/);
+  assert.match(labSource, /lab-disabled-switch/);
+  assert.match(labSource, /lab-disabled-slider/);
   assert.match(labCss, /input\[type="checkbox"\]\+span::after/);
   assert.doesNotMatch(labSource, /type="checkbox"/);
   assert.doesNotMatch(labSource, /type="range"/);
