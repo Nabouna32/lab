@@ -7,12 +7,16 @@ const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url)
 const rainbowSource = readFileSync(new URL("../design-system/rainbow-tones.ts", import.meta.url), "utf8");
 const rainbowPaletteSource = readFileSync(new URL("../design-system/rainbow-palette.ts", import.meta.url), "utf8");
 
-test("semantic theme tokens use the accepted blue M3 Expressive seed", () => {
+test("semantic theme tokens use the accepted blue M3 Fidelity seed", () => {
   assert.ok(rainbowSource.includes('const BRAND_SEED = "#4285F4"'));
-  assert.ok(rainbowSource.includes("new SchemeExpressive(source, false"));
-  assert.ok(rainbowSource.includes("new SchemeExpressive(source, true"));
+  assert.ok(rainbowSource.includes("new SchemeFidelity(source, false"));
+  assert.ok(rainbowSource.includes("new SchemeFidelity(source, true"));
   assert.ok(globalCss.includes("--primary: var(--m3-light-primary"));
   assert.ok(globalCss.includes("--primary: var(--m3-dark-primary"));
+  assert.ok(rainbowSource.includes('error: "error"'));
+  assert.ok(rainbowSource.includes('"on-error": "onError"'));
+  assert.ok(globalCss.includes("--error: var(--m3-light-error"));
+  assert.ok(globalCss.includes("--error: var(--m3-dark-error"));
   assert.ok(!globalCss.toLowerCase().includes("#6750a4"), "the old purple seed must not remain in production CSS");
 });
 
