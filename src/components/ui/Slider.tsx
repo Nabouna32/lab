@@ -8,6 +8,10 @@ type SliderStyle = CSSProperties & {
   "--slider-value-color"?: string;
   "--slider-description-color"?: string;
   "--slider-focus-ring"?: string;
+  "--slider-disabled-active"?: string;
+  "--slider-disabled-inactive"?: string;
+  "--slider-disabled-thumb"?: string;
+  "--slider-disabled-label"?: string;
 };
 
 type SliderProps = {
@@ -44,9 +48,19 @@ export function Slider({
   const range = max - min;
   const progress = range > 0 ? Math.max(0, Math.min(100, ((value - min) / range) * 100)) : 0;
   const descriptionId = description ? `${inputId}-description` : undefined;
+  const semanticStyle: SliderStyle = {
+    "--slider-active": "var(--primary)",
+    "--slider-inactive": "var(--surface-variant)",
+    "--slider-focus-ring": "var(--focus-ring)",
+    "--slider-disabled-active": "color-mix(in srgb, var(--on-surface) 38%, transparent)",
+    "--slider-disabled-inactive": "color-mix(in srgb, var(--on-surface) 12%, transparent)",
+    "--slider-disabled-thumb": "color-mix(in srgb, var(--on-surface) 38%, transparent)",
+    "--slider-disabled-label": "color-mix(in srgb, var(--on-surface) 38%, transparent)",
+    ...style,
+  };
 
   return (
-    <div className={[styles.root, className].filter(Boolean).join(" ")} style={style}>
+    <div data-disabled={disabled ? "true" : "false"} className={[styles.root, className].filter(Boolean).join(" ")} style={semanticStyle}>
       <div className={styles.header}>
         <label htmlFor={inputId} className={styles.label}>{label}</label>
         <output htmlFor={inputId} className={styles.value}>{valueLabel}</output>
