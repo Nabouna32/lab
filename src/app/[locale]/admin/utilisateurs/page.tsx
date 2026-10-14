@@ -143,7 +143,7 @@ export default async function AdminUsersPage({
                           <input type="hidden" name="locale" value={locale} />
                           <input type="hidden" name="userId" value={user.user_id} />
                           <input type="hidden" name="roleKey" value={role.key} />
-                          <Button type="submit" variant="secondary" className="min-h-9 px-3 py-2 text-xs">{role.key === "super_admin" ? t.admin.roleSuperAdmin : role.key === "admin" ? t.admin.roleAdmin : role.key}</Button>
+                          <Button type="submit" variant="secondary">{role.key === "super_admin" ? t.admin.roleSuperAdmin : role.key === "admin" ? t.admin.roleAdmin : role.key}</Button>
                         </form>
                       ))}
                     </div>
