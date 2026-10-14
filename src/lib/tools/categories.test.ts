@@ -43,8 +43,13 @@ test("every category is wired to generated official MCU Rainbow colors for both 
 });
 
 test("semantic status colors stay independent from generated category colors", () => {
-  for (const statusToken of ["--success", "--warning", "--error", "--info"]) {
+  for (const statusToken of ["--success", "--warning", "--info"]) {
     assert.match(globalCss, new RegExp(`^\\s*${statusToken}:\\s*#[0-9a-f]{6};`, "m"));
+  }
+  assert.match(globalCss, /^\\s*--error:\\s*var\\(--m3-light-error,/m);
+  assert.match(globalCss, /^\\s*--error:\\s*var\\(--m3-dark-error,/m);
+
+  for (const statusToken of ["--success", "--warning", "--error", "--info"]) {
     assert.ok(!globalCss.includes(`${statusToken}: var(--m3-light-category-`));
     assert.ok(!globalCss.includes(`${statusToken}: var(--m3-dark-category-`));
   }
