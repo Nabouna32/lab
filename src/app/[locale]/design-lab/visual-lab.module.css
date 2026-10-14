@@ -279,3 +279,6 @@
 
 .sharedFieldStack{display:grid;gap:1rem}.sharedFieldStack>div{min-width:0}.sharedTextArea{min-height:6rem!important;resize:vertical}
 .sharedSurfaceStack{display:grid;gap:.65rem}.sharedCard{display:block;padding:1rem!important;color:var(--lab-text)}.sharedCard strong,.sharedPanel strong{display:block;font-size:.9rem}.sharedCard p,.sharedPanel p{margin:.35rem 0 0;color:var(--lab-muted);font-size:.8rem;line-height:1.45}.sharedPanel{margin-top:.75rem;padding:1rem!important;background:var(--lab-surface-container)!important}
+
+/* Section 03 preview trigger uses the shared M3 outlined button shape and roles. */
+.dialogPreviewTrigger{flex-shrink:0;white-space:nowrap}
