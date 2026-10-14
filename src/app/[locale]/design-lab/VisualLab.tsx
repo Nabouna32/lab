@@ -149,7 +149,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
             <div className={styles.directionSearch}><LabIcon name="search" /><span>{t.search}</span></div>
             <div className={styles.directionSectionTitle}><strong>{t.quick}</strong><button type="button">{t.selected} · 3</button></div>
             <div className={styles.directionGrid}>
-              {[t.resultOne,t.resultTwo,t.resultThree].map((name,index)=><article className={styles.directionCard} key={name}><span className={styles.directionIcon}>{[<LabIcon name="calculator" size={22} />,<LabIcon name="image" size={22} />,<LabIcon name="text" size={22} />][index]}</span><div><strong>{name}</strong><small>{t.cardText}</small></div><span aria-hidden="true"><LabIcon name="arrow-up-right" size={18} /></span></article>)}
+              {[t.resultOne,t.resultTwo,t.resultThree].map((name,index)=><article className={styles.directionCard} key={name}><span className={styles.directionIcon}>{[<LabIcon key="calculator" name="calculator" size={22} />,<LabIcon key="image" name="image" size={22} />,<LabIcon key="text" name="text" size={22} />][index]}</span><div><strong>{name}</strong><small>{t.cardText}</small></div><span aria-hidden="true"><LabIcon name="arrow-up-right" size={18} /></span></article>)}
             </div>
           </>}
           {screen==="saved"&&<>
