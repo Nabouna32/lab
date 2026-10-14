@@ -6,6 +6,7 @@ const button = readFileSync(new URL("../../components/ui/Button.tsx", import.met
 const iconButton = readFileSync(new URL("../../components/ui/IconButton.tsx", import.meta.url), "utf8");
 const labCss = readFileSync(new URL("../../app/[locale]/design-lab/visual-lab.module.css", import.meta.url), "utf8");
 const labSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
+const toolSearch = readFileSync(new URL("../../components/tools/ToolSearch.tsx", import.meta.url), "utf8");
 
 test("shared Button exposes canonical M3 variants, stable labels and semantic disabled states", () => {
   for (const required of [
@@ -63,5 +64,7 @@ test("legacy names are aliases to canonical M3 treatments", () => {
     assert.ok(labSource.includes(`variant="${variant}"`), "Design Lab is missing real shared Button variant: " + variant);
   }
   assert.ok(labSource.includes("<IconButton"));
-  assert.ok(labSource.includes('variant="filled-tonal"><MaterialIcon name="search"'));
+  assert.ok(labSource.includes('variant="filled-tonal"><MaterialIcon name="search" size={24}'));
+  assert.ok(toolSearch.includes('<MaterialIcon name="close" size={24} />'));
+  assert.ok(toolSearch.includes('<MaterialIcon name="arrow_forward" size={24} />'));
 });
