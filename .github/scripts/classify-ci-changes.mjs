@@ -7,12 +7,12 @@ const LIGHTWEIGHT_PATHS = [
   /^LICENSE$/,
   /^LICENSE\.[\s\S]*$/,
   /^AGENTS\.md$/,
-  /^docs\/(?:DECISIONS|PRODUCT|PROJECT_INSTRUCTIONS)\.md$/,
+  /^docs\/(?:DECISIONS|PRODUCT)\.md$/,
 ];
 
 const GOVERNANCE_PATHS = [
   /^AGENTS\.md$/,
-  /^docs\/(?:DECISIONS|PRODUCT|PROJECT_INSTRUCTIONS)\.md$/,
+  /^docs\/(?:DECISIONS|PRODUCT)\.md$/,
   /^\.github\/workflows\/[\s\S]*$/,
   /^\.github\/scripts\/[\s\S]*$/,
 ];
