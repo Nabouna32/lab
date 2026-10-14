@@ -42,6 +42,7 @@ test("shared switch uses native checkbox semantics with the switch role and M3 s
   assert.match(switchSource, /role="switch"/);
   assert.match(switchSource, /peer-checked:bg-\[var\(--primary\)\]/);
   assert.match(switchSource, /peer-checked:after:bg-\[var\(--on-primary\)\]/);
+  assert.match(switchSource, /bg-\[var\(--surface-container-highest\)\]/);
   assert.match(switchSource, /peer-focus-visible:ring-2/);
   assert.doesNotMatch(switchSource, /#[0-9a-fA-F]{3,8}/);
 });
@@ -184,4 +185,24 @@ test("Fidelity semantic foreground roles retain accessible contrast across repre
       }
     }
   }
+});
+
+test("production theme exposes modern Material 3 surface roles in both themes", () => {
+  const tokenSource = readFileSync(new URL("./rainbow-tones.ts", import.meta.url), "utf8");
+  for (const [token, role] of [
+    ["on-background", "onBackground"],
+    ["on-surface", "onSurface"],
+    ["surface-dim", "surfaceDim"],
+    ["surface-bright", "surfaceBright"],
+    ["surface-container-lowest", "surfaceContainerLowest"],
+    ["surface-container-low", "surfaceContainerLow"],
+    ["surface-container", "surfaceContainer"],
+    ["surface-container-high", "surfaceContainerHigh"],
+    ["surface-container-highest", "surfaceContainerHighest"],
+    ["surface-tint", "surfaceTint"],
+  ]) {
+    assert.ok(tokenSource.includes(`"${token}": "${role}"`), `missing generated M3 role ${token}`);
+  }
+  assert.match(globalCss, /--surface-container-highest:\s*var\(--m3-light-surface-container-highest/);
+  assert.match(globalCss, /--surface-container-highest:\s*var\(--m3-dark-surface-container-highest/);
 });
