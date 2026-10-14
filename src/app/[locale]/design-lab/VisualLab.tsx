@@ -75,7 +75,11 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const [paletteOpen,setPaletteOpen]=useState(false);
   const [viewport,setViewport]=useState<"desktop"|"tablet"|"mobile">("mobile");
   const [dialogOpen,setDialogOpen]=useState(true);
-  const [motionReplay,setMotionReplay]=useState(0);\n  const [snackbarOpen,setSnackbarOpen]=useState(false);\n  const [bottomSheetOpen,setBottomSheetOpen]=useState(false);\n  const [sampleChecked,setSampleChecked]=useState(true);\n  const [sampleProgress,setSampleProgress]=useState(55);
+  const [motionReplay,setMotionReplay]=useState(0);
+  const [snackbarOpen,setSnackbarOpen]=useState(false);
+  const [bottomSheetOpen,setBottomSheetOpen]=useState(false);
+  const [sampleChecked,setSampleChecked]=useState(true);
+  const [sampleProgress,setSampleProgress]=useState(55);
   const [value,setValue]=useState("180");
   const [percent,setPercent]=useState("25");
   const [preferences,setPreferences]=useState({syncFavorites:true,automaticTheme:false,reducedMotion:false});
