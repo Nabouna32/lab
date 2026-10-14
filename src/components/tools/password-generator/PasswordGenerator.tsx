@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Checkbox } from "@/components/ui/Checkbox";
+import { Slider } from "@/components/ui/Slider";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
@@ -44,18 +45,15 @@ export default function PasswordGenerator() {
     <section className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]">
       <div className="grid gap-8 p-5 sm:p-7 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,24rem)] lg:p-8">
         <div>
-          <div className="flex items-end justify-between gap-4">
-            <label htmlFor="password-length" className="text-sm font-medium text-[var(--foreground)]">{t.length}</label>
-            <output htmlFor="password-length" className="font-mono text-sm font-semibold text-[var(--foreground)]">{options.length}</output>
-          </div>
-          <input
-            id="password-length"
-            type="range"
+          <Slider
+            inputId="password-length"
+            label={t.length}
+            value={options.length}
+            valueLabel={String(options.length)}
             min={PASSWORD_LIMITS.minLength}
             max={PASSWORD_LIMITS.maxLength}
-            value={options.length}
-            onChange={(event) => update("length", Number(event.target.value))}
-            className="mt-4 w-full cursor-pointer rounded-full accent-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface)]"
+            onValueChange={(length) => update("length", length)}
+            className="mt-4"
           />
 
           <fieldset className="mt-7">
