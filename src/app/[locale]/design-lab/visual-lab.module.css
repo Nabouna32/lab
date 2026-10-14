@@ -43,7 +43,7 @@
 .calculator>button{grid-column:1/-1;justify-self:start}.resultPanel{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem;border-radius:var(--lab-radius);background:var(--lab-primary-soft);color:var(--lab-primary)}.resultPanel strong{font-size:2rem;letter-spacing:-.04em}
 .galleryGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.galleryCard{min-width:0;padding:clamp(1rem,2vw,1.5rem);border:1px solid var(--lab-outline);border-radius:var(--lab-radius);background:var(--lab-surface)}.galleryCard h3{margin:0 0 1.1rem;font-size:1.05rem;letter-spacing:-.02em}
 .buttonStack{display:flex;align-items:center;flex-wrap:wrap;gap:.55rem}.filled,.tonal,.outlined,.textButton,.disabled,.focusSample,.rippleSample{min-height:2.75rem;border-radius:var(--lab-radius-small);padding:.7rem 1rem;font-size:.85rem;font-weight:750}
-.tonal{border:0;background:var(--lab-primary-soft);color:var(--lab-primary)}.outlined,.focusSample,.rippleSample{border:1px solid var(--lab-outline);background:transparent;color:var(--lab-text)}.textButton{border:0;background:transparent;color:var(--lab-primary)}.disabled{border:0;background:var(--lab-surface-2);color:var(--lab-muted);opacity:.55;cursor:not-allowed!important}
+.tonal{border:0;background:var(--lab-secondary-container);color:var(--lab-on-secondary-container)}.outlined,.focusSample,.rippleSample{border:1px solid var(--lab-outline);background:transparent;color:var(--lab-text)}.textButton{border:0;background:transparent;color:var(--lab-primary)}.disabled{border:0;background:var(--lab-surface-2);color:var(--lab-muted);opacity:.55;cursor:not-allowed!important}
 .stateSamples{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem}.focusSample{outline:3px solid var(--lab-tertiary);outline-offset:2px}.helper{margin-top:.8rem}.motionDemo{display:flex;gap:.8rem;padding:.7rem 0;color:var(--lab-primary)}
 .motionDemo span{display:inline-grid;place-items:center;width:2rem;height:2rem;border-radius:50%;background:var(--lab-primary-soft);animation:reveal var(--lab-motion) cubic-bezier(.2,.8,.2,1) both}.motionDemo span:nth-child(2){animation-delay:70ms}.motionDemo span:nth-child(3){animation-delay:140ms}
 @keyframes reveal{from{opacity:.1;transform:translateY(8px) scale(.8)}to{opacity:1;transform:translateY(0) scale(1)}}
@@ -228,3 +228,34 @@
 .directionStage[data-direction="pixel"] .directionCalculator input{border-radius:.75rem;background:var(--lab-surface-low)}
 .directionStage[data-direction="pixel"] .directionResult{border-radius:1.1rem;background:var(--lab-primary-soft);color:var(--lab-on-primary-soft)}
 @media(max-width:560px){.seedPicker{min-width:0}.seedPalette{width:min(21rem,calc(100vw - 2.5rem))}.directionStage[data-direction="pixel"] .directionContent h3{font-size:1.9rem}}
+
+
+/* Material 3 component states and interactive examples. */
+.lab button,.lab input,.lab select{accent-color:var(--lab-primary)}
+.lab button{transition:background-color var(--lab-motion) ease,color var(--lab-motion) ease,border-color var(--lab-motion) ease,box-shadow var(--lab-motion) ease,transform var(--lab-motion) ease}
+.lab button:not(:disabled):active{transform:scale(.98)}
+.lab button:focus-visible,.lab input:focus-visible,.lab select:focus-visible{outline:3px solid var(--lab-primary);outline-offset:3px}
+.lab .tonal:hover{background:color-mix(in srgb,var(--lab-secondary-container) 88%,var(--lab-on-secondary-container))}
+.lab .filled{background:var(--lab-primary);color:var(--lab-on-primary);border:0}
+.lab .filled:hover{box-shadow:0 2px 5px #0002;filter:brightness(.97)}
+.lab .textButton:hover{background:color-mix(in srgb,var(--lab-primary) 9%,transparent);border-radius:999px}
+.directionStage .directionContent{animation:labScreenEnter 220ms cubic-bezier(.2,.8,.2,1) both}
+@keyframes labScreenEnter{from{opacity:.65;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.lab[data-reduced-motion="true"] .motionDemo span{animation:none;opacity:1;transform:none}
+.lab[data-reduced-motion="true"] .directionContent{animation:none}
+.sampleCheck{display:flex;align-items:center;gap:.65rem;min-height:2.75rem;color:var(--lab-text);font-size:.9rem}
+.sampleCheck input{width:1.25rem;height:1.25rem;flex:0 0 auto}
+.sampleSlider{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.65rem;align-items:center;margin-top:1rem;color:var(--lab-text);font-size:.9rem;font-weight:650}
+.sampleSlider output{color:var(--lab-primary);font-variant-numeric:tabular-nums}
+.sampleSlider input{grid-column:1/-1;width:100%;margin:.25rem 0;cursor:pointer}
+.sampleProgress{height:.45rem;margin-top:1rem;overflow:hidden;border-radius:999px;background:var(--lab-surface-2)}
+.sampleProgress span{display:block;height:100%;border-radius:inherit;background:var(--lab-primary);transition:width var(--lab-motion) ease}
+.sampleActions{display:flex;flex-wrap:wrap;gap:.6rem}
+.sampleBottomSheet{margin-top:1rem;padding:1rem;border:1px solid var(--lab-outline-variant,var(--lab-outline));border-radius:1.4rem 1.4rem .8rem .8rem;background:var(--lab-surface-container);color:var(--lab-text);animation:labScreenEnter 180ms ease both}
+.sampleBottomSheet p{color:var(--lab-muted);line-height:1.5}
+.sheetHandle{width:2rem;height:.25rem;margin:0 auto 1rem;border-radius:999px;background:var(--lab-outline)}
+.sampleSnackbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-top:1rem;padding:.8rem 1rem;border-radius:.8rem;background:var(--lab-inverse-surface,var(--lab-text));color:var(--lab-inverse-on-surface,var(--lab-bg));box-shadow:0 3px 10px #0002;animation:labScreenEnter 180ms ease both}
+.sampleSnackbar button{display:grid;place-items:center;width:2.5rem;height:2.5rem;border:0;border-radius:50%;background:transparent;color:inherit}
+.directionBrand>span{display:grid;place-items:center}
+.directionIcon svg,.directionBottomNav svg,.directionSearch svg,.directionPrimary svg,.directionBack svg,.directionHeader button svg{display:block;flex-shrink:0}
+@media(prefers-reduced-motion:reduce){.directionStage .directionContent,.sampleBottomSheet,.sampleSnackbar{animation:none!important}.lab button,.sampleProgress span{transition:none!important}}
