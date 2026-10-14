@@ -46,11 +46,15 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const [preferences,setPreferences]=useState({syncFavorites:true,automaticTheme:false,reducedMotion:true});
   const togglePreference=(key:keyof typeof preferences)=>setPreferences(current=>({...current,[key]:!current[key]}));
   const t=copy[locale];
-  const scheme=useMemo(()=>createM3Scheme("#4285F4","fidelity",theme==="dark",0,"2025","phone"),[theme]);
+  const scheme=useMemo(()=>createM3Scheme("#4285F4","tonal-spot",theme==="dark",0,"2025","phone"),[theme]);
   const tokens=useMemo(()=>({
     "--lab-bg":colorHex(scheme.background),
     "--lab-surface":colorHex(scheme.surface),
     "--lab-surface-2":colorHex(scheme.surfaceVariant),
+     "--lab-surface-low":colorHex(scheme.surfaceContainerLow),
+     "--lab-surface-container":colorHex(scheme.surfaceContainer),
+     "--lab-surface-high":colorHex(scheme.surfaceContainerHigh),
+     "--lab-surface-highest":colorHex(scheme.surfaceContainerHighest),
     "--lab-font":"var(--font-roboto), Roboto, Arial, sans-serif",
     "--lab-text":colorHex(scheme.onSurface),
     "--lab-muted":colorHex(scheme.onSurfaceVariant),
@@ -58,8 +62,15 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
     "--lab-primary":colorHex(scheme.primary),
     "--lab-on-primary":colorHex(scheme.onPrimary),
     "--lab-primary-soft":colorHex(scheme.primaryContainer),
+     "--lab-on-primary-soft":colorHex(scheme.onPrimaryContainer),
     "--lab-secondary":colorHex(scheme.secondary),
+     "--lab-on-secondary":colorHex(scheme.onSecondary),
+     "--lab-secondary-container":colorHex(scheme.secondaryContainer),
+     "--lab-on-secondary-container":colorHex(scheme.onSecondaryContainer),
     "--lab-tertiary":colorHex(scheme.tertiary),
+     "--lab-on-tertiary":colorHex(scheme.onTertiary),
+     "--lab-tertiary-container":colorHex(scheme.tertiaryContainer),
+     "--lab-on-tertiary-container":colorHex(scheme.onTertiaryContainer),
     "--lab-error":colorHex(scheme.error),
     "--lab-on-error":colorHex(scheme.onError),
     "--lab-success-bg":theme==="dark"?"#173B2A":"#D5F5D6",
