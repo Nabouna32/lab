@@ -88,6 +88,7 @@ export function CollectionsProvider({ children, toolIds }: { children: ReactNode
       await refresh();
     };
     void load();
+    let authChangeTimer: ReturnType<typeof setTimeout> | null = null;
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
       if (!active) return;
       if (event === "SIGNED_IN" || event === "SIGNED_OUT") {
@@ -98,10 +99,18 @@ export function CollectionsProvider({ children, toolIds }: { children: ReactNode
         setLoading(true);
         setError(false);
       }
-      void load();
+
+      // Supabase invokes auth listeners while holding its auth lock. Defer follow-up
+      // client calls until after this synchronous callback has returned.
+      if (authChangeTimer) clearTimeout(authChangeTimer);
+      authChangeTimer = setTimeout(() => {
+        authChangeTimer = null;
+        if (active) void load();
+      }, 0);
     });
     return () => {
       active = false;
+      if (authChangeTimer) clearTimeout(authChangeTimer);
       // Invalidate in-flight requests on unmount or when the effect is replaced.
       refreshRequestRef.current += 1;
       subscription.unsubscribe();
