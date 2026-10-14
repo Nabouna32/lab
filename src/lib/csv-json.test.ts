@@ -40,3 +40,17 @@ test("rejects rows with inconsistent column counts", () => {
 test("accepts a UTF-8 BOM before CSV headers", () => {
   assert.equal(transformCsvJson("\uFEFFname,age\nAlice,30", "csv-to-json").error, null);
 });
+
+test("auto-detects semicolon delimiters when headers contain quoted commas", () => {
+  assert.deepEqual(
+    JSON.parse(transformCsvJson('"Name, First";Age\nAlice;30', "csv-to-json").value!),
+    [{ "Name, First": "Alice", Age: "30" }],
+  );
+});
+
+test("auto-detects comma delimiters when headers contain quoted semicolons", () => {
+  assert.deepEqual(
+    JSON.parse(transformCsvJson('"Name; First",Age\nAlice,30', "csv-to-json").value!),
+    [{ "Name; First": "Alice", Age: "30" }],
+  );
+});
