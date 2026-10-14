@@ -197,3 +197,10 @@ The added Fidelity contrast regression uses the production MCU scheme version (2
 ### Current confidence boundary
 
 This is a static source audit against official Android/Material references, not a claim that the app has been visually verified in a live browser. A web implementation can faithfully implement M3 patterns, but these React components are Loculary-owned components, not Google's native Compose components. Before declaring full conformance, run the site at narrow mobile, tablet and desktop widths in light/dark themes; inspect computed dimensions, focus/pressed/disabled/selected states, keyboard behavior, localization, and 200% zoom. Continue auditing all shared components and local button-like controls using the inventory above.
+
+
+Additional call-site fixes in this pass:
+- Legacy `secondary` and `ghost` Button names now map to the canonical outlined and text visual treatments instead of maintaining separate non-M3 styles.
+- The Unit Converter's icon-only swap action now uses the shared IconButton and Material Symbols icon instead of a text glyph inside a general Button.
+- Removed the local 36px sizing override from the admin role action so the shared control owns its dimensions.
+- Selected icon-button colors are variant-aware; selecting a filled button no longer incorrectly replaces its primary container with the tonal container.
