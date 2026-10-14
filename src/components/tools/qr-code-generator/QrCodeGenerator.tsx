@@ -4,6 +4,7 @@ import { useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { TextArea } from "@/components/ui/TextArea";
+import { Select } from "@/components/ui/Select";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { generateQrCode } from "@/lib/qr-code";
@@ -55,15 +56,12 @@ export default function QrCodeGenerator() {
           {result?.error && <p id="qr-code-error" role="alert" className="text-sm font-medium text-[var(--danger)]">{result.error}</p>}
 
           <div className="flex flex-wrap items-end gap-3">
-            <label className="text-sm font-medium text-[var(--foreground)]">
-              <span className="mb-2 block">{t.size}</span>
-              <select value={size} onChange={(event) => setSize(event.target.value)} className="h-11 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background)] px-3 text-sm text-[var(--foreground)] outline-none focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]">
-                <option value="192">192 px</option>
-                <option value="256">256 px</option>
-                <option value="320">320 px</option>
-                <option value="512">512 px</option>
-              </select>
-            </label>
+            <Select id="qr-code-size" label={t.size} value={size} onChange={(event) => setSize(event.target.value)} className="min-w-32">
+              <option value="192">192 px</option>
+              <option value="256">256 px</option>
+              <option value="320">320 px</option>
+              <option value="512">512 px</option>
+            </Select>
             <div className="flex flex-wrap gap-2">
               <Button type="button" variant="primary" onClick={download} disabled={!result?.qr}>{t.download}</Button>
               <ClearButton onClear={() => setValue("")} disabled={!value} label={t.clear} />
