@@ -142,8 +142,7 @@ User data should be logically separated into domains:
 - identity/authentication;
 - preferences, including the light/dark theme;
 - product data such as favorites and collections;
-- security records;
-- analytics/telemetry.
+- security records.
 
 This separation should support least-privilege access, retention rules, deletion, export, and auditing.
 
@@ -164,8 +163,7 @@ Deletion must cover relevant domains, including:
 - identity/account data;
 - preferences;
 - favorites;
-- collections;
-- analytics identifiers where applicable.
+- collections.
 
 The implementation must be designed to avoid orphaned personal data.
 
@@ -180,25 +178,6 @@ Users should be able to export their personal data in a structured, documented f
 The export must include the relevant user-owned domains and explain data that is excluded or transformed.
 
 Exports are sensitive and must require appropriate authentication and authorization.
-
-## Data import
-
-Users may eventually be able to import supported Loculary data.
-
-Imports must be treated as untrusted input.
-
-Validation must protect against:
-
-- malformed data;
-- oversized payloads;
-- unexpected object structures;
-- malicious values;
-- authorization bypass;
-- cross-account data injection;
-- duplicate/conflicting records;
-- unsafe content.
-
-Imports should never be allowed to overwrite protected system data or another user's data.
 
 ## Encryption and secrets
 
@@ -229,23 +208,6 @@ The refusal path should be as easy as the acceptance path.
 The product should not force users through dozens of partner-by-partner switches merely to refuse non-essential tracking.
 
 Consent categories must reflect the actual technologies and data flows in use, and the applicable jurisdictions. Do not predeclare provider-specific categories before the corresponding technology is selected.
-
-## Analytics
-
-Analytics should be privacy-minimized.
-
-Default analytics must not collect raw tool inputs or sensitive user content.
-
-Events should focus on product behavior, for example:
-
-- tool opened;
-- search performed;
-- search returned no result;
-- tool completed;
-- feature used;
-- technical error.
-
-The analytics abstraction must make it possible to change providers without rewriting product code.
 
 ## External API catalog
 
