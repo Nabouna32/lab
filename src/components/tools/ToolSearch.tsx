@@ -56,7 +56,7 @@ function HighlightMatch({ text, query }: { text: string; query: string }) {
   const range = getNormalizedMatchRange(text, query);
   if (!range) return <>{text}</>;
   const [start, end] = range;
-  return <>{text.slice(0, start)}<mark className="rounded bg-[var(--accent-soft)] px-0.5 text-[var(--foreground)]">{text.slice(start, end)}</mark>{text.slice(end)}</>;
+  return <>{text.slice(0, start)}<mark className="rounded bg-[var(--accent-soft)] px-0.5 text-[var(--on-primary-container)]">{text.slice(start, end)}</mark>{text.slice(end)}</>;
 }
 
 export default function ToolSearch({
