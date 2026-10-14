@@ -50,6 +50,7 @@ test("shared switch uses native checkbox semantics with the switch role and M3 s
   assert.match(switchSource, /peer-focus-visible:ring-2/);
   assert.match(switchSource, /on-surface\) 12%/);
   assert.match(switchSource, /on-surface\) 38%/);
+  assert.match(switchSource, /"--switch-active": "var\(--switch-disabled-track\)"/);
   assert.doesNotMatch(switchSource, /#[0-9a-fA-F]{3,8}/);
 });
 
@@ -59,6 +60,7 @@ test("shared checkbox uses M3 foreground/background roles and a visible keyboard
   assert.match(checkboxSource, /peer-focus-visible:ring-2/);
   assert.match(checkboxSource, /on-surface\) 12%/);
   assert.match(checkboxSource, /on-surface\) 38%/);
+  assert.match(checkboxSource, /"--checkbox-active": "var\(--checkbox-disabled-active\)"/);
   assert.doesNotMatch(checkboxSource, /accent-\[#/);
 });
 
@@ -66,6 +68,8 @@ test("shared slider and progress indicator expose accessible M3 states", () => {
   assert.match(sliderSource, /type="range"/);
   assert.match(sliderSource, /aria-valuetext=\{valueText\}/);
   assert.match(sliderCss, /height: 48px/);
+  assert.match(sliderSource, /data-disabled=\{disabled \? "true" : "false"\}/);
+  assert.match(sliderCss, /root\[data-disabled="true"\]/);
   assert.match(sliderCss, /:focus-visible/);
   assert.match(sliderCss, /slider-disabled-active/);
   assert.match(sliderCss, /slider-disabled-inactive/);
