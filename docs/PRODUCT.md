@@ -161,7 +161,7 @@ Contextual tone and richer educational content are optional tool-level enhanceme
 
 ## Account experience
 
-Loculary remains anonymous-first for core tools. The account layer is an optional personal surface for display name, language preference, authentication, password/email management, favorites and account deletion. Keep its settings straightforward; do not add a dedicated privacy dashboard or community features. It must not become a prerequisite for using the core toolbox.
+Loculary remains anonymous-first for core tools. The account layer is an optional personal surface for display name, language preference, authentication, password/email management, favorites and account deletion. Keep its settings straightforward; do not add a dedicated privacy dashboard. It must not become a prerequisite for using the core toolbox.
 
 ## Tool diversity
 
