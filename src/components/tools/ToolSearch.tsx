@@ -295,11 +295,11 @@ export default function ToolSearch({
             aria-label={t.tools.clearSearch}
             title={t.tools.clearSearch}
           >
-            <MaterialIcon name="close" size={16} />
+            <MaterialIcon name="close" size={24} />
           </Button>
         )}
-        <IconButton label={t.tools.searchSubmit} type="submit" disabled={!query.trim()} variant="filled" size={compact ? "compact" : "default"}>
-          <MaterialIcon name="arrow_forward" size={20} />
+        <IconButton label={t.tools.searchSubmit} type="submit" disabled={!query.trim()} variant="filled">
+          <MaterialIcon name="arrow_forward" size={24} />
         </IconButton>
       </div>
       </form>

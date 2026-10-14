@@ -174,3 +174,42 @@ These references guide design semantics. Native Compose behavior is not assumed 
 | P1 | Production semantic surface roles | `rainbow-tones.ts` generated the full Fidelity scheme internally but exposed only a subset of neutral surface roles through CSS aliases. Components could not consistently request modern M3 roles such as `surfaceContainerHighest`, `surfaceDim`, `surfaceBright` or `onSurface` through the shared semantic token layer. The shared Switch consequently used the older `surface-variant` role for its unchecked track. | **Corrected on the follow-up branch:** expose `on-background`, `on-surface`, surface dim/bright, all five surface-container levels and surface tint in generated tokens and light/dark CSS aliases. The shared Switch now uses `surface-container-highest`, with the old role retained only as a resilient fallback. Regression tests guard the aliases. |
 
 The added Fidelity contrast regression uses the production MCU scheme version (2025) and checks core foreground/container pairs across three representative seeds and both themes. This automated test complements—not replaces—contrast checks on actual rendered components, especially custom opacity, disabled states, state layers and borders.
+
+
+## Follow-up audit — buttons and icon buttons (2026-10-15)
+
+### Verified against official references
+
+- [Material 3 buttons (Android Developers)](https://developer.android.com/develop/ui/compose/components/button?hl=fr): M3 defines filled, elevated, filled tonal, outlined and text variants. The web implementation must preserve these semantic distinctions without copying Compose APIs into React.
+- [Material 3 IconButton API](https://developer.android.com/reference/kotlin/androidx/compose/material3/IconButton.composable): the documented standard touch target is at least 48×48 dp and the typical icon is 24×24 dp.
+- [Material 3 Button API](https://developer.android.com/reference/kotlin/androidx/compose/material3/Button.composable): the official API exposes content padding and size defaults; use the current M3 baseline as a reference, then verify actual web rendering.
+
+### Newly confirmed source-level findings
+
+| Priority | Finding | Correction in this pass | Remaining validation |
+|---|---|---|---|
+| P1 | Button labels could wrap because the shared primitive did not prevent wrapping; its default sizing had no minimum width and used 20px horizontal padding, while the label weight was heavier than the usual M3 label treatment. | Added min-w-16, whitespace-nowrap, shrink-0, 24px horizontal padding, 14px/20px medium label typography, and retained the 40px minimum height. Action groups must wrap as groups rather than squeeze individual labels. | Check long French/English labels at mobile widths and 200% zoom; custom per-call-site classes can still override defaults. |
+| P1 | The shared Button API lacked an elevated M3 variant. | Added elevated using a low surface-container role and restrained elevation. primary remains a compatibility name for filled; danger, secondary, and ghost are explicitly documented as app-specific compatibility variants, not canonical M3 button names. | Inventory and migrate compatibility variants by action intent; don't rename call sites mechanically. |
+| P1 | IconButton size="compact" produced a 40×40px target, below the 48×48px Android M3 minimum touch target guidance. | Kept the compatibility prop but enforced a 48×48px interactive target for all sizes; documented 24px as the typical icon size. | Inspect the visual container and surrounding layout in browser; confirm adjacent targets don't overlap. |
+| P1 | IconButton had no explicit toggle state contract. | Added optional selected; only toggle actions should pass it, exposing aria-pressed and selected semantic colors. | Audit all call sites to distinguish momentary actions from toggles and verify selected state in the running UI. |
+| P1 | Existing tests checked colors and broad patterns but not button dimensions, label wrapping or toggle semantics. | Added focused source regression tests for the shared primitives. | Browser tests and screenshot review are still required; source tests do not prove pixel-perfect rendering. |
+
+### Current confidence boundary
+
+This is a static source audit against official Android/Material references, not a claim that the app has been visually verified in a live browser. A web implementation can faithfully implement M3 patterns, but these React components are Loculary-owned components, not Google's native Compose components. Before declaring full conformance, run the site at narrow mobile, tablet and desktop widths in light/dark themes; inspect computed dimensions, focus/pressed/disabled/selected states, keyboard behavior, localization, and 200% zoom. Continue auditing all shared components and local button-like controls using the inventory above.
+
+
+Additional call-site fixes in this pass:
+- Legacy `secondary` and `ghost` Button names now map to the canonical outlined and text visual treatments instead of maintaining separate non-M3 styles.
+- The Unit Converter's icon-only swap action now uses the shared IconButton and Material Symbols icon instead of a text glyph inside a general Button.
+- Removed the local 36px sizing override from the admin role action so the shared control owns its dimensions.
+- Selected icon-button colors are variant-aware; selecting a filled button no longer incorrectly replaces its primary container with the tonal container.
+
+
+### Official web implementation decision
+
+The current `Button` and `IconButton` are Loculary-owned React primitives; they are **not** imported Google Material Web components. The official `@material/web` project does provide M3 web components, but its own README states that the project is in maintenance mode pending new maintainers ([official repository](https://github.com/material-components/material-web)). Do not claim the current primitives are official components, and do not wholesale-replace the React controls without a compatibility review of Next.js SSR/hydration, form semantics, dynamic Loculary color roles, accessibility and bundle impact. For now, align the React primitives to the documented M3 variants/tokens and keep this migration decision explicit for a separate architecture review.
+
+The canonical API names are now exposed for `filled`, `elevated`, `filled-tonal`, `outlined` and `text`; old `primary` / `tonal` and app-specific names remain as compatibility aliases while call sites migrate by intent.
+
+Disabled-state follow-up: both shared primitives now use explicit semantic disabled container/content/border roles instead of applying a uniform opacity to the entire control. This is intended to preserve the M3 distinction between disabled container and disabled label/icon; computed contrast and rendered appearance still need browser verification.
