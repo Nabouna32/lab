@@ -160,3 +160,10 @@ These references guide design semantics. Native Compose behavior is not assumed 
 - [ ] Perform keyboard-only and screen-reader checks for navigation, dialogs, menus, fields and transient feedback.
 - [ ] Confirm reduced-motion behavior and 200% zoom/reflow.
 - [ ] Re-run the source inventory when new UI components or one-off tool controls are added.
+
+### Additional confirmed shared-action finding
+
+| Priority | Area | Evidence | Correction / remaining verification |
+|---|---|---|---|
+| P1 | Hover contrast on shared actions | `Button.tsx`, `IconButton.tsx`, `FavoriteButton.tsx`, `AccountActionLink.tsx` and the signed-out Collections call-to-action used `hover:brightness` on the whole element. This changes the foreground and container together, rather than expressing a Material state layer, and can make text/icons harder to read. | **Corrected on the follow-up branch:** primary, tonal, neutral and danger actions now use explicit semantic color mixes for hover/pressed states without dimming their foreground content. Added regression assertions. Verify generated CSS and actual contrast in both themes after the production build. |
+
