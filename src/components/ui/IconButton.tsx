@@ -27,7 +27,7 @@ export function IconButton({
   ...props
 }: IconButtonProps) {
   // M3 icon buttons require a 48×48px minimum touch target and typically a 24px icon.
-  const selectedStyles = selected
+  const selectedStyles = selected && (variant === "standard" || variant === "outlined")
     ? "bg-[var(--secondary-container)] text-[var(--on-secondary-container)]"
     : "";
   const dimensions = "h-12 min-h-12 w-12 min-w-12";
