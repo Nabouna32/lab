@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { Select } from "@/components/ui/Select";
+import { Slider } from "@/components/ui/Slider";
+import { ProgressIndicator } from "@/components/ui/ProgressIndicator";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import {
@@ -130,12 +132,20 @@ export default function ImageCompressor() {
               <option value="3200">3200 px</option>
               <option value="original">{t.original}</option>
             </Select>
-            <label className="text-sm font-medium text-[var(--foreground)]">
-              <span className="mb-2 block">{t.quality}: {Math.round(quality * 100)}%</span>
-              <input type="range" min="10" max="100" step="5" value={Math.round(quality * 100)} onChange={(event) => { setBusy(true); setError(null); setQuality(Number(event.target.value) / 100); }} className="mt-3 w-full cursor-pointer rounded-full accent-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface)]" />
-              <span className="mt-1 block text-xs text-[var(--muted)]">{t.qualityHint}</span>
-            </label>
+            <Slider
+              inputId="image-compressor-quality"
+              label={t.quality}
+              value={Math.round(quality * 100)}
+              valueLabel={`${Math.round(quality * 100)}%`}
+              min={10}
+              max={100}
+              step={5}
+              description={t.qualityHint}
+              onValueChange={(nextValue) => { setBusy(true); setError(null); setQuality(nextValue / 100); }}
+            />
           </div>
+
+          {busy && <ProgressIndicator label={t.processing} className="mt-1" />}
 
           {error && <p role="alert" className="text-sm font-medium text-[var(--danger)]">{error}</p>}
 
