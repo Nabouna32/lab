@@ -9,29 +9,37 @@ test("shared Button exposes M3 variants and prevents squeezed multi-line labels"
   for (const variant of ["primary", "elevated", "tonal", "outlined", "text"]) {
     assert.ok(button.includes(variant + ":"), "missing button variant: " + variant);
   }
-  assert.match(button, /min-h-10/);
-  assert.match(button, /min-w-16/);
-  assert.match(button, /whitespace-nowrap/);
-  assert.match(button, /shrink-0/);
-  assert.match(button, /px-6/);
-  assert.match(button, /text-sm font-medium leading-5/);
-  assert.match(button, /var\\(--secondary-container\\)/);
-  assert.match(button, /var\\(--on-secondary-container\\)/);
-  assert.match(button, /secondary: "border border-\\[var\\(--outline\\)\\] bg-transparent text-\\[var\\(--primary\\)\\]/);
-  assert.match(button, /ghost: "border border-transparent bg-transparent text-\\[var\\(--primary\\)\\]/);
+  for (const required of [
+    "min-h-10",
+    "min-w-16",
+    "whitespace-nowrap",
+    "shrink-0",
+    "px-6",
+    "text-sm font-medium leading-5",
+    "var(--secondary-container)",
+    "var(--on-secondary-container)",
+    'secondary: "border border-[var(--outline)] bg-transparent text-[var(--primary)]',
+    'ghost: "border border-transparent bg-transparent text-[var(--primary)]',
+  ]) {
+    assert.ok(button.includes(required), "missing Button conformance rule: " + required);
+  }
 });
 
 test("shared IconButton preserves 48px touch target and supports accessible toggle state", () => {
-  assert.match(iconButton, /h-12 min-h-12 w-12 min-w-12/);
-  assert.match(iconButton, /selected\\?: boolean/);
-  assert.match(iconButton, /aria-pressed=\\{selected\\}/);
-  assert.match(iconButton, /var\\(--secondary-container\\)/);
-  assert.match(iconButton, /var\\(--on-secondary-container\\)/);
-  assert.match(iconButton, /selected && \\(variant === "standard" \\|\\| variant === "outlined"\\)/);
-  assert.match(iconButton, /label: string/);
+  for (const required of [
+    "h-12 min-h-12 w-12 min-w-12",
+    "selected?: boolean",
+    "aria-pressed={selected}",
+    "var(--secondary-container)",
+    "var(--on-secondary-container)",
+    'selected && (variant === "standard" || variant === "outlined")',
+    "label: string",
+  ]) {
+    assert.ok(iconButton.includes(required), "missing IconButton conformance rule: " + required);
+  }
 });
 
 test("button compatibility variants are explicitly distinguished from canonical M3 variants", () => {
-  assert.match(button, /App-specific compatibility variants/);
-  assert.match(button, /primary.*compatibility name for M3's filled button/s);
+  assert.ok(button.includes("App-specific compatibility variants"));
+  assert.ok(button.includes('"primary" is the app\'s compatibility name for M3\'s filled button'));
 });
