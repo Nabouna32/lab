@@ -27,7 +27,7 @@ export function Checkbox({
       className={[
         "group flex min-h-12 cursor-pointer items-center gap-3 text-sm text-[var(--foreground)]",
         "disabled:cursor-not-allowed",
-        disabled ? "cursor-not-allowed opacity-50" : "",
+        disabled ? "cursor-not-allowed opacity-45" : "",
         className,
       ].join(" ")}
     >
@@ -47,7 +47,7 @@ export function Checkbox({
           "transition-[background-color,border-color,box-shadow] duration-[var(--motion-standard)]",
           "peer-checked:border-[var(--primary)] peer-checked:bg-[var(--primary)]",
           "peer-focus-visible:outline-none peer-focus-visible:ring-2 peer-focus-visible:ring-[var(--focus-ring)] peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-[var(--surface)]",
-          "peer-disabled:cursor-not-allowed peer-disabled:opacity-45",
+          "peer-disabled:cursor-not-allowed",
         ].join(" ")}
       >
         {checked && <MaterialIcon name="check" size={16} className="text-[var(--on-primary)]" />}
