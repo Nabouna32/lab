@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
+import { Select } from "@/components/ui/Select";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { createMarkdownTable, resizeMarkdownTable, type MarkdownTableAlignment } from "@/lib/markdown-table";
@@ -74,19 +75,20 @@ export default function MarkdownTableGenerator() {
               <tr className="bg-[var(--background)]">
                 {rows[0].map((_, columnIndex) => (
                   <th key={columnIndex} scope="col" className="min-w-40 border-b border-[var(--border)] p-3 text-left align-top">
-                    <label className="block text-xs font-semibold uppercase tracking-wide text-[var(--muted)]">
-                      {t.column} {columnIndex + 1}
-                      <select
+                    <div className="text-xs font-semibold uppercase tracking-wide text-[var(--muted)]">
+                      <p>{t.column} {columnIndex + 1}</p>
+                      <Select
+                        id={"markdown-table-alignment-" + columnIndex}
                         aria-label={t.alignmentLabel(columnIndex + 1)}
                         value={alignments[columnIndex]}
                         onChange={(event) => updateAlignment(columnIndex, event.target.value as MarkdownTableAlignment)}
-                        className="mt-2 block min-h-9 w-full rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] px-2 text-sm font-normal normal-case tracking-normal text-[var(--foreground)]"
+                        className="mt-2 text-left text-sm font-normal normal-case tracking-normal"
                       >
                         <option value="left">{t.left}</option>
                         <option value="center">{t.center}</option>
                         <option value="right">{t.right}</option>
-                      </select>
-                    </label>
+                      </Select>
+                    </div>
                   </th>
                 ))}
               </tr>
@@ -103,7 +105,7 @@ export default function MarkdownTableGenerator() {
                         id={"markdown-table-" + rowIndex + "-" + columnIndex}
                         value={cell}
                         onChange={(event) => updateCell(rowIndex, columnIndex, event.target.value)}
-                        className="min-h-10 w-full rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background)] px-3 text-sm text-[var(--foreground)] outline-none focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+                        className="min-h-12 w-full rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] px-3.5 py-2.5 text-sm text-[var(--foreground)] outline-none transition-[border-color,box-shadow,background-color] duration-[var(--motion-standard)] hover:border-[var(--border-strong)] focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]"
                       />
                     </td>
                   ))}
