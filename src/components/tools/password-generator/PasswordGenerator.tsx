@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
+import { Checkbox } from "@/components/ui/Checkbox";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
@@ -66,28 +67,27 @@ export default function PasswordGenerator() {
                 ["numbers", t.numbers],
                 ["symbols", t.symbols],
               ] as const).map(([key, label]) => (
-                <label key={key} className="flex min-h-12 cursor-pointer items-center gap-3 border-b border-[var(--border)] py-3 text-sm text-[var(--foreground)] transition-colors last:border-b-0 hover:text-[var(--accent)] focus-within:text-[var(--accent)] sm:[&:nth-child(3)]:border-b-0 sm:[&:nth-child(4)]:border-b-0">
-                  <input
-                    type="checkbox"
-                    checked={options[key]}
-                    onChange={(event) => update(key, event.target.checked)}
-                    className="size-5 shrink-0 cursor-pointer rounded-sm accent-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface)]"
-                  />
-                  {label}
-                </label>
+                <Checkbox
+                  key={key}
+                  inputId={`password-option-${key}`}
+                  name={key}
+                  label={label}
+                  checked={options[key]}
+                  onCheckedChange={(checked) => update(key, checked)}
+                  className="border-b border-[var(--border)] py-3 transition-colors last:border-b-0 hover:text-[var(--accent)] focus-within:text-[var(--accent)] sm:[&:nth-child(3)]:border-b-0 sm:[&:nth-child(4)]:border-b-0"
+                />
               ))}
             </div>
           </fieldset>
 
-          <label className="mt-4 flex min-h-12 cursor-pointer items-center gap-3 py-2 text-sm text-[var(--foreground)]">
-            <input
-              type="checkbox"
-              checked={options.excludeAmbiguous}
-              onChange={(event) => update("excludeAmbiguous", event.target.checked)}
-              className="size-5 shrink-0 cursor-pointer rounded-sm accent-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface)]"
-            />
-            {t.excludeAmbiguous}
-          </label>
+          <Checkbox
+            inputId="password-exclude-ambiguous"
+            name="excludeAmbiguous"
+            label={t.excludeAmbiguous}
+            checked={options.excludeAmbiguous}
+            onCheckedChange={(checked) => update("excludeAmbiguous", checked)}
+            className="mt-4 py-2"
+          />
 
           {error && <p role="alert" className="mt-4 text-sm font-medium text-[var(--danger)]">{error}</p>}
 

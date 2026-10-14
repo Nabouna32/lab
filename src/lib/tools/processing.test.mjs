@@ -14,7 +14,7 @@ test("local processing is presented as device-local", () => {
   assert.deepEqual(
     getToolProcessingPresentation({ ...base, mode: "local" }),
     {
-      icon: "🔒",
+      icon: "lock",
       label: "Traitement local",
       summary: "Vos données restent sur votre appareil.",
     },
@@ -25,7 +25,7 @@ test("external processing is disclosed", () => {
   assert.deepEqual(
     getToolProcessingPresentation({ ...base, mode: "external" }),
     {
-      icon: "🌐",
+      icon: "public",
       label: "Service externe",
       summary: "Certaines données sont transmises à un service externe.",
     },
@@ -36,7 +36,7 @@ test("server processing is disclosed", () => {
   assert.deepEqual(
     getToolProcessingPresentation({ ...base, mode: "server" }),
     {
-      icon: "☁️",
+      icon: "cloud",
       label: "Serveur",
       summary: "Ce traitement nécessite un service serveur.",
     },
@@ -47,7 +47,7 @@ test("hybrid processing is disclosed", () => {
   assert.deepEqual(
     getToolProcessingPresentation({ ...base, mode: "hybrid" }),
     {
-      icon: "🔒 + 🌐",
+      icon: "sync_alt",
       label: "Traitement hybride",
       summary: "Le traitement local est complété par un service externe.",
     },

@@ -2,6 +2,8 @@
 import { useMemo, useState } from "react";
 import type { CSSProperties } from "react";
 import styles from "./visual-lab.module.css";
+import { MaterialIcon, type MaterialIconName } from "@/components/ui/MaterialIcon";
+import { Switch } from "@/components/ui/Switch";
 import { colorHex, createM3Scheme, seedPresets } from "./m3-theme";
 
 type Locale = "en" | "fr";
@@ -9,17 +11,25 @@ type Theme = "light" | "dark";
 type Screen = "home" | "explore" | "tool" | "saved" | "profile";
 type DesignDirection = "pixel" | "utility";
 type LabIconName = "home" | "search" | "heart" | "user" | "calculator" | "image" | "text" | "arrow-up-right" | "plus" | "bell" | "sun" | "sparkles" | "back" | "check" | "close";
+const labIconNames: Record<LabIconName, MaterialIconName> = {
+  home: "home",
+  search: "search",
+  heart: "favorite",
+  user: "person",
+  calculator: "calculate",
+  image: "image",
+  text: "text_fields",
+  "arrow-up-right": "arrow_outward",
+  plus: "add",
+  bell: "notifications",
+  sun: "light_mode",
+  sparkles: "stars",
+  back: "arrow_back",
+  check: "check",
+  close: "close",
+};
 function LabIcon({ name, size = 20 }: { name: LabIconName; size?: number }) {
-  const paths: Record<LabIconName, string[]> = {
-    home: ["M3 10.5 12 3l9 7.5", "M5.5 9.5V21h13V9.5", "M9 21v-7h6v7"], search: ["M11 19a8 8 0 1 1 0-16 8 8 0 0 1 0 16Z", "m17 17 4 4"],
-    heart: ["M20.8 8.8c0 5.2-8.8 11-8.8 11S3.2 14 3.2 8.8A4.7 4.7 0 0 1 12 6.4a4.7 4.7 0 0 1 8.8 2.4Z"], user: ["M20 21a8 8 0 0 0-16 0", "M12 13a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Z"],
-    calculator: ["M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z", "M7 7h10v3H7z", "M7 14h2", "M12 14h2", "M7 17h2", "M12 17h2", "M17 14v3"],
-    image: ["M4 4h16v16H4z", "m4 16 5-5 4 4 2-2 5 5", "M15.5 8.5h.01"], text: ["M4 6h16", "M12 6v13", "M8 19h8", "M8 10h8"],
-    "arrow-up-right": ["M7 17 17 7", "M8 7h9v9"], plus: ["M12 5v14", "M5 12h14"], bell: ["M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9", "M10 21h4"],
-    sun: ["M12 3v2", "M12 19v2", "M3 12h2", "M19 12h2", "m5.6 5.6 1.4 1.4", "m17 17 1.4 1.4", "m18.4 5.6-1.4 1.4", "m7 17-1.4 1.4", "M16.5 12a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Z"],
-    sparkles: ["m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z", "m19 14 .9 2.1L22 17l-2.1.9L19 20l-.9-2.1L16 17l2.1-.9L19 14Z"], back: ["M19 12H5", "m12 19-7-7 7-7"], check: ["m5 12 4 4L19 6"], close: ["m6 6 12 12", "M18 6 6 18"],
-  };
-  return <svg aria-hidden="true" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" focusable="false">{paths[name].map((d, i) => <path d={d} key={i} />)}</svg>;
+  return <MaterialIcon name={labIconNames[name]} size={size} />;
 }
 const copy = {
   en: {
@@ -83,7 +93,6 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const [value,setValue]=useState("180");
   const [percent,setPercent]=useState("25");
   const [preferences,setPreferences]=useState({syncFavorites:true,automaticTheme:false,reducedMotion:false});
-  const togglePreference=(key:keyof typeof preferences)=>setPreferences(current=>({...current,[key]:!current[key]}));
   const t=copy[locale];
   const scheme=useMemo(()=>createM3Scheme(seed,"fidelity",theme==="dark",0,"2025","phone"),[theme,seed]);
   const tokens=useMemo(()=>createLabTokens(scheme,theme),[scheme,theme]);
@@ -93,7 +102,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
 
   return <main data-theme={theme} data-reduced-motion={preferences.reducedMotion} className={`${styles.lab} ${theme==="dark"?styles.darkPalette:""}`} style={tokens}>
     <header className={styles.intro}>
-      <div className={styles.introTop}><span className={styles.eyebrow}><span className={styles.sparkle} aria-hidden="true">✳</span>{t.eyebrow}</span>
+      <div className={styles.introTop}><span className={styles.eyebrow}><span className={styles.sparkle} aria-hidden="true"><MaterialIcon name="stars" size={16} /></span>{t.eyebrow}</span>
         
       </div><h1>{t.title}</h1><p>{t.intro}</p>
     </header>
@@ -106,7 +115,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
       </div>
       <p className={styles.directionHelp}>{t[direction==="pixel"?"pixelDirectionHelp":"utilityDirectionHelp"]}</p>
       <div className={styles.controlRow}>
-        <fieldset className={styles.segmentField}><legend>{t.theme}</legend><div className={styles.segmented}><button type="button" aria-pressed={theme==="light"} onClick={()=>setTheme("light")}>☀ {t.light}</button><button type="button" aria-pressed={theme==="dark"} onClick={()=>setTheme("dark")}>☾ {t.dark}</button></div></fieldset>
+        <fieldset className={styles.segmentField}><legend>{t.theme}</legend><div className={styles.segmented}><button type="button" aria-pressed={theme==="light"} onClick={()=>setTheme("light")}><MaterialIcon name="light_mode" size={16} /> {t.light}</button><button type="button" aria-pressed={theme==="dark"} onClick={()=>setTheme("dark")}><MaterialIcon name="dark_mode" size={16} /> {t.dark}</button></div></fieldset>
         <fieldset className={styles.segmentField}><legend>{t.viewport}</legend><div className={styles.segmented}>{(["mobile","tablet","desktop"] as const).map(size=><button key={size} type="button" aria-pressed={viewport===size} onClick={()=>setViewport(size)}>{t[size]}</button>)}</div></fieldset>
         <fieldset className={styles.segmentField}><legend>{t.home} / {t.explore} / {t.tool}</legend><div className={styles.segmented}>{(["home","explore","tool"] as const).map(item=><button key={item} type="button" aria-pressed={screen===item} onClick={()=>setScreen(item)}>{t[item]}</button>)}</div></fieldset>
         <div className={styles.seedPicker}>
@@ -136,7 +145,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
             <span className={styles.directionEyebrow}>{t.directionEyebrow}</span>
             <h3>{t.welcome}</h3><p className={styles.directionSubtitle}>{t.subhead}</p>
             <div className={styles.directionSearch}><LabIcon name="search" /><span>{t.search}</span><span className={styles.directionSearchAction} aria-hidden="true"><LabIcon name="arrow-up-right" size={18} /></span></div>
-            <div className={styles.directionSectionTitle}><strong>{t.quick}</strong><button type="button" onClick={()=>setScreen("explore")}>{t.directionBrowse} ↗</button></div>
+            <div className={styles.directionSectionTitle}><strong>{t.quick}</strong><button type="button" onClick={()=>setScreen("explore")}>{t.directionBrowse} <MaterialIcon name="arrow_outward" size={16} /></button></div>
             <div className={styles.directionGrid}>
               <article className={styles.directionCard}><span className={styles.directionIcon}><LabIcon name="calculator" size={22} /></span><div><strong>{t.resultOne}</strong><small>{t.directionRecent}</small></div><span aria-hidden="true"><LabIcon name="arrow-up-right" size={18} /></span></article>
               <article className={styles.directionCard}><span className={styles.directionIcon}><LabIcon name="image" size={22} /></span><div><strong>{t.resultTwo}</strong><small>PNG · JPG · WEBP</small></div><span aria-hidden="true"><LabIcon name="arrow-up-right" size={18} /></span></article>
@@ -163,7 +172,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
             <span className={styles.directionEyebrow}>{t.directionBottomProfile}</span><h3>{t.settings}</h3><p className={styles.directionSubtitle}>{t.settingsHelp}</p>
             <div className={styles.directionGrid}>
               <article className={styles.directionCard}><span className={styles.directionIcon}><LabIcon name="sun" size={22} /></span><div><strong>{t.automaticTheme}</strong><small>{t.automaticThemeHelp}</small></div><button type="button" aria-pressed={theme==="dark"} onClick={()=>setTheme(theme==="dark"?"light":"dark")}>{theme==="dark"?t.dark:t.light}</button></article>
-              <article className={styles.directionCard}><span className={styles.directionIcon}><LabIcon name="heart" size={22} /></span><div><strong>{t.syncFavorites}</strong><small>{t.syncFavoritesHelp}</small></div><span aria-hidden="true">›</span></article>
+              <article className={styles.directionCard}><span className={styles.directionIcon}><LabIcon name="heart" size={22} /></span><div><strong>{t.syncFavorites}</strong><small>{t.syncFavoritesHelp}</small></div><span aria-hidden="true"><MaterialIcon name="chevron_right" size={20} /></span></article>
             </div>
           </>}
           {screen==="tool"&&<>
@@ -185,15 +194,15 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
     <section className={styles.gallerySection} aria-labelledby="gallery-title"><div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>02 / {t.components}</span><h2 id="gallery-title">{t.components}</h2><p>{t.actionsHelp}</p></div></div>
       <div className={styles.galleryGrid}>
         <article className={styles.galleryCard}><h3>{t.actions}</h3><div className={styles.buttonStack}><button type="button" className={styles.filled}>{t.filled}</button><button type="button" className={styles.tonal}>{t.tonal}</button><button type="button" className={styles.outlined}>{t.outlined}</button><button type="button" className={styles.textButton}>{t.textButton}</button><button type="button" className={styles.disabled} disabled>{t.disabled}</button></div><div className={styles.stateSamples}><button type="button" className={styles.focusSample}>{t.focus}</button><button type="button" className={styles.rippleSample} onClick={()=>setMotionReplay(n=>n+1)}>{t.motion}</button></div><p className={styles.helper}>{t.fieldHelp}</p><div key={motionReplay} className={styles.motionDemo} aria-hidden="true"><span><LabIcon name="sparkles" size={18} /></span><span><LabIcon name="check" size={18} /></span><span><LabIcon name="heart" size={18} /></span></div></article>
-        <article className={styles.galleryCard}><h3>{t.forms}</h3><label className={styles.fieldLabel}>{t.email}<input type="email" placeholder="bonjour@loculary.com"/></label><label className={styles.fieldLabel}>{t.choose}<select defaultValue="images"><option value="images">{t.resultTwo}</option><option value="text">{t.resultThree}</option></select></label><div className={styles.chipRow}><button type="button" className={styles.chipSelected}>{t.selected} ✓</button><button type="button" className={`${styles.chip} ${isMulticolorPalette?styles.chipSecondary:""}`}>{t.chip}</button><button type="button" className={`${styles.chip} ${isMulticolorPalette?styles.chipTertiary:""}`}>{t.filter}</button></div><div className={styles.tabRow}><button type="button" className={styles.tabSelected}>{t.tabA}</button><button type="button" className={styles.tab}>{t.tabB}</button></div>
+        <article className={styles.galleryCard}><h3>{t.forms}</h3><label className={styles.fieldLabel}>{t.email}<input type="email" placeholder="bonjour@loculary.com"/></label><label className={styles.fieldLabel}>{t.choose}<select defaultValue="images"><option value="images">{t.resultTwo}</option><option value="text">{t.resultThree}</option></select></label><div className={styles.chipRow}><button type="button" className={styles.chipSelected}>{t.selected} <MaterialIcon name="check" size={16} /></button><button type="button" className={`${styles.chip} ${isMulticolorPalette?styles.chipSecondary:""}`}>{t.chip}</button><button type="button" className={`${styles.chip} ${isMulticolorPalette?styles.chipTertiary:""}`}>{t.filter}</button></div><div className={styles.tabRow}><button type="button" className={styles.tabSelected}>{t.tabA}</button><button type="button" className={styles.tab}>{t.tabB}</button></div>
           <div className={styles.preferenceList}><div className={styles.preferenceHeading}><h4>{t.settings}</h4><p>{t.settingsHelp}</p></div>
-            {([{key:"syncFavorites",title:t.syncFavorites,help:t.syncFavoritesHelp},{key:"automaticTheme",title:t.automaticTheme,help:t.automaticThemeHelp},{key:"reducedMotion",title:t.reducedMotion,help:t.reducedMotionHelp}] as const).map(item=><div className={styles.preferenceRow} key={item.key}><div className={styles.preferenceCopy}><strong>{item.title}</strong><p>{item.help}</p></div><button type="button" role="switch" aria-checked={preferences[item.key]} aria-label={item.title} className={preferences[item.key]?styles.switchOn:styles.switchOff} onClick={()=>togglePreference(item.key)}><span className={styles.switchThumb}/></button><span className={styles.preferenceState}>{preferences[item.key]?t.switchOnLabel:t.switchOffLabel}</span></div>)}
+            {([{key:"syncFavorites",title:t.syncFavorites,help:t.syncFavoritesHelp},{key:"automaticTheme",title:t.automaticTheme,help:t.automaticThemeHelp},{key:"reducedMotion",title:t.reducedMotion,help:t.reducedMotionHelp}] as const).map(item=><div className={styles.preferenceRow} key={item.key}><div className={styles.preferenceCopy}><strong id={`lab-pref-label-${item.key}`}>{item.title}</strong><p id={`lab-pref-desc-${item.key}`}>{item.help}</p></div><Switch id={`lab-pref-${item.key}`} label={item.title} aria-labelledby={`lab-pref-label-${item.key}`} aria-describedby={`lab-pref-desc-${item.key}`} checked={preferences[item.key]} onCheckedChange={(checked)=>setPreferences(current=>({...current,[item.key]:checked}))}/><span className={styles.preferenceState}>{preferences[item.key]?t.switchOnLabel:t.switchOffLabel}</span></div>)}
           </div></article>
-        <article className={styles.galleryCard}><h3>{t.surfaces}</h3><div className={styles.infoCard}><span className={`${styles.cardIcon} ${isMulticolorPalette?styles.accentTertiary:""}`}><LabIcon name="sparkles" /></span><strong>{t.cardTitle}</strong><p>{t.cardText}</p><button type="button" className={styles.textButton}>{t.browse} ↗</button></div><div className={styles.status} role="status"><LabIcon name="check" size={18} />{t.success}</div><div className={styles.statusWarning}><span aria-hidden="true">!</span>{t.warning}</div><div className={styles.statusError} role="alert"><LabIcon name="close" size={18} />{t.error}</div></article>
+        <article className={styles.galleryCard}><h3>{t.surfaces}</h3><div className={styles.infoCard}><span className={`${styles.cardIcon} ${isMulticolorPalette?styles.accentTertiary:""}`}><LabIcon name="sparkles" /></span><strong>{t.cardTitle}</strong><p>{t.cardText}</p><button type="button" className={styles.textButton}>{t.browse} <MaterialIcon name="arrow_outward" size={16} /></button></div><div className={styles.status} role="status"><LabIcon name="check" size={18} />{t.success}</div><div className={styles.statusWarning}><MaterialIcon name="warning" size={18} />{t.warning}</div><div className={styles.statusError} role="alert"><LabIcon name="close" size={18} />{t.error}</div></article>
       </div>
     </section>
     <section className={styles.gallerySection} aria-labelledby="states-title"><div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>03 / {t.states}</span><h2 id="states-title">{t.states}</h2><p>{t.dialogText}</p></div><button type="button" className={styles.outlined} onClick={()=>setDialogOpen(true)}>{t.confirm} · dialog</button></div>
-      {dialogOpen&&<div className={styles.dialogPreview} role="group" aria-label={t.states}><div className={styles.dialogIcon}>✦</div><h3>{t.dialogTitle}</h3><p>{t.dialogText}</p><div><button type="button" className={styles.textButton} onClick={()=>setDialogOpen(false)}>{t.close}</button><button type="button" className={styles.filled} onClick={()=>setDialogOpen(false)}>{t.confirm}</button></div></div>}
+      {dialogOpen&&<div className={styles.dialogPreview} role="group" aria-label={t.states}><div className={styles.dialogIcon}><MaterialIcon name="stars" size={24} /></div><h3>{t.dialogTitle}</h3><p>{t.dialogText}</p><div><button type="button" className={styles.textButton} onClick={()=>setDialogOpen(false)}>{t.close}</button><button type="button" className={styles.filled} onClick={()=>setDialogOpen(false)}>{t.confirm}</button></div></div>}
     </section>
     <section className={styles.gallerySection} aria-labelledby="android-controls-title"><div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>04 / {locale==="fr"?"Contrôles Android":"Android controls"}</span><h2 id="android-controls-title">{locale==="fr"?"Autres composants à tester":"More components to test"}</h2><p>{locale==="fr"?"Contrôles interactifs courants de Material 3.":"Interactive Material 3 controls commonly used in apps."}</p></div></div>
       <div className={styles.galleryGrid}>

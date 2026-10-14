@@ -5,6 +5,7 @@ import { useLocale } from "@/lib/i18n/use-locale";
 import { getMessages } from "@/lib/i18n/messages";
 import { useToolRuntime } from "@/components/tools/ToolPage/ToolRuntimeProvider";
 import { Button } from "@/components/ui/Button";
+import { MaterialIcon } from "@/components/ui/MaterialIcon";
 
 type CopyButtonProps = {
   value: string;
@@ -39,7 +40,7 @@ export function CopyButton({ value, label, copiedLabel }: CopyButtonProps) {
       disabled={!value}
       aria-label={buttonLabel}
     >
-      <span aria-hidden="true">{copied ? "✓" : "⧉"}</span>
+      <MaterialIcon name={copied ? "check" : "content_copy"} size={18} />
       <span aria-live="polite">{buttonLabel}</span>
     </Button>
   );

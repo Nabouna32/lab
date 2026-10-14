@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import ToolSearch from "@/components/tools/ToolSearch";
 import ToolCard from "@/components/tools/ToolCard";
+import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import { categories, getCategoryColor, getCategoryContainerColor, getCategoryName, getToolCount } from "@/lib/tools/categories";
 import { getPublishedTools } from "@/lib/tools/catalog";
 import { getMessages } from "@/lib/i18n/messages";
@@ -95,7 +96,7 @@ export default async function ToolsPage({
                 >
                   <span aria-hidden="true">{intent.icon}</span>
                   <span>{intent.label}</span>
-                  <span className="ml-auto hidden text-[var(--muted)] group-hover:inline" aria-hidden="true">↗</span>
+                  <span className="ml-auto hidden text-[var(--muted)] group-hover:inline" aria-hidden="true"><MaterialIcon name="chevron_right" size={16} /></span>
                 </a>
               ))}
             </div>
