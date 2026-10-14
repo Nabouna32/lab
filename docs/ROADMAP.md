@@ -80,7 +80,7 @@ Goal: improve discovery and tool assistance where justified.
 
 AI is not a goal by itself.
 
-Current boundary: the deployed Supabase database contains the account/profile and administrative RBAC/audit foundation, `public.user_favorites`, `public.user_collections` and `public.user_collection_items`. Personal collections are implemented with private-by-default RLS and explicit link sharing. The executable tool catalog and curated intent associations remain Git-backed; account-synchronized theme preferences are not implemented. Account controls stay within the existing simple settings experience; no dedicated privacy dashboard or community features are planned.
+Current boundary: the deployed Supabase database contains the account/profile and administrative RBAC/audit foundation, `public.user_favorites`, `public.user_collections` and `public.user_collection_items`. Personal collections are implemented with private-by-default RLS and explicit link sharing. The executable tool catalog and curated intent associations remain Git-backed; account-synchronized theme preferences are not implemented. Account controls stay within the existing simple settings experience; no dedicated privacy dashboard is planned.
 
 ## Phase 5 — Sustainability and scale
 
