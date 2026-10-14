@@ -237,14 +237,14 @@
 @keyframes labScreenEnter{from{opacity:.65;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
 .lab[data-reduced-motion="true"] .motionDemo span{animation:none;opacity:1;transform:none}
 .lab[data-reduced-motion="true"] .directionContent,.lab[data-reduced-motion="true"] .sampleBottomSheet,.lab[data-reduced-motion="true"] .sampleSnackbar{animation:none}
-.lab[data-reduced-motion="true"] button,.lab[data-reduced-motion="true"] .sampleProgress span{transition:none}
+.lab[data-reduced-motion="true"] button,.lab[data-reduced-motion="true"] .sampleProgress span,.lab[data-reduced-motion="true"] .sampleSlider input::-webkit-slider-thumb,.lab[data-reduced-motion="true"] .sampleSlider input::-moz-range-thumb{transition:none}
 .sampleCheck{display:flex;align-items:center;gap:.65rem;min-height:2.75rem;color:var(--lab-text);font-size:.9rem}
-.sampleCheck input{width:1.25rem;height:1.25rem;flex:0 0 auto}
-.sampleSlider{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.65rem;align-items:center;margin-top:1rem;color:var(--lab-text);font-size:.9rem;font-weight:650}
-.sampleSlider output{color:var(--lab-primary);font-variant-numeric:tabular-nums}
-.sampleSlider input{grid-column:1/-1;width:100%;margin:.25rem 0;cursor:pointer}
-.sampleProgress{height:.45rem;margin-top:1rem;overflow:hidden;border-radius:999px;background:var(--lab-surface-2)}
-.sampleProgress span{display:block;height:100%;border-radius:inherit;background:var(--lab-primary);transition:width var(--lab-motion) ease}
+
+.sampleSlider{margin-top:1rem}
+
+
+.sampleProgress{margin-top:1rem}
+
 .sampleActions{display:flex;flex-wrap:wrap;gap:.6rem}
 .sampleBottomSheet{margin-top:1rem;padding:1rem;border:1px solid var(--lab-outline-variant,var(--lab-outline));border-radius:1.4rem 1.4rem .8rem .8rem;background:var(--lab-surface-container);color:var(--lab-text);animation:labScreenEnter 180ms ease both}
 .sampleBottomSheet p{color:var(--lab-muted);line-height:1.5}
@@ -253,4 +253,4 @@
 .sampleSnackbar button{display:grid;place-items:center;width:2.5rem;height:2.5rem;border:0;border-radius:50%;background:transparent;color:inherit}
 .directionBrand>span{display:grid;place-items:center}
 .directionIcon svg,.directionBottomNav svg,.directionSearch svg,.directionPrimary svg,.directionBack svg,.directionHeader button svg{display:block;flex-shrink:0}
-@media(prefers-reduced-motion:reduce){.directionStage .directionContent,.sampleBottomSheet,.sampleSnackbar{animation:none!important}.lab button,.sampleProgress span{transition:none!important}}
+@media(prefers-reduced-motion:reduce){.directionStage .directionContent,.sampleBottomSheet,.sampleSnackbar{animation:none!important}.lab button,.sampleProgress span,.sampleSlider input::-webkit-slider-thumb,.sampleSlider input::-moz-range-thumb{transition:none!important}}
