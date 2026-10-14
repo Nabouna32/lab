@@ -9,6 +9,12 @@ test("parses a classic five-field weekday expression", () => {
   assert.deepEqual(schedule.fields.dayOfWeek.values, [1, 2, 3, 4, 5]);
 });
 
+test("extends a single-value step through the field maximum", () => {
+  const schedule = parseCronExpression("5/10 8/6 * * *");
+  assert.deepEqual(schedule.fields.minute.values, [5, 15, 25, 35, 45, 55]);
+  assert.deepEqual(schedule.fields.hour.values, [8, 14, 20]);
+});
+
 test("accepts Sunday as both 0 and 7", () => {
   const schedule = parseCronExpression("0 0 * * 7");
   assert.deepEqual(schedule.fields.dayOfWeek.values, [0, 7]);
