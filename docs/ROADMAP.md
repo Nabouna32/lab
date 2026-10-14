@@ -16,7 +16,7 @@ Goal: establish the platform that can grow without creating unnecessary technica
 - [x] Shared tool page shell
 - [x] Processing/privacy status component
 - [x] i18n foundation review
-- [x] Core design system
+- [partial] Shared design-system foundations exist; full M3 Fidelity / Pixel conformance, complete tonal mappings and visual/accessibility verification remain implementation work
 - [x] Tool quality contract
 - [x] Architecture validation
 
@@ -79,7 +79,7 @@ Goal: support real traffic while protecting the user experience.
 
 ## Cross-cutting implementation principles
 
-These requirements apply across the product and do not imply a commitment to add separate platform or discovery features.
+These requirements apply across all phases and do not imply a commitment to add separate platform or discovery features.
 
 ### Personalization and collections
 
