@@ -37,6 +37,8 @@ test("shared Button exposes canonical M3 variants, stable labels and semantic di
 });
 
 test("shared IconButton preserves 48px touch target and supports accessible toggle state", () => {
+  const filledIconButton = iconButton.match(/const filled = "([^"]+)"/)?.[1] ?? "";
+  assert.ok(!filledIconButton.includes("shadow-"), "M3 filled icon buttons should not inherit elevation");
   for (const required of [
     'type IconButtonVariant = "standard" | "filled" | "filled-tonal"',
     'const filledTonal = "border',
