@@ -5,6 +5,7 @@ import { CopyButton } from "@/components/ui/CopyButton";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { TextField } from "@/components/ui/TextField";
 import { Select } from "@/components/ui/Select";
+import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { convertNumber, isValidBase } from "@/lib/number-base-converter";
@@ -55,7 +56,7 @@ export default function NumberBaseConverter() {
             </Select>
 
             <button type="button" onClick={swapBases} className="inline-flex h-12 w-12 shrink-0 items-center justify-center self-end rounded-full border border-[var(--outline)] text-[var(--on-surface-variant)] transition-[background-color,color,transform] duration-[var(--motion-standard)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)] active:scale-[.96] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface)]" aria-label={t.swap} title={t.swap}>
-              <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 8h15m-4-4 4 4-4 4M20 16H5m4-4-4 4 4 4" /></svg>
+              <MaterialIcon name="swap_horiz" size={20} />
             </button>
 
             <Select label={t.toBase} id="number-base-to" value={toBase} onChange={(event) => setToBase(Number(event.target.value))}>
