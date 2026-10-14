@@ -2,7 +2,7 @@
 import { useMemo, useState } from "react";
 import type { CSSProperties } from "react";
 import styles from "./visual-lab.module.css";
-import { colorHex, createM3Scheme } from "./m3-theme";
+import { colorHex, createM3Scheme, seedPresets } from "./m3-theme";
 
 type Locale = "en" | "fr";
 type Theme = "light" | "dark";
@@ -58,8 +58,8 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const [theme,setTheme]=useState<Theme>("light");
   const [screen,setScreen]=useState<Screen>("home");
   const [direction,setDirection]=useState<DesignDirection>("pixel");
-  const [variant,setVariant]=useState<"tonal-spot"|"fidelity">("tonal-spot");
-  const [compareVariants,setCompareVariants]=useState(false);
+  const [seed,setSeed]=useState("#4285F4");
+  const [paletteOpen,setPaletteOpen]=useState(false);
   const [viewport,setViewport]=useState<"desktop"|"tablet"|"mobile">("mobile");
   const [dialogOpen,setDialogOpen]=useState(true);
   const [motionReplay,setMotionReplay]=useState(0);
@@ -68,7 +68,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const [preferences,setPreferences]=useState({syncFavorites:true,automaticTheme:false,reducedMotion:true});
   const togglePreference=(key:keyof typeof preferences)=>setPreferences(current=>({...current,[key]:!current[key]}));
   const t=copy[locale];
-  const scheme=useMemo(()=>createM3Scheme("#4285F4",variant,theme==="dark",0,"2025","phone"),[theme,variant]);
+  const scheme=useMemo(()=>createM3Scheme(seed,"fidelity",theme==="dark",0,"2025","phone"),[theme,seed]);
   const tokens=useMemo(()=>createLabTokens(scheme,theme),[scheme,theme]);
   const amount=Number(value)*Number(percent)/100;
   const result=Number.isFinite(amount)?amount.toLocaleString(locale==="fr"?"fr-FR":"en-US",{maximumFractionDigits:3}):"—";
@@ -92,10 +92,27 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
         <fieldset className={styles.segmentField}><legend>{t.theme}</legend><div className={styles.segmented}><button type="button" aria-pressed={theme==="light"} onClick={()=>setTheme("light")}>☀ {t.light}</button><button type="button" aria-pressed={theme==="dark"} onClick={()=>setTheme("dark")}>☾ {t.dark}</button></div></fieldset>
         <fieldset className={styles.segmentField}><legend>{t.viewport}</legend><div className={styles.segmented}>{(["mobile","tablet","desktop"] as const).map(size=><button key={size} type="button" aria-pressed={viewport===size} onClick={()=>setViewport(size)}>{t[size]}</button>)}</div></fieldset>
         <fieldset className={styles.segmentField}><legend>{t.home} / {t.explore} / {t.tool}</legend><div className={styles.segmented}>{(["home","explore","tool"] as const).map(item=><button key={item} type="button" aria-pressed={screen===item} onClick={()=>setScreen(item)}>{t[item]}</button>)}</div></fieldset>
-        <fieldset className={styles.segmentField}><legend>{locale==="fr"?"Palette Material":"Material palette"}</legend><div className={styles.segmented}><button type="button" aria-pressed={variant==="tonal-spot"&&!compareVariants} onClick={()=>{setVariant("tonal-spot");setCompareVariants(false)}}>Tonal Spot</button><button type="button" aria-pressed={variant==="fidelity"&&!compareVariants} onClick={()=>{setVariant("fidelity");setCompareVariants(false)}}>Fidelity</button><button type="button" aria-pressed={compareVariants} onClick={()=>setCompareVariants(v=>!v)}>{locale==="fr"?"Comparer":"Compare"}</button></div></fieldset>
+        <div className={styles.seedPicker}>
+          <span className={styles.seedPickerLabel}>{locale==="fr"?"Couleur de l’interface":"Interface color"}</span>
+          <button type="button" className={styles.seedPickerTrigger} aria-expanded={paletteOpen} aria-controls="design-lab-color-palette" onClick={()=>setPaletteOpen(open=>!open)}>
+            <span className={styles.seedSwatch} style={{backgroundColor:seed}} aria-hidden="true" />
+            <span>{locale==="fr"?"Choisir une couleur":"Choose a color"}</span>
+            <code>{seed}</code>
+            <span aria-hidden="true">{paletteOpen?"⌃":"⌄"}</span>
+          </button>
+          {paletteOpen&&<div className={styles.seedPalette} id="design-lab-color-palette">
+            <div className={styles.seedPaletteHeading}>{locale==="fr"?"Couleurs de départ":"Color presets"}</div>
+            <div className={styles.seedSwatchGrid}>
+              {seedPresets.map(preset=><button key={preset.seed} type="button" className={styles.seedPreset} aria-label={locale==="fr"?preset.nameFr:preset.name} aria-pressed={seed===preset.seed} title={locale==="fr"?preset.nameFr:preset.name} onClick={()=>setSeed(preset.seed)}><span style={{backgroundColor:preset.seed}} /><small>{locale==="fr"?preset.nameFr:preset.name}</small></button>)}
+            </div>
+            <label className={styles.customSeedControl}>
+              <span>{locale==="fr"?"Personnaliser":"Custom color"}</span>
+              <input type="color" value={seed} onChange={event=>setSeed(event.target.value.toUpperCase())} aria-label={locale==="fr"?"Choisir une couleur personnalisée":"Choose a custom color"} />
+            </label>
+          </div>}
+        </div>
       </div>
-      {compareVariants ? <div className={styles.previewComparison}>
-        {(["tonal-spot","fidelity"] as const).map(item=><article className={styles.comparisonPane} key={item}><header><strong>{item==="tonal-spot"?"Tonal Spot":"Fidelity"}</strong><span>{item==="tonal-spot"?(locale==="fr"?"Base Android équilibrée":"Balanced Android baseline"):(locale==="fr"?"Couleurs plus proches de la source":"Closer to source color")}</span></header><div className={styles.comparisonPreview} style={createLabTokens(createM3Scheme("#4285F4",item,theme==="dark",0,"2025","phone"),theme)}>      <div className={`${styles.directionStage} ${styles["directionViewport_"+viewport]}`} data-direction={direction} data-theme={theme}>
+      <div className={styles.singlePreview} style={createLabTokens(scheme,theme)}>      <div className={`${styles.directionStage} ${styles["directionViewport_"+viewport]}`} data-direction={direction} data-theme={theme}>
         <header className={styles.directionHeader}><span className={styles.directionBrand}><span aria-hidden="true">✳</span> Loculary</span><button type="button" aria-label={locale==="fr"?"Notifications":"Notifications"}>♧</button></header>
         <div className={styles.directionContent}>
           {screen==="home"&&<>
@@ -146,59 +163,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
         <nav className={styles.directionBottomNav} aria-label={locale==="fr"?"Navigation de l’aperçu":"Preview navigation"}>
           <button type="button" aria-current={screen==="home"?"page":undefined} onClick={()=>setScreen("home")}><b>⌂</b>{t.directionBottomHome}</button><button type="button" aria-current={screen==="explore"?"page":undefined} onClick={()=>setScreen("explore")}><b>⌕</b>{t.directionBottomExplore}</button><button type="button" aria-current={screen==="saved"?"page":undefined} onClick={()=>setScreen("saved")}><b>♡</b>{t.directionBottomSaved}</button><button type="button" aria-current={screen==="profile"?"page":undefined} onClick={()=>setScreen("profile")}><b>○</b>{t.directionBottomProfile}</button>
         </nav>
-      </div></div></article>)}
-      </div> : <div className={styles.singlePreview} style={createLabTokens(scheme,theme)}>      <div className={`${styles.directionStage} ${styles["directionViewport_"+viewport]}`} data-direction={direction} data-theme={theme}>
-        <header className={styles.directionHeader}><span className={styles.directionBrand}><span aria-hidden="true">✳</span> Loculary</span><button type="button" aria-label={locale==="fr"?"Notifications":"Notifications"}>♧</button></header>
-        <div className={styles.directionContent}>
-          {screen==="home"&&<>
-            <span className={styles.directionEyebrow}>{t.directionEyebrow}</span>
-            <h3>{t.welcome}</h3><p className={styles.directionSubtitle}>{t.subhead}</p>
-            <div className={styles.directionSearch}><span aria-hidden="true">⌕</span><span>{t.search}</span><span className={styles.directionSearchAction} aria-hidden="true">↵</span></div>
-            <div className={styles.directionSectionTitle}><strong>{t.quick}</strong><button type="button" onClick={()=>setScreen("explore")}>{t.directionBrowse} ↗</button></div>
-            <div className={styles.directionGrid}>
-              <article className={styles.directionCard}><span className={styles.directionIcon}>％</span><div><strong>{t.resultOne}</strong><small>{t.directionRecent}</small></div><span aria-hidden="true">↗</span></article>
-              <article className={styles.directionCard}><span className={styles.directionIcon}>▧</span><div><strong>{t.resultTwo}</strong><small>PNG · JPG · WEBP</small></div><span aria-hidden="true">↗</span></article>
-              <article className={styles.directionCard}><span className={styles.directionIcon}>¶</span><div><strong>{t.resultThree}</strong><small>{t.cardText}</small></div><span aria-hidden="true">↗</span></article>
-            </div>
-            <button type="button" className={styles.directionPrimary} onClick={()=>setScreen("explore")}><span aria-hidden="true">＋</span> {t.directionAction}</button>
-          </>}
-          {screen==="explore"&&<>
-            <span className={styles.directionEyebrow}>{t.filter}</span><h3>{t.results}</h3><p className={styles.directionSubtitle}>{t.subhead}</p>
-            <div className={styles.directionSearch}><span aria-hidden="true">⌕</span><span>{t.search}</span></div>
-            <div className={styles.directionSectionTitle}><strong>{t.quick}</strong><button type="button">{t.selected} · 3</button></div>
-            <div className={styles.directionGrid}>
-              {[t.resultOne,t.resultTwo,t.resultThree].map((name,index)=><article className={styles.directionCard} key={name}><span className={styles.directionIcon}>{["％","▧","¶"][index]}</span><div><strong>{name}</strong><small>{t.cardText}</small></div><span aria-hidden="true">↗</span></article>)}
-            </div>
-          </>}
-          {screen==="saved"&&<>
-            <span className={styles.directionEyebrow}>{t.directionBottomSaved}</span><h3>{t.directionBottomSaved}</h3><p className={styles.directionSubtitle}>{t.directionRecent}</p>
-            <div className={styles.directionGrid}>
-              <article className={styles.directionCard}><span className={styles.directionIcon}>％</span><div><strong>{t.resultOne}</strong><small>{t.cardText}</small></div><button type="button" aria-label={t.toolTitle} onClick={()=>setScreen("tool")}>↗</button></article>
-              <article className={styles.directionCard}><span className={styles.directionIcon}>▧</span><div><strong>{t.resultTwo}</strong><small>PNG · JPG · WEBP</small></div><span aria-hidden="true">↗</span></article>
-            </div>
-          </>}
-          {screen==="profile"&&<>
-            <span className={styles.directionEyebrow}>{t.directionBottomProfile}</span><h3>{t.settings}</h3><p className={styles.directionSubtitle}>{t.settingsHelp}</p>
-            <div className={styles.directionGrid}>
-              <article className={styles.directionCard}><span className={styles.directionIcon}>☼</span><div><strong>{t.automaticTheme}</strong><small>{t.automaticThemeHelp}</small></div><button type="button" aria-pressed={theme==="dark"} onClick={()=>setTheme(theme==="dark"?"light":"dark")}>{theme==="dark"?t.dark:t.light}</button></article>
-              <article className={styles.directionCard}><span className={styles.directionIcon}>♡</span><div><strong>{t.syncFavorites}</strong><small>{t.syncFavoritesHelp}</small></div><span aria-hidden="true">›</span></article>
-            </div>
-          </>}
-          {screen==="tool"&&<>
-            <button type="button" className={styles.directionBack} onClick={()=>setScreen("home")}>← {t.home}</button>
-            <span className={styles.directionEyebrow}>{t.tool}</span><h3>{t.toolTitle}</h3><p className={styles.directionSubtitle}>{t.toolDesc}</p>
-            <div className={styles.directionCalculator}>
-              <label>{t.value}<input value={value} inputMode="decimal" onChange={e=>setValue(e.target.value)}/></label>
-              <label>{t.percent}<input value={percent} inputMode="decimal" onChange={e=>setPercent(e.target.value)}/></label>
-              <div className={styles.directionResult}><span>{t.output}</span><strong>{result}</strong></div>
-              <button type="button" className={styles.directionPrimary} onClick={()=>setScreen("home")}>{t.calculate}</button>
-            </div>
-          </>}
-        </div>
-        <nav className={styles.directionBottomNav} aria-label={locale==="fr"?"Navigation de l’aperçu":"Preview navigation"}>
-          <button type="button" aria-current={screen==="home"?"page":undefined} onClick={()=>setScreen("home")}><b>⌂</b>{t.directionBottomHome}</button><button type="button" aria-current={screen==="explore"?"page":undefined} onClick={()=>setScreen("explore")}><b>⌕</b>{t.directionBottomExplore}</button><button type="button" aria-current={screen==="saved"?"page":undefined} onClick={()=>setScreen("saved")}><b>♡</b>{t.directionBottomSaved}</button><button type="button" aria-current={screen==="profile"?"page":undefined} onClick={()=>setScreen("profile")}><b>○</b>{t.directionBottomProfile}</button>
-        </nav>
-      </div></div>}
+      </div></div>
     </section>
     <section className={styles.gallerySection} aria-labelledby="gallery-title"><div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>02 / {t.components}</span><h2 id="gallery-title">{t.components}</h2><p>{t.actionsHelp}</p></div></div>
       <div className={styles.galleryGrid}>
