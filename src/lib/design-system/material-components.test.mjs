@@ -7,6 +7,35 @@ const switchSource = readFileSync(new URL("../../components/ui/Switch.tsx", impo
 const iconSource = readFileSync(new URL("../../components/ui/MaterialIcon.tsx", import.meta.url), "utf8");
 const labSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
 const passwordSource = readFileSync(new URL("../../components/tools/password-generator/PasswordGenerator.tsx", import.meta.url), "utf8");
+const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
+
+function luminance(hex) {
+  const channels = [1, 3, 5].map((index) => Number.parseInt(hex.slice(index, index + 2), 16) / 255);
+  const linear = channels.map((value) => value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4);
+  return 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2];
+}
+
+function contrastRatio(first, second) {
+  const values = [luminance(first), luminance(second)].sort((a, b) => b - a);
+  return (values[0] + 0.05) / (values[1] + 0.05);
+}
+
+function literalColors(name) {
+  return [...globalCss.matchAll(new RegExp(`--${name}:\\s*(#[0-9a-fA-F]{6});`, "g"))].map((match) => match[1]);
+}
+
+test("custom status foregrounds meet WCAG AA contrast on their light and dark containers", () => {
+  for (const status of ["info", "success", "warning"]) {
+    const foregrounds = literalColors(status);
+    const backgrounds = literalColors(`${status}-soft`);
+    assert.equal(foregrounds.length, 2, `${status} should define light and dark foregrounds`);
+    assert.equal(backgrounds.length, 2, `${status} should define light and dark containers`);
+    for (let themeIndex = 0; themeIndex < 2; themeIndex += 1) {
+      const ratio = contrastRatio(foregrounds[themeIndex], backgrounds[themeIndex]);
+      assert.ok(ratio >= 4.5, `${status} ${themeIndex === 0 ? "light" : "dark"} contrast is ${ratio.toFixed(2)}:1`);
+    }
+  }
+});
 
 test("shared switch uses native checkbox semantics with the switch role and M3 semantic colors", () => {
   assert.match(switchSource, /role="switch"/);
