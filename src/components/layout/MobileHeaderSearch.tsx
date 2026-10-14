@@ -3,19 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import ToolSearch from "@/components/tools/ToolSearch";
+import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import type { Locale } from "@/lib/i18n/config";
 
 const iconButton =
   "flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-transparent text-[var(--muted)] outline-none transition-[border-color,background-color,color] hover:border-[var(--border)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)] focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]";
 
-function SearchIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6" aria-hidden="true">
-      <circle cx="11" cy="11" r="6.5" />
-      <path d="m16 16 4 4" />
-    </svg>
-  );
-}
 
 type MobileHeaderSearchProps = {
   locale: Locale;
@@ -107,7 +100,7 @@ function MobileHeaderSearchPanel({
           }
         }}
       >
-        <SearchIcon />
+        <MaterialIcon name="search" size={24} />
       </button>
       {open && (
         <div
