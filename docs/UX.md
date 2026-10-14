@@ -34,7 +34,7 @@ The primary visual question should be effectively:
 
 > **What do you want to do?**
 
-Search and action-oriented entry points should dominate the initial experience. Popular tools, intentions, categories and discovery content should follow naturally.
+Search and action-oriented entry points should dominate the initial experience. Intentions and categories should provide deeper exploration without displacing the primary task.
 
 Cards and card grids are valid Material 3 composition options, including for category discovery. Choose their variant and density to make destinations easy to scan and select; do not avoid cards by default. Keep search and useful entry points obvious, and use the composition that best communicates Loculary's value rather than relying on a large marketing hero.
 
@@ -99,7 +99,7 @@ Recommendations should answer the likely question:
 
 Not every tool needs a next action. When no meaningful continuation exists, the interface should omit the section rather than invent recommendations.
 
-Generic discovery remains a separate product concern and may surface similar, popular, recent or exploratory tools elsewhere in the experience.
+Generic discovery remains distinct from contextual next actions; browsing must not be presented as a continuation of the current task unless it genuinely helps the user.
 
 ### Responsive direction
 
