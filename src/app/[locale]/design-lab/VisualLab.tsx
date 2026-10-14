@@ -115,7 +115,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const result=Number.isFinite(amount)?amount.toLocaleString(locale==="fr"?"fr-FR":"en-US",{maximumFractionDigits:3}):"—";
   const isMulticolorPalette=true;
 
-  return <main data-theme={theme} data-reduced-motion={preferences.reducedMotion} className={`${styles.lab} ${theme==="dark"?styles.darkPalette:""}`} style={tokens}>
+  return <main data-theme={theme} data-reduced-motion={preferences.reducedMotion} className={styles.lab} style={tokens}>
     <header className={styles.intro}>
       <div className={styles.introTop}><span className={styles.eyebrow}><span className={styles.sparkle} aria-hidden="true"><MaterialIcon name="stars" size={16} /></span>{t.eyebrow}</span>
         
