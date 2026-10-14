@@ -84,7 +84,7 @@ Tool input and content must not be synchronized or stored by default. Sensitive 
 
 ## Tool catalog
 
-The platform supports three levels of tool complexity: small tools, advanced tools and mini-applications. A common framework must standardize navigation, metadata, privacy indicators, accessibility, common actions, analytics boundaries, SEO, error handling, lifecycle and discovery without forcing every tool into the same layout or interaction model.
+The platform supports three levels of tool complexity: small tools, advanced tools and mini-applications. A common framework must standardize navigation, metadata, privacy indicators, accessibility, common actions, SEO, error handling, lifecycle and discovery without forcing every tool into the same layout or interaction model.
 
 There is no artificial limit on catalog categories or tool types; implementation complexity must remain proportionate to demonstrated needs.
 
