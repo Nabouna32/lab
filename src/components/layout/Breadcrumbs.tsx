@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
+import { MaterialIcon } from "@/components/ui/MaterialIcon";
 
 export type BreadcrumbItem = { label: string; href?: string };
 
@@ -26,9 +27,7 @@ export default function Breadcrumbs({ locale, items }: { locale: Locale; items: 
               key={item.label}
               className="flex min-w-0 items-center gap-1 sm:gap-1.5"
             >
-              <span aria-hidden="true" className="shrink-0 text-[var(--muted)]/50">
-                ›
-              </span>
+              <span aria-hidden="true" className="shrink-0 text-[var(--muted)]/50"><MaterialIcon name="chevron_right" size={14} /></span>
               {item.href ? (
                 <Link
                   href={item.href}
