@@ -137,13 +137,13 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
                     {active.user_collection_items.map((item) => {
                       const tool = tools.find((candidate) => candidate.id === item.tool_id);
                       if (!tool) return null;
-                      return <li key={item.tool_id} className="flex items-center gap-3 py-3"><span aria-hidden="true" className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--accent-soft)] text-xl">{tool.icon}</span><div className="min-w-0 flex-1"><Link href={tool.href} className="font-semibold hover:underline">{tool.name}</Link><p className="line-clamp-1 text-xs text-[var(--muted)]">{tool.description}</p></div><Button type="button" variant="text" onClick={() => void data.removeTool(active.id, item.tool_id)}>{copy.removeTool}</Button></li>;
+                      return <li key={item.tool_id} className="flex items-center gap-3 py-3"><span aria-hidden="true" className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--accent-soft)] text-xl">{tool.icon}</span><div className="min-w-0 flex-1"><Link href={tool.href} className="font-semibold hover:underline">{tool.name}</Link><p className="line-clamp-1 text-xs text-[var(--muted)]">{tool.description}</p></div><Button type="button" variant="text" className="!text-[var(--muted)]" onClick={() => void data.removeTool(active.id, item.tool_id)}>{copy.removeTool}</Button></li>;
                     })}
                   </ul> : <p className="py-6 text-center text-sm text-[var(--muted)]">{copy.emptyHelp}</p>}
                   <div className="mt-5 flex flex-wrap items-center gap-2 border-t border-[var(--border)] pt-4">
                     <Button type="button" variant="outlined" onClick={() => void data.toggleSharing(active.id).then((ok) => { if (!ok) setMessage(copy.error); })}>{active.share_token ? copy.stopShare : copy.share}</Button>
                     {active.share_token && <Button type="button" variant="filled" onClick={() => void copyLink(active.share_token!)}>{copy.copy}</Button>}
-                    <Button type="button" variant="danger" onClick={() => { if (window.confirm(fr ? "Supprimer cette collection et ses outils ?" : "Delete this collection and its tools?")) void data.deleteCollection(active.id).then((ok) => { if (ok) setActiveCollection(null); else setMessage(copy.error); }); }}>{copy.remove}</Button>
+                    <Button type="button" variant="text" className="!text-[var(--error)]" onClick={() => { if (window.confirm(fr ? "Supprimer cette collection et ses outils ?" : "Delete this collection and its tools?")) void data.deleteCollection(active.id).then((ok) => { if (ok) setActiveCollection(null); else setMessage(copy.error); }); }}>{copy.remove}</Button>
                   </div>
                 </section>
               )}
