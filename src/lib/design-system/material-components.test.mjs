@@ -6,6 +6,7 @@ const checkboxSource = readFileSync(new URL("../../components/ui/Checkbox.tsx", 
 const switchSource = readFileSync(new URL("../../components/ui/Switch.tsx", import.meta.url), "utf8");
 const iconSource = readFileSync(new URL("../../components/ui/MaterialIcon.tsx", import.meta.url), "utf8");
 const labSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
+const labCss = readFileSync(new URL("../../app/[locale]/design-lab/visual-lab.module.css", import.meta.url), "utf8");
 const passwordSource = readFileSync(new URL("../../components/tools/password-generator/PasswordGenerator.tsx", import.meta.url), "utf8");
 const imageSource = readFileSync(new URL("../../components/tools/image-compressor/ImageCompressor.tsx", import.meta.url), "utf8");
 const sliderSource = readFileSync(new URL("../../components/ui/Slider.tsx", import.meta.url), "utf8");
@@ -114,6 +115,7 @@ test("real tools and the Lab use shared checkbox, switch, slider and progress pr
   assert.match(labSource, /--switch-active/);
   assert.match(labSource, /--checkbox-active/);
   assert.match(labSource, /--slider-active/);
+  assert.match(labCss, /input\[type="checkbox"\]\+span::after/);
   assert.doesNotMatch(labSource, /type="checkbox"/);
   assert.doesNotMatch(labSource, /type="range"/);
   assert.match(passwordSource, /import \{ Checkbox \} from "@\/components\/ui\/Checkbox"/);
