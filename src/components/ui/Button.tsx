@@ -1,13 +1,16 @@
 import type { ButtonHTMLAttributes } from "react";
 
-export type ButtonVariant = "primary" | "elevated" | "tonal" | "outlined" | "text" | "danger" | "secondary" | "ghost";
+export type ButtonVariant = "filled" | "elevated" | "filled-tonal" | "outlined" | "text" | "primary" | "tonal" | "danger" | "secondary" | "ghost";
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & { variant?: ButtonVariant };
 
 const variants: Record<ButtonVariant, string> = {
-  // "primary" is the app's compatibility name for M3's filled button.
+  filled: "border border-transparent bg-[var(--primary)] text-[var(--on-primary)] hover:bg-[color-mix(in_srgb,var(--primary)_92%,var(--on-primary))] active:bg-[color-mix(in_srgb,var(--primary)_88%,var(--on-primary))]",
+  // Compatibility name retained for existing call sites.
   primary: "border border-transparent bg-[var(--primary)] text-[var(--on-primary)] hover:bg-[color-mix(in_srgb,var(--primary)_92%,var(--on-primary))] active:bg-[color-mix(in_srgb,var(--primary)_88%,var(--on-primary))]",
   elevated: "border border-transparent bg-[var(--surface-container-low)] text-[var(--primary)] shadow-[var(--shadow-sm)] hover:bg-[color-mix(in_srgb,var(--surface-container-low)_92%,var(--primary))] active:bg-[color-mix(in_srgb,var(--surface-container-low)_88%,var(--primary))]",
+  "filled-tonal": "border border-transparent bg-[var(--secondary-container)] text-[var(--on-secondary-container)] hover:bg-[color-mix(in_srgb,var(--secondary-container)_92%,var(--on-secondary-container))] active:bg-[color-mix(in_srgb,var(--secondary-container)_88%,var(--on-secondary-container))]",
+  // Compatibility name retained for existing call sites.
   tonal: "border border-transparent bg-[var(--secondary-container)] text-[var(--on-secondary-container)] hover:bg-[color-mix(in_srgb,var(--secondary-container)_92%,var(--on-secondary-container))] active:bg-[color-mix(in_srgb,var(--secondary-container)_88%,var(--on-secondary-container))]",
   outlined: "border border-[var(--outline)] bg-transparent text-[var(--primary)] hover:bg-[color-mix(in_srgb,var(--primary)_8%,transparent)] active:bg-[color-mix(in_srgb,var(--primary)_12%,transparent)]",
   text: "border border-transparent bg-transparent text-[var(--primary)] hover:bg-[color-mix(in_srgb,var(--on-surface)_8%,transparent)] active:bg-[color-mix(in_srgb,var(--on-surface)_12%,transparent)]",
@@ -17,7 +20,7 @@ const variants: Record<ButtonVariant, string> = {
   ghost: "border border-transparent bg-transparent text-[var(--primary)] hover:bg-[color-mix(in_srgb,var(--primary)_8%,transparent)] active:bg-[color-mix(in_srgb,var(--primary)_12%,transparent)]",
 };
 
-export function Button({ variant = "primary", className = "", type = "button", ...props }: ButtonProps) {
+export function Button({ variant = "filled", className = "", type = "button", ...props }: ButtonProps) {
   return (
     <button
       type={type}
