@@ -205,7 +205,7 @@ The deployed database currently supports:
 - favorites and personal collections;
 - administrative RBAC and audit data.
 
-Synchronized preferences, tool metadata and privacy-conscious analytics remain possible future domains only when justified by concrete requirements.
+Additional synchronized preferences, tool metadata and privacy-conscious analytics remain possible future domains only when justified by concrete requirements.
 
 Supabase/PostgreSQL is the current database platform for the deployed account, administrative RBAC and audit foundation. The public tool catalog remains Git-backed, and the legacy database catalog schema is not deployed; no catalog migration is currently scheduled.
 
@@ -277,7 +277,7 @@ For heavier local workloads, prefer progressive escalation: main-thread processi
 
 ### State and synchronization
 
-Use the least powerful persistence layer that satisfies the requirement: React/local state for transient state, URL state for safe shareable configuration, localStorage for small preferences, IndexedDB for larger local structured state, and account-backed persistence for selected cross-device metadata such as favorites, collections and theme preference. Sensitive raw tool content should remain local by default.
+Use the least powerful persistence layer that satisfies the requirement: React/local state for transient state, URL state for safe shareable configuration, localStorage for small preferences, IndexedDB for larger local structured state, and account-backed persistence for selected cross-device metadata such as favorites and collections. Theme preference synchronization is not implemented; the preference remains local until that capability is deliberately added. Sensitive raw tool content should remain local by default.
 
 When local and account state are merged, the synchronization strategy and conflict behavior must be deterministic and explicit.
 
