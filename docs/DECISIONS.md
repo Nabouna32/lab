@@ -593,23 +593,17 @@ The new model directly represents the product vision while keeping the implement
 
 ### Decision
 
-The pre-launch Supabase database uses a clean application foundation containing only durable account continuity, administrative RBAC and security audit data. The legacy tool catalog schema and its catalog-specific permissions are removed rather than carried forward as migration archaeology.
-
-The clean baseline migration `20261008195413_clean_application_foundation` is the replayable foundation for fresh environments. Production migration history is aligned to that baseline. Future production migrations are applied through the Supabase connector after review, with the exact remote migration version reconciled against the versioned SQL in Git.
-
-The tool catalog will be reintroduced only through the separately validated catalog redesign; executable tool behavior remains in Git/code.
+Supabase stores the durable account and security domains required by the deployed product: profile metadata, favorites, personal collections, administrative roles and permissions, and security audit records. The public tool catalog remains Git-backed. Legacy database catalog tables and catalog-specific permissions are not part of the application foundation and must not be recreated by default.
 
 ### Reason
 
-The current database boundary keeps durable account continuity, administrative authorization and security audit data separate from the Git-backed tool catalog. Obsolete catalog schema should not be retained or recreated.
+Account continuity and administrative security have concrete product requirements. A database-backed tool catalog does not currently have a demonstrated need and would add schema, authorization and operational complexity.
 
 ### Consequences
 
-- The production database currently contains only the six retained foundation tables.
-- No legacy `tool_*` tables or `catalog.*` permissions should be recreated accidentally.
-- Future catalog work must define its new schema and migration path explicitly.
-- Direct connector-based migrations must preserve a versioned SQL file in Git and verify the exact remote migration registry immediately after application.
-- The separate Edge Functions CI remains responsible only for dependency-lock and type validation of Edge Functions; it does not deploy them or apply database migrations.
+- `docs/DATABASE.md` is the source of truth for the deployed table inventory, migrations, Row Level Security and migration procedure.
+- Any future database-backed catalog proposal must meet the criteria in DEC-051 and receive explicit approval before implementation.
+- This decision does not freeze the number of account/security tables as the product evolves.
 
 ## DEC-048 — Material 3 Expressive as Loculary's shared design-system foundation
 
