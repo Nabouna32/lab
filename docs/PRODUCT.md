@@ -112,7 +112,6 @@ It may contain:
 - symbolic/spiritual tools;
 - and other useful browser-realizable utilities.
 
-There is no artificial category limit.
 
 ## Tool quality gate
 
