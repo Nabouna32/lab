@@ -112,3 +112,13 @@ test("standard functional UI surfaces do not reintroduce one-off inline SVG icon
     assert.doesNotMatch(source, /<svg\b/, `${relativePath} should use the shared MaterialIcon component for standard UI icons`);
   }
 });
+
+test("Pixel preview bottom navigation uses readable selected labels and explicit interaction states", () => {
+  const labCss = readFileSync(new URL("../../app/[locale]/design-lab/visual-lab.module.css", import.meta.url), "utf8");
+  assert.match(labCss, /\.directionBottomNav button\{[^}]*min-height:3rem/);
+  assert.match(labCss, /\.directionStage\[data-direction="pixel"\] \.directionBottomNav button\[aria-current="page"\]\{color:var\(--lab-text\)\}/);
+  assert.match(labCss, /\.directionStage\[data-direction="pixel"\] \.directionBottomNav button\[aria-current="page"\] b\{background:var\(--lab-secondary-container\);color:var\(--lab-on-secondary-container\)\}/);
+  assert.match(labCss, /\.directionStage\[data-direction="pixel"\] \.directionBottomNav button:hover/);
+  assert.match(labCss, /\.directionStage\[data-direction="pixel"\] \.directionBottomNav button:active/);
+  assert.match(labCss, /\.directionStage\[data-direction="pixel"\] \.directionBottomNav button:focus-visible/);
+});
