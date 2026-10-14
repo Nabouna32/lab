@@ -1,17 +1,19 @@
 import type { ButtonHTMLAttributes } from "react";
 
-export type ButtonVariant = "primary" | "tonal" | "outlined" | "text" | "danger" | "secondary" | "ghost";
+export type ButtonVariant = "primary" | "elevated" | "tonal" | "outlined" | "text" | "danger" | "secondary" | "ghost";
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & { variant?: ButtonVariant };
 
 const variants: Record<ButtonVariant, string> = {
-  primary: "border border-transparent bg-[var(--primary)] text-[var(--on-primary)] hover:bg-[color-mix(in_srgb,var(--primary)_92%,var(--on-primary))] active:bg-[color-mix(in_srgb,var(--primary)_88%,var(--on-primary))] active:scale-[.98]",
-  tonal: "border border-transparent bg-[var(--secondary-container)] text-[var(--on-secondary-container)] hover:bg-[color-mix(in_srgb,var(--secondary-container)_92%,var(--on-secondary-container))] active:bg-[color-mix(in_srgb,var(--secondary-container)_88%,var(--on-secondary-container))] active:scale-[.98]",
-  outlined: "border border-[var(--outline)] bg-transparent text-[var(--primary)] hover:bg-[color-mix(in_srgb,var(--primary)_8%,transparent)] active:bg-[color-mix(in_srgb,var(--primary)_12%,transparent)] active:scale-[.98]",
-  text: "border border-transparent bg-transparent text-[var(--primary)] hover:bg-[color-mix(in_srgb,var(--surface)_92%,var(--primary))] active:bg-[color-mix(in_srgb,var(--surface)_88%,var(--primary))] active:scale-[.98]",
-  danger: "border border-transparent bg-[var(--error)] text-[var(--on-error)] hover:bg-[color-mix(in_srgb,var(--error)_92%,var(--on-error))] active:bg-[color-mix(in_srgb,var(--error)_88%,var(--on-error))] active:scale-[.98]",
-  // Compatibility names retained while existing call sites migrate by intent.
-  secondary: "border border-[var(--outline)] bg-[var(--surface)] text-[var(--foreground)] hover:bg-[color-mix(in_srgb,var(--surface)_92%,var(--foreground))] active:bg-[color-mix(in_srgb,var(--surface)_88%,var(--foreground))] active:scale-[.98]",
+  // "primary" is the app's compatibility name for M3's filled button.
+  primary: "border border-transparent bg-[var(--primary)] text-[var(--on-primary)] hover:bg-[color-mix(in_srgb,var(--primary)_92%,var(--on-primary))] active:bg-[color-mix(in_srgb,var(--primary)_88%,var(--on-primary))]",
+  elevated: "border border-transparent bg-[var(--surface-container-low)] text-[var(--primary)] shadow-[var(--shadow-sm)] hover:bg-[color-mix(in_srgb,var(--surface-container-low)_92%,var(--primary))] active:bg-[color-mix(in_srgb,var(--surface-container-low)_88%,var(--primary))]",
+  tonal: "border border-transparent bg-[var(--secondary-container)] text-[var(--on-secondary-container)] hover:bg-[color-mix(in_srgb,var(--secondary-container)_92%,var(--on-secondary-container))] active:bg-[color-mix(in_srgb,var(--secondary-container)_88%,var(--on-secondary-container))]",
+  outlined: "border border-[var(--outline)] bg-transparent text-[var(--primary)] hover:bg-[color-mix(in_srgb,var(--primary)_8%,transparent)] active:bg-[color-mix(in_srgb,var(--primary)_12%,transparent)]",
+  text: "border border-transparent bg-transparent text-[var(--primary)] hover:bg-[color-mix(in_srgb,var(--on-surface)_8%,transparent)] active:bg-[color-mix(in_srgb,var(--on-surface)_12%,transparent)]",
+  // App-specific compatibility variants. Prefer the M3 variants above for new call sites.
+  danger: "border border-transparent bg-[var(--error)] text-[var(--on-error)] hover:bg-[color-mix(in_srgb,var(--error)_92%,var(--on-error))] active:bg-[color-mix(in_srgb,var(--error)_88%,var(--on-error))]",
+  secondary: "border border-[var(--outline)] bg-[var(--surface)] text-[var(--foreground)] hover:bg-[color-mix(in_srgb,var(--surface)_92%,var(--foreground))] active:bg-[color-mix(in_srgb,var(--surface)_88%,var(--foreground))]",
   ghost: "border border-transparent bg-transparent text-[var(--muted)] hover:bg-[color-mix(in_srgb,var(--on-surface-variant)_8%,transparent)] hover:text-[var(--foreground)] active:bg-[color-mix(in_srgb,var(--on-surface-variant)_12%,transparent)]",
 };
 
@@ -20,8 +22,10 @@ export function Button({ variant = "primary", className = "", type = "button", .
     <button
       type={type}
       className={[
-        "inline-flex min-h-10 items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold tracking-[.01em]",
-        "transition-[background-color,border-color,color,box-shadow,transform] duration-[var(--motion-standard)]",
+        // M3 small button baseline: 40px high, 64px minimum width, 14/20 label typography.
+        // Keep labels on one line; action groups should wrap the buttons, not their text.
+        "inline-flex min-h-10 min-w-16 shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-full px-6 py-2 text-sm font-medium leading-5 tracking-[.006em]",
+        "transition-[background-color,border-color,color,box-shadow] duration-[var(--motion-standard)]",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]",
         "disabled:pointer-events-none disabled:opacity-45",
         variants[variant],
