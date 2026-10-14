@@ -202,3 +202,17 @@ test("production theme exposes modern Material 3 surface roles in both themes", 
   assert.match(globalCss, /--surface-container-highest:\s*var\(--m3-light-surface-container-highest/);
   assert.match(globalCss, /--surface-container-highest:\s*var\(--m3-dark-surface-container-highest/);
 });
+
+
+test("Design Lab includes extended Material 3 navigation, field, list, menu, progress and loading components", () => {
+  const labSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
+  const labCss = readFileSync(new URL("../../app/[locale]/design-lab/visual-lab.module.css", import.meta.url), "utf8");
+  for (const marker of ["m3-missing-title", "sampleTopBar", "sampleNavigationRail", "sampleFab", "sampleBadge", "sampleMaterialField", "sampleRadioGroup", "sampleListItem", "sampleMenu", "sampleCircularProgress", "sampleSkeleton", "sampleTooltipWrap"]) {
+    assert.ok(labSource.includes(marker), `Design Lab is missing ${marker}`);
+  }
+  for (const marker of [".sampleTopBar", ".sampleNavigationRail", ".sampleFab", ".sampleMaterialField", ".sampleRadioGroup", ".sampleListItem", ".sampleMenu", ".sampleCircularProgress", ".sampleSkeleton"]) {
+    assert.ok(labCss.includes(marker), `Design Lab styles are missing ${marker}`);
+  }
+  assert.match(labSource, /checked=\{sampleRadio==="all"\}/);
+  assert.match(labSource, /aria-expanded=\{sampleMenuOpen\}/);
+});
