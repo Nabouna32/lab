@@ -88,8 +88,17 @@ export function CollectionsProvider({ children, toolIds }: { children: ReactNode
       await refresh();
     };
     void load();
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(() => {
-      if (active) void load();
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+      if (!active) return;
+      if (event === "SIGNED_IN" || event === "SIGNED_OUT") {
+        // Hide the previous account's data immediately, before the new identity lookup resolves.
+        refreshRequestRef.current += 1;
+        setUserId(null);
+        setCollections([]);
+        setLoading(true);
+        setError(false);
+      }
+      void load();
     });
     return () => {
       active = false;
