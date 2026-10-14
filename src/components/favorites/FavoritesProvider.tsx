@@ -129,14 +129,23 @@ export function FavoritesProvider({ children, toolIds }: { children: ReactNode; 
       if (mounted) setAccount({ userId, ids: remoteIds, loading: false, error: false });
     }
 
+    let authChangeTimer: ReturnType<typeof setTimeout> | null = null;
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       const nextUserId = session?.user.id ?? null;
       if (activeUserRef.current === nextUserId) return;
       activeUserRef.current = nextUserId;
-      void loadAccount(nextUserId);
+
+      // Do not query Supabase from inside its auth callback: the callback runs
+      // under the auth lock and follow-up client calls can deadlock.
+      if (authChangeTimer) clearTimeout(authChangeTimer);
+      authChangeTimer = setTimeout(() => {
+        authChangeTimer = null;
+        if (mounted && activeUserRef.current === nextUserId) void loadAccount(nextUserId);
+      }, 0);
     });
     return () => {
       mounted = false;
+      if (authChangeTimer) clearTimeout(authChangeTimer);
       subscription.unsubscribe();
     };
   }, [persistAnonymous, persistMigration, validIds]);
