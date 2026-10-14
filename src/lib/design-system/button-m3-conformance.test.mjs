@@ -10,6 +10,7 @@ const favoriteButton = readFileSync(new URL("../../components/favorites/Favorite
 const baseConverter = readFileSync(new URL("../../components/tools/number-base-converter/NumberBaseConverter.tsx", import.meta.url), "utf8");
 const themeToggle = readFileSync(new URL("../../components/theme/ThemeToggle.tsx", import.meta.url), "utf8");
 const languageSelector = readFileSync(new URL("../../components/layout/LanguageSelector.tsx", import.meta.url), "utf8");
+const mobileHeaderSearch = readFileSync(new URL("../../components/layout/MobileHeaderSearch.tsx", import.meta.url), "utf8");
 const toolSearch = readFileSync(new URL("../../components/tools/ToolSearch.tsx", import.meta.url), "utf8");
 
 test("shared Button exposes canonical M3 variants, stable labels and semantic disabled states", () => {
@@ -53,6 +54,7 @@ test("shared IconButton preserves 48px touch target and supports accessible togg
     'selected && (variant === "standard" || variant === "outlined")',
     "disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]",
     "label: string",
+    "ref?: Ref<HTMLButtonElement>",
   ]) {
     assert.ok(iconButton.includes(required), "missing IconButton conformance rule: " + required);
   }
@@ -99,4 +101,12 @@ test("icon-only theme and language menu triggers meet the 48px M3 target", () =>
   assert.ok(languageSelector.includes("h-12 w-12 shrink-0 cursor-pointer list-none items-center justify-center rounded-full"));
   assert.ok(themeToggle.includes('aria-label={labels.choose + ": " + currentLabel}'));
   assert.ok(languageSelector.includes('aria-label={t.nav.language + ": " + currentLanguage.nativeLabel}'));
+});
+
+test("mobile header search uses the shared ref-capable M3 IconButton", () => {
+  assert.ok(mobileHeaderSearch.includes('import { IconButton } from "@/components/ui/IconButton"'));
+  assert.ok(mobileHeaderSearch.includes("<IconButton"));
+  assert.ok(mobileHeaderSearch.includes("ref={triggerRef}"));
+  assert.ok(mobileHeaderSearch.includes('selected={open}'));
+  assert.ok(!mobileHeaderSearch.includes('const iconButton ='));
 });
