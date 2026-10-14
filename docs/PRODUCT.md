@@ -50,25 +50,13 @@ Understand natural requests such as:
 
 and identify the appropriate tool.
 
-### Level 3 — Direct task assistance
-
-Where safe and deterministic, search may prefill or directly execute a simple calculation.
-
 ### Discovery experience
 
 The homepage is action/search-first, with deeper discovery through popular tools, categories, recent/new content and relevant recommendations. Navigation may expose user intentions such as calculating, converting, transforming, creating, analyzing, verifying, generating, measuring and discovering. An intent expresses a goal, not a category shortcut: one intent may lead to tools across several categories. Initial associations may be curated editorial data; deterministic inference or ranking may enrich them later.
 
-The catalog should be able to grow substantially over time, but storage, indexing, caching, administration and loading strategies must be justified by current scale, measured performance and actual editorial needs. The current catalog remains Git-backed; DEC-030 defines when a database-backed catalog should be reconsidered. Executable tool behavior remains in Git.
+The catalog should be able to grow substantially over time, but storage, indexing, caching, administration and loading strategies must be justified by current scale, measured performance and actual editorial needs. The current catalog remains Git-backed; DEC-027 defines when a database-backed catalog should be reconsidered. Executable tool behavior remains in Git.
 
-Search should progressively support exact/prefix matching, descriptions, aliases, synonyms, tags, categories, typo tolerance, related queries and natural-language intent. Where safe and deterministic, it may prefill or directly execute a task. No-result states should help users reformulate, discover related tools/categories and identify useful alternatives when no direct match exists.
-
-### AI
-
-External AI may eventually improve intent recognition or tool discovery, but it is **not required for the initial architecture**.
-
-Any AI integration must justify its recurring cost, latency, privacy implications, reliability, and value.
-
-A custom-trained AI is not a current requirement.
+Search supports exact/prefix matching, descriptions, aliases, synonyms, tags, categories, typo tolerance, related queries and natural-language intent. No-result states help users reformulate, discover related tools/categories and identify useful alternatives when no direct match exists.
 
 ## Accounts
 
@@ -96,7 +84,7 @@ Tool input and content must not be synchronized or stored by default. Sensitive 
 
 ## Tool catalog
 
-The platform supports three levels of tool complexity: small tools, advanced tools and mini-applications. A common framework must standardize navigation, metadata, privacy indicators, accessibility, common actions, analytics boundaries, SEO, error handling, lifecycle and discovery without forcing every tool into the same layout or interaction model.
+The platform supports three levels of tool complexity: small tools, advanced tools and mini-applications. A common framework must standardize navigation, metadata, privacy indicators, accessibility, common actions, SEO, error handling, lifecycle and discovery without forcing every tool into the same layout or interaction model.
 
 There is no artificial limit on catalog categories or tool types; implementation complexity must remain proportionate to demonstrated needs.
 
@@ -148,8 +136,6 @@ Expected checks include, as applicable:
 
 The exact automated contract will evolve with the tool platform.
 
-Contextual tone and richer educational content are optional tool-level enhancements. They may provide useful background, origins, conventions or differing standards only when they help users understand or complete the task. They must remain secondary to the tool and must not become generic SEO filler.
-
 ### Explanation and content quality
 
 - Put the useful result and primary interaction first; make explanations available without making them a barrier to use.
@@ -174,28 +160,11 @@ The platform should standardize:
 - privacy indicators;
 - accessibility expectations;
 - common actions;
-- analytics boundaries;
 - SEO;
 - error handling;
 - lifecycle and discovery.
 
 Individual tools may still have distinctive layouts, visualizations, animations, and interactions.
-
-## Analytics
-
-Analytics are considered useful for product development, because the catalog needs evidence about:
-
-- which tools are actually used;
-- which searches fail;
-- which tools are discovered but abandoned;
-- which categories need improvement;
-- performance and reliability issues.
-
-However, analytics should be **privacy-conscious and proportionate**.
-
-The default direction is to measure product usage without collecting the content users enter into tools.
-
-No analytics decision should override the local-first privacy model.
 
 ## Internationalization
 
@@ -204,12 +173,6 @@ Initial languages:
 - French;
 - English.
 
-The architecture must be prepared for additional languages.
+Keep localization data-driven so additional languages can be supported if a concrete need arises, without committing to a broader locale roadmap.
 
 Translations must be treated as product content, not scattered hard-coded strings.
-
-## Future mobile client
-
-A native or cross-platform Android application is a possible future product surface.
-
-It should reuse suitable domain/tool logic where practical, but web development must not be slowed down by premature mobile abstractions.

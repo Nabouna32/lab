@@ -1,6 +1,6 @@
 # Loculary — Search
 
-Search is both catalog navigation and, progressively, solution discovery.
+Search supports catalog navigation and intent-based tool discovery.
 
 ## Search field and suggestion surface
 
@@ -19,8 +19,8 @@ Search is both catalog navigation and, progressively, solution discovery.
 - The trailing round arrow and Enter submit the same query. Enter while a suggestion is explicitly highlighted opens that selected tool.
 - Search-result URLs are transient discovery states, not standalone SEO landing pages; they should not be indexed. The static all-tools catalog route remains separate from query results.
 
-Matching layers: exact/prefix text; descriptions, aliases, synonyms, tags and categories; typo tolerance and related queries; natural-language intent; optional AI only when its cost, privacy, latency and reliability are justified.
+Matching layers: exact/prefix text; descriptions, aliases, synonyms, tags and categories; typo tolerance, related queries and natural-language intent.
 
-Examples such as “calculer 17 % de 283” should lead to the relevant tool. A no-result state should propose related queries/tools and eventually “Proposer un outil”.
+Examples such as “calculer 17 % de 283” should lead to the relevant tool. A no-result state should propose related queries and relevant tools.
 
-A future solution engine may transform a need into a sequence of existing tools, without making AI foundational. Tags are centrally managed with aliases to avoid vocabulary duplication. Tools may belong to multiple categories.
+Tags are centrally managed with aliases to avoid vocabulary duplication. Tools may belong to multiple categories.

@@ -96,25 +96,8 @@ Search architecture should allow an intelligence layer without requiring one fro
 
 ---
 
-## DEC-006 — Current web stack remains the baseline
 
-**Status:** Accepted
-
-### Decision
-
-Keep Next.js, React, TypeScript, Tailwind CSS, Vercel, and GitHub Actions as the current baseline unless implementation evidence justifies a change.
-
-### Reason
-
-The existing stack supports the current product requirements and avoids unnecessary migration work.
-
-### Consequences
-
-Architecture should be designed around product requirements rather than framework assumptions.
-
----
-
-## DEC-007 — Privacy is a product feature
+## DEC-006 — Privacy is a product feature
 
 **Status:** Accepted
 
@@ -140,7 +123,7 @@ Users should be able to understand and control their relationship with Loculary 
 
 ---
 
-## DEC-008 — Simple consent choices
+## DEC-007 — Simple consent choices
 
 **Status:** Accepted
 
@@ -158,7 +141,7 @@ Loculary should provide clear high-level choices such as accept, refuse non-esse
 
 ---
 
-## DEC-009 — Capability-based tool permissions
+## DEC-008 — Capability-based tool permissions
 
 **Status:** Accepted
 
@@ -176,7 +159,7 @@ The Tool contract must include capabilities. Tool execution architecture should 
 
 ---
 
-## DEC-010 — External integrations are catalogued
+## DEC-009 — External integrations are catalogued
 
 **Status:** Accepted
 
@@ -194,7 +177,7 @@ The catalog must include provider, domain, purpose, transmitted data, authentica
 
 ---
 
-## DEC-011 — Three-layer product model
+## DEC-010 — Three-layer product model
 **Status:** Accepted
 
 ### Decision
@@ -207,7 +190,7 @@ Anonymous users can use the public and tool layers without an account. Authentic
 
 ---
 
-## DEC-012 — First-class collections and explicit link sharing
+## DEC-011 — First-class collections and explicit link sharing
 
 **Status:** Accepted
 
@@ -221,7 +204,7 @@ Sensitive values must not be exposed unintentionally in URLs or shared state. Lo
 
 ---
 
-## DEC-013 — Three levels of tool complexity
+## DEC-012 — Three levels of tool complexity
 
 **Status:** Accepted
 
@@ -235,35 +218,9 @@ A universal toolbox must support both tiny deterministic utilities and rich appl
 
 ---
 
-## DEC-014 — Progressive richness and capability-aware performance
 
-**Status:** Accepted
 
-### Decision
-
-Complexity must be loaded progressively. Heavy tools may use Workers, WebAssembly, chunking/streaming and capability checks, while simple tools remain lightweight. Long-running work should expose truthful progress and cancellation when possible.
-
-### Reason
-
-The product must remain fast and usable on modest devices and slow connections without excluding genuinely useful heavy tools.
-
----
-
-## DEC-015 — Search is a solution-discovery subsystem
-
-**Status:** Accepted
-
-### Decision
-
-Search is not limited to tool-name matching. It progressively supports catalog matching, aliases/synonyms/tags/categories, typo tolerance, natural-language intent and eventually multi-tool solution discovery. AI remains optional.
-
-### Consequences
-
-Search must remain useful without an AI provider and must expose no-result recovery paths such as related queries, related tools and relevant categories.
-
----
-
-## DEC-016 — First-class tool registry and dynamic execution route
+## DEC-013 — First-class tool registry and dynamic execution route
 
 **Status:** Accepted
 
@@ -289,7 +246,7 @@ A registry also provides a controlled boundary for progressive code loading and 
 
 ---
 
-## DEC-017 — Tool-scoped runtime capabilities
+## DEC-014 — Tool-scoped runtime capabilities
 
 **Status:** Accepted
 
@@ -318,7 +275,7 @@ Separating access from processing also prevents an accidental architectural coup
 - Future browser, persistence, network and account capabilities should use the same controlled boundary.
 - Tool metadata remains authoritative for the declared requirement, while executable platform services enforce the actual permission at runtime.
 
-## DEC-018 — Granular admin RBAC in the database
+## DEC-015 — Granular admin RBAC in the database
 
 **Status:** Accepted
 
@@ -340,7 +297,7 @@ Loculary will eventually have several administrative areas with different respon
 - Executable tool behavior remains in Git/code and is not moved into the database by this decision.
 - The model can grow with future administration areas without changing the basic authorization mechanism.
 
-## DEC-019 — System administration labels belong to application i18n
+## DEC-016 — System administration labels belong to application i18n
 
 **Status:** Accepted
 
@@ -359,7 +316,7 @@ System roles and permissions are part of the application contract, not editable 
 - Future editable catalog/editorial content may use database translation tables because that content is intentionally administrable.
 - Authorization logic continues to use stable keys and never depends on translated text.
 
-## DEC-020 — Explicit decimal and binary file-size units
+## DEC-017 — Explicit decimal and binary file-size units
 
 **Status:** Accepted
 
@@ -380,7 +337,7 @@ Using 1,024 while displaying decimal labels such as kB/ko makes the displayed un
 - Download-time calculations continue to use decimal file sizes and decimal network speeds.
 - Speed conversion continues to use decimal units and preserves the 8-bit-per-byte relationship.
 
-## DEC-021 — English is the product translation fallback
+## DEC-018 — English is the product translation fallback
 
 **Status:** Accepted
 
@@ -388,11 +345,11 @@ Using 1,024 while displaying decimal labels such as kB/ko makes the displayed un
 
 English is the fallback language for localized tool content when the requested locale has no translation. French remains a fully supported initial language, but missing translations must not fall back to French.
 
-Tool localized content therefore requires both French and English entries. Additional languages may be partial and fall back to English until translated.
+Tool localized content therefore requires both French and English entries. Any separately approved locale may be partial and fall back to English until translated.
 
 ### Reason
 
-Loculary is designed as an international product. English provides a neutral shared fallback as more languages are introduced, while French remains fully supported as the user's current native development language and one of the initial product languages.
+English provides a neutral shared fallback, while French remains fully supported as one of the two initial product languages. This does not commit the product to supporting additional locales.
 
 ### Consequences
 
@@ -401,7 +358,7 @@ Loculary is designed as an international product. English provides a neutral sha
 - New locales do not inherit French content accidentally.
 - French translations remain unchanged and are still used whenever the locale is `fr`.
 
-## DEC-022 — Translation status is an explicit readiness signal
+## DEC-019 — Translation status is an explicit readiness signal
 
 **Status:** Accepted
 
@@ -424,57 +381,33 @@ Structural i18n tests can verify that translations exist and remain coherent, bu
 - Future translation work may change a locale from `partial` to `complete` only when the supported user-facing scope has been reviewed.
 - Structural tests protect translation integrity but do not automatically promote a locale's readiness status.
 
-## DEC-023 — Task-first toolbox and intention-based discovery
+## DEC-020 — Task-first toolbox and intention-based discovery
 
 **Status:** Accepted
 
 ### Decision
 
-Loculary is a task-first digital utility toolbox organized around finding tools, exploring by intention, and discovering useful capabilities.
-
-The product is treated as a digital utility toolbox rather than a conventional SaaS landing page or dashboard. Catalog composition may use Material 3 cards when they support discovery and task clarity, rather than following a generic template.
-
-The experience is organized around three primary user intentions:
-
-1. **Find something** — search for a known or approximately known need.
-2. **Figure out how to do something** — explore by intention when the user knows the goal but not the tool.
-3. **Discover** — browse the catalog and learn what Loculary can do.
-
-The preferred primary journey is:
-
-> **Need → Find or explore → Tool → Action → Result → Next action**
-
-The homepage is action/search-first, with discovery following in depth. The tool page prioritizes the task, result and useful actions. Documentation and contextual next actions remain secondary to the primary task.
-
-The platform must provide a common visual and interaction language without forcing every tool into an identical layout. Individual tools may use distinct compositions, visualizations, animations and interaction models when this improves comprehension, feedback, enjoyment or tool character.
-
-Visual direction is governed by DEC-029 — Material 3 Expressive as Loculary's shared design-system foundation.
+Loculary is a task-first digital utility toolbox. Help users find a known tool, explore by intention, or discover available capabilities. The homepage prioritizes search and action; tool pages prioritize the task, result and useful next actions. Shared foundations create coherence without forcing every tool into an identical layout.
 
 ### Reason
 
-The existing UX can be functional while still feeling like a conventional web template or catalog. A superficial visual refresh would preserve that structural problem.
-
-The product needs a clearer identity centered on accomplishing tasks quickly while retaining the ability to explore a very large catalog.
+The product should help users accomplish tasks quickly while retaining straightforward catalog discovery.
 
 ### Consequences
 
-- Existing UX/UI patterns are not protected merely because they already exist.
-- Future redesign work may remove, merge, move or replace existing screens and components.
-- Search is a primary product entry point rather than merely a header utility.
-- Explorer/navigation must support both intention-oriented and category-oriented discovery.
-- Tool pages must prioritize interaction and results over editorial content.
+- Search and intention-based exploration are primary product journeys.
+- Tool pages prioritize interaction and results over editorial content.
 - Next actions must represent useful continuations rather than generic filler.
-- Responsive layouts must be designed as first-class desktop, tablet and mobile experiences.
-- Shared visual foundations and motion are governed by DEC-029; this structural UX decision does not require identical compositions across tools.
-- Core product constraints such as browser-first processing, privacy, accessibility, internationalization and anonymous-first usage remain unchanged.
+- Responsive layouts, accessibility, privacy, localization and anonymous-first usage remain mandatory.
+- Visual direction is governed by DEC-026 and the design-system contract.
 
-## DEC-024 — English reference locale and fully localized public tool URLs
+## DEC-021 — English reference locale and fully localized public tool URLs
 
 **Status:** Accepted
 
 ### Decision
 
-English is Loculary's reference locale and default locale for the initial launch. French is the second launch locale. Both locales must be complete before launch; additional locales may be added later.
+English is Loculary's reference locale and default locale for the initial launch. French is the second launch locale. Both locales must be complete before launch. The locale and URL structure remains extensible, but additional locales are not a committed roadmap item.
 
 Public tool URLs are fully localized and independent of category membership:
 
@@ -493,7 +426,7 @@ No legacy redirects are required for the pre-launch route structure. Future redi
 
 ### Reason
 
-The product is intended to launch with English and French as first-class languages. Separate namespaces remove the route collision between a category and a tool, while making tool URLs stable when category associations change and leaving a clean path for adding future locales.
+The product launches with English and French as first-class languages. Separate namespaces remove the route collision between a category and a tool and keep tool URLs stable when category associations change. The route structure remains locale-driven without committing to additional languages.
 
 ### Consequences
 
@@ -504,7 +437,7 @@ The product is intended to launch with English and French as first-class languag
 - URL generation must be centralized rather than assembled ad hoc throughout UI components.
 - Public tool routes use the current generic route shape without category-bearing segments.
 
-## DEC-025 — Complete account lifecycle and deletion semantics
+## DEC-022 — Complete account lifecycle and deletion semantics
 
 **Status:** Accepted
 
@@ -528,7 +461,7 @@ The account system must be complete without introducing unnecessary personal-dat
 - Future user-owned tables must define explicit deletion/retention semantics before being added to the account lifecycle.
 - Deleting the last super administrator is intentionally blocked to preserve administrative recoverability. The database serializes self-deletion and `super_admin` role removal checks so concurrent operations cannot bypass this invariant.
 
-## DEC-026 — Next actions are contextual and optional
+## DEC-023 — Next actions are contextual and optional
 
 **Status:** Accepted
 
@@ -561,7 +494,7 @@ where the final step is conditional on there being a meaningful continuation.
 - Existing "Related Tools" UI and relation logic must be evaluated against this decision; implementation changes must follow the normal discussion and decision process.
 - Related tools are not a mandatory generic section and are not placed after documentation by default.
 
-## DEC-027 — Intents are first-class discovery objects
+## DEC-024 — Intents are first-class discovery objects
 
 **Status:** Accepted
 
@@ -587,25 +520,25 @@ The new model directly represents the product vision while keeping the implement
 - Deterministic inference or ranking is an extension mechanism, not the definition of intent.
 - Generic category shortcuts must not be presented as if they fully represent an intent.
 
-## DEC-028 — Clean Supabase application foundation
+## DEC-025 — Clean Supabase application foundation
 
 **Status:** Accepted
 
 ### Decision
 
-Supabase stores the durable account and security domains required by the deployed product: profile metadata, favorites, personal collections, administrative roles and permissions, and security audit records. The public tool catalog remains Git-backed. Legacy database catalog tables and catalog-specific permissions are not part of the application foundation and must not be recreated by default.
+Supabase stores the deployed account and security domains: profile metadata, favorites, personal collections, administrative roles and permissions, and security audit records. The public tool catalog remains Git-backed; legacy catalog tables and catalog-specific permissions must not be recreated by default.
 
 ### Reason
 
-Account continuity and administrative security have concrete product requirements. A database-backed tool catalog does not currently have a demonstrated need and would add schema, authorization and operational complexity.
+Account continuity and administrative security have concrete requirements. A database-backed catalog has no demonstrated need and would add schema, authorization and operational complexity.
 
 ### Consequences
 
-- `docs/DATABASE.md` is the source of truth for the deployed table inventory, migrations, Row Level Security and migration procedure.
-- Any future database-backed catalog proposal must meet the criteria in DEC-030 and receive explicit approval before implementation.
-- This decision does not freeze the number of account/security tables as the product evolves.
+- `docs/DATABASE.md` is the source of truth for deployed tables, migrations, Row Level Security and migration procedure.
+- Any catalog database proposal must meet DEC-027 and receive explicit approval before implementation.
+- The number of account/security tables may evolve when requirements justify it.
 
-## DEC-029 — Material 3 Expressive as Loculary's shared design-system foundation
+## DEC-026 — Material 3 Expressive as Loculary's shared design-system foundation
 
 **Status:** Accepted
 
@@ -635,30 +568,27 @@ Loculary needs a coherent, recognizable visual and interaction language that fee
 - Adoption is not proof of implementation. Production migration, palette settings, preference persistence, account synchronization and visual/accessibility verification remain implementation work and must not be described as complete without evidence.
 
 
-## DEC-030 — Database-backed catalog is conditional on demonstrated need
+## DEC-027 — Database-backed catalog is conditional on demonstrated need
 
 **Status:** Accepted
 
 ### Decision
 
-The public tool catalog remains Git-backed. PostgreSQL is not a committed destination for editable catalog data and no migration is scheduled by default. Editable metadata and executable behavior must remain separate if a database-backed catalog is later justified.
+The public tool catalog remains Git-backed; no database migration is scheduled. If a database-backed catalog is later justified, editable metadata must remain separate from executable code and tool behavior.
 
-Reconsider a database-backed catalog when at least one concrete product or operational requirement is demonstrated that the current Git-backed workflow cannot reasonably serve. Evidence may include:
+Reconsider the storage model only when a concrete requirement cannot reasonably be served by Git, such as:
+- authorized editorial publishing without code deployment;
+- a measured search, build, delivery or performance bottleneck a database is likely to resolve;
+- administration or audit requirements the current workflow cannot meet proportionately.
 
-- authorized editorial publishing or lifecycle management that must happen without code deployment;
-- measured search, build, catalog-delivery or performance bottlenecks that a database-backed design is likely to resolve;
-- administration, auditability or collaboration requirements that cannot be met proportionately by the current workflow.
-
-Catalog size or an aspiration to support thousands of tools is not, by itself, sufficient justification. Any proposal must compare the actual benefits with schema/migration work, operational complexity, security, performance and maintenance cost. Before implementation, define the proposed scope and acceptance criteria, review the schema and migration path, and obtain explicit approval for the consequential architecture change.
-
-Git/code remains authoritative for executable tool implementations, registry modules, processing mode, capabilities and technical behavior, regardless of where editable metadata is stored.
+Catalog size alone is not sufficient justification. Any proposal must compare demonstrated benefits with migration, security, operational and maintenance costs, define scope and acceptance criteria, and receive explicit approval before implementation.
 
 ### Reason
 
-The deployed product currently uses a Git-backed catalog, and the database catalog schema was deliberately removed during the October 2026 clean-cut. Building the database catalog without a demonstrated publishing, search or operational need would add cost and complexity before proving its value.
+The current catalog works from Git, and the legacy database catalog schema was deliberately removed. Reintroducing it without a demonstrated need would add complexity before proving value.
 
 ### Consequences
 
-- The catalog remains Git-backed until the criteria above are met and a new implementation proposal is approved.
-- Product and architecture documents must describe database catalog storage as conditional, not inevitable.
+- `docs/DATABASE.md` describes the current deployed schema and catalog boundary.
+- Git/code remains authoritative for registry modules, processing mode, capabilities and executable behavior.
 - No catalog schema or production migration is authorized by this decision.

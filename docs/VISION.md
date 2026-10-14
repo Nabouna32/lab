@@ -97,9 +97,7 @@ These are not mutually exclusive categories. They describe different ways an int
 
 ## Long-term platform vision
 
-The web application is the primary product. The architecture should avoid unnecessary coupling that would make a future Android application impractical.
-
-A future Android client is a possibility, not an MVP constraint.
+The web application is the primary product. Keep its domain and tool logic maintainable without adding abstractions for hypothetical clients.
 
 ## Non-goals
 
@@ -120,6 +118,6 @@ The most important long-term product outcome is the user's feeling after using L
 
 This is intentionally a product-quality goal rather than a single metric.
 
-## Future evolution
+## Product continuity
 
-Loculary may evolve from helping users find one useful tool to helping them solve broader needs through complementary tools or composed workflows. Favorites, collections and light/dark theme preferences should remain optional additions that do not make an account mandatory for core use. Further directions should be evaluated on demonstrated user value, feasibility and operating cost.
+Favorites, collections and light/dark theme preferences remain optional additions that do not make an account mandatory for core use. Product changes should be evaluated against demonstrated user value, feasibility, privacy and operating cost.

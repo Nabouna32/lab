@@ -1,8 +1,8 @@
 # Loculary — Material 3 Expressive Design System Contract
 
 **Status:** Accepted production design direction; implementation audit and incremental conformance work are in progress  
-**Canonical direction:** DEC-029 — Material 3 Expressive as Loculary's shared design-system foundation  
-**Related decisions:** DEC-004, DEC-023, DEC-029  
+**Canonical direction:** DEC-026 — Material 3 Expressive as Loculary's shared design-system foundation  
+**Related decisions:** DEC-004, DEC-020, DEC-026  
 **Scope:** Shared platform UX, foundations and reusable components  
 **Implementation status:** This document defines intent; it does not claim that the current production UI already conforms to M3 Expressive.
 
@@ -189,7 +189,7 @@ M3 Expressive adoption does not replace Loculary's product quality requirements.
 - sufficient text and non-text contrast in every theme;
 - understandable validation and error feedback;
 - reduced-motion preferences;
-- French and English initially, with extensible localization and future RTL support;
+- French and English initially; locale direction remains explicit so the architecture does not assume every language is left-to-right;
 - longer translations without clipping or broken layouts;
 - privacy and processing transparency where relevant.
 
@@ -222,7 +222,7 @@ Implementation should be staged into small, verifiable scopes. Existing componen
 
 ## 14. Relationship to canonical documents
 
-This contract is governed by DEC-029 and must remain coherent with:
+This contract is governed by DEC-026 and must remain coherent with:
 
 - `docs/UX.md`;
 - `docs/PROJECT_INSTRUCTIONS.md`;

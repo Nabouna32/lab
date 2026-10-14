@@ -6,4 +6,4 @@ Core requirements: keyboard operation, logical focus, semantic structure, access
 
 Animations and visual effects must respect user accessibility preferences. The system `prefers-reduced-motion` setting takes precedence and may reduce or disable non-essential motion.
 
-Mobile, tablet, desktop and large screens are first-class contexts. A future child mode would require separate safety, privacy and legal design.
+Mobile, tablet, desktop and large screens are first-class contexts.
