@@ -234,8 +234,8 @@ test("Design Lab renders the shared production UI primitives against the active 
 test("Design Lab does not reference missing CSS module classes", () => {
   const labSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
   const labCss = readFileSync(new URL("../../app/[locale]/design-lab/visual-lab.module.css", import.meta.url), "utf8");
-  const references = [...new Set([...labSource.matchAll(/styles\\.([A-Za-z_]\\w*)/g)].map((match) => match[1]))];
+  const references = [...new Set([...labSource.matchAll(/styles\.([A-Za-z_]\w*)/g)].map((match) => match[1]))];
   for (const className of references) {
-    assert.match(labCss, new RegExp(`\\\\.${className}(?![\\\\w-])`), `missing CSS module class: ${className}`);
+    assert.match(labCss, new RegExp(`\\.${className}(?![\\w-])`), `missing CSS module class: ${className}`);
   }
 });
