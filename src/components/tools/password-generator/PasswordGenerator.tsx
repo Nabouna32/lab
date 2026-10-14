@@ -71,7 +71,7 @@ export default function PasswordGenerator() {
                     type="checkbox"
                     checked={options[key]}
                     onChange={(event) => update(key, event.target.checked)}
-                    className="size-4 shrink-0 accent-[var(--accent)]"
+                    className="size-5 shrink-0 accent-[var(--accent)]"
                   />
                   {label}
                 </label>
@@ -79,12 +79,12 @@ export default function PasswordGenerator() {
             </div>
           </fieldset>
 
-          <label className="mt-4 flex cursor-pointer items-center gap-3 text-sm text-[var(--foreground)]">
+          <label className="mt-4 flex min-h-12 cursor-pointer items-center gap-3 py-2 text-sm text-[var(--foreground)]">
             <input
               type="checkbox"
               checked={options.excludeAmbiguous}
               onChange={(event) => update("excludeAmbiguous", event.target.checked)}
-              className="size-4 accent-[var(--accent)]"
+              className="size-5 shrink-0 accent-[var(--accent)]"
             />
             {t.excludeAmbiguous}
           </label>
@@ -101,7 +101,7 @@ export default function PasswordGenerator() {
             <p className="text-sm font-semibold text-[var(--foreground)]">{t.result}</p>
             {password && <CopyButton value={password} label={t.copy} />}
           </div>
-          <output aria-live="polite" className="mt-4 block min-h-28 break-all border border-[var(--border)] bg-[var(--surface)] p-4 font-mono text-sm leading-7 text-[var(--foreground)]">
+          <output aria-live="polite" className="mt-4 block min-h-28 break-all rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface-soft)] p-4 font-mono text-sm leading-7 text-[var(--foreground)]">
             {password || t.emptyResult}
           </output>
         </div>
