@@ -44,12 +44,18 @@ export function Checkbox({
     "--checkbox-surface": "var(--surface)",
     "--checkbox-focus-ring": "var(--focus-ring)",
     "--checkbox-focus-offset": "var(--surface)",
-    "--checkbox-label-color": disabled ? "var(--checkbox-disabled-label)" : "var(--foreground)",
+    "--checkbox-label-color": "var(--foreground)",
     "--checkbox-disabled-active": "color-mix(in srgb, var(--on-surface) 12%, transparent)",
     "--checkbox-disabled-outline": "color-mix(in srgb, var(--on-surface) 38%, transparent)",
     "--checkbox-disabled-icon": "color-mix(in srgb, var(--on-surface) 38%, transparent)",
     "--checkbox-disabled-label": "color-mix(in srgb, var(--on-surface) 38%, transparent)",
     ...style,
+    ...(disabled ? {
+      "--checkbox-active": "var(--checkbox-disabled-active)",
+      "--checkbox-on-active": "var(--checkbox-disabled-icon)",
+      "--checkbox-outline": "var(--checkbox-disabled-outline)",
+      "--checkbox-label-color": "var(--checkbox-disabled-label)",
+    } : {}),
   };
 
   return (
@@ -78,8 +84,7 @@ export function Checkbox({
           "transition-[background-color,border-color,box-shadow] duration-[var(--motion-standard)]",
           "peer-checked:border-[var(--checkbox-active)] peer-checked:bg-[var(--checkbox-active)] peer-checked:text-[var(--checkbox-on-active)]",
           "peer-focus-visible:outline-none peer-focus-visible:ring-2 peer-focus-visible:ring-[var(--checkbox-focus-ring)] peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-[var(--checkbox-focus-offset)]",
-          "peer-disabled:cursor-not-allowed peer-disabled:border-[var(--checkbox-disabled-outline)] peer-disabled:text-[var(--checkbox-disabled-icon)]",
-          "peer-checked:peer-disabled:border-[var(--checkbox-disabled-active)] peer-checked:peer-disabled:bg-[var(--checkbox-disabled-active)] peer-checked:peer-disabled:text-[var(--checkbox-disabled-icon)]",
+          "peer-disabled:cursor-not-allowed",
         ].join(" ")}
       >
         {checked && <MaterialIcon name="check" size={16} />}
