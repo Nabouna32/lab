@@ -3,13 +3,7 @@
 import { useTheme } from "@teispace/next-themes";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { getMessages } from "@/lib/i18n/messages";
-
-function ThemeIcon({ theme }: { theme: string | undefined }) {
-  if (theme === "dark") {
-    return <path d="M20 15.2A8.5 8.5 0 0 1 8.8 4 8.5 8.5 0 1 0 20 15.2Z" />;
-  }
-  return <path d="M12 3v2M12 19v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M3 12h2M19 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" />;
-}
+import { MaterialIcon } from "@/components/ui/MaterialIcon";
 
 export default function ThemeToggle() {
   const { theme, setTheme } = useTheme();
@@ -25,14 +19,7 @@ export default function ThemeToggle() {
         aria-label={labels.choose + ": " + currentLabel}
         title={labels.title + ": " + currentLabel}
       >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-[1.1rem] w-[1.1rem]" aria-hidden="true">
-          <g className="theme-icon-system-light">
-            <ThemeIcon theme="light" />
-          </g>
-          <g className="theme-icon-system-dark">
-            <ThemeIcon theme="dark" />
-          </g>
-        </svg>
+<MaterialIcon name={theme === "dark" ? "dark_mode" : theme === "system" ? "devices" : "light_mode"} size={20} />
         <span className="sr-only">{currentLabel}</span>
       </summary>
 
@@ -54,15 +41,9 @@ export default function ThemeToggle() {
               : "text-[var(--muted)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)]")}
             aria-pressed={theme === option.value}
           >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 shrink-0" aria-hidden="true">
-              {option.value === "system" ? (
-                <><rect x="3.5" y="4" width="17" height="12" rx="1.8" /><path d="M8 20h8M12 16v4" /></>
-              ) : (
-                <ThemeIcon theme={option.value} />
-              )}
-            </svg>
+<MaterialIcon name={option.value === "system" ? "devices" : option.value === "dark" ? "dark_mode" : "light_mode"} size={16} />
             <span className="flex-1">{option.label}</span>
-            {theme === option.value && <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6" /></svg>}
+            {theme === option.value && <MaterialIcon name="check" size={16} />}
           </button>
         ))}
       </div>
