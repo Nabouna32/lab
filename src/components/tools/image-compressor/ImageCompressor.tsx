@@ -129,7 +129,7 @@ export default function ImageCompressor() {
             </Select>
             <label className="text-sm font-medium text-[var(--foreground)]">
               <span className="mb-2 block">{t.quality}: {Math.round(quality * 100)}%</span>
-              <input type="range" min="10" max="100" step="5" value={Math.round(quality * 100)} onChange={(event) => { setBusy(true); setError(null); setQuality(Number(event.target.value) / 100); }} className="mt-3 w-full" />
+              <input type="range" min="10" max="100" step="5" value={Math.round(quality * 100)} onChange={(event) => { setBusy(true); setError(null); setQuality(Number(event.target.value) / 100); }} className="mt-3 w-full cursor-pointer rounded-full accent-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface)]" />
               <span className="mt-1 block text-xs text-[var(--muted)]">{t.qualityHint}</span>
             </label>
           </div>
