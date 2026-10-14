@@ -34,4 +34,23 @@ describe("dateTimeLocalToTimestamp", () => {
   it("rejects an empty value", () => {
     assert.equal(dateTimeLocalToTimestamp(""), null);
   });
+
+  it("rejects calendar dates that JavaScript would otherwise normalize", () => {
+    assert.equal(dateTimeLocalToTimestamp("2024-02-30T10:00"), null);
+    assert.equal(dateTimeLocalToTimestamp("2025-13-01T10:00"), null);
+  });
+
+  it("rejects malformed datetime-local values", () => {
+    assert.equal(dateTimeLocalToTimestamp("2024-01-01"), null);
+    assert.equal(dateTimeLocalToTimestamp("2024-01-01T10:00Z"), null);
+    assert.equal(dateTimeLocalToTimestamp("2024-01-01T10:00:00.1234"), null);
+  });
+
+  it("preserves optional seconds and milliseconds", () => {
+    const result = dateTimeLocalToTimestamp("2024-01-01T10:20:30.125");
+    assert.equal(result?.date.getHours(), 10);
+    assert.equal(result?.date.getMinutes(), 20);
+    assert.equal(result?.date.getSeconds(), 30);
+    assert.equal(result?.date.getMilliseconds(), 125);
+  });
 });
