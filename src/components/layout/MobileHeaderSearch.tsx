@@ -4,10 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import ToolSearch from "@/components/tools/ToolSearch";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
+import { IconButton } from "@/components/ui/IconButton";
 import type { Locale } from "@/lib/i18n/config";
-
-const iconButton =
-  "flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-transparent text-[var(--muted)] outline-none transition-[border-color,background-color,color] hover:border-[var(--border)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)] focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]";
 
 
 type MobileHeaderSearchProps = {
@@ -83,11 +81,11 @@ function MobileHeaderSearchPanel({
 
   return (
     <div ref={rootRef} className="contents">
-      <button
+      <IconButton
         ref={triggerRef}
-        type="button"
-        className={iconButton + " lg:hidden"}
-        aria-label={searchLabel}
+        label={searchLabel}
+        className="lg:hidden"
+        selected={open}
         aria-expanded={open}
         aria-controls={open ? "header-tool-search-mobile-panel" : undefined}
         title={searchLabel}
@@ -101,7 +99,7 @@ function MobileHeaderSearchPanel({
         }}
       >
         <MaterialIcon name="search" size={24} />
-      </button>
+      </IconButton>
       {open && (
         <div
           id="header-tool-search-mobile-panel"
