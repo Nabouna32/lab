@@ -51,10 +51,14 @@ export function calculateDateAdjustment(
     case "weeks":
       result.setDate(result.getDate() + signedAmount * 7);
       break;
-    case "months":
-      return addMonthsClamped(result, signedAmount);
-    case "years":
-      return addYearsClamped(result, signedAmount);
+    case "months": {
+      const adjusted = addMonthsClamped(result, signedAmount);
+      return isValidDate(adjusted) ? adjusted : null;
+    }
+    case "years": {
+      const adjusted = addYearsClamped(result, signedAmount);
+      return isValidDate(adjusted) ? adjusted : null;
+    }
   }
 
   return isValidDate(result) ? result : null;
