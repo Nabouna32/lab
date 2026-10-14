@@ -64,58 +64,26 @@ Goal: synchronize favorites, personal collections and the light/dark theme prefe
 - [partial] Local light/dark theme mode and profile locale exist; account-synchronized theme preference does not
 - [partial] Profile, email/password and account-lifecycle screens exist; account preference synchronization remains incomplete
 - [partial] Processing disclosures and account deletion exist; comprehensive privacy/consent controls are incomplete
-- [deferred] AI-specific privacy controls depend on an approved AI use case
 
-## Phase 4 — Advanced intelligence
-
-Goal: improve discovery and tool assistance where justified.
-
-- [partial] Deterministic natural-language-like search; no AI-backed search
-- [partial] First-class curated intent associations exist; automatic intent recognition from free-form queries remains unimplemented
-- [ ] Optional direct task execution
-- [ ] AI assistance (AI remains optional, not foundational)
-- [deferred] Cost controls until an AI provider is selected
-- [deferred] AI-specific privacy controls depend on an approved AI use case
-- [deferred] Fallback behavior if an AI-backed capability is introduced
-
-AI is not a goal by itself.
-
-Current boundary: the deployed Supabase database contains the account/profile and administrative RBAC/audit foundation, `public.user_favorites`, `public.user_collections` and `public.user_collection_items`. Personal collections are implemented with private-by-default RLS and explicit link sharing. The executable tool catalog and curated intent associations remain Git-backed; account-synchronized theme preferences are not implemented. Account controls stay within the existing simple settings experience; no dedicated privacy dashboard is planned.
-
-## Phase 5 — Sustainability and scale
+## Phase 4 — Sustainability and scale
 
 Goal: support real traffic while protecting the user experience.
 
-- [ ] Privacy-conscious product analytics
-- [ ] Dedicated runtime performance monitoring
 - [deferred] Reconsider a database-backed catalog only when DEC-030's concrete product or operational triggers are demonstrated; catalog size alone is insufficient
 - [partial] Framework/static generation is used; a deliberate catalog/data caching strategy is not implemented
 - [partial] CI, unit tests and metadata validation exist; product-level resilience remains incomplete. Browser E2E and screenshot automation are excluded by the repository rules in `AGENTS.md`.
 - [partial] Authentication throttling and administrative RBAC/RLS exist; broader abuse controls remain incomplete
-- [ ] Cost observability
-
-## Phase 6 — Future clients
-
-Potential future surfaces:
-
-- [deferred] Android application;
-- [deferred] Additional clients if there is demonstrated demand.
-
-The web remains the primary platform until evidence supports expansion.
 
 ## Explicitly deferred
 
 - large server-side file processing as a default;
 - mandatory accounts;
-- custom-trained AI infrastructure;
 - premature multi-cloud architecture;
 - mobile-first implementation constraints before the web product is mature.
 
-Deferred does not mean forbidden forever.
+## Cross-cutting implementation principles
 
-## Additional future directions
-
-The phases below should preserve the following capabilities as they become relevant; they are not claims that the functionality already exists.
+These requirements apply across the product and do not imply a commitment to add separate platform or discovery features.
 
 ### Personalization and collections
 
@@ -127,16 +95,3 @@ The account phase covers:
 ### Performance and resilience
 
 Across all phases, apply progressive loading, tool/page performance budgets, low-end device awareness, slow-connection resilience, truthful progress, cancellation where possible, and graceful degradation.
-
-### Future discovery evolution
-
-The discovery phase can progress from catalog search to intent-aware search, then to solution discovery and eventually multi-tool composition when product evidence justifies it. AI remains optional and must earn its recurring cost, privacy, latency, and reliability trade-offs.
-
-### Future surfaces and evaluation boundaries
-
-These remain future directions, not commitments to implement in the current phase:
-
-- **PWA and stronger offline support:** keep the normal web experience excellent first. If evaluated, compare concrete offline use cases and user value against installation UX, cache/storage complexity, update reliability, browser support, and performance costs. Offline indicators must describe actual tool capability; network-dependent tools must not be excluded from the catalog.
-- **Contextual tool tone and richer educational content:** allow tool-specific tone or optional content about origins, history, conventions, or differing standards only when it improves the task. Neither should displace the tool or add generic filler.
-- **Additional languages and RTL:** expand through the language registry, reviewed translation readiness, localized SEO, and deliberate right-to-left layout support rather than assuming translation alone is sufficient.
-- **Future clients:** Android or other clients should be justified by demonstrated demand and must not slow down the web product prematurely.
