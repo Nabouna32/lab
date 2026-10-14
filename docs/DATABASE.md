@@ -2,7 +2,7 @@
 
 PostgreSQL is the source of truth for the durable account, administrative RBAC and audit data currently deployed. It may support additional product domains when their requirements justify the schema and operational cost. Executable behavior remains in Git; a database is not the default destination for every kind of product data.
 
-The deployed account domains include favorites and personal collections alongside identity/profile and administrative security data. Synchronized preferences, editorial metadata, analytics metadata and privacy/consent state remain potential future domains, not commitments to deploy them all.
+The deployed account domains include favorites and personal collections alongside identity/profile and administrative security data. Synchronized preferences, editorial metadata and privacy/consent state are not part of the current deployed schema; consider them only when concrete requirements justify their cost.
 
 Sensitive tool inputs and file contents are not stored by default. Anonymous local favorites may be merged into account favorites after login with deterministic conflict handling.
 
