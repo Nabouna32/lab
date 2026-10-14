@@ -263,7 +263,7 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
                   className={
                     "flex min-h-12 items-center gap-2 rounded-xl px-3 py-2.5 text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] " +
                     (active
-                      ? "bg-[var(--accent-soft)] font-semibold text-[var(--foreground)]"
+                      ? "bg-[var(--accent-soft)] font-semibold text-[var(--on-primary-container)]"
                       : "text-[var(--muted)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)]")
                   }
                 >
