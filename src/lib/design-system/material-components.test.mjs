@@ -202,3 +202,48 @@ test("production theme exposes modern Material 3 surface roles in both themes", 
   assert.match(globalCss, /--surface-container-highest:\s*var\(--m3-light-surface-container-highest/);
   assert.match(globalCss, /--surface-container-highest:\s*var\(--m3-dark-surface-container-highest/);
 });
+
+
+test("Design Lab includes extended Material 3 navigation, field, list, menu, progress and loading components", () => {
+  const labSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
+  const labCss = readFileSync(new URL("../../app/[locale]/design-lab/visual-lab.module.css", import.meta.url), "utf8");
+  for (const marker of ["m3-missing-title", "sampleTopBar", "sampleNavigationRail", "sampleFab", "sampleBadge", "sampleMaterialField", "sampleRadioGroup", "sampleListItem", "sampleMenu", "sampleCircularProgress", "sampleSkeleton", "sampleTooltipWrap"]) {
+    assert.ok(labSource.includes(marker), `Design Lab is missing ${marker}`);
+  }
+  for (const marker of [".sampleTopBar", ".sampleNavigationRail", ".sampleFab", ".sampleMaterialField", ".sampleRadioGroup", ".sampleListItem", ".sampleMenu", ".sampleCircularProgress", ".sampleSkeleton"]) {
+    assert.ok(labCss.includes(marker), `Design Lab styles are missing ${marker}`);
+  }
+  assert.match(labSource, /checked=\{sampleRadio==="all"\}/);
+  assert.match(labSource, /aria-expanded=\{sampleMenuOpen\}/);
+});
+
+
+test("Design Lab renders the shared production UI primitives against the active Material 3 scheme", () => {
+  const labSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
+  const labCss = readFileSync(new URL("../../app/[locale]/design-lab/visual-lab.module.css", import.meta.url), "utf8");
+  for (const component of ["Button", "IconButton", "Card", "Panel", "ResultPanel", "Checkbox", "TextField", "TextArea", "Select", "SegmentedControl", "ValidationMessage", "Switch"]) {
+    assert.match(labSource, new RegExp(`import \\{ ${component} \\} from "@\\/components\\/ui\\/${component}"`), `missing shared component import: ${component}`);
+  }
+  for (const token of ["--foreground:var(--lab-text)", "--surface:var(--lab-surface)", "--surface-soft:var(--lab-surface-container)", "--secondary-container:var(--lab-secondary-container)", "--error:var(--lab-error)", "--focus-ring:var(--lab-primary)"]) {
+    assert.ok(labCss.includes(token), `missing scoped token bridge: ${token}`);
+  }
+  assert.match(labSource, /aria-labelledby="shared-components-title"/);
+});
+
+
+test("Design Lab does not reference missing CSS module classes", () => {
+  const labSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
+  const labCss = readFileSync(new URL("../../app/[locale]/design-lab/visual-lab.module.css", import.meta.url), "utf8");
+  const references = [...new Set([...labSource.matchAll(/styles\.([A-Za-z_]\w*)/g)].map((match) => match[1]))];
+  for (const className of references) {
+    assert.match(labCss, new RegExp(`\\.${className}(?![\\w-])`), `missing CSS module class: ${className}`);
+  }
+});
+
+
+test("Section 03 dialog preview trigger uses the shared Material 3 outlined button", () => {
+  const labSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
+  const labCss = readFileSync(new URL("../../app/[locale]/design-lab/visual-lab.module.css", import.meta.url), "utf8");
+  assert.match(labSource, /aria-labelledby="states-title"[\s\S]*?<Button type="button" variant="outlined" className=\{styles\.dialogPreviewTrigger\} onClick=\{\(\)=>setDialogOpen\(true\)\}>\{t\.confirm\} · dialog<\/Button>/);
+  assert.match(labCss, /\.dialogPreviewTrigger\{flex-shrink:0;white-space:nowrap\}/);
+});
