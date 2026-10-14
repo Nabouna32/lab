@@ -54,7 +54,7 @@ export default function PasswordGenerator() {
             max={PASSWORD_LIMITS.maxLength}
             value={options.length}
             onChange={(event) => update("length", Number(event.target.value))}
-            className="mt-4 w-full accent-[var(--accent)]"
+            className="mt-4 w-full cursor-pointer rounded-full accent-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface)]"
           />
 
           <fieldset className="mt-7">
@@ -71,7 +71,7 @@ export default function PasswordGenerator() {
                     type="checkbox"
                     checked={options[key]}
                     onChange={(event) => update(key, event.target.checked)}
-                    className="size-5 shrink-0 accent-[var(--accent)]"
+                    className="size-5 shrink-0 cursor-pointer rounded-sm accent-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface)]"
                   />
                   {label}
                 </label>
@@ -84,7 +84,7 @@ export default function PasswordGenerator() {
               type="checkbox"
               checked={options.excludeAmbiguous}
               onChange={(event) => update("excludeAmbiguous", event.target.checked)}
-              className="size-5 shrink-0 accent-[var(--accent)]"
+              className="size-5 shrink-0 cursor-pointer rounded-sm accent-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface)]"
             />
             {t.excludeAmbiguous}
           </label>
