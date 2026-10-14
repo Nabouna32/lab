@@ -51,11 +51,11 @@ Loculary should serve a casual user without training while still supporting adva
 
 Results should be presented visually when that improves comprehension, confidence, or enjoyment. Visual design must not become decoration that slows or obscures the task.
 
-### 6. Material 3 Expressive shared visual foundation
+### 6. Material 3 Fidelity and Pixel visual foundation
 
-Loculary adopts **Material 3 Expressive** as the shared visual and interaction direction for its web platform. The intended feel is distinctive, lively and Android-inspired: a polished web application that remains task-first rather than copying Android screens literally.
+Loculary adopts **Material 3's Fidelity color scheme and the visual language of current Google Pixel / Android interfaces** as the shared visual and interaction direction for its web platform. The goal is a faithful, familiar Pixel-like interface that remains task-first and adapts native patterns to the web.
 
-The detailed visual contract—including the blue seed, official MCU Rainbow palette, Roboto, semantic colors, light/dark contrast, components and motion—is maintained in [docs/DESIGN-SYSTEM.md](DESIGN-SYSTEM.md). Shared foundations should create coherence without forcing every tool into an identical layout. Specialized interfaces remain valid when they better serve the task and preserve accessibility, localization, responsiveness, performance and trust.
+The detailed visual contract—including the blue seed, M3 Fidelity semantic colors, Roboto, light/dark contrast, components and motion—is maintained in [docs/DESIGN-SYSTEM.md](DESIGN-SYSTEM.md). Shared foundations should create coherence without forcing every tool into an identical layout. Specialized interfaces remain valid when they better serve the task and preserve accessibility, localization, responsiveness, performance and trust.
 
 The light/dark theme preference should work locally for anonymous users and synchronize to an account when signed-in preference persistence is implemented. This is a product direction, not a claim that the feature already exists. WCAG 2.2 AA and reduced-motion preferences remain mandatory.
 
