@@ -6,7 +6,7 @@ import { colorHex, createM3Scheme } from "./m3-theme";
 
 type Locale = "en" | "fr";
 type Theme = "light" | "dark";
-type Screen = "home" | "explore" | "tool";
+type Screen = "home" | "explore" | "tool" | "saved" | "profile";
 type DesignDirection = "pixel" | "utility";
 const copy = {
   en: {
@@ -119,6 +119,20 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
               {[t.resultOne,t.resultTwo,t.resultThree].map((name,index)=><article className={styles.directionCard} key={name}><span className={styles.directionIcon}>{["％","▧","¶"][index]}</span><div><strong>{name}</strong><small>{t.cardText}</small></div><span aria-hidden="true">↗</span></article>)}
             </div>
           </>}
+          {screen==="saved"&&<>
+            <span className={styles.directionEyebrow}>{t.directionBottomSaved}</span><h3>{t.directionBottomSaved}</h3><p className={styles.directionSubtitle}>{t.directionRecent}</p>
+            <div className={styles.directionGrid}>
+              <article className={styles.directionCard}><span className={styles.directionIcon}>％</span><div><strong>{t.resultOne}</strong><small>{t.cardText}</small></div><button type="button" aria-label={t.toolTitle} onClick={()=>setScreen("tool")}>↗</button></article>
+              <article className={styles.directionCard}><span className={styles.directionIcon}>▧</span><div><strong>{t.resultTwo}</strong><small>PNG · JPG · WEBP</small></div><span aria-hidden="true">↗</span></article>
+            </div>
+          </>}
+          {screen==="profile"&&<>
+            <span className={styles.directionEyebrow}>{t.directionBottomProfile}</span><h3>{t.settings}</h3><p className={styles.directionSubtitle}>{t.settingsHelp}</p>
+            <div className={styles.directionGrid}>
+              <article className={styles.directionCard}><span className={styles.directionIcon}>☼</span><div><strong>{t.automaticTheme}</strong><small>{t.automaticThemeHelp}</small></div><button type="button" aria-pressed={theme==="dark"} onClick={()=>setTheme(theme==="dark"?"light":"dark")}>{theme==="dark"?t.dark:t.light}</button></article>
+              <article className={styles.directionCard}><span className={styles.directionIcon}>♡</span><div><strong>{t.syncFavorites}</strong><small>{t.syncFavoritesHelp}</small></div><span aria-hidden="true">›</span></article>
+            </div>
+          </>}
           {screen==="tool"&&<>
             <button type="button" className={styles.directionBack} onClick={()=>setScreen("home")}>← {t.home}</button>
             <span className={styles.directionEyebrow}>{t.tool}</span><h3>{t.toolTitle}</h3><p className={styles.directionSubtitle}>{t.toolDesc}</p>
@@ -131,7 +145,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
           </>}
         </div>
         <nav className={styles.directionBottomNav} aria-label={locale==="fr"?"Navigation de l’aperçu":"Preview navigation"}>
-          <button type="button" aria-current={screen==="home"?"page":undefined} onClick={()=>setScreen("home")}><b>⌂</b>{t.directionBottomHome}</button><button type="button" aria-current={screen==="explore"?"page":undefined} onClick={()=>setScreen("explore")}><b>⌕</b>{t.directionBottomExplore}</button><button type="button" aria-current="false"><b>♡</b>{t.directionBottomSaved}</button><button type="button" aria-current="false"><b>○</b>{t.directionBottomProfile}</button>
+          <button type="button" aria-current={screen==="home"?"page":undefined} onClick={()=>setScreen("home")}><b>⌂</b>{t.directionBottomHome}</button><button type="button" aria-current={screen==="explore"?"page":undefined} onClick={()=>setScreen("explore")}><b>⌕</b>{t.directionBottomExplore}</button><button type="button" aria-current={screen==="saved"?"page":undefined} onClick={()=>setScreen("saved")}><b>♡</b>{t.directionBottomSaved}</button><button type="button" aria-current={screen==="profile"?"page":undefined} onClick={()=>setScreen("profile")}><b>○</b>{t.directionBottomProfile}</button>
         </nav>
       </div>
     </section>
