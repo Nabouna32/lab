@@ -10,6 +10,5 @@ Modest devices should not make the whole product ugly or artificially limited. L
 
 Slow connections receive progressive UI. External tools use appropriate timeout, retry, fallback and clear-error patterns. Offline capability is explicitly identified.
 
-Performance budgets exist at platform/page, tool and heavy mini-application levels. Validation should cover low-end, normal and high-capability devices. Core Web Vitals are platform health indicators. Performance evaluation should consider responsiveness, visual continuity, interaction quality and perceived experience alongside raw loading and runtime metrics.
+Performance budgets exist at platform/page, tool and heavy mini-application levels. Validation should cover low-end, normal and high-capability devices. Core Web Vitals are platform health indicators. Performance evaluation should consider responsiveness, visual continuity, interaction quality and perceived experience alongside raw loading and runtime metrics. Heavy processing should escalate progressively from main-thread work to Workers, WebAssembly, chunking or streaming when justified. Long-running operations should expose truthful progress and cancellation when feasible.
 
-PWA compatibility should be anticipated but is not an MVP dependency. If pursued, evaluate offline value, installation, storage/cache complexity, update reliability, browser support and performance impact.
