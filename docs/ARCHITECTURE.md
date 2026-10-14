@@ -50,8 +50,7 @@ Examples may include:
 - live weather;
 - public data;
 - exchange rates;
-- selected enrichment;
-
+- selected enrichment.
 
 External services must be explicit in the tool's processing-status metadata.
 
