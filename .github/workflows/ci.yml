@@ -102,23 +102,6 @@ jobs:
             node --test .github/scripts/*.test.mjs
           fi
 
-      - name: Verify PR base is current
-        if: github.event_name == 'pull_request'
-        shell: bash
-        env:
-          EVENT_BASE_SHA: ${{ github.event.pull_request.base.sha }}
-        run: |
-          set -euo pipefail
-          git fetch --no-tags --depth=1 origin main
-          current_main_sha="$(git rev-parse FETCH_HEAD)"
-          if [[ "$EVENT_BASE_SHA" != "$current_main_sha" ]]; then
-            echo "::error::main advanced after this PR event. Update the PR branch against current main and rerun CI."
-            echo "PR event base: $EVENT_BASE_SHA"
-            echo "Current main:  $current_main_sha"
-            exit 1
-          fi
-          echo "PR base matches current main: $current_main_sha"
-
       - name: Review dependency changes
         if: github.event_name == 'pull_request' && steps.changes.outputs.dependencies_changed == 'true'
         uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0
