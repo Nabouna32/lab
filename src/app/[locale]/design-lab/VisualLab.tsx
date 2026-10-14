@@ -4,6 +4,17 @@ import type { CSSProperties } from "react";
 import styles from "./visual-lab.module.css";
 import { MaterialIcon, type MaterialIconName } from "@/components/ui/MaterialIcon";
 import { Switch } from "@/components/ui/Switch";
+import { Button } from "@/components/ui/Button";
+import { IconButton } from "@/components/ui/IconButton";
+import { Card } from "@/components/ui/Card";
+import { Panel } from "@/components/ui/Panel";
+import { ResultPanel } from "@/components/ui/ResultPanel";
+import { Checkbox } from "@/components/ui/Checkbox";
+import { TextField } from "@/components/ui/TextField";
+import { TextArea } from "@/components/ui/TextArea";
+import { Select } from "@/components/ui/Select";
+import { SegmentedControl } from "@/components/ui/SegmentedControl";
+import { ValidationMessage } from "@/components/ui/ValidationMessage";
 import { colorHex, createM3Scheme, seedPresets } from "./m3-theme";
 
 type Locale = "en" | "fr";
@@ -242,6 +253,30 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
           <div className={styles.sampleProgressRow}><div className={styles.sampleCircularProgress} role="progressbar" aria-label={locale==="fr"?"Progression circulaire":"Circular progress"} aria-valuemin={0} aria-valuemax={100} aria-valuenow={sampleProgress} style={{background:"conic-gradient(var(--lab-primary) "+sampleProgress+"%,var(--lab-surface-high) 0)"}}><span>{sampleProgress}%</span></div><div className={styles.sampleProgressCopy}><strong>{locale==="fr"?"Importation en cours":"Import in progress"}</strong><p>{locale==="fr"?"Progression déterminée par le curseur de la section précédente.":"Progress is controlled by the slider in the section above."}</p><div className={styles.sampleProgress}><span style={{width:sampleProgress+"%"}}/></div></div></div>
           <div className={styles.sampleSkeleton}><span/><span/><span/></div><p className={styles.helper}>{locale==="fr"?"Progression circulaire, linéaire et squelette de chargement.":"Circular and linear progress plus loading skeleton."}</p>
           <div className={styles.sampleTooltipWrap}><button type="button" className={styles.sampleIconButton} title={locale==="fr"?"Aide contextuelle":"Contextual help"} aria-label={locale==="fr"?"Aide contextuelle":"Contextual help"}><MaterialIcon name="info" size={20}/></button><span>{locale==="fr"?"Survole ou focalise l’icône pour voir l’aide.":"Hover or focus the icon to reveal help."}</span></div>
+        </article>
+      </div>
+    </section>
+    <section className={styles.gallerySection} aria-labelledby="shared-components-title">
+      <div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>06 / ${locale==="fr"?"Composants partagés":"Shared primitives"}</span><h2 id="shared-components-title">{locale==="fr"?"Composants réels de Loculary":"Loculary shared components"}</h2><p>{locale==="fr"?"Aperçu direct des primitives partagées du site, reliées aux mêmes tokens du thème actif.":"Live samples of the site's shared UI primitives, wired to the same active theme tokens."}</p></div></div>
+      <div className={styles.galleryGrid}>
+        <article className={styles.galleryCard}>
+          <h3>{locale==="fr"?"Boutons et boutons icône":"Buttons & icon buttons"}</h3>
+          <div className={styles.buttonStack}><Button variant="primary">{locale==="fr"?"Principal":"Primary"}</Button><Button variant="tonal">{locale==="fr"?"Tonal":"Tonal"}</Button><Button variant="outlined">{locale==="fr"?"Contour":"Outlined"}</Button><Button variant="text">{locale==="fr"?"Texte":"Text"}</Button><Button variant="danger">{locale==="fr"?"Destructif":"Danger"}</Button></div>
+          <div className={styles.buttonStack}><IconButton label={locale==="fr"?"Favoris":"Favorites"} variant="standard"><MaterialIcon name="favorite" size={20}/></IconButton><IconButton label={locale==="fr"?"Ajouter":"Add"} variant="filled"><MaterialIcon name="add" size={20}/></IconButton><IconButton label={locale==="fr"?"Rechercher":"Search"} variant="tonal"><MaterialIcon name="search" size={20}/></IconButton><IconButton label={locale==="fr"?"Plus d’options":"More options"} variant="outlined"><MaterialIcon name="apps" size={20}/></IconButton></div>
+          <p className={styles.helper}>{locale==="fr"?"Primitives de production Button et IconButton, pas des imitations locales.":"Production Button and IconButton primitives, not local lookalikes."}</p>
+        </article>
+        <article className={styles.galleryCard}>
+          <h3>{locale==="fr"?"Champs et sélection partagés":"Shared fields & selection"}</h3>
+          <div className={styles.sharedFieldStack}><TextField inputId="lab-shared-text-field" label={locale==="fr"?"Valeur":"Value"} defaultValue="180" type="number" unit="px"/><TextArea inputId="lab-shared-text-area" label={locale==="fr"?"Description":"Description"} rows={3} defaultValue={locale==="fr"?"Un exemple de zone de texte partagée.":"An example of the shared multiline field."} className={styles.sharedTextArea}/><Select id="lab-shared-select" label={locale==="fr"?"Format":"Format"} defaultValue="png"><option value="png">PNG</option><option value="webp">WebP</option><option value="jpeg">JPEG</option></Select></div>
+          <Checkbox inputId="lab-shared-checkbox" checked={sampleChecked} onCheckedChange={setSampleChecked} label={locale==="fr"?"Inclure les sous-catégories":"Include subcategories"}/>
+          <SegmentedControl ariaLabel={locale==="fr"?"Disposition de la liste":"List layout"} value={sampleRadio} onChange={setSampleRadio} items={[{id:"all",label:locale==="fr"?"Tout":"All"},{id:"favorites",label:locale==="fr"?"Favoris":"Favorites"}]}/>
+          <ValidationMessage id="lab-shared-validation">{locale==="fr"?"Exemple de message de validation.":"Example validation message."}</ValidationMessage>
+        </article>
+        <article className={styles.galleryCard}>
+          <h3>{locale==="fr"?"Cartes et panneaux partagés":"Shared cards & panels"}</h3>
+          <div className={styles.sharedSurfaceStack}><Card variant="elevated" className={styles.sharedCard}><strong>{locale==="fr"?"Carte élevée":"Elevated card"}</strong><p>{locale==="fr"?"Surface avec élévation légère.":"Surface with subtle elevation."}</p></Card><Card variant="filled" className={styles.sharedCard}><strong>{locale==="fr"?"Carte remplie":"Filled card"}</strong><p>{locale==="fr"?"Surface remplie tonale.":"Tonal filled surface."}</p></Card><Card variant="outlined" className={styles.sharedCard}><strong>{locale==="fr"?"Carte contour":"Outlined card"}</strong><p>{locale==="fr"?"Contour discret, sans ombre.":"Subtle outline, no shadow."}</p></Card></div>
+          <Panel className={styles.sharedPanel}><strong>{locale==="fr"?"Panneau":"Panel"}</strong><p>{locale==="fr"?"Conteneur partagé pour regrouper les paramètres.":"Shared container for grouped settings."}</p></Panel>
+          <ResultPanel label={locale==="fr"?"Résultat calculé":"Calculated result"} value={result} tone="accent"/>
         </article>
       </div>
     </section>
