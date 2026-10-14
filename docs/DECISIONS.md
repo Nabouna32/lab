@@ -345,11 +345,11 @@ Using 1,024 while displaying decimal labels such as kB/ko makes the displayed un
 
 English is the fallback language for localized tool content when the requested locale has no translation. French remains a fully supported initial language, but missing translations must not fall back to French.
 
-Tool localized content therefore requires both French and English entries. Additional languages may be partial and fall back to English until translated.
+Tool localized content therefore requires both French and English entries. Any separately approved locale may be partial and fall back to English until translated.
 
 ### Reason
 
-Loculary is designed as an international product. English provides a neutral shared fallback as more languages are introduced, while French remains fully supported as the user's current native development language and one of the initial product languages.
+English provides a neutral shared fallback, while French remains fully supported as one of the two initial product languages. This does not commit the product to supporting additional locales.
 
 ### Consequences
 
@@ -407,7 +407,7 @@ The product should help users accomplish tasks quickly while retaining straightf
 
 ### Decision
 
-English is Loculary's reference locale and default locale for the initial launch. French is the second launch locale. Both locales must be complete before launch; additional locales may be added later.
+English is Loculary's reference locale and default locale for the initial launch. French is the second launch locale. Both locales must be complete before launch. The locale and URL structure remains extensible, but additional locales are not a committed roadmap item.
 
 Public tool URLs are fully localized and independent of category membership:
 
@@ -426,7 +426,7 @@ No legacy redirects are required for the pre-launch route structure. Future redi
 
 ### Reason
 
-The product is intended to launch with English and French as first-class languages. Separate namespaces remove the route collision between a category and a tool, while making tool URLs stable when category associations change and leaving a clean path for adding future locales.
+The product launches with English and French as first-class languages. Separate namespaces remove the route collision between a category and a tool and keep tool URLs stable when category associations change. The route structure remains locale-driven without committing to additional languages.
 
 ### Consequences
 
