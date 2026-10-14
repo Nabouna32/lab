@@ -78,7 +78,7 @@ The platform standardizes infrastructure and trust requirements, while custom to
 
 ---
 
-## DEC-008 — AI is conditional, not foundational
+## DEC-005 — AI is conditional, not foundational
 
 **Status:** Accepted
 
@@ -96,13 +96,13 @@ Search architecture should allow an intelligence layer without requiring one fro
 
 ---
 
-## DEC-009 — Current web stack remains the baseline
+## DEC-006 — Current web stack remains the baseline
 
 **Status:** Accepted
 
 ### Decision
 
-Keep Next.js, React, TypeScript, Tailwind CSS, Vercel, and GitHub Actions as the current baseline unless implementation evidence justifies a change. Browser-level E2E automation is governed separately by DEC-049.
+Keep Next.js, React, TypeScript, Tailwind CSS, Vercel, and GitHub Actions as the current baseline unless implementation evidence justifies a change.
 
 ### Reason
 
@@ -114,7 +114,7 @@ Architecture should be designed around product requirements rather than framewor
 
 ---
 
-## DEC-011 — Privacy is a product feature
+## DEC-007 — Privacy is a product feature
 
 **Status:** Accepted
 
@@ -140,7 +140,7 @@ Users should be able to understand and control their relationship with Loculary 
 
 ---
 
-## DEC-012 — Simple consent choices
+## DEC-008 — Simple consent choices
 
 **Status:** Accepted
 
@@ -158,7 +158,7 @@ Loculary should provide clear high-level choices such as accept, refuse non-esse
 
 ---
 
-## DEC-013 — Capability-based tool permissions
+## DEC-009 — Capability-based tool permissions
 
 **Status:** Accepted
 
@@ -176,7 +176,7 @@ The Tool contract must include capabilities. Tool execution architecture should 
 
 ---
 
-## DEC-014 — External integrations are catalogued
+## DEC-010 — External integrations are catalogued
 
 **Status:** Accepted
 
@@ -194,7 +194,7 @@ The catalog must include provider, domain, purpose, transmitted data, authentica
 
 ---
 
-## DEC-016 — Three-layer product model
+## DEC-011 — Three-layer product model
 **Status:** Accepted
 
 ### Decision
@@ -207,7 +207,7 @@ Anonymous users can use the public and tool layers without an account. Authentic
 
 ---
 
-## DEC-017 — First-class collections and explicit link sharing
+## DEC-012 — First-class collections and explicit link sharing
 
 **Status:** Accepted
 
@@ -221,7 +221,7 @@ Sensitive values must not be exposed unintentionally in URLs or shared state. Lo
 
 ---
 
-## DEC-018 — Three levels of tool complexity
+## DEC-013 — Three levels of tool complexity
 
 **Status:** Accepted
 
@@ -235,7 +235,7 @@ A universal toolbox must support both tiny deterministic utilities and rich appl
 
 ---
 
-## DEC-019 — Progressive richness and capability-aware performance
+## DEC-014 — Progressive richness and capability-aware performance
 
 **Status:** Accepted
 
@@ -249,7 +249,7 @@ The product must remain fast and usable on modest devices and slow connections w
 
 ---
 
-## DEC-020 — Search is a solution-discovery subsystem
+## DEC-015 — Search is a solution-discovery subsystem
 
 **Status:** Accepted
 
@@ -263,7 +263,7 @@ Search must remain useful without an AI provider and must expose no-result recov
 
 ---
 
-## DEC-022 — First-class tool registry and dynamic execution route
+## DEC-016 — First-class tool registry and dynamic execution route
 
 **Status:** Accepted
 
@@ -289,7 +289,7 @@ A registry also provides a controlled boundary for progressive code loading and 
 
 ---
 
-## DEC-023 — Tool-scoped runtime capabilities
+## DEC-017 — Tool-scoped runtime capabilities
 
 **Status:** Accepted
 
@@ -318,7 +318,7 @@ Separating access from processing also prevents an accidental architectural coup
 - Future browser, persistence, network and account capabilities should use the same controlled boundary.
 - Tool metadata remains authoritative for the declared requirement, while executable platform services enforce the actual permission at runtime.
 
-## DEC-025 — Granular admin RBAC in the database
+## DEC-018 — Granular admin RBAC in the database
 
 **Status:** Accepted
 
@@ -340,7 +340,7 @@ Loculary will eventually have several administrative areas with different respon
 - Executable tool behavior remains in Git/code and is not moved into the database by this decision.
 - The model can grow with future administration areas without changing the basic authorization mechanism.
 
-## DEC-026 — System administration labels belong to application i18n
+## DEC-019 — System administration labels belong to application i18n
 
 **Status:** Accepted
 
@@ -359,7 +359,7 @@ System roles and permissions are part of the application contract, not editable 
 - Future editable catalog/editorial content may use database translation tables because that content is intentionally administrable.
 - Authorization logic continues to use stable keys and never depends on translated text.
 
-## DEC-028 — Explicit decimal and binary file-size units
+## DEC-020 — Explicit decimal and binary file-size units
 
 **Status:** Accepted
 
@@ -380,7 +380,7 @@ Using 1,024 while displaying decimal labels such as kB/ko makes the displayed un
 - Download-time calculations continue to use decimal file sizes and decimal network speeds.
 - Speed conversion continues to use decimal units and preserves the 8-bit-per-byte relationship.
 
-## DEC-030 — English is the product translation fallback
+## DEC-021 — English is the product translation fallback
 
 **Status:** Accepted
 
@@ -401,7 +401,7 @@ Loculary is designed as an international product. English provides a neutral sha
 - New locales do not inherit French content accidentally.
 - French translations remain unchanged and are still used whenever the locale is `fr`.
 
-## DEC-031 — Translation status is an explicit readiness signal
+## DEC-022 — Translation status is an explicit readiness signal
 
 **Status:** Accepted
 
@@ -424,7 +424,7 @@ Structural i18n tests can verify that translations exist and remain coherent, bu
 - Future translation work may change a locale from `partial` to `complete` only when the supported user-facing scope has been reviewed.
 - Structural tests protect translation integrity but do not automatically promote a locale's readiness status.
 
-## DEC-034 — Task-first toolbox and intention-based discovery
+## DEC-023 — Task-first toolbox and intention-based discovery
 
 **Status:** Accepted
 
@@ -448,7 +448,7 @@ The homepage is action/search-first, with discovery following in depth. The tool
 
 The platform must provide a common visual and interaction language without forcing every tool into an identical layout. Individual tools may use distinct compositions, visualizations, animations and interaction models when this improves comprehension, feedback, enjoyment or tool character.
 
-Visual direction is governed by DEC-048 — Material 3 Expressive as Loculary's shared design-system foundation.
+Visual direction is governed by DEC-029 — Material 3 Expressive as Loculary's shared design-system foundation.
 
 ### Reason
 
@@ -465,10 +465,10 @@ The product needs a clearer identity centered on accomplishing tasks quickly whi
 - Tool pages must prioritize interaction and results over editorial content.
 - Next actions must represent useful continuations rather than generic filler.
 - Responsive layouts must be designed as first-class desktop, tablet and mobile experiences.
-- Shared visual foundations and motion are governed by DEC-048; this structural UX decision does not require identical compositions across tools.
+- Shared visual foundations and motion are governed by DEC-029; this structural UX decision does not require identical compositions across tools.
 - Core product constraints such as browser-first processing, privacy, accessibility, internationalization and anonymous-first usage remain unchanged.
 
-## DEC-036 — English reference locale and fully localized public tool URLs
+## DEC-024 — English reference locale and fully localized public tool URLs
 
 **Status:** Accepted
 
@@ -504,7 +504,7 @@ The product is intended to launch with English and French as first-class languag
 - URL generation must be centralized rather than assembled ad hoc throughout UI components.
 - Public tool routes use the current generic route shape without category-bearing segments.
 
-## DEC-037 — Complete account lifecycle and deletion semantics
+## DEC-025 — Complete account lifecycle and deletion semantics
 
 **Status:** Accepted
 
@@ -528,7 +528,7 @@ The account system must be complete without introducing unnecessary personal-dat
 - Future user-owned tables must define explicit deletion/retention semantics before being added to the account lifecycle.
 - Deleting the last super administrator is intentionally blocked to preserve administrative recoverability. The database serializes self-deletion and `super_admin` role removal checks so concurrent operations cannot bypass this invariant.
 
-## DEC-042 — Next actions are contextual and optional
+## DEC-026 — Next actions are contextual and optional
 
 **Status:** Accepted
 
@@ -561,7 +561,7 @@ where the final step is conditional on there being a meaningful continuation.
 - Existing "Related Tools" UI and relation logic must be evaluated against this decision; implementation changes must follow the normal discussion and decision process.
 - Related tools are not a mandatory generic section and are not placed after documentation by default.
 
-## DEC-045 — Intents are first-class discovery objects
+## DEC-027 — Intents are first-class discovery objects
 
 **Status:** Accepted
 
@@ -587,7 +587,7 @@ The new model directly represents the product vision while keeping the implement
 - Deterministic inference or ranking is an extension mechanism, not the definition of intent.
 - Generic category shortcuts must not be presented as if they fully represent an intent.
 
-## DEC-047 — Clean Supabase application foundation
+## DEC-028 — Clean Supabase application foundation
 
 **Status:** Accepted
 
@@ -602,10 +602,10 @@ Account continuity and administrative security have concrete product requirement
 ### Consequences
 
 - `docs/DATABASE.md` is the source of truth for the deployed table inventory, migrations, Row Level Security and migration procedure.
-- Any future database-backed catalog proposal must meet the criteria in DEC-051 and receive explicit approval before implementation.
+- Any future database-backed catalog proposal must meet the criteria in DEC-030 and receive explicit approval before implementation.
 - This decision does not freeze the number of account/security tables as the product evolves.
 
-## DEC-048 — Material 3 Expressive as Loculary's shared design-system foundation
+## DEC-029 — Material 3 Expressive as Loculary's shared design-system foundation
 
 **Status:** Accepted
 
@@ -656,7 +656,7 @@ Browser tests and screenshot workflows add ongoing maintenance and can become br
 - Screenshots and browser artifacts are not required inputs to routine assistant work.
 - Browser automation is out of scope unless the user explicitly revisits this decision.
 
-## DEC-051 — Database-backed catalog is conditional on demonstrated need
+## DEC-030 — Database-backed catalog is conditional on demonstrated need
 
 **Status:** Accepted
 
