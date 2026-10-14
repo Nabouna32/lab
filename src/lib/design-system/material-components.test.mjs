@@ -109,6 +109,6 @@ test("standard functional UI surfaces do not reintroduce one-off inline SVG icon
 
   for (const relativePath of sharedFunctionalIconCallSites) {
     const source = readFileSync(new URL(relativePath, import.meta.url), "utf8");
-    assert.doesNotMatch(source, /<svg\\b/, `${relativePath} should use the shared MaterialIcon component for standard UI icons`);
+    assert.doesNotMatch(source, /<svg\b/, `${relativePath} should use the shared MaterialIcon component for standard UI icons`);
   }
 });
