@@ -15,4 +15,4 @@ Current permission keys are `admin.dashboard.view`, `users.view`, `users.manage_
 
 The public tool catalog remains Git-backed. There is no admin UI for editing tools, categories or tags, and no dedicated analytics or general-settings admin screens. Those capabilities are not part of the current deployed admin surface.
 
-Executable tool code remains in Git. Any future catalog-management UI must be justified against the Git-backed workflow and the criteria in DEC-051 before introducing database-backed catalog data.
+Executable tool code remains in Git. Any future catalog-management UI must be justified against the Git-backed workflow and the criteria in DEC-030 before introducing database-backed catalog data.
