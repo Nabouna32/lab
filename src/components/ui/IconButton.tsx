@@ -5,8 +5,6 @@ type IconButtonVariant = "standard" | "filled" | "tonal" | "outlined";
 type IconButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "aria-label" | "children" | "aria-pressed"> & {
   label: string;
   children: ReactNode;
-  /** Kept for call-site compatibility. Touch targets remain at least 48×48px. */
-  size?: "default" | "compact";
   variant?: IconButtonVariant;
   /** Pass only for toggle actions; momentary actions should omit it. */
   selected?: boolean;
@@ -24,17 +22,15 @@ export function IconButton({
   children,
   className = "",
   type = "button",
-  size = "default",
   variant = "standard",
   selected,
   ...props
 }: IconButtonProps) {
   // M3 icon buttons require a 48×48px minimum touch target and typically a 24px icon.
-  // "compact" is retained as an API alias but must not shrink the interactive target.
   const selectedStyles = selected
     ? "bg-[var(--secondary-container)] text-[var(--on-secondary-container)]"
     : "";
-  const dimensions = size === "compact" ? "h-12 min-h-12 w-12 min-w-12" : "h-12 min-h-12 w-12 min-w-12";
+  const dimensions = "h-12 min-h-12 w-12 min-w-12";
 
   return (
     <button
