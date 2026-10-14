@@ -31,6 +31,21 @@ test("functional icons use bundled Material Symbols paths and inherit currentCol
   assert.match(iconSource, /viewBox="0 -960 960 960"/);
 });
 
+test("breadcrumbs and collapsible tool sections use Material Symbols instead of text glyphs", () => {
+  const breadcrumbsSource = readFileSync(new URL("../../components/layout/Breadcrumbs.tsx", import.meta.url), "utf8");
+  const sectionSource = readFileSync(new URL("../../components/tools/ToolPage/ToolSection.tsx", import.meta.url), "utf8");
+  const categorySource = readFileSync(new URL("../../components/home/CategoryCard.tsx", import.meta.url), "utf8");
+  const languageSource = readFileSync(new URL("../../components/layout/LanguageFlag.tsx", import.meta.url), "utf8");
+  const converterSource = readFileSync(new URL("../../components/tools/number-base-converter/NumberBaseConverter.tsx", import.meta.url), "utf8");
+  assert.match(breadcrumbsSource, /MaterialIcon name="chevron_right"/);
+  assert.doesNotMatch(breadcrumbsSource, /›/);
+  assert.match(sectionSource, /MaterialIcon name="keyboard_arrow_down"/);
+  assert.doesNotMatch(sectionSource, /aria-hidden="true">\+/);
+  assert.match(categorySource, /MaterialIcon name="chevron_right"/);
+  assert.match(languageSource, /MaterialIcon name="language"/);
+  assert.match(converterSource, /MaterialIcon name="swap_horiz"/);
+});
+
 test("common navigation and identity icons use the shared Material Symbols component", () => {
   const starSource = readFileSync(new URL("../../components/ui/StarIcon.tsx", import.meta.url), "utf8");
   const collectionSource = readFileSync(new URL("../../components/ui/CollectionIcon.tsx", import.meta.url), "utf8");
