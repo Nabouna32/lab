@@ -62,12 +62,14 @@ export default function ImageCompressor() {
       setError(t.invalidType);
       setFile(null);
       setResult(null);
+      setBusy(false);
       return;
     }
     if (next.size > MAX_FILE_BYTES) {
       setError(t.tooLarge);
       setFile(null);
       setResult(null);
+      setBusy(false);
       return;
     }
     setError(null);
@@ -93,6 +95,7 @@ export default function ImageCompressor() {
     setFile(null);
     setResult(null);
     setError(null);
+    setBusy(false);
   }
 
   return (
