@@ -45,7 +45,8 @@ function parseField(expression: string, min: number, max: number, name: CronFiel
       end = Number(bounds[1]);
     } else {
       start = Number(rangeExpression);
-      end = start;
+      // A single value with a step runs from that value through the field maximum.
+      end = stepExpression === undefined ? start : max;
     }
 
     if (!Number.isInteger(start) || !Number.isInteger(end) || start < min || end > max || start > end) {
