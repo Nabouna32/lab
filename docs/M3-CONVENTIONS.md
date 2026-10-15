@@ -44,7 +44,7 @@ Reference: [Material 3 typography and theming](https://developer.android.com/dev
 
 ### Semantic scale
 
-Use shared tokens mapped to component roles, with a vocabulary corresponding to M3's semantic shape scale: `none`, `extra-small`, `small`, `medium`, `large`, `extra-large` and `full`. The exact CSS values are a Loculary implementation decision and must be defined once in the token layer.
+Use shared tokens mapped to component roles, with a vocabulary corresponding to M3's semantic shape scale: `none`, `extra-small`, `small`, `medium`, `large`, `extra-large` and `full`. The current web baseline uses the first-party Material Web system-shape token values in CSS pixels; these values are not a direct conversion from Android dp. Source: [Material Web system shape tokens](https://github.com/material-components/material-web/blob/5a95667bb70ca5be8785b762fb0303737c3b4ac1/tokens/versions/latest/sass/_md-sys-shape.scss). The requested global rounding-degree control remains a Loculary-specific adaptation and is not implemented yet.
 
 Buttons, fields, cards, chips, menus/popovers, dialogs and navigation surfaces must use role-based tokens rather than independent arbitrary radii. Do not apply maximum rounding to every component just because the visual direction is Pixel-inspired.
 
@@ -202,3 +202,10 @@ Use these labels whenever a finding, token value or implementation rule is recor
 - [OPEN] Chromium, Firefox, mobile touch, keyboard and assistive-technology behavior remain unverified until a recorded run is completed.
 
 Never turn a recommendation, visual resemblance, token name or passing static assertion into an “official Android requirement.” If an official source does not establish the exact pixel value, opacity, radius, animation curve or interaction behavior, mark that detail as a Loculary choice or open question.
+
+## 11. New source-backed form and shape corrections
+
+- [MATERIAL-WEB] The first-party [system shape tokens](https://github.com/material-components/material-web/blob/5a95667bb70ca5be8785b762fb0303737c3b4ac1/tokens/versions/latest/sass/_md-sys-shape.scss) define none 0px, extra-small 4px, small 8px, medium 12px, large 16px, extra-large 28px and full 9999px for the web implementation. Shared CSS variables now expose this semantic scale. The values are Material Web CSS-pixel tokens, not Android dp-to-CSS-pixel conversions.
+- [MATERIAL-WEB] The first-party [checkbox tokens](https://github.com/material-components/material-web/blob/5a95667bb70ca5be8785b762fb0303737c3b4ac1/tokens/versions/latest/sass/_md-comp-checkbox.scss) define an 18px checkbox container, 2px container shape and 18px icon, plus a 40px state layer. Loculary's shared checkbox now uses the 18px container, 2px shape and 18px check icon while its 48px label wrapper is a [LOCULARY-DECISION] touch-target adaptation.
+- [MATERIAL-WEB] Outlined text-field tokens define extra-small container shape, 38% disabled input/label/supporting text and 12% disabled outline. Filled text-field tokens define 38% disabled text and 4% disabled container opacity. Loculary TextField, TextArea and native Select are outlined-like web adaptations; their disabled styles now use per-part semantic colors rather than opacity on the whole control, and their corners now use the shared extra-small shape token.
+- [OPEN] The shape token scale is now present and used by the form-control family, but the requested global rounding-degree control is still not implemented. Existing buttons, cards, panels, dialogs, Lab-only compositions and tool-local containers still need a component-by-component shape mapping before the shape audit is complete.
