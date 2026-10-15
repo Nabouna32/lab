@@ -12,7 +12,7 @@ test("Design Lab displays exact component names and identifies specimen fidelity
     "Button", "IconButton", "TextField", "TextArea (Web wrapper)", "ExposedDropdownMenu",
     "Select (native HTML wrapper)", "ClearButton", "CopyButton", "Checkbox", "Switch",
     "Slider", "ProgressIndicator", "SegmentedControl", "ValidationMessage", "Card",
-    "Panel", "ResultPanel", "Snackbar", "ModalBottomSheet", "AlertDialog", "NavigationBar",
+    "Panel", "ResultPanel", "Snackbar", "ModalBottomSheet", "AlertDialog", "NavigationBar", "NavigationRail", "NavigationDrawer", "CircularProgressIndicator",
   ]) {
     assert.ok(lab.includes(name), `Missing visible component identifier: ${name}`);
   }
@@ -31,6 +31,17 @@ test("The progress gallery uses the shared linear primitive and labels the circu
   assert.match(lab, /names=\{\["CircularProgressIndicator \(mockup\)"/);
   assert.doesNotMatch(lab, /names=\{\["CircularProgressIndicator \(mockup\)","LinearProgressIndicator \(mockup\)"/);
 });
+test("NavigationRail, NavigationDrawer and CircularProgressIndicator are integrated as Web adaptations", () => {
+  assert.match(lab, /import \{ NavigationRail \} from "@\/components\/ui\/NavigationRail"/);
+  assert.match(lab, /import \{ NavigationDrawer \} from "@\/components\/ui\/NavigationDrawer"/);
+  assert.match(lab, /import \{ CircularProgressIndicator \} from "@\/components\/ui\/CircularProgressIndicator"/);
+  assert.match(lab, /<NavigationRail label=/);
+  assert.match(lab, /<NavigationDrawer open=\{sampleDrawerOpen\}/);
+  assert.match(lab, /<CircularProgressIndicator label=/);
+  assert.match(lab, /names=\{\["NavigationRail"\]\} kind="adaptation"/);
+  assert.match(lab, /names=\{\["CircularProgressIndicator","ProgressIndicator"\]\} kind="adaptation"/);
+});
+ 
 test("The shared NavigationBar is integrated in the phone preview and interactive gallery", () => {
   assert.match(lab, /import \{ NavigationBar \} from "@\/components\/ui\/NavigationBar"/);
   assert.equal((lab.match(/<NavigationBar/g) ?? []).length, 2);
