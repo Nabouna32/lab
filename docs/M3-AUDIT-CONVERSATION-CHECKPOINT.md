@@ -367,3 +367,11 @@ The user clarified that what they disliked about M3 Expressive was its washed-ou
 **Important limitation:** this change unlocks the existing exploratory screen comparison only. It does not yet mean every shared production primitive can be toggled between AndroidX-confirmed baseline and Expressive variants. That component-level mode remains part of the ongoing audit and must be driven by verified AndroidX differences, not a global CSS filter.
 
 **Validation:** the previous run 38704035198 failed on stale assertions; some assertions were updated, and the Expressive-selector regression test was added. The latest commit has not yet been validated by a new green CI run. No merge.
+
+## Checkpoint — official style naming and first component source audit (2026-10-15)
+
+**User correction accepted:** Productivity is not an official Material 3 style and must not be presented as a third official choice. Removed it. The preview now offers **M3 Fidelity** and **M3 Expressive** only. Keep any Loculary-specific layout explorations explicitly labeled as adaptations, never as official Android variants.
+
+**First component audited: Button family.** Official AndroidX source exposes classic `shape` and Expressive `ButtonShapes` overloads, including interaction-driven shape morphing and height-aware helpers for shapes, padding, typography and icon spacing/sizing. Pinned source: https://android.googlesource.com/platform/frameworks/support/%2B/155b9eedc7a9732cce0505b492b2c15f5e70d1b9/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Button.kt ; API: https://developer.android.com/reference/kotlin/androidx/compose/material3/ButtonDefaults. Current shared Web button uses a 40 CSS-pixel minimum (not dp), full resting radius and small pressed radius. Next: add a component-specific Fidelity/Expressive control and build the Expressive specimen using verified size-aware behavior; document any Web animation approximation and test both states.
+
+**Validation:** source, CSS and regression-test edits are committed to this branch; no new green CI run has yet validated the latest head. PR #729 remains open/unmerged.
