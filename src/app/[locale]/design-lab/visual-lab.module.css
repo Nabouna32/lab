@@ -318,3 +318,10 @@
 .componentIdentifier code{display:inline-block;max-width:100%;padding:.12rem .35rem;border:1px solid var(--lab-outline);border-radius:var(--shape-corner-extra-small);background:var(--lab-surface-container);color:var(--lab-text);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.7rem;overflow-wrap:anywhere}
 .componentIdentifier[data-kind="adaptation"]>span{color:var(--lab-primary)}
 .componentIdentifier[data-kind="mockup"]>span{color:var(--lab-muted)}
+
+
+/* Navigation drawer and indeterminate progress specimens. */
+.drawerSpecimen{display:grid;justify-items:start;gap:.55rem;margin-top:1rem;padding:1rem;border:1px solid var(--lab-outline);border-radius:var(--shape-corner-medium);background:var(--lab-surface)}
+.drawerSpecimen h4{margin:0;color:var(--lab-text);font-size:.9rem;font-weight:650}
+.sampleIndeterminate{display:flex;align-items:center;gap:.75rem;margin-top:1rem;color:var(--lab-muted);font-size:.8rem}
+.sampleIndeterminate>span{min-width:0}
