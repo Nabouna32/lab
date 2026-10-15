@@ -79,3 +79,5 @@ Pinned AndroidX source: [Checkbox.kt](https://android.googlesource.com/platform/
 ### Switch family — source finding (2026-10-15)
 
 Pinned source reviewed: [AndroidX Switch.kt](https://android.googlesource.com/platform/frameworks/support/%2B/39bdbe03eef999f4c1352f31a90526adad9245ae/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Switch.kt). No distinct default Expressive visual variant was confirmed. AndroidX uses a Material motion spec for thumb animation; the Web component currently uses CSS transitions. Fidelity work must compare track/thumb dimensions, travel distance, easing, interruption and reduced-motion behavior. Until an official delta is verified, both style modes should render the same Switch rather than inventing one.
+
+**Switch Lab status:** per-component Fidelity/Expressive selector is now present. Both modes deliberately render the shared component identically until a verified default Expressive delta is found. A regression assertion covers this. Next: verify thumb geometry and motion against AndroidX runtime and document the Web adaptation.
