@@ -584,3 +584,13 @@ Official source: https://developer.android.com/reference/kotlin/androidx/compose
 - Implemented: added shared ListItem and Divider Web adaptations; replaced the gallery's static list rows and horizontal separator with these primitives and added a vertical divider specimen. ListItem remains presentation-only, leaving click/navigation semantics to the containing control as AndroidX does.
 - Gaps: exact slot spacing/density, list item height, divider inset behavior and tonal roles need source-version comparison; browser focus/semantics and text scaling remain to validate.
 - Status: source-informed Web adaptations; partial parity, current-head CI and browser validation pending.
+
+
+### Chip family — AndroidX audit and Web adaptation (2026-10-15)
+
+Official source: https://developer.android.com/develop/ui/compose/components/chip and the [Material 3 API reference](https://developer.android.com/reference/kotlin/androidx/compose/material3).
+
+- Source-confirmed: AndroidX exposes AssistChip, ElevatedAssistChip, FilterChip, ElevatedFilterChip, InputChip, SuggestionChip and ElevatedSuggestionChip. Filter chips are selectable; input chips may be dismissible; assist/suggestion chips have different intent and should not be styled as interchangeable generic pills.
+- Implemented: shared Chip with the seven named variants; filter selection uses aria-pressed, input chips expose a remove action, and Lab mockup chips were replaced by interactive examples. Uses semantic outline/surface/secondary-container roles and reduced-motion-aware state transitions.
+- Gaps: exact variant geometry, disabled/pressed/focused states, leading/trailing slot rules, input removal semantics, touch target and animation timing require comparison with pinned AndroidX source and browser/assistive-technology checks.
+- Status: source-informed Web adaptation, partial parity; current-head CI remains unconfirmed.
