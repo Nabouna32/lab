@@ -750,3 +750,11 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - Official sources: https://developer.android.com/develop/ui/compose/components/time-pickers?hl=en and https://developer.android.com/develop/ui/compose/components/time-pickers-dialogs?hl=en.
 - **Version caution:** official docs currently label TimePicker/TimeInput experimental, and the TimeInput API reference records introduction in a 1.5.0 alpha. Confirm the selected AndroidX version before calling it available in a stable pinned release.
 - **Not complete:** exact dial geometry and motion, 12/24-hour behavior, AndroidX TimeInput segmented fields, dialog integration, locale, screen-reader and browser/device parity remain to validate.
+
+
+## Continuation update — Search family (2026-10-15)
+
+- Added shared `SearchBar` Web adaptation with docked suggestions and full-screen presentation; integrated both in the Lab with query state, submit, clear, Escape dismissal and arrow-key suggestion navigation.
+- Official source: https://developer.android.com/develop/ui/compose/components/search-bar?hl=en.
+- **Version/API caveat:** current AndroidX references mark the older SearchBar overload deprecated in favor of SearchBarState and expanded docked/full-screen composables. SearchBar remains experimental in the current guide. The React/CSS component models the interaction pattern and is not a direct Compose API port.
+- **Still unverified:** animation/shape parity, IME handling, focus restoration, safe-area/window insets, RTL, screen reader and browser/device behavior.
