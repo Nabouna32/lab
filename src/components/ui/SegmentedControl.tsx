@@ -3,7 +3,6 @@ import type { ReactNode } from "react";
 export type SegmentedControlItem<T extends string> = {
   id: T;
   label: ReactNode;
-  description?: ReactNode;
 };
 
 type SegmentedControlProps<T extends string> = {
@@ -30,8 +29,8 @@ export function SegmentedControl<T extends string>({
       {items.map((item, index) => {
         const active = value === item.id;
         const edgeShape = [
-          index === 0 ? "rounded-l-full" : "rounded-l-sm",
-          index === items.length - 1 ? "rounded-r-full" : "rounded-r-sm",
+          index === 0 ? "rounded-l-full" : "rounded-l-[var(--shape-corner-small)]",
+          index === items.length - 1 ? "rounded-r-full" : "rounded-r-[var(--shape-corner-small)]",
         ].join(" ");
 
         return (
@@ -41,7 +40,7 @@ export function SegmentedControl<T extends string>({
             aria-pressed={active}
             onClick={() => onChange(item.id)}
             className={[
-              "relative min-h-10 min-w-0 px-3 py-2.5 text-center text-sm transition-[background-color,color,box-shadow,transform] duration-[var(--motion-standard)]",
+              "relative min-h-10 min-w-0 whitespace-nowrap px-3 py-2.5 text-center text-sm transition-[background-color,color,box-shadow,transform] duration-[var(--motion-standard)]",
               edgeShape,
               "focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-soft)]",
               active
@@ -50,9 +49,6 @@ export function SegmentedControl<T extends string>({
             ].join(" ")}
           >
             <span className="block">{item.label}</span>
-            {item.description && (
-              <span className="mt-0.5 block text-xs font-normal opacity-80">{item.description}</span>
-            )}
           </button>
         );
       })}
