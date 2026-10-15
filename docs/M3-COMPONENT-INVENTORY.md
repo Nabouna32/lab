@@ -45,7 +45,7 @@ The list below is deliberately broader than the current production call sites. C
 | Date picker / date range picker / date picker dialog | Shared DatePicker adaptation; single, range and native input specimens in Lab | Add AndroidX-equivalent dialog; verify grid keyboard, locale, RTL, dimensions and motion |
 | Menus / dropdown menus | ExposedDropdownMenu and Select wrapper | Audit DropdownMenu, exposed dropdown, anchoring, focus, keyboard, dismissal and native HTML distinction |
 | Radio button | Shared Web adaptation in a native radio group | Audit exact dimensions, state animation, touch target and assistive-technology semantics |
-| Slider / range slider | Shared Slider | Audit discrete/continuous/range variants, ticks, labels, value semantics and thumb interaction |
+| Slider / RangeSlider | Shared Slider + RangeSlider Web adaptation; two-thumb range specimen in Lab | Audit exact track/thumb/tick geometry, value bubble, drag behavior, discrete steps and screen-reader announcements |
 | Switch | Shared Switch | Audit M3 state layers, thumb/track/icon transitions, disabled/focus semantics and motion |
 | Time picker / time input | Shared TimePicker adaptation; dial and native input wrapper in Lab | Verify AndroidX version availability (TimeInput is experimental in current docs), exact dial geometry, keyboard and dialog integration |
 | Search: SearchBar, expanded docked/full-screen patterns | Shared SearchBar Web adaptation; docked suggestions and full-screen specimens in Lab | Audit current SearchBarState API/version, full-screen insets/transition, focus management and semantics |
@@ -118,3 +118,11 @@ For each component/variant, record:
 - **Official behavior:** tri-state values are checked, unchecked and indeterminate; the indeterminate state commonly reflects a parent whose child checkboxes are only partially selected.
 - **Lab:** added a shared `TriStateCheckbox` wrapper over the existing shared Checkbox, using the native HTML checkbox `indeterminate` property and a distinct minus mark.
 - **Not yet verified:** exact AndroidX mixed-state motion/colors, full parent-child propagation example, screen-reader/browser parity and disabled mixed state.
+
+
+## RangeSlider — 2026-10-15
+
+- **Official source:** https://developer.android.com/reference/kotlin/androidx/compose/material3/RangeSlider.composable and https://developer.android.com/develop/ui/compose/components/slider?hl=en
+- **Official behavior:** selects two bounded values that cannot cross; supports continuous/discrete ranges and exposes start/end values separately.
+- **Lab:** added shared `RangeSlider` with two native range inputs, min/max bounds, step support, a configurable minimum gap and distinct accessible labels/value text.
+- **Not yet verified:** exact AndroidX thumb/track/tick geometry, pointer-drag arbitration between overlapping native inputs, touch target, focus states, discrete tick marks, value bubble, RTL and assistive-technology behavior.
