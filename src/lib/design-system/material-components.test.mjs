@@ -483,6 +483,14 @@ test("TextField offers source-backed Fidelity and Expressive anatomy without cha
   assert.match(labSource, /Source-backed Expressive variant: floating inside label/);
 });
 
+test("TextArea and native Select explicitly expose unfinished Android parity instead of claiming official components", () => {
+  assert.match(labSource, /textAreaVariant,setTextAreaVariant/);
+  assert.match(labSource, /selectVariant,setSelectVariant/);
+  assert.match(labSource, /not a distinct component named TextArea/);
+  assert.match(labSource, /native HTML select, not Android’s ExposedDropdownMenu/);
+  assert.match(labSource, /real M3 menu component must be added separately/);
+});
+
 test("M3 Fidelity direction mockup uses semantic shape roles for official component families", () => {
   assert.match(labCss, /directionStage\[data-direction="fidelity"\] \.directionPrimary\{[^}]*border-radius:var\(--shape-corner-full\)/);
   assert.match(labCss, /directionStage\[data-direction="fidelity"\] \.directionCalculator input\{[^}]*border-radius:var\(--shape-corner-extra-small\)/);
