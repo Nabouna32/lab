@@ -60,6 +60,12 @@ export default function ComponentLivePreview({
     case "circular-progress-indicator":
       content = <div className="flex flex-wrap items-center gap-6"><CircularProgressIndicator label={fr ? "Progression déterminée" : "Determinate progress"} value={progress} size={48} /><CircularProgressIndicator label={fr ? "Progression indéterminée" : "Indeterminate progress"} size={48} /><div className="min-w-48 flex-1"><Slider inputId="audit-circular-progress-value" label={fr ? "Progression" : "Progress"} value={progress} min={0} max={100} step={5} valueLabel={progress + "%"} onValueChange={setProgress} /></div></div>;
       break;
+    case "radio-button":
+      content = <fieldset className="grid gap-2"><legend>{fr ? "Choisis une option" : "Choose an option"}</legend><RadioButton name="audit-radio" value="all" label={fr ? "Toutes les options" : "All options"} checked={radio === "all"} onChange={setRadio} /><RadioButton name="audit-radio" value="selected" label={fr ? "Sélectionnées" : "Selected only"} checked={radio === "selected"} onChange={setRadio} /><RadioButton name="audit-radio-disabled" value="disabled" label={fr ? "Désactivée" : "Disabled"} checked={false} disabled onChange={() => undefined} /></fieldset>;
+      break;
+    case "slider":
+      content = <div className="grid gap-5"><Slider inputId="audit-slider" label={fr ? "Valeur ajustable" : "Adjustable value"} value={progress} min={0} max={100} step={5} valueLabel={progress + "%"} onValueChange={setProgress} /><Slider inputId="audit-slider-disabled" label={fr ? "Désactivé" : "Disabled"} value={40} min={0} max={100} disabled onValueChange={() => undefined} /></div>;
+      break;
     case "button":
       content = (
         <div className="flex flex-wrap items-center gap-3">
