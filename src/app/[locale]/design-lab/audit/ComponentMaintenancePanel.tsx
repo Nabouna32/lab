@@ -24,9 +24,11 @@ export default function ComponentMaintenancePanel({ componentId, locale }: { com
   const [expected, setExpected] = useState("");
   const [decisionTitle, setDecisionTitle] = useState("");
   const [decisionRationale, setDecisionRationale] = useState("");
+  const [decisionReference, setDecisionReference] = useState("");
   const [checkType, setCheckType] = useState("visual");
   const [checkResult, setCheckResult] = useState("inconclusive");
   const [checkNotes, setCheckNotes] = useState("");
+  const [referenceUrl, setReferenceUrl] = useState("");
   const [pr, setPr] = useState("");
   const [sha, setSha] = useState("");
   const [busy, setBusy] = useState(true);
@@ -55,8 +57,8 @@ export default function ComponentMaintenancePanel({ componentId, locale }: { com
   }
   async function submitDecision(e:FormEvent) {
     e.preventDefault();setSaving(true);setError("");
-    const {error:issue}=await db.from("design_audit_decisions").insert({component_id:componentId,title:decisionTitle.trim(),rationale:decisionRationale.trim(),decision_type:"other"});
-    setSaving(false);if(issue){setError(issue.message);return;}setDecisionTitle("");setDecisionRationale("");await load();
+    const {error:issue}=await db.from("design_audit_decisions").insert({component_id:componentId,title:decisionTitle.trim(),rationale:decisionRationale.trim(),decision_type:"other",official_references:decisionReference.trim()?[{label:"Official reference",url:decisionReference.trim()}]:[]});
+    setSaving(false);if(issue){setError(issue.message);return;}setDecisionTitle("");setDecisionRationale("");setDecisionReference("");await load();
   }
   async function changeDecisionStatus(id: string, status: string) {
     const { data: authData } = await db.auth.getUser();
@@ -69,8 +71,8 @@ export default function ComponentMaintenancePanel({ componentId, locale }: { com
   }
   async function submitCheck(e:FormEvent) {
     e.preventDefault();setSaving(true);setError("");
-    const {error:issue}=await db.from("design_audit_verifications").insert({component_id:componentId,verification_type:checkType,result:checkResult,notes:checkNotes.trim(),pull_request_url:pr.trim()||null,commit_sha:sha.trim()||null});
-    setSaving(false);if(issue){setError(issue.message);return;}setCheckNotes("");setPr("");setSha("");await load();
+    const {error:issue}=await db.from("design_audit_verifications").insert({component_id:componentId,verification_type:checkType,result:checkResult,notes:checkNotes.trim(),reference_url:referenceUrl.trim()||null,pull_request_url:pr.trim()||null,commit_sha:sha.trim()||null});
+    setSaving(false);if(issue){setError(issue.message);return;}setCheckNotes("");setReferenceUrl("");setPr("");setSha("");await load();
   }
   const field="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm text-[var(--foreground)]";
   const label="block text-sm font-medium";
@@ -104,7 +106,7 @@ export default function ComponentMaintenancePanel({ componentId, locale }: { com
       {decisions.map(d=><article key={d.id} className="border-b border-[var(--border)] py-3"><div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between"><div><h4 className="font-semibold">{d.title}</h4><p className="mt-1 whitespace-pre-wrap text-sm">{d.rationale}</p></div><label className={label}>{fr?"Statut de décision":"Decision status"}<select className={field} value={d.status} onChange={e=>void changeDecisionStatus(d.id,e.target.value)}>{["proposed","approved","rejected","superseded"].map(s=><option key={s}>{s}</option>)}</select></label></div></article>)}
       <details className="mt-4 border-t border-[var(--border)] pt-4"><summary className="cursor-pointer font-medium">{fr?"Consigner une décision ou proposition":"Record a decision or proposal"}</summary>
         <form onSubmit={submitDecision} className="mt-3 grid gap-3"><label className={label}>{fr?"Résumé":"Summary"}<input className={field} required minLength={3} maxLength={200} value={decisionTitle} onChange={e=>setDecisionTitle(e.target.value)}/></label>
-        <label className={label}>{fr?"Raisonnement et contexte":"Rationale and context"}<textarea className={field} rows={3} required minLength={3} maxLength={10000} value={decisionRationale} onChange={e=>setDecisionRationale(e.target.value)}/></label><div><button className={button} disabled={saving}>{fr?"Enregistrer la proposition":"Save proposal"}</button></div></form>
+        <label className={label}>{fr?"Raisonnement et contexte":"Rationale and context"}<textarea className={field} rows={3} required minLength={3} maxLength={10000} value={decisionRationale} onChange={e=>setDecisionRationale(e.target.value)}/></label><label className={label}>{fr?"Référence M3 officielle (facultatif)":"Official M3 reference (optional)"}<input className={field} type="url" pattern="https://.*" value={decisionReference} onChange={e=>setDecisionReference(e.target.value)}/></label><div><button className={button} disabled={saving}>{fr?"Enregistrer la proposition":"Save proposal"}</button></div></form>
       </details>
     </section>
     <section className="rounded-2xl border border-[var(--border)] p-4"><h3 className="text-lg font-semibold">{fr?"Vérifications":"Verifications"} ({checks.length})</h3>
@@ -113,7 +115,7 @@ export default function ComponentMaintenancePanel({ componentId, locale }: { com
         <form onSubmit={submitCheck} className="mt-3 grid gap-3 sm:grid-cols-2"><label className={label}>{fr?"Type":"Type"}<select className={field} value={checkType} onChange={e=>setCheckType(e.target.value)}>{["source-review","visual","interaction","accessibility","automated-test","manual-test","other"].map(x=><option key={x}>{x}</option>)}</select></label>
         <label className={label}>{fr?"Résultat":"Result"}<select className={field} value={checkResult} onChange={e=>setCheckResult(e.target.value)}>{["pass","fail","inconclusive"].map(x=><option key={x}>{x}</option>)}</select></label>
         <label className={label+" sm:col-span-2"}>{fr?"Observations et preuves":"Observations and evidence"}<textarea className={field} rows={3} required minLength={3} maxLength={10000} value={checkNotes} onChange={e=>setCheckNotes(e.target.value)}/></label>
-        <label className={label}>{fr?"URL de la PR":"Pull request URL"}<input className={field} type="url" pattern="https://github\\.com/.*" value={pr} onChange={e=>setPr(e.target.value)}/></label>
+        <label className={label}>{fr?"Référence officielle":"Official reference"}<input className={field} type="url" pattern="https://.*" value={referenceUrl} onChange={e=>setReferenceUrl(e.target.value)}/></label><label className={label}>{fr?"URL de la PR":"Pull request URL"}<input className={field} type="url" pattern="https://github\\.com/.*" value={pr} onChange={e=>setPr(e.target.value)}/></label>
         <label className={label}>{fr?"SHA du commit":"Commit SHA"}<input className={field} pattern="[0-9a-fA-F]{7,40}" value={sha} onChange={e=>setSha(e.target.value)}/></label><div className="sm:col-span-2"><button className={button} disabled={saving}>{fr?"Enregistrer la vérification":"Save verification"}</button></div></form>
       </details>
     </section>
