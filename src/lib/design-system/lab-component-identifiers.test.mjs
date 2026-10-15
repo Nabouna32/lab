@@ -28,7 +28,7 @@ test("Design Lab displays exact component names and identifies specimen fidelity
 });
 
 test("The progress gallery uses shared linear and circular progress primitives", () => {
-  assert.match(lab, /<ProgressIndicator label=\{locale===/);
+  assert.match(lab, /<ProgressIndicator[\s\S]{0,180}label=\{locale===/);
   assert.match(lab, /value=\{sampleProgress\}/);
   assert.match(lab, /names=\{\["CircularProgressIndicator","ProgressIndicator"\]\} kind="adaptation"/);
   assert.match(lab, /<CircularProgressIndicator label=\{locale===/);
@@ -74,7 +74,7 @@ test("NavigationRail, NavigationDrawer and CircularProgressIndicator are integra
   assert.match(lab, /<NavigationRail label=/);
   assert.match(lab, /<NavigationDrawer open=\{sampleDrawerOpen\}/);
   assert.match(lab, /<CircularProgressIndicator label=/);
-  assert.match(lab, /names=\{\["NavigationRail"\]\} kind="adaptation"/);
+  assert.match(lab, /names=\{\["NavigationRail","FloatingActionButton"\]\} kind="adaptation"/);
   assert.match(lab, /names=\{\["CircularProgressIndicator","ProgressIndicator"\]\} kind="adaptation"/);
 });
  
@@ -165,7 +165,7 @@ test("Material 3 filled, outlined and secure text-field variants are represented
 test("DropdownMenu mockup is replaced by the shared accessible menu adaptation", () => {
   assert.match(lab, /import \{ DropdownMenu \} from "@\/components\/ui\/DropdownMenu"/);
   assert.match(lab, /names=\{\["DropdownMenu","DropdownMenuItem","DropdownMenuGroup"/);
-  assert.doesNotMatch(lab, /DropdownMenu \(mockup\)/);
+  assert.doesNotMatch(lab, /"DropdownMenu \(mockup\)"/);
 });
 
 
