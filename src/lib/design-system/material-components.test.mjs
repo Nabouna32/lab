@@ -64,6 +64,8 @@ test("shared checkbox uses M3 foreground/background roles and a visible keyboard
   assert.match(checkboxSource, /on-surface\) 38%/);
   assert.match(checkboxSource, /"--checkbox-active": "var\(--checkbox-disabled-active\)"/);
   assert.match(checkboxSource, /peer-focus-visible:ring-2/);
+  assert.match(checkboxSource, /borderWidth: disabled \? \(checked \? 0 : 2\) : 1/);
+  assert.match(checkboxSource, /var\\(--surface\\) 38%/);
   assert.doesNotMatch(checkboxSource, /accent-\[#/);
 });
 
