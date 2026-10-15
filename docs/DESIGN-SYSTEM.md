@@ -289,7 +289,7 @@ When a conflict is found, surface it and resolve it through the documented decis
 
 ## Canonical Material 3 implementation convention
 
-The detailed implementation rules are maintained in [`docs/M3-CONVENTIONS.md`](./M3-CONVENTIONS.md). That document is the canonical reference for the source hierarchy, Fidelity semantic colors vs category-only Rainbow accents, typography, semantic shapes and the proposed Loculary rounding-degree control, density/touch targets, component contracts, motion/reduced-motion, Design Lab behavior and the conformance acceptance gate.
+The detailed implementation rules are maintained in [`docs/M3-CONVENTIONS.md`](./M3-CONVENTIONS.md). That document is the canonical reference for the source hierarchy, Fidelity semantic colors vs category-only Rainbow accents, typography, semantic shapes and the Loculary rounding-degree preview control, density/touch targets, component contracts, motion/reduced-motion, Design Lab behavior and the conformance acceptance gate.
 
 The shared linear `Slider` and `ProgressIndicator` are now part of the common UI contract: use native range semantics and visible label/value for sliders; expose determinate progress only when the value is real, otherwise use indeterminate progress. Their browser-level alignment, touch behavior and assistive-technology output remain to be verified before declaring conformance.
 ## Material 3 evidence and provenance rule
@@ -305,7 +305,7 @@ Do not call a component “Android-conformant” based only on a matching name, 
 
 ## Shape and disabled-state provenance
 
-Use the semantic shape variables in globals.css for shared component geometry. Their current values are sourced from the version-pinned first-party Material Web system-shape tokens; they are CSS pixels, not Android dp equivalents. The global rounding-degree control is a separate Loculary-specific feature and remains to be implemented. Disabled opacity must be component- and state-specific; use the exact first-party token source recorded in M3-CONVENTIONS.md rather than a generic “12%/38% Material rule.”
+Use the semantic shape variables in globals.css for shared component geometry. Their current values are sourced from the version-pinned first-party Material Web system-shape tokens; they are CSS pixels, not Android dp equivalents. The rounding-degree preview control is a Loculary-specific Lab experiment. It scales semantic-token-based shared components; legacy fixed-radius mockups still need migration before claiming global coverage. Disabled opacity must be component- and state-specific; use the exact first-party token source recorded in M3-CONVENTIONS.md rather than a generic “12%/38% Material rule.”
 ## Shared Card convention
 
 The shared Card follows the version-pinned first-party Material Web card tokens: elevated uses surface-container-low and elevation, filled uses surface-container-highest, and outlined uses surface with outline-variant. All use the semantic medium shape token. Linked cards must have a visible keyboard focus indicator. Panel and ResultPanel remain Loculary-specific compositions that reuse the medium shape for consistency.
