@@ -732,3 +732,12 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - **Still unverified:** exact AndroidX spacing/tokens, animation timing/curve, RTL behavior, screen-reader parity, scroll-to-selected, and browser/device visuals. This is a Web adaptation, not a native Compose component.
 - Latest known successful CI is still on an older commit. The additions in this update are not CI-verified; run lint, typecheck, tests, production build, and browser checks before considering this family complete.
 - Next autonomous batch: inspect the official current AndroidX API inventory and replace remaining Lab mockups with shared Web adaptations in small family-sized commits. Keep PR #729 open/unmerged and do not touch residual branches.
+
+
+## Continuation update — Date picker family (2026-10-15)
+
+- Added shared `DatePicker` Web adaptation and CSS: single-date calendar, range-selection calendar, and a clearly labelled native HTML date-input mode.
+- Integrated all three specimens in the Lab and added identifier/test coverage.
+- Official source: https://developer.android.com/develop/ui/compose/components/datepickers?hl=en. AndroidX distinguishes `DatePicker`, `DateRangePicker`, and `DatePickerDialog`; modal, docked, and modal-input presentations are not interchangeable names for the same UI.
+- **Not complete:** no AndroidX-equivalent DatePickerDialog yet; browser-native input is intentionally not claimed as visual parity; keyboard grid navigation, exact token/dimension/motion parity, RTL and screen-reader checks remain.
+- Latest implementation is still not CI-verified. Do not infer build success from static edits.
