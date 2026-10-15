@@ -217,3 +217,11 @@ Every new convention/audit finding must state whether it is [ANDROID-M3], [MATER
 - **ValidationMessage / Lab:** the Lab's always-visible illustrative validation message used a component that defaults to role=alert. Added an optional role contract and removed the live-region role only for the static Lab example. Production call sites still default to alert; review each flow for whether assertive announcement is appropriate.
 - **Tests updated:** added source-level checks for resolved site theme, non-alert Lab validation sample, slider focus token and Switch disabled outline. These are static regression checks only; they do not prove runtime behavior.
 - **CI status:** no workflow run is currently associated with the newest branch head through the available run query. The last completed run failed on duplicate top-level declarations in the test module; those duplicates were removed. Do not claim the latest test suite/build passed until an actual run is available.
+
+## Update — official Material Web shape and field-state audit (2026-10-15)
+
+- Added shared shape variables using the version-pinned first-party Material Web shape tokens: none 0px, extra-small 4px, small 8px, medium 12px, large 16px, extra-large 28px and full 9999px. These are CSS-pixel web tokens, not Android dp conversions.
+- Checkbox now uses the Material Web 18px container, 2px shape and 18px check icon. Its disabled checked and unchecked states use different opacity/outline behavior. The 48px wrapper remains a Loculary touch-target choice.
+- TextField, TextArea and Select now use the shared extra-small shape token and component-specific disabled roles based on first-party Material Web tokens: outlined text/labels 38%, outline 12%, and filled-field container opacity 4% (the latter is documented for provenance; these Loculary controls are outlined-like).
+- The global rounding-degree control remains unimplemented. Continue mapping existing buttons, cards, panels, dialogs and Lab-only compositions to semantic shape roles; do not claim the shape audit complete.
+- ValidationMessage still defaults to role=alert for conditional production errors; the static Lab sample opts out. Review each production use for announcement timing/urgency.
