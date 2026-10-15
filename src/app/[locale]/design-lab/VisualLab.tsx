@@ -103,7 +103,8 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const { resolvedTheme } = useTheme();
   const theme: Theme = resolvedTheme === "dark" ? "dark" : "light";
   const [screen,setScreen]=useState<Screen>("home");
-  const [direction,setDirection]=useState<DesignDirection>("pixel");
+  const [direction,setDirection]=useState<DesignDirection>("fidelity");
+  const [buttonVariant,setButtonVariant]=useState<"fidelity"|"expressive">("fidelity");
   const [seed,setSeed]=useState("#4285F4");
   const [paletteOpen,setPaletteOpen]=useState(false);
   const [viewport,setViewport]=useState<"desktop"|"tablet"|"mobile">("mobile");
