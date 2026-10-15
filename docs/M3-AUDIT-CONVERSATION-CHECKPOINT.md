@@ -223,14 +223,14 @@ Every new convention/audit finding must state whether it is [ANDROID-M3], [MATER
 - Added shared shape variables using the version-pinned first-party Material Web shape tokens: none 0px, extra-small 4px, small 8px, medium 12px, large 16px, extra-large 28px and full 9999px. These are CSS-pixel web tokens, not Android dp conversions.
 - Checkbox now uses the Material Web 18px container, 2px shape and 18px check icon. Its disabled checked and unchecked states use different opacity/outline behavior. The 48px wrapper remains a Loculary touch-target choice.
 - TextField, TextArea and Select now use the shared extra-small shape token and component-specific disabled roles based on first-party Material Web tokens: outlined text/labels 38%, outline 12%, and filled-field container opacity 4% (the latter is documented for provenance; these Loculary controls are outlined-like).
-- The global rounding-degree control remains unimplemented. Continue mapping existing buttons, cards, panels, dialogs and Lab-only compositions to semantic shape roles; do not claim the shape audit complete.
+- The rounding-degree preview control is now implemented for semantic-token-based shared components and token-driven compositions. It is a Loculary-specific Lab experiment, not an Android setting. Legacy mockups and tool-local containers still use some fixed radii; map or explicitly exempt them before claiming global coverage.
 - ValidationMessage still defaults to role=alert for conditional production errors; the static Lab sample opts out. Review each production use for announcement timing/urgency.
 ## Update — Card roles and surface-family shape mapping (2026-10-15)
 
 - The shared Card now uses first-party Material Web roles: elevated = surface-container-low + level-1-like shadow, filled = surface-container-highest, outlined = surface + outline-variant. All three use the medium shape token from the official token source.
 - Linked cards now have an explicit keyboard focus ring. This is source-level evidence only; rendered focus contrast and clipping still need browser checks.
 - Panel and ResultPanel use the medium shape token as a Loculary consistency decision; they are not claimed as official Android components.
-- Remaining shape audit: map button, segmented-control, menu/dialog, chips, nested cards and tool-local containers to semantic tokens, then design and implement the Loculary-only global rounding-degree control.
+- Remaining shape audit: migrate or explicitly exempt fixed radii in button-like Lab mockups, menus/dialogs, chips, nested cards and tool-local containers so the new rounding-degree preview control has consistent coverage.
 ## Update — segmented-control audit slice (2026-10-15)
 
 - Removed the shared SegmentedControl's optional secondary description line. This was a Loculary extension, not a documented M3 segment feature, and it contributed to label wrapping/uneven control height.
@@ -241,3 +241,10 @@ Every new convention/audit finding must state whether it is [ANDROID-M3], [MATER
 - TextField and Select now use a 56px minimum height based on the version-pinned first-party Material Web outlined field/select tokens. This is a Material Web CSS-pixel value, not a claim of dp equivalence.
 - Fixed a source-order bug in TextField: spreading an undefined step prop after step="any" could override the intended decimal default. Explicit caller step values are preserved; number inputs otherwise default to step="any". This is a web-platform behavior correction.
 - Static assertions cover these source contracts. Browser/form validation is still pending.
+
+## Update — rounding-degree preview and theme ownership (2026-10-15)
+
+- Added a 0–100% rounding-degree slider to the Design Lab. It scales shared semantic shape tokens and token-driven compositions; 100% is the current first-party Material Web CSS-pixel baseline and 0% squares the semantic corners. Full/pill semantics remain full.
+- This is a Loculary-specific preview control, not an Android setting. Several handcrafted Lab mockups and tool-local containers still use fixed radii, so coverage is not yet global. Keep this explicitly open.
+- Fixed a stale theme-toggle handler left in the profile mockup after removing the Lab's independent theme selector. The mock preference now changes only its own sample state; the real theme remains the app's resolved theme.
+- Updated Lab Checkbox/Switch palette overrides to match component-specific disabled token roles. Browser verification of light/dark and rounding extremes remains outstanding.
