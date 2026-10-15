@@ -554,3 +554,14 @@ The Design Lab now labels specimens with exact names and explicit fidelity categ
 - **Web adaptation choices:** CSS width, scrim opacity, elevation/shadow, shape and motion timings are not exact dp/elevation/Compose-motion equivalents. The component currently supports modal and standard modes; it does not yet reproduce the separate dismissible drawer behavior, Android `DrawerState`, edge-swipe gestures, predictive back, or platform insets.
 - **Accessibility gap:** background content is not yet made inert/hidden from all assistive technology in every browser; verify focus and screen-reader isolation before production use. Standard mode also needs responsive integration checks.
 - **Status:** shared, source-informed Web adaptation; partial functional parity, not native Compose. CI, browser, mobile and assistive-technology validation required.
+
+
+### CircularProgressIndicator — AndroidX audit and Web adaptation (2026-10-15)
+
+**Official source:** https://developer.android.com/develop/ui/compose/components/progress and https://developer.android.com/reference/kotlin/androidx/compose/material3/CircularProgressIndicator.composable.
+
+- **Source-confirmed:** Material 3 offers determinate and indeterminate circular indicators. Determinate progress must reflect real progress; indeterminate mode communicates activity without implying a percentage. The Compose API uses a progress fraction in the range 0.0–1.0 and exposes indicator/track colors and stroke-related options.
+- **Implemented:** added shared `src/components/ui/CircularProgressIndicator.tsx` and `circular-progress-indicator.module.css`; integrated the determinate version into the Lab and connected it to the existing sample progress slider. The component provides `role=progressbar`, accessible label/min/max/current value, SVG stroke rendering, animated indeterminate mode and reduced-motion fallback.
+- **Web adaptation choices:** the public Web API accepts percentage values (0–100), and size/stroke width are CSS pixels; neither is a direct Android dp/API equivalence. The indeterminate keyframes are a source-informed approximation, not copied/verified AndroidX motion timing. Stroke caps and exact track/color behavior need comparison against the targeted AndroidX version.
+- **Not yet complete:** no dedicated interactive indeterminate specimen, no pinned AndroidX version/source token comparison, no automated SVG visual regression, and no browser/screen-reader/device validation. Reduced-motion mode deliberately stops continuous animation and displays a static arc; confirm this fallback remains understandable.
+- **Status:** shared, source-informed Web adaptation; partial parity, not native Compose. Do not claim 100% fidelity until visual/motion comparison and runtime checks pass.
