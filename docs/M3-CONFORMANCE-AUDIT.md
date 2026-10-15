@@ -756,3 +756,11 @@ Official source: [AndroidX adaptive NavigationSuiteScaffold API](https://develop
 - The post-lint CI run found TS2367 in `Badge.tsx`: comparing the `ReactNode` union directly with `false` was rejected by TypeScript 6.
 - Rewrote the guard to narrow booleans with `typeof content === "boolean"`, preserving the intended behavior (null/undefined and `false` render the dot; other nodes render content).
 - Lint passed in the same run; typecheck failure prevented tests/build from running. Await a new complete CI run.
+
+
+## CI test repair — refresh stale Lab selectors (2026-10-15)
+
+- Added a visible `ComponentIdentifier` beside the indeterminate `CircularProgressIndicator` specimen so that its official API name is explicit.
+- Updated source-contract tests to match the current shared specimen composition rather than removed identifiers/props: progress label formatting, the combined NavigationRail/FAB identifier, Checkbox's disabled mixed-state border logic, and the current DropdownMenu trigger composition.
+- Narrowed the ModalBottomSheet test's forbidden-name check so the separate, valid `BottomSheetScaffold` state is not mistaken for an obsolete modal-sheet mockup.
+- Tests/build have not yet completed successfully on the latest source; this is a test-contract repair, not a claim of runtime parity.
