@@ -1,0 +1,15 @@
+.root {
+  position: relative; display: flex; flex-direction: column; box-sizing: border-box;
+  min-height: 100%; width: 100%; overflow: clip;
+  color: var(--lab-text, var(--on-surface, currentColor));
+  background: var(--lab-bg, var(--background, transparent));
+}
+.topBar, .bottomBar { position: relative; z-index: 1; flex: 0 0 auto; }
+.middle { display: flex; flex: 1 1 auto; min-height: 0; }
+.navigation { flex: 0 0 auto; min-height: 0; }
+.content {
+  flex: 1 1 auto; min-width: 0; min-height: 0; overflow: auto;
+  padding: 16px; overscroll-behavior: contain;
+}
+.fab { position: absolute; z-index: 2; inset-inline-end: 16px; inset-block-end: max(16px, env(safe-area-inset-bottom)); }
+@media (prefers-reduced-motion: reduce) { .content { scroll-behavior: auto; } }
