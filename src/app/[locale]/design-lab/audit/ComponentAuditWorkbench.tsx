@@ -19,7 +19,7 @@ const labels: Record<AuditStatus,{fr:string;en:string}> = {
 };
 export default function ComponentAuditWorkbench({ locale }: { locale: Locale }) {
   const fr = locale === "fr";
-  const db = createClient();
+  const db = useMemo(() => createClient(), []);
   const [components,setComponents] = useState<Component[]>([]);
   const [reports,setReports] = useState<ReportSummary[]>([]);
   const [query,setQuery] = useState("");
