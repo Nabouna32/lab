@@ -1,5 +1,6 @@
 "use client";
 import { useMemo, useState } from "react";
+import { useTheme } from "@teispace/next-themes";
 import type { CSSProperties } from "react";
 import styles from "./visual-lab.module.css";
 import { MaterialIcon, type MaterialIconName } from "@/components/ui/MaterialIcon";
@@ -91,7 +92,8 @@ function createLabTokens(scheme: ReturnType<typeof createM3Scheme>, theme: Theme
 }
 export default function VisualLab({ initialLocale }: { initialLocale: string }) {
   const locale: Locale = initialLocale==="fr"?"fr":"en";
-  const [theme,setTheme]=useState<Theme>("light");
+  const { resolvedTheme } = useTheme();
+  const theme: Theme = resolvedTheme === "dark" ? "dark" : "light";
   const [screen,setScreen]=useState<Screen>("home");
   const [direction,setDirection]=useState<DesignDirection>("pixel");
   const [seed,setSeed]=useState("#4285F4");
@@ -132,7 +134,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
       </div>
       <p className={styles.directionHelp}>{t[direction==="pixel"?"pixelDirectionHelp":"utilityDirectionHelp"]}</p>
       <div className={styles.controlRow}>
-        <fieldset className={styles.segmentField}><legend>{t.theme}</legend><div className={styles.segmented}><button type="button" aria-pressed={theme==="light"} onClick={()=>setTheme("light")}><MaterialIcon name="light_mode" size={16} /> {t.light}</button><button type="button" aria-pressed={theme==="dark"} onClick={()=>setTheme("dark")}><MaterialIcon name="dark_mode" size={16} /> {t.dark}</button></div></fieldset>
+        
         <fieldset className={styles.segmentField}><legend>{t.viewport}</legend><div className={styles.segmented}>{(["mobile","tablet","desktop"] as const).map(size=><button key={size} type="button" aria-pressed={viewport===size} onClick={()=>setViewport(size)}>{t[size]}</button>)}</div></fieldset>
         <fieldset className={styles.segmentField}><legend>{t.home} / {t.explore} / {t.tool}</legend><div className={styles.segmented}>{(["home","explore","tool"] as const).map(item=><button key={item} type="button" aria-pressed={screen===item} onClick={()=>setScreen(item)}>{t[item]}</button>)}</div></fieldset>
         <div className={styles.seedPicker}>
