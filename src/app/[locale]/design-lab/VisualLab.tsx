@@ -75,6 +75,17 @@ const copy = {
 };
 
 type M3Variant = "fidelity" | "expressive";
+function ComponentIdentifier({ names, kind = "shared", locale = "fr" }: { names: string[]; kind?: "shared" | "adaptation" | "mockup"; locale?: Locale }) {
+  const kindLabel = kind === "shared"
+    ? (locale === "fr" ? "Primitive partagée" : "Shared primitive")
+    : kind === "adaptation"
+      ? (locale === "fr" ? "Adaptation Web" : "Web adaptation")
+      : (locale === "fr" ? "Maquette locale" : "Local mockup");
+  return <p className={styles.componentIdentifier} data-kind={kind}>
+    <span>{kindLabel}</span>
+    {names.map((name) => <code key={name}>{name}</code>)}
+  </p>;
+}
 function ComponentVariantControl({ label, value, onChange, expressiveNote }: { label: string; value: M3Variant; onChange: (value: M3Variant) => void; expressiveNote?: string }) {
   return <div className={styles.componentVariantControl}>
     <span>{label}</span>
@@ -118,6 +129,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const { resolvedTheme } = useTheme();
   const theme: Theme = resolvedTheme === "dark" ? "dark" : "light";
   const [screen,setScreen]=useState<Screen>("home");
+  const [navigationSelection,setNavigationSelection]=useState<"home"|"explore"|"saved"|"profile">("home");
   const [direction,setDirection]=useState<DesignDirection>("fidelity");
   const [buttonVariant,setButtonVariant]=useState<"fidelity"|"expressive">("fidelity");
   const [iconButtonVariant,setIconButtonVariant]=useState<"fidelity"|"expressive">("fidelity");
