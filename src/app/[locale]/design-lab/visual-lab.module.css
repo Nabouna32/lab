@@ -338,3 +338,8 @@
 .topBarActions{display:flex;align-items:center;gap:.25rem}
 .topAppBarVariants{display:grid;gap:.5rem;margin:.75rem 0 1rem;padding:.75rem;border:1px solid var(--lab-outline);border-radius:var(--shape-corner-medium);background:var(--lab-surface)}
 .topAppBarVariants>header{border:1px solid var(--lab-outline-variant,var(--lab-outline));border-radius:var(--shape-corner-small);overflow:hidden}
+
+.scaffoldPreview{height:18rem;min-height:18rem;border:1px solid var(--lab-outline);border-radius:var(--shape-corner-large);overflow:hidden;background:var(--lab-bg)}
+.scaffoldPreview .content{padding:.75rem;font-size:.8rem}
+.scaffoldPreview .content p{color:var(--lab-muted);line-height:1.4}
+.scaffoldPreview .fab{inset-inline-end:.75rem;inset-block-end:.75rem}
