@@ -446,3 +446,26 @@ The gallery now exposes per-component mode controls, with honest notes on incomp
 ### Component 06 — Multiline field and dropdown gap
 
 The gallery now exposes per-component mode controls, with honest notes on incomplete parity. `TextArea` is a Loculary Web API name; Android's corresponding M3 component is a multiline TextField/OutlinedTextField. `Select` currently renders a native HTML select, not the AndroidX ExposedDropdownMenu pattern. These are not yet full Material 3 components. Added regression coverage to prevent the Lab from implying otherwise. Next: add a shared M3 dropdown/menu primitive with proper keyboard/focus/selection/dismiss semantics, and implement multiline TextField anatomy from AndroidX source. The current selectors are audit markers, not completed Expressive variants.
+
+## Conformance ledger — explicit implementation status (2026-10-15)
+
+**Meaning of “100%”:** no Loculary React/CSS component is an AndroidX-native implementation. The site runs on the Web. The table below therefore distinguishes source-backed Web work from full Android runtime parity; “100% Android implementation” is **none at this time**.
+
+| Component | Current implementation | Official-source evidence | Status / remaining gate |
+|---|---|---|---|
+| Button | Shared React primitive; Fidelity/Expressive comparison in Lab | AndroidX Button API and token source consulted | **Source-backed Web adaptation**; verify every variant/state, min target, focus, ripple/motion and responsive wrapping in browser |
+| IconButton | Shared React primitive; selectable sample and Lab comparison | AndroidX IconButton source consulted | **Source-backed Web adaptation**; verify selected/disabled/focus/pressed morph and touch target |
+| Checkbox | Shared React primitive; Lab mode control | AndroidX Checkbox source consulted; no separate default Expressive appearance confirmed | **Partial Web parity**; same visual mode intentionally, inspect semantics/indeterminate/focus and compare all state tokens |
+| Switch | Shared React primitive; Lab mode control | AndroidX Switch source confirms token/motion-spec behavior | **Partial Web parity**; thumb motion and state geometry still require verification; no invented Expressive delta |
+| TextField | Shared primitive; opt-in Expressive anatomy | Official AndroidX Expressive samples consulted | **Source-backed Web adaptation**; floating-label CSS is not Compose layout/motion; browser-test empty/focused/prefilled/error/disabled/unit cases |
+| Multiline TextField (TextArea Web wrapper) | Existing native textarea wrapper | Android M3 field family includes multiline TextField/OutlinedTextField | **Parity gap**; Web name is not a separate official Android M3 component; implement/audit multiline anatomy and states |
+| Select | Native HTML select | AndroidX exposes menu patterns such as ExposedDropdownMenu | **Parity gap**; not the Android M3 menu; implement shared menu with keyboard, focus, selection and dismissal behavior |
+| Snackbar | New shared Snackbar.tsx used by Lab; action-aware timeout and dismiss | Official Android Developers guide and AndroidX Snackbar.kt/SnackbarHost.kt | **Source-backed Web adaptation**; no app-level queue/host, Scaffold insets, swipe dismissal, exact token geometry/motion, or browser accessibility validation yet |
+| SegmentedButton / SegmentedControl | Shared Web control | AndroidX segmented-button source still needs a full behavior/state audit | **Not yet fully audited**; current source assertions are not proof of full parity |
+| Cards, panels, top bar, navigation rail, FAB, menus, dialog, bottom sheet, progress indicators | A mix of shared primitives and Lab-only examples | Source coverage is incomplete by component | **Partial / not yet audited**; Lab mock-ups must not be counted as implemented shared components |
+
+### Snackbar audit (2026-10-15)
+
+AndroidX Snackbar is a visual component used with SnackbarHost/SnackbarHostState, usually in Scaffold; it is not equivalent to any arbitrary alert/toast box. Official source describes one optional action and optional dismiss affordance, token-driven shape/colors/elevation/typography, a 600 dp maximum width, and action-bearing snackbars that do not self-timeout. Loculary's old Lab-only sampleSnackbar was replaced with the shared Snackbar Web component. The Web adaptation uses the theme's inverse-surface roles, an action, explicit dismiss, a 4-second timeout only without an action, and reduced-motion support. Both Lab modes remain visually equal until official source supports a separate Expressive default.
+
+**Not complete:** exact AndroidX shape/height/spacing tokens are not yet mapped and validated; no SnackbarHostState-equivalent shared queue, replacement policy, Scaffold/insets placement, swipe dismissal, exact Compose motion, or browser/assistive-technology verification. Do not mark “100% Android”.
