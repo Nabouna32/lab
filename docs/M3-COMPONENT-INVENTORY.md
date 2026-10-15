@@ -48,7 +48,7 @@ The list below is deliberately broader than the current production call sites. C
 | Slider / range slider | Shared Slider | Audit discrete/continuous/range variants, ticks, labels, value semantics and thumb interaction |
 | Switch | Shared Switch | Audit M3 state layers, thumb/track/icon transitions, disabled/focus semantics and motion |
 | Time picker / time input | Shared TimePicker adaptation; dial and native input wrapper in Lab | Verify AndroidX version availability (TimeInput is experimental in current docs), exact dial geometry, keyboard and dialog integration |
-| Search | Missing | Implement M3 search bar/view patterns and state/transition behavior |
+| Search: SearchBar, expanded docked/full-screen patterns | Shared SearchBar Web adaptation; docked suggestions and full-screen specimens in Lab | Audit current SearchBarState API/version, full-screen insets/transition, focus management and semantics |
 | TextField / OutlinedTextField | Shared TextField; TextArea Web wrapper | Audit variants, supporting text/counter, leading/trailing icons, focus/hover/error/disabled, IME/autofill and text scaling |
 | Swipe-to-dismiss box | Missing | Implement gesture, dismissal state, accessibility alternative and reduced-motion behavior |
 | Surface / Text / layout and theming APIs | Tokens and several primitives exist | Audit tonal/shadow elevation, semantic colors, typography roles and composition behavior; these are foundations, not gallery-only widgets |
@@ -102,3 +102,11 @@ For each component/variant, record:
 - **Official API family:** `TimePicker` (dial) and `TimeInput` (text entry); the current guide marks them experimental. The current API reference records TimeInput as added in a 1.5.0 alpha, so do not assume availability in the pinned stable dependency without checking its exact version.
 - **Lab:** shared `TimePicker` Web adaptation includes an interactive clock dial, hour/minute selection and an explicitly labelled native HTML `input[type=time]` wrapper.
 - **Not yet verified:** exact AndroidX dial layout, minute selection behavior, 12/24-hour locale conventions, TimeInput segmented-field parity, dialog integration, keyboard/screen-reader behavior, and browser/device rendering.
+
+
+## SearchBar / expanded search — 2026-10-15
+
+- **Official source:** https://developer.android.com/develop/ui/compose/components/search-bar?hl=en and https://developer.android.com/reference/kotlin/androidx/compose/material3/SearchBar.composable
+- **API caveat:** the current AndroidX reference marks the older SearchBar overload deprecated in favor of `SearchBarState`, `ExpandedFullScreenSearchBar`, and `ExpandedDockedSearchBar`. SearchBar is experimental in the current guide.
+- **Lab:** shared `SearchBar` Web adaptation includes docked suggestions and a full-screen presentation, controlled query, selection, clear action, Enter submission, Escape dismissal and arrow-key suggestion navigation.
+- **Not yet verified:** exact current AndroidX state API parity, transition/shape animation, IME behavior, focus restoration, full-screen system insets, RTL and screen-reader/browser behavior. Do not claim Compose parity.
