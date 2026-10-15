@@ -243,7 +243,7 @@ returns trigger
 language plpgsql
 security definer
 set search_path = ''
-as $
+as $$
 begin
   if auth.uid() is null or not private.has_admin_permission('audit.write') then
     raise exception 'Not authorized to write design audit events' using errcode = '42501';
