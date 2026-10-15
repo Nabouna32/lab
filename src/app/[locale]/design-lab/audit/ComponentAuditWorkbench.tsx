@@ -192,6 +192,10 @@ export default function ComponentAuditWorkbench({ locale }: { locale: Locale }) 
         : "A reference cannot be marked verified without an official URL.");
       return;
     }
+    if (referenceUrl && !referenceUrl.toLowerCase().startsWith("https://")) {
+      setError(fr ? "Les références officielles doivent utiliser HTTPS." : "Official references must use HTTPS.");
+      return;
+    }
     if (!draftNote.trim()) {
       setError(fr ? "Ajoute une note de classification avant d’enregistrer." : "Add a classification note before saving.");
       return;
@@ -325,7 +329,7 @@ export default function ComponentAuditWorkbench({ locale }: { locale: Locale }) 
             <button
               type="button" id="tab-material-3" role="tab" tabIndex={tab === "material-3" ? 0 : -1} aria-selected={tab === "material-3"} aria-controls="catalog-panel"
               className={`rounded-full px-4 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] ${tab === "material-3" ? "bg-[var(--accent)] text-[var(--on-primary)]" : "border border-[var(--border)] hover:bg-[var(--surface-container)]"}`}
-              onClick={() => { setTab("material-3"); setCategory("all"); setEntryType("all"); setStatus("all"); setExpandedEntryId(""); setExpandedComponentId(""); }}
+              onKeyDown={(event) => { if (event.key === "ArrowLeft" || event.key === "ArrowRight") { event.preventDefault(); const nextTab = tab === "material-3" ? "loculary" : "material-3"; setTab(nextTab); setCategory("all"); setEntryType("all"); setStatus("all"); setExpandedEntryId(""); setExpandedComponentId(""); setEditingEntryId(""); document.getElementById(nextTab === "material-3" ? "tab-material-3" : "tab-loculary")?.focus(); } }} onClick={() => { setTab("material-3"); setCategory("all"); setEntryType("all"); setStatus("all"); setExpandedEntryId(""); setExpandedComponentId(""); setEditingEntryId(""); }}
             >
               {fr ? "Référentiel Material 3" : "Material 3 reference"}
               <span className="ml-2 text-xs opacity-80">{catalog.filter((entry) => entry.catalog_scope === "material-3").length}</span>
@@ -333,7 +337,7 @@ export default function ComponentAuditWorkbench({ locale }: { locale: Locale }) 
             <button
               type="button" id="tab-loculary" role="tab" tabIndex={tab === "loculary" ? 0 : -1} aria-selected={tab === "loculary"} aria-controls="catalog-panel"
               className={`rounded-full px-4 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] ${tab === "loculary" ? "bg-[var(--accent)] text-[var(--on-primary)]" : "border border-[var(--border)] hover:bg-[var(--surface-container)]"}`}
-              onClick={() => { setTab("loculary"); setCategory("all"); setEntryType("all"); setStatus("all"); setExpandedEntryId(""); setExpandedComponentId(""); }}
+              onKeyDown={(event) => { if (event.key === "ArrowLeft" || event.key === "ArrowRight") { event.preventDefault(); const nextTab = tab === "material-3" ? "loculary" : "material-3"; setTab(nextTab); setCategory("all"); setEntryType("all"); setStatus("all"); setExpandedEntryId(""); setExpandedComponentId(""); setEditingEntryId(""); document.getElementById(nextTab === "material-3" ? "tab-material-3" : "tab-loculary")?.focus(); } }} onClick={() => { setTab("loculary"); setCategory("all"); setEntryType("all"); setStatus("all"); setExpandedEntryId(""); setExpandedComponentId(""); setEditingEntryId(""); }}
             >
               {fr ? "Spécifique à Loculary" : "Loculary-specific"}
               <span className="ml-2 text-xs opacity-80">{catalog.filter((entry) => entry.catalog_scope === "loculary").length}</span>
@@ -396,7 +400,7 @@ export default function ComponentAuditWorkbench({ locale }: { locale: Locale }) 
           ) : (
             <>
               <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
-                <p className="text-sm text-[var(--muted)]">{fr ? `${filteredCatalog.length} entrée(s) affichée(s)` : `${filteredCatalog.length} entr(y/ies) shown`}</p>
+                <p className="text-sm text-[var(--muted)]">{fr ? `${filteredCatalog.length} entrée${filteredCatalog.length === 1 ? "" : "s"} affichée${filteredCatalog.length === 1 ? "" : "s"}` : `${filteredCatalog.length} ${filteredCatalog.length === 1 ? "entry" : "entries"} shown`}</p>
                 {tab === "material-3" && <p className="text-xs text-[var(--muted)]">{fr ? `${verifiedReferences} référence(s) vérifiée(s) sur ${activeCatalog.length}` : `${verifiedReferences} verified reference(s) out of ${activeCatalog.length}`}</p>}
               </div>
 
