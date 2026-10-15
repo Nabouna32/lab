@@ -331,3 +331,7 @@ The Checkbox, Switch, outlined-field, shape-scale and Card mappings recorded abo
 ## Provenance correction
 
 Older audit entries above that say the Checkbox/Switch/field disabled values are “not Android-confirmed” are superseded by the pinned AndroidX source cross-check in M3-CONVENTIONS.md. Keep AndroidX as the source of truth for Android-M3 semantics; Material Web remains the web-side cross-check.
+## Follow-up — Pixel mockup shape drift (2026-10-15)
+
+- [SOURCE-OBSERVED] The Pixel direction mockup had hard-coded radii for its primary button, calculator field and result/card surfaces, so the Lab rounding-degree control could not affect those elements.
+- Map those roles to the documented full button shape, extra-small field shape and medium card/result shape. Leave device-frame/search/icon-specific shapes open unless their official token roles are verified.
