@@ -81,14 +81,14 @@ export function Checkbox({
         aria-hidden="true"
         style={{ borderWidth: disabled ? (checked ? 0 : 2) : 1 }}
         className={[
-          "relative inline-flex size-5 shrink-0 items-center justify-center rounded-[4px] border border-[var(--checkbox-outline)] bg-[var(--checkbox-surface)]",
+          "relative inline-flex size-[18px] shrink-0 items-center justify-center rounded-[2px] border border-[var(--checkbox-outline)] bg-[var(--checkbox-surface)]",
           "transition-[background-color,border-color,box-shadow] duration-[var(--motion-standard)]",
           "peer-checked:border-[var(--checkbox-active)] peer-checked:bg-[var(--checkbox-active)] peer-checked:text-[var(--checkbox-on-active)]",
           "peer-focus-visible:outline-none peer-focus-visible:ring-2 peer-focus-visible:ring-[var(--checkbox-focus-ring)] peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-[var(--checkbox-focus-offset)]",
           "peer-disabled:cursor-not-allowed",
         ].join(" ")}
       >
-        {checked && <MaterialIcon name="check" size={16} />}
+        {checked && <MaterialIcon name="check" size={18} />}
       </span>
       <span>{label}</span>
     </label>
