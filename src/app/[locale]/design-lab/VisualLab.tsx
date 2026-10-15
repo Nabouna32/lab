@@ -26,6 +26,7 @@ import { SearchBar } from "@/components/ui/SearchBar";
 import { AppBarWithSearch } from "@/components/ui/AppBarWithSearch";
 import { WideNavigationRail } from "@/components/ui/WideNavigationRail";
 import { PullToRefreshBox } from "@/components/ui/PullToRefreshBox";
+import { BottomSheetScaffold } from "@/components/ui/BottomSheetScaffold";
 import { RangeSlider } from "@/components/ui/RangeSlider";
 import { ToggleButton } from "@/components/ui/ToggleButton";
 import { SplitButton } from "@/components/ui/SplitButton";
@@ -202,6 +203,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const [sampleWideRailSelected,setSampleWideRailSelected]=useState("home");
   const [sampleRefreshing,setSampleRefreshing]=useState(false);
   const [sampleRefreshCount,setSampleRefreshCount]=useState(0);
+  const [sampleBottomSheetExpanded,setSampleBottomSheetExpanded]=useState(false);
   const [sampleRailSelection,setSampleRailSelection]=useState<"home"|"explore"|"saved">("home");
   const [sampleDrawerOpen,setSampleDrawerOpen]=useState(false);
   const [sampleDrawerSelection,setSampleDrawerSelection]=useState<"home"|"explore"|"saved"|"settings">("home");
@@ -638,6 +640,12 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
       <div className={styles.galleryGrid}>
         <article className={styles.galleryCard}><h3>{locale==="fr"?"WideNavigationRail standard":"Standard WideNavigationRail"}</h3><ComponentIdentifier names={["WideNavigationRail","WideNavigationRailItem"]} kind="adaptation" locale={locale}/><WideNavigationRail items={[{key:"home",label:locale==="fr"?"Accueil":"Home",icon:"home"},{key:"search",label:locale==="fr"?"Recherche":"Search",icon:"search"},{key:"saved",label:locale==="fr"?"Favoris":"Saved",icon:"favorite"},{key:"profile",label:locale==="fr"?"Profil":"Profile",icon:"person"}]} selectedKey={sampleWideRailSelected} onSelect={setSampleWideRailSelected} expanded={sampleWideRailExpanded} onExpandedChange={setSampleWideRailExpanded} label={locale==="fr"?"Navigation principale":"Primary navigation"} expandLabel={locale==="fr"?"Développer le rail":"Expand rail"} collapseLabel={locale==="fr"?"Réduire le rail":"Collapse rail"} closeLabel={locale==="fr"?"Fermer le rail":"Close rail"}/></article>
         <article className={styles.galleryCard}><h3>{locale==="fr"?"ModalWideNavigationRail":"ModalWideNavigationRail"}</h3><ComponentIdentifier names={["ModalWideNavigationRail"]} kind="adaptation" locale={locale}/><p className={styles.helper}>{locale==="fr"?"Développez le rail pour voir le scrim modal et tester Échap.":"Expand the rail to see its modal scrim and test Escape."}</p><WideNavigationRail items={[{key:"home",label:locale==="fr"?"Accueil":"Home",icon:"home"},{key:"search",label:locale==="fr"?"Recherche":"Search",icon:"search"},{key:"saved",label:locale==="fr"?"Favoris":"Saved",icon:"favorite"},{key:"profile",label:locale==="fr"?"Profil":"Profile",icon:"person"}]} selectedKey={sampleWideRailSelected} onSelect={setSampleWideRailSelected} expanded={sampleModalWideRailExpanded} onExpandedChange={setSampleModalWideRailExpanded} mode="modal" label={locale==="fr"?"Navigation modale":"Modal navigation"} expandLabel={locale==="fr"?"Développer le rail modal":"Expand modal rail"} collapseLabel={locale==="fr"?"Réduire le rail modal":"Collapse modal rail"} closeLabel={locale==="fr"?"Fermer le rail modal":"Close modal rail"}/></article>
+      </div>
+    </section>
+    <section className={styles.gallerySection} aria-labelledby="bottom-sheet-scaffold-title">
+      <div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>14 / {locale==="fr"?"Feuilles inférieures":"Bottom sheets"}</span><h2 id="bottom-sheet-scaffold-title">{locale==="fr"?"BottomSheetScaffold":"BottomSheetScaffold"}</h2><p>{locale==="fr"?"Feuille persistante repliable ou développée, avec action clavier et geste vertical sur la poignée.":"Persistent sheet with collapsed/expanded states, keyboard action and vertical drag on the handle."}</p></div></div>
+      <div className={styles.galleryGrid}>
+        <article className={styles.galleryCard}><ComponentIdentifier names={["BottomSheetScaffold"]} kind="adaptation" locale={locale}/><BottomSheetScaffold title={locale==="fr"?"Détails de l’élément":"Item details"} expanded={sampleBottomSheetExpanded} onExpandedChange={setSampleBottomSheetExpanded} collapsedLabel={locale==="fr"?"Développer les détails":"Expand details"} expandedLabel={locale==="fr"?"Réduire les détails":"Collapse details"} content={<><strong>{locale==="fr"?"Contenu principal":"Main content"}</strong><p>{locale==="fr"?"La feuille est ancrée en bas de ce conteneur.":"The sheet is anchored to the bottom of this container."}</p></>} sheetContent={<><p>{locale==="fr"?"Informations complémentaires et actions liées à l’élément.":"Additional information and related actions."}</p><Button variant="outlined" onClick={()=>setSampleBottomSheetExpanded(false)}>{locale==="fr"?"Fermer":"Close"}</Button></>}/></article>
       </div>
     </section>
     <section className={styles.gallerySection} aria-labelledby="shared-components-title">
