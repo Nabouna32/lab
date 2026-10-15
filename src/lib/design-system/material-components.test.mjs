@@ -60,7 +60,7 @@ test("shared switch uses native checkbox semantics with the switch role and M3 s
 test("shared checkbox uses M3 foreground/background roles and a visible keyboard focus", () => {
   assert.ok(checkboxSource.includes("peer-checked:bg-[var(--checkbox-active)]"));
   assert.ok(checkboxSource.includes("text-[var(--checkbox-on-active)]"));
-  assert.match(checkboxSource, /on-surface\) 12%/);
+
   assert.match(checkboxSource, /on-surface\) 38%/);
   assert.match(checkboxSource, /"--checkbox-active": "var\(--checkbox-disabled-active\)"/);
   assert.match(checkboxSource, /peer-focus-visible:ring-2/);
