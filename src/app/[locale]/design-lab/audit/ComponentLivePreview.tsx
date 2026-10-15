@@ -2,6 +2,14 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
+import { ButtonGroup } from "@/components/ui/ButtonGroup";
+import { ListItem } from "@/components/ui/ListItem";
+import { MaterialTextField } from "@/components/ui/MaterialTextField";
+import { Panel } from "@/components/ui/Panel";
+import { ResultPanel } from "@/components/ui/ResultPanel";
+import { Snackbar } from "@/components/ui/Snackbar";
+import { Tooltip } from "@/components/ui/Tooltip";
+import { TriStateCheckbox } from "@/components/ui/TriStateCheckbox";
 import { Badge } from "@/components/ui/Badge";
 import { CircularProgressIndicator } from "@/components/ui/CircularProgressIndicator";
 import { Divider } from "@/components/ui/Divider";
@@ -40,6 +48,10 @@ export default function ComponentLivePreview({
   const [choice, setChoice] = useState("one");
   const [tab, setTab] = useState("overview");
   const [multiline, setMultiline] = useState("Loculary");
+  const [triState, setTriState] = useState<"off" | "on" | "indeterminate">("indeterminate");
+  const [groupSelected, setGroupSelected] = useState<string[]>(["work"]);
+  const [fieldValue, setFieldValue] = useState("bonjour@loculary.com");
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
   const fr = locale === "fr";
   const label = fr ? "Aperçu du composant réel" : "Live component preview";
   const stateHelp = fr
