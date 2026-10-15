@@ -332,3 +332,5 @@ When the Lab overrides a shared component's semantic tokens, the preview must pr
 ## SegmentedControl source mapping
 
 The shared SegmentedControl now follows the pinned AndroidX OutlinedSegmentedButtonTokens and SegmentedButtonDefaults.itemShape: 40dp reference height, full rounded outer ends, rectangular interior segments, secondary-container selected fill and on-secondary-container selected content, and 12%/38% disabled outline/content treatment. The CSS-pixel height is a web adaptation. Single-line labels are a Loculary choice to prevent wrapping.
+
+- AndroidX button shape source cross-check: the default button shape is full and the pressed shape role is small. The shared Button maps the active state to --shape-corner-small; verify the rendered state transition in a browser before claiming full interaction conformance.
