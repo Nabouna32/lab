@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { CSSProperties } from "react";
+import type { CSSProperties, KeyboardEvent } from "react";
 import styles from "./DatePicker.module.css";
 
 export type DateRangeValue = { start: string; end: string };
@@ -56,7 +56,6 @@ export function DatePicker({
 }: DatePickerProps) {
   const selectedDate = parseDate(value);
   const rangeStart = parseDate(rangeValue.start);
-  const rangeEnd = parseDate(rangeValue.end);
   const [focusedDate, setFocusedDate] = useState(() => toIsoDate(selectedDate ?? rangeStart ?? new Date()));
   const dayRefs = useRef<Record<string, HTMLButtonElement | null>>({});
   const shouldFocusDate = useRef(false);
@@ -93,7 +92,7 @@ export function DatePicker({
     shouldFocusDate.current = false;
   }, [focusedDate, days]);
 
-  function handleDayKeyDown(event: React.KeyboardEvent<HTMLButtonElement>, date: Date) {
+  function handleDayKeyDown(event: KeyboardEvent<HTMLButtonElement>, date: Date) {
     const nextDate = new Date(date);
     if (event.key === "ArrowLeft") nextDate.setDate(date.getDate() - 1);
     else if (event.key === "ArrowRight") nextDate.setDate(date.getDate() + 1);
