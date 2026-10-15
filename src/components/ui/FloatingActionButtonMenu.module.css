@@ -1,0 +1,101 @@
+.root {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  width: fit-content;
+  max-width: 100%;
+}
+
+.toggle {
+  display: inline-grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border: 0;
+  border-radius: 16px;
+  background: var(--lab-primary-container, var(--md-sys-color-primary-container, currentColor));
+  color: var(--lab-on-primary-container, var(--md-sys-color-on-primary-container, Canvas));
+  box-shadow: 0 3px 6px color-mix(in srgb, var(--lab-shadow, #000) 20%, transparent);
+  cursor: pointer;
+  transition: border-radius 220ms cubic-bezier(.2, 0, 0, 1), transform 220ms cubic-bezier(.2, 0, 0, 1);
+}
+
+.toggle[aria-expanded="true"] {
+  border-radius: 50%;
+}
+
+.plusIcon,
+.closeIcon {
+  display: inline-block;
+  font-size: 30px;
+  line-height: 1;
+}
+
+.closeIcon {
+  transform: rotate(0deg);
+}
+
+.menu {
+  display: grid;
+  gap: 10px;
+  justify-items: end;
+  min-width: 200px;
+}
+
+.menuItem {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  min-height: 48px;
+  padding: 0 8px 0 16px;
+  border: 1px solid var(--lab-outline-variant, var(--md-sys-color-outline-variant, currentColor));
+  border-radius: 16px;
+  background: var(--lab-surface-container-high, var(--md-sys-color-surface-container-high, Canvas));
+  color: var(--lab-on-surface, var(--md-sys-color-on-surface, CanvasText));
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  animation: enter 220ms cubic-bezier(.2, 0, 0, 1) both;
+  animation-delay: calc(var(--fab-menu-order, 0) * 35ms);
+}
+
+.menuIcon {
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: var(--lab-secondary-container, var(--md-sys-color-secondary-container, transparent));
+  color: var(--lab-on-secondary-container, var(--md-sys-color-on-secondary-container, currentColor));
+}
+
+.menuItem:hover:not(:disabled) {
+  background: var(--lab-surface-container-highest, var(--md-sys-color-surface-container-highest, transparent));
+}
+
+.menuItem:focus-visible,
+.toggle:focus-visible {
+  outline: 2px solid var(--lab-primary, currentColor);
+  outline-offset: 3px;
+}
+
+.menuItem:disabled {
+  opacity: .38;
+  cursor: not-allowed;
+}
+
+@keyframes enter {
+  from { opacity: 0; transform: translateY(8px) scale(.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toggle,
+  .menuItem {
+    transition: none;
+    animation: none;
+  }
+}
