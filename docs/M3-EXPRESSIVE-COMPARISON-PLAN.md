@@ -97,3 +97,8 @@ Lab mode controls now disclose that `TextArea` is a Loculary Web API adaptation 
 Official AndroidX Snackbar.kt and SnackbarHost.kt were inspected alongside the Android Developers guide. The reviewed source did not establish a separate default Expressive Snackbar appearance. The Lab therefore offers Fidelity/Expressive selection but deliberately renders identical Snackbar visuals rather than inventing a delta.
 
 The new shared Snackbar is a **Web adaptation** with source-informed message/action/dismiss semantics and action-aware timeout. It is not Compose parity: shared queue/host behavior, Scaffold placement/insets, swipe dismissal, exact token geometry/motion, and browser accessibility verification remain open. See M3-CONFORMANCE-AUDIT.md for the per-component conformance ledger. Do not mark Snackbar fully conformant or “100% Android”.
+
+
+## Exposed dropdown comparison finding (2026-10-15)
+
+AndroidX ExposedDropdownMenuBox/MenuTokens were reviewed before replacing the native select in the shared Lab specimen. The new shared Web adaptation implements combobox/listbox semantics and keyboard selection/dismissal. It is not a Compose popup and still needs true anchor/viewport placement, exact token mapping, and browser/accessibility verification. Fidelity and Expressive can be compared in the Lab, but the Expressive styling is a Web experiment unless a specific AndroidX source establishes that exact visual delta.
