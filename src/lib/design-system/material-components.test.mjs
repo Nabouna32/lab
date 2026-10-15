@@ -132,6 +132,7 @@ test("real tools and the Lab use shared checkbox, switch, slider and progress pr
   assert.match(labSource, /lab-disabled-slider/);
   assert.doesNotMatch(labSource, /type="checkbox"/);
   assert.doesNotMatch(labSource, /type="range"/);
+  assert.doesNotMatch(labCss, /\.sampleCheck input\s*\{/);
   assert.match(passwordSource, /import \{ Checkbox \} from "@\/components\/ui\/Checkbox"/);
   assert.match(passwordSource, /<Checkbox/);
   assert.match(passwordSource, /import \{ Slider \} from "@\/components\/ui\/Slider"/);
