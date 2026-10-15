@@ -51,7 +51,7 @@ The list below is deliberately broader than the current production call sites. C
 | Slider / RangeSlider | Shared Slider + RangeSlider Web adaptation; two-thumb range specimen in Lab | Audit exact track/thumb/tick geometry, value bubble, drag behavior, discrete steps and screen-reader announcements |
 | Switch | Shared Switch | Audit M3 state layers, thumb/track/icon transitions, disabled/focus semantics and motion |
 | Time picker / time input | Shared TimePicker adaptation; dial and native input wrapper in Lab | Verify AndroidX version availability (TimeInput is experimental in current docs), exact dial geometry, keyboard and dialog integration |
-| Search: SearchBar, expanded docked/full-screen patterns | Shared SearchBar Web adaptation; docked suggestions and full-screen specimens in Lab | Audit current SearchBarState API/version, full-screen insets/transition, focus management and semantics |
+| Search: SearchBar, expanded docked/full-screen patterns, AppBarWithSearch | Shared SearchBar + AppBarWithSearch Web adaptations; docked/full-screen and app-bar composition in Lab | Audit current SearchBarState API/version, scroll behavior, insets/transition, focus management and semantics |
 | TextField / OutlinedTextField / SecureTextField / OutlinedSecureTextField | Shared MaterialTextField Web adaptation; filled, outlined, error, counter and secure specimens in Lab | Audit floating-label/outline geometry, text scaling, IME/autofill, context-menu protection and accessibility |
 | SwipeToDismissBox | Shared Web adaptation with horizontal swipe and explicit accessible dismiss action | Verify gesture thresholds/directions, RTL, nested scrolling, exact motion and screen-reader parity |
 | Surface / Text / layout and theming APIs | Tokens and several primitives exist | Audit tonal/shadow elevation, semantic colors, typography roles and composition behavior; these are foundations, not gallery-only widgets |
@@ -169,3 +169,11 @@ For each component/variant, record:
 - **API version:** current reference lists FloatingActionButtonMenuItem as added in Material3 1.5.0-alpha29; confirm exact dependency version.
 - **Lab:** shared Web adaptation with expandable FAB, labelled quick-action items, staggered entrance animation, Escape dismissal, focus restoration on selection and reduced-motion fallback.
 - **Not yet verified:** exact ToggleFloatingActionButton state/shape morphing, AndroidX item arrangement, colors, motion timing, back handling, RTL and assistive-technology behavior.
+
+
+## AppBarWithSearch — 2026-10-15
+
+- **Official source:** https://developer.android.com/reference/kotlin/androidx/compose/material3/AppBarWithSearch.composable
+- **Official behavior:** app-bar integration of SearchBar with navigation/actions, window insets and optional scroll behavior; should be paired with an expanded search composable.
+- **Lab:** added a shared Web composition that combines a sticky app-bar shell, navigation action and shared SearchBar.
+- **Not yet verified:** current SearchBarState API, nested-scroll behavior, exact insets/tonal elevation, collapsed shape/motion, full-screen search pairing, RTL and browser/device parity.
