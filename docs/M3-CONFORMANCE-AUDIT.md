@@ -488,3 +488,14 @@ The shared component now has radio-group/single-choice semantics, roving tab sto
 ### Validation status (2026-10-15)
 
 A previous CI run failed during the lint/test stage because two assertions were stale; they have been corrected, and a literal escaped-newline issue in the test source has also been fixed. The current branch head has no fresh workflow run associated with it, so these edits are **unverified by CI**. Browser, keyboard, responsive and screen-reader validation also remain outstanding. Keep every new component in Web-adaptation status until validation completes.
+
+
+### Shared dimension-token layer (2026-10-15)
+
+Added CSS reference tokens in src/app/globals.css for spacing, segmented-button minimum height, standard/medium button heights, Web hit target, Snackbar dimensions, icon sizes, outline width and Label Large/Body Medium typography. SegmentedControl and Snackbar consume these tokens. The token comments preserve AndroidX reference magnitudes (dp/sp) while explicitly warning that rem/CSS px are not physically equivalent to Android dp/sp. This is **shared Web reference-token infrastructure**, not a native Android unit system and not yet a complete extraction of all component tokens.
+
+- Source for dp/density: https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/Dp
+- Source for Android screen density: https://developer.android.com/training/multiscreen/screendensities
+- Material 3 source hierarchy and theming: https://developer.android.com/develop/ui/compose/designsystems/material3
+
+Status: **partial implementation**. Token magnitudes have initial source annotations, but the full token catalogue still needs pinned AndroidX source/version per component, migration of hardcoded component dimensions, computed-style and browser testing, responsive/zoom checks, and contrast/accessibility verification. No component is promoted to “100% Android” merely because it consumes these tokens.
