@@ -344,3 +344,8 @@ The shared SegmentedControl now follows the pinned AndroidX OutlinedSegmentedBut
 ## Material 3 / current Pixel fidelity source rule (2026-10-15)
 
 The current direction is current Pixel/Android Material fidelity, not a blanket “classic-only” subset. Official Android guidance describes M3 Expressive as an extension affecting theming, components, motion and typography ([Android Developers — Material 3 in Compose](https://developer.android.com/develop/ui/compose/designsystems/material3?hl=en)). User preference rejects washed-out color treatments and weak/absent contours, not necessarily newer official component geometry or animation. Audit color roles/contrast, outlines, shapes/dimensions and motion independently. Select component versions by the explicit Android/Pixel target and version-pinned AndroidX source, never by “classic” or “Expressive” labels alone. The global color and rounding controls are Loculary customizations and must preserve semantic roles, focus, disabled/selected distinctions and source-defined component anatomy.
+
+
+## Expressive direction availability (2026-10-15)
+
+Design Lab's screen-level direction preview now exposes Pixel / M3, M3 Expressive and Productivity. This fixes an unreachable Expressive branch that already existed in the CSS and localized copy. It is an exploratory Loculary composition, not a claim of official screenshot parity. Shared component-level Expressive comparisons are still to be audited and implemented from version-pinned AndroidX sources. Keep production on its existing default until the user validates a deliberate change.
