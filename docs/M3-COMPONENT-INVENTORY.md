@@ -236,3 +236,12 @@ For each component/variant, record:
 - **Official sources:** https://developer.android.com/reference/kotlin/androidx/compose/material3/DismissibleNavigationDrawer.composable and https://developer.android.com/reference/kotlin/androidx/compose/material3/PermanentNavigationDrawer.composable
 - **Lab:** extended the shared drawer adaptation with in-layout dismissible and permanent modes, alongside the existing modal mode.
 - **Not yet verified:** exact content shifting/measurement, adaptive breakpoints, window insets, nested scroll, drawer state/animation, RTL and browser/screen-reader behavior.
+
+
+## ScrollField — 2026-10-15
+
+- **Official source:** https://developer.android.com/reference/kotlin/androidx/compose/material3/ScrollField.composable and https://developer.android.com/reference/kotlin/androidx/compose/material3/ScrollFieldState
+- **API/version:** the current API reference marks this as experimental Material3 Expressive; ScrollFieldState was added in 1.5.0-alpha19 and ScrollFieldDefaults in 1.5.0-alpha29.
+- **Lab:** added a separate experimental catalog specimen for bounded numeric wheel selection, click selection, mouse wheel, ArrowUp/Down, PageUp/Down, Home/End and accessible option labels.
+- **Style decision:** this specimen is isolated from the Pixel-fidelity default direction; adding the API to the inventory does not imply adopting Expressive styling throughout the Lab.
+- **Not yet verified:** Compose PagerState snapping, scroll animation/velocity, TalkBack selection announcements, disabled item behavior, touch-device interaction, RTL and exact layout/colors.
