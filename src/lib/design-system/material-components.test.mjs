@@ -2,6 +2,8 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { test } from "node:test";
 
+const dropdownSource = readFileSync(new URL("../../components/ui/ExposedDropdownMenu.tsx", import.meta.url), "utf8");
+const dropdownCss = readFileSync(new URL("../../components/ui/ExposedDropdownMenu.module.css", import.meta.url), "utf8");
 const snackbarSource = readFileSync(new URL("../../components/ui/Snackbar.tsx", import.meta.url), "utf8");
 const snackbarCss = readFileSync(new URL("../../components/ui/Snackbar.module.css", import.meta.url), "utf8");
 const checkboxSource = readFileSync(new URL("../../components/ui/Checkbox.tsx", import.meta.url), "utf8");
@@ -489,8 +491,8 @@ test("TextArea and native Select explicitly expose unfinished Android parity ins
   assert.match(labSource, /textAreaVariant,setTextAreaVariant/);
   assert.match(labSource, /selectVariant,setSelectVariant/);
   assert.match(labSource, /not a distinct component named TextArea/);
-  assert.match(labSource, /native HTML select, not Android’s ExposedDropdownMenu/);
-  assert.match(labSource, /real M3 menu component must be added separately/);
+  assert.match(labSource, /Shared component now informed by AndroidX ExposedDropdownMenuBox/);
+  assert.match(labSource, /<ExposedDropdownMenu id=\{?"lab-shared-select"?/);
 });
 
 test("M3 Fidelity direction mockup uses semantic shape roles for official component families", () => {
@@ -513,4 +515,23 @@ test("Snackbar is a shared AndroidX-informed Web adaptation with honest parity b
   assert.match(labSource, /<Snackbar open=\{snackbarOpen\} variant=\{snackbarVariant\}/);
   assert.match(labSource, /queueing, swipe gesture, Scaffold insets and Compose motion remain to be audited/i);
   assert.match(labSource, /Snackbar version/);
+});
+
+
+test("ExposedDropdownMenu is a source-informed Web adaptation with keyboard and ARIA semantics", () => {
+  assert.match(dropdownSource, /AndroidX Material 3 ExposedDropdownMenuBox/);
+  assert.match(dropdownSource, /role="combobox"/);
+  assert.match(dropdownSource, /role="listbox"/);
+  assert.match(dropdownSource, /role="option"/);
+  assert.match(dropdownSource, /aria-activedescendant/);
+  assert.match(dropdownSource, /event.key === "ArrowDown"/);
+  assert.match(dropdownSource, /event.key === "ArrowUp"/);
+  assert.match(dropdownSource, /event.key === "Home"/);
+  assert.match(dropdownSource, /event.key === "End"/);
+  assert.match(dropdownSource, /event.key === "Escape"/);
+  assert.match(dropdownSource, /event.key === "Tab"/);
+  assert.match(dropdownSource, /pointerdown/);
+  assert.match(dropdownCss, /var\(--surface-container, var\(--lab-surface-container/);
+  assert.match(dropdownCss, /prefers-reduced-motion: reduce/);
+  assert.match(labSource, /<ExposedDropdownMenu id="lab-shared-select"/);
 });
