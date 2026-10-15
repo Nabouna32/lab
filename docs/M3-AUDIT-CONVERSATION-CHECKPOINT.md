@@ -231,3 +231,8 @@ Every new convention/audit finding must state whether it is [ANDROID-M3], [MATER
 - Linked cards now have an explicit keyboard focus ring. This is source-level evidence only; rendered focus contrast and clipping still need browser checks.
 - Panel and ResultPanel use the medium shape token as a Loculary consistency decision; they are not claimed as official Android components.
 - Remaining shape audit: map button, segmented-control, menu/dialog, chips, nested cards and tool-local containers to semantic tokens, then design and implement the Loculary-only global rounding-degree control.
+## Update — segmented-control audit slice (2026-10-15)
+
+- Removed the shared SegmentedControl's optional secondary description line. This was a Loculary extension, not a documented M3 segment feature, and it contributed to label wrapping/uneven control height.
+- Percentage and Video Bitrate now place the selected mode description below the segmented group; mobile select options preserve the explanation.
+- Segment labels are single-line by product decision and inner corners use the shared small-shape token. Test long French strings and keyboard navigation in a browser before considering this slice verified.
