@@ -12,7 +12,7 @@ test("Design Lab displays exact component names and identifies specimen fidelity
     "Button", "IconButton", "TextField", "TextArea (Web wrapper)", "ExposedDropdownMenu",
     "Select (native HTML wrapper)", "ClearButton", "CopyButton", "Checkbox", "Switch",
     "Slider", "ProgressIndicator", "SegmentedControl", "ValidationMessage", "Card",
-    "Panel", "ResultPanel", "Snackbar", "ModalBottomSheet", "AlertDialog", "NavigationBar", "NavigationRail", "NavigationDrawer", "CircularProgressIndicator", "FloatingActionButton", "Badge", "BadgedBox", "Tooltip", "Carousel", "TopAppBar", "BottomAppBar", "Scaffold", "ListItem", "HorizontalDivider", "VerticalDivider", "AssistChip", "FilterChip", "InputChip", "SuggestionChip",
+    "Panel", "ResultPanel", "Snackbar", "ModalBottomSheet", "AlertDialog", "NavigationBar", "NavigationRail", "NavigationDrawer", "CircularProgressIndicator", "FloatingActionButton", "Badge", "BadgedBox", "Tooltip", "Carousel", "TopAppBar", "BottomAppBar", "Scaffold", "ListItem", "HorizontalDivider", "VerticalDivider", "AssistChip", "FilterChip", "InputChip", "SuggestionChip", "RadioButton",
   ]) {
     assert.ok(lab.includes(name), `Missing visible component identifier: ${name}`);
   }
@@ -45,6 +45,9 @@ test("NavigationRail, NavigationDrawer and CircularProgressIndicator are integra
   assert.match(lab, /import \{ Divider \} from "@\/components\/ui\/Divider"/);
   assert.match(lab, /import \{ ListItem \} from "@\/components\/ui\/ListItem"/);
   assert.match(lab, /import \{ Chip \} from "@\/components\/ui\/Chip"/);
+  assert.match(lab, /import \{ RadioButton \} from "@\/components\/ui\/RadioButton"/);
+  assert.match(lab, /names=\{\["RadioButton"\]\} kind="adaptation"/);
+  assert.match(lab, /<RadioButton name="lab-filter"/);
   assert.match(lab, /names=\{\["AssistChip","ElevatedAssistChip","FilterChip","ElevatedFilterChip","InputChip","SuggestionChip","ElevatedSuggestionChip"\]\} kind="adaptation"/);
   assert.match(lab, /<Chip variant="elevated-filter"/);
   assert.match(lab, /<Chip variant="input"/);
