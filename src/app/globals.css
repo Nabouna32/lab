@@ -95,6 +95,34 @@
   --radius-2xl: 1.75rem;
   --radius-pill: 9999px;
 
+  /*
+   * M3 reference dimensions for the Web renderer.
+   * Numeric values mirror AndroidX dp/sp token magnitudes for design comparison,
+   * but CSS rem/px are NOT Android dp/sp and do not guarantee physical-size parity.
+   * 1rem follows the browser root font size, preserving zoom and user preferences.
+   */
+  --m3-ref-unit: 0.0625rem;
+  --m3-space-1: 0.25rem;
+  --m3-space-2: 0.5rem;
+  --m3-space-3: 0.75rem;
+  --m3-space-4: 1rem;
+  --m3-space-6: 1.5rem;
+  --m3-size-segmented-button-min-height: 2.5rem; /* AndroidX: 40 dp reference */
+  --m3-size-touch-target-min: 3rem; /* Web accessibility target: 48 CSS px reference */
+  --m3-size-button-standard-height: 2.5rem; /* AndroidX standard button: 40 dp reference */
+  --m3-size-button-medium-height: 3.5rem; /* AndroidX medium button: 56 dp reference */
+  --m3-size-snackbar-single-line-height: 3rem; /* AndroidX: 48 dp reference */
+  --m3-size-snackbar-two-line-height: 4.25rem; /* AndroidX: 68 dp reference */
+  --m3-size-snackbar-max-width: 37.5rem; /* AndroidX: 600 dp reference */
+  --m3-outline-width: 0.0625rem; /* AndroidX: 1 dp reference; physical equivalence not implied */
+  --m3-icon-size-small: 1.125rem; /* AndroidX segmented-button icon: 18 dp reference */
+  --m3-icon-size-standard: 1.5rem; /* common Material icon: 24 dp reference */
+  --m3-type-label-large-size: 0.875rem; /* AndroidX Label Large: 14 sp reference */
+  --m3-type-label-large-line-height: 1.25rem; /* AndroidX Label Large: 20 sp reference */
+  --m3-type-body-medium-size: 0.875rem; /* AndroidX Body Medium: 14 sp reference */
+  --m3-type-body-medium-line-height: 1.25rem; /* AndroidX Body Medium: 20 sp reference */
+  --m3-snackbar-vertical-padding: 0.875rem; /* AndroidX: 14 dp reference */
+
   /* First-party Material Web shape tokens, expressed in CSS px for the web implementation. */
   --shape-corner-none: 0px;
   --shape-corner-extra-small: 4px;
