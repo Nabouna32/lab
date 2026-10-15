@@ -34,7 +34,7 @@ test("shared Button exposes canonical M3 variants, stable labels and semantic di
     "text-sm font-medium leading-5",
     "disabled:bg-[color-mix(in_srgb,var(--on-surface)_10%,transparent)]",
     "disabled:bg-[color-mix(in_srgb,var(--on-surface)_10%,transparent)] disabled:text-[color-mix(in_srgb,var(--on-surface-variant)_38%,transparent)] disabled:shadow-none",
-    "disabled:text-[color-mix(in_srgb,var(--on-surface-variant)_38%,transparent)]",
+    "disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]",
     "primary: filled",
     "tonal: filledTonal",
     "secondary: outlined",
