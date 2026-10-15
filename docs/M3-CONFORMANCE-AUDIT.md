@@ -250,3 +250,10 @@ The source-level convention and implementation intent for these additions are re
 ## Canonical conventions
 
 See [`docs/M3-CONVENTIONS.md`](./M3-CONVENTIONS.md) for the detailed source hierarchy, semantics, implementation constraints and acceptance checklist.
+## Follow-up — resolved Lab theme source and CI test regression (2026-10-15)
+
+- [SOURCE-OBSERVED → source edit made] Design Lab theme: VisualLab.tsx previously initialized a separate local theme state to "light" and exposed its own Light/Dark selector, even though the app already provides a global theme setting. The component has now been changed to read resolvedTheme from the existing @teispace/next-themes provider and the duplicate selector has been removed. [OPEN] Typecheck/build and runtime behavior still need to confirm the provider API and system-theme transitions work correctly; do not mark the theme issue fully verified yet.
+- [SOURCE-OBSERVED] CI regression: the first CI run for the port reached lint and typecheck successfully, then failed in src/lib/design-system/material-components.test.mjs with SyntaxError: Identifier 'labCss' has already been declared. The merged test edits had duplicate top-level declarations for labCss, imageSource, sliderSource, sliderCss, progressSource and progressCss.
+- Source correction committed: removed duplicate declaration lines, keeping one declaration for each source. A new CI run must confirm the test file parses and the suite passes. The prior failure is not a product-component test failure; it is a test-module syntax failure.
+- [OPEN] Slider CSS follow-up: the Firefox focus-thumb rule currently references var(--focus-ring) directly while the WebKit rule uses var(--slider-focus-ring, var(--focus-ring)). Review this inconsistency and correct it before calling the shared slider theme-overridable across browsers.
+- [MATERIAL-WEB, not Android-confirmed] Disabled values: 12% container/track and 38% foreground/outline/thumb are sourced from the cited first-party Material Web token files. Keep this provenance explicit; do not promote the percentages to a universal Android Compose rule.
