@@ -94,6 +94,15 @@
   --radius-xl: 1.5rem;
   --radius-2xl: 1.75rem;
   --radius-pill: 9999px;
+
+  /* First-party Material Web shape tokens, expressed in CSS px for the web implementation. */
+  --shape-corner-none: 0px;
+  --shape-corner-extra-small: 4px;
+  --shape-corner-small: 8px;
+  --shape-corner-medium: 12px;
+  --shape-corner-large: 16px;
+  --shape-corner-extra-large: 28px;
+  --shape-corner-full: 9999px;
   --shadow-sm: 0 1px 3px rgb(25 27 35 / 0.08), 0 1px 2px rgb(25 27 35 / 0.04);
   --shadow-md: 0 6px 18px rgb(25 27 35 / 0.08);
   --shadow-lg: 0 16px 40px rgb(25 27 35 / 0.10);
