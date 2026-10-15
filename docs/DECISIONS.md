@@ -601,7 +601,7 @@ The current catalog works from Git, and the legacy database catalog schema was d
 
 Use Supabase/PostgreSQL for the internal Design Lab maintenance workflow: the inventory of actual Loculary UI source files, human defect observations, technical decisions, verification results and change history. Git remains authoritative for component implementations, migrations, tests and source documentation. This is not a decision to move the public tool catalog or executable component code into the database.
 
-The Design Lab must reuse real production component implementations for previews. Preview mappings are explicit; an unconnected component must be marked as not previewed rather than replaced with a locally fabricated lookalike. Observations remain distinct from confirmed conformance findings. A component may be marked conformant within a verified scope only when a passing verification record exists.
+The Design Lab must reuse real production component implementations for previews. Preview mappings are explicit; an unconnected component must be marked as not previewed rather than replaced with a locally fabricated lookalike. Each inventory entry is classified as a web adaptation of an M3/AndroidX concept or a Loculary-specific utility/composition, so the catalogue does not imply that every React component is a standalone official M3 component. Observations remain distinct from confirmed conformance findings. A component may be marked conformant within a verified scope only when a passing verification record exists.
 
 ### Reason
 
