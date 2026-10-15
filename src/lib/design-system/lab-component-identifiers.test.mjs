@@ -13,7 +13,7 @@ test("Design Lab displays exact component names and identifies specimen fidelity
     "Button", "IconButton", "TextField", "TextArea (Web wrapper)", "ExposedDropdownMenu",
     "Select (native HTML wrapper)", "ClearButton", "CopyButton", "Checkbox", "Switch",
     "Slider", "ProgressIndicator", "SegmentedControl", "ValidationMessage", "Card",
-    "Panel", "ResultPanel", "Snackbar", "ModalBottomSheet", "AlertDialog", "NavigationBar", "NavigationRail", "NavigationDrawer", "CircularProgressIndicator", "FloatingActionButton", "Badge", "BadgedBox", "Tooltip", "Carousel", "TopAppBar", "BottomAppBar", "Scaffold", "ListItem", "HorizontalDivider", "VerticalDivider", "AssistChip", "FilterChip", "InputChip", "SuggestionChip", "RadioButton", "Tab", "PrimaryTabRow", "SecondaryTabRow", "PrimaryScrollableTabRow", "SecondaryScrollableTabRow", "DatePicker", "DateRangePicker", "TimePicker", "TimeInput (native HTML input wrapper)", "SearchBar", "ExpandedDockedSearchBar", "ExpandedFullScreenSearchBar", "TriStateCheckbox", "RangeSlider", "ToggleButton", "FilledTonalToggleButton", "OutlinedToggleButton", "ElevatedToggleButton", "SplitButtonLayout", "FilledSplitButton", "TonalSplitButton", "ElevatedSplitButton", "OutlinedSplitButton",
+    "Panel", "ResultPanel", "Snackbar", "ModalBottomSheet", "AlertDialog", "NavigationBar", "NavigationRail", "NavigationDrawer", "CircularProgressIndicator", "FloatingActionButton", "Badge", "BadgedBox", "Tooltip", "Carousel", "TopAppBar", "BottomAppBar", "Scaffold", "ListItem", "HorizontalDivider", "VerticalDivider", "AssistChip", "FilterChip", "InputChip", "SuggestionChip", "RadioButton", "Tab", "PrimaryTabRow", "SecondaryTabRow", "PrimaryScrollableTabRow", "SecondaryScrollableTabRow", "DatePicker", "DateRangePicker", "TimePicker", "TimeInput (native HTML input wrapper)", "SearchBar", "ExpandedDockedSearchBar", "ExpandedFullScreenSearchBar", "TriStateCheckbox", "RangeSlider", "ToggleButton", "FilledTonalToggleButton", "OutlinedToggleButton", "ElevatedToggleButton", "SplitButtonLayout", "FilledSplitButton", "TonalSplitButton", "ElevatedSplitButton", "OutlinedSplitButton", "TextField", "OutlinedTextField", "SecureTextField", "OutlinedSecureTextField",
   ]) {
     assert.ok(lab.includes(name), `Missing visible component identifier: ${name}`);
   }
@@ -149,4 +149,13 @@ test("Toggle and split button families are integrated as shared Web adaptations"
   assert.match(lab, /import \{ SplitButton \} from "@\/components\/ui\/SplitButton"/);
   assert.match(lab, /aria-pressed/);
   assert.match(lab, /menuLabel=/);
+});
+
+
+test("Material 3 filled, outlined and secure text-field variants are represented in the Lab", () => {
+  assert.match(lab, /import \{ MaterialTextField \} from "@\/components\/ui\/MaterialTextField"/);
+  assert.match(lab, /variant="filled" type="email"/);
+  assert.match(lab, /variant="outlined"/);
+  assert.match(lab, /secure/);
+  assert.match(lab, /showCharacterCount/);
 });
