@@ -596,3 +596,11 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - Run/inspect CI on the current head. If a failure occurs, inspect exact logs before changing code.
 - Continue the progress audit by checking the shared indicator's indeterminate semantics, reduced-motion presentation and call-site behavior. Then decide whether circular progress is actually needed by production flows before considering a shared component.
 - Keep PR #729 open and unmerged. No branch cleanup was performed.
+
+
+## Checkpoint — NavigationRail (2026-10-15)
+
+- Added shared `NavigationRail` Web adaptation and integrated it into the extended Lab gallery. The previous static rail specimen now uses a component with selected state, optional badge, icon/label, keyboard focus, hover/press styling and reduced-motion support.
+- Official source: https://developer.android.com/develop/ui/compose/components/navigation-rail. AndroidX positions the rail for top-level destinations on larger screens/landscape, typically 3–7 destinations. CSS geometry is an approximation, not dp equivalence.
+- Updated canonical conventions and conformance audit with implementation, known deviations and validation requirements.
+- Status: source-informed Web adaptation; runtime and current-head CI still need verification. Next component in sequence: NavigationDrawer.
