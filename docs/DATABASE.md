@@ -83,3 +83,23 @@ The account-favorites migration is versioned at `supabase/migrations/20261013180
 Personal collections are implemented in the application and deployed in Supabase. `public.user_collections` stores the owner, name and optional unique share token; `public.user_collection_items` associates tool IDs with a collection. Both tables have RLS enabled. Owners can create, rename and delete their collections and add/remove tools. Reads by anonymous users are limited to collections whose explicit share token is supplied in the `x-loculary-share-token` request header; the corresponding policy exposes only the shared collection and its items. Account deletion cascades to the collections and their items.
 
 The schema is defined by `supabase/migrations/20261013193627_user_collections.sql`, with policy-performance adjustments in `supabase/migrations/20261013193734_user_collections_policy_performance.sql`. The regression test is `supabase/tests/user_collections.sql`; it is not part of the standard GitHub Actions CI and was not executed as part of this production-state audit.
+
+## Design-audit maintenance
+
+The internal Design Lab maintenance workflow is stored in Supabase separately from the public tool catalog. It does not make the component implementation or executable UI code database-driven; Git remains authoritative for source code.
+
+- `public.design_audit_components` inventories the actual UI source files and explicitly mapped live previews. Inventory membership and a preview do not prove Material 3 conformance.
+- `public.design_audit_reports` stores user observations, affected interaction state, severity, expected behavior and lifecycle status.
+- `public.design_audit_decisions` stores proposals and approved/rejected decisions, optionally linked to a report and official references.
+- `public.design_audit_verifications` stores source, visual, interaction, accessibility and test results, with optional official-reference URL, PR URL and commit SHA.
+- `public.design_audit_events` records report/decision/verification changes and component audit-status transitions. Clients can read the event history but cannot insert or edit events directly.
+
+All five tables have RLS enabled, no grants for `anon`, and authenticated access gated by the existing `audit.read` / `audit.write` administrative permissions. The database rejects a component status of `conformant-within-verified-scope` unless at least one passing verification exists for that component. Foreign keys used by the workflow are indexed.
+
+The production schema was applied and verified through the Supabase connector on 2026-10-15. Applied migrations:
+
+- `supabase/migrations/20261015210132_design_audit_maintenance.sql`
+- `supabase/migrations/20261015210156_design_audit_maintenance_fk_indexes.sql`
+
+The pgTAP regression test is `supabase/tests/design_audit_maintenance.sql`. The connector did not execute the full pgTAP suite; direct read-only checks verified the 58 seeded component records, 39 explicit preview mappings, RLS on all five tables, and that `anon` has no SELECT grants. The Supabase advisors reported no remaining missing foreign-key indexes for these tables; unused-index notices are expected while the new tables are empty. Existing unrelated collection-policy performance warnings remain unchanged.
+
