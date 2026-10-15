@@ -390,3 +390,9 @@ test("Lab checkbox samples each define one palette-aware shape and disabled role
   assert.equal((labSource.match(/--checkbox-disabled-active": "color-mix\(in srgb, var\(--lab-text\) 38%, transparent\)"/g) || []).length, 2);
   assert.equal((labSource.match(/--checkbox-disabled-icon": "color-mix\(in srgb, var\(--lab-surface\) 38%, transparent\)"/g) || []).length, 2);
 });
+
+test("Design Lab has no stale disabled tokens from the previous control contract", () => {
+  assert.doesNotMatch(labSource, /--switch-disabled-track/);
+  assert.doesNotMatch(labSource, /--checkbox-disabled-active": "color-mix\(in srgb, var\(--lab-text\) 12%, transparent\)"/);
+  assert.doesNotMatch(labSource, /--checkbox-disabled-icon": "color-mix\(in srgb, var\(--lab-text\) 38%, transparent\)"/);
+});
