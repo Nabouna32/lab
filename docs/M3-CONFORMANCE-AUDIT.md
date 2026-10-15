@@ -404,3 +404,11 @@ Official Android guidance describes M3 Expressive as an expansion affecting them
 ## Discovery: Expressive preview was present in CSS but unreachable (2026-10-15)
 
 The Lab's source already contained `expressiveDirection` copy and `data-direction="expressive"` CSS, but the tab list exposed only Pixel and Productivity. Updated `src/app/[locale]/design-lab/VisualLab.tsx` to expose Pixel, Expressive and Productivity, resolve each mode's help text correctly, and added a regression test in `src/lib/design-system/material-components.test.mjs`. The preview is a Loculary-authored exploratory screen, not a verified Android screenshot. Component-level Expressive comparison in the shared-component gallery remains open. CI has not yet been rerun against this latest commit.
+
+## Correction: Productivity was not an official Material 3 variant (2026-10-15)
+
+Removed Productivity from the selectable directions and renamed the two official comparison choices **M3 Fidelity** and **M3 Expressive**. Productivity had been a Loculary layout concept, not an official Android/Material variant, so it should not be offered as a third peer style. Static tests now assert that only the two official mode names are exposed. The existing screen-level preview remains illustrative until component-level comparisons are complete.
+
+### Component 01 — Button family: source evidence recorded
+
+Pinned AndroidX source confirms separate classic `shape` and Expressive `ButtonShapes` overloads; Expressive button shapes morph with interaction and provide height-aware sizing helpers for shape, padding, text style, icon size and icon spacing. Sources: [pinned AndroidX Button.kt](https://android.googlesource.com/platform/frameworks/support/%2B/155b9eedc7a9732cce0505b492b2c15f5e70d1b9/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Button.kt), [ButtonDefaults API](https://developer.android.com/reference/kotlin/androidx/compose/material3/ButtonDefaults). Current Loculary shared Button's baseline is 40 CSS px (explicitly a Web size) with a full resting shape and small pressed shape. The Expressive specimen should be implemented as a distinct, evidence-backed size/shape behavior, not a global style filter. Browser validation and a green CI run are still pending.
