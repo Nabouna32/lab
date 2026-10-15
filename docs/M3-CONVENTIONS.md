@@ -404,3 +404,20 @@ Official references:
 The source confirms a 40 dp minimum row height, 1 dp outline, Label Large text, 18 dp icon, Secondary Container / On Secondary Container for selected state, Outline border and On Surface content for unselected state, and a Corner Full base shape. AndroidX itemShape applies the base shape to a single item or the outer edges and a rectangle to interior items. The full outer radius in the current Web primitive is therefore intentional; the inner segments remain square. This was verified against the token source before retaining the full shape.
 
 Loculary's shared SegmentedControl now uses a single-choice radio-group pattern with roving tab stop, arrow-key navigation, Home/End, selected-state semantics, disabled options, source-backed full outer corners and square inner corners. It remains a **source-backed Web adaptation**, not 100% AndroidX parity. Multi-choice SegmentedButton rows, the AndroidX checked-icon animation, exact overlapping-border rendering, all focus/pressed/disabled color tokens and browser/screen-reader tests remain open. Do not call the current generic component a full implementation of both official single-choice and multi-choice variants.
+
+
+## 10. Android dp/sp versus CSS units — mandatory Web adaptation contract (2026-10-15)
+
+Android Compose dimensions use dp; typography uses sp. Compose converts Dp to drawing pixels through the active Android Density (https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/Dp). Android's density-independent dimensions are designed to scale with device density (https://developer.android.com/training/multiscreen/screendensities). A browser instead lays out CSS reference pixels, rems, percentages and other CSS units. A CSS px is **not** physically equivalent to an Android dp; matching the same numeric value is a reference-scale convention, not a density conversion.
+
+Loculary's Web renderer uses these rules:
+1. Keep the original AndroidX source magnitude and unit in audit documentation (for example, 40 dp, 14 sp, 1 dp).
+2. Use shared CSS variables for the Web approximation, preferring rem for scalable geometry/type and semantic tokens for colors/shapes. The default browser root size is commonly 16 CSS px, but user settings and zoom can change the effective result.
+3. Name Web tokens --m3-* and explicitly annotate their Android source magnitude. Do not name a CSS variable --dp or imply the CSS value is a native dp.
+4. For a source token of 40 dp, the current reference-scale mapping may be 2.5rem at a 16px root. This preserves the numeric reference on the default browser scale and zoom behavior; it does **not** promise the same physical millimetres as Android.
+5. Use a separate accessibility requirement for Web hit areas; e.g. 48 CSS px is a Web target, not proof that a Compose 48 dp target has been physically reproduced.
+6. Keep source-faithful semantics/states separate from platform rendering. A component can have source-backed tokens but still be a Web adaptation because popup placement, elevation, typography metrics, pointer/focus behavior or animation are different.
+
+The first shared reference tokens live in src/app/globals.css: dimensions for segmented buttons, standard/medium buttons, touch targets, Snackbar, icon sizes, outline width and Label Large/Body Medium typography. SegmentedControl and Snackbar now consume shared tokens instead of repeating all reference values locally. This is the start of the token layer, not yet a complete extraction of all component tokens. Each token's original AndroidX value and file/version must be added to the component audit; any token without a pinned source remains provisional.
+
+Official source hierarchy remains: Android Developers + AndroidX source for intended Android behavior and values; Material Web for Web-specific implementation details; HTML/ARIA/WCAG for Web accessibility; Loculary tokens for the documented adaptation. Do not describe the React/CSS implementation as “100% Android” even if all visible token values match.
