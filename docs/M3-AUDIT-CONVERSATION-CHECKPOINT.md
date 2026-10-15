@@ -286,3 +286,11 @@ Earlier checkpoint notes that described Checkbox/Switch/field disabled values as
 
 - Found fixed radii in the Pixel direction preview for the primary button, calculator field and result/card surfaces. These prevent the Lab rounding-degree control from applying consistently.
 - Migrate the button to full, field to extra-small and card/result surfaces to medium semantic shape roles. Device-frame and search/icon shapes remain open pending source-backed role mapping.
+
+## Resume point — pinned AndroidX token audit (2026-10-15)
+
+- Closed duplicate PR #723 without merging it; its changes were ported into PR #729. PR #729 remains open and unmerged.
+- Confirmed the official AndroidX token source revision used for this slice: b4c15a8e351e6cfa93e90cce2cfbd0dbbe4805a7.
+- Added the official AndroidX button pressed-shape mapping: default full, pressed small. The shared Button now uses the semantic small shape token on active press; browser animation/timing verification is still open.
+- Updated stale Button/IconButton conformance assertions and corrected an over-escaped regex found by CI. Previous CI run failed; latest head needs a fresh CI result.
+- Continue by inspecting the newest workflow run for the current PR head, fixing any remaining errors, then continue source-backed component audit. Keep AndroidX facts separate from Material Web values and Loculary adaptations.
