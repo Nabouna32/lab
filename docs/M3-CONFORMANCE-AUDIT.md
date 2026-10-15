@@ -691,3 +691,8 @@ Official source: [AndroidX AppBarWithSearch API](https://developer.android.com/r
 ## WideNavigationRail / ModalWideNavigationRail — 2026-10-15
 
 Official sources: [WideNavigationRail API](https://developer.android.com/reference/kotlin/androidx/compose/material3/WideNavigationRail.composable), [ModalWideNavigationRail API](https://developer.android.com/reference/kotlin/androidx/compose/material3/ModalWideNavigationRail.composable). Added standard wide and modal wide-rail Web adaptations in the Lab. The modal variant includes scrim, Escape dismissal and focus containment/restore, but is not native Compose. Current API reference lists ModalWideNavigationRail as introduced in Material3 1.5.0-beta01; check the pinned version. Adaptive breakpoints, insets, animation, RTL and screen-reader behavior remain open.
+
+
+## PullToRefreshBox — 2026-10-15
+
+Official sources: [PullToRefreshBox API](https://developer.android.com/reference/kotlin/androidx/compose/material3/pulltorefresh/PullToRefreshBox.composable), [pullToRefresh modifier](https://developer.android.com/reference/kotlin/androidx/compose/material3/pulltorefresh/pullToRefresh.modifier). Added a shared Web adaptation with pull-distance indicator, controlled refreshing state, reduced-motion behavior and an explicit refresh button. Browser nested-scroll/overscroll arbitration differs from Compose; pointer behavior must be tested on touch devices before considering this family conformant.
