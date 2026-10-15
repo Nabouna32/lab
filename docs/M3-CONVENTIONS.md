@@ -333,3 +333,7 @@ The Design Lab now exposes a component-specific Fidelity/Expressive selector for
 ### Switch family — source discovery (2026-10-15)
 
 Reviewed official [AndroidX Switch.kt](https://android.googlesource.com/platform/frameworks/support/%2B/39bdbe03eef999f4c1352f31a90526adad9245ae/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Switch.kt). The standard Switch API exposes checked state, optional thumb content, enabled state, colors and interaction source; the source inspected does not establish a separate default Expressive visual variant. Its motion includes an animated thumb with a Material motion spec, so a Web port must compare thumb travel/timing and not only track colors. Current shared Web switch uses a 52×32 CSS-pixel track and 16×16 thumb with CSS transitions; these are Web dimensions and motion, not a confirmed exact match. Planned selector behavior: both modes remain available, with no invented visual difference until an official default delta is confirmed.
+
+### Switch family — Lab selector added (2026-10-15)
+
+Added a component-specific Fidelity/Expressive selector to the Switch examples. Since no default Expressive visual delta was verified, both choices intentionally use the same shared Switch; Expressive mode explains the reason. Added static regression coverage. The motion audit remains open, and no claim of Android-equivalent thumb timing is made.
