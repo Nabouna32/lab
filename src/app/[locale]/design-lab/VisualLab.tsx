@@ -23,7 +23,7 @@ import { colorHex, createM3Scheme, seedPresets } from "./m3-theme";
 type Locale = "en" | "fr";
 type Theme = "light" | "dark";
 type Screen = "home" | "explore" | "tool" | "saved" | "profile";
-type DesignDirection = "pixel" | "utility";
+type DesignDirection = "pixel" | "expressive" | "utility";
 type LabIconName = "home" | "search" | "heart" | "user" | "calculator" | "image" | "text" | "arrow-up-right" | "plus" | "bell" | "sun" | "sparkles" | "back" | "check" | "close";
 const labIconNames: Record<LabIconName, MaterialIconName> = {
   home: "home",
@@ -139,10 +139,10 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
       <div className={styles.sectionHeading}>
         <div><span className={styles.sectionKicker}>01 / {t.directions}</span><h2 id="directions-title">{t.directions}</h2><p>{t.directionsHelp}</p></div>
         <div className={styles.screenTabs} role="tablist" aria-label={t.directions}>
-          {(["pixel","utility"] as const).map(item=><button key={item} type="button" role="tab" aria-selected={direction===item} onClick={()=>setDirection(item)}>{t[item==="pixel"?"pixelDirection":"utilityDirection"]}</button>)}
+          {(["pixel","expressive","utility"] as const).map(item=><button key={item} type="button" role="tab" aria-selected={direction===item} onClick={()=>setDirection(item)}>{t[item==="pixel"?"pixelDirection":item==="expressive"?"expressiveDirection":"utilityDirection"]}</button>)}
         </div>
       </div>
-      <p className={styles.directionHelp}>{t[direction==="pixel"?"pixelDirectionHelp":"utilityDirectionHelp"]}</p>
+      <p className={styles.directionHelp}>{t[direction==="pixel"?"pixelDirectionHelp":direction==="expressive"?"expressiveDirectionHelp":"utilityDirectionHelp"]}</p>
       <div className={styles.controlRow}>
         
         <fieldset className={styles.segmentField}><legend>{t.viewport}</legend><div className={styles.segmented}>{(["mobile","tablet","desktop"] as const).map(size=><button key={size} type="button" aria-pressed={viewport===size} onClick={()=>setViewport(size)}>{t[size]}</button>)}</div></fieldset>
