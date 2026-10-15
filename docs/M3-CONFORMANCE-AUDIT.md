@@ -617,3 +617,8 @@ Official sources: https://developer.android.com/reference/kotlin/androidx/compos
 ## Chip family — 2026-10-15
 
 Official source: https://developer.android.com/develop/ui/compose/components/chip. Added shared Chip Web adaptation for Assist, ElevatedAssist, Filter, ElevatedFilter, Input and Suggestion variants. The Lab's local filter/suggestion mockups are replaced with the shared component. Exact shapes, state tokens, touch targets, removal semantics and motion remain to audit against the pinned AndroidX source; runtime checks pending.
+
+
+## RadioButton — 2026-10-15
+
+Official source: https://developer.android.com/reference/kotlin/androidx/compose/material3/RadioButton.composable. Added a shared RadioButton Web adaptation and replaced the Lab's native-radio-only sample. Native input preserves browser radio-group keyboard behavior; M3 indicator, focus, hover, disabled and reduced-motion styles are included. Exact dimensions/state animation and screen-reader behavior remain to validate.
