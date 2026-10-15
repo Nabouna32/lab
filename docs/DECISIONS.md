@@ -591,7 +591,7 @@ The current catalog works from Git, and the legacy database catalog schema was d
 
 - `docs/DATABASE.md` describes the current deployed schema and catalog boundary.
 - Git/code remains authoritative for registry modules, processing mode, capabilities and executable behavior.
-- No catalog schema or production migration is authorized by this decision.
+- No public tool-catalog schema or production migration is authorized by this decision. The private Design Lab reference catalogue is a separate administrative maintenance domain under DEC-028.
 
 ## DEC-028 — Supabase is the operational record for Design Lab maintenance
 
@@ -613,5 +613,6 @@ The maintenance workflow must persist across conversations, keep user observatio
 - Database changes are versioned in `supabase/migrations/`; GitHub remains the source of truth for code changes and their review.
 - Reports, decisions, verifications and status history are separate records linked to stable component identifiers.
 - Component inventory is based on real source files; it does not claim that every component is already previewable or M3-conformant.
+- `public.design_audit_catalog_entries` separately stores the Material 3 / AndroidX reference register and Loculary-specific utilities/compositions. Reference candidates remain explicitly unverified until official identity and documentation are checked; the table does not replace the Git-backed public tool catalogue.
 - DEC-027 remains in force: the public tool catalog stays Git-backed.
 
