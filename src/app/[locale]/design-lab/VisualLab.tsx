@@ -48,7 +48,7 @@ function LabIcon({ name, size = 20 }: { name: LabIconName; size?: number }) {
 const copy = {
   en: {
     eyebrow:"Experimental playground · not production",title:"Find Loculary’s visual personality.",intro:"Compare the same phone interface in two Android-inspired directions. Change only the options that help judge the experience.",categoryColors:"Category identity colors",categoryColorsHelp:"Category colors stay independent from the brand color. The official MCU Rainbow scheme generates their hues and tonal values; the solid option uses generated foreground colors for readability.",
-    directions:"Android style directions",directionsHelp:"Compare the same phone interface in two directions. These are exploratory interpretations, not official Google screenshots.",pixelDirection:"Pixel / faithful M3",pixelDirectionHelp:"Quiet tonal surfaces, familiar Android navigation and restrained emphasis.",expressiveDirection:"Expressive",expressiveDirectionHelp:"Bolder hierarchy, playful shape contrast and a more noticeable primary action.",utilityDirection:"Productivity",utilityDirectionHelp:"Compact, information-first layout with clear grouping and efficient scanning.",directionEyebrow:"Direction preview",directionAction:"Open tool",directionRecent:"Continue where you left off",directionBrowse:"Browse categories",directionBottomHome:"Home",directionBottomExplore:"Explore",directionBottomSaved:"Saved",directionBottomProfile:"Profile",theme:"Theme",style:"Visual language",viewport:"Preview width",categorySet:"Category color set",currentSet:"Current seeds",mcuRainbowSet:"Official M3 Rainbow",blueSet:"Blue-forward",categoryStyle:"Category treatment",softStyle:"Soft tint",stripeStyle:"Strong stripe",solidStyle:"Solid color",language:"Preview language",light:"Light",dark:"Dark",classic:"Material 3",expressive:"M3 Expressive",desktop:"Desktop",tablet:"Tablet",mobile:"Mobile",
+    directions:"Android style directions",directionsHelp:"Compare the same phone interface in two directions. These are exploratory interpretations, not official Google screenshots.",pixelDirection:"Pixel / faithful M3",pixelDirectionHelp:"Quiet tonal surfaces, familiar Android navigation and restrained emphasis.",expressiveDirection:"Expressive",expressiveDirectionHelp:"Bolder hierarchy, playful shape contrast and a more noticeable primary action.",utilityDirection:"Productivity",utilityDirectionHelp:"Compact, information-first layout with clear grouping and efficient scanning.",directionEyebrow:"Direction preview",directionAction:"Open tool",directionRecent:"Continue where you left off",directionBrowse:"Browse categories",directionBottomHome:"Home",directionBottomExplore:"Explore",directionBottomSaved:"Saved",directionBottomProfile:"Profile",theme:"Theme",style:"Visual language",viewport:"Preview width",roundingDegree:"Corner rounding",roundingDegreeHelp:"0% is square; 100% uses the documented Material Web shape scale. This preview control is a Loculary experiment.",categorySet:"Category color set",currentSet:"Current seeds",mcuRainbowSet:"Official M3 Rainbow",blueSet:"Blue-forward",categoryStyle:"Category treatment",softStyle:"Soft tint",stripeStyle:"Strong stripe",solidStyle:"Solid color",language:"Preview language",light:"Light",dark:"Dark",classic:"Material 3",expressive:"M3 Expressive",desktop:"Desktop",tablet:"Tablet",mobile:"Mobile",
     home:"Home",explore:"Explore",tool:"Tool page",search:"What do you need to do?",searchButton:"Find a tool",quick:"Popular tasks",welcome:"A toolbox for your next idea",subhead:"Small tasks, useful tools, less friction.",browse:"Explore tools",
     results:"Suggested tools",resultOne:"Percentage calculator",resultTwo:"Image converter",resultThree:"Text cleaner",toolTitle:"Percentage calculator",toolDesc:"Calculate a percentage of any value.",value:"Value",percent:"Percentage",calculate:"Calculate",output:"Your result",
     components:"Component gallery",settings:"Account & preferences",settingsHelp:"Examples of options a user can turn on or off.",syncFavorites:"Sync favorites",syncFavoritesHelp:"Keep your favorites available on your account.",automaticTheme:"Use device theme",automaticThemeHelp:"Follow your phone or computer light/dark setting.",reducedMotion:"Reduce motion",reducedMotionHelp:"Limit non-essential animations.",switchOnLabel:"On",switchOffLabel:"Off",actions:"Actions & controls",forms:"Forms & selection",surfaces:"Surfaces & feedback",type:"Typography & shape",states:"Interaction states",filled:"Filled",elevated:"Elevated",tonal:"Filled tonal",outlined:"Outlined",textButton:"Text",disabled:"Disabled",focus:"Keyboard focus",motion:"Replay motion",
@@ -59,7 +59,7 @@ const copy = {
   },
   fr: {
     eyebrow:"Laboratoire expérimental · hors production",title:"Trouvons la personnalité visuelle de Loculary.",intro:"Compare la même interface de téléphone selon deux pistes inspirées d’Android. Garde uniquement les réglages utiles pour juger le rendu.",categoryColors:"Couleurs d’identité des catégories",categoryColorsHelp:"Les couleurs des catégories restent indépendantes de la couleur de marque. La variante officielle Rainbow de MCU génère leurs teintes et tons ; les aplats utilisent une couleur de texte générée pour rester lisibles.",
-    directions:"Pistes de style Android",directionsHelp:"Compare deux interprétations cohérentes du langage visuel Android. Ce sont des pistes d’exploration, pas des captures officielles de Google.",pixelDirection:"Pixel / M3 fidèle",pixelDirectionHelp:"Surfaces tonales discrètes, navigation Android familière et accentuation mesurée.",expressiveDirection:"Expressif",expressiveDirectionHelp:"Hiérarchie plus marquée, contraste de formes ludique et action principale visible.",utilityDirection:"Productivité",utilityDirectionHelp:"Mise en page compacte, priorité à l’information et lecture rapide.",directionEyebrow:"Aperçu de la piste",directionAction:"Ouvrir l’outil",directionRecent:"Reprendre là où tu en étais",directionBrowse:"Parcourir les catégories",directionBottomHome:"Accueil",directionBottomExplore:"Explorer",directionBottomSaved:"Enregistrés",directionBottomProfile:"Profil",theme:"Thème",style:"Langage visuel",viewport:"Largeur d’aperçu",categorySet:"Jeu de couleurs des catégories",currentSet:"Sources actuelles",mcuRainbowSet:"Rainbow officiel M3",blueSet:"Dominante bleue",categoryStyle:"Traitement des catégories",softStyle:"Teinte légère",stripeStyle:"Bande franche",solidStyle:"Aplat coloré",language:"Langue de l’aperçu",light:"Clair",dark:"Sombre",classic:"Material 3",expressive:"M3 Expressive",desktop:"Ordinateur",tablet:"Tablette",mobile:"Mobile",
+    directions:"Pistes de style Android",directionsHelp:"Compare deux interprétations cohérentes du langage visuel Android. Ce sont des pistes d’exploration, pas des captures officielles de Google.",pixelDirection:"Pixel / M3 fidèle",pixelDirectionHelp:"Surfaces tonales discrètes, navigation Android familière et accentuation mesurée.",expressiveDirection:"Expressif",expressiveDirectionHelp:"Hiérarchie plus marquée, contraste de formes ludique et action principale visible.",utilityDirection:"Productivité",utilityDirectionHelp:"Mise en page compacte, priorité à l’information et lecture rapide.",directionEyebrow:"Aperçu de la piste",directionAction:"Ouvrir l’outil",directionRecent:"Reprendre là où tu en étais",directionBrowse:"Parcourir les catégories",directionBottomHome:"Accueil",directionBottomExplore:"Explorer",directionBottomSaved:"Enregistrés",directionBottomProfile:"Profil",theme:"Thème",style:"Langage visuel",viewport:"Largeur d’aperçu",roundingDegree:"Degré d’arrondi",roundingDegreeHelp:"0 % donne des angles droits ; 100 % utilise l’échelle de formes documentée par Material Web. Ce réglage d’aperçu est propre à Loculary.",categorySet:"Jeu de couleurs des catégories",currentSet:"Sources actuelles",mcuRainbowSet:"Rainbow officiel M3",blueSet:"Dominante bleue",categoryStyle:"Traitement des catégories",softStyle:"Teinte légère",stripeStyle:"Bande franche",solidStyle:"Aplat coloré",language:"Langue de l’aperçu",light:"Clair",dark:"Sombre",classic:"Material 3",expressive:"M3 Expressive",desktop:"Ordinateur",tablet:"Tablette",mobile:"Mobile",
     home:"Accueil",explore:"Explorer",tool:"Page outil",search:"De quoi as-tu besoin ?",searchButton:"Trouver un outil",quick:"Actions populaires",welcome:"Une boîte à outils pour tes idées",subhead:"Des tâches simples, des outils utiles, moins de friction.",browse:"Explorer les outils",
     results:"Outils suggérés",resultOne:"Calcul de pourcentage",resultTwo:"Convertisseur d’image",resultThree:"Nettoyeur de texte",toolTitle:"Calcul de pourcentage",toolDesc:"Calcule un pourcentage de n’importe quelle valeur.",value:"Valeur",percent:"Pourcentage",calculate:"Calculer",output:"Ton résultat",
     components:"Galerie de composants",settings:"Compte et préférences",settingsHelp:"Exemples d’options que l’utilisateur peut activer ou désactiver.",syncFavorites:"Synchroniser les favoris",syncFavoritesHelp:"Retrouver les favoris sur son compte.",automaticTheme:"Suivre le thème de l’appareil",automaticThemeHelp:"Utiliser le mode clair ou sombre du téléphone ou de l’ordinateur.",reducedMotion:"Réduire les animations",reducedMotionHelp:"Limiter les animations non essentielles.",switchOnLabel:"Activé",switchOffLabel:"Désactivé",actions:"Actions et commandes",forms:"Formulaires et choix",surfaces:"Surfaces et retours",type:"Typographie et formes",states:"États d’interaction",filled:"Rempli",elevated:"Surélevé",tonal:"Tonal",outlined:"Contour",textButton:"Texte",disabled:"Désactivé",focus:"Focus clavier",motion:"Rejouer l’animation",
@@ -70,7 +70,8 @@ const copy = {
   },
 };
 
-function createLabTokens(scheme: ReturnType<typeof createM3Scheme>, theme: Theme): CSSProperties & Record<string,string> {
+function createLabTokens(scheme: ReturnType<typeof createM3Scheme>, theme: Theme, roundingDegree = 100): CSSProperties & Record<string,string> {
+  const scale = roundingDegree / 100;
   return {
     "--lab-bg":colorHex(scheme.background),"--lab-surface":colorHex(scheme.surface),"--lab-surface-2":colorHex(scheme.surfaceVariant),
     "--lab-surface-low":colorHex(scheme.surfaceContainerLow),"--lab-surface-container":colorHex(scheme.surfaceContainer),
@@ -87,7 +88,14 @@ function createLabTokens(scheme: ReturnType<typeof createM3Scheme>, theme: Theme
     "--lab-success-bg":theme==="dark"?"#173B2A":"#D5F5D6","--lab-success-text":theme==="dark"?"#A7F3C0":"#14532D",
     "--lab-warning-bg":theme==="dark"?"#4A350F":"#FFF0B3","--lab-warning-text":theme==="dark"?"#FFE08A":"#704400",
     "--lab-error-bg":theme==="dark"?"#4B1F24":"#FFE0E0","--lab-error-text":theme==="dark"?"#FFB4AB":"#8F1717",
-    "--lab-radius":"0.8rem","--lab-radius-small":"0.35rem","--lab-motion":"180ms",
+    "--shape-corner-none":"0px",
+    "--shape-corner-extra-small":`${(4*scale).toFixed(2)}px`,
+    "--shape-corner-small":`${(8*scale).toFixed(2)}px`,
+    "--shape-corner-medium":`${(12*scale).toFixed(2)}px`,
+    "--shape-corner-large":`${(16*scale).toFixed(2)}px`,
+    "--shape-corner-extra-large":`${(28*scale).toFixed(2)}px`,
+    "--shape-corner-full":"9999px",
+    "--lab-radius":`${(16*scale).toFixed(2)}px`,"--lab-radius-small":`${(8*scale).toFixed(2)}px`,"--lab-motion":"180ms",
   } as CSSProperties & Record<string,string>;
 }
 export default function VisualLab({ initialLocale }: { initialLocale: string }) {
@@ -99,6 +107,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const [seed,setSeed]=useState("#4285F4");
   const [paletteOpen,setPaletteOpen]=useState(false);
   const [viewport,setViewport]=useState<"desktop"|"tablet"|"mobile">("mobile");
+  const [roundingDegree,setRoundingDegree]=useState(100);
   const [dialogOpen,setDialogOpen]=useState(true);
   const [motionReplay,setMotionReplay]=useState(0);
   const [snackbarOpen,setSnackbarOpen]=useState(false);
@@ -114,7 +123,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const [preferences,setPreferences]=useState({syncFavorites:true,automaticTheme:false,reducedMotion:false});
   const t=copy[locale];
   const scheme=useMemo(()=>createM3Scheme(seed,"fidelity",theme==="dark",0,"2025","phone"),[theme,seed]);
-  const tokens=useMemo(()=>createLabTokens(scheme,theme),[scheme,theme]);
+  const tokens=useMemo(()=>createLabTokens(scheme,theme,roundingDegree),[scheme,theme,roundingDegree]);
   const amount=Number(value)*Number(percent)/100;
   const result=Number.isFinite(amount)?amount.toLocaleString(locale==="fr"?"fr-FR":"en-US",{maximumFractionDigits:3}):"—";
   const isMulticolorPalette=true;
@@ -157,7 +166,21 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
           </div>}
         </div>
       </div>
-      <div className={styles.singlePreview} style={createLabTokens(scheme,theme)}>      <div className={`${styles.directionStage} ${styles["directionViewport_"+viewport]}`} data-direction={direction} data-theme={theme}>
+      <div className={styles.roundingControl}>
+        <Slider
+          inputId="lab-rounding-degree"
+          label={t.roundingDegree}
+          value={roundingDegree}
+          valueLabel={`${roundingDegree}%`}
+          min={0}
+          max={100}
+          step={5}
+          onValueChange={setRoundingDegree}
+          style={{"--slider-active":"var(--lab-primary)","--slider-inactive":"var(--lab-surface-2)","--slider-label-color":"var(--lab-text)","--slider-value-color":"var(--lab-primary)","--slider-focus-ring":"var(--lab-primary)"}}
+        />
+        <p className={styles.helper}>{t.roundingDegreeHelp}</p>
+      </div>
+      <div className={styles.singlePreview} style={createLabTokens(scheme,theme,roundingDegree)}>      <div className={`${styles.directionStage} ${styles["directionViewport_"+viewport]}`} data-direction={direction} data-theme={theme}>
         <header className={styles.directionHeader}><span className={styles.directionBrand}><span aria-hidden="true"><LabIcon name="sparkles" size={18} /></span> Loculary</span><button type="button" aria-label={locale==="fr"?"Notifications":"Notifications"}><LabIcon name="bell" /></button></header>
         <div key={screen} className={styles.directionContent}>
           {screen==="home"&&<>
@@ -190,7 +213,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
           {screen==="profile"&&<>
             <span className={styles.directionEyebrow}>{t.directionBottomProfile}</span><h3>{t.settings}</h3><p className={styles.directionSubtitle}>{t.settingsHelp}</p>
             <div className={styles.directionGrid}>
-              <article className={styles.directionCard}><span className={styles.directionIcon}><LabIcon name="sun" size={22} /></span><div><strong>{t.automaticTheme}</strong><small>{t.automaticThemeHelp}</small></div><button type="button" aria-pressed={theme==="dark"} onClick={()=>setTheme(theme==="dark"?"light":"dark")}>{theme==="dark"?t.dark:t.light}</button></article>
+              <article className={styles.directionCard}><span className={styles.directionIcon}><LabIcon name="sun" size={22} /></span><div><strong>{t.automaticTheme}</strong><small>{t.automaticThemeHelp}</small></div><button type="button" aria-pressed={theme==="dark"} onClick={()=>setPreferences(current=>({...current,automaticTheme:!current.automaticTheme}))} aria-pressed={preferences.automaticTheme}>{preferences.automaticTheme?t.switchOnLabel:t.switchOffLabel}</button></article>
               <article className={styles.directionCard}><span className={styles.directionIcon}><LabIcon name="heart" size={22} /></span><div><strong>{t.syncFavorites}</strong><small>{t.syncFavoritesHelp}</small></div><span aria-hidden="true"><MaterialIcon name="chevron_right" size={20} /></span></article>
             </div>
           </>}
@@ -242,9 +265,9 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
               "--checkbox-focus-ring": "var(--lab-primary)",
               "--checkbox-focus-offset": "var(--lab-surface)",
               "--checkbox-label-color": "var(--lab-text)",
-              "--checkbox-disabled-active": "color-mix(in srgb, var(--lab-text) 12%, transparent)",
+              "--checkbox-disabled-active": "color-mix(in srgb, var(--lab-text) 38%, transparent)",
               "--checkbox-disabled-outline": "color-mix(in srgb, var(--lab-text) 38%, transparent)",
-              "--checkbox-disabled-icon": "color-mix(in srgb, var(--lab-text) 38%, transparent)",
+              "--checkbox-disabled-icon": "color-mix(in srgb, var(--lab-surface) 38%, transparent)",
               "--checkbox-disabled-label": "color-mix(in srgb, var(--lab-text) 38%, transparent)",
             }}
           />
@@ -313,7 +336,10 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
                 "--switch-outline": "var(--lab-outline)",
                 "--switch-focus-ring": "var(--lab-primary)",
                 "--switch-focus-offset": "var(--lab-surface)",
-                "--switch-disabled-track": "color-mix(in srgb, var(--lab-text) 12%, transparent)",
+                "--switch-disabled-selected-track": "color-mix(in srgb, var(--lab-text) 12%, transparent)",
+                "--switch-disabled-unselected-track": "color-mix(in srgb, var(--lab-surface-highest) 12%, transparent)",
+                "--switch-disabled-outline": "color-mix(in srgb, var(--lab-text) 12%, transparent)",
+                "--switch-disabled-selected-thumb": "var(--lab-surface)",
                 "--switch-disabled-thumb": "color-mix(in srgb, var(--lab-text) 38%, transparent)",
               }}
             />
