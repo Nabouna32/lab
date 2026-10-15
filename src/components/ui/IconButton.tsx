@@ -35,13 +35,13 @@ export function IconButton({
   ref,
   ...props
 }: IconButtonProps) {
-  // M3 icon buttons require a 48×48px minimum touch target and typically a 24px icon.
+  // Android guidance uses a 48dp touch target; 48×48 CSS px is this web implementation choice, not a dp equivalence.
   const selectedStyles = !selected ? "" : ({
-    standard: "text-[var(--primary)]",
+    standard: "text-[var(--primary)] hover:text-[var(--primary)] active:text-[var(--primary)] hover:bg-[color-mix(in_srgb,var(--primary)_8%,transparent)] active:bg-[color-mix(in_srgb,var(--primary)_12%,transparent)]",
     filled: "",
-    "filled-tonal": "bg-[var(--secondary)] text-[var(--on-secondary)] disabled:bg-[color-mix(in_srgb,var(--on-surface)_10%,transparent)]",
-    tonal: "bg-[var(--secondary)] text-[var(--on-secondary)] disabled:bg-[color-mix(in_srgb,var(--on-surface)_10%,transparent)]",
-    outlined: "bg-[var(--inverse-surface)] text-[var(--inverse-on-surface)] disabled:bg-[color-mix(in_srgb,var(--on-surface)_10%,transparent)]",
+    "filled-tonal": "bg-[var(--secondary)] text-[var(--on-secondary)] hover:bg-[color-mix(in_srgb,var(--secondary)_92%,var(--on-secondary))] active:bg-[color-mix(in_srgb,var(--secondary)_88%,var(--on-secondary))] disabled:bg-[color-mix(in_srgb,var(--on-surface)_10%,transparent)]",
+    tonal: "bg-[var(--secondary)] text-[var(--on-secondary)] hover:bg-[color-mix(in_srgb,var(--secondary)_92%,var(--on-secondary))] active:bg-[color-mix(in_srgb,var(--secondary)_88%,var(--on-secondary))] disabled:bg-[color-mix(in_srgb,var(--on-surface)_10%,transparent)]",
+    outlined: "bg-[var(--inverse-surface)] text-[var(--inverse-on-surface)] hover:bg-[color-mix(in_srgb,var(--inverse-surface)_92%,var(--inverse-on-surface))] active:bg-[color-mix(in_srgb,var(--inverse-surface)_88%,var(--inverse-on-surface))] disabled:bg-[color-mix(in_srgb,var(--on-surface)_10%,transparent)]",
   } satisfies Record<IconButtonVariant, string>)[variant];
   const dimensions = "h-12 min-h-12 w-12 min-w-12";
 
