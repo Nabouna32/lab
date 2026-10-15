@@ -102,7 +102,7 @@
 .directionBottomNav b{display:grid;place-items:center;width:3rem;height:1.8rem;border-radius:999px;font-size:1.1rem;font-weight:600}
 .directionBottomNav [aria-current="page"]{color:var(--lab-primary)}.directionBottomNav [aria-current="page"] b{background:var(--lab-primary-soft);color:var(--lab-on-primary-soft)}
 /* Pixel-like: understated surfaces, low elevation, restrained rounded geometry. */
-.directionStage[data-direction="pixel"]{--direction-shape:1.15rem;--direction-gap:.65rem}
+.directionStage[data-direction="pixel"]{--direction-shape:var(--shape-corner-medium);--direction-gap:.65rem}
 .directionStage[data-direction="pixel"] .directionCard{box-shadow:none}
 .directionStage[data-direction="pixel"] .directionIcon{border-radius:.9rem}
 .directionStage[data-direction="pixel"] .directionPrimary{border-radius:1rem}
@@ -204,23 +204,23 @@
 .directionStage[data-direction="pixel"] .directionContent h3{margin:.2rem 0 .55rem;font-size:2rem;font-weight:600;line-height:1.15;letter-spacing:-.035em}
 .directionStage[data-direction="pixel"] .directionSubtitle{margin-bottom:1.25rem;color:var(--lab-muted);font-size:.9rem;line-height:1.5}
 .directionStage[data-direction="pixel"] .directionSearch{min-height:3.5rem;border:1px solid var(--lab-outline);border-radius:1.1rem;background:var(--lab-surface-high);color:var(--lab-muted);font-size:.9rem}
-.directionStage[data-direction="pixel"] .directionSearchAction{width:2.4rem;height:2.4rem;border-radius:.8rem;background:var(--lab-primary);color:var(--lab-on-primary)}
+.directionStage[data-direction="pixel"] .directionSearchAction{width:2.4rem;height:2.4rem;border-radius:var(--shape-corner-full);background:var(--lab-primary);color:var(--lab-on-primary)}
 .directionStage[data-direction="pixel"] .directionSectionTitle{margin:1.6rem 0 .7rem}
 .directionStage[data-direction="pixel"] .directionSectionTitle strong{font-size:1.05rem;font-weight:650;letter-spacing:-.01em}
 .directionStage[data-direction="pixel"] .directionSectionTitle button{font-size:.8rem;font-weight:650}
 .directionStage[data-direction="pixel"] .directionCard,
 .directionStage[data-direction="pixel"] .directionGrid .directionCard:nth-child(2),
-.directionStage[data-direction="pixel"] .directionGrid .directionCard:nth-child(3){border:0;border-radius:1.1rem;background:var(--lab-surface-low);box-shadow:none}
+.directionStage[data-direction="pixel"] .directionGrid .directionCard:nth-child(3){border:0;border-radius:var(--shape-corner-medium);background:var(--lab-surface-low);box-shadow:none}
 .directionStage[data-direction="pixel"] .directionIcon{border-radius:.85rem;background:var(--lab-primary-soft);color:var(--lab-on-primary-soft)}
 .directionStage[data-direction="pixel"] .directionGrid .directionCard:nth-child(2) .directionIcon{background:var(--lab-secondary-container);color:var(--lab-on-secondary-container)}
 .directionStage[data-direction="pixel"] .directionGrid .directionCard:nth-child(3) .directionIcon{background:var(--lab-tertiary-container);color:var(--lab-on-tertiary-container)}
-.directionStage[data-direction="pixel"] .directionPrimary{min-height:3.25rem;margin-top:1.2rem;border-radius:1rem;box-shadow:none;font-weight:650}
+.directionStage[data-direction="pixel"] .directionPrimary{min-height:3.25rem;margin-top:1.2rem;border-radius:var(--shape-corner-full);box-shadow:none;font-weight:650}
 .directionStage[data-direction="pixel"] .directionBottomNav{border:0;background:var(--lab-surface-container)}
 .directionStage[data-direction="pixel"] .directionBottomNav button{font-weight:600}
 .directionStage[data-direction="pixel"] .directionBottomNav button[aria-current="page"]{color:var(--lab-text)}
-.directionStage[data-direction="pixel"] .directionBottomNav button:hover{border-radius:1rem;background:color-mix(in srgb,var(--lab-text) 8%,transparent)}
+.directionStage[data-direction="pixel"] .directionBottomNav button:hover{border-radius:var(--shape-corner-full);background:color-mix(in srgb,var(--lab-text) 8%,transparent)}
 .directionStage[data-direction="pixel"] .directionBottomNav button:active{background:color-mix(in srgb,var(--lab-text) 12%,transparent)}
-.directionStage[data-direction="pixel"] .directionBottomNav button:focus-visible{outline:2px solid var(--lab-primary);outline-offset:-2px;border-radius:1rem}
+.directionStage[data-direction="pixel"] .directionBottomNav button:focus-visible{outline:2px solid var(--lab-primary);outline-offset:-2px;border-radius:var(--shape-corner-full)}
 .directionStage[data-direction="pixel"] .directionBottomNav button b{width:3.5rem;height:2rem}
 .directionStage[data-direction="pixel"] .directionBottomNav button[aria-current="page"] b{background:var(--lab-secondary-container);color:var(--lab-on-secondary-container)}
 .directionStage[data-direction="pixel"] .directionCalculator input{border-radius:var(--shape-corner-extra-small);background:var(--lab-surface-low)}
