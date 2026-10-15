@@ -23,9 +23,8 @@ export type TabsProps = {
 };
 
 /**
- * Reusable Web adaptation of AndroidX Material 3 Tab + PrimaryTabRow /
- * SecondaryTabRow. It is not a native Compose component. Keyboard navigation
- * follows the web tab pattern; consumers own the selected state and panel.
+ * Reusable React/CSS adaptation of AndroidX Material 3 Tab + primary/secondary
+ * tab rows. It is not native Compose. Consumers own selection and panel content.
  */
 export function Tabs({
   items,
@@ -65,6 +64,7 @@ export function Tabs({
     scrollable ? styles.scrollable : "",
     className ?? "",
   ].filter(Boolean).join(" ");
+  const selectedItem = items.find((item) => item.key === selectedKey);
 
   return (
     <div className={classNames}>
@@ -80,7 +80,7 @@ export function Tabs({
               role="tab"
               id={`${idPrefix}-tab-${item.key}`}
               aria-selected={selected}
-              aria-controls={item.content ? `${idPrefix}-panel-${item.key}` : undefined}
+              aria-controls={item.content !== undefined ? `${idPrefix}-panel-${item.key}` : undefined}
               tabIndex={selected ? 0 : -1}
               disabled={disabled}
               className={styles.tab}
@@ -94,31 +94,16 @@ export function Tabs({
         })}
       </div>
       <div className={styles.divider} aria-hidden="true" />
-    </div>
-  );
-}
-
-export function TabPanel({
-  tabKey,
-  selectedKey,
-  children,
-  className,
-}: {
-  tabKey: string;
-  selectedKey: string;
-  children: ReactNode;
-  className?: string;
-}) {
-  if (tabKey !== selectedKey) return null;
-  return (
-    <div
-      id={`m3-tab-panel-${tabKey}`}
-      role="tabpanel"
-      aria-labelledby={`m3-tab-${tabKey}`}
-      tabIndex={0}
-      className={className}
-    >
-      {children}
+      {selectedItem?.content !== undefined && (
+        <div
+          id={`${idPrefix}-panel-${selectedItem.key}`}
+          role="tabpanel"
+          aria-labelledby={`${idPrefix}-tab-${selectedItem.key}`}
+          tabIndex={0}
+        >
+          {selectedItem.content}
+        </div>
+      )}
     </div>
   );
 }
