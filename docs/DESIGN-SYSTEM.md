@@ -302,3 +302,7 @@ The canonical detailed convention is M3-CONVENTIONS.md. For any new component or
 - Source-observed / runtime-verified / open: distinguish static code inspection from actual browser/device validation and unresolved assumptions.
 
 Do not call a component “Android-conformant” based only on a matching name, CSS appearance, token name or static test. Record the exact source, tested state and remaining limitations.
+
+## Shape and disabled-state provenance
+
+Use the semantic shape variables in globals.css for shared component geometry. Their current values are sourced from the version-pinned first-party Material Web system-shape tokens; they are CSS pixels, not Android dp equivalents. The global rounding-degree control is a separate Loculary-specific feature and remains to be implemented. Disabled opacity must be component- and state-specific; use the exact first-party token source recorded in M3-CONVENTIONS.md rather than a generic “12%/38% Material rule.”
