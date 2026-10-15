@@ -33,7 +33,7 @@
   border: 0;
   border-radius: 999px;
   background: transparent;
-  color: var(--lab-inverse-primary, var(--primary, #d0bcff));
+  color: var(--lab-inverse-primary, var(--inverse-primary, #d0bcff));
   font: inherit;
   font-size: .875rem;
   font-weight: 600;
