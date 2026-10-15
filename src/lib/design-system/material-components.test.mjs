@@ -14,6 +14,9 @@ const sliderCss = readFileSync(new URL("../../components/ui/slider.module.css", 
 const progressSource = readFileSync(new URL("../../components/ui/ProgressIndicator.tsx", import.meta.url), "utf8");
 const progressCss = readFileSync(new URL("../../components/ui/progress-indicator.module.css", import.meta.url), "utf8");
 const validationSource = readFileSync(new URL("../../components/ui/ValidationMessage.tsx", import.meta.url), "utf8");
+const textFieldSource = readFileSync(new URL("../../components/ui/TextField.tsx", import.meta.url), "utf8");
+const textAreaSource = readFileSync(new URL("../../components/ui/TextArea.tsx", import.meta.url), "utf8");
+const selectSource = readFileSync(new URL("../../components/ui/Select.tsx", import.meta.url), "utf8");
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
 
 function luminance(hex) {
@@ -305,4 +308,15 @@ test("static Design Lab validation example does not create an assertive live ale
   assert.match(validationSource, /role = "alert"/);
   assert.match(validationSource, /role \? \{ role \} : \{\}/);
   assert.match(labSource, /<ValidationMessage id="lab-shared-validation" role=\{null\}>/);
+});
+
+test("outlined form controls use per-part disabled roles instead of fading the whole component", () => {
+  for (const [name, source] of [["TextField", textFieldSource], ["TextArea", textAreaSource], ["Select", selectSource]]) {
+    assert.match(source, /on-surface\)_12%,transparent/);
+    assert.match(source, /on-surface\)_38%,transparent/);
+    assert.doesNotMatch(source, /disabled:opacity-60/);
+    assert.match(source, /disabled:border-/);
+    assert.match(source, /disabled:text-/);
+    assert.ok(source.includes("disabled ?"), `${name} label should reflect its disabled state`);
+  }
 });
