@@ -577,3 +577,8 @@ The audit scope is not limited to production call sites. The complete working co
 Official AndroidX source: https://developer.android.com/develop/ui/compose/components/fab and https://developer.android.com/reference/kotlin/androidx/compose/material3/FloatingActionButtonDefaults.
 
 Implemented a shared Web adaptation with small, regular, large and extended variants and integrated all four into the Lab. This is not native Compose. CSS pixel dimensions and shadows are not dp/elevation equivalents. Exact AndroidX state-dependent elevation, extended-FAB collapse/expand, official motion timing and runtime accessibility remain unverified. Status: partial parity; validate current-head CI and browser/device behavior.
+
+
+## Badge / BadgedBox — 2026-10-15
+
+Official source: https://developer.android.com/reference/kotlin/androidx/compose/material3/Badge and https://developer.android.com/develop/ui/compose/components?hl=en. Added shared Badge and BadgedBox Web adaptations and Lab specimens for a dot, count and anchored badge. The Lab notification icon now uses BadgedBox instead of a CSS-only dot. Exact offsets/dimensions, count overflow, role-specific colors and screen-reader behavior remain to be validated. Status: partial Web parity; CI/runtime checks pending.
