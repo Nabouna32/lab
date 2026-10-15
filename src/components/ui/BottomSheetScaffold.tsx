@@ -27,29 +27,38 @@ export function BottomSheetScaffold({
   className = "",
 }: BottomSheetScaffoldProps) {
   const startY = useRef<number | null>(null);
+  const dragOffsetRef = useRef(0);
+  const wasDragging = useRef(false);
   const [dragOffset, setDragOffset] = useState(0);
 
   function onPointerDown(event: PointerEvent<HTMLButtonElement>) {
     if (!event.isPrimary || event.button !== 0) return;
     startY.current = event.clientY;
+    dragOffsetRef.current = 0;
+    wasDragging.current = false;
     event.currentTarget.setPointerCapture(event.pointerId);
   }
 
   function onPointerMove(event: PointerEvent<HTMLButtonElement>) {
     if (startY.current === null) return;
-    setDragOffset(Math.max(-120, Math.min(120, event.clientY - startY.current)));
+    const next = Math.max(-120, Math.min(120, event.clientY - startY.current));
+    dragOffsetRef.current = next;
+    if (Math.abs(next) > 8) wasDragging.current = true;
+    setDragOffset(next);
   }
 
   function onPointerUp() {
     if (startY.current === null) return;
-    if (dragOffset < -40) onExpandedChange(true);
-    else if (dragOffset > 40) onExpandedChange(false);
+    if (dragOffsetRef.current < -40) onExpandedChange(true);
+    else if (dragOffsetRef.current > 40) onExpandedChange(false);
     startY.current = null;
+    dragOffsetRef.current = 0;
     setDragOffset(0);
   }
 
   function cancelDrag() {
     startY.current = null;
+    dragOffsetRef.current = 0;
     setDragOffset(0);
   }
 
@@ -63,7 +72,7 @@ export function BottomSheetScaffold({
           aria-expanded={expanded}
           aria-controls="m3-bottom-sheet-content"
           aria-label={expanded ? expandedLabel : collapsedLabel}
-          onClick={() => onExpandedChange(!expanded)}
+          onClick={() => { if (wasDragging.current) { wasDragging.current = false; return; } onExpandedChange(!expanded); }}
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
           onPointerUp={onPointerUp}
