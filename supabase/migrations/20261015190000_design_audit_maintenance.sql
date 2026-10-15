@@ -69,7 +69,7 @@ create table public.design_audit_verifications (
   created_at timestamptz not null default now(),
   constraint design_audit_verification_urls check (
     (reference_url is null or reference_url ~ '^https://')
-    and (pull_request_url is null or pull_request_url ~ '^https://github\\.com/')
+    and (pull_request_url is null or pull_request_url ~ '^https://github\.com/')
   )
 );
 
