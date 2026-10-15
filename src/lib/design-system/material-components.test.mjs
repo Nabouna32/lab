@@ -373,7 +373,10 @@ test("buttons use AndroidX M3 variant-specific disabled roles and icon-toggle se
   assert.match(buttonSource, /on-surface-variant\)_38%,transparent/);
   assert.match(buttonSource, /on-surface\)_12%,transparent/);
   assert.match(buttonSource, /outline-variant\)_10%,transparent/);
+  assert.match(buttonSource, /const elevated = .*on-surface\)_10%,transparent.*on-surface-variant\)_38%,transparent/);
+  assert.match(buttonSource, /const filledTonal = .*on-surface\)_12%,transparent.*on-surface\)_38%,transparent/);
   assert.match(iconButtonSource, /on-surface\)_10%,transparent/);
+  assert.match(iconButtonSource, /const filledTonal = .*on-surface\)_10%,transparent/);
   assert.match(iconButtonSource, /outline-variant\)_38%,transparent/);
   assert.match(iconButtonSource, /standard: "text-\[var\(--primary\)\]"/);
   assert.match(iconButtonSource, /"filled-tonal": "bg-\[var\(--secondary\)\] text-\[var\(--on-secondary\)\]"/);
