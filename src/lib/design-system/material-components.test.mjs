@@ -13,6 +13,7 @@ const sliderSource = readFileSync(new URL("../../components/ui/Slider.tsx", impo
 const sliderCss = readFileSync(new URL("../../components/ui/slider.module.css", import.meta.url), "utf8");
 const progressSource = readFileSync(new URL("../../components/ui/ProgressIndicator.tsx", import.meta.url), "utf8");
 const progressCss = readFileSync(new URL("../../components/ui/progress-indicator.module.css", import.meta.url), "utf8");
+const validationSource = readFileSync(new URL("../../components/ui/ValidationMessage.tsx", import.meta.url), "utf8");
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
 
 function luminance(hex) {
@@ -287,4 +288,18 @@ test("Section 03 dialog preview trigger uses the shared Material 3 outlined butt
   const labSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
   assert.match(labSource, /aria-labelledby="states-title"[\s\S]*?<Button type="button" variant="outlined" className=\{styles\.dialogPreviewTrigger\} onClick=\{\(\)=>setDialogOpen\(true\)\}>\{t\.confirm\} · dialog<\/Button>/);
   assert.match(labCss, /\.dialogPreviewTrigger\{flex-shrink:0;white-space:nowrap\}/);
+});
+
+test("Design Lab follows the resolved application theme instead of owning a second theme selector", () => {
+  assert.match(labSource, /import \{ useTheme \} from "@teispace\/next-themes"/);
+  assert.match(labSource, /const \{ resolvedTheme \} = useTheme\(\)/);
+  assert.match(labSource, /const theme: Theme = resolvedTheme === "dark" \? "dark" : "light"/);
+  assert.doesNotMatch(labSource, /setTheme\("light"\)|setTheme\("dark"\)/);
+});
+
+test("static Design Lab validation example does not create an assertive live alert", () => {
+  assert.match(validationSource, /role\?: "alert" \| "status" \| null/);
+  assert.match(validationSource, /role = "alert"/);
+  assert.match(validationSource, /role \? \{ role \} : \{\}/);
+  assert.match(labSource, /<ValidationMessage id="lab-shared-validation" role=\{null\}>/);
 });
