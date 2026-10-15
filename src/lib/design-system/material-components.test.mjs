@@ -7,7 +7,13 @@ const switchSource = readFileSync(new URL("../../components/ui/Switch.tsx", impo
 const iconSource = readFileSync(new URL("../../components/ui/MaterialIcon.tsx", import.meta.url), "utf8");
 const labSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
 const labCss = readFileSync(new URL("../../app/[locale]/design-lab/visual-lab.module.css", import.meta.url), "utf8");
+const labCss = readFileSync(new URL("../../app/[locale]/design-lab/visual-lab.module.css", import.meta.url), "utf8");
 const passwordSource = readFileSync(new URL("../../components/tools/password-generator/PasswordGenerator.tsx", import.meta.url), "utf8");
+const imageSource = readFileSync(new URL("../../components/tools/image-compressor/ImageCompressor.tsx", import.meta.url), "utf8");
+const sliderSource = readFileSync(new URL("../../components/ui/Slider.tsx", import.meta.url), "utf8");
+const sliderCss = readFileSync(new URL("../../components/ui/slider.module.css", import.meta.url), "utf8");
+const progressSource = readFileSync(new URL("../../components/ui/ProgressIndicator.tsx", import.meta.url), "utf8");
+const progressCss = readFileSync(new URL("../../components/ui/progress-indicator.module.css", import.meta.url), "utf8");
 const imageSource = readFileSync(new URL("../../components/tools/image-compressor/ImageCompressor.tsx", import.meta.url), "utf8");
 const sliderSource = readFileSync(new URL("../../components/ui/Slider.tsx", import.meta.url), "utf8");
 const sliderCss = readFileSync(new URL("../../components/ui/slider.module.css", import.meta.url), "utf8");
@@ -45,16 +51,22 @@ test("custom status foregrounds meet WCAG AA contrast on their light and dark co
 
 test("shared switch uses native checkbox semantics with the switch role and M3 semantic colors", () => {
   assert.match(switchSource, /role="switch"/);
-  assert.match(switchSource, /peer-checked:bg-\[var\(--primary\)\]/);
-  assert.match(switchSource, /peer-checked:after:bg-\[var\(--on-primary\)\]/);
+  assert.ok(switchSource.includes("peer-checked:bg-[var(--switch-active)]"));
+  assert.ok(switchSource.includes("peer-checked:after:bg-[var(--switch-on-thumb)]"));
+  assert.match(switchSource, /on-surface\) 12%/);
+  assert.match(switchSource, /on-surface\) 38%/);
+  assert.match(switchSource, /"--switch-active": "var\(--switch-disabled-track\)"/);
   assert.match(switchSource, /bg-\[var\(--surface-container-highest\)\]/);
   assert.match(switchSource, /peer-focus-visible:ring-2/);
   assert.doesNotMatch(switchSource, /#[0-9a-fA-F]{3,8}/);
 });
 
 test("shared checkbox uses M3 foreground/background roles and a visible keyboard focus", () => {
-  assert.match(checkboxSource, /peer-checked:bg-\[var\(--primary\)\]/);
-  assert.match(checkboxSource, /text-\[var\(--on-primary\)\]/);
+  assert.ok(checkboxSource.includes("peer-checked:bg-[var(--checkbox-active)]"));
+  assert.ok(checkboxSource.includes("text-[var(--checkbox-on-active)]"));
+  assert.match(checkboxSource, /on-surface\) 12%/);
+  assert.match(checkboxSource, /on-surface\) 38%/);
+  assert.match(checkboxSource, /"--checkbox-active": "var\(--checkbox-disabled-active\)"/);
   assert.match(checkboxSource, /peer-focus-visible:ring-2/);
   assert.doesNotMatch(checkboxSource, /accent-\[#/);
 });
@@ -111,9 +123,27 @@ test("common navigation and identity icons use the shared Material Symbols compo
 
 test("real tools and the Lab use shared checkbox, switch, slider and progress primitives", () => {
   assert.match(labSource, /import \{ Switch \} from "@\/components\/ui\/Switch"/);
-  assert.match(labSource, /<Switch /);\n  assert.match(labSource, /<Checkbox/);\n  assert.match(labSource, /<Slider/);\n  assert.match(labSource, /<ProgressIndicator/);\n  assert.match(labSource, /lab-disabled-checkbox/);\n  assert.match(labSource, /lab-disabled-switch/);\n  assert.match(labSource, /lab-disabled-slider/);\n  assert.doesNotMatch(labSource, /type="checkbox"/);\n  assert.doesNotMatch(labSource, /type="range"/);
+  assert.match(labSource, /<Switch /);
+  assert.match(labSource, /<Checkbox/);
+  assert.match(labSource, /<Slider/);
+  assert.match(labSource, /<ProgressIndicator/);
+  assert.match(labSource, /lab-disabled-checkbox/);
+  assert.match(labSource, /lab-disabled-switch/);
+  assert.match(labSource, /lab-disabled-slider/);
+  assert.doesNotMatch(labSource, /type="checkbox"/);
+  assert.doesNotMatch(labSource, /type="range"/);
+  assert.match(labSource, /<Checkbox/);\n  assert.match(labSource, /<Slider/);\n  assert.match(labSource, /<ProgressIndicator/);\n  assert.match(labSource, /lab-disabled-checkbox/);\n  assert.match(labSource, /lab-disabled-switch/);\n  assert.match(labSource, /lab-disabled-slider/);\n  assert.doesNotMatch(labSource, /type="checkbox"/);\n  assert.doesNotMatch(labSource, /type="range"/);
   assert.match(passwordSource, /import \{ Checkbox \} from "@\/components\/ui\/Checkbox"/);
-  assert.match(passwordSource, /<Checkbox/);\n  assert.match(passwordSource, /import \\{ Slider \\} from "@\\/components\\/ui\\/Slider"/);\n  assert.match(passwordSource, /<Slider/);\n  assert.doesNotMatch(passwordSource, /type="checkbox"/);\n  assert.doesNotMatch(passwordSource, /type="range"/);\n  assert.match(imageSource, /<Slider/);\n  assert.match(imageSource, /<ProgressIndicator/);\n  assert.doesNotMatch(imageSource, /type="range"/);
+  assert.match(passwordSource, /<Checkbox/);
+  assert.match(passwordSource, /import \{ Slider \} from "@\/components\/ui\/Slider"/);
+  assert.match(passwordSource, /<Slider/);
+  assert.doesNotMatch(passwordSource, /type="checkbox"/);
+  assert.doesNotMatch(passwordSource, /type="range"/);
+  assert.match(imageSource, /import \{ Slider \} from "@\/components\/ui\/Slider"/);
+  assert.match(imageSource, /import \{ ProgressIndicator \} from "@\/components\/ui\/ProgressIndicator"/);
+  assert.match(imageSource, /<Slider/);
+  assert.match(imageSource, /<ProgressIndicator/);
+  assert.doesNotMatch(imageSource, /type="range"/);\n  assert.match(passwordSource, /import \\{ Slider \\} from "@\\/components\\/ui\\/Slider"/);\n  assert.match(passwordSource, /<Slider/);\n  assert.doesNotMatch(passwordSource, /type="checkbox"/);\n  assert.doesNotMatch(passwordSource, /type="range"/);\n  assert.match(imageSource, /<Slider/);\n  assert.match(imageSource, /<ProgressIndicator/);\n  assert.doesNotMatch(imageSource, /type="range"/);
 });
 
 test("standard functional UI surfaces do not reintroduce one-off inline SVG icons", () => {
