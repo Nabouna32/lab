@@ -10,6 +10,7 @@ type CheckboxStyle = CSSProperties & {
   "--checkbox-focus-offset"?: string;
   "--checkbox-label-color"?: string;
   "--checkbox-disabled-active"?: string;
+  "--checkbox-border-width"?: string;
   "--checkbox-disabled-outline"?: string;
   "--checkbox-disabled-icon"?: string;
   "--checkbox-disabled-label"?: string;
@@ -45,9 +46,10 @@ export function Checkbox({
     "--checkbox-focus-ring": "var(--focus-ring)",
     "--checkbox-focus-offset": "var(--surface)",
     "--checkbox-label-color": "var(--foreground)",
-    "--checkbox-disabled-active": "color-mix(in srgb, var(--on-surface) 12%, transparent)",
+    "--checkbox-disabled-active": "color-mix(in srgb, var(--on-surface) 38%, transparent)",
+    "--checkbox-border-width": "1px",
     "--checkbox-disabled-outline": "color-mix(in srgb, var(--on-surface) 38%, transparent)",
-    "--checkbox-disabled-icon": "color-mix(in srgb, var(--on-surface) 38%, transparent)",
+    "--checkbox-disabled-icon": "color-mix(in srgb, var(--surface) 38%, transparent)",
     "--checkbox-disabled-label": "color-mix(in srgb, var(--on-surface) 38%, transparent)",
     ...style,
     ...(disabled ? {
@@ -55,6 +57,7 @@ export function Checkbox({
       "--checkbox-on-active": "var(--checkbox-disabled-icon)",
       "--checkbox-outline": "var(--checkbox-disabled-outline)",
       "--checkbox-label-color": "var(--checkbox-disabled-label)",
+      "--checkbox-border-width": checked ? "0px" : "2px",
     } : {}),
   };
 
