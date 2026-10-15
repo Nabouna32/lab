@@ -855,3 +855,11 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - Added shared `TimePickerDialog` Web adaptation with draft time, confirm/cancel, Escape dismissal and focus containment/restore; integrated into the Lab.
 - Official source: https://developer.android.com/reference/kotlin/androidx/compose/material3/TimePickerDialog.composable.
 - **Not complete:** exact dialog shape/dimensions, state/motion, 12/24-hour locale, native back handling and screen-reader parity remain to validate.
+
+
+## Continuation update — SegmentedButton rows (2026-10-15)
+
+- Added shared `SegmentedButtonGroup` adaptation for single- and multi-choice rows with selected/disabled states, joined shapes, keyboard navigation and reduced-motion fallback.
+- Integrated both official row families in the Lab.
+- Official sources: AndroidX SegmentedButton and SingleChoiceSegmentedButtonRow API references.
+- **Not complete:** exact AndroidX shape/spacing, icon variants, RTL and assistive-technology parity remain to validate.
