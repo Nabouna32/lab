@@ -283,3 +283,6 @@
 
 /* Section 03 preview trigger uses the shared M3 outlined button shape and roles. */
 .dialogPreviewTrigger{flex-shrink:0;white-space:nowrap}
+
+.roundingControl{max-width:38rem;margin-top:1rem;padding:1rem;border:1px solid var(--lab-outline);border-radius:var(--shape-corner-medium);background:var(--lab-surface)}
+.roundingControl .helper{margin:.25rem 0 0}
