@@ -52,7 +52,7 @@ The list below is deliberately broader than the current production call sites. C
 | Time picker / time input | Shared TimePicker adaptation; dial and native input wrapper in Lab | Verify AndroidX version availability (TimeInput is experimental in current docs), exact dial geometry, keyboard and dialog integration |
 | Search: SearchBar, expanded docked/full-screen patterns | Shared SearchBar Web adaptation; docked suggestions and full-screen specimens in Lab | Audit current SearchBarState API/version, full-screen insets/transition, focus management and semantics |
 | TextField / OutlinedTextField / SecureTextField / OutlinedSecureTextField | Shared MaterialTextField Web adaptation; filled, outlined, error, counter and secure specimens in Lab | Audit floating-label/outline geometry, text scaling, IME/autofill, context-menu protection and accessibility |
-| Swipe-to-dismiss box | Missing | Implement gesture, dismissal state, accessibility alternative and reduced-motion behavior |
+| SwipeToDismissBox | Shared Web adaptation with horizontal swipe and explicit accessible dismiss action | Verify gesture thresholds/directions, RTL, nested scrolling, exact motion and screen-reader parity |
 | Surface / Text / layout and theming APIs | Tokens and several primitives exist | Audit tonal/shadow elevation, semantic colors, typography roles and composition behavior; these are foundations, not gallery-only widgets |
 | Pull-to-refresh / adaptive navigation suite APIs, where supported by selected AndroidX version | Not inventoried at component level yet | Pin the AndroidX version and determine current official API availability before adding |
 
@@ -153,3 +153,10 @@ For each component/variant, record:
 - **Lab:** replaced the local menu mockup with shared `DropdownMenu` / item adaptations supporting outside dismissal, Escape, ArrowUp/Down, Home/End, disabled entries, separators, leading icons, selected/checkable items and focus restoration after selection.
 - **Newer API caveat:** current AndroidX API reference also lists `SelectableDropdownMenuItem` and `CheckableDropdownMenuItem`, introduced in 1.5.0 beta; verify the pinned version before using those APIs.
 - **Not yet verified:** exact popup positioning, edge collision, native window behavior, scroll/insets, typeahead, screen-reader announcements, RTL and browser/device parity.
+
+
+## SwipeToDismissBox — 2026-10-15
+
+- **Official source:** https://developer.android.com/reference/kotlin/androidx/compose/material3/SwipeToDismissBox.composable
+- **Lab:** shared `SwipeToDismissBox` adaptation supports horizontal pointer gestures, direction configuration, threshold-based dismissal, reduced-motion CSS, and a visible keyboard-accessible dismiss button.
+- **Not yet verified:** AndroidX state/confirm behavior, nested scroll and pointer-cancel interactions, RTL direction, exact background/animation, screen-reader action semantics and browser/device gesture behavior.
