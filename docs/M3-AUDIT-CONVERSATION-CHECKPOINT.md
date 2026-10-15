@@ -13,8 +13,8 @@
 - Default seed is `#4285F4`; use official Material Color Utilities **Fidelity** for seed-derived semantic roles. Use official MCU **Rainbow** only for deliberate category identity accents, not as a parallel semantic theme or decoration on general surfaces.
 - **Roboto** is the validated default interface typeface.
 - Do not use M3 Expressive as the chosen direction. Pixel-like does not mean making every surface blue: preserve tonal hierarchy, neutral surfaces and semantic roles.
-- Build components when a real Loculary flow needs them; do not implement the entire M3 catalogue just because it exists.
-- Work in small, reviewable slices. For each component, document the official source, what is actually verified, the Loculary web adaptation, any deliberate deviation, and acceptance tests. Challenge assumptions rather than silently approving them.
+- Maintain an exhaustive, source-verified catalogue of relevant official M3 components, variants, patterns and API concepts, with explicit classification; catalogue completeness does not require implementing every entry in production.
+- Audit the actual Loculary UI against the full catalogue and map every implementation to its M3 equivalent or a rare, justified exception. Broad refactors, renames, replacements and deletions are encouraged when warranted; reviewable phases are a verification technique, not a restriction against a complete rewrite. Record official sources, verified findings, web adaptations, deviations and acceptance checks.
 
 ## 2. Design Lab theme and controls
 
