@@ -216,6 +216,8 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const [sampleVerticalToolbarExpanded,setSampleVerticalToolbarExpanded]=useState(false);
   const [sampleRailSelection,setSampleRailSelection]=useState<"home"|"explore"|"saved">("home");
   const [sampleDrawerOpen,setSampleDrawerOpen]=useState(false);
+  const [sampleDismissibleDrawerOpen,setSampleDismissibleDrawerOpen]=useState(false);
+  const [samplePermanentDrawerSelection,setSamplePermanentDrawerSelection]=useState("home");
   const [sampleDrawerSelection,setSampleDrawerSelection]=useState<"home"|"explore"|"saved"|"settings">("home");
   const [sampleRadio,setSampleRadio]=useState("all");
   const [sampleLayout,setSampleLayout]=useState("all");
@@ -564,7 +566,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
           </div>
           <div className={styles.drawerSpecimen}>
             <h4>{locale==="fr"?"Panneau de navigation":"Navigation drawer"}</h4>
-            <ComponentIdentifier names={["NavigationDrawer","ModalNavigationDrawer (Web adaptation)"]} kind="adaptation" locale={locale}/>
+            <ComponentIdentifier names={["NavigationDrawer","ModalNavigationDrawer"]} kind="adaptation" locale={locale}/>
             <p className={styles.helper}>{locale==="fr"?"Le panneau modal gère le scrim, Échap et le confinement du focus.":"Modal drawer supports scrim, Escape and focus containment."}</p>
             <Button variant="outlined" onClick={()=>setSampleDrawerOpen(true)}>{locale==="fr"?"Ouvrir le panneau":"Open drawer"}</Button>
             <NavigationDrawer open={sampleDrawerOpen} onOpenChange={setSampleDrawerOpen}
@@ -644,6 +646,13 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
       <div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>13 / {locale==="fr"?"Actualisation":"Refresh interaction"}</span><h2 id="pull-to-refresh-title">{locale==="fr"?"Tirer pour actualiser":"Pull to refresh"}</h2><p>{locale==="fr"?"Geste de tirage, état d’actualisation et action de remplacement accessible. Le comportement de défilement natif doit être vérifié sur appareil.":"Pull gesture, refresh state and an accessible alternative action. Native scrolling behavior must be tested on device."}</p></div></div>
       <div className={styles.galleryGrid}>
         <article className={styles.galleryCard}><h3>{locale==="fr"?"PullToRefreshBox":"PullToRefreshBox"}</h3><ComponentIdentifier names={["PullToRefreshBox"]} kind="adaptation" locale={locale}/><PullToRefreshBox isRefreshing={sampleRefreshing} onRefresh={()=>{setSampleRefreshCount((count)=>count+1);setSampleRefreshing(true);}} refreshLabel={locale==="fr"?"Actualisation…":"Refreshing…"} refreshNowLabel={locale==="fr"?"Actualiser maintenant":"Refresh now"}><div><strong>{locale==="fr"?"Éléments récents":"Recent items"}</strong><p>{locale==="fr"?"Tirez vers le bas dans cette zone ou utilisez le bouton d’actualisation.":"Pull down in this area or use the refresh button."}</p><p>{locale==="fr"?"Actualisations déclenchées : ":"Refreshes triggered: "}{sampleRefreshCount}</p><p>{locale==="fr"?"Ligne de contenu 1 · Ligne de contenu 2 · Ligne de contenu 3":"Content row 1 · Content row 2 · Content row 3"}</p></div></PullToRefreshBox><Button variant="outlined" disabled={!sampleRefreshing} onClick={()=>setSampleRefreshing(false)}>{locale==="fr"?"Terminer l’actualisation de démonstration":"Finish demo refresh"}</Button></article>
+      </div>
+    </section>
+    <section className={styles.gallerySection} aria-labelledby="navigation-drawer-variants-title">
+      <div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>17 / {locale==="fr"?"Variantes du tiroir":"Drawer variants"}</span><h2 id="navigation-drawer-variants-title">{locale==="fr"?"Tiroirs de navigation":"Navigation drawers"}</h2><p>{locale==="fr"?"Variantes repliable dans la mise en page et permanente, distinctes du tiroir modal.":"Dismissible in-layout and permanent variants, distinct from the modal drawer."}</p></div></div>
+      <div className={styles.galleryGrid}>
+        <article className={styles.galleryCard}><h3>{locale==="fr"?"DismissibleNavigationDrawer":"DismissibleNavigationDrawer"}</h3><ComponentIdentifier names={["DismissibleNavigationDrawer"]} kind="adaptation" locale={locale}/><NavigationDrawer open={sampleDismissibleDrawerOpen} onOpenChange={setSampleDismissibleDrawerOpen} mode="dismissible" label={locale==="fr"?"Navigation repliable":"Dismissible navigation"} title={locale==="fr"?"Loculary":"Loculary"} dismissLabel={locale==="fr"?"Fermer la navigation":"Close navigation"} selectedKey={sampleDrawerSelection} onSelect={setSampleDrawerSelection} items={[{key:"home",label:locale==="fr"?"Accueil":"Home",icon:"home"},{key:"explore",label:locale==="fr"?"Explorer":"Explore",icon:"search"},{key:"saved",label:locale==="fr"?"Favoris":"Saved",icon:"favorite"}]} content={<div><p>{locale==="fr"?"Le tiroir repliable partage l’espace avec le contenu.":"The dismissible drawer shares layout space with content."}</p><Button variant="outlined" onClick={()=>setSampleDismissibleDrawerOpen(true)}>{locale==="fr"?"Ouvrir le tiroir":"Open drawer"}</Button></div>}/></article>
+        <article className={styles.galleryCard}><h3>{locale==="fr"?"PermanentNavigationDrawer":"PermanentNavigationDrawer"}</h3><ComponentIdentifier names={["PermanentNavigationDrawer"]} kind="adaptation" locale={locale}/><NavigationDrawer open={true} onOpenChange={()=>{}} mode="permanent" label={locale==="fr"?"Navigation permanente":"Permanent navigation"} title={locale==="fr"?"Loculary":"Loculary"} selectedKey={samplePermanentDrawerSelection} onSelect={setSamplePermanentDrawerSelection} items={[{key:"home",label:locale==="fr"?"Accueil":"Home",icon:"home"},{key:"explore",label:locale==="fr"?"Explorer":"Explore",icon:"search"},{key:"saved",label:locale==="fr"?"Favoris":"Saved",icon:"favorite"}]}/></article>
       </div>
     </section>
     <section className={styles.gallerySection} aria-labelledby="wide-navigation-rail-title">
