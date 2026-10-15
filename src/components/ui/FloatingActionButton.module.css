@@ -1,0 +1,20 @@
+.fab {
+  display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+  box-sizing: border-box; flex: 0 0 auto; border: 0;
+  color: var(--lab-on-primary-container, var(--on-primary-container, var(--lab-text, currentColor)));
+  background: var(--lab-primary-soft, var(--primary-container, var(--lab-surface-container, Canvas)));
+  box-shadow: 0 3px 5px rgb(0 0 0 / 18%), 0 1px 2px rgb(0 0 0 / 14%);
+  cursor: pointer; font: inherit; font-weight: 500;
+  transition: box-shadow 180ms cubic-bezier(.2, 0, 0, 1), background-color 180ms cubic-bezier(.2, 0, 0, 1), border-radius 180ms cubic-bezier(.2, 0, 0, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+.fab svg { display: block; flex: 0 0 auto; }
+.small { width: 40px; height: 40px; border-radius: var(--shape-corner-medium, 12px); }
+.default { width: 56px; height: 56px; border-radius: var(--shape-corner-large, 16px); }
+.large { width: 96px; height: 96px; border-radius: var(--shape-corner-extra-large, 28px); }
+.extended { min-height: 56px; padding: 0 20px; border-radius: var(--shape-corner-large, 16px); }
+.fab:hover { box-shadow: 0 4px 8px rgb(0 0 0 / 20%), 0 2px 4px rgb(0 0 0 / 14%); }
+.fab:active { box-shadow: 0 2px 4px rgb(0 0 0 / 18%); }
+.fab:focus-visible { outline: 2px solid var(--lab-primary, var(--focus-ring, currentColor)); outline-offset: 3px; }
+.fab:disabled { box-shadow: none; color: color-mix(in srgb, var(--lab-text, currentColor) 38%, transparent); background: color-mix(in srgb, var(--lab-text, currentColor) 12%, transparent); cursor: not-allowed; }
+@media (prefers-reduced-motion: reduce) { .fab { transition: none; } }
