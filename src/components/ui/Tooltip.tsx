@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, type ReactNode } from "react";
+import { cloneElement, isValidElement, useEffect, useId, useRef, useState, type ReactElement, type ReactNode } from "react";
 import styles from "./Tooltip.module.css";
 
 type TooltipProps = {
@@ -20,7 +20,7 @@ export function Tooltip({
   const id = useId();
   const [open, setOpen] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const pointerDown = useRef<number | null>(null);
+
 
   const clearTimer = () => {
     if (timer.current !== null) clearTimeout(timer.current);
@@ -41,14 +41,13 @@ export function Tooltip({
     }}
     onPointerDown={(event) => {
       if (event.pointerType === "touch") {
-        pointerDown.current = event.pointerId;
         showAfterDelay();
       }
     }}
-    onPointerUp={() => { pointerDown.current = null; }}
+    onPointerUp={(event) => { if (event.pointerType === "touch" && !open) clearTimer(); }}
     onPointerCancel={hide}
     onKeyDown={(event) => { if (event.key === "Escape") hide(); }}>
-    <span aria-describedby={open ? id : undefined} className={styles.anchor}>{children}</span>
+    <span className={styles.anchor}>{isValidElement(children) ? cloneElement(children as ReactElement<{ "aria-describedby"?: string }>, { "aria-describedby": [children.props["aria-describedby"], open ? id : undefined].filter(Boolean).join(" ") || undefined }) : children}</span>
     {open && <span id={id} role="tooltip" className={[styles.tooltip, styles[variant], styles[placement]].join(" ")} data-open="true">
       {title && <strong className={styles.title}>{title}</strong>}
       <span>{content}</span>
