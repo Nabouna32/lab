@@ -774,3 +774,13 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - Integrated the specimen next to the existing Slider and updated the component inventory.
 - Official source: https://developer.android.com/reference/kotlin/androidx/compose/material3/RangeSlider.composable.
 - **Not complete:** overlapping-thumb pointer interaction, exact AndroidX track/thumb/ticks/value bubble, RTL, screen-reader announcements and browser/device behavior require runtime validation.
+
+
+## Continuation update — ToggleButton / SplitButtonLayout (2026-10-15)
+
+- Added `ToggleButton` Web adaptation with filled, tonal, outlined and elevated variants plus five size options, selected state, icon slot and reduced-motion CSS.
+- Added `SplitButton` Web adaptation with a primary action, trailing secondary-action menu, Escape dismissal and keyboard entry into the menu.
+- Integrated both families into the Lab and added identifier tests.
+- Official sources: https://developer.android.com/reference/kotlin/androidx/compose/material3/ToggleButton.composable and https://developer.android.com/reference/kotlin/androidx/compose/material3/SplitButtonLayout.composable.
+- **Version caveat:** SplitButtonLayout is listed as added in Material3 1.5.0-alpha29. Check the exact pinned AndroidX version; the web menu is illustrative and not part of the layout API.
+- **Not complete:** exact morphing/size/elevation parity, focus restoration, menu dismissal, screen-reader behavior, RTL and browser/device tests remain.
