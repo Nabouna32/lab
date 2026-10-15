@@ -704,3 +704,10 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - Official source: https://developer.android.com/develop/ui/compose/components/chip. Added shared Chip Web adaptation for Assist, ElevatedAssist, Filter, ElevatedFilter, Input, Suggestion and ElevatedSuggestion; replaced the local filter/suggestion pill mockups with official variant names and shared behavior.
 - Updated canonical conventions, conformance audit and inventory. Remaining: exact dimensions/state tokens, disabled and focus states, touch target, input removal semantics and animation timing.
 - Current-head CI remains unconfirmed. Next official families: radio button/group and then date/time pickers and search.
+
+
+## Checkpoint — RadioButton (2026-10-15)
+
+- Official source: AndroidX Material 3 RadioButton API reference and radio-button component guide. Added shared RadioButton adaptation and replaced the Lab's native-radio-only mockup with the shared component in a mutually exclusive group.
+- Updated canonical conventions, conformance audit and inventory. Native input preserves browser group keyboard behavior; exact AndroidX state animation, touch target and assistive-technology behavior remain to verify.
+- Current-head CI remains unconfirmed. Next: inspect latest source and implement date picker/time picker and search families, then revisit the outstanding component variants and motion audits.
