@@ -28,6 +28,7 @@ import { ToggleButton } from "@/components/ui/ToggleButton";
 import { SplitButton } from "@/components/ui/SplitButton";
 import { MaterialTextField } from "@/components/ui/MaterialTextField";
 import { DropdownMenu } from "@/components/ui/DropdownMenu";
+import { SwipeToDismissBox } from "@/components/ui/SwipeToDismissBox";
 import { Select } from "@/components/ui/Select";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
@@ -190,6 +191,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const [sampleToggleElevated,setSampleToggleElevated]=useState(false);
   const [sampleM3Email,setSampleM3Email]=useState("bonjour@loculary.com");
   const [sampleM3Password,setSampleM3Password]=useState("loculary-demo");
+  const [sampleDismissed,setSampleDismissed]=useState(false);
   const [sampleRailSelection,setSampleRailSelection]=useState<"home"|"explore"|"saved">("home");
   const [sampleDrawerOpen,setSampleDrawerOpen]=useState(false);
   const [sampleDrawerSelection,setSampleDrawerSelection]=useState<"home"|"explore"|"saved"|"settings">("home");
@@ -603,6 +605,12 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
         <article className={styles.galleryCard}><h3>{locale==="fr"?"TextField rempli":"Filled TextField"}</h3><ComponentIdentifier names={["TextField"]} kind="adaptation" locale={locale}/><MaterialTextField id="lab-m3-filled-text-field" label={locale==="fr"?"Adresse e-mail":"Email address"} value={sampleM3Email} onChange={setSampleM3Email} variant="filled" type="email" supportingText={locale==="fr"?"Utilisée uniquement dans cette démonstration.":"Used only in this demo."} maxLength={64} showCharacterCount/></article>
         <article className={styles.galleryCard}><h3>{locale==="fr"?"OutlinedTextField avec erreur":"OutlinedTextField with error"}</h3><ComponentIdentifier names={["OutlinedTextField"]} kind="adaptation" locale={locale}/><MaterialTextField id="lab-m3-outlined-text-field" label={locale==="fr"?"Nom d’utilisateur":"Username"} value={sampleM3Email} onChange={setSampleM3Email} variant="outlined" error={sampleM3Email.includes("@")?(locale==="fr"?"Saisissez un nom, pas une adresse e-mail.":"Enter a username, not an email address."):undefined} supportingText={locale==="fr"?"Exemple de validation dynamique.":"Dynamic validation example."}/></article>
         <article className={styles.galleryCard}><h3>{locale==="fr"?"SecureTextField":"SecureTextField"}</h3><ComponentIdentifier names={["SecureTextField","OutlinedSecureTextField"]} kind="adaptation" locale={locale}/><MaterialTextField id="lab-m3-secure-filled" label={locale==="fr"?"Mot de passe":"Password"} value={sampleM3Password} onChange={setSampleM3Password} variant="filled" secure supportingText={locale==="fr"?"Champ de démonstration uniquement ; ne saisissez aucun vrai mot de passe.":"Demo field only; do not enter a real password."}/><MaterialTextField id="lab-m3-secure-outlined" label={locale==="fr"?"Confirmer le mot de passe":"Confirm password"} value={sampleM3Password} onChange={setSampleM3Password} variant="outlined" secure/></article>
+      </div>
+    </section>
+    <section className={styles.gallerySection} aria-labelledby="gesture-components-title">
+      <div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>11 / {locale==="fr"?"Gestes et interaction":"Gestures & interaction"}</span><h2 id="gesture-components-title">{locale==="fr"?"Balayage pour ignorer":"Swipe to dismiss"}</h2><p>{locale==="fr"?"Le geste horizontal est accompagné d’une action accessible au clavier, car le balayage ne doit jamais être le seul moyen d’effectuer l’action.":"Horizontal swipe is paired with a keyboard-accessible action, because swiping must not be the only way to perform the action."}</p></div></div>
+      <div className={styles.galleryGrid}>
+        <article className={styles.galleryCard}><h3>{locale==="fr"?"SwipeToDismissBox":"SwipeToDismissBox"}</h3><ComponentIdentifier names={["SwipeToDismissBox"]} kind="adaptation" locale={locale}/>{sampleDismissed?<div className={styles.helper}>{locale==="fr"?"Élément ignoré.":"Item dismissed."}<Button variant="outlined" onClick={()=>setSampleDismissed(false)}>{locale==="fr"?"Rétablir":"Restore"}</Button></div>:<SwipeToDismissBox dismissLabel={locale==="fr"?"Ignorer la notification":"Dismiss notification"} onDismiss={()=>setSampleDismissed(true)}><div><strong>{locale==="fr"?"Nouvelle mise à jour disponible":"New update available"}</strong><p>{locale==="fr"?"Balayez ou utilisez le bouton × pour ignorer cet élément.":"Swipe or use the × button to dismiss this item."}</p></div></SwipeToDismissBox>}</article>
       </div>
     </section>
     <section className={styles.gallerySection} aria-labelledby="shared-components-title">
