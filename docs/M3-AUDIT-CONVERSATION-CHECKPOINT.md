@@ -621,3 +621,10 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - Added source-backed entries to canonical conventions and conformance audit. Known gaps include exact AndroidX motion/stroke parity, a dedicated indeterminate specimen, pinned source version and runtime/assistive-technology validation.
 - Validation: a CI run passed on commit `5e7cfdfc92fb29bd3f27a485416c4a23c896949a`, but it predates the component commits in this checkpoint. A fresh run is required for the current head.
 - Next: inspect current-head CI logs, fix all failures, then continue a full inventory against the official AndroidX component catalogue. Do not stop at the currently visible subset; include all relevant Material 3 component families and variants in the Lab.
+
+
+### Circular progress specimen follow-up — 2026-10-15
+
+- The Lab now displays both modes of `CircularProgressIndicator`: a determinate indicator driven by the shared sample slider and an indeterminate indicator without a fabricated percentage.
+- Reduced-motion fallback stops the continuous animation and leaves a static arc. This is an accessibility adaptation; visual comparison against the target AndroidX version remains required.
+- Canonical docs already record the AndroidX reference, Web API unit differences, animation gaps and validation requirements.
