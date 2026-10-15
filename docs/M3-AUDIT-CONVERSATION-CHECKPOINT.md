@@ -201,3 +201,18 @@ The user requested that PR #723's changes be brought into PR #729 without mergin
 - GitHub Actions CI run [#2268](https://github.com/Nabouna32/lab/actions/runs/38692392905) was still in progress at the latest check. Do not claim typecheck/tests/build passed until the run completes and its conclusions are inspected.
 - GitHub's mergeability signal for PR #729 fluctuated during successive updates, so do not rely on a stale snapshot as proof of readiness or of a specific conflict. The user explicitly asked to leave it unmerged. Wait for CI and review the current base/head diff before any future merge; never force-update to bypass conflicts.
 - No browser-level validation has been performed in this workflow. Continue to treat Chromium, Firefox, mobile touch, keyboard/focus, assistive technology, light/dark and responsive checks as outstanding.
+## Update — audit continuation and PR lifecycle (2026-10-15)
+
+### Pull requests
+- PR #723 is now closed without merging because its implementation was ported into PR #729. Link: https://github.com/Nabouna32/lab/pull/723.
+- PR #729 remains open and unmerged by explicit user instruction. Continue the audit and fixes on docs/m3-audit-conversation-checkpoint; do not merge until the user asks after audit completion.
+- Closing #723 does not mean its implementation is approved or verified; the port still needs CI and browser validation.
+
+### Confirmed new source observations and changes
+- VisualLab.tsx had a local useState("light") and its own Light/Dark selector. The source was changed to read resolvedTheme from @teispace/next-themes and the local selector was removed. This aligns with the product decision that the Lab follows the app's global theme. Runtime/typecheck/build verification is still open.
+- CI run 38692497438 failed in src/lib/design-system/material-components.test.mjs with duplicate top-level const labCss declaration. The test file also repeated declarations for image source, slider source/CSS and progress source/CSS. Duplicate declarations were removed in commit 3ba963371a9e287b82079d90aefa68689ddffdab. Wait for a new CI run and inspect the exact failure/result; do not claim success yet.
+- Source review found a cross-browser focus-token inconsistency in slider.module.css: WebKit uses --slider-focus-ring with fallback, while Firefox's ::-moz-range-thumb uses --focus-ring directly. This should be corrected in the next implementation slice.
+- The disabled 12%/38% values are documented as first-party Material Web token values, not as universal Android rules. The 48 CSS-pixel slider height is a Loculary web decision, not an Android dp equivalence.
+
+### Evidence discipline — mandatory
+Every new convention/audit finding must state whether it is [ANDROID-M3], [MATERIAL-WEB], [WEB-STANDARD], [LOCULARY-DECISION], [SOURCE-OBSERVED], [RUNTIME-VERIFIED] or [OPEN]. Link the official source and only claim what it explicitly supports. A static source assertion or successful CI does not prove rendered M3 fidelity. The evidence-label definitions and slider/progress distinctions are in M3-CONVENTIONS.md.
