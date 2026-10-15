@@ -73,12 +73,15 @@ References: [Android accessibility defaults](https://developer.android.com/devel
 
 ### Buttons and icon buttons
 
-- Map intent to one canonical visual variant: filled, elevated, filled-tonal, outlined or text.
-- Keep legacy aliases only as documented compatibility mappings; do not treat app-specific names such as `danger`, `secondary` or `ghost` as official M3 variant names.
-- Use actual buttons for actions and links for navigation. Icon-only buttons require an accessible name. Toggle icon buttons expose selected state; momentary actions must not pretend to be toggles.
-- Verify hover, focus-visible, pressed, selected, disabled and loading states. Avoid whole-element brightness/opacity filters that dim foreground content together with the background.
-
-Reference: [Material 3 buttons](https://developer.android.com/develop/ui/compose/components/button), [Icon buttons](https://developer.android.com/develop/ui/compose/components/icon-button). The current pinned AndroidX token sources for variant-specific disabled/selected roles are listed in section 12. When AndroidX and Material Web values differ, follow AndroidX for Android-M3 component roles and document any CSS/web adaptation separately.
+- Treat Button as a web adaptation of the canonical Material 3 filled, elevated, filled-tonal, outlined and text button variants; do not describe it as native AndroidX.
+- Keep the pressed shape stable for the selected Material 3 Fidelity direction. Do not introduce Expressive shape morphing without a separately approved design decision.
+- Standard buttons keep labels on one line by default. Use the explicit multiline prop only when a constrained layout genuinely needs wrapping or intentional line breaks; callers should provide a meaningful width constraint.
+- Keep leading/trailing icons aligned with the label using the shared flex layout and spacing. Test long French/English labels, constrained widths, explicit breaks and flex groups in the real component preview.
+- Use AndroidX geometry as a reference while documenting CSS pixels as web values, not dp conversions. Current baseline: 40px minimum height, 58px minimum width, 24px horizontal padding for standard variants and 12px for text buttons.
+- Disabled controls use Material semantic roles: container/border at approximately 12% on-surface, content at approximately 38% on-surface; elevated buttons lose elevation. Validate resolved colors in both themes.
+- The visible keyboard focus ring is a web accessibility adaptation, not a claim of pixel-identical Compose focus behavior. Test actual keyboard focus and reduced-motion settings.
+- danger is a Loculary semantic extension, not an official M3 variant. primary, tonal, secondary and ghost are compatibility aliases; keep them until call-site migration is explicitly audited.
+- A component is not marked conformant based on source inspection or static string tests alone. Record source review, automated checks and browser verification separately.
 
 ### Checkbox, switch and mutually exclusive selection
 

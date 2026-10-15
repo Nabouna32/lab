@@ -93,6 +93,13 @@ export default function ComponentLivePreview({
   const [searchSubmitted, setSearchSubmitted] = useState("");
   const [dateValue, setDateValue] = useState("");
   const [splitResult, setSplitResult] = useState(fr ? "Aucune action" : "No action");
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [buttonLongLabel, setButtonLongLabel] = useState(false);
+  const [buttonLeadingIcon, setButtonLeadingIcon] = useState(true);
+  const [buttonTrailingArrow, setButtonTrailingArrow] = useState(false);
+  const [buttonNarrow, setButtonNarrow] = useState(false);
+  const [buttonMultiline, setButtonMultiline] = useState(false);
+  const [buttonManualBreak, setButtonManualBreak] = useState(false);
   const [dismissed, setDismissed] = useState(false);
   const [appBarQuery, setAppBarQuery] = useState("");
   const [appBarSubmitted, setAppBarSubmitted] = useState("");
@@ -272,18 +279,42 @@ export default function ComponentLivePreview({
     case "pull-to-refresh-box":
       content = <div className="grid gap-3"><PullToRefreshBox isRefreshing={refreshing} onRefresh={() => setRefreshing(true)} refreshLabel={fr ? "Actualiser le contenu" : "Refresh content"} refreshNowLabel={fr ? "Actualiser maintenant" : "Refresh now"}><div className="grid gap-2 p-4"><strong>{fr ? "Contenu actualisable" : "Refreshable content"}</strong><p className="text-sm text-[var(--muted)]">{fr ? "Essaie de tirer le contenu vers le bas ou utilise le bouton accessible." : "Pull the content down or use the accessible refresh button."}</p></div></PullToRefreshBox>{refreshing&&<Button variant="outlined" onClick={()=>setRefreshing(false)}>{fr ? "Réinitialiser l’état" : "Reset state"}</Button>}</div>;
       break;
-    case "button":
-      content = (
-        <div className="grid gap-3"><div className="flex flex-wrap items-center gap-3">
-          <Button onClick={() => setSplitResult("filled")}>Filled</Button>
-          <Button variant="elevated" onClick={() => setSplitResult("elevated")}>Elevated</Button>
-          <Button variant="filled-tonal" onClick={() => setSplitResult("filled-tonal")}>Filled tonal</Button>
-          <Button variant="outlined" onClick={() => setSplitResult("outlined")}>Outlined</Button>
-          <Button variant="text" onClick={() => setSplitResult("text")}>Text</Button>
-          <Button disabled>Disabled</Button>
-        </div><p className="text-sm text-[var(--muted)]">{fr ? "Dernière interaction : " : "Last interaction: "}{splitResult}</p></div>
-      );
+    case "button": {
+      const buttonLabel = buttonLongLabel ? (fr ? "Enregistrer les modifications et continuer" : "Save changes and continue") : (fr ? "Continuer" : "Continue");
+      const renderButtonContent = (label: string) => (<>
+        {buttonLeadingIcon && <MaterialIcon name="check" size={20} />}
+        <span>{buttonManualBreak ? (fr ? <>Enregistrer<br />et continuer</> : <>Save changes<br />and continue</>) : label}</span>
+        {buttonTrailingArrow && <MaterialIcon name="arrow_forward" size={20} />}</>);
+      const sampleWidth = buttonNarrow ? "w-44" : "";
+      const multiline = buttonMultiline || buttonManualBreak;
+      const variants = [{ key: "filled", variant: "filled" as const }, { key: "elevated", variant: "elevated" as const }, { key: "tonal", variant: "filled-tonal" as const }, { key: "outlined", variant: "outlined" as const }, { key: "text", variant: "text" as const }];
+      content = (<div className="grid gap-5">
+        <fieldset className="grid gap-3"><legend className="text-sm font-semibold">{fr ? "Paramètres du spécimen" : "Specimen controls"}</legend>
+          <div className="flex flex-wrap gap-x-5 gap-y-3 text-sm">
+            <label className="inline-flex items-center gap-2"><input type="checkbox" checked={buttonDisabled} onChange={(event) => setButtonDisabled(event.target.checked)} />{fr ? "Désactiver la rangée interactive" : "Disable interactive row"}</label>
+            <label className="inline-flex items-center gap-2"><input type="checkbox" checked={buttonLongLabel} onChange={(event) => setButtonLongLabel(event.target.checked)} />{fr ? "Libellé long" : "Long label"}</label>
+            <label className="inline-flex items-center gap-2"><input type="checkbox" checked={buttonLeadingIcon} onChange={(event) => setButtonLeadingIcon(event.target.checked)} />{fr ? "Icône à gauche" : "Leading icon"}</label>
+            <label className="inline-flex items-center gap-2"><input type="checkbox" checked={buttonTrailingArrow} onChange={(event) => setButtonTrailingArrow(event.target.checked)} />{fr ? "Flèche à droite" : "Trailing arrow"}</label>
+            <label className="inline-flex items-center gap-2"><input type="checkbox" checked={buttonNarrow} onChange={(event) => setButtonNarrow(event.target.checked)} />{fr ? "Largeur contrainte" : "Constrained width"}</label>
+            <label className="inline-flex items-center gap-2"><input type="checkbox" checked={buttonMultiline} onChange={(event) => setButtonMultiline(event.target.checked)} />{fr ? "Autoriser le retour à la ligne" : "Allow wrapping"}</label>
+            <label className="inline-flex items-center gap-2"><input type="checkbox" checked={buttonManualBreak} onChange={(event) => setButtonManualBreak(event.target.checked)} />{fr ? "Saut de ligne volontaire" : "Intentional line break"}</label>
+          </div>
+          <p className="text-xs leading-5 text-[var(--muted)]">{fr ? "Survole les boutons, utilise Tab pour tester le focus clavier et maintiens le clic pour observer l’état appuyé. Combine largeur contrainte et retour à la ligne pour comparer les comportements." : "Hover the buttons, use Tab to test keyboard focus, and hold the pointer down to inspect the pressed state. Combine constrained width and wrapping to compare behavior."}</p>
+        </fieldset>
+        <div className="grid gap-2"><h4 className="text-sm font-semibold">{fr ? "Variantes canoniques — interaction réelle" : "Canonical variants — live interaction"}</h4><div className="flex flex-wrap items-start gap-3">
+          {variants.map((item) => <div key={item.key} className={sampleWidth}><Button variant={item.variant} disabled={buttonDisabled} multiline={multiline} className={sampleWidth} onClick={() => setSplitResult(item.key)}>{renderButtonContent(buttonLabel)}</Button></div>)}
+        </div></div>
+        <div className="grid gap-2"><h4 className="text-sm font-semibold">{fr ? "État désactivé — toutes les variantes" : "Disabled state — every variant"}</h4><div className="flex flex-wrap items-start gap-3">
+          {variants.map((item) => <Button key={item.key} variant={item.variant} disabled multiline={multiline} className={sampleWidth}>{renderButtonContent(fr ? "Désactivé" : "Disabled")}</Button>)}
+        </div></div>
+        <div className="grid gap-2"><h4 className="text-sm font-semibold">{fr ? "Extension Loculary : action destructive" : "Loculary extension: destructive action"}</h4><div className="flex flex-wrap items-start gap-3">
+          <Button variant="danger" disabled={buttonDisabled} multiline={multiline} className={sampleWidth} onClick={() => setSplitResult("danger")}>{renderButtonContent(fr ? "Supprimer" : "Delete")}</Button>
+          <Button variant="danger" disabled multiline={multiline} className={sampleWidth}>{renderButtonContent(fr ? "Désactivé" : "Disabled")}</Button>
+        </div></div>
+        <p role="status" className="text-sm text-[var(--muted)]">{fr ? "Dernière interaction : " : "Last interaction: "}{splitResult}</p>
+      </div>);
       break;
+    }
     case "checkbox":
       content = (
         <div className="grid gap-2 sm:grid-cols-2">
