@@ -22,6 +22,7 @@ import { Tabs } from "@/components/ui/Tabs";
 import { DatePicker } from "@/components/ui/DatePicker";
 import { TimePicker } from "@/components/ui/TimePicker";
 import { SearchBar } from "@/components/ui/SearchBar";
+import { RangeSlider } from "@/components/ui/RangeSlider";
 import { Select } from "@/components/ui/Select";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
@@ -177,6 +178,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const [sampleChecked,setSampleChecked]=useState(true);
   const [sampleTriState,setSampleTriState]=useState<"off"|"on"|"indeterminate">("indeterminate");
   const [sampleProgress,setSampleProgress]=useState(55);
+  const [sampleRange,setSampleRange]=useState<[number,number]>([20,80]);
   const [sampleRailSelection,setSampleRailSelection]=useState<"home"|"explore"|"saved">("home");
   const [sampleDrawerOpen,setSampleDrawerOpen]=useState(false);
   const [sampleDrawerSelection,setSampleDrawerSelection]=useState<"home"|"explore"|"saved"|"settings">("home");
@@ -334,7 +336,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
     <section className={styles.gallerySection} aria-labelledby="android-controls-title"><div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>04 / {locale==="fr"?"Contrôles Android":"Android controls"}</span><h2 id="android-controls-title">{locale==="fr"?"Autres composants à tester":"More components to test"}</h2><p>{locale==="fr"?"Contrôles interactifs courants de Material 3.":"Interactive Material 3 controls commonly used in apps."}</p></div></div>
       <div className={styles.galleryGrid}>
         <article className={styles.galleryCard}>
-          <h3>{locale==="fr"?"Sélection et progression":"Selection & progress"}</h3><ComponentIdentifier names={["Checkbox","Slider","ProgressIndicator"]} locale={locale}/>
+          <h3>{locale==="fr"?"Sélection et progression":"Selection & progress"}</h3><ComponentIdentifier names={["Checkbox","Slider","RangeSlider","ProgressIndicator"]} locale={locale}/>
           <Checkbox
             inputId="lab-sample-checkbox"
             name="labSample"
@@ -376,6 +378,8 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
               "--slider-focus-ring": "var(--lab-primary)",
             }}
           />
+          <ComponentIdentifier names={["RangeSlider"]} kind="adaptation" locale={locale}/>
+          <RangeSlider inputId="lab-sample-range-slider" label={locale==="fr"?"Plage de valeurs":"Value range"} value={sampleRange} min={0} max={100} step={5} minGap={5} onValueChange={setSampleRange} valueText={(number)=>`${number}%`} style={{"--range-active":"var(--lab-primary)","--range-inactive":"var(--lab-surface-2)","--range-focus":"var(--lab-primary)","--range-label":"var(--lab-primary)"}}/>
           <ProgressIndicator
             label={locale==="fr"?"Progression de démonstration":"Demo progress"}
             value={sampleProgress}
