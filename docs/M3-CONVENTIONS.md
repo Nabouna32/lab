@@ -377,3 +377,18 @@ Android's model is not just a dark rounded rectangle. It includes a message, opt
 Loculary now has a shared src/components/ui/Snackbar.tsx and token-driven CSS, used by the Design Lab instead of its previous local mock-up. It supports message, optional action, explicit dismissal, a 4-second timeout only when no action is present, and prefers-reduced-motion. Fidelity and Expressive can be selected, but both currently render the same appearance because the reviewed AndroidX source did not establish a separate default Expressive Snackbar style. This is deliberately a **source-backed Web adaptation, not 100% Android/AndroidX implementation**.
 
 Remaining parity gaps: a shared app-level host/queue analogous to SnackbarHostState, placement/insets analogous to Scaffold, replacement/queue policy, swipe dismissal, exact AndroidX token geometry and animation, action/dismiss focus behavior, and browser/screen-reader tests. Do not promote the component to fully conformant until these are implemented or explicitly scoped out and accepted.
+
+
+### Exposed dropdown menu — source review and implementation status (2026-10-15)
+
+Official references:
+- Android Developers menu guide: https://developer.android.com/develop/ui/compose/components/menu
+- AndroidX API reference: https://developer.android.com/reference/kotlin/androidx/compose/material3/ExposedDropdownMenuBox.composable
+- AndroidX source: https://github.com/androidx/androidx/blob/androidx-main/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/ExposedDropdownMenu.kt
+- AndroidX MenuTokens: https://github.com/androidx/androidx/blob/androidx-main/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/MenuTokens.kt
+
+Android's exposed dropdown is anchored to a TextField/OutlinedTextField using ExposedDropdownMenuBox, ExposedDropdownMenu and menuAnchor semantics. AndroidX menu tokens use surfaceContainer, level-2 elevation, and extra-small corner shape; the documented API handles expanded state and dismissal requests. This is distinct from a native HTML select.
+
+Loculary replaced the shared Lab's native select with src/components/ui/ExposedDropdownMenu.tsx and a token-driven stylesheet. The Web component provides combobox/listbox/option semantics, active-descendant state, ArrowUp/ArrowDown, Home/End, Enter/Space selection, Escape/Tab dismissal, outside-pointer dismissal, disabled options, selection indication, error/helper text and reduced-motion support. The Expressive selector is present, but its rounded/tonal Web styling is an informed adaptation, not proof of a separate AndroidX Expressive default for this exact control.
+
+Status: **Android-source-informed Web adaptation; not 100% Android/Compose parity**. Remaining: match the actual ExposedDropdownMenuBox/TextField anchor anatomy, measure and position popup like Compose across viewport edges, add focus/assistive-technology tests, verify scrolling and long labels, pin exact token values, test browser behavior, and audit how an editable/autocomplete variant differs from a selection-only field.
