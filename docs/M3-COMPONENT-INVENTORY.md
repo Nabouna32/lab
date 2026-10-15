@@ -245,3 +245,11 @@ For each component/variant, record:
 - **Lab:** added a separate experimental catalog specimen for bounded numeric wheel selection, click selection, mouse wheel, ArrowUp/Down, PageUp/Down, Home/End and accessible option labels.
 - **Style decision:** this specimen is isolated from the Pixel-fidelity default direction; adding the API to the inventory does not imply adopting Expressive styling throughout the Lab.
 - **Not yet verified:** Compose PagerState snapping, scroll animation/velocity, TalkBack selection announcements, disabled item behavior, touch-device interaction, RTL and exact layout/colors.
+
+
+## ButtonGroup — 2026-10-15
+
+- **Official sources:** https://developer.android.com/reference/kotlin/androidx/compose/material3/ButtonGroup.composable and https://developer.android.com/reference/kotlin/androidx/compose/material3/ButtonGroupScope
+- **API/version:** ButtonGroupScope and its clickable/toggleable/custom-item DSL are listed as added in Material3 1.5.0-alpha29; clickableItem is also listed in 1.5.0-beta01 in the current reference. Confirm the exact pinned version.
+- **Lab:** added a shared Web adaptation with selected items, width emphasis for selected items, disabled states and an overflow dropdown.
+- **Known adaptation:** `maxVisible` is a Web-only demo threshold; AndroidX measures available width and uses ButtonGroupScope's DSL, compression limits and menu state. Do not claim exact overflow parity.
