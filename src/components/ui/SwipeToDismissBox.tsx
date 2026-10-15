@@ -51,15 +51,18 @@ export function SwipeToDismissBox({
     if (!start || start.id !== event.pointerId) return;
     const width = rootRef.current?.getBoundingClientRect().width ?? 320;
     const threshold = Math.min(120, width * 0.35);
-    const permitted = direction === "both" || (direction === "start-to-end" && offset > 0) || (direction === "end-to-start" && offset < 0);
-    if (permitted && Math.abs(offset) >= threshold) onDismiss();
+    const latestOffset = currentOffset.current;
+    const permitted = direction === "both" || (direction === "start-to-end" && latestOffset > 0) || (direction === "end-to-start" && latestOffset < 0);
+    if (permitted && Math.abs(latestOffset) >= threshold) onDismiss();
     pointerStart.current = null;
+    currentOffset.current = 0;
     setDragging(false);
     setOffset(0);
   }
 
   function cancelPointer() {
     pointerStart.current = null;
+    currentOffset.current = 0;
     setDragging(false);
     setOffset(0);
   }
