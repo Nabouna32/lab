@@ -592,3 +592,8 @@ Official source: https://developer.android.com/develop/ui/compose/components/too
 ## Carousel — 2026-10-15
 
 Official sources: https://developer.android.com/develop/ui/compose/components/carousel and https://developer.android.com/reference/kotlin/androidx/compose/material3/carousel/package-summary. Added a shared Carousel Web adaptation with uncontained and multi-browse specimens, horizontal scroll snapping, group/slide semantics, arrow-key scrolling and reduced-motion-aware scroll behavior. The current multi-browse item widths are a CSS approximation rather than AndroidX's window-aware layout algorithm; fling/state/parallax/masking and exact animation remain incomplete. Browser/device and assistive-technology validation required.
+
+
+## TopAppBar family — 2026-10-15
+
+Official source: https://developer.android.com/develop/ui/compose/components/app-bars. Added a shared TopAppBar Web adaptation with small, center-aligned, medium and large variants and integrated them into the Lab. Automatic scroll collapse, exact geometry/typography, system insets, action overflow and Compose motion remain incomplete. Status: partial parity; responsive, semantic and scroll validation required.
