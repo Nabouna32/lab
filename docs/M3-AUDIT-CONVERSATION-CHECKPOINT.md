@@ -519,3 +519,24 @@ Finding: Compose does not provide a separate Material 3 component named TextArea
 Implemented: TextArea now supports Fidelity/Expressive variants, uses shared spacing/shape/color/type tokens, exposes helper/error copy with aria-describedby, and has disabled/error states. Design Lab now passes the selected variant into the shared component. Its 8rem minimum height is labeled as Loculary Web specimen sizing, not an AndroidX token.
 
 Status: **source-informed Web adaptation; not 100% AndroidX parity**. Remaining: line-count behavior and exact multiline anatomy, supporting text/counter, exact state tokens, browser autofill/IME, text zoom, keyboard/screen-reader checks. CI and browser testing still need to run on the latest branch head.
+
+## Checkpoint — modal bottom sheet source audit and shared Web adaptation (2026-10-15)
+
+Official Android references reviewed:
+- https://developer.android.com/develop/ui/compose/components/bottom-sheets
+- https://developer.android.com/reference/kotlin/androidx/compose/material3/ModalBottomSheet.composable
+- https://developer.android.com/develop/ui/compose/system/material-insets
+- https://developer.android.com/develop/ui/compose/components/dialog
+
+Finding: a Material 3 modal bottom sheet is not just a bottom-aligned card. AndroidX overlays the app, blocks background interaction, supports explicit dismissal and `SheetState`, and applies bottom window insets. Partial expansion is documented separately as experimental.
+
+Implemented on this branch:
+- Added shared `src/components/ui/ModalBottomSheet.tsx` and `ModalBottomSheet.module.css`.
+- Replaced the Design Lab's inline-only bottom-sheet mockup with the shared component.
+- Added dialog ARIA semantics, Escape/backdrop dismissal, Tab focus containment, focus return, body-scroll locking, safe-area bottom padding and reduced-motion CSS.
+- Added static regression assertions and recorded source references and parity limits in M3-CONVENTIONS.md and M3-CONFORMANCE-AUDIT.md.
+
+Classification: **source-informed Web adaptation; partial functional parity; runtime unverified**. Not implemented: swipe/drag dismissal, Android `SheetState`/partial expansion, exact Compose motion/insets, and validated screen-reader isolation. Browser/device tests remain required.
+
+Validation note: the previous CI run passed lint and typecheck but failed three static assertions (the Lab's Select-to-ExposedDropdownMenu API transition, the IconButton selected-outline string, and an outdated direction expression). The assertions were updated against current source; a new run on the latest head has not yet been confirmed. Do not merge PR #729 until a fresh green CI run and browser validation are obtained.
+
