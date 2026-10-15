@@ -474,3 +474,14 @@ Acceptance checks still required: keyboard focus order and restoration, screen-r
 ### Lab component naming and specimen status — 2026-10-15
 
 Every specimen in the Design Lab should expose its exact component identifier in a visible code-style label. The label must distinguish `shared` production primitive, `adaptation` (shared Web implementation inspired by AndroidX), and `mockup` (local demonstration only). A visual issue should be reportable by the displayed identifier, e.g. `Button`, `NavigationBar`, `AlertDialog`, or `FilterChip (mockup)`. Do not present a mockup as a shared component or as full AndroidX parity. The `ComponentIdentifier` helper in `src/app/[locale]/design-lab/VisualLab.tsx` centralizes these labels.
+
+
+### NavigationRail — AndroidX audit and Web adaptation (2026-10-15)
+
+**Official source:** https://developer.android.com/develop/ui/compose/components/navigation-rail and https://developer.android.com/develop/ui/compose/system/material-insets.
+
+- **Source-confirmed:** AndroidX `NavigationRail` and `NavigationRailItem` are intended for top-level destinations on larger screens and landscape layouts; the documented rail typically exposes 3–7 destinations. Android applies vertical and start system insets.
+- **Implemented:** added shared `src/components/ui/NavigationRail.tsx` and `NavigationRail.module.css`; integrated it into the extended Lab gallery with selected state, icon/label, optional badge, focus-visible, hover/press states, semantic theme tokens and reduced-motion handling. Visible identifier now classifies it as a Web adaptation, not a mockup.
+- **Web adaptation choices:** 80 CSS-pixel rail width and CSS spacing approximate the Android layout; CSS px are not dp. Local selection uses buttons and `aria-current`; real route destinations should use links or router navigation semantics.
+- **Not yet parity-complete:** exact AndroidX dimensions, FAB placement, rail header/scroll behavior, window inset integration, all badge variants and Compose motion curves are not validated. Runtime keyboard, zoom, screen reader, mobile browser and responsive layout checks remain open.
+- **Status:** shared, source-informed Web adaptation; partial parity; CI/runtime validation required. Do not claim 100% AndroidX parity.
