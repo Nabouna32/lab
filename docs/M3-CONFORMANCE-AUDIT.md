@@ -661,3 +661,8 @@ Official sources: [AndroidX RangeSlider API](https://developer.android.com/refer
 ## ToggleButton / SplitButtonLayout — 2026-10-15
 
 Official sources: [ToggleButton API](https://developer.android.com/reference/kotlin/androidx/compose/material3/ToggleButton.composable), [SplitButtonLayout API](https://developer.android.com/reference/kotlin/androidx/compose/material3/SplitButtonLayout.composable). Added shared Web adaptations and Lab specimens for toggle-button styles and split actions. The current ToggleButton API describes state-driven shape morphing and multiple sizes; current SplitButtonLayout reference records introduction in Material3 1.5.0-alpha29. These are not native Compose implementations; exact morphing, size tokens, menu semantics and version availability remain to validate.
+
+
+## TextField / SecureTextField — 2026-10-15
+
+Official references: [TextField](https://developer.android.com/reference/kotlin/androidx/compose/material3/TextField.composable), [OutlinedTextField](https://developer.android.com/reference/kotlin/androidx/compose/material3/OutlinedTextField.composable), [SecureTextField](https://developer.android.com/reference/kotlin/androidx/compose/material3/SecureTextField.composable), [OutlinedSecureTextField](https://developer.android.com/reference/kotlin/androidx/compose/material3/OutlinedSecureTextField.composable). Added a shared `MaterialTextField` adaptation and Lab examples for filled/outlined, supporting/error text, counter and secure password fields. Secure mode blocks common copy/cut/drag events, but must not be described as equivalent to native AndroidX secure input. Exact label/outline motion, text scaling, IME/autofill, context menu and assistive-technology behavior remain unverified.
