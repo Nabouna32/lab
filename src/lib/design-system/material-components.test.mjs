@@ -398,7 +398,7 @@ test("buttons use AndroidX M3 variant-specific disabled roles and icon-toggle se
   assert.match(iconButtonSource, /const filledTonal = .*on-surface\)_10%,transparent/);
   assert.match(iconButtonSource, /outline-variant\)_38%,transparent/);
   assert.match(iconButtonSource, /standard: "text-\[var\(--primary\)\] hover:text-\[var\(--primary\)\] active:text-\[var\(--primary\)\] hover:bg-/);
-  assert.match(iconButtonSource, /"filled-tonal": "bg-\\[var\\(--secondary\\)\\] text-\\[var\\(--on-secondary\\)\\]/);
+  assert.match(iconButtonSource, /"filled-tonal": "bg-\[var\(--secondary\)\] text-\[var\(--on-secondary\)\]/);
   assert.match(iconButtonSource, /outlined: "bg-\[var\(--inverse-surface\)\] text-\[var\(--inverse-on-surface\)\]/);
   assert.match(iconButtonSource, /hover:bg-\[color-mix\(in_srgb,var\(--inverse-surface\)_92%,var\(--inverse-on-surface\)\)\]/);
   assert.match(iconButtonSource, /standard: "text-\[var\(--primary\)\] hover:text-\[var\(--primary\)\] active:text-\[var\(--primary\)\] hover:bg-/);
@@ -432,7 +432,7 @@ test("Design Lab direction preview offers only official M3 Fidelity and M3 Expre
   assert.match(labSource, /\(\["fidelity","expressive"\] as const\)/);
   assert.match(labSource, /pixelDirection:"M3 Fidelity"/);
   assert.match(labSource, /expressiveDirection:"M3 Expressive"/);
-  assert.match(labSource, /direction\\s*===\\s*"expressive"/);
+  assert.match(labSource, /direction\s*===\s*"expressive"/);
   assert.match(labCss, /directionStage\[data-direction="expressive"\]/);
   assert.match(labCss, /directionStage\[data-direction="fidelity"\]/);
   assert.doesNotMatch(labSource, /Productivité|Productivity|utilityDirection/);
