@@ -35,7 +35,7 @@ The list below is deliberately broader than the current production call sites. C
 | Lists / list items | Lab mockup | Implement M3 list-item variants, slots, density and interaction behavior |
 | Scaffold | Missing | Implement composition/layout specimen with app bars, navigation, snackbar and content insets |
 | Top app bars: small, center-aligned, medium, large | Shared Web adaptation; all four variants in Lab | Implement automatic scroll behavior, exact insets/geometry, action overflow and collapse/expand motion |
-| Bottom app bar | Missing/mockup coverage incomplete | Implement official bottom app bar and FAB integration |
+| Bottom app bar | Shared Web adaptation; actions + FAB specimen | Audit exact AndroidX geometry/elevation, FAB placement, insets and motion |
 | Navigation bar | Shared Web adaptation | Audit 3–5 destinations, selection, icon-only/label variants, routes and safe areas |
 | Navigation rail | Shared Web adaptation | Audit large-screen layouts, 3–7 destinations, header/footer/FAB and insets |
 | Navigation drawers: modal, dismissible, permanent | Shared Web adaptation, partial variants | Separate official behavior patterns; implement drawer state, gesture/back behavior, responsive layout and assistive-technology isolation |
