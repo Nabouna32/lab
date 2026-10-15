@@ -40,6 +40,7 @@ export function DatePickerDialog({
   const dialogRef = useRef<HTMLDivElement>(null);
   const cancelRef = useRef<HTMLButtonElement>(null);
   const titleId = useId();
+  const onDismissRef = useRef(onDismiss);
   const [draftDate, setDraftDate] = useState(value);
   const [draftRange, setDraftRange] = useState(rangeValue);
 
@@ -58,7 +59,7 @@ export function DatePickerDialog({
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         event.preventDefault();
-        onDismiss();
+        onDismissRef.current();
       } else if (event.key === "Tab") {
         const focusable = getFocusable();
         if (!focusable.length) {
@@ -83,7 +84,7 @@ export function DatePickerDialog({
       document.body.style.overflow = previousOverflow;
       previousFocus?.focus();
     };
-  }, [open, value, rangeValue, onDismiss]);
+  }, [open, value, rangeValue]);
 
   if (!open) return null;
 
