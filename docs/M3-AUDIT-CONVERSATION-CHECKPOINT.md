@@ -401,3 +401,5 @@ The screen preview no longer offers the non-official Productivity direction. Its
 ## Source discovery — Switch family (2026-10-15)
 
 Checked official AndroidX Switch.kt: https://android.googlesource.com/platform/frameworks/support/%2B/39bdbe03eef999f4c1352f31a90526adad9245ae/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Switch.kt. No default Expressive-specific rendering difference was verified. AndroidX does specify animated thumb behavior via a Material motion spec. Loculary currently uses a 52×32 CSS-pixel track and 16×16 CSS-pixel thumb with CSS transitions; compare travel, dimensions, easing and interruption against source/runtime before claiming parity. The Lab should expose the two modes but keep identical visuals until evidence supports a change.
+
+**Switch Lab change:** added the per-component Fidelity/Expressive selector. Because official source review found no separate default Expressive appearance, the selector intentionally retains identical visuals and explains the open thumb-motion audit. Static test added. No green CI confirmed.
