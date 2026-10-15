@@ -26,7 +26,7 @@ This remains an intentionally small account foundation. Favorites and personal c
 
 A database-backed catalog is a possible future option, not an active target or scheduled migration. The October 2026 clean-cut removed the legacy `tool_*` schema and catalog permissions, leaving a small account/administration foundation. The public catalog remains Git-backed.
 
-Reconsider a database catalog only when a concrete requirement cannot be served well by Git, such as authorized editorial publishing without code deployment, measured search/build/delivery bottlenecks, or administration/audit needs that the current workflow cannot reasonably meet. Catalog size alone is not a trigger. DEC-027 records the decision and its criteria. No catalog tables should be reintroduced before a separately reviewed design and explicit approval.
+Reconsider a database catalog only when a concrete requirement cannot be served well by Git, such as authorized editorial publishing without code deployment, measured search/build/delivery bottlenecks, or administration/audit needs that the current workflow cannot reasonably meet. Catalog size alone is not a trigger. DEC-027 records the decision and its criteria. No public tool-catalog tables should be reintroduced before a separately reviewed design and explicit approval. The private Design Lab reference catalogue is a separate administrative maintenance domain.
 
 Executable tool behavior remains in Git/code: registry modules, processing mode, capabilities and technical behavior are never moved into the database merely because editable metadata changes storage.
 
@@ -108,3 +108,24 @@ The production schema was applied and verified through the Supabase connector on
 
 The pgTAP regression test is `supabase/tests/design_audit_maintenance.sql`. The connector did not execute the full pgTAP suite; direct read-only checks verified the 58 seeded component records, 58 explicit preview mappings, RLS on all five tables, and that `anon` has no SELECT grants. The Supabase advisors reported no remaining missing foreign-key indexes for these tables; unused-index notices are expected while the new tables are empty. Existing unrelated collection-policy performance warnings remain unchanged.
 
+
+## Design Lab reference catalogue
+
+The private Design Lab now separates the reference register from actual production implementations:
+
+- `public.design_audit_catalog_entries` stores reference entries and Loculary-specific utilities/compositions, with an entry type, reference-verification status, optional official URL and optional link to a real implementation.
+- `public.design_audit_components` remains the inventory of actual UI implementation files and continues to own audit status, preview mappings and maintenance workflow relationships.
+- The two lists are related but not interchangeable. A catalogue entry does not prove that Loculary implements it, and a mapped implementation does not prove conformance.
+- The existing 116-entry registry has been imported as a starting inventory: 100 M3/AndroidX candidates and 16 Loculary-specific entries. All 100 reference candidates remain explicitly unverified until their identity and official documentation are checked; no guessed URL is presented as authoritative. All 58 implementation records are linked to at least one catalogue entry.
+- The new table has RLS enabled, denies anonymous access and grants authenticated read access only when the existing `audit.read` administrative permission is present. The catalogue is maintained through versioned migrations; the client cannot edit reference metadata directly.
+
+The catalogue schema and initial data are versioned in:
+
+- `supabase/migrations/20261015230000_design_audit_reference_catalog.sql`
+- `supabase/migrations/20261015231000_design_audit_catalog_implementation_links.sql`
+- `supabase/migrations/20261015232000_design_audit_catalog_classification_notes.sql`
+- `supabase/migrations/20261015233000_design_audit_catalog_stable_ids.sql`
+- `supabase/migrations/20261015234000_fix_design_audit_catalog_ids.sql`
+- `supabase/migrations/20261015235000_fix_design_audit_catalog_ids.sql`
+
+The follow-up migrations normalize identifiers and correct classifications/links without deleting the applied migration history. The catalogue’s source references remain a deliberate verification task; the UI labels this state instead of claiming the legacy register is already an exhaustive official catalogue.
