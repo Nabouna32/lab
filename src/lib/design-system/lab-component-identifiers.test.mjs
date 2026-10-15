@@ -94,8 +94,13 @@ test("The shared NavigationBar is integrated in the phone preview and interactiv
 
 
 test("Material 3 tab specimens use the shared tabs adaptation and expose keyboard behavior", () => {
-  assert.match(lab, /import \{ Tabs, TabPanel \} from "@\/components\/ui\/Tabs"/);
+  assert.match(lab, /import \{ Tabs \} from "@\/components\/ui\/Tabs"/);
   assert.match(lab, /variant="primary"/);
   assert.match(lab, /variant="secondary" scrollable/);
   assert.doesNotMatch(lab, /className=\{styles\.tabRow\} role="tablist"/);
+  assert.match(tabs, /ArrowLeft/);
+  assert.match(tabs, /ArrowRight/);
+  assert.match(tabs, /aria-controls=\{item\.content/);
+  assert.match(tabs, /role="tabpanel"/);
+  assert.match(tabs, /useId/);
 });
