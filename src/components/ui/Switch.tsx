@@ -9,6 +9,7 @@ type SwitchStyle = CSSProperties & {
   "--switch-focus-ring"?: string;
   "--switch-focus-offset"?: string;
   "--switch-disabled-selected-track"?: string;
+  "--switch-disabled-selected-thumb"?: string;
   "--switch-disabled-unselected-track"?: string;
   "--switch-disabled-outline"?: string;
   "--switch-disabled-thumb"?: string;
@@ -44,13 +45,14 @@ export function Switch({
     "--switch-focus-ring": "var(--focus-ring)",
     "--switch-focus-offset": "var(--background)",
     "--switch-disabled-selected-track": "color-mix(in srgb, var(--on-surface) 12%, transparent)",
+    "--switch-disabled-selected-thumb": "var(--surface)",
     "--switch-disabled-unselected-track": "color-mix(in srgb, var(--surface-container-highest) 12%, transparent)",
     "--switch-disabled-outline": "color-mix(in srgb, var(--on-surface) 12%, transparent)",
     "--switch-disabled-thumb": "color-mix(in srgb, var(--on-surface) 38%, transparent)",
     ...style,
     ...(disabled ? {
       "--switch-active": checked ? "var(--switch-disabled-selected-track)" : "var(--switch-disabled-unselected-track)",
-      "--switch-on-thumb": "var(--surface)",
+      "--switch-on-thumb": "var(--switch-disabled-selected-thumb)",
       "--switch-track": checked ? "var(--switch-disabled-selected-track)" : "var(--switch-disabled-unselected-track)",
       "--switch-thumb": "var(--switch-disabled-thumb)",
       "--switch-outline": checked ? "transparent" : "var(--switch-disabled-outline)",
