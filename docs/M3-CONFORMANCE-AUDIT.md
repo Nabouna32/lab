@@ -716,3 +716,8 @@ Official sources: [SegmentedButton API](https://developer.android.com/reference/
 ## FloatingToolbar — 2026-10-15
 
 Official sources: [HorizontalFloatingToolbar](https://developer.android.com/reference/kotlin/androidx/compose/material3/HorizontalFloatingToolbar.composable), [VerticalFloatingToolbar](https://developer.android.com/reference/kotlin/androidx/compose/material3/VerticalFloatingToolbar.composable). Added shared horizontal/vertical Web adaptations and Lab specimens. The current API exposes scroll behavior and floating-toolbar state; the reference lists FloatingToolbarState as introduced in Material3 1.5.0-beta01. Scroll-driven collapse, nested scroll, touch-exploration behavior, exact elevation/shape, RTL and screen-reader parity remain open.
+
+
+## Button and IconButton variant inventory — 2026-10-15
+
+Official references include [Button](https://developer.android.com/reference/kotlin/androidx/compose/material3/Button.composable), [FilledIconButton](https://developer.android.com/reference/kotlin/androidx/compose/material3/FilledIconButton.composable), [FilledTonalIconButton](https://developer.android.com/reference/kotlin/androidx/compose/material3/FilledTonalIconButton.composable), [OutlinedIconButton](https://developer.android.com/reference/kotlin/androidx/compose/material3/OutlinedIconButton.composable) and [IconToggleButton](https://developer.android.com/reference/kotlin/androidx/compose/material3/IconToggleButton.composable). Lab identifier coverage now lists official filled/elevated/tonal/outlined/text and icon-toggle variants; interactive examples show selected states for each icon-button style. The app's `danger` button style is explicitly an app-specific semantic extension, not an official Material 3 variant.
