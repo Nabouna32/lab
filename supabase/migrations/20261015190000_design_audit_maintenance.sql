@@ -219,7 +219,7 @@ returns trigger
 language plpgsql
 security invoker
 set search_path = ''
-as $
+as $$
 begin
   if new.audit_status = 'conformant-within-verified-scope'
     and not exists (
@@ -232,7 +232,7 @@ begin
   end if;
   return new;
 end;
-$;
+$$;
 
 create trigger design_audit_conformance_requires_evidence
 before update of audit_status on public.design_audit_components
@@ -258,7 +258,7 @@ begin
   );
   return new;
 end;
-$;
+$$;
 
 revoke execute on function private.set_design_audit_updated_at() from public, anon, authenticated;
 revoke execute on function private.enforce_design_audit_conformance_evidence() from public, anon, authenticated;
