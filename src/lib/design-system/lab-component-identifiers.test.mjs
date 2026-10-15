@@ -18,7 +18,8 @@ test("Design Lab displays exact component names and identifies specimen fidelity
   }
   assert.match(lab, /kind = "shared"/);
   assert.match(lab, /kind === "adaptation"/);
-  assert.match(lab, /kind === "mockup"/);
+  assert.match(lab, /Local mockup/);
+  assert.match(lab, /Maquette locale/);
   assert.match(labCss, /\.componentIdentifier/);
   assert.match(labCss, /data-kind="adaptation"/);
   assert.match(labCss, /data-kind="mockup"/);
