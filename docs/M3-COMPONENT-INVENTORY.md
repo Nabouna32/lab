@@ -24,6 +24,7 @@ The list below is deliberately broader than the current production call sites. C
 | Toggle buttons: filled, tonal, outlined, elevated; five sizes | Shared ToggleButton Web adaptation; all four styles and multiple sizes in Lab | Audit official size tokens, checked colors, morphing shapes and interaction states |
 | SplitButtonLayout + split button variants | Shared SplitButton Web adaptation; filled and outlined specimens in Lab | Verify pinned API version, shape/spacing, primary/secondary action semantics, menu separation and keyboard behavior |
 | FAB: small, regular, large, extended | Shared Web adaptation; all four types in Lab | Audit exact AndroidX size, shape, tonal color, state elevation, extended expansion and motion |
+| FloatingActionButtonMenu / MenuItem / ToggleFloatingActionButton | Shared Web adaptation; staggered quick-action menu in Lab | Verify pinned API version, item composition, shape/color, staggered motion, keyboard and dismissal |
 | Badge / BadgedBox | Shared Web adaptation; dot, count and anchored specimens | Audit exact dimensions/offsets, count overflow, role colors and screen-reader semantics |
 | Linear progress indicator | Shared ProgressIndicator | Audit official determinate/indeterminate motion, track, segment geometry, semantics and reduced motion |
 | Circular progress indicator | Shared Web adaptation | Audit AndroidX motion/stroke, size variants, indeterminate specimen and semantics |
@@ -160,3 +161,11 @@ For each component/variant, record:
 - **Official source:** https://developer.android.com/reference/kotlin/androidx/compose/material3/SwipeToDismissBox.composable
 - **Lab:** shared `SwipeToDismissBox` adaptation supports horizontal pointer gestures, direction configuration, threshold-based dismissal, reduced-motion CSS, and a visible keyboard-accessible dismiss button.
 - **Not yet verified:** AndroidX state/confirm behavior, nested scroll and pointer-cancel interactions, RTL direction, exact background/animation, screen-reader action semantics and browser/device gesture behavior.
+
+
+## FloatingActionButtonMenu — 2026-10-15
+
+- **Official sources:** https://developer.android.com/reference/kotlin/androidx/compose/material3/FloatingActionButtonMenu.composable and https://developer.android.com/reference/kotlin/androidx/compose/material3/FloatingActionButtonMenuItem.composable
+- **API version:** current reference lists FloatingActionButtonMenuItem as added in Material3 1.5.0-alpha29; confirm exact dependency version.
+- **Lab:** shared Web adaptation with expandable FAB, labelled quick-action items, staggered entrance animation, Escape dismissal, focus restoration on selection and reduced-motion fallback.
+- **Not yet verified:** exact ToggleFloatingActionButton state/shape morphing, AndroidX item arrangement, colors, motion timing, back handling, RTL and assistive-technology behavior.
