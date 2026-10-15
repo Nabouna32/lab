@@ -96,10 +96,13 @@ The internal Design Lab maintenance workflow is stored in Supabase separately fr
 
 All five tables have RLS enabled, no grants for `anon`, and authenticated access gated by the existing `audit.read` / `audit.write` administrative permissions. The database rejects a component status of `conformant-within-verified-scope` unless at least one passing verification exists for that component. Foreign keys used by the workflow are indexed.
 
+Verification records are append-only for authenticated clients: new results may be added, but existing evidence cannot be rewritten. Reports and decisions remain editable with every change recorded in the event history.
+
 The production schema was applied and verified through the Supabase connector on 2026-10-15. Applied migrations:
 
 - `supabase/migrations/20261015210132_design_audit_maintenance.sql`
 - `supabase/migrations/20261015210156_design_audit_maintenance_fk_indexes.sql`
+- `supabase/migrations/20261015210538_design_audit_verifications_append_only.sql`
 
 The pgTAP regression test is `supabase/tests/design_audit_maintenance.sql`. The connector did not execute the full pgTAP suite; direct read-only checks verified the 58 seeded component records, 39 explicit preview mappings, RLS on all five tables, and that `anon` has no SELECT grants. The Supabase advisors reported no remaining missing foreign-key indexes for these tables; unused-index notices are expected while the new tables are empty. Existing unrelated collection-policy performance warnings remain unchanged.
 
