@@ -257,3 +257,10 @@ Every new convention/audit finding must state whether it is [ANDROID-M3], [MATER
 ## Update — Lab selection-state isolation (2026-10-15)
 
 - Found and fixed an unintended coupling: the raw radio-group demo and the shared segmented-control demo shared sampleRadio state. The segmented preview now uses sampleLayout, independent from the radio selection. Added a static regression assertion; manual browser interaction remains outstanding.
+
+## Update — AndroidX button-state tokens (2026-10-15)
+
+- Audited the current pinned AndroidX Compose Material 3 token source, not just Material Web. Disabled button values differ by variant: filled/elevated/text/outlined use 10% container/outline opacity with on-surface-variant text at 38%; filled-tonal uses 12% container and on-surface text at 38%. Icon-button roles also differ by variant.
+- Button and IconButton source now reflect those AndroidX distinctions. IconButton selected state now uses primary icon/no added container for standard, secondary/on-secondary for filled-tonal, and inverse-surface/inverse-on-surface for outlined; hover/pressed state layers follow those selected roles.
+- The danger button remains a Loculary-specific variant, not an official Android M3 component.
+- [OPEN] Browser verification of actual state layers/contrast remains outstanding; the latest typecheck failures reported earlier were on older heads, and no current-head green run is confirmed yet.
