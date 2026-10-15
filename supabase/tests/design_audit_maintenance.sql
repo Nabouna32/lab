@@ -1,6 +1,6 @@
 begin;
 
-select plan(20);
+select plan(21);
 
 select has_table('public', 'design_audit_components', 'component inventory table exists');
 select has_table('public', 'design_audit_reports', 'defect reports table exists');
@@ -24,6 +24,7 @@ select ok(exists(select 1 from pg_policies where schemaname='public' and tablena
 select ok(exists(select 1 from pg_policies where schemaname='public' and tablename='design_audit_events' and policyname='Audit readers can read event history'), 'event history has an explicit read policy');
 select ok(not has_table_privilege('anon', 'public.design_audit_decisions', 'UPDATE'), 'anonymous visitors cannot modify decisions');
 select ok(exists(select 1 from pg_trigger where tgname='design_audit_conformance_requires_evidence' and not tgisinternal), 'conformance requires a passing verification');
+select ok(exists(select 1 from pg_trigger where tgname='design_audit_component_status_event' and not tgisinternal), 'component audit status changes are recorded');
 
 select * from finish();
 rollback;
