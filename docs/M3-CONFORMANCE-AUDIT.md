@@ -651,3 +651,8 @@ Official sources: [Search bar guide](https://developer.android.com/develop/ui/co
 ## TriStateCheckbox — 2026-10-15
 
 Official source: [AndroidX Material 3 TriStateCheckbox API](https://developer.android.com/reference/kotlin/androidx/compose/material3/TriStateCheckbox.composable). Extended the shared Checkbox with a native indeterminate property and mixed-state minus mark, and added a shared `TriStateCheckbox` wrapper plus Lab specimen. This represents the checked/unchecked/indeterminate state model; exact animation, parent-child propagation behavior, and assistive-technology parity still require runtime verification.
+
+
+## RangeSlider — 2026-10-15
+
+Official sources: [AndroidX RangeSlider API](https://developer.android.com/reference/kotlin/androidx/compose/material3/RangeSlider.composable), [Slider guide](https://developer.android.com/develop/ui/compose/components/slider?hl=en). Added a shared two-thumb `RangeSlider` Web adaptation with native range inputs, independent minimum/maximum accessible names, bounded values, steps and optional minimum gap. It is not claimed to match Compose track/tick geometry or gesture arbitration; pointer testing, RTL, screen-reader behavior and exact visual parity remain open.
