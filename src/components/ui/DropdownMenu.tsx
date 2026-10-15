@@ -14,6 +14,8 @@ export type DropdownMenuItemData = {
   trailingContent?: ReactNode;
   supportingText?: string;
   dividerBefore?: boolean;
+  group?: string;
+  selectionMode?: "single" | "multi";
 };
 
 export type DropdownMenuProps = {
@@ -121,10 +123,11 @@ export function DropdownMenu({
       {open && <div ref={menuRef} id={`m3-dropdown-menu-${id}`} role="menu" aria-label={label} className={`${styles.menu} ${align === "start" ? styles.alignStart : styles.alignEnd}`}>
         {items.map((item, index) => (
           <div key={item.key}>
+            {item.group && (index === 0 || items[index - 1]?.group !== item.group) && <div className={styles.groupLabel}>{item.group}</div>}
             {item.dividerBefore && <div className={styles.divider} role="separator" />}
             <button
               type="button"
-              role={item.selected === undefined ? "menuitem" : "menuitemcheckbox"}
+              role={item.selected === undefined ? "menuitem" : item.selectionMode === "single" ? "menuitemradio" : "menuitemcheckbox"}
               aria-checked={item.selected}
               disabled={item.disabled}
               tabIndex={index === activeIndex ? 0 : -1}
