@@ -292,3 +292,13 @@ When a conflict is found, surface it and resolve it through the documented decis
 The detailed implementation rules are maintained in [`docs/M3-CONVENTIONS.md`](./M3-CONVENTIONS.md). That document is the canonical reference for the source hierarchy, Fidelity semantic colors vs category-only Rainbow accents, typography, semantic shapes and the proposed Loculary rounding-degree control, density/touch targets, component contracts, motion/reduced-motion, Design Lab behavior and the conformance acceptance gate.
 
 The shared linear `Slider` and `ProgressIndicator` are now part of the common UI contract: use native range semantics and visible label/value for sliders; expose determinate progress only when the value is real, otherwise use indeterminate progress. Their browser-level alignment, touch behavior and assistive-technology output remain to be verified before declaring conformance.
+## Material 3 evidence and provenance rule
+
+The canonical detailed convention is M3-CONVENTIONS.md. For any new component or design-system rule, explicitly distinguish:
+- Android-confirmed: supported by a specific official Android Developers / Material 3 source.
+- Material Web-confirmed: supported by first-party Material Web docs/tokens; not automatically an Android Compose rule.
+- Web-standard: HTML/ARIA/WCAG behavior and requirements.
+- Loculary-specific: product decisions such as the default seed, CSS sizing, global rounding-degree control and category mapping.
+- Source-observed / runtime-verified / open: distinguish static code inspection from actual browser/device validation and unresolved assumptions.
+
+Do not call a component “Android-conformant” based only on a matching name, CSS appearance, token name or static test. Record the exact source, tested state and remaining limitations.
