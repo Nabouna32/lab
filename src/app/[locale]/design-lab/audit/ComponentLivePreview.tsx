@@ -93,6 +93,18 @@ export default function ComponentLivePreview({
     case "floating-action-button":
       content = <div className="flex flex-wrap items-center gap-5"><FloatingActionButton ariaLabel={fr ? "Ajouter" : "Add"} icon="add" /><FloatingActionButton size="small" ariaLabel={fr ? "Ajouter petit" : "Small add"} icon="add" /><FloatingActionButton size="extended" label={fr ? "Créer" : "Create"} icon="add" /></div>;
       break;
+    case "tri-state-checkbox":
+      content = <div className="grid gap-3"><TriStateCheckbox inputId="audit-tristate" label={fr ? "Sélection partielle" : "Partial selection"} state={triState} onStateChange={setTriState} /><TriStateCheckbox inputId="audit-tristate-disabled" label={fr ? "État désactivé" : "Disabled state"} state="indeterminate" disabled onStateChange={() => undefined} /></div>;
+      break;
+    case "panel":
+      content = <Panel><h4 className="font-semibold">{fr ? "Panneau réel" : "Real panel"}</h4><p className="mt-2 text-sm text-[var(--muted)]">{fr ? "Surface partagée utilisée dans Loculary." : "Shared surface used in Loculary."}</p></Panel>;
+      break;
+    case "result-panel":
+      content = <div className="grid gap-3 sm:grid-cols-2"><ResultPanel label={fr ? "Résultat calculé" : "Calculated result"} value="42,5 %" tone="accent" /><ResultPanel label={fr ? "Résultat vide" : "Empty result"} value={null} emptyMessage={fr ? "Aucun résultat pour le moment." : "No result yet."} /></div>;
+      break;
+    case "list-item":
+      content = <div className="grid gap-2"><ListItem headline={fr ? "Convertir une image" : "Convert an image"} supporting={fr ? "PNG, JPEG et WebP" : "PNG, JPEG and WebP"} leading={<MaterialIcon name="image" size={24} />} trailing={<MaterialIcon name="arrow_outward" size={20} />} /><ListItem headline={fr ? "Élément désactivé" : "Disabled item"} supporting={fr ? "Exemple à deux lignes" : "Two-line example"} leading={<MaterialIcon name="info" size={24} />} aria-disabled="true" /></div>;
+      break;
     case "button":
       content = (
         <div className="flex flex-wrap items-center gap-3">
