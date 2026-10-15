@@ -25,6 +25,12 @@ test("Design Lab displays exact component names and identifies specimen fidelity
   assert.match(labCss, /data-kind="mockup"/);
 });
 
+test("The progress gallery uses the shared linear primitive and labels the circular mockup honestly", () => {
+  assert.match(lab, /<ProgressIndicator label=\{locale===\"fr\"\?\"Progression de l’importation\":\"Import progress\"\} value=\{sampleProgress\}/);
+  assert.match(lab, /names=\{\[\"CircularProgressIndicator \(mockup\)\"/);
+  assert.doesNotMatch(lab, /names=\{\[\"CircularProgressIndicator \(mockup\)\",\"LinearProgressIndicator \(mockup\)\"/);
+});
+
 test("The shared NavigationBar is integrated in the phone preview and interactive gallery", () => {
   assert.match(lab, /import \{ NavigationBar \} from "@\/components\/ui\/NavigationBar"/);
   assert.equal((lab.match(/<NavigationBar/g) ?? []).length, 2);
