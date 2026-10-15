@@ -296,7 +296,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
             label={locale==="fr"?"Progression de démonstration":"Demo progress"}
             value={sampleProgress}
             className={styles.sampleProgress}
-            style={{ "--progress-color": "var(--lab-primary)", "--progress-track": "var(--lab-surface-2)" }}
+            style={{ "--progress-color": "var(--lab-primary)", "--progress-track": "var(--lab-primary-soft)" }}
           />
           <p className={styles.helper}>{locale==="fr"?"Le curseur pilote la barre de progression.":"The slider controls the progress indicator."}</p>
         </article>
