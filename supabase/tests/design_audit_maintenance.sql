@@ -1,12 +1,13 @@
 begin;
 
-select plan(22);
+select plan(24);
 
 select has_table('public', 'design_audit_components', 'component inventory table exists');
 select has_table('public', 'design_audit_reports', 'defect reports table exists');
 select has_table('public', 'design_audit_decisions', 'decision log table exists');
 select has_table('public', 'design_audit_verifications', 'verification log table exists');
 select has_table('public', 'design_audit_events', 'append-only event history table exists');
+select has_column('public', 'design_audit_components', 'm3_relationship', 'component inventory distinguishes M3 adaptations from utilities');
 
 select ok((select relrowsecurity from pg_class where oid = 'public.design_audit_components'::regclass), 'component inventory has RLS');
 select ok((select relrowsecurity from pg_class where oid = 'public.design_audit_reports'::regclass), 'reports have RLS');
@@ -16,6 +17,7 @@ select ok((select relrowsecurity from pg_class where oid = 'public.design_audit_
 
 select ok((select count(*) >= 50 from public.design_audit_components), 'inventory lists real UI implementation files');
 select ok((select count(*) > 0 from public.design_audit_components where preview_key is not null), 'at least some real components have live previews');
+select ok((select count(*) = 0 from public.design_audit_components where m3_relationship = 'not-assessed'), 'every inventoried component has an explicit relationship classification');
 select ok(not has_table_privilege('anon', 'public.design_audit_components', 'SELECT'), 'anonymous visitors cannot read the private inventory');
 select ok(not has_table_privilege('anon', 'public.design_audit_reports', 'INSERT'), 'anonymous visitors cannot submit reports');
 select ok(has_table_privilege('authenticated', 'public.design_audit_reports', 'INSERT'), 'authenticated role can attempt report inserts subject to RLS');
