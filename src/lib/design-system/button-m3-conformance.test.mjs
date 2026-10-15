@@ -72,6 +72,30 @@ test("legacy names are aliases to canonical M3 treatments", () => {
   assert.ok(toolSearch.includes('<MaterialIcon name="arrow_forward" size={24} />'));
 });
 
+test("Button audit preview provides contextual verification guidance in French and English", () => {
+  for (const required of [
+    "buttonScenarios",
+    "Référence Android Material 3",
+    "Android Material 3 baseline",
+    "MDUI and MUI are secondary Web comparisons only",
+    "buttonLongLabel",
+    "buttonLeadingIcon || buttonTrailingArrow",
+    "buttonNarrow",
+    "buttonMultiline || buttonManualBreak",
+    "buttonManualBreak",
+    "200 %",
+    "200%",
+    "Réduction des animations",
+    "Reduced motion",
+    "Consignes de vérification",
+    "What to verify",
+    "l’aperçu seul ne prouve pas la conformité",
+    "preview alone does not prove conformance",
+  ]) {
+    assert.ok(auditPreview.includes(required), "missing contextual Button verification guidance: " + required);
+  }
+});
+
 test("favorite action uses shared M3 controls and never shrinks icon touch target below 48px", () => {
   assert.ok(favoriteButton.includes('import { Button } from "@/components/ui/Button"'));
   assert.ok(favoriteButton.includes('import { IconButton } from "@/components/ui/IconButton"'));

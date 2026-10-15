@@ -288,6 +288,88 @@ export default function ComponentLivePreview({
       const sampleWidth = buttonNarrow ? "w-44" : "";
       const multiline = buttonMultiline || buttonManualBreak;
       const variants = [{ key: "filled", variant: "filled" as const }, { key: "elevated", variant: "elevated" as const }, { key: "tonal", variant: "filled-tonal" as const }, { key: "outlined", variant: "outlined" as const }, { key: "text", variant: "text" as const }];
+      const buttonScenarios = [
+        {
+          key: "android-reference",
+          title: fr ? "Référence Android Material 3" : "Android Material 3 baseline",
+          instruction: fr
+            ? "Compare la forme, les dimensions, les couleurs sémantiques et l’élévation au repos aux références Android officielles. Bascule entre les thèmes clair et sombre et note les écarts : l’aperçu seul ne prouve pas la conformité. MDUI et MUI servent uniquement de comparaisons Web secondaires ; ne retiens pas un écart sans en discuter d’abord."
+            : "Compare shape, dimensions, semantic colors and resting elevation with the official Android references. Switch between light and dark themes and record differences; the preview alone does not prove conformance. MDUI and MUI are secondary Web comparisons only; do not adopt a divergence without discussing it first.",
+          show: true,
+        },
+        {
+          key: "keyboard-and-press",
+          title: fr ? "Focus, survol et appui" : "Focus, hover and press",
+          instruction: fr
+            ? "Utilise Tab pour atteindre chaque bouton actif, vérifie que le focus reste visible, puis active-le avec Entrée et Espace. Maintiens le clic pour observer l’état appuyé ; la forme doit rester stable."
+            : "Use Tab to reach each enabled button, check that focus remains visible, then activate it with Enter and Space. Hold the pointer down to inspect the pressed state; the shape should remain stable.",
+          show: true,
+        },
+        {
+          key: "disabled",
+          title: fr ? "État désactivé" : "Disabled state",
+          instruction: fr
+            ? "Compare les variantes actives et désactivées dans les deux thèmes. Vérifie qu’un bouton désactivé ne s’active pas, que son texte reste discernable et que la variante élevée perd son ombre."
+            : "Compare enabled and disabled variants in both themes. Verify that disabled buttons cannot activate, their labels remain discernible, and the elevated variant loses its shadow.",
+          show: true,
+        },
+        {
+          key: "viewport-and-zoom",
+          title: fr ? "Fenêtre étroite et zoom" : "Narrow viewport and zoom",
+          instruction: fr
+            ? "Réduis la fenêtre jusqu’à une largeur mobile, puis teste le zoom du navigateur à 200 %. Vérifie l’absence de défilement horizontal inutile, de texte coupé et de focus masqué ; note tout débordement observé."
+            : "Narrow the window to a mobile width, then test browser zoom at 200%. Check for unnecessary horizontal scrolling, clipped text and obscured focus; record any overflow you observe.",
+          show: true,
+        },
+        {
+          key: "long-label",
+          title: fr ? "Libellé long" : "Long label",
+          instruction: fr
+            ? "Avec le libellé long, réduis progressivement la fenêtre et observe aussi le conteneur du bouton. Par défaut, le texte reste sur une ligne : vérifie qu’il n’est ni coupé ni superposé et que les boutons voisins se replacent. Signale tout débordement du bouton lui-même."
+            : "With the long label enabled, progressively narrow the window and inspect the button container too. By default, text stays on one line: check that it is not clipped or overlapping and neighboring buttons reflow. Report any overflow from the button itself.",
+          show: buttonLongLabel,
+        },
+        {
+          key: "icons",
+          title: fr ? "Icônes et espacement" : "Icons and spacing",
+          instruction: fr
+            ? "Vérifie l’alignement vertical, l’espace entre l’icône et le texte, et l’absence de chevauchement avec la flèche. Recommence avec une fenêtre étroite et à 200 % de zoom pour repérer toute compression."
+            : "Check vertical alignment, spacing between icon and label, and that the arrow never overlaps content. Repeat with a narrow window and 200% zoom to spot unwanted compression.",
+          show: buttonLeadingIcon || buttonTrailingArrow,
+        },
+        {
+          key: "constrained-width",
+          title: fr ? "Largeur contrainte" : "Constrained width",
+          instruction: fr
+            ? "Inspecte le spécimen étroit : aucun caractère ne doit être masqué. Compare le comportement sur une ligne avec le retour à la ligne activé ; vérifie que le conteneur et la page ne débordent pas horizontalement."
+            : "Inspect the narrow specimen: no characters should be hidden. Compare single-line behavior with wrapping enabled, and check that neither the container nor the page overflows horizontally.",
+          show: buttonNarrow,
+        },
+        {
+          key: "wrapping",
+          title: fr ? "Retour à la ligne" : "Text wrapping",
+          instruction: fr
+            ? "Active le retour à la ligne avec une largeur contrainte. Vérifie que la hauteur augmente avec le texte, que toutes les lignes restent lisibles, que le contenu est centré et que les icônes ne se chevauchent pas."
+            : "Enable wrapping with a constrained width. Check that the button grows with its text, every line remains readable, content stays centered and icons do not overlap.",
+          show: buttonMultiline || buttonManualBreak,
+        },
+        {
+          key: "manual-break",
+          title: fr ? "Saut de ligne volontaire" : "Intentional line break",
+          instruction: fr
+            ? "Vérifie que la coupure est naturelle en français et en anglais, qu’aucun mot n’est isolé et que le texte complet reste visible sans écraser les icônes."
+            : "Check that the line break reads naturally in French and English, no word is stranded, and the full label stays visible without crowding the icons.",
+          show: buttonManualBreak,
+        },
+        {
+          key: "reduced-motion",
+          title: fr ? "Réduction des animations" : "Reduced motion",
+          instruction: fr
+            ? "Si la préférence système de réduction des animations est disponible, active-la et vérifie que les transitions décoratives disparaissent sans supprimer un retour d’état utile."
+            : "If the system reduced-motion preference is available, enable it and check that decorative transitions disappear without removing useful state feedback.",
+          show: true,
+        },
+      ].filter((scenario) => scenario.show);
       content = (<div className="grid gap-5">
         <fieldset className="grid gap-3"><legend className="text-sm font-semibold">{fr ? "Paramètres du spécimen" : "Specimen controls"}</legend>
           <div className="flex flex-wrap gap-x-5 gap-y-3 text-sm">
@@ -301,6 +383,20 @@ export default function ComponentLivePreview({
           </div>
           <p className="text-xs leading-5 text-[var(--muted)]">{fr ? "Survole les boutons, utilise Tab pour tester le focus clavier et maintiens le clic pour observer l’état appuyé. Combine largeur contrainte et retour à la ligne pour comparer les comportements." : "Hover the buttons, use Tab to test keyboard focus, and hold the pointer down to inspect the pressed state. Combine constrained width and wrapping to compare behavior."}</p>
         </fieldset>
+        <section className="grid gap-3 rounded-xl border border-[var(--border)] p-3" aria-labelledby="button-guidance-title">
+          <div>
+            <h4 id="button-guidance-title" className="text-sm font-semibold">{fr ? "Consignes de vérification" : "What to verify"}</h4>
+            <p className="mt-1 text-sm leading-5 text-[var(--muted)]">{fr ? "Les consignes suivent les options activées. Observe le comportement réel, note les écarts et ne considère pas une preview comme une preuve de conformité." : "Guidance updates with the selected options. Inspect actual behavior, record differences, and do not treat a preview as proof of conformance."}</p>
+          </div>
+          <ul className="grid gap-2 sm:grid-cols-2">
+            {buttonScenarios.map((scenario) => (
+              <li key={scenario.key} className="rounded-lg bg-[var(--background)] p-3">
+                <p className="text-sm font-semibold">{scenario.title}</p>
+                <p className="mt-1 text-sm leading-5 text-[var(--muted)]">{scenario.instruction}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
         <div className="grid gap-2"><h4 className="text-sm font-semibold">{fr ? "Variantes canoniques — interaction réelle" : "Canonical variants — live interaction"}</h4><div className="flex flex-wrap items-start gap-3">
           {variants.map((item) => <div key={item.key} className={sampleWidth}><Button variant={item.variant} disabled={buttonDisabled} multiline={multiline} className={sampleWidth} onClick={() => setSplitResult(item.key)}>{renderButtonContent(buttonLabel)}</Button></div>)}
         </div></div>
