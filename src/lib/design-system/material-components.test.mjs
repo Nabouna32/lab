@@ -53,7 +53,7 @@ test("shared switch uses native checkbox semantics with the switch role and M3 s
   assert.ok(switchSource.includes("peer-checked:after:bg-[var(--switch-on-thumb)]"));
   assert.match(switchSource, /on-surface\) 12%/);
   assert.match(switchSource, /on-surface\) 38%/);
-  assert.match(switchSource, /"--switch-active": "var\(--switch-disabled-track\)"/);
+  assert.match(switchSource, /"--switch-active": checked \? "var\(--switch-disabled-selected-track\)"/);
   assert.match(switchSource, /"--switch-track": "var\(--surface-container-highest\)"/);
   assert.match(switchSource, /"--switch-outline": checked \? "transparent" : "var\\(--switch-disabled-outline\\)"/);
   assert.match(switchSource, /peer-focus-visible:ring-2/);
@@ -69,6 +69,9 @@ test("shared checkbox uses M3 foreground/background roles and a visible keyboard
   assert.match(checkboxSource, /peer-focus-visible:ring-2/);
   assert.match(checkboxSource, /borderWidth: disabled \? \(checked \? 0 : 2\) : 1/);
   assert.match(checkboxSource, /var\\(--surface\\) 38%/);
+  assert.match(checkboxSource, /rounded-\\[2px\\]/);
+  assert.match(checkboxSource, /size-\\[18px\\]/);
+  assert.match(checkboxSource, /MaterialIcon name="check" size=\{18\}/);
   assert.doesNotMatch(checkboxSource, /accent-\[#/);
 });
 
