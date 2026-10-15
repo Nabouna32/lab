@@ -71,6 +71,7 @@ export function ExposedDropdownMenu({
   };
 
   const openAt = (index: number) => {
+    if (firstEnabledIndex < 0) return;
     const next = options[index]?.disabled ? findEnabled(index, 1) : index;
     setActiveIndex(next >= 0 ? next : Math.max(0, firstEnabledIndex));
     setOpen(true);
@@ -141,6 +142,7 @@ export function ExposedDropdownMenu({
               {option.dividerBefore ? <div className={styles.divider} role="separator" /> : null}
               <button
                 type="button"
+                tabIndex={-1}
                 role="option"
                 id={`${controlId}-option-${index}`}
                 aria-selected={option.value === value}
