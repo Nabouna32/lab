@@ -26,8 +26,13 @@ export function ModalBottomSheet({
   children,
 }: ModalBottomSheetProps) {
   const sheetRef = useRef<HTMLDivElement>(null);
+  const onDismissRef = useRef(onDismiss);
   const titleId = useId();
   const descriptionId = useId();
+
+  useEffect(() => {
+    onDismissRef.current = onDismiss;
+  }, [onDismiss]);
 
   useEffect(() => {
     if (!open) return;
@@ -48,7 +53,7 @@ export function ModalBottomSheet({
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         event.preventDefault();
-        onDismiss();
+        onDismissRef.current();
         return;
       }
       if (event.key !== "Tab") return;
@@ -75,7 +80,7 @@ export function ModalBottomSheet({
       document.body.style.overflow = previousOverflow;
       previousFocus?.focus();
     };
-  }, [open, onDismiss]);
+  }, [open]);
 
   if (!open) return null;
 
