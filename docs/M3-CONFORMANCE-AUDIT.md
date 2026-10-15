@@ -612,3 +612,8 @@ Official source: https://developer.android.com/develop/ui/compose/components/sca
 ## ListItem / Divider — 2026-10-15
 
 Official sources: https://developer.android.com/reference/kotlin/androidx/compose/material3/ListItem.composable and https://developer.android.com/reference/kotlin/androidx/compose/material3/HorizontalDivider.composable. Added shared ListItem and Divider Web adaptations, replaced the static list rows and horizontal separator in the Lab, and added a vertical divider specimen. Exact dimensions, slot spacing, inset variants, semantics and text scaling remain to verify.
+
+
+## Chip family — 2026-10-15
+
+Official source: https://developer.android.com/develop/ui/compose/components/chip. Added shared Chip Web adaptation for Assist, ElevatedAssist, Filter, ElevatedFilter, Input and Suggestion variants. The Lab's local filter/suggestion mockups are replaced with the shared component. Exact shapes, state tokens, touch targets, removal semantics and motion remain to audit against the pinned AndroidX source; runtime checks pending.
