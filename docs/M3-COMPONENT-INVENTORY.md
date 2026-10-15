@@ -229,3 +229,10 @@ For each component/variant, record:
 - **Lab:** updated the identifier inventory to list the official button and icon-button variants, and added selected-state examples for standard, filled, filled-tonal and outlined icon buttons.
 - **Custom extension:** `Button variant="danger"` is app-specific semantic styling, not a built-in Material 3 button variant; the Lab now labels it explicitly.
 - **Not yet verified:** all icon-toggle variants' selected colors/shape/motion and exact icon button dimensions remain to validate against the pinned AndroidX source.
+
+
+## DismissibleNavigationDrawer / PermanentNavigationDrawer — 2026-10-15
+
+- **Official sources:** https://developer.android.com/reference/kotlin/androidx/compose/material3/DismissibleNavigationDrawer.composable and https://developer.android.com/reference/kotlin/androidx/compose/material3/PermanentNavigationDrawer.composable
+- **Lab:** extended the shared drawer adaptation with in-layout dismissible and permanent modes, alongside the existing modal mode.
+- **Not yet verified:** exact content shifting/measurement, adaptive breakpoints, window insets, nested scroll, drawer state/animation, RTL and browser/screen-reader behavior.
