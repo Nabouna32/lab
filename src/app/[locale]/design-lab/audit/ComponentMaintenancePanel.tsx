@@ -42,19 +42,38 @@ export default function ComponentMaintenancePanel({ componentId, locale }: { com
   const [pr, setPr] = useState("");
   const [sha, setSha] = useState("");
   const [busy, setBusy] = useState(true);
-  const load = useCallback(async () => {
-    const [a,b,c,d] = await Promise.all([
+  const fetchRecords = useCallback(async () => {
+    return await Promise.all([
       db.from("design_audit_reports").select("id,title,description,issue_type,component_state,severity,status,expected_behavior,created_at").eq("component_id",componentId).order("created_at",{ascending:false}),
       db.from("design_audit_decisions").select("id,title,rationale,status,created_at,approved_by,approved_at,official_references").eq("component_id",componentId).order("created_at",{ascending:false}),
       db.from("design_audit_verifications").select("id,verification_type,result,notes,reference_url,pull_request_url,commit_sha,created_at").eq("component_id",componentId).order("created_at",{ascending:false}),
       db.from("design_audit_events").select("id,event_type,details,created_at").eq("component_id",componentId).order("created_at",{ascending:false}).limit(15),
     ]);
+  }, [componentId,db]);
+
+  const applyRecords = useCallback(([a,b,c,d]: Awaited<ReturnType<typeof fetchRecords>>) => {
     const issue = a.error ?? b.error ?? c.error ?? d.error;
     setError(issue?.message ?? "");
-    setReports((a.data ?? []) as Report[]); setDecisions((b.data ?? []) as Decision[]);
-    setChecks((c.data ?? []) as Verification[]); setEvents((d.data ?? []) as Event[]); setBusy(false);
-  }, [componentId,db]);
-  useEffect(() => { void load(); }, [load]);
+    setReports((a.data ?? []) as Report[]);
+    setDecisions((b.data ?? []) as Decision[]);
+    setChecks((c.data ?? []) as Verification[]);
+    setEvents((d.data ?? []) as Event[]);
+    setBusy(false);
+  }, []);
+
+  const load = useCallback(async () => {
+    const records = await fetchRecords();
+    applyRecords(records);
+  }, [applyRecords,fetchRecords]);
+
+  useEffect(() => {
+    let active = true;
+    void fetchRecords().then((records) => {
+      if (active) applyRecords(records);
+    });
+    return () => { active = false; };
+  }, [applyRecords,fetchRecords]);
+
   async function submitReport(e: FormEvent) {
     e.preventDefault(); setSaving(true); setError("");
     const {error: issue} = await db.from("design_audit_reports").insert({component_id:componentId,title:title.trim(),description:description.trim(),issue_type:kind,component_state:state,severity,expected_behavior:expected.trim()||null});
