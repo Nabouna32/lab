@@ -87,7 +87,7 @@ The `button` specimen uses the production Button and exposes:
 - constrained width, opt-in wrapping and explicit line break;
 - natural hover, keyboard focus-visible and pressed states.
 
-The Lab is an inspection surface, not proof of conformance. Test desktop/tablet/mobile stages, light/dark themes, keyboard navigation and browser zoom.
+The Lab is an inspection surface, not proof of conformance. Test desktop/tablet/mobile stages, light/dark themes, keyboard navigation and browser zoom. The preview also provides contextual French/English verification instructions that react to the selected Button scenarios (long labels, icons, constrained width and wrapping), alongside baseline checks for Android Material 3 reference fidelity, keyboard states, disabled behavior, zoom and reduced motion. Record observed differences rather than assuming the specimen passes.
 
 ## 8. Verification checklist
 
