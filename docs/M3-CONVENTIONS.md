@@ -564,3 +564,8 @@ Official sources: https://developer.android.com/develop/ui/compose/components/ap
 - Implemented: added shared TopAppBar with all four named variants, navigation action, title and action slot. The Lab's static top-bar mockup is replaced by the shared small variant and shows center-aligned, medium and collapsed-large specimens. The notification action uses the shared Badge/BadgedBox components.
 - Gaps: automatic scroll behavior/collapse transitions, exact height/padding/typography tokens, window insets, tonal color behavior, action overflow and official motion curves are not yet implemented/verified. CSS sizes are approximations, not dp.
 - Status: source-informed Web adaptation; partial parity. Validate action hit targets, title truncation, narrow viewports, keyboard/screen-reader behavior and scroll-driven transitions.
+
+
+### BottomAppBar — 2026-10-15
+
+Official source: https://developer.android.com/develop/ui/compose/components/app-bars. Added a shared BottomAppBar Web adaptation with action, custom-content and FAB slots; the Lab shows three icon actions and a shared small FAB. CSS includes bottom safe-area padding and semantic surface roles. Exact AndroidX geometry, tonal elevation, FAB placement/cutout, window insets and motion remain unverified. Status: partial Web parity; browser and CI checks required.
