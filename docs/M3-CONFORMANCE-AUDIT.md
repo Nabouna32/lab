@@ -731,3 +731,8 @@ Official sources: [DismissibleNavigationDrawer](https://developer.android.com/re
 ## ScrollField — 2026-10-15
 
 Official sources: [ScrollField API](https://developer.android.com/reference/kotlin/androidx/compose/material3/ScrollField.composable), [ScrollFieldState](https://developer.android.com/reference/kotlin/androidx/compose/material3/ScrollFieldState). Added an isolated Web wheel-selector specimen. This is an experimental Material3 Expressive API (state added in 1.5.0-alpha19; defaults in 1.5.0-alpha29), not part of the default Pixel-fidelity style direction. Exact Compose PagerState snapping, animation/velocity, TalkBack announcements, touch/RTL and visual parity remain unverified.
+
+
+## ButtonGroup — 2026-10-15
+
+Official sources: [ButtonGroup API](https://developer.android.com/reference/kotlin/androidx/compose/material3/ButtonGroup.composable), [ButtonGroupScope](https://developer.android.com/reference/kotlin/androidx/compose/material3/ButtonGroupScope). Added an isolated Web adaptation with selected items, modest width emphasis and overflow menu. This is a recent API (scope/DSL listed in Material3 1.5.0-alpha29); the fixed maxVisible demo threshold is not AndroidX's measured adaptive overflow or compression behavior. Exact animation, layout measurement, keyboard/menu state and version availability remain open.
