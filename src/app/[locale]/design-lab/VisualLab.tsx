@@ -7,6 +7,7 @@ import { NavigationBar } from "@/components/ui/NavigationBar";
 import { NavigationRail } from "@/components/ui/NavigationRail";
 import { NavigationDrawer } from "@/components/ui/NavigationDrawer";
 import { CircularProgressIndicator } from "@/components/ui/CircularProgressIndicator";
+import { FloatingActionButton } from "@/components/ui/FloatingActionButton";
 import { Select } from "@/components/ui/Select";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
@@ -434,9 +435,19 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
       <div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>05 / ${locale==="fr"?"Bibliothèque M3 étendue":"Extended M3 library"}</span><h2 id="m3-missing-title">{locale==="fr"?"Composants Android à ne pas oublier":"Android components not to miss"}</h2><p>{locale==="fr"?"Une couverture plus large des composants Material 3 courants, avec états sélectionnables et couleurs reliées au thème actif.":"Broader coverage of common Material 3 components, with selectable states and colors linked to the active theme."}</p></div></div>
       <div className={styles.galleryGrid}>
         <article className={styles.galleryCard}>
-          <h3>{locale==="fr"?"Barre supérieure, navigation et action flottante":"Top app bar, navigation & FAB"}</h3><ComponentIdentifier names={["TopAppBar (mockup)","FloatingActionButton (mockup)"]} kind="mockup" locale={locale}/><ComponentIdentifier names={["NavigationRail"]} kind="adaptation" locale={locale}/>
+          <h3>{locale==="fr"?"Barre supérieure, navigation et action flottante":"Top app bar, navigation & FAB"}</h3><ComponentIdentifier names={["TopAppBar (mockup)"]} kind="mockup" locale={locale}/><ComponentIdentifier names={["NavigationRail","FloatingActionButton"]} kind="adaptation" locale={locale}/>
           <div className={styles.sampleTopBar}><button type="button" className={styles.sampleIconButton} aria-label={locale==="fr"?"Ouvrir le menu":"Open menu"}><MaterialIcon name="menu" size={22}/></button><strong>Loculary</strong><span className={styles.sampleTopBarSpacer}/><button type="button" className={styles.sampleIconButton} aria-label={locale==="fr"?"Rechercher":"Search"}><MaterialIcon name="search" size={22}/></button><button type="button" className={styles.sampleIconButton} aria-label={locale==="fr"?"Notifications":"Notifications"}><MaterialIcon name="notifications" size={22}/><i className={styles.sampleBadgeDot}/></button></div>
           <div className={styles.sampleNavigationRow}><NavigationRail label={locale==="fr"?"Navigation de démonstration":"Demo navigation"} selectedKey={sampleRailSelection} onSelect={setSampleRailSelection} items={[{key:"home",label:locale==="fr"?"Accueil":"Home",icon:"home"},{key:"explore",label:locale==="fr"?"Explorer":"Explore",icon:"search"},{key:"saved",label:locale==="fr"?"Enregistrés":"Saved",icon:"collections_bookmark",badge:"3"}]}/><div className={styles.sampleNavDescription}><span className={styles.sampleBadge}>{locale==="fr"?"3 nouveaux":"3 new"}</span><p>{locale==="fr"?"Rail de navigation avec destination active et badge informatif.":"Navigation rail with selected destination and an informative badge."}</p><button type="button" className={styles.sampleFab} aria-label={locale==="fr"?"Ajouter un élément":"Create item"} onClick={()=>setSnackbarOpen(true)}><MaterialIcon name="add" size={24}/></button></div></div>
+          <div className={styles.fabSpecimen}>
+            <h4>{locale==="fr"?"Variantes du bouton d’action flottant":"Floating action button variants"}</h4>
+            <ComponentIdentifier names={["SmallFloatingActionButton","FloatingActionButton","LargeFloatingActionButton","ExtendedFloatingActionButton"]} kind="adaptation" locale={locale}/>
+            <div className={styles.sampleFabVariants}>
+              <FloatingActionButton size="small" icon="add" ariaLabel={locale==="fr"?"Ajouter (petit)":"Add (small)"} onClick={()=>setSnackbarOpen(true)}/>
+              <FloatingActionButton size="default" icon="add" ariaLabel={locale==="fr"?"Ajouter":"Add"} onClick={()=>setSnackbarOpen(true)}/>
+              <FloatingActionButton size="large" icon="add" ariaLabel={locale==="fr"?"Ajouter (grand)":"Add (large)"} onClick={()=>setSnackbarOpen(true)}/>
+              <FloatingActionButton size="extended" icon="edit" label={locale==="fr"?"Créer un élément":"Create item"} onClick={()=>setSnackbarOpen(true)}/>
+            </div>
+          </div>
           <div className={styles.drawerSpecimen}>
             <h4>{locale==="fr"?"Panneau de navigation":"Navigation drawer"}</h4>
             <ComponentIdentifier names={["NavigationDrawer","ModalNavigationDrawer (Web adaptation)"]} kind="adaptation" locale={locale}/>
