@@ -308,3 +308,7 @@ See [`docs/M3-CONVENTIONS.md`](./M3-CONVENTIONS.md) for the detailed source hier
 - [SOURCE-OBSERVED → source edit made] Button and IconButton now use those AndroidX roles instead of a generalized 12%/38% rule. IconButton selected state now matches the AndroidX roles: standard = primary icon without a new container; filled-tonal = secondary/on-secondary; outlined = inverse-surface/inverse-on-surface, including matching hover/pressed state layers.
 - [LOCULARY-DECISION] The destructive danger Button variant is not an official M3 variant; it reuses the disabled role treatment of a filled action.
 - [OPEN] Check computed contrast and hover/pressed/disabled states in both themes in a browser. CSS-pixel sizing is not an Android dp equivalence.
+
+## AndroidX source cross-check (2026-10-15)
+
+The previously recorded Checkbox, Switch, outlined-field, shape-scale and Card mappings have now been cross-checked against pinned AndroidX Compose Material 3 sources: CheckboxTokens.kt, SwitchTokens.kt, OutlinedTextFieldTokens.kt, FilledTextFieldTokens.kt, ShapeTokens.kt, and Elevated/Filled/OutlinedCardTokens.kt at commit b4c15a8e351e6cfa93e90cce2cfbd0dbbe4805a7. These AndroidX files are authoritative for Android-M3 semantics; Material Web is the web-side cross-check. CSS pixel sizes remain Loculary adaptations.
