@@ -613,6 +613,6 @@ The maintenance workflow must persist across conversations, keep user observatio
 - Database changes are versioned in `supabase/migrations/`; GitHub remains the source of truth for code changes and their review.
 - Reports, decisions, verifications and status history are separate records linked to stable component identifiers.
 - Component inventory is based on real source files; it does not claim that every component is already previewable or M3-conformant.
-- `public.design_audit_catalog_entries` separately stores the Material 3 / AndroidX reference register and Loculary-specific utilities/compositions. Reference candidates remain explicitly unverified until official identity and documentation are checked; the table does not replace the Git-backed public tool catalogue.
+- `public.design_audit_catalog_entries` separately stores the Material 3 / AndroidX reference register and Loculary-specific utilities/compositions. Reference candidates remain explicitly unverified until official identity and documentation are checked; the table does not replace the Git-backed public tool catalogue. Authorized `audit.write` administrators may edit scope, entry type, classification notes and reference URLs/status from the Design Lab; PostgreSQL enforces the permissions and records changes in the event history.
 - DEC-027 remains in force: the public tool catalog stays Git-backed.
 
