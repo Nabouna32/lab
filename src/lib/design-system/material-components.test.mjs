@@ -321,8 +321,11 @@ test("outlined form controls use semantic extra-small shape tokens and per-part 
   assert.match(globalCss, /--shape-corner-small:\\s*8px/);
   assert.match(globalCss, /--shape-corner-medium:\\s*12px/);
   assert.match(textFieldSource, /rounded-\\[var\\(--shape-corner-extra-small\\)\\]/);
+  assert.match(textFieldSource, /min-h-14/);
+  assert.match(textFieldSource, /step=\{step \?\? \(type === "number" \? "any" : undefined\)\}/);
   assert.match(textAreaSource, /rounded-\\[var\\(--shape-corner-extra-small\\)\\]/);
   assert.match(selectSource, /rounded-\\[var\\(--shape-corner-extra-small\\)\\]/);
+  assert.match(selectSource, /min-h-14/);
   assert.match(cardSource, /shape-corner-medium/);
   assert.match(cardSource, /surface-container-low/);
   assert.match(cardSource, /surface-container-highest/);
