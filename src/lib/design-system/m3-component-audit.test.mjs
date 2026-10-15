@@ -7,6 +7,7 @@ const preview = readFileSync(new URL("../../app/[locale]/design-lab/audit/Compon
 const maintenance = readFileSync(new URL("../../app/[locale]/design-lab/audit/ComponentMaintenancePanel.tsx", import.meta.url), "utf8");
 const migration = readFileSync(new URL("../../../supabase/migrations/20261015210132_design_audit_maintenance.sql", import.meta.url), "utf8");
 const route = readFileSync(new URL("../../app/[locale]/design-lab/audit/page.tsx", import.meta.url), "utf8");
+const relationshipMigration = readFileSync(new URL("../../../supabase/migrations/20261015211016_design_audit_m3_relationship.sql", import.meta.url), "utf8");
 
 test("The workbench reads its inventory and progress from Supabase", () => {
   assert.match(workbench, /design_audit_components/);
@@ -46,4 +47,13 @@ test("Database schema keeps maintenance data behind RLS and admin permissions", 
 test("Maintenance route is private and excluded from indexing", () => {
   assert.match(route, /requireAdminPermission\(locale, "audit\.read"\)/);
   assert.match(route, /robots: \{ index: false, follow: false/);
+});
+
+test("The inventory distinguishes web adaptations from Loculary-specific utilities", () => {
+  assert.match(workbench, /m3_relationship/);
+  assert.match(workbench, /web-adaptation/);
+  assert.match(workbench, /loculary-utility/);
+  assert.match(relationshipMigration, /add column m3_relationship/);
+  assert.match(relationshipMigration, /loculary-utility/);
+  assert.match(relationshipMigration, /web-adaptation/);
 });
