@@ -57,8 +57,44 @@ The following inventory was read from `src/components/ui` on `main`. This is a f
 - **Observed:** `IconButton` keeps `tonal` as an alias for `filled-tonal`; selected/toggle behavior and call-site usage need review.
 - **Observed:** the Design Lab theme explorer still contains Expressive as one of several comparison schemes. That alone is not a production adoption, but the intended boundary between exploratory comparison and the selected product direction should be explicit.
 - **Inference / challenge:** the current repository has a broad catalogue of 61 shared UI TSX files, including recent adaptations of advanced or experimental AndroidX APIs. Expanding this catalogue further before measuring actual production usage risks optimizing for catalogue completeness rather than user value and maintainability.
-- **Recommendation for Lot 1:** audit the foundation-to-consumer path first: generated Fidelity semantic tokens and light/dark role wiring, `MaterialIcon`, `Button` and `IconButton`, plus their real production call sites and tests. Do not change code in that audit batch. Use the findings to propose one narrowly scoped implementation batch only after presenting the evidence and options for approval.
+- **Initial Lot 1 recommendation:** audit the foundation-to-consumer path first: generated Fidelity semantic tokens and light/dark role wiring, `MaterialIcon`, `Button` and `IconButton`, plus their real production call sites and tests. The read-only findings are recorded below; no production code was changed.
 - **Not verified in Lot 0:** local commands, CI, live browser rendering, device behavior, computed contrast, screen-reader behavior and the actual usage graph for all 61 files. No conformance claim is made for these areas.
+
+---
+
+## Lot 1 read-only audit — foundations and core actions (2026-10-15)
+
+**Scope:** source-level review of generated Fidelity roles, light/dark wiring, MaterialIcon, Button, IconButton, relevant tests and representative production consumers. No production code changed.
+
+### Confirmed source findings
+
+- **Fidelity generation is wired at the application root.** `src/app/[locale]/layout.tsx` calls `getLocularyThemeStyle()` and applies the generated light/dark custom properties to the locale `<html>`. `src/lib/design-system/rainbow-tones.ts` creates light and dark `SchemeFidelity` instances from seed `#4285F4`; category accents use `SchemeRainbow`. `src/app/globals.css` switches semantic aliases under `.dark`, while `src/components/theme/ThemeProvider.tsx` configures the theme class and system preference.
+- **Existing automated coverage is mostly source-contract coverage for this path.** `src/lib/tools/categories.test.ts` asserts the seed, Fidelity constructors, token wiring and filled-tonal role pairing. `src/lib/design-system/button-m3-conformance.test.mjs` asserts component source strings and selected consumer wiring. This is useful regression protection, but passing those assertions does not prove the computed browser colors, rendered shape, state layers, accessibility tree or visual parity.
+- **MaterialIcon is a shared, typed SVG path map.** `src/components/ui/MaterialIcon.tsx` derives `MaterialIconName` from the available paths, inherits `currentColor`, and defaults to `aria-hidden="true"`. Audit actual name coverage and whether meaningful standalone icons override decorative semantics; no icon-map defect is concluded in this read-only pass.
+- **Button and IconButton are production foundations, not Lab-only components.** Search results show them consumed across tool implementations, search, account/admin flows, favorites and collections; IconButton also appears in mobile search and unit/base converters. Changes to their shared contracts therefore have broad reach and need a call-site migration plan.
+- **Button has five canonical-looking treatments plus compatibility/app-specific names.** `filled`, `elevated`, `filled-tonal`, `outlined` and `text` are present. `primary` aliases `filled`, `secondary` aliases `outlined`, `ghost` aliases `text`, and `tonal` aliases `filled-tonal`; `danger` is an app-specific destructive treatment. Several real call sites still use `primary`, `secondary` and `ghost`, so deleting aliases immediately would be a breaking migration, not a safe cleanup.
+- **IconButton also retains `tonal` as an alias for `filled-tonal`.** Its selected outlined treatment uses inverse-surface roles. Whether this exactly matches the intended current AndroidX toggle-button state is **open**, not asserted as a defect here.
+- **Expressive remains visible in exploration code.** The Design Lab still has a Fidelity/Expressive comparison and the theme explorer still lists `SchemeExpressive`; `ScrollField` is explicitly documented as an experimental Expressive-family API. These are not evidence that production's semantic scheme is Expressive. Per the current direction, no new Expressive work is proposed in this mission; whether to hide or remove exploratory controls is a separate product/UI scope decision.
+
+### Priority finding — pressed-shape morph in the shared Button
+
+- **Observed implementation:** `src/components/ui/Button.tsx` starts from `rounded-full` and adds `active:rounded-[var(--shape-corner-small)]`, with `border-radius` included in the transition list. This makes the shared production button change shape on press.
+- **Observed test contract:** `src/lib/design-system/button-m3-conformance.test.mjs` explicitly requires both `active:rounded-[var(--shape-corner-small)]` and the border-radius transition. The test therefore protects this behavior rather than merely tolerating it.
+- **Official reference:** the current AndroidX Material 3 `Button.kt` defines the default `ButtonDefaults.shape` as the round container shape; its shape-morphing `ButtonShapes` / pressed-shape API is annotated `@ExperimentalMaterial3ExpressiveApi`. Sources: [AndroidX Button.kt, pinned source revision](https://android.googlesource.com/platform/frameworks/support/+/dd849e200f5046c2f2ca904e821fc9d42cbd0256/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Button.kt) and [AndroidX Button.kt, shape-morphing API reference in source](https://android.googlesource.com/platform/frameworks/support/+/edd8bafb328feda384a1048242a66d77f12b6699/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Button.kt).
+- **Conclusion:** this is a concrete Fidelity mismatch candidate, not a proven visual-runtime failure. The shared default currently imports an Expressive-style pressed-shape change into the base button, while the test calls it a conformance requirement. The cleanest first implementation is likely to keep the base Button shape stable on press, remove the border-radius transition from the base component, and update the test to protect the Fidelity behavior instead. The Lab's opt-in Expressive preview would need to be considered separately; it must not silently dictate the production default.
+
+### Recommendation and next approval boundary
+
+**Proposed Lot 2 — narrow Button Fidelity correction (not yet implemented):**
+
+1. Remove the base `Button` pressed-shape morph and its now-unneeded border-radius transition.
+2. Replace the test assertions that mandate that morph with assertions that the canonical base variants retain a stable shape while preserving focus, disabled, color-state and reduced-motion behavior.
+3. Leave compatibility aliases, IconButton selected-state colors, Design Lab Expressive controls and other component families untouched in this batch.
+4. Inspect the complete diff and run the focused button conformance tests plus the repository's required CI. Do not claim browser parity without browser evidence.
+
+**Trade-off:** this is a small, high-leverage correction to a shared primitive and avoids broad call-site churn. It does not solve the API alias debt or establish complete button fidelity; those remain separate follow-ups. The implementation is waiting for explicit user approval.
+
+**Verification limits:** this was a read-only source audit. No local tests, browser rendering, computed-color measurement, keyboard/device session or screen-reader validation was run.
 
 ---
 
