@@ -499,3 +499,10 @@ Added CSS reference tokens in src/app/globals.css for spacing, segmented-button 
 - Material 3 source hierarchy and theming: https://developer.android.com/develop/ui/compose/designsystems/material3
 
 Status: **partial implementation**. Token magnitudes have initial source annotations, but the full token catalogue still needs pinned AndroidX source/version per component, migration of hardcoded component dimensions, computed-style and browser testing, responsive/zoom checks, and contrast/accessibility verification. No component is promoted to “100% Android” merely because it consumes these tokens.
+
+
+### Multiline TextField / TextArea audit (2026-10-15)
+
+AndroidX TextField API and samples were reviewed. Compose's component is TextField configured for multiline entry, not a separate official component called TextArea. Loculary's shared TextArea remains a Web convenience adaptation. It now has Fidelity/Expressive selectors wired into the Lab, shared tokens, helper/error associations, and disabled/error states. The 8rem minimum height is explicitly a Loculary specimen choice, not an AndroidX token.
+
+Status: **source-informed Web adaptation**. Not yet complete: exact Compose multiline line/min-line/max-line behavior, supporting-text/counter anatomy, full state-token mapping, browser autofill/IME, text scaling, and keyboard/screen-reader validation. Do not label this component 100% Android.
