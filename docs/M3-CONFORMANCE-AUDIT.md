@@ -681,3 +681,8 @@ Official source: [AndroidX Material 3 SwipeToDismissBox API](https://developer.a
 ## FloatingActionButtonMenu — 2026-10-15
 
 Official sources: [FloatingActionButtonMenu](https://developer.android.com/reference/kotlin/androidx/compose/material3/FloatingActionButtonMenu.composable), [FloatingActionButtonMenuItem](https://developer.android.com/reference/kotlin/androidx/compose/material3/FloatingActionButtonMenuItem.composable). Added a shared Web adaptation and Lab specimen for expandable quick actions with staggered entrance motion, Escape dismissal and focus restoration on selection. Current API reference lists FloatingActionButtonMenuItem as introduced in Material3 1.5.0-alpha29; check the pinned version. Exact toggle-button morphing, motion, back handling, RTL and screen-reader parity remain open.
+
+
+## AppBarWithSearch — 2026-10-15
+
+Official source: [AndroidX AppBarWithSearch API](https://developer.android.com/reference/kotlin/androidx/compose/material3/AppBarWithSearch.composable). Added a shared Web composition using the shared SearchBar with navigation action and sticky app-bar layout. It does not implement AndroidX SearchBarState, nested-scroll behavior or platform window insets. Exact scroll behavior, elevation, shape/motion, full-screen pairing, RTL and assistive-technology parity remain open.
