@@ -31,7 +31,7 @@ export function Button({ variant = "filled", className = "", type = "button", ..
     <button
       type={type}
       className={[
-        // M3 small button baseline: 40px high, 64px minimum width, 14/20 label typography.
+        // Loculary web baseline: 40 CSS-pixel minimum height and 64 CSS-pixel minimum width; these are web sizes, not dp equivalences.
         // Keep labels on one line; action groups should wrap the buttons, not their text.
         "inline-flex min-h-10 min-w-16 shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-full px-6 py-2 text-sm font-medium leading-5 tracking-[.006em]",
         "transition-[background-color,border-color,color,box-shadow] duration-[var(--motion-standard)]",
