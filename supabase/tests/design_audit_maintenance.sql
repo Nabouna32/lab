@@ -1,6 +1,6 @@
 begin;
 
-select plan(24);
+select plan(34);
 
 select has_table('public', 'design_audit_components', 'component inventory table exists');
 select has_table('public', 'design_audit_reports', 'defect reports table exists');
@@ -28,6 +28,17 @@ select ok(exists(select 1 from pg_policies where schemaname='public' and tablena
 select ok(not has_table_privilege('anon', 'public.design_audit_decisions', 'UPDATE'), 'anonymous visitors cannot modify decisions');
 select ok(exists(select 1 from pg_trigger where tgname='design_audit_conformance_requires_evidence' and not tgisinternal), 'conformance requires a passing verification');
 select ok(exists(select 1 from pg_trigger where tgname='design_audit_component_status_event' and not tgisinternal), 'component audit status changes are recorded');
+
+select has_table('public', 'design_audit_catalog_entries', 'reference catalogue table exists');
+select has_column('public', 'design_audit_catalog_entries', 'catalog_scope', 'reference catalogue separates M3 and Loculary entries');
+select ok((select relrowsecurity from pg_class where oid = 'public.design_audit_catalog_entries'::regclass), 'reference catalogue has RLS');
+select is((select count(*)::int from public.design_audit_catalog_entries), 116, 'all historical catalogue entries are seeded');
+select is((select count(*)::int from public.design_audit_components c where not exists (select 1 from public.design_audit_catalog_entries e where e.implementation_component_id = c.id)), 0, 'every real implementation links to at least one catalogue entry');
+select ok(not has_table_privilege('anon', 'public.design_audit_catalog_entries', 'SELECT'), 'anonymous visitors cannot read the reference catalogue');
+select ok(has_table_privilege('authenticated', 'public.design_audit_catalog_entries', 'UPDATE'), 'authenticated role may attempt catalogue updates subject to RLS');
+select ok(exists(select 1 from pg_policies where schemaname='public' and tablename='design_audit_catalog_entries' and policyname='Audit writers can update reference catalogue'), 'catalogue updates require the audit-write policy');
+select ok(exists(select 1 from pg_trigger where tgname='design_audit_catalog_entry_event' and not tgisinternal), 'catalogue changes are recorded in the event history');
+select ok(exists(select 1 from pg_constraint where conname='design_audit_catalog_verified_requires_url'), 'verified references require an official URL');
 
 select * from finish();
 rollback;
