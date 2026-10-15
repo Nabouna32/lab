@@ -68,7 +68,7 @@ test("Every inventoried production component has an explicit live preview mappin
 
 
 test("Reference catalogue is stored separately from the implementation inventory", async () => {
-  const catalogMigration = readFileSync(new URL("../../../supabase/migrations/20261015230000_design_audit_reference_catalog.sql", import.meta.url), "utf8");
+  const catalogMigration = readFileSync(new URL("../../../supabase/migrations/20261015215122_design_audit_reference_catalog.sql", import.meta.url), "utf8");
   assert.match(workbench, /design_audit_catalog_entries/);
   assert.match(workbench, /role="tablist"/);
   assert.match(workbench, /material-3/);
