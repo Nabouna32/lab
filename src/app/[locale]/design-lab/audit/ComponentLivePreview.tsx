@@ -72,6 +72,9 @@ export default function ComponentLivePreview({
     case "select":
       content = <div className="grid gap-4 sm:grid-cols-2"><Select id="audit-select" label="Format" value={choice} onChange={event=>setChoice(event.target.value)}><option value="one">PNG</option><option value="two">JPEG</option><option value="three">WebP</option></Select><Select id="audit-select-disabled" label={fr ? "Champ désactivé" : "Disabled field"} value="one" disabled onChange={() => undefined}><option value="one">PNG</option></Select></div>;
       break;
+    case "text-area":
+      content = <div className="grid gap-4 sm:grid-cols-2"><TextArea label={fr ? "Description" : "Description"} inputId="audit-text-area" value={multiline} onChange={event=>setMultiline(event.target.value)} helperText={fr ? "Champ multiligne réel." : "Actual multiline field."} /><TextArea label={fr ? "Champ désactivé" : "Disabled field"} inputId="audit-text-area-disabled" value={fr ? "Non modifiable" : "Not editable"} disabled onChange={() => undefined} /></div>;
+      break;
     case "button":
       content = (
         <div className="flex flex-wrap items-center gap-3">
