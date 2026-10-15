@@ -322,6 +322,7 @@ insert into public.design_audit_components (id, name, category, implementation_p
   ('snackbar', 'Snackbar', 'Feedback & indicators', 'src/components/ui/Snackbar.tsx', 'snackbar'),
   ('split-button', 'SplitButton', 'Actions', 'src/components/ui/SplitButton.tsx', 'split-button'),
   ('switch', 'Switch', 'Selection', 'src/components/ui/Switch.tsx', 'switch'),
+  ('swipe-to-dismiss-box', 'SwipeToDismissBox', 'Interactions', 'src/components/ui/SwipeToDismissBox.tsx', 'swipe-to-dismiss-box'),
   ('tabs', 'Tabs', 'Navigation', 'src/components/ui/Tabs.tsx', 'tabs'),
   ('text-area', 'TextArea', 'Inputs', 'src/components/ui/TextArea.tsx', 'text-area'),
   ('text-field', 'TextField', 'Inputs', 'src/components/ui/TextField.tsx', 'text-field'),
