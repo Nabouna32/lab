@@ -186,7 +186,7 @@ export function DatePicker({
               type="button"
               role="gridcell"
               aria-label={new Intl.DateTimeFormat(locale, { dateStyle: "full" }).format(date)}
-              aria-pressed={isSelected}
+              aria-selected={isSelected}
               aria-current={iso === today ? "date" : undefined}
               disabled={disabled}
               className={[styles.day, !inMonth ? styles.outsideMonth : "", isSelected ? styles.selected : "", inRange ? styles.inRange : ""].filter(Boolean).join(" ")}
