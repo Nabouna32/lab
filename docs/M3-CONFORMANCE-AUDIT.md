@@ -245,7 +245,7 @@ The source-level convention and implementation intent for these additions are re
 - **ProgressIndicator:** shared linear determinate/indeterminate implementation. Only determinate values expose `aria-valuenow`; indeterminate work does not invent a percentage. CSS includes a reduced-motion fallback.
 - **Checkbox/Switch disabled state:** use distinct disabled container/track and foreground treatments rather than fading the whole control uniformly. The recorded Material Web token pattern is 12% for disabled container/track and 38% for disabled foreground/outline/thumb; validate the actual computed result in both themes.
 - **Call sites intended by PR #723:** PasswordGenerator, ImageCompressor and Design Lab. Browser checks in Chromium, Firefox and mobile touch, plus keyboard/assistive-technology verification, remain outstanding.
-- **Integration status in this PR:** shared Slider/ProgressIndicator and tool call-site changes have been ported. Lab composition, Switch disabled styling and regression-test updates are still being reconciled against the newer `main` version; do not claim PR #723 is fully integrated until those changes and checks are complete.
+- **Port status in PR #729:** shared Slider/ProgressIndicator, tool call sites, Lab demo, disabled-state examples, semantic Switch disabled styling, and regression assertions have been ported into the current `main`-based files. This is a source edit, not a verified pass: CI/tests/build and browser checks still need to run. PR #723 itself remains open and unmerged.
 
 ## Canonical conventions
 
