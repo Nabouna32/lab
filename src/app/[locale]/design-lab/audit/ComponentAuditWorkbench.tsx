@@ -160,7 +160,7 @@ export default function ComponentAuditWorkbench({ locale }: { locale: Locale }) 
         <div className={styles.filters}>
           <label>{t.search}<input value={query} onChange={(event) => setQuery(event.target.value)} placeholder={t.searchPlaceholder} /></label>
           <label>{t.category}<select value={category} onChange={(event) => setCategory(event.target.value)}><option value="all">{t.allCategories}</option>{categories.map((item) => <option key={item} value={item}>{item}</option>)}</select></label>
-          <label>{t.status}<select value={status} onChange={(event) => setStatus(event.target.value)}><option value="all">{t.allStatuses}</option>{statuses.map((item) => <option key={item} value={item}>{t.statusLabels[item][locale]}</option>)}</select></label>
+          <label>{t.status}<select value={status} onChange={(event) => setStatus(statuses.find((item) => item === event.target.value) ?? "all")}><option value="all">{t.allStatuses}</option>{statuses.map((item) => <option key={item} value={item}>{t.statusLabels[item][locale]}</option>)}</select></label>
           <button className={styles.reset} type="button" onClick={() => { setQuery(""); setCategory("all"); setStatus("all"); }}>{t.reset}</button>
         </div>
 
