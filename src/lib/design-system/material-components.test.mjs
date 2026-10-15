@@ -508,7 +508,7 @@ test("Snackbar is a shared AndroidX-informed Web adaptation with honest parity b
   assert.match(snackbarSource, /Web adaptation of the AndroidX Material 3 Snackbar/);
   assert.match(snackbarSource, /actionLabel/);
   assert.match(snackbarSource, /durationMs = 4000/);
-  assert.match(snackbarSource, /if \(!open \|\| actionLabel \|\| durationMs <= 0\) return/);
+  assert.match(snackbarSource, /if \(!open \|\| hasAction \|\| durationMs <= 0\) return/);
   assert.match(snackbarSource, /role="status" aria-live="polite"/);
   assert.match(snackbarCss, /var\(--lab-inverse-surface, var\(--inverse-surface/);
   assert.match(snackbarCss, /prefers-reduced-motion: reduce/);
