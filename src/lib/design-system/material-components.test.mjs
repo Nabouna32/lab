@@ -463,6 +463,14 @@ test("Checkbox offers explicit Fidelity and Expressive choices without inventing
   assert.match(labCss, /\.componentVariantControl\{display:grid/);
 });
 
+test("Switch offers Fidelity and Expressive modes while preserving identical unverified defaults", () => {
+  assert.match(labSource, /switchVariant,setSwitchVariant/);
+  assert.match(labSource, /Switch version/);
+  assert.match(labSource, /Version du switch/);
+  assert.match(labSource, /No default Expressive-specific visual difference was confirmed for Switch/);
+  assert.match(labSource, /thumb motion will be audited separately/);
+});
+
 test("M3 Fidelity direction mockup uses semantic shape roles for official component families", () => {
   assert.match(labCss, /directionStage\[data-direction="fidelity"\] \.directionPrimary\{[^}]*border-radius:var\(--shape-corner-full\)/);
   assert.match(labCss, /directionStage\[data-direction="fidelity"\] \.directionCalculator input\{[^}]*border-radius:var\(--shape-corner-extra-small\)/);
