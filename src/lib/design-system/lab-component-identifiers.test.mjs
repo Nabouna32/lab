@@ -12,7 +12,7 @@ test("Design Lab displays exact component names and identifies specimen fidelity
     "Button", "IconButton", "TextField", "TextArea (Web wrapper)", "ExposedDropdownMenu",
     "Select (native HTML wrapper)", "ClearButton", "CopyButton", "Checkbox", "Switch",
     "Slider", "ProgressIndicator", "SegmentedControl", "ValidationMessage", "Card",
-    "Panel", "ResultPanel", "Snackbar", "ModalBottomSheet", "AlertDialog", "NavigationBar", "NavigationRail", "NavigationDrawer", "CircularProgressIndicator", "FloatingActionButton", "Badge", "BadgedBox", "Tooltip", "Carousel", "TopAppBar", "BottomAppBar", "Scaffold", "ListItem", "HorizontalDivider", "VerticalDivider",
+    "Panel", "ResultPanel", "Snackbar", "ModalBottomSheet", "AlertDialog", "NavigationBar", "NavigationRail", "NavigationDrawer", "CircularProgressIndicator", "FloatingActionButton", "Badge", "BadgedBox", "Tooltip", "Carousel", "TopAppBar", "BottomAppBar", "Scaffold", "ListItem", "HorizontalDivider", "VerticalDivider", "AssistChip", "FilterChip", "InputChip", "SuggestionChip",
   ]) {
     assert.ok(lab.includes(name), `Missing visible component identifier: ${name}`);
   }
@@ -44,6 +44,10 @@ test("NavigationRail, NavigationDrawer and CircularProgressIndicator are integra
   assert.match(lab, /import \{ Scaffold \} from "@\/components\/ui\/Scaffold"/);
   assert.match(lab, /import \{ Divider \} from "@\/components\/ui\/Divider"/);
   assert.match(lab, /import \{ ListItem \} from "@\/components\/ui\/ListItem"/);
+  assert.match(lab, /import \{ Chip \} from "@\/components\/ui\/Chip"/);
+  assert.match(lab, /names=\{\["AssistChip","ElevatedAssistChip","FilterChip","ElevatedFilterChip","InputChip","SuggestionChip","ElevatedSuggestionChip"\]\} kind="adaptation"/);
+  assert.match(lab, /<Chip variant="elevated-filter"/);
+  assert.match(lab, /<Chip variant="input"/);
   assert.match(lab, /names=\{\["ListItem","HorizontalDivider","VerticalDivider"\]\} kind="adaptation"/);
   assert.match(lab, /<Divider orientation="vertical"\/>/);
   assert.match(lab, /names=\{\["Scaffold"\]\} kind="adaptation"/);
