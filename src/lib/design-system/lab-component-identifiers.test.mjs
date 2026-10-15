@@ -6,6 +6,7 @@ const lab = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", 
 const navigation = readFileSync(new URL("../../components/ui/NavigationBar.tsx", import.meta.url), "utf8");
 const navigationCss = readFileSync(new URL("../../components/ui/NavigationBar.module.css", import.meta.url), "utf8");
 const tabs = readFileSync(new URL("../../components/ui/Tabs.tsx", import.meta.url), "utf8");
+const datePickerDialog = readFileSync(new URL("../../components/ui/DatePickerDialog.tsx", import.meta.url), "utf8");
 const labCss = readFileSync(new URL("../../app/[locale]/design-lab/visual-lab.module.css", import.meta.url), "utf8");
 
 test("Design Lab displays exact component names and identifies specimen fidelity", () => {
@@ -171,5 +172,5 @@ test("DropdownMenu mockup is replaced by the shared accessible menu adaptation",
 test("DatePickerDialog is available through a shared modal adaptation", () => {
   assert.match(lab, /import \{ DatePickerDialog \} from "@\/components\/ui\/DatePickerDialog"/);
   assert.match(lab, /open=\{sampleDateDialogOpen\}/);
-  assert.match(lab, /aria-modal="true"/);
+  assert.match(datePickerDialog, /aria-modal="true"/);
 });
