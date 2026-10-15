@@ -130,3 +130,11 @@
   background: var(--lab-outline-variant, var(--md-sys-color-outline-variant, currentColor));
   opacity: .65;
 }
+
+.groupLabel {
+  padding: 8px 12px 4px;
+  color: var(--lab-on-surface-variant, currentColor);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+}
