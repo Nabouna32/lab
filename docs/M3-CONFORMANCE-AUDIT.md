@@ -736,3 +736,8 @@ Official sources: [ScrollField API](https://developer.android.com/reference/kotl
 ## ButtonGroup — 2026-10-15
 
 Official sources: [ButtonGroup API](https://developer.android.com/reference/kotlin/androidx/compose/material3/ButtonGroup.composable), [ButtonGroupScope](https://developer.android.com/reference/kotlin/androidx/compose/material3/ButtonGroupScope). Added an isolated Web adaptation with selected items, modest width emphasis and overflow menu. This is a recent API (scope/DSL listed in Material3 1.5.0-alpha29); the fixed maxVisible demo threshold is not AndroidX's measured adaptive overflow or compression behavior. Exact animation, layout measurement, keyboard/menu state and version availability remain open.
+
+
+## NavigationSuiteScaffold — 2026-10-15
+
+Official source: [AndroidX adaptive NavigationSuiteScaffold API](https://developer.android.com/reference/kotlin/androidx/compose/material3/adaptive/navigationsuite/NavigationSuiteScaffold.composable). Added a shared Web adaptation that switches between NavigationBar, NavigationRail and PermanentNavigationDrawer using CSS viewport breakpoints. The official adaptive navigation suite is a separate artifact (release page lists 1.5.0-beta01); current CSS thresholds are approximations, not WindowSizeClass/dp parity. Exact adaptive type overrides, insets, RTL, state preservation and device behavior remain open.
