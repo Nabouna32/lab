@@ -301,3 +301,10 @@ See [`docs/M3-CONVENTIONS.md`](./M3-CONVENTIONS.md) for the detailed source hier
 ## Follow-up — independent Lab preview state (2026-10-15)
 
 - [SOURCE-OBSERVED → source edit made] The raw radio-group preview and the shared SegmentedControl preview shared the same sampleRadio state. That accidental coupling made two unrelated examples change together. Added sampleLayout state for the segmented control and a regression assertion. [OPEN] Confirm manually in the browser that the two examples now operate independently.
+
+## Follow-up — AndroidX button-token audit (2026-10-15)
+
+- [ANDROID-M3] Inspected version-pinned official AndroidX Compose Material 3 token files at commit b4c15a8e351e6cfa93e90cce2cfbd0dbbe4805a7. Disabled roles are variant-specific: filled/elevated/text/outlined use 10% container/outline treatment with on-surface-variant text at 38%; filled-tonal uses 12% container with on-surface text at 38%. Outlined icon buttons use outline-variant at 38%; filled and filled-tonal icon buttons use 10% disabled container and on-surface icon at 38%.
+- [SOURCE-OBSERVED → source edit made] Button and IconButton now use those AndroidX roles instead of a generalized 12%/38% rule. IconButton selected state now matches the AndroidX roles: standard = primary icon without a new container; filled-tonal = secondary/on-secondary; outlined = inverse-surface/inverse-on-surface, including matching hover/pressed state layers.
+- [LOCULARY-DECISION] The destructive danger Button variant is not an official M3 variant; it reuses the disabled role treatment of a filled action.
+- [OPEN] Check computed contrast and hover/pressed/disabled states in both themes in a browser. CSS-pixel sizing is not an Android dp equivalence.
