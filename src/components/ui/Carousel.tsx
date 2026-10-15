@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode, KeyboardEvent } from "react";
+import type { CSSProperties, ReactNode, KeyboardEvent } from "react";
 import styles from "./Carousel.module.css";
 
 export type CarouselItemData = {
@@ -26,7 +26,8 @@ export function Carousel({
     if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
     const viewport = event.currentTarget;
     event.preventDefault();
-    viewport.scrollBy({ left: (event.key === "ArrowRight" ? 1 : -1) * (itemWidth + gap), behavior: "smooth" });
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    viewport.scrollBy({ left: (event.key === "ArrowRight" ? 1 : -1) * (itemWidth + gap), behavior: reducedMotion ? "auto" : "smooth" });
   };
 
   return <div className={[styles.root, className].filter(Boolean).join(" ")}
@@ -34,7 +35,7 @@ export function Carousel({
     <div className={styles.viewport} tabIndex={0} onKeyDown={handleKeyDown}>
       {items.map((item, index) => <div key={item.id} className={styles.item}
         role="group" aria-roledescription="slide" aria-label={`${index + 1} / ${items.length}: ${item.label}`}
-        style={{ "--carousel-item-width": `${itemWidth}px`, "--carousel-gap": `${gap}px` } as React.CSSProperties}>
+        style={{ "--carousel-item-width": `${itemWidth}px`, "--carousel-gap": `${gap}px` } as CSSProperties}>
         {item.content}
       </div>)}
     </div>
