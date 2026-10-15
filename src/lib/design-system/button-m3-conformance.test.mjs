@@ -6,6 +6,7 @@ const button = readFileSync(new URL("../../components/ui/Button.tsx", import.met
 const iconButton = readFileSync(new URL("../../components/ui/IconButton.tsx", import.meta.url), "utf8");
 const labCss = readFileSync(new URL("../../app/[locale]/design-lab/visual-lab.module.css", import.meta.url), "utf8");
 const labSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
+const auditPreview = readFileSync(new URL("../../app/[locale]/design-lab/audit/ComponentLivePreview.tsx", import.meta.url), "utf8");
 const favoriteButton = readFileSync(new URL("../../components/favorites/FavoriteButton.tsx", import.meta.url), "utf8");
 const baseConverter = readFileSync(new URL("../../components/tools/number-base-converter/NumberBaseConverter.tsx", import.meta.url), "utf8");
 const themeToggle = readFileSync(new URL("../../components/theme/ThemeToggle.tsx", import.meta.url), "utf8");
@@ -15,34 +16,16 @@ const collectionsView = readFileSync(new URL("../../components/collections/Colle
 const favoritesView = readFileSync(new URL("../../components/favorites/FavoritesView.tsx", import.meta.url), "utf8");
 const toolSearch = readFileSync(new URL("../../components/tools/ToolSearch.tsx", import.meta.url), "utf8");
 
-test("shared Button exposes canonical M3 variants, stable labels and semantic disabled states", () => {
+test("shared Button exposes canonical variants, stable default labels, opt-in multiline and semantic disabled states", () => {
   for (const required of [
-    'const filled = "border',
-    'const elevated = "border',
-    'const filledTonal = "border',
-    'const outlined = "border',
-    'const text = "border',
-    '"filled-tonal": filledTonal',
-    "min-h-10",
-    "min-w-16",
-    "whitespace-nowrap",
-    "active:rounded-[var(--shape-corner-small)]",
-    "transition-[background-color,border-color,color,box-shadow,border-radius]",
-    "motion-reduce:transition-none",
-    "shrink-0",
-    "px-6",
-    "text-sm font-medium leading-5",
-    "disabled:bg-[color-mix(in_srgb,var(--on-surface)_10%,transparent)]",
-    "disabled:bg-[color-mix(in_srgb,var(--on-surface)_10%,transparent)] disabled:text-[color-mix(in_srgb,var(--on-surface-variant)_38%,transparent)] disabled:shadow-none",
-    "disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]",
-    "primary: filled",
-    "tonal: filledTonal",
-    "secondary: outlined",
-    "ghost: text",
-    'variant = "filled"',
-  ]) {
-    assert.ok(button.includes(required), "missing Button conformance rule: " + required);
-  }
+    'const filled = "border', 'const elevated = "border', 'const filledTonal = "border', 'const outlined = "border', 'const text = "border',
+    '"filled-tonal": filledTonal', "min-h-10", "min-w-[58px]", "whitespace-nowrap", "whitespace-pre-line", "multiline = false",
+    'variant === "text" || variant === "ghost" ? "px-3" : "px-6"',
+    "transition-[background-color,border-color,color,box-shadow]", "motion-reduce:transition-none", "shrink-0",
+    "disabled:bg-[color-mix(in_srgb,var(--on-surface)_12%,transparent)]", "disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]", "disabled:shadow-none",
+    "primary: filled", "tonal: filledTonal", "secondary: outlined", "ghost: text", 'variant = "filled"',
+  ]) assert.ok(button.includes(required), "missing Button conformance rule: " + required);
+  assert.ok(!button.includes("active:rounded-[var(--shape-corner-small)]"), "pressed state must not morph the shape in the Fidelity direction");
 });
 
 test("shared IconButton preserves 48px touch target and supports accessible toggle state", () => {
@@ -79,6 +62,9 @@ test("legacy names are aliases to canonical M3 treatments", () => {
   assert.ok(labCss.includes("--on-error:var(--lab-on-error)"));
   for (const variant of ["filled", "elevated", "filled-tonal", "outlined", "text"]) {
     assert.ok(labSource.includes(`variant="${variant}"`), "Design Lab is missing real shared Button variant: " + variant);
+  }
+  for (const required of ["buttonDisabled", "buttonLongLabel", "buttonLeadingIcon", "buttonTrailingArrow", "buttonNarrow", "buttonMultiline", "buttonManualBreak", "multiline={multiline}", "arrow_forward", "Disabled state"]) {
+    assert.ok(auditPreview.includes(required), "Button audit preview is missing control or state coverage: " + required);
   }
   assert.ok(labSource.includes("<IconButton"));
   assert.ok(labSource.includes('variant="filled-tonal"><MaterialIcon name="search" size={24}'));

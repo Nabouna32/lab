@@ -10,7 +10,7 @@
 **Mission:** [Issue #731 — audit and converge on Material 3 Fidelity](https://github.com/Nabouna32/lab/issues/731)  
 **Approved scope for Lot 0:** documentation and workflow framing only; no production UI changes.  
 **Canonical direction:** DEC-026 / `docs/DESIGN-SYSTEM.md` — Material 3 Fidelity with current Pixel / Android references. Material 3 Expressive is not the selected direction.  
-**Checkpoint ownership:** this file is the canonical component/fidelity evidence register; Issue #731 is the mission decision and progress log; each implementation batch should have its own reviewed PR/commit. Do not create a second competing audit document.
+**Checkpoint ownership:** this file is the transversal component/fidelity status register; Issue #731 is the mission decision and progress log; each component's detailed contract and decisions live in `docs/components/<Component>.md`. Link to those contracts here instead of duplicating their full audits.
 
 ### How to read this audit
 
@@ -857,3 +857,16 @@ Official source: [AndroidX adaptive NavigationSuiteScaffold API](https://develop
 - Updated source-contract tests to match the current shared specimen composition rather than removed identifiers/props: progress label formatting, the combined NavigationRail/FAB identifier, Checkbox's disabled mixed-state border logic, and the current DropdownMenu trigger composition.
 - Narrowed the ModalBottomSheet test's forbidden-name check so the separate, valid `BottomSheetScaffold` state is not mistaken for an obsolete modal-sheet mockup.
 - Tests/build have not yet completed successfully on the latest source; this is a test-contract repair, not a claim of runtime parity.
+
+## Button — 2026-10-16
+
+**Detailed contract:** [`docs/components/Button.md`](components/Button.md)  
+**Implementation:** `src/components/ui/Button.tsx`  
+**Live specimen:** `src/app/[locale]/design-lab/audit/ComponentLivePreview.tsx` (preview key `button`)  
+**Initial status:** verification required; this section records the approved implementation direction, not a claim of full conformance.
+
+- Approved direction: stable shape while pressed; 40px minimum height and 58px minimum width as web CSS values; 24px horizontal padding for standard variants and 12px for text buttons.
+- Standard labels remain single-line by default. The explicit `multiline` prop opts into wrapping/intentional line breaks when the caller supplies a constrained width.
+- The live preview covers the five canonical variants, disabled states, Loculary's destructive extension, leading icons, trailing arrows, long labels, constrained width and opt-in multiline behavior. Hover, keyboard focus and pressed states are exercised through real pointer/keyboard interaction.
+- AndroidX sources define the design reference; React/CSS behavior remains a web adaptation. Exact visual parity, resolved light/dark contrast, responsive/zoom behavior and assistive-technology behavior require runtime verification.
+- Do not mark the implementation conformant until automated checks and browser verification provide evidence.

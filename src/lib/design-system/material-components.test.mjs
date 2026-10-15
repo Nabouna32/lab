@@ -395,14 +395,15 @@ test("Design Lab examples keep independent radio and segmented-control state", (
 });
 
 test("buttons use AndroidX M3 variant-specific disabled roles and icon-toggle selections", () => {
-  assert.match(buttonSource, /on-surface\)_10%,transparent/);
-  assert.match(buttonSource, /on-surface-variant\)_38%,transparent/);
-  assert.match(buttonSource, /on-surface\)_12%,transparent/);
-  assert.match(buttonSource, /outline-variant\)_10%,transparent/);
-  assert.match(buttonSource, /const elevated = .*on-surface\)_10%,transparent.*on-surface-variant\)_38%,transparent/);
-  assert.match(buttonSource, /const filled = .*on-surface\)_10%,transparent.*on-surface-variant\)_38%,transparent/);
-  assert.match(buttonSource, /const outlined = .*outline-variant\)_10%,transparent.*on-surface-variant\)_38%,transparent/);
-  assert.match(buttonSource, /const filledTonal = .*on-surface\)_12%,transparent.*on-surface\)_38%,transparent/);
+  assert.doesNotMatch(buttonSource, /on-surface\)_10%,transparent/);
+  assert.doesNotMatch(buttonSource, /on-surface-variant\)_38%,transparent/);
+  assert.match(buttonSource, /const disabledContainer = "disabled:bg-\[color-mix\(in_srgb,var\(--on-surface\)_12%,transparent\)\]"/);
+  assert.match(buttonSource, /const disabledContent = "disabled:text-\[color-mix\(in_srgb,var\(--on-surface\)_38%,transparent\)\]"/);
+  assert.doesNotMatch(buttonSource, /outline-variant\)_10%,transparent/);
+  assert.match(buttonSource, /const elevated = .*disabledContainer.*disabledContent.*disabled:shadow-none/);
+  assert.match(buttonSource, /const filled = .*disabledContainer.*disabledContent/);
+  assert.match(buttonSource, /const outlined = .*disabled:border-\[color-mix\(in_srgb,var\(--on-surface\)_12%,transparent\)\].*disabledContent/);
+  assert.match(buttonSource, /const filledTonal = .*disabledContainer.*disabledContent/);
   assert.match(iconButtonSource, /on-surface\)_10%,transparent/);
   assert.match(iconButtonSource, /const filledTonal = .*on-surface\)_10%,transparent/);
   assert.match(iconButtonSource, /outline-variant\)_38%,transparent/);
