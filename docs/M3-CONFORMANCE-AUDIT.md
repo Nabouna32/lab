@@ -597,3 +597,8 @@ Official sources: https://developer.android.com/develop/ui/compose/components/ca
 ## TopAppBar family — 2026-10-15
 
 Official source: https://developer.android.com/develop/ui/compose/components/app-bars. Added a shared TopAppBar Web adaptation with small, center-aligned, medium and large variants and integrated them into the Lab. Automatic scroll collapse, exact geometry/typography, system insets, action overflow and Compose motion remain incomplete. Status: partial parity; responsive, semantic and scroll validation required.
+
+
+## BottomAppBar — 2026-10-15
+
+Official source: https://developer.android.com/develop/ui/compose/components/app-bars. Added shared BottomAppBar Web adaptation with actions, custom content and FAB slots; integrated a specimen into the Lab. CSS includes safe-area padding and semantic surface roles. Exact AndroidX geometry/elevation, FAB cutout placement, window insets and motion remain incomplete. Validate current-head CI and browser/device behavior.
