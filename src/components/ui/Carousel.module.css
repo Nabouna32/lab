@@ -1,0 +1,13 @@
+.root { width: 100%; min-width: 0; color: var(--lab-text, var(--on-surface, currentColor)); }
+.viewport {
+  display: flex; gap: var(--carousel-gap, 8px); overflow-x: auto; overflow-y: hidden;
+  padding: 8px 16px 12px; scroll-padding-inline: 16px; scroll-snap-type: x mandatory;
+  overscroll-behavior-inline: contain; scrollbar-width: thin; -webkit-overflow-scrolling: touch;
+}
+.item {
+  flex: 0 0 var(--carousel-item-width, 224px); min-width: 0; scroll-snap-align: start;
+}
+.root[data-layout="multi-browse"] .item:nth-child(3n + 2) { flex-basis: calc(var(--carousel-item-width, 224px) * .72); }
+.root[data-layout="multi-browse"] .item:nth-child(3n) { flex-basis: calc(var(--carousel-item-width, 224px) * .48); }
+.viewport:focus-visible { outline: 2px solid var(--lab-primary, var(--focus-ring, currentColor)); outline-offset: -2px; }
+@media (prefers-reduced-motion: reduce) { .viewport { scroll-behavior: auto; } }
