@@ -5,6 +5,7 @@ import { ModalBottomSheet } from "@/components/ui/ModalBottomSheet";
 import { AlertDialog } from "@/components/ui/AlertDialog";
 import { NavigationBar } from "@/components/ui/NavigationBar";
 import { NavigationRail } from "@/components/ui/NavigationRail";
+import { NavigationSuiteScaffold } from "@/components/ui/NavigationSuiteScaffold";
 import { NavigationDrawer } from "@/components/ui/NavigationDrawer";
 import { CircularProgressIndicator } from "@/components/ui/CircularProgressIndicator";
 import { FloatingActionButton } from "@/components/ui/FloatingActionButton";
@@ -211,6 +212,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const [sampleWideRailExpanded,setSampleWideRailExpanded]=useState(false);
   const [sampleModalWideRailExpanded,setSampleModalWideRailExpanded]=useState(false);
   const [sampleWideRailSelected,setSampleWideRailSelected]=useState("home");
+  const [sampleSuiteSelected,setSampleSuiteSelected]=useState("home");
   const [sampleRefreshing,setSampleRefreshing]=useState(false);
   const [sampleRefreshCount,setSampleRefreshCount]=useState(0);
   const [sampleBottomSheetExpanded,setSampleBottomSheetExpanded]=useState(false);
@@ -652,6 +654,12 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
       <div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>13 / {locale==="fr"?"Actualisation":"Refresh interaction"}</span><h2 id="pull-to-refresh-title">{locale==="fr"?"Tirer pour actualiser":"Pull to refresh"}</h2><p>{locale==="fr"?"Geste de tirage, état d’actualisation et action de remplacement accessible. Le comportement de défilement natif doit être vérifié sur appareil.":"Pull gesture, refresh state and an accessible alternative action. Native scrolling behavior must be tested on device."}</p></div></div>
       <div className={styles.galleryGrid}>
         <article className={styles.galleryCard}><h3>{locale==="fr"?"PullToRefreshBox":"PullToRefreshBox"}</h3><ComponentIdentifier names={["PullToRefreshBox"]} kind="adaptation" locale={locale}/><PullToRefreshBox isRefreshing={sampleRefreshing} onRefresh={()=>{setSampleRefreshCount((count)=>count+1);setSampleRefreshing(true);}} refreshLabel={locale==="fr"?"Actualisation…":"Refreshing…"} refreshNowLabel={locale==="fr"?"Actualiser maintenant":"Refresh now"}><div><strong>{locale==="fr"?"Éléments récents":"Recent items"}</strong><p>{locale==="fr"?"Tirez vers le bas dans cette zone ou utilisez le bouton d’actualisation.":"Pull down in this area or use the refresh button."}</p><p>{locale==="fr"?"Actualisations déclenchées : ":"Refreshes triggered: "}{sampleRefreshCount}</p><p>{locale==="fr"?"Ligne de contenu 1 · Ligne de contenu 2 · Ligne de contenu 3":"Content row 1 · Content row 2 · Content row 3"}</p></div></PullToRefreshBox><Button variant="outlined" disabled={!sampleRefreshing} onClick={()=>setSampleRefreshing(false)}>{locale==="fr"?"Terminer l’actualisation de démonstration":"Finish demo refresh"}</Button></article>
+      </div>
+    </section>
+    <section className={styles.gallerySection} aria-labelledby="navigation-suite-title">
+      <div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>20 / {locale==="fr"?"Navigation adaptative":"Adaptive navigation"}</span><h2 id="navigation-suite-title">NavigationSuiteScaffold</h2><p>{locale==="fr"?"Le système de navigation bascule entre barre inférieure, rail et tiroir permanent selon la largeur de fenêtre. Les seuils CSS sont des approximations, pas des dp Android.":"Navigation adapts between bottom bar, rail and permanent drawer by viewport width. CSS breakpoints are approximations, not Android dp."}</p></div></div>
+      <div className={styles.galleryGrid}>
+        <article className={styles.galleryCard}><ComponentIdentifier names={["NavigationSuiteScaffold","NavigationSuiteType"]} kind="adaptation" locale={locale}/><NavigationSuiteScaffold items={[{key:"home",label:locale==="fr"?"Accueil":"Home",icon:"home"},{key:"explore",label:locale==="fr"?"Explorer":"Explore",icon:"search"},{key:"saved",label:locale==="fr"?"Favoris":"Saved",icon:"favorite"},{key:"profile",label:locale==="fr"?"Profil":"Profile",icon:"person"}]} selectedKey={sampleSuiteSelected} onSelect={setSampleSuiteSelected} label={locale==="fr"?"Navigation de l’application":"App navigation"} title="Loculary" content={<><strong>{locale==="fr"?"Contenu adaptatif":"Adaptive content"}</strong><p>{locale==="fr"?"Redimensionnez la fenêtre pour comparer les trois présentations.":"Resize the viewport to compare all three presentations."}</p><p>{locale==="fr"?"Destination : ":"Destination: "}{sampleSuiteSelected}</p></>}/></article>
       </div>
     </section>
     <section className={styles.gallerySection} aria-labelledby="navigation-drawer-variants-title">
