@@ -262,7 +262,7 @@ export default function ComponentAuditWorkbench({ locale }: { locale: Locale }) 
           <div role="tablist" aria-label={fr ? "Catalogue de composants" : "Component catalogue"} className="flex flex-wrap gap-2">
             <button
               type="button" role="tab" aria-selected={tab === "material-3"} aria-controls="catalog-panel"
-              className={`rounded-full px-4 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] ${tab === "material-3" ? "bg-[var(--accent)] text-[var(--on-accent)]" : "border border-[var(--border)] hover:bg-[var(--surface-container)]"}`}
+              className={`rounded-full px-4 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] ${tab === "material-3" ? "bg-[var(--accent)] text-[var(--on-primary)]" : "border border-[var(--border)] hover:bg-[var(--surface-container)]"}`}
               onClick={() => { setTab("material-3"); setCategory("all"); setEntryType("all"); setStatus("all"); setExpandedEntryId(""); setExpandedComponentId(""); }}
             >
               {fr ? "Référentiel Material 3" : "Material 3 reference"}
@@ -270,7 +270,7 @@ export default function ComponentAuditWorkbench({ locale }: { locale: Locale }) 
             </button>
             <button
               type="button" role="tab" aria-selected={tab === "loculary"} aria-controls="catalog-panel"
-              className={`rounded-full px-4 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] ${tab === "loculary" ? "bg-[var(--accent)] text-[var(--on-accent)]" : "border border-[var(--border)] hover:bg-[var(--surface-container)]"}`}
+              className={`rounded-full px-4 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] ${tab === "loculary" ? "bg-[var(--accent)] text-[var(--on-primary)]" : "border border-[var(--border)] hover:bg-[var(--surface-container)]"}`}
               onClick={() => { setTab("loculary"); setCategory("all"); setEntryType("all"); setStatus("all"); setExpandedEntryId(""); setExpandedComponentId(""); }}
             >
               {fr ? "Spécifique à Loculary" : "Loculary-specific"}
