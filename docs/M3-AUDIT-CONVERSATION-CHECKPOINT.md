@@ -604,3 +604,11 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - Official source: https://developer.android.com/develop/ui/compose/components/navigation-rail. AndroidX positions the rail for top-level destinations on larger screens/landscape, typically 3–7 destinations. CSS geometry is an approximation, not dp equivalence.
 - Updated canonical conventions and conformance audit with implementation, known deviations and validation requirements.
 - Status: source-informed Web adaptation; runtime and current-head CI still need verification. Next component in sequence: NavigationDrawer.
+
+
+## Checkpoint — NavigationDrawer (2026-10-15)
+
+- Added shared `NavigationDrawer` Web adaptation with modal and standard modes, grouped items, selected state, scrim/Escape dismissal, focus containment/restoration, body scroll lock, entry motion and reduced-motion handling. Added an interactive Lab specimen.
+- Official sources: https://developer.android.com/develop/ui/compose/components/drawer, https://developer.android.com/reference/kotlin/androidx/compose/material3/ModalNavigationDrawer.composable, https://developer.android.com/develop/ui/compose/system/material-insets.
+- Canonical conventions and conformance audit updated. Explicit gaps: dismissible variant, Android DrawerState parity, edge-swipe/predictive-back, exact motion/insets, and robust inert/background screen-reader isolation.
+- Status: source-informed Web adaptation, partial parity; must pass current-head CI and browser/assistive-technology checks. Next component: CircularProgressIndicator.
