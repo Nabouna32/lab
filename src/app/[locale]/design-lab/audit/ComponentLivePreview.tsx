@@ -94,8 +94,8 @@ export default function ComponentLivePreview({
         <div className="flex flex-wrap items-center gap-3">
           <IconButton label={fr ? "Action standard" : "Standard action"}><MaterialIcon name="favorite" size={24} /></IconButton>
           <IconButton label={fr ? "Action remplie" : "Filled action"} variant="filled"><MaterialIcon name="add" size={24} /></IconButton>
-          <IconButton label={fr ? "Action tonale" : "Tonal action"} variant="filled-tonal"><MaterialIcon name="edit" size={24} /></IconButton>
-          <IconButton label={fr ? "Action désactivée" : "Disabled action"} disabled><MaterialIcon name="delete" size={24} /></IconButton>
+          <IconButton label={fr ? "Action tonale" : "Tonal action"} variant="filled-tonal"><MaterialIcon name="check" size={24} /></IconButton>
+          <IconButton label={fr ? "Action désactivée" : "Disabled action"} disabled><MaterialIcon name="info" size={24} /></IconButton>
         </div>
       );
       break;
