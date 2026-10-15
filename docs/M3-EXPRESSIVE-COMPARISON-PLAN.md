@@ -75,3 +75,7 @@ Added a component-specific selector and interactive selected IconButton to the s
 ### Checkbox family — source finding (2026-10-15)
 
 Pinned AndroidX source: [Checkbox.kt](https://android.googlesource.com/platform/frameworks/support/%2B/db4e85898bcd90a636877cc14d3ca4ba1e9492c7/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Checkbox.kt). No default Expressive-specific rendering delta was confirmed in the source inspected. The Lab now provides the component mode selector but deliberately renders the same shared Checkbox for both options and explains why. Existing web geometry (18 CSS px box, explicit outline widths, 48 CSS px minimum label row) still needs a precise comparison against AndroidX source/runtime before full Fidelity is claimed.
+
+### Switch family — source finding (2026-10-15)
+
+Pinned source reviewed: [AndroidX Switch.kt](https://android.googlesource.com/platform/frameworks/support/%2B/39bdbe03eef999f4c1352f31a90526adad9245ae/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Switch.kt). No distinct default Expressive visual variant was confirmed. AndroidX uses a Material motion spec for thumb animation; the Web component currently uses CSS transitions. Fidelity work must compare track/thumb dimensions, travel distance, easing, interruption and reduced-motion behavior. Until an official delta is verified, both style modes should render the same Switch rather than inventing one.
