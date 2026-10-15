@@ -88,7 +88,7 @@
 }
 
 .input:focus-visible::-moz-range-thumb {
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--focus-ring) 28%, transparent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--slider-focus-ring, var(--focus-ring)) 28%, transparent);
 }
 
 .input:disabled {
