@@ -696,3 +696,8 @@ Official sources: [WideNavigationRail API](https://developer.android.com/referen
 ## PullToRefreshBox — 2026-10-15
 
 Official sources: [PullToRefreshBox API](https://developer.android.com/reference/kotlin/androidx/compose/material3/pulltorefresh/PullToRefreshBox.composable), [pullToRefresh modifier](https://developer.android.com/reference/kotlin/androidx/compose/material3/pulltorefresh/pullToRefresh.modifier). Added a shared Web adaptation with pull-distance indicator, controlled refreshing state, reduced-motion behavior and an explicit refresh button. Browser nested-scroll/overscroll arbitration differs from Compose; pointer behavior must be tested on touch devices before considering this family conformant.
+
+
+## BottomSheetScaffold — 2026-10-15
+
+Official source: [AndroidX BottomSheetScaffold API](https://developer.android.com/reference/kotlin/androidx/compose/material3/BottomSheetScaffold.composable). Added a persistent bottom-sheet Web adaptation with controlled collapsed/expanded state, keyboard-accessible handle and vertical drag threshold. This does not replicate Compose nested scroll, velocity/anchor state, window insets or exact motion. Runtime gesture, RTL and assistive-technology validation remain open.
