@@ -267,3 +267,8 @@ Every new convention/audit finding must state whether it is [ANDROID-M3], [MATER
 ## Source hierarchy clarified
 
 For Android-M3 component roles and state values, pinned AndroidX Compose Material 3 token sources are authoritative. Material Web token files are the first-party web-side cross-check. When values differ, follow AndroidX for Android-M3 fidelity and record the web adaptation instead of blending values. CSS pixels and HTML/ARIA behavior remain web-specific.
+## Update — CI-found Lab checkbox token issue (2026-10-15)
+
+- Run 38697118090 failed typecheck due to a duplicate --checkbox-container-shape property in the enabled Lab checkbox sample. The disabled sample was also still using the stale 12% selected-container blend and on-surface checkmark.
+- Corrected both samples: one rounding token per sample, 38% on-surface selected disabled container, 38% surface checkmark, and rounding-degree override in both samples. Added static regression checks.
+- The failure is from an older head. Do not claim green CI until a run for the latest commit finishes.
