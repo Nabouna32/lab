@@ -136,6 +136,12 @@ export default function ComponentLivePreview({
     case "snackbar":
       content = <div className="grid gap-3"><Button variant="outlined" onClick={() => setSnackbarOpen(true)}>{fr ? "Afficher le message" : "Show message"}</Button><Snackbar open={snackbarOpen} message={fr ? "Modifications enregistrées" : "Changes saved"} actionLabel={fr ? "Annuler" : "Undo"} onAction={() => setSnackbarOpen(false)} dismissLabel={fr ? "Fermer" : "Dismiss"} onDismiss={() => setSnackbarOpen(false)} durationMs={0} /></div>;
       break;
+    case "alert-dialog":
+      content = <div className="grid gap-3"><Button variant="outlined" onClick={() => setDialogOpen(true)}>{fr ? "Ouvrir la boîte de dialogue" : "Open alert dialog"}</Button><AlertDialog open={dialogOpen} title={fr ? "Confirmer l’action ?" : "Confirm action?"} description={fr ? "Ceci est un exemple interactif du composant réel." : "This is an interactive sample of the real component."} confirmLabel={fr ? "Confirmer" : "Confirm"} dismissLabel={fr ? "Annuler" : "Cancel"} onConfirm={() => setDialogOpen(false)} onDismiss={() => setDialogOpen(false)} /></div>;
+      break;
+    case "modal-bottom-sheet":
+      content = <div className="grid gap-3"><Button variant="outlined" onClick={() => setSheetOpen(true)}>{fr ? "Ouvrir la feuille" : "Open bottom sheet"}</Button><ModalBottomSheet open={sheetOpen} title={fr ? "Actions disponibles" : "Available actions"} description={fr ? "Exemple de feuille modale." : "Modal sheet example."} dismissLabel={fr ? "Fermer" : "Dismiss"} onDismiss={() => setSheetOpen(false)}><p className="py-4 text-sm">{fr ? "Contenu de la feuille modale." : "Modal sheet content."}</p><Button onClick={() => setSheetOpen(false)}>{fr ? "Terminé" : "Done"}</Button></ModalBottomSheet></div>;
+      break;
     case "button":
       content = (
         <div className="flex flex-wrap items-center gap-3">
