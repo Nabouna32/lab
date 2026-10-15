@@ -29,7 +29,7 @@ A user should be able to:
 5. see the tool without unnecessary scrolling;
 6. enter data;
 7. obtain a clear result;
-8. copy, reset, or share the result where relevant;
+8. copy results where relevant; reset and tool-result sharing remain target capabilities, not universal functionality today;
 9. discover related tools if useful.
 
 ## Search

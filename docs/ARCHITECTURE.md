@@ -95,7 +95,7 @@ A conceptual tool definition may contain:
 - documentation;
 - validation/test metadata.
 
-The exact schema is not frozen yet.
+The current catalog and registry contracts are implemented and tested. The broader conceptual model above remains a direction: its future fields and relationships are not all fixed.
 
 ## Tool implementations
 
