@@ -13,7 +13,7 @@ test("Design Lab displays exact component names and identifies specimen fidelity
     "Button", "IconButton", "TextField", "TextArea (Web wrapper)", "ExposedDropdownMenu",
     "Select (native HTML wrapper)", "ClearButton", "CopyButton", "Checkbox", "Switch",
     "Slider", "ProgressIndicator", "SegmentedControl", "ValidationMessage", "Card",
-    "Panel", "ResultPanel", "Snackbar", "ModalBottomSheet", "AlertDialog", "NavigationBar", "NavigationRail", "NavigationDrawer", "CircularProgressIndicator", "FloatingActionButton", "Badge", "BadgedBox", "Tooltip", "Carousel", "TopAppBar", "BottomAppBar", "Scaffold", "ListItem", "HorizontalDivider", "VerticalDivider", "AssistChip", "FilterChip", "InputChip", "SuggestionChip", "RadioButton", "Tab", "PrimaryTabRow", "SecondaryTabRow", "PrimaryScrollableTabRow", "SecondaryScrollableTabRow", "DatePicker", "DateRangePicker", "TimePicker", "TimeInput (native HTML input wrapper)",
+    "Panel", "ResultPanel", "Snackbar", "ModalBottomSheet", "AlertDialog", "NavigationBar", "NavigationRail", "NavigationDrawer", "CircularProgressIndicator", "FloatingActionButton", "Badge", "BadgedBox", "Tooltip", "Carousel", "TopAppBar", "BottomAppBar", "Scaffold", "ListItem", "HorizontalDivider", "VerticalDivider", "AssistChip", "FilterChip", "InputChip", "SuggestionChip", "RadioButton", "Tab", "PrimaryTabRow", "SecondaryTabRow", "PrimaryScrollableTabRow", "SecondaryScrollableTabRow", "DatePicker", "DateRangePicker", "TimePicker", "TimeInput (native HTML input wrapper)", "SearchBar", "ExpandedDockedSearchBar", "ExpandedFullScreenSearchBar",
   ]) {
     assert.ok(lab.includes(name), `Missing visible component identifier: ${name}`);
   }
@@ -119,4 +119,12 @@ test("Time picker dial and native input wrapper are represented in the Lab", () 
   assert.match(lab, /displayMode="dial"/);
   assert.match(lab, /displayMode="input"/);
   assert.match(lab, /TimeInput \(native HTML input wrapper\)/);
+});
+
+
+test("Search bar specimens use the shared query, suggestion and expanded-state adaptation", () => {
+  assert.match(lab, /import \{ SearchBar \} from "@\/components\/ui\/SearchBar"/);
+  assert.match(lab, /mode="full-screen"/);
+  assert.match(lab, /suggestions=/);
+  assert.match(lab, /SearchBar/);
 });
