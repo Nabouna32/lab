@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react
 import { createClient } from "@/lib/supabase/client";
 type Locale = "fr" | "en";
 type Report = { id: string; title: string; description: string; issue_type: string; component_state: string; severity: string; status: string; expected_behavior: string | null; created_at: string };
-type Decision = { id: string; title: string; rationale: string; status: string; created_at: string };
+type Decision = { id: string; title: string; rationale: string; status: string; created_at: string; approved_by?: string | null; approved_at?: string | null };
 type Verification = { id: string; verification_type: string; result: string; notes: string; pull_request_url: string | null; commit_sha: string | null; created_at: string };
 type Event = { id: number; event_type: string; details: { title?: string | null; old_status?: string | null; new_status?: string | null }; created_at: string };
 const statuses = ["new", "triage", "confirmed", "in-progress", "fixed", "verified", "reopened", "wont-fix"];
@@ -34,7 +34,7 @@ export default function ComponentMaintenancePanel({ componentId, locale }: { com
     setBusy(true); setError("");
     const [a,b,c,d] = await Promise.all([
       db.from("design_audit_reports").select("id,title,description,issue_type,component_state,severity,status,expected_behavior,created_at").eq("component_id",componentId).order("created_at",{ascending:false}),
-      db.from("design_audit_decisions").select("id,title,rationale,status,created_at").eq("component_id",componentId).order("created_at",{ascending:false}),
+      db.from("design_audit_decisions").select("id,title,rationale,status,created_at,approved_by,approved_at").eq("component_id",componentId).order("created_at",{ascending:false}),
       db.from("design_audit_verifications").select("id,verification_type,result,notes,pull_request_url,commit_sha,created_at").eq("component_id",componentId).order("created_at",{ascending:false}),
       db.from("design_audit_events").select("id,event_type,details,created_at").eq("component_id",componentId).order("created_at",{ascending:false}).limit(15),
     ]);
@@ -57,6 +57,15 @@ export default function ComponentMaintenancePanel({ componentId, locale }: { com
     e.preventDefault();setSaving(true);setError("");
     const {error:issue}=await db.from("design_audit_decisions").insert({component_id:componentId,title:decisionTitle.trim(),rationale:decisionRationale.trim(),decision_type:"other"});
     setSaving(false);if(issue){setError(issue.message);return;}setDecisionTitle("");setDecisionRationale("");await load();
+  }
+  async function changeDecisionStatus(id: string, status: string) {
+    const { data: authData } = await db.auth.getUser();
+    const { error: issue } = await db.from("design_audit_decisions").update({
+      status,
+      approved_by: status === "approved" ? authData.user?.id ?? null : null,
+      approved_at: status === "approved" ? new Date().toISOString() : null,
+    }).eq("id", id);
+    if (issue) setError(issue.message); else await load();
   }
   async function submitCheck(e:FormEvent) {
     e.preventDefault();setSaving(true);setError("");
@@ -92,7 +101,7 @@ export default function ComponentMaintenancePanel({ componentId, locale }: { com
       </form>
     </details>
     <section className="rounded-2xl border border-[var(--border)] p-4"><h3 className="text-lg font-semibold">{fr?"Décisions":"Decisions"} ({decisions.length})</h3>
-      {decisions.map(d=><article key={d.id} className="border-b border-[var(--border)] py-3"><h4 className="font-semibold">{d.title} · {d.status}</h4><p className="mt-1 whitespace-pre-wrap text-sm">{d.rationale}</p></article>)}
+      {decisions.map(d=><article key={d.id} className="border-b border-[var(--border)] py-3"><div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between"><div><h4 className="font-semibold">{d.title}</h4><p className="mt-1 whitespace-pre-wrap text-sm">{d.rationale}</p></div><label className={label}>{fr?"Statut de décision":"Decision status"}<select className={field} value={d.status} onChange={e=>void changeDecisionStatus(d.id,e.target.value)}>{["proposed","approved","rejected","superseded"].map(s=><option key={s}>{s}</option>)}</select></label></div></article>)}
       <details className="mt-4 border-t border-[var(--border)] pt-4"><summary className="cursor-pointer font-medium">{fr?"Consigner une décision ou proposition":"Record a decision or proposal"}</summary>
         <form onSubmit={submitDecision} className="mt-3 grid gap-3"><label className={label}>{fr?"Résumé":"Summary"}<input className={field} required minLength={3} maxLength={200} value={decisionTitle} onChange={e=>setDecisionTitle(e.target.value)}/></label>
         <label className={label}>{fr?"Raisonnement et contexte":"Rationale and context"}<textarea className={field} rows={3} required minLength={3} maxLength={10000} value={decisionRationale} onChange={e=>setDecisionRationale(e.target.value)}/></label><div><button className={button} disabled={saving}>{fr?"Enregistrer la proposition":"Save proposal"}</button></div></form>
