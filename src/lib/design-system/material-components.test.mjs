@@ -424,6 +424,14 @@ test("SegmentedControl follows the AndroidX item-shape and state contract", () =
   assert.doesNotMatch(source, /p-1|shadow-\[var\(--shadow-sm\)\]/);
 });
 
+test("Design Lab direction preview offers Pixel, Expressive and Productivity choices", () => {
+  assert.match(labSource, /\(\["pixel","expressive","utility"\] as const\)/);
+  assert.match(labSource, /expressiveDirection/);
+  assert.match(labSource, /direction==="expressive"/);
+  assert.match(labCss, /directionStage\[data-direction="expressive"\]/);
+  assert.match(labCss, /directionStage\[data-direction="utility"\]/);
+});
+
 test("Pixel direction mockup uses semantic shape roles for official component families", () => {
   assert.match(labCss, /directionStage\[data-direction="pixel"\] \.directionPrimary\{[^}]*border-radius:var\(--shape-corner-full\)/);
   assert.match(labCss, /directionStage\[data-direction="pixel"\] \.directionCalculator input\{[^}]*border-radius:var\(--shape-corner-extra-small\)/);
