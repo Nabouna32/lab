@@ -48,6 +48,18 @@ export default function ComponentLivePreview({
 
   let content;
   switch (previewKey) {
+    case "badge":
+      content = <div className="flex items-center gap-8"><span className="inline-flex items-center gap-3"><span>{fr ? "Notifications" : "Notifications"}</span><Badge content="3" accessibleLabel="3 notifications" /></span><span className="inline-flex items-center gap-3"><span>{fr ? "Indicateur discret" : "Small indicator"}</span><Badge /></span></div>;
+      break;
+    case "divider":
+      content = <div className="grid gap-4"><p>{fr ? "Contenu au-dessus" : "Content above"}</p><Divider /><p>{fr ? "Contenu en dessous" : "Content below"}</p><div className="flex h-12 items-center gap-4"><span>{fr ? "Gauche" : "Left"}</span><Divider orientation="vertical" /><span>{fr ? "Droite" : "Right"}</span></div></div>;
+      break;
+    case "progress-indicator":
+      content = <div className="grid gap-5"><ProgressIndicator label={fr ? "Progression déterminée" : "Determinate progress"} value={progress} /><ProgressIndicator label={fr ? "Progression indéterminée" : "Indeterminate progress"} /><Slider inputId="audit-progress-value" label={fr ? "Progression" : "Progress"} value={progress} min={0} max={100} step={5} valueLabel={progress + "%"} onValueChange={setProgress} /></div>;
+      break;
+    case "circular-progress-indicator":
+      content = <div className="flex flex-wrap items-center gap-6"><CircularProgressIndicator label={fr ? "Progression déterminée" : "Determinate progress"} value={progress} size={48} /><CircularProgressIndicator label={fr ? "Progression indéterminée" : "Indeterminate progress"} size={48} /><div className="min-w-48 flex-1"><Slider inputId="audit-circular-progress-value" label={fr ? "Progression" : "Progress"} value={progress} min={0} max={100} step={5} valueLabel={progress + "%"} onValueChange={setProgress} /></div></div>;
+      break;
     case "button":
       content = (
         <div className="flex flex-wrap items-center gap-3">
