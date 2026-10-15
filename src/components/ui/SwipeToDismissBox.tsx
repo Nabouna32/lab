@@ -22,6 +22,7 @@ export function SwipeToDismissBox({
 }: SwipeToDismissBoxProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const pointerStart = useRef<{ x: number; y: number; id: number } | null>(null);
+  const currentOffset = useRef(0);
   const [offset, setOffset] = useState(0);
   const [dragging, setDragging] = useState(false);
 
@@ -40,7 +41,9 @@ export function SwipeToDismissBox({
     if (Math.abs(dy) > Math.abs(dx) * 1.2) return;
     if (direction === "start-to-end" && dx < 0) return;
     if (direction === "end-to-start" && dx > 0) return;
-    setOffset(Math.max(-180, Math.min(180, dx)));
+    const nextOffset = Math.max(-180, Math.min(180, dx));
+    currentOffset.current = nextOffset;
+    setOffset(nextOffset);
   }
 
   function onPointerUp(event: PointerEvent<HTMLDivElement>) {
