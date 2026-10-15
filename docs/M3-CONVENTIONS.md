@@ -469,3 +469,8 @@ Not implemented / not yet verified: AndroidX window/dialog properties, exact min
 
 Acceptance checks still required: keyboard focus order and restoration, screen-reader announcement, outside-click behavior, long-text wrapping, narrow viewport action stacking, light/dark contrast, reduced motion, and confirm/dismiss callbacks. Classification remains **source-informed Web adaptation; partial functional parity; runtime unverified**, not “100% AndroidX”.
 
+
+
+### Lab component naming and specimen status — 2026-10-15
+
+Every specimen in the Design Lab should expose its exact component identifier in a visible code-style label. The label must distinguish `shared` production primitive, `adaptation` (shared Web implementation inspired by AndroidX), and `mockup` (local demonstration only). A visual issue should be reportable by the displayed identifier, e.g. `Button`, `NavigationBar`, `AlertDialog`, or `FilterChip (mockup)`. Do not present a mockup as a shared component or as full AndroidX parity. The `ComponentIdentifier` helper in `src/app/[locale]/design-lab/VisualLab.tsx` centralizes these labels.
