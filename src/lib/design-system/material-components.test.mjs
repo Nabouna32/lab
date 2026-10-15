@@ -71,6 +71,7 @@ test("shared slider and progress indicator expose accessible M3 states", () => {
   assert.match(sliderCss, /height: 48px/);
   assert.match(sliderSource, /data-disabled=\{disabled \? "true" : "false"\}/);
   assert.match(sliderCss, /:focus-visible/);
+  assert.match(sliderCss, /--slider-focus-ring, var\\(--focus-ring\\)/);
   assert.match(sliderCss, /slider-disabled-active/);
   assert.match(sliderSource, /on-surface\) 12%/);
   assert.match(sliderSource, /on-surface\) 38%/);
