@@ -141,7 +141,10 @@ begin
   insert into public.design_audit_events (component_id, actor_user_id, event_type, record_id, details)
   values (component_key, auth.uid(), event_name, record_key, event_details);
 
-  return coalesce(new, old);
+  if tg_op = 'DELETE' then
+    return old;
+  end if;
+  return new;
 end;
 $$;
 
@@ -211,7 +214,6 @@ grant select, insert, update, delete on public.design_audit_reports to authentic
 grant select, insert, update, delete on public.design_audit_decisions to authenticated;
 grant select, insert, update on public.design_audit_verifications to authenticated;
 grant select on public.design_audit_events to authenticated;
-grant usage, select on sequence public.design_audit_events_id_seq to authenticated;
 
 insert into public.design_audit_components (id, name, category, implementation_path, preview_key) values
   ('alert-dialog', 'AlertDialog', 'Surfaces & overlays', 'src/components/ui/AlertDialog.tsx', null),
