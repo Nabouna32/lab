@@ -349,3 +349,7 @@ The current direction is current Pixel/Android Material fidelity, not a blanket 
 ## Expressive direction availability (2026-10-15)
 
 Design Lab's screen-level direction preview now exposes Pixel / M3, M3 Expressive and Productivity. This fixes an unreachable Expressive branch that already existed in the CSS and localized copy. It is an exploratory Loculary composition, not a claim of official screenshot parity. Shared component-level Expressive comparisons are still to be audited and implemented from version-pinned AndroidX sources. Keep production on its existing default until the user validates a deliberate change.
+
+## Design Lab component naming
+
+The Design Lab exposes exact component names on each specimen, with labels for shared primitives, Web adaptations, and local mockups. Use those identifiers in bug reports (for example `NavigationBar`, `TextField`, `ExposedDropdownMenu`, or `FilterChip (mockup)`). This helps isolate visual issues while keeping the distinction between reusable site components and illustrative mockups explicit.
