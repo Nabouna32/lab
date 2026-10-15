@@ -65,6 +65,11 @@ export function ModalBottomSheet({
       }
       const first = focusable[0];
       const last = focusable[focusable.length - 1];
+      if (!sheetRef.current?.contains(document.activeElement)) {
+        event.preventDefault();
+        (event.shiftKey ? last : first).focus();
+        return;
+      }
       if (event.shiftKey && (document.activeElement === first || document.activeElement === sheetRef.current)) {
         event.preventDefault();
         last.focus();
@@ -85,7 +90,7 @@ export function ModalBottomSheet({
   if (!open) return null;
 
   return (
-    <div className={styles.scrim} data-modal-bottom-sheet onMouseDown={(event) => {
+    <div className={styles.scrim} data-modal-bottom-sheet onClick={(event) => {
       if (event.target === event.currentTarget) onDismiss();
     }}>
       <section
