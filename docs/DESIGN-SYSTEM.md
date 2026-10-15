@@ -318,3 +318,7 @@ The shared TextField and Select use a 56px minimum height based on version-pinne
 ## Design Lab preview-state rule
 
 Keep state independent across separate component examples unless the example is explicitly intended to demonstrate synchronized controls. Radio-group and segmented-control demos now use separate state; static tests guard against the prior accidental coupling.
+
+## AndroidX button token source
+
+For button and icon-button component states, the version-pinned AndroidX Compose Material 3 token files take precedence because the design target is Android-M3 fidelity. Do not apply one disabled opacity to all button variants: filled/elevated/text/outlined and filled-tonal have different container/outline roles. The exact variant matrix and source links are in M3-CONVENTIONS.md.
