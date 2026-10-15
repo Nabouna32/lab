@@ -5,7 +5,7 @@ import { test } from "node:test";
 const workbench = readFileSync(new URL("../../app/[locale]/design-lab/audit/ComponentAuditWorkbench.tsx", import.meta.url), "utf8");
 const preview = readFileSync(new URL("../../app/[locale]/design-lab/audit/ComponentLivePreview.tsx", import.meta.url), "utf8");
 const maintenance = readFileSync(new URL("../../app/[locale]/design-lab/audit/ComponentMaintenancePanel.tsx", import.meta.url), "utf8");
-const migration = readFileSync(new URL("../../../supabase/migrations/20261015190000_design_audit_maintenance.sql", import.meta.url), "utf8");
+const migration = readFileSync(new URL("../../../supabase/migrations/20261015210132_design_audit_maintenance.sql", import.meta.url), "utf8");
 const route = readFileSync(new URL("../../app/[locale]/design-lab/audit/page.tsx", import.meta.url), "utf8");
 
 test("The workbench reads its inventory and progress from Supabase", () => {
