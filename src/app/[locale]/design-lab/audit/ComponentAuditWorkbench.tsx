@@ -431,6 +431,10 @@ export default function ComponentAuditWorkbench({ locale }: { locale: Locale }) 
                             </a>
                           ) : entry.reference_status === "not-applicable" ? (
                             <span className="rounded-full bg-[var(--surface-container)] px-3 py-1.5 text-xs">{fr ? "Hors catalogue M3" : "Outside M3 catalogue"}</span>
+                          ) : entry.official_reference_url ? (
+                            <a className="inline-flex items-center gap-1 rounded-full border border-[var(--border)] px-3 py-1.5 text-xs underline" href={entry.official_reference_url} target="_blank" rel="noreferrer">
+                              {fr ? "Source candidate à vérifier ↗" : "Unverified source candidate ↗"}
+                            </a>
                           ) : (
                             <span className="rounded-full border border-[var(--border)] px-3 py-1.5 text-xs">{fr ? "Identité / source à vérifier" : "Identity / source to verify"}</span>
                           )}
