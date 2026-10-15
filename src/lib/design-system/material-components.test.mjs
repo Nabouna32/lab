@@ -402,3 +402,15 @@ test("Design Lab has no stale disabled tokens from the previous control contract
   assert.doesNotMatch(labSource, /--checkbox-disabled-active": "color-mix\(in srgb, var\(--lab-text\) 12%, transparent\)"/);
   assert.doesNotMatch(labSource, /--checkbox-disabled-icon": "color-mix\(in srgb, var\(--lab-text\) 38%, transparent\)"/);
 });
+
+test("SegmentedControl follows the AndroidX item-shape and state contract", () => {
+  const source = readFileSync(new URL("../../components/ui/SegmentedControl.tsx", import.meta.url), "utf8");
+  assert.match(source, /items\.length === 1\s*\? "rounded-full"/);
+  assert.match(source, /index === 0\s*\? "rounded-l-full"/);
+  assert.match(source, /index === items\.length - 1\s*\? "rounded-r-full"/);
+  assert.match(source, /: "rounded-none"/);
+  assert.match(source, /bg-\[var\(--secondary-container\)\] text-\[var\(--on-secondary-container\)\]/);
+  assert.match(source, /disabled:border-\[color-mix\(in_srgb,var\(--on-surface\)_12%,transparent\)\]/);
+  assert.match(source, /disabled:text-\[color-mix\(in_srgb,var\(--on-surface\)_38%,transparent\)\]/);
+  assert.doesNotMatch(source, /p-1|shadow-\[var\(--shadow-sm\)\]/);
+});
