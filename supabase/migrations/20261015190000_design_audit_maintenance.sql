@@ -193,7 +193,10 @@ for insert to authenticated with check (
 );
 create policy "Audit writers can update decisions" on public.design_audit_decisions
 for update to authenticated using ((select private.has_admin_permission('audit.write')))
-with check ((select private.has_admin_permission('audit.write')));
+with check (
+  (select private.has_admin_permission('audit.write'))
+  and (status <> 'approved' or (approved_by = (select auth.uid()) and approved_at is not null))
+);
 create policy "Audit writers can delete decisions" on public.design_audit_decisions
 for delete to authenticated using ((select private.has_admin_permission('audit.write')));
 
