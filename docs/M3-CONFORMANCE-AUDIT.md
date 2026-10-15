@@ -442,3 +442,7 @@ Official AndroidX sample source: https://android.googlesource.com/platform/frame
 ### Component 06 — Multiline field and dropdown gap
 
 The gallery now exposes per-component mode controls, with honest notes on incomplete parity. `TextArea` is a Loculary Web API name; Android's corresponding M3 component is a multiline TextField/OutlinedTextField. `Select` currently renders a native HTML select, not the AndroidX ExposedDropdownMenu pattern. These are **not yet full Material 3 components**. Added regression coverage to prevent the Lab from implying otherwise. Next: add a shared M3 dropdown/menu primitive with proper keyboard/focus/selection/dismiss semantics, and implement multiline TextField anatomy from AndroidX source. The current selectors are audit markers, not completed Expressive variants.
+
+### Component 06 — Multiline field and dropdown gap
+
+The gallery now exposes per-component mode controls, with honest notes on incomplete parity. `TextArea` is a Loculary Web API name; Android's corresponding M3 component is a multiline TextField/OutlinedTextField. `Select` currently renders a native HTML select, not the AndroidX ExposedDropdownMenu pattern. These are not yet full Material 3 components. Added regression coverage to prevent the Lab from implying otherwise. Next: add a shared M3 dropdown/menu primitive with proper keyboard/focus/selection/dismiss semantics, and implement multiline TextField anatomy from AndroidX source. The current selectors are audit markers, not completed Expressive variants.
