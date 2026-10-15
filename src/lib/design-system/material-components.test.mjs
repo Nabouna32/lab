@@ -338,3 +338,14 @@ test("outlined form controls use semantic extra-small shape tokens and per-part 
     assert.ok(source.includes("disabled ?"), `${name} label should reflect its disabled state`);
   }
 });
+
+test("segmented control keeps labels single-line and leaves descriptions outside the M3 control", () => {
+  const segmentedSource = readFileSync(new URL("../../components/ui/SegmentedControl.tsx", import.meta.url), "utf8");
+  const percentageSource = readFileSync(new URL("../../components/tools/percentage/PercentageCalculator.tsx", import.meta.url), "utf8");
+  const videoBitrateSource = readFileSync(new URL("../../components/tools/video-bitrate/VideoBitrateCalculator.tsx", import.meta.url), "utf8");
+  assert.match(segmentedSource, /whitespace-nowrap/);
+  assert.match(segmentedSource, /shape-corner-small/);
+  assert.doesNotMatch(segmentedSource, /description\?: ReactNode|item\.description|opacity-80/);
+  assert.match(percentageSource, /modes\.find\(\(item\) => item\.id === mode\)\?\.description/);
+  assert.match(videoBitrateSource, /modes\.find\(\(item\) => item\.id === mode\)\?\.description/);
+});
