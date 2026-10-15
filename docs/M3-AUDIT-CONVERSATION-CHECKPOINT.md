@@ -644,3 +644,11 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - Added a shared Web adaptation with small, regular, large and extended variants and integrated all four into the Lab. The prior static FAB mockup classification was removed. A semantic color-role mismatch discovered during review was corrected to use the matching on-primary-container role for the primary-container surface.
 - Canonical conventions, conformance audit and component inventory updated. Exact AndroidX state elevation, expanded/collapsed extended FAB behavior, dimensions and motion remain unverified.
 - Current-head CI has not been returned by the available run lookup for the new contents-API commits; the last confirmed green run predates these changes. Do not claim these changes pass CI yet.
+
+
+## Checkpoint — Badge / BadgedBox (2026-10-15)
+
+- Official source: https://developer.android.com/reference/kotlin/androidx/compose/material3/Badge and the official Compose Material components catalogue.
+- Added shared Badge and BadgedBox Web adaptations, replaced the Lab notification icon's CSS-only badge dot with BadgedBox, and added visible specimens for dot, count and anchored badges.
+- Updated canonical conventions, conformance audit and inventory. Remaining: exact dimensions/offsets, overflow handling, semantic role defaults and screen-reader validation.
+- Status: source-informed Web adaptation; current-head CI still not confirmed. Next official family: tooltip (plain/rich), then continue through the inventory sequentially.
