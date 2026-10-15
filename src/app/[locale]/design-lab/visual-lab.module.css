@@ -223,8 +223,8 @@
 .directionStage[data-direction="pixel"] .directionBottomNav button:focus-visible{outline:2px solid var(--lab-primary);outline-offset:-2px;border-radius:1rem}
 .directionStage[data-direction="pixel"] .directionBottomNav button b{width:3.5rem;height:2rem}
 .directionStage[data-direction="pixel"] .directionBottomNav button[aria-current="page"] b{background:var(--lab-secondary-container);color:var(--lab-on-secondary-container)}
-.directionStage[data-direction="pixel"] .directionCalculator input{border-radius:.75rem;background:var(--lab-surface-low)}
-.directionStage[data-direction="pixel"] .directionResult{border-radius:1.1rem;background:var(--lab-primary-soft);color:var(--lab-on-primary-soft)}
+.directionStage[data-direction="pixel"] .directionCalculator input{border-radius:var(--shape-corner-extra-small);background:var(--lab-surface-low)}
+.directionStage[data-direction="pixel"] .directionResult{border-radius:var(--shape-corner-medium);background:var(--lab-primary-soft);color:var(--lab-on-primary-soft)}
 @media(max-width:560px){.seedPicker{min-width:0}.seedPalette{width:min(21rem,calc(100vw - 2.5rem))}.directionStage[data-direction="pixel"] .directionContent h3{font-size:1.9rem}}
 
 
