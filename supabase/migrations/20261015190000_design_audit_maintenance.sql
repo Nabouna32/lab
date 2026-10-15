@@ -214,6 +214,30 @@ with check ((select private.has_admin_permission('audit.write')));
 create policy "Audit readers can read event history" on public.design_audit_events
 for select to authenticated using ((select private.has_admin_permission('audit.read')));
 
+create or replace function private.enforce_design_audit_conformance_evidence()
+returns trigger
+language plpgsql
+security invoker
+set search_path = ''
+as $
+begin
+  if new.audit_status = 'conformant-within-verified-scope'
+    and not exists (
+      select 1 from public.design_audit_verifications v
+      where v.component_id = new.id and v.result = 'pass'
+    )
+  then
+    raise exception 'A passing verification is required before marking a component conformant'
+      using errcode = '23514';
+  end if;
+  return new;
+end;
+$;
+
+create trigger design_audit_conformance_requires_evidence
+before update of audit_status on public.design_audit_components
+for each row execute function private.enforce_design_audit_conformance_evidence();
+
 grant select, update on public.design_audit_components to authenticated;
 grant select, insert, update, delete on public.design_audit_reports to authenticated;
 grant select, insert, update, delete on public.design_audit_decisions to authenticated;
