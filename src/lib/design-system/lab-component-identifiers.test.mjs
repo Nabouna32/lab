@@ -12,7 +12,7 @@ test("Design Lab displays exact component names and identifies specimen fidelity
     "Button", "IconButton", "TextField", "TextArea (Web wrapper)", "ExposedDropdownMenu",
     "Select (native HTML wrapper)", "ClearButton", "CopyButton", "Checkbox", "Switch",
     "Slider", "ProgressIndicator", "SegmentedControl", "ValidationMessage", "Card",
-    "Panel", "ResultPanel", "Snackbar", "ModalBottomSheet", "AlertDialog", "NavigationBar", "NavigationRail", "NavigationDrawer", "CircularProgressIndicator", "FloatingActionButton", "Badge", "BadgedBox", "Tooltip",
+    "Panel", "ResultPanel", "Snackbar", "ModalBottomSheet", "AlertDialog", "NavigationBar", "NavigationRail", "NavigationDrawer", "CircularProgressIndicator", "FloatingActionButton", "Badge", "BadgedBox", "Tooltip", "Carousel",
   ]) {
     assert.ok(lab.includes(name), `Missing visible component identifier: ${name}`);
   }
@@ -38,6 +38,9 @@ test("NavigationRail, NavigationDrawer and CircularProgressIndicator are integra
   assert.match(lab, /import \{ FloatingActionButton \} from "@\/components\/ui\/FloatingActionButton"/);
   assert.match(lab, /import \{ Badge, BadgedBox \} from "@\/components\/ui\/Badge"/);
   assert.match(lab, /import \{ Tooltip \} from "@\/components\/ui\/Tooltip"/);
+  assert.match(lab, /import \{ Carousel \} from "@\/components\/ui\/Carousel"/);
+  assert.match(lab, /names=\{\["HorizontalUncontainedCarousel","HorizontalMultiBrowseCarousel"\]\} kind="adaptation"/);
+  assert.match(lab, /layout="multi-browse"/);
   assert.match(lab, /names=\{\["PlainTooltip","RichTooltip","TooltipBox"\]\} kind="adaptation"/);
   assert.match(lab, /<Tooltip variant="rich"/);
   assert.match(lab, /names=\{\["Badge","BadgedBox"\]\} kind="adaptation"/);
