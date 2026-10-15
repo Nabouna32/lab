@@ -117,7 +117,7 @@ The private Design Lab now separates the reference register from actual producti
 - `public.design_audit_components` remains the inventory of actual UI implementation files and continues to own audit status, preview mappings and maintenance workflow relationships.
 - The two lists are related but not interchangeable. A catalogue entry does not prove that Loculary implements it, and a mapped implementation does not prove conformance.
 - The existing 116-entry registry has been imported as a starting inventory: 100 M3/AndroidX candidates and 16 Loculary-specific entries. All 100 reference candidates remain explicitly unverified until their identity and official documentation are checked; no guessed URL is presented as authoritative. All 58 implementation records are linked to at least one catalogue entry.
-- The new table has RLS enabled and denies anonymous access. Reads require `audit.read`; metadata updates require `audit.write`. The UI can update classification notes, scope, entry type and official-reference status/URL, and each update is recorded in `design_audit_events`. Catalogue names, categories and seed entries remain versioned in migrations.
+- The new table has RLS enabled and denies anonymous access. Reads require `audit.read`; metadata updates require `audit.write`. The UI can update classification notes, scope, entry type and official-reference status/URL, and each update is recorded in `design_audit_events`. Reclassifying a linked entry also synchronizes the implementation relationship when no other M3 entry remains linked. Catalogue names, categories and seed entries remain versioned in migrations.
 
 The catalogue schema and initial data are versioned in:
 
@@ -130,5 +130,6 @@ The catalogue schema and initial data are versioned in:
 - `supabase/migrations/20261015215811_design_audit_catalog_component_aliases.sql`
 - `supabase/migrations/20261015220100_design_audit_catalog_admin_editing.sql`
 - `supabase/migrations/20261015220527_design_audit_catalog_scope_type_guard.sql`
+- `supabase/migrations/20261015220656_design_audit_catalog_scope_sync.sql`
 
 The follow-up migrations normalize identifiers and correct classifications/links without deleting the applied migration history. The catalogue’s source references remain a deliberate verification task; the UI labels this state instead of claiming the legacy register is already an exhaustive official catalogue.

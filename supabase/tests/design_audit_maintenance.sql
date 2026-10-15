@@ -1,6 +1,6 @@
 begin;
 
-select plan(34);
+select plan(35);
 
 select has_table('public', 'design_audit_components', 'component inventory table exists');
 select has_table('public', 'design_audit_reports', 'defect reports table exists');
@@ -39,6 +39,7 @@ select ok(has_table_privilege('authenticated', 'public.design_audit_catalog_entr
 select ok(exists(select 1 from pg_policies where schemaname='public' and tablename='design_audit_catalog_entries' and policyname='Audit writers can update reference catalogue'), 'catalogue updates require the audit-write policy');
 select ok(exists(select 1 from pg_trigger where tgname='design_audit_catalog_entry_event' and not tgisinternal), 'catalogue changes are recorded in the event history');
 select ok(exists(select 1 from pg_constraint where conname='design_audit_catalog_verified_requires_url'), 'verified references require an official URL');
+select ok(exists(select 1 from pg_trigger where tgname='design_audit_catalog_scope_sync' and not tgisinternal), 'catalogue scope changes synchronize implementation classification');
 
 select * from finish();
 rollback;
