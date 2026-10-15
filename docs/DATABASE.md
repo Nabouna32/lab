@@ -104,6 +104,7 @@ The production schema was applied and verified through the Supabase connector on
 - `supabase/migrations/20261015210156_design_audit_maintenance_fk_indexes.sql`
 - `supabase/migrations/20261015210538_design_audit_verifications_append_only.sql`
 - `supabase/migrations/20261015211016_design_audit_m3_relationship.sql`
+- `supabase/migrations/20261015211356_design_audit_live_preview_coverage.sql`
 
 The pgTAP regression test is `supabase/tests/design_audit_maintenance.sql`. The connector did not execute the full pgTAP suite; direct read-only checks verified the 58 seeded component records, 58 explicit preview mappings, RLS on all five tables, and that `anon` has no SELECT grants. The Supabase advisors reported no remaining missing foreign-key indexes for these tables; unused-index notices are expected while the new tables are empty. Existing unrelated collection-policy performance warnings remain unchanged.
 
