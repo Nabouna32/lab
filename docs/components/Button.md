@@ -13,6 +13,7 @@ Loculary's `Button` is a React/CSS web adaptation of the Material 3 button famil
 - [AndroidX Button API](https://developer.android.com/reference/kotlin/androidx/compose/material3/Button.composable)
 - [AndroidX ButtonDefaults API](https://developer.android.com/reference/kotlin/androidx/compose/material3/ButtonDefaults)
 - [AndroidX Button source](https://github.com/androidx/androidx/blob/androidx-main/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Button.kt)
+- Secondary Web cross-checks, not visual authorities: [MDUI Button](https://www.mdui.org/en/docs/2/components/button) and [MUI Button API](https://mui.com/material-ui/api/button/). MDUI documents M3 variants; MUI has its own React API and variant vocabulary. Use both only to compare Web implementation and accessibility ergonomics. If either differs from Android/AndroidX, record the discrepancy and discuss the trade-off before adopting it.
 - [Material 3 theming](https://developer.android.com/develop/ui/compose/designsystems/material3)
 - [WCAG 2.2 reflow](https://www.w3.org/WAI/WCAG22/Understanding/reflow.html) · [contrast minimum](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html)
 
