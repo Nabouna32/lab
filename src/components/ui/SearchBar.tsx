@@ -47,7 +47,7 @@ export function SearchBar({
     setActiveIndex(-1);
   }
 
-  function handleKeyDown(event: KeyboardEvent<HTMLInputElement>) {
+  function closeSearch() {\n    setExpanded(false);\n    setActiveIndex(-1);\n    inputRef.current?.focus();\n  }\n\n  function handleKeyDown(event: KeyboardEvent<HTMLInputElement>) {
     if (event.key === "Escape") {
       if (expanded) {
         event.preventDefault();
@@ -73,7 +73,7 @@ export function SearchBar({
 
   return (
     <div className={`${styles.root} ${fullScreen ? styles.fullScreenRoot : ""}`}>
-      {fullScreen && <button type="button" className={styles.scrim} aria-label={locale.startsWith("fr") ? "Fermer la recherche" : "Close search"} onClick={() => setExpanded(false)} />}
+      {fullScreen && <button type="button" className={styles.scrim} aria-label={locale.startsWith("fr") ? "Fermer la recherche" : "Close search"} onClick={closeSearch} />}
       <div className={`${styles.searchSurface} ${expanded ? styles.expanded : ""} ${fullScreen ? styles.fullScreenSurface : ""}`}>
         <form className={styles.inputRow} role="search" onSubmit={(event) => { event.preventDefault(); submit(query); }}>
           <span className={styles.searchGlyph} aria-hidden="true">⌕</span>
@@ -82,7 +82,7 @@ export function SearchBar({
             type="search"
             aria-label={label}
             role="combobox"
-            aria-autocomplete="list"
+            aria-autocomplete="list"\n            aria-haspopup="listbox"
             aria-expanded={visible}
             aria-controls={listId}
             aria-activedescendant={activeIndex >= 0 ? `${listId}-option-${activeIndex}` : undefined}
@@ -93,7 +93,7 @@ export function SearchBar({
             onKeyDown={handleKeyDown}
           />
           {query && <button type="button" className={styles.trailingAction} aria-label={locale.startsWith("fr") ? "Effacer la recherche" : "Clear search"} onClick={() => { onQueryChange(""); setActiveIndex(-1); inputRef.current?.focus(); }}>×</button>}
-          {mode === "full-screen" && expanded && <button type="button" className={styles.trailingAction} aria-label={locale.startsWith("fr") ? "Fermer la recherche" : "Close search"} onClick={() => setExpanded(false)}>←</button>}
+          {mode === "full-screen" && expanded && <button type="button" className={styles.trailingAction} aria-label={locale.startsWith("fr") ? "Fermer la recherche" : "Close search"} onClick={closeSearch}>←</button>}
         </form>
         {visible && (
           <div id={listId} className={styles.results} role="listbox" aria-label={locale.startsWith("fr") ? "Suggestions de recherche" : "Search suggestions"}>
