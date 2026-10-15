@@ -129,5 +129,6 @@ The catalogue schema and initial data are versioned in:
 - `supabase/migrations/20261015215545_fix_design_audit_catalog_ids.sql`
 - `supabase/migrations/20261015215811_design_audit_catalog_component_aliases.sql`
 - `supabase/migrations/20261015220100_design_audit_catalog_admin_editing.sql`
+- `supabase/migrations/20261015220527_design_audit_catalog_scope_type_guard.sql`
 
 The follow-up migrations normalize identifiers and correct classifications/links without deleting the applied migration history. The catalogue’s source references remain a deliberate verification task; the UI labels this state instead of claiming the legacy register is already an exhaustive official catalogue.
