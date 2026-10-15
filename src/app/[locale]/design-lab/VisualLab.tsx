@@ -19,6 +19,7 @@ import { ListItem } from "@/components/ui/ListItem";
 import { Chip } from "@/components/ui/Chip";
 import { RadioButton } from "@/components/ui/RadioButton";
 import { Tabs } from "@/components/ui/Tabs";
+import { DatePicker } from "@/components/ui/DatePicker";
 import { Select } from "@/components/ui/Select";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
@@ -179,6 +180,8 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const [sampleLayout,setSampleLayout]=useState("all");
   const [sampleTab,setSampleTab]=useState("overview");
   const [sampleSecondaryTab,setSampleSecondaryTab]=useState("specifications");
+  const [sampleDate,setSampleDate]=useState("");
+  const [sampleDateRange,setSampleDateRange]=useState({start:"",end:""});
   const [sampleMenuOpen,setSampleMenuOpen]=useState(false);
   const [sampleFilterSelected,setSampleFilterSelected]=useState(true);
   const [sampleInputChipVisible,setSampleInputChipVisible]=useState(true);
@@ -543,6 +546,14 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
           <div className={styles.sampleIndeterminate}><CircularProgressIndicator label={locale==="fr"?"Chargement indéterminé":"Indeterminate loading"} size={40} strokeWidth={4}/><span>{locale==="fr"?"Chargement indéterminé":"Indeterminate loading"}</span></div><div className={styles.sampleSkeleton}><span/><span/><span/></div><p className={styles.helper}>{locale==="fr"?"Les deux modes circulaires et linéaires sont distincts : valeur réelle ou activité indéterminée.":"Determinate and indeterminate modes are distinct: real progress or activity without a percentage."}</p>
           <div className={styles.sampleTooltipWrap}><ComponentIdentifier names={["PlainTooltip","RichTooltip","TooltipBox"]} kind="adaptation" locale={locale}/><Tooltip content={locale==="fr"?"Ajoute cet outil à tes favoris.":"Add this tool to your favorites."}><button type="button" className={styles.sampleIconButton} aria-label={locale==="fr"?"Aide contextuelle":"Contextual help"}><MaterialIcon name="info" size={20}/></button></Tooltip><Tooltip variant="rich" title={locale==="fr"?"Information détaillée":"More information"} content={locale==="fr"?"Les info-bulles enrichies peuvent présenter plusieurs lignes de contexte.":"Rich tooltips can provide several lines of contextual information."}><button type="button" className={styles.sampleIconButton} aria-label={locale==="fr"?"Détails":"Details"}><MaterialIcon name="info" size={20}/></button></Tooltip></div>
         </article>
+      </div>
+    </section>
+    <section className={styles.gallerySection} aria-labelledby="date-picker-title">
+      <div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>06 / {locale==="fr"?"Dates et calendrier":"Dates & calendar"}</span><h2 id="date-picker-title">{locale==="fr"?"Sélecteurs de date":"Date pickers"}</h2><p>{locale==="fr"?"Calendrier, plage de dates et saisie native : les différences entre l’API AndroidX et l’adaptation Web sont explicites.":"Calendar, date range and native input: differences between AndroidX APIs and the Web adaptation are explicit."}</p></div></div>
+      <div className={styles.galleryGrid}>
+        <article className={styles.galleryCard}><h3>{locale==="fr"?"Date unique":"Single date"}</h3><ComponentIdentifier names={["DatePicker"]} kind="adaptation" locale={locale}/><DatePicker label={locale==="fr"?"Choisir une date":"Choose a date"} value={sampleDate} onChange={setSampleDate} locale={locale}/><p className={styles.helper}>{locale==="fr"?(sampleDate?("Date sélectionnée : "+sampleDate):"Sélectionnez une date dans le calendrier."):(sampleDate?("Selected date: "+sampleDate):"Select a date in the calendar.")}</p></article>
+        <article className={styles.galleryCard}><h3>{locale==="fr"?"Plage de dates":"Date range"}</h3><ComponentIdentifier names={["DateRangePicker"]} kind="adaptation" locale={locale}/><DatePicker label={locale==="fr"?"Choisir une plage de dates":"Choose a date range"} mode="range" rangeValue={sampleDateRange} onRangeChange={setSampleDateRange} locale={locale}/><p className={styles.helper}>{locale==="fr"?"Sélectionnez un début, puis une fin.":"Select a start date, then an end date."}</p></article>
+        <article className={styles.galleryCard}><h3>{locale==="fr"?"Mode saisie":"Input mode"}</h3><ComponentIdentifier names={["DatePicker (native HTML input wrapper)"]} kind="adaptation" locale={locale}/><DatePicker label={locale==="fr"?"Date de démonstration":"Demo date"} value={sampleDate} onChange={setSampleDate} displayMode="input" locale={locale}/><p className={styles.helper}>{locale==="fr"?"L’interface de saisie dépend du navigateur ; ce n’est pas la boîte de dialogue AndroidX.":"Input UI is browser-native; this is not the AndroidX dialog."}</p></article>
       </div>
     </section>
     <section className={styles.gallerySection} aria-labelledby="shared-components-title">
