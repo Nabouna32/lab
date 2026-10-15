@@ -22,7 +22,7 @@ const variantClasses: Record<CardVariant, string> = {
 
 export function Card({ children, className = "", href, variant = "outlined" }: CardContainerProps) {
   const classes = [
-    "rounded-[var(--radius-xl)]",
+    "rounded-[var(--shape-corner-medium)]",
     variantClasses[variant],
     className,
   ].filter(Boolean).join(" ");
