@@ -23,6 +23,7 @@ import { DatePicker } from "@/components/ui/DatePicker";
 import { DatePickerDialog } from "@/components/ui/DatePickerDialog";
 import { TimePicker } from "@/components/ui/TimePicker";
 import { SearchBar } from "@/components/ui/SearchBar";
+import { AppBarWithSearch } from "@/components/ui/AppBarWithSearch";
 import { RangeSlider } from "@/components/ui/RangeSlider";
 import { ToggleButton } from "@/components/ui/ToggleButton";
 import { SplitButton } from "@/components/ui/SplitButton";
@@ -208,6 +209,8 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const [sampleSearchSubmitted,setSampleSearchSubmitted]=useState("");
   const [sampleFullSearchQuery,setSampleFullSearchQuery]=useState("");
   const [sampleFullSearchSubmitted,setSampleFullSearchSubmitted]=useState("");
+  const [sampleAppBarSearchQuery,setSampleAppBarSearchQuery]=useState("");
+  const [sampleAppBarSearchSubmitted,setSampleAppBarSearchSubmitted]=useState("");
   const [sampleDateRange,setSampleDateRange]=useState({start:"",end:""});
   const [sampleFilterSelected,setSampleFilterSelected]=useState(true);
   const [sampleInputChipVisible,setSampleInputChipVisible]=useState(true);
@@ -592,6 +595,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
       <div className={styles.galleryGrid}>
         <article className={styles.galleryCard}><h3>{locale==="fr"?"Recherche ancrée":"Docked search"}</h3><ComponentIdentifier names={["SearchBar","ExpandedDockedSearchBar"]} kind="adaptation" locale={locale}/><SearchBar label={locale==="fr"?"Rechercher dans les outils":"Search tools"} placeholder={locale==="fr"?"Rechercher un outil":"Search tools"} query={sampleSearchQuery} onQueryChange={setSampleSearchQuery} onSearch={setSampleSearchSubmitted} suggestions={locale==="fr"?["Convertisseur d’images","Compresseur PDF","Calculatrice","Palette de couleurs","Générateur de QR code"]:["Image converter","PDF compressor","Calculator","Color palette","QR code generator"]} locale={locale}/><p className={styles.helper}>{sampleSearchSubmitted?(locale==="fr"?"Recherche envoyée : ":"Submitted search: ")+sampleSearchSubmitted:(locale==="fr"?"Essayez une suggestion ou appuyez sur Entrée.":"Choose a suggestion or press Enter.")}</p></article>
         <article className={styles.galleryCard}><h3>{locale==="fr"?"Recherche plein écran":"Full-screen search"}</h3><ComponentIdentifier names={["ExpandedFullScreenSearchBar"]} kind="adaptation" locale={locale}/><SearchBar label={locale==="fr"?"Recherche plein écran":"Full-screen search"} placeholder={locale==="fr"?"Rechercher dans Loculary":"Search Loculary"} query={sampleFullSearchQuery} onQueryChange={setSampleFullSearchQuery} onSearch={setSampleFullSearchSubmitted} suggestions={locale==="fr"?["Outils récents","Favoris","Paramètres","Historique"]:["Recent tools","Favorites","Settings","History"]} mode="full-screen" locale={locale}/><p className={styles.helper}>{sampleFullSearchSubmitted?(locale==="fr"?"Recherche envoyée : ":"Submitted search: ")+sampleFullSearchSubmitted:(locale==="fr"?"Touchez le champ pour ouvrir l’aperçu plein écran.":"Focus the field to open the full-screen specimen.")}</p></article>
+        <article className={styles.galleryCard}><h3>{locale==="fr"?"AppBarWithSearch":"AppBarWithSearch"}</h3><ComponentIdentifier names={["AppBarWithSearch"]} kind="adaptation" locale={locale}/><AppBarWithSearch title={locale==="fr"?"Recherche Loculary":"Loculary search"} searchLabel={locale==="fr"?"Rechercher dans Loculary":"Search Loculary"} placeholder={locale==="fr"?"Rechercher un outil":"Search tools"} query={sampleAppBarSearchQuery} onQueryChange={setSampleAppBarSearchQuery} onSearch={setSampleAppBarSearchSubmitted} suggestions={locale==="fr"?["Outils récents","Convertisseur d’images","Calculatrice"]:["Recent tools","Image converter","Calculator"]} navigationLabel={locale==="fr"?"Ouvrir la navigation":"Open navigation"} locale={locale}/><p className={styles.helper}>{sampleAppBarSearchSubmitted?(locale==="fr"?"Recherche envoyée : ":"Submitted search: ")+sampleAppBarSearchSubmitted:(locale==="fr"?"Composition Web : barre supérieure + recherche partagée.":"Web composition: top app bar + shared search.")}</p></article>
       </div>
     </section>
     <section className={styles.gallerySection} aria-labelledby="toggle-split-buttons-title">
