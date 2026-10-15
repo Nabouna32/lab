@@ -471,6 +471,18 @@ test("Switch offers Fidelity and Expressive modes while preserving identical unv
   assert.match(labSource, /thumb motion will be audited separately/);
 });
 
+test("TextField offers source-backed Fidelity and Expressive anatomy without changing the default", () => {
+  assert.match(textFieldSource, /variant\?: "fidelity" \| "expressive"/);
+  assert.match(textFieldSource, /variant = "fidelity"/);
+  assert.match(textFieldSource, /if \(isExpressive\)/);
+  assert.match(textFieldSource, /peer-placeholder-shown:top-1\/2/);
+  assert.match(textFieldSource, /rounded-\[var\(--shape-corner-extra-large\)\]/);
+  assert.match(textFieldSource, /bg-\[var\(--surface-container-highest\)\]/);
+  assert.match(labSource, /textFieldVariant,setTextFieldVariant/);
+  assert.match(labSource, /variant=\{textFieldVariant\}/);
+  assert.match(labSource, /Source-backed Expressive variant: floating inside label/);
+});
+
 test("M3 Fidelity direction mockup uses semantic shape roles for official component families", () => {
   assert.match(labCss, /directionStage\[data-direction="fidelity"\] \.directionPrimary\{[^}]*border-radius:var\(--shape-corner-full\)/);
   assert.match(labCss, /directionStage\[data-direction="fidelity"\] \.directionCalculator input\{[^}]*border-radius:var\(--shape-corner-extra-small\)/);
