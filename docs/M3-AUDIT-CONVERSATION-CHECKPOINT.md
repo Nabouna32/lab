@@ -766,3 +766,11 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - Added `src/components/ui/TriStateCheckbox.tsx` and integrated a mixed-state specimen in the Lab.
 - Official source: https://developer.android.com/reference/kotlin/androidx/compose/material3/TriStateCheckbox.composable.
 - **Not complete:** exact AndroidX animation/colors, parent-child selection propagation, disabled mixed state, and screen-reader/browser parity remain unverified.
+
+
+## Continuation update — RangeSlider (2026-10-15)
+
+- Added shared `RangeSlider` with two native range inputs, controlled lower/upper values, step/min-gap constraints, separate accessible names and value text.
+- Integrated the specimen next to the existing Slider and updated the component inventory.
+- Official source: https://developer.android.com/reference/kotlin/androidx/compose/material3/RangeSlider.composable.
+- **Not complete:** overlapping-thumb pointer interaction, exact AndroidX track/thumb/ticks/value bubble, RTL, screen-reader announcements and browser/device behavior require runtime validation.
