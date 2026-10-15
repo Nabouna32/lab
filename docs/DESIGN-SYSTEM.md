@@ -315,3 +315,6 @@ Keep the shared SegmentedControl limited to segment labels and selected state; e
 ## Field sizing and numeric input behavior
 
 The shared TextField and Select use a 56px minimum height based on version-pinned first-party Material Web outlined field/select tokens. TextArea remains content/row-driven. TextField preserves an explicit step attribute and otherwise defaults number inputs to step="any", so decimal input is not accidentally restricted by the HTML default step.
+## Design Lab preview-state rule
+
+Keep state independent across separate component examples unless the example is explicitly intended to demonstrate synchronized controls. Radio-group and segmented-control demos now use separate state; static tests guard against the prior accidental coupling.
