@@ -436,3 +436,20 @@ Finding: AndroidX Material 3 does not expose a separate component named TextArea
 Changes: shared TextArea now exposes Fidelity/Expressive preview variants, uses shared spacing/type/shape/color roles, supports disabled/error/helper states and associates helper/error copy through aria-describedby. The minimum specimen height is explicitly a Loculary Web sizing choice, **not** a claimed AndroidX default token. Expressive styling is an informed comparison based on AndroidX's expressive TextField anatomy; it is not a native Compose component.
 
 Status: **source-informed Web adaptation, not 100% AndroidX parity**. Remaining: reproduce and validate AndroidX multiline line-height/minLines/maxLines behavior, label/placeholder/supporting-text anatomy, counter behavior if needed, focus/error/disabled tokens, text scaling, browser autofill/IME behavior, and keyboard/screen-reader tests. The visual Lab selector is now wired to the shared component so variants can be compared rather than merely described.
+
+### Modal bottom sheet — AndroidX source audit (2026-10-15)
+
+Official references:
+- Material 3 bottom sheets: https://developer.android.com/develop/ui/compose/components/bottom-sheets
+- `ModalBottomSheet` API: https://developer.android.com/reference/kotlin/androidx/compose/material3/ModalBottomSheet.composable
+- Window insets managed by Material components: https://developer.android.com/develop/ui/compose/system/material-insets
+- Dialog patterns for comparison: https://developer.android.com/develop/ui/compose/components/dialog
+
+Source finding: AndroidX distinguishes a modal bottom sheet from an ordinary inline panel. `ModalBottomSheet` overlays the app, disables interaction with underlying content, has an explicit dismiss request, supports a `SheetState`, and applies bottom window insets. Partial expansion is an optional behavior and the official partial-sheet guide marks it experimental. A bottom-aligned card inside the page is not sufficient to claim this component.
+
+Implementation in this branch: `src/components/ui/ModalBottomSheet.tsx` is a shared **Web adaptation**, used by the Design Lab instead of the previous inline-only mockup. It provides dialog semantics (`role=dialog`, `aria-modal`, labelled title), Escape and backdrop dismissal, Tab focus containment, focus return, body-scroll locking, safe-area bottom padding and reduced-motion handling. The CSS shape, scrim opacity, max width and animation are Web token-based choices, not asserted Android dp/elevation equivalents.
+
+Not implemented / not yet verified: Android `SheetState` and partial expansion, swipe/drag-to-dismiss, exact Compose motion and insets, screen-reader isolation across browsers/assistive technologies, and real mobile browser interaction. The component must remain labelled **source-informed Web adaptation**, not native Android or 100% AndroidX parity, until runtime checks are completed. A separate standard/non-modal bottom-sheet pattern has not been implemented.
+
+Acceptance checks still required: keyboard-only open/close and focus restoration; screen-reader announcement and background isolation; backdrop click/touch; mobile safe areas and viewport resizing; long content scrolling; light/dark semantic color review; reduced-motion behavior.
+
