@@ -14,11 +14,9 @@ import { ToggleButton } from "@/components/ui/ToggleButton";
 type Locale = "fr" | "en";
 
 export default function ComponentLivePreview({
-  componentId,
   previewKey,
   locale,
 }: {
-  componentId: string;
   previewKey: string | null;
   locale: Locale;
 }) {
