@@ -7,13 +7,7 @@ const switchSource = readFileSync(new URL("../../components/ui/Switch.tsx", impo
 const iconSource = readFileSync(new URL("../../components/ui/MaterialIcon.tsx", import.meta.url), "utf8");
 const labSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
 const labCss = readFileSync(new URL("../../app/[locale]/design-lab/visual-lab.module.css", import.meta.url), "utf8");
-const labCss = readFileSync(new URL("../../app/[locale]/design-lab/visual-lab.module.css", import.meta.url), "utf8");
 const passwordSource = readFileSync(new URL("../../components/tools/password-generator/PasswordGenerator.tsx", import.meta.url), "utf8");
-const imageSource = readFileSync(new URL("../../components/tools/image-compressor/ImageCompressor.tsx", import.meta.url), "utf8");
-const sliderSource = readFileSync(new URL("../../components/ui/Slider.tsx", import.meta.url), "utf8");
-const sliderCss = readFileSync(new URL("../../components/ui/slider.module.css", import.meta.url), "utf8");
-const progressSource = readFileSync(new URL("../../components/ui/ProgressIndicator.tsx", import.meta.url), "utf8");
-const progressCss = readFileSync(new URL("../../components/ui/progress-indicator.module.css", import.meta.url), "utf8");
 const imageSource = readFileSync(new URL("../../components/tools/image-compressor/ImageCompressor.tsx", import.meta.url), "utf8");
 const sliderSource = readFileSync(new URL("../../components/ui/Slider.tsx", import.meta.url), "utf8");
 const sliderCss = readFileSync(new URL("../../components/ui/slider.module.css", import.meta.url), "utf8");
@@ -166,7 +160,6 @@ test("standard functional UI surfaces do not reintroduce one-off inline SVG icon
 });
 
 test("Pixel preview bottom navigation uses readable selected labels and explicit interaction states", () => {
-  const labCss = readFileSync(new URL("../../app/[locale]/design-lab/visual-lab.module.css", import.meta.url), "utf8");
   assert.match(labCss, /\.directionBottomNav button\{[^}]*min-height:3rem/);
   assert.match(labCss, /\.directionStage\[data-direction="pixel"\] \.directionBottomNav button\[aria-current="page"\]\{color:var\(--lab-text\)\}/);
   assert.match(labCss, /\.directionStage\[data-direction="pixel"\] \.directionBottomNav button\[aria-current="page"\] b\{background:var\(--lab-secondary-container\);color:var\(--lab-on-secondary-container\)\}/);
@@ -228,7 +221,6 @@ test("Fidelity theme source declares the intended scheme and semantic foreground
 });
 
 test("Design Lab dialog uses a tonal surface and switches follow the selected preview palette", () => {
-  const labCss = readFileSync(new URL("../../app/[locale]/design-lab/visual-lab.module.css", import.meta.url), "utf8");
   assert.match(labCss, /--primary:var\(--lab-primary\)/);
   assert.match(labCss, /--on-primary:var\(--lab-on-primary\)/);
   assert.match(labCss, /--surface-container-highest:var\(--lab-surface-highest\)/);
@@ -258,7 +250,6 @@ test("production theme exposes modern Material 3 surface roles in both themes", 
 
 test("Design Lab includes extended Material 3 navigation, field, list, menu, progress and loading components", () => {
   const labSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
-  const labCss = readFileSync(new URL("../../app/[locale]/design-lab/visual-lab.module.css", import.meta.url), "utf8");
   for (const marker of ["m3-missing-title", "sampleTopBar", "sampleNavigationRail", "sampleFab", "sampleBadge", "sampleMaterialField", "sampleRadioGroup", "sampleListItem", "sampleMenu", "sampleCircularProgress", "sampleSkeleton", "sampleTooltipWrap"]) {
     assert.ok(labSource.includes(marker), `Design Lab is missing ${marker}`);
   }
@@ -272,7 +263,6 @@ test("Design Lab includes extended Material 3 navigation, field, list, menu, pro
 
 test("Design Lab renders the shared production UI primitives against the active Material 3 scheme", () => {
   const labSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
-  const labCss = readFileSync(new URL("../../app/[locale]/design-lab/visual-lab.module.css", import.meta.url), "utf8");
   for (const component of ["Button", "IconButton", "Card", "Panel", "ResultPanel", "Checkbox", "TextField", "TextArea", "Select", "SegmentedControl", "ValidationMessage", "Switch"]) {
     assert.match(labSource, new RegExp(`import \\{ ${component} \\} from "@\\/components\\/ui\\/${component}"`), `missing shared component import: ${component}`);
   }
@@ -285,7 +275,6 @@ test("Design Lab renders the shared production UI primitives against the active 
 
 test("Design Lab does not reference missing CSS module classes", () => {
   const labSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
-  const labCss = readFileSync(new URL("../../app/[locale]/design-lab/visual-lab.module.css", import.meta.url), "utf8");
   const references = [...new Set([...labSource.matchAll(/styles\.([A-Za-z_]\w*)/g)].map((match) => match[1]))];
   for (const className of references) {
     assert.match(labCss, new RegExp(`\\.${className}(?![\\w-])`), `missing CSS module class: ${className}`);
@@ -295,7 +284,6 @@ test("Design Lab does not reference missing CSS module classes", () => {
 
 test("Section 03 dialog preview trigger uses the shared Material 3 outlined button", () => {
   const labSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
-  const labCss = readFileSync(new URL("../../app/[locale]/design-lab/visual-lab.module.css", import.meta.url), "utf8");
   assert.match(labSource, /aria-labelledby="states-title"[\s\S]*?<Button type="button" variant="outlined" className=\{styles\.dialogPreviewTrigger\} onClick=\{\(\)=>setDialogOpen\(true\)\}>\{t\.confirm\} · dialog<\/Button>/);
   assert.match(labCss, /\.dialogPreviewTrigger\{flex-shrink:0;white-space:nowrap\}/);
 });
