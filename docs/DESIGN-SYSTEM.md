@@ -325,3 +325,6 @@ For button and icon-button component states, the version-pinned AndroidX Compose
 ## AndroidX source hierarchy for M3 state tokens
 
 Use version-pinned AndroidX Compose Material 3 token sources as the primary authority for Android-M3 component colors, shapes and states. Use first-party Material Web tokens as a web implementation cross-check, not as a replacement when values differ. Record CSS-pixel sizing, HTML/ARIA semantics and browser behavior as web-specific adaptations.
+## Lab token override rule
+
+When the Lab overrides a shared component's semantic tokens, the preview must preserve that component's state contract rather than reintroducing stale opacity/color values. Checkbox preview overrides now use the AndroidX disabled-state roles and the rounding-degree shape token.
