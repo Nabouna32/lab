@@ -191,3 +191,13 @@ The user requested that PR #723's changes be brought into PR #729 without mergin
 ## New canonical document
 
 [`docs/M3-CONVENTIONS.md`](./M3-CONVENTIONS.md) now consolidates the officially sourced M3 guidance and Loculary-specific decisions into a reusable convention: semantic color roles, Fidelity vs category Rainbow, typography, semantic shapes and global rounding degree, density/touch targets, button/selection/input/slider/progress contracts, motion/reduced motion, Design Lab requirements and acceptance criteria.
+
+
+## PR #729 integration snapshot (2026-10-15)
+
+- PR #729 title: **feat(ui): port M3 slider/progress and document design conventions**; it remains open and has not been merged.
+- The branch includes all 13 file paths changed by PR #723, ported onto the current main-based file versions, plus this checkpoint and `docs/M3-CONVENTIONS.md`.
+- Current changed-file inventory includes the shared Slider/ProgressIndicator components and styles, Checkbox/Switch, the Lab and its CSS, PasswordGenerator, ImageCompressor, regression tests, `docs/DESIGN-SYSTEM.md` and `docs/M3-CONFORMANCE-AUDIT.md`.
+- GitHub Actions CI run [#2268](https://github.com/Nabouna32/lab/actions/runs/38692392905) was still in progress at the latest check. Do not claim typecheck/tests/build passed until the run completes and its conclusions are inspected.
+- GitHub currently reports PR #729 as not mergeable against `main`; this is not a request to merge or force-update anything. Resolve any reported conflicts only after inspecting the current base/head diff. The user explicitly asked to leave PR #729 unmerged.
+- No browser-level validation has been performed in this workflow. Continue to treat Chromium, Firefox, mobile touch, keyboard/focus, assistive technology, light/dark and responsive checks as outstanding.
