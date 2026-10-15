@@ -413,3 +413,30 @@ Official AndroidX TextFieldSamples includes Expressive variants: rounded shape +
 ## Checkpoint — multiline field and Select parity gaps (2026-10-15)
 
 Added per-component Fidelity/Expressive selectors around the current TextArea and Select examples. The controls disclose that these are not finished official Android equivalents: Android M3 uses a multiline TextField/OutlinedTextField rather than a separate TextArea component; the current Select is a native HTML select, not AndroidX ExposedDropdownMenu. No fake Expressive variation was added. A regression test protects this distinction. Next: implement a shared M3 dropdown/menu with keyboard, focus, selection and dismissal behavior, and complete multiline TextField support. Do not claim 100% Android fidelity until these gaps are closed.
+
+## Checkpoint — explicit conformance labels and Snackbar component (2026-10-15)
+
+User requirement: each component must clearly say whether it is implemented, faithfully reproduced from official Android source, a Web-only style imitation, or still incomplete. Prefer searching Android Developers and AndroidX source before calling something an adaptation.
+
+### Classification rule
+
+A React/CSS implementation is never literally an AndroidX-native component. No current Loculary Web component should be labeled “100% Android implementation”. Instead, track source evidence and completion by dimension: API/semantics, visual tokens, interactions/lifecycle, accessibility, responsive behavior, automated tests, and browser verification. “Source-backed Web adaptation” is not the same as “fully conformant”.
+
+### Snackbar discovery and implementation
+
+Sources checked:
+- Android Developers guide: https://developer.android.com/develop/ui/compose/components/snackbar
+- AndroidX Snackbar.kt: https://github.com/androidx/androidx/blob/androidx-main/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Snackbar.kt
+- AndroidX SnackbarHost.kt: https://github.com/androidx/androidx/blob/androidx-main/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/SnackbarHost.kt
+
+Findings: Android's component is paired with SnackbarHost/SnackbarHostState (usually inside Scaffold); supports a message, one optional action, and optional dismiss affordance; uses tokenized shape/color/elevation/typography; has one-/two-line layouts and a 600 dp max width. The official API says action-bearing snackbars should not self-timeout. No distinct default Expressive Snackbar visual treatment was confirmed in the source reviewed, so the Lab does not invent one.
+
+Changes committed on this branch:
+- Added shared src/components/ui/Snackbar.tsx with message, optional action, explicit dismiss, 4-second timeout only when no action exists, and role=status/polite live announcement.
+- Added src/components/ui/Snackbar.module.css with theme-token roles and reduced-motion handling.
+- Replaced the Lab-only snackbar mock-up with the shared component and added a per-component Fidelity/Expressive selector. The selector intentionally shows parity rather than a made-up Expressive style.
+- Added static regression assertions for the component API and disclosed parity gaps.
+
+Status: **source-backed Web adaptation; not 100% Android/AndroidX implementation**. Still missing: shared app-level host/queue and replacement policy, Scaffold-equivalent insets/placement, swipe dismissal, exact AndroidX geometry and motion, focus/assistive-technology checks, and browser tests. No CI/browser run is confirmed yet. The static test file has been edited but its execution is not confirmed.
+
+Next audit order: (1) implement the AndroidX ExposedDropdownMenu-equivalent Web component and keyboard/focus/selection/dismiss behavior; (2) audit multiline TextField anatomy; (3) audit segmented buttons, dialogs, menus, bottom sheets, navigation, and progress components against pinned AndroidX source. Update this checkpoint and ledger after each finding.
