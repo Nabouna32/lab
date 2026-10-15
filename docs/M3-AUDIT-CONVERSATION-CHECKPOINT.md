@@ -571,3 +571,28 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - Added `lab-component-identifiers.test.mjs` to assert component names, fidelity labels, and NavigationBar integration.
 - Updated the navigation audit. CSS px remain web reference values and are not Android dp. Browser, mobile safe-area, and screen-reader validation remain open.
 - The branch is not merged; wait for CI on the final head before claiming validation.
+
+
+## Checkpoint — CI verification and progress gallery correction (2026-10-15)
+
+### CI evidence
+- Workflow run: [38778755554](https://github.com/Nabouna32/lab/actions/runs/38778755554).
+- GitHub reported the run as `completed / success`; the `Node.js 24.21.0` job passed dependency installation, lint, typecheck, tests and production build. The dependency-review step was skipped (not failed).
+- PR #729 remains open and unmerged. The available run result is tied to the supplied commit SHA `11196ba19dd99994e90b09d336d0764ffffd7cbb`; verify a new CI run for the latest branch head after subsequent commits before claiming current-head CI is green.
+
+### Navigation audit findings
+- Official sources reviewed: [Navigation rail](https://developer.android.com/develop/ui/compose/components/navigation-rail), [Navigation drawer](https://developer.android.com/develop/ui/compose/components/drawer), [Material 3 adaptive navigation overview](https://developer.android.com/develop/ui/compose/designsystems/material3), and [Material 3 insets](https://developer.android.com/develop/ui/compose/system/material-insets).
+- NavigationBar remains a source-informed shared Web adaptation, not AndroidX native parity. The current API uses buttons for local selection; real production destinations should normally be links when they navigate to actual URLs. Browser/device/screen-reader checks remain open.
+- VisualLab's navigation rail is explicitly a local mockup. Do not build shared NavigationRail/NavigationDrawer solely to complete the catalogue. First establish whether Loculary's real responsive shell needs a rail, a modal drawer, or neither. A drawer has modal/permanent patterns and focus/dismissal requirements that a static mockup does not demonstrate.
+
+### Progress indicator gallery correction
+- Official reference: [Android Developers — Progress indicators](https://developer.android.com/develop/ui/compose/components/progress). M3 distinguishes determinate from indeterminate indicators, and linear from circular forms. A determinate value should only be shown when the operation's actual progress is known.
+- Updated `src/app/[locale]/design-lab/VisualLab.tsx`: the linear gallery specimen now uses the shared `ProgressIndicator` primitive and Lab semantic color tokens rather than a hand-built local bar. The circular indicator remains explicitly labelled as a local mockup; no shared circular primitive was added because no production reuse requirement has yet been demonstrated.
+- Updated `src/lib/design-system/lab-component-identifiers.test.mjs` to assert that the gallery uses the shared linear primitive and does not mislabel it as a mockup.
+- Classification: shared linear Web adaptation; source-informed, not native Compose. The CSS animation, dimensions and color-state rendering still require browser/device checks. The circular mockup's conformance remains unverified.
+
+### Validation and next steps
+- The previous CI run passed all principal checks, including production build, on the supplied commit. The two new commits mean that result does **not** validate the latest branch head.
+- Run/inspect CI on the current head. If a failure occurs, inspect exact logs before changing code.
+- Continue the progress audit by checking the shared indicator's indeterminate semantics, reduced-motion presentation and call-site behavior. Then decide whether circular progress is actually needed by production flows before considering a shared component.
+- Keep PR #729 open and unmerged. No branch cleanup was performed.
