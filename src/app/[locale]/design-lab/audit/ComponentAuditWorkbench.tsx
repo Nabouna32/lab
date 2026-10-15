@@ -28,6 +28,7 @@ export default function ComponentAuditWorkbench({ locale }: { locale: Locale }) 
   const [loading,setLoading] = useState(true);
   const [error,setError] = useState("");
   const [savingId,setSavingId] = useState("");
+  const [expandedId,setExpandedId] = useState("");
   const [notice,setNotice] = useState("");
 
   useEffect(() => {
@@ -90,13 +91,13 @@ export default function ComponentAuditWorkbench({ locale }: { locale: Locale }) 
       <p className="mb-3 text-sm text-[var(--muted)]">{fr?`${filtered.length} composant(s) affiché(s)`:`${filtered.length} component(s) shown`}</p>
       <div className="space-y-3">{filtered.map(component=>{
         const componentReports=reports.filter(r=>r.component_id===component.id&&!["verified","wont-fix"].includes(r.status)).length;
-        return <details key={component.id} className="rounded-2xl border border-[var(--border)]">
-          <summary className="flex cursor-pointer list-none flex-wrap items-center gap-3 p-4">
+        return <details key={component.id} open={expandedId === component.id} className="rounded-2xl border border-[var(--border)]">
+          <summary onClick={(event) => { event.preventDefault(); setExpandedId(expandedId === component.id ? "" : component.id); }} className="flex cursor-pointer list-none flex-wrap items-center gap-3 p-4">
             <span className="min-w-0 flex-1 font-semibold">{component.name}<span className="mt-1 block text-xs font-normal text-[var(--muted)]">{component.category} · {component.implementation_path}</span></span>
             <span className="rounded-full bg-[var(--surface-container)] px-3 py-1 text-xs">{labels[component.audit_status][locale]}</span>
             {componentReports>0&&<span className="rounded-full border border-[var(--border)] px-3 py-1 text-xs">{componentReports} {fr?"ouvert(s)":"open"}</span>}
           </summary>
-          <div className="border-t border-[var(--border)] p-4 sm:p-5">
+          {expandedId === component.id && <div className="border-t border-[var(--border)] p-4 sm:p-5">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
               <label className="max-w-md flex-1 text-sm font-medium">{fr?"Statut de conformité":"Conformance status"}<select className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm" value={component.audit_status} disabled={savingId===component.id} onChange={e=>void updateAuditStatus(component,e.target.value as AuditStatus)}>{statusOptions.map(s=><option key={s} value={s}>{labels[s][locale]}</option>)}</select></label>
               <a className="text-sm font-semibold text-[var(--accent)] underline" href={`https://github.com/Nabouna32/lab/blob/main/${component.implementation_path}`} target="_blank" rel="noreferrer">{fr?"Ouvrir le code source ↗":"Open source ↗"}</a>
@@ -104,7 +105,7 @@ export default function ComponentAuditWorkbench({ locale }: { locale: Locale }) 
             {component.official_references?.length>0&&<ul className="mt-3 list-disc pl-5 text-sm">{component.official_references.map((r,i)=><li key={i}>{r.url?<a className="underline" href={r.url} target="_blank" rel="noreferrer">{r.label||r.url}</a>:r.label}</li>)}</ul>}
             <ComponentLivePreview componentId={component.id} locale={locale}/>
             <ComponentMaintenancePanel componentId={component.id} locale={locale}/>
-          </div>
+          </div>}
         </details>;
       })}{filtered.length===0&&<p className="rounded-2xl border border-[var(--border)] p-8 text-center text-[var(--muted)]">{fr?"Aucun composant ne correspond aux filtres.":"No components match these filters."}</p>}</div>
     </>}
