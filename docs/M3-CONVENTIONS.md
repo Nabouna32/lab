@@ -85,7 +85,7 @@ Reference: [Material 3 buttons](https://developer.android.com/develop/ui/compose
 - Checkbox: independent on/off selection; use native checkbox semantics and a connected accessible label.
 - Switch: a true binary setting; expose switch role and checked state. Do not use it for multi-select or mutually exclusive options.
 - Radio group / segmented control: mutually exclusive choices; select the control pattern that fits the number of options and available space.
-- Disabled styling must distinguish the container/track from foreground details rather than fading the entire control uniformly. Material Web checkbox/switch tokens are the web-specific reference for the disabled opacity treatment currently recorded in the audit: 12% for disabled container/track and 38% for disabled foreground/outline/thumb. Verify exact tokens against the official token source before changing the implementation.
+- Disabled styling must be component- and state-specific; never apply one global opacity rule. Use the version-pinned first-party Material Web token files at the end of this document for Checkbox, Switch and text fields. These are Material Web references, not automatic Android Compose rules.
 
 References: [Checkboxes](https://developer.android.com/develop/ui/compose/components/checkbox), [Switches](https://developer.android.com/develop/ui/compose/components/switch), [Segmented buttons](https://developer.android.com/develop/ui/compose/components/segmented-button), [Material Web checkbox tokens](https://github.com/material-components/material-web/blob/main/tokens/_md-comp-checkbox.scss), [Material Web switch tokens](https://github.com/material-components/material-web/blob/main/tokens/_md-comp-switch.scss).
 
