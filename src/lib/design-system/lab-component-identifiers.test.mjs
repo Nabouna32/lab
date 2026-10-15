@@ -12,7 +12,7 @@ test("Design Lab displays exact component names and identifies specimen fidelity
     "Button", "IconButton", "TextField", "TextArea (Web wrapper)", "ExposedDropdownMenu",
     "Select (native HTML wrapper)", "ClearButton", "CopyButton", "Checkbox", "Switch",
     "Slider", "ProgressIndicator", "SegmentedControl", "ValidationMessage", "Card",
-    "Panel", "ResultPanel", "Snackbar", "ModalBottomSheet", "AlertDialog", "NavigationBar", "NavigationRail", "NavigationDrawer", "CircularProgressIndicator", "FloatingActionButton", "Badge", "BadgedBox", "Tooltip", "Carousel", "TopAppBar", "BottomAppBar", "Scaffold", "ListItem", "HorizontalDivider", "VerticalDivider", "AssistChip", "FilterChip", "InputChip", "SuggestionChip", "RadioButton",
+    "Panel", "ResultPanel", "Snackbar", "ModalBottomSheet", "AlertDialog", "NavigationBar", "NavigationRail", "NavigationDrawer", "CircularProgressIndicator", "FloatingActionButton", "Badge", "BadgedBox", "Tooltip", "Carousel", "TopAppBar", "BottomAppBar", "Scaffold", "ListItem", "HorizontalDivider", "VerticalDivider", "AssistChip", "FilterChip", "InputChip", "SuggestionChip", "RadioButton", "Tab", "PrimaryTabRow", "SecondaryTabRow", "PrimaryScrollableTabRow", "SecondaryScrollableTabRow",
   ]) {
     assert.ok(lab.includes(name), `Missing visible component identifier: ${name}`);
   }
@@ -89,4 +89,12 @@ test("The shared NavigationBar is integrated in the phone preview and interactiv
   assert.match(navigationCss, /env\(safe-area-inset-bottom\)/);
   assert.match(navigationCss, /:focus-visible/);
   assert.match(navigationCss, /prefers-reduced-motion:\s*reduce/);
+});
+
+
+test("Material 3 tab specimens use the shared tabs adaptation and expose keyboard behavior", () => {
+  assert.match(lab, /import \{ Tabs, TabPanel \} from "@\/components\/ui\/Tabs"/);
+  assert.match(lab, /variant="primary"/);
+  assert.match(lab, /variant="secondary" scrollable/);
+  assert.doesNotMatch(lab, /className=\{styles\.tabRow\} role="tablist"/);
 });
