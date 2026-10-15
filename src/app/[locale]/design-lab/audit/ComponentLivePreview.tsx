@@ -111,6 +111,12 @@ export default function ComponentLivePreview({
     case "material-text-field":
       content = <div className="grid gap-4 sm:grid-cols-2"><MaterialTextField id="audit-material-text-field" label={fr ? "Adresse e-mail" : "Email address"} value={fieldValue} onChange={setFieldValue} supportingText={fr ? "Champ partagé de Loculary" : "Shared Loculary field"} /><MaterialTextField id="audit-material-text-field-disabled" label={fr ? "Champ désactivé" : "Disabled field"} value="Non modifiable" onChange={() => undefined} disabled /></div>;
       break;
+    case "tooltip":
+      content = <div className="flex flex-wrap items-center gap-4"><Tooltip content={fr ? "Information complémentaire" : "Additional information"}><Button variant="outlined">{fr ? "Survole ou focalise" : "Hover or focus"}</Button></Tooltip><Tooltip variant="rich" title={fr ? "Astuce" : "Tip"} content={fr ? "Le contenu apparaît au survol ou au focus clavier." : "Content appears on hover or keyboard focus."}><Button variant="text">{fr ? "Info détaillée" : "Rich tooltip"}</Button></Tooltip></div>;
+      break;
+    case "snackbar":
+      content = <div className="grid gap-3"><Button variant="outlined" onClick={() => setSnackbarOpen(true)}>{fr ? "Afficher le message" : "Show message"}</Button><Snackbar open={snackbarOpen} message={fr ? "Modifications enregistrées" : "Changes saved"} actionLabel={fr ? "Annuler" : "Undo"} onAction={() => setSnackbarOpen(false)} dismissLabel={fr ? "Fermer" : "Dismiss"} onDismiss={() => setSnackbarOpen(false)} durationMs={0} /></div>;
+      break;
     case "button":
       content = (
         <div className="flex flex-wrap items-center gap-3">
