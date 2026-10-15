@@ -309,3 +309,6 @@ Use the semantic shape variables in globals.css for shared component geometry. T
 ## Shared Card convention
 
 The shared Card follows the version-pinned first-party Material Web card tokens: elevated uses surface-container-low and elevation, filled uses surface-container-highest, and outlined uses surface with outline-variant. All use the semantic medium shape token. Linked cards must have a visible keyboard focus indicator. Panel and ResultPanel remain Loculary-specific compositions that reuse the medium shape for consistency.
+## Segmented control convention
+
+Keep the shared SegmentedControl limited to segment labels and selected state; explanatory copy belongs outside the segmented group. Current label no-wrap behavior and small-token inner corners are Loculary web layout decisions to avoid wrapping, not official Android pixel rules. Verify narrow widths and keyboard interaction.
