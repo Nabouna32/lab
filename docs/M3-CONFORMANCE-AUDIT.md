@@ -726,3 +726,8 @@ Official references include [Button](https://developer.android.com/reference/kot
 ## DismissibleNavigationDrawer / PermanentNavigationDrawer — 2026-10-15
 
 Official sources: [DismissibleNavigationDrawer](https://developer.android.com/reference/kotlin/androidx/compose/material3/DismissibleNavigationDrawer.composable), [PermanentNavigationDrawer](https://developer.android.com/reference/kotlin/androidx/compose/material3/PermanentNavigationDrawer.composable). Extended the shared drawer with dismissible in-layout and permanent variants, and added Lab specimens. Exact layout measurement/content shifting, adaptive breakpoints, insets, state animation, RTL and screen-reader behavior remain unverified.
+
+
+## ScrollField — 2026-10-15
+
+Official sources: [ScrollField API](https://developer.android.com/reference/kotlin/androidx/compose/material3/ScrollField.composable), [ScrollFieldState](https://developer.android.com/reference/kotlin/androidx/compose/material3/ScrollFieldState). Added an isolated Web wheel-selector specimen. This is an experimental Material3 Expressive API (state added in 1.5.0-alpha19; defaults in 1.5.0-alpha29), not part of the default Pixel-fidelity style direction. Exact Compose PagerState snapping, animation/velocity, TalkBack announcements, touch/RTL and visual parity remain unverified.
