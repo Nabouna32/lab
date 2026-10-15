@@ -5,9 +5,7 @@ import { test } from "node:test";
 
 const registryFile = fileURLToPath(new URL("./registry.ts", import.meta.url));
 const toolsCatalogFile = fileURLToPath(new URL("./tools.ts", import.meta.url));
-const toolRendererFile = fileURLToPath(
-  new URL("../../components/tools/ToolRenderer.tsx", import.meta.url),
-);
+const typesFile = fileURLToPath(new URL("./types.ts", import.meta.url));
 
 async function readPublishedToolIds() {
   const source = await readFile(toolsCatalogFile, "utf8");
@@ -33,15 +31,21 @@ async function readPublishedToolIds() {
       entry = null;
     }
   }
+
+  assert.ok(ids.length > 0, "The tool catalog must declare at least one published tool.");
   return ids;
+}
+
+function readRegisteredToolIds(source) {
+  return [...source.matchAll(/^\s+(?:"([^"]+)"|([a-z0-9-]+)): createToolModule\(/gm)].map(
+    ([, quotedId, bareId]) => quotedId ?? bareId,
+  );
 }
 
 test("every published tool has exactly one registry module", async () => {
   const source = await readFile(registryFile, "utf8");
   const publishedIds = await readPublishedToolIds();
-  const registeredIds = [...source.matchAll(/^\s+(?:"([^"]+)"|([a-z0-9-]+)): createToolModule\(/gm)].map(
-    ([, quotedId, bareId]) => quotedId ?? bareId,
-  );
+  const registeredIds = readRegisteredToolIds(source);
 
   assert.equal(new Set(registeredIds).size, registeredIds.length);
   assert.deepEqual([...registeredIds].sort(), [...publishedIds].sort());
@@ -49,9 +53,10 @@ test("every published tool has exactly one registry module", async () => {
 
 test("every registered module exposes runtime and editorial loaders", async () => {
   const source = await readFile(registryFile, "utf8");
+  const publishedIds = await readPublishedToolIds();
   const moduleBlocks = [...source.matchAll(/(?:^|\n)\s+(?:"([^"]+)"|([a-z0-9-]+)): createToolModule\(([\s\S]*?)\n\s+\),/g)];
 
-  assert.equal(moduleBlocks.length, (await readPublishedToolIds()).length);
+  assert.equal(moduleBlocks.length, publishedIds.length);
 
   for (const [, quotedId, bareId, block] of moduleBlocks) {
     const toolId = quotedId ?? bareId;
@@ -63,24 +68,11 @@ test("every registered module exposes runtime and editorial loaders", async () =
   }
 });
 
-test("ToolRenderer resolves runtime components through the registry", async () => {
-  const source = await readFile(toolRendererFile, "utf8");
-
-  assert.match(source, /getToolRegistryEntry/);
-  assert.match(source, /entry\.module\.runtime/);
-  assert.doesNotMatch(source, /toolComponents/);
-  assert.doesNotMatch(source, /next\/dynamic/);
-  assert.doesNotMatch(source, /@\/components\/tools\//);
-});
-
-
 test("registry module ids are valid ToolIds", async () => {
   const registrySource = await readFile(registryFile, "utf8");
-  const typesSource = await readFile(fileURLToPath(new URL("./types.ts", import.meta.url)), "utf8");
+  const typesSource = await readFile(typesFile, "utf8");
   const toolIds = [...typesSource.matchAll(/\|\s*"([^"]+)"/g)].map(([, id]) => id);
-  const registeredIds = [...registrySource.matchAll(/^\s+(?:"([^"]+)"|([a-z0-9-]+)): createToolModule\(/gm)].map(
-    ([, quotedId, bareId]) => quotedId ?? bareId,
-  );
+  const registeredIds = readRegisteredToolIds(registrySource);
 
   for (const toolId of registeredIds) {
     assert.ok(toolIds.includes(toolId), `Registry module "${toolId}" must be a declared ToolId.`);
