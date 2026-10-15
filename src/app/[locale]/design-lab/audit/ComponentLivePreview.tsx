@@ -38,6 +38,7 @@ import { Chip } from "@/components/ui/Chip";
 import { IconButton } from "@/components/ui/IconButton";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import { Switch } from "@/components/ui/Switch";
+import { SwipeToDismissBox } from "@/components/ui/SwipeToDismissBox";
 import { TextField } from "@/components/ui/TextField";
 import { ToggleButton } from "@/components/ui/ToggleButton";
 
@@ -71,6 +72,7 @@ export default function ComponentLivePreview({
   const [searchSubmitted, setSearchSubmitted] = useState("");
   const [dateValue, setDateValue] = useState("");
   const [splitResult, setSplitResult] = useState(fr ? "Aucune action" : "No action");
+  const [dismissed, setDismissed] = useState(false);
   const fr = locale === "fr";
   const label = fr ? "Aperçu du composant réel" : "Live component preview";
   const stateHelp = fr
@@ -168,6 +170,9 @@ export default function ComponentLivePreview({
       break;
     case "date-picker":
       content = <div className="grid gap-4 sm:grid-cols-2"><DatePicker label={fr ? "Date" : "Date"} value={dateValue} onChange={setDateValue} displayMode="input" locale={locale} /><DatePicker label={fr ? "Date désactivée" : "Disabled date"} value="2026-10-15" displayMode="input" locale={locale} /></div>;
+      break;
+    case "swipe-to-dismiss-box":
+      content = <div className="grid gap-3"><p className="text-sm text-[var(--muted)]">{fr ? "Fais glisser l’élément horizontalement pour le retirer." : "Swipe the item horizontally to dismiss it."}</p>{dismissed ? <Button variant="outlined" onClick={() => setDismissed(false)}>{fr ? "Réinitialiser l’exemple" : "Reset example"}</Button> : <SwipeToDismissBox dismissLabel={fr ? "Retirer" : "Dismiss"} onDismiss={() => setDismissed(true)}><Panel><p className="font-medium">{fr ? "Élément à retirer" : "Dismissible item"}</p><p className="mt-1 text-sm text-[var(--muted)]">{fr ? "Composant réel de Loculary" : "Actual Loculary component"}</p></Panel></SwipeToDismissBox>}</div>;
       break;
     case "button":
       content = (
