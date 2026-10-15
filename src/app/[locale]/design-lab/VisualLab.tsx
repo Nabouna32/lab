@@ -452,8 +452,8 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
             <ComponentIdentifier names={["BottomAppBar"]} kind="adaptation" locale={locale}/>
             <BottomAppBar actions={<div className={styles.topBarActions}>
               <button type="button" className={styles.sampleIconButton} aria-label={locale==="fr"?"Valider":"Confirm"} onClick={()=>setSnackbarOpen(true)}><MaterialIcon name="check" size={22}/></button>
-              <button type="button" className={styles.sampleIconButton} aria-label={locale==="fr"?"Modifier":"Edit"} onClick={()=>setSnackbarOpen(true)}><MaterialIcon name="edit" size={22}/></button>
-              <button type="button" className={styles.sampleIconButton} aria-label={locale==="fr"?"Partager":"Share"} onClick={()=>setSnackbarOpen(true)}><MaterialIcon name="share" size={22}/></button>
+              <button type="button" className={styles.sampleIconButton} aria-label={locale==="fr"?"Modifier":"Edit"} onClick={()=>setSnackbarOpen(true)}><MaterialIcon name="text_fields" size={22}/></button>
+              <button type="button" className={styles.sampleIconButton} aria-label={locale==="fr"?"Partager":"Share"} onClick={()=>setSnackbarOpen(true)}><MaterialIcon name="arrow_outward" size={22}/></button>
             </div>} floatingActionButton={<FloatingActionButton size="small" icon="add" ariaLabel={locale==="fr"?"Ajouter":"Add"} onClick={()=>setSnackbarOpen(true)}/>}/>
           </div>
           <div className={styles.fabSpecimen}>
@@ -475,7 +475,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
               <Badge accessibleLabel={locale==="fr"?"Notification":"Notification"}/>
               <Badge variant="large" content="3" accessibleLabel={locale==="fr"?"3 notifications":"3 notifications"}/>
               <BadgedBox badge={<Badge variant="large" content="8" accessibleLabel={locale==="fr"?"8 messages":"8 messages"}/>}>
-                <MaterialIcon name="mail" size={24}/>
+                <MaterialIcon name="content_copy" size={24}/>
               </BadgedBox>
             </div>
           </div>
@@ -490,7 +490,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
             ]}/>
             <Carousel label={locale==="fr"?"Carrousel multi-navigation":"Multi-browse carousel"} layout="multi-browse" itemWidth={190} items={[
               {id:"popular",label:locale==="fr"?"Populaires":"Popular",content:<div className={styles.carouselCard}><MaterialIcon name="star" size={28}/><strong>{locale==="fr"?"Populaires":"Popular"}</strong></div>},
-              {id:"recent",label:locale==="fr"?"Récents":"Recent",content:<div className={styles.carouselCard}><MaterialIcon name="history" size={28}/><strong>{locale==="fr"?"Récents":"Recent"}</strong></div>},
+              {id:"recent",label:locale==="fr"?"Récents":"Recent",content:<div className={styles.carouselCard}><MaterialIcon name="restart_alt" size={28}/><strong>{locale==="fr"?"Récents":"Recent"}</strong></div>},
               {id:"saved",label:locale==="fr"?"Favoris":"Favorites",content:<div className={styles.carouselCard}><MaterialIcon name="favorite" size={28}/><strong>{locale==="fr"?"Favoris":"Favorites"}</strong></div>},
               {id:"all",label:locale==="fr"?"Tous":"All",content:<div className={styles.carouselCard}><MaterialIcon name="apps" size={28}/><strong>{locale==="fr"?"Tous les outils":"All tools"}</strong></div>},
             ]}/>
@@ -502,7 +502,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
               <FloatingActionButton size="small" icon="add" ariaLabel={locale==="fr"?"Ajouter (petit)":"Add (small)"} onClick={()=>setSnackbarOpen(true)}/>
               <FloatingActionButton size="default" icon="add" ariaLabel={locale==="fr"?"Ajouter":"Add"} onClick={()=>setSnackbarOpen(true)}/>
               <FloatingActionButton size="large" icon="add" ariaLabel={locale==="fr"?"Ajouter (grand)":"Add (large)"} onClick={()=>setSnackbarOpen(true)}/>
-              <FloatingActionButton size="extended" icon="edit" label={locale==="fr"?"Créer un élément":"Create item"} onClick={()=>setSnackbarOpen(true)}/>
+              <FloatingActionButton size="extended" icon="text_fields" label={locale==="fr"?"Créer un élément":"Create item"} onClick={()=>setSnackbarOpen(true)}/>
             </div>
           </div>
           <div className={styles.drawerSpecimen}>
@@ -518,7 +518,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
                 {key:"home",label:locale==="fr"?"Accueil":"Home",icon:"home",section:locale==="fr"?"Espace principal":"Main"},
                 {key:"explore",label:locale==="fr"?"Explorer":"Explore",icon:"search"},
                 {key:"saved",label:locale==="fr"?"Enregistrés":"Saved",icon:"favorite"},
-                {key:"settings",label:locale==="fr"?"Paramètres":"Settings",icon:"settings",section:locale==="fr"?"Préférences":"Preferences"},
+                {key:"settings",label:locale==="fr"?"Paramètres":"Settings",icon:"apps",section:locale==="fr"?"Préférences":"Preferences"},
               ]}/>
           </div>
           <p className={styles.helper}>{locale==="fr"?"Barre d’application, boutons icône, badge, rail et FAB.":"App bar, icon buttons, badge, navigation rail and FAB."}</p>
@@ -528,7 +528,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
           <label className={styles.sampleMaterialField}><span>{locale==="fr"?"Nom de l’outil":"Tool name"}</span><input type="text" defaultValue={locale==="fr"?"Convertisseur d’image":"Image converter"} /><small>{locale==="fr"?"Texte d’aide sous le champ":"Supporting text below the field"}</small></label>
           <label className={styles.sampleMaterialField}><span>{locale==="fr"?"Champ avec erreur":"Field with error"}</span><input type="email" aria-invalid="true" defaultValue="adresse-invalide" /><small className={styles.sampleFieldError}>{locale==="fr"?"Saisis une adresse e-mail valide.":"Enter a valid email address."}</small></label>
           <fieldset className={styles.sampleRadioGroup}><legend>{locale==="fr"?"Afficher les éléments":"Show items"}</legend><label><input type="radio" name="lab-filter" value="all" checked={sampleRadio==="all"} onChange={()=>setSampleRadio("all")}/>{locale==="fr"?"Tous":"All"}</label><label><input type="radio" name="lab-filter" value="favorites" checked={sampleRadio==="favorites"} onChange={()=>setSampleRadio("favorites")}/>{locale==="fr"?"Favoris":"Favorites"}</label></fieldset>
-          <div className={styles.chipRow}><Chip variant="assist" label={locale==="fr"?"Aide à la tâche":"Task assist"} leadingIcon="lightbulb" onClick={()=>setSnackbarOpen(true)}/><Chip variant="elevated-assist" label={locale==="fr"?"Assist élevée":"Elevated assist"} leadingIcon="tips_and_updates" onClick={()=>setSnackbarOpen(true)}/><Chip variant="filter" label={locale==="fr"?"Filtre sélectionnable":"Selectable filter"} selected={sampleFilterSelected} onSelectedChange={setSampleFilterSelected}/><Chip variant="elevated-filter" label={locale==="fr"?"Filtre élevé":"Elevated filter"} selected={false} onSelectedChange={()=>setSnackbarOpen(true)}/>{sampleInputChipVisible&&<Chip variant="input" label={locale==="fr"?"Image":"Image"} leadingIcon="image" onDismiss={()=>setSampleInputChipVisible(false)}/>}<Chip variant="suggestion" label={locale==="fr"?"Suggestion":"Suggestion"} onClick={()=>setSnackbarOpen(true)}/><Chip variant="elevated-suggestion" label={locale==="fr"?"Suggestion élevée":"Elevated suggestion"} onClick={()=>setSnackbarOpen(true)}/></div>
+          <div className={styles.chipRow}><Chip variant="assist" label={locale==="fr"?"Aide à la tâche":"Task assist"} leadingIcon="info" onClick={()=>setSnackbarOpen(true)}/><Chip variant="elevated-assist" label={locale==="fr"?"Assist élevée":"Elevated assist"} leadingIcon="stars" onClick={()=>setSnackbarOpen(true)}/><Chip variant="filter" label={locale==="fr"?"Filtre sélectionnable":"Selectable filter"} selected={sampleFilterSelected} onSelectedChange={setSampleFilterSelected}/><Chip variant="elevated-filter" label={locale==="fr"?"Filtre élevé":"Elevated filter"} selected={false} onSelectedChange={()=>setSnackbarOpen(true)}/>{sampleInputChipVisible&&<Chip variant="input" label={locale==="fr"?"Image":"Image"} leadingIcon="image" onDismiss={()=>setSampleInputChipVisible(false)}/>}<Chip variant="suggestion" label={locale==="fr"?"Suggestion":"Suggestion"} onClick={()=>setSnackbarOpen(true)}/><Chip variant="elevated-suggestion" label={locale==="fr"?"Suggestion élevée":"Elevated suggestion"} onClick={()=>setSnackbarOpen(true)}/></div>
         </article>
         <article className={styles.galleryCard}>
           <h3>{locale==="fr"?"Listes, séparateurs et menus":"Lists, dividers & menus"}</h3><ComponentIdentifier names={["DropdownMenu (mockup)"]} kind="mockup" locale={locale}/><ComponentIdentifier names={["ListItem","HorizontalDivider","VerticalDivider"]} kind="adaptation" locale={locale}/>
@@ -538,7 +538,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
           <h3>{locale==="fr"?"Indicateurs et chargement":"Progress & loading"}</h3><ComponentIdentifier names={["Skeleton (Loculary-specific)","Tooltip (mockup)"]} kind="mockup" locale={locale}/><ComponentIdentifier names={["CircularProgressIndicator","ProgressIndicator"]} kind="adaptation" locale={locale}/>
           <div className={styles.sampleProgressRow}><div className={styles.sampleCircularProgress}><CircularProgressIndicator label={locale==="fr"?"Progression circulaire":"Circular progress"} value={sampleProgress} size={80} strokeWidth={6}/><span>{sampleProgress}%</span></div><div className={styles.sampleProgressCopy}><strong>{locale==="fr"?"Importation en cours":"Import in progress"}</strong><p>{locale==="fr"?"Progression déterminée par le curseur de la section précédente.":"Progress is controlled by the slider in the section above."}</p><ProgressIndicator label={locale==="fr"?"Progression de l’importation":"Import progress"} value={sampleProgress} style={{"--progress-color":"var(--lab-primary)","--progress-track":"var(--lab-primary-soft)"}}/></div></div>
           <div className={styles.sampleIndeterminate}><CircularProgressIndicator label={locale==="fr"?"Chargement indéterminé":"Indeterminate loading"} size={40} strokeWidth={4}/><span>{locale==="fr"?"Chargement indéterminé":"Indeterminate loading"}</span></div><div className={styles.sampleSkeleton}><span/><span/><span/></div><p className={styles.helper}>{locale==="fr"?"Les deux modes circulaires et linéaires sont distincts : valeur réelle ou activité indéterminée.":"Determinate and indeterminate modes are distinct: real progress or activity without a percentage."}</p>
-          <div className={styles.sampleTooltipWrap}><ComponentIdentifier names={["PlainTooltip","RichTooltip","TooltipBox"]} kind="adaptation" locale={locale}/><Tooltip content={locale==="fr"?"Ajoute cet outil à tes favoris.":"Add this tool to your favorites."}><button type="button" className={styles.sampleIconButton} aria-label={locale==="fr"?"Aide contextuelle":"Contextual help"}><MaterialIcon name="info" size={20}/></button></Tooltip><Tooltip variant="rich" title={locale==="fr"?"Information détaillée":"More information"} content={locale==="fr"?"Les info-bulles enrichies peuvent présenter plusieurs lignes de contexte.":"Rich tooltips can provide several lines of contextual information."}><button type="button" className={styles.sampleIconButton} aria-label={locale==="fr"?"Détails":"Details"}><MaterialIcon name="help" size={20}/></button></Tooltip></div>
+          <div className={styles.sampleTooltipWrap}><ComponentIdentifier names={["PlainTooltip","RichTooltip","TooltipBox"]} kind="adaptation" locale={locale}/><Tooltip content={locale==="fr"?"Ajoute cet outil à tes favoris.":"Add this tool to your favorites."}><button type="button" className={styles.sampleIconButton} aria-label={locale==="fr"?"Aide contextuelle":"Contextual help"}><MaterialIcon name="info" size={20}/></button></Tooltip><Tooltip variant="rich" title={locale==="fr"?"Information détaillée":"More information"} content={locale==="fr"?"Les info-bulles enrichies peuvent présenter plusieurs lignes de contexte.":"Rich tooltips can provide several lines of contextual information."}><button type="button" className={styles.sampleIconButton} aria-label={locale==="fr"?"Détails":"Details"}><MaterialIcon name="info" size={20}/></button></Tooltip></div>
         </article>
       </div>
     </section>
