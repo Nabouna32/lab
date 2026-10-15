@@ -335,3 +335,10 @@ Older audit entries above that say the Checkbox/Switch/field disabled values are
 
 - [SOURCE-OBSERVED] The Pixel direction mockup had hard-coded radii for its primary button, calculator field and result/card surfaces, so the Lab rounding-degree control could not affect those elements.
 - Map those roles to the documented full button shape, extra-small field shape and medium card/result shape. Leave device-frame/search/icon-specific shapes open unless their official token roles are verified.
+
+## AndroidX token continuation — button shape and CI test corrections (2026-10-15)
+
+- [ANDROID-M3] Verified pinned AndroidX ButtonSmallTokens.kt and Button.kt: default button shape is CornerFull; pressed shape is CornerSmall. Loculary's shared Button now maps the pressed state to --shape-corner-small. The role mapping is source-backed; rendered transition/timing remains open.
+- [ANDROID-M3] Rechecked variant disabled roles against the pinned token files: filled/elevated container 10% on-surface and label/icon 38% on-surface-variant; filled-tonal container 12% on-surface and label/icon 38% on-surface; outlined outline-variant 10% and content 38% on-surface-variant; text content 38% on-surface-variant.
+- [ANDROID-M3] Rechecked icon toggle tokens: standard selected icon uses primary without a container; filled selected remains primary/on-primary; filled-tonal selected uses secondary/on-secondary; outlined selected uses inverse-surface/inverse-on-surface. Disabled filled variants use 10% on-surface container and 38% on-surface icon; outlined disabled outline is outline-variant at 38%.
+- [SOURCE-OBSERVED → source edit made] The last CI failure exposed stale static assertions for pre-audit button/icon-button rules plus an over-escaped shape regex. Updated those assertions to the current token mapping and corrected the regex. A new green run for the current head is not yet confirmed.
