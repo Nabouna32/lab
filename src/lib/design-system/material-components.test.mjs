@@ -6,7 +6,13 @@ const checkboxSource = readFileSync(new URL("../../components/ui/Checkbox.tsx", 
 const switchSource = readFileSync(new URL("../../components/ui/Switch.tsx", import.meta.url), "utf8");
 const iconSource = readFileSync(new URL("../../components/ui/MaterialIcon.tsx", import.meta.url), "utf8");
 const labSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
+const labCss = readFileSync(new URL("../../app/[locale]/design-lab/visual-lab.module.css", import.meta.url), "utf8");
 const passwordSource = readFileSync(new URL("../../components/tools/password-generator/PasswordGenerator.tsx", import.meta.url), "utf8");
+const imageSource = readFileSync(new URL("../../components/tools/image-compressor/ImageCompressor.tsx", import.meta.url), "utf8");
+const sliderSource = readFileSync(new URL("../../components/ui/Slider.tsx", import.meta.url), "utf8");
+const sliderCss = readFileSync(new URL("../../components/ui/slider.module.css", import.meta.url), "utf8");
+const progressSource = readFileSync(new URL("../../components/ui/ProgressIndicator.tsx", import.meta.url), "utf8");
+const progressCss = readFileSync(new URL("../../components/ui/progress-indicator.module.css", import.meta.url), "utf8");
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
 
 function luminance(hex) {
@@ -53,6 +59,21 @@ test("shared checkbox uses M3 foreground/background roles and a visible keyboard
   assert.doesNotMatch(checkboxSource, /accent-\[#/);
 });
 
+test("shared slider and progress indicator expose accessible M3 states", () => {
+  assert.match(sliderSource, /type="range"/);
+  assert.match(sliderSource, /aria-valuetext=\{valueText\}/);
+  assert.match(sliderCss, /height: 48px/);
+  assert.match(sliderSource, /data-disabled=\{disabled \? "true" : "false"\}/);
+  assert.match(sliderCss, /:focus-visible/);
+  assert.match(sliderCss, /slider-disabled-active/);
+  assert.match(sliderSource, /on-surface\) 12%/);
+  assert.match(sliderSource, /on-surface\) 38%/);
+  assert.match(progressSource, /role="progressbar"/);
+  assert.match(progressSource, /aria-valuenow/);
+  assert.match(progressSource, /data-indeterminate=/);
+  assert.match(progressCss, /prefers-reduced-motion: reduce/);
+});
+
 test("functional icons use bundled Material Symbols paths and inherit currentColor", () => {
   for (const name of ["content_copy", "restart_alt", "arrow_outward", "lock", "public", "cloud", "warning", "star_fill", "collections_bookmark", "keyboard_arrow_down", "swap_horiz", "apps", "language"]) {
     assert.ok(iconSource.includes(name), `missing Material Symbol: ${name}`);
@@ -88,11 +109,11 @@ test("common navigation and identity icons use the shared Material Symbols compo
   assert.doesNotMatch(headerSource, /function Icon\(/);
 });
 
-test("real checkbox and switch call sites use shared primitives", () => {
+test("real tools and the Lab use shared checkbox, switch, slider and progress primitives", () => {
   assert.match(labSource, /import \{ Switch \} from "@\/components\/ui\/Switch"/);
-  assert.match(labSource, /<Switch /);
+  assert.match(labSource, /<Switch /);\n  assert.match(labSource, /<Checkbox/);\n  assert.match(labSource, /<Slider/);\n  assert.match(labSource, /<ProgressIndicator/);\n  assert.match(labSource, /lab-disabled-checkbox/);\n  assert.match(labSource, /lab-disabled-switch/);\n  assert.match(labSource, /lab-disabled-slider/);\n  assert.doesNotMatch(labSource, /type="checkbox"/);\n  assert.doesNotMatch(labSource, /type="range"/);
   assert.match(passwordSource, /import \{ Checkbox \} from "@\/components\/ui\/Checkbox"/);
-  assert.match(passwordSource, /<Checkbox/);
+  assert.match(passwordSource, /<Checkbox/);\n  assert.match(passwordSource, /import \\{ Slider \\} from "@\\/components\\/ui\\/Slider"/);\n  assert.match(passwordSource, /<Slider/);\n  assert.doesNotMatch(passwordSource, /type="checkbox"/);\n  assert.doesNotMatch(passwordSource, /type="range"/);\n  assert.match(imageSource, /<Slider/);\n  assert.match(imageSource, /<ProgressIndicator/);\n  assert.doesNotMatch(imageSource, /type="range"/);
 });
 
 test("standard functional UI surfaces do not reintroduce one-off inline SVG icons", () => {
