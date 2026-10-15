@@ -863,3 +863,12 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - Integrated both official row families in the Lab.
 - Official sources: AndroidX SegmentedButton and SingleChoiceSegmentedButtonRow API references.
 - **Not complete:** exact AndroidX shape/spacing, icon variants, RTL and assistive-technology parity remain to validate.
+
+
+## Continuation update — FloatingToolbar family (2026-10-15)
+
+- Added shared `FloatingToolbar` adaptation for horizontal and vertical action layouts, expandable/collapsible states, keyboard actions and reduced-motion fallback.
+- Integrated both variants into the Lab.
+- Official sources: HorizontalFloatingToolbar and VerticalFloatingToolbar API references.
+- **Version caveat:** FloatingToolbarState is listed as added in Material3 1.5.0-beta01; verify the pinned dependency.
+- **Not complete:** scroll behavior/nested scroll, touch-exploration handling, exact elevation/shape, placement, RTL and screen-reader parity remain to validate.
