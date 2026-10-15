@@ -298,3 +298,6 @@ See [`docs/M3-CONVENTIONS.md`](./M3-CONVENTIONS.md) for the detailed source hier
 - [SOURCE-OBSERVED] Typecheck in runs 38695462704 and 38695137845 failed on an earlier branch head with three errors: a stale setTheme call in the profile mockup, plus two Lab Switch style objects still using the removed --switch-disabled-track property.
 - [SOURCE-OBSERVED → source edit made] The profile mockup now toggles its own automaticTheme sample preference instead of changing the global theme; the old property is gone from both Lab Switch style objects, which now use selected/unselected track tokens and a selected-handle surface token.
 - [OPEN] These fixes landed after the failing runs; the latest branch head still needs a fresh typecheck/test/build result. Do not interpret the old failure as current or claim it has passed until a run for the current head is available.
+## Follow-up — independent Lab preview state (2026-10-15)
+
+- [SOURCE-OBSERVED → source edit made] The raw radio-group preview and the shared SegmentedControl preview shared the same sampleRadio state. That accidental coupling made two unrelated examples change together. Added sampleLayout state for the segmented control and a regression assertion. [OPEN] Confirm manually in the browser that the two examples now operate independently.
