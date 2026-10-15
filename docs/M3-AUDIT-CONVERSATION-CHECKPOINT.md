@@ -906,3 +906,12 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - Official sources: AndroidX ButtonGroup and ButtonGroupScope references.
 - **Version caveat:** ButtonGroupScope DSL is listed in Material3 1.5.0-alpha29; verify the pinned dependency.
 - **Not complete:** adaptive width measurement, compression limits, real responsive overflow, motion, keyboard/menu semantics and screen-reader behavior remain to validate.
+
+
+## Continuation update — NavigationSuiteScaffold (2026-10-15)
+
+- Added shared `NavigationSuiteScaffold` Web adaptation switching between bottom NavigationBar, NavigationRail and permanent NavigationDrawer.
+- Integrated a responsive specimen; CSS breakpoints use 600/840px and are explicitly documented as approximations, not dp/WindowSizeClass.
+- Official source: https://developer.android.com/reference/kotlin/androidx/compose/material3/adaptive/navigationsuite/NavigationSuiteScaffold.composable.
+- **Version caveat:** adaptive navigation suite is a separate artifact; official release page lists 1.5.0-beta01. Confirm pinned dependency.
+- **Not complete:** adaptive type overrides, insets, RTL, state preservation and device/browser parity remain to validate.
