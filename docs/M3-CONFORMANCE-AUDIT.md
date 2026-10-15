@@ -483,3 +483,8 @@ Token evidence: AndroidX MenuTokens maps the menu container to surfaceContainer,
 AndroidX source/token review confirms: 40 dp row minimum height, 1 dp outline, Label Large typography, 18 dp icon, selected Secondary Container / On Secondary Container roles, unselected Outline / On Surface roles, and Corner Full base shape. AndroidX itemShape uses the base shape for a single item and the outside corners, with rectangular inner segments. Therefore the full outer shape in Loculary is correct; it was retained after reading the actual token file.
 
 The shared component now has radio-group/single-choice semantics, roving tab stop, arrow navigation, Home/End, disabled items and selected state. It is **not full AndroidX parity**: multi-choice segmented buttons are not implemented; check-icon reveal animation, exact border overlap, complete interaction color tokens, and browser/screen-reader validation remain open.
+
+
+### Validation status (2026-10-15)
+
+A previous CI run failed during the lint/test stage because two assertions were stale; they have been corrected, and a literal escaped-newline issue in the test source has also been fixed. The current branch head has no fresh workflow run associated with it, so these edits are **unverified by CI**. Browser, keyboard, responsive and screen-reader validation also remain outstanding. Keep every new component in Web-adaptation status until validation completes.
