@@ -6,6 +6,8 @@ const dropdownSource = readFileSync(new URL("../../components/ui/ExposedDropdown
 const dropdownCss = readFileSync(new URL("../../components/ui/ExposedDropdownMenu.module.css", import.meta.url), "utf8");
 const snackbarSource = readFileSync(new URL("../../components/ui/Snackbar.tsx", import.meta.url), "utf8");
 const snackbarCss = readFileSync(new URL("../../components/ui/Snackbar.module.css", import.meta.url), "utf8");
+const bottomSheetSource = readFileSync(new URL("../../components/ui/ModalBottomSheet.tsx", import.meta.url), "utf8");
+const bottomSheetCss = readFileSync(new URL("../../components/ui/ModalBottomSheet.module.css", import.meta.url), "utf8");
 const checkboxSource = readFileSync(new URL("../../components/ui/Checkbox.tsx", import.meta.url), "utf8");
 const switchSource = readFileSync(new URL("../../components/ui/Switch.tsx", import.meta.url), "utf8");
 const iconSource = readFileSync(new URL("../../components/ui/MaterialIcon.tsx", import.meta.url), "utf8");
@@ -557,4 +559,23 @@ test("ExposedDropdownMenu is a source-informed Web adaptation with keyboard and 
   assert.match(dropdownCss, /var\(--surface-container, var\(--lab-surface-container/);
   assert.match(dropdownCss, /prefers-reduced-motion: reduce/);
   assert.match(labSource, /<ExposedDropdownMenu id="lab-shared-select"/);
+});
+
+
+test("ModalBottomSheet is an accessible AndroidX-informed Web adaptation", () => {
+  assert.match(bottomSheetSource, /role="dialog"/);
+  assert.match(bottomSheetSource, /aria-modal="true"/);
+  assert.match(bottomSheetSource, /aria-labelledby=\{titleId\}/);
+  assert.match(bottomSheetSource, /onDismissRef\.current\(\)/);
+  assert.match(bottomSheetSource, /event\.key === "Escape"/);
+  assert.match(bottomSheetSource, /event\.key !== "Tab"/);
+  assert.match(bottomSheetSource, /document\.body\.style\.overflow = "hidden"/);
+  assert.match(bottomSheetSource, /previousFocus\?\.focus\(\)/);
+  assert.match(bottomSheetSource, /AndroidX Material 3 ModalBottomSheet/);
+  assert.match(bottomSheetSource, /swipe-to-dismiss, SheetState\/partial expansion/);
+  assert.match(bottomSheetCss, /env\(safe-area-inset-bottom/);
+  assert.match(bottomSheetCss, /prefers-reduced-motion: reduce/);
+  assert.match(bottomSheetCss, /shape-corner-extra-large/);
+  assert.match(labSource, /<ModalBottomSheet open=\{bottomSheetOpen\}/);
+  assert.doesNotMatch(labSource, /sampleBottomSheet|sheetHandle/);
 });
