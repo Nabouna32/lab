@@ -809,3 +809,12 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - Added shared `SwipeToDismissBox` Web adaptation and Lab specimen, with horizontal gesture, configurable direction, threshold dismissal, reduced-motion support and an explicit accessible dismiss button.
 - Official source: https://developer.android.com/reference/kotlin/androidx/compose/material3/SwipeToDismissBox.composable.
 - **Not complete:** state/confirm parity, nested scrolling, pointer cancellation, RTL, exact motion, assistive-technology and browser/device gesture behavior remain to validate.
+
+
+## Continuation update — FloatingActionButtonMenu (2026-10-15)
+
+- Added shared `FloatingActionButtonMenu` Web adaptation with expandable quick actions, staggered entrance, Escape dismissal, focus restoration and reduced-motion fallback.
+- Integrated it into the gesture/actions Lab section.
+- Official sources: https://developer.android.com/reference/kotlin/androidx/compose/material3/FloatingActionButtonMenu.composable and https://developer.android.com/reference/kotlin/androidx/compose/material3/FloatingActionButtonMenuItem.composable.
+- **Version caveat:** FloatingActionButtonMenuItem is listed as added in Material3 1.5.0-alpha29. Verify the pinned dependency before claiming stable availability.
+- **Not complete:** exact toggle FAB shape, item arrangement, motion timing, back handling, RTL and screen-reader behavior remain to validate.
