@@ -6,6 +6,8 @@ import { AlertDialog } from "@/components/ui/AlertDialog";
 import { NavigationBar } from "@/components/ui/NavigationBar";
 import { Select } from "@/components/ui/Select";
 import { ClearButton } from "@/components/ui/ClearButton";
+import { CopyButton } from "@/components/ui/CopyButton";
+import { ToolRuntimeProvider } from "@/components/tools/ToolPage/ToolRuntimeProvider";
 import { useTheme } from "@teispace/next-themes";
 import type { CSSProperties } from "react";
 import styles from "./visual-lab.module.css";
@@ -469,7 +471,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
             <Select id="lab-native-select" label={locale==="fr"?"Format natif":"Native format"} value={sampleFormat} onChange={(event)=>setSampleFormat(event.target.value)}>
               <option value="png">PNG</option><option value="webp">WebP</option><option value="jpeg">JPEG</option>
             </Select>
-            <ClearButton label={locale==="fr"?"Réinitialiser le format":"Reset format"} onClear={()=>setSampleFormat("png")}/>
+            <ComponentIdentifier names={["ClearButton"]} locale={locale}/><ClearButton label={locale==="fr"?"Réinitialiser le format":"Reset format"} onClear={()=>setSampleFormat("png")}/><ComponentIdentifier names={["CopyButton"]} locale={locale}/><ToolRuntimeProvider access="anonymous" capabilities={["clipboard"]}><CopyButton value={sampleFormat} label={locale==="fr"?"Copier le format":"Copy format"} copiedLabel={locale==="fr"?"Format copié":"Format copied"}/></ToolRuntimeProvider>
           </div>
           <ComponentVariantControl label={locale==="fr"?"Version de la case à cocher":"Checkbox version"} value={checkboxVariant} onChange={setCheckboxVariant} expressiveNote={locale==="fr"?"Aucune différence de rendu par défaut propre à Expressive n’a été confirmée dans la source Checkbox consultée : le composant reste identique, sans variation inventée.":"No default Expressive-specific rendering difference was confirmed in the inspected Checkbox source; the component stays the same rather than inventing a variation."}/><Checkbox inputId="lab-shared-checkbox" checked={sampleChecked} onCheckedChange={setSampleChecked} label={locale==="fr"?"Inclure les sous-catégories":"Include subcategories"}/>
           <SegmentedControl ariaLabel={locale==="fr"?"Disposition de la liste":"List layout"} value={sampleLayout} onChange={setSampleLayout} items={[{id:"all",label:locale==="fr"?"Tout":"All"},{id:"favorites",label:locale==="fr"?"Favoris":"Favorites"}]}/>
