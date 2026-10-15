@@ -88,7 +88,8 @@ export function SearchBar({
             type="search"
             aria-label={label}
             role="combobox"
-            aria-autocomplete="list"\n            aria-haspopup="listbox"
+            aria-autocomplete="list"
+            aria-haspopup="listbox"
             aria-expanded={visible}
             aria-controls={listId}
             aria-activedescendant={activeIndex >= 0 ? `${listId}-option-${activeIndex}` : undefined}
