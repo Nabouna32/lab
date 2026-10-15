@@ -524,3 +524,13 @@ The Lab is expected to represent official Material 3 components and their meanin
 - **Implemented:** added shared `FloatingActionButton.tsx` and CSS with small, regular, large and extended variants; replaced the gallery's static FAB-only mockup label with an interactive variant row. All variants use semantic Lab color roles and include hover/pressed/focus/disabled and reduced-motion styling.
 - **Web adaptation choices:** CSS-pixel sizes and CSS shadow approximations are not dp or Android elevation parity. This implementation has not yet reproduced AndroidX's exact state-dependent elevation, extended-FAB collapse/expand API, tonal elevation, or official motion timing. The gallery's FAB click triggers only the existing Lab snackbar demo.
 - **Status:** shared source-informed Web adaptation, partial parity. Compare the pinned AndroidX token/source revision, verify all color roles and sizes, and run browser/device/keyboard/screen-reader checks before claiming parity.
+
+
+### Badge / BadgedBox — AndroidX audit and Web adaptation (2026-10-15)
+
+Official source: https://developer.android.com/reference/kotlin/androidx/compose/material3/Badge and the [Material 3 component catalogue](https://developer.android.com/develop/ui/compose/components?hl=en).
+
+- Source-confirmed: Badge conveys a small notification/count/status; BadgedBox anchors it to an icon or other content. AndroidX exposes small dot and larger text/count forms.
+- Implemented: shared Badge and BadgedBox primitives; Lab shows a dot badge on notifications, a count badge, and a badge anchored to an icon. Components use semantic error roles, preserve the anchor's layout, and expose an accessible label prop.
+- Gaps: exact AndroidX dimensions, alignment offsets, large-count truncation, color defaults by semantic use, and assistive-technology behavior need comparison with the pinned AndroidX source. A generic aria-label on a span is not a substitute for testing actual screen-reader output.
+- Status: source-informed Web adaptation, partial parity; CI and browser/assistive-technology validation pending.
