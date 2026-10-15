@@ -163,6 +163,12 @@ export default function ComponentLivePreview({
     case "search-bar":
       content = <div className="grid gap-3"><SearchBar label={fr ? "Rechercher un outil" : "Search tools"} query={searchQuery} onQueryChange={setSearchQuery} onSearch={setSearchSubmitted} suggestions={fr ? ["Calculatrice de pourcentage", "Convertisseur d’image", "Nettoyeur de texte"] : ["Percentage calculator", "Image converter", "Text cleaner"]} placeholder={fr ? "Rechercher…" : "Search…"} locale={locale} /><p className="text-sm text-[var(--muted)]">{fr ? "Dernière recherche : " : "Last search: "}{searchSubmitted || "—"}</p></div>;
       break;
+    case "split-button":
+      content = <div className="grid gap-3"><SplitButton label={fr ? "Créer un élément" : "Create item"} menuLabel={fr ? "Autres options" : "More options"} onClick={() => setSplitResult(fr ? "Action principale" : "Primary action")} items={[{label:fr?"Créer une copie":"Create a copy",onSelect:()=>setSplitResult(fr?"Copie créée":"Copy created")},{label:fr?"Archiver":"Archive",onSelect:()=>setSplitResult(fr?"Élément archivé":"Item archived")},{label:fr?"Action indisponible":"Disabled action",onSelect:()=>setSplitResult("—"),disabled:true}]} /><p className="text-sm text-[var(--muted)]">{fr ? "Dernière action : " : "Last action: "}{splitResult}</p></div>;
+      break;
+    case "date-picker":
+      content = <div className="grid gap-4 sm:grid-cols-2"><DatePicker label={fr ? "Date" : "Date"} value={dateValue} onChange={setDateValue} displayMode="input" locale={locale} /><DatePicker label={fr ? "Date désactivée" : "Disabled date"} value="2026-10-15" displayMode="input" locale={locale} /></div>;
+      break;
     case "button":
       content = (
         <div className="flex flex-wrap items-center gap-3">
