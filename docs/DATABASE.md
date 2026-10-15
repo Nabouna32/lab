@@ -121,11 +121,12 @@ The private Design Lab now separates the reference register from actual producti
 
 The catalogue schema and initial data are versioned in:
 
-- `supabase/migrations/20261015230000_design_audit_reference_catalog.sql`
-- `supabase/migrations/20261015231000_design_audit_catalog_implementation_links.sql`
-- `supabase/migrations/20261015232000_design_audit_catalog_classification_notes.sql`
-- `supabase/migrations/20261015233000_design_audit_catalog_stable_ids.sql`
-- `supabase/migrations/20261015234000_fix_design_audit_catalog_ids.sql`
-- `supabase/migrations/20261015235000_fix_design_audit_catalog_ids.sql`
+- `supabase/migrations/20261015215122_design_audit_reference_catalog.sql`
+- `supabase/migrations/20261015215153_design_audit_catalog_implementation_links.sql`
+- `supabase/migrations/20261015215336_design_audit_catalog_classification_notes.sql`
+- `supabase/migrations/20261015215436_design_audit_catalog_stable_ids.sql`
+- `supabase/migrations/20261015215508_fix_design_audit_catalog_ids.sql`
+- `supabase/migrations/20261015215545_fix_design_audit_catalog_ids.sql`
+- `supabase/migrations/20261015215811_design_audit_catalog_component_aliases.sql`
 
 The follow-up migrations normalize identifiers and correct classifications/links without deleting the applied migration history. The catalogue’s source references remain a deliberate verification task; the UI labels this state instead of claiming the legacy register is already an exhaustive official catalogue.
