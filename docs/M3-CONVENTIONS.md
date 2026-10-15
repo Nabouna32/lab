@@ -353,3 +353,27 @@ The Lab now exposes component-mode selectors for the existing multiline field an
 ### Multiline field and selection menu — naming/gap findings (2026-10-15)
 
 The Lab now exposes component-mode selectors for the existing multiline field and selection control, but deliberately marks both as incomplete rather than pretending they are official Android components. Android Material's field family is a multiline TextField/OutlinedTextField, not a distinct `TextArea` component. The current `Select` renders a native HTML `<select>`, not AndroidX `ExposedDropdownMenu`; the real M3 dropdown/menu primitive must be added as a shared component. Both controls' selectors currently explain this gap and do not invent an Expressive visual delta. Regression tests ensure the gap remains explicit. Next work: implement a true shared exposed dropdown with keyboard navigation, selection semantics, focus management, dismiss behavior, and M3 shape/color states; then audit multiline TextField behavior and its Expressive anatomy.
+
+## Component conformance labels — mandatory status vocabulary (2026-10-15)
+
+Do not use “100% Android” to describe a React/CSS component. AndroidX Compose components run on Android and cannot be literally transplanted into the Web. Use the following precise labels instead:
+
+- **AndroidX-native implementation — 100%**: only valid when the actual AndroidX component is used in an Android target. No Loculary React component currently qualifies.
+- **Android-source-backed Web adaptation**: behavior and visual decisions are traced to official Android/AndroidX source, but browser/platform differences remain.
+- **Partial / parity gap**: a native HTML control, a visual mock-up, or a component missing important Android behavior.
+- **Not yet audited**: evidence is insufficient; do not infer fidelity from appearance.
+
+Record status separately for API/semantics, visuals/tokens, interaction/lifecycle, accessibility, responsive behavior, and automated/browser verification. A status can be “source-backed” in one dimension and “gap” in another. Never mark a component fully conformant until all required dimensions are verified, and never equate a screenshot resemblance with behavioral parity.
+
+### Snackbar — official source review and Web adaptation (2026-10-15)
+
+Official references:
+- Android Developers, Snackbar guide: https://developer.android.com/develop/ui/compose/components/snackbar
+- AndroidX source, Snackbar.kt: https://github.com/androidx/androidx/blob/androidx-main/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Snackbar.kt
+- AndroidX source, SnackbarHost.kt: https://github.com/androidx/androidx/blob/androidx-main/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/SnackbarHost.kt
+
+Android's model is not just a dark rounded rectangle. It includes a message, optional single action, optional dismiss affordance, default semantic color roles/shape/elevation/typography, a host/state lifecycle, and action-sensitive timeout behavior. The official API documents that a snackbar with an action should not time out by itself; the host/state API owns display and dismissal. The source also defines a maximum container width of 600 dp and uses tokenized one-line/two-line layout and spacing.
+
+Loculary now has a shared src/components/ui/Snackbar.tsx and token-driven CSS, used by the Design Lab instead of its previous local mock-up. It supports message, optional action, explicit dismissal, a 4-second timeout only when no action is present, and prefers-reduced-motion. Fidelity and Expressive can be selected, but both currently render the same appearance because the reviewed AndroidX source did not establish a separate default Expressive Snackbar style. This is deliberately a **source-backed Web adaptation, not 100% Android/AndroidX implementation**.
+
+Remaining parity gaps: a shared app-level host/queue analogous to SnackbarHostState, placement/insets analogous to Scaffold, replacement/queue policy, swipe dismissal, exact AndroidX token geometry and animation, action/dismiss focus behavior, and browser/screen-reader tests. Do not promote the component to fully conformant until these are implemented or explicitly scoped out and accepted.
