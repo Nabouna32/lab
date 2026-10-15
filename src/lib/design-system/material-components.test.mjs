@@ -8,6 +8,8 @@ const snackbarSource = readFileSync(new URL("../../components/ui/Snackbar.tsx", 
 const snackbarCss = readFileSync(new URL("../../components/ui/Snackbar.module.css", import.meta.url), "utf8");
 const bottomSheetSource = readFileSync(new URL("../../components/ui/ModalBottomSheet.tsx", import.meta.url), "utf8");
 const bottomSheetCss = readFileSync(new URL("../../components/ui/ModalBottomSheet.module.css", import.meta.url), "utf8");
+const alertDialogSource = readFileSync(new URL("../../components/ui/AlertDialog.tsx", import.meta.url), "utf8");
+const alertDialogCss = readFileSync(new URL("../../components/ui/AlertDialog.module.css", import.meta.url), "utf8");
 const checkboxSource = readFileSync(new URL("../../components/ui/Checkbox.tsx", import.meta.url), "utf8");
 const switchSource = readFileSync(new URL("../../components/ui/Switch.tsx", import.meta.url), "utf8");
 const iconSource = readFileSync(new URL("../../components/ui/MaterialIcon.tsx", import.meta.url), "utf8");
@@ -292,7 +294,7 @@ test("Design Lab includes extended Material 3 navigation, field, list, menu, pro
 
 test("Design Lab renders the shared production UI primitives against the active Material 3 scheme", () => {
   const labSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
-  for (const component of ["Button", "IconButton", "Card", "Panel", "ResultPanel", "Checkbox", "TextField", "TextArea", "ExposedDropdownMenu", "ModalBottomSheet", "SegmentedControl", "ValidationMessage", "Switch"]) {
+  for (const component of ["Button", "IconButton", "Card", "Panel", "ResultPanel", "Checkbox", "TextField", "TextArea", "ExposedDropdownMenu", "ModalBottomSheet", "AlertDialog", "SegmentedControl", "ValidationMessage", "Switch"]) {
     assert.match(labSource, new RegExp(`import \\{ ${component} \\} from "@\\/components\\/ui\\/${component}"`), `missing shared component import: ${component}`);
   }
   for (const token of ["--foreground:var(--lab-text)", "--surface:var(--lab-surface)", "--surface-soft:var(--lab-surface-container)", "--secondary-container:var(--lab-secondary-container)", "--error:var(--lab-error)", "--focus-ring:var(--lab-primary)"]) {
@@ -578,4 +580,23 @@ test("ModalBottomSheet is an accessible AndroidX-informed Web adaptation", () =>
   assert.match(bottomSheetCss, /shape-corner-extra-large/);
   assert.match(labSource, /<ModalBottomSheet open=\{bottomSheetOpen\}/);
   assert.doesNotMatch(labSource, /sampleBottomSheet|sheetHandle/);
+});
+
+
+test("AlertDialog is a source-informed accessible Web adaptation", () => {
+  assert.match(alertDialogSource, /role="alertdialog"/);
+  assert.match(alertDialogSource, /aria-modal="true"/);
+  assert.match(alertDialogSource, /aria-labelledby=\{titleId\}/);
+  assert.match(alertDialogSource, /aria-describedby=\{descriptionId\}/);
+  assert.match(alertDialogSource, /onDismissRef\.current\(\)/);
+  assert.match(alertDialogSource, /event\.key === "Escape"/);
+  assert.match(alertDialogSource, /event\.key !== "Tab"/);
+  assert.match(alertDialogSource, /document\.body\.style\.overflow = "hidden"/);
+  assert.match(alertDialogSource, /previousFocus\?\.focus\(\)/);
+  assert.match(alertDialogSource, /AndroidX Material 3 AlertDialog/);
+  assert.match(alertDialogCss, /shape-corner-extra-large/);
+  assert.match(alertDialogCss, /prefers-reduced-motion: reduce/);
+  assert.match(labSource, /import \{ AlertDialog \} from "@\/components\/ui\/AlertDialog"/);
+  assert.match(labSource, /<AlertDialog open=\{alertDialogOpen\}/);
+  assert.match(labSource, /Show alert dialog|Afficher une alerte/);
 });
