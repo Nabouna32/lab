@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { Snackbar } from "@/components/ui/Snackbar";
 import { ModalBottomSheet } from "@/components/ui/ModalBottomSheet";
 import { AlertDialog } from "@/components/ui/AlertDialog";
+import { NavigationBar } from "@/components/ui/NavigationBar";
 import { useTheme } from "@teispace/next-themes";
 import type { CSSProperties } from "react";
 import styles from "./visual-lab.module.css";
