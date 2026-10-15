@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useId, useRef, useState } from "react";
 import type { PointerEvent, ReactNode } from "react";
 import styles from "./BottomSheetScaffold.module.css";
 
@@ -26,6 +26,7 @@ export function BottomSheetScaffold({
   expandedLabel,
   className = "",
 }: BottomSheetScaffoldProps) {
+  const id = useId().replace(/:/g, "");
   const startY = useRef<number | null>(null);
   const dragOffsetRef = useRef(0);
   const wasDragging = useRef(false);
@@ -70,7 +71,7 @@ export function BottomSheetScaffold({
           type="button"
           className={styles.handle}
           aria-expanded={expanded}
-          aria-controls="m3-bottom-sheet-content"
+          aria-controls={`m3-bottom-sheet-content-${id}`}
           aria-label={expanded ? expandedLabel : collapsedLabel}
           onClick={() => { if (wasDragging.current) { wasDragging.current = false; return; } onExpandedChange(!expanded); }}
           onPointerDown={onPointerDown}
@@ -82,7 +83,7 @@ export function BottomSheetScaffold({
           <span>{title}</span>
           <span aria-hidden="true">{expanded ? "⌄" : "⌃"}</span>
         </button>
-        <div id="m3-bottom-sheet-content" className={styles.sheetContent} hidden={!expanded}>{sheetContent}</div>
+        <div id={`m3-bottom-sheet-content-${id}`} className={styles.sheetContent} hidden={!expanded}>{sheetContent}</div>
       </section>
     </section>
   );
