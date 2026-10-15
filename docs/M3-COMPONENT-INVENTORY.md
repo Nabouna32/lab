@@ -84,3 +84,13 @@ For each component/variant, record:
 - **Verified in code:** selected-state ARIA, single selected tab in the roving tab stop, Left/Right/Home/End keyboard handling, disabled tabs skipped during keyboard navigation, responsive horizontal scrolling, reduced-motion CSS fallback.
 - **Web adaptation / not yet verified:** indicator motion is CSS rather than Compose animation; scroll-to-selected behavior, icon/text two-line edge cases, exact AndroidX dimensions, accessibility-tree parity, and browser/device behavior remain to validate. The shared component renders the selected item's content as a linked tab panel.
 - **Acceptance gate:** run lint/typecheck/tests/build; test keyboard and screen reader behavior in a browser, including RTL and zoom; compare against official AndroidX source for exact token and motion parity.
+
+
+## DatePicker / DateRangePicker — 2026-10-15
+
+- **Official source:** https://developer.android.com/develop/ui/compose/components/datepickers?hl=en
+- **Official API family:** `DatePicker`, `DateRangePicker`, and `DatePickerDialog`; supported presentations include docked calendar, modal calendar, and modal input. `DatePickerDialog` is a container, not a distinct selection model.
+- **Lab:** shared `DatePicker` Web adaptation includes a month calendar for single-date selection and range selection, plus an explicitly labelled native HTML date-input mode.
+- **Verified in code:** month navigation, localized month/day labels, min/max constraints, selected/today states, date range selection, controlled value callbacks, native date-input constraints.
+- **Known gaps:** no AndroidX-equivalent modal `DatePickerDialog` yet; input mode uses browser-native UI; calendar keyboard grid navigation, exact AndroidX day-cell dimensions/shape/motion, locale week conventions, RTL, accessibility tree and browser/device parity remain to validate. The current calendar is not yet certified as fully conformant.
+- **Acceptance gate:** add modal focus management and grid keyboard navigation, then run tests/build and browser/screen-reader checks.
