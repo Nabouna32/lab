@@ -100,6 +100,7 @@ test("shared slider and progress indicator expose accessible M3 states", () => {
   assert.match(progressCss, /prefers-reduced-motion: reduce/);
   assert.match(progressCss, /background: var\(--progress-track, var\(--primary-container\)\)/);
   assert.match(progressCss, /border-radius: 0/);
+  assert.match(labSource, /"--progress-track": "var\(--lab-primary-soft\)"/);
 });
 
 test("functional icons use bundled Material Symbols paths and inherit currentColor", () => {
