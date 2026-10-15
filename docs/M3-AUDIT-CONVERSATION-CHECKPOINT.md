@@ -741,3 +741,12 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - Official source: https://developer.android.com/develop/ui/compose/components/datepickers?hl=en. AndroidX distinguishes `DatePicker`, `DateRangePicker`, and `DatePickerDialog`; modal, docked, and modal-input presentations are not interchangeable names for the same UI.
 - **Not complete:** no AndroidX-equivalent DatePickerDialog yet; browser-native input is intentionally not claimed as visual parity; keyboard grid navigation, exact token/dimension/motion parity, RTL and screen-reader checks remain.
 - Latest implementation is still not CI-verified. Do not infer build success from static edits.
+
+
+## Continuation update — Time picker family (2026-10-15)
+
+- Added shared `TimePicker` adaptation with an interactive hour/minute dial and a separately labelled native HTML `input[type=time]` wrapper.
+- Added Lab specimens and component identifier tests.
+- Official sources: https://developer.android.com/develop/ui/compose/components/time-pickers?hl=en and https://developer.android.com/develop/ui/compose/components/time-pickers-dialogs?hl=en.
+- **Version caution:** official docs currently label TimePicker/TimeInput experimental, and the TimeInput API reference records introduction in a 1.5.0 alpha. Confirm the selected AndroidX version before calling it available in a stable pinned release.
+- **Not complete:** exact dial geometry and motion, 12/24-hour behavior, AndroidX TimeInput segmented fields, dialog integration, locale, screen-reader and browser/device parity remain to validate.
