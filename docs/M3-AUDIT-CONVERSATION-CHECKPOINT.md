@@ -784,3 +784,12 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - Official sources: https://developer.android.com/reference/kotlin/androidx/compose/material3/ToggleButton.composable and https://developer.android.com/reference/kotlin/androidx/compose/material3/SplitButtonLayout.composable.
 - **Version caveat:** SplitButtonLayout is listed as added in Material3 1.5.0-alpha29. Check the exact pinned AndroidX version; the web menu is illustrative and not part of the layout API.
 - **Not complete:** exact morphing/size/elevation parity, focus restoration, menu dismissal, screen-reader behavior, RTL and browser/device tests remain.
+
+
+## Continuation update — TextField and secure-field variants (2026-10-15)
+
+- Added `MaterialTextField` shared Web adaptation and CSS, with filled/outlined appearances, floating labels, supporting/error text, prefix/suffix, leading/trailing slots, optional counter and secure password reveal.
+- Integrated `TextField`, `OutlinedTextField`, `SecureTextField`, and `OutlinedSecureTextField` specimens in the Lab.
+- Official sources: AndroidX TextField, OutlinedTextField, SecureTextField and OutlinedSecureTextField API references.
+- **Security caveat:** browser event blocking for copy/cut/drag is not native secure-field parity; never claim it offers AndroidX-level guarantees.
+- **Not complete:** exact shape/label animation, focused border, IME/autofill, text scaling, context menu, RTL and screen-reader behavior remain to validate.
