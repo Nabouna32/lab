@@ -10,6 +10,7 @@ import { CircularProgressIndicator } from "@/components/ui/CircularProgressIndic
 import { FloatingActionButton } from "@/components/ui/FloatingActionButton";
 import { Badge, BadgedBox } from "@/components/ui/Badge";
 import { Tooltip } from "@/components/ui/Tooltip";
+import { Carousel } from "@/components/ui/Carousel";
 import { Select } from "@/components/ui/Select";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
@@ -451,6 +452,22 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
                 <MaterialIcon name="mail" size={24}/>
               </BadgedBox>
             </div>
+          </div>
+          <div className={styles.fabSpecimen}>
+            <h4>{locale==="fr"?"Carrousels":"Carousels"}</h4>
+            <ComponentIdentifier names={["HorizontalUncontainedCarousel","HorizontalMultiBrowseCarousel"]} kind="adaptation" locale={locale}/>
+            <p className={styles.helper}>{locale==="fr"?"Le défilement horizontal conserve un aperçu de l’élément suivant. Les largeurs variables du mode multi-browse sont une adaptation Web à comparer à AndroidX.":"Horizontal scrolling keeps a preview of the next item. Variable multi-browse widths are a Web adaptation to compare against AndroidX."}</p>
+            <Carousel label={locale==="fr"?"Carrousel de navigation":"Browse carousel"} layout="uncontained" itemWidth={190} items={[
+              {id:"image",label:locale==="fr"?"Images":"Images",content:<div className={styles.carouselCard}><MaterialIcon name="image" size={28}/><strong>{locale==="fr"?"Outils image":"Image tools"}</strong><span>12 {locale==="fr"?"outils":"tools"}</span></div>},
+              {id:"text",label:locale==="fr"?"Texte":"Text",content:<div className={styles.carouselCard}><MaterialIcon name="text_fields" size={28}/><strong>{locale==="fr"?"Outils texte":"Text tools"}</strong><span>8 {locale==="fr"?"outils":"tools"}</span></div>},
+              {id:"convert",label:locale==="fr"?"Conversion":"Convert",content:<div className={styles.carouselCard}><MaterialIcon name="sync_alt" size={28}/><strong>{locale==="fr"?"Convertisseurs":"Converters"}</strong><span>6 {locale==="fr"?"outils":"tools"}</span></div>},
+            ]}/>
+            <Carousel label={locale==="fr"?"Carrousel multi-navigation":"Multi-browse carousel"} layout="multi-browse" itemWidth={190} items={[
+              {id:"popular",label:locale==="fr"?"Populaires":"Popular",content:<div className={styles.carouselCard}><MaterialIcon name="star" size={28}/><strong>{locale==="fr"?"Populaires":"Popular"}</strong></div>},
+              {id:"recent",label:locale==="fr"?"Récents":"Recent",content:<div className={styles.carouselCard}><MaterialIcon name="history" size={28}/><strong>{locale==="fr"?"Récents":"Recent"}</strong></div>},
+              {id:"saved",label:locale==="fr"?"Favoris":"Favorites",content:<div className={styles.carouselCard}><MaterialIcon name="favorite" size={28}/><strong>{locale==="fr"?"Favoris":"Favorites"}</strong></div>},
+              {id:"all",label:locale==="fr"?"Tous":"All",content:<div className={styles.carouselCard}><MaterialIcon name="apps" size={28}/><strong>{locale==="fr"?"Tous les outils":"All tools"}</strong></div>},
+            ]}/>
           </div>
           <div className={styles.fabSpecimen}>
             <h4>{locale==="fr"?"Variantes du bouton d’action flottant":"Floating action button variants"}</h4>
