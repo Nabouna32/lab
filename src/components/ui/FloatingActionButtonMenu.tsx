@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef } from "react";
-import type { KeyboardEvent, ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import styles from "./FloatingActionButtonMenu.module.css";
 
 export type FloatingActionButtonMenuItem = {
@@ -40,7 +40,7 @@ export function FloatingActionButtonMenu({
     const dismissOutside = (event: PointerEvent) => {
       if (event.target instanceof Node && !rootRef.current?.contains(event.target)) onExpandedChange(false);
     };
-    const handleKeyDown = (event: KeyboardEvent) => {
+    const handleKeyDown = (event: globalThis.KeyboardEvent) => {
       if (event.key === "Escape") {
         event.preventDefault();
         onExpandedChange(false);
@@ -51,10 +51,10 @@ export function FloatingActionButtonMenu({
       }
     };
     document.addEventListener("pointerdown", dismissOutside);
-    document.addEventListener("keydown", handleKeyDown as unknown as (event: globalThis.KeyboardEvent) => void);
+    document.addEventListener("keydown", handleKeyDown);
     return () => {
       document.removeEventListener("pointerdown", dismissOutside);
-      document.removeEventListener("keydown", handleKeyDown as unknown as (event: globalThis.KeyboardEvent) => void);
+      document.removeEventListener("keydown", handleKeyDown);
     };
   }, [expanded, onExpandedChange]);
 
@@ -65,7 +65,7 @@ export function FloatingActionButtonMenu({
           key={item.key}
           type="button"
           className={styles.menuItem}
-          style={{ "--fab-menu-order": index } as React.CSSProperties}
+          style={{ "--fab-menu-order": index } as CSSProperties}
           disabled={item.disabled}
           onClick={() => { item.onSelect(); onExpandedChange(false); toggleRef.current?.focus(); }}
         >
@@ -78,7 +78,7 @@ export function FloatingActionButtonMenu({
         className={styles.toggle}
         aria-label={expanded ? closeLabel : addLabel}
         aria-expanded={expanded}
-        aria-controls={`fab-menu-${id}`}
+        aria-controls={expanded ? `fab-menu-${id}` : undefined}
         onClick={() => onExpandedChange(!expanded)}
       >
         <span aria-hidden="true" className={expanded ? styles.closeIcon : styles.plusIcon}>{expanded ? "×" : "+"}</span>
