@@ -1,0 +1,7 @@
+.divider { flex: 0 0 auto; border: 0; background: var(--lab-outline-variant, var(--outline-variant, color-mix(in srgb, currentColor 16%, transparent))); }
+.horizontal { width: 100%; height: 1px; min-height: 1px; }
+.vertical { align-self: stretch; width: 1px; min-width: 1px; height: auto; }
+.inset-start.horizontal { width: calc(100% - 16px); margin-inline-start: 16px; }
+.inset-middle.horizontal { width: calc(100% - 32px); margin-inline-start: 32px; }
+.inset-start.vertical { height: calc(100% - 16px); margin-block-start: 16px; }
+.inset-middle.vertical { height: calc(100% - 32px); margin-block-start: 32px; }
