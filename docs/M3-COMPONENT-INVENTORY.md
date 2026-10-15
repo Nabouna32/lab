@@ -40,7 +40,7 @@ The list below is deliberately broader than the current production call sites. C
 | Top app bars: small, center-aligned, medium, large | Shared Web adaptation; all four variants in Lab | Implement automatic scroll behavior, exact insets/geometry, action overflow and collapse/expand motion |
 | Bottom app bar | Shared Web adaptation; actions + FAB specimen | Audit exact AndroidX geometry/elevation, FAB placement, insets and motion |
 | Navigation bar | Shared Web adaptation | Audit 3–5 destinations, selection, icon-only/label variants, routes and safe areas |
-| Navigation rail | Shared Web adaptation | Audit large-screen layouts, 3–7 destinations, header/footer/FAB and insets |
+| Navigation rail / WideNavigationRail / ModalWideNavigationRail | Shared narrow NavigationRail + wide standard/modal Web adaptations | Verify current API versions, 3–7 destinations, state/motion, header/footer/FAB, modal focus, insets and responsive layout |
 | Navigation drawers: modal, dismissible, permanent | Shared Web adaptation, partial variants | Separate official behavior patterns; implement drawer state, gesture/back behavior, responsive layout and assistive-technology isolation |
 | Tabs: primary/secondary, fixed/scrollable | Shared Tabs Web adaptation; primary, secondary and scrollable specimens in Lab | Audit exact indicator geometry/motion, RTL and screen-reader behavior |
 | Checkbox / TriStateCheckbox | Shared Checkbox + TriStateCheckbox Web adaptation; mixed state shown in Lab | Verify parent-child state propagation, mixed-state accessibility, animation and minimum target |
@@ -177,3 +177,11 @@ For each component/variant, record:
 - **Official behavior:** app-bar integration of SearchBar with navigation/actions, window insets and optional scroll behavior; should be paired with an expanded search composable.
 - **Lab:** added a shared Web composition that combines a sticky app-bar shell, navigation action and shared SearchBar.
 - **Not yet verified:** current SearchBarState API, nested-scroll behavior, exact insets/tonal elevation, collapsed shape/motion, full-screen search pairing, RTL and browser/device parity.
+
+
+## WideNavigationRail / ModalWideNavigationRail — 2026-10-15
+
+- **Official sources:** https://developer.android.com/reference/kotlin/androidx/compose/material3/WideNavigationRail.composable and https://developer.android.com/reference/kotlin/androidx/compose/material3/ModalWideNavigationRail.composable
+- **Lab:** added a shared Web adaptation with collapsed/expanded standard rail and modal expansion with scrim, Escape dismissal, focus containment and restore.
+- **Version caveat:** current API reference lists `ModalWideNavigationRail` as added in Material3 1.5.0-beta01; verify the exact pinned dependency.
+- **Not yet verified:** AndroidX state/animation, adaptive breakpoints, item geometry, insets, RTL, back handling and assistive-technology parity.
