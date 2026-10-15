@@ -30,7 +30,7 @@ test("Design Lab displays exact component names and identifies specimen fidelity
 test("The progress gallery uses shared linear and circular progress primitives", () => {
   assert.match(lab, /<ProgressIndicator[\s\S]{0,180}label=\{locale===/);
   assert.match(lab, /value=\{sampleProgress\}/);
-  assert.match(lab, /names=\{\["CircularProgressIndicator","ProgressIndicator"\]\} kind="adaptation"/);
+  assert.match(lab, /names=\{\["CircularProgressIndicator"\]\} kind="adaptation"/);
   assert.match(lab, /<CircularProgressIndicator label=\{locale===/);
   assert.doesNotMatch(lab, /CircularProgressIndicator \(mockup\)/);
 });
