@@ -384,3 +384,9 @@ test("buttons use AndroidX M3 variant-specific disabled roles and icon-toggle se
   assert.match(iconButtonSource, /hover:bg-\[color-mix\(in_srgb,var\(--inverse-surface\)_92%,var\(--inverse-on-surface\)\)\]/);
   assert.match(iconButtonSource, /standard: "text-\[var\(--primary\)\] hover:text-\[var\(--primary\)\]/);
 });
+
+test("Lab checkbox samples each define one palette-aware shape and disabled role set", () => {
+  assert.equal((labSource.match(/--checkbox-container-shape/g) || []).length, 2);
+  assert.equal((labSource.match(/--checkbox-disabled-active": "color-mix\(in srgb, var\(--lab-text\) 38%, transparent\)"/g) || []).length, 2);
+  assert.equal((labSource.match(/--checkbox-disabled-icon": "color-mix\(in srgb, var\(--lab-surface\) 38%, transparent\)"/g) || []).length, 2);
+});
