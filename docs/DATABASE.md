@@ -26,7 +26,7 @@ This remains an intentionally small account foundation. Favorites and personal c
 
 A database-backed catalog is a possible future option, not an active target or scheduled migration. The October 2026 clean-cut removed the legacy `tool_*` schema and catalog permissions, leaving a small account/administration foundation. The public catalog remains Git-backed.
 
-Reconsider a database catalog only when a concrete requirement cannot be served well by Git, such as authorized editorial publishing without code deployment, measured search/build/delivery bottlenecks, or administration/audit needs that the current workflow cannot reasonably meet. Catalog size alone is not a trigger. DEC-027 records the decision and its criteria. No catalog tables should be reintroduced before a separately reviewed design and explicit approval.
+Reconsider a database catalog only when a concrete requirement cannot be served well by Git, such as authorized editorial publishing without code deployment, measured search/build/delivery bottlenecks, or administration/audit needs that the current workflow cannot reasonably meet. Catalog size alone is not a trigger. DEC-027 records the decision and its criteria. No public tool-catalog tables should be reintroduced before a separately reviewed design and explicit approval. The private Design Lab reference catalogue is a separate administrative maintenance domain.
 
 Executable tool behavior remains in Git/code: registry modules, processing mode, capabilities and technical behavior are never moved into the database merely because editable metadata changes storage.
 
@@ -83,3 +83,53 @@ The account-favorites migration is versioned at `supabase/migrations/20261013180
 Personal collections are implemented in the application and deployed in Supabase. `public.user_collections` stores the owner, name and optional unique share token; `public.user_collection_items` associates tool IDs with a collection. Both tables have RLS enabled. Owners can create, rename and delete their collections and add/remove tools. Reads by anonymous users are limited to collections whose explicit share token is supplied in the `x-loculary-share-token` request header; the corresponding policy exposes only the shared collection and its items. Account deletion cascades to the collections and their items.
 
 The schema is defined by `supabase/migrations/20261013193627_user_collections.sql`, with policy-performance adjustments in `supabase/migrations/20261013193734_user_collections_policy_performance.sql`. The regression test is `supabase/tests/user_collections.sql`; it is not part of the standard GitHub Actions CI and was not executed as part of this production-state audit.
+
+## Design-audit maintenance
+
+The internal Design Lab maintenance workflow is stored in Supabase separately from the public tool catalog. It does not make the component implementation or executable UI code database-driven; Git remains authoritative for source code.
+
+- `public.design_audit_components` inventories the actual UI source files, explicit live-preview mappings and the component’s relationship to M3. `web-adaptation` identifies a Loculary web implementation of an M3/AndroidX concept; `loculary-utility` identifies a Loculary-specific helper or composition, not a standalone M3 component. Inventory membership and a preview do not prove Material 3 conformance.
+- `public.design_audit_reports` stores user observations, affected interaction state, severity, expected behavior and lifecycle status.
+- `public.design_audit_decisions` stores proposals and approved/rejected decisions, optionally linked to a report and official references.
+- `public.design_audit_verifications` stores source, visual, interaction, accessibility and test results, with optional official-reference URL, PR URL and commit SHA.
+- `public.design_audit_events` records report/decision/verification changes and component audit-status transitions. Clients can read the event history but cannot insert or edit events directly.
+
+All five tables have RLS enabled, no grants for `anon`, and authenticated access gated by the existing `audit.read` / `audit.write` administrative permissions. The database rejects a component status of `conformant-within-verified-scope` unless at least one passing verification exists for that component. Foreign keys used by the workflow are indexed.
+
+Verification records are append-only for authenticated clients: new results may be added, but existing evidence cannot be rewritten. Reports and decisions remain editable with every change recorded in the event history.
+
+The production schema was applied and verified through the Supabase connector on 2026-10-15. Applied migrations:
+
+- `supabase/migrations/20261015210132_design_audit_maintenance.sql`
+- `supabase/migrations/20261015210156_design_audit_maintenance_fk_indexes.sql`
+- `supabase/migrations/20261015210538_design_audit_verifications_append_only.sql`
+- `supabase/migrations/20261015211016_design_audit_m3_relationship.sql`
+- `supabase/migrations/20261015211356_design_audit_live_preview_coverage.sql`
+
+The pgTAP regression test is `supabase/tests/design_audit_maintenance.sql`. The connector did not execute the full pgTAP suite; direct read-only checks verified the 58 seeded component records, 58 explicit preview mappings, RLS on all five tables, and that `anon` has no SELECT grants. The Supabase advisors reported no remaining missing foreign-key indexes for these tables; unused-index notices are expected while the new tables are empty. Existing unrelated collection-policy performance warnings remain unchanged.
+
+
+## Design Lab reference catalogue
+
+The private Design Lab now separates the reference register from actual production implementations:
+
+- `public.design_audit_catalog_entries` stores reference entries and Loculary-specific utilities/compositions, with an entry type, reference-verification status, optional official URL and optional link to a real implementation.
+- `public.design_audit_components` remains the inventory of actual UI implementation files and continues to own audit status, preview mappings and maintenance workflow relationships.
+- The two lists are related but not interchangeable. A catalogue entry does not prove that Loculary implements it, and a mapped implementation does not prove conformance.
+- The existing 116-entry registry has been imported as a starting inventory: 100 M3/AndroidX candidates and 16 Loculary-specific entries. All 100 reference candidates remain explicitly unverified until their identity and official documentation are checked; no guessed URL is presented as authoritative. All 58 implementation records are linked to at least one catalogue entry.
+- The new table has RLS enabled and denies anonymous access. Reads require `audit.read`; metadata updates require `audit.write`. The UI can update classification notes, scope, entry type and official-reference status/URL, and each update is recorded in `design_audit_events`. Reclassifying a linked entry also synchronizes the implementation relationship when no other M3 entry remains linked. Catalogue names, categories and seed entries remain versioned in migrations.
+
+The catalogue schema and initial data are versioned in:
+
+- `supabase/migrations/20261015215122_design_audit_reference_catalog.sql`
+- `supabase/migrations/20261015215153_design_audit_catalog_implementation_links.sql`
+- `supabase/migrations/20261015215336_design_audit_catalog_classification_notes.sql`
+- `supabase/migrations/20261015215436_design_audit_catalog_stable_ids.sql`
+- `supabase/migrations/20261015215508_fix_design_audit_catalog_ids.sql`
+- `supabase/migrations/20261015215545_fix_design_audit_catalog_ids.sql`
+- `supabase/migrations/20261015215811_design_audit_catalog_component_aliases.sql`
+- `supabase/migrations/20261015220100_design_audit_catalog_admin_editing.sql`
+- `supabase/migrations/20261015220527_design_audit_catalog_scope_type_guard.sql`
+- `supabase/migrations/20261015220656_design_audit_catalog_scope_sync.sql`
+
+The follow-up migrations normalize identifiers and correct classifications/links without deleting the applied migration history. The catalogue’s source references remain a deliberate verification task; the UI labels this state instead of claiming the legacy register is already an exhaustive official catalogue.

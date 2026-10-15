@@ -591,4 +591,28 @@ The current catalog works from Git, and the legacy database catalog schema was d
 
 - `docs/DATABASE.md` describes the current deployed schema and catalog boundary.
 - Git/code remains authoritative for registry modules, processing mode, capabilities and executable behavior.
-- No catalog schema or production migration is authorized by this decision.
+- No public tool-catalog schema or production migration is authorized by this decision. The private Design Lab reference catalogue is a separate administrative maintenance domain under DEC-028.
+
+## DEC-028 — Supabase is the operational record for Design Lab maintenance
+
+**Status:** Accepted
+
+### Decision
+
+Use Supabase/PostgreSQL for the internal Design Lab maintenance workflow: the inventory of actual Loculary UI source files, human defect observations, technical decisions, verification results and change history. Git remains authoritative for component implementations, migrations, tests and source documentation. This is not a decision to move the public tool catalog or executable component code into the database.
+
+The Design Lab must reuse real production component implementations for previews. Preview mappings are explicit; an unconnected component must be marked as not previewed rather than replaced with a locally fabricated lookalike. Each inventory entry is classified as a web adaptation of an M3/AndroidX concept or a Loculary-specific utility/composition, so the catalogue does not imply that every React component is a standalone official M3 component. Observations remain distinct from confirmed conformance findings. A component may be marked conformant within a verified scope only when a passing verification record exists.
+
+### Reason
+
+The maintenance workflow must persist across conversations, keep user observations and technical conclusions distinct, and make progress auditable without relying on long issue-comment histories. A database is a better operational record for this evolving workflow than automatic Git file edits for every note.
+
+### Consequences
+
+- The workflow is protected by the existing administrative RBAC permissions and RLS; anonymous access is denied.
+- Database changes are versioned in `supabase/migrations/`; GitHub remains the source of truth for code changes and their review.
+- Reports, decisions, verifications and status history are separate records linked to stable component identifiers.
+- Component inventory is based on real source files; it does not claim that every component is already previewable or M3-conformant.
+- `public.design_audit_catalog_entries` separately stores the Material 3 / AndroidX reference register and Loculary-specific utilities/compositions. Reference candidates remain explicitly unverified until official identity and documentation are checked; the table does not replace the Git-backed public tool catalogue. Authorized `audit.write` administrators may edit scope, entry type, classification notes and reference URLs/status from the Design Lab; PostgreSQL enforces the permissions and records changes in the event history.
+- DEC-027 remains in force: the public tool catalog stays Git-backed.
+

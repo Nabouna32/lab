@@ -1,215 +1,565 @@
 "use client";
 
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { useMemo, useState } from "react";
-import {
-  auditStatusLabels,
-  historicalAuditLeads,
-  m3ComponentAuditRegistry,
-  type AuditStatus,
-} from "@/lib/design-system/m3-component-audit";
-import styles from "./component-audit.module.css";
+import { createClient } from "@/lib/supabase/client";
+import ComponentLivePreview from "./ComponentLivePreview";
+import ComponentMaintenancePanel from "./ComponentMaintenancePanel";
 
 type Locale = "fr" | "en";
-const statuses: AuditStatus[] = [
+type AuditStatus =
+  | "unverified"
+  | "partially-verified"
+  | "discrepancy-confirmed"
+  | "verification-required"
+  | "conformant-within-verified-scope";
+type CatalogScope = "material-3" | "loculary";
+type CatalogEntryType = "component" | "variant" | "pattern" | "api-concept" | "utility" | "composition";
+type ReferenceStatus = "unverified" | "verified" | "not-applicable";
+
+type CatalogEntry = {
+  id: string;
+  name: string;
+  category: string;
+  catalog_scope: CatalogScope;
+  entry_type: CatalogEntryType;
+  classification_note: string;
+  reference_status: ReferenceStatus;
+  official_reference_url: string | null;
+  implementation_component_id: string | null;
+  sort_order: number;
+};
+type Component = {
+  id: string;
+  name: string;
+  category: string;
+  implementation_path: string;
+  preview_key: string | null;
+  audit_status: AuditStatus;
+  m3_relationship: "web-adaptation" | "loculary-utility" | "not-assessed";
+  official_references: { label?: string; url?: string }[];
+};
+type ReportSummary = { id: string; component_id: string; status: string };
+
+const statusOptions: AuditStatus[] = [
   "unverified",
   "partially-verified",
   "discrepancy-confirmed",
   "verification-required",
   "conformant-within-verified-scope",
 ];
-
-const copy = {
-  fr: {
-    eyebrow: "Matériel 3 Fidelity · registre de travail",
-    title: "Audit des composants",
-    intro: "Un registre pour préparer l’audit, garder les preuves et documenter les décisions. La présence d’un composant ici — ou dans la galerie — ne prouve jamais sa conformité.",
-    back: "← Retour au laboratoire visuel",
-    catalog: "Catalogue des composants",
-    catalogHelp: "Chaque composant sera étudié individuellement avec discussion et validation avant toute modification de production.",
-    search: "Rechercher un composant",
-    searchPlaceholder: "Ex. Button, NavigationBar…",
-    category: "Famille",
-    allCategories: "Toutes les familles",
-    status: "Statut",
-    allStatuses: "Tous les statuts",
-    total: "Entrées au registre",
-    unverified: "Non vérifiés",
-    proven: "Composants conformes",
-    provenValue: "0",
-    historical: "Pistes historiques à revalider",
-    historicalHelp: "Ces points viennent de l’ancien audit Markdown. Ce sont des pistes, pas des conclusions actuelles : elles doivent être réexaminées avec le code et les sources.",
-    facts: "Constats vérifiés",
-    factsEmpty: "Aucun constat vérifié enregistré.",
-    discrepancies: "Écarts confirmés",
-    discrepanciesEmpty: "Aucun écart confirmé enregistré.",
-    questions: "Questions et vérifications restantes",
-    questionsEmpty: "À définir pendant l’audit individuel.",
-    sources: "Fichiers source",
-    sourcesEmpty: "Pas encore reliés — à établir à partir du code réel.",
-    refs: "Références officielles",
-    refsEmpty: "Pas encore documentées.",
-    usage: "Usage en production",
-    unknown: "Inconnu — ne pas déduire de la galerie.",
-    type: "Type d’implémentation",
-    typeValue: "Non classé",
-    verification: "Vérifications exécutées",
-    verificationEmpty: "Aucune. Le statut reste « non vérifié ».",
-    decisions: "Décisions validées",
-    decisionsEmpty: "Aucune décision produit ou technique validée.",
-    history: "Historique",
-    historyEmpty: "Aucun historique enregistré.",
-    empty: "Aucun composant ne correspond aux filtres.",
-    lead: "Piste historique",
-    oldSource: "Source historique",
-    statusLabels: auditStatusLabels,
-    reset: "Réinitialiser les filtres",
-  },
-  en: {
-    eyebrow: "Material 3 Fidelity · working register",
-    title: "Component audit",
-    intro: "A register for preparing audits, preserving evidence and documenting decisions. A component appearing here—or in the gallery—never proves conformance.",
-    back: "← Back to the visual lab",
-    catalog: "Component catalog",
-    catalogHelp: "Each component will be examined individually, with discussion and approval before any production change.",
-    search: "Search components",
-    searchPlaceholder: "e.g. Button, NavigationBar…",
-    category: "Family",
-    allCategories: "All families",
-    status: "Status",
-    allStatuses: "All statuses",
-    total: "Registry entries",
-    unverified: "Unverified",
-    proven: "Conformant components",
-    provenValue: "0",
-    historical: "Historical leads to revalidate",
-    historicalHelp: "These points come from the previous Markdown audit. They are leads, not current conclusions: review them against code and sources.",
-    facts: "Verified observations",
-    factsEmpty: "No verified observations recorded.",
-    discrepancies: "Confirmed discrepancies",
-    discrepanciesEmpty: "No confirmed discrepancies recorded.",
-    questions: "Open questions and remaining checks",
-    questionsEmpty: "To be defined during the individual audit.",
-    sources: "Source files",
-    sourcesEmpty: "Not linked yet — establish from the actual code.",
-    refs: "Official references",
-    refsEmpty: "Not documented yet.",
-    usage: "Production usage",
-    unknown: "Unknown — do not infer from the gallery.",
-    type: "Implementation type",
-    typeValue: "Unclassified",
-    verification: "Executed verification",
-    verificationEmpty: "None. Status remains “unverified”.",
-    decisions: "Approved decisions",
-    decisionsEmpty: "No approved product or technical decisions.",
-    history: "History",
-    historyEmpty: "No history recorded.",
-    empty: "No components match these filters.",
-    lead: "Historical lead",
-    oldSource: "Historical source",
-    statusLabels: auditStatusLabels,
-    reset: "Reset filters",
-  },
+const statusLabels: Record<AuditStatus, { fr: string; en: string }> = {
+  unverified: { fr: "Non vérifié", en: "Unverified" },
+  "partially-verified": { fr: "Partiellement vérifié", en: "Partially verified" },
+  "discrepancy-confirmed": { fr: "Écart confirmé", en: "Confirmed discrepancy" },
+  "verification-required": { fr: "Vérification requise", en: "Verification required" },
+  "conformant-within-verified-scope": { fr: "Conforme dans le périmètre vérifié", en: "Conformant within verified scope" },
+};
+const typeLabels: Record<CatalogEntryType, { fr: string; en: string }> = {
+  component: { fr: "Composant", en: "Component" },
+  variant: { fr: "Variante", en: "Variant" },
+  pattern: { fr: "Pattern / structure", en: "Pattern / structure" },
+  "api-concept": { fr: "Concept d’API", en: "API concept" },
+  utility: { fr: "Utilitaire Loculary", en: "Loculary utility" },
+  composition: { fr: "Composition Loculary", en: "Loculary composition" },
+};
+const relationshipLabels: Record<Component["m3_relationship"], { fr: string; en: string }> = {
+  "web-adaptation": { fr: "Adaptation Web M3 / AndroidX", en: "M3 / AndroidX web adaptation" },
+  "loculary-utility": { fr: "Spécifique à Loculary", en: "Loculary-specific" },
+  "not-assessed": { fr: "Relation à qualifier", en: "Relationship to classify" },
 };
 
 export default function ComponentAuditWorkbench({ locale }: { locale: Locale }) {
-  const t = copy[locale];
+  const fr = locale === "fr";
+  const db = useMemo(() => createClient(), []);
+  const [catalog, setCatalog] = useState<CatalogEntry[]>([]);
+  const [components, setComponents] = useState<Component[]>([]);
+  const [reports, setReports] = useState<ReportSummary[]>([]);
+  const [tab, setTab] = useState<CatalogScope>("material-3");
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("all");
-  const [status, setStatus] = useState<"all" | AuditStatus>("all");
+  const [entryType, setEntryType] = useState("all");
+  const [status, setStatus] = useState("all");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [savingId, setSavingId] = useState("");
+  const [expandedEntryId, setExpandedEntryId] = useState("");
+  const [expandedComponentId, setExpandedComponentId] = useState("");
+  const [notice, setNotice] = useState("");
+  const [editingEntryId, setEditingEntryId] = useState("");
+  const [savingCatalogId, setSavingCatalogId] = useState("");
+  const [draftScope, setDraftScope] = useState<CatalogScope>("material-3");
+  const [draftType, setDraftType] = useState<CatalogEntryType>("component");
+  const [draftReferenceStatus, setDraftReferenceStatus] = useState<"unverified" | "verified">("unverified");
+  const [draftReferenceUrl, setDraftReferenceUrl] = useState("");
+  const [draftNote, setDraftNote] = useState("");
 
-  const categories = useMemo(
-    () => Array.from(new Set(m3ComponentAuditRegistry.map((component) => component.category))),
-    [],
+  useEffect(() => {
+    let active = true;
+    async function load() {
+      setLoading(true);
+      const [catalogResult, componentResult, reportResult] = await Promise.all([
+        db.from("design_audit_catalog_entries")
+          .select("id,name,category,catalog_scope,entry_type,classification_note,reference_status,official_reference_url,implementation_component_id,sort_order")
+          .order("sort_order"),
+        db.from("design_audit_components")
+          .select("id,name,category,implementation_path,preview_key,audit_status,m3_relationship,official_references")
+          .order("category").order("name"),
+        db.from("design_audit_reports").select("id,component_id,status"),
+      ]);
+      if (!active) return;
+      const firstError = catalogResult.error ?? componentResult.error ?? reportResult.error;
+      setError(firstError?.message ?? "");
+      setCatalog((catalogResult.data ?? []) as CatalogEntry[]);
+      setComponents((componentResult.data ?? []) as Component[]);
+      setReports((reportResult.data ?? []) as ReportSummary[]);
+      setLoading(false);
+    }
+    void load();
+    return () => { active = false; };
+  }, [db]);
+
+  const activeCatalog = useMemo(
+    () => catalog.filter((entry) => entry.catalog_scope === tab),
+    [catalog, tab],
   );
-  const filtered = useMemo(() => {
-    const normalized = query.trim().toLocaleLowerCase(locale);
-    return m3ComponentAuditRegistry.filter((component) => {
-      const matchesQuery = !normalized
-        || component.name.toLocaleLowerCase(locale).includes(normalized)
-        || component.category.toLocaleLowerCase(locale).includes(normalized);
-      return matchesQuery
-        && (category === "all" || component.category === category)
-        && (status === "all" || component.status === status);
-    });
-  }, [category, locale, query, status]);
+  const categories = useMemo(
+    () => [...new Set(activeCatalog.map((entry) => entry.category))].sort((a, b) => a.localeCompare(b, locale)),
+    [activeCatalog, locale],
+  );
+  const filteredCatalog = useMemo(() => {
+    const needle = query.trim().toLocaleLowerCase(locale);
+    return activeCatalog.filter((entry) =>
+      (!needle || [entry.name, entry.id, entry.category, entry.entry_type, entry.classification_note]
+        .some((value) => value.toLocaleLowerCase(locale).includes(needle)))
+      && (category === "all" || entry.category === category)
+      && (entryType === "all" || entry.entry_type === entryType)
+      && (tab !== "material-3" || status === "all" || entry.reference_status === status),
+    );
+  }, [activeCatalog, query, category, entryType, status, tab, locale]);
 
-  const verifiedCount = m3ComponentAuditRegistry.filter(
-    (component) => component.status === "conformant-within-verified-scope",
-  ).length;
+  const linkedImplementationIds = useMemo(
+    () => new Set(catalog.flatMap((entry) => entry.implementation_component_id ? [entry.implementation_component_id] : [])),
+    [catalog],
+  );
+  const unlinkedImplementations = useMemo(() => {
+    const needle = query.trim().toLocaleLowerCase(locale);
+    return components.filter((component) =>
+      !linkedImplementationIds.has(component.id)
+      && (!needle || [component.name, component.id, component.category, component.implementation_path]
+        .some((value) => value.toLocaleLowerCase(locale).includes(needle)))
+      && (status === "all" || component.audit_status === status),
+    );
+  }, [components, linkedImplementationIds, query, status, locale]);
+
+  const openReports = reports.filter((report) => !["verified", "wont-fix"].includes(report.status)).length;
+  const verifiedReferences = catalog.filter((entry) => entry.catalog_scope === "material-3" && entry.reference_status === "verified").length;
+  const provenComponents = components.filter((component) => component.audit_status === "conformant-within-verified-scope").length;
+
+  async function updateAuditStatus(component: Component, audit_status: AuditStatus) {
+    setSavingId(component.id);
+    setError("");
+    setNotice("");
+    const { error: updateError } = await db.from("design_audit_components").update({ audit_status }).eq("id", component.id);
+    setSavingId("");
+    if (updateError) {
+      setError(updateError.message);
+      return;
+    }
+    setComponents((current) => current.map((item) => item.id === component.id ? { ...item, audit_status } : item));
+    setNotice(fr ? "Statut d’audit enregistré." : "Audit status saved.");
+  }
+
+  function beginEditEntry(entry: CatalogEntry) {
+    setEditingEntryId(entry.id);
+    setDraftScope(entry.catalog_scope);
+    setDraftType(entry.entry_type);
+    setDraftReferenceStatus(entry.reference_status === "verified" ? "verified" : "unverified");
+    setDraftReferenceUrl(entry.official_reference_url ?? "");
+    setDraftNote(entry.classification_note);
+    setError("");
+    setNotice("");
+  }
+
+  async function saveCatalogEntry(entry: CatalogEntry) {
+    const referenceStatus: ReferenceStatus = draftScope === "loculary"
+      ? "not-applicable"
+      : draftReferenceStatus;
+    const referenceUrl = draftScope === "loculary" ? null : draftReferenceUrl.trim() || null;
+    if (referenceStatus === "verified" && !referenceUrl) {
+      setError(fr
+        ? "Une référence ne peut être marquée vérifiée sans URL officielle."
+        : "A reference cannot be marked verified without an official URL.");
+      return;
+    }
+    if (referenceUrl && !referenceUrl.toLowerCase().startsWith("https://")) {
+      setError(fr ? "Les références officielles doivent utiliser HTTPS." : "Official references must use HTTPS.");
+      return;
+    }
+    if (!draftNote.trim()) {
+      setError(fr ? "Ajoute une note de classification avant d’enregistrer." : "Add a classification note before saving.");
+      return;
+    }
+
+    setSavingCatalogId(entry.id);
+    setError("");
+    setNotice("");
+    const { error: saveError } = await db.from("design_audit_catalog_entries").update({
+      catalog_scope: draftScope,
+      entry_type: draftType,
+      reference_status: referenceStatus,
+      official_reference_url: referenceUrl,
+      classification_note: draftNote.trim(),
+    }).eq("id", entry.id);
+    setSavingCatalogId("");
+    if (saveError) {
+      setError(saveError.message);
+      return;
+    }
+
+    setCatalog((current) => current.map((item) => item.id === entry.id ? {
+      ...item,
+      catalog_scope: draftScope,
+      entry_type: draftType,
+      reference_status: referenceStatus,
+      official_reference_url: referenceUrl,
+      classification_note: draftNote.trim(),
+    } : item));
+    setEditingEntryId("");
+    setNotice(fr ? "Fiche de catalogue enregistrée." : "Catalogue entry saved.");
+  }
+
+  function resetFilters() {
+    setQuery("");
+    setCategory("all");
+    setEntryType("all");
+    setStatus("all");
+  }
+
+  const renderImplementationDetails = (component: Component) => (
+    <div className="mt-4 border-t border-[var(--border)] pt-4">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p className="text-sm font-semibold">{fr ? "Implémentation Loculary associée" : "Linked Loculary implementation"}</p>
+          <p className="mt-1 text-xs text-[var(--muted)]">{component.implementation_path}</p>
+          <p className="mt-1 text-xs text-[var(--muted)]">{relationshipLabels[component.m3_relationship][locale]}</p>
+        </div>
+        <a className="text-sm font-semibold text-[var(--accent)] underline" href={`https://github.com/Nabouna32/lab/blob/main/${component.implementation_path}`} target="_blank" rel="noreferrer">
+          {fr ? "Ouvrir le code source ↗" : "Open source ↗"}
+        </a>
+      </div>
+      <label className="mt-4 block max-w-md text-sm font-medium">
+        {fr ? "Statut de l’audit" : "Audit status"}
+        <select
+          className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm"
+          value={component.audit_status}
+          disabled={savingId === component.id}
+          onChange={(event) => void updateAuditStatus(component, event.target.value as AuditStatus)}
+        >
+          {statusOptions.map((value) => <option key={value} value={value}>{statusLabels[value][locale]}</option>)}
+        </select>
+      </label>
+      {component.official_references.length > 0 && (
+        <ul className="mt-3 list-disc pl-5 text-sm">
+          {component.official_references.map((reference, index) => (
+            <li key={index}>{reference.url
+              ? <a className="underline" href={reference.url} target="_blank" rel="noreferrer">{reference.label || reference.url}</a>
+              : reference.label}</li>
+          ))}
+        </ul>
+      )}
+      <ComponentLivePreview key={component.id} previewKey={component.preview_key} locale={locale} />
+      <ComponentMaintenancePanel key={component.id} componentId={component.id} locale={locale} />
+    </div>
+  );
 
   return (
-    <main className={styles.page}>
-      <header className={styles.hero}>
-        <Link className={styles.backLink} href={`/${locale}/design-lab`}>{t.back}</Link>
-        <p className={styles.eyebrow}>{t.eyebrow}</p>
-        <h1>{t.title}</h1>
-        <p className={styles.intro}>{t.intro}</p>
+    <main className="mx-auto min-h-[calc(100vh-4.5rem)] max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <header className="mb-8">
+        <Link className="text-sm font-semibold text-[var(--accent)]" href={`/${locale}/design-lab`}>
+          {fr ? "← Retour au laboratoire visuel" : "← Back to visual lab"}
+        </Link>
+        <div className="mt-6 flex flex-wrap items-start justify-between gap-4">
+          <div className="max-w-3xl">
+            <p className="text-sm font-semibold text-[var(--accent)]">Material 3 Fidelity · Design Lab</p>
+            <h1 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
+              {fr ? "Catalogue & maintenance UI" : "UI catalogue & maintenance"}
+            </h1>
+            <p className="mt-3 text-[var(--muted)]">
+              {fr
+                ? "Le référentiel de conception et les implémentations réelles sont séparés : une entrée de catalogue ne prouve ni qu’un composant existe dans Loculary, ni qu’il est conforme."
+                : "The design reference and real implementations are kept separate: a catalogue entry proves neither that a component exists in Loculary nor that it conforms."}
+            </p>
+          </div>
+          <span className="rounded-full border border-[var(--border)] px-3 py-1.5 text-xs font-medium">
+            {fr ? "Espace d’administration" : "Administration workspace"}
+          </span>
+        </div>
       </header>
 
-      <section className={styles.metrics} aria-label={locale === "fr" ? "État du registre" : "Registry status"}>
-        <article className={styles.metric}><span>{t.total}</span><strong>{m3ComponentAuditRegistry.length}</strong></article>
-        <article className={styles.metric}><span>{t.unverified}</span><strong>{m3ComponentAuditRegistry.filter((item) => item.status === "unverified").length}</strong></article>
-        <article className={styles.metric}><span>{t.proven}</span><strong>{verifiedCount}</strong></article>
+      {error && <p role="alert" className="mb-4 rounded-xl border border-[var(--danger)] p-3 text-sm">{error}</p>}
+      {notice && <p role="status" className="mb-4 rounded-xl border border-[var(--border)] p-3 text-sm">{notice}</p>}
+
+      <section className="mb-8 grid gap-3 sm:grid-cols-2 xl:grid-cols-4" aria-label={fr ? "Indicateurs du catalogue" : "Catalogue metrics"}>
+        <article className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4">
+          <p className="text-sm text-[var(--muted)]">{fr ? "Entrées de référence M3 / AndroidX" : "M3 / AndroidX reference entries"}</p>
+          <p className="mt-2 text-3xl font-semibold tabular-nums">{catalog.filter((entry) => entry.catalog_scope === "material-3").length}</p>
+          <p className="mt-1 text-xs text-[var(--muted)]">{fr ? "Identité et sources à valider" : "Identity and sources to verify"}</p>
+        </article>
+        <article className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4">
+          <p className="text-sm text-[var(--muted)]">{fr ? "Concepts spécifiques Loculary" : "Loculary-specific concepts"}</p>
+          <p className="mt-2 text-3xl font-semibold tabular-nums">{catalog.filter((entry) => entry.catalog_scope === "loculary").length}</p>
+          <p className="mt-1 text-xs text-[var(--muted)]">{fr ? "Utilitaires et compositions" : "Utilities and compositions"}</p>
+        </article>
+        <article className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4">
+          <p className="text-sm text-[var(--muted)]">{fr ? "Implémentations réelles" : "Actual implementations"}</p>
+          <p className="mt-2 text-3xl font-semibold tabular-nums">{components.length}</p>
+          <p className="mt-1 text-xs text-[var(--muted)]">{fr ? "Fichiers UI inventoriés" : "UI source files inventoried"}</p>
+        </article>
+        <article className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4">
+          <p className="text-sm text-[var(--muted)]">{fr ? "Signalements ouverts" : "Open reports"}</p>
+          <p className="mt-2 text-3xl font-semibold tabular-nums">{openReports}</p>
+          <p className="mt-1 text-xs text-[var(--muted)]">{fr ? `${provenComponents} implémentation(s) conforme(s) dans le périmètre vérifié` : `${provenComponents} implementation(s) conformant within verified scope`}</p>
+        </article>
       </section>
 
-      <section className={styles.catalog} aria-labelledby="component-catalog-title">
-        <div className={styles.sectionHeading}>
-          <div><p className={styles.eyebrow}>{locale === "fr" ? "Registre canonique structuré" : "Structured canonical register"}</p><h2 id="component-catalog-title">{t.catalog}</h2><p>{t.catalogHelp}</p></div>
-        </div>
-        <div className={styles.filters}>
-          <label>{t.search}<input value={query} onChange={(event) => setQuery(event.target.value)} placeholder={t.searchPlaceholder} /></label>
-          <label>{t.category}<select value={category} onChange={(event) => setCategory(event.target.value)}><option value="all">{t.allCategories}</option>{categories.map((item) => <option key={item} value={item}>{item}</option>)}</select></label>
-          <label>{t.status}<select value={status} onChange={(event) => setStatus(statuses.find((item) => item === event.target.value) ?? "all")}><option value="all">{t.allStatuses}</option>{statuses.map((item) => <option key={item} value={item}>{t.statusLabels[item][locale]}</option>)}</select></label>
-          <button className={styles.reset} type="button" onClick={() => { setQuery(""); setCategory("all"); setStatus("all"); }}>{t.reset}</button>
+      <section className="overflow-hidden rounded-3xl border border-[var(--border)] bg-[var(--surface)]">
+        <div className="border-b border-[var(--border)] px-4 pt-4 sm:px-6 sm:pt-6">
+          <div role="tablist" aria-label={fr ? "Catalogue de composants" : "Component catalogue"} className="flex flex-wrap gap-2">
+            <button
+              type="button" id="tab-material-3" role="tab" tabIndex={tab === "material-3" ? 0 : -1} aria-selected={tab === "material-3"} aria-controls="catalog-panel"
+              className={`rounded-full px-4 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] ${tab === "material-3" ? "bg-[var(--accent)] text-[var(--on-primary)]" : "border border-[var(--border)] hover:bg-[var(--surface-container)]"}`}
+              onKeyDown={(event) => { if (event.key === "ArrowLeft" || event.key === "ArrowRight") { event.preventDefault(); const nextTab = tab === "material-3" ? "loculary" : "material-3"; setTab(nextTab); setCategory("all"); setEntryType("all"); setStatus("all"); setExpandedEntryId(""); setExpandedComponentId(""); setEditingEntryId(""); document.getElementById(nextTab === "material-3" ? "tab-material-3" : "tab-loculary")?.focus(); } }} onClick={() => { setTab("material-3"); setCategory("all"); setEntryType("all"); setStatus("all"); setExpandedEntryId(""); setExpandedComponentId(""); setEditingEntryId(""); }}
+            >
+              {fr ? "Référentiel Material 3" : "Material 3 reference"}
+              <span className="ml-2 text-xs opacity-80">{catalog.filter((entry) => entry.catalog_scope === "material-3").length}</span>
+            </button>
+            <button
+              type="button" id="tab-loculary" role="tab" tabIndex={tab === "loculary" ? 0 : -1} aria-selected={tab === "loculary"} aria-controls="catalog-panel"
+              className={`rounded-full px-4 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] ${tab === "loculary" ? "bg-[var(--accent)] text-[var(--on-primary)]" : "border border-[var(--border)] hover:bg-[var(--surface-container)]"}`}
+              onKeyDown={(event) => { if (event.key === "ArrowLeft" || event.key === "ArrowRight") { event.preventDefault(); const nextTab = tab === "material-3" ? "loculary" : "material-3"; setTab(nextTab); setCategory("all"); setEntryType("all"); setStatus("all"); setExpandedEntryId(""); setExpandedComponentId(""); setEditingEntryId(""); document.getElementById(nextTab === "material-3" ? "tab-material-3" : "tab-loculary")?.focus(); } }} onClick={() => { setTab("loculary"); setCategory("all"); setEntryType("all"); setStatus("all"); setExpandedEntryId(""); setExpandedComponentId(""); setEditingEntryId(""); }}
+            >
+              {fr ? "Spécifique à Loculary" : "Loculary-specific"}
+              <span className="ml-2 text-xs opacity-80">{catalog.filter((entry) => entry.catalog_scope === "loculary").length}</span>
+            </button>
+          </div>
+          <div className="pb-5 pt-4">
+            <h2 className="text-xl font-semibold">{tab === "material-3" ? (fr ? "Référentiel M3 & API AndroidX" : "M3 & AndroidX reference") : (fr ? "Compositions et utilitaires Loculary" : "Loculary compositions and utilities")}</h2>
+            <p className="mt-1 max-w-3xl text-sm text-[var(--muted)]">
+              {tab === "material-3"
+                ? (fr
+                  ? "Le registre historique est une base de départ, pas une validation officielle exhaustive. Les noms, types et références sont à confirmer au fil de l’audit individuel ; variantes et concepts d’API sont identifiés séparément."
+                  : "The historical register is a starting point, not a fully verified official catalogue. Names, types and references must be confirmed during individual audits; variants and API concepts are distinguished.")
+                : (fr
+                  ? "Ces entrées n’ont pas d’identité de composant Material 3 autonome. Elles peuvent néanmoins composer l’interface avec les tokens et les règles du design system."
+                  : "These entries do not have a standalone Material 3 component identity. They may still compose the UI using the design system’s tokens and rules.")}
+            </p>
+          </div>
         </div>
 
-        <p className={styles.resultCount}>{locale === "fr" ? `${filtered.length} composant(s) affiché(s)` : `${filtered.length} component(s) shown`}</p>
-        <div className={styles.componentList}>
-          {filtered.map((component) => (
-            <details className={styles.component} key={component.id}>
-              <summary>
-                <span className={styles.componentName}>{component.name}</span>
-                <span className={styles.componentCategory}>{component.category}</span>
-                <span className={styles.status} data-status={component.status}>{t.statusLabels[component.status][locale]}</span>
-              </summary>
-              <div className={styles.detailsGrid}>
-                <section><h3>{t.type}</h3><p>{t.typeValue}</p></section>
-                <section><h3>{t.usage}</h3><p>{t.unknown}</p></section>
-                <section><h3>{t.sources}</h3>{component.sourceFiles.length ? <ul>{component.sourceFiles.map((file) => <li key={file}><code>{file}</code></li>)}</ul> : <p>{t.sourcesEmpty}</p>}</section>
-                <section><h3>{t.refs}</h3>{component.officialReferences.length ? <ul>{component.officialReferences.map((ref) => <li key={ref.url}><a href={ref.url} target="_blank" rel="noreferrer">{ref.label}</a></li>)}</ul> : <p>{t.refsEmpty}</p>}</section>
-                <section><h3>{t.facts}</h3>{component.observedFacts.length ? <ul>{component.observedFacts.map((fact) => <li key={fact}>{fact}</li>)}</ul> : <p>{t.factsEmpty}</p>}</section>
-                <section><h3>{t.discrepancies}</h3>{component.confirmedDiscrepancies.length ? <ul>{component.confirmedDiscrepancies.map((item) => <li key={item}>{item}</li>)}</ul> : <p>{t.discrepanciesEmpty}</p>}</section>
-                <section><h3>{t.questions}</h3>{component.unverifiedQuestions.length ? <ul>{component.unverifiedQuestions.map((item) => <li key={item}>{item}</li>)}</ul> : <p>{t.questionsEmpty}</p>}</section>
-                <section><h3>{t.verification}</h3><p>{t.verificationEmpty}</p></section>
-                <section><h3>{t.decisions}</h3>{component.decisions.length ? <ul>{component.decisions.map((item) => <li key={item}>{item}</li>)}</ul> : <p>{t.decisionsEmpty}</p>}</section>
-                <section><h3>{t.history}</h3>{component.history.length ? <ul>{component.history.map((item, index) => <li key={`${item.date}-${index}`}>{item.date}: {item.note}</li>)}</ul> : <p>{t.historyEmpty}</p>}</section>
+        <div id="catalog-panel" role="tabpanel" aria-labelledby={tab === "material-3" ? "tab-material-3" : "tab-loculary"} className="p-4 sm:p-6">
+          <div className="mb-5 grid gap-3 rounded-2xl border border-[var(--border)] p-4 sm:grid-cols-[minmax(12rem,1.4fr)_minmax(10rem,0.8fr)_minmax(10rem,0.8fr)_auto]">
+            <label className="text-sm font-medium">
+              {fr ? "Rechercher" : "Search"}
+              <input className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2.5 text-sm" value={query} onChange={(event) => setQuery(event.target.value)} placeholder={fr ? "Nom, catégorie, type…" : "Name, category, type…"} />
+            </label>
+            <label className="text-sm font-medium">
+              {fr ? "Famille" : "Category"}
+              <select className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2.5 text-sm" value={category} onChange={(event) => setCategory(event.target.value)}>
+                <option value="all">{fr ? "Toutes" : "All"}</option>
+                {categories.map((value) => <option key={value} value={value}>{value}</option>)}
+              </select>
+            </label>
+            <label className="text-sm font-medium">
+              {fr ? "Nature de l’entrée" : "Entry type"}
+              <select className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2.5 text-sm" value={entryType} onChange={(event) => setEntryType(event.target.value)}>
+                <option value="all">{fr ? "Tous les types" : "All types"}</option>
+                {(tab === "material-3" ? ["component", "variant", "pattern", "api-concept"] : ["utility", "composition"]).map((value) => (
+                  <option key={value} value={value}>{typeLabels[value as CatalogEntryType][locale]}</option>
+                ))}
+              </select>
+            </label>
+            {tab === "material-3" ? (
+              <label className="text-sm font-medium">
+                {fr ? "Source" : "Reference"}
+                <select className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2.5 text-sm" value={status} onChange={(event) => setStatus(event.target.value)}>
+                  <option value="all">{fr ? "Tous les états" : "All states"}</option>
+                  <option value="unverified">{fr ? "À vérifier" : "Unverified"}</option>
+                  <option value="verified">{fr ? "Vérifiée" : "Verified"}</option>
+                </select>
+              </label>
+            ) : (
+              <button type="button" className="self-end rounded-full border border-[var(--border)] px-4 py-2.5 text-sm font-medium hover:bg-[var(--surface-container)]" onClick={resetFilters}>
+                {fr ? "Réinitialiser" : "Reset"}
+              </button>
+            )}
+          </div>
+
+          {loading ? (
+            <p role="status" className="py-16 text-center text-sm text-[var(--muted)]">{fr ? "Chargement du catalogue et des implémentations…" : "Loading catalogue and implementations…"}</p>
+          ) : (
+            <>
+              <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+                <p className="text-sm text-[var(--muted)]">{fr ? `${filteredCatalog.length} entrée${filteredCatalog.length === 1 ? "" : "s"} affichée${filteredCatalog.length === 1 ? "" : "s"}` : `${filteredCatalog.length} ${filteredCatalog.length === 1 ? "entry" : "entries"} shown`}</p>
+                {tab === "material-3" && <p className="text-xs text-[var(--muted)]">{fr ? `${verifiedReferences} référence(s) vérifiée(s) sur ${activeCatalog.length}` : `${verifiedReferences} verified reference(s) out of ${activeCatalog.length}`}</p>}
               </div>
-            </details>
-          ))}
-          {filtered.length === 0 && <p className={styles.empty}>{t.empty}</p>}
+
+              {filteredCatalog.length === 0 ? (
+                <div className="rounded-2xl border border-dashed border-[var(--border)] px-6 py-12 text-center">
+                  <p className="font-medium">{fr ? "Aucune entrée ne correspond aux filtres." : "No entries match these filters."}</p>
+                  <button type="button" className="mt-3 text-sm font-semibold text-[var(--accent)] underline" onClick={resetFilters}>{fr ? "Effacer les filtres" : "Clear filters"}</button>
+                </div>
+              ) : (
+                <div className="grid gap-3 lg:grid-cols-2">
+                  {filteredCatalog.map((entry) => {
+                    const implementation = entry.implementation_component_id ? components.find((item) => item.id === entry.implementation_component_id) : undefined;
+                    const expanded = expandedEntryId === entry.id;
+                    return (
+                      <article key={entry.id} className="min-w-0 rounded-2xl border border-[var(--border)] p-4 sm:p-5">
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="min-w-0">
+                            <h3 className="break-words text-base font-semibold">{entry.name}</h3>
+                            <p className="mt-1 text-xs text-[var(--muted)]">{entry.category}</p>
+                          </div>
+                          <span className="shrink-0 rounded-full border border-[var(--border)] px-2.5 py-1 text-xs">{typeLabels[entry.entry_type][locale]}</span>
+                        </div>
+                        <p className="mt-3 text-sm text-[var(--muted)]">{entry.classification_note}</p>
+                        <div className="mt-4 flex flex-wrap items-center gap-2">
+                          {entry.reference_status === "verified" && entry.official_reference_url ? (
+                            <a className="inline-flex items-center gap-1 rounded-full border border-[var(--border)] px-3 py-1.5 text-xs font-medium underline" href={entry.official_reference_url} target="_blank" rel="noreferrer">
+                              {fr ? "Référence officielle vérifiée ↗" : "Verified official reference ↗"}
+                            </a>
+                          ) : entry.reference_status === "not-applicable" ? (
+                            <span className="rounded-full bg-[var(--surface-container)] px-3 py-1.5 text-xs">{fr ? "Hors catalogue M3" : "Outside M3 catalogue"}</span>
+                          ) : entry.official_reference_url ? (
+                            <a className="inline-flex items-center gap-1 rounded-full border border-[var(--border)] px-3 py-1.5 text-xs underline" href={entry.official_reference_url} target="_blank" rel="noreferrer">
+                              {fr ? "Source candidate à vérifier ↗" : "Unverified source candidate ↗"}
+                            </a>
+                          ) : (
+                            <span className="rounded-full border border-[var(--border)] px-3 py-1.5 text-xs">{fr ? "Identité / source à vérifier" : "Identity / source to verify"}</span>
+                          )}
+                          {implementation && <span className="rounded-full bg-[var(--surface-container)] px-3 py-1.5 text-xs">{fr ? "Implémentation liée" : "Linked implementation"}</span>}
+                        </div>
+                        <div className="mt-4">
+                          <button
+                            type="button"
+                            className="text-sm font-semibold text-[var(--accent)] underline"
+                            aria-expanded={editingEntryId === entry.id}
+                            onClick={() => editingEntryId === entry.id ? setEditingEntryId("") : beginEditEntry(entry)}
+                          >
+                            {editingEntryId === entry.id ? (fr ? "Fermer la fiche" : "Close entry editor") : (fr ? "Modifier la fiche" : "Edit entry")}
+                          </button>
+                        </div>
+                        {editingEntryId === entry.id && (
+                          <form className="mt-4 grid gap-4 rounded-2xl border border-[var(--border)] bg-[var(--surface-container)] p-4" onSubmit={(event) => { event.preventDefault(); void saveCatalogEntry(entry); }}>
+                            <div className="grid gap-3 sm:grid-cols-2">
+                              <label className="text-sm font-medium">
+                                {fr ? "Référentiel" : "Catalogue scope"}
+                                <select className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2.5" value={draftScope} onChange={(event) => { const nextScope = event.target.value as CatalogScope; setDraftScope(nextScope); setDraftType(nextScope === "loculary" ? "utility" : "component"); }}>
+                                  <option value="material-3">{fr ? "Material 3 / AndroidX" : "Material 3 / AndroidX"}</option>
+                                  <option value="loculary">{fr ? "Spécifique à Loculary" : "Loculary-specific"}</option>
+                                </select>
+                              </label>
+                              <label className="text-sm font-medium">
+                                {fr ? "Nature de l’entrée" : "Entry type"}
+                                <select className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2.5" value={draftType} onChange={(event) => setDraftType(event.target.value as CatalogEntryType)}>
+                                  {(draftScope === "loculary" ? ["utility", "composition"] : ["component", "variant", "pattern", "api-concept"]).map((value) => <option key={value} value={value}>{typeLabels[value as CatalogEntryType][locale]}</option>)}
+                                </select>
+                              </label>
+                            </div>
+                            <label className="text-sm font-medium">
+                              {fr ? "État de la référence officielle" : "Official reference status"}
+                              <select className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2.5" value={draftScope === "loculary" ? "not-applicable" : draftReferenceStatus} disabled={draftScope === "loculary"} onChange={(event) => setDraftReferenceStatus(event.target.value as "unverified" | "verified")}>
+                                <option value="unverified">{fr ? "À vérifier" : "Unverified"}</option>
+                                <option value="verified">{fr ? "Vérifiée" : "Verified"}</option>
+                                {draftScope === "loculary" && <option value="not-applicable">{fr ? "Non applicable" : "Not applicable"}</option>}
+                              </select>
+                            </label>
+                            <label className="text-sm font-medium">
+                              {fr ? "URL de la documentation officielle" : "Official documentation URL"}
+                              <input type="url" className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2.5" value={draftReferenceUrl} disabled={draftScope === "loculary"} onChange={(event) => setDraftReferenceUrl(event.target.value)} placeholder="https://…" />
+                            </label>
+                            <label className="text-sm font-medium">
+                              {fr ? "Note de classification" : "Classification note"}
+                              <textarea className="mt-1 min-h-24 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2.5" value={draftNote} onChange={(event) => setDraftNote(event.target.value)} required />
+                            </label>
+                            <p className="text-xs text-[var(--muted)]">{fr ? "Le statut « vérifiée » exige une URL HTTPS. Les modifications sont réservées aux administrateurs autorisés et consignées dans l’historique." : "The “verified” status requires an HTTPS URL. Changes are restricted to authorized administrators and recorded in the event history."}</p>
+                            <div className="flex flex-wrap gap-2">
+                              <button type="submit" disabled={savingCatalogId === entry.id} className="rounded-full bg-[var(--primary)] px-4 py-2.5 text-sm font-semibold text-[var(--on-primary)] disabled:opacity-60">
+                                {savingCatalogId === entry.id ? (fr ? "Enregistrement…" : "Saving…") : (fr ? "Enregistrer" : "Save changes")}
+                              </button>
+                              <button type="button" className="rounded-full border border-[var(--border)] px-4 py-2.5 text-sm font-medium" onClick={() => setEditingEntryId("")}>
+                                {fr ? "Annuler" : "Cancel"}
+                              </button>
+                            </div>
+                          </form>
+                        )}
+                        {implementation ? (
+                          <button type="button" className="mt-4 text-sm font-semibold text-[var(--accent)] underline" aria-expanded={expanded} onClick={() => setExpandedEntryId(expanded ? "" : entry.id)}>
+                            {expanded ? (fr ? "Masquer l’implémentation" : "Hide implementation") : (fr ? "Inspecter l’implémentation réelle" : "Inspect real implementation")}
+                          </button>
+                        ) : (
+                          <p className="mt-4 text-xs text-[var(--muted)]">{fr ? "Aucune implémentation Loculary directement associée pour l’instant." : "No direct Loculary implementation is linked yet."}</p>
+                        )}
+                        {expanded && implementation && renderImplementationDetails(implementation)}
+                      </article>
+                    );
+                  })}
+                </div>
+              )}
+
+              {tab === "loculary" && (
+                <section className="mt-8 border-t border-[var(--border)] pt-6">
+                  <div className="mb-4">
+                    <h3 className="text-lg font-semibold">{fr ? "Implémentations à rattacher" : "Implementations to map"}</h3>
+                    <p className="mt-1 text-sm text-[var(--muted)]">
+                      {fr
+                        ? "Ces fichiers existent dans l’application, mais aucun lien direct vers une entrée du catalogue n’est enregistré. Ce n’est pas une conclusion sur leur conformité."
+                        : "These files exist in the app but have no direct catalogue link recorded. This is not a conformance conclusion."}
+                    </p>
+                  </div>
+                  {unlinkedImplementations.length === 0 ? (
+                    <p className="rounded-2xl border border-[var(--border)] p-5 text-sm text-[var(--muted)]">{fr ? "Toutes les implémentations inventoriées sont reliées à une entrée du catalogue." : "All inventoried implementations are linked to a catalogue entry."}</p>
+                  ) : (
+                    <div className="space-y-3">
+                      <div className="flex flex-wrap items-center justify-between gap-3">
+                        <p className="text-sm text-[var(--muted)]">{fr ? `${unlinkedImplementations.length} implémentation(s) sans lien` : `${unlinkedImplementations.length} unmapped implementation(s)`}</p>
+                        <label className="text-sm font-medium">
+                          {fr ? "Statut d’audit" : "Audit status"}
+                          <select className="ml-2 rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm" value={status} onChange={(event) => setStatus(event.target.value)}>
+                            <option value="all">{fr ? "Tous" : "All"}</option>
+                            {statusOptions.map((value) => <option key={value} value={value}>{statusLabels[value][locale]}</option>)}
+                          </select>
+                        </label>
+                      </div>
+                      {unlinkedImplementations.map((component) => (
+                        <article key={component.id} className="rounded-2xl border border-[var(--border)] p-4">
+                          <div className="flex flex-wrap items-start justify-between gap-3">
+                            <div>
+                              <h4 className="font-semibold">{component.name}</h4>
+                              <p className="mt-1 text-xs text-[var(--muted)]">{component.category} · {component.implementation_path}</p>
+                              <p className="mt-1 text-xs text-[var(--muted)]">{relationshipLabels[component.m3_relationship][locale]}</p>
+                            </div>
+                            <span className="rounded-full border border-[var(--border)] px-3 py-1 text-xs">{statusLabels[component.audit_status][locale]}</span>
+                          </div>
+                          <button type="button" className="mt-3 text-sm font-semibold text-[var(--accent)] underline" aria-expanded={expandedComponentId === component.id} onClick={() => setExpandedComponentId(expandedComponentId === component.id ? "" : component.id)}>
+                            {expandedComponentId === component.id ? (fr ? "Fermer les détails" : "Close details") : (fr ? "Ouvrir les détails" : "Open details")}
+                          </button>
+                          {expandedComponentId === component.id && renderImplementationDetails(component)}
+                        </article>
+                      ))}
+                    </div>
+                  )}
+                </section>
+              )}
+            </>
+          )}
         </div>
       </section>
 
-      <section className={styles.leads} aria-labelledby="historical-leads-title">
-        <p className={styles.eyebrow}>{locale === "fr" ? "Mémoire de l’audit précédent" : "Previous audit context"}</p>
-        <h2 id="historical-leads-title">{t.historical}</h2>
-        <p>{t.historicalHelp}</p>
-        <div className={styles.leadList}>
-          {historicalAuditLeads.map((lead) => (
-            <article className={styles.lead} key={lead.id}>
-              <span className={styles.historicalBadge}>{t.lead}</span>
-              <h3>{lead.title[locale]} · {lead.component}</h3>
-              <p>{lead.note[locale]}</p>
-              <p className={styles.sourceNote}>{t.oldSource}: <code>{lead.source}</code></p>
-            </article>
-          ))}
-        </div>
-      </section>
-      <footer className={styles.footer}>
-        {locale === "fr"
-          ? "Lot A — structure initiale uniquement. Aucun composant de production n’a été modifié ; les fiches seront complétées pendant les audits individuels."
-          : "Lot A — initial structure only. No production component was changed; records will be completed during individual audits."}
+      <footer className="mt-6 flex flex-col gap-2 border-t border-[var(--border)] pt-4 text-sm text-[var(--muted)] sm:flex-row sm:items-center sm:justify-between">
+        <p>{fr ? "Les observations, décisions et preuves de vérification restent distinctes. Un statut conforme exige une preuve positive." : "Observations, decisions and verification evidence remain separate. A conformant status requires passing evidence."}</p>
+        <p>{fr ? "Références vérifiées : " : "Verified references: "}{verifiedReferences} · {fr ? "Conformité établie : " : "Conformance established: "}{provenComponents}</p>
       </footer>
     </main>
   );
