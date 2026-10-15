@@ -532,3 +532,14 @@ Status: **source-informed Web adaptation**. Not yet complete: exact Compose mult
 ## Lab specimen names — 2026-10-15
 
 The Design Lab now labels specimens with exact names and explicit fidelity categories: shared primitive, Web adaptation, or local mockup. Shared components currently named in the Lab include Button, IconButton, TextField, TextArea (Web wrapper), ExposedDropdownMenu, Select (native HTML wrapper), ClearButton, CopyButton, Checkbox, Switch, Slider, ProgressIndicator, SegmentedControl, ValidationMessage, Card, Panel, ResultPanel, Snackbar, ModalBottomSheet, AlertDialog, and NavigationBar. Mockups in the extended gallery are deliberately labelled as mockups. This naming makes bug reports actionable without falsely implying full AndroidX parity.
+
+
+### NavigationRail — AndroidX audit and Web adaptation (2026-10-15)
+
+**Official source:** https://developer.android.com/develop/ui/compose/components/navigation-rail and https://developer.android.com/develop/ui/compose/system/material-insets.
+
+- **Source-confirmed:** AndroidX `NavigationRail` and `NavigationRailItem` are intended for top-level destinations on larger screens and landscape layouts; the documented rail typically exposes 3–7 destinations. Android applies vertical and start system insets.
+- **Implemented:** added shared `src/components/ui/NavigationRail.tsx` and `NavigationRail.module.css`; integrated it into the extended Lab gallery with selected state, icon/label, optional badge, focus-visible, hover/press states, semantic theme tokens and reduced-motion handling. Visible identifier now classifies it as a Web adaptation, not a mockup.
+- **Web adaptation choices:** 80 CSS-pixel rail width and CSS spacing approximate the Android layout; CSS px are not dp. Local selection uses buttons and `aria-current`; real route destinations should use links or router navigation semantics.
+- **Not yet parity-complete:** exact AndroidX dimensions, FAB placement, rail header/scroll behavior, window inset integration, all badge variants and Compose motion curves are not validated. Runtime keyboard, zoom, screen reader, mobile browser and responsive layout checks remain open.
+- **Status:** shared, source-informed Web adaptation; partial parity; CI/runtime validation required. Do not claim 100% AndroidX parity.
