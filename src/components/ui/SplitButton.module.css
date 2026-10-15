@@ -1,0 +1,112 @@
+.root {
+  position: relative;
+  display: inline-flex;
+  max-width: 100%;
+}
+
+.group {
+  display: inline-flex;
+  overflow: hidden;
+  border: 1px solid transparent;
+  border-radius: 20px;
+  background: var(--lab-primary, var(--md-sys-color-primary, currentColor));
+  color: var(--lab-on-primary, var(--md-sys-color-on-primary, white));
+}
+
+.group.filled-tonal {
+  background: var(--lab-secondary-container, var(--md-sys-color-secondary-container, transparent));
+  color: var(--lab-on-secondary-container, var(--md-sys-color-on-secondary-container, currentColor));
+}
+
+.group.outlined {
+  border-color: var(--lab-outline, var(--md-sys-color-outline, currentColor));
+  background: transparent;
+  color: var(--lab-on-surface, var(--md-sys-color-on-surface, currentColor));
+}
+
+.group.elevated {
+  background: var(--lab-surface-container-low, var(--md-sys-color-surface-container-low, transparent));
+  color: var(--lab-primary, var(--md-sys-color-primary, currentColor));
+  box-shadow: 0 1px 3px color-mix(in srgb, var(--lab-shadow, #000) 20%, transparent);
+}
+
+.primaryAction,
+.menuAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.primaryAction {
+  gap: 8px;
+  padding: 0 16px;
+}
+
+.menuAction {
+  width: 40px;
+  border-left: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+  font-size: 18px;
+}
+
+.primaryAction:hover:not(:disabled),
+.menuAction:hover:not(:disabled) {
+  background: color-mix(in srgb, currentColor 8%, transparent);
+}
+
+.primaryAction:focus-visible,
+.menuAction:focus-visible,
+.menu button:focus-visible {
+  outline: 2px solid var(--lab-primary, currentColor);
+  outline-offset: -3px;
+}
+
+.primaryAction:disabled,
+.menuAction:disabled {
+  opacity: .38;
+  cursor: not-allowed;
+}
+
+.menu {
+  position: absolute;
+  z-index: 10;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 180px;
+  padding: 4px;
+  border: 1px solid var(--lab-outline-variant, var(--md-sys-color-outline-variant, currentColor));
+  border-radius: 12px;
+  background: var(--lab-surface-container, var(--md-sys-color-surface-container, Canvas));
+  color: var(--lab-on-surface, var(--md-sys-color-on-surface, CanvasText));
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--lab-shadow, #000) 18%, transparent);
+}
+
+.menu button {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.menu button:hover:not(:disabled) {
+  background: color-mix(in srgb, currentColor 8%, transparent);
+}
+
+.menu button:disabled {
+  opacity: .38;
+  cursor: not-allowed;
+}
