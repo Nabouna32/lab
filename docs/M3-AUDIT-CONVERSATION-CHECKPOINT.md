@@ -930,3 +930,10 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - After the date/time dialog lint fixes, CI lint passed but Typecheck failed on TS2367 in `Badge.tsx` because `ReactNode` was compared directly with `false`.
 - Narrowed the boolean case with `typeof content === "boolean"` while preserving the dot fallback for false/null/undefined.
 - A new complete CI run is still required; tests/build were skipped after the typecheck failure.
+
+
+## CI test repair — stale selectors (2026-10-15)
+
+- CI lint and TypeScript typecheck passed after the dialog and Badge repairs, then tests exposed stale assertions in two design-system test files.
+- Updated those assertions to the current Lab structure, including a visible identifier for the circular progress specimen, current NavigationRail/FAB identifier grouping, current Checkbox mixed-disabled state, DropdownMenu composition, and avoiding a false positive on the separate BottomSheetScaffold state.
+- Await the next full CI run; tests/build are not yet verified green.
