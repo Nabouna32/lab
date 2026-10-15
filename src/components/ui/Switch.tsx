@@ -9,6 +9,7 @@ type SwitchStyle = CSSProperties & {
   "--switch-focus-ring"?: string;
   "--switch-focus-offset"?: string;
   "--switch-disabled-track"?: string;
+  "--switch-disabled-outline"?: string;
   "--switch-disabled-thumb"?: string;
 };
 
@@ -42,6 +43,7 @@ export function Switch({
     "--switch-focus-ring": "var(--focus-ring)",
     "--switch-focus-offset": "var(--background)",
     "--switch-disabled-track": "color-mix(in srgb, var(--on-surface) 12%, transparent)",
+    "--switch-disabled-outline": "color-mix(in srgb, var(--on-surface) 38%, transparent)",
     "--switch-disabled-thumb": "color-mix(in srgb, var(--on-surface) 38%, transparent)",
     ...style,
     ...(disabled ? {
@@ -49,7 +51,7 @@ export function Switch({
       "--switch-on-thumb": "var(--switch-disabled-thumb)",
       "--switch-track": "var(--switch-disabled-track)",
       "--switch-thumb": "var(--switch-disabled-thumb)",
-      "--switch-outline": "var(--switch-disabled-track)",
+      "--switch-outline": "var(--switch-disabled-outline)",
     } : {}),
   };
 
