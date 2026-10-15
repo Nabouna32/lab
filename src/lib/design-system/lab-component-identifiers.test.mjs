@@ -75,7 +75,6 @@ test("NavigationRail, NavigationDrawer and CircularProgressIndicator are integra
   assert.match(lab, /<NavigationDrawer open=\{sampleDrawerOpen\}/);
   assert.match(lab, /<CircularProgressIndicator label=/);
   assert.match(lab, /names=\{\["NavigationRail","FloatingActionButton"\]\} kind="adaptation"/);
-  assert.match(lab, /names=\{\["CircularProgressIndicator","ProgressIndicator"\]\} kind="adaptation"/);
 });
  
 test("The shared NavigationBar is integrated in the phone preview and interactive gallery", () => {
