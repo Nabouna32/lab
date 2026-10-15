@@ -358,3 +358,10 @@ test("segmented control keeps labels single-line and leaves descriptions outside
   assert.match(percentageSource, /modes\.find\(\(item\) => item\.id === mode\)\?\.description/);
   assert.match(videoBitrateSource, /modes\.find\(\(item\) => item\.id === mode\)\?\.description/);
 });
+
+test("Design Lab examples keep independent radio and segmented-control state", () => {
+  assert.match(labSource, /const \[sampleRadio,setSampleRadio\]=useState\("all"\)/);
+  assert.match(labSource, /const \[sampleLayout,setSampleLayout\]=useState\("all"\)/);
+  assert.match(labSource, /Disposition de la liste.*?value=\{sampleLayout\} onChange=\{setSampleLayout\}/s);
+  assert.match(labSource, /checked=\{sampleRadio==="all"\}/);
+});
