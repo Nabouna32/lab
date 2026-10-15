@@ -574,3 +574,13 @@ Official source: https://developer.android.com/develop/ui/compose/components/app
 ### Scaffold — 2026-10-15
 
 Official source: https://developer.android.com/develop/ui/compose/components/scaffold and https://developer.android.com/develop/ui/compose/system/material-insets. Added a shared Scaffold Web composition with topBar, bottomBar, navigationRail, content and floatingActionButton slots and integrated a Lab specimen. This is not AndroidX parity: equivalent inner padding/inset consumption, snackbar integration, modal navigation state and full placement rules remain incomplete. Responsive and browser checks required.
+
+
+### ListItem / Divider — AndroidX audit and Web adaptation (2026-10-15)
+
+Official source: https://developer.android.com/reference/kotlin/androidx/compose/material3/ListItem.composable and https://developer.android.com/reference/kotlin/androidx/compose/material3/HorizontalDivider.composable.
+
+- Source-confirmed: Material 3 ListItem supports headline, optional overline/supporting text, leading and trailing content, with one-, two- and three-line layouts. HorizontalDivider and VerticalDivider are separate orientation variants.
+- Implemented: added shared ListItem and Divider Web adaptations; replaced the gallery's static list rows and horizontal separator with these primitives and added a vertical divider specimen. ListItem remains presentation-only, leaving click/navigation semantics to the containing control as AndroidX does.
+- Gaps: exact slot spacing/density, list item height, divider inset behavior and tonal roles need source-version comparison; browser focus/semantics and text scaling remain to validate.
+- Status: source-informed Web adaptations; partial parity, current-head CI and browser validation pending.
