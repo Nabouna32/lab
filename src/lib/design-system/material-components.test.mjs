@@ -132,7 +132,6 @@ test("real tools and the Lab use shared checkbox, switch, slider and progress pr
   assert.match(labSource, /lab-disabled-slider/);
   assert.doesNotMatch(labSource, /type="checkbox"/);
   assert.doesNotMatch(labSource, /type="range"/);
-  assert.match(labSource, /<Checkbox/);\n  assert.match(labSource, /<Slider/);\n  assert.match(labSource, /<ProgressIndicator/);\n  assert.match(labSource, /lab-disabled-checkbox/);\n  assert.match(labSource, /lab-disabled-switch/);\n  assert.match(labSource, /lab-disabled-slider/);\n  assert.doesNotMatch(labSource, /type="checkbox"/);\n  assert.doesNotMatch(labSource, /type="range"/);
   assert.match(passwordSource, /import \{ Checkbox \} from "@\/components\/ui\/Checkbox"/);
   assert.match(passwordSource, /<Checkbox/);
   assert.match(passwordSource, /import \{ Slider \} from "@\/components\/ui\/Slider"/);
@@ -143,7 +142,7 @@ test("real tools and the Lab use shared checkbox, switch, slider and progress pr
   assert.match(imageSource, /import \{ ProgressIndicator \} from "@\/components\/ui\/ProgressIndicator"/);
   assert.match(imageSource, /<Slider/);
   assert.match(imageSource, /<ProgressIndicator/);
-  assert.doesNotMatch(imageSource, /type="range"/);\n  assert.match(passwordSource, /import \\{ Slider \\} from "@\\/components\\/ui\\/Slider"/);\n  assert.match(passwordSource, /<Slider/);\n  assert.doesNotMatch(passwordSource, /type="checkbox"/);\n  assert.doesNotMatch(passwordSource, /type="range"/);\n  assert.match(imageSource, /<Slider/);\n  assert.match(imageSource, /<ProgressIndicator/);\n  assert.doesNotMatch(imageSource, /type="range"/);
+  assert.doesNotMatch(imageSource, /type="range"/);
 });
 
 test("standard functional UI surfaces do not reintroduce one-off inline SVG icons", () => {
