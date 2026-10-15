@@ -676,3 +676,10 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - Official source: https://developer.android.com/develop/ui/compose/components/app-bars. Added shared TopAppBar Web adaptation for small, center-aligned, medium and large variants. Replaced the static top-bar mockup in the Lab; the notification action uses Badge/BadgedBox.
 - Updated canonical conventions, conformance audit and inventory. Known gaps: scroll-driven collapse, exact AndroidX geometry/typography, insets, action overflow and motion.
 - Current-head CI remains unconfirmed. Next: bottom app bar and Scaffold integration, then list/divider variants.
+
+
+## Checkpoint — BottomAppBar (2026-10-15)
+
+- Official source: https://developer.android.com/develop/ui/compose/components/app-bars. Added a shared BottomAppBar Web adaptation with action/custom-content/FAB slots and integrated it into the Lab with three icon actions and the shared small FAB.
+- Updated canonical conventions, conformance audit and inventory. Safe-area padding and semantic surface roles are implemented; exact AndroidX dimensions/elevation, FAB cutout, system insets and motion remain to audit.
+- Latest head CI remains unconfirmed. Continue with Scaffold as the composition primitive, then dividers and list items.
