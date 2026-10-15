@@ -164,7 +164,7 @@ test("Material 3 filled, outlined and secure text-field variants are represented
 
 test("DropdownMenu mockup is replaced by the shared accessible menu adaptation", () => {
   assert.match(lab, /import \{ DropdownMenu \} from "@\/components\/ui\/DropdownMenu"/);
-  assert.match(lab, /names=\{\["DropdownMenu","DropdownMenuItem"\]\}/);
+  assert.match(lab, /names=\{\["DropdownMenu","DropdownMenuItem","DropdownMenuGroup"/);
   assert.doesNotMatch(lab, /DropdownMenu \(mockup\)/);
 });
 
