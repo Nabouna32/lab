@@ -1,0 +1,27 @@
+.root {
+  display: inline-grid;
+  flex: 0 0 auto;
+  place-items: center;
+  color: var(--progress-color, var(--lab-primary, var(--primary, currentColor)));
+}
+.root svg { display: block; overflow: visible; }
+.track { stroke: var(--progress-track, var(--lab-surface-high, var(--surface-variant, currentColor))); }
+.indicator {
+  stroke: currentColor;
+  transform-origin: center;
+  transition: stroke-dashoffset var(--motion-standard, 220ms) cubic-bezier(.2, 0, 0, 1);
+}
+.root[data-indeterminate="true"] .indicator {
+  stroke-dasharray: 1 200;
+  stroke-dashoffset: 0;
+  animation: m3-circular-progress 1.4s cubic-bezier(.4, 0, .2, 1) infinite;
+}
+@keyframes m3-circular-progress {
+  0% { stroke-dasharray: 1 200; stroke-dashoffset: 0; transform: rotate(0deg); }
+  50% { stroke-dasharray: 90 200; stroke-dashoffset: -15; transform: rotate(135deg); }
+  100% { stroke-dasharray: 1 200; stroke-dashoffset: -125; transform: rotate(450deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .indicator { transition: none; }
+  .root[data-indeterminate="true"] .indicator { animation: none; stroke-dasharray: 70 200; stroke-dashoffset: 0; }
+}
