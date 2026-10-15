@@ -60,7 +60,7 @@ test("shared switch uses native checkbox semantics with the switch role and M3 s
   assert.match(switchSource, /on-surface\) 38%/);
   assert.match(switchSource, /"--switch-active": checked \? "var\(--switch-disabled-selected-track\)"/);
   assert.match(switchSource, /"--switch-track": "var\(--surface-container-highest\)"/);
-  assert.match(switchSource, /"--switch-outline": checked \? "transparent" : "var\\(--switch-disabled-outline\\)"/);
+  assert.ok(switchSource.includes('"--switch-outline": checked ? "transparent" : "var(--switch-disabled-outline)"'));
   assert.match(switchSource, /peer-focus-visible:ring-2/);
   assert.doesNotMatch(switchSource, /#[0-9a-fA-F]{3,8}/);
 });
@@ -73,7 +73,7 @@ test("shared checkbox uses M3 foreground/background roles and a visible keyboard
   assert.match(checkboxSource, /"--checkbox-active": "var\(--checkbox-disabled-active\)"/);
   assert.match(checkboxSource, /peer-focus-visible:ring-2/);
   assert.match(checkboxSource, /borderWidth: disabled \? \(checked \? 0 : 2\) : 1/);
-  assert.match(checkboxSource, /var\\(--surface\\) 38%/);
+  assert.ok(checkboxSource.includes("color-mix(in srgb, var(--surface) 38%, transparent)"));
   assert.match(checkboxSource, /checkbox-container-shape/);
   assert.match(checkboxSource, /size-\[18px\]/);
   assert.match(checkboxSource, /MaterialIcon name="check" size=\{18\}/);
@@ -90,7 +90,7 @@ test("shared slider and progress indicator expose accessible M3 states", () => {
   assert.match(sliderCss, /border-radius: 50%/);
   assert.match(sliderSource, /data-disabled=\{disabled \? "true" : "false"\}/);
   assert.match(sliderCss, /:focus-visible/);
-  assert.match(sliderCss, /--slider-focus-ring, var\\(--focus-ring\\)/);
+  assert.ok(sliderSource.includes('"--slider-focus-ring": "var(--focus-ring)"'));
   assert.match(sliderCss, /slider-disabled-active/);
   assert.match(sliderSource, /on-surface\) 12%/);
   assert.match(sliderSource, /on-surface\) 38%/);
@@ -315,7 +315,7 @@ test("Design Lab follows the resolved application theme instead of owning a seco
   assert.match(labSource, /import \{ useTheme \} from "@teispace\/next-themes"/);
   assert.match(labSource, /const \{ resolvedTheme \} = useTheme\(\)/);
   assert.match(labSource, /const theme: Theme = resolvedTheme === "dark" \? "dark" : "light"/);
-  assert.match(labSource, /roundingDegree, setRoundingDegree/);
+  assert.match(labSource, /roundingDegree\s*,\s*setRoundingDegree/);
   assert.match(labSource, /createLabTokens\(scheme,theme,roundingDegree\)/);
   assert.match(labSource, /inputId="lab-rounding-degree"/);
   assert.match(labSource, /--shape-corner-extra-small/);
@@ -393,11 +393,11 @@ test("buttons use AndroidX M3 variant-specific disabled roles and icon-toggle se
   assert.match(iconButtonSource, /on-surface\)_10%,transparent/);
   assert.match(iconButtonSource, /const filledTonal = .*on-surface\)_10%,transparent/);
   assert.match(iconButtonSource, /outline-variant\)_38%,transparent/);
-  assert.match(iconButtonSource, /standard: "text-\[var\(--primary\)\] hover:text-\[var\(--primary\)\] active:text-\[var\(--primary\)\]"/);
+  assert.match(iconButtonSource, /standard: "text-\[var\(--primary\)\] hover:text-\[var\(--primary\)\] active:text-\[var\(--primary\)\] hover:bg-/);
   assert.match(iconButtonSource, /"filled-tonal": "bg-\[var\(--secondary\)\] text-\[var\(--on-secondary\)\]"/);
   assert.match(iconButtonSource, /outlined: "bg-\[var\(--inverse-surface\)\] text-\[var\(--inverse-on-surface\)\]/);
   assert.match(iconButtonSource, /hover:bg-\[color-mix\(in_srgb,var\(--inverse-surface\)_92%,var\(--inverse-on-surface\)\)\]/);
-  assert.match(iconButtonSource, /standard: "text-\[var\(--primary\)\] hover:text-\[var\(--primary\)\]/);
+  assert.match(iconButtonSource, /standard: "text-\[var\(--primary\)\] hover:text-\[var\(--primary\)\] active:text-\[var\(--primary\)\] hover:bg-/);
 });
 
 test("Lab checkbox samples each define one palette-aware shape and disabled role set", () => {
