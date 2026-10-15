@@ -45,6 +45,7 @@ import { CircularProgressIndicator } from "@/components/ui/CircularProgressIndic
 import { Divider } from "@/components/ui/Divider";
 import { FloatingActionButton } from "@/components/ui/FloatingActionButton";
 import { ProgressIndicator } from "@/components/ui/ProgressIndicator";
+import { PullToRefreshBox } from "@/components/ui/PullToRefreshBox";
 import { RadioButton } from "@/components/ui/RadioButton";
 import { SegmentedControl } from "@/components/ui/SegmentedControl";
 import { Select } from "@/components/ui/Select";
@@ -113,6 +114,7 @@ export default function ComponentLivePreview({
   const [timeDialogOpen, setTimeDialogOpen] = useState(false);
   const [wideRailExpanded, setWideRailExpanded] = useState(true);
   const [wideRailSelected, setWideRailSelected] = useState("home");
+  const [refreshing, setRefreshing] = useState(false);
   const label = fr ? "Aperçu du composant réel" : "Live component preview";
   const stateHelp = fr
     ? "Teste directement le composant. Le survol, le focus clavier, l’appui et l’état désactivé utilisent son implémentation réelle."
@@ -256,7 +258,7 @@ export default function ComponentLivePreview({
       content = <div className="grid gap-3"><WideNavigationRail items={[{key:"home",label:fr?"Accueil":"Home",icon:"home"},{key:"search",label:fr?"Recherche":"Search",icon:"search"},{key:"saved",label:fr?"Favoris":"Favorites",icon:"favorite"},{key:"profile",label:fr?"Profil":"Profile",icon:"person"}]} selectedKey={wideRailSelected} onSelect={setWideRailSelected} expanded={wideRailExpanded} onExpandedChange={setWideRailExpanded} label={fr ? "Navigation principale" : "Primary navigation"} expandLabel={fr ? "Développer le rail" : "Expand rail"} collapseLabel={fr ? "Réduire le rail" : "Collapse rail"} /><p className="text-sm text-[var(--muted)]">{fr ? "Destination : " : "Destination: "}{wideRailSelected}</p></div>;
       break;
     case "scaffold":
-      content = <div className="min-h-64"><Scaffold topBar={<TopAppBar title={fr ? "Aperçu" : "Preview"} navigationLabel={fr ? "Menu" : "Menu"} onNavigationClick={() => setDrawerOpen(true)}/>} bottomBar={<BottomAppBar actions={<div className="flex gap-2"><IconButton label={fr ? "Accueil" : "Home"}><MaterialIcon name="home" size={22}/></IconButton><IconButton label={fr ? "Favoris" : "Favorites"}><MaterialIcon name="favorite" size={22}/></IconButton></div>} />} floatingActionButton={<FloatingActionButton size="small" icon="add" ariaLabel={fr ? "Ajouter" : "Add"} onClick={() => setSnackbarOpen(true)} />}><strong>{fr ? "Contenu de l’écran" : "Screen content"}</strong><p className="mt-2 text-sm">{fr ? "Structure de page partagée." : "Shared page structure."}</p></Scaffold></div>;
+      content = <div className="min-h-64"><Scaffold topBar={<TopAppBar title={fr ? "Aperçu" : "Preview"} navigationLabel={fr ? "Menu" : "Menu"} onNavigationClick={() => undefined}/>} bottomBar={<BottomAppBar actions={<div className="flex gap-2"><IconButton label={fr ? "Accueil" : "Home"}><MaterialIcon name="home" size={22}/></IconButton><IconButton label={fr ? "Favoris" : "Favorites"}><MaterialIcon name="favorite" size={22}/></IconButton></div>} />} floatingActionButton={<FloatingActionButton size="small" icon="add" ariaLabel={fr ? "Ajouter" : "Add"} onClick={() => setSnackbarOpen(true)} />}><strong>{fr ? "Contenu de l’écran" : "Screen content"}</strong><p className="mt-2 text-sm">{fr ? "Structure de page partagée." : "Shared page structure."}</p></Scaffold></div>;
       break;
     case "segmented-button-group":
       content = <div className="grid gap-4"><div><SegmentedButtonGroup label={fr ? "Période" : "Period"} mode="single" selectedKeys={singleSegments} onSelectionChange={setSingleSegments} options={[{key:"day",label:fr?"Jour":"Day"},{key:"week",label:fr?"Semaine":"Week"},{key:"month",label:fr?"Mois":"Month"}]}/><p className="mt-1 text-sm text-[var(--muted)]">{fr ? "Choix actuel : " : "Current selection: "}{singleSegments[0]??"—"}</p></div><div><SegmentedButtonGroup label={fr ? "Mise en forme" : "Formatting"} mode="multi" selectedKeys={multiSegments} onSelectionChange={setMultiSegments} options={[{key:"bold",label:fr?"Gras":"Bold"},{key:"italic",label:fr?"Italique":"Italic"},{key:"underline",label:fr?"Souligné":"Underline"}]}/></div></div>;
@@ -266,6 +268,9 @@ export default function ComponentLivePreview({
       break;
     case "time-picker-dialog":
       content = <div className="grid gap-3"><Button variant="outlined" onClick={() => setTimeDialogOpen(true)}>{fr ? "Ouvrir le sélecteur modal" : "Open modal time picker"}</Button><p className="text-sm text-[var(--muted)]">{fr ? "Heure actuelle : " : "Current time: "}{timeValue}</p><TimePickerDialog open={timeDialogOpen} title={fr ? "Choisir une heure" : "Choose a time"} label={fr ? "Heure de démonstration" : "Demo time"} value={timeValue} confirmLabel={fr ? "Confirmer" : "Confirm"} cancelLabel={fr ? "Annuler" : "Cancel"} locale={locale} onConfirm={setTimeValue} onDismiss={() => setTimeDialogOpen(false)}/></div>;
+      break;
+    case "pull-to-refresh-box":
+      content = <div className="grid gap-3"><PullToRefreshBox isRefreshing={refreshing} onRefresh={() => setRefreshing(true)} refreshLabel={fr ? "Actualiser le contenu" : "Refresh content"} refreshNowLabel={fr ? "Actualiser maintenant" : "Refresh now"}><div className="grid gap-2 p-4"><strong>{fr ? "Contenu actualisable" : "Refreshable content"}</strong><p className="text-sm text-[var(--muted)]">{fr ? "Essaie de tirer le contenu vers le bas ou utilise le bouton accessible." : "Pull the content down or use the accessible refresh button."}</p></div></PullToRefreshBox>{refreshing&&<Button variant="outlined" onClick={()=>setRefreshing(false)}>{fr ? "Réinitialiser l’état" : "Reset state"}</Button>}</div>;
       break;
     case "button":
       content = (
