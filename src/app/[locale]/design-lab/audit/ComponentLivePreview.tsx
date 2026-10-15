@@ -105,6 +105,12 @@ export default function ComponentLivePreview({
     case "list-item":
       content = <div className="grid gap-2"><ListItem headline={fr ? "Convertir une image" : "Convert an image"} supporting={fr ? "PNG, JPEG et WebP" : "PNG, JPEG and WebP"} leading={<MaterialIcon name="image" size={24} />} trailing={<MaterialIcon name="arrow_outward" size={20} />} /><ListItem headline={fr ? "Élément désactivé" : "Disabled item"} supporting={fr ? "Exemple à deux lignes" : "Two-line example"} leading={<MaterialIcon name="info" size={24} />} aria-disabled="true" /></div>;
       break;
+    case "button-group":
+      content = <div className="grid gap-3"><ButtonGroup label={fr ? "Outils" : "Tools"} items={[{key:"work",label:fr?"Travail":"Work"},{key:"personal",label:fr?"Personnel":"Personal"},{key:"archive",label:fr?"Archive":"Archive"},{key:"disabled",label:fr?"Indisponible":"Unavailable",disabled:true}]} selectedKeys={groupSelected} onSelectionChange={setGroupSelected} mode="single" overflowLabel={fr ? "Plus" : "More"} /><p className="text-sm text-[var(--muted)]">{fr ? "Sélection : " : "Selected: "}{groupSelected.join(", ")}</p></div>;
+      break;
+    case "material-text-field":
+      content = <div className="grid gap-4 sm:grid-cols-2"><MaterialTextField id="audit-material-text-field" label={fr ? "Adresse e-mail" : "Email address"} value={fieldValue} onChange={setFieldValue} supportingText={fr ? "Champ partagé de Loculary" : "Shared Loculary field"} /><MaterialTextField id="audit-material-text-field-disabled" label={fr ? "Champ désactivé" : "Disabled field"} value="Non modifiable" onChange={() => undefined} disabled /></div>;
+      break;
     case "button":
       content = (
         <div className="flex flex-wrap items-center gap-3">
