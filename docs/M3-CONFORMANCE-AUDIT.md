@@ -1,9 +1,66 @@
 # Material 3 / Pixel implementation audit
 
-**Date:** 2026-10-14  
+**Date:** 2026-10-15  
 **Canonical direction:** DEC-026 — Material 3 Fidelity + current Pixel / Android patterns  
 **Scope:** Production foundations, shared UI primitives, application shell, search/navigation, tool shell, account UI, status feedback and the Design Lab.  
 **Audit type:** Static source review against official references. This is not a claim that every route has been visually inspected in a running browser; browser-level light/dark, keyboard, responsive and contrast verification remains an explicit acceptance gate.
+
+## Active mission checkpoint — Material 3 Fidelity (2026-10-15)
+
+**Mission:** [Issue #731 — audit and converge on Material 3 Fidelity](https://github.com/Nabouna32/lab/issues/731)  
+**Approved scope for Lot 0:** documentation and workflow framing only; no production UI changes.  
+**Canonical direction:** DEC-026 / `docs/DESIGN-SYSTEM.md` — Material 3 Fidelity with current Pixel / Android references. Material 3 Expressive is not the selected direction.  
+**Checkpoint ownership:** this file is the canonical component/fidelity evidence register; Issue #731 is the mission decision and progress log; each implementation batch should have its own reviewed PR/commit. Do not create a second competing audit document.
+
+### How to read this audit
+
+- **Observed** means directly confirmed in source, tests, repository state or a cited official reference.
+- **Inference** means a reasoned conclusion from observed evidence; keep it labelled as such.
+- **Decision** means a user-approved product or implementation choice.
+- **Not audited** means presence/inventory only; no conformance claim.
+- **Partial** means concrete elements exist but identified gaps or required checks remain.
+- **Needs correction** means a specific, evidence-backed mismatch is recorded.
+- **Verification required** means browser, device, accessibility or runtime evidence is still missing.
+- **Conformant within verified scope** may be used only with explicit evidence and the exact scope tested. A component file or Design Lab specimen is never sufficient evidence on its own.
+
+### Initial source inventory — 61 shared UI TSX files
+
+The following inventory was read from `src/components/ui` on `main`. This is a file-presence inventory, **not** a declaration that all entries are official Material 3 components, used in production, or conformant. The next audit must map actual imports/call sites and distinguish official M3 components, web adaptations, Loculary-specific helpers, Lab-only specimens and experimental/version-sensitive APIs.
+
+| Family | Files observed | Initial status |
+|---|---|---|
+| Foundations and icons | `MaterialIcon`, `CollectionIcon`, `StarIcon` | Inventory confirmed; audit icon coverage, source/licence, missing glyphs and real consumers |
+| Buttons and actions | `Button`, `IconButton`, `FloatingActionButton`, `FloatingActionButtonMenu`, `FloatingToolbar`, `ButtonGroup`, `SplitButton`, `ToggleButton`, `SegmentedButtonGroup`, `SegmentedControl`, `ClearButton`, `CopyButton` | Inventory confirmed; audit official variant semantics, duplication/aliases, states and production usage |
+| Selection and chips | `Checkbox`, `TriStateCheckbox`, `RadioButton`, `Switch`, `Slider`, `RangeSlider`, `Chip`, `Select`, `ExposedDropdownMenu`, `Tabs` | Inventory confirmed; audit semantics, keyboard behavior, touch targets, and overlapping abstractions |
+| Text, date/time and search input | `TextField`, `TextArea`, `MaterialTextField`, `DatePicker`, `DatePickerDialog`, `TimePicker`, `TimePickerDialog`, `SearchBar`, `AppBarWithSearch`, `DropdownMenu` | Inventory confirmed; audit labels/errors, focus, native-web adaptation boundaries and version-sensitive API claims |
+| Navigation and scaffolds | `TopAppBar`, `BottomAppBar`, `NavigationBar`, `NavigationRail`, `WideNavigationRail`, `NavigationDrawer`, `NavigationSuiteScaffold`, `Scaffold`, `BottomSheetScaffold`, `ModalBottomSheet` | Inventory confirmed; audit adaptive behavior, modality, insets, focus management and production need |
+| Surfaces and content | `Card`, `Panel`, `ResultPanel`, `ListItem`, `Divider`, `Carousel` | Inventory confirmed; audit semantic role, nested surfaces, composition and exact consumer needs |
+| Feedback and progress | `Badge`, `Snackbar`, `AlertDialog`, `Tooltip`, `ProgressIndicator`, `CircularProgressIndicator`, `ValidationMessage` | Inventory confirmed; audit announcements, focus, lifecycle, variants and state behavior |
+| Gestures and adaptive interactions | `SwipeToDismissBox`, `PullToRefreshBox`, `ScrollField` | Inventory confirmed; audit browser gesture limitations and whether the API belongs in the chosen core direction |
+| App-specific utility wrappers | `CollectionIcon`, `StarIcon`, `ClearButton`, `CopyButton`, `Panel`, `ResultPanel`, `ValidationMessage` | Inventory confirmed; determine if each wrapper expresses stable product semantics or duplicates a simpler primitive |
+
+**Inventory note:** families intentionally overlap where a component could reasonably be classified by both implementation role and user-facing behavior. The next pass must deduplicate by component identity when recording status; do not treat the grouped table as a count of distinct audited variants. `ScrollField` is documented later in this file as an experimental Expressive API and is not a reason to expand the selected Fidelity direction.
+
+### Lot-by-lot protocol
+
+1. Before implementation, present observed evidence, the mismatch/problem, alternatives, trade-offs/risks and a recommendation; include a real challenge to the existing code or proposal.
+2. Wait for explicit approval of that exact batch. Approval does not authorize later batches.
+3. Implement only the approved scope. If evidence exposes a consequential new decision or scope expansion, stop at that boundary and ask.
+4. Review the complete diff, run the relevant checks that are actually available, and report passed/failed/not-run separately.
+5. Update this register with source links, status, exact verification evidence and remaining gaps; update Issue #731 with the commit/PR and next checkpoint.
+6. End the response with a compact restart summary so a new conversation can resume from the repository, Issue and exact next action.
+
+### Lot 0 source findings and recommended next audit
+
+- **Observed:** production semantic roles are generated from `SchemeFidelity` in `src/lib/design-system/rainbow-tones.ts`; the unit test `src/lib/tools/categories.test.ts` asserts Fidelity and the secondary-container roles for filled-tonal buttons.
+- **Observed:** `Button` exposes official-looking variants plus compatibility/app-specific names (`primary`, `tonal`, `secondary`, `ghost`, `danger`). Their mapping and migration impact have not yet been fully audited.
+- **Observed:** `IconButton` keeps `tonal` as an alias for `filled-tonal`; selected/toggle behavior and call-site usage need review.
+- **Observed:** the Design Lab theme explorer still contains Expressive as one of several comparison schemes. That alone is not a production adoption, but the intended boundary between exploratory comparison and the selected product direction should be explicit.
+- **Inference / challenge:** the current repository has a broad catalogue of 61 shared UI TSX files, including recent adaptations of advanced or experimental AndroidX APIs. Expanding this catalogue further before measuring actual production usage risks optimizing for catalogue completeness rather than user value and maintainability.
+- **Recommendation for Lot 1:** audit the foundation-to-consumer path first: generated Fidelity semantic tokens and light/dark role wiring, `MaterialIcon`, `Button` and `IconButton`, plus their real production call sites and tests. Do not change code in that audit batch. Use the findings to propose one narrowly scoped implementation batch only after presenting the evidence and options for approval.
+- **Not verified in Lot 0:** local commands, CI, live browser rendering, device behavior, computed contrast, screen-reader behavior and the actual usage graph for all 61 files. No conformance claim is made for these areas.
+
+---
 
 ## Executive summary
 
