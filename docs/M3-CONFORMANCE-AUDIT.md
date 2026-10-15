@@ -292,3 +292,9 @@ See [`docs/M3-CONVENTIONS.md`](./M3-CONVENTIONS.md) for the detailed source hier
 - [LOCULARY-DECISION] The control is an experimental preview affordance, not an official Android setting. It preserves full/pill shapes as full and does not convert CSS pixels to Android dp.
 - [SOURCE-OBSERVED → source edit made] Removed a stale local theme setter left in the Lab profile mockup after the Lab was switched to the app's resolved theme. The mock preference now toggles only its own preview state; the global theme remains controlled by the site header. Added static regression checks.
 - [SOURCE-OBSERVED → source edit made] Updated Lab disabled Checkbox/Switch overrides to use the component-specific Material Web token roles, including selected/unselected Switch track and selected handle color. [OPEN] Validate both light/dark palettes and rounding levels in a browser.
+
+## CI feedback — stale theme handler and Lab token types (2026-10-15)
+
+- [SOURCE-OBSERVED] Typecheck in runs 38695462704 and 38695137845 failed on an earlier branch head with three errors: a stale setTheme call in the profile mockup, plus two Lab Switch style objects still using the removed --switch-disabled-track property.
+- [SOURCE-OBSERVED → source edit made] The profile mockup now toggles its own automaticTheme sample preference instead of changing the global theme; the old property is gone from both Lab Switch style objects, which now use selected/unselected track tokens and a selected-handle surface token.
+- [OPEN] These fixes landed after the failing runs; the latest branch head still needs a fresh typecheck/test/build result. Do not interpret the old failure as current or claim it has passed until a run for the current head is available.
