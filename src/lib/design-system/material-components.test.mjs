@@ -343,6 +343,10 @@ test("outlined form controls use semantic extra-small shape tokens and per-part 
   assert.match(textFieldSource, /min-h-14/);
   assert.match(textFieldSource, /step=\{step \?\? \(type === "number" \? "any" : undefined\)\}/);
   assert.match(textAreaSource, /rounded-\[var\(--shape-corner-extra-small\)\]/);
+  assert.match(textAreaSource, /variant\?: "fidelity" \| "expressive"/);
+  assert.match(textAreaSource, /min-h-\[var\(--m3-size-multiline-text-field-min-height\)\]/);
+  assert.match(textAreaSource, /aria-describedby=\{error \? errorId : helperText \? helperId : undefined\}/);
+  assert.match(labSource, /variant=\{textAreaVariant\} rows=\{3\}/);
   assert.match(selectSource, /rounded-\[var\(--shape-corner-extra-small\)\]/);
   assert.match(selectSource, /min-h-14/);
   assert.match(cardSource, /shape-corner-medium/);
@@ -507,6 +511,7 @@ test("M3 web reference tokens document Android dp/sp magnitude without claiming 
   assert.match(globalCss, /CSS rem\/px are NOT Android dp\/sp/);
   assert.match(globalCss, /--m3-size-segmented-button-min-height: 2\.5rem/);
   assert.match(globalCss, /--m3-size-snackbar-max-width: 37\.5rem/);
+  assert.match(globalCss, /--m3-size-multiline-text-field-min-height: 8rem; \/\* Loculary Web specimen sizing/);
   assert.match(globalCss, /--m3-type-label-large-size: 0\.875rem/);
 });
 
