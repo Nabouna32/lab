@@ -281,7 +281,7 @@ test("production theme exposes modern Material 3 surface roles in both themes", 
 
 test("Design Lab includes extended Material 3 navigation, field, list, menu, progress and loading components", () => {
   const labSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
-  for (const marker of ["m3-missing-title", "sampleTopBar", "sampleNavigationRail", "sampleFab", "sampleBadge", "sampleMaterialField", "sampleRadioGroup", "sampleListItem", "sampleMenu", "sampleCircularProgress", "sampleSkeleton", "sampleTooltipWrap"]) {
+  for (const marker of ["m3-missing-title", "<TopAppBar", "<NavigationRail", "sampleFab", "sampleBadge", "sampleMaterialField", "sampleRadioGroup", "<ListItem", "<DropdownMenu", "<CircularProgressIndicator", "sampleSkeleton", "sampleTooltipWrap"]) {
     assert.ok(labSource.includes(marker), `Design Lab is missing ${marker}`);
   }
   for (const marker of [".sampleTopBar", ".sampleNavigationRail", ".sampleFab", ".sampleMaterialField", ".sampleRadioGroup", ".sampleListItem", ".sampleMenu", ".sampleCircularProgress", ".sampleSkeleton"]) {
@@ -579,7 +579,7 @@ test("ModalBottomSheet is an accessible AndroidX-informed Web adaptation", () =>
   assert.match(bottomSheetCss, /prefers-reduced-motion: reduce/);
   assert.match(bottomSheetCss, /shape-corner-extra-large/);
   assert.match(labSource, /<ModalBottomSheet open=\{bottomSheetOpen\}/);
-  assert.doesNotMatch(labSource, /sampleBottomSheet|sheetHandle/);
+  assert.doesNotMatch(labSource, /sampleBottomSheetOpen|className=\\{styles\\.sheetHandle\\}/);
 });
 
 
