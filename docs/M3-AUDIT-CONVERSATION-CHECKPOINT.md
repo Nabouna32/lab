@@ -628,3 +628,11 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - The Lab now displays both modes of `CircularProgressIndicator`: a determinate indicator driven by the shared sample slider and an indeterminate indicator without a fabricated percentage.
 - Reduced-motion fallback stops the continuous animation and leaves a static arc. This is an accessibility adaptation; visual comparison against the target AndroidX version remains required.
 - Canonical docs already record the AndroidX reference, Web API unit differences, animation gaps and validation requirements.
+
+
+## Checkpoint — Full Material 3 component inventory (2026-10-15)
+
+- Added [M3-COMPONENT-INVENTORY.md](./M3-COMPONENT-INVENTORY.md), based on the official [Compose Material components catalogue](https://developer.android.com/develop/ui/compose/components?hl=en) and [AndroidX Material 3 API reference](https://developer.android.com/reference/kotlin/androidx/compose/material3). It records official families/variants, known Lab coverage, gaps, Loculary-only utilities and a required per-component audit checklist.
+- Updated canonical conventions and conformance audit to make the full inventory the scope of work. Production usage is not a prerequisite for inclusion in the Lab.
+- Current official release page indicates Compose Material 3 1.4.0 stable as of 2026-10-15; each component audit must pin its relevant source/token revision.
+- Remaining official families include FAB variants, badges, tooltips, carousel, scaffold, top/bottom app bars, all chip variants, date/time pickers, search, tabs, list items, dividers, range slider, tri-state checkbox, swipe-to-dismiss, and the detailed variant/state/motion audits for existing primitives. Continue sequentially; do not treat this inventory as implementation completion.
