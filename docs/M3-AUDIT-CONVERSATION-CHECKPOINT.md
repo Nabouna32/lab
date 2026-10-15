@@ -236,3 +236,8 @@ Every new convention/audit finding must state whether it is [ANDROID-M3], [MATER
 - Removed the shared SegmentedControl's optional secondary description line. This was a Loculary extension, not a documented M3 segment feature, and it contributed to label wrapping/uneven control height.
 - Percentage and Video Bitrate now place the selected mode description below the segmented group; mobile select options preserve the explanation.
 - Segment labels are single-line by product decision and inner corners use the shared small-shape token. Test long French strings and keyboard navigation in a browser before considering this slice verified.
+## Update — field geometry and numeric step (2026-10-15)
+
+- TextField and Select now use a 56px minimum height based on the version-pinned first-party Material Web outlined field/select tokens. This is a Material Web CSS-pixel value, not a claim of dp equivalence.
+- Fixed a source-order bug in TextField: spreading an undefined step prop after step="any" could override the intended decimal default. Explicit caller step values are preserved; number inputs otherwise default to step="any". This is a web-platform behavior correction.
+- Static assertions cover these source contracts. Browser/form validation is still pending.
