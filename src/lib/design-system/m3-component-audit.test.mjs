@@ -85,4 +85,5 @@ test("Reference catalogue is stored separately from the implementation inventory
   assert.match(catalogEditingMigration, /private\.has_admin_permission\('audit\.write'\)/);
   assert.match(catalogEditingMigration, /design_audit_catalog_entry_event/);
   assert.match(catalogEditingMigration, /design_audit_catalog_verified_requires_url/);
+  assert.match(workbench, /catalog_scope: draftScope/);
 });
