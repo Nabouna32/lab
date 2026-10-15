@@ -683,3 +683,10 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - Official source: https://developer.android.com/develop/ui/compose/components/app-bars. Added a shared BottomAppBar Web adaptation with action/custom-content/FAB slots and integrated it into the Lab with three icon actions and the shared small FAB.
 - Updated canonical conventions, conformance audit and inventory. Safe-area padding and semantic surface roles are implemented; exact AndroidX dimensions/elevation, FAB cutout, system insets and motion remain to audit.
 - Latest head CI remains unconfirmed. Continue with Scaffold as the composition primitive, then dividers and list items.
+
+
+## Checkpoint — Scaffold (2026-10-15)
+
+- Official source: https://developer.android.com/develop/ui/compose/components/scaffold. Added shared Scaffold Web composition with top/bottom app bars, navigation rail, main content and FAB slots; integrated a live Lab composition using the components audited earlier.
+- Updated canonical conventions, conformance audit and inventory. Known gaps: equivalent inner padding/inset consumption, snackbar placement, modal navigation state and exact overlap rules.
+- Status: source-informed Web composition adaptation; partial parity. Current-head CI remains unconfirmed. Next: implement official list-item and divider primitives, then continue remaining component families.
