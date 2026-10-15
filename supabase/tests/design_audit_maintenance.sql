@@ -1,6 +1,6 @@
 begin;
 
-select plan(18);
+select plan(19);
 
 select has_table('public', 'design_audit_components', 'component inventory table exists');
 select has_table('public', 'design_audit_reports', 'defect reports table exists');
