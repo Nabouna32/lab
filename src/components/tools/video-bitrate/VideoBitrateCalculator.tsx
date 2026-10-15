@@ -86,12 +86,13 @@ export default function VideoBitrateCalculator() {
         <div className="p-5 sm:p-7 lg:p-8">
           <div className="hidden sm:block">
             <SegmentedControl
-              items={modes}
+              items={modes.map(({ id, label }) => ({ id, label }))}
               value={mode}
               onChange={(next) => { setMode(next); clear(); }}
               ariaLabel={t.mode}
               className="grid-cols-2"
             />
+            <p className="mt-2 text-sm leading-5 text-[var(--muted)]">{modes.find((item) => item.id === mode)?.description}</p>
           </div>
           <div className="sm:hidden">
             <Select
@@ -100,7 +101,7 @@ export default function VideoBitrateCalculator() {
               value={mode}
               onChange={(event) => { setMode(event.target.value as Mode); clear(); }}
             >
-              {modes.map((item) => <option key={item.id} value={item.id}>{item.label}</option>)}
+              {modes.map((item) => <option key={item.id} value={item.id}>{item.label} — {item.description}</option>)}
             </Select>
           </div>
 

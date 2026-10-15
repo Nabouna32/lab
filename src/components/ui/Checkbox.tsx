@@ -1,15 +1,32 @@
-import type { InputHTMLAttributes, ReactNode } from "react";
+import type { CSSProperties, InputHTMLAttributes, ReactNode } from "react";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
+
+type CheckboxStyle = CSSProperties & {
+  "--checkbox-active"?: string;
+  "--checkbox-on-active"?: string;
+  "--checkbox-outline"?: string;
+  "--checkbox-surface"?: string;
+  "--checkbox-focus-ring"?: string;
+  "--checkbox-focus-offset"?: string;
+  "--checkbox-label-color"?: string;
+  "--checkbox-container-shape"?: string;
+  "--checkbox-disabled-active"?: string;
+  "--checkbox-disabled-outline"?: string;
+  "--checkbox-disabled-icon"?: string;
+  "--checkbox-disabled-label"?: string;
+};
 
 type CheckboxProps = Omit<
   InputHTMLAttributes<HTMLInputElement>,
-  "type" | "checked" | "defaultChecked" | "onChange" | "className"
+  "type" | "checked" | "defaultChecked" | "onChange" | "className" | "style"
 > & {
   inputId: string;
   label: ReactNode;
   checked: boolean;
   onCheckedChange: (checked: boolean) => void;
   className?: string;
+  style?: CheckboxStyle;
+  indeterminate?: boolean;
 };
 
 export function Checkbox({
@@ -18,15 +35,40 @@ export function Checkbox({
   checked,
   onCheckedChange,
   disabled = false,
+  indeterminate = false,
   className = "",
+  style,
   ...inputProps
 }: CheckboxProps) {
+  const semanticStyle: CheckboxStyle = {
+    "--checkbox-active": "var(--primary)",
+    "--checkbox-on-active": "var(--on-primary)",
+    "--checkbox-outline": "var(--outline)",
+    "--checkbox-surface": "var(--surface)",
+    "--checkbox-focus-ring": "var(--focus-ring)",
+    "--checkbox-focus-offset": "var(--surface)",
+    "--checkbox-label-color": "var(--foreground)",
+    "--checkbox-container-shape": "2px",
+    "--checkbox-disabled-active": "color-mix(in srgb, var(--on-surface) 38%, transparent)",
+    "--checkbox-disabled-outline": "color-mix(in srgb, var(--on-surface) 38%, transparent)",
+    "--checkbox-disabled-icon": "color-mix(in srgb, var(--surface) 38%, transparent)",
+    "--checkbox-disabled-label": "color-mix(in srgb, var(--on-surface) 38%, transparent)",
+    ...style,
+    ...(disabled ? {
+      "--checkbox-active": "var(--checkbox-disabled-active)",
+      "--checkbox-on-active": "var(--checkbox-disabled-icon)",
+      "--checkbox-outline": "var(--checkbox-disabled-outline)",
+      "--checkbox-label-color": "var(--checkbox-disabled-label)",
+    } : {}),
+  };
+
   return (
     <label
       htmlFor={inputId}
+      style={semanticStyle}
       className={[
-        "group flex min-h-12 cursor-pointer items-center gap-3 text-sm text-[var(--foreground)]",
-        disabled ? "cursor-not-allowed opacity-45" : "",
+        "group flex min-h-12 cursor-pointer items-center gap-3 text-sm text-[var(--checkbox-label-color)]",
+        disabled ? "cursor-not-allowed" : "",
         className,
       ].join(" ")}
     >
@@ -35,21 +77,24 @@ export function Checkbox({
         id={inputId}
         type="checkbox"
         checked={checked}
+        ref={(node) => { if (node) node.indeterminate = indeterminate; }}
         disabled={disabled}
         onChange={(event) => onCheckedChange(event.target.checked)}
         className="peer sr-only"
       />
       <span
         aria-hidden="true"
+        style={{ borderWidth: disabled ? (checked || indeterminate ? 0 : 2) : 1 }}
         className={[
-          "relative inline-flex size-5 shrink-0 items-center justify-center rounded-[4px] border border-[var(--outline)] bg-[var(--surface)]",
+          "relative inline-flex size-[18px] shrink-0 items-center justify-center rounded-[var(--checkbox-container-shape)] border border-[var(--checkbox-outline)] bg-[var(--checkbox-surface)]",
           "transition-[background-color,border-color,box-shadow] duration-[var(--motion-standard)]",
-          "peer-checked:border-[var(--primary)] peer-checked:bg-[var(--primary)]",
-          "peer-focus-visible:outline-none peer-focus-visible:ring-2 peer-focus-visible:ring-[var(--focus-ring)] peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-[var(--surface)]",
+          "peer-checked:border-[var(--checkbox-active)] peer-checked:bg-[var(--checkbox-active)] peer-checked:text-[var(--checkbox-on-active)]",
+          indeterminate ? "border-[var(--checkbox-active)] bg-[var(--checkbox-active)] text-[var(--checkbox-on-active)]" : "",
+          "peer-focus-visible:outline-none peer-focus-visible:ring-2 peer-focus-visible:ring-[var(--checkbox-focus-ring)] peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-[var(--checkbox-focus-offset)]",
           "peer-disabled:cursor-not-allowed",
         ].join(" ")}
       >
-        {checked && <MaterialIcon name="check" size={16} className="text-[var(--on-primary)]" />}
+        {checked ? <MaterialIcon name="check" size={18} /> : indeterminate ? <span className="h-[2px] w-[10px] rounded-full bg-[var(--checkbox-on-active)]" /> : null}
       </span>
       <span>{label}</span>
     </label>

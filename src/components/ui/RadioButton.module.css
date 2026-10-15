@@ -1,0 +1,11 @@
+.root { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; position: relative; color: var(--lab-text, var(--on-surface, currentColor)); cursor: pointer; }
+.root input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.indicator { display: grid; place-items: center; box-sizing: border-box; width: 20px; height: 20px; border: 2px solid var(--lab-muted, var(--on-surface-variant, currentColor)); border-radius: 50%; background: transparent; transition: border-color 160ms cubic-bezier(.2,0,0,1), background-color 160ms cubic-bezier(.2,0,0,1); }
+.indicator span { width: 10px; height: 10px; border-radius: 50%; transform: scale(0); background: var(--lab-primary, var(--primary, currentColor)); transition: transform 160ms cubic-bezier(.2,0,0,1); }
+.root input:checked + .indicator { border-color: var(--lab-primary, var(--primary, currentColor)); }
+.root input:checked + .indicator span { transform: scale(1); }
+.root input:focus-visible + .indicator { outline: 2px solid var(--lab-primary, var(--focus-ring, currentColor)); outline-offset: 3px; }
+.root:hover .indicator { background-color: color-mix(in srgb, currentColor 8%, transparent); }
+.label { font-size: 14px; line-height: 20px; }
+.disabled { opacity: .38; cursor: not-allowed; }
+@media (prefers-reduced-motion: reduce) { .indicator, .indicator span { transition: none; } }

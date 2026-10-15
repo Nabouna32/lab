@@ -157,7 +157,7 @@ export default function PercentageCalculator() {
         <div className="p-5 sm:p-7 lg:p-8">
           <div className="hidden sm:block">
             <SegmentedControl
-              items={modes.map((item) => ({ id: item.id, label: item.title, description: item.description }))}
+              items={modes.map((item) => ({ id: item.id, label: item.title }))}
               value={mode}
               onChange={(nextMode) => {
                 setMode(nextMode);
@@ -166,6 +166,7 @@ export default function PercentageCalculator() {
               ariaLabel={t.type}
               className="grid-cols-3"
             />
+            <p className="mt-2 text-sm leading-5 text-[var(--muted)]">{modes.find((item) => item.id === mode)?.description}</p>
           </div>
 
           <div className="sm:hidden">

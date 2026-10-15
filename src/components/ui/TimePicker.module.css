@@ -1,0 +1,169 @@
+.root {
+  width: min(100%, 320px);
+  padding: 20px;
+  border: 1px solid var(--lab-outline-variant, var(--md-sys-color-outline-variant, currentColor));
+  border-radius: 28px;
+  background: var(--lab-surface-container, var(--md-sys-color-surface-container, transparent));
+  color: var(--lab-on-surface, var(--md-sys-color-on-surface, currentColor));
+}
+
+.timeHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.digitalTime {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 48px;
+  font-weight: 500;
+  letter-spacing: -2px;
+  line-height: 1.1;
+}
+
+.digitalTime button {
+  min-width: 68px;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--lab-surface-container-high, var(--md-sys-color-surface-container-high, transparent));
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.digitalTime button[aria-pressed="true"],
+.digitalTime .digitalSelected {
+  background: var(--lab-primary-container, var(--md-sys-color-primary-container, transparent));
+  color: var(--lab-on-primary-container, var(--md-sys-color-on-primary-container, currentColor));
+}
+
+.ampm {
+  display: grid;
+  gap: 4px;
+}
+
+.ampm button {
+  padding: 5px 8px;
+  border: 1px solid var(--lab-outline-variant, currentColor);
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.ampm button[aria-pressed="true"] {
+  border-color: var(--lab-primary, currentColor);
+  background: var(--lab-primary-container, transparent);
+  color: var(--lab-on-primary-container, currentColor);
+}
+
+.clock {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--lab-surface-container-high, var(--md-sys-color-surface-container-high, transparent));
+}
+
+.hand {
+  position: absolute;
+  z-index: 0;
+  top: 9%;
+  left: calc(50% - 1px);
+  width: 2px;
+  height: 41%;
+  border-radius: 2px;
+  background: var(--lab-primary, var(--md-sys-color-primary, currentColor));
+  transform-origin: center bottom;
+  pointer-events: none;
+}
+
+.hand::after {
+  position: absolute;
+  bottom: -5px;
+  left: -4px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: inherit;
+  content: "";
+}
+
+.dialValue {
+  position: absolute;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+}
+
+.dialValue:hover:not(.dialSelected) {
+  background: color-mix(in srgb, var(--lab-primary, currentColor) 12%, transparent);
+}
+
+.dialValue.dialSelected {
+  background: var(--lab-primary, var(--md-sys-color-primary, currentColor));
+  color: var(--lab-on-primary, white);
+}
+
+.dialValue.innerHour {
+  width: 30px;
+  height: 30px;
+  font-size: 12px;
+}
+
+.dialValue:focus-visible,
+.digitalTime button:focus-visible,
+.ampm button:focus-visible,
+.inputMode input:focus-visible {
+  outline: 2px solid var(--lab-primary, currentColor);
+  outline-offset: 2px;
+}
+
+.helper {
+  margin: 16px 0 0;
+  color: var(--lab-on-surface-variant, currentColor);
+  font-size: 12px;
+}
+
+.inputMode {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  color: var(--lab-on-surface, currentColor);
+  font-size: 14px;
+}
+
+.inputMode input {
+  min-height: 48px;
+  padding: 10px 12px;
+  border: 1px solid var(--lab-outline, currentColor);
+  border-radius: 8px;
+  background: var(--lab-surface, transparent);
+  color: inherit;
+  font: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hand,
+  .dialValue {
+    transition: none;
+  }
+}

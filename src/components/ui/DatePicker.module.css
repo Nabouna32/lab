@@ -1,0 +1,152 @@
+.root {
+  width: min(100%, 340px);
+  padding: 16px;
+  border: 1px solid var(--lab-outline-variant, var(--md-sys-color-outline-variant, currentColor));
+  border-radius: 28px;
+  background: var(--lab-surface-container, var(--md-sys-color-surface-container, transparent));
+  color: var(--lab-on-surface, var(--md-sys-color-on-surface, currentColor));
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 40px;
+  margin-bottom: 12px;
+  padding-inline: 4px;
+  text-transform: capitalize;
+}
+
+.monthActions {
+  display: flex;
+  gap: 4px;
+}
+
+.monthActions button {
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.monthActions button:hover {
+  background: color-mix(in srgb, currentColor 8%, transparent);
+}
+
+.monthActions button:focus-visible,
+.day:focus-visible,
+.inputLabel input:focus-visible {
+  outline: 2px solid var(--lab-primary, var(--md-sys-color-primary, currentColor));
+  outline-offset: 2px;
+}
+
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 2px;
+}
+
+.weekday {
+  display: grid;
+  place-items: center;
+  min-height: 32px;
+  color: var(--lab-on-surface-variant, var(--md-sys-color-on-surface-variant, currentColor));
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.day {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  min-width: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 160ms ease, color 160ms ease;
+}
+
+.day:hover:not(:disabled):not(.selected) {
+  background: color-mix(in srgb, var(--lab-primary, currentColor) 10%, transparent);
+}
+
+.day.outsideMonth {
+  color: var(--lab-on-surface-variant, currentColor);
+  opacity: .55;
+}
+
+.day.selected {
+  background: var(--lab-primary, var(--md-sys-color-primary, currentColor));
+  color: var(--lab-on-primary, var(--md-sys-color-on-primary, white));
+  font-weight: 600;
+}
+
+.day.inRange:not(.selected) {
+  border-radius: 8px;
+  background: var(--lab-primary-soft, var(--md-sys-color-primary-container, transparent));
+  color: var(--lab-on-surface, currentColor);
+}
+
+.day:disabled {
+  opacity: .32;
+  cursor: not-allowed;
+}
+
+.helper {
+  margin: 12px 0 0;
+  color: var(--lab-on-surface-variant, currentColor);
+  font-size: 12px;
+}
+
+.inputMode {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  margin: 0;
+  padding: 12px;
+  border: 1px solid var(--lab-outline-variant, currentColor);
+  border-radius: 16px;
+}
+
+.inputMode legend {
+  padding-inline: 4px;
+  font-weight: 600;
+}
+
+.inputLabel {
+  display: grid;
+  gap: 6px;
+  color: var(--lab-on-surface-variant, currentColor);
+  font-size: 13px;
+}
+
+.inputLabel input {
+  min-height: 48px;
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--lab-outline, currentColor);
+  border-radius: 8px;
+  background: var(--lab-surface, transparent);
+  color: var(--lab-on-surface, currentColor);
+  font: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .day {
+    transition: none;
+  }
+}

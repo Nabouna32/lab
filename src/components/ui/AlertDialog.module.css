@@ -1,0 +1,113 @@
+.scrim {
+  position: fixed;
+  z-index: 1100;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  background: color-mix(in srgb, var(--on-surface, var(--foreground, #171717)) 32%, transparent);
+  animation: alert-scrim-enter 150ms ease-out both;
+}
+
+.dialog {
+  width: min(100%, 35rem);
+  max-height: min(85dvh, 42rem);
+  overflow: auto;
+  padding: 1.5rem;
+  border-radius: var(--shape-corner-extra-large, 28px);
+  background: var(--surface-container-high, var(--surface, #fff));
+  color: var(--on-surface, var(--foreground, #171717));
+  box-shadow: 0 8px 32px color-mix(in srgb, var(--on-surface, #000) 20%, transparent);
+  outline: none;
+  animation: alert-dialog-enter 180ms cubic-bezier(.2, 0, 0, 1) both;
+}
+
+.dialog:focus-visible {
+  outline: 2px solid var(--focus-ring, var(--primary));
+  outline-offset: 3px;
+}
+
+.icon {
+  display: flex;
+  margin-bottom: 1rem;
+  color: var(--secondary, var(--primary));
+}
+
+.title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 2rem;
+}
+
+.description {
+  margin: 1rem 0 0;
+  color: var(--on-surface-variant, var(--muted-foreground, #555));
+  line-height: 1.5;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: .5rem;
+  margin-top: 1.5rem;
+}
+
+.dismiss, .confirm, .destructive {
+  min-height: 2.5rem;
+  padding: .5rem 1rem;
+  border: 0;
+  border-radius: var(--shape-corner-full, 9999px);
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.dismiss {
+  background: transparent;
+  color: var(--primary, #245ac7);
+}
+
+.confirm {
+  background: var(--primary, #245ac7);
+  color: var(--on-primary, #fff);
+}
+
+.destructive {
+  background: var(--error, #b3261e);
+  color: var(--on-error, #fff);
+}
+
+.dismiss:hover {
+  background: color-mix(in srgb, var(--primary, #245ac7) 8%, transparent);
+}
+
+.confirm:hover, .destructive:hover {
+  filter: brightness(.96);
+}
+
+.dismiss:focus-visible, .confirm:focus-visible, .destructive:focus-visible {
+  outline: 2px solid var(--focus-ring, var(--primary));
+  outline-offset: 2px;
+}
+
+@keyframes alert-scrim-enter {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes alert-dialog-enter {
+  from { opacity: 0; transform: translateY(4px) scale(.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (max-width: 28rem) {
+  .scrim { padding: 1rem; }
+  .dialog { padding: 1.25rem; }
+  .actions > button { flex: 1 1 auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scrim, .dialog { animation: none; }
+}

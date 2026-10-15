@@ -1,0 +1,79 @@
+.root {
+  display: inline-flex;
+  align-items: stretch;
+  max-width: 100%;
+  color: var(--lab-on-surface, var(--md-sys-color-on-surface, currentColor));
+}
+
+.button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 64px;
+  min-height: 40px;
+  padding: 0 16px;
+  border: 1px solid var(--lab-outline, var(--md-sys-color-outline, currentColor));
+  border-radius: 0;
+  margin-inline-start: -1px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease;
+}
+
+.button.first {
+  margin-inline-start: 0;
+  border-start-start-radius: 8px;
+  border-end-start-radius: 8px;
+}
+
+.button.last {
+  border-start-end-radius: 8px;
+  border-end-end-radius: 8px;
+}
+
+.button:only-child {
+  border-radius: 8px;
+}
+
+.button.selected {
+  z-index: 1;
+  border-color: var(--lab-outline, var(--md-sys-color-outline, currentColor));
+  background: var(--lab-secondary-container, var(--md-sys-color-secondary-container, transparent));
+  color: var(--lab-on-secondary-container, var(--md-sys-color-on-secondary-container, currentColor));
+}
+
+.button:hover:not(:disabled):not(.selected) {
+  background: color-mix(in srgb, currentColor 8%, transparent);
+}
+
+.button:active:not(:disabled) {
+  background: color-mix(in srgb, var(--lab-primary, currentColor) 12%, transparent);
+}
+
+.button:focus-visible {
+  z-index: 2;
+  outline: 2px solid var(--lab-primary, currentColor);
+  outline-offset: 2px;
+}
+
+.button:disabled {
+  opacity: .38;
+  cursor: not-allowed;
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button { transition: none; }
+}

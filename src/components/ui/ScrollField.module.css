@@ -1,0 +1,85 @@
+.root {
+  display: grid;
+  grid-template-rows: 32px auto 32px;
+  justify-items: center;
+  gap: 4px;
+  width: 104px;
+  padding: 8px;
+  border: 1px solid var(--lab-outline-variant, var(--md-sys-color-outline-variant, currentColor));
+  border-radius: 16px;
+  background: var(--lab-surface-container-high, var(--md-sys-color-surface-container-high, transparent));
+  color: var(--lab-on-surface, var(--md-sys-color-on-surface, currentColor));
+}
+
+.step {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 32px;
+  border: 0;
+  border-radius: 16px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.step:hover:not(:disabled) {
+  background: color-mix(in srgb, currentColor 8%, transparent);
+}
+
+.step:disabled {
+  opacity: .32;
+  cursor: not-allowed;
+}
+
+.wheel {
+  display: grid;
+  grid-template-rows: repeat(5, 32px);
+  gap: 2px;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.option,
+.empty {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 32px;
+}
+
+.option {
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--lab-on-surface-variant, currentColor);
+  font: inherit;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+}
+
+.option[aria-selected="true"] {
+  background: var(--lab-primary-container, var(--md-sys-color-primary-container, transparent));
+  color: var(--lab-on-primary-container, var(--md-sys-color-on-primary-container, currentColor));
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.option:focus-visible,
+.step:focus-visible,
+.wheel:focus-visible {
+  outline: 2px solid var(--lab-primary, currentColor);
+  outline-offset: -2px;
+}
+
+.root[data-disabled="true"] {
+  opacity: .38;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .option { transition: none; }
+}

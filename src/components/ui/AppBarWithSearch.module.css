@@ -1,0 +1,64 @@
+.root {
+  position: sticky;
+  z-index: 20;
+  top: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 64px;
+  padding: max(4px, env(safe-area-inset-top)) 16px 4px;
+  border-bottom: 1px solid var(--lab-outline-variant, var(--md-sys-color-outline-variant, transparent));
+  background: var(--lab-surface, var(--md-sys-color-surface, Canvas));
+  color: var(--lab-on-surface, var(--md-sys-color-on-surface, CanvasText));
+}
+
+.navigation {
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 48px;
+  height: 48px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.navigation:hover {
+  background: color-mix(in srgb, currentColor 8%, transparent);
+}
+
+.navigation:focus-visible {
+  outline: 2px solid var(--lab-primary, currentColor);
+  outline-offset: -2px;
+}
+
+.search {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 0 0 auto;
+}
+
+@media (max-width: 560px) {
+  .root {
+    gap: 4px;
+    padding-inline: 8px;
+  }
+
+  .navigation {
+    width: 40px;
+    height: 40px;
+  }
+
+  .actions {
+    gap: 0;
+  }
+}

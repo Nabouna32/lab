@@ -18,7 +18,7 @@ export function ResultPanel({ label, value, emptyMessage, tone = "neutral", acti
   return (
     <section
       aria-label={label}
-      className={["rounded-[var(--radius-lg)] border p-5", toneClass].join(" ")}
+      className={["rounded-[var(--shape-corner-medium)] border p-5", toneClass].join(" ")}
     >
       <div className="flex items-start justify-between gap-3">
         <p className="text-xs font-semibold text-[var(--muted)]">{label}</p>

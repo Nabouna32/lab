@@ -1,0 +1,122 @@
+.root {
+  min-width: 0;
+  color: var(--lab-on-surface, var(--md-sys-color-on-surface, currentColor));
+}
+
+.row {
+  display: flex;
+  align-items: stretch;
+  min-width: 0;
+  width: 100%;
+}
+
+.scrollable .row {
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: thin;
+}
+
+.tab {
+  position: relative;
+  display: inline-flex;
+  flex: 1 0 0;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 0;
+  min-height: 48px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--lab-on-surface-variant, var(--md-sys-color-on-surface-variant, currentColor));
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  text-align: center;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 180ms ease, background-color 180ms ease;
+}
+
+.scrollable .tab {
+  flex: 0 0 auto;
+  min-width: 90px;
+}
+
+.tab::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+  background: transparent;
+  content: "";
+  transform: scaleX(.4);
+  transform-origin: center;
+  transition: transform 250ms cubic-bezier(.2, 0, 0, 1), background-color 180ms ease;
+}
+
+.tab[aria-selected="true"] {
+  color: var(--lab-primary, var(--md-sys-color-primary, currentColor));
+}
+
+.tab[aria-selected="true"]::after {
+  background: var(--lab-primary, var(--md-sys-color-primary, currentColor));
+  transform: scaleX(1);
+}
+
+.secondary .tab {
+  font-weight: 500;
+}
+
+.secondary .tab::after {
+  height: 2px;
+  border-radius: 2px 2px 0 0;
+}
+
+.tab:hover:not(:disabled) {
+  background: color-mix(in srgb, currentColor 8%, transparent);
+}
+
+.tab:active:not(:disabled) {
+  background: color-mix(in srgb, currentColor 12%, transparent);
+}
+
+.tab:focus-visible {
+  outline: 2px solid var(--lab-primary, var(--md-sys-color-primary, currentColor));
+  outline-offset: -3px;
+  z-index: 1;
+}
+
+.tab:disabled {
+  opacity: .38;
+  cursor: default;
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.divider {
+  height: 1px;
+  background: var(--lab-outline-variant, var(--md-sys-color-outline-variant, currentColor));
+  opacity: .7;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tab,
+  .tab::after {
+    transition: none;
+  }
+}
