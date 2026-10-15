@@ -749,3 +749,10 @@ Official source: [AndroidX adaptive NavigationSuiteScaffold API](https://develop
 - The modal side-effect effect now manages focus, Escape/Tab handling and body scroll only; it no longer calls state setters synchronously.
 - Replaced unsupported `aria-pressed` on the calendar's `gridcell` role with `aria-selected`. The calendar's broader grid/row semantics still deserve a dedicated accessibility pass.
 - Validation status: fixes committed to the PR branch; waiting for the resulting GitHub Actions run. Do not call CI green until that run completes successfully.
+
+
+## CI typecheck follow-up — Badge content guard (2026-10-15)
+
+- The post-lint CI run found TS2367 in `Badge.tsx`: comparing the `ReactNode` union directly with `false` was rejected by TypeScript 6.
+- Rewrote the guard to narrow booleans with `typeof content === "boolean"`, preserving the intended behavior (null/undefined and `false` render the dot; other nodes render content).
+- Lint passed in the same run; typecheck failure prevented tests/build from running. Await a new complete CI run.
