@@ -14,7 +14,7 @@ test("Design Lab displays exact component names and identifies specimen fidelity
     "Button", "IconButton", "TextField", "TextArea (Web wrapper)", "ExposedDropdownMenu",
     "Select (native HTML wrapper)", "ClearButton", "CopyButton", "Checkbox", "Switch",
     "Slider", "ProgressIndicator", "SegmentedControl", "ValidationMessage", "Card",
-    "Panel", "ResultPanel", "Snackbar", "ModalBottomSheet", "AlertDialog", "NavigationBar", "NavigationRail", "NavigationDrawer", "CircularProgressIndicator", "FloatingActionButton", "Badge", "BadgedBox", "Tooltip", "Carousel", "TopAppBar", "BottomAppBar", "Scaffold", "ListItem", "HorizontalDivider", "VerticalDivider", "AssistChip", "FilterChip", "InputChip", "SuggestionChip", "RadioButton", "Tab", "PrimaryTabRow", "SecondaryTabRow", "PrimaryScrollableTabRow", "SecondaryScrollableTabRow", "DatePicker", "DateRangePicker", "DatePickerDialog", "TimePicker", "TimeInput (native HTML input wrapper)", "SearchBar", "ExpandedDockedSearchBar", "ExpandedFullScreenSearchBar", "TriStateCheckbox", "RangeSlider", "ToggleButton", "FilledTonalToggleButton", "OutlinedToggleButton", "ElevatedToggleButton", "SplitButtonLayout", "FilledSplitButton", "TonalSplitButton", "ElevatedSplitButton", "OutlinedSplitButton", "TextField", "OutlinedTextField", "SecureTextField", "OutlinedSecureTextField", "DropdownMenu", "DropdownMenuItem", "SwipeToDismissBox",
+    "Panel", "ResultPanel", "Snackbar", "ModalBottomSheet", "AlertDialog", "NavigationBar", "NavigationRail", "NavigationDrawer", "CircularProgressIndicator", "FloatingActionButton", "Badge", "BadgedBox", "Tooltip", "Carousel", "TopAppBar", "BottomAppBar", "Scaffold", "ListItem", "HorizontalDivider", "VerticalDivider", "AssistChip", "FilterChip", "InputChip", "SuggestionChip", "RadioButton", "Tab", "PrimaryTabRow", "SecondaryTabRow", "PrimaryScrollableTabRow", "SecondaryScrollableTabRow", "DatePicker", "DateRangePicker", "DatePickerDialog", "TimePicker", "TimeInput (native HTML input wrapper)", "SearchBar", "ExpandedDockedSearchBar", "ExpandedFullScreenSearchBar", "TriStateCheckbox", "RangeSlider", "ToggleButton", "FilledTonalToggleButton", "OutlinedToggleButton", "ElevatedToggleButton", "SplitButtonLayout", "FilledSplitButton", "TonalSplitButton", "ElevatedSplitButton", "OutlinedSplitButton", "TextField", "OutlinedTextField", "SecureTextField", "OutlinedSecureTextField", "DropdownMenu", "DropdownMenuItem", "SwipeToDismissBox", "FloatingActionButtonMenu", "FloatingActionButtonMenuItem", "ToggleFloatingActionButton",
   ]) {
     assert.ok(lab.includes(name), `Missing visible component identifier: ${name}`);
   }
@@ -180,4 +180,11 @@ test("SwipeToDismissBox has a shared Lab specimen and a non-gesture dismissal ac
   assert.match(lab, /import \{ SwipeToDismissBox \} from "@\/components\/ui\/SwipeToDismissBox"/);
   assert.match(lab, /dismissLabel=/);
   assert.match(lab, /SwipeToDismissBox/);
+});
+
+
+test("FloatingActionButtonMenu has a shared Lab specimen with dismissible quick actions", () => {
+  assert.match(lab, /import \{ FloatingActionButtonMenu \} from "@\/components\/ui\/FloatingActionButtonMenu"/);
+  assert.match(lab, /expanded=\{sampleFabMenuOpen\}/);
+  assert.match(lab, /FloatingActionButtonMenuItem/);
 });
