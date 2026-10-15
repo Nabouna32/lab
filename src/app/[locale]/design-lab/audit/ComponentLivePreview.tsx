@@ -240,6 +240,21 @@ export default function ComponentLivePreview({
     case "floating-toolbar":
       content = <div className="grid gap-4"><FloatingToolbar label={fr ? "Actions de sélection" : "Selection actions"} orientation="horizontal" expanded={toolbarExpanded} onExpandedChange={setToolbarExpanded} expandLabel={fr ? "Afficher les actions" : "Show actions"} collapseLabel={fr ? "Réduire les actions" : "Collapse actions"} items={[{key:"copy",label:fr?"Copier":"Copy",icon:<MaterialIcon name="content_copy" size={20}/>,onClick:()=>setSnackbarOpen(true)},{key:"undo",label:fr?"Annuler":"Undo",icon:<MaterialIcon name="restart_alt" size={20}/>,onClick:()=>setSnackbarOpen(true)},{key:"favorite",label:fr?"Favori":"Favorite",icon:<MaterialIcon name="favorite" size={20}/>,onClick:()=>setSelected(!selected)}]} /></div>;
       break;
+    case "navigation-bar":
+      content = <NavigationBar label={fr ? "Navigation de démonstration" : "Demo navigation"} selectedKey={navigationSelection} onSelect={setNavigationSelection} items={[{key:"home",label:fr?"Accueil":"Home",icon:"home"},{key:"explore",label:fr?"Explorer":"Explore",icon:"search"},{key:"saved",label:fr?"Enregistrés":"Saved",icon:"favorite"},{key:"profile",label:fr?"Profil":"Profile",icon:"person"}]} />;
+      break;
+    case "navigation-drawer":
+      content = <div className="grid gap-3"><Button variant="outlined" onClick={() => setDrawerOpen(true)}>{fr ? "Ouvrir le tiroir" : "Open drawer"}</Button><NavigationDrawer open={drawerOpen} onOpenChange={setDrawerOpen} label={fr ? "Navigation de démonstration" : "Demo navigation"} title="Loculary" dismissLabel={fr ? "Fermer la navigation" : "Close navigation"} selectedKey={drawerSelection} onSelect={key=>{setDrawerSelection(key);setDrawerOpen(false);}} mode="modal" items={[{key:"home",label:fr?"Accueil":"Home",icon:"home",section:fr?"Principal":"Main"},{key:"explore",label:fr?"Explorer":"Explore",icon:"search"},{key:"saved",label:fr?"Favoris":"Favorites",icon:"favorite"}]} content={<p>{fr ? "Contenu associé à la destination active." : "Content for the selected destination."}</p>} /></div>;
+      break;
+    case "navigation-rail":
+      content = <div className="grid gap-3"><NavigationRail label={fr ? "Navigation verticale" : "Vertical navigation"} selectedKey={railSelection} onSelect={setRailSelection} items={[{key:"home",label:fr?"Accueil":"Home",icon:"home"},{key:"explore",label:fr?"Explorer":"Explore",icon:"search"},{key:"saved",label:fr?"Favoris":"Favorites",icon:"collections_bookmark",badge:"3"}]} /><p className="text-sm text-[var(--muted)]">{fr ? "Destination : " : "Destination: "}{railSelection}</p></div>;
+      break;
+    case "navigation-suite-scaffold":
+      content = <div className="min-h-64"><NavigationSuiteScaffold items={[{key:"home",label:fr?"Accueil":"Home",icon:"home"},{key:"explore",label:fr?"Explorer":"Explore",icon:"search"},{key:"saved",label:fr?"Favoris":"Favorites",icon:"favorite"},{key:"profile",label:fr?"Profil":"Profile",icon:"person"}]} selectedKey={suiteSelection} onSelect={setSuiteSelection} label={fr ? "Navigation adaptative" : "Adaptive navigation"} title="Loculary" content={<div className="p-4"><strong>{fr ? "Contenu adaptatif" : "Adaptive content"}</strong><p className="mt-2 text-sm">{fr ? "La navigation s’adapte à l’espace disponible." : "Navigation adapts to available space."}</p></div>} /></div>;
+      break;
+    case "wide-navigation-rail":
+      content = <div className="grid gap-3"><WideNavigationRail items={[{key:"home",label:fr?"Accueil":"Home",icon:"home"},{key:"search",label:fr?"Recherche":"Search",icon:"search"},{key:"saved",label:fr?"Favoris":"Favorites",icon:"favorite"},{key:"profile",label:fr?"Profil":"Profile",icon:"person"}]} selectedKey={wideRailSelected} onSelect={setWideRailSelected} expanded={wideRailExpanded} onExpandedChange={setWideRailExpanded} label={fr ? "Navigation principale" : "Primary navigation"} expandLabel={fr ? "Développer le rail" : "Expand rail"} collapseLabel={fr ? "Réduire le rail" : "Collapse rail"} /><p className="text-sm text-[var(--muted)]">{fr ? "Destination : " : "Destination: "}{wideRailSelected}</p></div>;
+      break;
     case "button":
       content = (
         <div className="flex flex-wrap items-center gap-3">
