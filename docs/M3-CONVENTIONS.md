@@ -7,7 +7,7 @@
 
 ## 1. Source-of-truth hierarchy
 
-1. Official Android Developers / Material 3 docs for component purpose, variants, semantic roles, states, shapes and intended behavior.
+1. Official Android Developers guidance and the version-pinned AndroidX Compose Material 3 token/source implementation for component purpose, variants, semantic roles, states, shapes and intended behavior. For this project's Android-M3 fidelity target, AndroidX tokens are the primary source for component colors, states and geometry.
 2. Official Material Web documentation and design tokens for web-specific implementation details when available.
 3. WCAG and HTML/ARIA specifications for web semantics, keyboard and assistive-technology behavior.
 4. Loculary's accepted design contract and documented product decisions for adaptations (e.g. seed color, global rounding-degree control, layout and density).
@@ -78,7 +78,7 @@ References: [Android accessibility defaults](https://developer.android.com/devel
 - Use actual buttons for actions and links for navigation. Icon-only buttons require an accessible name. Toggle icon buttons expose selected state; momentary actions must not pretend to be toggles.
 - Verify hover, focus-visible, pressed, selected, disabled and loading states. Avoid whole-element brightness/opacity filters that dim foreground content together with the background.
 
-Reference: [Material 3 buttons](https://developer.android.com/develop/ui/compose/components/button), [Icon buttons](https://developer.android.com/develop/ui/compose/components/icon-button). The current pinned AndroidX token sources for variant-specific disabled/selected roles are listed in section 12. When AndroidX and Material Web values differ, do not blend them silently: follow AndroidX for Android-M3 component roles and label any CSS/web adaptation separately.
+Reference: [Material 3 buttons](https://developer.android.com/develop/ui/compose/components/button), [Icon buttons](https://developer.android.com/develop/ui/compose/components/icon-button). The current pinned AndroidX token sources for variant-specific disabled/selected roles are listed in section 12. When AndroidX and Material Web values differ, follow AndroidX for Android-M3 component roles and document any CSS/web adaptation separately. The current pinned AndroidX token sources for variant-specific disabled/selected roles are listed in section 12. When AndroidX and Material Web values differ, do not blend them silently: follow AndroidX for Android-M3 component roles and label any CSS/web adaptation separately.
 
 ### Checkbox, switch and mutually exclusive selection
 
@@ -232,3 +232,16 @@ The following values come from the official AndroidX Compose Material 3 token so
 - [ANDROID-M3] **Outlined icon button:** disabled icon = on-surface at 38%, disabled outline = outline-variant at 38%; selected state uses inverse-surface and inverse-on-surface roles. Source: [OutlinedIconButtonTokens.kt](https://github.com/androidx/androidx/blob/b4c15a8e351e6cfa93e90cce2cfbd0dbbe4805a7/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/OutlinedIconButtonTokens.kt).
 
 The implementation now encodes these per-variant roles. The destructive Button variant is a Loculary extension and is explicitly not an official M3 button variant. CSS-pixel dimensions and browser state-layer blending remain web adaptations; visual conformance still requires browser checks.
+
+## 13. AndroidX cross-check for shape, fields, cards and disabled controls
+
+The pinned AndroidX Compose Material 3 sources below corroborate the component-specific rules previously cross-checked against Material Web. For this project, AndroidX is authoritative for Android-M3 component roles; Material Web is the CSS-side cross-check.
+
+- [ANDROID-M3] [CheckboxTokens.kt](https://github.com/androidx/androidx/blob/b4c15a8e351e6cfa93e90cce2cfbd0dbbe4805a7/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/CheckboxTokens.kt): 18dp container, 2dp shape, 38% disabled selected container/checkmark and unselected outline, 2dp unselected outline.
+- [ANDROID-M3] [SwitchTokens.kt](https://github.com/androidx/androidx/blob/b4c15a8e351e6cfa93e90cce2cfbd0dbbe4805a7/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/SwitchTokens.kt): 12% disabled track opacity, selected disabled handle uses surface, unselected disabled handle uses on-surface at 38%.
+- [ANDROID-M3] [OutlinedTextFieldTokens.kt](https://github.com/androidx/androidx/blob/b4c15a8e351e6cfa93e90cce2cfbd0dbbe4805a7/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/OutlinedTextFieldTokens.kt): extra-small shape, 38% disabled input/label/supporting text and 12% disabled outline.
+- [ANDROID-M3] [FilledTextFieldTokens.kt](https://github.com/androidx/androidx/blob/b4c15a8e351e6cfa93e90cce2cfbd0dbbe4805a7/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/FilledTextFieldTokens.kt): extra-small-top shape, 38% disabled text and 4% disabled container opacity.
+- [ANDROID-M3] [ShapeTokens.kt](https://github.com/androidx/androidx/blob/b4c15a8e351e6cfa93e90cce2cfbd0dbbe4805a7/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/ShapeTokens.kt): extra-small 4dp, small 8dp, medium 12dp, large 16dp, extra-large 28dp, full circle. CSS-pixel values in globals.css are web adaptations, not dp conversions.
+- [ANDROID-M3] [ElevatedCardTokens.kt](https://github.com/androidx/androidx/blob/b4c15a8e351e6cfa93e90cce2cfbd0dbbe4805a7/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/ElevatedCardTokens.kt), [FilledCardTokens.kt](https://github.com/androidx/androidx/blob/b4c15a8e351e6cfa93e90cce2cfbd0dbbe4805a7/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/FilledCardTokens.kt) and [OutlinedCardTokens.kt](https://github.com/androidx/androidx/blob/b4c15a8e351e6cfa93e90cce2cfbd0dbbe4805a7/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/OutlinedCardTokens.kt): medium shape across card variants; elevated uses surface-container-low, filled uses surface-container-highest, outlined uses surface and outline-variant.
+
+Where Material Web differs from these AndroidX values, record the discrepancy instead of silently mixing the two token sets.
