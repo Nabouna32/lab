@@ -276,3 +276,8 @@ See [`docs/M3-CONVENTIONS.md`](./M3-CONVENTIONS.md) for the detailed source hier
 - [SOURCE-OBSERVED → source edit made] Linked cards now expose a visible focus ring. The ring is source-level present; browser contrast and clipping remain unverified.
 - [LOCULARY-DECISION] Panel and ResultPanel are Loculary compositions, not official named M3 components. They share the medium shape token to keep the surface family coherent.
 - [OPEN] Audit nested cards, tool-local rounded containers and Lab mockups before declaring shape mapping complete.
+## Follow-up — segmented control and label wrapping (2026-10-15)
+
+- [SOURCE-OBSERVED → source edit made] SegmentedControl had a nonstandard per-segment description row, which compressed labels and could make segments wrap. Removed that optional extension from the shared component. Percentage and Video Bitrate now render the selected mode description outside the segmented group; native mobile select options retain their explanations.
+- [LOCULARY-DECISION] Segment labels now use whitespace-nowrap to keep control height consistent, and internal corner radii use the shared small-shape token. This is a web-layout decision informed by the user's reported wrapping defect, not an official Android pixel rule.
+- [OPEN] Verify long French labels at supported widths and keyboard navigation in browsers. Do not claim segmented control conformance based only on static source checks.
