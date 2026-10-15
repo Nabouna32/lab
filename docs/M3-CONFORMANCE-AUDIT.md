@@ -461,7 +461,7 @@ The gallery now exposes per-component mode controls, with honest notes on incomp
 | Multiline TextField (TextArea Web wrapper) | Existing native textarea wrapper | Android M3 field family includes multiline TextField/OutlinedTextField | **Parity gap**; Web name is not a separate official Android M3 component; implement/audit multiline anatomy and states |
 | Exposed dropdown (replacing shared Select specimen) | Shared React component with combobox/listbox semantics and keyboard selection | Official AndroidX ExposedDropdownMenuBox source and MenuTokens consulted | **Source-informed Web adaptation**; popup positioning/insets, anchor anatomy, Compose motion and accessibility/browser validation remain open |
 | Snackbar | New shared Snackbar.tsx used by Lab; action-aware timeout and dismiss | Official Android Developers guide and AndroidX Snackbar.kt/SnackbarHost.kt | **Source-backed Web adaptation**; no app-level queue/host, Scaffold insets, swipe dismissal, exact token geometry/motion, or browser accessibility validation yet |
-| SegmentedButton / SegmentedControl | Shared Web control | AndroidX segmented-button source still needs a full behavior/state audit | **Not yet fully audited**; current source assertions are not proof of full parity |
+| SegmentedButton / SegmentedControl | Shared single-choice React control with radio-group keyboard semantics | AndroidX SegmentedButton.kt and OutlinedSegmentedButtonTokens.kt inspected | **Source-backed Web adaptation (single-choice only)**; multi-choice variant, checked-icon motion, exact overlapping borders and browser/accessibility verification remain open |
 | Cards, panels, top bar, navigation rail, FAB, menus, dialog, bottom sheet, progress indicators | A mix of shared primitives and Lab-only examples | Source coverage is incomplete by component | **Partial / not yet audited**; Lab mock-ups must not be counted as implemented shared components |
 
 ### Snackbar audit (2026-10-15)
@@ -476,3 +476,10 @@ Token follow-up: AndroidX SnackbarTokens confirms inverse-surface container, inv
 The official AndroidX ExposedDropdownMenuBox source and MenuTokens were inspected before replacing the shared Lab native select. The Lab now uses a shared ExposedDropdownMenu Web adaptation with combobox/listbox/option semantics; ArrowUp/ArrowDown, Home/End, Enter/Space, Escape and Tab handling; outside-pointer dismissal; disabled options; selected indication; helper/error text; and reduced-motion handling.
 
 Token evidence: AndroidX MenuTokens maps the menu container to surfaceContainer, level-2 elevation and extra-small corner shape. The current CSS references semantic tokens but still uses CSS approximations for elevation and dimensions. The component is **not 100% Android/Compose parity**: it is not the Compose popup, does not yet reproduce Android's TextField menuAnchor behavior or edge-aware popup placement, and needs browser/assistive-technology validation. Editable/autocomplete behavior is not implemented.
+
+
+### SegmentedButton audit (2026-10-15)
+
+AndroidX source/token review confirms: 40 dp row minimum height, 1 dp outline, Label Large typography, 18 dp icon, selected Secondary Container / On Secondary Container roles, unselected Outline / On Surface roles, and Corner Full base shape. AndroidX itemShape uses the base shape for a single item and the outside corners, with rectangular inner segments. Therefore the full outer shape in Loculary is correct; it was retained after reading the actual token file.
+
+The shared component now has radio-group/single-choice semantics, roving tab stop, arrow navigation, Home/End, disabled items and selected state. It is **not full AndroidX parity**: multi-choice segmented buttons are not implemented; check-icon reveal animation, exact border overlap, complete interaction color tokens, and browser/screen-reader validation remain open.
