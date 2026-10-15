@@ -44,6 +44,8 @@ export function DatePickerDialog({
   const [draftDate, setDraftDate] = useState(value);
   const [draftRange, setDraftRange] = useState(rangeValue);
 
+  useEffect(() => { onDismissRef.current = onDismiss; }, [onDismiss]);
+
   useEffect(() => {
     if (!open) return;
     setDraftDate(value);
