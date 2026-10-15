@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import styles from "./DatePicker.module.css";
 
@@ -57,6 +57,9 @@ export function DatePicker({
   const selectedDate = parseDate(value);
   const rangeStart = parseDate(rangeValue.start);
   const rangeEnd = parseDate(rangeValue.end);
+  const [focusedDate, setFocusedDate] = useState(() => toIsoDate(selectedDate ?? rangeStart ?? new Date()));
+  const dayRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+  const shouldFocusDate = useRef(false);
   const [displayedMonth, setDisplayedMonth] = useState(() => {
     const selected = selectedDate ?? rangeStart ?? new Date();
     return new Date(selected.getFullYear(), selected.getMonth(), 1);
@@ -83,6 +86,30 @@ export function DatePicker({
       return date;
     });
   }, [displayedMonth]);
+
+  useEffect(() => {
+    if (!shouldFocusDate.current) return;
+    dayRefs.current[focusedDate]?.focus();
+    shouldFocusDate.current = false;
+  }, [focusedDate, days]);
+
+  function handleDayKeyDown(event: React.KeyboardEvent<HTMLButtonElement>, date: Date) {
+    const nextDate = new Date(date);
+    if (event.key === "ArrowLeft") nextDate.setDate(date.getDate() - 1);
+    else if (event.key === "ArrowRight") nextDate.setDate(date.getDate() + 1);
+    else if (event.key === "ArrowUp") nextDate.setDate(date.getDate() - 7);
+    else if (event.key === "ArrowDown") nextDate.setDate(date.getDate() + 7);
+    else if (event.key === "Home") nextDate.setDate(date.getDate() - ((date.getDay() + 6) % 7));
+    else if (event.key === "End") nextDate.setDate(date.getDate() + (6 - ((date.getDay() + 6) % 7)));
+    else if (event.key === "PageUp") nextDate.setMonth(date.getMonth() - 1);
+    else if (event.key === "PageDown") nextDate.setMonth(date.getMonth() + 1);
+    else return;
+    event.preventDefault();
+    const nextIso = toIsoDate(nextDate);
+    setFocusedDate(nextIso);
+    shouldFocusDate.current = true;
+    if (!sameMonth(nextDate, displayedMonth)) setDisplayedMonth(new Date(nextDate.getFullYear(), nextDate.getMonth(), 1));
+  }
 
   function chooseDate(date: Date) {
     const iso = toIsoDate(date);
@@ -147,6 +174,8 @@ export function DatePicker({
           return (
             <button
               key={iso}
+              ref={(node) => { dayRefs.current[iso] = node; }}
+              tabIndex={iso === focusedDate ? 0 : -1}
               type="button"
               role="gridcell"
               aria-label={new Intl.DateTimeFormat(locale, { dateStyle: "full" }).format(date)}
@@ -154,7 +183,8 @@ export function DatePicker({
               aria-current={iso === today ? "date" : undefined}
               disabled={disabled}
               className={[styles.day, !inMonth ? styles.outsideMonth : "", isSelected ? styles.selected : "", inRange ? styles.inRange : ""].filter(Boolean).join(" ")}
-              onClick={() => chooseDate(date)}
+              onClick={() => { setFocusedDate(iso); chooseDate(date); }}
+              onKeyDown={(event) => handleDayKeyDown(event, date)}
             >
               {date.getDate()}
             </button>
