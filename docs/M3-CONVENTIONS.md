@@ -554,3 +554,13 @@ Official sources: https://developer.android.com/develop/ui/compose/components/ca
 - Implemented: shared Carousel Web adaptation with uncontained and multi-browse presentation modes, horizontal native scrolling, scroll snap, item group semantics, arrow-key scrolling and reduced-motion-aware programmatic scrolling. Lab now shows both modes with visible official API identifiers.
 - Gaps: current multi-browse sizing uses fixed CSS ratios by item position, not AndroidX window-aware size calculation, CarouselState/fling behavior, mask/parallax effects or exact item transitions. Content padding, nested scrolling, touch/keyboard/screen-reader behavior and visual clipping need browser/device checks. CSS px are not dp.
 - Status: source-informed Web adaptation, partial parity; do not claim exact AndroidX carousel behavior.
+
+
+### TopAppBar family — AndroidX audit and Web adaptation (2026-10-15)
+
+Official sources: https://developer.android.com/develop/ui/compose/components/app-bars and https://developer.android.com/reference/kotlin/androidx/compose/material3/TopAppBar.composable.
+
+- Source-confirmed: AndroidX provides small, center-aligned, medium and large top app bars. Medium/large variants have expanded and collapsed arrangements and may integrate scroll behavior; app bars also participate in system inset handling.
+- Implemented: added shared TopAppBar with all four named variants, navigation action, title and action slot. The Lab's static top-bar mockup is replaced by the shared small variant and shows center-aligned, medium and collapsed-large specimens. The notification action uses the shared Badge/BadgedBox components.
+- Gaps: automatic scroll behavior/collapse transitions, exact height/padding/typography tokens, window insets, tonal color behavior, action overflow and official motion curves are not yet implemented/verified. CSS sizes are approximations, not dp.
+- Status: source-informed Web adaptation; partial parity. Validate action hit targets, title truncation, narrow viewports, keyboard/screen-reader behavior and scroll-driven transitions.
