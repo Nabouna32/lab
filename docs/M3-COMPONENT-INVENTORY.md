@@ -44,7 +44,7 @@ The list below is deliberately broader than the current production call sites. C
 | Chips: assist/elevated assist/filter/elevated filter/input/suggestion/elevated suggestion | Shared Web adaptation; all seven variants in Lab | Audit exact geometry, state tokens, touch targets, input removal semantics and motion |
 | Date picker / date range picker / date picker dialog | Missing | Implement calendar selection, range selection, locale, keyboard and dialog integration |
 | Menus / dropdown menus | ExposedDropdownMenu and Select wrapper | Audit DropdownMenu, exposed dropdown, anchoring, focus, keyboard, dismissal and native HTML distinction |
-| Radio button | Lab mockup | Implement shared radio group and radio button with correct group semantics and keyboard behavior |
+| Radio button | Shared Web adaptation in a native radio group | Audit exact dimensions, state animation, touch target and assistive-technology semantics |
 | Slider / range slider | Shared Slider | Audit discrete/continuous/range variants, ticks, labels, value semantics and thumb interaction |
 | Switch | Shared Switch | Audit M3 state layers, thumb/track/icon transitions, disabled/focus semantics and motion |
 | Time picker / time input | Missing | Implement clock picker and text-entry mode, locale and keyboard interactions |
