@@ -39,6 +39,7 @@ import { Card } from "@/components/ui/Card";
 import { Panel } from "@/components/ui/Panel";
 import { ResultPanel } from "@/components/ui/ResultPanel";
 import { Checkbox } from "@/components/ui/Checkbox";
+import { TriStateCheckbox } from "@/components/ui/TriStateCheckbox";
 import { TextField } from "@/components/ui/TextField";
 import { TextArea } from "@/components/ui/TextArea";
 import { ExposedDropdownMenu } from "@/components/ui/ExposedDropdownMenu";
@@ -174,6 +175,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const [bottomSheetOpen,setBottomSheetOpen]=useState(false);
   const [alertDialogOpen,setAlertDialogOpen]=useState(false);
   const [sampleChecked,setSampleChecked]=useState(true);
+  const [sampleTriState,setSampleTriState]=useState<"off"|"on"|"indeterminate">("indeterminate");
   const [sampleProgress,setSampleProgress]=useState(55);
   const [sampleRailSelection,setSampleRailSelection]=useState<"home"|"explore"|"saved">("home");
   const [sampleDrawerOpen,setSampleDrawerOpen]=useState(false);
@@ -595,7 +597,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
             </Select>
             <ComponentIdentifier names={["ClearButton"]} locale={locale}/><ClearButton label={locale==="fr"?"Réinitialiser le format":"Reset format"} onClear={()=>setSampleFormat("png")}/><ComponentIdentifier names={["CopyButton"]} locale={locale}/><ToolRuntimeProvider access="anonymous" capabilities={["clipboard"]}><CopyButton value={sampleFormat} label={locale==="fr"?"Copier le format":"Copy format"} copiedLabel={locale==="fr"?"Format copié":"Format copied"}/></ToolRuntimeProvider>
           </div>
-          <ComponentIdentifier names={["Checkbox"]} locale={locale}/><ComponentVariantControl label={locale==="fr"?"Version de la case à cocher":"Checkbox version"} value={checkboxVariant} onChange={setCheckboxVariant} expressiveNote={locale==="fr"?"Aucune différence de rendu par défaut propre à Expressive n’a été confirmée dans la source Checkbox consultée : le composant reste identique, sans variation inventée.":"No default Expressive-specific rendering difference was confirmed in the inspected Checkbox source; the component stays the same rather than inventing a variation."}/><Checkbox inputId="lab-shared-checkbox" checked={sampleChecked} onCheckedChange={setSampleChecked} label={locale==="fr"?"Inclure les sous-catégories":"Include subcategories"}/>
+          <ComponentIdentifier names={["Checkbox"]} locale={locale}/><ComponentVariantControl label={locale==="fr"?"Version de la case à cocher":"Checkbox version"} value={checkboxVariant} onChange={setCheckboxVariant} expressiveNote={locale==="fr"?"Aucune différence de rendu par défaut propre à Expressive n’a été confirmée dans la source Checkbox consultée : le composant reste identique, sans variation inventée.":"No default Expressive-specific rendering difference was confirmed in the inspected Checkbox source; the component stays the same rather than inventing a variation."}/><Checkbox inputId="lab-shared-checkbox" checked={sampleChecked} onCheckedChange={setSampleChecked} label={locale==="fr"?"Inclure les sous-catégories":"Include subcategories"}/><ComponentIdentifier names={["TriStateCheckbox"]} kind="adaptation" locale={locale}/><TriStateCheckbox inputId="lab-shared-tristate-checkbox" state={sampleTriState} onStateChange={setSampleTriState} label={locale==="fr"?"Sélection partielle des sous-catégories":"Some subcategories selected"}/>
           <ComponentIdentifier names={["SegmentedControl"]} locale={locale}/><SegmentedControl ariaLabel={locale==="fr"?"Disposition de la liste":"List layout"} value={sampleLayout} onChange={setSampleLayout} items={[{id:"all",label:locale==="fr"?"Tout":"All"},{id:"favorites",label:locale==="fr"?"Favoris":"Favorites"}]}/>
           <ComponentIdentifier names={["ValidationMessage"]} locale={locale}/><ValidationMessage id="lab-shared-validation" role={null}>{locale==="fr"?"Exemple de message de validation.":"Example validation message."}</ValidationMessage>
         </article>
