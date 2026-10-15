@@ -2,6 +2,17 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
+import { Badge } from "@/components/ui/Badge";
+import { CircularProgressIndicator } from "@/components/ui/CircularProgressIndicator";
+import { Divider } from "@/components/ui/Divider";
+import { FloatingActionButton } from "@/components/ui/FloatingActionButton";
+import { ProgressIndicator } from "@/components/ui/ProgressIndicator";
+import { RadioButton } from "@/components/ui/RadioButton";
+import { SegmentedControl } from "@/components/ui/SegmentedControl";
+import { Select } from "@/components/ui/Select";
+import { Slider } from "@/components/ui/Slider";
+import { Tabs } from "@/components/ui/Tabs";
+import { TextArea } from "@/components/ui/TextArea";
 import { Card } from "@/components/ui/Card";
 import { Checkbox } from "@/components/ui/Checkbox";
 import { Chip } from "@/components/ui/Chip";
@@ -23,6 +34,12 @@ export default function ComponentLivePreview({
   const [checked, setChecked] = useState(true);
   const [selected, setSelected] = useState(false);
   const [text, setText] = useState("Loculary");
+  const [progress, setProgress] = useState(55);
+  const [radio, setRadio] = useState("all");
+  const [segment, setSegment] = useState("week");
+  const [choice, setChoice] = useState("one");
+  const [tab, setTab] = useState("overview");
+  const [multiline, setMultiline] = useState("Loculary");
   const fr = locale === "fr";
   const label = fr ? "Aperçu du composant réel" : "Live component preview";
   const stateHelp = fr
