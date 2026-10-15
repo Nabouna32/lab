@@ -670,7 +670,7 @@ Official references: [TextField](https://developer.android.com/reference/kotlin/
 
 ## DropdownMenu / DropdownMenuItem — 2026-10-15
 
-Official sources: [Menus guide](https://developer.android.com/develop/ui/compose/components/menu?hl=en), [DropdownMenuItem API](https://developer.android.com/reference/kotlin/androidx/compose/material3/DropdownMenuItem.composable). Replaced the Lab's local dropdown mockup with the shared `DropdownMenu` adaptation. It includes keyboard opening/navigation, disabled items, separators, selected/checkable semantics, outside dismissal and focus restoration after selection. Exact AndroidX popup anchoring/window behavior, typeahead, scroll/insets, RTL and assistive-technology parity remain unverified. Newer SelectableDropdownMenuItem/CheckableDropdownMenuItem APIs require version verification.
+Official sources: [Menus guide](https://developer.android.com/develop/ui/compose/components/menu?hl=en), [DropdownMenuItem API](https://developer.android.com/reference/kotlin/androidx/compose/material3/DropdownMenuItem.composable). Replaced the Lab's local dropdown mockup with the shared `DropdownMenu` adaptation. It includes keyboard opening/navigation, disabled items, separators, group labels, single-select radio items, multi-select checkable items, outside dismissal and focus restoration after selection. Exact AndroidX popup anchoring/window behavior, typeahead, scroll/insets, RTL and assistive-technology parity remain unverified. Newer SelectableDropdownMenuItem/CheckableDropdownMenuItem APIs require version verification.
 
 
 ## SwipeToDismissBox — 2026-10-15
