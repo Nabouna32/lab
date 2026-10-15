@@ -1,0 +1,85 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 0;
+  border: 1px solid transparent;
+  background: var(--lab-primary, var(--md-sys-color-primary, currentColor));
+  color: var(--lab-on-primary, var(--md-sys-color-on-primary, white));
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-radius 200ms cubic-bezier(.2, 0, 0, 1), background-color 180ms ease, color 180ms ease, box-shadow 180ms ease;
+}
+
+.extra-small { min-height: 32px; padding: 0 10px; border-radius: 10px; }
+.small { min-height: 40px; padding: 0 12px; border-radius: 12px; }
+.medium { min-height: 48px; padding: 0 16px; border-radius: 16px; }
+.large { min-height: 56px; padding: 0 20px; border-radius: 20px; }
+.extra-large { min-height: 64px; padding: 0 24px; border-radius: 24px; }
+
+.filled {
+  background: var(--lab-primary, var(--md-sys-color-primary, currentColor));
+  color: var(--lab-on-primary, var(--md-sys-color-on-primary, white));
+}
+
+.filled-tonal {
+  background: var(--lab-secondary-container, var(--md-sys-color-secondary-container, transparent));
+  color: var(--lab-on-secondary-container, var(--md-sys-color-on-secondary-container, currentColor));
+}
+
+.outlined {
+  border-color: var(--lab-outline, var(--md-sys-color-outline, currentColor));
+  background: transparent;
+  color: var(--lab-on-surface, var(--md-sys-color-on-surface, currentColor));
+}
+
+.elevated {
+  background: var(--lab-surface-container-low, var(--md-sys-color-surface-container-low, transparent));
+  color: var(--lab-primary, var(--md-sys-color-primary, currentColor));
+  box-shadow: 0 1px 3px color-mix(in srgb, var(--lab-shadow, #000) 20%, transparent);
+}
+
+.checked {
+  border-radius: 50%;
+  background: var(--lab-primary-container, var(--md-sys-color-primary-container, transparent));
+  color: var(--lab-on-primary-container, var(--md-sys-color-on-primary-container, currentColor));
+}
+
+.outlined.checked {
+  border-color: var(--lab-primary, var(--md-sys-color-primary, currentColor));
+}
+
+.elevated.checked {
+  box-shadow: none;
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button:hover:not(:disabled) {
+  box-shadow: 0 0 0 1px color-mix(in srgb, currentColor 10%, transparent);
+}
+
+.button:active:not(:disabled) {
+  filter: brightness(.96);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--lab-primary, currentColor);
+  outline-offset: 3px;
+}
+
+.button:disabled {
+  opacity: .38;
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button { transition: none; }
+}
