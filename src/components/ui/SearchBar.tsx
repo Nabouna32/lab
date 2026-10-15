@@ -45,14 +45,20 @@ export function SearchBar({
     onSearch(value);
     setExpanded(false);
     setActiveIndex(-1);
+    inputRef.current?.focus();
   }
 
-  function closeSearch() {\n    setExpanded(false);\n    setActiveIndex(-1);\n    inputRef.current?.focus();\n  }\n\n  function handleKeyDown(event: KeyboardEvent<HTMLInputElement>) {
+  function closeSearch() {
+    setExpanded(false);
+    setActiveIndex(-1);
+    inputRef.current?.focus();
+  }
+
+  function handleKeyDown(event: KeyboardEvent<HTMLInputElement>) {
     if (event.key === "Escape") {
       if (expanded) {
         event.preventDefault();
-        setExpanded(false);
-        setActiveIndex(-1);
+        closeSearch();
       }
       return;
     }
