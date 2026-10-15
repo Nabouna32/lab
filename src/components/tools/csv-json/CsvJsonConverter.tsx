@@ -31,9 +31,10 @@ export default function CsvJsonConverter() {
   }, [input, operation, delimiter]);
 
   function apply(nextOperation: CsvJsonOperation) {
+    const next = transformCsvJson(input, nextOperation, delimiter);
     setOperation(nextOperation);
-    setResult(output.value ?? "");
-    setError(output.error);
+    setResult(next.value ?? "");
+    setError(next.error);
   }
 
   function clear() {
