@@ -8,16 +8,14 @@ type ListItemProps = HTMLAttributes<HTMLDivElement> & {
   leading?: ReactNode;
   trailing?: ReactNode;
   lines?: 1 | 2 | 3;
-  interactive?: boolean;
 };
 
 /** Source-informed Web adaptation of AndroidX Material 3 ListItem. */
 export function ListItem({
   headline, supporting, overline, leading, trailing, lines = supporting ? 2 : 1,
-  interactive = false, className = "", ...props
+  className = "", ...props
 }: ListItemProps) {
-  return <div {...props} className={[styles.item, styles[`lines-${lines}`], interactive ? styles.interactive : "", className].filter(Boolean).join(" ")}
-    data-interactive={interactive ? "true" : "false"}>
+  return <div {...props} className={[styles.item, styles[`lines-${lines}`], className].filter(Boolean).join(" ")}>
     {leading && <div className={styles.leading}>{leading}</div>}
     <div className={styles.content}>
       {overline && <span className={styles.overline}>{overline}</span>}
