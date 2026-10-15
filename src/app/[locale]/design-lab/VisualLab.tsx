@@ -21,6 +21,7 @@ import { RadioButton } from "@/components/ui/RadioButton";
 import { Tabs } from "@/components/ui/Tabs";
 import { DatePicker } from "@/components/ui/DatePicker";
 import { TimePicker } from "@/components/ui/TimePicker";
+import { SearchBar } from "@/components/ui/SearchBar";
 import { Select } from "@/components/ui/Select";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
@@ -183,6 +184,10 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const [sampleSecondaryTab,setSampleSecondaryTab]=useState("specifications");
   const [sampleDate,setSampleDate]=useState("");
   const [sampleTime,setSampleTime]=useState("09:30");
+  const [sampleSearchQuery,setSampleSearchQuery]=useState("");
+  const [sampleSearchSubmitted,setSampleSearchSubmitted]=useState("");
+  const [sampleFullSearchQuery,setSampleFullSearchQuery]=useState("");
+  const [sampleFullSearchSubmitted,setSampleFullSearchSubmitted]=useState("");
   const [sampleDateRange,setSampleDateRange]=useState({start:"",end:""});
   const [sampleMenuOpen,setSampleMenuOpen]=useState(false);
   const [sampleFilterSelected,setSampleFilterSelected]=useState(true);
@@ -563,6 +568,13 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
       <div className={styles.galleryGrid}>
         <article className={styles.galleryCard}><h3>{locale==="fr"?"Cadran":"Dial picker"}</h3><ComponentIdentifier names={["TimePicker"]} kind="adaptation" locale={locale}/><TimePicker label={locale==="fr"?"Choisir une heure":"Choose a time"} value={sampleTime} onChange={setSampleTime} displayMode="dial" is24Hour locale={locale}/><p className={styles.helper}>{locale==="fr"?"Heure sélectionnée : ":"Selected time: "}{sampleTime}</p></article>
         <article className={styles.galleryCard}><h3>{locale==="fr"?"Saisie de l’heure":"Time input"}</h3><ComponentIdentifier names={["TimeInput (native HTML input wrapper)"]} kind="adaptation" locale={locale}/><TimePicker label={locale==="fr"?"Saisir une heure":"Enter a time"} value={sampleTime} onChange={setSampleTime} displayMode="input" is24Hour locale={locale}/><p className={styles.helper}>{locale==="fr"?"Le navigateur dessine ce contrôle ; il ne reproduit pas le TimeInput AndroidX expérimental.":"The browser renders this control; it does not reproduce the experimental AndroidX TimeInput."}</p></article>
+      </div>
+    </section>
+    <section className={styles.gallerySection} aria-labelledby="search-bar-title">
+      <div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>08 / {locale==="fr"?"Recherche":"Search"}</span><h2 id="search-bar-title">{locale==="fr"?"Barre de recherche":"Search bar"}</h2><p>{locale==="fr"?"Recherche repliée, suggestions, clavier et variante plein écran. L’API AndroidX évolue et certaines variantes sont expérimentales.":"Collapsed search, suggestions, keyboard interaction and full-screen variant. The AndroidX API is evolving and some variants are experimental."}</p></div></div>
+      <div className={styles.galleryGrid}>
+        <article className={styles.galleryCard}><h3>{locale==="fr"?"Recherche ancrée":"Docked search"}</h3><ComponentIdentifier names={["SearchBar","ExpandedDockedSearchBar"]} kind="adaptation" locale={locale}/><SearchBar label={locale==="fr"?"Rechercher dans les outils":"Search tools"} placeholder={locale==="fr"?"Rechercher un outil":"Search tools"} query={sampleSearchQuery} onQueryChange={setSampleSearchQuery} onSearch={setSampleSearchSubmitted} suggestions={locale==="fr"?["Convertisseur d’images","Compresseur PDF","Calculatrice","Palette de couleurs","Générateur de QR code"]:["Image converter","PDF compressor","Calculator","Color palette","QR code generator"]} locale={locale}/><p className={styles.helper}>{sampleSearchSubmitted?(locale==="fr"?"Recherche envoyée : ":"Submitted search: ")+sampleSearchSubmitted:(locale==="fr"?"Essayez une suggestion ou appuyez sur Entrée.":"Choose a suggestion or press Enter.")}</p></article>
+        <article className={styles.galleryCard}><h3>{locale==="fr"?"Recherche plein écran":"Full-screen search"}</h3><ComponentIdentifier names={["ExpandedFullScreenSearchBar"]} kind="adaptation" locale={locale}/><SearchBar label={locale==="fr"?"Recherche plein écran":"Full-screen search"} placeholder={locale==="fr"?"Rechercher dans Loculary":"Search Loculary"} query={sampleFullSearchQuery} onQueryChange={setSampleFullSearchQuery} onSearch={setSampleFullSearchSubmitted} suggestions={locale==="fr"?["Outils récents","Favoris","Paramètres","Historique"]:["Recent tools","Favorites","Settings","History"]} mode="full-screen" locale={locale}/><p className={styles.helper}>{sampleFullSearchSubmitted?(locale==="fr"?"Recherche envoyée : ":"Submitted search: ")+sampleFullSearchSubmitted:(locale==="fr"?"Touchez le champ pour ouvrir l’aperçu plein écran.":"Focus the field to open the full-screen specimen.")}</p></article>
       </div>
     </section>
     <section className={styles.gallerySection} aria-labelledby="shared-components-title">
