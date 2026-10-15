@@ -33,11 +33,13 @@ export function Snackbar({
   onDismiss,
   durationMs = 4000,
 }: SnackbarProps) {
+  const hasAction = Boolean(actionLabel && onAction);
+
   useEffect(() => {
-    if (!open || actionLabel || durationMs <= 0) return;
+    if (!open || hasAction || durationMs <= 0) return;
     const timeout = window.setTimeout(onDismiss, durationMs);
     return () => window.clearTimeout(timeout);
-  }, [open, actionLabel, durationMs, onDismiss]);
+  }, [open, hasAction, durationMs, onDismiss]);
 
   if (!open) return null;
 
