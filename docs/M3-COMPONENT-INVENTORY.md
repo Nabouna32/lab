@@ -192,3 +192,10 @@ For each component/variant, record:
 - **Official sources:** https://developer.android.com/reference/kotlin/androidx/compose/material3/pulltorefresh/PullToRefreshBox.composable and https://developer.android.com/reference/kotlin/androidx/compose/material3/pulltorefresh/pullToRefresh.modifier
 - **Lab:** shared Web adaptation includes a pull-distance indicator, controlled refreshing state, reduced-motion spinner fallback and an explicit “refresh now” button for accessibility.
 - **Known limitation:** native nested-scroll arbitration and overscroll differ between browsers. Pointer-driven pull behavior is not yet verified on touch devices; do not mark this family complete until mobile scroll/refresh interactions are tested.
+
+
+## BottomSheetScaffold — 2026-10-15
+
+- **Official source:** https://developer.android.com/reference/kotlin/androidx/compose/material3/BottomSheetScaffold.composable
+- **Lab:** added shared persistent-sheet Web adaptation with collapsed/expanded states, unique linked IDs, keyboard-accessible handle, vertical drag threshold and reduced-motion CSS.
+- **Not yet verified:** AndroidX nested scroll/state, peek height and anchor semantics, drag resistance/velocity, insets, accessibility announcements, RTL and browser/device gesture parity.
