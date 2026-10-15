@@ -1,216 +1,115 @@
 "use client";
-
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { useMemo, useState } from "react";
-import {
-  auditStatusLabels,
-  historicalAuditLeads,
-  m3ComponentAuditRegistry,
-  type AuditStatus,
-} from "@/lib/design-system/m3-component-audit";
-import styles from "./component-audit.module.css";
+import { createClient } from "@/lib/supabase/client";
+import ComponentLivePreview from "./ComponentLivePreview";
+import ComponentMaintenancePanel from "./ComponentMaintenancePanel";
 
 type Locale = "fr" | "en";
-const statuses: AuditStatus[] = [
-  "unverified",
-  "partially-verified",
-  "discrepancy-confirmed",
-  "verification-required",
-  "conformant-within-verified-scope",
-];
-
-const copy = {
-  fr: {
-    eyebrow: "Matériel 3 Fidelity · registre de travail",
-    title: "Audit des composants",
-    intro: "Un registre pour préparer l’audit, garder les preuves et documenter les décisions. La présence d’un composant ici — ou dans la galerie — ne prouve jamais sa conformité.",
-    back: "← Retour au laboratoire visuel",
-    catalog: "Catalogue des composants",
-    catalogHelp: "Chaque composant sera étudié individuellement avec discussion et validation avant toute modification de production.",
-    search: "Rechercher un composant",
-    searchPlaceholder: "Ex. Button, NavigationBar…",
-    category: "Famille",
-    allCategories: "Toutes les familles",
-    status: "Statut",
-    allStatuses: "Tous les statuts",
-    total: "Entrées au registre",
-    unverified: "Non vérifiés",
-    proven: "Composants conformes",
-    provenValue: "0",
-    historical: "Pistes historiques à revalider",
-    historicalHelp: "Ces points viennent de l’ancien audit Markdown. Ce sont des pistes, pas des conclusions actuelles : elles doivent être réexaminées avec le code et les sources.",
-    facts: "Constats vérifiés",
-    factsEmpty: "Aucun constat vérifié enregistré.",
-    discrepancies: "Écarts confirmés",
-    discrepanciesEmpty: "Aucun écart confirmé enregistré.",
-    questions: "Questions et vérifications restantes",
-    questionsEmpty: "À définir pendant l’audit individuel.",
-    sources: "Fichiers source",
-    sourcesEmpty: "Pas encore reliés — à établir à partir du code réel.",
-    refs: "Références officielles",
-    refsEmpty: "Pas encore documentées.",
-    usage: "Usage en production",
-    unknown: "Inconnu — ne pas déduire de la galerie.",
-    type: "Type d’implémentation",
-    typeValue: "Non classé",
-    verification: "Vérifications exécutées",
-    verificationEmpty: "Aucune. Le statut reste « non vérifié ».",
-    decisions: "Décisions validées",
-    decisionsEmpty: "Aucune décision produit ou technique validée.",
-    history: "Historique",
-    historyEmpty: "Aucun historique enregistré.",
-    empty: "Aucun composant ne correspond aux filtres.",
-    lead: "Piste historique",
-    oldSource: "Source historique",
-    statusLabels: auditStatusLabels,
-    reset: "Réinitialiser les filtres",
-  },
-  en: {
-    eyebrow: "Material 3 Fidelity · working register",
-    title: "Component audit",
-    intro: "A register for preparing audits, preserving evidence and documenting decisions. A component appearing here—or in the gallery—never proves conformance.",
-    back: "← Back to the visual lab",
-    catalog: "Component catalog",
-    catalogHelp: "Each component will be examined individually, with discussion and approval before any production change.",
-    search: "Search components",
-    searchPlaceholder: "e.g. Button, NavigationBar…",
-    category: "Family",
-    allCategories: "All families",
-    status: "Status",
-    allStatuses: "All statuses",
-    total: "Registry entries",
-    unverified: "Unverified",
-    proven: "Conformant components",
-    provenValue: "0",
-    historical: "Historical leads to revalidate",
-    historicalHelp: "These points come from the previous Markdown audit. They are leads, not current conclusions: review them against code and sources.",
-    facts: "Verified observations",
-    factsEmpty: "No verified observations recorded.",
-    discrepancies: "Confirmed discrepancies",
-    discrepanciesEmpty: "No confirmed discrepancies recorded.",
-    questions: "Open questions and remaining checks",
-    questionsEmpty: "To be defined during the individual audit.",
-    sources: "Source files",
-    sourcesEmpty: "Not linked yet — establish from the actual code.",
-    refs: "Official references",
-    refsEmpty: "Not documented yet.",
-    usage: "Production usage",
-    unknown: "Unknown — do not infer from the gallery.",
-    type: "Implementation type",
-    typeValue: "Unclassified",
-    verification: "Executed verification",
-    verificationEmpty: "None. Status remains “unverified”.",
-    decisions: "Approved decisions",
-    decisionsEmpty: "No approved product or technical decisions.",
-    history: "History",
-    historyEmpty: "No history recorded.",
-    empty: "No components match these filters.",
-    lead: "Historical lead",
-    oldSource: "Historical source",
-    statusLabels: auditStatusLabels,
-    reset: "Reset filters",
-  },
+type AuditStatus = "unverified" | "partially-verified" | "discrepancy-confirmed" | "verification-required" | "conformant-within-verified-scope";
+type Component = { id: string; name: string; category: string; implementation_path: string; preview_key: string | null; audit_status: AuditStatus; official_references: {label?:string;url?:string}[] };
+type ReportSummary = { id: string; component_id: string; status: string };
+const statusOptions: AuditStatus[] = ["unverified","partially-verified","discrepancy-confirmed","verification-required","conformant-within-verified-scope"];
+const labels: Record<AuditStatus,{fr:string;en:string}> = {
+  unverified:{fr:"Non vérifié",en:"Unverified"},
+  "partially-verified":{fr:"Partiellement vérifié",en:"Partially verified"},
+  "discrepancy-confirmed":{fr:"Écart confirmé",en:"Confirmed discrepancy"},
+  "verification-required":{fr:"Vérification requise",en:"Verification required"},
+  "conformant-within-verified-scope":{fr:"Conforme dans le périmètre vérifié",en:"Conformant within verified scope"},
 };
-
 export default function ComponentAuditWorkbench({ locale }: { locale: Locale }) {
-  const t = copy[locale];
-  const [query, setQuery] = useState("");
-  const [category, setCategory] = useState("all");
-  const [status, setStatus] = useState<"all" | AuditStatus>("all");
+  const fr = locale === "fr";
+  const db = createClient();
+  const [components,setComponents] = useState<Component[]>([]);
+  const [reports,setReports] = useState<ReportSummary[]>([]);
+  const [query,setQuery] = useState("");
+  const [category,setCategory] = useState("all");
+  const [status,setStatus] = useState("all");
+  const [loading,setLoading] = useState(true);
+  const [error,setError] = useState("");
+  const [savingId,setSavingId] = useState("");
+  const [notice,setNotice] = useState("");
 
-  const categories = useMemo(
-    () => Array.from(new Set(m3ComponentAuditRegistry.map((component) => component.category))),
-    [],
-  );
+  useEffect(() => {
+    let active = true;
+    async function load() {
+      const [componentResult,reportResult] = await Promise.all([
+        db.from("design_audit_components").select("id,name,category,implementation_path,preview_key,audit_status,official_references").order("category").order("name"),
+        db.from("design_audit_reports").select("id,component_id,status"),
+      ]);
+      if (!active) return;
+      if (componentResult.error || reportResult.error) setError(componentResult.error?.message ?? reportResult.error?.message ?? (fr ? "Impossible de charger le suivi." : "Unable to load maintenance records."));
+      setComponents((componentResult.data ?? []) as Component[]);
+      setReports((reportResult.data ?? []) as ReportSummary[]);
+      setLoading(false);
+    }
+    void load();
+    return () => { active = false; };
+  }, [db,fr]);
+
+  const categories = useMemo(() => [...new Set(components.map(c=>c.category))].sort(),[components]);
   const filtered = useMemo(() => {
-    const normalized = query.trim().toLocaleLowerCase(locale);
-    return m3ComponentAuditRegistry.filter((component) => {
-      const matchesQuery = !normalized
-        || component.name.toLocaleLowerCase(locale).includes(normalized)
-        || component.category.toLocaleLowerCase(locale).includes(normalized);
-      return matchesQuery
-        && (category === "all" || component.category === category)
-        && (status === "all" || component.status === status);
-    });
-  }, [category, locale, query, status]);
+    const needle=query.trim().toLocaleLowerCase(locale);
+    return components.filter(c=>(!needle || [c.name,c.id,c.category,c.implementation_path].some(s=>s.toLocaleLowerCase(locale).includes(needle)))
+      && (category==="all"||c.category===category) && (status==="all"||c.audit_status===status));
+  },[components,query,category,status,locale]);
+  const openReports = reports.filter(r=>!["verified","wont-fix"].includes(r.status)).length;
+  const proven = components.filter(c=>c.audit_status==="conformant-within-verified-scope").length;
 
-  const verifiedCount = m3ComponentAuditRegistry.filter(
-    (component) => component.status === "conformant-within-verified-scope",
-  ).length;
+  async function updateAuditStatus(component: Component, audit_status: AuditStatus) {
+    setSavingId(component.id);setError("");setNotice("");
+    const {error:issue}=await db.from("design_audit_components").update({audit_status}).eq("id",component.id);
+    setSavingId("");if(issue){setError(issue.message);return;}
+    setComponents(old=>old.map(c=>c.id===component.id?{...c,audit_status}:c));
+    setNotice(fr?"Statut d’audit enregistré.":"Audit status saved.");
+  }
 
-  return (
-    <main className={styles.page}>
-      <header className={styles.hero}>
-        <Link className={styles.backLink} href={`/${locale}/design-lab`}>{t.back}</Link>
-        <p className={styles.eyebrow}>{t.eyebrow}</p>
-        <h1>{t.title}</h1>
-        <p className={styles.intro}>{t.intro}</p>
-      </header>
-
-      <section className={styles.metrics} aria-label={locale === "fr" ? "État du registre" : "Registry status"}>
-        <article className={styles.metric}><span>{t.total}</span><strong>{m3ComponentAuditRegistry.length}</strong></article>
-        <article className={styles.metric}><span>{t.unverified}</span><strong>{m3ComponentAuditRegistry.filter((item) => item.status === "unverified").length}</strong></article>
-        <article className={styles.metric}><span>{t.proven}</span><strong>{verifiedCount}</strong></article>
+  return <main className="mx-auto min-h-[calc(100vh-4.5rem)] max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
+    <header className="mb-8">
+      <Link className="text-sm font-semibold text-[var(--accent)]" href={`/${locale}/design-lab`}>{fr?"← Retour au laboratoire visuel":"← Back to visual lab"}</Link>
+      <p className="mt-5 text-sm font-semibold text-[var(--accent)]">Material 3 Fidelity · {fr?"Maintenance des composants":"Component maintenance"}</p>
+      <h1 className="mt-1 text-3xl font-bold tracking-tight sm:text-4xl">{fr?"Atelier de maintenance M3":"M3 maintenance workbench"}</h1>
+      <p className="mt-3 max-w-3xl text-[var(--muted)]">{fr
+        ?"Le catalogue est construit à partir des implémentations UI réelles du dépôt. Tu peux tester les composants raccordés, signaler un défaut, consigner les décisions et suivre les vérifications. La présence d’un composant ne prouve jamais sa conformité."
+        :"The catalog is built from actual UI implementations in the repository. Test connected previews, report defects, record decisions and track verification. Component presence never proves conformance."}</p>
+    </header>
+    <div className="mb-6 grid gap-3 sm:grid-cols-3">
+      <article className="rounded-2xl border border-[var(--border)] p-4"><p className="text-sm text-[var(--muted)]">{fr?"Implémentations réelles inventoriées":"Actual implementations inventoried"}</p><p className="mt-1 text-3xl font-semibold">{components.length}</p></article>
+      <article className="rounded-2xl border border-[var(--border)] p-4"><p className="text-sm text-[var(--muted)]">{fr?"Signalements ouverts":"Open reports"}</p><p className="mt-1 text-3xl font-semibold">{openReports}</p></article>
+      <article className="rounded-2xl border border-[var(--border)] p-4"><p className="text-sm text-[var(--muted)]">{fr?"Conformité vérifiée":"Verified conformance"}</p><p className="mt-1 text-3xl font-semibold">{proven}</p></article>
+    </div>
+    {error&&<p role="alert" className="mb-4 rounded-xl border border-[var(--danger)] p-3 text-sm">{error}</p>}
+    {notice&&<p role="status" className="mb-4 rounded-xl border border-[var(--border)] p-3 text-sm">{notice}</p>}
+    {loading?<p role="status" className="py-12 text-center text-[var(--muted)]">{fr?"Chargement de l’inventaire…":"Loading component inventory…"}</p>:<>
+      <section className="mb-6 grid gap-3 rounded-2xl border border-[var(--border)] p-4 sm:grid-cols-[minmax(12rem,1fr)_minmax(10rem,0.5fr)_minmax(12rem,0.6fr)_auto]">
+        <label className="text-sm font-medium">{fr?"Rechercher":"Search"}<input className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm" value={query} onChange={e=>setQuery(e.target.value)} placeholder={fr?"Nom, fichier source…":"Name, source file…"}/></label>
+        <label className="text-sm font-medium">{fr?"Famille":"Category"}<select className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm" value={category} onChange={e=>setCategory(e.target.value)}><option value="all">{fr?"Toutes":"All"}</option>{categories.map(c=><option key={c}>{c}</option>)}</select></label>
+        <label className="text-sm font-medium">{fr?"Statut d’audit":"Audit status"}<select className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm" value={status} onChange={e=>setStatus(e.target.value)}><option value="all">{fr?"Tous les statuts":"All statuses"}</option>{statusOptions.map(s=><option key={s} value={s}>{labels[s][locale]}</option>)}</select></label>
+        <button type="button" className="self-end rounded-full border border-[var(--border)] px-4 py-2 text-sm font-medium" onClick={()=>{setQuery("");setCategory("all");setStatus("all");}}>{fr?"Réinitialiser":"Reset"}</button>
       </section>
-
-      <section className={styles.catalog} aria-labelledby="component-catalog-title">
-        <div className={styles.sectionHeading}>
-          <div><p className={styles.eyebrow}>{locale === "fr" ? "Registre canonique structuré" : "Structured canonical register"}</p><h2 id="component-catalog-title">{t.catalog}</h2><p>{t.catalogHelp}</p></div>
-        </div>
-        <div className={styles.filters}>
-          <label>{t.search}<input value={query} onChange={(event) => setQuery(event.target.value)} placeholder={t.searchPlaceholder} /></label>
-          <label>{t.category}<select value={category} onChange={(event) => setCategory(event.target.value)}><option value="all">{t.allCategories}</option>{categories.map((item) => <option key={item} value={item}>{item}</option>)}</select></label>
-          <label>{t.status}<select value={status} onChange={(event) => setStatus(statuses.find((item) => item === event.target.value) ?? "all")}><option value="all">{t.allStatuses}</option>{statuses.map((item) => <option key={item} value={item}>{t.statusLabels[item][locale]}</option>)}</select></label>
-          <button className={styles.reset} type="button" onClick={() => { setQuery(""); setCategory("all"); setStatus("all"); }}>{t.reset}</button>
-        </div>
-
-        <p className={styles.resultCount}>{locale === "fr" ? `${filtered.length} composant(s) affiché(s)` : `${filtered.length} component(s) shown`}</p>
-        <div className={styles.componentList}>
-          {filtered.map((component) => (
-            <details className={styles.component} key={component.id}>
-              <summary>
-                <span className={styles.componentName}>{component.name}</span>
-                <span className={styles.componentCategory}>{component.category}</span>
-                <span className={styles.status} data-status={component.status}>{t.statusLabels[component.status][locale]}</span>
-              </summary>
-              <div className={styles.detailsGrid}>
-                <section><h3>{t.type}</h3><p>{t.typeValue}</p></section>
-                <section><h3>{t.usage}</h3><p>{t.unknown}</p></section>
-                <section><h3>{t.sources}</h3>{component.sourceFiles.length ? <ul>{component.sourceFiles.map((file) => <li key={file}><code>{file}</code></li>)}</ul> : <p>{t.sourcesEmpty}</p>}</section>
-                <section><h3>{t.refs}</h3>{component.officialReferences.length ? <ul>{component.officialReferences.map((ref) => <li key={ref.url}><a href={ref.url} target="_blank" rel="noreferrer">{ref.label}</a></li>)}</ul> : <p>{t.refsEmpty}</p>}</section>
-                <section><h3>{t.facts}</h3>{component.observedFacts.length ? <ul>{component.observedFacts.map((fact) => <li key={fact}>{fact}</li>)}</ul> : <p>{t.factsEmpty}</p>}</section>
-                <section><h3>{t.discrepancies}</h3>{component.confirmedDiscrepancies.length ? <ul>{component.confirmedDiscrepancies.map((item) => <li key={item}>{item}</li>)}</ul> : <p>{t.discrepanciesEmpty}</p>}</section>
-                <section><h3>{t.questions}</h3>{component.unverifiedQuestions.length ? <ul>{component.unverifiedQuestions.map((item) => <li key={item}>{item}</li>)}</ul> : <p>{t.questionsEmpty}</p>}</section>
-                <section><h3>{t.verification}</h3><p>{t.verificationEmpty}</p></section>
-                <section><h3>{t.decisions}</h3>{component.decisions.length ? <ul>{component.decisions.map((item) => <li key={item}>{item}</li>)}</ul> : <p>{t.decisionsEmpty}</p>}</section>
-                <section><h3>{t.history}</h3>{component.history.length ? <ul>{component.history.map((item, index) => <li key={`${item.date}-${index}`}>{item.date}: {item.note}</li>)}</ul> : <p>{t.historyEmpty}</p>}</section>
-              </div>
-            </details>
-          ))}
-          {filtered.length === 0 && <p className={styles.empty}>{t.empty}</p>}
-        </div>
-      </section>
-
-      <section className={styles.leads} aria-labelledby="historical-leads-title">
-        <p className={styles.eyebrow}>{locale === "fr" ? "Mémoire de l’audit précédent" : "Previous audit context"}</p>
-        <h2 id="historical-leads-title">{t.historical}</h2>
-        <p>{t.historicalHelp}</p>
-        <div className={styles.leadList}>
-          {historicalAuditLeads.map((lead) => (
-            <article className={styles.lead} key={lead.id}>
-              <span className={styles.historicalBadge}>{t.lead}</span>
-              <h3>{lead.title[locale]} · {lead.component}</h3>
-              <p>{lead.note[locale]}</p>
-              <p className={styles.sourceNote}>{t.oldSource}: <code>{lead.source}</code></p>
-            </article>
-          ))}
-        </div>
-      </section>
-      <footer className={styles.footer}>
-        {locale === "fr"
-          ? "Lot A — structure initiale uniquement. Aucun composant de production n’a été modifié ; les fiches seront complétées pendant les audits individuels."
-          : "Lot A — initial structure only. No production component was changed; records will be completed during individual audits."}
-      </footer>
-    </main>
-  );
+      <p className="mb-3 text-sm text-[var(--muted)]">{fr?`${filtered.length} composant(s) affiché(s)`:`${filtered.length} component(s) shown`}</p>
+      <div className="space-y-3">{filtered.map(component=>{
+        const componentReports=reports.filter(r=>r.component_id===component.id&&!["verified","wont-fix"].includes(r.status)).length;
+        return <details key={component.id} className="rounded-2xl border border-[var(--border)]">
+          <summary className="flex cursor-pointer list-none flex-wrap items-center gap-3 p-4">
+            <span className="min-w-0 flex-1 font-semibold">{component.name}<span className="mt-1 block text-xs font-normal text-[var(--muted)]">{component.category} · {component.implementation_path}</span></span>
+            <span className="rounded-full bg-[var(--surface-container)] px-3 py-1 text-xs">{labels[component.audit_status][locale]}</span>
+            {componentReports>0&&<span className="rounded-full border border-[var(--border)] px-3 py-1 text-xs">{componentReports} {fr?"ouvert(s)":"open"}</span>}
+          </summary>
+          <div className="border-t border-[var(--border)] p-4 sm:p-5">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+              <label className="max-w-md flex-1 text-sm font-medium">{fr?"Statut de conformité":"Conformance status"}<select className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm" value={component.audit_status} disabled={savingId===component.id} onChange={e=>void updateAuditStatus(component,e.target.value as AuditStatus)}>{statusOptions.map(s=><option key={s} value={s}>{labels[s][locale]}</option>)}</select></label>
+              <a className="text-sm font-semibold text-[var(--accent)] underline" href={`https://github.com/Nabouna32/lab/blob/main/${component.implementation_path}`} target="_blank" rel="noreferrer">{fr?"Ouvrir le code source ↗":"Open source ↗"}</a>
+            </div>
+            {component.official_references?.length>0&&<ul className="mt-3 list-disc pl-5 text-sm">{component.official_references.map((r,i)=><li key={i}>{r.url?<a className="underline" href={r.url} target="_blank" rel="noreferrer">{r.label||r.url}</a>:r.label}</li>)}</ul>}
+            <ComponentLivePreview componentId={component.id} locale={locale}/>
+            <ComponentMaintenancePanel componentId={component.id} locale={locale}/>
+          </div>
+        </details>;
+      })}{filtered.length===0&&<p className="rounded-2xl border border-[var(--border)] p-8 text-center text-[var(--muted)]">{fr?"Aucun composant ne correspond aux filtres.":"No components match these filters."}</p>}</div>
+    </>}
+    <footer className="mt-8 border-t border-[var(--border)] pt-4 text-sm text-[var(--muted)]">{fr
+      ?"Les observations, les conclusions techniques, les décisions et les vérifications sont enregistrées séparément. Un statut « conforme » doit rester étayé par des preuves."
+      :"Observations, technical findings, decisions and verifications are stored separately. A “conformant” status must remain backed by evidence."}</footer>
+  </main>;
 }
