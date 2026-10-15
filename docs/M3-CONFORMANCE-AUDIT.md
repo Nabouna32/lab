@@ -636,3 +636,8 @@ Added `src/components/ui/Tabs.tsx` and its CSS module as a shared React/CSS adap
 Official source: [AndroidX date pickers guide](https://developer.android.com/develop/ui/compose/components/datepickers?hl=en).
 
 Added `src/components/ui/DatePicker.tsx` and CSS as a shared Web adaptation for single date and date-range selection. The Lab also shows a native HTML `input[type=date]` variant, explicitly labelled as a browser wrapper rather than AndroidX modal input. Month navigation, selected/today state and min/max bounds are implemented. **Incomplete:** DatePickerDialog, calendar grid keyboard behavior, exact dimensions/motion, RTL and assistive-technology parity. Do not mark this family complete yet.
+
+
+## TimePicker / TimeInput — 2026-10-15
+
+Official sources: [Time pickers guide](https://developer.android.com/develop/ui/compose/components/time-pickers?hl=en), [time-picker dialogs](https://developer.android.com/develop/ui/compose/components/time-pickers-dialogs?hl=en). Added a shared dial-style `TimePicker` Web adaptation and native HTML time-input wrapper in the Lab. The dial supports hour/minute selection; the input wrapper is explicitly not claimed to match AndroidX `TimeInput`. Current official documentation describes these APIs as experimental, and the TimeInput API reference points to a 1.5.0 alpha introduction; check the exact pinned AndroidX version before making compatibility claims. Exact dial parity, dialog integration, locale/12-hour behavior and accessibility remain to validate.
