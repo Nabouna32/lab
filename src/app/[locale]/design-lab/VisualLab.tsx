@@ -17,6 +17,7 @@ import { Scaffold } from "@/components/ui/Scaffold";
 import { Divider } from "@/components/ui/Divider";
 import { ListItem } from "@/components/ui/ListItem";
 import { Chip } from "@/components/ui/Chip";
+import { RadioButton } from "@/components/ui/RadioButton";
 import { Select } from "@/components/ui/Select";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
@@ -524,7 +525,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
           <p className={styles.helper}>{locale==="fr"?"Barre d’application, boutons icône, badge, rail et FAB.":"App bar, icon buttons, badge, navigation rail and FAB."}</p>
         </article>
         <article className={styles.galleryCard}>
-          <h3>{locale==="fr"?"Champs, choix et filtres":"Text fields, choices & filters"}</h3><ComponentIdentifier names={["TextField (mockup)","RadioButton (mockup)"]} kind="mockup" locale={locale}/><ComponentIdentifier names={["AssistChip","ElevatedAssistChip","FilterChip","ElevatedFilterChip","InputChip","SuggestionChip","ElevatedSuggestionChip"]} kind="adaptation" locale={locale}/>
+          <h3>{locale==="fr"?"Champs, choix et filtres":"Text fields, choices & filters"}</h3><ComponentIdentifier names={["TextField (mockup)"]} kind="mockup" locale={locale}/><ComponentIdentifier names={["RadioButton"]} kind="adaptation" locale={locale}/><ComponentIdentifier names={["AssistChip","ElevatedAssistChip","FilterChip","ElevatedFilterChip","InputChip","SuggestionChip","ElevatedSuggestionChip"]} kind="adaptation" locale={locale}/>
           <label className={styles.sampleMaterialField}><span>{locale==="fr"?"Nom de l’outil":"Tool name"}</span><input type="text" defaultValue={locale==="fr"?"Convertisseur d’image":"Image converter"} /><small>{locale==="fr"?"Texte d’aide sous le champ":"Supporting text below the field"}</small></label>
           <label className={styles.sampleMaterialField}><span>{locale==="fr"?"Champ avec erreur":"Field with error"}</span><input type="email" aria-invalid="true" defaultValue="adresse-invalide" /><small className={styles.sampleFieldError}>{locale==="fr"?"Saisis une adresse e-mail valide.":"Enter a valid email address."}</small></label>
           <fieldset className={styles.sampleRadioGroup}><legend>{locale==="fr"?"Afficher les éléments":"Show items"}</legend><label><input type="radio" name="lab-filter" value="all" checked={sampleRadio==="all"} onChange={()=>setSampleRadio("all")}/>{locale==="fr"?"Tous":"All"}</label><label><input type="radio" name="lab-filter" value="favorites" checked={sampleRadio==="favorites"} onChange={()=>setSampleRadio("favorites")}/>{locale==="fr"?"Favoris":"Favorites"}</label></fieldset>
