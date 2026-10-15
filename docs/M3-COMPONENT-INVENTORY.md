@@ -74,3 +74,13 @@ For each component/variant, record:
 10. Lab integration, automated tests, browser/device validation, known gaps and explicit parity status.
 
 **No “100% Android” status without evidence.** A Web adaptation can target functional and visual parity but remains subject to browser/platform differences. CSS pixels are not Android dp, and browser semantics/animation APIs do not automatically reproduce Android window, gesture, IME or accessibility behavior.
+
+
+## Tabs — 2026-10-15
+
+- **Official API family:** `Tab`, `PrimaryTabRow`, `SecondaryTabRow`, `PrimaryScrollableTabRow`, `SecondaryScrollableTabRow`. The older generic `TabRow` and `ScrollableTabRow` APIs are deprecated in favor of primary/secondary variants in current AndroidX references.
+- **Official source:** https://developer.android.com/develop/ui/compose/components/tabs?hl=en and https://developer.android.com/reference/kotlin/androidx/compose/material3/PrimaryTabRow.composable
+- **Lab:** integrated shared `Tabs` Web adaptation with primary, secondary, and scrollable specimens; the previous locally styled tab mockup is no longer the displayed sample.
+- **Verified in code:** selected-state ARIA, single selected tab in the roving tab stop, Left/Right/Home/End keyboard handling, disabled tabs skipped during keyboard navigation, responsive horizontal scrolling, reduced-motion CSS fallback.
+- **Web adaptation / not yet verified:** indicator motion is CSS rather than Compose animation; scroll-to-selected behavior, icon/text two-line edge cases, exact AndroidX dimensions, accessibility-tree parity, and browser/device behavior remain to validate. Tab panels are consumer-owned and are only rendered when selected.
+- **Acceptance gate:** run lint/typecheck/tests/build; test keyboard and screen reader behavior in a browser, including RTL and zoom; compare against official AndroidX source for exact token and motion parity.
