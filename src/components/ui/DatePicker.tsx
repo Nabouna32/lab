@@ -42,6 +42,13 @@ function sameMonth(a: Date, b: Date): boolean {
   return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth();
 }
 
+function moveMonth(date: Date, offset: number): Date {
+  const year = date.getFullYear();
+  const month = date.getMonth() + offset;
+  const lastDay = new Date(year, month + 1, 0).getDate();
+  return new Date(year, month, Math.min(date.getDate(), lastDay));
+}
+
 export function DatePicker({
   label,
   value = "",
@@ -100,11 +107,12 @@ export function DatePicker({
     else if (event.key === "ArrowDown") nextDate.setDate(date.getDate() + 7);
     else if (event.key === "Home") nextDate.setDate(date.getDate() - ((date.getDay() + 6) % 7));
     else if (event.key === "End") nextDate.setDate(date.getDate() + (6 - ((date.getDay() + 6) % 7)));
-    else if (event.key === "PageUp") nextDate.setMonth(date.getMonth() - 1);
-    else if (event.key === "PageDown") nextDate.setMonth(date.getMonth() + 1);
+    else if (event.key === "PageUp") nextDate.setTime(moveMonth(date, -1).getTime());
+    else if (event.key === "PageDown") nextDate.setTime(moveMonth(date, 1).getTime());
     else return;
     event.preventDefault();
     const nextIso = toIsoDate(nextDate);
+    if ((min && nextIso < min) || (max && nextIso > max)) return;
     setFocusedDate(nextIso);
     shouldFocusDate.current = true;
     if (!sameMonth(nextDate, displayedMonth)) setDisplayedMonth(new Date(nextDate.getFullYear(), nextDate.getMonth(), 1));
