@@ -29,6 +29,7 @@ import { SplitButton } from "@/components/ui/SplitButton";
 import { MaterialTextField } from "@/components/ui/MaterialTextField";
 import { DropdownMenu } from "@/components/ui/DropdownMenu";
 import { SwipeToDismissBox } from "@/components/ui/SwipeToDismissBox";
+import { FloatingActionButtonMenu } from "@/components/ui/FloatingActionButtonMenu";
 import { Select } from "@/components/ui/Select";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
@@ -192,6 +193,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const [sampleM3Email,setSampleM3Email]=useState("bonjour@loculary.com");
   const [sampleM3Password,setSampleM3Password]=useState("loculary-demo");
   const [sampleDismissed,setSampleDismissed]=useState(false);
+  const [sampleFabMenuOpen,setSampleFabMenuOpen]=useState(false);
   const [sampleRailSelection,setSampleRailSelection]=useState<"home"|"explore"|"saved">("home");
   const [sampleDrawerOpen,setSampleDrawerOpen]=useState(false);
   const [sampleDrawerSelection,setSampleDrawerSelection]=useState<"home"|"explore"|"saved"|"settings">("home");
@@ -611,6 +613,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
       <div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>11 / {locale==="fr"?"Gestes et interaction":"Gestures & interaction"}</span><h2 id="gesture-components-title">{locale==="fr"?"Balayage pour ignorer":"Swipe to dismiss"}</h2><p>{locale==="fr"?"Le geste horizontal est accompagné d’une action accessible au clavier, car le balayage ne doit jamais être le seul moyen d’effectuer l’action.":"Horizontal swipe is paired with a keyboard-accessible action, because swiping must not be the only way to perform the action."}</p></div></div>
       <div className={styles.galleryGrid}>
         <article className={styles.galleryCard}><h3>{locale==="fr"?"SwipeToDismissBox":"SwipeToDismissBox"}</h3><ComponentIdentifier names={["SwipeToDismissBox"]} kind="adaptation" locale={locale}/>{sampleDismissed?<div className={styles.helper}>{locale==="fr"?"Élément ignoré.":"Item dismissed."}<Button variant="outlined" onClick={()=>setSampleDismissed(false)}>{locale==="fr"?"Rétablir":"Restore"}</Button></div>:<SwipeToDismissBox dismissLabel={locale==="fr"?"Ignorer la notification":"Dismiss notification"} onDismiss={()=>setSampleDismissed(true)}><div><strong>{locale==="fr"?"Nouvelle mise à jour disponible":"New update available"}</strong><p>{locale==="fr"?"Balayez ou utilisez le bouton × pour ignorer cet élément.":"Swipe or use the × button to dismiss this item."}</p></div></SwipeToDismissBox>}</article>
+        <article className={styles.galleryCard}><h3>{locale==="fr"?"Menu de boutons flottants":"Floating action button menu"}</h3><ComponentIdentifier names={["FloatingActionButtonMenu","FloatingActionButtonMenuItem","ToggleFloatingActionButton"]} kind="adaptation" locale={locale}/><FloatingActionButtonMenu expanded={sampleFabMenuOpen} onExpandedChange={setSampleFabMenuOpen} label={locale==="fr"?"Actions rapides":"Quick actions"} addLabel={locale==="fr"?"Ajouter":"Add"} closeLabel={locale==="fr"?"Fermer les actions":"Close actions"} items={[{key:"image",label:locale==="fr"?"Convertir une image":"Convert image",icon:<MaterialIcon name="image" size={20}/>,onSelect:()=>setSampleFormat("png")},{key:"text",label:locale==="fr"?"Nettoyer du texte":"Clean text",icon:<MaterialIcon name="text_fields" size={20}/>,onSelect:()=>setSampleFormat("text")},{key:"calculate",label:locale==="fr"?"Calculer":"Calculate",icon:<MaterialIcon name="calculate" size={20}/>,onSelect:()=>setSampleFormat("calculator")}]}/><p className={styles.helper}>{locale==="fr"?"Les éléments apparaissent avec un léger décalage animé ; Échap ferme le menu. API AndroidX récente, version à vérifier.":"Items appear with staggered motion; Escape closes the menu. This is a newer AndroidX API; verify the pinned version."}</p></article>
       </div>
     </section>
     <section className={styles.gallerySection} aria-labelledby="shared-components-title">
