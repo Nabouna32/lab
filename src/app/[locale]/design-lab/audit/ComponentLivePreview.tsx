@@ -66,6 +66,12 @@ export default function ComponentLivePreview({
     case "slider":
       content = <div className="grid gap-5"><Slider inputId="audit-slider" label={fr ? "Valeur ajustable" : "Adjustable value"} value={progress} min={0} max={100} step={5} valueLabel={progress + "%"} onValueChange={setProgress} /><Slider inputId="audit-slider-disabled" label={fr ? "Désactivé" : "Disabled"} value={40} min={0} max={100} disabled onValueChange={() => undefined} /></div>;
       break;
+    case "segmented-control":
+      content = <div className="grid gap-4"><SegmentedControl ariaLabel={fr ? "Période" : "Period"} value={segment} onChange={setSegment} items={[{id:"day",label:fr?"Jour":"Day"},{id:"week",label:fr?"Semaine":"Week"},{id:"month",label:fr?"Mois":"Month"}]} /><p className="text-sm text-[var(--muted)]">{fr ? "Sélection actuelle : " : "Current selection: "}{segment}</p></div>;
+      break;
+    case "select":
+      content = <div className="grid gap-4 sm:grid-cols-2"><Select id="audit-select" label="Format" value={choice} onChange={event=>setChoice(event.target.value)}><option value="one">PNG</option><option value="two">JPEG</option><option value="three">WebP</option></Select><Select id="audit-select-disabled" label={fr ? "Champ désactivé" : "Disabled field"} value="one" disabled onChange={() => undefined}><option value="one">PNG</option></Select></div>;
+      break;
     case "button":
       content = (
         <div className="flex flex-wrap items-center gap-3">
