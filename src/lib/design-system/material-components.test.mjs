@@ -456,6 +456,13 @@ test("IconButton gallery compares Fidelity and Expressive medium interaction sha
   assert.match(labCss, /@media\(prefers-reduced-motion:reduce\)[\s\S]*iconButtonComparison[\s\S]*transition:none/);
 });
 
+test("Checkbox offers explicit Fidelity and Expressive choices without inventing a visual delta", () => {
+  assert.match(labSource, /checkboxVariant,setCheckboxVariant/);
+  assert.match(labSource, /ComponentVariantControl label=\{locale==="fr"\?"Version de la case à cocher":"Checkbox version"\}/);
+  assert.match(labSource, /No default Expressive-specific rendering difference was confirmed/);
+  assert.match(labCss, /\.componentVariantControl\{display:grid/);
+});
+
 test("M3 Fidelity direction mockup uses semantic shape roles for official component families", () => {
   assert.match(labCss, /directionStage\[data-direction="fidelity"\] \.directionPrimary\{[^}]*border-radius:var\(--shape-corner-full\)/);
   assert.match(labCss, /directionStage\[data-direction="fidelity"\] \.directionCalculator input\{[^}]*border-radius:var\(--shape-corner-extra-small\)/);
