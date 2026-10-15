@@ -453,3 +453,19 @@ Not implemented / not yet verified: Android `SheetState` and partial expansion, 
 
 Acceptance checks still required: keyboard-only open/close and focus restoration; screen-reader announcement and background isolation; backdrop click/touch; mobile safe areas and viewport resizing; long content scrolling; light/dark semantic color review; reduced-motion behavior.
 
+### Alert dialog — AndroidX source audit (2026-10-15)
+
+Official references:
+- [Compose Dialog component guide](https://developer.android.com/develop/ui/compose/components/dialog)
+- [AlertDialog API](https://developer.android.com/reference/kotlin/androidx/compose/material3/AlertDialog.composable)
+- [BasicAlertDialog API](https://developer.android.com/reference/kotlin/androidx/compose/material3/BasicAlertDialog.composable)
+- [AlertDialogDefaults](https://developer.android.com/reference/kotlin/androidx/compose/material3/AlertDialogDefaults)
+
+Source finding: use Material 3 `AlertDialog` for the standard title/body/optional icon/confirm and dismiss actions. Use `Dialog` for custom freeform content and provide the inner surface/layout explicitly. AndroidX `AlertDialog` exposes semantic color, shape and tonal-elevation parameters; `BasicAlertDialog` is the lower-level content container and does not automatically provide the full alert content styling. The dialog overlays the app and receives a dismiss request from supported outside/back interactions.
+
+Implementation in this branch: `src/components/ui/AlertDialog.tsx` is a shared **Web adaptation** with `role="alertdialog"`, modal semantics, labelled/described content, cancel-first initial focus, Escape/backdrop dismissal, Tab focus containment, focus restoration and body-scroll locking. The Design Lab includes a destructive-confirmation specimen; its confirm action only closes the demonstration and does not delete data.
+
+Not implemented / not yet verified: AndroidX window/dialog properties, exact minimum width and responsive layout, exact tonal elevation and Compose motion, platform back behavior, browser/screen-reader announcement behavior, and real browser/device testing. Web colors, shape, spacing and animation remain token-based reference choices, not guaranteed dp/elevation parity.
+
+Acceptance checks still required: keyboard focus order and restoration, screen-reader announcement, outside-click behavior, long-text wrapping, narrow viewport action stacking, light/dark contrast, reduced motion, and confirm/dismiss callbacks. Classification remains **source-informed Web adaptation; partial functional parity; runtime unverified**, not “100% AndroidX”.
+
