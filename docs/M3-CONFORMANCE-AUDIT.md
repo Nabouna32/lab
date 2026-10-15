@@ -281,3 +281,7 @@ See [`docs/M3-CONVENTIONS.md`](./M3-CONVENTIONS.md) for the detailed source hier
 - [SOURCE-OBSERVED → source edit made] SegmentedControl had a nonstandard per-segment description row, which compressed labels and could make segments wrap. Removed that optional extension from the shared component. Percentage and Video Bitrate now render the selected mode description outside the segmented group; native mobile select options retain their explanations.
 - [LOCULARY-DECISION] Segment labels now use whitespace-nowrap to keep control height consistent, and internal corner radii use the shared small-shape token. This is a web-layout decision informed by the user's reported wrapping defect, not an official Android pixel rule.
 - [OPEN] Verify long French labels at supported widths and keyboard navigation in browsers. Do not claim segmented control conformance based only on static source checks.
+## Follow-up — field geometry and numeric-step behavior (2026-10-15)
+
+- [MATERIAL-WEB] Outlined text-field and outlined-select tokens specify a 56px one-line container baseline. Shared TextField and Select now use min-height 56px; TextArea remains row/content-driven.
+- [WEB-STANDARD] Source inspection found TextField set step="any" and then spread input props afterward, allowing an undefined step to override the decimal default. The component now destructures step and uses an explicit caller step when present, otherwise step="any" for number fields. Regression assertion added; form behavior still needs runtime testing.
