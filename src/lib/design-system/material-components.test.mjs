@@ -80,7 +80,7 @@ test("shared checkbox uses M3 foreground/background roles and a visible keyboard
   assert.match(checkboxSource, /on-surface\) 38%/);
   assert.match(checkboxSource, /"--checkbox-active": "var\(--checkbox-disabled-active\)"/);
   assert.match(checkboxSource, /peer-focus-visible:ring-2/);
-  assert.match(checkboxSource, /borderWidth: disabled \? \(checked \? 0 : 2\) : 1/);
+  assert.match(checkboxSource, /borderWidth: disabled \? \(checked \|\| indeterminate \? 0 : 2\) : 1/);
   assert.ok(checkboxSource.includes("color-mix(in srgb, var(--surface) 38%, transparent)"));
   assert.match(checkboxSource, /checkbox-container-shape/);
   assert.match(checkboxSource, /size-\[18px\]/);
@@ -288,7 +288,8 @@ test("Design Lab includes extended Material 3 navigation, field, list, menu, pro
     assert.ok(labCss.includes(marker), `Design Lab styles are missing ${marker}`);
   }
   assert.match(labSource, /checked=\{sampleRadio==="all"\}/);
-  assert.match(labSource, /aria-expanded=\{sampleMenuOpen\}/);
+  assert.match(labSource, /sampleMenuLayout==="grid"/);
+  assert.match(labSource, /sampleMenuSelected\.includes\("show-grid"\)/);
 });
 
 
