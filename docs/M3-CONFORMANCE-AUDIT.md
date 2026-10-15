@@ -364,3 +364,7 @@ Older audit entries above that say the Checkbox/Switch/field disabled values are
 - [SOURCE-OBSERVED → source edit made] Manual review of the updated IconButton conformance test found one remaining stale expectation: AndroidX disabled icon content uses on-surface at 38%, not on-surface-variant. Corrected the assertion.
 - [OPEN] The last workflow run seen was pending for an earlier head and no status is currently returned for the newest commit. Do not treat the branch as green; obtain a run against the latest SHA before merge.
 - [SOURCE-OBSERVED → source edit made] Corrected the Design Lab progress preview override: track color now resolves to the palette's primary-container role, not surface-variant. Added a static assertion for this role bridge.
+## State-layer and indeterminate-motion provenance (2026-10-15)
+
+- [LOCULARY-ADAPTATION] Button hover/pressed colors use CSS color-mix (8%/12%) with semantic foreground roles. This is an implementation approximation, not proof of exact Android state-layer output. Compare computed results in both themes.
+- [OPEN] The shared linear ProgressIndicator uses one moving segment for indeterminate work, while classic AndroidX uses a more specific animation model. Its color roles, square geometry and ARIA semantics are source-backed; animation choreography and reduced-motion fallback are Loculary web adaptations.
