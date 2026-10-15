@@ -272,3 +272,9 @@ For Android-M3 component roles and state values, pinned AndroidX Compose Materia
 - Run 38697118090 failed typecheck due to a duplicate --checkbox-container-shape property in the enabled Lab checkbox sample. The disabled sample was also still using the stale 12% selected-container blend and on-surface checkmark.
 - Corrected both samples: one rounding token per sample, 38% on-surface selected disabled container, 38% surface checkmark, and rounding-degree override in both samples. Added static regression checks.
 - The failure is from an older head. Do not claim green CI until a run for the latest commit finishes.
+
+## Update — SegmentedControl source correction (2026-10-15)
+
+- Cross-checked official AndroidX OutlinedSegmentedButtonTokens.kt and SegmentedButtonDefaults.itemShape. The documented geometry is 40dp high, full rounded outer ends and rectangular interior segments; the selected fill/content roles are secondary-container/on-secondary-container. Disabled outline/content use on-surface at 12%/38%.
+- Replaced the old outer bordered/padded capsule with per-segment borders, shared edges, outer-end rounding and square interior corners. Added optional disabled item state and selected hover/pressed layers.
+- The previous small-rounded interior corners were not source-backed and are removed. Single-line labels remain a Loculary web layout decision. Browser checks for long labels, disabled boundaries, focus and keyboard navigation remain open.
