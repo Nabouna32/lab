@@ -16,6 +16,7 @@ import { BottomAppBar } from "@/components/ui/BottomAppBar";
 import { Scaffold } from "@/components/ui/Scaffold";
 import { Divider } from "@/components/ui/Divider";
 import { ListItem } from "@/components/ui/ListItem";
+import { Chip } from "@/components/ui/Chip";
 import { Select } from "@/components/ui/Select";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
@@ -177,6 +178,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const [sampleTab,setSampleTab]=useState("overview");
   const [sampleMenuOpen,setSampleMenuOpen]=useState(false);
   const [sampleFilterSelected,setSampleFilterSelected]=useState(true);
+  const [sampleInputChipVisible,setSampleInputChipVisible]=useState(true);
   const [value,setValue]=useState("180");
   const [percent,setPercent]=useState("25");
   const [preferences,setPreferences]=useState({syncFavorites:true,automaticTheme:false,reducedMotion:false});
@@ -522,11 +524,11 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
           <p className={styles.helper}>{locale==="fr"?"Barre d’application, boutons icône, badge, rail et FAB.":"App bar, icon buttons, badge, navigation rail and FAB."}</p>
         </article>
         <article className={styles.galleryCard}>
-          <h3>{locale==="fr"?"Champs, choix et filtres":"Text fields, choices & filters"}</h3><ComponentIdentifier names={["TextField (mockup)","RadioButton (mockup)","FilterChip (mockup)"]} kind="mockup" locale={locale}/>
+          <h3>{locale==="fr"?"Champs, choix et filtres":"Text fields, choices & filters"}</h3><ComponentIdentifier names={["TextField (mockup)","RadioButton (mockup)"]} kind="mockup" locale={locale}/><ComponentIdentifier names={["AssistChip","ElevatedAssistChip","FilterChip","ElevatedFilterChip","InputChip","SuggestionChip","ElevatedSuggestionChip"]} kind="adaptation" locale={locale}/>
           <label className={styles.sampleMaterialField}><span>{locale==="fr"?"Nom de l’outil":"Tool name"}</span><input type="text" defaultValue={locale==="fr"?"Convertisseur d’image":"Image converter"} /><small>{locale==="fr"?"Texte d’aide sous le champ":"Supporting text below the field"}</small></label>
           <label className={styles.sampleMaterialField}><span>{locale==="fr"?"Champ avec erreur":"Field with error"}</span><input type="email" aria-invalid="true" defaultValue="adresse-invalide" /><small className={styles.sampleFieldError}>{locale==="fr"?"Saisis une adresse e-mail valide.":"Enter a valid email address."}</small></label>
           <fieldset className={styles.sampleRadioGroup}><legend>{locale==="fr"?"Afficher les éléments":"Show items"}</legend><label><input type="radio" name="lab-filter" value="all" checked={sampleRadio==="all"} onChange={()=>setSampleRadio("all")}/>{locale==="fr"?"Tous":"All"}</label><label><input type="radio" name="lab-filter" value="favorites" checked={sampleRadio==="favorites"} onChange={()=>setSampleRadio("favorites")}/>{locale==="fr"?"Favoris":"Favorites"}</label></fieldset>
-          <div className={styles.chipRow}><button type="button" aria-pressed={sampleFilterSelected} className={sampleFilterSelected?styles.chipSelected:styles.chip} onClick={()=>setSampleFilterSelected(value=>!value)}>{sampleFilterSelected&&<MaterialIcon name="check" size={16}/>} {locale==="fr"?"Filtre sélectionnable":"Selectable filter"}</button><button type="button" className={styles.chip}>{locale==="fr"?"Suggestion":"Suggestion"}</button></div>
+          <div className={styles.chipRow}><Chip variant="assist" label={locale==="fr"?"Aide à la tâche":"Task assist"} leadingIcon="lightbulb" onClick={()=>setSnackbarOpen(true)}/><Chip variant="elevated-assist" label={locale==="fr"?"Assist élevée":"Elevated assist"} leadingIcon="tips_and_updates" onClick={()=>setSnackbarOpen(true)}/><Chip variant="filter" label={locale==="fr"?"Filtre sélectionnable":"Selectable filter"} selected={sampleFilterSelected} onSelectedChange={setSampleFilterSelected}/><Chip variant="elevated-filter" label={locale==="fr"?"Filtre élevé":"Elevated filter"} selected={false} onSelectedChange={()=>setSnackbarOpen(true)}/>{sampleInputChipVisible&&<Chip variant="input" label={locale==="fr"?"Image":"Image"} leadingIcon="image" onDismiss={()=>setSampleInputChipVisible(false)}/>}<Chip variant="suggestion" label={locale==="fr"?"Suggestion":"Suggestion"} onClick={()=>setSnackbarOpen(true)}/><Chip variant="elevated-suggestion" label={locale==="fr"?"Suggestion élevée":"Elevated suggestion"} onClick={()=>setSnackbarOpen(true)}/></div>
         </article>
         <article className={styles.galleryCard}>
           <h3>{locale==="fr"?"Listes, séparateurs et menus":"Lists, dividers & menus"}</h3><ComponentIdentifier names={["DropdownMenu (mockup)"]} kind="mockup" locale={locale}/><ComponentIdentifier names={["ListItem","HorizontalDivider","VerticalDivider"]} kind="adaptation" locale={locale}/>
