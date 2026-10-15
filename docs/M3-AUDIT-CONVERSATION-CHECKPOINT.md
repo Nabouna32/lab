@@ -721,3 +721,14 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - CI status: run 38780149400 passed dependency install, lint, typecheck, tests and production build on the older commit `5e7cfdfc92fb29bd3f27a485416c4a23c896949a`. No PR-triggered run was returned for the later contents-API commits, including the latest known commit above; therefore the new code is **not CI-verified**. Do not merge PR #729.
 - Static review found and corrected unsupported icon names in the new Lab specimens and updated the progress assertion to expect shared CircularProgressIndicator. Full lint/typecheck/build and browser checks are still required; do not assume these fixes are sufficient without running them.
 - Next work, without waiting for production use: complete the remaining official families in the inventory (date/time pickers, Search/SearchBar, tabs, dividers/list variants, FAB/Chip/IconButton variants), then return to state/motion/accessibility parity across all already-added components. Keep PR open; do not modify residual branches.
+
+
+## Continuation update — Tabs family (2026-10-15)
+
+- Added shared Web adaptation: `src/components/ui/Tabs.tsx` and `Tabs.module.css`.
+- Integrated `Tab`, `PrimaryTabRow`, `SecondaryTabRow`, `PrimaryScrollableTabRow`, and `SecondaryScrollableTabRow` specimens in the Design Lab; replaced the prior local tab mockup with the shared component.
+- Official source checked: https://developer.android.com/develop/ui/compose/components/tabs?hl=en and the official AndroidX API reference. The older generic `TabRow` / `ScrollableTabRow` APIs are deprecated in favor of the newer primary/secondary variants in the current reference.
+- Current code includes ARIA tab semantics, roving tab stop, ArrowLeft/ArrowRight/Home/End navigation, disabled-item skipping, horizontal scroll for long sets, selected panels, and reduced-motion CSS.
+- **Still unverified:** exact AndroidX spacing/tokens, animation timing/curve, RTL behavior, screen-reader parity, scroll-to-selected, and browser/device visuals. This is a Web adaptation, not a native Compose component.
+- Latest known successful CI is still on an older commit. The additions in this update are not CI-verified; run lint, typecheck, tests, production build, and browser checks before considering this family complete.
+- Next autonomous batch: inspect the official current AndroidX API inventory and replace remaining Lab mockups with shared Web adaptations in small family-sized commits. Keep PR #729 open/unmerged and do not touch residual branches.
