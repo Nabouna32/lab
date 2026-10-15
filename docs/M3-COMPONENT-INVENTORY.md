@@ -50,7 +50,7 @@ The list below is deliberately broader than the current production call sites. C
 | Radio button | Shared Web adaptation in a native radio group | Audit exact dimensions, state animation, touch target and assistive-technology semantics |
 | Slider / RangeSlider | Shared Slider + RangeSlider Web adaptation; two-thumb range specimen in Lab | Audit exact track/thumb/tick geometry, value bubble, drag behavior, discrete steps and screen-reader announcements |
 | Switch | Shared Switch | Audit M3 state layers, thumb/track/icon transitions, disabled/focus semantics and motion |
-| Time picker / time input | Shared TimePicker adaptation; dial and native input wrapper in Lab | Verify AndroidX version availability (TimeInput is experimental in current docs), exact dial geometry, keyboard and dialog integration |
+| TimePicker / TimeInput / TimePickerDialog | Shared TimePicker + modal dialog Web adaptations; dial, native input and modal specimens in Lab | Verify AndroidX version availability, exact dial geometry, keyboard and native dialog parity |
 | Search: SearchBar, expanded docked/full-screen patterns, AppBarWithSearch | Shared SearchBar + AppBarWithSearch Web adaptations; docked/full-screen and app-bar composition in Lab | Audit current SearchBarState API/version, scroll behavior, insets/transition, focus management and semantics |
 | TextField / OutlinedTextField / SecureTextField / OutlinedSecureTextField | Shared MaterialTextField Web adaptation; filled, outlined, error, counter and secure specimens in Lab | Audit floating-label/outline geometry, text scaling, IME/autofill, context-menu protection and accessibility |
 | SwipeToDismissBox | Shared Web adaptation with horizontal swipe and explicit accessible dismiss action | Verify gesture thresholds/directions, RTL, nested scrolling, exact motion and screen-reader parity |
@@ -199,3 +199,10 @@ For each component/variant, record:
 - **Official source:** https://developer.android.com/reference/kotlin/androidx/compose/material3/BottomSheetScaffold.composable
 - **Lab:** added shared persistent-sheet Web adaptation with collapsed/expanded states, unique linked IDs, keyboard-accessible handle, vertical drag threshold and reduced-motion CSS.
 - **Not yet verified:** AndroidX nested scroll/state, peek height and anchor semantics, drag resistance/velocity, insets, accessibility announcements, RTL and browser/device gesture parity.
+
+
+## TimePickerDialog — 2026-10-15
+
+- **Official source:** https://developer.android.com/reference/kotlin/androidx/compose/material3/TimePickerDialog.composable
+- **Lab:** added a modal Web adaptation with draft time, confirm/cancel, Escape dismissal, focus containment/restore and shared TimePicker dial.
+- **Not yet verified:** exact AndroidX dialog dimensions/shape, time-picker state/animation, native back handling, 12/24-hour locale behavior and assistive-technology parity.
