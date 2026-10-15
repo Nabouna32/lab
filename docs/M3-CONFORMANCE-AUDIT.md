@@ -312,3 +312,6 @@ See [`docs/M3-CONVENTIONS.md`](./M3-CONVENTIONS.md) for the detailed source hier
 ## AndroidX source cross-check (2026-10-15)
 
 The previously recorded Checkbox, Switch, outlined-field, shape-scale and Card mappings have now been cross-checked against pinned AndroidX Compose Material 3 sources: CheckboxTokens.kt, SwitchTokens.kt, OutlinedTextFieldTokens.kt, FilledTextFieldTokens.kt, ShapeTokens.kt, and Elevated/Filled/OutlinedCardTokens.kt at commit b4c15a8e351e6cfa93e90cce2cfbd0dbbe4805a7. These AndroidX files are authoritative for Android-M3 semantics; Material Web is the web-side cross-check. CSS pixel sizes remain Loculary adaptations.
+## AndroidX source cross-check (2026-10-15)
+
+The Checkbox, Switch, outlined-field, shape-scale and Card mappings recorded above have been cross-checked against pinned AndroidX Compose Material 3 sources: CheckboxTokens.kt, SwitchTokens.kt, OutlinedTextFieldTokens.kt, FilledTextFieldTokens.kt, ShapeTokens.kt, and Elevated/Filled/OutlinedCardTokens.kt at commit b4c15a8e351e6cfa93e90cce2cfbd0dbbe4805a7. AndroidX is authoritative for Android-M3 semantics; Material Web is the CSS-side cross-check. CSS pixel sizes remain Loculary adaptations.
