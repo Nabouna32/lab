@@ -1,0 +1,199 @@
+.root {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  width: 100%;
+  color: var(--lab-on-surface, var(--md-sys-color-on-surface, currentColor));
+}
+
+.field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding-inline: 16px;
+  border: 1px solid transparent;
+  border-bottom-color: var(--lab-on-surface-variant, var(--md-sys-color-on-surface-variant, currentColor));
+  border-radius: 4px 4px 0 0;
+  background: var(--lab-surface-container-highest, var(--md-sys-color-surface-container-highest, transparent));
+  transition: border-color 160ms ease, border-width 160ms ease, background-color 160ms ease;
+}
+
+.root[data-variant="outlined"] .field {
+  border: 1px solid var(--lab-outline, var(--md-sys-color-outline, currentColor));
+  border-radius: 4px;
+  background: transparent;
+}
+
+.root[data-error="true"] .field {
+  border-color: var(--lab-error, var(--md-sys-color-error, currentColor));
+}
+
+.root:focus-within .field {
+  border-bottom-width: 2px;
+  border-bottom-color: var(--lab-primary, var(--md-sys-color-primary, currentColor));
+}
+
+.root[data-variant="outlined"]:focus-within .field {
+  border: 2px solid var(--lab-primary, var(--md-sys-color-primary, currentColor));
+}
+
+.root[data-error="true"]:focus-within .field {
+  border-color: var(--lab-error, var(--md-sys-color-error, currentColor));
+}
+
+.inputContainer {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 54px;
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  width: 100%;
+  min-width: 0;
+  min-height: 52px;
+  padding: 17px 0 4px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 16px;
+}
+
+.input::placeholder {
+  color: transparent;
+}
+
+.input:focus::placeholder {
+  color: var(--lab-on-surface-variant, currentColor);
+  opacity: .8;
+}
+
+.label {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  max-width: 100%;
+  overflow: hidden;
+  color: var(--lab-on-surface-variant, currentColor);
+  font-size: 16px;
+  line-height: 24px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  pointer-events: none;
+  transform: translateY(-50%);
+  transform-origin: left center;
+  transition: top 160ms ease, font-size 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.input:focus + .label,
+.input:not(:placeholder-shown) + .label {
+  top: 8px;
+  font-size: 12px;
+  line-height: 16px;
+  transform: none;
+}
+
+.root[data-variant="outlined"] .label {
+  left: 8px;
+  padding-inline: 4px;
+  background: var(--lab-surface, var(--md-sys-color-surface, Canvas));
+}
+
+.root[data-variant="outlined"] .input:focus + .label,
+.root[data-variant="outlined"] .input:not(:placeholder-shown) + .label {
+  top: -8px;
+}
+
+.input:focus + .label {
+  color: var(--lab-primary, var(--md-sys-color-primary, currentColor));
+}
+
+.root[data-error="true"] .label {
+  color: var(--lab-error, var(--md-sys-color-error, currentColor));
+}
+
+.leading,
+.trailingContent {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  color: var(--lab-on-surface-variant, currentColor);
+}
+
+.affix {
+  flex: 0 0 auto;
+  color: var(--lab-on-surface-variant, currentColor);
+  font-size: 14px;
+}
+
+.trailing {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 48px;
+  min-height: 40px;
+  border: 0;
+  border-radius: 20px;
+  background: transparent;
+  color: var(--lab-primary, currentColor);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.trailing:hover:not(:disabled) {
+  background: color-mix(in srgb, currentColor 8%, transparent);
+}
+
+.trailing:focus-visible {
+  outline: 2px solid var(--lab-primary, currentColor);
+  outline-offset: -2px;
+}
+
+.trailing:disabled {
+  opacity: .38;
+  cursor: not-allowed;
+}
+
+.supportingRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 16px;
+  padding-inline: 16px;
+  color: var(--lab-on-surface-variant, currentColor);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.error {
+  color: var(--lab-error, var(--md-sys-color-error, currentColor));
+}
+
+.counter {
+  flex: 0 0 auto;
+  font-variant-numeric: tabular-nums;
+}
+
+.root[data-disabled="true"] {
+  opacity: .38;
+}
+
+.root[data-disabled="true"] .field {
+  border-bottom-style: dashed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .field,
+  .label {
+    transition: none;
+  }
+}
