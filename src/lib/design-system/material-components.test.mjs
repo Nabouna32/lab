@@ -56,7 +56,7 @@ test("shared switch uses native checkbox semantics with the switch role and M3 s
   assert.match(switchSource, /on-surface\) 12%/);
   assert.match(switchSource, /on-surface\) 38%/);
   assert.match(switchSource, /"--switch-active": "var\(--switch-disabled-track\)"/);
-  assert.match(switchSource, /bg-\[var\(--surface-container-highest\)\]/);
+  assert.match(switchSource, /"--switch-track": "var\(--surface-container-highest\)"/);
   assert.match(switchSource, /peer-focus-visible:ring-2/);
   assert.doesNotMatch(switchSource, /#[0-9a-fA-F]{3,8}/);
 });
