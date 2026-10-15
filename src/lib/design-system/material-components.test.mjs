@@ -18,6 +18,8 @@ const textFieldSource = readFileSync(new URL("../../components/ui/TextField.tsx"
 const textAreaSource = readFileSync(new URL("../../components/ui/TextArea.tsx", import.meta.url), "utf8");
 const selectSource = readFileSync(new URL("../../components/ui/Select.tsx", import.meta.url), "utf8");
 const cardSource = readFileSync(new URL("../../components/ui/Card.tsx", import.meta.url), "utf8");
+const buttonSource = readFileSync(new URL("../../components/ui/Button.tsx", import.meta.url), "utf8");
+const iconButtonSource = readFileSync(new URL("../../components/ui/IconButton.tsx", import.meta.url), "utf8");
 const panelSource = readFileSync(new URL("../../components/ui/Panel.tsx", import.meta.url), "utf8");
 const resultPanelSource = readFileSync(new URL("../../components/ui/ResultPanel.tsx", import.meta.url), "utf8");
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
@@ -364,4 +366,16 @@ test("Design Lab examples keep independent radio and segmented-control state", (
   assert.match(labSource, /const \[sampleLayout,setSampleLayout\]=useState\("all"\)/);
   assert.match(labSource, /Disposition de la liste.*?value=\{sampleLayout\} onChange=\{setSampleLayout\}/s);
   assert.match(labSource, /checked=\{sampleRadio==="all"\}/);
+});
+
+test("buttons use AndroidX M3 variant-specific disabled roles and icon-toggle selections", () => {
+  assert.match(buttonSource, /on-surface\)_10%,transparent/);
+  assert.match(buttonSource, /on-surface-variant\)_38%,transparent/);
+  assert.match(buttonSource, /on-surface\)_12%,transparent/);
+  assert.match(buttonSource, /outline-variant\)_10%,transparent/);
+  assert.match(iconButtonSource, /on-surface\)_10%,transparent/);
+  assert.match(iconButtonSource, /outline-variant\)_38%,transparent/);
+  assert.match(iconButtonSource, /standard: "text-\[var\(--primary\)\]"/);
+  assert.match(iconButtonSource, /"filled-tonal": "bg-\[var\(--secondary\)\] text-\[var\(--on-secondary\)\]"/);
+  assert.match(iconButtonSource, /outlined: "bg-\[var\(--inverse-surface\)\] text-\[var\(--inverse-on-surface\)\]"/);
 });
