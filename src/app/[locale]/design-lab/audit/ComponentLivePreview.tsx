@@ -15,9 +15,11 @@ type Locale = "fr" | "en";
 
 export default function ComponentLivePreview({
   componentId,
+  previewKey,
   locale,
 }: {
   componentId: string;
+  previewKey: string | null;
   locale: Locale;
 }) {
   const [checked, setChecked] = useState(true);
@@ -30,7 +32,7 @@ export default function ComponentLivePreview({
     : "Interact with the actual component. Hover, keyboard focus, press and disabled states use its real implementation.";
 
   let content;
-  switch (componentId) {
+  switch (previewKey) {
     case "button":
       content = (
         <div className="flex flex-wrap items-center gap-3">
