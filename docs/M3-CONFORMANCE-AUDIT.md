@@ -641,3 +641,8 @@ Added `src/components/ui/DatePicker.tsx` and CSS as a shared Web adaptation for 
 ## TimePicker / TimeInput — 2026-10-15
 
 Official sources: [Time pickers guide](https://developer.android.com/develop/ui/compose/components/time-pickers?hl=en), [time-picker dialogs](https://developer.android.com/develop/ui/compose/components/time-pickers-dialogs?hl=en). Added a shared dial-style `TimePicker` Web adaptation and native HTML time-input wrapper in the Lab. The dial supports hour/minute selection; the input wrapper is explicitly not claimed to match AndroidX `TimeInput`. Current official documentation describes these APIs as experimental, and the TimeInput API reference points to a 1.5.0 alpha introduction; check the exact pinned AndroidX version before making compatibility claims. Exact dial parity, dialog integration, locale/12-hour behavior and accessibility remain to validate.
+
+
+## SearchBar — 2026-10-15
+
+Official sources: [Search bar guide](https://developer.android.com/develop/ui/compose/components/search-bar?hl=en), [SearchBar API reference](https://developer.android.com/reference/kotlin/androidx/compose/material3/SearchBar.composable). Added a shared Web adaptation for docked suggestions and a full-screen search specimen, including query submission, clear, Escape and arrow-key suggestion selection. **API-version caution:** the older SearchBar overload is deprecated in the current API reference; the current direction uses SearchBarState and expanded docked/full-screen composables. This adaptation does not claim direct API parity. Insets, IME, transitions, focus restoration, RTL and assistive-technology behavior remain unverified.
