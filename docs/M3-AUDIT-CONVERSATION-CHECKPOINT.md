@@ -915,3 +915,11 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - Official source: https://developer.android.com/reference/kotlin/androidx/compose/material3/adaptive/navigationsuite/NavigationSuiteScaffold.composable.
 - **Version caveat:** adaptive navigation suite is a separate artifact; official release page lists 1.5.0-beta01. Confirm pinned dependency.
 - **Not complete:** adaptive type overrides, insets, RTL, state preservation and device/browser parity remain to validate.
+
+
+## CI lint repair — 2026-10-15
+
+- Investigated PR #729 CI run `38789028670`: lint failed on synchronous draft-state resets inside effects in `DatePickerDialog.tsx` and `TimePickerDialog.tsx`; `DatePicker.tsx` also had `aria-pressed` on a `gridcell`.
+- Refactored each dialog to mount a draft-owning inner component only while open, so opening initializes the draft from current props and dismissing discards the draft without state-setting effects.
+- Changed the calendar selection state to `aria-selected` for the gridcell role.
+- Latest fixes committed; verify a fresh Actions run before considering the CI repair validated.
