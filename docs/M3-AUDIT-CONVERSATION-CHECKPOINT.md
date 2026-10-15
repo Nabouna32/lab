@@ -612,3 +612,12 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - Official sources: https://developer.android.com/develop/ui/compose/components/drawer, https://developer.android.com/reference/kotlin/androidx/compose/material3/ModalNavigationDrawer.composable, https://developer.android.com/develop/ui/compose/system/material-insets.
 - Canonical conventions and conformance audit updated. Explicit gaps: dismissible variant, Android DrawerState parity, edge-swipe/predictive-back, exact motion/insets, and robust inert/background screen-reader isolation.
 - Status: source-informed Web adaptation, partial parity; must pass current-head CI and browser/assistive-technology checks. Next component: CircularProgressIndicator.
+
+
+## Checkpoint — CircularProgressIndicator (2026-10-15)
+
+- Added shared `CircularProgressIndicator` Web adaptation and replaced the Lab's hand-drawn conic-gradient circle with the shared component. The determinate value is driven by the existing slider; ARIA progress semantics are included.
+- Official sources: https://developer.android.com/develop/ui/compose/components/progress and https://developer.android.com/reference/kotlin/androidx/compose/material3/CircularProgressIndicator.composable. AndroidX uses a 0.0–1.0 progress fraction; this Web API currently uses percentages, and CSS px are not dp.
+- Added source-backed entries to canonical conventions and conformance audit. Known gaps include exact AndroidX motion/stroke parity, a dedicated indeterminate specimen, pinned source version and runtime/assistive-technology validation.
+- Validation: a CI run passed on commit `5e7cfdfc92fb29bd3f27a485416c4a23c896949a`, but it predates the component commits in this checkpoint. A fresh run is required for the current head.
+- Next: inspect current-head CI logs, fix all failures, then continue a full inventory against the official AndroidX component catalogue. Do not stop at the currently visible subset; include all relevant Material 3 component families and variants in the Lab.
