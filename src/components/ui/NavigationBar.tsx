@@ -12,7 +12,7 @@ export function NavigationBar<Key extends string>({ items, selectedKey, onSelect
   return <nav className={[styles.navigationBar, className].filter(Boolean).join(" ")} aria-label={label}>
     {items.map((item) => {
       const selected = item.key === selectedKey;
-      return <button key={item.key} type="button" className={styles.item} aria-pressed={selected} data-selected={selected ? "true" : "false"} onClick={() => onSelect(item.key)}>
+      return <button key={item.key} type="button" className={styles.item} aria-pressed={selected} aria-current={selected ? "page" : undefined} data-selected={selected ? "true" : "false"} onClick={() => onSelect(item.key)}>
         <span className={styles.iconContainer} aria-hidden="true"><MaterialIcon name={item.icon} size={24} /></span>
         <span className={styles.label}>{item.label}</span>
       </button>;
