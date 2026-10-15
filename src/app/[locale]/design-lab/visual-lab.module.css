@@ -343,3 +343,5 @@
 .scaffoldPreview .content{padding:.75rem;font-size:.8rem}
 .scaffoldPreview .content p{color:var(--lab-muted);line-height:1.4}
 .scaffoldPreview .fab{inset-inline-end:.75rem;inset-block-end:.75rem}
+
+.verticalDividerDemo{display:flex;align-items:center;gap:.75rem;min-height:40px;margin-top:.75rem;color:var(--lab-muted);font-size:.75rem}.verticalDividerDemo [role=separator]{height:32px}
