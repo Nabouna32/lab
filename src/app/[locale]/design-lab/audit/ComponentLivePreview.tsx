@@ -293,8 +293,8 @@ export default function ComponentLivePreview({
           key: "android-reference",
           title: fr ? "Référence Android Material 3" : "Android Material 3 baseline",
           instruction: fr
-            ? "Compare la forme, les dimensions, les couleurs sémantiques et l’élévation au repos aux références Android officielles. Bascule entre les thèmes clair et sombre et note les écarts : l’aperçu seul ne prouve pas la conformité."
-            : "Compare shape, dimensions, semantic colors and resting elevation with the official Android references. Switch between light and dark themes and record differences; the preview alone does not prove conformance.",
+            ? "Compare la forme, les dimensions, les couleurs sémantiques et l’élévation au repos aux références Android officielles. Bascule entre les thèmes clair et sombre et note les écarts : l’aperçu seul ne prouve pas la conformité. MDUI et MUI servent uniquement de comparaisons Web secondaires ; ne retiens pas un écart sans en discuter d’abord."
+            : "Compare shape, dimensions, semantic colors and resting elevation with the official Android references. Switch between light and dark themes and record differences; the preview alone does not prove conformance. MDUI and MUI are secondary Web comparisons only; do not adopt a divergence without discussing it first.",
           show: true,
         },
         {
