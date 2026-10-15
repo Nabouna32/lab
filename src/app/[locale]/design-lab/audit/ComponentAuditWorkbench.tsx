@@ -103,7 +103,7 @@ export default function ComponentAuditWorkbench({ locale }: { locale: Locale }) 
               <a className="text-sm font-semibold text-[var(--accent)] underline" href={`https://github.com/Nabouna32/lab/blob/main/${component.implementation_path}`} target="_blank" rel="noreferrer">{fr?"Ouvrir le code source ↗":"Open source ↗"}</a>
             </div>
             {component.official_references?.length>0&&<ul className="mt-3 list-disc pl-5 text-sm">{component.official_references.map((r,i)=><li key={i}>{r.url?<a className="underline" href={r.url} target="_blank" rel="noreferrer">{r.label||r.url}</a>:r.label}</li>)}</ul>}
-            <ComponentLivePreview componentId={component.id} locale={locale}/>
+            <ComponentLivePreview componentId={component.id} previewKey={component.preview_key} locale={locale}/>
             <ComponentMaintenancePanel componentId={component.id} locale={locale}/>
           </div>}
         </details>;
