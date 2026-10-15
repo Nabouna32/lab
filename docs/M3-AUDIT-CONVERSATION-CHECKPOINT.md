@@ -636,3 +636,11 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - Updated canonical conventions and conformance audit to make the full inventory the scope of work. Production usage is not a prerequisite for inclusion in the Lab.
 - Current official release page indicates Compose Material 3 1.4.0 stable as of 2026-10-15; each component audit must pin its relevant source/token revision.
 - Remaining official families include FAB variants, badges, tooltips, carousel, scaffold, top/bottom app bars, all chip variants, date/time pickers, search, tabs, list items, dividers, range slider, tri-state checkbox, swipe-to-dismiss, and the detailed variant/state/motion audits for existing primitives. Continue sequentially; do not treat this inventory as implementation completion.
+
+
+## Checkpoint — FloatingActionButton family (2026-10-15)
+
+- Official source: https://developer.android.com/develop/ui/compose/components/fab and https://developer.android.com/reference/kotlin/androidx/compose/material3/FloatingActionButtonDefaults.
+- Added a shared Web adaptation with small, regular, large and extended variants and integrated all four into the Lab. The prior static FAB mockup classification was removed. A semantic color-role mismatch discovered during review was corrected to use the matching on-primary-container role for the primary-container surface.
+- Canonical conventions, conformance audit and component inventory updated. Exact AndroidX state elevation, expanded/collapsed extended FAB behavior, dimensions and motion remain unverified.
+- Current-head CI has not been returned by the available run lookup for the new contents-API commits; the last confirmed green run predates these changes. Do not claim these changes pass CI yet.
