@@ -711,3 +711,13 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - Official source: AndroidX Material 3 RadioButton API reference and radio-button component guide. Added shared RadioButton adaptation and replaced the Lab's native-radio-only mockup with the shared component in a mutually exclusive group.
 - Updated canonical conventions, conformance audit and inventory. Native input preserves browser group keyboard behavior; exact AndroidX state animation, touch target and assistive-technology behavior remain to verify.
 - Current-head CI remains unconfirmed. Next: inspect latest source and implement date picker/time picker and search families, then revisit the outstanding component variants and motion audits.
+
+
+## Session status — 2026-10-15 (latest audit batch)
+
+- Latest recorded commit at checkpoint update: `1637d9795ad618e8174016f3fe709e834db767b9` (component assertion test corrected after replacing the circular-progress mockup). Re-read the current branch before any follow-on edits.
+- Added/connected shared Web adaptations in this batch: NavigationRail, NavigationDrawer (modal/standard partial modes), CircularProgressIndicator (determinate + indeterminate specimens), FloatingActionButton family, Badge/BadgedBox, Tooltip plain/rich, Carousel uncontained/multi-browse, TopAppBar variants, BottomAppBar, Scaffold, ListItem, horizontal/vertical Divider, Chip family, and RadioButton.
+- Added `docs/M3-COMPONENT-INVENTORY.md` and updated canonical conventions/conformance audit after each component family. The inventory intentionally keeps the remaining official API families and variant audits visible.
+- CI status: run 38780149400 passed dependency install, lint, typecheck, tests and production build on the older commit `5e7cfdfc92fb29bd3f27a485416c4a23c896949a`. No PR-triggered run was returned for the later contents-API commits, including the latest known commit above; therefore the new code is **not CI-verified**. Do not merge PR #729.
+- Static review found and corrected unsupported icon names in the new Lab specimens and updated the progress assertion to expect shared CircularProgressIndicator. Full lint/typecheck/build and browser checks are still required; do not assume these fixes are sufficient without running them.
+- Next work, without waiting for production use: complete the remaining official families in the inventory (date/time pickers, Search/SearchBar, tabs, dividers/list variants, FAB/Chip/IconButton variants), then return to state/motion/accessibility parity across all already-added components. Keep PR open; do not modify residual branches.
