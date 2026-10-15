@@ -2,6 +2,25 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
+import { AppBarWithSearch } from "@/components/ui/AppBarWithSearch";
+import { BottomSheetScaffold } from "@/components/ui/BottomSheetScaffold";
+import { Carousel } from "@/components/ui/Carousel";
+import { CopyButton } from "@/components/ui/CopyButton";
+import { DatePickerDialog } from "@/components/ui/DatePickerDialog";
+import { DropdownMenu } from "@/components/ui/DropdownMenu";
+import { ExposedDropdownMenu } from "@/components/ui/ExposedDropdownMenu";
+import { FloatingActionButtonMenu } from "@/components/ui/FloatingActionButtonMenu";
+import { FloatingToolbar } from "@/components/ui/FloatingToolbar";
+import { NavigationBar } from "@/components/ui/NavigationBar";
+import { NavigationDrawer } from "@/components/ui/NavigationDrawer";
+import { NavigationRail } from "@/components/ui/NavigationRail";
+import { NavigationSuiteScaffold } from "@/components/ui/NavigationSuiteScaffold";
+import { Scaffold } from "@/components/ui/Scaffold";
+import { SegmentedButtonGroup } from "@/components/ui/SegmentedButtonGroup";
+import { TimePicker } from "@/components/ui/TimePicker";
+import { TimePickerDialog } from "@/components/ui/TimePickerDialog";
+import { WideNavigationRail } from "@/components/ui/WideNavigationRail";
+import { ToolRuntimeProvider } from "@/components/tools/ToolPage/ToolRuntimeProvider";
 import { AlertDialog } from "@/components/ui/AlertDialog";
 import { BottomAppBar } from "@/components/ui/BottomAppBar";
 import { ClearButton } from "@/components/ui/ClearButton";
@@ -74,6 +93,26 @@ export default function ComponentLivePreview({
   const [dateValue, setDateValue] = useState("");
   const [splitResult, setSplitResult] = useState(fr ? "Aucune action" : "No action");
   const [dismissed, setDismissed] = useState(false);
+  const [appBarQuery, setAppBarQuery] = useState("");
+  const [appBarSubmitted, setAppBarSubmitted] = useState("");
+  const [bottomSheetExpanded, setBottomSheetExpanded] = useState(false);
+  const [dateDialogOpen, setDateDialogOpen] = useState(false);
+  const [dateRange, setDateRange] = useState({start:"2026-10-01",end:"2026-10-15"});
+  const [menuLayout, setMenuLayout] = useState("grid");
+  const [exposedFormat, setExposedFormat] = useState("png");
+  const [fabMenuOpen, setFabMenuOpen] = useState(false);
+  const [toolbarExpanded, setToolbarExpanded] = useState(true);
+  const [navigationSelection, setNavigationSelection] = useState("home");
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [drawerSelection, setDrawerSelection] = useState("home");
+  const [railSelection, setRailSelection] = useState("home");
+  const [suiteSelection, setSuiteSelection] = useState("home");
+  const [singleSegments, setSingleSegments] = useState<string[]>(["week"]);
+  const [multiSegments, setMultiSegments] = useState<string[]>(["bold"]);
+  const [timeValue, setTimeValue] = useState("09:30");
+  const [timeDialogOpen, setTimeDialogOpen] = useState(false);
+  const [wideRailExpanded, setWideRailExpanded] = useState(true);
+  const [wideRailSelected, setWideRailSelected] = useState("home");
   const label = fr ? "Aperçu du composant réel" : "Live component preview";
   const stateHelp = fr
     ? "Teste directement le composant. Le survol, le focus clavier, l’appui et l’état désactivé utilisent son implémentation réelle."
