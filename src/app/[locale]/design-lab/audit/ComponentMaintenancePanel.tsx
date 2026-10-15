@@ -43,7 +43,6 @@ export default function ComponentMaintenancePanel({ componentId, locale }: { com
   const [sha, setSha] = useState("");
   const [busy, setBusy] = useState(true);
   const load = useCallback(async () => {
-    setBusy(true); setError("");
     const [a,b,c,d] = await Promise.all([
       db.from("design_audit_reports").select("id,title,description,issue_type,component_state,severity,status,expected_behavior,created_at").eq("component_id",componentId).order("created_at",{ascending:false}),
       db.from("design_audit_decisions").select("id,title,rationale,status,created_at,approved_by,approved_at,official_references").eq("component_id",componentId).order("created_at",{ascending:false}),
@@ -51,7 +50,7 @@ export default function ComponentMaintenancePanel({ componentId, locale }: { com
       db.from("design_audit_events").select("id,event_type,details,created_at").eq("component_id",componentId).order("created_at",{ascending:false}).limit(15),
     ]);
     const issue = a.error ?? b.error ?? c.error ?? d.error;
-    if (issue) setError(issue.message);
+    setError(issue?.message ?? "");
     setReports((a.data ?? []) as Report[]); setDecisions((b.data ?? []) as Decision[]);
     setChecks((c.data ?? []) as Verification[]); setEvents((d.data ?? []) as Event[]); setBusy(false);
   }, [componentId,db]);
