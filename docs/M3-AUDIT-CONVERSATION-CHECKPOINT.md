@@ -802,3 +802,10 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - Official source: https://developer.android.com/develop/ui/compose/components/menu?hl=en.
 - **Version caveat:** current AndroidX reference includes SelectableDropdownMenuItem and CheckableDropdownMenuItem in 1.5.0 beta; confirm pinned dependency before claiming availability.
 - **Not complete:** exact popup anchoring, edge collision, native window/insets, typeahead, RTL and screen-reader/browser behavior remain to validate.
+
+
+## Continuation update — SwipeToDismissBox (2026-10-15)
+
+- Added shared `SwipeToDismissBox` Web adaptation and Lab specimen, with horizontal gesture, configurable direction, threshold dismissal, reduced-motion support and an explicit accessible dismiss button.
+- Official source: https://developer.android.com/reference/kotlin/androidx/compose/material3/SwipeToDismissBox.composable.
+- **Not complete:** state/confirm parity, nested scrolling, pointer cancellation, RTL, exact motion, assistive-technology and browser/device gesture behavior remain to validate.
