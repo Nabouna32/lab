@@ -7,8 +7,18 @@ type Decision = { id: string; title: string; rationale: string; status: string; 
 type Verification = { id: string; verification_type: string; result: string; notes: string; pull_request_url: string | null; commit_sha: string | null; created_at: string };
 type Event = { id: number; event_type: string; details: { title?: string | null; old_status?: string | null; new_status?: string | null }; created_at: string };
 const statuses = ["new", "triage", "confirmed", "in-progress", "fixed", "verified", "reopened", "wont-fix"];
+const frenchValues: Record<string, string> = {
+  new: "Nouveau", triage: "À qualifier", confirmed: "Confirmé", "in-progress": "En cours", fixed: "Corrigé", verified: "Vérifié", reopened: "Réouvert", "wont-fix": "Ne sera pas corrigé",
+  proposed: "Proposée", approved: "Approuvée", rejected: "Rejetée", superseded: "Remplacée",
+  visual: "Visuel", behavior: "Comportement", accessibility: "Accessibilité", theme: "Thème", content: "Contenu", other: "Autre",
+  general: "Général", default: "Normal", hover: "Survol", focus: "Focus clavier", pressed: "Appuyé", disabled: "Désactivé", selected: "Sélectionné", expanded: "Développé", loading: "Chargement", error: "Erreur",
+  low: "Basse", normal: "Normale", high: "Haute", blocker: "Bloquante", architecture: "Architecture",
+  "source-review": "Revue du code", interaction: "Interaction", "automated-test": "Test automatisé", "manual-test": "Test manuel",
+  pass: "Réussi", fail: "Échec", inconclusive: "Non concluant",
+};
 export default function ComponentMaintenancePanel({ componentId, locale }: { componentId: string; locale: Locale }) {
   const fr = locale === "fr";
+  const labelValue = (value: string) => fr ? (frenchValues[value] ?? value) : value;
   const db = useMemo(() => createClient(), []);
   const [reports, setReports] = useState<Report[]>([]);
   const [decisions, setDecisions] = useState<Decision[]>([]);
@@ -88,13 +98,13 @@ export default function ComponentMaintenancePanel({ componentId, locale }: { com
           <h4 className="font-semibold">{r.title}</h4><p className="mt-1 whitespace-pre-wrap text-sm">{r.description}</p>
           {r.expected_behavior&&<p className="mt-2 text-sm text-[var(--muted)]">{fr?"Attendu : ":"Expected: "}{r.expected_behavior}</p>}
           <p className="mt-2 text-xs text-[var(--muted)]">{r.issue_type} · {r.component_state} · {r.severity} · {new Date(r.created_at).toLocaleString(locale)}</p>
-        </div><label className={label}>{fr?"Statut":"Status"}<select className={field} value={r.status} onChange={e=>void changeStatus(r.id,e.target.value)}>{statuses.map(s=><option key={s}>{s}</option>)}</select></label></div>
+        </div><label className={label}>{fr?"Statut":"Status"}<select className={field} value={r.status} onChange={e=>void changeStatus(r.id,e.target.value)}>{statuses.map(s=><option key={s} value={s}>{labelValue(s)}</option>)}</select></label></div>
       </article>)}</div>
     </section>
     <details className="rounded-2xl border border-[var(--border)] p-4"><summary className="cursor-pointer text-lg font-semibold">{fr?"Signaler un défaut ou un doute":"Report a defect or concern"}</summary>
       <form onSubmit={submitReport} className="mt-4 grid gap-4 sm:grid-cols-2">
         <label className={label}>{fr?"Résumé":"Summary"}<input className={field} required minLength={3} maxLength={160} value={title} onChange={e=>setTitle(e.target.value)}/></label>
-        <label className={label}>{fr?"Type de problème":"Issue type"}<select className={field} value={kind} onChange={e=>setKind(e.target.value)}>{["visual","behavior","accessibility","theme","content","other"].map(x=><option key={x}>{x}</option>)}</select></label>
+        <label className={label}>{fr?"Type de problème":"Issue type"}<select className={field} value={kind} onChange={e=>setKind(e.target.value)}>{["visual","behavior","accessibility","theme","content","other"].map(x=><option key={x} value={x}>{labelValue(x)}</option>)}</select></label>
         <label className={label}>{fr?"État concerné":"Affected state"}<select className={field} value={state} onChange={e=>setState(e.target.value)}>{["general","default","hover","focus","pressed","disabled","selected","expanded","loading","error","other"].map(x=><option key={x}>{x}</option>)}</select></label>
         <label className={label}>{fr?"Priorité":"Priority"}<select className={field} value={severity} onChange={e=>setSeverity(e.target.value)}>{["low","normal","high","blocker"].map(x=><option key={x}>{x}</option>)}</select></label>
         <label className={label+" sm:col-span-2"}>{fr?"Ce que tu observes":"What you observed"}<textarea className={field} rows={4} required minLength={3} maxLength={10000} value={description} onChange={e=>setDescription(e.target.value)}/></label>
