@@ -154,6 +154,15 @@ export default function ComponentLivePreview({
     case "validation-message":
       content = <div className="grid gap-4"><TextField label={fr ? "Adresse e-mail" : "Email address"} inputId="audit-validation-email" value="adresse-invalide" onChange={() => undefined} /><ValidationMessage id="audit-validation-message">{fr ? "Saisis une adresse e-mail valide." : "Enter a valid email address."}</ValidationMessage></div>;
       break;
+    case "range-slider":
+      content = <div className="grid gap-4"><RangeSlider inputId="audit-range" label={fr ? "Plage de valeurs" : "Value range"} value={range} min={0} max={100} step={5} onValueChange={setRange} /><p className="text-sm text-[var(--muted)]">{range[0]} – {range[1]}</p><RangeSlider inputId="audit-range-disabled" label={fr ? "Plage désactivée" : "Disabled range"} value={[20, 60]} min={0} max={100} disabled onValueChange={() => undefined} /></div>;
+      break;
+    case "scroll-field":
+      content = <div className="grid gap-3"><ScrollField label={fr ? "Jour" : "Day"} options={fr ? ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"] : ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]} selectedIndex={scrollIndex} onSelectedIndexChange={setScrollIndex} /><p className="text-sm text-[var(--muted)]">{fr ? "Sélection : " : "Selected: "}{scrollIndex + 1}</p></div>;
+      break;
+    case "search-bar":
+      content = <div className="grid gap-3"><SearchBar label={fr ? "Rechercher un outil" : "Search tools"} query={searchQuery} onQueryChange={setSearchQuery} onSearch={setSearchSubmitted} suggestions={fr ? ["Calculatrice de pourcentage", "Convertisseur d’image", "Nettoyeur de texte"] : ["Percentage calculator", "Image converter", "Text cleaner"]} placeholder={fr ? "Rechercher…" : "Search…"} locale={locale} /><p className="text-sm text-[var(--muted)]">{fr ? "Dernière recherche : " : "Last search: "}{searchSubmitted || "—"}</p></div>;
+      break;
     case "button":
       content = (
         <div className="flex flex-wrap items-center gap-3">
