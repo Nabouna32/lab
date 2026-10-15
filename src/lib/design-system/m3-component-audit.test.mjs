@@ -8,6 +8,7 @@ const maintenance = readFileSync(new URL("../../app/[locale]/design-lab/audit/Co
 const migration = readFileSync(new URL("../../../supabase/migrations/20261015210132_design_audit_maintenance.sql", import.meta.url), "utf8");
 const route = readFileSync(new URL("../../app/[locale]/design-lab/audit/page.tsx", import.meta.url), "utf8");
 const relationshipMigration = readFileSync(new URL("../../../supabase/migrations/20261015211016_design_audit_m3_relationship.sql", import.meta.url), "utf8");
+const previewCoverageMigration = readFileSync(new URL("../../../supabase/migrations/20261015211356_design_audit_live_preview_coverage.sql", import.meta.url), "utf8");
 
 test("The workbench reads its inventory and progress from Supabase", () => {
   assert.match(workbench, /design_audit_components/);
@@ -18,7 +19,7 @@ test("The workbench reads its inventory and progress from Supabase", () => {
 });
 
 test("Live previews reuse real production components and never substitute a fake", () => {
-  for (const name of ["Button", "Checkbox", "Switch", "TextField", "Chip", "ToggleButton", "IconButton", "Card", "Badge", "CircularProgressIndicator", "Divider", "FloatingActionButton", "ProgressIndicator", "RadioButton", "SegmentedControl", "Select", "Slider", "Tabs", "TextArea", "ButtonGroup", "ListItem", "MaterialTextField", "Panel", "ResultPanel", "Snackbar", "Tooltip", "TriStateCheckbox", "AlertDialog", "BottomAppBar", "ClearButton", "DatePicker", "ModalBottomSheet", "RangeSlider", "ScrollField", "SearchBar", "SplitButton", "TopAppBar", "ValidationMessage", "SwipeToDismissBox"]) {
+  for (const name of ["Button", "Checkbox", "Switch", "TextField", "Chip", "ToggleButton", "IconButton", "Card", "Badge", "CircularProgressIndicator", "Divider", "FloatingActionButton", "ProgressIndicator", "RadioButton", "SegmentedControl", "Select", "Slider", "Tabs", "TextArea", "ButtonGroup", "ListItem", "MaterialTextField", "Panel", "ResultPanel", "Snackbar", "Tooltip", "TriStateCheckbox", "AlertDialog", "BottomAppBar", "ClearButton", "DatePicker", "ModalBottomSheet", "RangeSlider", "ScrollField", "SearchBar", "SplitButton", "TopAppBar", "ValidationMessage", "SwipeToDismissBox", "AppBarWithSearch", "BottomSheetScaffold", "Carousel", "CopyButton", "DatePickerDialog", "DropdownMenu", "ExposedDropdownMenu", "FloatingActionButtonMenu", "FloatingToolbar", "NavigationBar", "NavigationDrawer", "NavigationRail", "NavigationSuiteScaffold", "Scaffold", "SegmentedButtonGroup", "TimePicker", "TimePickerDialog", "WideNavigationRail", "PullToRefreshBox"]) {
     assert.match(preview, new RegExp(`import \\{ ${name} \\} from "@\/components\/ui\/${name}"`));
   }
   assert.match(preview, /No substitute component is shown/);
@@ -56,4 +57,11 @@ test("The inventory distinguishes web adaptations from Loculary-specific utiliti
   assert.match(relationshipMigration, /add column m3_relationship/);
   assert.match(relationshipMigration, /loculary-utility/);
   assert.match(relationshipMigration, /web-adaptation/);
+});
+
+test("Every inventoried production component has an explicit live preview mapping", () => {
+  assert.match(previewCoverageMigration, /set preview_key = id/);
+  assert.match(previewCoverageMigration, /wide-navigation-rail/);
+  assert.match(previewCoverageMigration, /pull-to-refresh-box/);
+  assert.match(workbench, /previewKey=\{component.preview_key\}/);
 });
