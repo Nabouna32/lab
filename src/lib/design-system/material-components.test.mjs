@@ -310,7 +310,8 @@ test("Design Lab follows the resolved application theme instead of owning a seco
   assert.match(labSource, /createLabTokens\(scheme,theme,roundingDegree\)/);
   assert.match(labSource, /inputId="lab-rounding-degree"/);
   assert.match(labSource, /--shape-corner-extra-small/);
-  assert.match(labSource, /preferences\.automaticTheme\);/);
+  assert.match(labSource, /automaticTheme:!current\.automaticTheme/);
+  assert.doesNotMatch(labSource, /aria-pressed=\{theme===/);
   assert.doesNotMatch(labSource, /setTheme\(/);
 });
 
