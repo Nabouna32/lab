@@ -77,6 +77,7 @@ test("Button audit preview provides contextual verification guidance in French a
     "buttonScenarios",
     "Référence Android Material 3",
     "Android Material 3 baseline",
+    "MDUI and MUI are secondary Web comparisons only",
     "buttonLongLabel",
     "buttonLeadingIcon || buttonTrailingArrow",
     "buttonNarrow",
