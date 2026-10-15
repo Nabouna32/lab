@@ -841,3 +841,10 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - Added shared `PullToRefreshBox` Web adaptation and Lab specimen with pull distance, refreshing state, reduced-motion fallback and an accessible “refresh now” action.
 - Official sources: https://developer.android.com/reference/kotlin/androidx/compose/material3/pulltorefresh/PullToRefreshBox.composable and https://developer.android.com/reference/kotlin/androidx/compose/material3/pulltorefresh/pullToRefresh.modifier.
 - **Not complete:** native touch scroll/nested-scroll arbitration and overscroll behavior vary by browser/device; verify on real touch devices before claiming parity.
+
+
+## Continuation update — BottomSheetScaffold (2026-10-15)
+
+- Added shared `BottomSheetScaffold` Web adaptation and Lab specimen with controlled collapsed/expanded state, keyboard handle, vertical drag threshold, unique IDs and reduced-motion CSS.
+- Official source: https://developer.android.com/reference/kotlin/androidx/compose/material3/BottomSheetScaffold.composable.
+- **Not complete:** nested scroll, anchor/velocity semantics, peek height, insets, RTL, gesture and screen-reader parity remain to validate.
