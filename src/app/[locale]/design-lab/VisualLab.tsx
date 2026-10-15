@@ -20,6 +20,7 @@ import { Chip } from "@/components/ui/Chip";
 import { RadioButton } from "@/components/ui/RadioButton";
 import { Tabs } from "@/components/ui/Tabs";
 import { DatePicker } from "@/components/ui/DatePicker";
+import { TimePicker } from "@/components/ui/TimePicker";
 import { Select } from "@/components/ui/Select";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
@@ -181,6 +182,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const [sampleTab,setSampleTab]=useState("overview");
   const [sampleSecondaryTab,setSampleSecondaryTab]=useState("specifications");
   const [sampleDate,setSampleDate]=useState("");
+  const [sampleTime,setSampleTime]=useState("09:30");
   const [sampleDateRange,setSampleDateRange]=useState({start:"",end:""});
   const [sampleMenuOpen,setSampleMenuOpen]=useState(false);
   const [sampleFilterSelected,setSampleFilterSelected]=useState(true);
@@ -554,6 +556,13 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
         <article className={styles.galleryCard}><h3>{locale==="fr"?"Date unique":"Single date"}</h3><ComponentIdentifier names={["DatePicker"]} kind="adaptation" locale={locale}/><DatePicker label={locale==="fr"?"Choisir une date":"Choose a date"} value={sampleDate} onChange={setSampleDate} locale={locale}/><p className={styles.helper}>{locale==="fr"?(sampleDate?("Date sélectionnée : "+sampleDate):"Sélectionnez une date dans le calendrier."):(sampleDate?("Selected date: "+sampleDate):"Select a date in the calendar.")}</p></article>
         <article className={styles.galleryCard}><h3>{locale==="fr"?"Plage de dates":"Date range"}</h3><ComponentIdentifier names={["DateRangePicker"]} kind="adaptation" locale={locale}/><DatePicker label={locale==="fr"?"Choisir une plage de dates":"Choose a date range"} mode="range" rangeValue={sampleDateRange} onRangeChange={setSampleDateRange} locale={locale}/><p className={styles.helper}>{locale==="fr"?"Sélectionnez un début, puis une fin.":"Select a start date, then an end date."}</p></article>
         <article className={styles.galleryCard}><h3>{locale==="fr"?"Mode saisie":"Input mode"}</h3><ComponentIdentifier names={["DatePicker (native HTML input wrapper)"]} kind="adaptation" locale={locale}/><DatePicker label={locale==="fr"?"Date de démonstration":"Demo date"} value={sampleDate} onChange={setSampleDate} displayMode="input" locale={locale}/><p className={styles.helper}>{locale==="fr"?"L’interface de saisie dépend du navigateur ; ce n’est pas la boîte de dialogue AndroidX.":"Input UI is browser-native; this is not the AndroidX dialog."}</p></article>
+      </div>
+    </section>
+    <section className={styles.gallerySection} aria-labelledby="time-picker-title">
+      <div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>07 / {locale==="fr"?"Sélecteurs d’heure":"Time selection"}</span><h2 id="time-picker-title">{locale==="fr"?"Sélecteurs d’heure":"Time pickers"}</h2><p>{locale==="fr"?"Cadran interactif et saisie de l’heure. La saisie HTML native est clairement distinguée de TimeInput AndroidX.":"Interactive clock dial and time entry. Native HTML input is explicitly distinguished from AndroidX TimeInput."}</p></div></div>
+      <div className={styles.galleryGrid}>
+        <article className={styles.galleryCard}><h3>{locale==="fr"?"Cadran":"Dial picker"}</h3><ComponentIdentifier names={["TimePicker"]} kind="adaptation" locale={locale}/><TimePicker label={locale==="fr"?"Choisir une heure":"Choose a time"} value={sampleTime} onChange={setSampleTime} displayMode="dial" is24Hour locale={locale}/><p className={styles.helper}>{locale==="fr"?"Heure sélectionnée : ":"Selected time: "}{sampleTime}</p></article>
+        <article className={styles.galleryCard}><h3>{locale==="fr"?"Saisie de l’heure":"Time input"}</h3><ComponentIdentifier names={["TimeInput (native HTML input wrapper)"]} kind="adaptation" locale={locale}/><TimePicker label={locale==="fr"?"Saisir une heure":"Enter a time"} value={sampleTime} onChange={setSampleTime} displayMode="input" is24Hour locale={locale}/><p className={styles.helper}>{locale==="fr"?"Le navigateur dessine ce contrôle ; il ne reproduit pas le TimeInput AndroidX expérimental.":"The browser renders this control; it does not reproduce the experimental AndroidX TimeInput."}</p></article>
       </div>
     </section>
     <section className={styles.gallerySection} aria-labelledby="shared-components-title">
