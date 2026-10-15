@@ -45,7 +45,7 @@ The list below is deliberately broader than the current production call sites. C
 | Checkbox / TriStateCheckbox | Shared Checkbox + TriStateCheckbox Web adaptation; mixed state shown in Lab | Verify parent-child state propagation, mixed-state accessibility, animation and minimum target |
 | Chips: assist/elevated assist/filter/elevated filter/input/suggestion/elevated suggestion | Shared Web adaptation; all seven variants in Lab | Audit exact geometry, state tokens, touch targets, input removal semantics and motion |
 | Date picker / date range picker / date picker dialog | Shared DatePicker adaptation; single, range and native input specimens in Lab | Add AndroidX-equivalent dialog; verify grid keyboard, locale, RTL, dimensions and motion |
-| Menus / dropdown menus | ExposedDropdownMenu and Select wrapper | Audit DropdownMenu, exposed dropdown, anchoring, focus, keyboard, dismissal and native HTML distinction |
+| Menus: DropdownMenu / DropdownMenuItem / SelectableDropdownMenuItem / CheckableDropdownMenuItem | Shared DropdownMenu adaptation; standard items, dividers, selected and disabled states | Audit latest API version, anchor positioning, selection semantics, focus, keyboard, scroll and dismissal |
 | Radio button | Shared Web adaptation in a native radio group | Audit exact dimensions, state animation, touch target and assistive-technology semantics |
 | Slider / RangeSlider | Shared Slider + RangeSlider Web adaptation; two-thumb range specimen in Lab | Audit exact track/thumb/tick geometry, value bubble, drag behavior, discrete steps and screen-reader announcements |
 | Switch | Shared Switch | Audit M3 state layers, thumb/track/icon transitions, disabled/focus semantics and motion |
@@ -145,3 +145,11 @@ For each component/variant, record:
 - **Lab:** added shared `MaterialTextField` adaptation with filled/outlined variants, floating labels, leading/trailing content, prefix/suffix, supporting/error text, optional character counter, and secure password entry with reveal toggle.
 - **Security qualification:** secure mode prevents common copy/cut/drag events and uses password autocomplete defaults, but browser behavior and platform accessibility differ; it is not a substitute for AndroidX SecureTextField's native input protections.
 - **Not yet verified:** exact filled/outlined container and label motion, focused border thickness, text scaling, IME/autofill, selection/context menu behavior, screen readers and RTL.
+
+
+## DropdownMenu / DropdownMenuItem — 2026-10-15
+
+- **Official source:** https://developer.android.com/develop/ui/compose/components/menu?hl=en and https://developer.android.com/reference/kotlin/androidx/compose/material3/DropdownMenuItem.composable
+- **Lab:** replaced the local menu mockup with shared `DropdownMenu` / item adaptations supporting outside dismissal, Escape, ArrowUp/Down, Home/End, disabled entries, separators, leading icons, selected/checkable items and focus restoration after selection.
+- **Newer API caveat:** current AndroidX API reference also lists `SelectableDropdownMenuItem` and `CheckableDropdownMenuItem`, introduced in 1.5.0 beta; verify the pinned version before using those APIs.
+- **Not yet verified:** exact popup positioning, edge collision, native window behavior, scroll/insets, typeahead, screen-reader announcements, RTL and browser/device parity.
