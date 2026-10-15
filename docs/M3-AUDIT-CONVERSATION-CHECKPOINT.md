@@ -923,3 +923,10 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - Refactored each dialog to mount a draft-owning inner component only while open, so opening initializes the draft from current props and dismissing discards the draft without state-setting effects.
 - Changed the calendar selection state to `aria-selected` for the gridcell role.
 - Latest fixes committed; verify a fresh Actions run before considering the CI repair validated.
+
+
+## CI typecheck repair — Badge (2026-10-15)
+
+- After the date/time dialog lint fixes, CI lint passed but Typecheck failed on TS2367 in `Badge.tsx` because `ReactNode` was compared directly with `false`.
+- Narrowed the boolean case with `typeof content === "boolean"` while preserving the dot fallback for false/null/undefined.
+- A new complete CI run is still required; tests/build were skipped after the typecheck failure.
