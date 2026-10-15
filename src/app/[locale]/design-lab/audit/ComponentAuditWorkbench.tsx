@@ -7,9 +7,10 @@ import ComponentMaintenancePanel from "./ComponentMaintenancePanel";
 
 type Locale = "fr" | "en";
 type AuditStatus = "unverified" | "partially-verified" | "discrepancy-confirmed" | "verification-required" | "conformant-within-verified-scope";
-type Component = { id: string; name: string; category: string; implementation_path: string; preview_key: string | null; audit_status: AuditStatus; official_references: {label?:string;url?:string}[] };
+type Component = { id: string; name: string; category: string; implementation_path: string; preview_key: string | null; audit_status: AuditStatus; m3_relationship: "web-adaptation" | "loculary-utility" | "not-assessed"; official_references: {label?:string;url?:string}[] };
 type ReportSummary = { id: string; component_id: string; status: string };
 const statusOptions: AuditStatus[] = ["unverified","partially-verified","discrepancy-confirmed","verification-required","conformant-within-verified-scope"];
+const relationshipLabels: Record<string,{fr:string;en:string}> = { "web-adaptation": {fr:"Adaptation Web M3/AndroidX",en:"M3/AndroidX web adaptation"}, "loculary-utility": {fr:"Utilitaire Loculary · pas un composant M3 autonome",en:"Loculary utility · not a standalone M3 component"}, "not-assessed": {fr:"Relation M3 à qualifier",en:"M3 relationship unclassified"} };
 const labels: Record<AuditStatus,{fr:string;en:string}> = {
   unverified:{fr:"Non vérifié",en:"Unverified"},
   "partially-verified":{fr:"Partiellement vérifié",en:"Partially verified"},
@@ -35,7 +36,7 @@ export default function ComponentAuditWorkbench({ locale }: { locale: Locale }) 
     let active = true;
     async function load() {
       const [componentResult,reportResult] = await Promise.all([
-        db.from("design_audit_components").select("id,name,category,implementation_path,preview_key,audit_status,official_references").order("category").order("name"),
+        db.from("design_audit_components").select("id,name,category,implementation_path,preview_key,audit_status,m3_relationship,official_references").order("category").order("name"),
         db.from("design_audit_reports").select("id,component_id,status"),
       ]);
       if (!active) return;
@@ -93,7 +94,7 @@ export default function ComponentAuditWorkbench({ locale }: { locale: Locale }) 
         const componentReports=reports.filter(r=>r.component_id===component.id&&!["verified","wont-fix"].includes(r.status)).length;
         return <details key={component.id} open={expandedId === component.id} className="rounded-2xl border border-[var(--border)]">
           <summary onClick={(event) => { event.preventDefault(); setExpandedId(expandedId === component.id ? "" : component.id); }} className="flex cursor-pointer list-none flex-wrap items-center gap-3 p-4">
-            <span className="min-w-0 flex-1 font-semibold">{component.name}<span className="mt-1 block text-xs font-normal text-[var(--muted)]">{component.category} · {component.implementation_path}</span></span>
+            <span className="min-w-0 flex-1 font-semibold">{component.name}<span className="mt-1 block text-xs font-normal text-[var(--muted)]">{component.category} · {relationshipLabels[component.m3_relationship][locale]}</span><span className="mt-1 block truncate text-xs font-normal text-[var(--muted)]">{component.implementation_path}</span></span>
             <span className="rounded-full bg-[var(--surface-container)] px-3 py-1 text-xs">{labels[component.audit_status][locale]}</span>
             {componentReports>0&&<span className="rounded-full border border-[var(--border)] px-3 py-1 text-xs">{componentReports} {fr?"ouvert(s)":"open"}</span>}
           </summary>
