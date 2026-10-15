@@ -112,3 +112,8 @@ AndroidX SegmentedButton.kt and OutlinedSegmentedButtonTokens.kt were inspected.
 ## Unit and token implementation finding (2026-10-15)
 
 Android dp/sp values are not CSS px/rem. The Lab now starts a shared Web reference-token layer with explicit Android-source magnitudes and documented conversion caveats. Fidelity/Expressive comparisons must share the same dimension/type tokens unless the official AndroidX Expressive source defines a real variant-specific difference; otherwise a comparison would accidentally conflate component style with platform-unit scaling. The mapping is a Web approximation and must be validated under browser zoom, root-font changes, responsive viewports and accessibility settings.
+
+
+## Multiline text field comparison finding (2026-10-15)
+
+AndroidX uses TextField for multiline text entry; TextArea is a Web convenience name. The Lab selector now drives the shared component's Fidelity/Expressive variants. Expressive is a source-informed Web comparison, not proof of native Compose parity. Both variants should share the same multiline behavior and reference tokens unless the AndroidX source establishes a real variant-specific difference. The specimen's 8rem minimum height is Loculary-specific, not an Android default.
