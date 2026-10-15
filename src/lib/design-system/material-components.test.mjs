@@ -331,9 +331,9 @@ test("static Design Lab validation example does not create an assertive live ale
 });
 
 test("outlined form controls use semantic extra-small shape tokens and per-part disabled roles", () => {
-  assert.match(globalCss, /--shape-corner-extra-small:\\s*4px/);
-  assert.match(globalCss, /--shape-corner-small:\\s*8px/);
-  assert.match(globalCss, /--shape-corner-medium:\\s*12px/);
+  assert.match(globalCss, /--shape-corner-extra-small:\s*4px/);
+  assert.match(globalCss, /--shape-corner-small:\s*8px/);
+  assert.match(globalCss, /--shape-corner-medium:\s*12px/);
   assert.match(textFieldSource, /rounded-\[var\(--shape-corner-extra-small\)\]/);
   assert.match(textFieldSource, /min-h-14/);
   assert.match(textFieldSource, /step=\{step \?\? \(type === "number" \? "any" : undefined\)\}/);
