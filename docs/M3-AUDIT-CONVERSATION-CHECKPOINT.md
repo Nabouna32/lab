@@ -715,7 +715,7 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 
 ## Session status — 2026-10-15 (latest audit batch)
 
-- Latest recorded commit at checkpoint update: `1637d9795ad618e8174016f3fe709e834db767b9` (component assertion test corrected after replacing the circular-progress mockup). Re-read the current branch before any follow-on edits.
+- Latest code commit before this checkpoint-only documentation commit: `1637d9795ad618e8174016f3fe709e834db767b9` (component assertion test corrected after replacing the circular-progress mockup). This checkpoint update itself is commit `5769cfa7a274bec47700f20f7c3d2e35f0da9937`. Re-read the current branch before any follow-on edits.
 - Added/connected shared Web adaptations in this batch: NavigationRail, NavigationDrawer (modal/standard partial modes), CircularProgressIndicator (determinate + indeterminate specimens), FloatingActionButton family, Badge/BadgedBox, Tooltip plain/rich, Carousel uncontained/multi-browse, TopAppBar variants, BottomAppBar, Scaffold, ListItem, horizontal/vertical Divider, Chip family, and RadioButton.
 - Added `docs/M3-COMPONENT-INVENTORY.md` and updated canonical conventions/conformance audit after each component family. The inventory intentionally keeps the remaining official API families and variant audits visible.
 - CI status: run 38780149400 passed dependency install, lint, typecheck, tests and production build on the older commit `5e7cfdfc92fb29bd3f27a485416c4a23c896949a`. No PR-triggered run was returned for the later contents-API commits, including the latest known commit above; therefore the new code is **not CI-verified**. Do not merge PR #729.
