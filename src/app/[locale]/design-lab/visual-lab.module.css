@@ -329,3 +329,8 @@
 .fabSpecimen{display:grid;gap:.65rem;margin-top:1rem;padding:1rem;border:1px solid var(--lab-outline);border-radius:var(--shape-corner-medium);background:var(--lab-surface)}
 .fabSpecimen h4{margin:0;color:var(--lab-text);font-size:.9rem;font-weight:650}
 .sampleFabVariants{display:flex;align-items:center;flex-wrap:wrap;gap:1rem;padding:.75rem 0}
+
+.carouselCard{display:grid;align-content:start;gap:.6rem;min-height:8rem;padding:1rem;border:1px solid var(--lab-outline);border-radius:var(--shape-corner-extra-large);color:var(--lab-text);background:var(--lab-surface-container)}
+.carouselCard svg{color:var(--lab-primary)}
+.carouselCard strong{font-size:.9rem;font-weight:650}
+.carouselCard span{color:var(--lab-muted);font-size:.75rem}
