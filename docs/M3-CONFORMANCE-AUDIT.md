@@ -666,3 +666,8 @@ Official sources: [ToggleButton API](https://developer.android.com/reference/kot
 ## TextField / SecureTextField — 2026-10-15
 
 Official references: [TextField](https://developer.android.com/reference/kotlin/androidx/compose/material3/TextField.composable), [OutlinedTextField](https://developer.android.com/reference/kotlin/androidx/compose/material3/OutlinedTextField.composable), [SecureTextField](https://developer.android.com/reference/kotlin/androidx/compose/material3/SecureTextField.composable), [OutlinedSecureTextField](https://developer.android.com/reference/kotlin/androidx/compose/material3/OutlinedSecureTextField.composable). Added a shared `MaterialTextField` adaptation and Lab examples for filled/outlined, supporting/error text, counter and secure password fields. Secure mode blocks common copy/cut/drag events, but must not be described as equivalent to native AndroidX secure input. Exact label/outline motion, text scaling, IME/autofill, context menu and assistive-technology behavior remain unverified.
+
+
+## DropdownMenu / DropdownMenuItem — 2026-10-15
+
+Official sources: [Menus guide](https://developer.android.com/develop/ui/compose/components/menu?hl=en), [DropdownMenuItem API](https://developer.android.com/reference/kotlin/androidx/compose/material3/DropdownMenuItem.composable). Replaced the Lab's local dropdown mockup with the shared `DropdownMenu` adaptation. It includes keyboard opening/navigation, disabled items, separators, selected/checkable semantics, outside dismissal and focus restoration after selection. Exact AndroidX popup anchoring/window behavior, typeahead, scroll/insets, RTL and assistive-technology parity remain unverified. Newer SelectableDropdownMenuItem/CheckableDropdownMenuItem APIs require version verification.
