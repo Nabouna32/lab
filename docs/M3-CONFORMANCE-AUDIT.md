@@ -656,3 +656,8 @@ Official source: [AndroidX Material 3 TriStateCheckbox API](https://developer.an
 ## RangeSlider — 2026-10-15
 
 Official sources: [AndroidX RangeSlider API](https://developer.android.com/reference/kotlin/androidx/compose/material3/RangeSlider.composable), [Slider guide](https://developer.android.com/develop/ui/compose/components/slider?hl=en). Added a shared two-thumb `RangeSlider` Web adaptation with native range inputs, independent minimum/maximum accessible names, bounded values, steps and optional minimum gap. It is not claimed to match Compose track/tick geometry or gesture arbitration; pointer testing, RTL, screen-reader behavior and exact visual parity remain open.
+
+
+## ToggleButton / SplitButtonLayout — 2026-10-15
+
+Official sources: [ToggleButton API](https://developer.android.com/reference/kotlin/androidx/compose/material3/ToggleButton.composable), [SplitButtonLayout API](https://developer.android.com/reference/kotlin/androidx/compose/material3/SplitButtonLayout.composable). Added shared Web adaptations and Lab specimens for toggle-button styles and split actions. The current ToggleButton API describes state-driven shape morphing and multiple sizes; current SplitButtonLayout reference records introduction in Material3 1.5.0-alpha29. These are not native Compose implementations; exact morphing, size tokens, menu semantics and version availability remain to validate.
