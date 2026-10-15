@@ -310,3 +310,8 @@ Earlier checkpoint notes that described Checkbox/Switch/field disabled values as
 - Corrected a semantic role drift in the standard IconButton: unselected hover now keeps on-surface-variant rather than switching to general foreground.
 - Corrected the selected outlined toggle: its border is removed when selected, matching AndroidX OutlinedIconToggleButton's default border behavior.
 - Static assertions updated. Browser verification of state-layer and border rendering remains open.
+## Resume update — current static test corrections (2026-10-15)
+
+- Fixed the remaining IconButton test expectation: disabled icon color is on-surface at 38%, per the pinned AndroidX IconButton tokens. The unselected hover role remains on-surface-variant.
+- Fixed literal bracket regex escaping and shape-token whitespace regexes in the component regression test.
+- Current branch is still open/unmerged. Latest head has no confirmed green CI status; rerun/verify CI before any merge.
