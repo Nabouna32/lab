@@ -69,6 +69,7 @@ test("Every inventoried production component has an explicit live preview mappin
 
 test("Reference catalogue is stored separately from the implementation inventory", async () => {
   const catalogMigration = readFileSync(new URL("../../../supabase/migrations/20261015215122_design_audit_reference_catalog.sql", import.meta.url), "utf8");
+  const catalogEditingMigration = readFileSync(new URL("../../../supabase/migrations/20261015220100_design_audit_catalog_admin_editing.sql", import.meta.url), "utf8");
   assert.match(workbench, /design_audit_catalog_entries/);
   assert.match(workbench, /role="tablist"/);
   assert.match(workbench, /material-3/);
@@ -80,4 +81,8 @@ test("Reference catalogue is stored separately from the implementation inventory
   const seedSection = catalogMigration.split("on conflict (id) do nothing;")[0];
   const seededRows = seedSection.match(/^\('[-a-z0-9]+',/gm) ?? [];
   assert.equal(seededRows.length, 116, "all 116 existing reference entries are migrated into PostgreSQL");
+  assert.match(catalogEditingMigration, /Audit writers can update reference catalogue/);
+  assert.match(catalogEditingMigration, /private\.has_admin_permission\('audit\.write'\)/);
+  assert.match(catalogEditingMigration, /design_audit_catalog_entry_event/);
+  assert.match(catalogEditingMigration, /design_audit_catalog_verified_requires_url/);
 });
