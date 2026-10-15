@@ -14,7 +14,7 @@ test("Design Lab displays exact component names and identifies specimen fidelity
     "Button", "IconButton", "TextField", "TextArea (Web wrapper)", "ExposedDropdownMenu",
     "Select (native HTML wrapper)", "ClearButton", "CopyButton", "Checkbox", "Switch",
     "Slider", "ProgressIndicator", "SegmentedControl", "ValidationMessage", "Card",
-    "Panel", "ResultPanel", "Snackbar", "ModalBottomSheet", "AlertDialog", "NavigationBar", "NavigationRail", "NavigationDrawer", "CircularProgressIndicator", "FloatingActionButton", "Badge", "BadgedBox", "Tooltip", "Carousel", "TopAppBar", "BottomAppBar", "Scaffold", "ListItem", "HorizontalDivider", "VerticalDivider", "AssistChip", "FilterChip", "InputChip", "SuggestionChip", "RadioButton", "Tab", "PrimaryTabRow", "SecondaryTabRow", "PrimaryScrollableTabRow", "SecondaryScrollableTabRow", "DatePicker", "DateRangePicker", "DatePickerDialog", "TimePicker", "TimeInput (native HTML input wrapper)", "TimePickerDialog", "SearchBar", "ExpandedDockedSearchBar", "ExpandedFullScreenSearchBar", "AppBarWithSearch", "TriStateCheckbox", "RangeSlider", "ToggleButton", "FilledTonalToggleButton", "OutlinedToggleButton", "ElevatedToggleButton", "SplitButtonLayout", "FilledSplitButton", "TonalSplitButton", "ElevatedSplitButton", "OutlinedSplitButton", "TextField", "OutlinedTextField", "SecureTextField", "OutlinedSecureTextField", "DropdownMenu", "DropdownMenuItem", "SwipeToDismissBox", "FloatingActionButtonMenu", "FloatingActionButtonMenuItem", "ToggleFloatingActionButton", "WideNavigationRail", "WideNavigationRailItem", "ModalWideNavigationRail", "PullToRefreshBox", "BottomSheetScaffold",
+    "Panel", "ResultPanel", "Snackbar", "ModalBottomSheet", "AlertDialog", "NavigationBar", "NavigationRail", "NavigationDrawer", "CircularProgressIndicator", "FloatingActionButton", "Badge", "BadgedBox", "Tooltip", "Carousel", "TopAppBar", "BottomAppBar", "Scaffold", "ListItem", "HorizontalDivider", "VerticalDivider", "AssistChip", "FilterChip", "InputChip", "SuggestionChip", "RadioButton", "Tab", "PrimaryTabRow", "SecondaryTabRow", "PrimaryScrollableTabRow", "SecondaryScrollableTabRow", "DatePicker", "DateRangePicker", "DatePickerDialog", "TimePicker", "TimeInput (native HTML input wrapper)", "TimePickerDialog", "SearchBar", "ExpandedDockedSearchBar", "ExpandedFullScreenSearchBar", "AppBarWithSearch", "TriStateCheckbox", "RangeSlider", "ToggleButton", "FilledTonalToggleButton", "OutlinedToggleButton", "ElevatedToggleButton", "SplitButtonLayout", "FilledSplitButton", "TonalSplitButton", "ElevatedSplitButton", "OutlinedSplitButton", "TextField", "OutlinedTextField", "SecureTextField", "OutlinedSecureTextField", "DropdownMenu", "DropdownMenuItem", "SwipeToDismissBox", "FloatingActionButtonMenu", "FloatingActionButtonMenuItem", "ToggleFloatingActionButton", "WideNavigationRail", "WideNavigationRailItem", "ModalWideNavigationRail", "PullToRefreshBox", "BottomSheetScaffold", "SegmentedButton", "SingleChoiceSegmentedButtonRow", "MultiChoiceSegmentedButtonRow",
   ]) {
     assert.ok(lab.includes(name), `Missing visible component identifier: ${name}`);
   }
@@ -221,4 +221,11 @@ test("BottomSheetScaffold is represented with accessible collapsed and expanded 
 test("TimePickerDialog uses a shared modal adaptation and is shown in the Lab", () => {
   assert.match(lab, /import \{ TimePickerDialog \} from "@\/components\/ui\/TimePickerDialog"/);
   assert.match(lab, /open=\{sampleTimeDialogOpen\}/);
+});
+
+
+test("Official single- and multi-choice segmented button rows use a shared component", () => {
+  assert.match(lab, /import \{ SegmentedButtonGroup \} from "@\/components\/ui\/SegmentedButtonGroup"/);
+  assert.match(lab, /mode="single"/);
+  assert.match(lab, /mode="multi"/);
 });
