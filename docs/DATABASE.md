@@ -105,5 +105,5 @@ The production schema was applied and verified through the Supabase connector on
 - `supabase/migrations/20261015210538_design_audit_verifications_append_only.sql`
 - `supabase/migrations/20261015211016_design_audit_m3_relationship.sql`
 
-The pgTAP regression test is `supabase/tests/design_audit_maintenance.sql`. The connector did not execute the full pgTAP suite; direct read-only checks verified the 58 seeded component records, 39 explicit preview mappings, RLS on all five tables, and that `anon` has no SELECT grants. The Supabase advisors reported no remaining missing foreign-key indexes for these tables; unused-index notices are expected while the new tables are empty. Existing unrelated collection-policy performance warnings remain unchanged.
+The pgTAP regression test is `supabase/tests/design_audit_maintenance.sql`. The connector did not execute the full pgTAP suite; direct read-only checks verified the 58 seeded component records, 58 explicit preview mappings, RLS on all five tables, and that `anon` has no SELECT grants. The Supabase advisors reported no remaining missing foreign-key indexes for these tables; unused-index notices are expected while the new tables are empty. Existing unrelated collection-policy performance warnings remain unchanged.
 
