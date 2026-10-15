@@ -13,17 +13,16 @@ type ChipProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children"> & {
   leadingIcon?: MaterialIconName;
   trailingIcon?: MaterialIconName;
   onDismiss?: () => void;
-  elevated?: boolean;
 };
 
 /** Source-informed Web adaptation of AndroidX Material 3 Assist/Filter/Input/Suggestion chips. */
 export function Chip({
   variant = "assist", label, selected = false, onSelectedChange, leadingIcon, trailingIcon,
-  onDismiss, elevated = false, className = "", ...props
+  onDismiss, className = "", ...props
 }: ChipProps) {
   const filter = variant === "filter" || variant === "elevated-filter";
   const input = variant === "input";
-  const isElevated = elevated || variant.startsWith("elevated-");
+  const isElevated = variant.startsWith("elevated-");
   return <span className={[styles.wrap, isElevated ? styles.elevated : ""].join(" ")}>
     <button {...props} type={props.type ?? "button"}
       aria-pressed={filter ? selected : undefined}
