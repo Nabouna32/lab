@@ -315,3 +315,8 @@ The previously recorded Checkbox, Switch, outlined-field, shape-scale and Card m
 ## AndroidX source cross-check (2026-10-15)
 
 The Checkbox, Switch, outlined-field, shape-scale and Card mappings recorded above have been cross-checked against pinned AndroidX Compose Material 3 sources: CheckboxTokens.kt, SwitchTokens.kt, OutlinedTextFieldTokens.kt, FilledTextFieldTokens.kt, ShapeTokens.kt, and Elevated/Filled/OutlinedCardTokens.kt at commit b4c15a8e351e6cfa93e90cce2cfbd0dbbe4805a7. AndroidX is authoritative for Android-M3 semantics; Material Web is the CSS-side cross-check. CSS pixel sizes remain Loculary adaptations.
+## CI feedback — duplicate Lab token property corrected (2026-10-15)
+
+- Run 38697118090 failed TypeScript because the enabled Checkbox preview object contained a duplicate --checkbox-container-shape property. The disabled Checkbox preview also still used the earlier 12% selected-container blend and on-surface checkmark color.
+- [SOURCE-OBSERVED → source edit made] Removed the duplicate property, added the rounding-degree token to the disabled sample, and aligned its selected container/checkmark with AndroidX CheckboxTokens (38% on-surface container, 38% surface checkmark). Added regression assertions for both Lab samples.
+- [OPEN] These changes are newer than the failing run; a fresh current-head CI result is required.
