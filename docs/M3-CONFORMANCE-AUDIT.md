@@ -359,3 +359,7 @@ Older audit entries above that say the Checkbox/Switch/field disabled values are
 - [ANDROID-M3] AndroidX standard IconButton keeps on-surface-variant for the unselected hover/pressed icon; the prior Loculary hover changed to the generic foreground role. Corrected to keep the semantic role.
 - [ANDROID-M3] AndroidX OutlinedIconToggleButton removes its border when checked. Loculary's selected outlined IconButton now sets a transparent border while using inverse-surface/inverse-on-surface selected roles.
 - [OPEN] Browser-check the selected border transition, hover/focus state layers and both themes.
+## Final static-test review for this slice (2026-10-15)
+
+- [SOURCE-OBSERVED → source edit made] Manual review of the updated IconButton conformance test found one remaining stale expectation: AndroidX disabled icon content uses on-surface at 38%, not on-surface-variant. Corrected the assertion.
+- [OPEN] The last workflow run seen was pending for an earlier head and no status is currently returned for the newest commit. Do not treat the branch as green; obtain a run against the latest SHA before merge.
