@@ -510,7 +510,7 @@ test("Snackbar is a shared AndroidX-informed Web adaptation with honest parity b
   assert.match(snackbarSource, /durationMs = 4000/);
   assert.match(snackbarSource, /if \(!open \|\| hasAction \|\| durationMs <= 0\) return/);
   assert.match(snackbarSource, /role="status" aria-live="polite"/);
-  assert.match(snackbarCss, /var\(--lab-inverse-surface, var\(--inverse-surface/);
+  assert.match(snackbarCss, /var\(--lab-inverse-surface, var\(--inverse-surface/);\n  assert.match(snackbarCss, /max-width: 37\.5rem/);\n  assert.match(snackbarCss, /padding: \.875rem \.5rem \.875rem 1rem/);\n  assert.match(snackbarCss, /shape-corner-extra-small/);
   assert.match(snackbarCss, /prefers-reduced-motion: reduce/);
   assert.match(labSource, /<Snackbar open=\{snackbarOpen\} variant=\{snackbarVariant\}/);
   assert.match(labSource, /queueing, swipe gesture, Scaffold insets and Compose motion remain to be audited/i);
