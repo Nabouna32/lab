@@ -31,6 +31,7 @@ import { BottomSheetScaffold } from "@/components/ui/BottomSheetScaffold";
 import { SegmentedButtonGroup } from "@/components/ui/SegmentedButtonGroup";
 import { FloatingToolbar } from "@/components/ui/FloatingToolbar";
 import { ScrollField } from "@/components/ui/ScrollField";
+import { ButtonGroup } from "@/components/ui/ButtonGroup";
 import { RangeSlider } from "@/components/ui/RangeSlider";
 import { ToggleButton } from "@/components/ui/ToggleButton";
 import { SplitButton } from "@/components/ui/SplitButton";
@@ -218,6 +219,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const [sampleToolbarExpanded,setSampleToolbarExpanded]=useState(true);
   const [sampleVerticalToolbarExpanded,setSampleVerticalToolbarExpanded]=useState(false);
   const [sampleScrollFieldValue,setSampleScrollFieldValue]=useState(30);
+  const [sampleButtonGroupSelected,setSampleButtonGroupSelected]=useState(["work"]);
   const [sampleRailSelection,setSampleRailSelection]=useState<"home"|"explore"|"saved">("home");
   const [sampleDrawerOpen,setSampleDrawerOpen]=useState(false);
   const [sampleDismissibleDrawerOpen,setSampleDismissibleDrawerOpen]=useState(false);
@@ -690,6 +692,12 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
       <div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>18 / {locale==="fr"?"API expérimentale":"Experimental API"}</span><h2 id="experimental-scroll-field-title">ScrollField</h2><p>{locale==="fr"?"Composant officiel expérimental de la famille Expressive, présenté séparément pour l’inventaire. Il ne change pas la direction visuelle Pixel du reste du Lab.":"Official experimental Expressive-family component shown separately for inventory completeness; it does not change the Pixel visual direction of the rest of the Lab."}</p></div></div>
       <div className={styles.galleryGrid}>
         <article className={styles.galleryCard}><h3>{locale==="fr"?"Sélecteur numérique déroulant":"Numeric wheel selector"}</h3><ComponentIdentifier names={["ScrollField","ScrollFieldState","ScrollFieldDefaults"]} kind="adaptation" locale={locale}/><ScrollField label={locale==="fr"?"Minutes":"Minutes"} options={Array.from({length:60},(_,index)=>String(index).padStart(2,"0"))} selectedIndex={sampleScrollFieldValue} onSelectedIndexChange={setSampleScrollFieldValue} itemAccessibilityLabel={(index)=>locale==="fr"?("Minute "+index):("Minute "+index)}/><p className={styles.helper}>{locale==="fr"?"Valeur sélectionnée : ":"Selected value: "}{String(sampleScrollFieldValue).padStart(2,"0")}. {locale==="fr"?"Molette, flèches, début/fin et boutons de pas sont pris en charge dans cette adaptation.":"Wheel, arrow keys, Home/End and step buttons are supported in this adaptation."}</p></article>
+      </div>
+    </section>
+    <section className={styles.gallerySection} aria-labelledby="experimental-button-group-title">
+      <div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>19 / {locale==="fr"?"API expérimentale":"Experimental API"}</span><h2 id="experimental-button-group-title">ButtonGroup</h2><p>{locale==="fr"?"Groupe de boutons officiel récent, isolé du style Pixel de base. Le débordement adaptatif AndroidX est ici simulé par un seuil de démonstration.":"Recent official button-group API, isolated from the default Pixel style direction. AndroidX adaptive overflow is simulated with a demo threshold here."}</p></div></div>
+      <div className={styles.galleryGrid}>
+        <article className={styles.galleryCard}><ComponentIdentifier names={["ButtonGroup","ButtonGroupScope","ButtonGroupMenuState"]} kind="adaptation" locale={locale}/><ButtonGroup label={locale==="fr"?"Espaces de travail":"Workspaces"} overflowLabel={locale==="fr"?"Autres":"More"} selectedKeys={sampleButtonGroupSelected} onSelectionChange={setSampleButtonGroupSelected} mode="multi" maxVisible={2} items={[{key:"work",label:locale==="fr"?"Travail":"Work",icon:<MaterialIcon name="apps" size={18}/>},{key:"home",label:locale==="fr"?"Maison":"Home",icon:<MaterialIcon name="home" size={18}/>},{key:"saved",label:locale==="fr"?"Favoris":"Saved",icon:<MaterialIcon name="favorite" size={18}/>},{key:"profile",label:locale==="fr"?"Profil":"Profile",icon:<MaterialIcon name="person" size={18}/>}]} /><p className={styles.helper}>{locale==="fr"?"Les boutons sélectionnés s’élargissent légèrement ; les éléments supplémentaires sont dans le menu.":"Selected buttons expand slightly; additional items appear in the overflow menu."}</p></article>
       </div>
     </section>
     <section className={styles.gallerySection} aria-labelledby="shared-components-title">
