@@ -31,6 +31,7 @@ export function Tooltip({
     timer.current = setTimeout(() => setOpen(true), Math.max(0, delayMs));
   };
   const hide = () => { clearTimer(); setOpen(false); };
+  const anchor = isValidElement(children) ? children as ReactElement<{ "aria-describedby"?: string }> : null;
 
   useEffect(() => () => clearTimer(), []);
 
@@ -47,7 +48,7 @@ export function Tooltip({
     onPointerUp={(event) => { if (event.pointerType === "touch" && !open) clearTimer(); }}
     onPointerCancel={hide}
     onKeyDown={(event) => { if (event.key === "Escape") hide(); }}>
-    <span className={styles.anchor}>{isValidElement(children) ? cloneElement(children as ReactElement<{ "aria-describedby"?: string }>, { "aria-describedby": [children.props["aria-describedby"], open ? id : undefined].filter(Boolean).join(" ") || undefined }) : children}</span>
+    <span className={styles.anchor}>{anchor ? cloneElement(anchor, { "aria-describedby": [anchor.props["aria-describedby"], open ? id : undefined].filter(Boolean).join(" ") || undefined }) : children}</span>
     {open && <span id={id} role="tooltip" className={[styles.tooltip, styles[variant], styles[placement]].join(" ")} data-open="true">
       {title && <strong className={styles.title}>{title}</strong>}
       <span>{content}</span>
