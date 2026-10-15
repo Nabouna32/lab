@@ -27,6 +27,8 @@ test("shared Button exposes canonical M3 variants, stable labels and semantic di
     "min-w-16",
     "whitespace-nowrap",
     "active:rounded-[var(--shape-corner-small)]",
+    "transition-[background-color,border-color,color,box-shadow,border-radius]",
+    "motion-reduce:transition-none",
     "shrink-0",
     "px-6",
     "text-sm font-medium leading-5",
