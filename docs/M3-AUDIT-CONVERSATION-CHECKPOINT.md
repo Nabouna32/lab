@@ -758,3 +758,11 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - Official source: https://developer.android.com/develop/ui/compose/components/search-bar?hl=en.
 - **Version/API caveat:** current AndroidX references mark the older SearchBar overload deprecated in favor of SearchBarState and expanded docked/full-screen composables. SearchBar remains experimental in the current guide. The React/CSS component models the interaction pattern and is not a direct Compose API port.
 - **Still unverified:** animation/shape parity, IME handling, focus restoration, safe-area/window insets, RTL, screen reader and browser/device behavior.
+
+
+## Continuation update — TriStateCheckbox (2026-10-15)
+
+- Extended the shared Checkbox to support the native input indeterminate state and a visible minus mark.
+- Added `src/components/ui/TriStateCheckbox.tsx` and integrated a mixed-state specimen in the Lab.
+- Official source: https://developer.android.com/reference/kotlin/androidx/compose/material3/TriStateCheckbox.composable.
+- **Not complete:** exact AndroidX animation/colors, parent-child selection propagation, disabled mixed state, and screen-reader/browser parity remain unverified.
