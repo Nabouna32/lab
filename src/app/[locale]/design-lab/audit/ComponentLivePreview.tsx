@@ -234,6 +234,12 @@ export default function ComponentLivePreview({
     case "exposed-dropdown-menu":
       content = <div className="grid gap-3 sm:grid-cols-2"><ExposedDropdownMenu id="audit-exposed-dropdown" label={fr ? "Format" : "Format"} value={exposedFormat} onChange={setExposedFormat} options={[{value:"png",label:"PNG"},{value:"webp",label:"WebP"},{value:"jpeg",label:"JPEG"}]} /><ExposedDropdownMenu id="audit-exposed-dropdown-disabled" label={fr ? "Champ désactivé" : "Disabled field"} value="png" disabled options={[{value:"png",label:"PNG"},{value:"webp",label:"WebP"}]} onChange={() => undefined}/></div>;
       break;
+    case "floating-action-button-menu":
+      content = <div className="grid gap-3"><FloatingActionButtonMenu expanded={fabMenuOpen} onExpandedChange={setFabMenuOpen} label={fr ? "Actions rapides" : "Quick actions"} addLabel={fr ? "Ajouter" : "Add"} closeLabel={fr ? "Fermer les actions" : "Close actions"} items={[{key:"image",label:fr?"Convertir une image":"Convert image",icon:<MaterialIcon name="image" size={20}/>,onSelect:()=>setSplitResult("image")},{key:"text",label:fr?"Nettoyer du texte":"Clean text",icon:<MaterialIcon name="text_fields" size={20}/>,onSelect:()=>setSplitResult("text")},{key:"calculate",label:fr?"Calculer":"Calculate",icon:<MaterialIcon name="calculate" size={20}/>,onSelect:()=>setSplitResult("calculate")}]} /><p className="text-sm text-[var(--muted)]">{fr ? "Dernière action : " : "Last action: "}{splitResult}</p></div>;
+      break;
+    case "floating-toolbar":
+      content = <div className="grid gap-4"><FloatingToolbar label={fr ? "Actions de sélection" : "Selection actions"} orientation="horizontal" expanded={toolbarExpanded} onExpandedChange={setToolbarExpanded} expandLabel={fr ? "Afficher les actions" : "Show actions"} collapseLabel={fr ? "Réduire les actions" : "Collapse actions"} items={[{key:"copy",label:fr?"Copier":"Copy",icon:<MaterialIcon name="content_copy" size={20}/>,onClick:()=>setSnackbarOpen(true)},{key:"undo",label:fr?"Annuler":"Undo",icon:<MaterialIcon name="restart_alt" size={20}/>,onClick:()=>setSnackbarOpen(true)},{key:"favorite",label:fr?"Favori":"Favorite",icon:<MaterialIcon name="favorite" size={20}/>,onClick:()=>setSelected(!selected)}]} /></div>;
+      break;
     case "button":
       content = (
         <div className="flex flex-wrap items-center gap-3">
