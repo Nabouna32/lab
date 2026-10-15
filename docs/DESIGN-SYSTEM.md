@@ -306,3 +306,6 @@ Do not call a component “Android-conformant” based only on a matching name, 
 ## Shape and disabled-state provenance
 
 Use the semantic shape variables in globals.css for shared component geometry. Their current values are sourced from the version-pinned first-party Material Web system-shape tokens; they are CSS pixels, not Android dp equivalents. The global rounding-degree control is a separate Loculary-specific feature and remains to be implemented. Disabled opacity must be component- and state-specific; use the exact first-party token source recorded in M3-CONVENTIONS.md rather than a generic “12%/38% Material rule.”
+## Shared Card convention
+
+The shared Card follows the version-pinned first-party Material Web card tokens: elevated uses surface-container-low and elevation, filled uses surface-container-highest, and outlined uses surface with outline-variant. All use the semantic medium shape token. Linked cards must have a visible keyboard focus indicator. Panel and ResultPanel remain Loculary-specific compositions that reuse the medium shape for consistency.
