@@ -629,3 +629,10 @@ Official source: https://developer.android.com/reference/kotlin/androidx/compose
 Official AndroidX references: [Tabs guide](https://developer.android.com/develop/ui/compose/components/tabs?hl=en), [PrimaryTabRow API](https://developer.android.com/reference/kotlin/androidx/compose/material3/PrimaryTabRow.composable), [SecondaryTabRow API](https://developer.android.com/reference/kotlin/androidx/compose/material3/SecondaryTabRow.composable), [PrimaryScrollableTabRow API](https://developer.android.com/reference/kotlin/androidx/compose/material3/PrimaryScrollableTabRow.composable), [SecondaryScrollableTabRow API](https://developer.android.com/reference/kotlin/androidx/compose/material3/SecondaryScrollableTabRow.composable).
 
 Added `src/components/ui/Tabs.tsx` and its CSS module as a shared React/CSS adaptation, with primary/secondary and scrollable variants, selected-state semantics, roving tab focus, arrow/Home/End navigation, disabled-item skipping and reduced-motion fallback. The Design Lab's local tab mockup is replaced with these shared specimens. This is **not** native Compose and does not yet establish exact visual/motion parity. Automated checks and browser validation remain pending.
+
+
+## DatePicker / DateRangePicker — 2026-10-15
+
+Official source: [AndroidX date pickers guide](https://developer.android.com/develop/ui/compose/components/datepickers?hl=en).
+
+Added `src/components/ui/DatePicker.tsx` and CSS as a shared Web adaptation for single date and date-range selection. The Lab also shows a native HTML `input[type=date]` variant, explicitly labelled as a browser wrapper rather than AndroidX modal input. Month navigation, selected/today state and min/max bounds are implemented. **Incomplete:** DatePickerDialog, calendar grid keyboard behavior, exact dimensions/motion, RTL and assistive-technology parity. Do not mark this family complete yet.
