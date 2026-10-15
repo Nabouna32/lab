@@ -818,3 +818,10 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - Official sources: https://developer.android.com/reference/kotlin/androidx/compose/material3/FloatingActionButtonMenu.composable and https://developer.android.com/reference/kotlin/androidx/compose/material3/FloatingActionButtonMenuItem.composable.
 - **Version caveat:** FloatingActionButtonMenuItem is listed as added in Material3 1.5.0-alpha29. Verify the pinned dependency before claiming stable availability.
 - **Not complete:** exact toggle FAB shape, item arrangement, motion timing, back handling, RTL and screen-reader behavior remain to validate.
+
+
+## Continuation update — AppBarWithSearch (2026-10-15)
+
+- Added `AppBarWithSearch` Web composition using the shared SearchBar, navigation action and app-bar layout; integrated it into the Lab.
+- Official source: https://developer.android.com/reference/kotlin/androidx/compose/material3/AppBarWithSearch.composable.
+- **Not complete:** current SearchBarState API parity, nested scroll, window insets, elevation, shape/motion, full-screen pairing, RTL and screen-reader behavior remain to validate.
