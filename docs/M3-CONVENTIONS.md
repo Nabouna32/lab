@@ -507,3 +507,10 @@ Every specimen in the Design Lab should expose its exact component identifier in
 - **Web adaptation choices:** the public Web API accepts percentage values (0–100), and size/stroke width are CSS pixels; neither is a direct Android dp/API equivalence. The indeterminate keyframes are a source-informed approximation, not copied/verified AndroidX motion timing. Stroke caps and exact track/color behavior need comparison against the targeted AndroidX version.
 - **Not yet complete:** no dedicated interactive indeterminate specimen, no pinned AndroidX version/source token comparison, no automated SVG visual regression, and no browser/screen-reader/device validation. Reduced-motion mode deliberately stops continuous animation and displays a static arc; confirm this fallback remains understandable.
 - **Status:** shared, source-informed Web adaptation; partial parity, not native Compose. Do not claim 100% fidelity until visual/motion comparison and runtime checks pass.
+
+
+## Official AndroidX coverage inventory
+
+The authoritative working catalogue of official component families, current Lab status, required variants and gaps is maintained in [M3-COMPONENT-INVENTORY.md](./M3-COMPONENT-INVENTORY.md). Use the official [Compose Material components catalogue](https://developer.android.com/develop/ui/compose/components?hl=en) and [androidx.compose.material3 API reference](https://developer.android.com/reference/kotlin/androidx/compose/material3) as the source of truth. As of 2026-10-15, the official release page reports Material 3 Compose 1.4.0 stable; source/token comparisons must pin the relevant release or commit instead of treating the current documentation as timeless.
+
+The Lab is expected to represent official Material 3 components and their meaningful variants even if production does not yet call them. A missing production use is not a reason to omit an official component from the Lab. Conversely, Loculary utilities such as ClearButton, CopyButton, ValidationMessage, Panel, ResultPanel and a skeleton loader must not be counted or named as official Material 3 components.
