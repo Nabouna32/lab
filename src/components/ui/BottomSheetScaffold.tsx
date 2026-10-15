@@ -60,6 +60,7 @@ export function BottomSheetScaffold({
   function cancelDrag() {
     startY.current = null;
     dragOffsetRef.current = 0;
+    wasDragging.current = false;
     setDragOffset(0);
   }
 
