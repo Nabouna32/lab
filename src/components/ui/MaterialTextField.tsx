@@ -58,7 +58,7 @@ export function MaterialTextField({
   const errorId = `${helperId}-error`;
   const supportingId = `${helperId}-supporting`;
   const counterId = `${helperId}-counter`;
-  const describedBy = [error ? errorId : "", supportingText ? supportingId : "", showCharacterCount && maxLength ? counterId : ""].filter(Boolean).join(" ") || undefined;
+  const describedBy = [error ? errorId : supportingText ? supportingId : "", showCharacterCount && maxLength ? counterId : ""].filter(Boolean).join(" ") || undefined;
   const inputType = secure ? (revealed ? "text" : "password") : type;
 
   function handleChange(event: ChangeEvent<HTMLInputElement>) {
