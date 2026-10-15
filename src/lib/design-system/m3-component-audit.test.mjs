@@ -65,3 +65,19 @@ test("Every inventoried production component has an explicit live preview mappin
   assert.match(previewCoverageMigration, /pull-to-refresh-box/);
   assert.match(workbench, /previewKey=\{component.preview_key\}/);
 });
+
+
+test("Reference catalogue is stored separately from the implementation inventory", async () => {
+  const catalogMigration = readFileSync(new URL("../../../supabase/migrations/20261015230000_design_audit_reference_catalog.sql", import.meta.url), "utf8");
+  assert.match(workbench, /design_audit_catalog_entries/);
+  assert.match(workbench, /role="tablist"/);
+  assert.match(workbench, /material-3/);
+  assert.match(workbench, /loculary/);
+  assert.match(catalogMigration, /create table public\\.design_audit_catalog_entries/);
+  assert.match(catalogMigration, /enable row level security/);
+  assert.match(catalogMigration, /private\\.has_admin_permission\\('audit\\.read'\\)/);
+  assert.match(catalogMigration, /revoke all on table public\\.design_audit_catalog_entries from anon, authenticated/);
+  const seedSection = catalogMigration.split("on conflict (id) do nothing;")[0];
+  const seededRows = seedSection.match(/^\\('[-a-z0-9]+',/gm) ?? [];
+  assert.equal(seededRows.length, 116, "all 116 existing reference entries are migrated into PostgreSQL");
+});
