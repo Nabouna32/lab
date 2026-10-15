@@ -59,7 +59,7 @@ test("shared IconButton preserves 48px touch target and supports accessible togg
     "var(--on-secondary-container)",
     'standard: "text-[var(--primary)] hover:text-[var(--primary)]',
     'outlined: "border-transparent bg-[var(--inverse-surface)] text-[var(--inverse-on-surface)]',
-    "disabled:text-[color-mix(in_srgb,var(--on-surface-variant)_38%,transparent)]",
+    "disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]",
     "label: string",
     "ref?: Ref<HTMLButtonElement>",
   ]) {
