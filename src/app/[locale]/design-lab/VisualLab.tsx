@@ -30,6 +30,7 @@ import { PullToRefreshBox } from "@/components/ui/PullToRefreshBox";
 import { BottomSheetScaffold } from "@/components/ui/BottomSheetScaffold";
 import { SegmentedButtonGroup } from "@/components/ui/SegmentedButtonGroup";
 import { FloatingToolbar } from "@/components/ui/FloatingToolbar";
+import { ScrollField } from "@/components/ui/ScrollField";
 import { RangeSlider } from "@/components/ui/RangeSlider";
 import { ToggleButton } from "@/components/ui/ToggleButton";
 import { SplitButton } from "@/components/ui/SplitButton";
@@ -216,6 +217,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const [sampleMultiSegments,setSampleMultiSegments]=useState(["bold","italic"]);
   const [sampleToolbarExpanded,setSampleToolbarExpanded]=useState(true);
   const [sampleVerticalToolbarExpanded,setSampleVerticalToolbarExpanded]=useState(false);
+  const [sampleScrollFieldValue,setSampleScrollFieldValue]=useState(30);
   const [sampleRailSelection,setSampleRailSelection]=useState<"home"|"explore"|"saved">("home");
   const [sampleDrawerOpen,setSampleDrawerOpen]=useState(false);
   const [sampleDismissibleDrawerOpen,setSampleDismissibleDrawerOpen]=useState(false);
@@ -682,6 +684,12 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
       <div className={styles.galleryGrid}>
         <article className={styles.galleryCard}><h3>{locale==="fr"?"HorizontalFloatingToolbar":"HorizontalFloatingToolbar"}</h3><ComponentIdentifier names={["HorizontalFloatingToolbar"]} kind="adaptation" locale={locale}/><FloatingToolbar label={locale==="fr"?"Actions de sélection":"Selection actions"} orientation="horizontal" expanded={sampleToolbarExpanded} onExpandedChange={setSampleToolbarExpanded} expandLabel={locale==="fr"?"Afficher les actions":"Show actions"} collapseLabel={locale==="fr"?"Réduire les actions":"Collapse actions"} items={[{key:"copy",label:locale==="fr"?"Copier":"Copy",icon:<MaterialIcon name="content_copy" size={20}/>,onClick:()=>setSnackbarOpen(true)},{key:"undo",label:locale==="fr"?"Annuler":"Undo",icon:<MaterialIcon name="restart_alt" size={20}/>,onClick:()=>setSnackbarOpen(true)},{key:"favorite",label:locale==="fr"?"Favori":"Favorite",icon:<MaterialIcon name="favorite" size={20}/>,onClick:()=>setSnackbarOpen(true)}]}/></article>
         <article className={styles.galleryCard}><h3>{locale==="fr"?"VerticalFloatingToolbar":"VerticalFloatingToolbar"}</h3><ComponentIdentifier names={["VerticalFloatingToolbar"]} kind="adaptation" locale={locale}/><FloatingToolbar label={locale==="fr"?"Actions verticales":"Vertical actions"} orientation="vertical" expanded={sampleVerticalToolbarExpanded} onExpandedChange={setSampleVerticalToolbarExpanded} expandLabel={locale==="fr"?"Afficher les actions verticales":"Show vertical actions"} collapseLabel={locale==="fr"?"Réduire les actions verticales":"Collapse vertical actions"} items={[{key:"edit",label:locale==="fr"?"Modifier":"Edit",icon:<MaterialIcon name="text_fields" size={20}/>,onClick:()=>setSnackbarOpen(true)},{key:"copy",label:locale==="fr"?"Copier":"Copy",icon:<MaterialIcon name="content_copy" size={20}/>,onClick:()=>setSnackbarOpen(true)}]}/></article>
+      </div>
+    </section>
+    <section className={styles.gallerySection} aria-labelledby="experimental-scroll-field-title">
+      <div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>18 / {locale==="fr"?"API expérimentale":"Experimental API"}</span><h2 id="experimental-scroll-field-title">ScrollField</h2><p>{locale==="fr"?"Composant officiel expérimental de la famille Expressive, présenté séparément pour l’inventaire. Il ne change pas la direction visuelle Pixel du reste du Lab.":"Official experimental Expressive-family component shown separately for inventory completeness; it does not change the Pixel visual direction of the rest of the Lab."}</p></div></div>
+      <div className={styles.galleryGrid}>
+        <article className={styles.galleryCard}><h3>{locale==="fr"?"Sélecteur numérique déroulant":"Numeric wheel selector"}</h3><ComponentIdentifier names={["ScrollField","ScrollFieldState","ScrollFieldDefaults"]} kind="adaptation" locale={locale}/><ScrollField label={locale==="fr"?"Minutes":"Minutes"} options={Array.from({length:60},(_,index)=>String(index).padStart(2,"0"))} selectedIndex={sampleScrollFieldValue} onSelectedIndexChange={setSampleScrollFieldValue} itemAccessibilityLabel={(index)=>locale==="fr"?("Minute "+index):("Minute "+index)}/><p className={styles.helper}>{locale==="fr"?"Valeur sélectionnée : ":"Selected value: "}{String(sampleScrollFieldValue).padStart(2,"0")}. {locale==="fr"?"Molette, flèches, début/fin et boutons de pas sont pris en charge dans cette adaptation.":"Wheel, arrow keys, Home/End and step buttons are supported in this adaptation."}</p></article>
       </div>
     </section>
     <section className={styles.gallerySection} aria-labelledby="shared-components-title">
