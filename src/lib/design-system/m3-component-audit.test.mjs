@@ -17,7 +17,7 @@ test("The workbench reads its inventory and progress from Supabase", () => {
 });
 
 test("Live previews reuse real production components and never substitute a fake", () => {
-  for (const name of ["Button", "Checkbox", "Switch", "TextField", "Chip", "ToggleButton", "IconButton", "Card"]) {
+  for (const name of ["Button", "Checkbox", "Switch", "TextField", "Chip", "ToggleButton", "IconButton", "Card", "Badge", "CircularProgressIndicator", "Divider", "FloatingActionButton", "ProgressIndicator", "RadioButton", "SegmentedControl", "Select", "Slider", "Tabs", "TextArea"]) {
     assert.match(preview, new RegExp(`import \\{ ${name} \\} from "@\/components\/ui\/${name}"`));
   }
   assert.match(preview, /No substitute component is shown/);
