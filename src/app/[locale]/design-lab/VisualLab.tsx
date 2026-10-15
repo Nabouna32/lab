@@ -25,6 +25,7 @@ import { TimePicker } from "@/components/ui/TimePicker";
 import { SearchBar } from "@/components/ui/SearchBar";
 import { AppBarWithSearch } from "@/components/ui/AppBarWithSearch";
 import { WideNavigationRail } from "@/components/ui/WideNavigationRail";
+import { PullToRefreshBox } from "@/components/ui/PullToRefreshBox";
 import { RangeSlider } from "@/components/ui/RangeSlider";
 import { ToggleButton } from "@/components/ui/ToggleButton";
 import { SplitButton } from "@/components/ui/SplitButton";
@@ -199,6 +200,8 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const [sampleWideRailExpanded,setSampleWideRailExpanded]=useState(false);
   const [sampleModalWideRailExpanded,setSampleModalWideRailExpanded]=useState(false);
   const [sampleWideRailSelected,setSampleWideRailSelected]=useState("home");
+  const [sampleRefreshing,setSampleRefreshing]=useState(false);
+  const [sampleRefreshCount,setSampleRefreshCount]=useState(0);
   const [sampleRailSelection,setSampleRailSelection]=useState<"home"|"explore"|"saved">("home");
   const [sampleDrawerOpen,setSampleDrawerOpen]=useState(false);
   const [sampleDrawerSelection,setSampleDrawerSelection]=useState<"home"|"explore"|"saved"|"settings">("home");
@@ -622,6 +625,12 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
       <div className={styles.galleryGrid}>
         <article className={styles.galleryCard}><h3>{locale==="fr"?"SwipeToDismissBox":"SwipeToDismissBox"}</h3><ComponentIdentifier names={["SwipeToDismissBox"]} kind="adaptation" locale={locale}/>{sampleDismissed?<div className={styles.helper}>{locale==="fr"?"Élément ignoré.":"Item dismissed."}<Button variant="outlined" onClick={()=>setSampleDismissed(false)}>{locale==="fr"?"Rétablir":"Restore"}</Button></div>:<SwipeToDismissBox dismissLabel={locale==="fr"?"Ignorer la notification":"Dismiss notification"} onDismiss={()=>setSampleDismissed(true)}><div><strong>{locale==="fr"?"Nouvelle mise à jour disponible":"New update available"}</strong><p>{locale==="fr"?"Balayez ou utilisez le bouton × pour ignorer cet élément.":"Swipe or use the × button to dismiss this item."}</p></div></SwipeToDismissBox>}</article>
         <article className={styles.galleryCard}><h3>{locale==="fr"?"Menu de boutons flottants":"Floating action button menu"}</h3><ComponentIdentifier names={["FloatingActionButtonMenu","FloatingActionButtonMenuItem","ToggleFloatingActionButton"]} kind="adaptation" locale={locale}/><FloatingActionButtonMenu expanded={sampleFabMenuOpen} onExpandedChange={setSampleFabMenuOpen} label={locale==="fr"?"Actions rapides":"Quick actions"} addLabel={locale==="fr"?"Ajouter":"Add"} closeLabel={locale==="fr"?"Fermer les actions":"Close actions"} items={[{key:"image",label:locale==="fr"?"Convertir une image":"Convert image",icon:<MaterialIcon name="image" size={20}/>,onSelect:()=>setSampleFormat("png")},{key:"text",label:locale==="fr"?"Nettoyer du texte":"Clean text",icon:<MaterialIcon name="text_fields" size={20}/>,onSelect:()=>setSampleFormat("text")},{key:"calculate",label:locale==="fr"?"Calculer":"Calculate",icon:<MaterialIcon name="calculate" size={20}/>,onSelect:()=>setSampleFormat("calculator")}]}/><p className={styles.helper}>{locale==="fr"?"Les éléments apparaissent avec un léger décalage animé ; Échap ferme le menu. API AndroidX récente, version à vérifier.":"Items appear with staggered motion; Escape closes the menu. This is a newer AndroidX API; verify the pinned version."}</p></article>
+      </div>
+    </section>
+    <section className={styles.gallerySection} aria-labelledby="pull-to-refresh-title">
+      <div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>13 / {locale==="fr"?"Actualisation":"Refresh interaction"}</span><h2 id="pull-to-refresh-title">{locale==="fr"?"Tirer pour actualiser":"Pull to refresh"}</h2><p>{locale==="fr"?"Geste de tirage, état d’actualisation et action de remplacement accessible. Le comportement de défilement natif doit être vérifié sur appareil.":"Pull gesture, refresh state and an accessible alternative action. Native scrolling behavior must be tested on device."}</p></div></div>
+      <div className={styles.galleryGrid}>
+        <article className={styles.galleryCard}><h3>{locale==="fr"?"PullToRefreshBox":"PullToRefreshBox"}</h3><ComponentIdentifier names={["PullToRefreshBox"]} kind="adaptation" locale={locale}/><PullToRefreshBox isRefreshing={sampleRefreshing} onRefresh={()=>{setSampleRefreshCount((count)=>count+1);setSampleRefreshing(true);}} refreshLabel={locale==="fr"?"Actualisation…":"Refreshing…"} refreshNowLabel={locale==="fr"?"Actualiser maintenant":"Refresh now"}><div><strong>{locale==="fr"?"Éléments récents":"Recent items"}</strong><p>{locale==="fr"?"Tirez vers le bas dans cette zone ou utilisez le bouton d’actualisation.":"Pull down in this area or use the refresh button."}</p><p>{locale==="fr"?"Actualisations déclenchées : ":"Refreshes triggered: "}{sampleRefreshCount}</p><p>{locale==="fr"?"Ligne de contenu 1 · Ligne de contenu 2 · Ligne de contenu 3":"Content row 1 · Content row 2 · Content row 3"}</p></div></PullToRefreshBox><Button variant="outlined" disabled={!sampleRefreshing} onClick={()=>setSampleRefreshing(false)}>{locale==="fr"?"Terminer l’actualisation de démonstration":"Finish demo refresh"}</Button></article>
       </div>
     </section>
     <section className={styles.gallerySection} aria-labelledby="wide-navigation-rail-title">
