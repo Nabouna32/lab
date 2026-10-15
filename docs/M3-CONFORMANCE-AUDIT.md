@@ -587,3 +587,8 @@ Official source: https://developer.android.com/reference/kotlin/androidx/compose
 ## Tooltip family — 2026-10-15
 
 Official source: https://developer.android.com/develop/ui/compose/components/tooltip and https://developer.android.com/reference/kotlin/androidx/compose/material3/TooltipBox.composable. Added a shared Tooltip Web adaptation with plain and rich forms, pointer/focus triggers, a touch-hold attempt, Escape dismissal, ARIA description association, entry motion and reduced-motion handling. Lab mockup replaced by live specimens. Still missing exact AndroidX caret/position/elevation/motion, robust touch long-press lifecycle, outside dismissal, optional rich actions, and validated assistive-technology behavior. Status: partial parity; current-head CI/runtime checks pending.
+
+
+## Carousel — 2026-10-15
+
+Official sources: https://developer.android.com/develop/ui/compose/components/carousel and https://developer.android.com/reference/kotlin/androidx/compose/material3/carousel/package-summary. Added a shared Carousel Web adaptation with uncontained and multi-browse specimens, horizontal scroll snapping, group/slide semantics, arrow-key scrolling and reduced-motion-aware scroll behavior. The current multi-browse item widths are a CSS approximation rather than AndroidX's window-aware layout algorithm; fling/state/parallax/masking and exact animation remain incomplete. Browser/device and assistive-technology validation required.
