@@ -514,3 +514,13 @@ Every specimen in the Design Lab should expose its exact component identifier in
 The authoritative working catalogue of official component families, current Lab status, required variants and gaps is maintained in [M3-COMPONENT-INVENTORY.md](./M3-COMPONENT-INVENTORY.md). Use the official [Compose Material components catalogue](https://developer.android.com/develop/ui/compose/components?hl=en) and [androidx.compose.material3 API reference](https://developer.android.com/reference/kotlin/androidx/compose/material3) as the source of truth. As of 2026-10-15, the official release page reports Material 3 Compose 1.4.0 stable; source/token comparisons must pin the relevant release or commit instead of treating the current documentation as timeless.
 
 The Lab is expected to represent official Material 3 components and their meaningful variants even if production does not yet call them. A missing production use is not a reason to omit an official component from the Lab. Conversely, Loculary utilities such as ClearButton, CopyButton, ValidationMessage, Panel, ResultPanel and a skeleton loader must not be counted or named as official Material 3 components.
+
+
+### FloatingActionButton family — AndroidX audit and Web adaptation (2026-10-15)
+
+**Official source:** https://developer.android.com/develop/ui/compose/components/fab and https://developer.android.com/reference/kotlin/androidx/compose/material3/FloatingActionButtonDefaults.
+
+- **Source-confirmed:** AndroidX documents small, regular, large and extended FABs; FABs represent a single high-emphasis primary action. The extended form combines an icon and text. The AndroidX defaults define container/content colors, shapes and state-dependent elevation.
+- **Implemented:** added shared `FloatingActionButton.tsx` and CSS with small, regular, large and extended variants; replaced the gallery's static FAB-only mockup label with an interactive variant row. All variants use semantic Lab color roles and include hover/pressed/focus/disabled and reduced-motion styling.
+- **Web adaptation choices:** CSS-pixel sizes and CSS shadow approximations are not dp or Android elevation parity. This implementation has not yet reproduced AndroidX's exact state-dependent elevation, extended-FAB collapse/expand API, tonal elevation, or official motion timing. The gallery's FAB click triggers only the existing Lab snackbar demo.
+- **Status:** shared source-informed Web adaptation, partial parity. Compare the pinned AndroidX token/source revision, verify all color roles and sizes, and run browser/device/keyboard/screen-reader checks before claiming parity.
