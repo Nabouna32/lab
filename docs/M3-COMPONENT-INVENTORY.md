@@ -51,7 +51,7 @@ The list below is deliberately broader than the current production call sites. C
 | Switch | Shared Switch | Audit M3 state layers, thumb/track/icon transitions, disabled/focus semantics and motion |
 | Time picker / time input | Shared TimePicker adaptation; dial and native input wrapper in Lab | Verify AndroidX version availability (TimeInput is experimental in current docs), exact dial geometry, keyboard and dialog integration |
 | Search: SearchBar, expanded docked/full-screen patterns | Shared SearchBar Web adaptation; docked suggestions and full-screen specimens in Lab | Audit current SearchBarState API/version, full-screen insets/transition, focus management and semantics |
-| TextField / OutlinedTextField | Shared TextField; TextArea Web wrapper | Audit variants, supporting text/counter, leading/trailing icons, focus/hover/error/disabled, IME/autofill and text scaling |
+| TextField / OutlinedTextField / SecureTextField / OutlinedSecureTextField | Shared MaterialTextField Web adaptation; filled, outlined, error, counter and secure specimens in Lab | Audit floating-label/outline geometry, text scaling, IME/autofill, context-menu protection and accessibility |
 | Swipe-to-dismiss box | Missing | Implement gesture, dismissal state, accessibility alternative and reduced-motion behavior |
 | Surface / Text / layout and theming APIs | Tokens and several primitives exist | Audit tonal/shadow elevation, semantic colors, typography roles and composition behavior; these are foundations, not gallery-only widgets |
 | Pull-to-refresh / adaptive navigation suite APIs, where supported by selected AndroidX version | Not inventoried at component level yet | Pin the AndroidX version and determine current official API availability before adding |
@@ -137,3 +137,11 @@ For each component/variant, record:
 - **SplitButtonLayout:** groups a leading primary action and trailing related secondary action. Current reference records its introduction in Material3 1.5.0-alpha29; confirm the pinned version before claiming stable availability.
 - **Lab:** shared Web adaptations show four toggle styles and filled/outlined split groups with an illustrative menu. The menu is a Web demonstration and is not part of SplitButtonLayout itself.
 - **Not yet verified:** exact size tokens/shape morphing, elevation and color transitions, focus/keyboard/menu dismissal, screen-reader semantics and pinned AndroidX availability.
+
+
+## TextField / SecureTextField — 2026-10-15
+
+- **Official sources:** https://developer.android.com/reference/kotlin/androidx/compose/material3/TextField.composable, https://developer.android.com/reference/kotlin/androidx/compose/material3/OutlinedTextField.composable, https://developer.android.com/reference/kotlin/androidx/compose/material3/SecureTextField.composable, https://developer.android.com/reference/kotlin/androidx/compose/material3/OutlinedSecureTextField.composable
+- **Lab:** added shared `MaterialTextField` adaptation with filled/outlined variants, floating labels, leading/trailing content, prefix/suffix, supporting/error text, optional character counter, and secure password entry with reveal toggle.
+- **Security qualification:** secure mode prevents common copy/cut/drag events and uses password autocomplete defaults, but browser behavior and platform accessibility differ; it is not a substitute for AndroidX SecureTextField's native input protections.
+- **Not yet verified:** exact filled/outlined container and label motion, focused border thickness, text scaling, IME/autofill, selection/context menu behavior, screen readers and RTL.
