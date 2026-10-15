@@ -163,6 +163,8 @@ alter table public.design_audit_decisions enable row level security;
 alter table public.design_audit_verifications enable row level security;
 alter table public.design_audit_events enable row level security;
 
+revoke all on table public.design_audit_components, public.design_audit_reports, public.design_audit_decisions, public.design_audit_verifications, public.design_audit_events from anon, authenticated;
+
 create policy "Audit readers can read component inventory" on public.design_audit_components
 for select to authenticated using ((select private.has_admin_permission('audit.read')));
 create policy "Audit writers can update component inventory" on public.design_audit_components
