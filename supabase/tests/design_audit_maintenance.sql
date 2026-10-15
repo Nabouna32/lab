@@ -1,6 +1,6 @@
 begin;
 
-select plan(21);
+select plan(22);
 
 select has_table('public', 'design_audit_components', 'component inventory table exists');
 select has_table('public', 'design_audit_reports', 'defect reports table exists');
@@ -20,6 +20,7 @@ select ok(not has_table_privilege('anon', 'public.design_audit_components', 'SEL
 select ok(not has_table_privilege('anon', 'public.design_audit_reports', 'INSERT'), 'anonymous visitors cannot submit reports');
 select ok(has_table_privilege('authenticated', 'public.design_audit_reports', 'INSERT'), 'authenticated role can attempt report inserts subject to RLS');
 select ok(not has_table_privilege('authenticated', 'public.design_audit_events', 'INSERT'), 'clients cannot forge audit history events');
+select ok(not has_table_privilege('authenticated', 'public.design_audit_verifications', 'UPDATE'), 'verification evidence is append-only for clients');
 select ok(exists(select 1 from pg_policies where schemaname='public' and tablename='design_audit_reports' and policyname='Audit writers can create reports'), 'report inserts require the audit-write policy');
 select ok(exists(select 1 from pg_policies where schemaname='public' and tablename='design_audit_events' and policyname='Audit readers can read event history'), 'event history has an explicit read policy');
 select ok(not has_table_privilege('anon', 'public.design_audit_decisions', 'UPDATE'), 'anonymous visitors cannot modify decisions');
