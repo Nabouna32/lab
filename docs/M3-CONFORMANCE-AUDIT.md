@@ -506,3 +506,14 @@ Status: **partial implementation**. Token magnitudes have initial source annotat
 AndroidX TextField API and samples were reviewed. Compose's component is TextField configured for multiline entry, not a separate official component called TextArea. Loculary's shared TextArea remains a Web convenience adaptation. It now has Fidelity/Expressive selectors wired into the Lab, shared tokens, helper/error associations, and disabled/error states. The 8rem minimum height is explicitly a Loculary specimen choice, not an AndroidX token.
 
 Status: **source-informed Web adaptation**. Not yet complete: exact Compose multiline line/min-line/max-line behavior, supporting-text/counter anatomy, full state-token mapping, browser autofill/IME, text scaling, and keyboard/screen-reader validation. Do not label this component 100% Android.
+
+## Modal bottom sheet — 2026-10-15
+
+**Official AndroidX reference:** [Material 3 bottom sheets](https://developer.android.com/develop/ui/compose/components/bottom-sheets), [ModalBottomSheet API](https://developer.android.com/reference/kotlin/androidx/compose/material3/ModalBottomSheet.composable), and [Material window insets](https://developer.android.com/develop/ui/compose/system/material-insets).
+
+- **Source-confirmed:** the modal sheet is an overlay; background app interaction is disabled; dismiss is explicitly handled; sheet state can be shown/hidden programmatically; Material handles bottom window insets. Partial expansion is a separately documented, experimental option.
+- **Implemented:** shared `ModalBottomSheet` Web adaptation; dialog ARIA semantics, keyboard Escape, Tab focus containment, focus restoration, backdrop dismissal, body scroll lock, safe-area padding and reduced-motion CSS. The Design Lab now uses this shared component rather than the former inline-only panel.
+- **Not implemented / open:** swipe/drag dismissal, partial expansion, Compose `SheetState`, exact motion and system insets, robust assistive-technology isolation across browsers, and browser/device validation.
+- **Conformance classification:** **source-informed Web adaptation; partial functional parity; runtime unverified**. The Lab's prior inline panel was a visual mockup, not a modal bottom sheet.
+- **Next checks:** focus and screen-reader behavior, backdrop touch, long-content scroll, safe areas and viewport resize, theme contrast, reduced motion. Do not mark as 100% AndroidX.
+
