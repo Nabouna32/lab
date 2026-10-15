@@ -560,3 +560,14 @@ Classification: **source-informed Web adaptation; partial functional parity; run
 
 Validation: the last CI run failed lint because the Lab JSX had a stray opening expression around multiple sibling components. That syntax was corrected in commit `cff925585e39fe6300d80bf9a84f000b939b1c61`. A fresh CI run was triggered; subsequent AlertDialog changes have also triggered runs, so inspect the latest run before calling the branch green. Do not merge PR #729 until CI and browser validation pass.
 
+
+
+## Checkpoint — Lab component naming and NavigationBar integration (2026-10-15)
+
+- Replaced the phone preview's inline bottom navigation with the shared `NavigationBar` component.
+- Added a second independent interactive `NavigationBar` specimen to the shared-components gallery.
+- Added visible exact component identifiers to the gallery. Each label distinguishes shared primitives, Web adaptations, and local mockups.
+- Added shared `Select`, `ClearButton`, and `CopyButton` samples; `CopyButton` is wrapped in a Lab-only `ToolRuntimeProvider` with clipboard capability.
+- Added `lab-component-identifiers.test.mjs` to assert component names, fidelity labels, and NavigationBar integration.
+- Updated the navigation audit. CSS px remain web reference values and are not Android dp. Browser, mobile safe-area, and screen-reader validation remain open.
+- The branch is not merged; wait for CI on the final head before claiming validation.
