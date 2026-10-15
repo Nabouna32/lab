@@ -391,3 +391,9 @@ The screen preview no longer offers the non-official Productivity direction. Its
 **Lab implementation:** added a component-specific Fidelity/Expressive selector and an interactive selected/favorite IconButton. Expressive medium preview maps 56dp to 56 CSS px, uses a 24px icon, full resting shape, medium pressed shape and large selected shape. CSS respects reduced-motion. This is a documented Web approximation, not exact Android parity.
 
 **Gap:** the current shared Web IconButton's visible box is 48 CSS px, while AndroidX composes a minimum touch target around a smaller visual container. This needs a separate fidelity correction and browser geometry test; this Lab-only change does not alter production behavior. Static test added; CI/browser validation still pending.
+
+## Checkpoint — Checkbox component audit (2026-10-15)
+
+**Official source checked:** https://android.googlesource.com/platform/frameworks/support/%2B/db4e85898bcd90a636877cc14d3ca4ba1e9492c7/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Checkbox.kt. The reviewed standard Checkbox API confirms state, enabled behavior, interaction source and semantic color roles, but no distinct default Expressive rendering delta was verified. Added a Checkbox-specific Fidelity/Expressive selector in the Lab; Expressive explicitly explains that the same component is retained because no verified delta was found. Do not invent styling differences.
+
+**Current Web geometry to verify:** 18 CSS-pixel checkbox box, explicit 1px/2px outline treatment, focus ring and 48 CSS-pixel minimum label row. Exact AndroidX geometry/animation comparison remains open. Static test added; CI/browser validation remains pending.
