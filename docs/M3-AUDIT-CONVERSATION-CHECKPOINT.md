@@ -305,3 +305,8 @@ Earlier checkpoint notes that described Checkbox/Switch/field disabled values as
 - Selected the official classic/non-Expressive LinearProgressIndicator token baseline: 4dp thickness, primary active indicator, primary-container track and square ends.
 - The shared web component previously used rounded ends and surface-variant track, which matched neither the pinned classic token mapping nor the newer unified token mapping consistently. It now uses square ends and primary-container track.
 - CSS px are not dp; the web implementation is an adaptation. Browser validation and circular parity remain open.
+## IconButton follow-up (2026-10-15)
+
+- Corrected a semantic role drift in the standard IconButton: unselected hover now keeps on-surface-variant rather than switching to general foreground.
+- Corrected the selected outlined toggle: its border is removed when selected, matching AndroidX OutlinedIconToggleButton's default border behavior.
+- Static assertions updated. Browser verification of state-layer and border rendering remains open.
