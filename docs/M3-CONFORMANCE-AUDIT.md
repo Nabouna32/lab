@@ -527,3 +527,8 @@ Status: **source-informed Web adaptation**. Not yet complete: exact Compose mult
 - **Conformance classification:** **source-informed Web adaptation; partial functional parity; runtime unverified**. No claim of native Android or full AndroidX parity.
 - **Next checks:** focus order/restoration, screen-reader announcement, outside click, long text, narrow layout, light/dark contrast and reduced motion.
 
+
+
+## Lab specimen names — 2026-10-15
+
+The Design Lab now labels specimens with exact names and explicit fidelity categories: shared primitive, Web adaptation, or local mockup. Shared components currently named in the Lab include Button, IconButton, TextField, TextArea (Web wrapper), ExposedDropdownMenu, Select (native HTML wrapper), ClearButton, CopyButton, Checkbox, Switch, Slider, ProgressIndicator, SegmentedControl, ValidationMessage, Card, Panel, ResultPanel, Snackbar, ModalBottomSheet, AlertDialog, and NavigationBar. Mockups in the extended gallery are deliberately labelled as mockups. This naming makes bug reports actionable without falsely implying full AndroidX parity.
