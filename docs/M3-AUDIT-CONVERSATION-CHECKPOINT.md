@@ -898,3 +898,11 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - Official sources: AndroidX ScrollField and ScrollFieldState API references.
 - **Version caveat:** ScrollFieldState was added in Material3 1.5.0-alpha19 and ScrollFieldDefaults in 1.5.0-alpha29; API is experimental/Expressive.
 - **Not complete:** PagerState snapping, motion/velocity, TalkBack selection announcements, touch behavior, RTL and exact styling remain to validate.
+
+
+## Continuation update — ButtonGroup experimental API (2026-10-15)
+
+- Added shared `ButtonGroup` adaptation with selected/multi-selected items, width emphasis, disabled state and overflow dropdown; integrated it in an isolated experimental section.
+- Official sources: AndroidX ButtonGroup and ButtonGroupScope references.
+- **Version caveat:** ButtonGroupScope DSL is listed in Material3 1.5.0-alpha29; verify the pinned dependency.
+- **Not complete:** adaptive width measurement, compression limits, real responsive overflow, motion, keyboard/menu semantics and screen-reader behavior remain to validate.
