@@ -661,3 +661,11 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - Exposed Material inverse-surface/inverse-on-surface tokens in the Lab theme for the plain tooltip's semantic colors.
 - Updated conventions, conformance audit and inventory. Still incomplete: exact caret/position/elevation/motion, full touch long-press lifecycle, outside dismissal, rich action behavior and assistive-technology validation.
 - Current-head CI is still unconfirmed for the latest changes. Next component family: Carousel, then continue through the official inventory.
+
+
+## Checkpoint — Carousel family (2026-10-15)
+
+- Official sources: https://developer.android.com/develop/ui/compose/components/carousel and https://developer.android.com/reference/kotlin/androidx/compose/material3/carousel/package-summary.
+- Added shared Carousel Web adaptation with uncontained and multi-browse specimens, native horizontal scrolling, scroll snap, slide semantics, arrow-key scrolling and reduced-motion handling. The Lab no longer leaves carousel coverage entirely missing.
+- Updated canonical conventions, conformance audit and component inventory. Current multi-browse width ratios are explicitly a Web approximation, not AndroidX's responsive algorithm. CarouselState/fling, parallax/masking and exact motion remain gaps.
+- Current-head CI remains unconfirmed for all contents-API commits; the latest known green workflow predates this batch. Next component family: top app bars and bottom app bar, then Scaffold and lists/dividers.
