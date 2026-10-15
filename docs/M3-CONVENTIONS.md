@@ -392,3 +392,15 @@ Android's exposed dropdown is anchored to a TextField/OutlinedTextField using Ex
 Loculary replaced the shared Lab's native select with src/components/ui/ExposedDropdownMenu.tsx and a token-driven stylesheet. The Web component provides combobox/listbox/option semantics, active-descendant state, ArrowUp/ArrowDown, Home/End, Enter/Space selection, Escape/Tab dismissal, outside-pointer dismissal, disabled options, selection indication, error/helper text and reduced-motion support. The Expressive selector is present, but its rounded/tonal Web styling is an informed adaptation, not proof of a separate AndroidX Expressive default for this exact control.
 
 Status: **Android-source-informed Web adaptation; not 100% Android/Compose parity**. Remaining: match the actual ExposedDropdownMenuBox/TextField anchor anatomy, measure and position popup like Compose across viewport edges, add focus/assistive-technology tests, verify scrolling and long labels, pin exact token values, test browser behavior, and audit how an editable/autocomplete variant differs from a selection-only field.
+
+
+### Segmented buttons — AndroidX source audit (2026-10-15)
+
+Official references:
+- Android Developers: https://developer.android.com/develop/ui/compose/components/segmented-button
+- AndroidX component source: https://github.com/androidx/androidx/blob/androidx-main/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/SegmentedButton.kt
+- AndroidX token source: https://github.com/androidx/androidx/blob/androidx-main/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/OutlinedSegmentedButtonTokens.kt
+
+The source confirms a 40 dp minimum row height, 1 dp outline, Label Large text, 18 dp icon, Secondary Container / On Secondary Container for selected state, Outline border and On Surface content for unselected state, and a Corner Full base shape. AndroidX itemShape applies the base shape to a single item or the outer edges and a rectangle to interior items. The full outer radius in the current Web primitive is therefore intentional; the inner segments remain square. This was verified against the token source before retaining the full shape.
+
+Loculary's shared SegmentedControl now uses a single-choice radio-group pattern with roving tab stop, arrow-key navigation, Home/End, selected-state semantics, disabled options, source-backed full outer corners and square inner corners. It remains a **source-backed Web adaptation**, not 100% AndroidX parity. Multi-choice SegmentedButton rows, the AndroidX checked-icon animation, exact overlapping-border rendering, all focus/pressed/disabled color tokens and browser/screen-reader tests remain open. Do not call the current generic component a full implementation of both official single-choice and multi-choice variants.
