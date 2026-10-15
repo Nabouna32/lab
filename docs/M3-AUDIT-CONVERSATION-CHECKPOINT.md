@@ -317,3 +317,16 @@ Earlier checkpoint notes that described Checkbox/Switch/field disabled values as
 - Current branch is still open/unmerged. Latest head has no confirmed green CI status; rerun/verify CI before any merge.
 - Updated the Design Lab progress example to use primary-container (Lab alias primary-soft) for its track. Slider inactive track remains surface-variant, as required by the selected classic slider token baseline.
 - Current open items: verify Button color-mix state layers against rendered AndroidX-style states; audit classic progress indeterminate choreography (single moving segment is Loculary-specific); browser-check focus, keyboard, mobile, reduced motion and light/dark contrast.
+
+
+## User clarification — do not equate dislike of Expressive colors with rejecting newer geometry (2026-10-15)
+
+The user clarified that what they disliked about M3 Expressive was its washed-out color treatment and the lack of clear contours on some buttons. They are open to newer shapes/dimensions/animations if these are genuinely part of current Pixel/Android Material fidelity. Earlier checkpoint language that treated newer Expressive dimensions as a categorical exclusion is superseded.
+
+- Target: current Pixel / Android Material fidelity, using the already chosen Material Color Utilities Fidelity semantic palette and user-controlled color/rounding.
+- Official source: [Material 3 in Compose](https://developer.android.com/develop/ui/compose/designsystems/material3?hl=en) describes Expressive as an expansion covering theming, components, motion and typography, and connects it to Android 16 visual style. This is not a mandate to use every Expressive variant, nor proof that Expressive means faded colors or no outlines.
+- Compare each component against official Android Developers guidance, the selected current AndroidX source revision and the current Pixel target. Keep colors/contrast, outlines, geometry and motion as separate decisions. Never prefer an old token solely because it is old, or a new token solely because it is new.
+- Slider source observations (4dp track/20dp round thumb vs 16dp track/4×44dp pill handle) are versioned alternatives, not yet a final decision. Progress-indicator token generations also need comparison. The current web implementations are provisional adaptations until this comparison and browser/device validation are complete.
+- The Lab's circular progress and skeleton are hand-authored CSS examples, not shared production components and not evidence of Android motion fidelity. A shared circular progress indicator and source-backed indeterminate animation choreography remain open requirements for the user's full-fidelity goal.
+- CI run 38699485234 failed on the test step; lint and typecheck passed, build was skipped. The failing assertion expected the IconButton selected-standard text class to have no hover/pressed suffix; it has been corrected in `material-components.test.mjs`. A fresh CI run must be checked before reporting success.
+- PR #729 remains open and unmerged. Do not merge without the user's explicit authorization.
