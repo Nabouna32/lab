@@ -10,7 +10,6 @@ type CheckboxStyle = CSSProperties & {
   "--checkbox-focus-offset"?: string;
   "--checkbox-label-color"?: string;
   "--checkbox-disabled-active"?: string;
-  "--checkbox-border-width"?: string;
   "--checkbox-disabled-outline"?: string;
   "--checkbox-disabled-icon"?: string;
   "--checkbox-disabled-label"?: string;
@@ -47,7 +46,6 @@ export function Checkbox({
     "--checkbox-focus-offset": "var(--surface)",
     "--checkbox-label-color": "var(--foreground)",
     "--checkbox-disabled-active": "color-mix(in srgb, var(--on-surface) 38%, transparent)",
-    "--checkbox-border-width": "1px",
     "--checkbox-disabled-outline": "color-mix(in srgb, var(--on-surface) 38%, transparent)",
     "--checkbox-disabled-icon": "color-mix(in srgb, var(--surface) 38%, transparent)",
     "--checkbox-disabled-label": "color-mix(in srgb, var(--on-surface) 38%, transparent)",
@@ -57,7 +55,6 @@ export function Checkbox({
       "--checkbox-on-active": "var(--checkbox-disabled-icon)",
       "--checkbox-outline": "var(--checkbox-disabled-outline)",
       "--checkbox-label-color": "var(--checkbox-disabled-label)",
-      "--checkbox-border-width": checked ? "0px" : "2px",
     } : {}),
   };
 
@@ -82,6 +79,7 @@ export function Checkbox({
       />
       <span
         aria-hidden="true"
+        style={{ borderWidth: disabled ? (checked ? 0 : 2) : 1 }}
         className={[
           "relative inline-flex size-5 shrink-0 items-center justify-center rounded-[4px] border border-[var(--checkbox-outline)] bg-[var(--checkbox-surface)]",
           "transition-[background-color,border-color,box-shadow] duration-[var(--motion-standard)]",
