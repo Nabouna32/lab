@@ -51,6 +51,7 @@ export default function ComponentLivePreview({
   previewKey: string | null;
   locale: Locale;
 }) {
+  const fr = locale === "fr";
   const [checked, setChecked] = useState(true);
   const [selected, setSelected] = useState(false);
   const [text, setText] = useState("Loculary");
@@ -73,7 +74,6 @@ export default function ComponentLivePreview({
   const [dateValue, setDateValue] = useState("");
   const [splitResult, setSplitResult] = useState(fr ? "Aucune action" : "No action");
   const [dismissed, setDismissed] = useState(false);
-  const fr = locale === "fr";
   const label = fr ? "Aperçu du composant réel" : "Live component preview";
   const stateHelp = fr
     ? "Teste directement le composant. Le survol, le focus clavier, l’appui et l’état désactivé utilisent son implémentation réelle."
