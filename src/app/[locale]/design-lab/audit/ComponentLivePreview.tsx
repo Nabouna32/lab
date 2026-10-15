@@ -213,6 +213,18 @@ export default function ComponentLivePreview({
     case "swipe-to-dismiss-box":
       content = <div className="grid gap-3"><p className="text-sm text-[var(--muted)]">{fr ? "Fais glisser l’élément horizontalement pour le retirer." : "Swipe the item horizontally to dismiss it."}</p>{dismissed ? <Button variant="outlined" onClick={() => setDismissed(false)}>{fr ? "Réinitialiser l’exemple" : "Reset example"}</Button> : <SwipeToDismissBox dismissLabel={fr ? "Retirer" : "Dismiss"} onDismiss={() => setDismissed(true)}><Panel><p className="font-medium">{fr ? "Élément à retirer" : "Dismissible item"}</p><p className="mt-1 text-sm text-[var(--muted)]">{fr ? "Composant réel de Loculary" : "Actual Loculary component"}</p></Panel></SwipeToDismissBox>}</div>;
       break;
+    case "app-bar-with-search":
+      content = <div className="grid gap-3"><AppBarWithSearch title="Loculary" searchLabel={fr ? "Rechercher" : "Search"} placeholder={fr ? "Rechercher un outil" : "Search tools"} query={appBarQuery} onQueryChange={setAppBarQuery} onSearch={setAppBarSubmitted} suggestions={fr ? ["Outils récents","Convertisseur d’images","Calculatrice"] : ["Recent tools","Image converter","Calculator"]} navigationLabel={fr ? "Ouvrir la navigation" : "Open navigation"} locale={locale}/><p className="text-sm text-[var(--muted)]">{fr ? "Recherche envoyée : " : "Submitted search: "}{appBarSubmitted || "—"}</p></div>;
+      break;
+    case "carousel":
+      content = <Carousel label={fr ? "Parcourir les catégories" : "Browse categories"} layout="uncontained" itemWidth={190} items={[{id:"image",label:fr?"Images":"Images",content:<Card variant="outlined" className="grid gap-2 p-4"><MaterialIcon name="image" size={28}/><strong>{fr?"Outils image":"Image tools"}</strong><span className="text-sm text-[var(--muted)]">12 {fr?"outils":"tools"}</span></Card>},{id:"text",label:fr?"Texte":"Text",content:<Card variant="outlined" className="grid gap-2 p-4"><MaterialIcon name="text_fields" size={28}/><strong>{fr?"Outils texte":"Text tools"}</strong><span className="text-sm text-[var(--muted)]">8 {fr?"outils":"tools"}</span></Card>},{id:"calculate",label:fr?"Calcul":"Calculate",content:<Card variant="outlined" className="grid gap-2 p-4"><MaterialIcon name="calculate" size={28}/><strong>{fr?"Calculatrices":"Calculators"}</strong></Card>}]} />;
+      break;
+    case "bottom-sheet-scaffold":
+      content = <div className="max-w-xl"><BottomSheetScaffold title={fr ? "Détails de l’élément" : "Item details"} expanded={bottomSheetExpanded} onExpandedChange={setBottomSheetExpanded} collapsedLabel={fr ? "Développer les détails" : "Expand details"} expandedLabel={fr ? "Réduire les détails" : "Collapse details"} content={<><strong>{fr ? "Contenu principal" : "Main content"}</strong><p>{fr ? "La feuille est ancrée en bas de ce conteneur." : "The sheet is anchored to the bottom of this container."}</p></>} sheetContent={<p>{fr ? "Informations complémentaires et actions liées à l’élément." : "Additional information and related actions."}</p>} /></div>;
+      break;
+    case "copy-button":
+      content = <ToolRuntimeProvider access="anonymous" capabilities={["clipboard"]}><CopyButton value={text} label={fr ? "Copier le texte" : "Copy text"} copiedLabel={fr ? "Texte copié" : "Text copied"}/></ToolRuntimeProvider>;
+      break;
     case "button":
       content = (
         <div className="flex flex-wrap items-center gap-3">
