@@ -8,6 +8,7 @@ import { NavigationRail } from "@/components/ui/NavigationRail";
 import { NavigationDrawer } from "@/components/ui/NavigationDrawer";
 import { CircularProgressIndicator } from "@/components/ui/CircularProgressIndicator";
 import { FloatingActionButton } from "@/components/ui/FloatingActionButton";
+import { Badge, BadgedBox } from "@/components/ui/Badge";
 import { Select } from "@/components/ui/Select";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
@@ -436,8 +437,19 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
       <div className={styles.galleryGrid}>
         <article className={styles.galleryCard}>
           <h3>{locale==="fr"?"Barre supérieure, navigation et action flottante":"Top app bar, navigation & FAB"}</h3><ComponentIdentifier names={["TopAppBar (mockup)"]} kind="mockup" locale={locale}/><ComponentIdentifier names={["NavigationRail","FloatingActionButton"]} kind="adaptation" locale={locale}/>
-          <div className={styles.sampleTopBar}><button type="button" className={styles.sampleIconButton} aria-label={locale==="fr"?"Ouvrir le menu":"Open menu"}><MaterialIcon name="menu" size={22}/></button><strong>Loculary</strong><span className={styles.sampleTopBarSpacer}/><button type="button" className={styles.sampleIconButton} aria-label={locale==="fr"?"Rechercher":"Search"}><MaterialIcon name="search" size={22}/></button><button type="button" className={styles.sampleIconButton} aria-label={locale==="fr"?"Notifications":"Notifications"}><MaterialIcon name="notifications" size={22}/><i className={styles.sampleBadgeDot}/></button></div>
+          <div className={styles.sampleTopBar}><button type="button" className={styles.sampleIconButton} aria-label={locale==="fr"?"Ouvrir le menu":"Open menu"}><MaterialIcon name="menu" size={22}/></button><strong>Loculary</strong><span className={styles.sampleTopBarSpacer}/><button type="button" className={styles.sampleIconButton} aria-label={locale==="fr"?"Rechercher":"Search"}><MaterialIcon name="search" size={22}/></button><button type="button" className={styles.sampleIconButton} aria-label={locale==="fr"?"Notifications":"Notifications"}><BadgedBox badge={<Badge accessibleLabel={locale==="fr"?"Nouvelles notifications":"New notifications"}/>}><MaterialIcon name="notifications" size={22}/></BadgedBox></button></div>
           <div className={styles.sampleNavigationRow}><NavigationRail label={locale==="fr"?"Navigation de démonstration":"Demo navigation"} selectedKey={sampleRailSelection} onSelect={setSampleRailSelection} items={[{key:"home",label:locale==="fr"?"Accueil":"Home",icon:"home"},{key:"explore",label:locale==="fr"?"Explorer":"Explore",icon:"search"},{key:"saved",label:locale==="fr"?"Enregistrés":"Saved",icon:"collections_bookmark",badge:"3"}]}/><div className={styles.sampleNavDescription}><span className={styles.sampleBadge}>{locale==="fr"?"3 nouveaux":"3 new"}</span><p>{locale==="fr"?"Rail de navigation avec destination active et badge informatif.":"Navigation rail with selected destination and an informative badge."}</p><button type="button" className={styles.sampleFab} aria-label={locale==="fr"?"Ajouter un élément":"Create item"} onClick={()=>setSnackbarOpen(true)}><MaterialIcon name="add" size={24}/></button></div></div>
+          <div className={styles.fabSpecimen}>
+            <h4>{locale==="fr"?"Badge et ancrage":"Badge and anchoring"}</h4>
+            <ComponentIdentifier names={["Badge","BadgedBox"]} kind="adaptation" locale={locale}/>
+            <div className={styles.sampleFabVariants}>
+              <Badge accessibleLabel={locale==="fr"?"Notification":"Notification"}/>
+              <Badge variant="large" content="3" accessibleLabel={locale==="fr"?"3 notifications":"3 notifications"}/>
+              <BadgedBox badge={<Badge variant="large" content="8" accessibleLabel={locale==="fr"?"8 messages":"8 messages"}/>}>
+                <MaterialIcon name="mail" size={24}/>
+              </BadgedBox>
+            </div>
+          </div>
           <div className={styles.fabSpecimen}>
             <h4>{locale==="fr"?"Variantes du bouton d’action flottant":"Floating action button variants"}</h4>
             <ComponentIdentifier names={["SmallFloatingActionButton","FloatingActionButton","LargeFloatingActionButton","ExtendedFloatingActionButton"]} kind="adaptation" locale={locale}/>
