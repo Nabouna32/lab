@@ -517,3 +517,13 @@ Status: **source-informed Web adaptation**. Not yet complete: exact Compose mult
 - **Conformance classification:** **source-informed Web adaptation; partial functional parity; runtime unverified**. The Lab's prior inline panel was a visual mockup, not a modal bottom sheet.
 - **Next checks:** focus and screen-reader behavior, backdrop touch, long-content scroll, safe areas and viewport resize, theme contrast, reduced motion. Do not mark as 100% AndroidX.
 
+## Alert dialog — 2026-10-15
+
+**Official AndroidX references:** [Dialog guide](https://developer.android.com/develop/ui/compose/components/dialog), [AlertDialog API](https://developer.android.com/reference/kotlin/androidx/compose/material3/AlertDialog.composable), [BasicAlertDialog API](https://developer.android.com/reference/kotlin/androidx/compose/material3/BasicAlertDialog.composable), and [AlertDialogDefaults](https://developer.android.com/reference/kotlin/androidx/compose/material3/AlertDialogDefaults).
+
+- **Source-confirmed:** standard `AlertDialog` has semantic slots for title, body, optional icon, confirm action and dismiss action; custom `Dialog` content requires its own surface/layout. AndroidX exposes shape, container/content colors and tonal elevation.
+- **Implemented:** shared `AlertDialog` Web adaptation with `alertdialog` role, modal ARIA semantics, title/description references, cancel-first focus, Escape/backdrop dismissal, Tab focus containment, focus restoration and body scroll lock. Added a destructive-confirmation specimen to the Design Lab; its confirm action only dismisses the demo.
+- **Not implemented / open:** Compose `DialogProperties`, exact AndroidX dimensions/elevation/motion, platform back handling, robust cross-browser screen-reader validation, and browser/device testing.
+- **Conformance classification:** **source-informed Web adaptation; partial functional parity; runtime unverified**. No claim of native Android or full AndroidX parity.
+- **Next checks:** focus order/restoration, screen-reader announcement, outside click, long text, narrow layout, light/dark contrast and reduced motion.
+
