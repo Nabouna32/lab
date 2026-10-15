@@ -107,3 +107,8 @@ AndroidX ExposedDropdownMenuBox/MenuTokens were reviewed before replacing the na
 ## Segmented button comparison finding (2026-10-15)
 
 AndroidX SegmentedButton.kt and OutlinedSegmentedButtonTokens.kt were inspected. The current shared Web primitive has source-informed single-choice semantics and a Corner Full outer shape, square inner segments, selected/unselected roles, and keyboard navigation. The official source's multi-choice variant and checked-icon animation are not yet implemented. Fidelity/Expressive selectors must not imply that both official variants or full Compose motion are complete.
+
+
+## Unit and token implementation finding (2026-10-15)
+
+Android dp/sp values are not CSS px/rem. The Lab now starts a shared Web reference-token layer with explicit Android-source magnitudes and documented conversion caveats. Fidelity/Expressive comparisons must share the same dimension/type tokens unless the official AndroidX Expressive source defines a real variant-specific difference; otherwise a comparison would accidentally conflate component style with platform-unit scaling. The mapping is a Web approximation and must be validated under browser zoom, root-font changes, responsive viewports and accessibility settings.
