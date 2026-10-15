@@ -18,7 +18,7 @@ export type TimePickerDialogProps = {
 };
 
 /** Modal Web adaptation inspired by AndroidX TimePickerDialog. */
-export function TimePickerDialog({
+function TimePickerDialogContent({
   open,
   title,
   label,
@@ -40,7 +40,6 @@ export function TimePickerDialog({
 
   useEffect(() => {
     if (!open) return;
-    setDraftValue(value);
     const previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -73,7 +72,7 @@ export function TimePickerDialog({
       document.body.style.overflow = previousOverflow;
       previousFocus?.focus();
     };
-  }, [open, value]);
+  }, [open]);
 
   if (!open) return null;
 
@@ -89,4 +88,11 @@ export function TimePickerDialog({
       </div>
     </div>
   );
+}
+
+
+/** Mount a fresh draft for each open session so cancelled edits never leak into the next session. */
+export function TimePickerDialog(props: TimePickerDialogProps) {
+  if (!props.open) return null;
+  return <TimePickerDialogContent key={props.value} {...props} />;
 }
