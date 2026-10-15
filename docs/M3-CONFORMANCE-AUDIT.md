@@ -711,3 +711,8 @@ Official source: [AndroidX TimePickerDialog API](https://developer.android.com/r
 ## SegmentedButton rows — 2026-10-15
 
 Official sources: [SegmentedButton API](https://developer.android.com/reference/kotlin/androidx/compose/material3/SegmentedButton.composable), [SingleChoiceSegmentedButtonRow API](https://developer.android.com/reference/kotlin/androidx/compose/material3/SingleChoiceSegmentedButtonRow.composable). Added a shared single-/multi-choice segmented-button adaptation and Lab specimens. It is distinct from the existing generic SegmentedControl wrapper; exact item shape calculation, icon variants, spacing, RTL and assistive-technology parity remain unverified.
+
+
+## FloatingToolbar — 2026-10-15
+
+Official sources: [HorizontalFloatingToolbar](https://developer.android.com/reference/kotlin/androidx/compose/material3/HorizontalFloatingToolbar.composable), [VerticalFloatingToolbar](https://developer.android.com/reference/kotlin/androidx/compose/material3/VerticalFloatingToolbar.composable). Added shared horizontal/vertical Web adaptations and Lab specimens. The current API exposes scroll behavior and floating-toolbar state; the reference lists FloatingToolbarState as introduced in Material3 1.5.0-beta01. Scroll-driven collapse, nested scroll, touch-exploration behavior, exact elevation/shape, RTL and screen-reader parity remain open.
