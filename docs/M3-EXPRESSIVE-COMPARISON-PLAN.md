@@ -50,3 +50,14 @@ Workflow run 38704035198 has completed with **failure**: lint and typecheck pass
 - AndroidX Button implementation (current branch; moving): https://github.com/androidx/androidx/blob/androidx-main/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Button.kt
 
 **Status boundary:** this entry records the user's requested plan and newly checked official source guidance. It does not claim the two-mode selector, component audit, browser verification or fixes have already been implemented.
+
+
+## Audit 01 — Buttons (2026-10-15)
+
+**Official source:** pinned AndroidX Compose Material 3 Button.kt at https://android.googlesource.com/platform/frameworks/support/%2B/155b9eedc7a9732cce0505b492b2c15f5e70d1b9/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Button.kt and [ButtonDefaults API](https://developer.android.com/reference/kotlin/androidx/compose/material3/ButtonDefaults).
+
+**Confirmed difference in API/behavior:** classic button overloads accept a single `shape`; Expressive overloads accept `ButtonShapes` and morph between the normal and pressed shapes. Expressive provides height-aware recommended helpers for shapes, content padding, text style, icon size and spacing. This is a component-specific API/behavior difference, not a blanket color/shape preset.
+
+**Loculary baseline found:** shared `src/components/ui/Button.tsx` sets 40 CSS px minimum height, 64 CSS px minimum width, full resting corners and a small active corner. Those are Web implementation choices and must not be described as dp equivalents. The component-specific Expressive specimen should compare the baseline with a height-aware variant; CSS border-radius transitions can approximate simple corner interpolation, while any more complex timing must be tested and documented. Status: source finding recorded; dedicated selector/specimen and browser parity checks still to do.
+
+**Naming rule:** only offer M3 Fidelity and M3 Expressive as official style modes. Any Loculary-only Productivity/compact composition is an adaptation and must not appear as an official Material mode.
