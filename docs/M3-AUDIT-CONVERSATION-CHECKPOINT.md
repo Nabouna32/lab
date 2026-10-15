@@ -461,3 +461,8 @@ Changes committed:
 Status: **Android-source-informed Web adaptation; not 100% Android/Compose parity**. Still open: true Compose popup placement/edge handling, TextField menu-anchor anatomy, exact token geometry/elevation/motion, screen-reader and browser testing, long/scrolling menus, and editable autocomplete behavior. The component selector's Expressive styling is an informed Web comparison, not proof of a distinct AndroidX Expressive default.
 
 Next: test/fix Snackbar and dropdown, then implement/audit multiline TextField anatomy. Continue with segmented buttons, menus, dialogs, bottom sheets, navigation, and progress indicators against pinned official AndroidX source.
+
+
+### Snackbar token source follow-up
+
+The official AndroidX SnackbarTokens.kt was inspected: https://github.com/androidx/androidx/blob/androidx-main/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/SnackbarTokens.kt. It specifies inverseSurface container, inverseOnSurface supporting text/icon, inversePrimary action, extraSmall shape, level-3 elevation, Body Medium message text, Label Large action text, 48 dp single-line height, 68 dp two-line height, 600 dp maximum width, 16 dp horizontal spacing and 14 dp vertical spacing. The Web stylesheet now maps the semantic roles and approximate max-width/min-height/vertical padding. CSS pixels, browser font metrics and box layout are not identical to Android dp/Compose measurement; remaining gaps are documented rather than claiming parity.
