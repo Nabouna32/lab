@@ -235,3 +235,18 @@ The compact favorite toggle previously used a local 40×40px button, below the 4
 The collection create/rename/add/remove/share/copy/delete actions and the labeled remove-favorite action now use the shared `Button` variants instead of repeating local padding, state-layer and disabled-opacity classes. The collection selector remains a bespoke selectable card because it is a large selection surface, not a standard M3 action button. The navigation link to the account remains a link to preserve its navigation semantics.
 
 - The Design Lab token bridge now maps `error` / `on-error` from the selected generated scheme as well, so shared destructive buttons don't fall back to production/global colors while previewing another palette.
+
+
+## Follow-up — Slider, ProgressIndicator and disabled state tokens (PR #723 port)
+
+The source-level convention and implementation intent for these additions are recorded in [`docs/M3-CONVENTIONS.md`](./M3-CONVENTIONS.md). Official references: [Android Material 3 Slider](https://developer.android.com/develop/ui/compose/components/slider), [Android Material 3 progress indicators](https://developer.android.com/develop/ui/compose/components/progress), [Material Web checkbox tokens](https://github.com/material-components/material-web/blob/main/tokens/_md-comp-checkbox.scss) and [Material Web switch tokens](https://github.com/material-components/material-web/blob/main/tokens/_md-comp-switch.scss).
+
+- **Slider:** a shared native `input[type="range"]` with visible label/value, `aria-valuetext`, semantic active/inactive tracks, visible focus and a 48px interaction height. The 48px height is a Loculary web implementation choice informed by Android touch-target guidance; it is not a claim that 48 dp equals 48 CSS px.
+- **ProgressIndicator:** shared linear determinate/indeterminate implementation. Only determinate values expose `aria-valuenow`; indeterminate work does not invent a percentage. CSS includes a reduced-motion fallback.
+- **Checkbox/Switch disabled state:** use distinct disabled container/track and foreground treatments rather than fading the whole control uniformly. The recorded Material Web token pattern is 12% for disabled container/track and 38% for disabled foreground/outline/thumb; validate the actual computed result in both themes.
+- **Call sites intended by PR #723:** PasswordGenerator, ImageCompressor and Design Lab. Browser checks in Chromium, Firefox and mobile touch, plus keyboard/assistive-technology verification, remain outstanding.
+- **Integration status in this PR:** shared Slider/ProgressIndicator and tool call-site changes have been ported. Lab composition, Switch disabled styling and regression-test updates are still being reconciled against the newer `main` version; do not claim PR #723 is fully integrated until those changes and checks are complete.
+
+## Canonical conventions
+
+See [`docs/M3-CONVENTIONS.md`](./M3-CONVENTIONS.md) for the detailed source hierarchy, semantics, implementation constraints and acceptance checklist.
