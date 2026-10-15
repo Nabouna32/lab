@@ -701,3 +701,8 @@ Official sources: [PullToRefreshBox API](https://developer.android.com/reference
 ## BottomSheetScaffold — 2026-10-15
 
 Official source: [AndroidX BottomSheetScaffold API](https://developer.android.com/reference/kotlin/androidx/compose/material3/BottomSheetScaffold.composable). Added a persistent bottom-sheet Web adaptation with controlled collapsed/expanded state, keyboard-accessible handle and vertical drag threshold. This does not replicate Compose nested scroll, velocity/anchor state, window insets or exact motion. Runtime gesture, RTL and assistive-technology validation remain open.
+
+
+## TimePickerDialog — 2026-10-15
+
+Official source: [AndroidX TimePickerDialog API](https://developer.android.com/reference/kotlin/androidx/compose/material3/TimePickerDialog.composable). Added a modal Web adaptation with draft time, confirm/cancel actions, Escape dismissal and focus management. It is not native Compose window behavior; exact dialog geometry, time-picker animation/state, locale, back handling and screen-reader parity remain to validate.
