@@ -29,7 +29,7 @@ The list below is deliberately broader than the current production call sites. C
 | Tooltip: plain/rich | Shared Web adaptation; plain/rich specimens | Audit touch long-press lifecycle, outside dismissal, caret/position, rich actions and screen-reader behavior |
 | Bottom sheets: ModalBottomSheet, BottomSheetScaffold | ModalBottomSheet adaptation | Audit drag/partial expansion, state, insets, nested scroll, scrim and animation |
 | Cards: filled, elevated, outlined | Shared Card, additional Panel/ResultPanel | Confirm which are true M3 Card variants versus Loculary content compositions |
-| Carousel | Missing | Add official carousel specimen and supported scroll/indicator behavior |
+| Carousel: HorizontalMultiBrowseCarousel / HorizontalUncontainedCarousel | Shared Web adaptation; both layouts in Lab | Replace fixed multi-browse ratios with window-aware sizing; audit fling, state, mask/parallax, semantics and motion |
 | Dialogs: AlertDialog, BasicAlertDialog/Dialog patterns | Shared AlertDialog adaptation | Audit properties, layout, dismissal, focus, motion and platform back behavior |
 | Dividers: horizontal/vertical | Lab mockup | Implement shared component and orientation/semantic usage |
 | Lists / list items | Lab mockup | Implement M3 list-item variants, slots, density and interaction behavior |
