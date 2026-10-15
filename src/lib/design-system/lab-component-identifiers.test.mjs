@@ -12,7 +12,7 @@ test("Design Lab displays exact component names and identifies specimen fidelity
     "Button", "IconButton", "TextField", "TextArea (Web wrapper)", "ExposedDropdownMenu",
     "Select (native HTML wrapper)", "ClearButton", "CopyButton", "Checkbox", "Switch",
     "Slider", "ProgressIndicator", "SegmentedControl", "ValidationMessage", "Card",
-    "Panel", "ResultPanel", "Snackbar", "ModalBottomSheet", "AlertDialog", "NavigationBar", "NavigationRail", "NavigationDrawer", "CircularProgressIndicator", "FloatingActionButton", "Badge", "BadgedBox", "Tooltip", "Carousel", "TopAppBar", "BottomAppBar", "Scaffold",
+    "Panel", "ResultPanel", "Snackbar", "ModalBottomSheet", "AlertDialog", "NavigationBar", "NavigationRail", "NavigationDrawer", "CircularProgressIndicator", "FloatingActionButton", "Badge", "BadgedBox", "Tooltip", "Carousel", "TopAppBar", "BottomAppBar", "Scaffold", "ListItem", "HorizontalDivider", "VerticalDivider",
   ]) {
     assert.ok(lab.includes(name), `Missing visible component identifier: ${name}`);
   }
@@ -42,6 +42,10 @@ test("NavigationRail, NavigationDrawer and CircularProgressIndicator are integra
   assert.match(lab, /import \{ TopAppBar \} from "@\/components\/ui\/TopAppBar"/);
   assert.match(lab, /import \{ BottomAppBar \} from "@\/components\/ui\/BottomAppBar"/);
   assert.match(lab, /import \{ Scaffold \} from "@\/components\/ui\/Scaffold"/);
+  assert.match(lab, /import \{ Divider \} from "@\/components\/ui\/Divider"/);
+  assert.match(lab, /import \{ ListItem \} from "@\/components\/ui\/ListItem"/);
+  assert.match(lab, /names=\{\["ListItem","HorizontalDivider","VerticalDivider"\]\} kind="adaptation"/);
+  assert.match(lab, /<Divider orientation="vertical"\/>/);
   assert.match(lab, /names=\{\["Scaffold"\]\} kind="adaptation"/);
   assert.match(lab, /<Scaffold className=\{styles\.scaffoldPreview\}/);
   assert.match(lab, /names=\{\["BottomAppBar"\]\} kind="adaptation"/);
