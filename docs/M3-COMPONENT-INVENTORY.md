@@ -41,7 +41,7 @@ The list below is deliberately broader than the current production call sites. C
 | Navigation drawers: modal, dismissible, permanent | Shared Web adaptation, partial variants | Separate official behavior patterns; implement drawer state, gesture/back behavior, responsive layout and assistive-technology isolation |
 | Tabs: primary/secondary, fixed/scrollable | Lab mockup | Implement official tab rows, selected indicator, scroll behavior, keyboard navigation and motion |
 | Checkbox / tri-state checkbox | Shared Checkbox | Audit indeterminate state, semantics, animation and minimum target |
-| Chips: assist/elevated assist/filter/elevated filter/input/suggestion/elevated suggestion | Lab mockup | Implement official variants, selection/removal, leading/trailing icons, shape and state animations |
+| Chips: assist/elevated assist/filter/elevated filter/input/suggestion/elevated suggestion | Shared Web adaptation; all seven variants in Lab | Audit exact geometry, state tokens, touch targets, input removal semantics and motion |
 | Date picker / date range picker / date picker dialog | Missing | Implement calendar selection, range selection, locale, keyboard and dialog integration |
 | Menus / dropdown menus | ExposedDropdownMenu and Select wrapper | Audit DropdownMenu, exposed dropdown, anchoring, focus, keyboard, dismissal and native HTML distinction |
 | Radio button | Lab mockup | Implement shared radio group and radio button with correct group semantics and keyboard behavior |
