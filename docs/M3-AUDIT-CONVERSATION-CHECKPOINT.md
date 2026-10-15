@@ -793,3 +793,12 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - Official sources: AndroidX TextField, OutlinedTextField, SecureTextField and OutlinedSecureTextField API references.
 - **Security caveat:** browser event blocking for copy/cut/drag is not native secure-field parity; never claim it offers AndroidX-level guarantees.
 - **Not complete:** exact shape/label animation, focused border, IME/autofill, text scaling, context menu, RTL and screen-reader behavior remain to validate.
+
+
+## Continuation update — DropdownMenu family (2026-10-15)
+
+- Added shared `DropdownMenu` / item adaptation and replaced the local Lab mockup.
+- Added keyboard navigation (ArrowUp/Down, Home/End), Escape, outside dismissal, focus restoration, disabled items, dividers, leading icons and selectable/checkable semantics.
+- Official source: https://developer.android.com/develop/ui/compose/components/menu?hl=en.
+- **Version caveat:** current AndroidX reference includes SelectableDropdownMenuItem and CheckableDropdownMenuItem in 1.5.0 beta; confirm pinned dependency before claiming availability.
+- **Not complete:** exact popup anchoring, edge collision, native window/insets, typeahead, RTL and screen-reader/browser behavior remain to validate.
