@@ -264,3 +264,6 @@ Every new convention/audit finding must state whether it is [ANDROID-M3], [MATER
 - Button and IconButton source now reflect those AndroidX distinctions. IconButton selected state now uses primary icon/no added container for standard, secondary/on-secondary for filled-tonal, and inverse-surface/inverse-on-surface for outlined; hover/pressed state layers follow those selected roles.
 - The danger button remains a Loculary-specific variant, not an official Android M3 component.
 - [OPEN] Browser verification of actual state layers/contrast remains outstanding; the latest typecheck failures reported earlier were on older heads, and no current-head green run is confirmed yet.
+## Source hierarchy clarified
+
+For Android-M3 component roles and state values, pinned AndroidX Compose Material 3 token sources are authoritative. Material Web token files are the first-party web-side cross-check. When values differ, follow AndroidX for Android-M3 fidelity and record the web adaptation instead of blending values. CSS pixels and HTML/ARIA behavior remain web-specific.
