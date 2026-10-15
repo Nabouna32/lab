@@ -13,7 +13,7 @@ test("Design Lab displays exact component names and identifies specimen fidelity
     "Button", "IconButton", "TextField", "TextArea (Web wrapper)", "ExposedDropdownMenu",
     "Select (native HTML wrapper)", "ClearButton", "CopyButton", "Checkbox", "Switch",
     "Slider", "ProgressIndicator", "SegmentedControl", "ValidationMessage", "Card",
-    "Panel", "ResultPanel", "Snackbar", "ModalBottomSheet", "AlertDialog", "NavigationBar", "NavigationRail", "NavigationDrawer", "CircularProgressIndicator", "FloatingActionButton", "Badge", "BadgedBox", "Tooltip", "Carousel", "TopAppBar", "BottomAppBar", "Scaffold", "ListItem", "HorizontalDivider", "VerticalDivider", "AssistChip", "FilterChip", "InputChip", "SuggestionChip", "RadioButton", "Tab", "PrimaryTabRow", "SecondaryTabRow", "PrimaryScrollableTabRow", "SecondaryScrollableTabRow", "DatePicker", "DateRangePicker", "TimePicker", "TimeInput (native HTML input wrapper)", "SearchBar", "ExpandedDockedSearchBar", "ExpandedFullScreenSearchBar",
+    "Panel", "ResultPanel", "Snackbar", "ModalBottomSheet", "AlertDialog", "NavigationBar", "NavigationRail", "NavigationDrawer", "CircularProgressIndicator", "FloatingActionButton", "Badge", "BadgedBox", "Tooltip", "Carousel", "TopAppBar", "BottomAppBar", "Scaffold", "ListItem", "HorizontalDivider", "VerticalDivider", "AssistChip", "FilterChip", "InputChip", "SuggestionChip", "RadioButton", "Tab", "PrimaryTabRow", "SecondaryTabRow", "PrimaryScrollableTabRow", "SecondaryScrollableTabRow", "DatePicker", "DateRangePicker", "TimePicker", "TimeInput (native HTML input wrapper)", "SearchBar", "ExpandedDockedSearchBar", "ExpandedFullScreenSearchBar", "TriStateCheckbox",
   ]) {
     assert.ok(lab.includes(name), `Missing visible component identifier: ${name}`);
   }
@@ -127,4 +127,11 @@ test("Search bar specimens use the shared query, suggestion and expanded-state a
   assert.match(lab, /mode="full-screen"/);
   assert.match(lab, /suggestions=/);
   assert.match(lab, /SearchBar/);
+});
+
+
+test("TriStateCheckbox has a native indeterminate state and a shared Lab specimen", () => {
+  assert.match(lab, /import \{ TriStateCheckbox \} from "@\/components\/ui\/TriStateCheckbox"/);
+  assert.match(lab, /state=\{sampleTriState\}/);
+  assert.match(lab, /TriStateCheckbox/);
 });
