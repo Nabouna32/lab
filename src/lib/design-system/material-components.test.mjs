@@ -422,6 +422,8 @@ test("SegmentedControl follows the AndroidX item-shape and state contract", () =
   assert.match(source, /index === 0\s*\? "rounded-l-full"/);
   assert.match(source, /index === items\.length - 1\s*\? "rounded-r-full"/);
   assert.match(source, /: "rounded-none"/);
+  assert.match(source, /min-h-\[var\(--m3-size-segmented-button-min-height\)\]/);
+  assert.match(source, /text-\[length:var\(--m3-type-label-large-size\)\]/);
   assert.match(source, /role="radiogroup"/);
   assert.match(source, /role="radio"/);
   assert.match(source, /aria-checked=\{active\}/);
@@ -500,6 +502,14 @@ test("TextArea and native Select explicitly expose unfinished Android parity ins
   assert.match(labSource, /<ExposedDropdownMenu id=\{?"lab-shared-select"?/);
 });
 
+test("M3 web reference tokens document Android dp/sp magnitude without claiming physical equivalence", () => {
+  assert.match(globalCss, /--m3-ref-unit: 0\.0625rem/);
+  assert.match(globalCss, /CSS rem\/px are NOT Android dp\/sp/);
+  assert.match(globalCss, /--m3-size-segmented-button-min-height: 2\.5rem/);
+  assert.match(globalCss, /--m3-size-snackbar-max-width: 37\.5rem/);
+  assert.match(globalCss, /--m3-type-label-large-size: 0\.875rem/);
+});
+
 test("M3 Fidelity direction mockup uses semantic shape roles for official component families", () => {
   assert.match(labCss, /directionStage\[data-direction="fidelity"\] \.directionPrimary\{[^}]*border-radius:var\(--shape-corner-full\)/);
   assert.match(labCss, /directionStage\[data-direction="fidelity"\] \.directionCalculator input\{[^}]*border-radius:var\(--shape-corner-extra-small\)/);
@@ -516,8 +526,8 @@ test("Snackbar is a shared AndroidX-informed Web adaptation with honest parity b
   assert.match(snackbarSource, /if \(!open \|\| hasAction \|\| durationMs <= 0\) return/);
   assert.match(snackbarSource, /role="status" aria-live="polite"/);
   assert.match(snackbarCss, /var\(--lab-inverse-surface, var\(--inverse-surface/);
-  assert.match(snackbarCss, /max-width: 37\.5rem/);
-  assert.match(snackbarCss, /padding: \.875rem \.5rem \.875rem 1rem/);
+  assert.match(snackbarCss, /max-width: var\(--m3-size-snackbar-max-width, 37\.5rem\)/);
+  assert.match(snackbarCss, /padding: var\(--m3-snackbar-vertical-padding, \.875rem\) var\(--m3-space-2, \.5rem\) var\(--m3-snackbar-vertical-padding, \.875rem\) var\(--m3-space-4, 1rem\)/);
   assert.match(snackbarCss, /shape-corner-extra-small/);
   assert.match(snackbarCss, /prefers-reduced-motion: reduce/);
   assert.match(labSource, /<Snackbar open=\{snackbarOpen\} variant=\{snackbarVariant\}/);
