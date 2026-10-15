@@ -468,6 +468,22 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
           <ValidationMessage id="lab-shared-validation" role={null}>{locale==="fr"?"Exemple de message de validation.":"Example validation message."}</ValidationMessage>
         </article>
         <article className={styles.galleryCard}>
+          <h3>NavigationBar</h3>
+          <ComponentIdentifier names={["NavigationBar"]} kind="adaptation" locale={locale}/>
+          <NavigationBar
+            label={locale==="fr"?"Destinations de démonstration":"Demo destinations"}
+            selectedKey={navigationSelection}
+            onSelect={setNavigationSelection}
+            items={[
+              {key:"home",label:locale==="fr"?"Accueil":"Home",icon:"home"},
+              {key:"explore",label:locale==="fr"?"Explorer":"Explore",icon:"search"},
+              {key:"saved",label:locale==="fr"?"Enregistrés":"Saved",icon:"favorite"},
+              {key:"profile",label:locale==="fr"?"Profil":"Profile",icon:"person"},
+            ]}
+          />
+          <p className={styles.helper}>{locale==="fr"?"Choisis une destination pour tester l’état sélectionné. Primitive Web partagée ; ce n’est pas un composant AndroidX natif.":"Choose a destination to test selected state. Shared Web primitive; not a native AndroidX component."}</p>
+        </article>
+        <article className={styles.galleryCard}>
           <h3>{locale==="fr"?"Cartes et panneaux partagés":"Shared cards & panels"}</h3><ComponentIdentifier names={["Card","Panel","ResultPanel"]} locale={locale}/>
           <div className={styles.sharedSurfaceStack}><Card variant="elevated" className={styles.sharedCard}><strong>{locale==="fr"?"Carte élevée":"Elevated card"}</strong><p>{locale==="fr"?"Surface avec élévation légère.":"Surface with subtle elevation."}</p></Card><Card variant="filled" className={styles.sharedCard}><strong>{locale==="fr"?"Carte remplie":"Filled card"}</strong><p>{locale==="fr"?"Surface remplie tonale.":"Tonal filled surface."}</p></Card><Card variant="outlined" className={styles.sharedCard}><strong>{locale==="fr"?"Carte contour":"Outlined card"}</strong><p>{locale==="fr"?"Contour discret, sans ombre.":"Subtle outline, no shadow."}</p></Card></div>
           <Panel className={styles.sharedPanel}><strong>{locale==="fr"?"Panneau":"Panel"}</strong><p>{locale==="fr"?"Conteneur partagé pour regrouper les paramètres.":"Shared container for grouped settings."}</p></Panel>
