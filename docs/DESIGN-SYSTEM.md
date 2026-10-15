@@ -322,3 +322,6 @@ Keep state independent across separate component examples unless the example is 
 ## AndroidX button token source
 
 For button and icon-button component states, the version-pinned AndroidX Compose Material 3 token files take precedence because the design target is Android-M3 fidelity. Do not apply one disabled opacity to all button variants: filled/elevated/text/outlined and filled-tonal have different container/outline roles. The exact variant matrix and source links are in M3-CONVENTIONS.md.
+## AndroidX source hierarchy for M3 state tokens
+
+Use version-pinned AndroidX Compose Material 3 token sources as the primary authority for Android-M3 component colors, shapes and states. Use first-party Material Web tokens as a web implementation cross-check, not as a replacement when values differ. Record CSS-pixel sizing, HTML/ARIA semantics and browser behavior as web-specific adaptations.
