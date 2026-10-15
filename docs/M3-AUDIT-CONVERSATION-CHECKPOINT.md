@@ -652,3 +652,12 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - Added shared Badge and BadgedBox Web adaptations, replaced the Lab notification icon's CSS-only badge dot with BadgedBox, and added visible specimens for dot, count and anchored badges.
 - Updated canonical conventions, conformance audit and inventory. Remaining: exact dimensions/offsets, overflow handling, semantic role defaults and screen-reader validation.
 - Status: source-informed Web adaptation; current-head CI still not confirmed. Next official family: tooltip (plain/rich), then continue through the inventory sequentially.
+
+
+## Checkpoint — Tooltip family (2026-10-15)
+
+- Official sources: https://developer.android.com/develop/ui/compose/components/tooltip and https://developer.android.com/reference/kotlin/androidx/compose/material3/TooltipBox.composable.
+- Added shared Tooltip Web adaptation and replaced the title-only tooltip mockup with plain and rich specimens. The implementation includes pointer delay, focus trigger, Escape, ARIA description association, entry animation and reduced-motion handling.
+- Exposed Material inverse-surface/inverse-on-surface tokens in the Lab theme for the plain tooltip's semantic colors.
+- Updated conventions, conformance audit and inventory. Still incomplete: exact caret/position/elevation/motion, full touch long-press lifecycle, outside dismissal, rich action behavior and assistive-technology validation.
+- Current-head CI is still unconfirmed for the latest changes. Next component family: Carousel, then continue through the official inventory.
