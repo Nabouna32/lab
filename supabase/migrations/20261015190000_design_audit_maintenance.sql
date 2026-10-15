@@ -238,6 +238,37 @@ create trigger design_audit_conformance_requires_evidence
 before update of audit_status on public.design_audit_components
 for each row execute function private.enforce_design_audit_conformance_evidence();
 
+create or replace function private.log_design_audit_component_event()
+returns trigger
+language plpgsql
+security definer
+set search_path = ''
+as $
+begin
+  if auth.uid() is null or not private.has_admin_permission('audit.write') then
+    raise exception 'Not authorized to write design audit events' using errcode = '42501';
+  end if;
+
+  insert into public.design_audit_events (component_id, actor_user_id, event_type, details)
+  values (
+    new.id,
+    auth.uid(),
+    'component.audit_status_updated',
+    jsonb_build_object('title', new.name, 'old_status', old.audit_status, 'new_status', new.audit_status)
+  );
+  return new;
+end;
+$;
+
+revoke execute on function private.set_design_audit_updated_at() from public, anon, authenticated;
+revoke execute on function private.enforce_design_audit_conformance_evidence() from public, anon, authenticated;
+revoke execute on function private.log_design_audit_component_event() from public, anon, authenticated;
+
+create trigger design_audit_component_status_event
+after update of audit_status on public.design_audit_components
+for each row when (old.audit_status is distinct from new.audit_status)
+execute function private.log_design_audit_component_event();
+
 grant select, update on public.design_audit_components to authenticated;
 grant select, insert, update, delete on public.design_audit_reports to authenticated;
 grant select, insert, update, delete on public.design_audit_decisions to authenticated;
