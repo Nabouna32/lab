@@ -313,7 +313,13 @@ test("static Design Lab validation example does not create an assertive live ale
   assert.match(labSource, /<ValidationMessage id="lab-shared-validation" role=\{null\}>/);
 });
 
-test("outlined form controls use per-part disabled roles instead of fading the whole component", () => {
+test("outlined form controls use semantic extra-small shape tokens and per-part disabled roles", () => {
+  assert.match(globalCss, /--shape-corner-extra-small:\\s*4px/);
+  assert.match(globalCss, /--shape-corner-small:\\s*8px/);
+  assert.match(globalCss, /--shape-corner-medium:\\s*12px/);
+  assert.match(textFieldSource, /rounded-\\[var\\(--shape-corner-extra-small\\)\\]/);
+  assert.match(textAreaSource, /rounded-\\[var\\(--shape-corner-extra-small\\)\\]/);
+  assert.match(selectSource, /rounded-\\[var\\(--shape-corner-extra-small\\)\\]/);
   for (const [name, source] of [["TextField", textFieldSource], ["TextArea", textAreaSource], ["Select", selectSource]]) {
     assert.match(source, /on-surface\)_12%,transparent/);
     assert.match(source, /on-surface\)_38%,transparent/);
