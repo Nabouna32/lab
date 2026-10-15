@@ -20,7 +20,7 @@ The list below is deliberately broader than the current production call sites. C
 |---|---|---|
 | Button: Button, ElevatedButton, FilledTonalButton, OutlinedButton, TextButton | Shared Button with variant aliases | Audit API naming, token/state mapping, shapes, pressed motion, disabled and focus states; remove non-M3 aliases from the M3 specimen contract where safe |
 | Icon buttons: standard, filled, filled-tonal, outlined, toggle | Shared IconButton | Verify every official variant and selected/toggle behavior against AndroidX |
-| Segmented buttons | SegmentedControl adaptation | Audit single/multi selection and official segmented-button shapes, sizes and states |
+| SegmentedButton / SingleChoiceSegmentedButtonRow / MultiChoiceSegmentedButtonRow | Shared SegmentedButtonGroup Web adaptation for single and multi selection | Verify official item shapes, borders, selected colors, keyboard semantics, RTL and version-specific API |
 | Toggle buttons: filled, tonal, outlined, elevated; five sizes | Shared ToggleButton Web adaptation; all four styles and multiple sizes in Lab | Audit official size tokens, checked colors, morphing shapes and interaction states |
 | SplitButtonLayout + split button variants | Shared SplitButton Web adaptation; filled and outlined specimens in Lab | Verify pinned API version, shape/spacing, primary/secondary action semantics, menu separation and keyboard behavior |
 | FAB: small, regular, large, extended | Shared Web adaptation; all four types in Lab | Audit exact AndroidX size, shape, tonal color, state elevation, extended expansion and motion |
@@ -206,3 +206,10 @@ For each component/variant, record:
 - **Official source:** https://developer.android.com/reference/kotlin/androidx/compose/material3/TimePickerDialog.composable
 - **Lab:** added a modal Web adaptation with draft time, confirm/cancel, Escape dismissal, focus containment/restore and shared TimePicker dial.
 - **Not yet verified:** exact AndroidX dialog dimensions/shape, time-picker state/animation, native back handling, 12/24-hour locale behavior and assistive-technology parity.
+
+
+## SegmentedButton rows — 2026-10-15
+
+- **Official source:** https://developer.android.com/reference/kotlin/androidx/compose/material3/SegmentedButton.composable and https://developer.android.com/reference/kotlin/androidx/compose/material3/SingleChoiceSegmentedButtonRow.composable
+- **Lab:** added shared `SegmentedButtonGroup` adaptation for single choice and multi choice, with linked border geometry, selected state, disabled items, keyboard arrow/Home/End navigation and reduced-motion fallback.
+- **Not yet verified:** exact AndroidX item shape calculation, layout spacing, icon-only variants, role/selection semantics, RTL and assistive-technology parity.
