@@ -505,3 +505,17 @@ Implemented in this checkpoint:
 - Documented that e.g. Android 40 dp -> 2.5rem at a default 16px root is only a reference-scale convention, not a density conversion. Keep original dp/sp magnitudes in docs and use rem/semantic tokens in CSS.
 
 Status: **shared Web token layer partially implemented; not 100% Android**. Current commit still requires fresh CI, browser testing, source/version pinning for each token and migration of remaining hardcoded values. The eventual site refactor remains deferred: first complete the Lab's reusable theme/components/tokens and their conformance statuses, then consume that stable system in production.
+
+
+## Checkpoint — multiline TextField source audit (2026-10-15)
+
+Official AndroidX TextField API/source and samples were reviewed:
+- https://developer.android.com/reference/kotlin/androidx/compose/material3/TextField.composable
+- https://github.com/androidx/androidx/blob/androidx-main/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/TextField.kt
+- https://github.com/androidx/androidx/blob/androidx-main/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/samples/TextFieldSamples.kt
+
+Finding: Compose does not provide a separate Material 3 component named TextArea. Use TextField configured for multiline input (minLines/maxLines and the desired filled/outlined style). Loculary's TextArea remains a Web adaptation/convenience name.
+
+Implemented: TextArea now supports Fidelity/Expressive variants, uses shared spacing/shape/color/type tokens, exposes helper/error copy with aria-describedby, and has disabled/error states. Design Lab now passes the selected variant into the shared component. Its 8rem minimum height is labeled as Loculary Web specimen sizing, not an AndroidX token.
+
+Status: **source-informed Web adaptation; not 100% AndroidX parity**. Remaining: line-count behavior and exact multiline anatomy, supporting text/counter, exact state tokens, browser autofill/IME, text zoom, keyboard/screen-reader checks. CI and browser testing still need to run on the latest branch head.
