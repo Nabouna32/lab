@@ -834,3 +834,10 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - Official sources: https://developer.android.com/reference/kotlin/androidx/compose/material3/WideNavigationRail.composable and https://developer.android.com/reference/kotlin/androidx/compose/material3/ModalWideNavigationRail.composable.
 - **Version caveat:** ModalWideNavigationRail is listed as added in Material3 1.5.0-beta01; verify pinned dependency.
 - **Not complete:** exact adaptive breakpoints, insets, animation, item geometry, RTL, back handling and screen-reader behavior remain to validate.
+
+
+## Continuation update — PullToRefreshBox (2026-10-15)
+
+- Added shared `PullToRefreshBox` Web adaptation and Lab specimen with pull distance, refreshing state, reduced-motion fallback and an accessible “refresh now” action.
+- Official sources: https://developer.android.com/reference/kotlin/androidx/compose/material3/pulltorefresh/PullToRefreshBox.composable and https://developer.android.com/reference/kotlin/androidx/compose/material3/pulltorefresh/pullToRefresh.modifier.
+- **Not complete:** native touch scroll/nested-scroll arbitration and overscroll behavior vary by browser/device; verify on real touch devices before claiming parity.
