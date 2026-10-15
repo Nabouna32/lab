@@ -91,3 +91,9 @@ Official source: [AndroidX TextFieldSamples.kt](https://android.googlesource.com
 ### Multiline TextField and dropdown — open parity gaps (2026-10-15)
 
 Lab mode controls now disclose that `TextArea` is a Loculary Web API adaptation of Android's multiline TextField family, and `Select` is currently a native HTML select rather than AndroidX ExposedDropdownMenu. The controls intentionally do not invent a variant. Regression assertions cover the notes. Required follow-up: create a shared M3 dropdown/menu component with keyboard navigation, focus management, selection semantics and dismissal; audit multiline label/supporting/error behavior and implement the appropriate Expressive field anatomy.
+
+## Snackbar comparison finding (2026-10-15)
+
+Official AndroidX Snackbar.kt and SnackbarHost.kt were inspected alongside the Android Developers guide. The reviewed source did not establish a separate default Expressive Snackbar appearance. The Lab therefore offers Fidelity/Expressive selection but deliberately renders identical Snackbar visuals rather than inventing a delta.
+
+The new shared Snackbar is a **Web adaptation** with source-informed message/action/dismiss semantics and action-aware timeout. It is not Compose parity: shared queue/host behavior, Scaffold placement/insets, swipe dismissal, exact token geometry/motion, and browser accessibility verification remain open. See M3-CONFORMANCE-AUDIT.md for the per-component conformance ledger. Do not mark Snackbar fully conformant or “100% Android”.
