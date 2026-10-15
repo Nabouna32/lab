@@ -881,3 +881,11 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - Explicitly documented `Button variant="danger"` as an app-specific semantic extension, not an official Material 3 variant.
 - Official references: AndroidX Button, FilledIconButton, FilledTonalIconButton, OutlinedIconButton and IconToggleButton APIs.
 - **Not complete:** exact selected-state shape/colors/motion and all icon-button dimensions still need comparison against the pinned AndroidX source.
+
+
+## Continuation update — Navigation drawer variants (2026-10-15)
+
+- Extended shared `NavigationDrawer` to cover modal, dismissible and permanent modes.
+- Integrated `DismissibleNavigationDrawer` and `PermanentNavigationDrawer` specimens alongside the existing modal specimen.
+- Official sources: AndroidX DismissibleNavigationDrawer and PermanentNavigationDrawer API references.
+- **Not complete:** exact content shifting, adaptive breakpoints, insets, animation, RTL and screen-reader parity remain to validate.
