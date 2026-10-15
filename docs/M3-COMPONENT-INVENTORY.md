@@ -253,3 +253,12 @@ For each component/variant, record:
 - **API/version:** ButtonGroupScope and its clickable/toggleable/custom-item DSL are listed as added in Material3 1.5.0-alpha29; clickableItem is also listed in 1.5.0-beta01 in the current reference. Confirm the exact pinned version.
 - **Lab:** added a shared Web adaptation with selected items, width emphasis for selected items, disabled states and an overflow dropdown.
 - **Known adaptation:** `maxVisible` is a Web-only demo threshold; AndroidX measures available width and uses ButtonGroupScope's DSL, compression limits and menu state. Do not claim exact overflow parity.
+
+
+## NavigationSuiteScaffold — 2026-10-15
+
+- **Official source:** https://developer.android.com/reference/kotlin/androidx/compose/material3/adaptive/navigationsuite/NavigationSuiteScaffold.composable
+- **Artifact/version:** AndroidX adaptive navigation suite is a separate artifact; the official release page lists 1.5.0-beta01. Verify the exact dependency used by the project before using it in production.
+- **Lab:** added shared adaptive composition switching between bottom NavigationBar, NavigationRail and permanent NavigationDrawer at CSS breakpoints.
+- **Known adaptation:** breakpoints use CSS pixels (600/840px) rather than Android WindowSizeClass and dp. They are visual approximations, not native adaptive behavior.
+- **Not yet verified:** adaptive navigation type override, insets, RTL, window-size-class transitions, state preservation and browser/device layout parity.
