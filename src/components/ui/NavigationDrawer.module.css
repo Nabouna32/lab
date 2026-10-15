@@ -1,0 +1,28 @@
+.modalRoot { position: fixed; inset: 0; z-index: 1000; isolation: isolate; }
+.scrim { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; padding: 0; background: rgb(0 0 0 / 32%); opacity: 1; animation: m3-drawer-scrim-in 220ms cubic-bezier(.2, 0, 0, 1) both; cursor: default; }
+.sheet {
+  position: absolute; inset-block: 0; inset-inline-start: 0; display: flex; flex-direction: column; gap: 12px;
+  box-sizing: border-box; width: min(360px, calc(100vw - 56px)); max-width: 100%;
+  padding: 16px 12px max(16px, env(safe-area-inset-bottom)); overflow-y: auto; overscroll-behavior: contain;
+  border-radius: 0 var(--shape-corner-extra-large, 28px) var(--shape-corner-extra-large, 28px) 0;
+  color: var(--lab-text, var(--on-surface, currentColor)); background: var(--lab-surface, var(--surface, Canvas));
+  box-shadow: 0 8px 24px rgb(0 0 0 / 16%); animation: m3-drawer-in 280ms cubic-bezier(.2, 0, 0, 1) both;
+}
+.title { margin: 12px 16px 8px; font-size: 22px; line-height: 28px; font-weight: 500; }
+.nav { display: grid; gap: 8px; }
+.group { display: grid; gap: 4px; }
+.section { margin: 12px 16px 4px; color: var(--lab-muted, var(--on-surface-variant, currentColor)); font-size: 14px; line-height: 20px; font-weight: 600; }
+.item {
+  display: flex; align-items: center; gap: 12px; min-height: 56px; width: 100%; padding: 0 16px;
+  border: 0; border-radius: var(--shape-corner-full, 999px); color: var(--lab-text, var(--on-surface, currentColor));
+  background: transparent; text-align: start; font: inherit; cursor: pointer;
+}
+.item[data-selected="true"] { color: var(--lab-on-secondary-container, var(--on-secondary-container, currentColor)); background: var(--lab-secondary-container, var(--secondary-container, transparent)); font-weight: 600; }
+.item:hover { background: color-mix(in srgb, currentColor 8%, transparent); }
+.item:active { background: color-mix(in srgb, currentColor 12%, transparent); }
+.item:focus-visible { outline: 2px solid var(--lab-primary, var(--focus-ring, currentColor)); outline-offset: -2px; }
+.standard { display: block; height: 100%; }
+.standard .sheet { position: relative; width: 280px; min-height: 100%; box-shadow: none; border-radius: 0; animation: none; }
+@keyframes m3-drawer-in { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+@keyframes m3-drawer-scrim-in { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .sheet, .scrim { animation: none; } }
