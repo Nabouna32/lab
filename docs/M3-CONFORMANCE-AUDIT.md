@@ -225,3 +225,10 @@ The compact favorite toggle previously used a local 40×40px button, below the 4
 
 - The mobile header search trigger now uses the shared `IconButton` rather than a parallel local style. The shared primitive accepts a button ref so Escape-close focus restoration still returns to the trigger; the open state is also exposed as a selected toggle state.
 - The compact favorite icon now renders at the documented 24px glyph size, not merely a 24px CSS box around a 20px glyph.
+
+
+### Follow-up: collection and favorite list actions
+
+The collection create/rename/add/remove/share/copy/delete actions and the labeled remove-favorite action now use the shared `Button` variants instead of repeating local padding, state-layer and disabled-opacity classes. The collection selector remains a bespoke selectable card because it is a large selection surface, not a standard M3 action button. The navigation link to the account remains a link to preserve its navigation semantics.
+
+- The Design Lab token bridge now maps `error` / `on-error` from the selected generated scheme as well, so shared destructive buttons don't fall back to production/global colors while previewing another palette.

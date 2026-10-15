@@ -11,6 +11,8 @@ const baseConverter = readFileSync(new URL("../../components/tools/number-base-c
 const themeToggle = readFileSync(new URL("../../components/theme/ThemeToggle.tsx", import.meta.url), "utf8");
 const languageSelector = readFileSync(new URL("../../components/layout/LanguageSelector.tsx", import.meta.url), "utf8");
 const mobileHeaderSearch = readFileSync(new URL("../../components/layout/MobileHeaderSearch.tsx", import.meta.url), "utf8");
+const collectionsView = readFileSync(new URL("../../components/collections/CollectionsView.tsx", import.meta.url), "utf8");
+const favoritesView = readFileSync(new URL("../../components/favorites/FavoritesView.tsx", import.meta.url), "utf8");
 const toolSearch = readFileSync(new URL("../../components/tools/ToolSearch.tsx", import.meta.url), "utf8");
 
 test("shared Button exposes canonical M3 variants, stable labels and semantic disabled states", () => {
@@ -69,6 +71,8 @@ test("legacy names are aliases to canonical M3 treatments", () => {
   assert.ok(iconButton.includes("tonal: filledTonal"));
   assert.ok(labCss.includes("--surface-container-low:var(--lab-surface-low)"));
   assert.ok(labCss.includes("--on-surface:var(--lab-text)"));
+  assert.ok(labCss.includes("--error:var(--lab-error)"));
+  assert.ok(labCss.includes("--on-error:var(--lab-on-error)"));
   for (const variant of ["filled", "elevated", "filled-tonal", "outlined", "text"]) {
     assert.ok(labSource.includes(`variant="${variant}"`), "Design Lab is missing real shared Button variant: " + variant);
   }
@@ -110,4 +114,19 @@ test("mobile header search uses the shared ref-capable M3 IconButton", () => {
   assert.ok(mobileHeaderSearch.includes("ref={triggerRef}"));
   assert.ok(mobileHeaderSearch.includes('selected={open}'));
   assert.ok(!mobileHeaderSearch.includes('const iconButton ='));
+});
+
+test("collection and favorites action buttons use the shared M3 Button", () => {
+  assert.ok(collectionsView.includes('import { Button } from "@/components/ui/Button"'));
+  for (const variant of ['variant="filled"', 'variant="filled-tonal"', 'variant="outlined"', 'variant="text"']) {
+    assert.ok(collectionsView.includes(variant), "missing collection action variant: " + variant);
+  }
+  assert.ok(!collectionsView.includes('<button type="submit"'));
+  assert.ok(!collectionsView.includes('<button type="button" onClick={() => void data.removeTool'));
+  assert.ok(!collectionsView.includes('<button type="button" onClick={() => void data.toggleSharing'));
+  assert.ok(collectionsView.includes('className="!text-[var(--error)]"'));
+  assert.ok(collectionsView.includes('className="!text-[var(--muted)]"'));
+  assert.ok(favoritesView.includes('import { Button } from "@/components/ui/Button"'));
+  assert.ok(favoritesView.includes('<Button type="button" variant="text" disabled={favorites.loading || favorites.error}'));
+  assert.ok(!favoritesView.includes('min-h-11 rounded-full px-3 text-sm font-bold text-[var(--primary)]'));
 });
