@@ -540,3 +540,23 @@ Classification: **source-informed Web adaptation; partial functional parity; run
 
 Validation note: the previous CI run passed lint and typecheck but failed three static assertions (the Lab's Select-to-ExposedDropdownMenu API transition, the IconButton selected-outline string, and an outdated direction expression). The assertions were updated against current source; a new run on the latest head has not yet been confirmed. Do not merge PR #729 until a fresh green CI run and browser validation are obtained.
 
+## Checkpoint — AlertDialog audit (2026-10-15)
+
+Official Android references reviewed:
+- https://developer.android.com/develop/ui/compose/components/dialog
+- https://developer.android.com/reference/kotlin/androidx/compose/material3/AlertDialog.composable
+- https://developer.android.com/reference/kotlin/androidx/compose/material3/BasicAlertDialog.composable
+- https://developer.android.com/reference/kotlin/androidx/compose/material3/AlertDialogDefaults
+
+Finding: use Material 3 `AlertDialog` for standard title/body/optional icon/confirm/dismiss slots; use the lower-level `Dialog` for custom freeform content and supply its surface/layout explicitly. AndroidX exposes semantic color, shape and tonal-elevation parameters.
+
+Implemented:
+- Added `src/components/ui/AlertDialog.tsx` and `AlertDialog.module.css`.
+- Added a destructive-confirmation specimen to the Lab. The demo does not perform a destructive operation.
+- Added static assertions for dialog semantics, focus handling, reduced motion and Lab integration.
+- Updated M3 conventions and conformance audit with source links, implementation status and limitations.
+
+Classification: **source-informed Web adaptation; partial functional parity; runtime unverified**. Remaining gaps include exact Compose dimensions/elevation/motion, platform back behavior, screen-reader validation and real device/browser tests.
+
+Validation: the last CI run failed lint because the Lab JSX had a stray opening expression around multiple sibling components. That syntax was corrected in commit `cff925585e39fe6300d80bf9a84f000b939b1c61`. A fresh CI run was triggered; subsequent AlertDialog changes have also triggered runs, so inspect the latest run before calling the branch green. Do not merge PR #729 until CI and browser validation pass.
+
