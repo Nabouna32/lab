@@ -420,6 +420,7 @@ test("SegmentedControl follows the AndroidX item-shape and state contract", () =
 test("Pixel direction mockup uses semantic shape roles for official component families", () => {
   assert.match(labCss, /directionStage\[data-direction="pixel"\] \.directionPrimary\{[^}]*border-radius:var\(--shape-corner-full\)/);
   assert.match(labCss, /directionStage\[data-direction="pixel"\] \.directionCalculator input\{[^}]*border-radius:var\(--shape-corner-extra-small\)/);
-  assert.match(labCss, /directionStage\[data-direction="pixel"\] \.directionGrid \.directionCard:nth-child\(3\)\{[^}]*border-radius:var\(--shape-corner-medium\)/);
+  assert.match(labCss, /directionStage\[data-direction="pixel"\]\{--direction-shape:var\(--shape-corner-medium\)/);
+  assert.match(labCss, /directionStage\[data-direction="pixel"\] \.directionCard,[\s\S]*?border-radius:var\(--shape-corner-medium\)/);
   assert.match(labCss, /directionStage\[data-direction="pixel"\] \.directionResult\{[^}]*border-radius:var\(--shape-corner-medium\)/);
 });
