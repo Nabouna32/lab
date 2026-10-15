@@ -28,6 +28,7 @@ import { AppBarWithSearch } from "@/components/ui/AppBarWithSearch";
 import { WideNavigationRail } from "@/components/ui/WideNavigationRail";
 import { PullToRefreshBox } from "@/components/ui/PullToRefreshBox";
 import { BottomSheetScaffold } from "@/components/ui/BottomSheetScaffold";
+import { SegmentedButtonGroup } from "@/components/ui/SegmentedButtonGroup";
 import { RangeSlider } from "@/components/ui/RangeSlider";
 import { ToggleButton } from "@/components/ui/ToggleButton";
 import { SplitButton } from "@/components/ui/SplitButton";
@@ -205,6 +206,8 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const [sampleRefreshing,setSampleRefreshing]=useState(false);
   const [sampleRefreshCount,setSampleRefreshCount]=useState(0);
   const [sampleBottomSheetExpanded,setSampleBottomSheetExpanded]=useState(false);
+  const [sampleSingleSegment,setSampleSingleSegment]=useState(["week"]);
+  const [sampleMultiSegments,setSampleMultiSegments]=useState(["bold","italic"]);
   const [sampleRailSelection,setSampleRailSelection]=useState<"home"|"explore"|"saved">("home");
   const [sampleDrawerOpen,setSampleDrawerOpen]=useState(false);
   const [sampleDrawerSelection,setSampleDrawerSelection]=useState<"home"|"explore"|"saved"|"settings">("home");
@@ -648,6 +651,13 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
       <div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>14 / {locale==="fr"?"Feuilles inférieures":"Bottom sheets"}</span><h2 id="bottom-sheet-scaffold-title">{locale==="fr"?"BottomSheetScaffold":"BottomSheetScaffold"}</h2><p>{locale==="fr"?"Feuille persistante repliable ou développée, avec action clavier et geste vertical sur la poignée.":"Persistent sheet with collapsed/expanded states, keyboard action and vertical drag on the handle."}</p></div></div>
       <div className={styles.galleryGrid}>
         <article className={styles.galleryCard}><ComponentIdentifier names={["BottomSheetScaffold"]} kind="adaptation" locale={locale}/><BottomSheetScaffold title={locale==="fr"?"Détails de l’élément":"Item details"} expanded={sampleBottomSheetExpanded} onExpandedChange={setSampleBottomSheetExpanded} collapsedLabel={locale==="fr"?"Développer les détails":"Expand details"} expandedLabel={locale==="fr"?"Réduire les détails":"Collapse details"} content={<><strong>{locale==="fr"?"Contenu principal":"Main content"}</strong><p>{locale==="fr"?"La feuille est ancrée en bas de ce conteneur.":"The sheet is anchored to the bottom of this container."}</p></>} sheetContent={<><p>{locale==="fr"?"Informations complémentaires et actions liées à l’élément.":"Additional information and related actions."}</p><Button variant="outlined" onClick={()=>setSampleBottomSheetExpanded(false)}>{locale==="fr"?"Fermer":"Close"}</Button></>}/></article>
+      </div>
+    </section>
+    <section className={styles.gallerySection} aria-labelledby="segmented-button-title">
+      <div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>15 / {locale==="fr"?"Choix segmentés":"Segmented choices"}</span><h2 id="segmented-button-title">{locale==="fr"?"Boutons segmentés":"Segmented buttons"}</h2><p>{locale==="fr"?"Choix unique et choix multiple selon les familles officielles SingleChoiceSegmentedButtonRow et MultiChoiceSegmentedButtonRow.":"Single- and multi-selection variants following the official SingleChoiceSegmentedButtonRow and MultiChoiceSegmentedButtonRow families."}</p></div></div>
+      <div className={styles.galleryGrid}>
+        <article className={styles.galleryCard}><h3>{locale==="fr"?"Choix unique":"Single choice"}</h3><ComponentIdentifier names={["SegmentedButton","SingleChoiceSegmentedButtonRow"]} kind="adaptation" locale={locale}/><SegmentedButtonGroup label={locale==="fr"?"Période":"Period"} mode="single" selectedKeys={sampleSingleSegment} onSelectionChange={setSampleSingleSegment} options={[{key:"day",label:locale==="fr"?"Jour":"Day"},{key:"week",label:locale==="fr"?"Semaine":"Week"},{key:"month",label:locale==="fr"?"Mois":"Month"}]}/><p className={styles.helper}>{locale==="fr"?"Choix actuel : ":"Current selection: "}{sampleSingleSegment[0]??"—"}</p></article>
+        <article className={styles.galleryCard}><h3>{locale==="fr"?"Choix multiple":"Multi choice"}</h3><ComponentIdentifier names={["SegmentedButton","MultiChoiceSegmentedButtonRow"]} kind="adaptation" locale={locale}/><SegmentedButtonGroup label={locale==="fr"?"Mise en forme":"Formatting"} mode="multi" selectedKeys={sampleMultiSegments} onSelectionChange={setSampleMultiSegments} options={[{key:"bold",label:locale==="fr"?"Gras":"Bold"},{key:"italic",label:locale==="fr"?"Italique":"Italic"},{key:"underline",label:locale==="fr?"Souligné":"Underline"}]}/><p className={styles.helper}>{locale==="fr"?"Sélection : ":"Selected: "}{sampleMultiSegments.join(", ")||"—"}</p></article>
       </div>
     </section>
     <section className={styles.gallerySection} aria-labelledby="shared-components-title">
