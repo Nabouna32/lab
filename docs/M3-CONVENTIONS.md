@@ -544,3 +544,13 @@ Official source: https://developer.android.com/develop/ui/compose/components/too
 - Implemented: shared Tooltip adaptation with plain/rich variants, placement options, delayed pointer hover, focus display, touch hold behavior, Escape dismissal, aria-describedby association, entry animation and reduced-motion handling. The Lab now shows both plain and rich tooltips instead of a title-only mockup.
 - Gaps: touch long-press lifecycle, outside dismissal, exact AndroidX position/caret/tonal elevation, persistent state/action handling and screen-reader behavior remain incomplete. CSS px and timing are approximations.
 - Status: source-informed Web adaptation; partial parity. Validate interaction timing, keyboard/touch, zoom, overflow clipping and assistive technology before production use.
+
+
+### Carousel — AndroidX audit and Web adaptation (2026-10-15)
+
+Official sources: https://developer.android.com/develop/ui/compose/components/carousel and https://developer.android.com/reference/kotlin/androidx/compose/material3/carousel/package-summary.
+
+- Source-confirmed: current Compose Material 3 documents HorizontalMultiBrowseCarousel and HorizontalUncontainedCarousel. Both use a carousel state, item spacing and content padding; multi-browse adapts a mix of large/medium/small items to the available window, while uncontained uses a target item width and reveals a clipped next item. Hero/full-screen are design layout patterns, not the two composables documented on this page.
+- Implemented: shared Carousel Web adaptation with uncontained and multi-browse presentation modes, horizontal native scrolling, scroll snap, item group semantics, arrow-key scrolling and reduced-motion-aware programmatic scrolling. Lab now shows both modes with visible official API identifiers.
+- Gaps: current multi-browse sizing uses fixed CSS ratios by item position, not AndroidX window-aware size calculation, CarouselState/fling behavior, mask/parallax effects or exact item transitions. Content padding, nested scrolling, touch/keyboard/screen-reader behavior and visual clipping need browser/device checks. CSS px are not dp.
+- Status: source-informed Web adaptation, partial parity; do not claim exact AndroidX carousel behavior.
