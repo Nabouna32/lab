@@ -31,7 +31,18 @@ export function SplitButton({
 }: SplitButtonProps) {
   const [open, setOpen] = useState(false);
   const id = useId().replace(/:/g, "");
-  const menuRef = useRef<HTMLDivElement>(null);\n  const rootRef = useRef<HTMLDivElement>(null);\n  const triggerRef = useRef<HTMLButtonElement>(null);\n\n  useEffect(() => {\n    if (!open) return;\n    const dismissOutside = (event: PointerEvent) => {\n      if (event.target instanceof Node && !rootRef.current?.contains(event.target)) setOpen(false);\n    };\n    document.addEventListener("pointerdown", dismissOutside);\n    return () => document.removeEventListener("pointerdown", dismissOutside);\n  }, [open]);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const dismissOutside = (event: PointerEvent) => {
+      if (event.target instanceof Node && !rootRef.current?.contains(event.target)) setOpen(false);
+    };
+    document.addEventListener("pointerdown", dismissOutside);
+    return () => document.removeEventListener("pointerdown", dismissOutside);
+  }, [open]);
 
   function handleKeyDown(event: KeyboardEvent<HTMLDivElement>) {
     if (event.key === "Escape") {
