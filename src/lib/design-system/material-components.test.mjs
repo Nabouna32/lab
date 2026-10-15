@@ -445,6 +445,17 @@ test("Button gallery compares shared M3 Fidelity and Expressive component varian
   assert.match(labCss, /buttonStack > button:active\{\s*border-radius:var\(--shape-corner-medium\)!important/);
 });
 
+test("IconButton gallery compares Fidelity and Expressive medium interaction shapes", () => {
+  assert.match(labSource, /iconButtonVariant,setIconButtonVariant/);
+  assert.match(labSource, /data-icon-button-variant=\{iconButtonVariant\}/);
+  assert.match(labSource, /selected=\{sampleIconSelected\}/);
+  assert.match(labSource, /setSampleIconSelected/);
+  assert.match(labCss, /iconButtonComparison\[data-icon-button-variant="expressive"\] \.buttonStack > button\{\s*width:56px!important/);
+  assert.match(labCss, /button\[aria-pressed="true"\]\{\s*border-radius:var\(--shape-corner-large\)!important/);
+  assert.match(labCss, /button:active\{\s*border-radius:var\(--shape-corner-medium\)!important/);
+  assert.match(labCss, /@media\(prefers-reduced-motion:reduce\)[\s\S]*iconButtonComparison[\s\S]*transition:none/);
+});
+
 test("M3 Fidelity direction mockup uses semantic shape roles for official component families", () => {
   assert.match(labCss, /directionStage\[data-direction="fidelity"\] \.directionPrimary\{[^}]*border-radius:var\(--shape-corner-full\)/);
   assert.match(labCss, /directionStage\[data-direction="fidelity"\] \.directionCalculator input\{[^}]*border-radius:var\(--shape-corner-extra-small\)/);
