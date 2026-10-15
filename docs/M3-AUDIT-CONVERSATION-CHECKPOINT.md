@@ -315,3 +315,4 @@ Earlier checkpoint notes that described Checkbox/Switch/field disabled values as
 - Fixed the remaining IconButton test expectation: disabled icon color is on-surface at 38%, per the pinned AndroidX IconButton tokens. The unselected hover role remains on-surface-variant.
 - Fixed literal bracket regex escaping and shape-token whitespace regexes in the component regression test.
 - Current branch is still open/unmerged. Latest head has no confirmed green CI status; rerun/verify CI before any merge.
+- Updated the Design Lab progress example to use primary-container (Lab alias primary-soft) for its track. Slider inactive track remains surface-variant, as required by the selected classic slider token baseline.
