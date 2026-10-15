@@ -2,6 +2,8 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { test } from "node:test";
 
+const snackbarSource = readFileSync(new URL("../../components/ui/Snackbar.tsx", import.meta.url), "utf8");
+const snackbarCss = readFileSync(new URL("../../components/ui/Snackbar.module.css", import.meta.url), "utf8");
 const checkboxSource = readFileSync(new URL("../../components/ui/Checkbox.tsx", import.meta.url), "utf8");
 const switchSource = readFileSync(new URL("../../components/ui/Switch.tsx", import.meta.url), "utf8");
 const iconSource = readFileSync(new URL("../../components/ui/MaterialIcon.tsx", import.meta.url), "utf8");
@@ -497,4 +499,18 @@ test("M3 Fidelity direction mockup uses semantic shape roles for official compon
   assert.match(labCss, /directionStage\[data-direction="fidelity"\]\{--direction-shape:var\(--shape-corner-medium\)/);
   assert.match(labCss, /directionStage\[data-direction="fidelity"\] \.directionCard,[\s\S]*?border-radius:var\(--shape-corner-medium\)/);
   assert.match(labCss, /directionStage\[data-direction="fidelity"\] \.directionResult\{[^}]*border-radius:var\(--shape-corner-medium\)/);
+});
+
+
+test("Snackbar is a shared AndroidX-informed Web adaptation with honest parity boundaries", () => {
+  assert.match(snackbarSource, /Web adaptation of the AndroidX Material 3 Snackbar/);
+  assert.match(snackbarSource, /actionLabel/);
+  assert.match(snackbarSource, /durationMs = 4000/);
+  assert.match(snackbarSource, /if \(!open \|\| actionLabel \|\| durationMs <= 0\) return/);
+  assert.match(snackbarSource, /role="status" aria-live="polite"/);
+  assert.match(snackbarCss, /var\(--lab-inverse-surface, var\(--inverse-surface/);
+  assert.match(snackbarCss, /prefers-reduced-motion: reduce/);
+  assert.match(labSource, /<Snackbar open=\{snackbarOpen\} variant=\{snackbarVariant\}/);
+  assert.match(labSource, /queueing, swipe gesture, Scaffold insets and Compose motion remain to be audited/i);
+  assert.match(labSource, /Snackbar version/);
 });
