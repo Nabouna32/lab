@@ -86,6 +86,13 @@ export default function ComponentAuditWorkbench({ locale }: { locale: Locale }) 
   const [expandedEntryId, setExpandedEntryId] = useState("");
   const [expandedComponentId, setExpandedComponentId] = useState("");
   const [notice, setNotice] = useState("");
+  const [editingEntryId, setEditingEntryId] = useState("");
+  const [savingCatalogId, setSavingCatalogId] = useState("");
+  const [draftScope, setDraftScope] = useState<CatalogScope>("material-3");
+  const [draftType, setDraftType] = useState<CatalogEntryType>("component");
+  const [draftReferenceStatus, setDraftReferenceStatus] = useState<"unverified" | "verified">("unverified");
+  const [draftReferenceUrl, setDraftReferenceUrl] = useState("");
+  const [draftNote, setDraftNote] = useState("");
 
   useEffect(() => {
     let active = true;
@@ -161,6 +168,61 @@ export default function ComponentAuditWorkbench({ locale }: { locale: Locale }) 
     }
     setComponents((current) => current.map((item) => item.id === component.id ? { ...item, audit_status } : item));
     setNotice(fr ? "Statut d’audit enregistré." : "Audit status saved.");
+  }
+
+  function beginEditEntry(entry: CatalogEntry) {
+    setEditingEntryId(entry.id);
+    setDraftScope(entry.catalog_scope);
+    setDraftType(entry.entry_type);
+    setDraftReferenceStatus(entry.reference_status === "verified" ? "verified" : "unverified");
+    setDraftReferenceUrl(entry.official_reference_url ?? "");
+    setDraftNote(entry.classification_note);
+    setError("");
+    setNotice("");
+  }
+
+  async function saveCatalogEntry(entry: CatalogEntry) {
+    const referenceStatus: ReferenceStatus = draftScope === "loculary"
+      ? "not-applicable"
+      : draftReferenceStatus;
+    const referenceUrl = draftScope === "loculary" ? null : draftReferenceUrl.trim() || null;
+    if (referenceStatus === "verified" && !referenceUrl) {
+      setError(fr
+        ? "Une référence ne peut être marquée vérifiée sans URL officielle."
+        : "A reference cannot be marked verified without an official URL.");
+      return;
+    }
+    if (!draftNote.trim()) {
+      setError(fr ? "Ajoute une note de classification avant d’enregistrer." : "Add a classification note before saving.");
+      return;
+    }
+
+    setSavingCatalogId(entry.id);
+    setError("");
+    setNotice("");
+    const { error: saveError } = await db.from("design_audit_catalog_entries").update({
+      catalog_scope: draftScope,
+      entry_type: draftType,
+      reference_status: referenceStatus,
+      official_reference_url: referenceUrl,
+      classification_note: draftNote.trim(),
+    }).eq("id", entry.id);
+    setSavingCatalogId("");
+    if (saveError) {
+      setError(saveError.message);
+      return;
+    }
+
+    setCatalog((current) => current.map((item) => item.id === entry.id ? {
+      ...item,
+      catalog_scope: draftScope,
+      entry_type: draftType,
+      reference_status: referenceStatus,
+      official_reference_url: referenceUrl,
+      classification_note: draftNote.trim(),
+    } : item));
+    setEditingEntryId("");
+    setNotice(fr ? "Fiche de catalogue enregistrée." : "Catalogue entry saved.");
   }
 
   function resetFilters() {
@@ -370,6 +432,60 @@ export default function ComponentAuditWorkbench({ locale }: { locale: Locale }) 
                           )}
                           {implementation && <span className="rounded-full bg-[var(--surface-container)] px-3 py-1.5 text-xs">{fr ? "Implémentation liée" : "Linked implementation"}</span>}
                         </div>
+                        <div className="mt-4">
+                          <button
+                            type="button"
+                            className="text-sm font-semibold text-[var(--accent)] underline"
+                            aria-expanded={editingEntryId === entry.id}
+                            onClick={() => editingEntryId === entry.id ? setEditingEntryId("") : beginEditEntry(entry)}
+                          >
+                            {editingEntryId === entry.id ? (fr ? "Fermer la fiche" : "Close entry editor") : (fr ? "Modifier la fiche" : "Edit entry")}
+                          </button>
+                        </div>
+                        {editingEntryId === entry.id && (
+                          <form className="mt-4 grid gap-4 rounded-2xl border border-[var(--border)] bg-[var(--surface-container)] p-4" onSubmit={(event) => { event.preventDefault(); void saveCatalogEntry(entry); }}>
+                            <div className="grid gap-3 sm:grid-cols-2">
+                              <label className="text-sm font-medium">
+                                {fr ? "Référentiel" : "Catalogue scope"}
+                                <select className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2.5" value={draftScope} onChange={(event) => { const nextScope = event.target.value as CatalogScope; setDraftScope(nextScope); setDraftType(nextScope === "loculary" ? "utility" : "component"); }}>
+                                  <option value="material-3">{fr ? "Material 3 / AndroidX" : "Material 3 / AndroidX"}</option>
+                                  <option value="loculary">{fr ? "Spécifique à Loculary" : "Loculary-specific"}</option>
+                                </select>
+                              </label>
+                              <label className="text-sm font-medium">
+                                {fr ? "Nature de l’entrée" : "Entry type"}
+                                <select className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2.5" value={draftType} onChange={(event) => setDraftType(event.target.value as CatalogEntryType)}>
+                                  {(draftScope === "loculary" ? ["utility", "composition"] : ["component", "variant", "pattern", "api-concept"]).map((value) => <option key={value} value={value}>{typeLabels[value as CatalogEntryType][locale]}</option>)}
+                                </select>
+                              </label>
+                            </div>
+                            <label className="text-sm font-medium">
+                              {fr ? "État de la référence officielle" : "Official reference status"}
+                              <select className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2.5" value={draftScope === "loculary" ? "not-applicable" : draftReferenceStatus} disabled={draftScope === "loculary"} onChange={(event) => setDraftReferenceStatus(event.target.value as "unverified" | "verified")}>
+                                <option value="unverified">{fr ? "À vérifier" : "Unverified"}</option>
+                                <option value="verified">{fr ? "Vérifiée" : "Verified"}</option>
+                                {draftScope === "loculary" && <option value="not-applicable">{fr ? "Non applicable" : "Not applicable"}</option>}
+                              </select>
+                            </label>
+                            <label className="text-sm font-medium">
+                              {fr ? "URL de la documentation officielle" : "Official documentation URL"}
+                              <input type="url" className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2.5" value={draftReferenceUrl} disabled={draftScope === "loculary"} onChange={(event) => setDraftReferenceUrl(event.target.value)} placeholder="https://…" />
+                            </label>
+                            <label className="text-sm font-medium">
+                              {fr ? "Note de classification" : "Classification note"}
+                              <textarea className="mt-1 min-h-24 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2.5" value={draftNote} onChange={(event) => setDraftNote(event.target.value)} required />
+                            </label>
+                            <p className="text-xs text-[var(--muted)]">{fr ? "Le statut « vérifiée » exige une URL HTTPS. Les modifications sont réservées aux administrateurs autorisés et consignées dans l’historique." : "The “verified” status requires an HTTPS URL. Changes are restricted to authorized administrators and recorded in the event history."}</p>
+                            <div className="flex flex-wrap gap-2">
+                              <button type="submit" disabled={savingCatalogId === entry.id} className="rounded-full bg-[var(--primary)] px-4 py-2.5 text-sm font-semibold text-[var(--on-primary)] disabled:opacity-60">
+                                {savingCatalogId === entry.id ? (fr ? "Enregistrement…" : "Saving…") : (fr ? "Enregistrer" : "Save changes")}
+                              </button>
+                              <button type="button" className="rounded-full border border-[var(--border)] px-4 py-2.5 text-sm font-medium" onClick={() => setEditingEntryId("")}>
+                                {fr ? "Annuler" : "Cancel"}
+                              </button>
+                            </div>
+                          </form>
+                        )}
                         {implementation ? (
                           <button type="button" className="mt-4 text-sm font-semibold text-[var(--accent)] underline" aria-expanded={expanded} onClick={() => setExpandedEntryId(expanded ? "" : entry.id)}>
                             {expanded ? (fr ? "Masquer l’implémentation" : "Hide implementation") : (fr ? "Inspecter l’implémentation réelle" : "Inspect real implementation")}
