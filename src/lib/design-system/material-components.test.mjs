@@ -434,6 +434,17 @@ test("Design Lab direction preview offers only official M3 Fidelity and M3 Expre
   assert.doesNotMatch(labSource, /Productivité|Productivity|utilityDirection/);
 });
 
+test("Button gallery compares shared M3 Fidelity and Expressive component variants", () => {
+  assert.match(labSource, /buttonVariant,setButtonVariant/);
+  assert.match(labSource, /data-button-variant=\{buttonVariant\}/);
+  assert.match(labSource, /buttonFidelity:"M3 Fidelity"/);
+  assert.match(labSource, /buttonExpressive:"M3 Expressive"/);
+  assert.match(labSource, /buttonVariant==="expressive"&&<p/);
+  assert.match(labCss, /galleryCard\[data-button-variant="expressive"\] \.buttonStack > button\{\s*min-height:56px/);
+  assert.match(labCss, /padding:16px 24px/);
+  assert.match(labCss, /buttonStack > button:active\{\s*border-radius:var\(--shape-corner-medium\)!important/);
+});
+
 test("M3 Fidelity direction mockup uses semantic shape roles for official component families", () => {
   assert.match(labCss, /directionStage\[data-direction="fidelity"\] \.directionPrimary\{[^}]*border-radius:var\(--shape-corner-full\)/);
   assert.match(labCss, /directionStage\[data-direction="fidelity"\] \.directionCalculator input\{[^}]*border-radius:var\(--shape-corner-extra-small\)/);
