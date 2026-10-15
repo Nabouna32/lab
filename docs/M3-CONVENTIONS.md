@@ -176,3 +176,28 @@ Before declaring the design system conformant:
 - [ ] Remaining deviations are explicitly documented as product decisions.
 
 **Current limitation:** this convention documents the intended contract and source-review findings. It does not by itself prove the live site passes the acceptance gate.
+## 10. Evidence labels — mandatory for future audit entries
+
+Use these labels whenever a finding, token value or implementation rule is recorded. “Official” must always identify which official source and what it actually establishes.
+
+| Label | Meaning | May be described as Android-confirmed? |
+|---|---|---|
+| [ANDROID-M3] | Directly stated or shown in an official Android Developers / Material 3 source, with a link to the specific component guidance. | Yes, but only for the exact statement supported by that source. |
+| [MATERIAL-WEB] | Directly supported by first-party Material Web documentation or source tokens for the web implementation. | No. It is official Material Web guidance, not automatically an Android Compose rule. |
+| [WEB-STANDARD] | Supported by HTML, ARIA, WCAG or another named web standard. | No. It governs web implementation/accessibility. |
+| [LOCULARY-DECISION] | A deliberate product/design choice (seed, chosen font, CSS size, density, global radius control, palette mapping). | No. |
+| [SOURCE-OBSERVED] | Found in repository source or an automated test. This proves only what the code/test contains, not conformance. | No. |
+| [RUNTIME-VERIFIED] | Actually exercised in a named browser/device/viewport/theme and recorded with evidence. | No. This proves behavior in the tested environment, not universal conformance. |
+| [OPEN] | Unverified, ambiguous, conflicting or not yet checked against the authoritative source. | No. |
+
+### Important distinctions for the current control port
+
+- [ANDROID-M3] Slider purpose: choose a value from a range; Material documents continuous/discrete behavior and optional track/thumb/tick-mark features. Source: [Android Slider](https://developer.android.com/develop/ui/compose/components/slider).
+- [ANDROID-M3] Progress purpose: distinguish determinate progress from indeterminate activity; linear and circular forms are documented. Source: [Android progress indicators](https://developer.android.com/develop/ui/compose/components/progress).
+- [WEB-STANDARD] The shared slider uses a native HTML range input; its associated visible label and native keyboard semantics come from HTML, with aria-valuetext adding a human-readable value description.
+- [LOCULARY-DECISION] The slider's 48 CSS-pixel control height is a web sizing choice. It is not an official Android requirement and is not a claim that 48 CSS px equals 48 dp.
+- [MATERIAL-WEB] The cited Material Web checkbox/switch token sources are the source for the 12% disabled container/track and 38% disabled foreground/outline/thumb values used by this port. Do not describe these exact percentages as a universal Android rule without a matching Android source. The CSS result still needs rendered contrast/appearance verification.
+- [SOURCE-OBSERVED] The progress component omits aria-valuenow when no finite value is supplied. That is the implementation's current behavior, not by itself proof of a fully accessible progress pattern.
+- [OPEN] Chromium, Firefox, mobile touch, keyboard and assistive-technology behavior remain unverified until a recorded run is completed.
+
+Never turn a recommendation, visual resemblance, token name or passing static assertion into an “official Android requirement.” If an official source does not establish the exact pixel value, opacity, radius, animation curve or interaction behavior, mark that detail as a Loculary choice or open question.
