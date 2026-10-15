@@ -282,3 +282,7 @@ For Android-M3 component roles and state values, pinned AndroidX Compose Materia
 ## Provenance correction
 
 Earlier checkpoint notes that described Checkbox/Switch/field disabled values as Material Web-only or “not Android-confirmed” are superseded by the pinned AndroidX token cross-check in M3-CONVENTIONS.md. AndroidX is authoritative for Android-M3 semantics; Material Web is the CSS-side cross-check.
+## Update — Pixel mockup shape-token migration
+
+- Found fixed radii in the Pixel direction preview for the primary button, calculator field and result/card surfaces. These prevent the Lab rounding-degree control from applying consistently.
+- Migrate the button to full, field to extra-small and card/result surfaces to medium semantic shape roles. Device-frame and search/icon shapes remain open pending source-backed role mapping.
