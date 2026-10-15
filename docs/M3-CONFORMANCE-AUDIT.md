@@ -721,3 +721,8 @@ Official sources: [HorizontalFloatingToolbar](https://developer.android.com/refe
 ## Button and IconButton variant inventory — 2026-10-15
 
 Official references include [Button](https://developer.android.com/reference/kotlin/androidx/compose/material3/Button.composable), [FilledIconButton](https://developer.android.com/reference/kotlin/androidx/compose/material3/FilledIconButton.composable), [FilledTonalIconButton](https://developer.android.com/reference/kotlin/androidx/compose/material3/FilledTonalIconButton.composable), [OutlinedIconButton](https://developer.android.com/reference/kotlin/androidx/compose/material3/OutlinedIconButton.composable) and [IconToggleButton](https://developer.android.com/reference/kotlin/androidx/compose/material3/IconToggleButton.composable). Lab identifier coverage now lists official filled/elevated/tonal/outlined/text and icon-toggle variants; interactive examples show selected states for each icon-button style. The app's `danger` button style is explicitly an app-specific semantic extension, not an official Material 3 variant.
+
+
+## DismissibleNavigationDrawer / PermanentNavigationDrawer — 2026-10-15
+
+Official sources: [DismissibleNavigationDrawer](https://developer.android.com/reference/kotlin/androidx/compose/material3/DismissibleNavigationDrawer.composable), [PermanentNavigationDrawer](https://developer.android.com/reference/kotlin/androidx/compose/material3/PermanentNavigationDrawer.composable). Extended the shared drawer with dismissible in-layout and permanent variants, and added Lab specimens. Exact layout measurement/content shifting, adaptive breakpoints, insets, state animation, RTL and screen-reader behavior remain unverified.
