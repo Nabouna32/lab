@@ -34,7 +34,7 @@ The list below is deliberately broader than the current production call sites. C
 | Dividers: horizontal/vertical | Lab mockup | Implement shared component and orientation/semantic usage |
 | Lists / list items | Lab mockup | Implement M3 list-item variants, slots, density and interaction behavior |
 | Scaffold | Missing | Implement composition/layout specimen with app bars, navigation, snackbar and content insets |
-| Top app bars: small, center-aligned, medium, large | Lab mockup | Implement variants, scroll behavior, collapse/expand motion and insets |
+| Top app bars: small, center-aligned, medium, large | Shared Web adaptation; all four variants in Lab | Implement automatic scroll behavior, exact insets/geometry, action overflow and collapse/expand motion |
 | Bottom app bar | Missing/mockup coverage incomplete | Implement official bottom app bar and FAB integration |
 | Navigation bar | Shared Web adaptation | Audit 3–5 destinations, selection, icon-only/label variants, routes and safe areas |
 | Navigation rail | Shared Web adaptation | Audit large-screen layouts, 3–7 destinations, header/footer/FAB and insets |
