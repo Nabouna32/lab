@@ -872,3 +872,12 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - Official sources: HorizontalFloatingToolbar and VerticalFloatingToolbar API references.
 - **Version caveat:** FloatingToolbarState is listed as added in Material3 1.5.0-beta01; verify the pinned dependency.
 - **Not complete:** scroll behavior/nested scroll, touch-exploration handling, exact elevation/shape, placement, RTL and screen-reader parity remain to validate.
+
+
+## Continuation update — Button/IconButton variants (2026-10-15)
+
+- Expanded the Lab's official identifier inventory to include filled/elevated/tonal/outlined/text buttons, filled/tonal/outlined icon buttons and their toggle variants.
+- Added independently controlled selected-state examples for standard, filled, filled-tonal and outlined icon buttons.
+- Explicitly documented `Button variant="danger"` as an app-specific semantic extension, not an official Material 3 variant.
+- Official references: AndroidX Button, FilledIconButton, FilledTonalIconButton, OutlinedIconButton and IconToggleButton APIs.
+- **Not complete:** exact selected-state shape/colors/motion and all icon-button dimensions still need comparison against the pinned AndroidX source.
