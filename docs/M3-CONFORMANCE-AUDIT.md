@@ -430,3 +430,5 @@ Source reviewed: [pinned AndroidX Checkbox.kt](https://android.googlesource.com/
 ### Component 04 — Switch source finding
 
 Official source reviewed: https://android.googlesource.com/platform/frameworks/support/%2B/39bdbe03eef999f4c1352f31a90526adad9245ae/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Switch.kt. No separate default Expressive variant was confirmed. AndroidX source explicitly uses a motion spec for thumb animation; Loculary's shared Web Switch uses CSS transitions for a 52×32 CSS-pixel track and 16×16 thumb. Both modes should therefore share default appearance until a verified difference is found, while the motion audit remains open for timing/travel and interruption behavior.
+
+**Switch implementation:** Design Lab now exposes both modes and explicitly preserves the same rendering until a source-backed difference is established. Added a regression assertion for the selector and parity note. Thumb motion and geometry remain unverified against Android runtime.
