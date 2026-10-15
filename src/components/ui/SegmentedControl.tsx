@@ -30,11 +30,11 @@ export function SegmentedControl<T extends string>({
       {items.map((item, index) => {
         const active = value === item.id;
         const edgeShape = items.length === 1
-          ? "rounded-full"
+          ? "rounded-[var(--shape-corner-small)]"
           : index === 0
-            ? "rounded-l-full"
+            ? "rounded-l-[var(--shape-corner-small)]"
             : index === items.length - 1
-              ? "rounded-r-full"
+              ? "rounded-r-[var(--shape-corner-small)]"
               : "rounded-none";
 
         return (
