@@ -270,3 +270,9 @@ See [`docs/M3-CONVENTIONS.md`](./M3-CONVENTIONS.md) for the detailed source hier
 - [MATERIAL-WEB] Shared Checkbox geometry now follows first-party Material Web tokens: 18px container, 2px corners, 18px icon. The 48px wrapper is a Loculary web target-size choice.
 - [MATERIAL-WEB] Outlined field tokens distinguish 38% disabled input/label/supporting text from 12% outline; filled field tokens specify 4% disabled container opacity. TextField, TextArea and Select no longer fade the entire disabled control to 60%; labels, text, placeholder/unit and borders use distinct semantic treatments.
 - [OPEN] Verify CSS compilation, computed color blends, field/checkbox geometry and both themes in browsers. The global rounding-degree control and shape mapping for buttons/cards/panels/dialogs/Lab compositions remain open.
+## Follow-up — Card source conformance (2026-10-15)
+
+- [MATERIAL-WEB] Version-pinned first-party card token sources confirm medium shape for elevated, filled and outlined cards. Their surface roles differ: elevated uses surface-container-low and level-1 elevation; filled uses surface-container-highest and level-0; outlined uses surface with outline-variant and level-0. Shared Card now uses these roles and the medium shape token.
+- [SOURCE-OBSERVED → source edit made] Linked cards now expose a visible focus ring. The ring is source-level present; browser contrast and clipping remain unverified.
+- [LOCULARY-DECISION] Panel and ResultPanel are Loculary compositions, not official named M3 components. They share the medium shape token to keep the surface family coherent.
+- [OPEN] Audit nested cards, tool-local rounded containers and Lab mockups before declaring shape mapping complete.
