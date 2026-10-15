@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { KeyboardEvent, ReactNode } from "react";
 
 export type SegmentedControlItem<T extends string> = {
   id: T;
@@ -23,7 +23,7 @@ export function SegmentedControl<T extends string>({
 }: SegmentedControlProps<T>) {
   return (
     <div
-      role="group"
+      role="radiogroup"
       aria-label={ariaLabel}
       className={["grid grid-flow-col auto-cols-fr gap-0", className].join(" ")}
     >
@@ -37,11 +37,30 @@ export function SegmentedControl<T extends string>({
               ? "rounded-r-[var(--shape-corner-small)]"
               : "rounded-none";
 
+        const handleKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
+          const direction = event.key === "ArrowRight" || event.key === "ArrowDown" ? 1 : event.key === "ArrowLeft" || event.key === "ArrowUp" ? -1 : 0;
+          const boundary = event.key === "Home" ? 1 : event.key === "End" ? -1 : 0;
+          if (!direction && !boundary) return;
+          event.preventDefault();
+          for (let step = 1; step <= items.length; step += 1) {
+            const nextIndex = boundary === 1 ? step - 1 : boundary === -1 ? items.length - step : (index + direction * step + items.length * 2) % items.length;
+            const nextItem = items[nextIndex];
+            if (nextItem && !nextItem.disabled) {
+              onChange(nextItem.id);
+              event.currentTarget.parentElement?.querySelectorAll<HTMLButtonElement>('[role="radio"]')[nextIndex]?.focus();
+              return;
+            }
+          }
+        };
+
         return (
           <button
             key={item.id}
             type="button"
-            aria-pressed={active}
+            role="radio"
+            aria-checked={active}
+            tabIndex={active ? 0 : -1}
+            onKeyDown={handleKeyDown}
             disabled={item.disabled}
             onClick={() => onChange(item.id)}
             className={[
