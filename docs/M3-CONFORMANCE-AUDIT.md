@@ -582,3 +582,8 @@ Implemented a shared Web adaptation with small, regular, large and extended vari
 ## Badge / BadgedBox — 2026-10-15
 
 Official source: https://developer.android.com/reference/kotlin/androidx/compose/material3/Badge and https://developer.android.com/develop/ui/compose/components?hl=en. Added shared Badge and BadgedBox Web adaptations and Lab specimens for a dot, count and anchored badge. The Lab notification icon now uses BadgedBox instead of a CSS-only dot. Exact offsets/dimensions, count overflow, role-specific colors and screen-reader behavior remain to be validated. Status: partial Web parity; CI/runtime checks pending.
+
+
+## Tooltip family — 2026-10-15
+
+Official source: https://developer.android.com/develop/ui/compose/components/tooltip and https://developer.android.com/reference/kotlin/androidx/compose/material3/TooltipBox.composable. Added a shared Tooltip Web adaptation with plain and rich forms, pointer/focus triggers, a touch-hold attempt, Escape dismissal, ARIA description association, entry motion and reduced-motion handling. Lab mockup replaced by live specimens. Still missing exact AndroidX caret/position/elevation/motion, robust touch long-press lifecycle, outside dismissal, optional rich actions, and validated assistive-technology behavior. Status: partial parity; current-head CI/runtime checks pending.
