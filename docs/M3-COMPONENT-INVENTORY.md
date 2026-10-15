@@ -213,3 +213,11 @@ For each component/variant, record:
 - **Official source:** https://developer.android.com/reference/kotlin/androidx/compose/material3/SegmentedButton.composable and https://developer.android.com/reference/kotlin/androidx/compose/material3/SingleChoiceSegmentedButtonRow.composable
 - **Lab:** added shared `SegmentedButtonGroup` adaptation for single choice and multi choice, with linked border geometry, selected state, disabled items, keyboard arrow/Home/End navigation and reduced-motion fallback.
 - **Not yet verified:** exact AndroidX item shape calculation, layout spacing, icon-only variants, role/selection semantics, RTL and assistive-technology parity.
+
+
+## HorizontalFloatingToolbar / VerticalFloatingToolbar — 2026-10-15
+
+- **Official sources:** https://developer.android.com/reference/kotlin/androidx/compose/material3/HorizontalFloatingToolbar.composable and https://developer.android.com/reference/kotlin/androidx/compose/material3/VerticalFloatingToolbar.composable
+- **Lab:** added shared horizontal/vertical floating toolbar Web adaptation with expandable/collapsible actions, keyboard-operable buttons and reduced-motion entrance fallback.
+- **Version caveat:** current API reference lists FloatingToolbarState as added in Material3 1.5.0-beta01; verify the pinned version for the toolbar/scroll behavior APIs.
+- **Not yet verified:** scroll-driven collapse/exit behavior, nested scroll, touch-exploration expansion, exact shape/elevation, RTL, placement and assistive-technology parity.
