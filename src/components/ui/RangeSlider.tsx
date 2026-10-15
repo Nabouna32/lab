@@ -46,6 +46,7 @@ export function RangeSlider({
   const lower = Math.max(safeMin, Math.min(value[0], value[1], safeMax));
   const upper = Math.min(safeMax, Math.max(value[0], value[1], safeMin));
   const range = safeMax - safeMin;
+  const gap = Math.max(0, Math.min(minGap, range));
   const start = range > 0 ? ((lower - safeMin) / range) * 100 : 0;
   const end = range > 0 ? ((upper - safeMin) / range) * 100 : 100;
   const css = {
@@ -55,10 +56,10 @@ export function RangeSlider({
   } as RangeSliderStyle;
 
   function changeStart(next: number) {
-    onValueChange([Math.max(safeMin, Math.min(next, upper - minGap)), upper]);
+    onValueChange([Math.max(safeMin, Math.min(next, upper - gap)), upper]);
   }
   function changeEnd(next: number) {
-    onValueChange([lower, Math.min(safeMax, Math.max(next, lower + minGap))]);
+    onValueChange([lower, Math.min(safeMax, Math.max(next, lower + gap))]);
   }
 
   return (
