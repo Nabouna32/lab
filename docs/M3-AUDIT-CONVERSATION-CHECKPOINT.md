@@ -180,3 +180,14 @@ Static tests and contrast unit tests are useful but do not establish full render
 8. Add/update tests and docs as each implementation slice lands; then run lint, typecheck, tests and build, and do actual browser checks for both themes and responsive layouts.
 
 **Checkpoint authoring note:** This document captures discoveries and decisions; it is not a claim that the audit is finished or that PR #723 has merged.
+
+
+## Update — PR #723 port into this checkpoint PR
+
+The user requested that PR #723's changes be brought into PR #729 without merging either PR. The checkpoint PR now contains the shared `Slider` and `ProgressIndicator` files, their CSS, the PasswordGenerator and ImageCompressor call-site updates, checkbox updates, Lab CSS changes, and the design-system/audit documentation updates where they apply cleanly to current `main`.
+
+**Still being reconciled:** the newer `main` version of `VisualLab.tsx`, `Switch.tsx` and `material-components.test.mjs` differs materially from PR #723's older base. Port those changes into the current files rather than replacing them wholesale. In particular, update the Lab demo to use shared Slider/ProgressIndicator/Checkbox, add disabled-state examples, refine Switch disabled semantics, and add regression tests for the shared components. Then run lint, typecheck, tests and build if available. Browser-level visual/keyboard/mobile checks are still not claimed as complete.
+
+## New canonical document
+
+[`docs/M3-CONVENTIONS.md`](./M3-CONVENTIONS.md) now consolidates the officially sourced M3 guidance and Loculary-specific decisions into a reusable convention: semantic color roles, Fidelity vs category Rainbow, typography, semantic shapes and global rounding degree, density/touch targets, button/selection/input/slider/progress contracts, motion/reduced motion, Design Lab requirements and acceptance criteria.
