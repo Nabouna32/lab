@@ -426,3 +426,7 @@ Added a component-specific Fidelity/Expressive selector around the shared IconBu
 ### Component 03 — Checkbox
 
 Source reviewed: [pinned AndroidX Checkbox.kt](https://android.googlesource.com/platform/frameworks/support/%2B/db4e85898bcd90a636877cc14d3ca4ba1e9492c7/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Checkbox.kt). No distinct default Expressive visual delta was verified in this source. The Lab therefore offers both mode choices but intentionally keeps the shared Checkbox rendering identical and states why in Expressive mode; this is preferable to fabricating a difference. Existing web specimen has an 18 CSS-pixel box, semantic checked/disabled roles, explicit focus ring and 48 CSS-pixel minimum label row. Compare exact AndroidX box/stroke/animation dimensions in a later geometry pass; no exact parity claim yet.
+
+### Component 04 — Switch source finding
+
+Official source reviewed: https://android.googlesource.com/platform/frameworks/support/%2B/39bdbe03eef999f4c1352f31a90526adad9245ae/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Switch.kt. No separate default Expressive variant was confirmed. AndroidX source explicitly uses a motion spec for thumb animation; Loculary's shared Web Switch uses CSS transitions for a 52×32 CSS-pixel track and 16×16 thumb. Both modes should therefore share default appearance until a verified difference is found, while the motion audit remains open for timing/travel and interruption behavior.
