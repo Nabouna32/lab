@@ -65,3 +65,9 @@ Workflow run 38704035198 has completed with **failure**: lint and typecheck pass
 ### Button family — Web specimen implementation (2026-10-15)
 
 Implemented a per-component Fidelity/Expressive selector in the Button gallery. The Expressive specimen uses medium-size AndroidX tokens from [ButtonMediumTokens.kt](https://android.googlesource.com/platform/frameworks/support/%2B/4fcf7a5467f9d16be2a3d1e31be0ad96a136a7a7/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/ButtonMediumTokens.kt): 56dp height, 24dp horizontal padding, 16dp vertical padding, 24dp icon size, full resting shape and medium pressed shape. The Web specimen maps dimensions to CSS px and uses a CSS radius transition. This is an explicit Web approximation, not dp equivalence or proof of identical Android motion. Static regression coverage was added; CI/browser checks are still pending.
+
+### IconButton family — Web specimen implementation (2026-10-15)
+
+Official source: [AndroidX IconButton.kt](https://android.googlesource.com/platform/frameworks/support/%2B/1c9fe3b21eca0f1d2906dddf89028acbbb63b08c/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/IconButton.kt). Confirmed: 24dp typical icon; 48dp minimum interactive target; Expressive size families and round/square shapes; pressed and selected shape morphs.
+
+Added a component-specific selector and interactive selected IconButton to the shared gallery. Expressive medium specimen uses 56 CSS px box, 24 CSS px icon, full rest shape, medium pressed shape and large selected shape; reduced motion disables the radius transition. CSS px are explicitly not claimed as dp equivalents. Open issue: shared Web IconButton currently applies the 48 CSS px size to the visible box rather than clearly separating visual container and hit target. Audit/fix that anatomy before claiming full Fidelity parity.
