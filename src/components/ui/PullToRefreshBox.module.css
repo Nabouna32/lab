@@ -1,0 +1,87 @@
+.root {
+  position: relative;
+  max-height: 300px;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  border: 1px solid var(--lab-outline-variant, var(--md-sys-color-outline-variant, currentColor));
+  border-radius: 16px;
+  background: var(--lab-surface, var(--md-sys-color-surface, Canvas));
+  color: var(--lab-on-surface, var(--md-sys-color-on-surface, CanvasText));
+}
+
+.indicator {
+  position: sticky;
+  z-index: 1;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  margin-bottom: -48px;
+  color: var(--lab-primary, currentColor);
+  font-size: 13px;
+  pointer-events: none;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid color-mix(in srgb, currentColor 28%, transparent);
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 800ms linear infinite;
+}
+
+.content {
+  min-height: 180px;
+  padding: 16px;
+  transition: transform 160ms cubic-bezier(.2, 0, 0, 1);
+}
+
+.refreshAction {
+  display: block;
+  min-height: 40px;
+  margin: 0 16px 16px auto;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 20px;
+  background: var(--lab-primary, currentColor);
+  color: var(--lab-on-primary, white);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.refreshAction:focus-visible {
+  outline: 2px solid var(--lab-primary, currentColor);
+  outline-offset: 3px;
+}
+
+.refreshAction:disabled {
+  opacity: .38;
+  cursor: not-allowed;
+}
+
+.root[data-refreshing="true"] .spinner {
+  animation: spin 800ms linear infinite;
+}
+
+.root[data-disabled="true"] {
+  opacity: .55;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .content {
+    transition: none;
+  }
+
+  .spinner {
+    animation: none;
+  }
+}
