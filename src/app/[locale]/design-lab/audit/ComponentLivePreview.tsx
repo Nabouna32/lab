@@ -153,7 +153,7 @@ export default function ComponentLivePreview({
       content = <div className="grid gap-4"><Tabs ariaLabel={fr ? "Exemple d’onglets" : "Tab example"} selectedKey={tab} onSelect={setTab} items={[{key:"overview",label:fr?"Aperçu":"Overview"},{key:"details",label:fr?"Détails":"Details"},{key:"disabled",label:fr?"Indisponible":"Unavailable",enabled:false}]} /><p className="text-sm text-[var(--muted)]">{fr ? "Onglet actif : " : "Selected tab: "}{tab}</p></div>;
       break;
     case "floating-action-button":
-      content = <div className="flex flex-wrap items-center gap-5"><FloatingActionButton ariaLabel={fr ? "Ajouter" : "Add"} icon="add" /><FloatingActionButton size="small" ariaLabel={fr ? "Ajouter petit" : "Small add"} icon="add" /><FloatingActionButton size="extended" label={fr ? "Créer" : "Create"} icon="add" /></div>;
+      content = <div className="grid gap-3"><div className="flex flex-wrap items-center gap-5"><FloatingActionButton ariaLabel={fr ? "Ajouter" : "Add"} icon="add" onClick={() => setSplitResult("standard FAB")} /><FloatingActionButton size="small" ariaLabel={fr ? "Ajouter petit" : "Small add"} icon="add" onClick={() => setSplitResult("small FAB")} /><FloatingActionButton size="extended" label={fr ? "Créer" : "Create"} icon="add" onClick={() => setSplitResult("extended FAB")} /></div><p className="text-sm text-[var(--muted)]">{fr ? "Dernière interaction : " : "Last interaction: "}{splitResult}</p></div>;
       break;
     case "tri-state-checkbox":
       content = <div className="grid gap-3"><TriStateCheckbox inputId="audit-tristate" label={fr ? "Sélection partielle" : "Partial selection"} state={triState} onStateChange={setTriState} /><TriStateCheckbox inputId="audit-tristate-disabled" label={fr ? "État désactivé" : "Disabled state"} state="indeterminate" disabled onStateChange={() => undefined} /></div>;
@@ -189,7 +189,7 @@ export default function ComponentLivePreview({
       content = <div className="grid gap-4"><TopAppBar title={fr ? "Titre de la page" : "Page title"} variant="small" navigationIcon="arrow_back" navigationLabel={fr ? "Retour" : "Back"} onNavigationClick={() => undefined} actions={<IconButton label={fr ? "Rechercher" : "Search"}><MaterialIcon name="search" size={24} /></IconButton>} /><TopAppBar title={fr ? "Grand titre" : "Large title"} variant="large" collapsed={false} navigationLabel={fr ? "Menu" : "Menu"} onNavigationClick={() => undefined} /></div>;
       break;
     case "bottom-app-bar":
-      content = <BottomAppBar actions={<div className="flex gap-2"><IconButton label={fr ? "Rechercher" : "Search"}><MaterialIcon name="search" size={24} /></IconButton><IconButton label={fr ? "Favoris" : "Favorites"}><MaterialIcon name="favorite" size={24} /></IconButton></div>} floatingActionButton={<FloatingActionButton ariaLabel={fr ? "Ajouter" : "Add"} icon="add" />} />;
+      content = <div className="grid gap-3"><BottomAppBar actions={<div className="flex gap-2"><IconButton label={fr ? "Rechercher" : "Search"} onClick={() => setNavigationSelection("search")}><MaterialIcon name="search" size={24} /></IconButton><IconButton label={fr ? "Favoris" : "Favorites"} onClick={() => setNavigationSelection("saved")}><MaterialIcon name="favorite" size={24} /></IconButton></div>} floatingActionButton={<FloatingActionButton ariaLabel={fr ? "Ajouter" : "Add"} icon="add" onClick={() => setSplitResult("add")} />} /><p className="text-sm text-[var(--muted)]">{fr ? "Destination : " : "Destination: "}{navigationSelection} · {fr ? "Dernière action : " : "Last action: "}{splitResult}</p></div>;
       break;
     case "clear-button":
       content = <div className="grid gap-3"><TextField label={fr ? "Texte de test" : "Sample text"} inputId="audit-clear-text" value={text} onChange={event => setText(event.target.value)} /><ClearButton onClear={() => setText("")} disabled={!text} label={fr ? "Effacer le champ" : "Clear field"} /></div>;
@@ -240,7 +240,7 @@ export default function ComponentLivePreview({
       content = <div className="grid gap-3"><FloatingActionButtonMenu expanded={fabMenuOpen} onExpandedChange={setFabMenuOpen} label={fr ? "Actions rapides" : "Quick actions"} addLabel={fr ? "Ajouter" : "Add"} closeLabel={fr ? "Fermer les actions" : "Close actions"} items={[{key:"image",label:fr?"Convertir une image":"Convert image",icon:<MaterialIcon name="image" size={20}/>,onSelect:()=>setSplitResult("image")},{key:"text",label:fr?"Nettoyer du texte":"Clean text",icon:<MaterialIcon name="text_fields" size={20}/>,onSelect:()=>setSplitResult("text")},{key:"calculate",label:fr?"Calculer":"Calculate",icon:<MaterialIcon name="calculate" size={20}/>,onSelect:()=>setSplitResult("calculate")}]} /><p className="text-sm text-[var(--muted)]">{fr ? "Dernière action : " : "Last action: "}{splitResult}</p></div>;
       break;
     case "floating-toolbar":
-      content = <div className="grid gap-4"><FloatingToolbar label={fr ? "Actions de sélection" : "Selection actions"} orientation="horizontal" expanded={toolbarExpanded} onExpandedChange={setToolbarExpanded} expandLabel={fr ? "Afficher les actions" : "Show actions"} collapseLabel={fr ? "Réduire les actions" : "Collapse actions"} items={[{key:"copy",label:fr?"Copier":"Copy",icon:<MaterialIcon name="content_copy" size={20}/>,onClick:()=>setSnackbarOpen(true)},{key:"undo",label:fr?"Annuler":"Undo",icon:<MaterialIcon name="restart_alt" size={20}/>,onClick:()=>setSnackbarOpen(true)},{key:"favorite",label:fr?"Favori":"Favorite",icon:<MaterialIcon name="favorite" size={20}/>,onClick:()=>setSelected(!selected)}]} /></div>;
+      content = <div className="grid gap-4"><FloatingToolbar label={fr ? "Actions de sélection" : "Selection actions"} orientation="horizontal" expanded={toolbarExpanded} onExpandedChange={setToolbarExpanded} expandLabel={fr ? "Afficher les actions" : "Show actions"} collapseLabel={fr ? "Réduire les actions" : "Collapse actions"} items={[{key:"copy",label:fr?"Copier":"Copy",icon:<MaterialIcon name="content_copy" size={20}/>,onClick:()=>setSplitResult("copy")},{key:"undo",label:fr?"Annuler":"Undo",icon:<MaterialIcon name="restart_alt" size={20}/>,onClick:()=>setSplitResult("undo")},{key:"favorite",label:fr?"Favori":"Favorite",icon:<MaterialIcon name="favorite" size={20}/>,onClick:()=>setSelected(!selected)}]} /></div>;
       break;
     case "navigation-bar":
       content = <NavigationBar label={fr ? "Navigation de démonstration" : "Demo navigation"} selectedKey={navigationSelection} onSelect={setNavigationSelection} items={[{key:"home",label:fr?"Accueil":"Home",icon:"home"},{key:"explore",label:fr?"Explorer":"Explore",icon:"search"},{key:"saved",label:fr?"Enregistrés":"Saved",icon:"favorite"},{key:"profile",label:fr?"Profil":"Profile",icon:"person"}]} />;
@@ -274,14 +274,14 @@ export default function ComponentLivePreview({
       break;
     case "button":
       content = (
-        <div className="flex flex-wrap items-center gap-3">
-          <Button>Filled</Button>
-          <Button variant="elevated">Elevated</Button>
-          <Button variant="filled-tonal">Filled tonal</Button>
-          <Button variant="outlined">Outlined</Button>
-          <Button variant="text">Text</Button>
+        <div className="grid gap-3"><div className="flex flex-wrap items-center gap-3">
+          <Button onClick={() => setSplitResult("filled")}>Filled</Button>
+          <Button variant="elevated" onClick={() => setSplitResult("elevated")}>Elevated</Button>
+          <Button variant="filled-tonal" onClick={() => setSplitResult("filled-tonal")}>Filled tonal</Button>
+          <Button variant="outlined" onClick={() => setSplitResult("outlined")}>Outlined</Button>
+          <Button variant="text" onClick={() => setSplitResult("text")}>Text</Button>
           <Button disabled>Disabled</Button>
-        </div>
+        </div><p className="text-sm text-[var(--muted)]">{fr ? "Dernière interaction : " : "Last interaction: "}{splitResult}</p></div>
       );
       break;
     case "checkbox":
@@ -330,12 +330,12 @@ export default function ComponentLivePreview({
       break;
     case "icon-button":
       content = (
-        <div className="flex flex-wrap items-center gap-3">
-          <IconButton label={fr ? "Action standard" : "Standard action"}><MaterialIcon name="favorite" size={24} /></IconButton>
-          <IconButton label={fr ? "Action remplie" : "Filled action"} variant="filled"><MaterialIcon name="add" size={24} /></IconButton>
-          <IconButton label={fr ? "Action tonale" : "Tonal action"} variant="filled-tonal"><MaterialIcon name="check" size={24} /></IconButton>
+        <div className="grid gap-3"><div className="flex flex-wrap items-center gap-3">
+          <IconButton label={fr ? "Action standard" : "Standard action"} onClick={() => setSplitResult("standard")}><MaterialIcon name="favorite" size={24} /></IconButton>
+          <IconButton label={fr ? "Action remplie" : "Filled action"} variant="filled" onClick={() => setSplitResult("filled")}><MaterialIcon name="add" size={24} /></IconButton>
+          <IconButton label={fr ? "Action tonale" : "Tonal action"} variant="filled-tonal" onClick={() => setSplitResult("tonal")}><MaterialIcon name="check" size={24} /></IconButton>
           <IconButton label={fr ? "Action désactivée" : "Disabled action"} disabled><MaterialIcon name="info" size={24} /></IconButton>
-        </div>
+        </div><p className="text-sm text-[var(--muted)]">{fr ? "Dernière interaction : " : "Last interaction: "}{splitResult}</p></div>
       );
       break;
     case "card":
