@@ -294,3 +294,9 @@ Earlier checkpoint notes that described Checkbox/Switch/field disabled values as
 - Added the official AndroidX button pressed-shape mapping: default full, pressed small. The shared Button now uses the semantic small shape token on active press; browser animation/timing verification is still open.
 - Updated stale Button/IconButton conformance assertions and corrected an over-escaped regex found by CI. Previous CI run failed; latest head needs a fresh CI result.
 - Continue by inspecting the newest workflow run for the current PR head, fixing any remaining errors, then continue source-backed component audit. Keep AndroidX facts separate from Material Web values and Loculary adaptations.
+
+## Slider audit — source version pinned to non-Expressive style (2026-10-15)
+
+- Found a source-version trap: the newer AndroidX SliderTokens snapshot uses a 16dp track and a 4×44dp pill handle. That is the newer Expressive design direction and conflicts with the project's explicit non-Expressive Pixel-style target.
+- Pinned the classic/non-Expressive reference to the official AOSP SliderTokens source at revision 4d53400eca9f3ac90c3a3f6cffcbc5bf492ec536: 4dp track, 20×20dp round thumb, primary active and surface-variant inactive track; disabled track roles 38%/12%.
+- Loculary's 4px track and 20px thumb are web adaptations, not dp conversions. Tick markers and value-indicator bubble are not implemented; browser checks remain open.
