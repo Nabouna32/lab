@@ -676,3 +676,8 @@ Official sources: [Menus guide](https://developer.android.com/develop/ui/compose
 ## SwipeToDismissBox — 2026-10-15
 
 Official source: [AndroidX Material 3 SwipeToDismissBox API](https://developer.android.com/reference/kotlin/androidx/compose/material3/SwipeToDismissBox.composable). Added a shared Web adaptation with horizontal pointer gesture, configurable direction, threshold-based dismissal and a visible keyboard-accessible dismiss action. This is not Compose's state/gesture implementation; nested scrolling, pointer cancellation, RTL, exact motion and screen-reader behavior remain to validate.
+
+
+## FloatingActionButtonMenu — 2026-10-15
+
+Official sources: [FloatingActionButtonMenu](https://developer.android.com/reference/kotlin/androidx/compose/material3/FloatingActionButtonMenu.composable), [FloatingActionButtonMenuItem](https://developer.android.com/reference/kotlin/androidx/compose/material3/FloatingActionButtonMenuItem.composable). Added a shared Web adaptation and Lab specimen for expandable quick actions with staggered entrance motion, Escape dismissal and focus restoration on selection. Current API reference lists FloatingActionButtonMenuItem as introduced in Material3 1.5.0-alpha29; check the pinned version. Exact toggle-button morphing, motion, back handling, RTL and screen-reader parity remain open.
