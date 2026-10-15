@@ -26,6 +26,7 @@ type CheckboxProps = Omit<
   onCheckedChange: (checked: boolean) => void;
   className?: string;
   style?: CheckboxStyle;
+  indeterminate?: boolean;
 };
 
 export function Checkbox({
@@ -34,6 +35,7 @@ export function Checkbox({
   checked,
   onCheckedChange,
   disabled = false,
+  indeterminate = false,
   className = "",
   style,
   ...inputProps
@@ -75,22 +77,24 @@ export function Checkbox({
         id={inputId}
         type="checkbox"
         checked={checked}
+        ref={(node) => { if (node) node.indeterminate = indeterminate; }}
         disabled={disabled}
         onChange={(event) => onCheckedChange(event.target.checked)}
         className="peer sr-only"
       />
       <span
         aria-hidden="true"
-        style={{ borderWidth: disabled ? (checked ? 0 : 2) : 1 }}
+        style={{ borderWidth: disabled ? (checked || indeterminate ? 0 : 2) : 1 }}
         className={[
           "relative inline-flex size-[18px] shrink-0 items-center justify-center rounded-[var(--checkbox-container-shape)] border border-[var(--checkbox-outline)] bg-[var(--checkbox-surface)]",
           "transition-[background-color,border-color,box-shadow] duration-[var(--motion-standard)]",
           "peer-checked:border-[var(--checkbox-active)] peer-checked:bg-[var(--checkbox-active)] peer-checked:text-[var(--checkbox-on-active)]",
+          indeterminate ? "border-[var(--checkbox-active)] bg-[var(--checkbox-active)] text-[var(--checkbox-on-active)]" : "",
           "peer-focus-visible:outline-none peer-focus-visible:ring-2 peer-focus-visible:ring-[var(--checkbox-focus-ring)] peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-[var(--checkbox-focus-offset)]",
           "peer-disabled:cursor-not-allowed",
         ].join(" ")}
       >
-        {checked && <MaterialIcon name="check" size={18} />}
+        {checked ? <MaterialIcon name="check" size={18} /> : indeterminate ? <span className="h-[2px] w-[10px] rounded-full bg-[var(--checkbox-on-active)]" /> : null}
       </span>
       <span>{label}</span>
     </label>
