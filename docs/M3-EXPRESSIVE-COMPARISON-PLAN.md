@@ -102,3 +102,8 @@ The new shared Snackbar is a **Web adaptation** with source-informed message/act
 ## Exposed dropdown comparison finding (2026-10-15)
 
 AndroidX ExposedDropdownMenuBox/MenuTokens were reviewed before replacing the native select in the shared Lab specimen. The new shared Web adaptation implements combobox/listbox semantics and keyboard selection/dismissal. It is not a Compose popup and still needs true anchor/viewport placement, exact token mapping, and browser/accessibility verification. Fidelity and Expressive can be compared in the Lab, but the Expressive styling is a Web experiment unless a specific AndroidX source establishes that exact visual delta.
+
+
+## Segmented button comparison finding (2026-10-15)
+
+AndroidX SegmentedButton.kt and OutlinedSegmentedButtonTokens.kt were inspected. The current shared Web primitive has source-informed single-choice semantics and a Corner Full outer shape, square inner segments, selected/unselected roles, and keyboard navigation. The official source's multi-choice variant and checked-icon animation are not yet implemented. Fidelity/Expressive selectors must not imply that both official variants or full Compose motion are complete.
