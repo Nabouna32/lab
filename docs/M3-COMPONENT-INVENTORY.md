@@ -39,15 +39,15 @@ The list below is deliberately broader than the current production call sites. C
 | Navigation bar | Shared Web adaptation | Audit 3–5 destinations, selection, icon-only/label variants, routes and safe areas |
 | Navigation rail | Shared Web adaptation | Audit large-screen layouts, 3–7 destinations, header/footer/FAB and insets |
 | Navigation drawers: modal, dismissible, permanent | Shared Web adaptation, partial variants | Separate official behavior patterns; implement drawer state, gesture/back behavior, responsive layout and assistive-technology isolation |
-| Tabs: primary/secondary, fixed/scrollable | Lab mockup | Implement official tab rows, selected indicator, scroll behavior, keyboard navigation and motion |
+| Tabs: primary/secondary, fixed/scrollable | Shared Tabs Web adaptation; primary, secondary and scrollable specimens in Lab | Audit exact indicator geometry/motion, RTL and screen-reader behavior |
 | Checkbox / tri-state checkbox | Shared Checkbox | Audit indeterminate state, semantics, animation and minimum target |
 | Chips: assist/elevated assist/filter/elevated filter/input/suggestion/elevated suggestion | Shared Web adaptation; all seven variants in Lab | Audit exact geometry, state tokens, touch targets, input removal semantics and motion |
-| Date picker / date range picker / date picker dialog | Missing | Implement calendar selection, range selection, locale, keyboard and dialog integration |
+| Date picker / date range picker / date picker dialog | Shared DatePicker adaptation; single, range and native input specimens in Lab | Add AndroidX-equivalent dialog; verify grid keyboard, locale, RTL, dimensions and motion |
 | Menus / dropdown menus | ExposedDropdownMenu and Select wrapper | Audit DropdownMenu, exposed dropdown, anchoring, focus, keyboard, dismissal and native HTML distinction |
 | Radio button | Shared Web adaptation in a native radio group | Audit exact dimensions, state animation, touch target and assistive-technology semantics |
 | Slider / range slider | Shared Slider | Audit discrete/continuous/range variants, ticks, labels, value semantics and thumb interaction |
 | Switch | Shared Switch | Audit M3 state layers, thumb/track/icon transitions, disabled/focus semantics and motion |
-| Time picker / time input | Missing | Implement clock picker and text-entry mode, locale and keyboard interactions |
+| Time picker / time input | Shared TimePicker adaptation; dial and native input wrapper in Lab | Verify AndroidX version availability (TimeInput is experimental in current docs), exact dial geometry, keyboard and dialog integration |
 | Search | Missing | Implement M3 search bar/view patterns and state/transition behavior |
 | TextField / OutlinedTextField | Shared TextField; TextArea Web wrapper | Audit variants, supporting text/counter, leading/trailing icons, focus/hover/error/disabled, IME/autofill and text scaling |
 | Swipe-to-dismiss box | Missing | Implement gesture, dismissal state, accessibility alternative and reduced-motion behavior |
@@ -94,3 +94,11 @@ For each component/variant, record:
 - **Verified in code:** month navigation, localized month/day labels, min/max constraints, selected/today states, date range selection, controlled value callbacks, native date-input constraints.
 - **Known gaps:** no AndroidX-equivalent modal `DatePickerDialog` yet; input mode uses browser-native UI; calendar keyboard grid navigation, exact AndroidX day-cell dimensions/shape/motion, locale week conventions, RTL, accessibility tree and browser/device parity remain to validate. The current calendar is not yet certified as fully conformant.
 - **Acceptance gate:** add modal focus management and grid keyboard navigation, then run tests/build and browser/screen-reader checks.
+
+
+## TimePicker / TimeInput — 2026-10-15
+
+- **Official source:** https://developer.android.com/develop/ui/compose/components/time-pickers?hl=en and https://developer.android.com/develop/ui/compose/components/time-pickers-dialogs?hl=en
+- **Official API family:** `TimePicker` (dial) and `TimeInput` (text entry); the current guide marks them experimental. The current API reference records TimeInput as added in a 1.5.0 alpha, so do not assume availability in the pinned stable dependency without checking its exact version.
+- **Lab:** shared `TimePicker` Web adaptation includes an interactive clock dial, hour/minute selection and an explicitly labelled native HTML `input[type=time]` wrapper.
+- **Not yet verified:** exact AndroidX dial layout, minute selection behavior, 12/24-hour locale conventions, TimeInput segmented-field parity, dialog integration, keyboard/screen-reader behavior, and browser/device rendering.
