@@ -306,7 +306,12 @@ test("Design Lab follows the resolved application theme instead of owning a seco
   assert.match(labSource, /import \{ useTheme \} from "@teispace\/next-themes"/);
   assert.match(labSource, /const \{ resolvedTheme \} = useTheme\(\)/);
   assert.match(labSource, /const theme: Theme = resolvedTheme === "dark" \? "dark" : "light"/);
-  assert.doesNotMatch(labSource, /setTheme\("light"\)|setTheme\("dark"\)/);
+  assert.match(labSource, /roundingDegree, setRoundingDegree/);
+  assert.match(labSource, /createLabTokens\(scheme,theme,roundingDegree\)/);
+  assert.match(labSource, /inputId="lab-rounding-degree"/);
+  assert.match(labSource, /--shape-corner-extra-small/);
+  assert.match(labSource, /preferences\.automaticTheme\);/);
+  assert.doesNotMatch(labSource, /setTheme\(/);
 });
 
 test("static Design Lab validation example does not create an assertive live alert", () => {
