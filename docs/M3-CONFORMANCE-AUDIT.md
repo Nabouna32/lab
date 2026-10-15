@@ -741,3 +741,11 @@ Official sources: [ButtonGroup API](https://developer.android.com/reference/kotl
 ## NavigationSuiteScaffold — 2026-10-15
 
 Official source: [AndroidX adaptive NavigationSuiteScaffold API](https://developer.android.com/reference/kotlin/androidx/compose/material3/adaptive/navigationsuite/NavigationSuiteScaffold.composable). Added a shared Web adaptation that switches between NavigationBar, NavigationRail and PermanentNavigationDrawer using CSS viewport breakpoints. The official adaptive navigation suite is a separate artifact (release page lists 1.5.0-beta01); current CSS thresholds are approximations, not WindowSizeClass/dp parity. Exact adaptive type overrides, insets, RTL, state preservation and device behavior remain open.
+
+
+## CI lint follow-up — DatePickerDialog / TimePickerDialog / DatePicker (2026-10-15)
+
+- Fixed React lint errors caused by synchronously resetting draft state inside effects. Each dialog now mounts its draft-owning content only while open; its draft state initializes from the current external value, and unmounting on dismiss discards cancelled edits. A keyed inner session also refreshes when the external selection changes.
+- The modal side-effect effect now manages focus, Escape/Tab handling and body scroll only; it no longer calls state setters synchronously.
+- Replaced unsupported `aria-pressed` on the calendar's `gridcell` role with `aria-selected`. The calendar's broader grid/row semantics still deserve a dedicated accessibility pass.
+- Validation status: fixes committed to the PR branch; waiting for the resulting GitHub Actions run. Do not call CI green until that run completes successfully.
