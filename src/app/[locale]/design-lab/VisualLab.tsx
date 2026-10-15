@@ -29,6 +29,7 @@ import { WideNavigationRail } from "@/components/ui/WideNavigationRail";
 import { PullToRefreshBox } from "@/components/ui/PullToRefreshBox";
 import { BottomSheetScaffold } from "@/components/ui/BottomSheetScaffold";
 import { SegmentedButtonGroup } from "@/components/ui/SegmentedButtonGroup";
+import { FloatingToolbar } from "@/components/ui/FloatingToolbar";
 import { RangeSlider } from "@/components/ui/RangeSlider";
 import { ToggleButton } from "@/components/ui/ToggleButton";
 import { SplitButton } from "@/components/ui/SplitButton";
@@ -208,6 +209,8 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const [sampleBottomSheetExpanded,setSampleBottomSheetExpanded]=useState(false);
   const [sampleSingleSegment,setSampleSingleSegment]=useState(["week"]);
   const [sampleMultiSegments,setSampleMultiSegments]=useState(["bold","italic"]);
+  const [sampleToolbarExpanded,setSampleToolbarExpanded]=useState(true);
+  const [sampleVerticalToolbarExpanded,setSampleVerticalToolbarExpanded]=useState(false);
   const [sampleRailSelection,setSampleRailSelection]=useState<"home"|"explore"|"saved">("home");
   const [sampleDrawerOpen,setSampleDrawerOpen]=useState(false);
   const [sampleDrawerSelection,setSampleDrawerSelection]=useState<"home"|"explore"|"saved"|"settings">("home");
@@ -658,6 +661,13 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
       <div className={styles.galleryGrid}>
         <article className={styles.galleryCard}><h3>{locale==="fr"?"Choix unique":"Single choice"}</h3><ComponentIdentifier names={["SegmentedButton","SingleChoiceSegmentedButtonRow"]} kind="adaptation" locale={locale}/><SegmentedButtonGroup label={locale==="fr"?"Période":"Period"} mode="single" selectedKeys={sampleSingleSegment} onSelectionChange={setSampleSingleSegment} options={[{key:"day",label:locale==="fr"?"Jour":"Day"},{key:"week",label:locale==="fr"?"Semaine":"Week"},{key:"month",label:locale==="fr"?"Mois":"Month"}]}/><p className={styles.helper}>{locale==="fr"?"Choix actuel : ":"Current selection: "}{sampleSingleSegment[0]??"—"}</p></article>
         <article className={styles.galleryCard}><h3>{locale==="fr"?"Choix multiple":"Multi choice"}</h3><ComponentIdentifier names={["SegmentedButton","MultiChoiceSegmentedButtonRow"]} kind="adaptation" locale={locale}/><SegmentedButtonGroup label={locale==="fr"?"Mise en forme":"Formatting"} mode="multi" selectedKeys={sampleMultiSegments} onSelectionChange={setSampleMultiSegments} options={[{key:"bold",label:locale==="fr"?"Gras":"Bold"},{key:"italic",label:locale==="fr"?"Italique":"Italic"},{key:"underline",label:locale==="fr"?"Souligné":"Underline"}]}/><p className={styles.helper}>{locale==="fr"?"Sélection : ":"Selected: "}{sampleMultiSegments.join(", ")||"—"}</p></article>
+      </div>
+    </section>
+    <section className={styles.gallerySection} aria-labelledby="floating-toolbar-title">
+      <div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>16 / {locale==="fr"?"Barres d’outils flottantes":"Floating toolbars"}</span><h2 id="floating-toolbar-title">{locale==="fr"?"Barres d’outils flottantes":"Floating toolbars"}</h2><p>{locale==="fr"?"Variantes horizontale et verticale, avec actions qui peuvent être repliées. Les comportements de réduction au défilement restent à vérifier.":"Horizontal and vertical variants with collapsible actions. Scroll-driven collapse behavior remains to be verified."}</p></div></div>
+      <div className={styles.galleryGrid}>
+        <article className={styles.galleryCard}><h3>{locale==="fr"?"HorizontalFloatingToolbar":"HorizontalFloatingToolbar"}</h3><ComponentIdentifier names={["HorizontalFloatingToolbar"]} kind="adaptation" locale={locale}/><FloatingToolbar label={locale==="fr"?"Actions de sélection":"Selection actions"} orientation="horizontal" expanded={sampleToolbarExpanded} onExpandedChange={setSampleToolbarExpanded} expandLabel={locale==="fr"?"Afficher les actions":"Show actions"} collapseLabel={locale==="fr"?"Réduire les actions":"Collapse actions"} items={[{key:"copy",label:locale==="fr"?"Copier":"Copy",icon:<MaterialIcon name="content_copy" size={20}/>,onClick:()=>setSnackbarOpen(true)},{key:"undo",label:locale==="fr"?"Annuler":"Undo",icon:<MaterialIcon name="restart_alt" size={20}/>,onClick:()=>setSnackbarOpen(true)},{key:"favorite",label:locale==="fr"?"Favori":"Favorite",icon:<MaterialIcon name="favorite" size={20}/>,onClick:()=>setSnackbarOpen(true)}]}/></article>
+        <article className={styles.galleryCard}><h3>{locale==="fr"?"VerticalFloatingToolbar":"VerticalFloatingToolbar"}</h3><ComponentIdentifier names={["VerticalFloatingToolbar"]} kind="adaptation" locale={locale}/><FloatingToolbar label={locale==="fr"?"Actions verticales":"Vertical actions"} orientation="vertical" expanded={sampleVerticalToolbarExpanded} onExpandedChange={setSampleVerticalToolbarExpanded} expandLabel={locale==="fr"?"Afficher les actions verticales":"Show vertical actions"} collapseLabel={locale==="fr"?"Réduire les actions verticales":"Collapse vertical actions"} items={[{key:"edit",label:locale==="fr"?"Modifier":"Edit",icon:<MaterialIcon name="text_fields" size={20}/>,onClick:()=>setSnackbarOpen(true)},{key:"copy",label:locale==="fr"?"Copier":"Copy",icon:<MaterialIcon name="content_copy" size={20}/>,onClick:()=>setSnackbarOpen(true)}]}/></article>
       </div>
     </section>
     <section className={styles.gallerySection} aria-labelledby="shared-components-title">
