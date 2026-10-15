@@ -16,7 +16,7 @@ select ok((select relrowsecurity from pg_class where oid = 'public.design_audit_
 select ok((select relrowsecurity from pg_class where oid = 'public.design_audit_events'::regclass), 'event history has RLS');
 
 select ok((select count(*) >= 50 from public.design_audit_components), 'inventory lists real UI implementation files');
-select ok((select count(*) > 0 from public.design_audit_components where preview_key is not null), 'at least some real components have live previews');
+select ok((select count(*) = count(preview_key) from public.design_audit_components), 'every real component has an explicit live preview mapping');
 select ok((select count(*) = 0 from public.design_audit_components where m3_relationship = 'not-assessed'), 'every inventoried component has an explicit relationship classification');
 select ok(not has_table_privilege('anon', 'public.design_audit_components', 'SELECT'), 'anonymous visitors cannot read the private inventory');
 select ok(not has_table_privilege('anon', 'public.design_audit_reports', 'INSERT'), 'anonymous visitors cannot submit reports');
