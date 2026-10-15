@@ -357,3 +357,13 @@ The user clarified that what they disliked about M3 Expressive was its washed-ou
 **CI status correction:** workflow run [38704035198](https://github.com/Nabouna32/lab/actions/runs/38704035198) is completed **failure**, not pending: lint and typecheck passed, tests failed, build skipped. Next action is to retrieve the failing test logs, fix the real failing assertion/test and rerun. Do not claim CI green and do not merge PR #729 without explicit user approval.
 
 **Implementation plan:** see [M3-EXPRESSIVE-COMPARISON-PLAN.md](./M3-EXPRESSIVE-COMPARISON-PLAN.md). It specifies two preview modes, provenance labels, component audit order, source/version pinning, and a CSS/Web Animations/JavaScript/SVG strategy for motion that CSS alone cannot reproduce. Current status remains plan documented; no claim that the two-mode selector or complete audit is already implemented.
+
+## Checkpoint update — Expressive direction selector wired (2026-10-15)
+
+**Discovery:** `VisualLab.tsx` already defined localized Expressive labels and the CSS module already contained an Expressive screen style, but the selectable directions were only `pixel` and `utility`; the Expressive style was unreachable.
+
+**Change committed:** the Lab screen selector now offers three directions — Pixel / M3, M3 Expressive and Productivity — and displays the matching help text. Added a static regression test to ensure the Expressive option and CSS target remain reachable. This preserves Productivity rather than replacing it.
+
+**Important limitation:** this change unlocks the existing exploratory screen comparison only. It does not yet mean every shared production primitive can be toggled between AndroidX-confirmed baseline and Expressive variants. That component-level mode remains part of the ongoing audit and must be driven by verified AndroidX differences, not a global CSS filter.
+
+**Validation:** the previous run 38704035198 failed on stale assertions; some assertions were updated, and the Expressive-selector regression test was added. The latest commit has not yet been validated by a new green CI run. No merge.
