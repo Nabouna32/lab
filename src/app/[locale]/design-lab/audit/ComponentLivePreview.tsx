@@ -78,6 +78,9 @@ export default function ComponentLivePreview({
     case "tabs":
       content = <div className="grid gap-4"><Tabs ariaLabel={fr ? "Exemple d’onglets" : "Tab example"} selectedKey={tab} onSelect={setTab} items={[{key:"overview",label:fr?"Aperçu":"Overview"},{key:"details",label:fr?"Détails":"Details"},{key:"disabled",label:fr?"Indisponible":"Unavailable",enabled:false}]} /><p className="text-sm text-[var(--muted)]">{fr ? "Onglet actif : " : "Selected tab: "}{tab}</p></div>;
       break;
+    case "floating-action-button":
+      content = <div className="flex flex-wrap items-center gap-5"><FloatingActionButton ariaLabel={fr ? "Ajouter" : "Add"} icon="add" /><FloatingActionButton size="small" ariaLabel={fr ? "Ajouter petit" : "Small add"} icon="add" /><FloatingActionButton size="extended" label={fr ? "Créer" : "Create"} icon="add" /></div>;
+      break;
     case "button":
       content = (
         <div className="flex flex-wrap items-center gap-3">
