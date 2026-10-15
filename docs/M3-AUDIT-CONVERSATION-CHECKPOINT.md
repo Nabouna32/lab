@@ -137,22 +137,16 @@ Use official Android Developers references first, then official Material Web whe
 
 The 48 dp Android touch-target guideline is a useful reference, not an automatic 48 CSS-pixel rule. Compose APIs/examples describe native semantics and must be adapted to HTML/ARIA and browser interactions rather than copied literally.
 
-## 8. PR #723 — current blocking state
+## 8. PR #723 — ported and closed without merging
 
 PR: [#723 — feat(ui): add shared M3 slider and progress indicators](https://github.com/Nabouna32/lab/pull/723)  
 Branch: `feat/m3-slider-progress`  
-Observed head SHA: `efdb3032a72f89ed45fb8e99ae76417a4e5a70d1`  
-Observed merge base: `a9e4b281792855c6dfe8bde6e36e5a201d9566d1`  
-Observed main SHA: `2cec3f9a7aa4db7a375a4bf49e4e5c058f6463fa`.
+Observed source head SHA: `efdb3032a72f89ed45fb8e99ae76417a4e5a70d1`.
 
-At the time of this checkpoint:
-- PR is open, not merged, and GitHub reports mergeable false.
-- A squash merge attempt was rejected by GitHub with HTTP 405: “Pull Request has merge conflicts.”
-- Compare reported branches diverged: main was 40 commits ahead of the merge base and the PR branch 41 commits ahead.
-- The PR changes Slider and ProgressIndicator, uses them in PasswordGenerator and ImageCompressor, replaces one-off Lab examples, adjusts disabled Checkbox/Switch styling, updates tests and audit docs.
-- Do not assume its changes are on main. Do not blindly force-update or overwrite the branch. Inspect the PR's exact diff and recent main changes, then reconcile safely (rebase/cherry-pick/port changes as appropriate) and run checks. Avoid duplicating its components until this is resolved.
-- The PR body says CI should run lint, typecheck, tests and build; it explicitly leaves Chromium/Firefox/mobile visual review outstanding.
-
+- PR #723 was closed by user request after its changes were ported into PR #729. It was not merged.
+- The port was reconciled into the current main-based files rather than copying the stale PR branch wholesale.
+- Porting does not certify conformance. Review the current PR #729 diff, wait for an actual CI run, and complete browser/keyboard/touch checks before considering a merge.
+- Do not reopen or merge #723 unless the user explicitly asks.
 ## 9. Verification status — be precise
 
 This conversation's audit is primarily static source/document review. Do **not** claim the following were completed unless a later run records evidence:
@@ -171,7 +165,7 @@ Static tests and contrast unit tests are useful but do not establish full render
 ## 10. Next steps for the next conversation
 
 1. Read this checkpoint, `docs/DESIGN-SYSTEM.md`, `docs/M3-CONFORMANCE-AUDIT.md`, DEC-026 and PR #723 discussion/diff before making changes.
-2. Reconcile PR #723 against current main without force-pushing over unrelated work. Check its CI/status and review changes to the shared Checkbox/Switch carefully. Merge only after conflicts are resolved and the relevant checks pass.
+2. PR #723 is closed without merging. Continue reviewing the port in PR #729 and verify the current head with CI and browser checks; do not merge until the user asks.
 3. Complete a repository-wide usage inventory of existing shared primitives and local controls, starting with the actual call sites, not just filenames.
 4. Inspect Lab theme flow and all local shape/motion overrides. Propose a convention before implementing: site theme as source of truth; semantic M3 shape scale; global rounding degree as a Loculary adaptation; shared motion tokens and reduced-motion behavior.
 5. Produce a component-by-component audit matrix: official source, source-level evidence, actual gap, product-specific adaptation, acceptance tests, verification status.
@@ -186,7 +180,7 @@ Static tests and contrast unit tests are useful but do not establish full render
 
 The user requested that PR #723's changes be brought into PR #729 without merging either PR. The checkpoint PR now contains the shared `Slider` and `ProgressIndicator` files, their CSS, the PasswordGenerator and ImageCompressor call-site updates, checkbox updates, Lab CSS changes, and the design-system/audit documentation updates where they apply cleanly to current `main`.
 
-**Ported into the current files:** the Lab demo now uses shared Slider/ProgressIndicator/Checkbox and includes disabled-state examples; Switch disabled styling uses separate semantic disabled tokens; regression assertions cover slider/progress semantics and tool/Lab call sites. These changes were applied on top of current `main` files rather than copying the stale PR branch wholesale. **Validation is still pending:** run lint, typecheck, tests and build, then do browser-level visual/keyboard/mobile checks. PR #723 remains open and unmerged.
+**Ported into the current files:** the Lab demo now uses shared Slider/ProgressIndicator/Checkbox and includes disabled-state examples; Checkbox, Switch and field disabled states use component-specific semantic roles; regression assertions cover the controls and call sites. These changes were applied on top of current `main` files rather than copying the stale PR branch wholesale. **Validation is still pending:** run lint, typecheck, tests and build, then do browser-level visual/keyboard/mobile checks. PR #723 is closed without merging; PR #729 remains open and unmerged.
 
 ## New canonical document
 
@@ -212,7 +206,7 @@ The user requested that PR #723's changes be brought into PR #729 without mergin
 - VisualLab.tsx had a local useState("light") and its own Light/Dark selector. The source was changed to read resolvedTheme from @teispace/next-themes and the local selector was removed. This aligns with the product decision that the Lab follows the app's global theme. Runtime/typecheck/build verification is still open.
 - CI run 38692497438 failed in src/lib/design-system/material-components.test.mjs with duplicate top-level const labCss declaration. The test file also repeated declarations for image source, slider source/CSS and progress source/CSS. Duplicate declarations were removed in commit 3ba963371a9e287b82079d90aefa68689ddffdab. Wait for a new CI run and inspect the exact failure/result; do not claim success yet.
 - Source review found a cross-browser focus-token inconsistency in slider.module.css: WebKit uses --slider-focus-ring with fallback, while Firefox's ::-moz-range-thumb uses --focus-ring directly. This should be corrected in the next implementation slice.
-- The disabled 12%/38% values are documented as first-party Material Web token values, not as universal Android rules. The 48 CSS-pixel slider height is a Loculary web decision, not an Android dp equivalence.
+- Disabled values are component/state-specific first-party Material Web tokens, not universal Android rules: Checkbox selected/unselected container/icon treatment uses 38%; Switch track layers use 12%, selected handle uses surface at 100%, and unselected handle uses on-surface at 38%; outlined text fields use 38% text and 12% outline, while filled text-field container opacity is 4%. The 48 CSS-pixel slider height is a Loculary web decision, not an Android dp equivalence.
 
 ### Evidence discipline — mandatory
 Every new convention/audit finding must state whether it is [ANDROID-M3], [MATERIAL-WEB], [WEB-STANDARD], [LOCULARY-DECISION], [SOURCE-OBSERVED], [RUNTIME-VERIFIED] or [OPEN]. Link the official source and only claim what it explicitly supports. A static source assertion or successful CI does not prove rendered M3 fidelity. The evidence-label definitions and slider/progress distinctions are in M3-CONVENTIONS.md.
