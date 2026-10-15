@@ -466,3 +466,17 @@ Next: test/fix Snackbar and dropdown, then implement/audit multiline TextField a
 ### Snackbar token source follow-up
 
 The official AndroidX SnackbarTokens.kt was inspected: https://github.com/androidx/androidx/blob/androidx-main/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/SnackbarTokens.kt. It specifies inverseSurface container, inverseOnSurface supporting text/icon, inversePrimary action, extraSmall shape, level-3 elevation, Body Medium message text, Label Large action text, 48 dp single-line height, 68 dp two-line height, 600 dp maximum width, 16 dp horizontal spacing and 14 dp vertical spacing. The Web stylesheet now maps the semantic roles and approximate max-width/min-height/vertical padding. CSS pixels, browser font metrics and box layout are not identical to Android dp/Compose measurement; remaining gaps are documented rather than claiming parity.
+
+
+## Checkpoint — SegmentedButton source audit and semantics (2026-10-15)
+
+Sources reviewed:
+- Android Developers segmented button guide: https://developer.android.com/develop/ui/compose/components/segmented-button
+- AndroidX SegmentedButton.kt: https://github.com/androidx/androidx/blob/androidx-main/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/SegmentedButton.kt
+- AndroidX OutlinedSegmentedButtonTokens.kt: https://github.com/androidx/androidx/blob/androidx-main/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/OutlinedSegmentedButtonTokens.kt
+
+Confirmed tokens/behavior: 40 dp minimum row height, 1 dp border, Label Large typography, 18 dp icon, selected Secondary Container / On Secondary Container roles, unselected Outline / On Surface roles, Corner Full base shape. itemShape uses the base shape for a single segment and the outside edges; inner segments are rectangular. The source confirms the existing full outer corners, so those were restored after checking the exact token file rather than guessing a smaller radius.
+
+Changes: shared SegmentedControl now uses radio-group semantics, roving tab stop, ArrowLeft/Right/Up/Down, Home/End, disabled-option skipping and selected state. Regression assertions were updated for these semantics and source-backed shape.
+
+Status: **source-backed Web adaptation for single choice only**. Remaining: multi-choice variant, checked icon and its motion, exact border overlap, complete state colors, browser and screen-reader validation. No claim of 100% AndroidX parity.
