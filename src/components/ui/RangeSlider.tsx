@@ -55,10 +55,10 @@ export function RangeSlider({
   } as RangeSliderStyle;
 
   function changeStart(next: number) {
-    onValueChange([Math.min(next, upper - minGap), upper]);
+    onValueChange([Math.max(safeMin, Math.min(next, upper - minGap)), upper]);
   }
   function changeEnd(next: number) {
-    onValueChange([lower, Math.max(next, lower + minGap)]);
+    onValueChange([lower, Math.min(safeMax, Math.max(next, lower + minGap))]);
   }
 
   return (
