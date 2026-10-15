@@ -40,7 +40,7 @@ The list below is deliberately broader than the current production call sites. C
 | Navigation rail | Shared Web adaptation | Audit large-screen layouts, 3–7 destinations, header/footer/FAB and insets |
 | Navigation drawers: modal, dismissible, permanent | Shared Web adaptation, partial variants | Separate official behavior patterns; implement drawer state, gesture/back behavior, responsive layout and assistive-technology isolation |
 | Tabs: primary/secondary, fixed/scrollable | Shared Tabs Web adaptation; primary, secondary and scrollable specimens in Lab | Audit exact indicator geometry/motion, RTL and screen-reader behavior |
-| Checkbox / tri-state checkbox | Shared Checkbox | Audit indeterminate state, semantics, animation and minimum target |
+| Checkbox / TriStateCheckbox | Shared Checkbox + TriStateCheckbox Web adaptation; mixed state shown in Lab | Verify parent-child state propagation, mixed-state accessibility, animation and minimum target |
 | Chips: assist/elevated assist/filter/elevated filter/input/suggestion/elevated suggestion | Shared Web adaptation; all seven variants in Lab | Audit exact geometry, state tokens, touch targets, input removal semantics and motion |
 | Date picker / date range picker / date picker dialog | Shared DatePicker adaptation; single, range and native input specimens in Lab | Add AndroidX-equivalent dialog; verify grid keyboard, locale, RTL, dimensions and motion |
 | Menus / dropdown menus | ExposedDropdownMenu and Select wrapper | Audit DropdownMenu, exposed dropdown, anchoring, focus, keyboard, dismissal and native HTML distinction |
@@ -110,3 +110,11 @@ For each component/variant, record:
 - **API caveat:** the current AndroidX reference marks the older SearchBar overload deprecated in favor of `SearchBarState`, `ExpandedFullScreenSearchBar`, and `ExpandedDockedSearchBar`. SearchBar is experimental in the current guide.
 - **Lab:** shared `SearchBar` Web adaptation includes docked suggestions and a full-screen presentation, controlled query, selection, clear action, Enter submission, Escape dismissal and arrow-key suggestion navigation.
 - **Not yet verified:** exact current AndroidX state API parity, transition/shape animation, IME behavior, focus restoration, full-screen system insets, RTL and screen-reader/browser behavior. Do not claim Compose parity.
+
+
+## TriStateCheckbox — 2026-10-15
+
+- **Official source:** https://developer.android.com/reference/kotlin/androidx/compose/material3/TriStateCheckbox.composable
+- **Official behavior:** tri-state values are checked, unchecked and indeterminate; the indeterminate state commonly reflects a parent whose child checkboxes are only partially selected.
+- **Lab:** added a shared `TriStateCheckbox` wrapper over the existing shared Checkbox, using the native HTML checkbox `indeterminate` property and a distinct minus mark.
+- **Not yet verified:** exact AndroidX mixed-state motion/colors, full parent-child propagation example, screen-reader/browser parity and disabled mixed state.
