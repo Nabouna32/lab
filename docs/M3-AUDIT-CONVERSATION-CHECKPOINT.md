@@ -316,3 +316,4 @@ Earlier checkpoint notes that described Checkbox/Switch/field disabled values as
 - Fixed literal bracket regex escaping and shape-token whitespace regexes in the component regression test.
 - Current branch is still open/unmerged. Latest head has no confirmed green CI status; rerun/verify CI before any merge.
 - Updated the Design Lab progress example to use primary-container (Lab alias primary-soft) for its track. Slider inactive track remains surface-variant, as required by the selected classic slider token baseline.
+- Current open items: verify Button color-mix state layers against rendered AndroidX-style states; audit classic progress indeterminate choreography (single moving segment is Loculary-specific); browser-check focus, keyboard, mobile, reduced motion and light/dark contrast.
