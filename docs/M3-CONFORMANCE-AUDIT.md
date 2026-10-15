@@ -607,3 +607,8 @@ Official source: https://developer.android.com/develop/ui/compose/components/app
 ## Scaffold — 2026-10-15
 
 Official source: https://developer.android.com/develop/ui/compose/components/scaffold. Added shared Scaffold Web composition with top/bottom bars, navigation rail, content and FAB slots and integrated it into the Lab. It does not yet reproduce AndroidX inner padding/inset handling, snackbar placement, modal navigation state or all overlap rules. Status: partial Web adaptation; runtime validation required.
+
+
+## ListItem / Divider — 2026-10-15
+
+Official sources: https://developer.android.com/reference/kotlin/androidx/compose/material3/ListItem.composable and https://developer.android.com/reference/kotlin/androidx/compose/material3/HorizontalDivider.composable. Added shared ListItem and Divider Web adaptations, replaced the static list rows and horizontal separator in the Lab, and added a vertical divider specimen. Exact dimensions, slot spacing, inset variants, semantics and text scaling remain to verify.
