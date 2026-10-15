@@ -570,3 +570,10 @@ The Design Lab now labels specimens with exact names and explicit fidelity categ
 ## Full AndroidX component coverage scope — 2026-10-15
 
 The audit scope is not limited to production call sites. The complete working component-family inventory and required variants are tracked in [M3-COMPONENT-INVENTORY.md](./M3-COMPONENT-INVENTORY.md), based on the official [Compose Material component catalogue](https://developer.android.com/develop/ui/compose/components?hl=en) and [Material 3 API reference](https://developer.android.com/reference/kotlin/androidx/compose/material3). Every family/variant must be integrated into the Design Lab, implemented as a source-informed Web adaptation or explicitly tracked as incomplete; no local mockup is considered complete merely because it looks plausible. Each audit must cover state transitions, motion, accessibility, keyboard/gesture behavior, light/dark tokens, responsive insets, and CSS-vs-dp/sp limitations.
+
+
+## Floating action button family — 2026-10-15
+
+Official AndroidX source: https://developer.android.com/develop/ui/compose/components/fab and https://developer.android.com/reference/kotlin/androidx/compose/material3/FloatingActionButtonDefaults.
+
+Implemented a shared Web adaptation with small, regular, large and extended variants and integrated all four into the Lab. This is not native Compose. CSS pixel dimensions and shadows are not dp/elevation equivalents. Exact AndroidX state-dependent elevation, extended-FAB collapse/expand, official motion timing and runtime accessibility remain unverified. Status: partial parity; validate current-head CI and browser/device behavior.
