@@ -12,7 +12,7 @@ test("Design Lab displays exact component names and identifies specimen fidelity
     "Button", "IconButton", "TextField", "TextArea (Web wrapper)", "ExposedDropdownMenu",
     "Select (native HTML wrapper)", "ClearButton", "CopyButton", "Checkbox", "Switch",
     "Slider", "ProgressIndicator", "SegmentedControl", "ValidationMessage", "Card",
-    "Panel", "ResultPanel", "Snackbar", "ModalBottomSheet", "AlertDialog", "NavigationBar", "NavigationRail", "NavigationDrawer", "CircularProgressIndicator",
+    "Panel", "ResultPanel", "Snackbar", "ModalBottomSheet", "AlertDialog", "NavigationBar", "NavigationRail", "NavigationDrawer", "CircularProgressIndicator", "FloatingActionButton",
   ]) {
     assert.ok(lab.includes(name), `Missing visible component identifier: ${name}`);
   }
@@ -35,6 +35,9 @@ test("NavigationRail, NavigationDrawer and CircularProgressIndicator are integra
   assert.match(lab, /import \{ NavigationRail \} from "@\/components\/ui\/NavigationRail"/);
   assert.match(lab, /import \{ NavigationDrawer \} from "@\/components\/ui\/NavigationDrawer"/);
   assert.match(lab, /import \{ CircularProgressIndicator \} from "@\/components\/ui\/CircularProgressIndicator"/);
+  assert.match(lab, /import \{ FloatingActionButton \} from "@\/components\/ui\/FloatingActionButton"/);
+  assert.match(lab, /names=\{\["SmallFloatingActionButton","FloatingActionButton","LargeFloatingActionButton","ExtendedFloatingActionButton"\]\} kind="adaptation"/);
+  assert.match(lab, /<FloatingActionButton size="extended"/);
   assert.match(lab, /<NavigationRail label=/);
   assert.match(lab, /<NavigationDrawer open=\{sampleDrawerOpen\}/);
   assert.match(lab, /<CircularProgressIndicator label=/);
