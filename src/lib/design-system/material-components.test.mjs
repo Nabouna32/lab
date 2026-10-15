@@ -184,11 +184,11 @@ test("standard functional UI surfaces do not reintroduce one-off inline SVG icon
 
 test("Pixel preview bottom navigation uses readable selected labels and explicit interaction states", () => {
   assert.match(labCss, /\.directionBottomNav button\{[^}]*min-height:3rem/);
-  assert.match(labCss, /\.directionStage\[data-direction="pixel"\] \.directionBottomNav button\[aria-current="page"\]\{color:var\(--lab-text\)\}/);
-  assert.match(labCss, /\.directionStage\[data-direction="pixel"\] \.directionBottomNav button\[aria-current="page"\] b\{background:var\(--lab-secondary-container\);color:var\(--lab-on-secondary-container\)\}/);
-  assert.match(labCss, /\.directionStage\[data-direction="pixel"\] \.directionBottomNav button:hover/);
-  assert.match(labCss, /\.directionStage\[data-direction="pixel"\] \.directionBottomNav button:active/);
-  assert.match(labCss, /\.directionStage\[data-direction="pixel"\] \.directionBottomNav button:focus-visible/);
+  assert.match(labCss, /\.directionStage\[data-direction="fidelity"\] \.directionBottomNav button\[aria-current="page"\]\{color:var\(--lab-text\)\}/);
+  assert.match(labCss, /\.directionStage\[data-direction="fidelity"\] \.directionBottomNav button\[aria-current="page"\] b\{background:var\(--lab-secondary-container\);color:var\(--lab-on-secondary-container\)\}/);
+  assert.match(labCss, /\.directionStage\[data-direction="fidelity"\] \.directionBottomNav button:hover/);
+  assert.match(labCss, /\.directionStage\[data-direction="fidelity"\] \.directionBottomNav button:active/);
+  assert.match(labCss, /\.directionStage\[data-direction="fidelity"\] \.directionBottomNav button:focus-visible/);
 });
 
 test("shared action controls use semantic state-layer colors instead of brightness filters", () => {
@@ -424,18 +424,20 @@ test("SegmentedControl follows the AndroidX item-shape and state contract", () =
   assert.doesNotMatch(source, /p-1|shadow-\[var\(--shadow-sm\)\]/);
 });
 
-test("Design Lab direction preview offers Pixel, Expressive and Productivity choices", () => {
-  assert.match(labSource, /\(\["pixel","expressive","utility"\] as const\)/);
-  assert.match(labSource, /expressiveDirection/);
+test("Design Lab direction preview offers only official M3 Fidelity and M3 Expressive modes", () => {
+  assert.match(labSource, /\(\["fidelity","expressive"\] as const\)/);
+  assert.match(labSource, /pixelDirection:"M3 Fidelity"/);
+  assert.match(labSource, /expressiveDirection:"M3 Expressive"/);
   assert.match(labSource, /direction==="expressive"/);
   assert.match(labCss, /directionStage\[data-direction="expressive"\]/);
-  assert.match(labCss, /directionStage\[data-direction="utility"\]/);
+  assert.match(labCss, /directionStage\[data-direction="fidelity"\]/);
+  assert.doesNotMatch(labSource, /Productivité|Productivity|utilityDirection/);
 });
 
-test("Pixel direction mockup uses semantic shape roles for official component families", () => {
-  assert.match(labCss, /directionStage\[data-direction="pixel"\] \.directionPrimary\{[^}]*border-radius:var\(--shape-corner-full\)/);
-  assert.match(labCss, /directionStage\[data-direction="pixel"\] \.directionCalculator input\{[^}]*border-radius:var\(--shape-corner-extra-small\)/);
-  assert.match(labCss, /directionStage\[data-direction="pixel"\]\{--direction-shape:var\(--shape-corner-medium\)/);
-  assert.match(labCss, /directionStage\[data-direction="pixel"\] \.directionCard,[\s\S]*?border-radius:var\(--shape-corner-medium\)/);
-  assert.match(labCss, /directionStage\[data-direction="pixel"\] \.directionResult\{[^}]*border-radius:var\(--shape-corner-medium\)/);
+test("M3 Fidelity direction mockup uses semantic shape roles for official component families", () => {
+  assert.match(labCss, /directionStage\[data-direction="fidelity"\] \.directionPrimary\{[^}]*border-radius:var\(--shape-corner-full\)/);
+  assert.match(labCss, /directionStage\[data-direction="fidelity"\] \.directionCalculator input\{[^}]*border-radius:var\(--shape-corner-extra-small\)/);
+  assert.match(labCss, /directionStage\[data-direction="fidelity"\]\{--direction-shape:var\(--shape-corner-medium\)/);
+  assert.match(labCss, /directionStage\[data-direction="fidelity"\] \.directionCard,[\s\S]*?border-radius:var\(--shape-corner-medium\)/);
+  assert.match(labCss, /directionStage\[data-direction="fidelity"\] \.directionResult\{[^}]*border-radius:var\(--shape-corner-medium\)/);
 });
