@@ -2,6 +2,17 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
+import { AlertDialog } from "@/components/ui/AlertDialog";
+import { BottomAppBar } from "@/components/ui/BottomAppBar";
+import { ClearButton } from "@/components/ui/ClearButton";
+import { DatePicker } from "@/components/ui/DatePicker";
+import { ModalBottomSheet } from "@/components/ui/ModalBottomSheet";
+import { RangeSlider } from "@/components/ui/RangeSlider";
+import { ScrollField } from "@/components/ui/ScrollField";
+import { SearchBar } from "@/components/ui/SearchBar";
+import { SplitButton } from "@/components/ui/SplitButton";
+import { TopAppBar } from "@/components/ui/TopAppBar";
+import { ValidationMessage } from "@/components/ui/ValidationMessage";
 import { ButtonGroup } from "@/components/ui/ButtonGroup";
 import { ListItem } from "@/components/ui/ListItem";
 import { MaterialTextField } from "@/components/ui/MaterialTextField";
@@ -52,6 +63,14 @@ export default function ComponentLivePreview({
   const [groupSelected, setGroupSelected] = useState<string[]>(["work"]);
   const [fieldValue, setFieldValue] = useState("bonjour@loculary.com");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [range, setRange] = useState<[number, number]>([20, 80]);
+  const [scrollIndex, setScrollIndex] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchSubmitted, setSearchSubmitted] = useState("");
+  const [dateValue, setDateValue] = useState("");
+  const [splitResult, setSplitResult] = useState(fr ? "Aucune action" : "No action");
   const fr = locale === "fr";
   const label = fr ? "Aperçu du composant réel" : "Live component preview";
   const stateHelp = fr
