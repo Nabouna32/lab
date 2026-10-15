@@ -261,7 +261,7 @@ export default function ComponentAuditWorkbench({ locale }: { locale: Locale }) 
         <div className="border-b border-[var(--border)] px-4 pt-4 sm:px-6 sm:pt-6">
           <div role="tablist" aria-label={fr ? "Catalogue de composants" : "Component catalogue"} className="flex flex-wrap gap-2">
             <button
-              type="button" role="tab" aria-selected={tab === "material-3"} aria-controls="catalog-panel"
+              type="button" id="tab-material-3" role="tab" tabIndex={tab === "material-3" ? 0 : -1} aria-selected={tab === "material-3"} aria-controls="catalog-panel"
               className={`rounded-full px-4 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] ${tab === "material-3" ? "bg-[var(--accent)] text-[var(--on-primary)]" : "border border-[var(--border)] hover:bg-[var(--surface-container)]"}`}
               onClick={() => { setTab("material-3"); setCategory("all"); setEntryType("all"); setStatus("all"); setExpandedEntryId(""); setExpandedComponentId(""); }}
             >
@@ -269,7 +269,7 @@ export default function ComponentAuditWorkbench({ locale }: { locale: Locale }) 
               <span className="ml-2 text-xs opacity-80">{catalog.filter((entry) => entry.catalog_scope === "material-3").length}</span>
             </button>
             <button
-              type="button" role="tab" aria-selected={tab === "loculary"} aria-controls="catalog-panel"
+              type="button" id="tab-loculary" role="tab" tabIndex={tab === "loculary" ? 0 : -1} aria-selected={tab === "loculary"} aria-controls="catalog-panel"
               className={`rounded-full px-4 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] ${tab === "loculary" ? "bg-[var(--accent)] text-[var(--on-primary)]" : "border border-[var(--border)] hover:bg-[var(--surface-container)]"}`}
               onClick={() => { setTab("loculary"); setCategory("all"); setEntryType("all"); setStatus("all"); setExpandedEntryId(""); setExpandedComponentId(""); }}
             >
@@ -291,7 +291,7 @@ export default function ComponentAuditWorkbench({ locale }: { locale: Locale }) 
           </div>
         </div>
 
-        <div id="catalog-panel" role="tabpanel" className="p-4 sm:p-6">
+        <div id="catalog-panel" role="tabpanel" aria-labelledby={tab === "material-3" ? "tab-material-3" : "tab-loculary"} className="p-4 sm:p-6">
           <div className="mb-5 grid gap-3 rounded-2xl border border-[var(--border)] p-4 sm:grid-cols-[minmax(12rem,1.4fr)_minmax(10rem,0.8fr)_minmax(10rem,0.8fr)_auto]">
             <label className="text-sm font-medium">
               {fr ? "Rechercher" : "Search"}
