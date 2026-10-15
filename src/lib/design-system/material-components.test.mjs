@@ -418,9 +418,9 @@ test("Design Lab has no stale disabled tokens from the previous control contract
 
 test("SegmentedControl follows the AndroidX item-shape and state contract", () => {
   const source = readFileSync(new URL("../../components/ui/SegmentedControl.tsx", import.meta.url), "utf8");
-  assert.match(source, /items\.length === 1\s*\? "rounded-\[var\(--shape-corner-small\)\]"/);
-  assert.match(source, /index === 0\s*\? "rounded-l-\[var\(--shape-corner-small\)\]"/);
-  assert.match(source, /index === items\.length - 1\s*\? "rounded-r-\[var\(--shape-corner-small\)\]"/);
+  assert.match(source, /items\.length === 1\s*\? "rounded-full"/);
+  assert.match(source, /index === 0\s*\? "rounded-l-full"/);
+  assert.match(source, /index === items\.length - 1\s*\? "rounded-r-full"/);
   assert.match(source, /: "rounded-none"/);\n  assert.match(source, /role="radiogroup"/);\n  assert.match(source, /role="radio"/);\n  assert.match(source, /aria-checked=\{active\}/);\n  assert.match(source, /event.key === "ArrowRight"/);\n  assert.match(source, /event.key === "Home"/);
   assert.match(source, /bg-\[var\(--secondary-container\)\] text-\[var\(--on-secondary-container\)\]/);
   assert.match(source, /disabled:border-\[color-mix\(in_srgb,var\(--on-surface\)_12%,transparent\)\]/);
