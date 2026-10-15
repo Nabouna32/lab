@@ -320,3 +320,10 @@ The Checkbox, Switch, outlined-field, shape-scale and Card mappings recorded abo
 - Run 38697118090 failed TypeScript because the enabled Checkbox preview object contained a duplicate --checkbox-container-shape property. The disabled Checkbox preview also still used the earlier 12% selected-container blend and on-surface checkmark color.
 - [SOURCE-OBSERVED → source edit made] Removed the duplicate property, added the rounding-degree token to the disabled sample, and aligned its selected container/checkmark with AndroidX CheckboxTokens (38% on-surface container, 38% surface checkmark). Added regression assertions for both Lab samples.
 - [OPEN] These changes are newer than the failing run; a fresh current-head CI result is required.
+
+## Follow-up — SegmentedControl aligned with AndroidX (2026-10-15)
+
+- [ANDROID-M3] Pinned AndroidX OutlinedSegmentedButtonTokens.kt and SegmentedButtonDefaults.itemShape confirm 40dp height, full outer shape with rectangular interior segments, 1dp outline, secondary-container selected fill, on-secondary-container selected content, and disabled outline/content at 12%/38% on-surface.
+- [SOURCE-OBSERVED → source edit made] Rebuilt the shared web SegmentedControl around those roles: no outer padded border shell, individual segment borders with shared edges, rounded outer ends/rectangular middle, selected state layers, and optional disabled items. The earlier small-rounded interior corners were not source-backed and have been removed.
+- [LOCULARY-DECISION] Labels remain single-line to prevent the reported wrap/height defect. CSS height 40px is a web adaptation, not 40dp equivalence.
+- [OPEN] Verify disabled adjacent-segment borders, focus ring, long French labels and keyboard behavior in a browser.
