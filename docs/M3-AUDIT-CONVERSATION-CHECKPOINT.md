@@ -480,3 +480,10 @@ Confirmed tokens/behavior: 40 dp minimum row height, 1 dp border, Label Large ty
 Changes: shared SegmentedControl now uses radio-group semantics, roving tab stop, ArrowLeft/Right/Up/Down, Home/End, disabled-option skipping and selected state. Regression assertions were updated for these semantics and source-backed shape.
 
 Status: **source-backed Web adaptation for single choice only**. Remaining: multi-choice variant, checked icon and its motion, exact border overlap, complete state colors, browser and screen-reader validation. No claim of 100% AndroidX parity.
+
+
+## Validation note — CI failure diagnosed, assertions corrected (2026-10-15)
+
+The first CI run associated with this work reached lint and failed in two existing/static assertions: one expected an exact class string that no longer matched the IconButton implementation, and one assumed spacing-free formatting around the Lab direction comparison. Both assertions were updated to match the actual source contract. During the follow-up edits, two groups of test assertions had literal escaped newline sequences; these have now been converted back into real source lines.
+
+Important: the failed run was on an earlier commit and later API-created commits have no fresh workflow run associated with their current HEAD. Therefore **the latest code is not yet validated by CI**, and no browser run has been performed. Do not treat these fixes as passing tests. Next step is to obtain a fresh CI execution and resolve any typecheck/build/test issues before considering these components complete.
