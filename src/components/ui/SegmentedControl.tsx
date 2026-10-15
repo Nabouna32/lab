@@ -30,11 +30,11 @@ export function SegmentedControl<T extends string>({
       {items.map((item, index) => {
         const active = value === item.id;
         const edgeShape = items.length === 1
-          ? "rounded-[var(--shape-corner-small)]"
+          ? "rounded-full"
           : index === 0
-            ? "rounded-l-[var(--shape-corner-small)]"
+            ? "rounded-l-full"
             : index === items.length - 1
-              ? "rounded-r-[var(--shape-corner-small)]"
+              ? "rounded-r-full"
               : "rounded-none";
 
         const handleKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
