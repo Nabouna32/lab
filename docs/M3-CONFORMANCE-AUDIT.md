@@ -354,3 +354,8 @@ Older audit entries above that say the Checkbox/Switch/field disabled values are
 - [ANDROID-M3] Found another version trap: classic LinearProgressIndicator tokens specify primary active indicator, primary-container track, 4dp thickness and square ends. Newer unified ProgressIndicatorTokens uses secondary-container track and full-rounded ends.
 - [SOURCE-OBSERVED → source edit made] Changed the shared linear progress component from rounded/surface-variant track to classic square geometry and primary-container track. Its CSS 4px thickness is a web adaptation, not a dp conversion.
 - [OPEN] Browser-check light/dark contrast, reduced motion, determinate width and indeterminate motion. Circular progress is not implemented.
+## IconButton state correction (2026-10-15)
+
+- [ANDROID-M3] AndroidX standard IconButton keeps on-surface-variant for the unselected hover/pressed icon; the prior Loculary hover changed to the generic foreground role. Corrected to keep the semantic role.
+- [ANDROID-M3] AndroidX OutlinedIconToggleButton removes its border when checked. Loculary's selected outlined IconButton now sets a transparent border while using inverse-surface/inverse-on-surface selected roles.
+- [OPEN] Browser-check the selected border transition, hover/focus state layers and both themes.
