@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useId, useRef } from "react";
 import type { KeyboardEvent, ReactNode } from "react";
 import styles from "./Tabs.module.css";
 
@@ -37,6 +37,7 @@ export function Tabs({
   className,
 }: TabsProps) {
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  const idPrefix = `m3-tabs-${useId().replace(/:/g, "")}`;
   const enabledItems = items.filter((item) => item.enabled !== false);
 
   function handleKeyDown(event: KeyboardEvent<HTMLButtonElement>, index: number) {
@@ -77,9 +78,9 @@ export function Tabs({
               ref={(node) => { tabRefs.current[index] = node; }}
               type="button"
               role="tab"
-              id={`m3-tab-${item.key}`}
+              id={`${idPrefix}-tab-${item.key}`}
               aria-selected={selected}
-              aria-controls={item.content ? `m3-tab-panel-${item.key}` : undefined}
+              aria-controls={item.content ? `${idPrefix}-panel-${item.key}` : undefined}
               tabIndex={selected ? 0 : -1}
               disabled={disabled}
               className={styles.tab}
