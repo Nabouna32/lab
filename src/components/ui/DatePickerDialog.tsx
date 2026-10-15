@@ -24,7 +24,7 @@ export type DatePickerDialogProps = {
 };
 
 /** Modal Web adaptation of AndroidX DatePickerDialog + DatePicker/DateRangePicker. */
-export function DatePickerDialog({
+function DatePickerDialogContent({
   open,
   title,
   label,
@@ -48,8 +48,6 @@ export function DatePickerDialog({
 
   useEffect(() => {
     if (!open) return;
-    setDraftDate(value);
-    setDraftRange(rangeValue);
     const previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -86,7 +84,7 @@ export function DatePickerDialog({
       document.body.style.overflow = previousOverflow;
       previousFocus?.focus();
     };
-  }, [open, value, rangeValue]);
+  }, [open]);
 
   if (!open) return null;
 
@@ -110,4 +108,12 @@ export function DatePickerDialog({
       </div>
     </div>
   );
+}
+
+
+/** Mount a fresh draft for each open session so cancelled edits never leak into the next session. */
+export function DatePickerDialog(props: DatePickerDialogProps) {
+  if (!props.open) return null;
+  const key = [props.value, props.rangeValue.start, props.rangeValue.end, props.mode ?? "single"].join(":");
+  return <DatePickerDialogContent key={key} {...props} />;
 }
