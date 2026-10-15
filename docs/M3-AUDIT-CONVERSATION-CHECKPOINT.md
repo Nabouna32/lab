@@ -697,3 +697,10 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - Official sources: AndroidX Material 3 ListItem and HorizontalDivider API references. Added shared ListItem with headline/overline/supporting/leading/trailing slots and 1/2/3-line layouts; added horizontal/vertical Divider variants. Replaced the gallery's mockup list rows and horizontal separator and added a vertical divider example.
 - Updated canonical conventions, conformance audit and inventory. Remaining: exact slot spacing/density, divider insets, text scaling and runtime accessibility checks.
 - Current-head CI is still not available for the latest contents-API commits. Continue with the official chip family and radio controls, then date/time pickers and search.
+
+
+## Checkpoint — Chip family (2026-10-15)
+
+- Official source: https://developer.android.com/develop/ui/compose/components/chip. Added shared Chip Web adaptation for Assist, ElevatedAssist, Filter, ElevatedFilter, Input, Suggestion and ElevatedSuggestion; replaced the local filter/suggestion pill mockups with official variant names and shared behavior.
+- Updated canonical conventions, conformance audit and inventory. Remaining: exact dimensions/state tokens, disabled and focus states, touch target, input removal semantics and animation timing.
+- Current-head CI remains unconfirmed. Next official families: radio button/group and then date/time pickers and search.
