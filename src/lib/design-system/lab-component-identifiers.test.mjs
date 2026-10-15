@@ -14,7 +14,7 @@ test("Design Lab displays exact component names and identifies specimen fidelity
     "Button", "IconButton", "TextField", "TextArea (Web wrapper)", "ExposedDropdownMenu",
     "Select (native HTML wrapper)", "ClearButton", "CopyButton", "Checkbox", "Switch",
     "Slider", "ProgressIndicator", "SegmentedControl", "ValidationMessage", "Card",
-    "Panel", "ResultPanel", "Snackbar", "ModalBottomSheet", "AlertDialog", "NavigationBar", "NavigationRail", "NavigationDrawer", "CircularProgressIndicator", "FloatingActionButton", "Badge", "BadgedBox", "Tooltip", "Carousel", "TopAppBar", "BottomAppBar", "Scaffold", "ListItem", "HorizontalDivider", "VerticalDivider", "AssistChip", "FilterChip", "InputChip", "SuggestionChip", "RadioButton", "Tab", "PrimaryTabRow", "SecondaryTabRow", "PrimaryScrollableTabRow", "SecondaryScrollableTabRow", "DatePicker", "DateRangePicker", "DatePickerDialog", "TimePicker", "TimeInput (native HTML input wrapper)", "TimePickerDialog", "SearchBar", "ExpandedDockedSearchBar", "ExpandedFullScreenSearchBar", "AppBarWithSearch", "TriStateCheckbox", "RangeSlider", "ToggleButton", "FilledTonalToggleButton", "OutlinedToggleButton", "ElevatedToggleButton", "SplitButtonLayout", "FilledSplitButton", "TonalSplitButton", "ElevatedSplitButton", "OutlinedSplitButton", "TextField", "OutlinedTextField", "SecureTextField", "OutlinedSecureTextField", "DropdownMenu", "DropdownMenuItem", "SwipeToDismissBox", "FloatingActionButtonMenu", "FloatingActionButtonMenuItem", "ToggleFloatingActionButton", "WideNavigationRail", "WideNavigationRailItem", "ModalWideNavigationRail", "PullToRefreshBox", "BottomSheetScaffold", "SegmentedButton", "SingleChoiceSegmentedButtonRow", "MultiChoiceSegmentedButtonRow", "HorizontalFloatingToolbar", "VerticalFloatingToolbar",
+    "Panel", "ResultPanel", "Snackbar", "ModalBottomSheet", "AlertDialog", "NavigationBar", "NavigationRail", "NavigationDrawer", "CircularProgressIndicator", "FloatingActionButton", "Badge", "BadgedBox", "Tooltip", "Carousel", "TopAppBar", "BottomAppBar", "Scaffold", "ListItem", "HorizontalDivider", "VerticalDivider", "AssistChip", "FilterChip", "InputChip", "SuggestionChip", "RadioButton", "Tab", "PrimaryTabRow", "SecondaryTabRow", "PrimaryScrollableTabRow", "SecondaryScrollableTabRow", "DatePicker", "DateRangePicker", "DatePickerDialog", "TimePicker", "TimeInput (native HTML input wrapper)", "TimePickerDialog", "SearchBar", "ExpandedDockedSearchBar", "ExpandedFullScreenSearchBar", "AppBarWithSearch", "TriStateCheckbox", "RangeSlider", "ToggleButton", "FilledTonalToggleButton", "OutlinedToggleButton", "ElevatedToggleButton", "SplitButtonLayout", "FilledSplitButton", "TonalSplitButton", "ElevatedSplitButton", "OutlinedSplitButton", "TextField", "OutlinedTextField", "SecureTextField", "OutlinedSecureTextField", "DropdownMenu", "DropdownMenuItem", "SwipeToDismissBox", "FloatingActionButtonMenu", "FloatingActionButtonMenuItem", "ToggleFloatingActionButton", "WideNavigationRail", "WideNavigationRailItem", "ModalWideNavigationRail", "DismissibleNavigationDrawer", "PermanentNavigationDrawer", "PullToRefreshBox", "BottomSheetScaffold", "SegmentedButton", "SingleChoiceSegmentedButtonRow", "MultiChoiceSegmentedButtonRow", "HorizontalFloatingToolbar", "VerticalFloatingToolbar",
   ]) {
     assert.ok(lab.includes(name), `Missing visible component identifier: ${name}`);
   }
@@ -235,4 +235,12 @@ test("Horizontal and vertical floating toolbar variants are represented in the L
   assert.match(lab, /import \{ FloatingToolbar \} from "@\/components\/ui\/FloatingToolbar"/);
   assert.match(lab, /orientation="horizontal"/);
   assert.match(lab, /orientation="vertical"/);
+});
+
+
+test("Dismissible and permanent navigation drawer variants use the shared drawer component", () => {
+  assert.match(lab, /mode="dismissible"/);
+  assert.match(lab, /mode="permanent"/);
+  assert.match(lab, /names=\{\["DismissibleNavigationDrawer"\]\}/);
+  assert.match(lab, /names=\{\["PermanentNavigationDrawer"\]\}/);
 });
