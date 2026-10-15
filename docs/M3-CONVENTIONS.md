@@ -421,3 +421,18 @@ Loculary's Web renderer uses these rules:
 The first shared reference tokens live in src/app/globals.css: dimensions for segmented buttons, standard/medium buttons, touch targets, Snackbar, icon sizes, outline width and Label Large/Body Medium typography. SegmentedControl and Snackbar now consume shared tokens instead of repeating all reference values locally. This is the start of the token layer, not yet a complete extraction of all component tokens. Each token's original AndroidX value and file/version must be added to the component audit; any token without a pinned source remains provisional.
 
 Official source hierarchy remains: Android Developers + AndroidX source for intended Android behavior and values; Material Web for Web-specific implementation details; HTML/ARIA/WCAG for Web accessibility; Loculary tokens for the documented adaptation. Do not describe the React/CSS implementation as “100% Android” even if all visible token values match.
+
+
+### Multiline text input — AndroidX source review (2026-10-15)
+
+Official sources:
+- AndroidX Material 3 TextField API/source: https://developer.android.com/reference/kotlin/androidx/compose/material3/TextField.composable
+- AndroidX TextField implementation: https://github.com/androidx/androidx/blob/androidx-main/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/TextField.kt
+- AndroidX TextField samples: https://github.com/androidx/androidx/blob/androidx-main/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/samples/TextFieldSamples.kt
+- Expressive text-field samples: https://github.com/androidx/androidx/blob/androidx-main/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/samples/TextFieldSamples.kt
+
+Finding: AndroidX Material 3 does not expose a separate component named TextArea. Multiline text entry is the TextField API configured with multiline behavior such as minLines/maxLines (and the outlined variant when appropriate). Loculary keeps TextArea as a Web-facing convenience component but documents it as a Web adaptation of the multiline TextField use case.
+
+Changes: shared TextArea now exposes Fidelity/Expressive preview variants, uses shared spacing/type/shape/color roles, supports disabled/error/helper states and associates helper/error copy through aria-describedby. The minimum specimen height is explicitly a Loculary Web sizing choice, **not** a claimed AndroidX default token. Expressive styling is an informed comparison based on AndroidX's expressive TextField anatomy; it is not a native Compose component.
+
+Status: **source-informed Web adaptation, not 100% AndroidX parity**. Remaining: reproduce and validate AndroidX multiline line-height/minLines/maxLines behavior, label/placeholder/supporting-text anatomy, counter behavior if needed, focus/error/disabled tokens, text scaling, browser autofill/IME behavior, and keyboard/screen-reader tests. The visual Lab selector is now wired to the shared component so variants can be compared rather than merely described.
