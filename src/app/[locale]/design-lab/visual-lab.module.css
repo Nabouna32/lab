@@ -334,3 +334,7 @@
 .carouselCard svg{color:var(--lab-primary)}
 .carouselCard strong{font-size:.9rem;font-weight:650}
 .carouselCard span{color:var(--lab-muted);font-size:.75rem}
+
+.topBarActions{display:flex;align-items:center;gap:.25rem}
+.topAppBarVariants{display:grid;gap:.5rem;margin:.75rem 0 1rem;padding:.75rem;border:1px solid var(--lab-outline);border-radius:var(--shape-corner-medium);background:var(--lab-surface)}
+.topAppBarVariants>header{border:1px solid var(--lab-outline-variant,var(--lab-outline));border-radius:var(--shape-corner-small);overflow:hidden}
