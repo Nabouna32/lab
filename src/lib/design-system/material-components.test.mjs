@@ -72,7 +72,7 @@ test("shared checkbox uses M3 foreground/background roles and a visible keyboard
   assert.match(checkboxSource, /peer-focus-visible:ring-2/);
   assert.match(checkboxSource, /borderWidth: disabled \? \(checked \? 0 : 2\) : 1/);
   assert.match(checkboxSource, /var\\(--surface\\) 38%/);
-  assert.match(checkboxSource, /rounded-\\[2px\\]/);
+  assert.match(checkboxSource, /checkbox-container-shape/);
   assert.match(checkboxSource, /size-\\[18px\\]/);
   assert.match(checkboxSource, /MaterialIcon name="check" size=\{18\}/);
   assert.doesNotMatch(checkboxSource, /accent-\[#/);
