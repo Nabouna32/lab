@@ -64,7 +64,7 @@ export function SegmentedControl<T extends string>({
             disabled={item.disabled}
             onClick={() => onChange(item.id)}
             className={[
-              "relative min-h-10 min-w-0 whitespace-nowrap border border-[var(--outline)] px-3 py-2 text-center text-sm font-medium leading-5 tracking-[.006em] transition-[background-color,color,box-shadow] duration-[var(--motion-standard)]",
+              "relative min-h-[var(--m3-size-segmented-button-min-height)] min-w-0 whitespace-nowrap border border-[var(--outline)] px-[var(--m3-space-3)] py-[var(--m3-space-2)] text-center text-[length:var(--m3-type-label-large-size)] font-medium leading-[var(--m3-type-label-large-line-height)] tracking-[.006em] transition-[background-color,color,box-shadow] duration-[var(--motion-standard)]",
               index === 0 ? "" : "border-l-0",
               edgeShape,
               "focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface)]",
