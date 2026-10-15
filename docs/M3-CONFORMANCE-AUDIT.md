@@ -706,3 +706,8 @@ Official source: [AndroidX BottomSheetScaffold API](https://developer.android.co
 ## TimePickerDialog — 2026-10-15
 
 Official source: [AndroidX TimePickerDialog API](https://developer.android.com/reference/kotlin/androidx/compose/material3/TimePickerDialog.composable). Added a modal Web adaptation with draft time, confirm/cancel actions, Escape dismissal and focus management. It is not native Compose window behavior; exact dialog geometry, time-picker animation/state, locale, back handling and screen-reader parity remain to validate.
+
+
+## SegmentedButton rows — 2026-10-15
+
+Official sources: [SegmentedButton API](https://developer.android.com/reference/kotlin/androidx/compose/material3/SegmentedButton.composable), [SingleChoiceSegmentedButtonRow API](https://developer.android.com/reference/kotlin/androidx/compose/material3/SingleChoiceSegmentedButtonRow.composable). Added a shared single-/multi-choice segmented-button adaptation and Lab specimens. It is distinct from the existing generic SegmentedControl wrapper; exact item shape calculation, icon variants, spacing, RTL and assistive-technology parity remain unverified.
