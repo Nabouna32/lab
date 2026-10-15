@@ -248,3 +248,9 @@ Every new convention/audit finding must state whether it is [ANDROID-M3], [MATER
 - This is a Loculary-specific preview control, not an Android setting. Several handcrafted Lab mockups and tool-local containers still use fixed radii, so coverage is not yet global. Keep this explicitly open.
 - Fixed a stale theme-toggle handler left in the profile mockup after removing the Lab's independent theme selector. The mock preference now changes only its own sample state; the real theme remains the app's resolved theme.
 - Updated Lab Checkbox/Switch palette overrides to match component-specific disabled token roles. Browser verification of light/dark and rounding extremes remains outstanding.
+
+## CI feedback — source fixes applied, current head unverified (2026-10-15)
+
+- Typecheck failed on earlier runs 38695462704 and 38695137845 because VisualLab still referenced the removed setTheme setter and two Switch style objects used the removed --switch-disabled-track key.
+- Fixed both: the phone-profile sample now toggles only its mock preference state, and all Lab Switch styles use the selected/unselected disabled track variables plus the palette-specific selected handle token.
+- Those runs predate the fixes. No current-head green result is confirmed yet; continue without merging and verify the latest SHA when CI reports it.
