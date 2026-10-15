@@ -440,3 +440,24 @@ Changes committed on this branch:
 Status: **source-backed Web adaptation; not 100% Android/AndroidX implementation**. Still missing: shared app-level host/queue and replacement policy, Scaffold-equivalent insets/placement, swipe dismissal, exact AndroidX geometry and motion, focus/assistive-technology checks, and browser tests. No CI/browser run is confirmed yet. The static test file has been edited but its execution is not confirmed.
 
 Next audit order: (1) implement the AndroidX ExposedDropdownMenu-equivalent Web component and keyboard/focus/selection/dismiss behavior; (2) audit multiline TextField anatomy; (3) audit segmented buttons, dialogs, menus, bottom sheets, navigation, and progress components against pinned AndroidX source. Update this checkpoint and ledger after each finding.
+
+
+## Checkpoint — exposed dropdown source review and Web implementation (2026-10-15)
+
+Sources reviewed before implementation:
+- Android Developers menus: https://developer.android.com/develop/ui/compose/components/menu
+- AndroidX ExposedDropdownMenuBox API: https://developer.android.com/reference/kotlin/androidx/compose/material3/ExposedDropdownMenuBox.composable
+- AndroidX ExposedDropdownMenu source: https://github.com/androidx/androidx/blob/androidx-main/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/ExposedDropdownMenu.kt
+- AndroidX MenuTokens: https://github.com/androidx/androidx/blob/androidx-main/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/MenuTokens.kt
+
+Findings: an Android exposed dropdown is a menu anchored to a TextField/OutlinedTextField via ExposedDropdownMenuBox/menuAnchor; it is not a native select. MenuTokens map the container to surfaceContainer, level-2 elevation and extra-small corner shape.
+
+Changes committed:
+- Added shared ExposedDropdownMenu.tsx and ExposedDropdownMenu.module.css.
+- Replaced the shared Select specimen in Design Lab with the new component.
+- Implemented ARIA combobox/listbox/option semantics, active-descendant state, arrow navigation, Home/End, Enter/Space selection, Escape/Tab dismissal, outside-pointer dismissal, disabled options, selected indication, error/helper text and reduced-motion handling.
+- Added regression assertions for source attribution and keyboard/accessibility semantics.
+
+Status: **Android-source-informed Web adaptation; not 100% Android/Compose parity**. Still open: true Compose popup placement/edge handling, TextField menu-anchor anatomy, exact token geometry/elevation/motion, screen-reader and browser testing, long/scrolling menus, and editable autocomplete behavior. The component selector's Expressive styling is an informed Web comparison, not proof of a distinct AndroidX Expressive default.
+
+Next: test/fix Snackbar and dropdown, then implement/audit multiline TextField anatomy. Continue with segmented buttons, menus, dialogs, bottom sheets, navigation, and progress indicators against pinned official AndroidX source.
