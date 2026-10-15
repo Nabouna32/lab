@@ -543,3 +543,14 @@ The Design Lab now labels specimens with exact names and explicit fidelity categ
 - **Web adaptation choices:** 80 CSS-pixel rail width and CSS spacing approximate the Android layout; CSS px are not dp. Local selection uses buttons and `aria-current`; real route destinations should use links or router navigation semantics.
 - **Not yet parity-complete:** exact AndroidX dimensions, FAB placement, rail header/scroll behavior, window inset integration, all badge variants and Compose motion curves are not validated. Runtime keyboard, zoom, screen reader, mobile browser and responsive layout checks remain open.
 - **Status:** shared, source-informed Web adaptation; partial parity; CI/runtime validation required. Do not claim 100% AndroidX parity.
+
+
+### NavigationDrawer — AndroidX audit and Web adaptation (2026-10-15)
+
+**Official sources:** https://developer.android.com/develop/ui/compose/components/drawer, https://developer.android.com/reference/kotlin/androidx/compose/material3/ModalNavigationDrawer.composable, and https://developer.android.com/develop/ui/compose/system/material-insets.
+
+- **Source-confirmed:** Material 3 distinguishes modal drawers (overlay content) from standard drawers (share layout space). AndroidX provides drawer state/open-close control, navigation items, and drawer sheets; modal interaction and window insets are part of the component behavior.
+- **Implemented:** added shared `src/components/ui/NavigationDrawer.tsx` and `NavigationDrawer.module.css`; Lab specimen includes grouped destinations, selection, scrim dismissal, Escape handling, Tab focus containment, focus restoration, body scroll lock, entry/scrim animation, reduced-motion handling, and modal/standard layout modes.
+- **Web adaptation choices:** CSS width, scrim opacity, elevation/shadow, shape and motion timings are not exact dp/elevation/Compose-motion equivalents. The component currently supports modal and standard modes; it does not yet reproduce the separate dismissible drawer behavior, Android `DrawerState`, edge-swipe gestures, predictive back, or platform insets.
+- **Accessibility gap:** background content is not yet made inert/hidden from all assistive technology in every browser; verify focus and screen-reader isolation before production use. Standard mode also needs responsive integration checks.
+- **Status:** shared, source-informed Web adaptation; partial functional parity, not native Compose. CI, browser, mobile and assistive-technology validation required.
