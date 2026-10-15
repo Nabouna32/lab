@@ -594,3 +594,13 @@ Official source: https://developer.android.com/develop/ui/compose/components/chi
 - Implemented: shared Chip with the seven named variants; filter selection uses aria-pressed, input chips expose a remove action, and Lab mockup chips were replaced by interactive examples. Uses semantic outline/surface/secondary-container roles and reduced-motion-aware state transitions.
 - Gaps: exact variant geometry, disabled/pressed/focused states, leading/trailing slot rules, input removal semantics, touch target and animation timing require comparison with pinned AndroidX source and browser/assistive-technology checks.
 - Status: source-informed Web adaptation, partial parity; current-head CI remains unconfirmed.
+
+
+### RadioButton — AndroidX audit and Web adaptation (2026-10-15)
+
+Official source: https://developer.android.com/reference/kotlin/androidx/compose/material3/RadioButton.composable and https://developer.android.com/develop/ui/compose/components/radio-button.
+
+- Source-confirmed: radio buttons select one option from a mutually exclusive group; group-level state and semantics are important. AndroidX separates the visual RadioButton from its containing clickable row where appropriate.
+- Implemented: shared RadioButton adaptation with controlled checked state, native radio input for browser group keyboard behavior, M3-style indicator, focus ring, hover state, disabled styling and reduced-motion support. The Lab's native-radio-only mockup now uses the shared component.
+- Gaps: exact state-layer and animation token parity, minimum touch target, semantics in assistive technology and visual dimensions remain to validate against the pinned AndroidX source.
+- Status: source-informed Web adaptation, partial parity; current-head CI and browser validation pending.
