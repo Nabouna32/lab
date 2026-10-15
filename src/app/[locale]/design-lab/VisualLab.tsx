@@ -70,6 +70,17 @@ const copy = {
   },
 };
 
+type M3Variant = "fidelity" | "expressive";
+function ComponentVariantControl({ label, value, onChange, expressiveNote }: { label: string; value: M3Variant; onChange: (value: M3Variant) => void; expressiveNote?: string }) {
+  return <div className={styles.componentVariantControl}>
+    <span>{label}</span>
+    <div className={styles.segmented} role="group" aria-label={label}>
+      <button type="button" aria-pressed={value==="fidelity"} onClick={()=>onChange("fidelity")}>M3 Fidelity</button>
+      <button type="button" aria-pressed={value==="expressive"} onClick={()=>onChange("expressive")}>M3 Expressive</button>
+    </div>
+    {value==="expressive"&&expressiveNote&&<p className={styles.helper}>{expressiveNote}</p>}
+  </div>;
+}
 function createLabTokens(scheme: ReturnType<typeof createM3Scheme>, theme: Theme, roundingDegree = 100): CSSProperties & Record<string,string> {
   const scale = roundingDegree / 100;
   return {
@@ -107,6 +118,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const [buttonVariant,setButtonVariant]=useState<"fidelity"|"expressive">("fidelity");
   const [iconButtonVariant,setIconButtonVariant]=useState<"fidelity"|"expressive">("fidelity");
   const [sampleIconSelected,setSampleIconSelected]=useState(false);
+  const [checkboxVariant,setCheckboxVariant]=useState<M3Variant>("fidelity");
   const [seed,setSeed]=useState("#4285F4");
   const [paletteOpen,setPaletteOpen]=useState(false);
   const [viewport,setViewport]=useState<"desktop"|"tablet"|"mobile">("mobile");
@@ -419,7 +431,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
         <article className={styles.galleryCard}>
           <h3>{locale==="fr"?"Champs et sélection partagés":"Shared fields & selection"}</h3>
           <div className={styles.sharedFieldStack}><TextField inputId="lab-shared-text-field" label={locale==="fr"?"Valeur":"Value"} defaultValue="180" type="number" unit="px"/><TextArea inputId="lab-shared-text-area" label={locale==="fr"?"Description":"Description"} rows={3} defaultValue={locale==="fr"?"Un exemple de zone de texte partagée.":"An example of the shared multiline field."} className={styles.sharedTextArea}/><Select id="lab-shared-select" label={locale==="fr"?"Format":"Format"} defaultValue="png"><option value="png">PNG</option><option value="webp">WebP</option><option value="jpeg">JPEG</option></Select></div>
-          <Checkbox inputId="lab-shared-checkbox" checked={sampleChecked} onCheckedChange={setSampleChecked} label={locale==="fr"?"Inclure les sous-catégories":"Include subcategories"}/>
+          <ComponentVariantControl label={locale==="fr"?"Version de la case à cocher":"Checkbox version"} value={checkboxVariant} onChange={setCheckboxVariant} expressiveNote={locale==="fr"?"Aucune différence de rendu par défaut propre à Expressive n’a été confirmée dans la source Checkbox consultée : le composant reste identique, sans variation inventée.":"No default Expressive-specific rendering difference was confirmed in the inspected Checkbox source; the component stays the same rather than inventing a variation."}/><Checkbox inputId="lab-shared-checkbox" checked={sampleChecked} onCheckedChange={setSampleChecked} label={locale==="fr"?"Inclure les sous-catégories":"Include subcategories"}/>
           <SegmentedControl ariaLabel={locale==="fr"?"Disposition de la liste":"List layout"} value={sampleLayout} onChange={setSampleLayout} items={[{id:"all",label:locale==="fr"?"Tout":"All"},{id:"favorites",label:locale==="fr"?"Favoris":"Favorites"}]}/>
           <ValidationMessage id="lab-shared-validation" role={null}>{locale==="fr"?"Exemple de message de validation.":"Example validation message."}</ValidationMessage>
         </article>
