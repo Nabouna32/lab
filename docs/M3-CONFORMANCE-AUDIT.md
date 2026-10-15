@@ -602,3 +602,8 @@ Official source: https://developer.android.com/develop/ui/compose/components/app
 ## BottomAppBar — 2026-10-15
 
 Official source: https://developer.android.com/develop/ui/compose/components/app-bars. Added shared BottomAppBar Web adaptation with actions, custom content and FAB slots; integrated a specimen into the Lab. CSS includes safe-area padding and semantic surface roles. Exact AndroidX geometry/elevation, FAB cutout placement, window insets and motion remain incomplete. Validate current-head CI and browser/device behavior.
+
+
+## Scaffold — 2026-10-15
+
+Official source: https://developer.android.com/develop/ui/compose/components/scaffold. Added shared Scaffold Web composition with top/bottom bars, navigation rail, content and FAB slots and integrated it into the Lab. It does not yet reproduce AndroidX inner padding/inset handling, snackbar placement, modal navigation state or all overlap rules. Status: partial Web adaptation; runtime validation required.
