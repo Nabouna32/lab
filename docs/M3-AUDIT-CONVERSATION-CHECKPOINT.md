@@ -487,3 +487,21 @@ Status: **source-backed Web adaptation for single choice only**. Remaining: mult
 The first CI run associated with this work reached lint and failed in two existing/static assertions: one expected an exact class string that no longer matched the IconButton implementation, and one assumed spacing-free formatting around the Lab direction comparison. Both assertions were updated to match the actual source contract. During the follow-up edits, two groups of test assertions had literal escaped newline sequences; these have now been converted back into real source lines.
 
 Important: the failed run was on an earlier commit and later API-created commits have no fresh workflow run associated with their current HEAD. Therefore **the latest code is not yet validated by CI**, and no browser run has been performed. Do not treat these fixes as passing tests. Next step is to obtain a fresh CI execution and resolve any typecheck/build/test issues before considering these components complete.
+
+
+## Checkpoint — dp/sp to CSS strategy and first shared dimension tokens (2026-10-15)
+
+Decision: Android dp and sp are source units, not CSS units. Compose converts dp through Android density; Web uses CSS reference pixels/rem and browser zoom/root-size behavior. Numeric matching is a documented visual-reference mapping only, not physical-size equivalence.
+
+Sources:
+- AndroidX Dp API: https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/Dp
+- Android screen-density guide: https://developer.android.com/training/multiscreen/screendensities
+- Android Material 3 theme system: https://developer.android.com/develop/ui/compose/designsystems/material3
+
+Implemented in this checkpoint:
+- Added shared CSS reference tokens in src/app/globals.css for spacing, segmented-button height, standard/medium button heights, touch target, Snackbar height/max-width/padding, icon sizes, outline width and Label Large/Body Medium type scale.
+- Migrated shared SegmentedControl and Snackbar CSS to consume these tokens.
+- Added regression assertions for token existence and component use.
+- Documented that e.g. Android 40 dp -> 2.5rem at a default 16px root is only a reference-scale convention, not a density conversion. Keep original dp/sp magnitudes in docs and use rem/semantic tokens in CSS.
+
+Status: **shared Web token layer partially implemented; not 100% Android**. Current commit still requires fresh CI, browser testing, source/version pinning for each token and migration of remaining hardcoded values. The eventual site refactor remains deferred: first complete the Lab's reusable theme/components/tokens and their conformance statuses, then consume that stable system in production.
