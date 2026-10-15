@@ -42,7 +42,13 @@ export function PullToRefreshBox({
 
   function onPointerMove(event: PointerEvent<HTMLDivElement>) {
     const start = startRef.current;
-    if (!start || start.id !== event.pointerId || !rootRef.current || rootRef.current.scrollTop > 0) return;
+    if (!start || start.id !== event.pointerId || !rootRef.current) return;
+    if (rootRef.current.scrollTop > 0) {
+      startRef.current = null;
+      distanceRef.current = 0;
+      setDistance(0);
+      return;
+    }
     const dx = event.clientX - start.x;
     const dy = event.clientY - start.y;
     if (dy <= 0 || Math.abs(dx) > dy) return;
