@@ -13,6 +13,7 @@ import { Tooltip } from "@/components/ui/Tooltip";
 import { Carousel } from "@/components/ui/Carousel";
 import { TopAppBar } from "@/components/ui/TopAppBar";
 import { BottomAppBar } from "@/components/ui/BottomAppBar";
+import { Scaffold } from "@/components/ui/Scaffold";
 import { Select } from "@/components/ui/Select";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
@@ -450,6 +451,17 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
               <button type="button" className={styles.sampleIconButton} aria-label={locale==="fr"?"Modifier":"Edit"} onClick={()=>setSnackbarOpen(true)}><MaterialIcon name="edit" size={22}/></button>
               <button type="button" className={styles.sampleIconButton} aria-label={locale==="fr"?"Partager":"Share"} onClick={()=>setSnackbarOpen(true)}><MaterialIcon name="share" size={22}/></button>
             </div>} floatingActionButton={<FloatingActionButton size="small" icon="add" ariaLabel={locale==="fr"?"Ajouter":"Add"} onClick={()=>setSnackbarOpen(true)}/>}/>
+          </div>
+          <div className={styles.fabSpecimen}>
+            <h4>{locale==="fr"?"Composition Scaffold":"Scaffold composition"}</h4>
+            <ComponentIdentifier names={["Scaffold"]} kind="adaptation" locale={locale}/>
+            <Scaffold className={styles.scaffoldPreview}
+              topBar={<TopAppBar title={locale==="fr"?"Aperçu":"Preview"} navigationLabel={locale==="fr"?"Menu":"Menu"} onNavigationClick={()=>setSampleDrawerOpen(true)}/>}
+              bottomBar={<BottomAppBar actions={<button type="button" className={styles.sampleIconButton} aria-label={locale==="fr"?"Accueil":"Home"}><MaterialIcon name="home" size={22}/></button>}/>}
+              floatingActionButton={<FloatingActionButton size="small" icon="add" ariaLabel={locale==="fr"?"Ajouter":"Add"} onClick={()=>setSnackbarOpen(true)}/>}>
+              <strong>{locale==="fr"?"Contenu de l’écran":"Screen content"}</strong>
+              <p>{locale==="fr"?"Le Scaffold assemble les barres, la navigation et le contenu.":"Scaffold composes app bars, navigation and content."}</p>
+            </Scaffold>
           </div>
           <div className={styles.sampleNavigationRow}><NavigationRail label={locale==="fr"?"Navigation de démonstration":"Demo navigation"} selectedKey={sampleRailSelection} onSelect={setSampleRailSelection} items={[{key:"home",label:locale==="fr"?"Accueil":"Home",icon:"home"},{key:"explore",label:locale==="fr"?"Explorer":"Explore",icon:"search"},{key:"saved",label:locale==="fr"?"Enregistrés":"Saved",icon:"collections_bookmark",badge:"3"}]}/><div className={styles.sampleNavDescription}><span className={styles.sampleBadge}>{locale==="fr"?"3 nouveaux":"3 new"}</span><p>{locale==="fr"?"Rail de navigation avec destination active et badge informatif.":"Navigation rail with selected destination and an informative badge."}</p><button type="button" className={styles.sampleFab} aria-label={locale==="fr"?"Ajouter un élément":"Create item"} onClick={()=>setSnackbarOpen(true)}><MaterialIcon name="add" size={24}/></button></div></div>
           <div className={styles.fabSpecimen}>
