@@ -285,3 +285,10 @@ When a conflict is found, surface it and resolve it through the documented decis
 - The official M3 overview describes M3 Expressive as an expansion of M3 affecting theming, components, motion and typography; **Expressive is documented here as a related option, not Loculary's selected direction**. The chosen direction is seed-faithful M3 Fidelity color plus current Pixel / Android visual patterns. Some M3 web pages depend on JavaScript and did not expose readable content in the research environment; where this matrix uses Android Compose guides, it cites them explicitly rather than pretending they are web CSS specifications.
 - This matrix verifies guidance, not Loculary conformance. Actual implementation status requires source inspection and, for visual/interaction claims, a real rendered browser check.
 - Do not introduce a component library or copy Android API constants solely because the reference uses Compose. Choose the web implementation only after checking the current repository, official web-platform requirements and the maintenance cost.
+
+
+## Canonical Material 3 implementation convention
+
+The detailed implementation rules are maintained in [`docs/M3-CONVENTIONS.md`](./M3-CONVENTIONS.md). That document is the canonical reference for the source hierarchy, Fidelity semantic colors vs category-only Rainbow accents, typography, semantic shapes and the proposed Loculary rounding-degree control, density/touch targets, component contracts, motion/reduced-motion, Design Lab behavior and the conformance acceptance gate.
+
+The shared linear `Slider` and `ProgressIndicator` are now part of the proposed common UI contract: use native range semantics and visible label/value for sliders; expose determinate progress only when the value is real, otherwise use indeterminate progress. Their browser-level alignment, touch behavior and assistive-technology output remain to be verified before declaring conformance.
