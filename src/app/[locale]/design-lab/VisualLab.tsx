@@ -262,7 +262,6 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
               "--checkbox-active": "var(--lab-primary)",
               "--checkbox-on-active": "var(--lab-on-primary)",
               "--checkbox-container-shape": `${(2*roundingDegree/100).toFixed(2)}px`,
-              "--checkbox-container-shape": `${(2*roundingDegree/100).toFixed(2)}px`,
               "--checkbox-outline": "var(--lab-outline)",
               "--checkbox-surface": "var(--lab-surface)",
               "--checkbox-focus-ring": "var(--lab-primary)",
@@ -312,14 +311,15 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
             style={{
               "--checkbox-active": "var(--lab-primary)",
               "--checkbox-on-active": "var(--lab-on-primary)",
+              "--checkbox-container-shape": `${(2*roundingDegree/100).toFixed(2)}px`,
               "--checkbox-outline": "var(--lab-outline)",
               "--checkbox-surface": "var(--lab-surface)",
               "--checkbox-focus-ring": "var(--lab-primary)",
               "--checkbox-focus-offset": "var(--lab-surface)",
               "--checkbox-label-color": "color-mix(in srgb, var(--lab-text) 38%, transparent)",
-              "--checkbox-disabled-active": "color-mix(in srgb, var(--lab-text) 12%, transparent)",
+              "--checkbox-disabled-active": "color-mix(in srgb, var(--lab-text) 38%, transparent)",
               "--checkbox-disabled-outline": "color-mix(in srgb, var(--lab-text) 38%, transparent)",
-              "--checkbox-disabled-icon": "color-mix(in srgb, var(--lab-text) 38%, transparent)",
+              "--checkbox-disabled-icon": "color-mix(in srgb, var(--lab-surface) 38%, transparent)",
               "--checkbox-disabled-label": "color-mix(in srgb, var(--lab-text) 38%, transparent)",
             }}
           />
