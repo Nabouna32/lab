@@ -290,3 +290,23 @@
 .galleryCard[data-button-variant="expressive"] .buttonStack > button:active{
   border-radius:var(--shape-corner-medium)!important;
 }
+
+/* M3 Expressive IconButton medium-size specimen from AndroidX token roles.
+   The 56px dimensions are a Web approximation of 56dp, not a unit equivalence. */
+.iconButtonComparison[data-icon-button-variant="expressive"] .buttonStack > button{
+  width:56px!important;
+  height:56px!important;
+  min-width:56px!important;
+  min-height:56px!important;
+  border-radius:var(--shape-corner-full)!important;
+  transition:border-radius var(--lab-motion) ease;
+}
+.iconButtonComparison[data-icon-button-variant="expressive"] .buttonStack > button[aria-pressed="true"]{
+  border-radius:var(--shape-corner-large)!important;
+}
+.iconButtonComparison[data-icon-button-variant="expressive"] .buttonStack > button:active{
+  border-radius:var(--shape-corner-medium)!important;
+}
+@media(prefers-reduced-motion:reduce){
+  .iconButtonComparison[data-icon-button-variant="expressive"] .buttonStack > button{transition:none}
+}
