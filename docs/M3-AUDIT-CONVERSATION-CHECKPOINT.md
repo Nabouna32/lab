@@ -300,3 +300,8 @@ Earlier checkpoint notes that described Checkbox/Switch/field disabled values as
 - Found a source-version trap: the newer AndroidX SliderTokens snapshot uses a 16dp track and a 4×44dp pill handle. That is the newer Expressive design direction and conflicts with the project's explicit non-Expressive Pixel-style target.
 - Pinned the classic/non-Expressive reference to the official AOSP SliderTokens source at revision 4d53400eca9f3ac90c3a3f6cffcbc5bf492ec536: 4dp track, 20×20dp round thumb, primary active and surface-variant inactive track; disabled track roles 38%/12%.
 - Loculary's 4px track and 20px thumb are web adaptations, not dp conversions. Tick markers and value-indicator bubble are not implemented; browser checks remain open.
+## Progress indicator audit (2026-10-15)
+
+- Selected the official classic/non-Expressive LinearProgressIndicator token baseline: 4dp thickness, primary active indicator, primary-container track and square ends.
+- The shared web component previously used rounded ends and surface-variant track, which matched neither the pinned classic token mapping nor the newer unified token mapping consistently. It now uses square ends and primary-container track.
+- CSS px are not dp; the web implementation is an adaptation. Browser validation and circular parity remain open.
