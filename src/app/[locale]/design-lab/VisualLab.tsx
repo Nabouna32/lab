@@ -4,6 +4,9 @@ import { Snackbar } from "@/components/ui/Snackbar";
 import { ModalBottomSheet } from "@/components/ui/ModalBottomSheet";
 import { AlertDialog } from "@/components/ui/AlertDialog";
 import { NavigationBar } from "@/components/ui/NavigationBar";
+import { NavigationRail } from "@/components/ui/NavigationRail";
+import { NavigationDrawer } from "@/components/ui/NavigationDrawer";
+import { CircularProgressIndicator } from "@/components/ui/CircularProgressIndicator";
 import { Select } from "@/components/ui/Select";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
@@ -156,6 +159,9 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const [alertDialogOpen,setAlertDialogOpen]=useState(false);
   const [sampleChecked,setSampleChecked]=useState(true);
   const [sampleProgress,setSampleProgress]=useState(55);
+  const [sampleRailSelection,setSampleRailSelection]=useState<"home"|"explore"|"saved">("home");
+  const [sampleDrawerOpen,setSampleDrawerOpen]=useState(false);
+  const [sampleDrawerSelection,setSampleDrawerSelection]=useState<"home"|"explore"|"saved"|"settings">("home");
   const [sampleRadio,setSampleRadio]=useState("all");
   const [sampleLayout,setSampleLayout]=useState("all");
   const [sampleTab,setSampleTab]=useState("overview");
@@ -428,9 +434,25 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
       <div className={styles.sectionHeading}><div><span className={styles.sectionKicker}>05 / ${locale==="fr"?"Bibliothèque M3 étendue":"Extended M3 library"}</span><h2 id="m3-missing-title">{locale==="fr"?"Composants Android à ne pas oublier":"Android components not to miss"}</h2><p>{locale==="fr"?"Une couverture plus large des composants Material 3 courants, avec états sélectionnables et couleurs reliées au thème actif.":"Broader coverage of common Material 3 components, with selectable states and colors linked to the active theme."}</p></div></div>
       <div className={styles.galleryGrid}>
         <article className={styles.galleryCard}>
-          <h3>{locale==="fr"?"Barre supérieure, navigation et action flottante":"Top app bar, navigation & FAB"}</h3><ComponentIdentifier names={["TopAppBar (mockup)","NavigationRail (mockup)","FloatingActionButton (mockup)"]} kind="mockup" locale={locale}/>
+          <h3>{locale==="fr"?"Barre supérieure, navigation et action flottante":"Top app bar, navigation & FAB"}</h3><ComponentIdentifier names={["TopAppBar (mockup)","FloatingActionButton (mockup)"]} kind="mockup" locale={locale}/><ComponentIdentifier names={["NavigationRail"]} kind="adaptation" locale={locale}/>
           <div className={styles.sampleTopBar}><button type="button" className={styles.sampleIconButton} aria-label={locale==="fr"?"Ouvrir le menu":"Open menu"}><MaterialIcon name="menu" size={22}/></button><strong>Loculary</strong><span className={styles.sampleTopBarSpacer}/><button type="button" className={styles.sampleIconButton} aria-label={locale==="fr"?"Rechercher":"Search"}><MaterialIcon name="search" size={22}/></button><button type="button" className={styles.sampleIconButton} aria-label={locale==="fr"?"Notifications":"Notifications"}><MaterialIcon name="notifications" size={22}/><i className={styles.sampleBadgeDot}/></button></div>
-          <div className={styles.sampleNavigationRow}><nav className={styles.sampleNavigationRail} aria-label={locale==="fr"?"Navigation de démonstration":"Demo navigation"}><button type="button" aria-current="page"><span><MaterialIcon name="home" size={20}/></span><small>{locale==="fr"?"Accueil":"Home"}</small></button><button type="button"><span><MaterialIcon name="search" size={20}/></span><small>{locale==="fr"?"Explorer":"Explore"}</small></button><button type="button"><span><MaterialIcon name="collections_bookmark" size={20}/></span><small>{locale==="fr"?"Enregistrés":"Saved"}</small></button></nav><div className={styles.sampleNavDescription}><span className={styles.sampleBadge}>{locale==="fr"?"3 nouveaux":"3 new"}</span><p>{locale==="fr"?"Rail de navigation avec destination active et badge informatif.":"Navigation rail with selected destination and an informative badge."}</p><button type="button" className={styles.sampleFab} aria-label={locale==="fr"?"Ajouter un élément":"Create item"} onClick={()=>setSnackbarOpen(true)}><MaterialIcon name="add" size={24}/></button></div></div>
+          <div className={styles.sampleNavigationRow}><NavigationRail label={locale==="fr"?"Navigation de démonstration":"Demo navigation"} selectedKey={sampleRailSelection} onSelect={setSampleRailSelection} items={[{key:"home",label:locale==="fr"?"Accueil":"Home",icon:"home"},{key:"explore",label:locale==="fr"?"Explorer":"Explore",icon:"search"},{key:"saved",label:locale==="fr"?"Enregistrés":"Saved",icon:"collections_bookmark",badge:"3"}]}/><div className={styles.sampleNavDescription}><span className={styles.sampleBadge}>{locale==="fr"?"3 nouveaux":"3 new"}</span><p>{locale==="fr"?"Rail de navigation avec destination active et badge informatif.":"Navigation rail with selected destination and an informative badge."}</p><button type="button" className={styles.sampleFab} aria-label={locale==="fr"?"Ajouter un élément":"Create item"} onClick={()=>setSnackbarOpen(true)}><MaterialIcon name="add" size={24}/></button></div></div>
+          <article className={styles.galleryCard}>
+            <h3>{locale==="fr"?"Panneau de navigation":"Navigation drawer"}</h3>
+            <ComponentIdentifier names={["NavigationDrawer","ModalNavigationDrawer (Web adaptation)"]} kind="adaptation" locale={locale}/>
+            <p className={styles.helper}>{locale==="fr"?"Le panneau modal gère le scrim, Échap et le confinement du focus.":"Modal drawer supports scrim, Escape and focus containment."}</p>
+            <Button variant="outlined" onClick={()=>setSampleDrawerOpen(true)}>{locale==="fr"?"Ouvrir le panneau":"Open drawer"}</Button>
+            <NavigationDrawer open={sampleDrawerOpen} onOpenChange={setSampleDrawerOpen}
+              label={locale==="fr"?"Navigation de démonstration":"Demo navigation"}
+              title={locale==="fr"?"Loculary":"Loculary"}
+              selectedKey={sampleDrawerSelection} onSelect={setSampleDrawerSelection}
+              items={[
+                {key:"home",label:locale==="fr"?"Accueil":"Home",icon:"home",section:locale==="fr"?"Espace principal":"Main"},
+                {key:"explore",label:locale==="fr"?"Explorer":"Explore",icon:"search"},
+                {key:"saved",label:locale==="fr"?"Enregistrés":"Saved",icon:"favorite"},
+                {key:"settings",label:locale==="fr"?"Paramètres":"Settings",icon:"settings",section:locale==="fr"?"Préférences":"Preferences"},
+              ]}/>
+          </article></div>
           <p className={styles.helper}>{locale==="fr"?"Barre d’application, boutons icône, badge, rail et FAB.":"App bar, icon buttons, badge, navigation rail and FAB."}</p>
         </article>
         <article className={styles.galleryCard}>
@@ -448,8 +470,8 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
           <div className={styles.sampleMenuWrap}><button type="button" className={styles.outlined} aria-expanded={sampleMenuOpen} onClick={()=>setSampleMenuOpen(open=>!open)}><MaterialIcon name="apps" size={18}/>{locale==="fr"?"Options du composant":"Component options"}</button>{sampleMenuOpen&&<div className={styles.sampleMenu} role="menu"><button type="button" role="menuitem" onClick={()=>setSampleMenuOpen(false)}><MaterialIcon name="text_fields" size={18}/>{locale==="fr"?"Modifier":"Edit"}</button><button type="button" role="menuitem" onClick={()=>setSampleMenuOpen(false)}><MaterialIcon name="content_copy" size={18}/>{locale==="fr"?"Dupliquer":"Duplicate"}</button><button type="button" role="menuitem" onClick={()=>setSampleMenuOpen(false)}><MaterialIcon name="close" size={18}/>{locale==="fr"?"Supprimer":"Delete"}</button></div>}</div>
         </article>
         <article className={styles.galleryCard}>
-          <h3>{locale==="fr"?"Indicateurs et chargement":"Progress & loading"}</h3><ComponentIdentifier names={["CircularProgressIndicator (mockup)","Skeleton (Loculary-specific)","Tooltip (mockup)"]} kind="mockup" locale={locale}/><ComponentIdentifier names={["ProgressIndicator"]} kind="adaptation" locale={locale}/>
-          <div className={styles.sampleProgressRow}><div className={styles.sampleCircularProgress} role="progressbar" aria-label={locale==="fr"?"Progression circulaire":"Circular progress"} aria-valuemin={0} aria-valuemax={100} aria-valuenow={sampleProgress} style={{background:"conic-gradient(var(--lab-primary) "+sampleProgress+"%,var(--lab-surface-high) 0)"}}><span>{sampleProgress}%</span></div><div className={styles.sampleProgressCopy}><strong>{locale==="fr"?"Importation en cours":"Import in progress"}</strong><p>{locale==="fr"?"Progression déterminée par le curseur de la section précédente.":"Progress is controlled by the slider in the section above."}</p><ProgressIndicator label={locale==="fr"?"Progression de l’importation":"Import progress"} value={sampleProgress} style={{"--progress-color":"var(--lab-primary)","--progress-track":"var(--lab-primary-soft)"}}/></div></div>
+          <h3>{locale==="fr"?"Indicateurs et chargement":"Progress & loading"}</h3><ComponentIdentifier names={["Skeleton (Loculary-specific)","Tooltip (mockup)"]} kind="mockup" locale={locale}/><ComponentIdentifier names={["CircularProgressIndicator","ProgressIndicator"]} kind="adaptation" locale={locale}/>
+          <div className={styles.sampleProgressRow}><div className={styles.sampleCircularProgress}><CircularProgressIndicator label={locale==="fr"?"Progression circulaire":"Circular progress"} value={sampleProgress} size={80} strokeWidth={6}/><span>{sampleProgress}%</span></div><div className={styles.sampleProgressCopy}><strong>{locale==="fr"?"Importation en cours":"Import in progress"}</strong><p>{locale==="fr"?"Progression déterminée par le curseur de la section précédente.":"Progress is controlled by the slider in the section above."}</p><ProgressIndicator label={locale==="fr"?"Progression de l’importation":"Import progress"} value={sampleProgress} style={{"--progress-color":"var(--lab-primary)","--progress-track":"var(--lab-primary-soft)"}}/></div></div>
           <div className={styles.sampleSkeleton}><span/><span/><span/></div><p className={styles.helper}>{locale==="fr"?"Progression circulaire, linéaire et squelette de chargement.":"Circular and linear progress plus loading skeleton."}</p>
           <div className={styles.sampleTooltipWrap}><button type="button" className={styles.sampleIconButton} title={locale==="fr"?"Aide contextuelle":"Contextual help"} aria-label={locale==="fr"?"Aide contextuelle":"Contextual help"}><MaterialIcon name="info" size={20}/></button><span>{locale==="fr"?"Survole ou focalise l’icône pour voir l’aide.":"Hover or focus the icon to reveal help."}</span></div>
         </article>
