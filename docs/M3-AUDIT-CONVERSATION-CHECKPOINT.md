@@ -669,3 +669,10 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - Added shared Carousel Web adaptation with uncontained and multi-browse specimens, native horizontal scrolling, scroll snap, slide semantics, arrow-key scrolling and reduced-motion handling. The Lab no longer leaves carousel coverage entirely missing.
 - Updated canonical conventions, conformance audit and component inventory. Current multi-browse width ratios are explicitly a Web approximation, not AndroidX's responsive algorithm. CarouselState/fling, parallax/masking and exact motion remain gaps.
 - Current-head CI remains unconfirmed for all contents-API commits; the latest known green workflow predates this batch. Next component family: top app bars and bottom app bar, then Scaffold and lists/dividers.
+
+
+## Checkpoint — TopAppBar family (2026-10-15)
+
+- Official source: https://developer.android.com/develop/ui/compose/components/app-bars. Added shared TopAppBar Web adaptation for small, center-aligned, medium and large variants. Replaced the static top-bar mockup in the Lab; the notification action uses Badge/BadgedBox.
+- Updated canonical conventions, conformance audit and inventory. Known gaps: scroll-driven collapse, exact AndroidX geometry/typography, insets, action overflow and motion.
+- Current-head CI remains unconfirmed. Next: bottom app bar and Scaffold integration, then list/divider variants.
