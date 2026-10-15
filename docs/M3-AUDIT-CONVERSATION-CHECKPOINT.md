@@ -216,3 +216,10 @@ The user requested that PR #723's changes be brought into PR #729 without mergin
 
 ### Evidence discipline — mandatory
 Every new convention/audit finding must state whether it is [ANDROID-M3], [MATERIAL-WEB], [WEB-STANDARD], [LOCULARY-DECISION], [SOURCE-OBSERVED], [RUNTIME-VERIFIED] or [OPEN]. Link the official source and only claim what it explicitly supports. A static source assertion or successful CI does not prove rendered M3 fidelity. The evidence-label definitions and slider/progress distinctions are in M3-CONVENTIONS.md.
+## Update — second source-review slice (2026-10-15)
+
+- **Switch disabled outline:** source review found that the 12% disabled track blend was also applied to the outline, despite the documented Material Web token pattern assigning 38% to outline/foreground/thumb. Added a dedicated 38% outline token and a static regression assertion. This is sourced from Material Web token guidance, not stated as a universal Android Compose percentage; browser appearance remains unverified.
+- **Slider Firefox focus:** aligned the Firefox thumb focus ring with the component-overridable token already used by WebKit and added a static assertion. No Firefox browser test has been run.
+- **ValidationMessage / Lab:** the Lab's always-visible illustrative validation message used a component that defaults to role=alert. Added an optional role contract and removed the live-region role only for the static Lab example. Production call sites still default to alert; review each flow for whether assertive announcement is appropriate.
+- **Tests updated:** added source-level checks for resolved site theme, non-alert Lab validation sample, slider focus token and Switch disabled outline. These are static regression checks only; they do not prove runtime behavior.
+- **CI status:** no workflow run is currently associated with the newest branch head through the available run query. The last completed run failed on duplicate top-level declarations in the test module; those duplicates were removed. Do not claim the latest test suite/build passed until an actual run is available.
