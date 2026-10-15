@@ -349,3 +349,8 @@ Older audit entries above that say the Checkbox/Switch/field disabled values are
 - [ANDROID-M3] The official AOSP snapshot at revision 4d53400eca9f3ac90c3a3f6cffcbc5bf492ec536 documents the classic slider: 4dp track, 20×20dp full-round thumb, primary active track, surface-variant inactive track, disabled active on-surface 38%, disabled inactive on-surface 12%.
 - [SOURCE-OBSERVED] Loculary's Slider uses the corresponding classic visual proportions as CSS pixels, explicitly a web adaptation rather than a dp conversion. Native range semantics are retained.
 - [OPEN] Discrete tick markers and value-indicator bubble are not implemented; review whether each is needed before calling the component fully equivalent. Browser state and cross-engine rendering checks remain open.
+## Progress indicator source-version correction (2026-10-15)
+
+- [ANDROID-M3] Found another version trap: classic LinearProgressIndicator tokens specify primary active indicator, primary-container track, 4dp thickness and square ends. Newer unified ProgressIndicatorTokens uses secondary-container track and full-rounded ends.
+- [SOURCE-OBSERVED → source edit made] Changed the shared linear progress component from rounded/surface-variant track to classic square geometry and primary-container track. Its CSS 4px thickness is a web adaptation, not a dp conversion.
+- [OPEN] Browser-check light/dark contrast, reduced motion, determinate width and indeterminate motion. Circular progress is not implemented.
