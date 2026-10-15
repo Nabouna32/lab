@@ -325,3 +325,7 @@
 .drawerSpecimen h4{margin:0;color:var(--lab-text);font-size:.9rem;font-weight:650}
 .sampleIndeterminate{display:flex;align-items:center;gap:.75rem;margin-top:1rem;color:var(--lab-muted);font-size:.8rem}
 .sampleIndeterminate>span{min-width:0}
+
+.fabSpecimen{display:grid;gap:.65rem;margin-top:1rem;padding:1rem;border:1px solid var(--lab-outline);border-radius:var(--shape-corner-medium);background:var(--lab-surface)}
+.fabSpecimen h4{margin:0;color:var(--lab-text);font-size:.9rem;font-weight:650}
+.sampleFabVariants{display:flex;align-items:center;flex-wrap:wrap;gap:1rem;padding:.75rem 0}
