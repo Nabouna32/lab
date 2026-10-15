@@ -221,3 +221,11 @@ For each component/variant, record:
 - **Lab:** added shared horizontal/vertical floating toolbar Web adaptation with expandable/collapsible actions, keyboard-operable buttons and reduced-motion entrance fallback.
 - **Version caveat:** current API reference lists FloatingToolbarState as added in Material3 1.5.0-beta01; verify the pinned version for the toolbar/scroll behavior APIs.
 - **Not yet verified:** scroll-driven collapse/exit behavior, nested scroll, touch-exploration expansion, exact shape/elevation, RTL, placement and assistive-technology parity.
+
+
+## Button / IconButton / IconToggleButton variants — 2026-10-15
+
+- **Official sources:** https://developer.android.com/reference/kotlin/androidx/compose/material3/Button.composable, https://developer.android.com/reference/kotlin/androidx/compose/material3/FilledIconButton.composable, https://developer.android.com/reference/kotlin/androidx/compose/material3/FilledTonalIconButton.composable, https://developer.android.com/reference/kotlin/androidx/compose/material3/OutlinedIconButton.composable, https://developer.android.com/reference/kotlin/androidx/compose/material3/IconToggleButton.composable
+- **Lab:** updated the identifier inventory to list the official button and icon-button variants, and added selected-state examples for standard, filled, filled-tonal and outlined icon buttons.
+- **Custom extension:** `Button variant="danger"` is app-specific semantic styling, not a built-in Material 3 button variant; the Lab now labels it explicitly.
+- **Not yet verified:** all icon-toggle variants' selected colors/shape/motion and exact icon button dimensions remain to validate against the pinned AndroidX source.
