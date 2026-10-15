@@ -342,3 +342,10 @@ Older audit entries above that say the Checkbox/Switch/field disabled values are
 - [ANDROID-M3] Rechecked variant disabled roles against the pinned token files: filled/elevated container 10% on-surface and label/icon 38% on-surface-variant; filled-tonal container 12% on-surface and label/icon 38% on-surface; outlined outline-variant 10% and content 38% on-surface-variant; text content 38% on-surface-variant.
 - [ANDROID-M3] Rechecked icon toggle tokens: standard selected icon uses primary without a container; filled selected remains primary/on-primary; filled-tonal selected uses secondary/on-secondary; outlined selected uses inverse-surface/inverse-on-surface. Disabled filled variants use 10% on-surface container and 38% on-surface icon; outlined disabled outline is outline-variant at 38%.
 - [SOURCE-OBSERVED → source edit made] The last CI failure exposed stale static assertions for pre-audit button/icon-button rules plus an over-escaped shape regex. Updated those assertions to the current token mapping and corrected the regex. A new green run for the current head is not yet confirmed.
+
+## Slider source-version distinction (2026-10-15)
+
+- [ANDROID-M3] The newest inspected AndroidX SliderTokens.kt snapshot uses a 16dp track and 4×44dp pill handle, matching the newer expressive slider. That is not the selected Loculary direction; do not apply those values just because they are newer.
+- [ANDROID-M3] The official AOSP snapshot at revision 4d53400eca9f3ac90c3a3f6cffcbc5bf492ec536 documents the classic slider: 4dp track, 20×20dp full-round thumb, primary active track, surface-variant inactive track, disabled active on-surface 38%, disabled inactive on-surface 12%.
+- [SOURCE-OBSERVED] Loculary's Slider uses the corresponding classic visual proportions as CSS pixels, explicitly a web adaptation rather than a dp conversion. Native range semantics are retained.
+- [OPEN] Discrete tick markers and value-indicator bubble are not implemented; review whether each is needed before calling the component fully equivalent. Browser state and cross-engine rendering checks remain open.
