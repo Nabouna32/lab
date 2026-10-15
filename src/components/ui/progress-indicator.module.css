@@ -9,14 +9,14 @@
   width: 100%;
   height: 4px;
   overflow: hidden;
-  border-radius: 999px;
-  background: var(--progress-track, var(--surface-variant));
+  border-radius: 0;
+  background: var(--progress-track, var(--primary-container));
 }
 
 .indicator {
   display: block;
   height: 100%;
-  border-radius: inherit;
+  border-radius: 0;
   background: var(--progress-color, var(--primary));
   transition: width var(--motion-standard);
 }
