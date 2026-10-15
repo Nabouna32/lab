@@ -328,3 +328,7 @@ Use version-pinned AndroidX Compose Material 3 token sources as the primary auth
 ## Lab token override rule
 
 When the Lab overrides a shared component's semantic tokens, the preview must preserve that component's state contract rather than reintroducing stale opacity/color values. Checkbox preview overrides now use the AndroidX disabled-state roles and the rounding-degree shape token.
+
+## SegmentedControl source mapping
+
+The shared SegmentedControl now follows the pinned AndroidX OutlinedSegmentedButtonTokens and SegmentedButtonDefaults.itemShape: 40dp reference height, full rounded outer ends, rectangular interior segments, secondary-container selected fill and on-secondary-container selected content, and 12%/38% disabled outline/content treatment. The CSS-pixel height is a web adaptation. Single-line labels are a Loculary choice to prevent wrapping.
