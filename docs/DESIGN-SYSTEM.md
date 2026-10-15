@@ -130,7 +130,7 @@ Icons must communicate the same action consistently across the platform. Common 
 
 Shared components should follow the relevant M3 component guidance where that component exists. This includes buttons, icon buttons, text fields, selection controls, checkboxes, switches, chips, menus, dialogs, tooltips, navigation patterns, tabs and progress indicators as used by the product.
 
-The platform should provide coherent variants and state behavior instead of component-specific visual inventions. Follow core M3 component guidance and compare component treatment with current Pixel / Android UI where relevant, while retaining M3 semantic and accessibility contracts. Do not implement every component just because it exists in the specification; include components based on real product needs.
+The platform must maintain an exhaustive, source-verified catalogue of relevant official Material 3 components, variants, patterns and API concepts, clearly classified by type and maturity. Catalogue completeness is a documentation and governance requirement; it does not mean every entry must be instantiated in Loculary when the product has no use for it. Audit the real product against the full catalogue, and implement/adopt the entries that serve actual flows. Existing implementations are migration candidates, not the definition of the catalogue.
 
 Interactive components must define, where applicable:
 
@@ -170,7 +170,7 @@ A pattern should be reused because its behavior or structural relationship genui
 
 The shared tool shell should own platform concerns such as navigation, tool identity, processing/privacy disclosure, responsive behavior and common secondary content. The tool owns its task-specific controls, result visualization and domain interaction. Refactor or replace existing abstractions when they obstruct the M3 / Pixel target; do not preserve them solely to minimize changes.
 
-Do not build the entire M3 component catalogue preemptively. Select components from actual product needs, validate them in representative tool compositions and keep each migration scope independently verifiable.
+Maintain the full, source-verified M3 catalogue as the canonical reference, including relevant components, variants, patterns and API concepts, with clear classification rather than treating every entry as a standalone component. Audit Loculary's real UI against that catalogue and map each implementation to its official equivalent or explicitly justified exception. Product needs determine which catalogue entries are used, not which official entries are documented. Broad refactors, renaming, replacement and deletion of legacy abstractions are welcome when they improve fidelity and maintainability; stage the work into verifiable phases without treating the existing architecture as a constraint.
 
 ## 10. Responsive composition
 
