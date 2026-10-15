@@ -333,7 +333,7 @@ insert into public.design_audit_components (id, name, category, implementation_p
   ('top-app-bar', 'TopAppBar', 'Navigation', 'src/components/ui/TopAppBar.tsx', 'top-app-bar'),
   ('tri-state-checkbox', 'TriStateCheckbox', 'Selection', 'src/components/ui/TriStateCheckbox.tsx', 'tri-state-checkbox'),
   ('validation-message', 'ValidationMessage', 'Feedback & forms', 'src/components/ui/ValidationMessage.tsx', 'validation-message'),
-  ('wide-navigation-rail', 'WideNavigationRail', 'Navigation', 'src/components/ui/WideNavigationRail.tsx', null)
+  ('wide-navigation-rail', 'WideNavigationRail', 'Navigation', 'src/components/ui/WideNavigationRail.tsx', 'wide-navigation-rail')
 on conflict (id) do update set
   name = excluded.name,
   category = excluded.category,
