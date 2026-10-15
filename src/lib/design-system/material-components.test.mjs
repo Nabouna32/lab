@@ -17,6 +17,9 @@ const validationSource = readFileSync(new URL("../../components/ui/ValidationMes
 const textFieldSource = readFileSync(new URL("../../components/ui/TextField.tsx", import.meta.url), "utf8");
 const textAreaSource = readFileSync(new URL("../../components/ui/TextArea.tsx", import.meta.url), "utf8");
 const selectSource = readFileSync(new URL("../../components/ui/Select.tsx", import.meta.url), "utf8");
+const cardSource = readFileSync(new URL("../../components/ui/Card.tsx", import.meta.url), "utf8");
+const panelSource = readFileSync(new URL("../../components/ui/Panel.tsx", import.meta.url), "utf8");
+const resultPanelSource = readFileSync(new URL("../../components/ui/ResultPanel.tsx", import.meta.url), "utf8");
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
 
 function luminance(hex) {
@@ -320,6 +323,9 @@ test("outlined form controls use semantic extra-small shape tokens and per-part 
   assert.match(textFieldSource, /rounded-\\[var\\(--shape-corner-extra-small\\)\\]/);
   assert.match(textAreaSource, /rounded-\\[var\\(--shape-corner-extra-small\\)\\]/);
   assert.match(selectSource, /rounded-\\[var\\(--shape-corner-extra-small\\)\\]/);
+  assert.match(cardSource, /shape-corner-medium/);
+  assert.match(panelSource, /shape-corner-medium/);
+  assert.match(resultPanelSource, /shape-corner-medium/);
   for (const [name, source] of [["TextField", textFieldSource], ["TextArea", textAreaSource], ["Select", selectSource]]) {
     assert.match(source, /on-surface\)_12%,transparent/);
     assert.match(source, /on-surface\)_38%,transparent/);
