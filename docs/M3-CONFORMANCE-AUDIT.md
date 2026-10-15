@@ -646,3 +646,8 @@ Official sources: [Time pickers guide](https://developer.android.com/develop/ui/
 ## SearchBar — 2026-10-15
 
 Official sources: [Search bar guide](https://developer.android.com/develop/ui/compose/components/search-bar?hl=en), [SearchBar API reference](https://developer.android.com/reference/kotlin/androidx/compose/material3/SearchBar.composable). Added a shared Web adaptation for docked suggestions and a full-screen search specimen, including query submission, clear, Escape and arrow-key suggestion selection. **API-version caution:** the older SearchBar overload is deprecated in the current API reference; the current direction uses SearchBarState and expanded docked/full-screen composables. This adaptation does not claim direct API parity. Insets, IME, transitions, focus restoration, RTL and assistive-technology behavior remain unverified.
+
+
+## TriStateCheckbox — 2026-10-15
+
+Official source: [AndroidX Material 3 TriStateCheckbox API](https://developer.android.com/reference/kotlin/androidx/compose/material3/TriStateCheckbox.composable). Extended the shared Checkbox with a native indeterminate property and mixed-state minus mark, and added a shared `TriStateCheckbox` wrapper plus Lab specimen. This represents the checked/unchecked/indeterminate state model; exact animation, parent-child propagation behavior, and assistive-technology parity still require runtime verification.
