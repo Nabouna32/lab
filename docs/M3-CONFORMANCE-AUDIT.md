@@ -285,3 +285,10 @@ See [`docs/M3-CONVENTIONS.md`](./M3-CONVENTIONS.md) for the detailed source hier
 
 - [MATERIAL-WEB] Outlined text-field and outlined-select tokens specify a 56px one-line container baseline. Shared TextField and Select now use min-height 56px; TextArea remains row/content-driven.
 - [WEB-STANDARD] Source inspection found TextField set step="any" and then spread input props afterward, allowing an undefined step to override the decimal default. The component now destructures step and uses an explicit caller step when present, otherwise step="any" for number fields. Regression assertion added; form behavior still needs runtime testing.
+
+## Follow-up — Lab rounding control and theme regression (2026-10-15)
+
+- [SOURCE-OBSERVED → source edit made] Added a 0–100% rounding-degree slider to the Design Lab. It scales the semantic shape tokens from square corners to the version-pinned Material Web baseline and applies to shared/token-driven components; full coverage is intentionally still open because several legacy Lab mockups use fixed radii.
+- [LOCULARY-DECISION] The control is an experimental preview affordance, not an official Android setting. It preserves full/pill shapes as full and does not convert CSS pixels to Android dp.
+- [SOURCE-OBSERVED → source edit made] Removed a stale local theme setter left in the Lab profile mockup after the Lab was switched to the app's resolved theme. The mock preference now toggles only its own preview state; the global theme remains controlled by the site header. Added static regression checks.
+- [SOURCE-OBSERVED → source edit made] Updated Lab disabled Checkbox/Switch overrides to use the component-specific Material Web token roles, including selected/unselected Switch track and selected handle color. [OPEN] Validate both light/dark palettes and rounding levels in a browser.
