@@ -889,3 +889,12 @@ Validation: the last CI run failed lint because the Lab JSX had a stray opening 
 - Integrated `DismissibleNavigationDrawer` and `PermanentNavigationDrawer` specimens alongside the existing modal specimen.
 - Official sources: AndroidX DismissibleNavigationDrawer and PermanentNavigationDrawer API references.
 - **Not complete:** exact content shifting, adaptive breakpoints, insets, animation, RTL and screen-reader parity remain to validate.
+
+
+## Continuation update — ScrollField experimental API (2026-10-15)
+
+- Added a separate `ScrollField` Web adaptation for bounded numeric wheel selection, keyboard navigation, mouse-wheel selection and accessible option labels.
+- Integrated it in an explicitly labelled experimental catalog section, isolated from the Pixel-fidelity default direction.
+- Official sources: AndroidX ScrollField and ScrollFieldState API references.
+- **Version caveat:** ScrollFieldState was added in Material3 1.5.0-alpha19 and ScrollFieldDefaults in 1.5.0-alpha29; API is experimental/Expressive.
+- **Not complete:** PagerState snapping, motion/velocity, TalkBack selection announcements, touch behavior, RTL and exact styling remain to validate.
