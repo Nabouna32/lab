@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useEffect, useState, type FormEvent } from "react";
+import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
 import { createClient } from "@/lib/supabase/client";
 type Locale = "fr" | "en";
 type Report = { id: string; title: string; description: string; issue_type: string; component_state: string; severity: string; status: string; expected_behavior: string | null; created_at: string };
@@ -9,7 +9,7 @@ type Event = { id: number; event_type: string; details: { title?: string | null;
 const statuses = ["new", "triage", "confirmed", "in-progress", "fixed", "verified", "reopened", "wont-fix"];
 export default function ComponentMaintenancePanel({ componentId, locale }: { componentId: string; locale: Locale }) {
   const fr = locale === "fr";
-  const db = createClient();
+  const db = useMemo(() => createClient(), []);
   const [reports, setReports] = useState<Report[]>([]);
   const [decisions, setDecisions] = useState<Decision[]>([]);
   const [checks, setChecks] = useState<Verification[]>([]);
