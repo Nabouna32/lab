@@ -31,8 +31,8 @@ The list below is deliberately broader than the current production call sites. C
 | Cards: filled, elevated, outlined | Shared Card, additional Panel/ResultPanel | Confirm which are true M3 Card variants versus Loculary content compositions |
 | Carousel: HorizontalMultiBrowseCarousel / HorizontalUncontainedCarousel | Shared Web adaptation; both layouts in Lab | Replace fixed multi-browse ratios with window-aware sizing; audit fling, state, mask/parallax, semantics and motion |
 | Dialogs: AlertDialog, BasicAlertDialog/Dialog patterns | Shared AlertDialog adaptation | Audit properties, layout, dismissal, focus, motion and platform back behavior |
-| Dividers: horizontal/vertical | Lab mockup | Implement shared component and orientation/semantic usage |
-| Lists / list items | Lab mockup | Implement M3 list-item variants, slots, density and interaction behavior |
+| Dividers: horizontal/vertical | Shared Web adaptation; both orientations in Lab | Audit exact inset/spacing behavior and semantic roles |
+| Lists / list items | Shared Web adaptation; one/two/three-line slots in Lab | Audit exact slot spacing, density, leading/trailing variants and text scaling |
 | Scaffold | Shared Web composition; top/bottom bars, rail, content and FAB in Lab | Add equivalent inner padding/inset consumption, snackbar integration and overlap/placement rules |
 | Top app bars: small, center-aligned, medium, large | Shared Web adaptation; all four variants in Lab | Implement automatic scroll behavior, exact insets/geometry, action overflow and collapse/expand motion |
 | Bottom app bar | Shared Web adaptation; actions + FAB specimen | Audit exact AndroidX geometry/elevation, FAB placement, insets and motion |
