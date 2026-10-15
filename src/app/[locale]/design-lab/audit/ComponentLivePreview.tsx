@@ -142,6 +142,18 @@ export default function ComponentLivePreview({
     case "modal-bottom-sheet":
       content = <div className="grid gap-3"><Button variant="outlined" onClick={() => setSheetOpen(true)}>{fr ? "Ouvrir la feuille" : "Open bottom sheet"}</Button><ModalBottomSheet open={sheetOpen} title={fr ? "Actions disponibles" : "Available actions"} description={fr ? "Exemple de feuille modale." : "Modal sheet example."} dismissLabel={fr ? "Fermer" : "Dismiss"} onDismiss={() => setSheetOpen(false)}><p className="py-4 text-sm">{fr ? "Contenu de la feuille modale." : "Modal sheet content."}</p><Button onClick={() => setSheetOpen(false)}>{fr ? "Terminé" : "Done"}</Button></ModalBottomSheet></div>;
       break;
+    case "top-app-bar":
+      content = <div className="grid gap-4"><TopAppBar title={fr ? "Titre de la page" : "Page title"} variant="small" navigationIcon="arrow_back" navigationLabel={fr ? "Retour" : "Back"} onNavigationClick={() => undefined} actions={<IconButton label={fr ? "Rechercher" : "Search"}><MaterialIcon name="search" size={24} /></IconButton>} /><TopAppBar title={fr ? "Grand titre" : "Large title"} variant="large" collapsed={false} navigationLabel={fr ? "Menu" : "Menu"} onNavigationClick={() => undefined} /></div>;
+      break;
+    case "bottom-app-bar":
+      content = <BottomAppBar actions={<div className="flex gap-2"><IconButton label={fr ? "Rechercher" : "Search"}><MaterialIcon name="search" size={24} /></IconButton><IconButton label={fr ? "Favoris" : "Favorites"}><MaterialIcon name="favorite" size={24} /></IconButton></div>} floatingActionButton={<FloatingActionButton ariaLabel={fr ? "Ajouter" : "Add"} icon="add" />} />;
+      break;
+    case "clear-button":
+      content = <div className="grid gap-3"><TextField label={fr ? "Texte de test" : "Sample text"} inputId="audit-clear-text" value={text} onChange={event => setText(event.target.value)} /><ClearButton onClear={() => setText("")} disabled={!text} label={fr ? "Effacer le champ" : "Clear field"} /></div>;
+      break;
+    case "validation-message":
+      content = <div className="grid gap-4"><TextField label={fr ? "Adresse e-mail" : "Email address"} inputId="audit-validation-email" value="adresse-invalide" onChange={() => undefined} /><ValidationMessage id="audit-validation-message">{fr ? "Saisis une adresse e-mail valide." : "Enter a valid email address."}</ValidationMessage></div>;
+      break;
     case "button":
       content = (
         <div className="flex flex-wrap items-center gap-3">
