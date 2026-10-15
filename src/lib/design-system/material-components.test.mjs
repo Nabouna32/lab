@@ -355,7 +355,13 @@ test("segmented control keeps labels single-line and leaves descriptions outside
   const percentageSource = readFileSync(new URL("../../components/tools/percentage/PercentageCalculator.tsx", import.meta.url), "utf8");
   const videoBitrateSource = readFileSync(new URL("../../components/tools/video-bitrate/VideoBitrateCalculator.tsx", import.meta.url), "utf8");
   assert.match(segmentedSource, /whitespace-nowrap/);
-  assert.match(segmentedSource, /shape-corner-small/);
+  assert.match(segmentedSource, /rounded-l-full/);
+  assert.match(segmentedSource, /rounded-r-full/);
+  assert.match(segmentedSource, /rounded-none/);
+  assert.match(segmentedSource, /border-l-0/);
+  assert.match(segmentedSource, /disabled=\{item.disabled\}/);
+  assert.match(segmentedSource, /on-surface\)_12%,transparent/);
+  assert.match(segmentedSource, /on-surface\)_38%,transparent/);
   assert.doesNotMatch(segmentedSource, /description\?: ReactNode|item\.description|opacity-80/);
   assert.match(percentageSource, /modes\.find\(\(item\) => item\.id === mode\)\?\.description/);
   assert.match(videoBitrateSource, /modes\.find\(\(item\) => item\.id === mode\)\?\.description/);
