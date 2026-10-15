@@ -254,3 +254,6 @@ Every new convention/audit finding must state whether it is [ANDROID-M3], [MATER
 - Typecheck failed on earlier runs 38695462704 and 38695137845 because VisualLab still referenced the removed setTheme setter and two Switch style objects used the removed --switch-disabled-track key.
 - Fixed both: the phone-profile sample now toggles only its mock preference state, and all Lab Switch styles use the selected/unselected disabled track variables plus the palette-specific selected handle token.
 - Those runs predate the fixes. No current-head green result is confirmed yet; continue without merging and verify the latest SHA when CI reports it.
+## Update — Lab selection-state isolation (2026-10-15)
+
+- Found and fixed an unintended coupling: the raw radio-group demo and the shared segmented-control demo shared sampleRadio state. The segmented preview now uses sampleLayout, independent from the radio selection. Added a static regression assertion; manual browser interaction remains outstanding.
