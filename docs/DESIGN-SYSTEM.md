@@ -312,3 +312,6 @@ The shared Card follows the version-pinned first-party Material Web card tokens:
 ## Segmented control convention
 
 Keep the shared SegmentedControl limited to segment labels and selected state; explanatory copy belongs outside the segmented group. Current label no-wrap behavior and small-token inner corners are Loculary web layout decisions to avoid wrapping, not official Android pixel rules. Verify narrow widths and keyboard interaction.
+## Field sizing and numeric input behavior
+
+The shared TextField and Select use a 56px minimum height based on version-pinned first-party Material Web outlined field/select tokens. TextArea remains content/row-driven. TextField preserves an explicit step attribute and otherwise defaults number inputs to step="any", so decimal input is not accidentally restricted by the HTML default step.
