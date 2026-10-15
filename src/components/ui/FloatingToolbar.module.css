@@ -1,0 +1,107 @@
+.root {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+}
+
+.horizontal { flex-direction: row; }
+.vertical { flex-direction: column; align-items: flex-end; }
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  max-width: min(100%, 480px);
+  padding: 8px;
+  border: 1px solid var(--lab-outline-variant, var(--md-sys-color-outline-variant, transparent));
+  border-radius: 28px;
+  background: var(--lab-surface-container-high, var(--md-sys-color-surface-container-high, Canvas));
+  color: var(--lab-on-surface, var(--md-sys-color-on-surface, CanvasText));
+  box-shadow: 0 3px 8px color-mix(in srgb, var(--lab-shadow, #000) 18%, transparent);
+  animation: reveal 200ms cubic-bezier(.2, 0, 0, 1) both;
+}
+
+.vertical .toolbar {
+  flex-direction: column;
+  align-items: stretch;
+  min-width: 56px;
+  width: max-content;
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 40px;
+  min-height: 40px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 20px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.vertical .item {
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.item[aria-pressed="true"] {
+  background: var(--lab-secondary-container, var(--md-sys-color-secondary-container, transparent));
+  color: var(--lab-on-secondary-container, var(--md-sys-color-on-secondary-container, currentColor));
+}
+
+.item:hover:not(:disabled) {
+  background: color-mix(in srgb, currentColor 8%, transparent);
+}
+
+.item:focus-visible,
+.toggle:focus-visible {
+  outline: 2px solid var(--lab-primary, currentColor);
+  outline-offset: 2px;
+}
+
+.item:disabled {
+  opacity: .38;
+  cursor: not-allowed;
+}
+
+.itemLabel {
+  white-space: nowrap;
+}
+
+.toggle {
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 56px;
+  height: 56px;
+  border: 0;
+  border-radius: 16px;
+  background: var(--lab-primary-container, var(--md-sys-color-primary-container, currentColor));
+  color: var(--lab-on-primary-container, var(--md-sys-color-on-primary-container, Canvas));
+  box-shadow: 0 3px 6px color-mix(in srgb, var(--lab-shadow, #000) 20%, transparent);
+  font: inherit;
+  font-size: 30px;
+  cursor: pointer;
+  transition: border-radius 200ms cubic-bezier(.2, 0, 0, 1);
+}
+
+.toggle[aria-expanded="true"] {
+  border-radius: 50%;
+}
+
+@keyframes reveal {
+  from { opacity: 0; transform: scale(.96) translateY(4px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toolbar { animation: none; }
+  .toggle { transition: none; }
+}
