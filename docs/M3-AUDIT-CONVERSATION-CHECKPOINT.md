@@ -186,7 +186,7 @@ Static tests and contrast unit tests are useful but do not establish full render
 
 The user requested that PR #723's changes be brought into PR #729 without merging either PR. The checkpoint PR now contains the shared `Slider` and `ProgressIndicator` files, their CSS, the PasswordGenerator and ImageCompressor call-site updates, checkbox updates, Lab CSS changes, and the design-system/audit documentation updates where they apply cleanly to current `main`.
 
-**Still being reconciled:** the newer `main` version of `VisualLab.tsx`, `Switch.tsx` and `material-components.test.mjs` differs materially from PR #723's older base. Port those changes into the current files rather than replacing them wholesale. In particular, update the Lab demo to use shared Slider/ProgressIndicator/Checkbox, add disabled-state examples, refine Switch disabled semantics, and add regression tests for the shared components. Then run lint, typecheck, tests and build if available. Browser-level visual/keyboard/mobile checks are still not claimed as complete.
+**Ported into the current files:** the Lab demo now uses shared Slider/ProgressIndicator/Checkbox and includes disabled-state examples; Switch disabled styling uses separate semantic disabled tokens; regression assertions cover slider/progress semantics and tool/Lab call sites. These changes were applied on top of current `main` files rather than copying the stale PR branch wholesale. **Validation is still pending:** run lint, typecheck, tests and build, then do browser-level visual/keyboard/mobile checks. PR #723 remains open and unmerged.
 
 ## New canonical document
 
