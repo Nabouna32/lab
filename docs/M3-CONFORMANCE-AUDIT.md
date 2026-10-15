@@ -686,3 +686,8 @@ Official sources: [FloatingActionButtonMenu](https://developer.android.com/refer
 ## AppBarWithSearch — 2026-10-15
 
 Official source: [AndroidX AppBarWithSearch API](https://developer.android.com/reference/kotlin/androidx/compose/material3/AppBarWithSearch.composable). Added a shared Web composition using the shared SearchBar with navigation action and sticky app-bar layout. It does not implement AndroidX SearchBarState, nested-scroll behavior or platform window insets. Exact scroll behavior, elevation, shape/motion, full-screen pairing, RTL and assistive-technology parity remain open.
+
+
+## WideNavigationRail / ModalWideNavigationRail — 2026-10-15
+
+Official sources: [WideNavigationRail API](https://developer.android.com/reference/kotlin/androidx/compose/material3/WideNavigationRail.composable), [ModalWideNavigationRail API](https://developer.android.com/reference/kotlin/androidx/compose/material3/ModalWideNavigationRail.composable). Added standard wide and modal wide-rail Web adaptations in the Lab. The modal variant includes scrim, Escape dismissal and focus containment/restore, but is not native Compose. Current API reference lists ModalWideNavigationRail as introduced in Material3 1.5.0-beta01; check the pinned version. Adaptive breakpoints, insets, animation, RTL and screen-reader behavior remain open.
