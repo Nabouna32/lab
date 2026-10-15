@@ -113,6 +113,7 @@ function createLabTokens(scheme: ReturnType<typeof createM3Scheme>, theme: Theme
     "--lab-surface-low":colorHex(scheme.surfaceContainerLow),"--lab-surface-container":colorHex(scheme.surfaceContainer),
     "--lab-surface-high":colorHex(scheme.surfaceContainerHigh),"--lab-surface-highest":colorHex(scheme.surfaceContainerHighest),
     "--lab-font":"var(--font-roboto), Roboto, Arial, sans-serif","--lab-text":colorHex(scheme.onSurface),
+    "--lab-inverse-surface":colorHex(scheme.inverseSurface),"--lab-inverse-on-surface":colorHex(scheme.inverseOnSurface),
     "--lab-muted":colorHex(scheme.onSurfaceVariant),"--lab-outline":colorHex(scheme.outline),
     "--lab-primary":colorHex(scheme.primary),"--lab-on-primary":colorHex(scheme.onPrimary),
     "--lab-primary-soft":colorHex(scheme.primaryContainer),"--lab-on-primary-soft":colorHex(scheme.onPrimaryContainer),
