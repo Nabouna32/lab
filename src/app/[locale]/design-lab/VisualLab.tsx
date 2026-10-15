@@ -115,6 +115,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
   const [sampleChecked,setSampleChecked]=useState(true);
   const [sampleProgress,setSampleProgress]=useState(55);
   const [sampleRadio,setSampleRadio]=useState("all");
+  const [sampleLayout,setSampleLayout]=useState("all");
   const [sampleTab,setSampleTab]=useState("overview");
   const [sampleMenuOpen,setSampleMenuOpen]=useState(false);
   const [sampleFilterSelected,setSampleFilterSelected]=useState(true);
@@ -416,7 +417,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
           <h3>{locale==="fr"?"Champs et sélection partagés":"Shared fields & selection"}</h3>
           <div className={styles.sharedFieldStack}><TextField inputId="lab-shared-text-field" label={locale==="fr"?"Valeur":"Value"} defaultValue="180" type="number" unit="px"/><TextArea inputId="lab-shared-text-area" label={locale==="fr"?"Description":"Description"} rows={3} defaultValue={locale==="fr"?"Un exemple de zone de texte partagée.":"An example of the shared multiline field."} className={styles.sharedTextArea}/><Select id="lab-shared-select" label={locale==="fr"?"Format":"Format"} defaultValue="png"><option value="png">PNG</option><option value="webp">WebP</option><option value="jpeg">JPEG</option></Select></div>
           <Checkbox inputId="lab-shared-checkbox" checked={sampleChecked} onCheckedChange={setSampleChecked} label={locale==="fr"?"Inclure les sous-catégories":"Include subcategories"}/>
-          <SegmentedControl ariaLabel={locale==="fr"?"Disposition de la liste":"List layout"} value={sampleRadio} onChange={setSampleRadio} items={[{id:"all",label:locale==="fr"?"Tout":"All"},{id:"favorites",label:locale==="fr"?"Favoris":"Favorites"}]}/>
+          <SegmentedControl ariaLabel={locale==="fr"?"Disposition de la liste":"List layout"} value={sampleLayout} onChange={setSampleLayout} items={[{id:"all",label:locale==="fr"?"Tout":"All"},{id:"favorites",label:locale==="fr"?"Favoris":"Favorites"}]}/>
           <ValidationMessage id="lab-shared-validation" role={null}>{locale==="fr"?"Exemple de message de validation.":"Example validation message."}</ValidationMessage>
         </article>
         <article className={styles.galleryCard}>
