@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import type { ReactNode } from "react";
 import type { MaterialIconName } from "@/components/ui/MaterialIcon";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import styles from "./NavigationDrawer.module.css";
@@ -11,13 +12,14 @@ export type NavigationDrawerItem<Key extends string = string> = {
 type NavigationDrawerProps<Key extends string> = {
   open: boolean; onOpenChange: (open: boolean) => void;
   items: NavigationDrawerItem<Key>[]; selectedKey: Key; onSelect: (key: Key) => void;
-  label: string; title?: string; mode?: "modal" | "standard"; className?: string;
+  label: string; title?: string; mode?: "modal" | "standard" | "dismissible" | "permanent"; className?: string;
+  content?: ReactNode; dismissLabel?: string;
 };
 
 /** Source-informed Web adaptation of AndroidX Material 3 NavigationDrawer. */
 export function NavigationDrawer<Key extends string>({
   open, onOpenChange, items, selectedKey, onSelect, label, title,
-  mode = "modal", className,
+  mode = "modal", className, content, dismissLabel,
 }: NavigationDrawerProps<Key>) {
   const panelRef = useRef<HTMLElement>(null);
   const previousFocus = useRef<HTMLElement | null>(null);
@@ -61,7 +63,7 @@ export function NavigationDrawer<Key extends string>({
   const panel = <aside ref={panelRef} className={[styles.sheet, className].filter(Boolean).join(" ")}
     aria-label={label} aria-modal={mode === "modal" ? true : undefined}
     role={mode === "modal" ? "dialog" : "navigation"} tabIndex={-1}>
-    {title && <h2 className={styles.title}>{title}</h2>}
+    {(title || mode === "dismissible") && <div className={styles.titleRow}>{title && <h2 className={styles.title}>{title}</h2>}{mode === "dismissible" && <button type="button" className={styles.dismiss} aria-label={dismissLabel ?? "Close navigation drawer"} onClick={() => onOpenChange(false)}>×</button>}</div>}
     <nav aria-label={label} className={styles.nav}>
       {groups.map((group, index) => <div className={styles.group} key={group.section ?? `group-${index}`}>
         {group.section && <h3 className={styles.section}>{group.section}</h3>}
@@ -70,7 +72,7 @@ export function NavigationDrawer<Key extends string>({
           return <button key={item.key} type="button" className={styles.item}
             aria-current={selected ? "page" : undefined} aria-pressed={selected}
             data-selected={selected ? "true" : "false"}
-            onClick={() => { onSelect(item.key); if (mode === "modal") onOpenChange(false); }}>
+            onClick={() => { onSelect(item.key); if (mode === "modal" || mode === "dismissible") onOpenChange(false); }}>
             {item.icon && <MaterialIcon name={item.icon} size={24}/>}<span>{item.label}</span>
           </button>;
         })}
@@ -78,7 +80,8 @@ export function NavigationDrawer<Key extends string>({
     </nav>
   </aside>;
 
-  if (mode === "standard") return <div className={styles.standard}>{panel}</div>;
+  if (mode === "standard" || mode === "permanent") return <div className={styles.standard}>{panel}</div>;
+  if (mode === "dismissible") return <div className={styles.dismissible}><div className={styles.dismissibleSlot} data-open={open ? "true" : "false"}>{open ? panel : null}</div><div className={styles.drawerContent}>{content}</div></div>;
   return <div className={styles.modalRoot} data-open={open ? "true" : "false"}>
     <button type="button" className={styles.scrim} aria-label={label + " overlay"} tabIndex={-1}
       onClick={() => onOpenChange(false)}/>
