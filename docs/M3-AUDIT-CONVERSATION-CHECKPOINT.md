@@ -225,3 +225,9 @@ Every new convention/audit finding must state whether it is [ANDROID-M3], [MATER
 - TextField, TextArea and Select now use the shared extra-small shape token and component-specific disabled roles based on first-party Material Web tokens: outlined text/labels 38%, outline 12%, and filled-field container opacity 4% (the latter is documented for provenance; these Loculary controls are outlined-like).
 - The global rounding-degree control remains unimplemented. Continue mapping existing buttons, cards, panels, dialogs and Lab-only compositions to semantic shape roles; do not claim the shape audit complete.
 - ValidationMessage still defaults to role=alert for conditional production errors; the static Lab sample opts out. Review each production use for announcement timing/urgency.
+## Update — Card roles and surface-family shape mapping (2026-10-15)
+
+- The shared Card now uses first-party Material Web roles: elevated = surface-container-low + level-1-like shadow, filled = surface-container-highest, outlined = surface + outline-variant. All three use the medium shape token from the official token source.
+- Linked cards now have an explicit keyboard focus ring. This is source-level evidence only; rendered focus contrast and clipping still need browser checks.
+- Panel and ResultPanel use the medium shape token as a Loculary consistency decision; they are not claimed as official Android components.
+- Remaining shape audit: map button, segmented-control, menu/dialog, chips, nested cards and tool-local containers to semantic tokens, then design and implement the Loculary-only global rounding-degree control.
