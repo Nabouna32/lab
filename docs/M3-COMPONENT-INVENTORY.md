@@ -55,7 +55,7 @@ The list below is deliberately broader than the current production call sites. C
 | TextField / OutlinedTextField / SecureTextField / OutlinedSecureTextField | Shared MaterialTextField Web adaptation; filled, outlined, error, counter and secure specimens in Lab | Audit floating-label/outline geometry, text scaling, IME/autofill, context-menu protection and accessibility |
 | SwipeToDismissBox | Shared Web adaptation with horizontal swipe and explicit accessible dismiss action | Verify gesture thresholds/directions, RTL, nested scrolling, exact motion and screen-reader parity |
 | Surface / Text / layout and theming APIs | Tokens and several primitives exist | Audit tonal/shadow elevation, semantic colors, typography roles and composition behavior; these are foundations, not gallery-only widgets |
-| Pull-to-refresh / adaptive navigation suite APIs, where supported by selected AndroidX version | Not inventoried at component level yet | Pin the AndroidX version and determine current official API availability before adding |
+| PullToRefreshBox / pullToRefresh modifier | Shared Web adaptation; pull state and accessible refresh action in Lab | Verify touch/nested-scroll arbitration, threshold, indicator motion, RTL and native device behavior |
 
 ## Non-Material Loculary utilities
 
@@ -185,3 +185,10 @@ For each component/variant, record:
 - **Lab:** added a shared Web adaptation with collapsed/expanded standard rail and modal expansion with scrim, Escape dismissal, focus containment and restore.
 - **Version caveat:** current API reference lists `ModalWideNavigationRail` as added in Material3 1.5.0-beta01; verify the exact pinned dependency.
 - **Not yet verified:** AndroidX state/animation, adaptive breakpoints, item geometry, insets, RTL, back handling and assistive-technology parity.
+
+
+## PullToRefreshBox — 2026-10-15
+
+- **Official sources:** https://developer.android.com/reference/kotlin/androidx/compose/material3/pulltorefresh/PullToRefreshBox.composable and https://developer.android.com/reference/kotlin/androidx/compose/material3/pulltorefresh/pullToRefresh.modifier
+- **Lab:** shared Web adaptation includes a pull-distance indicator, controlled refreshing state, reduced-motion spinner fallback and an explicit “refresh now” button for accessibility.
+- **Known limitation:** native nested-scroll arbitration and overscroll differ between browsers. Pointer-driven pull behavior is not yet verified on touch devices; do not mark this family complete until mobile scroll/refresh interactions are tested.
