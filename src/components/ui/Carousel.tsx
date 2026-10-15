@@ -32,10 +32,10 @@ export function Carousel({
 
   return <div className={[styles.root, className].filter(Boolean).join(" ")}
     role="region" aria-label={label} aria-roledescription="carousel" data-layout={layout}>
-    <div className={styles.viewport} tabIndex={0} onKeyDown={handleKeyDown} style={{ "--carousel-gap": `${gap}px` } as CSSProperties}>
+    <div className={styles.viewport} tabIndex={0} onKeyDown={handleKeyDown} style={{ "--carousel-gap": `${gap}px` } as CSSProperties & Record<string, string>}>
       {items.map((item, index) => <div key={item.id} className={styles.item}
         role="group" aria-roledescription="slide" aria-label={`${index + 1} / ${items.length}: ${item.label}`}
-        style={{ "--carousel-item-width": `${itemWidth}px`, "--carousel-gap": `${gap}px` } as CSSProperties}>
+        style={{ "--carousel-item-width": `${itemWidth}px`, "--carousel-gap": `${gap}px` } as CSSProperties & Record<string, string>}>
         {item.content}
       </div>)}
     </div>
