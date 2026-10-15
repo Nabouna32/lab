@@ -225,6 +225,15 @@ export default function ComponentLivePreview({
     case "copy-button":
       content = <ToolRuntimeProvider access="anonymous" capabilities={["clipboard"]}><CopyButton value={text} label={fr ? "Copier le texte" : "Copy text"} copiedLabel={fr ? "Texte copié" : "Text copied"}/></ToolRuntimeProvider>;
       break;
+    case "date-picker-dialog":
+      content = <div className="grid gap-3"><Button variant="outlined" onClick={() => setDateDialogOpen(true)}>{fr ? "Ouvrir le calendrier modal" : "Open modal date picker"}</Button><p className="text-sm text-[var(--muted)]">{fr ? "Date actuelle : " : "Current date: "}{dateValue || "—"}</p><DatePickerDialog open={dateDialogOpen} title={fr ? "Choisir une date" : "Choose a date"} label={fr ? "Date de démonstration" : "Demo date"} value={dateValue} rangeValue={dateRange} confirmLabel={fr ? "Confirmer" : "Confirm"} cancelLabel={fr ? "Annuler" : "Cancel"} locale={locale} onConfirm={selection=>{if(selection.mode==="single")setDateValue(selection.value);else setDateRange(selection.value);setDateDialogOpen(false);}} onDismiss={() => setDateDialogOpen(false)} /></div>;
+      break;
+    case "dropdown-menu":
+      content = <div className="grid gap-3"><DropdownMenu label={fr ? "Options du composant" : "Component options"} triggerLabel={fr ? "Ouvrir les options" : "Open options"} triggerContent={<><MaterialIcon name="apps" size={18}/>{fr ? "Options" : "Options"}</>} items={[{key:"layout-grid",label:fr?"Disposition grille":"Grid layout",group:fr?"Disposition":"Layout",selectionMode:"single",selected:menuLayout==="grid",leadingIcon:<MaterialIcon name="apps" size={18}/>,onSelect:()=>setMenuLayout("grid")},{key:"layout-list",label:fr?"Disposition liste":"List layout",group:fr?"Disposition":"Layout",selectionMode:"single",selected:menuLayout==="list",leadingIcon:<MaterialIcon name="view_list" size={18}/>,onSelect:()=>setMenuLayout("list")},{key:"disabled",label:fr?"Action indisponible":"Unavailable action",disabled:true,onSelect:()=>undefined}]} /><p className="text-sm text-[var(--muted)]">{fr ? "Disposition : " : "Layout: "}{menuLayout}</p></div>;
+      break;
+    case "exposed-dropdown-menu":
+      content = <div className="grid gap-3 sm:grid-cols-2"><ExposedDropdownMenu id="audit-exposed-dropdown" label={fr ? "Format" : "Format"} value={exposedFormat} onChange={setExposedFormat} options={[{value:"png",label:"PNG"},{value:"webp",label:"WebP"},{value:"jpeg",label:"JPEG"}]} /><ExposedDropdownMenu id="audit-exposed-dropdown-disabled" label={fr ? "Champ désactivé" : "Disabled field"} value="png" disabled options={[{value:"png",label:"PNG"},{value:"webp",label:"WebP"}]} onChange={() => undefined}/></div>;
+      break;
     case "button":
       content = (
         <div className="flex flex-wrap items-center gap-3">
