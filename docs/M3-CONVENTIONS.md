@@ -534,3 +534,13 @@ Official source: https://developer.android.com/reference/kotlin/androidx/compose
 - Implemented: shared Badge and BadgedBox primitives; Lab shows a dot badge on notifications, a count badge, and a badge anchored to an icon. Components use semantic error roles, preserve the anchor's layout, and expose an accessible label prop.
 - Gaps: exact AndroidX dimensions, alignment offsets, large-count truncation, color defaults by semantic use, and assistive-technology behavior need comparison with the pinned AndroidX source. A generic aria-label on a span is not a substitute for testing actual screen-reader output.
 - Status: source-informed Web adaptation, partial parity; CI and browser/assistive-technology validation pending.
+
+
+### Tooltip family — AndroidX audit and Web adaptation (2026-10-15)
+
+Official source: https://developer.android.com/develop/ui/compose/components/tooltip and https://developer.android.com/reference/kotlin/androidx/compose/material3/TooltipBox.composable.
+
+- Source-confirmed: PlainTooltip describes an icon/action; RichTooltip can provide a title, multiline detail and optional action. AndroidX TooltipBox manages state and supports pointer hover and touch long-press, with positioning and focusability options.
+- Implemented: shared Tooltip adaptation with plain/rich variants, placement options, delayed pointer hover, focus display, touch hold behavior, Escape dismissal, aria-describedby association, entry animation and reduced-motion handling. The Lab now shows both plain and rich tooltips instead of a title-only mockup.
+- Gaps: touch long-press lifecycle, outside dismissal, exact AndroidX position/caret/tonal elevation, persistent state/action handling and screen-reader behavior remain incomplete. CSS px and timing are approximations.
+- Status: source-informed Web adaptation; partial parity. Validate interaction timing, keyboard/touch, zoom, overflow clipping and assistive technology before production use.
