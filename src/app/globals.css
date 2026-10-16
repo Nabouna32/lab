@@ -318,6 +318,10 @@ html.dark .theme-icon-system-dark { display: inline; }
   pointer-events: auto;
 }
 
+button:disabled > .button-ripple-layer {
+  pointer-events: none;
+}
+
 .button-ripple {
   position: absolute;
   display: block;

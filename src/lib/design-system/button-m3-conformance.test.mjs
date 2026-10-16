@@ -183,6 +183,7 @@ test("Button ripple is pointer-origin, bounded, cleans up after release and resp
   }
   for (const required of [
     ".button-ripple-layer {",
+    "button:disabled > .button-ripple-layer",
     "border-radius: inherit",
     "button-ripple-expand",
     "button-ripple-fade",
