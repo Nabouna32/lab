@@ -29,8 +29,9 @@ export function ButtonRipple() {
   const activeKeys = useRef(new Map<string, number>());
 
   useEffect(() => {
-    const button = layerRef.current?.parentElement;
-    if (!button) return;
+    const candidate = layerRef.current?.parentElement;
+    if (!(candidate instanceof HTMLButtonElement)) return;
+    const button: HTMLButtonElement = candidate;
 
     function release(id: number) {
       setRipples((current) => current.map((ripple) => ripple.id === id ? { ...ripple, released: true } : ripple));
