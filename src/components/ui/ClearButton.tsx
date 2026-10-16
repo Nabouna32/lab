@@ -19,6 +19,7 @@ export function ClearButton({ onClear, disabled = false, label }: ClearButtonPro
   return (
     <Button
       variant="secondary"
+      leadingIcon
       type="button"
       onClick={onClear}
       disabled={disabled}

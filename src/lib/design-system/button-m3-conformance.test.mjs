@@ -5,6 +5,7 @@ import { test } from "node:test";
 const button = readFileSync(new URL("../../components/ui/Button.tsx", import.meta.url), "utf8");
 const iconButton = readFileSync(new URL("../../components/ui/IconButton.tsx", import.meta.url), "utf8");
 const labCss = readFileSync(new URL("../../app/[locale]/design-lab/visual-lab.module.css", import.meta.url), "utf8");
+const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
 const labSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
 const auditPreview = readFileSync(new URL("../../app/[locale]/design-lab/audit/ComponentLivePreview.tsx", import.meta.url), "utf8");
 const favoriteButton = readFileSync(new URL("../../components/favorites/FavoriteButton.tsx", import.meta.url), "utf8");
@@ -20,11 +21,21 @@ test("shared Button exposes canonical variants, stable default labels, opt-in mu
   for (const required of [
     'const filled = "border', 'const elevated = "border', 'const filledTonal = "border', 'const outlined = "border', 'const text = "border',
     '"filled-tonal": filledTonal', "min-h-10", "min-w-[58px]", "whitespace-nowrap", "whitespace-pre-line", "multiline = false",
-    'variant === "text" || variant === "ghost" ? "px-3" : "px-6"',
+    "leadingIcon?: boolean", 'const isTextVariant = variant === "text" || variant === "ghost"', "pl-3 pr-4", "pl-4 pr-6",
     "transition-[background-color,border-color,color,box-shadow]", "motion-reduce:transition-none", "shrink-0",
     "disabled:bg-[color-mix(in_srgb,var(--on-surface)_12%,transparent)]", "disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]", "disabled:shadow-none",
     "primary: filled", "tonal: filledTonal", "secondary: outlined", "ghost: text", 'variant = "filled"',
   ]) assert.ok(button.includes(required), "missing Button conformance rule: " + required);
+  for (const required of [
+    "hover:shadow-[var(--button-elevation-1)]",
+    "hover:shadow-[var(--button-elevation-2)]",
+    "focus-visible:shadow-[var(--button-elevation-1)]",
+    "focus-visible:bg-[color-mix(in_srgb,var(--primary)_90%,var(--on-primary))]",
+    "focus-visible:bg-[color-mix(in_srgb,var(--primary)_10%,transparent)]",
+    "disabled:shadow-none",
+  ]) assert.ok(button.includes(required), "missing Button interaction-state rule: " + required);
+  assert.ok(globalCss.includes("--button-elevation-1:") && globalCss.includes("--button-elevation-2:"));
+  assert.ok(globalCss.includes("0 1px 2px rgb(25 27 35 / 0.12)") && globalCss.includes("0 2px 6px rgb(0 0 0 / 0.38)"));
   assert.ok(!button.includes("active:rounded-[var(--shape-corner-small)]"), "pressed state must not morph the shape in the Fidelity direction");
 });
 
@@ -68,6 +79,10 @@ test("legacy names are aliases to canonical M3 treatments", () => {
   }
   assert.ok(labSource.includes("<IconButton"));
   assert.ok(labSource.includes('variant="filled-tonal"><MaterialIcon name="search" size={24}'));
+  assert.ok(toolSearch.includes('<IconButton') && toolSearch.includes('label={t.tools.clearSearch}'));
+  assert.ok(readFileSync(new URL("../../components/ui/CopyButton.tsx", import.meta.url), "utf8").includes("leadingIcon"));
+  assert.ok(readFileSync(new URL("../../components/ui/ClearButton.tsx", import.meta.url), "utf8").includes("leadingIcon"));
+  assert.ok(!toolSearch.includes('className="min-h-10 w-10 shrink-0 rounded-full p-0"'));
   assert.ok(toolSearch.includes('<MaterialIcon name="close" size={24} />'));
   assert.ok(toolSearch.includes('<MaterialIcon name="arrow_forward" size={24} />'));
 });
@@ -80,6 +95,7 @@ test("Button audit preview provides contextual verification guidance in French a
     "MDUI and MUI are secondary Web comparisons only",
     "buttonLongLabel",
     "buttonLeadingIcon || buttonTrailingArrow",
+    "leadingIcon={buttonLeadingIcon}",
     "buttonNarrow",
     "buttonMultiline || buttonManualBreak",
     "buttonManualBreak",
