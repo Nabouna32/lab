@@ -12,7 +12,7 @@ Loculary's `Button` is a React/CSS web adaptation of the Material 3 button famil
 - [Material 3 buttons guide](https://developer.android.com/develop/ui/compose/components/button?hl=en)
 - [AndroidX Button API](https://developer.android.com/reference/kotlin/androidx/compose/material3/Button.composable)
 - [AndroidX ButtonDefaults API](https://developer.android.com/reference/kotlin/androidx/compose/material3/ButtonDefaults)
-- [AndroidX Button source](https://github.com/androidx/androidx/blob/androidx-main/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Button.kt)
+- [AndroidX Button source, pinned snapshot](https://android.googlesource.com/platform/frameworks/support/%2B/2fb1702c1c62a6059e73d757d9e4eda1044ce21d/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Button.kt)
 - Secondary Web cross-checks, not visual authorities: [MDUI Button](https://www.mdui.org/en/docs/2/components/button) and [MUI Button API](https://mui.com/material-ui/api/button/). MDUI documents M3 variants; MUI has its own React API and variant vocabulary. Use both only to compare Web implementation and accessibility ergonomics. If either differs from Android/AndroidX, record the discrepancy and discuss the trade-off before adopting it.
 - [Material 3 theming](https://developer.android.com/develop/ui/compose/designsystems/material3)
 - [WCAG 2.2 reflow](https://www.w3.org/WAI/WCAG22/Understanding/reflow.html) · [contrast minimum](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html)
@@ -39,6 +39,7 @@ These are CSS-pixel web values, not physical conversions from Android dp/sp:
 
 - Minimum height 40px; minimum width 58px.
 - Standard horizontal padding 24px; text-button horizontal padding 12px.
+- With a leading icon, use 16px start / 24px end for standard variants, and 12px start / 16px end for text buttons, matching AndroidX content-padding defaults. The `leadingIcon` prop signals that the caller renders a leading icon; it does not render the icon itself.
 - Vertical padding 8px; icon/label gap 8px.
 - Typography baseline: 14px, weight 500, 20px line-height, approximately 0.1px letter spacing.
 - Shape stays full/pill through hover, focus and press. Pressed shape morphing is excluded from the selected Fidelity direction.
@@ -52,12 +53,13 @@ These values are web adaptations guided by AndroidX defaults; CSS px and Android
 Use semantic tokens, not literal palette values. Verify all variants in light and dark themes.
 
 - Filled: primary / on-primary.
-- Elevated: surface-container-low / primary, with elevation at rest and no shadow when disabled.
-- Filled tonal: secondary-container / on-secondary-container.
+- Elevated: surface-container-low / primary, elevation level 1 at rest/focus/press, level 2 on hover, and no shadow when disabled.
+- Filled tonal: secondary-container / on-secondary-container; no resting elevation, level 1 on hover, and no shadow while focused, pressed or disabled.
+- Filled: no resting elevation, level 1 on hover, and no shadow while focused, pressed or disabled.
 - Outlined/text: primary content, transparent resting background; outlined uses the outline role.
-- Hover/press: state-layer-like color treatments using the relevant foreground/primary role.
+- Hover/press/focus: state-layer-like color treatments using the relevant foreground/primary role; focus keeps a visible focus ring as well as a subtle 10% focus layer.
+- Elevation is state-based rather than static: Loculary uses the existing semantic shadow tokens as a web adaptation of AndroidX elevation levels.
 - Disabled container/border: approximately 12% on-surface; disabled content approximately 38% on-surface.
-- Keyboard focus: visible focus ring using Loculary's focus token and an offset suited to the background.
 - Reduced motion: remove transitions when requested.
 - Danger: Loculary-specific error treatment, not an official M3 variant.
 
@@ -93,6 +95,8 @@ The Lab is an inspection surface, not proof of conformance. Test desktop/tablet/
 ## 8. Verification checklist
 
 - [ ] Official sources and variant semantics reviewed.
+- [ ] Leading-icon content padding checked for standard and text variants.
+- [ ] State-based elevation and focus layer checked against the pinned AndroidX snapshot.
 - [ ] Source-contract tests pass; lint and TypeScript pass.
 - [ ] Production build passes.
 - [ ] Lab checked in light/dark themes.
