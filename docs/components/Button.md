@@ -60,7 +60,8 @@ Use semantic tokens, not literal palette values. Verify all variants in light an
 - Hover/press/focus: state-layer-like color treatments using the relevant foreground/primary role; focus keeps a visible focus ring as well as a subtle 10% focus layer.
 - Elevation is state-based rather than static: dedicated light/dark `--button-elevation-1` and `--button-elevation-2` tokens provide a restrained Web adaptation of AndroidX elevation levels instead of reusing the broader surface shadows.
 - Disabled container/border: approximately 12% on-surface; disabled content approximately 38% on-surface.
-- Reduced motion: remove transitions when requested.
+- Pressed indication: a bounded, pointer-origin Web ripple is rendered above the button content; keyboard activation receives a centered CSS indication. It is a deliberate Web adaptation, not a claim of identical Compose ripple timing or rendering.
+- Reduced motion: suppress the ripple animation and remove transitions when requested.
 - Danger: Loculary-specific error treatment, not an official M3 variant.
 
 Static source assertions do not prove final contrast or exact color blending. Verify computed colors in both themes in the browser.
@@ -76,6 +77,7 @@ Use `multiline` only when the layout has a meaningful width constraint and a mul
 - Use the native `button` element; default type is `button`, and callers choose `submit` deliberately.
 - Preserve native disabled behavior; a disabled button must not activate.
 - Keep visible focus apparent in both themes.
+- Pressed feedback uses the ripple rather than stacking a second static `active` background color layer; the elevated variant retains its level-1 pressed shadow.
 - Icon-only actions should use `IconButton` or have a meaningful accessible name.
 - Do not use `aria-pressed` to imply a toggle unless the caller deliberately implements a toggle contract.
 - Verify Tab focus, Enter/Space activation, hover, pressed and disabled behavior, reduced motion, responsive reflow and accessible naming.
@@ -100,7 +102,9 @@ The Lab is an inspection surface, not proof of conformance. Test desktop/tablet/
 - [ ] Source-contract tests pass; lint and TypeScript pass.
 - [ ] Production build passes.
 - [ ] Lab checked in light/dark themes.
-- [ ] Hover, focus-visible, pressed and disabled checked for every canonical variant.
+- [ ] Hover, focus-visible, pressed ripple and disabled checked for every canonical variant.
+- [ ] Ripple origin, clipping, pointer release/cancel and keyboard indication checked in the Design Lab.
+- [ ] Reduced-motion preference suppresses ripple animation.
 - [ ] French/English long labels, icons/arrows, explicit line breaks and constrained widths checked.
 - [ ] Narrow viewport and 200% zoom checked; no unintended horizontal overflow.
 - [ ] Computed colors/contrast checked in both themes.
@@ -114,5 +118,6 @@ Approved for this implementation batch:
 2. Keep one-line labels by default; expose `multiline` opt-in for wrapping/intentional line breaks.
 3. Align geometry with AndroidX references while treating CSS px as web values: 58px minimum width, 24px standard horizontal padding and 12px for text buttons.
 4. Include Button, relevant tests and consumers, dedicated documentation, live Design Lab specimens and useful PostgreSQL audit records.
+5. Use a bounded Web ripple for pressed feedback while preserving native button activation and reduced-motion behavior.
 
-**Not claimed:** 100% Android parity. Native Compose ripple/window behavior, physical dp/sp equivalence, exact device rendering and assistive-technology parity cannot be guaranteed by matching CSS classes alone. The final status must reflect only checks actually performed.
+**Not claimed:** 100% Android parity. Native Compose ripple/window behavior, physical dp/sp equivalence, exact device rendering and assistive-technology parity cannot be guaranteed by matching CSS classes alone. The CSS elevation tokens remain a documented approximation and have not been pixel-calibrated against a captured Android/Web comparison in this remote workflow. Browser-level visual verification remains open; source-contract tests do not establish visual conformance. The final status must reflect only checks actually performed.
