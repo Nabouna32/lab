@@ -60,7 +60,7 @@ Use semantic tokens, not literal palette values. Verify all variants in light an
 - Hover/press/focus: state-layer-like color treatments using the relevant foreground/primary role; focus keeps a visible focus ring as well as a subtle 10% focus layer.
 - Elevation is state-based rather than static: dedicated light/dark `--button-elevation-1` and `--button-elevation-2` tokens provide a restrained Web adaptation of AndroidX elevation levels instead of reusing the broader surface shadows.
 - Disabled container/border: approximately 12% on-surface; disabled content approximately 38% on-surface.
-- Pressed indication: a bounded, pointer-origin Web ripple is rendered above the button content; keyboard activation receives a centered CSS indication. It is a deliberate Web adaptation, not a claim of identical Compose ripple timing or rendering.
+- Pressed indication: a bounded, pointer-origin Web ripple is rendered above the button content; keyboard activation receives a centered ripple driven by button key events. It is a deliberate Web adaptation, not a claim of identical Compose ripple timing or rendering.
 - Reduced motion: suppress the ripple animation and remove transitions when requested.
 - Danger: Loculary-specific error treatment, not an official M3 variant.
 

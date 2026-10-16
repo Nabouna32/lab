@@ -341,20 +341,6 @@ html.dark .theme-icon-system-dark { display: inline; }
   animation: button-ripple-fade 160ms ease-out 160ms forwards;
 }
 
-.button-ripple-layer::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: radial-gradient(circle, currentColor 0, currentColor 28%, transparent 72%) center / 0% 0% no-repeat;
-  opacity: 0;
-  pointer-events: none;
-}
-
-button:active > .button-ripple-layer:not(.button-ripple-layer--pointer)::after {
-  animation: button-ripple-keyboard 320ms ease-out;
-}
-
 @keyframes button-ripple-expand {
   from { transform: scale(0.02); }
   to { transform: scale(1); }
@@ -362,12 +348,6 @@ button:active > .button-ripple-layer:not(.button-ripple-layer--pointer)::after {
 
 @keyframes button-ripple-fade {
   to { opacity: 0; }
-}
-
-@keyframes button-ripple-keyboard {
-  0% { opacity: 0; background-size: 0% 0%; }
-  35% { opacity: 0.1; background-size: 100% 100%; }
-  100% { opacity: 0; background-size: 100% 100%; }
 }
 
 @media (prefers-reduced-motion: reduce) {

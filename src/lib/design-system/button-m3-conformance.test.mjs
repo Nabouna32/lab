@@ -172,6 +172,10 @@ test("Button ripple is pointer-origin, bounded, cleans up after release and resp
     "setPointerCapture(event.pointerId)",
     "onPointerCancel={releasePointer}",
     "onLostPointerCapture={releasePointer}",
+    'event.key !== " " && event.key !== "Enter"',
+    "button.addEventListener(\"keydown\", handleKeyDown)",
+    "button.addEventListener(\"keyup\", handleKeyUp)",
+    "button.addEventListener(\"blur\", handleBlur)",
     'event.animationName !== "button-ripple-fade"',
     "button-ripple-layer--pointer",
   ]) {
@@ -182,7 +186,6 @@ test("Button ripple is pointer-origin, bounded, cleans up after release and resp
     "border-radius: inherit",
     "button-ripple-expand",
     "button-ripple-fade",
-    "button-ripple-keyboard",
     ".button-ripple-layer { display: none; }",
   ]) {
     assert.ok(globalCss.includes(required), "missing ripple rendering rule: " + required);
