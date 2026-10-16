@@ -277,9 +277,10 @@ export default function ToolSearch({
           }
         />
         {query && (
-          <Button
-            variant="ghost"
+          <IconButton
+            variant="standard"
             type="button"
+            label={t.tools.clearSearch}
             onMouseDown={(event) => event.preventDefault()}
             onClick={() => {
               searchRequest.current += 1;
@@ -291,12 +292,10 @@ export default function ToolSearch({
               setOverlayPosition(null);
               inputRef.current?.focus();
             }}
-            className="min-h-10 w-10 shrink-0 rounded-full p-0"
-            aria-label={t.tools.clearSearch}
             title={t.tools.clearSearch}
           >
             <MaterialIcon name="close" size={24} />
-          </Button>
+          </IconButton>
         )}
         <IconButton label={t.tools.searchSubmit} type="submit" disabled={!query.trim()} variant="filled">
           <MaterialIcon name="arrow_forward" size={24} />
