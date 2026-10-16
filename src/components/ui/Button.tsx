@@ -38,9 +38,9 @@ const variants: Record<ButtonVariant, string> = {
 export function Button({ variant = "filled", leadingIcon = false, multiline = false, className = "", type = "button", ...props }: ButtonProps) {
   const layout = multiline ? "min-w-0 shrink whitespace-pre-line text-center" : "min-w-[58px] shrink-0 whitespace-nowrap";
   const isTextVariant = variant === "text" || variant === "ghost";
-  const horizontalPadding = leadingIcon
-    ? isTextVariant ? "pl-3 pr-4" : "pl-4 pr-6"
-    : isTextVariant ? "px-3" : "px-6";
+  const textPadding = leadingIcon ? "pl-3 pr-4" : "px-3";
+  const standardPadding = leadingIcon ? "pl-4 pr-6" : "px-6";
+  const horizontalPadding = isTextVariant ? textPadding : standardPadding;
   return (
     <button
       type={type}
