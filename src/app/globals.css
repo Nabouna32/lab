@@ -308,6 +308,16 @@ html.dark .theme-icon-system-dark { display: inline; }
 
 
 /* Button ripple: a bounded Web adaptation of the Material 3 pressed indication. */
+.button-ripple-layer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: currentColor;
+  opacity: 0;
+  pointer-events: none;
+}
+
 .button-ripple-layer {
   position: absolute;
   z-index: 1;
@@ -355,7 +365,8 @@ button:disabled > .button-ripple-layer {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .button-ripple-layer { display: none; }
+  .button-ripple { display: none; }
+  button:active > .button-ripple-layer::after { opacity: 0.1; }
   html { scroll-behavior: auto; }
   *, *::before, *::after {
     animation-duration: .01ms !important;
