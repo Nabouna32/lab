@@ -58,7 +58,7 @@ Use semantic tokens, not literal palette values. Verify all variants in light an
 - Filled: no resting elevation, level 1 on hover, and no shadow while focused, pressed or disabled.
 - Outlined/text: primary content, transparent resting background; outlined uses the outline role.
 - Hover/press/focus: state-layer-like color treatments using the relevant foreground/primary role; focus keeps a visible focus ring as well as a subtle 10% focus layer.
-- Elevation is state-based rather than static: Loculary uses the existing semantic shadow tokens as a web adaptation of AndroidX elevation levels.
+- Elevation is state-based rather than static: dedicated light/dark `--button-elevation-1` and `--button-elevation-2` tokens provide a restrained Web adaptation of AndroidX elevation levels instead of reusing the broader surface shadows.
 - Disabled container/border: approximately 12% on-surface; disabled content approximately 38% on-surface.
 - Reduced motion: remove transitions when requested.
 - Danger: Loculary-specific error treatment, not an official M3 variant.
