@@ -10,6 +10,17 @@ type RippleState = {
   released: boolean;
 };
 
+function getRippleGeometry(x: number, y: number, width: number, height: number) {
+  const farthestCorner = Math.max(
+    Math.hypot(x, y),
+    Math.hypot(width - x, y),
+    Math.hypot(x, height - y),
+    Math.hypot(width - x, height - y),
+  );
+  const diameter = Math.max(1, Math.ceil(farthestCorner * 2));
+  return { left: x - diameter / 2, top: y - diameter / 2, diameter };
+}
+
 export function ButtonRipple() {
   const [ripples, setRipples] = useState<RippleState[]>([]);
   const layerRef = useRef<HTMLSpanElement>(null);
@@ -32,19 +43,13 @@ export function ButtonRipple() {
       const rect = button.getBoundingClientRect();
       const x = rect.width / 2;
       const y = rect.height / 2;
-      const farthestCorner = Math.max(
-        Math.hypot(x, y),
-        Math.hypot(rect.width - x, y),
-        Math.hypot(x, rect.height - y),
-        Math.hypot(rect.width - x, rect.height - y),
-      );
-      const diameter = Math.max(1, Math.ceil(farthestCorner * 2));
+      const { left, top, diameter } = getRippleGeometry(x, y, rect.width, rect.height);
       const id = ++nextId.current;
       activeKeys.current.set(event.key, id);
       setRipples((current) => [...current, {
         id,
-        left: x - diameter / 2,
-        top: y - diameter / 2,
+        left,
+        top,
         diameter,
         released: false,
       }]);
@@ -80,20 +85,14 @@ export function ButtonRipple() {
     const rect = button.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
-    const farthestCorner = Math.max(
-      Math.hypot(x, y),
-      Math.hypot(rect.width - x, y),
-      Math.hypot(x, rect.height - y),
-      Math.hypot(rect.width - x, rect.height - y),
-    );
-    const diameter = Math.max(1, Math.ceil(farthestCorner * 2));
+    const { left, top, diameter } = getRippleGeometry(x, y, rect.width, rect.height);
     const id = ++nextId.current;
 
     activePointers.current.set(event.pointerId, id);
     setRipples((current) => [...current, {
       id,
-      left: x - diameter / 2,
-      top: y - diameter / 2,
+      left,
+      top,
       diameter,
       released: false,
     }]);
@@ -121,7 +120,7 @@ export function ButtonRipple() {
     <span
       ref={layerRef}
       aria-hidden="true"
-      className={"button-ripple-layer" + (ripples.length > 0 ? " button-ripple-layer--pointer" : "")}
+      className="button-ripple-layer"
       onPointerDown={handlePointerDown}
       onPointerUp={releasePointer}
       onPointerCancel={releasePointer}

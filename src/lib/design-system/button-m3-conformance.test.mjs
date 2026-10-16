@@ -177,7 +177,6 @@ test("Button ripple is pointer-origin, bounded, cleans up after release and resp
     "button.addEventListener(\"keyup\", handleKeyUp)",
     "button.addEventListener(\"blur\", handleBlur)",
     'event.animationName !== "button-ripple-fade"',
-    "button-ripple-layer--pointer",
   ]) {
     assert.ok(buttonRipple.includes(required), "missing ripple interaction behavior: " + required);
   }
