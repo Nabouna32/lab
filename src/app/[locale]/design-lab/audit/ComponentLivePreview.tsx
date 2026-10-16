@@ -398,13 +398,13 @@ export default function ComponentLivePreview({
           </ul>
         </section>
         <div className="grid gap-2"><h4 className="text-sm font-semibold">{fr ? "Variantes canoniques — interaction réelle" : "Canonical variants — live interaction"}</h4><div className="flex flex-wrap items-start gap-3">
-          {variants.map((item) => <div key={item.key} className={sampleWidth}><Button variant={item.variant} disabled={buttonDisabled} multiline={multiline} className={sampleWidth} onClick={() => setSplitResult(item.key)}>{renderButtonContent(buttonLabel)}</Button></div>)}
+          {variants.map((item) => <div key={item.key} className={sampleWidth}><Button variant={item.variant} disabled={buttonDisabled} leadingIcon={buttonLeadingIcon} multiline={multiline} className={sampleWidth} onClick={() => setSplitResult(item.key)}>{renderButtonContent(buttonLabel)}</Button></div>)}
         </div></div>
         <div className="grid gap-2"><h4 className="text-sm font-semibold">{fr ? "État désactivé — toutes les variantes" : "Disabled state — every variant"}</h4><div className="flex flex-wrap items-start gap-3">
-          {variants.map((item) => <Button key={item.key} variant={item.variant} disabled multiline={multiline} className={sampleWidth}>{renderButtonContent(fr ? "Désactivé" : "Disabled")}</Button>)}
+          {variants.map((item) => <Button key={item.key} variant={item.variant} disabled leadingIcon={buttonLeadingIcon} multiline={multiline} className={sampleWidth}>{renderButtonContent(fr ? "Désactivé" : "Disabled")}</Button>)}
         </div></div>
         <div className="grid gap-2"><h4 className="text-sm font-semibold">{fr ? "Extension Loculary : action destructive" : "Loculary extension: destructive action"}</h4><div className="flex flex-wrap items-start gap-3">
-          <Button variant="danger" disabled={buttonDisabled} multiline={multiline} className={sampleWidth} onClick={() => setSplitResult("danger")}>{renderButtonContent(fr ? "Supprimer" : "Delete")}</Button>
+          <Button variant="danger" disabled={buttonDisabled} leadingIcon={buttonLeadingIcon} multiline={multiline} className={sampleWidth} onClick={() => setSplitResult("danger")}>{renderButtonContent(fr ? "Supprimer" : "Delete")}</Button>
           <Button variant="danger" disabled multiline={multiline} className={sampleWidth}>{renderButtonContent(fr ? "Désactivé" : "Disabled")}</Button>
         </div></div>
         <p role="status" className="text-sm text-[var(--muted)]">{fr ? "Dernière interaction : " : "Last interaction: "}{splitResult}</p>
