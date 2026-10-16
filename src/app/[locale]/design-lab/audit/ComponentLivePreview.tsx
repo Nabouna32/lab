@@ -405,7 +405,7 @@ export default function ComponentLivePreview({
         </div></div>
         <div className="grid gap-2"><h4 className="text-sm font-semibold">{fr ? "Extension Loculary : action destructive" : "Loculary extension: destructive action"}</h4><div className="flex flex-wrap items-start gap-3">
           <Button variant="danger" disabled={buttonDisabled} leadingIcon={buttonLeadingIcon} multiline={multiline} className={sampleWidth} onClick={() => setSplitResult("danger")}>{renderButtonContent(fr ? "Supprimer" : "Delete")}</Button>
-          <Button variant="danger" disabled multiline={multiline} className={sampleWidth}>{renderButtonContent(fr ? "Désactivé" : "Disabled")}</Button>
+          <Button variant="danger" disabled leadingIcon={buttonLeadingIcon} multiline={multiline} className={sampleWidth}>{renderButtonContent(fr ? "Désactivé" : "Disabled")}</Button>
         </div></div>
         <p role="status" className="text-sm text-[var(--muted)]">{fr ? "Dernière interaction : " : "Last interaction: "}{splitResult}</p>
       </div>);
