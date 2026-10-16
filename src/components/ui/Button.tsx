@@ -4,6 +4,8 @@ export type ButtonVariant = "filled" | "elevated" | "filled-tonal" | "outlined" 
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: ButtonVariant;
+  /** Applies Material 3 content padding for a leading icon; the caller still renders the icon. */
+  leadingIcon?: boolean;
   /** Opt into wrapping a long label or honoring explicit line breaks. Constrain the width when wrapping is desired. */
   multiline?: boolean;
 };
@@ -11,11 +13,11 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 const disabledContainer = "disabled:bg-[color-mix(in_srgb,var(--on-surface)_12%,transparent)]";
 const disabledContent = "disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]";
 
-const filled = "border border-transparent bg-[var(--primary)] text-[var(--on-primary)] hover:bg-[color-mix(in_srgb,var(--primary)_92%,var(--on-primary))] active:bg-[color-mix(in_srgb,var(--primary)_88%,var(--on-primary))] " + disabledContainer + " " + disabledContent;
-const elevated = "border border-transparent bg-[var(--surface-container-low)] text-[var(--primary)] shadow-[var(--shadow-sm)] hover:bg-[color-mix(in_srgb,var(--surface-container-low)_92%,var(--primary))] active:bg-[color-mix(in_srgb,var(--surface-container-low)_88%,var(--primary))] " + disabledContainer + " " + disabledContent + " disabled:shadow-none";
-const filledTonal = "border border-transparent bg-[var(--secondary-container)] text-[var(--on-secondary-container)] hover:bg-[color-mix(in_srgb,var(--secondary-container)_92%,var(--on-secondary-container))] active:bg-[color-mix(in_srgb,var(--secondary-container)_88%,var(--on-secondary-container))] " + disabledContainer + " " + disabledContent;
-const outlined = "border border-[var(--outline)] bg-transparent text-[var(--primary)] hover:bg-[color-mix(in_srgb,var(--primary)_8%,transparent)] active:bg-[color-mix(in_srgb,var(--primary)_12%,transparent)] disabled:border-[color-mix(in_srgb,var(--on-surface)_12%,transparent)] " + disabledContent;
-const text = "border border-transparent bg-transparent text-[var(--primary)] hover:bg-[color-mix(in_srgb,var(--primary)_8%,transparent)] active:bg-[color-mix(in_srgb,var(--primary)_12%,transparent)] " + disabledContent;
+const filled = "border border-transparent bg-[var(--primary)] text-[var(--on-primary)] hover:bg-[color-mix(in_srgb,var(--primary)_92%,var(--on-primary))] hover:shadow-[var(--shadow-sm)] focus-visible:bg-[color-mix(in_srgb,var(--primary)_90%,var(--on-primary))] active:bg-[color-mix(in_srgb,var(--primary)_90%,var(--on-primary))] active:shadow-none focus-visible:shadow-none " + disabledContainer + " " + disabledContent + " disabled:shadow-none";
+const elevated = "border border-transparent bg-[var(--surface-container-low)] text-[var(--primary)] shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] hover:bg-[color-mix(in_srgb,var(--surface-container-low)_92%,var(--primary))] focus-visible:bg-[color-mix(in_srgb,var(--surface-container-low)_90%,var(--primary))] focus-visible:shadow-[var(--shadow-sm)] active:bg-[color-mix(in_srgb,var(--surface-container-low)_90%,var(--primary))] active:shadow-[var(--shadow-sm)] " + disabledContainer + " " + disabledContent + " disabled:shadow-none";
+const filledTonal = "border border-transparent bg-[var(--secondary-container)] text-[var(--on-secondary-container)] hover:bg-[color-mix(in_srgb,var(--secondary-container)_92%,var(--on-secondary-container))] hover:shadow-[var(--shadow-sm)] focus-visible:bg-[color-mix(in_srgb,var(--secondary-container)_90%,var(--on-secondary-container))] active:bg-[color-mix(in_srgb,var(--secondary-container)_90%,var(--on-secondary-container))] active:shadow-none focus-visible:shadow-none " + disabledContainer + " " + disabledContent + " disabled:shadow-none";
+const outlined = "border border-[var(--outline)] bg-transparent text-[var(--primary)] hover:bg-[color-mix(in_srgb,var(--primary)_8%,transparent)] focus-visible:bg-[color-mix(in_srgb,var(--primary)_10%,transparent)] active:bg-[color-mix(in_srgb,var(--primary)_10%,transparent)] disabled:border-[color-mix(in_srgb,var(--on-surface)_12%,transparent)] " + disabledContent;
+const text = "border border-transparent bg-transparent text-[var(--primary)] hover:bg-[color-mix(in_srgb,var(--primary)_8%,transparent)] focus-visible:bg-[color-mix(in_srgb,var(--primary)_10%,transparent)] active:bg-[color-mix(in_srgb,var(--primary)_10%,transparent)] " + disabledContent;
 const danger = "border border-transparent bg-[var(--error)] text-[var(--on-error)] hover:bg-[color-mix(in_srgb,var(--error)_92%,var(--on-error))] active:bg-[color-mix(in_srgb,var(--error)_88%,var(--on-error))] " + disabledContainer + " " + disabledContent;
 
 const variants: Record<ButtonVariant, string> = {
@@ -33,9 +35,12 @@ const variants: Record<ButtonVariant, string> = {
   danger,
 };
 
-export function Button({ variant = "filled", multiline = false, className = "", type = "button", ...props }: ButtonProps) {
+export function Button({ variant = "filled", leadingIcon = false, multiline = false, className = "", type = "button", ...props }: ButtonProps) {
   const layout = multiline ? "min-w-0 shrink whitespace-pre-line text-center" : "min-w-[58px] shrink-0 whitespace-nowrap";
-  const horizontalPadding = variant === "text" || variant === "ghost" ? "px-3" : "px-6";
+  const isTextVariant = variant === "text" || variant === "ghost";
+  const horizontalPadding = leadingIcon
+    ? isTextVariant ? "pl-3 pr-4" : "pl-4 pr-6"
+    : isTextVariant ? "px-3" : "px-6";
   return (
     <button
       type={type}
