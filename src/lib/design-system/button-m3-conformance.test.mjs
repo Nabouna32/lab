@@ -168,7 +168,7 @@ test("Button ripple is pointer-origin, bounded, cleans up after release and resp
   for (const required of [
     "event.clientX - rect.left",
     "event.clientY - rect.top",
-    "Math.hypot(rect.width - x, rect.height - y)",
+    "Math.hypot(width - x, height - y)",
     "setPointerCapture(event.pointerId)",
     "onPointerCancel={releasePointer}",
     "onLostPointerCapture={releasePointer}",
