@@ -35,6 +35,7 @@ export function CopyButton({ value, label, copiedLabel }: CopyButtonProps) {
   return (
     <Button
       variant="secondary"
+      leadingIcon
       type="button"
       onClick={handleCopy}
       disabled={!value}
