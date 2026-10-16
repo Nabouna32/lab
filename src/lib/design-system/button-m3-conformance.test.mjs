@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import { test } from "node:test";
 
 const button = readFileSync(new URL("../../components/ui/Button.tsx", import.meta.url), "utf8");
+const buttonRipple = readFileSync(new URL("../../components/ui/ButtonRipple.tsx", import.meta.url), "utf8");
 const iconButton = readFileSync(new URL("../../components/ui/IconButton.tsx", import.meta.url), "utf8");
 const labCss = readFileSync(new URL("../../app/[locale]/design-lab/visual-lab.module.css", import.meta.url), "utf8");
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
@@ -37,6 +38,8 @@ test("shared Button exposes canonical variants, stable default labels, opt-in mu
   assert.ok(globalCss.includes("--button-elevation-1:") && globalCss.includes("--button-elevation-2:"));
   assert.ok(globalCss.includes("0 1px 2px rgb(25 27 35 / 0.12)") && globalCss.includes("0 2px 6px rgb(0 0 0 / 0.38)"));
   assert.ok(!button.includes("active:rounded-[var(--shape-corner-small)]"), "pressed state must not morph the shape in the Fidelity direction");
+  assert.ok(!button.includes("active:bg-[color-mix"), "pressed background color must be represented by the ripple rather than a second static color layer");
+  assert.ok(button.includes("<ButtonRipple />") && button.includes("relative isolate"));
 });
 
 test("shared IconButton preserves 48px touch target and supports accessible toggle state", () => {
@@ -159,4 +162,34 @@ test("collection and favorites action buttons use the shared M3 Button", () => {
   assert.ok(favoritesView.includes('import { Button } from "@/components/ui/Button"'));
   assert.ok(favoritesView.includes('<Button type="button" variant="text" disabled={favorites.loading || favorites.error}'));
   assert.ok(!favoritesView.includes('min-h-11 rounded-full px-3 text-sm font-bold text-[var(--primary)]'));
+});
+
+test("Button ripple is pointer-origin, bounded, cleans up after release and respects reduced motion", () => {
+  for (const required of [
+    "event.clientX - rect.left",
+    "event.clientY - rect.top",
+    "Math.hypot(width - x, height - y)",
+    "setPointerCapture(event.pointerId)",
+    "onPointerCancel={releasePointer}",
+    "onLostPointerCapture={releasePointer}",
+    'event.key !== " " && event.key !== "Enter"',
+    "button.addEventListener(\"keydown\", handleKeyDown)",
+    "button.addEventListener(\"keyup\", handleKeyUp)",
+    "button.addEventListener(\"blur\", handleBlur)",
+    'event.animationName !== "button-ripple-fade"',
+  ]) {
+    assert.ok(buttonRipple.includes(required), "missing ripple interaction behavior: " + required);
+  }
+  for (const required of [
+    ".button-ripple-layer {",
+    "button:disabled > .button-ripple-layer",
+    "border-radius: inherit",
+    "button-ripple-expand",
+    "button-ripple-fade",
+    ".button-ripple { display: none; }",
+    "button:active > .button-ripple-layer::after { opacity: 0.1; }",
+  ]) {
+    assert.ok(globalCss.includes(required), "missing ripple rendering rule: " + required);
+  }
+  assert.ok(auditPreview.includes("bounded ripple") && auditPreview.includes("onde contenue"));
 });

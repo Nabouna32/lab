@@ -301,8 +301,8 @@ export default function ComponentLivePreview({
           key: "keyboard-and-press",
           title: fr ? "Focus, survol et appui" : "Focus, hover and press",
           instruction: fr
-            ? "Utilise Tab pour atteindre chaque bouton actif, vérifie que le focus reste visible, puis active-le avec Entrée et Espace. Maintiens le clic pour observer l’état appuyé ; la forme doit rester stable."
-            : "Use Tab to reach each enabled button, check that focus remains visible, then activate it with Enter and Space. Hold the pointer down to inspect the pressed state; the shape should remain stable.",
+            ? "Utilise Tab pour atteindre chaque bouton actif, vérifie que le focus reste visible, puis active-le avec Entrée et Espace. Maintiens le clic pour observer l’onde contenue et la forme stable ; teste aussi le tactile sur mobile et vérifie que la réduction des animations supprime l’animation ripple."
+            : "Use Tab to reach each enabled button, check that focus remains visible, then activate it with Enter and Space. Hold the pointer down to inspect the bounded ripple and stable shape; test a touch interaction on mobile and confirm reduced-motion preference suppresses the ripple animation.",
           show: true,
         },
         {
