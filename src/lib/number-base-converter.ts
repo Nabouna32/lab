@@ -1,6 +1,9 @@
+export const NUMBER_BASE_MAX_INPUT_LENGTH = 4096;
+
 const DIGITS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 export function parseNumber(value: string, base: number): bigint | null {
+  if (value.length > NUMBER_BASE_MAX_INPUT_LENGTH) return null;
   if (!Number.isInteger(base) || base < 2 || base > 36) return null;
   const normalized = value.trim().toUpperCase();
   if (!/^[+-]?[0-9A-Z]+$/.test(normalized)) return null;
