@@ -144,6 +144,7 @@ test("common navigation and identity icons use the shared Material Symbols compo
   assert.match(searchSource, /MaterialIcon name="search"/);
   assert.match(headerSource, /MaterialIcon name="apps"/);
   assert.match(headerSource, /h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-\[var\(--primary-container\)\]/);
+  assert.match(headerSource, /bg-\[var\(--tertiary-container\)\] text-\[var\(--on-tertiary-container\)\]/);
   assert.match(headerSource, /t\.nav\.exploreDescription/);
   const messagesSource = readFileSync(new URL("../../lib/i18n/messages.ts", import.meta.url), "utf8");
   assert.match(messagesSource, /exploreDescription: "Accède à tous les outils"/);
