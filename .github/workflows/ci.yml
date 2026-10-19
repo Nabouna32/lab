@@ -56,7 +56,7 @@ jobs:
       - name: Exercise CI tooling tests
         if: steps.changes.outputs.governance_changed == 'true'
         shell: pwsh
-        run: node --test .github/scripts/*.test.mjs
+        run: node --test .github/scripts/classify-ci-changes.test.mjs .github/scripts/detect-ci-changes.test.mjs
 
       - name: Prepare persistent local dependencies
         if: steps.changes.outputs.lightweight_only != 'true'
