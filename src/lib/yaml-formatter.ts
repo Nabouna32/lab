@@ -72,8 +72,7 @@ export function formatYaml(input: string, indent: number): YamlFormatResult {
           indentSeq: true,
           lineWidth: 0,
           verifyAliasOrder: true,
-        })
-        .trimEnd(),
+        }),
     };
   } catch (error) {
     return {
