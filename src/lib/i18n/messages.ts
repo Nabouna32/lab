@@ -39,8 +39,8 @@ export const messages: Record<Locale, Messages> = {
     home: {
       metaTitle: "Loculary — Outils en ligne gratuits",
       badge: "De l’idée à l’action",
-      title: "Une boîte à outils pour tes idées.",
-      description: "Calculer, convertir, créer, analyser : trouve l’outil qu’il te faut.",
+      title: "Que veux-tu faire ?",
+      description: "Calcule, convertis, crée ou analyse — trouve le bon outil, sans compte.",
       searchPlaceholder: "Que veux-tu faire ?",
       quickLinksLabel: "Accès directs aux outils",
       quickLinks: [
@@ -131,8 +131,8 @@ export const messages: Record<Locale, Messages> = {
     home: {
       metaTitle: "Loculary — Free online tools",
       badge: "From idea to done",
-      title: "A toolbox for your ideas.",
-      description: "Calculate, convert, create, analyze — find the tool you need.",
+      title: "What do you want to do?",
+      description: "Calculate, convert, create or analyze — find the right tool, no account needed.",
       searchPlaceholder: "Need a tool?",
       quickLinksLabel: "Jump straight into a tool",
       quickLinks: [
