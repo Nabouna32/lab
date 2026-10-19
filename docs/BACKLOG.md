@@ -7,7 +7,7 @@ Dernière révision : 2026-10-19. File de travail unique. Les preuves et priorit
 - **État :** continu ; checkpoint [issue #741](https://github.com/Nabouna32/lab/issues/741).
 - **Pourquoi :** les audits statiques ne prouvent pas la justesse métier ni le comportement des entrées limites. Les correctifs EXIF, CSV et compresseur ont déjà révélé des défauts concrets.
 - **Livrable visé :** choisir un outil par reprise ; vérifier calcul/format, limites, erreurs, FR/EN et flux de données ; ajouter des tests de régression à chaque défaut confirmé.
-- **Dernier lot livré :** la [PR #789](https://github.com/Nabouna32/lab/pull/789) remplace l’heuristique RGB brute du texte d’aperçu par la luminance relative sRGB WCAG et compare les rapports de contraste noir/blanc. Les régressions couvrent des gris intermédiaires, une couleur bleue, le noir et le blanc. CI complète réussie sur le SHA final ; déploiement de production `READY` (preuves dans [PROJECT-STATE.md](PROJECT-STATE.md)).
+- **Dernier lot livré :** la [PR #791](https://github.com/Nabouna32/lab/pull/791) remplace la soustraction brute des champs année/mois/jour par un calcul d’anniversaires calendaires successifs. Les tests couvrent le 29 février (anniversaire retenu le 28 février en année non bissextile), les fins de mois, les heures différentes d’un même jour et les dates futures invalides. Lint, typecheck, tests et build ont réussi sur le SHA final `b83a882fde639d3dc47f128dbff9677f49ed7857` ([CI #39328931690](https://github.com/Nabouna32/lab/actions/runs/39328931690)). La correction de contraste de la PR #789 reste le lot précédent.
 
 ## P1 — Finding npm HIGH sur `braces`
 
