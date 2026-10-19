@@ -39,7 +39,7 @@ export default function DateCalculator() {
   const result = parsedDate && numericAmount !== null
     ? calculateDateAdjustment(parsedDate, numericAmount, unit, direction)
     : null;
-  const invalid = startDate !== "" && (parsedDate === null || (numericAmount !== null && result === null));
+  const invalid = startDate === "" || parsedDate === null || amount === "" || numericAmount === null || result === null;
   const hasValues = startDate !== today || direction !== "add" || amount !== "1" || unit !== "days";
 
   function clearValues() {
@@ -74,7 +74,7 @@ export default function DateCalculator() {
           value={startDate}
           onChange={(event) => setStartDate(event.target.value)}
           aria-invalid={invalid}
-          aria-describedby="date-calculator-error"
+          aria-describedby={invalid ? "date-calculator-error" : undefined}
         />
         <CalculatorField
           label={t.amount}
@@ -85,7 +85,7 @@ export default function DateCalculator() {
           value={amount}
           onChange={(event) => setAmount(event.target.value)}
           aria-invalid={invalid}
-          aria-describedby="date-calculator-error"
+          aria-describedby={invalid ? "date-calculator-error" : undefined}
         />
         <Select label={t.unit} id="date-calculator-unit" value={unit} onChange={(event) => setUnit(event.target.value as DateAdjustmentUnit)}>
           <option value="days">{t.units.days}</option>
