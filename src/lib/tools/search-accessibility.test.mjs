@@ -17,3 +17,10 @@ test("ToolSearch exposes expanded state whenever its popup is actually open", ()
   );
   assert.match(toolSearchSource, /{isPopupOpen && typeof document !== "undefined" && createPortal\(/);
 });
+
+test("ToolSearch announces the changing suggestion count to assistive technology", () => {
+  assert.match(
+    toolSearchSource,
+    /<p role="status" aria-live="polite" aria-atomic="true" className="rounded-full bg-\[var\(--surface-soft\)\]/,
+  );
+});
