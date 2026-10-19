@@ -10,7 +10,7 @@ import { SegmentedControl } from "@/components/ui/SegmentedControl";
 import { ValidationMessage } from "@/components/ui/ValidationMessage";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
-import { calculateDateAdjustment, type DateAdjustmentDirection, type DateAdjustmentUnit } from "@/lib/date-calculator";
+import { calculateDateAdjustment, parseDateInput, type DateAdjustmentDirection, type DateAdjustmentUnit } from "@/lib/date-calculator";
 
 function toInputDate(date: Date): string {
   const year = date.getFullYear();
@@ -19,11 +19,6 @@ function toInputDate(date: Date): string {
   return `${year}-${month}-${day}`;
 }
 
-function parseInputDate(value: string): Date | null {
-  if (!value) return null;
-  const date = new Date(`${value}T12:00:00`);
-  return Number.isNaN(date.getTime()) ? null : date;
-}
 
 export default function DateCalculator() {
   const locale = useLocale();
@@ -34,7 +29,7 @@ export default function DateCalculator() {
   const [amount, setAmount] = useState("1");
   const [unit, setUnit] = useState<DateAdjustmentUnit>("days");
 
-  const parsedDate = parseInputDate(startDate);
+  const parsedDate = parseDateInput(startDate);
   const numericAmount = amount === "" ? null : Number(amount);
   const result = parsedDate && numericAmount !== null
     ? calculateDateAdjustment(parsedDate, numericAmount, unit, direction)
