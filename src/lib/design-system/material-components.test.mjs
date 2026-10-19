@@ -145,11 +145,11 @@ test("common navigation and identity icons use the shared Material Symbols compo
   assert.match(collectionSource, /MaterialIcon name="collections_bookmark"/);
   assert.match(searchSource, /MaterialIcon name="search"/);
   assert.match(headerSource, /MaterialIcon name="apps"/);
-  assert.match(headerSource, /h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-\[var\(--primary-container\)\]/);
+  assert.match(headerSource, /h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-\[var\(--primary-container\)\]/);
   assert.match(headerSource, /bg-\[var\(--tertiary-container\)\] text-\[var\(--on-tertiary-container\)\]/);
   assert.match(headerSource, /t\.nav\.exploreDescription/);
   const messagesSource = readFileSync(new URL("../../lib/i18n/messages.ts", import.meta.url), "utf8");
-  assert.match(messagesSource, /exploreDescription: "Accède à tous les outils"/);
+  assert.match(messagesSource, /exploreDescription: "Parcours tous les outils disponibles"/);
   assert.match(messagesSource, /exploreDescription: "Browse all available tools"/);
   assert.match(headerSource, /t\.nav\.favorites/);
   assert.match(headerSource, /t\.nav\.favoritesDescription/);
@@ -648,6 +648,6 @@ test("header theme controls defer client-dependent selected state until after hy
   assert.match(headerMenuSource, /function getServerHydrationReadySnapshot\(\)\s*\{\s*return false;/);
   assert.match(headerMenuSource, /useSyncExternalStore\(\s*subscribeHydrationReady,\s*getHydrationReadySnapshot,\s*getServerHydrationReadySnapshot,/);
   assert.doesNotMatch(headerMenuSource, /setThemeReady/);
-  assert.match(headerMenuSource, /aria-pressed=\{themeReady && theme === option\.value\}/);
-  assert.match(headerMenuSource, /themeReady && theme === option\.value && <MaterialIcon name="check"/);
+  assert.match(headerMenuSource, /aria-pressed=\{selected\}/);
+  assert.match(headerMenuSource, /const selected = themeReady && theme === option\.value/);
 });
