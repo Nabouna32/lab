@@ -43,7 +43,6 @@ export default function NumberBaseConverter() {
             label={t.input}
             inputId="number-base-input"
             value={value}
-            maxLength={NUMBER_BASE_MAX_INPUT_LENGTH}
             onChange={(event) => setValue(event.target.value)}
             placeholder={t.placeholder}
             spellCheck={false}
