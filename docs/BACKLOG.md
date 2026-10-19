@@ -1,13 +1,14 @@
 # Loculary — backlog priorisé
 
-Dernière révision : 2026-10-19. File de travail unique. Les preuves et priorités de reprise sont dans [PROJECT-STATE.md](PROJECT-STATE.md), les risques et blocages dans [KNOWN-ISSUES.md](KNOWN-ISSUES.md), et les lots UX dans [REFONTE.md](REFONTE.md).
+Dernière révision : 2026-10-20. File de travail unique. Les preuves et priorités de reprise sont dans [PROJECT-STATE.md](PROJECT-STATE.md), les risques et blocages dans [KNOWN-ISSUES.md](KNOWN-ISSUES.md), et les lots UX dans [REFONTE.md](REFONTE.md).
 
 ## P1 — Audit de justesse et confidentialité des outils (priorité active)
 
 - **État :** continu ; checkpoint [issue #741](https://github.com/Nabouna32/lab/issues/741).
 - **Pourquoi :** les audits statiques ne prouvent pas la justesse métier ni le comportement des entrées limites. Les correctifs EXIF, CSV et compresseur ont déjà révélé des défauts concrets.
 - **Livrable visé :** choisir un outil par reprise ; vérifier calcul/format, limites, erreurs, FR/EN et flux de données ; ajouter des tests de régression à chaque défaut confirmé.
-- **Dernier lot UX livré :** la [PR #796](https://github.com/Nabouna32/lab/pull/796) remplit l’état initial de la page de recherche avec quatre raccourcis d’outils publiés réutilisant les liens rapides de l’accueil. Titres et descriptions sont localisés FR/EN ; routes canoniques conservées, aucun transfert ni stockage ajouté. Le test de contrat, lint, typecheck, tests et build ont réussi sur `668256b5fb5645a020869e797ce2c3aae53f04eb` ([CI #39331374660](https://github.com/Nabouna32/lab/actions/runs/39331374660)).
+- **Dernier lot de justesse livré :** la [PR #798](https://github.com/Nabouna32/lab/pull/798) corrige le rejet à tort de `−459,67 °F` vers Kelvin : le calcul flottant donnait environ `−5,68 × 10⁻¹⁴ K`. La limite est vérifiée dans l’échelle d’origine et l’arrondi négatif est neutralisé après cette validation. Les tests couvrent les valeurs exactes en Celsius/Fahrenheit/Kelvin et les valeurs physiquement impossibles juste sous la limite. CI complète réussie sur `9c94ee3c6b02e645558ba875ea20b69db8a5229c` ([run #39332500782](https://github.com/Nabouna32/lab/actions/runs/39332500782)).
+- **Lot UX précédent livré :** la [PR #796](https://github.com/Nabouna32/lab/pull/796) remplit l’état initial de la page de recherche avec quatre raccourcis d’outils publiés réutilisant les liens rapides de l’accueil. Titres et descriptions sont localisés FR/EN ; routes canoniques conservées, aucun transfert ni stockage ajouté. Le test de contrat, lint, typecheck, tests et build ont réussi sur `668256b5fb5645a020869e797ce2c3aae53f04eb` ([CI #39331374660](https://github.com/Nabouna32/lab/actions/runs/39331374660)).
 - **Lot précédent :** la [PR #791](https://github.com/Nabouna32/lab/pull/791) remplace la soustraction brute des champs année/mois/jour par un calcul d’anniversaires calendaires successifs. Les tests couvrent le 29 février (anniversaire retenu le 28 février en année non bissextile), les fins de mois, les heures différentes d’un même jour et les dates futures invalides. La convention est explicitée en français et en anglais par la [PR #792](https://github.com/Nabouna32/lab/pull/792).
 
 ## P1 — Finding npm HIGH sur `braces`
