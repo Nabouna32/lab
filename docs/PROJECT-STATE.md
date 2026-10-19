@@ -24,6 +24,18 @@ Préparer le lancement public autour du **26 octobre 2026**, sans sacrifier les 
 - **Limite de vérification :** le rendu et les parcours du site n'ont pas pu être testés dans un navigateur depuis la session distante. `READY` prouve l'état du déploiement, pas une validation fonctionnelle complète.
 - Les PR d'harmonisation du menu d'en-tête (#742–#746), les correctifs de sécurité #747 et #764, de capacités presse-papiers #753, de géométrie IconButton #755, d'état d'erreur des contrôles de formulaire #756–#757, de motion ProgressIndicator #759, d'accessibilité ToolSearch #762 et de justesse EXIF/i18n #768 sont fusionnés. DEC-028 a été consignée dans la PR documentaire #758 ; le checkpoint de lancement a été actualisé par #766.
 
+## Cinq dernières reprises / lots livrés
+
+> Cette liste sert de mémoire opérationnelle ; elle décrit le type de travail et renvoie à la preuve GitHub.
+
+1. **Gouvernance du mandat** — mise à jour du mandat permanent v4 : [PR #784](https://github.com/Nabouna32/lab/pull/784).
+2. **Suivi de livraison** — consignation des lots d’accueil et du compresseur d’image : [PR #783](https://github.com/Nabouna32/lab/pull/783).
+3. **Produit / UX** — accueil orienté action, raccourcis FR/EN sous la recherche : [PR #782](https://github.com/Nabouna32/lab/pull/782).
+4. **Gouvernance du mandat** — remplacement du mandat par sa version v3 : [PR #781](https://github.com/Nabouna32/lab/pull/781).
+5. **Correctif fonctionnel** — extension du téléchargement alignée sur le MIME réellement encodé : [PR #779](https://github.com/Nabouna32/lab/pull/779).
+
+Type dominant récent : gouvernance et documentation, avec un lot UX et un correctif fonctionnel. La prochaine priorité choisie est l’outillage de validation navigateur demandé par le mandat, pas un autre lot de refonte visuelle.
+
 ## Priorités immédiates
 
 1. **Poursuivre l'audit de confidentialité et de justesse métier des outils.** Le contrôle statique n'a pas trouvé d'autres appels réseau directs dans les modules d'outils examinés, mais la revue métier de l'outil Métadonnées d'image a révélé puis corrigé un offset GPS affiché à la place des coordonnées, une confusion entre date de capture et modification, et des libellés FR/EN manquants ([PR #768](https://github.com/Nabouna32/lab/pull/768)). Continuer par des vérifications spécifiques à chaque outil ; ne pas assimiler une recherche de chaînes réseau à un audit fonctionnel exhaustif.
