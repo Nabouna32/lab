@@ -97,7 +97,7 @@ type ToolMessages = {
   };
   urlParser: {
     input: string; placeholder: string; result: string; ready: string; emptyResult: string; invalid: string;
-    clear: string; copy: string; hint: string; emptyValue: string; queryParameters: string; noQueryParameters: string;
+    clear: string; copy: string; hint: string; credentialsWarning: string; emptyValue: string; queryParameters: string; noQueryParameters: string;
     protocol: string; origin: string; username: string; host: string; hostname: string; port: string; pathname: string; search: string; hash: string;
   };
   base64: {
@@ -382,7 +382,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     },
     urlParser: {
       input: "Votre URL", placeholder: "https://exemple.com/chemin?lang=fr#section", result: "Analyse", ready: "URL analysée", emptyResult: "Le résultat apparaîtra ici après analyse.", invalid: "Saisissez une URL absolue valide.",
-      clear: "Effacer", copy: "Copier l’URL", hint: "L’analyse est effectuée localement dans votre navigateur. Aucun service externe n’est utilisé.", emptyValue: "—",
+      clear: "Effacer", copy: "Copier l’URL", hint: "L’analyse est effectuée localement dans votre navigateur. Aucun service externe n’est utilisé.", credentialsWarning: "Cette URL contient des identifiants intégrés. Le bouton « Copier l’URL » les inclura : ne partagez pas cette URL publiquement.", emptyValue: "—",
       queryParameters: "Paramètres de requête", noQueryParameters: "Aucun paramètre de requête.", protocol: "Protocole", origin: "Origine", username: "Nom d’utilisateur",
       host: "Hôte", hostname: "Nom d’hôte", port: "Port", pathname: "Chemin", search: "Requête", hash: "Fragment",
     },
@@ -663,7 +663,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     },
     urlParser: {
       input: "Your URL", placeholder: "https://example.com/path?lang=en#section", result: "Analysis", ready: "URL parsed", emptyResult: "The result will appear here after parsing.", invalid: "Enter a valid absolute URL.",
-      clear: "Clear", copy: "Copy URL", hint: "Parsing happens locally in your browser. No external service is used.", emptyValue: "—",
+      clear: "Clear", copy: "Copy URL", hint: "Parsing happens locally in your browser. No external service is used.", credentialsWarning: "This URL contains embedded credentials. “Copy URL” will include them; do not share this URL publicly.", emptyValue: "—",
       queryParameters: "Query parameters", noQueryParameters: "No query parameters.", protocol: "Protocol", origin: "Origin", username: "Username",
       host: "Host", hostname: "Hostname", port: "Port", pathname: "Path", search: "Query", hash: "Fragment",
     },
