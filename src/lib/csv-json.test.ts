@@ -54,3 +54,24 @@ test("auto-detects comma delimiters when headers contain quoted semicolons", () 
     [{ "Name; First": "Alice", Age: "30" }],
   );
 });
+
+
+test("neutralizes spreadsheet formulas in exported string cells and headers", () => {
+  const result = transformCsvJson(JSON.stringify([
+    { "=HYPERLINK(""https://example.com"",""open"")": "=1+1", note: "  +SUM(1,1)" },
+    { "=HYPERLINK(""https://example.com"",""open"")": "-cmd|/C calc", note: "@SUM(1,1)" },
+  ]), "json-to-csv");
+  assert.equal(result.error, null);
+  assert.equal(
+    result.value,
+    "'=HYPERLINK(""https://example.com"",""open"")','=1+1,note\r\n'-cmd|/C calc,'  +SUM(1,1)\r\n'@SUM(1,1),',
+  );
+});
+
+test("preserves numeric negative values in CSV export", () => {
+  assert.equal(transformCsvJson(JSON.stringify([{ amount: -12 }]), "json-to-csv").value, "amount\r\n-12");
+});
+
+test("neutralizes formula markers after leading control characters", () => {
+  assert.equal(transformCsvJson(JSON.stringify([{ value: "\t=1+1" }]), "json-to-csv").value, "value\r\n'\t=1+1");
+});
