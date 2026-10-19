@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { convertColor, formatHsl, formatRgb, hslToRgb, parseColor, rgbToHsl } from "./color-converter.ts";
+import { convertColor, formatHsl, formatRgb, getContrastingTextColor, hslToRgb, parseColor, rgbToHsl } from "./color-converter.ts";
 
 test("converts a hex color to RGB and HSL", () => {
   const result = convertColor("#336699");
@@ -44,4 +44,13 @@ test("rejects malformed and out-of-range colors", () => {
   assert.equal(convertColor("rgb(256, 0, 0)"), null);
   assert.equal(convertColor("hsl(20, 101%, 50%)"), null);
   assert.equal(convertColor("not a color"), null);
+});
+
+
+test("chooses preview text using WCAG relative luminance instead of raw RGB averages", () => {
+  assert.equal(getContrastingTextColor({ r: 128, g: 128, b: 128 }), "#000000");
+  assert.equal(getContrastingTextColor({ r: 119, g: 119, b: 119 }), "#000000");
+  assert.equal(getContrastingTextColor({ r: 51, g: 102, b: 153 }), "#FFFFFF");
+  assert.equal(getContrastingTextColor({ r: 0, g: 0, b: 0 }), "#FFFFFF");
+  assert.equal(getContrastingTextColor({ r: 255, g: 255, b: 255 }), "#000000");
 });
