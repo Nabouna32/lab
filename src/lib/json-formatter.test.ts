@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { formatJson, getJsonFormatError, minifyJson } from "./json-formatter.ts";
+import { MAX_JSON_INPUT_LENGTH, formatJson, getJsonFormatError, minifyJson } from "./json-formatter.ts";
 
 test("formats nested JSON without changing scalar representations", () => {
   const input = '{ "name":"Loculary","items":[1,true,null,"é"] }';
@@ -45,4 +45,16 @@ test("rejects invalid numbers", () => {
 test("accepts arrays, escaped strings, unicode and whitespace", () => {
   const input = '[\n    "line\\ntext",\n    "\\u2764",\n    "é",\n    { "nested": 42 }\n  ]';
   assert.equal(minifyJson(input), '["line\\ntext","\\u2764","é",{"nested":42}]');
+});
+
+
+test("rejects oversized JSON before formatting or minifying", () => {
+  const input = " ".repeat(MAX_JSON_INPUT_LENGTH + 1);
+  const error = getJsonFormatError(input);
+
+  assert.equal(error.kind, "resource");
+  assert.equal(error.line, 1);
+  assert.equal(error.column, 1);
+  assert.throws(() => formatJson(input, { indent: "  " }), /safe size limit/);
+  assert.throws(() => minifyJson(input), /safe size limit/);
 });
