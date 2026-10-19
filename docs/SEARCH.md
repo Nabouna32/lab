@@ -16,6 +16,7 @@ Search supports catalog navigation and intent-based tool discovery.
 - Selecting a suggestion opens that tool directly.
 - Submitting a query with exactly one current match opens that tool directly. If the match list is ambiguous (multiple matches), or no match is found, submission opens the localized results page: `/fr/recherche#q=...` or `/en/search#q=...`.
 - The results page lists every published catalog match, not just the small suggestion subset. A no-result page explains the outcome and offers localized example queries. The query is kept in the URL fragment so the result state can be revisited without sending the search term in the HTTP request.
+- On the full results page, one persistent polite live-status line announces loading, search errors, and the final result count; the visual loading panel must not duplicate that announcement.
 - The trailing round arrow and Enter submit the same query. Enter while a suggestion is explicitly highlighted opens that selected tool.
 - Search-result URLs are transient discovery states, not standalone SEO landing pages; they should not be indexed. The static all-tools catalog route remains separate from query results.
 
