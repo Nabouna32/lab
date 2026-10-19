@@ -6,12 +6,13 @@ const component = readFileSync(new URL("./YamlFormatterValidator.tsx", import.me
 const messages = readFileSync(new URL("../../../lib/i18n/tool-messages.ts", import.meta.url), "utf8");
 
 test("YAML syntax errors expose parser diagnostics with localized labels", () => {
-  assert.match(component, /error\\.message/);
-  assert.match(component, /errorDetailLabel/);
-  assert.match(messages, /errorDetailLabel: "Détail technique :"/);
-  assert.match(messages, /errorDetailLabel: "Parser detail:"/);
+  assert.ok(component.includes("error.message"));
+  assert.ok(component.includes("errorDetailLabel"));
+  assert.ok(messages.includes('errorDetailLabel: "Détail technique :"'));
+  assert.ok(messages.includes('errorDetailLabel: "Parser detail:"'));
 });
 
 test("resource-limit errors keep the generic localized safety message", () => {
-  assert.match(component, /error\\.kind === "resource" \\? \\([\\s\\S]*?t\\.resourceLimit/);
+  assert.ok(component.includes('error.kind === "resource"'));
+  assert.ok(component.includes("t.resourceLimit"));
 });
