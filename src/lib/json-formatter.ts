@@ -1,6 +1,8 @@
 export type JsonFormatOptions = { indent: string };
 
-export type JsonFormatError = { index: number; line: number; column: number };
+export type JsonFormatError = { index: number; line: number; column: number; kind?: "resource" };
+
+export const MAX_JSON_INPUT_LENGTH = 200_000;
 
 type JsonNode =
   | { kind: "primitive"; raw: string }
@@ -16,6 +18,12 @@ class JsonParseError extends Error {
   }
 }
 
+class JsonResourceError extends Error {
+  constructor() {
+    super("JSON input exceeds the safe size limit.");
+  }
+}
+
 class JsonParser {
   private index = 0;
   private readonly input: string;
@@ -25,6 +33,7 @@ class JsonParser {
   }
 
   parse(): JsonNode {
+    if (this.input.length > MAX_JSON_INPUT_LENGTH) throw new JsonResourceError();
     this.skipWhitespace();
     const value = this.parseValue(0);
     this.skipWhitespace();
@@ -206,6 +215,9 @@ export function getJsonFormatError(input: string): JsonFormatError {
     new JsonParser(input).parse();
     return { index: -1, line: 0, column: 0 };
   } catch (error) {
+    if (error instanceof JsonResourceError) {
+      return { index: 0, line: 1, column: 1, kind: "resource" };
+    }
     const index = error instanceof JsonParseError ? error.index : 0;
     const before = input.slice(0, index);
     const line = before.split("\n").length;
