@@ -7,7 +7,7 @@ test("converts a hex color to RGB and HSL", () => {
   assert.deepEqual(result?.rgb, { r: 51, g: 102, b: 153 });
   assert.equal(result?.hex, "#336699");
   assert.equal(formatRgb(result!.rgb), "rgb(51, 102, 153)");
-  assert.equal(formatHsl(result!.hsl), "hsl(210°, 50%, 40%)");
+  assert.equal(formatHsl(result!.hsl), "hsl(210, 50%, 40%)");
 });
 
 test("accepts shorthand hex, RGB and HSL input", () => {
@@ -33,8 +33,8 @@ test("round trips representative HSL colors", () => {
 });
 
 test("handles achromatic colors without hue artifacts", () => {
-  assert.equal(formatHsl(rgbToHsl({ r: 0, g: 0, b: 0 })), "hsl(0°, 0%, 0%)");
-  assert.equal(formatHsl(rgbToHsl({ r: 255, g: 255, b: 255 })), "hsl(0°, 0%, 100%)");
+  assert.equal(formatHsl(rgbToHsl({ r: 0, g: 0, b: 0 })), "hsl(0, 0%, 0%)");
+  assert.equal(formatHsl(rgbToHsl({ r: 255, g: 255, b: 255 })), "hsl(0, 0%, 100%)");
 });
 
 test("rejects malformed and out-of-range colors", () => {
