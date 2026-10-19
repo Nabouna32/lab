@@ -42,3 +42,13 @@ Dernière vérification : 2026-10-19. Ce registre résume les blocages persistan
 - **Risque :** modifier les politiques de partage sans raison démontrée pourrait changer les droits de lecture ou casser les liens de partage. Supprimer des index sur une base peu utilisée pourrait aussi dégrader des parcours encore peu sollicités.
 - **Prochaine action :** aucune modification de politique n'est justifiée par ces alertes seules. Réexaminer si les expressions, le plan ou les mesures de charge changent.
 - **Index inutilisés :** les dix index listés ont `idx_scan = 0`, font chacun 8–16 kB et ne supportent pas directement une contrainte selon `pg_constraint.conindid`. Ils restent néanmoins conservés : les compteurs reflètent une base peu sollicitée et ne suffisent pas à prouver qu'ils sont inutiles pour les parcours d'administration futurs. Réévaluer avec une période de charge représentative avant toute suppression.
+
+
+## 5. HTML previewer — CSP insertion can be swallowed by untrusted markup
+
+- **État :** correctif en cours dans la [PR #764](https://github.com/Nabouna32/lab/pull/764), non fusionnée au dernier contrôle.
+- **Impact :** si la CSP n'est pas interprétée, une page prévisualisée peut déclencher des requêtes de ressources externes et exposer des métadonnées réseau au serveur tiers. L'iframe utilise `sandbox=""`, ce qui bloque notamment les scripts et l'accès same-origin, mais ne bloque pas à lui seul toutes les requêtes réseau.
+- **Cause confirmée dans le code avant correctif :** `src/lib/html-previewer.ts` cherchait le premier `<head>` avec une regex. Une entrée comme `<!-- <head> --> <img src="https://example.com/tracker.png">` pouvait faire insérer la balise CSP dans un commentaire HTML inerte.
+- **Correction proposée dans la PR :** préfixer la CSP avant tout contenu utilisateur, plutôt que de chercher une balise dans une chaîne non fiable ; ajouter une régression vérifiant que la politique précède le commentaire.
+- **Vérification restante :** la suite de tests et la CI doivent réussir sur la tête exacte de la PR. Aucun test n'a été exécuté localement dans la session distante ; aucun déploiement de ce correctif n'est revendiqué.
+- **Condition de résolution :** CI verte sur le SHA final, revue du diff et confirmation après fusion que la production est déployée. Ne pas déclarer la faille corrigée avant ces preuves.
