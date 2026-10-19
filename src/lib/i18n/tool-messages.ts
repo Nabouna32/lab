@@ -257,7 +257,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     numberBaseConverter: {
       input: "Nombre à convertir", placeholder: "Ex. FF", fromBase: "Base de départ", toBase: "Base d’arrivée",
       result: "Résultat", emptyResult: "Le résultat apparaîtra ici après conversion.",
-      invalid: "Saisissez un entier valide pour la base choisie.", hint: "Les bases 2 à 36 sont prises en charge. Les lettres A–Z représentent les chiffres 10–35.",
+      invalid: "Saisissez un entier valide pour la base choisie (4 096 caractères maximum).", hint: "Les bases 2 à 36 sont prises en charge. Les lettres A–Z représentent les chiffres 10–35. Limite : 4 096 caractères.",
       reset: "Réinitialiser", swap: "Inverser les bases", copy: "Copier", copied: "Copié",
       baseLabel: (base) => "Base " + base,
     },
@@ -541,7 +541,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     numberBaseConverter: {
       input: "Number to convert", placeholder: "e.g. FF", fromBase: "Source base", toBase: "Target base",
       result: "Result", emptyResult: "The result will appear here once you enter a number.",
-      invalid: "Enter a valid integer for the selected base.", hint: "Bases 2 through 36 are supported. Letters A–Z represent digits 10–35.",
+      invalid: "Enter a valid integer for the selected base (up to 4,096 characters).", hint: "Bases 2 through 36 are supported. Letters A–Z represent digits 10–35. Limit: 4,096 characters.",
       reset: "Reset", swap: "Swap bases", copy: "Copy", copied: "Copied",
       baseLabel: (base) => "Base " + base,
     },
