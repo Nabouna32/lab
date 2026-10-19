@@ -352,7 +352,7 @@ export default function ToolSearch({
             <>
               <div className="flex items-center justify-between gap-3 px-3 pb-2 pt-1">
                 <p className="text-xs font-semibold text-[var(--muted)]">{t.tools.suggestions}</p>
-                <p className="rounded-full bg-[var(--surface-soft)] px-2.5 py-1 text-xs font-medium text-[var(--muted)]">
+                <p role="status" aria-live="polite" aria-atomic="true" className="rounded-full bg-[var(--surface-soft)] px-2.5 py-1 text-xs font-medium text-[var(--muted)]">
                   {formatPlural(locale, visibleResults.length, { one: t.tools.resultCountOne, other: t.tools.resultCountMany })}
                 </p>
               </div>
