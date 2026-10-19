@@ -136,10 +136,17 @@ jobs:
         if: steps.changes.outputs.lightweight_only != 'true'
         run: npm run build
 
+      - name: Install E2E dependencies
+        if: steps.changes.outputs.lightweight_only != 'true'
+        run: npm ci
+        working-directory: e2e
+
       - name: Install Playwright Chromium
         if: steps.changes.outputs.lightweight_only != 'true'
         run: npx playwright install --with-deps chromium
+        working-directory: e2e
 
       - name: Browser smoke tests
         if: steps.changes.outputs.lightweight_only != 'true'
-        run: npm run test:e2e
+        run: npm test
+        working-directory: e2e
