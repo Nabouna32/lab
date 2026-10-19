@@ -19,9 +19,9 @@ test("formats YAML with two-space indentation and keeps comments", () => {
 
 test("preserves trailing spaces and chomping semantics in block scalars", () => {
   const samples = [
-    "value: |-\\n  keep trailing spaces  " ,
-    "value: |\\n  keep the final line break",
-    "value: |+\\n  keep trailing spaces and line breaks  \\n\\n",
+    "value: |-\n  keep trailing spaces  ",
+    "value: |\n  keep the final line break",
+    "value: |+\n  keep trailing spaces and line breaks  \n\n",
   ];
 
   for (const input of samples) {
