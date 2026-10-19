@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - package.json
+      - e2e/package.json
       - .github/workflows/lockfile-generation.yml
 
 permissions:
@@ -27,11 +27,11 @@ jobs:
           node-version: 24.21.0
 
       - name: Generate lockfile without running package scripts
-        run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+        run: npm install --package-lock-only --prefix e2e --ignore-scripts --no-audit --no-fund
 
       - name: Upload generated lockfile
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: generated-package-lock
-          path: package-lock.json
+          path: e2e/package-lock.json
           if-no-files-found: error
