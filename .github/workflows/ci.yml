@@ -28,6 +28,11 @@ jobs:
         with:
           fetch-depth: 1
           persist-credentials: false
+          clean: false
+
+      - name: Clean workspace while preserving local caches
+        shell: pwsh
+        run: git clean -ffdx -e node_modules -e .next
 
       - name: Detect lightweight and dependency changes
         id: changes
@@ -86,16 +91,7 @@ jobs:
         if: steps.changes.outputs.lightweight_only != 'true'
         run: npm test
 
-      - name: Restore local Next.js build cache
-        if: steps.changes.outputs.lightweight_only != 'true'
-        shell: pwsh
-        run: node .github/scripts/next-local-cache.mjs restore
-
       - name: Build
         if: steps.changes.outputs.lightweight_only != 'true'
         run: npm run build
 
-      - name: Persist local Next.js build cache
-        if: success() && steps.changes.outputs.lightweight_only != 'true'
-        shell: pwsh
-        run: node .github/scripts/next-local-cache.mjs save
