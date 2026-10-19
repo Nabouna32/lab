@@ -30,6 +30,7 @@ function parseField(expression: string, min: number, max: number, name: CronFiel
     const [rangeExpression, stepExpression] = part.split("/");
     if (part.split("/").length > 2) throw new Error("Invalid Cron step.");
 
+    if (stepExpression !== undefined && !/^\\d+$/.test(stepExpression)) throw new Error("Cron step must be a positive integer.");
     const step = stepExpression === undefined ? 1 : Number(stepExpression);
     if (!Number.isInteger(step) || step < 1) throw new Error("Cron step must be a positive integer.");
 
@@ -40,10 +41,11 @@ function parseField(expression: string, min: number, max: number, name: CronFiel
       end = max;
     } else if (rangeExpression.includes("-")) {
       const bounds = rangeExpression.split("-");
-      if (bounds.length !== 2) throw new Error("Invalid Cron range.");
+      if (bounds.length !== 2 || bounds.some((bound) => !/^\\d+$/.test(bound))) throw new Error("Invalid Cron range.");
       start = Number(bounds[0]);
       end = Number(bounds[1]);
     } else {
+      if (!/^\\d+$/.test(rangeExpression)) throw new Error(`Invalid Cron ${name} value.`);
       start = Number(rangeExpression);
       // A single value with a step runs from that value through the field maximum.
       end = stepExpression === undefined ? start : max;
