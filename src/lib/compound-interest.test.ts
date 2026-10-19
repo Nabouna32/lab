@@ -17,6 +17,7 @@ test("requires a whole number of compounding periods", () => {
   assert.equal(getCompoundingPeriodCount(0.5, 1), null);
   assert.equal(getCompoundingPeriodCount(0.5, 12), 6);
   assert.equal(getCompoundingPeriodCount(0.1666666667, 12), 2);
+  assert.equal(getCompoundingPeriodCount(1e-12, 365), null);
 });
 
 test("calculates fractional years when they map to whole periods", () => {
