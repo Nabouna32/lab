@@ -80,6 +80,12 @@ export default function UrlParser() {
             {result && <CopyButton value={result.href} label={t.copy} />}
           </div>
 
+          {result && (result.username || result.hasPassword) && (
+            <p role="status" className="mt-4 rounded-[var(--radius-md)] border border-[var(--warning)] bg-[var(--warning-container)] p-3 text-sm text-[var(--on-warning-container)]">
+              {t.credentialsWarning}
+            </p>
+          )}
+
           {result ? (
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
               {fields.map((field) => (
