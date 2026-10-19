@@ -1,6 +1,6 @@
 import { strict as assert } from "node:assert";
 import { describe, it } from "node:test";
-import { calculateDateAdjustment } from "./date-calculator.ts";
+import { calculateDateAdjustment, parseDateInput } from "./date-calculator.ts";
 
 function date(value: string): Date {
   return new Date(`${value}T12:00:00`);
@@ -36,5 +36,26 @@ describe("calculateDateAdjustment", () => {
     const start = date("2026-01-01");
     assert.equal(calculateDateAdjustment(start, Number.MAX_SAFE_INTEGER, "months", "add"), null);
     assert.equal(calculateDateAdjustment(start, Number.MAX_SAFE_INTEGER, "years", "subtract"), null);
+  });
+});
+
+
+describe("parseDateInput", () => {
+  it("accepts a real calendar date", () => {
+    assert.equal(parseDateInput("2024-02-29")?.getFullYear(), 2024);
+    assert.equal(parseDateInput("2024-02-29")?.getMonth(), 1);
+    assert.equal(parseDateInput("2024-02-29")?.getDate(), 29);
+  });
+
+  it("rejects impossible dates instead of normalizing them", () => {
+    assert.equal(parseDateInput("2026-02-31"), null);
+    assert.equal(parseDateInput("2026-04-31"), null);
+    assert.equal(parseDateInput("2025-02-29"), null);
+  });
+
+  it("rejects values that are not in the date input format", () => {
+    assert.equal(parseDateInput(""), null);
+    assert.equal(parseDateInput("2026-2-03"), null);
+    assert.equal(parseDateInput("not-a-date"), null);
   });
 });
