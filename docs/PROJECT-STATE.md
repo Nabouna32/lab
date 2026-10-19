@@ -28,11 +28,11 @@ Préparer le lancement public autour du **26 octobre 2026**, sans sacrifier les 
 
 > Cette liste sert de mémoire opérationnelle ; elle décrit le type de travail et renvoie à la preuve GitHub.
 
-1. **Gouvernance du mandat** — mise à jour du mandat permanent v4 : [PR #784](https://github.com/Nabouna32/lab/pull/784).
-2. **Suivi de livraison** — consignation des lots d’accueil et du compresseur d’image : [PR #783](https://github.com/Nabouna32/lab/pull/783).
-3. **Produit / UX** — accueil orienté action, raccourcis FR/EN sous la recherche : [PR #782](https://github.com/Nabouna32/lab/pull/782).
-4. **Gouvernance du mandat** — remplacement du mandat par sa version v3 : [PR #781](https://github.com/Nabouna32/lab/pull/781).
-5. **Correctif fonctionnel** — extension du téléchargement alignée sur le MIME réellement encodé : [PR #779](https://github.com/Nabouna32/lab/pull/779).
+1. **Gouvernance du backlog** — création du backlog unique priorisé et mise à jour de la mémoire de reprise : [PR #785](https://github.com/Nabouna32/lab/pull/785).
+2. **Gouvernance du mandat** — mise à jour du mandat permanent v4 : [PR #784](https://github.com/Nabouna32/lab/pull/784).
+3. **Suivi de livraison** — consignation des lots d’accueil et du compresseur d’image : [PR #783](https://github.com/Nabouna32/lab/pull/783).
+4. **Produit / UX** — accueil orienté action, raccourcis FR/EN sous la recherche : [PR #782](https://github.com/Nabouna32/lab/pull/782).
+5. **Gouvernance du mandat** — remplacement du mandat par sa version v3 : [PR #781](https://github.com/Nabouna32/lab/pull/781).
 
 Type dominant récent : gouvernance et documentation, avec un lot UX et un correctif fonctionnel. La prochaine priorité choisie est l’outillage de validation navigateur demandé par le mandat, pas un autre lot de refonte visuelle.
 
