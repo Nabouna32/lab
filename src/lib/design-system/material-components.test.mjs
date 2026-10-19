@@ -156,10 +156,10 @@ test("common navigation and identity icons use the shared Material Symbols compo
   assert.match(headerSource, /t\.nav\.collections/);
   assert.match(headerSource, /t\.nav\.collectionsDescription/);
   assert.doesNotMatch(headerSource, /locale === "fr"|locale === "en"/);
-  assert.match(messagesSource, /favorites: "Mes favoris"/);
-  assert.match(messagesSource, /favorites: "My favorites"/);
-  assert.match(messagesSource, /collections: "Mes collections"/);
-  assert.match(messagesSource, /collections: "My collections"/);
+  assert.match(messagesSource, /favorites: "Favoris"/);
+  assert.match(messagesSource, /favorites: "Favorites"/);
+  assert.match(messagesSource, /collections: "Collections"/);
+  assert.match(messagesSource, /collections: "Collections"/);
   assert.match(headerSource, /block text-sm font-semibold text-\[var\(--foreground\)\]/);
   assert.doesNotMatch(headerSource, /function Icon\(/);
 });
