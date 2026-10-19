@@ -23,7 +23,9 @@ export default function JsonFormatter() {
   const [error, setError] = useState<ReturnType<typeof getJsonFormatError> | null>(null);
 
   const status = useMemo(
-    () => error ? t.invalid : result ? (mode === "formatted" ? t.formatted : t.minified) : t.emptyResult,
+    () => error
+      ? error.kind === "resource" ? t.resourceLimit : t.invalid
+      : result ? (mode === "formatted" ? t.formatted : t.minified) : t.emptyResult,
     [error, mode, result, t],
   );
 
@@ -80,7 +82,9 @@ export default function JsonFormatter() {
 
           {error && (
             <p role="alert" className="mt-4 text-sm font-medium text-[var(--danger)]">
-              {t.invalid} — {t.errorAt(String(error.line), String(error.column))}
+              {error.kind === "resource"
+                ? t.resourceLimit
+                : <>{t.invalid} — {t.errorAt(String(error.line), String(error.column))}</>}
             </p>
           )}
 
