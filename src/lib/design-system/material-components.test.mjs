@@ -32,6 +32,7 @@ const panelSource = readFileSync(new URL("../../components/ui/Panel.tsx", import
 const resultPanelSource = readFileSync(new URL("../../components/ui/ResultPanel.tsx", import.meta.url), "utf8");
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
 const headerMenuSource = readFileSync(new URL("../../components/layout/DesktopHeaderMenu.tsx", import.meta.url), "utf8");
+const messagesSource = readFileSync(new URL("../i18n/messages.ts", import.meta.url), "utf8");
 
 function luminance(hex) {
   const channels = [1, 3, 5].map((index) => Number.parseInt(hex.slice(index, index + 2), 16) / 255);
@@ -628,6 +629,17 @@ test("header menu uses a restrained semantic color hierarchy across destinations
   assert.match(headerMenuSource, /grid grid-cols-3 gap-1/);
   assert.match(headerMenuSource, /const selected = themeReady && theme === option\.value/);
   assert.match(headerMenuSource, /w-\[min\(18rem,calc\(100vw-1\.5rem\)\)\]/);
+});
+
+test("header menu copy uses neutral destination titles and direct descriptions in both locales", () => {
+  assert.match(messagesSource, /explore: "Explorer", exploreDescription: "Parcours tous les outils disponibles"/);
+  assert.match(messagesSource, /favorites: "Favoris", favoritesDescription: "Tes outils enregistrés"/);
+  assert.match(messagesSource, /collections: "Collections", collectionsDescription: "Organise tes outils en groupes"/);
+  assert.match(messagesSource, /space: "Compte", menu: "Menu"/);
+  assert.match(messagesSource, /explore: "Explore", exploreDescription: "Browse all available tools"/);
+  assert.match(messagesSource, /favorites: "Favorites", favoritesDescription: "Your saved tools"/);
+  assert.match(messagesSource, /collections: "Collections", collectionsDescription: "Organize your tools into groups"/);
+  assert.match(messagesSource, /space: "Account", menu: "Menu"/);
 });
 
 test("header theme controls defer client-dependent selected state until after hydration", () => {
