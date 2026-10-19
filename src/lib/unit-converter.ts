@@ -109,9 +109,19 @@ export function convertUnit(
   if (!fromUnit || !toUnit) return null;
 
   if (category === "temperature") {
-    if (from === "k" && value < 0) return null;
-    const base = toBaseTemperature(value, from);
-    if (base === null || base < 0 || !isFiniteWithinLimit(base)) return null;
+    // Validate in the source scale first. Converting the exact Fahrenheit
+    // absolute-zero value (-459.67 °F) can round to a tiny negative Kelvin.
+    const belowAbsoluteZero =
+      (from === "c" && value < -273.15) ||
+      (from === "f" && value < -459.67) ||
+      (from === "k" && value < 0);
+    if (belowAbsoluteZero) return null;
+
+    const rawBase = toBaseTemperature(value, from);
+    if (rawBase === null || !isFiniteWithinLimit(rawBase)) return null;
+    // The source-scale check above rules out physically impossible inputs;
+    // clamp only conversion round-off at the absolute-zero boundary.
+    const base = Math.max(0, rawBase);
     const result = fromBaseTemperature(base, to);
     return result !== null && isFiniteWithinLimit(result) ? result : null;
   }
