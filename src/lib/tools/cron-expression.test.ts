@@ -25,6 +25,11 @@ test("rejects unsupported field counts and ranges", () => {
   assert.throws(() => parseCronExpression("60 * * * *"));
   assert.throws(() => parseCronExpression("0 25 * * *"));
   assert.throws(() => parseCronExpression("0 0 * * 8"));
+  assert.throws(() => parseCronExpression("1e1 * * * *"));
+  assert.throws(() => parseCronExpression("1.0 * * * *"));
+  assert.throws(() => parseCronExpression("+1 * * * *"));
+  assert.throws(() => parseCronExpression("0 0 */1e1 * *"));
+  assert.throws(() => parseCronExpression("0 0 1e1-20 * *"));
 });
 
 test("uses Cron's OR semantics when both day fields are restricted", () => {
