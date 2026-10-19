@@ -25,10 +25,25 @@ function binaryToBytes(binary: string): Uint8Array {
 
 function normalizeBase64(input: string): string | null {
   const normalized = input.replace(/[\t\n\r ]/g, "");
-  if (!normalized || normalized.length % 4 === 1 || !/^[A-Za-z0-9+/]*={0,2}$/.test(normalized)) {
+  if (!normalized || !/^[A-Za-z0-9+/]*={0,2}$/.test(normalized)) {
     return null;
   }
 
+  const paddingIndex = normalized.indexOf("=");
+  if (paddingIndex !== -1) {
+    const dataLength = paddingIndex;
+    const paddingLength = normalized.length - paddingIndex;
+    if (
+      normalized.length % 4 !== 0 ||
+      (paddingLength === 2 && dataLength % 4 !== 2) ||
+      (paddingLength === 1 && dataLength % 4 !== 3)
+    ) {
+      return null;
+    }
+    return normalized;
+  }
+
+  if (normalized.length % 4 === 1) return null;
   const padding = (4 - (normalized.length % 4)) % 4;
   return normalized + "=".repeat(padding);
 }
@@ -43,7 +58,12 @@ export function transformBase64(input: string, operation: Base64Operation): Base
     const normalized = normalizeBase64(input);
     if (!normalized) return { value: null, error: "invalid-base64" };
 
-    const bytes = binaryToBytes(atob(normalized));
+    const binary = atob(normalized);
+    // Reject non-canonical pad bits instead of silently decoding multiple
+    // Base64 spellings to the same bytes.
+    if (btoa(binary) !== normalized) return { value: null, error: "invalid-base64" };
+
+    const bytes = binaryToBytes(binary);
     return {
       value: new TextDecoder("utf-8", { fatal: true }).decode(bytes),
       error: null,
