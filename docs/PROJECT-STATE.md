@@ -9,7 +9,7 @@ Préparer le lancement public autour du **26 octobre 2026**, sans sacrifier les 
 
 ## État vérifié
 
-- **État de `main` après la PR #794 :** commit `dc55950c7ca50b86f8c7271625aea9d72689f67b`. La [PR #794](https://github.com/Nabouna32/lab/pull/794) corrige la validation des champs vides du Calculateur de dates et associe `aria-describedby` uniquement au message d’erreur effectivement rendu. Le test de contrat couvre la validation et les deux références ARIA. Lint, typecheck, tests et build ont réussi sur la tête applicative `14012b931c97b82f850904200da6b38b82697833` ([CI #39330354046](https://github.com/Nabouna32/lab/actions/runs/39330354046)). Le déploiement de production du commit de fusion est `READY` ([Vercel](https://vercel.com/nabouna32/loculary/YHq5xp6R6q2SXujWn1bNy9MmFTei)). Les parcours navigateur n’ont pas été vérifiés dans cette session.
+- **État de `main` après la PR #796 :** commit `2841c47fef642ec42e7915674791cc58c7ab564f`. La [PR #796](https://github.com/Nabouna32/lab/pull/796) rend la page de recherche sans requête immédiatement utile : quatre raccourcis vers des outils publiés sont repris depuis les liens rapides localisés de l’accueil, avec titres et descriptions FR/EN. Les cartes réutilisent les routes canoniques et le catalogue publié ; aucun stockage ni transfert de données n’est ajouté. Le test de contrat, lint, typecheck, tests et build ont réussi sur le SHA exact `668256b5fb5645a020869e797ce2c3aae53f04eb` ([CI #39331374660](https://github.com/Nabouna32/lab/actions/runs/39331374660)). Le déploiement Vercel du commit de fusion était `BUILDING` lors de la dernière vérification ; son état doit être confirmé. Les parcours navigateur n’ont pas été vérifiés dans cette session.
 
 - Refonte task-first de l’accueil livrée par la [PR #782](https://github.com/Nabouna32/lab/pull/782), fusion squash dans `a43a329df2b3192cf89be048ea1cf2d4d3194c71`. Le titre et la description sont localisés FR/EN ; quatre raccourcis précédemment définis mais non affichés sont désormais accessibles sous la recherche via les routes canoniques. Lint, typecheck, tests et build ont réussi sur le SHA exact `5cd4eeb8097b1251b88f545d905989f28b7218c0` ([CI #39324446225](https://github.com/Nabouna32/lab/actions/runs/39324446225)). Le déploiement Vercel du commit de fusion a été déclenché ; son état doit être revérifié.
 - Branche de production : `main`.
@@ -30,11 +30,11 @@ Préparer le lancement public autour du **26 octobre 2026**, sans sacrifier les 
 
 > Mémoire opérationnelle par session de travail, avec les PR représentatives et preuves vérifiables.
 
-1. **Validation et accessibilité du formulaire** — le Calculateur de dates valide les valeurs vides et ne référence le message d’erreur que lorsqu’il existe : [PR #794](https://github.com/Nabouna32/lab/pull/794).
-2. **Justesse métier / dates calendaires** — le Calculateur d’âge gère les anniversaires de fin de mois et le 29 février ; la convention est expliquée en FR/EN : [PR #791](https://github.com/Nabouna32/lab/pull/791), [PR #792](https://github.com/Nabouna32/lab/pull/792).
-3. **Justesse fonctionnelle / accessibilité du contraste** — l’aperçu du Convertisseur de couleurs choisit le meilleur contraste noir/blanc selon la luminance relative WCAG : [PR #789](https://github.com/Nabouna32/lab/pull/789).
-4. **Design system / accessibilité visuelle** — rôles de couleur corrigés pour l’état sélectionné du bouton icône tonal : [PR #787](https://github.com/Nabouna32/lab/pull/787).
-5. **Gouvernance / continuité** — backlog priorisé et état de reprise actualisé : [PR #785](https://github.com/Nabouna32/lab/pull/785) et [PR #786](https://github.com/Nabouna32/lab/pull/786).
+1. **Fonctionnalité / UX de recherche** — la page de recherche sans requête propose désormais quatre outils pour démarrer, avec contenu FR/EN : [PR #796](https://github.com/Nabouna32/lab/pull/796).
+2. **Validation et accessibilité du formulaire** — le Calculateur de dates valide les valeurs vides et ne référence le message d’erreur que lorsqu’il existe : [PR #794](https://github.com/Nabouna32/lab/pull/794).
+3. **Justesse métier / dates calendaires** — le Calculateur d’âge gère les anniversaires de fin de mois et le 29 février ; la convention est expliquée en FR/EN : [PR #791](https://github.com/Nabouna32/lab/pull/791), [PR #792](https://github.com/Nabouna32/lab/pull/792).
+4. **Justesse fonctionnelle / accessibilité du contraste** — l’aperçu du Convertisseur de couleurs choisit le meilleur contraste noir/blanc selon la luminance relative WCAG : [PR #789](https://github.com/Nabouna32/lab/pull/789).
+5. **Design system / accessibilité visuelle** — rôles de couleur corrigés pour l’état sélectionné du bouton icône tonal : [PR #787](https://github.com/Nabouna32/lab/pull/787).
 
 ## Priorités immédiates
 
