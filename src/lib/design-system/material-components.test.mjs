@@ -522,6 +522,12 @@ test("TextField offers source-backed Fidelity and Expressive anatomy without cha
   assert.match(labSource, /Source-backed Expressive variant: floating inside label/);
 });
 
+test("TextField labels reflect invalid state while disabled labels keep disabled color", () => {
+  assert.match(textFieldSource, /const isInvalid = !disabled && Boolean\(inputProps\["aria-invalid"\]\);/);
+  assert.match(textFieldSource, /isInvalid \? "text-\[var\(--danger\)\]" : "text-\[var\(--foreground\)\]"/);
+  assert.match(textFieldSource, /disabled \? "text-\[color-mix\(in_srgb,var\(--on-surface\)_38%,transparent\)\]" : isInvalid \? "text-\[var\(--danger\)\] peer-aria-\[invalid=true\]:text-\[var\(--danger\)\]"/);
+});
+
 test("TextArea and native Select explicitly expose unfinished Android parity instead of claiming official components", () => {
   assert.match(labSource, /textAreaVariant,setTextAreaVariant/);
   assert.match(labSource, /selectVariant,setSelectVariant/);
