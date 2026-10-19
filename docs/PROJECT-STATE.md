@@ -19,11 +19,12 @@ Préparer le lancement public autour du **26 octobre 2026**, sans sacrifier les 
 
 ## Priorités immédiates
 
-1. Évaluer une remédiation sûre de l'avis `braces` suivi dans [issue #461](https://github.com/Nabouna32/lab/issues/461). L'audit complet actuel échoue sur cinq entrées de paquets liées à un seul avis explicite dans l'arbre de développement ; `npm audit --omit=dev` signale zéro vulnérabilité de production. Ne pas affaiblir le contrôle.
-2. Conserver les politiques RLS de partage actuelles : les plans d'exécution des expressions équivalentes montrent `InitPlan` pour `auth.uid()` et `current_setting()` ainsi que les index attendus ; les avertissements Advisor sont probablement un faux positif pour ces expressions. Réévaluer si le code ou le plan change.
-3. Garder les dix index signalés comme inutilisés tant qu'une période de charge représentative ne démontre pas qu'ils sont superflus ; ils sont petits aujourd'hui mais peuvent accélérer des requêtes d'administration futures.
-4. Vérifier les parcours réels, le responsive, l'accessibilité clavier/lecteur d'écran et les états d'erreur avec les moyens disponibles. Ne pas prétendre qu'un test navigateur a été effectué s'il ne l'a pas été.
-5. Continuer l'harmonisation UX/UI en fonction de défauts confirmés, en conservant l'ambition fonctionnelle et les principes local-first / comptes facultatifs.
+1. **Corriger le contrat de capacité presse-papiers des outils.** Le contrôle croisé du registre des modules et des imports `CopyButton` a trouvé huit outils qui utilisent ce composant sans déclarer `clipboard` : intérêts composés, convertisseur d'unités, fuseaux horaires, formateur/validateur XML, timestamp Unix, générateur de hash, calculateur de sous-réseau IP et bitrate vidéo. Le runtime refuse l'accès au presse-papiers si la capacité n'est pas déclarée ; le test précédent ne couvrait que deux outils. Correctif ciblé en cours sur la branche `fix/tool-clipboard-capability-contract` : déclarer la capacité et rendre le test exhaustif sur les modules du registre qui importent `CopyButton`.
+2. Évaluer une remédiation sûre de l'avis `braces` suivi dans [issue #461](https://github.com/Nabouna32/lab/issues/461). L'audit complet actuel échoue sur cinq entrées de paquets liées à un seul avis explicite dans l'arbre de développement ; `npm audit --omit=dev` signale zéro vulnérabilité de production. Ne pas affaiblir le contrôle.
+3. Conserver les politiques RLS de partage actuelles : les plans d'exécution des expressions équivalentes montrent `InitPlan` pour `auth.uid()` et `current_setting()` ainsi que les index attendus ; les avertissements Advisor sont probablement un faux positif pour ces expressions. Réévaluer si le code ou le plan change.
+4. Garder les dix index signalés comme inutilisés tant qu'une période de charge représentative ne démontre pas qu'ils sont superflus ; ils sont petits aujourd'hui mais peuvent accélérer des requêtes d'administration futures.
+5. Vérifier les parcours réels, le responsive, l'accessibilité clavier/lecteur d'écran et les états d'erreur avec les moyens disponibles. Ne pas prétendre qu'un test navigateur a été effectué s'il ne l'a pas été.
+6. Continuer l'harmonisation UX/UI en fonction de défauts confirmés, en conservant l'ambition fonctionnelle et les principes local-first / comptes facultatifs.
 
 ## Risques et limites actifs
 
