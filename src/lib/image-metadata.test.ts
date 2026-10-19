@@ -16,6 +16,49 @@ function jpegWithCameraMake(): ArrayBuffer {
   return bytes.buffer;
 }
 
+function jpegWithDateFields(): ArrayBuffer {
+  const bytes = new Uint8Array(146);
+  bytes.set([0xff, 0xd8, 0xff, 0xe1], 0);
+  new DataView(bytes.buffer).setUint16(4, 142, false);
+  bytes.set([69, 120, 105, 102, 0, 0], 6);
+
+  const tiff = new Uint8Array(134);
+  const view = new DataView(tiff.buffer);
+  tiff.set([0x49, 0x49], 0);
+  view.setUint16(2, 42, true);
+  view.setUint32(4, 8, true);
+
+  // IFD0 stores the modification time and points to the EXIF sub-IFD.
+  view.setUint16(8, 2, true);
+  const dateModified = "2020:01:02 03:04:05";
+  view.setUint16(10, 0x0132, true);
+  view.setUint16(12, 2, true);
+  view.setUint32(14, 20, true);
+  view.setUint32(18, 80, true);
+  view.setUint16(22, 0x8769, true);
+  view.setUint16(24, 4, true);
+  view.setUint32(26, 1, true);
+  view.setUint32(30, 40, true);
+  view.setUint32(34, 0, true);
+  new TextEncoder().encode(dateModified + "\\0").forEach((value, index) => {
+    tiff[80 + index] = value;
+  });
+
+  // EXIF sub-IFD stores DateTimeOriginal, which is the capture time.
+  view.setUint16(40, 1, true);
+  view.setUint16(42, 0x9003, true);
+  view.setUint16(44, 2, true);
+  view.setUint32(46, 20, true);
+  view.setUint32(50, 100, true);
+  view.setUint32(54, 0, true);
+  new TextEncoder().encode("2021:02:03 04:05:06\\0").forEach((value, index) => {
+    tiff[100 + index] = value;
+  });
+
+  bytes.set(tiff, 12);
+  return bytes.buffer;
+}
+
 function jpegWithGps(): ArrayBuffer {
   const bytes = new Uint8Array(140);
   bytes.set([0xff, 0xd8, 0xff, 0xe1], 0);
@@ -67,6 +110,12 @@ function jpegWithGps(): ArrayBuffer {
 
 test("reads basic JPEG EXIF text", () => {
   assert.equal(parseExifMetadata(jpegWithCameraMake()).cameraMake, "Canon");
+});
+
+test("prefers DateTimeOriginal and preserves the modification timestamp separately", () => {
+  const metadata = parseExifMetadata(jpegWithDateFields());
+  assert.equal(metadata.dateTaken, "2021:02:03 04:05:06");
+  assert.equal(metadata.dateModified, "2020:01:02 03:04:05");
 });
 
 test("parses GPS latitude and longitude instead of exposing the TIFF offset", () => {
