@@ -17,7 +17,11 @@ describe("html entity transformation", () => {
     assert.equal(decodeHtmlEntities("&#x1F600;"), "😀");
   });
 
-  it("leaves invalid numeric references unchanged", () => {
+  it("replaces null numeric character references with the Unicode replacement character", () => {
+    assert.equal(decodeHtmlEntities("before&#0;after &#x0;"), "before\uFFFDafter \uFFFD");
+  });
+
+  it("leaves out-of-range and surrogate numeric references unchanged", () => {
     assert.equal(decodeHtmlEntities("&#x110000; &#55296;"), "&#x110000; &#55296;");
   });
 
