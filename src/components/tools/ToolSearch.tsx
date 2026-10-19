@@ -187,6 +187,8 @@ export default function ToolSearch({
   }
 
   const visibleResults = !isSearching && !searchError && normalizeSearchText(query) === normalizeSearchText(resultsQuery) ? results : [];
+  const isPopupOpen = showResults && overlayPosition !== null;
+  const hasVisibleResults = isPopupOpen && visibleResults.length > 0;
 
   function openResult(index: number) {
     const result = visibleResults[index];
@@ -262,9 +264,9 @@ export default function ToolSearch({
           maxLength={120}
           role="combobox"
           aria-autocomplete="list"
-          aria-expanded={showResults && overlayPosition !== null && visibleResults.length > 0}
-          aria-controls={showResults && overlayPosition !== null && visibleResults.length > 0 ? resultsId : undefined}
-          aria-activedescendant={showResults && overlayPosition !== null && activeIndex >= 0 ? instanceId + "-result-" + activeIndex : undefined}
+          aria-expanded={isPopupOpen}
+          aria-controls={hasVisibleResults ? resultsId : undefined}
+          aria-activedescendant={hasVisibleResults && activeIndex >= 0 ? instanceId + "-result-" + activeIndex : undefined}
           inputMode="search"
           enterKeyHint="search"
           onChange={(event) => { const nextQuery = event.target.value; searchRequest.current += 1; setQuery(nextQuery); setActiveIndex(-1); setSearchError(false); setIsSearching(nextQuery.trim().length > 0); if (!nextQuery.trim()) setOverlayPosition(null); }}
@@ -303,7 +305,7 @@ export default function ToolSearch({
       </div>
       </form>
 
-      {showResults && overlayPosition && typeof document !== "undefined" && createPortal(
+      {isPopupOpen && typeof document !== "undefined" && createPortal(
         <div
           ref={popupRef}
           data-search-popup-owner={instanceId}
