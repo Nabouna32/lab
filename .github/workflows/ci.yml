@@ -135,3 +135,11 @@ jobs:
       - name: Build
         if: steps.changes.outputs.lightweight_only != 'true'
         run: npm run build
+
+      - name: Install Playwright Chromium
+        if: steps.changes.outputs.lightweight_only != 'true'
+        run: npx playwright install --with-deps chromium
+
+      - name: Browser smoke tests
+        if: steps.changes.outputs.lightweight_only != 'true'
+        run: npm run test:e2e
