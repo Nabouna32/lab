@@ -132,7 +132,7 @@ type ToolMessages = {
   };
   imageMetadata: {
     input: string; inputHint: string; dimensions: string; format: string; fileSize: string; exif: string; noMetadata: string;
-    cameraMake: string; cameraModel: string; dateTaken: string; orientation: string; gps: string; software: string; strip: string; stripping: string;
+    cameraMake: string; cameraModel: string; dateTaken: string; dateModified: string; orientation: string; gps: string; software: string; strip: string; stripping: string;
     download: string; reset: string; preview: string; emptyResult: string; invalidType: string; tooLarge: string; invalid: string;
     removed: string; local: string;
   };
@@ -438,7 +438,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     imageMetadata: {
       input: "Choisir une image", inputHint: "JPG, PNG, WebP ou autre image — analyse locale dans votre navigateur.",
       dimensions: "Dimensions", format: "Format", fileSize: "Taille du fichier", exif: "Métadonnées EXIF", noMetadata: "Aucune métadonnée EXIF prise en charge trouvée.",
-      cameraMake: "Marque de l’appareil", cameraModel: "Modèle de l’appareil", dateTaken: "Date de prise de vue", orientation: "Orientation", gps: "Position GPS", software: "Logiciel",
+      cameraMake: "Marque de l’appareil", cameraModel: "Modèle de l’appareil", dateTaken: "Date de prise de vue", dateModified: "Date de modification", orientation: "Orientation", gps: "Position GPS", software: "Logiciel",
       strip: "Supprimer les métadonnées", stripping: "Suppression des métadonnées…", download: "Télécharger l’image nettoyée", reset: "Réinitialiser", preview: "Aperçu de l’image",
       emptyResult: "Sélectionnez une image pour inspecter ses métadonnées.", invalidType: "Sélectionnez un fichier image.", tooLarge: "Le fichier dépasse la limite de 25 Mo.", invalid: "Cette image ne peut pas être lue dans votre navigateur.",
       removed: "Les métadonnées ont été supprimées. L’image nettoyée est prête à être téléchargée.", local: "Votre image reste sur votre appareil. Aucun fichier n’est envoyé à Loculary.",
@@ -727,7 +727,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     imageMetadata: {
       input: "Choose an image", inputHint: "JPG, PNG, WebP, or another image — inspected locally in your browser.",
       dimensions: "Dimensions", format: "Format", fileSize: "File size", exif: "EXIF metadata", noMetadata: "No supported EXIF metadata found.",
-      cameraMake: "Camera make", cameraModel: "Camera model", dateTaken: "Date taken", orientation: "Orientation", gps: "GPS location", software: "Software",
+      cameraMake: "Camera make", cameraModel: "Camera model", dateTaken: "Date taken", dateModified: "Date modified", orientation: "Orientation", gps: "GPS location", software: "Software",
       strip: "Remove metadata", stripping: "Removing metadata…", download: "Download clean image", reset: "Reset", preview: "Image preview",
       emptyResult: "Select an image to inspect its metadata.", invalidType: "Select an image file.", tooLarge: "The file exceeds the 25 MB limit.", invalid: "This image cannot be read in your browser.",
       removed: "Metadata removed. The cleaned image is ready to download.", local: "Your image stays on your device. Nothing is uploaded to Loculary.",
