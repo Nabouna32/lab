@@ -10,7 +10,7 @@ Préparer le lancement public autour du **26 octobre 2026**, sans sacrifier les 
 ## État vérifié
 
 - Branche de production : `main`.
-- Dernier commit applicatif examiné : [`316091a`](https://github.com/Nabouna32/lab/commit/316091aacf8498dc6a154ab01a110db04fce1bf2), fusion de la PR [#747](https://github.com/Nabouna32/lab/pull/747). Le tableau de bord et le registre des problèmes ont été ajoutés par la PR [#748](https://github.com/Nabouna32/lab/pull/748), puis actualisés par les PR [#749](https://github.com/Nabouna32/lab/pull/749) et [#751](https://github.com/Nabouna32/lab/pull/751).
+- Dernier commit applicatif examiné : [`316091a`](https://github.com/Nabouna32/lab/commit/316091aacf8498dc6a154ab01a110db04fce1bf2), fusion de la PR [#747](https://github.com/Nabouna32/lab/pull/747). Le tableau de bord et le registre des problèmes ont été ajoutés par la PR [#748](https://github.com/Nabouna32/lab/pull/748), puis actualisés par les PR [#749](https://github.com/Nabouna32/lab/pull/749), [#751](https://github.com/Nabouna32/lab/pull/751) et [#752](https://github.com/Nabouna32/lab/pull/752).
 - Socle dépendances déclaré : Next.js `16.4.2`, React et React DOM `19.3.1`, TypeScript `~6.0.3`, Tailwind CSS `4`, Node.js `24.x`. Source : [package.json](../package.json).
 - La CI de la PR #747 a réussi sur son SHA exact, incluant installation/lockfile, revue des dépendances, lint, vérification TypeScript, tests et build : [run #39187544650](https://github.com/Nabouna32/lab/actions/runs/39187544650).
 - Le déploiement Vercel de production lié au commit fusionné a été signalé `READY` : [déploiement](https://vercel.com/nabouna32/loculary/6AwLouz9mycFmcPUH5HSBvdsr9gX). Le domaine public configuré est [loculary.vercel.app](https://loculary.vercel.app/).
@@ -19,11 +19,11 @@ Préparer le lancement public autour du **26 octobre 2026**, sans sacrifier les 
 
 ## Priorités immédiates
 
-1. Obtenir un état d'audit npm actuel et complet sur le lockfile de `main`, y compris les dépendances de production séparément des outils de développement. Ne pas réutiliser le nombre historique de vulnérabilités comme résultat actuel.
-2. Traiter la situation de sécurité suivie dans [issue #461](https://github.com/Nabouna32/lab/issues/461) sans désactiver ni affaiblir le contrôle de sécurité.
-3. Auditer les parcours de lancement essentiels et les règles RLS Supabase avec des preuves concrètes ; ne pas déduire la justesse des politiques de la seule activation de RLS.
-5. Vérifier les parcours réels, le responsive, l'accessibilité clavier/lecteur d'écran et les états d'erreur avec les moyens disponibles. Ne pas prétendre qu'un test navigateur a été effectué s'il ne l'a pas été.
-6. Continuer l'harmonisation UX/UI en fonction de défauts confirmés, en conservant l'ambition fonctionnelle et les principes local-first / comptes facultatifs.
+1. Évaluer une remédiation sûre de l'avis `braces` suivi dans [issue #461](https://github.com/Nabouna32/lab/issues/461). L'audit complet actuel échoue sur cinq entrées de paquets liées à un seul avis explicite dans l'arbre de développement ; `npm audit --omit=dev` signale zéro vulnérabilité de production. Ne pas affaiblir le contrôle.
+2. Conserver les politiques RLS de partage actuelles : les plans d'exécution des expressions équivalentes montrent `InitPlan` pour `auth.uid()` et `current_setting()` ainsi que les index attendus ; les avertissements Advisor sont probablement un faux positif pour ces expressions. Réévaluer si le code ou le plan change.
+3. Garder les dix index signalés comme inutilisés tant qu'une période de charge représentative ne démontre pas qu'ils sont superflus ; ils sont petits aujourd'hui mais peuvent accélérer des requêtes d'administration futures.
+4. Vérifier les parcours réels, le responsive, l'accessibilité clavier/lecteur d'écran et les états d'erreur avec les moyens disponibles. Ne pas prétendre qu'un test navigateur a été effectué s'il ne l'a pas été.
+5. Continuer l'harmonisation UX/UI en fonction de défauts confirmés, en conservant l'ambition fonctionnelle et les principes local-first / comptes facultatifs.
 
 ## Risques et limites actifs
 
