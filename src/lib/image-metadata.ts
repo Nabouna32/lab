@@ -11,7 +11,7 @@ const MAX_IMAGE_BYTES = 25 * 1024 * 1024;
 const EXIF_TAGS: Record<number, string> = {
   0x010f: "cameraMake",
   0x0110: "cameraModel",
-  0x0132: "dateTaken",
+  0x0132: "dateModified",
   0x0112: "orientation",
   0x0131: "software",
 };
@@ -133,6 +133,26 @@ function parseGpsIfd(
   return `${latitude.toFixed(6)}° ${latitudeRef}, ${longitude.toFixed(6)}° ${longitudeRef}`;
 }
 
+function parseDateTakenFromExifIfd(
+  view: DataView,
+  ifdOffset: number,
+  tiffBase: number,
+  littleEndian: boolean,
+): string | undefined {
+  if (ifdOffset < tiffBase + 8 || ifdOffset + 2 > view.byteLength) return undefined;
+
+  const entryCount = view.getUint16(ifdOffset, littleEndian);
+  const availableEntries = Math.floor((view.byteLength - ifdOffset - 2) / 12);
+  const count = Math.min(entryCount, availableEntries);
+
+  for (let index = 0; index < count; index += 1) {
+    const entryOffset = ifdOffset + 2 + index * 12;
+    if (view.getUint16(entryOffset, littleEndian) !== 0x9003) continue;
+    return readIfdValue(view, entryOffset, tiffBase, littleEndian);
+  }
+  return undefined;
+}
+
 function parseIfd(
   view: DataView,
   ifdOffset: number,
@@ -140,7 +160,7 @@ function parseIfd(
   littleEndian: boolean,
 ): Record<string, string> {
   const metadata: Record<string, string> = {};
-  if (ifdOffset < 0 || ifdOffset + 2 > view.byteLength) return metadata;
+  if (ifdOffset < tiffBase + 8 || ifdOffset + 2 > view.byteLength) return metadata;
 
   const entryCount = view.getUint16(ifdOffset, littleEndian);
   const availableEntries = Math.floor((view.byteLength - ifdOffset - 2) / 12);
@@ -157,6 +177,16 @@ function parseIfd(
       const gpsIfdOffset = tiffBase + view.getUint32(entryOffset + 8, littleEndian);
       const gps = parseGpsIfd(view, gpsIfdOffset, tiffBase, littleEndian);
       if (gps) metadata.gps = gps;
+      continue;
+    }
+
+    if (tag === 0x8769) {
+      const type = view.getUint16(entryOffset + 2, littleEndian);
+      const valueCount = view.getUint32(entryOffset + 4, littleEndian);
+      if (type !== 4 || valueCount !== 1) continue;
+      const exifIfdOffset = tiffBase + view.getUint32(entryOffset + 8, littleEndian);
+      const dateTaken = parseDateTakenFromExifIfd(view, exifIfdOffset, tiffBase, littleEndian);
+      if (dateTaken) metadata.dateTaken = dateTaken;
       continue;
     }
 
