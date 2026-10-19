@@ -102,7 +102,8 @@ export function formatRgb({ r, g, b }: RgbColor): string {
 
 export function formatHsl({ h, s, l }: HslColor): string {
   const clean = (value: number) => Number(value.toFixed(1));
-  return `hsl(${clean(h)}°, ${clean(s)}%, ${clean(l)}%)`;
+  // Keep the result directly reusable as CSS: a degree symbol is not a valid hue unit.
+  return `hsl(${clean(h)}, ${clean(s)}%, ${clean(l)}%)`;
 }
 
 export function convertColor(value: string): ColorResult | null {
