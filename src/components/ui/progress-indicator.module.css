@@ -5,6 +5,7 @@
 }
 
 .track {
+  position: relative;
   display: block;
   width: 100%;
   height: 4px;
@@ -14,6 +15,9 @@
 }
 
 .indicator {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
   display: block;
   height: 100%;
   border-radius: 0;
@@ -22,14 +26,101 @@
 }
 
 .indicator[data-indeterminate="true"] {
-  width: 35%;
-  animation: loculary-progress-indeterminate 1.4s cubic-bezier(.2, 0, 0, 1) infinite;
+  width: 100%;
+  background: transparent;
 }
 
-@keyframes loculary-progress-indeterminate {
-  0% { transform: translateX(-100%); }
-  55% { transform: translateX(180%); }
-  100% { transform: translateX(320%); }
+.segment {
+  position: absolute;
+  inset-block: 0;
+  background: var(--progress-color, var(--primary));
+}
+
+.segment[data-segment="first"] {
+  animation:
+    loculary-progress-first-head 1750ms infinite,
+    loculary-progress-first-tail 1750ms infinite;
+}
+
+.segment[data-segment="second"] {
+  animation:
+    loculary-progress-second-head 1750ms infinite,
+    loculary-progress-second-tail 1750ms infinite;
+}
+
+/*
+ * Pinned AndroidX ProgressIndicator.kt (080d2b3e5326ba80392d93442c4a51a02dc22650):
+ * 1750ms cycle; first head/tail 1000ms with 0/250ms delays;
+ * second head/tail 850ms with 650/900ms delays. Motion easing is
+ * MotionTokens.EasingEmphasizedAccelerateCubicBezier (0.3, 0, 0.8, 0.15).
+ * Logical insets mirror the movement for RTL layouts.
+ */
+@keyframes loculary-progress-first-head {
+  0% {
+    inset-inline-end: 100%;
+    animation-timing-function: cubic-bezier(0.3, 0, 0.8, 0.15);
+  }
+
+  57.142857% {
+    inset-inline-end: 0;
+  }
+
+  100% {
+    inset-inline-end: 0;
+  }
+}
+
+@keyframes loculary-progress-first-tail {
+  0% {
+    inset-inline-start: 0;
+  }
+
+  14.285714% {
+    inset-inline-start: 0;
+    animation-timing-function: cubic-bezier(0.3, 0, 0.8, 0.15);
+  }
+
+  71.428571% {
+    inset-inline-start: 100%;
+  }
+
+  100% {
+    inset-inline-start: 100%;
+  }
+}
+
+@keyframes loculary-progress-second-head {
+  0% {
+    inset-inline-end: 100%;
+  }
+
+  37.142857% {
+    inset-inline-end: 100%;
+    animation-timing-function: cubic-bezier(0.3, 0, 0.8, 0.15);
+  }
+
+  85.714286% {
+    inset-inline-end: 0;
+  }
+
+  100% {
+    inset-inline-end: 0;
+  }
+}
+
+@keyframes loculary-progress-second-tail {
+  0% {
+    inset-inline-start: 0;
+  }
+
+  51.428571% {
+    inset-inline-start: 0;
+    animation-timing-function: cubic-bezier(0.3, 0, 0.8, 0.15);
+  }
+
+  100% {
+    inset-inline-start: 100%;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -37,10 +128,13 @@
     transition: none;
   }
 
+  .segment {
+    display: none;
+    animation: none;
+  }
+
   .indicator[data-indeterminate="true"] {
     width: 100%;
-    transform: none;
-    animation: none;
     background: repeating-linear-gradient(
       90deg,
       var(--progress-color, var(--primary)) 0 8px,
