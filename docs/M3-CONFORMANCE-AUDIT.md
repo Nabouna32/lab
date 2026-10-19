@@ -460,7 +460,7 @@ Older audit entries above that say the Checkbox/Switch/field disabled values are
 ## State-layer and indeterminate-motion provenance (2026-10-15)
 
 - [LOCULARY-ADAPTATION] Button hover/pressed colors use CSS color-mix (8%/12%) with semantic foreground roles. This is an implementation approximation, not proof of exact Android state-layer output. Compare computed results in both themes.
-- [OPEN] The shared linear ProgressIndicator uses one moving segment for indeterminate work, while classic AndroidX uses a more specific animation model. Its color roles, square geometry and ARIA semantics are source-backed; animation choreography and reduced-motion fallback are Loculary web adaptations.
+- [SOURCE-BASED IMPLEMENTATION UPDATED — commit `38ac4ae`, PR #759] The shared linear ProgressIndicator now renders two independently animated segments using the pinned AndroidX reference (`080d2b3e5326ba80392d93442c4a51a02dc22650`), a 1,750ms cycle, source-derived delays/easing, logical inline insets for RTL, and a static striped reduced-motion fallback. This is a source-informed Web implementation, not proof of pixel-perfect AndroidX parity. Browser checks for light/dark contrast, RTL motion, reduced motion, determinate width and ImageCompressor's busy state remain open; the current connector did not return CI status for the merge SHA.
 
 
 ## Follow-up — Pixel fidelity vs Material 3 Expressive source generations (2026-10-15)
