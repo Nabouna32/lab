@@ -31,8 +31,17 @@ jobs:
           node-version: 24.21.0
           # Intentionally no setup-node cache: npm's cache stays on this runner's disk.
 
+      - name: Prepare persistent dependencies
+        id: dependencies
+        run: node .github/scripts/dependency-cache.mjs prepare
+
       - name: Install dependencies
+        if: steps.dependencies.outputs.cache-hit != 'true'
         run: npm ci
+
+      - name: Persist dependencies
+        if: success() && steps.dependencies.outputs.cache-hit != 'true'
+        run: node .github/scripts/dependency-cache.mjs save
 
       - name: Lint
         run: npm run lint
