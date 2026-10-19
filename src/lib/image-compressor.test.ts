@@ -4,6 +4,7 @@ import {
   calculateReductionPercent,
   fitImageWithinDimensions,
   formatBytes,
+  getOutputExtension,
   getOutputMimeType,
   normalizeQuality,
 } from "./image-compressor.ts";
@@ -38,4 +39,11 @@ test("formats byte counts for readable results", () => {
   assert.equal(formatBytes(800), "800 B");
   assert.equal(formatBytes(10240), "10.0 KB");
   assert.equal(formatBytes(1048576), "1.00 MB");
+});
+
+test("uses the actual encoded MIME type to choose the download extension", () => {
+  assert.equal(getOutputExtension("image/webp"), "webp");
+  assert.equal(getOutputExtension("image/jpeg"), "jpg");
+  assert.equal(getOutputExtension("image/png"), "png");
+  assert.equal(getOutputExtension(""), "png");
 });
