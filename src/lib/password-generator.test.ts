@@ -15,7 +15,7 @@ describe("password generator", () => {
   it("generates the requested length from the selected alphabet", () => {
     const password = generatePassword(options, () => 0);
     assert.equal(password.length, 24);
-    assert.match(password, /^[a-zA-Z0-9!@#$%^&*()\\-_=+\\[\\]{};:,.?]+$/);
+    assert.equal([...password].every((character) => "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+[]{};:,.?".includes(character)), true);
   });
 
   it("guarantees every selected character class", () => {
@@ -23,7 +23,7 @@ describe("password generator", () => {
     assert.match(password, /[a-z]/);
     assert.match(password, /[A-Z]/);
     assert.match(password, /[0-9]/);
-    assert.match(password, /[!@#$%^&*()\\-_=+\\[\\]{};:,.?]/);
+    assert.ok([...password].some((character) => "!@#$%^&*()-_=+[]{};:,.?".includes(character)));
   });
 
   it("can exclude ambiguous characters", () => {
