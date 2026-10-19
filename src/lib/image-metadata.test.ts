@@ -40,7 +40,7 @@ function jpegWithDateFields(): ArrayBuffer {
   view.setUint32(26, 1, true);
   view.setUint32(30, 40, true);
   view.setUint32(34, 0, true);
-  new TextEncoder().encode(dateModified + "\\0").forEach((value, index) => {
+  new TextEncoder().encode(dateModified + "\0").forEach((value, index) => {
     tiff[80 + index] = value;
   });
 
