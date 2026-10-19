@@ -14,9 +14,6 @@ import { MaterialIcon } from "@/components/ui/MaterialIcon";
 const triggerClass =
   "flex h-12 min-w-12 items-center justify-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 text-sm font-semibold text-[var(--foreground)] outline-none transition-[border-color,background-color,box-shadow,transform] duration-200 hover:bg-[var(--surface-soft)] focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]";
 
-const optionClass =
-  "flex min-h-12 items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-[var(--muted)] outline-none transition-colors hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)] focus-visible:bg-[var(--surface-soft)] focus-visible:text-[var(--foreground)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]";
-
 const menuOpenAfterLocaleSwitchKey = "loculary:header-menu-open-after-locale-switch";
 const menuOpenListeners = new Set<() => void>();
 let menuOpenSnapshot = false;
@@ -162,16 +159,16 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
         aria-hidden={!open}
         inert={!open}
         className={
-          "absolute right-0 top-full z-[70] mt-3 w-[min(20rem,calc(100vw-1.5rem))] origin-top-right rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-2 shadow-[var(--shadow-lg)] transition-[opacity,transform] duration-150 " +
+          "absolute right-0 top-full z-[70] mt-3 w-[min(18rem,calc(100vw-1.5rem))] origin-top-right rounded-2xl border border-[var(--border)] bg-[var(--surface-elevated)] p-2 shadow-[var(--shadow-lg)] transition-[opacity,transform] duration-150 " +
           (open ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-1 opacity-0")
         }
       >
         <Link
           href={getToolsPath(locale)}
           onClick={closeMenu}
-          className="group flex items-center gap-3 rounded-xl px-3 py-3 outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] lg:hidden"
+          className="group flex items-center gap-3 rounded-xl px-3 py-2.5 outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] lg:hidden"
         >
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--surface-container-high)] text-[var(--on-surface-variant)]" aria-hidden="true">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--surface-container-high)] text-[var(--on-surface-variant)]" aria-hidden="true">
             <MaterialIcon name="apps" size={18} />
           </span>
           <span className="min-w-0 flex-1">
@@ -183,9 +180,9 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
         <Link
           href={`/${locale}/favoris`}
           onClick={closeMenu}
-          className="group flex items-center gap-3 rounded-xl px-3 py-3 outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
+          className="group flex items-center gap-3 rounded-xl px-3 py-2.5 outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
         >
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--primary-container)] text-[var(--on-primary-container)]" aria-hidden="true"><StarIcon filled className="h-5 w-5" /></span>
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--primary-container)] text-[var(--on-primary-container)]" aria-hidden="true"><StarIcon filled className="h-5 w-5" /></span>
           <span className="min-w-0 flex-1">
             <span className="block text-sm font-semibold text-[var(--foreground)]">{t.nav.favorites}</span>
             <span className="mt-0.5 block text-xs text-[var(--muted)]">{t.nav.favoritesDescription}</span>
@@ -195,24 +192,24 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
         <Link
           href={`/${locale}/collections`}
           onClick={closeMenu}
-          className="group flex items-center gap-3 rounded-xl px-3 py-3 outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
+          className="group flex items-center gap-3 rounded-xl px-3 py-2.5 outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
         >
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--tertiary-container)] text-[var(--on-tertiary-container)]" aria-hidden="true"><CollectionIcon className="h-5 w-5" /></span>
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--tertiary-container)] text-[var(--on-tertiary-container)]" aria-hidden="true"><CollectionIcon className="h-5 w-5" /></span>
           <span className="min-w-0 flex-1">
             <span className="block text-sm font-semibold text-[var(--foreground)]">{t.nav.collections}</span>
             <span className="mt-0.5 block text-xs text-[var(--muted)]">{t.nav.collectionsDescription}</span>
           </span>
         </Link>
 
-        <div className="my-2 h-px bg-[var(--border)]" />
+        <div className="my-1.5 h-px bg-[var(--border)]" />
 
         <Link
           href={"/" + locale + "/compte"}
           prefetch={false}
           onClick={closeMenu}
-          className="group flex items-center gap-3 rounded-xl px-3 py-3 outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
+          className="group flex items-center gap-3 rounded-xl px-3 py-2.5 outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
         >
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--accent-soft)] text-[var(--on-primary-container)]">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--surface-container-high)] text-[var(--on-surface-variant)]" aria-hidden="true">
             <MaterialIcon name="person" size={18} className="h-[1.1rem] w-[1.1rem]" />
           </span>
           <span className="min-w-0 flex-1">
@@ -222,7 +219,7 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
           <MaterialIcon name="chevron_right" size={16} className="h-4 w-4 text-[var(--muted)] transition-transform group-hover:translate-x-0.5" />
         </Link>
 
-        <div className="my-2 h-px bg-[var(--border)]" />
+        <div className="my-1.5 h-px bg-[var(--border)]" />
 
         <div className="px-2 pb-1 pt-1">
           <p className="px-1 text-[11px] font-bold uppercase tracking-[0.16em] text-[var(--muted)]">{t.nav.language}</p>
@@ -257,9 +254,9 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
                     }
                   }}
                   className={
-                    "flex min-h-12 items-center gap-2 rounded-xl px-3 py-2.5 text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] " +
+                    "flex min-h-10 items-center gap-2 rounded-xl px-3 py-2 text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] " +
                     (active
-                      ? "bg-[var(--accent-soft)] font-semibold text-[var(--on-primary-container)]"
+                      ? "bg-[var(--primary-container)] font-semibold text-[var(--on-primary-container)]"
                       : "text-[var(--muted)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)]")
                   }
                 >
@@ -271,28 +268,35 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
           </div>
         </div>
 
-        <div className="my-2 h-px bg-[var(--border)]" />
+        <div className="my-1.5 h-px bg-[var(--border)]" />
 
         <div className="px-2 pb-1 pt-1">
-          <p className="px-1 text-[11px] font-bold uppercase tracking-[0.16em] text-[var(--muted)]">{t.theme.title}</p>
-          <div className="mt-1">
+          <p className="px-1 text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--muted)]">{t.theme.title}</p>
+          <div className="mt-1 grid grid-cols-3 gap-1">
             {[
               { value: "system", label: t.theme.system, icon: "system" },
               { value: "light", label: t.theme.light, icon: "light" },
               { value: "dark", label: t.theme.dark, icon: "dark" },
-            ].map((option) => (
-              <button
-                key={option.value}
-                type="button"
-                onClick={() => selectTheme(option.value)}
-                className={optionClass + " w-full"}
-                aria-pressed={themeReady && theme === option.value}
-              >
-                <MaterialIcon name={option.icon === "system" ? "devices" : option.icon === "dark" ? "dark_mode" : "light_mode"} size={16} />
-                <span className="flex-1 text-left">{option.label}</span>
-                {themeReady && theme === option.value && <MaterialIcon name="check" size={16} />}
-              </button>
-            ))}
+            ].map((option) => {
+              const selected = themeReady && theme === option.value;
+              return (
+                <button
+                  key={option.value}
+                  type="button"
+                  onClick={() => selectTheme(option.value)}
+                  className={
+                    "flex min-h-14 flex-col items-center justify-center gap-1 rounded-xl px-1 py-2 text-xs outline-none transition-colors focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] " +
+                    (selected
+                      ? "bg-[var(--primary-container)] text-[var(--on-primary-container)]"
+                      : "text-[var(--muted)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)]")
+                  }
+                  aria-pressed={selected}
+                >
+                  <MaterialIcon name={option.icon === "system" ? "devices" : option.icon === "dark" ? "dark_mode" : "light_mode"} size={18} />
+                  <span>{option.label}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>

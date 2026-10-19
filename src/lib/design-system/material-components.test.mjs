@@ -32,6 +32,7 @@ const panelSource = readFileSync(new URL("../../components/ui/Panel.tsx", import
 const resultPanelSource = readFileSync(new URL("../../components/ui/ResultPanel.tsx", import.meta.url), "utf8");
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
 const headerMenuSource = readFileSync(new URL("../../components/layout/DesktopHeaderMenu.tsx", import.meta.url), "utf8");
+const messagesSource = readFileSync(new URL("../i18n/messages.ts", import.meta.url), "utf8");
 
 function luminance(hex) {
   const channels = [1, 3, 5].map((index) => Number.parseInt(hex.slice(index, index + 2), 16) / 255);
@@ -144,21 +145,21 @@ test("common navigation and identity icons use the shared Material Symbols compo
   assert.match(collectionSource, /MaterialIcon name="collections_bookmark"/);
   assert.match(searchSource, /MaterialIcon name="search"/);
   assert.match(headerSource, /MaterialIcon name="apps"/);
-  assert.match(headerSource, /h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-\[var\(--primary-container\)\]/);
+  assert.match(headerSource, /h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-\[var\(--primary-container\)\]/);
   assert.match(headerSource, /bg-\[var\(--tertiary-container\)\] text-\[var\(--on-tertiary-container\)\]/);
   assert.match(headerSource, /t\.nav\.exploreDescription/);
   const messagesSource = readFileSync(new URL("../../lib/i18n/messages.ts", import.meta.url), "utf8");
-  assert.match(messagesSource, /exploreDescription: "Accède à tous les outils"/);
+  assert.match(messagesSource, /exploreDescription: "Parcours tous les outils disponibles"/);
   assert.match(messagesSource, /exploreDescription: "Browse all available tools"/);
   assert.match(headerSource, /t\.nav\.favorites/);
   assert.match(headerSource, /t\.nav\.favoritesDescription/);
   assert.match(headerSource, /t\.nav\.collections/);
   assert.match(headerSource, /t\.nav\.collectionsDescription/);
   assert.doesNotMatch(headerSource, /locale === "fr"|locale === "en"/);
-  assert.match(messagesSource, /favorites: "Mes favoris"/);
-  assert.match(messagesSource, /favorites: "My favorites"/);
-  assert.match(messagesSource, /collections: "Mes collections"/);
-  assert.match(messagesSource, /collections: "My collections"/);
+  assert.match(messagesSource, /favorites: "Favoris"/);
+  assert.match(messagesSource, /favorites: "Favorites"/);
+  assert.match(messagesSource, /collections: "Collections"/);
+  assert.match(messagesSource, /collections: "Collections"/);
   assert.match(headerSource, /block text-sm font-semibold text-\[var\(--foreground\)\]/);
   assert.doesNotMatch(headerSource, /function Icon\(/);
 });
@@ -621,10 +622,24 @@ test("AlertDialog is a source-informed accessible Web adaptation", () => {
 });
 
 
-test("header menu uses a restrained semantic color hierarchy across destinations", () => {
+test("header menu uses a restrained semantic color hierarchy across destinations and settings", () => {
   assert.match(headerMenuSource, /bg-\[var\(--surface-container-high\)\] text-\[var\(--on-surface-variant\)\]/);
   assert.match(headerMenuSource, /bg-\[var\(--primary-container\)\] text-\[var\(--on-primary-container\)\]/);
   assert.match(headerMenuSource, /bg-\[var\(--tertiary-container\)\] text-\[var\(--on-tertiary-container\)\]/);
+  assert.match(headerMenuSource, /grid grid-cols-3 gap-1/);
+  assert.match(headerMenuSource, /const selected = themeReady && theme === option\.value/);
+  assert.match(headerMenuSource, /w-\[min\(18rem,calc\(100vw-1\.5rem\)\)\]/);
+});
+
+test("header menu copy uses neutral destination titles and direct descriptions in both locales", () => {
+  assert.match(messagesSource, /explore: "Explorer", exploreDescription: "Parcours tous les outils disponibles"/);
+  assert.match(messagesSource, /favorites: "Favoris", favoritesDescription: "Tes outils enregistrés"/);
+  assert.match(messagesSource, /collections: "Collections", collectionsDescription: "Organise tes outils en groupes"/);
+  assert.match(messagesSource, /space: "Compte", menu: "Menu"/);
+  assert.match(messagesSource, /explore: "Explore", exploreDescription: "Browse all available tools"/);
+  assert.match(messagesSource, /favorites: "Favorites", favoritesDescription: "Your saved tools"/);
+  assert.match(messagesSource, /collections: "Collections", collectionsDescription: "Organize your tools into groups"/);
+  assert.match(messagesSource, /space: "Account", menu: "Menu"/);
 });
 
 test("header theme controls defer client-dependent selected state until after hydration", () => {
@@ -633,6 +648,6 @@ test("header theme controls defer client-dependent selected state until after hy
   assert.match(headerMenuSource, /function getServerHydrationReadySnapshot\(\)\s*\{\s*return false;/);
   assert.match(headerMenuSource, /useSyncExternalStore\(\s*subscribeHydrationReady,\s*getHydrationReadySnapshot,\s*getServerHydrationReadySnapshot,/);
   assert.doesNotMatch(headerMenuSource, /setThemeReady/);
-  assert.match(headerMenuSource, /aria-pressed=\{themeReady && theme === option\.value\}/);
-  assert.match(headerMenuSource, /themeReady && theme === option\.value && <MaterialIcon name="check"/);
+  assert.match(headerMenuSource, /aria-pressed=\{selected\}/);
+  assert.match(headerMenuSource, /const selected = themeReady && theme === option\.value/);
 });

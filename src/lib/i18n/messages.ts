@@ -32,9 +32,9 @@ export type Messages = {
 
 export const messages: Record<Locale, Messages> = {
   fr: {
-    nav: { home: "Accueil", tools: "Outils", explore: "Voir tous les outils", exploreDescription: "Accède à tous les outils", favorites: "Mes favoris", favoritesDescription: "Tes outils enregistrés", collections: "Mes collections", collectionsDescription: "Organise tes outils", language: "Langue", account: "Compte", space: "Mon espace", menu: "Menu" },
+    nav: { home: "Accueil", tools: "Outils", explore: "Explorer", exploreDescription: "Parcours tous les outils disponibles", favorites: "Favoris", favoritesDescription: "Tes outils enregistrés", collections: "Collections", collectionsDescription: "Organise tes outils en groupes", language: "Langue", account: "Gère ton profil et tes préférences", space: "Compte", menu: "Menu" },
     breadcrumbs: { label: "Fil d’Ariane" },
-    footer: { tagline: "Des outils utiles, directement dans ton navigateur.", explore: "Tous les outils", account: "Ton espace" },
+    footer: { tagline: "Des outils utiles, directement dans ton navigateur.", explore: "Tous les outils", account: "Compte" },
     actions: { copy: "Copier", copied: "Copié", clear: "Effacer" },
     home: {
       metaTitle: "Loculary — Outils en ligne gratuits",
@@ -124,9 +124,9 @@ export const messages: Record<Locale, Messages> = {
     },
   },
   en: {
-    nav: { home: "Home", tools: "Tools", explore: "View all tools", exploreDescription: "Browse all available tools", favorites: "My favorites", favoritesDescription: "Your saved tools", collections: "My collections", collectionsDescription: "Organize your tools", language: "Language", account: "Account", space: "My space", menu: "Menu" },
+    nav: { home: "Home", tools: "Tools", explore: "Explore", exploreDescription: "Browse all available tools", favorites: "Favorites", favoritesDescription: "Your saved tools", collections: "Collections", collectionsDescription: "Organize your tools into groups", language: "Language", account: "Manage your profile and preferences", space: "Account", menu: "Menu" },
     breadcrumbs: { label: "Breadcrumb" },
-    footer: { tagline: "Useful tools, ready to use in your browser.", explore: "All tools", account: "Your space" },
+    footer: { tagline: "Useful tools, ready to use in your browser.", explore: "All tools", account: "Account" },
     actions: { copy: "Copy", copied: "Copied", clear: "Clear" },
     home: {
       metaTitle: "Loculary — Free online tools",
