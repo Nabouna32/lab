@@ -47,6 +47,9 @@ function decodeNumericEntity(match: string, value: string): string {
     ? Number.parseInt(value.slice(1), 16)
     : Number.parseInt(value, 10);
 
+  // HTML replaces a null character reference with U+FFFD instead of inserting U+0000.
+  if (codePoint === 0) return "\uFFFD";
+
   if (
     !Number.isInteger(codePoint) ||
     codePoint < 0 ||
