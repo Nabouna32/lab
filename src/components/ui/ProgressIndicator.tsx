@@ -32,7 +32,14 @@ export function ProgressIndicator({ label, value, className = "", style }: Progr
           className={styles.indicator}
           data-indeterminate={normalizedValue === undefined ? "true" : "false"}
           style={normalizedValue === undefined ? undefined : { width: `${normalizedValue}%` }}
-        />
+        >
+          {normalizedValue === undefined ? (
+            <>
+              <span className={styles.segment} data-segment="first" />
+              <span className={styles.segment} data-segment="second" />
+            </>
+          ) : null}
+        </span>
       </span>
     </div>
   );
