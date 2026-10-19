@@ -16,13 +16,14 @@ Dernière vérification : 2026-10-19. Ce registre résume les blocages persistan
 
 ## 2. Protection Supabase contre les mots de passe compromis indisponible sur l'offre actuelle
 
-- **État :** avertissement confirmé ; décision de risque pour l'inscription publique à suivre dans l'issue [#467](https://github.com/Nabouna32/lab/issues/467), rouverte le 19 octobre.
+- **État :** avertissement confirmé ; décision de risque pour l'inscription publique suivie dans l'issue [#467](https://github.com/Nabouna32/lab/issues/467).
 - **Impact :** le Security Advisor signale que la protection contre les mots de passe compromis est désactivée. C'est un risque lié à l'authentification par compte, pas une raison d'exiger un compte pour les outils publics.
 - **Cause confirmée dans le contexte du projet :** cette option n'est pas disponible sur l'offre Supabase Free actuelle.
-- **Tentatives / solutions écartées :** aucune modification de configuration de production ni dépense ; ne pas revenir demander l'activation sans changement de plan ou de disponibilité, et ne pas contourner la restriction.
-- **Prochaine action :** examiner dans le code la surface d'inscription réellement exposée et vérifier les protections d'authentification déjà disponibles. La recommandation provisoire est de préserver l'usage anonyme des outils et de ne pas promouvoir l'inscription publique comme prérequis au lancement tant que le risque n'est pas accepté ou mitigé.
-- **Condition de reprise :** évolution de l'offre, de la disponibilité de la fonctionnalité, confirmation d'une mitigation supportée ou décision documentée sur l'exposition de l'inscription.
-
+- **Vérification du code (19 octobre) :** la page `/[locale]/compte/inscription` et l'action serveur `signUp` sont présentes. Le serveur valide le format de l'adresse, impose 8–128 caractères au mot de passe, limite le nom affiché à 80 caractères et gère les réponses Supabase `weak_password` et `429`. La protection contre les mots de passe compromis n'est pas réimplémentée localement ; l'application délègue cette vérification à Supabase Auth.
+- **Limite de preuve :** le dépôt ne révèle pas si les inscriptions sont actuellement activées dans la configuration Auth de production. Le connecteur disponible ne permet pas de lire ce réglage. Ne pas présenter l'inscription comme vérifiée en production.
+- **Tentatives / solutions écartées :** aucune modification de configuration de production ni dépense ; ne pas envoyer les mots de passe à un service tiers pour recréer le contrôle, ne pas revenir demander l'activation sans changement de plan ou de disponibilité, et ne pas contourner la restriction.
+- **Prochaine action :** conserver l'usage anonyme des outils et obtenir une décision explicite sur le niveau de risque accepté si l'inscription publique est promue au lancement. L'issue #467 documente les options, contraintes et critères de reprise.
+- **Condition de reprise :** évolution de l'offre, disponibilité d'une mitigation supportée, preuve de l'état réel de l'inscription qui change la décision, ou décision du propriétaire sur le risque et le coût.
 ## 3. Validation fonctionnelle du site de production incomplète dans la session distante
 
 - **État :** vérification à réaliser ; pas une preuve d'un défaut du site.
