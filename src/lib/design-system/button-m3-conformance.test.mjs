@@ -58,6 +58,7 @@ test("shared IconButton preserves 48px touch target and supports accessible togg
     "var(--secondary-container)",
     "var(--on-secondary-container)",
     'standard: "text-[var(--primary)] group-hover:text-[var(--primary)]',
+    "group-disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)] group-hover:bg-",
     'outlined: "border-transparent bg-[var(--inverse-surface)] text-[var(--inverse-on-surface)] group-hover:bg-',
     "disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]",
     "label: string",
