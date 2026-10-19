@@ -31,7 +31,7 @@ test("treats a February 29 birthday as reaching its anniversary on February 28 i
   assert.deepEqual(calculateAge(date("2024-02-29"), date("2025-02-27")), {
     years: 0,
     months: 11,
-    days: 30,
+    days: 29,
   });
 });
 
