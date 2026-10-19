@@ -88,7 +88,7 @@ type ToolMessages = {
   yamlFormatterValidator: {
     input: string; placeholder: string; output: string; format: string; copy: string; clear: string;
     indentation: string; spaces2: string; spaces4: string; tab: string; valid: string; invalid: string;
-    emptyResult: string; formatted: string; errorAt: (line: string, column: string) => string; resourceLimit: string;
+    emptyResult: string; formatted: string; errorAt: (line: string, column: string) => string; resourceLimit: string; errorDetailLabel: string;
   };
   urlEncoder: {
     input: string; placeholder: string; output: string; scope: string; component: string; uri: string;
