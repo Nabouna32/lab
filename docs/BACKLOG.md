@@ -7,7 +7,7 @@ Dernière révision : 2026-10-19. File de travail unique. Les preuves et priorit
 - **État :** continu ; checkpoint [issue #741](https://github.com/Nabouna32/lab/issues/741).
 - **Pourquoi :** les audits statiques ne prouvent pas la justesse métier ni le comportement des entrées limites. Les correctifs EXIF, CSV et compresseur ont déjà révélé des défauts concrets.
 - **Livrable visé :** choisir un outil par reprise ; vérifier calcul/format, limites, erreurs, FR/EN et flux de données ; ajouter des tests de régression à chaque défaut confirmé.
-- **Dernier lot livré :** la [PR #794](https://github.com/Nabouna32/lab/pull/794) corrige la validation des champs vides du Calculateur de dates et conditionne les références `aria-describedby` à la présence du message d’erreur. Le test de contrat couvre les deux comportements. Lint, typecheck, tests et build ont réussi sur le commit applicatif `14012b931c97b82f850904200da6b38b82697833` ([CI #39330354046](https://github.com/Nabouna32/lab/actions/runs/39330354046)); la fusion et le déploiement de production sont vérifiés.
+- **Dernier lot UX livré :** la [PR #796](https://github.com/Nabouna32/lab/pull/796) remplit l’état initial de la page de recherche avec quatre raccourcis d’outils publiés réutilisant les liens rapides de l’accueil. Titres et descriptions sont localisés FR/EN ; routes canoniques conservées, aucun transfert ni stockage ajouté. Le test de contrat, lint, typecheck, tests et build ont réussi sur `668256b5fb5645a020869e797ce2c3aae53f04eb` ([CI #39331374660](https://github.com/Nabouna32/lab/actions/runs/39331374660)).
 - **Lot précédent :** la [PR #791](https://github.com/Nabouna32/lab/pull/791) remplace la soustraction brute des champs année/mois/jour par un calcul d’anniversaires calendaires successifs. Les tests couvrent le 29 février (anniversaire retenu le 28 février en année non bissextile), les fins de mois, les heures différentes d’un même jour et les dates futures invalides. La convention est explicitée en français et en anglais par la [PR #792](https://github.com/Nabouna32/lab/pull/792).
 
 ## P1 — Finding npm HIGH sur `braces`
@@ -29,6 +29,8 @@ Dernière révision : 2026-10-19. File de travail unique. Les preuves et priorit
 - **Livrable envisagé après résolution :** rapports texte lisibles en CI et sous `docs/rapports-visuels/`, couvrant géométrie, contrastes axe-core, arbre d'accessibilité, erreurs console, Lighthouse, mise en page, mobile/desktop et thèmes clair/sombre. Aucun cache distant ni transfert d'artefacts ; réutiliser les caches locaux du runner Windows.
 
 ## P2 — Refonte progressive des parcours
+- **Lot UX livré :** la page de recherche sans requête propose maintenant quatre tâches de démarrage grâce à la [PR #796](https://github.com/Nabouna32/lab/pull/796). L’audit complet de la recherche/exploration (états clavier, suggestions et absence de résultats) reste à faire.
+
 
 - **État :** lot 1 livré ; [REFONTE.md](REFONTE.md).
 - **Ordre :** recherche/exploration, système partagé, shell des pages d'outils, puis audit qualité des outils.
