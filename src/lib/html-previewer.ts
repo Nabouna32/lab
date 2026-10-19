@@ -16,18 +16,10 @@ const CSP_META = `<meta http-equiv="Content-Security-Policy" content="${CSP}">`;
 export function createHtmlPreviewDocument(source: string): string {
   if (!source.trim()) return "";
 
-  const html = source.trim();
-  const headMatch = html.match(/<head\b[^>]*>/i);
-  if (headMatch?.index !== undefined) {
-    const end = headMatch.index + headMatch[0].length;
-    return html.slice(0, end) + CSP_META + html.slice(end);
-  }
-
-  const htmlMatch = html.match(/<html\b[^>]*>/i);
-  if (htmlMatch?.index !== undefined) {
-    const end = htmlMatch.index + htmlMatch[0].length;
-    return html.slice(0, end) + `<head>${CSP_META}</head>` + html.slice(end);
-  }
-
-  return `<!doctype html><html><head>${CSP_META}</head><body>${html}</body></html>`;
+  // Put the policy before all user-controlled markup. Searching for a <head>
+  // with a regex can match text inside comments or raw-text elements, placing
+  // the policy inside inert content and allowing external resources to load.
+  // The HTML parser creates the implicit html/head elements before processing
+  // this leading meta; subsequent full-document tags are handled normally.
+  return `<!doctype html>${CSP_META}${source.trim()}`;
 }
