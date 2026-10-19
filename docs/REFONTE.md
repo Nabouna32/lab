@@ -33,7 +33,7 @@ Dans tous les parcours, la hiérarchie est : action principale, entrée ou param
 
 ## Lots ordonnés
 
-1. **Accueil orienté action** — remplacer le titre générique par une question d’action, clarifier l’usage sans compte et exposer les raccourcis fréquents déjà déclarés dans les messages localisés. *En cours dans la PR qui introduit ce document.*
+1. **Accueil orienté action — livré** ([PR #782](https://github.com/Nabouna32/lab/pull/782), commit `a43a329df2b3192cf89be048ea1cf2d4d3194c71`) : le titre est une question d’action, la description indique l’usage sans compte et les quatre raccourcis FR/EN sont affichés sous la recherche. CI complète verte sur le SHA de PR `5cd4eeb8097b1251b88f545d905989f28b7218c0`.
 2. **Mesure du rendu et accessibilité** — établir une validation de rendu lisible en texte, incluant débordements, chevauchements, géométrie, contrastes axe-core, arbre d’accessibilité, erreurs console, Lighthouse et descriptions de mise en page pour mobile/bureau et clair/sombre. Respecter les contraintes CI et ne pas confondre état de déploiement avec validation fonctionnelle. Aucun rapport navigateur ne sera déclaré tant qu’il n’aura pas réellement été généré et inspecté.
 3. **Recherche et exploration** — auditer le parcours complet, l’état vide, les suggestions, le clavier et la hiérarchie entre intentions et catégories ; corriger les frictions confirmées.
 4. **Système partagé** — comparer l’implémentation aux contrats Material 3 Fidelity et d’accessibilité ; corriger les écarts transversaux confirmés (navigation, contrôles, états, focus, thèmes et responsive).
