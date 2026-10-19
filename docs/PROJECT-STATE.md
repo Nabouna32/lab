@@ -9,7 +9,7 @@ Préparer le lancement public autour du **26 octobre 2026**, sans sacrifier les 
 
 ## État vérifié
 
-- **État de `main` après la PR #791 :** commit `12cf64b14010d526fbdf39b2456763d2d4eec035`. Le Calculateur d’âge calcule désormais les années/mois/jours via des anniversaires calendaires successifs, traite le 29 février comme un anniversaire au 28 février en année non bissextile, ignore l’heure et calcule les écarts de jours sans dépendre du changement d’heure. La CI complète a réussi sur la tête finale `b83a882fde639d3dc47f128dbff9677f49ed7857` ([run #39328931690](https://github.com/Nabouna32/lab/actions/runs/39328931690)). Le déploiement de production correspondant est en cours de vérification.
+- **État de `main` après la PR #792 :** commit `1a328b9159486e659f07266c4475e78d03ba66fc`. La correction métier du Calculateur d’âge a été livrée par la [PR #791](https://github.com/Nabouna32/lab/pull/791), puis sa convention du 29 février a été explicitée en français et en anglais par la [PR #792](https://github.com/Nabouna32/lab/pull/792). La CI complète de l’application a réussi sur `b83a882fde639d3dc47f128dbff9677f49ed7857` ([run #39328931690](https://github.com/Nabouna32/lab/actions/runs/39328931690)) et la CI de la PR documentaire a réussi sur `a0d77d859d6794f54e60415c8f7c82d34475d7fe` ([run #39329341637](https://github.com/Nabouna32/lab/actions/runs/39329341637)). Le déploiement de production du dernier `main` est `READY` : [inspection Vercel](https://vercel.com/nabouna32/loculary/D58N15ApTxzkEUPm8gGCy4xb6LWh).
 
 - Refonte task-first de l’accueil livrée par la [PR #782](https://github.com/Nabouna32/lab/pull/782), fusion squash dans `a43a329df2b3192cf89be048ea1cf2d4d3194c71`. Le titre et la description sont localisés FR/EN ; quatre raccourcis précédemment définis mais non affichés sont désormais accessibles sous la recherche via les routes canoniques. Lint, typecheck, tests et build ont réussi sur le SHA exact `5cd4eeb8097b1251b88f545d905989f28b7218c0` ([CI #39324446225](https://github.com/Nabouna32/lab/actions/runs/39324446225)). Le déploiement Vercel du commit de fusion a été déclenché ; son état doit être revérifié.
 - Branche de production : `main`.
@@ -30,7 +30,7 @@ Préparer le lancement public autour du **26 octobre 2026**, sans sacrifier les 
 
 > Mémoire opérationnelle par session de travail, avec les PR représentatives et preuves vérifiables.
 
-1. **Justesse métier / dates calendaires** — le Calculateur d’âge gère les anniversaires de fin de mois, le 29 février et les heures ignorées : [PR #791](https://github.com/Nabouna32/lab/pull/791).
+1. **Justesse métier / dates calendaires** — le Calculateur d’âge gère les anniversaires de fin de mois et le 29 février ; la convention est expliquée en FR/EN : [PR #791](https://github.com/Nabouna32/lab/pull/791), [PR #792](https://github.com/Nabouna32/lab/pull/792).
 2. **Justesse fonctionnelle / accessibilité du contraste** — l’aperçu du Convertisseur de couleurs choisit le meilleur contraste noir/blanc selon la luminance relative WCAG : [PR #789](https://github.com/Nabouna32/lab/pull/789).
 3. **Design system / accessibilité visuelle** — rôles de couleur corrigés pour l’état sélectionné du bouton icône tonal : [PR #787](https://github.com/Nabouna32/lab/pull/787).
 4. **Gouvernance / continuité** — backlog priorisé et état de reprise actualisé : [PR #785](https://github.com/Nabouna32/lab/pull/785) et [PR #786](https://github.com/Nabouna32/lab/pull/786).
