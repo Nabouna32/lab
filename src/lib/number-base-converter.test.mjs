@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { convertNumber, formatNumber, isValidBase, parseNumber } from "./number-base-converter.ts";
+import { convertNumber, formatNumber, isValidBase, NUMBER_BASE_MAX_INPUT_LENGTH, parseNumber } from "./number-base-converter.ts";
 
 test("converts hexadecimal to decimal", () => {
   assert.equal(convertNumber("FF", 16, 10), "255");
@@ -46,4 +46,10 @@ test("rejects invalid input and bases", () => {
 test("formats zero and preserves uppercase digits", () => {
   assert.equal(formatNumber(0n, 2), "0");
   assert.equal(formatNumber(255n, 16), "FF");
+});
+
+test("bounds input length before arbitrary-precision parsing", () => {
+  assert.equal(parseNumber("1".repeat(NUMBER_BASE_MAX_INPUT_LENGTH), 2) !== null, true);
+  assert.equal(parseNumber("1".repeat(NUMBER_BASE_MAX_INPUT_LENGTH + 1), 2), null);
+  assert.equal(convertNumber("1".repeat(NUMBER_BASE_MAX_INPUT_LENGTH + 1), 2, 10), null);
 });
