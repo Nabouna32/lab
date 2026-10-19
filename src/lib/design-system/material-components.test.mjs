@@ -148,6 +148,15 @@ test("common navigation and identity icons use the shared Material Symbols compo
   const messagesSource = readFileSync(new URL("../../lib/i18n/messages.ts", import.meta.url), "utf8");
   assert.match(messagesSource, /exploreDescription: "Accède à tous les outils"/);
   assert.match(messagesSource, /exploreDescription: "Browse all available tools"/);
+  assert.match(headerSource, /t\.nav\.favorites/);
+  assert.match(headerSource, /t\.nav\.favoritesDescription/);
+  assert.match(headerSource, /t\.nav\.collections/);
+  assert.match(headerSource, /t\.nav\.collectionsDescription/);
+  assert.doesNotMatch(headerSource, /locale === "fr"|locale === "en"/);
+  assert.match(messagesSource, /favorites: "Mes favoris"/);
+  assert.match(messagesSource, /favorites: "My favorites"/);
+  assert.match(messagesSource, /collections: "Mes collections"/);
+  assert.match(messagesSource, /collections: "My collections"/);
   assert.match(headerSource, /block text-sm font-semibold text-\[var\(--foreground\)\]/);
   assert.doesNotMatch(headerSource, /function Icon\(/);
 });
