@@ -27,7 +27,7 @@ The pinned AndroidX API documents a 48dp minimum interactive target and applies 
 | `outlined` | Transparent surface with outline-variant border |
 | `tonal` | Compatibility alias for `filled-tonal`; retain until all call sites are migrated |
 
-Selected colors follow the existing AndroidX source-backed roles. Disabled content uses on-surface at approximately 38% opacity; filled containers use the disabled on-surface treatment at approximately 10%. These CSS color mixes are source-informed adaptations, not proof of exact rendered color equivalence.
+Selected filled-tonal state uses `secondary-container` / `on-secondary-container`, including hover and pressed color mixes, for both `filled-tonal` and its `tonal` compatibility alias. This follows the current [AndroidX FilledTonalIconButtonTokens](https://android.googlesource.com/platform/frameworks/support/%2B/db4e85898bcd90a636877cc14d3ca4ba1e9492c7/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/FilledTonalIconButtonTokens.kt). Selected outlined state uses the inverse-surface roles. Disabled content uses on-surface at approximately 38% opacity; filled containers use the disabled on-surface treatment at approximately 10%. These CSS color mixes are source-informed adaptations, not proof of exact rendered color equivalence.
 
 ## 3. Geometry and behavior
 
