@@ -621,10 +621,13 @@ test("AlertDialog is a source-informed accessible Web adaptation", () => {
 });
 
 
-test("header menu uses a restrained semantic color hierarchy across destinations", () => {
+test("header menu uses a restrained semantic color hierarchy across destinations and settings", () => {
   assert.match(headerMenuSource, /bg-\[var\(--surface-container-high\)\] text-\[var\(--on-surface-variant\)\]/);
   assert.match(headerMenuSource, /bg-\[var\(--primary-container\)\] text-\[var\(--on-primary-container\)\]/);
   assert.match(headerMenuSource, /bg-\[var\(--tertiary-container\)\] text-\[var\(--on-tertiary-container\)\]/);
+  assert.match(headerMenuSource, /grid grid-cols-3 gap-1/);
+  assert.match(headerMenuSource, /const selected = themeReady && theme === option\.value/);
+  assert.match(headerMenuSource, /w-\[min\(18rem,calc\(100vw-1\.5rem\)\)\]/);
 });
 
 test("header theme controls defer client-dependent selected state until after hydration", () => {
