@@ -17,7 +17,10 @@ concurrency:
 jobs:
   validate:
     name: Node.js 24.21.0
-    runs-on: ubuntu-latest
+    # Never execute code from a fork on the personal self-hosted runner.
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: [self-hosted, Windows, X64, loculary-ci]
+    timeout-minutes: 45
 
     steps:
       - name: Checkout
@@ -28,79 +31,13 @@ jobs:
 
       - name: Detect lightweight and dependency changes
         id: changes
-        shell: bash
+        shell: pwsh
         env:
           EVENT_NAME: ${{ github.event_name }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
           PR_CHANGED_FILES: ${{ github.event.pull_request.changed_files }}
           GH_TOKEN: ${{ github.token }}
-        run: |
-          set -euo pipefail
-          lightweight_only=false
-          dependencies_changed=false
-          governance_changed=false
-
-          if [[ "$EVENT_NAME" == "pull_request" ]]; then
-            if [[ ! "$PR_CHANGED_FILES" =~ ^[0-9]+$ ]]; then
-              echo "::error::Pull request changed-file count is missing or invalid."
-              exit 1
-            fi
-            if (( PR_CHANGED_FILES > 3000 )); then
-              echo "::error::This PR exceeds the GitHub API's 3000-file listing limit; CI scope cannot be classified safely."
-              exit 1
-            fi
-
-            changed_paths_file="$RUNNER_TEMP/ci-changed-paths"
-            gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER/files?per_page=100" \
-              | jq -j '.[][] | .filename, "\u0000"' > "$changed_paths_file"
-            classification_output="$(node .github/scripts/classify-ci-changes.mjs "$PR_CHANGED_FILES" "$changed_paths_file")"
-            lightweight_only_seen=false
-            dependencies_changed_seen=false
-            governance_changed_seen=false
-            while IFS='=' read -r key value; do
-              case "$value" in
-                true|false) ;;
-                *)
-                  echo "::error::Classifier returned an invalid boolean value."
-                  exit 1
-                  ;;
-              esac
-              case "$key" in
-                lightweight_only)
-                  [[ "$lightweight_only_seen" == false ]] || { echo "::error::Classifier duplicated lightweight_only."; exit 1; }
-                  lightweight_only_seen=true
-                  lightweight_only="$value"
-                  ;;
-                dependencies_changed)
-                  [[ "$dependencies_changed_seen" == false ]] || { echo "::error::Classifier duplicated dependencies_changed."; exit 1; }
-                  dependencies_changed_seen=true
-                  dependencies_changed="$value"
-                  ;;
-                governance_changed)
-                  [[ "$governance_changed_seen" == false ]] || { echo "::error::Classifier duplicated governance_changed."; exit 1; }
-                  governance_changed_seen=true
-                  governance_changed="$value"
-                  ;;
-                *)
-                  echo "::error::Classifier returned an unexpected output key."
-                  exit 1
-                  ;;
-              esac
-            done <<< "$classification_output"
-            if [[ "$lightweight_only_seen" != true || "$dependencies_changed_seen" != true || "$governance_changed_seen" != true ]]; then
-              echo "::error::Classifier omitted a required output."
-              exit 1
-            fi
-          fi
-
-          echo "lightweight_only=$lightweight_only" >> "$GITHUB_OUTPUT"
-          echo "dependencies_changed=$dependencies_changed" >> "$GITHUB_OUTPUT"
-          echo "governance_changed=$governance_changed" >> "$GITHUB_OUTPUT"
-
-          # Exercise the CI change classifier before deciding whether to skip the full suite.
-          if [[ "$governance_changed" == "true" ]]; then
-            node --test .github/scripts/*.test.mjs
-          fi
+        run: node .github/scripts/detect-ci-changes.mjs
 
       - name: Review dependency changes
         if: github.event_name == 'pull_request' && steps.changes.outputs.dependencies_changed == 'true'
@@ -114,11 +51,28 @@ jobs:
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24.21.0
-          cache: npm
+          # setup-node reuses the runner's local tool cache; no npm/GitHub cache is enabled.
 
-      - name: Install dependencies
+      - name: Exercise CI tooling tests
+        if: steps.changes.outputs.governance_changed == 'true'
+        shell: pwsh
+        run: node --test .github/scripts/*.test.mjs
+
+      - name: Prepare persistent local dependencies
         if: steps.changes.outputs.lightweight_only != 'true'
+        id: dependencies
+        shell: pwsh
+        run: node .github/scripts/dependency-cache.mjs prepare
+
+      - name: Install dependencies only on cache miss
+        if: steps.changes.outputs.lightweight_only != 'true' && steps.dependencies.outputs.cache-hit != 'true'
+        shell: pwsh
         run: npm ci
+
+      - name: Persist dependencies locally
+        if: success() && steps.changes.outputs.lightweight_only != 'true' && steps.dependencies.outputs.cache-hit != 'true'
+        shell: pwsh
+        run: node .github/scripts/dependency-cache.mjs save
 
       - name: Lint
         if: steps.changes.outputs.lightweight_only != 'true'
@@ -132,6 +86,16 @@ jobs:
         if: steps.changes.outputs.lightweight_only != 'true'
         run: npm test
 
+      - name: Restore local Next.js build cache
+        if: steps.changes.outputs.lightweight_only != 'true'
+        shell: pwsh
+        run: node .github/scripts/next-local-cache.mjs restore
+
       - name: Build
         if: steps.changes.outputs.lightweight_only != 'true'
         run: npm run build
+
+      - name: Persist local Next.js build cache
+        if: success() && steps.changes.outputs.lightweight_only != 'true'
+        shell: pwsh
+        run: node .github/scripts/next-local-cache.mjs save
