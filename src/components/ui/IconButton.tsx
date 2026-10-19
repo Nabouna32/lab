@@ -46,8 +46,6 @@ export function IconButton({
   ref,
   ...props
 }: IconButtonProps) {
-  const dimensions = targetDimensions;
-
   return (
     <button
       ref={ref}
@@ -59,7 +57,7 @@ export function IconButton({
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]",
         "focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]",
         "disabled:pointer-events-none disabled:cursor-not-allowed",
-        dimensions,
+        targetDimensions,
         className,
       ].join(" ")}
       {...props}
