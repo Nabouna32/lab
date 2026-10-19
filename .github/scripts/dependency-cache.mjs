@@ -14,10 +14,10 @@ const workspaceModules = path.join(workspace, "node_modules");
 const packageFiles = ["package.json", "package-lock.json", ".npmrc"];
 const hash = crypto.createHash("sha256");
 
-hash.update(\`node=${process.version}\\nos=${process.platform}\\narch=${process.arch}\\n\`);
+hash.update("node=" + process.version + "\nos=" + process.platform + "\narch=" + process.arch + "\n");
 for (const filename of packageFiles) {
   const filepath = path.join(workspace, filename);
-  hash.update(\`\\nfile=${filename}\\n\`);
+  hash.update("\nfile=" + filename + "\n");
   if (fs.existsSync(filepath)) hash.update(fs.readFileSync(filepath));
   else hash.update("<absent>");
 }
@@ -30,7 +30,7 @@ const completeMarker = path.join(cacheEntry, ".complete");
 const outputFile = process.env.GITHUB_OUTPUT;
 
 function setOutput(name, value) {
-  if (outputFile) fs.appendFileSync(outputFile, \`${name}=${value}\\n\`);
+  if (outputFile) fs.appendFileSync(outputFile, name + "=" + value + "\n");
 }
 
 function removeWorkspaceModules() {
@@ -70,7 +70,7 @@ if (!fs.existsSync(workspaceModules)) {
 }
 
 fs.mkdirSync(cacheRoot, { recursive: true });
-const temporaryEntry = path.join(cacheRoot, \`.tmp-${process.pid}-${cacheKey}\`);
+const temporaryEntry = path.join(cacheRoot, ".tmp-" + process.pid + "-" + cacheKey);
 const temporaryModules = path.join(temporaryEntry, "node_modules");
 fs.rmSync(temporaryEntry, { recursive: true, force: true });
 fs.mkdirSync(temporaryEntry, { recursive: true });
@@ -86,7 +86,7 @@ try {
     fs.rmSync(workspaceModules, { recursive: true, force: true });
   }
 
-  fs.writeFileSync(path.join(temporaryEntry, ".complete"), \`${cacheKey}\\n\`);
+  fs.writeFileSync(path.join(temporaryEntry, ".complete"), cacheKey + "\n");
   fs.rmSync(cacheEntry, { recursive: true, force: true });
   fs.renameSync(temporaryEntry, cacheEntry);
   linkCachedModules();
