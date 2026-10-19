@@ -14,9 +14,6 @@ import { MaterialIcon } from "@/components/ui/MaterialIcon";
 const triggerClass =
   "flex h-12 min-w-12 items-center justify-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 text-sm font-semibold text-[var(--foreground)] outline-none transition-[border-color,background-color,box-shadow,transform] duration-200 hover:bg-[var(--surface-soft)] focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]";
 
-const optionClass =
-  "flex min-h-12 items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-[var(--muted)] outline-none transition-colors hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)] focus-visible:bg-[var(--surface-soft)] focus-visible:text-[var(--foreground)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]";
-
 const menuOpenAfterLocaleSwitchKey = "loculary:header-menu-open-after-locale-switch";
 const menuOpenListeners = new Set<() => void>();
 let menuOpenSnapshot = false;
@@ -212,7 +209,7 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
           onClick={closeMenu}
           className="group flex items-center gap-3 rounded-xl px-3 py-2.5 outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
         >
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--accent-soft)] text-[var(--on-primary-container)]">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--surface-container-high)] text-[var(--on-surface-variant)]" aria-hidden="true">
             <MaterialIcon name="person" size={18} className="h-[1.1rem] w-[1.1rem]" />
           </span>
           <span className="min-w-0 flex-1">
