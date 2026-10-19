@@ -528,6 +528,13 @@ test("TextField labels reflect invalid state while disabled labels keep disabled
   assert.match(textFieldSource, /disabled \? "text-\[color-mix\(in_srgb,var\(--on-surface\)_38%,transparent\)\]" : isInvalid \? "text-\[var\(--danger\)\] peer-aria-\[invalid=true\]:text-\[var\(--danger\)\]"/);
 });
 
+test("TextArea and Select labels reflect invalid state while preserving disabled colors", () => {
+  assert.match(textAreaSource, /const isInvalid = Boolean\(error\) \|\| Boolean\(props\["aria-invalid"\]\);/);
+  assert.match(textAreaSource, /disabled \? "text-\[color-mix\(in_srgb,var\(--on-surface\)_38%,transparent\)\]" : isInvalid \? "text-\[var\(--error\)\]"/);
+  assert.match(selectSource, /const isInvalid = Boolean\(props\["aria-invalid"\]\);/);
+  assert.match(selectSource, /disabled \? "text-\[color-mix\(in_srgb,var\(--on-surface\)_38%,transparent\)\]" : isInvalid \? "text-\[var\(--danger\)\]"/);
+});
+
 test("TextArea and native Select explicitly expose unfinished Android parity instead of claiming official components", () => {
   assert.match(labSource, /textAreaVariant,setTextAreaVariant/);
   assert.match(labSource, /selectVariant,setSelectVariant/);
