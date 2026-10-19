@@ -9,7 +9,7 @@ import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import { IconButton } from "@/components/ui/IconButton";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
-import { convertNumber, isValidBase, NUMBER_BASE_MAX_INPUT_LENGTH } from "@/lib/number-base-converter";
+import { convertNumber, isValidBase } from "@/lib/number-base-converter";
 
 const DEFAULT_VALUE = "255";
 const DEFAULT_FROM = 10;
