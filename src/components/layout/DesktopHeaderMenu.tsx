@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "@teispace/next-themes";
 import { getLanguage, isLocale, locales, type Locale } from "@/lib/i18n/config";
@@ -32,6 +32,18 @@ function getMenuOpenSnapshot() {
 }
 
 function getServerMenuOpenSnapshot() {
+  return false;
+}
+
+function subscribeHydrationReady() {
+  return () => {};
+}
+
+function getHydrationReadySnapshot() {
+  return true;
+}
+
+function getServerHydrationReadySnapshot() {
   return false;
 }
 
@@ -78,6 +90,11 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
   const pathname = usePathname();
   const router = useRouter();
   const { theme, setTheme } = useTheme();
+  const themeReady = useSyncExternalStore(
+    subscribeHydrationReady,
+    getHydrationReadySnapshot,
+    getServerHydrationReadySnapshot,
+  );
   const t = getMessages(locale);
   const open = useSyncExternalStore(subscribeMenuOpen, getMenuOpenSnapshot, getServerMenuOpenSnapshot);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -154,7 +171,7 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
           onClick={closeMenu}
           className="group flex items-center gap-3 rounded-xl px-3 py-3 outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] lg:hidden"
         >
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--primary-container)] text-[var(--on-primary-container)]" aria-hidden="true">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--surface-container-high)] text-[var(--on-surface-variant)]" aria-hidden="true">
             <MaterialIcon name="apps" size={18} />
           </span>
           <span className="min-w-0 flex-1">
@@ -269,11 +286,11 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
                 type="button"
                 onClick={() => selectTheme(option.value)}
                 className={optionClass + " w-full"}
-                aria-pressed={theme === option.value}
+                aria-pressed={themeReady && theme === option.value}
               >
                 <MaterialIcon name={option.icon === "system" ? "devices" : option.icon === "dark" ? "dark_mode" : "light_mode"} size={16} />
                 <span className="flex-1 text-left">{option.label}</span>
-                {theme === option.value && <MaterialIcon name="check" size={16} />}
+                {themeReady && theme === option.value && <MaterialIcon name="check" size={16} />}
               </button>
             ))}
           </div>
