@@ -31,6 +31,7 @@ const iconButtonSource = readFileSync(new URL("../../components/ui/IconButton.ts
 const panelSource = readFileSync(new URL("../../components/ui/Panel.tsx", import.meta.url), "utf8");
 const resultPanelSource = readFileSync(new URL("../../components/ui/ResultPanel.tsx", import.meta.url), "utf8");
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
+const headerMenuSource = readFileSync(new URL("../../components/layout/DesktopHeaderMenu.tsx", import.meta.url), "utf8");
 
 function luminance(hex) {
   const channels = [1, 3, 5].map((index) => Number.parseInt(hex.slice(index, index + 2), 16) / 255);
@@ -617,4 +618,18 @@ test("AlertDialog is a source-informed accessible Web adaptation", () => {
   assert.match(labSource, /import \{ AlertDialog \} from "@\/components\/ui\/AlertDialog"/);
   assert.match(labSource, /<AlertDialog open=\{alertDialogOpen\}/);
   assert.match(labSource, /Show alert dialog|Afficher une alerte/);
+});
+
+
+test("header menu uses a restrained semantic color hierarchy across destinations", () => {
+  assert.match(headerMenuSource, /bg-\[var\(--surface-container-high\)\] text-\[var\(--on-surface-variant\)\]/);
+  assert.match(headerMenuSource, /bg-\[var\(--primary-container\)\] text-\[var\(--on-primary-container\)\]/);
+  assert.match(headerMenuSource, /bg-\[var\(--tertiary-container\)\] text-\[var\(--on-tertiary-container\)\]/);
+});
+
+test("header theme controls defer client-dependent selected state until after hydration", () => {
+  assert.match(headerMenuSource, /const \[themeReady, setThemeReady\] = useState\(false\)/);
+  assert.match(headerMenuSource, /setThemeReady\(true\)/);
+  assert.match(headerMenuSource, /aria-pressed=\{themeReady && theme === option\.value\}/);
+  assert.match(headerMenuSource, /themeReady && theme === option\.value && <MaterialIcon name="check"/);
 });
