@@ -374,6 +374,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       indentation: "Indentation", spaces2: "2 espaces", spaces4: "4 espaces", tab: "Tabulation", valid: "YAML valide", invalid: "YAML invalide",
       emptyResult: "Le résultat apparaîtra ici après validation.", formatted: "Formaté", resourceLimit: "Le document est trop volumineux ou trop complexe à traiter en toute sécurité.",
       errorAt: (line, column) => "Ligne " + line + ", colonne " + column,
+      errorDetailLabel: "Détail technique :",
     },
     urlEncoder: {
       input: "Votre texte", placeholder: "Saisissez du texte ou une URL…", output: "Résultat", scope: "Mode d’encodage", component: "Composant d’URL", uri: "URL complète",
@@ -655,6 +656,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       indentation: "Indentation", spaces2: "2 spaces", spaces4: "4 spaces", tab: "Tab", valid: "Valid YAML", invalid: "Invalid YAML",
       emptyResult: "The result will appear here after validation.", formatted: "Formatted", resourceLimit: "The document is too large or complex to process safely.",
       errorAt: (line, column) => "Line " + line + ", column " + column,
+      errorDetailLabel: "Parser detail:",
     },
     urlEncoder: {
       input: "Your text", placeholder: "Enter text or a URL…", output: "Result", scope: "Encoding mode", component: "URL component", uri: "Complete URL",
