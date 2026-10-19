@@ -19,7 +19,7 @@ concurrency:
 jobs:
   validate:
     name: Validate Edge Function dependencies
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Windows, X64, loculary-ci]
     timeout-minutes: 10
     steps:
       - name: Checkout
@@ -33,12 +33,16 @@ jobs:
           deno-version: 2.1.4
 
       - name: Validate locked dependencies and function types
-        shell: bash
+        shell: pwsh
         run: |
-          set -euo pipefail
-          for function in account-delete admin-user-sessions admin-user-suspension; do
-            (
-              cd "supabase/functions/$function"
+          $ErrorActionPreference = 'Stop'
+          foreach ($function in @('account-delete', 'admin-user-sessions', 'admin-user-suspension')) {
+            Push-Location "supabase/functions/$function"
+            try {
               deno check --frozen index.ts
-            )
-          done
+              if ($LASTEXITCODE -ne 0) { throw "deno check failed for $function" }
+            }
+            finally {
+              Pop-Location
+            }
+          }
