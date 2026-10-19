@@ -41,14 +41,14 @@ The following inventory was read from `src/components/ui` on `main`. This is a f
 
 **Inventory note:** families intentionally overlap where a component could reasonably be classified by both implementation role and user-facing behavior. The next pass must deduplicate by component identity when recording status; do not treat the grouped table as a count of distinct audited variants. `ScrollField` is documented later in this file as an experimental Expressive API and is not a reason to expand the selected Fidelity direction.
 
-### Lot-by-lot protocol
+### Operating protocol — autonomous delivery mandate (updated 2026-10-19)
 
-1. Before implementation, present observed evidence, the mismatch/problem, alternatives, trade-offs/risks and a recommendation; include a real challenge to the existing code or proposal.
-2. Wait for explicit approval of that exact batch. Approval does not authorize later batches.
-3. Implement only the approved scope. If evidence exposes a consequential new decision or scope expansion, stop at that boundary and ask.
-4. Review the complete diff, run the relevant checks that are actually available, and report passed/failed/not-run separately.
-5. Update this register with source links, status, exact verification evidence and remaining gaps; update Issue #731 with the commit/PR and next checkpoint.
-6. End the response with a compact restart summary so a new conversation can resume from the repository, Issue and exact next action.
+1. Investigate source, actual production call sites, tests and official references. Distinguish direct evidence, inference and missing runtime proof.
+2. Choose and implement the next coherent, evidence-backed batch autonomously; the current project mandate supersedes the historical requirement for explicit approval of every component batch.
+3. Pause only when a finding requires a consequential product/architecture choice, a new recurring cost, a production security/privacy decision, destructive data work or an irreversible external commitment. Continue independent work while that boundary is blocked.
+4. Use a dedicated branch and one PR at a time where practical. Review the complete diff and verify the exact PR head through required CI before merge. Never weaken protections to force delivery.
+5. Update this register with source links, status, exact verification evidence and remaining gaps; update Issue #731 and `docs/PROJECT-STATE.md` with the merge/CI/deployment evidence and next priority.
+6. Browser, responsive, light/dark, keyboard, screen-reader and contrast checks remain required where applicable. If the environment cannot run them, mark them as not verified rather than inferring conformance from source or CI.
 
 ### Lot 0 source findings and recommended next audit
 
@@ -870,3 +870,11 @@ Official source: [AndroidX adaptive NavigationSuiteScaffold API](https://develop
 - The live preview covers the five canonical variants, disabled states, Loculary's destructive extension, leading icons, trailing arrows, long labels, constrained width and opt-in multiline behavior. Hover, keyboard focus and pressed states are exercised through real pointer/keyboard interaction.
 - AndroidX sources define the design reference; React/CSS behavior remains a web adaptation. Exact visual parity, resolved light/dark contrast, responsive/zoom behavior and assistive-technology behavior require runtime verification.
 - Do not mark the implementation conformant until automated checks and browser verification provide evidence.
+
+## IconButton — separate visible surface from interactive target (2026-10-19)
+
+- **Observed:** the shared Web `IconButton` previously applied `48px × 48px` to the button's visible background/border, making the visible filled/outlined surface larger than the small Material 3 icon-button container.
+- **Official source:** the pinned [AndroidX IconButton.kt](https://android.googlesource.com/platform/frameworks/support/%2B/1c9fe3b21eca0f1d2906dddf89028acbbb63b08c/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/IconButton.kt) documents a 48dp minimum interactive target and applies `minimumInteractiveComponentSize()` separately from `smallContainerSize()`. The generated [SmallIconButtonTokens.kt](https://android.googlesource.com/platform/frameworks/support/%2B/a4067b4140d0802f4416d38fa96e2baa68f65af7/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/SmallIconButtonTokens.kt) defines a 40dp container and 24dp icon. These are Android reference values, not CSS-pixel equivalences.
+- **Change in progress:** retain a 48 CSS-pixel native button hit target and focus ring; move variant background, border and state styling onto a centered 40 CSS-pixel child surface. Hover, pressed and disabled styling follows the outer button state. The child surface is hidden from the accessibility tree because the native button has its explicit accessible label.
+- **Regression coverage:** `button-m3-conformance.test.mjs` asserts both dimensions, the state-driven surface and the accessible toggle contract. Existing call sites retain their API; no per-consumer sizing overrides are required.
+- **Status:** source-level implementation and automated regression checks are being validated in PR. Browser verification of surface geometry, touch targeting, keyboard focus, selected/disabled states and light/dark themes remains open; do not claim full visual conformance before that check.
