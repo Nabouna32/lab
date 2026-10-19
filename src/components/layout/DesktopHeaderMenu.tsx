@@ -159,7 +159,7 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
           </span>
           <span className="min-w-0 flex-1">
             <span className="block text-sm font-semibold text-[var(--foreground)]">{t.nav.explore}</span>
-            <span className="mt-0.5 block text-xs text-[var(--muted)]">{locale === "fr" ? "Tous les outils Loculary" : "All Loculary tools"}</span>
+            <span className="mt-0.5 block text-xs text-[var(--muted)]">{t.nav.exploreDescription}</span>
           </span>
         </Link>
 
