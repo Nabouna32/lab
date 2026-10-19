@@ -24,6 +24,7 @@ for (const filename of packageFiles) {
 const cacheKey = hash.digest("hex");
 const cacheRoot = path.join(os.homedir(), ".cache", "loculary");
 const markerPath = path.join(cacheRoot, "dependencies-key");
+const legacyCacheRoot = path.join(cacheRoot, "dependencies");
 const outputFile = process.env.GITHUB_OUTPUT;
 
 function setOutput(name, value) {
@@ -31,7 +32,15 @@ function setOutput(name, value) {
 }
 
 if (action === "prepare") {
+  let workspaceIsLink = false;
+  try {
+    workspaceIsLink = fs.lstatSync(workspaceModules).isSymbolicLink();
+  } catch {
+    // Missing node_modules is a normal cache miss.
+  }
+
   const cacheHit =
+    !workspaceIsLink &&
     fs.existsSync(markerPath) &&
     fs.readFileSync(markerPath, "utf8").trim() === cacheKey &&
     fs.existsSync(path.join(workspaceModules, "next", "package.json"));
@@ -43,6 +52,10 @@ if (action === "prepare") {
     console.log("Local node_modules does not match the current lockfile/runtime; npm ci is required.");
   }
 
+  // Remove the old external node_modules cache after detaching any legacy junction.
+  // The active dependency tree now lives directly in the runner workspace.
+  fs.rmSync(legacyCacheRoot, { recursive: true, force: true });
+
   setOutput("cache-hit", String(cacheHit));
   process.exit(0);
 }
@@ -52,7 +65,5 @@ if (!fs.existsSync(path.join(workspaceModules, "next", "package.json"))) {
 }
 
 fs.mkdirSync(cacheRoot, { recursive: true });
-const temporaryMarker = markerPath + ".tmp-" + process.pid;
-fs.writeFileSync(temporaryMarker, cacheKey + "\n");
-fs.renameSync(temporaryMarker, markerPath);
+fs.writeFileSync(markerPath, cacheKey + "\n");
 console.log("Recorded the dependency fingerprint; node_modules stays in the workspace for Turbopack.");
