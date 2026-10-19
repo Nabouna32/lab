@@ -39,7 +39,6 @@ describe("calculateDateAdjustment", () => {
   });
 });
 
-
 describe("parseDateInput", () => {
   it("accepts a real calendar date", () => {
     assert.equal(parseDateInput("2024-02-29")?.getFullYear(), 2024);
