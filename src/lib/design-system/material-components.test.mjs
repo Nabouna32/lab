@@ -113,6 +113,24 @@ test("shared slider and progress indicator expose accessible M3 states", () => {
   assert.match(labSource, /"--progress-track": "var\(--lab-primary-soft\)"/);
 });
 
+test("indeterminate linear progress follows pinned AndroidX segment timing and reduced-motion fallback", () => {
+  assert.match(progressSource, /data-segment="first"/);
+  assert.match(progressSource, /data-segment="second"/);
+  assert.match(progressSource, /normalizedValue === undefined \? \{\} : \{ "aria-valuenow": normalizedValue \}/);
+  assert.match(progressCss, /loculary-progress-first-head 1750ms infinite/);
+  assert.match(progressCss, /loculary-progress-first-tail 1750ms infinite/);
+  assert.match(progressCss, /loculary-progress-second-head 1750ms infinite/);
+  assert.match(progressCss, /loculary-progress-second-tail 1750ms infinite/);
+  assert.match(progressCss, /cubic-bezier\(0\.3, 0, 0\.8, 0\.15\)/);
+  for (const keyframe of ["14.285714%", "37.142857%", "51.428571%", "57.142857%", "71.428571%", "85.714286%"]) {
+    assert.ok(progressCss.includes(keyframe), `missing AndroidX timing boundary ${keyframe}`);
+  }
+  assert.match(progressCss, /inset-inline-start/);
+  assert.match(progressCss, /inset-inline-end/);
+  assert.match(progressCss, /repeating-linear-gradient/);
+  assert.match(progressCss, /prefers-reduced-motion: reduce/);
+});
+
 test("functional icons use bundled Material Symbols paths and inherit currentColor", () => {
   for (const name of ["content_copy", "restart_alt", "arrow_outward", "lock", "public", "cloud", "warning", "star_fill", "collections_bookmark", "keyboard_arrow_down", "swap_horiz", "apps", "language"]) {
     assert.ok(iconSource.includes(name), `missing Material Symbol: ${name}`);
