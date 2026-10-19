@@ -43,7 +43,6 @@ Préparer le lancement public autour du **26 octobre 2026**, sans sacrifier les 
 3. **UX / générateur de mots de passe** — jauge de robustesse estimée localisée FR/EN : [PR #821](https://github.com/Nabouna32/lab/pull/821), fusion squash dans `b66184eae8cfc82f48d3571bbe7c95da4205adef`, CI complète réussie ([#39343065383](https://github.com/Nabouna32/lab/actions/runs/39343065383)).
 4. **Robustesse / convertisseur de bases** — limite de 4 096 caractères : [PR #818](https://github.com/Nabouna32/lab/pull/818), CI complète réussie ([#39341622410](https://github.com/Nabouna32/lab/actions/runs/39341622410)).
 5. **Accessibilité / résultats de recherche** — région dynamique unique : [PR #816](https://github.com/Nabouna32/lab/pull/816), CI complète réussie ([#39340700081](https://github.com/Nabouna32/lab/actions/runs/39340700081)).
-5. **Justesse / calculateur de date** — rejet des dates impossibles : [PR #814](https://github.com/Nabouna32/lab/pull/814).
 
 ## Priorités immédiates
 
