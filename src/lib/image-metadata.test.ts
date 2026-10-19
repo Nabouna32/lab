@@ -51,7 +51,7 @@ function jpegWithDateFields(): ArrayBuffer {
   view.setUint32(46, 20, true);
   view.setUint32(50, 100, true);
   view.setUint32(54, 0, true);
-  new TextEncoder().encode("2021:02:03 04:05:06\\0").forEach((value, index) => {
+  new TextEncoder().encode("2021:02:03 04:05:06\0").forEach((value, index) => {
     tiff[100 + index] = value;
   });
 
