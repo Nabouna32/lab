@@ -16,6 +16,32 @@ export type CompoundInterestResult = {
 };
 
 const MAX_YEARS = 1000;
+const PERIOD_COUNT_TOLERANCE = 1e-8;
+
+export function getCompoundingPeriodCount(
+  years: number,
+  compoundingPerYear: CompoundingFrequency,
+): number | null {
+  if (
+    !Number.isFinite(years) ||
+    years <= 0 ||
+    years > MAX_YEARS ||
+    ![1, 2, 4, 12, 365].includes(compoundingPerYear)
+  ) {
+    return null;
+  }
+
+  const periods = years * compoundingPerYear;
+  const nearestWholePeriod = Math.round(periods);
+  if (
+    nearestWholePeriod < 1 ||
+    !Number.isSafeInteger(nearestWholePeriod) ||
+    Math.abs(periods - nearestWholePeriod) > PERIOD_COUNT_TOLERANCE
+  ) {
+    return null;
+  }
+  return nearestWholePeriod;
+}
 
 export function calculateCompoundInterest(input: CompoundInterestInput): CompoundInterestResult | null {
   const { principal, annualRatePercent, years, compoundingPerYear, contributionPerPeriod } = input;
@@ -35,8 +61,8 @@ export function calculateCompoundInterest(input: CompoundInterestInput): Compoun
     return null;
   }
 
-  const periods = years * compoundingPerYear;
-  if (!Number.isSafeInteger(periods)) return null;
+  const periods = getCompoundingPeriodCount(years, compoundingPerYear);
+  if (periods === null) return null;
 
   const periodicRate = annualRatePercent / 100 / compoundingPerYear;
   const growthFactor = Math.pow(1 + periodicRate, periods);

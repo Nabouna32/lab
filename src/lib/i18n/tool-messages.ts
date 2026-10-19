@@ -24,7 +24,7 @@ type ToolMessages = {
     principal: string; principalPlaceholder: string; rate: string; ratePlaceholder: string; years: string; yearsPlaceholder: string;
     frequency: string; frequencies: Record<1 | 2 | 4 | 12 | 365, string>; contribution: string; contributionPlaceholder: string;
     contributionHint: string; result: string; finalBalance: string; interestEarned: string; totalContributions: string;
-    resultHint: string; emptyResult: string; invalid: string;
+    resultHint: string; emptyResult: string; invalid: string; invalidPeriods: string;
   };
   percentage: {
     type: string; result: string; how: string; formulaIntro: string; differenceNote: string;
@@ -296,7 +296,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       contribution: "Versement par période", contributionPlaceholder: "Optionnel", contributionHint: "Chaque versement est considéré comme effectué en fin de période.",
       result: "Résultat", finalBalance: "Capital final", interestEarned: "Intérêts gagnés", totalContributions: "Capital versé",
       resultHint: "Calcul indicatif : il ne tient pas compte des impôts, frais ou variations de taux.",
-      emptyResult: "Saisissez les valeurs pour voir le résultat.", invalid: "Vérifiez les valeurs saisies. Le taux et les montants doivent être positifs ou nuls, et la durée doit être comprise entre 0 et 1 000 ans.",
+      emptyResult: "Saisissez les valeurs pour voir le résultat.", invalid: "Vérifiez les valeurs saisies. Le taux et les montants doivent être positifs ou nuls, et la durée doit être comprise entre 0 et 1 000 ans.", invalidPeriods: "La durée doit correspondre à un nombre entier de périodes de capitalisation.",
     },
     percentage: {
       type: "Type de calcul", result: "Résultat", how: "Voir le calcul", formulaIntro: "Voici le calcul réalisé à partir des valeurs que vous avez saisies :",
@@ -579,7 +579,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       contribution: "Contribution per period", contributionPlaceholder: "Optional", contributionHint: "Each contribution is treated as being made at the end of the period.",
       result: "Result", finalBalance: "Final balance", interestEarned: "Interest earned", totalContributions: "Total contributions and principal",
       resultHint: "Illustrative calculation only: taxes, fees, and rate changes are not included.",
-      emptyResult: "Enter the values to see the result.", invalid: "Check the values entered. Rates and amounts must be zero or greater, and duration must be between 0 and 1,000 years.",
+      emptyResult: "Enter the values to see the result.", invalid: "Check the values entered. Rates and amounts must be zero or greater, and duration must be between 0 and 1,000 years.", invalidPeriods: "Duration must represent a whole number of compounding periods.",
     },
     percentage: {
       type: "Calculation type", result: "Result", how: "Show the calculation", formulaIntro: "Here is the calculation based on the values you entered:",
