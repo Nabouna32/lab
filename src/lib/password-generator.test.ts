@@ -59,7 +59,7 @@ describe("password generator", () => {
 
   it("estimates entropy from the configured length and alphabet size", () => {
     assert.ok(estimatePasswordEntropy(options) > estimatePasswordEntropy({ ...options, lowercase: true, uppercase: false, numbers: false, symbols: false }));
-    assert.equal(estimatePasswordEntropy({ ...options, length: 8 }), estimatePasswordEntropy(options) / 3);
+    assert.ok(Math.abs(estimatePasswordEntropy({ ...options, length: 8 }) - estimatePasswordEntropy(options) / 3) < 1e-10);
   });
 
   it("maps entropy estimates to stable strength labels", () => {
