@@ -38,6 +38,7 @@ Dernière révision : 2026-10-20. File de travail unique. Les preuves et priorit
 
 ## P2 — Refonte progressive des parcours
 - **Lot UX livré :** la page de recherche sans requête propose maintenant quatre tâches de démarrage grâce à la [PR #796](https://github.com/Nabouna32/lab/pull/796). L’audit complet de la recherche/exploration (états clavier, suggestions et absence de résultats) reste à faire.
+- **Accessibilité des résultats livrée :** [PR #816](https://github.com/Nabouna32/lab/pull/816) expose le chargement, les erreurs et le nombre de résultats de la page complète comme une seule région `role="status"` / `aria-live="polite"`. Le test de contrat passe en CI ; aucun contrôle avec lecteur d'écran ou navigateur n'a été exécuté. L'audit complet du clavier, des suggestions et de l'état vide reste ouvert.
 
 
 - **État :** lot 1 livré ; [REFONTE.md](REFONTE.md).

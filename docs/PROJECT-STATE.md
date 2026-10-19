@@ -9,6 +9,7 @@ Préparer le lancement public autour du **26 octobre 2026**, sans sacrifier les 
 
 ## État vérifié
 
+- **Dernière livraison applicative — accessibilité des résultats de recherche :** la page annonce maintenant le chargement, l'erreur et le nombre de résultats via une région dynamique unique. [PR #816](https://github.com/Nabouna32/lab/pull/816), fusion squash dans `8884261de008e95c5c8f44cee76f1546acb3bb89`. Lint, typecheck, tests et build réussis sur le SHA exact `d18259b8956d582cf1abb08000af540ff7a9a9d2` ([CI #39340700081](https://github.com/Nabouna32/lab/actions/runs/39340700081)). Déploiement Vercel de production en cours au dernier contrôle : [détails](https://vercel.com/nabouna32/loculary/6eqnnbquDqafVXh4UHyKn48KHpvn). Aucun test navigateur/lecteur d'écran exécuté.
 - **Dernier correctif de justesse livré — calculateur de date :** le parseur partagé rejette les dates impossibles comme `2026-02-31` au lieu de les normaliser. [PR #814](https://github.com/Nabouna32/lab/pull/814), fusion squash dans `887c4a3ba261a328cecb99524f85ce33873854ff`. Lint, typecheck, tests et build réussis sur `d9898b820c465719d6d07e51a5f64aee96e54aec` ([CI #39339994968](https://github.com/Nabouna32/lab/actions/runs/39339994968)). Déploiement Vercel de production `READY` sur le commit de fusion : [détails](https://vercel.com/nabouna32/loculary/4tirSJ8Ps79b5vpsiZimU8Fswzrg). Aucun test navigateur exécuté.
 - **Dernier lot de justesse livré — expression Cron :** le parseur rejette les champs/pas/plages qui utilisent une syntaxe numérique non décimale (ex. `1e1`, `1.0`, `+1`) au lieu de les convertir silencieusement en entiers. Lint, typecheck, tests et build ont réussi sur le SHA exact `1055b86da6bfa833bbb82f8bdf93cb6cfddbb0bb` ([CI #39339270861](https://github.com/Nabouna32/lab/actions/runs/39339270861)). Fusion squash dans `ea11ccc8a4269ef2a92199bb9cb2be97f5309f9c`. Aucun test navigateur exécuté.
 - **Dernier lot de justesse livré — Base64 :** la [PR #810](https://github.com/Nabouna32/lab/pull/810) refuse les formes de padding mal formées et les bits de padding non canoniques. CI complète réussie sur le SHA de tête `e9542d328c82793974ad21ac0490bb3c1ce4adce` ([run #39338567970](https://github.com/Nabouna32/lab/actions/runs/39338567970)); fusion squash dans `d23ee0bcd3d017b3c306a1df21d30dac66453ca0`.
@@ -34,11 +35,11 @@ Préparer le lancement public autour du **26 octobre 2026**, sans sacrifier les 
 
 > Mémoire opérationnelle par session de travail, avec les PR représentatives et preuves vérifiables.
 
-1. **Justesse de données / calculateur de date** — la validation refuse les dates calendaires impossibles au lieu de laisser JavaScript les normaliser ; tests de régression ajoutés. [PR #814](https://github.com/Nabouna32/lab/pull/814), CI complète réussie ([#39339994968](https://github.com/Nabouna32/lab/actions/runs/39339994968)).
-2. **Justesse de données / expression Cron** — le parseur rejette désormais les valeurs numériques non conformes à la syntaxe décimale Cron ; tests de régression ajoutés. [PR #812](https://github.com/Nabouna32/lab/pull/812).
-3. **Justesse de données / décodage Base64** — le décodeur rejette le padding explicite invalide et les bits de padding non canoniques : [PR #810](https://github.com/Nabouna32/lab/pull/810).
-4. **Accessibilité / recherche** — le compteur de suggestions est annoncé par les technologies d’assistance : [PR #807](https://github.com/Nabouna32/lab/pull/807).
-5. **Performance / garde-fou d’entrée** — le Formateur JSON refuse les documents de plus de 200 000 caractères avant parsing : [PR #805](https://github.com/Nabouna32/lab/pull/805).
+1. **Accessibilité / résultats de recherche** — une région dynamique unique annonce le chargement, l'erreur et le nombre de résultats sur la page complète : [PR #816](https://github.com/Nabouna32/lab/pull/816), CI complète réussie ([#39340700081](https://github.com/Nabouna32/lab/actions/runs/39340700081)).
+2. **Justesse de données / calculateur de date** — la validation refuse les dates calendaires impossibles ; tests de régression ajoutés : [PR #814](https://github.com/Nabouna32/lab/pull/814).
+3. **Justesse de données / expression Cron** — le parseur refuse les valeurs numériques non conformes à la syntaxe décimale : [PR #812](https://github.com/Nabouna32/lab/pull/812).
+4. **Justesse de données / décodage Base64** — le décodeur rejette le padding explicite invalide et les bits non canoniques : [PR #810](https://github.com/Nabouna32/lab/pull/810).
+5. **Accessibilité / suggestions de recherche** — le compteur des suggestions est annoncé aux technologies d'assistance : [PR #807](https://github.com/Nabouna32/lab/pull/807).
 
 ## Priorités immédiates
 
