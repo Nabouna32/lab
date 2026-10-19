@@ -19,7 +19,6 @@ function toInputDate(date: Date): string {
   return `${year}-${month}-${day}`;
 }
 
-
 export default function DateCalculator() {
   const locale = useLocale();
   const t = getToolMessages(locale).dateCalculator;
