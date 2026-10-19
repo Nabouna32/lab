@@ -97,7 +97,7 @@ function parseGpsIfd(
   tiffBase: number,
   littleEndian: boolean,
 ): string | undefined {
-  if (ifdOffset < 0 || ifdOffset + 2 > view.byteLength) return undefined;
+  if (ifdOffset < tiffBase + 8 || ifdOffset + 2 > view.byteLength) return undefined;
 
   const entryCount = view.getUint16(ifdOffset, littleEndian);
   const availableEntries = Math.floor((view.byteLength - ifdOffset - 2) / 12);
