@@ -9,6 +9,7 @@ Préparer le lancement public autour du **26 octobre 2026**, sans sacrifier les 
 
 ## État vérifié
 
+- **Dernier lot de justesse livré — Base64 :** la [PR #810](https://github.com/Nabouna32/lab/pull/810) refuse les formes de padding mal formées et les bits de padding non canoniques. CI complète réussie sur le SHA de tête `e9542d328c82793974ad21ac0490bb3c1ce4adce` ([run #39338567970](https://github.com/Nabouna32/lab/actions/runs/39338567970)); fusion squash dans `d23ee0bcd3d017b3c306a1df21d30dac66453ca0`.
 - **Lot de robustesse livré par la PR #805 :** commit applicatif `b37cf81e0119a050b7d61a633413c33f0903866f`. Le Formateur JSON refuse désormais les entrées de plus de 200 000 caractères avant parsing, avec un message de limite localisé FR/EN. La garde est appliquée au parseur partagé et donc à la validation, au formatage et à la minification. Tests ajoutés pour les trois chemins. Lint, typecheck, tests et build ont réussi sur le SHA exact `0987b92c06a5619ef0d89d4c753622256654655d` ([CI #39336447617](https://github.com/Nabouna32/lab/actions/runs/39336447617)). Aucun test navigateur n’a été exécuté.
 
 - Refonte task-first de l’accueil livrée par la [PR #782](https://github.com/Nabouna32/lab/pull/782), fusion squash dans `a43a329df2b3192cf89be048ea1cf2d4d3194c71`. Le titre et la description sont localisés FR/EN ; quatre raccourcis précédemment définis mais non affichés sont désormais accessibles sous la recherche via les routes canoniques. Lint, typecheck, tests et build ont réussi sur le SHA exact `5cd4eeb8097b1251b88f545d905989f28b7218c0` ([CI #39324446225](https://github.com/Nabouna32/lab/actions/runs/39324446225)). Le déploiement Vercel du commit de fusion a été déclenché ; son état doit être revérifié.
@@ -31,7 +32,7 @@ Préparer le lancement public autour du **26 octobre 2026**, sans sacrifier les 
 
 > Mémoire opérationnelle par session de travail, avec les PR représentatives et preuves vérifiables.
 
-1. **Justesse de données / décodage Base64** — le décodeur rejette les longueurs de padding explicite invalides et les bits de padding non canoniques, tout en conservant l’acceptation du Base64 canonique sans padding : PR en cours de validation.
+1. **Justesse de données / décodage Base64** — la [PR #810](https://github.com/Nabouna32/lab/pull/810) rejette les longueurs de padding explicite invalides et les bits de padding non canoniques, tout en conservant l’acceptation du Base64 canonique sans padding. Lint, typecheck, tests et build ont réussi sur le SHA exact `e9542d328c82793974ad21ac0490bb3c1ce4adce` ([CI #39338567970](https://github.com/Nabouna32/lab/actions/runs/39338567970)); fusion squash dans `d23ee0bcd3d017b3c306a1df21d30dac66453ca0`.
 2. **Accessibilité / recherche** — le compteur de suggestions est annoncé par les technologies d’assistance via une région dynamique : [PR #807](https://github.com/Nabouna32/lab/pull/807).
 3. **Performance / garde-fou d’entrée** — le Formateur JSON refuse les documents de plus de 200 000 caractères avant parsing, formatage ou minification : [PR #805](https://github.com/Nabouna32/lab/pull/805).
 4. **UX / diagnostic des erreurs** — le Formateur YAML affiche le message détaillé du parseur, avec libellé FR/EN : [PR #803](https://github.com/Nabouna32/lab/pull/803).
