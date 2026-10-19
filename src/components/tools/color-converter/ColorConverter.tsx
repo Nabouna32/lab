@@ -6,7 +6,7 @@ import { TextField } from "@/components/ui/TextField";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
-import { convertColor, formatHsl, formatRgb } from "@/lib/color-converter";
+import { convertColor, formatHsl, formatRgb, getContrastingTextColor } from "@/lib/color-converter";
 
 const DEFAULT_COLOR = "#336699";
 
@@ -57,7 +57,7 @@ export default function ColorConverter() {
 
           {result ? (
             <div className="overflow-hidden rounded-[var(--radius-md)] border border-[var(--border)]" style={{ backgroundColor: result.hex }}>
-              <div className="min-h-40 p-6" style={{ color: contrastText(result.rgb.r, result.rgb.g, result.rgb.b) }}>
+              <div className="min-h-40 p-6" style={{ color: getContrastingTextColor(result.rgb) }}>
                 <p className="text-xs font-semibold uppercase tracking-[0.14em] opacity-75">{t.preview}</p>
                 <p className="mt-3 text-3xl font-black tracking-tight">{result.hex}</p>
                 <p className="mt-2 text-sm opacity-85">{t.previewDescription}</p>
@@ -97,7 +97,3 @@ function ColorValue({ label, value, copyLabel, copiedLabel }: { label: string; v
   );
 }
 
-function contrastText(r: number, g: number, b: number): "#ffffff" | "#111827" {
-  const luminance = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
-  return luminance > 0.58 ? "#111827" : "#ffffff";
-}

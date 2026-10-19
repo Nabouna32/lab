@@ -110,3 +110,18 @@ export function convertColor(value: string): ColorResult | null {
   if (!rgb) return null;
   return { rgb, hsl: rgbToHsl(rgb), hex: formatHex(rgb) };
 }
+
+/** Returns the black or white text color with the higher WCAG contrast ratio. */
+export function getContrastingTextColor({ r, g, b }: RgbColor): "#000000" | "#FFFFFF" {
+  const linearize = (channel: number) => {
+    const srgb = channel / 255;
+    return srgb <= 0.04045 ? srgb / 12.92 : ((srgb + 0.055) / 1.055) ** 2.4;
+  };
+  const luminance =
+    0.2126 * linearize(r) +
+    0.7152 * linearize(g) +
+    0.0722 * linearize(b);
+  const blackContrast = (luminance + 0.05) / 0.05;
+  const whiteContrast = 1.05 / (luminance + 0.05);
+  return blackContrast >= whiteContrast ? "#000000" : "#FFFFFF";
+}
