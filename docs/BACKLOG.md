@@ -2,7 +2,7 @@
 
 Dernière révision : 2026-10-20. File de travail unique.
 
-- **Dernier lot livré en préparation — retour UX du générateur de mots de passe :** la PR [#821](https://github.com/Nabouna32/lab/pull/821) ajoute une jauge de robustesse indicative FR/EN basée sur la longueur et l’alphabet choisi, avec tests des seuils. La valeur est explicitement présentée comme une estimation théorique, pas une garantie de sécurité. CI en cours ; ne pas marquer la livraison comme fusionnée avant preuve.
+- **Dernière livraison UX — générateur de mots de passe :** la [PR #821](https://github.com/Nabouna32/lab/pull/821) est fusionnée dans `b66184eae8cfc82f48d3571bbe7c95da4205adef`. Elle ajoute une jauge de robustesse indicative FR/EN basée sur la longueur et l’alphabet choisi, avec tests des seuils. La valeur est explicitement présentée comme une estimation théorique, pas une garantie de sécurité. Lint, typecheck, tests et build réussis sur le SHA exact `c8f2a10efeaa02611df25b73d77e8cab3e4ac2a9` ([CI #39343065383](https://github.com/Nabouna32/lab/actions/runs/39343065383)).
 
 Les preuves et priorités de reprise sont dans [PROJECT-STATE.md](PROJECT-STATE.md), les risques et blocages dans [KNOWN-ISSUES.md](KNOWN-ISSUES.md), et les lots UX dans [REFONTE.md](REFONTE.md).
 
