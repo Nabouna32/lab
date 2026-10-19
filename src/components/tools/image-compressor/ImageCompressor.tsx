@@ -12,6 +12,7 @@ import {
   calculateReductionPercent,
   compressImageFile,
   formatBytes,
+  getOutputExtension,
   type ImageOutputFormat,
 } from "@/lib/image-compressor";
 
@@ -24,7 +25,7 @@ export default function ImageCompressor() {
   const [format, setFormat] = useState<ImageOutputFormat>("webp");
   const [quality, setQuality] = useState(0.8);
   const [maxDimension, setMaxDimension] = useState<number | null>(2400);
-  const [result, setResult] = useState<{ url: string; blob: Blob; width: number; height: number } | null>(null);
+  const [result, setResult] = useState<{ url: string; blob: Blob; width: number; height: number; mimeType: string } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
@@ -86,7 +87,7 @@ export default function ImageCompressor() {
 
   function download() {
     if (!result) return;
-    const extension = format === "jpeg" ? "jpg" : format;
+    const extension = getOutputExtension(result.mimeType);
     const anchor = document.createElement("a");
     anchor.href = result.url;
     anchor.download = `loculary-compressed.${extension}`;
