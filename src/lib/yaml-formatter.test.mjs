@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
+import { parseDocument } from "yaml";
 import {
   MAX_YAML_ALIAS_COUNT,
   MAX_YAML_INPUT_LENGTH,
@@ -14,6 +15,24 @@ test("formats YAML with two-space indentation and keeps comments", () => {
   if (!result.ok) return;
   assert.match(result.formatted, /root:\n  name: Loculary # product/);
   assert.match(result.formatted, /tools: \[ JSON, YAML \]/);
+});
+
+test("preserves trailing spaces and chomping semantics in block scalars", () => {
+  const samples = [
+    "value: |-\n  keep trailing spaces  ",
+    "value: |\n  keep the final line break",
+    "value: |+\n  keep trailing spaces and line breaks  \n\n",
+  ];
+
+  for (const input of samples) {
+    const before = parseDocument(input, { version: "1.2", strict: true }).toJS();
+    const result = formatYaml(input, 2);
+    assert.equal(result.ok, true);
+    if (!result.ok) continue;
+
+    const after = parseDocument(result.formatted, { version: "1.2", strict: true }).toJS();
+    assert.deepEqual(after, before);
+  }
 });
 
 test("supports four-space indentation", () => {
