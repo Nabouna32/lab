@@ -4,7 +4,7 @@ import type { ToolId } from "@/lib/tools/types";
 import { formatPlural } from "./plural.ts";
 
 export type Messages = {
-  nav: { home: string; tools: string; explore: string; exploreDescription: string; language: string; account: string; space: string; menu: string };
+  nav: { home: string; tools: string; explore: string; exploreDescription: string; favorites: string; favoritesDescription: string; collections: string; collectionsDescription: string; language: string; account: string; space: string; menu: string };
   breadcrumbs: { label: string };
   footer: { tagline: string; explore: string; account: string };
   actions: { copy: string; copied: string; clear: string };
@@ -32,7 +32,7 @@ export type Messages = {
 
 export const messages: Record<Locale, Messages> = {
   fr: {
-    nav: { home: "Accueil", tools: "Outils", explore: "Voir tous les outils", exploreDescription: "Accède à tous les outils", language: "Langue", account: "Compte", space: "Mon espace", menu: "Menu" },
+    nav: { home: "Accueil", tools: "Outils", explore: "Voir tous les outils", exploreDescription: "Accède à tous les outils", favorites: "Mes favoris", favoritesDescription: "Tes outils enregistrés", collections: "Mes collections", collectionsDescription: "Organise tes outils", language: "Langue", account: "Compte", space: "Mon espace", menu: "Menu" },
     breadcrumbs: { label: "Fil d’Ariane" },
     footer: { tagline: "Des outils utiles, directement dans ton navigateur.", explore: "Tous les outils", account: "Ton espace" },
     actions: { copy: "Copier", copied: "Copié", clear: "Effacer" },
@@ -124,7 +124,7 @@ export const messages: Record<Locale, Messages> = {
     },
   },
   en: {
-    nav: { home: "Home", tools: "Tools", explore: "View all tools", exploreDescription: "Browse all available tools", language: "Language", account: "Account", space: "My space", menu: "Menu" },
+    nav: { home: "Home", tools: "Tools", explore: "View all tools", exploreDescription: "Browse all available tools", favorites: "My favorites", favoritesDescription: "Your saved tools", collections: "My collections", collectionsDescription: "Organize your tools", language: "Language", account: "Account", space: "My space", menu: "Menu" },
     breadcrumbs: { label: "Breadcrumb" },
     footer: { tagline: "Useful tools, ready to use in your browser.", explore: "All tools", account: "Your space" },
     actions: { copy: "Copy", copied: "Copied", clear: "Clear" },
