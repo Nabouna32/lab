@@ -32,7 +32,7 @@ export type Messages = {
 
 export const messages: Record<Locale, Messages> = {
   fr: {
-    nav: { home: "Accueil", tools: "Outils", explore: "Explorer", exploreDescription: "Tous les outils disponibles", favorites: "Favoris", favoritesDescription: "Tes outils enregistrés", collections: "Collections", collectionsDescription: "Organise tes outils en groupes", language: "Langue", account: "Gère ton profil et tes préférences", space: "Compte", menu: "Menu" },
+    nav: { home: "Accueil", tools: "Outils", explore: "Explorer", exploreDescription: "Parcours tous les outils disponibles", favorites: "Favoris", favoritesDescription: "Tes outils enregistrés", collections: "Collections", collectionsDescription: "Organise tes outils en groupes", language: "Langue", account: "Gère ton profil et tes préférences", space: "Compte", menu: "Menu" },
     breadcrumbs: { label: "Fil d’Ariane" },
     footer: { tagline: "Des outils utiles, directement dans ton navigateur.", explore: "Tous les outils", account: "Compte" },
     actions: { copy: "Copier", copied: "Copié", clear: "Effacer" },
