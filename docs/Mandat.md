@@ -52,7 +52,6 @@ Elles ne limitent ni la refonte ni aucune décision de conception :
 
 - N'expose jamais un secret (clé, token, `.env`) dans le dépôt, les logs ou les réponses.
 - Pas de dépense ni d'abonnement payant sans mon accord.
-- Pas de suppression irréversible de données réelles en production.
 
 N'invente jamais un accès, un test, une fusion ou un déploiement. `[STOP]` uniquement si l'une de ces lignes ou un accès manquant bloque vraiment une action ; jamais pour une hésitation de conception.
 
