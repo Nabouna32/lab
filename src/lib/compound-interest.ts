@@ -34,6 +34,7 @@ export function getCompoundingPeriodCount(
   const periods = years * compoundingPerYear;
   const nearestWholePeriod = Math.round(periods);
   if (
+    nearestWholePeriod < 1 ||
     !Number.isSafeInteger(nearestWholePeriod) ||
     Math.abs(periods - nearestWholePeriod) > PERIOD_COUNT_TOLERANCE
   ) {
