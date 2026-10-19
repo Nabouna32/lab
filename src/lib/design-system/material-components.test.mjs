@@ -628,11 +628,11 @@ test("header menu uses a restrained semantic color hierarchy across destinations
 });
 
 test("header theme controls defer client-dependent selected state until after hydration", () => {
-  assert.match(headerMenuSource, /function subscribeHydrationReady\\(\\)/);
-  assert.match(headerMenuSource, /function getHydrationReadySnapshot\\(\\)\\s*\\{\\s*return true;/);
-  assert.match(headerMenuSource, /function getServerHydrationReadySnapshot\\(\\)\\s*\\{\\s*return false;/);
-  assert.match(headerMenuSource, /useSyncExternalStore\\(\\s*subscribeHydrationReady,\\s*getHydrationReadySnapshot,\\s*getServerHydrationReadySnapshot,/);
+  assert.match(headerMenuSource, /function subscribeHydrationReady\(\)/);
+  assert.match(headerMenuSource, /function getHydrationReadySnapshot\(\)\s*\{\s*return true;/);
+  assert.match(headerMenuSource, /function getServerHydrationReadySnapshot\(\)\s*\{\s*return false;/);
+  assert.match(headerMenuSource, /useSyncExternalStore\(\s*subscribeHydrationReady,\s*getHydrationReadySnapshot,\s*getServerHydrationReadySnapshot,/);
   assert.doesNotMatch(headerMenuSource, /setThemeReady/);
-  assert.match(headerMenuSource, /aria-pressed=\\{themeReady && theme === option\\.value\\}/);
-  assert.match(headerMenuSource, /themeReady && theme === option\\.value && <MaterialIcon name="check"/);
-});;
+  assert.match(headerMenuSource, /aria-pressed=\{themeReady && theme === option\.value\}/);
+  assert.match(headerMenuSource, /themeReady && theme === option\.value && <MaterialIcon name="check"/);
+});
