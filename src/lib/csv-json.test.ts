@@ -62,14 +62,14 @@ test("neutralizes spreadsheet formulas in exported string cells and headers", ()
   assert.equal(result.error, null);
   assert.equal(
     result.value,
-    `'=1+1,note\\r\\n'=1+1,"'  +SUM(1,1)"\\r\\n'-cmd|/C calc,"'@SUM(1,1)"`,
+    \`'=1+1,note\r\n'=1+1,"'  +SUM(1,1)"\r\n'-cmd|/C calc,"'@SUM(1,1)"\`,
   );
 });
 
 test("preserves numeric negative values in CSV export", () => {
-  assert.equal(transformCsvJson(JSON.stringify([{ amount: -12 }]), "json-to-csv").value, "amount\\r\\n-12");
+  assert.equal(transformCsvJson(JSON.stringify([{ amount: -12 }]), "json-to-csv").value, "amount\r\n-12");
 });
 
 test("neutralizes formula markers after leading control characters", () => {
-  assert.equal(transformCsvJson(JSON.stringify([{ value: "\\t=1+1" }]), "json-to-csv").value, "value\\r\\n'\\t=1+1");
+  assert.equal(transformCsvJson(JSON.stringify([{ value: "\t=1+1" }]), "json-to-csv").value, "value\r\n'\t=1+1");
 });
