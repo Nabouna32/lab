@@ -16,12 +16,12 @@ Dernière vérification : 2026-10-19. Ce registre résume les blocages persistan
 
 ## 2. Protection Supabase contre les mots de passe compromis indisponible sur l'offre actuelle
 
-- **État :** limitation de l'offre, pas une action en attente de l'utilisateur.
-- **Impact :** le Security Advisor signale que la protection contre les mots de passe compromis est désactivée.
+- **État :** avertissement confirmé ; décision de risque pour l'inscription publique à suivre dans l'issue [#467](https://github.com/Nabouna32/lab/issues/467), rouverte le 19 octobre.
+- **Impact :** le Security Advisor signale que la protection contre les mots de passe compromis est désactivée. C'est un risque lié à l'authentification par compte, pas une raison d'exiger un compte pour les outils publics.
 - **Cause confirmée dans le contexte du projet :** cette option n'est pas disponible sur l'offre Supabase Free actuelle.
-- **Tentatives / solutions écartées :** aucune modification de configuration de production ; ne pas revenir demander l'activation sans changement de plan ou de disponibilité, et ne pas contourner la restriction.
-- **Prochaine action :** vérifier les protections d'authentification déjà disponibles et leur configuration, puis documenter les mesures compensatoires réalistes pour l'offre actuelle.
-- **Condition de reprise :** évolution de l'offre, de la disponibilité de la fonctionnalité ou découverte d'une mesure compensatoire vérifiable.
+- **Tentatives / solutions écartées :** aucune modification de configuration de production ni dépense ; ne pas revenir demander l'activation sans changement de plan ou de disponibilité, et ne pas contourner la restriction.
+- **Prochaine action :** examiner dans le code la surface d'inscription réellement exposée et vérifier les protections d'authentification déjà disponibles. La recommandation provisoire est de préserver l'usage anonyme des outils et de ne pas promouvoir l'inscription publique comme prérequis au lancement tant que le risque n'est pas accepté ou mitigé.
+- **Condition de reprise :** évolution de l'offre, de la disponibilité de la fonctionnalité, confirmation d'une mitigation supportée ou décision documentée sur l'exposition de l'inscription.
 
 ## 3. Validation fonctionnelle du site de production incomplète dans la session distante
 
@@ -37,7 +37,7 @@ Dernière vérification : 2026-10-19. Ce registre résume les blocages persistan
 
 - **État :** observation en cours d'investigation, pas encore un défaut confirmé.
 - **Preuve :** l'advisor Performance du 19 octobre signale deux politiques RLS : `public.user_collections` / `Owners and token holders can read collections` et `public.user_collection_items` / `Owners and token holders can read collection items`. Le même relevé signale dix index comme inutilisés.
-- **Constat complémentaire :** les politiques actuellement déployées utilisent déjà des sous-requêtes scalaires autour de `auth.uid()` et de la lecture de `request.headers`, conformément au motif recommandé par Supabase. L'advisor peut donc être un faux positif partiel ou signaler une expression imbriquée qui reste à optimiser.
-- **Risque :** modifier les politiques de partage sans comprendre le plan pourrait changer les droits de lecture ou casser les liens de partage. Supprimer des index sur une base peu utilisée pourrait aussi dégrader des parcours encore peu sollicités.
-- **Prochaine action :** examiner les définitions exactes et des plans d'exécution représentatifs, puis comparer l'avertissement aux politiques et migrations versionnées. Ne pas modifier la production avant d'avoir établi une correction sûre.
-- **Index inutilisés :** ne pas supprimer automatiquement les dix index. Revoir leur utilité à partir des migrations, contraintes/foreign keys et d'une période de charge représentative ; un compteur d'utilisation nul sur une base peu sollicitée n'est pas une preuve d'inutilité.
+- **Constat complémentaire :** les politiques déployées utilisent déjà des sous-requêtes scalaires autour de `auth.uid()` et de la lecture de `request.headers`. Un `EXPLAIN (VERBOSE, COSTS OFF)` des prédicats équivalents montre que ces expressions deviennent des `InitPlan` (donc évaluées une fois par requête) ; le plan utilise `user_collections_user_id_idx`, l'index unique `user_collections_share_token_key` et la clé primaire de `user_collection_items`. Cela soutient l'hypothèse d'un faux positif de l'advisor pour les expressions actuelles, sans prouver les performances sous charge réelle.
+- **Risque :** modifier les politiques de partage sans raison démontrée pourrait changer les droits de lecture ou casser les liens de partage. Supprimer des index sur une base peu utilisée pourrait aussi dégrader des parcours encore peu sollicités.
+- **Prochaine action :** aucune modification de politique n'est justifiée par ces alertes seules. Réexaminer si les expressions, le plan ou les mesures de charge changent.
+- **Index inutilisés :** les dix index listés ont `idx_scan = 0`, font chacun 8–16 kB et ne supportent pas directement une contrainte selon `pg_constraint.conindid`. Ils restent néanmoins conservés : les compteurs reflètent une base peu sollicitée et ne suffisent pas à prouver qu'ils sont inutiles pour les parcours d'administration futurs. Réévaluer avec une période de charge représentative avant toute suppression.
