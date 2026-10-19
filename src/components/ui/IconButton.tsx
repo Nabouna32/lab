@@ -28,8 +28,8 @@ const variants: Record<IconButtonVariant, string> = {
 const selectedStyles: Record<IconButtonVariant, string> = {
   standard: "text-[var(--primary)] group-hover:text-[var(--primary)] group-active:text-[var(--primary)] group-disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)] group-hover:bg-[color-mix(in_srgb,var(--primary)_8%,transparent)] group-active:bg-[color-mix(in_srgb,var(--primary)_12%,transparent)]",
   filled: "",
-  "filled-tonal": "bg-[var(--secondary)] text-[var(--on-secondary)] group-hover:bg-[color-mix(in_srgb,var(--secondary)_92%,var(--on-secondary))] group-active:bg-[color-mix(in_srgb,var(--secondary)_88%,var(--on-secondary))] group-disabled:bg-[color-mix(in_srgb,var(--on-surface)_10%,transparent)]",
-  tonal: "bg-[var(--secondary)] text-[var(--on-secondary)] group-hover:bg-[color-mix(in_srgb,var(--secondary)_92%,var(--on-secondary))] group-active:bg-[color-mix(in_srgb,var(--secondary)_88%,var(--on-secondary))] group-disabled:bg-[color-mix(in_srgb,var(--on-surface)_10%,transparent)]",
+  "filled-tonal": "bg-[var(--secondary-container)] text-[var(--on-secondary-container)] group-hover:bg-[color-mix(in_srgb,var(--secondary-container)_92%,var(--on-secondary-container))] group-active:bg-[color-mix(in_srgb,var(--secondary-container)_88%,var(--on-secondary-container))] group-disabled:bg-[color-mix(in_srgb,var(--on-surface)_10%,transparent)]",
+  tonal: "bg-[var(--secondary-container)] text-[var(--on-secondary-container)] group-hover:bg-[color-mix(in_srgb,var(--secondary-container)_92%,var(--on-secondary-container))] group-active:bg-[color-mix(in_srgb,var(--secondary-container)_88%,var(--on-secondary-container))] group-disabled:bg-[color-mix(in_srgb,var(--on-surface)_10%,transparent)]",
   outlined: "border-transparent bg-[var(--inverse-surface)] text-[var(--inverse-on-surface)] group-hover:bg-[color-mix(in_srgb,var(--inverse-surface)_92%,var(--inverse-on-surface))] group-active:bg-[color-mix(in_srgb,var(--inverse-surface)_88%,var(--inverse-on-surface))] group-disabled:bg-[color-mix(in_srgb,var(--on-surface)_10%,transparent)]",
 };
 

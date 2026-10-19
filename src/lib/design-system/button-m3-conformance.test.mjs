@@ -68,6 +68,24 @@ test("shared IconButton preserves 48px touch target and supports accessible togg
   }
 });
 
+test("selected filled-tonal IconButton keeps official tonal color roles", () => {
+  const selectedStyles = iconButton.slice(iconButton.indexOf("const selectedStyles:"));
+  const tonalStyles = selectedStyles.split("\n").filter((line) =>
+    line.trim().startsWith('"filled-tonal":') || line.trim().startsWith("tonal:"),
+  );
+
+  assert.equal(tonalStyles.length, 2, "canonical and compatibility names both need selected-state coverage");
+  for (const line of tonalStyles) {
+    assert.ok(
+      line.includes("bg-[var(--secondary-container)] text-[var(--on-secondary-container)]"),
+      "selected tonal IconButton must use secondary-container / on-secondary-container",
+    );
+    assert.ok(!line.includes("bg-[var(--secondary)] text-[var(--on-secondary)]"));
+  }
+  assert.ok(selectedStyles.includes("group-hover:bg-[color-mix(in_srgb,var(--secondary-container)_92%,var(--on-secondary-container))]"));
+  assert.ok(selectedStyles.includes("group-active:bg-[color-mix(in_srgb,var(--secondary-container)_88%,var(--on-secondary-container))]"));
+});
+
 test("legacy names are aliases to canonical M3 treatments", () => {
   assert.ok(button.includes("primary: filled"));
   assert.ok(button.includes("tonal: filledTonal"));
