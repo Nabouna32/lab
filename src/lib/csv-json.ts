@@ -112,9 +112,17 @@ function csvEscape(value: unknown, delimiter: CsvDelimiter): string {
     : typeof value === "object"
       ? JSON.stringify(value)
       : String(value);
-  return /["\r\n]/.test(text) || text.includes(delimiter)
-    ? `"${text.replaceAll('"', '""')}"`
+  // CSV quoting does not prevent spreadsheet formula execution. Prefix
+  // user-provided strings that begin with a formula marker (even after
+  // leading control/whitespace characters) with an apostrophe. Keep actual
+  // JSON numbers numeric so negative numbers remain valid numeric cells.
+  const safeText = typeof value === "string" && /^[\u0000-\u0020\uFEFF]*[=+\-@]/.test(text)
+    ? `'${text}`
     : text;
+
+  return /["\r\n]/.test(safeText) || safeText.includes(delimiter)
+    ? `"${safeText.replaceAll('"', '""')}"`
+    : safeText;
 }
 
 function toJson(input: string, delimiter: CsvDelimiter): CsvJsonResult {

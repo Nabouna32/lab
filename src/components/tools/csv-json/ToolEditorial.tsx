@@ -5,14 +5,14 @@ const content = {
   fr: {
     sections: [
       { title: "Convertir un CSV en JSON", text: "Transformez un tableau CSV en tableau d’objets JSON. Les champs entre guillemets, les guillemets échappés et les retours à la ligne sont pris en charge." },
-      { title: "Convertir un JSON en CSV", text: "Fournissez un tableau JSON d’objets pour obtenir un CSV. Les colonnes sont déduites de l’ensemble des clés et les valeurs complexes sont représentées en JSON dans leur cellule." },
+      { title: "Convertir un JSON en CSV", text: "Fournissez un tableau JSON d’objets pour obtenir un CSV. Les colonnes sont déduites de l’ensemble des clés et les valeurs complexes sont représentées en JSON dans leur cellule. Les chaînes pouvant être interprétées comme des formules de tableur sont préfixées par une apostrophe pour limiter leur exécution à l’ouverture du CSV." },
       { title: "Traitement local", text: "La conversion est effectuée dans votre navigateur. Les données restent dans cette page et ne sont pas transmises à un service distant." },
     ],
   },
   en: {
     sections: [
       { title: "Convert CSV to JSON", text: "Turn a CSV table into an array of JSON objects. Quoted fields, escaped quotes, and line breaks are supported." },
-      { title: "Convert JSON to CSV", text: "Provide an array of JSON objects to produce CSV. Columns are inferred from all object keys, and complex values are serialized as JSON inside their cells." },
+      { title: "Convert JSON to CSV", text: "Provide an array of JSON objects to produce CSV. Columns are inferred from all object keys, and complex values are serialized as JSON inside their cells. Strings that could be interpreted as spreadsheet formulas are prefixed with an apostrophe to reduce execution risk when opened." },
       { title: "Local processing", text: "Conversion happens in your browser. The data stays in this page and is not sent to a remote service." },
     ],
   },
