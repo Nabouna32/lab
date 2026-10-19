@@ -29,12 +29,13 @@ export function TextArea({
   const helperId = `${inputId}-helper`;
   const errorId = `${inputId}-error`;
   const expressive = variant === "expressive";
+  const isInvalid = Boolean(error) || Boolean(props["aria-invalid"]);
 
   return (
     <div className="grid gap-2">
       <label
         htmlFor={inputId}
-        className={"block text-sm font-medium " + (disabled ? "text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]" : "text-[var(--foreground)]")}
+        className={"block text-sm font-medium " + (disabled ? "text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]" : isInvalid ? "text-[var(--error)]" : "text-[var(--foreground)]")}
       >
         {label}
       </label>

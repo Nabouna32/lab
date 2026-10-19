@@ -5,10 +5,12 @@ type SelectProps = SelectHTMLAttributes<HTMLSelectElement> & {
 };
 
 export function Select({ label, id, className = "", disabled = false, ...props }: SelectProps) {
+  const isInvalid = Boolean(props["aria-invalid"]);
+
   return (
     <div>
       {label && (
-        <label htmlFor={id} className={"mb-2 block text-sm font-medium " + (disabled ? "text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]" : "text-[var(--foreground)]")}>
+        <label htmlFor={id} className={"mb-2 block text-sm font-medium " + (disabled ? "text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]" : isInvalid ? "text-[var(--danger)]" : "text-[var(--foreground)]")}>
           {label}
         </label>
       )}
