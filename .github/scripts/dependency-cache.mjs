@@ -45,7 +45,8 @@ function removeWorkspaceModules() {
 if (action === "prepare") {
   const cacheHit =
     fs.existsSync(completeMarker) &&
-    fs.existsSync(cachedModules) &&
+    fs.readFileSync(completeMarker, "utf8").trim() === cacheKey &&
+    fs.existsSync(path.join(cachedModules, "next", "package.json")) &&
     fs.statSync(cachedModules).isDirectory();
 
   removeWorkspaceModules();
@@ -89,7 +90,7 @@ try {
   // Keep only the currently valid dependency set to avoid accumulating a full
   // node_modules copy for every lockfile change.
   for (const entry of fs.readdirSync(cacheRoot, { withFileTypes: true })) {
-    if (entry.isDirectory() && entry.name !== cacheKey && !entry.name.startsWith(".tmp-")) {
+    if (entry.isDirectory() && entry.name !== cacheKey) {
       fs.rmSync(path.join(cacheRoot, entry.name), { recursive: true, force: true });
     }
   }
