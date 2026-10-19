@@ -36,3 +36,28 @@ test("rejects valid Base64 that is not UTF-8 text", () => {
     error: "invalid-base64",
   });
 });
+
+test("rejects malformed explicit padding", () => {
+  for (const input of ["Zg=", "Zm8==", "A==="]) {
+    assert.deepEqual(transformBase64(input, "decode"), {
+      value: null,
+      error: "invalid-base64",
+    });
+  }
+});
+
+test("rejects non-zero unused bits in padded Base64", () => {
+  for (const input of ["Zh==", "Zm9="]) {
+    assert.deepEqual(transformBase64(input, "decode"), {
+      value: null,
+      error: "invalid-base64",
+    });
+  }
+});
+
+test("accepts correctly padded and unpadded canonical Base64", () => {
+  assert.deepEqual(transformBase64("Zg==", "decode"), { value: "f", error: null });
+  assert.deepEqual(transformBase64("Zg", "decode"), { value: "f", error: null });
+  assert.deepEqual(transformBase64("Zm8=", "decode"), { value: "fo", error: null });
+  assert.deepEqual(transformBase64("Zm8", "decode"), { value: "fo", error: null });
+});
