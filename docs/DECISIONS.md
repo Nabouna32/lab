@@ -616,3 +616,30 @@ The maintenance workflow must persist across conversations, keep user observatio
 - `public.design_audit_catalog_entries` separately stores the Material 3 / AndroidX reference register and Loculary-specific utilities/compositions. Reference candidates remain explicitly unverified until official identity and documentation are checked; the table does not replace the Git-backed public tool catalogue. Authorized `audit.write` administrators may edit scope, entry type, classification notes and reference URLs/status from the Design Lab; PostgreSQL enforces the permissions and records changes in the event history.
 - DEC-027 remains in force: the public tool catalog stays Git-backed.
 
+## DEC-028 — Persistent labels remain the default for shared Web tool fields
+
+**Status:** Accepted for the 2026 launch baseline; revisit only with new browser evidence or user feedback.
+
+### Decision
+
+Keep the shared `TextField` `fidelity` variant's persistent external label as the default for tool calculators and account forms. Treat it as an intentional Web adaptation of Material 3, **not** as a claim that the component reproduces AndroidX `OutlinedTextField` anatomy. Keep the opt-in floating-label Expressive variant as a comparison specimen; do not globally migrate production fields to floating labels without browser evidence and a call-site-specific benefit.
+
+### Evidence and rationale
+
+- The call-site audit found 16 calculator components using `CalculatorField`, with 36 field instances: 22 supply explicit placeholders/examples, 4 supply unit suffixes, and 26 connect `aria-invalid` to field-level errors.
+- Persistent labels keep each input's meaning visible while scanning multi-field calculators; placeholders remain available as contextual examples when the field is empty and unfocused.
+- `docs/UX.md` explicitly allows calculator-specific density and composition where they improve the task-first journey, while requiring the shared Material 3 / Pixel language to be adapted to the Web.
+- AndroidX `OutlinedTextField` remains the official reference for an integrated floating label and supporting content, but that anatomy is not automatically superior for every utility-form workflow.
+
+### Alternatives considered
+
+1. **Make the outlined floating-label anatomy the global default.** Rejected for the launch baseline because it would change roughly 36 calculator fields and account forms without browser evidence that the change improves scanability, placeholder discovery, or responsive behavior.
+2. **Keep the existing component but call it fully M3-conformant.** Rejected because the label anatomy differs from AndroidX; that would overstate fidelity.
+3. **Keep persistent labels as an explicit Web adaptation and record the trade-off.** Accepted because it preserves clear labels and contextual examples without claiming full AndroidX parity.
+
+### Consequences
+
+- The full outlined-field anatomy gap is closed as a deliberate product decision, not by claiming exact conformance.
+- Error, disabled, focus, hover, helper-text, keyboard, autofill, long-label and light/dark states still require verification.
+- Reconsider the default only if browser tests or user feedback show a clear benefit, or if a future product area has a stronger need for integrated floating labels.
+- DEC-026 remains in force: adapt Material 3 to Loculary's task-first Web experience without treating existing code as untouchable.
