@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { getMessages } from "@/lib/i18n/messages";
 import { formatPlural } from "@/lib/i18n/plural";
 import { getCategoryName } from "@/lib/tools/categories";
+import { getPublishedTools } from "@/lib/tools/catalog";
 import { getSearchResultsPath, getToolsPath } from "@/lib/tools/routes";
 import { getPrimaryToolCategory } from "@/lib/tools/types";
 import type { ToolSearchResult } from "@/lib/tools/search";
@@ -16,6 +17,11 @@ import type { Locale } from "@/lib/i18n/config";
 export default function SearchResultsClient({ locale }: { locale: Locale }) {
   const router = useRouter();
   const t = getMessages(locale);
+  const publishedTools = getPublishedTools();
+  const suggestedTools = t.home.quickLinks.flatMap(({ toolId }) => {
+    const tool = publishedTools.find((candidate) => candidate.id === toolId);
+    return tool ? [tool] : [];
+  });
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<ToolSearchResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
@@ -107,7 +113,30 @@ export default function SearchResultsClient({ locale }: { locale: Locale }) {
           </div>
         </section>
 
-        {!query ? null : isSearching ? (
+        {!query ? (
+          <section className="mt-5 rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-7" aria-labelledby="search-results-start-title">
+            <div className="border-b border-[var(--border)] pb-5">
+              <h2 id="search-results-start-title" className="text-xl font-black tracking-[-0.03em] sm:text-2xl">
+                {t.tools.searchLandingTitle}
+              </h2>
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--muted)]">{t.tools.searchLandingDescription}</p>
+            </div>
+            <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+              {suggestedTools.map((tool) => {
+                const categoryId = getPrimaryToolCategory(tool);
+                return (
+                  <ToolCard
+                    key={tool.id}
+                    tool={tool}
+                    locale={locale}
+                    categoryId={categoryId}
+                    categoryName={getCategoryName(locale, categoryId)}
+                  />
+                );
+              })}
+            </div>
+          </section>
+        ) : isSearching ? (
           <section className="mt-5 rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8" role="status">
             <p className="text-sm font-medium text-[var(--foreground)]">{t.tools.searching}</p>
           </section>
