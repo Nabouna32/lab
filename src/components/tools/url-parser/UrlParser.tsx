@@ -81,7 +81,7 @@ export default function UrlParser() {
           </div>
 
           {result && (result.username || result.hasPassword) && (
-            <p role="status" className="mt-4 rounded-[var(--radius-md)] border border-[var(--warning)] bg-[var(--warning-container)] p-3 text-sm text-[var(--on-warning-container)]">
+            <p role="status" className="mt-4 rounded-[var(--radius-md)] border border-[var(--warning)] bg-[var(--warning-soft)] p-3 text-sm text-[var(--foreground)]">
               {t.credentialsWarning}
             </p>
           )}
