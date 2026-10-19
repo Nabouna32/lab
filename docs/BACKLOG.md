@@ -7,6 +7,7 @@ Dernière révision : 2026-10-19. File de travail unique. Les preuves et priorit
 - **État :** continu ; checkpoint [issue #741](https://github.com/Nabouna32/lab/issues/741).
 - **Pourquoi :** les audits statiques ne prouvent pas la justesse métier ni le comportement des entrées limites. Les correctifs EXIF, CSV et compresseur ont déjà révélé des défauts concrets.
 - **Livrable visé :** choisir un outil par reprise ; vérifier calcul/format, limites, erreurs, FR/EN et flux de données ; ajouter des tests de régression à chaque défaut confirmé.
+- **Dernier constat livré en cours de validation :** le Convertisseur de couleurs utilisait une heuristique basée sur les canaux RGB bruts pour le texte de l’aperçu. La [PR #789](https://github.com/Nabouna32/lab/pull/789) la remplace par la luminance relative sRGB WCAG et ajoute des cas de régression (gris intermédiaires, bleu, noir, blanc).
 
 ## P1 — Finding npm HIGH sur `braces`
 
