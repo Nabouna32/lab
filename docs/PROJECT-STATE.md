@@ -10,7 +10,7 @@ Préparer le lancement public autour du **26 octobre 2026**, sans sacrifier les 
 ## État vérifié
 
 - Branche de production : `main`.
-- Dernier commit applicatif examiné : [`316091a`](https://github.com/Nabouna32/lab/commit/316091aacf8498dc6a154ab01a110db04fce1bf2), fusion de la PR [#747](https://github.com/Nabouna32/lab/pull/747). Le tableau de bord et le registre des problèmes ont ensuite été ajoutés par la PR [#748](https://github.com/Nabouna32/lab/pull/748), fusionnée en `f7dd447`.
+- Dernier commit applicatif examiné : [`316091a`](https://github.com/Nabouna32/lab/commit/316091aacf8498dc6a154ab01a110db04fce1bf2), fusion de la PR [#747](https://github.com/Nabouna32/lab/pull/747). Le tableau de bord et le registre des problèmes ont été ajoutés par la PR [#748](https://github.com/Nabouna32/lab/pull/748), puis actualisés par la PR [#749](https://github.com/Nabouna32/lab/pull/749), fusionnée en `6bbd8ed`.
 - Socle dépendances déclaré : Next.js `16.4.2`, React et React DOM `19.3.1`, TypeScript `~6.0.3`, Tailwind CSS `4`, Node.js `24.x`. Source : [package.json](../package.json).
 - La CI de la PR #747 a réussi sur son SHA exact, incluant installation/lockfile, revue des dépendances, lint, vérification TypeScript, tests et build : [run #39187544650](https://github.com/Nabouna32/lab/actions/runs/39187544650).
 - Le déploiement Vercel de production lié au commit fusionné a été signalé `READY` : [déploiement](https://vercel.com/nabouna32/loculary/6AwLouz9mycFmcPUH5HSBvdsr9gX). Le domaine public configuré est [loculary.vercel.app](https://loculary.vercel.app/).
@@ -27,7 +27,7 @@ Préparer le lancement public autour du **26 octobre 2026**, sans sacrifier les 
 
 ## Risques et limites actifs
 
-- Alerte HIGH liée à `braces@3.0.3`, dans la chaîne des outils de développement, suivie par [issue #461](https://github.com/Nabouna32/lab/issues/461). Le registre amont consulté ne fournit pas de version corrigée ; l'exception au contrôle n'est pas justifiée. L'état actuel de l'audit complet reste à confirmer après les mises à jour de dépendances.
+- L'audit complet actuel échoue sur cinq entrées HIGH (`@next/eslint-plugin-next`, `braces`, `eslint-config-next`, `fast-glob`, `micromatch`) propagées par l'avis [GHSA-vfj7-8cjw-p6xm](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm) dans les outils de développement. `npm audit --omit=dev` est passé avec zéro vulnérabilité signalée. Preuve : [run diagnostique #39204638077](https://github.com/Nabouna32/lab/actions/runs/39204638077). L'avis amont ne fournit toujours pas de version corrigée ; le suivi reste ouvert dans [issue #461](https://github.com/Nabouna32/lab/issues/461).
 - La protection Supabase contre les mots de passe compromis est signalée désactivée par l'avis de sécurité et n'est pas disponible sur l'offre Free actuelle. Ne pas répéter une tentative d'activation tant que l'offre ou la disponibilité n'a pas changé ; évaluer les protections applicables à l'offre existante.
 - L'advisor Performance signale deux politiques RLS sur `user_collections` et `user_collection_items` ainsi que dix index inutilisés. Les expressions de politique utilisent déjà des sous-requêtes scalaires ; ne pas les modifier ni supprimer des index avant d'avoir vérifié les plans et le contexte de charge.
 - La validation fonctionnelle de production reste incomplète faute d'accès navigateur dans la session distante.
