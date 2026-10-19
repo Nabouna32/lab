@@ -16,7 +16,7 @@ if (typeof nextVersion !== "string" || nextVersion.length === 0) {
   throw new Error("Could not determine the pinned Next.js dependency version.");
 }
 
-const cacheKey = `${process.platform}-${process.arch}-next-${nextVersion}`;
+const cacheKey = process.platform + "-" + process.arch + "-next-" + nextVersion;
 const persistentCache = path.join(
   os.homedir(),
   ".cache",
@@ -27,24 +27,29 @@ const persistentCache = path.join(
 const buildCache = path.join(process.cwd(), ".next", "cache");
 
 if (action === "restore") {
-  if (!fs.existsSync(persistentCache)) {
-    console.log("No local Next.js cache found; the build will create one.");
-    process.exit(0);
-  }
-
+  fs.mkdirSync(persistentCache, { recursive: true });
   fs.mkdirSync(path.dirname(buildCache), { recursive: true });
+
+  // Link Next.js directly to the persistent local cache: no archive, network
+  // transfer, or full cache copy on every CI run.
   fs.rmSync(buildCache, { recursive: true, force: true });
-  fs.cpSync(persistentCache, buildCache, { recursive: true });
-  console.log("Restored the Next.js cache from local runner storage.");
+  fs.symlinkSync(
+    persistentCache,
+    buildCache,
+    process.platform === "win32" ? "junction" : "dir",
+  );
+  console.log("Linked Next.js directly to its persistent local build cache.");
   process.exit(0);
 }
 
 if (!fs.existsSync(buildCache)) {
-  console.log("Next.js did not create a cache directory; nothing to persist.");
-  process.exit(0);
+  throw new Error("The Next.js cache link is missing; refusing to report a persisted cache.");
 }
 
-fs.mkdirSync(path.dirname(persistentCache), { recursive: true });
-fs.rmSync(persistentCache, { recursive: true, force: true });
-fs.cpSync(buildCache, persistentCache, { recursive: true });
-console.log("Persisted the Next.js cache on local runner storage.");
+const resolvedBuildCache = fs.realpathSync(buildCache);
+const resolvedPersistentCache = fs.realpathSync(persistentCache);
+if (resolvedBuildCache !== resolvedPersistentCache) {
+  throw new Error("Next.js cache is not linked to the expected persistent local cache.");
+}
+
+console.log("Next.js build cache was updated in place on local runner storage.");
