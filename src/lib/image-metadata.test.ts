@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { parseExifMetadata } from "./image-metadata.ts";
+import { getToolMessages } from "./i18n/tool-messages.ts";
 
 function jpegWithCameraMake(): ArrayBuffer {
   const bytes = new Uint8Array(50);
@@ -83,4 +84,12 @@ test("handles truncated EXIF data without throwing", () => {
   const bytes = new Uint8Array([0xff, 0xd8, 0xff, 0xe1, 0, 20, 69, 120, 105, 102, 0, 0]);
   assert.doesNotThrow(() => parseExifMetadata(bytes.buffer));
   assert.deepEqual(parseExifMetadata(bytes.buffer), {});
+});
+
+test("localizes image metadata labels in French and English", () => {
+  assert.equal(getToolMessages("fr").imageMetadata.input, "Choisir une image");
+  assert.equal(getToolMessages("fr").imageMetadata.cameraMake, "Marque de l’appareil");
+  assert.equal(getToolMessages("fr").imageMetadata.cameraModel, "Modèle de l’appareil");
+  assert.equal(getToolMessages("en").imageMetadata.cameraMake, "Camera make");
+  assert.equal(getToolMessages("en").imageMetadata.cameraModel, "Camera model");
 });
