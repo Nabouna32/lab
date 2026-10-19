@@ -42,3 +42,12 @@ Dernière vérification : 2026-10-19. Ce registre résume les blocages persistan
 - **Risque :** modifier les politiques de partage sans raison démontrée pourrait changer les droits de lecture ou casser les liens de partage. Supprimer des index sur une base peu utilisée pourrait aussi dégrader des parcours encore peu sollicités.
 - **Prochaine action :** aucune modification de politique n'est justifiée par ces alertes seules. Réexaminer si les expressions, le plan ou les mesures de charge changent.
 - **Index inutilisés :** les dix index listés ont `idx_scan = 0`, font chacun 8–16 kB et ne supportent pas directement une contrainte selon `pg_constraint.conindid`. Ils restent néanmoins conservés : les compteurs reflètent une base peu sollicitée et ne suffisent pas à prouver qu'ils sont inutiles pour les parcours d'administration futurs. Réévaluer avec une période de charge représentative avant toute suppression.
+
+
+## 5. HTML previewer — CSP insertion can be swallowed by untrusted markup
+
+- **État :** corrigé dans le code et fusionné par la [PR #764](https://github.com/Nabouna32/lab/pull/764), commit [`3de8202`](https://github.com/Nabouna32/lab/commit/3de82028875913617d72c794c8c3a87045fd58be). La CI complète a réussi sur la tête exacte (`39215120924`) et le déploiement Vercel de production est `READY` : [déploiement](https://vercel.com/nabouna32/loculary/G4rWQXvmZ4GtyeKJHJimrxzVYrBT). La requête externe n'a pas été testée dans un navigateur ; la correction est confirmée par le code, le test de régression, la CI et le déploiement.
+- **Impact :** si la CSP n'est pas interprétée, une page prévisualisée peut déclencher des requêtes de ressources externes et exposer des métadonnées réseau au serveur tiers. L'iframe utilise `sandbox=""`, ce qui bloque notamment les scripts et l'accès same-origin, mais ne bloque pas à lui seul toutes les requêtes réseau.
+- **Cause confirmée avant correction :** `src/lib/html-previewer.ts` cherchait le premier `<head>` avec une regex. Une entrée comme `<!-- <head> --> <img src="https://example.com/tracker.png">` pouvait faire insérer la balise CSP dans un commentaire HTML inerte.
+- **Correction livrée :** la CSP est préfixée avant tout contenu utilisateur ; le code ne recherche plus de balise dans la chaîne non fiable. Un test de régression vérifie que la politique précède le commentaire.
+- **Limite restante :** une vérification navigateur dédiée du blocage effectif des requêtes externes reste souhaitable si un navigateur de test devient disponible ; elle n'a pas été réalisée dans cette session.
