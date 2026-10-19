@@ -56,7 +56,7 @@ function readRationals(
 ): number[] | undefined {
   if (view.getUint16(entryOffset + 2, littleEndian) !== 5) return undefined;
   const count = view.getUint32(entryOffset + 4, littleEndian);
-  if (count < 3 || count > 3) return undefined;
+  if (count !== 3) return undefined;
 
   const valueOffset = tiffBase + view.getUint32(entryOffset + 8, littleEndian);
   if (valueOffset < 0 || valueOffset + count * 8 > view.byteLength) return undefined;
