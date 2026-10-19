@@ -40,6 +40,18 @@ export function getOutputMimeType(format: ImageOutputFormat): string {
   }
 }
 
+export function getOutputExtension(mimeType: string): string {
+  switch (mimeType) {
+    case "image/jpeg":
+      return "jpg";
+    case "image/webp":
+      return "webp";
+    case "image/png":
+    default:
+      return "png";
+  }
+}
+
 export function normalizeQuality(quality: number): number {
   if (!Number.isFinite(quality)) return 0.8;
   return Math.min(1, Math.max(0.1, quality));
@@ -102,7 +114,9 @@ export async function compressImageFile(
     );
     if (!blob) throw new Error("Image encoding is not supported.");
 
-    return { blob, width, height, mimeType };
+    // Browsers fall back to PNG when the requested canvas format is unsupported.
+    // Report the encoded Blob's actual type, not just the requested format.
+    return { blob, width, height, mimeType: blob.type || mimeType };
   } finally {
     URL.revokeObjectURL(url);
   }
