@@ -19,6 +19,15 @@ test("localized search routes share the existing search page and validate their 
   assert.match(pageSource, /getSearchResultsPagePath\(availableLocale\)/);
 });
 
+test("search result count, loading and errors are announced through one live status", () => {
+  assert.match(
+    clientSource,
+    /<p role="status" aria-live="polite" aria-atomic="true" className="mt-4 text-sm font-semibold text-\[var\(--muted\)\]">\s*\{isSearching \? t\.tools\.searching : searchError \? t\.tools\.searchError : formatPlural/,
+  );
+  assert.match(clientSource, /<p className="text-sm font-medium text-\[var\(--foreground\)\]">\{t\.tools\.searching\}<\/p>/);
+  assert.doesNotMatch(clientSource, /<section[^>]*role="status">/);
+});
+
 test("search page remains usable without a fragment and syncs query history", () => {
   assert.match(clientSource, /<ToolSearch[\s\S]*?initialQuery=\{query\}/);
   assert.ok(clientSource.includes('if (!nextQuery) {\n        requestId.current += 1;\n        setQuery("");'));

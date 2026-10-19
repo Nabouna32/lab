@@ -96,7 +96,7 @@ export default function SearchResultsClient({ locale }: { locale: Locale }) {
                 {query ? t.tools.searchResultsTitle(query) : t.tools.searchResultsMetaTitle}
               </h1>
               {query && (
-                <p className="mt-4 text-sm font-semibold text-[var(--muted)]">
+                <p role="status" aria-live="polite" aria-atomic="true" className="mt-4 text-sm font-semibold text-[var(--muted)]">
                   {isSearching ? t.tools.searching : searchError ? t.tools.searchError : formatPlural(locale, results.length, { one: t.tools.resultCountOne, other: t.tools.resultCountMany })}
                 </p>
               )}
@@ -137,7 +137,7 @@ export default function SearchResultsClient({ locale }: { locale: Locale }) {
             </div>
           </section>
         ) : isSearching ? (
-          <section className="mt-5 rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8" role="status">
+          <section className="mt-5 rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8">
             <p className="text-sm font-medium text-[var(--foreground)]">{t.tools.searching}</p>
           </section>
         ) : searchError ? (
