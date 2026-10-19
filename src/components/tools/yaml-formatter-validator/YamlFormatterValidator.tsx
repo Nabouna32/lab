@@ -78,9 +78,14 @@ export default function YamlFormatterValidator() {
 
           {error && (
             <p role="alert" className="mt-4 text-sm font-medium text-[var(--danger)]">
-              {error.kind === "resource"
-                ? t.resourceLimit
-                : t.invalid + " — " + t.errorAt(String(error.line), String(error.column))}
+              {error.kind === "resource" ? (
+                t.resourceLimit
+              ) : (
+                <>
+                  {t.invalid} — {t.errorAt(String(error.line), String(error.column))}
+                  <span className="mt-1 block font-normal">{t.errorDetailLabel} <code>{error.message}</code></span>
+                </>
+              )}
             </p>
           )}
 
