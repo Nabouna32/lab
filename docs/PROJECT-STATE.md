@@ -9,6 +9,7 @@ Préparer le lancement public autour du **26 octobre 2026**, sans sacrifier les 
 
 ## État vérifié
 
+- **Lot UX en cours — générateur de mots de passe :** la PR [#821](https://github.com/Nabouna32/lab/pull/821) ajoute un retour de robustesse estimée en français et en anglais, calculé localement à partir de la longueur et de l’alphabet sélectionné. L’estimation est signalée comme théorique, pas comme une garantie. CI en cours ; aucune fusion ni validation complète n’est confirmée à ce stade.
 - **Dernière livraison applicative — robustesse du convertisseur de bases :** les entrées sont bornées à 4 096 caractères avant l’accumulation `BigInt`; la limite est expliquée en FR/EN sans tronquer silencieusement les valeurs collées. [PR #818](https://github.com/Nabouna32/lab/pull/818), fusion squash dans `3a4e39390ebc54755933ad96510055e89d72ca53`. Lint, typecheck, tests et build réussis sur le SHA exact `4eea5e6ad2b09b3465f3b0ebde97886a4ebb2a23` ([CI #39341622410](https://github.com/Nabouna32/lab/actions/runs/39341622410)). Le déploiement Vercel correspondant est `READY` sur le commit applicatif `3a4e39390ebc54755933ad96510055e89d72ca53` ([détails](https://vercel.com/nabouna32/loculary/CCn91WUDr7usT9EmWuzqM652xsvd)). Aucun test navigateur exécuté.
 - **Dernière livraison applicative — accessibilité des résultats de recherche :** la page annonce maintenant le chargement, l'erreur et le nombre de résultats via une région dynamique unique. [PR #816](https://github.com/Nabouna32/lab/pull/816), fusion squash dans `8884261de008e95c5c8f44cee76f1546acb3bb89`. Lint, typecheck, tests et build réussis sur le SHA exact `d18259b8956d582cf1abb08000af540ff7a9a9d2` ([CI #39340700081](https://github.com/Nabouna32/lab/actions/runs/39340700081)). Déploiement Vercel de production en cours au dernier contrôle : [détails](https://vercel.com/nabouna32/loculary/6eqnnbquDqafVXh4UHyKn48KHpvn). Aucun test navigateur/lecteur d'écran exécuté.
 - **Dernier correctif de justesse livré — calculateur de date :** le parseur partagé rejette les dates impossibles comme `2026-02-31` au lieu de les normaliser. [PR #814](https://github.com/Nabouna32/lab/pull/814), fusion squash dans `887c4a3ba261a328cecb99524f85ce33873854ff`. Lint, typecheck, tests et build réussis sur `d9898b820c465719d6d07e51a5f64aee96e54aec` ([CI #39339994968](https://github.com/Nabouna32/lab/actions/runs/39339994968)). Déploiement Vercel de production `READY` sur le commit de fusion : [détails](https://vercel.com/nabouna32/loculary/4tirSJ8Ps79b5vpsiZimU8Fswzrg). Aucun test navigateur exécuté.
@@ -33,6 +34,14 @@ Préparer le lancement public autour du **26 octobre 2026**, sans sacrifier les 
 - Les PR d'harmonisation du menu d'en-tête (#742–#746), les correctifs de sécurité #747 et #764, de capacités presse-papiers #753, de géométrie IconButton #755, d'état d'erreur des contrôles de formulaire #756–#757, de motion ProgressIndicator #759, d'accessibilité ToolSearch #762 et de justesse EXIF/i18n #768 sont fusionnés. DEC-028 a été consignée dans la PR documentaire #758 ; le checkpoint de lancement a été actualisé par #766.
 
 ## Cinq dernières reprises / lots livrés
+
+> Mémoire opérationnelle par session de travail, avec les PR représentatives et preuves vérifiables.
+
+1. **UX / générateur de mots de passe — en cours** : estimation de robustesse théorique localisée FR/EN et tests associés. [PR #821](https://github.com/Nabouna32/lab/pull/821) — CI non terminée au dernier contrôle.
+2. **Robustesse / convertisseur de bases** — limite de 4 096 caractères avant accumulation BigInt, avec message FR/EN et test de dépassement : [PR #818](https://github.com/Nabouna32/lab/pull/818), CI complète réussie ([#39341622410](https://github.com/Nabouna32/lab/actions/runs/39341622410)).
+3. **Accessibilité / résultats de recherche** — une région dynamique unique annonce le chargement, l’erreur et le nombre de résultats sur la page complète : [PR #816](https://github.com/Nabouna32/lab/pull/816), CI complète réussie ([#39340700081](https://github.com/Nabouna32/lab/actions/runs/39340700081)).
+4. **Justesse de données / calculateur de date** — la validation refuse les dates calendaires impossibles ; tests de régression ajoutés : [PR #814](https://github.com/Nabouna32/lab/pull/814).
+5. **Justesse de données / expression Cron** — le parseur refuse les valeurs numériques non conformes à la syntaxe décimale : [PR #812](https://github.com/Nabouna32/lab/pull/812).
 
 > Mémoire opérationnelle par session de travail, avec les PR représentatives et preuves vérifiables.
 

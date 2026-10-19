@@ -7,7 +7,7 @@ import { Slider } from "@/components/ui/Slider";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
-import { generatePassword, PASSWORD_LIMITS, type PasswordOptions } from "@/lib/password-generator";
+import { estimatePasswordEntropy, generatePassword, getPasswordStrength, PASSWORD_LIMITS, type PasswordOptions } from "@/lib/password-generator";
 
 const defaultOptions: PasswordOptions = {
   length: 20,
@@ -17,6 +17,13 @@ const defaultOptions: PasswordOptions = {
   symbols: true,
   excludeAmbiguous: false,
 };
+
+const strengthLabels = {
+  fr: { weak: "Faible", fair: "Moyen", strong: "Fort", "very-strong": "Très fort", estimate: "Estimation indicative", bits: "bits d’entropie théoriques" },
+  en: { weak: "Weak", fair: "Fair", strong: "Strong", "very-strong": "Very strong", estimate: "Rough estimate", bits: "theoretical entropy bits" },
+} as const;
+
+const strengthPercent = { weak: 25, fair: 50, strong: 75, "very-strong": 100 } as const;
 
 export default function PasswordGenerator() {
   const locale = useLocale();
@@ -40,6 +47,9 @@ export default function PasswordGenerator() {
       setError(t.invalid);
     }
   }
+
+  const strength = password ? getPasswordStrength(estimatePasswordEntropy(options)) : null;
+  const labels = strengthLabels[locale];
 
   return (
     <section className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]">
@@ -102,6 +112,28 @@ export default function PasswordGenerator() {
           <output aria-live="polite" className="mt-4 block min-h-28 break-all rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface-soft)] p-4 font-mono text-sm leading-7 text-[var(--foreground)]">
             {password || t.emptyResult}
           </output>
+          {strength && (
+            <div className="mt-4" aria-label={labels.estimate}>
+              <div className="flex items-center justify-between gap-3 text-sm">
+                <span className="font-medium text-[var(--foreground)]">{locale === "fr" ? "Robustesse estimée" : "Estimated strength"}</span>
+                <span className="font-semibold text-[var(--foreground)]">{labels[strength]}</span>
+              </div>
+              <div
+                className="mt-2 h-2 overflow-hidden rounded-full bg-[var(--surface-variant)]"
+                role="meter"
+                aria-label={labels.estimate}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-valuenow={strengthPercent[strength]}
+                aria-valuetext={labels[strength]}
+              >
+                <div className="h-full rounded-full bg-[var(--primary)] transition-[width] motion-reduce:transition-none" style={{ width: strengthPercent[strength] + "%" }} />
+              </div>
+              <p className="mt-2 text-xs leading-5 text-[var(--muted)]">
+                {Math.round(estimatePasswordEntropy(options))} {labels.bits}. {locale === "fr" ? "Estimation basée sur la longueur et les caractères possibles, pas une garantie de sécurité." : "Estimated from length and possible characters, not a security guarantee."}
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </section>

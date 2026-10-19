@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { generatePassword, getAlphabet, PASSWORD_LIMITS, validateOptions } from "./password-generator.ts";
+import { estimatePasswordEntropy, generatePassword, getAlphabet, getPasswordStrength, PASSWORD_LIMITS, validateOptions } from "./password-generator.ts";
 
 const options = {
   length: 24,
@@ -15,7 +15,7 @@ describe("password generator", () => {
   it("generates the requested length from the selected alphabet", () => {
     const password = generatePassword(options, () => 0);
     assert.equal(password.length, 24);
-    assert.match(password, /^[a-zA-Z0-9!@#$%^&*()\-_=+\[\]{};:,.?]+$/);
+    assert.equal([...password].every((character) => "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+[]{};:,.?".includes(character)), true);
   });
 
   it("guarantees every selected character class", () => {
@@ -23,7 +23,7 @@ describe("password generator", () => {
     assert.match(password, /[a-z]/);
     assert.match(password, /[A-Z]/);
     assert.match(password, /[0-9]/);
-    assert.match(password, /[!@#$%^&*()\-_=+\[\]{};:,.?]/);
+    assert.ok([...password].some((character) => "!@#$%^&*()-_=+[]{};:,.?".includes(character)));
   });
 
   it("can exclude ambiguous characters", () => {
@@ -55,5 +55,18 @@ describe("password generator", () => {
       excludeAmbiguous: true,
     }, () => 0);
     assert.equal([...password].some((character) => "O0Il1|".includes(character)), false);
+  });
+
+  it("estimates entropy from the configured length and alphabet size", () => {
+    assert.ok(estimatePasswordEntropy(options) > estimatePasswordEntropy({ ...options, lowercase: true, uppercase: false, numbers: false, symbols: false }));
+    assert.ok(Math.abs(estimatePasswordEntropy({ ...options, length: 8 }) - estimatePasswordEntropy(options) / 3) < 1e-10);
+  });
+
+  it("maps entropy estimates to stable strength labels", () => {
+    assert.equal(getPasswordStrength(39.9), "weak");
+    assert.equal(getPasswordStrength(40), "fair");
+    assert.equal(getPasswordStrength(60), "strong");
+    assert.equal(getPasswordStrength(80), "very-strong");
+    assert.equal(getPasswordStrength(Number.NaN), "weak");
   });
 });

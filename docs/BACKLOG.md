@@ -1,6 +1,10 @@
 # Loculary — backlog priorisé
 
-Dernière révision : 2026-10-20. File de travail unique. Les preuves et priorités de reprise sont dans [PROJECT-STATE.md](PROJECT-STATE.md), les risques et blocages dans [KNOWN-ISSUES.md](KNOWN-ISSUES.md), et les lots UX dans [REFONTE.md](REFONTE.md).
+Dernière révision : 2026-10-20. File de travail unique.
+
+- **Dernier lot livré en préparation — retour UX du générateur de mots de passe :** la PR [#821](https://github.com/Nabouna32/lab/pull/821) ajoute une jauge de robustesse indicative FR/EN basée sur la longueur et l’alphabet choisi, avec tests des seuils. La valeur est explicitement présentée comme une estimation théorique, pas une garantie de sécurité. CI en cours ; ne pas marquer la livraison comme fusionnée avant preuve.
+
+Les preuves et priorités de reprise sont dans [PROJECT-STATE.md](PROJECT-STATE.md), les risques et blocages dans [KNOWN-ISSUES.md](KNOWN-ISSUES.md), et les lots UX dans [REFONTE.md](REFONTE.md).
 
 ## P1 — Audit de justesse et confidentialité des outils (priorité active)
 

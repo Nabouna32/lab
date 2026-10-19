@@ -13,6 +13,7 @@ export type PasswordOptions = {
 };
 
 export type PasswordGeneratorError = "invalid-length" | "empty-character-set";
+export type PasswordStrength = "weak" | "fair" | "strong" | "very-strong";
 
 const CHARACTER_SETS = {
   lowercase: "abcdefghijklmnopqrstuvwxyz",
@@ -64,6 +65,21 @@ export function getAlphabet(options: PasswordOptions): string {
   return options.excludeAmbiguous
     ? alphabet.filter((character) => !AMBIGUOUS.has(character)).join("")
     : alphabet.join("");
+}
+
+/** A rough upper-bound estimate from length and the selected alphabet, not a password audit. */
+export function estimatePasswordEntropy(options: PasswordOptions): number {
+  validateOptions(options);
+  const alphabetSize = getAlphabet(options).length;
+  if (alphabetSize === 0) throw new Error("empty-character-set");
+  return options.length * Math.log2(alphabetSize);
+}
+
+export function getPasswordStrength(entropyBits: number): PasswordStrength {
+  if (!Number.isFinite(entropyBits) || entropyBits < 40) return "weak";
+  if (entropyBits < 60) return "fair";
+  if (entropyBits < 80) return "strong";
+  return "very-strong";
 }
 
 function getSelectedCharacterSets(options: PasswordOptions): string[] {
