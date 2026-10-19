@@ -31,15 +31,13 @@ Préparer le lancement public autour du **26 octobre 2026**, sans sacrifier les 
 
 ## Cinq dernières reprises / lots livrés
 
-1. **Justesse de données / expression Cron** — le parseur rejette désormais les valeurs numériques non conformes à la syntaxe décimale Cron ; tests de régression ajoutés. [PR #812](https://github.com/Nabouna32/lab/pull/812)
-
 > Mémoire opérationnelle par session de travail, avec les PR représentatives et preuves vérifiables.
 
+1. **Justesse de données / expression Cron** — le parseur rejette désormais les valeurs numériques non conformes à la syntaxe décimale Cron ; tests de régression ajoutés. [PR #812](https://github.com/Nabouna32/lab/pull/812)
 2. **Justesse de données / décodage Base64** — la [PR #810](https://github.com/Nabouna32/lab/pull/810) rejette les longueurs de padding explicite invalides et les bits de padding non canoniques, tout en conservant l’acceptation du Base64 canonique sans padding. Lint, typecheck, tests et build ont réussi sur le SHA exact `e9542d328c82793974ad21ac0490bb3c1ce4adce` ([CI #39338567970](https://github.com/Nabouna32/lab/actions/runs/39338567970)); fusion squash dans `d23ee0bcd3d017b3c306a1df21d30dac66453ca0`.
 3. **Accessibilité / recherche** — le compteur de suggestions est annoncé par les technologies d’assistance via une région dynamique : [PR #807](https://github.com/Nabouna32/lab/pull/807).
 4. **Performance / garde-fou d’entrée** — le Formateur JSON refuse les documents de plus de 200 000 caractères avant parsing, formatage ou minification : [PR #805](https://github.com/Nabouna32/lab/pull/805).
 5. **UX / diagnostic des erreurs** — le Formateur YAML affiche le message détaillé du parseur, avec libellé FR/EN : [PR #803](https://github.com/Nabouna32/lab/pull/803).
- — les scalaires multilignes conservent les espaces de fin et le chompage après formatage : [PR #801](https://github.com/Nabouna32/lab/pull/801).
 
 ## Priorités immédiates
 
