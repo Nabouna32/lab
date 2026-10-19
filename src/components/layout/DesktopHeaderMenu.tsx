@@ -35,6 +35,18 @@ function getServerMenuOpenSnapshot() {
   return false;
 }
 
+function subscribeHydrationReady() {
+  return () => {};
+}
+
+function getHydrationReadySnapshot() {
+  return true;
+}
+
+function getServerHydrationReadySnapshot() {
+  return false;
+}
+
 function clearMenuOpenRestoreMarker() {
   if (typeof window === "undefined") return;
   try {
@@ -78,7 +90,11 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
   const pathname = usePathname();
   const router = useRouter();
   const { theme, setTheme } = useTheme();
-  const [themeReady, setThemeReady] = useState(false);
+  const themeReady = useSyncExternalStore(
+    subscribeHydrationReady,
+    getHydrationReadySnapshot,
+    getServerHydrationReadySnapshot,
+  );
   const t = getMessages(locale);
   const open = useSyncExternalStore(subscribeMenuOpen, getMenuOpenSnapshot, getServerMenuOpenSnapshot);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -87,7 +103,6 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
   const currentLocale: Locale = isLocale(currentLocaleSegment) ? currentLocaleSegment : locale;
 
   useEffect(() => {
-    setThemeReady(true);
     restoreMenuOpenAfterLocaleSwitch();
   }, []);
 
