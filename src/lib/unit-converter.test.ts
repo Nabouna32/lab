@@ -27,6 +27,15 @@ describe("convertUnit", () => {
     assert.equal(convertUnit(0, "temperature", "k", "c"), -273.15);
   });
 
+  it("accepts absolute zero in Celsius, Fahrenheit, and Kelvin without admitting colder values", () => {
+    assert.equal(convertUnit(-273.15, "temperature", "c", "k"), 0);
+    assert.equal(convertUnit(-459.67, "temperature", "f", "k"), 0);
+    assert.equal(convertUnit(0, "temperature", "k", "c"), -273.15);
+    assert.equal(convertUnit(-273.150001, "temperature", "c", "k"), null);
+    assert.equal(convertUnit(-459.670001, "temperature", "f", "k"), null);
+    assert.equal(convertUnit(-0.000001, "temperature", "k", "c"), null);
+  });
+
   it("rejects impossible Kelvin values and negative physical quantities", () => {
     assert.equal(convertUnit(-1, "temperature", "k", "c"), null);
     assert.equal(convertUnit(-1, "length", "m", "cm"), null);
