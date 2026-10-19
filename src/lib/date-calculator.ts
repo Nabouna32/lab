@@ -13,7 +13,7 @@ function isValidDate(date: Date): boolean {
 }
 
 export function parseDateInput(value: string): Date | null {
-  const match = /^(\\d{4})-(\\d{2})-(\\d{2})$/.exec(value);
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
   if (!match) return null;
 
   const year = Number(match[1]);
