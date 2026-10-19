@@ -5,6 +5,7 @@ import { test } from "node:test";
 
 const typesFile = fileURLToPath(new URL("./types.ts", import.meta.url));
 const toolsFile = fileURLToPath(new URL("./tools.ts", import.meta.url));
+const registryFile = fileURLToPath(new URL("./registry.ts", import.meta.url));
 const runtimeFile = fileURLToPath(new URL("../../components/tools/ToolPage/ToolRuntimeProvider.tsx", import.meta.url));
 const toolPageFile = fileURLToPath(new URL("../../components/tools/ToolPage/ToolPage.tsx", import.meta.url));
 const copyButtonFile = fileURLToPath(new URL("../../components/ui/CopyButton.tsx", import.meta.url));
@@ -22,22 +23,64 @@ test("tool page provides the declared runtime capabilities to modules", async ()
   assert.match(source, /capabilities=\{tool\.capabilities\}/);
 });
 
-test("clipboard access is enforced through the tool runtime", async () => {
+test("every tool using CopyButton declares the clipboard capability", async () => {
   const runtime = await readFile(runtimeFile, "utf8");
   const copyButton = await readFile(copyButtonFile, "utf8");
   const tools = await readFile(toolsFile, "utf8");
+  const registry = await readFile(registryFile, "utf8");
 
   assert.match(runtime, /requireCapability\("clipboard"\)/);
   assert.match(copyButton, /useToolRuntime/);
   assert.doesNotMatch(copyButton, /copyTextToClipboard/);
 
-  for (const toolId of ["percentage", "word-character-counter"]) {
-    const entry = tools.match(new RegExp(`id: "${toolId}"[\\s\\S]*?(?=\\n  \\},|\\n\\]\\.map)`));
-    assert.ok(entry, `Tool "${toolId}" must exist in the catalog.`);
-    assert.match(entry[0], /capabilities: \["clipboard"\]/);
-  }
-});
+  const registryEntries = [
+    ...registry.matchAll(
+      /^\s*(?:"([^"]+)"|([a-z0-9-]+)):\s*createToolModule\(\s*\(\) => import\("@\/components\/tools\/([^"]+)"\)/gm,
+    ),
+  ];
+  assert.ok(registryEntries.length > 0, "The tool registry must expose runtime modules.");
 
+  const definitionsStart = tools.indexOf("const toolDefinitions");
+  const definitionsEnd = tools.indexOf("\n];", definitionsStart);
+  assert.notEqual(definitionsStart, -1, "The tool catalog must define toolDefinitions.");
+  assert.notEqual(definitionsEnd, -1, "The tool catalog must terminate toolDefinitions.");
+
+  const definitions = new Map();
+  const definitionLines = tools.slice(definitionsStart, definitionsEnd).split("\n");
+  for (let index = 0; index < definitionLines.length; index += 1) {
+    if (definitionLines[index] !== "  {") continue;
+
+    let end = index + 1;
+    while (end < definitionLines.length && definitionLines[end] !== "  },") end += 1;
+    const entry = definitionLines.slice(index, end + 1).join("\n");
+    const id = entry.match(/\bid:\s*"([^"]+)"/)?.[1];
+    if (id) definitions.set(id, entry);
+    index = end;
+  }
+
+  const copyToolIds = [];
+  for (const match of registryEntries) {
+    const toolId = match[1] ?? match[2];
+    const modulePath = fileURLToPath(
+      new URL(`../../components/tools/${match[3]}.tsx`, import.meta.url),
+    );
+    const moduleSource = await readFile(modulePath, "utf8");
+    if (!/import\s*\{[^}]*\bCopyButton\b[^}]*\}\s*from\s*"@\/components\/ui\/CopyButton"/s.test(moduleSource)) {
+      continue;
+    }
+
+    copyToolIds.push(toolId);
+    const entry = definitions.get(toolId);
+    assert.ok(entry, `Tool "${toolId}" must exist in the catalog.`);
+    assert.match(
+      entry,
+      /capabilities:\s*\[[^\]]*["\x27]clipboard["\x27]/,
+      `Tool "${toolId}" uses CopyButton and must declare the clipboard capability.`,
+    );
+  }
+
+  assert.ok(copyToolIds.length > 0, "At least one registered tool must use CopyButton.");
+});
 test("the runtime is scoped to a tool page instead of being global", async () => {
   const runtime = await readFile(runtimeFile, "utf8");
   assert.match(runtime, /ToolRuntimeContext/);

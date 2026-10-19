@@ -211,6 +211,7 @@ const toolDefinitions: ToolDefinition[] = [
     tags: ["compound interest", "interest", "savings", "investment", "finance", "calculator", "intérêts composés", "épargne"],
     aliases: ["compound interest calculator", "compound interest", "interest calculator", "savings calculator", "calculateur intérêts composés", "intérêts composés", "calculateur épargne"],
     lifecycle: "published",
+    capabilities: ["clipboard"],
     content: {
       fr: { name: "Calculateur d’intérêts composés", description: "Calculez la croissance d’un capital avec capitalisation périodique et versements réguliers optionnels." },
       en: { name: "Compound Interest Calculator", description: "Calculate compound growth with periodic compounding and optional regular contributions." },
@@ -393,6 +394,7 @@ const toolDefinitions: ToolDefinition[] = [
     tags: ["unité", "unités", "conversion", "longueur", "masse", "température", "volume", "surface", "metric", "imperial"],
     aliases: ["unit converter", "unit conversion", "convertisseur d’unités", "convertisseur unités", "conversion unités", "métrique", "impérial"],
     lifecycle: "published",
+    capabilities: ["clipboard"],
     content: {
       fr: { name: "Convertisseur d’unités", description: "Convertissez rapidement des longueurs, masses, températures, volumes et surfaces." },
       en: { name: "Unit Converter", description: "Convert length, mass, temperature, volume, and area units instantly." },
@@ -474,6 +476,7 @@ const toolDefinitions: ToolDefinition[] = [
     tags: ["timezone", "time zone", "fuseau", "heure", "date", "iana", "dst", "daylight saving"],
     aliases: ["timezone converter", "time zone converter", "world time converter", "timezone conversion", "convertisseur fuseau horaire", "convertisseur de fuseaux horaires", "conversion fuseau horaire"],
     lifecycle: "published",
+    capabilities: ["clipboard"],
     content: {
       fr: { name: "Convertisseur de fuseaux horaires", description: "Convertissez une date et une heure entre deux fuseaux horaires IANA, y compris les changements d’heure." },
       en: { name: "Time Zone Converter", description: "Convert a date and time between IANA time zones, including daylight-saving changes." },
@@ -487,6 +490,7 @@ const toolDefinitions: ToolDefinition[] = [
     tags: ["xml", "formatter", "validator", "well-formed", "markup", "developer", "development"],
     aliases: ["xml formatter", "xml validator", "xml beautifier", "xml checker", "format xml", "validate xml", "formateur xml", "validateur xml"],
     lifecycle: "published",
+    capabilities: ["clipboard"],
     content: {
       fr: { name: "Formateur et validateur XML", description: "Validez et formatez du XML directement dans votre navigateur, sans envoyer votre contenu à un serveur." },
       en: { name: "XML Formatter & Validator", description: "Validate and format XML directly in your browser without sending your content to a server." },
@@ -568,6 +572,7 @@ const toolDefinitions: ToolDefinition[] = [
     tags: ["unix", "timestamp", "epoch", "date", "time", "seconds", "milliseconds", "developer"],
     aliases: ["unix timestamp", "unix time", "epoch", "epoch converter", "timestamp converter", "convertisseur timestamp", "timestamp unix"],
     lifecycle: "published",
+    capabilities: ["clipboard"],
     content: {
       fr: { name: "Convertisseur de timestamp Unix", description: "Convertissez un timestamp Unix en date ou une date en timestamp, en secondes ou millisecondes." },
       en: { name: "Unix Timestamp Converter", description: "Convert Unix timestamps to dates or dates to timestamps in seconds or milliseconds." },
@@ -581,6 +586,7 @@ const toolDefinitions: ToolDefinition[] = [
     tags: ["hash", "sha", "sha-1", "sha-256", "sha-384", "sha-512", "digest", "crypto", "developer"],
     aliases: ["hash generator", "hash calculator", "sha generator", "sha256", "sha-256", "empreinte", "générateur hash", "générateur sha"],
     lifecycle: "published",
+    capabilities: ["clipboard"],
     content: {
       fr: { name: "Générateur de hash", description: "Calculez une empreinte SHA-1, SHA-256, SHA-384 ou SHA-512 à partir d’un texte." },
       en: { name: "Hash Generator", description: "Generate a SHA-1, SHA-256, SHA-384, or SHA-512 digest from text." },
@@ -678,6 +684,7 @@ const toolDefinitions: ToolDefinition[] = [
     tags: ["ipv4", "ip", "cidr", "subnet", "network", "mask", "broadcast", "networking"],
     aliases: ["ipv4 subnet calculator", "subnet calculator", "cidr calculator", "calculateur subnet", "calculateur cidr", "sous-réseau ipv4"],
     lifecycle: "published",
+    capabilities: ["clipboard"],
     content: {
       fr: { name: "Calculateur de sous-réseau IPv4", description: "Calculez le réseau, le masque, le broadcast et la plage d’hôtes à partir d’une adresse IPv4 en notation CIDR." },
       en: { name: "IPv4 Subnet Calculator", description: "Calculate the network, subnet mask, broadcast address, and host range from an IPv4 CIDR." },
@@ -788,6 +795,7 @@ const toolDefinitions: ToolDefinition[] = [
     tags: ["vidéo", "qualité", "débit", "encodage", "compression"],
     aliases: ["vidéo", "qualité", "débit", "encodage", "compression"],
     lifecycle: "published",
+    capabilities: ["clipboard"],
     content: {
       fr: { name: "Bitrate vidéo", description: "Calculez un bitrate moyen à partir d’une taille cible ou estimez la taille d’une vidéo à partir de son bitrate." },
       en: { name: "Video bitrate calculator", description: "Calculate average bitrate from a target size or estimate video file size from bitrate." },
