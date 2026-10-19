@@ -26,7 +26,7 @@ test("tool page provides the declared runtime capabilities to modules", async ()
 test("every tool using CopyButton declares the clipboard capability", async () => {
   const runtime = await readFile(runtimeFile, "utf8");
   const copyButton = await readFile(copyButtonFile, "utf8");
-  const tools = await readFile(toolsFile, "utf8");
+  const tools = (await readFile(toolsFile, "utf8")).replace(/\r\n/g, "\n");
   const registry = await readFile(registryFile, "utf8");
 
   assert.match(runtime, /requireCapability\("clipboard"\)/);

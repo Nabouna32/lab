@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { test } from "node:test";
 import { fileURLToPath } from "node:url";
 
-const clientSource = readFileSync(fileURLToPath(new URL("./SearchResultsClient.tsx", import.meta.url)), "utf8");
+const clientSource = readFileSync(fileURLToPath(new URL("./SearchResultsClient.tsx", import.meta.url)), "utf8").replace(/\r\n/g, "\n");
 const englishRoute = readFileSync(fileURLToPath(new URL("../../app/[locale]/search/page.tsx", import.meta.url)), "utf8");
 const frenchRoute = readFileSync(fileURLToPath(new URL("../../app/[locale]/recherche/page.tsx", import.meta.url)), "utf8");
 const pageSource = readFileSync(fileURLToPath(new URL("./SearchResultsPage.tsx", import.meta.url)), "utf8");
