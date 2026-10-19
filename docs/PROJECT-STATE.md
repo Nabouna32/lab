@@ -31,11 +31,11 @@ Préparer le lancement public autour du **26 octobre 2026**, sans sacrifier les 
 
 > Mémoire opérationnelle par session de travail, avec les PR représentatives et preuves vérifiables.
 
-1. **Accessibilité / recherche** — le compteur de suggestions est annoncé par les technologies d’assistance via une région dynamique : [PR #807](https://github.com/Nabouna32/lab/pull/807).
-2. **Performance / garde-fou d’entrée** — le Formateur JSON refuse les documents de plus de 200 000 caractères avant parsing, formatage ou minification : [PR #805](https://github.com/Nabouna32/lab/pull/805).
-3. **UX / diagnostic des erreurs** — le Formateur YAML affiche le message détaillé du parseur, avec libellé FR/EN : [PR #803](https://github.com/Nabouna32/lab/pull/803).
-4. **Justesse de données / formatage YAML** — les scalaires multilignes conservent les espaces de fin et le chompage après formatage : [PR #801](https://github.com/Nabouna32/lab/pull/801).
-5. **Justesse métier / conversion de température** — le Convertisseur d’unités accepte le zéro absolu exact en Fahrenheit malgré les arrondis flottants et rejette les températures réellement plus basses : [PR #798](https://github.com/Nabouna32/lab/pull/798).
+1. **Justesse de données / décodage Base64** — le décodeur rejette les longueurs de padding explicite invalides et les bits de padding non canoniques, tout en conservant l’acceptation du Base64 canonique sans padding : PR en cours de validation.
+2. **Accessibilité / recherche** — le compteur de suggestions est annoncé par les technologies d’assistance via une région dynamique : [PR #807](https://github.com/Nabouna32/lab/pull/807).
+3. **Performance / garde-fou d’entrée** — le Formateur JSON refuse les documents de plus de 200 000 caractères avant parsing, formatage ou minification : [PR #805](https://github.com/Nabouna32/lab/pull/805).
+4. **UX / diagnostic des erreurs** — le Formateur YAML affiche le message détaillé du parseur, avec libellé FR/EN : [PR #803](https://github.com/Nabouna32/lab/pull/803).
+5. **Justesse de données / formatage YAML** — les scalaires multilignes conservent les espaces de fin et le chompage après formatage : [PR #801](https://github.com/Nabouna32/lab/pull/801).
 
 ## Priorités immédiates
 
