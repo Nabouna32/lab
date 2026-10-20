@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { generateQrCode } from "./qr-code.ts";
+import { generateQrCode, getQrPayloadHeaderBits } from "./qr-code.ts";
 
 test("generates a valid-size QR matrix for a short URL", () => {
   const result = generateQrCode("https://example.com");
@@ -18,4 +18,16 @@ test("supports UTF-8 text and selects a larger version when needed", () => {
 
 test("rejects input beyond the supported local capacity", () => {
   assert.throws(() => generateQrCode("x".repeat(108)), RangeError);
+});
+
+test("declares UTF-8 with ECI 26 for non-ASCII byte-mode payloads", () => {
+  assert.equal(getQrPayloadHeaderBits("é").join(""), "011100011010010000000010");
+  assert.equal(getQrPayloadHeaderBits("A").join(""), "010000000001");
+});
+
+test("accounts for the UTF-8 ECI header when selecting QR capacity", () => {
+  const maximum = generateQrCode("a".repeat(103) + "é");
+  assert.equal(maximum.version, 6);
+  assert.equal(maximum.byteLength, 105);
+  assert.throws(() => generateQrCode("a".repeat(104) + "é"), RangeError);
 });
