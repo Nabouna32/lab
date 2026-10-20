@@ -9,6 +9,7 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 
 ## État vérifié
 
+- **Produit / outils de développement — conversion JSON ↔ YAML :** le formateur YAML propose aussi les conversions dans les deux sens, avec refus explicite des valeurs YAML non représentables en JSON. Traitement local, limites de taille et tests dédiés. PR en cours ; CI et fusion à confirmer.
 - **Produit / comparateur JSON — import de fichiers locaux :** PR [#912](https://github.com/Nabouna32/lab/pull/912) fusionnée (`bef41fa`). Import séparé de deux fichiers `.json`, limites explicites, lecture uniquement dans le navigateur. CI [#39511782974](https://github.com/Nabouna32/lab/actions/runs/39511782974) verte : lint, TypeScript, tests, build et Playwright.
 - **Accessibilité / contraste du comparateur JSON :** la revue des captures Playwright a révélé que l’exemple éditorial utilisait un fond accent trop saturé pour certains textes. La correction remplace cet encart par une surface neutre et ajoute un test Playwright du ratio de contraste WCAG 4.5:1 sur desktop/mobile et thèmes clair/sombre. [PR #909](https://github.com/Nabouna32/lab/pull/909).
 - **Validation navigateur / observabilité Playwright :** suite Chromium sur le build de production local, accueil FR/EN, recherche, calculateur IPv4 et comparateur JSON, sur desktop/mobile et thèmes clair/sombre. Le run complet [#39504209195](https://github.com/Nabouna32/lab/actions/runs/39504209195) a validé 16/16 cas sur quatre configurations ; les rapports montrent 0 erreur JavaScript, 0 erreur console, 0 requête réellement échouée, 0 réponse HTTP >= 400 et aucun débordement horizontal. L’artefact `playwright-observation-3201` contient 16 rapports et 32 PNG, conservés sept jours.
@@ -82,11 +83,12 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 
 > Mémoire opérationnelle par session de travail, avec les PR représentatives et preuves vérifiables.
 
-1. **Accessibilité / contraste — comparateur JSON** — remplace le fond accent trop saturé de l’exemple éditorial par une surface neutre et vérifie automatiquement un contraste minimal de 4,5:1 sur les quatre configurations Playwright. [PR #909](https://github.com/Nabouna32/lab/pull/909).
-2. **Validation navigateur / observabilité Playwright** — suite Chromium sur le build de production local : accueil FR/EN, recherche accessible, calculateur IPv4 et comparateur JSON, desktop/mobile, clair/sombre. [PR #907](https://github.com/Nabouna32/lab/pull/907), fusionnée dans `0a16fa84e786e77261cba23f3faba41ec7d014ca` ; CI complète réussie sur `c9f0aa70f4f2ab5050024a37d6a229dcf170515d` ([run #39505224913](https://github.com/Nabouna32/lab/actions/runs/39505224913)), 16/16 cas et 32 captures PNG.
-3. **Produit / outil de développement — comparateur JSON structurel** — nouvel outil FR/EN qui compare les valeurs par chemin JSON, ignore l’ordre des clés d’objet, conserve l’ordre des tableaux et traite les entrées localement avec des limites explicites. [PR #908](https://github.com/Nabouna32/lab/pull/908), fusionnée dans `8fc8a68d012d39cb62923aeb360983ec39a3ce74` ; lint, TypeScript, tests et build réussis sur `4a278def856ae59eb89852c8625b84fa1dcbe7c4` ([CI #39502857569](https://github.com/Nabouna32/lab/actions/runs/39502857569)). Le déploiement de cette fonctionnalité est READY.
-4. **UX/UI / cohérence des icônes de recherche** — remplace les glyphes Unicode par `MaterialIcon` dans la SearchBar partagée et ajoute un test de contrat. [PR #903](https://github.com/Nabouna32/lab/pull/903), fusionnée dans `f13c3ae74a4a6dc393ca5a69fe196bbd317ec33d` ; lint, TypeScript, tests et build réussis sur `c4365c73910994bc06ba457cb1309c683e947936` ([CI #39377477658](https://github.com/Nabouna32/lab/actions/runs/39377477658)).
-5. **Confidentialité / analyseur de métadonnées d’image** — avertissement FR/EN si des coordonnées GPS EXIF sont détectées. [PR #901](https://github.com/Nabouna32/lab/pull/901), fusionnée dans `06ef2f5bc285136277f0f33b7ac7c2282775571e` ; CI complète réussie sur `5dc3757a2bc21838cfbcf4d3bfc8738c785756bf` ([run #39376683713](https://github.com/Nabouna32/lab/actions/runs/39376683713)).
+1. **Produit / conversion JSON ↔ YAML** — ajoute les conversions bidirectionnelles au formateur YAML existant, avec validation stricte, garde-fous de ressources et messages FR/EN. PR en cours.
+2. **Produit / comparateur JSON — import de fichiers locaux** — import de deux fichiers JSON sans upload ni stockage. [PR #912](https://github.com/Nabouna32/lab/pull/912), CI complète réussie.
+3. **Accessibilité / contraste — comparateur JSON** — correction du contraste éditorial avec vérification Playwright WCAG 4,5:1. [PR #909](https://github.com/Nabouna32/lab/pull/909).
+4. **Validation navigateur / observabilité Playwright** — build de production local, 16 cas desktop/mobile, FR/EN et clair/sombre. [PR #907](https://github.com/Nabouna32/lab/pull/907).
+5. **Produit / outil de développement — comparateur JSON structurel** — comparaison locale par chemin JSON avec limites explicites. [PR #908](https://github.com/Nabouna32/lab/pull/908).
+
 
 ## Priorités immédiates
 
