@@ -111,8 +111,8 @@ export const toolSeo = {
     en: { title: "JSON Diff Checker | Loculary", description: "Compare two JSON documents structurally and find added, removed, or changed values locally." },
   },
   "yaml-formatter-validator": {
-    fr: { title: "Formateur et validateur YAML | Loculary", description: "Validez et reformatez du YAML directement dans votre navigateur, sans envoyer votre contenu à un serveur." },
-    en: { title: "YAML Formatter & Validator | Loculary", description: "Validate and reformat YAML directly in your browser without sending your content to a server." },
+    fr: { title: "Convertisseur JSON ↔ YAML et formateur YAML | Loculary", description: "Convertissez JSON en YAML ou YAML en JSON et formatez vos fichiers de configuration localement dans le navigateur." },
+    en: { title: "JSON ↔ YAML Converter & YAML Formatter | Loculary", description: "Convert JSON to YAML or YAML to JSON and format configuration files locally in your browser." },
   },
   "unix-timestamp": {
     fr: { title: "Convertisseur de timestamp Unix | Loculary", description: "Convertissez un timestamp Unix en date ou une date en timestamp, en secondes ou millisecondes." },

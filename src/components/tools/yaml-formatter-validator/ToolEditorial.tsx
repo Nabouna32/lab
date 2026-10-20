@@ -40,6 +40,19 @@ export default function ToolEditorial({ locale }: { locale: Locale }) {
           </p>
         </Card>
       </ToolSection>
+
+      <ToolSection title={fr ? "Convertir entre YAML et JSON" : "Convert between YAML and JSON"} collapsible>
+        <p>
+          {fr
+            ? "Choisissez YAML → JSON pour exploiter une configuration dans un outil JSON, ou JSON → YAML pour préparer un fichier de configuration. Les valeurs sont converties localement, sans envoi au serveur."
+            : "Choose YAML → JSON to use configuration data in a JSON tool, or JSON → YAML to prepare a configuration file. Values are converted locally without sending them to a server."}
+        </p>
+        <p>
+          {fr
+            ? "Les commentaires YAML n’existent pas en JSON : ils ne sont pas conservés lors de cette conversion. Les valeurs YAML non représentables en JSON sont refusées plutôt que converties silencieusement."
+            : "YAML comments have no JSON equivalent, so they are not preserved during conversion. YAML values that JSON cannot represent are rejected instead of being silently changed."}
+        </p>
+      </ToolSection>
     </>
   );
 }

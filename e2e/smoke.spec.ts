@@ -264,3 +264,20 @@ test("JSON diff checker reports structural changes", async ({ page }) => {
   expect(await getContrastRatio(exampleCode)).toBeGreaterThanOrEqual(4.5);
   expect(await getContrastRatio(exampleDescription)).toBeGreaterThanOrEqual(4.5);
 });
+
+test("YAML tool converts configuration values to JSON and back", async ({ page }) => {
+  await page.goto("/fr/outils/formateur-validateur-yaml");
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+
+  await page.getByLabel("Action").selectOption("yaml-to-json");
+  await page.getByLabel("Votre YAML").fill("name: Loculary\nactive: true\ntools:\n  - JSON\n  - YAML");
+  await page.getByRole("button", { name: "Convertir", exact: true }).click();
+  await expect(page.locator("pre").last()).toContainText('"name": "Loculary"');
+  await expect(page.locator("pre").last()).toContainText('"active": true');
+
+  await page.getByLabel("Action").selectOption("json-to-yaml");
+  await page.getByLabel("Votre JSON").fill('{"name":"Loculary","active":true}');
+  await page.getByRole("button", { name: "Convertir", exact: true }).click();
+  await expect(page.locator("pre").last()).toContainText("name: Loculary");
+  await expect(page.locator("pre").last()).toContainText("active: true");
+});

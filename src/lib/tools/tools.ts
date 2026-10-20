@@ -88,8 +88,8 @@ const localProcessingDescriptions = {
     en: "Both JSON documents are compared structurally in your browser.",
   },
   "yaml-formatter-validator": {
-    fr: "Le YAML saisi est validé et formaté directement dans votre navigateur.",
-    en: "The YAML you enter is validated and formatted directly in your browser.",
+    fr: "Le YAML est formaté et les documents YAML/JSON sont convertis directement dans votre navigateur.",
+    en: "YAML is formatted and YAML/JSON documents are converted directly in your browser.",
   },
   "url-encoder-decoder": {
     fr: "Le texte saisi est encodé ou décodé directement dans votre navigateur.",
@@ -428,16 +428,16 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "yaml-formatter-validator", icon: "YAML",
-    version: 1,
+    id: "yaml-formatter-validator", icon: "YAML ↔ JSON",
+    version: 2,
     complexity: "advanced",
     categories: ["development"],
-    tags: ["yaml", "yml", "formatter", "validator", "format", "config", "configuration", "developer"],
-    aliases: ["yaml formatter", "yaml validator", "yaml format", "yaml checker", "yml formatter", "yml validator", "yaml", "yml", "formateur yaml", "validateur yaml"],
+    tags: ["yaml", "yml", "json", "converter", "convert", "formatter", "validator", "format", "config", "configuration", "developer"],
+    aliases: ["yaml json converter", "json yaml converter", "yaml to json", "json to yaml", "convert yaml", "convert json to yaml", "yaml formatter", "yaml validator", "yaml format", "yaml checker", "yml formatter", "yml validator", "yaml", "yml", "formateur yaml", "validateur yaml", "convertisseur yaml json"],
     lifecycle: "published", capabilities: ["clipboard"],
     content: {
-      fr: { name: "Formateur et validateur YAML", description: "Validez et reformatez du YAML directement dans votre navigateur, en conservant les commentaires." },
-      en: { name: "YAML Formatter & Validator", description: "Validate and reformat YAML directly in your browser while preserving comments." },
+      fr: { name: "Convertisseur JSON ↔ YAML et formateur YAML", description: "Convertissez du JSON en YAML ou du YAML en JSON, et formatez le YAML en conservant ses commentaires." },
+      en: { name: "JSON ↔ YAML Converter & YAML Formatter", description: "Convert JSON to YAML or YAML to JSON, and format YAML while preserving its comments." },
     },
   },
   {
