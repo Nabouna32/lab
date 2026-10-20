@@ -34,7 +34,7 @@ export default function IpSubnetCalculator() {
     ? resultFields.map((key) => ({
         key,
         label: t[key],
-        value: result[key],
+        value: result[key] ?? t.notApplicable,
       }))
     : [];
 
@@ -88,7 +88,7 @@ export default function IpSubnetCalculator() {
               <CopyButton
                 value={[
                   `${t.networkAddress}: ${result.networkAddress}`,
-                  `${t.broadcastAddress}: ${result.broadcastAddress}`,
+                  `${t.broadcastAddress}: ${result.broadcastAddress ?? t.notApplicable}`,
                   `${t.subnetMask}: ${result.subnetMask}`,
                   `${t.wildcardMask}: ${result.wildcardMask}`,
                   `${t.firstUsableAddress}: ${result.firstUsableAddress}`,
