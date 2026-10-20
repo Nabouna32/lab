@@ -44,8 +44,8 @@ export default function AgeCalculator() {
     <CalculatorShell>
       <CalculatorActions showClear={hasBirthDate || referenceDate !== today} onClear={clearValues} />
       <div className="grid gap-5 sm:grid-cols-2">
-        <CalculatorField label={t.birthDate} inputId="age-birth-date" type="date" value={birthDate} onChange={(event) => setBirthDate(event.target.value)}  aria-invalid={invalidRange} aria-describedby="age-error"/>
-        <CalculatorField label={t.referenceDate} inputId="age-reference-date" type="date" value={referenceDate} onChange={(event) => setReferenceDate(event.target.value)}  aria-invalid={invalidRange} aria-describedby="age-error"/>
+        <CalculatorField label={t.birthDate} inputId="age-birth-date" type="date" value={birthDate} onChange={(event) => setBirthDate(event.target.value)}  aria-invalid={invalidRange} aria-describedby={invalidRange ? "age-error" : undefined}/>
+        <CalculatorField label={t.referenceDate} inputId="age-reference-date" type="date" value={referenceDate} onChange={(event) => setReferenceDate(event.target.value)}  aria-invalid={invalidRange} aria-describedby={invalidRange ? "age-error" : undefined}/>
       </div>
       <div className="mt-6 grid gap-4 sm:grid-cols-3">
         <CalculatorResult label={t.years} tone="accent" value={years} emptyMessage={t.emptyResult} />
