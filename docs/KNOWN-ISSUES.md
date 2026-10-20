@@ -28,7 +28,7 @@ Dernière vérification : 2026-10-19. Ce registre résume les blocages persistan
 ## 3. Validation fonctionnelle du site de production incomplète dans la session distante
 
 - **État :** vérification à réaliser ; pas une preuve d'un défaut du site.
-- **Fait confirmé :** Vercel a signalé le déploiement du commit de production comme `READY`.
+- **Fait confirmé :** Vercel a signalé `READY` pour le déploiement de production du commit `a29a2750ba7e9c7a3dfe718b3c5e59b6f58f343f` ([détails](https://vercel.com/nabouna32/loculary/Dmfm6kNNtPPorjVzoE8PEKKXy7Da)). Après la PR #877, `main` est sur `a20c3ce0d89d9981fe66aff99ddc3bb50a1571fb`, sans déploiement correspondant visible au dernier contrôle ; ne pas assimiler l’état `READY` de l’ancien SHA à la mise en production de ce changement.
 - **Limite :** l'accès HTTP / navigateur direct n'était pas disponible pendant la session ; les parcours, l'affichage et les interactions n'ont donc pas été validés ici.
 - **Solutions écartées :** ne pas assimiler l'état Vercel `READY` à un test fonctionnel et ne pas déclarer des tests navigateur inexistants.
 - **Prochaine action :** lors d'une session disposant d'un accès navigateur adapté, vérifier les parcours de lancement essentiels, les erreurs, le responsive et les thèmes ; consigner les résultats précis.
