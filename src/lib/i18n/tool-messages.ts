@@ -117,6 +117,7 @@ type ToolMessages = {
     input: string; placeholder: string; delimiter: string; csvToJson: string; jsonToCsv: string;
     result: string; ready: string; emptyResult: string; copy: string; clear: string; error: string;
     invalidCsv: string; invalidJson: string; unsupportedJson: string;
+    importFile: string; importFileHint: string; unsupportedFile: string; fileTooLarge: string; fileReadFailed: string;
   };
   uuidGenerator: {
     count: string; countPlaceholder: string; generate: string; copy: string; copied: string; download: string; clear: string; result: string;
@@ -404,6 +405,8 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       input: "Données", placeholder: "Collez un CSV ou un tableau JSON d’objets…", delimiter: "Séparateur CSV", csvToJson: "CSV → JSON", jsonToCsv: "JSON → CSV",
       result: "Résultat", ready: "Conversion mise à jour", emptyResult: "Le résultat apparaîtra ici.", copy: "Copier", clear: "Effacer", error: "La conversion n’a pas pu être effectuée.",
       invalidCsv: "Le CSV est invalide ou mal formé.", invalidJson: "Le JSON est invalide.", unsupportedJson: "Utilisez un tableau JSON composé d’objets.",
+      importFile: "Importer un fichier", importFileHint: "Fichier CSV ou JSON, jusqu’à 200 ko. Le contenu est lu localement dans votre navigateur.",
+      unsupportedFile: "Choisissez un fichier .csv ou .json.", fileTooLarge: "Le fichier dépasse la limite de 200 ko.", fileReadFailed: "Impossible de lire ce fichier dans votre navigateur.",
     },
     textDiffChecker: {
       original: "Version originale", originalPlaceholder: "Collez le texte original…", updated: "Version modifiée", updatedPlaceholder: "Collez le texte modifié…",
@@ -687,6 +690,8 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       input: "Data", placeholder: "Paste CSV or a JSON array of objects…", delimiter: "CSV delimiter", csvToJson: "CSV → JSON", jsonToCsv: "JSON → CSV",
       result: "Result", ready: "Conversion updated", emptyResult: "The result will appear here.", copy: "Copy", clear: "Clear", error: "The conversion could not be completed.",
       invalidCsv: "The CSV is invalid or malformed.", invalidJson: "The JSON is invalid.", unsupportedJson: "Use a JSON array containing objects.",
+      importFile: "Import a file", importFileHint: "CSV or JSON file, up to 200 kB. The content is read locally in your browser.",
+      unsupportedFile: "Choose a .csv or .json file.", fileTooLarge: "The file exceeds the 200 kB limit.", fileReadFailed: "This file could not be read in your browser.",
     },
     cronExpression: {
       input: "Cron expression", placeholder: "e.g. 0 9 * * 1-5", result: "Analysis", valid: "Valid expression",
