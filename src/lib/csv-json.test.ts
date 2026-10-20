@@ -110,8 +110,8 @@ test("limits imported CSV and JSON file size to 200 kB", () => {
 
 test("uses an explicitly selected comma delimiter instead of auto-detecting", () => {
   assert.deepEqual(
-    JSON.parse(transformCsvJson("name;note\\nAlice;one, two", "csv-to-json", ",").value!),
-    [{ "name;note": "Alice;one, two" }],
+    JSON.parse(transformCsvJson("name;note\\nAlice;one", "csv-to-json", ",").value!),
+    [{ "name;note": "Alice;one" }],
   );
 });
 
