@@ -30,7 +30,10 @@ export default function RecentTools({ locale, tools }: { locale: Locale; tools: 
   }, [validIds]);
 
   useEffect(() => {
-    sync();
+    let mounted = true;
+    queueMicrotask(() => {
+      if (mounted) sync();
+    });
     const onRecentChange = (event: Event) => sync(event);
     const onStorage = (event: StorageEvent) => {
       if (event.key === RECENT_TOOLS_STORAGE_KEY || event.key === null) sync();
@@ -38,6 +41,7 @@ export default function RecentTools({ locale, tools }: { locale: Locale; tools: 
     window.addEventListener(RECENT_TOOLS_EVENT, onRecentChange);
     window.addEventListener("storage", onStorage);
     return () => {
+      mounted = false;
       window.removeEventListener(RECENT_TOOLS_EVENT, onRecentChange);
       window.removeEventListener("storage", onStorage);
     };
