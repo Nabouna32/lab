@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/Button";
 import { IconButton } from "@/components/ui/IconButton";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import { getSearchResultsPath, getToolPath } from "@/lib/tools/routes";
-import { calculateSearchOverlayPosition } from "@/lib/tools/search-overlay-position";
+import { calculateSearchOverlayPosition, type SearchOverlayPosition } from "@/lib/tools/search-overlay-position";
 
 type ToolSearchResult = {
   tool: Tool;
