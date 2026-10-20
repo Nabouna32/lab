@@ -34,16 +34,9 @@ export default function ImageCompressor() {
   const [archiveBusy, setArchiveBusy] = useState(false);
 
   useEffect(() => {
-    if (files.length === 0) {
-      setResults([]);
-      setBusy(false);
-      return;
-    }
+    if (files.length === 0) return;
     let cancelled = false;
     const urls: string[] = [];
-    setResults([]);
-    setBusy(true);
-
     async function processBatch() {
       const completed: ImageResult[] = [];
       for (const file of files) {
@@ -74,17 +67,23 @@ export default function ImageCompressor() {
     const selected = Array.from(selection);
     if (selected.length > MAX_FILES) {
       setFiles([]);
+      setResults([]);
+      setBusy(false);
       setError(t.tooMany);
       return;
     }
     if (selected.some((file) => file.size > MAX_FILE_BYTES) ||
         selected.reduce((total, file) => total + file.size, 0) > MAX_BATCH_BYTES) {
       setFiles([]);
+      setResults([]);
+      setBusy(false);
       setError(t.tooLarge);
       return;
     }
     const valid = selected.filter((file) => file.type.startsWith("image/"));
     setError(valid.length === selected.length ? null : t.invalidType);
+    setResults([]);
+    setBusy(valid.length > 0);
     setFiles(valid);
   }
 
@@ -137,13 +136,13 @@ export default function ImageCompressor() {
           {files.length > 0 && <p className="text-sm text-[var(--muted)]">{t.selectedCount(files.length)} · {formatBytes(files.reduce((sum, file) => sum + file.size, 0))}</p>}
 
           <div className="grid gap-4 sm:grid-cols-3">
-            <Select id="image-compressor-format" label={t.format} value={format} onChange={(event) => { setError(null); setFormat(event.target.value as ImageOutputFormat); }}>
+            <Select id="image-compressor-format" label={t.format} value={format} onChange={(event) => { setError(null); setResults([]); setBusy(files.length > 0); setFormat(event.target.value as ImageOutputFormat); }}>
               <option value="webp">WebP</option><option value="jpeg">JPEG</option><option value="png">PNG</option>
             </Select>
-            <Select id="image-compressor-dimension" label={t.maxDimension} value={maxDimension ?? "original"} onChange={(event) => { setError(null); setMaxDimension(event.target.value === "original" ? null : Number(event.target.value)); }}>
+            <Select id="image-compressor-dimension" label={t.maxDimension} value={maxDimension ?? "original"} onChange={(event) => { setError(null); setResults([]); setBusy(files.length > 0); setMaxDimension(event.target.value === "original" ? null : Number(event.target.value)); }}>
               <option value="1200">1200 px</option><option value="2400">2400 px</option><option value="3200">3200 px</option><option value="original">{t.original}</option>
             </Select>
-            <Slider inputId="image-compressor-quality" label={t.quality} value={Math.round(quality * 100)} valueLabel={Math.round(quality * 100) + "%"} min={10} max={100} step={5} description={t.qualityHint} onValueChange={(nextValue) => { setError(null); setQuality(nextValue / 100); }} />
+            <Slider inputId="image-compressor-quality" label={t.quality} value={Math.round(quality * 100)} valueLabel={Math.round(quality * 100) + "%"} min={10} max={100} step={5} description={t.qualityHint} onValueChange={(nextValue) => { setError(null); setResults([]); setBusy(files.length > 0); setQuality(nextValue / 100); }} />
           </div>
 
           {busy && <ProgressIndicator label={t.processing} className="mt-1" />}
