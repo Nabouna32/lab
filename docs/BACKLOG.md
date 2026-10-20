@@ -18,7 +18,7 @@ Les preuves et priorités de reprise sont dans [PROJECT-STATE.md](PROJECT-STATE.
 
 ## Dernière livraison UX — raccourcis d’intention sur l’accueil
 
-La [PR #844](https://github.com/Nabouna32/lab/pull/844) expose cinq intentions localisées depuis l’accueil et réutilise les filtres du catalogue existants. CI complète réussie sur le SHA exact `d8a10f97c8812aff680fed8ffc9967ffe291d9c3` ([run #39352009964](https://github.com/Nabouna32/lab/actions/runs/39352009964)). Le déploiement de ce commit était `BUILDING` au dernier contrôle ; aucun test navigateur n’a été exécuté.
+La [PR #844](https://github.com/Nabouna32/lab/pull/844) expose cinq intentions localisées depuis l’accueil et réutilise les filtres du catalogue existants. CI complète réussie sur le SHA exact `d8a10f97c8812aff680fed8ffc9967ffe291d9c3` ([run #39352009964](https://github.com/Nabouna32/lab/actions/runs/39352009964)). Le déploiement de ce commit est maintenant `READY` ([détails](https://vercel.com/nabouna32/loculary/DuvzG77m2uDUTByNCUBt1FptCmM8)) ; aucun test navigateur n’a été exécuté.
 
 ## Livraison UX précédente — récupération après recherche sans résultat
 
