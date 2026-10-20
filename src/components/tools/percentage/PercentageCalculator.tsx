@@ -5,7 +5,7 @@ import { CalculatorField } from "@/components/tools/calculator/CalculatorField";
 import { calculateDifference, calculateEvolution, calculatePercentage } from "@/lib/percentage";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
-import { formatToolNumber } from "@/lib/numbers";
+import { formatToolNumber, parseLocalizedNumber } from "@/lib/numbers";
 import { SegmentedControl } from "@/components/ui/SegmentedControl";
 import { Select } from "@/components/ui/Select";
 import { ClearButton } from "@/components/ui/ClearButton";
@@ -21,8 +21,8 @@ export default function PercentageCalculator() {
   const [firstValue, setFirstValue] = useState("");
   const [secondValue, setSecondValue] = useState("");
 
-  const first = Number(firstValue);
-  const second = Number(secondValue);
+  const first = parseLocalizedNumber(firstValue, locale) ?? Number.NaN;
+  const second = parseLocalizedNumber(secondValue, locale) ?? Number.NaN;
   const hasValues = firstValue.trim() !== "" && secondValue.trim() !== "";
   const hasNumericValues = Number.isFinite(first) && Number.isFinite(second);
 
@@ -191,19 +191,25 @@ export default function PercentageCalculator() {
             <CalculatorField
               label={firstLabel}
               inputId="first-value"
+              type="text"
+              inputMode="decimal"
               value={firstValue}
               onChange={(event) => setFirstValue(event.target.value)}
               placeholder={firstPlaceholder}
               aria-describedby={"percentage-input-help" + (error ? " percentage-input-error" : "")}
-             aria-invalid={error !== null}/>
+              aria-invalid={error !== null}
+            />
             <CalculatorField
               label={secondLabel}
               inputId="second-value"
+              type="text"
+              inputMode="decimal"
               value={secondValue}
               onChange={(event) => setSecondValue(event.target.value)}
               placeholder={secondPlaceholder}
               aria-describedby={"percentage-input-help" + (error ? " percentage-input-error" : "")}
-             aria-invalid={error !== null}/>
+              aria-invalid={error !== null}
+            />
           </div>
 
           <p id="percentage-input-help" className="mt-3 text-xs leading-5 text-[var(--muted)]">
