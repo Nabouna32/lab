@@ -14,7 +14,7 @@ export default defineConfig({
   outputDir: "../test-results/playwright-output",
   reporter: [
     ["list"],
-    ["json", { outputFile: "../test-results/report.json" }],
+    ["json", { outputFile: "test-results/report.json" }],
   ],
   use: {
     baseURL,
