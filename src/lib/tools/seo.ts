@@ -179,7 +179,7 @@ export const toolSeo = {
     en: { title: "Image Metadata Viewer | Loculary", description: "Inspect image metadata and remove EXIF data directly in your browser." },
   },
   "image-compressor": {
-    fr: { title: "Compresseur d’image | Loculary", description: "Réduisez le poids de vos images directement dans votre navigateur, sans envoyer vos fichiers à un serveur." },
-    en: { title: "Image Compressor | Loculary", description: "Reduce image file sizes directly in your browser without uploading your files to a server." },
+    fr: { title: "Compresseur d’images par lot | Loculary", description: "Optimisez jusqu’à 10 images en une fois, comparez le gain de poids et téléchargez un ZIP, directement dans votre navigateur." },
+    en: { title: "Batch Image Compressor | Loculary", description: "Optimize up to 10 images at once, compare size savings, and download a ZIP directly in your browser." },
   },
 } satisfies Record<ToolId, Record<Locale, ToolSeoMetadata>>;
