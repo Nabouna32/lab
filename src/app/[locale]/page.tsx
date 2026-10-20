@@ -29,6 +29,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const t = getMessages(locale);
+  const recentTools = getPublishedTools().map((tool) => ({ id: tool.id, icon: tool.icon, name: getToolContent(tool, locale).name }));
 
   return (
     <main className="min-h-full">
@@ -82,7 +83,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         </div>
       </section>
 
-      <RecentTools locale={locale} tools={recentTools} />\n      <HomeDiscovery locale={locale} />
+      <RecentTools locale={locale} tools={recentTools} />
+      <HomeDiscovery locale={locale} />
     </main>
   );
 }
