@@ -45,3 +45,32 @@ export function parseUrl(input: string): UrlParseResult {
     return { value: null, error: "invalid-url" };
   }
 }
+
+const sensitiveParameterNames = new Set([
+  "auth",
+  "authorization",
+  "code_verifier",
+  "password",
+  "passwd",
+  "secret",
+  "session",
+  "session_id",
+  "sessionid",
+  "signature",
+  "sig",
+]);
+
+export function hasSensitiveUrlData(input: {
+  username: string;
+  hasPassword: boolean;
+  queryParameters: readonly { key: string; value: string }[];
+}): boolean {
+  if (input.username || input.hasPassword) return true;
+
+  return input.queryParameters.some(({ key }) => {
+    const normalized = key.trim().toLowerCase().replace(/[\s-]+/g, "_");
+    return sensitiveParameterNames.has(normalized) ||
+      /(?:^|_)(?:access|refresh|id)?_?token$/.test(normalized) ||
+      /(?:^|_)(?:api_?key|client_secret|password|passwd|secret|signature|session_?id)$/.test(normalized);
+  });
+}
