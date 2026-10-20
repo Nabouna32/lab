@@ -49,8 +49,8 @@ export default function VideoBitrateCalculator() {
   const hasValueInput = valueInput.hasInput;
 
   if (hasDurationInput && (durationInput.invalid || duration === null)) error = t.invalidDuration;
-  if (mode === "bitrate" && hasValueInput && (valueInput.invalid || (value !== null && value < 0))) error = t.invalidSize;
-  if (mode === "size" && hasValueInput && (valueInput.invalid || (value !== null && value < 0))) error = t.invalidBitrate;
+  if (!error && mode === "bitrate" && hasValueInput && (valueInput.invalid || (value !== null && value < 0))) error = t.invalidSize;
+  if (!error && mode === "size" && hasValueInput && (valueInput.invalid || (value !== null && value < 0))) error = t.invalidBitrate;
 
   if (!error && duration !== null && value !== null) {
     result = mode === "bitrate"
