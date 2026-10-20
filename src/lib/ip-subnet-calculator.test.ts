@@ -25,12 +25,14 @@ describe("calculateIpv4Subnet", () => {
     assert.equal(pointToPoint?.usableHosts, 2);
     assert.equal(pointToPoint?.firstUsableAddress, "10.0.0.8");
     assert.equal(pointToPoint?.lastUsableAddress, "10.0.0.9");
+    assert.equal(pointToPoint?.broadcastAddress, null);
 
     const singleHost = calculateIpv4Subnet("10.0.0.9/32");
     assert.equal(singleHost?.totalAddresses, 1);
     assert.equal(singleHost?.usableHosts, 1);
     assert.equal(singleHost?.firstUsableAddress, "10.0.0.9");
     assert.equal(singleHost?.lastUsableAddress, "10.0.0.9");
+    assert.equal(singleHost?.broadcastAddress, null);
   });
 
   it("handles the /0 boundary", () => {
