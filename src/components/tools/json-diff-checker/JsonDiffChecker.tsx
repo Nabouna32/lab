@@ -16,10 +16,10 @@ function formatValue(value: unknown): string {
 function createReport(result: JsonDiffResult, t: DiffMessages): string {
   return result.changes.map((change) => {
     const kind = change.kind === "added" ? t.added : change.kind === "removed" ? t.removed : t.changed;
-    const before = change.before === undefined ? "" : "\\n  " + t.before + ": " + JSON.stringify(change.before);
-    const after = change.after === undefined ? "" : "\\n  " + t.after + ": " + JSON.stringify(change.after);
+    const before = change.before === undefined ? "" : "\n  " + t.before + ": " + JSON.stringify(change.before);
+    const after = change.after === undefined ? "" : "\n  " + t.after + ": " + JSON.stringify(change.after);
     return "[" + kind + "] " + change.path + before + after;
-  }).join("\\n");
+  }).join("\n");
 }
 
 function ChangeValue({ label, value }: { label: string; value: unknown }) {
