@@ -8,7 +8,7 @@ import { TextArea } from "@/components/ui/TextArea";
 import { Select } from "@/components/ui/Select";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { useLocale } from "@/lib/i18n/use-locale";
-import { CSV_JSON_MAX_FILE_BYTES, getCsvJsonOperationForFile, transformCsvJson, type CsvDelimiterSelection, type CsvJsonOperation } from "@/lib/csv-json";
+import { CSV_JSON_MAX_FILE_BYTES, getCsvJsonDownloadDetails, getCsvJsonOperationForFile, transformCsvJson, type CsvDelimiterSelection, type CsvJsonOperation } from "@/lib/csv-json";
 
 const delimiters: { value: CsvDelimiterSelection; label: string }[] = [
   { value: "auto", label: "" },
@@ -69,6 +69,19 @@ export default function CsvJsonConverter() {
     setOperation(nextOperation);
     setResult(next.value ?? "");
     setError(next.error);
+  }
+
+  function download() {
+    if (!result) return;
+    const { fileName, mimeType } = getCsvJsonDownloadDetails(operation);
+    const url = URL.createObjectURL(new Blob([result], { type: mimeType }));
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = fileName;
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
 
   function clear() {
@@ -140,7 +153,7 @@ export default function CsvJsonConverter() {
               <p className="text-sm font-semibold text-[var(--muted)]">{t.result}</p>
               <p className="mt-1 text-sm text-[var(--muted)]" aria-live="polite">{error ? t.error : result ? t.ready : t.emptyResult}</p>
             </div>
-            {result && <CopyButton value={result} label={t.copy} />}
+            {result && <div className="flex flex-wrap gap-2"><CopyButton value={result} label={t.copy} /><Button onClick={download} variant="secondary">{t.download}</Button></div>}
           </div>
           <pre aria-live="polite" className="mt-4 min-h-[18rem] flex-1 overflow-auto whitespace-pre-wrap break-words border-y border-[var(--border)] py-4 font-mono text-sm leading-6 text-[var(--foreground)]">{result || " "}</pre>
         </div>

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { CSV_JSON_MAX_FILE_BYTES, getCsvJsonOperationForFile, transformCsvJson } from "./csv-json.ts";
+import { CSV_JSON_MAX_FILE_BYTES, getCsvJsonDownloadDetails, getCsvJsonOperationForFile, transformCsvJson } from "./csv-json.ts";
 
 test("converts CSV with quoted commas and escaped quotes to JSON", () => {
   assert.deepEqual(JSON.parse(transformCsvJson('name,note\nAlice,"Hello, ""world"""',"csv-to-json").value!), [
@@ -158,4 +158,15 @@ test("preserves explicitly quoted empty single-column records", () => {
 
 test("rejects CSV headers that contain only empty cells", () => {
   assert.equal(transformCsvJson(",,", "csv-to-json").error, "invalid-csv");
+});
+
+test("provides the matching local download name and MIME type for each conversion direction", () => {
+  assert.deepEqual(getCsvJsonDownloadDetails("csv-to-json"), {
+    fileName: "loculary-conversion.json",
+    mimeType: "application/json;charset=utf-8",
+  });
+  assert.deepEqual(getCsvJsonDownloadDetails("json-to-csv"), {
+    fileName: "loculary-conversion.csv",
+    mimeType: "text/csv;charset=utf-8",
+  });
 });

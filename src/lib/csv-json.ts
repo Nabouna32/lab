@@ -1,4 +1,10 @@
 export type CsvJsonOperation = "csv-to-json" | "json-to-csv";
+
+export function getCsvJsonDownloadDetails(operation: CsvJsonOperation): { fileName: string; mimeType: string } {
+  return operation === "csv-to-json"
+    ? { fileName: "loculary-conversion.json", mimeType: "application/json;charset=utf-8" }
+    : { fileName: "loculary-conversion.csv", mimeType: "text/csv;charset=utf-8" };
+}
 export const CSV_JSON_MAX_FILE_BYTES = 200_000;
 
 export function getCsvJsonOperationForFile(fileName: string): CsvJsonOperation | null {
