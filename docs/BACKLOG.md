@@ -2,7 +2,8 @@
 
 Dernière révision : 2026-10-20. File de travail unique.
 
-## Dernière livraison — transparence du traitement local
+- **Justesse / convertisseur CSV → JSON :** conserve maintenant les enregistrements avec séparateurs explicites même lorsque toutes les cellules sont vides (ex. `,,`), au lieu de supprimer silencieusement une ligne de données ; les lignes physiquement vides restent ignorées. Deux tests de régression. [PR #889](https://github.com/Nabouna32/lab/pull/889), fusionnée dans `5fc7343c6df15201b36f160cf00d2ac03b31d444`. Lint, TypeScript, tests et build réussis sur la tête exacte `aaa89477d03432d94c6182a8d36cfdbf60c74ab0` ([CI #39372484872](https://github.com/Nabouna32/lab/actions/runs/39372484872)). Aucun test navigateur exécuté.
+## Dernière livraison — préservation des enregistrements CSV vides
 
 - Le détail affiché sur les pages d’outils locaux décrit désormais explicitement les **données saisies et résultats de l’outil courant**, et non toutes les données produit que Loculary peut conserver séparément. Le libellé FR/EN n’affirme plus que Loculary ne stocke aucune donnée en général ; test de régression ajouté. [PR #887](https://github.com/Nabouna32/lab/pull/887), fusionnée dans `8e0b69544155c1d665ff11cf1a5f9cecaa31a73a` ; lint, TypeScript, tests et build réussis sur `799a0a5b4e090d08100235997a567bb94c29c655` ([CI #39371882214](https://github.com/Nabouna32/lab/actions/runs/39371882214)). Aucun test navigateur exécuté.
 
