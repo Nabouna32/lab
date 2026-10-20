@@ -13,13 +13,13 @@ function formatValue(value: unknown): string {
   return JSON.stringify(value, null, 2) ?? "undefined";
 }
 
-function createReport(result: JsonDiffResult): string {
-  if (result.identical) return "No structural differences found.";
+function createReport(result: JsonDiffResult, t: DiffMessages): string {
   return result.changes.map((change) => {
-    const before = change.before === undefined ? "" : "\n  before: " + JSON.stringify(change.before);
-    const after = change.after === undefined ? "" : "\n  after: " + JSON.stringify(change.after);
-    return "[" + change.kind.toUpperCase() + "] " + change.path + before + after;
-  }).join("\n");
+    const kind = change.kind === "added" ? t.added : change.kind === "removed" ? t.removed : t.changed;
+    const before = change.before === undefined ? "" : "\\n  " + t.before + ": " + JSON.stringify(change.before);
+    const after = change.after === undefined ? "" : "\\n  " + t.after + ": " + JSON.stringify(change.after);
+    return "[" + kind + "] " + change.path + before + after;
+  }).join("\\n");
 }
 
 function ChangeValue({ label, value }: { label: string; value: unknown }) {
@@ -93,7 +93,7 @@ export default function JsonDiffChecker() {
     : result
       ? result.identical ? t.identical : t.changesCount(result.changes.length)
       : t.emptyResult;
-  const report = result ? createReport(result) : "";
+  const report = result ? createReport(result, t) : "";
 
   return (
     <section className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]">
@@ -132,7 +132,7 @@ export default function JsonDiffChecker() {
         <div className="min-w-0 bg-[var(--background)] p-5 sm:p-7 lg:p-8">
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div>
-              <h2 className="text-base font-semibold text-[var(--foreground)]">{t.path}</h2>
+              <h2 className="text-base font-semibold text-[var(--foreground)]">{t.results}</h2>
               <p className="mt-1 text-sm text-[var(--muted)]" aria-live="polite">{status}</p>
             </div>
             {result && !result.identical && <CopyButton value={report} label={t.copyReport} />}
