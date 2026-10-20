@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { parseUrl } from "./url-parser.ts";
+import { hasSensitiveUrlData, parseUrl } from "./url-parser.ts";
 
 describe("parseUrl", () => {
   it("parses an absolute URL and exposes its main components", () => {
@@ -54,5 +54,33 @@ describe("parseUrl", () => {
 
     assert.equal(result.error, null);
     assert.equal(result.value?.href, "https://example.com/path");
+  });
+});
+
+describe("hasSensitiveUrlData", () => {
+  it("warns for embedded username or password credentials", () => {
+    assert.equal(hasSensitiveUrlData({ username: "user", hasPassword: false, queryParameters: [] }), true);
+    assert.equal(hasSensitiveUrlData({ username: "", hasPassword: true, queryParameters: [] }), true);
+  });
+
+  it("detects common secret-bearing query parameter names", () => {
+    for (const key of ["access_token", "refresh-token", "id_token", "api_key", "api-key", "client_secret", "password", "sessionId", "signature", "code_verifier"]) {
+      assert.equal(
+        hasSensitiveUrlData({ username: "", hasPassword: false, queryParameters: [{ key, value: "example" }] }),
+        true,
+        `expected ${key} to be considered sensitive`,
+      );
+    }
+  });
+
+  it("does not warn for ordinary query parameters", () => {
+    assert.equal(
+      hasSensitiveUrlData({
+        username: "",
+        hasPassword: false,
+        queryParameters: [{ key: "lang", value: "fr" }, { key: "page", value: "2" }, { key: "monkey", value: "banana" }],
+      }),
+      false,
+    );
   });
 });
