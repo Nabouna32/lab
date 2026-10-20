@@ -1,5 +1,5 @@
 import { mkdir, writeFile } from "node:fs/promises";
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Locator, type Page } from "@playwright/test";
 
 type BrowserIssues = {
   consoleErrors: string[];
@@ -10,6 +10,28 @@ type BrowserIssues = {
 };
 
 const browserIssues = new WeakMap<Page, BrowserIssues>();
+
+async function getContrastRatio(locator: Locator): Promise<number> {
+  return locator.evaluate((element) => {
+    function relativeLuminance(color: string): number {
+      const channels = color.match(/[\d.]+/g)?.slice(0, 3).map(Number);
+      if (!channels || channels.length !== 3) {
+        throw new Error("Could not parse computed RGB color: " + color);
+      }
+      const linear = channels.map((channel) => {
+        const value = channel / 255;
+        return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+      });
+      return 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2];
+    }
+
+    const backgroundElement = element.parentElement;
+    if (!backgroundElement) throw new Error("Contrast sample has no background element.");
+    const foreground = relativeLuminance(getComputedStyle(element).color);
+    const background = relativeLuminance(getComputedStyle(backgroundElement).backgroundColor);
+    return (Math.max(foreground, background) + 0.05) / (Math.min(foreground, background) + 0.05);
+  });
+}
 
 test.beforeEach(async ({ page }) => {
   const issues: BrowserIssues = {
@@ -231,4 +253,11 @@ test("JSON diff checker reports structural changes", async ({ page }) => {
   await expect(page.getByText('$["name"]', { exact: true })).toBeVisible();
   await expect(page.getByText('$["active"]', { exact: true })).toBeVisible();
   await expect(page.getByText("2 différences", { exact: true })).toBeVisible();
+
+  const exampleCode = page.getByText('{"status":"draft"} → {"status":"published"}', { exact: true });
+  const exampleDescription = page.getByText('Le résultat identifie le changement à $["status"].', { exact: true });
+  await expect(exampleCode).toBeVisible();
+  await expect(exampleDescription).toBeVisible();
+  expect(await getContrastRatio(exampleCode)).toBeGreaterThanOrEqual(4.5);
+  expect(await getContrastRatio(exampleDescription)).toBeGreaterThanOrEqual(4.5);
 });
