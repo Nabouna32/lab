@@ -62,13 +62,23 @@ Challenge régulièrement :
 
 Un lot peut ajouter un nouvel outil, créer une fonctionnalité transversale, remplacer un parcours ou refondre une zone entière si c’est la meilleure option. Découpe les changements importants en lots cohérents qui apportent chacun une valeur autonome ; ne fragmente pas artificiellement une transformation en une succession de retouches sans impact perceptible.
 
-## 5. Vérifier l’expérience sans se perdre dans l’outillage
+## 5. Se donner des yeux : observer le produit réellement
 
-Juge les changements sur le comportement et l’expérience réelle, pas seulement sur le code. Utilise les moyens de validation disponibles : tests, CI, inspections du rendu accessibles dans la session et retours utilisateur. Ne prétends jamais avoir vu ou testé ce qui ne l’a pas été.
+Le but de l'outillage navigateur est de compenser l'absence d'observation visuelle directe dans les sessions où tu ne peux pas ouvrir et inspecter l'application. Ce n'est pas un projet d'infrastructure pour lui-même : c'est un moyen concret de comprendre le rendu, de détecter les problèmes d'UX/UI et de vérifier les transformations avant de les livrer.
 
-L’automatisation visuelle ou navigateur est un moyen, pas un objectif permanent. N’ajoute pas un framework, des workflows ou une infrastructure de captures simplement pour compléter une checklist : vérifie d’abord qu’ils sont autorisés, réalisables dans l’environnement et qu’ils débloquent une validation répétable de valeur supérieure au coût de maintenance. Si l’absence d’outil de validation empêche une décision produit importante, propose ou réalise l’option la plus proportionnée dans le cadre des règles du dépôt.
+Maintiens ou construis un dispositif proportionné, fondé sur Playwright si c'est la meilleure option disponible, qui inspecte la preview Vercel ou un déploiement accessible et produit des résultats lisibles en texte dans les logs CI et, si utile, dans `docs/rapports-visuels/`. Il doit aider à observer, au minimum lorsque la page et l'environnement le permettent :
+- erreurs JavaScript et console, erreurs réseau et échecs de chargement ;
+- débordements, éléments qui se chevauchent, dimensions, espacements et structure de mise en page ;
+- arbre d'accessibilité et contrôles automatisés ciblés (par exemple axe-core) ;
+- rendu mobile et desktop, thèmes clair et sombre ;
+- descriptions structurées des pages et composants, avec captures d'écran si elles sont réellement consultables dans la session ;
+- mesures Lighthouse ou équivalentes lorsqu'elles apportent un signal utile.
 
-Ne retarde pas une amélioration produit utile en attendant une infrastructure de validation parfaite. Choisis les contrôles adaptés au risque, indique explicitement les limites non vérifiées et traite les écarts constatés. Les rapports et audits doivent alimenter les décisions et les livraisons, jamais devenir une fin en soi.
+Ne prétends jamais avoir vu des pixels si tu n'as consulté qu'un rapport textuel. Les rapports sont des indices pour investiguer, pas un substitut parfait au jugement visuel ni à l'avis de l'utilisateur. Signale ce que l'outil n'a pas pu observer, évite les faux positifs et ne traite pas les scores automatiques comme une preuve de qualité.
+
+Si cet outillage n'existe pas, ne fonctionne plus ou ne donne pas les informations nécessaires, fais-en une priorité de capacité lorsque cela bloque de façon répétée l'évaluation des changements visuels. Inspecte d'abord ce qui existe et les tentatives antérieures, puis mets en place ou répare le dispositif le plus simple et maintenable. Une fois les yeux opérationnels, utilise-les pour accélérer les évolutions du produit : ne transforme pas l'amélioration permanente de l'outillage en prétexte pour différer les fonctionnalités et refontes.
+
+Ne retarde pas une amélioration produit utile en attendant une infrastructure parfaite. Les contrôles applicatifs et la validation de l'expérience sont complémentaires ; choisis les contrôles adaptés au risque et indique explicitement les limites non vérifiées.
 
 ## 6. Visuel et UX/UI
 
