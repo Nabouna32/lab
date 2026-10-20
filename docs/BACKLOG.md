@@ -12,7 +12,7 @@ Les preuves et priorités de reprise sont dans [PROJECT-STATE.md](PROJECT-STATE.
 
 ## Dernière livraison UX — récupération après recherche sans résultat
 
-La [PR #833](https://github.com/Nabouna32/lab/pull/833) ajoute quatre cartes d’outils directement accessibles à l’état vide, en complément des requêtes d’exemple et du lien vers le catalogue. Le lot réutilise les raccourcis localisés existants et les cartes partagées. CI à confirmer sur le SHA final ; aucun test navigateur n’est revendiqué.
+La [PR #833](https://github.com/Nabouna32/lab/pull/833) ajoute quatre cartes d’outils directement accessibles à l’état vide, en complément des requêtes d’exemple et du lien vers le catalogue. Le lot réutilise les raccourcis localisés existants et les cartes partagées. lint, typecheck, tests et build réussis sur le SHA exact `475a3086976d5ddf6ca6206528c7b78c8b9b3733` ([CI #39346650591](https://github.com/Nabouna32/lab/actions/runs/39346650591)). Déploiement de production Vercel `READY` sur le commit de fusion `10f49f53b0e2cf9b940cb39669cc2ef9e34e382c` ([détails](https://vercel.com/nabouna32/loculary/ASwr4pP2jg2PqAea5nfuh84YH5LF)). Aucun test navigateur exécuté.
 
 ## P1 — Audit de justesse et confidentialité des outils (priorité active)
 
