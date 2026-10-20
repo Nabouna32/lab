@@ -2,13 +2,14 @@
 
 Dernière révision : 2026-10-20. File de travail unique.
 
+- **Justesse / planificateur Cron :** la recherche des prochaines occurrences couvre maintenant huit ans pour retrouver les expressions de 29 février, y compris le cas 2100 non bissextile ; les dates impossibles sont sautées sans balayage minute par minute. [PR #897](https://github.com/Nabouna32/lab/pull/897), fusionnée dans `5d0cb40a0e9284ec3520a697caea4cdd00e3bdc1`. Lint, TypeScript, tests et build réussis sur la tête exacte `2bc1e474bf80104d1340772a0ad32bc8b3f9d333` ([CI #39375251675](https://github.com/Nabouna32/lab/actions/runs/39375251675)). Aucun test navigateur exécuté ; aucun déploiement Vercel correspondant n’était visible au contrôle post-fusion.
 - **Justesse / convertisseur de taille de fichier :** évite un débordement intermédiaire quand une valeur finie très grande est convertie entre unités, alors que le résultat final reste représentable. Le test distingue ce cas du débordement réel. [PR #895](https://github.com/Nabouna32/lab/pull/895), fusionnée dans `ed588ac6f43bcf569ad11bff79f3139b99818971`. Lint, TypeScript, tests et build réussis sur la tête exacte `81065c31d80436fad858b9d52b083ac8c9faa867` ([CI #39374536893](https://github.com/Nabouna32/lab/actions/runs/39374536893)). Aucun test navigateur exécuté.
 - **Fonctionnalité / convertisseur CSV ↔ JSON :** ajout du téléchargement local du résultat avec extension et type MIME adaptés au sens de conversion, libellés FR/EN et test unitaire des deux formats. [PR #893](https://github.com/Nabouna32/lab/pull/893), fusionnée dans `9c8ebaeafc70b3baed737095e956dff179cd9a74`. Lint, TypeScript, tests et build réussis sur la tête exacte `521584349fd4306399564a57c552224958994d2f` ([CI #39373833101](https://github.com/Nabouna32/lab/actions/runs/39373833101)). Téléchargement exécuté côté navigateur avec Blob/Object URL ; aucun test navigateur manuel effectué.
 - **Justesse / convertisseur CSV → JSON :** ignore les lignes physiquement vides avant les en-têtes, préserve les enregistrements explicitement encodés avec une cellule vide citée (`""`) et rejette les en-têtes entièrement vides. Trois tests de régression. [PR #891](https://github.com/Nabouna32/lab/pull/891), fusionnée dans `468d03ae4fb139098850d6afe521264a5e9ace0a`. Lint, TypeScript, tests et build réussis sur la tête exacte `4377855f20687609c92d984bbbee8429dbde9c38` ([CI #39373102959](https://github.com/Nabouna32/lab/actions/runs/39373102959)). Aucun test navigateur exécuté.
 - **Justesse / convertisseur CSV → JSON :** conserve maintenant les enregistrements avec séparateurs explicites même lorsque toutes les cellules sont vides (ex. `,,`), au lieu de supprimer silencieusement une ligne de données ; les lignes physiquement vides restent ignorées. Deux tests de régression. [PR #889](https://github.com/Nabouna32/lab/pull/889), fusionnée dans `5fc7343c6df15201b36f160cf00d2ac03b31d444`. Lint, TypeScript, tests et build réussis sur la tête exacte `aaa89477d03432d94c6182a8d36cfdbf60c74ab0` ([CI #39372484872](https://github.com/Nabouna32/lab/actions/runs/39372484872)). Aucun test navigateur exécuté.
-## Dernière livraison — conversion de taille sans débordement intermédiaire
+## Dernière livraison — occurrences Cron des années bissextiles
 
-- [PR #895](https://github.com/Nabouna32/lab/pull/895) applique le rapport entre unités avant de multiplier la valeur, pour ne pas rejeter à tort un résultat fini. Un test couvre la valeur maximale finie convertie de `to` vers `tio`, et un autre confirme le rejet du débordement réel. Lint, TypeScript, tests et build réussis sur `81065c31d80436fad858b9d52b083ac8c9faa867` ([CI #39374536893](https://github.com/Nabouna32/lab/actions/runs/39374536893)). Aucun test navigateur manuel.
+- [PR #897](https://github.com/Nabouna32/lab/pull/897) étend l’horizon de recherche à huit ans, couvre le 29 février y compris la frontière non bissextile de 2100 et saute les dates calendaires impossibles. Tests de régression ajoutés. Lint, TypeScript, tests et build réussis sur la tête exacte `2bc1e474bf80104d1340772a0ad32bc8b3f9d333` ([CI #39375251675](https://github.com/Nabouna32/lab/actions/runs/39375251675)). Aucun test navigateur exécuté.
 
 ## Livraison précédente — téléchargement du résultat CSV ↔ JSON
 
@@ -67,9 +68,9 @@ La [PR #833](https://github.com/Nabouna32/lab/pull/833) ajoute quatre cartes d�
 
 ## P1 — Audit de justesse et confidentialité des outils (priorité active)
 
-- **Dernier lot livré :** [PR #893](https://github.com/Nabouna32/lab/pull/893) ajoute le téléchargement local du résultat CSV/JSON. La prochaine inspection doit porter sur un autre outil publié pour varier le périmètre.
+- **Dernier lot livré :** [PR #897](https://github.com/Nabouna32/lab/pull/897) corrige l’horizon des occurrences Cron et ajoute des tests sur les années bissextiles. La prochaine inspection doit porter sur un autre domaine pour varier le périmètre.
 
-- **État :** continu ; checkpoint [issue #741](https://github.com/Nabouna32/lab/issues/741). Les derniers lots ont corrigé la justesse du parseur CSV et précisé la déclaration de traitement local ; poursuivre par un défaut confirmé sur un autre outil publié.
+- **État :** continu ; checkpoint [issue #741](https://github.com/Nabouna32/lab/issues/741). Les lots récents ont couvert CSV, conversions de taille et planification Cron ; poursuivre par un défaut confirmé sur un autre outil publié.
 - **Pourquoi :** les audits statiques ne prouvent pas la justesse métier ni le comportement des entrées limites. Les correctifs EXIF, CSV et compresseur ont déjà révélé des défauts concrets.
 - **Livrable visé :** choisir un outil par reprise ; vérifier calcul/format, limites, erreurs, FR/EN et flux de données ; ajouter des tests de régression à chaque défaut confirmé.
 - **Lot précédent — calculateur IPv4 CIDR :** le champ de broadcast est maintenant non applicable pour `/31` et `/32`, en cohérence avec la RFC 3021 et le modèle de route d’hôte de la RFC 4632. [PR #885](https://github.com/Nabouna32/lab/pull/885), CI complète verte sur `a41729723c4be778543ef7bb48f595790c8c1b58` ([run #39371003865](https://github.com/Nabouna32/lab/actions/runs/39371003865)). Aucun test navigateur exécuté.
@@ -89,8 +90,8 @@ La [PR #833](https://github.com/Nabouna32/lab/pull/833) ajoute quatre cartes d�
 
 ## P1 — Audit de justesse des outils publiés
 
-- **Dernier outil audité :** convertisseur de taille de fichier ; [PR #895](https://github.com/Nabouna32/lab/pull/895) corrige le débordement intermédiaire lors de conversions très grandes. Tests et CI complète verts sur le SHA exact de la PR.
-- **Suite :** reprendre un autre domaine métier plutôt que continuer en série sur CSV ou les conversions d’unités ; sélectionner un défaut uniquement lorsqu’il est confirmé par le code et un test de régression.
+- **Dernier outil audité :** planificateur Cron ; [PR #897](https://github.com/Nabouna32/lab/pull/897) corrige la recherche limitée à 366 jours qui manquait les occurrences de 29 février lointaines. Tests et CI complète verts sur le SHA exact de la PR.
+- **Suite :** reprendre un autre domaine métier plutôt que continuer en série sur Cron, CSV ou les conversions ; sélectionner un défaut uniquement lorsqu’il est confirmé par le code et un test de régression.
 
 ## P1 — Finding npm HIGH sur `braces` (revalidé, sans correctif amont)
 
