@@ -188,7 +188,7 @@ jobs:
         with:
           name: playwright-observation-${{ github.run_number }}
           path: test-results/
-          if-no-files-found: ignore
+          if-no-files-found: error
           retention-days: 7
 
   required-check:
