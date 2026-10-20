@@ -84,7 +84,6 @@ describe("hasSensitiveUrlData", () => {
       false,
     );
   });
-});
 
   it("detects sensitive OAuth-style parameters in the URL fragment", () => {
     assert.equal(
@@ -97,3 +96,5 @@ describe("hasSensitiveUrlData", () => {
       true,
     );
   });
+
+});
