@@ -69,7 +69,8 @@ export default function UnixTimestampConverter() {
             <>
               <CalculatorField label={t.timestamp} inputId="unix-timestamp-input" value={timestamp}
                 onChange={(event) => { setTimestamp(event.target.value); setResult(null); setError(false); }}
-                placeholder={t.timestampPlaceholder} type="text" inputMode="decimal" aria-invalid={error} />
+                placeholder={t.timestampPlaceholder} type="text" inputMode="decimal" aria-invalid={error}
+                aria-describedby={error ? "unix-timestamp-error" : undefined} />
               <div className="mt-4">
                 <Select label={t.timestampUnit} id="unix-timestamp-unit" value={unit}
                   onChange={(event) => { setUnit(event.target.value as TimestampUnit); setResult(null); setError(false); }}>
@@ -84,13 +85,14 @@ export default function UnixTimestampConverter() {
             <>
               <CalculatorField label={t.dateTime} inputId="unix-date-input" value={dateTime}
                 onChange={(event) => { setDateTime(event.target.value); setResult(null); setError(false); }}
-                type="datetime-local" aria-invalid={error} />
+                type="datetime-local" aria-invalid={error}
+                aria-describedby={error ? "unix-timestamp-error" : undefined} />
               <p className="mt-4 text-sm text-[var(--muted)]">{t.dateHint}</p>
               <div className="mt-5"><Button type="button" onClick={convertDate}>{t.convert}</Button></div>
             </>
           )}
 
-          {error && <p role="alert" className="mt-4 text-sm font-medium text-[var(--danger)]">{t.invalid}</p>}
+          {error && <p id="unix-timestamp-error" role="alert" className="mt-4 text-sm font-medium text-[var(--danger)]">{t.invalid}</p>}
           <div className="mt-5"><ClearButton onClear={clear} disabled={!timestamp && !dateTime && !result} label={t.clear} /></div>
         </div>
 
