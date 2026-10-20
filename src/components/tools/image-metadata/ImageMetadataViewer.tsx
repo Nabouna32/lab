@@ -4,7 +4,7 @@ import {Button} from "@/components/ui/Button";import {ClearButton} from "@/compo
 const MAX=25*1024*1024;
 export default function ImageMetadataViewer(){
 const locale=useLocale(),t=getToolMessages(locale).imageMetadata;
-const[file,setFile]=useState<File|null>(null),[data,setData]=useState<ImageMetadata|null>(null),[clean,setClean]=useState<string|null>(null),[preview,setPreview]=useState<string|null>(null),[busy,setBusy]=useState(false),[error,setError]=useState<string|null>(null);
+const[file,setFile]=useState<File|null>(null),[data,setData]=useState<ImageMetadata|null>(null),[clean,setClean]=useState<string|null>(null),[cleanMimeType,setCleanMimeType]=useState<string|null>(null),[preview,setPreview]=useState<string|null>(null),[busy,setBusy]=useState(false),[error,setError]=useState<string|null>(null);
 const operationRef=useRef(0);
 useEffect(()=>()=>{if(clean)URL.revokeObjectURL(clean);if(preview)URL.revokeObjectURL(preview)},[clean,preview]);
 useEffect(()=>()=>{operationRef.current+=1},[]);
@@ -12,10 +12,10 @@ async function select(next:File|null){
 if(!next)return;
 const operation=++operationRef.current;
 if(!next.type.startsWith("image/")||next.size>MAX){
-setFile(null);setData(null);setClean(null);setPreview(null);setBusy(false);
+setFile(null);setData(null);setClean(null);setCleanMimeType(null);setPreview(null);setBusy(false);
 setError(!next.type.startsWith("image/")?t.invalidType:t.tooLarge);return;
 }
-setBusy(true);setError(null);setClean(null);setData(null);
+setBusy(true);setError(null);setClean(null);setCleanMimeType(null);setData(null);
 setFile(next);setPreview(URL.createObjectURL(next));
 try{
 const metadata=await inspectImage(next);
@@ -34,11 +34,11 @@ try{
 const blob=await stripImageMetadata(selected);
 if(operation!==operationRef.current)return;
 const url=URL.createObjectURL(blob);
-setClean(previous=>{if(previous)URL.revokeObjectURL(previous);return url});
+setClean(previous=>{if(previous)URL.revokeObjectURL(previous);return url});setCleanMimeType(blob.type);
 }catch(cause){if(operation===operationRef.current)setError(cause instanceof AnimatedImageUnsupportedError?t.animatedUnsupported:t.invalid)}
 finally{if(operation===operationRef.current)setBusy(false)}
 }
-function download(){if(!clean)return;const a=document.createElement("a");a.href=clean;a.download=`loculary-clean-image.${getCleanImageFormat(file?.type??"").extension}`;a.click()}
+function download(){if(!clean)return;const a=document.createElement("a");a.href=clean;a.download=`loculary-clean-image.${getCleanImageFormat(cleanMimeType??"image/png").extension}`;a.click()}
 function reset(){operationRef.current+=1;setFile(null);setData(null);setClean(null);setPreview(null);setBusy(false);setError(null)}
 const exif=data?Object.entries(data.exif):[];
 const exifLabels:Record<string,string>={
