@@ -21,7 +21,7 @@ export default function DownloadSpeedConverter() {
   const [to, setTo] = useState<SpeedUnit>("mo-s");
   const result = useMemo(() => {
     if (value.trim() === "") return null;
-    const numericValue = parseLocalizedNumber(value);
+    const numericValue = parseLocalizedNumber(value, locale);
     if (numericValue === null || numericValue < 0) return null;
     return convertSpeed(numericValue, from, to);
   }, [value, from, to]);
@@ -30,7 +30,7 @@ export default function DownloadSpeedConverter() {
     <CalculatorShell>
       <CalculatorActions showClear={value !== ""} onClear={() => setValue("")} />
       <div className="grid gap-5 sm:grid-cols-2">
-        <CalculatorField label={t.value} inputId="download-speed-value" type="number" min="0" step="any" value={value} onChange={(event) => setValue(event.target.value)} placeholder={t.placeholder}  aria-invalid={hasInvalidInput} aria-describedby="download-speed-error"/>
+        <CalculatorField label={t.value} inputId="download-speed-value" type="text" inputMode="decimal" value={value} onChange={(event) => setValue(event.target.value)} placeholder={t.placeholder}  aria-invalid={hasInvalidInput} aria-describedby="download-speed-error"/>
         <Select label={t.from} id="download-speed-from" value={from} onChange={(event) => setFrom(event.target.value as SpeedUnit)}>
             {SPEED_UNITS.map((unit) => <option key={unit} value={unit}>{getSpeedUnitLabel(locale, unit, "long")}</option>)}
           </Select>
