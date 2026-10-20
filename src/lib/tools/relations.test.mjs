@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { getNextActions } from "./relations.ts";
+import { getAllTools, getToolById } from "./catalog.ts";
 
 const tools = [
   {
@@ -78,8 +79,6 @@ test("curated order is preserved and limited", () => {
     ["discount"],
   );
 });
-
-import { getAllTools, getToolById } from "./catalog.ts";
 
 test("published tools expose curated continuations for common multi-step workflows", () => {
   const allTools = getAllTools();
