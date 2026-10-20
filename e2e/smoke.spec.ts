@@ -273,7 +273,7 @@ test("image metadata cleaner processes multiple images and downloads a ZIP", asy
   await expect(page.getByText("Nettoyée et optimisée", { exact: true })).toHaveCount(2);
 
   const optimizedDownloadPromise = page.waitForEvent("download");
-  await page.getByRole("button", { name: "Télécharger les images nettoyées (.zip)" }).click();
+  await page.getByRole("button", { name: "Télécharger les images préparées (.zip)" }).click();
   const optimizedDownload = await optimizedDownloadPromise;
   expect(optimizedDownload.suggestedFilename()).toBe("loculary-images-prepared.zip");
 });
