@@ -48,6 +48,24 @@ test("clamps month-end anniversaries sequentially", () => {
   });
 });
 
+test("handles leap years and century rules for years below 100", () => {
+  assert.deepEqual(calculateAge(date("0004-02-29"), date("0005-02-28")), {
+    years: 1,
+    months: 0,
+    days: 0,
+  });
+  assert.deepEqual(calculateAge(date("0001-06-15"), date("0002-06-15")), {
+    years: 1,
+    months: 0,
+    days: 0,
+  });
+  assert.deepEqual(calculateAge(date("0099-06-15"), date("0100-06-15")), {
+    years: 1,
+    months: 0,
+    days: 0,
+  });
+});
+
 test("ignores time-of-day because age is based on calendar dates", () => {
   assert.deepEqual(
     calculateAge(new Date("2000-09-17T23:59:00"), new Date("2026-09-17T00:01:00")),
