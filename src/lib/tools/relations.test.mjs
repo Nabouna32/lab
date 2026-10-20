@@ -78,3 +78,39 @@ test("curated order is preserved and limited", () => {
     ["discount"],
   );
 });
+
+import { getAllTools, getToolById } from "./catalog.ts";
+
+test("published tools expose curated continuations for common multi-step workflows", () => {
+  const allTools = getAllTools();
+  const expected = {
+    "compound-interest": ["percentage"],
+    discount: ["vat"],
+    vat: ["discount"],
+    "rule-of-three": ["percentage"],
+    age: ["date-calculator"],
+    duration: ["date-calculator"],
+    "date-calculator": ["duration"],
+    "file-size-converter": ["unit-converter"],
+    "word-character-counter": ["text-case-converter"],
+    "text-case-converter": ["word-character-counter"],
+    "yaml-formatter-validator": ["json-formatter"],
+    "json-formatter": ["json-to-typescript", "csv-json-converter", "yaml-formatter-validator"],
+    "csv-json-converter": ["json-formatter", "markdown-table-generator"],
+    "xml-formatter-validator": ["json-formatter"],
+    "base64-encoder-decoder": ["url-encoder-decoder"],
+    "unix-timestamp": ["timezone-converter", "date-calculator"],
+    "timezone-converter": ["unix-timestamp"],
+    "cron-expression": ["unix-timestamp"],
+    "markdown-table-generator": ["csv-json-converter"],
+    "image-compressor": ["image-metadata"],
+    "image-metadata": ["image-compressor"],
+    "video-bitrate": ["file-size", "download-time"],
+  };
+
+  for (const [toolId, expectedIds] of Object.entries(expected)) {
+    const tool = getToolById(toolId);
+    assert.ok(tool, `expected published tool ${toolId}`);
+    assert.deepEqual(getNextActions(tool, allTools).map((nextTool) => nextTool.id), expectedIds);
+  }
+});
