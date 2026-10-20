@@ -70,7 +70,7 @@ export default function JsonDiffChecker() {
     const file = input.files?.[0];
     if (!file) return;
     input.value = "";
-    if (!file.name.toLowerCase().endsWith(".json") && file.type !== "application/json") {
+    if (!file.name.toLowerCase().endsWith(".json")) {
       setError("file-type");
       setResult(null);
       return;
