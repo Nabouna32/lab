@@ -5,8 +5,11 @@ export type JsonDiffResult = { changes: JsonDiffChange[]; identical: boolean; tr
 export type JsonDiffErrorCode = "invalid-json" | "input-too-large" | "depth-limit";
 
 export class JsonDiffError extends Error {
-  constructor(readonly code: JsonDiffErrorCode) {
+  readonly code: JsonDiffErrorCode;
+
+  constructor(code: JsonDiffErrorCode) {
     super(code);
+    this.code = code;
     this.name = "JsonDiffError";
   }
 }
