@@ -250,6 +250,8 @@ test("JSON diff checker reports structural changes", async ({ page }) => {
   await expect(page.getByText("2 différences", { exact: true })).toBeVisible();
 
   await page.getByRole("button", { name: "Effacer", exact: true }).click();
+  await page.getByLabel("Importer un fichier: JSON de référence").setInputFiles({ name: "notes.txt", mimeType: "text/plain", buffer: Buffer.from("not JSON") });
+  await expect(page.getByRole("alert")).toHaveText("Choisissez un fichier JSON (.json).");
   await page.getByLabel("Importer un fichier: JSON de référence").setInputFiles({ name: "reference.json", mimeType: "application/json", buffer: Buffer.from('{"status":"draft"}') });
   await page.getByLabel("Importer un fichier: Nouveau JSON").setInputFiles({ name: "new.json", mimeType: "application/json", buffer: Buffer.from('{"status":"published"}') });
   await page.getByRole("button", { name: "Comparer", exact: true }).click();
