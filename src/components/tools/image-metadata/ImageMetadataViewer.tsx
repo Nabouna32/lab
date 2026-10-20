@@ -227,7 +227,7 @@ export default function ImageMetadataViewer() {
             {error && <p role="alert" className="text-sm font-medium text-[var(--danger)]">{error}</p>}
             <div className="flex flex-wrap gap-2">
               <Button type="button" variant="primary" onClick={cleanAll} disabled={busy || inspected.length === 0}>{busy ? t.stripping : optimize ? t.prepare : t.strip}</Button>
-              <Button type="button" variant="secondary" onClick={downloadArchive} disabled={cleaned.length === 0 || busy || archiveBusy}>{archiveBusy ? t.archivePreparing : t.download}</Button>
+              <Button type="button" variant="secondary" onClick={downloadArchive} disabled={cleaned.length === 0 || busy || archiveBusy}>{archiveBusy ? t.archivePreparing : optimize ? t.downloadPrepared : t.download}</Button>
               <ClearButton onClear={reset} disabled={items.length === 0 && !error} label={t.reset} />
             </div>
             {cleaned.length > 0 && !busy && <p role="status" className="text-sm text-[var(--success)]">{t.completedCount(cleaned.length, items.length)}</p>}
