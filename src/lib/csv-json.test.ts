@@ -70,6 +70,18 @@ test("preserves numeric negative values in CSV export", () => {
   assert.equal(transformCsvJson(JSON.stringify([{ amount: -12 }]), "json-to-csv").value, "amount\r\n-12");
 });
 
+test("neutralizes spreadsheet formulas after Unicode whitespace and C1 controls", () => {
+  const input = JSON.stringify([
+    { value: "\u00a0=1+1" },
+    { value: "\u2003@SUM(1,1)" },
+    { value: "\u0085-1+1" },
+  ]);
+  assert.equal(
+    transformCsvJson(input, "json-to-csv").value,
+    "value\r\n'\u00a0=1+1\r\n\"'\u2003@SUM(1,1)\"\r\n'\u0085-1+1",
+  );
+});
+
 test("neutralizes formula markers after leading control characters", () => {
   assert.equal(transformCsvJson(JSON.stringify([{ value: "\t=1+1" }]), "json-to-csv").value, "value\r\n'\t=1+1");
 });
