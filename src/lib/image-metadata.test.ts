@@ -136,7 +136,7 @@ test("handles truncated EXIF data without throwing", () => {
 });
 
 test("localizes image metadata labels in French and English", () => {
-  assert.equal(getToolMessages("fr").imageMetadata.input, "Choisir une image");
+  assert.equal(getToolMessages("fr").imageMetadata.input, "Choisir des images");
   assert.equal(getToolMessages("fr").imageMetadata.cameraMake, "Marque de l’appareil");
   assert.equal(getToolMessages("fr").imageMetadata.cameraModel, "Modèle de l’appareil");
   assert.equal(getToolMessages("en").imageMetadata.cameraMake, "Camera make");

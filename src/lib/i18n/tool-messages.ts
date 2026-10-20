@@ -141,8 +141,9 @@ type ToolMessages = {
   imageMetadata: {
     input: string; inputHint: string; dimensions: string; format: string; fileSize: string; exif: string; noMetadata: string;
     cameraMake: string; cameraModel: string; dateTaken: string; dateModified: string; orientation: string; gps: string; software: string; strip: string; stripping: string;
-    download: string; reset: string; preview: string; emptyResult: string; invalidType: string; tooLarge: string; invalid: string; animatedUnsupported: string;
-    removed: string; local: string; gpsWarning: string;
+    download: string; reset: string; preview: string; emptyResult: string; invalidType: string; tooLarge: string; tooMany: string; invalid: string; animatedUnsupported: string;
+    removed: string; local: string; gpsWarning: string; cleaningHint: string; batchHint: string; results: string; archivePreparing: string; archiveError: string;
+    selectedCount: (count: number) => string; completedCount: (count: number, total: number) => string;
   };
   qrCodeGenerator: {
     input: string; placeholder: string; hint: string; size: string; download: string; clear: string;
@@ -456,12 +457,17 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       security: "L’aperçu n’a pas accès au domaine Loculary et n’exécute pas le JavaScript du contenu.",
     },
     imageMetadata: {
-      input: "Choisir une image", inputHint: "JPG, PNG, WebP ou autre image — analyse locale dans votre navigateur.",
+      input: "Choisir des images", inputHint: "Sélectionnez jusqu’à 10 images (25 Mo chacune, 50 Mo au total). Analyse et nettoyage dans votre navigateur.",
       dimensions: "Dimensions", format: "Format", fileSize: "Taille du fichier", exif: "Métadonnées EXIF", noMetadata: "Aucune métadonnée EXIF prise en charge trouvée.",
       cameraMake: "Marque de l’appareil", cameraModel: "Modèle de l’appareil", dateTaken: "Date de prise de vue", dateModified: "Date de modification", orientation: "Orientation", gps: "Position GPS", software: "Logiciel",
-      strip: "Supprimer les métadonnées", stripping: "Suppression des métadonnées…", download: "Télécharger l’image nettoyée", reset: "Réinitialiser", preview: "Aperçu de l’image",
-      emptyResult: "Sélectionnez une image pour inspecter ses métadonnées.", invalidType: "Sélectionnez un fichier image.", tooLarge: "Le fichier dépasse la limite de 25 Mo.", invalid: "Cette image ne peut pas être lue dans votre navigateur.", animatedUnsupported: "Cette image est animée. Son nettoyage est désactivé pour éviter de perdre les images de l’animation.",
-      removed: "Les métadonnées ont été supprimées. L’image nettoyée est prête à être téléchargée.", local: "Votre image reste sur votre appareil. Aucun fichier n’est envoyé à Loculary.", gpsWarning: "Cette image contient des coordonnées GPS précises. Elles peuvent révéler le lieu de prise de vue ; supprimez les métadonnées avant de la partager.",
+      strip: "Nettoyer toutes les images", stripping: "Analyse ou nettoyage en cours…", download: "Télécharger les images nettoyées (.zip)", reset: "Réinitialiser", preview: "Aperçu de l’image",
+      emptyResult: "Sélectionnez des images pour inspecter leurs métadonnées.", invalidType: "Certains fichiers ne sont pas des images et ont été ignorés.", tooLarge: "Une image dépasse 25 Mo ou la sélection dépasse 50 Mo au total.", tooMany: "Sélectionnez au maximum 10 images.", invalid: "Cette image ne peut pas être lue dans votre navigateur.", animatedUnsupported: "Cette image est animée. Elle n’a pas été nettoyée pour éviter de perdre ses images d’animation.",
+      removed: "Nettoyée", local: "Vos images restent sur votre appareil. Aucun fichier n’est envoyé à Loculary.", gpsWarning: "Cette image contient des coordonnées GPS précises. Elles peuvent révéler le lieu de prise de vue ; supprimez les métadonnées avant de la partager.",
+      cleaningHint: "Le nettoyage réencode les images. Les images animées sont ignorées pour éviter la perte d’images ; les fichiers JPEG peuvent subir une recompression avec une légère perte de qualité.",
+      batchHint: "Inspectez les métadonnées de chaque image, repérez les coordonnées GPS, puis nettoyez toutes les images compatibles en une seule opération.",
+      results: "Images sélectionnées", archivePreparing: "Préparation du ZIP…", archiveError: "Impossible de créer l’archive ZIP. Réessayez avec moins d’images.",
+      selectedCount: (count) => count + (count === 1 ? " image sélectionnée" : " images sélectionnées"),
+      completedCount: (count, total) => count + (count > 1 ? " images nettoyées sur " : " image nettoyée sur ") + total + ". Téléchargez l’archive ZIP pour les récupérer.",
     },
     imageCompressor: {
       input: "Choisir des images", inputHint: "Sélectionnez jusqu’à 10 images (50 Mo au total). Tout reste dans votre navigateur.",
@@ -760,12 +766,17 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       completedCount: (ready, total) => ready + " of " + total + " images optimized",
     },
     imageMetadata: {
-      input: "Choose an image", inputHint: "JPG, PNG, WebP, or another image — inspected locally in your browser.",
+      input: "Choose images", inputHint: "Select up to 10 images (25 MB each, 50 MB total). Inspection and cleaning run in your browser.",
       dimensions: "Dimensions", format: "Format", fileSize: "File size", exif: "EXIF metadata", noMetadata: "No supported EXIF metadata found.",
       cameraMake: "Camera make", cameraModel: "Camera model", dateTaken: "Date taken", dateModified: "Date modified", orientation: "Orientation", gps: "GPS location", software: "Software",
-      strip: "Remove metadata", stripping: "Removing metadata…", download: "Download clean image", reset: "Reset", preview: "Image preview",
-      emptyResult: "Select an image to inspect its metadata.", invalidType: "Select an image file.", tooLarge: "The file exceeds the 25 MB limit.", invalid: "This image cannot be read in your browser.", animatedUnsupported: "This image is animated. Cleaning is disabled to avoid losing its animation frames.",
-      removed: "Metadata removed. The cleaned image is ready to download.", local: "Your image stays on your device. Nothing is uploaded to Loculary.", gpsWarning: "This image contains precise GPS coordinates. They can reveal where the photo was taken; remove the metadata before sharing it.",
+      strip: "Clean all images", stripping: "Inspecting or cleaning…", download: "Download cleaned images (.zip)", reset: "Reset", preview: "Image preview",
+      emptyResult: "Select images to inspect their metadata.", invalidType: "Some selected files are not images and were skipped.", tooLarge: "An image exceeds 25 MB or the selection exceeds 50 MB total.", tooMany: "Select no more than 10 images.", invalid: "This image cannot be read in your browser.", animatedUnsupported: "This image is animated. It was not cleaned to avoid losing its animation frames.",
+      removed: "Cleaned", local: "Your images stay on your device. Nothing is uploaded to Loculary.", gpsWarning: "This image contains precise GPS coordinates. They can reveal where the photo was taken; remove the metadata before sharing it.",
+      cleaningHint: "Cleaning re-encodes images. Animated images are skipped to avoid losing frames; JPEG files may be recompressed with a small loss in quality.",
+      batchHint: "Inspect each image’s metadata, spot GPS coordinates, then clean all compatible images in one operation.",
+      results: "Selected images", archivePreparing: "Preparing ZIP…", archiveError: "Could not create the ZIP archive. Try again with fewer images.",
+      selectedCount: (count) => count + (count === 1 ? " image selected" : " images selected"),
+      completedCount: (count, total) => count + (count === 1 ? " of " + total + " image cleaned." : " of " + total + " images cleaned.") + " Download the ZIP archive to retrieve them.",
     },
     qrCodeGenerator: {
       input: "Content to encode", placeholder: "https://example.com or your text…",
