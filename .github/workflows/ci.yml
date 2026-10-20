@@ -80,12 +80,12 @@ jobs:
         shell: pwsh
         run: node --test .github/scripts/classify-ci-changes.test.mjs .github/scripts/detect-ci-changes.test.mjs .github/scripts/dependency-audit-diff.test.mjs
 
-  validate:
-    name: Quality, production build and Playwright
+  quality:
+    name: Lint, TypeScript and unit tests
     needs: prepare
     if: needs.prepare.outputs.lightweight_only != 'true'
     runs-on: [self-hosted, Windows, X64, loculary-ci]
-    timeout-minutes: 45
+    timeout-minutes: 30
 
     steps:
       - name: Checkout
@@ -128,6 +128,45 @@ jobs:
       - name: Test
         run: npm test
 
+  build_browser:
+    name: Production build and Playwright
+    needs: prepare
+    if: needs.prepare.outputs.lightweight_only != 'true'
+    runs-on: [self-hosted, Windows, X64, loculary-ci]
+    timeout-minutes: 35
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+          clean: false
+
+      - name: Clean workspace while preserving local caches
+        shell: pwsh
+        run: git clean -ffdx -e node_modules -e .next
+
+      - name: Setup Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24.21.0
+
+      - name: Prepare persistent local dependencies
+        id: dependencies
+        shell: pwsh
+        run: node .github/scripts/dependency-cache.mjs prepare
+
+      - name: Install dependencies only on cache miss
+        if: steps.dependencies.outputs.cache-hit != 'true'
+        shell: pwsh
+        run: npm ci
+
+      - name: Persist dependencies locally
+        if: success() && steps.dependencies.outputs.cache-hit != 'true'
+        shell: pwsh
+        run: node .github/scripts/dependency-cache.mjs save
+
       - name: Build
         env:
           NEXT_TELEMETRY_DISABLED: "1"
@@ -154,7 +193,7 @@ jobs:
 
   required-check:
     name: Node.js 24.21.0
-    needs: [prepare, validate]
+    needs: [prepare, quality, build_browser]
     if: always() && needs.prepare.result != 'skipped'
     runs-on: [self-hosted, Windows, X64, loculary-ci]
     timeout-minutes: 5
@@ -165,12 +204,12 @@ jobs:
         run: exit 1
 
       - name: Fail if quality checks failed
-        if: needs.prepare.outputs.lightweight_only != 'true' && needs.validate.result != 'success'
+        if: needs.prepare.result == 'success' && needs.prepare.outputs.lightweight_only != 'true' && needs.quality.result != 'success'
         shell: pwsh
         run: exit 1
 
       - name: Fail if build or browser checks failed
-        if: needs.prepare.outputs.lightweight_only != 'true' && needs.validate.result != 'success'
+        if: needs.prepare.result == 'success' && needs.prepare.outputs.lightweight_only != 'true' && needs.build_browser.result != 'success'
         shell: pwsh
         run: exit 1
 
