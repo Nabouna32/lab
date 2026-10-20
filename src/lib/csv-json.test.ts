@@ -127,7 +127,7 @@ test("auto-detects delimiters only when auto mode is selected", () => {
 });
 
 test("preserves explicitly delimited records whose fields are all empty", () => {
-  const result = transformCsvJson("first,second,third\\nA,B,C\\n,,", "csv-to-json");
+  const result = transformCsvJson("first,second,third\nA,B,C\n,,", "csv-to-json");
   assert.equal(result.error, null);
   assert.deepEqual(JSON.parse(result.value!), [
     { first: "A", second: "B", third: "C" },
@@ -136,7 +136,7 @@ test("preserves explicitly delimited records whose fields are all empty", () => 
 });
 
 test("continues to ignore standalone blank lines between CSV records", () => {
-  const result = transformCsvJson("name,age\\nAlice,30\\n\\nBob,40\\n", "csv-to-json");
+  const result = transformCsvJson("name,age\nAlice,30\n\nBob,40\n", "csv-to-json");
   assert.equal(result.error, null);
   assert.deepEqual(JSON.parse(result.value!), [
     { name: "Alice", age: "30" },
