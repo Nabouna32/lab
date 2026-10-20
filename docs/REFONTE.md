@@ -1,4 +1,8 @@
-# Loculary — plan de refonte
+# Loculary — stratégie d’évolution produit et de refonte
+
+## Principe de décision
+
+Ce document n’est pas une séquence rigide d’audits visuels. À chaque reprise, comparer la correction de problèmes existants à l’ajout de nouveaux outils, aux fonctionnalités transversales et aux transformations de parcours. La meilleure opportunité utilisateur peut remplacer ou réordonner n’importe quel lot. Éviter les audits qui n’aboutissent pas à une livraison concrète et les PR documentaires redondantes.
 
 ## Vision cible
 
@@ -31,7 +35,11 @@ Dans tous les parcours, la hiérarchie est : action principale, entrée ou param
 - Thèmes clair et sombre équivalents, responsive conçu pour mobile, tablette et bureau, focus clavier visible et réduction des mouvements non essentiels.
 - FR et EN doivent conserver une qualité éditoriale équivalente ; aucun texte visible ne doit dépendre d’une langue par défaut accidentelle.
 
-## Lots ordonnés
+## Chantiers candidats — à réordonner selon la valeur
+
+En plus des chantiers de qualité ci-dessous, explorer régulièrement : nouveaux outils utiles dans les domaines déjà couverts et les domaines absents ; actions contextuelles entre outils (réutiliser, convertir, comparer ou exporter un résultat) ; découverte par intention quand l’utilisateur ignore le nom de l’outil ; amélioration du retour aux tâches récentes sans rendre le compte obligatoire ; simplification des parcours multi-étapes. Ce sont des pistes à évaluer, pas des quotas de fonctionnalités à ajouter.
+
+## Chantiers existants
 
 1. **Accueil orienté action — livré** ([PR #782](https://github.com/Nabouna32/lab/pull/782), commit `a43a329df2b3192cf89be048ea1cf2d4d3194c71`) : le titre est une question d’action, la description indique l’usage sans compte et les quatre raccourcis FR/EN sont affichés sous la recherche. CI complète verte sur le SHA de PR `5cd4eeb8097b1251b88f545d905989f28b7218c0`.
 2. **Mesure du rendu et accessibilité** — établir une validation de rendu lisible en texte, incluant débordements, chevauchements, géométrie, contrastes axe-core, arbre d’accessibilité, erreurs console, Lighthouse et descriptions de mise en page pour mobile/bureau et clair/sombre. Respecter les contraintes CI et ne pas confondre état de déploiement avec validation fonctionnelle. Aucun rapport navigateur ne sera déclaré tant qu’il n’aura pas réellement été généré et inspecté.
