@@ -28,7 +28,7 @@ export default function FileSizeCalculator() {
     const bitrateValue = parseLocalizedNumber(bitrate, locale);
     if (durationValue === null || bitrateValue === null || durationValue < 0 || bitrateValue < 0) return null;
     return calculateFileSize(durationValue, durationUnit, bitrateValue, bitrateUnit, sizeUnit);
-  }, [duration, durationUnit, bitrate, bitrateUnit, sizeUnit]);
+  }, [duration, durationUnit, bitrate, bitrateUnit, sizeUnit, locale]);
   const hasValues = duration.trim() !== "" || bitrate.trim() !== "";
   const hasInvalidInput = hasValues && result === null;
 
