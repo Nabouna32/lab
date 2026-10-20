@@ -9,7 +9,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 <!-- END:nextjs-agent-rules -->
 # Loculary — règles de travail
 
-Ce fichier est l’unique guide obligatoire pour le travail de l’assistant dans ce dépôt. Les documents de référence produit restent dans `docs/` ; ils décrivent le produit, pas un second système de consignes. La session peut être distante : ne suppose pas qu’un clone, un terminal, les dépendances ou `node_modules` sont disponibles. Utilise les opérations GitHub et les vérifications distantes accessibles ; ne prétends jamais avoir exécuté une vérification locale qui n’a pas eu lieu.
+Ce fichier est l’unique guide obligatoire pour le travail de l’assistant dans ce dépôt. Le mandat de direction autonome est `docs/MANDAT.md`. Les documents de référence produit restent dans `docs/` ; ils décrivent le produit, pas un second système de consignes. La session peut être distante : ne suppose pas qu’un clone, un terminal, les dépendances ou `node_modules` sont disponibles. Utilise les opérations GitHub et les vérifications distantes accessibles ; ne prétends jamais avoir exécuté une vérification locale qui n’a pas eu lieu.
 
 ## 1. Collaboration et décisions
 
