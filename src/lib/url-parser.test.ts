@@ -59,14 +59,14 @@ describe("parseUrl", () => {
 
 describe("hasSensitiveUrlData", () => {
   it("warns for embedded username or password credentials", () => {
-    assert.equal(hasSensitiveUrlData({ username: "user", hasPassword: false, queryParameters: [] }), true);
-    assert.equal(hasSensitiveUrlData({ username: "", hasPassword: true, queryParameters: [] }), true);
+    assert.equal(hasSensitiveUrlData({ username: "user", hasPassword: false, hash: "", queryParameters: [] }), true);
+    assert.equal(hasSensitiveUrlData({ username: "", hasPassword: true, hash: "", queryParameters: [] }), true);
   });
 
   it("detects common secret-bearing query parameter names", () => {
     for (const key of ["access_token", "refresh-token", "id_token", "api_key", "api-key", "client_secret", "password", "sessionId", "signature", "code_verifier", "accessToken", "apiKey", "clientSecret"]) {
       assert.equal(
-        hasSensitiveUrlData({ username: "", hasPassword: false, queryParameters: [{ key, value: "example" }] }),
+        hasSensitiveUrlData({ username: "", hasPassword: false, hash: "", queryParameters: [{ key, value: "example" }] }),
         true,
         `expected ${key} to be considered sensitive`,
       );
@@ -78,9 +78,22 @@ describe("hasSensitiveUrlData", () => {
       hasSensitiveUrlData({
         username: "",
         hasPassword: false,
+        hash: "",
         queryParameters: [{ key: "lang", value: "fr" }, { key: "page", value: "2" }, { key: "monkey", value: "banana" }],
       }),
       false,
     );
   });
 });
+
+  it("detects sensitive OAuth-style parameters in the URL fragment", () => {
+    assert.equal(
+      hasSensitiveUrlData({
+        username: "",
+        hasPassword: false,
+        hash: "#access_token=example&token_type=bearer",
+        queryParameters: [],
+      }),
+      true,
+    );
+  });
