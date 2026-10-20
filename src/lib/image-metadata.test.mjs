@@ -36,7 +36,7 @@ test("detects animated WebP chunks", () => {
 });
 
 test("refuses metadata stripping for animation before canvas conversion", async () => {
-  const animatedGif = new File([[...gifHeader, ...gifFrame, ...gifFrame, 0x3b]], "animated.gif", {
+  const animatedGif = new File([Uint8Array.from([...gifHeader, ...gifFrame, ...gifFrame, 0x3b])], "animated.gif", {
     type: "image/gif",
   });
   await assert.rejects(stripImageMetadata(animatedGif), AnimatedImageUnsupportedError);
