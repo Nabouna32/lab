@@ -40,7 +40,7 @@ export default function DownloadTimeCalculator() {
     const speedValue = parseLocalizedNumber(speed, locale);
     if (sizeValue === null || speedValue === null || sizeValue < 0 || speedValue < 0) return null;
     return calculateDownloadTime(sizeValue, sizeUnit, speedValue, speedUnit);
-  }, [size, sizeUnit, speed, speedUnit]);
+  }, [size, sizeUnit, speed, speedUnit, locale]);
   const hasValues = size !== "" || speed !== "";
   const hasInvalidInput = hasValues && result === null;
   return (
