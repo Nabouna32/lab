@@ -1,6 +1,6 @@
 "use client";
 import {useEffect,useRef,useState} from "react";
-import {Button} from "@/components/ui/Button";import {ClearButton} from "@/components/ui/ClearButton";import {useLocale} from "@/lib/i18n/use-locale";import {getToolMessages} from "@/lib/i18n/tool-messages";import {inspectImage,stripImageMetadata,type ImageMetadata} from "@/lib/image-metadata";
+import {Button} from "@/components/ui/Button";import {ClearButton} from "@/components/ui/ClearButton";import {useLocale} from "@/lib/i18n/use-locale";import {getToolMessages} from "@/lib/i18n/tool-messages";import {AnimatedImageUnsupportedError,getCleanImageFormat,inspectImage,stripImageMetadata,type ImageMetadata} from "@/lib/image-metadata";
 const MAX=25*1024*1024;
 export default function ImageMetadataViewer(){
 const locale=useLocale(),t=getToolMessages(locale).imageMetadata;
@@ -35,10 +35,10 @@ const blob=await stripImageMetadata(selected);
 if(operation!==operationRef.current)return;
 const url=URL.createObjectURL(blob);
 setClean(previous=>{if(previous)URL.revokeObjectURL(previous);return url});
-}catch{if(operation===operationRef.current)setError(t.invalid)}
+}catch(cause){if(operation===operationRef.current)setError(cause instanceof AnimatedImageUnsupportedError?t.animatedUnsupported:t.invalid)}
 finally{if(operation===operationRef.current)setBusy(false)}
 }
-function download(){if(!clean)return;const a=document.createElement("a");a.href=clean;a.download="loculary-clean-image";a.click()}
+function download(){if(!clean)return;const a=document.createElement("a");a.href=clean;a.download=`loculary-clean-image.${getCleanImageFormat(file?.type??"").extension}`;a.click()}
 function reset(){operationRef.current+=1;setFile(null);setData(null);setClean(null);setPreview(null);setBusy(false);setError(null)}
 const exif=data?Object.entries(data.exif):[];
 const exifLabels:Record<string,string>={
