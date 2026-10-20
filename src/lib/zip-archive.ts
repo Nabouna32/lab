@@ -72,5 +72,12 @@ export async function createZipArchive(entries: readonly ZipEntry[]): Promise<Bl
   ev.setUint32(0, 0x06054b50, true); ev.setUint16(4, 0, true); ev.setUint16(6, 0, true);
   ev.setUint16(8, prepared.length, true); ev.setUint16(10, prepared.length, true);
   ev.setUint32(12, centralSize, true); ev.setUint32(16, offset, true); ev.setUint16(20, 0, true);
-  return new Blob([...localParts, ...centralParts, end], { type: "application/zip" });
+  const parts = [...localParts, ...centralParts, end];
+  const archiveBytes = new Uint8Array(parts.reduce((size, part) => size + part.byteLength, 0));
+  let cursor = 0;
+  for (const part of parts) {
+    archiveBytes.set(part, cursor);
+    cursor += part.byteLength;
+  }
+  return new Blob([archiveBytes.buffer as ArrayBuffer], { type: "application/zip" });
 }
