@@ -48,13 +48,13 @@ export default function DownloadTimeCalculator() {
       <CalculatorActions showClear={hasValues} onClear={() => { setSize(""); setSpeed(""); }} />
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <CalculatorField label={t.fileSize} inputId="download-time-size" type="text" inputMode="decimal" value={size} onChange={(event) => setSize(event.target.value)} placeholder={t.placeholderSize}  aria-invalid={hasInvalidInput} aria-describedby="download-time-error"/>
+          <CalculatorField label={t.fileSize} inputId="download-time-size" type="text" inputMode="decimal" value={size} onChange={(event) => setSize(event.target.value)} placeholder={t.placeholderSize} aria-invalid={hasInvalidInput} aria-describedby="download-time-error" />
           <Select aria-label={t.sizeUnit} value={sizeUnit} onChange={(event) => setSizeUnit(event.target.value as DownloadSizeUnit)} className="mt-2">
             {DOWNLOAD_SIZE_UNITS.map((unit) => <option key={unit} value={unit}>{getDownloadSizeUnitLabel(locale, unit)}</option>)}
           </Select>
         </div>
         <div>
-          <CalculatorField label={t.speed} inputId="download-time-speed" type="number" min="0" step="any" value={speed} onChange={(event) => setSpeed(event.target.value)} placeholder={t.placeholderSpeed}  aria-invalid={hasInvalidInput} aria-describedby="download-time-error"/>
+          <CalculatorField label={t.speed} inputId="download-time-speed" type="text" inputMode="decimal" value={speed} onChange={(event) => setSpeed(event.target.value)} placeholder={t.placeholderSpeed} aria-invalid={hasInvalidInput} aria-describedby="download-time-error" />
           <Select aria-label={t.speedUnit} value={speedUnit} onChange={(event) => setSpeedUnit(event.target.value as DownloadSpeedUnit)} className="mt-2">
             {DOWNLOAD_SPEED_UNITS.map((unit) => <option key={unit} value={unit}>{getDownloadSpeedUnitLabel(locale, unit)}</option>)}
           </Select>
