@@ -9,7 +9,7 @@ import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
 import { getToolPath } from "@/lib/tools/routes";
 
-type RecentTool = { id: ToolId; name: string; icon: string };
+type RecentTool = { id: ToolId; name: string };
 
 export default function RecentTools({ locale, tools }: { locale: Locale; tools: RecentTool[] }) {
   const [recentIds, setRecentIds] = useState<ToolId[]>([]);
@@ -81,7 +81,7 @@ export default function RecentTools({ locale, tools }: { locale: Locale; tools: 
           {recentTools.map((tool) => (
             <li key={tool.id}>
               <Link href={getToolPath(locale, tool.id)} className="flex min-h-12 items-center gap-3 rounded-xl border border-[var(--border)] bg-[var(--surface-container-low)] px-3 py-2 text-sm font-medium text-[var(--foreground)] outline-none transition-colors hover:bg-[var(--surface-container)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]">
-                <MaterialIcon name={tool.icon} size={20} className="shrink-0 text-[var(--accent)]" />
+                <MaterialIcon name="apps" size={20} className="shrink-0 text-[var(--accent)]" />
                 <span className="min-w-0 flex-1">{tool.name}</span>
                 <MaterialIcon name="arrow_forward" size={18} className="shrink-0 text-[var(--muted)]" />
               </Link>
