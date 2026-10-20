@@ -8,6 +8,7 @@ export function getCsvJsonOperationForFile(fileName: string): CsvJsonOperation |
   return null;
 }
 export type CsvDelimiter = "," | ";" | "\t";
+export type CsvDelimiterSelection = "auto" | CsvDelimiter;
 
 export type CsvJsonResult = {
   value: string | null;
@@ -188,8 +189,11 @@ function fromJson(input: string, delimiter: CsvDelimiter): CsvJsonResult {
 export function transformCsvJson(
   input: string,
   operation: CsvJsonOperation,
-  delimiter: CsvDelimiter = ",",
+  delimiter: CsvDelimiterSelection = "auto",
 ): CsvJsonResult {
   if (!input.trim()) return { value: "", error: null };
-  return operation === "csv-to-json" ? toJson(input, delimiter === "," ? detectDelimiter(input) : delimiter) : fromJson(input, delimiter);
+  if (operation === "csv-to-json") {
+    return toJson(input, delimiter === "auto" ? detectDelimiter(input) : delimiter);
+  }
+  return fromJson(input, delimiter === "auto" ? "," : delimiter);
 }
