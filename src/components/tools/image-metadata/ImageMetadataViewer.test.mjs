@@ -31,18 +31,25 @@ test("batch cleaning preserves per-image animated-file errors and GPS warnings",
   assert.match(source, /\{item.cleanError\}/);
 });
 
-test("cleaned images are exported together in a ZIP archive", async () => {
+test("cleaned and optimized images share one local ZIP workflow without double encoding", async () => {
   const source = await readFile(componentFile, "utf8");
   assert.match(source, /createZipArchive\(entries\)/);
-  assert.match(source, /anchor.download = "loculary-images-cleaned\.zip"/);
-  assert.match(source, /-cleaned\."/);
+  assert.match(source, /anchor.download = optimize \? "loculary-images-prepared\.zip" : "loculary-images-cleaned\.zip"/);
+  assert.match(source, /compressImageFile\(item\.file, \{ format: outputFormat, quality, maxDimension \}\)/);
+  assert.match(source, /isAnimatedImage\(await item\.file\.arrayBuffer\(\)\)/);
+  assert.match(source, /Canvas encoding removes metadata and optimizes in one pass/);
+  assert.match(source, /getOutputExtension\(item\.cleanedBlob!\.type\)/);
 });
 
 test("batch metadata cleaning is localized in French and English", () => {
   assert.match(getToolMessages("fr").imageMetadata.inputHint, /10 images/);
   assert.match(getToolMessages("fr").imageMetadata.cleaningHint, /images animées/);
+  assert.match(getToolMessages("fr").imageMetadata.optimizeOption, /optimiser/);
+  assert.match(getToolMessages("fr").imageMetadata.optimizingHint, /métadonnées/);
   assert.match(getToolMessages("fr").imageMetadata.completedCount(2, 3), /2 images nettoyées sur 3/);
   assert.match(getToolMessages("en").imageMetadata.inputHint, /10 images/);
   assert.match(getToolMessages("en").imageMetadata.cleaningHint, /Animated images/);
+  assert.match(getToolMessages("en").imageMetadata.optimizeOption, /optimize/);
+  assert.match(getToolMessages("en").imageMetadata.optimizingHint, /metadata/);
   assert.match(getToolMessages("en").imageMetadata.completedCount(2, 3), /2 of 3 images cleaned/);
 });
