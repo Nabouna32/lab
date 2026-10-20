@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/Button";
 import { IconButton } from "@/components/ui/IconButton";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import { getSearchResultsPath, getToolPath } from "@/lib/tools/routes";
+import { calculateSearchOverlayPosition, type SearchOverlayPosition } from "@/lib/tools/search-overlay-position";
 
 type ToolSearchResult = {
   tool: Tool;
@@ -24,13 +25,6 @@ type ToolSearchResult = {
 
 const SEARCH_DEBOUNCE_MS = 120;
 
-type SearchOverlayPosition = {
-  top: number;
-  left: number;
-  width: number;
-  maxHeight: number;
-  placement: "above" | "below";
-};
 
 function getNormalizedMatchRange(text: string, query: string): [number, number] | null {
   const normalizedQuery = normalizeSearchText(query);
@@ -140,23 +134,14 @@ export default function ToolSearch({
       if (!anchor) return;
       const rect = anchor.getBoundingClientRect();
       const viewport = window.visualViewport;
-      const viewportLeft = viewport?.offsetLeft ?? 0;
-      const viewportTop = viewport?.offsetTop ?? 0;
-      const viewportWidth = viewport?.width ?? window.innerWidth;
-      const viewportHeight = viewport?.height ?? window.innerHeight;
-      const margin = 12;
-      const gap = 8;
-      const maxRight = viewportLeft + viewportWidth - margin;
-      const width = Math.min(rect.width, Math.max(0, viewportWidth - margin * 2));
-      const left = Math.max(viewportLeft + margin, Math.min(rect.left, maxRight - width));
-      const belowSpace = viewportTop + viewportHeight - margin - (rect.bottom + gap);
-      const aboveSpace = rect.top - viewportTop - margin - gap;
-      const opensAbove = belowSpace < 200 && aboveSpace > belowSpace;
-      const availableSpace = opensAbove ? aboveSpace : belowSpace;
-      const maxHeight = Math.max(80, Math.min(360, availableSpace));
-      const top = opensAbove ? rect.top - gap : rect.bottom + gap;
+      const position = calculateSearchOverlayPosition(rect, {
+        offsetLeft: viewport?.offsetLeft ?? 0,
+        offsetTop: viewport?.offsetTop ?? 0,
+        width: viewport?.width ?? window.innerWidth,
+        height: viewport?.height ?? window.innerHeight,
+      });
 
-      setOverlayPosition({ top, left, width, maxHeight, placement: opensAbove ? "above" : "below" });
+      setOverlayPosition(position);
     }
 
     const initialFrame = window.requestAnimationFrame(updatePosition);
