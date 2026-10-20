@@ -7,3 +7,7 @@ export function generateUuids(count: number): string[] {
   if (!Number.isInteger(count) || count < 1 || count > 50) throw new RangeError("UUID count must be an integer between 1 and 50.");
   return Array.from({ length: count }, generateUuid);
 }
+
+export function formatUuidsForText(uuids: readonly string[]): string {
+  return uuids.join("\n");
+}

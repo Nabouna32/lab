@@ -119,7 +119,7 @@ type ToolMessages = {
     invalidCsv: string; invalidJson: string; unsupportedJson: string;
   };
   uuidGenerator: {
-    count: string; countPlaceholder: string; generate: string; copy: string; copied: string; clear: string; result: string;
+    count: string; countPlaceholder: string; generate: string; copy: string; copied: string; download: string; clear: string; result: string;
     emptyResult: string; invalidCount: string; generatedOne: string; generatedMany: (count: number) => string;
   };
   htmlPreviewer: {
@@ -510,7 +510,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       invalid: "Saisissez une valeur de timestamp ou une date valide.", copy: "Copier", clear: "Effacer",
     },
     uuidGenerator: {
-      count: "Nombre d’UUID", countPlaceholder: "Ex. 5", generate: "Générer", copy: "Copier", copied: "Copié", clear: "Effacer", result: "UUID générés",
+      count: "Nombre d’UUID", countPlaceholder: "Ex. 5", generate: "Générer", copy: "Copier", copied: "Copié", download: "Télécharger (.txt)", clear: "Effacer", result: "UUID générés",
       emptyResult: "Générez des UUID pour les afficher ici.", invalidCount: "Choisissez un nombre entier compris entre 1 et 50.", generatedOne: "1 UUID généré", generatedMany: (count) => `${count} UUID générés`,
     },
   },
@@ -793,7 +793,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       invalid: "Enter a valid timestamp or date.", copy: "Copy", clear: "Clear",
     },
     uuidGenerator: {
-      count: "Number of UUIDs", countPlaceholder: "e.g. 5", generate: "Generate", copy: "Copy", copied: "Copied", clear: "Clear", result: "Generated UUIDs",
+      count: "Number of UUIDs", countPlaceholder: "e.g. 5", generate: "Generate", copy: "Copy", copied: "Copied", download: "Download (.txt)", clear: "Clear", result: "Generated UUIDs",
       emptyResult: "Generate UUIDs to see them here.", invalidCount: "Choose a whole number between 1 and 50.", generatedOne: "1 UUID generated", generatedMany: (count) => `${count} UUIDs generated`,
     },
   },

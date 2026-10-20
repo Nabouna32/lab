@@ -7,7 +7,7 @@ import { CopyButton } from "@/components/ui/CopyButton";
 import { TextField } from "@/components/ui/TextField";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { useLocale } from "@/lib/i18n/use-locale";
-import { generateUuids } from "@/lib/uuid";
+import { formatUuidsForText, generateUuids } from "@/lib/uuid";
 
 export default function UuidGenerator() {
   const locale = useLocale();
@@ -22,7 +22,19 @@ export default function UuidGenerator() {
     try { setResult(generateUuids(parsed)); setError(false); } catch { setResult([]); setError(true); }
   }
   function clear() { setResult([]); setError(false); }
-  const output = result.join("\n");
+  const output = formatUuidsForText(result);
+
+  function download() {
+    if (!output) return;
+    const url = URL.createObjectURL(new Blob([output], { type: "text/plain;charset=utf-8" }));
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = "loculary-uuids.txt";
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
 
   return (
     <section className="rounded-[var(--radius-2xl)] border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow-sm)] sm:p-8">
@@ -41,7 +53,12 @@ export default function UuidGenerator() {
           <div><p className="text-sm font-semibold text-[var(--muted)]">{t.result}</p>
             <p className="mt-1 text-sm text-[var(--muted)]" aria-live="polite">{result.length === 0 ? t.emptyResult : result.length === 1 ? t.generatedOne : t.generatedMany(result.length)}</p>
           </div>
-          {result.length > 0 && <CopyButton value={output} label={t.copy} />}
+          {result.length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              <CopyButton value={output} label={t.copy} />
+              <Button type="button" variant="secondary" onClick={download}>{t.download}</Button>
+            </div>
+          )}
         </div>
         <pre aria-live="polite" className="mt-4 min-h-40 overflow-auto rounded-xl border border-[var(--border)] bg-[var(--surface)] p-4 font-mono text-sm leading-7 text-[var(--foreground)]">{output || " "}</pre>
       </div>
