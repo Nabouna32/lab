@@ -24,7 +24,7 @@ export default function DownloadSpeedConverter() {
     const numericValue = parseLocalizedNumber(value, locale);
     if (numericValue === null || numericValue < 0) return null;
     return convertSpeed(numericValue, from, to);
-  }, [value, from, to]);
+  }, [value, from, to, locale]);
   const hasInvalidInput = value.trim() !== "" && result === null;
   return (
     <CalculatorShell>
