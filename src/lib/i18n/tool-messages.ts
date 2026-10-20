@@ -89,7 +89,7 @@ type ToolMessages = {
     leftInput: string; rightInput: string; leftPlaceholder: string; rightPlaceholder: string; compare: string; clear: string;
     hint: string; invalidJson: string; inputTooLarge: string; depthLimit: string; emptyResult: string; identical: string;
     changesCount: (count: number) => string; added: string; removed: string; changed: string; before: string; after: string;
-    path: string; results: string; truncated: string; copyReport: string;
+    path: string; results: string; truncated: string; copyReport: string; loadFile: string; fileTypeError: string; fileTooLarge: string; fileReadError: string;
   };
   yamlFormatterValidator: {
     input: string; placeholder: string; output: string; format: string; copy: string; clear: string;
@@ -381,7 +381,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       compare: "Comparer", clear: "Effacer", hint: "L’ordre des clés d’un objet n’a pas d’importance ; l’ordre des éléments d’un tableau compte. La comparaison reste sur votre appareil.",
       invalidJson: "Vérifiez que les deux entrées sont des documents JSON valides.", inputTooLarge: "Chaque document doit contenir au maximum 200 000 caractères.", depthLimit: "La structure JSON est trop profondément imbriquée pour être comparée en toute sécurité.",
       emptyResult: "Saisissez les deux documents JSON puis lancez la comparaison.", identical: "Aucune différence structurelle détectée.", changesCount: (count) => count + (count === 1 ? " différence" : " différences"),
-      added: "Ajouté", removed: "Supprimé", changed: "Modifié", before: "Avant", after: "Après", path: "Chemin", results: "Différences", truncated: "Résultat limité aux 500 premières différences.", copyReport: "Copier le rapport",
+      added: "Ajouté", removed: "Supprimé", changed: "Modifié", before: "Avant", after: "Après", path: "Chemin", results: "Différences", truncated: "Résultat limité aux 500 premières différences.", copyReport: "Copier le rapport", loadFile: "Importer un fichier", fileTypeError: "Choisissez un fichier JSON (.json).", fileTooLarge: "Le fichier dépasse la limite de 200 000 caractères.", fileReadError: "Impossible de lire ce fichier sur votre appareil.",
     },
     yamlFormatterValidator: {
       input: "Votre YAML", placeholder: "name: Loculary\\ntools:\\n  - JSON\\n  - YAML", output: "Résultat", format: "Formater", copy: "Copier", clear: "Effacer",
@@ -673,7 +673,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       compare: "Compare", clear: "Clear", hint: "Object key order does not matter; array item order does. Comparison stays on your device.",
       invalidJson: "Check that both inputs are valid JSON documents.", inputTooLarge: "Each document must contain at most 200,000 characters.", depthLimit: "The JSON structure is nested too deeply to compare safely.",
       emptyResult: "Enter both JSON documents, then compare them.", identical: "No structural differences found.", changesCount: (count) => count + (count === 1 ? " difference" : " differences"),
-      added: "Added", removed: "Removed", changed: "Changed", before: "Before", after: "After", path: "Path", results: "Differences", truncated: "Showing the first 500 differences only.", copyReport: "Copy report",
+      added: "Added", removed: "Removed", changed: "Changed", before: "Before", after: "After", path: "Path", results: "Differences", truncated: "Showing the first 500 differences only.", copyReport: "Copy report", loadFile: "Import a file", fileTypeError: "Choose a JSON file (.json).", fileTooLarge: "The file exceeds the 200,000-character limit.", fileReadError: "Could not read this file on your device.",
     },
     yamlFormatterValidator: {
       input: "Your YAML", placeholder: "name: Loculary\\ntools:\\n  - JSON\\n  - YAML", output: "Result", format: "Format", copy: "Copy", clear: "Clear",
