@@ -85,6 +85,12 @@ type ToolMessages = {
     indentation: string; spaces2: string; spaces4: string; tab: string; valid: string; invalid: string;
     emptyResult: string; formatted: string; minified: string; resourceLimit: string; errorAt: (line: string, column: string) => string;
   };
+  jsonDiffChecker: {
+    leftInput: string; rightInput: string; leftPlaceholder: string; rightPlaceholder: string; compare: string; clear: string;
+    hint: string; invalidJson: string; inputTooLarge: string; depthLimit: string; emptyResult: string; identical: string;
+    changesCount: (count: number) => string; added: string; removed: string; changed: string; before: string; after: string;
+    path: string; truncated: string; copyReport: string;
+  };
   yamlFormatterValidator: {
     input: string; placeholder: string; output: string; format: string; copy: string; clear: string;
     indentation: string; spaces2: string; spaces4: string; tab: string; valid: string; invalid: string;
@@ -370,6 +376,13 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       indentation: "Indentation", spaces2: "2 espaces", spaces4: "4 espaces", tab: "Tabulation", valid: "JSON valide", invalid: "JSON invalide",
       emptyResult: "Le résultat apparaîtra ici après validation.", formatted: "Formaté", minified: "Minifié", resourceLimit: "Le JSON dépasse la limite de taille sûre de 200 000 caractères.", errorAt: (line, column) => "Ligne " + line + ", colonne " + column,
     },
+    jsonDiffChecker: {
+      leftInput: "JSON de référence", rightInput: "Nouveau JSON", leftPlaceholder: '{\\n  "status": "draft",\\n  "count": 2\\n}', rightPlaceholder: '{\\n  "status": "published",\\n  "count": 3,\\n  "active": true\\n}',
+      compare: "Comparer", clear: "Effacer", hint: "L’ordre des clés d’un objet n’a pas d’importance ; l’ordre des éléments d’un tableau compte. La comparaison reste sur votre appareil.",
+      invalidJson: "Vérifiez que les deux entrées sont des documents JSON valides.", inputTooLarge: "Chaque document doit contenir au maximum 200 000 caractères.", depthLimit: "La structure JSON est trop profondément imbriquée pour être comparée en toute sécurité.",
+      emptyResult: "Saisissez les deux documents JSON puis lancez la comparaison.", identical: "Aucune différence structurelle détectée.", changesCount: (count) => count + (count === 1 ? " différence" : " différences"),
+      added: "Ajouté", removed: "Supprimé", changed: "Modifié", before: "Avant", after: "Après", path: "Chemin", truncated: "Résultat limité aux 500 premières différences.", copyReport: "Copier le rapport",
+    },
     yamlFormatterValidator: {
       input: "Votre YAML", placeholder: "name: Loculary\\ntools:\\n  - JSON\\n  - YAML", output: "Résultat", format: "Formater", copy: "Copier", clear: "Effacer",
       indentation: "Indentation", spaces2: "2 espaces", spaces4: "4 espaces", tab: "Tabulation", valid: "YAML valide", invalid: "YAML invalide",
@@ -654,6 +667,13 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       input: "Your JSON", placeholder: '{\\n  "name": "Loculary"\\n}', output: "Result", format: "Format", minify: "Minify", copy: "Copy", clear: "Clear",
       indentation: "Indentation", spaces2: "2 spaces", spaces4: "4 spaces", tab: "Tab", valid: "Valid JSON", invalid: "Invalid JSON",
       emptyResult: "The result will appear here after validation.", formatted: "Formatted", minified: "Minified", resourceLimit: "JSON exceeds the safe size limit of 200,000 characters.", errorAt: (line, column) => "Line " + line + ", column " + column,
+    },
+    jsonDiffChecker: {
+      leftInput: "Reference JSON", rightInput: "New JSON", leftPlaceholder: '{\\n  "status": "draft",\\n  "count": 2\\n}', rightPlaceholder: '{\\n  "status": "published",\\n  "count": 3,\\n  "active": true\\n}',
+      compare: "Compare", clear: "Clear", hint: "Object key order does not matter; array item order does. Comparison stays on your device.",
+      invalidJson: "Check that both inputs are valid JSON documents.", inputTooLarge: "Each document must contain at most 200,000 characters.", depthLimit: "The JSON structure is nested too deeply to compare safely.",
+      emptyResult: "Enter both JSON documents, then compare them.", identical: "No structural differences found.", changesCount: (count) => count + (count === 1 ? " difference" : " differences"),
+      added: "Added", removed: "Removed", changed: "Changed", before: "Before", after: "After", path: "Path", truncated: "Showing the first 500 differences only.", copyReport: "Copy report",
     },
     yamlFormatterValidator: {
       input: "Your YAML", placeholder: "name: Loculary\\ntools:\\n  - JSON\\n  - YAML", output: "Result", format: "Format", copy: "Copy", clear: "Clear",
