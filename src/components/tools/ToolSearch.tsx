@@ -84,6 +84,7 @@ export default function ToolSearch({
   const t = getMessages(locale);
   const [query, setQuery] = useState(initialQuery ?? "");
   const [isFocused, setIsFocused] = useState(false);
+  const [isSuggestionsDismissed, setIsSuggestionsDismissed] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
   const [results, setResults] = useState<ToolSearchResult[]>([]);
   const [resultsQuery, setResultsQuery] = useState("");
@@ -96,7 +97,7 @@ export default function ToolSearch({
   const rootRef = useRef<HTMLDivElement>(null);
   const popupRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const showResults = isFocused && query.trim().length > 0;
+  const showResults = isFocused && !isSuggestionsDismissed && query.trim().length > 0;
   const inputId = instanceId + "-input";
   const resultsId = instanceId + "-results";
 
@@ -215,9 +216,15 @@ export default function ToolSearch({
   function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.key === "Escape") {
       event.preventDefault();
-      setIsFocused(false);
+      setIsSuggestionsDismissed(true);
       setActiveIndex(-1);
       setOverlayPosition(null);
+      return;
+    }
+    if (isSuggestionsDismissed && event.key === "ArrowDown" && query.trim()) {
+      event.preventDefault();
+      setIsSuggestionsDismissed(false);
+      setActiveIndex(0);
       return;
     }
     if (!showResults || visibleResults.length === 0) return;
@@ -269,8 +276,9 @@ export default function ToolSearch({
           aria-activedescendant={hasVisibleResults && activeIndex >= 0 ? instanceId + "-result-" + activeIndex : undefined}
           inputMode="search"
           enterKeyHint="search"
-          onChange={(event) => { const nextQuery = event.target.value; searchRequest.current += 1; setQuery(nextQuery); setActiveIndex(-1); setSearchError(false); setIsSearching(nextQuery.trim().length > 0); if (!nextQuery.trim()) setOverlayPosition(null); }}
-          onFocus={() => setIsFocused(true)}
+          onChange={(event) => { const nextQuery = event.target.value; searchRequest.current += 1; setQuery(nextQuery); setIsSuggestionsDismissed(false); setActiveIndex(-1); setSearchError(false); setIsSearching(nextQuery.trim().length > 0); if (!nextQuery.trim()) setOverlayPosition(null); }}
+          onFocus={() => { setIsFocused(true); setIsSuggestionsDismissed(false); }}
+          onClick={() => setIsSuggestionsDismissed(false)}
           ref={inputRef}
           onKeyDown={handleKeyDown}
           className={
@@ -287,6 +295,7 @@ export default function ToolSearch({
             onClick={() => {
               searchRequest.current += 1;
               setQuery("");
+              setIsSuggestionsDismissed(false);
               setActiveIndex(-1);
               setIsFocused(true);
               setIsSearching(false);
