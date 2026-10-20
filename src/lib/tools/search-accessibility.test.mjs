@@ -24,3 +24,11 @@ test("ToolSearch announces the changing suggestion count to assistive technology
     /<p role="status" aria-live="polite" aria-atomic="true" className="rounded-full bg-\[var\(--surface-soft\)\]/,
   );
 });
+
+test("ToolSearch lets users dismiss suggestions with Escape and reopen them", () => {
+  assert.match(toolSearchSource, /const \[isSuggestionsDismissed, setIsSuggestionsDismissed\] = useState\(false\);/);
+  assert.match(toolSearchSource, /const showResults = isFocused && !isSuggestionsDismissed && query\.trim\(\)\.length > 0;/);
+  assert.match(toolSearchSource, /setIsSuggestionsDismissed\(true\);\s*setActiveIndex\(-1\);\s*setOverlayPosition\(null\);/);
+  assert.match(toolSearchSource, /isSuggestionsDismissed && event\.key === "ArrowDown" && query\.trim\(\)/);
+  assert.match(toolSearchSource, /setQuery\(nextQuery\); setIsSuggestionsDismissed\(false\); setActiveIndex\(-1\);/);
+});
