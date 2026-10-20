@@ -2,7 +2,7 @@
 
 Dernière révision : 2026-10-21. File de travail unique.
 
-- **Confidentialité / nettoyage d’images par lot :** en cours. Étendre l’analyseur EXIF pour traiter jusqu’à 10 images localement, avertir sur les coordonnées GPS et exporter les images nettoyées en ZIP ; respecter les limites de taille et ne jamais sacrifier silencieusement les animations.
+- **Confidentialité / nettoyage d’images par lot :** [PR #918](https://github.com/Nabouna32/lab/pull/918). Jusqu’à 10 images inspectées et nettoyées localement, avertissements GPS et export ZIP ; limites explicites et aucune perte d’animation silencieuse. CI applicative verte sur `b15cc55` ([run #39515837545](https://github.com/Nabouna32/lab/actions/runs/39515837545)).
 - **Images / compresseur par lot :** livré via [PR #916](https://github.com/Nabouna32/lab/pull/916), fusionnée dans `13f54c5`. Jusqu’à 10 images traitées localement, comparaison du gain et téléchargement ZIP ; CI [#39514581989](https://github.com/Nabouna32/lab/actions/runs/39514581989) verte.
 - **Produit / outils de développement — conversion JSON ↔ YAML :** livré via [PR #914](https://github.com/Nabouna32/lab/pull/914), fusionnée dans `f8308de`. Le formateur YAML gère le formatage et les conversions dans les deux sens, avec validation des valeurs incompatibles, limite de taille, messages FR/EN et traitement local. CI [#39513132211](https://github.com/Nabouna32/lab/actions/runs/39513132211) verte.
 - **Produit / comparateur JSON — import local de fichiers :** livré via [PR #912](https://github.com/Nabouna32/lab/pull/912), fusionnée (`bef41fa`). Import de deux fichiers JSON sans upload ni stockage ; CI [#39511782974](https://github.com/Nabouna32/lab/actions/runs/39511782974) verte.
