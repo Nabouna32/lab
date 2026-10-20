@@ -1,4 +1,12 @@
 export type CsvJsonOperation = "csv-to-json" | "json-to-csv";
+export const CSV_JSON_MAX_FILE_BYTES = 200_000;
+
+export function getCsvJsonOperationForFile(fileName: string): CsvJsonOperation | null {
+  const extension = fileName.slice(fileName.lastIndexOf(".")).toLowerCase();
+  if (extension === ".csv") return "csv-to-json";
+  if (extension === ".json") return "json-to-csv";
+  return null;
+}
 export type CsvDelimiter = "," | ";" | "\t";
 
 export type CsvJsonResult = {
