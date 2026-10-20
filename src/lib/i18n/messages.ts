@@ -7,7 +7,7 @@ export type Messages = {
   nav: { home: string; tools: string; explore: string; exploreDescription: string; favorites: string; favoritesDescription: string; collections: string; collectionsDescription: string; language: string; account: string; space: string; menu: string };
   breadcrumbs: { label: string };
   footer: { tagline: string; explore: string; account: string };
-  actions: { copy: string; copied: string; clear: string };
+  actions: { copy: string; copied: string; clear: string; shareTool: string; shareLinkCopied: string; shareLinkError: string };
   home: { metaTitle: string; badge: string; title: string; description: string; searchPlaceholder: string; quickLinksLabel: string; quickLinks: Array<{ label: string; toolId: ToolId }>; recentToolsTitle: string; recentToolsDescription: string; clearRecentTools: string; explore: string; categoriesTitle: string; categoriesDescription: string; categoriesCount: (count: number) => string; toolsCountLabel: string; };
   tools: {
     metaTitle: string;
@@ -35,7 +35,7 @@ export const messages: Record<Locale, Messages> = {
     nav: { home: "Accueil", tools: "Outils", explore: "Explorer", exploreDescription: "Parcours tous les outils disponibles", favorites: "Favoris", favoritesDescription: "Tes outils enregistrés", collections: "Collections", collectionsDescription: "Organise tes outils en groupes", language: "Langue", account: "Gère ton profil et tes préférences", space: "Compte", menu: "Menu" },
     breadcrumbs: { label: "Fil d’Ariane" },
     footer: { tagline: "Des outils utiles, directement dans ton navigateur.", explore: "Tous les outils", account: "Compte" },
-    actions: { copy: "Copier", copied: "Copié", clear: "Effacer" },
+    actions: { copy: "Copier", copied: "Copié", clear: "Effacer", shareTool: "Partager l’outil", shareLinkCopied: "Lien copié", shareLinkError: "Impossible de partager ou de copier le lien." },
     home: {
       metaTitle: "Loculary — Outils en ligne gratuits",
       badge: "De l’idée à l’action",
@@ -130,7 +130,7 @@ export const messages: Record<Locale, Messages> = {
     nav: { home: "Home", tools: "Tools", explore: "Explore", exploreDescription: "Browse all available tools", favorites: "Favorites", favoritesDescription: "Your saved tools", collections: "Collections", collectionsDescription: "Organize your tools into groups", language: "Language", account: "Manage your profile and preferences", space: "Account", menu: "Menu" },
     breadcrumbs: { label: "Breadcrumb" },
     footer: { tagline: "Useful tools, ready to use in your browser.", explore: "All tools", account: "Account" },
-    actions: { copy: "Copy", copied: "Copied", clear: "Clear" },
+    actions: { copy: "Copy", copied: "Copied", clear: "Clear", shareTool: "Share tool", shareLinkCopied: "Link copied", shareLinkError: "Could not share or copy the link." },
     home: {
       metaTitle: "Loculary — Free online tools",
       badge: "From idea to done",
