@@ -9,7 +9,7 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 
 ## État vérifié
 
-- **Produit / outils de développement — conversion JSON ↔ YAML :** le formateur YAML propose aussi les conversions dans les deux sens, avec refus explicite des valeurs YAML non représentables en JSON. Traitement local, limites de taille et tests dédiés. PR en cours ; CI et fusion à confirmer.
+- **Produit / outils de développement — conversion JSON ↔ YAML :** PR [#914](https://github.com/Nabouna32/lab/pull/914) fusionnée dans `f8308de`. Le formateur YAML propose désormais le formatage, YAML → JSON et JSON → YAML. CI [#39513132211](https://github.com/Nabouna32/lab/actions/runs/39513132211) verte : lint, TypeScript, 579 tests réussis (2 ignorés), build et Playwright.
 - **Produit / comparateur JSON — import de fichiers locaux :** PR [#912](https://github.com/Nabouna32/lab/pull/912) fusionnée (`bef41fa`). Import séparé de deux fichiers `.json`, limites explicites, lecture uniquement dans le navigateur. CI [#39511782974](https://github.com/Nabouna32/lab/actions/runs/39511782974) verte : lint, TypeScript, tests, build et Playwright.
 - **Accessibilité / contraste du comparateur JSON :** la revue des captures Playwright a révélé que l’exemple éditorial utilisait un fond accent trop saturé pour certains textes. La correction remplace cet encart par une surface neutre et ajoute un test Playwright du ratio de contraste WCAG 4.5:1 sur desktop/mobile et thèmes clair/sombre. [PR #909](https://github.com/Nabouna32/lab/pull/909).
 - **Validation navigateur / observabilité Playwright :** suite Chromium sur le build de production local, accueil FR/EN, recherche, calculateur IPv4 et comparateur JSON, sur desktop/mobile et thèmes clair/sombre. Le run complet [#39504209195](https://github.com/Nabouna32/lab/actions/runs/39504209195) a validé 16/16 cas sur quatre configurations ; les rapports montrent 0 erreur JavaScript, 0 erreur console, 0 requête réellement échouée, 0 réponse HTTP >= 400 et aucun débordement horizontal. L’artefact `playwright-observation-3201` contient 16 rapports et 32 PNG, conservés sept jours.
@@ -83,7 +83,7 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 
 > Mémoire opérationnelle par session de travail, avec les PR représentatives et preuves vérifiables.
 
-1. **Produit / conversion JSON ↔ YAML** — ajoute les conversions bidirectionnelles au formateur YAML existant, avec validation stricte, garde-fous de ressources et messages FR/EN. PR en cours.
+1. **Produit / conversion JSON ↔ YAML** — ajoute le formatage YAML et les conversions dans les deux sens, avec validation stricte, garde-fous de ressources et messages FR/EN. [PR #914](https://github.com/Nabouna32/lab/pull/914), fusionnée dans `f8308de` ; CI complète réussie ([run #39513132211](https://github.com/Nabouna32/lab/actions/runs/39513132211)).
 2. **Produit / comparateur JSON — import de fichiers locaux** — import de deux fichiers JSON sans upload ni stockage. [PR #912](https://github.com/Nabouna32/lab/pull/912), CI complète réussie.
 3. **Accessibilité / contraste — comparateur JSON** — correction du contraste éditorial avec vérification Playwright WCAG 4,5:1. [PR #909](https://github.com/Nabouna32/lab/pull/909).
 4. **Validation navigateur / observabilité Playwright** — build de production local, 16 cas desktop/mobile, FR/EN et clair/sombre. [PR #907](https://github.com/Nabouna32/lab/pull/907).
