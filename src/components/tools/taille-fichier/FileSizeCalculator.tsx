@@ -41,11 +41,11 @@ export default function FileSizeCalculator() {
         />
       </div>
       <div className="mt-4 grid gap-5 sm:grid-cols-2">
-        <CalculatorField label={t.duration} inputId="file-size-duration" min="0" step="any" value={duration} onChange={(event) => setDuration(event.target.value)} placeholder={t.durationPlaceholder}  aria-invalid={hasInvalidInput} aria-describedby="file-size-error"/>
+        <CalculatorField label={t.duration} inputId="file-size-duration" min="0" step="any" value={duration} onChange={(event) => setDuration(event.target.value)} placeholder={t.durationPlaceholder}  aria-invalid={hasInvalidInput} aria-describedby={hasInvalidInput ? "file-size-error" : undefined}/>
         <Select label={t.durationUnit} id="file-size-duration-unit" value={durationUnit} onChange={(event) => setDurationUnit(event.target.value as DurationUnit)}>
           {Object.entries({ seconds: getDurationUnitLabel(locale, "seconds"), minutes: getDurationUnitLabel(locale, "minutes"), hours: getDurationUnitLabel(locale, "hours") }).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
         </Select>
-        <CalculatorField label={t.bitrate} inputId="file-size-bitrate" min="0" step="any" value={bitrate} onChange={(event) => setBitrate(event.target.value)} placeholder={t.bitratePlaceholder}  aria-invalid={hasInvalidInput} aria-describedby="file-size-error"/>
+        <CalculatorField label={t.bitrate} inputId="file-size-bitrate" min="0" step="any" value={bitrate} onChange={(event) => setBitrate(event.target.value)} placeholder={t.bitratePlaceholder}  aria-invalid={hasInvalidInput} aria-describedby={hasInvalidInput ? "file-size-error" : undefined}/>
         <Select label={t.bitrateUnit} id="file-size-bitrate-unit" value={bitrateUnit} onChange={(event) => setBitrateUnit(event.target.value as BitrateUnit)}>
           {Object.entries({ kbps: getBitrateUnitLabel(locale, "kbps"), mbps: getBitrateUnitLabel(locale, "mbps"), gbps: getBitrateUnitLabel(locale, "gbps") }).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
         </Select>

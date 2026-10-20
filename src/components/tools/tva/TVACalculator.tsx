@@ -43,8 +43,8 @@ export default function TVACalculator() {
         <CalculatorActions showClear={priceValue !== "" || rateValue !== "20"} onClear={clearValues} />
       </div>
       <div className="mt-5 grid gap-5 sm:grid-cols-2">
-        <CalculatorField label={mode === "ht-to-ttc" ? t.priceHt : t.priceTtc} inputId="tva-price" min="0" value={priceValue} onChange={(event) => setPriceValue(event.target.value)} placeholder={mode === "ht-to-ttc" ? t.placeholders.ht : t.placeholders.ttc} unit="€"  aria-invalid={hasValues && (!hasNumericValues || !valid)} aria-describedby="tva-error"/>
-        <CalculatorField label={t.rate} inputId="tva-rate" min="0" max="100" value={rateValue} onChange={(event) => setRateValue(event.target.value)} placeholder={t.placeholders.rate} unit="%"  aria-invalid={hasValues && (!hasNumericValues || !valid)} aria-describedby="tva-error"/>
+        <CalculatorField label={mode === "ht-to-ttc" ? t.priceHt : t.priceTtc} inputId="tva-price" min="0" value={priceValue} onChange={(event) => setPriceValue(event.target.value)} placeholder={mode === "ht-to-ttc" ? t.placeholders.ht : t.placeholders.ttc} unit="€"  aria-invalid={hasValues && (!hasNumericValues || !valid)} aria-describedby={((hasValues && (!hasNumericValues || !valid)) || calculationFailed) ? "tva-error" : undefined}/>
+        <CalculatorField label={t.rate} inputId="tva-rate" min="0" max="100" value={rateValue} onChange={(event) => setRateValue(event.target.value)} placeholder={t.placeholders.rate} unit="%"  aria-invalid={hasValues && (!hasNumericValues || !valid)} aria-describedby={((hasValues && (!hasNumericValues || !valid)) || calculationFailed) ? "tva-error" : undefined}/>
       </div>
       <div className="mt-6 grid gap-4 sm:grid-cols-3">
         <CalculatorResult label={t.resultHt} tone="accent" value={ht === null ? null : `${formatToolNumber(ht, locale, 2)} €`}

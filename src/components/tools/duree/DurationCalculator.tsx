@@ -74,8 +74,8 @@ export default function DurationCalculator() {
       <div className="grid gap-5 sm:grid-cols-2">
         {mode === "dates" ? (
           <>
-            <CalculatorField label={t.startDate} inputId="duration-start-date" type="datetime-local" value={startDateTime} onChange={(event) => setStartDateTime(event.target.value)}  aria-invalid={invalidRange} aria-describedby="duration-error"/>
-            <CalculatorField label={t.endDate} inputId="duration-end-date" type="datetime-local" value={endDateTime} onChange={(event) => setEndDateTime(event.target.value)}  aria-invalid={invalidRange} aria-describedby="duration-error"/>
+            <CalculatorField label={t.startDate} inputId="duration-start-date" type="datetime-local" value={startDateTime} onChange={(event) => setStartDateTime(event.target.value)}  aria-invalid={invalidRange} aria-describedby={invalidRange ? "duration-error" : undefined}/>
+            <CalculatorField label={t.endDate} inputId="duration-end-date" type="datetime-local" value={endDateTime} onChange={(event) => setEndDateTime(event.target.value)}  aria-invalid={invalidRange} aria-describedby={invalidRange ? "duration-error" : undefined}/>
           </>
         ) : (
           <>
