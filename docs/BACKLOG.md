@@ -2,8 +2,13 @@
 
 Dernière révision : 2026-10-20. File de travail unique.
 
+- **Justesse / convertisseur CSV → JSON :** ignore les lignes physiquement vides avant les en-têtes, préserve les enregistrements explicitement encodés avec une cellule vide citée (`""`) et rejette les en-têtes entièrement vides. Trois tests de régression. [PR #891](https://github.com/Nabouna32/lab/pull/891), fusionnée dans `468d03ae4fb139098850d6afe521264a5e9ace0a`. Lint, TypeScript, tests et build réussis sur la tête exacte `4377855f20687609c92d984bbbee8429dbde9c38` ([CI #39373102959](https://github.com/Nabouna32/lab/actions/runs/39373102959)). Aucun test navigateur exécuté.
 - **Justesse / convertisseur CSV → JSON :** conserve maintenant les enregistrements avec séparateurs explicites même lorsque toutes les cellules sont vides (ex. `,,`), au lieu de supprimer silencieusement une ligne de données ; les lignes physiquement vides restent ignorées. Deux tests de régression. [PR #889](https://github.com/Nabouna32/lab/pull/889), fusionnée dans `5fc7343c6df15201b36f160cf00d2ac03b31d444`. Lint, TypeScript, tests et build réussis sur la tête exacte `aaa89477d03432d94c6182a8d36cfdbf60c74ab0` ([CI #39372484872](https://github.com/Nabouna32/lab/actions/runs/39372484872)). Aucun test navigateur exécuté.
-## Dernière livraison — préservation des enregistrements CSV vides
+## Dernière livraison — cas limites du parseur CSV
+
+- [PR #891](https://github.com/Nabouna32/lab/pull/891) ignore les lignes physiquement vides en tête, préserve les cellules vides explicitement citées et rejette les en-têtes entièrement vides. Trois tests de régression ; lint, TypeScript, tests et build réussis sur `4377855f20687609c92d984bbbee8429dbde9c38` ([CI #39373102959](https://github.com/Nabouna32/lab/actions/runs/39373102959)).
+
+## Livraison précédente — transparence sur le traitement local
 
 - Le détail affiché sur les pages d’outils locaux décrit désormais explicitement les **données saisies et résultats de l’outil courant**, et non toutes les données produit que Loculary peut conserver séparément. Le libellé FR/EN n’affirme plus que Loculary ne stocke aucune donnée en général ; test de régression ajouté. [PR #887](https://github.com/Nabouna32/lab/pull/887), fusionnée dans `8e0b69544155c1d665ff11cf1a5f9cecaa31a73a` ; lint, TypeScript, tests et build réussis sur `799a0a5b4e090d08100235997a567bb94c29c655` ([CI #39371882214](https://github.com/Nabouna32/lab/actions/runs/39371882214)). Aucun test navigateur exécuté.
 
@@ -56,7 +61,9 @@ La [PR #833](https://github.com/Nabouna32/lab/pull/833) ajoute quatre cartes d�
 
 ## P1 — Audit de justesse et confidentialité des outils (priorité active)
 
-- **État :** continu ; checkpoint [issue #741](https://github.com/Nabouna32/lab/issues/741). Le dernier lot traite la précision de la déclaration locale ; poursuivre par un défaut confirmé de flux de données, de comportement métier ou de compréhension utilisateur.
+- **Dernier lot livré :** [PR #891](https://github.com/Nabouna32/lab/pull/891) complète la correction CSV #889 avec trois cas limites. La prochaine inspection doit porter sur un autre outil publié pour varier le périmètre.
+
+- **État :** continu ; checkpoint [issue #741](https://github.com/Nabouna32/lab/issues/741). Les derniers lots ont corrigé la justesse du parseur CSV et précisé la déclaration de traitement local ; poursuivre par un défaut confirmé sur un autre outil publié.
 - **Pourquoi :** les audits statiques ne prouvent pas la justesse métier ni le comportement des entrées limites. Les correctifs EXIF, CSV et compresseur ont déjà révélé des défauts concrets.
 - **Livrable visé :** choisir un outil par reprise ; vérifier calcul/format, limites, erreurs, FR/EN et flux de données ; ajouter des tests de régression à chaque défaut confirmé.
 - **Lot précédent — calculateur IPv4 CIDR :** le champ de broadcast est maintenant non applicable pour `/31` et `/32`, en cohérence avec la RFC 3021 et le modèle de route d’hôte de la RFC 4632. [PR #885](https://github.com/Nabouna32/lab/pull/885), CI complète verte sur `a41729723c4be778543ef7bb48f595790c8c1b58` ([run #39371003865](https://github.com/Nabouna32/lab/actions/runs/39371003865)). Aucun test navigateur exécuté.
