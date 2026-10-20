@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { getToolProcessingPresentation } from "./processing.ts";
+import { getMessages } from "../i18n/messages.ts";
 
 const base = {
   dataCategories: [],
@@ -52,4 +53,20 @@ test("hybrid processing is disclosed", () => {
       summary: "Le traitement local est complété par un service externe.",
     },
   );
+});
+
+
+test("local privacy disclosure scopes its claim to tool inputs and results in both locales", () => {
+  const french = getMessages("fr").processing.localDetail;
+  const english = getMessages("en").processing.localDetail;
+
+  assert.match(french, /données saisies et les résultats/);
+  assert.match(french, /ne les envoie pas à un serveur/);
+  assert.match(french, /compte ou dans un historique/);
+  assert.doesNotMatch(french, /Aucune donnée/);
+
+  assert.match(english, /data you enter and the results/);
+  assert.match(english, /does not send them to a server/);
+  assert.match(english, /account or history/);
+  assert.doesNotMatch(english, /No data is sent to a server or stored by Loculary/);
 });

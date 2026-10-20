@@ -118,7 +118,7 @@ export const messages: Record<Locale, Messages> = {
       accountDeleted: "Votre compte a été supprimé. Vous êtes maintenant déconnecté.",
     },
     processing: {
-      localDetail: "Aucune donnée n'est envoyée à un serveur ni stockée par Loculary.", ariaLabel: "Informations sur le traitement des données", more: "Informations sur le traitement",
+      localDetail: "Les données saisies et les résultats sont traités dans votre navigateur. Cet outil ne les envoie pas à un serveur et ne les enregistre pas dans votre compte ou dans un historique.", ariaLabel: "Informations sur le traitement des données", more: "Informations sur le traitement",
       storage: "Stockage", retention: "Conservation", externalProviders: "Service(s) externe(s)", dataCategories: "Données concernées",
       localLabel: "Traitement local", localSummary: "Vos données restent sur votre appareil.", fallbackNotice: "Cette partie est actuellement disponible en anglais.",
       externalLabel: "Service externe", externalSummary: "Certaines données sont transmises à un service externe.",
@@ -213,7 +213,7 @@ export const messages: Record<Locale, Messages> = {
       accountDeleted: "Your account has been deleted. You are now signed out.",
     },
     processing: {
-      localDetail: "No data is sent to a server or stored by Loculary.", ariaLabel: "Data processing information", more: "Processing information",
+      localDetail: "The data you enter and the results are processed in your browser. This tool does not send them to a server or save them to your account or history.", ariaLabel: "Data processing information", more: "Processing information",
       storage: "Storage", retention: "Retention", externalProviders: "External service(s)", dataCategories: "Data involved",
       localLabel: "Local processing", localSummary: "Your data stays on your device.", fallbackNotice: "This part is currently available in English.",
       externalLabel: "External service", externalSummary: "Some data is sent to an external service.",
