@@ -22,6 +22,8 @@ type ToolSearchResult = {
   score: number;
 };
 
+const SEARCH_DEBOUNCE_MS = 120;
+
 type SearchOverlayPosition = {
   top: number;
   left: number;
@@ -107,22 +109,24 @@ export default function ToolSearch({
 
     const requestId = ++searchRequest.current;
     let cancelled = false;
-
-    void executeToolSearch(normalizedQuery, locale).then((outcome) => {
-      if (cancelled || requestId !== searchRequest.current) return;
-      if (outcome.status === "error") {
-        setSearchError(true);
+    const timeoutId = window.setTimeout(() => {
+      void executeToolSearch(normalizedQuery, locale).then((outcome) => {
+        if (cancelled || requestId !== searchRequest.current) return;
+        if (outcome.status === "error") {
+          setSearchError(true);
+          setIsSearching(false);
+          return;
+        }
+        setResults(outcome.results);
+        setResultsQuery(normalizedQuery);
+        setSearchError(false);
         setIsSearching(false);
-        return;
-      }
-      setResults(outcome.results);
-      setResultsQuery(normalizedQuery);
-      setSearchError(false);
-      setIsSearching(false);
-    });
+      });
+    }, SEARCH_DEBOUNCE_MS);
 
     return () => {
       cancelled = true;
+      window.clearTimeout(timeoutId);
     };
   }, [deferredQuery, locale, searchRetryCount]);
 
