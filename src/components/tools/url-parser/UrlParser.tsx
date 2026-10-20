@@ -6,7 +6,7 @@ import { ClearButton } from "@/components/ui/ClearButton";
 import { TextArea } from "@/components/ui/TextArea";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { useLocale } from "@/lib/i18n/use-locale";
-import { parseUrl } from "@/lib/url-parser";
+import { hasSensitiveUrlData, parseUrl } from "@/lib/url-parser";
 
 const fieldKeys = [
   "protocol",
@@ -80,7 +80,7 @@ export default function UrlParser() {
             {result && <CopyButton value={result.href} label={t.copy} />}
           </div>
 
-          {result && (result.username || result.hasPassword) && (
+          {result && hasSensitiveUrlData(result) && (
             <p role="status" className="mt-4 rounded-[var(--radius-md)] border border-[var(--warning)] bg-[var(--warning-soft)] p-3 text-sm text-[var(--foreground)]">
               {t.credentialsWarning}
             </p>
