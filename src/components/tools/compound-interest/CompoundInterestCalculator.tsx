@@ -8,7 +8,7 @@ import { Select } from "@/components/ui/Select";
 import { ValidationMessage } from "@/components/ui/ValidationMessage";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
-import { formatToolNumber } from "@/lib/numbers";
+import { formatToolNumber, parseLocalizedNumber } from "@/lib/numbers";
 import { calculateCompoundInterest, getCompoundingPeriodCount, type CompoundingFrequency } from "@/lib/compound-interest";
 
 const frequencies: CompoundingFrequency[] = [1, 2, 4, 12, 365];
@@ -23,10 +23,11 @@ export default function CompoundInterestCalculator() {
   const [contributionValue, setContributionValue] = useState("");
 
   const ready = principalValue.trim() !== "" && rateValue.trim() !== "" && yearsValue.trim() !== "";
-  const principal = Number(principalValue);
-  const annualRatePercent = Number(rateValue);
-  const years = Number(yearsValue);
-  const contributionPerPeriod = contributionValue.trim() === "" ? 0 : Number(contributionValue);
+  const principal = parseLocalizedNumber(principalValue, locale) ?? Number.NaN;
+  const annualRatePercent = parseLocalizedNumber(rateValue, locale) ?? Number.NaN;
+  const years = parseLocalizedNumber(yearsValue, locale) ?? Number.NaN;
+  const contributionPerPeriod =
+    contributionValue.trim() === "" ? 0 : (parseLocalizedNumber(contributionValue, locale) ?? Number.NaN);
   const result = ready ? calculateCompoundInterest({ principal, annualRatePercent, years, compoundingPerYear: frequency, contributionPerPeriod }) : null;
   const invalid = ready && (result === null);
   const invalidPeriods =
@@ -55,11 +56,11 @@ export default function CompoundInterestCalculator() {
       <div className="grid items-start lg:grid-cols-[minmax(0,1.25fr)_minmax(20rem,0.75fr)]">
         <div className="p-5 sm:p-7 lg:p-8">
           <div className="grid gap-5 sm:grid-cols-2">
-            <CalculatorField label={t.principal} inputId="compound-principal" aria-describedby={invalid ? "compound-interest-error" : undefined} value={principalValue} onChange={(e) => setPrincipalValue(e.target.value)} placeholder={t.principalPlaceholder} type="number" min="0" step="any" aria-invalid={invalid} />
-            <CalculatorField label={t.rate} inputId="compound-rate" aria-describedby={invalid ? "compound-interest-error" : undefined} value={rateValue} onChange={(e) => setRateValue(e.target.value)} placeholder={t.ratePlaceholder} type="number" min="0" step="any" aria-invalid={invalid} />
-            <CalculatorField label={t.years} inputId="compound-years" aria-describedby={invalid ? "compound-interest-error" : undefined} value={yearsValue} onChange={(e) => setYearsValue(e.target.value)} placeholder={t.yearsPlaceholder} type="number" min="0.01" max="1000" step="any" aria-invalid={invalid} />
+            <CalculatorField label={t.principal} inputId="compound-principal" aria-describedby={invalid ? "compound-interest-error" : undefined} value={principalValue} onChange={(e) => setPrincipalValue(e.target.value)} placeholder={t.principalPlaceholder} type="text" inputMode="decimal" aria-invalid={invalid} />
+            <CalculatorField label={t.rate} inputId="compound-rate" aria-describedby={invalid ? "compound-interest-error" : undefined} value={rateValue} onChange={(e) => setRateValue(e.target.value)} placeholder={t.ratePlaceholder} type="text" inputMode="decimal" aria-invalid={invalid} />
+            <CalculatorField label={t.years} inputId="compound-years" aria-describedby={invalid ? "compound-interest-error" : undefined} value={yearsValue} onChange={(e) => setYearsValue(e.target.value)} placeholder={t.yearsPlaceholder} type="text" inputMode="decimal" aria-invalid={invalid} />
             <Select label={t.frequency} id="compound-frequency" value={String(frequency)} onChange={(e) => setFrequency(Number(e.target.value) as CompoundingFrequency)}>{frequencies.map((value) => <option key={value} value={value}>{t.frequencies[value]}</option>)}</Select>
-            <CalculatorField label={t.contribution} inputId="compound-contribution" value={contributionValue} onChange={(e) => setContributionValue(e.target.value)} placeholder={t.contributionPlaceholder} type="number" min="0" step="any" />
+            <CalculatorField label={t.contribution} inputId="compound-contribution" value={contributionValue} onChange={(e) => setContributionValue(e.target.value)} placeholder={t.contributionPlaceholder} type="text" inputMode="decimal" />
           </div>
           <p className="mt-3 text-xs leading-5 text-[var(--muted)]">{t.contributionHint}</p>
           {invalid && <ValidationMessage id="compound-interest-error">{invalidPeriods ? t.invalidPeriods : t.invalid}</ValidationMessage>}
