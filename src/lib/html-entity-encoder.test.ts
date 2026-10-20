@@ -17,16 +17,17 @@ describe("html entity transformation", () => {
     assert.equal(decodeHtmlEntities("&#x1F600;"), "😀");
   });
 
+  it("accepts numeric references without a trailing semicolon", () => {
+    assert.equal(decodeHtmlEntities("&#128 and &#x82 text"), "€ and ‚ text");
+  });
+
   it("applies HTML Windows-1252 mappings to numeric references in the C1 range", () => {
     assert.equal(decodeHtmlEntities("&#128; &#x82; &#x9f; &#129;"), "€ ‚ Ÿ \u0081");
   });
 
-  it("replaces null numeric character references with the Unicode replacement character", () => {
+  it("replaces null, out-of-range, and surrogate numeric references with U+FFFD", () => {
     assert.equal(decodeHtmlEntities("before&#0;after &#x0;"), "before\uFFFDafter \uFFFD");
-  });
-
-  it("leaves out-of-range and surrogate numeric references unchanged", () => {
-    assert.equal(decodeHtmlEntities("&#x110000; &#55296;"), "&#x110000; &#55296;");
+    assert.equal(decodeHtmlEntities("&#x110000; &#55296;"), "\uFFFD \uFFFD");
   });
 
   it("supports both explicit modes", () => {
