@@ -8,7 +8,7 @@ import { CalculatorShell } from "@/components/tools/calculator/CalculatorShell";
 import { calculateDiscountAmount, calculateDiscountedPrice, isValidDiscountRate, isValidReductionPrice } from "@/lib/reduction";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
-import { formatToolNumber } from "@/lib/numbers";
+import { formatToolNumber, parseLocalizedNumber } from "@/lib/numbers";
 import { ValidationMessage } from "@/components/ui/ValidationMessage";
 
 export default function ReductionCalculator() {
@@ -16,8 +16,8 @@ export default function ReductionCalculator() {
   const t = getToolMessages(locale).reduction;
   const [priceValue, setPriceValue] = useState("");
   const [discountValue, setDiscountValue] = useState("");
-  const price = Number(priceValue);
-  const discountRate = Number(discountValue);
+  const price = parseLocalizedNumber(priceValue, locale) ?? Number.NaN;
+  const discountRate = parseLocalizedNumber(discountValue, locale) ?? Number.NaN;
   const hasValues = priceValue.trim() !== "" && discountValue.trim() !== "";
   const hasNumericValues = Number.isFinite(price) && Number.isFinite(discountRate);
   const valid = hasValues && hasNumericValues && isValidReductionPrice(price) && isValidDiscountRate(discountRate);
@@ -30,8 +30,8 @@ export default function ReductionCalculator() {
     <CalculatorShell>
       <CalculatorActions showClear={priceValue !== "" || discountValue !== ""} onClear={clearValues} />
       <div className="mt-2 grid gap-5 sm:grid-cols-2">
-        <CalculatorField label={t.price} inputId="reduction-price" min="0.01" value={priceValue} onChange={(event) => setPriceValue(event.target.value)} placeholder={t.placeholderPrice} unit="€"  aria-invalid={hasValues && (!hasNumericValues || !valid)} aria-describedby={((hasValues && (!hasNumericValues || !valid)) || calculationFailed) ? "reduction-error" : undefined}/>
-        <CalculatorField label={t.discount} inputId="reduction-rate" min="0" max="100" value={discountValue} onChange={(event) => setDiscountValue(event.target.value)} placeholder={t.placeholderDiscount} unit="%"  aria-invalid={hasValues && (!hasNumericValues || !valid)} aria-describedby={((hasValues && (!hasNumericValues || !valid)) || calculationFailed) ? "reduction-error" : undefined}/>
+        <CalculatorField label={t.price} inputId="reduction-price" type="text" inputMode="decimal" value={priceValue} onChange={(event) => setPriceValue(event.target.value)} placeholder={t.placeholderPrice} unit="€"  aria-invalid={hasValues && (!hasNumericValues || !valid)} aria-describedby={((hasValues && (!hasNumericValues || !valid)) || calculationFailed) ? "reduction-error" : undefined}/>
+        <CalculatorField label={t.discount} inputId="reduction-rate" type="text" inputMode="decimal" value={discountValue} onChange={(event) => setDiscountValue(event.target.value)} placeholder={t.placeholderDiscount} unit="%"  aria-invalid={hasValues && (!hasNumericValues || !valid)} aria-describedby={((hasValues && (!hasNumericValues || !valid)) || calculationFailed) ? "reduction-error" : undefined}/>
       </div>
       <div className="mt-6 grid gap-4 sm:grid-cols-2">
         <CalculatorResult label={t.discountedPrice} tone="accent" value={discountedPrice === null ? null : `${formatToolNumber(discountedPrice, locale, 2)} €`}
