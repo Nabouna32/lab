@@ -1,6 +1,7 @@
 import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
 import FavoriteButton from "@/components/favorites/FavoriteButton";
+import ShareToolButton from "./ShareToolButton";
 
 type ToolPageHeaderProps = {
   icon: string;
@@ -41,7 +42,8 @@ export default function ToolPageHeader({
             </p>
           )}
         </div>
-        <div className="shrink-0 pt-0.5">
+        <div className="flex shrink-0 items-center gap-2 pt-0.5">
+          <ShareToolButton title={title} description={description} locale={locale} />
           <FavoriteButton toolId={toolId} locale={locale} compact />
         </div>
       </div>
