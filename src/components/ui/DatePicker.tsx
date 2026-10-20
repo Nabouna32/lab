@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { CSSProperties, KeyboardEvent } from "react";
 import styles from "./DatePicker.module.css";
+import { addCalendarMonthsClamped, createCalendarDate, parseCalendarDate } from "@/lib/calendar-date";
 
 export type DateRangeValue = { start: string; end: string };
 
@@ -24,11 +25,7 @@ export type DatePickerProps = {
  * AndroidX modal-input implementation. Calendar/dialog parity remains under audit.
  */
 function parseDate(value: string | undefined): Date | null {
-  if (!value) return null;
-  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
-  if (!match) return null;
-  const date = new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
-  return Number.isNaN(date.getTime()) ? null : date;
+  return parseCalendarDate(value);
 }
 
 function toIsoDate(date: Date): string {
@@ -43,10 +40,7 @@ function sameMonth(a: Date, b: Date): boolean {
 }
 
 function moveMonth(date: Date, offset: number): Date {
-  const year = date.getFullYear();
-  const month = date.getMonth() + offset;
-  const lastDay = new Date(year, month + 1, 0).getDate();
-  return new Date(year, month, Math.min(date.getDate(), lastDay));
+  return addCalendarMonthsClamped(date, offset);
 }
 
 export function DatePicker({
@@ -68,13 +62,13 @@ export function DatePicker({
   const shouldFocusDate = useRef(false);
   const [displayedMonth, setDisplayedMonth] = useState(() => {
     const selected = selectedDate ?? rangeStart ?? new Date();
-    return new Date(selected.getFullYear(), selected.getMonth(), 1);
+    return createCalendarDate(selected.getFullYear(), selected.getMonth(), 1);
   });
   const today = toIsoDate(new Date());
   const weekdayFormatter = useMemo(() => new Intl.DateTimeFormat(locale, { weekday: "short" }), [locale]);
   const monthFormatter = useMemo(() => new Intl.DateTimeFormat(locale, { month: "long", year: "numeric" }), [locale]);
   const weekdays = useMemo(() => {
-    const monday = new Date(2024, 0, 1);
+    const monday = createCalendarDate(2024, 0, 1);
     return Array.from({ length: 7 }, (_, index) => {
       const date = new Date(monday);
       date.setDate(monday.getDate() + index);
@@ -82,7 +76,7 @@ export function DatePicker({
     });
   }, [weekdayFormatter]);
   const days = useMemo(() => {
-    const first = new Date(displayedMonth.getFullYear(), displayedMonth.getMonth(), 1);
+    const first = createCalendarDate(displayedMonth.getFullYear(), displayedMonth.getMonth(), 1);
     const offset = (first.getDay() + 6) % 7;
     const gridStart = new Date(first);
     gridStart.setDate(first.getDate() - offset);
@@ -115,7 +109,7 @@ export function DatePicker({
     if ((min && nextIso < min) || (max && nextIso > max)) return;
     setFocusedDate(nextIso);
     shouldFocusDate.current = true;
-    if (!sameMonth(nextDate, displayedMonth)) setDisplayedMonth(new Date(nextDate.getFullYear(), nextDate.getMonth(), 1));
+    if (!sameMonth(nextDate, displayedMonth)) setDisplayedMonth(createCalendarDate(nextDate.getFullYear(), nextDate.getMonth(), 1));
   }
 
   function chooseDate(date: Date) {
@@ -133,7 +127,7 @@ export function DatePicker({
   }
 
   function changeMonth(offset: number) {
-    setDisplayedMonth((month) => new Date(month.getFullYear(), month.getMonth() + offset, 1));
+    setDisplayedMonth((month) => createCalendarDate(month.getFullYear(), month.getMonth() + offset, 1));
   }
 
   if (displayMode === "input") {
