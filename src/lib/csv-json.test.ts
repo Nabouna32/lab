@@ -145,13 +145,13 @@ test("continues to ignore standalone blank lines between CSV records", () => {
 });
 
 test("ignores leading physical blank lines before CSV headers", () => {
-  const result = transformCsvJson("\\n\\r\\nname,age\\r\\nAlice,30", "csv-to-json");
+  const result = transformCsvJson("\n\r\nname,age\r\nAlice,30", "csv-to-json");
   assert.equal(result.error, null);
   assert.deepEqual(JSON.parse(result.value!), [{ name: "Alice", age: "30" }]);
 });
 
 test("preserves explicitly quoted empty single-column records", () => {
-  const result = transformCsvJson('name\\nAlice\\n""', "csv-to-json");
+  const result = transformCsvJson('name\nAlice\n""', "csv-to-json");
   assert.equal(result.error, null);
   assert.deepEqual(JSON.parse(result.value!), [{ name: "Alice" }, { name: "" }]);
 });
