@@ -41,8 +41,8 @@ test("cleaned images are exported together in a ZIP archive", async () => {
 test("batch metadata cleaning is localized in French and English", () => {
   assert.match(getToolMessages("fr").imageMetadata.inputHint, /10 images/);
   assert.match(getToolMessages("fr").imageMetadata.cleaningHint, /images animées/);
-  assert.match(getToolMessages("fr").imageMetadata.completedCount(2, 3), /2 image\(s\) nettoyée\(s\) sur 3/);
+  assert.match(getToolMessages("fr").imageMetadata.completedCount(2, 3), /2 images nettoyées sur 3/);
   assert.match(getToolMessages("en").imageMetadata.inputHint, /10 images/);
   assert.match(getToolMessages("en").imageMetadata.cleaningHint, /Animated images/);
-  assert.match(getToolMessages("en").imageMetadata.completedCount(2, 3), /2 of 3/);
+  assert.match(getToolMessages("en").imageMetadata.completedCount(2, 3), /2 of 3 images cleaned/);
 });
