@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ChangeEvent } from "react";
 import { Button } from "@/components/ui/Button";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
@@ -30,7 +30,7 @@ export default function CsvJsonConverter() {
     return transformCsvJson(input, operation, delimiter);
   }, [input, operation, delimiter]);
 
-  async function importFile(event: React.ChangeEvent<HTMLInputElement>) {
+  async function importFile(event: ChangeEvent<HTMLInputElement>) {
     const inputElement = event.currentTarget;
     const file = inputElement.files?.[0];
     inputElement.value = "";
