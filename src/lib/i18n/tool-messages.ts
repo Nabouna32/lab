@@ -134,7 +134,7 @@ type ToolMessages = {
   imageMetadata: {
     input: string; inputHint: string; dimensions: string; format: string; fileSize: string; exif: string; noMetadata: string;
     cameraMake: string; cameraModel: string; dateTaken: string; dateModified: string; orientation: string; gps: string; software: string; strip: string; stripping: string;
-    download: string; reset: string; preview: string; emptyResult: string; invalidType: string; tooLarge: string; invalid: string;
+    download: string; reset: string; preview: string; emptyResult: string; invalidType: string; tooLarge: string; invalid: string; animatedUnsupported: string;
     removed: string; local: string;
   };
   qrCodeGenerator: {
@@ -444,7 +444,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       dimensions: "Dimensions", format: "Format", fileSize: "Taille du fichier", exif: "Métadonnées EXIF", noMetadata: "Aucune métadonnée EXIF prise en charge trouvée.",
       cameraMake: "Marque de l’appareil", cameraModel: "Modèle de l’appareil", dateTaken: "Date de prise de vue", dateModified: "Date de modification", orientation: "Orientation", gps: "Position GPS", software: "Logiciel",
       strip: "Supprimer les métadonnées", stripping: "Suppression des métadonnées…", download: "Télécharger l’image nettoyée", reset: "Réinitialiser", preview: "Aperçu de l’image",
-      emptyResult: "Sélectionnez une image pour inspecter ses métadonnées.", invalidType: "Sélectionnez un fichier image.", tooLarge: "Le fichier dépasse la limite de 25 Mo.", invalid: "Cette image ne peut pas être lue dans votre navigateur.",
+      emptyResult: "Sélectionnez une image pour inspecter ses métadonnées.", invalidType: "Sélectionnez un fichier image.", tooLarge: "Le fichier dépasse la limite de 25 Mo.", invalid: "Cette image ne peut pas être lue dans votre navigateur.", animatedUnsupported: "Cette image est animée. Son nettoyage est désactivé pour éviter de perdre les images de l’animation.",
       removed: "Les métadonnées ont été supprimées. L’image nettoyée est prête à être téléchargée.", local: "Votre image reste sur votre appareil. Aucun fichier n’est envoyé à Loculary.",
     },
     imageCompressor: {
@@ -737,7 +737,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       dimensions: "Dimensions", format: "Format", fileSize: "File size", exif: "EXIF metadata", noMetadata: "No supported EXIF metadata found.",
       cameraMake: "Camera make", cameraModel: "Camera model", dateTaken: "Date taken", dateModified: "Date modified", orientation: "Orientation", gps: "GPS location", software: "Software",
       strip: "Remove metadata", stripping: "Removing metadata…", download: "Download clean image", reset: "Reset", preview: "Image preview",
-      emptyResult: "Select an image to inspect its metadata.", invalidType: "Select an image file.", tooLarge: "The file exceeds the 25 MB limit.", invalid: "This image cannot be read in your browser.",
+      emptyResult: "Select an image to inspect its metadata.", invalidType: "Select an image file.", tooLarge: "The file exceeds the 25 MB limit.", invalid: "This image cannot be read in your browser.", animatedUnsupported: "This image is animated. Cleaning is disabled to avoid losing its animation frames.",
       removed: "Metadata removed. The cleaned image is ready to download.", local: "Your image stays on your device. Nothing is uploaded to Loculary.",
     },
     qrCodeGenerator: {
