@@ -46,8 +46,8 @@ Dernière vérification : 2026-10-19. Ce registre résume les blocages persistan
 
 ## 5. Validation navigateur — smoke suite opérationnelle
 
-- **État :** une suite Playwright Chromium est intégrée dans [PR #907](https://github.com/Nabouna32/lab/pull/907). Le run initial complet [#39503205016](https://github.com/Nabouna32/lab/actions/runs/39503205016) a validé les parcours FR/EN, la recherche accessible et le calculateur IPv4 en desktop/mobile et thèmes clair/sombre ; la PR ajoute aussi un parcours du comparateur JSON.
-- **Rapports :** l’artefact CI fournit des rapports Markdown lisibles, l’arbre ARIA, les dimensions/positions des éléments, les signaux console/JavaScript/réseau/HTTP, les captures PNG et les traces en cas d’échec.
+- **État :** la suite Playwright Chromium de [PR #907](https://github.com/Nabouna32/lab/pull/907) valide désormais quatre parcours (accueil FR/EN, recherche, calculateur IPv4, comparateur JSON) sur desktop/mobile et thèmes clair/sombre. Le run complet [#39504209195](https://github.com/Nabouna32/lab/actions/runs/39504209195) passe 16/16 cas sur la tête `8465ef39b2e77b23152c57769fa3953c22056dbc`.
+- **Rapports :** l’artefact `playwright-observation-3201` contient 16 rapports Markdown, 32 PNG et les traces en cas d’échec ; il reste disponible sept jours. Les rapports exposent l’arbre ARIA, les dimensions/positions, les signaux console/JavaScript/réseau/HTTP et distinguent les préchargements Next.js annulés des requêtes réellement échouées. Le run a observé 0 erreur JavaScript, 0 erreur console, 0 requête réellement échouée, 0 réponse HTTP >= 400 et aucun débordement horizontal.
 - **Limites :** ce sont des tests Chromium sur le build local, pas une validation de la preview Vercel ou des données de production. Les rapports détectent le débordement horizontal et des heuristiques d’accessibilité, mais ne remplacent pas axe-core, un audit de contraste, une détection exhaustive des chevauchements ni une revue visuelle humaine.
 - **Décision actuelle :** utiliser cette suite pour les parcours UI à risque ; ajouter d’autres navigateurs et audits uniquement lorsque la valeur de couverture justifie leur coût.
 
