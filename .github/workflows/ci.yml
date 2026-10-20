@@ -15,12 +15,14 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  validate:
-    name: Node.js 24.21.0
+  prepare:
+    name: Classify changes and validate governance
     # Never execute code from a fork on the personal self-hosted runner.
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     runs-on: [self-hosted, Windows, X64, loculary-ci]
-    timeout-minutes: 45
+    timeout-minutes: 15
+    outputs:
+      lightweight_only: ${{ steps.changes.outputs.lightweight_only }}
 
     steps:
       - name: Checkout
@@ -78,36 +80,94 @@ jobs:
         shell: pwsh
         run: node --test .github/scripts/classify-ci-changes.test.mjs .github/scripts/detect-ci-changes.test.mjs .github/scripts/dependency-audit-diff.test.mjs
 
+  quality:
+    name: Lint, TypeScript and unit tests
+    needs: prepare
+    if: needs.prepare.outputs.lightweight_only != 'true'
+    runs-on: [self-hosted, Windows, X64, loculary-ci]
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+          clean: false
+
+      - name: Clean workspace while preserving local caches
+        shell: pwsh
+        run: git clean -ffdx -e node_modules -e .next
+
+      - name: Setup Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24.21.0
+
       - name: Prepare persistent local dependencies
-        if: steps.changes.outputs.lightweight_only != 'true'
         id: dependencies
         shell: pwsh
         run: node .github/scripts/dependency-cache.mjs prepare
 
       - name: Install dependencies only on cache miss
-        if: steps.changes.outputs.lightweight_only != 'true' && steps.dependencies.outputs.cache-hit != 'true'
+        if: steps.dependencies.outputs.cache-hit != 'true'
         shell: pwsh
         run: npm ci
 
       - name: Persist dependencies locally
-        if: success() && steps.changes.outputs.lightweight_only != 'true' && steps.dependencies.outputs.cache-hit != 'true'
+        if: success() && steps.dependencies.outputs.cache-hit != 'true'
         shell: pwsh
         run: node .github/scripts/dependency-cache.mjs save
 
       - name: Lint
-        if: steps.changes.outputs.lightweight_only != 'true'
         run: npm run lint
 
       - name: Typecheck
-        if: steps.changes.outputs.lightweight_only != 'true'
         run: npm run typecheck
 
       - name: Test
-        if: steps.changes.outputs.lightweight_only != 'true'
         run: npm test
 
+  build-browser:
+    name: Production build and Playwright
+    needs: prepare
+    if: needs.prepare.outputs.lightweight_only != 'true'
+    runs-on: [self-hosted, Windows, X64, loculary-ci]
+    timeout-minutes: 35
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+          clean: false
+
+      - name: Clean workspace while preserving local caches
+        shell: pwsh
+        run: git clean -ffdx -e node_modules -e .next
+
+      - name: Setup Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24.21.0
+
+      - name: Prepare persistent local dependencies
+        id: dependencies
+        shell: pwsh
+        run: node .github/scripts/dependency-cache.mjs prepare
+
+      - name: Install dependencies only on cache miss
+        if: steps.dependencies.outputs.cache-hit != 'true'
+        shell: pwsh
+        run: npm ci
+
+      - name: Persist dependencies locally
+        if: success() && steps.dependencies.outputs.cache-hit != 'true'
+        shell: pwsh
+        run: node .github/scripts/dependency-cache.mjs save
+
       - name: Build
-        if: steps.changes.outputs.lightweight_only != 'true'
         env:
           NEXT_TELEMETRY_DISABLED: "1"
           NEXT_PUBLIC_SUPABASE_URL: "http://127.0.0.1:54321"
@@ -115,21 +175,18 @@ jobs:
         run: npm run build
 
       - name: Install Chromium for Playwright
-        if: steps.changes.outputs.lightweight_only != 'true'
         run: npx playwright install chromium
 
       - name: Run browser smoke tests and collect visual diagnostics
-        if: steps.changes.outputs.lightweight_only != 'true'
         env:
           CI: "true"
         run: npm run e2e
 
       - name: Upload browser reports and screenshots
-        if: always() && steps.changes.outputs.lightweight_only != 'true'
+        if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: playwright-observation-${{ github.run_number }}
           path: test-results/
           if-no-files-found: ignore
           retention-days: 7
-
