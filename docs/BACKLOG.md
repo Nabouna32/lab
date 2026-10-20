@@ -2,11 +2,12 @@
 
 Dernière révision : 2026-10-20. File de travail unique.
 
+- **Fonctionnalité / convertisseur CSV ↔ JSON :** ajout du téléchargement local du résultat avec extension et type MIME adaptés au sens de conversion, libellés FR/EN et test unitaire des deux formats. [PR #893](https://github.com/Nabouna32/lab/pull/893), fusionnée dans `9c8ebaeafc70b3baed737095e956dff179cd9a74`. Lint, TypeScript, tests et build réussis sur la tête exacte `521584349fd4306399564a57c552224958994d2f` ([CI #39373833101](https://github.com/Nabouna32/lab/actions/runs/39373833101)). Téléchargement exécuté côté navigateur avec Blob/Object URL ; aucun test navigateur manuel effectué.
 - **Justesse / convertisseur CSV → JSON :** ignore les lignes physiquement vides avant les en-têtes, préserve les enregistrements explicitement encodés avec une cellule vide citée (`""`) et rejette les en-têtes entièrement vides. Trois tests de régression. [PR #891](https://github.com/Nabouna32/lab/pull/891), fusionnée dans `468d03ae4fb139098850d6afe521264a5e9ace0a`. Lint, TypeScript, tests et build réussis sur la tête exacte `4377855f20687609c92d984bbbee8429dbde9c38` ([CI #39373102959](https://github.com/Nabouna32/lab/actions/runs/39373102959)). Aucun test navigateur exécuté.
 - **Justesse / convertisseur CSV → JSON :** conserve maintenant les enregistrements avec séparateurs explicites même lorsque toutes les cellules sont vides (ex. `,,`), au lieu de supprimer silencieusement une ligne de données ; les lignes physiquement vides restent ignorées. Deux tests de régression. [PR #889](https://github.com/Nabouna32/lab/pull/889), fusionnée dans `5fc7343c6df15201b36f160cf00d2ac03b31d444`. Lint, TypeScript, tests et build réussis sur la tête exacte `aaa89477d03432d94c6182a8d36cfdbf60c74ab0` ([CI #39372484872](https://github.com/Nabouna32/lab/actions/runs/39372484872)). Aucun test navigateur exécuté.
-## Dernière livraison — cas limites du parseur CSV
+## Dernière livraison — téléchargement du résultat CSV ↔ JSON
 
-- [PR #891](https://github.com/Nabouna32/lab/pull/891) ignore les lignes physiquement vides en tête, préserve les cellules vides explicitement citées et rejette les en-têtes entièrement vides. Trois tests de régression ; lint, TypeScript, tests et build réussis sur `4377855f20687609c92d984bbbee8429dbde9c38` ([CI #39373102959](https://github.com/Nabouna32/lab/actions/runs/39373102959)).
+- [PR #893](https://github.com/Nabouna32/lab/pull/893) ajoute une action de téléchargement local avec extension et type MIME adaptés à la conversion, libellés FR/EN et test unitaire des deux formats. Lint, TypeScript, tests et build réussis sur `521584349fd4306399564a57c552224958994d2f` ([CI #39373833101](https://github.com/Nabouna32/lab/actions/runs/39373833101)). Aucun test navigateur manuel exécuté.
 
 ## Livraison précédente — transparence sur le traitement local
 
@@ -61,7 +62,7 @@ La [PR #833](https://github.com/Nabouna32/lab/pull/833) ajoute quatre cartes d�
 
 ## P1 — Audit de justesse et confidentialité des outils (priorité active)
 
-- **Dernier lot livré :** [PR #891](https://github.com/Nabouna32/lab/pull/891) complète la correction CSV #889 avec trois cas limites. La prochaine inspection doit porter sur un autre outil publié pour varier le périmètre.
+- **Dernier lot livré :** [PR #893](https://github.com/Nabouna32/lab/pull/893) ajoute le téléchargement local du résultat CSV/JSON. La prochaine inspection doit porter sur un autre outil publié pour varier le périmètre.
 
 - **État :** continu ; checkpoint [issue #741](https://github.com/Nabouna32/lab/issues/741). Les derniers lots ont corrigé la justesse du parseur CSV et précisé la déclaration de traitement local ; poursuivre par un défaut confirmé sur un autre outil publié.
 - **Pourquoi :** les audits statiques ne prouvent pas la justesse métier ni le comportement des entrées limites. Les correctifs EXIF, CSV et compresseur ont déjà révélé des défauts concrets.
