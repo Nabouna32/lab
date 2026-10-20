@@ -142,7 +142,7 @@ type ToolMessages = {
     input: string; inputHint: string; dimensions: string; format: string; fileSize: string; exif: string; noMetadata: string;
     cameraMake: string; cameraModel: string; dateTaken: string; dateModified: string; orientation: string; gps: string; software: string; strip: string; stripping: string;
     download: string; reset: string; preview: string; emptyResult: string; invalidType: string; tooLarge: string; tooMany: string; invalid: string; animatedUnsupported: string;
-    removed: string; local: string; gpsWarning: string; cleaningHint: string; batchHint: string; results: string; archivePreparing: string; archiveError: string;
+    removed: string; local: string; gpsWarning: string; cleaningHint: string; optimizingHint: string; optimizeOption: string; optimizeHint: string; outputFormat: string; maxDimension: string; originalDimension: string; quality: string; prepare: string; prepared: string; batchHint: string; results: string; archivePreparing: string; archiveError: string;
     selectedCount: (count: number) => string; completedCount: (count: number, total: number) => string;
   };
   qrCodeGenerator: {
@@ -464,6 +464,11 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       emptyResult: "Sélectionnez des images pour inspecter leurs métadonnées.", invalidType: "Certains fichiers ne sont pas des images et ont été ignorés.", tooLarge: "Une image dépasse 25 Mo ou la sélection dépasse 50 Mo au total.", tooMany: "Sélectionnez au maximum 10 images.", invalid: "Cette image ne peut pas être lue dans votre navigateur.", animatedUnsupported: "Cette image est animée. Elle n’a pas été nettoyée pour éviter de perdre ses images d’animation.",
       removed: "Nettoyée", local: "Vos images restent sur votre appareil. Aucun fichier n’est envoyé à Loculary.", gpsWarning: "Cette image contient des coordonnées GPS précises. Elles peuvent révéler le lieu de prise de vue ; supprimez les métadonnées avant de la partager.",
       cleaningHint: "Le nettoyage réencode les images. Les images animées sont ignorées pour éviter la perte d’images ; les fichiers JPEG peuvent subir une recompression avec une légère perte de qualité.",
+      optimizeOption: "Nettoyer et optimiser en une seule opération",
+      optimizeHint: "Supprime les métadonnées tout en réduisant le poids. Un seul réencodage est effectué pour limiter la perte de qualité.",
+      optimizingHint: "Les images sont réencodées au format choisi ; les métadonnées sont supprimées en même temps. Les images animées sont ignorées.",
+      outputFormat: "Format de sortie", maxDimension: "Dimension maximale", originalDimension: "Conserver la dimension", quality: "Qualité",
+      prepare: "Nettoyer et optimiser toutes les images", prepared: "Nettoyée et optimisée",
       batchHint: "Inspectez les métadonnées de chaque image, repérez les coordonnées GPS, puis nettoyez toutes les images compatibles en une seule opération.",
       results: "Images sélectionnées", archivePreparing: "Préparation du ZIP…", archiveError: "Impossible de créer l’archive ZIP. Réessayez avec moins d’images.",
       selectedCount: (count) => count + (count === 1 ? " image sélectionnée" : " images sélectionnées"),
@@ -773,6 +778,11 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       emptyResult: "Select images to inspect their metadata.", invalidType: "Some selected files are not images and were skipped.", tooLarge: "An image exceeds 25 MB or the selection exceeds 50 MB total.", tooMany: "Select no more than 10 images.", invalid: "This image cannot be read in your browser.", animatedUnsupported: "This image is animated. It was not cleaned to avoid losing its animation frames.",
       removed: "Cleaned", local: "Your images stay on your device. Nothing is uploaded to Loculary.", gpsWarning: "This image contains precise GPS coordinates. They can reveal where the photo was taken; remove the metadata before sharing it.",
       cleaningHint: "Cleaning re-encodes images. Animated images are skipped to avoid losing frames; JPEG files may be recompressed with a small loss in quality.",
+      optimizeOption: "Clean and optimize in one step",
+      optimizeHint: "Remove metadata while reducing file size. Images are encoded only once to limit quality loss.",
+      optimizingHint: "Images are re-encoded in the selected format; metadata is removed at the same time. Animated images are skipped.",
+      outputFormat: "Output format", maxDimension: "Maximum dimension", originalDimension: "Keep dimensions", quality: "Quality",
+      prepare: "Clean and optimize all images", prepared: "Cleaned and optimized",
       batchHint: "Inspect each image’s metadata, spot GPS coordinates, then clean all compatible images in one operation.",
       results: "Selected images", archivePreparing: "Preparing ZIP…", archiveError: "Could not create the ZIP archive. Try again with fewer images.",
       selectedCount: (count) => count + (count === 1 ? " image selected" : " images selected"),
