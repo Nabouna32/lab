@@ -199,7 +199,7 @@ type ToolMessages = {
     invalid: string; clear: string; reset: string; hint: string; copy: string;
     networkAddress: string; broadcastAddress: string; subnetMask: string; wildcardMask: string;
     firstUsableAddress: string; lastUsableAddress: string; totalAddresses: string; usableHosts: string;
-    hostCountNote: string;
+    hostCountNote: string; notApplicable: string;
   };
   numberBaseConverter: {
     input: string; placeholder: string; fromBase: string; toBase: string; result: string;
@@ -251,9 +251,9 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     ipSubnetCalculator: {
       input: "Réseau IPv4 (CIDR)", placeholder: "Ex. 192.168.1.42/24", result: "Résultat", ready: "Calcul mis à jour", emptyResult: "Le résultat apparaîtra ici après le calcul.",
       invalid: "Saisissez une adresse IPv4 valide et un préfixe de /0 à /32.", clear: "Effacer", reset: "Réinitialiser", copy: "Copier", hint: "Le calcul accepte la notation CIDR IPv4, par exemple 192.168.1.42/24. Il est effectué localement dans votre navigateur.",
-      networkAddress: "Adresse réseau", broadcastAddress: "Adresse de broadcast", subnetMask: "Masque de sous-réseau", wildcardMask: "Masque générique",
+      networkAddress: "Adresse réseau", broadcastAddress: "Adresse de broadcast", subnetMask: "Masque de sous-réseau", wildcardMask: "Masque générique", notApplicable: "Non applicable",
       firstUsableAddress: "Première adresse hôte", lastUsableAddress: "Dernière adresse hôte", totalAddresses: "Adresses totales", usableHosts: "Hôtes utilisables",
-      hostCountNote: "Pour /0 à /30, les adresses réseau et broadcast ne sont pas comptées comme hôtes utilisables. Les préfixes /31 et /32 suivent leurs usages IPv4 particuliers.",
+      hostCountNote: "Pour /0 à /30, les adresses réseau et broadcast ne sont pas comptées comme hôtes utilisables. Sur un lien point à point /31, les deux adresses sont des hôtes et il n’existe pas de broadcast dirigé ; un /32 représente une seule route d’hôte.",
     },
     numberBaseConverter: {
       input: "Nombre à convertir", placeholder: "Ex. FF", fromBase: "Base de départ", toBase: "Base d’arrivée",
@@ -538,9 +538,9 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     ipSubnetCalculator: {
       input: "IPv4 network (CIDR)", placeholder: "e.g. 192.168.1.42/24", result: "Result", ready: "Calculation updated", emptyResult: "The result will appear here after calculation.",
       invalid: "Enter a valid IPv4 address and prefix from /0 to /32.", clear: "Clear", reset: "Reset", copy: "Copy", hint: "Use IPv4 CIDR notation, such as 192.168.1.42/24. The calculation runs locally in your browser.",
-      networkAddress: "Network address", broadcastAddress: "Broadcast address", subnetMask: "Subnet mask", wildcardMask: "Wildcard mask",
+      networkAddress: "Network address", broadcastAddress: "Broadcast address", subnetMask: "Subnet mask", wildcardMask: "Wildcard mask", notApplicable: "Not applicable",
       firstUsableAddress: "First host address", lastUsableAddress: "Last host address", totalAddresses: "Total addresses", usableHosts: "Usable hosts",
-      hostCountNote: "For /0 through /30, the network and broadcast addresses are excluded from the usable host count. /31 and /32 follow their special IPv4 usage.",
+      hostCountNote: "For /0 through /30, network and broadcast addresses are excluded from usable hosts. On a /31 point-to-point link, both addresses are hosts and there is no directed broadcast; a /32 is a single-host route.",
     },
     numberBaseConverter: {
       input: "Number to convert", placeholder: "e.g. FF", fromBase: "Source base", toBase: "Target base",

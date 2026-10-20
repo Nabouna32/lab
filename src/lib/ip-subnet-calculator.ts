@@ -5,7 +5,7 @@ export type Ipv4Subnet = {
   subnetMask: string;
   wildcardMask: string;
   networkAddress: string;
-  broadcastAddress: string;
+  broadcastAddress: string | null;
   firstUsableAddress: string;
   lastUsableAddress: string;
   totalAddresses: number;
@@ -78,7 +78,7 @@ export function calculateIpv4Subnet(input: string): Ipv4Subnet | null {
     subnetMask: fromUint32(mask),
     wildcardMask: fromUint32((~mask) >>> 0),
     networkAddress: fromUint32(network),
-    broadcastAddress: fromUint32(broadcast),
+    broadcastAddress: prefix <= 30 ? fromUint32(broadcast) : null,
     firstUsableAddress,
     lastUsableAddress,
     totalAddresses,
