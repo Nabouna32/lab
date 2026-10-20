@@ -1,6 +1,6 @@
 # Loculary — état opérationnel du projet
 
-Dernière vérification : 2026-10-20  
+Dernière vérification : 2026-10-21  
 Source de vérité : dépôt GitHub, CI, issues et déploiements liés ci-dessous. Ce document est un tableau de bord concis, pas un remplacement des spécifications produit.
 
 ## Objectif
@@ -86,10 +86,9 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 
 1. **Produit / compresseur d’images par lot** — traitement local de jusqu’à 10 images, aperçu des résultats et archive ZIP ; PR en cours.
 2. **Produit / conversion JSON ↔ YAML** — ajoute le formatage YAML et les conversions dans les deux sens, avec validation stricte, garde-fous de ressources et messages FR/EN. [PR #914](https://github.com/Nabouna32/lab/pull/914), fusionnée dans `f8308de` ; CI complète réussie ([run #39513132211](https://github.com/Nabouna32/lab/actions/runs/39513132211)).
-2. **Produit / comparateur JSON — import de fichiers locaux** — import de deux fichiers JSON sans upload ni stockage. [PR #912](https://github.com/Nabouna32/lab/pull/912), CI complète réussie.
-3. **Accessibilité / contraste — comparateur JSON** — correction du contraste éditorial avec vérification Playwright WCAG 4,5:1. [PR #909](https://github.com/Nabouna32/lab/pull/909).
-4. **Validation navigateur / observabilité Playwright** — build de production local, 16 cas desktop/mobile, FR/EN et clair/sombre. [PR #907](https://github.com/Nabouna32/lab/pull/907).
-5. **Produit / outil de développement — comparateur JSON structurel** — comparaison locale par chemin JSON avec limites explicites. [PR #908](https://github.com/Nabouna32/lab/pull/908).
+3. **Produit / comparateur JSON — import de fichiers locaux** — import de deux fichiers JSON sans upload ni stockage. [PR #912](https://github.com/Nabouna32/lab/pull/912), CI complète réussie.
+4. **Accessibilité / contraste — comparateur JSON** — correction du contraste éditorial avec vérification Playwright WCAG 4,5:1. [PR #909](https://github.com/Nabouna32/lab/pull/909).
+5. **Validation navigateur / observabilité Playwright** — build de production local, 16 cas desktop/mobile, FR/EN et clair/sombre. [PR #907](https://github.com/Nabouna32/lab/pull/907).
 
 
 ## Priorités immédiates
