@@ -114,6 +114,7 @@ export default function ImageMetadataViewer() {
     const operation = operationRef.current;
     setBusy(true);
     setError(null);
+    setItems((current) => current.map((item) => ({ ...item, cleanedBlob: undefined, cleanError: undefined })));
 
     for (const [index, item] of items.entries()) {
       if (operation !== operationRef.current) return;
