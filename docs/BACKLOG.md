@@ -2,6 +2,7 @@
 
 Dernière révision : 2026-10-20. File de travail unique.
 
+- **UX / découverte par intention sur l’accueil :** ajoute cinq raccourcis FR/EN (calculer, convertir, générer, analyser, mesurer) qui ouvrent les filtres d’intention déjà existants dans le catalogue, avant les catégories. [PR #844](https://github.com/Nabouna32/lab/pull/844), fusionnée dans `f47acd5ee4fe7869136bd6f402711fa658cd68c2`. Lint, TypeScript, tests et build réussis sur le SHA exact `d8a10f97c8812aff680fed8ffc9967ffe291d9c3` ([CI #39352009964](https://github.com/Nabouna32/lab/actions/runs/39352009964)). Aucun test navigateur/audit visuel exécuté ; déploiement Vercel de ce commit en cours au dernier contrôle ([détails](https://vercel.com/nabouna32/loculary/DuvzG77m2uDUTByNCUBt1FptCmM8)).
 - **Accessibilité / champs de calcul :** huit outils associent maintenant `aria-describedby` au message de validation uniquement lorsque celui-ci est rendu, évitant les références vers un identifiant absent dans l’état normal. [PR #842](https://github.com/Nabouna32/lab/pull/842), fusionnée dans `02da1a68138665224902bfed138e34d6b1ea96f4`. Lint, TypeScript, tests et build réussis sur la tête exacte `305515c54cc4094e78d25d9e7aada36857483798` ([CI #39351315000](https://github.com/Nabouna32/lab/actions/runs/39351315000)). Aucun test navigateur ou lecteur d’écran exécuté.
 - **Justesse / calculateur d’âge :** corrige le traitement des années calendaires `0001`–`0099`, que le constructeur `Date(year, ...)` pouvait décaler de 1900 ans. Les dates calendaires sont désormais construites avec `setFullYear`; tests ajoutés pour les années `0001`, `0004` bissextile et la frontière `0099`/`0100`. [PR #840](https://github.com/Nabouna32/lab/pull/840), fusionnée dans `0a6374fb0b04cced0edc8bf5c718c0eaa8d601cd`. Lint, TypeScript, tests et build réussis sur la tête exacte `07b560c57763d3ee85428ccfe490e4c0c55dc3dd` ([CI #39350652358](https://github.com/Nabouna32/lab/actions/runs/39350652358)). Aucun test navigateur exécuté.
 - **Fonctionnalité — export du générateur UUID (livrée) :** téléchargement local `.txt` des UUID générés en complément de la copie, une valeur par ligne, libellés FR/EN. [PR #838](https://github.com/Nabouna32/lab/pull/838) fusionnée dans `0a9d0703db0679863f14bcf310e7c7afd3f66a0d` ; lint, TypeScript, tests et build ont réussi sur le SHA exact `2f38aa0aafa85708f9d3d6b49417ec014e38bb02` ([CI #39349870854](https://github.com/Nabouna32/lab/actions/runs/39349870854)). déploiement de production Vercel `READY` sur le commit de fusion `0a9d0703db0679863f14bcf310e7c7afd3f66a0d` ([détails](https://vercel.com/nabouna32/loculary/RXeFqnE1gUgzff3KvwpAzeypoDv6)).
@@ -15,7 +16,11 @@ Dernière révision : 2026-10-20. File de travail unique.
 
 Les preuves et priorités de reprise sont dans [PROJECT-STATE.md](PROJECT-STATE.md), les risques et blocages dans [KNOWN-ISSUES.md](KNOWN-ISSUES.md), et les lots UX dans [REFONTE.md](REFONTE.md).
 
-## Dernière livraison UX — récupération après recherche sans résultat
+## Dernière livraison UX — raccourcis d’intention sur l’accueil
+
+La [PR #844](https://github.com/Nabouna32/lab/pull/844) expose cinq intentions localisées depuis l’accueil et réutilise les filtres du catalogue existants. CI complète réussie sur le SHA exact `d8a10f97c8812aff680fed8ffc9967ffe291d9c3` ([run #39352009964](https://github.com/Nabouna32/lab/actions/runs/39352009964)). Le déploiement de ce commit était `BUILDING` au dernier contrôle ; aucun test navigateur n’a été exécuté.
+
+## Livraison UX précédente — récupération après recherche sans résultat
 
 La [PR #833](https://github.com/Nabouna32/lab/pull/833) ajoute quatre cartes d’outils directement accessibles à l’état vide, en complément des requêtes d’exemple et du lien vers le catalogue. Le lot réutilise les raccourcis localisés existants et les cartes partagées. lint, typecheck, tests et build réussis sur le SHA exact `475a3086976d5ddf6ca6206528c7b78c8b9b3733` ([CI #39346650591](https://github.com/Nabouna32/lab/actions/runs/39346650591)). Déploiement de production Vercel `READY` sur le commit de fusion `10f49f53b0e2cf9b940cb39669cc2ef9e34e382c` ([détails](https://vercel.com/nabouna32/loculary/ASwr4pP2jg2PqAea5nfuh84YH5LF)). Aucun test navigateur exécuté.
 
@@ -36,7 +41,7 @@ La [PR #833](https://github.com/Nabouna32/lab/pull/833) ajoute quatre cartes d�
 - **Lot UX précédent livré :** la [PR #796](https://github.com/Nabouna32/lab/pull/796) remplit l’état initial de la page de recherche avec quatre raccourcis d’outils publiés réutilisant les liens rapides de l’accueil. Titres et descriptions sont localisés FR/EN ; routes canoniques conservées, aucun transfert ni stockage ajouté. Le test de contrat, lint, typecheck, tests et build ont réussi sur `668256b5fb5645a020869e797ce2c3aae53f04eb` ([CI #39331374660](https://github.com/Nabouna32/lab/actions/runs/39331374660)).
 - **Lot précédent :** la [PR #791](https://github.com/Nabouna32/lab/pull/791) remplace la soustraction brute des champs année/mois/jour par un calcul d’anniversaires calendaires successifs. Les tests couvrent le 29 février (anniversaire retenu le 28 février en année non bissextile), les fins de mois, les heures différentes d’un même jour et les dates futures invalides. La convention est explicitée en français et en anglais par la [PR #792](https://github.com/Nabouna32/lab/pull/792).
 
-## P1 — Finding npm HIGH sur `braces`
+## P1 — Finding npm HIGH sur `braces` (prochaine priorité)
 
 - **État :** risque non résolu ; [issue #461](https://github.com/Nabouna32/lab/issues/461), avis [GHSA-vfj7-8cjw-p6xm](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm).
 - **Pourquoi :** l'audit complet échoue sur une chaîne transitive de dépendances de développement ; aucun correctif amont n'était publié lors de la dernière vérification documentée.
