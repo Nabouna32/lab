@@ -3,6 +3,7 @@
 import { useId, useRef, useState } from "react";
 import type { KeyboardEvent } from "react";
 import styles from "./SearchBar.module.css";
+import { MaterialIcon } from "@/components/ui/MaterialIcon";
 
 export type SearchBarProps = {
   label: string;
@@ -82,7 +83,7 @@ export function SearchBar({
       {fullScreen && <button type="button" className={styles.scrim} aria-label={locale.startsWith("fr") ? "Fermer la recherche" : "Close search"} onClick={closeSearch} />}
       <div className={`${styles.searchSurface} ${expanded ? styles.expanded : ""} ${fullScreen ? styles.fullScreenSurface : ""}`}>
         <form className={styles.inputRow} role="search" onSubmit={(event) => { event.preventDefault(); submit(query); }}>
-          <span className={styles.searchGlyph} aria-hidden="true">⌕</span>
+          <span className={styles.searchGlyph} aria-hidden="true"><MaterialIcon name="search" size={24} /></span>
           <input
             ref={inputRef}
             type="search"
@@ -99,8 +100,8 @@ export function SearchBar({
             onChange={(event) => { onQueryChange(event.target.value); setExpanded(true); setActiveIndex(-1); }}
             onKeyDown={handleKeyDown}
           />
-          {query && <button type="button" className={styles.trailingAction} aria-label={locale.startsWith("fr") ? "Effacer la recherche" : "Clear search"} onClick={() => { onQueryChange(""); setActiveIndex(-1); inputRef.current?.focus(); }}>×</button>}
-          {mode === "full-screen" && expanded && <button type="button" className={styles.trailingAction} aria-label={locale.startsWith("fr") ? "Fermer la recherche" : "Close search"} onClick={closeSearch}>←</button>}
+          {query && <button type="button" className={styles.trailingAction} aria-label={locale.startsWith("fr") ? "Effacer la recherche" : "Clear search"} onClick={() => { onQueryChange(""); setActiveIndex(-1); inputRef.current?.focus(); }}><MaterialIcon name="close" size={20} /></button>}
+          {mode === "full-screen" && expanded && <button type="button" className={styles.trailingAction} aria-label={locale.startsWith("fr") ? "Fermer la recherche" : "Close search"} onClick={closeSearch}><MaterialIcon name="arrow_back" size={20} /></button>}
         </form>
         {visible && (
           <div id={listId} className={styles.results} role="listbox" aria-label={locale.startsWith("fr") ? "Suggestions de recherche" : "Search suggestions"}>
@@ -115,7 +116,7 @@ export function SearchBar({
                 onMouseEnter={() => setActiveIndex(index)}
                 onClick={() => submit(suggestion)}
               >
-                <span className={styles.resultGlyph} aria-hidden="true">⌕</span>
+                <span className={styles.resultGlyph} aria-hidden="true"><MaterialIcon name="search" size={20} /></span>
                 <span>{suggestion}</span>
               </button>
             )) : <p className={styles.empty}>{locale.startsWith("fr") ? "Appuyez sur Entrée pour rechercher cette expression." : "Press Enter to search for this phrase."}</p>}
