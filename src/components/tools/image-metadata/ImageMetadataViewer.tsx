@@ -39,7 +39,7 @@ setClean(previous=>{if(previous)URL.revokeObjectURL(previous);return url});setCl
 finally{if(operation===operationRef.current)setBusy(false)}
 }
 function download(){if(!clean)return;const a=document.createElement("a");a.href=clean;a.download=`loculary-clean-image.${getCleanImageFormat(cleanMimeType??"image/png").extension}`;a.click()}
-function reset(){operationRef.current+=1;setFile(null);setData(null);setClean(null);setPreview(null);setBusy(false);setError(null)}
+function reset(){operationRef.current+=1;setFile(null);setData(null);setClean(null);setCleanMimeType(null);setPreview(null);setBusy(false);setError(null)}
 const exif=data?Object.entries(data.exif):[];
 const exifLabels:Record<string,string>={
 cameraMake:t.cameraMake,cameraModel:t.cameraModel,dateTaken:t.dateTaken,dateModified:t.dateModified,
