@@ -467,7 +467,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       batchHint: "Inspectez les métadonnées de chaque image, repérez les coordonnées GPS, puis nettoyez toutes les images compatibles en une seule opération.",
       results: "Images sélectionnées", archivePreparing: "Préparation du ZIP…", archiveError: "Impossible de créer l’archive ZIP. Réessayez avec moins d’images.",
       selectedCount: (count) => count + (count === 1 ? " image sélectionnée" : " images sélectionnées"),
-      completedCount: (count, total) => count + " image(s) nettoyée(s) sur " + total + ". Téléchargez l’archive ZIP pour les récupérer.",
+      completedCount: (count, total) => count + (count > 1 ? " images nettoyées sur " : " image nettoyée sur ") + total + ". Téléchargez l’archive ZIP pour les récupérer.",
     },
     imageCompressor: {
       input: "Choisir des images", inputHint: "Sélectionnez jusqu’à 10 images (50 Mo au total). Tout reste dans votre navigateur.",
@@ -776,7 +776,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       batchHint: "Inspect each image’s metadata, spot GPS coordinates, then clean all compatible images in one operation.",
       results: "Selected images", archivePreparing: "Preparing ZIP…", archiveError: "Could not create the ZIP archive. Try again with fewer images.",
       selectedCount: (count) => count + (count === 1 ? " image selected" : " images selected"),
-      completedCount: (count, total) => count + " of " + total + " image(s) cleaned. Download the ZIP archive to retrieve them.",
+      completedCount: (count, total) => count + (count === 1 ? " of " + total + " image cleaned." : " of " + total + " images cleaned.") + " Download the ZIP archive to retrieve them.",
     },
     qrCodeGenerator: {
       input: "Content to encode", placeholder: "https://example.com or your text…",
