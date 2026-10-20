@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { transformCsvJson } from "./csv-json.ts";
+import { CSV_JSON_MAX_FILE_BYTES, getCsvJsonOperationForFile, transformCsvJson } from "./csv-json.ts";
 
 test("converts CSV with quoted commas and escaped quotes to JSON", () => {
   assert.deepEqual(JSON.parse(transformCsvJson('name,note\nAlice,"Hello, ""world"""',"csv-to-json").value!), [
@@ -81,4 +81,17 @@ test("preserves CSV columns named __proto__ without changing object prototypes",
     JSON.parse(result.value!),
     JSON.parse('[{"__proto__":"payload","constructor":"example"}]'),
   );
+});
+
+test("selects the conversion direction from supported file extensions", () => {
+  assert.equal(getCsvJsonOperationForFile("records.csv"), "csv-to-json");
+  assert.equal(getCsvJsonOperationForFile("records.CSV"), "csv-to-json");
+  assert.equal(getCsvJsonOperationForFile("records.json"), "json-to-csv");
+  assert.equal(getCsvJsonOperationForFile("records.JSON"), "json-to-csv");
+  assert.equal(getCsvJsonOperationForFile("records.txt"), null);
+  assert.equal(getCsvJsonOperationForFile("records"), null);
+});
+
+test("limits imported CSV and JSON file size to 200 kB", () => {
+  assert.equal(CSV_JSON_MAX_FILE_BYTES, 200_000);
 });
