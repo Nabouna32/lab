@@ -35,7 +35,7 @@ export default function UnitConverter() {
     const numericValue = parseLocalizedNumber(value, locale);
     if (numericValue === null) return null;
     return convertUnit(numericValue, category, from, to);
-  }, [value, category, from, to]);
+  }, [value, category, from, to, locale]);
 
   const hasInvalidInput = value.trim() !== "" && result === null;
 
