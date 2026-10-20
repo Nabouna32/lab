@@ -86,11 +86,8 @@ function matchesField(value: number, field: CronField): boolean {
   return field.values.includes(value);
 }
 
-function matchesDate(date: Date, schedule: CronSchedule): boolean {
-  const minuteMatch = matchesField(date.getMinutes(), schedule.fields.minute);
-  const hourMatch = matchesField(date.getHours(), schedule.fields.hour);
-  const monthMatch = matchesField(date.getMonth() + 1, schedule.fields.month);
-  if (!minuteMatch || !hourMatch || !monthMatch) return false;
+function matchesCalendarDate(date: Date, schedule: CronSchedule): boolean {
+  if (!matchesField(date.getMonth() + 1, schedule.fields.month)) return false;
 
   const dayOfMonthMatch = matchesField(date.getDate(), schedule.fields.dayOfMonth);
   const dayOfWeekMatch = matchesField(date.getDay(), schedule.fields.dayOfWeek);
@@ -101,15 +98,32 @@ function matchesDate(date: Date, schedule: CronSchedule): boolean {
   return dayOfMonthMatch && dayOfWeekMatch;
 }
 
+function matchesDate(date: Date, schedule: CronSchedule): boolean {
+  return (
+    matchesField(date.getMinutes(), schedule.fields.minute) &&
+    matchesField(date.getHours(), schedule.fields.hour) &&
+    matchesCalendarDate(date, schedule)
+  );
+}
+
 export function getNextCronRuns(schedule: CronSchedule, from = new Date(), count = 5): Date[] {
-  if (count <= 0) return [];
+  if (!Number.isInteger(count) || count <= 0) return [];
   const runs: Date[] = [];
   const cursor = new Date(from);
+  if (!Number.isFinite(cursor.getTime())) return runs;
   cursor.setSeconds(0, 0);
   cursor.setMinutes(cursor.getMinutes() + 1);
 
-  const limit = cursor.getTime() + 366 * 24 * 60 * 60 * 1000;
+  // Feb 29 can be almost eight years away (for example, before the non-leap year 2100).
+  const limit = cursor.getTime() + 8 * 366 * 24 * 60 * 60 * 1000;
   while (cursor.getTime() <= limit && runs.length < count) {
+    if (!matchesCalendarDate(cursor, schedule)) {
+      // Skip the rest of dates that cannot match instead of scanning every minute for years.
+      cursor.setHours(0, 0, 0, 0);
+      cursor.setDate(cursor.getDate() + 1);
+      continue;
+    }
+
     if (matchesDate(cursor, schedule)) runs.push(new Date(cursor));
     cursor.setMinutes(cursor.getMinutes() + 1);
   }
