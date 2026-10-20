@@ -36,8 +36,8 @@ export default function DownloadTimeCalculator() {
   const [speedUnit, setSpeedUnit] = useState<DownloadSpeedUnit>("mbps");
   const result = useMemo(() => {
     if (size.trim() === "" || speed.trim() === "") return null;
-    const sizeValue = parseLocalizedNumber(size);
-    const speedValue = parseLocalizedNumber(speed);
+    const sizeValue = parseLocalizedNumber(size, locale);
+    const speedValue = parseLocalizedNumber(speed, locale);
     if (sizeValue === null || speedValue === null || sizeValue < 0 || speedValue < 0) return null;
     return calculateDownloadTime(sizeValue, sizeUnit, speedValue, speedUnit);
   }, [size, sizeUnit, speed, speedUnit]);
@@ -48,7 +48,7 @@ export default function DownloadTimeCalculator() {
       <CalculatorActions showClear={hasValues} onClear={() => { setSize(""); setSpeed(""); }} />
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <CalculatorField label={t.fileSize} inputId="download-time-size" type="number" min="0" step="any" value={size} onChange={(event) => setSize(event.target.value)} placeholder={t.placeholderSize}  aria-invalid={hasInvalidInput} aria-describedby="download-time-error"/>
+          <CalculatorField label={t.fileSize} inputId="download-time-size" type="text" inputMode="decimal" value={size} onChange={(event) => setSize(event.target.value)} placeholder={t.placeholderSize}  aria-invalid={hasInvalidInput} aria-describedby="download-time-error"/>
           <Select aria-label={t.sizeUnit} value={sizeUnit} onChange={(event) => setSizeUnit(event.target.value as DownloadSizeUnit)} className="mt-2">
             {DOWNLOAD_SIZE_UNITS.map((unit) => <option key={unit} value={unit}>{getDownloadSizeUnitLabel(locale, unit)}</option>)}
           </Select>
