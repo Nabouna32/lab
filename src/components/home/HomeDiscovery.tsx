@@ -2,6 +2,7 @@ import Link from "next/link";
 import CategoryCard from "@/components/home/CategoryCard";
 import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
+import { formatPlural } from "@/lib/i18n/plural";
 import { getToolsPath } from "@/lib/tools/routes";
 import { categories, getCategoryName, getToolCount } from "@/lib/tools/categories";
 
@@ -51,7 +52,7 @@ export default function HomeDiscovery({ locale }: { locale: Locale }) {
               key={category.id}
               category={category}
               name={getCategoryName(locale, category.id)}
-              toolLabel={t.tools.many}
+              toolLabel={formatPlural(locale, category.count, { one: t.tools.one, other: t.tools.many })}
               toolCount={category.count}
               locale={locale}
             />
