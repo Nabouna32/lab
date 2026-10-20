@@ -25,6 +25,8 @@ export default function CsvJsonConverter() {
   const [result, setResult] = useState("");
   const [error, setError] = useState<"invalid-csv" | "invalid-json" | "unsupported-json" | "unsupported-file" | "file-too-large" | "file-read-failed" | null>(null);
 
+  const fileError = error === "unsupported-file" || error === "file-too-large" || error === "file-read-failed";
+
   const output = useMemo(() => {
     if (!input) return { value: "", error: null };
     return transformCsvJson(input, operation, delimiter);
@@ -90,8 +92,8 @@ export default function CsvJsonConverter() {
             placeholder={t.placeholder}
             spellCheck={false}
             className="min-h-[18rem] resize-y font-mono text-sm leading-6"
-            aria-invalid={error !== null}
-            aria-describedby={error ? "csv-json-error" : undefined}
+            aria-invalid={error !== null && !fileError}
+            aria-describedby={error !== null && !fileError ? "csv-json-error" : undefined}
           />
 
           <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
@@ -101,7 +103,8 @@ export default function CsvJsonConverter() {
               type="file"
               accept=".csv,.json,text/csv,application/json"
               onChange={importFile}
-              aria-describedby="csv-json-file-hint"
+              aria-invalid={fileError}
+              aria-describedby={fileError ? "csv-json-file-hint csv-json-error" : "csv-json-file-hint"}
               className="block min-w-0 max-w-full text-sm text-[var(--muted)] file:mr-3 file:min-h-11 file:rounded-full file:border file:border-[var(--border)] file:bg-[var(--surface-container)] file:px-4 file:font-semibold file:text-[var(--foreground)] hover:file:bg-[var(--surface-container-high)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
             />
           </div>
