@@ -52,6 +52,7 @@ export default function CsvJsonConverter() {
       const content = await file.text();
       setInput(content);
       setOperation(nextOperation);
+      if (nextOperation === "csv-to-json") setDelimiter(",");
       setResult("");
       setError(null);
     } catch {
