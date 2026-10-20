@@ -10,9 +10,11 @@ import {
   AnimatedImageUnsupportedError,
   getCleanImageFormat,
   inspectImage,
+  isAnimatedImage,
   stripImageMetadata,
   type ImageMetadata,
 } from "@/lib/image-metadata";
+import { compressImageFile, getOutputExtension, type ImageOutputFormat } from "@/lib/image-compressor";
 import { createZipArchive } from "@/lib/zip-archive";
 
 const MAX_FILE_BYTES = 25 * 1024 * 1024;
@@ -35,6 +37,10 @@ export default function ImageMetadataViewer() {
   const [busy, setBusy] = useState(false);
   const [archiveBusy, setArchiveBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [optimize, setOptimize] = useState(false);
+  const [outputFormat, setOutputFormat] = useState<ImageOutputFormat>("webp");
+  const [maxDimension, setMaxDimension] = useState<number | null>(2400);
+  const [quality, setQuality] = useState(0.8);
   const operationRef = useRef(0);
   const previewUrlsRef = useRef<string[]>([]);
 
@@ -113,7 +119,15 @@ export default function ImageMetadataViewer() {
       if (operation !== operationRef.current) return;
       if (!item.metadata) continue;
       try {
-        const blob = await stripImageMetadata(item.file);
+        let blob: Blob;
+        if (optimize) {
+          if (isAnimatedImage(await item.file.arrayBuffer())) throw new AnimatedImageUnsupportedError();
+          // Canvas encoding removes metadata and optimizes in one pass, avoiding a second lossy JPEG encode.
+          const optimized = await compressImageFile(item.file, { format: outputFormat, quality, maxDimension });
+          blob = optimized.blob;
+        } else {
+          blob = await stripImageMetadata(item.file);
+        }
         if (operation !== operationRef.current) return;
         setItems((current) => current.map((entry, entryIndex) =>
           entryIndex === index ? { ...entry, cleanedBlob: blob, cleanError: undefined } : entry,
@@ -144,7 +158,7 @@ export default function ImageMetadataViewer() {
       const url = URL.createObjectURL(archive);
       const anchor = document.createElement("a");
       anchor.href = url;
-      anchor.download = "loculary-images-cleaned.zip";
+      anchor.download = optimize ? "loculary-images-prepared.zip" : "loculary-images-cleaned.zip";
       anchor.click();
       window.setTimeout(() => URL.revokeObjectURL(url), 1000);
     } catch {
@@ -186,12 +200,33 @@ export default function ImageMetadataViewer() {
               <input id="image-metadata-file" type="file" accept="image/*" multiple className="sr-only" onChange={(event) => { void selectFiles(event.target.files); event.target.value = ""; }} />
             </label>
             <p className="text-sm text-[var(--muted)]">🔒 {t.local}</p>
-            <p className="text-sm text-[var(--muted)]">{t.cleaningHint}</p>
+            <p className="text-sm text-[var(--muted)]">{optimize ? t.optimizingHint : t.cleaningHint}</p>
+            <div className="space-y-3 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background)] p-4">
+              <label className="flex items-start gap-3 text-sm text-[var(--foreground)]">
+                <input type="checkbox" checked={optimize} disabled={busy} onChange={(event) => { setOptimize(event.target.checked); setItems((current) => current.map((item) => ({ ...item, cleanedBlob: undefined, cleanError: undefined }))); }} className="mt-1 accent-[var(--accent)]" />
+                <span><span className="block font-semibold">{t.optimizeOption}</span><span className="mt-1 block text-[var(--muted)]">{t.optimizeHint}</span></span>
+              </label>
+              {optimize && <div className="grid gap-3 sm:grid-cols-2">
+                <label className="block space-y-1 text-sm"><span className="font-medium text-[var(--foreground)]">{t.outputFormat}</span>
+                  <select value={outputFormat} disabled={busy} onChange={(event) => { setOutputFormat(event.target.value as ImageOutputFormat); setItems((current) => current.map((item) => ({ ...item, cleanedBlob: undefined, cleanError: undefined }))); }} className="w-full rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-[var(--foreground)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]">
+                    <option value="webp">WebP</option><option value="jpeg">JPEG</option><option value="png">PNG</option>
+                  </select>
+                </label>
+                <label className="block space-y-1 text-sm"><span className="font-medium text-[var(--foreground)]">{t.maxDimension}</span>
+                  <select value={maxDimension ?? "original"} disabled={busy} onChange={(event) => { setMaxDimension(event.target.value === "original" ? null : Number(event.target.value)); setItems((current) => current.map((item) => ({ ...item, cleanedBlob: undefined, cleanError: undefined }))); }} className="w-full rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-[var(--foreground)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]">
+                    <option value="1200">1200 px</option><option value="2400">2400 px</option><option value="3200">3200 px</option><option value="original">{t.originalDimension}</option>
+                  </select>
+                </label>
+                <label className="block space-y-1 text-sm sm:col-span-2"><span className="font-medium text-[var(--foreground)]">{t.quality} · {Math.round(quality * 100)}%</span>
+                  <input type="range" min="10" max="100" step="5" value={Math.round(quality * 100)} disabled={busy} onChange={(event) => { setQuality(Number(event.target.value) / 100); setItems((current) => current.map((item) => ({ ...item, cleanedBlob: undefined, cleanError: undefined }))); }} className="w-full accent-[var(--accent)]" />
+                </label>
+              </div>}
+            </div>
             {items.length > 0 && <p className="text-sm text-[var(--muted)]">{t.selectedCount(items.length)} · {formatBytes(items.reduce((sum, item) => sum + item.file.size, 0))}</p>}
             {busy && <ProgressIndicator label={t.stripping} />}
             {error && <p role="alert" className="text-sm font-medium text-[var(--danger)]">{error}</p>}
             <div className="flex flex-wrap gap-2">
-              <Button type="button" variant="primary" onClick={cleanAll} disabled={busy || inspected.length === 0}>{busy ? t.stripping : t.strip}</Button>
+              <Button type="button" variant="primary" onClick={cleanAll} disabled={busy || inspected.length === 0}>{busy ? t.stripping : optimize ? t.prepare : t.strip}</Button>
               <Button type="button" variant="secondary" onClick={downloadArchive} disabled={cleaned.length === 0 || busy || archiveBusy}>{archiveBusy ? t.archivePreparing : t.download}</Button>
               <ClearButton onClear={reset} disabled={items.length === 0 && !error} label={t.reset} />
             </div>
@@ -216,7 +251,8 @@ export default function ImageMetadataViewer() {
                       <p className="break-words text-sm font-semibold text-[var(--foreground)]">{item.file.name}</p>
                       <p className="mt-1 text-xs text-[var(--muted)]">{formatBytes(item.file.size)}{item.metadata ? " · " + item.metadata.width + " × " + item.metadata.height + " px · " + item.metadata.mimeType : ""}</p>
                     </div>
-                    {item.cleanedBlob && <span className="text-xs font-semibold text-[var(--success)]">{t.removed}</span>}
+                    {item.cleanedBlob && <span className="text-xs font-semibold text-[var(--success)]">{optimize ? t.prepared : t.removed}</span>}
+                    {item.cleanedBlob && <span className="text-xs text-[var(--muted)]">{formatBytes(item.cleanedBlob.size)} · {item.cleanedBlob.type}</span>}
                   </div>
                   {item.metadata && (
                     <>
