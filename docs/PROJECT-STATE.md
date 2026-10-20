@@ -9,6 +9,7 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 
 ## État vérifié
 
+- **Confidentialité / nettoyage d’images par lot :** le nettoyeur EXIF inspecte jusqu’à 10 images localement, signale les coordonnées GPS, nettoie les formats compatibles et exporte les résultats dans une archive ZIP. Limites : 25 Mo par fichier, 50 Mo cumulés ; les animations sont explicitement ignorées pour éviter leur perte et le réencodage JPEG peut réduire légèrement la qualité. PR et CI à renseigner après fusion.
 - **Produit / images — compresseur par lot :** [PR #916](https://github.com/Nabouna32/lab/pull/916) fusionnée dans `13f54c5`. Traitement local de jusqu’à 10 images, aperçu et archive ZIP (50 Mo cumulés). CI [#39514581989](https://github.com/Nabouna32/lab/actions/runs/39514581989) verte : lint, TypeScript, tests unitaires, build et Playwright.
 - **Produit / outils de développement — conversion JSON ↔ YAML :** PR [#914](https://github.com/Nabouna32/lab/pull/914) fusionnée dans `f8308de`. Le formateur YAML propose désormais le formatage, YAML → JSON et JSON → YAML. CI [#39513132211](https://github.com/Nabouna32/lab/actions/runs/39513132211) verte : lint, TypeScript, 579 tests réussis (2 ignorés), build et Playwright.
 - **Produit / comparateur JSON — import de fichiers locaux :** PR [#912](https://github.com/Nabouna32/lab/pull/912) fusionnée (`bef41fa`). Import séparé de deux fichiers `.json`, limites explicites, lecture uniquement dans le navigateur. CI [#39511782974](https://github.com/Nabouna32/lab/actions/runs/39511782974) verte : lint, TypeScript, tests, build et Playwright.
@@ -84,11 +85,11 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 
 > Mémoire opérationnelle par session de travail, avec les PR représentatives et preuves vérifiables.
 
-1. **Produit / compresseur d’images par lot** — traitement local de jusqu’à 10 images, aperçu des résultats et archive ZIP. [PR #916](https://github.com/Nabouna32/lab/pull/916), fusionnée dans `13f54c5`, CI complète verte ([run #39514581989](https://github.com/Nabouna32/lab/actions/runs/39514581989)).
-2. **Produit / conversion JSON ↔ YAML** — ajoute le formatage YAML et les conversions dans les deux sens, avec validation stricte, garde-fous de ressources et messages FR/EN. [PR #914](https://github.com/Nabouna32/lab/pull/914), fusionnée dans `f8308de` ; CI complète réussie ([run #39513132211](https://github.com/Nabouna32/lab/actions/runs/39513132211)).
-3. **Produit / comparateur JSON — import de fichiers locaux** — import de deux fichiers JSON sans upload ni stockage. [PR #912](https://github.com/Nabouna32/lab/pull/912), CI complète réussie.
-4. **Accessibilité / contraste — comparateur JSON** — correction du contraste éditorial avec vérification Playwright WCAG 4,5:1. [PR #909](https://github.com/Nabouna32/lab/pull/909).
-5. **Validation navigateur / observabilité Playwright** — build de production local, 16 cas desktop/mobile, FR/EN et clair/sombre. [PR #907](https://github.com/Nabouna32/lab/pull/907).
+1. **Confidentialité / nettoyage d’images par lot** — inspection EXIF, avertissement GPS, nettoyage local de jusqu’à 10 images et archive ZIP, avec limites explicites et prise en charge prudente des animations. PR en cours.
+2. **Produit / compresseur d’images par lot** — traitement local de jusqu’à 10 images, aperçu des résultats et archive ZIP. [PR #916](https://github.com/Nabouna32/lab/pull/916), fusionnée dans `13f54c5`, CI complète verte ([run #39514581989](https://github.com/Nabouna32/lab/actions/runs/39514581989)).
+3. **Produit / conversion JSON ↔ YAML** — ajoute le formatage YAML et les conversions dans les deux sens, avec validation stricte, garde-fous de ressources et messages FR/EN. [PR #914](https://github.com/Nabouna32/lab/pull/914), fusionnée dans `f8308de` ; CI complète réussie ([run #39513132211](https://github.com/Nabouna32/lab/actions/runs/39513132211)).
+4. **Produit / comparateur JSON — import de fichiers locaux** — import de deux fichiers JSON sans upload ni stockage. [PR #912](https://github.com/Nabouna32/lab/pull/912), CI complète réussie.
+5. **Accessibilité / contraste — comparateur JSON** — correction du contraste éditorial avec vérification Playwright WCAG 4,5:1. [PR #909](https://github.com/Nabouna32/lab/pull/909).
 
 
 ## Priorités immédiates
