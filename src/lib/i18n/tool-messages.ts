@@ -92,9 +92,10 @@ type ToolMessages = {
     path: string; results: string; truncated: string; copyReport: string; loadFile: string; fileTypeError: string; fileTooLarge: string; fileReadError: string;
   };
   yamlFormatterValidator: {
-    input: string; placeholder: string; output: string; format: string; copy: string; clear: string;
-    indentation: string; spaces2: string; spaces4: string; tab: string; valid: string; invalid: string;
-    emptyResult: string; formatted: string; errorAt: (line: string, column: string) => string; resourceLimit: string; errorDetailLabel: string;
+    input: string; inputYaml: string; inputJson: string; placeholder: string; jsonPlaceholder: string; output: string; outputYaml: string; outputJson: string;
+    operation: string; formatYaml: string; yamlToJson: string; jsonToYaml: string; format: string; convert: string; converted: string;
+    copy: string; clear: string; indentation: string; spaces2: string; spaces4: string; tab: string; valid: string; invalid: string;
+    emptyResult: string; formatted: string; errorAt: (line: string, column: string) => string; resourceLimit: string; errorDetailLabel: string; unsupportedValue: string;
   };
   urlEncoder: {
     input: string; placeholder: string; output: string; scope: string; component: string; uri: string;
@@ -384,11 +385,13 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       added: "Ajouté", removed: "Supprimé", changed: "Modifié", before: "Avant", after: "Après", path: "Chemin", results: "Différences", truncated: "Résultat limité aux 500 premières différences.", copyReport: "Copier le rapport", loadFile: "Importer un fichier", fileTypeError: "Choisissez un fichier JSON (.json).", fileTooLarge: "Le fichier dépasse la limite de 200 000 caractères.", fileReadError: "Impossible de lire ce fichier sur votre appareil.",
     },
     yamlFormatterValidator: {
-      input: "Votre YAML", placeholder: "name: Loculary\\ntools:\\n  - JSON\\n  - YAML", output: "Résultat", format: "Formater", copy: "Copier", clear: "Effacer",
-      indentation: "Indentation", spaces2: "2 espaces", spaces4: "4 espaces", tab: "Tabulation", valid: "YAML valide", invalid: "YAML invalide",
-      emptyResult: "Le résultat apparaîtra ici après validation.", formatted: "Formaté", resourceLimit: "Le document est trop volumineux ou trop complexe à traiter en toute sécurité.",
-      errorAt: (line, column) => "Ligne " + line + ", colonne " + column,
-      errorDetailLabel: "Détail technique :",
+      input: "Votre document", inputYaml: "Votre YAML", inputJson: "Votre JSON", placeholder: "name: Loculary\\ntools:\\n  - JSON\\n  - YAML", jsonPlaceholder: '{\\n  "name": "Loculary",\\n  "tools": ["JSON", "YAML"]\\n}',
+      output: "Résultat", outputYaml: "Résultat YAML", outputJson: "Résultat JSON", operation: "Action", formatYaml: "Formater le YAML", yamlToJson: "Convertir YAML → JSON", jsonToYaml: "Convertir JSON → YAML",
+      format: "Formater", convert: "Convertir", converted: "Converti", copy: "Copier", clear: "Effacer",
+      indentation: "Indentation", spaces2: "2 espaces", spaces4: "4 espaces", tab: "Tabulation", valid: "YAML valide", invalid: "Document invalide",
+      emptyResult: "Le résultat apparaîtra ici après traitement.", formatted: "Formaté", resourceLimit: "Le document est trop volumineux ou trop complexe à traiter en toute sécurité.",
+      errorAt: (line, column) => "Ligne " + line + ", colonne " + column, errorDetailLabel: "Détail technique :",
+      unsupportedValue: "Ce document contient une valeur YAML qui ne peut pas être représentée en JSON sans perte.",
     },
     urlEncoder: {
       input: "Votre texte", placeholder: "Saisissez du texte ou une URL…", output: "Résultat", scope: "Mode d’encodage", component: "Composant d’URL", uri: "URL complète",
@@ -676,11 +679,13 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       added: "Added", removed: "Removed", changed: "Changed", before: "Before", after: "After", path: "Path", results: "Differences", truncated: "Showing the first 500 differences only.", copyReport: "Copy report", loadFile: "Import a file", fileTypeError: "Choose a JSON file (.json).", fileTooLarge: "The file exceeds the 200,000-character limit.", fileReadError: "Could not read this file on your device.",
     },
     yamlFormatterValidator: {
-      input: "Your YAML", placeholder: "name: Loculary\\ntools:\\n  - JSON\\n  - YAML", output: "Result", format: "Format", copy: "Copy", clear: "Clear",
-      indentation: "Indentation", spaces2: "2 spaces", spaces4: "4 spaces", tab: "Tab", valid: "Valid YAML", invalid: "Invalid YAML",
-      emptyResult: "The result will appear here after validation.", formatted: "Formatted", resourceLimit: "The document is too large or complex to process safely.",
-      errorAt: (line, column) => "Line " + line + ", column " + column,
-      errorDetailLabel: "Parser detail:",
+      input: "Your document", inputYaml: "Your YAML", inputJson: "Your JSON", placeholder: "name: Loculary\\ntools:\\n  - JSON\\n  - YAML", jsonPlaceholder: '{\\n  "name": "Loculary",\\n  "tools": ["JSON", "YAML"]\\n}',
+      output: "Result", outputYaml: "YAML result", outputJson: "JSON result", operation: "Action", formatYaml: "Format YAML", yamlToJson: "Convert YAML → JSON", jsonToYaml: "Convert JSON → YAML",
+      format: "Format", convert: "Convert", converted: "Converted", copy: "Copy", clear: "Clear",
+      indentation: "Indentation", spaces2: "2 spaces", spaces4: "4 spaces", tab: "Tab", valid: "Valid YAML", invalid: "Invalid document",
+      emptyResult: "The result will appear here after processing.", formatted: "Formatted", resourceLimit: "The document is too large or complex to process safely.",
+      errorAt: (line, column) => "Line " + line + ", column " + column, errorDetailLabel: "Parser detail:",
+      unsupportedValue: "This document contains a YAML value that cannot be represented in JSON without data loss.",
     },
     urlEncoder: {
       input: "Your text", placeholder: "Enter text or a URL…", output: "Result", scope: "Encoding mode", component: "URL component", uri: "Complete URL",
