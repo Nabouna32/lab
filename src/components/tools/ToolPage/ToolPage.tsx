@@ -7,6 +7,8 @@ import Breadcrumbs from "@/components/layout/Breadcrumbs";
 import ToolPageHeader from "./ToolPageHeader";
 import ToolProcessingStatus from "./ToolProcessingStatus";
 import { ToolRuntimeProvider } from "./ToolRuntimeProvider";
+import { getPublishedTools } from "@/lib/tools/catalog";
+import RecentToolTracker from "./RecentToolTracker";
 
 export default function ToolPage({
   tool,
@@ -22,9 +24,11 @@ export default function ToolPage({
   const localizedContent = getToolContent(tool, locale);
   const isContentFallback = isToolContentFallback(tool, locale);
   const t = getMessages(locale);
+  const validToolIds = getPublishedTools().map((publishedTool) => publishedTool.id);
 
   return (
     <main className="mx-auto min-h-full w-full max-w-[var(--content-default)] px-4 py-5 sm:px-6 sm:py-7 lg:px-10 lg:py-9">
+      <RecentToolTracker toolId={tool.id} validToolIds={validToolIds} />
       <header className="relative overflow-hidden rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] px-5 py-6 shadow-[var(--shadow-lg)] sm:px-8 sm:py-8 lg:px-10">
         <div className="mb-5 px-1">
           <Breadcrumbs

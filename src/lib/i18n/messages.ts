@@ -8,7 +8,7 @@ export type Messages = {
   breadcrumbs: { label: string };
   footer: { tagline: string; explore: string; account: string };
   actions: { copy: string; copied: string; clear: string };
-  home: { metaTitle: string; badge: string; title: string; description: string; searchPlaceholder: string; quickLinksLabel: string; quickLinks: Array<{ label: string; toolId: ToolId }>; explore: string; categoriesTitle: string; categoriesDescription: string; categoriesCount: (count: number) => string; toolsCountLabel: string; };
+  home: { metaTitle: string; badge: string; title: string; description: string; searchPlaceholder: string; quickLinksLabel: string; quickLinks: Array<{ label: string; toolId: ToolId }>; recentToolsTitle: string; recentToolsDescription: string; clearRecentTools: string; explore: string; categoriesTitle: string; categoriesDescription: string; categoriesCount: (count: number) => string; toolsCountLabel: string; };
   tools: {
     metaTitle: string;
     eyebrow: string; title: string; description: string; explore: string; one: string; many: string;
@@ -49,6 +49,9 @@ export const messages: Record<Locale, Messages> = {
         { label: "Calculer mon âge", toolId: "age" },
         { label: "Convertir une taille de fichier", toolId: "file-size-converter" },
       ],
+      recentToolsTitle: "Reprendre un outil",
+      recentToolsDescription: "Récemment ouverts sur cet appareil.",
+      clearRecentTools: "Effacer l’historique",
       explore: "Tous les outils",
       categoriesTitle: "Catégories",
       categoriesDescription: "Tu sais ce que tu cherches ? Parcours les domaines pour trouver le bon outil.",
@@ -141,6 +144,9 @@ export const messages: Record<Locale, Messages> = {
         { label: "Calculate my age", toolId: "age" },
         { label: "Convert a file size", toolId: "file-size-converter" },
       ],
+      recentToolsTitle: "Pick up where you left off",
+      recentToolsDescription: "Recently opened on this device.",
+      clearRecentTools: "Clear history",
       explore: "All tools",
       categoriesTitle: "Categories",
       categoriesDescription: "Know what you need? Browse by domain to find the right tool.",
