@@ -1,4 +1,4 @@
-import { addCalendarMonthsClamped, daysInCalendarMonth, parseCalendarDate } from "./calendar-date.ts";
+import { addCalendarMonthsClamped, parseCalendarDate } from "./calendar-date.ts";
 
 export type DateAdjustmentUnit = "days" | "weeks" | "months" | "years";
 export type DateAdjustmentDirection = "add" | "subtract";
