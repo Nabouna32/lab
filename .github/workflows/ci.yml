@@ -68,6 +68,11 @@ jobs:
         shell: pwsh
         run: node .github/scripts/dependency-audit-diff.mjs dependency-baseline
 
+      - name: Remove dependency baseline checkout
+        if: github.event_name == 'pull_request' && steps.changes.outputs.dependencies_changed == 'true'
+        shell: pwsh
+        run: Remove-Item -Recurse -Force dependency-baseline
+
       - name: Exercise CI tooling tests
         if: steps.changes.outputs.governance_changed == 'true'
         shell: pwsh
