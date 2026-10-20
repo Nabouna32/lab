@@ -106,7 +106,7 @@ export function DatePicker({
     else return;
     event.preventDefault();
     const nextIso = toIsoDate(nextDate);
-    if ((min && nextIso < min) || (max && nextIso > max)) return;
+    if (nextDate.getFullYear() < 1 || (min && nextIso < min) || (max && nextIso > max)) return;
     setFocusedDate(nextIso);
     shouldFocusDate.current = true;
     if (!sameMonth(nextDate, displayedMonth)) setDisplayedMonth(createCalendarDate(nextDate.getFullYear(), nextDate.getMonth(), 1));
@@ -127,7 +127,10 @@ export function DatePicker({
   }
 
   function changeMonth(offset: number) {
-    setDisplayedMonth((month) => createCalendarDate(month.getFullYear(), month.getMonth() + offset, 1));
+    setDisplayedMonth((month) => {
+      const nextMonth = createCalendarDate(month.getFullYear(), month.getMonth() + offset, 1);
+      return nextMonth.getFullYear() < 1 ? month : nextMonth;
+    });
   }
 
   if (displayMode === "input") {
