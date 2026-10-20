@@ -141,4 +141,6 @@ test("localizes image metadata labels in French and English", () => {
   assert.equal(getToolMessages("fr").imageMetadata.cameraModel, "Modèle de l’appareil");
   assert.equal(getToolMessages("en").imageMetadata.cameraMake, "Camera make");
   assert.equal(getToolMessages("en").imageMetadata.cameraModel, "Camera model");
+  assert.match(getToolMessages("fr").imageMetadata.gpsWarning, /coordonnées GPS/);
+  assert.match(getToolMessages("en").imageMetadata.gpsWarning, /GPS coordinates/);
 });

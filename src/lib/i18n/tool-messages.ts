@@ -135,7 +135,7 @@ type ToolMessages = {
     input: string; inputHint: string; dimensions: string; format: string; fileSize: string; exif: string; noMetadata: string;
     cameraMake: string; cameraModel: string; dateTaken: string; dateModified: string; orientation: string; gps: string; software: string; strip: string; stripping: string;
     download: string; reset: string; preview: string; emptyResult: string; invalidType: string; tooLarge: string; invalid: string; animatedUnsupported: string;
-    removed: string; local: string;
+    removed: string; local: string; gpsWarning: string;
   };
   qrCodeGenerator: {
     input: string; placeholder: string; hint: string; size: string; download: string; clear: string;
@@ -445,7 +445,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       cameraMake: "Marque de l’appareil", cameraModel: "Modèle de l’appareil", dateTaken: "Date de prise de vue", dateModified: "Date de modification", orientation: "Orientation", gps: "Position GPS", software: "Logiciel",
       strip: "Supprimer les métadonnées", stripping: "Suppression des métadonnées…", download: "Télécharger l’image nettoyée", reset: "Réinitialiser", preview: "Aperçu de l’image",
       emptyResult: "Sélectionnez une image pour inspecter ses métadonnées.", invalidType: "Sélectionnez un fichier image.", tooLarge: "Le fichier dépasse la limite de 25 Mo.", invalid: "Cette image ne peut pas être lue dans votre navigateur.", animatedUnsupported: "Cette image est animée. Son nettoyage est désactivé pour éviter de perdre les images de l’animation.",
-      removed: "Les métadonnées ont été supprimées. L’image nettoyée est prête à être téléchargée.", local: "Votre image reste sur votre appareil. Aucun fichier n’est envoyé à Loculary.",
+      removed: "Les métadonnées ont été supprimées. L’image nettoyée est prête à être téléchargée.", local: "Votre image reste sur votre appareil. Aucun fichier n’est envoyé à Loculary.", gpsWarning: "Cette image contient des coordonnées GPS précises. Elles peuvent révéler le lieu de prise de vue ; supprimez les métadonnées avant de la partager.",
     },
     imageCompressor: {
       input: "Choisir une image", inputHint: "JPG, PNG, WebP ou autre image — traitement local dans votre navigateur.", format: "Format de sortie",
@@ -738,7 +738,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       cameraMake: "Camera make", cameraModel: "Camera model", dateTaken: "Date taken", dateModified: "Date modified", orientation: "Orientation", gps: "GPS location", software: "Software",
       strip: "Remove metadata", stripping: "Removing metadata…", download: "Download clean image", reset: "Reset", preview: "Image preview",
       emptyResult: "Select an image to inspect its metadata.", invalidType: "Select an image file.", tooLarge: "The file exceeds the 25 MB limit.", invalid: "This image cannot be read in your browser.", animatedUnsupported: "This image is animated. Cleaning is disabled to avoid losing its animation frames.",
-      removed: "Metadata removed. The cleaned image is ready to download.", local: "Your image stays on your device. Nothing is uploaded to Loculary.",
+      removed: "Metadata removed. The cleaned image is ready to download.", local: "Your image stays on your device. Nothing is uploaded to Loculary.", gpsWarning: "This image contains precise GPS coordinates. They can reveal where the photo was taken; remove the metadata before sharing it.",
     },
     qrCodeGenerator: {
       input: "Content to encode", placeholder: "https://example.com or your text…",
