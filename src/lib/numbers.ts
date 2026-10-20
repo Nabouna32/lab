@@ -9,10 +9,18 @@ function getNumberSymbols(locale: Locale): { decimal: string; group: string } {
 }
 
 function isValidGrouping(value: string, separators: RegExp): boolean {
+  const unsignedValue = value.replace(/^[+-]/, "");
+  const separatorKinds = new Set(
+    [...unsignedValue.matchAll(/[.,\\s\\u00a0\\u202f\\u2009\\u2007]/g)].map(([separator]) =>
+      /[\\s\\u00a0\\u202f\\u2009\\u2007]/u.test(separator) ? "space" : separator,
+    ),
+  );
+  if (separatorKinds.size !== 1) return false;
+
   const groups = value.split(separators);
   if (groups.length < 2) return false;
   const first = groups[0].replace(/^[+-]/, "");
-  return first.length >= 1 && first.length <= 3 && /^\d+$/.test(first) && groups.slice(1).every((group) => /^\d{3}$/.test(group));
+  return first.length >= 1 && first.length <= 3 && /^\\d+$/.test(first) && groups.slice(1).every((group) => /^\\d{3}$/.test(group));
 }
 
 export function parseLocalizedNumber(value: string, locale: Locale = "en"): number | null {
