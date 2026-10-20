@@ -1,4 +1,4 @@
-export type TimeZoneConversionStatus = "exact" | "ambiguous" | "nonexistent";
+export type TimeZoneConversionStatus = "exact" | "ambiguous";
 
 export type ZonedDateTimeParts = {
   year: number;
@@ -165,6 +165,13 @@ export function isSupportedTimeZone(timeZone: string): boolean {
   } catch {
     return false;
   }
+}
+
+/** Returns true when a syntactically valid local time is skipped by a DST/zone transition. */
+export function isNonexistentLocalTime(value: string, timeZone: string): boolean {
+  if (!isSupportedTimeZone(timeZone)) return false;
+  const parts = parseLocalDateTime(value);
+  return parts !== null && findMatchingInstants(parts, timeZone).length === 0;
 }
 
 export function convertTimeZone(

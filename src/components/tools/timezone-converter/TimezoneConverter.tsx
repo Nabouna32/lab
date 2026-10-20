@@ -8,7 +8,7 @@ import { Select } from "@/components/ui/Select";
 import { CalculatorField } from "@/components/tools/calculator/CalculatorField";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { useLocale } from "@/lib/i18n/use-locale";
-import { convertTimeZone, formatOffset, getTimeZoneOptions } from "@/lib/timezone-converter";
+import { convertTimeZone, formatOffset, getTimeZoneOptions, isNonexistentLocalTime } from "@/lib/timezone-converter";
 
 function getDefaultTimeZone(): string {
   return "UTC";
@@ -22,6 +22,7 @@ export default function TimezoneConverter() {
   const [destinationTimeZone, setDestinationTimeZone] = useState("America/New_York");
   const [result, setResult] = useState<ReturnType<typeof convertTimeZone>>(null);
   const [error, setError] = useState(false);
+  const [nonexistentTime, setNonexistentTime] = useState(false);
   const timeZones = useMemo(() => getTimeZoneOptions(), []);
   const localeCode = locale === "fr" ? "fr-FR" : "en-US";
 
@@ -31,6 +32,7 @@ export default function TimezoneConverter() {
     const next = convertTimeZone(dateTime, sourceTimeZone, destinationTimeZone);
     setResult(next);
     setError(next === null);
+    setNonexistentTime(next === null && isNonexistentLocalTime(dateTime, sourceTimeZone));
   }
 
   function clear() {
@@ -39,6 +41,7 @@ export default function TimezoneConverter() {
     setDestinationTimeZone("America/New_York");
     setResult(null);
     setError(false);
+    setNonexistentTime(false);
   }
 
   const copyValue = result
@@ -50,11 +53,11 @@ export default function TimezoneConverter() {
       <div className="grid gap-0 lg:grid-cols-2">
         <div className="p-5 sm:p-7 lg:border-r lg:border-[var(--border)] lg:p-8">
           <CalculatorField label={t.dateTime} inputId="timezone-date-time" type="datetime-local" value={dateTime} aria-invalid={error}
-            onChange={(event) => { setDateTime(event.target.value); setResult(null); setError(false); }} />
+            onChange={(event) => { setDateTime(event.target.value); setResult(null); setError(false); setNonexistentTime(false); }} />
 
           <div className="mt-4">
             <Select label={t.source} id="timezone-source" value={sourceTimeZone}
-              onChange={(event) => { setSourceTimeZone(event.target.value); setResult(null); setError(false); }}>
+              onChange={(event) => { setSourceTimeZone(event.target.value); setResult(null); setError(false); setNonexistentTime(false); }}>
               {timeZones.map((zone) => <option key={zone} value={zone}>{zone}</option>)}
             </Select>
           </div>
@@ -67,7 +70,7 @@ export default function TimezoneConverter() {
           </div>
 
           <p className="mt-4 text-sm leading-6 text-[var(--muted)]">{t.hint}</p>
-          {error && <p role="alert" className="mt-3 text-sm font-medium text-[var(--danger)]">{t.invalid}</p>}
+          {error && <p role="alert" className="mt-3 text-sm font-medium text-[var(--danger)]">{nonexistentTime ? t.nonexistent : t.invalid}</p>}
           <p className="mt-2 text-xs leading-5 text-[var(--muted)]">{t.zonesHint}</p>
 
           <div className="mt-5 flex flex-wrap gap-2">

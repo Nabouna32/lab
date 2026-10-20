@@ -5,6 +5,7 @@ import {
   formatOffset,
   getTimeZoneOptions,
   isSupportedTimeZone,
+  isNonexistentLocalTime,
 } from "./timezone-converter.ts";
 
 describe("convertTimeZone", () => {
@@ -43,7 +44,11 @@ describe("convertTimeZone", () => {
     assert.equal(result?.destination.hour, 6);
   });
 
-  it("rejects malformed local date-time", () => {
+  it("distinguishes skipped local times from malformed input", () => {
+    assert.equal(isNonexistentLocalTime("2024-03-10T02:30", "America/New_York"), true);
+    assert.equal(isNonexistentLocalTime("2024-03-10T03:30", "America/New_York"), false);
+    assert.equal(isNonexistentLocalTime("not-a-date", "America/New_York"), false);
+    assert.equal(isNonexistentLocalTime("2024-03-10T02:30", "Not/AZone"), false);
     assert.equal(convertTimeZone("not-a-date", "Europe/Paris", "UTC"), null);
   });
 
