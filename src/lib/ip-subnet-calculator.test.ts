@@ -51,7 +51,7 @@ describe("calculateIpv4Subnet", () => {
     assert.equal(result?.networkAddress, "192.168.0.0");
   });
 
-  it("rejects malformed IPv4 addresses and prefixes", () => {
+  it("rejects malformed and non-canonical IPv4 addresses and prefixes", () => {
     for (const input of [
       "",
       "192.168.1.1",
@@ -59,6 +59,9 @@ describe("calculateIpv4Subnet", () => {
       "192.168.1.256/24",
       "192.168.1/24",
       "192.168.1.1/abc",
+      "192.168.001.1/24",
+      "010.0.0.1/8",
+      "192.168.1.000/24",
     ]) {
       assert.equal(calculateIpv4Subnet(input), null, input);
     }
