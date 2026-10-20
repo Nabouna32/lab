@@ -24,7 +24,7 @@ test("shared Button exposes canonical variants, stable default labels, opt-in mu
     '"filled-tonal": filledTonal', "min-h-10", "min-w-[58px]", "whitespace-nowrap", "whitespace-pre-line", "multiline = false",
     "leadingIcon?: boolean", 'const isTextVariant = variant === "text" || variant === "ghost"', "pl-3 pr-4", "pl-4 pr-6",
     "transition-[background-color,border-color,color,box-shadow]", "motion-reduce:transition-none", "shrink-0",
-    "disabled:bg-[color-mix(in_srgb,var(--on-surface)_12%,transparent)]", "disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]", "disabled:shadow-none",
+    "disabled:bg-[color-mix(in_srgb,var(--on-surface)_10%,transparent)]", "disabled:bg-[color-mix(in_srgb,var(--on-surface)_12%,transparent)]", "disabled:text-[color-mix(in_srgb,var(--on-surface-variant)_38%,transparent)]", "disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]", "disabled:border-[color-mix(in_srgb,var(--outline-variant)_10%,transparent)]", "disabled:shadow-none",
     "primary: filled", "tonal: filledTonal", "secondary: outlined", "ghost: text", 'variant = "filled"',
   ]) assert.ok(button.includes(required), "missing Button conformance rule: " + required);
   for (const required of [

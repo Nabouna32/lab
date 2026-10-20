@@ -11,15 +11,18 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   multiline?: boolean;
 };
 
-const disabledContainer = "disabled:bg-[color-mix(in_srgb,var(--on-surface)_12%,transparent)]";
-const disabledContent = "disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]";
+const disabledContainer10 = "disabled:bg-[color-mix(in_srgb,var(--on-surface)_10%,transparent)]";
+const disabledContainer12 = "disabled:bg-[color-mix(in_srgb,var(--on-surface)_12%,transparent)]";
+const disabledContentVariant = "disabled:text-[color-mix(in_srgb,var(--on-surface-variant)_38%,transparent)]";
+const disabledContentSurface = "disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]";
+const disabledOutline = "disabled:border-[color-mix(in_srgb,var(--outline-variant)_10%,transparent)]";
 
-const filled = "border border-transparent bg-[var(--primary)] text-[var(--on-primary)] hover:bg-[color-mix(in_srgb,var(--primary)_92%,var(--on-primary))] hover:shadow-[var(--button-elevation-1)] focus-visible:bg-[color-mix(in_srgb,var(--primary)_90%,var(--on-primary))] active:shadow-none focus-visible:shadow-none " + disabledContainer + " " + disabledContent + " disabled:shadow-none";
-const elevated = "border border-transparent bg-[var(--surface-container-low)] text-[var(--primary)] shadow-[var(--button-elevation-1)] hover:shadow-[var(--button-elevation-2)] hover:bg-[color-mix(in_srgb,var(--surface-container-low)_92%,var(--primary))] focus-visible:bg-[color-mix(in_srgb,var(--surface-container-low)_90%,var(--primary))] focus-visible:shadow-[var(--button-elevation-1)] active:shadow-[var(--button-elevation-1)] " + disabledContainer + " " + disabledContent + " disabled:shadow-none";
-const filledTonal = "border border-transparent bg-[var(--secondary-container)] text-[var(--on-secondary-container)] hover:bg-[color-mix(in_srgb,var(--secondary-container)_92%,var(--on-secondary-container))] hover:shadow-[var(--button-elevation-1)] focus-visible:bg-[color-mix(in_srgb,var(--secondary-container)_90%,var(--on-secondary-container))] active:shadow-none focus-visible:shadow-none " + disabledContainer + " " + disabledContent + " disabled:shadow-none";
-const outlined = "border border-[var(--outline)] bg-transparent text-[var(--primary)] hover:bg-[color-mix(in_srgb,var(--primary)_8%,transparent)] focus-visible:bg-[color-mix(in_srgb,var(--primary)_10%,transparent)] disabled:border-[color-mix(in_srgb,var(--on-surface)_12%,transparent)] " + disabledContent;
-const text = "border border-transparent bg-transparent text-[var(--primary)] hover:bg-[color-mix(in_srgb,var(--primary)_8%,transparent)] focus-visible:bg-[color-mix(in_srgb,var(--primary)_10%,transparent)] " + disabledContent;
-const danger = "border border-transparent bg-[var(--error)] text-[var(--on-error)] hover:bg-[color-mix(in_srgb,var(--error)_92%,var(--on-error))] " + disabledContainer + " " + disabledContent;
+const filled = "border border-transparent bg-[var(--primary)] text-[var(--on-primary)] hover:bg-[color-mix(in_srgb,var(--primary)_92%,var(--on-primary))] hover:shadow-[var(--button-elevation-1)] focus-visible:bg-[color-mix(in_srgb,var(--primary)_90%,var(--on-primary))] active:shadow-none focus-visible:shadow-none " + disabledContainer10 + " " + disabledContentVariant + " disabled:shadow-none";
+const elevated = "border border-transparent bg-[var(--surface-container-low)] text-[var(--primary)] shadow-[var(--button-elevation-1)] hover:shadow-[var(--button-elevation-2)] hover:bg-[color-mix(in_srgb,var(--surface-container-low)_92%,var(--primary))] focus-visible:bg-[color-mix(in_srgb,var(--surface-container-low)_90%,var(--primary))] focus-visible:shadow-[var(--button-elevation-1)] active:shadow-[var(--button-elevation-1)] " + disabledContainer10 + " " + disabledContentVariant + " disabled:shadow-none";
+const filledTonal = "border border-transparent bg-[var(--secondary-container)] text-[var(--on-secondary-container)] hover:bg-[color-mix(in_srgb,var(--secondary-container)_92%,var(--on-secondary-container))] hover:shadow-[var(--button-elevation-1)] focus-visible:bg-[color-mix(in_srgb,var(--secondary-container)_90%,var(--on-secondary-container))] active:shadow-none focus-visible:shadow-none " + disabledContainer12 + " " + disabledContentSurface + " disabled:shadow-none";
+const outlined = "border border-[var(--outline)] bg-transparent text-[var(--primary)] hover:bg-[color-mix(in_srgb,var(--primary)_8%,transparent)] focus-visible:bg-[color-mix(in_srgb,var(--primary)_10%,transparent)] " + disabledOutline + " " + disabledContentVariant;
+const text = "border border-transparent bg-transparent text-[var(--primary)] hover:bg-[color-mix(in_srgb,var(--primary)_8%,transparent)] focus-visible:bg-[color-mix(in_srgb,var(--primary)_10%,transparent)] " + disabledContentVariant;
+const danger = "border border-transparent bg-[var(--error)] text-[var(--on-error)] hover:bg-[color-mix(in_srgb,var(--error)_92%,var(--on-error))] " + disabledContainer12 + " " + disabledContentSurface;
 
 const variants: Record<ButtonVariant, string> = {
   filled,
