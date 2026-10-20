@@ -37,6 +37,7 @@ export const intentDefinitions: readonly IntentDefinition[] = [
       "url-encoder-decoder",
       "html-entity-encoder-decoder",
       "csv-json-converter",
+      "yaml-formatter-validator",
       "text-case-converter",
       "timezone-converter",
       "number-base-converter",
