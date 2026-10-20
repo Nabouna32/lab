@@ -10,6 +10,10 @@ Dernière révision : 2026-10-20. File de travail unique.
 
 Les preuves et priorités de reprise sont dans [PROJECT-STATE.md](PROJECT-STATE.md), les risques et blocages dans [KNOWN-ISSUES.md](KNOWN-ISSUES.md), et les lots UX dans [REFONTE.md](REFONTE.md).
 
+## Dernière livraison UX — récupération après recherche sans résultat
+
+La [PR #833](https://github.com/Nabouna32/lab/pull/833) ajoute quatre cartes d’outils directement accessibles à l’état vide, en complément des requêtes d’exemple et du lien vers le catalogue. Le lot réutilise les raccourcis localisés existants et les cartes partagées. CI à confirmer sur le SHA final ; aucun test navigateur n’est revendiqué.
+
 ## P1 — Audit de justesse et confidentialité des outils (priorité active)
 
 - **État :** continu ; checkpoint [issue #741](https://github.com/Nabouna32/lab/issues/741).
