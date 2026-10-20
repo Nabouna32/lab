@@ -19,7 +19,7 @@ export default function FileSizeConverter() {
   const [value, setValue] = useState(""); const [from, setFrom] = useState<SizeUnit>("mo"); const [to, setTo] = useState<SizeUnit>("go");
   const result = useMemo(() => {
     if (value.trim() === "") return null;
-    const numericValue = parseLocalizedNumber(value);
+    const numericValue = parseLocalizedNumber(value, locale);
     if (numericValue === null || numericValue < 0) return null;
     return convertFileSize(numericValue, from, to);
   }, [value, from, to]);
@@ -28,7 +28,7 @@ export default function FileSizeConverter() {
     <CalculatorShell>
       <CalculatorActions showClear={value !== ""} onClear={() => setValue("")} />
       <div className="grid gap-5 sm:grid-cols-2">
-        <CalculatorField label={t.value} inputId="file-size-value" type="number" min="0" step="any" value={value} onChange={(event) => setValue(event.target.value)} placeholder={t.placeholder}  aria-invalid={hasInvalidInput} aria-describedby={hasInvalidInput ? "file-size-converter-error" : undefined}/>
+        <CalculatorField label={t.value} inputId="file-size-value" type="text" inputMode="decimal" value={value} onChange={(event) => setValue(event.target.value)} placeholder={t.placeholder}  aria-invalid={hasInvalidInput} aria-describedby={hasInvalidInput ? "file-size-converter-error" : undefined}/>
         <Select label={t.from} id="file-size-from" value={from} onChange={(event) => setFrom(event.target.value as SizeUnit)}>
           {SIZE_UNITS.map((unit) => <option key={unit} value={unit}>{getFileSizeUnitLabel(locale, unit, "long")}</option>)}
         </Select>
