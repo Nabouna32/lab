@@ -135,8 +135,8 @@ type ToolMessages = {
   };
   imageCompressor: {
     input: string; inputHint: string; format: string; maxDimension: string; original: string; quality: string; qualityHint: string;
-    processing: string; download: string; reset: string; preview: string; emptyResult: string; invalid: string; invalidType: string; tooLarge: string;
-    originalSize: string; compressedSize: string; reduction: string;
+    processing: string; downloadArchive: string; archivePreparing: string; archiveError: string; reset: string; emptyResult: string; invalid: string; invalidType: string; tooLarge: string; tooMany: string;
+    originalSize: string; compressedSize: string; reduction: string; selectedCount: (count: number) => string; completedCount: (ready: number, total: number) => string;
   };
   imageMetadata: {
     input: string; inputHint: string; dimensions: string; format: string; fileSize: string; exif: string; noMetadata: string;
@@ -464,12 +464,13 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       removed: "Les métadonnées ont été supprimées. L’image nettoyée est prête à être téléchargée.", local: "Votre image reste sur votre appareil. Aucun fichier n’est envoyé à Loculary.", gpsWarning: "Cette image contient des coordonnées GPS précises. Elles peuvent révéler le lieu de prise de vue ; supprimez les métadonnées avant de la partager.",
     },
     imageCompressor: {
-      input: "Choisir une image", inputHint: "JPG, PNG, WebP ou autre image — traitement local dans votre navigateur.", format: "Format de sortie",
-      maxDimension: "Dimension maximale", original: "Conserver la dimension", quality: "Qualité", qualityHint: "La qualité agit surtout sur JPEG et WebP.",
-      processing: "Compression…", download: "Télécharger", reset: "Réinitialiser", preview: "Aperçu de l’image compressée",
-      emptyResult: "Sélectionnez une image pour afficher le résultat.", invalid: "Cette image ne peut pas être traitée dans votre navigateur.",
-      invalidType: "Sélectionnez un fichier image.", tooLarge: "Le fichier dépasse la limite de 25 Mo.",
-      originalSize: "Taille originale", compressedSize: "Taille compressée", reduction: "Réduction",
+      input: "Choisir des images", inputHint: "Sélectionnez jusqu’à 10 images (50 Mo au total). Tout reste dans votre navigateur.",
+      format: "Format de sortie", maxDimension: "Dimension maximale", original: "Conserver la dimension", quality: "Qualité", qualityHint: "La qualité agit surtout sur JPEG et WebP.",
+      processing: "Compression…", downloadArchive: "Télécharger les résultats (.zip)", archivePreparing: "Préparation du ZIP…", archiveError: "Impossible de créer l’archive. Réduisez le nombre ou la taille des images.",
+      reset: "Réinitialiser", emptyResult: "Sélectionnez une ou plusieurs images pour afficher les résultats.", invalid: "Cette image ne peut pas être traitée dans votre navigateur.",
+      invalidType: "Certains fichiers ne sont pas des images et ont été ignorés.", tooLarge: "Limite dépassée : 25 Mo par fichier et 50 Mo au total.", tooMany: "Sélectionnez au maximum 10 images.",
+      originalSize: "Poids original", compressedSize: "Poids optimisé", reduction: "Réduction", selectedCount: (count) => count + (count > 1 ? " images sélectionnées" : " image sélectionnée"),
+      completedCount: (ready, total) => ready + " sur " + total + " images optimisées",
     },
     qrCodeGenerator: {
       input: "Contenu à encoder", placeholder: "https://example.com ou votre texte…",
@@ -750,12 +751,13 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       security: "The preview cannot access the Loculary origin and does not execute JavaScript from the content.",
     },
     imageCompressor: {
-      input: "Choose an image", inputHint: "JPG, PNG, WebP, or another image — processed locally in your browser.", format: "Output format",
-      maxDimension: "Maximum dimension", original: "Keep original size", quality: "Quality", qualityHint: "Quality mainly affects JPEG and WebP.",
-      processing: "Compressing…", download: "Download", reset: "Reset", preview: "Compressed image preview",
-      emptyResult: "Select an image to see the result.", invalid: "This image cannot be processed in your browser.",
-      invalidType: "Select an image file.", tooLarge: "The file exceeds the 25 MB limit.",
-      originalSize: "Original size", compressedSize: "Compressed size", reduction: "Reduction",
+      input: "Choose images", inputHint: "Select up to 10 images (50 MB total). Everything stays in your browser.",
+      format: "Output format", maxDimension: "Maximum dimension", original: "Keep original size", quality: "Quality", qualityHint: "Quality mainly affects JPEG and WebP.",
+      processing: "Compressing…", downloadArchive: "Download results (.zip)", archivePreparing: "Preparing ZIP…", archiveError: "Could not create the archive. Reduce the number or size of images.",
+      reset: "Reset", emptyResult: "Select one or more images to see the results.", invalid: "This image cannot be processed in your browser.",
+      invalidType: "Some files were not images and have been skipped.", tooLarge: "Limit exceeded: 25 MB per file and 50 MB total.", tooMany: "Select at most 10 images.",
+      originalSize: "Original size", compressedSize: "Optimized size", reduction: "Reduction", selectedCount: (count) => count + (count === 1 ? " image selected" : " images selected"),
+      completedCount: (ready, total) => ready + " of " + total + " images optimized",
     },
     imageMetadata: {
       input: "Choose an image", inputHint: "JPG, PNG, WebP, or another image — inspected locally in your browser.",

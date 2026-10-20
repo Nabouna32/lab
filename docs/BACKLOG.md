@@ -2,6 +2,7 @@
 
 Dernière révision : 2026-10-21. File de travail unique.
 
+- **Images / compresseur par lot :** traitement local de plusieurs images avec réglages communs, comparaison du gain et téléchargement ZIP. PR en cours.
 - **Produit / outils de développement — conversion JSON ↔ YAML :** livré via [PR #914](https://github.com/Nabouna32/lab/pull/914), fusionnée dans `f8308de`. Le formateur YAML gère le formatage et les conversions dans les deux sens, avec validation des valeurs incompatibles, limite de taille, messages FR/EN et traitement local. CI [#39513132211](https://github.com/Nabouna32/lab/actions/runs/39513132211) verte.
 - **Produit / comparateur JSON — import local de fichiers :** livré via [PR #912](https://github.com/Nabouna32/lab/pull/912), fusionnée (`bef41fa`). Import de deux fichiers JSON sans upload ni stockage ; CI [#39511782974](https://github.com/Nabouna32/lab/actions/runs/39511782974) verte.
 - **Accessibilité / contraste du comparateur JSON :** correction de l’encart éditorial et test de ratio WCAG 4,5:1 sur les quatre configurations Playwright. [PR #909](https://github.com/Nabouna32/lab/pull/909).

@@ -281,3 +281,20 @@ test("YAML tool converts configuration values to JSON and back", async ({ page }
   await expect(page.locator("pre").last()).toContainText("name: Loculary");
   await expect(page.locator("pre").last()).toContainText("active: true");
 });
+
+
+test("image compressor processes multiple local files and offers one ZIP download", async ({ page }) => {
+  await page.goto("/fr/outils/compresseur-d-image");
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  const png = Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/S5cAAAAASUVORK5CYII=", "base64");
+  await page.locator("#image-compressor-file").setInputFiles([
+    { name: "first.png", mimeType: "image/png", buffer: png },
+    { name: "second.png", mimeType: "image/png", buffer: png },
+  ]);
+  await expect(page.getByText("2 images sélectionnées")).toBeVisible();
+  await expect(page.getByText("2 sur 2 images optimisées")).toBeVisible({ timeout: 15000 });
+  const downloadPromise = page.waitForEvent("download");
+  await page.getByRole("button", { name: "Télécharger les résultats (.zip)" }).click();
+  const download = await downloadPromise;
+  expect(download.suggestedFilename()).toBe("loculary-images.zip");
+});

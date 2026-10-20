@@ -801,16 +801,16 @@ const toolDefinitions: ToolDefinition[] = [
   },
   {
     id: "image-compressor", icon: "🗜️",
-    version: 1,
+    version: 2,
     complexity: "advanced",
     categories: ["images"],
-    tags: ["image", "compression", "compresser", "photo", "webp", "jpeg", "png", "taille", "poids"],
-    aliases: ["image compressor", "compress image", "photo compressor", "image compression", "compresseur image", "compresser image", "réduire image", "réduire poids image"],
+    tags: ["image", "images", "compression", "compresser", "photo", "webp", "jpeg", "png", "taille", "poids", "batch", "multiple", "zip", "optimiser"],
+    aliases: ["image compressor", "compress images", "batch image compressor", "compress multiple images", "photo compressor", "image compression", "compresseur image", "compresser plusieurs images", "compresser des images", "réduire image", "réduire poids image", "optimiser des photos", "compression par lot"],
     lifecycle: "published",
     capabilities: ["file-input"],
     content: {
-      fr: { name: "Compresseur d’image", description: "Réduis le poids de ton image en choisissant le format, la qualité et la dimension maximale." },
-      en: { name: "Image Compressor", description: "Reduce an image file size by choosing the format, quality, and maximum dimension." },
+      fr: { name: "Compresseur d’images par lot", description: "Optimisez plusieurs images en une fois, comparez le poids gagné et téléchargez les résultats dans une archive ZIP, sans envoyer vos fichiers." },
+      en: { name: "Batch Image Compressor", description: "Optimize multiple images at once, compare size savings, and download results in a ZIP archive without uploading your files." },
     },
   },
   {

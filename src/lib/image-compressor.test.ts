@@ -47,3 +47,23 @@ test("uses the actual encoded MIME type to choose the download extension", () =>
   assert.equal(getOutputExtension("image/png"), "png");
   assert.equal(getOutputExtension(""), "png");
 });
+
+import { createZipArchive } from "./zip-archive.ts";
+
+test("creates a valid ZIP archive and sanitizes duplicate file names", async () => {
+  const archive = await createZipArchive([
+    { name: "../photo.png", blob: new Blob(["first"]) },
+    { name: "photo.png", blob: new Blob(["second"]) },
+  ]);
+  const bytes = new Uint8Array(await archive.arrayBuffer());
+  const decoded = new TextDecoder().decode(bytes);
+  assert.equal(archive.type, "application/zip");
+  assert.deepEqual(Array.from(bytes.slice(0, 4)), [0x50, 0x4b, 0x03, 0x04]);
+  assert.ok(decoded.includes("photo.png"));
+  assert.ok(decoded.includes("photo (2).png"));
+  assert.deepEqual(Array.from(bytes.slice(-22, -18)), [0x50, 0x4b, 0x05, 0x06]);
+});
+
+test("rejects an empty ZIP archive", async () => {
+  await assert.rejects(() => createZipArchive([]), /empty archive/i);
+});
