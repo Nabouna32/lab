@@ -9,7 +9,7 @@ import { calculateHt, calculateTtc, calculateVatAmount, isValidVatRate } from "@
 import { useLocale } from "@/lib/i18n/use-locale";
 import { ValidationMessage } from "@/components/ui/ValidationMessage";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
-import { formatToolNumber } from "@/lib/numbers";
+import { formatToolNumber, parseLocalizedNumber } from "@/lib/numbers";
 import { SegmentedControl } from "@/components/ui/SegmentedControl";
 
 type Mode = "ht-to-ttc" | "ttc-to-ht";
@@ -20,8 +20,8 @@ export default function TVACalculator() {
   const [mode, setMode] = useState<Mode>("ht-to-ttc");
   const [priceValue, setPriceValue] = useState("");
   const [rateValue, setRateValue] = useState("20");
-  const price = Number(priceValue);
-  const rate = Number(rateValue);
+  const price = parseLocalizedNumber(priceValue, locale) ?? Number.NaN;
+  const rate = parseLocalizedNumber(rateValue, locale) ?? Number.NaN;
   const hasValues = priceValue.trim() !== "" && rateValue.trim() !== "";
   const hasNumericValues = Number.isFinite(price) && Number.isFinite(rate);
   const valid = hasValues && hasNumericValues && price >= 0 && isValidVatRate(rate);
@@ -43,8 +43,8 @@ export default function TVACalculator() {
         <CalculatorActions showClear={priceValue !== "" || rateValue !== "20"} onClear={clearValues} />
       </div>
       <div className="mt-5 grid gap-5 sm:grid-cols-2">
-        <CalculatorField label={mode === "ht-to-ttc" ? t.priceHt : t.priceTtc} inputId="tva-price" min="0" value={priceValue} onChange={(event) => setPriceValue(event.target.value)} placeholder={mode === "ht-to-ttc" ? t.placeholders.ht : t.placeholders.ttc} unit="€"  aria-invalid={hasValues && (!hasNumericValues || !valid)} aria-describedby={((hasValues && (!hasNumericValues || !valid)) || calculationFailed) ? "tva-error" : undefined}/>
-        <CalculatorField label={t.rate} inputId="tva-rate" min="0" max="100" value={rateValue} onChange={(event) => setRateValue(event.target.value)} placeholder={t.placeholders.rate} unit="%"  aria-invalid={hasValues && (!hasNumericValues || !valid)} aria-describedby={((hasValues && (!hasNumericValues || !valid)) || calculationFailed) ? "tva-error" : undefined}/>
+        <CalculatorField label={mode === "ht-to-ttc" ? t.priceHt : t.priceTtc} inputId="tva-price" value={priceValue} onChange={(event) => setPriceValue(event.target.value)} placeholder={mode === "ht-to-ttc" ? t.placeholders.ht : t.placeholders.ttc} type="text" inputMode="decimal" unit="€"  aria-invalid={hasValues && (!hasNumericValues || !valid)} aria-describedby={((hasValues && (!hasNumericValues || !valid)) || calculationFailed) ? "tva-error" : undefined}/>
+        <CalculatorField label={t.rate} inputId="tva-rate" value={rateValue} onChange={(event) => setRateValue(event.target.value)} placeholder={t.placeholders.rate} type="text" inputMode="decimal" unit="%"  aria-invalid={hasValues && (!hasNumericValues || !valid)} aria-describedby={((hasValues && (!hasNumericValues || !valid)) || calculationFailed) ? "tva-error" : undefined}/>
       </div>
       <div className="mt-6 grid gap-4 sm:grid-cols-3">
         <CalculatorResult label={t.resultHt} tone="accent" value={ht === null ? null : `${formatToolNumber(ht, locale, 2)} €`}
