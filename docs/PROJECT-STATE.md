@@ -9,6 +9,7 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 
 ## État vérifié
 
+- **Produit / préparation d’images en un parcours :** [PR #919](https://github.com/Nabouna32/lab/pull/919). Le nettoyage EXIF peut désormais aussi optimiser le lot en une seule passe locale, avec choix du format, qualité et dimension maximale ; la détection des animations empêche leur perte silencieuse. Le scénario Playwright couvre le nettoyage classique et le mode combiné avec export ZIP. La CI complète de la PR valide lint, TypeScript, tests, build et Playwright.
 - **Confidentialité / nettoyage d’images par lot :** [PR #918](https://github.com/Nabouna32/lab/pull/918). Inspection EXIF locale de jusqu’à 10 images, avertissement GPS, nettoyage en lot et archive ZIP. Limites : 25 Mo par fichier, 50 Mo cumulés ; les animations sont ignorées pour éviter leur perte et le réencodage JPEG peut légèrement réduire la qualité. CI applicative complète verte sur le commit `b15cc55` ([run #39515837545](https://github.com/Nabouna32/lab/actions/runs/39515837545)) : lint, TypeScript, 583 tests réussis (2 ignorés), build et Playwright (28 cas).
 - **Produit / images — compresseur par lot :** [PR #916](https://github.com/Nabouna32/lab/pull/916) fusionnée dans `13f54c5`. Traitement local de jusqu’à 10 images, aperçu et archive ZIP (50 Mo cumulés). CI [#39514581989](https://github.com/Nabouna32/lab/actions/runs/39514581989) verte : lint, TypeScript, tests unitaires, build et Playwright.
 - **Produit / outils de développement — conversion JSON ↔ YAML :** PR [#914](https://github.com/Nabouna32/lab/pull/914) fusionnée dans `f8308de`. Le formateur YAML propose désormais le formatage, YAML → JSON et JSON → YAML. CI [#39513132211](https://github.com/Nabouna32/lab/actions/runs/39513132211) verte : lint, TypeScript, 579 tests réussis (2 ignorés), build et Playwright.
@@ -85,11 +86,12 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 
 > Mémoire opérationnelle par session de travail, avec les PR représentatives et preuves vérifiables.
 
-1. **Confidentialité / nettoyage d’images par lot** — inspection EXIF, avertissement GPS, nettoyage local de jusqu’à 10 images et archive ZIP, avec limites explicites et prise en charge prudente des animations. [PR #918](https://github.com/Nabouna32/lab/pull/918), CI complète verte sur `b15cc55` ([run #39515837545](https://github.com/Nabouna32/lab/actions/runs/39515837545)).
-2. **Produit / compresseur d’images par lot** — traitement local de jusqu’à 10 images, aperçu des résultats et archive ZIP. [PR #916](https://github.com/Nabouna32/lab/pull/916), fusionnée dans `13f54c5`, CI complète verte ([run #39514581989](https://github.com/Nabouna32/lab/actions/runs/39514581989)).
+1. **Produit / préparation d’images en un parcours** — nettoyage EXIF et optimisation locale facultative en une seule passe, réglages de sortie, préservation des animations et export ZIP. [PR #919](https://github.com/Nabouna32/lab/pull/919), CI complète de la PR verte.
+2. **Confidentialité / nettoyage d’images par lot** — inspection EXIF, avertissement GPS, nettoyage local de jusqu’à 10 images et archive ZIP, avec limites explicites et prise en charge prudente des animations. [PR #918](https://github.com/Nabouna32/lab/pull/918), CI complète verte sur `b15cc55` ([run #39515837545](https://github.com/Nabouna32/lab/actions/runs/39515837545)).
+3. **Produit / compresseur d’images par lot** — traitement local de jusqu’à 10 images, aperçu des résultats et archive ZIP. [PR #916](https://github.com/Nabouna32/lab/pull/916), fusionnée dans `13f54c5`, CI complète verte ([run #39514581989](https://github.com/Nabouna32/lab/actions/runs/39514581989)).
 3. **Produit / conversion JSON ↔ YAML** — ajoute le formatage YAML et les conversions dans les deux sens, avec validation stricte, garde-fous de ressources et messages FR/EN. [PR #914](https://github.com/Nabouna32/lab/pull/914), fusionnée dans `f8308de` ; CI complète réussie ([run #39513132211](https://github.com/Nabouna32/lab/actions/runs/39513132211)).
-4. **Produit / comparateur JSON — import de fichiers locaux** — import de deux fichiers JSON sans upload ni stockage. [PR #912](https://github.com/Nabouna32/lab/pull/912), CI complète réussie.
-5. **Accessibilité / contraste — comparateur JSON** — correction du contraste éditorial avec vérification Playwright WCAG 4,5:1. [PR #909](https://github.com/Nabouna32/lab/pull/909).
+5. **Produit / comparateur JSON — import de fichiers locaux** — import de deux fichiers JSON sans upload ni stockage. [PR #912](https://github.com/Nabouna32/lab/pull/912), CI complète réussie.
+6. **Accessibilité / contraste — comparateur JSON** — correction du contraste éditorial avec vérification Playwright WCAG 4,5:1. [PR #909](https://github.com/Nabouna32/lab/pull/909).
 
 
 ## Priorités immédiates
