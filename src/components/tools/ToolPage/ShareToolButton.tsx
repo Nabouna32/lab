@@ -55,7 +55,7 @@ export default function ShareToolButton({ title, description, locale }: ShareToo
         onClick={handleShare}
         aria-label={messages.shareTool}
       >
-        <MaterialIcon name="share" size={18} />
+        <MaterialIcon name="arrow_outward" size={18} />
         <span>{messages.shareTool}</span>
       </Button>
       {status !== "idle" && (
