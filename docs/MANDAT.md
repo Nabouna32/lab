@@ -16,23 +16,35 @@ Chaque reprise doit faire progresser Loculary par un changement concret, testé 
 
 Un audit, un plan, une liste de recommandations ou des tests seuls ne constituent pas une livraison, sauf blocage externe réel. Si une investigation révèle un enjeu important, transforme-la en changement concret ou choisis la meilleure action issue de ses conclusions. Les tâches de gouvernance et de documentation sont légitimes lorsqu’elles débloquent ou améliorent durablement le produit, mais ne doivent pas devenir la voie par défaut parce qu’elles sont plus faciles à livrer.
 
-## 3. Choisir quoi faire
+## 3. Challenge obligatoire : raisonner comme si Loculary repartait de zéro
 
-Tiens un backlog unique et priorisé dans `docs/BACKLOG.md` : bugs, fonctionnalités à finir ou à ajouter, nouveaux outils, parcours, UX/UI, refontes, performance, accessibilité, sécurité et dette technique. À chaque reprise, lis-le avec `docs/PROJECT-STATE.md`, vérifie l’état réel du produit et sélectionne l’action à plus forte valeur utilisateur attendue — pas celle qui est la plus simple à justifier, la moins risquée à coder ou la plus facile à tester.
+Cette étape est obligatoire à chaque reprise, avant de choisir une tâche. Ce n'est pas une formule de style ni une invitation facultative : elle doit influencer la décision et la solution retenue.
 
-### Exploration obligatoire avant de choisir
+### Repartir des besoins, pas de l'existant
 
-À chaque reprise, examine le produit sous quatre angles :
-1. **Corriger** : ce qui est cassé, trompeur, inaccessible, lent ou dangereux.
-2. **Enrichir** : nouveaux outils, fonctions manquantes, automatisations utiles, meilleure continuité entre outils.
-3. **Transformer** : parcours, navigation, recherche, découverte, pages, architecture ou design system à repenser.
-4. **Réinventer** : nouveaux usages qui rendraient Loculary nettement plus utile, distinctif ou agréable.
+Pose explicitement la question : **« Si nous construisions Loculary de zéro aujourd'hui, avec les besoins actuels, les usages observés et les possibilités techniques disponibles, quelle serait la meilleure solution ? »**
 
-Compare des options de plusieurs angles lorsqu’elles sont pertinentes. Il n’est pas obligatoire de créer une fonctionnalité à chaque reprise, ni de refondre pour le principe ; il est obligatoire de ne pas ignorer ces possibilités par inertie. Une correction peut rester prioritaire si son impact réel est supérieur. Ne confonds jamais « la plus forte valeur » avec « la tâche la plus proche dans le backlog » : challenge l’ordre du backlog si de meilleures occasions apparaissent.
+Repars du problème utilisateur et du résultat recherché. Ne prends jamais l'architecture, les composants, les parcours, les catégories, les outils existants, les décisions documentées ou le backlog comme point d'arrivée par défaut. Ce sont des éléments à évaluer, pas des contraintes sacrées. Une décision passée ne vaut pas preuve qu'elle reste optimale.
 
-Avant de décider, formule pour toi-même les principales options, leur bénéfice utilisateur, leur coût, leurs risques et leur effet à long terme. Choisis ensuite et exécute sans attendre une validation ordinaire. Ne transforme pas chaque reprise en audit exhaustif : l’exploration doit être assez large pour révéler des possibilités, puis déboucher rapidement sur une livraison.
+Pour le sujet choisi, compare réellement les options pertinentes : conserver et améliorer l'existant, le remplacer, créer une nouvelle capacité, transformer le parcours ou revoir plus largement la conception. Ne fabrique pas des alternatives artificielles : explore assez pour identifier la meilleure solution crédible et expliquer pourquoi elle l'emporte.
 
-Varie le type de valeur créé, pas seulement l’étiquette du travail. Dans `docs/PROJECT-STATE.md`, tiens la liste des cinq dernières reprises (type de valeur et lien PR). Si les dernières livraisons sont dominées par des corrections et de la finition, cherche activement une fonctionnalité, un outil ou une transformation d’expérience avant de reprendre une nouvelle tâche de maintenance, sauf urgence avérée. Aucun quota artificiel : la valeur prime sur la diversité pour elle-même.
+### Comparaison et décision
+
+Évalue les solutions selon le bénéfice utilisateur, la simplicité du parcours, la cohérence globale, l'accessibilité, la confidentialité, les performances, la maintenabilité, le coût de migration et les risques. Distingue les faits vérifiés des hypothèses. Considère les effets à long terme et les dépendances dans le reste du produit.
+
+Retenir la meilleure solution ne signifie ni préserver l'existant par prudence, ni tout réécrire par principe. Si une refonte ou une nouvelle fonctionnalité est meilleure, assume-la et découpe-la en livraisons cohérentes. Si l'existant reste la meilleure solution, conserve-le avec des raisons concrètes. Choisis selon la valeur démontrée ou attendue, jamais selon la facilité à produire une PR.
+
+Le challenge doit aboutir à une décision et à une action concrète. Ne transforme pas chaque reprise en audit exhaustif ou en rapport préalable : explore les options utiles, tranche, puis livre. Dans le compte rendu, explique brièvement le problème, la solution choisie, l'alternative principale écartée et pourquoi.
+
+## 4. Choisir quoi faire
+
+Tiens un backlog unique et priorisé dans `docs/BACKLOG.md` : bugs, fonctionnalités à finir ou à ajouter, nouveaux outils, parcours, UX/UI, refontes, performance, accessibilité, sécurité et dette technique. À chaque reprise, lis-le avec `docs/PROJECT-STATE.md`, vérifie l’état réel du produit et sélectionne l’action qui ressort du challenge obligatoire ci-dessus. Le backlog informe la décision, mais ne la dicte pas : challenge son ordre si une meilleure occasion apparaît.
+
+### Explorer les opportunités
+
+Examine le produit sous quatre angles : **corriger** ce qui est cassé ou dangereux ; **enrichir** avec de nouveaux outils ou capacités ; **transformer** les parcours, la navigation, la découverte ou l’architecture ; **réinventer** des usages qui rendraient Loculary plus utile ou distinctif. Compare des options de plusieurs angles lorsqu’elles sont pertinentes. Il n’est pas obligatoire d’ajouter une fonctionnalité à chaque reprise ni de refondre pour le principe ; il est obligatoire de ne pas ignorer ces possibilités par inertie.
+
+Varie le type de valeur créé, pas seulement l’étiquette du travail. Dans `docs/PROJECT-STATE.md`, tiens la liste des cinq dernières reprises (type de valeur et lien PR). Si les dernières livraisons sont dominées par des corrections et de la finition, cherche activement une fonctionnalité, un outil ou une transformation d’expérience avant une nouvelle tâche de maintenance, sauf urgence avérée. Aucun quota artificiel : la valeur prime sur la diversité pour elle-même.
 
 Traite chaque sujet de façon transversale : si tu modifies un élément, traite aussi tout ce qui en dépend ou le partage (navigation, textes liés, thèmes, responsive, FR/EN, confidentialité et accessibilité).
 
