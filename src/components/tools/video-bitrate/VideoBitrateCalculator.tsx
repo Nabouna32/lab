@@ -32,11 +32,11 @@ export default function VideoBitrateCalculator() {
   const [bitrateUnit, setBitrateUnit] = useState<BitrateUnit>("mbps");
 
   const duration = formatDurationSeconds(
-    parseLocalizedNumber(hours) ?? 0,
-    parseLocalizedNumber(minutes) ?? 0,
-    parseLocalizedNumber(seconds) ?? 0,
+    parseLocalizedNumber(hours, locale) ?? 0,
+    parseLocalizedNumber(minutes, locale) ?? 0,
+    parseLocalizedNumber(seconds, locale) ?? 0,
   );
-  const value = mode === "bitrate" ? parseLocalizedNumber(size) : parseLocalizedNumber(bitrate);
+  const value = mode === "bitrate" ? parseLocalizedNumber(size, locale) : parseLocalizedNumber(bitrate, locale);
   const bitrateToMbps: Record<BitrateUnit, number> = { kbps: 0.001, mbps: 1, gbps: 1000 };
 
   let result: number | null = null;
@@ -117,7 +117,7 @@ export default function VideoBitrateCalculator() {
           <div className="mt-6 grid gap-4 sm:grid-cols-[minmax(0,1fr)_10rem]">
             {mode === "bitrate" ? (
               <>
-                <CalculatorField label={t.targetSize} inputId="video-size" min={0} step="any" value={size} onChange={(e) => setSize(e.target.value)} placeholder={t.sizePlaceholder} aria-invalid={Boolean(error)} />
+                <CalculatorField label={t.targetSize} inputId="video-size" type="text" inputMode="decimal" value={size} onChange={(e) => setSize(e.target.value)} placeholder={t.sizePlaceholder} aria-invalid={Boolean(error)} />
                 <Select id="video-size-unit" label={t.sizeUnit} value={sizeUnit} onChange={(e) => setSizeUnit(e.target.value as SizeUnit)}>
                   <option value="MB">MB</option>
                   <option value="GB">GB</option>
@@ -125,7 +125,7 @@ export default function VideoBitrateCalculator() {
               </>
             ) : (
               <>
-                <CalculatorField label={t.bitrate} inputId="video-bitrate" min={0} step="any" value={bitrate} onChange={(e) => setBitrate(e.target.value)} placeholder={t.bitratePlaceholder} aria-invalid={Boolean(error)} />
+                <CalculatorField label={t.bitrate} inputId="video-bitrate" type="text" inputMode="decimal" value={bitrate} onChange={(e) => setBitrate(e.target.value)} placeholder={t.bitratePlaceholder} aria-invalid={Boolean(error)} />
                 <Select id="video-bitrate-unit" label={t.bitrateUnit} value={bitrateUnit} onChange={(e) => setBitrateUnit(e.target.value as BitrateUnit)}>
                   <option value="kbps">Kbit/s</option>
                   <option value="mbps">Mbit/s</option>
