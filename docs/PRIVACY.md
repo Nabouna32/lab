@@ -123,6 +123,10 @@ Permissions should be requested only when needed and as close as practical to th
 
 A tool must not request broad permissions merely for convenience.
 
+## Scope of local-processing disclosures
+
+The local-processing message describes the **inputs and results of the current tool**, not every piece of product state Loculary may keep. Some separate features can store non-sensitive tool identifiers or favorites in browser storage, and account features may synchronize favorites or collections. The disclosure must not imply that Loculary never stores any data at all. It should state whether this tool sends its inputs/results to a server or saves them to an account/history. Explicit user actions such as copying or downloading a result remain under the user's control.
+
 ## Local file processing
 
 For local file tools, the product should clearly communicate the local boundary.
