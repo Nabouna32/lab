@@ -18,6 +18,16 @@ const calculators = [
     url: new URL("../reduction/ReductionCalculator.tsx", import.meta.url),
     values: ["priceValue", "discountValue"],
   },
+  {
+    name: "percentage",
+    url: new URL("../percentage/PercentageCalculator.tsx", import.meta.url),
+    values: ["firstValue", "secondValue"],
+  },
+  {
+    name: "rule of three",
+    url: new URL("../regle-de-trois/RuleOfThreeCalculator.tsx", import.meta.url),
+    values: ["firstValue", "firstResult", "secondValue"],
+  },
 ];
 
 for (const calculator of calculators) {
@@ -25,7 +35,7 @@ for (const calculator of calculators) {
     const source = await readFile(calculator.url, "utf8");
 
     assert.match(source, /parseLocalizedNumber/);
-    assert.match(source, /type="text" inputMode="decimal"/);
+    assert.match(source, /type="text"\s+inputMode="decimal"/);
 
     for (const value of calculator.values) {
       assert.ok(
