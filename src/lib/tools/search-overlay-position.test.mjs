@@ -18,7 +18,7 @@ test("places the overlay above the field when the lower viewport space is smalle
       { top: 700, left: 20, bottom: 740, width: 300 },
       { offsetLeft: 0, offsetTop: 0, width: 400, height: 800 },
     ),
-    { top: 692, left: 20, width: 300, maxHeight: 648, placement: "above" },
+    { top: 692, left: 20, width: 300, maxHeight: 360, placement: "above" },
   );
 });
 
@@ -39,6 +39,6 @@ test("clamps overlay width and horizontal position to the visual viewport", () =
       { top: 50, left: 280, bottom: 90, width: 300 },
       { offsetLeft: 20, offsetTop: 0, width: 320, height: 600 },
     ),
-    { top: 98, left: 52, width: 296, maxHeight: 360, placement: "below" },
+    { top: 98, left: 32, width: 296, maxHeight: 360, placement: "below" },
   );
 });
