@@ -1,0 +1,234 @@
+import { mkdir, writeFile } from "node:fs/promises";
+import { expect, test, type Page } from "@playwright/test";
+
+type BrowserIssues = {
+  consoleErrors: string[];
+  pageErrors: string[];
+  abortedRequests: string[];
+  failedRequests: string[];
+  badResponses: string[];
+};
+
+const browserIssues = new WeakMap<Page, BrowserIssues>();
+
+test.beforeEach(async ({ page }) => {
+  const issues: BrowserIssues = {
+    consoleErrors: [],
+    pageErrors: [],
+    abortedRequests: [],
+    failedRequests: [],
+    badResponses: [],
+  };
+  browserIssues.set(page, issues);
+
+  page.on("console", (message) => {
+    if (message.type() === "error") issues.consoleErrors.push(message.text());
+  });
+  page.on("pageerror", (error) => issues.pageErrors.push(error.message));
+  page.on("requestfailed", (request) => {
+    const reason = request.failure()?.errorText ?? "failed";
+    const entry = `${request.method()} ${request.url()}: ${reason}`;
+    // Next.js cancels speculative RSC prefetches when navigation state changes.
+    if (reason === "net::ERR_ABORTED") issues.abortedRequests.push(entry);
+    else issues.failedRequests.push(entry);
+  });
+  page.on("response", (response) => {
+    if (response.status() >= 400) {
+      issues.badResponses.push(`${response.status()} ${response.request().method()} ${response.url()}`);
+    }
+  });
+});
+
+test.afterEach(async ({ page }, testInfo) => {
+  const issues = browserIssues.get(page) ?? {
+    consoleErrors: [],
+    pageErrors: [],
+    abortedRequests: [],
+    failedRequests: [],
+    badResponses: [],
+  };
+
+  let metrics: Record<string, unknown> = {};
+  let accessibilityTree = "Unavailable: page did not expose an accessibility snapshot.";
+
+  try {
+    metrics = await page.evaluate(() => {
+      const visible = (element: Element) => {
+        const rect = element.getBoundingClientRect();
+        const style = getComputedStyle(element);
+        return rect.width > 0 && rect.height > 0 && style.display !== "none" && style.visibility !== "hidden";
+      };
+      const controls = Array.from(document.querySelectorAll(
+        'a,button,input,select,textarea,[role="button"],[role="combobox"],[tabindex]:not([tabindex="-1"])',
+      )).filter(visible);
+      const unnamedControls = controls.filter((element) => {
+        const ariaLabel = element.getAttribute("aria-label")?.trim();
+        const labelledBy = element.getAttribute("aria-labelledby");
+        const title = element.getAttribute("title")?.trim();
+        const text = element.textContent?.trim();
+        const hasNativeLabel = (
+          element instanceof HTMLInputElement ||
+          element instanceof HTMLSelectElement ||
+          element instanceof HTMLTextAreaElement
+        ) && Boolean(element.labels?.length);
+        return !ariaLabel && !labelledBy && !title && !text && !hasNativeLabel;
+      });
+      const visibleLayout = Array.from(document.querySelectorAll(
+        "header,main,footer,h1,h2,h3,form,[role='search'],[role='region'],button,a,input,[role='combobox']",
+      )).filter(visible).slice(0, 60).map((element) => {
+        const rect = element.getBoundingClientRect();
+        const style = getComputedStyle(element);
+        const text = (element.getAttribute("aria-label") || element.textContent || "").trim().replace(/\\s+/g, " ");
+        return {
+          element: element.tagName.toLowerCase(),
+          role: element.getAttribute("role"),
+          text: text.slice(0, 90),
+          x: Math.round(rect.x),
+          y: Math.round(rect.y),
+          width: Math.round(rect.width),
+          height: Math.round(rect.height),
+          display: style.display,
+          position: style.position,
+        };
+      });
+      const ids = Array.from(document.querySelectorAll("[id]")).map((element) => element.id);
+      const duplicateIds = ids.filter((id, index) => ids.indexOf(id) !== index);
+      const imagesWithoutAlt = Array.from(document.images)
+        .filter((image) => !image.hasAttribute("alt"))
+        .map((image) => image.currentSrc || image.src);
+      return {
+        title: document.title,
+        url: location.href,
+        language: document.documentElement.lang,
+        viewport: { width: window.innerWidth, height: window.innerHeight, devicePixelRatio: window.devicePixelRatio },
+        document: { width: document.documentElement.scrollWidth, height: document.documentElement.scrollHeight },
+        horizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1,
+        headings: Array.from(document.querySelectorAll("h1,h2,h3"))
+          .filter(visible)
+          .slice(0, 20)
+          .map((heading) => ({ level: heading.tagName, text: heading.textContent?.trim().replace(/\\s+/g, " ").slice(0, 160) })),
+        visibleControlCount: controls.length,
+        controlsWithoutAccessibleName: unnamedControls.slice(0, 30).map((element) => ({
+          element: element.tagName.toLowerCase(),
+          role: element.getAttribute("role"),
+          id: element.id,
+          text: element.textContent?.trim().slice(0, 80),
+        })),
+        imagesWithoutAlt: imagesWithoutAlt.slice(0, 30),
+        duplicateIds: [...new Set(duplicateIds)].slice(0, 30),
+        visibleLayout,
+      };
+    });
+    accessibilityTree = await page.locator("body").ariaSnapshot();
+  } catch (error) {
+    metrics = { captureError: error instanceof Error ? error.message : String(error) };
+  }
+
+  const report = [
+    `# Browser observation — ${testInfo.title}`,
+    "",
+    `- Project: ${testInfo.project.name}`,
+    `- Result: ${testInfo.status ?? "unknown"}`,
+    `- URL: ${page.url()}`,
+    "",
+    "## Runtime signals",
+    `- JavaScript page errors: ${issues.pageErrors.length}`,
+    `- Console errors: ${issues.consoleErrors.length}`,
+    `- Aborted requests (often expected during navigation/prefetch): ${issues.abortedRequests.length}`,
+    `- Failed requests: ${issues.failedRequests.length}`,
+    `- HTTP responses >= 400: ${issues.badResponses.length}`,
+    "",
+    "## Layout and accessibility heuristics",
+    "```json",
+    JSON.stringify(metrics, null, 2),
+    "```",
+    "",
+    "## Accessibility tree (Playwright ARIA snapshot)",
+    "```text",
+    accessibilityTree.slice(0, 8_000),
+    "```",
+    "",
+    "## Console errors",
+    ...issues.consoleErrors.map((message) => `- ${message}`),
+    ...(issues.consoleErrors.length ? [] : ["- None observed"]),
+    "",
+    "## JavaScript errors",
+    ...issues.pageErrors.map((message) => `- ${message}`),
+    ...(issues.pageErrors.length ? [] : ["- None observed"]),
+    "",
+    "## Aborted requests (often expected during navigation/prefetch)",
+    ...issues.abortedRequests.map((message) => `- ${message}`),
+    ...(issues.abortedRequests.length ? [] : ["- None observed"]),
+    "",
+    "## Failed requests",
+    ...issues.failedRequests.map((message) => `- ${message}`),
+    ...(issues.failedRequests.length ? [] : ["- None observed"]),
+    "",
+    "## HTTP error responses",
+    ...issues.badResponses.map((message) => `- ${message}`),
+    ...(issues.badResponses.length ? [] : ["- None observed"]),
+    "",
+    "> Heuristic report only: overlap detection, color contrast and visual judgement are not claimed by this first smoke suite. PNG screenshots are attached separately.",
+    "",
+  ].join("\n");
+
+  const reportPath = testInfo.outputPath("visual-report.md");
+  await mkdir(testInfo.outputDir, { recursive: true });
+  await writeFile(reportPath, report, "utf8");
+  await testInfo.attach("visual-report", { path: reportPath, contentType: "text/markdown" });
+
+  try {
+    const screenshotPath = testInfo.outputPath("page.png");
+    await page.screenshot({ path: screenshotPath, fullPage: true, animations: "disabled", timeout: 10_000 });
+    await testInfo.attach("page-screenshot", { path: screenshotPath, contentType: "image/png" });
+  } catch (error) {
+    console.log(`Screenshot unavailable: ${error instanceof Error ? error.message : String(error)}`);
+  }
+
+  console.log(`\n${report}\n`);
+
+  expect(issues.pageErrors, "unexpected JavaScript errors in the page").toEqual([]);
+  expect(issues.consoleErrors, "unexpected browser console errors").toEqual([]);
+});
+
+test("French homepage renders and exposes the search combobox state", async ({ page }) => {
+  await page.goto("/fr");
+  await expect(page.locator("html")).toHaveAttribute("lang", "fr");
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+
+  const search = page.locator("#home-tool-search-v4").getByRole("combobox");
+  await expect(search).toBeVisible();
+  await expect(search).toHaveAttribute("aria-expanded", "false");
+  await search.fill("sous réseau");
+  await expect(search).toHaveAttribute("aria-expanded", "true", { timeout: 8_000 });
+  await expect(page.locator('[data-search-popup-owner="home-tool-search-v4"]')).toBeVisible();
+});
+
+test("English homepage renders in English", async ({ page }) => {
+  await page.goto("/en");
+  await expect(page.locator("html")).toHaveAttribute("lang", "en");
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+});
+
+test("IPv4 subnet calculator updates results end to end", async ({ page }) => {
+  await page.goto("/fr/outils/calculateur-de-sous-reseau-ipv4");
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  const input = page.locator("#ip-subnet-input");
+  await expect(input).toHaveValue("192.168.1.42/24");
+  await input.fill("10.0.0.5/24");
+  await expect(page.getByText("10.0.0.0", { exact: true })).toBeVisible();
+  await expect(page.getByText("10.0.0.255", { exact: true })).toBeVisible();
+});
+test("JSON diff checker reports structural changes", async ({ page }) => {
+  await page.goto("/fr/outils/comparateur-json");
+  await expect(page.locator("html")).toHaveAttribute("lang", "fr");
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+
+  await page.locator("#json-diff-left").fill('{"name":"draft","count":2}');
+  await page.locator("#json-diff-right").fill('{"name":"published","count":2,"active":true}');
+  await page.getByRole("button", { name: "Comparer", exact: true }).click();
+
+  await expect(page.getByText('$["name"]', { exact: true })).toBeVisible();
+  await expect(page.getByText('$["active"]', { exact: true })).toBeVisible();
+  await expect(page.getByText("2 différences", { exact: true })).toBeVisible();
+});
