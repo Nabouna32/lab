@@ -44,12 +44,17 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: node .github/scripts/detect-ci-changes.mjs
 
-      - name: Review dependency changes
+      # The GitHub Dependency Review API requires a feature not enabled for this private repo.
+      # Compare npm audit findings against the PR base instead of silently skipping dependency checks.
+      - name: Checkout dependency baseline
         if: github.event_name == 'pull_request' && steps.changes.outputs.dependencies_changed == 'true'
-        uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          fail-on-severity: high
-          fail-on-scopes: runtime, development
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: dependency-baseline
+          fetch-depth: 1
+          persist-credentials: false
+          clean: false
 
       - name: Setup Node.js
         if: steps.changes.outputs.lightweight_only != 'true'
@@ -58,10 +63,15 @@ jobs:
           node-version: 24.21.0
           # setup-node reuses the runner's local tool cache; no npm/GitHub cache is enabled.
 
+      - name: Compare high-severity dependency advisories
+        if: github.event_name == 'pull_request' && steps.changes.outputs.dependencies_changed == 'true'
+        shell: pwsh
+        run: node .github/scripts/dependency-audit-diff.mjs dependency-baseline
+
       - name: Exercise CI tooling tests
         if: steps.changes.outputs.governance_changed == 'true'
         shell: pwsh
-        run: node --test .github/scripts/classify-ci-changes.test.mjs .github/scripts/detect-ci-changes.test.mjs
+        run: node --test .github/scripts/classify-ci-changes.test.mjs .github/scripts/detect-ci-changes.test.mjs .github/scripts/dependency-audit-diff.test.mjs
 
       - name: Prepare persistent local dependencies
         if: steps.changes.outputs.lightweight_only != 'true'
