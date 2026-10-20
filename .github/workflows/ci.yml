@@ -154,7 +154,7 @@ jobs:
 
   required-check:
     name: Node.js 24.21.0
-    needs: [prepare, quality, build-browser]
+    needs: [prepare, validate]
     if: always() && needs.prepare.result != 'skipped'
     runs-on: [self-hosted, Windows, X64, loculary-ci]
     timeout-minutes: 5
@@ -165,12 +165,12 @@ jobs:
         run: exit 1
 
       - name: Fail if quality checks failed
-        if: needs.prepare.outputs.lightweight_only != 'true' && needs.quality.result != 'success'
+        if: needs.prepare.outputs.lightweight_only != 'true' && needs.validate.result != 'success'
         shell: pwsh
         run: exit 1
 
       - name: Fail if build or browser checks failed
-        if: needs.prepare.outputs.lightweight_only != 'true' && needs['build-browser'].result != 'success'
+        if: needs.prepare.outputs.lightweight_only != 'true' && needs.validate.result != 'success'
         shell: pwsh
         run: exit 1
 
