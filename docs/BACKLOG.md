@@ -2,6 +2,8 @@
 
 Dernière révision : 2026-10-21. File de travail unique.
 
+- **Découverte / intention « Préparer » :** nouveau parcours transversal FR/EN pour accéder directement aux outils qui préparent images, données et texte avant réutilisation ou partage. Associations curatées, limitées aux outils publiés et couvertes par les tests.
+
 - **Produit / préparation d’images en un parcours :** [PR #919](https://github.com/Nabouna32/lab/pull/919). Le nettoyage EXIF propose désormais une optimisation locale facultative (format, qualité, dimension), en un seul réencodage, avec export ZIP et protection contre la perte des animations. CI complète de la PR verte.
 
 - **Confidentialité / nettoyage d’images par lot :** [PR #918](https://github.com/Nabouna32/lab/pull/918). Jusqu’à 10 images inspectées et nettoyées localement, avertissements GPS et export ZIP ; limites explicites et aucune perte d’animation silencieuse. CI applicative verte sur `b15cc55` ([run #39515837545](https://github.com/Nabouna32/lab/actions/runs/39515837545)).
