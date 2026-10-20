@@ -34,7 +34,7 @@ Goal: make the first collection of tools genuinely useful.
 - [partial] Browser-local file/image utilities (image compression and metadata exist; this is not a broad file-processing suite)
 - [x] Contextual next-action discovery (curated relations, not generic similarity)
 - [x] Local recent-tool history (five tool IDs, browser storage only, with an explicit clear action)
-- [partial] Reusable copy/clear controls exist; universal reset and tool/result sharing are not implemented (tool sharing metadata is currently disabled)
+- [partial] Reusable copy/clear controls exist and tool-page URL sharing is implemented via Web Share with a clipboard fallback; universal reset and sharing tool configuration/results remain unimplemented (tool sharing metadata is still disabled)
 - [x] Documentation accordions
 - [x] SEO-ready tool pages and localized sitemap
 
