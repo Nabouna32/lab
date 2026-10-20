@@ -8,10 +8,10 @@ import { TextArea } from "@/components/ui/TextArea";
 import { Select } from "@/components/ui/Select";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { useLocale } from "@/lib/i18n/use-locale";
-import { CSV_JSON_MAX_FILE_BYTES, getCsvJsonOperationForFile, transformCsvJson, type CsvDelimiter, type CsvDelimiterSelection, type CsvJsonOperation } from "@/lib/csv-json";
+import { CSV_JSON_MAX_FILE_BYTES, getCsvJsonOperationForFile, transformCsvJson, type CsvDelimiterSelection, type CsvJsonOperation } from "@/lib/csv-json";
 
 const delimiters: { value: CsvDelimiterSelection; label: string }[] = [
-  { value: "auto", label: "auto" },
+  { value: "auto", label: "" },
   { value: ",", label: "," },
   { value: ";", label: ";" },
   { value: "\t", label: "Tab" },
