@@ -2,10 +2,15 @@
 
 Dernière révision : 2026-10-20. File de travail unique.
 
+- **Justesse / convertisseur de taille de fichier :** évite un débordement intermédiaire quand une valeur finie très grande est convertie entre unités, alors que le résultat final reste représentable. Le test distingue ce cas du débordement réel. [PR #895](https://github.com/Nabouna32/lab/pull/895), fusionnée dans `ed588ac6f43bcf569ad11bff79f3139b99818971`. Lint, TypeScript, tests et build réussis sur la tête exacte `81065c31d80436fad858b9d52b083ac8c9faa867` ([CI #39374536893](https://github.com/Nabouna32/lab/actions/runs/39374536893)). Aucun test navigateur exécuté.
 - **Fonctionnalité / convertisseur CSV ↔ JSON :** ajout du téléchargement local du résultat avec extension et type MIME adaptés au sens de conversion, libellés FR/EN et test unitaire des deux formats. [PR #893](https://github.com/Nabouna32/lab/pull/893), fusionnée dans `9c8ebaeafc70b3baed737095e956dff179cd9a74`. Lint, TypeScript, tests et build réussis sur la tête exacte `521584349fd4306399564a57c552224958994d2f` ([CI #39373833101](https://github.com/Nabouna32/lab/actions/runs/39373833101)). Téléchargement exécuté côté navigateur avec Blob/Object URL ; aucun test navigateur manuel effectué.
 - **Justesse / convertisseur CSV → JSON :** ignore les lignes physiquement vides avant les en-têtes, préserve les enregistrements explicitement encodés avec une cellule vide citée (`""`) et rejette les en-têtes entièrement vides. Trois tests de régression. [PR #891](https://github.com/Nabouna32/lab/pull/891), fusionnée dans `468d03ae4fb139098850d6afe521264a5e9ace0a`. Lint, TypeScript, tests et build réussis sur la tête exacte `4377855f20687609c92d984bbbee8429dbde9c38` ([CI #39373102959](https://github.com/Nabouna32/lab/actions/runs/39373102959)). Aucun test navigateur exécuté.
 - **Justesse / convertisseur CSV → JSON :** conserve maintenant les enregistrements avec séparateurs explicites même lorsque toutes les cellules sont vides (ex. `,,`), au lieu de supprimer silencieusement une ligne de données ; les lignes physiquement vides restent ignorées. Deux tests de régression. [PR #889](https://github.com/Nabouna32/lab/pull/889), fusionnée dans `5fc7343c6df15201b36f160cf00d2ac03b31d444`. Lint, TypeScript, tests et build réussis sur la tête exacte `aaa89477d03432d94c6182a8d36cfdbf60c74ab0` ([CI #39372484872](https://github.com/Nabouna32/lab/actions/runs/39372484872)). Aucun test navigateur exécuté.
-## Dernière livraison — téléchargement du résultat CSV ↔ JSON
+## Dernière livraison — conversion de taille sans débordement intermédiaire
+
+- [PR #895](https://github.com/Nabouna32/lab/pull/895) applique le rapport entre unités avant de multiplier la valeur, pour ne pas rejeter à tort un résultat fini. Un test couvre la valeur maximale finie convertie de `to` vers `tio`, et un autre confirme le rejet du débordement réel. Lint, TypeScript, tests et build réussis sur `81065c31d80436fad858b9d52b083ac8c9faa867` ([CI #39374536893](https://github.com/Nabouna32/lab/actions/runs/39374536893)). Aucun test navigateur manuel.
+
+## Livraison précédente — téléchargement du résultat CSV ↔ JSON
 
 - [PR #893](https://github.com/Nabouna32/lab/pull/893) ajoute une action de téléchargement local avec extension et type MIME adaptés à la conversion, libellés FR/EN et test unitaire des deux formats. Lint, TypeScript, tests et build réussis sur `521584349fd4306399564a57c552224958994d2f` ([CI #39373833101](https://github.com/Nabouna32/lab/actions/runs/39373833101)). Aucun test navigateur manuel exécuté.
 
@@ -81,6 +86,11 @@ La [PR #833](https://github.com/Nabouna32/lab/pull/833) ajoute quatre cartes d�
 - **Lot précédent :** la [PR #798](https://github.com/Nabouna32/lab/pull/798) corrige le rejet du zéro absolu exact dans le Convertisseur d’unités malgré l’arrondi flottant Fahrenheit → Kelvin.
 - **Lot UX précédent livré :** la [PR #796](https://github.com/Nabouna32/lab/pull/796) remplit l’état initial de la page de recherche avec quatre raccourcis d’outils publiés réutilisant les liens rapides de l’accueil. Titres et descriptions sont localisés FR/EN ; routes canoniques conservées, aucun transfert ni stockage ajouté. Le test de contrat, lint, typecheck, tests et build ont réussi sur `668256b5fb5645a020869e797ce2c3aae53f04eb` ([CI #39331374660](https://github.com/Nabouna32/lab/actions/runs/39331374660)).
 - **Lot précédent :** la [PR #791](https://github.com/Nabouna32/lab/pull/791) remplace la soustraction brute des champs année/mois/jour par un calcul d’anniversaires calendaires successifs. Les tests couvrent le 29 février (anniversaire retenu le 28 février en année non bissextile), les fins de mois, les heures différentes d’un même jour et les dates futures invalides. La convention est explicitée en français et en anglais par la [PR #792](https://github.com/Nabouna32/lab/pull/792).
+
+## P1 — Audit de justesse des outils publiés
+
+- **Dernier outil audité :** convertisseur de taille de fichier ; [PR #895](https://github.com/Nabouna32/lab/pull/895) corrige le débordement intermédiaire lors de conversions très grandes. Tests et CI complète verts sur le SHA exact de la PR.
+- **Suite :** reprendre un autre domaine métier plutôt que continuer en série sur CSV ou les conversions d’unités ; sélectionner un défaut uniquement lorsqu’il est confirmé par le code et un test de régression.
 
 ## P1 — Finding npm HIGH sur `braces` (revalidé, sans correctif amont)
 
