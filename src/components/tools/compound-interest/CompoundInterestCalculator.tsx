@@ -55,9 +55,9 @@ export default function CompoundInterestCalculator() {
       <div className="grid items-start lg:grid-cols-[minmax(0,1.25fr)_minmax(20rem,0.75fr)]">
         <div className="p-5 sm:p-7 lg:p-8">
           <div className="grid gap-5 sm:grid-cols-2">
-            <CalculatorField label={t.principal} inputId="compound-principal" aria-describedby="compound-interest-error" value={principalValue} onChange={(e) => setPrincipalValue(e.target.value)} placeholder={t.principalPlaceholder} type="number" min="0" step="any" aria-invalid={invalid} />
-            <CalculatorField label={t.rate} inputId="compound-rate" aria-describedby="compound-interest-error" value={rateValue} onChange={(e) => setRateValue(e.target.value)} placeholder={t.ratePlaceholder} type="number" min="0" step="any" aria-invalid={invalid} />
-            <CalculatorField label={t.years} inputId="compound-years" aria-describedby="compound-interest-error" value={yearsValue} onChange={(e) => setYearsValue(e.target.value)} placeholder={t.yearsPlaceholder} type="number" min="0.01" max="1000" step="any" aria-invalid={invalid} />
+            <CalculatorField label={t.principal} inputId="compound-principal" aria-describedby={invalid ? "compound-interest-error" : undefined} value={principalValue} onChange={(e) => setPrincipalValue(e.target.value)} placeholder={t.principalPlaceholder} type="number" min="0" step="any" aria-invalid={invalid} />
+            <CalculatorField label={t.rate} inputId="compound-rate" aria-describedby={invalid ? "compound-interest-error" : undefined} value={rateValue} onChange={(e) => setRateValue(e.target.value)} placeholder={t.ratePlaceholder} type="number" min="0" step="any" aria-invalid={invalid} />
+            <CalculatorField label={t.years} inputId="compound-years" aria-describedby={invalid ? "compound-interest-error" : undefined} value={yearsValue} onChange={(e) => setYearsValue(e.target.value)} placeholder={t.yearsPlaceholder} type="number" min="0.01" max="1000" step="any" aria-invalid={invalid} />
             <Select label={t.frequency} id="compound-frequency" value={String(frequency)} onChange={(e) => setFrequency(Number(e.target.value) as CompoundingFrequency)}>{frequencies.map((value) => <option key={value} value={value}>{t.frequencies[value]}</option>)}</Select>
             <CalculatorField label={t.contribution} inputId="compound-contribution" value={contributionValue} onChange={(e) => setContributionValue(e.target.value)} placeholder={t.contributionPlaceholder} type="number" min="0" step="any" />
           </div>
