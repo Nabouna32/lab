@@ -57,7 +57,7 @@ export default function TimezoneConverter() {
 
           <div className="mt-4">
             <Select label={t.source} id="timezone-source" value={sourceTimeZone}
-              onChange={(event) => { setSourceTimeZone(event.target.value); setResult(null); setError(false); }}>
+              onChange={(event) => { setSourceTimeZone(event.target.value); setResult(null); setError(false); setNonexistentTime(false); }}>
               {timeZones.map((zone) => <option key={zone} value={zone}>{zone}</option>)}
             </Select>
           </div>
