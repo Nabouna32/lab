@@ -142,7 +142,7 @@ function toJson(input: string, delimiter: CsvDelimiter): CsvJsonResult {
       return { value: null, error: "invalid-csv" };
     }
     const result = records.map((row) => {
-      const record: Record<string, string> = {};
+      const record: Record<string, string> = Object.create(null) as Record<string, string>;
       headers.forEach((header, index) => {
         record[header] = row[index] ?? "";
       });
