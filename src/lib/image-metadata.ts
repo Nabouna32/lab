@@ -8,6 +8,101 @@ export type ImageMetadata = {
 
 const MAX_IMAGE_BYTES = 25 * 1024 * 1024;
 
+export class AnimatedImageUnsupportedError extends Error {
+  constructor() {
+    super("Animated images cannot be stripped without losing animation.");
+    this.name = "AnimatedImageUnsupportedError";
+  }
+}
+
+function asciiAt(bytes: Uint8Array, offset: number, value: string): boolean {
+  if (offset < 0 || offset + value.length > bytes.length) return false;
+  return [...value].every((character, index) => bytes[offset + index] === character.charCodeAt(0));
+}
+
+function hasAnimatedGif(bytes: Uint8Array): boolean {
+  if (!asciiAt(bytes, 0, "GIF87a") && !asciiAt(bytes, 0, "GIF89a")) return false;
+  if (bytes.length < 13) return false;
+  let offset = 13;
+  const screenFlags = bytes[10];
+  if (screenFlags & 0x80) offset += 3 * 2 ** ((screenFlags & 0x07) + 1);
+
+  let frames = 0;
+  while (offset < bytes.length) {
+    const marker = bytes[offset++];
+    if (marker === 0x3b) return false;
+    if (marker === 0x21) {
+      if (offset >= bytes.length) return false;
+      offset += 1;
+      offset = skipGifSubBlocks(bytes, offset);
+      if (offset < 0) return false;
+      continue;
+    }
+    if (marker !== 0x2c || offset + 9 > bytes.length) return false;
+
+    const imageFlags = bytes[offset + 8];
+    offset += 9;
+    if (imageFlags & 0x80) offset += 3 * 2 ** ((imageFlags & 0x07) + 1);
+    if (offset >= bytes.length) return false;
+    offset += 1;
+    offset = skipGifSubBlocks(bytes, offset);
+    if (offset < 0) return false;
+    frames += 1;
+    if (frames > 1) return true;
+  }
+  return false;
+}
+
+function skipGifSubBlocks(bytes: Uint8Array, start: number): number {
+  let offset = start;
+  while (offset < bytes.length) {
+    const size = bytes[offset++];
+    if (size === 0) return offset;
+    if (offset + size > bytes.length) return -1;
+    offset += size;
+  }
+  return -1;
+}
+
+function hasAnimatedPng(bytes: Uint8Array): boolean {
+  if (!asciiAt(bytes, 0, "\x89PNG\r\n\x1a\n")) return false;
+  const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+  let offset = 8;
+  while (offset + 12 <= bytes.length) {
+    const length = view.getUint32(offset, false);
+    if (offset + 12 + length > bytes.length) return false;
+    if (asciiAt(bytes, offset + 4, "acTL")) return true;
+    offset += 12 + length;
+  }
+  return false;
+}
+
+function hasAnimatedWebp(bytes: Uint8Array): boolean {
+  if (!asciiAt(bytes, 0, "RIFF") || !asciiAt(bytes, 8, "WEBP")) return false;
+  const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+  let offset = 12;
+  while (offset + 8 <= bytes.length) {
+    const length = view.getUint32(offset + 4, true);
+    if (offset + 8 + length > bytes.length) return false;
+    if (asciiAt(bytes, offset, "ANIM") || asciiAt(bytes, offset, "ANMF")) return true;
+    if (asciiAt(bytes, offset, "VP8X") && length > 0 && (bytes[offset + 8] & 0x02) !== 0) return true;
+    offset += 8 + length + (length % 2);
+  }
+  return false;
+}
+
+export function isAnimatedImage(buffer: ArrayBuffer): boolean {
+  const bytes = new Uint8Array(buffer);
+  return hasAnimatedGif(bytes) || hasAnimatedPng(bytes) || hasAnimatedWebp(bytes);
+}
+
+export function getCleanImageFormat(mimeType: string): { mimeType: string; extension: string } {
+  if (mimeType === "image/jpeg") return { mimeType, extension: "jpg" };
+  if (mimeType === "image/webp") return { mimeType, extension: "webp" };
+  if (mimeType === "image/png") return { mimeType, extension: "png" };
+  return { mimeType: "image/png", extension: "png" };
+}
+
 const EXIF_TAGS: Record<number, string> = {
   0x010f: "cameraMake",
   0x0110: "cameraModel",
@@ -267,6 +362,9 @@ export async function stripImageMetadata(file: File): Promise<Blob> {
     throw new Error("Invalid image.");
   }
 
+  const buffer = await file.arrayBuffer();
+  if (isAnimatedImage(buffer)) throw new AnimatedImageUnsupportedError();
+
   const url = URL.createObjectURL(file);
   try {
     const image = new Image();
@@ -286,9 +384,7 @@ export async function stripImageMetadata(file: File): Promise<Blob> {
     }
     context.drawImage(image, 0, 0);
 
-    const outputType = ["image/jpeg", "image/png", "image/webp"].includes(file.type)
-      ? file.type
-      : "image/png";
+    const outputType = getCleanImageFormat(file.type).mimeType;
     const blob = await new Promise<Blob | null>((resolve) => {
       canvas.toBlob(resolve, outputType, 0.92);
     });

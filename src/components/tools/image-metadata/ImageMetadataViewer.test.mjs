@@ -9,7 +9,7 @@ test("image selection ignores stale metadata results and clears invalid selectio
   const source = await readFile(componentFile, "utf8");
   assert.match(source, /const operation=\+\+operationRef\.current/);
   assert.match(source, /if\(operation!==operationRef\.current\)return/);
-  assert.match(source, /setFile\(null\);setData\(null\);setClean\(null\);setPreview\(null\);setBusy\(false\)/);
+  assert.match(source, /setFile\(null\);setData\(null\);setClean\(null\);setCleanMimeType\(null\);setPreview\(null\);setBusy\(false\)/);
   assert.match(source, /finally\{if\(operation===operationRef\.current\)setBusy\(false\)\}/);
 });
 
