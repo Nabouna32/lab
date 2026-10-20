@@ -6,11 +6,14 @@ import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import { RECENT_TOOLS_EVENT, RECENT_TOOLS_STORAGE_KEY, parseRecentToolIds } from "@/lib/tools/recent-tools";
 import type { ToolId } from "@/lib/tools/types";
 import type { Locale } from "@/lib/i18n/config";
+import { getMessages } from "@/lib/i18n/messages";
+import { getToolPath } from "@/lib/tools/routes";
 
 type RecentTool = { id: ToolId; name: string; icon: string };
 
 export default function RecentTools({ locale, tools }: { locale: Locale; tools: RecentTool[] }) {
   const [recentIds, setRecentIds] = useState<ToolId[]>([]);
+  const t = getMessages(locale);
   const validIds = useMemo(() => tools.map((tool) => tool.id), [tools]);
 
   const sync = useCallback((event?: Event) => {
@@ -58,23 +61,22 @@ export default function RecentTools({ locale, tools }: { locale: Locale; tools: 
 
   if (!recentTools.length) return null;
 
-  const fr = locale === "fr";
   return (
     <section className="mx-auto mt-2 w-full max-w-[var(--content-wide)] px-4 sm:px-6 lg:px-10" aria-labelledby="recent-tools-title">
       <div className="rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-4 sm:p-5">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h2 id="recent-tools-title" className="text-base font-bold text-[var(--foreground)]">{fr ? "Reprendre un outil" : "Pick up where you left off"}</h2>
-            <p className="mt-1 text-sm text-[var(--muted)]">{fr ? "Récemment ouverts sur cet appareil." : "Recently opened on this device."}</p>
+            <h2 id="recent-tools-title" className="text-base font-bold text-[var(--foreground)]">{t.home.recentToolsTitle}</h2>
+            <p className="mt-1 text-sm text-[var(--muted)]">{t.home.recentToolsDescription}</p>
           </div>
           <button type="button" onClick={clear} className="min-h-11 rounded-full px-3 text-sm font-semibold text-[var(--accent)] outline-none hover:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]">
-            {fr ? "Effacer l’historique" : "Clear history"}
+            {t.home.clearRecentTools}
           </button>
         </div>
         <ul className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
           {recentTools.map((tool) => (
             <li key={tool.id}>
-              <Link href={`/${locale}/${locale === "fr" ? "outils" : "tools"}/${tool.id}`} className="flex min-h-12 items-center gap-3 rounded-xl border border-[var(--border)] bg-[var(--surface-container-low)] px-3 py-2 text-sm font-medium text-[var(--foreground)] outline-none transition-colors hover:bg-[var(--surface-container)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]">
+              <Link href={getToolPath(locale, tool.id)} className="flex min-h-12 items-center gap-3 rounded-xl border border-[var(--border)] bg-[var(--surface-container-low)] px-3 py-2 text-sm font-medium text-[var(--foreground)] outline-none transition-colors hover:bg-[var(--surface-container)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]">
                 <MaterialIcon name={tool.icon} size={20} className="shrink-0 text-[var(--accent)]" />
                 <span className="min-w-0 flex-1">{tool.name}</span>
                 <MaterialIcon name="arrow_forward" size={18} className="shrink-0 text-[var(--muted)]" />
