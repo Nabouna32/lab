@@ -4,6 +4,7 @@ import { expect, test, type Page } from "@playwright/test";
 type BrowserIssues = {
   consoleErrors: string[];
   pageErrors: string[];
+  abortedRequests: string[];
   failedRequests: string[];
   badResponses: string[];
 };
@@ -14,6 +15,7 @@ test.beforeEach(async ({ page }) => {
   const issues: BrowserIssues = {
     consoleErrors: [],
     pageErrors: [],
+    abortedRequests: [],
     failedRequests: [],
     badResponses: [],
   };
@@ -24,7 +26,11 @@ test.beforeEach(async ({ page }) => {
   });
   page.on("pageerror", (error) => issues.pageErrors.push(error.message));
   page.on("requestfailed", (request) => {
-    issues.failedRequests.push(`${request.method()} ${request.url()}: ${request.failure()?.errorText ?? "failed"}`);
+    const reason = request.failure()?.errorText ?? "failed";
+    const entry = `${request.method()} ${request.url()}: ${reason}`;
+    // Next.js cancels speculative RSC prefetches when navigation state changes.
+    if (reason === "net::ERR_ABORTED") issues.abortedRequests.push(entry);
+    else issues.failedRequests.push(entry);
   });
   page.on("response", (response) => {
     if (response.status() >= 400) {
@@ -37,6 +43,7 @@ test.afterEach(async ({ page }, testInfo) => {
   const issues = browserIssues.get(page) ?? {
     consoleErrors: [],
     pageErrors: [],
+    abortedRequests: [],
     failedRequests: [],
     badResponses: [],
   };
@@ -127,6 +134,7 @@ test.afterEach(async ({ page }, testInfo) => {
     "## Runtime signals",
     `- JavaScript page errors: ${issues.pageErrors.length}`,
     `- Console errors: ${issues.consoleErrors.length}`,
+    `- Aborted requests (often expected during navigation/prefetch): ${issues.abortedRequests.length}`,
     `- Failed requests: ${issues.failedRequests.length}`,
     `- HTTP responses >= 400: ${issues.badResponses.length}`,
     "",
@@ -147,6 +155,10 @@ test.afterEach(async ({ page }, testInfo) => {
     "## JavaScript errors",
     ...issues.pageErrors.map((message) => `- ${message}`),
     ...(issues.pageErrors.length ? [] : ["- None observed"]),
+    "",
+    "## Aborted requests (often expected during navigation/prefetch)",
+    ...issues.abortedRequests.map((message) => `- ${message}`),
+    ...(issues.abortedRequests.length ? [] : ["- None observed"]),
     "",
     "## Failed requests",
     ...issues.failedRequests.map((message) => `- ${message}`),
@@ -206,4 +218,17 @@ test("IPv4 subnet calculator updates results end to end", async ({ page }) => {
   await input.fill("10.0.0.5/24");
   await expect(page.getByText("10.0.0.0", { exact: true })).toBeVisible();
   await expect(page.getByText("10.0.0.255", { exact: true })).toBeVisible();
+});
+test("JSON diff checker reports structural changes", async ({ page }) => {
+  await page.goto("/fr/outils/comparateur-json");
+  await expect(page.locator("html")).toHaveAttribute("lang", "fr");
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+
+  await page.locator("#json-diff-left").fill('{"name":"draft","count":2}');
+  await page.locator("#json-diff-right").fill('{"name":"published","count":2,"active":true}');
+  await page.getByRole("button", { name: "Comparer", exact: true }).click();
+
+  await expect(page.getByText('$["name"]', { exact: true })).toBeVisible();
+  await expect(page.getByText('$["active"]', { exact: true })).toBeVisible();
+  await expect(page.getByText("2 différences", { exact: true })).toBeVisible();
 });

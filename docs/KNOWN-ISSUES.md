@@ -44,9 +44,10 @@ Dernière vérification : 2026-10-19. Ce registre résume les blocages persistan
 - **Prochaine action :** aucune modification de politique n'est justifiée par ces alertes seules. Réexaminer si les expressions, le plan ou les mesures de charge changent.
 - **Index inutilisés :** les dix index listés ont `idx_scan = 0`, font chacun 8–16 kB et ne supportent pas directement une contrainte selon `pg_constraint.conindid`. Ils restent néanmoins conservés : les compteurs reflètent une base peu sollicitée et ne suffisent pas à prouver qu'ils sont inutiles pour les parcours d'administration futurs. Réévaluer avec une période de charge représentative avant toute suppression.
 
-## 5. Limite de validation navigateur
+## 5. Validation navigateur — smoke suite opérationnelle
 
-- **État :** limite de validation connue, non bloquante par défaut ; le besoin est suivi dans [issue #765](https://github.com/Nabouna32/lab/issues/765).
-- **Faits vérifiés :** la validation fonctionnelle navigateur n'a pas été exécutée depuis certaines sessions distantes. Le mandat canonique `docs/MANDAT.md` considère l'automatisation comme un moyen proportionné, pas comme un prérequis systématique.
-- **Décision actuelle :** ne pas laisser l'outillage navigateur devenir un chantier permanent ni bloquer des livraisons validables autrement. Réévaluer si un parcours critique exige une vérification répétable et si une solution autorisée, maintenable et proportionnée est disponible.
-- **Limite :** un build vert ou un déploiement `READY` ne prouve pas à lui seul que l'expérience navigateur est correcte.
+- **État :** une suite Playwright Chromium est intégrée dans [PR #907](https://github.com/Nabouna32/lab/pull/907). Le run initial complet [#39503205016](https://github.com/Nabouna32/lab/actions/runs/39503205016) a validé les parcours FR/EN, la recherche accessible et le calculateur IPv4 en desktop/mobile et thèmes clair/sombre ; la PR ajoute aussi un parcours du comparateur JSON.
+- **Rapports :** l’artefact CI fournit des rapports Markdown lisibles, l’arbre ARIA, les dimensions/positions des éléments, les signaux console/JavaScript/réseau/HTTP, les captures PNG et les traces en cas d’échec.
+- **Limites :** ce sont des tests Chromium sur le build local, pas une validation de la preview Vercel ou des données de production. Les rapports détectent le débordement horizontal et des heuristiques d’accessibilité, mais ne remplacent pas axe-core, un audit de contraste, une détection exhaustive des chevauchements ni une revue visuelle humaine.
+- **Décision actuelle :** utiliser cette suite pour les parcours UI à risque ; ajouter d’autres navigateurs et audits uniquement lorsque la valeur de couverture justifie leur coût.
+
