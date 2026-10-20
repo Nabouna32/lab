@@ -166,7 +166,7 @@ type ToolMessages = {
   timezoneConverter: {
     dateTime: string; source: string; destination: string; sourcePlaceholder: string; destinationPlaceholder: string;
     hint: string; convert: string; result: string; converted: string; emptyResult: string; invalid: string;
-    ambiguous: string; sourceTime: string; destinationTime: string; sourceOffset: string; destinationOffset: string;
+    ambiguous: string; nonexistent: string; sourceTime: string; destinationTime: string; sourceOffset: string; destinationOffset: string;
     copy: string; clear: string; zonesHint: string;
   };
   xmlFormatterValidator: {
@@ -488,7 +488,8 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       hint: "Les noms de fuseaux utilisent les identifiants IANA. La conversion tient compte des changements d’heure.",
       convert: "Convertir", result: "Résultat", converted: "Conversion effectuée",
       emptyResult: "Le résultat apparaîtra ici après conversion.",
-      invalid: "Vérifiez la date, l’heure et les fuseaux horaires sélectionnés. Certaines heures n’existent pas pendant un changement d’heure.",
+      invalid: "Vérifiez le format de la date, l’heure et les fuseaux horaires sélectionnés.",
+      nonexistent: "Cette heure locale n’existe pas à cause du passage à l’heure d’été. Choisissez une heure ultérieure ou antérieure.",
       ambiguous: "Cette heure locale apparaît deux fois à cause d’un changement d’heure. Loculary utilise la première occurrence.",
       sourceTime: "Heure source", destinationTime: "Heure convertie", sourceOffset: "Décalage source", destinationOffset: "Décalage de destination",
       copy: "Copier", clear: "Effacer", zonesHint: "Commencez à saisir un identifiant pour filtrer les fuseaux disponibles.",
@@ -770,7 +771,8 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       hint: "Time zone names use IANA identifiers. The conversion accounts for daylight-saving changes.",
       convert: "Convert", result: "Result", converted: "Conversion complete",
       emptyResult: "The result will appear here after conversion.",
-      invalid: "Check the date, time, and time zones. Some local times do not exist during a time-zone transition.",
+      invalid: "Check the date and time format and the selected time zones.",
+      nonexistent: "This local time does not exist because the clocks move forward. Choose an earlier or later time.",
       ambiguous: "This local time occurs twice because of a time-zone transition. Loculary uses the first occurrence.",
       sourceTime: "Source time", destinationTime: "Converted time", sourceOffset: "Source offset", destinationOffset: "Destination offset",
       copy: "Copy", clear: "Clear", zonesHint: "Start typing an identifier to filter the available time zones.",
