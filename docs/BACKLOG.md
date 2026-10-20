@@ -8,7 +8,7 @@ Dernière révision : 2026-10-20. File de travail unique.
 
 - [PR #891](https://github.com/Nabouna32/lab/pull/891) ignore les lignes physiquement vides en tête, préserve les cellules vides explicitement citées et rejette les en-têtes entièrement vides. Trois tests de régression ; lint, TypeScript, tests et build réussis sur `4377855f20687609c92d984bbbee8429dbde9c38` ([CI #39373102959](https://github.com/Nabouna32/lab/actions/runs/39373102959)).
 
-## Livraison précédente — préservation des enregistrements CSV vides
+## Livraison précédente — transparence sur le traitement local
 
 - Le détail affiché sur les pages d’outils locaux décrit désormais explicitement les **données saisies et résultats de l’outil courant**, et non toutes les données produit que Loculary peut conserver séparément. Le libellé FR/EN n’affirme plus que Loculary ne stocke aucune donnée en général ; test de régression ajouté. [PR #887](https://github.com/Nabouna32/lab/pull/887), fusionnée dans `8e0b69544155c1d665ff11cf1a5f9cecaa31a73a` ; lint, TypeScript, tests et build réussis sur `799a0a5b4e090d08100235997a567bb94c29c655` ([CI #39371882214](https://github.com/Nabouna32/lab/actions/runs/39371882214)). Aucun test navigateur exécuté.
 
