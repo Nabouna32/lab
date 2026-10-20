@@ -22,7 +22,7 @@ export default function FileSizeConverter() {
     const numericValue = parseLocalizedNumber(value, locale);
     if (numericValue === null || numericValue < 0) return null;
     return convertFileSize(numericValue, from, to);
-  }, [value, from, to]);
+  }, [value, from, to, locale]);
   const hasInvalidInput = value.trim() !== "" && result === null;
   return (
     <CalculatorShell>
