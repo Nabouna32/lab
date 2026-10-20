@@ -28,7 +28,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const t = getMessages(locale);
-  const recentTools = getPublishedTools().map((tool) => ({ id: tool.id, icon: tool.icon, name: getToolContent(tool, locale).name }));
+  const recentTools = getPublishedTools().map((tool) => ({ id: tool.id, name: getToolContent(tool, locale).name }));
 
   return (
     <main className="min-h-full">
