@@ -124,7 +124,7 @@ function csvEscape(value: unknown, delimiter: CsvDelimiter): string {
   // user-provided strings that begin with a formula marker (even after
   // leading control/whitespace characters) with an apostrophe. Keep actual
   // JSON numbers numeric so negative numbers remain valid numeric cells.
-  const safeText = typeof value === "string" && /^[\u0000-\u0020\uFEFF]*[=+\-@]/.test(text)
+  const safeText = typeof value === "string" && /^[\p{White_Space}\u0000-\u001F\u007F-\u009F\uFEFF]*[=+\-@]/u.test(text)
     ? `'${text}`
     : text;
 
