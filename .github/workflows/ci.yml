@@ -151,3 +151,29 @@ jobs:
           path: test-results/
           if-no-files-found: ignore
           retention-days: 7
+
+  required-check:
+    name: Node.js 24.21.0
+    needs: [prepare, quality, build-browser]
+    if: always() && needs.prepare.result != 'skipped'
+    runs-on: [self-hosted, Windows, X64, loculary-ci]
+    timeout-minutes: 5
+    steps:
+      - name: Fail if preparation failed
+        if: needs.prepare.result != 'success'
+        shell: pwsh
+        run: exit 1
+
+      - name: Fail if quality checks failed
+        if: needs.prepare.outputs.lightweight_only != 'true' && needs.quality.result != 'success'
+        shell: pwsh
+        run: exit 1
+
+      - name: Fail if build or browser checks failed
+        if: needs.prepare.outputs.lightweight_only != 'true' && needs['build-browser'].result != 'success'
+        shell: pwsh
+        run: exit 1
+
+      - name: Confirm applicable checks passed
+        shell: pwsh
+        run: Write-Output "All applicable CI checks passed."
