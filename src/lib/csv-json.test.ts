@@ -73,3 +73,11 @@ test("preserves numeric negative values in CSV export", () => {
 test("neutralizes formula markers after leading control characters", () => {
   assert.equal(transformCsvJson(JSON.stringify([{ value: "\t=1+1" }]), "json-to-csv").value, "value\r\n'\t=1+1");
 });
+
+test("preserves CSV columns named __proto__ without changing object prototypes", () => {
+  const result = transformCsvJson("__proto__,constructor\npayload,example", "csv-to-json");
+  assert.equal(result.error, null);
+  assert.deepEqual(JSON.parse(result.value!), [
+    { "__proto__": "payload", constructor: "example" },
+  ]);
+});
