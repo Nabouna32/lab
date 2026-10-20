@@ -63,11 +63,15 @@ const sensitiveParameterNames = new Set([
 export function hasSensitiveUrlData(input: {
   username: string;
   hasPassword: boolean;
+  hash: string;
   queryParameters: readonly { key: string; value: string }[];
 }): boolean {
   if (input.username || input.hasPassword) return true;
 
-  return input.queryParameters.some(({ key }) => {
+  const fragmentParameters = new URLSearchParams(input.hash.replace(/^#/, ""));
+  const parameterNames = [...input.queryParameters.map(({ key }) => key), ...Array.from(fragmentParameters.keys())];
+
+  return parameterNames.some((key) => {
     const normalized = key.trim().replace(/([a-z0-9])([A-Z])/g, "$1_$2").toLowerCase().replace(/[\s-]+/g, "_");
     return sensitiveParameterNames.has(normalized) ||
       /(?:^|_)(?:access|refresh|id)?_?token$/.test(normalized) ||
