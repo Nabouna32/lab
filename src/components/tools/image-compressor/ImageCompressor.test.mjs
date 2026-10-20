@@ -7,12 +7,12 @@ const componentFile = fileURLToPath(new URL("./ImageCompressor.tsx", import.meta
 
 test("invalid file selections clear the busy state after cancelling compression", async () => {
   const source = await readFile(componentFile, "utf8");
-  const invalidTypeBranch = source.match(/if \(!next\.type\.startsWith\("image\/"\)\) \{([\s\S]*?)\n    \}/)?.[1];
-  const oversizedBranch = source.match(/if \(next\.size > MAX_FILE_BYTES\) \{([\s\S]*?)\n    \}/)?.[1];
+  const invalidTypeBranch = source.match(/const valid = selected\.filter\(\(file\) => file\.type\.startsWith\("image\/"\)\)/)?.[0];
+  const oversizedBranch = source.match(/if \(selected\.some\(\(file\) => file\.size > MAX_FILE_BYTES\)[\s\S]*?\) \{([\s\S]*?)\n    \}/)?.[1];
 
-  assert.ok(invalidTypeBranch, "invalid-type branch exists");
-  assert.ok(oversizedBranch, "oversized-file branch exists");
-  assert.match(invalidTypeBranch, /setBusy\(false\)/);
+  assert.ok(invalidTypeBranch, "invalid-type filter exists");
+  assert.ok(oversizedBranch, "oversized-batch branch exists");
+  assert.match(source, /setBusy\(valid\.length > 0\)/);
   assert.match(oversizedBranch, /setBusy\(false\)/);
 });
 
