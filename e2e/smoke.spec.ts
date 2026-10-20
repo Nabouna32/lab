@@ -1,4 +1,3 @@
-import { mkdir, writeFile } from "node:fs/promises";
 import { expect, test, type Locator, type Page } from "@playwright/test";
 
 type BrowserIssues = {
@@ -194,15 +193,11 @@ test.afterEach(async ({ page }, testInfo) => {
     "",
   ].join("\n");
 
-  const reportPath = testInfo.outputPath("visual-report.md");
-  await mkdir(testInfo.outputDir, { recursive: true });
-  await writeFile(reportPath, report, "utf8");
-  await testInfo.attach("visual-report", { path: reportPath, contentType: "text/markdown" });
+  await testInfo.attach("visual-report", { body: report, contentType: "text/markdown" });
 
   try {
-    const screenshotPath = testInfo.outputPath("page.png");
-    await page.screenshot({ path: screenshotPath, fullPage: true, animations: "disabled", timeout: 10_000 });
-    await testInfo.attach("page-screenshot", { path: screenshotPath, contentType: "image/png" });
+    const screenshot = await page.screenshot({ fullPage: true, scale: "css", animations: "disabled", timeout: 10_000 });
+    await testInfo.attach("page-screenshot", { body: screenshot, contentType: "image/png" });
   } catch (error) {
     console.log(`Screenshot unavailable: ${error instanceof Error ? error.message : String(error)}`);
   }
