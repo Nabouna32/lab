@@ -2,12 +2,15 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
 import HomeDiscovery from "@/components/home/HomeDiscovery";
+import RecentTools from "@/components/home/RecentTools";
 import ToolSearch from "@/components/tools/ToolSearch";
 import type { Locale } from "@/lib/i18n/config";
 import { isLocale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
 import { getPublicPageMetadata } from "@/lib/tools/page-metadata";
 import { getToolPath, getToolsPath } from "@/lib/tools/routes";
+import { getPublishedTools } from "@/lib/tools/catalog";
+import { getToolContent } from "@/lib/tools/types";
 import { getRainbowFrameStyle } from "@/lib/design-system/rainbow-tones";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
 
@@ -79,7 +82,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         </div>
       </section>
 
-      <HomeDiscovery locale={locale} />
+      <RecentTools locale={locale} tools={recentTools} />\n      <HomeDiscovery locale={locale} />
     </main>
   );
 }
