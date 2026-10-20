@@ -14,22 +14,29 @@ function compareCalendarDates(left: Date, right: Date): number {
   return Math.sign(leftValue - rightValue);
 }
 
+function createCalendarDate(year: number, month: number, day: number): Date {
+  const date = new Date(0);
+  date.setHours(12, 0, 0, 0);
+  date.setFullYear(year, month, day);
+  return date;
+}
+
 function daysInMonth(year: number, month: number): number {
-  return new Date(year, month + 1, 0).getDate();
+  return createCalendarDate(year, month + 1, 0).getDate();
 }
 
 function addYearsClamped(date: Date, years: number): Date {
   const year = date.getFullYear() + years;
   const month = date.getMonth();
-  return new Date(year, month, Math.min(date.getDate(), daysInMonth(year, month)));
+  return createCalendarDate(year, month, Math.min(date.getDate(), daysInMonth(year, month)));
 }
 
 function addMonthsClampedSequentially(date: Date, months: number): Date {
-  let result = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  let result = createCalendarDate(date.getFullYear(), date.getMonth(), date.getDate());
 
   for (let index = 0; index < months; index += 1) {
-    const nextMonth = new Date(result.getFullYear(), result.getMonth() + 1, 1);
-    result = new Date(
+    const nextMonth = createCalendarDate(result.getFullYear(), result.getMonth() + 1, 1);
+    result = createCalendarDate(
       nextMonth.getFullYear(),
       nextMonth.getMonth(),
       Math.min(result.getDate(), daysInMonth(nextMonth.getFullYear(), nextMonth.getMonth())),
