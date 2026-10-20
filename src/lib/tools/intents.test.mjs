@@ -49,9 +49,14 @@ test("an intent can span multiple categories instead of resolving to one categor
 
 test("intent lookup is stable and unknown IDs are rejected", () => {
   assert.equal(isIntentId("calculate"), true);
+  assert.equal(isIntentId("prepare"), true);
   assert.equal(isIntentId("not-an-intent"), false);
   assert.equal(isIntentId(undefined), false);
   assert.equal(getIntentDefinition("convert").id, "convert");
+  assert.deepEqual(getToolsForIntent("prepare", publishedTools).map((tool) => tool.id), [
+    "image-metadata", "image-compressor", "csv-json-converter", "yaml-formatter-validator",
+    "text-case-converter", "markdown-table-generator", "url-encoder-decoder", "html-entity-encoder-decoder",
+  ]);
 });
 
 test("French and English expose the same stable localized intent IDs", () => {
