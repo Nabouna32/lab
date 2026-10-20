@@ -151,8 +151,8 @@ export default function ImageMetadataViewer() {
     setError(null);
     try {
       const entries = successful.map((item) => ({
-        name: item.file.name.replace(/\.[^.]+$/, "") + "-cleaned." +
-          getCleanImageFormat(item.cleanedBlob!.type).extension,
+        name: item.file.name.replace(/\.[^.]+$/, "") + (optimize ? "-prepared." : "-cleaned.") +
+          (optimize ? getOutputExtension(item.cleanedBlob!.type) : getCleanImageFormat(item.cleanedBlob!.type).extension),
         blob: item.cleanedBlob!,
       }));
       const archive = await createZipArchive(entries);
