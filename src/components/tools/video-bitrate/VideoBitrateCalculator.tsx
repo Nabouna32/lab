@@ -12,7 +12,12 @@ import { useLocale } from "@/lib/i18n/use-locale";
 import { formatToolNumber, parseLocalizedNumber } from "@/lib/numbers";
 import { getBitrateUnitLabel } from "@/lib/i18n/units";
 import type { BitrateUnit } from "@/lib/taille-fichier";
-import { calculateVideoBitrateMbps, calculateVideoSizeBytes, formatDurationSeconds } from "@/lib/video-bitrate";
+import {
+  calculateVideoBitrateMbps,
+  calculateVideoSizeBytes,
+  parseVideoDurationInputs,
+  parseVideoNumericInput,
+} from "@/lib/video-bitrate";
 
 type Mode = "bitrate" | "size";
 type SizeUnit = "MB" | "GB";
@@ -31,23 +36,21 @@ export default function VideoBitrateCalculator() {
   const [bitrate, setBitrate] = useState("");
   const [bitrateUnit, setBitrateUnit] = useState<BitrateUnit>("mbps");
 
-  const duration = formatDurationSeconds(
-    parseLocalizedNumber(hours, locale) ?? 0,
-    parseLocalizedNumber(minutes, locale) ?? 0,
-    parseLocalizedNumber(seconds, locale) ?? 0,
-  );
-  const value = mode === "bitrate" ? parseLocalizedNumber(size, locale) : parseLocalizedNumber(bitrate, locale);
+  const durationInput = parseVideoDurationInputs(hours, minutes, seconds, locale);
+  const duration = durationInput.duration;
+  const valueInput = parseVideoNumericInput(mode === "bitrate" ? size : bitrate, locale);
+  const value = valueInput.value;
   const bitrateToMbps: Record<BitrateUnit, number> = { kbps: 0.001, mbps: 1, gbps: 1000 };
 
   let result: number | null = null;
   let error: string | null = null;
 
-  const hasDurationInput = [hours, minutes, seconds].some((part) => part.trim() !== "");
-  const hasValueInput = value !== null;
+  const hasDurationInput = durationInput.hasInput;
+  const hasValueInput = valueInput.hasInput;
 
-  if (hasDurationInput && duration === null) error = t.invalidDuration;
-  if (mode === "bitrate" && hasValueInput && value !== null && value < 0) error = t.invalidSize;
-  if (mode === "size" && hasValueInput && value !== null && value < 0) error = t.invalidBitrate;
+  if (hasDurationInput && (durationInput.invalid || duration === null)) error = t.invalidDuration;
+  if (!error && mode === "bitrate" && hasValueInput && (valueInput.invalid || (value !== null && value < 0))) error = t.invalidSize;
+  if (!error && mode === "size" && hasValueInput && (valueInput.invalid || (value !== null && value < 0))) error = t.invalidBitrate;
 
   if (!error && duration !== null && value !== null) {
     result = mode === "bitrate"
@@ -108,16 +111,16 @@ export default function VideoBitrateCalculator() {
           <fieldset className="mt-7">
             <legend className="text-sm font-semibold text-[var(--foreground)]">{t.duration}</legend>
             <div className="mt-3 grid gap-4 sm:grid-cols-3">
-              <CalculatorField label={t.hours} inputId="video-hours" min={0} step="1" inputMode="numeric" value={hours} onChange={(e) => setHours(e.target.value)} placeholder={t.hoursPlaceholder} aria-invalid={error === t.invalidDuration} />
-              <CalculatorField label={t.minutes} inputId="video-minutes" min={0} max={59} step="1" inputMode="numeric" value={minutes} onChange={(e) => setMinutes(e.target.value)} placeholder={t.minutesPlaceholder} aria-invalid={error === t.invalidDuration} />
-              <CalculatorField label={t.seconds} inputId="video-seconds" min={0} max={59} step="1" inputMode="numeric" value={seconds} onChange={(e) => setSeconds(e.target.value)} placeholder={t.secondsPlaceholder} aria-invalid={error === t.invalidDuration} />
+              <CalculatorField label={t.hours} inputId="video-hours" min={0} step="1" inputMode="numeric" value={hours} onChange={(e) => setHours(e.target.value)} placeholder={t.hoursPlaceholder} aria-invalid={error === t.invalidDuration} aria-describedby={error === t.invalidDuration ? "video-bitrate-error" : undefined} />
+              <CalculatorField label={t.minutes} inputId="video-minutes" min={0} max={59} step="1" inputMode="numeric" value={minutes} onChange={(e) => setMinutes(e.target.value)} placeholder={t.minutesPlaceholder} aria-invalid={error === t.invalidDuration} aria-describedby={error === t.invalidDuration ? "video-bitrate-error" : undefined} />
+              <CalculatorField label={t.seconds} inputId="video-seconds" min={0} max={59} step="1" inputMode="numeric" value={seconds} onChange={(e) => setSeconds(e.target.value)} placeholder={t.secondsPlaceholder} aria-invalid={error === t.invalidDuration} aria-describedby={error === t.invalidDuration ? "video-bitrate-error" : undefined} />
             </div>
           </fieldset>
 
           <div className="mt-6 grid gap-4 sm:grid-cols-[minmax(0,1fr)_10rem]">
             {mode === "bitrate" ? (
               <>
-                <CalculatorField label={t.targetSize} inputId="video-size" type="text" inputMode="decimal" value={size} onChange={(e) => setSize(e.target.value)} placeholder={t.sizePlaceholder} aria-invalid={Boolean(error)} />
+                <CalculatorField label={t.targetSize} inputId="video-size" type="text" inputMode="decimal" value={size} onChange={(e) => setSize(e.target.value)} placeholder={t.sizePlaceholder} aria-invalid={error === t.invalidSize || error === t.invalid} aria-describedby={error === t.invalidSize || error === t.invalid ? "video-bitrate-error" : undefined} />
                 <Select id="video-size-unit" label={t.sizeUnit} value={sizeUnit} onChange={(e) => setSizeUnit(e.target.value as SizeUnit)}>
                   <option value="MB">MB</option>
                   <option value="GB">GB</option>
@@ -125,7 +128,7 @@ export default function VideoBitrateCalculator() {
               </>
             ) : (
               <>
-                <CalculatorField label={t.bitrate} inputId="video-bitrate" type="text" inputMode="decimal" value={bitrate} onChange={(e) => setBitrate(e.target.value)} placeholder={t.bitratePlaceholder} aria-invalid={Boolean(error)} />
+                <CalculatorField label={t.bitrate} inputId="video-bitrate" type="text" inputMode="decimal" value={bitrate} onChange={(e) => setBitrate(e.target.value)} placeholder={t.bitratePlaceholder} aria-invalid={error === t.invalidBitrate || error === t.invalid} aria-describedby={error === t.invalidBitrate || error === t.invalid ? "video-bitrate-error" : undefined} />
                 <Select id="video-bitrate-unit" label={t.bitrateUnit} value={bitrateUnit} onChange={(e) => setBitrateUnit(e.target.value as BitrateUnit)}>
                   <option value="kbps">Kbit/s</option>
                   <option value="mbps">Mbit/s</option>

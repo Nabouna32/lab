@@ -1,6 +1,12 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { calculateVideoBitrateMbps, calculateVideoSizeBytes, formatDurationSeconds } from "./video-bitrate.ts";
+import {
+  calculateVideoBitrateMbps,
+  calculateVideoSizeBytes,
+  formatDurationSeconds,
+  parseVideoDurationInputs,
+  parseVideoNumericInput,
+} from "./video-bitrate.ts";
 
 test("calculates total bitrate from duration and decimal file size", () => {
   assert.equal(calculateVideoBitrateMbps(600, 750_000_000), 10);
@@ -22,4 +28,40 @@ test("rejects invalid duration and negative values", () => {
 
 test("accepts hour, minute and second duration components", () => {
   assert.equal(formatDurationSeconds(1, 2, 3), 3723);
+});
+
+test("does not silently treat malformed duration components as zero", () => {
+  assert.deepEqual(parseVideoDurationInputs("invalid", "2", "", "en"), {
+    hasInput: true,
+    duration: null,
+    invalid: true,
+  });
+  assert.deepEqual(parseVideoDurationInputs("", "", "", "en"), {
+    hasInput: false,
+    duration: null,
+    invalid: false,
+  });
+  assert.deepEqual(parseVideoDurationInputs("1", "2", "3", "en"), {
+    hasInput: true,
+    duration: 3723,
+    invalid: false,
+  });
+});
+
+test("parses localized video inputs and identifies non-empty invalid values", () => {
+  assert.deepEqual(parseVideoNumericInput("1,5", "fr"), {
+    hasInput: true,
+    value: 1.5,
+    invalid: false,
+  });
+  assert.deepEqual(parseVideoNumericInput("abc", "en"), {
+    hasInput: true,
+    value: null,
+    invalid: true,
+  });
+  assert.deepEqual(parseVideoNumericInput("", "en"), {
+    hasInput: false,
+    value: null,
+    invalid: false,
+  });
 });
