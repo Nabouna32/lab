@@ -30,9 +30,25 @@ function parserError(error: YamlParserError): JsonYamlConversionError {
 }
 
 function jsonErrorPosition(error: SyntaxError, input: string): { line: number; column: number } {
-  const position = error.message.match(/position (\d+)/i)?.[1];
-  if (position === undefined) return { line: 1, column: 1 };
-  const beforeError = input.slice(0, Number(position));
+  const position = error.message.match(/position\s+(\d+)/i)?.[1];
+  const lineAndColumn = error.message.match(/line\s+(\d+)\s+column\s+(\d+)/i);
+  let offset: number;
+
+  if (position !== undefined) {
+    offset = Number(position);
+  } else if (lineAndColumn) {
+    const targetLine = Number(lineAndColumn[1]);
+    const targetColumn = Number(lineAndColumn[2]);
+    const lines = input.split("\n");
+    return { line: targetLine, column: Math.min(targetColumn, (lines[targetLine - 1]?.length ?? 0) + 1) };
+  } else {
+    // Some runtimes omit offsets from SyntaxError messages. Point to a common
+    // missing-value location when possible; otherwise use the end of the input.
+    const missingValue = /:\s*[}\]]/.exec(input);
+    offset = missingValue ? missingValue.index + missingValue[0].length - 1 : Math.max(0, input.length - 1);
+  }
+
+  const beforeError = input.slice(0, offset);
   const lines = beforeError.split("\n");
   return { line: lines.length, column: lines.at(-1)!.length + 1 };
 }
