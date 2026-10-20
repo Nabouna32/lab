@@ -12,6 +12,8 @@ const BYTES_PER_UNIT: Record<SizeUnit, number> = {
 export function convertFileSize(value: number, from: SizeUnit, to: SizeUnit): number | null {
   if (!SIZE_UNIT_SET.has(from) || !SIZE_UNIT_SET.has(to)) return null;
   if (!Number.isFinite(value) || value < 0) return null;
-  const result = (value * BYTES_PER_UNIT[from]) / BYTES_PER_UNIT[to];
+  // Scale first: multiplying a huge finite value by the source unit can
+  // overflow even when conversion to a larger unit would remain finite.
+  const result = value * (BYTES_PER_UNIT[from] / BYTES_PER_UNIT[to]);
   return Number.isFinite(result) ? result : null;
 }

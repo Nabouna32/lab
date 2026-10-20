@@ -37,6 +37,13 @@ test("rejects unknown units at runtime", () => {
 });
 
 
-test("returns null when the result overflows the numeric range", () => {
+test("keeps finite conversions finite when the intermediate byte count would overflow", () => {
+  const result = convertFileSize(Number.MAX_VALUE, "to", "tio");
+  assert.ok(result !== null);
+  assert.ok(Number.isFinite(result));
+  assert.equal(result, Number.MAX_VALUE * (1_000_000_000_000 / 1024 ** 4));
+});
+
+test("returns null when the converted result itself overflows the numeric range", () => {
   assert.equal(convertFileSize(Number.MAX_VALUE, "to", "o"), null);
 });
