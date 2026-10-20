@@ -26,6 +26,9 @@ test("rejects malformed grouping and repeated decimal separators", () => {
   assert.equal(parseLocalizedNumber("12 34,56", "fr"), null);
   assert.equal(parseLocalizedNumber("1,23,4.5", "en"), null);
   assert.equal(parseLocalizedNumber("1.2.3", "en"), null);
+  assert.equal(parseLocalizedNumber("1,234 567.89", "en"), null);
+  assert.equal(parseLocalizedNumber("1 234,567.89", "fr"), null);
+  assert.equal(parseLocalizedNumber("1,234\u202f567.89", "en"), null);
 });
 
 test("formatToolNumber preserves the tool locale and precision", () => {
