@@ -116,11 +116,11 @@ La [PR #833](https://github.com/Nabouna32/lab/pull/833) ajoute quatre cartes d�
 - **Pourquoi :** la protection Supabase contre les mots de passe compromis n'est pas disponible sur l'offre Free ; l'état exact de l'inscription en production n'est pas vérifiable avec les accès actuels.
 - **Livrable visé :** établir une preuve de configuration et documenter le choix avant de promouvoir l'inscription. Aucune dépense ni modification Auth de production sans autorisation applicable.
 
-## P0 — Validation navigateur reproductible avant lancement (bloquée)
+## Validation navigateur — opportunité à réévaluer, non bloquante par défaut
 
-- **État :** gap suivi dans [issue #765](https://github.com/Nabouna32/lab/issues/765), mais implémentation bloquée par la contradiction de règles documentée dans [KNOWN-ISSUES.md](KNOWN-ISSUES.md).
-- **Conflit :** `docs/Mandat.md` §5 demande Playwright, tandis que §4 et `AGENTS.md` interdisent explicitement d'ajouter cette automatisation sauf demande explicite dédiée. Ne pas ajouter Playwright/E2E ou workflows associés tant que cette autorisation spécifique n'est pas donnée.
-- **Livrable envisagé après résolution :** rapports texte lisibles en CI et sous `docs/rapports-visuels/`, couvrant géométrie, contrastes axe-core, arbre d'accessibilité, erreurs console, Lighthouse, mise en page, mobile/desktop et thèmes clair/sombre. Aucun cache distant ni transfert d'artefacts ; réutiliser les caches locaux du runner Windows.
+- L'absence de validation navigateur reproductible reste une limite de vérification, suivie dans [issue #765](https://github.com/Nabouna32/lab/issues/765).
+- Ce manque ne doit pas bloquer les livraisons qui peuvent être validées par les contrôles adaptés au risque. Ne pas ajouter Playwright ou des workflows uniquement pour compléter une checklist.
+- Réévaluer l'automatisation si elle permet de vérifier un parcours critique de façon répétable et si le bénéfice dépasse le coût de maintenance. Aucun chantier d'outillage n'est prioritaire par défaut par rapport aux évolutions produit.
 
 ## P2 — Refonte progressive des parcours
 - **Lot UX livré :** la page de recherche sans requête propose quatre tâches de démarrage ([PR #796](https://github.com/Nabouna32/lab/pull/796)). Le panneau de suggestions est maintenant limité à l’espace du visual viewport ([PR #864](https://github.com/Nabouna32/lab/pull/864)). La SearchBar partagée utilise maintenant les icônes Material Symbols ([PR #903](https://github.com/Nabouna32/lab/pull/903)); l’audit des états clavier, de la sémantique des suggestions et du focus reste à faire.
