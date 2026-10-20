@@ -122,6 +122,8 @@ test("audited UI components consume localization instead of local bilingual stri
   assert.match(breadcrumbs, /t\.breadcrumbs\.label/);
   assert.match(categories, /t\.home\.categoriesTitle/);
   assert.match(categories, /getToolCount\(category\.id\)/);
+  assert.match(categories, /t\.tools\.intents\.map/);
+  assert.match(categories, /getToolsPath\(locale\)\}\?intent=\$\{intent\.id\}/);
   assert.match(downloadTime, /getDownloadSizeUnitLabel\(locale, unit\)/);
   assert.match(downloadTime, /getDownloadSpeedUnitLabel\(locale, unit\)/);
   assert.match(downloadTime, /getDownloadDurationLabels\(locale\)/);
