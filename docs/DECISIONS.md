@@ -112,6 +112,7 @@ Privacy and transparency are first-class product requirements, not merely compli
 - never request data a tool does not need;
 - disclose every meaningful data transfer;
 - provide understandable privacy details;
+- warn before copying URLs that contain embedded credentials or commonly used secret-bearing query/fragment parameter names;
 - support export;
 - support account deletion with deletion or strong anonymization where deletion is impossible;
 - make non-essential consent refusal easy;
