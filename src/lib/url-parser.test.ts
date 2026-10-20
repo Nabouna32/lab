@@ -64,7 +64,7 @@ describe("hasSensitiveUrlData", () => {
   });
 
   it("detects common secret-bearing query parameter names", () => {
-    for (const key of ["access_token", "refresh-token", "id_token", "api_key", "api-key", "client_secret", "password", "sessionId", "signature", "code_verifier"]) {
+    for (const key of ["access_token", "refresh-token", "id_token", "api_key", "api-key", "client_secret", "password", "sessionId", "signature", "code_verifier", "accessToken", "apiKey", "clientSecret"]) {
       assert.equal(
         hasSensitiveUrlData({ username: "", hasPassword: false, queryParameters: [{ key, value: "example" }] }),
         true,
