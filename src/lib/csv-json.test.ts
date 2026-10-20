@@ -77,7 +77,8 @@ test("neutralizes formula markers after leading control characters", () => {
 test("preserves CSV columns named __proto__ without changing object prototypes", () => {
   const result = transformCsvJson("__proto__,constructor\npayload,example", "csv-to-json");
   assert.equal(result.error, null);
-  assert.deepEqual(JSON.parse(result.value!), [
-    { "__proto__": "payload", constructor: "example" },
-  ]);
+  assert.deepEqual(
+    JSON.parse(result.value!),
+    JSON.parse('[{"__proto__":"payload","constructor":"example"}]'),
+  );
 });
