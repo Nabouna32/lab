@@ -46,6 +46,19 @@ describe("parseDateInput", () => {
     assert.equal(parseDateInput("2024-02-29")?.getDate(), 29);
   });
 
+  it("parses early calendar years without shifting them into the 1900s", () => {
+    assert.equal(parseDateInput("0001-06-15")?.getFullYear(), 1);
+    assert.equal(parseDateInput("0004-02-29")?.getFullYear(), 4);
+    assert.equal(parseDateInput("0000-01-01"), null);
+  });
+
+  it("clamps month adjustments correctly for early calendar years", () => {
+    const result = calculateDateAdjustment(date("0001-01-31"), 1, "months", "add");
+    assert.equal(result?.getFullYear(), 1);
+    assert.equal(result?.getMonth(), 1);
+    assert.equal(result?.getDate(), 28);
+  });
+
   it("rejects impossible dates instead of normalizing them", () => {
     assert.equal(parseDateInput("2026-02-31"), null);
     assert.equal(parseDateInput("2026-04-31"), null);
