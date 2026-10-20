@@ -44,9 +44,9 @@ Dernière vérification : 2026-10-19. Ce registre résume les blocages persistan
 - **Prochaine action :** aucune modification de politique n'est justifiée par ces alertes seules. Réexaminer si les expressions, le plan ou les mesures de charge changent.
 - **Index inutilisés :** les dix index listés ont `idx_scan = 0`, font chacun 8–16 kB et ne supportent pas directement une contrainte selon `pg_constraint.conindid`. Ils restent néanmoins conservés : les compteurs reflètent une base peu sollicitée et ne suffisent pas à prouver qu'ils sont inutiles pour les parcours d'administration futurs. Réévaluer avec une période de charge représentative avant toute suppression.
 
-## 5. Contradiction de mandat sur l'automatisation navigateur
+## 5. Limite de validation navigateur
 
-- **État :** blocage de gouvernance à résoudre ; l'absence de tests navigateur est déjà suivie dans [issue #765](https://github.com/Nabouna32/lab/issues/765).
-- **Faits vérifiés :** `docs/Mandat.md` §5 demande de créer un outillage Playwright et des rapports de rendu ; §4 du même mandat interdit d'ajouter ou recréer Playwright/E2E et précise de ne rouvrir ce choix que sur demande explicite. `AGENTS.md` répète cette interdiction.
-- **Conséquence :** ne pas ajouter Playwright, E2E, captures automatisées ou workflows associés sur la seule base d'une reprise générale du mandat. Les instructions canoniques sont contradictoires sur ce point précis.
-- **Résolution requise :** demande explicite de l'utilisateur autorisant la réouverture de l'automatisation navigateur, puis mise à jour cohérente des instructions. En attendant, continuer les tests source/unitaires, l'audit métier et documenter honnêtement les limites de vérification navigateur.
+- **État :** limite de validation connue, non bloquante par défaut ; le besoin est suivi dans [issue #765](https://github.com/Nabouna32/lab/issues/765).
+- **Faits vérifiés :** la validation fonctionnelle navigateur n'a pas été exécutée depuis certaines sessions distantes. Le mandat canonique `docs/MANDAT.md` considère l'automatisation comme un moyen proportionné, pas comme un prérequis systématique.
+- **Décision actuelle :** ne pas laisser l'outillage navigateur devenir un chantier permanent ni bloquer des livraisons validables autrement. Réévaluer si un parcours critique exige une vérification répétable et si une solution autorisée, maintenable et proportionnée est disponible.
+- **Limite :** un build vert ou un déploiement `READY` ne prouve pas à lui seul que l'expérience navigateur est correcte.

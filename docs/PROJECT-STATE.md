@@ -5,7 +5,7 @@ Source de vérité : dépôt GitHub, CI, issues et déploiements liés ci-dessou
 
 ## Objectif
 
-Préparer le lancement public autour du **26 octobre 2026**, sans sacrifier les fonctionnalités utiles. Le lancement est un jalon de qualité, pas la fin du développement.
+Faire progresser continuellement la valeur produit de Loculary, sans date de lancement imposée. La priorité ne se limite pas à fiabiliser l’existant : rechercher aussi les outils, fonctionnalités et transformations d’expérience qui rendraient le produit nettement meilleur. Voir `docs/MANDAT.md`.
 
 ## État vérifié
 
@@ -84,6 +84,8 @@ Préparer le lancement public autour du **26 octobre 2026**, sans sacrifier les 
 5. **Justesse / convertisseur de taille de fichier** — évite le débordement intermédiaire pour les valeurs très grandes mais représentables. [PR #895](https://github.com/Nabouna32/lab/pull/895), fusionnée dans `ed588ac6f43bcf569ad11bff79f3139b99818971` ; CI complète réussie sur `81065c31d80436fad858b9d52b083ac8c9faa867` ([run #39374536893](https://github.com/Nabouna32/lab/actions/runs/39374536893)).
 
 ## Priorités immédiates
+
+> Sélectionner les prochaines actions en comparant corrections, enrichissements, transformations et nouveaux usages. Ne pas laisser les audits et la maintenance prendre toute la place : chaque investigation doit alimenter une livraison concrète.
 
 1. **Audit transversal UX/UI de la recherche.** Le composant partagé respecte maintenant la source d’icônes commune. Poursuivre sur les états clavier, la sémantique combobox/listbox et le comportement du focus, sans prétendre à une validation navigateur tant qu’elle n’a pas été exécutée. Suivi dans [issue #741](https://github.com/Nabouna32/lab/issues/741).
 2. **Finding npm HIGH `braces` : sans correctif amont disponible au dernier contrôle.** L’avis [GHSA-vfj7-8cjw-p6xm](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm) indique `Patched versions: None` et le mainteneur conteste le défaut dans [micromatch/braces#84](https://github.com/micromatch/braces/issues/84). Pas de rétrogradation forcée, fork non audité, exception ou affaiblissement de CI ; conserver [issue #461](https://github.com/Nabouna32/lab/issues/461).
