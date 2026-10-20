@@ -180,6 +180,23 @@ export default function SearchResultsClient({ locale }: { locale: Locale }) {
                 </a>
               ))}
             </div>
+            <div className="mt-6 border-t border-[var(--border)] pt-5">
+              <h3 className="text-sm font-bold text-[var(--foreground)]">{t.home.quickLinksLabel}</h3>
+              <div className="mt-3 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+                {suggestedTools.map((tool) => {
+                  const categoryId = getPrimaryToolCategory(tool);
+                  return (
+                    <ToolCard
+                      key={tool.id}
+                      tool={tool}
+                      locale={locale}
+                      categoryId={categoryId}
+                      categoryName={getCategoryName(locale, categoryId)}
+                    />
+                  );
+                })}
+              </div>
+            </div>
             <a
               href={getToolsPath(locale)}
               className="mt-6 inline-flex min-h-11 items-center rounded-full px-4 py-2 text-sm font-semibold text-[var(--accent)] outline-none transition-colors hover:bg-[var(--accent-soft)] hover:text-[var(--on-primary-container)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
