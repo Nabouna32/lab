@@ -106,6 +106,10 @@ export const toolSeo = {
     fr: { title: "Formateur JSON et validateur en ligne | Loculary", description: "Validez, formatez et minifiez votre JSON gratuitement, directement dans votre navigateur." },
     en: { title: "JSON Formatter & Validator | Loculary", description: "Validate, format, and minify JSON for free directly in your browser." },
   },
+  "json-diff-checker": {
+    fr: { title: "Comparateur JSON en ligne | Loculary", description: "Comparez deux JSON structurellement et repérez les valeurs ajoutées, supprimées ou modifiées, localement." },
+    en: { title: "JSON Diff Checker | Loculary", description: "Compare two JSON documents structurally and find added, removed, or changed values locally." },
+  },
   "yaml-formatter-validator": {
     fr: { title: "Formateur et validateur YAML | Loculary", description: "Validez et reformatez du YAML directement dans votre navigateur, sans envoyer votre contenu à un serveur." },
     en: { title: "YAML Formatter & Validator | Loculary", description: "Validate and reformat YAML directly in your browser without sending your content to a server." },
