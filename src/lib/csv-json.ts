@@ -65,11 +65,16 @@ function parseCsv(input: string, delimiter: string): string[][] {
       row.push(field);
       field = "";
     } else if (char === "\n") {
+      if (row.length === 0 && field === "") continue;
       row.push(field);
       rows.push(row);
       row = [];
       field = "";
     } else if (char === "\r") {
+      if (row.length === 0 && field === "") {
+        if (input[i + 1] === "\n") i += 1;
+        continue;
+      }
       if (input[i + 1] === "\n") i += 1;
       row.push(field);
       rows.push(row);
@@ -82,7 +87,7 @@ function parseCsv(input: string, delimiter: string): string[][] {
 
   if (quoted) throw new Error("invalid-csv");
   row.push(field);
-  if (row.length > 1 || row[0] !== "" || rows.length === 0) rows.push(row);
+  if (row.length > 1 || row[0] !== "" || rows.length === 0 || closedQuote) rows.push(row);
   return rows;
 }
 
@@ -137,16 +142,14 @@ function csvEscape(value: unknown, delimiter: CsvDelimiter): string {
 function toJson(input: string, delimiter: CsvDelimiter): CsvJsonResult {
   try {
     const rows = parseCsv(input.replace(/^\uFEFF/, ""), delimiter);
-    if (rows.length === 0 || rows[0].every((cell) => cell === "")) {
-      return { value: "[]", error: null };
-    }
+    if (rows.length === 0) return { value: "[]", error: null };
 
     const headers = rows[0];
     if (headers.some((header) => header === "") || new Set(headers).size !== headers.length) {
       return { value: null, error: "invalid-csv" };
     }
 
-    const records = rows.slice(1).filter((row) => row.length > 1 || row[0] !== "");
+    const records = rows.slice(1);
     if (records.some((row) => row.length !== headers.length)) {
       return { value: null, error: "invalid-csv" };
     }
