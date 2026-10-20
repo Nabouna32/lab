@@ -42,6 +42,32 @@ test("uses Cron's OR semantics when both day fields are restricted", () => {
   ]);
 });
 
+test("finds the next leap-day run even when it is more than 366 days away", () => {
+  const schedule = parseCronExpression("0 0 29 2 *");
+  const runs = getNextCronRuns(schedule, new Date(2025, 2, 1, 12, 0), 1);
+  assert.equal(runs.length, 1);
+  assert.equal(runs[0]?.getFullYear(), 2028);
+  assert.equal(runs[0]?.getMonth(), 1);
+  assert.equal(runs[0]?.getDate(), 29);
+  assert.equal(runs[0]?.getHours(), 0);
+  assert.equal(runs[0]?.getMinutes(), 0);
+});
+
+test("finds a leap-day schedule across the non-leap century year", () => {
+  const schedule = parseCronExpression("0 0 29 2 *");
+  const runs = getNextCronRuns(schedule, new Date(2097, 2, 1, 12, 0), 1);
+  assert.equal(runs.length, 1);
+  assert.equal(runs[0]?.getFullYear(), 2104);
+  assert.equal(runs[0]?.getMonth(), 1);
+  assert.equal(runs[0]?.getDate(), 29);
+});
+
+test("returns no runs for invalid reference dates or non-integer counts", () => {
+  const schedule = parseCronExpression("0 0 * * *");
+  assert.deepEqual(getNextCronRuns(schedule, new Date(Number.NaN), 1), []);
+  assert.deepEqual(getNextCronRuns(schedule, new Date(2026, 0, 1), 1.5), []);
+});
+
 test("finds the next midnight runs", () => {
   const schedule = parseCronExpression("0 0 * * *");
   const runs = getNextCronRuns(schedule, new Date(2026, 0, 1, 12, 0), 2);
