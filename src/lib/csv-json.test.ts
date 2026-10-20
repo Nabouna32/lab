@@ -107,3 +107,21 @@ test("selects the conversion direction from supported file extensions", () => {
 test("limits imported CSV and JSON file size to 200 kB", () => {
   assert.equal(CSV_JSON_MAX_FILE_BYTES, 200_000);
 });
+
+test("uses an explicitly selected comma delimiter instead of auto-detecting", () => {
+  assert.deepEqual(
+    JSON.parse(transformCsvJson("name;note\nAlice;one", "csv-to-json", ",").value!),
+    [{ "name;note": "Alice;one" }],
+  );
+});
+
+test("auto-detects delimiters only when auto mode is selected", () => {
+  assert.deepEqual(
+    JSON.parse(transformCsvJson("name;age\nAlice;30", "csv-to-json", "auto").value!),
+    [{ name: "Alice", age: "30" }],
+  );
+  assert.deepEqual(
+    JSON.parse(transformCsvJson("name;age\nAlice;30", "csv-to-json", ";").value!),
+    [{ name: "Alice", age: "30" }],
+  );
+});
