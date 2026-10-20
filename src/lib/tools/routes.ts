@@ -39,6 +39,7 @@ const toolSlugs: Record<ToolId, Record<Locale, string>> = {
   "unit-converter": { en: "unit-converter", fr: "convertisseur-d-unites" },
   "video-bitrate": { en: "video-bitrate-calculator", fr: "calculateur-de-bitrate-video" },
   "json-formatter": { en: "json-formatter", fr: "formateur-json" },
+  "json-diff-checker": { en: "json-diff-checker", fr: "comparateur-json" },
   "yaml-formatter-validator": { en: "yaml-formatter-validator", fr: "formateur-validateur-yaml" },
   "url-encoder-decoder": { en: "url-encoder-decoder", fr: "encodeur-decodeur-url" },
   "url-parser": { en: "url-parser", fr: "analyseur-url" },

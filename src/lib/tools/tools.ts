@@ -83,6 +83,10 @@ const localProcessingDescriptions = {
     fr: "Le JSON saisi est validé et formaté directement dans votre navigateur.",
     en: "The JSON you enter is validated and formatted directly in your browser.",
   },
+  "json-diff-checker": {
+    fr: "Les deux documents JSON sont comparés structurellement dans votre navigateur.",
+    en: "Both JSON documents are compared structurally in your browser.",
+  },
   "yaml-formatter-validator": {
     fr: "Le YAML saisi est validé et formaté directement dans votre navigateur.",
     en: "The YAML you enter is validated and formatted directly in your browser.",
@@ -204,6 +208,7 @@ const nextActionToolIds: Partial<Record<ToolId, ToolId[]>> = {
   "text-case-converter": ["word-character-counter"],
   "yaml-formatter-validator": ["json-formatter"],
   "json-formatter": ["json-to-typescript", "csv-json-converter", "yaml-formatter-validator"],
+  "json-diff-checker": ["json-formatter", "text-diff-checker"],
   "csv-json-converter": ["json-formatter", "markdown-table-generator"],
   "json-to-typescript": ["json-formatter"],
   "xml-formatter-validator": ["json-formatter"],
@@ -446,6 +451,19 @@ const toolDefinitions: ToolDefinition[] = [
     content: {
       fr: { name: "Formateur et validateur JSON", description: "Valide, formate et minifie du JSON directement dans ton navigateur." },
       en: { name: "JSON Formatter & Validator", description: "Validate, format, and minify JSON directly in your browser." },
+    },
+  },
+  {
+    id: "json-diff-checker", icon: "≠",
+    version: 1,
+    complexity: "advanced",
+    categories: ["development"],
+    tags: ["json", "diff", "compare", "comparison", "difference", "object", "api", "developer"],
+    aliases: ["json diff", "json diff checker", "compare json", "json comparison", "compare two json files", "comparateur json", "comparer json", "diff json", "différence json", "json changes"],
+    lifecycle: "published", capabilities: ["clipboard"],
+    content: {
+      fr: { name: "Comparateur JSON", description: "Comparez deux documents JSON et repérez les valeurs ajoutées, supprimées ou modifiées, sans tenir compte de l’ordre des clés." },
+      en: { name: "JSON Diff Checker", description: "Compare two JSON documents and find added, removed, or changed values, ignoring object key order." },
     },
   },
   {

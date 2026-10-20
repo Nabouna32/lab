@@ -104,6 +104,10 @@ const moduleLoaders: Partial<Record<ToolId, ToolModule>> = {
     () => import("@/components/tools/json-formatter/JsonFormatter"),
     () => import("@/components/tools/json-formatter/ToolEditorial"),
   ),
+  "json-diff-checker": createToolModule(
+    () => import("@/components/tools/json-diff-checker/JsonDiffChecker"),
+    () => import("@/components/tools/json-diff-checker/ToolEditorial"),
+  ),
   "yaml-formatter-validator": createToolModule(
     () => import("@/components/tools/yaml-formatter-validator/YamlFormatterValidator"),
     () => import("@/components/tools/yaml-formatter-validator/ToolEditorial"),

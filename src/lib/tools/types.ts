@@ -18,6 +18,7 @@ export type ToolId =
   | "unit-converter"
   | "video-bitrate"
   | "json-formatter"
+  | "json-diff-checker"
   | "yaml-formatter-validator"
   | "url-encoder-decoder"
   | "url-parser"

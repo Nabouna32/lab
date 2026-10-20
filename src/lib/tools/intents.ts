@@ -58,6 +58,7 @@ export const intentDefinitions: readonly IntentDefinition[] = [
     id: "analyze",
     toolIds: [
       "json-formatter",
+      "json-diff-checker",
       "yaml-formatter-validator",
       "xml-formatter-validator",
       "url-parser",
