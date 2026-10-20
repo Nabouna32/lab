@@ -1,7 +1,8 @@
 # Loculary — backlog priorisé
 
-Dernière révision : 2026-10-20. File de travail unique.
+Dernière révision : 2026-10-21. File de travail unique.
 
+- **Produit / outils de développement — conversion JSON ↔ YAML :** extension du formateur YAML existant avec conversion dans les deux sens, validation des données non représentables en JSON, limites de taille et interface FR/EN. Traitement local sans upload ; tests unitaires des conversions, erreurs et valeurs incompatibles. PR en cours.
 - **Produit / comparateur JSON — import local de fichiers :** livré via [PR #912](https://github.com/Nabouna32/lab/pull/912), fusionnée (`bef41fa`). Import de deux fichiers JSON sans upload ni stockage ; CI [#39511782974](https://github.com/Nabouna32/lab/actions/runs/39511782974) verte.
 - **Accessibilité / contraste du comparateur JSON :** correction de l’encart éditorial et test de ratio WCAG 4,5:1 sur les quatre configurations Playwright. [PR #909](https://github.com/Nabouna32/lab/pull/909).
 - **Validation navigateur / observabilité Playwright :** suite Chromium sur build de production local, accueil FR/EN, recherche accessible, calculateur IPv4 et comparateur JSON, desktop/mobile et clair/sombre. [PR #907](https://github.com/Nabouna32/lab/pull/907), CI réussie ([run #39504209195](https://github.com/Nabouna32/lab/actions/runs/39504209195)) : 16/16 cas, 32 captures PNG et rapports textuels dans l’artefact conservé sept jours. Les contrôles restent heuristiques et ne remplacent pas une revue visuelle ni un audit WCAG complet.
