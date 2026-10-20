@@ -46,6 +46,10 @@ export default defineConfig({
     url: `${baseURL}/fr`,
     reuseExistingServer: false,
     timeout: 90_000,
-    env: { NEXT_TELEMETRY_DISABLED: "1" },
+    env: {
+      NEXT_TELEMETRY_DISABLED: "1",
+      NEXT_PUBLIC_SUPABASE_URL: "http://127.0.0.1:54321",
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "sb_publishable_local_e2e_placeholder",
+    },
   },
 });
