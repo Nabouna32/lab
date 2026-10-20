@@ -236,6 +236,33 @@ test("IPv4 subnet calculator updates results end to end", async ({ page }) => {
   await expect(page.getByText("10.0.0.0", { exact: true })).toBeVisible();
   await expect(page.getByText("10.0.0.255", { exact: true })).toBeVisible();
 });
+
+test("image metadata cleaner processes multiple images and downloads a ZIP", async ({ page }) => {
+  await page.goto("/fr/outils/analyseur-de-metadonnees-image");
+  await expect(page.locator("html")).toHaveAttribute("lang", "fr");
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+
+  const png = Buffer.from(
+    "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/hZcAAAAASUVORK5CYII=",
+    "base64",
+  );
+  await page.locator("#image-metadata-file").setInputFiles([
+    { name: "first.png", mimeType: "image/png", buffer: png },
+    { name: "second.png", mimeType: "image/png", buffer: png },
+  ]);
+
+  await expect(page.getByText("2 images sélectionnées")).toBeVisible();
+  await expect(page.getByText("1 × 1 px").first()).toBeVisible();
+  await page.getByRole("button", { name: "Nettoyer toutes les images" }).click();
+  await expect(page.getByText("Nettoyée", { exact: true })).toHaveCount(2);
+  await expect(page.getByText("2 images nettoyées sur 2. Téléchargez l’archive ZIP pour les récupérer.")).toBeVisible();
+
+  const downloadPromise = page.waitForEvent("download");
+  await page.getByRole("button", { name: "Télécharger les images nettoyées (.zip)" }).click();
+  const download = await downloadPromise;
+  expect(download.suggestedFilename()).toBe("loculary-images-cleaned.zip");
+});
+
 test("JSON diff checker reports structural changes", async ({ page }) => {
   await page.goto("/fr/outils/comparateur-json");
   await expect(page.locator("html")).toHaveAttribute("lang", "fr");
