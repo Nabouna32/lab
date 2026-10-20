@@ -63,7 +63,7 @@ La [PR #833](https://github.com/Nabouna32/lab/pull/833) ajoute quatre cartes d�
 
 - **Dernier lot livré :** [PR #891](https://github.com/Nabouna32/lab/pull/891) complète la correction CSV #889 avec trois cas limites. La prochaine inspection doit porter sur un autre outil publié pour varier le périmètre.
 
-- **État :** continu ; checkpoint [issue #741](https://github.com/Nabouna32/lab/issues/741). Le dernier lot traite la précision de la déclaration locale ; poursuivre par un défaut confirmé de flux de données, de comportement métier ou de compréhension utilisateur.
+- **État :** continu ; checkpoint [issue #741](https://github.com/Nabouna32/lab/issues/741). Les derniers lots ont corrigé la justesse du parseur CSV et précisé la déclaration de traitement local ; poursuivre par un défaut confirmé sur un autre outil publié.
 - **Pourquoi :** les audits statiques ne prouvent pas la justesse métier ni le comportement des entrées limites. Les correctifs EXIF, CSV et compresseur ont déjà révélé des défauts concrets.
 - **Livrable visé :** choisir un outil par reprise ; vérifier calcul/format, limites, erreurs, FR/EN et flux de données ; ajouter des tests de régression à chaque défaut confirmé.
 - **Lot précédent — calculateur IPv4 CIDR :** le champ de broadcast est maintenant non applicable pour `/31` et `/32`, en cohérence avec la RFC 3021 et le modèle de route d’hôte de la RFC 4632. [PR #885](https://github.com/Nabouna32/lab/pull/885), CI complète verte sur `a41729723c4be778543ef7bb48f595790c8c1b58` ([run #39371003865](https://github.com/Nabouna32/lab/actions/runs/39371003865)). Aucun test navigateur exécuté.
