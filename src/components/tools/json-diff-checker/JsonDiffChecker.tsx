@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ChangeEvent } from "react";
 import { Button } from "@/components/ui/Button";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
@@ -63,7 +63,39 @@ export default function JsonDiffChecker() {
   const [left, setLeft] = useState("");
   const [right, setRight] = useState("");
   const [result, setResult] = useState<JsonDiffResult | null>(null);
-  const [error, setError] = useState<"invalid-json" | "input-too-large" | "depth-limit" | null>(null);
+  const [error, setError] = useState<"invalid-json" | "input-too-large" | "depth-limit" | "file-type" | "file-too-large" | "file-read" | null>(null);
+
+  async function loadFile(event: ChangeEvent<HTMLInputElement>, side: "left" | "right") {
+    const input = event.currentTarget;
+    const file = input.files?.[0];
+    if (!file) return;
+    input.value = "";
+    if (!file.name.toLowerCase().endsWith(".json") && file.type !== "application/json") {
+      setError("file-type");
+      setResult(null);
+      return;
+    }
+    if (file.size > 800_000) {
+      setError("file-too-large");
+      setResult(null);
+      return;
+    }
+    try {
+      const content = await file.text();
+      if (content.length > 200_000) {
+        setError("file-too-large");
+        setResult(null);
+        return;
+      }
+      if (side === "left") setLeft(content);
+      else setRight(content);
+      setError(null);
+      setResult(null);
+    } catch {
+      setError("file-read");
+      setResult(null);
+    }
+  }
 
   function compare() {
     setResult(null);
@@ -89,7 +121,10 @@ export default function JsonDiffChecker() {
   const status = error
     ? error === "input-too-large" ? t.inputTooLarge
       : error === "depth-limit" ? t.depthLimit
-        : t.invalidJson
+        : error === "file-type" ? t.fileTypeError
+          : error === "file-too-large" ? t.fileTooLarge
+            : error === "file-read" ? t.fileReadError
+              : t.invalidJson
     : result
       ? result.identical ? t.identical : t.changesCount(result.changes.length)
       : t.emptyResult;
@@ -120,6 +155,16 @@ export default function JsonDiffChecker() {
               className="min-h-[14rem] resize-y font-mono text-sm leading-6"
               aria-invalid={error === "invalid-json"}
             />
+          </div>
+          <div className="mt-3 flex flex-wrap gap-2">
+            <label className="inline-flex min-h-11 cursor-pointer items-center rounded-full border border-[var(--outline-variant)] px-4 py-2 text-sm font-semibold text-[var(--foreground)] outline-none transition-colors hover:bg-[var(--surface-container)] focus-within:ring-2 focus-within:ring-[var(--focus-ring)]">
+              {t.loadFile}: {t.leftInput}
+              <input type="file" accept=".json,application/json" className="sr-only" aria-label={`${t.loadFile}: ${t.leftInput}`} onChange={(event) => void loadFile(event, "left")} />
+            </label>
+            <label className="inline-flex min-h-11 cursor-pointer items-center rounded-full border border-[var(--outline-variant)] px-4 py-2 text-sm font-semibold text-[var(--foreground)] outline-none transition-colors hover:bg-[var(--surface-container)] focus-within:ring-2 focus-within:ring-[var(--focus-ring)]">
+              {t.loadFile}: {t.rightInput}
+              <input type="file" accept=".json,application/json" className="sr-only" aria-label={`${t.loadFile}: ${t.rightInput}`} onChange={(event) => void loadFile(event, "right")} />
+            </label>
           </div>
           <p className="mt-3 text-sm text-[var(--muted)]">{t.hint}</p>
           {error && <p role="alert" className="mt-3 text-sm font-medium text-[var(--danger)]">{status}</p>}
