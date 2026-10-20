@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
-import { getToolMessages } from "@/lib/i18n/tool-messages.ts";
+import { getToolMessages } from "../../../lib/i18n/tool-messages.ts";
 
 const componentFile = fileURLToPath(new URL("./ImageMetadataViewer.tsx", import.meta.url));
 
