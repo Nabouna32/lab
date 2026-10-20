@@ -68,7 +68,7 @@ export function hasSensitiveUrlData(input: {
   if (input.username || input.hasPassword) return true;
 
   return input.queryParameters.some(({ key }) => {
-    const normalized = key.trim().toLowerCase().replace(/[\s-]+/g, "_");
+    const normalized = key.trim().replace(/([a-z0-9])([A-Z])/g, "$1_$2").toLowerCase().replace(/[\s-]+/g, "_");
     return sensitiveParameterNames.has(normalized) ||
       /(?:^|_)(?:access|refresh|id)?_?token$/.test(normalized) ||
       /(?:^|_)(?:api_?key|client_secret|password|passwd|secret|signature|session_?id)$/.test(normalized);
