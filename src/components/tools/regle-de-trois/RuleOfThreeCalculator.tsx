@@ -8,7 +8,7 @@ import { CalculatorShell } from "@/components/tools/calculator/CalculatorShell";
 import { calculateRuleOfThree, isValidRuleOfThreeInput } from "@/lib/regle-de-trois";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
-import { formatToolNumber } from "@/lib/numbers";
+import { formatToolNumber, parseLocalizedNumber } from "@/lib/numbers";
 import { ValidationMessage } from "@/components/ui/ValidationMessage";
 
 export default function RuleOfThreeCalculator() {
@@ -17,9 +17,9 @@ export default function RuleOfThreeCalculator() {
   const [firstValue, setFirstValue] = useState("");
   const [firstResult, setFirstResult] = useState("");
   const [secondValue, setSecondValue] = useState("");
-  const first = Number(firstValue);
-  const result = Number(firstResult);
-  const second = Number(secondValue);
+  const first = parseLocalizedNumber(firstValue, locale) ?? Number.NaN;
+  const result = parseLocalizedNumber(firstResult, locale) ?? Number.NaN;
+  const second = parseLocalizedNumber(secondValue, locale) ?? Number.NaN;
   const hasValues = firstValue.trim() !== "" && firstResult.trim() !== "" && secondValue.trim() !== "";
   const hasNumericValues = Number.isFinite(first) && Number.isFinite(result) && Number.isFinite(second);
   const valid = hasValues && hasNumericValues && isValidRuleOfThreeInput(first, result, second);
@@ -31,9 +31,9 @@ export default function RuleOfThreeCalculator() {
     <CalculatorShell>
       <CalculatorActions showClear={firstValue !== "" || firstResult !== "" || secondValue !== ""} onClear={clearValues} />
       <div className="mt-2 grid gap-5 sm:grid-cols-2">
-        <CalculatorField label={t.firstValue} inputId="rule-first-value" value={firstValue} onChange={(event) => setFirstValue(event.target.value)} placeholder={t.placeholders.first}  aria-invalid={hasValues && (!hasNumericValues || !valid)} aria-describedby={((hasValues && (!hasNumericValues || !valid)) || calculationFailed) ? "rule-error" : undefined}/>
-        <CalculatorField label={t.correspondingValue} inputId="rule-first-result" value={firstResult} onChange={(event) => setFirstResult(event.target.value)} placeholder={t.placeholders.corresponding}  aria-invalid={hasValues && (!hasNumericValues || !valid)} aria-describedby={((hasValues && (!hasNumericValues || !valid)) || calculationFailed) ? "rule-error" : undefined}/>
-        <CalculatorField label={t.secondValue} inputId="rule-second-value" value={secondValue} onChange={(event) => setSecondValue(event.target.value)} placeholder={t.placeholders.second}  aria-invalid={hasValues && (!hasNumericValues || !valid)} aria-describedby={((hasValues && (!hasNumericValues || !valid)) || calculationFailed) ? "rule-error" : undefined}/>
+        <CalculatorField label={t.firstValue} inputId="rule-first-value" type="text" inputMode="decimal" value={firstValue} onChange={(event) => setFirstValue(event.target.value)} placeholder={t.placeholders.first} aria-invalid={hasValues && (!hasNumericValues || !valid)} aria-describedby={((hasValues && (!hasNumericValues || !valid)) || calculationFailed) ? "rule-error" : undefined}/>
+        <CalculatorField label={t.correspondingValue} inputId="rule-first-result" type="text" inputMode="decimal" value={firstResult} onChange={(event) => setFirstResult(event.target.value)} placeholder={t.placeholders.corresponding} aria-invalid={hasValues && (!hasNumericValues || !valid)} aria-describedby={((hasValues && (!hasNumericValues || !valid)) || calculationFailed) ? "rule-error" : undefined}/>
+        <CalculatorField label={t.secondValue} inputId="rule-second-value" type="text" inputMode="decimal" value={secondValue} onChange={(event) => setSecondValue(event.target.value)} placeholder={t.placeholders.second} aria-invalid={hasValues && (!hasNumericValues || !valid)} aria-describedby={((hasValues && (!hasNumericValues || !valid)) || calculationFailed) ? "rule-error" : undefined}/>
         <CalculatorResult label={t.result} tone="accent" value={calculatedValue === null ? null : formatToolNumber(calculatedValue, locale, 4)}
           emptyMessage={t.emptyResult} />
       </div>
