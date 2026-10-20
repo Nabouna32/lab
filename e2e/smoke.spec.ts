@@ -261,6 +261,21 @@ test("image metadata cleaner processes multiple images and downloads a ZIP", asy
   await page.getByRole("button", { name: "Télécharger les images nettoyées (.zip)" }).click();
   const download = await downloadPromise;
   expect(download.suggestedFilename()).toBe("loculary-images-cleaned.zip");
+
+  await page.getByRole("button", { name: "Réinitialiser" }).click();
+  await page.locator("#image-metadata-file").setInputFiles([
+    { name: "first.png", mimeType: "image/png", buffer: png },
+    { name: "second.png", mimeType: "image/png", buffer: png },
+  ]);
+  await expect(page.getByText("2 images sélectionnées")).toBeVisible();
+  await page.getByLabel("Nettoyer et optimiser en une seule opération").check();
+  await page.getByRole("button", { name: "Nettoyer et optimiser toutes les images" }).click();
+  await expect(page.getByText("Nettoyée et optimisée", { exact: true })).toHaveCount(2);
+
+  const optimizedDownloadPromise = page.waitForEvent("download");
+  await page.getByRole("button", { name: "Télécharger les images nettoyées (.zip)" }).click();
+  const optimizedDownload = await optimizedDownloadPromise;
+  expect(optimizedDownload.suggestedFilename()).toBe("loculary-images-prepared.zip");
 });
 
 test("JSON diff checker reports structural changes", async ({ page }) => {
