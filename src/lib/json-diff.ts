@@ -42,11 +42,13 @@ export function compareJsonDocuments(leftText: string, rightText: string): JsonD
   const changes: JsonDiffChange[] = [];
   let truncated = false;
 
+  function record(change: JsonDiffChange): void {
+    if (changes.length < MAX_CHANGES) changes.push(change);
+    else truncated = true;
+  }
+
   function visit(before: JsonValue, after: JsonValue, path: string, depth: number): void {
-    if (changes.length >= MAX_CHANGES) {
-      truncated = true;
-      return;
-    }
+    if (truncated) return;
     if (depth > MAX_DEPTH) throw new JsonDiffError("depth-limit");
     if (Object.is(before, after)) return;
 
@@ -57,12 +59,12 @@ export function compareJsonDocuments(leftText: string, rightText: string): JsonD
         if (truncated) return;
       }
       for (let index = commonLength; index < before.length; index += 1) {
-        changes.push({ path: path + "[" + index + "]", kind: "removed", before: before[index] });
-        if (changes.length >= MAX_CHANGES && index < before.length - 1) { truncated = true; return; }
+        record({ path: path + "[" + index + "]", kind: "removed", before: before[index] });
+        if (truncated) return;
       }
       for (let index = commonLength; index < after.length; index += 1) {
-        changes.push({ path: path + "[" + index + "]", kind: "added", after: after[index] });
-        if (changes.length >= MAX_CHANGES && index < after.length - 1) { truncated = true; return; }
+        record({ path: path + "[" + index + "]", kind: "added", after: after[index] });
+        if (truncated) return;
       }
       return;
     }
@@ -75,24 +77,21 @@ export function compareJsonDocuments(leftText: string, rightText: string): JsonD
 
       for (const key of beforeKeys) {
         if (!afterKeySet.has(key)) {
-          changes.push({ path: pathForKey(path, key), kind: "removed", before: before[key] });
+          record({ path: pathForKey(path, key), kind: "removed", before: before[key] });
         } else {
           visit(before[key], after[key], pathForKey(path, key), depth + 1);
         }
-        if (changes.length >= MAX_CHANGES) { truncated = true; return; }
+        if (truncated) return;
       }
 
       for (const key of afterKeys) {
-        if (!beforeKeySet.has(key)) changes.push({ path: pathForKey(path, key), kind: "added", after: after[key] });
-        if (changes.length >= MAX_CHANGES) {
-          truncated = key !== afterKeys[afterKeys.length - 1];
-          return;
-        }
+        if (!beforeKeySet.has(key)) record({ path: pathForKey(path, key), kind: "added", after: after[key] });
+        if (truncated) return;
       }
       return;
     }
 
-    changes.push({ path, kind: "changed", before, after });
+    record({ path, kind: "changed", before, after });
   }
 
   visit(left, right, "$", 0);
