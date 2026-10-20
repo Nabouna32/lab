@@ -146,7 +146,7 @@ function toJson(input: string, delimiter: CsvDelimiter): CsvJsonResult {
       return { value: null, error: "invalid-csv" };
     }
 
-    const records = rows.slice(1).filter((row) => row.some((cell) => cell !== ""));
+    const records = rows.slice(1).filter((row) => row.length > 1 || row[0] !== "");
     if (records.some((row) => row.length !== headers.length)) {
       return { value: null, error: "invalid-csv" };
     }
