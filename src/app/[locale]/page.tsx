@@ -4,7 +4,6 @@ import type { Metadata } from "next";
 import HomeDiscovery from "@/components/home/HomeDiscovery";
 import RecentTools from "@/components/home/RecentTools";
 import ToolSearch from "@/components/tools/ToolSearch";
-import type { Locale } from "@/lib/i18n/config";
 import { isLocale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
 import { getPublicPageMetadata } from "@/lib/tools/page-metadata";
