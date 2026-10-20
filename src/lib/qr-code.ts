@@ -68,13 +68,24 @@ function toUtf8(text: string): number[] {
   return Array.from(new TextEncoder().encode(text));
 }
 
+export function getQrPayloadHeaderBits(text: string): number[] {
+  const bytes = toUtf8(text);
+  const bits: number[] = [];
+  if (bytes.some((byte) => byte >= 0x80)) {
+    // QR Code defaults to ISO/IEC 8859-1. ECI assignment 26 explicitly declares UTF-8.
+    appendBits(bits, 0b0111, 4);
+    appendBits(bits, 26, 8);
+  }
+  appendBits(bits, 0b0100, 4);
+  appendBits(bits, bytes.length, 8);
+  return bits;
+}
+
 function buildCodewords(text: string, version: number): number[] {
   const bytes = toUtf8(text);
   const blocks = RS_BLOCKS_M[version - 1];
   const dataCodewords = blocks.reduce((sum, block) => sum + block.count * block.data, 0);
-  const bits: number[] = [];
-  appendBits(bits, 0b0100, 4);
-  appendBits(bits, bytes.length, 8);
+  const bits = getQrPayloadHeaderBits(text);
   for (const byte of bytes) appendBits(bits, byte, 8);
   if (bits.length > dataCodewords * 8) throw new RangeError("QR code input is too long.");
   for (let i = 0; i < Math.min(4, dataCodewords * 8 - bits.length); i++) bits.push(0);
@@ -234,9 +245,10 @@ export type QrCode = { matrix: boolean[][]; version: number; byteLength: number 
 export function generateQrCode(text: string): QrCode {
   const bytes = toUtf8(text);
   let version = 1;
+  const headerBits = getQrPayloadHeaderBits(text).length;
   while (version <= 6) {
     const capacity = RS_BLOCKS_M[version - 1].reduce((sum, block) => sum + block.count * block.data, 0);
-    if (12 + bytes.length * 8 <= capacity * 8) break;
+    if (headerBits + bytes.length * 8 <= capacity * 8) break;
     version++;
   }
   if (version > 6) throw new RangeError("QR code input is too long.");
