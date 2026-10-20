@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { generateUuids } from "./uuid.ts";
+import { formatUuidsForText, generateUuids } from "./uuid.ts";
 
 test("generates the requested number of UUID v4 values", () => {
   const values = generateUuids(5);
@@ -15,4 +15,10 @@ test("rejects counts outside the supported range", () => {
   assert.throws(() => generateUuids(1.5), RangeError);
   assert.equal(generateUuids(1).length, 1);
   assert.equal(generateUuids(50).length, 50);
+});
+
+test("formats UUID batches as newline-separated text without an extra trailing line", () => {
+  assert.equal(formatUuidsForText([]), "");
+  assert.equal(formatUuidsForText(["first"]), "first");
+  assert.equal(formatUuidsForText(["first", "second", "third"]), "first\nsecond\nthird");
 });
