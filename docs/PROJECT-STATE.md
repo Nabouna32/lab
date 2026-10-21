@@ -9,6 +9,8 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 
 ## État vérifié
 
+- **QR Code / partage Wi-Fi :** mode local pour générer un QR code de connexion aux réseaux WPA/WEP/ouverts et masqués. Les caractères réservés sont échappés et un avertissement indique que le code révèle les identifiants aux personnes qui le scannent. Validation CI requise avant fusion.
+
 - **Collections locales / sauvegarde et restauration :** [PR #939](https://github.com/Nabouna32/lab/pull/939). Export JSON versionné et import avec aperçu, limités aux collections stockées sur cet appareil. L’import valide le format, régénère les identifiants, filtre les outils indisponibles et respecte les limites locales ; aucun contenu saisi ni collection synchronisée n’est exporté.
 
 - **Recherche / classement par intention :** [PR #940](https://github.com/Nabouna32/lab/pull/940) ajoute un classement déterministe FR/EN fondé sur les intentions éditoriales existantes. Une requête telle que « préparer » peut trouver les outils associés même sans nom d’outil explicite ; aucun appel IA ni envoi de requête supplémentaire.
