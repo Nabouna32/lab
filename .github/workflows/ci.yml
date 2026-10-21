@@ -23,6 +23,7 @@ jobs:
     timeout-minutes: 15
     outputs:
       lightweight_only: ${{ steps.changes.outputs.lightweight_only }}
+      dependency_scope: ${{ steps.dependency_scope.outputs.scope }}
 
     steps:
       - name: Checkout
@@ -70,6 +71,19 @@ jobs:
         shell: pwsh
         run: node .github/scripts/dependency-audit-diff.mjs dependency-baseline
 
+      - name: Classify dependency verification scope
+        id: dependency_scope
+        shell: pwsh
+        env:
+          DEPENDENCIES_CHANGED: ${{ steps.changes.outputs.dependencies_changed }}
+          DEPENDENCY_MANIFESTS_ONLY: ${{ steps.changes.outputs.dependency_manifests_only }}
+        run: |
+          if ($env:DEPENDENCIES_CHANGED -eq "true") {
+            node .github/scripts/classify-dependency-diff.mjs dependency-baseline/package.json package.json $env:DEPENDENCY_MANIFESTS_ONLY
+          } else {
+            "scope=full" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          }
+
       - name: Remove dependency baseline checkout
         if: github.event_name == 'pull_request' && steps.changes.outputs.dependencies_changed == 'true'
         shell: pwsh
@@ -78,7 +92,7 @@ jobs:
       - name: Exercise CI tooling tests
         if: steps.changes.outputs.governance_changed == 'true'
         shell: pwsh
-        run: node --test .github/scripts/classify-ci-changes.test.mjs .github/scripts/detect-ci-changes.test.mjs .github/scripts/dependency-audit-diff.test.mjs
+        run: node --test .github/scripts/classify-ci-changes.test.mjs .github/scripts/detect-ci-changes.test.mjs .github/scripts/dependency-audit-diff.test.mjs .github/scripts/classify-dependency-diff.test.mjs
 
   quality:
     name: Lint, TypeScript and unit tests
@@ -123,15 +137,17 @@ jobs:
         run: npm run lint
 
       - name: Typecheck
+        if: needs.prepare.outputs.dependency_scope != 'lint_only'
         run: npm run typecheck
 
       - name: Test
+        if: needs.prepare.outputs.dependency_scope != 'lint_only'
         run: npm test
 
   build_browser:
     name: Production build and Playwright
     needs: prepare
-    if: needs.prepare.outputs.lightweight_only != 'true'
+    if: needs.prepare.outputs.lightweight_only != 'true' && needs.prepare.outputs.dependency_scope != 'lint_only'
     runs-on: [self-hosted, Windows, X64, loculary-ci]
     timeout-minutes: 35
 
@@ -201,7 +217,7 @@ jobs:
         run: exit 1
 
       - name: Fail if build or browser checks failed
-        if: needs.prepare.result == 'success' && needs.prepare.outputs.lightweight_only != 'true' && needs.build_browser.result != 'success'
+        if: needs.prepare.result == 'success' && needs.prepare.outputs.lightweight_only != 'true' && needs.prepare.outputs.dependency_scope != 'lint_only' && needs.build_browser.result != 'success'
         shell: pwsh
         run: exit 1
 
