@@ -2,7 +2,7 @@
 
 Dernière révision : 2026-10-21. File de travail unique.
 
-- **Gouvernance produit / Factory autonome :** [issue #965](https://github.com/Nabouna32/lab/issues/965). Définir un mandat spécialisé qui choisit la meilleure mission produit, conduit sa réalisation et documente les preuves ; séparer cette mission du déclenchement automatique. Le mandat et les registres de suivi sont en préparation ; aucun ordonnanceur n’est inclus dans ce périmètre.
+- **Gouvernance produit / Factory autonome :** [PR #966](https://github.com/Nabouna32/lab/pull/966), suivie par [issue #965](https://github.com/Nabouna32/lab/issues/965). Le mandat sélectionne et conduit la meilleure mission produit, avec preuves et possibilité d’arrêt sans travail artificiel ; le déclenchement automatique reste séparé dans [issue #967](https://github.com/Nabouna32/lab/issues/967). Aucun ordonnanceur n’est inclus dans ce périmètre.
 
 - **Accueil / compteur de catégories dupliqué :** [PR #961](https://github.com/Nabouna32/lab/pull/961) fusionnée (`4153b1b`). Le contrat de `CategoryCard` n’affiche plus qu’une seule chaîne localisée complète ; test de régression FR/EN ; CI complète verte ([run #39664914332](https://github.com/Nabouna32/lab/actions/runs/39664914332)). L’audit plus large de la hiérarchie de découverte est suivi dans [issue #960](https://github.com/Nabouna32/lab/issues/960).
 
