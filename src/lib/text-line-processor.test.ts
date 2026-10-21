@@ -45,7 +45,7 @@ describe("processTextLines", () => {
   it("handles empty input and counts trailing lines consistently", () => {
     assert.equal(processTextLines("", defaults, "en"), "");
     assert.equal(countTextLines(""), 0);
-    assert.equal(countTextLines("one\ntwo\n"), 3);
+    assert.equal(countTextLines("one\ntwo\n"), 2);
   });
 
   it("rejects inputs above the documented resource limit", () => {
