@@ -71,7 +71,6 @@ export default function HomeDiscovery({ locale }: { locale: Locale }) {
               category={category}
               name={getCategoryName(locale, category.id)}
               toolLabel={formatPlural(locale, category.count, { one: t.tools.one, other: t.tools.many })}
-              toolCount={category.count}
               locale={locale}
             />
           ))}
