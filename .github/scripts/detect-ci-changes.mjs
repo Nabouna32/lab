@@ -76,6 +76,7 @@ async function main() {
     lightweight_only: false,
     dependencies_changed: false,
     governance_changed: false,
+    dependency_manifests_only: false,
   };
 
   if (eventName === "pull_request") {
@@ -91,6 +92,7 @@ async function main() {
       token: process.env.GH_TOKEN,
     });
     result = classifyCiChanges(filenames, Number(countText));
+    result.dependency_manifests_only = filenames.length === 2 && filenames.includes("package.json") && filenames.includes("package-lock.json");
   } else if (eventName !== "workflow_dispatch") {
     throw new Error(`Unsupported event for CI change detection: ${eventName ?? "missing"}.`);
   }
