@@ -454,7 +454,7 @@ test("local collection backup can be exported and restored without touching sync
   const downloadPromise = page.waitForEvent("download");
   await page.getByRole("button", { name: /Exporter les collections locales/ }).click();
   const download = await downloadPromise;
-  expect(download.suggestedFilename()).toMatch(/^loculary-collections-\\d{4}-\\d{2}-\\d{2}\\.json$/);
+  expect(download.suggestedFilename()).toMatch(/^loculary-collections-\d{4}-\d{2}-\d{2}\\.json$/);
   const backupPath = await download.path();
   expect(backupPath).toBeTruthy();
 
@@ -464,7 +464,7 @@ test("local collection backup can be exported and restored without touching sync
   await expect(page.getByRole("button", { name: /Sauvegarde locale/ })).toHaveCount(0);
 
   await page.locator("#local-collections-import-file").setInputFiles(backupPath!);
-  await expect(page.getByText(/1 collection\\(s\\) prête\\(s\\) à importer/)).toBeVisible();
+  await expect(page.getByText(/1 collection\(s\) prête\(s\) à importer/)).toBeVisible();
   await page.getByRole("button", { name: "Restaurer les collections" }).click();
   await expect(page.getByRole("button", { name: /Sauvegarde locale/ })).toBeVisible();
 });
