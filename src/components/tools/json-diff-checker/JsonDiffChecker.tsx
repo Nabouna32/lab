@@ -66,6 +66,8 @@ export default function JsonDiffChecker() {
   const [result, setResult] = useState<JsonDiffResult | null>(null);
   const [error, setError] = useState<"invalid-json" | "input-too-large" | "depth-limit" | "file-type" | "file-too-large" | "file-read" | null>(null);
   const [transferNotice, setTransferNotice] = useState(false);
+  const [changeFilter, setChangeFilter] = useState<"all" | JsonDiffChange["kind"]>("all");
+  const [pathQuery, setPathQuery] = useState("");
 
   useEffect(() => {
     try {
@@ -115,6 +117,8 @@ export default function JsonDiffChecker() {
 
   function compare() {
     setResult(null);
+    setChangeFilter("all");
+    setPathQuery("");
     if (!left.trim() || !right.trim()) {
       setError("invalid-json");
       return;
@@ -132,6 +136,8 @@ export default function JsonDiffChecker() {
     setRight("");
     setResult(null);
     setError(null);
+    setChangeFilter("all");
+    setPathQuery("");
   }
 
   const status = error
@@ -144,7 +150,17 @@ export default function JsonDiffChecker() {
     : result
       ? result.identical ? t.identical : t.changesCount(result.changes.length)
       : t.emptyResult;
-  const report = result ? createReport(result, t) : "";
+  const changeCounts = result ? {
+    added: result.changes.filter((change) => change.kind === "added").length,
+    removed: result.changes.filter((change) => change.kind === "removed").length,
+    changed: result.changes.filter((change) => change.kind === "changed").length,
+  } : { added: 0, removed: 0, changed: 0 };
+  const filteredChanges = result?.changes.filter((change) =>
+    (changeFilter === "all" || change.kind === changeFilter) &&
+    change.path.toLocaleLowerCase().includes(pathQuery.trim().toLocaleLowerCase()),
+  ) ?? [];
+  const filteredResult = result ? { ...result, changes: filteredChanges } : null;
+  const report = filteredResult ? createReport(filteredResult, t) : "";
 
   return (
     <section className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]">
@@ -205,9 +221,55 @@ export default function JsonDiffChecker() {
             </p>
           )}
           {result && !result.identical && (
-            <div className="mt-5 grid gap-3">
-              {result.changes.map((change) => <ChangeCard key={change.path + ":" + change.kind} change={change} t={t} />)}
-              {result.truncated && <p className="text-sm text-[var(--muted)]" role="status">{t.truncated}</p>}
+            <div className="mt-5">
+              <div className="grid grid-cols-3 gap-2" aria-label={t.summary}>
+                <div className="rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] p-3">
+                  <p className="text-xs text-[var(--muted)]">{t.added}</p>
+                  <p className="mt-1 text-xl font-semibold text-[var(--success)]" data-testid="json-diff-added-count">{changeCounts.added}</p>
+                </div>
+                <div className="rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] p-3">
+                  <p className="text-xs text-[var(--muted)]">{t.removed}</p>
+                  <p className="mt-1 text-xl font-semibold text-[var(--danger)]" data-testid="json-diff-removed-count">{changeCounts.removed}</p>
+                </div>
+                <div className="rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] p-3">
+                  <p className="text-xs text-[var(--muted)]">{t.changed}</p>
+                  <p className="mt-1 text-xl font-semibold text-[var(--foreground)]" data-testid="json-diff-changed-count">{changeCounts.changed}</p>
+                </div>
+              </div>
+              <div className="mt-4 grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
+                <label className="grid gap-1 text-sm font-medium text-[var(--foreground)]">
+                  {t.searchPath}
+                  <input
+                    type="search"
+                    value={pathQuery}
+                    onChange={(event) => setPathQuery(event.target.value)}
+                    placeholder={t.searchPathPlaceholder}
+                    className="min-h-11 w-full rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] px-3 text-sm text-[var(--foreground)] outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+                  />
+                </label>
+                <div className="flex flex-wrap gap-2" role="group" aria-label={t.filterChanges}>
+                  {(["all", "added", "removed", "changed"] as const).map((filter) => (
+                    <button
+                      key={filter}
+                      type="button"
+                      aria-pressed={changeFilter === filter}
+                      onClick={() => setChangeFilter(filter)}
+                      className={`min-h-10 rounded-full border px-3 py-2 text-sm font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] ${changeFilter === filter ? "border-[var(--accent)] bg-[var(--accent-soft)] text-[var(--on-primary-container)]" : "border-[var(--border)] bg-[var(--surface)] text-[var(--foreground)] hover:bg-[var(--surface-container)]"}`}
+                    >
+                      {filter === "all" ? t.allChanges : filter === "added" ? t.added : filter === "removed" ? t.removed : t.changed}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <p className="mt-3 text-sm text-[var(--muted)]" aria-live="polite">{t.filteredChangesCount(filteredChanges.length, result.changes.length)}</p>
+              {filteredChanges.length > 0 ? (
+                <div className="mt-3 grid gap-3">
+                  {filteredChanges.map((change) => <ChangeCard key={change.path + ":" + change.kind} change={change} t={t} />)}
+                </div>
+              ) : (
+                <p className="mt-3 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] p-4 text-sm text-[var(--muted)]" role="status">{t.noMatchingChanges}</p>
+              )}
+              {result.truncated && <p className="mt-3 text-sm text-[var(--muted)]" role="status">{t.truncated}</p>}
             </div>
           )}
         </div>
