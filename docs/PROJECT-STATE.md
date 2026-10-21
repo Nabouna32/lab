@@ -2,6 +2,10 @@
 
 Dernière vérification : 2026-10-21
 
+## Travail en cours
+
+- **Factory autonome d’outils :** checkpoint [issue #965](https://github.com/Nabouna32/lab/issues/965). Le mandat spécialisé est en préparation sur la branche `docs/loculary-factory-mandate`. Périmètre validé : sélectionner la meilleure opportunité entre nouvel outil, refonte, fonctionnalité transversale ou parcours ; distinguer le mandat du futur mécanisme d’automatisation. La création d’un ordonnanceur est exclue de ce lot. Aucun résultat de CI ou de fusion n’est encore établi.
+
 ## Cinq dernières reprises
 
 1. **Finition UX accueil — compteur de catégories** : [issue #959](https://github.com/Nabouna32/lab/issues/959), correction de l’affichage du nombre en double et régression FR/EN ; [PR #961](https://github.com/Nabouna32/lab/pull/961) fusionnée dans `4153b1b` ; CI complète verte ([run #39664914332](https://github.com/Nabouna32/lab/actions/runs/39664914332)). La refonte de la hiérarchie de découverte est suivie séparément dans [issue #960](https://github.com/Nabouna32/lab/issues/960).
