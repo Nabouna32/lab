@@ -9,7 +9,7 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 
 ## État vérifié
 
-- **Nouvel outil grand public / Répartiteur de dépenses de groupe :** en cours dans la PR à venir ; saisie de participants et de dépenses, calcul en centimes et proposition de remboursements. Données temporaires, locales au navigateur, sans compte ni stockage.
+- **Nouvel outil grand public / Répartiteur de dépenses de groupe :** [PR #934](https://github.com/Nabouna32/lab/pull/934) ; saisie de participants et de dépenses, calcul en centimes et proposition de remboursements. Données temporaires, locales au navigateur, sans compte ni stockage. CI en attente de validation.
 - **Découverte / intention « Comparer » :** entrée transversale FR/EN vers les comparateurs JSON, CSV et texte ainsi que la comparaison multi-fuseaux horaires. Réutilise les outils publiés, sans nouvelle page, dépendance, stockage ou traitement distant.
 - **Parcours horaires internationaux :** le convertisseur compare une heure source à jusqu’à six fuseaux de destination, affiche la date et le décalage de chaque ville, permet de copier tous les horaires et conserve la gestion des transitions DST. Traitement navigateur uniquement, FR/EN.
 - **Nouvel outil / comparateur CSV :** comparaison locale de deux exports, détection des enregistrements ajoutés/supprimés/modifiés et rapprochement optionnel par colonne clé pour ignorer les changements d’ordre. Limites d’entrée et de rapport explicites.
@@ -96,7 +96,8 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 ## Cinq dernières reprises / lots livrés
 
 > Mémoire opérationnelle par session de travail, avec les PR représentatives et preuves vérifiables.
-1. **Nouvel outil grand public / Répartiteur de dépenses de groupe** — calcul local des parts et remboursements à partir des dépenses enregistrées. [PR à venir].
+
+1. **Nouvel outil grand public / Répartiteur de dépenses de groupe** — calcul local des parts et remboursements à partir des dépenses enregistrées. [PR #934](https://github.com/Nabouna32/lab/pull/934).
 2. **Découverte par tâche / intention « Comparer »** — regroupe les comparateurs existants de données structurées, texte et fuseaux horaires.
 3. **Transformation de parcours / transferts JSON entre outils** — sorties du formateur JSON, du convertisseur CSV → JSON et du convertisseur YAML → JSON vers le comparateur ou le générateur TypeScript. [PR #930](https://github.com/Nabouna32/lab/pull/930).
 4. **Produit / comparateur JSON explorables** — résumé par type, filtres, recherche par chemin et rapport copiable des changements affichés. [PR #929](https://github.com/Nabouna32/lab/pull/929).
