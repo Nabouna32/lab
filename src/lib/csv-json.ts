@@ -145,7 +145,21 @@ function csvEscape(value: unknown, delimiter: CsvDelimiter): string {
     : safeText;
 }
 
-function toJson(input: string, delimiter: CsvDelimiter): CsvJsonResult {
+function inferCsvValue(value: string): unknown {
+  if (value === "true") return true;
+  if (value === "false") return false;
+  if (value === "null") return null;
+
+  // Preserve identifiers such as 00123 and avoid non-finite numbers.
+  if (/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/.test(value)) {
+    const number = Number(value);
+    if (Number.isFinite(number) && !Object.is(number, -0)) return number;
+  }
+
+  return value;
+}
+
+function toJson(input: string, delimiter: CsvDelimiter, inferTypes: boolean): CsvJsonResult {
   try {
     const rows = parseCsv(input.replace(/^\uFEFF/, ""), delimiter);
     if (rows.length === 0) return { value: "[]", error: null };
@@ -162,7 +176,8 @@ function toJson(input: string, delimiter: CsvDelimiter): CsvJsonResult {
     const result = records.map((row) => {
       const record: Record<string, string> = Object.create(null) as Record<string, string>;
       headers.forEach((header, index) => {
-        record[header] = row[index] ?? "";
+        const value = row[index] ?? "";
+        record[header] = (inferTypes ? inferCsvValue(value) : value) as string;
       });
       return record;
     });
@@ -199,10 +214,11 @@ export function transformCsvJson(
   input: string,
   operation: CsvJsonOperation,
   delimiter: CsvDelimiterSelection = "auto",
+  inferTypes = false,
 ): CsvJsonResult {
   if (!input.trim()) return { value: "", error: null };
   if (operation === "csv-to-json") {
-    return toJson(input, delimiter === "auto" ? detectDelimiter(input) : delimiter);
+    return toJson(input, delimiter === "auto" ? detectDelimiter(input) : delimiter, inferTypes);
   }
   return fromJson(input, delimiter === "auto" ? "," : delimiter);
 }
