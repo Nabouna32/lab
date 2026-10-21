@@ -129,7 +129,7 @@ type ToolMessages = {
   csvJson: {
     input: string; placeholder: string; delimiter: string; autoDetectDelimiter: string; csvToJson: string; jsonToCsv: string;
     result: string; ready: string; emptyResult: string; copy: string; clear: string; error: string;
-    invalidCsv: string; invalidJson: string; unsupportedJson: string;
+    invalidCsv: string; invalidJson: string; unsupportedJson: string; inferTypes: string; inferTypesHint: string;
     importFile: string; importFileHint: string; unsupportedFile: string; fileTooLarge: string; fileReadFailed: string; download: string;
   };
   uuidGenerator: {
@@ -437,7 +437,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     csvJson: {
       input: "Données", placeholder: "Collez un CSV ou un tableau JSON d’objets…", delimiter: "Séparateur CSV", autoDetectDelimiter: "Détecter automatiquement", csvToJson: "CSV → JSON", jsonToCsv: "JSON → CSV",
       result: "Résultat", ready: "Conversion mise à jour", emptyResult: "Le résultat apparaîtra ici.", copy: "Copier", clear: "Effacer", error: "La conversion n’a pas pu être effectuée.",
-      invalidCsv: "Le CSV est invalide ou mal formé.", invalidJson: "Le JSON est invalide.", unsupportedJson: "Utilisez un tableau JSON composé d’objets.",
+      invalidCsv: "Le CSV est invalide ou mal formé.", invalidJson: "Le JSON est invalide.", unsupportedJson: "Utilisez un tableau JSON composé d’objets.", inferTypes: "Déduire les types JSON", inferTypesHint: "Convertit true, false, null et les nombres sûrs. Les identifiants avec des zéros initiaux restent du texte.",
       importFile: "Importer un fichier", importFileHint: "Fichier CSV ou JSON, jusqu’à 200 ko. Le contenu est lu localement dans votre navigateur.",
       unsupportedFile: "Choisissez un fichier .csv ou .json.", fileTooLarge: "Le fichier dépasse la limite de 200 ko.", fileReadFailed: "Impossible de lire ce fichier dans votre navigateur.", download: "Télécharger le résultat",
     },
@@ -752,7 +752,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     csvJson: {
       input: "Data", placeholder: "Paste CSV or a JSON array of objects…", delimiter: "CSV delimiter", autoDetectDelimiter: "Auto-detect", csvToJson: "CSV → JSON", jsonToCsv: "JSON → CSV",
       result: "Result", ready: "Conversion updated", emptyResult: "The result will appear here.", copy: "Copy", clear: "Clear", error: "The conversion could not be completed.",
-      invalidCsv: "The CSV is invalid or malformed.", invalidJson: "The JSON is invalid.", unsupportedJson: "Use a JSON array containing objects.",
+      invalidCsv: "The CSV is invalid or malformed.", invalidJson: "The JSON is invalid.", unsupportedJson: "Use a JSON array containing objects.", inferTypes: "Infer JSON types", inferTypesHint: "Converts true, false, null and safe numbers. Identifiers with leading zeros stay as text.",
       importFile: "Import a file", importFileHint: "CSV or JSON file, up to 200 kB. The content is read locally in your browser.",
       unsupportedFile: "Choose a .csv or .json file.", fileTooLarge: "The file exceeds the 200 kB limit.", fileReadFailed: "This file could not be read in your browser.", download: "Download result",
     },
