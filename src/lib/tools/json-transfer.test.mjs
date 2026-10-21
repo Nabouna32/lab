@@ -30,12 +30,19 @@ test("rejects invalid, empty, and oversized JSON before storing", () => {
   assert.equal(storage.values.has(key), false);
 });
 
-test("consumes valid JSON exactly once and only for the intended destination", () => {
+test("consumes valid JSON exactly once for its matching destination", () => {
+  const storage = createStorage();
+  assert.equal(writePendingJsonToolTransfer(storage, '{ "value": 42 }', "json-to-typescript"), true);
+  assert.equal(consumePendingJsonToolTransfer(storage, "json-to-typescript"), '{ "value": 42 }');
+  assert.equal(storage.values.has(key), false);
+  assert.equal(consumePendingJsonToolTransfer(storage, "json-to-typescript"), null);
+});
+
+test("discards a transfer opened at the wrong destination", () => {
   const storage = createStorage();
   assert.equal(writePendingJsonToolTransfer(storage, '{ "value": 42 }', "json-diff-checker"), true);
   assert.equal(consumePendingJsonToolTransfer(storage, "json-to-typescript"), null);
   assert.equal(storage.values.has(key), false);
-  assert.equal(consumePendingJsonToolTransfer(storage, "json-diff-checker"), null);
 });
 
 test("legacy comparison helpers use the generalized one-time transfer", () => {
