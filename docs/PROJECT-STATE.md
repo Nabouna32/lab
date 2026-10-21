@@ -9,16 +9,8 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 
 ## État vérifié
 
-- **Outil développeur / extraction JSON par chemin :** le formateur extrait localement une valeur imbriquée via `# Loculary — état opérationnel du projet
-
-Dernière vérification : 2026-10-21  
-Source de vérité : dépôt GitHub, CI, issues et déploiements liés ci-dessous. Ce document est un tableau de bord concis, pas un remplacement des spécifications produit.
-
-## Objectif
-
-Faire progresser continuellement la valeur produit de Loculary, sans date de lancement imposée. La priorité ne se limite pas à fiabiliser l’existant : rechercher aussi les outils, fonctionnalités et transformations d’expérience qui rendraient le produit nettement meilleur. Voir `docs/MANDAT.md`.
-
-, la notation `.clé`, les clés entre crochets et les index de tableaux ; résultat copiable, syntaxe limitée et documentée, sans service distant.
+- **Outil développeur / extraction JSON par chemin :** le formateur extrait localement une valeur imbriquée avec une syntaxe de chemin volontairement limitée et documentée ; résultat copiable, sans service distant.
+- **Conversion CSV → JSON typée (optionnelle) :** inférence locale des nombres finis, booléens et `null`, en conservant par défaut les chaînes et les identifiants avec zéros initiaux.
 - **Outil / nettoyage de listes textuelles :** [PR #924](https://github.com/Nabouna32/lab/pull/924). Nettoyage des espaces, suppression des lignes vides et doublons, tri local A→Z/Z→A, compteur avant/après et limite à 500 000 caractères ; disponible dans « Préparer » en français et en anglais.
 - **Parcours JSON chaîné :** transmettre le résultat du formateur au comparateur JSON dans le même onglet ; contenu transféré brièvement par `sessionStorage`, consommé puis supprimé, sans URL ni serveur. FR/EN, tests unitaires et scénario Playwright de bout en bout dédiés.
 - **Recherche / filtres de catégories :** la page de résultats permet de restreindre les correspondances à une catégorie présente dans les résultats, avec commandes FR/EN accessibles au clavier et un compteur qui suit le filtre.
