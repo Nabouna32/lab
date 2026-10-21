@@ -87,9 +87,10 @@ export default function ImageContactSheet() {
       setDone(true);
     } catch (caught) {
       const reason = caught instanceof Error && caught.message === "dimensions";
-      setError(reason
+      const detail = caught instanceof Error ? " [" + caught.name + ": " + caught.message + "]" : "";
+      setError((reason
         ? (fr ? "Une image dépasse la limite de dimensions autorisée." : "An image exceeds the allowed dimension limit.")
-        : (fr ? "Impossible de créer la planche. Essayez des images moins volumineuses." : "Could not create the contact sheet. Try smaller images."));
+        : (fr ? "Impossible de créer la planche. Essayez des images moins volumineuses." : "Could not create the contact sheet. Try smaller images.")) + detail);
     } finally { setBusy(false); }
   }
 
