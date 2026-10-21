@@ -168,6 +168,9 @@ type ToolMessages = {
   hashGenerator: {
     input: string; placeholder: string; algorithm: string; generate: string; generating: string; clear: string;
     result: string; complete: string; emptyResult: string; copy: string; invalid: string;
+    inputMode: string; textMode: string; fileMode: string; fileInput: string; fileHint: string;
+    expectedDigest: string; expectedPlaceholder: string; expectedHint: string; hashFile: string; fileTooLarge: string;
+    digestMatch: string; digestMismatch: string; digestInvalid: string;
   };
   passwordGenerator: {
     length: string; characters: string; lowercase: string; uppercase: string; numbers: string; symbols: string;
@@ -549,6 +552,9 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     },
     hashGenerator: {
       input: "Votre texte", placeholder: "Saisissez ou collez votre texte…", algorithm: "Algorithme", generate: "Générer", generating: "Calcul…", clear: "Effacer", result: "Empreinte", complete: "Empreinte générée", emptyResult: "Le résultat apparaîtra ici après génération.", copy: "Copier", invalid: "Impossible de calculer cette empreinte.",
+      inputMode: "Mode de saisie", textMode: "Texte", fileMode: "Fichier", fileInput: "Fichier à vérifier", fileHint: "Le fichier reste sur votre appareil. Taille maximale : 100 Mio.",
+      expectedDigest: "Empreinte attendue (facultatif)", expectedPlaceholder: "Collez une empreinte hexadécimale", expectedHint: "Comparez avec l’empreinte publiée par la source officielle. Cela vérifie l’intégrité, pas l’authenticité de la source.", hashFile: "Calculer l’empreinte", fileTooLarge: "Choisissez un fichier de 100 Mio maximum.",
+      digestMatch: "L’empreinte correspond.", digestMismatch: "L’empreinte ne correspond pas : le fichier diffère de la référence.", digestInvalid: "L’empreinte attendue n’a pas le format requis pour cet algorithme.",
     },
     passwordGenerator: {
       length: "Longueur", characters: "Types de caractères", lowercase: "Minuscules", uppercase: "Majuscules", numbers: "Chiffres", symbols: "Symboles",
@@ -879,6 +885,9 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     },
     hashGenerator: {
       input: "Your text", placeholder: "Type or paste your text…", algorithm: "Hash algorithm", generate: "Generate", generating: "Hashing…", clear: "Clear", result: "Digest", complete: "Digest generated", emptyResult: "The result will appear here after generation.", copy: "Copy", invalid: "The digest could not be generated.",
+      inputMode: "Input mode", textMode: "Text", fileMode: "File", fileInput: "File to verify", fileHint: "The file stays on your device. Maximum size: 100 MiB.",
+      expectedDigest: "Expected digest (optional)", expectedPlaceholder: "Paste a hexadecimal digest", expectedHint: "Compare against a digest published by the official source. This checks integrity, not the source’s authenticity.", hashFile: "Calculate digest", fileTooLarge: "Choose a file no larger than 100 MiB.",
+      digestMatch: "The digest matches.", digestMismatch: "The digest does not match: the file differs from the reference.", digestInvalid: "The expected digest does not have the required format for this algorithm.",
     },
     passwordGenerator: {
       length: "Length", characters: "Character types", lowercase: "Lowercase", uppercase: "Uppercase", numbers: "Numbers", symbols: "Symbols",
