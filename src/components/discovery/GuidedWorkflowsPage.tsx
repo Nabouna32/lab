@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MaterialIcon } from "@/components/ui/MaterialIcon";
+import { MaterialIcon, type MaterialIconName } from "@/components/ui/MaterialIcon";
 import type { Locale } from "@/lib/i18n/config";
 import { getToolContent, isPublishedTool, type ToolId } from "@/lib/tools/types";
 import { getToolById } from "@/lib/tools/catalog";
@@ -8,7 +8,7 @@ import { getToolPath, getToolsPath } from "@/lib/tools/routes";
 type Localized = Record<Locale, string>;
 type GuidedWorkflow = {
   id: string;
-  icon: string;
+  icon: MaterialIconName;
   title: Localized;
   summary: Localized;
   outcome: Localized;
@@ -19,7 +19,7 @@ type GuidedWorkflow = {
 export const guidedWorkflows: readonly GuidedWorkflow[] = [
   {
     id: "clean-and-compare",
-    icon: "compare_arrows",
+    icon: "swap_horiz",
     title: { fr: "Nettoyer puis comparer une liste", en: "Clean a list, then compare it" },
     summary: {
       fr: "Supprimez les doublons et remettez vos lignes en ordre avant de repérer ce qui a changé entre deux versions.",
@@ -37,7 +37,7 @@ export const guidedWorkflows: readonly GuidedWorkflow[] = [
   },
   {
     id: "prepare-json",
-    icon: "data_object",
+    icon: "apps",
     title: { fr: "Préparer et comparer du JSON", en: "Prepare and compare JSON" },
     summary: {
       fr: "Rendez des données JSON lisibles, puis comparez deux versions pour comprendre les changements.",
@@ -55,7 +55,7 @@ export const guidedWorkflows: readonly GuidedWorkflow[] = [
   },
   {
     id: "convert-tabular-data",
-    icon: "table_chart",
+    icon: "apps",
     title: { fr: "Convertir un tableau en JSON", en: "Convert a table to JSON" },
     summary: {
       fr: "Transformez des données CSV en JSON, puis rendez le résultat plus facile à relire et à vérifier.",
@@ -73,7 +73,7 @@ export const guidedWorkflows: readonly GuidedWorkflow[] = [
   },
   {
     id: "prepare-photo-document",
-    icon: "picture_as_pdf",
+    icon: "image",
     title: { fr: "Préparer des photos pour un PDF", en: "Prepare photos for a PDF" },
     summary: {
       fr: "Vérifiez les informations utiles de vos images, puis rassemblez-les dans un document multipage.",
@@ -145,7 +145,7 @@ export default function GuidedWorkflowsPage({ locale }: { locale: Locale }) {
             <h1 className="mt-3 text-4xl font-black tracking-[-0.06em] sm:text-5xl">{copy.title}</h1>
             <p className="mt-4 max-w-2xl text-base leading-7 text-[var(--muted)]">{copy.description}</p>
             <p className="mt-4 flex items-center gap-2 text-sm font-semibold text-[var(--muted)]">
-              <MaterialIcon name="shield_lock" size={18} />
+              <MaterialIcon name="lock" size={18} />
               {copy.privacy}
             </p>
           </div>
@@ -182,7 +182,7 @@ export default function GuidedWorkflowsPage({ locale }: { locale: Locale }) {
                   })}
                 </ol>
                 <p className="mt-4 rounded-xl bg-[var(--surface-container-low)] px-3 py-2 text-xs leading-5 text-[var(--muted)]">
-                  <MaterialIcon name={workflow.transfer === "automatic" ? "auto_awesome" : "content_paste"} size={15} className="mr-1 inline-block align-[-2px]" />
+                  <MaterialIcon name={workflow.transfer === "automatic" ? "stars" : "content_copy"} size={15} className="mr-1 inline-block align-[-2px]" />
                   {workflow.transfer === "automatic" ? copy.automatic : copy.manual}
                 </p>
               </div>
