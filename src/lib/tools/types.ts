@@ -46,6 +46,7 @@ export type ToolId =
   | "markdown-table-generator"
   | "image-compressor"
   | "image-metadata"
+  | "image-to-pdf"
   | "html-previewer"
   | "timezone-converter"
   | "xml-formatter-validator";

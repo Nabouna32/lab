@@ -1,3 +1,4 @@
+- **Conversion d’images en PDF :** outil local multipage A4/Lettre, jusqu’à 10 images JPEG/PNG/WebP, orientation automatique et export sans téléversement. Livraison et CI à confirmer.
 # Loculary — état opérationnel du projet
 
 Dernière vérification : 2026-10-21  
@@ -9,7 +10,7 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 
 ## État vérifié
 
-- **QR Code / partage Wi-Fi :** mode local pour générer un QR code de connexion aux réseaux WPA/WEP/ouverts et masqués. Les caractères réservés sont échappés et un avertissement indique que le code révèle les identifiants aux personnes qui le scannent. Validation CI requise avant fusion.
+- **QR Code / partage Wi-Fi :** mode local pour générer un QR code de connexion aux réseaux WPA/WEP/ouverts et masqués. Les caractères réservés sont échappés et un avertissement indique que le code révèle les identifiants aux personnes qui le scannent. [PR #944](https://github.com/Nabouna32/lab/pull/944), fusionnée avec CI complète verte.
 
 - **Collections locales / sauvegarde et restauration :** [PR #939](https://github.com/Nabouna32/lab/pull/939). Export JSON versionné et import avec aperçu, limités aux collections stockées sur cet appareil. L’import valide le format, régénère les identifiants, filtre les outils indisponibles et respecte les limites locales ; aucun contenu saisi ni collection synchronisée n’est exporté.
 
