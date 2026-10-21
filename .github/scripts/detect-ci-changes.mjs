@@ -30,7 +30,9 @@ export async function fetchPullRequestFiles({
   }
 
   const filenames = [];
-  const maxPages = Math.ceil(expectedCount / PAGE_SIZE) + 1;
+  // The pull_request webhook count can lag behind the live file list after rapid pushes.
+  // Treat the API listing as authoritative and paginate up to GitHub's documented cap.
+  const maxPages = Math.ceil(MAX_CHANGED_FILES / PAGE_SIZE);
 
   for (let page = 1; page <= maxPages; page += 1) {
     const url = new URL(
@@ -57,14 +59,17 @@ export async function fetchPullRequestFiles({
     }
 
     filenames.push(...entries.map((entry) => entry.filename));
-    if (filenames.length > expectedCount) {
-      throw new Error(`Changed-file count mismatch: expected ${expectedCount}, received more than expected.`);
+    if (filenames.length > MAX_CHANGED_FILES) {
+      throw new Error(`This PR exceeds GitHub's ${MAX_CHANGED_FILES}-file listing limit; CI scope cannot be classified safely.`);
     }
     if (entries.length < PAGE_SIZE) break;
+    if (page === maxPages) {
+      throw new Error(`This PR reaches GitHub's ${MAX_CHANGED_FILES}-file listing limit; CI scope cannot be classified safely.`);
+    }
   }
 
   if (filenames.length !== expectedCount) {
-    throw new Error(`Changed-file count mismatch: expected ${expectedCount}, received ${filenames.length}.`);
+    console.warn(`Pull request file count changed during the event: webhook reported ${expectedCount}, GitHub lists ${filenames.length}; using the live listing.`);
   }
 
   return filenames;
@@ -90,7 +95,7 @@ async function main() {
       expectedCount: Number(countText),
       token: process.env.GH_TOKEN,
     });
-    result = classifyCiChanges(filenames, Number(countText));
+    result = classifyCiChanges(filenames, filenames.length);
   } else if (eventName !== "workflow_dispatch") {
     throw new Error(`Unsupported event for CI change detection: ${eventName ?? "missing"}.`);
   }
