@@ -58,13 +58,13 @@ function withoutPackages(lockfile) {
   return canonicalize(copy);
 }
 
-function withoutRootEslint(lockfile) {
-  const copy = structuredClone(lockfile);
-  const root = copy?.packages?.[""];
+function rootWithoutEslint(lockfile) {
+  const root = lockfile?.packages?.[""];
   if (!root || typeof root !== "object") return null;
-  if (root.devDependencies) {
-    delete root.devDependencies.eslint;
-    if (Object.keys(root.devDependencies).length === 0) delete root.devDependencies;
+  const copy = structuredClone(root);
+  if (copy.devDependencies) {
+    delete copy.devDependencies.eslint;
+    if (Object.keys(copy.devDependencies).length === 0) delete copy.devDependencies;
   }
   return canonicalize(copy);
 }
@@ -73,7 +73,7 @@ function lockfileContainsOnlyLintChanges(baseLock, headLock) {
   if (!baseLock || !headLock || typeof baseLock !== "object" || typeof headLock !== "object") return false;
   if (!baseLock.packages || !headLock.packages) return false;
   if (!equalJson(withoutPackages(baseLock), withoutPackages(headLock))) return false;
-  if (!equalJson(withoutRootEslint(baseLock), withoutRootEslint(headLock))) return false;
+  if (!equalJson(rootWithoutEslint(baseLock), rootWithoutEslint(headLock))) return false;
 
   const baseRoot = baseLock.packages[""];
   const headRoot = headLock.packages[""];
