@@ -27,7 +27,10 @@ export default function ToolEditorial({ locale }: { locale: Locale }) {
     <div className="space-y-5">
       <ToolSection title={t.title}>
         <p>{t.text}</p>
-        <Card title={t.exampleTitle}><p>{t.example}</p></Card>
+        <Card>
+          <h3 className="font-semibold text-[var(--foreground)]">{t.exampleTitle}</h3>
+          <p className="mt-2">{t.example}</p>
+        </Card>
       </ToolSection>
       <ToolSection title={t.privacyTitle}>
         <p>{t.privacy}</p>
