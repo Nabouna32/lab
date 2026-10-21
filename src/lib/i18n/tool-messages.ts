@@ -408,7 +408,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       compare: "Comparer", clear: "Effacer", hint: "L’ordre des clés d’un objet n’a pas d’importance ; l’ordre des éléments d’un tableau compte. La comparaison reste sur votre appareil.",
       invalidJson: "Vérifiez que les deux entrées sont des documents JSON valides.", inputTooLarge: "Chaque document doit contenir au maximum 200 000 caractères.", depthLimit: "La structure JSON est trop profondément imbriquée pour être comparée en toute sécurité.",
       emptyResult: "Saisissez les deux documents JSON puis lancez la comparaison.", identical: "Aucune différence structurelle détectée.", changesCount: (count) => count + (count === 1 ? " différence" : " différences"),
-      added: "Ajouté", removed: "Supprimé", changed: "Modifié", before: "Avant", after: "Après", path: "Chemin", results: "Différences", truncated: "Résultat limité aux 500 premières différences.", copyReport: "Copier le rapport", loadFile: "Importer un fichier", fileTypeError: "Choisissez un fichier JSON (.json).", fileTooLarge: "Le fichier dépasse la limite de 200 000 caractères.", fileReadError: "Impossible de lire ce fichier sur votre appareil.", receivedFromFormatter: "Le JSON formaté a été placé dans « Nouveau JSON ». Ajoutez le JSON de référence puis comparez.",
+      added: "Ajouté", removed: "Supprimé", changed: "Modifié", before: "Avant", after: "Après", path: "Chemin", results: "Différences", truncated: "Résultat limité aux 500 premières différences.", copyReport: "Copier le rapport", loadFile: "Importer un fichier", fileTypeError: "Choisissez un fichier JSON (.json).", fileTooLarge: "Le fichier dépasse la limite de 200 000 caractères.", fileReadError: "Impossible de lire ce fichier sur votre appareil.", receivedFromFormatter: "Le JSON transmis a été placé dans « Nouveau JSON ». Ajoutez le JSON de référence puis comparez.",
       summary: "Résumé des changements", searchPath: "Rechercher un chemin JSON", searchPathPlaceholder: "Ex. user.email ou items[0]", filterChanges: "Filtrer les changements", allChanges: "Tout", noMatchingChanges: "Aucun changement ne correspond à ces filtres.", filteredChangesCount: (visible, total) => visible === total ? visible + (visible === 1 ? " différence affichée" : " différences affichées") : visible + " sur " + total + " différences affichées",
     },
     yamlFormatterValidator: {
@@ -418,7 +418,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       indentation: "Indentation", spaces2: "2 espaces", spaces4: "4 espaces", tab: "Tabulation", valid: "YAML valide", invalid: "Document invalide",
       emptyResult: "Le résultat apparaîtra ici après traitement.", formatted: "Formaté", resourceLimit: "Le document est trop volumineux ou trop complexe à traiter en toute sécurité.",
       errorAt: (line, column) => "Ligne " + line + ", colonne " + column, errorDetailLabel: "Détail technique :",
-      unsupportedValue: "Ce document contient une valeur YAML qui ne peut pas être représentée en JSON sans perte.",
+      unsupportedValue: "Ce document contient une valeur YAML qui ne peut pas être représentée en JSON sans perte.", sendToCompare: "Comparer ce JSON", sendToTypescript: "Générer les types TypeScript", transferFailed: "Impossible de transmettre le résultat dans cet onglet. Copiez-le et collez-le manuellement.",
     },
     urlEncoder: {
       input: "Votre texte", placeholder: "Saisissez du texte ou une URL…", output: "Résultat", scope: "Mode d’encodage", component: "Composant d’URL", uri: "URL complète",
@@ -741,7 +741,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       indentation: "Indentation", spaces2: "2 spaces", spaces4: "4 spaces", tab: "Tab", valid: "Valid YAML", invalid: "Invalid document",
       emptyResult: "The result will appear here after processing.", formatted: "Formatted", resourceLimit: "The document is too large or complex to process safely.",
       errorAt: (line, column) => "Line " + line + ", column " + column, errorDetailLabel: "Parser detail:",
-      unsupportedValue: "This document contains a YAML value that cannot be represented in JSON without data loss.",
+      unsupportedValue: "This document contains a YAML value that cannot be represented in JSON without data loss.", sendToCompare: "Compare this JSON", sendToTypescript: "Generate TypeScript types", transferFailed: "Could not pass the result to the next tool in this tab. Copy and paste it manually.",
     },
     urlEncoder: {
       input: "Your text", placeholder: "Enter text or a URL…", output: "Result", scope: "Encoding mode", component: "URL component", uri: "Complete URL",
