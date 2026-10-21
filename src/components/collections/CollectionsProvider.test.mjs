@@ -44,3 +44,8 @@ test("local collections are device-only and all mutations have a local branch", 
   assert.match(source, /collection\.storage !== "account"/);
   assert.match(source, /storage: "account" as const/);
 });
+
+test("local collection creation enforces the browser storage cap", async () => {
+  const source = await readProvider();
+  assert.match(source, /localCollections\.length >= MAX_LOCAL_COLLECTIONS/);
+});
