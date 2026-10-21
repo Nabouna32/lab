@@ -1,6 +1,6 @@
 # Loculary — problèmes connus et conditions de reprise
 
-Dernière vérification : 2026-10-21. Ce registre résume les blocages persistants ; les issues GitHub restent la source détaillée du suivi.
+Dernière vérification documentaire : 2026-10-22. Ce registre résume les risques et limites persistants ; les issues GitHub restent la source détaillée du suivi. Les dates de preuve propres à chaque constat sont indiquées dans leur section.
 
 ## 1. Alerte npm HIGH sur `braces@3.0.3`
 
@@ -25,15 +25,12 @@ Dernière vérification : 2026-10-21. Ce registre résume les blocages persistan
 - **Tentatives / solutions écartées :** aucune modification de configuration de production ni dépense ; ne pas envoyer les mots de passe à un service tiers pour recréer le contrôle, ne pas revenir demander l'activation sans changement de plan ou de disponibilité, et ne pas contourner la restriction.
 - **Prochaine action :** conserver l'usage anonyme des outils et obtenir une décision explicite sur le niveau de risque accepté si l'inscription publique est promue au lancement. L'issue #467 documente les options, contraintes et critères de reprise.
 - **Condition de reprise :** évolution de l'offre, disponibilité d'une mitigation supportée, preuve de l'état réel de l'inscription qui change la décision, ou décision du propriétaire sur le risque et le coût.
-## 3. Validation fonctionnelle du site de production incomplète dans la session distante
+## 3. Validation navigateur ciblée de l'accueil et de la recherche
 
-- **État :** vérification à réaliser ; pas une preuve d'un défaut du site.
-- **Fait confirmé :** Vercel a signalé `READY` pour le déploiement de production du commit `a29a2750ba7e9c7a3dfe718b3c5e59b6f58f343f` ([détails](https://vercel.com/nabouna32/loculary/Dmfm6kNNtPPorjVzoE8PEKKXy7Da)). Après la PR #877, `main` est sur `a20c3ce0d89d9981fe66aff99ddc3bb50a1571fb`, sans déploiement correspondant visible au dernier contrôle ; ne pas assimiler l’état `READY` de l’ancien SHA à la mise en production de ce changement.
-- **Limite :** l'accès HTTP / navigateur direct n'était pas disponible pendant la session ; les parcours, l'affichage et les interactions n'ont donc pas été validés ici.
-- **Solutions écartées :** ne pas assimiler l'état Vercel `READY` à un test fonctionnel et ne pas déclarer des tests navigateur inexistants.
-- **Prochaine action :** lors d'une session disposant d'un accès navigateur adapté, vérifier les parcours de lancement essentiels, les erreurs, le responsive et les thèmes ; consigner les résultats précis.
-- **Condition de résolution :** validation observable des parcours ciblés, avec les limites restantes explicitement consignées.
-
+- **État :** vérification ouverte ; le suivi actif est dans [issue #972](https://github.com/Nabouna32/lab/issues/972).
+- **Périmètre :** vérifier les versions française et anglaise aux viewports 390×844, 768×1024 et 1440×900, en thèmes clair et sombre ; contrôler le premier écran, le débordement horizontal, la disposition du header et du panneau de recherche, puis les interactions pointeur/clavier, le focus, Échap et la fermeture extérieure.
+- **Limite :** les tests E2E Playwright ont été retirés de la CI dans la PR [#970](https://github.com/Nabouna32/lab/pull/970). Lint, TypeScript, tests unitaires et build ne prouvent pas à eux seuls le comportement navigateur réel. Aucune validation interactive ne doit être revendiquée sans preuve.
+- **Décision :** ne pas réintroduire une matrice E2E ou un redesign de CI par réflexe. Évaluer un smoke test léger uniquement si la vérification et les risques observés le justifient, sans captures/traces/uploads systématiques.
 
 ## 4. Avertissements de performance Supabase à confirmer
 
@@ -43,9 +40,3 @@ Dernière vérification : 2026-10-21. Ce registre résume les blocages persistan
 - **Risque :** modifier les politiques de partage sans raison démontrée pourrait changer les droits de lecture ou casser les liens de partage. Supprimer des index sur une base peu utilisée pourrait aussi dégrader des parcours encore peu sollicités.
 - **Prochaine action :** aucune modification de politique n'est justifiée par ces alertes seules. Réexaminer si les expressions, le plan ou les mesures de charge changent.
 - **Index inutilisés :** les dix index listés ont `idx_scan = 0`, font chacun 8–16 kB et ne supportent pas directement une contrainte selon `pg_constraint.conindid`. Ils restent néanmoins conservés : les compteurs reflètent une base peu sollicitée et ne suffisent pas à prouver qu'ils sont inutiles pour les parcours d'administration futurs. Réévaluer avec une période de charge représentative avant toute suppression.
-
-## 5. Validation navigateur ciblée
-
-- **État :** les tests E2E Playwright ont été retirés de la boucle CI dans la PR [#970](https://github.com/Nabouna32/lab/pull/970). Ils ne doivent pas être décrits comme un contrôle actif ou requis.
-- **Limite restante :** lint, TypeScript, tests unitaires et build ne prouvent pas à eux seuls le comportement réel dans le navigateur. Pour les changements UX/accessibilité à risque, prévoir une vérification navigateur ciblée et expliciter ce qui n’a pas pu être testé.
-- **Décision :** ne pas réintroduire de suite E2E ou de nouveaux workflows sans une proposition distincte fondée sur un risque concret et un coût d’entretien acceptable.
