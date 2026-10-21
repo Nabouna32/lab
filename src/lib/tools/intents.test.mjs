@@ -50,6 +50,7 @@ test("an intent can span multiple categories instead of resolving to one categor
 test("intent lookup is stable and unknown IDs are rejected", () => {
   assert.equal(isIntentId("calculate"), true);
   assert.equal(isIntentId("prepare"), true);
+  assert.equal(isIntentId("compare"), true);
   assert.equal(isIntentId("not-an-intent"), false);
   assert.equal(isIntentId(undefined), false);
   assert.equal(getIntentDefinition("convert").id, "convert");
@@ -70,4 +71,13 @@ test("French and English expose the same stable localized intent IDs", () => {
 
 test("CSV comparison is discoverable through the analyze intent", () => {
   assert.ok(getToolsForIntent("analyze", publishedTools).some((tool) => tool.id === "csv-diff-checker"));
+});
+
+
+test("comparison is discoverable across text, structured data, and time zones", () => {
+  assert.deepEqual(getToolsForIntent("compare", publishedTools).map((tool) => tool.id), [
+    "json-diff-checker", "csv-diff-checker", "text-diff-checker", "timezone-converter",
+  ]);
+  const categories = new Set(getToolsForIntent("compare", publishedTools).flatMap((tool) => tool.categories));
+  assert.ok(categories.size > 1, "compare should span multiple tool categories");
 });
