@@ -1,6 +1,21 @@
 # Loculary — état opérationnel du projet
 
-Dernière vérification : 2026-10-21  
+Dernière vérification : 2026-10-21
+
+## Cinq dernières reprises
+
+1. **Intégrité / vérification des empreintes de fichiers** : [PR #955](https://github.com/Nabouna32/lab/pull/955), empreinte SHA locale et vérification facultative du checksum attendu ; CI complète verte ([run #39553923138](https://github.com/Nabouna32/lab/actions/runs/39553923138)) ; production `READY` ([Vercel](https://vercel.com/nabouna32/loculary/5BccRteCB5BQdCUsFVsEUK9FybE3)).
+2. **Nouvel outil réseau — calculateur IPv6 CIDR** : [PR #953](https://github.com/Nabouna32/lab/pull/953), CI complète verte et déploiement production `READY`.
+3. **Chaînage d’outils — CSV → JSON → formateur** : [PR #952](https://github.com/Nabouna32/lab/pull/952), fusionnée.
+4. **Transformation de découverte — parcours guidés** : [PR #951](https://github.com/Nabouna32/lab/pull/951), fusionnée.
+5. **Nouvelle capacité d’images — planche-contact** : [PR #947](https://github.com/Nabouna32/lab/pull/947), fusionnée.
+
+- **Parcours / CSV → JSON → formatage :** le convertisseur CSV peut transmettre son résultat JSON directement au formateur, qui le préremplit et l’indique à l’utilisateur. Transfert local ciblé, à usage unique, limité à 200 000 caractères et expirant après cinq minutes ; aucun contenu dans l’URL ou envoyé au serveur. [PR #952](https://github.com/Nabouna32/lab/pull/952).
+
+- **Parcours texte / transmission entre outils :** le Nettoyeur et trieur de lignes peut préremplir le comparateur de texte avec le résultat nettoyé. Transfert local, ciblé, à usage unique, limité à 200 000 caractères et expirant après cinq minutes. Messages FR/EN et tests de contrat du helper ; CI complète verte ([run #39544027669](https://github.com/Nabouna32/lab/actions/runs/39544027669)) et déploiement production `READY` ([Vercel](https://vercel.com/nabouna32/loculary/2yDQK1D5yFnF9AXzUPEVMdTEWUs3)).
+
+- **Planche-contact d’images :** nouvel outil FR/EN qui assemble jusqu’à 20 images en une planche PNG locale ; choix de 2–4 colonnes, fond et légendes, aperçu et téléchargement. PR #947 fusionnée ; CI complète verte ([run #39542653393](https://github.com/Nabouna32/lab/actions/runs/39542653393)) et déploiement Vercel `READY` ([déploiement](https://vercel.com/nabouna32/loculary/6KcxiV5x3ArtXAne9MAm4ccF55sm)).  
+- **Conversion d’images en PDF :** outil local multipage A4/Lettre, jusqu’à 10 images JPEG/PNG/WebP, orientation automatique et export sans téléversement. PR #945 fusionnée ; PR #946 permet de réordonner les pages. CI complète verte sur la tête finale de PR #946 ([run #39541009240](https://github.com/Nabouna32/lab/actions/runs/39541009240)).  
 Source de vérité : dépôt GitHub, CI, issues et déploiements liés ci-dessous. Ce document est un tableau de bord concis, pas un remplacement des spécifications produit.
 
 ## Objectif
@@ -9,7 +24,11 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 
 ## État vérifié
 
+- **QR Code / partage Wi-Fi :** mode local pour générer un QR code de connexion aux réseaux WPA/WEP/ouverts et masqués. Les caractères réservés sont échappés et un avertissement indique que le code révèle les identifiants aux personnes qui le scannent. [PR #944](https://github.com/Nabouna32/lab/pull/944), fusionnée avec CI complète verte.
+
 - **Collections locales / sauvegarde et restauration :** [PR #939](https://github.com/Nabouna32/lab/pull/939). Export JSON versionné et import avec aperçu, limités aux collections stockées sur cet appareil. L’import valide le format, régénère les identifiants, filtre les outils indisponibles et respecte les limites locales ; aucun contenu saisi ni collection synchronisée n’est exporté.
+
+- **Recherche / classement par intention :** [PR #940](https://github.com/Nabouna32/lab/pull/940) ajoute un classement déterministe FR/EN fondé sur les intentions éditoriales existantes. Une requête telle que « préparer » peut trouver les outils associés même sans nom d’outil explicite ; aucun appel IA ni envoi de requête supplémentaire.
 
 - **Produit / Collections locales sans compte :** [PR #937](https://github.com/Nabouna32/lab/pull/937). Les visiteurs anonymes peuvent créer des collections privées persistantes sur cet appareil ; les personnes connectées choisissent explicitement entre local et synchronisé. Seuls les noms et identifiants d’outils sont conservés, jamais les saisies ou résultats. Les tests couvrent la validation du stockage, la création et la persistance après rechargement.
 - **Nouvel outil grand public / Répartiteur de dépenses de groupe :** [PR #934](https://github.com/Nabouna32/lab/pull/934), fusionnée dans main via le commit `6394783f83556068c7cfd288dde05b78031d05f0`. Saisie des participants et dépenses, calcul en centimes entiers, remboursements consolidés et copie du bilan. Traitement local, sans compte ni stockage. CI complète réussie sur la tête de PR `eeab478c70870bac8667a253e76eb4dda08a21b4` : lint, TypeScript, tests, build et Playwright ([run #39532392924](https://github.com/Nabouna32/lab/actions/runs/39532392924)).
@@ -29,7 +48,7 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 - **Produit / outils de développement — conversion JSON ↔ YAML :** PR [#914](https://github.com/Nabouna32/lab/pull/914) fusionnée dans `f8308de`. Le formateur YAML propose désormais le formatage, YAML → JSON et JSON → YAML. CI [#39513132211](https://github.com/Nabouna32/lab/actions/runs/39513132211) verte : lint, TypeScript, 579 tests réussis (2 ignorés), build et Playwright.
 - **Produit / comparateur JSON — import de fichiers locaux :** PR [#912](https://github.com/Nabouna32/lab/pull/912) fusionnée (`bef41fa`). Import séparé de deux fichiers `.json`, limites explicites, lecture uniquement dans le navigateur. CI [#39511782974](https://github.com/Nabouna32/lab/actions/runs/39511782974) verte : lint, TypeScript, tests, build et Playwright.
 - **Accessibilité / contraste du comparateur JSON :** la revue des captures Playwright a révélé que l’exemple éditorial utilisait un fond accent trop saturé pour certains textes. La correction remplace cet encart par une surface neutre et ajoute un test Playwright du ratio de contraste WCAG 4.5:1 sur desktop/mobile et thèmes clair/sombre. [PR #909](https://github.com/Nabouna32/lab/pull/909).
-- **Validation navigateur / observabilité Playwright :** suite Chromium sur le build de production local, accueil FR/EN, recherche, calculateur IPv4 et comparateur JSON, sur desktop/mobile et thèmes clair/sombre. Le run complet [#39504209195](https://github.com/Nabouna32/lab/actions/runs/39504209195) a validé 16/16 cas sur quatre configurations ; les rapports montrent 0 erreur JavaScript, 0 erreur console, 0 requête réellement échouée, 0 réponse HTTP >= 400 et aucun débordement horizontal. L’artefact `playwright-observation-3201` contient 16 rapports et 32 PNG, conservés sept jours.
+- **Validation navigateur / observabilité Playwright :** la suite Chromium couvre les parcours principaux sur desktop/mobile et clair/sombre. L’ancien flux de rapports et PNG téléversés est en cours de retrait dans la PR [#958](https://github.com/Nabouna32/lab/pull/958), qui privilégie les assertions fonctionnelles et diagnostics textuels concis. Contraste ciblé du comparateur JSON couvert par un test WCAG 4,5:1 ; aucun audit exhaustif de l’interface n’est revendiqué.
 - **Produit / comparateur JSON structurel :** outil FR/EN qui compare les valeurs par chemin JSON, ignore l’ordre des clés d’objet, conserve l’ordre des tableaux et traite les entrées localement avec des limites explicites. [PR #908](https://github.com/Nabouna32/lab/pull/908).
 - **Produit / comparateur JSON explorables :** synthèse des ajouts, suppressions et modifications, filtre par type, recherche de chemin et copie du rapport filtré ; traitement local, FR/EN. [PR #929](https://github.com/Nabouna32/lab/pull/929). [PR #908](https://github.com/Nabouna32/lab/pull/908), fusionnée dans `8fc8a68d012d39cb62923aeb360983ec39a3ce74` ; lint, TypeScript, tests et build réussis sur `4a278def856ae59eb89852c8625b84fa1dcbe7c4` ([CI #39502857569](https://github.com/Nabouna32/lab/actions/runs/39502857569)). Déploiement Vercel production `READY` pour ce commit.
 
@@ -101,11 +120,11 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 
 > Mémoire opérationnelle par session de travail, avec les PR représentatives et preuves vérifiables.
 
-1. **Fonctionnalité / sauvegarde des collections locales** — [PR #939](https://github.com/Nabouna32/lab/pull/939) : export JSON versionné et restauration locale avec validation, aperçu et fusion sans écrasement.
-2. **Produit / collections locales sans compte** — [PR #937](https://github.com/Nabouna32/lab/pull/937) : collections privées sur cet appareil et choix explicite de synchronisation.
-3. **Produit grand public / Répartiteur de dépenses de groupe** — [PR #934](https://github.com/Nabouna32/lab/pull/934), fusionnée dans `6394783` : dépenses multi-personnes, calcul exact en centimes, remboursements consolidés et copie locale. CI complète réussie ([run #39532392924](https://github.com/Nabouna32/lab/actions/runs/39532392924)).
-4. **Accessibilité / suggestions de correction du contraste** — [PR #935](https://github.com/Nabouna32/lab/pull/935) : suggestions WCAG AA/AAA, application et copie locale ; CI complète réussie sur la tête de PR.
-5. **Découverte par tâche / intention « Comparer »** — [PR #932](https://github.com/Nabouna32/lab/pull/932) : entrée transversale vers les outils de comparaison.
+1. **Parcours / CSV → JSON → formatage** — [PR #952](https://github.com/Nabouna32/lab/pull/952) : transmission locale directe vers le formateur JSON, notice de provenance et recette guidée désormais automatisée.
+2. **Découverte / parcours guidés** — [PR #951](https://github.com/Nabouna32/lab/pull/951) : quatre parcours multi-étapes FR/EN qui relient des outils existants autour d’un objectif utilisateur.
+3. **Parcours / nettoyage de texte → comparaison** — [PR #949](https://github.com/Nabouna32/lab/pull/949) : transfert local, borné, à usage unique et avec expiration du résultat vers le comparateur de texte ; CI complète verte ([run #39544027669](https://github.com/Nabouna32/lab/actions/runs/39544027669)) ; déploiement production `READY`.
+4. **Nouvel outil / planche-contact d’images** — [PR #947](https://github.com/Nabouna32/lab/pull/947) : composition PNG locale, colonnes et légendes configurables ; CI complète verte ([run #39542653393](https://github.com/Nabouna32/lab/actions/runs/39542653393)), déploiement production `READY`.
+5. **Parcours PDF / réordonnancement des pages** — [PR #946](https://github.com/Nabouna32/lab/pull/946) : déplacement accessible des images avant export, CI complète verte ([run #39541009240](https://github.com/Nabouna32/lab/actions/runs/39541009240)).
 
 ## Priorités immédiates
 

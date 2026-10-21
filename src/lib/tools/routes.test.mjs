@@ -3,6 +3,7 @@ import { test } from "node:test";
 import { getPublishedTools } from "./catalog.ts";
 import {
   getCategoriesPath,
+  getGuidedWorkflowsPath,
   getSearchResultsPagePath,
   getSearchResultsPath,
   getCategoryIdBySlug,
@@ -23,6 +24,8 @@ test("tool and category routes use distinct localized namespaces", () => {
   assert.equal(getSearchResultsPath("en", "json"), "/en/search#q=json");
   assert.equal(getCategoriesPath("en"), "/en/categories");
   assert.equal(getCategoriesPath("fr"), "/fr/categories");
+  assert.equal(getGuidedWorkflowsPath("en"), "/en/guided-workflows");
+  assert.equal(getGuidedWorkflowsPath("fr"), "/fr/parcours-guides");
   assert.equal(getCategoryPath("en", "development"), "/en/categories/development");
   assert.equal(getCategoryPath("fr", "development"), "/fr/categories/developpement");
   assert.equal(getToolPath("en", "json-formatter"), "/en/tools/json-formatter");
@@ -35,6 +38,11 @@ test("published tool slugs are explicit and localized", () => {
   assert.equal(getToolIdBySlug("fr", "formateur-validateur-yaml"), "yaml-formatter-validator");
   assert.equal(getToolIdBySlug("fr", "comparateur-de-texte"), "text-diff-checker");
   assert.equal(getToolPath("fr", "csv-diff-checker"), "/fr/outils/comparateur-csv");
+  assert.equal(getToolPath("en", "ipv6-subnet-calculator"), "/en/tools/ipv6-subnet-calculator");
+  assert.equal(getToolPath("fr", "ipv6-subnet-calculator"), "/fr/outils/calculateur-de-sous-reseau-ipv6");
+  assert.equal(getToolIdBySlug("en", "ipv6-subnet-calculator"), "ipv6-subnet-calculator");
+  assert.equal(getLocalizedPath("/fr/parcours-guides", "en"), "/en/guided-workflows");
+  assert.equal(getLocalizedPath("/en/guided-workflows", "fr"), "/fr/parcours-guides");
   assert.equal(getToolIdBySlug("en", "csv-diff-checker"), "csv-diff-checker");
 });
 

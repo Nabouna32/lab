@@ -10,10 +10,14 @@ import { isLocale, type Locale, locales } from "@/lib/i18n/config";
 import { notFound } from "next/navigation";
 import { getPublicPageMetadata } from "@/lib/tools/page-metadata";
 import { getToolsForIntent, isIntentId } from "@/lib/tools/intents";
-import { getCategoryPath, getToolsPath } from "@/lib/tools/routes";
+import { getCategoryPath, getGuidedWorkflowsPath, getToolsPath } from "@/lib/tools/routes";
+import GuidedWorkflowsPage from "@/components/discovery/GuidedWorkflowsPage";
 
 export function generateStaticParams() {
-  return locales.map((locale) => ({ locale, section: getToolsPath(locale).split("/")[2] }));
+  return locales.flatMap((locale) => [
+    { locale, section: getToolsPath(locale).split("/")[2] },
+    { locale, section: getGuidedWorkflowsPath(locale).split("/")[2] },
+  ]);
 }
 
 export async function generateMetadata({
@@ -24,8 +28,19 @@ export async function generateMetadata({
   searchParams: Promise<{ intent?: string | string[] }>;
 }): Promise<Metadata> {
   const [{ locale: rawLocale, section }, query] = await Promise.all([params, searchParams]);
-  if (!isLocale(rawLocale) || section !== getToolsPath(rawLocale).split("/")[2]) return {};
+  if (!isLocale(rawLocale)) return {};
   const locale: Locale = rawLocale;
+  if (section === getGuidedWorkflowsPath(locale).split("/")[2]) {
+    const copy = locale === "fr"
+      ? { title: "Parcours guidés | Loculary", description: "Des parcours pratiques pour enchaîner les bons outils Loculary et accomplir une tâche de bout en bout." }
+      : { title: "Guided workflows | Loculary", description: "Practical paths that connect the right Loculary tools to help you complete a task from start to finish." };
+    return getPublicPageMetadata({
+      ...copy,
+      path: getGuidedWorkflowsPath(locale),
+      alternatePaths: Object.fromEntries(locales.map((availableLocale) => [availableLocale, getGuidedWorkflowsPath(availableLocale)])),
+    }, locale);
+  }
+  if (section !== getToolsPath(locale).split("/")[2]) return {};
   const t = getMessages(locale);
   const metadata = getPublicPageMetadata({
     title: t.tools.metaTitle,
@@ -45,9 +60,13 @@ export default async function ToolsPage({
   searchParams: Promise<{ intent?: string | string[] }>;
 }) {
   const [{ locale: rawLocale, section }, query] = await Promise.all([params, searchParams]);
-  if (!isLocale(rawLocale) || section !== getToolsPath(rawLocale).split("/")[2]) notFound();
+  if (!isLocale(rawLocale)) notFound();
 
   const locale: Locale = rawLocale;
+  if (section === getGuidedWorkflowsPath(locale).split("/")[2]) {
+    return <GuidedWorkflowsPage locale={locale} />;
+  }
+  if (section !== getToolsPath(locale).split("/")[2]) notFound();
   const t = getMessages(locale);
   const visibleCategories = categories.filter((category) => getToolCount(category.id) > 0);
   const publishedTools = getPublishedTools();

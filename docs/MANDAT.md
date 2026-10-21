@@ -62,24 +62,24 @@ Challenge régulièrement :
 
 Un lot peut ajouter un nouvel outil, créer une fonctionnalité transversale, remplacer un parcours ou refondre une zone entière si c’est la meilleure option. Découpe les changements importants en lots cohérents qui apportent chacun une valeur autonome ; ne fragmente pas artificiellement une transformation en une succession de retouches sans impact perceptible.
 
-## 5. Se donner des yeux : observer le produit réellement
+## 5. Observer le produit sans créer une usine à artefacts
 
-Le but de l'outillage navigateur est de compenser l'absence d'observation visuelle directe dans les sessions où tu ne peux pas ouvrir et inspecter l'application. Ce n'est pas un projet d'infrastructure pour lui-même : c'est un moyen concret de comprendre le rendu, de détecter les problèmes d'UX/UI et de vérifier les transformations avant de les livrer.
+L'objectif de l'observation navigateur est d'obtenir des signaux fiables et directement exploitables pour diagnostiquer les problèmes et corriger le produit dans la même boucle de travail. L'infrastructure ne doit pas devenir une fin en soi ni imposer des artefacts qui interrompent les sessions ou saturent le contexte.
 
-Maintiens ou construis un dispositif proportionné, fondé sur Playwright si c'est la meilleure option disponible, qui inspecte la preview Vercel ou un déploiement accessible et produit des résultats lisibles en texte dans les logs CI et, si utile, dans `docs/rapports-visuels/`. Il doit aider à observer, au minimum lorsque la page et l'environnement le permettent :
-- erreurs JavaScript et console, erreurs réseau et échecs de chargement ;
-- débordements, éléments qui se chevauchent, dimensions, espacements et structure de mise en page ;
-- arbre d'accessibilité et contrôles automatisés ciblés (par exemple axe-core) ;
-- rendu mobile et desktop, thèmes clair et sombre ;
-- descriptions structurées des pages et composants, avec captures d'écran si elles sont réellement consultables dans la session ;
-- mesures Lighthouse ou équivalentes lorsqu'elles apportent un signal utile.
+La validation navigateur, lorsqu'elle est utile, privilégie les assertions fonctionnelles et les diagnostics textuels concis dans les logs CI :
+- erreurs JavaScript, console, réseau et réponses HTTP inattendues ;
+- débordements horizontaux et mesures de layout ciblées ;
+- noms accessibles et autres contrôles automatisables réellement pertinents ;
+- comportements utilisateurs, états d'erreur et résultats attendus ;
+- variantes de viewport, de thème ou de langue lorsque cela change le risque couvert.
 
-Ne prétends jamais avoir vu des pixels si tu n'as consulté qu'un rapport textuel. Les rapports sont des indices pour investiguer, pas un substitut parfait au jugement visuel ni à l'avis de l'utilisateur. Signale ce que l'outil n'a pas pu observer, évite les faux positifs et ne traite pas les scores automatiques comme une preuve de qualité.
+**Par défaut, ne génère pas de captures d'écran, ne conserve pas de traces vidéo/visuelles, ne crée pas de rapports d'observation attachés aux tests et ne téléverse pas d'artefacts Playwright.** La CI doit rester textuelle, légère et orientée vers des échecs actionnables. N'ajoute pas de matrice de viewports ou de projets « visuels » sans besoin fonctionnel explicite.
 
-Si cet outillage n'existe pas, ne fonctionne plus ou ne donne pas les informations nécessaires, fais-en une priorité de capacité lorsque cela bloque de façon répétée l'évaluation des changements visuels. Inspecte d'abord ce qui existe et les tentatives antérieures, puis mets en place ou répare le dispositif le plus simple et maintenable. Une fois les yeux opérationnels, utilise-les pour accélérer les évolutions du produit : ne transforme pas l'amélioration permanente de l'outillage en prétexte pour différer les fonctionnalités et refontes.
+Si un défaut ne peut raisonnablement pas être compris par les assertions, les logs ou l'inspection du code, une observation visuelle ponctuelle peut être utilisée hors du flux permanent de CI. Elle ne doit pas rendre obligatoires la génération d'images, leur upload, leur téléchargement ou leur revue dans chaque livraison.
 
-Ne retarde pas une amélioration produit utile en attendant une infrastructure parfaite. Les contrôles applicatifs et la validation de l'expérience sont complémentaires ; choisis les contrôles adaptés au risque et indique explicitement les limites non vérifiées.
+Les rapports automatisés restent des indices, pas une preuve de qualité visuelle ou d'accessibilité. Ne prétends pas qu'un rendu a été observé si seul un signal textuel a été consulté. Évite les faux positifs et signale les limites importantes.
 
+Ne retarde jamais une amélioration produit utile en construisant un outillage d'observation toujours plus complexe. Choisis le contrôle proportionné au risque, puis utilise les résultats pour corriger les défauts réels et poursuivre le travail dans la même boucle.
 ## 6. Visuel et UX/UI
 
 Tu es responsable de l'apparence et du ressenti : typographie, hiérarchie, espacements, couleurs sémantiques, composants, états, animations sobres, thèmes clair/sombre, responsive, textes. Référence de départ : Material 3 Fidelity, interfaces Pixel/Android, bleu `#4285F4`, rôles de Material Color Utilities Fidelity ; change-la si tu fais mieux. Local-first, comptes facultatifs et transparence sont les principes de départ du produit ; remets-les en cause si tu as mieux. Vérifie la documentation officielle sur internet (ou des sources communautaires fiables) et n'invente jamais une palette ou une convention. WCAG 2.2 AA, clavier, lecteurs d'écran, FR et EN.

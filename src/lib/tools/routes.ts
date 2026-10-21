@@ -11,6 +11,11 @@ export const categoriesPathSegments: Record<Locale, string> = {
   fr: "categories",
 };
 
+export const guidedWorkflowsPathSegments: Record<Locale, string> = {
+  en: "guided-workflows",
+  fr: "parcours-guides",
+};
+
 const categorySlugs: Record<string, Record<Locale, string>> = {
   calculations: { en: "calculations", fr: "calculs" },
   dates: { en: "dates", fr: "dates" },
@@ -58,6 +63,7 @@ const toolSlugs: Record<ToolId, Record<Locale, string>> = {
   "password-generator": { en: "password-generator", fr: "generateur-de-mot-de-passe" },
   "contrast-checker": { en: "color-contrast-checker", fr: "verificateur-de-contraste-des-couleurs" },
   "ip-subnet-calculator": { en: "ipv4-subnet-calculator", fr: "calculateur-de-sous-reseau-ipv4" },
+  "ipv6-subnet-calculator": { en: "ipv6-subnet-calculator", fr: "calculateur-de-sous-reseau-ipv6" },
   "color-converter": { en: "color-converter", fr: "convertisseur-de-couleur" },
   "number-base-converter": { en: "number-base-converter", fr: "convertisseur-de-bases" },
   "color-palette-generator": { en: "color-palette-generator", fr: "generateur-de-palette-de-couleurs" },
@@ -67,6 +73,8 @@ const toolSlugs: Record<ToolId, Record<Locale, string>> = {
   "markdown-table-generator": { en: "markdown-table-generator", fr: "generateur-de-tableau-markdown" },
   "image-compressor": { en: "image-compressor", fr: "compresseur-d-image" },
   "image-metadata": { en: "image-metadata-viewer", fr: "analyseur-de-metadonnees-image" },
+  "image-to-pdf": { en: "image-to-pdf", fr: "images-vers-pdf" },
+  "image-contact-sheet": { en: "image-contact-sheet-generator", fr: "generateur-de-planche-contact" },
   "html-previewer": { en: "html-preview", fr: "apercu-html" },
   "timezone-converter": { en: "time-zone-converter", fr: "convertisseur-de-fuseaux-horaires" },
   "xml-formatter-validator": { en: "xml-formatter-validator", fr: "formateur-validateur-xml" },
@@ -91,6 +99,10 @@ export function getSearchResultsPath(locale: Locale, query: string): string {
 
 export function getCategoriesPath(locale: Locale): string {
   return `/${locale}/${categoriesPathSegments[locale]}`;
+}
+
+export function getGuidedWorkflowsPath(locale: Locale): string {
+  return `/${locale}/${guidedWorkflowsPathSegments[locale]}`;
 }
 
 export function getCategorySlug(locale: Locale, categoryId: string): string {
@@ -126,6 +138,7 @@ export function getLocalizedPath(pathname: string, targetLocale: Locale): string
 
   const currentToolsSegment = toolsPathSegments[currentLocale];
   const currentCategoriesSegment = categoriesPathSegments[currentLocale];
+  const currentWorkflowsSegment = guidedWorkflowsPathSegments[currentLocale];
 
   if (segments.length === 2 && segments[1] === searchPathSegments[currentLocale]) {
     return getSearchResultsPagePath(targetLocale);
@@ -133,6 +146,10 @@ export function getLocalizedPath(pathname: string, targetLocale: Locale): string
 
   if (segments.length === 2 && segments[1] === currentToolsSegment) {
     return getToolsPath(targetLocale);
+  }
+
+  if (segments.length === 2 && segments[1] === currentWorkflowsSegment) {
+    return getGuidedWorkflowsPath(targetLocale);
   }
 
   if (segments.length === 3 && segments[1] === currentToolsSegment) {
@@ -145,7 +162,7 @@ export function getLocalizedPath(pathname: string, targetLocale: Locale): string
     return categoryId ? getCategoryPath(targetLocale, categoryId) : `/${targetLocale}`;
   }
 
-  if (segments[1] === currentToolsSegment || segments[1] === currentCategoriesSegment) {
+  if (segments[1] === currentToolsSegment || segments[1] === currentCategoriesSegment || segments[1] === currentWorkflowsSegment) {
     return `/${targetLocale}`;
   }
 

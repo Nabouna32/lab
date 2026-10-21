@@ -69,11 +69,9 @@ test.afterEach(async ({ page }, testInfo) => {
     badResponses: [],
   };
 
-  let metrics: Record<string, unknown> = {};
-  let accessibilityTree = "Unavailable: page did not expose an accessibility snapshot.";
-
+  let layout: { title?: string; url?: string; language?: string; viewport?: { width: number; height: number }; document?: { width: number; height: number }; horizontalOverflow?: boolean; visibleControlCount?: number; controlsWithoutAccessibleName?: number } = {};
   try {
-    metrics = await page.evaluate(() => {
+    layout = await page.evaluate(() => {
       const visible = (element: Element) => {
         const rect = element.getBoundingClientRect();
         const style = getComputedStyle(element);
@@ -82,7 +80,7 @@ test.afterEach(async ({ page }, testInfo) => {
       const controls = Array.from(document.querySelectorAll(
         'a,button,input,select,textarea,[role="button"],[role="combobox"],[tabindex]:not([tabindex="-1"])',
       )).filter(visible);
-      const unnamedControls = controls.filter((element) => {
+      const unnamed = controls.filter((element) => {
         const ariaLabel = element.getAttribute("aria-label")?.trim();
         const labelledBy = element.getAttribute("aria-labelledby");
         const title = element.getAttribute("title")?.trim();
@@ -94,116 +92,36 @@ test.afterEach(async ({ page }, testInfo) => {
         ) && Boolean(element.labels?.length);
         return !ariaLabel && !labelledBy && !title && !text && !hasNativeLabel;
       });
-      const visibleLayout = Array.from(document.querySelectorAll(
-        "header,main,footer,h1,h2,h3,form,[role='search'],[role='region'],button,a,input,[role='combobox']",
-      )).filter(visible).slice(0, 60).map((element) => {
-        const rect = element.getBoundingClientRect();
-        const style = getComputedStyle(element);
-        const text = (element.getAttribute("aria-label") || element.textContent || "").trim().replace(/\\s+/g, " ");
-        return {
-          element: element.tagName.toLowerCase(),
-          role: element.getAttribute("role"),
-          text: text.slice(0, 90),
-          x: Math.round(rect.x),
-          y: Math.round(rect.y),
-          width: Math.round(rect.width),
-          height: Math.round(rect.height),
-          display: style.display,
-          position: style.position,
-        };
-      });
-      const ids = Array.from(document.querySelectorAll("[id]")).map((element) => element.id);
-      const duplicateIds = ids.filter((id, index) => ids.indexOf(id) !== index);
-      const imagesWithoutAlt = Array.from(document.images)
-        .filter((image) => !image.hasAttribute("alt"))
-        .map((image) => image.currentSrc || image.src);
       return {
         title: document.title,
         url: location.href,
         language: document.documentElement.lang,
-        viewport: { width: window.innerWidth, height: window.innerHeight, devicePixelRatio: window.devicePixelRatio },
+        viewport: { width: window.innerWidth, height: window.innerHeight },
         document: { width: document.documentElement.scrollWidth, height: document.documentElement.scrollHeight },
         horizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1,
-        headings: Array.from(document.querySelectorAll("h1,h2,h3"))
-          .filter(visible)
-          .slice(0, 20)
-          .map((heading) => ({ level: heading.tagName, text: heading.textContent?.trim().replace(/\\s+/g, " ").slice(0, 160) })),
         visibleControlCount: controls.length,
-        controlsWithoutAccessibleName: unnamedControls.slice(0, 30).map((element) => ({
-          element: element.tagName.toLowerCase(),
-          role: element.getAttribute("role"),
-          id: element.id,
-          text: element.textContent?.trim().slice(0, 80),
-        })),
-        imagesWithoutAlt: imagesWithoutAlt.slice(0, 30),
-        duplicateIds: [...new Set(duplicateIds)].slice(0, 30),
-        visibleLayout,
+        controlsWithoutAccessibleName: unnamed.length,
       };
     });
-    accessibilityTree = await page.locator("body").ariaSnapshot();
   } catch (error) {
-    metrics = { captureError: error instanceof Error ? error.message : String(error) };
+    console.log("Browser layout diagnostics unavailable:", error instanceof Error ? error.message : String(error));
   }
 
-  const report = [
-    `# Browser observation — ${testInfo.title}`,
-    "",
-    `- Project: ${testInfo.project.name}`,
-    `- Result: ${testInfo.status ?? "unknown"}`,
-    `- URL: ${page.url()}`,
-    "",
-    "## Runtime signals",
-    `- JavaScript page errors: ${issues.pageErrors.length}`,
-    `- Console errors: ${issues.consoleErrors.length}`,
-    `- Aborted requests (often expected during navigation/prefetch): ${issues.abortedRequests.length}`,
-    `- Failed requests: ${issues.failedRequests.length}`,
-    `- HTTP responses >= 400: ${issues.badResponses.length}`,
-    "",
-    "## Layout and accessibility heuristics",
-    "```json",
-    JSON.stringify(metrics, null, 2),
-    "```",
-    "",
-    "## Accessibility tree (Playwright ARIA snapshot)",
-    "```text",
-    accessibilityTree.slice(0, 8_000),
-    "```",
-    "",
-    "## Console errors",
-    ...issues.consoleErrors.map((message) => `- ${message}`),
-    ...(issues.consoleErrors.length ? [] : ["- None observed"]),
-    "",
-    "## JavaScript errors",
-    ...issues.pageErrors.map((message) => `- ${message}`),
-    ...(issues.pageErrors.length ? [] : ["- None observed"]),
-    "",
-    "## Aborted requests (often expected during navigation/prefetch)",
-    ...issues.abortedRequests.map((message) => `- ${message}`),
-    ...(issues.abortedRequests.length ? [] : ["- None observed"]),
-    "",
-    "## Failed requests",
-    ...issues.failedRequests.map((message) => `- ${message}`),
-    ...(issues.failedRequests.length ? [] : ["- None observed"]),
-    "",
-    "## HTTP error responses",
-    ...issues.badResponses.map((message) => `- ${message}`),
-    ...(issues.badResponses.length ? [] : ["- None observed"]),
-    "",
-    "> Heuristic report only: overlap detection, color contrast and visual judgement are not claimed by this first smoke suite. PNG screenshots are attached separately.",
-    "",
-  ].join("\n");
-
-  await testInfo.attach("visual-report", { body: report, contentType: "text/markdown" });
-
-  try {
-    const screenshot = await page.screenshot({ fullPage: true, scale: "css", animations: "disabled", timeout: 10_000 });
-    await testInfo.attach("page-screenshot", { body: screenshot, contentType: "image/png" });
-  } catch (error) {
-    console.log(`Screenshot unavailable: ${error instanceof Error ? error.message : String(error)}`);
-  }
-
-  console.log(`\n${report}\n`);
-
+  // Keep diagnostics in the CI log: no screenshots, trace files, report attachments, or artifact upload.
+  console.log(JSON.stringify({
+    test: testInfo.title,
+    project: testInfo.project.name,
+    result: testInfo.status ?? "unknown",
+    layout,
+    runtime: {
+      pageErrors: issues.pageErrors,
+      consoleErrors: issues.consoleErrors,
+      abortedRequests: issues.abortedRequests.length,
+      failedRequests: issues.failedRequests,
+      badResponses: issues.badResponses,
+    },
+  }));
+  
   expect(issues.pageErrors, "unexpected JavaScript errors in the page").toEqual([]);
   expect(issues.consoleErrors, "unexpected browser console errors").toEqual([]);
 });
@@ -288,7 +206,7 @@ test("JSON formatter hands its result to the comparator without manual copy and 
   await page.getByRole("button", { name: "Comparer avec un autre JSON" }).click();
   await expect(page).toHaveURL(/\/fr\/outils\/comparateur-json$/);
   await expect(page.locator("#json-diff-right")).toHaveValue('{\n  "name": "Loculary",\n  "version": 1\n}');
-  await expect(page.getByRole("status").filter({ hasText: "Le JSON transmis a été placé dans" })).toBeVisible();
+  await expect(page.locator('p[role="status"]').filter({ hasText: "Le JSON transmis a été placé dans" })).toBeVisible();
 
   await page.locator("#json-diff-left").fill('{"name":"Loculary","version":0}');
   await page.getByRole("button", { name: "Comparer", exact: true }).click();
@@ -493,4 +411,80 @@ test("group expense splitter calculates local reimbursements", async ({ page }) 
   await expect(transfers).toContainText(/40,00/);
   await expect(transfers).toContainText(/10,00/);
   await expect(page.getByText(/aucun nom ni montant n’est envoyé/i)).toBeVisible();
+});
+
+
+test("guided workflows connect published tools in French and English", async ({ page }) => {
+  await page.goto("/fr/parcours-guides");
+  await expect(page.locator("html")).toHaveAttribute("lang", "fr");
+  await expect(page.getByRole("heading", { level: 1, name: "Des parcours pour aller jusqu’au bout" })).toBeVisible();
+  await expect(page.getByTestId("guided-workflows").locator("article")).toHaveCount(4);
+  await expect(page.getByText("Le résultat passe automatiquement à l’étape suivante.")).toHaveCount(3);
+  await expect(page.getByRole("link", { name: "Nettoyeur et trieur de lignes" })).toHaveAttribute("href", "/fr/outils/nettoyeur-trieur-de-lignes");
+  await expect(page.getByRole("link", { name: "Comparateur de texte" })).toHaveAttribute("href", "/fr/outils/comparateur-de-texte");
+
+  await page.goto("/en/guided-workflows");
+  await expect(page.locator("html")).toHaveAttribute("lang", "en");
+  await expect(page.getByRole("heading", { level: 1, name: "Guided paths from start to finish" })).toBeVisible();
+  await expect(page.getByTestId("guided-workflows").locator("article")).toHaveCount(4);
+  await expect(page.getByText("The result is passed automatically to the next step.")).toHaveCount(3);
+  await expect(page.getByRole("link", { name: "Browse all tools" })).toHaveAttribute("href", "/en/tools");
+});
+
+
+test("CSV conversion hands its local JSON result to the formatter", async ({ page }) => {
+  await page.goto("/en/tools/csv-json-converter");
+  await expect(page.locator("html")).toHaveAttribute("lang", "en");
+  await page.getByLabel("Data", { exact: true }).fill("name,score\nAda,10");
+  await page.getByRole("button", { name: "CSV → JSON", exact: true }).click();
+  await expect(page.getByText("Conversion updated")).toBeVisible();
+  await page.getByRole("button", { name: "Format this JSON", exact: true }).click();
+  await expect(page).toHaveURL(/\/en\/tools\/json-formatter$/);
+  await expect(page.getByLabel("Your JSON", { exact: true })).toHaveValue(/Ada/);
+  await expect(page.getByRole("status")).toContainText("JSON received from the CSV converter");
+  await page.getByRole("button", { name: "Format", exact: true }).click();
+  await expect(page.locator("pre").last()).toContainText("Ada");
+});
+
+
+test("IPv6 subnet calculator reports canonical CIDR boundaries in French and English", async ({ page }) => {
+  await page.goto("/fr/outils/calculateur-de-sous-reseau-ipv6");
+  await expect(page.getByRole("heading", { level: 1, name: "Calculateur de sous-réseau IPv6" })).toBeVisible();
+  await expect(page.getByLabel("Adresse IPv6 / préfixe CIDR")).toHaveValue("2001:db8:1234:1::42/64");
+  await expect(page.getByText("2001:db8:1234:1::/64")).toBeVisible();
+  await expect(page.getByText("2001:db8:1234:1:ffff:ffff:ffff:ffff")).toBeVisible();
+  await page.getByLabel("Adresse IPv6 / préfixe CIDR").fill("2001:db8::1/129");
+  await expect(page.locator("#ipv6-subnet-error")).toContainText("préfixe de /0 à /128");
+
+  await page.goto("/en/tools/ipv6-subnet-calculator");
+  await expect(page.getByRole("heading", { level: 1, name: "IPv6 Subnet Calculator" })).toBeVisible();
+  await expect(page.getByLabel("IPv6 address / CIDR prefix")).toHaveValue("2001:db8:1234:1::42/64");
+  await expect(page.getByText("2001:db8:1234:1::/64")).toBeVisible();
+});
+
+
+test("hash generator verifies local file checksums in French and English", async ({ page }) => {
+  const sha256 = "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad";
+
+  await page.goto("/fr/outils/generateur-hash");
+  await expect(page.getByRole("heading", { level: 1, name: "Générateur et vérificateur d’empreintes" })).toBeVisible();
+  await page.getByRole("button", { name: "Fichier", exact: true }).click();
+  await page.getByLabel("Fichier à vérifier").setInputFiles({
+    name: "sample.txt",
+    mimeType: "text/plain",
+    buffer: Buffer.from("abc"),
+  });
+  await page.getByLabel("Empreinte attendue (facultatif)").fill(sha256);
+  await page.getByRole("button", { name: "Calculer l’empreinte" }).click();
+  await expect(page.locator("output")).toContainText(sha256);
+  await expect(page.locator('p[role="status"]')).toHaveText("L’empreinte correspond.");
+
+  await page.getByLabel("Empreinte attendue (facultatif)").fill("0".repeat(64));
+  await expect(page.locator('p[role="status"]')).toHaveText("L’empreinte ne correspond pas : le fichier diffère de la référence.");
+
+  await page.goto("/en/tools/hash-generator");
+  await expect(page.getByRole("heading", { level: 1, name: "Hash Generator and Checksum Verifier" })).toBeVisible();
+  await page.getByRole("button", { name: "File", exact: true }).click();
+  await expect(page.getByLabel("File to verify")).toBeVisible();
+  await expect(page.getByLabel("Expected digest (optional)")).toBeVisible();
 });

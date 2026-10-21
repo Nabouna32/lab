@@ -139,8 +139,8 @@ export const toolSeo = {
     en: { title: "Regex Tester | Loculary", description: "Test JavaScript regular expressions and inspect matches directly in your browser." },
   },
   "hash-generator": {
-    fr: { title: "Générateur de hash | Loculary", description: "Générez des empreintes SHA-1, SHA-256, SHA-384 ou SHA-512 directement dans votre navigateur." },
-    en: { title: "Hash Generator | Loculary", description: "Generate SHA-1, SHA-256, SHA-384, or SHA-512 digests directly in your browser." },
+    fr: { title: "Empreinte et vérification de fichiers | Loculary", description: "Calculez l’empreinte SHA d’un texte ou d’un fichier et vérifiez son intégrité localement, sans téléversement." },
+    en: { title: "File Hash and Checksum Verification | Loculary", description: "Calculate SHA digests for text or files and verify file integrity locally without uploading." },
   },
   "jwt-decoder": {
     fr: { title: "Décodeur JWT | Loculary", description: "Décodez des JSON Web Tokens et lisez leur en-tête et leur contenu directement dans votre navigateur." },
@@ -165,6 +165,10 @@ export const toolSeo = {
   "ip-subnet-calculator": {
     fr: { title: "Calculateur de sous-réseau IPv4 | Loculary", description: "Calculez le réseau, le masque, le broadcast et la plage d’hôtes d’une adresse IPv4 en notation CIDR." },
     en: { title: "IPv4 Subnet Calculator | Loculary", description: "Calculate the network, subnet mask, broadcast address, and host range for an IPv4 CIDR." },
+  },
+  "ipv6-subnet-calculator": {
+    fr: { title: "Calculateur de sous-réseau IPv6 | Loculary", description: "Calculez le préfixe réseau IPv6, les bornes d’un bloc CIDR et son nombre exact d’adresses, localement." },
+    en: { title: "IPv6 Subnet Calculator | Loculary", description: "Calculate IPv6 network prefixes, CIDR block boundaries, and exact address counts locally." },
   },
   "text-diff-checker": {
     fr: { title: "Comparateur de texte | Loculary", description: "Comparez deux versions d’un texte et repérez les lignes ajoutées, supprimées et inchangées directement dans votre navigateur." },
@@ -193,5 +197,13 @@ export const toolSeo = {
   "image-compressor": {
     fr: { title: "Compresseur d’images par lot | Loculary", description: "Optimisez jusqu’à 10 images en une fois, comparez le gain de poids et téléchargez un ZIP, directement dans votre navigateur." },
     en: { title: "Batch Image Compressor | Loculary", description: "Optimize up to 10 images at once, compare size savings, and download a ZIP directly in your browser." },
+  },
+  "image-to-pdf": {
+    fr: { title: "Convertir des images en PDF | Loculary", description: "Assemblez plusieurs images dans un PDF multipage A4 ou Lettre, directement dans votre navigateur sans téléversement." },
+    en: { title: "Convert Images to PDF | Loculary", description: "Combine multiple images into a multi-page A4 or Letter PDF in your browser without uploading files." },
+  },
+  "image-contact-sheet": {
+    fr: { title: "Générateur de planche-contact | Loculary", description: "Rassemblez jusqu’à 20 images dans une planche de vignettes PNG avec colonnes et légendes personnalisables, sans téléversement." },
+    en: { title: "Image Contact Sheet Generator | Loculary", description: "Arrange up to 20 images in a PNG contact sheet with customizable columns and labels, without uploading files." },
   },
 } satisfies Record<ToolId, Record<Locale, ToolSeoMetadata>>;

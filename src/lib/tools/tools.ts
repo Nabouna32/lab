@@ -83,6 +83,14 @@ const localProcessingDescriptions = {
     fr: "Les métadonnées d’image sont lues et traitées directement dans votre navigateur.",
     en: "Image metadata is read and processed directly in your browser.",
   },
+  "image-to-pdf": {
+    fr: "Les images sont converties et assemblées en PDF directement dans votre navigateur.",
+    en: "Images are converted and assembled into a PDF directly in your browser.",
+  },
+  "image-contact-sheet": {
+    fr: "Les images sont assemblées en planche-contact PNG directement dans votre navigateur.",
+    en: "Images are arranged into a PNG contact sheet directly in your browser.",
+  },
   "video-bitrate": {
     fr: "Les calculs de bitrate vidéo sont effectués directement dans votre navigateur.",
     en: "Video bitrate calculations are performed directly in your browser.",
@@ -136,8 +144,8 @@ const localProcessingDescriptions = {
     en: "Unix timestamp conversions are performed directly in your browser.",
   },
   "hash-generator": {
-    fr: "Les empreintes cryptographiques sont calculées directement dans votre navigateur.",
-    en: "Cryptographic digests are calculated directly in your browser.",
+    fr: "Les empreintes de texte et de fichiers sont calculées localement dans votre navigateur, sans téléversement.",
+    en: "Text and file digests are calculated locally in your browser without uploading files.",
   },
   "jwt-decoder": {
     fr: "Les JWT sont décodés directement dans votre navigateur.",
@@ -166,6 +174,10 @@ const localProcessingDescriptions = {
   "text-diff-checker": {
     fr: "La comparaison des textes est effectuée directement dans votre navigateur.",
     en: "Text comparison is performed directly in your browser.",
+  },
+  "ipv6-subnet-calculator": {
+    fr: "Les calculs IPv6 sont effectués directement dans votre navigateur.",
+    en: "IPv6 subnet calculations are performed directly in your browser.",
   },
   "number-base-converter": {
     fr: "La conversion de base numérique est effectuée directement dans votre navigateur.",
@@ -677,15 +689,15 @@ const toolDefinitions: ToolDefinition[] = [
   {
     id: "hash-generator", icon: "#️⃣",
     version: 1,
-    complexity: "small",
+    complexity: "advanced",
     categories: ["development"],
-    tags: ["hash", "sha", "sha-1", "sha-256", "sha-384", "sha-512", "digest", "crypto", "developer"],
-    aliases: ["hash generator", "hash calculator", "sha generator", "sha256", "sha-256", "empreinte", "générateur hash", "générateur sha"],
+    tags: ["hash", "sha", "sha-1", "sha-256", "sha-384", "sha-512", "digest", "checksum", "file integrity", "crypto", "developer"],
+    aliases: ["hash generator", "hash calculator", "sha generator", "sha256", "sha-256", "empreinte", "générateur hash", "générateur sha", "file checksum", "checksum verifier", "verify download", "vérifier intégrité fichier", "somme de contrôle fichier"],
     lifecycle: "published",
-    capabilities: ["clipboard"],
+    capabilities: ["clipboard", "file-input", "local-processing"],
     content: {
-      fr: { name: "Générateur de hash", description: "Calculez une empreinte SHA-1, SHA-256, SHA-384 ou SHA-512 à partir d’un texte." },
-      en: { name: "Hash Generator", description: "Generate a SHA-1, SHA-256, SHA-384, or SHA-512 digest from text." },
+      fr: { name: "Générateur et vérificateur d’empreintes", description: "Calculez l’empreinte SHA d’un texte ou d’un fichier, puis vérifiez qu’elle correspond à une empreinte de référence." },
+      en: { name: "Hash Generator and Checksum Verifier", description: "Calculate a SHA digest for text or a file, then verify it against a reference checksum." },
     },
   },
   {
@@ -787,6 +799,20 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
+    id: "ipv6-subnet-calculator", icon: "🌐",
+    version: 1,
+    complexity: "small",
+    categories: ["computing"],
+    tags: ["ipv6", "ip", "cidr", "subnet", "network", "prefix", "networking"],
+    aliases: ["ipv6 subnet calculator", "ipv6 cidr calculator", "calculateur de sous-réseau ipv6", "calculateur cidr ipv6"],
+    lifecycle: "published",
+    capabilities: ["clipboard"],
+    content: {
+      fr: { name: "Calculateur de sous-réseau IPv6", description: "Calculez le préfixe réseau IPv6, la dernière adresse du bloc et le nombre d’adresses à partir d’une notation CIDR." },
+      en: { name: "IPv6 Subnet Calculator", description: "Calculate the IPv6 network prefix, last address, and address count from CIDR notation." },
+    },
+  },
+  {
     id: "number-base-converter", icon: "🔢",
     version: 1,
     complexity: "small",
@@ -867,6 +893,34 @@ const toolDefinitions: ToolDefinition[] = [
     content: {
       fr: { name: "Compresseur d’images par lot", description: "Optimisez plusieurs images en une fois, comparez le poids gagné et téléchargez les résultats dans une archive ZIP, sans envoyer vos fichiers." },
       en: { name: "Batch Image Compressor", description: "Optimize multiple images at once, compare size savings, and download results in a ZIP archive without uploading your files." },
+    },
+  },
+  {
+    id: "image-to-pdf", icon: "📄",
+    version: 1,
+    complexity: "advanced",
+    categories: ["images", "files"],
+    tags: ["image", "images", "pdf", "convert", "conversion", "document", "photo", "scan", "merge", "multi-page", "convertir", "assembler"],
+    aliases: ["image to pdf", "jpg to pdf", "jpeg to pdf", "png to pdf", "photos to pdf", "pictures to pdf", "combine images pdf", "convert images to pdf", "image en pdf", "images en pdf", "convertir image en pdf", "convertir des images en pdf", "photo en pdf", "photos en pdf", "fusionner images pdf"],
+    lifecycle: "published",
+    capabilities: ["file-input"],
+    content: {
+      fr: { name: "Convertisseur d’images en PDF", description: "Assemblez jusqu’à 10 images dans un PDF multipage au format A4 ou Lettre, sans envoyer vos fichiers." },
+      en: { name: "Image to PDF Converter", description: "Combine up to 10 images into a multi-page A4 or Letter PDF without uploading your files." },
+    },
+  },
+  {
+    id: "image-contact-sheet", icon: "🧩",
+    version: 1,
+    complexity: "advanced",
+    categories: ["images", "files"],
+    tags: ["image", "images", "contact sheet", "thumbnail", "photo", "collage", "png", "planche-contact", "vignettes", "aperçu", "preview", "print"],
+    aliases: ["image contact sheet", "contact sheet generator", "photo contact sheet", "image thumbnail sheet", "photo overview", "planche contact", "planche-contact photo", "planche de photos", "assembler photos en planche", "vignettes d’images"],
+    lifecycle: "published",
+    capabilities: ["file-input"],
+    content: {
+      fr: { name: "Générateur de planche-contact", description: "Rassemblez jusqu’à 20 images dans une planche PNG avec colonnes et noms de fichiers personnalisables, sans téléversement." },
+      en: { name: "Image Contact Sheet Generator", description: "Arrange up to 20 images in a PNG contact sheet with customizable columns and filenames, without uploading files." },
     },
   },
   {

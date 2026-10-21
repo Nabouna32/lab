@@ -3,7 +3,7 @@ import CategoryCard from "@/components/home/CategoryCard";
 import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
 import { formatPlural } from "@/lib/i18n/plural";
-import { getToolsPath } from "@/lib/tools/routes";
+import { getGuidedWorkflowsPath, getToolsPath } from "@/lib/tools/routes";
 import { categories, getCategoryName, getToolCount } from "@/lib/tools/categories";
 
 export default function HomeDiscovery({ locale }: { locale: Locale }) {
@@ -39,6 +39,24 @@ export default function HomeDiscovery({ locale }: { locale: Locale }) {
             </Link>
           ))}
         </nav>
+      </section>
+
+      <section className="mt-5" aria-labelledby="home-workflows-title">
+        <Link
+          href={getGuidedWorkflowsPath(locale)}
+          className="group flex flex-col gap-3 rounded-2xl border border-[var(--outline-variant)]/70 bg-[var(--surface-container-low)] p-4 outline-none transition-[border-color,background-color,transform] duration-[var(--motion-standard)] hover:-translate-y-0.5 hover:border-[var(--primary)]/50 hover:bg-[var(--surface-container)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] sm:flex-row sm:items-center sm:justify-between sm:p-5"
+        >
+          <span className="flex items-start gap-3">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[var(--accent-soft)] text-xl text-[var(--accent)]" aria-hidden="true">↗</span>
+            <span className="min-w-0">
+              <span id="home-workflows-title" className="block font-black">{t.guidedWorkflows.homeTitle}</span>
+              <span className="mt-1 block max-w-2xl text-sm leading-6 text-[var(--muted)]">{t.guidedWorkflows.homeDescription}</span>
+            </span>
+          </span>
+          <span className="inline-flex min-h-10 shrink-0 items-center justify-center gap-2 rounded-full bg-[var(--primary)] px-4 text-sm font-bold text-[var(--on-primary)]">
+            {t.guidedWorkflows.homeAction} <span aria-hidden="true">→</span>
+          </span>
+        </Link>
       </section>
 
       <section className="mt-8 sm:mt-10" aria-labelledby="home-discovery-title">

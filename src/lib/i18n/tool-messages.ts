@@ -78,7 +78,7 @@ type ToolMessages = {
   textLineProcessor: {
     input: string; placeholder: string; options: string; trimLines: string; removeBlankLines: string; removeDuplicates: string;
     sortOrder: string; noSort: string; ascending: string; descending: string; result: string; emptyResult: string;
-    lineCounts: (before: number, after: number) => string; copy: string; clear: string; resourceLimit: string;
+    lineCounts: (before: number, after: number) => string; copy: string; clear: string; resourceLimit: string; sendToCompare: string; transferFailed: string;
   };
   unitConverter: {
     value: string; category: string; from: string; to: string; result: string; placeholder: string; invalid: string;
@@ -88,7 +88,7 @@ type ToolMessages = {
   jsonFormatter: {
     input: string; placeholder: string; output: string; format: string; minify: string; copy: string; clear: string;
     indentation: string; spaces2: string; spaces4: string; tab: string; valid: string; invalid: string;
-    emptyResult: string; formatted: string; minified: string; resourceLimit: string; errorAt: (line: string, column: string) => string; sendToCompare: string; sendToTypescript: string; transferFailed: string;
+    emptyResult: string; formatted: string; minified: string; resourceLimit: string; errorAt: (line: string, column: string) => string; sendToCompare: string; sendToTypescript: string; receivedFromTool: string; transferFailed: string;
     extractTitle: string; pathLabel: string; pathPlaceholder: string; pathHint: string; extractButton: string; extractedResult: string; pathSyntaxError: string; pathNotFound: string; extractionInvalidJson: string;
   };
   jsonDiffChecker: {
@@ -132,7 +132,7 @@ type ToolMessages = {
     input: string; placeholder: string; delimiter: string; autoDetectDelimiter: string; csvToJson: string; jsonToCsv: string;
     result: string; ready: string; emptyResult: string; copy: string; clear: string; error: string;
     invalidCsv: string; invalidJson: string; unsupportedJson: string; inferTypes: string; inferTypesHint: string;
-    importFile: string; importFileHint: string; unsupportedFile: string; fileTooLarge: string; fileReadFailed: string; download: string; sendToCompare: string; sendToTypescript: string; transferFailed: string;
+    importFile: string; importFileHint: string; unsupportedFile: string; fileTooLarge: string; fileReadFailed: string; download: string; sendToFormatter: string; sendToCompare: string; sendToTypescript: string; transferFailed: string;
   };
   uuidGenerator: {
     count: string; countPlaceholder: string; generate: string; copy: string; copied: string; download: string; clear: string; result: string;
@@ -168,6 +168,9 @@ type ToolMessages = {
   hashGenerator: {
     input: string; placeholder: string; algorithm: string; generate: string; generating: string; clear: string;
     result: string; complete: string; emptyResult: string; copy: string; invalid: string;
+    inputMode: string; textMode: string; fileMode: string; fileInput: string; fileHint: string;
+    expectedDigest: string; expectedPlaceholder: string; expectedHint: string; hashFile: string; fileTooLarge: string;
+    digestMatch: string; digestMismatch: string; digestInvalid: string;
   };
   passwordGenerator: {
     length: string; characters: string; lowercase: string; uppercase: string; numbers: string; symbols: string;
@@ -218,6 +221,11 @@ type ToolMessages = {
     firstUsableAddress: string; lastUsableAddress: string; totalAddresses: string; usableHosts: string;
     hostCountNote: string; notApplicable: string;
   };
+  ipv6SubnetCalculator: {
+    input: string; placeholder: string; result: string; ready: string; emptyResult: string;
+    invalid: string; clear: string; reset: string; hint: string; copy: string;
+    address: string; prefix: string; networkAddress: string; lastAddress: string; addressCount: string;
+  };
   numberBaseConverter: {
     input: string; placeholder: string; fromBase: string; toBase: string; result: string;
     emptyResult: string; invalid: string; hint: string; reset: string; swap: string;
@@ -233,7 +241,7 @@ type ToolMessages = {
   textDiffChecker: {
     original: string; originalPlaceholder: string; updated: string; updatedPlaceholder: string;
     result: string; emptyResult: string; resourceLimit: string; copy: string; clear: string; reset: string;
-    summary: (added: number, removed: number, unchanged: number) => string;
+    summary: (added: number, removed: number, unchanged: number) => string; receivedFromTool: string;
   };
   csvDiffChecker: {
     before: string; beforePlaceholder: string; after: string; afterPlaceholder: string; delimiter: string;
@@ -279,6 +287,12 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       networkAddress: "Adresse réseau", broadcastAddress: "Adresse de broadcast", subnetMask: "Masque de sous-réseau", wildcardMask: "Masque générique", notApplicable: "Non applicable",
       firstUsableAddress: "Première adresse hôte", lastUsableAddress: "Dernière adresse hôte", totalAddresses: "Adresses totales", usableHosts: "Hôtes utilisables",
       hostCountNote: "Pour /0 à /30, les adresses réseau et broadcast ne sont pas comptées comme hôtes utilisables. Sur un lien point à point /31, les deux adresses sont des hôtes et il n’existe pas de broadcast dirigé ; un /32 représente une seule route d’hôte.",
+    },
+    ipv6SubnetCalculator: {
+      input: "Adresse IPv6 / préfixe CIDR", placeholder: "Ex. 2001:db8:1234:1::42/64", result: "Résultat", ready: "Calcul mis à jour", emptyResult: "Le résultat apparaîtra ici après le calcul.",
+      invalid: "Saisissez une adresse IPv6 valide et un préfixe de /0 à /128.", clear: "Effacer", reset: "Réinitialiser", copy: "Copier",
+      hint: "Formats IPv6 compressé et complet acceptés. Les adresses IPv4 intégrées et les identifiants de zone ne sont pas pris en charge. Calcul local uniquement.",
+      address: "Adresse normalisée", prefix: "Préfixe", networkAddress: "Préfixe réseau", lastAddress: "Dernière adresse du bloc", addressCount: "Nombre total d’adresses",
     },
     numberBaseConverter: {
       input: "Nombre à convertir", placeholder: "Ex. FF", fromBase: "Base de départ", toBase: "Base d’arrivée",
@@ -388,7 +402,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     textLineProcessor: {
       input: "Votre liste", placeholder: "Collez une liste, des identifiants ou une ligne par élément…", options: "Nettoyage des lignes", trimLines: "Retirer les espaces au début et à la fin", removeBlankLines: "Supprimer les lignes vides", removeDuplicates: "Supprimer les doublons (sans tenir compte de la casse)",
       sortOrder: "Ordre de tri", noSort: "Conserver l’ordre", ascending: "A → Z", descending: "Z → A", result: "Résultat", emptyResult: "Le résultat nettoyé apparaîtra ici.",
-      lineCounts: (before, after) => `${before} ligne${before > 1 ? "s" : ""} → ${after} ligne${after > 1 ? "s" : ""}`, copy: "Copier le résultat", clear: "Effacer", resourceLimit: "Le texte dépasse la limite de sécurité de 500 000 caractères. Réduisez la taille pour continuer.",
+      lineCounts: (before, after) => `${before} ligne${before > 1 ? "s" : ""} → ${after} ligne${after > 1 ? "s" : ""}`, copy: "Copier le résultat", clear: "Effacer", resourceLimit: "Le texte dépasse la limite de sécurité de 500 000 caractères. Réduisez la taille pour continuer.", sendToCompare: "Comparer ce résultat", transferFailed: "Transfert impossible : le texte doit être non vide et ne pas dépasser 200 000 caractères.",
     },
     unitConverter: {
       value: "Valeur à convertir", category: "Catégorie", from: "De", to: "Vers", result: "Résultat", placeholder: "Ex. 1,5", invalid: "Saisissez une valeur valide et compatible avec l’unité choisie.",
@@ -399,7 +413,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       input: "Votre JSON", placeholder: '{\\n  "name": "Loculary"\\n}', output: "Résultat", format: "Formater", minify: "Minifier", copy: "Copier", clear: "Effacer",
       indentation: "Indentation", spaces2: "2 espaces", spaces4: "4 espaces", tab: "Tabulation", valid: "JSON valide", invalid: "JSON invalide",
       emptyResult: "Le résultat apparaîtra ici après validation.", formatted: "Formaté", minified: "Minifié", resourceLimit: "Le JSON dépasse la limite de taille sûre de 200 000 caractères.", errorAt: (line, column) => "Ligne " + line + ", colonne " + column,
-      sendToCompare: "Comparer avec un autre JSON", sendToTypescript: "Générer les types TypeScript", transferFailed: "Impossible de transmettre le résultat dans cet onglet. Copiez-le et collez-le manuellement.",
+      sendToCompare: "Comparer avec un autre JSON", sendToTypescript: "Générer les types TypeScript", receivedFromTool: "JSON reçu depuis le convertisseur CSV. Vérifiez le contenu puis formatez-le.", transferFailed: "Impossible de transmettre le résultat dans cet onglet. Copiez-le et collez-le manuellement.",
       extractTitle: "Extraire une valeur par chemin", pathLabel: "Chemin JSON", pathPlaceholder: "$.user.name",
       pathHint: "Syntaxe prise en charge : $, .clé, ['clé avec espaces'] et [0] pour les tableaux. Exemple : $.users[0].email.",
       extractButton: "Extraire", extractedResult: "Valeur extraite", pathSyntaxError: "Chemin invalide. Vérifiez la syntaxe du chemin JSON.",
@@ -451,12 +465,12 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       result: "Résultat", ready: "Conversion mise à jour", emptyResult: "Le résultat apparaîtra ici.", copy: "Copier", clear: "Effacer", error: "La conversion n’a pas pu être effectuée.",
       invalidCsv: "Le CSV est invalide ou mal formé.", invalidJson: "Le JSON est invalide.", unsupportedJson: "Utilisez un tableau JSON composé d’objets.", inferTypes: "Déduire les types JSON", inferTypesHint: "Convertit true, false, null et les nombres sûrs. Les identifiants avec des zéros initiaux restent du texte.",
       importFile: "Importer un fichier", importFileHint: "Fichier CSV ou JSON, jusqu’à 200 ko. Le contenu est lu localement dans votre navigateur.",
-      unsupportedFile: "Choisissez un fichier .csv ou .json.", fileTooLarge: "Le fichier dépasse la limite de 200 ko.", fileReadFailed: "Impossible de lire ce fichier dans votre navigateur.", download: "Télécharger le résultat", sendToCompare: "Comparer ce JSON", sendToTypescript: "Générer les types TypeScript", transferFailed: "Impossible de transmettre le résultat dans cet onglet. Copiez-le et collez-le manuellement.",
+      unsupportedFile: "Choisissez un fichier .csv ou .json.", fileTooLarge: "Le fichier dépasse la limite de 200 ko.", fileReadFailed: "Impossible de lire ce fichier dans votre navigateur.", download: "Télécharger le résultat", sendToFormatter: "Formater ce JSON", sendToCompare: "Comparer ce JSON", sendToTypescript: "Générer les types TypeScript", transferFailed: "Impossible de transmettre le résultat dans cet onglet. Copiez-le et collez-le manuellement.",
     },
     textDiffChecker: {
       original: "Version originale", originalPlaceholder: "Collez le texte original…", updated: "Version modifiée", updatedPlaceholder: "Collez le texte modifié…",
       result: "Comparaison", emptyResult: "Collez deux versions pour afficher les différences.", resourceLimit: "Les textes sont trop volumineux pour être comparés en toute sécurité.", copy: "Copier le diff", clear: "Effacer", reset: "Réinitialiser",
-      summary: (added, removed, unchanged) => `+${added} ajout${added === 1 ? "" : "s"} · -${removed} suppression${removed === 1 ? "" : "s"} · ${unchanged} ligne${unchanged === 1 ? "" : "s"} inchangée${unchanged === 1 ? "" : "s"}`,
+      summary: (added, removed, unchanged) => `+${added} ajout${added === 1 ? "" : "s"} · -${removed} suppression${removed === 1 ? "" : "s"} · ${unchanged} ligne${unchanged === 1 ? "" : "s"} inchangée${unchanged === 1 ? "" : "s"}`, receivedFromTool: "Résultat nettoyé reçu depuis le Nettoyeur et trieur de lignes. Collez la version à comparer à droite.",
     },
     csvDiffChecker: {
       before: "Export CSV initial", beforePlaceholder: "Collez le premier export CSV…", after: "Nouvel export CSV", afterPlaceholder: "Collez le second export CSV…",
@@ -538,6 +552,9 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     },
     hashGenerator: {
       input: "Votre texte", placeholder: "Saisissez ou collez votre texte…", algorithm: "Algorithme", generate: "Générer", generating: "Calcul…", clear: "Effacer", result: "Empreinte", complete: "Empreinte générée", emptyResult: "Le résultat apparaîtra ici après génération.", copy: "Copier", invalid: "Impossible de calculer cette empreinte.",
+      inputMode: "Mode de saisie", textMode: "Texte", fileMode: "Fichier", fileInput: "Fichier à vérifier", fileHint: "Le fichier reste sur votre appareil. Taille maximale : 100 Mio.",
+      expectedDigest: "Empreinte attendue (facultatif)", expectedPlaceholder: "Collez une empreinte hexadécimale", expectedHint: "Comparez avec l’empreinte publiée par la source officielle. Cela vérifie l’intégrité, pas l’authenticité de la source.", hashFile: "Calculer l’empreinte", fileTooLarge: "Choisissez un fichier de 100 Mio maximum.",
+      digestMatch: "L’empreinte correspond.", digestMismatch: "L’empreinte ne correspond pas : le fichier diffère de la référence.", digestInvalid: "L’empreinte attendue n’a pas le format requis pour cet algorithme.",
     },
     passwordGenerator: {
       length: "Longueur", characters: "Types de caractères", lowercase: "Minuscules", uppercase: "Majuscules", numbers: "Chiffres", symbols: "Symboles",
@@ -605,6 +622,12 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       networkAddress: "Network address", broadcastAddress: "Broadcast address", subnetMask: "Subnet mask", wildcardMask: "Wildcard mask", notApplicable: "Not applicable",
       firstUsableAddress: "First host address", lastUsableAddress: "Last host address", totalAddresses: "Total addresses", usableHosts: "Usable hosts",
       hostCountNote: "For /0 through /30, network and broadcast addresses are excluded from usable hosts. On a /31 point-to-point link, both addresses are hosts and there is no directed broadcast; a /32 is a single-host route.",
+    },
+    ipv6SubnetCalculator: {
+      input: "IPv6 address / CIDR prefix", placeholder: "e.g. 2001:db8:1234:1::42/64", result: "Result", ready: "Calculation updated", emptyResult: "The result will appear here once the address is valid.",
+      invalid: "Enter a valid IPv6 address and a prefix from /0 through /128.", clear: "Clear", reset: "Reset", copy: "Copy",
+      hint: "Compressed and full IPv6 notation are supported. IPv4-embedded addresses and zone identifiers are not supported. All calculations run locally.",
+      address: "Normalized address", prefix: "Prefix length", networkAddress: "Network prefix", lastAddress: "Last address in block", addressCount: "Total addresses",
     },
     numberBaseConverter: {
       input: "Number to convert", placeholder: "e.g. FF", fromBase: "Source base", toBase: "Target base",
@@ -712,7 +735,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     textLineProcessor: {
       input: "Your list", placeholder: "Paste a list, identifiers, or one item per line…", options: "Line cleanup", trimLines: "Trim leading and trailing whitespace", removeBlankLines: "Remove blank lines", removeDuplicates: "Remove duplicates (case-insensitive)",
       sortOrder: "Sort order", noSort: "Keep original order", ascending: "A → Z", descending: "Z → A", result: "Result", emptyResult: "Your cleaned result will appear here.",
-      lineCounts: (before, after) => `${before} line${before === 1 ? "" : "s"} → ${after} line${after === 1 ? "" : "s"}`, copy: "Copy result", clear: "Clear", resourceLimit: "Text exceeds the 500,000-character safety limit. Reduce its size to continue.",
+      lineCounts: (before, after) => `${before} line${before === 1 ? "" : "s"} → ${after} line${after === 1 ? "" : "s"}`, copy: "Copy result", clear: "Clear", resourceLimit: "Text exceeds the 500,000-character safety limit. Reduce its size to continue.", sendToCompare: "Compare this result", transferFailed: "Could not transfer text. It must be non-empty and no longer than 200,000 characters.",
     },
     unitConverter: {
       value: "Value to convert", category: "Category", from: "From", to: "To", result: "Result", placeholder: "e.g. 1.5", invalid: "Enter a valid value that is compatible with the selected unit.",
@@ -723,7 +746,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       input: "Your JSON", placeholder: '{\\n  "name": "Loculary"\\n}', output: "Result", format: "Format", minify: "Minify", copy: "Copy", clear: "Clear",
       indentation: "Indentation", spaces2: "2 spaces", spaces4: "4 spaces", tab: "Tab", valid: "Valid JSON", invalid: "Invalid JSON",
       emptyResult: "The result will appear here after validation.", formatted: "Formatted", minified: "Minified", resourceLimit: "JSON exceeds the safe size limit of 200,000 characters.", errorAt: (line, column) => "Line " + line + ", column " + column,
-      sendToCompare: "Compare with another JSON", sendToTypescript: "Generate TypeScript types", transferFailed: "Could not pass the result to the next tool in this tab. Copy and paste it manually.",
+      sendToCompare: "Compare with another JSON", sendToTypescript: "Generate TypeScript types", receivedFromTool: "JSON received from the CSV converter. Review the content, then format it.", transferFailed: "Could not pass the result to the next tool in this tab. Copy and paste it manually.",
       extractTitle: "Extract a value by path", pathLabel: "JSON path", pathPlaceholder: "$.user.name",
       pathHint: "Supported syntax: $, .key, ['key with spaces'], and [0] for arrays. Example: $.users[0].email.",
       extractButton: "Extract", extractedResult: "Extracted value", pathSyntaxError: "Invalid path. Check the JSON path syntax.",
@@ -775,7 +798,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       result: "Result", ready: "Conversion updated", emptyResult: "The result will appear here.", copy: "Copy", clear: "Clear", error: "The conversion could not be completed.",
       invalidCsv: "The CSV is invalid or malformed.", invalidJson: "The JSON is invalid.", unsupportedJson: "Use a JSON array containing objects.", inferTypes: "Infer JSON types", inferTypesHint: "Converts true, false, null and safe numbers. Identifiers with leading zeros stay as text.",
       importFile: "Import a file", importFileHint: "CSV or JSON file, up to 200 kB. The content is read locally in your browser.",
-      unsupportedFile: "Choose a .csv or .json file.", fileTooLarge: "The file exceeds the 200 kB limit.", fileReadFailed: "This file could not be read in your browser.", download: "Download result", sendToCompare: "Compare this JSON", sendToTypescript: "Generate TypeScript types", transferFailed: "Could not pass the result to the next tool in this tab. Copy and paste it manually.",
+      unsupportedFile: "Choose a .csv or .json file.", fileTooLarge: "The file exceeds the 200 kB limit.", fileReadFailed: "This file could not be read in your browser.", download: "Download result", sendToFormatter: "Format this JSON", sendToCompare: "Compare this JSON", sendToTypescript: "Generate TypeScript types", transferFailed: "Could not pass the result to the next tool in this tab. Copy and paste it manually.",
     },
     cronExpression: {
       input: "Cron expression", placeholder: "e.g. 0 9 * * 1-5", result: "Analysis", valid: "Valid expression",
@@ -789,7 +812,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     textDiffChecker: {
       original: "Original version", originalPlaceholder: "Paste the original text…", updated: "Updated version", updatedPlaceholder: "Paste the updated text…",
       result: "Comparison", emptyResult: "Paste two versions to see the differences.", resourceLimit: "The texts are too large to compare safely.", copy: "Copy diff", clear: "Clear", reset: "Reset",
-      summary: (added, removed, unchanged) => `+${added} addition${added === 1 ? "" : "s"} · -${removed} removal${removed === 1 ? "" : "s"} · ${unchanged} unchanged line${unchanged === 1 ? "" : "s"}`,
+      summary: (added, removed, unchanged) => `+${added} addition${added === 1 ? "" : "s"} · -${removed} removal${removed === 1 ? "" : "s"} · ${unchanged} unchanged line${unchanged === 1 ? "" : "s"}`, receivedFromTool: "Cleaned result received from Text Line Cleaner & Sorter. Paste the version to compare on the right.",
     },
     csvDiffChecker: {
       before: "Original CSV export", beforePlaceholder: "Paste the first CSV export…", after: "New CSV export", afterPlaceholder: "Paste the second CSV export…",
@@ -862,6 +885,9 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     },
     hashGenerator: {
       input: "Your text", placeholder: "Type or paste your text…", algorithm: "Hash algorithm", generate: "Generate", generating: "Hashing…", clear: "Clear", result: "Digest", complete: "Digest generated", emptyResult: "The result will appear here after generation.", copy: "Copy", invalid: "The digest could not be generated.",
+      inputMode: "Input mode", textMode: "Text", fileMode: "File", fileInput: "File to verify", fileHint: "The file stays on your device. Maximum size: 100 MiB.",
+      expectedDigest: "Expected digest (optional)", expectedPlaceholder: "Paste a hexadecimal digest", expectedHint: "Compare against a digest published by the official source. This checks integrity, not the source’s authenticity.", hashFile: "Calculate digest", fileTooLarge: "Choose a file no larger than 100 MiB.",
+      digestMatch: "The digest matches.", digestMismatch: "The digest does not match: the file differs from the reference.", digestInvalid: "The expected digest does not have the required format for this algorithm.",
     },
     passwordGenerator: {
       length: "Length", characters: "Character types", lowercase: "Lowercase", uppercase: "Uppercase", numbers: "Numbers", symbols: "Symbols",

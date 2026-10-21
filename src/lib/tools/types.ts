@@ -37,6 +37,7 @@ export type ToolId =
   | "password-generator"
   | "contrast-checker"
   | "ip-subnet-calculator"
+  | "ipv6-subnet-calculator"
   | "color-converter"
   | "number-base-converter"
   | "color-palette-generator"
@@ -46,6 +47,8 @@ export type ToolId =
   | "markdown-table-generator"
   | "image-compressor"
   | "image-metadata"
+  | "image-to-pdf"
+  | "image-contact-sheet"
   | "html-previewer"
   | "timezone-converter"
   | "xml-formatter-validator";
