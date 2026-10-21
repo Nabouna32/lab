@@ -97,7 +97,7 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 
 > Mémoire opérationnelle par session de travail, avec les PR représentatives et preuves vérifiables.
 
-1. **Accessibilité / suggestions de correction du contraste** — couleurs de premier plan calculées localement pour atteindre WCAG AA/AAA. PR à créer ; CI à confirmer.
+1. **Accessibilité / suggestions de correction du contraste** — [PR #935](https://github.com/Nabouna32/lab/pull/935) : couleurs de premier plan calculées localement pour atteindre WCAG AA/AAA, avec application et copie. CI à confirmer.
 2. **Produit / QR Code Wi-Fi** — [PR #933](https://github.com/Nabouna32/lab/pull/933), en attente de contrôles CI.
 3. **Découverte par tâche / intention « Comparer »** — regroupe les comparateurs existants de données structurées, texte et fuseaux horaires.
 4. **Transformation de parcours / transferts JSON entre outils** — [PR #930](https://github.com/Nabouna32/lab/pull/930).
