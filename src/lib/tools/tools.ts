@@ -59,6 +59,10 @@ const localProcessingDescriptions = {
     fr: "Le texte saisi est transformé directement dans votre navigateur.",
     en: "The text you enter is transformed directly in your browser.",
   },
+  "text-line-processor": {
+    fr: "Les lignes de texte sont nettoyées, dédupliquées ou triées directement dans votre navigateur.",
+    en: "Text lines are cleaned, deduplicated, or sorted directly in your browser.",
+  },
   "unit-converter": {
     fr: "Les conversions d’unités sont effectuées directement dans votre navigateur.",
     en: "Unit conversions are performed directly in your browser.",
@@ -411,6 +415,20 @@ const toolDefinitions: ToolDefinition[] = [
     content: {
       fr: { name: "Convertisseur de casse", description: "Transformez un texte en majuscules, minuscules, Title Case, camelCase, PascalCase, snake_case ou kebab-case." },
       en: { name: "Text Case Converter", description: "Transform text into uppercase, lowercase, Title Case, camelCase, PascalCase, snake_case, or kebab-case." },
+    },
+  },
+  {
+    id: "text-line-processor", icon: "≡",
+    version: 1,
+    complexity: "advanced",
+    categories: ["files"],
+    tags: ["texte", "lignes", "nettoyer", "supprimer doublons", "deduplicate", "sort", "trier", "blank lines", "liste"],
+    aliases: ["text line processor", "line cleaner", "remove duplicate lines", "sort lines", "deduplicate lines", "nettoyeur de lignes", "supprimer les lignes vides", "trier des lignes", "supprimer les doublons texte"],
+    lifecycle: "published",
+    capabilities: ["clipboard"],
+    content: {
+      fr: { name: "Nettoyeur et trieur de lignes", description: "Nettoyez une liste de texte, supprimez les lignes vides ou les doublons et triez les lignes en un clic." },
+      en: { name: "Text Line Cleaner & Sorter", description: "Clean a text list, remove blank or duplicate lines, and sort lines in one click." },
     },
   },
   {
