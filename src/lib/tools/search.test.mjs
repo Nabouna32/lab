@@ -36,6 +36,39 @@ const fixtureTools = [
       en: { name: "Download Time Calculator", description: "Estimate download time." },
     },
   },
+  {
+    id: "image-metadata",
+    tags: ["image", "exif", "metadata"],
+    aliases: ["metadonnees image"],
+    categories: ["images"],
+    lifecycle: "published",
+    content: {
+      fr: { name: "Métadonnées d’image", description: "Inspectez les informations d’une image avant de la partager." },
+      en: { name: "Image Metadata", description: "Inspect image information before sharing." },
+    },
+  },
+  {
+    id: "image-compressor",
+    tags: ["image", "compress"],
+    aliases: ["compression image"],
+    categories: ["images"],
+    lifecycle: "published",
+    content: {
+      fr: { name: "Compresser une image", description: "Réduisez le poids d’une image avant de la partager." },
+      en: { name: "Image Compressor", description: "Reduce image size before sharing." },
+    },
+  },
+  {
+    id: "image-dimensions",
+    tags: ["image", "dimensions"],
+    aliases: ["dimensions image"],
+    categories: ["images"],
+    lifecycle: "published",
+    content: {
+      fr: { name: "Dimensions d’image", description: "Vérifiez les dimensions d’un fichier image." },
+      en: { name: "Image Dimensions", description: "Check the dimensions of an image file." },
+    },
+  },
 ];
 
 function ids(query, locale = "fr") {
@@ -73,7 +106,6 @@ test("does not fuzzy-match very short terms", () => {
   assert.deepEqual(ids("tvx"), []);
 });
 
-
 test("matches tags and categories", () => {
   const catalogFixture = {
     id: "internet-tools",
@@ -91,4 +123,18 @@ test("matches tags and categories", () => {
 
   assert.equal(searchTools([catalogFixture], "networking")[0]?.tool.id, "internet-tools");
   assert.equal(searchTools([catalogFixture], "computing")[0]?.tool.id, "internet-tools");
+});
+
+test("uses curated intent associations for a task-only query", () => {
+  assert.deepEqual(new Set(ids("préparer")), new Set(["image-metadata", "image-compressor"]));
+});
+
+test("ranks tools associated with the inferred task above other matching tools", () => {
+  const results = ids("préparer une image à partager");
+  assert.ok(results.indexOf("image-metadata") < results.indexOf("image-dimensions"));
+  assert.ok(results.indexOf("image-compressor") < results.indexOf("image-dimensions"));
+});
+
+test("recognizes English task intent as well as French", () => {
+  assert.ok(ids("prepare an image to share", "en").includes("image-metadata"));
 });

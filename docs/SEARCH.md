@@ -21,6 +21,13 @@ Search supports catalog navigation and intent-based tool discovery.
 - The trailing round arrow and Enter submit the same query. Enter while a suggestion is explicitly highlighted opens that selected tool.
 - Search-result URLs are transient discovery states, not standalone SEO landing pages; they should not be indexed. The static all-tools catalog route remains separate from query results.
 
+## Intent-aware ranking
+
+- Query ranking can infer a task only from a small, explicit French/English vocabulary (for example, `préparer`, `prepare`, `comparer`, `compare`, `convertir`, or `generate`).
+- An inferred task boosts only tools already associated with that curated intent in `src/lib/tools/intents.ts`. It does not invent associations or replace the text match; explicit names, aliases and tags continue to contribute to ranking.
+- A task-only query can return the curated tools even when the verb is removed from ordinary text matching as a stop word. Ambiguous vocabulary should remain conservative, deterministic and covered by tests.
+- This is intent-aware discovery, not natural-language execution: Loculary does not calculate an answer from arbitrary text or send the query to an AI provider.
+
 Matching layers: exact/prefix text; descriptions, aliases, synonyms, tags and categories; typo tolerance, related queries and natural-language intent.
 
 Examples such as “calculer 17 % de 283” should lead to the relevant tool. A no-result state should propose related queries and relevant tools.
