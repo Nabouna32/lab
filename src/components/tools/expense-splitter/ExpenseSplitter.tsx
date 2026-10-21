@@ -19,7 +19,7 @@ const copy = {
     expenses: "Dépenses", expenseName: "Ex. : courses, hôtel, restaurant", amount: "Montant", payer: "Payé par",
     addExpense: "Ajouter la dépense", noExpenses: "Ajoutez les dépenses déjà payées par le groupe pour calculer les remboursements.",
     total: "Total des dépenses", perPerson: "Part moyenne", balances: "Bilan par personne", paid: "A payé", owes: "Sa part", getsBack: "À recevoir", owesOthers: "À rembourser", settled: "Tout le monde est quitte.", transfers: "Remboursements à effectuer", from: "doit payer", to: "à", removeExpense: "Supprimer la dépense",
-    needTwo: "Ajoutez au moins deux participants.", invalidExpense: "Saisissez un libellé et un montant positif valide.", payerHasExpenses: "Supprimez d’abord les dépenses payées par cette personne.", copySettlement: "Copier le bilan", copied: "Bilan copié", copyFailed: "Copie impossible dans ce navigateur.", localNote: "Calcul local uniquement : aucun nom ni montant n’est envoyé ou enregistré.",
+    needTwo: "Ajoutez au moins deux participants.", invalidExpense: "Saisissez un libellé et un montant positif valide.", payerHasExpenses: "Supprimez d’abord les dépenses payées par cette personne.", copySettlement: "Copier le bilan", copied: "Bilan copié", copyFailed: "Copie impossible dans ce navigateur.", expenseLimit: "Limite atteinte : 500 dépenses par groupe.", localNote: "Calcul local uniquement : aucun nom ni montant n’est envoyé ou enregistré.",
   },
   en: {
     intro: "Record group expenses to see who should pay whom. Every expense is split equally among all participants.",
@@ -27,7 +27,7 @@ const copy = {
     expenses: "Expenses", expenseName: "E.g. groceries, hotel, dinner", amount: "Amount", payer: "Paid by",
     addExpense: "Add expense", noExpenses: "Add expenses already paid by the group to calculate reimbursements.",
     total: "Total expenses", perPerson: "Average share", balances: "Per-person balance", paid: "Paid", owes: "Share", getsBack: "To receive", owesOthers: "To reimburse", settled: "Everyone is settled up.", transfers: "Suggested reimbursements", from: "pays", to: "to", removeExpense: "Remove expense",
-    needTwo: "Add at least two participants.", invalidExpense: "Enter a description and a valid positive amount.", payerHasExpenses: "Remove this person's expenses first.", copySettlement: "Copy summary", copied: "Summary copied", copyFailed: "This browser could not copy the summary.", localNote: "Calculated locally only: no names or amounts are sent or saved.",
+    needTwo: "Add at least two participants.", invalidExpense: "Enter a description and a valid positive amount.", payerHasExpenses: "Remove this person's expenses first.", copySettlement: "Copy summary", copied: "Summary copied", copyFailed: "This browser could not copy the summary.", expenseLimit: "Limit reached: 500 expenses per group.", localNote: "Calculated locally only: no names or amounts are sent or saved.",
   },
 } as const;
 
@@ -82,6 +82,7 @@ export default function ExpenseSplitter() {
   }
 
   function addExpense() {
+    if (expenses.length >= 500) { setError(t.expenseLimit); return; }
     const numericAmount = Number(amount.replace(",", "."));
     if (!description.trim() || !Number.isFinite(numericAmount) || numericAmount <= 0 || numericAmount > 1_000_000_000) {
       setError(t.invalidExpense);
