@@ -8,21 +8,33 @@ import { Select } from "@/components/ui/Select";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { generateQrCode } from "@/lib/qr-code";
+import { buildWifiQrPayload, type WifiSecurity } from "@/lib/wifi-qr";
 
 const DEFAULT_VALUE = "https://example.com";
 
 export default function QrCodeGenerator() {
   const locale = useLocale();
   const t = getToolMessages(locale).qrCodeGenerator;
+  const isFrench = locale === "fr";
+  const [mode, setMode] = useState("text");
   const [value, setValue] = useState(DEFAULT_VALUE);
+  const [ssid, setSsid] = useState("");
+  const [password, setPassword] = useState("");
+  const [security, setSecurity] = useState<WifiSecurity>("WPA");
+  const [hidden, setHidden] = useState(false);
   const [size, setSize] = useState("256");
   const svgRef = useRef<SVGSVGElement>(null);
 
+  const needsPassword = mode === "wifi" && security !== "nopass" && !password;
+  const encodedValue = mode === "wifi"
+    ? buildWifiQrPayload({ ssid, password, security, hidden }) ?? ""
+    : value;
+
   const result = useMemo(() => {
-    if (!value) return null;
-    try { return { qr: generateQrCode(value), error: null }; }
+    if (!encodedValue) return null;
+    try { return { qr: generateQrCode(encodedValue), error: null }; }
     catch { return { qr: null, error: t.tooLong }; }
-  }, [value, t.tooLong]);
+  }, [encodedValue, t.tooLong]);
 
   function download() {
     if (!svgRef.current || !result?.qr) return;
@@ -31,28 +43,88 @@ export default function QrCodeGenerator() {
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
     anchor.href = url;
-    anchor.download = "loculary-qr-code.svg";
+    anchor.download = mode === "wifi" ? "loculary-wifi-qr-code.svg" : "loculary-qr-code.svg";
     anchor.click();
     URL.revokeObjectURL(url);
+  }
+
+  function clear() {
+    if (mode === "wifi") {
+      setSsid("");
+      setPassword("");
+      setHidden(false);
+    } else {
+      setValue("");
+    }
   }
 
   return (
     <section className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]">
       <div className="grid gap-6 p-5 sm:p-7 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.85fr)] lg:p-8">
         <div className="space-y-5">
-          <TextArea
-            label={t.input}
-            inputId="qr-code-input"
-            value={value}
-            onChange={(event) => setValue(event.target.value)}
-            placeholder={t.placeholder}
-            spellCheck={false}
-            autoCapitalize="none"
-            className="min-h-36 resize-y font-mono text-sm"
-            aria-invalid={Boolean(result?.error)}
-            aria-describedby={result?.error ? "qr-code-error" : undefined}
-          />
-          <p className="text-xs text-[var(--muted)]">{t.hint}</p>
+          <Select
+            id="qr-code-mode"
+            label={isFrench ? "Type de QR Code" : "QR Code type"}
+            value={mode}
+            onChange={(event) => setMode(event.target.value)}
+            className="w-full"
+          >
+            <option value="text">{isFrench ? "Texte ou lien" : "Text or link"}</option>
+            <option value="wifi">{isFrench ? "Connexion Wi-Fi" : "Wi-Fi connection"}</option>
+          </Select>
+
+          {mode === "wifi" ? (
+            <div className="space-y-4">
+              <div className="space-y-1.5">
+                <label htmlFor="qr-wifi-ssid" className="block text-sm font-medium">{isFrench ? "Nom du réseau (SSID)" : "Network name (SSID)"}</label>
+                <input id="qr-wifi-ssid" value={ssid} onChange={(event) => setSsid(event.target.value)} autoComplete="off" className="w-full rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] px-3 py-2.5 text-sm text-[var(--on-surface)]" />
+              </div>
+              <div className="space-y-1.5">
+                <label htmlFor="qr-wifi-security" className="block text-sm font-medium">{isFrench ? "Sécurité du réseau" : "Network security"}</label>
+                <Select id="qr-wifi-security" label={isFrench ? "Sécurité du réseau" : "Network security"} value={security} onChange={(event) => setSecurity(event.target.value)} className="w-full">
+                  <option value="WPA">WPA / WPA2 / WPA3</option>
+                  <option value="WEP">WEP</option>
+                  <option value="nopass">{isFrench ? "Aucun mot de passe" : "No password"}</option>
+                </Select>
+              </div>
+              {security !== "nopass" && (
+                <div className="space-y-1.5">
+                  <label htmlFor="qr-wifi-password" className="block text-sm font-medium">{isFrench ? "Mot de passe Wi-Fi" : "Wi-Fi password"}</label>
+                  <input id="qr-wifi-password" type="password" value={password} onChange={(event) => setPassword(event.target.value)} autoComplete="new-password" className="w-full rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] px-3 py-2.5 text-sm text-[var(--on-surface)]" />
+                </div>
+              )}
+              <label className="flex items-center gap-2 text-sm">
+                <input type="checkbox" checked={hidden} onChange={(event) => setHidden(event.target.checked)} className="size-4 accent-[var(--primary)]" />
+                {isFrench ? "Réseau masqué" : "Hidden network"}
+              </label>
+              <p className="text-xs text-[var(--muted)]">
+                {isFrench
+                  ? "Le QR Code contient le nom du réseau et, si nécessaire, son mot de passe. Toute personne qui peut le scanner peut récupérer ces informations."
+                  : "The QR Code contains the network name and, when required, its password. Anyone who can scan it can retrieve these details."}
+              </p>
+              {ssid && needsPassword && (
+                <p className="text-sm text-[var(--danger)]" role="status">
+                  {isFrench ? "Saisissez le mot de passe pour générer le QR Code." : "Enter the password to generate the QR Code."}
+                </p>
+              )}
+            </div>
+          ) : (
+            <>
+              <TextArea
+                label={t.input}
+                inputId="qr-code-input"
+                value={value}
+                onChange={(event) => setValue(event.target.value)}
+                placeholder={t.placeholder}
+                spellCheck={false}
+                autoCapitalize="none"
+                className="min-h-36 resize-y font-mono text-sm"
+                aria-invalid={Boolean(result?.error)}
+                aria-describedby={result?.error ? "qr-code-error" : undefined}
+              />
+              <p className="text-xs text-[var(--muted)]">{t.hint}</p>
+            </>
+          )}
           {result?.error && <p id="qr-code-error" role="alert" className="text-sm font-medium text-[var(--danger)]">{result.error}</p>}
 
           <div className="flex flex-wrap items-end gap-3">
@@ -64,7 +136,7 @@ export default function QrCodeGenerator() {
             </Select>
             <div className="flex flex-wrap gap-2">
               <Button type="button" variant="primary" onClick={download} disabled={!result?.qr}>{t.download}</Button>
-              <ClearButton onClear={() => setValue("")} disabled={!value} label={t.clear} />
+              <ClearButton onClear={clear} disabled={mode === "wifi" ? !ssid && !password && !hidden : !value} label={t.clear} />
             </div>
           </div>
         </div>
