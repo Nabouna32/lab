@@ -543,3 +543,30 @@ test("IPv6 subnet calculator reports canonical CIDR boundaries in French and Eng
   await expect(page.getByLabel("IPv6 address / CIDR prefix")).toHaveValue("2001:db8:1234:1::42/64");
   await expect(page.getByText("2001:db8:1234:1::/64")).toBeVisible();
 });
+
+
+test("hash generator verifies local file checksums in French and English", async ({ page }) => {
+  const sha256 = "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad";
+
+  await page.goto("/fr/outils/generateur-hash");
+  await expect(page.getByRole("heading", { level: 1, name: "Générateur et vérificateur d’empreintes" })).toBeVisible();
+  await page.getByRole("button", { name: "Fichier", exact: true }).click();
+  await page.getByLabel("Fichier à vérifier").setInputFiles({
+    name: "sample.txt",
+    mimeType: "text/plain",
+    buffer: Buffer.from("abc"),
+  });
+  await page.getByLabel("Empreinte attendue (facultatif)").fill(sha256);
+  await page.getByRole("button", { name: "Calculer l’empreinte" }).click();
+  await expect(page.locator("output")).toContainText(sha256);
+  await expect(page.getByRole("status")).toHaveText("L’empreinte correspond.");
+
+  await page.getByLabel("Empreinte attendue (facultatif)").fill("0".repeat(64));
+  await expect(page.getByRole("status")).toHaveText("L’empreinte ne correspond pas : le fichier diffère de la référence.");
+
+  await page.goto("/en/tools/hash-generator");
+  await expect(page.getByRole("heading", { level: 1, name: "Hash Generator and Checksum Verifier" })).toBeVisible();
+  await page.getByRole("button", { name: "File", exact: true }).click();
+  await expect(page.getByLabel("File to verify")).toBeVisible();
+  await expect(page.getByLabel("Expected digest (optional)")).toBeVisible();
+});
