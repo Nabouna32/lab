@@ -9,7 +9,7 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 
 ## État vérifié
 
-- **Parcours JSON chaîné :** transmettre le résultat du formateur au comparateur JSON dans le même onglet ; contenu transféré brièvement par `sessionStorage`, consommé puis supprimé, sans URL ni serveur. FR/EN et tests dédiés.
+- **Parcours JSON chaîné :** transmettre le résultat du formateur au comparateur JSON dans le même onglet ; contenu transféré brièvement par `sessionStorage`, consommé puis supprimé, sans URL ni serveur. FR/EN, tests unitaires et scénario Playwright de bout en bout dédiés.
 - **Recherche / filtres de catégories :** la page de résultats permet de restreindre les correspondances à une catégorie présente dans les résultats, avec commandes FR/EN accessibles au clavier et un compteur qui suit le filtre.
 - **Découverte / intention « Préparer » :** ajoute un parcours transversal FR/EN pour retrouver les outils qui préparent des images, des données ou du texte avant réutilisation ou partage. Les associations sont explicites et limitées aux outils publiés ; pas d’inférence opaque ni de nouveau stockage. Tests du catalogue et de la localisation ajoutés.
 - **Produit / préparation d’images en un parcours :** [PR #919](https://github.com/Nabouna32/lab/pull/919). Le nettoyage EXIF peut désormais aussi optimiser le lot en une seule passe locale, avec choix du format, qualité et dimension maximale ; la détection des animations empêche leur perte silencieuse. Le scénario Playwright couvre le nettoyage classique et le mode combiné avec export ZIP. La CI complète de la PR valide lint, TypeScript, tests, build et Playwright.
@@ -89,7 +89,7 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 
 > Mémoire opérationnelle par session de travail, avec les PR représentatives et preuves vérifiables.
 
-1. **Parcours JSON chaîné** — transfert local à usage unique du formateur vers le comparateur, sans placer le contenu dans l’URL ni l’envoyer à un serveur. [PR à venir]
+1. **Parcours JSON chaîné** — transfert local à usage unique du formateur vers le comparateur, sans placer le contenu dans l’URL ni l’envoyer à un serveur. [PR #922](https://github.com/Nabouna32/lab/pull/922), scénario Playwright ajouté par [PR #923](https://github.com/Nabouna32/lab/pull/923).
 2. **Recherche / filtres de catégories** — affiner les résultats sans perdre la requête. [PR #921](https://github.com/Nabouna32/lab/pull/921)
 3. **Découverte / intention « Préparer »** — nouvelle intention FR/EN qui rassemble les outils de préparation d’images, données et texte avant réutilisation. [PR #920](https://github.com/Nabouna32/lab/pull/920)
 4. **Produit / préparation d’images en un parcours** — nettoyage EXIF et optimisation locale facultative en une seule passe, réglages de sortie, préservation des animations et export ZIP. [PR #919](https://github.com/Nabouna32/lab/pull/919), CI complète de la PR verte.
