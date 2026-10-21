@@ -29,7 +29,7 @@ function parseIpv6(value: string): bigint | null {
 
 function formatIpv6(value: bigint): string {
   const groups = Array.from({ length: 8 }, (_, index) =>
-    Number((value >> BigInt((7 - index) * 16)) & 0xffffn).toString(16),
+    Number((value >> BigInt((7 - index) * 16)) & BigInt(65535)).toString(16),
   );
 
   let bestStart = -1;
