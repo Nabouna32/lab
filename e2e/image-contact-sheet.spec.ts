@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 
 test("creates a local contact sheet and downloads a PNG", async ({ page }) => {
   await page.goto("/en/tools/image-contact-sheet-generator");
-  const png = Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAIAAAD91JpzAAAAFklEQVR4nGP8z8DAwMDAwMDAAAANHQEDasKb6QAAAABJRU5ErkJggg==", "base64");
+  const png = Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAIAAAD91JpzAAAAFklEQVR4nGP8z8DAwMDAxMDAwMDAAAANHQEDasKb6QAAAABJRU5ErkJggg==", "base64");
   await page.locator("#contact-sheet-files").setInputFiles([
     { name: "one.png", mimeType: "image/png", buffer: png },
     { name: "two.png", mimeType: "image/png", buffer: png },
