@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Button } from "@/components/ui/Button";
+import { OutlinedButton } from "@/components/ui/Button";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { TextArea } from "@/components/ui/TextArea";
@@ -123,9 +123,9 @@ export default function TextDiffChecker() {
         </div>
 
         <div className="mt-4 flex justify-end">
-          <Button type="button" variant="secondary" onClick={clear} disabled={!original && !updated}>
+          <OutlinedButton type="button" onClick={clear} disabled={!original && !updated}>
             {t.reset}
-          </Button>
+          </OutlinedButton>
         </div>
       </div>
     </section>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/Button";
+import { OutlinedButton } from "@/components/ui/Button";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { TextField } from "@/components/ui/TextField";
@@ -57,9 +57,9 @@ export default function ContrastChecker() {
           </div>
 
           <div className="flex flex-wrap gap-2">
-            <Button type="button" variant="secondary" onClick={swap}>
+            <OutlinedButton type="button" onClick={swap}>
               {t.swap}
-            </Button>
+            </OutlinedButton>
             <ClearButton onClear={clear} disabled={!canReset} label={t.reset} />
           </div>
 
@@ -190,7 +190,7 @@ function Suggestion({ label, color, applyLabel, copyLabel, onApply }: { label: s
         <p className="text-sm font-medium text-[var(--foreground)]">{label}</p>
         <code className="text-sm text-[var(--muted)]">{color}</code>
       </div>
-      <Button type="button" variant="secondary" onClick={onApply}>{applyLabel}</Button>
+      <OutlinedButton type="button" onClick={onApply}>{applyLabel}</OutlinedButton>
       <CopyButton value={color} label={copyLabel} />
     </div>
   );

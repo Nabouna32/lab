@@ -148,7 +148,7 @@ export default function ImageCompressor() {
           {busy && <ProgressIndicator label={t.processing} className="mt-1" />}
           {error && <p role="alert" className="text-sm font-medium text-[var(--danger)]">{error}</p>}
           <div className="flex flex-wrap gap-2">
-            <Button type="button" variant="primary" onClick={downloadArchive} disabled={successful.length === 0 || busy || archiveBusy}>{archiveBusy ? t.archivePreparing : t.downloadArchive}</Button>
+            <Button type="button" onClick={downloadArchive} disabled={successful.length === 0 || busy || archiveBusy}>{archiveBusy ? t.archivePreparing : t.downloadArchive}</Button>
             <ClearButton onClear={reset} disabled={files.length === 0 && results.length === 0 && !error} label={t.reset} />
           </div>
 
