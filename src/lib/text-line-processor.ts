@@ -48,5 +48,8 @@ export function processTextLines(
 }
 
 export function countTextLines(value: string): number {
-  return value.length === 0 ? 0 : value.split(/\r\n?|\n/).length;
+  if (value.length === 0) return 0;
+  const lines = value.split(/\r\n?|\n/);
+  if (lines.at(-1) === "") lines.pop();
+  return lines.length;
 }
