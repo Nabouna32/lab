@@ -26,6 +26,7 @@ export default function HashGenerator() {
   const [busy, setBusy] = useState(false);
   const requestRef = useRef(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const expectedDigestRef = useRef("");
 
   useEffect(() => () => { requestRef.current += 1; }, []);
 
@@ -74,8 +75,8 @@ export default function HashGenerator() {
         return;
       }
       setResult(nextResult);
-      if (selectedMode === "file" && expectedDigest.trim()) {
-        setVerification(verifyDigest(nextResult, expectedDigest, selectedAlgorithm));
+      if (selectedMode === "file" && expectedDigestRef.current.trim()) {
+        setVerification(verifyDigest(nextResult, expectedDigestRef.current, selectedAlgorithm));
       }
     } catch (caught) {
       if (requestId !== requestRef.current) return;
@@ -87,6 +88,7 @@ export default function HashGenerator() {
   }
 
   function updateExpectedDigest(value: string) {
+    expectedDigestRef.current = value;
     setExpectedDigest(value);
     setVerification(result && mode === "file" && value.trim()
       ? verifyDigest(result, value, algorithm)
@@ -98,6 +100,7 @@ export default function HashGenerator() {
     setInput("");
     setFile(null);
     setExpectedDigest("");
+    expectedDigestRef.current = "";
     setResult("");
     setError(null);
     setVerification(null);
