@@ -3,10 +3,11 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { ClearButton } from "@/components/ui/ClearButton";
+import { CopyButton } from "@/components/ui/CopyButton";
 import { TextField } from "@/components/ui/TextField";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
-import { evaluateContrast, parseColor } from "@/lib/contrast-checker";
+import { evaluateContrast, parseColor, suggestAccessibleForeground } from "@/lib/contrast-checker";
 
 const DEFAULT_FOREGROUND = "#111827";
 const DEFAULT_BACKGROUND = "#ffffff";
@@ -18,6 +19,8 @@ export default function ContrastChecker() {
   const [background, setBackground] = useState(DEFAULT_BACKGROUND);
 
   const result = evaluateContrast(foreground, background);
+  const suggestedAA = result && !result.aaNormal ? suggestAccessibleForeground(foreground, background, 4.5) : null;
+  const suggestedAAA = result && !result.aaaNormal ? suggestAccessibleForeground(foreground, background, 7) : null;
   const canReset = foreground !== DEFAULT_FOREGROUND || background !== DEFAULT_BACKGROUND;
 
   function swap() {
@@ -86,6 +89,20 @@ export default function ContrastChecker() {
                 <Criterion label={`${t.normalText} · AAA`} pass={result.aaaNormal} />
                 <Criterion label={`${t.largeText} · AAA`} pass={result.aaaLarge} />
               </div>
+              {(suggestedAA || suggestedAAA) && (
+                <div className="border-t border-[var(--border)] pt-4">
+                  <p className="text-sm font-semibold text-[var(--foreground)]">{t.suggestionsTitle}</p>
+                  <p className="mt-1 text-sm text-[var(--muted)]">{t.suggestionsDescription}</p>
+                  <div className="mt-3 space-y-3">
+                    {suggestedAA && (
+                      <Suggestion label={t.suggestAA} color={suggestedAA} applyLabel={t.applyColor} copyLabel={t.copyColor} onApply={() => setForeground(suggestedAA)} />
+                    )}
+                    {suggestedAAA && (
+                      <Suggestion label={t.suggestAAA} color={suggestedAAA} applyLabel={t.applyColor} copyLabel={t.copyColor} onApply={() => setForeground(suggestedAAA)} />
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           ) : (
             <div role="alert" className="mt-3 border-t border-[var(--danger)]/30 pt-4 text-sm text-[var(--danger)]">
@@ -160,6 +177,21 @@ function Criterion({ label, pass }: { label: string; pass: boolean }) {
       <span className={pass ? "text-sm font-bold text-[var(--success)]" : "text-sm font-bold text-[var(--danger)]"}>
         {pass ? "✓" : "—"}
       </span>
+    </div>
+  );
+}
+
+
+function Suggestion({ label, color, applyLabel, copyLabel, onApply }: { label: string; color: string; applyLabel: string; copyLabel: string; onApply: () => void }) {
+  return (
+    <div className="flex flex-wrap items-center gap-3 rounded-[var(--radius-md)] border border-[var(--border)] p-3">
+      <span className="h-9 w-9 shrink-0 rounded-full border border-[var(--border)]" style={{ backgroundColor: color }} aria-hidden="true" />
+      <div className="min-w-24 flex-1">
+        <p className="text-sm font-medium text-[var(--foreground)]">{label}</p>
+        <code className="text-sm text-[var(--muted)]">{color}</code>
+      </div>
+      <Button type="button" variant="secondary" onClick={onApply}>{applyLabel}</Button>
+      <CopyButton value={color} label={copyLabel} />
     </div>
   );
 }

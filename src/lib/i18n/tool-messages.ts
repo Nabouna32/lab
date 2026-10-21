@@ -209,6 +209,7 @@ type ToolMessages = {
     foreground: string; background: string; colorHint: string; swap: string; reset: string;
     preview: string; previewText: string; previewDescription: string; result: string; ratio: string;
     normalText: string; largeText: string; invalid: string; thresholds: string;
+    suggestionsTitle: string; suggestionsDescription: string; suggestAA: string; suggestAAA: string; applyColor: string; copyColor: string;
   };
   ipSubnetCalculator: {
     input: string; placeholder: string; result: string; ready: string; emptyResult: string;
@@ -270,6 +271,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       swap: "Inverser", reset: "Réinitialiser", preview: "Aperçu", previewText: "Exemple de texte", previewDescription: "Utilisez cet aperçu pour vérifier le rendu du contraste.",
       result: "Résultat", ratio: "Ratio de contraste", normalText: "Texte courant", largeText: "Grand texte",
       invalid: "Saisissez deux couleurs valides.", thresholds: "AA : 4,5:1 pour le texte courant et 3:1 pour le grand texte. AAA : 7:1 pour le texte courant et 4,5:1 pour le grand texte.",
+      suggestionsTitle: "Corriger le contraste", suggestionsDescription: "Suggestions calculées pour conserver l’arrière-plan et ajuster la couleur du texte au plus près.", suggestAA: "Atteindre WCAG AA (4,5:1)", suggestAAA: "Atteindre WCAG AAA (7:1)", applyColor: "Appliquer", copyColor: "Copier la couleur",
     },
     ipSubnetCalculator: {
       input: "Réseau IPv4 (CIDR)", placeholder: "Ex. 192.168.1.42/24", result: "Résultat", ready: "Calcul mis à jour", emptyResult: "Le résultat apparaîtra ici après le calcul.",
@@ -595,6 +597,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       swap: "Swap", reset: "Reset", preview: "Preview", previewText: "Sample text", previewDescription: "Use this preview to check how the contrast looks.",
       result: "Result", ratio: "Contrast ratio", normalText: "Normal text", largeText: "Large text",
       invalid: "Enter two valid colors.", thresholds: "AA: 4.5:1 for normal text and 3:1 for large text. AAA: 7:1 for normal text and 4.5:1 for large text.",
+      suggestionsTitle: "Fix the contrast", suggestionsDescription: "Suggestions keep the background and adjust the text color as little as possible.", suggestAA: "Meet WCAG AA (4.5:1)", suggestAAA: "Meet WCAG AAA (7:1)", applyColor: "Apply", copyColor: "Copy color",
     },
     ipSubnetCalculator: {
       input: "IPv4 network (CIDR)", placeholder: "e.g. 192.168.1.42/24", result: "Result", ready: "Calculation updated", emptyResult: "The result will appear here after calculation.",
