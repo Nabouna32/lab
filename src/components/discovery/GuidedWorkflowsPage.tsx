@@ -47,10 +47,10 @@ export const guidedWorkflows: readonly GuidedWorkflow[] = [
       fr: "Des données formatées et une vue des différences entre les deux versions.",
       en: "Formatted data and a view of the differences between both versions.",
     },
-    transfer: "manual",
+    transfer: "automatic",
     steps: [
-      { toolId: "json-formatter", description: { fr: "Formatez et vérifiez la structure de chaque document JSON.", en: "Format and validate the structure of each JSON document." } },
-      { toolId: "json-diff-checker", description: { fr: "Collez les deux versions pour localiser les changements.", en: "Paste both versions to locate the changes." } },
+      { toolId: "json-formatter", description: { fr: "Formatez le document puis envoyez ce JSON au comparateur.", en: "Format the document, then send this JSON to the comparator." } },
+      { toolId: "json-diff-checker", description: { fr: "Le JSON transmis est prérempli comme nouvelle version. Ajoutez la version de référence puis comparez.", en: "The transferred JSON is prefilled as the new version. Add the reference version, then compare." } },
     ],
   },
   {
