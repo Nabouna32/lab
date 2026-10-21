@@ -2,7 +2,7 @@
 
 Dernière révision : 2026-10-21. File de travail unique.
 
-- **Outil développeur / exploration des différences JSON :** synthèse des ajouts, suppressions et modifications, recherche de chemins imbriqués, filtres par type et rapport copiable des seuls changements affichés. [PR à venir].
+- **Comparateur JSON explorables :** [PR #929](https://github.com/Nabouna32/lab/pull/929). Synthèse par type, recherche par chemin, filtres et rapport copiable respectant les filtres actifs.
 
 - **Parcours / comparateur multi-villes de fuseaux horaires :** comparer une heure locale source à jusqu’à six destinations, gérer les changements d’heure et copier le planning complet, sans réseau ni compte.
 
@@ -10,7 +10,7 @@ Dernière révision : 2026-10-21. File de travail unique.
 
 - **Conversion CSV → JSON typée :** proposer une inférence optionnelle des types scalaires sans modifier le comportement par défaut ni convertir les identifiants avec zéros initiaux.
 
-- **Parcours guidés entre outils :** premier transfert local du formateur JSON vers le comparateur, couvert par un scénario Playwright de bout en bout. [PR #922](https://github.com/Nabouna32/lab/pull/922), test complémentaire [PR #923](https://github.com/Nabouna32/lab/pull/923). Étendre aux couples où format et sens sont explicitement compatibles ; ne jamais passer le contenu par URL ou serveur.
+- **Parcours guidés entre outils :** transferts JSON locaux désormais disponibles depuis le formateur JSON, le convertisseur CSV → JSON et le convertisseur YAML → JSON vers le comparateur ou le générateur TypeScript. [PR #930](https://github.com/Nabouna32/lab/pull/930), sur la base du transfert initial [PR #922](https://github.com/Nabouna32/lab/pull/922) et du test Playwright [PR #923](https://github.com/Nabouna32/lab/pull/923). Prochaine extension seulement pour des couples dont le format est explicitement compatible ; aucun contenu dans l’URL ni sur un serveur.
 
 - **Nouvel outil / nettoyage de listes textuelles :** [PR #924](https://github.com/Nabouna32/lab/pull/924). Options combinables de nettoyage, déduplication et tri local, compteur avant/après et limite de ressources explicite.
 
