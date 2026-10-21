@@ -41,6 +41,7 @@ export default function TextDiffChecker() {
   const clear = () => {
     setOriginal("");
     setUpdated("");
+    setTransferNotice(false);
   };
 
   const summary = result?.value
