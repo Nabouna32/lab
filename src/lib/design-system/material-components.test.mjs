@@ -211,7 +211,7 @@ test("standard functional UI surfaces do not reintroduce one-off inline SVG icon
     "../../app/[locale]/design-lab/VisualLab.tsx",
     "../../components/layout/DesktopHeaderMenu.tsx",
     "../../components/layout/LanguageFlag.tsx",
-    "../../components/layout/MobileHeaderSearch.tsx",
+    "../../components/layout/HeaderSearch.tsx",
     "../../components/theme/ThemeToggle.tsx",
     "../../components/tools/ToolSearch.tsx",
     "../../components/tools/number-base-converter/NumberBaseConverter.tsx",
