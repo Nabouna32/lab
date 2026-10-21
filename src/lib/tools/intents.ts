@@ -24,6 +24,7 @@ export const intentDefinitions: readonly IntentDefinition[] = [
       "vat",
       "rule-of-three",
       "ip-subnet-calculator",
+      "ipv6-subnet-calculator",
       "number-base-converter",
     ],
   },
