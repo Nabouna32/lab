@@ -373,3 +373,28 @@ test("image compressor processes multiple local files and offers one ZIP downloa
   const download = await downloadPromise;
   expect(download.suggestedFilename()).toBe("loculary-images.zip");
 });
+
+test("timezone converter compares several cities and updates destinations", async ({ page }) => {
+  await page.goto("/fr/outils/convertisseur-de-fuseaux-horaires");
+  await expect(page.locator("html")).toHaveAttribute("lang", "fr");
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+
+  await page.locator("#timezone-date-time").fill("2024-07-01T09:00");
+  await page.locator("#timezone-source").selectOption("Europe/Paris");
+  await page.getByRole("button", { name: "Convertir", exact: true }).click();
+
+  const newYork = page.locator("article").filter({ hasText: "America/New_York" });
+  const tokyo = page.locator("article").filter({ hasText: "Asia/Tokyo" });
+  await expect(newYork).toContainText("03:00");
+  await expect(tokyo).toContainText("16:00");
+
+  await page.locator("#timezone-add-destination").selectOption("Australia/Sydney");
+  await page.getByRole("button", { name: "Ajouter une ville", exact: true }).click();
+  await page.getByRole("button", { name: "Convertir", exact: true }).click();
+  const sydney = page.locator("article").filter({ hasText: "Australia/Sydney" });
+  await expect(sydney).toContainText("17:00");
+
+  await page.getByRole("button", { name: "Retirer Australia/Sydney", exact: true }).click();
+  await expect(page.locator("#timezone-add-destination")).toBeVisible();
+  await expect(page.locator("article").filter({ hasText: "Australia/Sydney" })).toHaveCount(0);
+});
