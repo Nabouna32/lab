@@ -2,6 +2,8 @@
 
 Dernière révision : 2026-10-21. File de travail unique.
 
+- **Recherche / classement par intention :** [PR #938](https://github.com/Nabouna32/lab/pull/938). Reconnaître les verbes de tâche FR/EN et reclasser les outils déjà associés à une intention éditoriale, sans IA ni transmission distante. CI à confirmer.
+
 - **Collections locales sans compte :** [PR #937](https://github.com/Nabouna32/lab/pull/937). Regrouper des outils dans le navigateur sans compte, avec choix explicite entre local et synchronisé pour les personnes connectées. Seuls les noms et identifiants d’outils sont stockés ; aucun contenu saisi ou résultat.
 
 - **Répartiteur de dépenses de groupe :** livré par [PR #934](https://github.com/Nabouna32/lab/pull/934), fusionnée dans `6394783f83556068c7cfd288dde05b78031d05f0`. Calcul local en centimes et remboursements consolidés ; CI complète verte, 48 scénarios Playwright réussis.
