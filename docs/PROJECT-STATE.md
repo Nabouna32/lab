@@ -2,7 +2,7 @@
 
 Dernière vérification : 2026-10-21
 
-- **Parcours / CSV → JSON → formatage :** le convertisseur CSV peut transmettre son résultat JSON directement au formateur, qui le préremplit et l’indique à l’utilisateur. Transfert local ciblé, à usage unique, limité à 200 000 caractères et expirant après cinq minutes ; aucun contenu dans l’URL ou envoyé au serveur. PR à créer, CI en cours.
+- **Parcours / CSV → JSON → formatage :** le convertisseur CSV peut transmettre son résultat JSON directement au formateur, qui le préremplit et l’indique à l’utilisateur. Transfert local ciblé, à usage unique, limité à 200 000 caractères et expirant après cinq minutes ; aucun contenu dans l’URL ou envoyé au serveur. [PR #952](https://github.com/Nabouna32/lab/pull/952), CI en cours.
 
 - **Parcours texte / transmission entre outils :** le Nettoyeur et trieur de lignes peut préremplir le comparateur de texte avec le résultat nettoyé. Transfert local, ciblé, à usage unique, limité à 200 000 caractères et expirant après cinq minutes. Messages FR/EN et tests de contrat du helper ; CI complète verte ([run #39544027669](https://github.com/Nabouna32/lab/actions/runs/39544027669)) et déploiement production `READY` ([Vercel](https://vercel.com/nabouna32/loculary/2yDQK1D5yFnF9AXzUPEVMdTEWUs3)).
 
@@ -112,7 +112,7 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 
 > Mémoire opérationnelle par session de travail, avec les PR représentatives et preuves vérifiables.
 
-1. **Parcours / CSV → JSON → formatage** — PR à créer : transmission locale directe vers le formateur JSON, notice de provenance et recette guidée désormais automatisée.
+1. **Parcours / CSV → JSON → formatage** — [PR #952](https://github.com/Nabouna32/lab/pull/952) : transmission locale directe vers le formateur JSON, notice de provenance et recette guidée désormais automatisée ; CI en cours.
 2. **Découverte / parcours guidés** — [PR #951](https://github.com/Nabouna32/lab/pull/951) : quatre parcours multi-étapes FR/EN qui relient des outils existants autour d’un objectif utilisateur.
 3. **Parcours / nettoyage de texte → comparaison** — [PR #949](https://github.com/Nabouna32/lab/pull/949) : transfert local, borné, à usage unique et avec expiration du résultat vers le comparateur de texte ; CI complète verte ([run #39544027669](https://github.com/Nabouna32/lab/actions/runs/39544027669)) ; déploiement production `READY`.
 4. **Nouvel outil / planche-contact d’images** — [PR #947](https://github.com/Nabouna32/lab/pull/947) : composition PNG locale, colonnes et légendes configurables ; CI complète verte ([run #39542653393](https://github.com/Nabouna32/lab/actions/runs/39542653393)), déploiement production `READY`.
