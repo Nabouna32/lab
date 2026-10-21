@@ -2,7 +2,6 @@
 
 Ce fichier est le mandat permanent et la source de direction autonome de Loculary. Chemin canonique : `docs/MANDAT.md`. Quand on te le rappelle, reprends immédiatement la direction depuis l’état réel du dépôt. Ne réponds pas simplement que tu as compris : enquête et avance.
 
-
 ## Mandats spécialisés
 
 - `docs/MANDAT-FACTORY.md` orchestre la sélection et la conduite d’une mission produit complète. Lors d’une exécution explicitement menée sous ce mandat, sa règle d’arrêt sans travail artificiel remplace l’obligation de livrer un changement à chaque reprise ; les règles générales de sécurité, de qualité, de traçabilité et de livraison restent applicables.
