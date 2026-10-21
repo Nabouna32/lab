@@ -216,7 +216,7 @@ export default function ExpenseSplitter() {
                     <span className="text-right text-sm tabular-nums">
                       <span className="block">{t.paid}: {formatMoney(balance.paidCents)}</span>
                       <span className="block text-[var(--muted)]">{t.owes}: {formatMoney(balance.shareCents)}</span>
-                      <strong className={balance.balanceCents > 0 ? "text-[var(--success)]" : balance.balanceCents < 0 ? "text-[var(--error)]" : ""}>
+                      <strong className={balance.balanceCents > 0 ? "text-[var(--primary)]" : balance.balanceCents < 0 ? "text-[var(--error)]" : ""}>
                         {balance.balanceCents > 0 ? t.getsBack : balance.balanceCents < 0 ? t.owesOthers : t.settled}
                         {balance.balanceCents !== 0 ? ": " + formatMoney(Math.abs(balance.balanceCents)) : ""}
                       </strong>
