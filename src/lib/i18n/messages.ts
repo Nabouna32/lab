@@ -120,59 +120,7 @@ export const messages: Record<Locale, Messages> = {
         },
       ],
     },
-    guidedWorkflows: {
-      homeTitle: "Guided workflows",
-      homeDescription: "One task, several steps: follow a practical path instead of finding every tool separately.",
-      homeAction: "Explore paths",
-      eyebrow: "Start with the outcome, not the tool name",
-      title: "Guided paths from start to finish",
-      description: "Some tasks take more than one step. Choose your goal: each path guides you to the right tools in the right order, without an account.",
-      privacy: "Tools in these paths process data locally in your browser.",
-      steps: "steps", outcome: "What you get",
-      automatic: "The result is passed automatically to the next step.",
-      manual: "Copy the result into the next step when needed.",
-      independent: "Prepare the required files for each tool; these steps remain independent.",
-      openTools: "Browse all tools",
-      recipes: [
-        {
-          id: "clean-and-compare", icon: "swap_horiz", title: "Clean a list, then compare it",
-          summary: "Remove duplicates and sort your lines before spotting what changed between two versions.",
-          outcome: "A readable comparison of added, removed, and unchanged lines.", transfer: "automatic",
-          steps: [
-            { toolId: "text-line-processor", description: "Clean, sort, or deduplicate your list." },
-            { toolId: "text-diff-checker", description: "The cleaned result is transferred automatically. Add the other version to see the differences." },
-          ],
-        },
-        {
-          id: "prepare-json", icon: "apps", title: "Prepare and compare JSON",
-          summary: "Make JSON data readable, then compare two versions to understand the changes.",
-          outcome: "Formatted data and a view of the differences between both versions.", transfer: "automatic",
-          steps: [
-            { toolId: "json-formatter", description: "Format the document, then send this JSON to the comparator." },
-            { toolId: "json-diff-checker", description: "The transferred JSON is prefilled as the new version. Add the reference version, then compare." },
-          ],
-        },
-        {
-          id: "convert-tabular-data", icon: "apps", title: "Convert a table to JSON",
-          summary: "Turn CSV data into JSON, then make the result easier to read and verify.",
-          outcome: "Formatted JSON, ready to copy into your next tool or project.", transfer: "manual",
-          steps: [
-            { toolId: "csv-json-converter", description: "Import or paste the CSV and choose CSV → JSON." },
-            { toolId: "json-formatter", description: "Paste the resulting JSON to format it and check its validity." },
-          ],
-        },
-        {
-          id: "prepare-photo-document", icon: "image", title: "Prepare photos for a PDF",
-          summary: "Check useful image details, then combine them into a multi-page document.",
-          outcome: "A multi-page PDF generated locally from your photos.", transfer: "independent",
-          steps: [
-            { toolId: "image-metadata", description: "Check dimensions and metadata before preparing the document." },
-            { toolId: "image-to-pdf", description: "Add photos, reorder pages, and export the PDF." },
-          ],
-        },
-      ],
-    },
-    tools: {
+        tools: {
       metaTitle: "Tous les outils — Loculary", eyebrow: "Loculary", title: "Tous les outils",
       description: "Tous les outils disponibles pour calculer, convertir, analyser et gagner du temps.",
       explore: "Explorer les outils", one: "outil", many: "outils",
@@ -267,6 +215,58 @@ export const messages: Record<Locale, Messages> = {
       categoriesDescription: "Know what you need? Browse by domain to find the right tool.",
       categoriesCount: (count) => formatPlural("en", count, { one: "category", other: "categories" }),
       toolsCountLabel: "tools",
+    },
+guidedWorkflows: {
+      homeTitle: "Guided workflows",
+      homeDescription: "One task, several steps: follow a practical path instead of finding every tool separately.",
+      homeAction: "Explore paths",
+      eyebrow: "Start with the outcome, not the tool name",
+      title: "Guided paths from start to finish",
+      description: "Some tasks take more than one step. Choose your goal: each path guides you to the right tools in the right order, without an account.",
+      privacy: "Tools in these paths process data locally in your browser.",
+      steps: "steps", outcome: "What you get",
+      automatic: "The result is passed automatically to the next step.",
+      manual: "Copy the result into the next step when needed.",
+      independent: "Prepare the required files for each tool; these steps remain independent.",
+      openTools: "Browse all tools",
+      recipes: [
+        {
+          id: "clean-and-compare", icon: "swap_horiz", title: "Clean a list, then compare it",
+          summary: "Remove duplicates and sort your lines before spotting what changed between two versions.",
+          outcome: "A readable comparison of added, removed, and unchanged lines.", transfer: "automatic",
+          steps: [
+            { toolId: "text-line-processor", description: "Clean, sort, or deduplicate your list." },
+            { toolId: "text-diff-checker", description: "The cleaned result is transferred automatically. Add the other version to see the differences." },
+          ],
+        },
+        {
+          id: "prepare-json", icon: "apps", title: "Prepare and compare JSON",
+          summary: "Make JSON data readable, then compare two versions to understand the changes.",
+          outcome: "Formatted data and a view of the differences between both versions.", transfer: "automatic",
+          steps: [
+            { toolId: "json-formatter", description: "Format the document, then send this JSON to the comparator." },
+            { toolId: "json-diff-checker", description: "The transferred JSON is prefilled as the new version. Add the reference version, then compare." },
+          ],
+        },
+        {
+          id: "convert-tabular-data", icon: "apps", title: "Convert a table to JSON",
+          summary: "Turn CSV data into JSON, then make the result easier to read and verify.",
+          outcome: "Formatted JSON, ready to copy into your next tool or project.", transfer: "manual",
+          steps: [
+            { toolId: "csv-json-converter", description: "Import or paste the CSV and choose CSV → JSON." },
+            { toolId: "json-formatter", description: "Paste the resulting JSON to format it and check its validity." },
+          ],
+        },
+        {
+          id: "prepare-photo-document", icon: "image", title: "Prepare photos for a PDF",
+          summary: "Check useful image details, then combine them into a multi-page document.",
+          outcome: "A multi-page PDF generated locally from your photos.", transfer: "independent",
+          steps: [
+            { toolId: "image-metadata", description: "Check dimensions and metadata before preparing the document." },
+            { toolId: "image-to-pdf", description: "Add photos, reorder pages, and export the PDF." },
+          ],
+        },
+      ],
     },
     tools: {
       metaTitle: "All tools — Loculary", eyebrow: "Loculary", title: "All tools",
