@@ -47,3 +47,13 @@ test("tool UI messages expose locale-specific wording", () => {
   assert.notEqual(getToolMessages("fr").age.birthDate, getToolMessages("en").age.birthDate);
   assert.notEqual(getToolMessages("fr").percentage.modes.evolution.title, getToolMessages("en").percentage.modes.evolution.title);
 });
+
+
+test("CSV comparison messages are localized and cover key workflow controls", () => {
+  const fr = getToolMessages("fr").csvDiffChecker;
+  const en = getToolMessages("en").csvDiffChecker;
+  assert.notEqual(fr.before, en.before);
+  assert.notEqual(fr.compare, en.compare);
+  assert.ok(fr.errorDuplicateKey.length > 0);
+  assert.ok(en.errorDuplicateKey.length > 0);
+});
