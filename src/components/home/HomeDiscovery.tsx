@@ -20,7 +20,7 @@ export default function HomeDiscovery({ locale }: { locale: Locale }) {
           className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--accent-soft)] text-[var(--accent)]"
           aria-hidden="true"
         >
-          <MaterialIcon name="conversion_path" size={22} />
+          <MaterialIcon name="swap_horiz" size={22} />
         </span>
         <span className="min-w-0 flex-1">
           <span className="block font-bold text-[var(--foreground)]">
