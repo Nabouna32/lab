@@ -8,11 +8,10 @@ type CategoryCardProps = {
   category: ToolCategory;
   name: string;
   toolLabel: string;
-  toolCount: number;
   locale: Locale;
 };
 
-export default function CategoryCard({ category, name, toolLabel, toolCount, locale }: CategoryCardProps) {
+export default function CategoryCard({ category, name, toolLabel, locale }: CategoryCardProps) {
   return (
     <Card
       href={getCategoryPath(locale, category.id)}
@@ -26,7 +25,7 @@ export default function CategoryCard({ category, name, toolLabel, toolCount, loc
 
       <span className="min-w-0 sm:col-span-2 sm:row-start-2 sm:mt-5">
         <span className="block font-semibold tracking-[-0.015em] text-[var(--foreground)] text-pretty">{name}</span>
-        <span className="mt-1 block text-sm text-[var(--muted)]">{toolCount} {toolLabel}</span>
+        <span className="mt-1 block text-sm text-[var(--muted)]">{toolLabel}</span>
       </span>
 
       <MaterialIcon name="chevron_right" size={20} className="h-5 w-5 shrink-0 text-[var(--on-surface-variant)] transition-[transform,color] duration-[var(--motion-standard)] group-hover:translate-x-0.5 group-hover:text-[var(--primary)] sm:col-start-2 sm:row-start-1 sm:justify-self-end" />

@@ -1,5 +1,7 @@
 # Loculary — backlog priorisé
 
+- **Accueil / compteur de catégories dupliqué :** [issue #959](https://github.com/Nabouna32/lab/issues/959). Le contrat de `CategoryCard` est simplifié pour n’afficher qu’une seule chaîne localisée complète ; test de régression FR/EN ajouté dans la même livraison. L’audit plus large de la hiérarchie de découverte est suivi séparément dans [issue #960](https://github.com/Nabouna32/lab/issues/960).
+
 Dernière révision : 2026-10-21. File de travail unique.
 
 - **Intégrité des fichiers / empreintes cryptographiques :** [PR #955](https://github.com/Nabouna32/lab/pull/955) étend le générateur de hash aux fichiers locaux jusqu’à 100 Mio et permet de comparer une empreinte de référence ; traitement navigateur, sans upload ni dépendance ajoutée. CI complète verte ([run #39553923138](https://github.com/Nabouna32/lab/actions/runs/39553923138)) ; déploiement production `READY` ([Vercel](https://vercel.com/nabouna32/loculary/5BccRteCB5BQdCUsFVsEUK9FybE3)).
