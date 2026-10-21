@@ -22,8 +22,10 @@ const CSV_DIFF_MAX_ROWS = 10_000;
 const CSV_DIFF_MAX_CHANGES = 500;
 
 export class CsvDiffError extends Error {
-  constructor(readonly code: "empty" | "too-large" | "invalid" | "headers" | "duplicate-key" | "missing-key" | "too-many-rows") {
+  readonly code: "empty" | "too-large" | "invalid" | "headers" | "duplicate-key" | "missing-key" | "too-many-rows";
+  constructor(code: "empty" | "too-large" | "invalid" | "headers" | "duplicate-key" | "missing-key" | "too-many-rows") {
     super(code);
+    this.code = code;
     this.name = "CsvDiffError";
   }
 }
