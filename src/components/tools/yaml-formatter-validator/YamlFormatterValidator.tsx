@@ -112,7 +112,9 @@ export default function YamlFormatterValidator() {
             value={input}
             onChange={(event) => {
               setInput(event.target.value);
+              setResult("");
               setError(null);
+              setTransferError(false);
             }}
             placeholder={isJsonInput ? t.jsonPlaceholder : t.placeholder}
             spellCheck={false}
