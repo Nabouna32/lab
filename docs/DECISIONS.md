@@ -644,3 +644,22 @@ Keep the shared `TextField` `fidelity` variant's persistent external label as th
 - Error, disabled, focus, hover, helper-text, keyboard, autofill, long-label and light/dark states still require verification.
 - Reconsider the default only if browser tests or user feedback show a clear benefit, or if a future product area has a stronger need for integrated floating labels.
 - DEC-026 remains in force: adapt Material 3 to Loculary's task-first Web experience without treating existing code as untouchable.
+
+
+## DEC-029 — Transfert éphémère de résultat entre outils
+
+**Status:** Accepted
+
+### Decision
+
+When a workflow passes user content from one tool to another, transfer it through a versioned, narrowly scoped `sessionStorage` key, never through query strings or a remote service. The receiving tool must consume and remove the value, validate size and format, and preserve a manual-copy fallback.
+
+### Reason
+
+This enables multi-step workflows without accounts or backend storage and avoids exposing potentially sensitive JSON in browser history, analytics, referrer data, or shareable URLs.
+
+### Consequences
+
+- The first supported handoff is JSON Formatter → JSON Diff Checker, inserting the value into the “new JSON” side.
+- The transfer is limited to 200,000 characters, scoped to the current tab, and removed after consumption.
+- Additional handoffs must explicitly validate format compatibility, destination field semantics, and failure handling.

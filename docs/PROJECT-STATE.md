@@ -9,6 +9,7 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 
 ## État vérifié
 
+- **Parcours JSON chaîné :** transmettre le résultat du formateur au comparateur JSON dans le même onglet ; contenu transféré brièvement par `sessionStorage`, consommé puis supprimé, sans URL ni serveur. FR/EN et tests dédiés.
 - **Recherche / filtres de catégories :** la page de résultats permet de restreindre les correspondances à une catégorie présente dans les résultats, avec commandes FR/EN accessibles au clavier et un compteur qui suit le filtre.
 - **Découverte / intention « Préparer » :** ajoute un parcours transversal FR/EN pour retrouver les outils qui préparent des images, des données ou du texte avant réutilisation ou partage. Les associations sont explicites et limitées aux outils publiés ; pas d’inférence opaque ni de nouveau stockage. Tests du catalogue et de la localisation ajoutés.
 - **Produit / préparation d’images en un parcours :** [PR #919](https://github.com/Nabouna32/lab/pull/919). Le nettoyage EXIF peut désormais aussi optimiser le lot en une seule passe locale, avec choix du format, qualité et dimension maximale ; la détection des animations empêche leur perte silencieuse. Le scénario Playwright couvre le nettoyage classique et le mode combiné avec export ZIP. La CI complète de la PR valide lint, TypeScript, tests, build et Playwright.
@@ -88,11 +89,13 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 
 > Mémoire opérationnelle par session de travail, avec les PR représentatives et preuves vérifiables.
 
-1. **Découverte / intention « Préparer »** — nouvelle intention FR/EN qui rassemble les outils de préparation d’images, données et texte avant réutilisation. [PR à venir]
-2. **Produit / préparation d’images en un parcours** — nettoyage EXIF et optimisation locale facultative en une seule passe, réglages de sortie, préservation des animations et export ZIP. [PR #919](https://github.com/Nabouna32/lab/pull/919), CI complète de la PR verte.
-3. **Confidentialité / nettoyage d’images par lot** — inspection EXIF, avertissement GPS, nettoyage local de jusqu’à 10 images et archive ZIP, avec limites explicites et prise en charge prudente des animations. [PR #918](https://github.com/Nabouna32/lab/pull/918), CI complète verte sur `b15cc55` ([run #39515837545](https://github.com/Nabouna32/lab/actions/runs/39515837545)).
-4. **Produit / compresseur d’images par lot** — traitement local de jusqu’à 10 images, aperçu des résultats et archive ZIP. [PR #916](https://github.com/Nabouna32/lab/pull/916), fusionnée dans `13f54c5`, CI complète verte ([run #39514581989](https://github.com/Nabouna32/lab/actions/runs/39514581989)).
-5. **Produit / conversion JSON ↔ YAML** — ajoute le formatage YAML et les conversions dans les deux sens, avec validation stricte, garde-fous de ressources et messages FR/EN. [PR #914](https://github.com/Nabouna32/lab/pull/914), fusionnée dans `f8308de` ; CI complète réussie ([run #39513132211](https://github.com/Nabouna32/lab/actions/runs/39513132211)).
+1. **Parcours JSON chaîné** — transfert local à usage unique du formateur vers le comparateur, sans placer le contenu dans l’URL ni l’envoyer à un serveur. [PR à venir]
+2. **Recherche / filtres de catégories** — affiner les résultats sans perdre la requête. [PR #921](https://github.com/Nabouna32/lab/pull/921)
+3. **Découverte / intention « Préparer »** — nouvelle intention FR/EN qui rassemble les outils de préparation d’images, données et texte avant réutilisation. [PR #920](https://github.com/Nabouna32/lab/pull/920)
+4. **Produit / préparation d’images en un parcours** — nettoyage EXIF et optimisation locale facultative en une seule passe, réglages de sortie, préservation des animations et export ZIP. [PR #919](https://github.com/Nabouna32/lab/pull/919), CI complète de la PR verte.
+5. **Confidentialité / nettoyage d’images par lot** — inspection EXIF, avertissement GPS, nettoyage local de jusqu’à 10 images et archive ZIP, avec limites explicites et prise en charge prudente des animations. [PR #918](https://github.com/Nabouna32/lab/pull/918), CI complète verte sur `b15cc55` ([run #39515837545](https://github.com/Nabouna32/lab/actions/runs/39515837545)).
+6. **Produit / compresseur d’images par lot** — traitement local de jusqu’à 10 images, aperçu des résultats et archive ZIP. [PR #916](https://github.com/Nabouna32/lab/pull/916), fusionnée dans `13f54c5`, CI complète verte ([run #39514581989](https://github.com/Nabouna32/lab/actions/runs/39514581989)).
+7. **Produit / conversion JSON ↔ YAML** — ajoute le formatage YAML et les conversions dans les deux sens, avec validation stricte, garde-fous de ressources et messages FR/EN. [PR #914](https://github.com/Nabouna32/lab/pull/914), fusionnée dans `f8308de` ; CI complète réussie ([run #39513132211](https://github.com/Nabouna32/lab/actions/runs/39513132211)).
 
 
 ## Priorités immédiates
