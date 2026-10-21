@@ -270,7 +270,7 @@ test("image metadata cleaner processes multiple images and downloads a ZIP", asy
   await expect(page.getByText("2 images sélectionnées")).toBeVisible();
   await page.getByLabel("Nettoyer et optimiser en une seule opération").check();
   await page.getByRole("button", { name: "Nettoyer et optimiser toutes les images" }).click();
-  await expect(page.getByText("Nettoyée et optimisée", { exact: true })).toHaveCount(2);
+  await expect(page.getByText("Nettoyée et optimisée", { exact: true })).toHaveCount(3);
 
   const optimizedDownloadPromise = page.waitForEvent("download");
   await page.getByRole("button", { name: "Télécharger les images préparées (.zip)" }).click();
@@ -501,7 +501,7 @@ test("guided workflows connect published tools in French and English", async ({ 
   await expect(page.locator("html")).toHaveAttribute("lang", "fr");
   await expect(page.getByRole("heading", { level: 1, name: "Des parcours pour aller jusqu’au bout" })).toBeVisible();
   await expect(page.getByTestId("guided-workflows").locator("article")).toHaveCount(4);
-  await expect(page.getByText("Le résultat passe automatiquement à l’étape suivante.")).toHaveCount(2);
+  await expect(page.getByText("Le résultat passe automatiquement à l’étape suivante.")).toHaveCount(3);
   await expect(page.getByRole("link", { name: "Nettoyeur et trieur de lignes" })).toHaveAttribute("href", "/fr/outils/nettoyeur-trieur-de-lignes");
   await expect(page.getByRole("link", { name: "Comparateur de texte" })).toHaveAttribute("href", "/fr/outils/comparateur-de-texte");
 
@@ -509,7 +509,7 @@ test("guided workflows connect published tools in French and English", async ({ 
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
   await expect(page.getByRole("heading", { level: 1, name: "Guided paths from start to finish" })).toBeVisible();
   await expect(page.getByTestId("guided-workflows").locator("article")).toHaveCount(4);
-  await expect(page.getByText("The result is passed automatically to the next step.")).toHaveCount(2);
+  await expect(page.getByText("The result is passed automatically to the next step.")).toHaveCount(3);
   await expect(page.getByRole("link", { name: "Browse all tools" })).toHaveAttribute("href", "/en/tools");
 });
 
