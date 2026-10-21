@@ -139,8 +139,8 @@ export const toolSeo = {
     en: { title: "Regex Tester | Loculary", description: "Test JavaScript regular expressions and inspect matches directly in your browser." },
   },
   "hash-generator": {
-    fr: { title: "Générateur de hash | Loculary", description: "Générez des empreintes SHA-1, SHA-256, SHA-384 ou SHA-512 directement dans votre navigateur." },
-    en: { title: "Hash Generator | Loculary", description: "Generate SHA-1, SHA-256, SHA-384, or SHA-512 digests directly in your browser." },
+    fr: { title: "Empreinte et vérification de fichiers | Loculary", description: "Calculez l’empreinte SHA d’un texte ou d’un fichier et vérifiez son intégrité localement, sans téléversement." },
+    en: { title: "File Hash and Checksum Verification | Loculary", description: "Calculate SHA digests for text or files and verify file integrity locally without uploading." },
   },
   "jwt-decoder": {
     fr: { title: "Décodeur JWT | Loculary", description: "Décodez des JSON Web Tokens et lisez leur en-tête et leur contenu directement dans votre navigateur." },

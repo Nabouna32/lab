@@ -144,8 +144,8 @@ const localProcessingDescriptions = {
     en: "Unix timestamp conversions are performed directly in your browser.",
   },
   "hash-generator": {
-    fr: "Les empreintes cryptographiques sont calculées directement dans votre navigateur.",
-    en: "Cryptographic digests are calculated directly in your browser.",
+    fr: "Les empreintes de texte et de fichiers sont calculées localement dans votre navigateur, sans téléversement.",
+    en: "Text and file digests are calculated locally in your browser without uploading files.",
   },
   "jwt-decoder": {
     fr: "Les JWT sont décodés directement dans votre navigateur.",
@@ -689,15 +689,15 @@ const toolDefinitions: ToolDefinition[] = [
   {
     id: "hash-generator", icon: "#️⃣",
     version: 1,
-    complexity: "small",
+    complexity: "advanced",
     categories: ["development"],
-    tags: ["hash", "sha", "sha-1", "sha-256", "sha-384", "sha-512", "digest", "crypto", "developer"],
-    aliases: ["hash generator", "hash calculator", "sha generator", "sha256", "sha-256", "empreinte", "générateur hash", "générateur sha"],
+    tags: ["hash", "sha", "sha-1", "sha-256", "sha-384", "sha-512", "digest", "checksum", "file integrity", "crypto", "developer"],
+    aliases: ["hash generator", "hash calculator", "sha generator", "sha256", "sha-256", "empreinte", "générateur hash", "générateur sha", "file checksum", "checksum verifier", "verify download", "vérifier intégrité fichier", "somme de contrôle fichier"],
     lifecycle: "published",
-    capabilities: ["clipboard"],
+    capabilities: ["clipboard", "file-input", "local-processing"],
     content: {
-      fr: { name: "Générateur de hash", description: "Calculez une empreinte SHA-1, SHA-256, SHA-384 ou SHA-512 à partir d’un texte." },
-      en: { name: "Hash Generator", description: "Generate a SHA-1, SHA-256, SHA-384, or SHA-512 digest from text." },
+      fr: { name: "Générateur et vérificateur d’empreintes", description: "Calculez l’empreinte SHA d’un texte ou d’un fichier, puis vérifiez qu’elle correspond à une empreinte de référence." },
+      en: { name: "Hash Generator and Checksum Verifier", description: "Calculate a SHA digest for text or a file, then verify it against a reference checksum." },
     },
   },
   {
