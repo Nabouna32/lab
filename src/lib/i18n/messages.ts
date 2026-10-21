@@ -16,7 +16,7 @@ export type Messages = {
     intentsTitle: string; intentsDescription: string; intents: Array<{ id: IntentId; label: string; icon: string }>;
     intentResultsTitle: (intent: string) => string; intentResultsDescription: string; clearIntent: string;
     allToolsTitle: string; searchSubmit: string; searchResultsTitle: (query: string) => string; searchResultsMetaTitle: string;
-    resultCountOne: string; resultCountMany: string; searching: string; searchError: string; retrySearch: string; searchLandingTitle: string; searchLandingDescription: string; noResults: string; noResultsHelp: string; tryThese: string; noResultsSuggestions: string[]; clearSearch: string;
+    resultCountOne: string; resultCountMany: string; searching: string; searchError: string; retrySearch: string; searchLandingTitle: string; searchLandingDescription: string; filterByCategory: string; allCategories: string; noResults: string; noResultsHelp: string; tryThese: string; noResultsSuggestions: string[]; clearSearch: string;
     categoriesTitle: string; categoriesDescription: string;
   };
   nextActions: { title: string };
@@ -65,6 +65,7 @@ export const messages: Record<Locale, Messages> = {
       categoryDescription: (category) => `Retrouvez les outils disponibles dans la catégorie ${category}.`,
       searchLabel: "Rechercher dans les outils", searchPlaceholder: "Rechercher…", searchSubmit: "Lancer la recherche", searchResultsTitle: (query) => `Résultats pour « ${query} »`, searchResultsMetaTitle: "Résultats de recherche — Loculary",
       suggestions: "Suggestions", resultCountOne: "résultat", resultCountMany: "résultats", searching: "Recherche en cours…", searchError: "La recherche n’a pas pu se charger. Réessaie.", retrySearch: "Réessayer", searchLandingTitle: "Pour commencer", searchLandingDescription: "Lance une tâche fréquente tout de suite, ou saisis quelques mots pour trouver l’outil adapté.",
+      filterByCategory: "Filtrer par catégorie", allCategories: "Toutes",
       noResults: "Aucun outil ne correspond à", noResultsHelp: "Essaie un terme plus simple ou choisis une suggestion.", tryThese: "Tu cherches peut-être", noResultsSuggestions: ["TVA", "taille de fichier", "vidéo", "âge"],
       clearSearch: "Effacer la recherche",
       categoriesTitle: "Parcourir par catégorie", categoriesDescription: "Tu préfères explorer ? Choisis une catégorie pour voir ses outils.",
@@ -160,6 +161,7 @@ export const messages: Record<Locale, Messages> = {
       categoryDescription: (category) => `Browse the tools available in the ${category}.`,
       searchLabel: "Search the tools", searchPlaceholder: "Search…", searchSubmit: "Search tools", searchResultsTitle: (query) => `Results for “${query}”`, searchResultsMetaTitle: "Search results — Loculary",
       suggestions: "Suggestions", resultCountOne: "result", resultCountMany: "results", searching: "Searching…", searchError: "Search could not be loaded. Please try again.", retrySearch: "Try again", searchLandingTitle: "Start with a popular task", searchLandingDescription: "Jump straight into a common task, or enter a few words to find the right tool.",
+      filterByCategory: "Filter by category", allCategories: "All",
       noResults: "No tool matches", noResultsHelp: "Try a simpler term or choose a suggestion.", tryThese: "You might be looking for", noResultsSuggestions: ["VAT", "file size", "video", "age"],
       clearSearch: "Clear search",
       categoriesTitle: "Browse by category", categoriesDescription: "Prefer to explore? Choose a category to see its tools.",
