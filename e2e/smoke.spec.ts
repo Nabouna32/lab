@@ -419,3 +419,30 @@ test("timezone converter compares several cities and updates destinations", asyn
   await expect(page.locator("#timezone-add-destination")).toBeVisible();
   await expect(page.locator("article").filter({ hasText: "Australia/Sydney" })).toHaveCount(0);
 });
+
+
+test("group expense splitter calculates local reimbursements", async ({ page }) => {
+  await page.goto("/fr/outils/repartiteur-de-depenses-de-groupe");
+  await expect(page.locator("html")).toHaveAttribute("lang", "fr");
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+
+  await page.getByLabel("Nom", { exact: true }).fill("Casey");
+  await page.getByRole("button", { name: "Ajouter une personne" }).click();
+  await expect(page.getByLabel("Nom 3")).toHaveValue("Casey");
+
+  await page.getByLabel("Ex. : courses, hôtel, restaurant").fill("Dîner");
+  await page.getByLabel("Montant").fill("90");
+  await page.getByRole("button", { name: "Ajouter la dépense" }).click();
+
+  await page.getByLabel("Ex. : courses, hôtel, restaurant").fill("Taxi");
+  await page.getByLabel("Montant").fill("30");
+  await page.getByLabel("Payé par").selectOption({ label: "Sam" });
+  await page.getByRole("button", { name: "Ajouter la dépense" }).click();
+
+  const transfers = page.getByRole("heading", { name: "Remboursements à effectuer" }).locator("..");
+  await expect(transfers).toContainText("Casey");
+  await expect(transfers).toContainText("Alex");
+  await expect(transfers).toContainText(/40,00/);
+  await expect(transfers).toContainText(/10,00/);
+  await expect(page.getByText(/aucun nom ni montant n’est envoyé/i)).toBeVisible();
+});
