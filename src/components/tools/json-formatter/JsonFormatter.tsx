@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
@@ -9,18 +10,22 @@ import { TextArea } from "@/components/ui/TextArea";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { formatJson, getJsonFormatError, minifyJson } from "@/lib/json-formatter";
+import { writePendingJsonComparison } from "@/lib/tools/json-transfer";
+import { getToolPath } from "@/lib/tools/routes";
 
 type Mode = "formatted" | "minified";
 type Indent = "  " | "    " | "\t";
 
 export default function JsonFormatter() {
   const locale = useLocale();
+  const router = useRouter();
   const t = getToolMessages(locale).jsonFormatter;
   const [input, setInput] = useState("");
   const [mode, setMode] = useState<Mode>("formatted");
   const [indent, setIndent] = useState<Indent>("  ");
   const [result, setResult] = useState("");
   const [error, setError] = useState<ReturnType<typeof getJsonFormatError> | null>(null);
+  const [transferError, setTransferError] = useState(false);
 
   const status = useMemo(
     () => error
@@ -48,10 +53,23 @@ export default function JsonFormatter() {
     setResult(nextMode === "formatted" ? formatJson(input, { indent }) : minifyJson(input));
   }
 
+  function sendToComparison() {
+    try {
+      if (!writePendingJsonComparison(window.sessionStorage, result)) {
+        setTransferError(true);
+        return;
+      }
+      router.push(getToolPath(locale, "json-diff-checker"));
+    } catch {
+      setTransferError(true);
+    }
+  }
+
   function clear() {
     setInput("");
     setResult("");
     setError(null);
+    setTransferError(false);
   }
 
   return (
@@ -110,6 +128,12 @@ export default function JsonFormatter() {
           >
             {result || " "}
           </pre>
+          {result && !error && (
+            <div className="mt-4">
+              <Button variant="secondary" onClick={sendToComparison}>{t.sendToCompare}</Button>
+              {transferError && <p className="mt-2 text-sm font-medium text-[var(--danger)]" role="alert">{t.transferFailed}</p>}
+            </div>
+          )}
         </div>
       </div>
     </section>
