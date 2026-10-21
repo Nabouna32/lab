@@ -69,11 +69,9 @@ test.afterEach(async ({ page }, testInfo) => {
     badResponses: [],
   };
 
-  let metrics: Record<string, unknown> = {};
-  let accessibilityTree = "Unavailable: page did not expose an accessibility snapshot.";
-
+  let layout: { title?: string; url?: string; language?: string; viewport?: { width: number; height: number }; document?: { width: number; height: number }; horizontalOverflow?: boolean; visibleControlCount?: number; controlsWithoutAccessibleName?: number } = {};
   try {
-    metrics = await page.evaluate(() => {
+    layout = await page.evaluate(() => {
       const visible = (element: Element) => {
         const rect = element.getBoundingClientRect();
         const style = getComputedStyle(element);
@@ -82,7 +80,7 @@ test.afterEach(async ({ page }, testInfo) => {
       const controls = Array.from(document.querySelectorAll(
         'a,button,input,select,textarea,[role="button"],[role="combobox"],[tabindex]:not([tabindex="-1"])',
       )).filter(visible);
-      const unnamedControls = controls.filter((element) => {
+      const unnamed = controls.filter((element) => {
         const ariaLabel = element.getAttribute("aria-label")?.trim();
         const labelledBy = element.getAttribute("aria-labelledby");
         const title = element.getAttribute("title")?.trim();
@@ -94,118 +92,36 @@ test.afterEach(async ({ page }, testInfo) => {
         ) && Boolean(element.labels?.length);
         return !ariaLabel && !labelledBy && !title && !text && !hasNativeLabel;
       });
-      const visibleLayout = Array.from(document.querySelectorAll(
-        "header,main,footer,h1,h2,h3,form,[role='search'],[role='region'],button,a,input,[role='combobox']",
-      )).filter(visible).slice(0, 60).map((element) => {
-        const rect = element.getBoundingClientRect();
-        const style = getComputedStyle(element);
-        const text = (element.getAttribute("aria-label") || element.textContent || "").trim().replace(/\\s+/g, " ");
-        return {
-          element: element.tagName.toLowerCase(),
-          role: element.getAttribute("role"),
-          text: text.slice(0, 90),
-          x: Math.round(rect.x),
-          y: Math.round(rect.y),
-          width: Math.round(rect.width),
-          height: Math.round(rect.height),
-          display: style.display,
-          position: style.position,
-        };
-      });
-      const ids = Array.from(document.querySelectorAll("[id]")).map((element) => element.id);
-      const duplicateIds = ids.filter((id, index) => ids.indexOf(id) !== index);
-      const imagesWithoutAlt = Array.from(document.images)
-        .filter((image) => !image.hasAttribute("alt"))
-        .map((image) => image.currentSrc || image.src);
       return {
         title: document.title,
         url: location.href,
         language: document.documentElement.lang,
-        viewport: { width: window.innerWidth, height: window.innerHeight, devicePixelRatio: window.devicePixelRatio },
+        viewport: { width: window.innerWidth, height: window.innerHeight },
         document: { width: document.documentElement.scrollWidth, height: document.documentElement.scrollHeight },
         horizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1,
-        headings: Array.from(document.querySelectorAll("h1,h2,h3"))
-          .filter(visible)
-          .slice(0, 20)
-          .map((heading) => ({ level: heading.tagName, text: heading.textContent?.trim().replace(/\\s+/g, " ").slice(0, 160) })),
         visibleControlCount: controls.length,
-        controlsWithoutAccessibleName: unnamedControls.slice(0, 30).map((element) => ({
-          element: element.tagName.toLowerCase(),
-          role: element.getAttribute("role"),
-          id: element.id,
-          text: element.textContent?.trim().slice(0, 80),
-        })),
-        imagesWithoutAlt: imagesWithoutAlt.slice(0, 30),
-        duplicateIds: [...new Set(duplicateIds)].slice(0, 30),
-        visibleLayout,
+        controlsWithoutAccessibleName: unnamed.length,
       };
     });
-    accessibilityTree = await page.locator("body").ariaSnapshot();
   } catch (error) {
-    metrics = { captureError: error instanceof Error ? error.message : String(error) };
+    console.log("Browser layout diagnostics unavailable:", error instanceof Error ? error.message : String(error));
   }
 
-  const report = [
-    `# Browser observation — ${testInfo.title}`,
-    "",
-    `- Project: ${testInfo.project.name}`,
-    `- Result: ${testInfo.status ?? "unknown"}`,
-    `- URL: ${page.url()}`,
-    "",
-    "## Runtime signals",
-    `- JavaScript page errors: ${issues.pageErrors.length}`,
-    `- Console errors: ${issues.consoleErrors.length}`,
-    `- Aborted requests (often expected during navigation/prefetch): ${issues.abortedRequests.length}`,
-    `- Failed requests: ${issues.failedRequests.length}`,
-    `- HTTP responses >= 400: ${issues.badResponses.length}`,
-    "",
-    "## Layout and accessibility heuristics",
-    "```json",
-    JSON.stringify(metrics, null, 2),
-    "```",
-    "",
-    "## Accessibility tree (Playwright ARIA snapshot)",
-    "```text",
-    accessibilityTree.slice(0, 8_000),
-    "```",
-    "",
-    "## Console errors",
-    ...issues.consoleErrors.map((message) => `- ${message}`),
-    ...(issues.consoleErrors.length ? [] : ["- None observed"]),
-    "",
-    "## JavaScript errors",
-    ...issues.pageErrors.map((message) => `- ${message}`),
-    ...(issues.pageErrors.length ? [] : ["- None observed"]),
-    "",
-    "## Aborted requests (often expected during navigation/prefetch)",
-    ...issues.abortedRequests.map((message) => `- ${message}`),
-    ...(issues.abortedRequests.length ? [] : ["- None observed"]),
-    "",
-    "## Failed requests",
-    ...issues.failedRequests.map((message) => `- ${message}`),
-    ...(issues.failedRequests.length ? [] : ["- None observed"]),
-    "",
-    "## HTTP error responses",
-    ...issues.badResponses.map((message) => `- ${message}`),
-    ...(issues.badResponses.length ? [] : ["- None observed"]),
-    "",
-    "> Heuristic report only: overlap detection, color contrast and visual judgement are not claimed by this first smoke suite. PNG screenshots are attached separately.",
-    "",
-  ].join("\n");
-
-  await testInfo.attach("visual-report", { body: report, contentType: "text/markdown" });
-
-  try {
-    const firstViewport = await page.screenshot({ fullPage: false, scale: "css", animations: "disabled", timeout: 10_000 });
-    await testInfo.attach("first-viewport-screenshot", { body: firstViewport, contentType: "image/png" });
-    const fullPage = await page.screenshot({ fullPage: true, scale: "css", animations: "disabled", timeout: 10_000 });
-    await testInfo.attach("full-page-screenshot", { body: fullPage, contentType: "image/png" });
-  } catch (error) {
-    console.log(`Screenshot unavailable: ${error instanceof Error ? error.message : String(error)}`);
-  }
-
-  console.log(`\n${report}\n`);
-
+  // Keep diagnostics in the CI log: no screenshots, trace files, report attachments, or artifact upload.
+  console.log(JSON.stringify({
+    test: testInfo.title,
+    project: testInfo.project.name,
+    result: testInfo.status ?? "unknown",
+    layout,
+    runtime: {
+      pageErrors: issues.pageErrors,
+      consoleErrors: issues.consoleErrors,
+      abortedRequests: issues.abortedRequests.length,
+      failedRequests: issues.failedRequests,
+      badResponses: issues.badResponses,
+    },
+  }));
+  
   expect(issues.pageErrors, "unexpected JavaScript errors in the page").toEqual([]);
   expect(issues.consoleErrors, "unexpected browser console errors").toEqual([]);
 });
