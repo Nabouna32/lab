@@ -2,6 +2,8 @@
 
 Dernière révision : 2026-10-21. File de travail unique.
 
+- **Planche-contact d’images :** [PR #947](https://github.com/Nabouna32/lab/pull/947) ajoute une composition PNG locale de jusqu’à 20 images, avec colonnes, fond et légendes configurables. CI en cours de validation.
+
 - **Conversion d’images en PDF :** outil local multipage A4/Lettre, jusqu’à 10 images JPEG/PNG/WebP, orientation automatique et limites mémoire explicites. La PR #945 est fusionnée ; la PR #946 ajoute des commandes accessibles pour réordonner les pages avant export. CI complète verte : [run #39540803783](https://github.com/Nabouna32/lab/actions/runs/39540803783).
 
 - **QR Code / partage Wi-Fi :** mode Wi-Fi local dans le générateur QR existant, avec échappement des caractères réservés, réseaux masqués et ouverts, avertissement sur l’exposition du mot de passe et tests unitaires dédiés. Livré via [PR #944](https://github.com/Nabouna32/lab/pull/944).
