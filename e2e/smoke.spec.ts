@@ -421,6 +421,30 @@ test("timezone converter compares several cities and updates destinations", asyn
 });
 
 
+
+test("anonymous users can create and keep a local collection of tools", async ({ page }) => {
+  await page.goto("/fr/collections");
+  await expect(page.locator("html")).toHaveAttribute("lang", "fr");
+  await expect(page.getByRole("heading", { name: "Mes collections" })).toBeVisible();
+  await expect(page.getByText(/Les collections locales restent dans ce navigateur/i)).toBeVisible();
+
+  await page.getByLabel("Nom de la collection").fill("Projet vacances");
+  await page.getByRole("button", { name: "Créer une collection" }).click();
+  const collection = page.getByRole("button", { name: /Projet vacances/ });
+  await expect(collection).toBeVisible();
+  await expect(collection).toContainText("Sur cet appareil");
+  await collection.click();
+
+  await page.getByLabel("Ajouter un outil").selectOption({ label: "Calculateur de pourcentage" });
+  await page.getByRole("button", { name: "Ajouter", exact: true }).click();
+  await expect(page.getByRole("link", { name: "Calculateur de pourcentage" })).toBeVisible();
+
+  await page.reload();
+  await expect(page.getByRole("button", { name: /Projet vacances/ })).toBeVisible();
+  await page.getByRole("button", { name: /Projet vacances/ }).click();
+  await expect(page.getByRole("link", { name: "Calculateur de pourcentage" })).toBeVisible();
+});
+
 test("group expense splitter calculates local reimbursements", async ({ page }) => {
   await page.goto("/fr/outils/repartiteur-de-depenses-de-groupe");
   await expect(page.locator("html")).toHaveAttribute("lang", "fr");
