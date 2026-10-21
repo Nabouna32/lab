@@ -170,3 +170,22 @@ test("provides the matching local download name and MIME type for each conversio
     mimeType: "text/csv;charset=utf-8",
   });
 });
+
+
+test("optionally infers safe JSON scalar types from CSV while preserving identifiers", () => {
+  const result = transformCsvJson("count;active;note;empty;id;ratio\n42;true;null;;00123;3.5", "csv-to-json", "auto", true);
+  assert.equal(result.error, null);
+  assert.deepEqual(JSON.parse(result.value!), [{ count: 42, active: true, note: null, empty: "", id: "00123", ratio: 3.5 }]);
+});
+
+test("keeps CSV cells as strings by default for backward compatibility", () => {
+  const result = transformCsvJson("count;active;id\n42;true;00123", "csv-to-json");
+  assert.equal(result.error, null);
+  assert.deepEqual(JSON.parse(result.value!), [{ count: "42", active: "true", id: "00123" }]);
+});
+
+test("type inference does not coerce non-finite numbers or negative zero", () => {
+  const result = transformCsvJson("a,b,c\n1e999,-0,01", "csv-to-json", "auto", true);
+  assert.equal(result.error, null);
+  assert.deepEqual(JSON.parse(result.value!), [{ a: "1e999", b: "-0", c: "01" }]);
+});

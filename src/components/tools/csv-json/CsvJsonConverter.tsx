@@ -23,6 +23,7 @@ export default function CsvJsonConverter() {
   const [input, setInput] = useState("");
   const [operation, setOperation] = useState<CsvJsonOperation>("csv-to-json");
   const [delimiter, setDelimiter] = useState<CsvDelimiterSelection>("auto");
+  const [inferTypes, setInferTypes] = useState(false);
   const [result, setResult] = useState("");
   const [error, setError] = useState<"invalid-csv" | "invalid-json" | "unsupported-json" | "unsupported-file" | "file-too-large" | "file-read-failed" | null>(null);
 
@@ -65,7 +66,7 @@ export default function CsvJsonConverter() {
   }
 
   function apply(nextOperation: CsvJsonOperation) {
-    const next = transformCsvJson(input, nextOperation, delimiter);
+    const next = transformCsvJson(input, nextOperation, delimiter, inferTypes);
     setOperation(nextOperation);
     setResult(next.value ?? "");
     setError(next.error);
@@ -133,6 +134,25 @@ export default function CsvJsonConverter() {
               {delimiters.map((item) => <option key={item.value} value={item.value}>{item.value === "auto" ? t.autoDetectDelimiter : item.label}</option>)}
             </Select>
           </div>
+
+          {operation === "csv-to-json" && (
+            <div className="mt-4">
+              <label htmlFor="csv-json-infer-types" className="flex items-start gap-3 text-sm font-medium text-[var(--foreground)]">
+                <input
+                  id="csv-json-infer-types"
+                  type="checkbox"
+                  checked={inferTypes}
+                  onChange={(event) => {
+                    setInferTypes(event.target.checked);
+                    setResult("");
+                    setError(null);
+                  }}
+                  className="mt-0.5 size-4 shrink-0 accent-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+                />
+                <span>{t.inferTypes}<span className="mt-1 block font-normal text-[var(--muted)]">{t.inferTypesHint}</span></span>
+              </label>
+            </div>
+          )}
 
           <div className="mt-5 flex flex-wrap gap-2">
             <Button onClick={() => apply("csv-to-json")} variant={operation === "csv-to-json" ? "primary" : "secondary"}>{t.csvToJson}</Button>
