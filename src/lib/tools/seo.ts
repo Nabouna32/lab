@@ -198,4 +198,8 @@ export const toolSeo = {
     fr: { title: "Convertir des images en PDF | Loculary", description: "Assemblez plusieurs images dans un PDF multipage A4 ou Lettre, directement dans votre navigateur sans téléversement." },
     en: { title: "Convert Images to PDF | Loculary", description: "Combine multiple images into a multi-page A4 or Letter PDF in your browser without uploading files." },
   },
+  "image-contact-sheet": {
+    fr: { title: "Générateur de planche-contact | Loculary", description: "Rassemblez jusqu’à 20 images dans une planche de vignettes PNG avec colonnes et légendes personnalisables, sans téléversement." },
+    en: { title: "Image Contact Sheet Generator | Loculary", description: "Arrange up to 20 images in a PNG contact sheet with customizable columns and labels, without uploading files." },
+  },
 } satisfies Record<ToolId, Record<Locale, ToolSeoMetadata>>;
