@@ -196,8 +196,10 @@ test.afterEach(async ({ page }, testInfo) => {
   await testInfo.attach("visual-report", { body: report, contentType: "text/markdown" });
 
   try {
-    const screenshot = await page.screenshot({ fullPage: true, scale: "css", animations: "disabled", timeout: 10_000 });
-    await testInfo.attach("page-screenshot", { body: screenshot, contentType: "image/png" });
+    const firstViewport = await page.screenshot({ fullPage: false, scale: "css", animations: "disabled", timeout: 10_000 });
+    await testInfo.attach("first-viewport-screenshot", { body: firstViewport, contentType: "image/png" });
+    const fullPage = await page.screenshot({ fullPage: true, scale: "css", animations: "disabled", timeout: 10_000 });
+    await testInfo.attach("full-page-screenshot", { body: fullPage, contentType: "image/png" });
   } catch (error) {
     console.log(`Screenshot unavailable: ${error instanceof Error ? error.message : String(error)}`);
   }
