@@ -51,6 +51,7 @@ export const intentDefinitions: readonly IntentDefinition[] = [
       "password-generator",
       "hash-generator",
       "qr-code-generator",
+      "image-contact-sheet",
       "color-palette-generator",
       "markdown-table-generator",
       "json-to-typescript",
