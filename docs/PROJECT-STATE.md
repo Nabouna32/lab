@@ -2,6 +2,10 @@
 
 Dernière vérification : 2026-10-21
 
+## Travail en cours
+
+- **Factory autonome :** mandat proposé dans [PR #968](https://github.com/Nabouna32/lab/pull/968), checkpoint [issue #965](https://github.com/Nabouna32/lab/issues/965). L’utilisateur déclenche chaque reprise en renvoyant le même prompt ; l’agent reprend depuis le dépôt et le checkpoint durable. Une exécution planifiée en arrière-plan n’est pas requise par défaut ; voir [issue #967](https://github.com/Nabouna32/lab/issues/967) pour évaluer uniquement le besoin d’orchestration distinct.
+
 ## Cinq dernières reprises
 
 1. **Refonte UX de l’accueil — hiérarchie de découverte** : [PR #964](https://github.com/Nabouna32/lab/pull/964) recentre l’accueil sur la recherche et les accès directs, retire les grilles redondantes et conserve une entrée compacte vers les parcours guidés. Tests de contrat et assertions Playwright FR/EN ; preuves de CI et état courant dans [issue #960](https://github.com/Nabouna32/lab/issues/960).
