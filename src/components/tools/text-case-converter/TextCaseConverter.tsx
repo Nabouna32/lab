@@ -59,7 +59,7 @@ export default function TextCaseConverter() {
                   {label}
                 </VariantButton>
               );
-            })
+            })}
           </div>
         </div>
 
