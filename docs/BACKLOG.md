@@ -2,6 +2,8 @@
 
 Dernière révision : 2026-10-21. File de travail unique.
 
+- **Outils développeur / extraction JSON :** livré dans le formateur ; étendre la syntaxe seulement si un besoin concret justifie JSONPath complet.
+
 - **Parcours guidés entre outils :** premier transfert local du formateur JSON vers le comparateur, couvert par un scénario Playwright de bout en bout. [PR #922](https://github.com/Nabouna32/lab/pull/922), test complémentaire [PR #923](https://github.com/Nabouna32/lab/pull/923). Étendre aux couples où format et sens sont explicitement compatibles ; ne jamais passer le contenu par URL ou serveur.
 
 - **Nouvel outil / nettoyage de listes textuelles :** [PR #924](https://github.com/Nabouna32/lab/pull/924). Options combinables de nettoyage, déduplication et tri local, compteur avant/après et limite de ressources explicite.

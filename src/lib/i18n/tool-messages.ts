@@ -89,6 +89,7 @@ type ToolMessages = {
     input: string; placeholder: string; output: string; format: string; minify: string; copy: string; clear: string;
     indentation: string; spaces2: string; spaces4: string; tab: string; valid: string; invalid: string;
     emptyResult: string; formatted: string; minified: string; resourceLimit: string; errorAt: (line: string, column: string) => string; sendToCompare: string; transferFailed: string;
+    extractTitle: string; pathLabel: string; pathPlaceholder: string; pathHint: string; extractButton: string; extractedResult: string; pathSyntaxError: string; pathNotFound: string; extractionInvalidJson: string;
   };
   jsonDiffChecker: {
     leftInput: string; rightInput: string; leftPlaceholder: string; rightPlaceholder: string; compare: string; clear: string;
@@ -388,6 +389,10 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       indentation: "Indentation", spaces2: "2 espaces", spaces4: "4 espaces", tab: "Tabulation", valid: "JSON valide", invalid: "JSON invalide",
       emptyResult: "Le résultat apparaîtra ici après validation.", formatted: "Formaté", minified: "Minifié", resourceLimit: "Le JSON dépasse la limite de taille sûre de 200 000 caractères.", errorAt: (line, column) => "Ligne " + line + ", colonne " + column,
       sendToCompare: "Comparer avec un autre JSON", transferFailed: "Impossible de transmettre le résultat dans cet onglet. Copiez-le et collez-le manuellement.",
+      extractTitle: "Extraire une valeur par chemin", pathLabel: "Chemin JSON", pathPlaceholder: "$.user.name",
+      pathHint: "Syntaxe prise en charge : $, .clé, ['clé avec espaces'] et [0] pour les tableaux. Exemple : $.users[0].email.",
+      extractButton: "Extraire", extractedResult: "Valeur extraite", pathSyntaxError: "Chemin invalide. Vérifiez la syntaxe du chemin JSON.",
+      pathNotFound: "Aucune valeur ne correspond à ce chemin.", extractionInvalidJson: "Saisissez d’abord un JSON valide."
     },
     jsonDiffChecker: {
       leftInput: "JSON de référence", rightInput: "Nouveau JSON", leftPlaceholder: '{\\n  "status": "draft",\\n  "count": 2\\n}', rightPlaceholder: '{\\n  "status": "published",\\n  "count": 3,\\n  "active": true\\n}',
@@ -699,6 +704,10 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       indentation: "Indentation", spaces2: "2 spaces", spaces4: "4 spaces", tab: "Tab", valid: "Valid JSON", invalid: "Invalid JSON",
       emptyResult: "The result will appear here after validation.", formatted: "Formatted", minified: "Minified", resourceLimit: "JSON exceeds the safe size limit of 200,000 characters.", errorAt: (line, column) => "Line " + line + ", column " + column,
       sendToCompare: "Compare with another JSON", transferFailed: "Could not pass the result to the next tool in this tab. Copy and paste it manually.",
+      extractTitle: "Extract a value by path", pathLabel: "JSON path", pathPlaceholder: "$.user.name",
+      pathHint: "Supported syntax: $, .key, ['key with spaces'], and [0] for arrays. Example: $.users[0].email.",
+      extractButton: "Extract", extractedResult: "Extracted value", pathSyntaxError: "Invalid path. Check the JSON path syntax.",
+      pathNotFound: "No value matches this path.", extractionInvalidJson: "Enter valid JSON first."
     },
     jsonDiffChecker: {
       leftInput: "Reference JSON", rightInput: "New JSON", leftPlaceholder: '{\\n  "status": "draft",\\n  "count": 2\\n}', rightPlaceholder: '{\\n  "status": "published",\\n  "count": 3,\\n  "active": true\\n}',

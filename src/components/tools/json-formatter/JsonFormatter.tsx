@@ -10,6 +10,7 @@ import { TextArea } from "@/components/ui/TextArea";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { formatJson, getJsonFormatError, minifyJson } from "@/lib/json-formatter";
+import { extractJsonPath, JsonPathError } from "@/lib/json-path";
 import { writePendingJsonComparison } from "@/lib/tools/json-transfer";
 import { getToolPath } from "@/lib/tools/routes";
 
@@ -26,6 +27,9 @@ export default function JsonFormatter() {
   const [result, setResult] = useState("");
   const [error, setError] = useState<ReturnType<typeof getJsonFormatError> | null>(null);
   const [transferError, setTransferError] = useState(false);
+  const [jsonPath, setJsonPath] = useState("$");
+  const [extractedValue, setExtractedValue] = useState("");
+  const [extractionError, setExtractionError] = useState<"invalid-json" | "resource" | "invalid-path" | "not-found" | null>(null);
 
   const status = useMemo(
     () => error
@@ -54,6 +58,26 @@ export default function JsonFormatter() {
     setResult(nextMode === "formatted" ? formatJson(input, { indent }) : minifyJson(input));
   }
 
+  function extractValue() {
+    setExtractedValue("");
+    setExtractionError(null);
+    if (!input.trim()) {
+      setExtractionError("invalid-json");
+      return;
+    }
+    const validation = getJsonFormatError(input);
+    if (validation.index >= 0) {
+      setExtractionError(validation.kind === "resource" ? "resource" : "invalid-json");
+      return;
+    }
+    try {
+      const value = extractJsonPath(input, jsonPath);
+      setExtractedValue(JSON.stringify(value, null, indent) ?? "undefined");
+    } catch (caught) {
+      setExtractionError(caught instanceof JsonPathError ? caught.code : "invalid-json");
+    }
+  }
+
   function sendToComparison() {
     try {
       if (!writePendingJsonComparison(window.sessionStorage, result)) {
@@ -71,6 +95,9 @@ export default function JsonFormatter() {
     setResult("");
     setError(null);
     setTransferError(false);
+    setExtractedValue("");
+    setExtractionError(null);
+    setJsonPath("$");
   }
 
   return (
@@ -85,6 +112,8 @@ export default function JsonFormatter() {
               setInput(event.target.value);
               setError(null);
               setTransferError(false);
+              setExtractedValue("");
+              setExtractionError(null);
             }}
             placeholder={t.placeholder}
             spellCheck={false}
@@ -113,6 +142,31 @@ export default function JsonFormatter() {
             <Button variant="secondary" onClick={() => process("minified")}>{t.minify}</Button>
             <ClearButton onClear={clear} disabled={!input} label={t.clear} />
           </div>
+          <div className="mt-7 border-t border-[var(--border)] pt-5">
+            <h3 className="text-sm font-semibold text-[var(--foreground)]">{t.extractTitle}</h3>
+            <label htmlFor="json-path-input" className="mt-3 block text-sm font-medium text-[var(--foreground)]">{t.pathLabel}</label>
+            <input
+              id="json-path-input"
+              value={jsonPath}
+              onChange={(event) => { setJsonPath(event.target.value); setExtractionError(null); setExtractedValue(""); }}
+              placeholder={t.pathPlaceholder}
+              spellCheck={false}
+              className="mt-2 min-h-11 w-full rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] px-3 py-2 font-mono text-sm text-[var(--foreground)] outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+              aria-describedby="json-path-hint"
+              aria-invalid={extractionError === "invalid-path"}
+            />
+            <p id="json-path-hint" className="mt-2 text-xs leading-5 text-[var(--muted)]">{t.pathHint}</p>
+            <div className="mt-3">
+              <Button variant="secondary" onClick={extractValue}>{t.extractButton}</Button>
+            </div>
+            {extractionError && (
+              <p role="alert" className="mt-3 text-sm font-medium text-[var(--danger)]">
+                {extractionError === "resource" ? t.resourceLimit
+                  : extractionError === "invalid-path" ? t.pathSyntaxError
+                    : extractionError === "not-found" ? t.pathNotFound : t.extractionInvalidJson}
+              </p>
+            )}
+          </div>
         </div>
 
         <div className="flex min-h-full flex-col bg-[var(--background)] p-5 sm:p-7 lg:p-8">
@@ -134,6 +188,15 @@ export default function JsonFormatter() {
             <div className="mt-4">
               <Button variant="secondary" onClick={sendToComparison}>{t.sendToCompare}</Button>
               {transferError && <p className="mt-2 text-sm font-medium text-[var(--danger)]" role="alert">{t.transferFailed}</p>}
+            </div>
+          )}
+          {extractedValue && !extractionError && (
+            <div className="mt-5 border-t border-[var(--border)] pt-5">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <p className="text-sm font-semibold text-[var(--foreground)]">{t.extractedResult}</p>
+                <CopyButton value={extractedValue} label={t.copy} />
+              </div>
+              <pre className="mt-3 max-h-80 overflow-auto whitespace-pre-wrap break-words border border-[var(--border)] bg-[var(--surface)] p-4 font-mono text-sm leading-6 text-[var(--foreground)]">{extractedValue}</pre>
             </div>
           )}
         </div>
