@@ -175,6 +175,10 @@ const localProcessingDescriptions = {
     fr: "La comparaison des textes est effectuée directement dans votre navigateur.",
     en: "Text comparison is performed directly in your browser.",
   },
+  "ipv6-subnet-calculator": {
+    fr: "Les calculs IPv6 sont effectués directement dans votre navigateur.",
+    en: "IPv6 subnet calculations are performed directly in your browser.",
+  },
   "number-base-converter": {
     fr: "La conversion de base numérique est effectuée directement dans votre navigateur.",
     en: "Number base conversion is performed directly in your browser.",
