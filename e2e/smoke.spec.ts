@@ -536,7 +536,7 @@ test("IPv6 subnet calculator reports canonical CIDR boundaries in French and Eng
   await expect(page.getByText("2001:db8:1234:1::/64")).toBeVisible();
   await expect(page.getByText("2001:db8:1234:1:ffff:ffff:ffff:ffff")).toBeVisible();
   await page.getByLabel("Adresse IPv6 / préfixe CIDR").fill("2001:db8::1/129");
-  await expect(page.getByRole("alert")).toContainText("préfixe de /0 à /128");
+  await expect(page.locator("#ipv6-subnet-error")).toContainText("préfixe de /0 à /128");
 
   await page.goto("/en/tools/ipv6-subnet-calculator");
   await expect(page.getByRole("heading", { level: 1, name: "IPv6 Subnet Calculator" })).toBeVisible();
