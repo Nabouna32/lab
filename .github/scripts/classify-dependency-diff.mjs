@@ -1,4 +1,6 @@
 import { readFileSync, appendFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import path from "node:path";
 
 function canonicalize(value) {
   if (Array.isArray(value)) return value.map(canonicalize);
@@ -112,14 +114,16 @@ export function classifyDependencyDiff(baseManifest, headManifest, baseLock, hea
   return lockfileContainsOnlyLintChanges(baseLock, headLock) ? "lint_only" : "full";
 }
 
-const [, , baseManifestPath, headManifestPath, baseLockPath, headLockPath, manifestsOnlyArgument] = process.argv;
-if (!baseManifestPath || !headManifestPath || !baseLockPath || !headLockPath || process.argv.length !== 7) {
-  throw new Error("Usage: node classify-dependency-diff.mjs <base-package.json> <head-package.json> <base-package-lock.json> <head-package-lock.json> <manifests-only:true|false>");
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  const [, , baseManifestPath, headManifestPath, baseLockPath, headLockPath, manifestsOnlyArgument] = process.argv;
+  if (!baseManifestPath || !headManifestPath || !baseLockPath || !headLockPath || process.argv.length !== 7) {
+    throw new Error("Usage: node classify-dependency-diff.mjs <base-package.json> <head-package.json> <base-package-lock.json> <head-package-lock.json> <manifests-only:true|false>");
+  }
+  const baseManifest = JSON.parse(readFileSync(baseManifestPath, "utf8"));
+  const headManifest = JSON.parse(readFileSync(headManifestPath, "utf8"));
+  const baseLock = JSON.parse(readFileSync(baseLockPath, "utf8"));
+  const headLock = JSON.parse(readFileSync(headLockPath, "utf8"));
+  const scope = classifyDependencyDiff(baseManifest, headManifest, baseLock, headLock, manifestsOnlyArgument === "true");
+  if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, `scope=${scope}\\n`);
+  console.log(`Dependency verification scope: ${scope}`);
 }
-const baseManifest = JSON.parse(readFileSync(baseManifestPath, "utf8"));
-const headManifest = JSON.parse(readFileSync(headManifestPath, "utf8"));
-const baseLock = JSON.parse(readFileSync(baseLockPath, "utf8"));
-const headLock = JSON.parse(readFileSync(headLockPath, "utf8"));
-const scope = classifyDependencyDiff(baseManifest, headManifest, baseLock, headLock, manifestsOnlyArgument === "true");
-if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, `scope=${scope}\n`);
-console.log(`Dependency verification scope: ${scope}`);
