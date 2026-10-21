@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 test("converts multiple local images into a multi-page PDF", async ({ page }) => {
  await page.goto("/en/tools/image-to-pdf");
- const png = Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/l9sAAAAASUVORK5CYII=", "base64");
+ const png = Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAIAAAD91JpzAAAAFklEQVR4nGP8z8DAwMDAxMDAwMDAAAANHQEDasKb6QAAAABJRU5ErkJggg==", "base64");
  await page.locator("#image-to-pdf-files").setInputFiles([{ name: "one.png", mimeType: "image/png", buffer: png }, { name: "two.png", mimeType: "image/png", buffer: png }]);
  await expect(page.getByRole("heading", { name: "Page order" })).toBeVisible(); await expect(page.getByText("one.png")).toBeVisible();
  const pending = page.waitForEvent("download"); await page.getByRole("button", { name: "Download PDF" }).click(); const download = await pending;
