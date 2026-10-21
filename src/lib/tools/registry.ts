@@ -32,6 +32,10 @@ function createToolModule(
 }
 
 const moduleLoaders: Partial<Record<ToolId, ToolModule>> = {
+  "expense-splitter": createToolModule(
+    () => import("@/components/tools/expense-splitter/ExpenseSplitter"),
+    () => import("@/components/tools/expense-splitter/ToolEditorial"),
+  ),
   "compound-interest": createToolModule(
     () => import("@/components/tools/compound-interest/CompoundInterestCalculator"),
     () => import("@/components/tools/compound-interest/ToolEditorial"),
