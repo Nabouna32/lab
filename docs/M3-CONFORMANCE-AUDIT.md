@@ -905,3 +905,17 @@ Official source: [AndroidX adaptive NavigationSuiteScaffold API](https://develop
 - **Delivered:** [PR #903](https://github.com/Nabouna32/lab/pull/903) replaces them with `MaterialIcon` names `search`, `close` and `arrow_back`, and removes glyph-specific font sizing from `SearchBar.module.css`. A source contract test prevents the ad hoc glyphs from returning.
 - **CI:** lint, TypeScript, tests and build passed on exact PR head `c4365c73910994bc06ba457cb1309c683e947936` ([run #39377477658](https://github.com/Nabouna32/lab/actions/runs/39377477658)).
 - **Limit:** no browser check of geometry, focus, themes or full-screen behavior was executed; no visual-conformance claim is made from source and CI alone.
+
+
+## Historical user-reported Design Lab findings — revalidation required (reported 2026-10-15)
+
+These are historical user observations copied from the former conversation checkpoint. They are **not confirmed current defects**: recheck each against current source and rendered behavior before closing or treating it as active. Preserve the distinction between a reported symptom, a reproduced issue and a verified fix.
+
+- Text contrast/readability: “Continuer le dialogue” and a lower “continuer” button; the “Action tonal” treatment.
+- Design Lab consistency: section 03 dialogue preview appeared not to reflect an earlier fix; selected buttons in “formulaire et choix” and selectable filters wrapped unexpectedly.
+- Shape consistency: “Focus clavier” and “Rejouer l’animation” appeared to use corner radii inconsistent with neighboring buttons. The visible focus example itself was intentional; the complaint concerned its shape.
+- Theme and semantic colors: enable/disable controls appeared to remain blue after palette changes instead of following intended semantic states; light/dark orchestration and an SVG crash had previously been reported.
+- Preview composition: a preview title had an unwanted blue background; language selection appeared misplaced.
+- Lab controls: reassess whether palette/color, shape and font-size controls provide useful component-testing value; retain useful interactive components and avoid ornamental/redundant controls. The user requested arbitrary test colors via a palette picker and a global rounding-degree control.
+
+These items originated in a 2026-10-15 checkpoint and may already have been fixed by later changes. They require current-state verification, not blind reimplementation. The detailed component/source audit and acceptance criteria remain in this file and [the canonical conventions](./M3-CONVENTIONS.md).
