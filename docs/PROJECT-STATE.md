@@ -9,6 +9,8 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 
 ## État vérifié
 
+- **Collections locales / sauvegarde et restauration :** [PR #939](https://github.com/Nabouna32/lab/pull/939). Export JSON versionné et import avec aperçu, limités aux collections stockées sur cet appareil. L’import valide le format, régénère les identifiants, filtre les outils indisponibles et respecte les limites locales ; aucun contenu saisi ni collection synchronisée n’est exporté.
+
 - **Produit / Collections locales sans compte :** [PR #937](https://github.com/Nabouna32/lab/pull/937). Les visiteurs anonymes peuvent créer des collections privées persistantes sur cet appareil ; les personnes connectées choisissent explicitement entre local et synchronisé. Seuls les noms et identifiants d’outils sont conservés, jamais les saisies ou résultats. Les tests couvrent la validation du stockage, la création et la persistance après rechargement.
 - **Nouvel outil grand public / Répartiteur de dépenses de groupe :** [PR #934](https://github.com/Nabouna32/lab/pull/934), fusionnée dans main via le commit `6394783f83556068c7cfd288dde05b78031d05f0`. Saisie des participants et dépenses, calcul en centimes entiers, remboursements consolidés et copie du bilan. Traitement local, sans compte ni stockage. CI complète réussie sur la tête de PR `eeab478c70870bac8667a253e76eb4dda08a21b4` : lint, TypeScript, tests, build et Playwright ([run #39532392924](https://github.com/Nabouna32/lab/actions/runs/39532392924)).
 - **Accessibilité / correction de contraste :** le vérificateur calcule désormais une suggestion de couleur de premier plan atteignant un seuil WCAG demandé, en conservant l’arrière-plan et en choisissant la plus proche parmi les trajectoires vers le noir et le blanc. UI FR/EN avec application et copie ; tests unitaires dédiés ajoutés, exécution CI à confirmer.
@@ -99,11 +101,11 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 
 > Mémoire opérationnelle par session de travail, avec les PR représentatives et preuves vérifiables.
 
-1. **Produit / collections locales sans compte** — [PR #937](https://github.com/Nabouna32/lab/pull/937) : collections privées sur cet appareil et choix explicite de synchronisation.
-2. **Produit grand public / Répartiteur de dépenses de groupe** — [PR #934](https://github.com/Nabouna32/lab/pull/934), fusionnée dans `6394783` : dépenses multi-personnes, calcul exact en centimes, remboursements consolidés et copie locale. CI complète réussie ([run #39532392924](https://github.com/Nabouna32/lab/actions/runs/39532392924)).
-3. **Accessibilité / suggestions de correction du contraste** — [PR #935](https://github.com/Nabouna32/lab/pull/935) : suggestions WCAG AA/AAA, application et copie locale ; CI complète réussie sur la tête de PR.
-4. **Produit / QR Code Wi-Fi** — [PR #933](https://github.com/Nabouna32/lab/pull/933), toujours ouverte, CI à revalider après resynchronisation avec `main`.
-5. **Découverte par tâche / intention « Comparer »** — regroupe les comparateurs existants de données structurées, texte et fuseaux horaires.
+1. **Fonctionnalité / sauvegarde des collections locales** — [PR #939](https://github.com/Nabouna32/lab/pull/939) : export JSON versionné et restauration locale avec validation, aperçu et fusion sans écrasement.
+2. **Produit / collections locales sans compte** — [PR #937](https://github.com/Nabouna32/lab/pull/937) : collections privées sur cet appareil et choix explicite de synchronisation.
+3. **Produit grand public / Répartiteur de dépenses de groupe** — [PR #934](https://github.com/Nabouna32/lab/pull/934), fusionnée dans `6394783` : dépenses multi-personnes, calcul exact en centimes, remboursements consolidés et copie locale. CI complète réussie ([run #39532392924](https://github.com/Nabouna32/lab/actions/runs/39532392924)).
+4. **Accessibilité / suggestions de correction du contraste** — [PR #935](https://github.com/Nabouna32/lab/pull/935) : suggestions WCAG AA/AAA, application et copie locale ; CI complète réussie sur la tête de PR.
+5. **Découverte par tâche / intention « Comparer »** — [PR #932](https://github.com/Nabouna32/lab/pull/932) : entrée transversale vers les outils de comparaison.
 
 ## Priorités immédiates
 

@@ -680,3 +680,23 @@ Inspecting one nested value is a natural follow-up to formatting JSON and should
 ### Consequences
 
 Parsing and extraction happen in the browser. Unsupported expressions return a clear error; broader JSONPath features require evidence of user need before implementation.
+
+
+## DEC-031 — Portable backups for local collections
+
+**Status:** Accepted
+
+### Decision
+
+Provide explicit JSON export and restore for device-local collections. The backup is versioned, limited to local collection metadata and tool IDs, and imported additively after validation. Imported collection IDs are regenerated; unavailable tool IDs are ignored with user feedback. Keep account-synchronized collections out of this file.
+
+### Reason
+
+Browser storage is intentionally local-first but can be cleared, and local collections cannot otherwise be moved to another browser without an account or server. A portable file provides recovery and transfer without adding a backend or silently synchronizing data.
+
+### Consequences
+
+- Export and import run in the browser; no backup contents are sent to Loculary.
+- Import is limited to 1 MB and 50 collections, and respects the existing 50-collection device limit.
+- The user chooses where to store the exported file. The backup does not include tool inputs/results, shared links, or account-backed collections.
+- Version changes require explicit validation and migration behavior rather than accepting arbitrary JSON.

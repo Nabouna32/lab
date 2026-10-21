@@ -34,3 +34,13 @@ test("anonymous users can create local collections and signed-in users can choos
   assert.match(source, /collection\.storage === "local" \? copy\.localOnly/);
   assert.match(source, /active\.storage === "account" &&/);
 });
+
+test("local collection backups export only device-local collections and preview restore before merging", async () => {
+  const source = await readFile(viewFile, "utf8");
+  assert.match(source, /\.filter\(\(collection\) => collection\.storage === "local"\)/);
+  assert.match(source, /createLocalCollectionsBackup\(records\)/);
+  assert.match(source, /parseLocalCollectionsBackup\(await file\.text\(\), tools\.map\(\(tool\) => tool\.id\)\)/);
+  assert.match(source, /setPendingImport\(\{ collections: result\.collections, ignoredToolCount: result\.ignoredToolCount \}\)/);
+  assert.match(source, /data\.importLocalCollections\(pendingImport\.collections\)/);
+  assert.match(source, /pendingImport\.collections\.length - imported/);
+});

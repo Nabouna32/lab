@@ -445,6 +445,30 @@ test("anonymous users can create and keep a local collection of tools", async ({
   await expect(page.getByRole("link", { name: "Calculateur de pourcentage" })).toBeVisible();
 });
 
+test("local collection backup can be exported and restored without touching synced collections", async ({ page }) => {
+  await page.goto("/fr/collections");
+  await page.getByLabel("Nom de la collection").fill("Sauvegarde locale");
+  await page.getByRole("button", { name: "Créer une collection" }).click();
+  await expect(page.getByRole("button", { name: /Sauvegarde locale/ })).toBeVisible();
+
+  const downloadPromise = page.waitForEvent("download");
+  await page.getByRole("button", { name: /Exporter les collections locales/ }).click();
+  const download = await downloadPromise;
+  expect(download.suggestedFilename()).toMatch(/^loculary-collections-\d{4}-\d{2}-\d{2}\.json$/);
+  const backupPath = await download.path();
+  expect(backupPath).toBeTruthy();
+
+  await page.getByRole("button", { name: /Sauvegarde locale/ }).click();
+  page.once("dialog", (dialog) => dialog.accept());
+  await page.getByRole("button", { name: "Supprimer", exact: true }).click();
+  await expect(page.getByRole("button", { name: /Sauvegarde locale/ })).toHaveCount(0);
+
+  await page.locator("#local-collections-import-file").setInputFiles(backupPath!);
+  await expect(page.getByText(/1 collection\(s\) prête\(s\) à importer/)).toBeVisible();
+  await page.getByRole("button", { name: "Restaurer les collections" }).click();
+  await expect(page.getByRole("button", { name: /Sauvegarde locale/ })).toBeVisible();
+});
+
 test("group expense splitter calculates local reimbursements", async ({ page }) => {
   await page.goto("/fr/outils/repartiteur-de-depenses-de-groupe");
   await expect(page.locator("html")).toHaveAttribute("lang", "fr");

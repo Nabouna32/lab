@@ -19,6 +19,7 @@ type CollectionsContextValue = {
   loading: boolean;
   error: boolean;
   createCollection: (name: string, synchronize: boolean) => Promise<boolean>;
+  importLocalCollections: (records: StoredLocalCollection[]) => Promise<number>;
   renameCollection: (id: string, name: string) => Promise<boolean>;
   deleteCollection: (id: string) => Promise<boolean>;
   addTool: (id: string, toolId: string) => Promise<boolean>;
@@ -173,6 +174,18 @@ export function CollectionsProvider({ children, toolIds }: { children: ReactNode
     };
   }, [refresh]);
 
+  const importLocalCollections = useCallback(async (records: StoredLocalCollection[]) => {
+    const available = Math.max(0, MAX_LOCAL_COLLECTIONS - localCollections.length);
+    const toImport = records.slice(0, available);
+    if (!toImport.length) return 0;
+
+    const imported = toImport.map((record) => ({
+      ...toLocalCollection({ ...record, id: `local-${crypto.randomUUID()}` }),
+      storage: "local" as const,
+    }));
+    return persistLocalCollections([...localCollections, ...imported]) ? imported.length : 0;
+  }, [localCollections, persistLocalCollections]);
+
   const createCollection = useCallback(async (rawName: string, synchronize: boolean) => {
     const name = rawName.trim();
     if (!name || name.length > 80) return false;
@@ -261,9 +274,9 @@ export function CollectionsProvider({ children, toolIds }: { children: ReactNode
   }, [collections, refresh, userId]);
 
   const value = useMemo(() => ({
-    collections, userId, loading, error, createCollection, renameCollection, deleteCollection,
+    collections, userId, loading, error, createCollection, importLocalCollections, renameCollection, deleteCollection,
     addTool, removeTool, toggleSharing, refresh,
-  }), [collections, userId, loading, error, createCollection, renameCollection, deleteCollection, addTool, removeTool, toggleSharing, refresh]);
+  }), [collections, userId, loading, error, createCollection, importLocalCollections, renameCollection, deleteCollection, addTool, removeTool, toggleSharing, refresh]);
 
   return <CollectionsContext.Provider value={value}>{children}</CollectionsContext.Provider>;
 }

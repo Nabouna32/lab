@@ -49,3 +49,11 @@ test("local collection creation enforces the browser storage cap", async () => {
   const source = await readProvider();
   assert.match(source, /localCollections\.length >= MAX_LOCAL_COLLECTIONS/);
 });
+
+test("restoring a local backup regenerates local IDs and respects the device limit", async () => {
+  const source = await readProvider();
+  assert.match(source, /const importLocalCollections = useCallback\(async \(records: StoredLocalCollection\[\]\) =>/);
+  assert.match(source, /MAX_LOCAL_COLLECTIONS - localCollections\.length/);
+  assert.match(source, /id: `local-\$\{crypto\.randomUUID\(\)\}`/);
+  assert.match(source, /persistLocalCollections\(\[\.\.\.localCollections, \.\.\.imported\]\)/);
+});

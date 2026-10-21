@@ -157,6 +157,8 @@ Candidate local storage layers include:
 - localStorage for small preferences and private local collections containing only collection names and tool IDs;
 - IndexedDB for larger structured local state.
 
+Local collections can be exported as a versioned JSON backup and restored additively in the browser. Import validates the format and limits, filters tool IDs absent from the current published catalog, and creates fresh local IDs; account-backed collections are never included in this local backup.
+
 The final choice should be based on the actual data requirements.
 
 Account-backed state should store metadata rather than raw sensitive tool content by default.
