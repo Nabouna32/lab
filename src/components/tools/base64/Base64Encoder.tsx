@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/Button";
+import { Button, OutlinedButton } from "@/components/ui/Button";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { TextArea } from "@/components/ui/TextArea";
@@ -14,6 +14,8 @@ export default function Base64Encoder() {
   const t = getToolMessages(locale).base64;
   const [input, setInput] = useState("");
   const [operation, setOperation] = useState<Base64Operation>("encode");
+  const EncodeButton = operation === "encode" ? Button : OutlinedButton;
+  const DecodeButton = operation === "decode" ? Button : OutlinedButton;
   const [result, setResult] = useState("");
   const [error, setError] = useState<"invalid-base64" | "invalid-text" | null>(null);
 
@@ -62,8 +64,8 @@ export default function Base64Encoder() {
           )}
 
           <div className="mt-5 flex flex-wrap gap-2">
-            <Button onClick={() => process("encode")} variant={operation === "encode" ? "primary" : "secondary"}>{t.encode}</Button>
-            <Button onClick={() => process("decode")} variant={operation === "decode" ? "primary" : "secondary"}>{t.decode}</Button>
+            <EncodeButton onClick={() => process("encode")}>{t.encode}</EncodeButton>
+            <DecodeButton onClick={() => process("decode")}>{t.decode}</DecodeButton>
             <ClearButton onClear={clear} disabled={!input && !result} label={t.clear} />
           </div>
         </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/Button";
+import { Button, OutlinedButton } from "@/components/ui/Button";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { Select } from "@/components/ui/Select";
@@ -19,6 +19,8 @@ export default function UrlEncoder() {
   const t = getToolMessages(locale).urlEncoder;
   const [input, setInput] = useState("");
   const [operation, setOperation] = useState<UrlTransformOperation>("encode");
+  const EncodeButton = operation === "encode" ? Button : OutlinedButton;
+  const DecodeButton = operation === "decode" ? Button : OutlinedButton;
   const [scope, setScope] = useState<UrlTransformScope>("component");
   const [result, setResult] = useState("");
   const [error, setError] = useState<"invalid-encoding" | "invalid-text" | null>(null);
@@ -78,20 +80,18 @@ export default function UrlEncoder() {
             <div>
               <p className="mb-2 text-sm font-medium text-[var(--foreground)]">{t.operation}</p>
               <div className="flex flex-wrap gap-2">
-                <Button
+                <EncodeButton
                   type="button"
-                  variant={operation === "encode" ? "primary" : "secondary"}
                   onClick={() => process("encode")}
                 >
                   {t.encode}
-                </Button>
-                <Button
+                </EncodeButton>
+                <DecodeButton
                   type="button"
-                  variant={operation === "decode" ? "primary" : "secondary"}
                   onClick={() => process("decode")}
                 >
                   {t.decode}
-                </Button>
+                </DecodeButton>
               </div>
             </div>
           </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button, OutlinedButton, TextButton, DestructiveButton } from "@/components/ui/Button";
+import { Button, ElevatedButton, FilledTonalButton, OutlinedButton, TextButton, DestructiveButton } from "@/components/ui/Button";
 import { AppBarWithSearch } from "@/components/ui/AppBarWithSearch";
 import { BottomSheetScaffold } from "@/components/ui/BottomSheetScaffold";
 import { Carousel } from "@/components/ui/Carousel";
@@ -287,7 +287,7 @@ export default function ComponentLivePreview({
         {buttonTrailingArrow && <MaterialIcon name="arrow_forward" size={20} />}</>);
       const sampleWidth = buttonNarrow ? "w-44" : "";
       const multiline = buttonMultiline || buttonManualBreak;
-      const variants = [{ key: "filled", variant: "filled" as const }, { key: "elevated", variant: "elevated" as const }, { key: "tonal", variant: "filled-tonal" as const }, { key: "outlined", variant: "outlined" as const }, { key: "text", variant: "text" as const }];
+      const variants = [{ key: "filled", Component: Button }, { key: "elevated", Component: ElevatedButton }, { key: "tonal", Component: FilledTonalButton }, { key: "outlined", Component: OutlinedButton }, { key: "text", Component: TextButton }] as const;
       const buttonScenarios = [
         {
           key: "android-reference",
@@ -398,10 +398,10 @@ export default function ComponentLivePreview({
           </ul>
         </section>
         <div className="grid gap-2"><h4 className="text-sm font-semibold">{fr ? "Variantes canoniques — interaction réelle" : "Canonical variants — live interaction"}</h4><div className="flex flex-wrap items-start gap-3">
-          {variants.map((item) => <div key={item.key} className={sampleWidth}><Button variant={item.variant} disabled={buttonDisabled} leadingIcon={buttonLeadingIcon} multiline={multiline} className={sampleWidth} onClick={() => setSplitResult(item.key)}>{renderButtonContent(buttonLabel)}</Button></div>)}
+          {variants.map(({ key, Component }) => <div key={key} className={sampleWidth}><Component disabled={buttonDisabled} leadingIcon={buttonLeadingIcon} multiline={multiline} className={sampleWidth} onClick={() => setSplitResult(key)}>{renderButtonContent(buttonLabel)}</Component></div>)}
         </div></div>
         <div className="grid gap-2"><h4 className="text-sm font-semibold">{fr ? "État désactivé — toutes les variantes" : "Disabled state — every variant"}</h4><div className="flex flex-wrap items-start gap-3">
-          {variants.map((item) => <Button key={item.key} variant={item.variant} disabled leadingIcon={buttonLeadingIcon} multiline={multiline} className={sampleWidth}>{renderButtonContent(fr ? "Désactivé" : "Disabled")}</Button>)}
+          {variants.map(({ key, Component }) => <Component key={key} disabled leadingIcon={buttonLeadingIcon} multiline={multiline} className={sampleWidth}>{renderButtonContent(fr ? "Désactivé" : "Disabled")}</Component>)}
         </div></div>
         <div className="grid gap-2"><h4 className="text-sm font-semibold">{fr ? "Extension Loculary : action destructive" : "Loculary extension: destructive action"}</h4><div className="flex flex-wrap items-start gap-3">
           <DestructiveButton disabled={buttonDisabled} leadingIcon={buttonLeadingIcon} multiline={multiline} className={sampleWidth} onClick={() => setSplitResult("danger")}>{renderButtonContent(fr ? "Supprimer" : "Delete")}</DestructiveButton>

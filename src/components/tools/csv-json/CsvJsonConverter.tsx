@@ -26,6 +26,8 @@ export default function CsvJsonConverter() {
   const t = getToolMessages(locale).csvJson;
   const [input, setInput] = useState("");
   const [operation, setOperation] = useState<CsvJsonOperation>("csv-to-json");
+  const CsvToJsonButton = operation === "csv-to-json" ? Button : OutlinedButton;
+  const JsonToCsvButton = operation === "json-to-csv" ? Button : OutlinedButton;
   const [delimiter, setDelimiter] = useState<CsvDelimiterSelection>("auto");
   const [inferTypes, setInferTypes] = useState(false);
   const [result, setResult] = useState("");
@@ -173,8 +175,8 @@ export default function CsvJsonConverter() {
           )}
 
           <div className="mt-5 flex flex-wrap gap-2">
-            <Button onClick={() => apply("csv-to-json")} variant={operation === "csv-to-json" ? "primary" : "secondary"}>{t.csvToJson}</Button>
-            <Button onClick={() => apply("json-to-csv")} variant={operation === "json-to-csv" ? "primary" : "secondary"}>{t.jsonToCsv}</Button>
+            <CsvToJsonButton onClick={() => apply("csv-to-json")}>{t.csvToJson}</CsvToJsonButton>
+            <JsonToCsvButton onClick={() => apply("json-to-csv")}>{t.jsonToCsv}</JsonToCsvButton>
             <ClearButton onClear={clear} disabled={!input && !result} label={t.clear} />
           </div>
 
