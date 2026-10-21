@@ -559,10 +559,10 @@ test("hash generator verifies local file checksums in French and English", async
   await page.getByLabel("Empreinte attendue (facultatif)").fill(sha256);
   await page.getByRole("button", { name: "Calculer l’empreinte" }).click();
   await expect(page.locator("output")).toContainText(sha256);
-  await expect(page.getByRole("status")).toHaveText("L’empreinte correspond.");
+  await expect(page.locator('p[role="status"]')).toHaveText("L’empreinte correspond.");
 
   await page.getByLabel("Empreinte attendue (facultatif)").fill("0".repeat(64));
-  await expect(page.getByRole("status")).toHaveText("L’empreinte ne correspond pas : le fichier diffère de la référence.");
+  await expect(page.locator('p[role="status"]')).toHaveText("L’empreinte ne correspond pas : le fichier diffère de la référence.");
 
   await page.goto("/en/tools/hash-generator");
   await expect(page.getByRole("heading", { level: 1, name: "Hash Generator and Checksum Verifier" })).toBeVisible();
