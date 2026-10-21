@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { ClearButton } from "@/components/ui/ClearButton";
@@ -11,7 +11,7 @@ import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { formatJson, getJsonFormatError, minifyJson } from "@/lib/json-formatter";
 import { extractJsonPath, JsonPathError } from "@/lib/json-path";
-import { writePendingJsonToolTransfer, type JsonToolTransferTarget } from "@/lib/tools/json-transfer";
+import { consumePendingJsonToolTransfer, writePendingJsonToolTransfer, type JsonToolTransferTarget } from "@/lib/tools/json-transfer";
 import { getToolPath } from "@/lib/tools/routes";
 
 type Mode = "formatted" | "minified";
@@ -27,6 +27,19 @@ export default function JsonFormatter() {
   const [result, setResult] = useState("");
   const [error, setError] = useState<ReturnType<typeof getJsonFormatError> | null>(null);
   const [transferError, setTransferError] = useState(false);
+  const [receivedFromTool, setReceivedFromTool] = useState(false);
+
+  useEffect(() => {
+    try {
+      const transferred = consumePendingJsonToolTransfer(window.sessionStorage, "json-formatter");
+      if (transferred !== null) {
+        setInput(transferred);
+        setReceivedFromTool(true);
+      }
+    } catch {
+      // Storage may be unavailable; the formatter remains usable with manual input.
+    }
+  }, []);
   const [jsonPath, setJsonPath] = useState("$");
   const [extractedValue, setExtractedValue] = useState("");
   const [extractionError, setExtractionError] = useState<"invalid-json" | "resource" | "invalid-path" | "not-found" | null>(null);
@@ -95,6 +108,7 @@ export default function JsonFormatter() {
     setResult("");
     setError(null);
     setTransferError(false);
+    setReceivedFromTool(false);
     setExtractedValue("");
     setExtractionError(null);
     setJsonPath("$");
@@ -110,6 +124,7 @@ export default function JsonFormatter() {
             value={input}
             onChange={(event) => {
               setInput(event.target.value);
+              setReceivedFromTool(false);
               setResult("");
               setError(null);
               setTransferError(false);
@@ -121,6 +136,8 @@ export default function JsonFormatter() {
             className="min-h-[22rem] resize-none font-mono text-sm leading-6"
             aria-invalid={error !== null}
           />
+
+          {receivedFromTool && <p role="status" className="mb-3 rounded-lg bg-[var(--surface-container)] px-3 py-2 text-sm text-[var(--muted)]">{t.receivedFromTool}</p>}
 
           <div className="mt-4 flex flex-wrap items-center gap-2">
             <Select label={t.indentation} id="json-indent" value={indent} onChange={(event) => setIndent(event.target.value as Indent)}>
