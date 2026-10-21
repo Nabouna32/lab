@@ -174,10 +174,10 @@ function toJson(input: string, delimiter: CsvDelimiter, inferTypes: boolean): Cs
       return { value: null, error: "invalid-csv" };
     }
     const result = records.map((row) => {
-      const record: Record<string, string> = Object.create(null) as Record<string, string>;
+      const record: Record<string, unknown> = Object.create(null) as Record<string, unknown>;
       headers.forEach((header, index) => {
         const value = row[index] ?? "";
-        record[header] = (inferTypes ? inferCsvValue(value) : value) as string;
+        record[header] = inferTypes ? inferCsvValue(value) : value;
       });
       return record;
     });
