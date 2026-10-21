@@ -68,6 +68,7 @@ const toolSlugs: Record<ToolId, Record<Locale, string>> = {
   "image-compressor": { en: "image-compressor", fr: "compresseur-d-image" },
   "image-metadata": { en: "image-metadata-viewer", fr: "analyseur-de-metadonnees-image" },
   "image-to-pdf": { en: "image-to-pdf", fr: "images-vers-pdf" },
+  "image-contact-sheet": { en: "image-contact-sheet-generator", fr: "generateur-de-planche-contact" },
   "html-previewer": { en: "html-preview", fr: "apercu-html" },
   "timezone-converter": { en: "time-zone-converter", fr: "convertisseur-de-fuseaux-horaires" },
   "xml-formatter-validator": { en: "xml-formatter-validator", fr: "formateur-validateur-xml" },

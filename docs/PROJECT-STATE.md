@@ -2,7 +2,8 @@
 
 Dernière vérification : 2026-10-21
 
-- **Conversion d’images en PDF :** outil local multipage A4/Lettre, jusqu’à 10 images JPEG/PNG/WebP, orientation automatique et export sans téléversement. La PR #945 est fusionnée ; la PR #946 ajoute le réordonnancement des pages. La CI complète est verte sur le commit testé ([run #39540803783](https://github.com/Nabouna32/lab/actions/runs/39540803783)).  
+- **Planche-contact d’images :** nouvel outil FR/EN qui assemble jusqu’à 20 images en une planche PNG locale ; choix de 2–4 colonnes, fond et légendes, aperçu et téléchargement. PR #947 en cours de validation CI.  
+- **Conversion d’images en PDF :** outil local multipage A4/Lettre, jusqu’à 10 images JPEG/PNG/WebP, orientation automatique et export sans téléversement. PR #945 fusionnée ; PR #946 permet de réordonner les pages. CI complète verte sur la tête finale de PR #946 ([run #39541009240](https://github.com/Nabouna32/lab/actions/runs/39541009240)).  
 Source de vérité : dépôt GitHub, CI, issues et déploiements liés ci-dessous. Ce document est un tableau de bord concis, pas un remplacement des spécifications produit.
 
 ## Objectif
@@ -107,11 +108,11 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 
 > Mémoire opérationnelle par session de travail, avec les PR représentatives et preuves vérifiables.
 
-1. **Fonctionnalité / sauvegarde des collections locales** — [PR #939](https://github.com/Nabouna32/lab/pull/939) : export JSON versionné et restauration locale avec validation, aperçu et fusion sans écrasement.
-2. **Recherche / classement par intention** — [PR #940](https://github.com/Nabouna32/lab/pull/940) : requêtes de tâche FR/EN classées à partir des associations éditoriales existantes.
-3. **Produit / collections locales sans compte** — [PR #937](https://github.com/Nabouna32/lab/pull/937) : collections privées sur cet appareil et choix explicite de synchronisation.
-4. **Produit grand public / Répartiteur de dépenses de groupe** — [PR #934](https://github.com/Nabouna32/lab/pull/934), fusionnée dans `6394783` : dépenses multi-personnes, calcul exact en centimes, remboursements consolidés et copie locale. CI complète réussie ([run #39532392924](https://github.com/Nabouna32/lab/actions/runs/39532392924)).
-5. **Accessibilité / suggestions de correction du contraste** — [PR #935](https://github.com/Nabouna32/lab/pull/935) : suggestions WCAG AA/AAA, application et copie locale ; CI complète réussie sur la tête de PR.
+1. **Nouvel outil / planche-contact d’images** — [PR #947](https://github.com/Nabouna32/lab/pull/947) : composition PNG locale, colonnes et légendes configurables (CI en cours).
+2. **Parcours PDF / réordonnancement des pages** — [PR #946](https://github.com/Nabouna32/lab/pull/946) : déplacement accessible des images avant export, CI complète verte ([run #39541009240](https://github.com/Nabouna32/lab/actions/runs/39541009240)).
+3. **Nouvel outil / conversion d’images en PDF** — [PR #945](https://github.com/Nabouna32/lab/pull/945) : PDF multipage local sans dépendance externe.
+4. **Fonctionnalité / QR Code Wi-Fi** — [PR #944](https://github.com/Nabouna32/lab/pull/944) : QR de connexion Wi-Fi avec avertissement de confidentialité.
+5. **Recherche / classement par intention** — [PR #940](https://github.com/Nabouna32/lab/pull/940) : requêtes de tâche FR/EN classées à partir des associations éditoriales existantes.
 
 ## Priorités immédiates
 

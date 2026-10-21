@@ -216,6 +216,10 @@ const moduleLoaders: Partial<Record<ToolId, ToolModule>> = {
     () => import("@/components/tools/image-to-pdf/ImageToPdf"),
     () => import("@/components/tools/image-to-pdf/ToolEditorial"),
   ),
+  "image-contact-sheet": createToolModule(
+    () => import("@/components/tools/image-contact-sheet/ImageContactSheet"),
+    () => import("@/components/tools/image-contact-sheet/ToolEditorial"),
+  ),
   "image-metadata": createToolModule(
     () => import("@/components/tools/image-metadata/ImageMetadataViewer"),
     () => import("@/components/tools/image-metadata/ToolEditorial"),

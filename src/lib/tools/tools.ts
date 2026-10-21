@@ -87,6 +87,10 @@ const localProcessingDescriptions = {
     fr: "Les images sont converties et assemblées en PDF directement dans votre navigateur.",
     en: "Images are converted and assembled into a PDF directly in your browser.",
   },
+  "image-contact-sheet": {
+    fr: "Les images sont assemblées en planche-contact PNG directement dans votre navigateur.",
+    en: "Images are arranged into a PNG contact sheet directly in your browser.",
+  },
   "video-bitrate": {
     fr: "Les calculs de bitrate vidéo sont effectués directement dans votre navigateur.",
     en: "Video bitrate calculations are performed directly in your browser.",
@@ -885,6 +889,20 @@ const toolDefinitions: ToolDefinition[] = [
     content: {
       fr: { name: "Convertisseur d’images en PDF", description: "Assemblez jusqu’à 10 images dans un PDF multipage au format A4 ou Lettre, sans envoyer vos fichiers." },
       en: { name: "Image to PDF Converter", description: "Combine up to 10 images into a multi-page A4 or Letter PDF without uploading your files." },
+    },
+  },
+  {
+    id: "image-contact-sheet", icon: "🧩",
+    version: 1,
+    complexity: "advanced",
+    categories: ["images", "files"],
+    tags: ["image", "images", "contact sheet", "thumbnail", "photo", "collage", "png", "planche-contact", "vignettes", "aperçu", "preview", "print"],
+    aliases: ["image contact sheet", "contact sheet generator", "photo contact sheet", "image thumbnail sheet", "photo overview", "planche contact", "planche-contact photo", "planche de photos", "assembler photos en planche", "vignettes d’images"],
+    lifecycle: "published",
+    capabilities: ["file-input"],
+    content: {
+      fr: { name: "Générateur de planche-contact", description: "Rassemblez jusqu’à 20 images dans une planche PNG avec colonnes et noms de fichiers personnalisables, sans téléversement." },
+      en: { name: "Image Contact Sheet Generator", description: "Arrange up to 20 images in a PNG contact sheet with customizable columns and filenames, without uploading files." },
     },
   },
   {

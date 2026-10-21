@@ -47,6 +47,7 @@ export type ToolId =
   | "image-compressor"
   | "image-metadata"
   | "image-to-pdf"
+  | "image-contact-sheet"
   | "html-previewer"
   | "timezone-converter"
   | "xml-formatter-validator";
