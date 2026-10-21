@@ -4,7 +4,7 @@ Dernière vérification : 2026-10-21
 
 ## Cinq dernières reprises
 
-1. **Intégrité / vérification des empreintes de fichiers** : [PR #955](https://github.com/Nabouna32/lab/pull/955), empreinte SHA locale et vérification facultative du checksum attendu ; CI en cours.
+1. **Intégrité / vérification des empreintes de fichiers** : [PR #955](https://github.com/Nabouna32/lab/pull/955), empreinte SHA locale et vérification facultative du checksum attendu ; CI complète verte ([run #39553923138](https://github.com/Nabouna32/lab/actions/runs/39553923138)) ; production `READY` ([Vercel](https://vercel.com/nabouna32/loculary/5BccRteCB5BQdCUsFVsEUK9FybE3)).
 2. **Nouvel outil réseau — calculateur IPv6 CIDR** : [PR #953](https://github.com/Nabouna32/lab/pull/953), CI complète verte et déploiement production `READY`.
 3. **Chaînage d’outils — CSV → JSON → formateur** : [PR #952](https://github.com/Nabouna32/lab/pull/952), fusionnée.
 4. **Transformation de découverte — parcours guidés** : [PR #951](https://github.com/Nabouna32/lab/pull/951), fusionnée.
