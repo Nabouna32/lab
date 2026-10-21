@@ -7,7 +7,7 @@ export type Messages = {
   breadcrumbs: { label: string };
   footer: { tagline: string; explore: string; account: string };
   actions: { copy: string; copied: string; clear: string; shareTool: string; shareLinkCopied: string; shareLinkError: string };
-  home: { metaTitle: string; badge: string; title: string; description: string; searchPlaceholder: string; quickLinksLabel: string; quickLinks: Array<{ label: string; toolId: ToolId }>; recentToolsTitle: string; recentToolsDescription: string; clearRecentTools: string; explore: string; };
+  home: { metaTitle: string; badge: string; title: string; description: string; searchPlaceholder: string; recentToolsTitle: string; recentToolsDescription: string; clearRecentTools: string; explore: string; };
   guidedWorkflows: {
     homeTitle: string; homeDescription: string; homeAction: string;
     eyebrow: string; title: string; description: string; privacy: string;
@@ -51,17 +51,10 @@ export const messages: Record<Locale, Messages> = {
       title: "Que veux-tu faire ?",
       description: "Calcule, convertis, crée ou analyse — trouve le bon outil, sans compte.",
       searchPlaceholder: "Que veux-tu faire ?",
-      quickLinksLabel: "Accès directs aux outils",
-      quickLinks: [
-        { label: "Calculer une remise", toolId: "discount" },
-        { label: "Convertir une vitesse", toolId: "download-speed" },
-        { label: "Calculer mon âge", toolId: "age" },
-        { label: "Convertir une taille de fichier", toolId: "file-size-converter" },
-      ],
       recentToolsTitle: "Reprendre un outil",
       recentToolsDescription: "Récemment ouverts sur cet appareil.",
       clearRecentTools: "Effacer l’historique",
-      explore: "Tous les outils",
+      explore: "Explorer tous les outils",
     },
     guidedWorkflows: {
       homeTitle: "Parcours guidés",
@@ -195,17 +188,10 @@ export const messages: Record<Locale, Messages> = {
       title: "What do you want to do?",
       description: "Calculate, convert, create or analyze — find the right tool, no account needed.",
       searchPlaceholder: "Need a tool?",
-      quickLinksLabel: "Jump straight into a tool",
-      quickLinks: [
-        { label: "Calculate a discount", toolId: "discount" },
-        { label: "Convert a speed", toolId: "download-speed" },
-        { label: "Calculate my age", toolId: "age" },
-        { label: "Convert a file size", toolId: "file-size-converter" },
-      ],
       recentToolsTitle: "Pick up where you left off",
       recentToolsDescription: "Recently opened on this device.",
       clearRecentTools: "Clear history",
-      explore: "All tools",
+      explore: "Explore all tools",
     },
 guidedWorkflows: {
       homeTitle: "Guided workflows",
