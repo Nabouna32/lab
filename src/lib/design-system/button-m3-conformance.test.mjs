@@ -5,7 +5,6 @@ import { test } from "node:test";
 const button = readFileSync(new URL("../../components/ui/Button.tsx", import.meta.url), "utf8");
 const buttonRipple = readFileSync(new URL("../../components/ui/ButtonRipple.tsx", import.meta.url), "utf8");
 const iconButton = readFileSync(new URL("../../components/ui/IconButton.tsx", import.meta.url), "utf8");
-const labCss = readFileSync(new URL("../../app/[locale]/design-lab/visual-lab.module.css", import.meta.url), "utf8");
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
 const labSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
 const auditPreview = readFileSync(new URL("../../app/[locale]/design-lab/audit/ComponentLivePreview.tsx", import.meta.url), "utf8");

@@ -331,7 +331,7 @@ test("Design Lab renders the shared production UI primitives against the active 
   for (const component of ["IconButton", "Card", "Panel", "ResultPanel", "Checkbox", "TextField", "TextArea", "ExposedDropdownMenu", "ModalBottomSheet", "AlertDialog", "SegmentedControl", "ValidationMessage", "Switch"]) {
     assert.match(labSource, new RegExp(`import \\{ ${component} \\} from "@\\/components\\/ui\\/${component}"`), `missing shared component import: ${component}`);
   }
-  assert.match(labSource, /import \\{ Button, ElevatedButton, FilledTonalButton, OutlinedButton, TextButton, DestructiveButton \\} from "@\\/components\\/ui\\/Button"/);
+  assert.ok(labSource.includes('import { Button, ElevatedButton, FilledTonalButton, OutlinedButton, TextButton, DestructiveButton } from "@/components/ui/Button"'));
   for (const token of ["--foreground:var(--lab-text)", "--surface:var(--lab-surface)", "--surface-soft:var(--lab-surface-container)", "--secondary-container:var(--lab-secondary-container)", "--error:var(--lab-error)", "--focus-ring:var(--lab-primary)"]) {
     assert.ok(labCss.includes(token), `missing scoped token bridge: ${token}`);
   }
