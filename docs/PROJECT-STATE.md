@@ -110,11 +110,11 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 
 > Mémoire opérationnelle par session de travail, avec les PR représentatives et preuves vérifiables.
 
-1. **Nouvel outil / planche-contact d’images** — [PR #947](https://github.com/Nabouna32/lab/pull/947) : composition PNG locale, colonnes et légendes configurables ; CI complète verte ([run #39542653393](https://github.com/Nabouna32/lab/actions/runs/39542653393)), déploiement production `READY`.
-2. **Parcours PDF / réordonnancement des pages** — [PR #946](https://github.com/Nabouna32/lab/pull/946) : déplacement accessible des images avant export, CI complète verte ([run #39541009240](https://github.com/Nabouna32/lab/actions/runs/39541009240)).
-3. **Nouvel outil / conversion d’images en PDF** — [PR #945](https://github.com/Nabouna32/lab/pull/945) : PDF multipage local sans dépendance externe.
-4. **Fonctionnalité / QR Code Wi-Fi** — [PR #944](https://github.com/Nabouna32/lab/pull/944) : QR de connexion Wi-Fi avec avertissement de confidentialité.
-5. **Recherche / classement par intention** — [PR #940](https://github.com/Nabouna32/lab/pull/940) : requêtes de tâche FR/EN classées à partir des associations éditoriales existantes.
+1. **Parcours / nettoyage de texte → comparaison** — [PR #949](https://github.com/Nabouna32/lab/pull/949) : transfert local, borné, à usage unique et avec expiration du résultat vers le comparateur de texte ; CI en attente.
+2. **Nouvel outil / planche-contact d’images** — [PR #947](https://github.com/Nabouna32/lab/pull/947) : composition PNG locale, colonnes et légendes configurables ; CI complète verte ([run #39542653393](https://github.com/Nabouna32/lab/actions/runs/39542653393)), déploiement production `READY`.
+3. **Parcours PDF / réordonnancement des pages** — [PR #946](https://github.com/Nabouna32/lab/pull/946) : déplacement accessible des images avant export, CI complète verte ([run #39541009240](https://github.com/Nabouna32/lab/actions/runs/39541009240)).
+4. **Nouvel outil / conversion d’images en PDF** — [PR #945](https://github.com/Nabouna32/lab/pull/945) : PDF multipage local sans dépendance externe.
+5. **Fonctionnalité / QR Code Wi-Fi** — [PR #944](https://github.com/Nabouna32/lab/pull/944) : QR de connexion Wi-Fi avec avertissement de confidentialité.
 
 ## Priorités immédiates
 
