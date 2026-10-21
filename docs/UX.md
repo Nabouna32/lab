@@ -34,7 +34,7 @@ The primary visual question should be effectively:
 
 > **What do you want to do?**
 
-Search and action-oriented entry points should dominate the initial experience. Intentions and categories should provide deeper exploration without displacing the primary task.
+Search and a small number of direct task entry points should dominate the initial experience. The homepage must not repeat the full intent and category navigation already provided by Explorer. Keep a clear, visible path to Explorer for deeper discovery and a compact entry to guided workflows, which offer a distinct multi-step capability. Recent tools may appear when the person has used Loculary on that device; they must not be required for the first-visit experience.
 
 Cards and card grids are valid Material 3 composition options, including for category discovery. Choose their variant and density to make destinations easy to scan and select; do not avoid cards by default. Keep search and useful entry points obvious, and use the composition that best communicates Loculary's value rather than relying on a large marketing hero.
 

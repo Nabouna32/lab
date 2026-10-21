@@ -5,7 +5,7 @@ import { getPublishedTools } from "../../lib/tools/catalog.ts";
 
 const source = readFileSync(new URL("./GuidedWorkflowsPage.tsx", import.meta.url), "utf8");
 const route = readFileSync(new URL("../../app/[locale]/[section]/page.tsx", import.meta.url), "utf8");
-const home = readFileSync(new URL("../home/HomeDiscovery.tsx", import.meta.url), "utf8");
+const home = readFileSync(new URL("../home/HomeGuidedWorkflows.tsx", import.meta.url), "utf8");
 const routeHelpers = readFileSync(new URL("../../lib/tools/routes.ts", import.meta.url), "utf8");
 const messages = readFileSync(new URL("../../lib/i18n/messages.ts", import.meta.url), "utf8");
 
