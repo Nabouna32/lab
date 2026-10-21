@@ -2,7 +2,7 @@
 
 Dernière vérification : 2026-10-21
 
-- **Découverte / parcours guidés :** page FR/EN avec quatre séquences de tâches et liens directs vers les outils ; distinction explicite entre transfert automatique texte→comparateur et étapes nécessitant un copier-coller. PR à créer ; CI en attente.
+- **Découverte / parcours guidés :** page FR/EN avec quatre séquences de tâches et liens directs vers les outils ; distinction explicite entre transfert automatique texte→comparateur et étapes nécessitant un copier-coller. [PR #951](https://github.com/Nabouna32/lab/pull/951) ; CI en cours.
 
 - **Parcours texte / transmission entre outils :** le Nettoyeur et trieur de lignes peut préremplir le comparateur de texte avec le résultat nettoyé. Transfert local, ciblé, à usage unique, limité à 200 000 caractères et expirant après cinq minutes. Messages FR/EN et tests de contrat du helper ; CI complète verte ([run #39544027669](https://github.com/Nabouna32/lab/actions/runs/39544027669)) et déploiement production `READY` ([Vercel](https://vercel.com/nabouna32/loculary/2yDQK1D5yFnF9AXzUPEVMdTEWUs3)).
 
@@ -112,7 +112,7 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 
 > Mémoire opérationnelle par session de travail, avec les PR représentatives et preuves vérifiables.
 
-1. **Découverte / parcours guidés** — PR à créer : quatre parcours multi-étapes FR/EN qui relient des outils existants autour d’un objectif utilisateur.
+1. **Découverte / parcours guidés** — [PR #951](https://github.com/Nabouna32/lab/pull/951) : quatre parcours multi-étapes FR/EN qui relient des outils existants autour d’un objectif utilisateur ; CI en cours.
 2. **Parcours / nettoyage de texte → comparaison** — [PR #949](https://github.com/Nabouna32/lab/pull/949) : transfert local, borné, à usage unique et avec expiration du résultat vers le comparateur de texte ; CI complète verte ([run #39544027669](https://github.com/Nabouna32/lab/actions/runs/39544027669)) ; déploiement production `READY`.
 3. **Nouvel outil / planche-contact d’images** — [PR #947](https://github.com/Nabouna32/lab/pull/947) : composition PNG locale, colonnes et légendes configurables ; CI complète verte ([run #39542653393](https://github.com/Nabouna32/lab/actions/runs/39542653393)), déploiement production `READY`.
 4. **Parcours PDF / réordonnancement des pages** — [PR #946](https://github.com/Nabouna32/lab/pull/946) : déplacement accessible des images avant export, CI complète verte ([run #39541009240](https://github.com/Nabouna32/lab/actions/runs/39541009240)).
