@@ -1,6 +1,7 @@
 import type { Locale } from "../i18n/config.ts";
 
 export type ToolId =
+  | "expense-splitter"
   | "compound-interest"
   | "percentage"
   | "discount"

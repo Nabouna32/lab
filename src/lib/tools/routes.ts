@@ -22,6 +22,7 @@ const categorySlugs: Record<string, Record<Locale, string>> = {
 };
 
 const toolSlugs: Record<ToolId, Record<Locale, string>> = {
+  "expense-splitter": { en: "group-expense-splitter", fr: "repartiteur-de-depenses-de-groupe" },
   "compound-interest": { en: "compound-interest-calculator", fr: "calculateur-d-interets-composes" },
   percentage: { en: "percentage-calculator", fr: "calculateur-de-pourcentage" },
   discount: { en: "discount-calculator", fr: "calculateur-de-reduction" },

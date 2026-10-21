@@ -83,6 +83,7 @@ test("curated order is preserved and limited", () => {
 test("published tools expose curated continuations for common multi-step workflows", () => {
   const allTools = getAllTools();
   const expected = {
+    "expense-splitter": ["percentage", "discount"],
     "compound-interest": ["percentage"],
     discount: ["vat"],
     vat: ["discount"],

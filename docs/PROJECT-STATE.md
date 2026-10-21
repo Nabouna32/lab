@@ -9,6 +9,7 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 
 ## État vérifié
 
+- **Nouvel outil grand public / Répartiteur de dépenses de groupe :** [PR #934](https://github.com/Nabouna32/lab/pull/934) ; saisie de participants et de dépenses, calcul en centimes et proposition de remboursements. Données temporaires, locales au navigateur, sans compte ni stockage. CI en attente de validation.
 - **Accessibilité / correction de contraste :** le vérificateur calcule désormais une suggestion de couleur de premier plan atteignant un seuil WCAG demandé, en conservant l’arrière-plan et en choisissant la plus proche parmi les trajectoires vers le noir et le blanc. UI FR/EN avec application et copie ; tests unitaires dédiés ajoutés, exécution CI à confirmer.
 - **Découverte / intention « Comparer » :** entrée transversale FR/EN vers les comparateurs JSON, CSV et texte ainsi que la comparaison multi-fuseaux horaires. Réutilise les outils publiés, sans nouvelle page, dépendance, stockage ou traitement distant.
 - **Parcours horaires internationaux :** le convertisseur compare une heure source à jusqu’à six fuseaux de destination, affiche la date et le décalage de chaque ville, permet de copier tous les horaires et conserve la gestion des transitions DST. Traitement navigateur uniquement, FR/EN.
