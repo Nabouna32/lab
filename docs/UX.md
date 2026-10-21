@@ -34,7 +34,7 @@ The primary visual question should be effectively:
 
 > **What do you want to do?**
 
-Search and a small number of direct task entry points should dominate the initial experience. The homepage must not repeat the full intent and category navigation already provided by Explorer. Keep a clear, visible path to Explorer for deeper discovery and a compact entry to guided workflows, which offer a distinct multi-step capability. Recent tools may appear when the person has used Loculary on that device; they must not be required for the first-visit experience.
+The initial experience is centered on the main search field. Do not add a curated set of individual tool shortcuts to the homepage: they compete with search and make the first screen denser without usage evidence. Keep a clear path to Explorer for deeper discovery, a compact entry to guided workflows for people who know the outcome but not the tool, and recent tools when the person has used Loculary on that device. Recent tools must not be required for the first-visit experience. The global search remains available on every page through a magnifying-glass button in the header at every breakpoint; the homepage keeps its own prominent search field.
 
 Cards and card grids are valid Material 3 composition options, including for category discovery. Choose their variant and density to make destinations easy to scan and select; do not avoid cards by default. Keep search and useful entry points obvious, and use the composition that best communicates Loculary's value rather than relying on a large marketing hero.
 
@@ -327,7 +327,7 @@ Where useful, tool pages may offer lightweight feedback such as “Cet outil vou
 
 ## Public header, navigation popovers and mobile search
 
-The public header keeps the homepage task-first: the current homepage body and canonical palette are not changed as part of header/footer work. The shared SVG brand mark is distinct from functional icons; use `LocularyLogo` rather than duplicating logo markup.
+The public header and homepage share one task-first hierarchy: global search is available through a magnifying-glass trigger at every breakpoint, while the homepage retains its own prominent search field. Do not duplicate an always-visible search input in the desktop header. The shared SVG brand mark is distinct from functional icons; use `LocularyLogo` rather than duplicating logo markup.
 
 ### Hamburger disclosure
 
@@ -339,11 +339,11 @@ The current header panel contains both navigation and settings, so it uses discl
 - Escape restores focus to the trigger. Outside dismissal must not pull focus away from the element the user clicked.
 - When closed, panel descendants must be removed from keyboard interaction, not merely visually faded or marked `aria-hidden`.
 
-### Mobile header search
+### Global header search (all breakpoints)
 
-- Opening the search places focus in the search input.
+- Opening the global search places focus in the search input.
 - Outside pointer, explicit close and route change close the panel. Escape first dismisses an active suggestions/error surface; a subsequent Escape closes the panel.
 - Escape that closes the panel and explicit close return focus to the search trigger; Escape that only dismisses suggestions keeps focus in the field. Outside dismissal preserves the user's pointer/focus target.
 - Keep the interaction non-modal unless the implementation actually provides modal behavior and its full focus handling.
-- Test the behavior in French and English and at mobile/tablet/desktop breakpoints. Prefer native links/buttons, visible focus and touch targets around 48 CSS px on mobile.
+- Verify the behavior in French and English at mobile, tablet and desktop breakpoints. Prefer native links/buttons, visible focus and touch targets around 48 CSS px on mobile.
 
