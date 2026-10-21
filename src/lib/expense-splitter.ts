@@ -33,6 +33,7 @@ export function calculateExpenseSettlement(
 
   for (const expense of expenses) {
     totalCents += expense.amountCents;
+    if (!Number.isSafeInteger(totalCents)) throw new Error("Total expenses exceed the supported safe integer range.");
     paid.set(expense.paidBy, (paid.get(expense.paidBy) ?? 0) + expense.amountCents);
     const baseShare = Math.floor(expense.amountCents / participants.length);
     const remainder = expense.amountCents % participants.length;
