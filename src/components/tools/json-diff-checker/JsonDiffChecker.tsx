@@ -71,8 +71,10 @@ export default function JsonDiffChecker() {
     try {
       const transferred = consumePendingJsonComparison(window.sessionStorage);
       if (transferred) {
-        setRight(transferred);
-        setTransferNotice(true);
+        Promise.resolve().then(() => {
+          setRight(transferred);
+          setTransferNotice(true);
+        });
       }
     } catch {
       // A blocked session store should never prevent manual comparison.
