@@ -4,7 +4,7 @@ Dernière vérification : 2026-10-21
 
 ## Cinq dernières reprises
 
-1. **Nouvel outil réseau — calculateur IPv6 CIDR** : [PR #953](https://github.com/Nabouna32/lab/pull/953), calcul local des préfixes et plages IPv6 ; CI en cours.
+1. **Nouvel outil réseau — calculateur IPv6 CIDR** : [PR #953](https://github.com/Nabouna32/lab/pull/953), calcul local des préfixes et plages IPv6 ; CI complète verte ([run #39550153017](https://github.com/Nabouna32/lab/actions/runs/39550153017)) ; déploiement production `READY` ([Vercel](https://vercel.com/nabouna32/loculary/FpdN5darAggr7PTSVHTX4RCKLzy2)).
 2. **Chaînage d’outils — CSV → JSON → formateur** : [PR #952](https://github.com/Nabouna32/lab/pull/952), fusionnée.
 3. **Transformation de découverte — parcours guidés** : [PR #951](https://github.com/Nabouna32/lab/pull/951), fusionnée.
 4. **Nouvelle capacité d’images — planche-contact** : [PR #947](https://github.com/Nabouna32/lab/pull/947), fusionnée.
