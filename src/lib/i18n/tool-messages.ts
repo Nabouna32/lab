@@ -78,7 +78,7 @@ type ToolMessages = {
   textLineProcessor: {
     input: string; placeholder: string; options: string; trimLines: string; removeBlankLines: string; removeDuplicates: string;
     sortOrder: string; noSort: string; ascending: string; descending: string; result: string; emptyResult: string;
-    lineCounts: (before: number, after: number) => string; copy: string; clear: string; resourceLimit: string;
+    lineCounts: (before: number, after: number) => string; copy: string; clear: string; resourceLimit: string; sendToCompare: string; transferFailed: string;
   };
   unitConverter: {
     value: string; category: string; from: string; to: string; result: string; placeholder: string; invalid: string;
@@ -233,7 +233,7 @@ type ToolMessages = {
   textDiffChecker: {
     original: string; originalPlaceholder: string; updated: string; updatedPlaceholder: string;
     result: string; emptyResult: string; resourceLimit: string; copy: string; clear: string; reset: string;
-    summary: (added: number, removed: number, unchanged: number) => string;
+    summary: (added: number, removed: number, unchanged: number) => string; receivedFromTool: string;
   };
   csvDiffChecker: {
     before: string; beforePlaceholder: string; after: string; afterPlaceholder: string; delimiter: string;
@@ -388,7 +388,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     textLineProcessor: {
       input: "Votre liste", placeholder: "Collez une liste, des identifiants ou une ligne par élément…", options: "Nettoyage des lignes", trimLines: "Retirer les espaces au début et à la fin", removeBlankLines: "Supprimer les lignes vides", removeDuplicates: "Supprimer les doublons (sans tenir compte de la casse)",
       sortOrder: "Ordre de tri", noSort: "Conserver l’ordre", ascending: "A → Z", descending: "Z → A", result: "Résultat", emptyResult: "Le résultat nettoyé apparaîtra ici.",
-      lineCounts: (before, after) => `${before} ligne${before > 1 ? "s" : ""} → ${after} ligne${after > 1 ? "s" : ""}`, copy: "Copier le résultat", clear: "Effacer", resourceLimit: "Le texte dépasse la limite de sécurité de 500 000 caractères. Réduisez la taille pour continuer.",
+      lineCounts: (before, after) => `${before} ligne${before > 1 ? "s" : ""} → ${after} ligne${after > 1 ? "s" : ""}`, copy: "Copier le résultat", clear: "Effacer", resourceLimit: "Le texte dépasse la limite de sécurité de 500 000 caractères. Réduisez la taille pour continuer.", sendToCompare: "Comparer ce résultat", transferFailed: "Transfert impossible : le texte doit être non vide et ne pas dépasser 200 000 caractères.",
     },
     unitConverter: {
       value: "Valeur à convertir", category: "Catégorie", from: "De", to: "Vers", result: "Résultat", placeholder: "Ex. 1,5", invalid: "Saisissez une valeur valide et compatible avec l’unité choisie.",
@@ -456,7 +456,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     textDiffChecker: {
       original: "Version originale", originalPlaceholder: "Collez le texte original…", updated: "Version modifiée", updatedPlaceholder: "Collez le texte modifié…",
       result: "Comparaison", emptyResult: "Collez deux versions pour afficher les différences.", resourceLimit: "Les textes sont trop volumineux pour être comparés en toute sécurité.", copy: "Copier le diff", clear: "Effacer", reset: "Réinitialiser",
-      summary: (added, removed, unchanged) => `+${added} ajout${added === 1 ? "" : "s"} · -${removed} suppression${removed === 1 ? "" : "s"} · ${unchanged} ligne${unchanged === 1 ? "" : "s"} inchangée${unchanged === 1 ? "" : "s"}`,
+      summary: (added, removed, unchanged) => `+${added} ajout${added === 1 ? "" : "s"} · -${removed} suppression${removed === 1 ? "" : "s"} · ${unchanged} ligne${unchanged === 1 ? "" : "s"} inchangée${unchanged === 1 ? "" : "s"}`, receivedFromTool: "Résultat nettoyé reçu depuis le Nettoyeur et trieur de lignes. Collez la version à comparer à droite.",
     },
     csvDiffChecker: {
       before: "Export CSV initial", beforePlaceholder: "Collez le premier export CSV…", after: "Nouvel export CSV", afterPlaceholder: "Collez le second export CSV…",
@@ -712,7 +712,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     textLineProcessor: {
       input: "Your list", placeholder: "Paste a list, identifiers, or one item per line…", options: "Line cleanup", trimLines: "Trim leading and trailing whitespace", removeBlankLines: "Remove blank lines", removeDuplicates: "Remove duplicates (case-insensitive)",
       sortOrder: "Sort order", noSort: "Keep original order", ascending: "A → Z", descending: "Z → A", result: "Result", emptyResult: "Your cleaned result will appear here.",
-      lineCounts: (before, after) => `${before} line${before === 1 ? "" : "s"} → ${after} line${after === 1 ? "" : "s"}`, copy: "Copy result", clear: "Clear", resourceLimit: "Text exceeds the 500,000-character safety limit. Reduce its size to continue.",
+      lineCounts: (before, after) => `${before} line${before === 1 ? "" : "s"} → ${after} line${after === 1 ? "" : "s"}`, copy: "Copy result", clear: "Clear", resourceLimit: "Text exceeds the 500,000-character safety limit. Reduce its size to continue.", sendToCompare: "Compare this result", transferFailed: "Could not transfer text. It must be non-empty and no longer than 200,000 characters.",
     },
     unitConverter: {
       value: "Value to convert", category: "Category", from: "From", to: "To", result: "Result", placeholder: "e.g. 1.5", invalid: "Enter a valid value that is compatible with the selected unit.",
@@ -789,7 +789,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     textDiffChecker: {
       original: "Original version", originalPlaceholder: "Paste the original text…", updated: "Updated version", updatedPlaceholder: "Paste the updated text…",
       result: "Comparison", emptyResult: "Paste two versions to see the differences.", resourceLimit: "The texts are too large to compare safely.", copy: "Copy diff", clear: "Clear", reset: "Reset",
-      summary: (added, removed, unchanged) => `+${added} addition${added === 1 ? "" : "s"} · -${removed} removal${removed === 1 ? "" : "s"} · ${unchanged} unchanged line${unchanged === 1 ? "" : "s"}`,
+      summary: (added, removed, unchanged) => `+${added} addition${added === 1 ? "" : "s"} · -${removed} removal${removed === 1 ? "" : "s"} · ${unchanged} unchanged line${unchanged === 1 ? "" : "s"}`, receivedFromTool: "Cleaned result received from Text Line Cleaner & Sorter. Paste the version to compare on the right.",
     },
     csvDiffChecker: {
       before: "Original CSV export", beforePlaceholder: "Paste the first CSV export…", after: "New CSV export", afterPlaceholder: "Paste the second CSV export…",
