@@ -83,6 +83,7 @@ async function main() {
     lightweight_only: false,
     dependencies_changed: false,
     governance_changed: false,
+    supabase_changed: false,
     dependency_manifests_only: false,
   };
 

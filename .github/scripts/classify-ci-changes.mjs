@@ -50,11 +50,13 @@ export function classifyCiChanges(paths, expectedCount) {
   const lightweightOnly = paths.every((path) => LIGHTWEIGHT_PATHS.some((pattern) => pattern.test(path)));
   const dependenciesChanged = paths.some((path) => path === 'package.json' || path === 'package-lock.json');
   const governanceChanged = paths.some((path) => GOVERNANCE_PATHS.some((pattern) => pattern.test(path)));
+  const supabaseChanged = paths.some((path) => path.startsWith('supabase/functions/'));
 
   return {
     lightweight_only: lightweightOnly,
     dependencies_changed: dependenciesChanged,
     governance_changed: governanceChanged,
+    supabase_changed: supabaseChanged,
   };
 }
 
