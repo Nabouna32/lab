@@ -20,6 +20,7 @@ test("guided workflows explain their steps and distinguish real automatic transf
   assert.equal([...messages.matchAll(/id: "(?:clean-and-compare|prepare-json|convert-tabular-data|prepare-photo-document)"/g)].length, 8);
   assert.match(messages, /transfer: "automatic"/);
   assert.match(messages, /transfer: "manual"/);
+  assert.match(messages, /id: "convert-tabular-data"[\\s\\S]*?transfer: "automatic"/);
   assert.match(messages, /transfer: "independent"/);
   assert.match(messages, /these steps remain independent/);
   assert.match(messages, /ces étapes restent indépendantes/);
