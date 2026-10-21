@@ -35,6 +35,7 @@ export default function JsonFormatter() {
   );
 
   function process(nextMode: Mode = mode) {
+    setTransferError(false);
     if (!input.trim()) {
       setResult("");
       setError({ index: 0, line: 1, column: 1 });
@@ -83,6 +84,7 @@ export default function JsonFormatter() {
             onChange={(event) => {
               setInput(event.target.value);
               setError(null);
+              setTransferError(false);
             }}
             placeholder={t.placeholder}
             spellCheck={false}
