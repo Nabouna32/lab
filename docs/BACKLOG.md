@@ -2,6 +2,8 @@
 
 Dernière révision : 2026-10-21. File de travail unique.
 
+- **Recherche / filtres par catégorie :** affiner une recherche par domaine directement dans les résultats, sans repartir dans l’exploration ni perdre la requête.
+
 - **Découverte / intention « Préparer » :** nouveau parcours transversal FR/EN pour accéder directement aux outils qui préparent images, données et texte avant réutilisation ou partage. Associations curatées, limitées aux outils publiés et couvertes par les tests.
 
 - **Produit / préparation d’images en un parcours :** [PR #919](https://github.com/Nabouna32/lab/pull/919). Le nettoyage EXIF propose désormais une optimisation locale facultative (format, qualité, dimension), en un seul réencodage, avec export ZIP et protection contre la perte des animations. CI complète de la PR verte.
