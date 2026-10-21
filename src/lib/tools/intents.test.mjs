@@ -55,7 +55,7 @@ test("intent lookup is stable and unknown IDs are rejected", () => {
   assert.equal(getIntentDefinition("convert").id, "convert");
   assert.deepEqual(getToolsForIntent("prepare", publishedTools).map((tool) => tool.id), [
     "image-metadata", "image-compressor", "csv-json-converter", "yaml-formatter-validator",
-    "text-case-converter", "markdown-table-generator", "url-encoder-decoder", "html-entity-encoder-decoder",
+    "text-case-converter", "text-line-processor", "markdown-table-generator", "url-encoder-decoder", "html-entity-encoder-decoder",
   ]);
 });
 

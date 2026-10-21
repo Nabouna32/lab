@@ -75,6 +75,11 @@ type ToolMessages = {
     input: string; placeholder: string; mode: string; result: string; ready: string; emptyResult: string; copy: string; clear: string;
     modes: { uppercase: string; lowercase: string; title: string; camel: string; pascal: string; snake: string; kebab: string };
   };
+  textLineProcessor: {
+    input: string; placeholder: string; options: string; trimLines: string; removeBlankLines: string; removeDuplicates: string;
+    sortOrder: string; noSort: string; ascending: string; descending: string; result: string; emptyResult: string;
+    lineCounts: (before: number, after: number) => string; copy: string; clear: string; resourceLimit: string;
+  };
   unitConverter: {
     value: string; category: string; from: string; to: string; result: string; placeholder: string; invalid: string;
     emptyResult: string; copy: string; swap: string; hint: string;
@@ -367,6 +372,11 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     textCaseConverter: {
       input: "Votre texte", placeholder: "Saisissez ou collez votre texte…", mode: "Transformer en", result: "Résultat", ready: "Transformation mise à jour", emptyResult: "Le résultat apparaîtra ici.", copy: "Copier", clear: "Effacer",
       modes: { uppercase: "MAJUSCULES", lowercase: "minuscules", title: "Title Case", camel: "camelCase", pascal: "PascalCase", snake: "snake_case", kebab: "kebab-case" },
+    },
+    textLineProcessor: {
+      input: "Votre liste", placeholder: "Collez une liste, des identifiants ou une ligne par élément…", options: "Nettoyage des lignes", trimLines: "Retirer les espaces au début et à la fin", removeBlankLines: "Supprimer les lignes vides", removeDuplicates: "Supprimer les doublons (sans tenir compte de la casse)",
+      sortOrder: "Ordre de tri", noSort: "Conserver l’ordre", ascending: "A → Z", descending: "Z → A", result: "Résultat", emptyResult: "Le résultat nettoyé apparaîtra ici.",
+      lineCounts: (before, after) => `${before} ligne${before > 1 ? "s" : ""} → ${after} ligne${after > 1 ? "s" : ""}`, copy: "Copier le résultat", clear: "Effacer", resourceLimit: "Le texte dépasse la limite de sécurité de 500 000 caractères. Réduisez la taille pour continuer.",
     },
     unitConverter: {
       value: "Valeur à convertir", category: "Catégorie", from: "De", to: "Vers", result: "Résultat", placeholder: "Ex. 1,5", invalid: "Saisissez une valeur valide et compatible avec l’unité choisie.",
@@ -673,6 +683,11 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     textCaseConverter: {
       input: "Your text", placeholder: "Type or paste your text here…", mode: "Transform to", result: "Result", ready: "Transformation updated", emptyResult: "The result will appear here.", copy: "Copy", clear: "Clear",
       modes: { uppercase: "UPPERCASE", lowercase: "lowercase", title: "Title Case", camel: "camelCase", pascal: "PascalCase", snake: "snake_case", kebab: "kebab-case" },
+    },
+    textLineProcessor: {
+      input: "Your list", placeholder: "Paste a list, identifiers, or one item per line…", options: "Line cleanup", trimLines: "Trim leading and trailing whitespace", removeBlankLines: "Remove blank lines", removeDuplicates: "Remove duplicates (case-insensitive)",
+      sortOrder: "Sort order", noSort: "Keep original order", ascending: "A → Z", descending: "Z → A", result: "Result", emptyResult: "Your cleaned result will appear here.",
+      lineCounts: (before, after) => `${before} line${before === 1 ? "" : "s"} → ${after} line${after === 1 ? "" : "s"}`, copy: "Copy result", clear: "Clear", resourceLimit: "Text exceeds the 500,000-character safety limit. Reduce its size to continue.",
     },
     unitConverter: {
       value: "Value to convert", category: "Category", from: "From", to: "To", result: "Result", placeholder: "e.g. 1.5", invalid: "Enter a valid value that is compatible with the selected unit.",

@@ -95,6 +95,7 @@ export const intentDefinitions: readonly IntentDefinition[] = [
       "csv-json-converter",
       "yaml-formatter-validator",
       "text-case-converter",
+      "text-line-processor",
       "markdown-table-generator",
       "url-encoder-decoder",
       "html-entity-encoder-decoder",

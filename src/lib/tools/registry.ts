@@ -96,6 +96,10 @@ const moduleLoaders: Partial<Record<ToolId, ToolModule>> = {
     () => import("@/components/tools/text-case-converter/TextCaseConverter"),
     () => import("@/components/tools/text-case-converter/ToolEditorial"),
   ),
+  "text-line-processor": createToolModule(
+    () => import("@/components/tools/text-line-processor/TextLineProcessor"),
+    () => import("@/components/tools/text-line-processor/ToolEditorial"),
+  ),
   "unit-converter": createToolModule(
     () => import("@/components/tools/unit-converter/UnitConverter"),
     () => import("@/components/tools/unit-converter/ToolEditorial"),
