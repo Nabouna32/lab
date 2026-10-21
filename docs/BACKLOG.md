@@ -2,6 +2,8 @@
 
 Dernière révision : 2026-10-21. File de travail unique.
 
+- **Outil développeur / exploration des différences JSON :** synthèse des ajouts, suppressions et modifications, recherche de chemins imbriqués, filtres par type et rapport copiable des seuls changements affichés. [PR à venir].
+
 - **Parcours / comparateur multi-villes de fuseaux horaires :** comparer une heure locale source à jusqu’à six destinations, gérer les changements d’heure et copier le planning complet, sans réseau ni compte.
 
 - **Nouvel outil / comparateur CSV :** comparer deux exports de données localement, avec rapprochement optionnel par identifiant et différences par colonne.
