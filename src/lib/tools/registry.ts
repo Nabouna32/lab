@@ -132,6 +132,10 @@ const moduleLoaders: Partial<Record<ToolId, ToolModule>> = {
     () => import("@/components/tools/csv-json/CsvJsonConverter"),
     () => import("@/components/tools/csv-json/ToolEditorial"),
   ),
+  "csv-diff-checker": createToolModule(
+    () => import("@/components/tools/csv-diff-checker/CsvDiffChecker"),
+    () => import("@/components/tools/csv-diff-checker/ToolEditorial"),
+  ),
   "json-to-typescript": createToolModule(
     () => import("@/components/tools/json-to-typescript/JsonToTypeScript"),
     () => import("@/components/tools/json-to-typescript/ToolEditorial"),
