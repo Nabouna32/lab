@@ -98,21 +98,19 @@ Pour chaque lot d’expérience :
 
 Réutilise les registres, outils et rapports existants lorsqu’ils sont adaptés. Ne crée pas de documentation redondante ou d’infrastructure visuelle pour elle-même. Une investigation doit guider une décision et une amélioration concrète, pas devenir une fin en soi.
 
-## 7. Playwright, captures et inspection visuelle réelle
+## 7. Validation navigateur et diagnostics actionnables
 
-Lorsque c’est possible et pertinent, **produis des captures d’écran Playwright et examine visuellement les images elles-mêmes** pour évaluer l’expérience. La production d’un artefact n’équivaut pas à son inspection.
+La validation navigateur doit accélérer la correction de l'expérience, pas créer un flux parallèle d'artefacts à récupérer et inspecter. Par défaut, la CI reste textuelle : tests fonctionnels, assertions ciblées et diagnostics concis directement visibles dans les logs.
 
-- Avant un changement visuel significatif, repère les tests, configurations, rapports et artefacts déjà disponibles ; réutilise-les si leur couverture est suffisante.
-- Capture les pages et états affectés dans les viewports pertinents, notamment mobile et desktop, et dans les thèmes clair et sombre lorsque cela s’applique.
-- Pour une refonte ou une modification visuelle importante, compare avant/après lorsque les deux rendus sont disponibles et comparables.
-- Télécharge ou ouvre les artefacts réels et inspecte les pixels si l’environnement le permet. Cherche notamment les problèmes de hiérarchie, d’alignement, de densité, de débordement, de recouvrement, de lisibilité et de cohérence.
-- Consulte également les rapports structurés, logs, erreurs console/réseau, résultats d’accessibilité et assertions E2E pertinentes.
-- Si l’image n’est pas accessible dans la session, dis-le explicitement : ne présente pas un rapport textuel comme une inspection visuelle.
-- Distingue dans le compte rendu : captures **générées**, artefacts **téléversés**, artefacts **téléchargés**, images **effectivement inspectées**, et problèmes **confirmés** ou seulement suspectés.
-- Corrige les défauts pertinents dans le périmètre autorisé, puis relance les contrôles et inspecte les nouvelles captures lorsque possible.
-- N’ajoute pas de captures massives ou coûteuses sans utilité : cible les pages, thèmes, viewports et états qui répondent à une question concrète.
+- Couvre les parcours et états à risque avec des assertions Playwright qui échouent sur un comportement incorrect.
+- Ajoute des contrôles ciblés pour les défauts objectivables : contraste de couleurs calculé, débordements, noms accessibles, erreurs JavaScript/console/réseau et résultats inattendus.
+- Vérifie les variantes de viewport, de thème et de langue lorsque cela modifie réellement le risque de régression ; ne multiplie pas les projets uniquement pour produire des captures.
+- Garde les logs courts, structurés et orientés vers le diagnostic. Évite de joindre des arbres d'accessibilité complets ou des rapports redondants à chaque test si une assertion ciblée suffit.
+- **Ne génère pas de captures PNG systématiques, ne conserve pas de traces visuelles, ne joins pas de rapports Playwright aux tests et ne téléverse pas d'artefacts de navigateur dans la CI.**
+- Si un défaut complexe ne peut pas être tranché avec les tests, les logs et le code, une inspection visuelle ponctuelle hors du flux permanent de CI reste possible. Elle ne doit pas devenir un contrat obligatoire ni bloquer la correction dans la session en cours.
 
-Les captures valident le rendu observé, pas toute la fonctionnalité. Les tests E2E valident les comportements couverts, pas la qualité visuelle à eux seuls. Les deux approches sont complémentaires. Aucun score automatisé ni artefact présent dans GitHub ne prouve que quelqu’un l’a réellement examiné.
+Les tests automatisés ne savent pas décider seuls si l'accueil est confus, si plusieurs actions se répètent inutilement ou si l'interface manque de cohérence. Ces questions exigent une analyse produit et UX/UI, puis des décisions de conception assumées. Les assertions doivent verrouiller les défauts objectifs connus, pas prétendre remplacer le jugement humain.
+
 
 ## 8. Critères de sortie d’un lot UX/UI
 
@@ -124,7 +122,7 @@ Un lot est prêt lorsque, selon son risque et son périmètre :
 - les thèmes, viewports et composants partagés affectés ont été vérifiés ;
 - les contrôles d’accessibilité adaptés ont été effectués et leurs limites signalées ;
 - les tests pertinents passent, ou tout échec restant est clairement documenté ;
-- les captures pertinentes ont été examinées visuellement si elles étaient accessibles et utiles ;
+- les vérifications retenues sont proportionnées au risque et leurs limites sont explicites ;
 - aucun résultat de test, examen visuel, fusion ou déploiement n’est affirmé sans preuve.
 
 Ce n’est pas une checklist mécanique qui impose tous les contrôles à chaque changement. Adapte les vérifications au risque, mais explique toute limite importante.

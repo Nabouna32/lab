@@ -1,6 +1,4 @@
 import { defineConfig, devices } from "@playwright/test";
-import { resolve } from "node:path";
-
 const baseURL = "http://127.0.0.1:3000";
 
 export default defineConfig({
@@ -12,18 +10,13 @@ export default defineConfig({
   workers: 2,
   timeout: 20_000,
   expect: { timeout: 5_000 },
-  // Resolve from the repository root (the npm run e2e working directory), not the config file directory.
-  outputDir: resolve(process.cwd(), "test-results/playwright-output"),
-  reporter: [
-    ["list"],
-    ["json", { outputFile: resolve(process.cwd(), "test-results/report.json") }],
-  ],
+  reporter: "list",
   use: {
     baseURL,
     browserName: "chromium",
     reducedMotion: "reduce",
-    trace: "retain-on-failure",
-    screenshot: "only-on-failure",
+    trace: "off",
+    screenshot: "off",
   },
   projects: [
     {
