@@ -2,6 +2,8 @@
 
 Dernière révision : 2026-10-21. File de travail unique.
 
+- **Parcours / nettoyage de texte → comparaison :** le Nettoyeur et trieur de lignes peut transmettre son résultat nettoyé directement au comparateur de texte. Transfert local via `sessionStorage`, destiné à un seul outil, consommé une seule fois et expirant après cinq minutes ; limite de 200 000 caractères, FR/EN. Aucun texte dans l’URL ni envoi serveur.
+
 - **Planche-contact d’images :** [PR #947](https://github.com/Nabouna32/lab/pull/947) ajoute une composition PNG locale de jusqu’à 20 images, avec colonnes, fond et légendes configurables. CI complète verte ([run #39542653393](https://github.com/Nabouna32/lab/actions/runs/39542653393)) et déploiement production `READY` ([Vercel](https://vercel.com/nabouna32/loculary/6KcxiV5x3ArtXAne9MAm4ccF55sm)).
 
 - **Conversion d’images en PDF :** outil local multipage A4/Lettre, jusqu’à 10 images JPEG/PNG/WebP, orientation automatique et limites mémoire explicites. La PR #945 est fusionnée ; la PR #946 ajoute des commandes accessibles pour réordonner les pages avant export. CI complète verte : [run #39540803783](https://github.com/Nabouna32/lab/actions/runs/39540803783).
