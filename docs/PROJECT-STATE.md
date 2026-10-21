@@ -9,6 +9,8 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 
 ## État vérifié
 
+- **Générateur QR / accès Wi-Fi :** [PR #931](https://github.com/Nabouna32/lab/pull/931) ajoute un mode Wi-Fi au générateur existant : réseau WPA/WEP/ouvert, mot de passe facultatif selon la sécurité et réseau masqué. Le QR est construit localement ; son contenu révèle le mot de passe à toute personne qui le scanne. Vérifications CI en attente au moment de cette mise à jour.
+
 - **Parcours horaires internationaux :** le convertisseur compare une heure source à jusqu’à six fuseaux de destination, affiche la date et le décalage de chaque ville, permet de copier tous les horaires et conserve la gestion des transitions DST. Traitement navigateur uniquement, FR/EN.
 - **Nouvel outil / comparateur CSV :** comparaison locale de deux exports, détection des enregistrements ajoutés/supprimés/modifiés et rapprochement optionnel par colonne clé pour ignorer les changements d’ordre. Limites d’entrée et de rapport explicites.
 - **Outil développeur / extraction JSON par chemin :** le formateur extrait localement une valeur imbriquée avec une syntaxe de chemin volontairement limitée et documentée ; résultat copiable, sans service distant.
