@@ -100,7 +100,7 @@ test("global message locales keep the same structure and interpolation variables
 const localizedUiFiles = [
   "../../components/theme/ThemeToggle.tsx",
   "../../components/layout/Breadcrumbs.tsx",
-  "../../components/home/HomeDiscovery.tsx",
+  "../../components/home/HomeGuidedWorkflows.tsx",
   "../../components/tools/temps-telechargement/DownloadTimeCalculator.tsx",
   "../../components/tools/vitesse-telechargement/DownloadSpeedConverter.tsx",
 ];
@@ -113,7 +113,7 @@ test("audited UI components consume localization instead of local bilingual stri
   }
 
   const theme = readFileSync(fileURLToPath(new URL("../../components/theme/ThemeToggle.tsx", import.meta.url)), "utf8");
-  const homeDiscovery = readFileSync(fileURLToPath(new URL("../../components/home/HomeDiscovery.tsx", import.meta.url)), "utf8");
+  const homeDiscovery = readFileSync(fileURLToPath(new URL("../../components/home/HomeGuidedWorkflows.tsx", import.meta.url)), "utf8");
   const downloadTime = readFileSync(fileURLToPath(new URL("../../components/tools/temps-telechargement/DownloadTimeCalculator.tsx", import.meta.url)), "utf8");
   const downloadSpeed = readFileSync(fileURLToPath(new URL("../../components/tools/vitesse-telechargement/DownloadSpeedConverter.tsx", import.meta.url)), "utf8");
 
@@ -174,7 +174,7 @@ test("tool content falls back to English when a requested locale is missing", as
 });
 
 test("homepage discovery keeps only a compact entry to guided workflows", () => {
-  const home = readFileSync(fileURLToPath(new URL("../../components/home/HomeDiscovery.tsx", import.meta.url)), "utf8");
+  const home = readFileSync(fileURLToPath(new URL("../../components/home/HomeGuidedWorkflows.tsx", import.meta.url)), "utf8");
   const fr = getMessages("fr");
   const en = getMessages("en");
 
@@ -273,7 +273,7 @@ test("public shell interfaces keep user-facing labels and states behind the i18n
     "../../components/layout/LanguageSelector.tsx",
     "../../components/layout/MobileHeaderSearch.tsx",
     "../../components/theme/ThemeToggle.tsx",
-    "../../components/home/HomeDiscovery.tsx",
+    "../../components/home/HomeGuidedWorkflows.tsx",
     "../../components/tools/ToolSearch.tsx",
   ];
 
