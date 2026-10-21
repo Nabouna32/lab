@@ -79,7 +79,7 @@ jobs:
           DEPENDENCY_MANIFESTS_ONLY: ${{ steps.changes.outputs.dependency_manifests_only }}
         run: |
           if ($env:DEPENDENCIES_CHANGED -eq "true") {
-            node .github/scripts/classify-dependency-diff.mjs dependency-baseline/package.json package.json $env:DEPENDENCY_MANIFESTS_ONLY
+            node .github/scripts/classify-dependency-diff.mjs dependency-baseline/package.json package.json dependency-baseline/package-lock.json package-lock.json $env:DEPENDENCY_MANIFESTS_ONLY
           } else {
             "scope=full" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
           }
