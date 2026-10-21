@@ -2,7 +2,7 @@
 
 Dernière révision : 2026-10-21. File de travail unique.
 
-- **Chaînage d’outils / CSV → JSON → formatage :** [PR #952](https://github.com/Nabouna32/lab/pull/952) transmet le JSON du convertisseur CSV au formateur en un clic, avec transfert local ciblé, à usage unique, limité et temporaire ; CI en cours.
+- **Chaînage d’outils / CSV → JSON → formatage :** [PR #952](https://github.com/Nabouna32/lab/pull/952) transmet le JSON du convertisseur CSV au formateur en un clic, avec transfert local ciblé, à usage unique, limité et temporaire.
 
 - **Découverte / parcours guidés :** page FR/EN avec quatre recettes multi-étapes couvrant le nettoyage/comparaison de texte, JSON, CSV→JSON et photos→PDF. Les recettes distinguent les transferts automatiques et les étapes indépendantes ; aucun compte ni service distant requis.
 
