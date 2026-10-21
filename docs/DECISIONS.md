@@ -700,3 +700,26 @@ Browser storage is intentionally local-first but can be cleared, and local colle
 - Import is limited to 1 MB and 50 collections, and respects the existing 50-collection device limit.
 - The user chooses where to store the exported file. The backup does not include tool inputs/results, shared links, or account-backed collections.
 - Version changes require explicit validation and migration behavior rather than accepting arbitrary JSON.
+
+
+
+## DEC-032 — Risk-adaptive dependency CI
+
+**Status:** Accepted
+
+### Decision
+
+Keep the full CI suite as the default for dependency-manifest changes. Permit a targeted path only when the pull request changes exactly `package.json` and `package-lock.json`, and the parsed manifest diff proves that the sole dependency change is an upgrade of `devDependencies.eslint`. That path must still install dependencies, compare high-severity npm advisories against the base, and run lint. Unknown packages, additional metadata or script changes, mixed file changes, and ambiguous manifests fall back to the full suite.
+
+Run Playwright with one worker in CI while retaining the existing desktop/mobile and light/dark functional projects. Keep retries disabled and browser diagnostics text-only; do not generate or upload screenshots/traces as a stability workaround.
+
+### Reason
+
+The previous policy ran build and browser tests for every dependency change regardless of role. A package-name-only shortcut would be unsafe; the manifest diff provides a narrow, testable condition, while the default remains conservative. Playwright's official CI guidance recommends one worker when prioritizing stability and reproducibility.
+
+### Consequences
+
+- The isolated ESLint upgrade path runs `npm ci`, the existing dependency advisory diff, and `npm run lint`; typecheck, unit tests, build, and Playwright remain required for all other changes.
+- Classification failures fail closed; they never skip checks.
+- Revisit the allowlist only with tests demonstrating the package's actual role and required verification.
+
