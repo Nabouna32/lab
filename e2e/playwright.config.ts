@@ -28,6 +28,16 @@ export default defineConfig({
       use: { ...devices["Desktop Chrome"], colorScheme: "dark", viewport: { width: 1440, height: 900 } },
     },
     {
+      name: "tablet-light",
+      testMatch: "**/home.spec.ts",
+      use: { ...devices["iPad Mini"], browserName: "chromium", colorScheme: "light", viewport: { width: 768, height: 1024 } },
+    },
+    {
+      name: "tablet-dark",
+      testMatch: "**/home.spec.ts",
+      use: { ...devices["iPad Mini"], browserName: "chromium", colorScheme: "dark", viewport: { width: 768, height: 1024 } },
+    },
+    {
       name: "mobile-light",
       use: { ...devices["iPhone 13"], browserName: "chromium", colorScheme: "light" },
     },

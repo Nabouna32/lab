@@ -126,25 +126,6 @@ test.afterEach(async ({ page }, testInfo) => {
   expect(issues.consoleErrors, "unexpected browser console errors").toEqual([]);
 });
 
-test("French homepage renders and exposes the search combobox state", async ({ page }) => {
-  await page.goto("/fr");
-  await expect(page.locator("html")).toHaveAttribute("lang", "fr");
-  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-
-  const search = page.locator("#home-tool-search-v4").getByRole("combobox");
-  await expect(search).toBeVisible();
-  await expect(search).toHaveAttribute("aria-expanded", "false");
-  await search.fill("sous réseau");
-  await expect(search).toHaveAttribute("aria-expanded", "true", { timeout: 8_000 });
-  await expect(page.locator('[data-search-popup-owner="home-tool-search-v4"]')).toBeVisible();
-});
-
-test("English homepage renders in English", async ({ page }) => {
-  await page.goto("/en");
-  await expect(page.locator("html")).toHaveAttribute("lang", "en");
-  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-});
-
 test("IPv4 subnet calculator updates results end to end", async ({ page }) => {
   await page.goto("/fr/outils/calculateur-de-sous-reseau-ipv4");
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();

@@ -100,7 +100,7 @@ test("global message locales keep the same structure and interpolation variables
 const localizedUiFiles = [
   "../../components/theme/ThemeToggle.tsx",
   "../../components/layout/Breadcrumbs.tsx",
-  "../../components/home/HomeDiscovery.tsx",
+  "../../components/home/HomeGuidedWorkflows.tsx",
   "../../components/tools/temps-telechargement/DownloadTimeCalculator.tsx",
   "../../components/tools/vitesse-telechargement/DownloadSpeedConverter.tsx",
 ];
@@ -113,17 +113,16 @@ test("audited UI components consume localization instead of local bilingual stri
   }
 
   const theme = readFileSync(fileURLToPath(new URL("../../components/theme/ThemeToggle.tsx", import.meta.url)), "utf8");
-  const categories = readFileSync(fileURLToPath(new URL("../../components/home/HomeDiscovery.tsx", import.meta.url)), "utf8");
+  const homeDiscovery = readFileSync(fileURLToPath(new URL("../../components/home/HomeGuidedWorkflows.tsx", import.meta.url)), "utf8");
   const downloadTime = readFileSync(fileURLToPath(new URL("../../components/tools/temps-telechargement/DownloadTimeCalculator.tsx", import.meta.url)), "utf8");
   const downloadSpeed = readFileSync(fileURLToPath(new URL("../../components/tools/vitesse-telechargement/DownloadSpeedConverter.tsx", import.meta.url)), "utf8");
 
   assert.match(theme, /getMessages\(locale\)\.theme/);
   const breadcrumbs = readFileSync(fileURLToPath(new URL("../../components/layout/Breadcrumbs.tsx", import.meta.url)), "utf8");
   assert.match(breadcrumbs, /t\.breadcrumbs\.label/);
-  assert.match(categories, /t\.home\.categoriesTitle/);
-  assert.match(categories, /getToolCount\(category\.id\)/);
-  assert.match(categories, /t\.tools\.intents\.map/);
-  assert.match(categories, /getToolsPath\(locale\)\}\?intent=\$\{intent\.id\}/);
+  assert.match(homeDiscovery, /t\.guidedWorkflows\.homeTitle/);
+  assert.match(homeDiscovery, /getGuidedWorkflowsPath\(locale\)/);
+  assert.doesNotMatch(homeDiscovery, /CategoryCard|categories\.map|t\.tools\.intents/);
   assert.match(downloadTime, /getDownloadSizeUnitLabel\(locale, unit\)/);
   assert.match(downloadTime, /getDownloadSpeedUnitLabel\(locale, unit\)/);
   assert.match(downloadTime, /getDownloadDurationLabels\(locale\)/);
@@ -174,16 +173,17 @@ test("tool content falls back to English when a requested locale is missing", as
   assert.equal(isToolProcessingDescriptionFallback({ description: { fr: "Français", en: "English" } }, "fr"), false);
 });
 
-test("homepage category cards render localized tool counts exactly once", () => {
-  const home = readFileSync(fileURLToPath(new URL("../../components/home/HomeDiscovery.tsx", import.meta.url)), "utf8");
-  const categoryCard = readFileSync(fileURLToPath(new URL("../../components/home/CategoryCard.tsx", import.meta.url)), "utf8");
+test("homepage discovery keeps only a compact entry to guided workflows", () => {
+  const home = readFileSync(fileURLToPath(new URL("../../components/home/HomeGuidedWorkflows.tsx", import.meta.url)), "utf8");
+  const fr = getMessages("fr");
+  const en = getMessages("en");
 
-  assert.match(home, /toolLabel={formatPlural\(locale, category\.count/);
-  assert.equal(home.includes("toolCount="), false);
-  assert.match(categoryCard, /\{toolLabel\}/);
-  assert.equal(categoryCard.includes("toolCount"), false);
-  assert.equal(formatPlural("fr", 12, { one: "outil", other: "outils" }), "12 outils");
-  assert.equal(formatPlural("en", 12, { one: "tool", other: "tools" }), "12 tools");
+  assert.match(home, /getGuidedWorkflowsPath\(locale\)/);
+  assert.match(home, /t\.guidedWorkflows\.homeTitle/);
+  assert.doesNotMatch(home, /CategoryCard|categories\.map|t\.tools\.intents|toolLabel|toolCount/);
+  assert.match(fr.guidedWorkflows.homeDescription, /enchaîne les bons outils/);
+  assert.doesNotMatch(fr.guidedWorkflows.homeDescription, /suivez|choisissez/);
+  assert.match(en.guidedWorkflows.homeDescription, /connect the right tools/);
 });
 
 test("plural formatting uses locale-aware rules", () => {
@@ -273,7 +273,7 @@ test("public shell interfaces keep user-facing labels and states behind the i18n
     "../../components/layout/LanguageSelector.tsx",
     "../../components/layout/MobileHeaderSearch.tsx",
     "../../components/theme/ThemeToggle.tsx",
-    "../../components/home/HomeDiscovery.tsx",
+    "../../components/home/HomeGuidedWorkflows.tsx",
     "../../components/tools/ToolSearch.tsx",
   ];
 

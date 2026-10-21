@@ -1,14 +1,13 @@
 import type { Locale } from "./config.ts";
 import type { IntentId } from "@/lib/tools/intents";
 import type { ToolId } from "@/lib/tools/types";
-import { formatPlural } from "./plural.ts";
 
 export type Messages = {
   nav: { home: string; tools: string; explore: string; exploreDescription: string; favorites: string; favoritesDescription: string; collections: string; collectionsDescription: string; language: string; account: string; space: string; menu: string };
   breadcrumbs: { label: string };
   footer: { tagline: string; explore: string; account: string };
   actions: { copy: string; copied: string; clear: string; shareTool: string; shareLinkCopied: string; shareLinkError: string };
-  home: { metaTitle: string; badge: string; title: string; description: string; searchPlaceholder: string; quickLinksLabel: string; quickLinks: Array<{ label: string; toolId: ToolId }>; recentToolsTitle: string; recentToolsDescription: string; clearRecentTools: string; explore: string; categoriesTitle: string; categoriesDescription: string; categoriesCount: (count: number) => string; toolsCountLabel: string; };
+  home: { metaTitle: string; badge: string; title: string; description: string; searchPlaceholder: string; quickLinksLabel: string; quickLinks: Array<{ label: string; toolId: ToolId }>; recentToolsTitle: string; recentToolsDescription: string; clearRecentTools: string; explore: string; };
   guidedWorkflows: {
     homeTitle: string; homeDescription: string; homeAction: string;
     eyebrow: string; title: string; description: string; privacy: string;
@@ -63,14 +62,10 @@ export const messages: Record<Locale, Messages> = {
       recentToolsDescription: "Récemment ouverts sur cet appareil.",
       clearRecentTools: "Effacer l’historique",
       explore: "Tous les outils",
-      categoriesTitle: "Catégories",
-      categoriesDescription: "Tu sais ce que tu cherches ? Parcours les domaines pour trouver le bon outil.",
-      categoriesCount: (count) => formatPlural("fr", count, { one: "catégorie", other: "catégories" }),
-      toolsCountLabel: "outils",
     },
     guidedWorkflows: {
       homeTitle: "Parcours guidés",
-      homeDescription: "Une tâche, plusieurs étapes : suivez un chemin concret plutôt que de chercher chaque outil séparément.",
+      homeDescription: "Une tâche, plusieurs étapes : enchaîne les bons outils sans les chercher un par un.",
       homeAction: "Voir les parcours",
       eyebrow: "Partir du résultat, pas du nom de l’outil",
       title: "Des parcours pour aller jusqu’au bout",
@@ -211,14 +206,10 @@ export const messages: Record<Locale, Messages> = {
       recentToolsDescription: "Recently opened on this device.",
       clearRecentTools: "Clear history",
       explore: "All tools",
-      categoriesTitle: "Categories",
-      categoriesDescription: "Know what you need? Browse by domain to find the right tool.",
-      categoriesCount: (count) => formatPlural("en", count, { one: "category", other: "categories" }),
-      toolsCountLabel: "tools",
     },
 guidedWorkflows: {
       homeTitle: "Guided workflows",
-      homeDescription: "One task, several steps: follow a practical path instead of finding every tool separately.",
+      homeDescription: "One task, several steps: connect the right tools without searching for each one separately.",
       homeAction: "Explore paths",
       eyebrow: "Start with the outcome, not the tool name",
       title: "Guided paths from start to finish",

@@ -52,7 +52,9 @@ and identify the appropriate tool.
 
 ### Discovery experience
 
-The homepage is action/search-first, with deeper exploration through categories and user intentions. Navigation may expose goals such as calculating, converting, transforming, creating, analyzing, verifying, generating, measuring and discovering. An intent expresses a goal, not a category shortcut: one intent may lead to tools across several categories. Initial associations may be curated editorial data; deterministic inference may enrich them later.
+The homepage is action/search-first: search and a few direct task links come first, with a clear path to the Explorer for deeper discovery. Explorer combines intent-oriented and category-oriented navigation; the homepage should not duplicate both full grids. Guided workflows remain a compact homepage entry because they connect multiple tools into a distinct task journey. Recent tools are conditional local convenience, not a requirement for first-time visitors.
+
+Navigation may expose goals such as calculating, converting, transforming, creating, analyzing, verifying, generating, measuring and discovering. An intent expresses a goal, not a category shortcut: one intent may lead to tools across several categories. Initial associations may be curated editorial data; deterministic inference may enrich them later.
 
 The catalog should be able to grow substantially over time, but storage, indexing, caching, administration and loading strategies must be justified by current scale, measured performance and actual editorial needs. The current catalog remains Git-backed; DEC-027 defines when a database-backed catalog should be reconsidered. Executable tool behavior remains in Git.
 
