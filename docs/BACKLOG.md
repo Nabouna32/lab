@@ -2,6 +2,8 @@
 
 Dernière révision : 2026-10-21. File de travail unique.
 
+- **CI / classification des dépendances et stabilité Playwright :** [PR #963](https://github.com/Nabouna32/lab/pull/963) autorise `npm ci` + audit de dépendances + lint uniquement pour une mise à niveau isolée d’ESLint dont le lockfile reste exclusivement dans le graphe lint ; tout changement inconnu, manifeste ambigu, dépendance partagée ou fichier supplémentaire déclenche la suite complète. Playwright utilise un worker en CI, sans captures, traces ni uploads. Vérification complète : [run #39667464891](https://github.com/Nabouna32/lab/actions/runs/39667464891), 80 tests Playwright réussis. Checkpoint : [issue #741](https://github.com/Nabouna32/lab/issues/741).
+
 - **Accueil / hiérarchie de découverte :** [PR #964](https://github.com/Nabouna32/lab/pull/964) simplifie l’accueil autour de la recherche et des accès directs. Les grilles d’intentions et de catégories restent dans Explorer ; l’accueil conserve les outils récents conditionnels et un accès compact aux parcours guidés. Tests de contrat et assertions Playwright FR/EN ; suivi et preuves de validation dans [issue #960](https://github.com/Nabouna32/lab/issues/960).
 
 - **Intégrité des fichiers / empreintes cryptographiques :** [PR #955](https://github.com/Nabouna32/lab/pull/955) étend le générateur de hash aux fichiers locaux jusqu’à 100 Mio et permet de comparer une empreinte de référence ; traitement navigateur, sans upload ni dépendance ajoutée. CI complète verte ([run #39553923138](https://github.com/Nabouna32/lab/actions/runs/39553923138)) ; déploiement production `READY` ([Vercel](https://vercel.com/nabouna32/loculary/5BccRteCB5BQdCUsFVsEUK9FybE3)).
