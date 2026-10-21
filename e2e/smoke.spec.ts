@@ -439,7 +439,7 @@ test("group expense splitter calculates local reimbursements", async ({ page }) 
   await page.getByLabel("Payé par").selectOption({ label: "Sam" });
   await page.getByRole("button", { name: "Ajouter la dépense" }).click();
 
-  const transfers = page.getByRole("heading", { name: "Remboursements à effectuer" }).locator("..");
+  const transfers = page.getByRole("heading", { name: "Remboursements à effectuer" }).locator("xpath=..");
   await expect(transfers).toContainText("Casey");
   await expect(transfers).toContainText("Alex");
   await expect(transfers).toContainText(/40,00/);
