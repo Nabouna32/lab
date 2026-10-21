@@ -4,6 +4,8 @@ Dernière vérification : 2026-10-21
 
 ## Travail en cours
 
+- **UX / hiérarchie de l’accueil :** implémentation en cours via [issue #969](https://github.com/Nabouna32/lab/issues/969). Recherche globale derrière une loupe à tous les breakpoints, suppression des quatre raccourcis éditoriaux, CTA FR/EN explicite ; conserver la recherche principale, l’historique conditionnel, les parcours guidés et l’entrée vers Explorer.
+
 - **Factory autonome :** mandat proposé dans [PR #968](https://github.com/Nabouna32/lab/pull/968), checkpoint [issue #965](https://github.com/Nabouna32/lab/issues/965). L’utilisateur déclenche chaque reprise en renvoyant le même prompt ; l’agent reprend depuis le dépôt et le checkpoint durable. Une exécution planifiée en arrière-plan n’est pas requise par défaut ; voir [issue #967](https://github.com/Nabouna32/lab/issues/967) pour évaluer uniquement le besoin d’orchestration distinct.
 
 ## Cinq dernières reprises
