@@ -27,6 +27,7 @@ export type ToolId =
   | "html-entity-encoder-decoder"
   | "json-to-typescript"
   | "csv-json-converter"
+  | "csv-diff-checker"
   | "uuid-generator"
   | "unix-timestamp"
   | "hash-generator"
