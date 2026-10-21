@@ -68,6 +68,10 @@ jobs:
         run: |
           node .github/scripts/classify-dependency-diff.mjs dependency-baseline/package.json package.json dependency-baseline/package-lock.json package-lock.json "$DEPENDENCY_MANIFESTS_ONLY"
 
+      - name: Remove dependency baseline checkout
+        if: always() && github.event_name == 'pull_request' && steps.changes.outputs.dependencies_changed == 'true'
+        run: rm -rf dependency-baseline
+
       - name: Exercise CI tooling tests
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
         run: node --test .github/scripts/classify-ci-changes.test.mjs .github/scripts/detect-ci-changes.test.mjs .github/scripts/dependency-audit-diff.test.mjs .github/scripts/classify-dependency-diff.test.mjs
@@ -109,10 +113,6 @@ jobs:
           for function in account-delete admin-user-sessions admin-user-suspension; do
             (cd "supabase/functions/$function" && deno check --frozen index.ts)
           done
-
-      - name: Remove dependency baseline checkout
-        if: always() && github.event_name == 'pull_request' && steps.changes.outputs.dependencies_changed == 'true'
-        run: rm -rf dependency-baseline
 
       - name: Confirm applicable checks passed
         if: success()
