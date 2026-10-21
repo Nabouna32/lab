@@ -178,9 +178,9 @@ test("homepage category cards render localized tool counts exactly once", () => 
   const home = readFileSync(fileURLToPath(new URL("../../components/home/HomeDiscovery.tsx", import.meta.url)), "utf8");
   const categoryCard = readFileSync(fileURLToPath(new URL("../../components/home/CategoryCard.tsx", import.meta.url)), "utf8");
 
-  assert.match(home, /toolLabel={formatPlural\\(locale, category\\.count/);
+  assert.match(home, /toolLabel={formatPlural\(locale, category\.count/);
   assert.equal(home.includes("toolCount="), false);
-  assert.match(categoryCard, /\\{toolLabel\\}/);
+  assert.match(categoryCard, /\{toolLabel\}/);
   assert.equal(categoryCard.includes("toolCount"), false);
   assert.equal(formatPlural("fr", 12, { one: "outil", other: "outils" }), "12 outils");
   assert.equal(formatPlural("en", 12, { one: "tool", other: "tools" }), "12 tools");
