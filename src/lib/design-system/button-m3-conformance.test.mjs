@@ -13,7 +13,7 @@ const favoriteButton = readFileSync(new URL("../../components/favorites/Favorite
 const baseConverter = readFileSync(new URL("../../components/tools/number-base-converter/NumberBaseConverter.tsx", import.meta.url), "utf8");
 const themeToggle = readFileSync(new URL("../../components/theme/ThemeToggle.tsx", import.meta.url), "utf8");
 const languageSelector = readFileSync(new URL("../../components/layout/LanguageSelector.tsx", import.meta.url), "utf8");
-const mobileHeaderSearch = readFileSync(new URL("../../components/layout/MobileHeaderSearch.tsx", import.meta.url), "utf8");
+const headerSearch = readFileSync(new URL("../../components/layout/HeaderSearch.tsx", import.meta.url), "utf8");
 const collectionsView = readFileSync(new URL("../../components/collections/CollectionsView.tsx", import.meta.url), "utf8");
 const favoritesView = readFileSync(new URL("../../components/favorites/FavoritesView.tsx", import.meta.url), "utf8");
 const toolSearch = readFileSync(new URL("../../components/tools/ToolSearch.tsx", import.meta.url), "utf8");
@@ -163,12 +163,15 @@ test("icon-only theme and language menu triggers meet the 48px M3 target", () =>
   assert.ok(languageSelector.includes('aria-label={t.nav.language + ": " + currentLanguage.nativeLabel}'));
 });
 
-test("mobile header search uses the shared ref-capable M3 IconButton", () => {
-  assert.ok(mobileHeaderSearch.includes('import { IconButton } from "@/components/ui/IconButton"'));
-  assert.ok(mobileHeaderSearch.includes("<IconButton"));
-  assert.ok(mobileHeaderSearch.includes("ref={triggerRef}"));
-  assert.ok(mobileHeaderSearch.includes('selected={open}'));
-  assert.ok(!mobileHeaderSearch.includes('const iconButton ='));
+test("global header search uses the shared ref-capable M3 IconButton at every breakpoint", () => {
+  assert.ok(headerSearch.includes('import { IconButton } from "@/components/ui/IconButton"'));
+  assert.ok(headerSearch.includes("<IconButton"));
+  assert.ok(headerSearch.includes("ref={triggerRef}"));
+  assert.ok(headerSearch.includes('selected={open}'));
+  assert.ok(headerSearch.includes('document.getElementById("header-tool-search-input")'));
+  assert.ok(headerSearch.includes('data-search-popup-owner="header-tool-search"'));
+  assert.doesNotMatch(headerSearch, /lg:hidden|md:hidden|sm:hidden/);
+  assert.ok(!headerSearch.includes('const iconButton ='));
 });
 
 test("collection and favorites action buttons use the shared M3 Button", () => {

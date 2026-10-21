@@ -1,6 +1,5 @@
 import Link from "next/link";
-import ToolSearch from "@/components/tools/ToolSearch";
-import MobileHeaderSearch from "@/components/layout/MobileHeaderSearch";
+import HeaderSearch from "@/components/layout/HeaderSearch";
 import DesktopHeaderMenu from "@/components/layout/DesktopHeaderMenu";
 import LocularyLogo from "@/components/brand/LocularyLogo";
 import type { Locale } from "@/lib/i18n/config";
@@ -16,7 +15,7 @@ export default function Header({ locale }: { locale: Locale }) {
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--border)]/80 bg-[var(--background)]">
       <div className="mx-auto max-w-[var(--content-wide)] px-3 sm:px-6 lg:px-8">
-        <div className="grid h-14 grid-cols-[auto_1fr_auto] items-center gap-2 sm:h-16 sm:gap-3 lg:grid-cols-[1fr_minmax(20rem,32rem)_1fr] xl:grid-cols-[1fr_minmax(24rem,36rem)_1fr]">
+        <div className="grid h-14 grid-cols-[1fr_auto] items-center gap-2 sm:h-16 sm:gap-3">
           <Link
             href={"/" + locale}
             className="group flex shrink-0 items-center gap-2 rounded-[var(--radius-lg)] outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] sm:gap-2.5 md:justify-self-start"
@@ -28,15 +27,11 @@ export default function Header({ locale }: { locale: Locale }) {
             />
           </Link>
 
-          <div className="hidden w-full max-w-[36rem] justify-self-center lg:block">
-            <ToolSearch locale={locale} instanceId="header-tool-search" compact />
-          </div>
-
           <div className="flex shrink-0 items-center justify-self-end gap-0.5 sm:gap-1">
             <Link href={getToolsPath(locale)} className={textLink + " hidden lg:inline-flex"}>
               {t.nav.explore}
             </Link>
-            <MobileHeaderSearch locale={locale} searchLabel={t.tools.searchLabel} />
+            <HeaderSearch locale={locale} searchLabel={t.tools.searchLabel} />
             <DesktopHeaderMenu locale={locale} />
           </div>
         </div>

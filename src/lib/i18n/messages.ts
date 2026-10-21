@@ -61,7 +61,7 @@ export const messages: Record<Locale, Messages> = {
       recentToolsTitle: "Reprendre un outil",
       recentToolsDescription: "Récemment ouverts sur cet appareil.",
       clearRecentTools: "Effacer l’historique",
-      explore: "Tous les outils",
+      explore: "Explorer tous les outils",
     },
     guidedWorkflows: {
       homeTitle: "Parcours guidés",
@@ -205,7 +205,7 @@ export const messages: Record<Locale, Messages> = {
       recentToolsTitle: "Pick up where you left off",
       recentToolsDescription: "Recently opened on this device.",
       clearRecentTools: "Clear history",
-      explore: "All tools",
+      explore: "Explore all tools",
     },
 guidedWorkflows: {
       homeTitle: "Guided workflows",

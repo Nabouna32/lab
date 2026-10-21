@@ -8,20 +8,20 @@ import { IconButton } from "@/components/ui/IconButton";
 import type { Locale } from "@/lib/i18n/config";
 
 
-type MobileHeaderSearchProps = {
+type HeaderSearchProps = {
   locale: Locale;
   searchLabel: string;
 };
 
-export default function MobileHeaderSearch(props: MobileHeaderSearchProps) {
+export default function HeaderSearch(props: HeaderSearchProps) {
   const pathname = usePathname();
-  return <MobileHeaderSearchPanel key={pathname} {...props} />;
+  return <HeaderSearchPanel key={pathname} {...props} />;
 }
 
-function MobileHeaderSearchPanel({
+function HeaderSearchPanel({
   locale,
   searchLabel,
-}: MobileHeaderSearchProps) {
+}: HeaderSearchProps) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -30,14 +30,14 @@ function MobileHeaderSearchPanel({
   useEffect(() => {
     if (!open) return;
 
-    const input = document.getElementById("header-tool-search-mobile-input");
+    const input = document.getElementById("header-tool-search-input");
     if (input instanceof HTMLInputElement) input.focus();
 
     function handlePointerDown(event: PointerEvent) {
       const target = event.target;
       if (!(target instanceof Node)) return;
       const searchPopup = target instanceof Element
-        ? target.closest('[data-search-popup-owner="header-tool-search-mobile"]')
+        ? target.closest('[data-search-popup-owner="header-tool-search"]')
         : null;
       if (rootRef.current?.contains(target) || searchPopup) return;
 
@@ -51,7 +51,7 @@ function MobileHeaderSearchPanel({
 
       // The portal/input consumes Escape while suggestions or status feedback are open.
       // A later Escape closes this surrounding panel.
-      if (document.querySelector('[data-search-popup-owner="header-tool-search-mobile"]')) {
+      if (document.querySelector('[data-search-popup-owner="header-tool-search"]')) {
         return;
       }
 
@@ -84,10 +84,9 @@ function MobileHeaderSearchPanel({
       <IconButton
         ref={triggerRef}
         label={searchLabel}
-        className="lg:hidden"
         selected={open}
         aria-expanded={open}
-        aria-controls={open ? "header-tool-search-mobile-panel" : undefined}
+        aria-controls={open ? "header-tool-search-panel" : undefined}
         title={searchLabel}
         onClick={() => {
           if (open) {
@@ -102,12 +101,12 @@ function MobileHeaderSearchPanel({
       </IconButton>
       {open && (
         <div
-          id="header-tool-search-mobile-panel"
-          className="absolute left-0 right-0 top-full flex items-start gap-2 border-b border-[var(--border)] bg-[var(--background)] px-3 pb-3 pt-2 lg:hidden sm:px-6"
+          id="header-tool-search-panel"
+          className="absolute left-0 right-0 top-full flex items-start gap-2 border-b border-[var(--border)] bg-[var(--background)] px-3 pb-3 pt-2 sm:px-6"
         >
           <ToolSearch
             locale={locale}
-            instanceId="header-tool-search-mobile"
+            instanceId="header-tool-search"
             compact
             className="min-w-0 flex-1"
           />

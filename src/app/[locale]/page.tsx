@@ -7,7 +7,7 @@ import ToolSearch from "@/components/tools/ToolSearch";
 import { isLocale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
 import { getPublicPageMetadata } from "@/lib/tools/page-metadata";
-import { getToolPath, getToolsPath } from "@/lib/tools/routes";
+import { getToolsPath } from "@/lib/tools/routes";
 import { getPublishedTools } from "@/lib/tools/catalog";
 import { getToolContent } from "@/lib/tools/types";
 import { getRainbowFrameStyle } from "@/lib/design-system/rainbow-tones";
@@ -55,19 +55,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                 <div id="home-search" className="motion-reveal motion-reveal-delay mx-auto mt-6 max-w-3xl scroll-mt-28 sm:mt-7">
                   <ToolSearch locale={locale} instanceId="home-tool-search-v4" placeholder={t.home.searchPlaceholder} />
                 </div>
-
-                <nav aria-label={t.home.quickLinksLabel} className="motion-reveal motion-reveal-delay mt-4 grid max-w-3xl grid-cols-1 gap-2 sm:grid-cols-2">
-                  {t.home.quickLinks.map((quickLink) => (
-                    <Link
-                      key={quickLink.toolId}
-                      href={getToolPath(locale, quickLink.toolId)}
-                      className="group flex min-h-12 min-w-0 items-center justify-between gap-3 rounded-2xl border border-[var(--outline-variant)]/70 bg-[var(--surface-container-low)] px-4 py-3 text-sm font-medium text-[var(--foreground)] outline-none transition-[background-color,border-color] duration-[var(--motion-standard)] hover:border-[var(--primary)]/50 hover:bg-[var(--surface-container)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
-                    >
-                      <span className="min-w-0">{quickLink.label}</span>
-                      <MaterialIcon name="arrow_forward" size={18} className="shrink-0 text-[var(--muted)] transition-transform duration-[var(--motion-standard)] group-hover:translate-x-0.5 group-hover:text-[var(--primary)]" />
-                    </Link>
-                  ))}
-                </nav>
 
                 <Link
                   href={getToolsPath(locale)}
