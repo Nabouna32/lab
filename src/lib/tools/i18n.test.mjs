@@ -282,6 +282,7 @@ test("public shell interfaces keep user-facing labels and states behind the i18n
     if (relativePath.endsWith("HeaderSearch.tsx")) {
       assert.match(source, /searchLabel: string/);
       assert.doesNotMatch(source, /closeLabel: string/);
+      assert.doesNotMatch(source, /lg:hidden|md:hidden|sm:hidden/);
     } else {
       assert.match(source, /getMessages\((locale|currentLocale)\)/, relativePath);
     }
