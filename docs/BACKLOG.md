@@ -2,7 +2,7 @@
 
 Dernière révision : 2026-10-21. File de travail unique.
 
-- **Recherche / classement par intention :** [PR #938](https://github.com/Nabouna32/lab/pull/938). Reconnaître les verbes de tâche FR/EN et reclasser les outils déjà associés à une intention éditoriale, sans IA ni transmission distante. CI à confirmer.
+- **Recherche / classement par intention :** [PR #938](https://github.com/Nabouna32/lab/pull/938). Reconnaître les verbes de tâche FR/EN et reclasser les outils déjà associés à une intention éditoriale, sans IA ni transmission distante. 
 
 - **Collections locales sans compte :** [PR #937](https://github.com/Nabouna32/lab/pull/937). Regrouper des outils dans le navigateur sans compte, avec choix explicite entre local et synchronisé pour les personnes connectées. Seuls les noms et identifiants d’outils sont stockés ; aucun contenu saisi ou résultat.
 
