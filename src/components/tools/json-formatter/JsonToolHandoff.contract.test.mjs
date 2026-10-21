@@ -28,3 +28,13 @@ test("handoff is one-time, bounded, validated and localized in both languages", 
   assert.match(messages, /receivedFromFormatter: "Le JSON formaté/);
   assert.match(messages, /receivedFromFormatter: "The formatted JSON/);
 });
+
+test("JSON formatter exposes documented path extraction with French and English messages", () => {
+  assert.match(formatter, /extractJsonPath\(input, jsonPath\)/);
+  assert.match(formatter, /t\.extractTitle/);
+  assert.match(formatter, /t\.extractedResult/);
+  assert.match(messages, /Extraire une valeur par chemin/);
+  assert.match(messages, /Extract a value by path/);
+  assert.match(messages, /Syntaxe prise en charge/);
+  assert.match(messages, /Supported syntax/);
+});
