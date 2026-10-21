@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ChangeEvent } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 import { Button } from "@/components/ui/Button";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
@@ -8,6 +8,7 @@ import { TextArea } from "@/components/ui/TextArea";
 import { compareJsonDocuments, JsonDiffError, type JsonDiffChange, type JsonDiffResult } from "@/lib/json-diff";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { useLocale } from "@/lib/i18n/use-locale";
+import { consumePendingJsonComparison } from "@/lib/tools/json-transfer";
 
 function formatValue(value: unknown): string {
   return JSON.stringify(value, null, 2) ?? "undefined";
@@ -64,6 +65,19 @@ export default function JsonDiffChecker() {
   const [right, setRight] = useState("");
   const [result, setResult] = useState<JsonDiffResult | null>(null);
   const [error, setError] = useState<"invalid-json" | "input-too-large" | "depth-limit" | "file-type" | "file-too-large" | "file-read" | null>(null);
+  const [transferNotice, setTransferNotice] = useState(false);
+
+  useEffect(() => {
+    try {
+      const transferred = consumePendingJsonComparison(window.sessionStorage);
+      if (transferred) {
+        setRight(transferred);
+        setTransferNotice(true);
+      }
+    } catch {
+      // A blocked session store should never prevent manual comparison.
+    }
+  }, []);
 
   async function loadFile(event: ChangeEvent<HTMLInputElement>, side: "left" | "right") {
     const input = event.currentTarget;
@@ -167,6 +181,7 @@ export default function JsonDiffChecker() {
             </label>
           </div>
           <p className="mt-3 text-sm text-[var(--muted)]">{t.hint}</p>
+          {transferNotice && <p className="mt-3 text-sm font-medium text-[var(--primary)]" role="status">{t.receivedFromFormatter}</p>}
           {error && <p role="alert" className="mt-3 text-sm font-medium text-[var(--danger)]">{status}</p>}
           <div className="mt-5 flex flex-wrap gap-2">
             <Button onClick={compare}>{t.compare}</Button>
