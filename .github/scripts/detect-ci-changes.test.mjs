@@ -34,16 +34,17 @@ test("fetches all pages of changed files and validates the expected count", asyn
   assert.equal(requests[0].options.headers.Authorization, "Bearer test-token");
 });
 
-test("uses the live GitHub file listing when the pull-request event count is stale", async () => {
-  const files = await fetchPullRequestFiles({
-    repository: "Nabouna32/lab",
-    pullNumber: 771,
-    expectedCount: 1,
-    token: "test-token",
-    fetchImpl: async () => response([{ filename: "README.md" }, { filename: "src/app.ts" }]),
-  });
-
-  assert.deepEqual(files, ["README.md", "src/app.ts"]);
+test("rejects a changed-file count mismatch instead of silently skipping checks", async () => {
+  await assert.rejects(
+    fetchPullRequestFiles({
+      repository: "Nabouna32/lab",
+      pullNumber: 771,
+      expectedCount: 2,
+      token: "test-token",
+      fetchImpl: async () => response([{ filename: "README.md" }]),
+    }),
+    /count mismatch/,
+  );
 });
 
 test("rejects oversized PRs before making a request", async () => {
