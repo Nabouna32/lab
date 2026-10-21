@@ -70,7 +70,7 @@ export const messages: Record<Locale, Messages> = {
     },
     guidedWorkflows: {
       homeTitle: "Parcours guidés",
-      homeDescription: "Une tâche, plusieurs étapes : suivez un chemin concret plutôt que de chercher chaque outil séparément.",
+      homeDescription: "Une tâche, plusieurs étapes : enchaîne les bons outils sans les chercher un par un.",
       homeAction: "Voir les parcours",
       eyebrow: "Partir du résultat, pas du nom de l’outil",
       title: "Des parcours pour aller jusqu’au bout",
@@ -218,7 +218,7 @@ export const messages: Record<Locale, Messages> = {
     },
 guidedWorkflows: {
       homeTitle: "Guided workflows",
-      homeDescription: "One task, several steps: follow a practical path instead of finding every tool separately.",
+      homeDescription: "One task, several steps: connect the right tools without searching for each one separately.",
       homeAction: "Explore paths",
       eyebrow: "Start with the outcome, not the tool name",
       title: "Guided paths from start to finish",
