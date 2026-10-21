@@ -2,6 +2,8 @@
 
 Dernière révision : 2026-10-21. File de travail unique.
 
+- **QR Code / partage Wi-Fi :** génération locale d’un code de connexion Wi-Fi depuis le générateur existant, avec échappement des caractères réservés, réseaux masqués et ouverts, avertissement sur l’exposition du mot de passe, et tests unitaires du format.
+
 - **Découverte par tâche / Comparer :** nouvelle entrée transversale qui rassemble le comparateur JSON, le comparateur CSV, le comparateur de texte et le convertisseur de fuseaux horaires. La personne part de son objectif plutôt que du nom ou de la catégorie technique de l’outil.
 
 - **Comparateur JSON explorables :** [PR #929](https://github.com/Nabouna32/lab/pull/929). Synthèse par type, recherche par chemin, filtres et rapport copiable respectant les filtres actifs.
