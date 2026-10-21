@@ -9,7 +9,8 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 
 ## État vérifié
 
-- **Produit / Répartiteur de dépenses de groupe :** [PR #934](https://github.com/Nabouna32/lab/pull/934), fusionnée dans `6394783f83556068c7cfd288dde05b78031d05f0`. Calcul en centimes, remboursements consolidés, devise par groupe et traitement local ; CI complète verte sur la tête `eeab478c70870bac8667a253e76eb4dda08a21b4` ([run #39532392924](https://github.com/Nabouna32/lab/actions/runs/39532392924)), avec 48 scénarios Playwright réussis.
+- **Produit / Collections locales sans compte :** [PR #937](https://github.com/Nabouna32/lab/pull/937). Les visiteurs anonymes peuvent créer des collections privées persistantes sur cet appareil ; les personnes connectées choisissent explicitement entre local et synchronisé. Seuls les noms et identifiants d’outils sont conservés, jamais les saisies ou résultats. CI en cours.
+- **Nouvel outil grand public / Répartiteur de dépenses de groupe :** [PR #934](https://github.com/Nabouna32/lab/pull/934), fusionnée dans main via le commit `6394783f83556068c7cfd288dde05b78031d05f0`. Saisie des participants et dépenses, calcul en centimes entiers, remboursements consolidés et copie du bilan. Traitement local, sans compte ni stockage. CI complète réussie sur la tête de PR `eeab478c70870bac8667a253e76eb4dda08a21b4` : lint, TypeScript, tests, build et Playwright ([run #39532392924](https://github.com/Nabouna32/lab/actions/runs/39532392924)).
 - **Accessibilité / correction de contraste :** le vérificateur calcule désormais une suggestion de couleur de premier plan atteignant un seuil WCAG demandé, en conservant l’arrière-plan et en choisissant la plus proche parmi les trajectoires vers le noir et le blanc. UI FR/EN avec application et copie ; tests unitaires dédiés ajoutés, exécution CI à confirmer.
 - **Découverte / intention « Comparer » :** entrée transversale FR/EN vers les comparateurs JSON, CSV et texte ainsi que la comparaison multi-fuseaux horaires. Réutilise les outils publiés, sans nouvelle page, dépendance, stockage ou traitement distant.
 - **Parcours horaires internationaux :** le convertisseur compare une heure source à jusqu’à six fuseaux de destination, affiche la date et le décalage de chaque ville, permet de copier tous les horaires et conserve la gestion des transitions DST. Traitement navigateur uniquement, FR/EN.
@@ -98,10 +99,10 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 
 > Mémoire opérationnelle par session de travail, avec les PR représentatives et preuves vérifiables.
 
-1. **Produit / collections locales sans compte** — en cours dans la branche `feat/local-first-collections`.
-2. **Produit / répartiteur de dépenses de groupe** — [PR #934](https://github.com/Nabouna32/lab/pull/934), fusionnée avec CI complète verte et 48 scénarios Playwright réussis.
-3. **Accessibilité / suggestions de correction du contraste** — [PR #935](https://github.com/Nabouna32/lab/pull/935) : couleurs de premier plan calculées localement pour atteindre WCAG AA/AAA, avec application et copie. CI à confirmer.
-4. **Produit / QR Code Wi-Fi** — [PR #933](https://github.com/Nabouna32/lab/pull/933), en attente de contrôles CI.
+1. **Produit / collections locales sans compte** — [PR #937](https://github.com/Nabouna32/lab/pull/937), CI en cours.
+2. **Produit grand public / Répartiteur de dépenses de groupe** — [PR #934](https://github.com/Nabouna32/lab/pull/934), fusionnée dans `6394783` : dépenses multi-personnes, calcul exact en centimes, remboursements consolidés et copie locale. CI complète réussie ([run #39532392924](https://github.com/Nabouna32/lab/actions/runs/39532392924)).
+3. **Accessibilité / suggestions de correction du contraste** — [PR #935](https://github.com/Nabouna32/lab/pull/935) : suggestions WCAG AA/AAA, application et copie locale ; CI complète réussie sur la tête de PR.
+4. **Produit / QR Code Wi-Fi** — [PR #933](https://github.com/Nabouna32/lab/pull/933), toujours ouverte, CI à revalider après resynchronisation avec `main`.
 5. **Découverte par tâche / intention « Comparer »** — regroupe les comparateurs existants de données structurées, texte et fuseaux horaires.
 
 ## Priorités immédiates
