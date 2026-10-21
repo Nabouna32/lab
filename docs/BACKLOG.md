@@ -2,6 +2,10 @@
 
 Dernière révision : 2026-10-21. File de travail unique.
 
+- **Collections locales sans compte :** en cours dans la PR à venir. Permettre de regrouper des outils dans le navigateur sans compte, avec choix explicite entre local et synchronisé pour les personnes connectées. Stocker uniquement des métadonnées et identifiants d’outils ; aucun contenu saisi ou résultat.
+
+- **Répartiteur de dépenses de groupe :** livré par [PR #934](https://github.com/Nabouna32/lab/pull/934), fusionnée dans `6394783f83556068c7cfd288dde05b78031d05f0`. Calcul local en centimes et remboursements consolidés ; CI complète verte, 48 scénarios Playwright réussis.
+
 - **Découverte par tâche / Comparer :** nouvelle entrée transversale qui rassemble le comparateur JSON, le comparateur CSV, le comparateur de texte et le convertisseur de fuseaux horaires. La personne part de son objectif plutôt que du nom ou de la catégorie technique de l’outil.
 
 - **Nouvel outil grand public / Répartiteur de dépenses de groupe :** [PR #934](https://github.com/Nabouna32/lab/pull/934). Saisir les participants et les dépenses, répartir chaque dépense à parts égales et calculer les remboursements à effectuer avec des virements de règlement consolidés. Calcul local, sans compte ni conservation des noms et montants après fermeture/rechargement.
