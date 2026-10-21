@@ -76,3 +76,58 @@ export function evaluateContrast(foreground: string, background: string): Contra
     aaaLarge: ratio >= 4.5,
   };
 }
+
+
+/**
+ * Finds the closest foreground color along a straight RGB path to black or white
+ * that reaches the requested WCAG contrast ratio against a fixed background.
+ * Returns a normalized hex color, or null when the target is impossible.
+ */
+export function suggestAccessibleForeground(
+  foreground: string,
+  background: string,
+  targetRatio: number,
+): string | null {
+  const source = parseColor(foreground);
+  const backdrop = parseColor(background);
+  if (!source || !backdrop || !Number.isFinite(targetRatio) || targetRatio < 1 || targetRatio > 21) return null;
+
+  const currentRatio = calculateContrastRatio(foreground, background);
+  if (currentRatio !== null && currentRatio >= targetRatio) return toHex(source);
+
+  const candidates: Array<{ color: Rgb; distance: number }> = [];
+  for (const endpoint of [{ r: 0, g: 0, b: 0 }, { r: 255, g: 255, b: 255 }]) {
+    const endpointHex = toHex(endpoint);
+    const endpointRatio = calculateContrastRatio(endpointHex, background);
+    if (endpointRatio === null || endpointRatio < targetRatio) continue;
+
+    let failing = 0;
+    let passing = 1;
+    for (let iteration = 0; iteration < 24; iteration += 1) {
+      const amount = (failing + passing) / 2;
+      const color = interpolate(source, endpoint, amount);
+      const ratio = calculateContrastRatio(toHex(color), background);
+      if (ratio !== null && ratio >= targetRatio) passing = amount;
+      else failing = amount;
+    }
+
+    const color = interpolate(source, endpoint, passing);
+    const distance = Math.hypot(color.r - source.r, color.g - source.g, color.b - source.b);
+    candidates.push({ color, distance });
+  }
+
+  candidates.sort((a, b) => a.distance - b.distance);
+  return candidates[0] ? toHex(candidates[0].color) : null;
+}
+
+function interpolate(start: Rgb, end: Rgb, amount: number): Rgb {
+  return {
+    r: Math.round(start.r + (end.r - start.r) * amount),
+    g: Math.round(start.g + (end.g - start.g) * amount),
+    b: Math.round(start.b + (end.b - start.b) * amount),
+  };
+}
+
+function toHex({ r, g, b }: Rgb): string {
+  return "#" + [r, g, b].map((channel) => channel.toString(16).padStart(2, "0")).join("").toUpperCase();
+}
