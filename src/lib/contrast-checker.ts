@@ -77,7 +77,6 @@ export function evaluateContrast(foreground: string, background: string): Contra
   };
 }
 
-
 /**
  * Finds the closest foreground color along a straight RGB path to black or white
  * that reaches the requested WCAG contrast ratio against a fixed background.
@@ -89,8 +88,7 @@ export function suggestAccessibleForeground(
   targetRatio: number,
 ): string | null {
   const source = parseColor(foreground);
-  const backdrop = parseColor(background);
-  if (!source || !backdrop || !Number.isFinite(targetRatio) || targetRatio < 1 || targetRatio > 21) return null;
+  if (!source || !parseColor(background) || !Number.isFinite(targetRatio) || targetRatio < 1 || targetRatio > 21) return null;
 
   const currentRatio = calculateContrastRatio(foreground, background);
   if (currentRatio !== null && currentRatio >= targetRatio) return toHex(source);
