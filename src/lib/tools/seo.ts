@@ -166,6 +166,10 @@ export const toolSeo = {
     fr: { title: "Calculateur de sous-réseau IPv4 | Loculary", description: "Calculez le réseau, le masque, le broadcast et la plage d’hôtes d’une adresse IPv4 en notation CIDR." },
     en: { title: "IPv4 Subnet Calculator | Loculary", description: "Calculate the network, subnet mask, broadcast address, and host range for an IPv4 CIDR." },
   },
+  "ipv6-subnet-calculator": {
+    fr: { title: "Calculateur de sous-réseau IPv6 | Loculary", description: "Calculez le préfixe réseau IPv6, les bornes d’un bloc CIDR et son nombre exact d’adresses, localement." },
+    en: { title: "IPv6 Subnet Calculator | Loculary", description: "Calculate IPv6 network prefixes, CIDR block boundaries, and exact address counts locally." },
+  },
   "text-diff-checker": {
     fr: { title: "Comparateur de texte | Loculary", description: "Comparez deux versions d’un texte et repérez les lignes ajoutées, supprimées et inchangées directement dans votre navigateur." },
     en: { title: "Text Diff Checker | Loculary", description: "Compare two versions of text and inspect added, removed, and unchanged lines directly in your browser." },

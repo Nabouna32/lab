@@ -63,6 +63,7 @@ const toolSlugs: Record<ToolId, Record<Locale, string>> = {
   "password-generator": { en: "password-generator", fr: "generateur-de-mot-de-passe" },
   "contrast-checker": { en: "color-contrast-checker", fr: "verificateur-de-contraste-des-couleurs" },
   "ip-subnet-calculator": { en: "ipv4-subnet-calculator", fr: "calculateur-de-sous-reseau-ipv4" },
+  "ipv6-subnet-calculator": { en: "ipv6-subnet-calculator", fr: "calculateur-de-sous-reseau-ipv6" },
   "color-converter": { en: "color-converter", fr: "convertisseur-de-couleur" },
   "number-base-converter": { en: "number-base-converter", fr: "convertisseur-de-bases" },
   "color-palette-generator": { en: "color-palette-generator", fr: "generateur-de-palette-de-couleurs" },

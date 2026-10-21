@@ -175,6 +175,10 @@ const localProcessingDescriptions = {
     fr: "La comparaison des textes est effectuée directement dans votre navigateur.",
     en: "Text comparison is performed directly in your browser.",
   },
+  "ipv6-subnet-calculator": {
+    fr: "Les calculs IPv6 sont effectués directement dans votre navigateur.",
+    en: "IPv6 subnet calculations are performed directly in your browser.",
+  },
   "number-base-converter": {
     fr: "La conversion de base numérique est effectuée directement dans votre navigateur.",
     en: "Number base conversion is performed directly in your browser.",
@@ -792,6 +796,20 @@ const toolDefinitions: ToolDefinition[] = [
     content: {
       fr: { name: "Calculateur de sous-réseau IPv4", description: "Calculez le réseau, le masque, le broadcast et la plage d’hôtes à partir d’une adresse IPv4 en notation CIDR." },
       en: { name: "IPv4 Subnet Calculator", description: "Calculate the network, subnet mask, broadcast address, and host range from an IPv4 CIDR." },
+    },
+  },
+  {
+    id: "ipv6-subnet-calculator", icon: "🌐",
+    version: 1,
+    complexity: "small",
+    categories: ["computing"],
+    tags: ["ipv6", "ip", "cidr", "subnet", "network", "prefix", "networking"],
+    aliases: ["ipv6 subnet calculator", "ipv6 cidr calculator", "calculateur de sous-réseau ipv6", "calculateur cidr ipv6"],
+    lifecycle: "published",
+    capabilities: ["clipboard"],
+    content: {
+      fr: { name: "Calculateur de sous-réseau IPv6", description: "Calculez le préfixe réseau IPv6, la dernière adresse du bloc et le nombre d’adresses à partir d’une notation CIDR." },
+      en: { name: "IPv6 Subnet Calculator", description: "Calculate the IPv6 network prefix, last address, and address count from CIDR notation." },
     },
   },
   {
