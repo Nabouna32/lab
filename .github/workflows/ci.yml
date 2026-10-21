@@ -177,7 +177,7 @@ jobs:
       - name: Install Chromium for Playwright
         run: npx playwright install chromium
 
-      - name: Run browser smoke tests and collect visual diagnostics
+      - name: Run browser smoke tests with text diagnostics
         env:
           CI: "true"
         run: npm run e2e
