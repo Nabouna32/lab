@@ -18,15 +18,22 @@ export default function TextDiffChecker() {
   const [transferNotice, setTransferNotice] = useState(false);
 
   useEffect(() => {
-    try {
-      const transferred = consumePendingTextToolTransfer(window.sessionStorage);
-      if (transferred !== null) {
-        setOriginal(transferred);
-        setTransferNotice(true);
+    let cancelled = false;
+    void Promise.resolve().then(() => {
+      if (cancelled) return;
+      try {
+        const transferred = consumePendingTextToolTransfer(window.sessionStorage);
+        if (transferred !== null) {
+          setOriginal(transferred);
+          setTransferNotice(true);
+        }
+      } catch {
+        // Storage may be unavailable; manual paste remains available.
       }
-    } catch {
-      // Storage may be unavailable; manual paste remains available.
-    }
+    });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const result = useMemo(() => {
