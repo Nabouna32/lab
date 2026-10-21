@@ -4,7 +4,7 @@ Dernière vérification : 2026-10-21
 
 ## Cinq dernières reprises
 
-1. **Finition UX accueil — compteur de catégories** : [issue #959](https://github.com/Nabouna32/lab/issues/959), correction de l’affichage du nombre en double et régression FR/EN ; [PR #961](https://github.com/Nabouna32/lab/pull/961) fusionnée dans `4153b1b` ; CI complète verte ([run #39664914332](https://github.com/Nabouna32/lab/actions/runs/39664914332)). La refonte de la hiérarchie de découverte est suivie séparément dans [issue #960](https://github.com/Nabouna32/lab/issues/960).
+1. **Refonte UX de l’accueil — hiérarchie de découverte** : [PR #964](https://github.com/Nabouna32/lab/pull/964) recentre l’accueil sur la recherche et les accès directs, retire les grilles redondantes et conserve une entrée compacte vers les parcours guidés. Tests de contrat et assertions Playwright FR/EN ; état et preuves de CI suivis dans [issue #960](https://github.com/Nabouna32/lab/issues/960).
 2. **Intégrité / vérification des empreintes de fichiers** : [PR #955](https://github.com/Nabouna32/lab/pull/955) étend le générateur de hash aux fichiers locaux jusqu’à 100 Mio et permet de comparer une empreinte de référence ; traitement navigateur, sans upload ni dépendance ajoutée. CI complète verte ([run #39553923138](https://github.com/Nabouna32/lab/actions/runs/39553923138)) ; déploiement production `READY` ([Vercel](https://vercel.com/nabouna32/loculary/5BccRteCB5BQdCUsFVsEUK9FybE3)).
 3. **Nouvel outil réseau — calculateur IPv6 CIDR** : [PR #953](https://github.com/Nabouna32/lab/pull/953), CI complète verte et déploiement production `READY`.
 4. **Chaînage d’outils — CSV → JSON → formateur** : [PR #952](https://github.com/Nabouna32/lab/pull/952), fusionnée.
