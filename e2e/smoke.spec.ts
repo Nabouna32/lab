@@ -288,7 +288,7 @@ test("JSON formatter hands its result to the comparator without manual copy and 
   await page.getByRole("button", { name: "Comparer avec un autre JSON" }).click();
   await expect(page).toHaveURL(/\/fr\/outils\/comparateur-json$/);
   await expect(page.locator("#json-diff-right")).toHaveValue('{\n  "name": "Loculary",\n  "version": 1\n}');
-  await expect(page.getByRole("status").filter({ hasText: "Le JSON formaté a été placé" })).toBeVisible();
+  await expect(page.getByRole("status").filter({ hasText: "Le JSON transmis a été placé dans" })).toBeVisible();
 
   await page.locator("#json-diff-left").fill('{"name":"Loculary","version":0}');
   await page.getByRole("button", { name: "Comparer", exact: true }).click();
@@ -355,6 +355,27 @@ test("YAML tool converts configuration values to JSON and back", async ({ page }
   await page.getByRole("button", { name: "Convertir", exact: true }).click();
   await expect(page.locator("pre").last()).toContainText("name: Loculary");
   await expect(page.locator("pre").last()).toContainText("active: true");
+});
+
+
+test("CSV and YAML JSON conversions hand results to the next compatible tool", async ({ page }) => {
+  await page.goto("/fr/outils/convertisseur-csv-json");
+  await page.locator("#csv-json-input").fill("name,age\nAda,37");
+  await page.getByRole("button", { name: "CSV → JSON", exact: true }).click();
+  await expect(page.locator("pre").last()).toContainText('"name": "Ada"');
+  await page.getByRole("button", { name: "Générer les types TypeScript" }).click();
+  await expect(page).toHaveURL(/\/fr\/outils\/json-vers-typescript$/);
+  await expect(page.locator("#json-typescript-input")).toHaveValue(/Ada/);
+  await expect(page.getByRole("status").filter({ hasText: "JSON transmis depuis un autre outil" })).toBeVisible();
+
+  await page.goto("/fr/outils/formateur-validateur-yaml");
+  await page.getByLabel("Action").selectOption("yaml-to-json");
+  await page.getByLabel("Votre YAML").fill("name: Loculary\nactive: true");
+  await page.getByRole("button", { name: "Convertir", exact: true }).click();
+  await page.getByRole("button", { name: "Comparer ce JSON" }).click();
+  await expect(page).toHaveURL(/\/fr\/outils\/comparateur-json$/);
+  await expect(page.locator("#json-diff-right")).toHaveValue(/"name": "Loculary"/);
+  await expect(page.getByRole("status").filter({ hasText: "Le JSON transmis a été placé" })).toBeVisible();
 });
 
 

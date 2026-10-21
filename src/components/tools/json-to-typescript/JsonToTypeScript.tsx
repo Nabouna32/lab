@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
@@ -8,6 +8,7 @@ import { TextArea } from "@/components/ui/TextArea";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { generateTypeScript } from "@/lib/json-to-typescript";
+import { consumePendingJsonToolTransfer } from "@/lib/tools/json-transfer";
 
 export default function JsonToTypeScript() {
   const locale = useLocale();
@@ -16,6 +17,21 @@ export default function JsonToTypeScript() {
   const [rootName, setRootName] = useState("Root");
   const [result, setResult] = useState("");
   const [error, setError] = useState<"invalid-json" | "unsupported-root" | null>(null);
+  const [transferNotice, setTransferNotice] = useState(false);
+
+  useEffect(() => {
+    try {
+      const transferred = consumePendingJsonToolTransfer(window.sessionStorage, "json-to-typescript");
+      if (transferred) {
+        Promise.resolve().then(() => {
+          setInput(transferred);
+          setTransferNotice(true);
+        });
+      }
+    } catch {
+      // A blocked session store must not prevent manual JSON entry.
+    }
+  }, []);
 
   function generate() {
     if (!input.trim()) {
@@ -38,6 +54,7 @@ export default function JsonToTypeScript() {
     <section className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]">
       <div className="grid gap-0 lg:grid-cols-2">
         <div className="p-4 sm:p-6 lg:border-r lg:border-[var(--border)] lg:p-7">
+          {transferNotice && <p role="status" className="mb-4 text-sm text-[var(--muted)]">{t.receivedFromTool}</p>}
           <TextArea
             label={t.input}
             inputId="json-typescript-input"

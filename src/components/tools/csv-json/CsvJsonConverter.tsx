@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState, type ChangeEvent } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
@@ -8,6 +9,8 @@ import { TextArea } from "@/components/ui/TextArea";
 import { Select } from "@/components/ui/Select";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { useLocale } from "@/lib/i18n/use-locale";
+import { writePendingJsonToolTransfer, type JsonToolTransferTarget } from "@/lib/tools/json-transfer";
+import { getToolPath } from "@/lib/tools/routes";
 import { CSV_JSON_MAX_FILE_BYTES, getCsvJsonDownloadDetails, getCsvJsonOperationForFile, transformCsvJson, type CsvDelimiterSelection, type CsvJsonOperation } from "@/lib/csv-json";
 
 const delimiters: { value: CsvDelimiterSelection; label: string }[] = [
@@ -19,6 +22,7 @@ const delimiters: { value: CsvDelimiterSelection; label: string }[] = [
 
 export default function CsvJsonConverter() {
   const locale = useLocale();
+  const router = useRouter();
   const t = getToolMessages(locale).csvJson;
   const [input, setInput] = useState("");
   const [operation, setOperation] = useState<CsvJsonOperation>("csv-to-json");
@@ -26,6 +30,7 @@ export default function CsvJsonConverter() {
   const [inferTypes, setInferTypes] = useState(false);
   const [result, setResult] = useState("");
   const [error, setError] = useState<"invalid-csv" | "invalid-json" | "unsupported-json" | "unsupported-file" | "file-too-large" | "file-read-failed" | null>(null);
+  const [transferError, setTransferError] = useState(false);
 
   const fileError = error === "unsupported-file" || error === "file-too-large" || error === "file-read-failed";
 
@@ -72,6 +77,18 @@ export default function CsvJsonConverter() {
     setError(next.error);
   }
 
+  function sendToTool(target: JsonToolTransferTarget) {
+    try {
+      if (operation !== "csv-to-json" || !writePendingJsonToolTransfer(window.sessionStorage, result, target)) {
+        setTransferError(true);
+        return;
+      }
+      router.push(getToolPath(locale, target));
+    } catch {
+      setTransferError(true);
+    }
+  }
+
   function download() {
     if (!result) return;
     const { fileName, mimeType } = getCsvJsonDownloadDetails(operation);
@@ -103,6 +120,7 @@ export default function CsvJsonConverter() {
               setInput(event.target.value);
               setResult("");
               setError(null);
+              setTransferError(false);
             }}
             placeholder={t.placeholder}
             spellCheck={false}
@@ -176,6 +194,13 @@ export default function CsvJsonConverter() {
             {result && <div className="flex flex-wrap gap-2"><CopyButton value={result} label={t.copy} /><Button onClick={download} variant="secondary">{t.download}</Button></div>}
           </div>
           <pre aria-live="polite" className="mt-4 min-h-[18rem] flex-1 overflow-auto whitespace-pre-wrap break-words border-y border-[var(--border)] py-4 font-mono text-sm leading-6 text-[var(--foreground)]">{result || " "}</pre>
+          {result && !error && operation === "csv-to-json" && (
+            <div className="mt-4 flex flex-wrap gap-2">
+              <Button variant="secondary" onClick={() => sendToTool("json-diff-checker")}>{t.sendToCompare}</Button>
+              <Button variant="secondary" onClick={() => sendToTool("json-to-typescript")}>{t.sendToTypescript}</Button>
+            </div>
+          )}
+          {transferError && <p role="alert" className="mt-2 text-sm font-medium text-[var(--danger)]">{t.transferFailed}</p>}
         </div>
       </div>
     </section>

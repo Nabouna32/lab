@@ -88,7 +88,7 @@ type ToolMessages = {
   jsonFormatter: {
     input: string; placeholder: string; output: string; format: string; minify: string; copy: string; clear: string;
     indentation: string; spaces2: string; spaces4: string; tab: string; valid: string; invalid: string;
-    emptyResult: string; formatted: string; minified: string; resourceLimit: string; errorAt: (line: string, column: string) => string; sendToCompare: string; transferFailed: string;
+    emptyResult: string; formatted: string; minified: string; resourceLimit: string; errorAt: (line: string, column: string) => string; sendToCompare: string; sendToTypescript: string; transferFailed: string;
     extractTitle: string; pathLabel: string; pathPlaceholder: string; pathHint: string; extractButton: string; extractedResult: string; pathSyntaxError: string; pathNotFound: string; extractionInvalidJson: string;
   };
   jsonDiffChecker: {
@@ -103,7 +103,7 @@ type ToolMessages = {
     input: string; inputYaml: string; inputJson: string; placeholder: string; jsonPlaceholder: string; output: string; outputYaml: string; outputJson: string;
     operation: string; formatYaml: string; yamlToJson: string; jsonToYaml: string; format: string; convert: string; converted: string;
     copy: string; clear: string; indentation: string; spaces2: string; spaces4: string; tab: string; valid: string; invalid: string;
-    emptyResult: string; formatted: string; errorAt: (line: string, column: string) => string; resourceLimit: string; errorDetailLabel: string; unsupportedValue: string;
+    emptyResult: string; formatted: string; errorAt: (line: string, column: string) => string; resourceLimit: string; errorDetailLabel: string; unsupportedValue: string; sendToCompare: string; sendToTypescript: string; transferFailed: string;
   };
   urlEncoder: {
     input: string; placeholder: string; output: string; scope: string; component: string; uri: string;
@@ -126,13 +126,13 @@ type ToolMessages = {
   jsonToTypeScript: {
     input: string; placeholder: string; rootName: string; rootPlaceholder: string; generate: string;
     result: string; ready: string; emptyResult: string; copy: string; clear: string; error: string;
-    invalidJson: string; unsupportedRoot: string;
+    invalidJson: string; unsupportedRoot: string; receivedFromTool: string;
   };
   csvJson: {
     input: string; placeholder: string; delimiter: string; autoDetectDelimiter: string; csvToJson: string; jsonToCsv: string;
     result: string; ready: string; emptyResult: string; copy: string; clear: string; error: string;
     invalidCsv: string; invalidJson: string; unsupportedJson: string; inferTypes: string; inferTypesHint: string;
-    importFile: string; importFileHint: string; unsupportedFile: string; fileTooLarge: string; fileReadFailed: string; download: string;
+    importFile: string; importFileHint: string; unsupportedFile: string; fileTooLarge: string; fileReadFailed: string; download: string; sendToCompare: string; sendToTypescript: string; transferFailed: string;
   };
   uuidGenerator: {
     count: string; countPlaceholder: string; generate: string; copy: string; copied: string; download: string; clear: string; result: string;
@@ -397,7 +397,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       input: "Votre JSON", placeholder: '{\\n  "name": "Loculary"\\n}', output: "Résultat", format: "Formater", minify: "Minifier", copy: "Copier", clear: "Effacer",
       indentation: "Indentation", spaces2: "2 espaces", spaces4: "4 espaces", tab: "Tabulation", valid: "JSON valide", invalid: "JSON invalide",
       emptyResult: "Le résultat apparaîtra ici après validation.", formatted: "Formaté", minified: "Minifié", resourceLimit: "Le JSON dépasse la limite de taille sûre de 200 000 caractères.", errorAt: (line, column) => "Ligne " + line + ", colonne " + column,
-      sendToCompare: "Comparer avec un autre JSON", transferFailed: "Impossible de transmettre le résultat dans cet onglet. Copiez-le et collez-le manuellement.",
+      sendToCompare: "Comparer avec un autre JSON", sendToTypescript: "Générer les types TypeScript", transferFailed: "Impossible de transmettre le résultat dans cet onglet. Copiez-le et collez-le manuellement.",
       extractTitle: "Extraire une valeur par chemin", pathLabel: "Chemin JSON", pathPlaceholder: "$.user.name",
       pathHint: "Syntaxe prise en charge : $, .clé, ['clé avec espaces'] et [0] pour les tableaux. Exemple : $.users[0].email.",
       extractButton: "Extraire", extractedResult: "Valeur extraite", pathSyntaxError: "Chemin invalide. Vérifiez la syntaxe du chemin JSON.",
@@ -408,7 +408,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       compare: "Comparer", clear: "Effacer", hint: "L’ordre des clés d’un objet n’a pas d’importance ; l’ordre des éléments d’un tableau compte. La comparaison reste sur votre appareil.",
       invalidJson: "Vérifiez que les deux entrées sont des documents JSON valides.", inputTooLarge: "Chaque document doit contenir au maximum 200 000 caractères.", depthLimit: "La structure JSON est trop profondément imbriquée pour être comparée en toute sécurité.",
       emptyResult: "Saisissez les deux documents JSON puis lancez la comparaison.", identical: "Aucune différence structurelle détectée.", changesCount: (count) => count + (count === 1 ? " différence" : " différences"),
-      added: "Ajouté", removed: "Supprimé", changed: "Modifié", before: "Avant", after: "Après", path: "Chemin", results: "Différences", truncated: "Résultat limité aux 500 premières différences.", copyReport: "Copier le rapport", loadFile: "Importer un fichier", fileTypeError: "Choisissez un fichier JSON (.json).", fileTooLarge: "Le fichier dépasse la limite de 200 000 caractères.", fileReadError: "Impossible de lire ce fichier sur votre appareil.", receivedFromFormatter: "Le JSON formaté a été placé dans « Nouveau JSON ». Ajoutez le JSON de référence puis comparez.",
+      added: "Ajouté", removed: "Supprimé", changed: "Modifié", before: "Avant", after: "Après", path: "Chemin", results: "Différences", truncated: "Résultat limité aux 500 premières différences.", copyReport: "Copier le rapport", loadFile: "Importer un fichier", fileTypeError: "Choisissez un fichier JSON (.json).", fileTooLarge: "Le fichier dépasse la limite de 200 000 caractères.", fileReadError: "Impossible de lire ce fichier sur votre appareil.", receivedFromFormatter: "Le JSON transmis a été placé dans « Nouveau JSON ». Ajoutez le JSON de référence puis comparez.",
       summary: "Résumé des changements", searchPath: "Rechercher un chemin JSON", searchPathPlaceholder: "Ex. user.email ou items[0]", filterChanges: "Filtrer les changements", allChanges: "Tout", noMatchingChanges: "Aucun changement ne correspond à ces filtres.", filteredChangesCount: (visible, total) => visible === total ? visible + (visible === 1 ? " différence affichée" : " différences affichées") : visible + " sur " + total + " différences affichées",
     },
     yamlFormatterValidator: {
@@ -418,7 +418,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       indentation: "Indentation", spaces2: "2 espaces", spaces4: "4 espaces", tab: "Tabulation", valid: "YAML valide", invalid: "Document invalide",
       emptyResult: "Le résultat apparaîtra ici après traitement.", formatted: "Formaté", resourceLimit: "Le document est trop volumineux ou trop complexe à traiter en toute sécurité.",
       errorAt: (line, column) => "Ligne " + line + ", colonne " + column, errorDetailLabel: "Détail technique :",
-      unsupportedValue: "Ce document contient une valeur YAML qui ne peut pas être représentée en JSON sans perte.",
+      unsupportedValue: "Ce document contient une valeur YAML qui ne peut pas être représentée en JSON sans perte.", sendToCompare: "Comparer ce JSON", sendToTypescript: "Générer les types TypeScript", transferFailed: "Impossible de transmettre le résultat dans cet onglet. Copiez-le et collez-le manuellement.",
     },
     urlEncoder: {
       input: "Votre texte", placeholder: "Saisissez du texte ou une URL…", output: "Résultat", scope: "Mode d’encodage", component: "Composant d’URL", uri: "URL complète",
@@ -442,14 +442,14 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     jsonToTypeScript: {
       input: "Votre JSON", placeholder: "Collez un objet ou un tableau JSON…", rootName: "Nom du type racine", rootPlaceholder: "Root", generate: "Générer",
       result: "TypeScript généré", ready: "Génération terminée", emptyResult: "Le code TypeScript apparaîtra ici.", copy: "Copier", clear: "Effacer", error: "Le JSON n’a pas pu être converti.",
-      invalidJson: "Le JSON est invalide.", unsupportedRoot: "Utilisez un objet ou un tableau JSON comme valeur racine.",
+      invalidJson: "Le JSON est invalide.", unsupportedRoot: "Utilisez un objet ou un tableau JSON comme valeur racine.", receivedFromTool: "JSON transmis depuis un autre outil. Vérifiez le nom du type racine, puis générez le code.",
     },
     csvJson: {
       input: "Données", placeholder: "Collez un CSV ou un tableau JSON d’objets…", delimiter: "Séparateur CSV", autoDetectDelimiter: "Détecter automatiquement", csvToJson: "CSV → JSON", jsonToCsv: "JSON → CSV",
       result: "Résultat", ready: "Conversion mise à jour", emptyResult: "Le résultat apparaîtra ici.", copy: "Copier", clear: "Effacer", error: "La conversion n’a pas pu être effectuée.",
       invalidCsv: "Le CSV est invalide ou mal formé.", invalidJson: "Le JSON est invalide.", unsupportedJson: "Utilisez un tableau JSON composé d’objets.", inferTypes: "Déduire les types JSON", inferTypesHint: "Convertit true, false, null et les nombres sûrs. Les identifiants avec des zéros initiaux restent du texte.",
       importFile: "Importer un fichier", importFileHint: "Fichier CSV ou JSON, jusqu’à 200 ko. Le contenu est lu localement dans votre navigateur.",
-      unsupportedFile: "Choisissez un fichier .csv ou .json.", fileTooLarge: "Le fichier dépasse la limite de 200 ko.", fileReadFailed: "Impossible de lire ce fichier dans votre navigateur.", download: "Télécharger le résultat",
+      unsupportedFile: "Choisissez un fichier .csv ou .json.", fileTooLarge: "Le fichier dépasse la limite de 200 ko.", fileReadFailed: "Impossible de lire ce fichier dans votre navigateur.", download: "Télécharger le résultat", sendToCompare: "Comparer ce JSON", sendToTypescript: "Générer les types TypeScript", transferFailed: "Impossible de transmettre le résultat dans cet onglet. Copiez-le et collez-le manuellement.",
     },
     textDiffChecker: {
       original: "Version originale", originalPlaceholder: "Collez le texte original…", updated: "Version modifiée", updatedPlaceholder: "Collez le texte modifié…",
@@ -720,7 +720,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       input: "Your JSON", placeholder: '{\\n  "name": "Loculary"\\n}', output: "Result", format: "Format", minify: "Minify", copy: "Copy", clear: "Clear",
       indentation: "Indentation", spaces2: "2 spaces", spaces4: "4 spaces", tab: "Tab", valid: "Valid JSON", invalid: "Invalid JSON",
       emptyResult: "The result will appear here after validation.", formatted: "Formatted", minified: "Minified", resourceLimit: "JSON exceeds the safe size limit of 200,000 characters.", errorAt: (line, column) => "Line " + line + ", column " + column,
-      sendToCompare: "Compare with another JSON", transferFailed: "Could not pass the result to the next tool in this tab. Copy and paste it manually.",
+      sendToCompare: "Compare with another JSON", sendToTypescript: "Generate TypeScript types", transferFailed: "Could not pass the result to the next tool in this tab. Copy and paste it manually.",
       extractTitle: "Extract a value by path", pathLabel: "JSON path", pathPlaceholder: "$.user.name",
       pathHint: "Supported syntax: $, .key, ['key with spaces'], and [0] for arrays. Example: $.users[0].email.",
       extractButton: "Extract", extractedResult: "Extracted value", pathSyntaxError: "Invalid path. Check the JSON path syntax.",
@@ -731,7 +731,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       compare: "Compare", clear: "Clear", hint: "Object key order does not matter; array item order does. Comparison stays on your device.",
       invalidJson: "Check that both inputs are valid JSON documents.", inputTooLarge: "Each document must contain at most 200,000 characters.", depthLimit: "The JSON structure is nested too deeply to compare safely.",
       emptyResult: "Enter both JSON documents, then compare them.", identical: "No structural differences found.", changesCount: (count) => count + (count === 1 ? " difference" : " differences"),
-      added: "Added", removed: "Removed", changed: "Changed", before: "Before", after: "After", path: "Path", results: "Differences", truncated: "Showing the first 500 differences only.", copyReport: "Copy report", loadFile: "Import a file", fileTypeError: "Choose a JSON file (.json).", fileTooLarge: "The file exceeds the 200,000-character limit.", fileReadError: "Could not read this file on your device.", receivedFromFormatter: "The formatted JSON was added to “New JSON”. Add the reference JSON, then compare.",
+      added: "Added", removed: "Removed", changed: "Changed", before: "Before", after: "After", path: "Path", results: "Differences", truncated: "Showing the first 500 differences only.", copyReport: "Copy report", loadFile: "Import a file", fileTypeError: "Choose a JSON file (.json).", fileTooLarge: "The file exceeds the 200,000-character limit.", fileReadError: "Could not read this file on your device.", receivedFromFormatter: "The transferred JSON was added to “New JSON”. Add the reference JSON, then compare.",
       summary: "Change summary", searchPath: "Search JSON path", searchPathPlaceholder: "e.g. user.email or items[0]", filterChanges: "Filter changes", allChanges: "All", noMatchingChanges: "No changes match these filters.", filteredChangesCount: (visible, total) => visible === total ? visible + (visible === 1 ? " difference shown" : " differences shown") : visible + " of " + total + " differences shown",
     },
     yamlFormatterValidator: {
@@ -741,7 +741,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       indentation: "Indentation", spaces2: "2 spaces", spaces4: "4 spaces", tab: "Tab", valid: "Valid YAML", invalid: "Invalid document",
       emptyResult: "The result will appear here after processing.", formatted: "Formatted", resourceLimit: "The document is too large or complex to process safely.",
       errorAt: (line, column) => "Line " + line + ", column " + column, errorDetailLabel: "Parser detail:",
-      unsupportedValue: "This document contains a YAML value that cannot be represented in JSON without data loss.",
+      unsupportedValue: "This document contains a YAML value that cannot be represented in JSON without data loss.", sendToCompare: "Compare this JSON", sendToTypescript: "Generate TypeScript types", transferFailed: "Could not pass the result to the next tool in this tab. Copy and paste it manually.",
     },
     urlEncoder: {
       input: "Your text", placeholder: "Enter text or a URL…", output: "Result", scope: "Encoding mode", component: "URL component", uri: "Complete URL",
@@ -765,14 +765,14 @@ export const toolMessages: Record<Locale, ToolMessages> = {
     jsonToTypeScript: {
       input: "Your JSON", placeholder: "Paste a JSON object or array…", rootName: "Root type name", rootPlaceholder: "Root", generate: "Generate",
       result: "Generated TypeScript", ready: "Generation complete", emptyResult: "Generated TypeScript will appear here.", copy: "Copy", clear: "Clear", error: "The JSON could not be converted.",
-      invalidJson: "The JSON is invalid.", unsupportedRoot: "Use a JSON object or array as the root value.",
+      invalidJson: "The JSON is invalid.", unsupportedRoot: "Use a JSON object or array as the root value.", receivedFromTool: "JSON received from another tool. Check the root type name, then generate the code.",
     },
     csvJson: {
       input: "Data", placeholder: "Paste CSV or a JSON array of objects…", delimiter: "CSV delimiter", autoDetectDelimiter: "Auto-detect", csvToJson: "CSV → JSON", jsonToCsv: "JSON → CSV",
       result: "Result", ready: "Conversion updated", emptyResult: "The result will appear here.", copy: "Copy", clear: "Clear", error: "The conversion could not be completed.",
       invalidCsv: "The CSV is invalid or malformed.", invalidJson: "The JSON is invalid.", unsupportedJson: "Use a JSON array containing objects.", inferTypes: "Infer JSON types", inferTypesHint: "Converts true, false, null and safe numbers. Identifiers with leading zeros stay as text.",
       importFile: "Import a file", importFileHint: "CSV or JSON file, up to 200 kB. The content is read locally in your browser.",
-      unsupportedFile: "Choose a .csv or .json file.", fileTooLarge: "The file exceeds the 200 kB limit.", fileReadFailed: "This file could not be read in your browser.", download: "Download result",
+      unsupportedFile: "Choose a .csv or .json file.", fileTooLarge: "The file exceeds the 200 kB limit.", fileReadFailed: "This file could not be read in your browser.", download: "Download result", sendToCompare: "Compare this JSON", sendToTypescript: "Generate TypeScript types", transferFailed: "Could not pass the result to the next tool in this tab. Copy and paste it manually.",
     },
     cronExpression: {
       input: "Cron expression", placeholder: "e.g. 0 9 * * 1-5", result: "Analysis", valid: "Valid expression",

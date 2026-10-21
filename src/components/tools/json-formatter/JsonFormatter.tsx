@@ -11,7 +11,7 @@ import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { formatJson, getJsonFormatError, minifyJson } from "@/lib/json-formatter";
 import { extractJsonPath, JsonPathError } from "@/lib/json-path";
-import { writePendingJsonComparison } from "@/lib/tools/json-transfer";
+import { writePendingJsonToolTransfer, type JsonToolTransferTarget } from "@/lib/tools/json-transfer";
 import { getToolPath } from "@/lib/tools/routes";
 
 type Mode = "formatted" | "minified";
@@ -78,13 +78,13 @@ export default function JsonFormatter() {
     }
   }
 
-  function sendToComparison() {
+  function sendToTool(target: JsonToolTransferTarget) {
     try {
-      if (!writePendingJsonComparison(window.sessionStorage, result)) {
+      if (!writePendingJsonToolTransfer(window.sessionStorage, result, target)) {
         setTransferError(true);
         return;
       }
-      router.push(getToolPath(locale, "json-diff-checker"));
+      router.push(getToolPath(locale, target));
     } catch {
       setTransferError(true);
     }
@@ -110,6 +110,7 @@ export default function JsonFormatter() {
             value={input}
             onChange={(event) => {
               setInput(event.target.value);
+              setResult("");
               setError(null);
               setTransferError(false);
               setExtractedValue("");
@@ -186,7 +187,8 @@ export default function JsonFormatter() {
           </pre>
           {result && !error && (
             <div className="mt-4">
-              <Button variant="secondary" onClick={sendToComparison}>{t.sendToCompare}</Button>
+              <Button variant="secondary" onClick={() => sendToTool("json-diff-checker")}>{t.sendToCompare}</Button>
+              <Button variant="secondary" onClick={() => sendToTool("json-to-typescript")}>{t.sendToTypescript}</Button>
               {transferError && <p className="mt-2 text-sm font-medium text-[var(--danger)]" role="alert">{t.transferFailed}</p>}
             </div>
           )}
