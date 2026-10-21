@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import {
   convertTimeZone,
+  convertTimeZones,
   formatOffset,
   getTimeZoneOptions,
   isSupportedTimeZone,
@@ -28,6 +29,22 @@ describe("convertTimeZone", () => {
     assert.equal(result?.destination.day, 2);
     assert.equal(result?.destination.hour, 15);
     assert.equal(result?.destination.minute, 30);
+  });
+
+  it("compares the same source time across several destinations", () => {
+    const results = convertTimeZones(
+      "2024-07-01T09:00",
+      "Europe/Paris",
+      ["America/New_York", "Asia/Tokyo", "Australia/Sydney"],
+    );
+    assert.deepEqual(results?.map(({ timeZone }) => timeZone), ["America/New_York", "Asia/Tokyo", "Australia/Sydney"]);
+    assert.deepEqual(results?.map(({ conversion }) => conversion.destination.hour), [3, 16, 17]);
+    assert.ok(results?.every(({ conversion }) => conversion.instant.toISOString() === "2024-07-01T07:00:00.000Z"));
+  });
+
+  it("rejects duplicate or excessive destination zones", () => {
+    assert.equal(convertTimeZones("2024-01-15T12:00", "UTC", ["Europe/Paris", "Europe/Paris"]), null);
+    assert.equal(convertTimeZones("2024-01-15T12:00", "UTC", ["UTC", "Europe/Paris", "Europe/London", "Asia/Tokyo", "Australia/Sydney", "America/New_York", "Africa/Cairo"]), null);
   });
 
   it("identifies a spring-forward gap", () => {
