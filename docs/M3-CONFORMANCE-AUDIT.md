@@ -41,13 +41,13 @@ The following inventory was read from `src/components/ui` on `main`. This is a f
 
 **Inventory note:** families intentionally overlap where a component could reasonably be classified by both implementation role and user-facing behavior. The next pass must deduplicate by component identity when recording status; do not treat the grouped table as a count of distinct audited variants. `ScrollField` is documented later in this file as an experimental Expressive API and is not a reason to expand the selected Fidelity direction.
 
-### Operating protocol — autonomous delivery mandate (updated 2026-10-19)
+### Evidence and delivery protocol (updated 2026-10-22)
 
 1. Investigate source, actual production call sites, tests and official references. Distinguish direct evidence, inference and missing runtime proof.
-2. Choose and implement the next coherent, evidence-backed batch autonomously; the current project mandate supersedes the historical requirement for explicit approval of every component batch.
+2. Choose the next coherent, evidence-backed batch. This audit is not blanket authorization to modify production components: obtain explicit approval for the intended repository-change scope first. Once approved, execute autonomously within that scope.
 3. Pause only when a finding requires a consequential product/architecture choice, a new recurring cost, a production security/privacy decision, destructive data work or an irreversible external commitment. Continue independent work while that boundary is blocked.
 4. Use a dedicated branch and one PR at a time where practical. Review the complete diff and verify the exact PR head through required CI before merge. Never weaken protections to force delivery.
-5. Update this register with source links, status, exact verification evidence and remaining gaps; update Issue #731 and `docs/PROJECT-STATE.md` with the merge/CI/deployment evidence and next priority.
+5. Update this register when durable findings, source mappings, decisions or verification evidence change. Record mission-specific delivery evidence in the relevant GitHub issue or PR when useful. No separate project-state document or generic conversation-checkpoint update is required; do not create a documentation-only PR merely to synchronize status.
 6. Browser, responsive, light/dark, keyboard, screen-reader and contrast checks remain required where applicable. If the environment cannot run them, mark them as not verified rather than inferring conformance from source or CI.
 
 ### Lot 0 source findings and recommended next audit
@@ -473,7 +473,7 @@ Older audit entries above that say the Checkbox/Switch/field disabled values are
 - [ANDROIDX SOURCE OBSERVATION — current upstream, not yet revision-pinned] [ProgressIndicator.kt](https://github.com/androidx/androidx/blob/androidx-main/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/ProgressIndicator.kt) shows that the current circular indeterminate indicator is **not** a simple rotating static arc: it combines (1) a continuous 360° global rotation over 6,000 ms with linear easing, (2) an additional 360° rotation in four 90° steps, each 300 ms emphasized-decelerate followed by a hold to the next 1,500 ms boundary, and (3) a sweep/arc-length animation from a minimum to a maximum and back over the same 6,000 ms cycle. The official Android Developers API describes the indeterminate indicator as animated and exposes stroke width, track color, stroke cap and gap size: [CircularProgressIndicator API](https://developer.android.com/reference/kotlin/androidx/compose/material3/CircularProgressIndicator.composable).
 - [OPEN] This source was inspected from the moving `androidx-main` branch, so it is evidence for a current upstream implementation, not a reproducible pinned version. Pin the AndroidX commit and target release before treating exact constants as canonical.
 - [SOURCE-OBSERVED] Loculary's shared linear indicator still uses a single moving segment, and the Lab's circular indicator is a CSS conic-gradient ring with a numeric label. Neither currently reproduces the upstream circular choreography or full circular API anatomy. Do not describe either as full Android motion fidelity.
-- [NEXT] Audit the official AndroidX OutlinedTextField implementation/tokens next, then continue through shared components and real call sites. Every slice must update this convention, conformance audit and conversation checkpoint with source, source revision status, change and remaining runtime checks.
+- [NEXT] Audit the official AndroidX OutlinedTextField implementation/tokens, then continue through shared components and real call sites when this work is resumed. Update the convention and audit when a durable finding, decision or verification result changes; record any active mission progress in its relevant issue or PR. Do not maintain a separate conversation checkpoint for each slice.
 
 
 ## TextField audit — AndroidX OutlinedTextField anatomy (2026-10-15)
