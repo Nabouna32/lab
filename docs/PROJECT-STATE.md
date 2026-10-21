@@ -9,6 +9,7 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 
 ## État vérifié
 
+- **Découverte / intention « Comparer » :** entrée transversale FR/EN vers les comparateurs JSON, CSV et texte ainsi que la comparaison multi-fuseaux horaires. Réutilise les outils publiés, sans nouvelle page, dépendance, stockage ou traitement distant.
 - **Parcours horaires internationaux :** le convertisseur compare une heure source à jusqu’à six fuseaux de destination, affiche la date et le décalage de chaque ville, permet de copier tous les horaires et conserve la gestion des transitions DST. Traitement navigateur uniquement, FR/EN.
 - **Nouvel outil / comparateur CSV :** comparaison locale de deux exports, détection des enregistrements ajoutés/supprimés/modifiés et rapprochement optionnel par colonne clé pour ignorer les changements d’ordre. Limites d’entrée et de rapport explicites.
 - **Outil développeur / extraction JSON par chemin :** le formateur extrait localement une valeur imbriquée avec une syntaxe de chemin volontairement limitée et documentée ; résultat copiable, sans service distant.
@@ -95,11 +96,11 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 
 > Mémoire opérationnelle par session de travail, avec les PR représentatives et preuves vérifiables.
 
-1. **Transformation de parcours / transferts JSON entre outils** — sorties du formateur JSON, du convertisseur CSV → JSON et du convertisseur YAML → JSON vers le comparateur ou le générateur TypeScript. [PR #930](https://github.com/Nabouna32/lab/pull/930).
-2. **Produit / comparateur JSON explorables** — résumé par type, filtres, recherche par chemin et rapport copiable des changements affichés. [PR #929](https://github.com/Nabouna32/lab/pull/929).
-3. **Parcours / comparateur multi-villes de fuseaux horaires** — comparer une heure source à plusieurs villes et copier tous les résultats. [PR #928](https://github.com/Nabouna32/lab/pull/928).
-4. **Nouvel outil / comparateur CSV** — comparer deux exports avec rapprochement par clé, traitement local et rapport des changements. [PR #927](https://github.com/Nabouna32/lab/pull/927).
-5. **Conversion CSV → JSON typée (optionnelle)** — inférence de types scalaires sans convertir par défaut les identifiants avec zéros initiaux. [PR #926](https://github.com/Nabouna32/lab/pull/926).
+1. **Découverte par tâche / intention « Comparer »** — regroupe les comparateurs existants de données structurées, texte et fuseaux horaires.
+2. **Transformation de parcours / transferts JSON entre outils** — sorties du formateur JSON, du convertisseur CSV → JSON et du convertisseur YAML → JSON vers le comparateur ou le générateur TypeScript. [PR #930](https://github.com/Nabouna32/lab/pull/930).
+3. **Produit / comparateur JSON explorables** — résumé par type, filtres, recherche par chemin et rapport copiable des changements affichés. [PR #929](https://github.com/Nabouna32/lab/pull/929).
+4. **Parcours / comparateur multi-villes de fuseaux horaires** — comparer une heure source à plusieurs villes et copier tous les résultats. [PR #928](https://github.com/Nabouna32/lab/pull/928).
+5. **Nouvel outil / comparateur CSV** — comparer deux exports avec rapprochement par clé, traitement local et rapport des changements. [PR #927](https://github.com/Nabouna32/lab/pull/927).
 
 ## Priorités immédiates
 

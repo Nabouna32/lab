@@ -2,6 +2,8 @@
 
 Dernière révision : 2026-10-21. File de travail unique.
 
+- **Découverte par tâche / Comparer :** nouvelle entrée transversale qui rassemble le comparateur JSON, le comparateur CSV, le comparateur de texte et le convertisseur de fuseaux horaires. La personne part de son objectif plutôt que du nom ou de la catégorie technique de l’outil.
+
 - **Comparateur JSON explorables :** [PR #929](https://github.com/Nabouna32/lab/pull/929). Synthèse par type, recherche par chemin, filtres et rapport copiable respectant les filtres actifs.
 
 - **Parcours / comparateur multi-villes de fuseaux horaires :** comparer une heure locale source à jusqu’à six destinations, gérer les changements d’heure et copier le planning complet, sans réseau ni compte.

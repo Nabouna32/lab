@@ -1,7 +1,7 @@
 import type { Tool, ToolId } from "./types.ts";
 import { isPublishedTool } from "./types.ts";
 
-export const intentIds = ["calculate", "convert", "generate", "analyze", "measure", "prepare"] as const;
+export const intentIds = ["calculate", "convert", "generate", "analyze", "measure", "prepare", "compare"] as const;
 export type IntentId = (typeof intentIds)[number];
 
 export type IntentDefinition = {
@@ -101,6 +101,10 @@ export const intentDefinitions: readonly IntentDefinition[] = [
       "url-encoder-decoder",
       "html-entity-encoder-decoder",
     ],
+  },
+  {
+    id: "compare",
+    toolIds: ["json-diff-checker", "csv-diff-checker", "text-diff-checker", "timezone-converter"],
   },
 ];
 
