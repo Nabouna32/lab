@@ -34,6 +34,8 @@ test("published tool slugs are explicit and localized", () => {
   assert.equal(getToolIdBySlug("en", "image-metadata-viewer"), "image-metadata");
   assert.equal(getToolIdBySlug("fr", "formateur-validateur-yaml"), "yaml-formatter-validator");
   assert.equal(getToolIdBySlug("fr", "comparateur-de-texte"), "text-diff-checker");
+  assert.equal(getToolPath("fr", "csv-diff-checker"), "/fr/outils/comparateur-csv");
+  assert.equal(getToolIdBySlug("en", "csv-diff-checker"), "csv-diff-checker");
 });
 
 test("every published tool has a unique reversible slug in each locale", () => {
