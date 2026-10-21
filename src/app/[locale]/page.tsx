@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
-import HomeDiscovery from "@/components/home/HomeGuidedWorkflows";
+import HomeGuidedWorkflows from "@/components/home/HomeGuidedWorkflows";
 import RecentTools from "@/components/home/RecentTools";
 import ToolSearch from "@/components/tools/ToolSearch";
 import { isLocale } from "@/lib/i18n/config";
