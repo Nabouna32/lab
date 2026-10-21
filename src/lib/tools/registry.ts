@@ -212,6 +212,10 @@ const moduleLoaders: Partial<Record<ToolId, ToolModule>> = {
     () => import("@/components/tools/markdown-table-generator/MarkdownTableGenerator"),
     () => import("@/components/tools/markdown-table-generator/ToolEditorial"),
   ),
+  "image-to-pdf": createToolModule(
+    () => import("@/components/tools/image-to-pdf/ImageToPdf"),
+    () => import("@/components/tools/image-to-pdf/ToolEditorial"),
+  ),
   "image-metadata": createToolModule(
     () => import("@/components/tools/image-metadata/ImageMetadataViewer"),
     () => import("@/components/tools/image-metadata/ToolEditorial"),

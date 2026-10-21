@@ -83,6 +83,10 @@ const localProcessingDescriptions = {
     fr: "Les métadonnées d’image sont lues et traitées directement dans votre navigateur.",
     en: "Image metadata is read and processed directly in your browser.",
   },
+  "image-to-pdf": {
+    fr: "Les images sont converties et assemblées en PDF directement dans votre navigateur.",
+    en: "Images are converted and assembled into a PDF directly in your browser.",
+  },
   "video-bitrate": {
     fr: "Les calculs de bitrate vidéo sont effectués directement dans votre navigateur.",
     en: "Video bitrate calculations are performed directly in your browser.",
@@ -867,6 +871,20 @@ const toolDefinitions: ToolDefinition[] = [
     content: {
       fr: { name: "Compresseur d’images par lot", description: "Optimisez plusieurs images en une fois, comparez le poids gagné et téléchargez les résultats dans une archive ZIP, sans envoyer vos fichiers." },
       en: { name: "Batch Image Compressor", description: "Optimize multiple images at once, compare size savings, and download results in a ZIP archive without uploading your files." },
+    },
+  },
+  {
+    id: "image-to-pdf", icon: "📄",
+    version: 1,
+    complexity: "advanced",
+    categories: ["images", "files"],
+    tags: ["image", "images", "pdf", "convert", "conversion", "document", "photo", "scan", "merge", "multi-page", "convertir", "assembler"],
+    aliases: ["image to pdf", "jpg to pdf", "jpeg to pdf", "png to pdf", "photos to pdf", "pictures to pdf", "combine images pdf", "convert images to pdf", "image en pdf", "images en pdf", "convertir image en pdf", "convertir des images en pdf", "photo en pdf", "photos en pdf", "fusionner images pdf"],
+    lifecycle: "published",
+    capabilities: ["file-input"],
+    content: {
+      fr: { name: "Convertisseur d’images en PDF", description: "Assemblez jusqu’à 10 images dans un PDF multipage au format A4 ou Lettre, sans envoyer vos fichiers." },
+      en: { name: "Image to PDF Converter", description: "Combine up to 10 images into a multi-page A4 or Letter PDF without uploading your files." },
     },
   },
   {

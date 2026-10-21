@@ -2,7 +2,9 @@
 
 Dernière révision : 2026-10-21. File de travail unique.
 
-- **QR Code / partage Wi-Fi :** mode Wi-Fi local dans le générateur QR existant, avec échappement des caractères réservés, réseaux masqués et ouverts, avertissement sur l’exposition du mot de passe et tests unitaires dédiés. PR en cours de validation.
+- **Conversion d’images en PDF :** outil local multipage A4/Lettre, jusqu’à 10 images JPEG/PNG/WebP, orientation automatique et limites mémoire explicites. Livraison et CI à confirmer.
+
+- **QR Code / partage Wi-Fi :** mode Wi-Fi local dans le générateur QR existant, avec échappement des caractères réservés, réseaux masqués et ouverts, avertissement sur l’exposition du mot de passe et tests unitaires dédiés. Livré via [PR #944](https://github.com/Nabouna32/lab/pull/944).
 
 - **Sauvegarde/restauration des collections locales :** [PR #939](https://github.com/Nabouna32/lab/pull/939). Export JSON versionné et restauration additive locale ; collections synchronisées exclues, format et ressources validés, sans compte ni backend.
 

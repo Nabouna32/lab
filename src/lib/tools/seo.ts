@@ -194,4 +194,8 @@ export const toolSeo = {
     fr: { title: "Compresseur d’images par lot | Loculary", description: "Optimisez jusqu’à 10 images en une fois, comparez le gain de poids et téléchargez un ZIP, directement dans votre navigateur." },
     en: { title: "Batch Image Compressor | Loculary", description: "Optimize up to 10 images at once, compare size savings, and download a ZIP directly in your browser." },
   },
+  "image-to-pdf": {
+    fr: { title: "Convertir des images en PDF | Loculary", description: "Assemblez plusieurs images dans un PDF multipage A4 ou Lettre, directement dans votre navigateur sans téléversement." },
+    en: { title: "Convert Images to PDF | Loculary", description: "Combine multiple images into a multi-page A4 or Letter PDF in your browser without uploading files." },
+  },
 } satisfies Record<ToolId, Record<Locale, ToolSeoMetadata>>;
