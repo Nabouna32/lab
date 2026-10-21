@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
@@ -8,6 +9,8 @@ import { Select } from "@/components/ui/Select";
 import { TextArea } from "@/components/ui/TextArea";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { useLocale } from "@/lib/i18n/use-locale";
+import { writePendingJsonToolTransfer, type JsonToolTransferTarget } from "@/lib/tools/json-transfer";
+import { getToolPath } from "@/lib/tools/routes";
 import { convertJsonYaml, type JsonYamlConversionError, type JsonYamlDirection } from "@/lib/json-yaml-converter";
 import { formatYaml, type YamlFormatError } from "@/lib/yaml-formatter";
 
@@ -17,14 +20,29 @@ type ToolError = YamlFormatError | JsonYamlConversionError;
 
 export default function YamlFormatterValidator() {
   const locale = useLocale();
+  const router = useRouter();
   const t = getToolMessages(locale).yamlFormatterValidator;
   const [input, setInput] = useState("");
   const [operation, setOperation] = useState<Operation>("format");
   const [indent, setIndent] = useState<Indent>(2);
   const [result, setResult] = useState("");
   const [error, setError] = useState<ToolError | null>(null);
+  const [transferError, setTransferError] = useState(false);
+
+  function sendToTool(target: JsonToolTransferTarget) {
+    try {
+      if (operation !== "yaml-to-json" || !writePendingJsonToolTransfer(window.sessionStorage, result, target)) {
+        setTransferError(true);
+        return;
+      }
+      router.push(getToolPath(locale, target));
+    } catch {
+      setTransferError(true);
+    }
+  }
 
   function process() {
+    setTransferError(false);
     if (operation === "format") {
       const next = formatYaml(input, indent);
       if (!next.ok) {
@@ -51,6 +69,7 @@ export default function YamlFormatterValidator() {
     setInput("");
     setResult("");
     setError(null);
+    setTransferError(false);
   }
 
   const isJsonInput = operation === "json-to-yaml";
@@ -78,6 +97,7 @@ export default function YamlFormatterValidator() {
                 setOperation(event.target.value as Operation);
                 setResult("");
                 setError(null);
+                setTransferError(false);
               }}
             >
               <option value="format">{t.formatYaml}</option>
@@ -156,6 +176,14 @@ export default function YamlFormatterValidator() {
           >
             {result || " "}
           </pre>
+          {result && !error && operation === "yaml-to-json" && (
+            <div className="mt-4 flex flex-wrap gap-2">
+              <Button variant="secondary" onClick={() => sendToTool("json-diff-checker")}>{t.sendToCompare}</Button>
+              <Button variant="secondary" onClick={() => sendToTool("json-to-typescript")}>{t.sendToTypescript}</Button>
+            </div>
+          )}
+          {transferError && <p role="alert" className="mt-2 text-sm font-medium text-[var(--danger)]">{t.transferFailed}</p>}
+
         </div>
       </div>
     </section>
