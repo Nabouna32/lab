@@ -4,6 +4,16 @@ test("converts multiple local images into a multi-page PDF", async ({ page }) =>
  const png = Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAIAAAD91JpzAAAAFklEQVR4nGP8z8DAwMDAxMDAwMDAAAANHQEDasKb6QAAAABJRU5ErkJggg==", "base64");
  await page.locator("#image-to-pdf-files").setInputFiles([{ name: "one.png", mimeType: "image/png", buffer: png }, { name: "two.png", mimeType: "image/png", buffer: png }]);
  await expect(page.getByRole("heading", { name: "Page order" })).toBeVisible(); await expect(page.getByText("one.png")).toBeVisible();
+ const rows = page.getByRole("heading", { name: "Page order" }).locator("xpath=following-sibling::ol/li");
+ await expect(page.getByRole("button", { name: "Move one.png up" })).toHaveAttribute("disabled", "");
+ await expect(page.getByRole("button", { name: "Move two.png down" })).toHaveAttribute("disabled", "");
+ await page.getByRole("button", { name: "Move two.png up" }).click();
+ await expect(rows.nth(0)).toContainText("two.png");
+ await expect(rows.nth(1)).toContainText("one.png");
+ await page.getByRole("button", { name: "Move two.png down" }).click();
+ await expect(rows.nth(0)).toContainText("one.png");
+ await expect(rows.nth(1)).toContainText("two.png");
+ await page.getByRole("button", { name: "Move two.png up" }).click();
  const pending = page.waitForEvent("download"); await page.getByRole("button", { name: "Download PDF" }).click(); const download = await pending;
  expect(download.suggestedFilename()).toBe("loculary-images.pdf");
  const stream = await download.createReadStream(); expect(stream).not.toBeNull(); const chunks: Buffer[] = [];
