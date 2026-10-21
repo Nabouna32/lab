@@ -1,137 +1,14 @@
 import Link from "next/link";
-import { MaterialIcon, type MaterialIconName } from "@/components/ui/MaterialIcon";
+import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import type { Locale } from "@/lib/i18n/config";
-import { getToolContent, isPublishedTool, type ToolId } from "@/lib/tools/types";
+import { getMessages } from "@/lib/i18n/messages";
 import { getToolById } from "@/lib/tools/catalog";
+import { getToolContent, isPublishedTool } from "@/lib/tools/types";
 import { getToolPath, getToolsPath } from "@/lib/tools/routes";
 
-type Localized = Record<Locale, string>;
-type GuidedWorkflow = {
-  id: string;
-  icon: MaterialIconName;
-  title: Localized;
-  summary: Localized;
-  outcome: Localized;
-  transfer: "automatic" | "manual" | "independent";
-  steps: Array<{ toolId: ToolId; description: Localized }>;
-};
-
-export const guidedWorkflows: readonly GuidedWorkflow[] = [
-  {
-    id: "clean-and-compare",
-    icon: "swap_horiz",
-    title: { fr: "Nettoyer puis comparer une liste", en: "Clean a list, then compare it" },
-    summary: {
-      fr: "Supprimez les doublons et remettez vos lignes en ordre avant de repérer ce qui a changé entre deux versions.",
-      en: "Remove duplicates and sort your lines before spotting what changed between two versions.",
-    },
-    outcome: {
-      fr: "Une comparaison lisible des lignes ajoutées, supprimées ou inchangées.",
-      en: "A readable comparison of added, removed, and unchanged lines.",
-    },
-    transfer: "automatic",
-    steps: [
-      { toolId: "text-line-processor", description: { fr: "Nettoyez, triez ou dédupliquez votre liste.", en: "Clean, sort, or deduplicate your list." } },
-      { toolId: "text-diff-checker", description: { fr: "Le résultat nettoyé est transmis automatiquement. Ajoutez l’autre version pour voir les différences.", en: "The cleaned result is transferred automatically. Add the other version to see the differences." } },
-    ],
-  },
-  {
-    id: "prepare-json",
-    icon: "apps",
-    title: { fr: "Préparer et comparer du JSON", en: "Prepare and compare JSON" },
-    summary: {
-      fr: "Rendez des données JSON lisibles, puis comparez deux versions pour comprendre les changements.",
-      en: "Make JSON data readable, then compare two versions to understand the changes.",
-    },
-    outcome: {
-      fr: "Des données formatées et une vue des différences entre les deux versions.",
-      en: "Formatted data and a view of the differences between both versions.",
-    },
-    transfer: "automatic",
-    steps: [
-      { toolId: "json-formatter", description: { fr: "Formatez le document puis envoyez ce JSON au comparateur.", en: "Format the document, then send this JSON to the comparator." } },
-      { toolId: "json-diff-checker", description: { fr: "Le JSON transmis est prérempli comme nouvelle version. Ajoutez la version de référence puis comparez.", en: "The transferred JSON is prefilled as the new version. Add the reference version, then compare." } },
-    ],
-  },
-  {
-    id: "convert-tabular-data",
-    icon: "apps",
-    title: { fr: "Convertir un tableau en JSON", en: "Convert a table to JSON" },
-    summary: {
-      fr: "Transformez des données CSV en JSON, puis rendez le résultat plus facile à relire et à vérifier.",
-      en: "Turn CSV data into JSON, then make the result easier to read and verify.",
-    },
-    outcome: {
-      fr: "Un JSON formaté, prêt à être copié vers votre prochain outil ou projet.",
-      en: "Formatted JSON, ready to copy into your next tool or project.",
-    },
-    transfer: "manual",
-    steps: [
-      { toolId: "csv-json-converter", description: { fr: "Importez ou collez le CSV et choisissez la conversion CSV → JSON.", en: "Import or paste the CSV and choose CSV → JSON." } },
-      { toolId: "json-formatter", description: { fr: "Collez le JSON obtenu pour le formater et contrôler sa validité.", en: "Paste the resulting JSON to format it and check its validity." } },
-    ],
-  },
-  {
-    id: "prepare-photo-document",
-    icon: "image",
-    title: { fr: "Préparer des photos pour un PDF", en: "Prepare photos for a PDF" },
-    summary: {
-      fr: "Vérifiez les informations utiles de vos images, puis rassemblez-les dans un document multipage.",
-      en: "Check useful image details, then combine them into a multi-page document.",
-    },
-    outcome: {
-      fr: "Un PDF multipage généré localement à partir de vos photos.",
-      en: "A multi-page PDF generated locally from your photos.",
-    },
-    transfer: "independent",
-    steps: [
-      { toolId: "image-metadata", description: { fr: "Vérifiez les dimensions et les métadonnées avant de préparer le document.", en: "Check dimensions and metadata before preparing the document." } },
-      { toolId: "image-to-pdf", description: { fr: "Ajoutez les photos, réordonnez les pages et exportez le PDF.", en: "Add photos, reorder pages, and export the PDF." } },
-    ],
-  },
-];
-
-const pageCopy: Record<Locale, {
-  eyebrow: string;
-  title: string;
-  description: string;
-  privacy: string;
-  steps: string;
-  outcome: string;
-  automatic: string;
-  manual: string;
-  independent: string;
-  openTools: string;
-}> = {
-  fr: {
-    eyebrow: "Partir du résultat, pas du nom de l’outil",
-    title: "Des parcours pour aller jusqu’au bout",
-    description: "Certaines tâches demandent plusieurs étapes. Choisissez votre objectif : chaque parcours vous guide vers les bons outils, dans le bon ordre, sans compte.",
-    privacy: "Les outils de ces parcours traitent les données localement dans votre navigateur.",
-    steps: "étapes",
-    outcome: "À la fin",
-    automatic: "Le résultat passe automatiquement à l’étape suivante.",
-    manual: "Copiez le résultat dans l’étape suivante lorsque c’est nécessaire.",
-    independent: "Préparez les fichiers nécessaires à chaque outil : ces étapes restent indépendantes.",
-    openTools: "Voir tous les outils",
-  },
-  en: {
-    eyebrow: "Start with the outcome, not the tool name",
-    title: "Guided paths from start to finish",
-    description: "Some tasks take more than one step. Choose your goal: each path guides you to the right tools in the right order, without an account.",
-    privacy: "Tools in these paths process data locally in your browser.",
-    steps: "steps",
-    outcome: "What you get",
-    automatic: "The result is passed automatically to the next step.",
-    manual: "Copy the result into the next step when needed.",
-    independent: "Prepare the required files for each tool; these steps remain independent.",
-    openTools: "Browse all tools",
-  },
-};
-
 export default function GuidedWorkflowsPage({ locale }: { locale: Locale }) {
-  const copy = pageCopy[locale];
-  const availableWorkflows = guidedWorkflows
+  const copy = getMessages(locale).guidedWorkflows;
+  const availableWorkflows = copy.recipes
     .map((workflow) => ({
       ...workflow,
       steps: workflow.steps.map((step) => ({ ...step, tool: getToolById(step.toolId) })),
@@ -164,8 +41,8 @@ export default function GuidedWorkflowsPage({ locale }: { locale: Locale }) {
                   </span>
                   <div className="min-w-0 flex-1">
                     <p className="text-xs font-black uppercase tracking-[0.14em] text-[var(--muted)]">{String(workflowIndex + 1).padStart(2, "0")} · {workflow.steps.length} {copy.steps}</p>
-                    <h2 className="mt-1 text-xl font-black tracking-[-0.035em]">{workflow.title[locale]}</h2>
-                    <p className="mt-2 text-sm leading-6 text-[var(--muted)]">{workflow.summary[locale]}</p>
+                    <h2 className="mt-1 text-xl font-black tracking-[-0.035em]">{workflow.title}</h2>
+                    <p className="mt-2 text-sm leading-6 text-[var(--muted)]">{workflow.summary}</p>
                   </div>
                 </div>
 
@@ -178,7 +55,7 @@ export default function GuidedWorkflowsPage({ locale }: { locale: Locale }) {
                         <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[var(--border)] bg-[var(--surface-container)] text-xs font-black">{index + 1}</span>
                         <div className="min-w-0 flex-1 pb-1">
                           <Link href={getToolPath(locale, step.toolId)} className="font-bold underline decoration-[var(--outline-variant)] underline-offset-4 hover:decoration-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]">{toolContent.name}</Link>
-                          <p className="mt-1 text-sm leading-6 text-[var(--muted)]">{step.description[locale]}</p>
+                          <p className="mt-1 text-sm leading-6 text-[var(--muted)]">{step.description}</p>
                         </div>
                       </li>
                     );
@@ -191,7 +68,7 @@ export default function GuidedWorkflowsPage({ locale }: { locale: Locale }) {
               </div>
               <div className="border-t border-[var(--border)] bg-[var(--surface-container-low)] px-5 py-4 sm:px-6">
                 <p className="text-xs font-black uppercase tracking-[0.14em] text-[var(--muted)]">{copy.outcome}</p>
-                <p className="mt-1 text-sm font-semibold">{workflow.outcome[locale]}</p>
+                <p className="mt-1 text-sm font-semibold">{workflow.outcome}</p>
               </div>
             </article>
           ))}
