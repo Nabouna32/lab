@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
@@ -8,12 +8,26 @@ import { TextArea } from "@/components/ui/TextArea";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { diffText } from "@/lib/text-diff";
+import { consumePendingTextToolTransfer } from "@/lib/tools/text-transfer";
 
 export default function TextDiffChecker() {
   const locale = useLocale();
   const t = getToolMessages(locale).textDiffChecker;
   const [original, setOriginal] = useState("");
   const [updated, setUpdated] = useState("");
+  const [transferNotice, setTransferNotice] = useState(false);
+
+  useEffect(() => {
+    try {
+      const transferred = consumePendingTextToolTransfer(window.sessionStorage);
+      if (transferred !== null) {
+        setOriginal(transferred);
+        setTransferNotice(true);
+      }
+    } catch {
+      // Storage may be unavailable; manual paste remains available.
+    }
+  }, []);
 
   const result = useMemo(() => {
     if (!original && !updated) return null;
@@ -56,6 +70,8 @@ export default function TextDiffChecker() {
             className="min-h-[14rem] resize-y font-mono text-sm"
           />
         </div>
+
+        {transferNotice && <p role="status" className="mt-4 text-sm text-[var(--muted)]">{t.receivedFromTool}</p>}
 
         <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-[var(--border)] pt-5">
           <div>
