@@ -4,7 +4,7 @@ Dernière vérification : 2026-10-21
 
 ## Travail en cours
 
-- **Factory autonome :** mandat proposé dans [PR #966](https://github.com/Nabouna32/lab/pull/966), checkpoint [issue #965](https://github.com/Nabouna32/lab/issues/965). L’utilisateur déclenche chaque reprise en renvoyant le même prompt ; l’agent reprend depuis le dépôt et le checkpoint durable. Une exécution planifiée en arrière-plan n’est pas requise par défaut ; voir [issue #967](https://github.com/Nabouna32/lab/issues/967) pour évaluer uniquement le besoin d’orchestration distinct.
+- **Factory autonome :** mandat proposé dans [PR #968](https://github.com/Nabouna32/lab/pull/968), checkpoint [issue #965](https://github.com/Nabouna32/lab/issues/965). L’utilisateur déclenche chaque reprise en renvoyant le même prompt ; l’agent reprend depuis le dépôt et le checkpoint durable. Une exécution planifiée en arrière-plan n’est pas requise par défaut ; voir [issue #967](https://github.com/Nabouna32/lab/issues/967) pour évaluer uniquement le besoin d’orchestration distinct.
 
 ## Cinq dernières reprises
 
