@@ -2,7 +2,7 @@
 
 Dernière révision : 2026-10-21. File de travail unique.
 
-- **Intégrité des fichiers / empreintes cryptographiques :** [PR #955](https://github.com/Nabouna32/lab/pull/955) étend le générateur de hash aux fichiers locaux jusqu’à 100 Mio et permet de comparer une empreinte de référence ; traitement navigateur, sans upload ni dépendance ajoutée. CI en cours.
+- **Intégrité des fichiers / empreintes cryptographiques :** [PR #955](https://github.com/Nabouna32/lab/pull/955) étend le générateur de hash aux fichiers locaux jusqu’à 100 Mio et permet de comparer une empreinte de référence ; traitement navigateur, sans upload ni dépendance ajoutée. CI complète verte ([run #39553923138](https://github.com/Nabouna32/lab/actions/runs/39553923138)) ; déploiement production `READY` ([Vercel](https://vercel.com/nabouna32/loculary/5BccRteCB5BQdCUsFVsEUK9FybE3)).
 
 - **Réseaux / calculateur IPv6 CIDR :** [PR #953](https://github.com/Nabouna32/lab/pull/953), nouvelle capacité locale pour normaliser une adresse, calculer le préfixe réseau et la dernière adresse, et compter précisément jusqu’à 2^128 adresses. Prend en charge les préfixes /0 à /128, sans attribuer de broadcast ou de nombre d’hôtes utilisables à IPv6 ; CI complète verte ([run #39550153017](https://github.com/Nabouna32/lab/actions/runs/39550153017)) et déploiement production `READY` ([Vercel](https://vercel.com/nabouna32/loculary/FpdN5darAggr7PTSVHTX4RCKLzy2)).
 
