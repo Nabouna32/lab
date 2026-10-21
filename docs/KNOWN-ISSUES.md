@@ -56,7 +56,7 @@ Dernière vérification : 2026-10-21. Ce registre résume les blocages persistan
 
 ## 6. Stabilité des smoke tests Playwright sur le runner CI Windows
 
-- **État :** symptôme observé, cause racine non confirmée ; suivi dans [issue #741](https://github.com/Nabouna32/lab/issues/741).
+- **État :** mitigation appliquée ; symptôme non reproduit sur deux exécutions complètes après réduction à un worker. La cause racine demeure non confirmée ; suivi dans [issue #741](https://github.com/Nabouna32/lab/issues/741).
 - **Preuve :** le run [#39664661732](https://github.com/Nabouna32/lab/actions/runs/39664661732) a réussi lint, TypeScript et les tests unitaires, mais échoué dans le job build + Playwright ; le test `group expense splitter calculates local reimbursements` a rencontré `net::ERR_NO_BUFFER_SPACE` dans le projet `desktop-dark`, puis le contrôle global de console a échoué.
 - **Hypothèse, pas fait établi :** la concurrence des tests ou la pression de ressources Chromium/Windows peut contribuer au symptôme. Le journal disponible ne suffit pas à établir la cause.
 - **Mesure retenue dans [PR #963](https://github.com/Nabouna32/lab/pull/963) :** passer à un worker Playwright lorsque `CI=true`, conserver les quatre projets fonctionnels existants, zéro retry et les diagnostics textuels. Ne pas ajouter de captures, traces ou uploads pour contourner le problème.
