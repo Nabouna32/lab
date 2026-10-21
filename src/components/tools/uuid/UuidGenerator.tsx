@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/Button";
+import { Button, OutlinedButton } from "@/components/ui/Button";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { TextField } from "@/components/ui/TextField";
@@ -43,7 +43,7 @@ export default function UuidGenerator() {
           onChange={(event) => { setCount(event.target.value); setError(false); }} placeholder={t.countPlaceholder}
           aria-invalid={error} aria-describedby={error ? "uuid-count-error" : undefined} />
         <div className="flex flex-wrap gap-2">
-          <Button type="button" variant="primary" onClick={generate}>{t.generate}</Button>
+          <Button type="button" onClick={generate}>{t.generate}</Button>
           <ClearButton onClear={clear} disabled={result.length === 0} label={t.clear} />
         </div>
       </div>
@@ -56,7 +56,7 @@ export default function UuidGenerator() {
           {result.length > 0 && (
             <div className="flex flex-wrap gap-2">
               <CopyButton value={output} label={t.copy} />
-              <Button type="button" variant="secondary" onClick={download}>{t.download}</Button>
+              <OutlinedButton type="button" onClick={download}>{t.download}</OutlinedButton>
             </div>
           )}
         </div>

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { getMessages } from "@/lib/i18n/messages";
 import { useToolRuntime } from "@/components/tools/ToolPage/ToolRuntimeProvider";
-import { Button } from "@/components/ui/Button";
+import { OutlinedButton } from "@/components/ui/Button";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
 
 type CopyButtonProps = {
@@ -33,8 +33,7 @@ export function CopyButton({ value, label, copiedLabel }: CopyButtonProps) {
   const buttonLabel = copied ? copiedLabel ?? t.copied : label ?? t.copy;
 
   return (
-    <Button
-      variant="secondary"
+    <OutlinedButton
       leadingIcon
       type="button"
       onClick={handleCopy}
@@ -43,6 +42,6 @@ export function CopyButton({ value, label, copiedLabel }: CopyButtonProps) {
     >
       <MaterialIcon name={copied ? "check" : "content_copy"} size={18} />
       <span aria-live="polite">{buttonLabel}</span>
-    </Button>
+    </OutlinedButton>
   );
 }

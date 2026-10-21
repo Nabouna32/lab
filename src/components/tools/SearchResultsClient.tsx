@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import ToolCard from "@/components/tools/ToolCard";
 import ToolSearch from "@/components/tools/ToolSearch";
-import { Button } from "@/components/ui/Button";
+import { OutlinedButton } from "@/components/ui/Button";
 import { getMessages } from "@/lib/i18n/messages";
 import { formatPlural } from "@/lib/i18n/plural";
 import { categories, getCategoryName } from "@/lib/tools/categories";
@@ -150,9 +150,9 @@ export default function SearchResultsClient({ locale }: { locale: Locale }) {
         ) : searchError ? (
           <section className="mt-5 rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8" aria-labelledby="search-results-error-title">
             <h2 id="search-results-error-title" className="text-xl font-bold">{t.tools.searchError}</h2>
-            <Button type="button" variant="secondary" className="mt-4" onClick={() => setSearchRetryCount((count) => count + 1)}>
+            <OutlinedButton type="button" className="mt-4" onClick={() => setSearchRetryCount((count) => count + 1)}>
               {t.tools.retrySearch}
-            </Button>
+            </OutlinedButton>
           </section>
         ) : results.length > 0 ? (
           <>
