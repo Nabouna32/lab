@@ -2,7 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { LOCAL_COLLECTIONS_KEY, normalizeLocalCollections, parseLocalCollections, type StoredLocalCollection } from "@/lib/collections/local-collections";
+import { LOCAL_COLLECTIONS_KEY, MAX_LOCAL_COLLECTIONS, normalizeLocalCollections, parseLocalCollections, type StoredLocalCollection } from "@/lib/collections/local-collections";
 
 export type PersonalCollection = {
   id: string;
@@ -177,6 +177,7 @@ export function CollectionsProvider({ children, toolIds }: { children: ReactNode
     const name = rawName.trim();
     if (!name || name.length > 80) return false;
     if (!synchronize) {
+      if (localCollections.length >= MAX_LOCAL_COLLECTIONS) return false;
       return persistLocalCollections([...localCollections, {
         id: `local-${crypto.randomUUID()}`,
         name,
