@@ -49,12 +49,12 @@ export default function HomeDiscovery({ locale }: { locale: Locale }) {
           <span className="flex items-start gap-3">
             <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[var(--accent-soft)] text-xl text-[var(--accent)]" aria-hidden="true">↗</span>
             <span className="min-w-0">
-              <span id="home-workflows-title" className="block font-black">{locale === "fr" ? "Parcours guidés" : "Guided workflows"}</span>
-              <span className="mt-1 block max-w-2xl text-sm leading-6 text-[var(--muted)]">{locale === "fr" ? "Une tâche, plusieurs étapes : suivez un chemin concret plutôt que de chercher chaque outil séparément." : "One task, several steps: follow a practical path instead of finding every tool separately."}</span>
+              <span id="home-workflows-title" className="block font-black">{t.guidedWorkflows.homeTitle}</span>
+              <span className="mt-1 block max-w-2xl text-sm leading-6 text-[var(--muted)]">{t.guidedWorkflows.homeDescription}</span>
             </span>
           </span>
           <span className="inline-flex min-h-10 shrink-0 items-center justify-center gap-2 rounded-full bg-[var(--primary)] px-4 text-sm font-bold text-[var(--on-primary)]">
-            {locale === "fr" ? "Voir les parcours" : "Explore paths"} <span aria-hidden="true">→</span>
+            {t.guidedWorkflows.homeAction} <span aria-hidden="true">→</span>
           </span>
         </Link>
       </section>
