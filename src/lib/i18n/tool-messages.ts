@@ -96,6 +96,8 @@ type ToolMessages = {
     hint: string; invalidJson: string; inputTooLarge: string; depthLimit: string; emptyResult: string; identical: string;
     changesCount: (count: number) => string; added: string; removed: string; changed: string; before: string; after: string;
     path: string; results: string; truncated: string; copyReport: string; loadFile: string; fileTypeError: string; fileTooLarge: string; fileReadError: string; receivedFromFormatter: string;
+    summary: string; searchPath: string; searchPathPlaceholder: string; filterChanges: string; allChanges: string; noMatchingChanges: string;
+    filteredChangesCount: (visible: number, total: number) => string;
   };
   yamlFormatterValidator: {
     input: string; inputYaml: string; inputJson: string; placeholder: string; jsonPlaceholder: string; output: string; outputYaml: string; outputJson: string;
@@ -407,6 +409,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       invalidJson: "Vérifiez que les deux entrées sont des documents JSON valides.", inputTooLarge: "Chaque document doit contenir au maximum 200 000 caractères.", depthLimit: "La structure JSON est trop profondément imbriquée pour être comparée en toute sécurité.",
       emptyResult: "Saisissez les deux documents JSON puis lancez la comparaison.", identical: "Aucune différence structurelle détectée.", changesCount: (count) => count + (count === 1 ? " différence" : " différences"),
       added: "Ajouté", removed: "Supprimé", changed: "Modifié", before: "Avant", after: "Après", path: "Chemin", results: "Différences", truncated: "Résultat limité aux 500 premières différences.", copyReport: "Copier le rapport", loadFile: "Importer un fichier", fileTypeError: "Choisissez un fichier JSON (.json).", fileTooLarge: "Le fichier dépasse la limite de 200 000 caractères.", fileReadError: "Impossible de lire ce fichier sur votre appareil.", receivedFromFormatter: "Le JSON formaté a été placé dans « Nouveau JSON ». Ajoutez le JSON de référence puis comparez.",
+      summary: "Résumé des changements", searchPath: "Rechercher un chemin JSON", searchPathPlaceholder: "Ex. user.email ou items[0]", filterChanges: "Filtrer les changements", allChanges: "Tout", noMatchingChanges: "Aucun changement ne correspond à ces filtres.", filteredChangesCount: (visible, total) => visible === total ? visible + (visible === 1 ? " différence affichée" : " différences affichées") : visible + " sur " + total + " différences affichées",
     },
     yamlFormatterValidator: {
       input: "Votre document", inputYaml: "Votre YAML", inputJson: "Votre JSON", placeholder: "name: Loculary\\ntools:\\n  - JSON\\n  - YAML", jsonPlaceholder: '{\\n  "name": "Loculary",\\n  "tools": ["JSON", "YAML"]\\n}',
@@ -729,6 +732,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       invalidJson: "Check that both inputs are valid JSON documents.", inputTooLarge: "Each document must contain at most 200,000 characters.", depthLimit: "The JSON structure is nested too deeply to compare safely.",
       emptyResult: "Enter both JSON documents, then compare them.", identical: "No structural differences found.", changesCount: (count) => count + (count === 1 ? " difference" : " differences"),
       added: "Added", removed: "Removed", changed: "Changed", before: "Before", after: "After", path: "Path", results: "Differences", truncated: "Showing the first 500 differences only.", copyReport: "Copy report", loadFile: "Import a file", fileTypeError: "Choose a JSON file (.json).", fileTooLarge: "The file exceeds the 200,000-character limit.", fileReadError: "Could not read this file on your device.", receivedFromFormatter: "The formatted JSON was added to “New JSON”. Add the reference JSON, then compare.",
+      summary: "Change summary", searchPath: "Search JSON path", searchPathPlaceholder: "e.g. user.email or items[0]", filterChanges: "Filter changes", allChanges: "All", noMatchingChanges: "No changes match these filters.", filteredChangesCount: (visible, total) => visible === total ? visible + (visible === 1 ? " difference shown" : " differences shown") : visible + " of " + total + " differences shown",
     },
     yamlFormatterValidator: {
       input: "Your document", inputYaml: "Your YAML", inputJson: "Your JSON", placeholder: "name: Loculary\\ntools:\\n  - JSON\\n  - YAML", jsonPlaceholder: '{\\n  "name": "Loculary",\\n  "tools": ["JSON", "YAML"]\\n}',
