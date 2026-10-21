@@ -663,3 +663,20 @@ This enables multi-step workflows without accounts or backend storage and avoids
 - The first supported handoff is JSON Formatter → JSON Diff Checker, inserting the value into the “new JSON” side.
 - The transfer is limited to 200,000 characters, scoped to the current tab, and removed after consumption.
 - Additional handoffs must explicitly validate format compatibility, destination field semantics, and failure handling.
+
+
+## DEC-030 — Scoped JSON path extraction
+
+**Status:** Accepted
+
+### Decision
+
+Add local JSON path extraction to the existing formatter, supporting root (`$`), dot properties, quoted bracket properties, and numeric array indices. Do not claim full JSONPath support.
+
+### Reason
+
+Inspecting one nested value is a natural follow-up to formatting JSON and should not require another page or dependency.
+
+### Consequences
+
+Parsing and extraction happen in the browser. Unsupported expressions return a clear error; broader JSONPath features require evidence of user need before implementation.
