@@ -92,7 +92,7 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 - **Limite de vérification restante :** la suite Chromium et ses captures sont maintenant consultables depuis la session distante, mais elle ne couvre que quatre parcours représentatifs. Aucun audit axe-core/Lighthouse, contraste automatisé, détection exhaustive des chevauchements ou test multi-navigateurs n’est inclus ; une revue visuelle humaine reste nécessaire pour les changements d’interface importants.
 - Les PR d'harmonisation du menu d'en-tête (#742–#746), les correctifs de sécurité #747 et #764, de capacités presse-papiers #753, de géométrie IconButton #755, d'état d'erreur des contrôles de formulaire #756–#757, de motion ProgressIndicator #759, d'accessibilité ToolSearch #762 et de justesse EXIF/i18n #768 sont fusionnés. DEC-028 a été consignée dans la PR documentaire #758 ; le checkpoint de lancement a été actualisé par #766.
 
-## Dernières reprises / lots livrés
+## Cinq dernières reprises / lots livrés
 
 > Mémoire opérationnelle par session de travail, avec les PR représentatives et preuves vérifiables.
 
@@ -101,7 +101,6 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 3. **Produit / comparateur JSON explorables** — résumé par type, filtres, recherche par chemin et rapport copiable des changements affichés. [PR #929](https://github.com/Nabouna32/lab/pull/929).
 4. **Parcours / comparateur multi-villes de fuseaux horaires** — comparer une heure source à plusieurs villes et copier tous les résultats. [PR #928](https://github.com/Nabouna32/lab/pull/928).
 5. **Nouvel outil / comparateur CSV** — comparer deux exports avec rapprochement par clé, traitement local et rapport des changements. [PR #927](https://github.com/Nabouna32/lab/pull/927).
-6. **Conversion CSV → JSON typée (optionnelle)** — inférence de types scalaires sans convertir par défaut les identifiants avec zéros initiaux. [PR #926](https://github.com/Nabouna32/lab/pull/926).
 
 ## Priorités immédiates
 
