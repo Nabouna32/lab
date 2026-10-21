@@ -254,7 +254,7 @@ test("image metadata cleaner processes multiple images and downloads a ZIP", asy
   await expect(page.getByText("2 images sélectionnées")).toBeVisible();
   await expect(page.getByText("1 × 1 px").first()).toBeVisible();
   await page.getByRole("button", { name: "Nettoyer toutes les images" }).click();
-  await expect(page.getByText("Nettoyée", { exact: true })).toHaveCount(2);
+  await expect(page.getByText("Nettoyée", { exact: true })).toHaveCount(3);
   await expect(page.getByText("2 images nettoyées sur 2. Téléchargez l’archive ZIP pour les récupérer.")).toBeVisible();
 
   const downloadPromise = page.waitForEvent("download");
