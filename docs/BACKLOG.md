@@ -2,6 +2,8 @@
 
 Dernière révision : 2026-10-21. File de travail unique.
 
+- **Générateur QR / accès Wi-Fi :** [PR #931](https://github.com/Nabouna32/lab/pull/931). Mode Wi-Fi local avec SSID, type de sécurité, mot de passe, réseau masqué et avertissement de confidentialité ; conserve le mode texte/lien.
+
 - **Comparateur JSON explorables :** [PR #929](https://github.com/Nabouna32/lab/pull/929). Synthèse par type, recherche par chemin, filtres et rapport copiable respectant les filtres actifs.
 
 - **Parcours / comparateur multi-villes de fuseaux horaires :** comparer une heure locale source à jusqu’à six destinations, gérer les changements d’heure et copier le planning complet, sans réseau ni compte.
