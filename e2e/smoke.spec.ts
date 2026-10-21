@@ -288,7 +288,7 @@ test("JSON formatter hands its result to the comparator without manual copy and 
   await page.getByRole("button", { name: "Comparer avec un autre JSON" }).click();
   await expect(page).toHaveURL(/\/fr\/outils\/comparateur-json$/);
   await expect(page.locator("#json-diff-right")).toHaveValue('{\n  "name": "Loculary",\n  "version": 1\n}');
-  await expect(page.getByRole("status").filter({ hasText: "Le JSON transmis a été placé dans" })).toBeVisible();
+  await expect(page.locator('p[role="status"]').filter({ hasText: "Le JSON transmis a été placé dans" })).toBeVisible();
 
   await page.locator("#json-diff-left").fill('{"name":"Loculary","version":0}');
   await page.getByRole("button", { name: "Comparer", exact: true }).click();
