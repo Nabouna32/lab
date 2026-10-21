@@ -2,6 +2,8 @@
 
 Dernière vérification : 2026-10-21
 
+- **Parcours texte / transmission entre outils :** le Nettoyeur et trieur de lignes peut préremplir le comparateur de texte avec le résultat nettoyé. Transfert local, ciblé, à usage unique, limité à 200 000 caractères et expirant après cinq minutes. Messages FR/EN et tests de contrat du helper ; CI de la PR en attente.
+
 - **Planche-contact d’images :** nouvel outil FR/EN qui assemble jusqu’à 20 images en une planche PNG locale ; choix de 2–4 colonnes, fond et légendes, aperçu et téléchargement. PR #947 fusionnée ; CI complète verte ([run #39542653393](https://github.com/Nabouna32/lab/actions/runs/39542653393)) et déploiement Vercel `READY` ([déploiement](https://vercel.com/nabouna32/loculary/6KcxiV5x3ArtXAne9MAm4ccF55sm)).  
 - **Conversion d’images en PDF :** outil local multipage A4/Lettre, jusqu’à 10 images JPEG/PNG/WebP, orientation automatique et export sans téléversement. PR #945 fusionnée ; PR #946 permet de réordonner les pages. CI complète verte sur la tête finale de PR #946 ([run #39541009240](https://github.com/Nabouna32/lab/actions/runs/39541009240)).  
 Source de vérité : dépôt GitHub, CI, issues et déploiements liés ci-dessous. Ce document est un tableau de bord concis, pas un remplacement des spécifications produit.
