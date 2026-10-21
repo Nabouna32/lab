@@ -12,7 +12,7 @@ test("collection creation prevents duplicate submissions and restores its button
   assert.match(createBody, /creatingRef\.current/);
   assert.match(createBody, /finally \{/);
   assert.match(createBody, /setCreating\(false\)/);
-  assert.match(source, /disabled=\{data\.loading \|\| creating \|\| !name\.trim\(\)\}/);
+  assert.match(source, /disabled=\{data\.loading \|\| creating \|\| !name\.trim\(\) \|\| \(\(\!data\.userId \|\| \!synchronize\) \&\& localLimitReached\)\}/);
 });
 
 test("adding a tool prevents duplicate submissions and reports thrown errors", async () => {
