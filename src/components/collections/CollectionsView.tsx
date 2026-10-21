@@ -6,6 +6,7 @@ import type { Locale } from "@/lib/i18n/config";
 import { useCollections } from "./CollectionsProvider";
 import { CollectionIcon } from "@/components/ui/CollectionIcon";
 import { Button } from "@/components/ui/Button";
+import { MAX_LOCAL_COLLECTIONS } from "@/lib/collections/local-collections";
 
 export type CollectionTool = { id: string; icon: string; name: string; description: string; href: string };
 
@@ -29,6 +30,7 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
     signIn: fr ? "Connecte-toi pour synchroniser une collection entre tes appareils." : "Sign in to sync a collection across your devices.",
     syncLabel: fr ? "Synchroniser sur mes appareils" : "Sync across my devices",
     localOnly: fr ? "Sur cet appareil" : "On this device",
+    localLimit: fr ? `Limite atteinte : ${MAX_LOCAL_COLLECTIONS} collections locales sur cet appareil.` : `Limit reached: ${MAX_LOCAL_COLLECTIONS} local collections on this device.`,
     accountOnly: fr ? "Synchronisée" : "Synced",
     localNote: fr ? "Les collections locales restent dans ce navigateur. Elles contiennent uniquement les noms des collections et les identifiants des outils, jamais les données saisies dans les outils." : "Local collections stay in this browser. They contain only collection names and tool IDs, never data entered into tools.",
     accountNote: fr ? "Tu peux aussi créer des collections locales, réservées à cet appareil, en décochant la synchronisation." : "You can also create device-only collections by turning sync off.",
@@ -50,6 +52,8 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
     error: fr ? "Une erreur est survenue. Réessaie." : "Something went wrong. Try again.",
   };
   const active = data.collections.find((collection) => collection.id === activeCollection);
+  const localCollectionCount = data.collections.filter((collection) => collection.storage === "local").length;
+  const localLimitReached = localCollectionCount >= MAX_LOCAL_COLLECTIONS;
 
   async function create() {
     if (creatingRef.current || !name.trim() || data.loading) return;
@@ -99,9 +103,10 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
       <form className="mb-6 flex flex-col gap-3 rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-4 sm:flex-row" onSubmit={(event) => { event.preventDefault(); void create(); }}>
         <input value={name} onChange={(event) => setName(event.target.value)} maxLength={80} required placeholder={copy.placeholder} aria-label={copy.placeholder} className="min-h-12 min-w-0 flex-1 rounded-[var(--radius-lg)] border border-[var(--outline)] bg-[var(--surface)] px-4 text-[var(--foreground)] outline-none transition-[border-color,box-shadow] duration-[var(--motion-standard)] hover:border-[var(--border-strong)] focus-visible:border-[var(--primary)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface)]" />
             {data.userId && <label className="flex min-h-12 items-center gap-2 text-sm text-[var(--muted)] sm:px-2"><input type="checkbox" checked={synchronize} onChange={(event) => setSynchronize(event.target.checked)} className="h-4 w-4 accent-[var(--primary)]" />{copy.syncLabel}</label>}
-        <Button type="submit" variant="filled" disabled={data.loading || creating || !name.trim()}>{creating ? (fr ? "Création…" : "Creating…") : copy.create}</Button>
+        <Button type="submit" variant="filled" disabled={data.loading || creating || !name.trim() || ((!data.userId || !synchronize) && localLimitReached)}>{creating ? (fr ? "Création…" : "Creating…") : copy.create}</Button>
       </form>
       <p className="mb-6 text-sm leading-6 text-[var(--muted)]">{copy.localNote} {data.userId ? copy.accountNote : copy.signIn}</p>
+      {((!data.userId || !synchronize) && localLimitReached) && <p role="status" className="mb-5 text-sm text-[var(--muted)]">{copy.localLimit}</p>}
 
       {data.loading ? <p className="py-8 text-center text-sm text-[var(--muted)]">{fr ? "Chargement…" : "Loading…"}</p> : data.collections.length === 0 ? (
             <section className="rounded-[var(--radius-xl)] border border-dashed border-[var(--border-strong)] bg-[var(--surface)] px-6 py-10 text-center">
