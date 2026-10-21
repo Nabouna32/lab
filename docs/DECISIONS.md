@@ -709,7 +709,7 @@ Browser storage is intentionally local-first but can be cleared, and local colle
 
 ### Decision
 
-Keep the full CI suite as the default for dependency-manifest changes. Permit a targeted path only when the pull request changes exactly `package.json` and `package-lock.json`, and the parsed manifest diff proves that the sole dependency change is an upgrade of `devDependencies.eslint`. That path must still install dependencies, compare high-severity npm advisories against the base, and run lint. Unknown packages, additional metadata or script changes, mixed file changes, and ambiguous manifests fall back to the full suite.
+Keep the full CI suite as the default for dependency-manifest changes. Permit a targeted path only when the pull request changes exactly `package.json` and `package-lock.json`, the parsed manifest diff proves that the sole dependency change is an upgrade of `devDependencies.eslint`, and every changed lockfile entry is reachable from the ESLint/`eslint-config-next` graph but not from another direct dependency graph. That path must still install dependencies, compare high-severity npm advisories against the base, and run lint. Unknown packages, additional metadata or script changes, mixed file changes, and ambiguous manifests fall back to the full suite.
 
 Run Playwright with one worker in CI while retaining the existing desktop/mobile and light/dark functional projects. Keep retries disabled and browser diagnostics text-only; do not generate or upload screenshots/traces as a stability workaround.
 
