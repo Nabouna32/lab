@@ -7,7 +7,7 @@ import ToolSearch from "@/components/tools/ToolSearch";
 import { isLocale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
 import { getPublicPageMetadata } from "@/lib/tools/page-metadata";
-import { getToolPath, getToolsPath } from "@/lib/tools/routes";
+import { getToolsPath } from "@/lib/tools/routes";
 import { getPublishedTools } from "@/lib/tools/catalog";
 import { getToolContent } from "@/lib/tools/types";
 import { getRainbowFrameStyle } from "@/lib/design-system/rainbow-tones";
