@@ -84,7 +84,6 @@ function HeaderSearchPanel({
       <IconButton
         ref={triggerRef}
         label={searchLabel}
-        className=""
         selected={open}
         aria-expanded={open}
         aria-controls={open ? "header-tool-search-panel" : undefined}
