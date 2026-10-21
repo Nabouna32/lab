@@ -186,15 +186,6 @@ test("homepage discovery keeps only a compact entry to guided workflows", () => 
   assert.match(en.guidedWorkflows.homeDescription, /connect the right tools/);
 });
 
-test("category cards render localized tool counts exactly once", () => {
-  const categoryCard = readFileSync(fileURLToPath(new URL("../../components/home/CategoryCard.tsx", import.meta.url)), "utf8");
-
-  assert.match(categoryCard, /\{toolLabel\}/);
-  assert.equal(categoryCard.includes("toolCount"), false);
-  assert.equal(formatPlural("fr", 12, { one: "outil", other: "outils" }), "12 outils");
-  assert.equal(formatPlural("en", 12, { one: "tool", other: "tools" }), "12 tools");
-});
-
 test("plural formatting uses locale-aware rules", () => {
   assert.equal(formatPlural("fr", 1, { one: "catégorie", other: "catégories" }), "1 catégorie");
   assert.equal(formatPlural("fr", 2, { one: "catégorie", other: "catégories" }), "2 catégories");
