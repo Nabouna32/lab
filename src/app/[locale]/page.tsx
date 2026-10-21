@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
-import HomeDiscovery from "@/components/home/HomeDiscovery";
+import HomeDiscovery from "@/components/home/HomeGuidedWorkflows";
 import RecentTools from "@/components/home/RecentTools";
 import ToolSearch from "@/components/tools/ToolSearch";
 import { isLocale } from "@/lib/i18n/config";
@@ -83,7 +83,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       </section>
 
       <RecentTools locale={locale} tools={recentTools} />
-      <HomeDiscovery locale={locale} />
+      <HomeGuidedWorkflows locale={locale} />
     </main>
   );
 }
