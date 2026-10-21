@@ -2,6 +2,8 @@
 
 Dernière révision : 2026-10-21. File de travail unique.
 
+- **Nouvel outil grand public / Répartiteur de dépenses de groupe :** saisir les participants et les dépenses, répartir chaque dépense à parts égales et calculer les remboursements à effectuer avec un minimum de virements. Calcul local, sans compte ni conservation des noms et montants après fermeture/rechargement.
+
 - **Découverte par tâche / Comparer :** nouvelle entrée transversale qui rassemble le comparateur JSON, le comparateur CSV, le comparateur de texte et le convertisseur de fuseaux horaires. La personne part de son objectif plutôt que du nom ou de la catégorie technique de l’outil.
 
 - **Comparateur JSON explorables :** [PR #929](https://github.com/Nabouna32/lab/pull/929). Synthèse par type, recherche par chemin, filtres et rapport copiable respectant les filtres actifs.
