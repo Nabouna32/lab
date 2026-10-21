@@ -252,7 +252,7 @@ test("shared action controls use semantic state-layer colors instead of brightne
   assert.match(buttonSource, /var\(--primary\)_92%,var\(--on-primary\)/);
   assert.match(buttonSource, /var\(--secondary-container\)_92%,var\(--on-secondary-container\)/);
   assert.match(iconButtonSource, /var\(--primary\)_92%,var\(--on-primary\)/);
-  assert.match(favoriteSource, /variant=\{active \? "filled-tonal" : "outlined"\}/);
+  assert.ok(favoriteSource.includes("const FavoriteActionButton = active ? FilledTonalButton : OutlinedButton;"));
   assert.match(favoriteSource, /import \{ IconButton \} from "@\/components\/ui\/IconButton"/);
   assert.match(accountActionSource, /var\(--primary\)_92%,var\(--on-primary\)/);
   assert.match(collectionsSource, /<Button type="submit" disabled=/);

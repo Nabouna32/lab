@@ -132,13 +132,13 @@ test("Button audit preview provides contextual verification guidance in French a
 });
 
 test("favorite action uses shared M3 controls and never shrinks icon touch target below 48px", () => {
-  assert.ok(favoriteButton.includes('import { Button } from "@/components/ui/Button"'));
+  assert.ok(favoriteButton.includes('import { FilledTonalButton, OutlinedButton } from "@/components/ui/Button"'));
   assert.ok(favoriteButton.includes('import { IconButton } from "@/components/ui/IconButton"'));
   assert.ok(favoriteButton.includes('if (compact)'));
   assert.ok(favoriteButton.includes("<IconButton"));
   assert.ok(favoriteButton.includes('<StarIcon filled={active} size={24} className="h-6 w-6 shrink-0" />'));
   assert.ok(readFileSync(new URL("../../components/ui/StarIcon.tsx", import.meta.url), "utf8").includes("size = 20"));
-  assert.ok(favoriteButton.includes('variant={active ? "filled-tonal" : "outlined"}'));
+  assert.ok(favoriteButton.includes("const FavoriteActionButton = active ? FilledTonalButton : OutlinedButton;"));
   assert.ok(favoriteButton.includes("selected={active}"));
   assert.ok(!favoriteButton.includes("min-h-10 min-w-10"));
 });

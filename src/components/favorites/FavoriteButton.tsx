@@ -1,7 +1,7 @@
 "use client";
 
 import type { Locale } from "@/lib/i18n/config";
-import { Button } from "@/components/ui/Button";
+import { FilledTonalButton, OutlinedButton } from "@/components/ui/Button";
 import { IconButton } from "@/components/ui/IconButton";
 import { StarIcon } from "@/components/ui/StarIcon";
 import { useFavorites } from "./FavoritesProvider";
@@ -14,6 +14,7 @@ export default function FavoriteButton({ toolId, locale, compact = false }: { to
     ? active ? "Retirer des favoris" : "Ajouter aux favoris"
     : active ? "Remove from favorites" : "Add to favorites";
   const disabled = favorites.loading || favorites.error || pending;
+  const FavoriteActionButton = active ? FilledTonalButton : OutlinedButton;
 
   if (compact) {
     return (
@@ -32,9 +33,8 @@ export default function FavoriteButton({ toolId, locale, compact = false }: { to
   }
 
   return (
-    <Button
+    <FavoriteActionButton
       type="button"
-      variant={active ? "filled-tonal" : "outlined"}
       aria-pressed={active}
       aria-busy={pending}
       aria-label={label}
@@ -44,6 +44,6 @@ export default function FavoriteButton({ toolId, locale, compact = false }: { to
     >
       <StarIcon filled={active} className="h-5 w-5 shrink-0" />
       <span>{label}</span>
-    </Button>
+    </FavoriteActionButton>
   );
 }
