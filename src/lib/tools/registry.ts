@@ -192,6 +192,10 @@ const moduleLoaders: Partial<Record<ToolId, ToolModule>> = {
     () => import("@/components/tools/ip-subnet-calculator/IpSubnetCalculator"),
     () => import("@/components/tools/ip-subnet-calculator/ToolEditorial"),
   ),
+  "ipv6-subnet-calculator": createToolModule(
+    () => import("@/components/tools/ipv6-subnet-calculator/Ipv6SubnetCalculator"),
+    () => import("@/components/tools/ipv6-subnet-calculator/ToolEditorial"),
+  ),
   "text-diff-checker": createToolModule(
     () => import("@/components/tools/text-diff-checker/TextDiffChecker"),
     () => import("@/components/tools/text-diff-checker/ToolEditorial"),
