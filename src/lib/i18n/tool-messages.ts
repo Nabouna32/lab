@@ -232,6 +232,13 @@ type ToolMessages = {
     result: string; emptyResult: string; resourceLimit: string; copy: string; clear: string; reset: string;
     summary: (added: number, removed: number, unchanged: number) => string;
   };
+  csvDiffChecker: {
+    before: string; beforePlaceholder: string; after: string; afterPlaceholder: string; delimiter: string;
+    delimiterAuto: string; delimiterComma: string; delimiterSemicolon: string; delimiterTab: string; keyColumn: string; byRow: string;
+    compare: string; clear: string; result: string; emptyResult: string; identical: string; summary: (added: number, removed: number, changed: number) => string;
+    added: string; removed: string; changed: string; row: string; copy: string;
+    errorEmpty: string; errorTooLarge: string; errorInvalid: string; errorHeaders: string; errorDuplicateKey: string; errorMissingKey: string; errorTooManyRows: string;
+  };
   videoBitrate: {
     mode: string; duration: string; hours: string; minutes: string; seconds: string;
     hoursPlaceholder: string; minutesPlaceholder: string; secondsPlaceholder: string;
@@ -445,6 +452,13 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       original: "Version originale", originalPlaceholder: "Collez le texte original…", updated: "Version modifiée", updatedPlaceholder: "Collez le texte modifié…",
       result: "Comparaison", emptyResult: "Collez deux versions pour afficher les différences.", resourceLimit: "Les textes sont trop volumineux pour être comparés en toute sécurité.", copy: "Copier le diff", clear: "Effacer", reset: "Réinitialiser",
       summary: (added, removed, unchanged) => `+${added} ajout${added === 1 ? "" : "s"} · -${removed} suppression${removed === 1 ? "" : "s"} · ${unchanged} ligne${unchanged === 1 ? "" : "s"} inchangée${unchanged === 1 ? "" : "s"}`,
+    },
+    csvDiffChecker: {
+      before: "Export CSV initial", beforePlaceholder: "Collez le premier export CSV…", after: "Nouvel export CSV", afterPlaceholder: "Collez le second export CSV…",
+      delimiter: "Séparateur", delimiterAuto: "Détection automatique", delimiterComma: "Virgule (,)", delimiterSemicolon: "Point-virgule (;)", delimiterTab: "Tabulation", keyColumn: "Colonne d’identification", byRow: "Comparer par position de ligne",
+      compare: "Comparer les exports", clear: "Effacer", result: "Différences", emptyResult: "Collez deux exports CSV puis lancez la comparaison.", identical: "Aucune différence détectée.", summary: (added, removed, changed) => `+${added} ajouté(s) · −${removed} supprimé(s) · ${changed} modifié(s)`,
+      added: "Ajouté", removed: "Supprimé", changed: "Modifié", row: "Ligne", copy: "Copier le rapport",
+      errorEmpty: "Collez deux exports CSV non vides.", errorTooLarge: "Chaque export est limité à 200 000 caractères.", errorInvalid: "Le CSV est invalide : vérifiez les guillemets, le séparateur et le nombre de colonnes.", errorHeaders: "Les en-têtes doivent être uniques et non vides.", errorDuplicateKey: "La colonne d’identification contient une valeur vide ou en double.", errorMissingKey: "La colonne choisie doit exister dans les deux exports.", errorTooManyRows: "Chaque export est limité à 10 000 lignes.",
     },
     cronExpression: {
       input: "Expression Cron", placeholder: "ex. 0 9 * * 1-5", result: "Analyse", valid: "Expression valide",
@@ -769,6 +783,13 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       original: "Original version", originalPlaceholder: "Paste the original text…", updated: "Updated version", updatedPlaceholder: "Paste the updated text…",
       result: "Comparison", emptyResult: "Paste two versions to see the differences.", resourceLimit: "The texts are too large to compare safely.", copy: "Copy diff", clear: "Clear", reset: "Reset",
       summary: (added, removed, unchanged) => `+${added} addition${added === 1 ? "" : "s"} · -${removed} removal${removed === 1 ? "" : "s"} · ${unchanged} unchanged line${unchanged === 1 ? "" : "s"}`,
+    },
+    csvDiffChecker: {
+      before: "Original CSV export", beforePlaceholder: "Paste the first CSV export…", after: "New CSV export", afterPlaceholder: "Paste the second CSV export…",
+      delimiter: "Delimiter", delimiterAuto: "Auto-detect", delimiterComma: "Comma (,)", delimiterSemicolon: "Semicolon (;)", delimiterTab: "Tab", keyColumn: "Record key column", byRow: "Compare by row position",
+      compare: "Compare exports", clear: "Clear", result: "Differences", emptyResult: "Paste two CSV exports and run the comparison.", identical: "No differences found.", summary: (added, removed, changed) => `+${added} added · −${removed} removed · ${changed} changed`,
+      added: "Added", removed: "Removed", changed: "Changed", row: "Row", copy: "Copy report",
+      errorEmpty: "Paste two non-empty CSV exports.", errorTooLarge: "Each export is limited to 200,000 characters.", errorInvalid: "Invalid CSV: check quoting, delimiter, and column counts.", errorHeaders: "Headers must be unique and non-empty.", errorDuplicateKey: "The record key column contains an empty or duplicate value.", errorMissingKey: "The selected key column must exist in both exports.", errorTooManyRows: "Each export is limited to 10,000 rows.",
     },
     videoBitrate: {
       mode: "Calculation mode", duration: "Duration", hours: "Hours", minutes: "Minutes", seconds: "Seconds",
