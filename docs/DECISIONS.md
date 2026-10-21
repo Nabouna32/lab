@@ -719,7 +719,7 @@ The previous policy ran build and browser tests for every dependency change rega
 
 ### Consequences
 
-- The isolated ESLint upgrade path runs `npm ci`, the existing dependency advisory diff, and `npm run lint`; typecheck, unit tests, build, and Playwright remain required for all other changes.
+- The isolated ESLint upgrade path runs `npm ci`, the existing dependency advisory diff, and `npm run lint`; typecheck, unit tests, build, and Playwright remain required for all other changes. Implementation: [PR #963](https://github.com/Nabouna32/lab/pull/963).
 - Classification failures fail closed; they never skip checks.
 - Revisit the allowlist only with tests demonstrating the package's actual role and required verification.
 
