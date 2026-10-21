@@ -28,19 +28,53 @@ export default defineConfig({
   projects: [
     {
       name: "desktop-light",
+      testMatch: "**/smoke.spec.ts",
       use: { ...devices["Desktop Chrome"], colorScheme: "light", viewport: { width: 1440, height: 900 } },
     },
     {
       name: "desktop-dark",
+      testMatch: "**/smoke.spec.ts",
       use: { ...devices["Desktop Chrome"], colorScheme: "dark", viewport: { width: 1440, height: 900 } },
     },
     {
       name: "mobile-light",
+      testMatch: "**/smoke.spec.ts",
       use: { ...devices["iPhone 13"], browserName: "chromium", colorScheme: "light" },
     },
     {
       name: "mobile-dark",
+      testMatch: "**/smoke.spec.ts",
       use: { ...devices["iPhone 13"], browserName: "chromium", colorScheme: "dark" },
+    },
+    {
+      name: "tablet-portrait-light",
+      testMatch: "**/visual.spec.ts",
+      use: { ...devices["iPad (gen 7)"], browserName: "chromium", colorScheme: "light", viewport: { width: 768, height: 1024 }, isMobile: true, hasTouch: true },
+    },
+    {
+      name: "tablet-portrait-dark",
+      testMatch: "**/visual.spec.ts",
+      use: { ...devices["iPad (gen 7)"], browserName: "chromium", colorScheme: "dark", viewport: { width: 768, height: 1024 }, isMobile: true, hasTouch: true },
+    },
+    {
+      name: "tablet-landscape-light",
+      testMatch: "**/visual.spec.ts",
+      use: { ...devices["Desktop Chrome"], colorScheme: "light", viewport: { width: 1024, height: 768 }, isMobile: false, hasTouch: true },
+    },
+    {
+      name: "tablet-landscape-dark",
+      testMatch: "**/visual.spec.ts",
+      use: { ...devices["Desktop Chrome"], colorScheme: "dark", viewport: { width: 1024, height: 768 }, isMobile: false, hasTouch: true },
+    },
+    {
+      name: "desktop-large-light",
+      testMatch: "**/visual.spec.ts",
+      use: { ...devices["Desktop Chrome"], colorScheme: "light", viewport: { width: 1920, height: 1080 } },
+    },
+    {
+      name: "desktop-large-dark",
+      testMatch: "**/visual.spec.ts",
+      use: { ...devices["Desktop Chrome"], colorScheme: "dark", viewport: { width: 1920, height: 1080 } },
     },
   ],
   webServer: {
