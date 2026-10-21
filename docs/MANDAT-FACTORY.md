@@ -4,7 +4,7 @@ Ce mandat spécialisé définit comment sélectionner et conduire une mission pr
 
 ## 1. Mission
 
-À chaque exécution de la Factory, choisir **une seule mission principale** parmi toutes les opportunités crédibles et la mener jusqu’à un résultat vérifié.
+À chaque exécution de la Factory, comparer les opportunités crédibles puis choisir **une seule mission principale** à mener jusqu’à un résultat vérifié, ou conclure de façon argumentée qu’aucune livraison n’est justifiée.
 
 Les formes de mission sont équivalentes au départ :
 - créer un nouvel outil ;
