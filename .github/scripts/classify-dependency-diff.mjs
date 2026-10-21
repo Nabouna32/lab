@@ -124,6 +124,6 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   const baseLock = JSON.parse(readFileSync(baseLockPath, "utf8"));
   const headLock = JSON.parse(readFileSync(headLockPath, "utf8"));
   const scope = classifyDependencyDiff(baseManifest, headManifest, baseLock, headLock, manifestsOnlyArgument === "true");
-  if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, `scope=${scope}\\n`);
+  if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, `scope=${scope}\n`);
   console.log(`Dependency verification scope: ${scope}`);
 }
