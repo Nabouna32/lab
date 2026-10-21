@@ -32,7 +32,9 @@ export default function ImageToPdf() {
   setBusy(true); setError(null); setDone(false);
   try {
    const pages = []; for (const file of files) pages.push(await fileToJpeg(file));
-   const pdf = createImagePdf(pages, pageSize), url = URL.createObjectURL(new Blob([pdf], { type: "application/pdf" }));
+   const pdf = createImagePdf(pages, pageSize), pdfBuffer = new ArrayBuffer(pdf.byteLength);
+   new Uint8Array(pdfBuffer).set(pdf);
+   const url = URL.createObjectURL(new Blob([pdfBuffer], { type: "application/pdf" }));
    const anchor = document.createElement("a"); anchor.href = url; anchor.download = "loculary-images.pdf"; anchor.click();
    window.setTimeout(() => URL.revokeObjectURL(url), 1000); setDone(true);
   } catch { setError(fr ? "Impossible de convertir ces images. Essayez des fichiers moins volumineux." : "Could not convert these images. Try smaller files."); }
