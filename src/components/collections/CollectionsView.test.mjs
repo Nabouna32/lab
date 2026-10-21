@@ -12,7 +12,7 @@ test("collection creation prevents duplicate submissions and restores its button
   assert.match(createBody, /creatingRef\.current/);
   assert.match(createBody, /finally \{/);
   assert.match(createBody, /setCreating\(false\)/);
-  assert.match(source, /disabled=\{data\.loading \|\| creating \|\| !name\.trim\(\)\}/);
+  assert.match(source, /disabled=\{data\.loading \|\| creating \|\| !name\.trim\(\) \|\| \(\(\!data\.userId \|\| \!synchronize\) \&\& localLimitReached\)\}/);
 });
 
 test("adding a tool prevents duplicate submissions and reports thrown errors", async () => {
@@ -24,4 +24,13 @@ test("adding a tool prevents duplicate submissions and reports thrown errors", a
   assert.match(addBody, /finally \{/);
   assert.match(addBody, /setAdding\(false\)/);
   assert.match(source, /disabled=\{!addingTool \|\| adding\}/);
+});
+
+test("anonymous users can create local collections and signed-in users can choose sync", async () => {
+  const source = await readFile(viewFile, "utf8");
+  assert.match(source, /data\.createCollection\(name, Boolean\(data\.userId && synchronize\)\)/);
+  assert.match(source, /data\.userId && <label/);
+  assert.match(source, /copy\.localNote/);
+  assert.match(source, /collection\.storage === "local" \? copy\.localOnly/);
+  assert.match(source, /active\.storage === "account" &&/);
 });

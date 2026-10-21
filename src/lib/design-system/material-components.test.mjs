@@ -258,7 +258,7 @@ test("shared action controls use semantic state-layer colors instead of brightne
   assert.match(favoriteSource, /variant=\{active \? "filled-tonal" : "outlined"\}/);
   assert.match(favoriteSource, /import \{ IconButton \} from "@\/components\/ui\/IconButton"/);
   assert.match(accountActionSource, /var\(--primary\)_92%,var\(--on-primary\)/);
-  assert.match(collectionsSource, /var\(--primary\)_92%,var\(--on-primary\)/);
+  assert.match(collectionsSource, /<Button type="submit" variant="filled"/);
 });
 
 test("Fidelity theme source declares the intended scheme and semantic foreground role pairs", () => {

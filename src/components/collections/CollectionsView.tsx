@@ -6,12 +6,14 @@ import type { Locale } from "@/lib/i18n/config";
 import { useCollections } from "./CollectionsProvider";
 import { CollectionIcon } from "@/components/ui/CollectionIcon";
 import { Button } from "@/components/ui/Button";
+import { MAX_LOCAL_COLLECTIONS } from "@/lib/collections/local-collections";
 
 export type CollectionTool = { id: string; icon: string; name: string; description: string; href: string };
 
 export default function CollectionsView({ locale, tools }: { locale: Locale; tools: CollectionTool[] }) {
   const data = useCollections();
   const [name, setName] = useState("");
+  const [synchronize, setSynchronize] = useState(true);
   const [activeCollection, setActiveCollection] = useState<string | null>(null);
   const [addingTool, setAddingTool] = useState("");
   const [message, setMessage] = useState("");
@@ -25,7 +27,13 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
     description: fr ? "Rassemble tes outils par projet, besoin ou envie. Tes collections restent privées jusqu’à ce que tu décides de les partager." : "Group tools by project, need, or idea. Collections stay private until you choose to share them.",
     create: fr ? "Créer une collection" : "Create a collection",
     placeholder: fr ? "Nom de la collection" : "Collection name",
-    signIn: fr ? "Connecte-toi pour synchroniser tes collections entre tes appareils." : "Sign in to sync collections across your devices.",
+    signIn: fr ? "Connecte-toi pour synchroniser une collection entre tes appareils." : "Sign in to sync a collection across your devices.",
+    syncLabel: fr ? "Synchroniser sur mes appareils" : "Sync across my devices",
+    localOnly: fr ? "Sur cet appareil" : "On this device",
+    localLimit: fr ? `Limite atteinte : ${MAX_LOCAL_COLLECTIONS} collections locales sur cet appareil.` : `Limit reached: ${MAX_LOCAL_COLLECTIONS} local collections on this device.`,
+    accountOnly: fr ? "Synchronisée" : "Synced",
+    localNote: fr ? "Les collections locales restent dans ce navigateur. Elles contiennent uniquement les noms des collections et les identifiants des outils, jamais les données saisies dans les outils." : "Local collections stay in this browser. They contain only collection names and tool IDs, never data entered into tools.",
+    accountNote: fr ? "Tu peux aussi créer des collections locales, réservées à cet appareil, en décochant la synchronisation." : "You can also create device-only collections by turning sync off.",
     empty: fr ? "Pas encore de collection" : "No collections yet",
     emptyHelp: fr ? "Crée une collection pour réunir les outils qui vont ensemble." : "Create a collection to bring related tools together.",
     rename: fr ? "Renommer" : "Rename",
@@ -44,13 +52,15 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
     error: fr ? "Une erreur est survenue. Réessaie." : "Something went wrong. Try again.",
   };
   const active = data.collections.find((collection) => collection.id === activeCollection);
+  const localCollectionCount = data.collections.filter((collection) => collection.storage === "local").length;
+  const localLimitReached = localCollectionCount >= MAX_LOCAL_COLLECTIONS;
 
   async function create() {
     if (creatingRef.current || !name.trim() || data.loading) return;
     creatingRef.current = true;
     setCreating(true);
     try {
-      if (await data.createCollection(name)) { setName(""); setMessage(""); }
+      if (await data.createCollection(name, Boolean(data.userId && synchronize))) { setName(""); setMessage(""); }
       else setMessage(copy.error);
     } catch {
       setMessage(copy.error);
@@ -90,20 +100,15 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
 
       {data.error && <p role="status" className="mb-5 rounded-2xl border border-[var(--danger)]/40 bg-[var(--surface)] px-4 py-3 text-sm text-[var(--danger)]">{copy.error}</p>}
       {message && <p role="status" className="mb-5 text-sm font-semibold text-[var(--accent)]">{message}</p>}
-      {!data.userId ? (
-        <section className="rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-6">
-          <h2 className="text-xl font-black">{fr ? "Tes collections, sur tous tes appareils" : "Your collections, across devices"}</h2>
-          <p className="mt-2 text-sm leading-6 text-[var(--muted)]">{copy.signIn}</p>
-          <Link href={`/${locale}/compte`} className="mt-5 inline-flex min-h-12 items-center rounded-full bg-[var(--primary)] px-5 text-sm font-semibold text-[var(--on-primary)] transition-[background-color,transform] duration-[var(--motion-standard)] hover:bg-[color-mix(in_srgb,var(--primary)_92%,var(--on-primary))] active:bg-[color-mix(in_srgb,var(--primary)_88%,var(--on-primary))] active:scale-[.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]">{fr ? "Accéder à mon compte" : "Go to account"}</Link>
-        </section>
-      ) : (
-        <>
-          <form className="mb-6 flex flex-col gap-3 rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-4 sm:flex-row" onSubmit={(event) => { event.preventDefault(); void create(); }}>
-            <input value={name} onChange={(event) => setName(event.target.value)} maxLength={80} required placeholder={copy.placeholder} aria-label={copy.placeholder} className="min-h-12 min-w-0 flex-1 rounded-[var(--radius-lg)] border border-[var(--outline)] bg-[var(--surface)] px-4 text-[var(--foreground)] outline-none transition-[border-color,box-shadow] duration-[var(--motion-standard)] hover:border-[var(--border-strong)] focus-visible:border-[var(--primary)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface)]" />
-            <Button type="submit" variant="filled" disabled={data.loading || creating || !name.trim()}>{creating ? (fr ? "Création…" : "Creating…") : copy.create}</Button>
-          </form>
+      <form className="mb-6 flex flex-col gap-3 rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-4 sm:flex-row" onSubmit={(event) => { event.preventDefault(); void create(); }}>
+        <input value={name} onChange={(event) => setName(event.target.value)} maxLength={80} required placeholder={copy.placeholder} aria-label={copy.placeholder} className="min-h-12 min-w-0 flex-1 rounded-[var(--radius-lg)] border border-[var(--outline)] bg-[var(--surface)] px-4 text-[var(--foreground)] outline-none transition-[border-color,box-shadow] duration-[var(--motion-standard)] hover:border-[var(--border-strong)] focus-visible:border-[var(--primary)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface)]" />
+            {data.userId && <label className="flex min-h-12 items-center gap-2 text-sm text-[var(--muted)] sm:px-2"><input type="checkbox" checked={synchronize} onChange={(event) => setSynchronize(event.target.checked)} className="h-4 w-4 accent-[var(--primary)]" />{copy.syncLabel}</label>}
+        <Button type="submit" variant="filled" disabled={data.loading || creating || !name.trim() || ((!data.userId || !synchronize) && localLimitReached)}>{creating ? (fr ? "Création…" : "Creating…") : copy.create}</Button>
+      </form>
+      <p className="mb-6 text-sm leading-6 text-[var(--muted)]">{copy.localNote} {data.userId ? copy.accountNote : copy.signIn}</p>
+      {((!data.userId || !synchronize) && localLimitReached) && <p role="status" className="mb-5 text-sm text-[var(--muted)]">{copy.localLimit}</p>}
 
-          {data.loading ? <p className="py-8 text-center text-sm text-[var(--muted)]">{fr ? "Chargement…" : "Loading…"}</p> : data.collections.length === 0 ? (
+      {data.loading ? <p className="py-8 text-center text-sm text-[var(--muted)]">{fr ? "Chargement…" : "Loading…"}</p> : data.collections.length === 0 ? (
             <section className="rounded-[var(--radius-xl)] border border-dashed border-[var(--border-strong)] bg-[var(--surface)] px-6 py-10 text-center">
               <span aria-hidden="true" className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[var(--primary-container)] text-[var(--on-primary-container)]"><CollectionIcon className="h-8 w-8" /></span>
               <h2 className="mt-4 text-xl font-black">{copy.empty}</h2><p className="mx-auto mt-2 max-w-lg text-sm leading-6 text-[var(--muted)]">{copy.emptyHelp}</p>
@@ -115,7 +120,7 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
                   <li key={collection.id}>
                     <button type="button" onClick={() => setActiveCollection(collection.id)} aria-pressed={active?.id === collection.id} className={"w-full rounded-[var(--radius-lg)] border p-4 text-left transition-[background-color,border-color,transform] duration-200 " + (active?.id === collection.id ? "border-[var(--primary)] bg-[var(--primary-container)] text-[var(--on-primary-container)] shadow-[var(--shadow-sm)]" : "border-[var(--outline-variant)] bg-[var(--surface)] hover:bg-[var(--surface-soft)]")}>
                       <span className="flex items-center justify-between gap-3 font-bold"><span className="truncate">{collection.name}</span><span className="text-xs font-semibold text-[var(--muted)]">{collection.user_collection_items.length}</span></span>
-                      <span className="mt-2 block text-xs font-semibold text-[var(--muted)]">{collection.share_token ? copy.shared : copy.private}</span>
+                      <span className="mt-2 block text-xs font-semibold text-[var(--muted)]">{collection.storage === "local" ? copy.localOnly : collection.share_token ? copy.shared : copy.private}</span>
                     </button>
                   </li>
                 ))}
@@ -141,16 +146,16 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
                     })}
                   </ul> : <p className="py-6 text-center text-sm text-[var(--muted)]">{copy.emptyHelp}</p>}
                   <div className="mt-5 flex flex-wrap items-center gap-2 border-t border-[var(--border)] pt-4">
-                    <Button type="button" variant="outlined" onClick={() => void data.toggleSharing(active.id).then((ok) => { if (!ok) setMessage(copy.error); })}>{active.share_token ? copy.stopShare : copy.share}</Button>
-                    {active.share_token && <Button type="button" variant="filled" onClick={() => void copyLink(active.share_token!)}>{copy.copy}</Button>}
+                    {active.storage === "account" && <>
+                      <Button type="button" variant="outlined" onClick={() => void data.toggleSharing(active.id).then((ok) => { if (!ok) setMessage(copy.error); })}>{active.share_token ? copy.stopShare : copy.share}</Button>
+                      {active.share_token && <Button type="button" variant="filled" onClick={() => void copyLink(active.share_token!)}>{copy.copy}</Button>}
+                    </>}
                     <Button type="button" variant="text" className="!text-[var(--error)]" onClick={() => { if (window.confirm(fr ? "Supprimer cette collection et ses outils ?" : "Delete this collection and its tools?")) void data.deleteCollection(active.id).then((ok) => { if (ok) setActiveCollection(null); else setMessage(copy.error); }); }}>{copy.remove}</Button>
                   </div>
                 </section>
               )}
             </div>
           )}
-        </>
-      )}
     </main>
   );
 }

@@ -2,6 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { LOCAL_COLLECTIONS_KEY, MAX_LOCAL_COLLECTIONS, normalizeLocalCollections, parseLocalCollections, type StoredLocalCollection } from "@/lib/collections/local-collections";
 
 export type PersonalCollection = {
   id: string;
@@ -9,6 +10,7 @@ export type PersonalCollection = {
   share_token: string | null;
   created_at: string;
   user_collection_items: Array<{ tool_id: string }>;
+  storage: "local" | "account";
 };
 
 type CollectionsContextValue = {
@@ -16,7 +18,7 @@ type CollectionsContextValue = {
   userId: string | null;
   loading: boolean;
   error: boolean;
-  createCollection: (name: string) => Promise<boolean>;
+  createCollection: (name: string, synchronize: boolean) => Promise<boolean>;
   renameCollection: (id: string, name: string) => Promise<boolean>;
   deleteCollection: (id: string) => Promise<boolean>;
   addTool: (id: string, toolId: string) => Promise<boolean>;
@@ -27,31 +29,83 @@ type CollectionsContextValue = {
 
 const CollectionsContext = createContext<CollectionsContextValue | null>(null);
 
+function toLocalCollection(record: StoredLocalCollection): PersonalCollection {
+  return {
+    id: record.id,
+    name: record.name,
+    share_token: null,
+    created_at: record.created_at,
+    user_collection_items: record.tool_ids.map((tool_id) => ({ tool_id })),
+    storage: "local",
+  };
+}
+
+function readLocalCollections(validToolIds: readonly string[]): PersonalCollection[] {
+  try {
+    return parseLocalCollections(localStorage.getItem(LOCAL_COLLECTIONS_KEY), validToolIds).map(toLocalCollection);
+  } catch {
+    return [];
+  }
+}
+
+function toStoredLocalCollection(collection: PersonalCollection): StoredLocalCollection {
+  return {
+    id: collection.id,
+    name: collection.name,
+    created_at: collection.created_at,
+    tool_ids: collection.user_collection_items.map((item) => item.tool_id),
+  };
+}
+
 export function CollectionsProvider({ children, toolIds }: { children: ReactNode; toolIds: string[] }) {
   const [collections, setCollections] = useState<PersonalCollection[]>([]);
+  const [localCollections, setLocalCollections] = useState<PersonalCollection[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const refreshRequestRef = useRef(0);
   const validToolIds = useMemo(() => new Set(toolIds), [toolIds]);
 
+  const persistLocalCollections = useCallback((next: PersonalCollection[]) => {
+    const normalized = normalizeLocalCollections(
+      next.map(toStoredLocalCollection),
+      [...validToolIds],
+    ).map(toLocalCollection);
+    try {
+      if (normalized.length) {
+        localStorage.setItem(LOCAL_COLLECTIONS_KEY, JSON.stringify(normalized.map(toStoredLocalCollection)));
+      } else {
+        localStorage.removeItem(LOCAL_COLLECTIONS_KEY);
+      }
+    } catch {
+      setError(true);
+      return false;
+    }
+    setLocalCollections(normalized);
+    setCollections((current) => [...normalized, ...current.filter((collection) => collection.storage === "account")]);
+    setError(false);
+    return true;
+  }, [validToolIds]);
+
   const refresh = useCallback(async () => {
     const requestId = ++refreshRequestRef.current;
     const isCurrentRequest = () => requestId === refreshRequestRef.current;
+    const local = readLocalCollections([...validToolIds]);
+    setLocalCollections(local);
     const supabase = createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (!isCurrentRequest()) return;
     if (authError) {
       // Never leave another account's data visible when identity cannot be confirmed.
       setUserId(null);
-      setCollections([]);
+      setCollections(local);
       setError(true);
       setLoading(false);
       return;
     }
 
     setUserId(user?.id ?? null);
-    setCollections([]);
+    setCollections(local);
     if (!user) {
       setError(false);
       setLoading(false);
@@ -66,16 +120,18 @@ export function CollectionsProvider({ children, toolIds }: { children: ReactNode
       .order("created_at", { ascending: false });
     if (!isCurrentRequest()) return;
     if (loadError) {
-      setCollections([]);
+      setCollections(local);
       setError(true);
       setLoading(false);
       return;
     }
 
-    setCollections((data ?? []).map((row) => ({
+    const accountCollections = (data ?? []).map((row) => ({
       ...row,
       user_collection_items: (row.user_collection_items ?? []).filter((item) => validToolIds.has(item.tool_id)),
-    })) as PersonalCollection[]);
+      storage: "account" as const,
+    })) as PersonalCollection[];
+    setCollections([...local, ...accountCollections]);
     setError(false);
     setLoading(false);
   }, [validToolIds]);
@@ -117,54 +173,85 @@ export function CollectionsProvider({ children, toolIds }: { children: ReactNode
     };
   }, [refresh]);
 
-  const createCollection = useCallback(async (rawName: string) => {
+  const createCollection = useCallback(async (rawName: string, synchronize: boolean) => {
     const name = rawName.trim();
-    if (!userId || !name || name.length > 80) return false;
+    if (!name || name.length > 80) return false;
+    if (!synchronize) {
+      if (localCollections.length >= MAX_LOCAL_COLLECTIONS) return false;
+      return persistLocalCollections([...localCollections, {
+        id: `local-${crypto.randomUUID()}`,
+        name,
+        share_token: null,
+        created_at: new Date().toISOString(),
+        user_collection_items: [],
+        storage: "local",
+      }]);
+    }
+    if (!userId) return false;
     const { error: writeError } = await createClient().from("user_collections").insert({ user_id: userId, name });
     if (writeError) { setError(true); return false; }
     await refresh();
     return true;
-  }, [refresh, userId]);
+  }, [localCollections, persistLocalCollections, refresh, userId]);
 
   const renameCollection = useCallback(async (id: string, rawName: string) => {
     const name = rawName.trim();
-    if (!userId || !name || name.length > 80) return false;
+    if (!name || name.length > 80) return false;
+    if (id.startsWith("local-")) {
+      return persistLocalCollections(localCollections.map((collection) => collection.id === id ? { ...collection, name } : collection));
+    }
+    if (!userId) return false;
     const { error: writeError } = await createClient().from("user_collections").update({ name }).eq("id", id).eq("user_id", userId);
     if (writeError) { setError(true); return false; }
     await refresh();
     return true;
-  }, [refresh, userId]);
+  }, [localCollections, persistLocalCollections, refresh, userId]);
 
   const deleteCollection = useCallback(async (id: string) => {
+    if (id.startsWith("local-")) {
+      return persistLocalCollections(localCollections.filter((collection) => collection.id !== id));
+    }
     if (!userId) return false;
     const { error: writeError } = await createClient().from("user_collections").delete().eq("id", id).eq("user_id", userId);
     if (writeError) { setError(true); return false; }
     await refresh();
     return true;
-  }, [refresh, userId]);
+  }, [localCollections, persistLocalCollections, refresh, userId]);
 
   const addTool = useCallback(async (id: string, toolId: string) => {
-    if (!userId || !validToolIds.has(toolId)) return false;
+    if (!validToolIds.has(toolId)) return false;
+    if (id.startsWith("local-")) {
+      return persistLocalCollections(localCollections.map((collection) => collection.id === id
+        ? { ...collection, user_collection_items: collection.user_collection_items.some((item) => item.tool_id === toolId)
+          ? collection.user_collection_items : [...collection.user_collection_items, { tool_id: toolId }] }
+        : collection));
+    }
+    if (!userId) return false;
     const { error: writeError } = await createClient().from("user_collection_items").upsert(
       { collection_id: id, tool_id: toolId }, { onConflict: "collection_id,tool_id", ignoreDuplicates: true },
     );
     if (writeError) { setError(true); return false; }
     await refresh();
     return true;
-  }, [refresh, userId, validToolIds]);
+  }, [localCollections, persistLocalCollections, refresh, userId, validToolIds]);
 
   const removeTool = useCallback(async (id: string, toolId: string) => {
+    if (id.startsWith("local-")) {
+      return persistLocalCollections(localCollections.map((collection) => collection.id === id
+        ? { ...collection, user_collection_items: collection.user_collection_items.filter((item) => item.tool_id !== toolId) }
+        : collection));
+    }
     if (!userId) return false;
     const { error: writeError } = await createClient().from("user_collection_items").delete().eq("collection_id", id).eq("tool_id", toolId);
     if (writeError) { setError(true); return false; }
     await refresh();
     return true;
-  }, [refresh, userId]);
+  }, [localCollections, persistLocalCollections, refresh, userId]);
 
   const toggleSharing = useCallback(async (id: string) => {
     if (!userId) return false;
     const collection = collections.find((item) => item.id === id);
-    if (!collection) return false;
+    if (!collection || collection.storage !== "account") return false;
     const { error: writeError } = await createClient().from("user_collections")
       .update({ share_token: collection.share_token ? null : crypto.randomUUID() })
       .eq("id", id).eq("user_id", userId);

@@ -154,7 +154,7 @@ Use local browser state where account synchronization is unnecessary.
 
 Candidate local storage layers include:
 
-- localStorage for small preferences;
+- localStorage for small preferences and private local collections containing only collection names and tool IDs;
 - IndexedDB for larger structured local state.
 
 The final choice should be based on the actual data requirements.

@@ -70,7 +70,7 @@ An account can unlock features such as:
 - personal collections, with optional sharing by link;
 - account preferences.
 
-Anonymous users can retain favorites locally, and signing in merges local favorites into account favorites with deterministic conflict handling. Signed-in users can create, rename and delete personal collections, add or remove tools, and optionally share a collection through an explicit link. Collections are private by default; a share token grants read access only to the selected collection and its items. Do not put sensitive tool input or result data into collections or shared links. The light/dark theme preference currently works locally; account synchronization of that preference remains unimplemented.
+Anonymous users can retain favorites and create private local collections in the browser without an account. Local collections persist on that device and contain only collection names and tool IDs; they never store tool inputs or results and cannot be shared by link. Signed-in users can keep local collections alongside synchronized account collections, choose whether each new collection stays on the device or syncs across devices, and optionally share synchronized collections through an explicit link. Collections are private by default; a share token grants read access only to the selected synchronized collection and its items. Signing in does not silently upload local collections. Anonymous favorites still merge into account favorites with deterministic conflict handling. The light/dark theme preference currently works locally; account synchronization of that preference remains unimplemented.
 
 The product should support anonymous/local usage first and account creation when it adds value.
 
