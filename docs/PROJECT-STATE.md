@@ -94,7 +94,7 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 
 > Mémoire opérationnelle par session de travail, avec les PR représentatives et preuves vérifiables.
 
-1. **Parcours / comparateur multi-villes de fuseaux horaires** — comparer une heure source à plusieurs villes et copier tous les résultats. [PR à venir].
+1. **Parcours / comparateur multi-villes de fuseaux horaires** — comparer une heure source à plusieurs villes et copier tous les résultats. [PR #928](https://github.com/Nabouna32/lab/pull/928).
 2. **Nouvel outil / comparateur CSV** — comparer deux exports avec rapprochement par clé, traitement local et rapport des changements. [PR #927](https://github.com/Nabouna32/lab/pull/927).
 3. **Nouvel outil / nettoyage de listes textuelles** — nettoyage des espaces, suppression des lignes vides et doublons, tri optionnel, traitement local. [PR #924](https://github.com/Nabouna32/lab/pull/924).
 4. **Parcours JSON chaîné** — transfert local à usage unique du formateur vers le comparateur, sans placer le contenu dans l’URL ni l’envoyer à un serveur. [PR #922](https://github.com/Nabouna32/lab/pull/922), scénario Playwright ajouté par [PR #923](https://github.com/Nabouna32/lab/pull/923).
