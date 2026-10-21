@@ -8,11 +8,11 @@ Dernière vérification : 2026-10-21
 
 ## Cinq dernières reprises
 
-1. **Finition UX accueil — compteur de catégories** : [issue #959](https://github.com/Nabouna32/lab/issues/959), correction de l’affichage du nombre en double et régression FR/EN ; [PR #961](https://github.com/Nabouna32/lab/pull/961) fusionnée dans `4153b1b` ; CI complète verte ([run #39664914332](https://github.com/Nabouna32/lab/actions/runs/39664914332)). La refonte de la hiérarchie de découverte est suivie séparément dans [issue #960](https://github.com/Nabouna32/lab/issues/960).
-2. **Intégrité / vérification des empreintes de fichiers** : [PR #955](https://github.com/Nabouna32/lab/pull/955) étend le générateur de hash aux fichiers locaux jusqu’à 100 Mio et permet de comparer une empreinte de référence ; traitement navigateur, sans upload ni dépendance ajoutée. CI complète verte ([run #39553923138](https://github.com/Nabouna32/lab/actions/runs/39553923138)) ; déploiement production `READY` ([Vercel](https://vercel.com/nabouna32/loculary/5BccRteCB5BQdCUsFVsEUK9FybE3)).
-3. **Nouvel outil réseau — calculateur IPv6 CIDR** : [PR #953](https://github.com/Nabouna32/lab/pull/953), CI complète verte et déploiement production `READY`.
-4. **Chaînage d’outils — CSV → JSON → formateur** : [PR #952](https://github.com/Nabouna32/lab/pull/952), fusionnée.
-5. **Transformation de découverte — parcours guidés** : [PR #951](https://github.com/Nabouna32/lab/pull/951), fusionnée.
+1. **Fiabilité CI — classification prudente des dépendances et stabilité Playwright** : [PR #963](https://github.com/Nabouna32/lab/pull/963) ajoute une classification basée sur le manifeste et le graphe du lockfile ; les cas ambigus restent sur la suite complète. CI complète verte sur le commit `e8f0e20` ([run #39667464891](https://github.com/Nabouna32/lab/actions/runs/39667464891)) : lint, TypeScript, tests unitaires, build et 80 tests Playwright en 53,2 s. Checkpoint : [issue #741](https://github.com/Nabouna32/lab/issues/741).
+2. **Finition UX accueil — compteur de catégories** : [issue #959](https://github.com/Nabouna32/lab/issues/959), correction de l’affichage du nombre en double et régression FR/EN ; [PR #961](https://github.com/Nabouna32/lab/pull/961) fusionnée dans `4153b1b` ; CI complète verte ([run #39664914332](https://github.com/Nabouna32/lab/actions/runs/39664914332)). La refonte de la hiérarchie de découverte est suivie séparément dans [issue #960](https://github.com/Nabouna32/lab/issues/960).
+3. **Intégrité / vérification des empreintes de fichiers** : [PR #955](https://github.com/Nabouna32/lab/pull/955) étend le générateur de hash aux fichiers locaux jusqu’à 100 Mio et permet de comparer une empreinte de référence ; traitement navigateur, sans upload ni dépendance ajoutée. CI complète verte ([run #39553923138](https://github.com/Nabouna32/lab/actions/runs/39553923138)) ; déploiement production `READY`.
+4. **Nouvel outil réseau — calculateur IPv6 CIDR** : [PR #953](https://github.com/Nabouna32/lab/pull/953), CI complète verte et déploiement production `READY`.
+5. **Chaînage d’outils — CSV → JSON → formatage** : [PR #952](https://github.com/Nabouna32/lab/pull/952), fusionnée.
 
 - **Parcours / CSV → JSON → formatage :** le convertisseur CSV peut transmettre son résultat JSON directement au formateur, qui le préremplit et l’indique à l’utilisateur. Transfert local ciblé, à usage unique, limité à 200 000 caractères et expirant après cinq minutes ; aucun contenu dans l’URL ou envoyé au serveur. [PR #952](https://github.com/Nabouna32/lab/pull/952).
 
@@ -27,6 +27,8 @@ Source de vérité : dépôt GitHub, CI, issues et déploiements liés ci-dessou
 Faire progresser continuellement la valeur produit de Loculary, sans date de lancement imposée. La priorité ne se limite pas à fiabiliser l’existant : rechercher aussi les outils, fonctionnalités et transformations d’expérience qui rendraient le produit nettement meilleur. Voir `docs/MANDAT.md`.
 
 ## État vérifié
+
+- **CI / dépendances et navigateur :** la règle actuelle déclenche la suite complète dès qu’un manifeste npm change. La reprise en cours ajoute une exception très étroite pour une mise à niveau isolée d’ESLint (installation, audit de dépendances et lint) et réduit Playwright à un worker en CI. Le run #39664661732 a échoué sur `ERR_NO_BUFFER_SPACE` dans Chromium ; la cause racine n’est pas encore démontrée. Suivi : [issue #741](https://github.com/Nabouna32/lab/issues/741).
 
 - **QR Code / partage Wi-Fi :** mode local pour générer un QR code de connexion aux réseaux WPA/WEP/ouverts et masqués. Les caractères réservés sont échappés et un avertissement indique que le code révèle les identifiants aux personnes qui le scannent. [PR #944](https://github.com/Nabouna32/lab/pull/944), fusionnée avec CI complète verte.
 
