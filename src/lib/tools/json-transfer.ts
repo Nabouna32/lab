@@ -2,7 +2,7 @@ const JSON_TOOL_TRANSFER_KEY = "loculary:json-tool-transfer:v2";
 const JSON_TOOL_TRANSFER_MAX_CHARS = 200_000;
 const JSON_TOOL_TRANSFER_TTL_MS = 5 * 60 * 1000;
 
-export type JsonToolTransferTarget = "json-diff-checker" | "json-to-typescript";
+export type JsonToolTransferTarget = "json-formatter" | "json-diff-checker" | "json-to-typescript";
 type SessionStorageLike = Pick<Storage, "getItem" | "setItem" | "removeItem">;
 type PendingTransfer = { target: JsonToolTransferTarget; value: string; createdAt: number };
 
