@@ -271,7 +271,7 @@ test("public shell interfaces keep user-facing labels and states behind the i18n
     "../../components/layout/Footer.tsx",
     "../../components/layout/Breadcrumbs.tsx",
     "../../components/layout/LanguageSelector.tsx",
-    "../../components/layout/MobileHeaderSearch.tsx",
+    "../../components/layout/HeaderSearch.tsx",
     "../../components/theme/ThemeToggle.tsx",
     "../../components/home/HomeGuidedWorkflows.tsx",
     "../../components/tools/ToolSearch.tsx",
@@ -279,7 +279,7 @@ test("public shell interfaces keep user-facing labels and states behind the i18n
 
   for (const relativePath of publicShellFiles) {
     const source = readFileSync(fileURLToPath(new URL(relativePath, import.meta.url)), "utf8");
-    if (relativePath.endsWith("MobileHeaderSearch.tsx")) {
+    if (relativePath.endsWith("HeaderSearch.tsx")) {
       assert.match(source, /searchLabel: string/);
       assert.doesNotMatch(source, /closeLabel: string/);
     } else {
