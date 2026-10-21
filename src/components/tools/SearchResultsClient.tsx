@@ -7,7 +7,7 @@ import ToolSearch from "@/components/tools/ToolSearch";
 import { Button } from "@/components/ui/Button";
 import { getMessages } from "@/lib/i18n/messages";
 import { formatPlural } from "@/lib/i18n/plural";
-import { getCategoryName } from "@/lib/tools/categories";
+import { categories, getCategoryName } from "@/lib/tools/categories";
 import { getPublishedTools } from "@/lib/tools/catalog";
 import { getSearchResultsPath, getToolsPath } from "@/lib/tools/routes";
 import { getPrimaryToolCategory } from "@/lib/tools/types";
@@ -27,12 +27,14 @@ export default function SearchResultsClient({ locale }: { locale: Locale }) {
   const [isSearching, setIsSearching] = useState(false);
   const [searchError, setSearchError] = useState(false);
   const [searchRetryCount, setSearchRetryCount] = useState(0);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const requestId = useRef(0);
 
   const runSearch = useCallback((nextQuery: string) => {
     const currentRequest = ++requestId.current;
     setIsSearching(true);
     setSearchError(false);
+    setSelectedCategory(null);
     setResults([]);
 
     void import("@/lib/tools/search-client")
@@ -81,6 +83,11 @@ export default function SearchResultsClient({ locale }: { locale: Locale }) {
     runSearch(submittedQuery);
   }, [locale, router, runSearch]);
 
+  const availableCategories = categories.filter((category) => results.some(({ tool }) => tool.categories.includes(category.id)));
+  const filteredResults = selectedCategory
+    ? results.filter(({ tool }) => tool.categories.includes(selectedCategory))
+    : results;
+
   return (
     <main className="min-h-full px-4 py-6 sm:px-6 sm:py-8 lg:px-10 lg:py-10">
       <div className="mx-auto max-w-[var(--content-wide)]">
@@ -97,7 +104,7 @@ export default function SearchResultsClient({ locale }: { locale: Locale }) {
               </h1>
               {query && (
                 <p role="status" aria-live="polite" aria-atomic="true" className="mt-4 text-sm font-semibold text-[var(--muted)]">
-                  {isSearching ? t.tools.searching : searchError ? t.tools.searchError : formatPlural(locale, results.length, { one: t.tools.resultCountOne, other: t.tools.resultCountMany })}
+                  {isSearching ? t.tools.searching : searchError ? t.tools.searchError : formatPlural(locale, filteredResults.length, { one: t.tools.resultCountOne, other: t.tools.resultCountMany })}
                 </p>
               )}
             </div>
@@ -148,8 +155,34 @@ export default function SearchResultsClient({ locale }: { locale: Locale }) {
             </Button>
           </section>
         ) : results.length > 0 ? (
-          <section id="search-results-list" className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-3" aria-label={t.tools.searchResultsTitle(query)}>
-            {results.map(({ tool }) => {
+          <>
+            {availableCategories.length > 1 && (
+              <div className="mt-5 flex flex-wrap items-center gap-2" role="group" aria-label={t.tools.filterByCategory}>
+                <span className="mr-1 text-sm font-semibold text-[var(--muted)]">{t.tools.filterByCategory}</span>
+                <button
+                  type="button"
+                  aria-pressed={selectedCategory === null}
+                  onClick={() => setSelectedCategory(null)}
+                  className={`inline-flex min-h-10 items-center rounded-full border px-4 py-2 text-sm font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] ${selectedCategory === null ? "border-[var(--accent)] bg-[var(--accent-soft)] text-[var(--on-primary-container)]" : "border-[var(--border)] bg-[var(--surface)] text-[var(--foreground)] hover:bg-[var(--surface-elevated)]"}`}
+                >
+                  {t.tools.allCategories}
+                </button>
+                {availableCategories.map((category) => (
+                  <button
+                    key={category.id}
+                    type="button"
+                    aria-pressed={selectedCategory === category.id}
+                    onClick={() => setSelectedCategory(category.id)}
+                    className={`inline-flex min-h-10 items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] ${selectedCategory === category.id ? "border-[var(--accent)] bg-[var(--accent-soft)] text-[var(--on-primary-container)]" : "border-[var(--border)] bg-[var(--surface)] text-[var(--foreground)] hover:bg-[var(--surface-elevated)]"}`}
+                  >
+                    <span aria-hidden="true">{category.icon}</span>
+                    {getCategoryName(locale, category.id)}
+                  </button>
+                ))}
+              </div>
+            )}
+            <section id="search-results-list" className="mt-3 grid gap-3 sm:grid-cols-2 xl:grid-cols-3" aria-label={t.tools.searchResultsTitle(query)}>
+            {filteredResults.map(({ tool }) => {
               const categoryId = getPrimaryToolCategory(tool);
               return (
                 <ToolCard
@@ -161,7 +194,8 @@ export default function SearchResultsClient({ locale }: { locale: Locale }) {
                 />
               );
             })}
-          </section>
+            </section>
+          </>
         ) : (
           <section className="mt-5 rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8" aria-labelledby="search-results-empty-title">
             <h2 id="search-results-empty-title" className="text-xl font-bold tracking-[-0.03em] sm:text-2xl">
