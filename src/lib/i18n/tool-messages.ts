@@ -88,7 +88,7 @@ type ToolMessages = {
   jsonFormatter: {
     input: string; placeholder: string; output: string; format: string; minify: string; copy: string; clear: string;
     indentation: string; spaces2: string; spaces4: string; tab: string; valid: string; invalid: string;
-    emptyResult: string; formatted: string; minified: string; resourceLimit: string; errorAt: (line: string, column: string) => string; sendToCompare: string; sendToTypescript: string; transferFailed: string;
+    emptyResult: string; formatted: string; minified: string; resourceLimit: string; errorAt: (line: string, column: string) => string; sendToCompare: string; sendToTypescript: string; receivedFromTool: string; transferFailed: string;
     extractTitle: string; pathLabel: string; pathPlaceholder: string; pathHint: string; extractButton: string; extractedResult: string; pathSyntaxError: string; pathNotFound: string; extractionInvalidJson: string;
   };
   jsonDiffChecker: {
@@ -132,7 +132,7 @@ type ToolMessages = {
     input: string; placeholder: string; delimiter: string; autoDetectDelimiter: string; csvToJson: string; jsonToCsv: string;
     result: string; ready: string; emptyResult: string; copy: string; clear: string; error: string;
     invalidCsv: string; invalidJson: string; unsupportedJson: string; inferTypes: string; inferTypesHint: string;
-    importFile: string; importFileHint: string; unsupportedFile: string; fileTooLarge: string; fileReadFailed: string; download: string; sendToCompare: string; sendToTypescript: string; transferFailed: string;
+    importFile: string; importFileHint: string; unsupportedFile: string; fileTooLarge: string; fileReadFailed: string; download: string; sendToFormatter: string; sendToCompare: string; sendToTypescript: string; transferFailed: string;
   };
   uuidGenerator: {
     count: string; countPlaceholder: string; generate: string; copy: string; copied: string; download: string; clear: string; result: string;
@@ -399,7 +399,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       input: "Votre JSON", placeholder: '{\\n  "name": "Loculary"\\n}', output: "Résultat", format: "Formater", minify: "Minifier", copy: "Copier", clear: "Effacer",
       indentation: "Indentation", spaces2: "2 espaces", spaces4: "4 espaces", tab: "Tabulation", valid: "JSON valide", invalid: "JSON invalide",
       emptyResult: "Le résultat apparaîtra ici après validation.", formatted: "Formaté", minified: "Minifié", resourceLimit: "Le JSON dépasse la limite de taille sûre de 200 000 caractères.", errorAt: (line, column) => "Ligne " + line + ", colonne " + column,
-      sendToCompare: "Comparer avec un autre JSON", sendToTypescript: "Générer les types TypeScript", transferFailed: "Impossible de transmettre le résultat dans cet onglet. Copiez-le et collez-le manuellement.",
+      sendToCompare: "Comparer avec un autre JSON", sendToTypescript: "Générer les types TypeScript", receivedFromTool: "JSON reçu depuis le convertisseur CSV. Vérifiez le contenu puis formatez-le.", transferFailed: "Impossible de transmettre le résultat dans cet onglet. Copiez-le et collez-le manuellement.",
       extractTitle: "Extraire une valeur par chemin", pathLabel: "Chemin JSON", pathPlaceholder: "$.user.name",
       pathHint: "Syntaxe prise en charge : $, .clé, ['clé avec espaces'] et [0] pour les tableaux. Exemple : $.users[0].email.",
       extractButton: "Extraire", extractedResult: "Valeur extraite", pathSyntaxError: "Chemin invalide. Vérifiez la syntaxe du chemin JSON.",
@@ -451,7 +451,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       result: "Résultat", ready: "Conversion mise à jour", emptyResult: "Le résultat apparaîtra ici.", copy: "Copier", clear: "Effacer", error: "La conversion n’a pas pu être effectuée.",
       invalidCsv: "Le CSV est invalide ou mal formé.", invalidJson: "Le JSON est invalide.", unsupportedJson: "Utilisez un tableau JSON composé d’objets.", inferTypes: "Déduire les types JSON", inferTypesHint: "Convertit true, false, null et les nombres sûrs. Les identifiants avec des zéros initiaux restent du texte.",
       importFile: "Importer un fichier", importFileHint: "Fichier CSV ou JSON, jusqu’à 200 ko. Le contenu est lu localement dans votre navigateur.",
-      unsupportedFile: "Choisissez un fichier .csv ou .json.", fileTooLarge: "Le fichier dépasse la limite de 200 ko.", fileReadFailed: "Impossible de lire ce fichier dans votre navigateur.", download: "Télécharger le résultat", sendToCompare: "Comparer ce JSON", sendToTypescript: "Générer les types TypeScript", transferFailed: "Impossible de transmettre le résultat dans cet onglet. Copiez-le et collez-le manuellement.",
+      unsupportedFile: "Choisissez un fichier .csv ou .json.", fileTooLarge: "Le fichier dépasse la limite de 200 ko.", fileReadFailed: "Impossible de lire ce fichier dans votre navigateur.", download: "Télécharger le résultat", sendToFormatter: "Formater ce JSON", sendToCompare: "Comparer ce JSON", sendToTypescript: "Générer les types TypeScript", transferFailed: "Impossible de transmettre le résultat dans cet onglet. Copiez-le et collez-le manuellement.",
     },
     textDiffChecker: {
       original: "Version originale", originalPlaceholder: "Collez le texte original…", updated: "Version modifiée", updatedPlaceholder: "Collez le texte modifié…",
@@ -723,7 +723,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       input: "Your JSON", placeholder: '{\\n  "name": "Loculary"\\n}', output: "Result", format: "Format", minify: "Minify", copy: "Copy", clear: "Clear",
       indentation: "Indentation", spaces2: "2 spaces", spaces4: "4 spaces", tab: "Tab", valid: "Valid JSON", invalid: "Invalid JSON",
       emptyResult: "The result will appear here after validation.", formatted: "Formatted", minified: "Minified", resourceLimit: "JSON exceeds the safe size limit of 200,000 characters.", errorAt: (line, column) => "Line " + line + ", column " + column,
-      sendToCompare: "Compare with another JSON", sendToTypescript: "Generate TypeScript types", transferFailed: "Could not pass the result to the next tool in this tab. Copy and paste it manually.",
+      sendToCompare: "Compare with another JSON", sendToTypescript: "Generate TypeScript types", receivedFromTool: "JSON received from the CSV converter. Review the content, then format it.", transferFailed: "Could not pass the result to the next tool in this tab. Copy and paste it manually.",
       extractTitle: "Extract a value by path", pathLabel: "JSON path", pathPlaceholder: "$.user.name",
       pathHint: "Supported syntax: $, .key, ['key with spaces'], and [0] for arrays. Example: $.users[0].email.",
       extractButton: "Extract", extractedResult: "Extracted value", pathSyntaxError: "Invalid path. Check the JSON path syntax.",
@@ -775,7 +775,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       result: "Result", ready: "Conversion updated", emptyResult: "The result will appear here.", copy: "Copy", clear: "Clear", error: "The conversion could not be completed.",
       invalidCsv: "The CSV is invalid or malformed.", invalidJson: "The JSON is invalid.", unsupportedJson: "Use a JSON array containing objects.", inferTypes: "Infer JSON types", inferTypesHint: "Converts true, false, null and safe numbers. Identifiers with leading zeros stay as text.",
       importFile: "Import a file", importFileHint: "CSV or JSON file, up to 200 kB. The content is read locally in your browser.",
-      unsupportedFile: "Choose a .csv or .json file.", fileTooLarge: "The file exceeds the 200 kB limit.", fileReadFailed: "This file could not be read in your browser.", download: "Download result", sendToCompare: "Compare this JSON", sendToTypescript: "Generate TypeScript types", transferFailed: "Could not pass the result to the next tool in this tab. Copy and paste it manually.",
+      unsupportedFile: "Choose a .csv or .json file.", fileTooLarge: "The file exceeds the 200 kB limit.", fileReadFailed: "This file could not be read in your browser.", download: "Download result", sendToFormatter: "Format this JSON", sendToCompare: "Compare this JSON", sendToTypescript: "Generate TypeScript types", transferFailed: "Could not pass the result to the next tool in this tab. Copy and paste it manually.",
     },
     cronExpression: {
       input: "Cron expression", placeholder: "e.g. 0 9 * * 1-5", result: "Analysis", valid: "Valid expression",
