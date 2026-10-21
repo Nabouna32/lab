@@ -103,7 +103,7 @@ type ToolMessages = {
     input: string; inputYaml: string; inputJson: string; placeholder: string; jsonPlaceholder: string; output: string; outputYaml: string; outputJson: string;
     operation: string; formatYaml: string; yamlToJson: string; jsonToYaml: string; format: string; convert: string; converted: string;
     copy: string; clear: string; indentation: string; spaces2: string; spaces4: string; tab: string; valid: string; invalid: string;
-    emptyResult: string; formatted: string; errorAt: (line: string, column: string) => string; resourceLimit: string; errorDetailLabel: string; unsupportedValue: string;
+    emptyResult: string; formatted: string; errorAt: (line: string, column: string) => string; resourceLimit: string; errorDetailLabel: string; unsupportedValue: string; sendToCompare: string; sendToTypescript: string; transferFailed: string;
   };
   urlEncoder: {
     input: string; placeholder: string; output: string; scope: string; component: string; uri: string;
