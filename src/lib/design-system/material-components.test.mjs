@@ -255,7 +255,7 @@ test("shared action controls use semantic state-layer colors instead of brightne
   assert.match(favoriteSource, /variant=\{active \? "filled-tonal" : "outlined"\}/);
   assert.match(favoriteSource, /import \{ IconButton \} from "@\/components\/ui\/IconButton"/);
   assert.match(accountActionSource, /var\(--primary\)_92%,var\(--on-primary\)/);
-  assert.match(collectionsSource, /<Button type="submit" variant="filled"/);
+  assert.match(collectionsSource, /<Button type="submit" disabled=/);
 });
 
 test("Fidelity theme source declares the intended scheme and semantic foreground role pairs", () => {
@@ -349,7 +349,7 @@ test("Design Lab does not reference missing CSS module classes", () => {
 
 test("Section 03 dialog preview trigger uses the shared Material 3 outlined button", () => {
   const labSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
-  assert.match(labSource, /aria-labelledby="states-title"[\s\S]*?<Button type="button" variant="outlined" className=\{styles\.dialogPreviewTrigger\} onClick=\{\(\)=>setDialogOpen\(true\)\}>\{t\.confirm\} · dialog<\/Button>/);
+  assert.match(labSource, /aria-labelledby="states-title"[\s\S]*?<OutlinedButton type="button" className=\{styles\.dialogPreviewTrigger\} onClick=\{\(\)=>setDialogOpen\(true\)\}>\{t\.confirm\} · dialog<\/OutlinedButton>/);
   assert.match(labCss, /\.dialogPreviewTrigger\{flex-shrink:0;white-space:nowrap\}/);
 });
 

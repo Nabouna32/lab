@@ -169,18 +169,20 @@ test("global header search uses the shared ref-capable M3 IconButton at every br
   assert.ok(!headerSearch.includes('const iconButton ='));
 });
 
-test("collection and favorites action buttons use the shared M3 Button", () => {
-  assert.ok(collectionsView.includes('import { Button } from "@/components/ui/Button"'));
-  for (const variant of ['variant="filled"', 'variant="filled-tonal"', 'variant="outlined"', 'variant="text"']) {
-    assert.ok(collectionsView.includes(variant), "missing collection action variant: " + variant);
-  }
+test("collection and favorites actions use AndroidX-named Button components", () => {
+  assert.ok(collectionsView.includes('import { Button, FilledTonalButton, OutlinedButton, TextButton } from "@/components/ui/Button"'));
+  assert.ok(collectionsView.includes('<Button type="submit" disabled='));
+  assert.ok(collectionsView.includes('<FilledTonalButton type="button"'));
+  assert.ok(collectionsView.includes('<OutlinedButton type="button"'));
+  assert.ok(collectionsView.includes('<TextButton type="button"'));
   assert.ok(!collectionsView.includes('<button type="submit"'));
   assert.ok(!collectionsView.includes('<button type="button" onClick={() => void data.removeTool'));
   assert.ok(!collectionsView.includes('<button type="button" onClick={() => void data.toggleSharing'));
   assert.ok(collectionsView.includes('className="!text-[var(--error)]"'));
   assert.ok(collectionsView.includes('className="!text-[var(--muted)]"'));
-  assert.ok(favoritesView.includes('import { Button } from "@/components/ui/Button"'));
-  assert.ok(favoritesView.includes('<Button type="button" variant="text" disabled={favorites.loading || favorites.error}'));
+  assert.ok(favoritesView.includes('import { TextButton } from "@/components/ui/Button"'));
+  assert.ok(favoritesView.includes('<TextButton type="button" disabled={favorites.loading || favorites.error}'));
+  assert.ok(!favoritesView.includes('variant="text"'));
   assert.ok(!favoritesView.includes('min-h-11 rounded-full px-3 text-sm font-bold text-[var(--primary)]'));
 });
 
