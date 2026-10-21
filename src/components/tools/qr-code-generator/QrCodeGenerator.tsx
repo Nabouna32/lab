@@ -81,7 +81,7 @@ export default function QrCodeGenerator() {
               </div>
               <div className="space-y-1.5">
                 <label htmlFor="qr-wifi-security" className="block text-sm font-medium">{isFrench ? "Sécurité du réseau" : "Network security"}</label>
-                <Select id="qr-wifi-security" label={isFrench ? "Sécurité du réseau" : "Network security"} value={security} onChange={(event) => setSecurity(event.target.value)} className="w-full">
+                <Select id="qr-wifi-security" label={isFrench ? "Sécurité du réseau" : "Network security"} value={security} onChange={(event) => setSecurity(event.target.value as WifiSecurity)} className="w-full">
                   <option value="WPA">WPA / WPA2 / WPA3</option>
                   <option value="WEP">WEP</option>
                   <option value="nopass">{isFrench ? "Aucun mot de passe" : "No password"}</option>
