@@ -9,8 +9,8 @@ test("hash generation ignores stale results after input or algorithm changes", a
   const source = await readFile(componentFile, "utf8");
   assert.match(source, /const requestId = \+\+requestRef\.current/);
   assert.match(source, /if \(requestId !== requestRef\.current\) return;/);
-  assert.match(source, /requestRef\.current \+= 1; setBusy\(false\); setInput/);
-  assert.match(source, /requestRef\.current \+= 1; setBusy\(false\); setAlgorithm/);
+  assert.match(source, /setInput\(event\.target\.value\); resetResult\(\)/);
+  assert.match(source, /setAlgorithm\(event\.target\.value as HashAlgorithm\); resetResult\(\)/);
 });
 
 test("clearing or unmounting invalidates in-flight hash requests", async () => {
