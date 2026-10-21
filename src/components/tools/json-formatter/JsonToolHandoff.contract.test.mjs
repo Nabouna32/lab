@@ -12,6 +12,7 @@ const transfer = readFileSync(new URL("../../../lib/tools/json-transfer.ts", imp
 
 test("JSON formatter can send its result to either compatible JSON tool", () => {
   assert.match(formatter, /writePendingJsonToolTransfer\(window\.sessionStorage, result, target\)/);
+  assert.match(formatter, /consumePendingJsonToolTransfer\(window\.sessionStorage, "json-formatter"\)/);
   assert.match(formatter, /sendToTool\("json-diff-checker"\)/);
   assert.match(formatter, /sendToTool\("json-to-typescript"\)/);
   assert.match(formatter, /t\.sendToCompare/);
@@ -20,6 +21,8 @@ test("JSON formatter can send its result to either compatible JSON tool", () => 
 
 test("CSV-to-JSON output can flow directly to comparison or TypeScript generation", () => {
   assert.match(csv, /operation === "csv-to-json"/);
+  assert.match(csv, /sendToTool\("json-formatter"\)/);
+  assert.match(csv, /t\.sendToFormatter/);
   assert.match(csv, /sendToTool\("json-diff-checker"\)/);
   assert.match(csv, /sendToTool\("json-to-typescript"\)/);
 });
@@ -47,6 +50,10 @@ test("handoff controls and receiver notices are localized in French and English"
   assert.match(messages, /sendToCompare: "Compare this JSON"/);
   assert.match(messages, /sendToTypescript: "Générer les types TypeScript"/);
   assert.match(messages, /sendToTypescript: "Generate TypeScript types"/);
+  assert.match(messages, /sendToFormatter: "Format this JSON"/);
+  assert.match(messages, /sendToFormatter: "Formater ce JSON"/);
+  assert.match(messages, /receivedFromTool: "JSON received from the CSV converter/);
+  assert.match(messages, /receivedFromTool: "JSON reçu depuis le convertisseur CSV/);
   assert.match(messages, /receivedFromFormatter: "Le JSON transmis/);
   assert.match(messages, /receivedFromFormatter: "The transferred JSON/);
   assert.match(messages, /receivedFromTool: "JSON transmis depuis un autre outil/);

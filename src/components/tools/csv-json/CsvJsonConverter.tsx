@@ -196,6 +196,7 @@ export default function CsvJsonConverter() {
           <pre aria-live="polite" className="mt-4 min-h-[18rem] flex-1 overflow-auto whitespace-pre-wrap break-words border-y border-[var(--border)] py-4 font-mono text-sm leading-6 text-[var(--foreground)]">{result || " "}</pre>
           {result && !error && operation === "csv-to-json" && (
             <div className="mt-4 flex flex-wrap gap-2">
+              <Button variant="secondary" onClick={() => sendToTool("json-formatter")}>{t.sendToFormatter}</Button>
               <Button variant="secondary" onClick={() => sendToTool("json-diff-checker")}>{t.sendToCompare}</Button>
               <Button variant="secondary" onClick={() => sendToTool("json-to-typescript")}>{t.sendToTypescript}</Button>
             </div>

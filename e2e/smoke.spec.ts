@@ -501,7 +501,7 @@ test("guided workflows connect published tools in French and English", async ({ 
   await expect(page.locator("html")).toHaveAttribute("lang", "fr");
   await expect(page.getByRole("heading", { level: 1, name: "Des parcours pour aller jusqu’au bout" })).toBeVisible();
   await expect(page.getByTestId("guided-workflows").locator("article")).toHaveCount(4);
-  await expect(page.getByText("Le résultat passe automatiquement à l’étape suivante.")).toHaveCount(2);
+  await expect(page.getByText("Le résultat passe automatiquement à l’étape suivante.")).toHaveCount(3);
   await expect(page.getByRole("link", { name: "Nettoyeur et trieur de lignes" })).toHaveAttribute("href", "/fr/outils/nettoyeur-trieur-de-lignes");
   await expect(page.getByRole("link", { name: "Comparateur de texte" })).toHaveAttribute("href", "/fr/outils/comparateur-de-texte");
 
@@ -509,6 +509,21 @@ test("guided workflows connect published tools in French and English", async ({ 
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
   await expect(page.getByRole("heading", { level: 1, name: "Guided paths from start to finish" })).toBeVisible();
   await expect(page.getByTestId("guided-workflows").locator("article")).toHaveCount(4);
-  await expect(page.getByText("The result is passed automatically to the next step.")).toHaveCount(2);
+  await expect(page.getByText("The result is passed automatically to the next step.")).toHaveCount(3);
   await expect(page.getByRole("link", { name: "Browse all tools" })).toHaveAttribute("href", "/en/tools");
+});
+
+
+test("CSV conversion hands its local JSON result to the formatter", async ({ page }) => {
+  await page.goto("/en/tools/csv-json-converter");
+  await expect(page.locator("html")).toHaveAttribute("lang", "en");
+  await page.getByLabel("Data", { exact: true }).fill("name,score\nAda,10");
+  await page.getByRole("button", { name: "CSV → JSON", exact: true }).click();
+  await expect(page.getByText("Conversion updated")).toBeVisible();
+  await page.getByRole("button", { name: "Format this JSON", exact: true }).click();
+  await expect(page).toHaveURL(/\/en\/tools\/json-formatter$/);
+  await expect(page.getByLabel("Your JSON", { exact: true })).toHaveValue(/Ada/);
+  await expect(page.getByRole("status")).toContainText("JSON received from the CSV converter");
+  await page.getByRole("button", { name: "Format", exact: true }).click();
+  await expect(page.locator("pre").last()).toContainText("Ada");
 });

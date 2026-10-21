@@ -38,6 +38,15 @@ test("consumes valid JSON exactly once for its matching destination", () => {
   assert.equal(consumePendingJsonToolTransfer(storage, "json-to-typescript"), null);
 });
 
+test("CSV conversion can transfer valid JSON directly into the formatter", () => {
+  const storage = createStorage();
+  const value = '[{"name":"Ada","score":10}]';
+  assert.equal(writePendingJsonToolTransfer(storage, value, "json-formatter"), true);
+  assert.equal(consumePendingJsonToolTransfer(storage, "json-formatter"), value);
+  assert.equal(storage.values.has(key), false);
+  assert.equal(consumePendingJsonToolTransfer(storage, "json-formatter"), null);
+});
+
 test("discards a transfer opened at the wrong destination", () => {
   const storage = createStorage();
   assert.equal(writePendingJsonToolTransfer(storage, '{ "value": 42 }', "json-diff-checker"), true);
