@@ -24,7 +24,7 @@ function parseIpv6(value: string): bigint | null {
   const expanded = [...left, ...Array.from({ length: missing }, () => "0"), ...right];
   if (expanded.length !== 8) return null;
 
-  return expanded.reduce((address, group) => (address << 16n) | BigInt(Number.parseInt(group, 16)), 0n);
+  return expanded.reduce((address, group) => (address << BigInt(16)) | BigInt(Number.parseInt(group, 16)), BigInt(0));
 }
 
 function formatIpv6(value: bigint): string {
@@ -65,7 +65,7 @@ export function calculateIpv6Subnet(input: string): Ipv6Subnet | null {
 
   const hostBits = BigInt(128 - prefix);
   const network = (address >> hostBits) << hostBits;
-  const hostMask = (1n << hostBits) - 1n;
+  const hostMask = (BigInt(1) << hostBits) - BigInt(1);
   const last = network | hostMask;
 
   return {
@@ -74,6 +74,6 @@ export function calculateIpv6Subnet(input: string): Ipv6Subnet | null {
     prefix,
     networkAddress: `${formatIpv6(network)}/${prefix}`,
     lastAddress: formatIpv6(last),
-    addressCount: 1n << hostBits,
+    addressCount: BigInt(1) << hostBits,
   };
 }
