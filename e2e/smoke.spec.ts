@@ -365,7 +365,6 @@ test("CSV and YAML JSON conversions hand results to the next compatible tool", a
   await expect(page.locator("pre").last()).toContainText('"name": "Ada"');
   await page.getByRole("button", { name: "Générer les types TypeScript" }).click();
   await expect(page).toHaveURL(/\\/fr\\/outils\\/json-vers-typescript$/);
-  await expect(page.locator("#json-typescript-input")).toContainText("");
   await expect(page.locator("#json-typescript-input")).toHaveValue(/Ada/);
   await expect(page.getByRole("status").filter({ hasText: "JSON transmis depuis un autre outil" })).toBeVisible();
 
