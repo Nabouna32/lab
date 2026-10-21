@@ -80,17 +80,18 @@ jobs:
         if: github.event_name != 'pull_request' || steps.changes.outputs.lightweight_only != 'true'
         run: npm ci
 
-      - name: Lint
-        if: github.event_name != 'pull_request' || (steps.changes.outputs.lightweight_only != 'true' && steps.dependency_scope.outputs.scope != 'lint_only')
-        run: npm run lint
+      - parallel:
+          - name: Lint
+            if: github.event_name != 'pull_request' || (steps.changes.outputs.lightweight_only != 'true' && steps.dependency_scope.outputs.scope != 'lint_only')
+            run: npm run lint
 
-      - name: Typecheck
-        if: github.event_name != 'pull_request' || (steps.changes.outputs.lightweight_only != 'true' && steps.dependency_scope.outputs.scope != 'lint_only')
-        run: npm run typecheck
+          - name: Typecheck
+            if: github.event_name != 'pull_request' || (steps.changes.outputs.lightweight_only != 'true' && steps.dependency_scope.outputs.scope != 'lint_only')
+            run: npm run typecheck
 
-      - name: Unit tests
-        if: github.event_name != 'pull_request' || (steps.changes.outputs.lightweight_only != 'true' && steps.dependency_scope.outputs.scope != 'lint_only')
-        run: npm test
+          - name: Unit tests
+            if: github.event_name != 'pull_request' || (steps.changes.outputs.lightweight_only != 'true' && steps.dependency_scope.outputs.scope != 'lint_only')
+            run: npm test
 
       - name: Production build
         if: github.event_name != 'pull_request' || (steps.changes.outputs.lightweight_only != 'true' && steps.dependency_scope.outputs.scope != 'lint_only')
