@@ -50,7 +50,7 @@ test('governance mixed with runtime still marks governance but disables lightwei
   });
 });
 
-test('dependency manifests force the full suite and dependency review', () => {
+test('dependency manifests disable lightweight mode and trigger dependency review', () => {
   assert.deepEqual(classifyCiChanges(['package.json', 'package-lock.json'], 2), {
     lightweight_only: false,
     dependencies_changed: true,

@@ -6,6 +6,13 @@ import { classifyCiChanges } from "./classify-ci-changes.mjs";
 const MAX_CHANGED_FILES = 3000;
 const PAGE_SIZE = 100;
 
+export function areOnlyDependencyManifests(paths) {
+  return Array.isArray(paths) &&
+    paths.length === 2 &&
+    paths.includes("package.json") &&
+    paths.includes("package-lock.json");
+}
+
 export async function fetchPullRequestFiles({
   repository,
   pullNumber,
@@ -76,6 +83,7 @@ async function main() {
     lightweight_only: false,
     dependencies_changed: false,
     governance_changed: false,
+    dependency_manifests_only: false,
   };
 
   if (eventName === "pull_request") {
@@ -91,6 +99,7 @@ async function main() {
       token: process.env.GH_TOKEN,
     });
     result = classifyCiChanges(filenames, Number(countText));
+    result.dependency_manifests_only = areOnlyDependencyManifests(filenames);
   } else if (eventName !== "workflow_dispatch") {
     throw new Error(`Unsupported event for CI change detection: ${eventName ?? "missing"}.`);
   }

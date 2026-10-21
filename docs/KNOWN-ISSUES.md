@@ -1,6 +1,6 @@
 # Loculary — problèmes connus et conditions de reprise
 
-Dernière vérification : 2026-10-19. Ce registre résume les blocages persistants ; les issues GitHub restent la source détaillée du suivi.
+Dernière vérification : 2026-10-21. Ce registre résume les blocages persistants ; les issues GitHub restent la source détaillée du suivi.
 
 ## 1. Alerte npm HIGH sur `braces@3.0.3`
 
@@ -48,7 +48,16 @@ Dernière vérification : 2026-10-19. Ce registre résume les blocages persistan
 
 - **État :** la suite Playwright Chromium de [PR #907](https://github.com/Nabouna32/lab/pull/907) couvre les parcours principaux (accueil FR/EN, recherche, calculateur IPv4 et comparateur JSON) sur mobile/desktop et thèmes clair/sombre.
 - **Historique :** un ancien workflow produisait des rapports Markdown, des PNG et des traces téléversés dans un artefact conservé sept jours. Cette approche a aidé ponctuellement à identifier un défaut de contraste, mais elle imposait une boucle de récupération et d'inspection peu compatible avec la correction continue.
-- **Décision proposée par la PR #958 (non fusionnée au moment de cette rédaction) :** retirer les captures systématiques, les traces, le rapport JSON, les projets visuels dédiés et l'upload d'artefacts. Conserver les tests fonctionnels, les assertions ciblées et des diagnostics textuels concis dans les logs CI.
+- **Décision livrée par la PR #958** ([commit `0383999`](https://github.com/Nabouna32/lab/commit/0383999e390fb38251f19ec1096e0fd74fff8eed)) : retirer les captures systématiques, les traces, les projets visuels dédiés et l'upload d'artefacts. Conserver les tests fonctionnels, les assertions ciblées et des diagnostics textuels concis dans les logs CI.
 - **Contraste ciblé :** le test du comparateur JSON vérifie le ratio WCAG 4,5:1 du texte de son exemple éditorial dans les quatre configurations ; cela ne constitue pas un audit de contraste exhaustif sur tout le site.
 - **Limites :** les tests Chromium exécutés sur le build local ne valident pas la preview Vercel ni les données de production. Les contrôles automatisés ne remplacent pas l'analyse UX/UI, l'inspection clavier/lecteur d'écran ou un audit WCAG complet.
 - **Suite :** utiliser les assertions pour empêcher la réapparition de défauts objectivables ; réserver l'observation visuelle hors CI aux problèmes complexes que les tests, logs et code ne permettent pas de trancher.
+
+
+## 6. Stabilité des smoke tests Playwright sur le runner CI Windows
+
+- **État :** mitigation appliquée ; symptôme non reproduit sur deux exécutions complètes après réduction à un worker. La cause racine demeure non confirmée ; suivi dans [issue #741](https://github.com/Nabouna32/lab/issues/741).
+- **Preuve :** le run [#39664661732](https://github.com/Nabouna32/lab/actions/runs/39664661732) a réussi lint, TypeScript et les tests unitaires, mais échoué dans le job build + Playwright ; le test `group expense splitter calculates local reimbursements` a rencontré `net::ERR_NO_BUFFER_SPACE` dans le projet `desktop-dark`, puis le contrôle global de console a échoué.
+- **Hypothèse, pas fait établi :** la concurrence des tests ou la pression de ressources Chromium/Windows peut contribuer au symptôme. Le journal disponible ne suffit pas à établir la cause.
+- **Mesure retenue dans [PR #963](https://github.com/Nabouna32/lab/pull/963) :** passer à un worker Playwright lorsque `CI=true`, conserver les quatre projets fonctionnels existants, zéro retry et les diagnostics textuels. Ne pas ajouter de captures, traces ou uploads pour contourner le problème.
+- **Prochaine vérification :** comparer les exécutions CI après ce changement. Si l’erreur persiste, examiner les logs du runner et les étapes réseau/console plutôt que d’ajouter des retries qui masqueraient le symptôme.

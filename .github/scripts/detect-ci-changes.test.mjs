@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { fetchPullRequestFiles } from "./detect-ci-changes.mjs";
+import { areOnlyDependencyManifests, fetchPullRequestFiles } from "./detect-ci-changes.mjs";
 
 const response = (entries, status = 200) => ({
   ok: status >= 200 && status < 300,
@@ -76,4 +76,12 @@ test("fails closed when GitHub rejects the changed-file request", async () => {
     }),
     /HTTP 403/,
   );
+});
+
+test("classifies only the exact manifest pair as dependency-manifest-only", () => {
+  assert.equal(areOnlyDependencyManifests(["package.json", "package-lock.json"]), true);
+  assert.equal(areOnlyDependencyManifests(["package.json", "package-lock.json", "README.md"]), false);
+  assert.equal(areOnlyDependencyManifests(["package-lock.json"]), false);
+  assert.equal(areOnlyDependencyManifests([]), false);
+  assert.equal(areOnlyDependencyManifests(null), false);
 });
