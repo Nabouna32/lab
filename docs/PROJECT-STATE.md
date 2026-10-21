@@ -9,6 +9,7 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 
 ## État vérifié
 
+- **Parcours horaires internationaux :** le convertisseur compare une heure source à jusqu’à six fuseaux de destination, affiche la date et le décalage de chaque ville, permet de copier tous les horaires et conserve la gestion des transitions DST. Traitement navigateur uniquement, FR/EN.
 - **Nouvel outil / comparateur CSV :** comparaison locale de deux exports, détection des enregistrements ajoutés/supprimés/modifiés et rapprochement optionnel par colonne clé pour ignorer les changements d’ordre. Limites d’entrée et de rapport explicites.
 - **Outil développeur / extraction JSON par chemin :** le formateur extrait localement une valeur imbriquée avec une syntaxe de chemin volontairement limitée et documentée ; résultat copiable, sans service distant.
 - **Conversion CSV → JSON typée (optionnelle) :** inférence locale des nombres finis, booléens et `null`, en conservant par défaut les chaînes et les identifiants avec zéros initiaux.
@@ -93,10 +94,11 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 
 > Mémoire opérationnelle par session de travail, avec les PR représentatives et preuves vérifiables.
 
-1. **Nouvel outil / comparateur CSV** — comparer deux exports avec rapprochement par clé, traitement local et rapport des changements. [PR #927](https://github.com/Nabouna32/lab/pull/927).
-2. **Nouvel outil / nettoyage de listes textuelles** — nettoyage des espaces, suppression des lignes vides et doublons, tri optionnel, traitement local. [PR #924](https://github.com/Nabouna32/lab/pull/924).
-3. **Parcours JSON chaîné** — transfert local à usage unique du formateur vers le comparateur, sans placer le contenu dans l’URL ni l’envoyer à un serveur. [PR #922](https://github.com/Nabouna32/lab/pull/922), scénario Playwright ajouté par [PR #923](https://github.com/Nabouna32/lab/pull/923).
-4. **Recherche / filtres de catégories** — affiner les résultats sans perdre la requête. [PR #921](https://github.com/Nabouna32/lab/pull/921).
+1. **Parcours / comparateur multi-villes de fuseaux horaires** — comparer une heure source à plusieurs villes et copier tous les résultats. [PR à venir].
+2. **Nouvel outil / comparateur CSV** — comparer deux exports avec rapprochement par clé, traitement local et rapport des changements. [PR #927](https://github.com/Nabouna32/lab/pull/927).
+3. **Nouvel outil / nettoyage de listes textuelles** — nettoyage des espaces, suppression des lignes vides et doublons, tri optionnel, traitement local. [PR #924](https://github.com/Nabouna32/lab/pull/924).
+4. **Parcours JSON chaîné** — transfert local à usage unique du formateur vers le comparateur, sans placer le contenu dans l’URL ni l’envoyer à un serveur. [PR #922](https://github.com/Nabouna32/lab/pull/922), scénario Playwright ajouté par [PR #923](https://github.com/Nabouna32/lab/pull/923).
+5. **Recherche / filtres de catégories** — affiner les résultats sans perdre la requête. [PR #921](https://github.com/Nabouna32/lab/pull/921).
 5. **Découverte / intention « Préparer »** — nouvelle intention FR/EN qui rassemble les outils de préparation d’images, données et texte avant réutilisation. [PR #920](https://github.com/Nabouna32/lab/pull/920).
 
 ## Priorités immédiates
