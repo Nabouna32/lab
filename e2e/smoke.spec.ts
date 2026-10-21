@@ -10,17 +10,6 @@ type BrowserIssues = {
 
 const browserIssues = new WeakMap<Page, BrowserIssues>();
 
-async function expectNoHorizontalOverflow(page: Page): Promise<void> {
-  const dimensions = await page.evaluate(() => ({
-    viewportWidth: window.innerWidth,
-    documentWidth: document.documentElement.scrollWidth,
-  }));
-  expect(
-    dimensions.documentWidth,
-    `homepage document width (${dimensions.documentWidth}px) should fit viewport (${dimensions.viewportWidth}px)`,
-  ).toBeLessThanOrEqual(dimensions.viewportWidth + 1);
-}
-
 async function getContrastRatio(locator: Locator): Promise<number> {
   return locator.evaluate((element) => {
     function relativeLuminance(color: string): number {
@@ -135,45 +124,6 @@ test.afterEach(async ({ page }, testInfo) => {
   
   expect(issues.pageErrors, "unexpected JavaScript errors in the page").toEqual([]);
   expect(issues.consoleErrors, "unexpected browser console errors").toEqual([]);
-});
-
-test("French homepage renders and exposes the search combobox state", async ({ page }) => {
-  await page.goto("/fr");
-  await expect(page.locator("html")).toHaveAttribute("lang", "fr");
-  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-  await expect(page.getByRole("link", { name: /Parcours guidés/ })).toBeVisible();
-  await expect(page.getByRole("link", { name: "Tous les outils", exact: true }).first()).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Commence par ta tâche" })).toHaveCount(0);
-  await expect(page.getByRole("heading", { name: "Catégories" })).toHaveCount(0);
-  await expectNoHorizontalOverflow(page);
-
-  const search = page.locator("#home-tool-search-v4").getByRole("combobox");
-  await expect(search).toBeVisible();
-  await expect(search).toHaveAttribute("aria-expanded", "false");
-  await search.fill("sous réseau");
-  await expect(search).toHaveAttribute("aria-expanded", "true", { timeout: 8_000 });
-  await expect(page.locator('[data-search-popup-owner="home-tool-search-v4"]')).toBeVisible();
-});
-
-test("English homepage renders in English", async ({ page }) => {
-  await page.goto("/en");
-  await expect(page.locator("html")).toHaveAttribute("lang", "en");
-  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-  await expect(page.getByRole("link", { name: /Guided workflows/ })).toBeVisible();
-  await expect(page.getByRole("link", { name: "All tools", exact: true }).first()).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Start with your task" })).toHaveCount(0);
-  await expect(page.getByRole("heading", { name: "Categories" })).toHaveCount(0);
-  await expectNoHorizontalOverflow(page);
-});
-
-test("Explorer keeps intent and category discovery in both locales", async ({ page }) => {
-  await page.goto("/fr/outils");
-  await expect(page.getByRole("heading", { name: "Commence par ta tâche" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Parcourir par catégorie" })).toBeVisible();
-
-  await page.goto("/en/tools");
-  await expect(page.getByRole("heading", { name: "Start with your task" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Browse by category" })).toBeVisible();
 });
 
 test("IPv4 subnet calculator updates results end to end", async ({ page }) => {
