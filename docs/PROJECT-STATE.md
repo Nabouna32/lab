@@ -2,7 +2,7 @@
 
 Dernière vérification : 2026-10-21
 
-- **Découverte / parcours guidés :** page FR/EN avec quatre séquences de tâches et liens directs vers les outils ; distinction explicite entre transferts automatiques texte/JSON→comparateur et étapes nécessitant un copier-coller. [PR #951](https://github.com/Nabouna32/lab/pull/951) ; CI en cours.
+- **Découverte / parcours guidés :** page FR/EN avec quatre séquences de tâches et liens directs vers les outils ; distinction explicite entre transferts automatiques texte/JSON→comparateur, copier-coller CSV→JSON et étapes indépendantes pour les photos→PDF. [PR #951](https://github.com/Nabouna32/lab/pull/951) ; CI en cours.
 
 - **Parcours texte / transmission entre outils :** le Nettoyeur et trieur de lignes peut préremplir le comparateur de texte avec le résultat nettoyé. Transfert local, ciblé, à usage unique, limité à 200 000 caractères et expirant après cinq minutes. Messages FR/EN et tests de contrat du helper ; CI complète verte ([run #39544027669](https://github.com/Nabouna32/lab/actions/runs/39544027669)) et déploiement production `READY` ([Vercel](https://vercel.com/nabouna32/loculary/2yDQK1D5yFnF9AXzUPEVMdTEWUs3)).
 
