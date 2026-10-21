@@ -325,7 +325,7 @@ Favorites, personal collections and the light/dark theme preference should be ea
 Where useful, tool pages may offer lightweight feedback such as “Cet outil vous a été utile ? 👍 👎” or authenticated ratings without distracting from the task.
 
 
-## Public header, navigation popovers and mobile search
+## Public header, navigation popovers and global search
 
 The public header and homepage share one task-first hierarchy: global search is available through a magnifying-glass trigger at every breakpoint, while the homepage retains its own prominent search field. Do not duplicate an always-visible search input in the desktop header. The shared SVG brand mark is distinct from functional icons; use `LocularyLogo` rather than duplicating logo markup.
 
