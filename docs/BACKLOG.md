@@ -2,6 +2,8 @@
 
 Dernière révision : 2026-10-21. File de travail unique.
 
+- **QR Code / partage Wi-Fi :** mode Wi-Fi local dans le générateur QR existant, avec échappement des caractères réservés, réseaux masqués et ouverts, avertissement sur l’exposition du mot de passe et tests unitaires dédiés. PR en cours de validation.
+
 - **Sauvegarde/restauration des collections locales :** [PR #939](https://github.com/Nabouna32/lab/pull/939). Export JSON versionné et restauration additive locale ; collections synchronisées exclues, format et ressources validés, sans compte ni backend.
 
 - **Recherche / classement par intention :** [PR #940](https://github.com/Nabouna32/lab/pull/940). Reconnaître les verbes de tâche FR/EN et reclasser les outils déjà associés à une intention éditoriale, sans IA ni transmission distante.
