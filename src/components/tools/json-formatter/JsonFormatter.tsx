@@ -110,6 +110,7 @@ export default function JsonFormatter() {
             value={input}
             onChange={(event) => {
               setInput(event.target.value);
+              setResult("");
               setError(null);
               setTransferError(false);
               setExtractedValue("");
