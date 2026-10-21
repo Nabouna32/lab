@@ -2,6 +2,8 @@
 
 Dernière révision : 2026-10-21. File de travail unique.
 
+- **Nouvel outil / comparateur CSV :** comparer deux exports de données localement, avec rapprochement optionnel par identifiant et différences par colonne.
+
 - **Conversion CSV → JSON typée :** proposer une inférence optionnelle des types scalaires sans modifier le comportement par défaut ni convertir les identifiants avec zéros initiaux.
 
 - **Parcours guidés entre outils :** premier transfert local du formateur JSON vers le comparateur, couvert par un scénario Playwright de bout en bout. [PR #922](https://github.com/Nabouna32/lab/pull/922), test complémentaire [PR #923](https://github.com/Nabouna32/lab/pull/923). Étendre aux couples où format et sens sont explicitement compatibles ; ne jamais passer le contenu par URL ou serveur.
