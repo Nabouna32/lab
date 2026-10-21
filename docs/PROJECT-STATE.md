@@ -9,6 +9,7 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 
 ## État vérifié
 
+- **QR Code / partage Wi-Fi :** le générateur existant prend en charge le format de connexion Wi-Fi, les réseaux WPA/WEP/ouverts, les réseaux masqués et l’échappement des caractères réservés (y compris les retours à la ligne). Tests unitaires dédiés ajoutés ; la CI de la PR reste à confirmer avant livraison.
 - **Découverte / intention « Comparer » :** entrée transversale FR/EN vers les comparateurs JSON, CSV et texte ainsi que la comparaison multi-fuseaux horaires. Réutilise les outils publiés, sans nouvelle page, dépendance, stockage ou traitement distant.
 - **Parcours horaires internationaux :** le convertisseur compare une heure source à jusqu’à six fuseaux de destination, affiche la date et le décalage de chaque ville, permet de copier tous les horaires et conserve la gestion des transitions DST. Traitement navigateur uniquement, FR/EN.
 - **Nouvel outil / comparateur CSV :** comparaison locale de deux exports, détection des enregistrements ajoutés/supprimés/modifiés et rapprochement optionnel par colonne clé pour ignorer les changements d’ordre. Limites d’entrée et de rapport explicites.
