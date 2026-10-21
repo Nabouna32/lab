@@ -82,6 +82,10 @@ export const toolSeo = {
     fr: { title: "Convertisseur CSV et JSON | Loculary", description: "Convertissez des données CSV en JSON et des tableaux JSON en CSV directement dans votre navigateur." },
     en: { title: "CSV & JSON Converter | Loculary", description: "Convert CSV data to JSON and JSON object arrays to CSV directly in your browser." },
   },
+  "csv-diff-checker": {
+    fr: { title: "Comparateur CSV | Loculary", description: "Comparez deux exports CSV, repérez les lignes ajoutées, supprimées et modifiées, même si leur ordre change." },
+    en: { title: "CSV Diff Checker | Loculary", description: "Compare two CSV exports and find added, removed, and changed records, even when their order changes." },
+  },
   "json-to-typescript": {
     fr: { title: "JSON vers TypeScript | Loculary", description: "Générez des interfaces et types TypeScript à partir d’un exemple JSON directement dans votre navigateur." },
     en: { title: "JSON to TypeScript | Loculary", description: "Generate TypeScript interfaces and types from a JSON sample directly in your browser." },
