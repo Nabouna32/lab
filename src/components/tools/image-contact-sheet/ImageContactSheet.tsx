@@ -36,7 +36,7 @@ export default function ImageContactSheet() {
       setError(fr ? "Formats acceptés : JPEG, PNG, WebP et GIF." : "Supported formats: JPEG, PNG, WebP, and GIF."); return;
     }
     setFiles(selected); setError(null); setDone(false);
-    setPreviewUrl((current) => { if (current) URL.revokeObjectURL(current); return null; });
+    setPreviewUrl(null);
   }
 
   function updateOptions(patch: Partial<SheetOptions>) {
@@ -82,7 +82,7 @@ export default function ImageContactSheet() {
       }
       const blob = await new Promise<Blob>((resolve, reject) => canvas.toBlob((value) => value ? resolve(value) : reject(new Error("encode")), "image/png"));
       const url = URL.createObjectURL(blob);
-      setPreviewUrl((current) => { if (current) URL.revokeObjectURL(current); return url; });
+      setPreviewUrl(url);
       setDone(true);
     } catch (caught) {
       const reason = caught instanceof Error && caught.message === "dimensions";
