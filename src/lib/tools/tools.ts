@@ -3,6 +3,10 @@ import { validateToolCatalog } from "./metadata.ts";
 import { toolSeo } from "./seo.ts";
 
 const localProcessingDescriptions = {
+  "expense-splitter": {
+    fr: "Les noms, dépenses et remboursements sont calculés temporairement dans votre navigateur.",
+    en: "Names, expenses, and reimbursements are calculated temporarily in your browser.",
+  },
   "compound-interest": {
     fr: "Le calcul des intérêts composés est effectué directement dans votre navigateur.",
     en: "Compound interest calculations are performed directly in your browser.",

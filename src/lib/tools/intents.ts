@@ -17,6 +17,7 @@ export const intentDefinitions: readonly IntentDefinition[] = [
   {
     id: "calculate",
     toolIds: [
+      "expense-splitter",
       "compound-interest",
       "percentage",
       "discount",

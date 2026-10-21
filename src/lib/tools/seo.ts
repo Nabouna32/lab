@@ -2,6 +2,10 @@ import type { Locale } from "../i18n/config.ts";
 import type { ToolId, ToolSeoMetadata } from "./types";
 
 export const toolSeo = {
+  "expense-splitter": {
+    fr: { title: "Répartiteur de dépenses de groupe | Loculary", description: "Répartissez les dépenses d’un voyage, d’une colocation ou d’une sortie et calculez les remboursements à effectuer, directement dans votre navigateur." },
+    en: { title: "Group Expense Splitter | Loculary", description: "Split trip, household, or group expenses and calculate who should reimburse whom, directly in your browser." },
+  },
   "compound-interest": {
     fr: { title: "Calculateur d’intérêts composés | Loculary", description: "Calculez la croissance d’un capital avec capitalisation périodique et versements réguliers optionnels." },
     en: { title: "Compound Interest Calculator | Loculary", description: "Calculate compound growth with periodic compounding and optional regular contributions." },
