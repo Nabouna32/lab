@@ -38,6 +38,9 @@ test("published tool slugs are explicit and localized", () => {
   assert.equal(getToolIdBySlug("fr", "formateur-validateur-yaml"), "yaml-formatter-validator");
   assert.equal(getToolIdBySlug("fr", "comparateur-de-texte"), "text-diff-checker");
   assert.equal(getToolPath("fr", "csv-diff-checker"), "/fr/outils/comparateur-csv");
+  assert.equal(getToolPath("en", "ipv6-subnet-calculator"), "/en/tools/ipv6-subnet-calculator");
+  assert.equal(getToolPath("fr", "ipv6-subnet-calculator"), "/fr/outils/calculateur-de-sous-reseau-ipv6");
+  assert.equal(getToolIdBySlug("en", "ipv6-subnet-calculator"), "ipv6-subnet-calculator");
   assert.equal(getLocalizedPath("/fr/parcours-guides", "en"), "/en/guided-workflows");
   assert.equal(getLocalizedPath("/en/guided-workflows", "fr"), "/fr/parcours-guides");
   assert.equal(getToolIdBySlug("en", "csv-diff-checker"), "csv-diff-checker");
