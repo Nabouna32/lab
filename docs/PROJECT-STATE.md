@@ -4,7 +4,7 @@ Dernière vérification : 2026-10-21
 
 ## Travail en cours
 
-- **Factory autonome d’outils :** checkpoint [issue #965](https://github.com/Nabouna32/lab/issues/965). Le mandat spécialisé est en préparation sur la branche `docs/loculary-factory-mandate`. Périmètre validé : sélectionner la meilleure opportunité entre nouvel outil, refonte, fonctionnalité transversale ou parcours ; distinguer le mandat du futur mécanisme d’automatisation. La création d’un ordonnanceur est exclue de ce lot. Aucun résultat de CI ou de fusion n’est encore établi.
+- **Factory autonome d’outils :** checkpoint [issue #965](https://github.com/Nabouna32/lab/issues/965) et proposition de mandat dans [PR #966](https://github.com/Nabouna32/lab/pull/966). Périmètre : sélectionner la meilleure opportunité entre nouvel outil, refonte, fonctionnalité transversale ou parcours ; distinguer le mandat du mécanisme d’automatisation, suivi dans [issue #967](https://github.com/Nabouna32/lab/issues/967). La PR est la source de vérité pour son état de validation et de fusion.
 
 ## Cinq dernières reprises
 
