@@ -28,8 +28,9 @@ export default function QrCodeGenerator() {
   const [size, setSize] = useState("256");
   const svgRef = useRef<SVGSVGElement>(null);
 
+  const needsPassword = mode === "wifi" && security !== "nopass" && !password;
   const encodedValue = mode === "wifi"
-    ? ssid
+    ? ssid && !needsPassword
       ? `WIFI:T:${security};S:${escapeWifiValue(ssid)};P:${security === "nopass" ? "" : escapeWifiValue(password)};H:${hidden ? "true" : "false"};;`
       : ""
     : value;
@@ -106,6 +107,11 @@ export default function QrCodeGenerator() {
                   ? "Le QR Code contient le nom du réseau et, si nécessaire, son mot de passe. Toute personne qui peut le scanner peut récupérer ces informations."
                   : "The QR Code contains the network name and, when required, its password. Anyone who can scan it can retrieve these details."}
               </p>
+              {ssid && needsPassword && (
+                <p className="text-sm text-[var(--danger)]" role="status">
+                  {isFrench ? "Saisissez le mot de passe pour générer le QR Code." : "Enter the password to generate the QR Code."}
+                </p>
+              )}
             </div>
           ) : (
             <>
