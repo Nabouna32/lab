@@ -202,6 +202,38 @@ export function convertTimeZone(
   };
 }
 
+export type TimeZoneComparisonResult = {
+  timeZone: string;
+  conversion: TimeZoneConversionResult;
+};
+
+/** Converts one source wall-clock time to several distinct destinations in one pass. */
+export function convertTimeZones(
+  value: string,
+  sourceTimeZone: string,
+  destinationTimeZones: readonly string[],
+): TimeZoneComparisonResult[] | null {
+  if (
+    destinationTimeZones.length < 1 ||
+    destinationTimeZones.length > 6 ||
+    new Set(destinationTimeZones).size !== destinationTimeZones.length
+  ) {
+    return null;
+  }
+
+  const results = destinationTimeZones.map((timeZone) => ({
+    timeZone,
+    conversion: convertTimeZone(value, sourceTimeZone, timeZone),
+  }));
+
+  if (results.some(({ conversion }) => conversion === null)) return null;
+
+  return results.map(({ timeZone, conversion }) => ({
+    timeZone,
+    conversion: conversion!,
+  }));
+}
+
 export function formatOffset(minutes: number): string {
   if (minutes === 0) return "UTC";
   const sign = minutes > 0 ? "+" : "-";
