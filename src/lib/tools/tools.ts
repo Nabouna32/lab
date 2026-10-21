@@ -3,6 +3,10 @@ import { validateToolCatalog } from "./metadata.ts";
 import { toolSeo } from "./seo.ts";
 
 const localProcessingDescriptions = {
+  "expense-splitter": {
+    fr: "Les noms, dépenses et remboursements sont calculés temporairement dans votre navigateur.",
+    en: "Names, expenses, and reimbursements are calculated temporarily in your browser.",
+  },
   "compound-interest": {
     fr: "Le calcul des intérêts composés est effectué directement dans votre navigateur.",
     en: "Compound interest calculations are performed directly in your browser.",
@@ -199,6 +203,7 @@ type ToolDefinition = Pick<
 > & { capabilities?: ToolCapability[] };
 
 const nextActionToolIds: Partial<Record<ToolId, ToolId[]>> = {
+  "expense-splitter": ["percentage", "discount"],
   "compound-interest": ["percentage"],
   "\u0070ercentage": ["\u0064iscount"],
   discount: ["vat"],
@@ -239,6 +244,20 @@ const nextActionToolIds: Partial<Record<ToolId, ToolId[]>> = {
 };
 
 const toolDefinitions: ToolDefinition[] = [
+  {
+    id: "expense-splitter", icon: "🧾",
+    version: 1,
+    complexity: "advanced",
+    categories: ["calculations"],
+    tags: ["dépenses", "partage", "remboursement", "groupe", "voyage", "colocation", "split bill", "expenses", "trip", "roommates", "settlement"],
+    aliases: ["expense splitter", "bill splitter", "split expenses", "group expenses", "who owes whom", "split trip costs", "répartir les dépenses", "partager une addition", "qui doit combien", "remboursement entre amis", "compte de voyage"],
+    lifecycle: "published",
+    capabilities: ["clipboard"],
+    content: {
+      fr: { name: "Répartiteur de dépenses de groupe", description: "Répartissez les dépenses d’un voyage, d’une colocation ou d’une sortie et calculez qui rembourse qui, sans compte." },
+      en: { name: "Group Expense Splitter", description: "Split trip, household, or group expenses and calculate who reimburses whom, with no account." },
+    },
+  },
   {
     id: "compound-interest", icon: "📈",
     version: 1,
