@@ -2,6 +2,7 @@ import type { Locale } from "../i18n/config.ts";
 import { getPrimaryToolCategory, getToolContent, isPublishedTool } from "./types.ts";
 import type { Tool } from "@/lib/tools/types";
 import { normalizeSearchText } from "./search-utils.ts";
+import { intentDefinitions, type IntentId } from "./intents.ts";
 
 export type ToolSearchResult = { tool: Tool; score: number };
 
@@ -11,6 +12,40 @@ const SEARCH_STOP_WORDS = new Set([
   "et", "for", "find", "la", "le", "les", "ma", "me", "mon", "my", "of", "pour", "the", "to",
   "un", "une", "what", "with",
 ]);
+
+/**
+ * Small, deterministic query vocabulary that connects natural requests to curated
+ * intent associations. This is deliberately not an AI classifier: ambiguous terms
+ * only influence ranking when they match an explicit verb or task synonym.
+ */
+const INTENT_QUERY_TERMS: Record<IntentId, readonly string[]> = {
+  calculate: ["calculate", "calculates", "calculating", "calculer", "calcule", "calculez", "calcul", "compute", "combien", "percentage", "pourcentage", "proportion"],
+  convert: ["convert", "converter", "converting", "convertir", "convertissez", "conversion", "transform", "transformer", "transformer", "changer", "change", "format", "formatter"],
+  generate: ["generate", "generating", "generator", "generer", "creer", "create", "produire", "make", "generateur"],
+  analyze: ["analyze", "analyse", "analyser", "inspect", "inspecter", "decode", "decoder", "diagnose", "diagnostiquer"],
+  measure: ["measure", "measuring", "mesurer", "measurement", "duration", "duree", "estimate", "estimer"],
+  prepare: ["prepare", "preparer", "optimiser", "optimize", "compress", "compresser", "nettoyer", "clean", "resize", "redimensionner", "partager", "share"],
+  compare: ["compare", "comparer", "comparison", "comparaison", "difference", "diff", "versus", "vs", "between", "entre"],
+};
+
+function inferQueryIntents(query: string): Set<IntentId> {
+  const terms = new Set(normalizeSearchText(query).match(/[a-z0-9%]+/g) ?? []);
+  return new Set(
+    (Object.entries(INTENT_QUERY_TERMS) as [IntentId, readonly string[]][])
+      .filter(([, vocabulary]) => vocabulary.some((term) => terms.has(term)))
+      .map(([intentId]) => intentId),
+  );
+}
+
+function getIntentBoost(tool: Tool, inferredIntents: ReadonlySet<IntentId>): number {
+  if (inferredIntents.size === 0) return 0;
+  return intentDefinitions.reduce(
+    (boost, definition) => inferredIntents.has(definition.id) && definition.toolIds.includes(tool.id)
+      ? boost + 28
+      : boost,
+    0,
+  );
+}
 
 function getSearchText(tool: Tool, locale: Locale): string {
   const content = getToolContent(tool, locale);
@@ -104,7 +139,8 @@ export function searchTools(tools: readonly Tool[], query: string, locale: Local
   if (!normalizedQuery) return [];
 
   const terms = tokenizeSearchQuery(normalizedQuery);
-  if (terms.length === 0) return [];
+  const inferredIntents = inferQueryIntents(normalizedQuery);
+  if (terms.length === 0 && inferredIntents.size === 0) return [];
 
   return tools.filter(isPublishedTool).map((tool) => {
     const content = getToolContent(tool, locale);
@@ -117,10 +153,12 @@ export function searchTools(tools: readonly Tool[], query: string, locale: Local
 
     const termScores = terms.map((term) => scoreTerm(term, name, description, tags, aliases, categories, haystack));
     const matchedTerms = termScores.filter((score) => score > 0).length;
-    if (matchedTerms === 0) return { tool, score: 0 };
+    const intentBoost = getIntentBoost(tool, inferredIntents);
+    if (matchedTerms === 0 && intentBoost === 0) return { tool, score: 0 };
 
     const allTermsMatch = matchedTerms === terms.length;
     const score = termScores.reduce((total, termScore) => total + termScore, 0)
+      + intentBoost
       + (allTermsMatch ? 30 : matchedTerms * 8);
 
     return { tool, score };
