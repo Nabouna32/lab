@@ -31,5 +31,5 @@ test("CSV comparison rejects duplicate headers, malformed rows, and duplicate ke
 
 test("CSV comparison validates the selected key and limits input size", () => {
   assert.throws(() => compareCsvDocuments("id,name\n1,A", "id,name\n1,A", "missing"), (error) => error instanceof CsvDiffError && error.code === "missing-key");
-  assert.throws(() => compareCsvDocuments("id,name\n1,A", "id,name\n1,A", "id", ","), (error) => error !== null);
+  assert.throws(() => compareCsvDocuments("x".repeat(200_001), "id,name\n1,A"), (error) => error instanceof CsvDiffError && error.code === "too-large");
 });
