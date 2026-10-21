@@ -13,7 +13,7 @@ permissions:
   pull-requests: read
 
 concurrency:
-  group: ci-\${{ github.workflow }}-\${{ github.ref }}
+  group: ci-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -33,10 +33,10 @@ jobs:
         id: changes
         if: github.event_name == 'pull_request'
         env:
-          EVENT_NAME: \${{ github.event_name }}
-          PR_NUMBER: \${{ github.event.pull_request.number }}
-          PR_CHANGED_FILES: \${{ github.event.pull_request.changed_files }}
-          GH_TOKEN: \${{ github.token }}
+          EVENT_NAME: ${{ github.event_name }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_CHANGED_FILES: ${{ github.event.pull_request.changed_files }}
+          GH_TOKEN: ${{ github.token }}
         run: node .github/scripts/detect-ci-changes.mjs
 
       - name: Setup Node.js
@@ -51,7 +51,7 @@ jobs:
         if: github.event_name == 'pull_request' && steps.changes.outputs.dependencies_changed == 'true'
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: \${{ github.event.pull_request.base.sha }}
+          ref: ${{ github.event.pull_request.base.sha }}
           path: dependency-baseline
           fetch-depth: 1
           persist-credentials: false
@@ -64,7 +64,7 @@ jobs:
         id: dependency_scope
         if: github.event_name == 'pull_request' && steps.changes.outputs.dependencies_changed == 'true'
         env:
-          DEPENDENCY_MANIFESTS_ONLY: \${{ steps.changes.outputs.dependency_manifests_only }}
+          DEPENDENCY_MANIFESTS_ONLY: ${{ steps.changes.outputs.dependency_manifests_only }}
         run: |
           node .github/scripts/classify-dependency-diff.mjs dependency-baseline/package.json package.json dependency-baseline/package-lock.json package-lock.json "$DEPENDENCY_MANIFESTS_ONLY"
 
