@@ -2,7 +2,7 @@
 
 Dernière vérification : 2026-10-21
 
-- **Conversion d’images en PDF :** outil local multipage A4/Lettre, jusqu’à 10 images JPEG/PNG/WebP, orientation automatique et export sans téléversement. Livraison et CI à confirmer.  
+- **Conversion d’images en PDF :** outil local multipage A4/Lettre, jusqu’à 10 images JPEG/PNG/WebP, orientation automatique et export sans téléversement. La PR #945 est fusionnée ; la reprise #946 ajoute le réordonnancement des pages et reste à valider par la CI.  
 Source de vérité : dépôt GitHub, CI, issues et déploiements liés ci-dessous. Ce document est un tableau de bord concis, pas un remplacement des spécifications produit.
 
 ## Objectif
