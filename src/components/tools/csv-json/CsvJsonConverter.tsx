@@ -120,6 +120,7 @@ export default function CsvJsonConverter() {
               setInput(event.target.value);
               setResult("");
               setError(null);
+              setTransferError(false);
             }}
             placeholder={t.placeholder}
             spellCheck={false}
