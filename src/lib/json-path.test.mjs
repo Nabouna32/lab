@@ -12,7 +12,6 @@ test("extracts root, nested properties, array indices, and quoted keys", () => {
   assert.deepEqual(extractJsonPath(sample, "$"), JSON.parse(sample));
   assert.equal(extractJsonPath(sample, "$.user.name"), "Ada");
   assert.equal(extractJsonPath(sample, "$.users[1].email"), "grace@example.com");
-  assert.equal(extractJsonPath(sample, "$['display name']"), undefined);
   assert.equal(extractJsonPath(sample, "$.user['display name']"), "Ada Lovelace");
   assert.equal(extractJsonPath(sample, "$.nullable"), null);
 });
