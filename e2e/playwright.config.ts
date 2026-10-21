@@ -29,10 +29,12 @@ export default defineConfig({
     },
     {
       name: "tablet-light",
+      testMatch: "**/home.spec.ts",
       use: { ...devices["iPad Mini"], browserName: "chromium", colorScheme: "light", viewport: { width: 768, height: 1024 } },
     },
     {
       name: "tablet-dark",
+      testMatch: "**/home.spec.ts",
       use: { ...devices["iPad Mini"], browserName: "chromium", colorScheme: "dark", viewport: { width: 768, height: 1024 } },
     },
     {
