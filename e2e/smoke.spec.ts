@@ -501,7 +501,7 @@ test("guided workflows connect published tools in French and English", async ({ 
   await expect(page.locator("html")).toHaveAttribute("lang", "fr");
   await expect(page.getByRole("heading", { level: 1, name: "Des parcours pour aller jusqu’au bout" })).toBeVisible();
   await expect(page.getByTestId("guided-workflows").locator("article")).toHaveCount(4);
-  await expect(page.getByText("Le résultat passe automatiquement à l’étape suivante.")).toBeVisible();
+  await expect(page.getByText("Le résultat passe automatiquement à l’étape suivante.")).toHaveCount(2);
   await expect(page.getByRole("link", { name: "Nettoyeur et trieur de lignes" })).toHaveAttribute("href", "/fr/outils/nettoyeur-trieur-de-lignes");
   await expect(page.getByRole("link", { name: "Comparateur de texte" })).toHaveAttribute("href", "/fr/outils/comparateur-de-texte");
 
@@ -509,6 +509,6 @@ test("guided workflows connect published tools in French and English", async ({ 
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
   await expect(page.getByRole("heading", { level: 1, name: "Guided paths from start to finish" })).toBeVisible();
   await expect(page.getByTestId("guided-workflows").locator("article")).toHaveCount(4);
-  await expect(page.getByText("The result is passed automatically to the next step.")).toBeVisible();
+  await expect(page.getByText("The result is passed automatically to the next step.")).toHaveCount(2);
   await expect(page.getByRole("link", { name: "Browse all tools" })).toHaveAttribute("href", "/en/tools");
 });
