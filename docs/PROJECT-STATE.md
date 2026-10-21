@@ -9,6 +9,7 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 
 ## État vérifié
 
+- **Accessibilité / correction de contraste :** le vérificateur calcule désormais une suggestion de couleur de premier plan atteignant un seuil WCAG demandé, en conservant l’arrière-plan et en choisissant la plus proche parmi les trajectoires vers le noir et le blanc. UI FR/EN avec application et copie ; tests unitaires dédiés ajoutés, exécution CI à confirmer.
 - **Découverte / intention « Comparer » :** entrée transversale FR/EN vers les comparateurs JSON, CSV et texte ainsi que la comparaison multi-fuseaux horaires. Réutilise les outils publiés, sans nouvelle page, dépendance, stockage ou traitement distant.
 - **Parcours horaires internationaux :** le convertisseur compare une heure source à jusqu’à six fuseaux de destination, affiche la date et le décalage de chaque ville, permet de copier tous les horaires et conserve la gestion des transitions DST. Traitement navigateur uniquement, FR/EN.
 - **Nouvel outil / comparateur CSV :** comparaison locale de deux exports, détection des enregistrements ajoutés/supprimés/modifiés et rapprochement optionnel par colonne clé pour ignorer les changements d’ordre. Limites d’entrée et de rapport explicites.
@@ -96,11 +97,11 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 
 > Mémoire opérationnelle par session de travail, avec les PR représentatives et preuves vérifiables.
 
-1. **Découverte par tâche / intention « Comparer »** — regroupe les comparateurs existants de données structurées, texte et fuseaux horaires.
-2. **Transformation de parcours / transferts JSON entre outils** — sorties du formateur JSON, du convertisseur CSV → JSON et du convertisseur YAML → JSON vers le comparateur ou le générateur TypeScript. [PR #930](https://github.com/Nabouna32/lab/pull/930).
-3. **Produit / comparateur JSON explorables** — résumé par type, filtres, recherche par chemin et rapport copiable des changements affichés. [PR #929](https://github.com/Nabouna32/lab/pull/929).
-4. **Parcours / comparateur multi-villes de fuseaux horaires** — comparer une heure source à plusieurs villes et copier tous les résultats. [PR #928](https://github.com/Nabouna32/lab/pull/928).
-5. **Nouvel outil / comparateur CSV** — comparer deux exports avec rapprochement par clé, traitement local et rapport des changements. [PR #927](https://github.com/Nabouna32/lab/pull/927).
+1. **Accessibilité / suggestions de correction du contraste** — couleurs de premier plan calculées localement pour atteindre WCAG AA/AAA. PR à créer ; CI à confirmer.
+2. **Produit / QR Code Wi-Fi** — [PR #933](https://github.com/Nabouna32/lab/pull/933), en attente de contrôles CI.
+3. **Découverte par tâche / intention « Comparer »** — regroupe les comparateurs existants de données structurées, texte et fuseaux horaires.
+4. **Transformation de parcours / transferts JSON entre outils** — [PR #930](https://github.com/Nabouna32/lab/pull/930).
+5. **Produit / comparateur JSON explorables** — [PR #929](https://github.com/Nabouna32/lab/pull/929).
 
 ## Priorités immédiates
 
