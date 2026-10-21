@@ -45,3 +45,11 @@ Runtime and page-level quality remains governed by the existing specifications:
 - tool model: `docs/TOOL_ARCHITECTURE.md`.
 
 The contract should grow when a requirement becomes stable enough to validate automatically. It must not turn into a lowest-common-denominator renderer or weaken the broader product requirements.
+
+
+## Runtime and page-level quality
+
+- **Accessibility:** keyboard operation, logical and visible focus, semantic structure, accessible names/states, understandable errors, meaningful status announcements, sufficient contrast, non-color-only information, touch targets and responsive reflow. Respect `prefers-reduced-motion`.
+- **Performance:** load tools on demand; keep small deterministic tools responsive; use Workers, WebAssembly, chunking or streaming when justified. Measure before removing capabilities and provide truthful progress/cancellation for long operations where feasible.
+- **SEO:** public tool pages need useful localized titles/descriptions, canonical URLs, structured headings and appropriate structured data. Keep tools immediately usable; avoid thin mass-produced content.
+- These requirements apply to the real rendered experience. Metadata validation or static tests do not replace browser and accessibility checks.

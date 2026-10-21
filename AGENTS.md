@@ -25,7 +25,7 @@ Ce fichier est le guide technique du dépôt. Il n’existe pas de mandat perman
 ## 2. Sources de vérité et continuité
 
 - Le dépôt GitHub `Nabouna32/lab` est la source de vérité pour le code, les branches, les PR et la CI. Vérifie l’état actuel avant toute modification importante.
-- Consulte les documents canoniques pertinents avant d’implémenter : notamment `docs/VISION.md`, `docs/PRODUCT.md`, `docs/UX.md`, `docs/ARCHITECTURE.md`, `docs/PRIVACY.md`, `docs/I18N.md`, `docs/DECISIONS.md`, `docs/DESIGN-SYSTEM.md`, ainsi que les documents spécialisés concernés.
+- Consulte les documents canoniques pertinents avant d’implémenter : notamment `docs/VISION.md`, `docs/PRODUCT.md`, `docs/UX.md`, `docs/ARCHITECTURE.md`, `docs/PRIVACY.md`, `docs/I18N.md`, `docs/DECISIONS.md`, `docs/DESIGN-SYSTEM.md` et, pour le portage des composants Android, `docs/material3/README.md` et les spécifications sous `docs/material3/components/`, ainsi que les documents spécialisés concernés.
 - Ces documents expriment l’intention du produit, pas forcément l’état du code. Ne modifie jamais une spécification simplement pour la faire correspondre à l’implémentation. Si code et intention divergent, évalue les deux et propose une résolution.
 - À chaque reprise ou nouveau tchat, reconstruis l’état à partir du dépôt actuel : branche, changements présents, PR, CI, code, tests et documentation pertinente. Ne dépends pas d’un résumé conversationnel ou d’un registre parallèle ; si le contexte manque, déduis uniquement ce que les éléments vérifiables permettent et signale l’incertitude.
 - Consulte la documentation officielle pour les API, versions et conventions qui peuvent changer. Si une vérification est impossible, dis-le clairement.

@@ -1,355 +1,45 @@
-# Loculary — Material 3 Fidelity / Pixel Design System Contract
+# Loculary — Design system
 
-**Status:** Accepted production design direction; implementation audit and incremental conformance work are in progress  
-**Canonical direction:** DEC-026 — Material 3 Fidelity and Pixel-inspired interface  
-**Related decisions:** DEC-004, DEC-020, DEC-026  
-**Scope:** Shared platform UX, foundations and reusable components  
-**Implementation status:** This document defines intent; it does not claim that the current production UI already conforms to the selected M3 Fidelity / Pixel direction.
+**Direction:** Material 3 Fidelity, with current Pixel / Android UI as visual reference.  
+**Decision:** [DEC-026](DECISIONS.md#dec-026--material-3-fidelity-and-pixel-inspired-interface).  
+**Status:** target contract; production-wide conformance is not yet established.
 
-## 1. Purpose and hierarchy
+## Purpose and authority
 
-Loculary adopts **Material 3's Fidelity color scheme and the visual language of current Google Pixel / Android interfaces** as the reference for its shared platform experience. Core M3 foundations shape navigation, controls, typography, semantic color, shape, elevation, iconography, interaction states and motion into a coherent, familiar interface suited to a responsive web utility toolbox.
+This document owns shared design foundations and cross-component rules. AndroidX Jetpack Compose Material 3 is the primary source for component contracts; official Android Developers guidance supplies usage context. Sources must be pinned to a version or commit for each component port. Material Web and other React libraries are comparisons only, never substitute authorities.
 
-This is a production direction, not merely an experimental palette. Use core Material 3 guidance and verify visual decisions against current Pixel / Android references. Adapt native patterns to the Web without copying entire Android screens or compromising web usability.
+The target is a faithful React/Web port of AndroidX Compose Material 3 components—not merely a visual imitation. Each component has a separate specification under [`material3/components/`](material3/README.md). A component must not be called source-faithful until its API, states, behavior, rendering and differences have been checked against its pinned source.
 
-**Loculary's deliberate target is a faithful Material 3 / modern Pixel interface.** Match the familiar component treatment, proportions, tonal surfaces, iconography, typography, navigation and interaction feedback visible in current Pixel / Android UI. This is a reference for the web interface, not a demand to reproduce a complete native screen; preserve keyboard, pointer, touch, browser navigation and responsive behavior.
+## Foundations
 
-#### Pixel-faithful color and motion in practice
+- Use Material Color Utilities **Fidelity** for seed-derived semantic color roles, with the current seed documented in implementation; the seed is not a literal color to apply everywhere.
+- Use MCU Rainbow only for category identity, not as a second semantic theme.
+- Use semantic roles and matching `on-*` foregrounds. Never hard-code palette colors into shared components when a semantic role exists.
+- Light and dark themes must implement the same role contract. Verify computed colors and contrast, including disabled, focus, border and overlay states.
+- Use Material role-based typography and the Material/Pixel visual language. Roboto is the current interface reference; technical content may use a monospace role where useful.
+- Use semantic shape and elevation roles consistently. Values copied from Material Web CSS tokens must be labelled as Web values, not represented as Android dp/sp conversions.
+- Use Material Symbols consistently for functional interface icons. Icons need accessible names when they convey an action; do not substitute emoji or arbitrary Unicode for standard controls.
+- Shared components must support responsive layout, French and English text, keyboard and pointer input, visible focus, appropriate screen-reader semantics, WCAG 2.2 AA, and `prefers-reduced-motion`.
 
-- Use the official Material Color Utilities **Fidelity** scheme for seed-derived semantic roles so the resulting palette remains faithful to the chosen seed. Use tonal surfaces and emphasis as current Pixel UI does; do not force vivid saturation or expressive contrast where the reference is restrained. Keep category identity accents legible and purposeful.
-- Strong color is a hierarchy tool, not decoration everywhere. Preserve semantic roles, readable foregrounds, contrast, focus visibility and calm surfaces around the task. Never force every component to use a different rainbow color.
-- Use Material-like shape, component state and motion as one coherent system: clear pressed/selected/focused/disabled feedback, fluid but brief transitions, and spatial continuity where it helps users understand a change. Motion may add delight, but should not delay the task or become noise.
-- Honor `prefers-reduced-motion`, keyboard navigation, screen readers, WCAG 2.2 AA, light/dark parity and mobile/tablet/desktop behavior. Reduced motion must remove nonessential movement without removing state feedback.
-- Build from shared tokens and components first. Do not introduce per-screen palettes, arbitrary one-off motion curves or inconsistent icon families to imitate Pixel styling.
+## Source and fidelity rules
 
-The design-system contract follows this hierarchy:
+For every ported component:
 
-1. **M3 foundations and Pixel patterns** — semantic color roles, typography hierarchy, shape, elevation, iconography, motion and states.
-2. **Shared behavior** — accessible, responsive and predictable navigation and reusable controls.
-3. **Loculary composition** — the homepage, explorer, tool shell and other platform surfaces apply those foundations to Loculary's task-first journeys.
-4. **Tool-specific UI** — specialized tools may use different layouts, density, visualizations and interactions when their task requires it.
+1. Name it after the official public AndroidX Compose Material 3 component/API. Do not invent Loculary-only names for an Android component. Product-specific extensions must be explicitly named and documented as extensions.
+2. Record the exact upstream repository, file path, immutable commit or release, public API reference, and relevant official usage guidance.
+3. Derive variants, parameters, defaults, tokens, states and transitions from the pinned source. Distinguish API facts from visual interpretation.
+4. Record every Web adaptation and why it is needed. Label it `ANDROIDX`, `WEB-ADAPTATION`, `LOCULARY-EXTENSION`, or `UNVERIFIED`.
+5. Verify all applicable states and interactions; screenshots alone are not proof of conformance.
+6. Do not mark a component conformant while material source questions, required behavior, tests or known differences remain unresolved.
 
-Material 3 Fidelity is the selected seed-based color scheme; Pixel / Android UI is the visual reference. Neither requires a particular React component package or literal reproduction of Google's screens. The implementation may use the existing web stack or replace individual abstractions where evidence supports doing so.
+## Accessibility and quality
 
-## 2. Product and composition principles
+- Preserve native HTML semantics where possible; map Android semantics to appropriate HTML/ARIA behavior rather than copying platform APIs blindly.
+- Keyboard operation, focus visibility/restoration, accessible names and state announcements are part of the contract, not optional polish.
+- Respect reduced-motion preferences without removing essential state feedback.
+- Test actual rendered contrast and responsive reflow in both themes. A token or static source assertion does not prove rendered accessibility.
+- Keep task-specific tool layouts diverse where needed; shared design foundations do not require identical page compositions.
 
-### 2.1 Utility-first, Pixel-consistent
+## Current implementation status
 
-Loculary is a digital toolbox. Shared UI should feel coherent and familiar while keeping the tool and its result central. Design consistency comes from foundations, hierarchy and behavior—not from placing everything inside identical cards.
-
-### 2.2 Preserve meaningful tool diversity
-
-DEC-004 remains active. A calculator, image editor, data analysis tool and visual generator do not need the same composition. Specialized layouts, visualizations and task-specific interactions remain allowed when they improve the tool. They must respect shared platform navigation, accessibility, localization and trust requirements.
-
-### 2.3 Challenge the current implementation
-
-Existing screens, CSS tokens and shared primitives are not immutable. If their structure prevents a faithful M3 / Pixel implementation, a focused refactor or replacement is preferable to layering variants onto a weak abstraction. Do not rewrite unrelated areas merely because a redesign is underway.
-
-### 2.4 Brand identity is not the component system
-
-Loculary's logo and wordmark are brand assets. Functional icons, navigation symbols and action icons belong to the interface iconography system. They should be coherent with the Material 3 / Pixel interface language without forcing the brand mark to look like a generic Material icon. The supplied SVG remains a candidate, not an approved final asset.
-
-## 3. Color and themes
-
-### 3.1 Semantic tonal roles
-
-The platform must use semantic roles based on M3's tonal color model rather than choosing arbitrary colors independently in each component. The role set must cover, as applicable:
-
-- primary and on-primary;
-- primary container and on-primary-container;
-- secondary and on-secondary;
-- secondary container and on-secondary-container;
-- tertiary and on-tertiary;
-- tertiary container and on-tertiary-container;
-- background and on-background;
-- surface and on-surface;
-- surface variants and their foregrounds;
-- outline and outline-variant;
-- inverse surface, inverse foreground and inverse primary;
-- error and on-error;
-- error container and on-error-container;
-- focus and other required interaction-state indicators.
-
-The concrete CSS variable names and exact mappings are implementation details. Use the current official M3 role definitions as the reference when implementing tokens; do not invent a second parallel vocabulary without a demonstrated need.
-
-### 3.2 Light and dark themes
-
-Light and dark themes must implement the same semantic contract with theme-appropriate tonal mappings. Components must not assume that a role always resolves to white, black, a dark shade or a fixed contrast relationship.
-
-Theme support must be tested using the actual resolved colors, including text, icons, borders, focus indicators, disabled states, overlays and status messages.
-
-### 3.3 Default palette
-
-The default semantic appearance uses the blue seed **#4285F4** with the official Material Color Utilities (MCU) **Fidelity** scheme for seed-derived roles. The seed is an input, not a mandate to use that literal value for every primary component. Generate complete light/dark role mappings and validate their actual contrast and state clarity.
-
-Use the **official MCU Rainbow scheme as Loculary's single category-color palette**, not as a competing semantic theme. Apply its tones to category identity only where they improve recognition; do not use rainbow colors to decorate general surfaces or override the seed-derived Fidelity roles. Do not keep a parallel Loculary-specific palette merely to obtain stronger colors. Validate foreground contrast for every category treatment. Semantic success, warning and error colors remain independent of the brand seed and Rainbow palette.
-
-The light/dark theme preference is local-first for anonymous users and may be synchronized with the signed-in account when account-preference persistence is implemented. This document does not claim that the settings UI or synchronization already exists.
-
-### 3.4 Status and content colors
-
-Success, warning, informational and other domain-specific colors may be added as explicit semantic roles when the product requires them. Status must never be communicated by color alone. Literal colors remain appropriate when color is itself user content, such as palette previews, generated images, syntax highlighting or data visualization.
-
-## 4. Typography
-
-Typography should follow M3's role-based hierarchy, adapted to the density and task requirements of a utility toolbox. The system should define clear roles for display, headline, title, body and label scales, using the appropriate levels rather than inventing arbitrary per-component sizes.
-
-**Roboto is the validated default interface typeface**, consistent with the Material/Android reference. The M3 type scale, weight mappings, sizes, line heights and letter spacing still require implementation and responsive validation. Geist Sans/Mono may remain appropriate for existing technical or monospace use where they serve a clear purpose, but they are not the default interface family.
-
-Technical content may use a monospace role where it improves alignment or readability. Results may receive stronger hierarchy when they are the primary outcome of a tool.
-
-Typography must support longer translations, pluralization, dynamic values, user-generated content, responsive widths and future locale expansion. Do not rely on English-only line lengths or fixed heights that clip translated text.
-
-## 5. Shape, surfaces and elevation
-
-Use M3's shape and surface principles to express hierarchy and interaction. Concrete shape tokens and values remain implementation choices to validate against representative Loculary screens.
-
-- Cards are first-class Material 3 components and are a normal, encouraged option wherever they help group content, express hierarchy or present an interactive destination. Do not avoid cards by default.
-- Choose the appropriate M3 card variant and composition for the content and interaction; the official M3 guidance defines multiple card variants rather than one universal card style. See [Material 3 cards](https://developer.android.com/develop/ui/compose/components/card?hl=fr).
-- Compose screens with cards, open layouts or a mixture according to the task, hierarchy, responsiveness and visual identity. No general rule requires either using cards everywhere or avoiding them.
-- Use shape, elevation and overlays deliberately to express hierarchy, interaction and depth; avoid adding visual effects without a purpose.
-- Validate surfaces and elevation in both light and dark themes.
-
-The implementation should consolidate repeated stable values into semantic roles rather than preserve a large arbitrary ladder of CSS utility values. Tool-local shapes and surfaces remain possible when they are intentional and do not undermine platform behavior.
-
-## 6. Iconography
-
-Shared platform icons should follow the Material Symbols visual language, using consistent sizing, alignment, stroke/weight treatment and state behavior. The exact package, variable-font configuration and loading strategy are implementation choices, but platform icons should not be a mixture of unrelated icon families without a clear reason.
-
-Icons must communicate the same action consistently across the platform. Common navigation actions—including menu/hamburger, search, back, close, settings and language selection—should use consistent functional symbols and accessible names.
-
-- Icon-only controls require accessible names and usable hit targets.
-- Icons must not be the only way to communicate a critical status.
-- Decorative icons should be hidden from assistive technology when appropriate.
-- Do not use emoji or arbitrary Unicode glyphs as substitutes for platform action icons.
-- Render standard functional icons through `src/components/ui/MaterialIcon.tsx` (Material Symbols Outlined, weight 400). Exceptions are brand artwork, actual flag assets, generated QR output and deliberate tool/category identity symbols; do not create another one-off SVG for a standard action.
-- Tool-specific symbols and visual content remain allowed when they serve the tool's function.
-- The Loculary brand mark is not required to be a Material Symbol.
-
-## 7. Shared components and interaction states
-
-Shared components should follow the relevant M3 component guidance where that component exists. This includes buttons, icon buttons, text fields, selection controls, checkboxes, switches, chips, menus, dialogs, tooltips, navigation patterns, tabs and progress indicators as used by the product.
-
-The platform must maintain an exhaustive, source-verified catalogue of relevant official Material 3 components, variants, patterns and API concepts, clearly classified by type and maturity. Catalogue completeness is a documentation and governance requirement; it does not mean every entry must be instantiated in Loculary when the product has no use for it. Audit the real product against the full catalogue, and implement/adopt the entries that serve actual flows. Existing implementations are migration candidates, not the definition of the catalogue.
-
-Interactive components must define, where applicable:
-
-- enabled, hover, focus, pressed, selected and disabled states;
-- keyboard behavior and focus management;
-- loading, success, error and validation feedback;
-- accessible name, role, value and state;
-- touch-friendly target size;
-- responsive behavior and content overflow.
-
-A semantic HTML control or small focused component is preferable to a custom interaction abstraction when it already meets the contract. Refactor when the current primitive cannot express the required M3 behavior faithfully; do not preserve weak abstractions only to minimize the diff.
-
-## 8. Motion and feedback
-
-Use Material motion guidance and current Pixel / Android behavior as references for cause and effect, state transitions and spatial relationships. Motion is not mandatory on every interaction and must not delay task completion.
-
-Motion should:
-- communicate state or spatial continuity when useful;
-- remain quick and non-obstructive for frequent utility workflows;
-- avoid gratuitous movement and competing animations;
-- respect `prefers-reduced-motion`;
-- preserve essential information when animation is reduced or removed;
-- remain responsive on lower-capability devices.
-
-Exact durations, easing curves and transition recipes remain open for implementation and validation. Use motion selectively where it improves feedback or spatial continuity; respect reduced-motion preferences and never delay task completion.
-
-## 9. Component architecture and composition
-
-Use a layered architecture that separates reusable behavior from page composition and tool-owned experience:
-
-1. **Foundations** — semantic color, typography, shape, elevation, focus, motion and responsive intent.
-2. **Behavioral primitives** — focused reusable interactions such as buttons, fields, selection, disclosure, feedback and navigation.
-3. **Composition patterns** — documented structures for discovery, execution/input, results, editing, visualization and advanced workspaces.
-4. **Tool-specific UI** — the actual task experience, which may combine or bypass shared composition patterns when a specialized structure is better.
-
-A pattern should be reused because its behavior or structural relationship genuinely recurs, not merely because two elements look similar. Prefer a documented pattern over a new component when code reuse adds little value. Avoid mega-components with many visual variants, arbitrary styling props, hidden business logic or forced DOM structures.
-
-The shared tool shell should own platform concerns such as navigation, tool identity, processing/privacy disclosure, responsive behavior and common secondary content. The tool owns its task-specific controls, result visualization and domain interaction. Refactor or replace existing abstractions when they obstruct the M3 / Pixel target; do not preserve them solely to minimize changes.
-
-Maintain the full, source-verified M3 catalogue as the canonical reference, including relevant components, variants, patterns and API concepts, with clear classification rather than treating every entry as a standalone component. Audit Loculary's real UI against that catalogue and map each implementation to its official equivalent or explicitly justified exception. Product needs determine which catalogue entries are used, not which official entries are documented. Broad refactors, renaming, replacement and deletion of legacy abstractions are welcome when they improve fidelity and maintainability; stage the work into verifiable phases without treating the existing architecture as a constraint.
-
-## 10. Responsive composition
-
-Desktop, tablet and mobile are first-class experiences. Do not design a desktop interface and merely compress it.
-
-Responsive behavior should preserve task hierarchy and useful interaction targets. Recompose navigation, tool controls, result areas, dialogs and menus when the viewport changes. Test long localized strings, zoom, narrow widths, touch interaction and landscape layouts.
-
-Secondary content must not reduce the usable tool area below an acceptable level or obstruct inputs, results, navigation or critical controls.
-
-## 11. Accessibility, localization and quality
-
-The M3 / Pixel direction does not replace Loculary's product quality requirements. All shared UI and tool interfaces must continue to support:
-
-- WCAG 2.2 AA as the project target;
-- complete keyboard operation and visible focus;
-- semantic HTML and assistive-technology names/states;
-- sufficient text and non-text contrast in every theme;
-- understandable validation and error feedback;
-- reduced-motion preferences;
-- French and English initially; locale direction remains explicit so the architecture does not assume every language is left-to-right;
-- longer translations without clipping or broken layouts;
-- privacy and processing transparency where relevant.
-
-Test behavior, not just visual resemblance to Pixel. A visually similar component that breaks keyboard navigation, localization or task flow is not compliant with this contract.
-
-## 12. Validation before freezing visual tokens
-
-Before finalizing concrete tokens or migrating the entire shared UI, evaluate representative compositions:
-
-- homepage/search and primary navigation;
-- explorer/discovery;
-- a compact utility tool;
-- a result-heavy tool;
-- a data-dense or advanced tool;
-- a visual/generator-oriented tool;
-- a mini-application/workspace;
-- narrow/mobile and wide desktop;
-- light and dark themes;
-- long localized content and reduced-motion behavior.
-
-The review should verify fidelity to core M3 and current Pixel patterns, task clarity, visual distinction between hierarchy levels, tool-specific flexibility, accessibility, responsiveness, the quality of light/dark mappings and the usefulness of the resulting interactions.
-
-## 13. Governance and implementation boundary
-
-This document establishes the current product/design contract; it does not prove that the application has been migrated.
-
-The default semantic color seed is #4285F4 and Roboto is the validated default interface typeface. The official MCU Rainbow scheme is the sole rainbow palette; use the Fidelity scheme for seed-derived semantic tones and keep category accents purposeful, validating contrast for each context. Remaining implementation details include complete light/dark tonal mappings, exact token values, component inventory, package/loading choices, final logo treatment and migration sequencing. Validate the resulting palettes and representative screens before freezing concrete tokens.
-
-Implementation should be staged into small, verifiable scopes. Existing components may be refactored or replaced when necessary to meet this contract, but must not silently change unrelated product behavior, privacy, architecture or scope.
-
-## 14. Relationship to canonical documents
-
-This contract is governed by DEC-026 and must remain coherent with:
-
-- `docs/UX.md`;
-- `docs/ACCESSIBILITY.md`;
-- `docs/PERFORMANCE.md`;
-- `docs/I18N.md`;
-- `docs/DECISIONS.md`.
-- `docs/M3-CONFORMANCE-AUDIT.md` — dated implementation findings, official references and conformance acceptance gate.
-
-When a conflict is found, surface it and resolve it through the documented decision process rather than silently retaining obsolete guidance.
-
-## Shared navigation and transient surfaces
-
-- The Loculary mark/wordmark is a brand asset, separate from functional SVG icons. The current SVG in `LocularyLogo` is an initial implementation candidate, not a final brand decision. Use the shared component rather than recreating a letter tile or drawing a brand mark from an interface icon.
-- Header popovers that mix navigation links with settings are disclosures, not automatically ARIA `menu` widgets. Use a real menu role only when its full menu keyboard interaction model is implemented.
-- Keep the popup open while the user changes an inline setting (for example, light/dark/system theme or language) so related choices can be made without reopening it. Ordinary navigation links close it; clicking outside or pressing Escape dismisses it.
-- Closed popovers must not leave their descendants keyboard-focusable. Use `inert` or an equivalent robust hidden-state implementation alongside the appropriate expanded state.
-- Escape returns focus to the control that opened a popup when that popup closes. If Escape only dismisses a nested surface (such as search suggestions), focus remains in that surface. An outside pointer action must not steal focus back from the control the user actually selected.
-- On mobile, primary icon controls and footer links should provide a practical touch target around 48 CSS px where layout permits. Preserve visible focus, sufficient contrast, responsive fit and reduced-motion preferences.
-- Mobile header search opens with focus in the field and closes on outside pointer or route change. Do not add a separate close control when it only duplicates outside dismissal and Escape. Escape first dismisses the suggestions/status popup; a subsequent Escape closes the panel and restores focus to its trigger. Outside pointer dismissal leaves focus with the clicked target.
-- A search field has one deliberate clear control. When a consistent custom clear action is needed, suppress browser-native clear UI by using a text input with search-oriented mobile keyboard hints rather than rendering a second clear button beside `type="search"`.
-- Suggestion surfaces must remain anchored to their search field, visibly elevated and unclipped by ancestor overflow or stacking contexts. Fix the actual stacking/clipping relationship; do not rely on arbitrary z-index escalation. Keep listbox options semantically separate from loading, error and no-result actions, and synchronize combobox ARIA state with the visible popup.
-- Treat Android/Material guidance as a reference adapted to the web platform, not as a mandate to copy native screens or force a navigation drawer where a compact disclosure better fits the small number of destinations and mixed settings.
-
-
-## 15. Official Material 3 / Pixel component reference matrix
-
-**Last reviewed:** 2026-10-14. This matrix separates documented M3 principles from Loculary-specific recommendations and decisions still open. It is a design contract and evaluation basis, not evidence that the current UI conforms.
-
-| Area | Verified official guidance | Loculary application / recommendation | Decision status |
-|---|---|---|---|
-| Cards and content containers | M3 defines filled, elevated and outlined cards for coherent grouped content; the variants are not interchangeable decoration. [Cards](https://developer.android.com/develop/ui/compose/components/card?hl=fr) | Treat cards as a normal, first-class M3 option. Choose variant, content, density and responsive composition to support discovery, grouping and interaction; combine cards with open layout where that best serves the hierarchy. | Principle confirmed; homepage composition remains open. |
-| Buttons | M3 distinguishes filled, tonal, elevated, outlined and text buttons by emphasis and role. [Buttons](https://developer.android.com/develop/ui/compose/quick-guides/content/create-button?hl=en) | Establish one shared hierarchy: strongest action uses the strongest appropriate variant; secondary, alternate and low-emphasis actions use less prominent variants. Do not make every action a large filled CTA or choose variants by appearance alone. Map each existing action to its real task before styling. | Principle confirmed; inventory and mapping remain to be implemented. |
-| Icon buttons | M3 documents standard action buttons and toggle buttons, including selected/unselected state. Icons need an unambiguous meaning. [Icon buttons](https://developer.android.com/develop/ui/compose/components/icon-button?hl=fr) | Use a real button with an accessible name for icon-only actions; distinguish momentary actions from toggles and expose toggle state. Use one consistent icon source/style and avoid duplicate clear/close controls. | IconButton and shared MaterialIcon exist; verify target sizes, selected states and remaining call sites in rendered routes. |
-| Checkboxes and switches | M3 uses checkboxes for independent multi-select choices and switches for binary on/off settings. [AndroidX CheckboxTokens](https://github.com/androidx/androidx/blob/b4c15a8e351e6cfa93e90cce2cfbd0dbbe4805a7/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/CheckboxTokens.kt) · [AndroidX SwitchTokens](https://github.com/androidx/androidx/blob/b4c15a8e351e6cfa93e90cce2cfbd0dbbe4805a7/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/SwitchTokens.kt) | Use native input semantics, explicit accessible labels, semantic foreground/container roles, visible focus and per-component disabled states. Checkbox disabled checked/unchecked treatment uses 38%; Switch track layers use 12%, selected handle uses surface, and unselected handle uses on-surface at 38%. A switch is not a substitute for a checkbox, radio group or segmented choice. | Shared Checkbox and Switch exist; PasswordGenerator and the Lab use Checkbox, while Lab preferences use Switch. Disabled examples are shown in the Lab; verify rendered states in both themes and reuse switches for real settings only when they have actual behavior/persistence. |
-| Sliders | M3 sliders support continuous or discrete values for numeric choices where direct manipulation is useful. [Sliders](https://developer.android.com/develop/ui/compose/components/slider?hl=fr) | Use a native range input with a visible label/value, keyboard semantics, a clear active/inactive track, visible focus and a touch area that is large enough. Avoid sliders for a small set of discrete choices. | Shared Slider is wired into password length, image quality and the Lab sample; verify thumb/track rendering in Chromium, Firefox and mobile browsers. |
-| Progress indicators | M3 distinguishes determinate progress from indeterminate activity. [Progress indicators](https://developer.android.com/develop/ui/compose/components/progress?hl=fr) | Show a percentage only when the work has a real measurable completion value. Use indeterminate progress for unknown-duration work and respect reduced motion. | Shared linear ProgressIndicator supports both modes and reduced-motion fallback; used by ImageCompressor and the Lab sample. Circular progress remains unneeded until a real flow requires it. |
-| Text fields and forms | M3 provides filled and outlined text-field treatments; the simpler basic field is appropriate only when its missing decoration is intentional. [Text fields](https://developer.android.com/develop/ui/compose/text/user-input) | Choose a small, consistent set of field treatments by context. Preserve visible labels, helper/error text, keyboard behavior and focus. Do not style inputs by ad hoc page-level rules. Web markup, validation and autofill behavior require web-specific verification. | Principle confirmed; exact default variant remains to be evaluated against current forms. |
-| Search | M3 documents a persistent search field and an expanded state for suggestions or filtered results; it is recommended when search is a primary task. [Search bar](https://developer.android.com/develop/ui/compose/components/search-bar?hl=fr) | Search is a primary Loculary journey. Preserve a clear field, meaningful leading icon, deliberate trailing action, readable text and an anchored result surface. Choose the correct web accessibility pattern for the actual content (combobox/listbox or ordinary links), keep ARIA state synchronized, and prevent clipping/stacking defects. Do not copy Compose API states literally into web code. | Shared Material Symbols now cover search, clear, submit and result navigation; verify combobox/listbox semantics, keyboard operation and overlay behavior at runtime. |
-| Navigation and transient panels | M3 offers navigation drawers, including modal and standard variants, for section navigation and feature discovery. [Navigation drawer](https://developer.android.com/develop/ui/compose/components/drawer?hl=fr) | A drawer is a valid option, not a mandatory M3 pattern. The current header panel mixes navigation and settings, so its disclosure behavior and keyboard model must remain coherent. Compare anchored panel vs mobile drawer/sheet against destination count, screen space, focus behavior and settings persistence; retain the simpler pattern if it better serves the actual navigation. | No drawer decision made; compare compositions before implementation. |
-| Typography | M3 uses semantic roles grouped as display, headline, title, body and label, with size levels; the official guide notes that a product may not need all 15 default styles. [Typography and theming](https://developer.android.com/develop/ui/compose/designsystems/material3?hl=fr) | Keep Roboto as the validated interface typeface. Map headings, body, labels, tool results and metadata to a deliberately reduced semantic scale; remove arbitrary weight/size combinations and check wrapping, line-height and FR/EN long strings. The Android default scale is a reference, not an unverified CSS prescription. | Typeface confirmed; actual role mapping and responsive values remain to be verified. |
-| Semantic color and themes | M3 uses semantic roles and tonal palettes; foreground/background roles must be paired deliberately for contrast. [M3 theming and accessibility](https://developer.android.com/develop/ui/compose/designsystems/material3?hl=fr) | Use the blue #4285F4 seed and official Material Color Utilities Rainbow palette. Use semantic roles rather than scattering literal hex values. Keep success, warning, error and informational meaning independent of brand/category palettes; validate resolved light/dark pairs, focus, disabled and selected states. | Role-pairing fixes and status-palette WCAG AA checks are in place; the full rendered role/state inventory still needs visual verification. |
-| Shape | M3's shape scale ranges from less-rounded to fully circular shapes; shapes can express hierarchy, state and brand. [M3 theming and shapes](https://developer.android.com/develop/ui/compose/designsystems/material3?hl=fr) | Define a purposeful shape vocabulary for fields, buttons, cards, chips, popovers and dialogs. Pixel-faithful styling does not mean giving every element the maximum radius. Avoid unrelated one-off radii and verify nested components look intentional. | Principle confirmed; final web tokens remain open. |
-| Surfaces and elevation | M3 can distinguish surfaces through tonal elevation as well as shadow elevation; tonal color is not merely a shadow replacement to apply indiscriminately. [M3 surface/elevation guidance](https://developer.android.com/develop/ui/compose/designsystems/material2-material3) | Build hierarchy from background, surface/container roles, borders and restrained shadows. Avoid repeated card-on-card layers and universal shadows; test dark mode separately because tonal mappings change. Do not copy Android elevation numbers directly to CSS. | Principle confirmed; surface/token mapping remains to be verified. |
-| Chips and category accents | M3 chips are compact components for attributes, entities, selection, filtering or actions; their role depends on behavior. [M3 component reference](https://developer.android.com/reference/kotlin/androidx/compose/material3/) | Use a chip only when its interaction/meaning matches the pattern. A category link, filter control and status badge are not automatically the same component. Use the official MCU Rainbow palette only for purposeful category accents, including compact pills, badges and markers where they improve recognition. Keep seed-derived Fidelity roles for semantic interface colors; do not use the Rainbow palette to decorate general surfaces or override semantic roles. | Direction confirmed; map each current category/status use to the correct semantic role. |
-| Interaction states | M3 components expose state-aware behavior such as enabled/disabled, pressed, focused and selected. Theming must preserve readable foreground/background combinations. [M3 theming](https://developer.android.com/develop/ui/compose/designsystems/material3?hl=fr) | Audit hover, focus-visible, pressed, disabled, selected, loading, success and error states across shared controls and both themes. Do not communicate status by color alone; ensure keyboard focus is visible and state semantics are programmatically exposed. | Required by the contract; inventory and verification pending. |
-| Motion | Material 3 documents motion patterns, including additional Expressive motion options; Compose exposes standard and expressive schemes for different interaction prominence. [M3 overview](https://developer.android.com/develop/ui/compose/designsystems/material3?hl=fr) · [MotionScheme API](https://developer.android.com/reference/kotlin/androidx/compose/material3/MotionScheme) | Use motion to explain state changes, continuity or important hierarchy—not as decoration on every element. The Expressive scheme is not Loculary's chosen visual direction. Respect reduced-motion preferences. Compose timings/API are Android-specific; exact web durations and easing are **not verified** by this matrix and must be sourced before tokenizing them. | General motion principles confirmed; web motion tokens remain unverified/open. |
-| Accessibility and touch | Android Material guidance targets at least 48 dp for touch targets. WCAG 2.2 AA sets a web pointer-target minimum of 24 × 24 CSS px with defined exceptions; these units and requirements are not interchangeable. [Android target sizes](https://developer.android.com/develop/ui/compose/accessibility/api-defaults?hl=fr) · [WCAG 2.2 target size](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum) | Retain the Loculary target of around 48 CSS px for primary mobile controls where layout permits, while meeting WCAG requirements for all targets. Verify keyboard use, focus order, accessible names, popup semantics, contrast, zoom/reflow and reduced motion; do not infer accessibility from visual similarity to Android. | Requirement confirmed; actual rendered behavior must be tested. |
-| Icons and brand | Official Material guidance distinguishes current Material Symbols from the older Material Icons library; icons should communicate actions clearly. [Official icon guidance](https://developer.android.com/develop/ui/compose/graphics/images/material) | Keep the Loculary logo/wordmark separate from functional icons. Use a coherent, current icon family and consistent stroke/fill sizing; do not mix unrelated emoji, custom SVGs and icon families without a deliberate content reason. | Shared MaterialIcon bundles official Material Symbols Outlined paths; standard navigation/action call sites have been migrated. Remaining SVGs are brand artwork, actual flags, app icon and generated QR output. Keep verifying new call sites. |
-
-### 15.1 Decisions to discuss from this matrix
-
-1. **Homepage category composition — recommendation:** start from a responsive M3 card composition because categories are meaningful destinations with discoverable identity. Evaluate the hierarchy, density and responsive layout alongside the primary search; the presence or number of cards is not itself a reason to reject the composition. Compact links remain an alternative only if they demonstrably serve discovery and responsive fit better.
-2. **Mobile navigation — recommendation:** keep the existing anchored disclosure as the baseline candidate because it combines a small navigation set with inline settings. Compare a modal drawer or sheet only if the actual information architecture or mobile usability demonstrates a benefit. M3 itself does not settle this product-specific choice.
-3. **Shared controls — recommendation:** define the semantic variants and states before restyling individual pages, then migrate the header, search and representative tool flows through shared primitives. This reduces visual drift without forcing specialized tools into one layout.
-
-### 15.2 Source and verification boundaries
-
-- The sources above are official Android Developers API/guidance pages and W3C WCAG documentation, checked on 2026-10-11.
-- The official M3 overview describes M3 Expressive as an expansion of M3 affecting theming, components, motion and typography; **Expressive is documented here as a related option, not Loculary's selected direction**. The chosen direction is seed-faithful M3 Fidelity color plus current Pixel / Android visual patterns. Some M3 web pages depend on JavaScript and did not expose readable content in the research environment; where this matrix uses Android Compose guides, it cites them explicitly rather than pretending they are web CSS specifications.
-- This matrix verifies guidance, not Loculary conformance. Actual implementation status requires source inspection and, for visual/interaction claims, a real rendered browser check.
-- Do not introduce a component library or copy Android API constants solely because the reference uses Compose. Choose the web implementation only after checking the current repository, official web-platform requirements and the maintenance cost.
-
-
-## Canonical Material 3 implementation convention
-
-The detailed implementation rules are maintained in [`docs/M3-CONVENTIONS.md`](./M3-CONVENTIONS.md). That document is the canonical reference for the source hierarchy, Fidelity semantic colors vs category-only Rainbow accents, typography, semantic shapes and the Loculary rounding-degree preview control, density/touch targets, component contracts, motion/reduced-motion, Design Lab behavior and the conformance acceptance gate.
-
-The shared linear `Slider` and `ProgressIndicator` are now part of the common UI contract: use native range semantics and visible label/value for sliders; expose determinate progress only when the value is real, otherwise use indeterminate progress. Their browser-level alignment, touch behavior and assistive-technology output remain to be verified before declaring conformance.
-## Material 3 evidence and provenance rule
-
-The canonical detailed convention is M3-CONVENTIONS.md. For any new component or design-system rule, explicitly distinguish:
-- Android-confirmed: supported by a specific official Android Developers / Material 3 source.
-- Material Web-confirmed: supported by first-party Material Web docs/tokens; not automatically an Android Compose rule.
-- Web-standard: HTML/ARIA/WCAG behavior and requirements.
-- Loculary-specific: product decisions such as the default seed, CSS sizing, global rounding-degree control and category mapping.
-- Source-observed / runtime-verified / open: distinguish static code inspection from actual browser/device validation and unresolved assumptions.
-
-Do not call a component “Android-conformant” based only on a matching name, CSS appearance, token name or static test. Record the exact source, tested state and remaining limitations.
-
-## Shape and disabled-state provenance
-
-Use the semantic shape variables in globals.css for shared component geometry. Their current values are sourced from the version-pinned first-party Material Web system-shape tokens; they are CSS pixels, not Android dp equivalents. The rounding-degree preview control is a Loculary-specific Lab experiment. It scales semantic-token-based shared components; legacy fixed-radius mockups still need migration before claiming global coverage. Disabled opacity must be component- and state-specific; use the exact first-party token source recorded in M3-CONVENTIONS.md rather than a generic “12%/38% Material rule.”
-## Shared Card convention
-
-The shared Card follows the version-pinned first-party Material Web card tokens: elevated uses surface-container-low and elevation, filled uses surface-container-highest, and outlined uses surface with outline-variant. All use the semantic medium shape token. Linked cards must have a visible keyboard focus indicator. Panel and ResultPanel remain Loculary-specific compositions that reuse the medium shape for consistency.
-## Segmented control convention
-
-Keep the shared SegmentedControl limited to segment labels and selected state; explanatory copy belongs outside the segmented group. Current label no-wrap behavior and small-token inner corners are Loculary web layout decisions to avoid wrapping, not official Android pixel rules. Verify narrow widths and keyboard interaction.
-## Field sizing and numeric input behavior
-
-The shared TextField and Select use a 56px minimum height based on version-pinned first-party Material Web outlined field/select tokens. TextArea remains content/row-driven. TextField preserves an explicit step attribute and otherwise defaults number inputs to step="any", so decimal input is not accidentally restricted by the HTML default step.
-## Design Lab preview-state rule
-
-Keep state independent across separate component examples unless the example is explicitly intended to demonstrate synchronized controls. Radio-group and segmented-control demos now use separate state; static tests guard against the prior accidental coupling.
-
-## AndroidX button token source
-
-For button and icon-button component states, the version-pinned AndroidX Compose Material 3 token files take precedence because the design target is Android-M3 fidelity. Do not apply one disabled opacity to all button variants: filled/elevated/text/outlined and filled-tonal have different container/outline roles. The exact variant matrix and source links are in M3-CONVENTIONS.md.
-## AndroidX source hierarchy for M3 state tokens
-
-Use version-pinned AndroidX Compose Material 3 token sources as the primary authority for Android-M3 component colors, shapes and states. Use first-party Material Web tokens as a web implementation cross-check, not as a replacement when values differ. Record CSS-pixel sizing, HTML/ARIA semantics and browser behavior as web-specific adaptations.
-## Lab token override rule
-
-When the Lab overrides a shared component's semantic tokens, the preview must preserve that component's state contract rather than reintroducing stale opacity/color values. Checkbox preview overrides now use the AndroidX disabled-state roles and the rounding-degree shape token.
-
-## SegmentedControl source mapping
-
-The shared SegmentedControl now follows the pinned AndroidX OutlinedSegmentedButtonTokens and SegmentedButtonDefaults.itemShape: 40dp reference height, full rounded outer ends, rectangular interior segments, secondary-container selected fill and on-secondary-container selected content, and 12%/38% disabled outline/content treatment. The CSS-pixel height is a web adaptation. Single-line labels are a Loculary choice to prevent wrapping.
-
-- AndroidX button shape source cross-check: the default button shape is full and the pressed shape role is small. The shared Button maps the active state to --shape-corner-small; verify the rendered state transition in a browser before claiming full interaction conformance.
-
-- Slider source selection: keep the classic/non-Expressive Android M3 slider baseline (4dp track, 20×20dp round thumb, primary/surface-variant roles) rather than the newer expressive 16dp track/4×44dp pill handle. Loculary uses corresponding CSS-pixel adaptations, not dp conversions. Tick markers and the value-indicator bubble remain unimplemented and must not be described as parity-complete.
-- ProgressIndicator follows the classic/non-Expressive Android M3 linear token mapping: primary active indicator, primary-container track, square ends and a 4 CSS-pixel thickness. Newer unified progress tokens use a different rounded/secondary-container treatment; do not blend the two silently.
-- IconButton source correction: standard unselected hover keeps the on-surface-variant role, and selected outlined toggle buttons remove their outline. These state mappings are AndroidX-backed; actual browser transitions remain to be verified.
-- Design Lab progress preview uses primary-container for its track; the slider's inactive track remains surface-variant. Keep these role mappings distinct even when both are customized through the same preview palette.
-
-
-## Material 3 / current Pixel fidelity source rule (2026-10-15)
-
-The current direction is current Pixel/Android Material fidelity, not a blanket “classic-only” subset. Official Android guidance describes M3 Expressive as an extension affecting theming, components, motion and typography ([Android Developers — Material 3 in Compose](https://developer.android.com/develop/ui/compose/designsystems/material3?hl=en)). User preference rejects washed-out color treatments and weak/absent contours, not necessarily newer official component geometry or animation. Audit color roles/contrast, outlines, shapes/dimensions and motion independently. Select component versions by the explicit Android/Pixel target and version-pinned AndroidX source, never by “classic” or “Expressive” labels alone. The global color and rounding controls are Loculary customizations and must preserve semantic roles, focus, disabled/selected distinctions and source-defined component anatomy.
-
-
-## Expressive direction availability (2026-10-15)
-
-Design Lab's screen-level direction preview now exposes Pixel / M3, M3 Expressive and Productivity. This fixes an unreachable Expressive branch that already existed in the CSS and localized copy. It is an exploratory Loculary composition, not a claim of official screenshot parity. Shared component-level Expressive comparisons are still to be audited and implemented from version-pinned AndroidX sources. Keep production on its existing default until the user validates a deliberate change.
-
-## Design Lab component naming
-
-The Design Lab exposes exact component names on each specimen, with labels for shared primitives, Web adaptations, and local mockups. Use those identifiers in bug reports (for example `NavigationBar`, `TextField`, `ExposedDropdownMenu`, or `FilterChip (mockup)`). This helps isolate visual issues while keeping the distinction between reusable site components and illustrative mockups explicit.
+This document describes the target, not a claim that the current site conforms. Component-specific status and evidence belong in [the Material 3 porting index](material3/README.md). The production migration is a separate step after each component passes its own porting gate.
