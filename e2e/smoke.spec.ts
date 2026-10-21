@@ -166,6 +166,16 @@ test("English homepage renders in English", async ({ page }) => {
   await expectNoHorizontalOverflow(page);
 });
 
+test("Explorer keeps intent and category discovery in both locales", async ({ page }) => {
+  await page.goto("/fr/outils");
+  await expect(page.getByRole("heading", { name: "Commence par ta tâche" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Parcourir par catégorie" })).toBeVisible();
+
+  await page.goto("/en/tools");
+  await expect(page.getByRole("heading", { name: "Start with your task" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Browse by category" })).toBeVisible();
+});
+
 test("IPv4 subnet calculator updates results end to end", async ({ page }) => {
   await page.goto("/fr/outils/calculateur-de-sous-reseau-ipv4");
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
