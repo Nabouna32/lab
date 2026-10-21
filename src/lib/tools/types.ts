@@ -37,6 +37,7 @@ export type ToolId =
   | "password-generator"
   | "contrast-checker"
   | "ip-subnet-calculator"
+  | "ipv6-subnet-calculator"
   | "color-converter"
   | "number-base-converter"
   | "color-palette-generator"
