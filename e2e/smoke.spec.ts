@@ -454,7 +454,7 @@ test("local collection backup can be exported and restored without touching sync
   const downloadPromise = page.waitForEvent("download");
   await page.getByRole("button", { name: /Exporter les collections locales/ }).click();
   const download = await downloadPromise;
-  expect(download.suggestedFilename()).toMatch(/^loculary-collections-\d{4}-\d{2}-\d{2}\\.json$/);
+  expect(download.suggestedFilename()).toMatch(/^loculary-collections-\d{4}-\d{2}-\d{2}\.json$/);
   const backupPath = await download.path();
   expect(backupPath).toBeTruthy();
 
