@@ -58,6 +58,17 @@ const fixtureTools = [
       en: { name: "Image Compressor", description: "Reduce image size before sharing." },
     },
   },
+  {
+    id: "image-dimensions",
+    tags: ["image", "dimensions"],
+    aliases: ["dimensions image"],
+    categories: ["images"],
+    lifecycle: "published",
+    content: {
+      fr: { name: "Dimensions d’image", description: "Vérifiez les dimensions d’un fichier image." },
+      en: { name: "Image Dimensions", description: "Check the dimensions of an image file." },
+    },
+  },
 ];
 
 function ids(query, locale = "fr") {
@@ -118,10 +129,10 @@ test("uses curated intent associations for a task-only query", () => {
   assert.deepEqual(new Set(ids("préparer")), new Set(["image-metadata", "image-compressor"]));
 });
 
-test("ranks tools associated with the inferred task above unrelated matches", () => {
+test("ranks tools associated with the inferred task above other matching tools", () => {
   const results = ids("préparer une image à partager");
-  assert.ok(results.indexOf("image-metadata") < results.indexOf("percentage"));
-  assert.ok(results.indexOf("image-compressor") < results.indexOf("percentage"));
+  assert.ok(results.indexOf("image-metadata") < results.indexOf("image-dimensions"));
+  assert.ok(results.indexOf("image-compressor") < results.indexOf("image-dimensions"));
 });
 
 test("recognizes English task intent as well as French", () => {
