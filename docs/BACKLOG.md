@@ -2,6 +2,8 @@
 
 Dernière révision : 2026-10-21. File de travail unique.
 
+- **CI / classification des dépendances et stabilité Playwright — en cours :** rendre les vérifications proportionnelles au risque sans affaiblir l’audit des dépendances. Seule une modification isolée de `devDependencies.eslint` peut utiliser `npm ci` + audit de dépendances + lint ; changement inconnu, manifeste ambigu ou autre fichier modifié → suite complète. Réduire Playwright à un worker en CI sans captures, traces ni uploads. Checkpoint : [issue #741](https://github.com/Nabouna32/lab/issues/741).
+
 - **Accueil / compteur de catégories dupliqué :** [PR #961](https://github.com/Nabouna32/lab/pull/961) fusionnée (`4153b1b`). Le contrat de `CategoryCard` n’affiche plus qu’une seule chaîne localisée complète ; test de régression FR/EN ; CI complète verte ([run #39664914332](https://github.com/Nabouna32/lab/actions/runs/39664914332)). L’audit plus large de la hiérarchie de découverte est suivi dans [issue #960](https://github.com/Nabouna32/lab/issues/960).
 
 - **Intégrité des fichiers / empreintes cryptographiques :** [PR #955](https://github.com/Nabouna32/lab/pull/955) étend le générateur de hash aux fichiers locaux jusqu’à 100 Mio et permet de comparer une empreinte de référence ; traitement navigateur, sans upload ni dépendance ajoutée. CI complète verte ([run #39553923138](https://github.com/Nabouna32/lab/actions/runs/39553923138)) ; déploiement production `READY` ([Vercel](https://vercel.com/nabouna32/loculary/5BccRteCB5BQdCUsFVsEUK9FybE3)).
