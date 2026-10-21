@@ -218,6 +218,11 @@ type ToolMessages = {
     firstUsableAddress: string; lastUsableAddress: string; totalAddresses: string; usableHosts: string;
     hostCountNote: string; notApplicable: string;
   };
+  ipv6SubnetCalculator: {
+    input: string; placeholder: string; result: string; ready: string; emptyResult: string;
+    invalid: string; clear: string; reset: string; hint: string; copy: string;
+    address: string; prefix: string; networkAddress: string; lastAddress: string; addressCount: string;
+  };
   numberBaseConverter: {
     input: string; placeholder: string; fromBase: string; toBase: string; result: string;
     emptyResult: string; invalid: string; hint: string; reset: string; swap: string;
@@ -279,6 +284,12 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       networkAddress: "Adresse réseau", broadcastAddress: "Adresse de broadcast", subnetMask: "Masque de sous-réseau", wildcardMask: "Masque générique", notApplicable: "Non applicable",
       firstUsableAddress: "Première adresse hôte", lastUsableAddress: "Dernière adresse hôte", totalAddresses: "Adresses totales", usableHosts: "Hôtes utilisables",
       hostCountNote: "Pour /0 à /30, les adresses réseau et broadcast ne sont pas comptées comme hôtes utilisables. Sur un lien point à point /31, les deux adresses sont des hôtes et il n’existe pas de broadcast dirigé ; un /32 représente une seule route d’hôte.",
+    },
+    ipv6SubnetCalculator: {
+      input: "Adresse IPv6 / préfixe CIDR", placeholder: "Ex. 2001:db8:1234:1::42/64", result: "Résultat", ready: "Calcul mis à jour", emptyResult: "Le résultat apparaîtra ici après le calcul.",
+      invalid: "Saisissez une adresse IPv6 valide et un préfixe de /0 à /128.", clear: "Effacer", reset: "Réinitialiser", copy: "Copier",
+      hint: "Formats IPv6 compressé et complet acceptés. Les adresses IPv4 intégrées et les identifiants de zone ne sont pas pris en charge. Calcul local uniquement.",
+      address: "Adresse normalisée", prefix: "Préfixe", networkAddress: "Préfixe réseau", lastAddress: "Dernière adresse du bloc", addressCount: "Nombre total d’adresses",
     },
     numberBaseConverter: {
       input: "Nombre à convertir", placeholder: "Ex. FF", fromBase: "Base de départ", toBase: "Base d’arrivée",
@@ -605,6 +616,12 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       networkAddress: "Network address", broadcastAddress: "Broadcast address", subnetMask: "Subnet mask", wildcardMask: "Wildcard mask", notApplicable: "Not applicable",
       firstUsableAddress: "First host address", lastUsableAddress: "Last host address", totalAddresses: "Total addresses", usableHosts: "Usable hosts",
       hostCountNote: "For /0 through /30, network and broadcast addresses are excluded from usable hosts. On a /31 point-to-point link, both addresses are hosts and there is no directed broadcast; a /32 is a single-host route.",
+    },
+    ipv6SubnetCalculator: {
+      input: "IPv6 address / CIDR prefix", placeholder: "e.g. 2001:db8:1234:1::42/64", result: "Result", ready: "Calculation updated", emptyResult: "The result will appear here once the address is valid.",
+      invalid: "Enter a valid IPv6 address and a prefix from /0 through /128.", clear: "Clear", reset: "Reset", copy: "Copy",
+      hint: "Compressed and full IPv6 notation are supported. IPv4-embedded addresses and zone identifiers are not supported. All calculations run locally.",
+      address: "Normalized address", prefix: "Prefix length", networkAddress: "Network prefix", lastAddress: "Last address in block", addressCount: "Total addresses",
     },
     numberBaseConverter: {
       input: "Number to convert", placeholder: "e.g. FF", fromBase: "Source base", toBase: "Target base",
