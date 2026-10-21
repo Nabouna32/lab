@@ -2,6 +2,10 @@
 
 Dernière vérification : 2026-10-21
 
+## Travail en cours
+
+- **Factory autonome :** mandat proposé dans [PR #966](https://github.com/Nabouna32/lab/pull/966), checkpoint [issue #965](https://github.com/Nabouna32/lab/issues/965). L’utilisateur déclenche chaque reprise en renvoyant le même prompt ; l’agent reprend depuis le dépôt et le checkpoint durable. Une exécution planifiée en arrière-plan n’est pas requise par défaut ; voir [issue #967](https://github.com/Nabouna32/lab/issues/967) pour évaluer uniquement le besoin d’orchestration distinct.
+
 ## Cinq dernières reprises
 
 1. **Fiabilité CI — classification prudente des dépendances et stabilité Playwright** : [PR #963](https://github.com/Nabouna32/lab/pull/963) ajoute une classification basée sur le manifeste et le graphe du lockfile ; les cas ambigus restent sur la suite complète. CI complète verte sur le commit `e8f0e20` ([run #39667464891](https://github.com/Nabouna32/lab/actions/runs/39667464891)) : lint, TypeScript, tests unitaires, build et 80 tests Playwright en 53,2 s. Checkpoint : [issue #741](https://github.com/Nabouna32/lab/issues/741).
