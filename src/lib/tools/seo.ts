@@ -3,7 +3,7 @@ import type { ToolId, ToolSeoMetadata } from "./types";
 
 export const toolSeo = {
   "expense-splitter": {
-    fr: { title: "Répartiteur de dépenses de groupe | Loculary", description: "Répartissez les dépenses d’un voyage, d’une colocation ou d’une sortie et calculez les remboursements minimaux, directement dans votre navigateur." },
+    fr: { title: "Répartiteur de dépenses de groupe | Loculary", description: "Répartissez les dépenses d’un voyage, d’une colocation ou d’une sortie et calculez les remboursements à effectuer, directement dans votre navigateur." },
     en: { title: "Group Expense Splitter | Loculary", description: "Split trip, household, or group expenses and calculate who should reimburse whom, directly in your browser." },
   },
   "compound-interest": {
