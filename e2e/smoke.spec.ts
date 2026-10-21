@@ -360,20 +360,20 @@ test("YAML tool converts configuration values to JSON and back", async ({ page }
 
 test("CSV and YAML JSON conversions hand results to the next compatible tool", async ({ page }) => {
   await page.goto("/fr/outils/convertisseur-csv-json");
-  await page.getByLabel("Données").fill("name,age\\nAda,37");
+  await page.getByLabel("Données").fill("name,age\nAda,37");
   await page.getByRole("button", { name: "CSV → JSON", exact: true }).click();
   await expect(page.locator("pre").last()).toContainText('"name": "Ada"');
   await page.getByRole("button", { name: "Générer les types TypeScript" }).click();
-  await expect(page).toHaveURL(/\\/fr\\/outils\\/json-vers-typescript$/);
+  await expect(page).toHaveURL(/\/fr\/outils\/json-vers-typescript$/);
   await expect(page.locator("#json-typescript-input")).toHaveValue(/Ada/);
   await expect(page.getByRole("status").filter({ hasText: "JSON transmis depuis un autre outil" })).toBeVisible();
 
   await page.goto("/fr/outils/formateur-validateur-yaml");
   await page.getByLabel("Action").selectOption("yaml-to-json");
-  await page.getByLabel("Votre YAML").fill("name: Loculary\\nactive: true");
+  await page.getByLabel("Votre YAML").fill("name: Loculary\nactive: true");
   await page.getByRole("button", { name: "Convertir", exact: true }).click();
   await page.getByRole("button", { name: "Comparer ce JSON" }).click();
-  await expect(page).toHaveURL(/\\/fr\\/outils\\/comparateur-json$/);
+  await expect(page).toHaveURL(/\/fr\/outils\/comparateur-json$/);
   await expect(page.locator("#json-diff-right")).toHaveValue(/"name": "Loculary"/);
   await expect(page.getByRole("status").filter({ hasText: "Le JSON transmis a été placé" })).toBeVisible();
 });
