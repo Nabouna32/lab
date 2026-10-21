@@ -182,7 +182,7 @@ type ToolMessages = {
     dateTime: string; source: string; destination: string; sourcePlaceholder: string; destinationPlaceholder: string;
     hint: string; convert: string; result: string; converted: string; emptyResult: string; invalid: string;
     ambiguous: string; nonexistent: string; sourceTime: string; destinationTime: string; sourceOffset: string; destinationOffset: string;
-    copy: string; clear: string; zonesHint: string;
+    copy: string; copyAll: string; clear: string; zonesHint: string; destinations: string; addDestination: string; removeDestination: string; maxDestinations: string;
   };
   xmlFormatterValidator: {
     input: string; placeholder: string; output: string; indentation: string; spaces2: string; spaces4: string; tab: string;
@@ -553,7 +553,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       nonexistent: "Cette heure locale n’existe pas à cause du passage à l’heure d’été. Choisissez une heure ultérieure ou antérieure.",
       ambiguous: "Cette heure locale apparaît deux fois à cause d’un changement d’heure. Loculary utilise la première occurrence.",
       sourceTime: "Heure source", destinationTime: "Heure convertie", sourceOffset: "Décalage source", destinationOffset: "Décalage de destination",
-      copy: "Copier", clear: "Effacer", zonesHint: "Commencez à saisir un identifiant pour filtrer les fuseaux disponibles.",
+      copy: "Copier", copyAll: "Copier tous les horaires", clear: "Effacer", zonesHint: "Commencez à saisir un identifiant pour filtrer les fuseaux disponibles.", destinations: "Villes à comparer", addDestination: "Ajouter une ville", removeDestination: "Retirer", maxDestinations: "Comparez jusqu’à 6 fuseaux simultanément.",
     },
     xmlFormatterValidator: {
       input: "Votre XML", placeholder: "<catalog><item id=\"1\">Loculary</item></catalog>",
@@ -875,7 +875,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       nonexistent: "This local time does not exist because the clocks move forward. Choose an earlier or later time.",
       ambiguous: "This local time occurs twice because of a time-zone transition. Loculary uses the first occurrence.",
       sourceTime: "Source time", destinationTime: "Converted time", sourceOffset: "Source offset", destinationOffset: "Destination offset",
-      copy: "Copy", clear: "Clear", zonesHint: "Start typing an identifier to filter the available time zones.",
+      copy: "Copy", copyAll: "Copy all times", clear: "Clear", zonesHint: "Start typing an identifier to filter the available time zones.", destinations: "Locations to compare", addDestination: "Add location", removeDestination: "Remove", maxDestinations: "Compare up to 6 time zones at once.",
     },
     xmlFormatterValidator: {
       input: "Your XML", placeholder: "<catalog><item id=\"1\">Loculary</item></catalog>",
