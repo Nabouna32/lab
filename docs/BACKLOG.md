@@ -2,7 +2,7 @@
 
 Dernière révision : 2026-10-21. File de travail unique.
 
-- **Découverte / parcours guidés :** page FR/EN avec quatre recettes multi-étapes couvrant le nettoyage/comparaison de texte, JSON, CSV→JSON et photos→PDF. Les recettes distinguent explicitement le transfert automatique réellement disponible du copier-coller nécessaire ailleurs ; aucun compte ni service distant requis.
+- **Découverte / parcours guidés :** page FR/EN avec quatre recettes multi-étapes couvrant le nettoyage/comparaison de texte, JSON, CSV→JSON et photos→PDF. Les recettes distinguent explicitement les transferts automatiques existants, le copier-coller nécessaire et les étapes indépendantes ; aucun compte ni service distant requis.
 
 - **Parcours / nettoyage de texte → comparaison :** [PR #949](https://github.com/Nabouna32/lab/pull/949) relie le Nettoyeur et trieur de lignes au comparateur de texte. Transfert local via `sessionStorage`, destiné à un seul outil, consommé une seule fois et expirant après cinq minutes ; limite de 200 000 caractères, FR/EN. Aucun texte dans l’URL ni envoi serveur. CI complète verte ([run #39544027669](https://github.com/Nabouna32/lab/actions/runs/39544027669)) ; déploiement production `READY` ([Vercel](https://vercel.com/nabouna32/loculary/2yDQK1D5yFnF9AXzUPEVMdTEWUs3)).
 
