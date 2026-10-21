@@ -115,9 +115,8 @@ Faire progresser continuellement la valeur produit de Loculary, sans date de lan
 1. **Parcours / CSV → JSON → formatage** — PR à créer : transmission locale directe vers le formateur JSON, notice de provenance et recette guidée désormais automatisée.
 2. **Découverte / parcours guidés** — [PR #951](https://github.com/Nabouna32/lab/pull/951) : quatre parcours multi-étapes FR/EN qui relient des outils existants autour d’un objectif utilisateur.
 3. **Parcours / nettoyage de texte → comparaison** — [PR #949](https://github.com/Nabouna32/lab/pull/949) : transfert local, borné, à usage unique et avec expiration du résultat vers le comparateur de texte ; CI complète verte ([run #39544027669](https://github.com/Nabouna32/lab/actions/runs/39544027669)) ; déploiement production `READY`.
-3. **Nouvel outil / planche-contact d’images** — [PR #947](https://github.com/Nabouna32/lab/pull/947) : composition PNG locale, colonnes et légendes configurables ; CI complète verte ([run #39542653393](https://github.com/Nabouna32/lab/actions/runs/39542653393)), déploiement production `READY`.
+4. **Nouvel outil / planche-contact d’images** — [PR #947](https://github.com/Nabouna32/lab/pull/947) : composition PNG locale, colonnes et légendes configurables ; CI complète verte ([run #39542653393](https://github.com/Nabouna32/lab/actions/runs/39542653393)), déploiement production `READY`.
 5. **Parcours PDF / réordonnancement des pages** — [PR #946](https://github.com/Nabouna32/lab/pull/946) : déplacement accessible des images avant export, CI complète verte ([run #39541009240](https://github.com/Nabouna32/lab/actions/runs/39541009240)).
-6. **Nouvel outil / conversion d’images en PDF** — [PR #945](https://github.com/Nabouna32/lab/pull/945) : PDF multipage local sans dépendance externe.
 
 ## Priorités immédiates
 
