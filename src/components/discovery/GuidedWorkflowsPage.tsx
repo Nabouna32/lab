@@ -12,7 +12,7 @@ type GuidedWorkflow = {
   title: Localized;
   summary: Localized;
   outcome: Localized;
-  transfer: "automatic" | "manual";
+  transfer: "automatic" | "manual" | "independent";
   steps: Array<{ toolId: ToolId; description: Localized }>;
 };
 
@@ -83,7 +83,7 @@ export const guidedWorkflows: readonly GuidedWorkflow[] = [
       fr: "Un PDF multipage généré localement à partir de vos photos.",
       en: "A multi-page PDF generated locally from your photos.",
     },
-    transfer: "manual",
+    transfer: "independent",
     steps: [
       { toolId: "image-metadata", description: { fr: "Vérifiez les dimensions et les métadonnées avant de préparer le document.", en: "Check dimensions and metadata before preparing the document." } },
       { toolId: "image-to-pdf", description: { fr: "Ajoutez les photos, réordonnez les pages et exportez le PDF.", en: "Add photos, reorder pages, and export the PDF." } },
@@ -100,6 +100,7 @@ const pageCopy: Record<Locale, {
   outcome: string;
   automatic: string;
   manual: string;
+  independent: string;
   openTools: string;
 }> = {
   fr: {
@@ -111,6 +112,7 @@ const pageCopy: Record<Locale, {
     outcome: "À la fin",
     automatic: "Le résultat passe automatiquement à l’étape suivante.",
     manual: "Copiez le résultat dans l’étape suivante lorsque c’est nécessaire.",
+    independent: "Préparez les fichiers nécessaires à chaque outil : ces étapes restent indépendantes.",
     openTools: "Voir tous les outils",
   },
   en: {
@@ -122,6 +124,7 @@ const pageCopy: Record<Locale, {
     outcome: "What you get",
     automatic: "The result is passed automatically to the next step.",
     manual: "Copy the result into the next step when needed.",
+    independent: "Prepare the required files for each tool; these steps remain independent.",
     openTools: "Browse all tools",
   },
 };
@@ -182,8 +185,8 @@ export default function GuidedWorkflowsPage({ locale }: { locale: Locale }) {
                   })}
                 </ol>
                 <p className="mt-4 rounded-xl bg-[var(--surface-container-low)] px-3 py-2 text-xs leading-5 text-[var(--muted)]">
-                  <MaterialIcon name={workflow.transfer === "automatic" ? "stars" : "content_copy"} size={15} className="mr-1 inline-block align-[-2px]" />
-                  {workflow.transfer === "automatic" ? copy.automatic : copy.manual}
+                  <MaterialIcon name={workflow.transfer === "automatic" ? "stars" : workflow.transfer === "manual" ? "content_copy" : "info"} size={15} className="mr-1 inline-block align-[-2px]" />
+                  {workflow.transfer === "automatic" ? copy.automatic : workflow.transfer === "manual" ? copy.manual : copy.independent}
                 </p>
               </div>
               <div className="border-t border-[var(--border)] bg-[var(--surface-container-low)] px-5 py-4 sm:px-6">
