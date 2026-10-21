@@ -92,17 +92,19 @@ export default function TextLineProcessor() {
                 ["none", t.noSort],
                 ["ascending", t.ascending],
                 ["descending", t.descending],
-              ] as const).map(([value, label]) => (
-                <Button
-                  key={value}
-                  type="button"
-                  variant={sortOrder === value ? "primary" : "secondary"}
-                  onClick={() => setSortOrder(value)}
-                  aria-pressed={sortOrder === value}
-                >
-                  {label}
-                </Button>
-              ))}
+              ] as const).map(([value, label]) => {
+                const SortOrderButton = sortOrder === value ? Button : OutlinedButton;
+                return (
+                  <SortOrderButton
+                    key={value}
+                    type="button"
+                    onClick={() => setSortOrder(value)}
+                    aria-pressed={sortOrder === value}
+                  >
+                    {label}
+                  </SortOrderButton>
+                );
+              })}
             </div>
           </div>
           {tooLarge && <p role="alert" className="mt-4 text-sm font-medium text-[var(--danger)]">{t.resourceLimit}</p>}
