@@ -4,7 +4,7 @@ Dernière révision : 2026-10-21. File de travail unique.
 
 - **Découverte par tâche / Comparer :** nouvelle entrée transversale qui rassemble le comparateur JSON, le comparateur CSV, le comparateur de texte et le convertisseur de fuseaux horaires. La personne part de son objectif plutôt que du nom ou de la catégorie technique de l’outil.
 
-- **Vérificateur de contraste / corrections accessibles :** proposer une couleur de texte aussi proche que possible de l’original pour atteindre WCAG AA/AAA, avec aperçu, application et copie locales.
+- **Vérificateur de contraste / corrections accessibles :** [PR #935](https://github.com/Nabouna32/lab/pull/935). Propose une couleur de texte proche de l’original pour atteindre WCAG AA/AAA, avec application et copie locales.
 
 - **Comparateur JSON explorables :** [PR #929](https://github.com/Nabouna32/lab/pull/929). Synthèse par type, recherche par chemin, filtres et rapport copiable respectant les filtres actifs.
 
