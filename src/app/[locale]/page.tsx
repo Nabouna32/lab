@@ -56,19 +56,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                   <ToolSearch locale={locale} instanceId="home-tool-search-v4" placeholder={t.home.searchPlaceholder} />
                 </div>
 
-                <nav aria-label={t.home.quickLinksLabel} className="motion-reveal motion-reveal-delay mt-4 grid max-w-3xl grid-cols-1 gap-2 sm:grid-cols-2">
-                  {t.home.quickLinks.map((quickLink) => (
-                    <Link
-                      key={quickLink.toolId}
-                      href={getToolPath(locale, quickLink.toolId)}
-                      className="group flex min-h-12 min-w-0 items-center justify-between gap-3 rounded-2xl border border-[var(--outline-variant)]/70 bg-[var(--surface-container-low)] px-4 py-3 text-sm font-medium text-[var(--foreground)] outline-none transition-[background-color,border-color] duration-[var(--motion-standard)] hover:border-[var(--primary)]/50 hover:bg-[var(--surface-container)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
-                    >
-                      <span className="min-w-0">{quickLink.label}</span>
-                      <MaterialIcon name="arrow_forward" size={18} className="shrink-0 text-[var(--muted)] transition-transform duration-[var(--motion-standard)] group-hover:translate-x-0.5 group-hover:text-[var(--primary)]" />
-                    </Link>
-                  ))}
-                </nav>
-
                 <Link
                   href={getToolsPath(locale)}
                   className="mt-5 inline-flex min-h-12 items-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold text-[var(--accent)] outline-none transition-[background-color,transform] duration-[var(--motion-standard)] hover:-translate-y-0.5 hover:bg-[var(--accent-soft)] hover:text-[var(--on-primary-container)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
