@@ -6,7 +6,7 @@ test("converts multiple local images into a multi-page PDF", async ({ page }) =>
  await expect(page.getByRole("heading", { name: "Page order" })).toBeVisible(); await expect(page.getByText("one.png")).toBeVisible();
  const rows = page.locator("ol li");
  await expect(page.getByRole("button", { name: "Move one.png up" })).toHaveAttribute("disabled", "");
- await page.getByRole("button", { name: "Move two.png down" }).toBeDisabled();
+ await expect(page.getByRole("button", { name: "Move two.png down" })).toHaveAttribute("disabled", "");
  await page.getByRole("button", { name: "Move two.png up" }).click();
  await expect(rows.nth(0)).toContainText("two.png");
  await expect(rows.nth(1)).toContainText("one.png");
