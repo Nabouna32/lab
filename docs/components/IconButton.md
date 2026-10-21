@@ -2,7 +2,7 @@
 
 **Status:** implementation updated; browser verification required.  
 **Component:** `src/components/ui/IconButton.tsx`  
-**Production consumers:** favorites, mobile header search, tool search, unit conversion, number-base conversion and the shared Design Lab.  
+**Production consumers:** favorites, global header search, tool search, unit conversion, number-base conversion and the shared Design Lab.  
 **Direction:** DEC-026 — Material 3 Fidelity with current Pixel / Android references, not Material 3 Expressive.
 
 ## 1. Purpose and references
