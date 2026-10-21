@@ -108,7 +108,7 @@ export default function HashGenerator() {
     if (fileInputRef.current) fileInputRef.current.value = "";
   }
 
-  const canGenerate = mode === "text" ? input.length > 0 : Boolean(file);
+  const canGenerate = mode === "text" || Boolean(file);
 
   return (
     <section className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-4 sm:p-6">
