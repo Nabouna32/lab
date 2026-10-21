@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Button } from "@/components/ui/Button";
+import { OutlinedButton } from "@/components/ui/Button";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { Select } from "@/components/ui/Select";
@@ -61,10 +61,10 @@ export default function MarkdownTableGenerator() {
             <p className="mt-1 text-xs text-[var(--muted)]">{t.hint}</p>
           </div>
           <div className="flex flex-wrap gap-2">
-            <Button type="button" variant="secondary" onClick={() => resize(rowCount, Math.min(MAX_COLUMNS, columnCount + 1))} disabled={columnCount >= MAX_COLUMNS}>{t.addColumn}</Button>
-            <Button type="button" variant="secondary" onClick={() => resize(Math.min(MAX_ROWS, rowCount + 1), columnCount)} disabled={rowCount >= MAX_ROWS}>{t.addRow}</Button>
-            <Button type="button" variant="secondary" onClick={() => resize(rowCount, Math.max(MIN_COLUMNS, columnCount - 1))} disabled={columnCount <= MIN_COLUMNS}>{t.removeColumn}</Button>
-            <Button type="button" variant="secondary" onClick={() => resize(Math.max(MIN_ROWS, rowCount - 1), columnCount)} disabled={rowCount <= MIN_ROWS}>{t.removeRow}</Button>
+            <OutlinedButton type="button" onClick={() => resize(rowCount, Math.min(MAX_COLUMNS, columnCount + 1))} disabled={columnCount >= MAX_COLUMNS}>{t.addColumn}</OutlinedButton>
+            <OutlinedButton type="button" onClick={() => resize(Math.min(MAX_ROWS, rowCount + 1), columnCount)} disabled={rowCount >= MAX_ROWS}>{t.addRow}</OutlinedButton>
+            <OutlinedButton type="button" onClick={() => resize(rowCount, Math.max(MIN_COLUMNS, columnCount - 1))} disabled={columnCount <= MIN_COLUMNS}>{t.removeColumn}</OutlinedButton>
+            <OutlinedButton type="button" onClick={() => resize(Math.max(MIN_ROWS, rowCount - 1), columnCount)} disabled={rowCount <= MIN_ROWS}>{t.removeRow}</OutlinedButton>
             <ClearButton onClear={reset} label={t.reset} />
           </div>
         </div>

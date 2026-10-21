@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Button } from "@/components/ui/Button";
+import { Button, OutlinedButton, TextButton } from "@/components/ui/Button";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { Select } from "@/components/ui/Select";
@@ -99,9 +99,9 @@ export default function TimezoneConverter() {
               {destinationTimeZones.map((zone) => (
                 <div key={zone} className="flex min-h-12 items-center justify-between gap-3 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background)] px-3 py-2">
                   <span className="min-w-0 break-all text-sm font-medium text-[var(--foreground)]">{zone}</span>
-                  <Button type="button" variant="text" aria-label={t.removeDestination + " " + zone} disabled={destinationTimeZones.length <= 1} onClick={() => removeDestination(zone)} className="min-h-9 shrink-0 px-2">
+                  <TextButton type="button" aria-label={t.removeDestination + " " + zone} disabled={destinationTimeZones.length <= 1} onClick={() => removeDestination(zone)} className="min-h-9 shrink-0 px-2">
                     {t.removeDestination}
-                  </Button>
+                  </TextButton>
                 </div>
               ))}
             </div>
@@ -113,9 +113,9 @@ export default function TimezoneConverter() {
                     {availableTimeZones.map((zone) => <option key={zone} value={zone}>{zone}</option>)}
                   </Select>
                 </div>
-                <Button type="button" variant="secondary" onClick={addDestination} className="min-h-11 shrink-0">
+                <OutlinedButton type="button" onClick={addDestination} className="min-h-11 shrink-0">
                   {t.addDestination}
-                </Button>
+                </OutlinedButton>
               </div>
             )}
             <p className="mt-2 text-xs leading-5 text-[var(--muted)]">{t.maxDestinations}</p>

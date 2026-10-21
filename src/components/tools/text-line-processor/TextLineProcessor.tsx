@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/Button";
+import { Button, OutlinedButton } from "@/components/ui/Button";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { TextArea } from "@/components/ui/TextArea";
@@ -120,9 +120,9 @@ export default function TextLineProcessor() {
             </div>
             <div className="flex flex-wrap gap-2">
               <CopyButton value={result} label={t.copy} />
-              <Button type="button" variant="secondary" onClick={sendToCompare} disabled={!result || tooLarge}>
+              <OutlinedButton type="button" onClick={sendToCompare} disabled={!result || tooLarge}>
                 {t.sendToCompare}
-              </Button>
+              </OutlinedButton>
             </div>
           </div>
           {transferError && <p role="alert" className="mt-3 text-sm font-medium text-[var(--danger)]">{t.transferFailed}</p>}

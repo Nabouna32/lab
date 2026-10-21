@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/Button";
+import { Button, OutlinedButton } from "@/components/ui/Button";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { Select } from "@/components/ui/Select";
@@ -180,8 +180,8 @@ export default function YamlFormatterValidator() {
           </pre>
           {result && !error && operation === "yaml-to-json" && (
             <div className="mt-4 flex flex-wrap gap-2">
-              <Button variant="secondary" onClick={() => sendToTool("json-diff-checker")}>{t.sendToCompare}</Button>
-              <Button variant="secondary" onClick={() => sendToTool("json-to-typescript")}>{t.sendToTypescript}</Button>
+              <OutlinedButton onClick={() => sendToTool("json-diff-checker")}>{t.sendToCompare}</OutlinedButton>
+              <OutlinedButton onClick={() => sendToTool("json-to-typescript")}>{t.sendToTypescript}</OutlinedButton>
             </div>
           )}
           {transferError && <p role="alert" className="mt-2 text-sm font-medium text-[var(--danger)]">{t.transferFailed}</p>}

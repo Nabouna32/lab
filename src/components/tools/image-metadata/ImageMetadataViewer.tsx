@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Button } from "@/components/ui/Button";
+import { Button, OutlinedButton } from "@/components/ui/Button";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { ProgressIndicator } from "@/components/ui/ProgressIndicator";
 import { useLocale } from "@/lib/i18n/use-locale";
@@ -227,8 +227,8 @@ export default function ImageMetadataViewer() {
             {busy && <ProgressIndicator label={t.stripping} />}
             {error && <p role="alert" className="text-sm font-medium text-[var(--danger)]">{error}</p>}
             <div className="flex flex-wrap gap-2">
-              <Button type="button" variant="primary" onClick={cleanAll} disabled={busy || inspected.length === 0}>{busy ? t.stripping : optimize ? t.prepare : t.strip}</Button>
-              <Button type="button" variant="secondary" onClick={downloadArchive} disabled={cleaned.length === 0 || busy || archiveBusy}>{archiveBusy ? t.archivePreparing : optimize ? t.downloadPrepared : t.download}</Button>
+              <Button type="button" onClick={cleanAll} disabled={busy || inspected.length === 0}>{busy ? t.stripping : optimize ? t.prepare : t.strip}</Button>
+              <OutlinedButton type="button" onClick={downloadArchive} disabled={cleaned.length === 0 || busy || archiveBusy}>{archiveBusy ? t.archivePreparing : optimize ? t.downloadPrepared : t.download}</OutlinedButton>
               <ClearButton onClear={reset} disabled={items.length === 0 && !error} label={t.reset} />
             </div>
             {cleaned.length > 0 && !busy && <p role="status" className="text-sm text-[var(--success)]">{t.completedCount(cleaned.length, items.length)}</p>}

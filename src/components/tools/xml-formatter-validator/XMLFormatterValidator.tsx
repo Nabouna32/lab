@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Button } from "@/components/ui/Button";
+import { Button, OutlinedButton } from "@/components/ui/Button";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { Select } from "@/components/ui/Select";
@@ -123,7 +123,7 @@ export default function XMLFormatterValidator() {
 
           <div className="mt-5 flex flex-wrap gap-2">
             <Button onClick={format}>{t.format}</Button>
-            <Button variant="secondary" onClick={validate}>{t.validate}</Button>
+            <OutlinedButton onClick={validate}>{t.validate}</OutlinedButton>
             <ClearButton onClear={clear} disabled={!input} label={t.clear} />
           </div>
         </div>
