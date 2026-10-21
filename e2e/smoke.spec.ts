@@ -527,3 +527,19 @@ test("CSV conversion hands its local JSON result to the formatter", async ({ pag
   await page.getByRole("button", { name: "Format", exact: true }).click();
   await expect(page.locator("pre").last()).toContainText("Ada");
 });
+
+
+test("IPv6 subnet calculator reports canonical CIDR boundaries in French and English", async ({ page }) => {
+  await page.goto("/fr/outils/calculateur-de-sous-reseau-ipv6");
+  await expect(page.getByRole("heading", { level: 1, name: "Calculateur de sous-réseau IPv6" })).toBeVisible();
+  await expect(page.getByLabel("Adresse IPv6 / préfixe CIDR")).toHaveValue("2001:db8:1234:1::42/64");
+  await expect(page.getByText("2001:db8:1234:1::/64")).toBeVisible();
+  await expect(page.getByText("2001:db8:1234:1:ffff:ffff:ffff:ffff")).toBeVisible();
+  await page.getByLabel("Adresse IPv6 / préfixe CIDR").fill("2001:db8::1/129");
+  await expect(page.getByRole("alert")).toContainText("préfixe de /0 à /128");
+
+  await page.goto("/en/tools/ipv6-subnet-calculator");
+  await expect(page.getByRole("heading", { level: 1, name: "IPv6 Subnet Calculator" })).toBeVisible();
+  await expect(page.getByLabel("IPv6 address / CIDR prefix")).toHaveValue("2001:db8:1234:1::42/64");
+  await expect(page.getByText("2001:db8:1234:1::/64")).toBeVisible();
+});
