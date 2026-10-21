@@ -126,7 +126,7 @@ type ToolMessages = {
   jsonToTypeScript: {
     input: string; placeholder: string; rootName: string; rootPlaceholder: string; generate: string;
     result: string; ready: string; emptyResult: string; copy: string; clear: string; error: string;
-    invalidJson: string; unsupportedRoot: string;
+    invalidJson: string; unsupportedRoot: string; receivedFromTool: string;
   };
   csvJson: {
     input: string; placeholder: string; delimiter: string; autoDetectDelimiter: string; csvToJson: string; jsonToCsv: string;
