@@ -66,6 +66,10 @@ export const toolSeo = {
     fr: { title: "Convertisseur de casse | Loculary", description: "Transformez rapidement un texte en majuscules, minuscules, Title Case, camelCase, PascalCase, snake_case ou kebab-case." },
     en: { title: "Text Case Converter | Loculary", description: "Transform text into uppercase, lowercase, Title Case, camelCase, PascalCase, snake_case, or kebab-case." },
   },
+  "text-line-processor": {
+    fr: { title: "Nettoyeur et trieur de lignes de texte | Loculary", description: "Supprimez les doublons et lignes vides, nettoyez les espaces et triez une liste de texte directement dans votre navigateur." },
+    en: { title: "Text Line Cleaner & Sorter | Loculary", description: "Remove duplicate or blank lines, trim whitespace, and sort text lists directly in your browser." },
+  },
   "unit-converter": {
     fr: { title: "Convertisseur d’unités | Loculary", description: "Convertissez des longueurs, masses, températures, volumes et surfaces directement dans votre navigateur." },
     en: { title: "Unit Converter | Loculary", description: "Convert length, mass, temperature, volume, and area units directly in your browser." },
