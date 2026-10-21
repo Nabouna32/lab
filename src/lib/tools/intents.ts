@@ -60,6 +60,7 @@ export const intentDefinitions: readonly IntentDefinition[] = [
     toolIds: [
       "json-formatter",
       "json-diff-checker",
+      "csv-diff-checker",
       "yaml-formatter-validator",
       "xml-formatter-validator",
       "url-parser",

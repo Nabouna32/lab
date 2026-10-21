@@ -66,3 +66,8 @@ test("French and English expose the same stable localized intent IDs", () => {
     assert.ok(intents.every((intent) => intent.label.trim().length > 0));
   }
 });
+
+
+test("CSV comparison is discoverable through the analyze intent", () => {
+  assert.ok(getToolsForIntent("analyze", publishedTools).some((tool) => tool.id === "csv-diff-checker"));
+});

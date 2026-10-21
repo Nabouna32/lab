@@ -119,6 +119,10 @@ const localProcessingDescriptions = {
     fr: "Les données CSV et JSON sont converties directement dans votre navigateur.",
     en: "CSV and JSON data are converted directly in your browser.",
   },
+  "csv-diff-checker": {
+    fr: "Les exports CSV sont comparés localement dans votre navigateur.",
+    en: "CSV exports are compared locally in your browser.",
+  },
   "uuid-generator": {
     fr: "Les UUID sont générés aléatoirement directement dans votre navigateur.",
     en: "UUIDs are generated randomly directly in your browser.",
@@ -213,7 +217,8 @@ const nextActionToolIds: Partial<Record<ToolId, ToolId[]>> = {
   "yaml-formatter-validator": ["json-formatter"],
   "json-formatter": ["json-to-typescript", "csv-json-converter", "yaml-formatter-validator"],
   "json-diff-checker": ["json-formatter", "text-diff-checker"],
-  "csv-json-converter": ["json-formatter", "markdown-table-generator"],
+  "csv-json-converter": ["csv-diff-checker", "json-formatter", "markdown-table-generator"],
+  "csv-diff-checker": ["csv-json-converter"],
   "json-to-typescript": ["json-formatter"],
   "xml-formatter-validator": ["json-formatter"],
   "html-entity-encoder-decoder": ["html-previewer"],
@@ -496,6 +501,20 @@ const toolDefinitions: ToolDefinition[] = [
     content: {
       fr: { name: "Convertisseur CSV et JSON", description: "Convertissez des données CSV en JSON et des tableaux JSON en CSV directement dans votre navigateur." },
       en: { name: "CSV & JSON Converter", description: "Convert CSV data to JSON and JSON object arrays to CSV directly in your browser." },
+    },
+  },
+  {
+    id: "csv-diff-checker", icon: "Δ",
+    version: 1,
+    complexity: "advanced",
+    categories: ["files"],
+    tags: ["csv", "diff", "compare", "comparison", "spreadsheet", "data", "export", "changes"],
+    aliases: ["csv diff", "compare csv", "csv comparison", "csv diff checker", "comparateur csv", "comparer deux csv", "diff csv", "comparer exports csv"],
+    lifecycle: "published",
+    capabilities: ["clipboard"],
+    content: {
+      fr: { name: "Comparateur CSV", description: "Comparez deux exports CSV et repérez les enregistrements ajoutés, supprimés ou modifiés, même si leur ordre change." },
+      en: { name: "CSV Diff Checker", description: "Compare two CSV exports and find added, removed, or changed records, even when their order changes." },
     },
   },
   {
