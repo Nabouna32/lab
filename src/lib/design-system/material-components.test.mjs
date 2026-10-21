@@ -252,10 +252,10 @@ test("shared action controls use semantic state-layer colors instead of brightne
   assert.match(buttonSource, /var\(--primary\)_92%,var\(--on-primary\)/);
   assert.match(buttonSource, /var\(--secondary-container\)_92%,var\(--on-secondary-container\)/);
   assert.match(iconButtonSource, /var\(--primary\)_92%,var\(--on-primary\)/);
-  assert.match(favoriteSource, /variant=\{active \? "filled-tonal" : "outlined"\}/);
+  assert.ok(favoriteSource.includes("const FavoriteActionButton = active ? FilledTonalButton : OutlinedButton;"));
   assert.match(favoriteSource, /import \{ IconButton \} from "@\/components\/ui\/IconButton"/);
   assert.match(accountActionSource, /var\(--primary\)_92%,var\(--on-primary\)/);
-  assert.match(collectionsSource, /<Button type="submit" variant="filled"/);
+  assert.match(collectionsSource, /<Button type="submit" disabled=/);
 });
 
 test("Fidelity theme source declares the intended scheme and semantic foreground role pairs", () => {
@@ -328,9 +328,10 @@ test("Design Lab includes extended Material 3 navigation, field, list, menu, pro
 
 test("Design Lab renders the shared production UI primitives against the active Material 3 scheme", () => {
   const labSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
-  for (const component of ["Button", "IconButton", "Card", "Panel", "ResultPanel", "Checkbox", "TextField", "TextArea", "ExposedDropdownMenu", "ModalBottomSheet", "AlertDialog", "SegmentedControl", "ValidationMessage", "Switch"]) {
+  for (const component of ["IconButton", "Card", "Panel", "ResultPanel", "Checkbox", "TextField", "TextArea", "ExposedDropdownMenu", "ModalBottomSheet", "AlertDialog", "SegmentedControl", "ValidationMessage", "Switch"]) {
     assert.match(labSource, new RegExp(`import \\{ ${component} \\} from "@\\/components\\/ui\\/${component}"`), `missing shared component import: ${component}`);
   }
+  assert.ok(labSource.includes('import { Button, ElevatedButton, FilledTonalButton, OutlinedButton, TextButton, DestructiveButton } from "@/components/ui/Button"'));
   for (const token of ["--foreground:var(--lab-text)", "--surface:var(--lab-surface)", "--surface-soft:var(--lab-surface-container)", "--secondary-container:var(--lab-secondary-container)", "--error:var(--lab-error)", "--focus-ring:var(--lab-primary)"]) {
     assert.ok(labCss.includes(token), `missing scoped token bridge: ${token}`);
   }
@@ -349,7 +350,7 @@ test("Design Lab does not reference missing CSS module classes", () => {
 
 test("Section 03 dialog preview trigger uses the shared Material 3 outlined button", () => {
   const labSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
-  assert.match(labSource, /aria-labelledby="states-title"[\s\S]*?<Button type="button" variant="outlined" className=\{styles\.dialogPreviewTrigger\} onClick=\{\(\)=>setDialogOpen\(true\)\}>\{t\.confirm\} · dialog<\/Button>/);
+  assert.match(labSource, /aria-labelledby="states-title"[\s\S]*?<OutlinedButton type="button" className=\{styles\.dialogPreviewTrigger\} onClick=\{\(\)=>setDialogOpen\(true\)\}>\{t\.confirm\} · dialog<\/OutlinedButton>/);
   assert.match(labCss, /\.dialogPreviewTrigger\{flex-shrink:0;white-space:nowrap\}/);
 });
 
@@ -427,18 +428,16 @@ test("Design Lab examples keep independent radio and segmented-control state", (
   assert.match(labSource, /checked=\{sampleRadio==="all"\}/);
 });
 
-test("buttons use AndroidX M3 variant-specific disabled roles and icon-toggle selections", () => {
-  assert.match(buttonSource, /const disabledContainer10 = "disabled:bg-\[color-mix\(in_srgb,var\(--on-surface\)_10%,transparent\)\]"/);
-  assert.match(buttonSource, /const disabledContainer12 = "disabled:bg-\[color-mix\(in_srgb,var\(--on-surface\)_12%,transparent\)\]"/);
-  assert.match(buttonSource, /const disabledContentVariant = "disabled:text-\[color-mix\(in_srgb,var\(--on-surface-variant\)_38%,transparent\)\]"/);
-  assert.match(buttonSource, /const disabledContentSurface = "disabled:text-\[color-mix\(in_srgb,var\(--on-surface\)_38%,transparent\)\]"/);
-  assert.match(buttonSource, /const disabledOutline = "disabled:border-\[color-mix\(in_srgb,var\(--outline-variant\)_10%,transparent\)\]"/);
-  assert.match(buttonSource, /const elevated = .*disabledContainer10.*disabledContentVariant.*disabled:shadow-none/);
-  assert.match(buttonSource, /const filled = .*disabledContainer10.*disabledContentVariant.*disabled:shadow-none/);
-  assert.match(buttonSource, /const outlined = .*disabledOutline.*disabledContentVariant/);
-  assert.match(buttonSource, /const filledTonal = .*disabledContainer12.*disabledContentSurface.*disabled:shadow-none/);
-  assert.match(buttonSource, /const text = .*disabledContentVariant/);
-  assert.match(buttonSource, /const danger = .*disabledContainer12.*disabledContentSurface/);
+test("AndroidX-named Buttons use variant-specific disabled roles and keep destructive styling explicit", () => {
+  for (const component of ["Button", "ElevatedButton", "FilledTonalButton", "OutlinedButton", "TextButton"]) {
+    assert.ok(buttonSource.includes("export function " + component + "("), "missing official component export: " + component);
+  }
+  assert.ok(buttonSource.includes("disabled:bg-[color-mix(in_srgb,var(--on-surface)_10%,transparent)]"));
+  assert.ok(buttonSource.includes("disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]"));
+  assert.ok(buttonSource.includes("disabled:border-[color-mix(in_srgb,var(--on-surface)_12%,transparent)]"));
+  assert.ok(buttonSource.includes("disabled:bg-[var(--surface-container-low)] disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)] disabled:shadow-none"));
+  assert.ok(buttonSource.includes("export function DestructiveButton("), "destructive is a Loculary extension");
+  assert.doesNotMatch(buttonSource, /primary: filled|secondary: outlined|tonal: filledTonal|ghost: text/);
   assert.match(iconButtonSource, /on-surface\)_10%,transparent/);
   assert.match(iconButtonSource, /const filledTonal = .*on-surface\)_10%,transparent/);
   assert.match(iconButtonSource, /outline-variant\)_38%,transparent/);

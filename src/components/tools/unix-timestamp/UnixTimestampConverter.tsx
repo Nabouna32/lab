@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/Button";
+import { Button, OutlinedButton } from "@/components/ui/Button";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { Select } from "@/components/ui/Select";
@@ -20,6 +20,8 @@ export default function UnixTimestampConverter() {
   const locale = useLocale();
   const t = getToolMessages(locale).unixTimestamp;
   const [mode, setMode] = useState<Mode>("timestamp");
+  const TimestampModeButton = mode === "timestamp" ? Button : OutlinedButton;
+  const DateModeButton = mode === "date" ? Button : OutlinedButton;
   const [timestamp, setTimestamp] = useState("");
   const [unit, setUnit] = useState<TimestampUnit>("seconds");
   const [dateTime, setDateTime] = useState("");
@@ -54,12 +56,12 @@ export default function UnixTimestampConverter() {
     <section className="overflow-hidden rounded-[var(--radius-2xl)] border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-sm)]">
       <div className="border-b border-[var(--border)] p-5 sm:p-7 lg:p-8">
         <div className="flex flex-wrap gap-2">
-          <Button type="button" variant={mode === "timestamp" ? "primary" : "secondary"} onClick={() => { setMode("timestamp"); setResult(null); setError(false); }}>
+          <TimestampModeButton type="button" onClick={() => { setMode("timestamp"); setResult(null); setError(false); }}>
             {t.timestampToDate}
-          </Button>
-          <Button type="button" variant={mode === "date" ? "primary" : "secondary"} onClick={() => { setMode("date"); setResult(null); setError(false); }}>
+          </TimestampModeButton>
+          <DateModeButton type="button" onClick={() => { setMode("date"); setResult(null); setError(false); }}>
             {t.dateToTimestamp}
-          </Button>
+          </DateModeButton>
         </div>
       </div>
 

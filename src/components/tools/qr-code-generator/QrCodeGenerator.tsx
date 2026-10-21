@@ -135,7 +135,7 @@ export default function QrCodeGenerator() {
               <option value="512">512 px</option>
             </Select>
             <div className="flex flex-wrap gap-2">
-              <Button type="button" variant="primary" onClick={download} disabled={!result?.qr}>{t.download}</Button>
+              <Button type="button" onClick={download} disabled={!result?.qr}>{t.download}</Button>
               <ClearButton onClear={clear} disabled={mode === "wifi" ? !ssid && !password && !hidden : !value} label={t.clear} />
             </div>
           </div>

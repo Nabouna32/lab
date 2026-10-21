@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/Button";
+import { Button, OutlinedButton } from "@/components/ui/Button";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { TextArea } from "@/components/ui/TextArea";
@@ -92,17 +92,19 @@ export default function TextLineProcessor() {
                 ["none", t.noSort],
                 ["ascending", t.ascending],
                 ["descending", t.descending],
-              ] as const).map(([value, label]) => (
-                <Button
-                  key={value}
-                  type="button"
-                  variant={sortOrder === value ? "primary" : "secondary"}
-                  onClick={() => setSortOrder(value)}
-                  aria-pressed={sortOrder === value}
-                >
-                  {label}
-                </Button>
-              ))}
+              ] as const).map(([value, label]) => {
+                const SortOrderButton = sortOrder === value ? Button : OutlinedButton;
+                return (
+                  <SortOrderButton
+                    key={value}
+                    type="button"
+                    onClick={() => setSortOrder(value)}
+                    aria-pressed={sortOrder === value}
+                  >
+                    {label}
+                  </SortOrderButton>
+                );
+              })}
             </div>
           </div>
           {tooLarge && <p role="alert" className="mt-4 text-sm font-medium text-[var(--danger)]">{t.resourceLimit}</p>}
@@ -120,9 +122,9 @@ export default function TextLineProcessor() {
             </div>
             <div className="flex flex-wrap gap-2">
               <CopyButton value={result} label={t.copy} />
-              <Button type="button" variant="secondary" onClick={sendToCompare} disabled={!result || tooLarge}>
+              <OutlinedButton type="button" onClick={sendToCompare} disabled={!result || tooLarge}>
                 {t.sendToCompare}
-              </Button>
+              </OutlinedButton>
             </div>
           </div>
           {transferError && <p role="alert" className="mt-3 text-sm font-medium text-[var(--danger)]">{t.transferFailed}</p>}

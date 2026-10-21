@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/Button";
+import { Button, OutlinedButton } from "@/components/ui/Button";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { Select } from "@/components/ui/Select";
@@ -159,7 +159,7 @@ export default function JsonFormatter() {
 
           <div className="mt-5 flex flex-wrap gap-2">
             <Button onClick={() => process("formatted")}>{t.format}</Button>
-            <Button variant="secondary" onClick={() => process("minified")}>{t.minify}</Button>
+            <OutlinedButton onClick={() => process("minified")}>{t.minify}</OutlinedButton>
             <ClearButton onClear={clear} disabled={!input} label={t.clear} />
           </div>
           <div className="mt-7 border-t border-[var(--border)] pt-5">
@@ -177,7 +177,7 @@ export default function JsonFormatter() {
             />
             <p id="json-path-hint" className="mt-2 text-xs leading-5 text-[var(--muted)]">{t.pathHint}</p>
             <div className="mt-3">
-              <Button variant="secondary" onClick={extractValue}>{t.extractButton}</Button>
+              <OutlinedButton onClick={extractValue}>{t.extractButton}</OutlinedButton>
             </div>
             {extractionError && (
               <p role="alert" className="mt-3 text-sm font-medium text-[var(--danger)]">
@@ -206,8 +206,8 @@ export default function JsonFormatter() {
           </pre>
           {result && !error && (
             <div className="mt-4">
-              <Button variant="secondary" onClick={() => sendToTool("json-diff-checker")}>{t.sendToCompare}</Button>
-              <Button variant="secondary" onClick={() => sendToTool("json-to-typescript")}>{t.sendToTypescript}</Button>
+              <OutlinedButton onClick={() => sendToTool("json-diff-checker")}>{t.sendToCompare}</OutlinedButton>
+              <OutlinedButton onClick={() => sendToTool("json-to-typescript")}>{t.sendToTypescript}</OutlinedButton>
               {transferError && <p className="mt-2 text-sm font-medium text-[var(--danger)]" role="alert">{t.transferFailed}</p>}
             </div>
           )}

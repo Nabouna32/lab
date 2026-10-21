@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useLocale } from "@/lib/i18n/use-locale";
-import { Button } from "@/components/ui/Button";
+import { Button, FilledTonalButton } from "@/components/ui/Button";
 import { getContactSheetLayout } from "@/lib/image-contact-sheet";
 
 const MAX_FILES = 20;
@@ -109,8 +109,8 @@ export default function ImageContactSheet() {
       <div><label htmlFor="contact-sheet-columns" className="mb-2 block text-sm font-semibold">{fr ? "Colonnes" : "Columns"}</label><select id="contact-sheet-columns" value={options.columns} onChange={(event) => updateOptions({ columns: Number(event.target.value) as SheetOptions["columns"] })} className="min-h-11 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 text-sm text-[var(--foreground)] focus-visible:outline-2 focus-visible:outline-[var(--focus-ring)]"><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
       <label className="flex min-h-11 items-center gap-3 text-sm"><input type="checkbox" checked={options.labels} onChange={(event) => updateOptions({ labels: event.target.checked })} className="h-4 w-4 accent-[var(--accent)]" />{fr ? "Afficher les noms de fichiers" : "Show filenames"}</label>
       <div><label htmlFor="contact-sheet-background" className="mb-2 block text-sm font-semibold">{fr ? "Fond" : "Background"}</label><select id="contact-sheet-background" value={options.background} onChange={(event) => updateOptions({ background: event.target.value as SheetOptions["background"] })} className="min-h-11 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 text-sm text-[var(--foreground)] focus-visible:outline-2 focus-visible:outline-[var(--focus-ring)]"><option value="white">{fr ? "Blanc" : "White"}</option><option value="soft">{fr ? "Gris clair" : "Soft gray"}</option></select></div>
-      <Button type="button" variant="filled" disabled={!files.length || busy} onClick={() => void generate()}>{busy ? (fr ? "Création de la planche…" : "Creating contact sheet…") : (fr ? "Générer l’aperçu" : "Generate contact sheet")}</Button>
-      {done && previewUrl && <Button type="button" variant="tonal" onClick={download}>{fr ? "Télécharger le PNG" : "Download PNG"}</Button>}
+      <Button type="button" disabled={!files.length || busy} onClick={() => void generate()}>{busy ? (fr ? "Création de la planche…" : "Creating contact sheet…") : (fr ? "Générer l’aperçu" : "Generate contact sheet")}</Button>
+      {done && previewUrl && <FilledTonalButton type="button" onClick={download}>{fr ? "Télécharger le PNG" : "Download PNG"}</FilledTonalButton>}
       {error && <p role="alert" className="text-sm font-medium text-[var(--error)]">{error}</p>}
       {done && <p role="status" className="text-sm font-medium text-[var(--success)]">{fr ? "Planche créée. Vos fichiers restent sur votre appareil." : "Contact sheet created. Your files stay on your device."}</p>}
       <p className="text-xs leading-5 text-[var(--muted)]">{fr ? "Traitement local · 20 images maximum · 50 Mo au total. Les GIF animés utilisent leur première image." : "Local processing · up to 20 images · 50 MB total. Animated GIFs use their first frame."}</p>

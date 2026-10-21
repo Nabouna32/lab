@@ -12,7 +12,7 @@ import type { ToolId } from "@/lib/tools/types";
 import type { Tool } from "@/lib/tools/types";
 import { normalizeSearchText } from "@/lib/tools/search-utils";
 import { executeToolSearch } from "@/lib/tools/search-request";
-import { Button } from "@/components/ui/Button";
+import { OutlinedButton } from "@/components/ui/Button";
 import { IconButton } from "@/components/ui/IconButton";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import { getSearchResultsPath, getToolPath } from "@/lib/tools/routes";
@@ -336,15 +336,14 @@ export default function ToolSearch({
           ) : searchError ? (
             <div className="px-4 py-5" role="alert">
               <p className="text-sm font-medium text-[var(--foreground)]">{t.tools.searchError}</p>
-              <Button
+              <OutlinedButton
                 type="button"
-                variant="secondary"
                 onMouseDown={(event) => event.preventDefault()}
                 onClick={() => { setSearchError(false); setIsSearching(true); setSearchRetryCount((count) => count + 1); }}
                 className="mt-3 min-h-10 rounded-full px-4"
               >
                 {t.tools.retrySearch}
-              </Button>
+              </OutlinedButton>
             </div>
           ) : visibleResults.length > 0 ? (
             <>

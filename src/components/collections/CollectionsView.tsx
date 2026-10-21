@@ -5,7 +5,7 @@ import Link from "next/link";
 import type { Locale } from "@/lib/i18n/config";
 import { useCollections } from "./CollectionsProvider";
 import { CollectionIcon } from "@/components/ui/CollectionIcon";
-import { Button } from "@/components/ui/Button";
+import { Button, FilledTonalButton, OutlinedButton, TextButton } from "@/components/ui/Button";
 import { createLocalCollectionsBackup, MAX_LOCAL_COLLECTIONS, MAX_LOCAL_COLLECTIONS_BACKUP_CHARS, parseLocalCollectionsBackup, type StoredLocalCollection } from "@/lib/collections/local-collections";
 
 export type CollectionTool = { id: string; icon: string; name: string; description: string; href: string };
@@ -193,7 +193,7 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
       <form className="mb-6 flex flex-col gap-3 rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-4 sm:flex-row" onSubmit={(event) => { event.preventDefault(); void create(); }}>
         <input value={name} onChange={(event) => setName(event.target.value)} maxLength={80} required placeholder={copy.placeholder} aria-label={copy.placeholder} className="min-h-12 min-w-0 flex-1 rounded-[var(--radius-lg)] border border-[var(--outline)] bg-[var(--surface)] px-4 text-[var(--foreground)] outline-none transition-[border-color,box-shadow] duration-[var(--motion-standard)] hover:border-[var(--border-strong)] focus-visible:border-[var(--primary)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface)]" />
             {data.userId && <label className="flex min-h-12 items-center gap-2 text-sm text-[var(--muted)] sm:px-2"><input type="checkbox" checked={synchronize} onChange={(event) => setSynchronize(event.target.checked)} className="h-4 w-4 accent-[var(--primary)]" />{copy.syncLabel}</label>}
-        <Button type="submit" variant="filled" disabled={data.loading || creating || !name.trim() || ((!data.userId || !synchronize) && localLimitReached)}>{creating ? (fr ? "Création…" : "Creating…") : copy.create}</Button>
+        <Button type="submit" disabled={data.loading || creating || !name.trim() || ((!data.userId || !synchronize) && localLimitReached)}>{creating ? (fr ? "Création…" : "Creating…") : copy.create}</Button>
       </form>
       <p className="mb-3 text-sm leading-6 text-[var(--muted)]">{copy.localNote} {data.userId ? copy.accountNote : copy.signIn}</p>
       <section aria-label={fr ? "Sauvegarde des collections locales" : "Local collection backup"} className="mb-6 rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-4">
@@ -208,13 +208,13 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
           onChange={(event) => void readBackup(event)}
         />
         <div className="flex flex-wrap gap-2">
-          <Button type="button" variant="outlined" disabled={data.loading || localCollectionCount === 0} onClick={exportLocalBackup}>{copy.backupExport} ({localCollectionCount})</Button>
-          <Button type="button" variant="outlined" disabled={data.loading || importing} onClick={() => importFileRef.current?.click()}>{copy.backupImport}</Button>
+          <OutlinedButton type="button" disabled={data.loading || localCollectionCount === 0} onClick={exportLocalBackup}>{copy.backupExport} ({localCollectionCount})</OutlinedButton>
+          <OutlinedButton type="button" disabled={data.loading || importing} onClick={() => importFileRef.current?.click()}>{copy.backupImport}</OutlinedButton>
         </div>
         {pendingImport && (
           <div className="mt-4 flex flex-wrap gap-2 border-t border-[var(--border)] pt-4">
-            <Button type="button" variant="filled" disabled={importing || localLimitReached} onClick={() => void confirmImport()}>{importing ? (fr ? "Restauration…" : "Restoring…") : copy.backupConfirm}</Button>
-            <Button type="button" variant="text" disabled={importing} onClick={() => { setPendingImport(null); setMessage(""); }}>{copy.backupCancel}</Button>
+            <Button type="button" disabled={importing || localLimitReached} onClick={() => void confirmImport()}>{importing ? (fr ? "Restauration…" : "Restoring…") : copy.backupConfirm}</Button>
+            <TextButton type="button" disabled={importing} onClick={() => { setPendingImport(null); setMessage(""); }}>{copy.backupCancel}</TextButton>
           </div>
         )}
       </section>
@@ -241,28 +241,28 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
                 <section className="rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow-sm)]">
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div className="min-w-0"><h2 className="break-words text-xl font-black">{active.name}</h2><p className="mt-1 text-sm text-[var(--muted)]">{active.user_collection_items.length} {fr ? "outils" : "tools"}</p></div>
-                    <Button type="button" variant="text" onClick={() => { const next = window.prompt(copy.rename, active.name); if (next?.trim()) void data.renameCollection(active.id, next).then((ok) => { if (!ok) setMessage(copy.error); }); }}>{copy.rename}</Button>
+                    <TextButton type="button" onClick={() => { const next = window.prompt(copy.rename, active.name); if (next?.trim()) void data.renameCollection(active.id, next).then((ok) => { if (!ok) setMessage(copy.error); }); }}>{copy.rename}</TextButton>
                   </div>
                   <div className="mt-4 flex flex-col gap-2 sm:flex-row">
                     <select value={addingTool} onChange={(event) => setAddingTool(event.target.value)} aria-label={copy.add} className="min-h-12 min-w-0 flex-1 rounded-[var(--radius-lg)] border border-[var(--outline)] bg-[var(--surface)] px-3.5 py-2.5 text-sm text-[var(--foreground)] outline-none transition-[border-color,box-shadow,background-color] duration-[var(--motion-standard)] hover:border-[var(--border-strong)] focus-visible:border-[var(--primary)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface)]">
                       <option value="">{copy.choose}</option>
                       {tools.filter((tool) => !active.user_collection_items.some((item) => item.tool_id === tool.id)).map((tool) => <option key={tool.id} value={tool.id}>{tool.name}</option>)}
                     </select>
-                    <Button type="button" variant="filled-tonal" disabled={!addingTool || adding} onClick={() => void add()}>{adding ? (fr ? "Ajout…" : "Adding…") : copy.save}</Button>
+                    <FilledTonalButton type="button" disabled={!addingTool || adding} onClick={() => void add()}>{adding ? (fr ? "Ajout…" : "Adding…") : copy.save}</FilledTonalButton>
                   </div>
                   {active.user_collection_items.length ? <ul className="mt-4 divide-y divide-[var(--border)]">
                     {active.user_collection_items.map((item) => {
                       const tool = tools.find((candidate) => candidate.id === item.tool_id);
                       if (!tool) return null;
-                      return <li key={item.tool_id} className="flex items-center gap-3 py-3"><span aria-hidden="true" className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--accent-soft)] text-xl">{tool.icon}</span><div className="min-w-0 flex-1"><Link href={tool.href} className="font-semibold hover:underline">{tool.name}</Link><p className="line-clamp-1 text-xs text-[var(--muted)]">{tool.description}</p></div><Button type="button" variant="text" className="!text-[var(--muted)]" onClick={() => void data.removeTool(active.id, item.tool_id)}>{copy.removeTool}</Button></li>;
+                      return <li key={item.tool_id} className="flex items-center gap-3 py-3"><span aria-hidden="true" className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--accent-soft)] text-xl">{tool.icon}</span><div className="min-w-0 flex-1"><Link href={tool.href} className="font-semibold hover:underline">{tool.name}</Link><p className="line-clamp-1 text-xs text-[var(--muted)]">{tool.description}</p></div><TextButton type="button" className="!text-[var(--muted)]" onClick={() => void data.removeTool(active.id, item.tool_id)}>{copy.removeTool}</TextButton></li>;
                     })}
                   </ul> : <p className="py-6 text-center text-sm text-[var(--muted)]">{copy.emptyHelp}</p>}
                   <div className="mt-5 flex flex-wrap items-center gap-2 border-t border-[var(--border)] pt-4">
                     {active.storage === "account" && <>
-                      <Button type="button" variant="outlined" onClick={() => void data.toggleSharing(active.id).then((ok) => { if (!ok) setMessage(copy.error); })}>{active.share_token ? copy.stopShare : copy.share}</Button>
-                      {active.share_token && <Button type="button" variant="filled" onClick={() => void copyLink(active.share_token!)}>{copy.copy}</Button>}
+                      <OutlinedButton type="button" onClick={() => void data.toggleSharing(active.id).then((ok) => { if (!ok) setMessage(copy.error); })}>{active.share_token ? copy.stopShare : copy.share}</OutlinedButton>
+                      {active.share_token && <Button type="button" onClick={() => void copyLink(active.share_token!)}>{copy.copy}</Button>}
                     </>}
-                    <Button type="button" variant="text" className="!text-[var(--error)]" onClick={() => { if (window.confirm(fr ? "Supprimer cette collection et ses outils ?" : "Delete this collection and its tools?")) void data.deleteCollection(active.id).then((ok) => { if (ok) setActiveCollection(null); else setMessage(copy.error); }); }}>{copy.remove}</Button>
+                    <TextButton type="button" className="!text-[var(--error)]" onClick={() => { if (window.confirm(fr ? "Supprimer cette collection et ses outils ?" : "Delete this collection and its tools?")) void data.deleteCollection(active.id).then((ok) => { if (ok) setActiveCollection(null); else setMessage(copy.error); }); }}>{copy.remove}</TextButton>
                   </div>
                 </section>
               )}

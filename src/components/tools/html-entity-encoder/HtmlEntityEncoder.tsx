@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Button } from "@/components/ui/Button";
+import { Button, OutlinedButton } from "@/components/ui/Button";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { TextArea } from "@/components/ui/TextArea";
@@ -14,6 +14,8 @@ export default function HtmlEntityEncoder() {
   const t = getToolMessages(locale).htmlEntityEncoder;
   const [input, setInput] = useState("");
   const [mode, setMode] = useState<"encode" | "decode">("encode");
+  const EncodeModeButton = mode === "encode" ? Button : OutlinedButton;
+  const DecodeModeButton = mode === "decode" ? Button : OutlinedButton;
 
   const result = useMemo(() => transformHtmlEntities(input, mode), [input, mode]);
 
@@ -33,22 +35,20 @@ export default function HtmlEntityEncoder() {
         <div className="mt-5">
           <p className="mb-2 text-sm font-semibold text-[var(--foreground)]">{t.operation}</p>
           <div className="flex flex-wrap gap-2" role="group" aria-label={t.operation}>
-            <Button
+            <EncodeModeButton
               type="button"
-              variant={mode === "encode" ? "primary" : "secondary"}
               onClick={() => setMode("encode")}
               aria-pressed={mode === "encode"}
             >
               {t.encode}
-            </Button>
-            <Button
+            </EncodeModeButton>
+            <DecodeModeButton
               type="button"
-              variant={mode === "decode" ? "primary" : "secondary"}
               onClick={() => setMode("decode")}
               aria-pressed={mode === "decode"}
             >
               {t.decode}
-            </Button>
+            </DecodeModeButton>
           </div>
         </div>
 

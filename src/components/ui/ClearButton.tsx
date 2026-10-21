@@ -2,7 +2,7 @@
 
 import { useLocale } from "@/lib/i18n/use-locale";
 import { getMessages } from "@/lib/i18n/messages";
-import { Button } from "@/components/ui/Button";
+import { OutlinedButton } from "@/components/ui/Button";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
 
 type ClearButtonProps = {
@@ -17,8 +17,7 @@ export function ClearButton({ onClear, disabled = false, label }: ClearButtonPro
   const buttonLabel = label ?? t.clear;
 
   return (
-    <Button
-      variant="secondary"
+    <OutlinedButton
       leadingIcon
       type="button"
       onClick={onClear}
@@ -27,6 +26,6 @@ export function ClearButton({ onClear, disabled = false, label }: ClearButtonPro
     >
       <MaterialIcon name="restart_alt" size={18} />
       <span>{buttonLabel}</span>
-    </Button>
+    </OutlinedButton>
   );
 }

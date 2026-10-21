@@ -4,7 +4,7 @@ import { requireAdminPermission } from "@/lib/admin/authorization";
 import { createClient } from "@/lib/supabase/server";
 import { getMessages } from "@/lib/i18n/messages";
 import { isLocale, type Locale } from "@/lib/i18n/config";
-import { Button } from "@/components/ui/Button";
+import { Button, OutlinedButton, TextButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/TextField";
 
 type UserRow = {
@@ -126,9 +126,9 @@ export default async function AdminUsersPage({
                             <input type="hidden" name="locale" value={locale} />
                             <input type="hidden" name="userId" value={user.user_id} />
                             <input type="hidden" name="roleKey" value={role} />
-                            <Button type="submit" variant="ghost" className="min-h-8 px-2 py-1 text-xs text-[var(--danger)] hover:text-[var(--danger)]">
+                            <TextButton type="submit" className="min-h-8 px-2 py-1 text-xs text-[var(--danger)] hover:text-[var(--danger)]">
                               {t.admin.userRemoveRole}
-                            </Button>
+                            </TextButton>
                           </form>
                         ) : null}
                       </div>
@@ -143,7 +143,7 @@ export default async function AdminUsersPage({
                           <input type="hidden" name="locale" value={locale} />
                           <input type="hidden" name="userId" value={user.user_id} />
                           <input type="hidden" name="roleKey" value={role.key} />
-                          <Button type="submit" variant="secondary">{role.key === "super_admin" ? t.admin.roleSuperAdmin : role.key === "admin" ? t.admin.roleAdmin : role.key}</Button>
+                          <OutlinedButton type="submit">{role.key === "super_admin" ? t.admin.roleSuperAdmin : role.key === "admin" ? t.admin.roleAdmin : role.key}</OutlinedButton>
                         </form>
                       ))}
                     </div>
@@ -159,14 +159,14 @@ export default async function AdminUsersPage({
                         <form action={suspended ? unsuspendUser : suspendUser}>
                           <input type="hidden" name="locale" value={locale} />
                           <input type="hidden" name="userId" value={user.user_id} />
-                          <Button type="submit" variant="secondary" className="text-[var(--danger)] hover:text-[var(--danger)]">
+                          <OutlinedButton type="submit" className="text-[var(--danger)] hover:text-[var(--danger)]">
                             {suspended ? t.admin.userUnsuspend : t.admin.userSuspend}
-                          </Button>
+                          </OutlinedButton>
                         </form>
                         <form action={revokeUserSessions}>
                           <input type="hidden" name="locale" value={locale} />
                           <input type="hidden" name="userId" value={user.user_id} />
-                          <Button type="submit" variant="secondary">{t.admin.userRevokeSessions}</Button>
+                          <OutlinedButton type="submit">{t.admin.userRevokeSessions}</OutlinedButton>
                         </form>
                       </div>
                     </div>

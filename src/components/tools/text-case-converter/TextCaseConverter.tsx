@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Button } from "@/components/ui/Button";
+import { Button, OutlinedButton } from "@/components/ui/Button";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { TextArea } from "@/components/ui/TextArea";
@@ -47,17 +47,19 @@ export default function TextCaseConverter() {
                 ["snake", t.modes.snake],
                 ["kebab", t.modes.kebab],
               ] as const
-            ).map(([value, label]) => (
-              <Button
-                key={value}
-                type="button"
-                variant={format === value ? "primary" : "secondary"}
-                onClick={() => setFormat(value)}
-                aria-pressed={format === value}
-              >
-                {label}
-              </Button>
-            ))}
+            ).map(([value, label]) => {
+              const VariantButton = format === value ? Button : OutlinedButton;
+              return (
+                <VariantButton
+                  key={value}
+                  type="button"
+                  onClick={() => setFormat(value)}
+                  aria-pressed={format === value}
+                >
+                  {label}
+                </VariantButton>
+              );
+            })}
           </div>
         </div>
 

@@ -2,7 +2,7 @@
 
 import { useMemo, useState, type ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/Button";
+import { Button, OutlinedButton } from "@/components/ui/Button";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { TextArea } from "@/components/ui/TextArea";
@@ -26,6 +26,8 @@ export default function CsvJsonConverter() {
   const t = getToolMessages(locale).csvJson;
   const [input, setInput] = useState("");
   const [operation, setOperation] = useState<CsvJsonOperation>("csv-to-json");
+  const CsvToJsonButton = operation === "csv-to-json" ? Button : OutlinedButton;
+  const JsonToCsvButton = operation === "json-to-csv" ? Button : OutlinedButton;
   const [delimiter, setDelimiter] = useState<CsvDelimiterSelection>("auto");
   const [inferTypes, setInferTypes] = useState(false);
   const [result, setResult] = useState("");
@@ -173,8 +175,8 @@ export default function CsvJsonConverter() {
           )}
 
           <div className="mt-5 flex flex-wrap gap-2">
-            <Button onClick={() => apply("csv-to-json")} variant={operation === "csv-to-json" ? "primary" : "secondary"}>{t.csvToJson}</Button>
-            <Button onClick={() => apply("json-to-csv")} variant={operation === "json-to-csv" ? "primary" : "secondary"}>{t.jsonToCsv}</Button>
+            <CsvToJsonButton onClick={() => apply("csv-to-json")}>{t.csvToJson}</CsvToJsonButton>
+            <JsonToCsvButton onClick={() => apply("json-to-csv")}>{t.jsonToCsv}</JsonToCsvButton>
             <ClearButton onClear={clear} disabled={!input && !result} label={t.clear} />
           </div>
 
@@ -191,14 +193,14 @@ export default function CsvJsonConverter() {
               <p className="text-sm font-semibold text-[var(--muted)]">{t.result}</p>
               <p className="mt-1 text-sm text-[var(--muted)]" aria-live="polite">{error ? t.error : result ? t.ready : t.emptyResult}</p>
             </div>
-            {result && <div className="flex flex-wrap gap-2"><CopyButton value={result} label={t.copy} /><Button onClick={download} variant="secondary">{t.download}</Button></div>}
+            {result && <div className="flex flex-wrap gap-2"><CopyButton value={result} label={t.copy} /><OutlinedButton onClick={download}>{t.download}</OutlinedButton></div>}
           </div>
           <pre aria-live="polite" className="mt-4 min-h-[18rem] flex-1 overflow-auto whitespace-pre-wrap break-words border-y border-[var(--border)] py-4 font-mono text-sm leading-6 text-[var(--foreground)]">{result || " "}</pre>
           {result && !error && operation === "csv-to-json" && (
             <div className="mt-4 flex flex-wrap gap-2">
-              <Button variant="secondary" onClick={() => sendToTool("json-formatter")}>{t.sendToFormatter}</Button>
-              <Button variant="secondary" onClick={() => sendToTool("json-diff-checker")}>{t.sendToCompare}</Button>
-              <Button variant="secondary" onClick={() => sendToTool("json-to-typescript")}>{t.sendToTypescript}</Button>
+              <OutlinedButton onClick={() => sendToTool("json-formatter")}>{t.sendToFormatter}</OutlinedButton>
+              <OutlinedButton onClick={() => sendToTool("json-diff-checker")}>{t.sendToCompare}</OutlinedButton>
+              <OutlinedButton onClick={() => sendToTool("json-to-typescript")}>{t.sendToTypescript}</OutlinedButton>
             </div>
           )}
           {transferError && <p role="alert" className="mt-2 text-sm font-medium text-[var(--danger)]">{t.transferFailed}</p>}

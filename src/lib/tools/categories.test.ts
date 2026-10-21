@@ -21,10 +21,12 @@ test("semantic theme tokens use the accepted blue M3 Fidelity seed", () => {
   assert.ok(!globalCss.toLowerCase().includes("#6750a4"), "the old purple seed must not remain in production CSS");
 });
 
-test("filled-tonal buttons use Material 3 secondary container roles", () => {
-  assert.ok(buttonSource.includes('const filledTonal = "border border-transparent bg-[var(--secondary-container)] text-[var(--on-secondary-container)]'));
+test("FilledTonalButton uses Material 3 secondary container roles without a Loculary alias", () => {
+  assert.ok(buttonSource.includes("const filledTonal = ["));
+  assert.ok(buttonSource.includes("bg-[var(--secondary-container)] text-[var(--on-secondary-container)]"));
   assert.ok(buttonSource.includes('"filled-tonal": filledTonal'));
-  assert.ok(buttonSource.includes("tonal: filledTonal"), "legacy tonal variant must remain an alias");
+  assert.ok(buttonSource.includes("export function FilledTonalButton("));
+  assert.ok(!buttonSource.includes("tonal: filledTonal"), "the legacy tonal alias must not remain in the shared API");
 });
 
 test("every category is wired to generated official MCU Rainbow colors for both themes", () => {

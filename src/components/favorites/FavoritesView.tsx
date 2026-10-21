@@ -4,7 +4,7 @@ import Link from "next/link";
 import type { Locale } from "@/lib/i18n/config";
 import { getToolsPath } from "@/lib/tools/routes";
 import { StarIcon } from "@/components/ui/StarIcon";
-import { Button } from "@/components/ui/Button";
+import { TextButton } from "@/components/ui/Button";
 import { useFavorites } from "./FavoritesProvider";
 
 export type FavoriteToolItem = { id: string; icon: string; name: string; description: string; href: string };
@@ -51,10 +51,10 @@ export default function FavoritesView({ locale, tools }: { locale: Locale; tools
                 </div>
               </div>
               <div className="mt-auto flex justify-end pt-4">
-                <Button type="button" variant="text" disabled={favorites.loading || favorites.error} onClick={() => void favorites.toggleFavorite(tool.id)}>
+                <TextButton type="button" disabled={favorites.loading || favorites.error} onClick={() => void favorites.toggleFavorite(tool.id)}>
                   <StarIcon filled size={18} className="h-[18px] w-[18px] shrink-0" />
                   {locale === "fr" ? "Retirer des favoris" : "Remove from favorites"}
-                </Button>
+                </TextButton>
               </div>
             </li>
           ))}

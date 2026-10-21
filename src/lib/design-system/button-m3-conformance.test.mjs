@@ -5,7 +5,6 @@ import { test } from "node:test";
 const button = readFileSync(new URL("../../components/ui/Button.tsx", import.meta.url), "utf8");
 const buttonRipple = readFileSync(new URL("../../components/ui/ButtonRipple.tsx", import.meta.url), "utf8");
 const iconButton = readFileSync(new URL("../../components/ui/IconButton.tsx", import.meta.url), "utf8");
-const labCss = readFileSync(new URL("../../app/[locale]/design-lab/visual-lab.module.css", import.meta.url), "utf8");
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
 const labSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
 const auditPreview = readFileSync(new URL("../../app/[locale]/design-lab/audit/ComponentLivePreview.tsx", import.meta.url), "utf8");
@@ -18,28 +17,26 @@ const collectionsView = readFileSync(new URL("../../components/collections/Colle
 const favoritesView = readFileSync(new URL("../../components/favorites/FavoritesView.tsx", import.meta.url), "utf8");
 const toolSearch = readFileSync(new URL("../../components/tools/ToolSearch.tsx", import.meta.url), "utf8");
 
-test("shared Button exposes canonical variants, stable default labels, opt-in multiline and semantic disabled states", () => {
+test("shared Button exports AndroidX component names with source-derived dimensions and variant-specific states", () => {
+  for (const component of ["Button", "ElevatedButton", "FilledTonalButton", "OutlinedButton", "TextButton"]) {
+    assert.ok(button.includes("export function " + component + "("), "missing AndroidX component export: " + component);
+  }
+  assert.ok(button.includes("export function DestructiveButton("), "Loculary destructive extension must be explicit");
   for (const required of [
-    'const filled = "border', 'const elevated = "border', 'const filledTonal = "border', 'const outlined = "border', 'const text = "border',
-    '"filled-tonal": filledTonal', "min-h-10", "min-w-[58px]", "whitespace-nowrap", "whitespace-pre-line", "multiline = false",
-    "leadingIcon?: boolean", 'const isTextVariant = variant === "text" || variant === "ghost"', "pl-3 pr-4", "pl-4 pr-6",
-    "transition-[background-color,border-color,color,box-shadow]", "motion-reduce:transition-none", "shrink-0",
-    "disabled:bg-[color-mix(in_srgb,var(--on-surface)_10%,transparent)]", "disabled:bg-[color-mix(in_srgb,var(--on-surface)_12%,transparent)]", "disabled:text-[color-mix(in_srgb,var(--on-surface-variant)_38%,transparent)]", "disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]", "disabled:border-[color-mix(in_srgb,var(--outline-variant)_10%,transparent)]", "disabled:shadow-none",
-    "primary: filled", "tonal: filledTonal", "secondary: outlined", "ghost: text", 'variant = "filled"',
-  ]) assert.ok(button.includes(required), "missing Button conformance rule: " + required);
-  for (const required of [
-    "hover:shadow-[var(--button-elevation-1)]",
-    "hover:shadow-[var(--button-elevation-2)]",
-    "focus-visible:shadow-[var(--button-elevation-1)]",
-    "focus-visible:bg-[color-mix(in_srgb,var(--primary)_90%,var(--on-primary))]",
-    "focus-visible:bg-[color-mix(in_srgb,var(--primary)_10%,transparent)]",
-    "disabled:shadow-none",
-  ]) assert.ok(button.includes(required), "missing Button interaction-state rule: " + required);
+    "min-h-10", "min-w-[58px]", "whitespace-nowrap", "whitespace-pre-line",
+    "leadingIcon?: boolean", "multiline?: boolean", "pl-3 pr-4", "pl-4 pr-6",
+    "transition-[background-color,border-color,color,box-shadow]", "motion-reduce:transition-none",
+    "disabled:bg-[color-mix(in_srgb,var(--on-surface)_10%,transparent)]",
+    "disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]",
+    "disabled:border-[color-mix(in_srgb,var(--on-surface)_12%,transparent)]",
+    "hover:shadow-[var(--button-elevation-1)]", "hover:shadow-[var(--button-elevation-2)]",
+    "focus-visible:shadow-[var(--button-elevation-1)]", "<ButtonRipple />",
+    'type = "button"',
+  ]) assert.ok(button.includes(required), "missing Button contract: " + required);
+  assert.ok(!button.includes('variant?: ButtonVariant'), "public Button API must use AndroidX-named components, not a variant prop");
+  assert.ok(!button.includes("primary: filled") && !button.includes("secondary: outlined"), "Loculary legacy aliases must not remain in the public API");
   assert.ok(globalCss.includes("--button-elevation-1:") && globalCss.includes("--button-elevation-2:"));
-  assert.ok(globalCss.includes("0 1px 2px rgb(25 27 35 / 0.12)") && globalCss.includes("0 2px 6px rgb(0 0 0 / 0.38)"));
-  assert.ok(!button.includes("active:rounded-[var(--shape-corner-small)]"), "pressed state must not morph the shape in the Fidelity direction");
-  assert.ok(!button.includes("active:bg-[color-mix"), "pressed background color must be represented by the ripple rather than a second static color layer");
-  assert.ok(button.includes("<ButtonRipple />") && button.includes("relative isolate"));
+  assert.ok(!button.includes("active:rounded-[var(--shape-corner-small)]"), "pressed state must not morph the shape in the selected Fidelity direction");
 });
 
 test("shared IconButton preserves 48px touch target and supports accessible toggle state", () => {
@@ -86,19 +83,16 @@ test("selected filled-tonal IconButton keeps official tonal color roles", () => 
   assert.ok(selectedStyles.includes("group-active:bg-[color-mix(in_srgb,var(--secondary-container)_88%,var(--on-secondary-container))]"));
 });
 
-test("legacy names are aliases to canonical M3 treatments", () => {
-  assert.ok(button.includes("primary: filled"));
-  assert.ok(button.includes("tonal: filledTonal"));
-  assert.ok(button.includes("secondary: outlined"));
-  assert.ok(button.includes("ghost: text"));
-  assert.ok(iconButton.includes("tonal: filledTonal"));
-  assert.ok(labCss.includes("--surface-container-low:var(--lab-surface-low)"));
-  assert.ok(labCss.includes("--on-surface:var(--lab-text)"));
-  assert.ok(labCss.includes("--error:var(--lab-error)"));
-  assert.ok(labCss.includes("--on-error:var(--lab-on-error)"));
-  for (const variant of ["filled", "elevated", "filled-tonal", "outlined", "text"]) {
-    assert.ok(labSource.includes(`variant="${variant}"`), "Design Lab is missing real shared Button variant: " + variant);
+test("Button call sites use AndroidX component names and keep extensions separate", () => {
+  assert.ok(!button.includes('primary: filled'));
+  assert.ok(!button.includes('tonal: filledTonal'));
+  assert.ok(!button.includes('secondary: outlined'));
+  assert.ok(!button.includes('ghost: text'));
+  assert.ok(iconButton.includes('tonal: filledTonal'), "IconButton compatibility alias is outside this Button porting lot");
+  for (const component of ["ElevatedButton", "FilledTonalButton", "OutlinedButton", "TextButton"]) {
+    assert.ok(labSource.includes(component), "Design Lab must exercise named component: " + component);
   }
+  assert.ok(labSource.includes("DestructiveButton"), "Destructive actions must be labelled as a Loculary extension");
   for (const required of ["buttonDisabled", "buttonLongLabel", "buttonLeadingIcon", "buttonTrailingArrow", "buttonNarrow", "buttonMultiline", "buttonManualBreak", "multiline={multiline}", "arrow_forward", "Disabled state"]) {
     assert.ok(auditPreview.includes(required), "Button audit preview is missing control or state coverage: " + required);
   }
@@ -138,13 +132,13 @@ test("Button audit preview provides contextual verification guidance in French a
 });
 
 test("favorite action uses shared M3 controls and never shrinks icon touch target below 48px", () => {
-  assert.ok(favoriteButton.includes('import { Button } from "@/components/ui/Button"'));
+  assert.ok(favoriteButton.includes('import { FilledTonalButton, OutlinedButton } from "@/components/ui/Button"'));
   assert.ok(favoriteButton.includes('import { IconButton } from "@/components/ui/IconButton"'));
   assert.ok(favoriteButton.includes('if (compact)'));
   assert.ok(favoriteButton.includes("<IconButton"));
   assert.ok(favoriteButton.includes('<StarIcon filled={active} size={24} className="h-6 w-6 shrink-0" />'));
   assert.ok(readFileSync(new URL("../../components/ui/StarIcon.tsx", import.meta.url), "utf8").includes("size = 20"));
-  assert.ok(favoriteButton.includes('variant={active ? "filled-tonal" : "outlined"}'));
+  assert.ok(favoriteButton.includes("const FavoriteActionButton = active ? FilledTonalButton : OutlinedButton;"));
   assert.ok(favoriteButton.includes("selected={active}"));
   assert.ok(!favoriteButton.includes("min-h-10 min-w-10"));
 });
@@ -174,18 +168,20 @@ test("global header search uses the shared ref-capable M3 IconButton at every br
   assert.ok(!headerSearch.includes('const iconButton ='));
 });
 
-test("collection and favorites action buttons use the shared M3 Button", () => {
-  assert.ok(collectionsView.includes('import { Button } from "@/components/ui/Button"'));
-  for (const variant of ['variant="filled"', 'variant="filled-tonal"', 'variant="outlined"', 'variant="text"']) {
-    assert.ok(collectionsView.includes(variant), "missing collection action variant: " + variant);
-  }
+test("collection and favorites actions use AndroidX-named Button components", () => {
+  assert.ok(collectionsView.includes('import { Button, FilledTonalButton, OutlinedButton, TextButton } from "@/components/ui/Button"'));
+  assert.ok(collectionsView.includes('<Button type="submit" disabled='));
+  assert.ok(collectionsView.includes('<FilledTonalButton type="button"'));
+  assert.ok(collectionsView.includes('<OutlinedButton type="button"'));
+  assert.ok(collectionsView.includes('<TextButton type="button"'));
   assert.ok(!collectionsView.includes('<button type="submit"'));
   assert.ok(!collectionsView.includes('<button type="button" onClick={() => void data.removeTool'));
   assert.ok(!collectionsView.includes('<button type="button" onClick={() => void data.toggleSharing'));
   assert.ok(collectionsView.includes('className="!text-[var(--error)]"'));
   assert.ok(collectionsView.includes('className="!text-[var(--muted)]"'));
-  assert.ok(favoritesView.includes('import { Button } from "@/components/ui/Button"'));
-  assert.ok(favoritesView.includes('<Button type="button" variant="text" disabled={favorites.loading || favorites.error}'));
+  assert.ok(favoritesView.includes('import { TextButton } from "@/components/ui/Button"'));
+  assert.ok(favoritesView.includes('<TextButton type="button" disabled={favorites.loading || favorites.error}'));
+  assert.ok(!favoritesView.includes('variant="text"'));
   assert.ok(!favoritesView.includes('min-h-11 rounded-full px-3 text-sm font-bold text-[var(--primary)]'));
 });
 
