@@ -6,6 +6,7 @@ const homeSource = readFileSync(new URL("../../app/[locale]/page.tsx", import.me
 const headerSource = readFileSync(new URL("../../components/layout/Header.tsx", import.meta.url), "utf8");
 const headerSearchSource = readFileSync(new URL("../../components/layout/HeaderSearch.tsx", import.meta.url), "utf8");
 const messagesSource = readFileSync(new URL("../i18n/messages.ts", import.meta.url), "utf8");
+const searchResultsSource = readFileSync(new URL("../../components/tools/SearchResultsClient.tsx", import.meta.url), "utf8");
 
 test("homepage prioritizes its main search, recent tools, guided workflows and Explorer CTA", () => {
   assert.match(homeSource, /<ToolSearch locale=\{locale\} instanceId="home-tool-search-v4"/);
@@ -13,7 +14,9 @@ test("homepage prioritizes its main search, recent tools, guided workflows and E
   assert.match(homeSource, /<HomeGuidedWorkflows locale=\{locale\}/);
   assert.match(homeSource, /t\.home\.explore/);
   assert.doesNotMatch(homeSource, /quickLinks|quick-links|Accès directs aux outils/);
-  assert.doesNotMatch(messagesSource, /quickLinksLabel|quickLinks:/);
+  assert.match(messagesSource, /quickLinksLabel/);
+  assert.match(searchResultsSource, /t\.home\.quickLinks/);
+  assert.match(searchResultsSource, /t\.home\.quickLinksLabel/);
   assert.match(messagesSource, /explore: "Explorer tous les outils"/);
   assert.match(messagesSource, /explore: "Explore all tools"/);
 });
