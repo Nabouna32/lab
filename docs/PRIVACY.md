@@ -177,11 +177,9 @@ The current account implementation permanently deletes the Supabase Auth user ra
 
 ## Data export
 
-Users should be able to export their personal data in a structured, documented format.
+Account-backed personal-data exports should use a structured, documented format, include the relevant user-owned domains, explain exclusions or transformations, and require appropriate authentication and authorization.
 
-The export must include the relevant user-owned domains and explain data that is excluded or transformed.
-
-Exports are sensitive and must require appropriate authentication and authorization.
+The local collections backup is a separate, user-initiated browser download. It contains only device-local collection names, creation dates and tool IDs; synced collections and tool inputs/results are excluded. Import is validated and additive, stays in the browser, and does not transmit the file to a service. The user controls where the downloaded backup is stored.
 
 ## Encryption and secrets
 
