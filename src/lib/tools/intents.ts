@@ -89,10 +89,6 @@ export const intentDefinitions: readonly IntentDefinition[] = [
     ],
   },
   {
-    id: "compare",
-    toolIds: ["json-diff-checker", "csv-diff-checker", "text-diff-checker", "timezone-converter"],
-  },
-  {
     id: "prepare",
     toolIds: [
       "image-metadata",
@@ -105,6 +101,10 @@ export const intentDefinitions: readonly IntentDefinition[] = [
       "url-encoder-decoder",
       "html-entity-encoder-decoder",
     ],
+  },
+  {
+    id: "compare",
+    toolIds: ["json-diff-checker", "csv-diff-checker", "text-diff-checker", "timezone-converter"],
   },
 ];
 
