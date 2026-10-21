@@ -10,7 +10,7 @@ describe("calculateIpv6Subnet", () => {
       prefix: 64,
       networkAddress: "2001:db8::/64",
       lastAddress: "2001:db8::ffff:ffff:ffff:ffff",
-      addressCount: 1n << 64n,
+      addressCount: BigInt(1) << BigInt(64),
     });
   });
 
@@ -18,12 +18,12 @@ describe("calculateIpv6Subnet", () => {
     const all = calculateIpv6Subnet("2001:db8::1/0");
     assert.equal(all?.networkAddress, "::/0");
     assert.equal(all?.lastAddress, "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff");
-    assert.equal(all?.addressCount, 1n << 128n);
+    assert.equal(all?.addressCount, BigInt(1) << BigInt(128));
 
     const host = calculateIpv6Subnet("2001:db8::abcd/128");
     assert.equal(host?.networkAddress, "2001:db8::abcd/128");
     assert.equal(host?.lastAddress, "2001:db8::abcd");
-    assert.equal(host?.addressCount, 1n);
+    assert.equal(host?.addressCount, BigInt(1));
   });
 
   it("handles compression at either end and ties by choosing the first longest zero run", () => {
