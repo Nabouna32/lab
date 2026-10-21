@@ -42,6 +42,7 @@ export default function ImageContactSheet() {
   function updateOptions(patch: Partial<SheetOptions>) {
     setOptions((current) => ({ ...current, ...patch }));
     setDone(false);
+    setPreviewUrl(null);
   }
 
   async function generate() {
