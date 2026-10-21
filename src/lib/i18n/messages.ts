@@ -103,10 +103,10 @@ export const messages: Record<Locale, Messages> = {
         {
           id: "convert-tabular-data", icon: "apps", title: "Convertir un tableau en JSON",
           summary: "Transformez des données CSV en JSON, puis rendez le résultat plus facile à relire et à vérifier.",
-          outcome: "Un JSON formaté, prêt à être copié vers votre prochain outil ou projet.", transfer: "manual",
+          outcome: "Un JSON formaté, prêt à être copié vers votre prochain outil ou projet.", transfer: "automatic",
           steps: [
             { toolId: "csv-json-converter", description: "Importez ou collez le CSV et choisissez la conversion CSV → JSON." },
-            { toolId: "json-formatter", description: "Collez le JSON obtenu pour le formater et contrôler sa validité." },
+            { toolId: "json-formatter", description: "Recevez le JSON converti, puis formatez-le et vérifiez sa validité." },
           ],
         },
         {
@@ -251,10 +251,10 @@ guidedWorkflows: {
         {
           id: "convert-tabular-data", icon: "apps", title: "Convert a table to JSON",
           summary: "Turn CSV data into JSON, then make the result easier to read and verify.",
-          outcome: "Formatted JSON, ready to copy into your next tool or project.", transfer: "manual",
+          outcome: "Formatted JSON, ready to copy into your next tool or project.", transfer: "automatic",
           steps: [
             { toolId: "csv-json-converter", description: "Import or paste the CSV and choose CSV → JSON." },
-            { toolId: "json-formatter", description: "Paste the resulting JSON to format it and check its validity." },
+            { toolId: "json-formatter", description: "Receive the converted JSON, then format it and check its validity." },
           ],
         },
         {
