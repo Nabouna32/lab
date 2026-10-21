@@ -10,9 +10,9 @@ export type WifiQrOptions = {
 /** Escapes reserved characters in the standard WIFI: QR payload format. */
 export function escapeWifiValue(value: string): string {
   return value
-    .replace(/([\\\\;,:"])/g, "\\\\$1")
-    .replace(/\r/g, "\\\\r")
-    .replace(/\n/g, "\\\\n");
+    .replace(/([\\;,:"])/g, "\\$1")
+    .replace(/\r/g, "\\r")
+    .replace(/\n/g, "\\n");
 }
 
 /** Returns null until the network name and any required password are provided. */
