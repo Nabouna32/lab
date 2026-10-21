@@ -747,7 +747,7 @@ const toolDefinitions: ToolDefinition[] = [
     tags: ["contrast", "color", "wcag", "accessibility", "aa", "aaa", "design", "css", "web"],
     aliases: ["color contrast checker", "contrast checker", "wcag contrast", "wcag checker", "vérificateur contraste", "contraste couleurs", "contraste wcag"],
     lifecycle: "published",
-    capabilities: [],
+    capabilities: ["clipboard"],
     content: {
       fr: { name: "Vérificateur de contraste des couleurs", description: "Vérifiez le ratio de contraste entre deux couleurs et les seuils WCAG AA et AAA." },
       en: { name: "Color Contrast Checker", description: "Check the contrast ratio between two colors and the WCAG AA and AAA thresholds." },
