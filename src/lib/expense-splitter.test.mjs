@@ -53,3 +53,10 @@ test("rejects duplicate participant IDs", () => {
     { id: "a", name: "Alex" }, { id: "a", name: "Other Alex" },
   ], []), /unique/);
 });
+
+test("rejects totals that exceed safe integer precision", () => {
+  assert.throws(() => calculateExpenseSettlement(group, [
+    { id: "e1", description: "A", amountCents: Number.MAX_SAFE_INTEGER, paidBy: "a" },
+    { id: "e2", description: "B", amountCents: 1, paidBy: "b" },
+  ]), /safe integer range/);
+});
