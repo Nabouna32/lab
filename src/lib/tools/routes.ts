@@ -11,6 +11,11 @@ export const categoriesPathSegments: Record<Locale, string> = {
   fr: "categories",
 };
 
+export const guidedWorkflowsPathSegments: Record<Locale, string> = {
+  en: "guided-workflows",
+  fr: "parcours-guides",
+};
+
 const categorySlugs: Record<string, Record<Locale, string>> = {
   calculations: { en: "calculations", fr: "calculs" },
   dates: { en: "dates", fr: "dates" },
@@ -95,6 +100,10 @@ export function getCategoriesPath(locale: Locale): string {
   return `/${locale}/${categoriesPathSegments[locale]}`;
 }
 
+export function getGuidedWorkflowsPath(locale: Locale): string {
+  return `/${locale}/${guidedWorkflowsPathSegments[locale]}`;
+}
+
 export function getCategorySlug(locale: Locale, categoryId: string): string {
   return categorySlugs[categoryId]?.[locale] ?? categoryId;
 }
@@ -128,6 +137,7 @@ export function getLocalizedPath(pathname: string, targetLocale: Locale): string
 
   const currentToolsSegment = toolsPathSegments[currentLocale];
   const currentCategoriesSegment = categoriesPathSegments[currentLocale];
+  const currentWorkflowsSegment = guidedWorkflowsPathSegments[currentLocale];
 
   if (segments.length === 2 && segments[1] === searchPathSegments[currentLocale]) {
     return getSearchResultsPagePath(targetLocale);
@@ -135,6 +145,10 @@ export function getLocalizedPath(pathname: string, targetLocale: Locale): string
 
   if (segments.length === 2 && segments[1] === currentToolsSegment) {
     return getToolsPath(targetLocale);
+  }
+
+  if (segments.length === 2 && segments[1] === currentWorkflowsSegment) {
+    return getGuidedWorkflowsPath(targetLocale);
   }
 
   if (segments.length === 3 && segments[1] === currentToolsSegment) {
@@ -147,7 +161,7 @@ export function getLocalizedPath(pathname: string, targetLocale: Locale): string
     return categoryId ? getCategoryPath(targetLocale, categoryId) : `/${targetLocale}`;
   }
 
-  if (segments[1] === currentToolsSegment || segments[1] === currentCategoriesSegment) {
+  if (segments[1] === currentToolsSegment || segments[1] === currentCategoriesSegment || segments[1] === currentWorkflowsSegment) {
     return `/${targetLocale}`;
   }
 
