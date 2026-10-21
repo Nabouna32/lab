@@ -95,7 +95,7 @@ type ToolMessages = {
     leftInput: string; rightInput: string; leftPlaceholder: string; rightPlaceholder: string; compare: string; clear: string;
     hint: string; invalidJson: string; inputTooLarge: string; depthLimit: string; emptyResult: string; identical: string;
     changesCount: (count: number) => string; added: string; removed: string; changed: string; before: string; after: string;
-    path: string; results: string; truncated: string; copyReport: string; loadFile: string; fileTypeError: string; fileTooLarge: string; fileReadError: string; receivedFromFormatter: string; sendToTypescript: string; transferFailed: string;
+    path: string; results: string; truncated: string; copyReport: string; loadFile: string; fileTypeError: string; fileTooLarge: string; fileReadError: string; receivedFromFormatter: string;
     summary: string; searchPath: string; searchPathPlaceholder: string; filterChanges: string; allChanges: string; noMatchingChanges: string;
     filteredChangesCount: (visible: number, total: number) => string;
   };
