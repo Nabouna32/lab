@@ -325,6 +325,21 @@ test("JSON diff checker reports structural changes", async ({ page }) => {
   expect(await getContrastRatio(exampleDescription)).toBeGreaterThanOrEqual(4.5);
 });
 
+test("text line processor cleans, de-duplicates, and sorts a pasted list", async ({ page }) => {
+  await page.goto("/fr/outils/nettoyeur-trieur-de-lignes");
+  await expect(page.locator("html")).toHaveAttribute("lang", "fr");
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+
+  const input = page.locator("#text-line-processor-input");
+  await input.fill(" Beta \\nalpha\\n\\nAlpha\\nitem 10\\nitem 2\\n");
+  await expect(page.locator("pre").last()).toContainText("Beta\\nalpha\\nAlpha\\nitem 10\\nitem 2");
+  await page.getByLabel("Supprimer les doublons (sans tenir compte de la casse)").check();
+  await expect(page.getByText("5 lignes → 4 lignes")).toBeVisible();
+  await page.getByRole("button", { name: "A → Z" }).click();
+  await expect(page.locator("pre").last()).toContainText("alpha\\nBeta\\nitem 2\\nitem 10");
+  await expect(page.locator("pre").last()).not.toContainText("Alpha");
+});
+
 test("YAML tool converts configuration values to JSON and back", async ({ page }) => {
   await page.goto("/fr/outils/formateur-validateur-yaml");
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
