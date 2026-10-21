@@ -705,21 +705,21 @@ Browser storage is intentionally local-first but can be cleared, and local colle
 
 ## DEC-032 — Risk-adaptive dependency CI
 
-**Status:** Accepted
+**Status:** Accepted; Playwright portion superseded by PR #970
 
 ### Decision
 
 Keep the full CI suite as the default for dependency-manifest changes. Permit a targeted path only when the pull request changes exactly `package.json` and `package-lock.json`, the parsed manifest diff proves that the sole dependency change is an upgrade of `devDependencies.eslint`, and every changed lockfile entry is reachable from the ESLint/`eslint-config-next` graph but not from another direct dependency graph. That path must still install dependencies, compare high-severity npm advisories against the base, and run lint. Unknown packages, additional metadata or script changes, mixed file changes, and ambiguous manifests fall back to the full suite.
 
-Run Playwright with one worker in CI while retaining the existing desktop/mobile and light/dark functional projects. Keep retries disabled and browser diagnostics text-only; do not generate or upload screenshots/traces as a stability workaround.
+Browser E2E / Playwright checks are not part of the current CI after PR [#970](https://github.com/Nabouna32/lab/pull/970). Do not describe them as a required CI gate or reintroduce them without a separate risk-and-maintenance proposal.
 
 ### Reason
 
-The previous policy ran build and browser tests for every dependency change regardless of role. A package-name-only shortcut would be unsafe; the manifest diff provides a narrow, testable condition, while the default remains conservative. Playwright's official CI guidance recommends one worker when prioritizing stability and reproducibility.
+The previous policy ran build and browser tests for every dependency change regardless of role. A package-name-only shortcut would be unsafe; the manifest diff provides a narrow, testable condition, while the default remains conservative. The later removal of Playwright is a separate CI decision and does not weaken the fail-closed dependency classification.
 
 ### Consequences
 
-- The isolated ESLint upgrade path runs `npm ci`, the existing dependency advisory diff, and `npm run lint`; typecheck, unit tests, build, and Playwright remain required for all other changes. Implementation: [PR #963](https://github.com/Nabouna32/lab/pull/963).
+- The isolated ESLint upgrade path runs `npm ci`, the existing dependency advisory diff, and `npm run lint`; typecheck, unit tests and build remain required for all other changes. Implementation: [PR #963](https://github.com/Nabouna32/lab/pull/963).
 - Classification failures fail closed; they never skip checks.
 - Revisit the allowlist only with tests demonstrating the package's actual role and required verification.
 
