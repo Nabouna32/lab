@@ -131,7 +131,7 @@ test("French homepage renders and exposes the search combobox state", async ({ p
   await expect(page.locator("html")).toHaveAttribute("lang", "fr");
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   await expect(page.getByRole("link", { name: /Parcours guidés/ })).toBeVisible();
-  await expect(page.getByRole("link", { name: "Tous les outils" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Tous les outils", exact: true }).first()).toBeVisible();
   await expect(page.getByRole("heading", { name: "Commence par ta tâche" })).toHaveCount(0);
   await expect(page.getByRole("heading", { name: "Catégories" })).toHaveCount(0);
 
@@ -148,7 +148,7 @@ test("English homepage renders in English", async ({ page }) => {
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   await expect(page.getByRole("link", { name: /Guided workflows/ })).toBeVisible();
-  await expect(page.getByRole("link", { name: "All tools" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "All tools", exact: true }).first()).toBeVisible();
   await expect(page.getByRole("heading", { name: "Start with your task" })).toHaveCount(0);
   await expect(page.getByRole("heading", { name: "Categories" })).toHaveCount(0);
 });
