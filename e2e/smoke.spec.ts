@@ -10,6 +10,17 @@ type BrowserIssues = {
 
 const browserIssues = new WeakMap<Page, BrowserIssues>();
 
+async function expectNoHorizontalOverflow(page: Page): Promise<void> {
+  const dimensions = await page.evaluate(() => ({
+    viewportWidth: window.innerWidth,
+    documentWidth: document.documentElement.scrollWidth,
+  }));
+  expect(
+    dimensions.documentWidth,
+    `homepage document width (${dimensions.documentWidth}px) should fit viewport (${dimensions.viewportWidth}px)`,
+  ).toBeLessThanOrEqual(dimensions.viewportWidth + 1);
+}
+
 async function getContrastRatio(locator: Locator): Promise<number> {
   return locator.evaluate((element) => {
     function relativeLuminance(color: string): number {
@@ -134,6 +145,7 @@ test("French homepage renders and exposes the search combobox state", async ({ p
   await expect(page.getByRole("link", { name: "Tous les outils", exact: true }).first()).toBeVisible();
   await expect(page.getByRole("heading", { name: "Commence par ta tâche" })).toHaveCount(0);
   await expect(page.getByRole("heading", { name: "Catégories" })).toHaveCount(0);
+  await expectNoHorizontalOverflow(page);
 
   const search = page.locator("#home-tool-search-v4").getByRole("combobox");
   await expect(search).toBeVisible();
@@ -151,6 +163,7 @@ test("English homepage renders in English", async ({ page }) => {
   await expect(page.getByRole("link", { name: "All tools", exact: true }).first()).toBeVisible();
   await expect(page.getByRole("heading", { name: "Start with your task" })).toHaveCount(0);
   await expect(page.getByRole("heading", { name: "Categories" })).toHaveCount(0);
+  await expectNoHorizontalOverflow(page);
 });
 
 test("IPv4 subnet calculator updates results end to end", async ({ page }) => {
