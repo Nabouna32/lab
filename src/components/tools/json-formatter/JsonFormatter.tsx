@@ -33,8 +33,10 @@ export default function JsonFormatter() {
     try {
       const transferred = consumePendingJsonToolTransfer(window.sessionStorage, "json-formatter");
       if (transferred !== null) {
-        setInput(transferred);
-        setReceivedFromTool(true);
+        queueMicrotask(() => {
+          setInput(transferred);
+          setReceivedFromTool(true);
+        });
       }
     } catch {
       // Storage may be unavailable; the formatter remains usable with manual input.
