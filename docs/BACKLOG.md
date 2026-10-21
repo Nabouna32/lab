@@ -2,6 +2,8 @@
 
 Dernière révision : 2026-10-21. File de travail unique.
 
+- **Gouvernance produit / Factory autonome :** mandat proposé dans [PR #966](https://github.com/Nabouna32/lab/pull/966), suivie par [issue #965](https://github.com/Nabouna32/lab/issues/965). La Factory choisit et conduit la meilleure mission produit, avec preuves et possibilité d’arrêt sans travail artificiel. Le déclenchement manuel par prompt est le fonctionnement de base ; l’éventuelle orchestration reste distincte dans [issue #967](https://github.com/Nabouna32/lab/issues/967).
+
 - **CI / classification des dépendances et stabilité Playwright :** [PR #963](https://github.com/Nabouna32/lab/pull/963) autorise `npm ci` + audit de dépendances + lint uniquement pour une mise à niveau isolée d’ESLint dont le lockfile reste exclusivement dans le graphe lint ; tout changement inconnu, manifeste ambigu, dépendance partagée ou fichier supplémentaire déclenche la suite complète. Playwright utilise un worker en CI, sans captures, traces ni uploads. Vérification complète : [run #39667464891](https://github.com/Nabouna32/lab/actions/runs/39667464891), 80 tests Playwright réussis. Checkpoint : [issue #741](https://github.com/Nabouna32/lab/issues/741).
 
 - **Accueil / compteur de catégories dupliqué :** [PR #961](https://github.com/Nabouna32/lab/pull/961) fusionnée (`4153b1b`). Le contrat de `CategoryCard` n’affiche plus qu’une seule chaîne localisée complète ; test de régression FR/EN ; CI complète verte ([run #39664914332](https://github.com/Nabouna32/lab/actions/runs/39664914332)). L’audit plus large de la hiérarchie de découverte est suivi dans [issue #960](https://github.com/Nabouna32/lab/issues/960).
