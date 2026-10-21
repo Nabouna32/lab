@@ -6,7 +6,7 @@ import type { Locale } from "@/lib/i18n/config";
 import { useCollections } from "./CollectionsProvider";
 import { CollectionIcon } from "@/components/ui/CollectionIcon";
 import { Button } from "@/components/ui/Button";
-import { MAX_LOCAL_COLLECTIONS } from "@/lib/collections/local-collections";
+import { createLocalCollectionsBackup, MAX_LOCAL_COLLECTIONS, MAX_LOCAL_COLLECTIONS_BACKUP_CHARS, parseLocalCollectionsBackup, type StoredLocalCollection } from "@/lib/collections/local-collections";
 
 export type CollectionTool = { id: string; icon: string; name: string; description: string; href: string };
 
@@ -20,6 +20,9 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
   const [creating, setCreating] = useState(false);
   const [adding, setAdding] = useState(false);
   const creatingRef = useRef(false);
+  const importFileRef = useRef<HTMLInputElement>(null);
+  const [pendingImport, setPendingImport] = useState<{ collections: StoredLocalCollection[]; ignoredToolCount: number } | null>(null);
+  const [importing, setImporting] = useState(false);
   const addingRef = useRef(false);
   const fr = locale === "fr";
   const copy = {
@@ -50,6 +53,24 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
     copy: fr ? "Copier le lien" : "Copy link",
     copied: fr ? "Lien copié" : "Link copied",
     error: fr ? "Une erreur est survenue. Réessaie." : "Something went wrong. Try again.",
+    backupExport: fr ? "Exporter les collections locales" : "Export local collections",
+    backupImport: fr ? "Importer une sauvegarde JSON" : "Import JSON backup",
+    backupHelp: fr ? "Sauvegarde uniquement les collections de cet appareil. Les collections synchronisées et les données saisies dans les outils ne sont jamais incluses." : "Back up only collections stored on this device. Synced collections and data entered into tools are never included.",
+    backupTooLarge: fr ? "Fichier trop volumineux. La limite est de 1 Mo." : "File is too large. The limit is 1 MB.",
+    backupInvalidJson: fr ? "Ce fichier n’est pas un JSON valide." : "This file is not valid JSON.",
+    backupUnsupported: fr ? "Cette sauvegarde Loculary n’est pas prise en charge." : "This Loculary backup format is not supported.",
+    backupInvalidCollections: fr ? "La sauvegarde contient des collections invalides." : "The backup contains invalid collections.",
+    backupEmpty: fr ? "Cette sauvegarde ne contient aucune collection." : "This backup contains no collections.",
+    backupReadError: fr ? "Impossible de lire ce fichier." : "Could not read this file.",
+    backupPreview: (count: number) => fr ? `${count} collection(s) prête(s) à importer. Elles seront ajoutées localement, sans remplacer tes collections actuelles.` : `${count} collection(s) ready to import. They will be added locally without replacing your current collections.`,
+    backupConfirm: fr ? "Restaurer les collections" : "Restore collections",
+    backupCancel: fr ? "Annuler" : "Cancel",
+    backupImported: (count: number, skipped: number, ignoredTools: number) => {
+      const result = fr ? `${count} collection(s) importée(s).` : `${count} collection(s) imported.`;
+      const capacity = skipped ? (fr ? ` ${skipped} ignorée(s), car la limite locale est atteinte.` : ` ${skipped} skipped because the local limit was reached.`) : "";
+      const toolsNote = ignoredTools ? (fr ? ` ${ignoredTools} référence(s) à des outils indisponibles ignorée(s).` : ` ${ignoredTools} reference(s) to unavailable tools ignored.`) : "";
+      return result + capacity + toolsNote;
+    },
   };
   const active = data.collections.find((collection) => collection.id === activeCollection);
   const localCollectionCount = data.collections.filter((collection) => collection.storage === "local").length;
@@ -83,6 +104,75 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
       setAdding(false);
     }
   }
+  function exportLocalBackup() {
+    const records: StoredLocalCollection[] = data.collections
+      .filter((collection) => collection.storage === "local")
+      .map((collection) => ({
+        id: collection.id,
+        name: collection.name,
+        created_at: collection.created_at,
+        tool_ids: collection.user_collection_items.map((item) => item.tool_id),
+      }));
+    if (!records.length) return;
+
+    const blob = new Blob([createLocalCollectionsBackup(records)], { type: "application/json;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `loculary-collections-${new Date().toISOString().slice(0, 10)}.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+    setMessage("");
+  }
+
+  async function readBackup(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+    setPendingImport(null);
+    setMessage("");
+    if (file.size > MAX_LOCAL_COLLECTIONS_BACKUP_CHARS) {
+      setMessage(copy.backupTooLarge);
+      return;
+    }
+    try {
+      const result = parseLocalCollectionsBackup(await file.text(), tools.map((tool) => tool.id));
+      if (!result.ok) {
+        const messages = {
+          "too-large": copy.backupTooLarge,
+          "invalid-json": copy.backupInvalidJson,
+          "unsupported-format": copy.backupUnsupported,
+          "invalid-collections": copy.backupInvalidCollections,
+          empty: copy.backupEmpty,
+        } as const;
+        setMessage(messages[result.reason]);
+        return;
+      }
+      setPendingImport({ collections: result.collections, ignoredToolCount: result.ignoredToolCount });
+      setMessage(copy.backupPreview(result.collections.length));
+    } catch {
+      setMessage(copy.backupReadError);
+    }
+  }
+
+  async function confirmImport() {
+    if (!pendingImport || importing) return;
+    setImporting(true);
+    try {
+      const imported = await data.importLocalCollections(pendingImport.collections);
+      if (!imported) {
+        setMessage(localLimitReached ? copy.localLimit : copy.error);
+        return;
+      }
+      setMessage(copy.backupImported(imported, pendingImport.collections.length - imported, pendingImport.ignoredToolCount));
+      setPendingImport(null);
+    } catch {
+      setMessage(copy.error);
+    } finally {
+      setImporting(false);
+    }
+  }
+
   async function copyLink(token: string) {
     try {
       await navigator.clipboard.writeText(new URL(`/${locale}/collection-partagee/${token}`, window.location.origin).toString());
@@ -105,7 +195,29 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
             {data.userId && <label className="flex min-h-12 items-center gap-2 text-sm text-[var(--muted)] sm:px-2"><input type="checkbox" checked={synchronize} onChange={(event) => setSynchronize(event.target.checked)} className="h-4 w-4 accent-[var(--primary)]" />{copy.syncLabel}</label>}
         <Button type="submit" variant="filled" disabled={data.loading || creating || !name.trim() || ((!data.userId || !synchronize) && localLimitReached)}>{creating ? (fr ? "Création…" : "Creating…") : copy.create}</Button>
       </form>
-      <p className="mb-6 text-sm leading-6 text-[var(--muted)]">{copy.localNote} {data.userId ? copy.accountNote : copy.signIn}</p>
+      <p className="mb-3 text-sm leading-6 text-[var(--muted)]">{copy.localNote} {data.userId ? copy.accountNote : copy.signIn}</p>
+      <section aria-label={fr ? "Sauvegarde des collections locales" : "Local collection backup"} className="mb-6 rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-4">
+        <p className="mb-3 text-sm leading-6 text-[var(--muted)]">{copy.backupHelp}</p>
+        <input
+          ref={importFileRef}
+          id="local-collections-import-file"
+          type="file"
+          accept="application/json,.json"
+          aria-label={copy.backupImport}
+          className="sr-only"
+          onChange={(event) => void readBackup(event)}
+        />
+        <div className="flex flex-wrap gap-2">
+          <Button type="button" variant="outlined" disabled={data.loading || localCollectionCount === 0} onClick={exportLocalBackup}>{copy.backupExport} ({localCollectionCount})</Button>
+          <Button type="button" variant="outlined" disabled={data.loading || importing} onClick={() => importFileRef.current?.click()}>{copy.backupImport}</Button>
+        </div>
+        {pendingImport && (
+          <div className="mt-4 flex flex-wrap gap-2 border-t border-[var(--border)] pt-4">
+            <Button type="button" variant="filled" disabled={importing || localLimitReached} onClick={() => void confirmImport()}>{importing ? (fr ? "Restauration…" : "Restoring…") : copy.backupConfirm}</Button>
+            <Button type="button" variant="text" disabled={importing} onClick={() => { setPendingImport(null); setMessage(""); }}>{copy.backupCancel}</Button>
+          </div>
+        )}
+      </section>
       {((!data.userId || !synchronize) && localLimitReached) && <p role="status" className="mb-5 text-sm text-[var(--muted)]">{copy.localLimit}</p>}
 
       {data.loading ? <p className="py-8 text-center text-sm text-[var(--muted)]">{fr ? "Chargement…" : "Loading…"}</p> : data.collections.length === 0 ? (
