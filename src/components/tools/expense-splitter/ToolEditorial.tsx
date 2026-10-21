@@ -5,7 +5,7 @@ import { Card } from "@/components/tools/ToolPage/EditorialPrimitives";
 const content = {
   fr: {
     title: "Comment répartir les dépenses d’un groupe ?",
-    text: "Ajoutez les personnes, puis chaque dépense et la personne qui l’a réglée. Loculary calcule la part égale de chacun et regroupe les remboursements pour limiter le nombre de virements.",
+    text: "Ajoutez les personnes, puis chaque dépense et la personne qui l’a réglée. Loculary calcule la part égale de chacun et propose un plan simple de virements pour solder les comptes.",
     exampleTitle: "Exemple",
     example: "Si Alex paie 90 € et Sam paie 30 € pour trois personnes, les dépenses totalisent 120 €. Chacun supporte 40 € : Sam rembourse 10 € à Alex et la troisième personne lui rembourse 40 €.",
     privacyTitle: "Vos données restent sur votre appareil",
