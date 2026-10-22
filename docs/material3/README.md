@@ -19,6 +19,8 @@ This is not a project to invent components that merely look Material-like. Every
 
 Each component specification must contain exact source links and the commit/release used. Do not rely on a mutable `main` link alone. Check source/API alignment before carrying a contract forward to a new AndroidX version.
 
+The source provenance and version-pinning rules live in [`sources.md`](sources.md). The catalogue schema and coverage-state rules live in [`catalog/README.md`](catalog/README.md). These documents distinguish the exhaustive public API inventory from semantic review, React porting, verification, and production migration.
+
 ## Usage contract for product pages and agents
 
 Before implementing a page or interaction, inspect this catalogue and the relevant component specification. Use the shared port whenever its semantics fit; do not create page-local lookalikes or aliases for official variants.
@@ -91,7 +93,8 @@ The inventory is intentionally **not yet declared complete**. The existing histo
 
 - **Existing port work to verify:** Button, IconButton.
 - **Candidates to inventory against real usage:** Checkbox, Switch, SegmentedButton, TextField, Select/dropdown, Card, progress indicators, Snackbar, Dialog, Tooltip, chips, navigation components, menus, sliders and date/time components.
-- Do not implement every AndroidX component just to complete a catalogue. Prioritize official components actually used or needed by Loculary, then expand when there is a clear product need.
+- **Inventory exhaustiveness is mandatory:** catalogue every public API in the declared artifact/version scope, including APIs not currently used by Loculary and experimental APIs. Inventory presence does not imply an implementation commitment.
+- **Implementation priority is separate:** prioritize ports according to product need, reuse, risk, and maintenance value. An inventoried API may remain unimplemented, with that status explicit.
 
 ## Current status
 
