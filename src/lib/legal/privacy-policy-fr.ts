@@ -6,8 +6,8 @@ const fr: PrivacyPolicyContent = {
   title: "Politique de confidentialité",
   updatedLabel: "Dernière mise à jour",
   updatedAt: "22 octobre 2026",
-  temporaryNoticeTitle: "Version provisoire — coordonnées à finaliser",
-  temporaryNotice: "Cette première version est publiée avant la création de l’adresse de contact définitive. L’adresse ci-dessous est un placeholder non opérationnel. Les durées de conservation de certains journaux et des détails contractuels des prestataires restent à confirmer. La politique sera revue après la mise en place du domaine et de l’adresse de contact.",
+  temporaryNoticeTitle: "Points de conformité encore à vérifier",
+  temporaryNotice: "Les coordonnées de contact sont renseignées. Les durées de conservation de certains journaux, les paramètres de conservation des prestataires et les garanties contractuelles applicables aux transferts doivent encore être vérifiés et formalisés.",
   intro: "Loculary cherche à limiter la collecte de données et à privilégier le traitement dans votre navigateur. Cette politique décrit les traitements actuellement identifiés dans le code et la configuration examinés. Les pratiques peuvent évoluer ; consultez les informations propres à chaque outil avant de lui transmettre des données.",
   sections: [
     { title: "1. Responsable du traitement", paragraphs: [
@@ -71,8 +71,8 @@ const fr: PrivacyPolicyContent = {
   ],
   contactTitle: "Contact pour les données personnelles",
   contactIntro: "Le canal prévu pour les questions et demandes relatives aux données personnelles est :",
-  contactAddress: "privacy@tondomaine",
-  contactWarning: "Cette adresse est provisoire et n’est pas opérationnelle. N’y envoyez pas de demande avant l’achat du domaine et la création de l’adresse. Cette limitation doit être levée dès que possible."
+  contactAddress: "nabouna47@gmx.fr",
+  contactWarning: "Vous pouvez utiliser cette adresse pour toute question ou demande relative à vos données personnelles."
 };
 
 export default fr;
