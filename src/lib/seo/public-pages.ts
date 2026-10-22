@@ -5,6 +5,7 @@ import {
   getCategoryPath,
   getGuidedWorkflowsPath,
   getLegalNoticePath,
+  getPrivacyPolicyPath,
   getToolPath,
   getToolsPath,
 } from "@/lib/tools/routes";
@@ -35,6 +36,10 @@ const resources: LocalizedSeoResource[] = [
   {
     id: "legal-notice",
     paths: localizedPaths(getLegalNoticePath),
+  },
+  {
+    id: "privacy-policy",
+    paths: localizedPaths(getPrivacyPolicyPath),
   },
   ...categories
     .filter((category) => getToolsByCategory(category.id).length > 0)

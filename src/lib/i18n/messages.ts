@@ -5,7 +5,7 @@ import type { ToolId } from "@/lib/tools/types";
 export type Messages = {
   nav: { home: string; tools: string; explore: string; exploreDescription: string; favorites: string; favoritesDescription: string; collections: string; collectionsDescription: string; language: string; account: string; space: string; menu: string };
   breadcrumbs: { label: string };
-  footer: { tagline: string; explore: string; account: string; legalNotice: string };
+  footer: { tagline: string; explore: string; account: string; legalNotice: string; privacyPolicy: string };
   legalNotice: {
     metaTitle: string; metaDescription: string; title: string; intro: string;
     hostingTitle: string; hostingDescription: string; hostingName: string; hostingAddress: string; hostingLinkLabel: string;
@@ -49,7 +49,7 @@ export const messages: Record<Locale, Messages> = {
   fr: {
     nav: { home: "Accueil", tools: "Outils", explore: "Explorer", exploreDescription: "Parcours tous les outils disponibles", favorites: "Favoris", favoritesDescription: "Tes outils enregistrés", collections: "Collections", collectionsDescription: "Organise tes outils en groupes", language: "Langue", account: "Gère ton profil et tes préférences", space: "Compte", menu: "Menu" },
     breadcrumbs: { label: "Fil d’Ariane" },
-    footer: { tagline: "Des outils utiles, directement dans ton navigateur.", explore: "Tous les outils", account: "Compte", legalNotice: "Mentions légales" },
+    footer: { tagline: "Des outils utiles, directement dans ton navigateur.", explore: "Tous les outils", account: "Compte", legalNotice: "Mentions légales", privacyPolicy: "Confidentialité" },
     legalNotice: {
       metaTitle: "Mentions légales | Loculary",
       metaDescription: "Informations légales sur l’éditeur, l’hébergement et les services de stockage de Loculary.",
@@ -212,7 +212,7 @@ export const messages: Record<Locale, Messages> = {
   en: {
     nav: { home: "Home", tools: "Tools", explore: "Explore", exploreDescription: "Browse all available tools", favorites: "Favorites", favoritesDescription: "Your saved tools", collections: "Collections", collectionsDescription: "Organize your tools into groups", language: "Language", account: "Manage your profile and preferences", space: "Account", menu: "Menu" },
     breadcrumbs: { label: "Breadcrumb" },
-    footer: { tagline: "Useful tools, ready to use in your browser.", explore: "All tools", account: "Account", legalNotice: "Legal notice" },
+    footer: { tagline: "Useful tools, ready to use in your browser.", explore: "All tools", account: "Account", legalNotice: "Legal notice", privacyPolicy: "Privacy policy" },
     legalNotice: {
       metaTitle: "Legal notice | Loculary",
       metaDescription: "Legal information about the publisher, hosting and data storage services used by Loculary.",

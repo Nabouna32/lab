@@ -21,6 +21,11 @@ export const legalNoticePathSegments: Record<Locale, string> = {
   fr: "mentions-legales",
 };
 
+export const privacyPolicyPathSegments: Record<Locale, string> = {
+  en: "privacy-policy",
+  fr: "politique-de-confidentialite",
+};
+
 const categorySlugs: Record<string, Record<Locale, string>> = {
   calculations: { en: "calculations", fr: "calculs" },
   dates: { en: "dates", fr: "dates" },
@@ -114,6 +119,10 @@ export function getLegalNoticePath(locale: Locale): string {
   return `/${locale}/${legalNoticePathSegments[locale]}`;
 }
 
+export function getPrivacyPolicyPath(locale: Locale): string {
+  return `/${locale}/${privacyPolicyPathSegments[locale]}`;
+}
+
 export function getCategorySlug(locale: Locale, categoryId: string): string {
   return categorySlugs[categoryId]?.[locale] ?? categoryId;
 }
@@ -149,6 +158,7 @@ export function getLocalizedPath(pathname: string, targetLocale: Locale): string
   const currentCategoriesSegment = categoriesPathSegments[currentLocale];
   const currentWorkflowsSegment = guidedWorkflowsPathSegments[currentLocale];
   const currentLegalNoticeSegment = legalNoticePathSegments[currentLocale];
+  const currentPrivacyPolicySegment = privacyPolicyPathSegments[currentLocale];
 
   if (segments.length === 2 && segments[1] === searchPathSegments[currentLocale]) {
     return getSearchResultsPagePath(targetLocale);
@@ -156,6 +166,10 @@ export function getLocalizedPath(pathname: string, targetLocale: Locale): string
 
   if (segments.length === 2 && segments[1] === currentLegalNoticeSegment) {
     return getLegalNoticePath(targetLocale);
+  }
+
+  if (segments.length === 2 && segments[1] === currentPrivacyPolicySegment) {
+    return getPrivacyPolicyPath(targetLocale);
   }
 
   if (segments.length === 2 && segments[1] === currentToolsSegment) {
