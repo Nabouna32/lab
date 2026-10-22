@@ -33,7 +33,8 @@
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/compose-material3",
       "notes": "The existing 4,709-declaration snapshot tracks an immutable mainline dump; it is not the verified stable 1.4.0 baseline.",
       "successorFamilyIds": [],
-      "successorMappingStatus": "not-assessed"
+      "successorMappingStatus": "not-assessed",
+      "artifactCoordinateStatus": "verified-official-release"
     },
     {
       "id": "compose-ui",
@@ -53,7 +54,8 @@
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/compose-ui",
       "notes": "Inventory relevant public primitives, semantics, focus, input, layout and graphics APIs; record platform/runtime contracts separately from APIs that merit React ports.",
       "successorFamilyIds": [],
-      "successorMappingStatus": "not-assessed"
+      "successorMappingStatus": "not-assessed",
+      "artifactCoordinateStatus": "verified-official-release"
     },
     {
       "id": "compose-foundation",
@@ -73,7 +75,8 @@
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/compose-foundation",
       "notes": "Do not reduce Foundation to visible widgets: investigate layout, gestures, text, selection, lazy collections and interaction APIs.",
       "successorFamilyIds": [],
-      "successorMappingStatus": "not-assessed"
+      "successorMappingStatus": "not-assessed",
+      "artifactCoordinateStatus": "verified-official-release"
     },
     {
       "id": "compose-animation",
@@ -93,7 +96,8 @@
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/compose-animation",
       "notes": "Inventory public transition and animation contracts; Web motion mappings must respect reduced-motion preferences.",
       "successorFamilyIds": [],
-      "successorMappingStatus": "not-assessed"
+      "successorMappingStatus": "not-assessed",
+      "artifactCoordinateStatus": "verified-official-release"
     },
     {
       "id": "compose-runtime",
@@ -113,7 +117,8 @@
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/compose-runtime",
       "notes": "Inventory the declared public API for completeness, but do not assume runtime/compiler internals should become standalone React components.",
       "successorFamilyIds": [],
-      "successorMappingStatus": "not-assessed"
+      "successorMappingStatus": "not-assessed",
+      "artifactCoordinateStatus": "verified-official-release"
     },
     {
       "id": "compose-material2",
@@ -135,7 +140,8 @@
       "successorFamilyIds": [
         "compose-material3-mobile"
       ],
-      "successorMappingStatus": "candidate-non-equivalent-successor"
+      "successorMappingStatus": "candidate-non-equivalent-successor",
+      "artifactCoordinateStatus": "verified-official-release"
     },
     {
       "id": "navigation-compose",
@@ -155,7 +161,8 @@
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/navigation",
       "notes": "Treat navigation as an architectural API family, not as a collection of visual components; preserve native Web link semantics in React.",
       "successorFamilyIds": [],
-      "successorMappingStatus": "not-assessed"
+      "successorMappingStatus": "not-assessed",
+      "artifactCoordinateStatus": "verified-official-release"
     },
     {
       "id": "material3-adaptive",
@@ -175,7 +182,8 @@
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/compose-material3-adaptive",
       "notes": "Verify exact published artifact boundaries and related adaptive-navigation artifacts before treating this as a complete family.",
       "successorFamilyIds": [],
-      "successorMappingStatus": "not-assessed"
+      "successorMappingStatus": "not-assessed",
+      "artifactCoordinateStatus": "verified-official-release"
     },
     {
       "id": "wear-compose-material3",
@@ -195,7 +203,8 @@
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/wear-compose",
       "notes": "Never merge same-named mobile Compose APIs with Wear APIs; package and behavior contracts differ.",
       "successorFamilyIds": [],
-      "successorMappingStatus": "not-assessed"
+      "successorMappingStatus": "not-assessed",
+      "artifactCoordinateStatus": "candidate-unverified"
     },
     {
       "id": "android-tv-compose-material",
@@ -215,7 +224,8 @@
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/tv",
       "notes": "Candidate family; verify current artifact/package names and release status before inventory generation.",
       "successorFamilyIds": [],
-      "successorMappingStatus": "not-assessed"
+      "successorMappingStatus": "not-assessed",
+      "artifactCoordinateStatus": "candidate-unverified"
     },
     {
       "id": "material-components-views",
@@ -237,7 +247,8 @@
       "successorFamilyIds": [
         "compose-material3-mobile"
       ],
-      "successorMappingStatus": "candidate-migration-target-not-one-to-one"
+      "successorMappingStatus": "candidate-migration-target-not-one-to-one",
+      "artifactCoordinateStatus": "candidate-unverified"
     },
     {
       "id": "appcompat-views",
@@ -257,7 +268,8 @@
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/appcompat",
       "notes": "Candidate historical/support family, not a Material component catalogue; verify whether it belongs in the final migration register.",
       "successorFamilyIds": [],
-      "successorMappingStatus": "no-single-successor"
+      "successorMappingStatus": "no-single-successor",
+      "artifactCoordinateStatus": "candidate-unverified"
     },
     {
       "id": "compose-ui-graphics",
@@ -277,7 +289,8 @@
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/compose-ui",
       "notes": "Separate published artifact and API dump; investigate color, brush, path, image and drawing contracts that are relevant to browser rendering.",
       "successorFamilyIds": [],
-      "successorMappingStatus": "not-assessed"
+      "successorMappingStatus": "not-assessed",
+      "artifactCoordinateStatus": "candidate-unverified"
     },
     {
       "id": "compose-ui-text",
@@ -297,7 +310,8 @@
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/compose-ui",
       "notes": "Text layout, annotated text, styles, selection and input-related contracts need their own inventory; do not infer parity from a simple React input.",
       "successorFamilyIds": [],
-      "successorMappingStatus": "not-assessed"
+      "successorMappingStatus": "not-assessed",
+      "artifactCoordinateStatus": "candidate-unverified"
     },
     {
       "id": "compose-ui-unit",
@@ -317,7 +331,8 @@
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/compose-ui",
       "notes": "Inventory dimensional and density types; record where CSS/Web physical sizing is an adaptation rather than direct equivalence.",
       "successorFamilyIds": [],
-      "successorMappingStatus": "not-assessed"
+      "successorMappingStatus": "not-assessed",
+      "artifactCoordinateStatus": "candidate-unverified"
     },
     {
       "id": "compose-ui-geometry",
@@ -337,7 +352,8 @@
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/compose-ui",
       "notes": "Candidate low-level public API family; verify exact release artifact and relationship to ui before inventory generation.",
       "successorFamilyIds": [],
-      "successorMappingStatus": "not-assessed"
+      "successorMappingStatus": "not-assessed",
+      "artifactCoordinateStatus": "candidate-unverified"
     },
     {
       "id": "compose-ui-util",
@@ -357,7 +373,8 @@
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/compose-ui",
       "notes": "Inventory as a distinct module boundary but classify which declarations are platform/runtime utilities rather than React-portable components.",
       "successorFamilyIds": [],
-      "successorMappingStatus": "not-assessed"
+      "successorMappingStatus": "not-assessed",
+      "artifactCoordinateStatus": "candidate-unverified"
     },
     {
       "id": "compose-ui-tooling-preview",
@@ -377,7 +394,8 @@
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/compose-ui",
       "notes": "Developer tooling APIs should be catalogued for scope completeness but are not assumed to need production React equivalents.",
       "successorFamilyIds": [],
-      "successorMappingStatus": "not-assessed"
+      "successorMappingStatus": "not-assessed",
+      "artifactCoordinateStatus": "candidate-unverified"
     },
     {
       "id": "compose-foundation-layout",
@@ -397,7 +415,8 @@
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/compose-foundation",
       "notes": "Core layouts and modifiers are first-class inventory targets, not just the visible Material widgets built on top of them.",
       "successorFamilyIds": [],
-      "successorMappingStatus": "not-assessed"
+      "successorMappingStatus": "not-assessed",
+      "artifactCoordinateStatus": "candidate-unverified"
     },
     {
       "id": "compose-animation-core",
@@ -417,7 +436,8 @@
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/compose-animation",
       "notes": "Separate module for animation primitives; assess which timing/state contracts can be meaningfully mapped to Web animations.",
       "successorFamilyIds": [],
-      "successorMappingStatus": "not-assessed"
+      "successorMappingStatus": "not-assessed",
+      "artifactCoordinateStatus": "candidate-unverified"
     },
     {
       "id": "compose-runtime-saveable",
@@ -437,7 +457,8 @@
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/compose-runtime",
       "notes": "Inventory separately; persistence/restoration semantics differ from browser storage and must not be copied blindly into a local-first Web app.",
       "successorFamilyIds": [],
-      "successorMappingStatus": "not-assessed"
+      "successorMappingStatus": "not-assessed",
+      "artifactCoordinateStatus": "candidate-unverified"
     },
     {
       "id": "navigation-views-legacy",
@@ -459,7 +480,8 @@
       "successorFamilyIds": [
         "navigation-compose"
       ],
-      "successorMappingStatus": "candidate-migration-target-not-one-to-one"
+      "successorMappingStatus": "candidate-migration-target-not-one-to-one",
+      "artifactCoordinateStatus": "verified-official-release"
     }
   ]
 }
