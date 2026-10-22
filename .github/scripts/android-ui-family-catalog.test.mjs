@@ -56,3 +56,10 @@ test('requires explicit successor mapping state even for families without a dire
   const errors = validateFamilyCatalog(invalid);
   assert.ok(errors.some((error) => error.includes('successorFamilyIds must be an array')));
 });
+
+
+test('rejects unknown successor mapping states', () => {
+  const invalid = structuredClone(catalog);
+  invalid.families[0].successorMappingStatus = 'looks-equivalent';
+  assert.ok(validateFamilyCatalog(invalid).some((error) => error.includes('successorMappingStatus is invalid')));
+});
