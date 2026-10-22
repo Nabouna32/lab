@@ -58,7 +58,7 @@ export default function LegalNoticePage({ locale }: { locale: Locale }) {
             rel="noreferrer"
             className="mt-2 inline-flex min-h-11 items-center rounded-full text-sm font-semibold text-[var(--accent)] underline underline-offset-4 outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
           >
-            Supabase — Terms of Service
+            {content.storageLinkLabel}
           </a>
         </section>
 
