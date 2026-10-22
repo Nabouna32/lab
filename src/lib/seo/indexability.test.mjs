@@ -24,7 +24,7 @@ test("indexability is enforced by the catalog and reflected in page metadata", a
 
 test("category descriptions and indexability come from the same editorial policy", async () => {
   const route = await read("../app/[locale]/[section]/[slug]/page.tsx");
-  const inventory = await read("./public-pages.ts");
+  const inventory = await read("seo/public-pages.ts");
 
   assert.match(route, /getCategorySeoDescription\(locale, category\.id\)/);
   assert.match(route, /isCategorySeoIndexable\(category\.id\)/);
