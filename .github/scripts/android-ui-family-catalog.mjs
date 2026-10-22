@@ -77,9 +77,9 @@ if (process.argv[1] && import.meta.url === new URL(`file://${process.argv[1]}`).
   const catalog = JSON.parse(readFileSync(path, 'utf8'));
   const errors = validateFamilyCatalog(catalog);
   if (errors.length) {
-    process.stderr.write(errors.map((error) => '- ' + error).join('\\n') + '\\n');
+    process.stderr.write(errors.map((error) => '- ' + error).join('\n') + '\n');
     process.exitCode = 1;
   } else {
-    process.stdout.write(`Validated ${catalog.families.length} candidate Android UI families (not a completeness claim).\\n`);
+    process.stdout.write(`Validated ${catalog.families.length} candidate Android UI families (not a completeness claim).\n`);
   }
 }
