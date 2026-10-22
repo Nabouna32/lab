@@ -226,6 +226,7 @@ test('supports AndroidX API signature format 5.0 and public-surface metadata', (
   });
 
   assert.equal(result.source.formatVersion, '5.0');
+  assert.equal(result.source.surface, 'public');
   assert.equal(result.declarationCount, 4);
   assert.equal(result.bytecodeOnlyCount, 1);
   assert.equal(result.declarations[0].owner, null);
@@ -289,4 +290,26 @@ test('does not duplicate qualified owner prefixes in nested brace scopes', () =>
 
   const member = result.declarations.find((entry) => entry.kind === 'method');
   assert.equal(member.owner, 'Outer.Inner');
+});
+
+
+test('rejects restricted API surfaces when inventorying AndroidX format 5.0', () => {
+  assert.throws(
+    () => inventoryApiDump(V5_DUMP.replace('surface=public', 'surface=restricted-non-atomic-group'), {
+      artifact: 'androidx.compose.material3:material3',
+      version: 'androidx-main snapshot',
+      commit: COMMIT,
+      sourcePath: 'compose/material3/material3/api/restricted_current.txt',
+    }),
+    /expected surface=public/,
+  );
+  assert.throws(
+    () => inventoryApiDump(V5_DUMP.replace('// - surface=public\\n', ''), {
+      artifact: 'androidx.compose.material3:material3',
+      version: 'androidx-main snapshot',
+      commit: COMMIT,
+      sourcePath: 'compose/material3/material3/api/current.txt',
+    }),
+    /expected surface=public/,
+  );
 });
