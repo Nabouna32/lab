@@ -9,7 +9,7 @@
 - [AndroidX ButtonDefaults API](https://developer.android.com/reference/kotlin/androidx/compose/material3/ButtonDefaults)
 - [Official Compose Material 3 Button guide](https://developer.android.com/develop/ui/compose/components/button)
 
-The pinned source defines five public composables: `Button`, `ElevatedButton`, `FilledTonalButton`, `OutlinedButton` and `TextButton`. Loculary now exports those names separately from `src/components/ui/Button.tsx`. They share a private renderer but each public wrapper fixes its own AndroidX variant. `DestructiveButton` is a Loculary-only extension and must not be described as an AndroidX component.
+The pinned source defines five public composables: `Button`, `ElevatedButton`, `FilledTonalButton`, `OutlinedButton` and `TextButton`. Loculary now exports those names separately from `src/components/ui/Button.tsx`. They share a private renderer but each public wrapper fixes its own AndroidX variant. Color customization is exposed through the AndroidX-inspired `colors` prop rather than adding product-specific button variants.
 
 ## Source-derived baseline
 
@@ -35,9 +35,9 @@ These are Android dp/sp values. The React implementation expresses geometry in C
 | `FilledTonalButton` | Filled tonal button | Portage en cours |
 | `OutlinedButton` | Outlined button | Portage en cours |
 | `TextButton` | Text button | Portage en cours |
-| `DestructiveButton` | No AndroidX equivalent; Loculary extension | Extension, separately identified |
+| `colors` prop | Maps to AndroidX `ButtonColors` color roles | Web adaptation, API aligned |
 
-The shared Web props preserve native `button` attributes and add `leadingIcon` for source-aligned content insets and `multiline` as an explicit Web layout extension. The default HTML `type` is `button`; callers must opt into form submission with `type="submit"`.
+The shared Web props preserve native `button` attributes and add `leadingIcon` for source-aligned content insets and `multiline` as an explicit Web layout extension. The optional `colors` prop accepts `containerColor`, `contentColor`, `disabledContainerColor` and `disabledContentColor`, matching AndroidX `ButtonColors`. CSS color values and semantic tokens are supported; hover/focus state layers derive from the selected content color, while disabled colors remain independently configurable. For destructive actions, use an official button component with semantic error roles (`--error` and `--on-error`) rather than a separate component. Use filled error colors for high-emphasis destructive confirmation and error-colored text/outlined buttons for lower-emphasis actions; don’t mark every reversible removal as destructive. The default HTML `type` is `button`; callers must opt into form submission with `type="submit"`.
 
 ## Evidence labels
 
@@ -54,6 +54,6 @@ The shared Web props preserve native `button` attributes and add `leadingIcon` f
 - [ ] Verify pointer ripple origin, clipping, cancellation, keyboard interaction and reduced-motion behavior in a browser.
 - [ ] Check FR/EN long labels, constrained widths, 200% zoom and icon alignment.
 - [ ] Run component tests, lint, TypeScript, unit tests and production build.
-- [ ] Review production call sites to ensure the five AndroidX variants use their matching named exports; keep destructive behavior explicitly separate.
+- [ ] Review production call sites to ensure the five AndroidX variants use their matching named exports and validate custom colors in light/dark themes.
 
 Passing static assertions or a Design Lab preview is not proof of full conformance. Do not mark the port verified until browser evidence and remaining source questions are closed.

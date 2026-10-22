@@ -249,8 +249,8 @@ test("shared action controls use semantic state-layer colors instead of brightne
     assert.doesNotMatch(source, /hover:brightness|filter:brightness|transition-\[[^\]]*filter/ , `${name} should not dim foreground content through a whole-element brightness filter`);
   }
 
-  assert.match(buttonSource, /var\(--primary\)_92%,var\(--on-primary\)/);
-  assert.match(buttonSource, /var\(--secondary-container\)_92%,var\(--on-secondary-container\)/);
+  assert.ok(buttonSource.includes("var(--button-container-color,var(--primary))_92%,var(--button-content-color,var(--on-primary))"));
+  assert.ok(buttonSource.includes("var(--button-container-color,var(--secondary-container))_92%,var(--button-content-color,var(--on-secondary-container))"));
   assert.match(iconButtonSource, /var\(--primary\)_92%,var\(--on-primary\)/);
   assert.ok(favoriteSource.includes("const FavoriteActionButton = active ? FilledTonalButton : OutlinedButton;"));
   assert.match(favoriteSource, /import \{ IconButton \} from "@\/components\/ui\/IconButton"/);
@@ -331,7 +331,7 @@ test("Design Lab renders the shared production UI primitives against the active 
   for (const component of ["IconButton", "Card", "Panel", "ResultPanel", "Checkbox", "TextField", "TextArea", "ExposedDropdownMenu", "ModalBottomSheet", "AlertDialog", "SegmentedControl", "ValidationMessage", "Switch"]) {
     assert.match(labSource, new RegExp(`import \\{ ${component} \\} from "@\\/components\\/ui\\/${component}"`), `missing shared component import: ${component}`);
   }
-  assert.ok(labSource.includes('import { Button, ElevatedButton, FilledTonalButton, OutlinedButton, TextButton, DestructiveButton } from "@/components/ui/Button"'));
+  assert.ok(labSource.includes('import { Button, ElevatedButton, FilledTonalButton, OutlinedButton, TextButton } from "@/components/ui/Button"'));
   for (const token of ["--foreground:var(--lab-text)", "--surface:var(--lab-surface)", "--surface-soft:var(--lab-surface-container)", "--secondary-container:var(--lab-secondary-container)", "--error:var(--lab-error)", "--focus-ring:var(--lab-primary)"]) {
     assert.ok(labCss.includes(token), `missing scoped token bridge: ${token}`);
   }
@@ -428,15 +428,18 @@ test("Design Lab examples keep independent radio and segmented-control state", (
   assert.match(labSource, /checked=\{sampleRadio==="all"\}/);
 });
 
-test("AndroidX-named Buttons use variant-specific disabled roles and keep destructive styling explicit", () => {
+test("AndroidX-named Buttons support per-state color customization without product-specific variants", () => {
   for (const component of ["Button", "ElevatedButton", "FilledTonalButton", "OutlinedButton", "TextButton"]) {
     assert.ok(buttonSource.includes("export function " + component + "("), "missing official component export: " + component);
   }
-  assert.ok(buttonSource.includes("disabled:bg-[color-mix(in_srgb,var(--on-surface)_10%,transparent)]"));
-  assert.ok(buttonSource.includes("disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]"));
+  assert.ok(buttonSource.includes("--button-disabled-container-color"));
+  assert.ok(buttonSource.includes("--button-disabled-content-color"));
   assert.ok(buttonSource.includes("disabled:border-[color-mix(in_srgb,var(--on-surface)_12%,transparent)]"));
-  assert.ok(buttonSource.includes("disabled:bg-[var(--surface-container-low)] disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)] disabled:shadow-none"));
-  assert.ok(buttonSource.includes("export function DestructiveButton("), "destructive is a Loculary extension");
+  assert.ok(buttonSource.includes("disabled:bg-[var(--button-disabled-container-color,var(--surface-container-low))]"));
+  assert.ok(buttonSource.includes("export type ButtonColors ="));
+  assert.ok(buttonSource.includes('"--button-container-color": colors.containerColor'));
+  assert.ok(buttonSource.includes('"--button-disabled-container-color": colors.disabledContainerColor'));
+  assert.ok(!buttonSource.includes("DestructiveButton"), "destructive styling uses color customization, not a custom component");
   assert.doesNotMatch(buttonSource, /primary: filled|secondary: outlined|tonal: filledTonal|ghost: text/);
   assert.match(iconButtonSource, /on-surface\)_10%,transparent/);
   assert.match(iconButtonSource, /const filledTonal = .*on-surface\)_10%,transparent/);

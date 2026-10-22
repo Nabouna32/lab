@@ -21,13 +21,15 @@ test("shared Button exports AndroidX component names with source-derived dimensi
   for (const component of ["Button", "ElevatedButton", "FilledTonalButton", "OutlinedButton", "TextButton"]) {
     assert.ok(button.includes("export function " + component + "("), "missing AndroidX component export: " + component);
   }
-  assert.ok(button.includes("export function DestructiveButton("), "Loculary destructive extension must be explicit");
+  assert.ok(button.includes("export type ButtonColors ="), "official button exports expose AndroidX-inspired color customization");
+  assert.ok(button.includes("disabledContainerColor?: string") && button.includes("disabledContentColor?: string"));
+  assert.ok(!button.includes("DestructiveButton"), "no Loculary-only destructive component remains");
   for (const required of [
     "min-h-10", "min-w-[58px]", "whitespace-nowrap", "whitespace-pre-line",
     "leadingIcon?: boolean", "multiline?: boolean", "pl-3 pr-4", "pl-4 pr-6",
     "transition-[background-color,border-color,color,box-shadow]", "motion-reduce:transition-none",
-    "disabled:bg-[color-mix(in_srgb,var(--on-surface)_10%,transparent)]",
-    "disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]",
+    "--button-disabled-container-color",
+    "--button-disabled-content-color",
     "disabled:border-[color-mix(in_srgb,var(--on-surface)_12%,transparent)]",
     "hover:shadow-[var(--button-elevation-1)]", "hover:shadow-[var(--button-elevation-2)]",
     "focus-visible:shadow-[var(--button-elevation-1)]", "<ButtonRipple />",
@@ -92,7 +94,8 @@ test("Button call sites use AndroidX component names and keep extensions separat
   for (const component of ["ElevatedButton", "FilledTonalButton", "OutlinedButton", "TextButton"]) {
     assert.ok(labSource.includes(component), "Design Lab must exercise named component: " + component);
   }
-  assert.ok(labSource.includes("DestructiveButton"), "Destructive actions must be labelled as a Loculary extension");
+  assert.ok(labSource.includes('containerColor: "var(--error)"'), "Design Lab demonstrates semantic error colors on an official Button");
+  assert.ok(!labSource.includes("DestructiveButton"));
   for (const required of ["buttonDisabled", "buttonLongLabel", "buttonLeadingIcon", "buttonTrailingArrow", "buttonNarrow", "buttonMultiline", "buttonManualBreak", "multiline={multiline}", "arrow_forward", "Disabled state"]) {
     assert.ok(auditPreview.includes(required), "Button audit preview is missing control or state coverage: " + required);
   }

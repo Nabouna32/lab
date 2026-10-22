@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button, ElevatedButton, FilledTonalButton, OutlinedButton, TextButton, DestructiveButton } from "@/components/ui/Button";
+import { Button, ElevatedButton, FilledTonalButton, OutlinedButton, TextButton } from "@/components/ui/Button";
 import { AppBarWithSearch } from "@/components/ui/AppBarWithSearch";
 import { BottomSheetScaffold } from "@/components/ui/BottomSheetScaffold";
 import { Carousel } from "@/components/ui/Carousel";
@@ -403,9 +403,9 @@ export default function ComponentLivePreview({
         <div className="grid gap-2"><h4 className="text-sm font-semibold">{fr ? "État désactivé — toutes les variantes" : "Disabled state — every variant"}</h4><div className="flex flex-wrap items-start gap-3">
           {variants.map(({ key, Component }) => <Component key={key} disabled leadingIcon={buttonLeadingIcon} multiline={multiline} className={sampleWidth}>{renderButtonContent(fr ? "Désactivé" : "Disabled")}</Component>)}
         </div></div>
-        <div className="grid gap-2"><h4 className="text-sm font-semibold">{fr ? "Extension Loculary : action destructive" : "Loculary extension: destructive action"}</h4><div className="flex flex-wrap items-start gap-3">
-          <DestructiveButton disabled={buttonDisabled} leadingIcon={buttonLeadingIcon} multiline={multiline} className={sampleWidth} onClick={() => setSplitResult("danger")}>{renderButtonContent(fr ? "Supprimer" : "Delete")}</DestructiveButton>
-          <DestructiveButton disabled leadingIcon={buttonLeadingIcon} multiline={multiline} className={sampleWidth}>{renderButtonContent(fr ? "Désactivé" : "Disabled")}</DestructiveButton>
+        <div className="grid gap-2"><h4 className="text-sm font-semibold">{fr ? "Couleurs personnalisées : action destructive" : "Custom colors: destructive action"}</h4><div className="flex flex-wrap items-start gap-3">
+          <Button colors={{ containerColor: "var(--error)", contentColor: "var(--on-error)" }} disabled={buttonDisabled} leadingIcon={buttonLeadingIcon} multiline={multiline} className={sampleWidth} onClick={() => setSplitResult("danger")}>{renderButtonContent(fr ? "Supprimer" : "Delete")}</Button>
+          <Button colors={{ containerColor: "var(--error)", contentColor: "var(--on-error)", disabledContainerColor: "color-mix(in srgb, var(--on-surface) 10%, transparent)", disabledContentColor: "color-mix(in srgb, var(--on-surface) 38%, transparent)" }} disabled leadingIcon={buttonLeadingIcon} multiline={multiline} className={sampleWidth}>{renderButtonContent(fr ? "Désactivé" : "Disabled")}</Button>
         </div></div>
         <p role="status" className="text-sm text-[var(--muted)]">{fr ? "Dernière interaction : " : "Last interaction: "}{splitResult}</p>
       </div>);
