@@ -77,20 +77,20 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
       } else {
         symbol = raw.match(/([A-Za-z_$][\w$]*)\s*;$/)?.[1] ?? null;
       }
-    } else {
-      continue;
     }
 
-    const signatureHash = createHash('sha256').update(raw, 'utf8').digest('hex');
-    declarations.push({
-      id: currentPackage + ':' + signatureHash,
-      package: currentPackage,
-      kind,
-      symbol,
-      signature: raw,
-      line: index + 1,
-      apiStatus: 'unknown',
-    });
+    if (kind !== null) {
+      const signatureHash = createHash('sha256').update(raw, 'utf8').digest('hex');
+      declarations.push({
+        id: currentPackage + ':' + signatureHash,
+        package: currentPackage,
+        kind,
+        symbol,
+        signature: raw,
+        line: index + 1,
+        apiStatus: 'unknown',
+      });
+    }
 
     braceDepth += (raw.match(/{/g) ?? []).length;
     braceDepth -= (raw.match(/}/g) ?? []).length;
