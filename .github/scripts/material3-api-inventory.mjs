@@ -22,6 +22,12 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
     throw new Error('Source path is required.');
   }
 
+  const formatMatch = contents.match(/^\/\/ Signature format: (\d+\.\d+)$/m);
+  const formatVersion = formatMatch?.[1];
+  if (!formatVersion || !['2.0', '4.0'].includes(formatVersion)) {
+    throw new Error('Unsupported or missing AndroidX API signature format; expected 2.0 or 4.0.');
+  }
+
   const lines = contents.replace(/\r\n/g, '\n').split('\n');
   const declarations = [];
   let currentPackage = null;
@@ -39,27 +45,52 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
       continue;
     }
 
+    const isV4Member = formatVersion === '4.0' &&
+      /^(?:method|property|field|ctor|enum_constant)\s+/.test(raw);
+
     if (currentPackage === null) {
-      if (/^public\s+/.test(raw)) {
+      if (/^public\s+/.test(raw) || isV4Member) {
         throw new Error('Public declaration outside a package block at line ' + (index + 1) + '.');
       }
       continue;
     }
 
+    let kind = null;
+    let symbol = null;
+
     if (/^public\s+/.test(raw)) {
       const kindMatch = raw.match(/^public\s+(?:(?:abstract|final|open|sealed|static|data|value|inline|infix|operator|suspend|external|expect|actual)\s+)*(enum class|annotation class|class|interface|object|fun|val|var|typealias|constructor|field|property)\b/);
       const symbolMatch = raw.match(/^public\s+(?:(?:abstract|final|open|sealed|static|data|value|inline|infix|operator|suspend|external|expect|actual)\s+)*(?:enum class|annotation class|class|interface|object|fun|val|var|typealias|constructor|field|property)\s+([A-Za-z_$][\w$]*)\b/);
-      const signatureHash = createHash('sha256').update(raw, 'utf8').digest('hex');
-      declarations.push({
-        id: currentPackage + ':' + signatureHash,
-        package: currentPackage,
-        kind: kindMatch?.[1] ?? 'unknown',
-        symbol: symbolMatch?.[1] ?? null,
-        signature: raw,
-        line: index + 1,
-        apiStatus: 'unknown',
-      });
+      kind = kindMatch?.[1] ?? 'unknown';
+      symbol = symbolMatch?.[1] ?? null;
+    } else if (isV4Member) {
+      const memberMatch = raw.match(/^(method|property|field|ctor|enum_constant)\b/);
+      const memberType = memberMatch?.[1];
+      kind = memberType === 'ctor' ? 'constructor'
+        : memberType === 'enum_constant' ? 'enum-constant'
+        : memberType ?? 'unknown';
+
+      if (memberType === 'method') {
+        symbol = raw.match(/\s([A-Za-z_$][\w$.-]*)\s*\(/)?.[1] ?? null;
+      } else if (memberType === 'ctor') {
+        symbol = raw.match(/\bctor\s+(?:(?:public|protected|private|static|final)\s+)*([A-Za-z_$][\w$]*)\s*\(/)?.[1] ?? null;
+      } else {
+        symbol = raw.match(/([A-Za-z_$][\w$]*)\s*;$/)?.[1] ?? null;
+      }
+    } else {
+      continue;
     }
+
+    const signatureHash = createHash('sha256').update(raw, 'utf8').digest('hex');
+    declarations.push({
+      id: currentPackage + ':' + signatureHash,
+      package: currentPackage,
+      kind,
+      symbol,
+      signature: raw,
+      line: index + 1,
+      apiStatus: 'unknown',
+    });
 
     braceDepth += (raw.match(/{/g) ?? []).length;
     braceDepth -= (raw.match(/}/g) ?? []).length;
@@ -82,7 +113,7 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
     schemaVersion: 1,
     artifact,
     version,
-    source: { commit: commit.toLowerCase(), path: sourcePath, sha256: dumpSha256 },
+    source: { commit: commit.toLowerCase(), path: sourcePath, sha256: dumpSha256, formatVersion },
     inventoryKind: 'public-signature-surface',
     semanticCompleteness: 'not-established-by-api-dump-alone',
     declarationCount: declarations.length,
