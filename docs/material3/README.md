@@ -31,6 +31,16 @@ Before implementing a page or interaction, inspect this catalogue and the releva
 - **Destructive actions:** reserve error colors for actual destructive consequences. Reversible removal/detachment is usually neutral; secondary destructive actions may use an error-colored icon and text/outlined treatment; irreversible actions need clear consequence copy and explicit confirmation. A filled error action belongs at the final, high-emphasis confirmation step when appropriate.
 - **Tests and review:** check new and migrated call sites, not just component exports. Add targeted tests for stable API/semantic contracts; do not create brittle tests that force unrelated pages into one markup shape.
 
+## Mandatory decision gate: source fidelity and whole-screen design
+
+The rules below clarify and override any generic styling suggestions in this document. The target is the closest practical implementation of the actual AndroidX Compose Material 3 reference, not an interpretation of what looks Material-like.
+
+1. Identify the exact AndroidX component or usage pattern and inspect the pinned source, public API, tokens and official contextual examples before selecting a visual treatment. Do not infer design from the business meaning or from a screenshot alone.
+2. Do not invent a DeleteButton, DangerButton, generic destructive recipe, or an arbitrary red treatment. A delete action does not automatically imply a filled error button, red label, trash icon, red surface or confirmation dialog. Apply only what the relevant source and task context support. If no exact AndroidX pattern exists, say so and justify the smallest necessary Web/product adaptation.
+3. Reuse official names and variants. API-supported color customization is a capability, not evidence that a chosen color treatment matches Android. Label and justify every divergence.
+4. When the task targets a page, review and refactor the whole affected journey: layout hierarchy, surfaces, spacing, typography, semantic colors, icons, action grouping, dialogs, empty/loading/error/success states, responsive layout, keyboard/focus and assistive technology. Do not call a local button change a page refactor.
+5. Validate the actual browser rendering against the pinned source in light/dark themes, French/English and relevant viewports. Unit tests, static CSS assertions and green CI do not establish visual fidelity. If browser comparison was not performed, report that explicitly and leave the status unverified.
+
 ## Component specification and evidence
 
 Each component gets one file in [`components/`](components/). Minimum sections:
