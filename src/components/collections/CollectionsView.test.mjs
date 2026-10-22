@@ -48,9 +48,9 @@ test("local collection backups export only device-local collections and preview 
 
 test("collection deletion uses the shared destructive AlertDialog instead of native confirm", async () => {
   const source = await readFile(viewFile, "utf8");
-  assert.match(source, /setPendingDeleteCollection\\(\\{ id: active\\.id, name: active\\.name \\}\\)/);
-  assert.match(source, /<AlertDialog[\\s\\S]*?destructive[\\s\\S]*?onConfirm=\\{confirmDeleteCollection\\}/);
-  assert.match(source, /copy\\.deleteCollectionDescription\\(pendingDeleteCollection\\.name\\)/);
-  assert.doesNotMatch(source, /window\\.confirm/);
-  assert.match(source, /<MaterialIcon name="delete" size=\\{18\\}/);
+  assert.match(source, /setPendingDeleteCollection\(\{ id: active\.id, name: active\.name \}\)/);
+  assert.match(source, /<AlertDialog[\s\S]*?destructive[\s\S]*?onConfirm=\{confirmDeleteCollection\}/);
+  assert.match(source, /copy\.deleteCollectionDescription\(pendingDeleteCollection\.name\)/);
+  assert.doesNotMatch(source, /window\.confirm/);
+  assert.match(source, /<MaterialIcon name="delete" size=\{18\}/);
 });

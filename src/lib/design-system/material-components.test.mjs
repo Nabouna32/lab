@@ -690,18 +690,18 @@ test("destructive account and collection actions preserve link/button semantics 
   const deleteAccountPage = readFileSync(new URL("../../app/[locale]/compte/suppression/page.tsx", import.meta.url), "utf8");
   const accountActionLink = readFileSync(new URL("../../components/account/AccountActionLink.tsx", import.meta.url), "utf8");
   const collectionsView = readFileSync(new URL("../../components/collections/CollectionsView.tsx", import.meta.url), "utf8");
-  assert.match(accountPage, /<AccountActionLink[\\s\\S]*?variant="danger"[\\s\\S]*?<MaterialIcon name="delete"/);
-  assert.match(accountActionLink, /text-\\[var\\(--error\\)\\] hover:bg-\\[color-mix\\(in_srgb,var\\(--error\\)_8%,transparent\\)\\]/);
+  assert.match(accountPage, /<AccountActionLink[\s\S]*?variant="danger"[\s\S]*?<MaterialIcon name="delete"/);
+  assert.match(accountActionLink, /text-\[var\(--error\)\] hover:bg-\[color-mix\(in_srgb,var\(--error\)_8%,transparent\)\]/);
   assert.match(deleteAccountPage, /<MaterialIcon name="delete"/);
-  assert.match(collectionsView, /<AlertDialog[\\s\\S]*?destructive[\\s\\S]*?onConfirm=\\{confirmDeleteCollection\\}/);
-  assert.match(collectionsView, /<TextButton type="button" colors=\\{\\{ contentColor: "var\\(--error\\)" \\}\\}[\\s\\S]*?<MaterialIcon name="delete"/);
-  assert.doesNotMatch(collectionsView, /window\\.confirm/);
+  assert.match(collectionsView, /<AlertDialog[\s\S]*?destructive[\s\S]*?onConfirm=\{confirmDeleteCollection\}/);
+  assert.match(collectionsView, /<TextButton type="button" colors=\{\{ contentColor: "var\(--error\)" \}\}[\s\S]*?<MaterialIcon name="delete"/);
+  assert.doesNotMatch(collectionsView, /window\.confirm/);
   assert.match(iconSource, /delete: "M280-120/);
 });
 
 test("AlertDialog actions use shared Material 3 buttons instead of a parallel button implementation", () => {
-  assert.match(alertDialogSource, /import \\{ Button, TextButton \\} from "\\.\\/Button"/);
-  assert.match(alertDialogSource, /<TextButton ref=\\{dismissRef\\} type="button"/);
-  assert.match(alertDialogSource, /<Button type="button" colors=\\{destructive \\?/);
-  assert.doesNotMatch(alertDialogCss, /\\.dismiss, \\.confirm, \\.destructive/);
+  assert.match(alertDialogSource, /import \{ Button, TextButton \} from "\.\/Button"/);
+  assert.match(alertDialogSource, /<TextButton ref=\{dismissRef\} type="button"/);
+  assert.match(alertDialogSource, /<Button type="button" colors=\{destructive \?/);
+  assert.doesNotMatch(alertDialogCss, /\.dismiss, \.confirm, \.destructive/);
 });
