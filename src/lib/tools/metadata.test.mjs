@@ -16,8 +16,8 @@ const tool = {
   tags: ["fixture"],
   aliases: ["test"],
   seo: {
-    fr: { title: "Fixture", description: "Fixture" },
-    en: { title: "Fixture", description: "Fixture" },
+    fr: { title: "Fixture", description: "Fixture", indexable: true },
+    en: { title: "Fixture", description: "Fixture", indexable: true },
   },
   examples: [],
   processing: {
