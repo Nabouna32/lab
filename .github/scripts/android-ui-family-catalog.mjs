@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 
 const ALLOWED_PORT_PRIORITIES = new Set(['P0', 'P1', 'P2', 'P3', 'migration-reference-only']);
 const ALLOWED_REFERENCE_VERSION_STATUSES = new Set(['not-selected', 'selected-official-stable']);
+const ALLOWED_ARTIFACT_COORDINATE_STATUSES = new Set(['verified-official-release', 'candidate-unverified']);
 const ALLOWED_SUCCESSOR_STATUSES = new Set([
   'not-assessed',
   'candidate-non-equivalent-successor',
@@ -40,7 +41,7 @@ export function validateFamilyCatalog(catalog) {
       errors.push(label + ' must be an object.');
       continue;
     }
-    for (const field of ['id', 'name', 'platform', 'role', 'artifact', 'scope', 'versionPolicy', 'inventoryStatus', 'sourceDirectory', 'notes', 'referenceVersionStatus', 'successorMappingStatus']) {
+    for (const field of ['id', 'name', 'platform', 'role', 'artifact', 'scope', 'versionPolicy', 'inventoryStatus', 'sourceDirectory', 'notes', 'referenceVersionStatus', 'artifactCoordinateStatus', 'successorMappingStatus']) {
       if (typeof family[field] !== 'string' || !family[field].trim()) {
         errors.push(label + '.' + field + ' is required.');
       }
@@ -52,6 +53,12 @@ export function validateFamilyCatalog(catalog) {
     if (typeof family.artifact === 'string') {
       if (artifacts.has(family.artifact)) errors.push('Duplicate artifact coordinate: ' + family.artifact);
       artifacts.add(family.artifact);
+    }
+    if (!ALLOWED_ARTIFACT_COORDINATE_STATUSES.has(family.artifactCoordinateStatus)) {
+      errors.push(label + '.artifactCoordinateStatus is invalid.');
+    }
+    if (family.referenceVersionStatus === 'selected-official-stable' && family.artifactCoordinateStatus !== 'verified-official-release') {
+      errors.push(label + ' cannot select an official version while its artifact coordinate is unverified.');
     }
     if (!ALLOWED_PLATFORMS.has(family.platform)) {
       errors.push(label + '.platform is not a recognized family boundary.');
