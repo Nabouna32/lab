@@ -25,11 +25,12 @@ test('inventories public declarations across package blocks deterministically', 
   const second = inventoryApiDump(DUMP, options);
 
   assert.deepEqual(first, second);
-  assert.equal(first.declarationCount, 3);
+  assert.equal(first.declarationCount, 4);
   assert.equal(first.declarations[0].package, 'androidx.compose.material3');
   assert.equal(first.declarations[0].kind, 'fun');
   assert.match(first.declarations[0].signature, /^public final fun Button/);
   assert.equal(first.declarations[2].package, 'androidx.compose.material3.tokens');
+  assert.equal(first.declarations[3].kind, 'fun');
   assert.equal(first.semanticCompleteness, 'not-established-by-api-dump-alone');
   assert.match(first.source.sha256, /^[a-f0-9]{64}$/);
 });
