@@ -107,6 +107,31 @@ test('supports AndroidX API signature format 3.0 member records', () => {
   assert.equal(result.bytecodeOnlyCount, 1);
 });
 
+
+const V4_ANNOTATED_DUMP = `// Signature format: 4.0
+package androidx.compose.material3 {
+  @androidx.compose.runtime.Immutable public final class AnnotatedExample {
+    method @InaccessibleFromKotlin public int getHidden();
+  }
+}
+`;
+
+test('preserves annotated API classes and labels Kotlin-inaccessible members', () => {
+  const result = inventoryApiDump(V4_ANNOTATED_DUMP, {
+    artifact: 'androidx.compose.material3:material3',
+    version: '1.4.0',
+    commit: COMMIT,
+    sourcePath: 'compose/material3/material3/api/current.txt',
+  });
+
+  assert.equal(result.declarationCount, 2);
+  assert.equal(result.declarations[0].kind, 'class');
+  assert.equal(result.declarations[0].symbol, 'AnnotatedExample');
+  assert.equal(result.declarations[1].classification, 'inaccessible-from-kotlin');
+  assert.equal(result.sourceApiCandidateCount, 1);
+  assert.equal(result.inaccessibleFromKotlinCount, 1);
+});
+
 test('does not infer API maturity from a public signature', () => {
   const result = inventoryApiDump(DUMP, {
     artifact: 'androidx.compose.material3:material3',
