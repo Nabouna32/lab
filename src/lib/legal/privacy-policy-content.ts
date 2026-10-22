@@ -1,6 +1,6 @@
 import type { Locale } from "@/lib/i18n/config";
-import fr from "./privacy-policy-fr";
-import en from "./privacy-policy-en";
+import fr from "./privacy-policy-fr.ts";
+import en from "./privacy-policy-en.ts";
 
 export type PolicyLink = { label: string; href: string };
 export type PolicySection = { title: string; paragraphs: string[]; bullets?: string[]; links?: PolicyLink[] };
