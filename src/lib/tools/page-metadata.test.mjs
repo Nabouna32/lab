@@ -51,6 +51,8 @@ test("public page inventory is derived from published resources and localized ro
   assert.match(source, /getCategoryPath/);
   assert.match(source, /getToolPath/);
   assert.match(source, /getGuidedWorkflowsPath/);
+  assert.match(source, /isCategorySeoIndexable\(category\.id\)/);
+  assert.match(source, /tool\.seo\[locale\]\.indexable/);
   assert.match(source, /buildPublicSeoInventory\(locales, resources\)/);
 });
 
