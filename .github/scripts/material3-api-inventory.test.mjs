@@ -26,6 +26,7 @@ package androidx.compose.material3 {
   public final class ButtonDefaults {
     ctor public ButtonDefaults();
     method @androidx.compose.runtime.Composable public androidx.compose.ui.graphics.Shape getShape();
+    method @BytecodeOnly @androidx.compose.runtime.Composable public androidx.compose.ui.graphics.Shape getShape(androidx.compose.runtime.Composer?, int);
     property public androidx.compose.ui.graphics.Shape shape;
     field public static final androidx.compose.material3.ButtonDefaults INSTANCE;
   }
@@ -59,6 +60,8 @@ test('inventories public declarations across package blocks deterministically', 
   assert.equal(first.semanticCompleteness, 'not-established-by-api-dump-alone');
   assert.match(first.source.sha256, /^[a-f0-9]{64}$/);
   assert.equal(first.source.formatVersion, '2.0');
+  assert.equal(first.sourceApiCandidateCount, 6);
+  assert.equal(first.bytecodeOnlyCount, 0);
 });
 
 
@@ -71,18 +74,23 @@ test('inventories AndroidX API signature format 4.0 members and records the form
   });
 
   assert.equal(result.source.formatVersion, '4.0');
-  assert.equal(result.declarationCount, 7);
+  assert.equal(result.declarationCount, 8);
+  assert.equal(result.sourceApiCandidateCount, 7);
+  assert.equal(result.bytecodeOnlyCount, 1);
   assert.equal(result.declarations[0].kind, 'class');
   assert.equal(result.declarations[1].kind, 'constructor');
   assert.equal(result.declarations[1].symbol, 'ButtonDefaults');
   assert.equal(result.declarations[2].kind, 'method');
   assert.equal(result.declarations[2].symbol, 'getShape');
-  assert.equal(result.declarations[3].kind, 'property');
-  assert.equal(result.declarations[3].symbol, 'shape');
-  assert.equal(result.declarations[4].kind, 'field');
-  assert.equal(result.declarations[4].symbol, 'INSTANCE');
-  assert.equal(result.declarations[6].kind, 'enum-constant');
-  assert.equal(result.declarations[6].symbol, 'ONE');
+  assert.equal(result.declarations[3].kind, 'method');
+  assert.equal(result.declarations[3].symbol, 'getShape');
+  assert.equal(result.declarations[3].classification, 'bytecode-only');
+  assert.equal(result.declarations[4].kind, 'property');
+  assert.equal(result.declarations[4].symbol, 'shape');
+  assert.equal(result.declarations[5].kind, 'field');
+  assert.equal(result.declarations[5].symbol, 'INSTANCE');
+  assert.equal(result.declarations[7].kind, 'enum-constant');
+  assert.equal(result.declarations[7].symbol, 'ONE');
 });
 
 test('does not infer API maturity from a public signature', () => {
