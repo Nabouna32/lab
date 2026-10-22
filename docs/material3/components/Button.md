@@ -51,6 +51,12 @@ Use a variant to express hierarchy, not to label business meaning: the official 
 
 For destructive actions, distinguish reversible detachment from deletion of the underlying resource. Explain irreversible consequences and confirm high-impact actions. See the shared [usage contract](../README.md#usage-contract-for-product-pages-and-agents).
 
+## Important boundary: API capability is not a design prescription
+
+The official Button API has no dedicated destructive variant. Its color customization API does not establish how every deletion flow should look. Do not infer that a delete action should use a filled red button, red text, a trash icon, a red surrounding surface or a particular dialog merely because the action is destructive. First identify the relevant AndroidX component/pattern and official usage context. If AndroidX provides no exact pattern, document the gap and justify the smallest necessary Web/product adaptation. Choose among the five official button variants from their source-defined contracts and the actual context, not from a generic “primary/secondary/delete” label.
+
+When migrating a page, evaluate the complete screen and interaction journey rather than only replacing its button. Verify the real browser rendering against the pinned AndroidX source; automated tests and green CI alone do not prove visual fidelity.
+
 ## Evidence labels
 
 - `ANDROIDX`: directly supported by the pinned AndroidX API/source/token.
