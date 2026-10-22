@@ -25,34 +25,41 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
   const lines = contents.replace(/\r\n/g, '\n').split('\n');
   const declarations = [];
   let currentPackage = null;
+  let braceDepth = 0;
 
   for (let index = 0; index < lines.length; index += 1) {
     const raw = lines[index].trim();
     const packageMatch = raw.match(/^package\s+([A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*)\s*\{$/);
     if (packageMatch) {
+      if (currentPackage !== null) {
+        throw new Error(\`Nested package block at line \${index + 1}.\`);
+      }
       currentPackage = packageMatch[1];
+      braceDepth = 1;
       continue;
     }
-    if (raw === '}') {
+
+    if (currentPackage === null) continue;
+
+    if (/^public\s+/.test(raw)) {
+      const kindMatch = raw.match(/^public\s+(?:(?:abstract|final|open|sealed|static|data|value|enum|annotation|inline|infix|operator|suspend|external|expect|actual)\s+)*(class|interface|object|enum class|annotation class|fun|val|var|typealias|constructor|field|property)\b/);
+      const signatureHash = createHash('sha256').update(raw, 'utf8').digest('hex');
+      declarations.push({
+        id: \`\${currentPackage}:\${signatureHash}\`,
+        package: currentPackage,
+        kind: kindMatch?.[1] ?? 'unknown',
+        signature: raw,
+        line: index + 1,
+        apiStatus: 'unknown',
+      });
+    }
+
+    braceDepth += (raw.match(/{/g) ?? []).length;
+    braceDepth -= (raw.match(/}/g) ?? []).length;
+    if (braceDepth <= 0) {
       currentPackage = null;
-      continue;
+      braceDepth = 0;
     }
-    if (!/^public\s+/.test(raw)) continue;
-
-    if (!currentPackage) {
-      throw new Error(`Public declaration outside a package block at line ${index + 1}.`);
-    }
-
-    const kindMatch = raw.match(/^public\s+(?:(?:abstract|final|open|sealed|static|data|value|enum|annotation|inline|infix|operator|suspend|external|expect|actual)\s+)*(class|interface|object|enum class|annotation class|fun|val|var|typealias|constructor|field|property)\b/);
-    const signatureHash = createHash('sha256').update(raw, 'utf8').digest('hex');
-    declarations.push({
-      id: `${currentPackage}:${signatureHash}`,
-      package: currentPackage,
-      kind: kindMatch?.[1] ?? 'unknown',
-      signature: raw,
-      line: index + 1,
-      apiStatus: 'unknown',
-    });
   }
 
   if (declarations.length === 0) {
