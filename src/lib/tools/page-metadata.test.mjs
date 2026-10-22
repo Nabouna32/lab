@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import { test } from "node:test";
 
 const metadataFile = fileURLToPath(new URL("./page-metadata.ts", import.meta.url));
+const inventoryFile = fileURLToPath(new URL("../seo/public-pages.ts", import.meta.url));
 const routeFile = fileURLToPath(new URL("../../app/[locale]/[section]/[slug]/page.tsx", import.meta.url));
 const publicRoutes = [
   fileURLToPath(new URL("../../app/[locale]/page.tsx", import.meta.url)),
@@ -16,7 +17,8 @@ test("tool metadata defines canonical and localized alternate URLs", async () =>
 
   assert.match(source, /alternates:\s*\{/);
   assert.match(source, /canonical: url\.toString\(\)/);
-  assert.match(source, /languages: alternates/);
+  assert.match(source, /languages/);
+  assert.match(source, /getPublicSeoPage\(locale, seo\.path\)/);
 });
 
 test("tool metadata defines Open Graph fields", async () => {
@@ -41,14 +43,30 @@ test("public localized routes define metadata", async () => {
   }
 });
 
-test("public metadata centralizes canonical, alternates and Open Graph fields", async () => {
-  const source = await readFile(metadataFile, "utf8");
-  assert.match(source, /export function getPublicPageMetadata/);
-  assert.match(source, /canonical: url\.toString\(\)/);
-  assert.match(source, /languages: alternates/);
-  assert.match(source, /openGraph:/);
+test("public page inventory is derived from published resources and localized route helpers", async () => {
+  const source = await readFile(inventoryFile, "utf8");
+
+  assert.match(source, /getPublishedTools\(\)/);
+  assert.match(source, /getToolsByCategory\(category\.id\)\.length > 0/);
+  assert.match(source, /getCategoryPath/);
+  assert.match(source, /getToolPath/);
+  assert.match(source, /getGuidedWorkflowsPath/);
+  assert.match(source, /buildPublicSeoInventory\(locales, resources\)/);
 });
-test("SEO exposes sitemap and robots routes", async () => {
+
+test("sitemap is generated from the shared inventory and emits localized alternates", async () => {
+  const sitemapSource = await readFile(
+    fileURLToPath(new URL("../../app/sitemap.ts", import.meta.url)),
+    "utf8",
+  );
+
+  assert.match(sitemapSource, /getPublicSeoPages\(\)/);
+  assert.match(sitemapSource, /alternates:\s*\{/);
+  assert.match(sitemapSource, /languages:/);
+  assert.doesNotMatch(sitemapSource, /getPublishedTools|categories/);
+});
+
+test("SEO exposes a sitemap and robots route using the configured site URL", async () => {
   const sitemapSource = await readFile(
     fileURLToPath(new URL("../../app/sitemap.ts", import.meta.url)),
     "utf8",
@@ -58,8 +76,6 @@ test("SEO exposes sitemap and robots routes", async () => {
     "utf8",
   );
 
-  assert.match(sitemapSource, /MetadataRoute\.Sitemap/);
-  assert.match(sitemapSource, /getPublishedTools/);
   assert.match(sitemapSource, /getSiteUrl/);
   assert.match(robotsSource, /MetadataRoute\.Robots/);
   assert.match(robotsSource, /sitemap:/);
