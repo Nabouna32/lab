@@ -8,7 +8,6 @@ import ToolRenderer from "@/components/tools/ToolRenderer";
 import { categories, getCategoryColor, getCategoryContainerColor, getCategoryName } from "@/lib/tools/categories";
 import { getCategorySeoDescription, isCategorySeoIndexable } from "@/lib/seo/category-policy";
 import { getToolsByCategory } from "@/lib/tools/catalog";
-import { getMessages } from "@/lib/i18n/messages";
 import { getPublicPageMetadata, getToolPageMetadata } from "@/lib/tools/page-metadata";
 import { isLocale, locales, type Locale } from "@/lib/i18n/config";
 import {
@@ -52,8 +51,7 @@ export async function generateMetadata({
     const category = categories.find((item) => item.id === categoryId);
     if (!category || getToolsByCategory(category.id).length === 0) return {};
     const categoryName = getCategoryName(locale, category.id);
-    const t = getMessages(locale);
-    return getPublicPageMetadata({
+    const metadata = getPublicPageMetadata({
       title: `${categoryName} — Loculary`,
       description: getCategorySeoDescription(locale, category.id),
       path: getCategoryPath(locale, category.id),
