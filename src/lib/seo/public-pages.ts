@@ -4,6 +4,7 @@ import { locales, type Locale } from "@/lib/i18n/config";
 import {
   getCategoryPath,
   getGuidedWorkflowsPath,
+  getLegalNoticePath,
   getToolPath,
   getToolsPath,
 } from "@/lib/tools/routes";
@@ -30,6 +31,10 @@ const resources: LocalizedSeoResource[] = [
   {
     id: "guided-workflows",
     paths: localizedPaths(getGuidedWorkflowsPath),
+  },
+  {
+    id: "legal-notice",
+    paths: localizedPaths(getLegalNoticePath),
   },
   ...categories
     .filter((category) => getToolsByCategory(category.id).length > 0)
