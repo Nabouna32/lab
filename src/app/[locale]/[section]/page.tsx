@@ -37,7 +37,6 @@ export async function generateMetadata({
     return getPublicPageMetadata({
       ...copy,
       path: getGuidedWorkflowsPath(locale),
-      alternatePaths: Object.fromEntries(locales.map((availableLocale) => [availableLocale, getGuidedWorkflowsPath(availableLocale)])),
     }, locale);
   }
   if (section !== getToolsPath(locale).split("/")[2]) return {};
@@ -46,7 +45,6 @@ export async function generateMetadata({
     title: t.tools.metaTitle,
     description: t.tools.description,
     path: getToolsPath(locale),
-    alternatePaths: Object.fromEntries(locales.map((availableLocale) => [availableLocale, getToolsPath(availableLocale)])),
   }, locale);
 
   return query.intent ? { ...metadata, robots: { index: false, follow: true } } : metadata;
