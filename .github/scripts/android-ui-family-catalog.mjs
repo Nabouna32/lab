@@ -31,7 +31,7 @@ export function validateFamilyCatalog(catalog) {
       errors.push(label + ' must be an object.');
       continue;
     }
-    for (const field of ['id', 'name', 'platform', 'role', 'artifact', 'scope', 'versionPolicy', 'inventoryStatus']) {
+    for (const field of ['id', 'name', 'platform', 'role', 'artifact', 'scope', 'versionPolicy', 'inventoryStatus', 'successorMappingStatus']) {
       if (typeof family[field] !== 'string' || !family[field].trim()) {
         errors.push(label + '.' + field + ' is required.');
       }
@@ -53,6 +53,11 @@ export function validateFamilyCatalog(catalog) {
     if (!['not-started', 'watch-snapshot-only', 'in-progress', 'verified'].includes(family.inventoryStatus)) {
       errors.push(label + '.inventoryStatus is invalid.');
     }
+    if (!Array.isArray(family.successorFamilyIds)) {
+      errors.push(label + '.successorFamilyIds must be an array, including when empty.');
+    } else if (family.successorFamilyIds.some((id) => typeof id !== 'string' || !id.trim())) {
+      errors.push(label + '.successorFamilyIds must contain non-empty family ids.');
+    }
     if (family.referenceVersion === null) {
       if (family.referenceVersionStatus !== 'not-selected') {
         errors.push(label + ' must mark an unset reference version as not-selected.');
@@ -67,6 +72,13 @@ export function validateFamilyCatalog(catalog) {
       } catch {
         errors.push(label + '.' + field + ' must be a valid HTTPS URL.');
       }
+    }
+  }
+  for (const [index, family] of catalog.families.entries()) {
+    if (!Array.isArray(family?.successorFamilyIds)) continue;
+    for (const successorId of family.successorFamilyIds) {
+      if (!ids.has(successorId)) errors.push('families[' + index + '] references unknown successor family: ' + successorId);
+      if (successorId === family.id) errors.push('families[' + index + '] cannot be its own successor.');
     }
   }
   return errors;
