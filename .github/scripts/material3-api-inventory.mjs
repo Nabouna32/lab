@@ -48,9 +48,10 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
 
     const isMemberFormat = formatVersion !== '2.0' &&
       /^(?:method|property|field|ctor|enum_constant)\s+/.test(raw);
+    const publicSignature = raw.match(/(?:^|\s)(public\s+(?:(?:abstract|final|open|sealed|static|data|inline|infix|operator|suspend|external|expect|actual)\s+)*(?:value class|enum class|annotation class|class|interface|object|fun|val|var|typealias|constructor|field|property)\b.*)$/)?.[1] ?? null;
 
     if (currentPackage === null) {
-      if (/^public\s+/.test(raw) || isMemberFormat) {
+      if (publicSignature || isMemberFormat) {
         throw new Error('Public declaration outside a package block at line ' + (index + 1) + '.');
       }
       continue;
@@ -59,12 +60,7 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
     let kind = null;
     let symbol = null;
 
-    if (/^public\s+/.test(raw)) {
-      const kindMatch = raw.match(/^public\s+(?:(?:abstract|final|open|sealed|static|data|value|inline|infix|operator|suspend|external|expect|actual)\s+)*(enum class|annotation class|class|interface|object|fun|val|var|typealias|constructor|field|property)\b/);
-      const symbolMatch = raw.match(/^public\s+(?:(?:abstract|final|open|sealed|static|data|value|inline|infix|operator|suspend|external|expect|actual)\s+)*(?:enum class|annotation class|class|interface|object|fun|val|var|typealias|constructor|field|property)\s+([A-Za-z_$][\w$]*)\b/);
-      kind = kindMatch?.[1] ?? 'unknown';
-      symbol = symbolMatch?.[1] ?? null;
-    } else if (isMemberFormat) {
+    if (isMemberFormat) {
       const memberMatch = raw.match(/^(method|property|field|ctor|enum_constant)\b/);
       const memberType = memberMatch?.[1];
       kind = memberType === 'ctor' ? 'constructor'
@@ -78,6 +74,11 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
       } else {
         symbol = raw.match(/([A-Za-z_$][\w$]*)\s*;$/)?.[1] ?? null;
       }
+    } else if (publicSignature) {
+      const kindMatch = publicSignature.match(/^public\s+(?:(?:abstract|final|open|sealed|static|data|inline|infix|operator|suspend|external|expect|actual)\s+)*(value class|enum class|annotation class|class|interface|object|fun|val|var|typealias|constructor|field|property)\b/);
+      const symbolMatch = publicSignature.match(/^public\s+(?:(?:abstract|final|open|sealed|static|data|inline|infix|operator|suspend|external|expect|actual)\s+)*(?:value class|enum class|annotation class|class|interface|object|fun|val|var|typealias|constructor|field|property)\s+([A-Za-z_$][\w$]*)\b/);
+      kind = kindMatch?.[1] ?? 'unknown';
+      symbol = symbolMatch?.[1] ?? null;
     }
 
     if (kind !== null) {
@@ -89,7 +90,9 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
         symbol,
         signature: raw,
         line: index + 1,
-        classification: raw.includes('@BytecodeOnly') ? 'bytecode-only' : 'source-api-candidate',
+        classification: raw.includes('@BytecodeOnly') ? 'bytecode-only'
+          : raw.includes('@InaccessibleFromKotlin') ? 'inaccessible-from-kotlin'
+          : 'source-api-candidate',
         apiStatus: 'unknown',
       });
     }
@@ -112,6 +115,7 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
 
   const dumpSha256 = createHash('sha256').update(contents, 'utf8').digest('hex');
   const bytecodeOnlyCount = declarations.filter((entry) => entry.classification === 'bytecode-only').length;
+  const inaccessibleFromKotlinCount = declarations.filter((entry) => entry.classification === 'inaccessible-from-kotlin').length;
   return {
     schemaVersion: 1,
     artifact,
@@ -120,8 +124,9 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
     inventoryKind: 'public-signature-surface',
     semanticCompleteness: 'not-established-by-api-dump-alone',
     declarationCount: declarations.length,
-    sourceApiCandidateCount: declarations.length - bytecodeOnlyCount,
+    sourceApiCandidateCount: declarations.length - bytecodeOnlyCount - inaccessibleFromKotlinCount,
     bytecodeOnlyCount,
+    inaccessibleFromKotlinCount,
     declarations,
   };
 }
