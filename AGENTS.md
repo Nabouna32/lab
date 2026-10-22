@@ -40,6 +40,17 @@ Ce fichier est le guide technique du dépôt. Il n’existe pas de mandat perman
 - Évite les éléments interactifs HTML bruts ou les styles locaux pour les contrôles déjà couverts par un composant partagé. Les exceptions sémantiques (liens, éléments de formulaire natifs, contrôles complexes spécifiques) doivent rester intentionnelles et accessibles, non devenir des doublons de composants.
 - Toute nouvelle abstraction ou tout portage manquant doit être justifié par un vrai besoin, documenté dans sa spécification et couvert par des tests adaptés. Les contrôles automatisés doivent cibler les contrats stables sans imposer une structure artificielle aux pages.
 
+## 2 ter. Preuve de fidélité AndroidX et refonte des écrans
+
+Les règles de cette section précisent et priment sur toute formulation plus générale concernant le style Material 3 ou les actions destructives.
+
+- **Source d’abord.** Identifier le composant ou motif AndroidX Compose Material 3 exact, sa source immuable, son API publique et les exemples officiels pertinents avant de choisir son apparence. Les autres bibliothèques, captures isolées et intuitions ne remplacent pas cette preuve.
+- **Ne rien inventer.** Utiliser les noms, variantes, paramètres, tokens, états et comportements établis par AndroidX. Ne pas créer de variante métier locale ni de recette visuelle générique pour une suppression. Le fait qu’une action soit une suppression ne signifie pas automatiquement bouton rouge rempli, texte rouge, icône poubelle, surface rouge ou dialogue donné.
+- **Distinguer le natif du Web.** Une différence nécessaire au HTML, à la navigation, au clavier ou au focus doit être minimale, explicitement documentée comme adaptation Web et ne doit pas être présentée comme une parité AndroidX.
+- **Refondre l’écran, pas seulement le contrôle.** Quand une page est ciblée, examiner et corriger l’ensemble du parcours et de la composition : hiérarchie, surfaces, espacements, typographie, couleurs, icônes, groupes d’actions, dialogues, états, responsive et accessibilité. Une icône ajoutée ou un bouton remplacé ne suffit pas si l’écran reste incohérent avec les références.
+- **Vérifier le rendu réel.** Comparer le résultat dans le navigateur avec la référence AndroidX, en thèmes clair/sombre, FR/EN et aux tailles utiles. Les tests et la CI ne prouvent pas la fidélité visuelle. Sans vérification navigateur, conserver le statut non vérifié et le signaler.
+- **Gérer les incertitudes honnêtement.** Marquer UNVERIFIED et poursuivre l’investigation lorsqu’une source ne tranche pas. Si aucune solution AndroidX exacte n’existe, proposer explicitement la plus petite adaptation Web ou extension produit justifiée plutôt que de l’inventer silencieusement.
+
 ## 3. Mise en œuvre de qualité
 
 - Comprends le parcours utilisateur, l’architecture, les dépendances et les cas limites avant de changer le code. Privilégie une solution cohérente et maintenable ; évite les abstractions génériques, fichiers artificiels et duplications sans bénéfice réel.
