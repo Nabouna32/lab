@@ -36,13 +36,7 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
   const classScopes = [];
 
   for (let index = 0; index < lines.length; index += 1) {
-    const indentation = lines[index].match(/^\s*/)?.[0].length ?? 0;
     const raw = lines[index].trim();
-    if (raw.length > 0) {
-      while (classScopes.length > 0 && classScopes[classScopes.length - 1].indentation >= indentation) {
-        classScopes.pop();
-      }
-    }
     const packageMatch = raw.match(/^package\s+([A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*)\s*\{$/);
     if (packageMatch) {
       if (currentPackage !== null) {
@@ -64,6 +58,9 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
       continue;
     }
 
+    const nextBraceDepth = braceDepth
+      + (raw.match(/{/g) ?? []).length
+      - (raw.match(/}/g) ?? []).length;
     let kind = null;
     let symbol = null;
 
@@ -113,15 +110,18 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
         ['value class', 'enum class', 'annotation class', 'class', 'interface', 'object'].includes(kind) &&
         raw.includes('{')
       ) {
-        classScopes.push({ symbol, indentation });
+        classScopes.push({ symbol, depth: nextBraceDepth });
       }
     }
 
-    braceDepth += (raw.match(/{/g) ?? []).length;
-    braceDepth -= (raw.match(/}/g) ?? []).length;
+    braceDepth = nextBraceDepth;
+    while (classScopes.length > 0 && classScopes[classScopes.length - 1].depth > braceDepth) {
+      classScopes.pop();
+    }
     if (braceDepth <= 0) {
       currentPackage = null;
       braceDepth = 0;
+      classScopes.length = 0;
     }
   }
 
