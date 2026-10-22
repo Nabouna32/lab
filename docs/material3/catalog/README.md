@@ -10,6 +10,8 @@ Le catalogue doit viser la couverture complète de la surface publique déclaré
 
 Le périmètre multi-familles est maintenu dans [families.json](families.json). Il s'agit volontairement d'un **registre de candidats, pas d'une déclaration d'exhaustivité**. Chaque famille possède une frontière de plateforme, un artefact distinct, des liens de provenance et un statut d'inventaire indépendant. Le registre distingue désormais des artefacts Compose de premier plan et certains modules publiés séparément, notamment UI Graphics, UI Text, UI Units, Foundation Layout, Animation Core et Runtime Saveable. Cette séparation est nécessaire : la documentation officielle de Compose présente UI, Foundation, Animation, Runtime, Material et Material 3 comme des groupes fonctionnels distincts, tandis que les API des sous-modules peuvent avoir leurs propres frontières de publication.
 
+Les familles historiques déclarent également leurs successeurs possibles via successorFamilyIds et successorMappingStatus. Ces liens expriment des **cibles de migration candidates**, pas une équivalence d'API ni une migration automatique. Une bibliothèque Views comme Material Components pour Android est en maintenance ; ses usages doivent être cartographiés vers Compose au cas par cas, tandis qu'AppCompat n'a pas de successeur unique.
+
 Le contrat du registre est vérifié par .github/scripts/android-ui-family-catalog.mjs et ses tests. Pour lancer le contrôle :
 
 ```sh
