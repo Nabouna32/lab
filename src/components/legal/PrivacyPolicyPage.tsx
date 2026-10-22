@@ -29,7 +29,7 @@ export default function PrivacyPolicyPage({ locale }: { locale: Locale }) {
       <section className="mt-8" aria-labelledby="policy-contact">
         <h2 id="policy-contact" className="text-xl font-semibold">{page.contactTitle}</h2>
         <p className="mt-3 leading-7">{page.contactIntro}</p>
-        <p className="mt-3 font-semibold"><code>{page.contactAddress}</code></p>
+        <p className="mt-3 font-semibold"><a className="underline" href={"mailto:" + page.contactAddress}><code>{page.contactAddress}</code></a></p>
         <p className="mt-3 leading-7">{page.contactWarning}</p>
       </section>
     </article>
