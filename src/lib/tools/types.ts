@@ -71,7 +71,7 @@ export type ToolCapability =
 
 export type ToolLocalizedContent = { name: string; description: string };
 export type ToolExample = { label: string; description?: string };
-export type ToolSeoMetadata = { title: string; description: string };
+export type ToolSeoMetadata = { title: string; description: string; indexable: boolean };
 export type ToolProcessingMetadata = {
   mode: ToolProcessingMode;
   description: Partial<Record<Locale, string>> & { en: string };
