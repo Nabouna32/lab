@@ -100,6 +100,12 @@ test("private, personalized, and internal pages explicitly opt out of indexing",
     assert.match(source, /robots:\s*\{\s*index:\s*false/);
   }
 
+  const robotsSource = await readFile(
+    fileURLToPath(new URL("../../app/robots.ts", import.meta.url)),
+    "utf8",
+  );
+  assert.doesNotMatch(robotsSource, /disallow:/);
+
   const searchSource = await readFile(
     fileURLToPath(new URL("../../components/tools/SearchResultsPage.tsx", import.meta.url)),
     "utf8",
