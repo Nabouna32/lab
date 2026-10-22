@@ -22,13 +22,14 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
     throw new Error('Source path is required.');
   }
 
-  const formatMatch = contents.match(/^\/\/ Signature format: (\d+\.\d+)$/m);
+  const normalizedContents = contents.replace(/\r\n/g, '\n');
+  const formatMatch = normalizedContents.match(/^(?:\uFEFF)?\/\/ Signature format: (\d+\.\d+)$/);
   const formatVersion = formatMatch?.[1];
   if (!formatVersion || !['2.0', '4.0'].includes(formatVersion)) {
     throw new Error('Unsupported or missing AndroidX API signature format; expected 2.0 or 4.0.');
   }
 
-  const lines = contents.replace(/\r\n/g, '\n').split('\n');
+  const lines = normalizedContents.split('\n');
   const declarations = [];
   let currentPackage = null;
   let braceDepth = 0;
