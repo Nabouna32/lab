@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 
 const ALLOWED_PORT_PRIORITIES = new Set(['P0', 'P1', 'P2', 'P3', 'migration-reference-only']);
+const ALLOWED_REFERENCE_VERSION_STATUSES = new Set(['not-selected', 'selected-official-stable']);
 const ALLOWED_SUCCESSOR_STATUSES = new Set([
   'not-assessed',
   'candidate-non-equivalent-successor',
@@ -69,12 +70,17 @@ export function validateFamilyCatalog(catalog) {
     } else if (family.successorFamilyIds.some((id) => typeof id !== 'string' || !id.trim())) {
       errors.push(label + '.successorFamilyIds must contain non-empty family ids.');
     }
+    if (!ALLOWED_REFERENCE_VERSION_STATUSES.has(family.referenceVersionStatus)) {
+      errors.push(label + '.referenceVersionStatus is invalid.');
+    }
     if (family.referenceVersion === null) {
       if (family.referenceVersionStatus !== 'not-selected') {
         errors.push(label + ' must mark an unset reference version as not-selected.');
       }
     } else if (typeof family.referenceVersion !== 'string' || !family.referenceVersion.trim()) {
       errors.push(label + '.referenceVersion must be a non-empty string or null.');
+    } else if (family.referenceVersionStatus !== 'selected-official-stable') {
+      errors.push(label + ' must explicitly identify the source status of its selected version.');
     }
     for (const field of ['sourceRepository', 'officialApiReference', 'officialReleaseNotes']) {
       try {
