@@ -40,7 +40,7 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
     }
 
     if (currentPackage === null) {
-      if (/^public\\s+/.test(raw)) {
+      if (/^public\s+/.test(raw)) {
         throw new Error('Public declaration outside a package block at line ' + (index + 1) + '.');
       }
       continue;
