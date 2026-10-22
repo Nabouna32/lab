@@ -20,6 +20,21 @@ package androidx.compose.material3.testing {
 }
 `;
 
+
+const V4_DUMP = `// Signature format: 4.0
+package androidx.compose.material3 {
+  public final class ButtonDefaults {
+    ctor public ButtonDefaults();
+    method @androidx.compose.runtime.Composable public androidx.compose.ui.graphics.Shape getShape();
+    property public androidx.compose.ui.graphics.Shape shape;
+    field public static final androidx.compose.material3.ButtonDefaults INSTANCE;
+  }
+  public final class Example {
+    enum_constant public static final androidx.compose.material3.Example ONE;
+  }
+}
+`;
+
 test('inventories public declarations across package blocks deterministically', () => {
   const options = {
     artifact: 'androidx.compose.material3:material3',
@@ -43,6 +58,31 @@ test('inventories public declarations across package blocks deterministically', 
   assert.equal(first.declarations[5].kind, 'annotation class');
   assert.equal(first.semanticCompleteness, 'not-established-by-api-dump-alone');
   assert.match(first.source.sha256, /^[a-f0-9]{64}$/);
+  assert.equal(first.source.formatVersion, '2.0');
+});
+
+
+test('inventories AndroidX API signature format 4.0 members and records the format', () => {
+  const result = inventoryApiDump(V4_DUMP, {
+    artifact: 'androidx.compose.material3:material3',
+    version: '1.4.0',
+    commit: COMMIT,
+    sourcePath: 'compose/material3/material3/api/current.txt',
+  });
+
+  assert.equal(result.source.formatVersion, '4.0');
+  assert.equal(result.declarationCount, 7);
+  assert.equal(result.declarations[0].kind, 'class');
+  assert.equal(result.declarations[1].kind, 'constructor');
+  assert.equal(result.declarations[1].symbol, 'ButtonDefaults');
+  assert.equal(result.declarations[2].kind, 'method');
+  assert.equal(result.declarations[2].symbol, 'getShape');
+  assert.equal(result.declarations[3].kind, 'property');
+  assert.equal(result.declarations[3].symbol, 'shape');
+  assert.equal(result.declarations[4].kind, 'field');
+  assert.equal(result.declarations[4].symbol, 'INSTANCE');
+  assert.equal(result.declarations[6].kind, 'enum-constant');
+  assert.equal(result.declarations[6].symbol, 'ONE');
 });
 
 test('does not infer API maturity from a public signature', () => {
@@ -85,7 +125,7 @@ test('rejects empty input and input without public declarations', () => {
 });
 
 test('rejects declarations outside package blocks rather than losing provenance', () => {
-  assert.throws(() => inventoryApiDump('public final fun Orphan(): kotlin.Unit', {
+  assert.throws(() => inventoryApiDump('// Signature format: 2.0\\npublic final fun Orphan(): kotlin.Unit', {
     artifact: 'example:artifact',
     version: '1.0.0',
     commit: COMMIT,
