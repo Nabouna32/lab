@@ -3,15 +3,22 @@
 import { useFormStatus } from "react-dom";
 import {
   Button,
-  DestructiveButton,
   ElevatedButton,
   FilledTonalButton,
   OutlinedButton,
   TextButton,
+  type ButtonColors,
   type ButtonProps,
 } from "@/components/ui/Button";
 
 type SubmitButtonVariant = "filled" | "elevated" | "filled-tonal" | "outlined" | "text";
+
+const destructiveColors = {
+  containerColor: "var(--error)",
+  contentColor: "var(--on-error)",
+  disabledContainerColor: "color-mix(in srgb, var(--on-surface) 10%, transparent)",
+  disabledContentColor: "color-mix(in srgb, var(--on-surface) 38%, transparent)",
+} satisfies ButtonColors;
 
 const variants = {
   filled: Button,
@@ -35,7 +42,7 @@ export default function SubmitButton({
   variant?: SubmitButtonVariant;
 }) {
   const { pending } = useFormStatus();
-  const Component = danger ? DestructiveButton : variants[variant];
+  const Component = danger ? Button : variants[variant];
 
   return (
     <Component
@@ -44,6 +51,7 @@ export default function SubmitButton({
       aria-disabled={pending}
       data-pending={pending ? "true" : "false"}
       data-danger={danger ? "true" : "false"}
+      colors={danger ? destructiveColors : undefined}
       className={className}
     >
       {pending ? pendingLabel : children}
