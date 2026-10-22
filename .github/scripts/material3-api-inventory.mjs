@@ -36,7 +36,7 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
   const classScopes = [];
 
   for (let index = 0; index < lines.length; index += 1) {
-    const indentation = lines[index].match(/^\\s*/)?.[0].length ?? 0;
+    const indentation = lines[index].match(/^\s*/)?.[0].length ?? 0;
     const raw = lines[index].trim();
     if (raw.length > 0) {
       while (classScopes.length > 0 && classScopes[classScopes.length - 1].indentation >= indentation) {
@@ -92,7 +92,7 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
 
     if (kind !== null) {
       const signatureHash = createHash('sha256')
-        .update(currentPackage + '\\0' + (owner ?? '') + '\\0' + raw, 'utf8')
+        .update(currentPackage + '\0' + (owner ?? '') + '\0' + raw, 'utf8')
         .digest('hex');
       declarations.push({
         id: currentPackage + ':' + (owner ? owner + ':' : '') + signatureHash,
