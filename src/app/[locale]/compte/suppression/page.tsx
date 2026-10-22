@@ -4,6 +4,7 @@ import { deleteAccount } from "../actions";
 import SubmitButton from "@/components/account/SubmitButton";
 import { Panel } from "@/components/ui/Panel";
 import { TextField } from "@/components/ui/TextField";
+import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import { createClient } from "@/lib/supabase/server";
 import { getMessages } from "@/lib/i18n/messages";
 import { isLocale, type Locale } from "@/lib/i18n/config";
@@ -57,8 +58,9 @@ export default async function DeleteAccountPage({
           <SubmitButton
             pendingLabel={t.account.deleteAccountButton}
             danger
-            className="w-full"
+            className="inline-flex w-full items-center justify-center gap-2"
           >
+            <MaterialIcon name="delete" size={18} className="shrink-0" />
             {t.account.deleteAccountButton}
           </SubmitButton>
         </form>

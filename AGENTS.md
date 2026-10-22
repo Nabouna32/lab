@@ -30,6 +30,16 @@ Ce fichier est le guide technique du dépôt. Il n’existe pas de mandat perman
 - À chaque reprise ou nouveau tchat, reconstruis l’état à partir du dépôt actuel : branche, changements présents, PR, CI, code, tests et documentation pertinente. Ne dépends pas d’un résumé conversationnel ou d’un registre parallèle ; si le contexte manque, déduis uniquement ce que les éléments vérifiables permettent et signale l’incertitude.
 - Consulte la documentation officielle pour les API, versions et conventions qui peuvent changer. Si une vérification est impossible, dis-le clairement.
 
+## 2 bis. Utilisation des composants Material 3
+
+- Avant d'ajouter une page, un parcours ou un contrôle interactif, recherche d'abord le composant partagé existant et lis sa spécification sous `docs/material3/components/`. Réutilise son API et ses variantes officielles plutôt que d'inventer une variante locale ou de recopier son style.
+- Respecte le contrat d'usage du catalogue `docs/material3/README.md` : composant officiel vérifié → réutilisation ; portage incomplet → usage conscient de ses limites ; composant absent → vérifier le catalogue AndroidX et les besoins avant de proposer un portage ou une adaptation Web explicitement identifiée.
+- Utilise les cinq exports Button AndroidX (`Button`, `ElevatedButton`, `FilledTonalButton`, `OutlinedButton`, `TextButton`) et `IconButton` pour les actions qui correspondent à leur sémantique. Ne crée pas de `DangerButton`, `SecondaryButton` ou autre alias local pour une variante officielle ; personnalise les rôles de couleur lorsque c'est justifié.
+- Une navigation reste un lien HTML (`Link` / `a`), pas un `button` utilisé pour changer de route. Elle peut partager les fondations visuelles M3, mais doit conserver la sémantique de lien et être identifiée comme adaptation Web si nécessaire.
+- Pour les actions destructives, choisis la hiérarchie selon la gravité et la réversibilité : retrait réversible plutôt neutre ; suppression secondaire avec icône fonctionnelle et rôles d'erreur sobres ; suppression définitive avec explication et confirmation explicite. Ne colore pas toute action de gestion en rouge par réflexe.
+- Évite les éléments interactifs HTML bruts ou les styles locaux pour les contrôles déjà couverts par un composant partagé. Les exceptions sémantiques (liens, éléments de formulaire natifs, contrôles complexes spécifiques) doivent rester intentionnelles et accessibles, non devenir des doublons de composants.
+- Toute nouvelle abstraction ou tout portage manquant doit être justifié par un vrai besoin, documenté dans sa spécification et couvert par des tests adaptés. Les contrôles automatisés doivent cibler les contrats stables sans imposer une structure artificielle aux pages.
+
 ## 3. Mise en œuvre de qualité
 
 - Comprends le parcours utilisateur, l’architecture, les dépendances et les cas limites avant de changer le code. Privilégie une solution cohérente et maintenable ; évite les abstractions génériques, fichiers artificiels et duplications sans bénéfice réel.

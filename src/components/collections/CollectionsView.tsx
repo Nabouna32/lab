@@ -6,6 +6,8 @@ import type { Locale } from "@/lib/i18n/config";
 import { useCollections } from "./CollectionsProvider";
 import { CollectionIcon } from "@/components/ui/CollectionIcon";
 import { Button, FilledTonalButton, OutlinedButton, TextButton } from "@/components/ui/Button";
+import { AlertDialog } from "@/components/ui/AlertDialog";
+import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import { createLocalCollectionsBackup, MAX_LOCAL_COLLECTIONS, MAX_LOCAL_COLLECTIONS_BACKUP_CHARS, parseLocalCollectionsBackup, type StoredLocalCollection } from "@/lib/collections/local-collections";
 
 export type CollectionTool = { id: string; icon: string; name: string; description: string; href: string };
@@ -15,6 +17,7 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
   const [name, setName] = useState("");
   const [synchronize, setSynchronize] = useState(true);
   const [activeCollection, setActiveCollection] = useState<string | null>(null);
+  const [pendingDeleteCollection, setPendingDeleteCollection] = useState<{ id: string; name: string } | null>(null);
   const [addingTool, setAddingTool] = useState("");
   const [message, setMessage] = useState("");
   const [creating, setCreating] = useState(false);
@@ -41,6 +44,9 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
     emptyHelp: fr ? "Crée une collection pour réunir les outils qui vont ensemble." : "Create a collection to bring related tools together.",
     rename: fr ? "Renommer" : "Rename",
     remove: fr ? "Supprimer" : "Delete",
+    deleteCollectionTitle: fr ? "Supprimer cette collection ?" : "Delete this collection?",
+    deleteCollectionDescription: (name: string) => fr ? `La collection « ${name} » et sa liste d’outils seront supprimées. Les outils resteront disponibles dans Loculary.` : `The collection “${name}” and its tool list will be deleted. The tools will remain available in Loculary.`,
+    deleteCollectionConfirm: fr ? "Supprimer la collection" : "Delete collection",
     add: fr ? "Ajouter un outil" : "Add a tool",
     choose: fr ? "Choisir un outil…" : "Choose a tool…",
     save: fr ? "Ajouter" : "Add",
@@ -75,6 +81,19 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
   const active = data.collections.find((collection) => collection.id === activeCollection);
   const localCollectionCount = data.collections.filter((collection) => collection.storage === "local").length;
   const localLimitReached = localCollectionCount >= MAX_LOCAL_COLLECTIONS;
+
+  function confirmDeleteCollection() {
+    const pending = pendingDeleteCollection;
+    if (!pending) return;
+    void data.deleteCollection(pending.id).then((ok) => {
+      if (ok) {
+        setActiveCollection((current) => current === pending.id ? null : current);
+        setMessage("");
+      } else {
+        setMessage(copy.error);
+      }
+    }).catch(() => setMessage(copy.error)).finally(() => setPendingDeleteCollection(null));
+  }
 
   async function create() {
     if (creatingRef.current || !name.trim() || data.loading) return;
@@ -254,7 +273,7 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
                     {active.user_collection_items.map((item) => {
                       const tool = tools.find((candidate) => candidate.id === item.tool_id);
                       if (!tool) return null;
-                      return <li key={item.tool_id} className="flex items-center gap-3 py-3"><span aria-hidden="true" className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--accent-soft)] text-xl">{tool.icon}</span><div className="min-w-0 flex-1"><Link href={tool.href} className="font-semibold hover:underline">{tool.name}</Link><p className="line-clamp-1 text-xs text-[var(--muted)]">{tool.description}</p></div><TextButton type="button" className="!text-[var(--muted)]" onClick={() => void data.removeTool(active.id, item.tool_id)}>{copy.removeTool}</TextButton></li>;
+                      return <li key={item.tool_id} className="flex items-center gap-3 py-3"><span aria-hidden="true" className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--accent-soft)] text-xl">{tool.icon}</span><div className="min-w-0 flex-1"><Link href={tool.href} className="font-semibold hover:underline">{tool.name}</Link><p className="line-clamp-1 text-xs text-[var(--muted)]">{tool.description}</p></div><TextButton type="button" colors={{ contentColor: "var(--on-surface-variant)" }} className="inline-flex shrink-0 items-center gap-2" onClick={() => void data.removeTool(active.id, item.tool_id)}><MaterialIcon name="delete" size={18} />{copy.removeTool}</TextButton></li>;
                     })}
                   </ul> : <p className="py-6 text-center text-sm text-[var(--muted)]">{copy.emptyHelp}</p>}
                   <div className="mt-5 flex flex-wrap items-center gap-2 border-t border-[var(--border)] pt-4">
@@ -262,12 +281,23 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
                       <OutlinedButton type="button" onClick={() => void data.toggleSharing(active.id).then((ok) => { if (!ok) setMessage(copy.error); })}>{active.share_token ? copy.stopShare : copy.share}</OutlinedButton>
                       {active.share_token && <Button type="button" onClick={() => void copyLink(active.share_token!)}>{copy.copy}</Button>}
                     </>}
-                    <TextButton type="button" className="!text-[var(--error)]" onClick={() => { if (window.confirm(fr ? "Supprimer cette collection et ses outils ?" : "Delete this collection and its tools?")) void data.deleteCollection(active.id).then((ok) => { if (ok) setActiveCollection(null); else setMessage(copy.error); }); }}>{copy.remove}</TextButton>
+                    <TextButton type="button" colors={{ contentColor: "var(--error)" }} className="inline-flex items-center gap-2" onClick={() => setPendingDeleteCollection({ id: active.id, name: active.name })}><MaterialIcon name="delete" size={18} />{copy.remove}</TextButton>
                   </div>
                 </section>
               )}
             </div>
           )}
+      <AlertDialog
+        open={pendingDeleteCollection !== null}
+        title={copy.deleteCollectionTitle}
+        description={pendingDeleteCollection ? copy.deleteCollectionDescription(pendingDeleteCollection.name) : ""}
+        confirmLabel={copy.deleteCollectionConfirm}
+        dismissLabel={fr ? "Annuler" : "Cancel"}
+        destructive
+        icon={<MaterialIcon name="delete" size={24} className="text-[var(--error)]" />}
+        onConfirm={confirmDeleteCollection}
+        onDismiss={() => setPendingDeleteCollection(null)}
+      />
     </main>
   );
 }

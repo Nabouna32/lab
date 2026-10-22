@@ -39,6 +39,18 @@ These are Android dp/sp values. The React implementation expresses geometry in C
 
 The shared Web props preserve native `button` attributes and add `leadingIcon` for source-aligned content insets and `multiline` as an explicit Web layout extension. The optional `colors` prop accepts `containerColor`, `contentColor`, `disabledContainerColor` and `disabledContentColor`, matching AndroidX `ButtonColors`. CSS color values and semantic tokens are supported; hover/focus state layers derive from the selected content color, while disabled colors remain independently configurable. For destructive actions, use an official button component with semantic error roles (`--error` and `--on-error`) rather than a separate component. Use filled error colors for high-emphasis destructive confirmation and error-colored text/outlined buttons for lower-emphasis actions; don’t mark every reversible removal as destructive. The default HTML `type` is `button`; callers must opt into form submission with `type="submit"`.
 
+## Usage guidance for actions
+
+Use a variant to express hierarchy, not to label business meaning: the official Button API has no dedicated destructive variant. Customize `colors` only when the action semantics justify it, using semantic roles such as `--error` / `--on-error` and explicit disabled colors where required.
+
+- Filled `Button`: primary/high-emphasis action within a group, including final destructive confirmation only when that emphasis is warranted.
+- `FilledTonalButton` / `ElevatedButton`: secondary emphasis when their source-defined container/elevation semantics fit; not automatic defaults for every secondary action.
+- `OutlinedButton`: visible boundary for a secondary action.
+- `TextButton`: low-emphasis contextual action; an error-colored icon and label can signal a secondary destructive action without a filled red surface.
+- Navigation must use a real link. Do not use a button merely because its appearance resembles one; share visual foundations while preserving link semantics.
+
+For destructive actions, distinguish reversible detachment from deletion of the underlying resource. Explain irreversible consequences and confirm high-impact actions. See the shared [usage contract](../README.md#usage-contract-for-product-pages-and-agents).
+
 ## Evidence labels
 
 - `ANDROIDX`: directly supported by the pinned AndroidX API/source/token.

@@ -19,6 +19,18 @@ This is not a project to invent components that merely look Material-like. Every
 
 Each component specification must contain exact source links and the commit/release used. Do not rely on a mutable `main` link alone. Check source/API alignment before carrying a contract forward to a new AndroidX version.
 
+## Usage contract for product pages and agents
+
+Before implementing a page or interaction, inspect this catalogue and the relevant component specification. Use the shared port whenever its semantics fit; do not create page-local lookalikes or aliases for official variants.
+
+- **Official port available:** use the official AndroidX-named API and its documented states/parameters.
+- **Port exists but is not verified:** reuse it only with awareness of the documented gaps; do not claim full parity or spread unverified behavior as a new convention.
+- **No suitable port:** check the pinned AndroidX catalogue and real product need first. Prefer a coherent port over a one-off imitation; explicitly label unavoidable Web adaptations or product extensions.
+- **Navigation:** keep navigation as a real link. Styling a link like a Material action is a Web adaptation, not a reason to render a button as an anchor or vice versa.
+- **Action hierarchy:** filled buttons are for the highest-emphasis action in a local group; tonal/elevated variants are context-dependent alternatives; outlined and text buttons suit lower-emphasis actions. Pick based on hierarchy, not visual variety.
+- **Destructive actions:** reserve error colors for actual destructive consequences. Reversible removal/detachment is usually neutral; secondary destructive actions may use an error-colored icon and text/outlined treatment; irreversible actions need clear consequence copy and explicit confirmation. A filled error action belongs at the final, high-emphasis confirmation step when appropriate.
+- **Tests and review:** check new and migrated call sites, not just component exports. Add targeted tests for stable API/semantic contracts; do not create brittle tests that force unrelated pages into one markup shape.
+
 ## Component specification and evidence
 
 Each component gets one file in [`components/`](components/). Minimum sections:

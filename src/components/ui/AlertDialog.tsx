@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useRef, type ReactNode } from "react";
 import styles from "./AlertDialog.module.css";
+import { Button, TextButton } from "./Button";
 
 /**
  * Accessible Web adaptation informed by AndroidX Material 3 AlertDialog.
@@ -111,8 +112,8 @@ export function AlertDialog({
         <h2 id={titleId} className={styles.title}>{title}</h2>
         <p id={descriptionId} className={styles.description}>{description}</p>
         <div className={styles.actions}>
-          <button ref={dismissRef} type="button" className={styles.dismiss} onClick={onDismiss}>{dismissLabel}</button>
-          <button type="button" className={destructive ? styles.destructive : styles.confirm} onClick={onConfirm}>{confirmLabel}</button>
+          <TextButton ref={dismissRef} type="button" onClick={onDismiss}>{dismissLabel}</TextButton>
+          <Button type="button" colors={destructive ? { containerColor: "var(--error)", contentColor: "var(--on-error)" } : undefined} onClick={onConfirm}>{confirmLabel}</Button>
         </div>
       </section>
     </div>
