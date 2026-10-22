@@ -56,12 +56,6 @@ export async function generateMetadata({
       title: `${categoryName} — Loculary`,
       description: t.tools.categoryDescription(categoryName),
       path: getCategoryPath(locale, category.id),
-      alternatePaths: Object.fromEntries(
-        locales.map((availableLocale) => [
-          availableLocale,
-          getCategoryPath(availableLocale, category.id),
-        ]),
-      ),
     }, locale);
   }
 
