@@ -132,6 +132,32 @@ test('preserves annotated API classes and labels Kotlin-inaccessible members', (
   assert.equal(result.inaccessibleFromKotlinCount, 1);
 });
 
+const DUPLICATE_MEMBER_SIGNATURES = `// Signature format: 4.0
+package androidx.compose.material3 {
+  public final class FirstOwner {
+    method public void clear();
+  }
+
+  public final class SecondOwner {
+    method public void clear();
+  }
+}
+`;
+
+test('uses the owning class in inventory identity when member signatures repeat', () => {
+  const result = inventoryApiDump(DUPLICATE_MEMBER_SIGNATURES, {
+    artifact: 'androidx.compose.material3:material3',
+    version: '1.4.0',
+    commit: COMMIT,
+    sourcePath: 'compose/material3/material3/api/current.txt',
+  });
+
+  const members = result.declarations.filter((entry) => entry.kind === 'method');
+  assert.equal(members.length, 2);
+  assert.deepEqual(members.map((entry) => entry.owner), ['FirstOwner', 'SecondOwner']);
+  assert.notEqual(members[0].id, members[1].id);
+});
+
 test('does not infer API maturity from a public signature', () => {
   const result = inventoryApiDump(DUMP, {
     artifact: 'androidx.compose.material3:material3',
