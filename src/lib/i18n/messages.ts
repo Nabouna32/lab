@@ -5,7 +5,13 @@ import type { ToolId } from "@/lib/tools/types";
 export type Messages = {
   nav: { home: string; tools: string; explore: string; exploreDescription: string; favorites: string; favoritesDescription: string; collections: string; collectionsDescription: string; language: string; account: string; space: string; menu: string };
   breadcrumbs: { label: string };
-  footer: { tagline: string; explore: string; account: string };
+  footer: { tagline: string; explore: string; account: string; legalNotice: string };
+  legalNotice: {
+    metaTitle: string; metaDescription: string; title: string; intro: string;
+    hostingTitle: string; hostingDescription: string; hostingName: string; hostingAddress: string; hostingLinkLabel: string;
+    storageTitle: string; storageDescription: string; storageName: string; storageAddress: string; storageLinkLabel: string;
+    responseTitle: string; responseDescription: string; anonymityNote: string;
+  };
   actions: { copy: string; copied: string; clear: string; shareTool: string; shareLinkCopied: string; shareLinkError: string };
   home: { metaTitle: string; badge: string; title: string; description: string; searchPlaceholder: string; quickLinksLabel: string; quickLinks: Array<{ label: string; toolId: ToolId }>; recentToolsTitle: string; recentToolsDescription: string; clearRecentTools: string; explore: string; };
   guidedWorkflows: {
@@ -43,7 +49,26 @@ export const messages: Record<Locale, Messages> = {
   fr: {
     nav: { home: "Accueil", tools: "Outils", explore: "Explorer", exploreDescription: "Parcours tous les outils disponibles", favorites: "Favoris", favoritesDescription: "Tes outils enregistrés", collections: "Collections", collectionsDescription: "Organise tes outils en groupes", language: "Langue", account: "Gère ton profil et tes préférences", space: "Compte", menu: "Menu" },
     breadcrumbs: { label: "Fil d’Ariane" },
-    footer: { tagline: "Des outils utiles, directement dans ton navigateur.", explore: "Tous les outils", account: "Compte" },
+    footer: { tagline: "Des outils utiles, directement dans ton navigateur.", explore: "Tous les outils", account: "Compte", legalNotice: "Mentions légales" },
+    legalNotice: {
+      metaTitle: "Mentions légales | Loculary",
+      metaDescription: "Informations légales sur l’éditeur, l’hébergement et les services de stockage de Loculary.",
+      title: "Mentions légales",
+      intro: "Loculary est édité à titre non professionnel. L’éditeur préserve son anonymat public conformément au régime prévu à l’article 1-1, II, de la loi française pour la confiance dans l’économie numérique (LCEN), après avoir communiqué ses éléments d’identification à son hébergeur.",
+      hostingTitle: "Hébergement",
+      hostingDescription: "Loculary est hébergé et déployé sur l’infrastructure de Vercel.",
+      hostingName: "Vercel Inc.",
+      hostingAddress: "440 N Barranca Avenue #4133, Covina, CA 91723, États-Unis",
+      hostingLinkLabel: "Coordonnées officielles de Vercel",
+      storageTitle: "Base de données et authentification",
+      storageDescription: "Loculary utilise Supabase pour ses services de base de données et d’authentification.",
+      storageName: "Supabase Pte. Ltd.",
+      storageAddress: "65 Chulia Street #38-02/03, OCBC Centre, Singapore 049513",
+      storageLinkLabel: "Conditions d’utilisation de Supabase",
+      responseTitle: "Droit de réponse",
+      responseDescription: "Les demandes d’exercice du droit de réponse peuvent être adressées à l’hébergeur à l’adresse indiquée ci-dessus. Vercel les transmettra à l’éditeur conformément à l’article 1-1, III, de la LCEN.",
+      anonymityNote: "L’identité civile de l’éditeur n’est pas publiée sur cette page au titre du régime d’anonymat applicable aux éditeurs non professionnels. Cette possibilité dépend du respect des conditions légales correspondantes.",
+    },
     actions: { copy: "Copier", copied: "Copié", clear: "Effacer", shareTool: "Partager l’outil", shareLinkCopied: "Lien copié", shareLinkError: "Impossible de partager ou de copier le lien." },
     home: {
       metaTitle: "Loculary — Outils en ligne gratuits",
@@ -187,7 +212,26 @@ export const messages: Record<Locale, Messages> = {
   en: {
     nav: { home: "Home", tools: "Tools", explore: "Explore", exploreDescription: "Browse all available tools", favorites: "Favorites", favoritesDescription: "Your saved tools", collections: "Collections", collectionsDescription: "Organize your tools into groups", language: "Language", account: "Manage your profile and preferences", space: "Account", menu: "Menu" },
     breadcrumbs: { label: "Breadcrumb" },
-    footer: { tagline: "Useful tools, ready to use in your browser.", explore: "All tools", account: "Account" },
+    footer: { tagline: "Useful tools, ready to use in your browser.", explore: "All tools", account: "Account", legalNotice: "Legal notice" },
+    legalNotice: {
+      metaTitle: "Legal notice | Loculary",
+      metaDescription: "Legal information about the publisher, hosting and data storage services used by Loculary.",
+      title: "Legal notice",
+      intro: "Loculary is published on a non-professional basis. The publisher preserves their public anonymity under Article 1-1(II) of the French Act on Confidence in the Digital Economy (LCEN), after providing the required identification details to the hosting provider.",
+      hostingTitle: "Hosting",
+      hostingDescription: "Loculary is hosted and deployed on Vercel infrastructure.",
+      hostingName: "Vercel Inc.",
+      hostingAddress: "440 N Barranca Avenue #4133, Covina, CA 91723, United States",
+      hostingLinkLabel: "Vercel official contact details",
+      storageTitle: "Database and authentication",
+      storageDescription: "Loculary uses Supabase for its database and authentication services.",
+      storageName: "Supabase Pte. Ltd.",
+      storageAddress: "65 Chulia Street #38-02/03, OCBC Centre, Singapore 049513",
+      storageLinkLabel: "Supabase Terms of Service",
+      responseTitle: "Right of reply",
+      responseDescription: "Requests to exercise the right of reply may be sent to the hosting provider at the address above. Vercel will forward them to the publisher in accordance with Article 1-1(III) of the LCEN.",
+      anonymityNote: "The publisher’s civil identity is not published on this page under the anonymity regime available to non-professional publishers. This option depends on meeting the applicable legal conditions.",
+    },
     actions: { copy: "Copy", copied: "Copied", clear: "Clear", shareTool: "Share tool", shareLinkCopied: "Link copied", shareLinkError: "Could not share or copy the link." },
     home: {
       metaTitle: "Loculary — Free online tools",
