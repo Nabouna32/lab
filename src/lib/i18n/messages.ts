@@ -9,7 +9,7 @@ export type Messages = {
   legalNotice: {
     metaTitle: string; metaDescription: string; title: string; intro: string;
     hostingTitle: string; hostingDescription: string; hostingName: string; hostingAddress: string; hostingLinkLabel: string;
-    storageTitle: string; storageDescription: string; storageName: string; storageAddress: string;
+    storageTitle: string; storageDescription: string; storageName: string; storageAddress: string; storageLinkLabel: string;
     responseTitle: string; responseDescription: string; anonymityNote: string;
   };
   actions: { copy: string; copied: string; clear: string; shareTool: string; shareLinkCopied: string; shareLinkError: string };
@@ -64,6 +64,7 @@ export const messages: Record<Locale, Messages> = {
       storageDescription: "Loculary utilise Supabase pour ses services de base de données et d’authentification.",
       storageName: "Supabase Pte. Ltd.",
       storageAddress: "65 Chulia Street #38-02/03, OCBC Centre, Singapore 049513",
+      storageLinkLabel: "Conditions d’utilisation de Supabase",
       responseTitle: "Droit de réponse",
       responseDescription: "Les demandes d’exercice du droit de réponse peuvent être adressées à l’hébergeur à l’adresse indiquée ci-dessus. Vercel les transmettra à l’éditeur conformément à l’article 1-1, III, de la LCEN.",
       anonymityNote: "L’identité civile de l’éditeur n’est pas publiée sur cette page au titre du régime d’anonymat applicable aux éditeurs non professionnels. Cette possibilité dépend du respect des conditions légales correspondantes.",
@@ -226,6 +227,7 @@ export const messages: Record<Locale, Messages> = {
       storageDescription: "Loculary uses Supabase for its database and authentication services.",
       storageName: "Supabase Pte. Ltd.",
       storageAddress: "65 Chulia Street #38-02/03, OCBC Centre, Singapore 049513",
+      storageLinkLabel: "Supabase Terms of Service",
       responseTitle: "Right of reply",
       responseDescription: "Requests to exercise the right of reply may be sent to the hosting provider at the address above. Vercel will forward them to the publisher in accordance with Article 1-1(III) of the LCEN.",
       anonymityNote: "The publisher’s civil identity is not published on this page under the anonymity regime available to non-professional publishers. This option depends on meeting the applicable legal conditions.",
