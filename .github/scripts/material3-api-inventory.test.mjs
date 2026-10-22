@@ -120,12 +120,12 @@ test('rejects empty input and input without public declarations', () => {
     sourcePath: 'api/current.txt',
   };
   assert.throws(() => inventoryApiDump('', options), /non-empty/);
-  assert.throws(() => inventoryApiDump('package sample {\n}', options), /No public declarations/);
-  assert.throws(() => inventoryApiDump('package sample {\n  public final fun Example(): kotlin.Unit', options), /Unclosed package block/);
+  assert.throws(() => inventoryApiDump('// Signature format: 2.0\npackage sample {\n}', options), /No public declarations/);
+  assert.throws(() => inventoryApiDump('// Signature format: 2.0\npackage sample {\n  public final fun Example(): kotlin.Unit', options), /Unclosed package block/);
 });
 
 test('rejects declarations outside package blocks rather than losing provenance', () => {
-  assert.throws(() => inventoryApiDump('// Signature format: 2.0\\npublic final fun Orphan(): kotlin.Unit', {
+  assert.throws(() => inventoryApiDump('// Signature format: 2.0\npublic final fun Orphan(): kotlin.Unit', {
     artifact: 'example:artifact',
     version: '1.0.0',
     commit: COMMIT,
