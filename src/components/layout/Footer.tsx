@@ -2,7 +2,7 @@ import Link from "next/link";
 import LocularyLogo from "@/components/brand/LocularyLogo";
 import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
-import { getToolsPath } from "@/lib/tools/routes";
+import { getLegalNoticePath, getToolsPath } from "@/lib/tools/routes";
 
 const footerLink =
   "inline-flex min-h-12 items-center rounded-full px-3 text-sm font-semibold text-[var(--muted)] outline-none transition-colors hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]";
@@ -34,6 +34,9 @@ export default function Footer({ locale }: { locale: Locale }) {
           </Link>
           <Link href={"/" + locale + "/compte"} className={footerLink}>
             {t.nav.account}
+          </Link>
+          <Link href={getLegalNoticePath(locale)} className={footerLink}>
+            {t.footer.legalNotice}
           </Link>
           <span className="ml-1 pl-2 text-xs text-[var(--muted)] sm:border-l sm:border-[var(--border)] sm:pl-3">
             © {new Date().getFullYear()}
