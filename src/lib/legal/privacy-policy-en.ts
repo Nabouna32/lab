@@ -6,8 +6,8 @@ const en: PrivacyPolicyContent = {
   title: "Privacy policy",
   updatedLabel: "Last updated",
   updatedAt: "22 October 2026",
-  temporaryNoticeTitle: "Provisional version — contact details to be finalised",
-  temporaryNotice: "This first version is published before the permanent contact address has been created. The address below is a non-operational placeholder. Retention periods for some logs and contractual details about providers still need confirmation. This policy will be reviewed after the domain and contact address are set up.",
+  temporaryNoticeTitle: "Compliance items still to be verified",
+  temporaryNotice: "Contact details have been provided. Retention periods for some logs, provider retention settings and the contractual safeguards applicable to transfers still need to be verified and documented.",
   intro: "Loculary aims to minimise data collection and favour processing in your browser. This policy describes processing identified in the code and configuration reviewed. Practices may change; check each tool’s processing information before submitting data to it.",
   sections: [
     { title: "1. Data controller", paragraphs: [
@@ -71,8 +71,8 @@ const en: PrivacyPolicyContent = {
   ],
   contactTitle: "Contact about personal data",
   contactIntro: "The intended channel for questions and requests about personal data is:",
-  contactAddress: "privacy@tondomaine",
-  contactWarning: "This address is provisional and is not operational. Do not send a request before the domain is purchased and the address created. This limitation should be resolved as soon as possible."
+  contactAddress: "nabouna47@gmx.fr",
+  contactWarning: "You can use this address for any question or request relating to your personal data."
 };
 
 export default en;
