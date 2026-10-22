@@ -39,7 +39,12 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
       continue;
     }
 
-    if (currentPackage === null) continue;
+    if (currentPackage === null) {
+      if (/^public\\s+/.test(raw)) {
+        throw new Error('Public declaration outside a package block at line ' + (index + 1) + '.');
+      }
+      continue;
+    }
 
     if (/^public\s+/.test(raw)) {
       const kindMatch = raw.match(/^public\s+(?:(?:abstract|final|open|sealed|static|data|value|enum|annotation|inline|infix|operator|suspend|external|expect|actual)\s+)*(class|interface|object|enum class|annotation class|fun|val|var|typealias|constructor|field|property)\b/);
