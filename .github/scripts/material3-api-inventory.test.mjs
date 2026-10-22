@@ -235,3 +235,34 @@ test('supports AndroidX API signature format 5.0 and public-surface metadata', (
   assert.match(result.declarations[2].signature, /optional androidx\.compose\.ui\.Modifier modifier/);
   assert.equal(result.declarations[3].kind, 'property');
 });
+
+
+const FLATTENED_NESTED_CLASS_SIGNATURES = `// Signature format: 5.0
+// - surface=public
+package androidx.compose.material3 {
+  public abstract class TextFieldLabelPosition {
+  }
+  public static final class TextFieldLabelPosition.Cutout extends androidx.compose.material3.TextFieldLabelPosition {
+    method @InaccessibleFromKotlin public androidx.compose.ui.Alignment.Horizontal getExpandedAlignment();
+  }
+  public static final class TextFieldLabelPosition.Inside extends androidx.compose.material3.TextFieldLabelPosition {
+    method @InaccessibleFromKotlin public androidx.compose.ui.Alignment.Horizontal getExpandedAlignment();
+  }
+}
+`;
+
+test('keeps flattened nested-class owners distinct in AndroidX API dumps', () => {
+  const result = inventoryApiDump(FLATTENED_NESTED_CLASS_SIGNATURES, {
+    artifact: 'androidx.compose.material3:material3',
+    version: 'androidx-main snapshot',
+    commit: COMMIT,
+    sourcePath: 'compose/material3/material3/api/current.txt',
+  });
+
+  const members = result.declarations.filter((entry) => entry.kind === 'method');
+  assert.deepEqual(members.map((entry) => entry.owner), [
+    'TextFieldLabelPosition.Cutout',
+    'TextFieldLabelPosition.Inside',
+  ]);
+  assert.notEqual(members[0].id, members[1].id);
+});
