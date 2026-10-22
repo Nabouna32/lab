@@ -62,14 +62,14 @@ La présence dans le catalogue ne signifie pas qu'une API a été étudiée ou p
 
 ## Baselines stables vérifiées au 22 octobre 2026
 
-Les versions de référence doivent être choisies par artefact/groupe, pas supposées identiques pour toute la stack Compose. Les pages officielles indiquent actuellement :
+Les versions de référence doivent être choisies par artefact/groupe, pas supposées identiques pour toute la stack Compose. Le champ artifactCoordinateStatus distingue les coordonnées confirmées dans la documentation de publication officielle des coordonnées encore candidates ; un nom plausible ou un dossier AndroidX ne suffit pas à prouver qu'un artefact est publié sous cette coordonnée. Les pages officielles indiquent actuellement :
 
 - Compose UI, Foundation, Animation, Runtime et Material 2 : **1.12.1** ([versions Compose](https://developer.android.com/jetpack/androidx/versions)).
 - Compose Material 3 : **1.4.0** ([notes de version Material 3](https://developer.android.com/jetpack/androidx/releases/compose-material3)).
 - Compose Material 3 Adaptive : **1.3.0** ([versions AndroidX](https://developer.android.com/jetpack/androidx/versions)).
 - Navigation (dont Navigation Compose et Navigation Fragment) : **2.10.2** ([notes de version Navigation](https://developer.android.com/jetpack/androidx/releases/navigation)).
 
-Ces valeurs sont inscrites dans le registre uniquement pour les familles ci-dessus. Les autres familles gardent une version non sélectionnée tant que leur artefact exact et leur canal de publication ne sont pas vérifiés. Le registre utilise désormais le groupe Maven `androidx.compose.material3.adaptive:adaptive` pour l'artefact Adaptive, plutôt qu'une coordonnée provisoire erronée.
+Ces valeurs sont inscrites dans le registre uniquement pour les familles ci-dessus, dont les coordonnées de publication ont été vérifiées. Les 13 autres familles restent explicitement candidates avec artifactCoordinateStatus: candidate-unverified et une version non sélectionnée tant que leur artefact exact et leur canal de publication ne sont pas vérifiés. Le registre utilise désormais le groupe Maven `androidx.compose.material3.adaptive:adaptive` pour l'artefact Adaptive, plutôt qu'une coordonnée provisoire erronée.
 
 Une BOM Compose peut aligner des versions compatibles, mais n'ajoute pas toutes les bibliothèques au projet et ne remplace pas l'identification des artefacts à inventorier. Chaque baseline doit garder la provenance officielle, la version et le snapshot source/API correspondant.
 
