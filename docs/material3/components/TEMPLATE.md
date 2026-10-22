@@ -15,14 +15,17 @@
 
 ## Pinned evidence
 
-- AndroidX repository and immutable commit:
+- Maven artifact and exact version:
+- Published source archive URL and SHA-256:
+- Immutable AndroidX repository commit and URL, if identified:
 - Exact Kotlin source paths:
-- Exact API dump path and SHA-256:
+- Exact API dump path and SHA-256, if used:
 - Official API reference:
 - Official usage/design guidance:
-- Evidence that version, source commit, and API dump align:
+- Evidence linking the published artifact, source archive, repository commit, and API dump:
+- Explicit provenance gaps:
 
-Do not mark sources verified until the source revision and published API surface are aligned.
+A checksum-verified official release source archive can anchor the semantic contract when the producing Git commit is unknown. In that case, mark repository/API-dump alignment `UNVERIFIED`; do not imply the commit or API dump matches the published artifact until proven.
 
 ## Public contract
 
