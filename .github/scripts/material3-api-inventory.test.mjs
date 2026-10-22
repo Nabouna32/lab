@@ -13,6 +13,11 @@ package androidx.compose.material3.tokens {
     public final fun getContainerColor(): androidx.compose.ui.graphics.Color
   }
 }
+package androidx.compose.material3.testing {
+  public final enum class Example {
+  }
+  public abstract annotation class Marker
+}
 `;
 
 test('inventories public declarations across package blocks deterministically', () => {
@@ -26,12 +31,16 @@ test('inventories public declarations across package blocks deterministically', 
   const second = inventoryApiDump(DUMP, options);
 
   assert.deepEqual(first, second);
-  assert.equal(first.declarationCount, 4);
+  assert.equal(first.declarationCount, 6);
   assert.equal(first.declarations[0].package, 'androidx.compose.material3');
   assert.equal(first.declarations[0].kind, 'fun');
+  assert.equal(first.declarations[0].symbol, 'Button');
   assert.match(first.declarations[0].signature, /^public final fun Button/);
   assert.equal(first.declarations[2].package, 'androidx.compose.material3.tokens');
   assert.equal(first.declarations[3].kind, 'fun');
+  assert.equal(first.declarations[4].kind, 'enum class');
+  assert.equal(first.declarations[4].symbol, 'Example');
+  assert.equal(first.declarations[5].kind, 'annotation class');
   assert.equal(first.semanticCompleteness, 'not-established-by-api-dump-alone');
   assert.match(first.source.sha256, /^[a-f0-9]{64}$/);
 });
