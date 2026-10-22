@@ -69,6 +69,10 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
     }
   }
 
+  if (currentPackage !== null) {
+    throw new Error('Unclosed package block for ' + currentPackage + '.');
+  }
+
   if (declarations.length === 0) {
     throw new Error('No public declarations found; input may not be an AndroidX API dump.');
   }
