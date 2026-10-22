@@ -89,6 +89,7 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
         symbol,
         signature: raw,
         line: index + 1,
+        classification: raw.includes('@BytecodeOnly') ? 'bytecode-only' : 'source-api-candidate',
         apiStatus: 'unknown',
       });
     }
@@ -110,6 +111,7 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
   }
 
   const dumpSha256 = createHash('sha256').update(contents, 'utf8').digest('hex');
+  const bytecodeOnlyCount = declarations.filter((entry) => entry.classification === 'bytecode-only').length;
   return {
     schemaVersion: 1,
     artifact,
@@ -118,6 +120,8 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
     inventoryKind: 'public-signature-surface',
     semanticCompleteness: 'not-established-by-api-dump-alone',
     declarationCount: declarations.length,
+    sourceApiCandidateCount: declarations.length - bytecodeOnlyCount,
+    bytecodeOnlyCount,
     declarations,
   };
 }
