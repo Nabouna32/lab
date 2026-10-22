@@ -81,3 +81,34 @@ test("SEO exposes a sitemap and robots route using the configured site URL", asy
   assert.match(robotsSource, /sitemap:/);
   assert.match(robotsSource, /getSiteUrl/);
 });
+
+test("private, personalized, and internal pages explicitly opt out of indexing", async () => {
+  const nonIndexableFiles = [
+    "../../app/[locale]/compte/layout.tsx",
+    "../../app/[locale]/admin/layout.tsx",
+    "../../app/[locale]/design-lab/layout.tsx",
+    "../../app/[locale]/collections/page.tsx",
+    "../../app/[locale]/favoris/page.tsx",
+    "../../app/[locale]/collection-partagee/[token]/page.tsx",
+  ];
+
+  for (const relativePath of nonIndexableFiles) {
+    const source = await readFile(
+      fileURLToPath(new URL(relativePath, import.meta.url)),
+      "utf8",
+    );
+    assert.match(source, /robots:\s*\{\s*index:\s*false/);
+  }
+
+  const searchSource = await readFile(
+    fileURLToPath(new URL("../../components/tools/SearchResultsPage.tsx", import.meta.url)),
+    "utf8",
+  );
+  assert.match(searchSource, /robots:\s*\{\s*index:\s*false,\s*follow:\s*true\s*\}/);
+
+  const toolsRouteSource = await readFile(
+    fileURLToPath(new URL("../../app/[locale]/[section]/page.tsx", import.meta.url)),
+    "utf8",
+  );
+  assert.match(toolsRouteSource, /query\.intent\s*\?\s*\{\s*\.\.\.metadata,\s*robots:/);
+});
