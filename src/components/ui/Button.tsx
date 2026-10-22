@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes, CSSProperties } from "react";
+import type { ButtonHTMLAttributes, CSSProperties, Ref } from "react";
 import { ButtonRipple } from "@/components/ui/ButtonRipple";
 
 export type ButtonColors = {
@@ -15,6 +15,8 @@ export type ButtonColors = {
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   /** AndroidX-inspired color customization. Values may be CSS colors or semantic theme tokens. */
   colors?: ButtonColors;
+  /** React ref to the native button element. */
+  ref?: Ref<HTMLButtonElement>;
   /** Apply the AndroidX leading-icon content inset; the caller renders the icon. */
   leadingIcon?: boolean;
   /** Opt into wrapping a long label or honoring explicit line breaks. Constrain the width when wrapping is desired. */
@@ -72,6 +74,7 @@ const styles: Record<ButtonStyle, string> = {
 function MaterialButton({
   variant,
   colors,
+  ref,
   style,
   leadingIcon = false,
   multiline = false,
@@ -95,6 +98,7 @@ function MaterialButton({
 
   return (
     <button
+      ref={ref}
       type={type}
       style={mergedStyle}
       className={[

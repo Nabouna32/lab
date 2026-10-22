@@ -9,7 +9,7 @@ const variants: Record<Variant, string> = {
   secondary:
     "border border-[var(--outline)] bg-[var(--surface)] text-[var(--foreground)] hover:bg-[color-mix(in_srgb,var(--surface)_92%,var(--foreground))] active:bg-[color-mix(in_srgb,var(--surface)_88%,var(--foreground))] active:scale-[.98]",
   danger:
-    "border border-[var(--error)] bg-transparent text-[var(--error)] hover:bg-[var(--error-container)] hover:text-[var(--on-error-container)] active:scale-[.98]",
+    "border border-transparent bg-transparent text-[var(--error)] hover:bg-[color-mix(in_srgb,var(--error)_8%,transparent)] active:scale-[.98]",
 };
 
 type AccountActionLinkProps = LinkProps &
@@ -28,7 +28,8 @@ export function AccountActionLink({
     <Link
       {...props}
       className={[
-        "inline-flex min-h-12 items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold tracking-[.01em]",
+        "inline-flex min-h-12 items-center justify-center rounded-full py-2.5 text-sm font-semibold tracking-[.01em]",
+        variant === "danger" ? "px-3" : "px-5",
         "transition-[background-color,border-color,color,box-shadow,transform] duration-[var(--motion-standard)]",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]",
         variants[variant],

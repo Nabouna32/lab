@@ -132,7 +132,7 @@ test("indeterminate linear progress follows pinned AndroidX segment timing and r
 });
 
 test("functional icons use bundled Material Symbols paths and inherit currentColor", () => {
-  for (const name of ["content_copy", "restart_alt", "arrow_outward", "lock", "public", "cloud", "warning", "star_fill", "collections_bookmark", "keyboard_arrow_down", "swap_horiz", "apps", "language"]) {
+  for (const name of ["content_copy", "delete", "restart_alt", "arrow_outward", "lock", "public", "cloud", "warning", "star_fill", "collections_bookmark", "keyboard_arrow_down", "swap_horiz", "apps", "language"]) {
     assert.ok(iconSource.includes(name), `missing Material Symbol: ${name}`);
   }
   assert.match(iconSource, /fill="currentColor"/);
@@ -682,4 +682,26 @@ test("header theme controls defer client-dependent selected state until after hy
   assert.doesNotMatch(headerMenuSource, /setThemeReady/);
   assert.match(headerMenuSource, /aria-pressed=\{selected\}/);
   assert.match(headerMenuSource, /const selected = themeReady && theme === option\.value/);
+});
+
+
+test("destructive account and collection actions preserve link/button semantics and use shared Material 3 controls", () => {
+  const accountPage = readFileSync(new URL("../../app/[locale]/compte/page.tsx", import.meta.url), "utf8");
+  const deleteAccountPage = readFileSync(new URL("../../app/[locale]/compte/suppression/page.tsx", import.meta.url), "utf8");
+  const accountActionLink = readFileSync(new URL("../../components/account/AccountActionLink.tsx", import.meta.url), "utf8");
+  const collectionsView = readFileSync(new URL("../../components/collections/CollectionsView.tsx", import.meta.url), "utf8");
+  assert.match(accountPage, /<AccountActionLink[\s\S]*?variant="danger"[\s\S]*?<MaterialIcon name="delete"/);
+  assert.match(accountActionLink, /text-\[var\(--error\)\] hover:bg-\[color-mix\(in_srgb,var\(--error\)_8%,transparent\)\]/);
+  assert.match(deleteAccountPage, /<MaterialIcon name="delete"/);
+  assert.match(collectionsView, /<AlertDialog[\s\S]*?destructive[\s\S]*?onConfirm=\{confirmDeleteCollection\}/);
+  assert.match(collectionsView, /<TextButton type="button" colors=\{\{ contentColor: "var\(--error\)" \}\}[\s\S]*?<MaterialIcon name="delete"/);
+  assert.doesNotMatch(collectionsView, /window\.confirm/);
+  assert.match(iconSource, /delete: "M280-120/);
+});
+
+test("AlertDialog actions use shared Material 3 buttons instead of a parallel button implementation", () => {
+  assert.match(alertDialogSource, /import \{ Button, TextButton \} from "\.\/Button"/);
+  assert.match(alertDialogSource, /<TextButton ref=\{dismissRef\} type="button"/);
+  assert.match(alertDialogSource, /<Button type="button" colors=\{destructive \?/);
+  assert.doesNotMatch(alertDialogCss, /\.dismiss, \.confirm, \.destructive/);
 });

@@ -180,8 +180,9 @@ test("collection and favorites actions use AndroidX-named Button components", ()
   assert.ok(!collectionsView.includes('<button type="submit"'));
   assert.ok(!collectionsView.includes('<button type="button" onClick={() => void data.removeTool'));
   assert.ok(!collectionsView.includes('<button type="button" onClick={() => void data.toggleSharing'));
-  assert.ok(collectionsView.includes('className="!text-[var(--error)]"'));
-  assert.ok(collectionsView.includes('className="!text-[var(--muted)]"'));
+  assert.ok(collectionsView.includes('colors={{ contentColor: "var(--error)" }}'));
+  assert.ok(collectionsView.includes('colors={{ contentColor: "var(--on-surface-variant)" }}'));
+  assert.ok(collectionsView.includes('<MaterialIcon name="delete" size={18} />'));
   assert.ok(favoritesView.includes('import { TextButton } from "@/components/ui/Button"'));
   assert.ok(favoritesView.includes('<TextButton type="button" disabled={favorites.loading || favorites.error}'));
   assert.ok(!favoritesView.includes('variant="text"'));

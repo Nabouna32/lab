@@ -169,6 +169,7 @@ export default async function AccountPage({
               href={`/${locale}/compte/suppression`}
               variant="danger"
             >
+              <MaterialIcon name="delete" size={18} className="mr-2 shrink-0" />
               {t.account.deleteAccount}
             </AccountActionLink>
           </section>
