@@ -25,8 +25,8 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
   const normalizedContents = contents.replace(/\r\n/g, '\n');
   const formatMatch = normalizedContents.match(/^(?:\uFEFF)?\/\/ Signature format: (\d+\.\d+)(?:\n|$)/);
   const formatVersion = formatMatch?.[1];
-  if (!formatVersion || !['2.0', '3.0', '4.0'].includes(formatVersion)) {
-    throw new Error('Unsupported or missing AndroidX API signature format; expected 2.0, 3.0, or 4.0.');
+  if (!formatVersion || !['2.0', '3.0', '4.0', '5.0'].includes(formatVersion)) {
+    throw new Error('Unsupported or missing AndroidX API signature format; expected 2.0, 3.0, 4.0, or 5.0.');
   }
 
   const lines = normalizedContents.split('\n');
