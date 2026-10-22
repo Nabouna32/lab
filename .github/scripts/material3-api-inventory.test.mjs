@@ -135,11 +135,10 @@ test('preserves annotated API classes and labels Kotlin-inaccessible members', (
 const DUPLICATE_MEMBER_SIGNATURES = `// Signature format: 4.0
 package androidx.compose.material3 {
   public final class FirstOwner {
-    method public void clear();
+  method public void clear();
   }
-
   public final class SecondOwner {
-    method public void clear();
+  method public void clear();
   }
 }
 `;
