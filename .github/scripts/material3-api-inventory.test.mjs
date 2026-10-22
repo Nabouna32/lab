@@ -266,3 +266,27 @@ test('keeps flattened nested-class owners distinct in AndroidX API dumps', () =>
   ]);
   assert.notEqual(members[0].id, members[1].id);
 });
+
+
+const NESTED_CLASS_SCOPE_SIGNATURES = `// Signature format: 5.0
+// - surface=public
+package androidx.compose.material3 {
+  public final class Outer {
+    public static final class Outer.Inner {
+      method public void clear();
+    }
+  }
+}
+`;
+
+test('does not duplicate qualified owner prefixes in nested brace scopes', () => {
+  const result = inventoryApiDump(NESTED_CLASS_SCOPE_SIGNATURES, {
+    artifact: 'androidx.compose.material3:material3',
+    version: 'androidx-main snapshot',
+    commit: COMMIT,
+    sourcePath: 'compose/material3/material3/api/current.txt',
+  });
+
+  const member = result.declarations.find((entry) => entry.kind === 'method');
+  assert.equal(member.owner, 'Outer.Inner');
+});
