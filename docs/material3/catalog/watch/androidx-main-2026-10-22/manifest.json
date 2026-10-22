@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "artifact": "androidx.compose.material3:material3",
+  "version": "androidx-main@5901d750e269aa3d88f6fccd5186637df83a0173",
+  "inventoryKind": "public-signature-surface",
+  "catalogScope": "forward-looking-watch-only",
+  "stableBaselineAlignment": "UNVERIFIED",
+  "semanticCompleteness": "not-established-by-api-dump-alone",
+  "source": {
+    "repository": "androidx/androidx",
+    "commit": "5901d750e269aa3d88f6fccd5186637df83a0173",
+    "path": "compose/material3/material3/api/current.txt",
+    "url": "https://github.com/androidx/androidx/blob/5901d750e269aa3d88f6fccd5186637df83a0173/compose/material3/material3/api/current.txt",
+    "sha256": "37bdc94e8e84f5a999922143f531c8a83fd488d1cb1f7929ebb51cb469832bd5",
+    "formatVersion": "5.0",
+    "surface": "public"
+  },
+  "generatedBy": ".github/scripts/material3-api-inventory.mjs + .github/scripts/material3-api-inventory-shard.mjs",
+  "declarationCount": 4709,
+  "sourceApiCandidateCount": 2523,
+  "bytecodeOnlyCount": 1792,
+  "inaccessibleFromKotlinCount": 394,
+  "packageCounts": {
+    "androidx.compose.material3": 4582,
+    "androidx.compose.material3.carousel": 79,
+    "androidx.compose.material3.pulltorefresh": 48
+  },
+  "shardSize": 500,
+  "shards": [
+    {
+      "path": "declarations-001.json",
+      "declarationCount": 500,
+      "sha256": "9a2218c18ce522e4900ec4d503fc57300147b7939664459bc74e4172efec2af7",
+      "firstSourceLine": 5,
+      "lastSourceLine": 574
+    },
+    {
+      "path": "declarations-002.json",
+      "declarationCount": 500,
+      "sha256": "0eef1aefc74b4982b578c8314fd40a6bb2322f67df4f727431ca5a52e8521610",
+      "firstSourceLine": 575,
+      "lastSourceLine": 1132
+    },
+    {
+      "path": "declarations-003.json",
+      "declarationCount": 500,
+      "sha256": "02d1ce0212b96e83e6d199c31f566312d96bf10eee4c9060d03ca4e2484a7af9",
+      "firstSourceLine": 1133,
+      "lastSourceLine": 1719
+    },
+    {
+      "path": "declarations-004.json",
+      "declarationCount": 500,
+      "sha256": "d544b05c4c0b9c51e54ab0dcdc233f0ec6b8b369189672c8d386b667c255411f",
+      "firstSourceLine": 1720,
+      "lastSourceLine": 2258
+    },
+    {
+      "path": "declarations-005.json",
+      "declarationCount": 500,
+      "sha256": "831fa1817700f72406edeb23c980e8733064db1dbc196733858f44af6917b502",
+      "firstSourceLine": 2261,
+      "lastSourceLine": 2834
+    },
+    {
+      "path": "declarations-006.json",
+      "declarationCount": 500,
+      "sha256": "d8466a79fb47f83956443fa3183e889bc791fbfdd855e688b2b20ef5e74dd098",
+      "firstSourceLine": 2835,
+      "lastSourceLine": 3423
+    },
+    {
+      "path": "declarations-007.json",
+      "declarationCount": 500,
+      "sha256": "d3ae04c97bf4bca172dd04feadaf74f77e82f275ea5de1fa7274d1913d698dbd",
+      "firstSourceLine": 3424,
+      "lastSourceLine": 3998
+    },
+    {
+      "path": "declarations-008.json",
+      "declarationCount": 500,
+      "sha256": "0971277744d5928403a307bc2f36f2797b19e9017cb73d3da9a5c216e2fc054c",
+      "firstSourceLine": 3999,
+      "lastSourceLine": 4559
+    },
+    {
+      "path": "declarations-009.json",
+      "declarationCount": 500,
+      "sha256": "020b46cb0d4ee2be38fc0b908a8b8c939cd18e64376a41623c21779b61b73b6d",
+      "firstSourceLine": 4560,
+      "lastSourceLine": 5120
+    },
+    {
+      "path": "declarations-010.json",
+      "declarationCount": 209,
+      "sha256": "dac6849ad4f93ab8fad150c2e9cf839005807cf4f0e19fcda6ed93e624e31eef",
+      "firstSourceLine": 5121,
+      "lastSourceLine": 5381
+    }
+  ]
+}
