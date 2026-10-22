@@ -28,7 +28,8 @@ export function AccountActionLink({
     <Link
       {...props}
       className={[
-        "inline-flex min-h-12 items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold tracking-[.01em]",
+        "inline-flex min-h-12 items-center justify-center rounded-full py-2.5 text-sm font-semibold tracking-[.01em]",
+        variant === "danger" ? "px-3" : "px-5",
         "transition-[background-color,border-color,color,box-shadow,transform] duration-[var(--motion-standard)]",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]",
         variants[variant],
