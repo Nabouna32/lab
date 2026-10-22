@@ -93,6 +93,20 @@ test('inventories AndroidX API signature format 4.0 members and records the form
   assert.equal(result.declarations[7].symbol, 'ONE');
 });
 
+
+test('supports AndroidX API signature format 3.0 member records', () => {
+  const result = inventoryApiDump(V4_DUMP.replace('Signature format: 4.0', 'Signature format: 3.0'), {
+    artifact: 'androidx.compose.material3:material3',
+    version: '1.4.0',
+    commit: COMMIT,
+    sourcePath: 'compose/material3/material3/api/current.txt',
+  });
+
+  assert.equal(result.source.formatVersion, '3.0');
+  assert.equal(result.declarationCount, 8);
+  assert.equal(result.bytecodeOnlyCount, 1);
+});
+
 test('does not infer API maturity from a public signature', () => {
   const result = inventoryApiDump(DUMP, {
     artifact: 'androidx.compose.material3:material3',
