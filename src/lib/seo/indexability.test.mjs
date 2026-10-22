@@ -22,11 +22,13 @@ test("indexability is enforced by the catalog and reflected in page metadata", a
   assert.match(inventory, /\.filter\(\(locale\) => tool\.seo\[locale\]\.indexable\)/);
 });
 
-test("category descriptions and indexability come from the same editorial policy", async () => {
+test("category descriptions gate automatic eligibility while published tools gate sitemap inclusion", async () => {
+  const policy = await read("seo/category-policy.ts");
   const route = await read("../app/[locale]/[section]/[slug]/page.tsx");
   const inventory = await read("seo/public-pages.ts");
 
+  assert.match(policy, /Boolean\(categorySeoPolicy\[categoryId\]\) && !excludedCategorySeoReasons\[categoryId\]/);
   assert.match(route, /getCategorySeoDescription\(locale, category\.id\)/);
   assert.match(route, /isCategorySeoIndexable\(category\.id\)/);
-  assert.match(inventory, /isCategorySeoIndexable\(category\.id\)/);
+  assert.match(inventory, /isCategorySeoIndexable\(category\.id\) && getToolsByCategory\(category\.id\)\.length > 0/);
 });
