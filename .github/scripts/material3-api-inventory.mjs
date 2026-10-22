@@ -32,7 +32,7 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
     const packageMatch = raw.match(/^package\s+([A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*)\s*\{$/);
     if (packageMatch) {
       if (currentPackage !== null) {
-        throw new Error(\`Nested package block at line \${index + 1}.\`);
+        throw new Error('Nested package block at line ' + (index + 1) + '.');
       }
       currentPackage = packageMatch[1];
       braceDepth = 1;
@@ -45,7 +45,7 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
       const kindMatch = raw.match(/^public\s+(?:(?:abstract|final|open|sealed|static|data|value|enum|annotation|inline|infix|operator|suspend|external|expect|actual)\s+)*(class|interface|object|enum class|annotation class|fun|val|var|typealias|constructor|field|property)\b/);
       const signatureHash = createHash('sha256').update(raw, 'utf8').digest('hex');
       declarations.push({
-        id: \`\${currentPackage}:\${signatureHash}\`,
+        id: currentPackage + ':' + signatureHash,
         package: currentPackage,
         kind: kindMatch?.[1] ?? 'unknown',
         signature: raw,
