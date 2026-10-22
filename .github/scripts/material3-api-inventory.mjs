@@ -108,7 +108,8 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
       if (
         symbol &&
         ['value class', 'enum class', 'annotation class', 'class', 'interface', 'object'].includes(kind) &&
-        raw.includes('{')
+        raw.includes('{') &&
+        nextBraceDepth > braceDepth
       ) {
         classScopes.push({ symbol, depth: nextBraceDepth });
       }
