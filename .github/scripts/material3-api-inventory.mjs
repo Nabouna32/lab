@@ -47,12 +47,14 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
     }
 
     if (/^public\s+/.test(raw)) {
-      const kindMatch = raw.match(/^public\s+(?:(?:abstract|final|open|sealed|static|data|value|enum|annotation|inline|infix|operator|suspend|external|expect|actual)\s+)*(class|interface|object|enum class|annotation class|fun|val|var|typealias|constructor|field|property)\b/);
+      const kindMatch = raw.match(/^public\s+(?:(?:abstract|final|open|sealed|static|data|value|inline|infix|operator|suspend|external|expect|actual)\s+)*(enum class|annotation class|class|interface|object|fun|val|var|typealias|constructor|field|property)\b/);
+      const symbolMatch = raw.match(/^public\s+(?:(?:abstract|final|open|sealed|static|data|value|inline|infix|operator|suspend|external|expect|actual)\s+)*(?:enum class|annotation class|class|interface|object|fun|val|var|typealias|constructor|field|property)\s+([A-Za-z_$][\w$]*)\b/);
       const signatureHash = createHash('sha256').update(raw, 'utf8').digest('hex');
       declarations.push({
         id: currentPackage + ':' + signatureHash,
         package: currentPackage,
         kind: kindMatch?.[1] ?? 'unknown',
+        symbol: symbolMatch?.[1] ?? null,
         signature: raw,
         line: index + 1,
         apiStatus: 'unknown',
