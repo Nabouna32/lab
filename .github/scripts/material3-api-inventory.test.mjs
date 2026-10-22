@@ -232,6 +232,6 @@ test('supports AndroidX API signature format 5.0 and public-surface metadata', (
   assert.equal(result.declarations[1].owner, 'ButtonDefaults');
   assert.equal(result.declarations[1].classification, 'bytecode-only');
   assert.equal(result.declarations[2].symbol, 'Button');
-  assert.match(result.declarations[2].signature, /optional androidx\\.compose\\.ui\\.Modifier modifier/);
+  assert.match(result.declarations[2].signature, /optional androidx\.compose\.ui\.Modifier modifier/);
   assert.equal(result.declarations[3].kind, 'property');
 });
