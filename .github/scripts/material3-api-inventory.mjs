@@ -81,8 +81,11 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
     } else if (publicSignature) {
       const kindMatch = publicSignature.match(/^public\s+(?:(?:abstract|final|open|sealed|static|data|inline|infix|operator|suspend|external|expect|actual)\s+)*(value class|enum class|annotation class|class|interface|object|fun|val|var|typealias|constructor|field|property)\b/);
       const symbolMatch = publicSignature.match(/^public\s+(?:(?:abstract|final|open|sealed|static|data|inline|infix|operator|suspend|external|expect|actual)\s+)*(?:value class|enum class|annotation class|class|interface|object|fun|val|var|typealias|constructor|field|property)\s+([A-Za-z_$][\w$]*)\b/);
+      const classSymbolMatch = publicSignature.match(/^public\s+(?:(?:abstract|final|open|sealed|static|data|inline|infix|operator|suspend|external|expect|actual)\s+)*(?:value class|enum class|annotation class|class|interface|object)\s+([A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*)\b/);
       kind = kindMatch?.[1] ?? 'unknown';
-      symbol = symbolMatch?.[1] ?? null;
+      symbol = ['value class', 'enum class', 'annotation class', 'class', 'interface', 'object'].includes(kind)
+        ? classSymbolMatch?.[1] ?? null
+        : symbolMatch?.[1] ?? null;
     }
 
     const owner = classScopes.map((scope) => scope.symbol).join('.') || null;
@@ -111,7 +114,8 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
         raw.includes('{') &&
         nextBraceDepth > braceDepth
       ) {
-        classScopes.push({ symbol, depth: nextBraceDepth });
+        const qualifiedSymbol = symbol.includes('.') || !owner ? symbol : owner + '.' + symbol;
+        classScopes.push({ symbol: qualifiedSymbol, depth: nextBraceDepth });
       }
     }
 
