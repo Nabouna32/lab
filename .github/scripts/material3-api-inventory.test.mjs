@@ -81,6 +81,7 @@ test('rejects empty input and input without public declarations', () => {
   };
   assert.throws(() => inventoryApiDump('', options), /non-empty/);
   assert.throws(() => inventoryApiDump('package sample {\n}', options), /No public declarations/);
+  assert.throws(() => inventoryApiDump('package sample {\n  public final fun Example(): kotlin.Unit', options), /Unclosed package block/);
 });
 
 test('rejects declarations outside package blocks rather than losing provenance', () => {
