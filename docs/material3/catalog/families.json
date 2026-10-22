@@ -31,7 +31,9 @@
       "sourceDirectory": "compose/material3/material3",
       "officialApiReference": "https://developer.android.com/reference/kotlin/androidx/compose/material3/package-summary",
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/compose-material3",
-      "notes": "The existing 4,709-declaration snapshot tracks an immutable mainline dump; it is not the verified stable 1.4.0 baseline."
+      "notes": "The existing 4,709-declaration snapshot tracks an immutable mainline dump; it is not the verified stable 1.4.0 baseline.",
+      "successorFamilyIds": [],
+      "successorMappingStatus": "not-assessed"
     },
     {
       "id": "compose-ui",
@@ -49,7 +51,9 @@
       "sourceDirectory": "compose/ui",
       "officialApiReference": "https://developer.android.com/reference/kotlin/androidx/compose/ui/package-summary",
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/compose-ui",
-      "notes": "Inventory relevant public primitives, semantics, focus, input, layout and graphics APIs; record platform/runtime contracts separately from APIs that merit React ports."
+      "notes": "Inventory relevant public primitives, semantics, focus, input, layout and graphics APIs; record platform/runtime contracts separately from APIs that merit React ports.",
+      "successorFamilyIds": [],
+      "successorMappingStatus": "not-assessed"
     },
     {
       "id": "compose-foundation",
@@ -67,7 +71,9 @@
       "sourceDirectory": "compose/foundation",
       "officialApiReference": "https://developer.android.com/reference/kotlin/androidx/compose/foundation/package-summary",
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/compose-foundation",
-      "notes": "Do not reduce Foundation to visible widgets: investigate layout, gestures, text, selection, lazy collections and interaction APIs."
+      "notes": "Do not reduce Foundation to visible widgets: investigate layout, gestures, text, selection, lazy collections and interaction APIs.",
+      "successorFamilyIds": [],
+      "successorMappingStatus": "not-assessed"
     },
     {
       "id": "compose-animation",
@@ -85,7 +91,9 @@
       "sourceDirectory": "compose/animation",
       "officialApiReference": "https://developer.android.com/reference/kotlin/androidx/compose/animation/package-summary",
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/compose-animation",
-      "notes": "Inventory public transition and animation contracts; Web motion mappings must respect reduced-motion preferences."
+      "notes": "Inventory public transition and animation contracts; Web motion mappings must respect reduced-motion preferences.",
+      "successorFamilyIds": [],
+      "successorMappingStatus": "not-assessed"
     },
     {
       "id": "compose-runtime",
@@ -103,7 +111,9 @@
       "sourceDirectory": "compose/runtime",
       "officialApiReference": "https://developer.android.com/reference/kotlin/androidx/compose/runtime/package-summary",
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/compose-runtime",
-      "notes": "Inventory the declared public API for completeness, but do not assume runtime/compiler internals should become standalone React components."
+      "notes": "Inventory the declared public API for completeness, but do not assume runtime/compiler internals should become standalone React components.",
+      "successorFamilyIds": [],
+      "successorMappingStatus": "not-assessed"
     },
     {
       "id": "compose-material2",
@@ -121,7 +131,11 @@
       "sourceDirectory": "compose/material",
       "officialApiReference": "https://developer.android.com/reference/kotlin/androidx/compose/material/package-summary",
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/compose-material",
-      "notes": "Keep separate from Material 3; inventory for historical context and successor mapping, not an automatic mandate to port every API."
+      "notes": "Keep separate from Material 3; inventory for historical context and successor mapping, not an automatic mandate to port every API.",
+      "successorFamilyIds": [
+        "compose-material3-mobile"
+      ],
+      "successorMappingStatus": "candidate-non-equivalent-successor"
     },
     {
       "id": "navigation-compose",
@@ -139,7 +153,9 @@
       "sourceDirectory": "navigation",
       "officialApiReference": "https://developer.android.com/reference/kotlin/androidx/navigation/compose/package-summary",
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/navigation",
-      "notes": "Treat navigation as an architectural API family, not as a collection of visual components; preserve native Web link semantics in React."
+      "notes": "Treat navigation as an architectural API family, not as a collection of visual components; preserve native Web link semantics in React.",
+      "successorFamilyIds": [],
+      "successorMappingStatus": "not-assessed"
     },
     {
       "id": "material3-adaptive",
@@ -157,7 +173,9 @@
       "sourceDirectory": "compose/material3/adaptive",
       "officialApiReference": "https://developer.android.com/develop/ui/compose/layouts/adaptive",
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/compose-material3",
-      "notes": "Verify exact published artifact boundaries and related adaptive-navigation artifacts before treating this as a complete family."
+      "notes": "Verify exact published artifact boundaries and related adaptive-navigation artifacts before treating this as a complete family.",
+      "successorFamilyIds": [],
+      "successorMappingStatus": "not-assessed"
     },
     {
       "id": "wear-compose-material3",
@@ -175,7 +193,9 @@
       "sourceDirectory": "wear/compose/compose-material3",
       "officialApiReference": "https://developer.android.com/reference/kotlin/androidx/wear/compose/material3/package-summary",
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/wear-compose",
-      "notes": "Never merge same-named mobile Compose APIs with Wear APIs; package and behavior contracts differ."
+      "notes": "Never merge same-named mobile Compose APIs with Wear APIs; package and behavior contracts differ.",
+      "successorFamilyIds": [],
+      "successorMappingStatus": "not-assessed"
     },
     {
       "id": "android-tv-compose-material",
@@ -193,7 +213,9 @@
       "sourceDirectory": "tv",
       "officialApiReference": "https://developer.android.com/reference/kotlin/androidx/tv/material3/package-summary",
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/tv",
-      "notes": "Candidate family; verify current artifact/package names and release status before inventory generation."
+      "notes": "Candidate family; verify current artifact/package names and release status before inventory generation.",
+      "successorFamilyIds": [],
+      "successorMappingStatus": "not-assessed"
     },
     {
       "id": "material-components-views",
@@ -211,7 +233,11 @@
       "sourceDirectory": "lib",
       "officialApiReference": "https://github.com/material-components/material-components-android",
       "officialReleaseNotes": "https://github.com/material-components/material-components-android/releases",
-      "notes": "Official repository states the Views library is in maintenance mode with no planned feature releases; inventory is for legacy mapping, not a promise to port everything."
+      "notes": "Official repository states the Views library is in maintenance mode with no planned feature releases; inventory is for legacy mapping, not a promise to port everything.",
+      "successorFamilyIds": [
+        "compose-material3-mobile"
+      ],
+      "successorMappingStatus": "candidate-migration-target-not-one-to-one"
     },
     {
       "id": "appcompat-views",
@@ -229,7 +255,9 @@
       "sourceDirectory": "appcompat",
       "officialApiReference": "https://developer.android.com/reference/androidx/appcompat/app/AppCompatActivity",
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/appcompat",
-      "notes": "Candidate historical/support family, not a Material component catalogue; verify whether it belongs in the final migration register."
+      "notes": "Candidate historical/support family, not a Material component catalogue; verify whether it belongs in the final migration register.",
+      "successorFamilyIds": [],
+      "successorMappingStatus": "no-single-successor"
     },
     {
       "id": "compose-ui-graphics",
@@ -247,7 +275,9 @@
       "sourceDirectory": "compose/ui/ui-graphics",
       "officialApiReference": "https://developer.android.com/reference/kotlin/androidx/compose/ui/graphics/package-summary",
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/compose-ui",
-      "notes": "Separate published artifact and API dump; investigate color, brush, path, image and drawing contracts that are relevant to browser rendering."
+      "notes": "Separate published artifact and API dump; investigate color, brush, path, image and drawing contracts that are relevant to browser rendering.",
+      "successorFamilyIds": [],
+      "successorMappingStatus": "not-assessed"
     },
     {
       "id": "compose-ui-text",
@@ -265,7 +295,9 @@
       "sourceDirectory": "compose/ui/ui-text",
       "officialApiReference": "https://developer.android.com/reference/kotlin/androidx/compose/ui/text/package-summary",
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/compose-ui",
-      "notes": "Text layout, annotated text, styles, selection and input-related contracts need their own inventory; do not infer parity from a simple React input."
+      "notes": "Text layout, annotated text, styles, selection and input-related contracts need their own inventory; do not infer parity from a simple React input.",
+      "successorFamilyIds": [],
+      "successorMappingStatus": "not-assessed"
     },
     {
       "id": "compose-ui-unit",
@@ -283,7 +315,9 @@
       "sourceDirectory": "compose/ui/ui-unit",
       "officialApiReference": "https://developer.android.com/reference/kotlin/androidx/compose/ui/unit/package-summary",
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/compose-ui",
-      "notes": "Inventory dimensional and density types; record where CSS/Web physical sizing is an adaptation rather than direct equivalence."
+      "notes": "Inventory dimensional and density types; record where CSS/Web physical sizing is an adaptation rather than direct equivalence.",
+      "successorFamilyIds": [],
+      "successorMappingStatus": "not-assessed"
     },
     {
       "id": "compose-ui-geometry",
@@ -301,7 +335,9 @@
       "sourceDirectory": "compose/ui/ui-geometry",
       "officialApiReference": "https://developer.android.com/reference/kotlin/androidx/compose/ui/geometry/package-summary",
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/compose-ui",
-      "notes": "Candidate low-level public API family; verify exact release artifact and relationship to ui before inventory generation."
+      "notes": "Candidate low-level public API family; verify exact release artifact and relationship to ui before inventory generation.",
+      "successorFamilyIds": [],
+      "successorMappingStatus": "not-assessed"
     },
     {
       "id": "compose-ui-util",
@@ -319,7 +355,9 @@
       "sourceDirectory": "compose/ui/ui-util",
       "officialApiReference": "https://developer.android.com/reference/kotlin/androidx/compose/ui/util/package-summary",
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/compose-ui",
-      "notes": "Inventory as a distinct module boundary but classify which declarations are platform/runtime utilities rather than React-portable components."
+      "notes": "Inventory as a distinct module boundary but classify which declarations are platform/runtime utilities rather than React-portable components.",
+      "successorFamilyIds": [],
+      "successorMappingStatus": "not-assessed"
     },
     {
       "id": "compose-ui-tooling-preview",
@@ -337,7 +375,9 @@
       "sourceDirectory": "compose/ui/ui-tooling-preview",
       "officialApiReference": "https://developer.android.com/reference/kotlin/androidx/compose/ui/tooling/preview/package-summary",
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/compose-ui",
-      "notes": "Developer tooling APIs should be catalogued for scope completeness but are not assumed to need production React equivalents."
+      "notes": "Developer tooling APIs should be catalogued for scope completeness but are not assumed to need production React equivalents.",
+      "successorFamilyIds": [],
+      "successorMappingStatus": "not-assessed"
     },
     {
       "id": "compose-foundation-layout",
@@ -355,7 +395,9 @@
       "sourceDirectory": "compose/foundation/foundation-layout",
       "officialApiReference": "https://developer.android.com/reference/kotlin/androidx/compose/foundation/layout/package-summary",
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/compose-foundation",
-      "notes": "Core layouts and modifiers are first-class inventory targets, not just the visible Material widgets built on top of them."
+      "notes": "Core layouts and modifiers are first-class inventory targets, not just the visible Material widgets built on top of them.",
+      "successorFamilyIds": [],
+      "successorMappingStatus": "not-assessed"
     },
     {
       "id": "compose-animation-core",
@@ -373,7 +415,9 @@
       "sourceDirectory": "compose/animation/animation-core",
       "officialApiReference": "https://developer.android.com/reference/kotlin/androidx/compose/animation/core/package-summary",
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/compose-animation",
-      "notes": "Separate module for animation primitives; assess which timing/state contracts can be meaningfully mapped to Web animations."
+      "notes": "Separate module for animation primitives; assess which timing/state contracts can be meaningfully mapped to Web animations.",
+      "successorFamilyIds": [],
+      "successorMappingStatus": "not-assessed"
     },
     {
       "id": "compose-runtime-saveable",
@@ -391,7 +435,31 @@
       "sourceDirectory": "compose/runtime/runtime-saveable",
       "officialApiReference": "https://developer.android.com/reference/kotlin/androidx/compose/runtime/saveable/package-summary",
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/compose-runtime",
-      "notes": "Inventory separately; persistence/restoration semantics differ from browser storage and must not be copied blindly into a local-first Web app."
+      "notes": "Inventory separately; persistence/restoration semantics differ from browser storage and must not be copied blindly into a local-first Web app.",
+      "successorFamilyIds": [],
+      "successorMappingStatus": "not-assessed"
+    },
+    {
+      "id": "navigation-views-legacy",
+      "name": "Navigation Views / Fragments Integration",
+      "platform": "android-views-legacy",
+      "role": "historical-navigation-api-and-migration-context",
+      "artifact": "androidx.navigation:navigation-fragment",
+      "scope": "separate-historical-inventory",
+      "versionPolicy": "pin-currently-supported-reference-after-navigation-audit",
+      "referenceVersion": null,
+      "referenceVersionStatus": "not-selected",
+      "inventoryStatus": "not-started",
+      "portPriority": "migration-reference-only",
+      "sourceRepository": "https://github.com/androidx/androidx",
+      "sourceDirectory": "navigation/navigation-fragment",
+      "officialApiReference": "https://developer.android.com/reference/kotlin/androidx/navigation/fragment/package-summary",
+      "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/navigation",
+      "notes": "Views/Fragments navigation integration is maintained separately from Navigation Compose; map migration semantics instead of treating the Compose API as a drop-in replacement.",
+      "successorFamilyIds": [
+        "navigation-compose"
+      ],
+      "successorMappingStatus": "candidate-migration-target-not-one-to-one"
     }
   ]
 }
