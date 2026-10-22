@@ -249,8 +249,8 @@ test("shared action controls use semantic state-layer colors instead of brightne
     assert.doesNotMatch(source, /hover:brightness|filter:brightness|transition-\[[^\]]*filter/ , `${name} should not dim foreground content through a whole-element brightness filter`);
   }
 
-  assert.match(buttonSource, /var\(--primary\)_92%,var\(--on-primary\)/);
-  assert.match(buttonSource, /var\(--secondary-container\)_92%,var\(--on-secondary-container\)/);
+  assert.ok(buttonSource.includes("var(--button-container-color,var(--primary))_92%,var(--button-content-color,var(--on-primary))"));
+  assert.ok(buttonSource.includes("var(--button-container-color,var(--secondary-container))_92%,var(--button-content-color,var(--on-secondary-container))"));
   assert.match(iconButtonSource, /var\(--primary\)_92%,var\(--on-primary\)/);
   assert.ok(favoriteSource.includes("const FavoriteActionButton = active ? FilledTonalButton : OutlinedButton;"));
   assert.match(favoriteSource, /import \{ IconButton \} from "@\/components\/ui\/IconButton"/);
