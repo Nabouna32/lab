@@ -38,3 +38,21 @@ test('does not allow a family registry to imply exhaustive global coverage', () 
   invalid.status = 'complete';
   assert.ok(validateFamilyCatalog(invalid).some((error) => error.includes('avoid claiming exhaustive global coverage')));
 });
+
+
+test('records historical successors without asserting one-to-one equivalence', () => {
+  const materialViews = catalog.families.find((family) => family.id === 'material-components-views');
+  assert.deepEqual(materialViews.successorFamilyIds, ['compose-material3-mobile']);
+  assert.equal(materialViews.successorMappingStatus, 'candidate-migration-target-not-one-to-one');
+
+  const invalid = structuredClone(catalog);
+  invalid.families[0].successorFamilyIds = ['missing-family'];
+  assert.ok(validateFamilyCatalog(invalid).some((error) => error.includes('unknown successor family')));
+});
+
+test('requires explicit successor mapping state even for families without a direct successor', () => {
+  const invalid = structuredClone(catalog);
+  delete invalid.families[0].successorFamilyIds;
+  const errors = validateFamilyCatalog(invalid);
+  assert.ok(errors.some((error) => error.includes('successorFamilyIds must be an array')));
+});
