@@ -33,9 +33,14 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
   const declarations = [];
   let currentPackage = null;
   let braceDepth = 0;
+  const classScopes = [];
 
   for (let index = 0; index < lines.length; index += 1) {
+    const indentation = lines[index].match(/^\\s*/)?.[0].length ?? 0;
     const raw = lines[index].trim();
+    while (classScopes.length > 0 && classScopes[classScopes.length - 1].indentation >= indentation) {
+      classScopes.pop();
+    }
     const packageMatch = raw.match(/^package\s+([A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*)\s*\{$/);
     if (packageMatch) {
       if (currentPackage !== null) {
@@ -81,11 +86,16 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
       symbol = symbolMatch?.[1] ?? null;
     }
 
+    const owner = classScopes.map((scope) => scope.symbol).join('.') || null;
+
     if (kind !== null) {
-      const signatureHash = createHash('sha256').update(raw, 'utf8').digest('hex');
+      const signatureHash = createHash('sha256')
+        .update(currentPackage + '\\0' + (owner ?? '') + '\\0' + raw, 'utf8')
+        .digest('hex');
       declarations.push({
-        id: currentPackage + ':' + signatureHash,
+        id: currentPackage + ':' + (owner ? owner + ':' : '') + signatureHash,
         package: currentPackage,
+        owner,
         kind,
         symbol,
         signature: raw,
@@ -95,6 +105,14 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
           : 'source-api-candidate',
         apiStatus: 'unknown',
       });
+
+      if (
+        symbol &&
+        ['value class', 'enum class', 'annotation class', 'class', 'interface', 'object'].includes(kind) &&
+        raw.includes('{')
+      ) {
+        classScopes.push({ symbol, indentation });
+      }
     }
 
     braceDepth += (raw.match(/{/g) ?? []).length;
