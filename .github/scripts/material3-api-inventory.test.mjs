@@ -204,3 +204,34 @@ test('rejects declarations outside package blocks rather than losing provenance'
     sourcePath: 'api/current.txt',
   }), /outside a package block/);
 });
+
+
+const V5_DUMP = `// Signature format: 5.0
+// - surface=public
+package androidx.compose.material3 {
+  public final class ButtonDefaults {
+    method @BytecodeOnly @androidx.compose.runtime.Composable public long getContainerColor(androidx.compose.runtime.Composer?, int);
+    method @KotlinOnly @Deprecated @androidx.compose.runtime.Composable public static void Button(optional androidx.compose.ui.Modifier modifier, kotlin.jvm.functions.Function0<kotlin.Unit> onClick);
+    property public androidx.compose.ui.graphics.Shape shape;
+  }
+}
+`;
+
+test('supports AndroidX API signature format 5.0 and public-surface metadata', () => {
+  const result = inventoryApiDump(V5_DUMP, {
+    artifact: 'androidx.compose.material3:material3',
+    version: 'androidx-main snapshot',
+    commit: COMMIT,
+    sourcePath: 'compose/material3/material3/api/current.txt',
+  });
+
+  assert.equal(result.source.formatVersion, '5.0');
+  assert.equal(result.declarationCount, 4);
+  assert.equal(result.bytecodeOnlyCount, 1);
+  assert.equal(result.declarations[0].owner, null);
+  assert.equal(result.declarations[1].owner, 'ButtonDefaults');
+  assert.equal(result.declarations[1].classification, 'bytecode-only');
+  assert.equal(result.declarations[2].symbol, 'Button');
+  assert.match(result.declarations[2].signature, /optional androidx\\.compose\\.ui\\.Modifier modifier/);
+  assert.equal(result.declarations[3].kind, 'property');
+});
