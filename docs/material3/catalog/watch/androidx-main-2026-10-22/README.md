@@ -14,3 +14,15 @@ Ce snapshot est un inventaire reproductible de la surface API publique contenue 
 Ce snapshot est une **veille amont**, pas la baseline stable 1.4.0. Le dépôt AndroidX à ce commit ne contient pas de fichier `1.4.0.txt`; la correspondance exacte entre l'archive publiée 1.4.0 et un dump API reste non vérifiée. Toutes les maturités API restent `unknown` tant qu'elles n'ont pas été vérifiées à partir des annotations et sources Kotlin. Les entrées `@BytecodeOnly` et `@InaccessibleFromKotlin` sont conservées pour l'exhaustivité du dump, mais ne sont pas automatiquement des API Kotlin à porter.
 
 Le manifeste donne les empreintes SHA-256 de la source et de chaque shard. Les shards contiennent uniquement les tableaux `declarations` produits par le parseur ; leurs métadonnées communes sont dans `manifest.json`.
+
+## Regeneration
+
+From a clean checkout, fetch the exact pinned upstream dump and regenerate the inventory with the committed scripts:
+
+```sh
+curl -fsSL 'https://raw.githubusercontent.com/androidx/androidx/5901d750e269aa3d88f6fccd5186637df83a0173/compose/material3/material3/api/current.txt' -o /tmp/material3-current.txt
+node .github/scripts/material3-api-inventory.mjs /tmp/material3-current.txt androidx.compose.material3:material3 androidx-main@5901d750e269aa3d88f6fccd5186637df83a0173 5901d750e269aa3d88f6fccd5186637df83a0173 compose/material3/material3/api/current.txt > /tmp/material3-inventory.json
+node .github/scripts/material3-api-inventory-shard.mjs /tmp/material3-inventory.json docs/material3/catalog/watch/androidx-main-2026-10-22 500
+```
+
+The sharding script is deterministic and updates the manifest plus declaration shards. The README is maintained separately. The source commit, dump SHA-256 and each shard SHA-256 are recorded in the manifest.

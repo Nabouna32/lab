@@ -15,8 +15,7 @@
     "formatVersion": "5.0",
     "surface": "public"
   },
-  "generatedBy": ".github/scripts/material3-api-inventory.mjs",
-  "generatedAt": "2026-10-22",
+  "generatedBy": ".github/scripts/material3-api-inventory.mjs + .github/scripts/material3-api-inventory-shard.mjs",
   "declarationCount": 4709,
   "sourceApiCandidateCount": 2523,
   "bytecodeOnlyCount": 1792,
