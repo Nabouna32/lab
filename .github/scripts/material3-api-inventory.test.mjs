@@ -304,7 +304,7 @@ test('rejects restricted API surfaces when inventorying AndroidX format 5.0', ()
     /expected surface=public/,
   );
   assert.throws(
-    () => inventoryApiDump(V5_DUMP.replace('// - surface=public\\n', ''), {
+    () => inventoryApiDump(V5_DUMP.replace('// - surface=public\n', ''), {
       artifact: 'androidx.compose.material3:material3',
       version: 'androidx-main snapshot',
       commit: COMMIT,
