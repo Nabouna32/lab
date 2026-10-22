@@ -10,6 +10,7 @@ package androidx.compose.material3 {
 }
 package androidx.compose.material3.tokens {
   public final class ButtonTokens private constructor() {
+    public final fun getContainerColor(): androidx.compose.ui.graphics.Color
   }
 }
 `;
