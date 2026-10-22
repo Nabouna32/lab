@@ -12,7 +12,7 @@ Chaque entrée normalisée devrait contenir :
 
 - `id` : identifiant stable du catalogue, non dérivé d'un nom localisé ;
 - `artifact` et `version` ;
-- `package`, `symbol`, `kind` et signature source publiée ;
+- `package`, `owner` (classe/interface englobante, si applicable), `symbol`, `kind` et signature source publiée ;
 - `apiStatus` : `stable`, `experimental`, `deprecated`, `removed`, `unknown` ;
 - `sourceFiles`, `apiDump`, `apiReference` ;
 - `firstSeenVersion` et `lastSeenVersion`, quand connus ;
@@ -26,6 +26,7 @@ Ne pas inférer la stabilité à partir du nom du symbole. Les annotations de st
 
 - Le fichier API publié est une entrée d'inventaire et de diff, pas une spécification sémantique complète.
 - Les signatures brutes doivent être conservées comme preuve ; la normalisation ne doit pas supprimer silencieusement des symboles inconnus.
+- L'identité d'une déclaration membre doit inclure son package, son propriétaire et sa signature : deux membres homonymes de classes distinctes ne doivent pas entrer en collision.
 - Le parseur d'inventaire prend en charge les formats de signatures AndroidX 2.0, 3.0 et 4.0. Il conserve les signatures brutes et classe explicitement les entrées `@BytecodeOnly` comme bytecode-only et `@InaccessibleFromKotlin` comme inaccessibles depuis Kotlin, au lieu de les confondre avec des API Kotlin à porter. Les entrées inconnues restent visibles et exigent une revue.
 - Les générateurs doivent être déterministes, utiliser les dépendances intégrées à Node lorsque possible et échouer clairement sur une entrée absente ou mal formée.
 - Les snapshots amont utilisés pour une référence doivent être identifiés par commit immuable et empreinte cryptographique.
