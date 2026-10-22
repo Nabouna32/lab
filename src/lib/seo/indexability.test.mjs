@@ -8,14 +8,14 @@ const read = (path) => readFile(fileURLToPath(new URL(path, root)), "utf8");
 
 test("each localized tool SEO record has an explicit indexability decision", async () => {
   const source = await read("../lib/tools/seo.ts");
-  const records = [...source.matchAll(/(?:fr|en): \{ title: "[^"]+", description: "(?:[^"\\\\]|\\\\.)*", indexable: (?:true|false) \}/g)];
+  const records = [...source.matchAll(/(?:fr|en): \{ title: "[^"]+", description: "[^"]*", indexable: (?:true|false) \}/g)];
   assert.equal(records.length, 102);
 });
 
 test("indexability is enforced by the catalog and reflected in page metadata", async () => {
   const validator = await read("../lib/tools/metadata.ts");
   const metadata = await read("../lib/tools/page-metadata.ts");
-  const inventory = await read("./public-pages.ts");
+  const inventory = await read("seo/public-pages.ts");
 
   assert.match(validator, /must explicitly declare .* SEO indexability/);
   assert.match(metadata, /seo\.indexable \? metadata : \{ \.\.\.metadata, robots: \{ index: false, follow: true \} \}/);
