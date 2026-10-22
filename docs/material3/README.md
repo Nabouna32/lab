@@ -4,6 +4,22 @@
 **Product direction:** Material 3 Fidelity, not Material 3 Expressive.  
 **Project status:** early; Button work exists, but the overall inventory, porting and production migration are incomplete.
 
+## Target architecture and migration rule
+
+The existing Loculary UI library is **migration input, not the target API design**. Existing implementation counts, component names, catalogue rows, and preview keys do not define the desired Android-compatible library.
+
+The target is to build the relevant official AndroidX Compose UI component and primitive families as a coherent React/Web library first, with AndroidX public names and source-derived contracts wherever an equivalent is meaningful. Then migrate the product's shared UI and tool pages to that library so Loculary can behave like a cohesive app. This is not a requirement to mechanically port every low-level runtime/compiler API into React: inventory the declared public API surface exhaustively, classify each declaration by role and Web-port relevance, and document why a declaration is not a visual/component port when appropriate.
+
+For every existing Loculary UI implementation, the eventual disposition must be explicit:
+- **replace** with a source-backed AndroidX-named port;
+- **remove** because it duplicates an official API or has no justified product role;
+- **retain as a clearly named product composition/extension** only when it solves a real Loculary product need and is built from the shared official ports;
+- **adapt for Web** when browser semantics require a documented difference.
+
+Do not retain a custom base component merely because it already exists or is referenced by a preview. Conversely, a page layout or product composition is not automatically invalid just because it is Loculary-specific; it must not masquerade as an official Android component. The catalogue and specs should record the decision and production call sites before a migration is considered complete.
+
+The Design Lab and its persistence model are also under review. The default proposal is to make the source-controlled catalogue/specs, React implementations, demos and automated checks in Git the authoritative workflow. Supabase tables for manually submitted reports, decisions, verifications and audit events are not assumed necessary; evaluate them against actual usage and remove them through a separately reviewed migration if they add no value. Do not modify live schema/data merely to simplify the design lab without a specific migration plan.
+
 ## Goal
 
 Build React/Web equivalents of official AndroidX Compose Material 3 components with the highest practical fidelity to their public contracts, visual tokens, states and interactions. Then replace Loculary's current shared UI components with these ports in production routes and tools.
