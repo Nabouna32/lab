@@ -88,7 +88,7 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
         : symbolMatch?.[1] ?? null;
     }
 
-    const owner = classScopes.map((scope) => scope.symbol).join('.') || null;
+    const owner = classScopes[classScopes.length - 1]?.symbol ?? null;
 
     if (kind !== null) {
       const signatureHash = createHash('sha256')
