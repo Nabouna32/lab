@@ -49,6 +49,8 @@ La présence dans le catalogue ne signifie pas qu'une API a été étudiée ou p
 
 Le catalogue principal correspond à l'artefact `androidx.compose.material3:material3`. Les artefacts apparentés (Adaptive, Wear, etc.) doivent avoir leurs propres métadonnées et inventaires, afin de maintenir une couverture large sans confondre des contrats distincts.
 
-## Statut initial
+## Statut
 
-Le catalogue exhaustif n'est pas encore généré ni vérifié. La référence de portage reste à verrouiller après confirmation de l'association exacte entre version stable, commit AndroidX et API dump. Ne pas annoncer une couverture complète avant qu'un contrôle reproductible puisse l'établir.
+- **Veille amont** : un snapshot exhaustif de `current.txt` est généré dans [`watch/androidx-main-2026-10-22/`](watch/androidx-main-2026-10-22/README.md). Il contient 4 709 déclarations réparties sur trois packages, épinglées à un commit et avec les empreintes SHA-256 de la source et des shards. Il s'agit d'un inventaire de surface, pas d'une spécification sémantique ni d'une baseline de portage.
+- **Baseline stable 1.4.0** : l'inventaire exact n'est pas encore généré ni vérifié. Le dépôt AndroidX au commit inspecté n'inclut pas de fichier `1.4.0.txt` ; la correspondance avec l'archive source publiée reste `UNVERIFIED`. Ne pas utiliser `current.txt` comme substitut à la version stable.
+- **Couverture globale** : ne pas annoncer le catalogue complet tant que la baseline de portage et les artefacts apparentés à inventorier séparément n'ont pas été traités.
