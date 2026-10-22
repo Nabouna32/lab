@@ -1,4 +1,4 @@
-# Catalogue public AndroidX Compose Material 3
+# Inventaire des API AndroidX Compose UI
 
 ## Rôle
 
@@ -8,7 +8,7 @@ Le catalogue doit viser la couverture complète de la surface publique déclaré
 
 ## Registre des familles
 
-Le périmètre multi-familles est maintenu dans [families.json](families.json). Il s'agit volontairement d'un **registre de candidats, pas d'une déclaration d'exhaustivité**. Chaque famille possède une frontière de plateforme, un artefact distinct, des liens de provenance et un statut d'inventaire indépendant.
+Le périmètre multi-familles est maintenu dans [families.json](families.json). Il s'agit volontairement d'un **registre de candidats, pas d'une déclaration d'exhaustivité**. Chaque famille possède une frontière de plateforme, un artefact distinct, des liens de provenance et un statut d'inventaire indépendant. Le registre distingue désormais des artefacts Compose de premier plan et certains modules publiés séparément, notamment UI Graphics, UI Text, UI Units, Foundation Layout, Animation Core et Runtime Saveable. Cette séparation est nécessaire : la documentation officielle de Compose présente UI, Foundation, Animation, Runtime, Material et Material 3 comme des groupes fonctionnels distincts, tandis que les API des sous-modules peuvent avoir leurs propres frontières de publication.
 
 Le contrat du registre est vérifié par .github/scripts/android-ui-family-catalog.mjs et ses tests. Pour lancer le contrôle :
 
