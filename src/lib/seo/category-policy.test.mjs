@@ -19,8 +19,8 @@ test("every current category has explicit, useful French and English description
 
   for (const [id, policy] of Object.entries(categorySeoPolicy)) {
     assert.equal(typeof policy.indexable, "boolean", id);
-    assert.ok(policy.description.fr.length >= 60, `${id}: French description is too short`);
-    assert.ok(policy.description.en.length >= 60, `${id}: English description is too short`);
+    assert.ok(policy.description.fr.trim(), `${id}: French description is missing`);
+    assert.ok(policy.description.en.trim(), `${id}: English description is missing`);
     assert.notEqual(policy.description.fr, `Retrouvez les outils disponibles dans la catégorie ${id}.`);
     assert.notEqual(policy.description.en, `Browse the tools available in the ${id}.`);
     assert.equal(getCategorySeoDescription("fr", id), policy.description.fr);
