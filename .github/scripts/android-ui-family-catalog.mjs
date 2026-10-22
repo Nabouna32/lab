@@ -1,6 +1,14 @@
 import { readFileSync } from 'node:fs';
 
 const ALLOWED_PORT_PRIORITIES = new Set(['P0', 'P1', 'P2', 'P3', 'migration-reference-only']);
+const ALLOWED_SUCCESSOR_STATUSES = new Set([
+  'not-assessed',
+  'candidate-non-equivalent-successor',
+  'candidate-migration-target-not-one-to-one',
+  'no-single-successor',
+  'no-successor',
+  'verified-mapping',
+]);
 const ALLOWED_PLATFORMS = new Set([
   'android-mobile',
   'android-adaptive',
@@ -31,7 +39,7 @@ export function validateFamilyCatalog(catalog) {
       errors.push(label + ' must be an object.');
       continue;
     }
-    for (const field of ['id', 'name', 'platform', 'role', 'artifact', 'scope', 'versionPolicy', 'inventoryStatus', 'successorMappingStatus']) {
+    for (const field of ['id', 'name', 'platform', 'role', 'artifact', 'scope', 'versionPolicy', 'inventoryStatus', 'sourceDirectory', 'notes', 'referenceVersionStatus', 'successorMappingStatus']) {
       if (typeof family[field] !== 'string' || !family[field].trim()) {
         errors.push(label + '.' + field + ' is required.');
       }
@@ -52,6 +60,9 @@ export function validateFamilyCatalog(catalog) {
     }
     if (!['not-started', 'watch-snapshot-only', 'in-progress', 'verified'].includes(family.inventoryStatus)) {
       errors.push(label + '.inventoryStatus is invalid.');
+    }
+    if (!ALLOWED_SUCCESSOR_STATUSES.has(family.successorMappingStatus)) {
+      errors.push(label + '.successorMappingStatus is invalid.');
     }
     if (!Array.isArray(family.successorFamilyIds)) {
       errors.push(label + '.successorFamilyIds must be an array, including when empty.');
