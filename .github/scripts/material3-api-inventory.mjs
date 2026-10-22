@@ -25,8 +25,8 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
   const normalizedContents = contents.replace(/\r\n/g, '\n');
   const formatMatch = normalizedContents.match(/^(?:\uFEFF)?\/\/ Signature format: (\d+\.\d+)$/);
   const formatVersion = formatMatch?.[1];
-  if (!formatVersion || !['2.0', '4.0'].includes(formatVersion)) {
-    throw new Error('Unsupported or missing AndroidX API signature format; expected 2.0 or 4.0.');
+  if (!formatVersion || !['2.0', '3.0', '4.0'].includes(formatVersion)) {
+    throw new Error('Unsupported or missing AndroidX API signature format; expected 2.0, 3.0, or 4.0.');
   }
 
   const lines = normalizedContents.split('\n');
@@ -46,11 +46,11 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
       continue;
     }
 
-    const isV4Member = formatVersion === '4.0' &&
+    const isMemberFormat = formatVersion !== '2.0' &&
       /^(?:method|property|field|ctor|enum_constant)\s+/.test(raw);
 
     if (currentPackage === null) {
-      if (/^public\s+/.test(raw) || isV4Member) {
+      if (/^public\s+/.test(raw) || isMemberFormat) {
         throw new Error('Public declaration outside a package block at line ' + (index + 1) + '.');
       }
       continue;
@@ -64,7 +64,7 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
       const symbolMatch = raw.match(/^public\s+(?:(?:abstract|final|open|sealed|static|data|value|inline|infix|operator|suspend|external|expect|actual)\s+)*(?:enum class|annotation class|class|interface|object|fun|val|var|typealias|constructor|field|property)\s+([A-Za-z_$][\w$]*)\b/);
       kind = kindMatch?.[1] ?? 'unknown';
       symbol = symbolMatch?.[1] ?? null;
-    } else if (isV4Member) {
+    } else if (isMemberFormat) {
       const memberMatch = raw.match(/^(method|property|field|ctor|enum_constant)\b/);
       const memberType = memberMatch?.[1];
       kind = memberType === 'ctor' ? 'constructor'
