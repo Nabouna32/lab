@@ -12,14 +12,17 @@ Le catalogue couvre les API publiques du périmètre retenu, même lorsqu'elles 
 4. **Guides et exemples officiels** — [Compose UI components](https://developer.android.com/develop/ui/compose/components) et [notes de version Compose Material 3](https://developer.android.com/jetpack/androidx/releases/compose-material3).
 5. **Sources secondaires** — Material Web, bibliothèques React et captures d'écran peuvent aider à évaluer les adaptations Web, mais ne remplacent jamais AndroidX comme autorité du contrat.
 
+- [Dépôt officiel des artefacts AndroidX publiés](https://android.googlesource.com/platform/prebuilts/androidx/internal/) — archives versionnées et sommes de contrôle.
+
 ## Référence de portage et veille
 
 Deux axes doivent rester séparés :
 
-- **Référence de portage** : version stable explicitement choisie, avec commit AndroidX immuable, fichier(s) API correspondants et sources de chaque composant. Aucun composant ne doit être déclaré « sources vérifiées » tant que l'alignement version/commit/API n'est pas confirmé.
+- **Référence de portage** : version stable explicitement choisie, appuyée par une source de version publiée et vérifiable. Un artefact source officiel versionné avec son SHA-256 peut établir le contrat de la version publiée même si le commit Git qui l'a produit n'est pas encore identifié.
+- **Vue dépôt/API** : commit AndroidX immuable et fichier(s) API correspondants, utilisés pour naviguer dans l'implémentation et détecter les évolutions. Leur alignement avec l'artefact publié doit être prouvé avant de les traiter comme le même snapshot.
 - **Veille amont** : versions alpha, bêta et stable plus récentes, comparées séparément à la référence. Une découverte en amont ne change pas silencieusement la référence du portage.
 
-La version stable 1.4.0 est le candidat initial à évaluer. Son commit source exact et le fichier API associé doivent être résolus et contrôlés avant de l'enregistrer comme référence vérifiée. Le nom de branche mutable `androidx-main` ne constitue pas une référence reproductible.
+La version stable 1.4.0 est le candidat initial à évaluer. Google publie des archives sources versionnées pour cet artefact et leurs sommes de contrôle dans son dépôt officiel de précompilés. C'est une piste de provenance reproductible ; le SHA Git source et le lien exact avec le fichier API du dépôt doivent rester explicitement non vérifiés tant que l'alignement n'est pas établi. Le nom de branche mutable `androidx-main` ne constitue pas une référence reproductible.
 
 ## Périmètre
 
@@ -50,17 +53,18 @@ Une API expérimentale reste une API publique à inventorier : « expérimentale
 
 ## Règles de traçabilité
 
-Pour chaque référence enregistrée, conserver autant que possible :
+Pour chaque référence enregistrée, conserver :
 
-- artefact et version ;
-- SHA Git immuable ;
-- chemin exact du fichier source et du fichier API ;
+- artefact Maven et version exacte ;
+- URL officielle de l'archive source publiée et son SHA-256, si disponible ;
+- SHA Git immuable et URL du commit, lorsque le commit source est identifié ;
+- chemin exact du fichier source et du fichier API, lorsque le snapshot dépôt est utilisé ;
 - URL officielle de référence API ;
 - statut de maturité et annotations de dépréciation ;
-- date de récupération et empreinte SHA-256 du snapshot ;
-- méthode utilisée pour extraire et normaliser la surface publique.
+- date de récupération, empreinte SHA-256 de chaque snapshot et méthode d'extraction ;
+- preuve du lien entre l'artefact publié et le snapshot du dépôt, ou mention explicite de son absence.
 
-Une absence de preuve doit rester visible comme `UNVERIFIED`; elle ne doit pas être remplacée par une hypothèse.
+Ne pas inférer un commit depuis le nom d'un tag ni supposer que `androidx-main` correspond à une version publiée. Si l'archive source publiée est vérifiée mais que le commit Git correspondant reste inconnu, l'archive peut servir de référence sémantique ; l'alignement dépôt/API reste `UNVERIFIED`. Une absence de preuve doit rester visible, jamais être remplacée par une hypothèse.
 
 ## Limite importante du fichier API
 
