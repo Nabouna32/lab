@@ -71,7 +71,7 @@ Schema migrations are applied by the assistant through the available Supabase co
 
 For each change, review its SQL and impact before applying it, obtain explicit user approval for consequential or destructive operations, and verify the migration version recorded remotely plus the affected schema/security state. Report only checks actually performed; applying a migration does not mean local tests or pgTAP/concurrency checks ran.
 
-The retained `.github/scripts/test-account-deletion-concurrency.sh` script and pgTAP tests remain useful regression checks, but are not run automatically by the connector. The separate [Supabase Edge Functions CI](../.github/workflows/supabase-functions.yml) validates locked dependencies and types for changes under `supabase/functions/**`; it does not deploy functions or apply database migrations.
+The retained `.github/scripts/test-account-deletion-concurrency.sh` script and pgTAP tests remain useful regression checks, but are not run automatically by the connector. The main [GitHub Actions CI](../.github/workflows/ci.yml) conditionally runs `deno check --frozen index.ts` for the currently listed Edge Functions when files under `supabase/functions/**` change or the workflow is dispatched. It does not deploy functions or apply database migrations. Keep this description aligned with the actual workflow rather than a separate workflow file.
 
 
 ## Account favorites

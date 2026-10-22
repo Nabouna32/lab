@@ -35,14 +35,15 @@ The validator enforces these minimum invariants:
 
 This contract intentionally validates metadata and cross-field invariants that can be checked without coupling the catalog to a specific page implementation.
 
-Runtime and page-level quality remains governed by the existing specifications:
+Runtime and page-level quality is covered by the canonical sources below:
 
-- accessibility: `docs/ACCESSIBILITY.md`;
-- performance: `docs/PERFORMANCE.md`;
-- UX: `docs/UX.md`;
-- SEO: `docs/SEO.md`;
-- privacy/processing: `docs/PRIVACY.md`;
-- tool model: `docs/TOOL_ARCHITECTURE.md`.
+- UX, accessibility, responsive behavior and interaction: `docs/UX.md`;
+- SEO and editorial requirements: `docs/SEO-EDITORIAL.md`;
+- privacy and processing: `docs/PRIVACY.md`;
+- tool model and execution contract: `docs/TOOL_ARCHITECTURE.md`;
+- performance and rendered-page checks: the runtime and page-level quality section below.
+
+Do not create separate specifications for these topics solely to satisfy this index. Introduce a new document only when a distinct, maintained contract is needed.
 
 The contract should grow when a requirement becomes stable enough to validate automatically. It must not turn into a lowest-common-denominator renderer or weaken the broader product requirements.
 
