@@ -16,6 +16,11 @@ export const guidedWorkflowsPathSegments: Record<Locale, string> = {
   fr: "parcours-guides",
 };
 
+export const legalNoticePathSegments: Record<Locale, string> = {
+  en: "legal-notice",
+  fr: "mentions-legales",
+};
+
 const categorySlugs: Record<string, Record<Locale, string>> = {
   calculations: { en: "calculations", fr: "calculs" },
   dates: { en: "dates", fr: "dates" },
@@ -105,6 +110,10 @@ export function getGuidedWorkflowsPath(locale: Locale): string {
   return `/${locale}/${guidedWorkflowsPathSegments[locale]}`;
 }
 
+export function getLegalNoticePath(locale: Locale): string {
+  return `/${locale}/${legalNoticePathSegments[locale]}`;
+}
+
 export function getCategorySlug(locale: Locale, categoryId: string): string {
   return categorySlugs[categoryId]?.[locale] ?? categoryId;
 }
@@ -139,9 +148,14 @@ export function getLocalizedPath(pathname: string, targetLocale: Locale): string
   const currentToolsSegment = toolsPathSegments[currentLocale];
   const currentCategoriesSegment = categoriesPathSegments[currentLocale];
   const currentWorkflowsSegment = guidedWorkflowsPathSegments[currentLocale];
+  const currentLegalNoticeSegment = legalNoticePathSegments[currentLocale];
 
   if (segments.length === 2 && segments[1] === searchPathSegments[currentLocale]) {
     return getSearchResultsPagePath(targetLocale);
+  }
+
+  if (segments.length === 2 && segments[1] === currentLegalNoticeSegment) {
+    return getLegalNoticePath(targetLocale);
   }
 
   if (segments.length === 2 && segments[1] === currentToolsSegment) {
