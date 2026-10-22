@@ -63,3 +63,19 @@ test('rejects unknown successor mapping states', () => {
   invalid.families[0].successorMappingStatus = 'looks-equivalent';
   assert.ok(validateFamilyCatalog(invalid).some((error) => error.includes('successorMappingStatus is invalid')));
 });
+
+
+test('distinguishes verified official stable versions from unresolved baselines', () => {
+  const material3 = catalog.families.find((family) => family.id === 'compose-material3-mobile');
+  const ui = catalog.families.find((family) => family.id === 'compose-ui');
+  const adaptive = catalog.families.find((family) => family.id === 'material3-adaptive');
+  assert.equal(material3.referenceVersion, '1.4.0');
+  assert.equal(material3.referenceVersionStatus, 'selected-official-stable');
+  assert.equal(ui.referenceVersion, '1.12.1');
+  assert.equal(adaptive.referenceVersion, '1.3.0');
+  assert.equal(adaptive.artifact, 'androidx.compose.material3.adaptive:adaptive');
+
+  const invalid = structuredClone(catalog);
+  invalid.families[0].referenceVersionStatus = 'not-selected';
+  assert.ok(validateFamilyCatalog(invalid).some((error) => error.includes('selected version')));
+});
