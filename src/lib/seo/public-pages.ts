@@ -1,4 +1,5 @@
 import { categories } from "@/lib/tools/categories";
+import { isCategorySeoIndexable } from "./category-policy";
 import { getPublishedTools, getToolsByCategory } from "@/lib/tools/catalog";
 import { locales, type Locale } from "@/lib/i18n/config";
 import {
@@ -42,14 +43,18 @@ const resources: LocalizedSeoResource[] = [
     paths: localizedPaths(getPrivacyPolicyPath),
   },
   ...categories
-    .filter((category) => getToolsByCategory(category.id).length > 0)
+    .filter((category) => isCategorySeoIndexable(category.id) && getToolsByCategory(category.id).length > 0)
     .map((category) => ({
       id: `category:${category.id}`,
       paths: localizedPaths((locale) => getCategoryPath(locale, category.id)),
     })),
   ...getPublishedTools().map((tool) => ({
     id: `tool:${tool.id}`,
-    paths: localizedPaths((locale) => getToolPath(locale, tool.id)),
+    paths: Object.fromEntries(
+      locales
+        .filter((locale) => tool.seo[locale].indexable)
+        .map((locale) => [locale, getToolPath(locale, tool.id)]),
+    ),
   })),
 ];
 

@@ -6,6 +6,7 @@ import ToolPage from "@/components/tools/ToolPage/ToolPage";
 import NextActions from "@/components/tools/RelatedTools";
 import ToolRenderer from "@/components/tools/ToolRenderer";
 import { categories, getCategoryColor, getCategoryContainerColor, getCategoryName } from "@/lib/tools/categories";
+import { getCategorySeoDescription, isCategorySeoIndexable } from "@/lib/seo/category-policy";
 import { getToolsByCategory } from "@/lib/tools/catalog";
 import { getMessages } from "@/lib/i18n/messages";
 import { getPublicPageMetadata, getToolPageMetadata } from "@/lib/tools/page-metadata";
@@ -51,12 +52,14 @@ export async function generateMetadata({
     const category = categories.find((item) => item.id === categoryId);
     if (!category || getToolsByCategory(category.id).length === 0) return {};
     const categoryName = getCategoryName(locale, category.id);
-    const t = getMessages(locale);
-    return getPublicPageMetadata({
+    const metadata = getPublicPageMetadata({
       title: `${categoryName} — Loculary`,
-      description: t.tools.categoryDescription(categoryName),
+      description: getCategorySeoDescription(locale, category.id),
       path: getCategoryPath(locale, category.id),
     }, locale);
+    return isCategorySeoIndexable(category.id)
+      ? metadata
+      : { ...metadata, robots: { index: false, follow: true } };
   }
 
   if (section === getToolsPath(locale).split("/")[2]) {
@@ -95,7 +98,7 @@ export default async function LocalizedToolOrCategoryPage({
             <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[var(--radius-lg)] text-2xl" style={{ color: getCategoryColor(category.id), backgroundColor: getCategoryContainerColor(category.id) }} aria-hidden="true">{category.icon}</span>
             <div className="min-w-0 max-w-3xl">
               <h1 className="text-3xl font-black tracking-[-0.04em] sm:text-4xl">{categoryName}</h1>
-              <p className="mt-2 text-base leading-7 text-[var(--muted)]">{t.tools.categoryDescription(categoryName)}</p>
+              <p className="mt-2 text-base leading-7 text-[var(--muted)]">{getCategorySeoDescription(locale, category.id)}</p>
             </div>
           </div>
         </header>

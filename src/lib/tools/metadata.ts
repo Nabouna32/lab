@@ -134,7 +134,10 @@ export function validateToolCatalog(tools: readonly Tool[]): void {
     }
     for (const locale of locales) {
       const seo = tool.seo[locale];
-      if (!seo?.title.trim() || !seo.description.trim()) {
+      if (typeof seo?.indexable !== "boolean") {
+        throw new Error(`Tool "${tool.id}" must explicitly declare ${locale} SEO indexability.`);
+      }
+      if (!seo.title.trim() || !seo.description.trim()) {
         throw new Error(`Tool "${tool.id}" must declare ${locale} SEO metadata.`);
       }
     }

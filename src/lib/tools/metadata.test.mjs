@@ -16,8 +16,8 @@ const tool = {
   tags: ["fixture"],
   aliases: ["test"],
   seo: {
-    fr: { title: "Fixture", description: "Fixture" },
-    en: { title: "Fixture", description: "Fixture" },
+    fr: { title: "Fixture", description: "Fixture", indexable: true },
+    en: { title: "Fixture", description: "Fixture", indexable: true },
   },
   examples: [],
   processing: {
@@ -157,3 +157,25 @@ test("the metadata validator requires the primary category and canonical taxonom
   );
 });
 
+
+
+test("the metadata validator requires an explicit indexability decision for every locale", () => {
+  assert.throws(
+    () => validateToolCatalog([{
+      ...tool,
+      seo: {
+        fr: { title: "Fixture", description: "Fixture" },
+        en: { title: "Fixture", description: "Fixture", indexable: true },
+      },
+    }]),
+    /explicitly declare fr SEO indexability/,
+  );
+
+  assert.doesNotThrow(() => validateToolCatalog([{
+    ...tool,
+    seo: {
+      fr: { ...tool.seo.fr, indexable: false },
+      en: { ...tool.seo.en, indexable: true },
+    },
+  }]));
+});

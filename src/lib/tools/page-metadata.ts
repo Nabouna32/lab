@@ -50,9 +50,11 @@ export function getPublicPageMetadata(seo: PublicPageSeo, locale: Locale): Metad
 
 export function getToolPageMetadata(tool: Tool, locale: Locale): Metadata {
   const seo = tool.seo[locale];
-  return getPublicPageMetadata({
+  const metadata = getPublicPageMetadata({
     title: seo.title,
     description: seo.description,
     path: getToolPath(locale, tool.id),
   }, locale);
+
+  return seo.indexable ? metadata : { ...metadata, robots: { index: false, follow: true } };
 }

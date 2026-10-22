@@ -219,10 +219,10 @@ test("public route metadata and category copy use localized message keys", async
   const messages = readFileSync(fileURLToPath(new URL("../i18n/messages.ts", import.meta.url)), "utf8");
   assert.match(home, /title: t\.home\.metaTitle/);
   assert.match(tools, /title: t\.tools\.metaTitle/);
-  assert.match(category, /t\.tools\.categoryDescription\(categoryName\)/);
+  assert.match(category, /getCategorySeoDescription\(locale, category\.id\)/);
   assert.match(messages, /metaTitle: "Loculary — Outils en ligne gratuits"/);
   assert.match(messages, /metaTitle: "Loculary — Outils en ligne gratuits"/);
-  assert.match(messages, /categoryDescription: \(category\) =>/);
+  assert.match(category, /isCategorySeoIndexable\(category\.id\)/);
   assert.equal(messages.includes('locale === "fr" ? "Loculary — Outils gratuits en ligne"'), false);
   assert.equal(messages.includes('locale === "fr" ? "Tous les outils — Loculary"'), false);
 });
