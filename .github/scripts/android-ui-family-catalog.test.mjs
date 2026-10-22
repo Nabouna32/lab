@@ -79,3 +79,11 @@ test('distinguishes verified official stable versions from unresolved baselines'
   invalid.families[0].referenceVersionStatus = 'not-selected';
   assert.ok(validateFamilyCatalog(invalid).some((error) => error.includes('selected version')));
 });
+
+
+test('does not allow a selected version to hide an unverified artifact coordinate', () => {
+  const invalid = structuredClone(catalog);
+  const material3 = invalid.families.find((family) => family.id === 'compose-material3-mobile');
+  material3.artifactCoordinateStatus = 'candidate-unverified';
+  assert.ok(validateFamilyCatalog(invalid).some((error) => error.includes('artifact coordinate is unverified')));
+});
