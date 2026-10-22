@@ -26,7 +26,7 @@ Ne pas inférer la stabilité à partir du nom du symbole. Les annotations de st
 
 - Le fichier API publié est une entrée d'inventaire et de diff, pas une spécification sémantique complète.
 - Les signatures brutes doivent être conservées comme preuve ; la normalisation ne doit pas supprimer silencieusement des symboles inconnus.
-- Le parseur d'inventaire prend en charge les formats de signatures AndroidX 2.0, 3.0 et 4.0. Il conserve les signatures brutes et classe explicitement les entrées `@BytecodeOnly` comme bytecode-only au lieu de les confondre avec des API Kotlin à porter. Les entrées inconnues restent visibles et exigent une revue.
+- Le parseur d'inventaire prend en charge les formats de signatures AndroidX 2.0, 3.0 et 4.0. Il conserve les signatures brutes et classe explicitement les entrées `@BytecodeOnly` comme bytecode-only et `@InaccessibleFromKotlin` comme inaccessibles depuis Kotlin, au lieu de les confondre avec des API Kotlin à porter. Les entrées inconnues restent visibles et exigent une revue.
 - Les générateurs doivent être déterministes, utiliser les dépendances intégrées à Node lorsque possible et échouer clairement sur une entrée absente ou mal formée.
 - Les snapshots amont utilisés pour une référence doivent être identifiés par commit immuable et empreinte cryptographique.
 - Une mise à jour produit d'abord un rapport de diff. Elle ne modifie pas automatiquement la référence de portage et ne pousse pas de changement silencieux.
