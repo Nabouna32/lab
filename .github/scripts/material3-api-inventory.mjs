@@ -28,6 +28,10 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
   if (!formatVersion || !['2.0', '3.0', '4.0', '5.0'].includes(formatVersion)) {
     throw new Error('Unsupported or missing AndroidX API signature format; expected 2.0, 3.0, 4.0, or 5.0.');
   }
+  const surface = normalizedContents.match(/^\/\/ - surface=([A-Za-z0-9_-]+)\s*$/m)?.[1] ?? null;
+  if (formatVersion === '5.0' && surface !== 'public') {
+    throw new Error('Unsupported AndroidX API surface; expected surface=public.');
+  }
 
   const lines = normalizedContents.split('\n');
   const declarations = [];
@@ -145,7 +149,7 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
     schemaVersion: 1,
     artifact,
     version,
-    source: { commit: commit.toLowerCase(), path: sourcePath, sha256: dumpSha256, formatVersion },
+    source: { commit: commit.toLowerCase(), path: sourcePath, sha256: dumpSha256, formatVersion, ...(surface ? { surface } : {}) },
     inventoryKind: 'public-signature-surface',
     semanticCompleteness: 'not-established-by-api-dump-alone',
     declarationCount: declarations.length,
