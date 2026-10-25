@@ -7,6 +7,7 @@ const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url)
 const rainbowSource = readFileSync(new URL("../design-system/rainbow-tones.ts", import.meta.url), "utf8");
 const rainbowPaletteSource = readFileSync(new URL("../design-system/rainbow-palette.ts", import.meta.url), "utf8");
 const buttonSource = readFileSync(new URL("../../components/ui/Button.tsx", import.meta.url), "utf8");
+const buttonVariantStyles = readFileSync(new URL("../../components/ui/material-button-variant-styles.ts", import.meta.url), "utf8");
 
 test("semantic theme tokens use the accepted blue M3 Fidelity seed", () => {
   assert.ok(rainbowSource.includes('const BRAND_SEED = "#4285F4"'));
@@ -22,9 +23,9 @@ test("semantic theme tokens use the accepted blue M3 Fidelity seed", () => {
 });
 
 test("FilledTonalButton uses Material 3 secondary container roles without a Loculary alias", () => {
-  assert.ok(buttonSource.includes("const filledTonal = ["));
-  assert.ok(buttonSource.includes("bg-[var(--button-container-color,var(--secondary-container))] text-[var(--button-content-color,var(--on-secondary-container))]"));
-  assert.ok(buttonSource.includes('"filled-tonal": filledTonal'));
+  assert.ok(buttonVariantStyles.includes('"filled-tonal": ['));
+  assert.ok(buttonVariantStyles.includes("bg-[var(--button-container-color,var(--secondary-container))] text-[var(--button-content-color,var(--on-secondary-container))]"));
+  assert.ok(buttonSource.includes('variant="filled-tonal"'));
   assert.ok(buttonSource.includes("export function FilledTonalButton("));
   assert.ok(!buttonSource.includes("tonal: filledTonal"), "the legacy tonal alias must not remain in the shared API");
 });
