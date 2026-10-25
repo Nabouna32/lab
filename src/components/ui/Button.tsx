@@ -1,5 +1,6 @@
 import type { ButtonHTMLAttributes, CSSProperties, Ref } from "react";
 import { ButtonRipple } from "@/components/ui/ButtonRipple";
+import { materialButtonVariantStyles, type MaterialButtonVariant } from "@/components/ui/material-button-variant-styles";
 
 export type ButtonColors = {
   /** Container color; maps to AndroidX ButtonColors.containerColor. */
@@ -23,7 +24,6 @@ export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   multiline?: boolean;
 };
 
-import { materialButtonVariantStyles, type MaterialButtonVariant } from "@/components/ui/material-button-variant-styles";
 
 function MaterialButton({
   variant,
