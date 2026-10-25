@@ -165,9 +165,10 @@ export default async function AccountPage({
             <h2 id="delete-account-title" className="mt-1 text-lg font-black">{t.account.deleteAccountTitle}</h2>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--muted)]">{t.account.deleteAccountDescription}</p>
             <AppLink
-              className="mt-4 [--button-content-color:var(--error)]"
+              className="mt-4"
               href={`/${locale}/compte/suppression`}
               leadingIcon
+              colors={{ contentColor: "var(--error)" }}
               variant="text"
             >
               <MaterialIcon name="delete" size={18} className="shrink-0" />
