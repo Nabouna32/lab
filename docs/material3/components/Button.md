@@ -72,8 +72,9 @@ When migrating a page, evaluate the complete screen and interaction journey rath
 
 ## Remaining verification
 
-- [ ] Align the source snapshot, API reference and relevant per-variant token files to a declared AndroidX release/commit.
-- [x] Cross-check the disabled container/content roles and opacity against the pinned token definitions: on-surface at 10% for disabled containers; on-surface-variant at 38% for disabled labels. Remaining per-variant token, state-layer, shape and elevation cross-checks are still open.
+- [x] Pin `Button.kt` and the five per-variant token files to the declared AndroidX commit `2fb1702c1c62a6059e73d757d9e4eda1044ce21d`. This immutable source snapshot is authoritative for the port; the public API page and component guide are supporting references, not proof that a published artifact is identical to this commit.
+- [x] Cross-check the disabled container/content roles and opacity against the pinned token definitions: on-surface at 10% for disabled containers; on-surface-variant at 38% for disabled labels.
+- [ ] Cross-check all remaining per-variant container/content roles, state-layer opacity, shape and elevation values against the linked token files.
 - [ ] Check the rendered component in light/dark themes and actual computed colors/contrast.
 - [ ] Verify pointer ripple origin, clipping, cancellation, keyboard interaction and reduced-motion behavior in a browser. Code-level reduced-motion handling now avoids creating animated ripples and clears active entries when the preference changes; actual browser behavior remains UNVERIFIED.
 - [ ] Check FR/EN long labels, constrained widths, 200% zoom and icon alignment.
