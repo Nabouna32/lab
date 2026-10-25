@@ -1,13 +1,11 @@
 import Link from "next/link";
+import AppLink from "@/components/ui/AppLink";
 import HeaderSearch from "@/components/layout/HeaderSearch";
 import DesktopHeaderMenu from "@/components/layout/DesktopHeaderMenu";
 import LocularyLogo from "@/components/brand/LocularyLogo";
 import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
 import { getToolsPath } from "@/lib/tools/routes";
-
-const textLink =
-  "flex h-9 shrink-0 items-center gap-2 rounded-[var(--radius-pill)] border border-transparent px-3 text-sm font-semibold text-[var(--muted)] outline-none transition-[border-color,background-color,color] hover:border-[var(--border)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)] focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]";
 
 export default function Header({ locale }: { locale: Locale }) {
   const t = getMessages(locale);
@@ -28,9 +26,9 @@ export default function Header({ locale }: { locale: Locale }) {
           </Link>
 
           <div className="flex shrink-0 items-center justify-self-end gap-0.5 sm:gap-1">
-            <Link href={getToolsPath(locale)} className={textLink + " hidden lg:inline-flex"}>
+            <AppLink href={getToolsPath(locale)} variant="navigation" className="hidden lg:inline-flex">
               {t.nav.explore}
-            </Link>
+            </AppLink>
             <HeaderSearch locale={locale} searchLabel={t.tools.searchLabel} />
             <DesktopHeaderMenu locale={locale} />
           </div>
