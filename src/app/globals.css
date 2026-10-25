@@ -366,7 +366,8 @@ button:disabled > .button-ripple-layer {
 
 @media (prefers-reduced-motion: reduce) {
   .button-ripple { display: none; }
-  button:active > .button-ripple-layer::after { opacity: 0.1; }
+  button:active > .button-ripple-layer::after,
+  a[data-material-button-link="true"]:active > .button-ripple-layer::after { opacity: 0.1; }
   html { scroll-behavior: auto; }
   *, *::before, *::after {
     animation-duration: .01ms !important;
