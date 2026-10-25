@@ -327,5 +327,5 @@ test("Button ripple is pointer-origin, bounded, cleans up after release and resp
 });
 
 test("native control font reset stays in Tailwind base layer so Material 3 typography utilities win", () => {
-  assert.match(globalCss, /@layer base\\s*\\{\\s*button, input, textarea, select \\{ font: inherit; \\}\\s*\\}/);
+  assert.match(globalCss, /@layer base\s*\{\s*button, input, textarea, select \{ font: inherit; \}\s*\}/);
 });
