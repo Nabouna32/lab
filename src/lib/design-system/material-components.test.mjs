@@ -439,9 +439,9 @@ test("AndroidX-named Buttons support per-state color customization without produ
   }
   assert.ok(buttonSource.includes("--button-disabled-container-color"));
   assert.ok(buttonSource.includes("--button-disabled-content-color"));
-  assert.ok(buttonSource.includes("disabled:border-[color-mix(in_srgb,var(--on-surface)_12%,transparent)]"));
-  assert.ok(buttonSource.includes("disabled:bg-[var(--button-disabled-container-color,color-mix(in_srgb,var(--on-surface)_10%,transparent))]"));
-  assert.ok(buttonSource.includes("color-mix(in_srgb,var(--on-surface-variant)_38%,transparent)"));
+  assert.ok(buttonVariantStylesSource.includes("disabled:border-[color-mix(in_srgb,var(--on-surface)_12%,transparent)]"));
+  assert.ok(buttonVariantStylesSource.includes("disabled:bg-[var(--button-disabled-container-color,color-mix(in_srgb,var(--on-surface)_10%,transparent))]"));
+  assert.ok(buttonVariantStylesSource.includes("color-mix(in_srgb,var(--on-surface-variant)_38%,transparent)"));
   assert.ok(buttonSource.includes("export type ButtonColors ="));
   assert.ok(buttonSource.includes('"--button-container-color": colors.containerColor'));
   assert.ok(buttonSource.includes('"--button-disabled-container-color": colors.disabledContainerColor'));
