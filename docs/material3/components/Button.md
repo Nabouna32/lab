@@ -22,6 +22,7 @@ The pinned `Button.kt` source establishes:
 - Icon-to-label spacing: 8 dp; the source's default icon size is token-defined.
 - The default text style is Material `labelLarge`.
 - Each public variant has its own color/elevation defaults. ElevatedButton has a resting shadow; Button and FilledTonalButton have interaction-dependent elevation; OutlinedButton and TextButton default to no elevation.
+- Disabled container and label colors are token-derived per variant. The source tokens use the on-surface role at 10% opacity for disabled containers and on-surface-variant at 38% opacity for disabled labels; ElevatedButton must not retain its enabled surface-container-low color when disabled.
 - Disabled colors and elevation come from the matching variant token set, not one generic disabled treatment.
 
 These are Android dp/sp values. The React implementation expresses geometry in CSS units; numerical resemblance is not physical equivalence. CSS color mixing, browser focus rings, native disabled semantics and the pointer-origin ripple are explicit Web adaptations.
@@ -67,7 +68,7 @@ When migrating a page, evaluate the complete screen and interaction journey rath
 ## Remaining verification
 
 - [ ] Align the source snapshot, API reference and relevant per-variant token files to a declared AndroidX release/commit.
-- [ ] Verify the exact variant token values for colors, disabled opacity, state layers, shape and elevation.
+- [x] Cross-check the disabled container/content roles and opacity against the pinned token definitions: on-surface at 10% for disabled containers; on-surface-variant at 38% for disabled labels. Remaining per-variant token, state-layer, shape and elevation cross-checks are still open.
 - [ ] Check the rendered component in light/dark themes and actual computed colors/contrast.
 - [ ] Verify pointer ripple origin, clipping, cancellation, keyboard interaction and reduced-motion behavior in a browser. Code-level reduced-motion handling now avoids creating animated ripples and clears active entries when the preference changes; actual browser behavior remains UNVERIFIED.
 - [ ] Check FR/EN long labels, constrained widths, 200% zoom and icon alignment.

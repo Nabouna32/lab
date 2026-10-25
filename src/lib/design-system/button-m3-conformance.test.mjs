@@ -41,6 +41,12 @@ test("shared Button exports AndroidX component names with source-derived dimensi
   assert.ok(!button.includes("active:rounded-[var(--shape-corner-small)]"), "pressed state must not morph the shape in the selected Fidelity direction");
 });
 
+test("Button disabled colors follow AndroidX variant token roles", () => {
+  assert.ok(button.includes("color-mix(in_srgb,var(--on-surface-variant)_38%,transparent)"), "disabled labels use the AndroidX on-surface-variant role at 38% opacity");
+  assert.ok(button.includes("disabled:bg-[var(--button-disabled-container-color,color-mix(in_srgb,var(--on-surface)_10%,transparent))]"), "ElevatedButton disabled container uses the AndroidX on-surface role at 10% opacity, not its enabled surface-container-low role");
+  assert.ok(!button.includes("disabled:bg-[var(--button-disabled-container-color,var(--surface-container-low))]"), "ElevatedButton must not retain its enabled container as the disabled default");
+});
+
 test("ButtonRipple avoids creating or retaining animated ripples when reduced motion is enabled", () => {
   for (const required of [
     'window.matchMedia("(prefers-reduced-motion: reduce)").matches',
