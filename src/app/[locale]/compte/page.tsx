@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { signOut, updateProfile } from "./actions";
-import { AccountActionLink } from "@/components/account/AccountActionLink";
+import AppLink from "@/components/ui/AppLink";
 import SubmitButton from "@/components/account/SubmitButton";
 import { Panel } from "@/components/ui/Panel";
 import { TextField } from "@/components/ui/TextField";
@@ -36,12 +36,12 @@ export default async function AccountPage({
             <h1 className="text-3xl font-black tracking-[-0.05em]">{t.account.title}</h1>
             <p className="mt-3 max-w-xl leading-7 text-[var(--muted)]">{t.account.anonymousDescription}</p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <AccountActionLink href={`/${locale}/compte/connexion`} variant="primary">
+              <AppLink href={`/${locale}/compte/connexion`} variant="filled">
                 {t.account.signIn}
-              </AccountActionLink>
-              <AccountActionLink href={`/${locale}/compte/inscription`}>
+              </AppLink>
+              <AppLink href={`/${locale}/compte/inscription`} variant="outlined">
                 {t.account.signUp}
-              </AccountActionLink>
+              </AppLink>
             </div>
           </Panel>
         </div>
@@ -148,9 +148,9 @@ export default async function AccountPage({
 
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             {isAdmin === true ? (
-              <AccountActionLink href={`/${locale}/admin`} variant="primary">
+              <AppLink href={`/${locale}/admin`} variant="filled">
                 {t.admin.label}
-              </AccountActionLink>
+              </AppLink>
             ) : <span />}
             <form action={signOut}>
               <input type="hidden" name="locale" value={locale} />
@@ -164,14 +164,15 @@ export default async function AccountPage({
             <p className="text-sm font-black text-[var(--danger)]">{t.account.dangerZone}</p>
             <h2 id="delete-account-title" className="mt-1 text-lg font-black">{t.account.deleteAccountTitle}</h2>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--muted)]">{t.account.deleteAccountDescription}</p>
-            <AccountActionLink
-              className="mt-4"
+            <AppLink
+              className="mt-4 [--button-content-color:var(--error)]"
               href={`/${locale}/compte/suppression`}
-              variant="danger"
+              leadingIcon
+              variant="text"
             >
-              <MaterialIcon name="delete" size={18} className="mr-2 shrink-0" />
+              <MaterialIcon name="delete" size={18} className="shrink-0" />
               {t.account.deleteAccount}
-            </AccountActionLink>
+            </AppLink>
           </section>
         </div>
       </div>
