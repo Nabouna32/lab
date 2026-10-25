@@ -184,11 +184,25 @@ export function getLocalizedPath(pathname: string, targetLocale: Locale): string
   const currentToolsSegment = toolsPathSegments[currentLocale];
   const currentCategoriesSegment = categoriesPathSegments[currentLocale];
   const currentWorkflowsSegment = guidedWorkflowsPathSegments[currentLocale];
+  const currentAboutSegment = aboutPathSegments[currentLocale];
+  const currentBugReportSegment = bugReportPathSegments[currentLocale];
   const currentLegalNoticeSegment = legalNoticePathSegments[currentLocale];
   const currentPrivacyPolicySegment = privacyPolicyPathSegments[currentLocale];
 
   if (segments.length === 2 && segments[1] === searchPathSegments[currentLocale]) {
     return getSearchResultsPagePath(targetLocale);
+  }
+
+  if (segments.length === 2 && segments[1] === currentAboutSegment) {
+    return getAboutPath(targetLocale);
+  }
+
+  if (segments.length === 2 && segments[1] === "contact") {
+    return getContactPath(targetLocale);
+  }
+
+  if (segments.length === 2 && segments[1] === currentBugReportSegment) {
+    return getBugReportPath(targetLocale);
   }
 
   if (segments.length === 2 && segments[1] === currentLegalNoticeSegment) {
