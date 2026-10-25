@@ -1,10 +1,15 @@
 # Button — AndroidX Material 3 → React port
 
-**Status:** Portage en cours. API names and the initial source-derived contract are now explicit; full browser verification and production call-site review remain open.
+**Status:** Portage en cours. API names and the initial source-derived contract are explicit; generic action call sites have been migrated and their former local styles removed. Full source-release alignment and browser verification remain open.
 
 ## Upstream authority
 
 - [Pinned AndroidX `Button.kt` source](https://android.googlesource.com/platform/frameworks/support/%2B/2fb1702c1c62a6059e73d757d9e4eda1044ce21d/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Button.kt)
+- [FilledButtonTokens](https://android.googlesource.com/platform/frameworks/support/%2B/2fb1702c1c62a6059e73d757d9e4eda1044ce21d/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/FilledButtonTokens.kt)
+- [ElevatedButtonTokens](https://android.googlesource.com/platform/frameworks/support/%2B/2fb1702c1c62a6059e73d757d9e4eda1044ce21d/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/ElevatedButtonTokens.kt)
+- [FilledTonalButtonTokens](https://android.googlesource.com/platform/frameworks/support/%2B/2fb1702c1c62a6059e73d757d9e4eda1044ce21d/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/FilledTonalButtonTokens.kt)
+- [OutlinedButtonTokens](https://android.googlesource.com/platform/frameworks/support/%2B/2fb1702c1c62a6059e73d757d9e4eda1044ce21d/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/OutlinedButtonTokens.kt)
+- [TextButtonTokens](https://android.googlesource.com/platform/frameworks/support/%2B/2fb1702c1c62a6059e73d757d9e4eda1044ce21d/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/TextButtonTokens.kt)
 - [AndroidX Button API](https://developer.android.com/reference/kotlin/androidx/compose/material3/Button.composable)
 - [AndroidX ButtonDefaults API](https://developer.android.com/reference/kotlin/androidx/compose/material3/ButtonDefaults)
 - [Official Compose Material 3 Button guide](https://developer.android.com/develop/ui/compose/components/button)
@@ -73,6 +78,7 @@ When migrating a page, evaluate the complete screen and interaction journey rath
 - [ ] Verify pointer ripple origin, clipping, cancellation, keyboard interaction and reduced-motion behavior in a browser. Code-level reduced-motion handling now avoids creating animated ripples and clears active entries when the preference changes; actual browser behavior remains UNVERIFIED.
 - [ ] Check FR/EN long labels, constrained widths, 200% zoom and icon alignment.
 - [ ] Run component tests, lint, TypeScript, unit tests and production build.
-- [ ] Review production call sites to ensure the five AndroidX variants use their matching named exports and validate custom colors in light/dark themes. Generic actions in ExpenseSplitter, CronExpression, IPv4/IPv6 subnet calculators, DatePickerDialog, TimePickerDialog and Snackbar have been migrated; the broader site-wide raw-button audit remains open.
+- [x] Audit generic action call sites: ExpenseSplitter, CronExpression, IPv4/IPv6 subnet calculators, DatePickerDialog, TimePickerDialog, Snackbar and the Design Lab audit workbench now use shared variants. Remaining native buttons were classified as distinct component families or intentional Visual Lab mockups; do not convert them mechanically into Button.
+- [ ] Validate custom Button colors and all variants in light/dark themes in a browser.
 
 Passing static assertions or a Design Lab preview is not proof of full conformance. Do not mark the port verified until browser evidence and remaining source questions are closed.
