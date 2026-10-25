@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import { test } from "node:test";
 
 const button = readFileSync(new URL("../../components/ui/Button.tsx", import.meta.url), "utf8");
+const submitButton = readFileSync(new URL("../../components/account/SubmitButton.tsx", import.meta.url), "utf8");
 const buttonVariantStyles = readFileSync(new URL("../../components/ui/material-button-variant-styles.ts", import.meta.url), "utf8");
 const buttonRipple = readFileSync(new URL("../../components/ui/ButtonRipple.tsx", import.meta.url), "utf8");
 const iconButton = readFileSync(new URL("../../components/ui/IconButton.tsx", import.meta.url), "utf8");
@@ -57,6 +58,8 @@ test("Button disabled colors follow AndroidX variant token roles", () => {
   assert.ok(buttonVariantStyles.includes("focus-visible:bg-[color-mix(in_srgb,var(--button-container-color,var(--primary))_88%,var(--button-content-color,var(--on-primary)))]"), "focus state layer opacity is 12%");
   assert.ok(buttonVariantStyles.includes("color-mix(in srgb, var(--surface) 94.88%, var(--surface-tint))"));
   assert.ok(buttonVariantStyles.includes("color-mix(in srgb, var(--surface) 93.06%, var(--surface-tint))"));
+  assert.ok(submitButton.includes("color-mix(in srgb, var(--on-surface) 12%, transparent)"));
+  assert.ok(submitButton.includes("color-mix(in srgb, var(--on-surface) 38%, transparent)"));
 });
 
 
@@ -65,6 +68,7 @@ test("button-styled links preserve anchors and share the ripple interaction", ()
   assert.match(appLink, /data-material-button-link=\{isMaterialButton \? "true" : undefined\}/);
   assert.match(appLink, /isMaterialButton \? <ButtonRipple \/> : null/);
   assert.match(appLink, /materialButtonVariantStyles\[variant as MaterialButtonVariant\]/);
+  assert.match(appLink, /getMaterialButtonInlineStyle\(isMaterialButton/);
 });
 
 test("remaining generic text actions use shared Button variants and their obsolete local styles are removed", () => {
