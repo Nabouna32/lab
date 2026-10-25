@@ -54,27 +54,6 @@
   padding-block: 1.25rem;
 }
 
-.dismiss {
-  min-height: 2.75rem;
-  padding: .5rem 1rem;
-  border: 0;
-  border-radius: var(--shape-corner-full, 9999px);
-  background: transparent;
-  color: var(--primary, #245ac7);
-  font: inherit;
-  font-weight: 500;
-  cursor: pointer;
-}
-
-.dismiss:hover {
-  background: color-mix(in srgb, var(--primary, #245ac7) 8%, transparent);
-}
-
-.dismiss:focus-visible {
-  outline: 2px solid var(--focus-ring, var(--primary));
-  outline-offset: 2px;
-}
-
 @keyframes scrim-enter {
   from { opacity: 0; }
   to { opacity: 1; }
