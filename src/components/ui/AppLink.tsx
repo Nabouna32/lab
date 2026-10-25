@@ -2,7 +2,7 @@ import NextLink, { type LinkProps } from "next/link";
 import type { AnchorHTMLAttributes, ReactNode } from "react";
 import { materialButtonVariantStyles, type MaterialButtonVariant } from "@/components/ui/material-button-variant-styles";
 
-export type AppLinkVariant = "inline" | "navigation" | "tonal" | MaterialButtonVariant;
+export type AppLinkVariant = "inline" | "navigation" | MaterialButtonVariant;
 
 type AppLinkProps = LinkProps &
   Omit<AnchorHTMLAttributes<HTMLAnchorElement>, keyof LinkProps> & {
