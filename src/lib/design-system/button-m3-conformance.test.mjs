@@ -307,7 +307,7 @@ test("Button ripple is pointer-origin, bounded, cleans up after release and resp
     "button-ripple-expand",
     "button-ripple-fade",
     ".button-ripple { display: none; }",
-    "button:active > .button-ripple-layer::after { opacity: 0.1; }",
+    'a[data-material-button-link="true"]:active > .button-ripple-layer::after { opacity: 0.1; }',
   ]) {
     assert.ok(globalCss.includes(required), "missing ripple rendering rule: " + required);
   }
