@@ -30,14 +30,14 @@ export default function ToolPageHeader({
           {icon}
         </div>
         <div className="min-w-0 flex-1">
-          <h1 className="mt-0.5 text-2xl font-black tracking-[-0.035em] sm:text-3xl lg:text-4xl">
+          <h1 className="m3-type-headline-large mt-0.5">
             {title}
           </h1>
-          <p className="mt-1.5 max-w-3xl text-sm leading-6 text-[var(--muted)] sm:text-base">
+          <p className="m3-type-body-medium mt-1.5 max-w-3xl text-[var(--muted)]">
             {description}
           </p>
           {contentFallback && (
-            <p className="mt-2 text-xs font-medium text-[var(--muted)]" role="status">
+            <p className="m3-type-label-medium mt-2 text-[var(--muted)]" role="status">
               {getMessages(locale).processing.fallbackNotice}
             </p>
           )}
