@@ -292,10 +292,12 @@ test("Button ripple is pointer-origin, bounded, cleans up after release and resp
     "setPointerCapture(event.pointerId)",
     "onPointerCancel={releasePointer}",
     "onLostPointerCapture={releasePointer}",
-    'event.key !== " " && event.key !== "Enter"',
-    "button.addEventListener(\"keydown\", handleKeyDown)",
-    "button.addEventListener(\"keyup\", handleKeyUp)",
-    "button.addEventListener(\"blur\", handleBlur)",
+    'isAnchor ? event.key !== "Enter" : event.key !== " " && event.key !== "Enter"',
+    "candidate instanceof HTMLAnchorElement",
+    "isDisabledControl(control)",
+    "control.addEventListener(\"keydown\", handleKeyDown)",
+    "control.addEventListener(\"keyup\", handleKeyUp)",
+    "control.addEventListener(\"blur\", handleBlur)",
     'event.animationName !== "button-ripple-fade"',
   ]) {
     assert.ok(buttonRipple.includes(required), "missing ripple interaction behavior: " + required);
