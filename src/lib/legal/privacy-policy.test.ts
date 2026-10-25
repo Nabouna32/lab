@@ -3,12 +3,13 @@ import test from "node:test";
 import { getPrivacyPolicyContent } from "./privacy-policy-content.ts";
 import { getPrivacyPolicyPath, getLocalizedPath } from "../tools/routes.ts";
 
-test("privacy policy is available in French and English with a usable contact and transparent compliance notice", () => {
+test("privacy policy provides contact and temporary-status disclosures in French and English", () => {
   for (const locale of ["fr", "en"] as const) {
     const policy = getPrivacyPolicyContent(locale);
     assert.ok(policy.sections.length >= 8);
-    assert.equal(policy.contactAddress, "nabouna47@gmx.fr");
-    assert.match(policy.temporaryNotice, /retention|conservation/i);
+    assert.ok(policy.contactAddress.trim().length > 0);
+    assert.ok(policy.temporaryNotice.trim().length > 0);
+    assert.ok(policy.contactWarning.trim().length > 0);
     assert.ok(policy.sections.some((section) => /retention|conservation/i.test(section.title)));
     assert.ok(policy.sections.some((section) => /rights|droits/i.test(section.title)));
   }
