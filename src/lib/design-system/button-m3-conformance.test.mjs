@@ -47,6 +47,13 @@ test("Button disabled colors follow AndroidX variant token roles", () => {
   assert.ok(!button.includes("disabled:bg-[var(--button-disabled-container-color,var(--surface-container-low))]"), "ElevatedButton must not retain its enabled container as the disabled default");
 });
 
+test("generic reset action in CronExpression uses OutlinedButton", () => {
+  const cronExpression = readFileSync(new URL("../../components/tools/cron-expression/CronExpression.tsx", import.meta.url), "utf8");
+  assert.ok(cronExpression.includes('import { OutlinedButton } from "@/components/ui/Button"'));
+  assert.ok(cronExpression.includes('<OutlinedButton type="button" onClick={reset}>{t.reset}</OutlinedButton>'));
+  assert.ok(!cronExpression.includes('className="rounded-[var(--radius-sm)] border border-[var(--border)] px-3 py-2 text-sm font-medium'), "obsolete local reset styling must be removed");
+});
+
 test("ButtonRipple avoids creating or retaining animated ripples when reduced motion is enabled", () => {
   for (const required of [
     'window.matchMedia("(prefers-reduced-motion: reduce)").matches',

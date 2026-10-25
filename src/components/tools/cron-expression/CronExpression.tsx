@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { ClearButton } from "@/components/ui/ClearButton";
+import { OutlinedButton } from "@/components/ui/Button";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { useLocale } from "@/lib/i18n/use-locale";
@@ -130,13 +131,7 @@ export default function CronExpression() {
         </div>
 
         <div className="mt-5 flex justify-end">
-          <button
-            type="button"
-            onClick={reset}
-            className="rounded-[var(--radius-sm)] border border-[var(--border)] px-3 py-2 text-sm font-medium text-[var(--foreground)] transition hover:bg-[var(--background)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
-          >
-            {t.reset}
-          </button>
+          <OutlinedButton type="button" onClick={reset}>{t.reset}</OutlinedButton>
         </div>
 
         <p className="sr-only" aria-live="polite">

@@ -116,7 +116,7 @@ The inventory is intentionally **not yet declared complete**. The existing histo
 
 | Component | Spec | Port status | Production migration |
 |---|---|---|---|
-| Button | [Button](components/Button.md) | Five AndroidX-named React exports; reduced-motion ripple cleanup implemented; source/API release alignment and browser verification remain open | Generic actions in ExpenseSplitter, DatePickerDialog, TimePickerDialog and Snackbar migrated to shared variants; broader raw-button audit and browser verification remain open |
+| Button | [Button](components/Button.md) | Five AndroidX-named React exports; reduced-motion ripple cleanup implemented; source/API release alignment and browser verification remain open | Generic actions in ExpenseSplitter, CronExpression, DatePickerDialog, TimePickerDialog and Snackbar migrated to shared variants; broader raw-button audit and browser verification remain open |
 | IconButton | [IconButton](components/IconButton.md) | Existing implementation; full source-contract and browser verification still required | Not established by this index |
 | Other components | Not yet audited | À inventorier | À inventorier |
 
