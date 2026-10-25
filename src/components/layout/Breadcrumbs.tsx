@@ -10,7 +10,7 @@ export default function Breadcrumbs({ locale, items }: { locale: Locale; items: 
 
   return (
     <nav aria-label={t.breadcrumbs.label} className="mb-4 sm:mb-5">
-      <ol className="flex min-w-0 items-center gap-1 text-xs text-[var(--muted)] sm:gap-1.5 sm:text-sm">
+      <ol className="m3-type-body-small flex min-w-0 items-center gap-1 text-[var(--muted)] sm:gap-1.5">
         <li className="hidden shrink-0 items-center sm:flex">
           <Link
             href={"/" + locale}
@@ -38,7 +38,7 @@ export default function Breadcrumbs({ locale, items }: { locale: Locale; items: 
               ) : (
                 <span
                   aria-current={isCurrent ? "page" : undefined}
-                  className="min-w-0 max-w-[52vw] truncate rounded-md px-1 py-0.5 font-medium text-[var(--foreground)] sm:max-w-none"
+                  className="m3-type-label-medium min-w-0 max-w-[52vw] truncate rounded-md px-1 py-0.5 text-[var(--foreground)] sm:max-w-none"
                 >
                   {item.label}
                 </span>
