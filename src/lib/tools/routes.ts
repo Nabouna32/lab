@@ -16,6 +16,21 @@ export const guidedWorkflowsPathSegments: Record<Locale, string> = {
   fr: "parcours-guides",
 };
 
+export const aboutPathSegments: Record<Locale, string> = {
+  en: "about",
+  fr: "a-propos",
+};
+
+export const contactPathSegments: Record<Locale, string> = {
+  en: "contact",
+  fr: "contact",
+};
+
+export const bugReportPathSegments: Record<Locale, string> = {
+  en: "report-a-bug",
+  fr: "signaler-un-bug",
+};
+
 export const legalNoticePathSegments: Record<Locale, string> = {
   en: "legal-notice",
   fr: "mentions-legales",
@@ -115,6 +130,18 @@ export function getGuidedWorkflowsPath(locale: Locale): string {
   return `/${locale}/${guidedWorkflowsPathSegments[locale]}`;
 }
 
+export function getAboutPath(locale: Locale): string {
+  return "/" + locale + "/" + aboutPathSegments[locale];
+}
+
+export function getContactPath(locale: Locale): string {
+  return "/" + locale + "/" + contactPathSegments[locale];
+}
+
+export function getBugReportPath(locale: Locale): string {
+  return "/" + locale + "/" + bugReportPathSegments[locale];
+}
+
 export function getLegalNoticePath(locale: Locale): string {
   return `/${locale}/${legalNoticePathSegments[locale]}`;
 }
@@ -157,11 +184,25 @@ export function getLocalizedPath(pathname: string, targetLocale: Locale): string
   const currentToolsSegment = toolsPathSegments[currentLocale];
   const currentCategoriesSegment = categoriesPathSegments[currentLocale];
   const currentWorkflowsSegment = guidedWorkflowsPathSegments[currentLocale];
+  const currentAboutSegment = aboutPathSegments[currentLocale];
+  const currentBugReportSegment = bugReportPathSegments[currentLocale];
   const currentLegalNoticeSegment = legalNoticePathSegments[currentLocale];
   const currentPrivacyPolicySegment = privacyPolicyPathSegments[currentLocale];
 
   if (segments.length === 2 && segments[1] === searchPathSegments[currentLocale]) {
     return getSearchResultsPagePath(targetLocale);
+  }
+
+  if (segments.length === 2 && segments[1] === currentAboutSegment) {
+    return getAboutPath(targetLocale);
+  }
+
+  if (segments.length === 2 && segments[1] === "contact") {
+    return getContactPath(targetLocale);
+  }
+
+  if (segments.length === 2 && segments[1] === currentBugReportSegment) {
+    return getBugReportPath(targetLocale);
   }
 
   if (segments.length === 2 && segments[1] === currentLegalNoticeSegment) {

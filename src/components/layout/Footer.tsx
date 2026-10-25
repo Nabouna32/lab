@@ -1,50 +1,37 @@
-import Link from "next/link";
-import LocularyLogo from "@/components/brand/LocularyLogo";
+import AppLink from "@/components/ui/AppLink";
 import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
-import { getLegalNoticePath, getPrivacyPolicyPath, getToolsPath } from "@/lib/tools/routes";
-
-const footerLink =
-  "inline-flex min-h-12 items-center rounded-full px-3 text-sm font-semibold text-[var(--muted)] outline-none transition-colors hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]";
+import { getAboutPath, getBugReportPath, getContactPath, getLegalNoticePath, getPrivacyPolicyPath } from "@/lib/tools/routes";
 
 export default function Footer({ locale }: { locale: Locale }) {
   const t = getMessages(locale);
 
   return (
-    <footer className="border-t border-[var(--border)] bg-[var(--surface)]/70">
-      <div className="mx-auto flex max-w-[var(--content-wide)] flex-col gap-4 px-3 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
-        <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
-          <Link
-            href={"/" + locale}
-            aria-label={"Loculary - " + t.nav.home}
-            className="w-fit rounded-[var(--radius-lg)] outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
-          >
-            <LocularyLogo
-              className="gap-2"
-              wordmarkClassName="text-base font-bold tracking-[-0.03em] text-[var(--foreground)]"
-            />
-          </Link>
-          <span className="hidden h-1 w-1 rounded-full bg-[var(--border-strong)] sm:block" aria-hidden="true" />
-          <span className="max-w-[32rem] text-xs leading-5 text-[var(--muted)]">{t.footer.tagline}</span>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-1 sm:justify-end">
-          <Link href={getToolsPath(locale)} className={footerLink}>
-            {t.nav.tools}
-          </Link>
-          <Link href={"/" + locale + "/compte"} className={footerLink}>
-            {t.nav.account}
-          </Link>
-          <Link href={getLegalNoticePath(locale)} className={footerLink}>
+    <footer className="border-t border-[var(--border)] bg-[var(--surface)]">
+      <div className="mx-auto flex max-w-[var(--content-wide)] flex-col gap-3 px-3 py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:px-6 sm:py-5 lg:px-8">
+        <nav
+          aria-label={t.footer.navigationLabel}
+          className="flex flex-wrap items-center gap-x-1 gap-y-1"
+        >
+          <AppLink href={getAboutPath(locale)} variant="tonal">
+            {t.footer.about}
+          </AppLink>
+          <AppLink href={getContactPath(locale)} variant="tonal">
+            {t.footer.contact}
+          </AppLink>
+          <AppLink href={getBugReportPath(locale)} variant="tonal">
+            {t.footer.reportBug}
+          </AppLink>
+          <AppLink href={getLegalNoticePath(locale)} variant="tonal">
             {t.footer.legalNotice}
-          </Link>
-          <Link href={getPrivacyPolicyPath(locale)} className={footerLink}>
+          </AppLink>
+          <AppLink href={getPrivacyPolicyPath(locale)} variant="tonal">
             {t.footer.privacyPolicy}
-          </Link>
-          <span className="ml-1 pl-2 text-xs text-[var(--muted)] sm:border-l sm:border-[var(--border)] sm:pl-3">
-            © {new Date().getFullYear()}
-          </span>
-        </div>
+          </AppLink>
+        </nav>
+        <p className="shrink-0 border-t border-[var(--border)] pt-3 text-xs font-medium text-[var(--muted)] sm:border-l sm:border-t-0 sm:pl-4 sm:pt-0">
+          © {new Date().getFullYear()} Loculary
+        </p>
       </div>
     </footer>
   );
