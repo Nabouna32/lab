@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import { test } from "node:test";
 
 const button = readFileSync(new URL("../../components/ui/Button.tsx", import.meta.url), "utf8");
+const buttonVariantStyles = readFileSync(new URL("../../components/ui/material-button-variant-styles.ts", import.meta.url), "utf8");
 const buttonRipple = readFileSync(new URL("../../components/ui/ButtonRipple.tsx", import.meta.url), "utf8");
 const iconButton = readFileSync(new URL("../../components/ui/IconButton.tsx", import.meta.url), "utf8");
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
@@ -30,11 +31,15 @@ test("shared Button exports AndroidX component names with source-derived dimensi
     "transition-[background-color,border-color,color,box-shadow]", "motion-reduce:transition-none",
     "--button-disabled-container-color",
     "--button-disabled-content-color",
-    "disabled:border-[color-mix(in_srgb,var(--on-surface)_12%,transparent)]",
-    "hover:shadow-[var(--button-elevation-1)]", "hover:shadow-[var(--button-elevation-2)]",
-    "focus-visible:shadow-[var(--button-elevation-1)]", "<ButtonRipple />",
+    "<ButtonRipple />",
     'type = "button"',
   ]) assert.ok(button.includes(required), "missing Button contract: " + required);
+  for (const required of [
+    "disabled:border-[color-mix(in_srgb,var(--on-surface)_12%,transparent)]",
+    "hover:shadow-[var(--button-elevation-1)]",
+    "hover:shadow-[var(--button-elevation-2)]",
+    "focus-visible:shadow-[var(--button-elevation-1)]",
+  ]) assert.ok(buttonVariantStyles.includes(required), "missing shared Button variant contract: " + required);
   assert.ok(!button.includes('variant?: ButtonVariant'), "public Button API must use AndroidX-named components, not a variant prop");
   assert.ok(!button.includes("primary: filled") && !button.includes("secondary: outlined"), "Loculary legacy aliases must not remain in the public API");
   assert.ok(globalCss.includes("--button-elevation-1:") && globalCss.includes("--button-elevation-2:"));
