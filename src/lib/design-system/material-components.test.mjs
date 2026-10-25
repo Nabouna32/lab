@@ -236,25 +236,30 @@ test("shared action controls use semantic state-layer colors instead of brightne
   const buttonSource = readFileSync(new URL("../../components/ui/Button.tsx", import.meta.url), "utf8");
   const iconButtonSource = readFileSync(new URL("../../components/ui/IconButton.tsx", import.meta.url), "utf8");
   const favoriteSource = readFileSync(new URL("../../components/favorites/FavoriteButton.tsx", import.meta.url), "utf8");
-  const accountActionSource = readFileSync(new URL("../../components/account/AccountActionLink.tsx", import.meta.url), "utf8");
+  const appLinkSource = readFileSync(new URL("../../components/ui/AppLink.tsx", import.meta.url), "utf8");
+  const buttonVariantStylesSource = readFileSync(new URL("../../components/ui/material-button-variant-styles.ts", import.meta.url), "utf8");
   const collectionsSource = readFileSync(new URL("../../components/collections/CollectionsView.tsx", import.meta.url), "utf8");
 
   for (const [name, source] of [
     ["Button", buttonSource],
     ["IconButton", iconButtonSource],
     ["FavoriteButton", favoriteSource],
-    ["AccountActionLink", accountActionSource],
+    ["AppLink", appLinkSource],
+    ["shared Button variant styles", buttonVariantStylesSource],
     ["CollectionsView", collectionsSource],
   ]) {
     assert.doesNotMatch(source, /hover:brightness|filter:brightness|transition-\[[^\]]*filter/ , `${name} should not dim foreground content through a whole-element brightness filter`);
   }
 
-  assert.ok(buttonSource.includes("var(--button-container-color,var(--primary))_92%,var(--button-content-color,var(--on-primary))"));
-  assert.ok(buttonSource.includes("var(--button-container-color,var(--secondary-container))_92%,var(--button-content-color,var(--on-secondary-container))"));
+  assert.ok(buttonVariantStylesSource.includes("var(--button-container-color,var(--primary))_92%,var(--button-content-color,var(--on-primary))"));
+  assert.ok(buttonVariantStylesSource.includes("var(--button-container-color,var(--secondary-container))_92%,var(--button-content-color,var(--on-secondary-container))"));
+  assert.match(appLinkSource, /import NextLink, \{ type LinkProps \} from "next\/link"/);
+  assert.match(appLinkSource, /materialButtonVariantStyles\[variant as MaterialButtonVariant\]/);
+  assert.match(appLinkSource, /variant === "filled".*variant === "text"/s);
   assert.match(iconButtonSource, /var\(--primary\)_92%,var\(--on-primary\)/);
   assert.ok(favoriteSource.includes("const FavoriteActionButton = active ? FilledTonalButton : OutlinedButton;"));
   assert.match(favoriteSource, /import \{ IconButton \} from "@\/components\/ui\/IconButton"/);
-  assert.match(accountActionSource, /var\(--primary\)_92%,var\(--on-primary\)/);
+  assert.match(appLinkSource, /materialButtonVariantStyles/);
   assert.match(collectionsSource, /<Button type="submit" disabled=/);
 });
 
@@ -689,10 +694,10 @@ test("header theme controls defer client-dependent selected state until after hy
 test("destructive account and collection actions preserve link/button semantics and use shared Material 3 controls", () => {
   const accountPage = readFileSync(new URL("../../app/[locale]/compte/page.tsx", import.meta.url), "utf8");
   const deleteAccountPage = readFileSync(new URL("../../app/[locale]/compte/suppression/page.tsx", import.meta.url), "utf8");
-  const accountActionLink = readFileSync(new URL("../../components/account/AccountActionLink.tsx", import.meta.url), "utf8");
   const collectionsView = readFileSync(new URL("../../components/collections/CollectionsView.tsx", import.meta.url), "utf8");
-  assert.match(accountPage, /<AccountActionLink[\s\S]*?variant="danger"[\s\S]*?<MaterialIcon name="delete"/);
-  assert.match(accountActionLink, /text-\[var\(--error\)\] hover:bg-\[color-mix\(in_srgb,var\(--error\)_8%,transparent\)\]/);
+  assert.match(accountPage, /<AppLink[\s\S]*?className="mt-4 \[--button-content-color:var\(--error\)\]"[\s\S]*?leadingIcon[\s\S]*?variant="text"[\s\S]*?<MaterialIcon name="delete"/);
+  assert.match(accountPage, /<AppLink href=\{`\/\$\{locale\}\/compte\/connexion`\} variant="filled">/);
+  assert.match(accountPage, /<AppLink href=\{`\/\$\{locale\}\/compte\/inscription`\} variant="outlined">/);
   assert.match(deleteAccountPage, /<MaterialIcon name="delete"/);
   assert.match(collectionsView, /<AlertDialog[\s\S]*?destructive[\s\S]*?onConfirm=\{confirmDeleteCollection\}/);
   assert.match(collectionsView, /<TextButton type="button" colors=\{\{ contentColor: "var\(--error\)" \}\}[\s\S]*?<MaterialIcon name="delete"/);
