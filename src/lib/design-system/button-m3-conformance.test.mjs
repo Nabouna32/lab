@@ -41,6 +41,20 @@ test("shared Button exports AndroidX component names with source-derived dimensi
   assert.ok(!button.includes("active:rounded-[var(--shape-corner-small)]"), "pressed state must not morph the shape in the selected Fidelity direction");
 });
 
+test("ButtonRipple avoids creating or retaining animated ripples when reduced motion is enabled", () => {
+  for (const required of [
+    'window.matchMedia("(prefers-reduced-motion: reduce)").matches',
+    'const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)")',
+    'motionPreference.addEventListener("change", handleMotionPreferenceChange)',
+    'motionPreference.removeEventListener("change", handleMotionPreferenceChange)',
+    'activePointers.current.clear()',
+    'activeKeys.current.clear()',
+    'setRipples([])',
+  ]) {
+    assert.ok(buttonRipple.includes(required), "missing reduced-motion ripple handling: " + required);
+  }
+});
+
 test("shared IconButton preserves 48px touch target and supports accessible toggle state", () => {
   const filledIconButton = iconButton.match(/const filled = "([^"]+)"/)?.[1] ?? "";
   assert.ok(!filledIconButton.includes("shadow-"), "M3 filled icon buttons should not inherit elevation");

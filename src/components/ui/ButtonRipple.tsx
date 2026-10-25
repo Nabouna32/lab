@@ -39,6 +39,7 @@ export function ButtonRipple() {
 
     function handleKeyDown(event: KeyboardEvent) {
       if ((event.key !== " " && event.key !== "Enter") || event.repeat || button.hasAttribute("disabled")) return;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
       if (activeKeys.current.has(event.key)) return;
 
       const rect = button.getBoundingClientRect();
@@ -71,7 +72,20 @@ export function ButtonRipple() {
     button.addEventListener("keydown", handleKeyDown);
     button.addEventListener("keyup", handleKeyUp);
     button.addEventListener("blur", handleBlur);
+    const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    function handleMotionPreferenceChange(event: MediaQueryListEvent) {
+      if (!event.matches) return;
+      activePointers.current.clear();
+      activeKeys.current.clear();
+      setRipples([]);
+    }
+
+    motionPreference.addEventListener("change", handleMotionPreferenceChange);
+    button.addEventListener("keydown", handleKeyDown);
+    button.addEventListener("keyup", handleKeyUp);
+    button.addEventListener("blur", handleBlur);
     return () => {
+      motionPreference.removeEventListener("change", handleMotionPreferenceChange);
       button.removeEventListener("keydown", handleKeyDown);
       button.removeEventListener("keyup", handleKeyUp);
       button.removeEventListener("blur", handleBlur);
@@ -80,6 +94,7 @@ export function ButtonRipple() {
 
   function handlePointerDown(event: PointerEvent<HTMLSpanElement>) {
     if (!event.isPrimary || (event.pointerType === "mouse" && event.button !== 0)) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const button = event.currentTarget.parentElement;
     if (!button || button.hasAttribute("disabled")) return;
 

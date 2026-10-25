@@ -116,7 +116,7 @@ The inventory is intentionally **not yet declared complete**. The existing histo
 
 | Component | Spec | Port status | Production migration |
 |---|---|---|---|
-| Button | [Button](components/Button.md) | Five AndroidX-named React exports added; source-token and browser verification remain in progress | Explicit variant call sites migrated; final call-site audit and browser verification remain open |
+| Button | [Button](components/Button.md) | Five AndroidX-named React exports; reduced-motion ripple cleanup implemented; source/API release alignment and browser verification remain open | Shared action call sites use the named exports where already migrated; final audit of generic local action buttons and browser verification remain open |
 | IconButton | [IconButton](components/IconButton.md) | Existing implementation; full source-contract and browser verification still required | Not established by this index |
 | Other components | Not yet audited | À inventorier | À inventorier |
 
