@@ -2,6 +2,9 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import { getPublishedTools } from "./catalog.ts";
 import {
+  getAboutPath,
+  getBugReportPath,
+  getContactPath,
   getCategoriesPath,
   getGuidedWorkflowsPath,
   getSearchResultsPagePath,
@@ -26,6 +29,12 @@ test("tool and category routes use distinct localized namespaces", () => {
   assert.equal(getCategoriesPath("fr"), "/fr/categories");
   assert.equal(getGuidedWorkflowsPath("en"), "/en/guided-workflows");
   assert.equal(getGuidedWorkflowsPath("fr"), "/fr/parcours-guides");
+  assert.equal(getAboutPath("en"), "/en/about");
+  assert.equal(getAboutPath("fr"), "/fr/a-propos");
+  assert.equal(getContactPath("en"), "/en/contact");
+  assert.equal(getContactPath("fr"), "/fr/contact");
+  assert.equal(getBugReportPath("en"), "/en/report-a-bug");
+  assert.equal(getBugReportPath("fr"), "/fr/signaler-un-bug");
   assert.equal(getCategoryPath("en", "development"), "/en/categories/development");
   assert.equal(getCategoryPath("fr", "development"), "/fr/categories/developpement");
   assert.equal(getToolPath("en", "json-formatter"), "/en/tools/json-formatter");
@@ -73,7 +82,13 @@ test("unknown tool and category routes fall back to the target locale root", () 
   assert.equal(getLocalizedPath("/en/categories/unknown-category", "fr"), "/fr");
 });
 
-test("non-tool routes keep their suffix when switching locale", () => {
+test("information pages switch to their localized routes", () => {
+  assert.equal(getLocalizedPath("/en/about", "fr"), "/fr/a-propos");
+  assert.equal(getLocalizedPath("/fr/a-propos", "en"), "/en/about");
+  assert.equal(getLocalizedPath("/en/contact", "fr"), "/fr/contact");
+  assert.equal(getLocalizedPath("/fr/contact", "en"), "/en/contact");
+  assert.equal(getLocalizedPath("/en/report-a-bug", "fr"), "/fr/signaler-un-bug");
+  assert.equal(getLocalizedPath("/fr/signaler-un-bug", "en"), "/en/report-a-bug");
   assert.equal(getLocalizedPath("/en/compte", "fr"), "/fr/compte");
 });
 
