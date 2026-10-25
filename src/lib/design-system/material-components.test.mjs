@@ -257,7 +257,8 @@ test("shared action controls use semantic state-layer colors instead of brightne
   assert.match(appLinkSource, /import NextLink, \{ type LinkProps \} from "next\/link"/);
   assert.match(appLinkSource, /materialButtonVariantStyles\[variant as MaterialButtonVariant\]/);
   assert.match(appLinkSource, /import type \{ ButtonColors \} from "@\/components\/ui\/Button"/);
-  assert.match(appLinkSource, /colors\?\.contentColor/);
+  assert.match(appLinkSource, /getMaterialButtonInlineStyle\(isMaterialButton/);
+  assert.match(buttonVariantStylesSource, /colors\?\.contentColor/);
   assert.match(appLinkSource, /variant === "filled".*variant === "text"/s);
   assert.match(iconButtonSource, /var\(--primary\)_92%,var\(--on-primary\)/);
   assert.ok(favoriteSource.includes("const FavoriteActionButton = active ? FilledTonalButton : OutlinedButton;"));
@@ -443,11 +444,11 @@ test("AndroidX-named Buttons support per-state color customization without produ
   assert.ok(buttonSource.includes("--button-disabled-container-color"));
   assert.ok(buttonSource.includes("--button-disabled-content-color"));
   assert.ok(buttonVariantStylesSource.includes("disabled:border-[color-mix(in_srgb,var(--on-surface)_12%,transparent)]"));
-  assert.ok(buttonVariantStylesSource.includes("disabled:bg-[var(--button-disabled-container-color,color-mix(in_srgb,var(--on-surface)_10%,transparent))]"));
-  assert.ok(buttonVariantStylesSource.includes("color-mix(in_srgb,var(--on-surface-variant)_38%,transparent)"));
+  assert.ok(buttonVariantStylesSource.includes("disabled:bg-[var(--button-disabled-container-color,color-mix(in_srgb,var(--on-surface)_12%,transparent))]"));
+  assert.ok(buttonVariantStylesSource.includes("color-mix(in_srgb,var(--on-surface)_38%,transparent)"));
   assert.ok(buttonSource.includes("export type ButtonColors ="));
-  assert.ok(buttonSource.includes('"--button-container-color": colors.containerColor'));
-  assert.ok(buttonSource.includes('"--button-disabled-container-color": colors.disabledContainerColor'));
+  assert.ok(buttonVariantStylesSource.includes('"--button-container-color": colors.containerColor'));
+  assert.ok(buttonVariantStylesSource.includes('"--button-disabled-container-color": colors.disabledContainerColor'));
   assert.ok(!buttonSource.includes("DestructiveButton"), "destructive styling uses color customization, not a custom component");
   assert.doesNotMatch(buttonSource, /primary: filled|secondary: outlined|tonal: filledTonal|ghost: text/);
   assert.match(iconButtonSource, /on-surface\)_10%,transparent/);
