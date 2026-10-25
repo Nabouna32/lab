@@ -1,42 +1,35 @@
-import Link, { type LinkProps } from "next/link";
-import type { AnchorHTMLAttributes, ReactNode } from "react";
+import type { CSSProperties } from "react";
+import AppLink, { type AppLinkProps, type AppLinkVariant } from "@/components/ui/AppLink";
 
 type Variant = "primary" | "secondary" | "danger";
 
-const variants: Record<Variant, string> = {
-  primary:
-    "border border-transparent bg-[var(--primary)] text-[var(--on-primary)] hover:bg-[color-mix(in_srgb,var(--primary)_92%,var(--on-primary))] active:bg-[color-mix(in_srgb,var(--primary)_88%,var(--on-primary))] active:scale-[.98]",
-  secondary:
-    "border border-[var(--outline)] bg-[var(--surface)] text-[var(--foreground)] hover:bg-[color-mix(in_srgb,var(--surface)_92%,var(--foreground))] active:bg-[color-mix(in_srgb,var(--surface)_88%,var(--foreground))] active:scale-[.98]",
-  danger:
-    "border border-transparent bg-transparent text-[var(--error)] hover:bg-[color-mix(in_srgb,var(--error)_8%,transparent)] active:scale-[.98]",
+type AccountActionLinkProps = Omit<AppLinkProps, "variant"> & {
+  variant?: Variant;
 };
 
-type AccountActionLinkProps = LinkProps &
-  Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href"> & {
-    children: ReactNode;
-    variant?: Variant;
-  };
+const linkVariants: Record<Variant, AppLinkVariant> = {
+  primary: "action-filled",
+  secondary: "action-outlined",
+  danger: "action-text",
+};
 
 export function AccountActionLink({
   children,
   variant = "secondary",
-  className = "",
+  style,
   ...props
 }: AccountActionLinkProps) {
+  const linkStyle = variant === "danger"
+    ? { ...style, "--button-content-color": "var(--error)" } as CSSProperties
+    : style;
+
   return (
-    <Link
+    <AppLink
       {...props}
-      className={[
-        "inline-flex min-h-12 items-center justify-center rounded-full py-2.5 text-sm font-semibold tracking-[.01em]",
-        variant === "danger" ? "px-3" : "px-5",
-        "transition-[background-color,border-color,color,box-shadow,transform] duration-[var(--motion-standard)]",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]",
-        variants[variant],
-        className,
-      ].join(" ")}
+      variant={linkVariants[variant]}
+      style={linkStyle}
     >
       {children}
-    </Link>
+    </AppLink>
   );
 }
