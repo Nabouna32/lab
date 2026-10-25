@@ -107,7 +107,7 @@ export function ModalBottomSheet({
         <h2 id={titleId} className={styles.title}>{title}</h2>
         {description && <p id={descriptionId} className={styles.description}>{description}</p>}
         <div className={styles.content}>{children}</div>
-        <TextButton type="button" className="mt-2 self-start" onClick={onDismiss}>{dismissLabel}</TextButton>
+        <TextButton type="button" className="mt-2" onClick={onDismiss}>{dismissLabel}</TextButton>
       </section>
     </div>
   );
