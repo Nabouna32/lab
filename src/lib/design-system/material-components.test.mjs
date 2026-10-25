@@ -441,8 +441,8 @@ test("AndroidX-named Buttons support per-state color customization without produ
   for (const component of ["Button", "ElevatedButton", "FilledTonalButton", "OutlinedButton", "TextButton"]) {
     assert.ok(buttonSource.includes("export function " + component + "("), "missing official component export: " + component);
   }
-  assert.ok(buttonSource.includes("--button-disabled-container-color"));
-  assert.ok(buttonSource.includes("--button-disabled-content-color"));
+  assert.ok(buttonVariantStylesSource.includes("--button-disabled-container-color"));
+  assert.ok(buttonVariantStylesSource.includes("--button-disabled-content-color"));
   assert.ok(buttonVariantStylesSource.includes("disabled:border-[color-mix(in_srgb,var(--on-surface)_12%,transparent)]"));
   assert.ok(buttonVariantStylesSource.includes("disabled:bg-[var(--button-disabled-container-color,color-mix(in_srgb,var(--on-surface)_12%,transparent))]"));
   assert.ok(buttonVariantStylesSource.includes("color-mix(in_srgb,var(--on-surface)_38%,transparent)"));
