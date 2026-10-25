@@ -17,7 +17,7 @@ const destructiveColors = {
   containerColor: "var(--error)",
   contentColor: "var(--on-error)",
   disabledContainerColor: "color-mix(in srgb, var(--on-surface) 10%, transparent)",
-  disabledContentColor: "color-mix(in srgb, var(--on-surface) 38%, transparent)",
+  disabledContentColor: "color-mix(in srgb, var(--on-surface-variant) 38%, transparent)",
 } satisfies ButtonColors;
 
 const variants = {
