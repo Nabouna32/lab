@@ -41,18 +41,19 @@ export function ButtonRipple() {
       setRipples((current) => current.map((ripple) => ripple.id === id ? { ...ripple, released: true } : ripple));
     }
 
-    function handleKeyDown(event: KeyboardEvent) {
+    function handleKeyDown(event: Event) {
+      const keyboardEvent = event as KeyboardEvent;
       const isAnchor = control instanceof HTMLAnchorElement;
-      if ((isAnchor ? event.key !== "Enter" : event.key !== " " && event.key !== "Enter") || event.repeat || isDisabledControl(control)) return;
+      if ((isAnchor ? keyboardEvent.key !== "Enter" : keyboardEvent.key !== " " && keyboardEvent.key !== "Enter") || keyboardEvent.repeat || isDisabledControl(control)) return;
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-      if (activeKeys.current.has(event.key)) return;
+      if (activeKeys.current.has(keyboardEvent.key)) return;
 
       const rect = control.getBoundingClientRect();
       const x = rect.width / 2;
       const y = rect.height / 2;
       const { left, top, diameter } = getRippleGeometry(x, y, rect.width, rect.height);
       const id = ++nextId.current;
-      activeKeys.current.set(event.key, id);
+      activeKeys.current.set(keyboardEvent.key, id);
       setRipples((current) => [...current, {
         id,
         left,
@@ -62,10 +63,11 @@ export function ButtonRipple() {
       }]);
     }
 
-    function handleKeyUp(event: KeyboardEvent) {
-      const id = activeKeys.current.get(event.key);
+    function handleKeyUp(event: Event) {
+      const keyboardEvent = event as KeyboardEvent;
+      const id = activeKeys.current.get(keyboardEvent.key);
       if (id === undefined) return;
-      activeKeys.current.delete(event.key);
+      activeKeys.current.delete(keyboardEvent.key);
       release(id);
     }
 
