@@ -69,9 +69,6 @@ export function ButtonRipple() {
       activeKeys.current.clear();
     }
 
-    button.addEventListener("keydown", handleKeyDown);
-    button.addEventListener("keyup", handleKeyUp);
-    button.addEventListener("blur", handleBlur);
     const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
     function handleMotionPreferenceChange(event: MediaQueryListEvent) {
       if (!event.matches) return;

@@ -69,7 +69,7 @@ When migrating a page, evaluate the complete screen and interaction journey rath
 - [ ] Align the source snapshot, API reference and relevant per-variant token files to a declared AndroidX release/commit.
 - [ ] Verify the exact variant token values for colors, disabled opacity, state layers, shape and elevation.
 - [ ] Check the rendered component in light/dark themes and actual computed colors/contrast.
-- [ ] Verify pointer ripple origin, clipping, cancellation, keyboard interaction and reduced-motion behavior in a browser. Code-level reduced-motion handling now avoids creating animated ripples and clears active entries when the preference changes; actual browser behavior remains UNVERIFIED. Code-level reduced-motion handling now avoids creating animated ripples and clears active entries when the preference changes; actual browser behavior remains UNVERIFIED.
+- [ ] Verify pointer ripple origin, clipping, cancellation, keyboard interaction and reduced-motion behavior in a browser. Code-level reduced-motion handling now avoids creating animated ripples and clears active entries when the preference changes; actual browser behavior remains UNVERIFIED.
 - [ ] Check FR/EN long labels, constrained widths, 200% zoom and icon alignment.
 - [ ] Run component tests, lint, TypeScript, unit tests and production build.
 - [ ] Review production call sites to ensure the five AndroidX variants use their matching named exports and validate custom colors in light/dark themes. Generic actions in ExpenseSplitter, DatePickerDialog, TimePickerDialog and Snackbar have been migrated; the broader site-wide raw-button audit remains open.
