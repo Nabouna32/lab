@@ -348,7 +348,7 @@ button:disabled > .button-ripple-layer {
   display: block;
   border-radius: inherit;
   background: currentColor;
-  opacity: 0.1;
+  opacity: 0.12;
 }
 
 .button-ripple__fill--released {
@@ -367,7 +367,7 @@ button:disabled > .button-ripple-layer {
 @media (prefers-reduced-motion: reduce) {
   .button-ripple { display: none; }
   button:active > .button-ripple-layer::after,
-  a[data-material-button-link="true"]:active > .button-ripple-layer::after { opacity: 0.1; }
+  a[data-material-button-link="true"]:active > .button-ripple-layer::after { opacity: 0.12; }
   html { scroll-behavior: auto; }
   *, *::before, *::after {
     animation-duration: .01ms !important;
