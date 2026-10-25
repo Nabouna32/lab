@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import { test } from "node:test";
 
 const button = readFileSync(new URL("../../components/ui/Button.tsx", import.meta.url), "utf8");
+const buttonVariantStyles = readFileSync(new URL("../../components/ui/material-button-variant-styles.ts", import.meta.url), "utf8");
 const buttonRipple = readFileSync(new URL("../../components/ui/ButtonRipple.tsx", import.meta.url), "utf8");
 const iconButton = readFileSync(new URL("../../components/ui/IconButton.tsx", import.meta.url), "utf8");
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
@@ -24,6 +25,7 @@ test("shared Button exports AndroidX component names with source-derived dimensi
   assert.ok(button.includes("export type ButtonColors ="), "official button exports expose AndroidX-inspired color customization");
   assert.ok(button.includes("disabledContainerColor?: string") && button.includes("disabledContentColor?: string"));
   assert.ok(!button.includes("DestructiveButton"), "no Loculary-only destructive component remains");
+  const buttonContract = button + buttonVariantStyles;
   for (const required of [
     "min-h-10", "min-w-[58px]", "whitespace-nowrap", "whitespace-pre-line",
     "leadingIcon?: boolean", "multiline?: boolean", "pl-3 pr-4", "pl-4 pr-6",
@@ -34,7 +36,7 @@ test("shared Button exports AndroidX component names with source-derived dimensi
     "hover:shadow-[var(--button-elevation-1)]", "hover:shadow-[var(--button-elevation-2)]",
     "focus-visible:shadow-[var(--button-elevation-1)]", "<ButtonRipple />",
     'type = "button"',
-  ]) assert.ok(button.includes(required), "missing Button contract: " + required);
+  ]) assert.ok(buttonContract.includes(required), "missing Button contract: " + required);
   assert.ok(!button.includes('variant?: ButtonVariant'), "public Button API must use AndroidX-named components, not a variant prop");
   assert.ok(!button.includes("primary: filled") && !button.includes("secondary: outlined"), "Loculary legacy aliases must not remain in the public API");
   assert.ok(globalCss.includes("--button-elevation-1:") && globalCss.includes("--button-elevation-2:"));
@@ -42,9 +44,9 @@ test("shared Button exports AndroidX component names with source-derived dimensi
 });
 
 test("Button disabled colors follow AndroidX variant token roles", () => {
-  assert.ok(button.includes("color-mix(in_srgb,var(--on-surface-variant)_38%,transparent)"), "disabled labels use the AndroidX on-surface-variant role at 38% opacity");
-  assert.ok(button.includes("disabled:bg-[var(--button-disabled-container-color,color-mix(in_srgb,var(--on-surface)_10%,transparent))]"), "ElevatedButton disabled container uses the AndroidX on-surface role at 10% opacity, not its enabled surface-container-low role");
-  assert.ok(!button.includes("disabled:bg-[var(--button-disabled-container-color,var(--surface-container-low))]"), "ElevatedButton must not retain its enabled container as the disabled default");
+  assert.ok(buttonVariantStyles.includes("color-mix(in_srgb,var(--on-surface-variant)_38%,transparent)"), "disabled labels use the AndroidX on-surface-variant role at 38% opacity");
+  assert.ok(buttonVariantStyles.includes("disabled:bg-[var(--button-disabled-container-color,color-mix(in_srgb,var(--on-surface)_10%,transparent))]"), "ElevatedButton disabled container uses the AndroidX on-surface role at 10% opacity, not its enabled surface-container-low role");
+  assert.ok(!buttonVariantStyles.includes("disabled:bg-[var(--button-disabled-container-color,var(--surface-container-low))]"), "ElevatedButton must not retain its enabled container as the disabled default");
 });
 
 test("generic reset action in CronExpression uses OutlinedButton", () => {
