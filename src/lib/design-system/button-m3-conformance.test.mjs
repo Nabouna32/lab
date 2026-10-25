@@ -17,6 +17,11 @@ const headerSearch = readFileSync(new URL("../../components/layout/HeaderSearch.
 const collectionsView = readFileSync(new URL("../../components/collections/CollectionsView.tsx", import.meta.url), "utf8");
 const favoritesView = readFileSync(new URL("../../components/favorites/FavoritesView.tsx", import.meta.url), "utf8");
 const toolSearch = readFileSync(new URL("../../components/tools/ToolSearch.tsx", import.meta.url), "utf8");
+const recentTools = readFileSync(new URL("../../components/home/RecentTools.tsx", import.meta.url), "utf8");
+const modalBottomSheet = readFileSync(new URL("../../components/ui/ModalBottomSheet.tsx", import.meta.url), "utf8");
+const modalBottomSheetCss = readFileSync(new URL("../../components/ui/ModalBottomSheet.module.css", import.meta.url), "utf8");
+const pullToRefreshBox = readFileSync(new URL("../../components/ui/PullToRefreshBox.tsx", import.meta.url), "utf8");
+const pullToRefreshBoxCss = readFileSync(new URL("../../components/ui/PullToRefreshBox.module.css", import.meta.url), "utf8");
 
 test("shared Button exports AndroidX component names with source-derived dimensions and variant-specific states", () => {
   for (const component of ["Button", "ElevatedButton", "FilledTonalButton", "OutlinedButton", "TextButton"]) {
@@ -47,6 +52,21 @@ test("Button disabled colors follow AndroidX variant token roles", () => {
   assert.ok(buttonVariantStyles.includes("color-mix(in_srgb,var(--on-surface-variant)_38%,transparent)"), "disabled labels use the AndroidX on-surface-variant role at 38% opacity");
   assert.ok(buttonVariantStyles.includes("disabled:bg-[var(--button-disabled-container-color,color-mix(in_srgb,var(--on-surface)_10%,transparent))]"), "ElevatedButton disabled container uses the AndroidX on-surface role at 10% opacity, not its enabled surface-container-low role");
   assert.ok(!buttonVariantStyles.includes("disabled:bg-[var(--button-disabled-container-color,var(--surface-container-low))]"), "ElevatedButton must not retain its enabled container as the disabled default");
+});
+
+
+test("remaining generic text actions use shared Button variants and their obsolete local styles are removed", () => {
+  assert.match(recentTools, /import \{ TextButton \} from "@\/components\/ui\/Button"/);
+  assert.match(recentTools, /<TextButton type="button" onClick=\{clear\}/);
+  assert.doesNotMatch(recentTools, /<button type="button" onClick=\{clear\}/);
+  assert.match(modalBottomSheet, /import \{ TextButton \} from "@\/components\/ui\/Button"/);
+  assert.match(modalBottomSheet, /<TextButton type="button" className="mt-2"/);
+  assert.doesNotMatch(modalBottomSheet, /<button type="button" className=\{styles\.dismiss\}/);
+  assert.doesNotMatch(modalBottomSheetCss, /\.dismiss\s*\{/);
+  assert.match(pullToRefreshBox, /import \{ Button \} from "@\/components\/ui\/Button"/);
+  assert.match(pullToRefreshBox, /<Button type="button" onClick=\{onRefresh\} disabled=\{disabled \|\| isRefreshing\}/);
+  assert.doesNotMatch(pullToRefreshBox, /<button type="button" className=\{styles\.refreshAction\}/);
+  assert.doesNotMatch(pullToRefreshBoxCss, /\.refreshAction/);
 });
 
 test("generic reset action in CronExpression uses OutlinedButton", () => {
