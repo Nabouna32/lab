@@ -45,8 +45,8 @@ const filled = [
 
 const elevated = [
   "border border-transparent bg-[var(--button-container-color)] text-[var(--button-content-color,var(--primary))] shadow-[var(--button-elevation-1)]",
-  "hover:shadow-[var(--button-elevation-2)] hover:bg-[var(--button-elevated-hover-container-color)]",
-  "focus-visible:bg-[var(--button-container-color)] focus-visible:shadow-[var(--button-elevation-1)]",
+  "hover:shadow-[var(--button-elevation-2)] hover:bg-[color-mix(in_srgb,var(--button-elevated-hover-container-color)_92%,var(--button-content-color,var(--primary)))]",
+  "focus-visible:bg-[color-mix(in_srgb,var(--button-container-color)_90%,var(--button-content-color,var(--primary)))] focus-visible:shadow-[var(--button-elevation-1)]",
   "active:shadow-[var(--button-elevation-1)]",
   "disabled:bg-[var(--button-disabled-container-color,color-mix(in_srgb,var(--on-surface)_12%,transparent))] disabled:text-[var(--button-disabled-content-color,color-mix(in_srgb,var(--on-surface)_38%,transparent))] disabled:shadow-none",
 ].join(" ");
