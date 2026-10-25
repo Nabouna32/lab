@@ -23,7 +23,8 @@ test("semantic theme tokens use the accepted blue M3 Fidelity seed", () => {
 });
 
 test("FilledTonalButton uses Material 3 secondary container roles without a Loculary alias", () => {
-  assert.ok(buttonVariantStyles.includes('"filled-tonal": ['));
+  assert.ok(buttonVariantStyles.includes("const filledTonal = ["));
+  assert.ok(buttonVariantStyles.includes('"filled-tonal": filledTonal,'), "the shared Material 3 variants map FilledTonalButton to its implementation");
   assert.ok(buttonVariantStyles.includes("bg-[var(--button-container-color,var(--secondary-container))] text-[var(--button-content-color,var(--on-secondary-container))]"));
   assert.ok(buttonSource.includes('variant="filled-tonal"'));
   assert.ok(buttonSource.includes("export function FilledTonalButton("));
