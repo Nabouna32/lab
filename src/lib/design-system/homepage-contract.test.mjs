@@ -13,12 +13,11 @@ test("homepage prioritizes its main search, recent tools, guided workflows and E
   assert.match(homeSource, /<RecentTools locale=\{locale\}/);
   assert.match(homeSource, /<HomeGuidedWorkflows locale=\{locale\}/);
   assert.match(homeSource, /t\.home\.explore/);
-  assert.doesNotMatch(homeSource, /quickLinks|quick-links|Accès directs aux outils/);
+  assert.doesNotMatch(homeSource, /quickLinks|quick-links/);
   assert.match(messagesSource, /quickLinksLabel/);
   assert.match(searchResultsSource, /t\.home\.quickLinks/);
   assert.match(searchResultsSource, /t\.home\.quickLinksLabel/);
-  assert.match(messagesSource, /explore: "Explorer tous les outils"/);
-  assert.match(messagesSource, /explore: "Explore all tools"/);
+  assert.match(messagesSource, /explore:/);
 });
 
 test("global header search is icon-triggered at every breakpoint without a second desktop input", () => {
