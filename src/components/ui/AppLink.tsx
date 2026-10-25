@@ -1,5 +1,6 @@
 import NextLink, { type LinkProps } from "next/link";
-import type { AnchorHTMLAttributes, ReactNode } from "react";
+import type { AnchorHTMLAttributes, CSSProperties, ReactNode } from "react";
+import type { ButtonColors } from "@/components/ui/Button";
 import { materialButtonVariantStyles, type MaterialButtonVariant } from "@/components/ui/material-button-variant-styles";
 import { ButtonRipple } from "@/components/ui/ButtonRipple";
 
@@ -11,6 +12,8 @@ export type AppLinkProps = LinkProps &
     variant?: AppLinkVariant;
     /** Apply AndroidX Button leading-icon insets while retaining anchor semantics. */
     leadingIcon?: boolean;
+    /** Same semantic color overrides as AndroidX ButtonColors, applied to the link appearance. */
+    colors?: ButtonColors;
   };
 
 const variantStyles: Partial<Record<AppLinkVariant, string>> = {
@@ -37,6 +40,8 @@ export default function AppLink({
   variant = "inline",
   leadingIcon = false,
   className = "",
+  style,
+  colors,
   children,
   ...props
 }: AppLinkProps) {
@@ -45,6 +50,13 @@ export default function AppLink({
   const horizontalPadding = isTextVariant
     ? leadingIcon ? "pl-3 pr-4" : "px-3"
     : leadingIcon ? "pl-4 pr-6" : "px-6";
+  const mergedStyle = {
+    ...style,
+    ...(colors?.containerColor !== undefined ? { "--button-container-color": colors.containerColor } : {}),
+    ...(colors?.contentColor !== undefined ? { "--button-content-color": colors.contentColor } : {}),
+    ...(colors?.disabledContainerColor !== undefined ? { "--button-disabled-container-color": colors.disabledContainerColor } : {}),
+    ...(colors?.disabledContentColor !== undefined ? { "--button-disabled-content-color": colors.disabledContentColor } : {}),
+  } as CSSProperties;
   const materialButtonLayout = [
     "relative isolate inline-flex min-h-10 min-w-[58px] shrink-0 items-center justify-center gap-2 rounded-full py-2 text-sm font-medium leading-5 tracking-[.006em] whitespace-nowrap",
     horizontalPadding,
@@ -57,6 +69,7 @@ export default function AppLink({
     <NextLink
       {...props}
       data-material-button-link={isMaterialButton ? "true" : undefined}
+      style={mergedStyle}
       className={[isMaterialButton ? materialButtonLayout : variantStyles[variant], className].filter(Boolean).join(" ")}
     >
       {children}
