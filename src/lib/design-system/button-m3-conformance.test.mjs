@@ -29,7 +29,7 @@ test("shared Button exports AndroidX component names with source-derived dimensi
     assert.ok(button.includes("export function " + component + "("), "missing AndroidX component export: " + component);
   }
   assert.ok(button.includes("export type ButtonColors ="), "official button exports expose AndroidX-inspired color customization");
-  assert.ok(button.includes("disabledContainerColor?: string") && button.includes("disabledContentColor?: string"));
+  assert.ok(buttonVariantStyles.includes("disabledContainerColor?: string") && buttonVariantStyles.includes("disabledContentColor?: string"));
   assert.ok(!button.includes("DestructiveButton"), "no Loculary-only destructive component remains");
   const buttonContract = button + buttonVariantStyles;
   for (const required of [
@@ -50,8 +50,8 @@ test("shared Button exports AndroidX component names with source-derived dimensi
 });
 
 test("Button disabled colors follow AndroidX variant token roles", () => {
-  assert.ok(buttonVariantStyles.includes("color-mix(in_srgb,var(--on-surface)_38%,transparent)"), "disabled labels use the AndroidX on-surface-variant role at 38% opacity");
-  assert.ok(buttonVariantStyles.includes("disabled:bg-[var(--button-disabled-container-color,color-mix(in_srgb,var(--on-surface)_12%,transparent))]"), "ElevatedButton disabled container uses the AndroidX on-surface role at 10% opacity, not its enabled surface-container-low role");
+  assert.ok(buttonVariantStyles.includes("color-mix(in_srgb,var(--on-surface)_38%,transparent)"), "disabled labels use the AndroidX on-surface role at 38% opacity");
+  assert.ok(buttonVariantStyles.includes("disabled:bg-[var(--button-disabled-container-color,color-mix(in_srgb,var(--on-surface)_12%,transparent))]"), "filled variants use the AndroidX on-surface role at 12% opacity, not their enabled container color");
   assert.ok(!buttonVariantStyles.includes("disabled:bg-[var(--button-disabled-container-color,var(--surface-container-low))]"), "ElevatedButton must not retain its enabled container as the disabled default");
 });
 
