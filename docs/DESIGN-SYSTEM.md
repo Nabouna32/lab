@@ -16,7 +16,7 @@ The target is a faithful React/Web port of AndroidX Compose Material 3 component
 - Use MCU Rainbow only for category identity, not as a second semantic theme.
 - Use semantic roles and matching `on-*` foregrounds. Never hard-code palette colors into shared components when a semantic role exists.
 - Light and dark themes must implement the same role contract. Verify computed colors and contrast, including disabled, focus, border and overlay states.
-- Use Material role-based typography and the Material/Pixel visual language. Roboto is the current interface reference; technical content may use a monospace role where useful.
+- Use the canonical 15-role AndroidX Material 3 typography scale defined in [`material3/components/Typography.md`](material3/components/Typography.md). New UI must use semantic `m3-type-*` roles; existing one-off font sizes, line heights, weights and tracking are migration debt and should be removed when a role fits. Roboto is the current interface reference; technical content may use a monospace role where useful.
 - Use semantic shape and elevation roles consistently. Values copied from Material Web CSS tokens must be labelled as Web values, not represented as Android dp/sp conversions.
 - Use Material Symbols consistently for functional interface icons. Icons need accessible names when they convey an action; do not substitute emoji or arbitrary Unicode for standard controls.
 - Shared components must support responsive layout, French and English text, keyboard and pointer input, visible focus, appropriate screen-reader semantics, WCAG 2.2 AA, and `prefers-reduced-motion`.
