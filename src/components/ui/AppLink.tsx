@@ -26,13 +26,6 @@ const variantStyles: Partial<Record<AppLinkVariant, string>> = {
     "hover:border-[var(--border)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)]",
     "focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] motion-reduce:transition-none",
   ].join(" "),
-  tonal: [
-    "inline-flex min-h-12 items-center justify-center rounded-full border border-transparent px-3",
-    "text-sm font-semibold text-[var(--muted)] outline-none",
-    "transition-[background-color,color,border-color] duration-[var(--motion-standard)]",
-    "hover:border-[var(--outline-variant)]/60 hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)]",
-    "focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] motion-reduce:transition-none",
-  ].join(" "),
 };
 
 /**
