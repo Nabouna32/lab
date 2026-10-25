@@ -256,6 +256,8 @@ test("shared action controls use semantic state-layer colors instead of brightne
   assert.ok(buttonVariantStylesSource.includes("var(--button-container-color,var(--secondary-container))_92%,var(--button-content-color,var(--on-secondary-container))"));
   assert.match(appLinkSource, /import NextLink, \{ type LinkProps \} from "next\/link"/);
   assert.match(appLinkSource, /materialButtonVariantStyles\[variant as MaterialButtonVariant\]/);
+  assert.match(appLinkSource, /import type \{ ButtonColors \} from "@\/components\/ui\/Button"/);
+  assert.match(appLinkSource, /colors\?\.contentColor/);
   assert.match(appLinkSource, /variant === "filled".*variant === "text"/s);
   assert.match(iconButtonSource, /var\(--primary\)_92%,var\(--on-primary\)/);
   assert.ok(favoriteSource.includes("const FavoriteActionButton = active ? FilledTonalButton : OutlinedButton;"));
