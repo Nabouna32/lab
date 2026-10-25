@@ -292,7 +292,7 @@ test("Button ripple is pointer-origin, bounded, cleans up after release and resp
     "setPointerCapture(event.pointerId)",
     "onPointerCancel={releasePointer}",
     "onLostPointerCapture={releasePointer}",
-    'isAnchor ? event.key !== "Enter" : event.key !== " " && event.key !== "Enter"',
+    'isAnchor ? keyboardEvent.key !== "Enter" : keyboardEvent.key !== " " && keyboardEvent.key !== "Enter"',
     "candidate instanceof HTMLAnchorElement",
     "isDisabledControl(control)",
     "control.addEventListener(\"keydown\", handleKeyDown)",
