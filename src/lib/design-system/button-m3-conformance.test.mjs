@@ -17,6 +17,7 @@ const headerSearch = readFileSync(new URL("../../components/layout/HeaderSearch.
 const collectionsView = readFileSync(new URL("../../components/collections/CollectionsView.tsx", import.meta.url), "utf8");
 const favoritesView = readFileSync(new URL("../../components/favorites/FavoritesView.tsx", import.meta.url), "utf8");
 const toolSearch = readFileSync(new URL("../../components/tools/ToolSearch.tsx", import.meta.url), "utf8");
+const appLink = readFileSync(new URL("../../components/ui/AppLink.tsx", import.meta.url), "utf8");
 const recentTools = readFileSync(new URL("../../components/home/RecentTools.tsx", import.meta.url), "utf8");
 const modalBottomSheet = readFileSync(new URL("../../components/ui/ModalBottomSheet.tsx", import.meta.url), "utf8");
 const modalBottomSheetCss = readFileSync(new URL("../../components/ui/ModalBottomSheet.module.css", import.meta.url), "utf8");
@@ -54,6 +55,13 @@ test("Button disabled colors follow AndroidX variant token roles", () => {
   assert.ok(!buttonVariantStyles.includes("disabled:bg-[var(--button-disabled-container-color,var(--surface-container-low))]"), "ElevatedButton must not retain its enabled container as the disabled default");
 });
 
+
+test("button-styled links preserve anchors and share the ripple interaction", () => {
+  assert.match(appLink, /import NextLink, \{ type LinkProps \} from "next\/link"/);
+  assert.match(appLink, /data-material-button-link=\{isMaterialButton \? "true" : undefined\}/);
+  assert.match(appLink, /isMaterialButton \? <ButtonRipple \/> : null/);
+  assert.match(appLink, /materialButtonVariantStyles\[variant as MaterialButtonVariant\]/);
+});
 
 test("remaining generic text actions use shared Button variants and their obsolete local styles are removed", () => {
   assert.match(recentTools, /import \{ TextButton \} from "@\/components\/ui\/Button"/);
