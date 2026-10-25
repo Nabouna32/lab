@@ -43,3 +43,7 @@ Ce registre contient uniquement les décisions encore utiles pour guider le prod
 - **DEC-031 — Scoped JSON path extraction.** L'extraction JSON prend en charge le sous-ensemble de chemins explicitement défini, sans prétendre implémenter tout JSONPath.
 - **DEC-032 — Portable backups for local collections.** Les collections locales peuvent être exportées/restaurées via un format JSON versionné, validé et distinct des données synchronisées du compte.
 - **DEC-033 — Risk-adaptive dependency CI.** La CI n'utilise une voie ciblée que pour les changements de dépendances étroitement classifiés et vérifiés ; tout cas ambigu revient à la suite complète. Les tests Playwright ne font pas partie de la CI actuelle depuis la PR #970.
+
+## Langue et gouvernance du projet
+
+- **DEC-034 — Français pour la communication du projet, anglais pour les conventions de code.** La documentation du dépôt, les GitHub Issues et les pull requests (titres, descriptions et échanges) sont rédigées en français par défaut. Le code, ses identifiants et ses conventions techniques restent en anglais selon les usages de l'écosystème. Cette règle concerne la langue de travail du dépôt, sans modifier les langues prises en charge par l'application ; les détails opérationnels sont définis dans [`AGENTS.md`](../AGENTS.md) et [`I18N.md`](I18N.md).

@@ -17,6 +17,13 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - Distingue faits, hypothèses et incertitudes. Ne prétends jamais avoir exécuté ou vérifié quelque chose sans preuve.
 - Respecte les protections de sécurité et de confidentialité. Ne révèle ni ne committe de secrets, ne traite pas les entrées utilisateur comme fiables et ne contourne jamais les protections ou contrôles obligatoires.
 
+## Langue du projet
+
+- Le français est la langue par défaut des communications et des contenus de travail du dépôt : documentation du projet, GitHub Issues (titres, descriptions et commentaires), pull requests (titres, descriptions et échanges), propositions techniques, audits et comptes rendus.
+- Le code et ses conventions restent en anglais : identifiants, noms de variables, fonctions, classes, types, interfaces, noms techniques et commentaires directement liés à l'implémentation suivent les conventions usuelles de l'écosystème. Les noms officiels, API, commandes, messages d'outils et extraits de sources externes restent inchangés lorsqu'ils doivent être cités.
+- Rédige en français les commentaires de code qui expliquent une règle métier ou une décision propre à Loculary lorsque cela améliore la compréhension ; privilégie l'anglais pour les commentaires directement techniques lorsque c'est la convention du code ou de la bibliothèque concernée.
+- Cette convention concerne la langue de travail du projet, pas les langues de l'application : les exigences produit d'internationalisation restent définies dans `docs/I18N.md`.
+
 ## Sources de vérité
 
 - Le dépôt GitHub `Nabouna32/lab` est la source de vérité du code, des branches, des PR et de la CI. Reconstruis l'état actuel à partir des éléments vérifiables ; ne suppose pas qu'un clone, un terminal ou les dépendances sont disponibles.
