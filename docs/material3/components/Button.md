@@ -24,9 +24,9 @@ The pinned `Button.kt` source establishes:
 - Standard content padding: 24 dp horizontal and 8 dp vertical.
 - Leading-icon content padding: 16 dp start, 24 dp end, 8 dp vertical.
 - TextButton horizontal padding: 12 dp; TextButton with icon: 12 dp start and 16 dp end.
-- Icon-to-label spacing: 8 dp; the source's default icon size is token-defined.
+- Icon size: 18 dp; icon-to-label spacing: 8 dp.
 - The default text style is Material `labelLarge`.
-- Each public variant has its own color/elevation defaults. ElevatedButton has a resting shadow; Button and FilledTonalButton have interaction-dependent elevation; OutlinedButton and TextButton default to no elevation.
+- Each public variant has its own color/elevation defaults. ElevatedButton uses `surface` with the `surfaceTint` overlay at 1 dp by default and 3 dp on hover; Button and FilledTonalButton use elevation 0 by default and 1 dp on hover; OutlinedButton and TextButton default to no elevation.
 - Disabled container and label colors are token-derived per variant. The source tokens use on-surface at 12% opacity for disabled containers and on-surface at 38% opacity for disabled labels. ElevatedButton uses `surface` plus the `surfaceTint` tonal overlay at its 1 dp resting elevation and 3 dp hovered elevation; when disabled, it uses the same 12% on-surface container as the other filled variants.
 - Disabled colors and elevation come from the matching variant token set, not one generic disabled treatment.
 
