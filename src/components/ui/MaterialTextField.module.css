@@ -62,7 +62,10 @@
   background: transparent;
   color: inherit;
   font: inherit;
-  font-size: 16px;
+  font-size: var(--m3-type-body-large-size);
+  line-height: var(--m3-type-body-large-line-height);
+  font-weight: var(--m3-type-body-large-weight);
+  letter-spacing: var(--m3-type-body-large-tracking);
 }
 
 .input::placeholder {
