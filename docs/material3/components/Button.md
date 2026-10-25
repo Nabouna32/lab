@@ -1,6 +1,6 @@
 # Button — AndroidX Material 3 → React port
 
-**Status:** Portage en cours. API names and the initial source-derived contract are explicit; generic action call sites have been migrated and their former local styles removed. Full source-release alignment and browser verification remain open.
+**Status:** Portage en cours. The five variant token roles, dimensions, elevation levels and state-layer opacities have been cross-checked against the pinned AndroidX source. Browser visual/interaction verification and the remaining site-wide button inventory are still open.
 
 ## Upstream authority
 
