@@ -44,9 +44,9 @@ const filled = [
 ].join(" ");
 
 const elevated = [
-  "border border-transparent bg-[var(--button-container-color,color-mix(in_srgb,var(--surface)_94.88%,var(--surface-tint)))] text-[var(--button-content-color,var(--primary))] shadow-[var(--button-elevation-1)]",
-  "hover:shadow-[var(--button-elevation-2)] hover:bg-[var(--button-elevated-hover-container-color,color-mix(in_srgb,var(--surface)_93.06%,var(--surface-tint)))]",
-  "focus-visible:bg-[var(--button-container-color,color-mix(in_srgb,var(--surface)_94.88%,var(--surface-tint)))] focus-visible:shadow-[var(--button-elevation-1)]",
+  "border border-transparent bg-[var(--button-container-color)] text-[var(--button-content-color,var(--primary))] shadow-[var(--button-elevation-1)]",
+  "hover:shadow-[var(--button-elevation-2)] hover:bg-[var(--button-elevated-hover-container-color)]",
+  "focus-visible:bg-[var(--button-container-color)] focus-visible:shadow-[var(--button-elevation-1)]",
   "active:shadow-[var(--button-elevation-1)]",
   "disabled:bg-[var(--button-disabled-container-color,color-mix(in_srgb,var(--on-surface)_12%,transparent))] disabled:text-[var(--button-disabled-content-color,color-mix(in_srgb,var(--on-surface)_38%,transparent))] disabled:shadow-none",
 ].join(" ");
