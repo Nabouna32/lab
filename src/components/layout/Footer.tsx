@@ -29,7 +29,7 @@ export default function Footer({ locale }: { locale: Locale }) {
             {t.footer.privacyPolicy}
           </AppLink>
         </nav>
-        <p className="shrink-0 border-t border-[var(--border)] pt-3 text-xs font-medium text-[var(--muted)] sm:border-l sm:border-t-0 sm:pl-4 sm:pt-0">
+        <p className="m3-type-label-medium shrink-0 border-t border-[var(--border)] pt-3 text-[var(--muted)] sm:border-l sm:border-t-0 sm:pl-4 sm:pt-0">
           © {new Date().getFullYear()} Loculary
         </p>
       </div>
