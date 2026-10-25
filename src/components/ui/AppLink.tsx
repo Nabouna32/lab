@@ -1,13 +1,28 @@
 import NextLink, { type LinkProps } from "next/link";
 import type { AnchorHTMLAttributes, ReactNode } from "react";
+import { materialButtonVariantStyles } from "@/components/ui/material-button-variant-styles";
 
-export type AppLinkVariant = "inline" | "navigation" | "tonal";
+export type AppLinkVariant =
+  | "inline"
+  | "navigation"
+  | "tonal"
+  | "action-filled"
+  | "action-elevated"
+  | "action-filled-tonal"
+  | "action-outlined"
+  | "action-text";
 
-type AppLinkProps = LinkProps &
+export type AppLinkProps = LinkProps &
   Omit<AnchorHTMLAttributes<HTMLAnchorElement>, keyof LinkProps> & {
     children: ReactNode;
     variant?: AppLinkVariant;
   };
+
+const actionBaseStyles = [
+  "inline-flex min-h-12 shrink-0 items-center justify-center rounded-full py-2.5 text-sm font-semibold tracking-[.01em]",
+  "transition-[background-color,border-color,color,box-shadow,transform] duration-[var(--motion-standard)] motion-reduce:transition-none",
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]",
+].join(" ");
 
 const variantStyles: Record<AppLinkVariant, string> = {
   inline: [
@@ -30,11 +45,16 @@ const variantStyles: Record<AppLinkVariant, string> = {
     "hover:border-[var(--outline-variant)]/60 hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)]",
     "focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] motion-reduce:transition-none",
   ].join(" "),
+  "action-filled": [actionBaseStyles, "px-5", materialButtonVariantStyles.filled].join(" "),
+  "action-elevated": [actionBaseStyles, "px-5", materialButtonVariantStyles.elevated].join(" "),
+  "action-filled-tonal": [actionBaseStyles, "px-5", materialButtonVariantStyles["filled-tonal"]].join(" "),
+  "action-outlined": [actionBaseStyles, "px-5", materialButtonVariantStyles.outlined].join(" "),
+  "action-text": [actionBaseStyles, "px-3", materialButtonVariantStyles.text].join(" "),
 };
 
 /**
- * Shared semantic link styles. Keep navigation as a real anchor and choose
- * the visual treatment by context rather than using a button for navigation.
+ * Shared semantic link styles. Navigation remains a real anchor; action variants
+ * reuse the Material button state-layer styles without changing link semantics.
  */
 export default function AppLink({
   variant = "inline",
