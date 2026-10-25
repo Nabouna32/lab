@@ -3,7 +3,9 @@ import { isCategorySeoIndexable } from "./category-policy";
 import { getPublishedTools, getToolsByCategory } from "@/lib/tools/catalog";
 import { locales, type Locale } from "@/lib/i18n/config";
 import {
+  getAboutPath,
   getCategoryPath,
+  getContactPath,
   getGuidedWorkflowsPath,
   getLegalNoticePath,
   getPrivacyPolicyPath,
@@ -33,6 +35,14 @@ const resources: LocalizedSeoResource[] = [
   {
     id: "guided-workflows",
     paths: localizedPaths(getGuidedWorkflowsPath),
+  },
+  {
+    id: "about",
+    paths: localizedPaths(getAboutPath),
+  },
+  {
+    id: "contact",
+    paths: localizedPaths(getContactPath),
   },
   {
     id: "legal-notice",
