@@ -1,7 +1,7 @@
 import NextLink, { type LinkProps } from "next/link";
-import type { AnchorHTMLAttributes, CSSProperties, ReactNode } from "react";
+import type { AnchorHTMLAttributes, ReactNode } from "react";
 import type { ButtonColors } from "@/components/ui/Button";
-import { materialButtonVariantStyles, type MaterialButtonVariant } from "@/components/ui/material-button-variant-styles";
+import { getMaterialButtonInlineStyle, materialButtonVariantStyles, type MaterialButtonVariant } from "@/components/ui/material-button-variant-styles";
 import { ButtonRipple } from "@/components/ui/ButtonRipple";
 
 export type AppLinkVariant = "inline" | "navigation" | MaterialButtonVariant;
@@ -50,13 +50,7 @@ export default function AppLink({
   const horizontalPadding = isTextVariant
     ? leadingIcon ? "pl-3 pr-4" : "px-3"
     : leadingIcon ? "pl-4 pr-6" : "px-6";
-  const mergedStyle = {
-    ...style,
-    ...(colors?.containerColor !== undefined ? { "--button-container-color": colors.containerColor } : {}),
-    ...(colors?.contentColor !== undefined ? { "--button-content-color": colors.contentColor } : {}),
-    ...(colors?.disabledContainerColor !== undefined ? { "--button-disabled-container-color": colors.disabledContainerColor } : {}),
-    ...(colors?.disabledContentColor !== undefined ? { "--button-disabled-content-color": colors.disabledContentColor } : {}),
-  } as CSSProperties;
+  const mergedStyle = getMaterialButtonInlineStyle(isMaterialButton ? variant as MaterialButtonVariant : null, colors, style);
   const materialButtonLayout = [
     "relative isolate inline-flex min-h-10 min-w-[58px] shrink-0 items-center justify-center gap-2 rounded-full py-2 text-sm font-medium leading-5 tracking-[.006em] whitespace-nowrap",
     horizontalPadding,
