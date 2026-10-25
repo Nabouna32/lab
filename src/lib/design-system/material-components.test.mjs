@@ -696,7 +696,7 @@ test("destructive account and collection actions preserve link/button semantics 
   const accountPage = readFileSync(new URL("../../app/[locale]/compte/page.tsx", import.meta.url), "utf8");
   const deleteAccountPage = readFileSync(new URL("../../app/[locale]/compte/suppression/page.tsx", import.meta.url), "utf8");
   const collectionsView = readFileSync(new URL("../../components/collections/CollectionsView.tsx", import.meta.url), "utf8");
-  assert.match(accountPage, /<AppLink[\s\S]*?className="mt-4 \[--button-content-color:var\(--error\)\]"[\s\S]*?leadingIcon[\s\S]*?variant="text"[\s\S]*?<MaterialIcon name="delete"/);
+  assert.match(accountPage, /<AppLink[\s\S]*?className="mt-4"[\s\S]*?leadingIcon[\s\S]*?colors=\{\{ contentColor: "var\(--error\)" \}\}[\s\S]*?variant="text"[\s\S]*?<MaterialIcon name="delete"/);
   assert.match(accountPage, /<AppLink href=\{`\/\$\{locale\}\/compte\/connexion`\} variant="filled">/);
   assert.match(accountPage, /<AppLink href=\{`\/\$\{locale\}\/compte\/inscription`\} variant="outlined">/);
   assert.match(deleteAccountPage, /<MaterialIcon name="delete"/);
