@@ -5,7 +5,7 @@ import { ButtonRipple } from "@/components/ui/ButtonRipple";
 
 export type AppLinkVariant = "inline" | "navigation" | MaterialButtonVariant;
 
-type AppLinkProps = LinkProps &
+export type AppLinkProps = LinkProps &
   Omit<AnchorHTMLAttributes<HTMLAnchorElement>, keyof LinkProps> & {
     children: ReactNode;
     variant?: AppLinkVariant;
