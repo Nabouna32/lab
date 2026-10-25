@@ -40,7 +40,7 @@ test("shared Button exports AndroidX component names with source-derived dimensi
     "--button-disabled-content-color",
     "disabled:border-[color-mix(in_srgb,var(--on-surface)_12%,transparent)]",
     "hover:shadow-[var(--button-elevation-1)]", "hover:shadow-[var(--button-elevation-2)]",
-    "focus-visible:shadow-[var(--button-elevation-1)]", "<ButtonRipple />",
+    "focus-visible:shadow-[var(--button-elevation-1)]", "focus-visible:bg-[color-mix(in_srgb,var(--button-container-color)_88%,var(--button-content-color,var(--primary)))]", "<ButtonRipple />",
     'type = "button"',
   ]) assert.ok(buttonContract.includes(required), "missing Button contract: " + required);
   assert.ok(!button.includes('variant?: ButtonVariant'), "public Button API must use AndroidX-named components, not a variant prop");
@@ -306,6 +306,7 @@ test("Button ripple is pointer-origin, bounded, cleans up after release and resp
     ".button-ripple-layer {",
     "button:disabled > .button-ripple-layer",
     "button:active > .button-ripple-layer::after,",
+    "opacity: 0.12;",
     "border-radius: inherit",
     "button-ripple-expand",
     "button-ripple-fade",
