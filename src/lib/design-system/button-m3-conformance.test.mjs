@@ -53,6 +53,10 @@ test("Button disabled colors follow AndroidX variant token roles", () => {
   assert.ok(buttonVariantStyles.includes("color-mix(in_srgb,var(--on-surface)_38%,transparent)"), "disabled labels use the AndroidX on-surface role at 38% opacity");
   assert.ok(buttonVariantStyles.includes("disabled:bg-[var(--button-disabled-container-color,color-mix(in_srgb,var(--on-surface)_12%,transparent))]"), "filled variants use the AndroidX on-surface role at 12% opacity, not their enabled container color");
   assert.ok(!buttonVariantStyles.includes("disabled:bg-[var(--button-disabled-container-color,var(--surface-container-low))]"), "ElevatedButton must not retain its enabled container as the disabled default");
+  assert.ok(buttonVariantStyles.includes("hover:bg-[color-mix(in_srgb,var(--button-container-color,var(--primary))_92%,var(--button-content-color,var(--on-primary)))]"), "hover state layer opacity is 8%");
+  assert.ok(buttonVariantStyles.includes("focus-visible:bg-[color-mix(in_srgb,var(--button-container-color,var(--primary))_88%,var(--button-content-color,var(--on-primary)))]"), "focus state layer opacity is 12%");
+  assert.ok(buttonVariantStyles.includes("color-mix(in srgb, var(--surface) 94.88%, var(--surface-tint))"));
+  assert.ok(buttonVariantStyles.includes("color-mix(in srgb, var(--surface) 93.06%, var(--surface-tint))"));
 });
 
 
@@ -311,7 +315,7 @@ test("Button ripple is pointer-origin, bounded, cleans up after release and resp
     "button-ripple-expand",
     "button-ripple-fade",
     ".button-ripple { display: none; }",
-    'a[data-material-button-link="true"]:active > .button-ripple-layer::after { opacity: 0.1; }',
+    'a[data-material-button-link="true"]:active > .button-ripple-layer::after { opacity: 0.12; }',
   ]) {
     assert.ok(globalCss.includes(required), "missing ripple rendering rule: " + required);
   }
