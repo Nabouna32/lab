@@ -1,6 +1,7 @@
 import NextLink, { type LinkProps } from "next/link";
 import type { AnchorHTMLAttributes, ReactNode } from "react";
 import { materialButtonVariantStyles, type MaterialButtonVariant } from "@/components/ui/material-button-variant-styles";
+import { ButtonRipple } from "@/components/ui/ButtonRipple";
 
 export type AppLinkVariant = "inline" | "navigation" | MaterialButtonVariant;
 
@@ -36,6 +37,7 @@ export default function AppLink({
   variant = "inline",
   leadingIcon = false,
   className = "",
+  children,
   ...props
 }: AppLinkProps) {
   const isMaterialButton = variant === "filled" || variant === "elevated" || variant === "filled-tonal" || variant === "outlined" || variant === "text";
@@ -54,7 +56,11 @@ export default function AppLink({
   return (
     <NextLink
       {...props}
+      data-material-button-link={isMaterialButton ? "true" : undefined}
       className={[isMaterialButton ? materialButtonLayout : variantStyles[variant], className].filter(Boolean).join(" ")}
-    />
+    >
+      {children}
+      {isMaterialButton ? <ButtonRipple /> : null}
+    </NextLink>
   );
 }
