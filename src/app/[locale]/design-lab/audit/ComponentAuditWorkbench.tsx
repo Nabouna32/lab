@@ -5,6 +5,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import ComponentLivePreview from "./ComponentLivePreview";
 import ComponentMaintenancePanel from "./ComponentMaintenancePanel";
+import { Button, OutlinedButton, TextButton } from "@/components/ui/Button";
 
 type Locale = "fr" | "en";
 type AuditStatus =
@@ -389,9 +390,9 @@ export default function ComponentAuditWorkbench({ locale }: { locale: Locale }) 
                 </select>
               </label>
             ) : (
-              <button type="button" className="self-end rounded-full border border-[var(--border)] px-4 py-2.5 text-sm font-medium hover:bg-[var(--surface-container)]" onClick={resetFilters}>
+              <OutlinedButton type="button" className="self-end" onClick={resetFilters}>
                 {fr ? "Réinitialiser" : "Reset"}
-              </button>
+              </OutlinedButton>
             )}
           </div>
 
@@ -407,7 +408,7 @@ export default function ComponentAuditWorkbench({ locale }: { locale: Locale }) 
               {filteredCatalog.length === 0 ? (
                 <div className="rounded-2xl border border-dashed border-[var(--border)] px-6 py-12 text-center">
                   <p className="font-medium">{fr ? "Aucune entrée ne correspond aux filtres." : "No entries match these filters."}</p>
-                  <button type="button" className="mt-3 text-sm font-semibold text-[var(--accent)] underline" onClick={resetFilters}>{fr ? "Effacer les filtres" : "Clear filters"}</button>
+                  <TextButton type="button" className="mt-3" onClick={resetFilters}>{fr ? "Effacer les filtres" : "Clear filters"}</TextButton>
                 </div>
               ) : (
                 <div className="grid gap-3 lg:grid-cols-2">
@@ -485,19 +486,19 @@ export default function ComponentAuditWorkbench({ locale }: { locale: Locale }) 
                             </label>
                             <p className="text-xs text-[var(--muted)]">{fr ? "Le statut « vérifiée » exige une URL HTTPS. Les modifications sont réservées aux administrateurs autorisés et consignées dans l’historique." : "The “verified” status requires an HTTPS URL. Changes are restricted to authorized administrators and recorded in the event history."}</p>
                             <div className="flex flex-wrap gap-2">
-                              <button type="submit" disabled={savingCatalogId === entry.id} className="rounded-full bg-[var(--primary)] px-4 py-2.5 text-sm font-semibold text-[var(--on-primary)] disabled:opacity-60">
+                              <Button type="submit" disabled={savingCatalogId === entry.id}>
                                 {savingCatalogId === entry.id ? (fr ? "Enregistrement…" : "Saving…") : (fr ? "Enregistrer" : "Save changes")}
-                              </button>
-                              <button type="button" className="rounded-full border border-[var(--border)] px-4 py-2.5 text-sm font-medium" onClick={() => setEditingEntryId("")}>
+                              </Button>
+                              <OutlinedButton type="button" onClick={() => setEditingEntryId("")}>
                                 {fr ? "Annuler" : "Cancel"}
-                              </button>
+                              </OutlinedButton>
                             </div>
                           </form>
                         )}
                         {implementation ? (
-                          <button type="button" className="mt-4 text-sm font-semibold text-[var(--accent)] underline" aria-expanded={expanded} onClick={() => setExpandedEntryId(expanded ? "" : entry.id)}>
+                          <TextButton type="button" className="mt-4" aria-expanded={expanded} onClick={() => setExpandedEntryId(expanded ? "" : entry.id)}>
                             {expanded ? (fr ? "Masquer l’implémentation" : "Hide implementation") : (fr ? "Inspecter l’implémentation réelle" : "Inspect real implementation")}
-                          </button>
+                          </TextButton>
                         ) : (
                           <p className="mt-4 text-xs text-[var(--muted)]">{fr ? "Aucune implémentation Loculary directement associée pour l’instant." : "No direct Loculary implementation is linked yet."}</p>
                         )}
@@ -542,9 +543,9 @@ export default function ComponentAuditWorkbench({ locale }: { locale: Locale }) 
                             </div>
                             <span className="rounded-full border border-[var(--border)] px-3 py-1 text-xs">{statusLabels[component.audit_status][locale]}</span>
                           </div>
-                          <button type="button" className="mt-3 text-sm font-semibold text-[var(--accent)] underline" aria-expanded={expandedComponentId === component.id} onClick={() => setExpandedComponentId(expandedComponentId === component.id ? "" : component.id)}>
+                          <TextButton type="button" className="mt-3" aria-expanded={expandedComponentId === component.id} onClick={() => setExpandedComponentId(expandedComponentId === component.id ? "" : component.id)}>
                             {expandedComponentId === component.id ? (fr ? "Fermer les détails" : "Close details") : (fr ? "Ouvrir les détails" : "Open details")}
-                          </button>
+                          </TextButton>
                           {expandedComponentId === component.id && renderImplementationDetails(component)}
                         </article>
                       ))}

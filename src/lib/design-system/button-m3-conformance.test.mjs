@@ -78,6 +78,15 @@ test("ButtonRipple avoids creating or retaining animated ripples when reduced mo
   }
 });
 
+test("design-system audit actions use shared Button variants", () => {
+  const workbench = readFileSync(new URL("../../app/[locale]/design-lab/audit/ComponentAuditWorkbench.tsx", import.meta.url), "utf8");
+  assert.ok(workbench.includes('import { Button, OutlinedButton, TextButton } from "@/components/ui/Button"'));
+  assert.ok(workbench.includes("<Button type=\"submit\" disabled={savingCatalogId === entry.id}>"));
+  assert.ok(workbench.includes("<OutlinedButton type=\"button\" className=\"self-end\" onClick={resetFilters}>"));
+  assert.ok(workbench.includes("<TextButton type=\"button\" className=\"mt-3\" onClick={resetFilters}>"));
+  assert.ok(!workbench.includes('className="rounded-full bg-[var(--primary)] px-4 py-2.5 text-sm font-semibold text-[var(--on-primary)] disabled:opacity-60'));
+});
+
 test("generic tool and dialog actions use the shared AndroidX Button ports", () => {
   const expenseSplitter = readFileSync(new URL("../../components/tools/expense-splitter/ExpenseSplitter.tsx", import.meta.url), "utf8");
   const datePickerDialog = readFileSync(new URL("../../components/ui/DatePickerDialog.tsx", import.meta.url), "utf8");
