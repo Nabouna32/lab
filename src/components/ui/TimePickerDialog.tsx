@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import { TimePicker } from "@/components/ui/TimePicker";
+import { Button, TextButton } from "@/components/ui/Button";
 import styles from "./DatePickerDialog.module.css";
 
 export type TimePickerDialogProps = {
@@ -82,8 +83,8 @@ function TimePickerDialogContent({
         <h2 id={titleId}>{title}</h2>
         <TimePicker label={label} value={draftValue} onChange={setDraftValue} displayMode="dial" is24Hour={is24Hour} locale={locale}/>
         <div className={styles.actions}>
-          <button ref={cancelRef} type="button" className={styles.textAction} onClick={onDismiss}>{cancelLabel}</button>
-          <button type="button" className={styles.confirmAction} onClick={() => { onConfirm(draftValue); onDismiss(); }}>{confirmLabel}</button>
+          <TextButton ref={cancelRef} type="button" onClick={onDismiss}>{cancelLabel}</TextButton>
+          <Button type="button" onClick={() => { onConfirm(draftValue); onDismiss(); }}>{confirmLabel}</Button>
         </div>
       </div>
     </div>
