@@ -54,6 +54,16 @@ test("generic reset action in CronExpression uses OutlinedButton", () => {
   assert.ok(!cronExpression.includes('className="rounded-[var(--radius-sm)] border border-[var(--border)] px-3 py-2 text-sm font-medium'), "obsolete local reset styling must be removed");
 });
 
+test("IPv4 and IPv6 subnet reset actions use OutlinedButton", () => {
+  const ipv4 = readFileSync(new URL("../../components/tools/ip-subnet-calculator/IpSubnetCalculator.tsx", import.meta.url), "utf8");
+  const ipv6 = readFileSync(new URL("../../components/tools/ipv6-subnet-calculator/Ipv6SubnetCalculator.tsx", import.meta.url), "utf8");
+  for (const source of [ipv4, ipv6]) {
+    assert.ok(source.includes('import { OutlinedButton } from "@/components/ui/Button"'));
+    assert.ok(source.includes('<OutlinedButton type="button" onClick={reset}>{t.reset}</OutlinedButton>'));
+    assert.ok(!source.includes('className="inline-flex min-h-10 items-center justify-center rounded-[var(--radius-md)] border border-[var(--border)]'), "obsolete local reset styling must be removed");
+  }
+});
+
 test("ButtonRipple avoids creating or retaining animated ripples when reduced motion is enabled", () => {
   for (const required of [
     'window.matchMedia("(prefers-reduced-motion: reduce)").matches',

@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { ClearButton } from "@/components/ui/ClearButton";
+import { OutlinedButton } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/TextField";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { useLocale } from "@/lib/i18n/use-locale";
@@ -64,13 +65,7 @@ export default function IpSubnetCalculator() {
 
           <div className="mt-5 flex flex-wrap gap-2">
             <ClearButton onClear={() => setInput("")} disabled={!input} label={t.clear} />
-            <button
-              type="button"
-              onClick={reset}
-              className="inline-flex min-h-10 items-center justify-center rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] px-3 text-sm font-semibold text-[var(--foreground)] transition-colors hover:border-[var(--accent)]/40 hover:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
-            >
-              {t.reset}
-            </button>
+            <OutlinedButton type="button" onClick={reset}>{t.reset}</OutlinedButton>
           </div>
 
           <p className="mt-5 text-sm leading-6 text-[var(--muted)]">{t.hint}</p>
