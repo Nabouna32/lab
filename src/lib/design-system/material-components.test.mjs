@@ -442,8 +442,9 @@ test("AndroidX-named Buttons support per-state color customization without produ
   }
   assert.ok(buttonSource.includes("--button-disabled-container-color"));
   assert.ok(buttonSource.includes("--button-disabled-content-color"));
-  assert.ok(buttonSource.includes("disabled:border-[color-mix(in_srgb,var(--on-surface)_12%,transparent)]"));
-  assert.ok(buttonSource.includes("disabled:bg-[var(--button-disabled-container-color,var(--surface-container-low))]"));
+  const actionStylesSource = readFileSync(new URL("../../components/ui/material-button-variant-styles.ts", import.meta.url), "utf8");
+  assert.ok(actionStylesSource.includes("disabled:border-[color-mix(in_srgb,var(--on-surface)_12%,transparent)]"));
+  assert.ok(actionStylesSource.includes("disabled:bg-[var(--button-disabled-container-color,var(--surface-container-low))]"));
   assert.ok(buttonSource.includes("export type ButtonColors ="));
   assert.ok(buttonSource.includes('"--button-container-color": colors.containerColor'));
   assert.ok(buttonSource.includes('"--button-disabled-container-color": colors.disabledContainerColor'));
@@ -699,7 +700,10 @@ test("destructive account and collection actions preserve link/button semantics 
   const accountActionLink = readFileSync(new URL("../../components/account/AccountActionLink.tsx", import.meta.url), "utf8");
   const collectionsView = readFileSync(new URL("../../components/collections/CollectionsView.tsx", import.meta.url), "utf8");
   assert.match(accountPage, /<AccountActionLink[\s\S]*?variant="danger"[\s\S]*?<MaterialIcon name="delete"/);
-  assert.match(accountActionLink, /text-\[var\(--error\)\] hover:bg-\[color-mix\(in_srgb,var\(--error\)_8%,transparent\)\]/);
+  assert.match(accountActionLink, /"--button-content-color": "var\(--error\)"/);
+  assert.match(accountActionLink, /danger: "action-text"/);
+  const appLink = readFileSync(new URL("../../components/ui/AppLink.tsx", import.meta.url), "utf8");
+  assert.match(appLink, /"action-text": \[actionBaseStyles, "px-3", materialButtonVariantStyles\.text\]/);
   assert.match(deleteAccountPage, /<MaterialIcon name="delete"/);
   assert.match(collectionsView, /<AlertDialog[\s\S]*?destructive[\s\S]*?onConfirm=\{confirmDeleteCollection\}/);
   assert.match(collectionsView, /<TextButton type="button" colors=\{\{ contentColor: "var\(--error\)" \}\}[\s\S]*?<MaterialIcon name="delete"/);
