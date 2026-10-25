@@ -27,7 +27,7 @@ The pinned `Button.kt` source establishes:
 - Icon-to-label spacing: 8 dp; the source's default icon size is token-defined.
 - The default text style is Material `labelLarge`.
 - Each public variant has its own color/elevation defaults. ElevatedButton has a resting shadow; Button and FilledTonalButton have interaction-dependent elevation; OutlinedButton and TextButton default to no elevation.
-- Disabled container and label colors are token-derived per variant. The source tokens use the on-surface role at 10% opacity for disabled containers and on-surface-variant at 38% opacity for disabled labels; ElevatedButton must not retain its enabled surface-container-low color when disabled.
+- Disabled container and label colors are token-derived per variant. The source tokens use on-surface at 12% opacity for disabled containers and on-surface at 38% opacity for disabled labels. ElevatedButton uses `surface` plus the `surfaceTint` tonal overlay at its 1 dp resting elevation and 3 dp hovered elevation; when disabled, it uses the same 12% on-surface container as the other filled variants.
 - Disabled colors and elevation come from the matching variant token set, not one generic disabled treatment.
 
 These are Android dp/sp values. The React implementation expresses geometry in CSS units; numerical resemblance is not physical equivalence. CSS color mixing, browser focus rings, native disabled semantics and the pointer-origin ripple are explicit Web adaptations.
@@ -73,7 +73,7 @@ When migrating a page, evaluate the complete screen and interaction journey rath
 ## Remaining verification
 
 - [x] Pin `Button.kt` and the five per-variant token files to the declared AndroidX commit `2fb1702c1c62a6059e73d757d9e4eda1044ce21d`. This immutable source snapshot is authoritative for the port; the public API page and component guide are supporting references, not proof that a published artifact is identical to this commit.
-- [x] Cross-check the disabled container/content roles and opacity against the pinned token definitions: on-surface at 10% for disabled containers; on-surface-variant at 38% for disabled labels.
+- [x] Cross-check the disabled container/content roles and opacity against the pinned token definitions: on-surface at 12% for disabled containers; on-surface at 38% for disabled labels; ElevatedButton uses surfaceTint tonal elevation.
 - [ ] Cross-check all remaining per-variant container/content roles, state-layer opacity, shape and elevation values against the linked token files.
 - [x] Smoke-check the Vercel preview server render in EN and FR: ExpenseSplitter, CronExpression and IPv4/IPv6 subnet tool routes return HTTP 200, and the migrated pages no longer emit the removed local reset styles. [Preview deployment](https://loculary-m6s7954j3-nabouna32.vercel.app). This checks route rendering and emitted markup only; it is not visual or interaction verification.
 - [ ] Check the rendered component and button-styled anchors in light/dark themes and actual computed colors/contrast.
