@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
-import { getAboutPath, getBugReportPath, getContactPath } from "@/lib/tools/routes";
+import { getAboutPath, getContactPath, getPrivacyPolicyPath } from "@/lib/tools/routes";
 import { getPublicPageMetadata } from "@/lib/tools/page-metadata";
 
 export type InformationPageKind = "about" | "contact" | "bugReport";
@@ -31,7 +31,7 @@ export default function InformationPage({ locale, kind }: { locale: Locale; kind
         <section className="mt-8" aria-labelledby="transparency-title">
           <h2 id="transparency-title" className="text-xl font-semibold text-[var(--foreground)]">{page.privacyTitle}</h2>
           <p className="mt-2 leading-7 text-[var(--muted)]">{page.privacy}</p>
-          <a href={messages.nav.home ? (locale === "fr" ? "/fr/politique-de-confidentialite" : "/en/privacy-policy") : "#"} className="mt-3 inline-flex min-h-11 items-center rounded-sm text-sm font-semibold text-[var(--accent)] underline underline-offset-4 outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]">{messages.footer.privacyPolicy}</a>
+          <a href={getPrivacyPolicyPath(locale)} className="mt-3 inline-flex min-h-11 items-center rounded-sm text-sm font-semibold text-[var(--accent)] underline underline-offset-4 outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]">{messages.footer.privacyPolicy}</a>
         </section>
         <section className="mt-8" aria-labelledby="evolving-title">
           <h2 id="evolving-title" className="text-xl font-semibold text-[var(--foreground)]">{page.toolsTitle}</h2>
