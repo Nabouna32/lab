@@ -1,15 +1,18 @@
 import NextLink, { type LinkProps } from "next/link";
 import type { AnchorHTMLAttributes, ReactNode } from "react";
+import { materialButtonVariantStyles, type MaterialButtonVariant } from "@/components/ui/material-button-variant-styles";
 
-export type AppLinkVariant = "inline" | "navigation" | "tonal";
+export type AppLinkVariant = "inline" | "navigation" | "tonal" | MaterialButtonVariant;
 
 type AppLinkProps = LinkProps &
   Omit<AnchorHTMLAttributes<HTMLAnchorElement>, keyof LinkProps> & {
     children: ReactNode;
     variant?: AppLinkVariant;
+    /** Apply AndroidX Button leading-icon insets while retaining anchor semantics. */
+    leadingIcon?: boolean;
   };
 
-const variantStyles: Record<AppLinkVariant, string> = {
+const variantStyles: Partial<Record<AppLinkVariant, string>> = {
   inline: [
     "rounded-sm text-[var(--primary)] underline decoration-[var(--outline-variant)] underline-offset-4",
     "transition-colors duration-[var(--motion-standard)] hover:decoration-current",
@@ -38,13 +41,27 @@ const variantStyles: Record<AppLinkVariant, string> = {
  */
 export default function AppLink({
   variant = "inline",
+  leadingIcon = false,
   className = "",
   ...props
 }: AppLinkProps) {
+  const isMaterialButton = variant === "filled" || variant === "elevated" || variant === "filled-tonal" || variant === "outlined" || variant === "text";
+  const isTextVariant = variant === "text";
+  const horizontalPadding = isTextVariant
+    ? leadingIcon ? "pl-3 pr-4" : "px-3"
+    : leadingIcon ? "pl-4 pr-6" : "px-6";
+  const materialButtonLayout = [
+    "relative inline-flex min-h-10 min-w-[58px] shrink-0 items-center justify-center gap-2 rounded-full py-2 text-sm font-medium leading-5 tracking-[.006em] whitespace-nowrap",
+    horizontalPadding,
+    "transition-[background-color,border-color,color,box-shadow] duration-[var(--motion-standard)] motion-reduce:transition-none",
+    "outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]",
+    materialButtonVariantStyles[variant as MaterialButtonVariant],
+  ].join(" ");
+
   return (
     <NextLink
       {...props}
-      className={[variantStyles[variant], className].filter(Boolean).join(" ")}
+      className={[isMaterialButton ? materialButtonLayout : variantStyles[variant], className].filter(Boolean).join(" ")}
     />
   );
 }
