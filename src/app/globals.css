@@ -247,7 +247,7 @@
   --category-images-container: var(--m3-dark-category-images-container, var(--primary-container));
   --category-images-on-container: var(--m3-dark-category-images-on-container, var(--on-primary-container));
   --category-files-container: var(--m3-dark-category-files-container, var(--primary-container));
-  --category-files-on-container: var(--on-primary-container);
+  --category-files-on-container: var(--m3-dark-category-files-on-container, var(--on-primary-container));
   --category-video-container: var(--m3-dark-category-video-container, var(--primary-container));
   --category-video-on-container: var(--m3-dark-category-video-on-container, var(--on-primary-container));
   --category-development-container: var(--m3-dark-category-development-container, var(--primary-container));
