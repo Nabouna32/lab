@@ -21,16 +21,35 @@ export function Row({
   className,
   style,
 }: RowProps) {
-  const justifyContent = horizontalArrangement.kind === "spacedBy" || horizontalArrangement.kind === "spacedByCss"
-    ? "flex-start"
-    : ({
+  const justifyContent = (() => {
+    if (horizontalArrangement.kind === "spacedBy" || horizontalArrangement.kind === "spacedByCss") {
+      if (horizontalArrangement.kind === "spacedBy" && horizontalArrangement.alignment) {
+        return ({
+          start: "flex-start",
+          centerHorizontally: "center",
+          end: "flex-end",
+        } as const)[horizontalArrangement.alignment];
+      }
+      return "flex-start";
+    }
+
+    if (horizontalArrangement.kind === "aligned") {
+      return ({
         start: "flex-start",
+        centerHorizontally: "center",
         end: "flex-end",
-        center: "center",
-        spaceBetween: "space-between",
-        spaceAround: "space-around",
-        spaceEvenly: "space-evenly",
-      } as const)[horizontalArrangement.kind];
+      } as const)[horizontalArrangement.alignment];
+    }
+
+    return ({
+      start: "flex-start",
+      end: "flex-end",
+      center: "center",
+      spaceBetween: "space-between",
+      spaceAround: "space-around",
+      spaceEvenly: "space-evenly",
+    } as const)[horizontalArrangement.kind];
+  })();
 
   const alignItems = ({
     top: "flex-start",
