@@ -1,33 +1,47 @@
-import type { CSSProperties, ReactNode } from "react";
+import { Children, type CSSProperties, type ReactNode } from "react";
+import { Alignment, type BoxAlignment } from "./Alignment";
 import type { ModifierElement } from "./Modifier";
 
 export type BoxProps = {
   children?: ReactNode;
   modifier?: ModifierElement;
-  contentAlignment?: "topStart" | "topCenter" | "centerStart" | "center" | "centerEnd" | "bottomStart" | "bottomCenter" | "bottomEnd";
+  contentAlignment?: BoxAlignment;
   className?: string;
   style?: CSSProperties;
 };
 
-/** Limited Web adaptation of androidx.compose.foundation.layout.Box. */
-export function Box({ children, modifier, contentAlignment = "topStart", className, style }: BoxProps) {
-  const alignment: Record<NonNullable<BoxProps["contentAlignment"]>, CSSProperties> = {
-    topStart: { justifyContent: "flex-start", alignItems: "flex-start" },
-    topCenter: { justifyContent: "flex-start", alignItems: "center" },
-    centerStart: { justifyContent: "center", alignItems: "flex-start" },
-    center: { justifyContent: "center", alignItems: "center" },
-    centerEnd: { justifyContent: "center", alignItems: "flex-end" },
-    bottomStart: { justifyContent: "flex-end", alignItems: "flex-start" },
-    bottomCenter: { justifyContent: "flex-end", alignItems: "center" },
-    bottomEnd: { justifyContent: "flex-end", alignItems: "flex-end" },
+/**
+ * Web adaptation of androidx.compose.foundation.layout.Box.
+ * Children share one CSS grid cell to approximate Compose's stacking behavior.
+ * Compose's constraint and measurement rules are not fully reproduced.
+ */
+export function Box({
+  children,
+  modifier,
+  contentAlignment = Alignment.TopStart,
+  className,
+  style,
+}: BoxProps) {
+  const alignment: Record<BoxAlignment, { justifySelf: CSSProperties["justifySelf"]; alignSelf: CSSProperties["alignSelf"] }> = {
+    topStart: { justifySelf: "start", alignSelf: "start" },
+    topCenter: { justifySelf: "center", alignSelf: "start" },
+    topEnd: { justifySelf: "end", alignSelf: "start" },
+    centerStart: { justifySelf: "start", alignSelf: "center" },
+    center: { justifySelf: "center", alignSelf: "center" },
+    centerEnd: { justifySelf: "end", alignSelf: "center" },
+    bottomStart: { justifySelf: "start", alignSelf: "end" },
+    bottomCenter: { justifySelf: "center", alignSelf: "end" },
+    bottomEnd: { justifySelf: "end", alignSelf: "end" },
   };
 
   return (
     <div
       className={className}
-      style={{ display: "flex", ...alignment[contentAlignment], ...modifier?.toStyle(), ...style }}
+      style={{ display: "grid", ...modifier?.toStyle(), ...style }}
     >
-      {children}
+      {Children.map(children, (child) => (
+        <div style={{ gridArea: "1 / 1", ...alignment[contentAlignment] }}>{child}</div>
+      ))}
     </div>
   );
 }
