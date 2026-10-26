@@ -51,6 +51,19 @@ export function Row({
     } as const)[horizontalArrangement.kind];
   })();
 
+  const hasNegativeGap = horizontalArrangement.kind === "spacedBy" && horizontalArrangement.space < 0;
+  const layoutClassName = [
+    className,
+    hasNegativeGap ? "compose-layout-negative-gap-row" : "",
+  ].filter(Boolean).join(" ");
+  const spacingStyle: CSSProperties = horizontalArrangement.kind === "spacedBy"
+    ? horizontalArrangement.space < 0
+      ? ({ gap: 0, "--compose-layout-negative-gap": `${horizontalArrangement.space}px` } as CSSProperties)
+      : { gap: `${horizontalArrangement.space}px` }
+    : horizontalArrangement.kind === "spacedByCss"
+      ? { gap: horizontalArrangement.space }
+      : {};
+
   const alignItems = ({
     top: "flex-start",
     centerVertically: "center",
@@ -59,13 +72,13 @@ export function Row({
 
   return (
     <div
-      className={className}
+      className={layoutClassName || undefined}
       style={{
         display: "flex",
         flexDirection: "row",
         justifyContent,
         alignItems,
-        ...(horizontalArrangement.kind === "spacedBy" ? { gap: `${horizontalArrangement.space}px` } : horizontalArrangement.kind === "spacedByCss" ? { gap: horizontalArrangement.space } : {}),
+        ...spacingStyle,
         ...modifier?.toStyle(),
         ...style,
       }}
