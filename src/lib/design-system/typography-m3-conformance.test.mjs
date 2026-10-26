@@ -27,6 +27,8 @@ test("Material 3 typography exposes all 15 canonical roles as size, line-height,
   }
   assert.match(globalCss, /font-size:\s*var\(--m3-type-body-large-size\)/);
   assert.match(globalCss, /line-height:\s*var\(--m3-type-body-large-line-height\)/);
+  assert.ok(globalCss.includes("--text-sm: var(--m3-type-body-medium-size)"));
+  assert.ok(globalCss.includes("--text-3xl: var(--m3-type-headline-large-size)"));
 });
 
 test("shared controls use semantic Material 3 typography roles rather than duplicated type declarations", () => {
