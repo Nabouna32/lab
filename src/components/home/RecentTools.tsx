@@ -71,7 +71,7 @@ export default function RecentTools({ locale, tools }: { locale: Locale; tools: 
       <div className="rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-4 sm:p-5">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h2 id="recent-tools-title" className="m3-type-title-medium text-[var(--foreground)]">{t.home.recentToolsTitle}</h2>
+            <h2 id="recent-tools-title" className="m3-type-title-medium font-bold text-[var(--foreground)]">{t.home.recentToolsTitle}</h2>
             <p className="m3-type-body-medium mt-1 text-[var(--muted)]">{t.home.recentToolsDescription}</p>
           </div>
           <TextButton type="button" onClick={clear} className="shrink-0">
