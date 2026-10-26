@@ -216,7 +216,7 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
       </form>
       <p className="m3-type-body-medium mb-3 text-[var(--muted)]">{copy.localNote} {data.userId ? copy.accountNote : copy.signIn}</p>
       <section aria-label={fr ? "Sauvegarde des collections locales" : "Local collection backup"} className="mb-6 rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-4">
-        <p className="mb-3 text-sm leading-6 text-[var(--muted)]">{copy.backupHelp}</p>
+        <p className="m3-type-body-medium mb-3 text-[var(--muted)]">{copy.backupHelp}</p>
         <input
           ref={importFileRef}
           id="local-collections-import-file"
@@ -273,9 +273,9 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
                     {active.user_collection_items.map((item) => {
                       const tool = tools.find((candidate) => candidate.id === item.tool_id);
                       if (!tool) return null;
-                      return <li key={item.tool_id} className="flex items-center gap-3 py-3"><span aria-hidden="true" className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--accent-soft)] text-xl">{tool.icon}</span><div className="min-w-0 flex-1"><Link href={tool.href} className="font-semibold hover:underline">{tool.name}</Link><p className="line-clamp-1 text-xs text-[var(--muted)]">{tool.description}</p></div><TextButton type="button" colors={{ contentColor: "var(--on-surface-variant)" }} className="inline-flex shrink-0 items-center gap-2" onClick={() => void data.removeTool(active.id, item.tool_id)}><MaterialIcon name="delete" size={18} />{copy.removeTool}</TextButton></li>;
+                      return <li key={item.tool_id} className="flex items-center gap-3 py-3"><span aria-hidden="true" className="m3-type-title-large flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--accent-soft)]">{tool.icon}</span><div className="min-w-0 flex-1"><Link href={tool.href} className="m3-type-label-large hover:underline">{tool.name}</Link><p className="m3-type-body-small line-clamp-1 text-[var(--muted)]">{tool.description}</p></div><TextButton type="button" colors={{ contentColor: "var(--on-surface-variant)" }} className="inline-flex shrink-0 items-center gap-2" onClick={() => void data.removeTool(active.id, item.tool_id)}><MaterialIcon name="delete" size={18} />{copy.removeTool}</TextButton></li>;
                     })}
-                  </ul> : <p className="py-6 text-center text-sm text-[var(--muted)]">{copy.emptyHelp}</p>}
+                  </ul> : <p className="m3-type-body-medium py-6 text-center text-[var(--muted)]">{copy.emptyHelp}</p>}
                   <div className="mt-5 flex flex-wrap items-center gap-2 border-t border-[var(--border)] pt-4">
                     {active.storage === "account" && <>
                       <OutlinedButton type="button" onClick={() => void data.toggleSharing(active.id).then((ok) => { if (!ok) setMessage(copy.error); })}>{active.share_token ? copy.stopShare : copy.share}</OutlinedButton>
