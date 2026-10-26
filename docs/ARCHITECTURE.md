@@ -208,6 +208,16 @@ Supabase/PostgreSQL is the current database platform for the deployed account, a
 
 Catalog storage and delivery must remain separate from executable tool implementations. Git/code remains authoritative for registry modules, processing mode, capabilities and actual tool logic. Any future data-store change must preserve that boundary and justify its operational cost.
 
+## Shared UI layout architecture
+
+Layout and spacing are shared platform concerns, not page-local styling conventions.
+
+The target is a React/Web port of the relevant public AndroidX Compose UI/Foundation layout APIs. Source-backed primitives own layout behavior; Loculary semantic CSS tokens own product-specific responsive dimensions such as page gutters and content-width presets. The design-system contract and current port status live in [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md) and [the layout primitives specification](material3/layout-primitives.md).
+
+Product compositions (for example, a page container) may coordinate Loculary conventions, but they must be built from the shared primitives when possible, must not impersonate AndroidX APIs, and must remain removable if they only duplicate primitive behavior. Migrations should move from shared shells to common pages and then tool-specific layouts, avoiding parallel layout abstractions and arbitrary per-page spacing values.
+
+A port is not considered faithful merely because it has the AndroidX name. Pin the source API version, test public contracts, document Web-specific differences, and verify actual browser rendering across responsive breakpoints, light/dark themes, French/English content, logical direction and accessibility before claiming parity.
+
 ## Technology baseline
 
 The current repository uses:
