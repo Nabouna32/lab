@@ -10,6 +10,9 @@ const pageLayoutSource = readFileSync(new URL("../../components/layout/PageLayou
 const columnSource = readFileSync(new URL("../../components/layout/compose/Column.tsx", import.meta.url), "utf8");
 const arrangementSource = readFileSync(new URL("../../components/layout/compose/Arrangement.ts", import.meta.url), "utf8");
 const informationPageSource = readFileSync(new URL("../../components/information/InformationPage.tsx", import.meta.url), "utf8");
+const adminPageSource = readFileSync(new URL("../../app/[locale]/admin/page.tsx", import.meta.url), "utf8");
+const adminUsersPageSource = readFileSync(new URL("../../app/[locale]/admin/utilisateurs/page.tsx", import.meta.url), "utf8");
+const categoryRouteSource = readFileSync(new URL("../../app/[locale]/[section]/[slug]/page.tsx", import.meta.url), "utf8");
 const rainbowSource = readFileSync(new URL("../design-system/rainbow-tones.ts", import.meta.url), "utf8");
 const rainbowPaletteSource = readFileSync(new URL("../design-system/rainbow-palette.ts", import.meta.url), "utf8");
 const buttonSource = readFileSync(new URL("../../components/ui/Button.tsx", import.meta.url), "utf8");
@@ -115,6 +118,15 @@ test("AndroidX-named layout ports provide explicit spacing and product page comp
   assert.equal(informationPageSource.split('<Column verticalArrangement={Arrangement.spacedByCss("var(--layout-content-gap)")}>').length - 1, 3);
 });
 
+
+test("admin and category pages share the canonical page container and spacing tokens", () => {
+  for (const source of [adminPageSource, adminUsersPageSource]) {
+    assert.ok(source.includes("<PageContainer width=\"default\" spacing=\"none\""));
+    assert.ok(source.includes("py-[var(--space-8)] sm:py-[var(--space-10)]"));
+  }
+  assert.ok(categoryRouteSource.includes("<PageContainer width=\"wide\" spacing=\"none\""));
+  assert.ok(categoryRouteSource.includes("py-[var(--space-8)] sm:py-[var(--space-10)]"));
+});
 
 test("Arrangement.spacedBy returns a validated explicit Web gap", () => {
   assert.deepEqual(Arrangement.spacedBy(24), { kind: "spacedBy", space: 24 });

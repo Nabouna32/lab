@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
+import { PageContainer } from "@/components/layout/PageLayout";
 import ToolCard from "@/components/tools/ToolCard";
 import ToolPage from "@/components/tools/ToolPage/ToolPage";
 import NextActions from "@/components/tools/RelatedTools";
@@ -91,7 +92,8 @@ export default async function LocalizedToolOrCategoryPage({
     const categoryName = getCategoryName(locale, category.id);
 
     return (
-      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
+      <main>
+      <PageContainer width="wide" spacing="none" className="py-[var(--space-8)] sm:py-[var(--space-10)]">
         <Breadcrumbs locale={locale} items={[{ label: t.nav.tools, href: getToolsPath(locale) }, { label: categoryName }]} />
         <header className="border-b border-[var(--border)] pb-7 pt-7 sm:pb-9">
           <div className="flex items-start gap-4">
@@ -112,7 +114,8 @@ export default async function LocalizedToolOrCategoryPage({
             {categoryTools.map((tool) => <ToolCard key={tool.id} tool={tool} locale={locale} categoryName={categoryName} categoryId={category.id} />)}
           </div>
         </section>
-      </main>
+        </PageContainer>
+    </main>
     );
   }
 
