@@ -23,8 +23,14 @@ export type SpacedByArrangement = {
   readonly space: number;
 };
 
-export type HorizontalArrangement = SpacedByArrangement | { readonly kind: "start" | "end" | "center" | "spaceBetween" | "spaceAround" | "spaceEvenly" };
-export type VerticalArrangement = SpacedByArrangement | { readonly kind: "top" | "bottom" | "center" | "spaceBetween" | "spaceAround" | "spaceEvenly" };
+export type CssSpacedByArrangement = {
+  readonly kind: "spacedByCss";
+  /** Explicit Web-only extension; use a shared semantic CSS token where possible. */
+  readonly space: string;
+};
+
+export type HorizontalArrangement = SpacedByArrangement | CssSpacedByArrangement | { readonly kind: "start" | "end" | "center" | "spaceBetween" | "spaceAround" | "spaceEvenly" };
+export type VerticalArrangement = SpacedByArrangement | CssSpacedByArrangement | { readonly kind: "top" | "bottom" | "center" | "spaceBetween" | "spaceAround" | "spaceEvenly" };
 
 export const Arrangement = {
   Start: { kind: "start" } as const,
@@ -36,7 +42,7 @@ export const Arrangement = {
   SpaceAround: { kind: "spaceAround" } as const,
   SpaceEvenly: { kind: "spaceEvenly" } as const,
   /**
-   * Places a consistent CSS gap between adjacent layout children.
+   * Places a consistent gap between adjacent layout children.
    * Unlike AndroidX, space is expressed in CSS pixels by this Web adapter.
    */
   spacedBy(space: number): SpacedByArrangement {
@@ -45,5 +51,16 @@ export const Arrangement = {
     }
 
     return { kind: "spacedBy", space };
+  },
+  /**
+   * Web-only extension for shared CSS design tokens; not an AndroidX API.
+   * Prefer this for Loculary semantic spacing so page values cannot drift.
+   */
+  spacedByCss(space: string): CssSpacedByArrangement {
+    if (!space.trim()) {
+      throw new TypeError("Arrangement.spacedByCss(space) requires a non-empty CSS length or variable.");
+    }
+
+    return { kind: "spacedByCss", space };
   },
 } as const;
