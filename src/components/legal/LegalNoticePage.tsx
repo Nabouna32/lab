@@ -30,7 +30,7 @@ export default function LegalNoticePage({ locale }: { locale: Locale }) {
 
         <p className="mt-[var(--space-4)] text-base leading-7 text-[var(--muted)]">{content.intro}</p>
 
-        <section className="mt-8" aria-labelledby="legal-hosting-title">
+        <section className="mt-[var(--space-8)]" aria-labelledby="legal-hosting-title">
           <h2 id="legal-hosting-title" className="text-xl font-semibold text-[var(--foreground)]">
             {content.hostingTitle}
           </h2>
@@ -47,7 +47,7 @@ export default function LegalNoticePage({ locale }: { locale: Locale }) {
           </a>
         </section>
 
-        <section className="mt-8" aria-labelledby="legal-storage-title">
+        <section className="mt-[var(--space-8)]" aria-labelledby="legal-storage-title">
           <h2 id="legal-storage-title" className="text-xl font-semibold text-[var(--foreground)]">
             {content.storageTitle}
           </h2>
@@ -64,7 +64,7 @@ export default function LegalNoticePage({ locale }: { locale: Locale }) {
           </a>
         </section>
 
-        <section className="mt-8" aria-labelledby="legal-reply-title">
+        <section className="mt-[var(--space-8)]" aria-labelledby="legal-reply-title">
           <h2 id="legal-reply-title" className="text-xl font-semibold text-[var(--foreground)]">
             {content.responseTitle}
           </h2>
