@@ -51,3 +51,13 @@ test("legal pages use the shared spacing scale instead of duplicating Tailwind s
     }
   }
 });
+
+const categoryPageSource = readSource("../../app/[locale]/[section]/[slug]/page.tsx");
+
+test("category page section rhythm uses the shared spacing tokens", () => {
+  assert.ok(categoryPageSource.includes("pb-[var(--space-7)] pt-[var(--space-7)] sm:pb-[var(--space-9)]"));
+  assert.ok(categoryPageSource.includes('className="py-[var(--space-7)] sm:py-[var(--space-9)]"'));
+  assert.ok(categoryPageSource.includes('className="mb-[var(--space-4)]"'));
+  assert.ok(!categoryPageSource.includes("pb-7 pt-7 sm:pb-9"));
+  assert.ok(!categoryPageSource.includes('className="py-7 sm:py-9"'));
+});
