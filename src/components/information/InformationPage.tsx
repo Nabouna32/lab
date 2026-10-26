@@ -26,7 +26,7 @@ export default function InformationPage({ locale, kind }: { locale: Locale; kind
         <p className="m3-type-body-large mt-4 text-[var(--muted)]">{page.intro}</p>
         <section className="mt-8" aria-labelledby="principles-title">
           <h2 id="principles-title" className="m3-type-headline-small text-[var(--foreground)]">{page.principlesTitle}</h2>
-          <ul className="mt-3 list-disc space-y-3 pl-6 leading-7 text-[var(--muted)]">{page.principles.map((principle) => <li key={principle}>{principle}</li>)}</ul>
+          <ul className="m3-type-body-large mt-3 list-disc space-y-3 pl-6 text-[var(--muted)]">{page.principles.map((principle) => <li key={principle}>{principle}</li>)}</ul>
         </section>
         <section className="mt-8" aria-labelledby="transparency-title">
           <h2 id="transparency-title" className="m3-type-headline-small text-[var(--foreground)]">{page.privacyTitle}</h2>
