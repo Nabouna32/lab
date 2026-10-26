@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { PageContainer } from "@/components/layout/PageLayout";
 import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
 import { getLegalNoticePath } from "@/lib/tools/routes";
@@ -20,8 +21,9 @@ export default function LegalNoticePage({ locale }: { locale: Locale }) {
   const content = getMessages(locale).legalNotice;
 
   return (
-    <main className="min-h-full px-4 py-8 sm:px-6 sm:py-10 lg:px-10" aria-labelledby="legal-notice-title">
-      <article className="mx-auto w-full max-w-3xl rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8 lg:p-10">
+    <main className="min-h-full" aria-labelledby="legal-notice-title">
+      <PageContainer width="narrow" spacing="none" className="py-[var(--space-8)] sm:py-[var(--space-10)]">
+      <article className="w-full rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8 lg:p-10">
         <h1 id="legal-notice-title" className="text-3xl font-bold tracking-tight text-[var(--foreground)] sm:text-4xl">
           {content.title}
         </h1>
@@ -73,6 +75,7 @@ export default function LegalNoticePage({ locale }: { locale: Locale }) {
           {content.anonymityNote}
         </p>
       </article>
+      </PageContainer>
     </main>
   );
 }
