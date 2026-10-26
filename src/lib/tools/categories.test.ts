@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { test } from "node:test";
+import { Arrangement } from "../../components/layout/compose/Arrangement.ts";
+import { Modifier } from "../../components/layout/compose/Modifier.ts";
 import { categoryColorIds, getCategoryColor, getCategoryContainerColor, getCategoryOnContainerColor } from "./category-colors.ts";
 
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
@@ -112,3 +114,26 @@ test("AndroidX-named layout ports provide explicit spacing and product page comp
   assert.equal((informationPageSource.match(/<Column verticalArrangement={Arrangement.spacedBy(24)}>/g) ?? []).length, 3);
 });
 
+
+test("Arrangement.spacedBy returns a validated explicit Web gap", () => {
+  assert.deepEqual(Arrangement.spacedBy(24), { kind: "spacedBy", space: 24 });
+  assert.throws(() => Arrangement.spacedBy(-1), RangeError);
+  assert.throws(() => Arrangement.spacedBy(Number.NaN), RangeError);
+});
+
+test("Modifier supports Compose-shaped padding overloads and ordered composition", () => {
+  assert.deepEqual(Modifier.padding(8).toStyle(), { padding: "8px" });
+  assert.deepEqual(Modifier.padding(8, 12).toStyle(), { paddingInline: "8px", paddingBlock: "12px" });
+  assert.deepEqual(Modifier.padding(1, 2, 3, 4).toStyle(), {
+    paddingInlineStart: "1px",
+    paddingBlockStart: "2px",
+    paddingInlineEnd: "3px",
+    paddingBlockEnd: "4px",
+  });
+  assert.deepEqual(Modifier.padding(8).then(Modifier.fillMaxWidth()).toStyle(), {
+    padding: "8px",
+    width: "100%",
+  });
+  assert.throws(() => Modifier.padding(-1), RangeError);
+  assert.throws(() => Modifier.widthIn({ min: 300, max: 200 }), RangeError);
+});
