@@ -21,19 +21,32 @@ export class ModifierElement {
     return new ModifierElement([...this.operations, operation]);
   }
 
-  padding(all: number): ModifierElement {
-    assertNonNegative(all, "padding");
-    return this.append((style) => ({ ...style, padding: `${all}px` }));
-  }
+  padding(all: number): ModifierElement;
+  padding(horizontal: number, vertical: number): ModifierElement;
+  padding(start: number, top: number, end: number, bottom: number): ModifierElement;
+  padding(first: number, second?: number, third?: number, fourth?: number): ModifierElement {
+    const values = [first, second, third, fourth].filter((value): value is number => value !== undefined);
+    values.forEach((value) => assertNonNegative(value, "padding"));
 
-  paddingHorizontal(horizontal: number): ModifierElement {
-    assertNonNegative(horizontal, "paddingHorizontal");
-    return this.append((style) => ({ ...style, paddingInline: `${horizontal}px` }));
-  }
+    if (values.length === 1) {
+      return this.append((style) => ({ ...style, padding: `${first}px` }));
+    }
 
-  paddingVertical(vertical: number): ModifierElement {
-    assertNonNegative(vertical, "paddingVertical");
-    return this.append((style) => ({ ...style, paddingBlock: `${vertical}px` }));
+    if (values.length === 2) {
+      return this.append((style) => ({ ...style, paddingInline: `${first}px`, paddingBlock: `${second}px` }));
+    }
+
+    if (values.length === 4) {
+      return this.append((style) => ({
+        ...style,
+        paddingInlineStart: `${first}px`,
+        paddingBlockStart: `${second}px`,
+        paddingInlineEnd: `${third}px`,
+        paddingBlockEnd: `${fourth}px`,
+      }));
+    }
+
+    throw new TypeError("Modifier.padding expects 1, 2, or 4 dimension values.");
   }
 
   fillMaxWidth(): ModifierElement {
@@ -70,9 +83,12 @@ function assertNonNegative(value: number, name: string): void {
 }
 
 export const Modifier = {
-  padding: (all: number) => ModifierElement.empty().padding(all),
-  paddingHorizontal: (horizontal: number) => ModifierElement.empty().paddingHorizontal(horizontal),
-  paddingVertical: (vertical: number) => ModifierElement.empty().paddingVertical(vertical),
+  padding: (...values: [number] | [number, number] | [number, number, number, number]) => {
+    const [first, second, third, fourth] = values;
+    if (second === undefined) return ModifierElement.empty().padding(first);
+    if (third === undefined) return ModifierElement.empty().padding(first, second);
+    return ModifierElement.empty().padding(first, second, third, fourth!);
+  },
   fillMaxWidth: () => ModifierElement.empty().fillMaxWidth(),
   widthIn: (constraints: { min?: number; max?: number }) => ModifierElement.empty().widthIn(constraints),
 } as const;
