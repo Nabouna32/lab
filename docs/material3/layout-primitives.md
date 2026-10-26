@@ -39,7 +39,7 @@ Les composants sont des ports partiels. Leur nom officiel ne signifie pas que l'
 ## Conventions de migration
 
 - Privilégier les noms AndroidX et les paramètres correspondants quand le contrat peut être préservé.
-- Garder les compositions propres au produit, comme `PageContainer`, explicitement identifiées comme Loculary; elles peuvent gérer largeur de contenu et marges de page, mais ne doivent pas se faire passer pour une primitive AndroidX.
+- Garder les compositions propres au produit, comme `PageContainer`, explicitement identifiées comme Loculary; elles centralisent les largeurs de contenu (`form`, `form-wide`, `narrow`, `medium`, `default`, `wide`), les gouttières responsives et les espacements extérieurs, mais ne doivent pas se faire passer pour une primitive AndroidX. Le header, le footer, les pages de collections et les formulaires de compte réutilisent progressivement cette composition; leur largeur reste choisie selon le contexte, pas uniformisée artificiellement.
 - Remplacer les abstractions génériques d'espacement par `Column` + `Arrangement.spacedBy` lorsque le contrat convient.
 - Ne pas confondre les tokens CSS de Loculary avec une échelle de dimensions AndroidX. Les tokens restent des choix de design du produit tant qu'une source officielle ne prouve pas le contraire. Pour éviter les valeurs divergentes, utiliser l’extension Web `Arrangement.spacedByCss("var(--layout-content-gap)")` lorsque l’espacement provient d’un token Loculary; ne pas présenter cette extension comme une API AndroidX.
 - Ne pas déclarer la parité sans tests de contrat, vérification de rendu en navigateur et contrôle des cas RTL, responsive, clavier et accessibilité pertinents.
