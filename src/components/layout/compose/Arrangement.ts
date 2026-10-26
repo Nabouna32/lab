@@ -15,7 +15,8 @@ export type ArrangementKind =
   | "spaceBetween"
   | "spaceAround"
   | "spaceEvenly"
-  | "spacedBy";
+  | "spacedBy"
+  | "spacedByCss";
 
 export type SpacedByArrangement = {
   readonly kind: "spacedBy";
