@@ -34,14 +34,16 @@ export function Box({
     bottomEnd: { justifySelf: "end", alignSelf: "end" },
   };
 
-  return (
+  const layout = (
     <div
       className={className}
-      style={{ display: "grid", ...modifier?.toStyle(), ...style }}
+      style={{ display: "grid", ...style }}
     >
       {Children.map(children, (child) => (
         <div style={{ gridArea: "1 / 1", ...alignment[contentAlignment] }}>{child}</div>
       ))}
     </div>
   );
+
+  return modifier ? modifier.wrap(layout) : layout;
 }
