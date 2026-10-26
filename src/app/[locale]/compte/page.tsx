@@ -139,7 +139,7 @@ export default async function AccountPage({
               >
                 <span>
                   <span className="m3-type-title-medium block">{t.account.changePassword}</span>
-                  <span className="m3-type-body-medium mt-1 block text-[var(--muted)]>{t.account.password}</span>
+                  <span className="m3-type-body-medium mt-1 block text-[var(--muted)]">{t.account.password}</span>
                 </span>
                 <MaterialIcon name="chevron_right" size={20} className="h-5 w-5 text-[var(--muted)] transition-transform group-hover:translate-x-1" />
               </Link>
