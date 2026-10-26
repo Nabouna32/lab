@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { test } from "node:test";
 import { readFileSync } from "node:fs";
 
 const homeSource = readFileSync(new URL("../../app/[locale]/page.tsx", import.meta.url), "utf8");
