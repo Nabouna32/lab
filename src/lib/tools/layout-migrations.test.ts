@@ -46,7 +46,7 @@ test("legal pages use the shared spacing scale instead of duplicating Tailwind s
     for (const token of ["--space-2", "--space-3", "--space-6", "--space-8"]) {
       assert.ok(source.includes(`var(${token})`), `missing shared spacing token: ${token}`);
     }
-    for (const rawClass of ["mt-2", "mt-3", "mt-4", "mt-6", "mt-8", "p-4", "p-6", "p-8", "p-10", "pt-5", "space-y-2"]) {
+    for (const rawClass of ["mt-2", "mt-3", "mt-4", "mt-6", "mt-8", "p-4", "p-6", "p-8", "p-10", "pt-5", "pl-6", "space-y-2"]) {
       assert.ok(!source.includes(rawClass), `raw spacing class remains: ${rawClass}`);
     }
   }

@@ -22,13 +22,13 @@ export default function PrivacyPolicyPage({ locale }: { locale: Locale }) {
         <p className="mt-[var(--space-2)] text-sm leading-6">{page.temporaryNotice}</p>
       </aside>
       <p className="mt-[var(--space-6)] leading-7">{page.intro}</p>
-      {page.sections.map((section, index) => <section key={section.title} className="mt-8" aria-labelledby={"policy-section-" + index}>
+      {page.sections.map((section, index) => <section key={section.title} className="mt-[var(--space-8)]" aria-labelledby={"policy-section-" + index}>
         <h2 id={"policy-section-" + index} className="text-xl font-semibold">{section.title}</h2>
         {section.paragraphs.map((paragraph) => <p key={paragraph} className="mt-[var(--space-3)] leading-7">{paragraph}</p>)}
-        {section.bullets && <ul className="mt-[var(--space-3)] list-disc space-y-[var(--space-2)] pl-6">{section.bullets.map((item) => <li key={item}>{item}</li>)}</ul>}
-        {section.links && <ul className="mt-[var(--space-3)] list-disc pl-6">{section.links.map((link) => <li key={link.href}><a className="underline" href={link.href}>{link.label}</a></li>)}</ul>}
+        {section.bullets && <ul className="mt-[var(--space-3)] list-disc space-y-[var(--space-2)] pl-[var(--space-6)]">{section.bullets.map((item) => <li key={item}>{item}</li>)}</ul>}
+        {section.links && <ul className="mt-[var(--space-3)] list-disc pl-[var(--space-6)]">{section.links.map((link) => <li key={link.href}><a className="underline" href={link.href}>{link.label}</a></li>)}</ul>}
       </section>)}
-      <section className="mt-8" aria-labelledby="policy-contact">
+      <section className="mt-[var(--space-8)]" aria-labelledby="policy-contact">
         <h2 id="policy-contact" className="text-xl font-semibold">{page.contactTitle}</h2>
         <p className="mt-[var(--space-3)] leading-7">{page.contactIntro}</p>
         <p className="mt-[var(--space-3)] font-semibold"><a className="underline" href={"mailto:" + page.contactAddress}><code>{page.contactAddress}</code></a></p>
