@@ -14,6 +14,8 @@ const adminPageSource = readFileSync(new URL("../../app/[locale]/admin/page.tsx"
 const adminUsersPageSource = readFileSync(new URL("../../app/[locale]/admin/utilisateurs/page.tsx", import.meta.url), "utf8");
 const categoryRouteSource = readFileSync(new URL("../../app/[locale]/[section]/[slug]/page.tsx", import.meta.url), "utf8");
 const accountPageSource = readFileSync(new URL("../../app/[locale]/compte/page.tsx", import.meta.url), "utf8");
+const adminAuditPageSource = readFileSync(new URL("../../app/[locale]/admin/audit/page.tsx", import.meta.url), "utf8");
+const legalNoticePageSource = readFileSync(new URL("../../components/legal/LegalNoticePage.tsx", import.meta.url), "utf8");
 const collectionsViewSource = readFileSync(new URL("../../components/collections/CollectionsView.tsx", import.meta.url), "utf8");
 const sharedCollectionViewSource = readFileSync(new URL("../../components/collections/SharedCollectionView.tsx", import.meta.url), "utf8");
 const headerSource = readFileSync(new URL("../../components/layout/Header.tsx", import.meta.url), "utf8");
@@ -150,6 +152,8 @@ test("shared page shells use PageContainer without forcing every context to the 
   assert.ok(sharedCollectionViewSource.includes('<PageContainer width="medium" spacing="none"'));
   assert.ok(headerSource.includes('<PageContainer width="wide" spacing="none">'));
   assert.ok(footerSource.includes('<PageContainer width="wide" spacing="none"'));
+  assert.ok(adminAuditPageSource.includes('<PageContainer width="default" spacing="none"'));
+  assert.ok(legalNoticePageSource.includes('<PageContainer width="narrow" spacing="none"'));
 });
 
 test("Arrangement.spacedBy returns a validated explicit Web gap", () => {
