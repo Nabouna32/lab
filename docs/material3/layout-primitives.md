@@ -8,6 +8,8 @@ Cette spécification suit le portage des primitives AndroidX Compose UI/Foundati
 
 ## Sources AndroidX inspectées
 
+- Notes de version stable visée : [Compose UI 1.12.1](https://developer.android.com/jetpack/androidx/releases/compose-ui) et [Compose Foundation 1.12.1](https://developer.android.com/jetpack/androidx/releases/compose-foundation).
+
 Snapshot immuable de consultation : [androidx/androidx @ 5901d750e269aa3d88f6fccd5186637df83a0173](https://github.com/androidx/androidx/tree/5901d750e269aa3d88f6fccd5186637df83a0173).
 
 - [Modifier.kt — Compose UI](https://github.com/androidx/androidx/blob/5901d750e269aa3d88f6fccd5186637df83a0173/compose/ui/ui/src/commonMain/kotlin/androidx/compose/ui/Modifier.kt)
