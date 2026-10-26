@@ -30,7 +30,7 @@ Snapshot immuable de consultation : [androidx/androidx @ 5901d750e269aa3d88f6fcc
 | `Column` | `src/components/layout/compose/Column.tsx` | Layout vertical, écart, alignement horizontal limité | Flexbox CSS ne reproduit pas toutes les règles de mesure/poids de Compose |
 | `Row` | `src/components/layout/compose/Row.tsx` | Layout horizontal, écart, alignement vertical limité | Flexbox CSS ne reproduit pas toutes les règles de mesure/poids de Compose |
 | `Box` | `src/components/layout/compose/Box.tsx` | Enfants positionnés dans une cellule CSS Grid commune | La mesure et les contraintes de Box Compose ne sont pas encore portées fidèlement |
-| `Spacer` | `src/components/layout/compose/Spacer.tsx` | Élément extensible Flex | Le comportement dépend du contexte Flex CSS, pas du moteur de mesure Compose |
+| `Spacer` | `src/components/layout/compose/Spacer.tsx` | Élément sans taille intrinsèque, dimensionné par son modificateur ou les contraintes | Les modificateurs de poids de `RowScope`/`ColumnScope` restent à implémenter |
 
 Les composants sont des ports partiels. Leur nom officiel ne signifie pas que l'API complète ou la parité AndroidX est déjà atteinte.
 
