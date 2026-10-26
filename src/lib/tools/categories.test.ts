@@ -4,6 +4,8 @@ import { test } from "node:test";
 import { categoryColorIds, getCategoryColor, getCategoryContainerColor, getCategoryOnContainerColor } from "./category-colors.ts";
 
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
+const pageLayoutSource = readFileSync(new URL("../../components/layout/PageLayout.tsx", import.meta.url), "utf8");
+const informationPageSource = readFileSync(new URL("../../components/information/InformationPage.tsx", import.meta.url), "utf8");
 const rainbowSource = readFileSync(new URL("../design-system/rainbow-tones.ts", import.meta.url), "utf8");
 const rainbowPaletteSource = readFileSync(new URL("../design-system/rainbow-palette.ts", import.meta.url), "utf8");
 const buttonSource = readFileSync(new URL("../../components/ui/Button.tsx", import.meta.url), "utf8");
@@ -92,5 +94,16 @@ test("shared layout spacing tokens define a consistent semantic scale", () => {
   ]) {
     assert.ok(globalCss.includes(token), `missing shared layout token: ${token}`);
   }
+});
+
+test("shared layout primitives consume semantic tokens and are used by information pages", () => {
+  assert.ok(pageLayoutSource.includes("export function PageContainer"));
+  assert.ok(pageLayoutSource.includes("export function PageStack"));
+  assert.ok(pageLayoutSource.includes("var(--layout-page-gutter)"));
+  assert.ok(pageLayoutSource.includes("var(--layout-content-narrow)"));
+  assert.ok(pageLayoutSource.includes("var(--layout-item-gap)"));
+  assert.ok(pageLayoutSource.includes("var(--layout-content-gap)"));
+  assert.equal((informationPageSource.match(/<PageContainer width="narrow" spacing="default">/g) ?? []).length, 3);
+  assert.equal((informationPageSource.match(/<PageStack gap="relaxed">/g) ?? []).length, 3);
 });
 
