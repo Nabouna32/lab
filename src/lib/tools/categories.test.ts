@@ -13,6 +13,11 @@ const informationPageSource = readFileSync(new URL("../../components/information
 const adminPageSource = readFileSync(new URL("../../app/[locale]/admin/page.tsx", import.meta.url), "utf8");
 const adminUsersPageSource = readFileSync(new URL("../../app/[locale]/admin/utilisateurs/page.tsx", import.meta.url), "utf8");
 const categoryRouteSource = readFileSync(new URL("../../app/[locale]/[section]/[slug]/page.tsx", import.meta.url), "utf8");
+const accountPageSource = readFileSync(new URL("../../app/[locale]/compte/page.tsx", import.meta.url), "utf8");
+const collectionsViewSource = readFileSync(new URL("../../components/collections/CollectionsView.tsx", import.meta.url), "utf8");
+const sharedCollectionViewSource = readFileSync(new URL("../../components/collections/SharedCollectionView.tsx", import.meta.url), "utf8");
+const headerSource = readFileSync(new URL("../../components/layout/Header.tsx", import.meta.url), "utf8");
+const footerSource = readFileSync(new URL("../../components/layout/Footer.tsx", import.meta.url), "utf8");
 const rainbowSource = readFileSync(new URL("../design-system/rainbow-tones.ts", import.meta.url), "utf8");
 const rainbowPaletteSource = readFileSync(new URL("../design-system/rainbow-palette.ts", import.meta.url), "utf8");
 const buttonSource = readFileSync(new URL("../../components/ui/Button.tsx", import.meta.url), "utf8");
@@ -120,11 +125,13 @@ test("AndroidX-named layout ports provide explicit spacing and product page comp
 
 
 test("PageContainer exposes centralized form widths for standard and wider forms", () => {
-  assert.ok(pageLayoutSource.includes('"form" | "form-wide" | "narrow"'));
+  assert.ok(pageLayoutSource.includes('"form" | "form-wide" | "account" | "narrow"'));
   assert.ok(pageLayoutSource.includes('form: "max-w-[var(--layout-content-form)]"'));
   assert.ok(pageLayoutSource.includes('"form-wide": "max-w-[var(--layout-content-form-wide)]"'));
   assert.ok(globalCss.includes("--layout-content-form: 28rem"));
   assert.ok(globalCss.includes("--layout-content-form-wide: 36rem"));
+  assert.ok(pageLayoutSource.includes('account: "max-w-[var(--layout-content-account)]"'));
+  assert.ok(globalCss.includes("--layout-content-account: 42rem"));
 });
 
 test("admin and category pages share the canonical page container and spacing tokens", () => {
@@ -134,6 +141,15 @@ test("admin and category pages share the canonical page container and spacing to
   }
   assert.ok(categoryRouteSource.includes("<PageContainer width=\"wide\" spacing=\"none\""));
   assert.ok(categoryRouteSource.includes("py-[var(--space-8)] sm:py-[var(--space-10)]"));
+});
+
+test("shared page shells use PageContainer without forcing every context to the same width", () => {
+  assert.ok(accountPageSource.includes('<PageContainer width="account" spacing="none"'));
+  assert.ok(accountPageSource.includes('<PageContainer width="narrow" spacing="none"'));
+  assert.ok(collectionsViewSource.includes('<PageContainer width="medium" spacing="none"'));
+  assert.ok(sharedCollectionViewSource.includes('<PageContainer width="medium" spacing="none"'));
+  assert.ok(headerSource.includes('<PageContainer width="wide" spacing="none">'));
+  assert.ok(footerSource.includes('<PageContainer width="wide" spacing="none"'));
 });
 
 test("Arrangement.spacedBy returns a validated explicit Web gap", () => {
