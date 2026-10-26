@@ -57,8 +57,8 @@ export type VerticalArrangement =
   | { readonly kind: "top" | "bottom" | "center" | "spaceBetween" | "spaceAround" | "spaceEvenly" };
 
 function assertFiniteSpacing(space: number): void {
-  if (!Number.isFinite(space) || space < 0) {
-    throw new RangeError("Arrangement.spacedBy(space) currently requires a finite, non-negative CSS pixel value.");
+  if (!Number.isFinite(space)) {
+    throw new RangeError("Arrangement.spacedBy(space) requires a finite CSS pixel value.");
   }
 }
 
@@ -101,7 +101,8 @@ export const Arrangement = {
   /**
    * Places adjacent children at a fixed distance.
    * AndroidX also permits negative spacing and exposes alignment overloads. Negative spacing
-   * remains unsupported by this CSS adapter because CSS gap cannot represent it faithfully.
+   * is rendered with negative logical margins because CSS gap cannot be negative. This reproduces
+   * overlap but not Compose’s complete constraint and measurement algorithm.
    */
   spacedBy,
   /** Aligns a packed group when the main axis has remaining space, as in AndroidX. */
