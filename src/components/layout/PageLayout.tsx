@@ -27,9 +27,9 @@ export function PageContainer({
   }[width];
 
   const spacingClass = {
-    compact: "py-[var(--space-4)] sm:py-[var(--space-6)]",
-    default: "py-[var(--space-6)] sm:py-[var(--space-8)] lg:py-[var(--space-10)]",
-    comfortable: "py-[var(--space-8)] sm:py-[var(--space-10)] lg:py-[var(--space-12)]",
+    compact: "py-[var(--space-6)] sm:py-[var(--space-8)] lg:py-[var(--space-8)]",
+    default: "py-[var(--space-8)] sm:py-[var(--space-10)] lg:py-[var(--space-10)]",
+    comfortable: "py-[var(--space-10)] sm:py-[var(--space-12)] lg:py-[var(--space-12)]",
   }[spacing];
 
   return (
