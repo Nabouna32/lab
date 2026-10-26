@@ -112,7 +112,7 @@ test("AndroidX-named layout ports provide explicit spacing and product page comp
   assert.ok(arrangementSource.includes("spacedBy(space: number)"));
   assert.ok(arrangementSource.includes("kind: " + '"spacedBy"'));
   assert.equal((informationPageSource.match(/<PageContainer width="narrow" spacing="default">/g) ?? []).length, 3);
-  assert.equal((informationPageSource.match(/<Column verticalArrangement={Arrangement.spacedBy(24)}>/g) ?? []).length, 3);
+  assert.equal(informationPageSource.split('<Column verticalArrangement={Arrangement.spacedBy(24)}>').length - 1, 3);
 });
 
 
