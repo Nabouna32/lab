@@ -112,6 +112,10 @@ The inventory is intentionally **not yet declared complete**. The existing histo
 - **Inventory exhaustiveness is mandatory:** catalogue every public API in the declared artifact/version scope, including APIs not currently used by Loculary and experimental APIs. Inventory presence does not imply an implementation commitment.
 - **Implementation priority is separate:** prioritize ports according to product need, reuse, risk, and maintenance value. An inventoried API may remain unimplemented, with that status explicit.
 
+## Shared Compose UI/Foundation layout port
+
+Layout primitives are tracked separately from Material 3 components because `Column`, `Row`, `Box`, `Spacer`, `Modifier`, `Alignment`, and `Arrangement` belong to Compose UI/Foundation, not Material 3. See [the layout primitives specification](layout-primitives.md) for source references, token centralization rules, current Web extensions, and parity gaps.
+
 ## Current status
 
 | Component | Spec | Port status | Production migration |
