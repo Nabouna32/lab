@@ -1,6 +1,7 @@
 import Link from "next/link";
 import AppLink from "@/components/ui/AppLink";
 import HeaderSearch from "@/components/layout/HeaderSearch";
+import { PageContainer } from "@/components/layout/PageLayout";
 import DesktopHeaderMenu from "@/components/layout/DesktopHeaderMenu";
 import LocularyLogo from "@/components/brand/LocularyLogo";
 import type { Locale } from "@/lib/i18n/config";
@@ -12,7 +13,7 @@ export default function Header({ locale }: { locale: Locale }) {
 
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--border)]/80 bg-[var(--background)]">
-      <div className="mx-auto max-w-[var(--content-wide)] px-3 sm:px-6 lg:px-8">
+      <PageContainer width="wide" spacing="none">
         <div className="grid h-14 grid-cols-[1fr_auto] items-center gap-2 sm:h-16 sm:gap-3">
           <Link
             href={"/" + locale}
@@ -33,7 +34,7 @@ export default function Header({ locale }: { locale: Locale }) {
             <DesktopHeaderMenu locale={locale} />
           </div>
         </div>
-      </div>
+      </PageContainer>
     </header>
   );
 }
