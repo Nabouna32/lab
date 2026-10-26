@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import HomeGuidedWorkflows from "@/components/home/HomeGuidedWorkflows";
 import RecentTools from "@/components/home/RecentTools";
 import ToolSearch from "@/components/tools/ToolSearch";
+import { PageContainer } from "@/components/layout/PageLayout";
 import { isLocale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
 import { getPublicPageMetadata } from "@/lib/tools/page-metadata";
@@ -32,8 +33,12 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
 
   return (
     <main className="min-h-full">
-      <section className="px-4 pb-5 pt-5 sm:px-6 sm:pb-8 sm:pt-8 lg:px-10 lg:pt-10" aria-labelledby="home-title">
-        <div className="mx-auto w-full max-w-[var(--content-wide)]">
+      <section aria-labelledby="home-title">
+        <PageContainer
+          width="wide"
+          spacing="none"
+          className="pb-[var(--space-5)] pt-[var(--space-5)] sm:pb-[var(--space-8)] sm:pt-[var(--space-8)] lg:pt-[var(--space-10)]"
+        >
           <div className="home-rainbow-frame rounded-[2rem] p-px sm:rounded-[2.5rem]" style={getRainbowFrameStyle()}>
             <div className="home-command-surface relative isolate overflow-hidden rounded-[calc(2rem-1px)] bg-[var(--surface)] px-5 py-7 sm:rounded-[calc(2.5rem-1px)] sm:px-8 sm:py-8 lg:px-12 lg:py-10">
               <div className="pointer-events-none absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-[var(--primary)]/35 to-transparent" aria-hidden="true" />
@@ -66,7 +71,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               </div>
             </div>
           </div>
-        </div>
+        </PageContainer>
       </section>
 
       <RecentTools locale={locale} tools={recentTools} />
