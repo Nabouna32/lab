@@ -41,7 +41,7 @@ Numeric values in the table are Android reference magnitudes (sp). The CSS imple
 - Keep numeric values, code, IP addresses, hashes, dates and tabular data legible; monospace or tabular numerals are purposeful content treatments, not alternate UI typography scales.
 - A genuinely constrained single-line label may use truncation, but it should retain its role. Responsive layout should prefer wrapping/reflow over a new ad-hoc font size.
 - Do not add arbitrary font-size, line-height, weight or tracking values when one of the 15 roles satisfies the requirement. If a real exception is required, document its rationale and owner in the relevant component spec.
-- Existing Tailwind size classes and CSS literals are migration debt, not an alternate long-term typography API. Remove them as call sites are migrated; do not merely hide them behind aliases and declare the migration complete.
+- Existing Tailwind size classes and CSS literals are migration debt, not an alternate long-term typography API. A temporary Tailwind compatibility mapping now routes standard `text-xs` through `text-9xl` size utilities to these canonical tokens so old screens no longer draw from a second numeric scale. This bridge does not make those class names semantically correct or the migration complete: migrate call sites to `m3-type-*` roles, then remove compatibility aliases once the legacy utilities are gone.
 
 ## Web adaptations
 
