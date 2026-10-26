@@ -3,6 +3,7 @@ import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
 import { getAboutPath, getContactPath, getPrivacyPolicyPath } from "@/lib/tools/routes";
 import { getPublicPageMetadata } from "@/lib/tools/page-metadata";
+import { PageContainer } from "@/components/layout/PageLayout";
 
 export type InformationPageKind = "about" | "contact" | "bugReport";
 
@@ -20,8 +21,9 @@ export default function InformationPage({ locale, kind }: { locale: Locale; kind
 
   if (kind === "about") {
     const page = messages.aboutPage;
-    return <main className="min-h-full px-4 py-8 sm:px-6 sm:py-10 lg:px-10" aria-labelledby="information-title">
-      <article className="mx-auto w-full max-w-3xl rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8 lg:p-10">
+    return <main className="min-h-full" aria-labelledby="information-title">
+      <PageContainer width="narrow" spacing="default">
+      <article className="w-full rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8 lg:p-10">
         <h1 id="information-title" className="text-3xl font-bold tracking-tight text-[var(--foreground)] sm:text-4xl">{page.title}</h1>
         <p className="mt-4 text-base leading-7 text-[var(--muted)]">{page.intro}</p>
         <section className="mt-8" aria-labelledby="principles-title">
@@ -38,13 +40,15 @@ export default function InformationPage({ locale, kind }: { locale: Locale; kind
           <p className="mt-2 leading-7 text-[var(--muted)]">{page.tools}</p>
         </section>
       </article>
+      </PageContainer>
     </main>;
   }
 
   if (kind === "contact") {
     const page = messages.contactPage;
-    return <main className="min-h-full px-4 py-8 sm:px-6 sm:py-10 lg:px-10" aria-labelledby="information-title">
-      <article className="mx-auto w-full max-w-3xl rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8 lg:p-10">
+    return <main className="min-h-full" aria-labelledby="information-title">
+      <PageContainer width="narrow" spacing="default">
+      <article className="w-full rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8 lg:p-10">
         <h1 id="information-title" className="text-3xl font-bold tracking-tight text-[var(--foreground)] sm:text-4xl">{page.title}</h1>
         <p className="mt-4 text-base leading-7 text-[var(--muted)]">{page.intro}</p>
         <section className="mt-8" aria-labelledby="general-contact-title">
@@ -57,12 +61,14 @@ export default function InformationPage({ locale, kind }: { locale: Locale; kind
           <a href={"mailto:" + page.privacyEmail} className="mt-3 inline-flex min-h-11 items-center rounded-sm font-semibold text-[var(--accent)] underline underline-offset-4 outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]">{page.privacyEmail}</a>
         </section>
       </article>
+      </PageContainer>
     </main>;
   }
 
   const page = messages.bugReportPage;
-  return <main className="min-h-full px-4 py-8 sm:px-6 sm:py-10 lg:px-10" aria-labelledby="information-title">
-    <article className="mx-auto w-full max-w-3xl rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8 lg:p-10">
+  return <main className="min-h-full" aria-labelledby="information-title">
+      <PageContainer width="narrow" spacing="default">
+    <article className="w-full rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8 lg:p-10">
       <h1 id="information-title" className="text-3xl font-bold tracking-tight text-[var(--foreground)] sm:text-4xl">{page.title}</h1>
       <p className="mt-4 text-base leading-7 text-[var(--muted)]">{page.intro}</p>
       <aside className="mt-8 rounded-2xl border border-[var(--border)] p-4" aria-labelledby="status-title">
@@ -71,5 +77,6 @@ export default function InformationPage({ locale, kind }: { locale: Locale; kind
       </aside>
       <p className="mt-6 text-sm leading-6 text-[var(--muted)]">{page.nextStep}</p>
     </article>
+      </PageContainer>
   </main>;
 }
