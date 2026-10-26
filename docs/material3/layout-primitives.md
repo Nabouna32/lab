@@ -26,7 +26,7 @@ Snapshot immuable de consultation : [androidx/androidx @ 5901d750e269aa3d88f6fcc
 
 | API AndroidX | Implémentation Web | Couverture actuelle | Différence déclarée |
 |---|---|---|---|
-| `Arrangement` | `src/components/layout/compose/Arrangement.ts` | Constantes Start/End/Top/Bottom/Center/Space*, `spacedBy` et extension Web `spacedByCss` | `spacedBy` utilise CSS px plutôt que `Dp`; `spacedByCss` est une extension Loculary, pas AndroidX; overload avec alignement et contrat de mesure incomplets |
+| `Arrangement` | `src/components/layout/compose/Arrangement.ts` | Constantes Start/End/Top/Bottom/Center/Space*, `spacedBy`, surcharges d’alignement, `aligned` et extension Web `spacedByCss` | `spacedBy` utilise CSS px plutôt que `Dp`; `spacedByCss` est une extension Loculary; l’alignement du groupe est rendu via Flexbox; l’espacement négatif et le moteur de mesure Compose ne sont pas reproduits |
 | `Alignment` | `src/components/layout/compose/Alignment.ts` | Constantes d’alignement utilisées par les primitives actuelles | Sous-ensemble des API d’alignement, adaptation CSS |
 | `Modifier` | `src/components/layout/compose/Modifier.ts` | `padding`, `fillMaxWidth`, `widthIn`, `then` | Les opérations construisent des styles CSS; la mesure et l'ordre de layout ne reproduisent pas entièrement Compose |
 | `Column` | `src/components/layout/compose/Column.tsx` | Layout vertical, écart, alignement horizontal limité | Flexbox CSS ne reproduit pas toutes les règles de mesure/poids de Compose |
@@ -34,7 +34,7 @@ Snapshot immuable de consultation : [androidx/androidx @ 5901d750e269aa3d88f6fcc
 | `Box` | `src/components/layout/compose/Box.tsx` | Enfants positionnés dans une cellule CSS Grid commune | La mesure et les contraintes de Box Compose ne sont pas encore portées fidèlement |
 | `Spacer` | `src/components/layout/compose/Spacer.tsx` | Élément sans taille intrinsèque, dimensionné par son modificateur ou les contraintes | Les modificateurs de poids de `RowScope`/`ColumnScope` restent à implémenter |
 
-Les composants sont des ports partiels. Leur nom officiel ne signifie pas que l'API complète ou la parité AndroidX est déjà atteinte.
+Les composants sont des ports partiels. Leur nom officiel ne signifie pas que l'API complète ou la parité AndroidX est déjà atteinte. Les surcharges `Arrangement.spacedBy(space, alignment)` et `Arrangement.aligned(alignment)` sont maintenant exposées, mais leur rendu s’appuie sur `justify-content` du navigateur : les règles de mesure Compose, les espacements négatifs et certains cas de contraintes restent des écarts à traiter.
 
 ## Hiérarchie de maintenance
 
