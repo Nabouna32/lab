@@ -12,11 +12,13 @@ export type SpacerProps = {
  * It has no intrinsic size; size must come from its modifier or layout constraints.
  */
 export function Spacer({ modifier, className, style }: SpacerProps) {
-  return (
+  const layout = (
     <div
       aria-hidden="true"
       className={className}
-      style={{ ...modifier?.toStyle(), ...style }}
+      style={{ ...style }}
     />
   );
+
+  return modifier ? modifier.wrap(layout) : layout;
 }
