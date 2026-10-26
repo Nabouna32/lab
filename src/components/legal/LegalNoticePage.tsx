@@ -49,9 +49,9 @@ export default function LegalNoticePage({ locale }: { locale: Locale }) {
           <h2 id="legal-storage-title" className="m3-type-headline-small text-[var(--foreground)]">
             {content.storageTitle}
           </h2>
-          <p className="mt-2 leading-7 text-[var(--muted)]">{content.storageDescription}</p>
+          <p className="m3-type-body-large mt-2 text-[var(--muted)]">{content.storageDescription}</p>
           <p className="m3-type-title-medium mt-3 text-[var(--foreground)]">{content.storageName}</p>
-          <address className="mt-1 not-italic leading-7 text-[var(--muted)]">{content.storageAddress}</address>
+          <address className="m3-type-body-medium mt-1 not-italic text-[var(--muted)]">{content.storageAddress}</address>
           <a
             href="https://supabase.com/terms"
             target="_blank"
@@ -66,7 +66,7 @@ export default function LegalNoticePage({ locale }: { locale: Locale }) {
           <h2 id="legal-reply-title" className="m3-type-headline-small text-[var(--foreground)]">
             {content.responseTitle}
           </h2>
-          <p className="mt-2 leading-7 text-[var(--muted)]">{content.responseDescription}</p>
+          <p className="m3-type-body-large mt-2 text-[var(--muted)]">{content.responseDescription}</p>
         </section>
 
         <p className="m3-type-body-medium mt-8 border-t border-[var(--border)] pt-5 text-[var(--muted)]">
