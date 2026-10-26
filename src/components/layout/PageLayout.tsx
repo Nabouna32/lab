@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-type ContentWidth = "narrow" | "medium" | "default" | "wide";
+type ContentWidth = "form" | "narrow" | "medium" | "default" | "wide";
 type PageSpacing = "none" | "compact" | "default" | "comfortable";
 
 type PageContainerProps = {
@@ -22,6 +22,7 @@ export function PageContainer({
   className = "",
 }: PageContainerProps) {
   const widthClass = {
+    form: "max-w-[var(--layout-content-form)]",
     narrow: "max-w-[var(--layout-content-narrow)]",
     medium: "max-w-[var(--layout-content-medium)]",
     default: "max-w-[var(--layout-content-default)]",

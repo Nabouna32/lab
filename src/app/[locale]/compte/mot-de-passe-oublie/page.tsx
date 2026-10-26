@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PageContainer } from "@/components/layout/PageLayout";
 import { notFound } from "next/navigation";
 import { requestPasswordReset } from "../actions";
 import SubmitButton from "@/components/account/SubmitButton";
@@ -19,7 +20,8 @@ export default async function ForgotPasswordPage({
   const query = await searchParams;
 
   return (
-    <main className="mx-auto flex min-h-[calc(100vh-4.5rem)] max-w-md items-center px-4 py-12">
+    <main>
+      <PageContainer width="form" spacing="none" className="flex min-h-[calc(100vh-4.5rem)] items-center py-[var(--space-12)]">
       <section className="w-full rounded-3xl border border-[var(--border)] bg-[var(--surface-elevated)] p-6 shadow-[var(--shadow-sm)] sm:p-8">
         <p className="mb-2 text-sm font-semibold text-[var(--accent)]">{t.account.label}</p>
         <h1 className="text-3xl font-bold tracking-tight">{t.account.forgotPasswordTitle}</h1>
@@ -52,6 +54,7 @@ export default async function ForgotPasswordPage({
           {t.account.signIn}
         </Link>
       </section>
+      </PageContainer>
     </main>
   );
 }

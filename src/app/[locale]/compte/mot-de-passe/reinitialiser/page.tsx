@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { PageContainer } from "@/components/layout/PageLayout";
 import { resetPassword } from "../../actions";
 import SubmitButton from "@/components/account/SubmitButton";
 import { createClient } from "@/lib/supabase/server";
@@ -22,19 +23,22 @@ export default async function ResetPasswordPage({
 
   if (!data.user) {
     return (
-      <main className="mx-auto flex min-h-[calc(100vh-4.5rem)] max-w-md items-center px-4 py-12">
+      <main>
+      <PageContainer width="form" spacing="none" className="flex min-h-[calc(100vh-4.5rem)] items-center py-[var(--space-12)]">
         <section className="w-full rounded-3xl border border-[var(--border)] bg-[var(--surface-elevated)] p-6 shadow-[var(--shadow-sm)] sm:p-8">
           <h1 className="text-2xl font-bold">{t.account.resetPasswordTitle}</h1>
           <p className="mt-3 rounded-2xl bg-[var(--danger-soft)] p-4 text-sm text-[var(--danger-foreground)]" role="alert">
             {t.account.passwordResetError}
           </p>
         </section>
-      </main>
+        </PageContainer>
+    </main>
     );
   }
 
   return (
-    <main className="mx-auto flex min-h-[calc(100vh-4.5rem)] max-w-md items-center px-4 py-12">
+    <main>
+      <PageContainer width="form" spacing="none" className="flex min-h-[calc(100vh-4.5rem)] items-center py-[var(--space-12)]">
       <section className="w-full rounded-3xl border border-[var(--border)] bg-[var(--surface-elevated)] p-6 shadow-[var(--shadow-sm)] sm:p-8">
         <p className="mb-2 text-sm font-semibold text-[var(--accent)]">{t.account.label}</p>
         <h1 className="text-3xl font-bold tracking-tight">{t.account.resetPasswordTitle}</h1>
@@ -59,6 +63,7 @@ export default async function ResetPasswordPage({
           </SubmitButton>
         </form>
       </section>
+      </PageContainer>
     </main>
   );
 }

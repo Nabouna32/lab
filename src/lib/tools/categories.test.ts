@@ -119,6 +119,12 @@ test("AndroidX-named layout ports provide explicit spacing and product page comp
 });
 
 
+test("PageContainer exposes a shared form width preset", () => {
+  assert.ok(pageLayoutSource.includes('"form" | "narrow"'));
+  assert.ok(pageLayoutSource.includes('form: "max-w-[var(--layout-content-form)]"'));
+  assert.ok(globalCss.includes("--layout-content-form: 28rem"));
+});
+
 test("admin and category pages share the canonical page container and spacing tokens", () => {
   for (const source of [adminPageSource, adminUsersPageSource]) {
     assert.ok(source.includes("<PageContainer width=\"default\" spacing=\"none\""));

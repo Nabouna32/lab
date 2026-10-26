@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PageContainer } from "@/components/layout/PageLayout";
 import { notFound } from "next/navigation";
 import { signUp } from "../actions";
 import SubmitButton from "@/components/account/SubmitButton";
@@ -37,7 +38,8 @@ export default async function SignUpPage({
   }
 
   return (
-    <main className="mx-auto flex min-h-[calc(100vh-4.5rem)] max-w-md items-center px-4 py-12">
+    <main>
+      <PageContainer width="form" spacing="none" className="flex min-h-[calc(100vh-4.5rem)] items-center py-[var(--space-12)]">
       <Panel as="section" className="w-full">
         <p className="text-sm font-semibold text-[var(--accent)]">{t.account.label}</p>
         <h1 className="mt-2 text-3xl font-bold tracking-tight">{t.account.signUp}</h1>
@@ -60,6 +62,7 @@ export default async function SignUpPage({
           <Link className="font-semibold text-[var(--accent)] hover:underline" href={`/${locale}/compte/connexion`}>{t.account.signIn}</Link>
         </p>
       </Panel>
+      </PageContainer>
     </main>
   );
 }
