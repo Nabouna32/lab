@@ -1,11 +1,11 @@
 import type { CSSProperties, ReactNode } from "react";
 import { Alignment, type VerticalAlignment } from "./Alignment";
 import { Arrangement, type HorizontalArrangement } from "./Arrangement";
-import type { ModifierElement } from "./Modifier";
+import type { Modifier } from "./Modifier";
 
 export type RowProps = {
   children?: ReactNode;
-  modifier?: ModifierElement;
+  modifier?: Modifier;
   horizontalArrangement?: HorizontalArrangement;
   verticalAlignment?: VerticalAlignment;
   className?: string;
