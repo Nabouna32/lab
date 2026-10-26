@@ -43,12 +43,12 @@ export default async function ForgotPasswordPage({
             <span className="m3-type-label-large mb-2 block">{t.account.email}</span>
             <input className="w-full rounded-xl border border-[var(--border)] bg-[var(--background)] px-4 py-3 outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]" name="email" type="email" autoComplete="email" required />
           </label>
-          <SubmitButton pendingLabel={t.account.forgotPassword} className="w-full rounded-xl bg-[var(--accent)] px-5 py-3 font-semibold text-white transition-opacity hover:opacity-90 disabled:cursor-wait disabled:opacity-60">
+          <SubmitButton pendingLabel={t.account.forgotPassword} className="m3-type-label-large w-full rounded-xl bg-[var(--accent)] px-5 py-3 text-white transition-opacity hover:opacity-90 disabled:cursor-wait disabled:opacity-60">
             {t.account.forgotPassword}
           </SubmitButton>
         </form>
 
-        <Link className="mt-6 inline-flex font-semibold text-[var(--accent)] hover:underline" href={`/${locale}/compte/connexion`}>
+        <Link className="m3-type-label-large mt-6 inline-flex text-[var(--accent)] hover:underline" href={`/${locale}/compte/connexion`}>
           {t.account.signIn}
         </Link>
       </section>
