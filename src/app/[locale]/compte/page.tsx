@@ -33,7 +33,7 @@ export default async function AccountPage({
         <div className="mx-auto flex min-h-[calc(100svh-12rem)] max-w-2xl items-center">
           <Panel as="section" className="w-full overflow-hidden p-6 sm:p-9">
             <div className="mb-6 h-1.5 w-16 rounded-full bg-[var(--accent)]" aria-hidden="true" />
-            <h1 className="m3-type-headline-large">{t.account.title}</h1>
+            <h1 className="m3-type-headline-large font-black tracking-[-0.05em]">{t.account.title}</h1>
             <p className="mt-3 max-w-xl leading-7 text-[var(--muted)]">{t.account.anonymousDescription}</p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <AppLink href={`/${locale}/compte/connexion`} variant="filled">
@@ -69,7 +69,7 @@ export default async function AccountPage({
           <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="m3-type-label-small uppercase text-[var(--accent)]">{t.account.label}</p>
-              <h1 className="m3-type-headline-large mt-2">{t.account.title}</h1>
+              <h1 className="m3-type-headline-large mt-2 font-black tracking-[-0.05em]">{t.account.title}</h1>
             </div>
             <p className="m3-type-body-medium text-[var(--muted)]">{user.email}</p>
           </div>
@@ -89,7 +89,7 @@ export default async function AccountPage({
         <div className="space-y-5">
           <Panel as="section">
             <div>
-              <h2 className="m3-type-title-large">{t.account.profile}</h2>
+              <h2 className="m3-type-title-large font-bold">{t.account.profile}</h2>
               <p className="m3-type-body-medium mt-1 text-[var(--muted)]">{user.email}</p>
             </div>
             <form action={updateProfile} className="mt-6 space-y-5">
@@ -120,7 +120,7 @@ export default async function AccountPage({
 
           <section className="rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow-sm)] sm:p-7" aria-labelledby="account-security-title">
             <div className="border-b border-[var(--border)] pb-4">
-              <h2 id="account-security-title" className="m3-type-title-large">{t.account.security}</h2>
+              <h2 id="account-security-title" className="m3-type-title-large font-bold">{t.account.security}</h2>
             </div>
             <div className="mt-1 divide-y divide-[var(--border)]">
               <Link
@@ -128,7 +128,7 @@ export default async function AccountPage({
                 href={`/${locale}/compte/email`}
               >
                 <span>
-                  <span className="m3-type-title-medium block">{t.account.changeEmail}</span>
+                  <span className="m3-type-title-medium block font-semibold">{t.account.changeEmail}</span>
                   <span className="m3-type-body-medium mt-1 block text-[var(--muted)]">{user.email}</span>
                 </span>
                 <MaterialIcon name="chevron_right" size={20} className="h-5 w-5 text-[var(--muted)] transition-transform group-hover:translate-x-1" />
@@ -138,7 +138,7 @@ export default async function AccountPage({
                 href={`/${locale}/compte/mot-de-passe`}
               >
                 <span>
-                  <span className="m3-type-title-medium block">{t.account.changePassword}</span>
+                  <span className="m3-type-title-medium block font-semibold">{t.account.changePassword}</span>
                   <span className="m3-type-body-medium mt-1 block text-[var(--muted)]">{t.account.password}</span>
                 </span>
                 <MaterialIcon name="chevron_right" size={20} className="h-5 w-5 text-[var(--muted)] transition-transform group-hover:translate-x-1" />
@@ -162,7 +162,7 @@ export default async function AccountPage({
 
           <section className="rounded-[var(--radius-xl)] border border-[var(--danger)]/25 bg-[var(--danger-soft)]/40 p-5 sm:p-7" aria-labelledby="delete-account-title">
             <p className="m3-type-label-large text-[var(--danger)]">{t.account.dangerZone}</p>
-            <h2 id="delete-account-title" className="m3-type-title-large mt-1">{t.account.deleteAccountTitle}</h2>
+            <h2 id="delete-account-title" className="m3-type-title-large mt-1 font-bold">{t.account.deleteAccountTitle}</h2>
             <p className="m3-type-body-medium mt-2 max-w-2xl text-[var(--muted)]">{t.account.deleteAccountDescription}</p>
             <AppLink
               className="mt-4"
