@@ -24,7 +24,7 @@ test("search result count, loading and errors are announced through one live sta
     clientSource,
     /<p role="status" aria-live="polite" aria-atomic="true" className="m3-type-label-large mt-4 text-\[var\(--muted\)\]">\s*\{isSearching \? t\.tools\.searching : searchError \? t\.tools\.searchError : formatPlural/,
   );
-  assert.match(clientSource, /<p className="text-sm font-medium text-\[var\(--foreground\)\]">\{t\.tools\.searching\}<\/p>/);
+  assert.match(clientSource, /<p className="m3-type-body-medium text-\[var\(--foreground\)\]">\{t\.tools\.searching\}<\/p>/);
   assert.doesNotMatch(clientSource, /<section[^>]*role="status">/);
 });
 
