@@ -134,7 +134,12 @@ test("Modifier supports Compose-shaped padding overloads and ordered composition
     paddingInlineEnd: "8px",
     paddingBlockEnd: "8px",
   });
-  assert.deepEqual(Modifier.padding(8, 12).toStyle(), { paddingInline: "8px", paddingBlock: "12px" });
+  assert.deepEqual(Modifier.padding(8, 12).toStyle(), {
+    paddingInlineStart: "8px",
+    paddingBlockStart: "12px",
+    paddingInlineEnd: "8px",
+    paddingBlockEnd: "12px",
+  });
   assert.deepEqual(Modifier.padding(1, 2, 3, 4).toStyle(), {
     paddingInlineStart: "1px",
     paddingBlockStart: "2px",
