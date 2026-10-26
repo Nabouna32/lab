@@ -11,8 +11,9 @@ type PageContainerProps = {
 };
 
 /**
- * Shared page frame. Keep page gutters and vertical rhythm in the design tokens;
- * individual pages should only opt into a width/spacing variant when the content needs it.
+ * Loculary-specific page composition, not an AndroidX API.
+ * Keep only product-level concerns here (content width, page gutters and outer spacing).
+ * Internal layout and child spacing should use the shared Compose layout ports.
  */
 export function PageContainer({
   children,
@@ -39,21 +40,4 @@ export function PageContainer({
       {children}
     </div>
   );
-}
-
-type PageStackProps = {
-  children: ReactNode;
-  gap?: "tight" | "default" | "relaxed";
-  className?: string;
-};
-
-/** Shared vertical rhythm for page sections and grouped content. */
-export function PageStack({ children, gap = "default", className = "" }: PageStackProps) {
-  const gapClass = {
-    tight: "space-y-[var(--layout-inline-gap)]",
-    default: "space-y-[var(--layout-item-gap)]",
-    relaxed: "space-y-[var(--layout-content-gap)]",
-  }[gap];
-
-  return <div className={`${gapClass} ${className}`.trim()}>{children}</div>;
 }
