@@ -140,7 +140,8 @@
 .groupLabel {
   padding: 8px 12px 4px;
   color: var(--lab-on-surface-variant, currentColor);
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 16px;
+  font-size: var(--m3-type-label-small-size);
+  font-weight: var(--m3-type-label-small-weight);
+  line-height: var(--m3-type-label-small-line-height);
+  letter-spacing: var(--m3-type-label-small-tracking);
 }
