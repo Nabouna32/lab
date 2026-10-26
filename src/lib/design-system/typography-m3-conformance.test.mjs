@@ -9,6 +9,9 @@ const chipCss = readFileSync(new URL("../../components/ui/Chip.module.css", impo
 const toolHeader = readFileSync(new URL("../../components/tools/ToolPage/ToolPageHeader.tsx", import.meta.url), "utf8");
 const accountPage = readFileSync(new URL("../../app/[locale]/compte/connexion/page.tsx", import.meta.url), "utf8");
 const typographySpec = readFileSync(new URL("../../../docs/material3/components/Typography.md", import.meta.url), "utf8");
+const informationPage = readFileSync(new URL("../../components/information/InformationPage.tsx", import.meta.url), "utf8");
+const legalNoticePage = readFileSync(new URL("../../components/legal/LegalNoticePage.tsx", import.meta.url), "utf8");
+const privacyPolicyPage = readFileSync(new URL("../../components/legal/PrivacyPolicyPage.tsx", import.meta.url), "utf8");
 
 const roles = [
   "display-large", "display-medium", "display-small",
@@ -52,4 +55,14 @@ test("typography spec documents source provenance, web adaptations and migration
   assert.ok(typographySpec.includes("Web adaptations"));
   assert.ok(typographySpec.includes("site-wide call-site inventory"));
   assert.ok(typographySpec.includes("15-role"));
+});
+
+
+test("information and legal pages use canonical typography roles without local size, weight, tracking or line-height overrides", () => {
+  for (const [name, source] of [["information page", informationPage], ["legal notice", legalNoticePage], ["privacy policy", privacyPolicyPage]]) {
+    assert.match(source, /m3-type-headline-large/, name + " must define a semantic page title");
+    assert.match(source, /m3-type-headline-small/, name + " must define semantic section headings");
+    assert.doesNotMatch(source, /(?:^|\\s)(?:text-(?:xs|sm|base|lg|xl|[2-6]xl)|font-(?:bold|semibold|medium)|leading-\\d+|tracking-[^\\s"]+)/, name + " must not retain legacy typography utilities");
+  }
+  assert.match(informationPage, /m3-type-body-large mt-3 list-disc/);
 });
