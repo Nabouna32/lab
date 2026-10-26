@@ -35,7 +35,7 @@ This is not a project to invent components that merely look Material-like. Every
 
 Each component specification must contain exact source links and the commit/release used. Do not rely on a mutable `main` link alone. Check source/API alignment before carrying a contract forward to a new AndroidX version.
 
-The source provenance and version-pinning rules live in [`sources.md`](sources.md). The catalogue schema and coverage-state rules live in [`catalog/README.md`](catalog/README.md). Use [`components/TEMPLATE.md`](components/TEMPLATE.md) for consistent component specifications. These documents distinguish the exhaustive public API inventory from semantic review, React porting, verification, and production migration.
+The source provenance and version-pinning rules live in [`sources.md`](sources.md). The separate Compose UI/Foundation layout-port scope and current gaps are tracked in [`layout-primitives.md`](layout-primitives.md); these primitives are not Material 3 components. The catalogue schema and coverage-state rules live in [`catalog/README.md`](catalog/README.md). Use [`components/TEMPLATE.md`](components/TEMPLATE.md) for consistent component specifications. These documents distinguish the exhaustive public API inventory from semantic review, React porting, verification, and production migration.
 
 ## Usage contract for product pages and agents
 
