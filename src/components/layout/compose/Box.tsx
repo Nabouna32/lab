@@ -1,10 +1,10 @@
 import { Children, type CSSProperties, type ReactNode } from "react";
 import { Alignment, type BoxAlignment } from "./Alignment";
-import type { ModifierElement } from "./Modifier";
+import type { Modifier } from "./Modifier";
 
 export type BoxProps = {
   children?: ReactNode;
-  modifier?: ModifierElement;
+  modifier?: Modifier;
   contentAlignment?: BoxAlignment;
   className?: string;
   style?: CSSProperties;
