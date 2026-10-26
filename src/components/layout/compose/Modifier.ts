@@ -11,7 +11,11 @@ import type { CSSProperties } from "react";
 type ModifierOperation = (style: CSSProperties) => CSSProperties;
 
 export class Modifier {
-  private constructor(private readonly operations: readonly ModifierOperation[]) {}
+  private readonly operations: readonly ModifierOperation[];
+
+  private constructor(operations: readonly ModifierOperation[]) {
+    this.operations = operations;
+  }
 
   static empty(): Modifier {
     return new Modifier([]);
