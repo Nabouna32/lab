@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { changeEmail } from "../actions";
+import { PageContainer } from "@/components/layout/PageLayout";
 import SubmitButton from "@/components/account/SubmitButton";
 import { Panel } from "@/components/ui/Panel";
 import { TextField } from "@/components/ui/TextField";
@@ -26,7 +27,8 @@ export default async function ChangeEmailPage({
   if (!data.user) redirect(`/${locale}/compte/connexion`);
 
   return (
-    <main className="mx-auto flex min-h-[calc(100vh-4.5rem)] max-w-md items-center px-4 py-12">
+    <main>
+      <PageContainer width="form" spacing="none" className="flex min-h-[calc(100vh-4.5rem)] items-center py-[var(--space-12)]">
       <Panel as="section" className="w-full">
         <p className="text-sm font-semibold text-[var(--accent)]">{t.account.label}</p>
         <h1 className="mt-2 text-3xl font-bold tracking-tight">{t.account.changeEmailTitle}</h1>
@@ -53,6 +55,7 @@ export default async function ChangeEmailPage({
           {t.account.title}
         </Link>
       </Panel>
+      </PageContainer>
     </main>
   );
 }
