@@ -32,9 +32,9 @@ export default function LegalNoticePage({ locale }: { locale: Locale }) {
           <h2 id="legal-hosting-title" className="m3-type-headline-small text-[var(--foreground)]">
             {content.hostingTitle}
           </h2>
-          <p className="mt-2 leading-7 text-[var(--muted)]">{content.hostingDescription}</p>
+          <p className="m3-type-body-large mt-2 text-[var(--muted)]">{content.hostingDescription}</p>
           <p className="m3-type-title-medium mt-3 text-[var(--foreground)]">{content.hostingName}</p>
-          <address className="mt-1 not-italic leading-7 text-[var(--muted)]">{content.hostingAddress}</address>
+          <address className="m3-type-body-medium mt-1 not-italic text-[var(--muted)]">{content.hostingAddress}</address>
           <a
             href="https://vercel.com/legal/privacy-notice"
             target="_blank"
