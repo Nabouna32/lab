@@ -9,6 +9,7 @@ import { categoryColorIds, getCategoryColor, getCategoryContainerColor, getCateg
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
 const pageLayoutSource = readFileSync(new URL("../../components/layout/PageLayout.tsx", import.meta.url), "utf8");
 const columnSource = readFileSync(new URL("../../components/layout/compose/Column.tsx", import.meta.url), "utf8");
+const rowSource = readFileSync(new URL("../../components/layout/compose/Row.tsx", import.meta.url), "utf8");
 const arrangementSource = readFileSync(new URL("../../components/layout/compose/Arrangement.ts", import.meta.url), "utf8");
 const informationPageSource = readFileSync(new URL("../../components/information/InformationPage.tsx", import.meta.url), "utf8");
 const adminPageSource = readFileSync(new URL("../../app/[locale]/admin/page.tsx", import.meta.url), "utf8");
@@ -229,4 +230,14 @@ test("Arrangement exposes the AndroidX alignment overloads for spacedBy and alig
     kind: "aligned",
     alignment: Alignment.Bottom,
   });
+});
+
+
+test("Row and Column apply the selected Arrangement alignment on the main axis", () => {
+  assert.ok(rowSource.includes('horizontalArrangement.kind === "aligned"'));
+  assert.ok(rowSource.includes('centerHorizontally: "center"'));
+  assert.ok(rowSource.includes('horizontalArrangement.alignment'));
+  assert.ok(columnSource.includes('verticalArrangement.kind === "aligned"'));
+  assert.ok(columnSource.includes('centerVertically: "center"'));
+  assert.ok(columnSource.includes('verticalArrangement.alignment'));
 });
