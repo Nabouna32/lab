@@ -16,7 +16,7 @@ export default function PrivacyPolicyPage({ locale }: { locale: Locale }) {
       <h1 id="privacy-title" className="m3-type-headline-large text-[var(--foreground)]">{page.title}</h1>
       <p className="m3-type-body-medium mt-3 text-[var(--muted)]">{page.updatedLabel}: {page.updatedAt}</p>
       <aside className="mt-6 rounded-2xl border border-[var(--border)] p-4" aria-label={page.temporaryNoticeTitle}>
-        <h2 className="font-semibold">{page.temporaryNoticeTitle}</h2>
+        <h2 className="m3-type-label-large">{page.temporaryNoticeTitle}</h2>
         <p className="m3-type-body-medium mt-2">{page.temporaryNotice}</p>
       </aside>
       <p className="mt-6 leading-7">{page.intro}</p>
@@ -27,7 +27,7 @@ export default function PrivacyPolicyPage({ locale }: { locale: Locale }) {
         {section.links && <ul className="mt-3 list-disc pl-6">{section.links.map((link) => <li key={link.href}><a className="underline" href={link.href}>{link.label}</a></li>)}</ul>}
       </section>)}
       <section className="mt-8" aria-labelledby="policy-contact">
-        <h2 id="policy-contact" className="text-xl font-semibold">{page.contactTitle}</h2>
+        <h2 id="policy-contact" className="m3-type-headline-small">{page.contactTitle}</h2>
         <p className="mt-3 leading-7">{page.contactIntro}</p>
         <p className="m3-type-title-medium mt-3"><a className="underline" href={"mailto:" + page.contactAddress}><code>{page.contactAddress}</code></a></p>
         <p className="mt-3 leading-7">{page.contactWarning}</p>
