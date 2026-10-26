@@ -44,7 +44,7 @@ export default function FavoritesView({ locale, tools }: { locale: Locale; tools
           {selected.map((tool) => (
             <li key={tool.id} className="flex min-h-40 flex-col rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-4 shadow-[var(--shadow-sm)] transition-[border-color,transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:border-[var(--accent)]/50 hover:shadow-[var(--shadow-md)]">
               <div className="flex items-start gap-3">
-                <span aria-hidden="true" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--radius-lg)] bg-[var(--accent-soft)] text-2xl">{tool.icon}</span>
+                <span aria-hidden="true" className="m3-type-headline-small flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--radius-lg)] bg-[var(--accent-soft)]">{tool.icon}</span>
                 <div className="min-w-0 flex-1">
                   <Link href={tool.href} className="m3-type-title-medium text-[var(--foreground)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]">{tool.name}</Link>
                   <p className="m3-type-body-medium mt-1 line-clamp-2 text-[var(--muted)]">{tool.description}</p>
@@ -64,7 +64,7 @@ export default function FavoritesView({ locale, tools }: { locale: Locale; tools
           <span aria-hidden="true" className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[var(--primary-container)] text-[var(--on-primary-container)]"><StarIcon className="h-8 w-8" /></span>
           <h2 id="favorites-empty-title" className="m3-type-headline-small mt-4">{text.emptyTitle}</h2>
           <p className="m3-type-body-medium mx-auto mt-2 max-w-lg text-[var(--muted)]">{text.emptyDescription}</p>
-          <Link href={getToolsPath(locale)} className="mt-6 inline-flex min-h-12 items-center justify-center rounded-full bg-[var(--primary)] px-5 font-semibold text-[var(--on-primary)] transition-[filter,transform] duration-[var(--motion-standard)] hover:brightness-[.94] active:scale-[.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]">{text.explore}</Link>
+          <Link href={getToolsPath(locale)} className="m3-type-label-large mt-6 inline-flex min-h-12 items-center justify-center rounded-full bg-[var(--primary)] px-5 text-[var(--on-primary)] transition-[filter,transform] duration-[var(--motion-standard)] hover:brightness-[.94] active:scale-[.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]">{text.explore}</Link>
         </section>
       )}
     </main>
