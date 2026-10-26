@@ -1,4 +1,5 @@
 import { createElement, type CSSProperties, type ReactNode } from "react";
+import type { BoxAlignment } from "./Alignment";
 
 /**
  * Ordered Web adapter for androidx.compose.ui.Modifier and the layout modifiers
@@ -32,7 +33,9 @@ type ModifierOperation =
   | { readonly kind: "widthIn"; readonly constraints: Pick<SizeConstraints, "minWidth" | "maxWidth"> }
   | { readonly kind: "heightIn"; readonly constraints: Pick<SizeConstraints, "minHeight" | "maxHeight"> }
   | { readonly kind: "sizeIn"; readonly constraints: SizeConstraints }
-  | { readonly kind: "weight"; readonly weight: number; readonly fill: boolean };
+  | { readonly kind: "weight"; readonly weight: number; readonly fill: boolean }
+  | { readonly kind: "boxAlign"; readonly alignment: BoxAlignment }
+  | { readonly kind: "matchParentSize" };
 
 function assertNonNegative(value: number, name: string): void {
   if (!Number.isFinite(value) || value < 0) {
@@ -102,6 +105,9 @@ function operationStyle(operation: ModifierOperation): CSSProperties {
         flexShrink: 1,
         flexBasis: operation.fill ? "0%" : "auto",
       };
+    case "boxAlign":
+    case "matchParentSize":
+      return {};
   }
 }
 
@@ -206,18 +212,42 @@ class ModifierChain {
     return this.append({ kind: "weight", weight, fill });
   }
 
+  align(alignment: BoxAlignment): ModifierChain {
+    return this.append({ kind: "boxAlign", alignment });
+  }
+
+  matchParentSize(): ModifierChain {
+    return this.append({ kind: "matchParentSize" });
+  }
+
+  boxScopeOptions(): { alignment?: BoxAlignment; matchParentSize: boolean } {
+    let alignment: BoxAlignment | undefined;
+    let matchParentSize = false;
+    for (const operation of this.operations) {
+      if (operation.kind === "boxAlign") alignment = operation.alignment;
+      if (operation.kind === "matchParentSize") matchParentSize = true;
+    }
+    return { alignment, matchParentSize };
+  }
+
+  withoutBoxScopeOperations(): ModifierChain {
+    return new ModifierChain(this.operations.filter((operation) => operation.kind !== "boxAlign" && operation.kind !== "matchParentSize"));
+  }
+
   then(other: ModifierChain): ModifierChain {
     return new ModifierChain([...this.operations, ...other.operations]);
   }
 
   wrap(content: ReactNode): ReactNode {
-    return this.operations.reduceRight<ReactNode>(
-      (child, operation, index) => createElement("div", {
-        key: `modifier-${index}`,
-        style: operationStyle(operation),
-      }, child),
-      content,
-    );
+    return this.operations
+      .filter((operation) => operation.kind !== "boxAlign" && operation.kind !== "matchParentSize")
+      .reduceRight<ReactNode>(
+        (child, operation, index) => createElement("div", {
+          key: `modifier-${index}`,
+          style: operationStyle(operation),
+        }, child),
+        content,
+      );
   }
 }
 
@@ -225,3 +255,8 @@ export type Modifier = ModifierChain;
 
 /** Compose-shaped empty modifier chain; each call returns a new ordered chain. */
 export const Modifier = ModifierChain.empty();
+
+
+export function isModifier(value: unknown): value is Modifier {
+  return value instanceof ModifierChain;
+}
