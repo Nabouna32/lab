@@ -70,7 +70,7 @@ export function Column({
     end: "flex-end",
   } as const)[horizontalAlignment];
 
-  return (
+  const layout = (
     <div
       className={layoutClassName || undefined}
       style={{
@@ -79,11 +79,12 @@ export function Column({
         justifyContent,
         alignItems,
         ...spacingStyle,
-        ...modifier?.toStyle(),
         ...style,
       }}
     >
       {children}
     </div>
   );
+
+  return modifier ? modifier.wrap(layout) : layout;
 }
