@@ -1,8 +1,8 @@
 import type { CSSProperties } from "react";
-import type { ModifierElement } from "./Modifier";
+import type { Modifier } from "./Modifier";
 
 export type SpacerProps = {
-  modifier?: ModifierElement;
+  modifier?: Modifier;
   className?: string;
   style?: CSSProperties;
 };
