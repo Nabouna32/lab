@@ -51,6 +51,19 @@ export function Column({
     } as const)[verticalArrangement.kind];
   })();
 
+  const hasNegativeGap = verticalArrangement.kind === "spacedBy" && verticalArrangement.space < 0;
+  const layoutClassName = [
+    className,
+    hasNegativeGap ? "compose-layout-negative-gap-column" : "",
+  ].filter(Boolean).join(" ");
+  const spacingStyle: CSSProperties = verticalArrangement.kind === "spacedBy"
+    ? verticalArrangement.space < 0
+      ? ({ gap: 0, "--compose-layout-negative-gap": `${verticalArrangement.space}px` } as CSSProperties)
+      : { gap: `${verticalArrangement.space}px` }
+    : verticalArrangement.kind === "spacedByCss"
+      ? { gap: verticalArrangement.space }
+      : {};
+
   const alignItems = ({
     start: "flex-start",
     centerHorizontally: "center",
@@ -59,13 +72,13 @@ export function Column({
 
   return (
     <div
-      className={className}
+      className={layoutClassName || undefined}
       style={{
         display: "flex",
         flexDirection: "column",
         justifyContent,
         alignItems,
-        ...(verticalArrangement.kind === "spacedBy" ? { gap: `${verticalArrangement.space}px` } : verticalArrangement.kind === "spacedByCss" ? { gap: verticalArrangement.space } : {}),
+        ...spacingStyle,
         ...modifier?.toStyle(),
         ...style,
       }}
