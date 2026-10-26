@@ -56,10 +56,7 @@
   background: var(--lab-surface-container-high, var(--md-sys-color-surface-container-high, Canvas));
   color: var(--lab-on-surface, var(--md-sys-color-on-surface, CanvasText));
   font: inherit;
-  font-size: var(--m3-type-label-large-size);
-  line-height: var(--m3-type-label-large-line-height);
-  font-weight: var(--m3-type-label-large-weight);
-  letter-spacing: var(--m3-type-label-large-tracking);
+  font-size: 14px;
   cursor: pointer;
   animation: enter 220ms cubic-bezier(.2, 0, 0, 1) both;
   animation-delay: calc(var(--fab-menu-order, 0) * 35ms);

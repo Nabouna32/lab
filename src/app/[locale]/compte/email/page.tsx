@@ -28,17 +28,17 @@ export default async function ChangeEmailPage({
   return (
     <main className="mx-auto flex min-h-[calc(100vh-4.5rem)] max-w-md items-center px-4 py-12">
       <Panel as="section" className="w-full">
-        <p className="m3-type-label-large text-[var(--accent)]">{t.account.label}</p>
-        <h1 className="m3-type-headline-large mt-2">{t.account.changeEmailTitle}</h1>
-        <p className="m3-type-body-medium mt-3 text-[var(--muted)]">{t.account.changeEmailDescription}</p>
-        <p className="m3-type-body-medium mt-5 border-l-2 border-[var(--border-strong)] py-1 pl-3">
-          <span className="m3-type-label-large">{t.account.emailAddress}:</span> {data.user.email}
+        <p className="text-sm font-semibold text-[var(--accent)]">{t.account.label}</p>
+        <h1 className="mt-2 text-3xl font-bold tracking-tight">{t.account.changeEmailTitle}</h1>
+        <p className="mt-3 text-sm text-[var(--muted)]">{t.account.changeEmailDescription}</p>
+        <p className="mt-5 border-l-2 border-[var(--border-strong)] py-1 pl-3 text-sm">
+          <span className="font-semibold">{t.account.emailAddress}:</span> {data.user.email}
         </p>
         {query.status === "confirmation" ? (
-          <p className="m3-type-body-medium mt-5 border-l-2 border-[var(--success)] py-1 pl-3 text-[var(--success-foreground)]" role="status">{t.account.emailChangeConfirmation}</p>
+          <p className="mt-5 border-l-2 border-[var(--success)] py-1 pl-3 text-sm text-[var(--success-foreground)]" role="status">{t.account.emailChangeConfirmation}</p>
         ) : null}
         {query.error ? (
-          <p className="m3-type-body-medium mt-5 border-l-2 border-[var(--danger)] py-1 pl-3 text-[var(--danger-foreground)]" role="alert">
+          <p className="mt-5 border-l-2 border-[var(--danger)] py-1 pl-3 text-sm text-[var(--danger-foreground)]" role="alert">
             {query.error === "same" ? t.account.emailSame : query.error === "rate-limited" ? t.account.authRateLimited : t.account.emailChangeError}
           </p>
         ) : null}
@@ -49,7 +49,7 @@ export default async function ChangeEmailPage({
             {t.account.changeEmail}
           </SubmitButton>
         </form>
-        <Link className="m3-type-label-large mt-6 inline-flex text-[var(--accent)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]" href={`/${locale}/compte`}>
+        <Link className="mt-6 inline-flex font-semibold text-[var(--accent)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]" href={`/${locale}/compte`}>
           {t.account.title}
         </Link>
       </Panel>

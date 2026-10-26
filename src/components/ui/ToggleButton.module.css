@@ -8,10 +8,7 @@
   background: var(--lab-primary, var(--md-sys-color-primary, currentColor));
   color: var(--lab-on-primary, var(--md-sys-color-on-primary, white));
   font: inherit;
-  font-size: var(--m3-type-label-large-size);
-  line-height: var(--m3-type-label-large-line-height);
-  font-weight: var(--m3-type-label-large-weight);
-  letter-spacing: var(--m3-type-label-large-tracking);
+  font-size: 14px;
   font-weight: 500;
   cursor: pointer;
   transition: border-radius 200ms cubic-bezier(.2, 0, 0, 1), background-color 180ms ease, color 180ms ease, box-shadow 180ms ease;

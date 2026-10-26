@@ -20,10 +20,8 @@
   background: transparent;
   color: inherit;
   font: inherit;
-  font-size: var(--m3-type-label-large-size);
-  line-height: var(--m3-type-label-large-line-height);
-  font-weight: var(--m3-type-label-large-weight);
-  letter-spacing: var(--m3-type-label-large-tracking);
+  font-size: 14px;
+  font-weight: 500;
   white-space: nowrap;
   cursor: pointer;
   transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease;

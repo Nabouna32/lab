@@ -20,10 +20,7 @@
   min-height: 48px;
   margin-bottom: -48px;
   color: var(--lab-primary, currentColor);
-  font-size: var(--m3-type-label-large-size);
-  line-height: var(--m3-type-label-large-line-height);
-  font-weight: var(--m3-type-label-large-weight);
-  letter-spacing: var(--m3-type-label-large-tracking);
+  font-size: 13px;
   pointer-events: none;
 }
 

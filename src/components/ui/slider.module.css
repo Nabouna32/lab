@@ -9,9 +9,7 @@
   justify-content: space-between;
   gap: .75rem;
   margin-bottom: .5rem;
-  font-size: var(--m3-type-label-large-size);
-  line-height: var(--m3-type-label-large-line-height);
-  letter-spacing: var(--m3-type-label-large-tracking);
+  font-size: .875rem;
 }
 
 .label {
@@ -133,9 +131,7 @@
 .description {
   margin-top: .25rem;
   color: var(--slider-description-color, var(--muted));
-  font-size: var(--m3-type-body-small-size);
-  line-height: var(--m3-type-body-small-line-height);
-  letter-spacing: var(--m3-type-body-small-tracking);
+  font-size: .75rem;
 }
 
 @media (prefers-reduced-motion: reduce) {

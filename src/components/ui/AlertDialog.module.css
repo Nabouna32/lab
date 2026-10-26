@@ -35,19 +35,15 @@
 
 .title {
   margin: 0;
-  font-size: var(--m3-type-headline-small-size);
-  font-weight: var(--m3-type-headline-small-weight);
-  line-height: var(--m3-type-headline-small-line-height);
-  letter-spacing: var(--m3-type-headline-small-tracking);
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 2rem;
 }
 
 .description {
   margin: 1rem 0 0;
   color: var(--on-surface-variant, var(--muted-foreground, #555));
-  font-size: var(--m3-type-body-large-size);
-  line-height: var(--m3-type-body-large-line-height);
-  font-weight: var(--m3-type-body-large-weight);
-  letter-spacing: var(--m3-type-body-large-tracking);
+  line-height: 1.5;
 }
 
 .actions {

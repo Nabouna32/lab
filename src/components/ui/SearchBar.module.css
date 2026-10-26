@@ -50,9 +50,7 @@
   background: transparent;
   color: inherit;
   font: inherit;
-  font-size: var(--m3-type-body-large-size);
-  line-height: var(--m3-type-body-large-line-height);
-  letter-spacing: var(--m3-type-body-large-tracking);
+  font-size: 16px;
 }
 
 .inputRow input::-webkit-search-cancel-button {
@@ -121,9 +119,7 @@
   margin: 0;
   padding: 16px;
   color: var(--lab-on-surface-variant, currentColor);
-  font-size: var(--m3-type-body-medium-size);
-  line-height: var(--m3-type-body-medium-line-height);
-  letter-spacing: var(--m3-type-body-medium-tracking);
+  font-size: 14px;
 }
 
 .fullScreenRoot {

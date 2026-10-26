@@ -44,7 +44,7 @@ function MaterialButton({
       type={type}
       style={mergedStyle}
       className={[
-        "m3-type-label-large relative isolate inline-flex min-h-10 items-center justify-center gap-2 rounded-full py-2",
+        "relative isolate inline-flex min-h-10 items-center justify-center gap-2 rounded-full py-2 text-sm font-medium leading-5 tracking-[0.1px]",
         layout,
         horizontalPadding,
         "transition-[background-color,border-color,color,box-shadow] duration-[var(--motion-standard)] motion-reduce:transition-none",

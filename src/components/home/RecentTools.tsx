@@ -71,8 +71,8 @@ export default function RecentTools({ locale, tools }: { locale: Locale; tools: 
       <div className="rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-4 sm:p-5">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h2 id="recent-tools-title" className="m3-type-title-medium font-bold text-[var(--foreground)]">{t.home.recentToolsTitle}</h2>
-            <p className="m3-type-body-medium mt-1 text-[var(--muted)]">{t.home.recentToolsDescription}</p>
+            <h2 id="recent-tools-title" className="text-base font-bold text-[var(--foreground)]">{t.home.recentToolsTitle}</h2>
+            <p className="mt-1 text-sm text-[var(--muted)]">{t.home.recentToolsDescription}</p>
           </div>
           <TextButton type="button" onClick={clear} className="shrink-0">
             {t.home.clearRecentTools}
@@ -81,7 +81,7 @@ export default function RecentTools({ locale, tools }: { locale: Locale; tools: 
         <ul className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
           {recentTools.map((tool) => (
             <li key={tool.id}>
-              <Link href={getToolPath(locale, tool.id)} className="m3-type-label-large flex min-h-12 items-center gap-3 rounded-xl border border-[var(--border)] bg-[var(--surface-container-low)] px-3 py-2 text-[var(--foreground)] outline-none transition-colors hover:bg-[var(--surface-container)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]">
+              <Link href={getToolPath(locale, tool.id)} className="flex min-h-12 items-center gap-3 rounded-xl border border-[var(--border)] bg-[var(--surface-container-low)] px-3 py-2 text-sm font-medium text-[var(--foreground)] outline-none transition-colors hover:bg-[var(--surface-container)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]">
                 <MaterialIcon name="apps" size={20} className="shrink-0 text-[var(--accent)]" />
                 <span className="min-w-0 flex-1">{tool.name}</span>
                 <MaterialIcon name="arrow_forward" size={18} className="shrink-0 text-[var(--muted)]" />

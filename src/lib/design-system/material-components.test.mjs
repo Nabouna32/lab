@@ -177,7 +177,7 @@ test("common navigation and identity icons use the shared Material Symbols compo
   assert.match(messagesSource, /favorites: "Favorites"/);
   assert.match(messagesSource, /collections: "Collections"/);
   assert.match(messagesSource, /collections: "Collections"/);
-  assert.match(headerSource, /m3-type-label-large block text-\[var\(--foreground\)\]/);
+  assert.match(headerSource, /block text-sm font-semibold text-\[var\(--foreground\)\]/);
   assert.doesNotMatch(headerSource, /function Icon\(/);
 });
 

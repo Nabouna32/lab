@@ -331,11 +331,11 @@ export default function ToolSearch({
           {isSearching ? (
             <div className="flex items-center gap-3 px-4 py-5" role="status" aria-live="polite">
               <span className="h-4 w-4 shrink-0 animate-pulse rounded-full bg-[var(--primary)]" aria-hidden="true" />
-              <p className="m3-type-body-medium text-[var(--foreground)]">{t.tools.searching}</p>
+              <p className="text-sm font-medium text-[var(--foreground)]">{t.tools.searching}</p>
             </div>
           ) : searchError ? (
             <div className="px-4 py-5" role="alert">
-              <p className="m3-type-body-medium text-[var(--foreground)]">{t.tools.searchError}</p>
+              <p className="text-sm font-medium text-[var(--foreground)]">{t.tools.searchError}</p>
               <OutlinedButton
                 type="button"
                 onMouseDown={(event) => event.preventDefault()}
@@ -348,8 +348,8 @@ export default function ToolSearch({
           ) : visibleResults.length > 0 ? (
             <>
               <div className="flex items-center justify-between gap-3 px-3 pb-2 pt-1">
-                <p className="m3-type-label-medium text-[var(--muted)]">{t.tools.suggestions}</p>
-                <p role="status" aria-live="polite" aria-atomic="true" className="m3-type-label-medium rounded-full bg-[var(--surface-soft)] px-2.5 py-1 text-[var(--muted)]">
+                <p className="text-xs font-semibold text-[var(--muted)]">{t.tools.suggestions}</p>
+                <p role="status" aria-live="polite" aria-atomic="true" className="rounded-full bg-[var(--surface-soft)] px-2.5 py-1 text-xs font-medium text-[var(--muted)]">
                   {formatPlural(locale, visibleResults.length, { one: t.tools.resultCountOne, other: t.tools.resultCountMany })}
                 </p>
               </div>
@@ -386,11 +386,11 @@ export default function ToolSearch({
                         {tool.icon}
                       </span>
                       <span className="min-w-0 flex-1">
-                        <span className="m3-type-label-large block truncate">
+                        <span className="block truncate text-sm font-semibold">
                           <HighlightMatch text={content.name} query={query} />
                         </span>
-                        <span className="m3-type-body-small mt-1 block line-clamp-2 opacity-80">
-                          <span className="m3-type-label-large">{getCategoryName(locale, getPrimaryToolCategory(tool))}</span>
+                        <span className="mt-1 block line-clamp-2 text-xs leading-5 opacity-80">
+                          <span className="font-medium">{getCategoryName(locale, getPrimaryToolCategory(tool))}</span>
                           <span aria-hidden="true"> · </span>
                           {content.description}
                         </span>
@@ -403,10 +403,10 @@ export default function ToolSearch({
             </>
           ) : (
             <div className="px-3 py-4">
-              <p className="m3-type-label-large text-[var(--foreground)]" role="status">
+              <p className="text-sm font-semibold text-[var(--foreground)]" role="status">
                 {t.tools.noResults} « {query.trim()} »
               </p>
-              <p className="m3-type-body-medium mt-1 text-[var(--muted)]">{t.tools.noResultsHelp}</p>
+              <p className="mt-1 text-sm leading-5 text-[var(--muted)]">{t.tools.noResultsHelp}</p>
               <div className="mt-4 flex flex-wrap gap-2" role="group" aria-label={t.tools.tryThese}>
                 {t.tools.noResultsSuggestions.map((suggestion) => (
                   <button
@@ -422,7 +422,7 @@ export default function ToolSearch({
                       setIsSearching(true);
                       inputRef.current?.focus();
                     }}
-                    className="m3-type-label-medium min-h-10 rounded-full border border-[var(--outline-variant)] bg-[var(--surface-soft)] px-4 py-2 text-[var(--foreground)] transition-colors hover:border-[var(--primary)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+                    className="min-h-10 rounded-full border border-[var(--outline-variant)] bg-[var(--surface-soft)] px-4 py-2 text-xs font-medium text-[var(--foreground)] transition-colors hover:border-[var(--primary)] hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
                   >
                     {suggestion}
                   </button>

@@ -114,8 +114,6 @@ The inventory is intentionally **not yet declared complete**. The existing histo
 
 ## Current status
 
-Typography foundation: the 15-role Material 3 scale and its Web adaptation contract are documented in [Typography](components/Typography.md). Shared controls and core tool-page compositions are being migrated; site-wide migration and browser verification are not yet complete.
-
 | Component | Spec | Port status | Production migration |
 |---|---|---|---|
 | Button | [Button](components/Button.md) | Five AndroidX-named React exports; source snapshot pinned; disabled-state token roles corrected; shared variant styles now drive native buttons and button-styled links; remaining token and browser verification open | Generic action call sites migrated; account-only action-link wrapper removed; footer and account navigation use shared Button appearances while preserving anchors; broader site audit and browser verification remain open |

@@ -13,17 +13,13 @@
 }
 
 .label {
-  font-size: var(--m3-type-label-large-size);
-  line-height: var(--m3-type-label-large-line-height);
-  font-weight: var(--m3-type-label-large-weight);
-  letter-spacing: var(--m3-type-label-large-tracking);
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .value {
   color: var(--range-label, var(--lab-primary, currentColor));
-  font-size: var(--m3-type-body-medium-size);
-  line-height: var(--m3-type-body-medium-line-height);
-  letter-spacing: var(--m3-type-body-medium-tracking);
+  font-size: 14px;
   font-variant-numeric: tabular-nums;
 }
 

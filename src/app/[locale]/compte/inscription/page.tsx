@@ -27,8 +27,8 @@ export default async function SignUpPage({
     return (
       <main className="mx-auto flex min-h-[calc(100vh-4.5rem)] max-w-2xl items-center px-4 py-12">
         <Panel as="section" className="w-full text-center">
-          <h1 className="m3-type-headline-small">{t.account.alreadySignedIn}</h1>
-          <Link className="m3-type-label-large mt-6 inline-flex text-[var(--accent)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]" href={`/${locale}/compte`}>
+          <h1 className="text-2xl font-bold">{t.account.alreadySignedIn}</h1>
+          <Link className="mt-6 inline-flex font-semibold text-[var(--accent)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]" href={`/${locale}/compte`}>
             {t.account.title}
           </Link>
         </Panel>
@@ -39,10 +39,10 @@ export default async function SignUpPage({
   return (
     <main className="mx-auto flex min-h-[calc(100vh-4.5rem)] max-w-md items-center px-4 py-12">
       <Panel as="section" className="w-full">
-        <p className="m3-type-label-large text-[var(--accent)]">{t.account.label}</p>
-        <h1 className="m3-type-headline-large mt-2">{t.account.signUp}</h1>
+        <p className="text-sm font-semibold text-[var(--accent)]">{t.account.label}</p>
+        <h1 className="mt-2 text-3xl font-bold tracking-tight">{t.account.signUp}</h1>
         {query.error && (
-          <p className="m3-type-body-medium mt-5 border-l-2 border-[var(--danger)] py-1 pl-3 text-[var(--danger-foreground)]" role="alert">
+          <p className="mt-5 border-l-2 border-[var(--danger)] py-1 pl-3 text-sm text-[var(--danger-foreground)]" role="alert">
             {query.error === "rate-limited" ? t.account.authRateLimited : query.error === "weak-password" ? t.account.weakPassword : t.account.signUpError}
           </p>
         )}
@@ -55,9 +55,9 @@ export default async function SignUpPage({
             {t.account.submitSignUp}
           </SubmitButton>
         </form>
-        <p className="m3-type-body-medium mt-6 border-t border-[var(--border)] pt-5 text-center text-[var(--muted)]">
+        <p className="mt-6 border-t border-[var(--border)] pt-5 text-center text-sm text-[var(--muted)]">
           {t.account.hasAccount}{" "}
-          <Link className="m3-type-label-large text-[var(--accent)] hover:underline" href={`/${locale}/compte/connexion`}>{t.account.signIn}</Link>
+          <Link className="font-semibold text-[var(--accent)] hover:underline" href={`/${locale}/compte/connexion`}>{t.account.signIn}</Link>
         </p>
       </Panel>
     </main>

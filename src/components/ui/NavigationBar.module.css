@@ -7,5 +7,5 @@
 .navigationBar .item:hover .iconContainer{background:color-mix(in srgb,currentColor 8%,transparent)}
 .navigationBar .item:active .iconContainer{background:color-mix(in srgb,currentColor 12%,transparent)}
 .navigationBar .item:focus-visible{outline:2px solid var(--lab-primary,var(--focus-ring,var(--primary,currentColor)));outline-offset:-2px}
-.navigationBar .label{display:block;max-width:100%;overflow-wrap:anywhere;text-align:center;font-size:var(--m3-type-label-medium-size);line-height:var(--m3-type-label-medium-line-height);font-weight:var(--m3-type-label-medium-weight);letter-spacing:var(--m3-type-label-medium-tracking)}
+.navigationBar .label{display:block;max-width:100%;overflow-wrap:anywhere;text-align:center;font-size:12px;line-height:16px;font-weight:500}
 @media(prefers-reduced-motion:reduce){.navigationBar .iconContainer{transition:none}}

@@ -21,10 +21,10 @@ export default function GuidedWorkflowsPage({ locale }: { locale: Locale }) {
         <header className="relative overflow-hidden rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow-lg)] sm:p-9">
           <div className="pointer-events-none absolute -right-16 -top-24 h-72 w-72 rounded-full bg-[var(--accent-soft)] blur-3xl" aria-hidden="true" />
           <div className="relative max-w-3xl">
-            <p className="m3-type-label-small uppercase text-[var(--accent)]">{copy.eyebrow}</p>
-            <h1 className="m3-type-display-small mt-3">{copy.title}</h1>
-            <p className="m3-type-body-large mt-4 max-w-2xl text-[var(--muted)]">{copy.description}</p>
-            <p className="m3-type-label-large mt-4 flex items-center gap-2 text-[var(--muted)]">
+            <p className="text-xs font-black uppercase tracking-[0.16em] text-[var(--accent)]">{copy.eyebrow}</p>
+            <h1 className="mt-3 text-4xl font-black tracking-[-0.06em] sm:text-5xl">{copy.title}</h1>
+            <p className="mt-4 max-w-2xl text-base leading-7 text-[var(--muted)]">{copy.description}</p>
+            <p className="mt-4 flex items-center gap-2 text-sm font-semibold text-[var(--muted)]">
               <MaterialIcon name="lock" size={18} />
               {copy.privacy}
             </p>
@@ -40,7 +40,7 @@ export default function GuidedWorkflowsPage({ locale }: { locale: Locale }) {
                     <MaterialIcon name={workflow.icon} size={24} />
                   </span>
                   <div className="min-w-0 flex-1">
-                    <p className="m3-type-label-small uppercase text-[var(--muted)]">{String(workflowIndex + 1).padStart(2, "0")} · {workflow.steps.length} {copy.steps}</p>
+                    <p className="text-xs font-black uppercase tracking-[0.14em] text-[var(--muted)]">{String(workflowIndex + 1).padStart(2, "0")} · {workflow.steps.length} {copy.steps}</p>
                     <h2 className="mt-1 text-xl font-black tracking-[-0.035em]">{workflow.title}</h2>
                     <p className="mt-2 text-sm leading-6 text-[var(--muted)]">{workflow.summary}</p>
                   </div>

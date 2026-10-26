@@ -62,10 +62,7 @@
   background: transparent;
   color: inherit;
   font: inherit;
-  font-size: var(--m3-type-body-large-size);
-  line-height: var(--m3-type-body-large-line-height);
-  font-weight: var(--m3-type-body-large-weight);
-  letter-spacing: var(--m3-type-body-large-tracking);
+  font-size: 16px;
 }
 
 .input::placeholder {
@@ -84,10 +81,8 @@
   max-width: 100%;
   overflow: hidden;
   color: var(--lab-on-surface-variant, currentColor);
-  font-size: var(--m3-type-body-large-size);
-  line-height: var(--m3-type-body-large-line-height);
-  font-weight: var(--m3-type-body-large-weight);
-  letter-spacing: var(--m3-type-body-large-tracking);
+  font-size: 16px;
+  line-height: 24px;
   text-overflow: ellipsis;
   white-space: nowrap;
   pointer-events: none;
@@ -99,10 +94,8 @@
 .input:focus + .label,
 .input:not(:placeholder-shown) + .label {
   top: 8px;
-  font-size: var(--m3-type-body-small-size);
-  line-height: var(--m3-type-body-small-line-height);
-  font-weight: var(--m3-type-body-small-weight);
-  letter-spacing: var(--m3-type-body-small-tracking);
+  font-size: 12px;
+  line-height: 16px;
   transform: none;
 }
 
@@ -137,7 +130,7 @@
 .affix {
   flex: 0 0 auto;
   color: var(--lab-on-surface-variant, currentColor);
-  font-size: var(--m3-type-body-medium-size);
+  font-size: 14px;
 }
 
 .trailing {
@@ -151,10 +144,8 @@
   background: transparent;
   color: var(--lab-primary, currentColor);
   font: inherit;
-  font-size: var(--m3-type-label-medium-size);
-  font-weight: var(--m3-type-label-medium-weight);
-  line-height: var(--m3-type-label-medium-line-height);
-  letter-spacing: var(--m3-type-label-medium-tracking);
+  font-size: 12px;
+  font-weight: 600;
   cursor: pointer;
 }
 
@@ -179,9 +170,8 @@
   min-height: 16px;
   padding-inline: 16px;
   color: var(--lab-on-surface-variant, currentColor);
-  font-size: var(--m3-type-body-small-size);
-  line-height: var(--m3-type-body-small-line-height);
-  letter-spacing: var(--m3-type-body-small-tracking);
+  font-size: 12px;
+  line-height: 16px;
 }
 
 .error {

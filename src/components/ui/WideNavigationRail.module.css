@@ -77,10 +77,7 @@
   background: transparent;
   color: var(--lab-on-surface-variant, currentColor);
   font: inherit;
-  font-size: var(--m3-type-label-medium-size);
-  line-height: var(--m3-type-label-medium-line-height);
-  font-weight: var(--m3-type-label-medium-weight);
-  letter-spacing: var(--m3-type-label-medium-tracking);
+  font-size: 14px;
   font-weight: 500;
   text-align: start;
   cursor: pointer;
