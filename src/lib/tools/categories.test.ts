@@ -160,8 +160,12 @@ test("shared page shells use PageContainer without forcing every context to the 
 
 test("Arrangement.spacedBy returns a validated explicit Web gap", () => {
   assert.deepEqual(Arrangement.spacedBy(24), { kind: "spacedBy", space: 24 });
-  assert.throws(() => Arrangement.spacedBy(-1), RangeError);
+  assert.deepEqual(Arrangement.spacedBy(-8), { kind: "spacedBy", space: -8 });
   assert.throws(() => Arrangement.spacedBy(Number.NaN), RangeError);
+  assert.ok(rowSource.includes("compose-layout-negative-gap-row"));
+  assert.ok(columnSource.includes("compose-layout-negative-gap-column"));
+  assert.ok(globalCss.includes(".compose-layout-negative-gap-row > * + *"));
+  assert.ok(globalCss.includes(".compose-layout-negative-gap-column > * + *"));
   assert.deepEqual(Arrangement.spacedByCss("var(--layout-content-gap)"), {
     kind: "spacedByCss",
     space: "var(--layout-content-gap)",
