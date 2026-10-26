@@ -1,4 +1,4 @@
-import { createElement, type ReactNode } from "react";
+import { createElement, type CSSProperties, type ReactNode } from "react";
 
 /**
  * Ordered Web adapter for androidx.compose.ui.Modifier and the layout modifiers
@@ -58,7 +58,7 @@ function assertConstraints(constraints: SizeConstraints, name: string): void {
   }
 }
 
-function operationStyle(operation: ModifierOperation): Record<string, string | number> {
+function operationStyle(operation: ModifierOperation): CSSProperties {
   switch (operation.kind) {
     case "padding":
       return {
