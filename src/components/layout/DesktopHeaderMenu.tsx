@@ -184,8 +184,8 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
         >
           <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--primary-container)] text-[var(--on-primary-container)]" aria-hidden="true"><StarIcon filled className="h-5 w-5" /></span>
           <span className="min-w-0 flex-1">
-            <span className="block text-sm font-semibold text-[var(--foreground)]">{t.nav.favorites}</span>
-            <span className="mt-0.5 block text-xs text-[var(--muted)]">{t.nav.favoritesDescription}</span>
+            <span className="m3-type-label-large block text-[var(--foreground)]">{t.nav.favorites}</span>
+            <span className="m3-type-body-small mt-0.5 block text-[var(--muted)]">{t.nav.favoritesDescription}</span>
           </span>
         </Link>
 
@@ -196,8 +196,8 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
         >
           <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--tertiary-container)] text-[var(--on-tertiary-container)]" aria-hidden="true"><CollectionIcon className="h-5 w-5" /></span>
           <span className="min-w-0 flex-1">
-            <span className="block text-sm font-semibold text-[var(--foreground)]">{t.nav.collections}</span>
-            <span className="mt-0.5 block text-xs text-[var(--muted)]">{t.nav.collectionsDescription}</span>
+            <span className="m3-type-label-large block text-[var(--foreground)]">{t.nav.collections}</span>
+            <span className="m3-type-body-small mt-0.5 block text-[var(--muted)]">{t.nav.collectionsDescription}</span>
           </span>
         </Link>
 
@@ -213,8 +213,8 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
             <MaterialIcon name="person" size={18} className="h-[1.1rem] w-[1.1rem]" />
           </span>
           <span className="min-w-0 flex-1">
-            <span className="block text-sm font-semibold text-[var(--foreground)]">{t.nav.space}</span>
-            <span className="mt-0.5 block text-xs text-[var(--muted)]">{t.nav.account}</span>
+            <span className="m3-type-label-large block text-[var(--foreground)]">{t.nav.space}</span>
+            <span className="m3-type-body-small mt-0.5 block text-[var(--muted)]">{t.nav.account}</span>
           </span>
           <MaterialIcon name="chevron_right" size={16} className="h-4 w-4 text-[var(--muted)] transition-transform group-hover:translate-x-0.5" />
         </Link>
@@ -260,7 +260,7 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
                       : "text-[var(--muted)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)]")
                   }
                 >
-                  <span className="font-bold uppercase tracking-[0.04em]">{item}</span>
+                  <span className="m3-type-label-small uppercase">{item}</span>
                   <span className="truncate">{language.nativeLabel}</span>
                 </Link>
               );
