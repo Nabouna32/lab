@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { test } from "node:test";
+import { Alignment } from "../../components/layout/compose/Alignment.ts";
 import { Arrangement } from "../../components/layout/compose/Arrangement.ts";
 import { Modifier } from "../../components/layout/compose/Modifier.ts";
 import { categoryColorIds, getCategoryColor, getCategoryContainerColor, getCategoryOnContainerColor } from "./category-colors.ts";
@@ -206,4 +207,26 @@ test("Modifier supports Compose-shaped padding overloads and ordered composition
   });
   assert.throws(() => Modifier.padding(-1), RangeError);
   assert.throws(() => Modifier.widthIn({ min: 300, max: 200 }), RangeError);
+});
+
+
+test("Arrangement exposes the AndroidX alignment overloads for spacedBy and aligned", () => {
+  assert.deepEqual(Arrangement.spacedBy(8, Alignment.End), {
+    kind: "spacedBy",
+    space: 8,
+    alignment: Alignment.End,
+  });
+  assert.deepEqual(Arrangement.spacedBy(12, Alignment.CenterVertically), {
+    kind: "spacedBy",
+    space: 12,
+    alignment: Alignment.CenterVertically,
+  });
+  assert.deepEqual(Arrangement.aligned(Alignment.CenterHorizontally), {
+    kind: "aligned",
+    alignment: Alignment.CenterHorizontally,
+  });
+  assert.deepEqual(Arrangement.aligned(Alignment.Bottom), {
+    kind: "aligned",
+    alignment: Alignment.Bottom,
+  });
 });
