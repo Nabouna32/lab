@@ -28,9 +28,9 @@ export default function PrivacyPolicyPage({ locale }: { locale: Locale }) {
       </section>)}
       <section className="mt-8" aria-labelledby="policy-contact">
         <h2 id="policy-contact" className="m3-type-headline-small">{page.contactTitle}</h2>
-        <p className="mt-3 leading-7">{page.contactIntro}</p>
+        <p className="m3-type-body-large mt-3">{page.contactIntro}</p>
         <p className="m3-type-title-medium mt-3"><a className="underline" href={"mailto:" + page.contactAddress}><code>{page.contactAddress}</code></a></p>
-        <p className="mt-3 leading-7">{page.contactWarning}</p>
+        <p className="m3-type-body-large mt-3">{page.contactWarning}</p>
       </section>
     </article>
   </main>;
