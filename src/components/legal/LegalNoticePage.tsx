@@ -46,24 +46,24 @@ export default function LegalNoticePage({ locale }: { locale: Locale }) {
         </section>
 
         <section className="mt-8" aria-labelledby="legal-storage-title">
-          <h2 id="legal-storage-title" className="text-xl font-semibold text-[var(--foreground)]">
+          <h2 id="legal-storage-title" className="m3-type-headline-small text-[var(--foreground)]">
             {content.storageTitle}
           </h2>
           <p className="mt-2 leading-7 text-[var(--muted)]">{content.storageDescription}</p>
-          <p className="mt-3 font-semibold text-[var(--foreground)]">{content.storageName}</p>
+          <p className="m3-type-title-medium mt-3 text-[var(--foreground)]">{content.storageName}</p>
           <address className="mt-1 not-italic leading-7 text-[var(--muted)]">{content.storageAddress}</address>
           <a
             href="https://supabase.com/terms"
             target="_blank"
             rel="noreferrer"
-            className="mt-2 inline-flex min-h-11 items-center rounded-full text-sm font-semibold text-[var(--accent)] underline underline-offset-4 outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+            className="m3-type-label-large mt-2 inline-flex min-h-11 items-center rounded-full text-[var(--accent)] underline underline-offset-4 outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
           >
             {content.storageLinkLabel}
           </a>
         </section>
 
         <section className="mt-8" aria-labelledby="legal-reply-title">
-          <h2 id="legal-reply-title" className="text-xl font-semibold text-[var(--foreground)]">
+          <h2 id="legal-reply-title" className="m3-type-headline-small text-[var(--foreground)]">
             {content.responseTitle}
           </h2>
           <p className="mt-2 leading-7 text-[var(--muted)]">{content.responseDescription}</p>
