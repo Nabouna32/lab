@@ -36,10 +36,23 @@ Snapshot immuable de consultation : [androidx/androidx @ 5901d750e269aa3d88f6fcc
 
 Les composants sont des ports partiels. Leur nom officiel ne signifie pas que l'API complète ou la parité AndroidX est déjà atteinte.
 
+## Hiérarchie de maintenance
+
+Les décisions de layout suivent une hiérarchie, du plus partagé au plus spécifique :
+
+1. **Fondations CSS globales** : échelle d'espacement, gouttières responsives, largeurs de contenu et rôles sémantiques. Une décision transversale se règle ici une seule fois.
+2. **Primitives Compose portées sur le Web** : elles décrivent le comportement de layout réutilisable (`Row`, `Column`, `Box`, `Spacer`, `Modifier`, arrangements et alignements).
+3. **Compositions produit Loculary** : `PageContainer` assemble les conventions partagées de largeur, gouttières et espacement extérieur. Il ne remplace pas les primitives AndroidX.
+4. **Pages et composants métier** : ils choisissent un preset adapté et ne conservent localement que les différences de composition réellement nécessaires.
+
+Centraliser ne signifie pas transformer chaque nombre en variable globale. Un token est justifié lorsqu'il représente une décision récurrente, nommée et appelée à évoluer ensemble. Une valeur locale reste acceptable lorsqu'elle décrit un détail propre à un composant (par exemple le rayon d'un élément décoratif de la page d'accueil) et qu'elle n'est pas une deuxième version d'une convention globale. Les exceptions doivent être intentionnelles, lisibles et proportionnées.
+
+Les personnalisations suivent le même principe : choisir d'abord un preset partagé, puis ajouter une surcharge locale explicite uniquement lorsque le besoin est spécifique. Ne pas ajouter un paramètre configurable à chaque composant par anticipation d'un besoin hypothétique.
+
 ## Conventions de migration
 
 - Privilégier les noms AndroidX et les paramètres correspondants quand le contrat peut être préservé.
-- Garder les compositions propres au produit, comme `PageContainer`, explicitement identifiées comme Loculary; elles centralisent les largeurs de contenu (`form`, `form-wide`, `narrow`, `medium`, `default`, `wide`), les gouttières responsives et les espacements extérieurs, mais ne doivent pas se faire passer pour une primitive AndroidX. Le header, le footer, les pages de collections et les formulaires de compte réutilisent progressivement cette composition; leur largeur reste choisie selon le contexte, pas uniformisée artificiellement.
+- Garder les compositions propres au produit, comme `PageContainer`, explicitement identifiées comme Loculary; elles centralisent les largeurs de contenu (`form`, `form-wide`, `account`, `narrow`, `medium`, `default`, `wide`), les gouttières responsives et les espacements extérieurs, mais ne doivent pas se faire passer pour une primitive AndroidX. Le header, le footer, les pages de collections, la page d'accueil, les pages d'administration et les formulaires de compte réutilisent progressivement cette composition; leur largeur reste choisie selon le contexte, pas uniformisée artificiellement.
 - Remplacer les abstractions génériques d'espacement par `Column` + `Arrangement.spacedBy` lorsque le contrat convient.
 - Ne pas confondre les tokens CSS de Loculary avec une échelle de dimensions AndroidX. Les tokens restent des choix de design du produit tant qu'une source officielle ne prouve pas le contraire. Pour éviter les valeurs divergentes, utiliser l’extension Web `Arrangement.spacedByCss("var(--layout-content-gap)")` lorsque l’espacement provient d’un token Loculary; ne pas présenter cette extension comme une API AndroidX.
 - Ne pas déclarer la parité sans tests de contrat, vérification de rendu en navigateur et contrôle des cas RTL, responsive, clavier et accessibilité pertinents.
