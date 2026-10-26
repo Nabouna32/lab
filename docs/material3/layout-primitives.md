@@ -24,7 +24,7 @@ Snapshot immuable de consultation : [androidx/androidx @ 5901d750e269aa3d88f6fcc
 
 | API AndroidX | Implémentation Web | Couverture actuelle | Différence déclarée |
 |---|---|---|---|
-| `Arrangement` | `src/components/layout/compose/Arrangement.ts` | Constantes courantes et `spacedBy` | La valeur est en CSS px, pas en `Dp`; contrats avancés et alignement de `spacedBy` incomplets |
+| `Arrangement` | `src/components/layout/compose/Arrangement.ts` | Constantes Start/End/Top/Bottom/Center/Space* et `spacedBy` | La valeur est en CSS px, pas en `Dp`; overload avec alignement et contrat de mesure incomplets |
 | `Alignment` | `src/components/layout/compose/Alignment.ts` | Constantes d’alignement utilisées par les primitives actuelles | Sous-ensemble des API d’alignement, adaptation CSS |
 | `Modifier` | `src/components/layout/compose/Modifier.ts` | `padding`, `fillMaxWidth`, `widthIn`, `then` | Les opérations construisent des styles CSS; la mesure et l'ordre de layout ne reproduisent pas entièrement Compose |
 | `Column` | `src/components/layout/compose/Column.tsx` | Layout vertical, écart, alignement horizontal limité | Flexbox CSS ne reproduit pas toutes les règles de mesure/poids de Compose |
