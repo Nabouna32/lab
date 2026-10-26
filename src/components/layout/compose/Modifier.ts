@@ -1,12 +1,11 @@
-import type { CSSProperties } from "react";
+import { createElement, type ReactNode } from "react";
 
 /**
- * Limited Web adaptation of androidx.compose.ui.Modifier.
- * AndroidX reference: https://developer.android.com/develop/ui/compose/modifiers
+ * Ordered Web adapter for androidx.compose.ui.Modifier and the layout modifiers
+ * used by this port. Numeric dimensions are CSS pixels, not Android Dp.
  *
- * Values are CSS pixels in this adapter, not Android Dp. Modifier order is kept in
- * the operation list, but browser layout is not identical to Compose measurement.
- * Only add operations after checking the corresponding AndroidX contract.
+ * Each operation is represented by a wrapper so the chain order is retained.
+ * Browser layout still differs from Compose measurement and constraint propagation.
  */
 type PaddingValues = {
   inlineStart: number;
@@ -15,45 +14,112 @@ type PaddingValues = {
   blockEnd: number;
 };
 
+type SizeConstraints = {
+  minWidth?: number;
+  maxWidth?: number;
+  minHeight?: number;
+  maxHeight?: number;
+};
+
 type ModifierOperation =
   | { readonly kind: "padding"; readonly values: PaddingValues }
-  | { readonly kind: "fillMaxWidth" }
-  | { readonly kind: "widthIn"; readonly min?: number; readonly max?: number };
+  | { readonly kind: "fillMaxWidth"; readonly fraction: number }
+  | { readonly kind: "fillMaxHeight"; readonly fraction: number }
+  | { readonly kind: "fillMaxSize"; readonly fraction: number }
+  | { readonly kind: "width"; readonly value: number }
+  | { readonly kind: "height"; readonly value: number }
+  | { readonly kind: "size"; readonly width: number; readonly height: number }
+  | { readonly kind: "widthIn"; readonly constraints: Pick<SizeConstraints, "minWidth" | "maxWidth"> }
+  | { readonly kind: "heightIn"; readonly constraints: Pick<SizeConstraints, "minHeight" | "maxHeight"> }
+  | { readonly kind: "sizeIn"; readonly constraints: SizeConstraints }
+  | { readonly kind: "weight"; readonly weight: number; readonly fill: boolean };
 
-export class Modifier {
-  private readonly operations: readonly ModifierOperation[];
+function assertNonNegative(value: number, name: string): void {
+  if (!Number.isFinite(value) || value < 0) {
+    throw new RangeError(`Modifier.${name} requires a finite, non-negative CSS pixel value.`);
+  }
+}
 
-  private constructor(operations: readonly ModifierOperation[]) {
-    this.operations = operations;
+function assertFraction(value: number, name: string): void {
+  if (!Number.isFinite(value) || value < 0 || value > 1) {
+    throw new RangeError(`Modifier.${name} requires a finite fraction between 0 and 1.`);
+  }
+}
+
+function assertConstraints(constraints: SizeConstraints, name: string): void {
+  for (const [key, value] of Object.entries(constraints)) {
+    if (value !== undefined) assertNonNegative(value, `${name}.${key}`);
+  }
+  if (constraints.minWidth !== undefined && constraints.maxWidth !== undefined && constraints.minWidth > constraints.maxWidth) {
+    throw new RangeError(`Modifier.${name} minWidth cannot exceed maxWidth.`);
+  }
+  if (constraints.minHeight !== undefined && constraints.maxHeight !== undefined && constraints.minHeight > constraints.maxHeight) {
+    throw new RangeError(`Modifier.${name} minHeight cannot exceed maxHeight.`);
+  }
+}
+
+function operationStyle(operation: ModifierOperation): Record<string, string | number> {
+  switch (operation.kind) {
+    case "padding":
+      return {
+        paddingInlineStart: `${operation.values.inlineStart}px`,
+        paddingBlockStart: `${operation.values.blockStart}px`,
+        paddingInlineEnd: `${operation.values.inlineEnd}px`,
+        paddingBlockEnd: `${operation.values.blockEnd}px`,
+      };
+    case "fillMaxWidth":
+      return { width: `${operation.fraction * 100}%` };
+    case "fillMaxHeight":
+      return { height: `${operation.fraction * 100}%` };
+    case "fillMaxSize":
+      return { width: `${operation.fraction * 100}%`, height: `${operation.fraction * 100}%` };
+    case "width":
+      return { width: `${operation.value}px` };
+    case "height":
+      return { height: `${operation.value}px` };
+    case "size":
+      return { width: `${operation.width}px`, height: `${operation.height}px` };
+    case "widthIn":
+      return {
+        ...(operation.constraints.minWidth === undefined ? {} : { minWidth: `${operation.constraints.minWidth}px` }),
+        ...(operation.constraints.maxWidth === undefined ? {} : { maxWidth: `${operation.constraints.maxWidth}px` }),
+      };
+    case "heightIn":
+      return {
+        ...(operation.constraints.minHeight === undefined ? {} : { minHeight: `${operation.constraints.minHeight}px` }),
+        ...(operation.constraints.maxHeight === undefined ? {} : { maxHeight: `${operation.constraints.maxHeight}px` }),
+      };
+    case "sizeIn":
+      return {
+        ...(operation.constraints.minWidth === undefined ? {} : { minWidth: `${operation.constraints.minWidth}px` }),
+        ...(operation.constraints.maxWidth === undefined ? {} : { maxWidth: `${operation.constraints.maxWidth}px` }),
+        ...(operation.constraints.minHeight === undefined ? {} : { minHeight: `${operation.constraints.minHeight}px` }),
+        ...(operation.constraints.maxHeight === undefined ? {} : { maxHeight: `${operation.constraints.maxHeight}px` }),
+      };
+    case "weight":
+      return {
+        flexGrow: operation.fill ? operation.weight : 0,
+        flexShrink: 1,
+        flexBasis: operation.fill ? "0%" : "auto",
+      };
+  }
+}
+
+class ModifierChain {
+  private constructor(private readonly operations: readonly ModifierOperation[]) {}
+
+  static empty(): ModifierChain {
+    return new ModifierChain([]);
   }
 
-  static empty(): Modifier {
-    return new Modifier([]);
+  private append(operation: ModifierOperation): ModifierChain {
+    return new ModifierChain([...this.operations, operation]);
   }
 
-  static padding(...values: [number] | [number, number] | [number, number, number, number]): Modifier {
-    const [first, second, third, fourth] = values;
-    if (second === undefined) return Modifier.empty().padding(first);
-    if (third === undefined) return Modifier.empty().padding(first, second);
-    return Modifier.empty().padding(first, second, third, fourth!);
-  }
-
-  static fillMaxWidth(): Modifier {
-    return Modifier.empty().fillMaxWidth();
-  }
-
-  static widthIn(constraints: { min?: number; max?: number }): Modifier {
-    return Modifier.empty().widthIn(constraints);
-  }
-
-  private append(operation: ModifierOperation): Modifier {
-    return new Modifier([...this.operations, operation]);
-  }
-
-  padding(all: number): Modifier;
-  padding(horizontal: number, vertical: number): Modifier;
-  padding(start: number, top: number, end: number, bottom: number): Modifier;
-  padding(first: number, second?: number, third?: number, fourth?: number): Modifier {
+  padding(all: number): ModifierChain;
+  padding(horizontal: number, vertical: number): ModifierChain;
+  padding(start: number, top: number, end: number, bottom: number): ModifierChain;
+  padding(first: number, second?: number, third?: number, fourth?: number): ModifierChain {
     const values = [first, second, third, fourth].filter((value): value is number => value !== undefined);
     values.forEach((value) => assertNonNegative(value, "padding"));
 
@@ -81,62 +147,77 @@ export class Modifier {
     return this.append({ kind: "padding", values: padding });
   }
 
-  fillMaxWidth(): Modifier {
-    return this.append({ kind: "fillMaxWidth" });
+  fillMaxWidth(fraction = 1): ModifierChain {
+    assertFraction(fraction, "fillMaxWidth");
+    return this.append({ kind: "fillMaxWidth", fraction });
   }
 
-  widthIn(constraints: { min?: number; max?: number }): Modifier {
-    if (constraints.min !== undefined) assertNonNegative(constraints.min, "widthIn.min");
-    if (constraints.max !== undefined) assertNonNegative(constraints.max, "widthIn.max");
-    if (constraints.min !== undefined && constraints.max !== undefined && constraints.min > constraints.max) {
-      throw new RangeError("Modifier.widthIn min cannot exceed max.");
+  fillMaxHeight(fraction = 1): ModifierChain {
+    assertFraction(fraction, "fillMaxHeight");
+    return this.append({ kind: "fillMaxHeight", fraction });
+  }
+
+  fillMaxSize(fraction = 1): ModifierChain {
+    assertFraction(fraction, "fillMaxSize");
+    return this.append({ kind: "fillMaxSize", fraction });
+  }
+
+  width(width: number): ModifierChain {
+    assertNonNegative(width, "width");
+    return this.append({ kind: "width", value: width });
+  }
+
+  height(height: number): ModifierChain {
+    assertNonNegative(height, "height");
+    return this.append({ kind: "height", value: height });
+  }
+
+  size(size: number): ModifierChain;
+  size(width: number, height: number): ModifierChain;
+  size(width: number, height = width): ModifierChain {
+    assertNonNegative(width, "size.width");
+    assertNonNegative(height, "size.height");
+    return this.append({ kind: "size", width, height });
+  }
+
+  widthIn(constraints: Pick<SizeConstraints, "minWidth" | "maxWidth">): ModifierChain {
+    assertConstraints(constraints, "widthIn");
+    return this.append({ kind: "widthIn", constraints });
+  }
+
+  heightIn(constraints: Pick<SizeConstraints, "minHeight" | "maxHeight">): ModifierChain {
+    assertConstraints(constraints, "heightIn");
+    return this.append({ kind: "heightIn", constraints });
+  }
+
+  sizeIn(constraints: SizeConstraints): ModifierChain {
+    assertConstraints(constraints, "sizeIn");
+    return this.append({ kind: "sizeIn", constraints });
+  }
+
+  weight(weight: number, fill = true): ModifierChain {
+    if (!Number.isFinite(weight) || weight <= 0) {
+      throw new RangeError("Modifier.weight requires a finite, positive weight.");
     }
-
-    return this.append({ kind: "widthIn", ...constraints });
+    return this.append({ kind: "weight", weight, fill });
   }
 
-  then(other: Modifier): Modifier {
-    return new Modifier([...this.operations, ...other.operations]);
+  then(other: ModifierChain): ModifierChain {
+    return new ModifierChain([...this.operations, ...other.operations]);
   }
 
-  toStyle(): CSSProperties {
-    const padding: PaddingValues = { inlineStart: 0, blockStart: 0, inlineEnd: 0, blockEnd: 0 };
-    let hasPadding = false;
-    let minWidth: number | undefined;
-    let maxWidth: number | undefined;
-    let style: CSSProperties = {};
-
-    for (const operation of this.operations) {
-      if (operation.kind === "padding") {
-        hasPadding = true;
-        padding.inlineStart += operation.values.inlineStart;
-        padding.blockStart += operation.values.blockStart;
-        padding.inlineEnd += operation.values.inlineEnd;
-        padding.blockEnd += operation.values.blockEnd;
-      } else if (operation.kind === "fillMaxWidth") {
-        style = { ...style, width: "100%" };
-      } else {
-        if (operation.min !== undefined) minWidth = Math.max(minWidth ?? 0, operation.min);
-        if (operation.max !== undefined) maxWidth = Math.min(maxWidth ?? Number.POSITIVE_INFINITY, operation.max);
-      }
-    }
-
-    return {
-      ...style,
-      ...(minWidth === undefined ? {} : { minWidth: `${minWidth}px` }),
-      ...(maxWidth === undefined || maxWidth === Number.POSITIVE_INFINITY ? {} : { maxWidth: `${maxWidth}px` }),
-      ...(hasPadding ? {
-        paddingInlineStart: `${padding.inlineStart}px`,
-        paddingBlockStart: `${padding.blockStart}px`,
-        paddingInlineEnd: `${padding.inlineEnd}px`,
-        paddingBlockEnd: `${padding.blockEnd}px`,
-      } : {}),
-    };
+  wrap(content: ReactNode): ReactNode {
+    return this.operations.reduceRight<ReactNode>(
+      (child, operation, index) => createElement("div", {
+        key: `modifier-${index}`,
+        style: operationStyle(operation),
+      }, child),
+      content,
+    );
   }
 }
 
-function assertNonNegative(value: number, name: string): void {
-  if (!Number.isFinite(value) || value < 0) {
-    throw new RangeError(`Modifier.${name} requires a finite, non-negative CSS pixel value.`);
-  }
-}
+export type Modifier = ModifierChain;
+
+/** Compose-shaped empty modifier chain; each call returns a new ordered chain. */
+export const Modifier = ModifierChain.empty();
