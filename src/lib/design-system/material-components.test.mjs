@@ -27,6 +27,7 @@ const textAreaSource = readFileSync(new URL("../../components/ui/TextArea.tsx", 
 const selectSource = readFileSync(new URL("../../components/ui/Select.tsx", import.meta.url), "utf8");
 const cardSource = readFileSync(new URL("../../components/ui/Card.tsx", import.meta.url), "utf8");
 const buttonSource = readFileSync(new URL("../../components/ui/Button.tsx", import.meta.url), "utf8");
+const buttonVariantStylesSource = readFileSync(new URL("../../components/ui/material-button-variant-styles.ts", import.meta.url), "utf8");
 const iconButtonSource = readFileSync(new URL("../../components/ui/IconButton.tsx", import.meta.url), "utf8");
 const panelSource = readFileSync(new URL("../../components/ui/Panel.tsx", import.meta.url), "utf8");
 const resultPanelSource = readFileSync(new URL("../../components/ui/ResultPanel.tsx", import.meta.url), "utf8");
@@ -236,33 +237,33 @@ test("shared action controls use semantic state-layer colors instead of brightne
   const buttonSource = readFileSync(new URL("../../components/ui/Button.tsx", import.meta.url), "utf8");
   const iconButtonSource = readFileSync(new URL("../../components/ui/IconButton.tsx", import.meta.url), "utf8");
   const favoriteSource = readFileSync(new URL("../../components/favorites/FavoriteButton.tsx", import.meta.url), "utf8");
-  const accountActionSource = readFileSync(new URL("../../components/account/AccountActionLink.tsx", import.meta.url), "utf8");
+  const appLinkSource = readFileSync(new URL("../../components/ui/AppLink.tsx", import.meta.url), "utf8");
+  const buttonVariantStylesSource = readFileSync(new URL("../../components/ui/material-button-variant-styles.ts", import.meta.url), "utf8");
   const collectionsSource = readFileSync(new URL("../../components/collections/CollectionsView.tsx", import.meta.url), "utf8");
 
   for (const [name, source] of [
     ["Button", buttonSource],
     ["IconButton", iconButtonSource],
     ["FavoriteButton", favoriteSource],
-    ["AccountActionLink", accountActionSource],
+    ["AppLink", appLinkSource],
+    ["shared Button variant styles", buttonVariantStylesSource],
     ["CollectionsView", collectionsSource],
   ]) {
     assert.doesNotMatch(source, /hover:brightness|filter:brightness|transition-\[[^\]]*filter/ , `${name} should not dim foreground content through a whole-element brightness filter`);
   }
 
-  const appLinkSource = readFileSync(new URL("../../components/ui/AppLink.tsx", import.meta.url), "utf8");
-  const actionStylesSource = readFileSync(new URL("../../components/ui/material-button-variant-styles.ts", import.meta.url), "utf8");
-
-  assert.ok(actionStylesSource.includes("var(--button-container-color,var(--primary))_92%,var(--button-content-color,var(--on-primary))"));
-  assert.ok(actionStylesSource.includes("var(--button-container-color,var(--secondary-container))_92%,var(--button-content-color,var(--on-secondary-container))"));
+  assert.ok(buttonVariantStylesSource.includes("var(--button-container-color,var(--primary))_92%,var(--button-content-color,var(--on-primary))"));
+  assert.ok(buttonVariantStylesSource.includes("var(--button-container-color,var(--secondary-container))_92%,var(--button-content-color,var(--on-secondary-container))"));
+  assert.match(appLinkSource, /import NextLink, \{ type LinkProps \} from "next\/link"/);
+  assert.match(appLinkSource, /materialButtonVariantStyles\[variant as MaterialButtonVariant\]/);
+  assert.match(appLinkSource, /import type \{ ButtonColors \} from "@\/components\/ui\/Button"/);
+  assert.match(appLinkSource, /getMaterialButtonInlineStyle\(isMaterialButton/);
+  assert.match(buttonVariantStylesSource, /colors\?\.contentColor/);
+  assert.match(appLinkSource, /variant === "filled".*variant === "text"/s);
   assert.match(iconButtonSource, /var\(--primary\)_92%,var\(--on-primary\)/);
   assert.ok(favoriteSource.includes("const FavoriteActionButton = active ? FilledTonalButton : OutlinedButton;"));
   assert.match(favoriteSource, /import \{ IconButton \} from "@\/components\/ui\/IconButton"/);
-  assert.match(appLinkSource, /"action-filled": \[actionBaseStyles, "px-5", materialButtonVariantStyles\.filled\]/);
-  assert.match(appLinkSource, /"action-outlined": \[actionBaseStyles, "px-5", materialButtonVariantStyles\.outlined\]/);
-  assert.match(accountActionSource, /primary: "action-filled"/);
-  assert.match(accountActionSource, /secondary: "action-outlined"/);
-  assert.match(accountActionSource, /danger: "action-text"/);
-  assert.match(accountActionSource, /"--button-content-color": "var\(--error\)"/);
+  assert.match(appLinkSource, /materialButtonVariantStyles/);
   assert.match(collectionsSource, /<Button type="submit" disabled=/);
 });
 
@@ -440,14 +441,14 @@ test("AndroidX-named Buttons support per-state color customization without produ
   for (const component of ["Button", "ElevatedButton", "FilledTonalButton", "OutlinedButton", "TextButton"]) {
     assert.ok(buttonSource.includes("export function " + component + "("), "missing official component export: " + component);
   }
-  assert.ok(buttonSource.includes("--button-disabled-container-color"));
-  assert.ok(buttonSource.includes("--button-disabled-content-color"));
-  const actionStylesSource = readFileSync(new URL("../../components/ui/material-button-variant-styles.ts", import.meta.url), "utf8");
-  assert.ok(actionStylesSource.includes("disabled:border-[color-mix(in_srgb,var(--on-surface)_12%,transparent)]"));
-  assert.ok(actionStylesSource.includes("disabled:bg-[var(--button-disabled-container-color,var(--surface-container-low))]"));
+  assert.ok(buttonVariantStylesSource.includes("--button-disabled-container-color"));
+  assert.ok(buttonVariantStylesSource.includes("--button-disabled-content-color"));
+  assert.ok(buttonVariantStylesSource.includes("disabled:border-[color-mix(in_srgb,var(--on-surface)_12%,transparent)]"));
+  assert.ok(buttonVariantStylesSource.includes("disabled:bg-[var(--button-disabled-container-color,color-mix(in_srgb,var(--on-surface)_12%,transparent))]"));
+  assert.ok(buttonVariantStylesSource.includes("color-mix(in_srgb,var(--on-surface)_38%,transparent)"));
   assert.ok(buttonSource.includes("export type ButtonColors ="));
-  assert.ok(buttonSource.includes('"--button-container-color": colors.containerColor'));
-  assert.ok(buttonSource.includes('"--button-disabled-container-color": colors.disabledContainerColor'));
+  assert.ok(buttonVariantStylesSource.includes('"--button-container-color": colors.containerColor'));
+  assert.ok(buttonVariantStylesSource.includes('"--button-disabled-container-color": colors.disabledContainerColor'));
   assert.ok(!buttonSource.includes("DestructiveButton"), "destructive styling uses color customization, not a custom component");
   assert.doesNotMatch(buttonSource, /primary: filled|secondary: outlined|tonal: filledTonal|ghost: text/);
   assert.match(iconButtonSource, /on-surface\)_10%,transparent/);
@@ -697,13 +698,10 @@ test("header theme controls defer client-dependent selected state until after hy
 test("destructive account and collection actions preserve link/button semantics and use shared Material 3 controls", () => {
   const accountPage = readFileSync(new URL("../../app/[locale]/compte/page.tsx", import.meta.url), "utf8");
   const deleteAccountPage = readFileSync(new URL("../../app/[locale]/compte/suppression/page.tsx", import.meta.url), "utf8");
-  const accountActionLink = readFileSync(new URL("../../components/account/AccountActionLink.tsx", import.meta.url), "utf8");
   const collectionsView = readFileSync(new URL("../../components/collections/CollectionsView.tsx", import.meta.url), "utf8");
-  assert.match(accountPage, /<AccountActionLink[\s\S]*?variant="danger"[\s\S]*?<MaterialIcon name="delete"/);
-  assert.match(accountActionLink, /"--button-content-color": "var\(--error\)"/);
-  assert.match(accountActionLink, /danger: "action-text"/);
-  const appLink = readFileSync(new URL("../../components/ui/AppLink.tsx", import.meta.url), "utf8");
-  assert.match(appLink, /"action-text": \[actionBaseStyles, "px-3", materialButtonVariantStyles\.text\]/);
+  assert.match(accountPage, /<AppLink[\s\S]*?className="mt-4"[\s\S]*?leadingIcon[\s\S]*?colors=\{\{ contentColor: "var\(--error\)" \}\}[\s\S]*?variant="text"[\s\S]*?<MaterialIcon name="delete"/);
+  assert.match(accountPage, /<AppLink href=\{`\/\$\{locale\}\/compte\/connexion`\} variant="filled">/);
+  assert.match(accountPage, /<AppLink href=\{`\/\$\{locale\}\/compte\/inscription`\} variant="outlined">/);
   assert.match(deleteAccountPage, /<MaterialIcon name="delete"/);
   assert.match(collectionsView, /<AlertDialog[\s\S]*?destructive[\s\S]*?onConfirm=\{confirmDeleteCollection\}/);
   assert.match(collectionsView, /<TextButton type="button" colors=\{\{ contentColor: "var\(--error\)" \}\}[\s\S]*?<MaterialIcon name="delete"/);

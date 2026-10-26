@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import type { PointerEvent, ReactNode } from "react";
 import styles from "./PullToRefreshBox.module.css";
+import { Button } from "@/components/ui/Button";
 
 export type PullToRefreshBoxProps = {
   children: ReactNode;
@@ -84,9 +85,11 @@ export function PullToRefreshBox({
       <div className={styles.content} style={{ transform: distance > 0 && !isRefreshing ? `translateY(${Math.min(distance, threshold)}px)` : undefined }}>
         {children}
       </div>
-      <button type="button" className={styles.refreshAction} onClick={onRefresh} disabled={disabled || isRefreshing}>
-        {isRefreshing ? refreshLabel : refreshNowLabel}
-      </button>
+      <div className="flex justify-end px-4 pb-4">
+        <Button type="button" onClick={onRefresh} disabled={disabled || isRefreshing}>
+          {isRefreshing ? refreshLabel : refreshNowLabel}
+        </Button>
+      </div>
     </div>
   );
 }

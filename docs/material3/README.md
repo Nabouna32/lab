@@ -116,7 +116,8 @@ The inventory is intentionally **not yet declared complete**. The existing histo
 
 | Component | Spec | Port status | Production migration |
 |---|---|---|---|
-| Button | [Button](components/Button.md) | Five AndroidX-named React exports added; source-token and browser verification remain in progress | Explicit variant call sites migrated; final call-site audit and browser verification remain open |
+| Button | [Button](components/Button.md) | Five AndroidX-named React exports; source snapshot pinned; disabled-state token roles corrected; shared variant styles now drive native buttons and button-styled links; remaining token and browser verification open | Generic action call sites migrated; account-only action-link wrapper removed; footer and account navigation use shared Button appearances while preserving anchors; broader site audit and browser verification remain open |
+| Web link adaptation | [Link](components/Link.md) | `AppLink` keeps Next.js anchor semantics and shares the five Button visual variants and the shared reduced-motion-aware ripple; navigation/inline styles remain contextual Web patterns | Footer and account action links migrated; header navigation retained as a navigation link; full-site usage audit remains open |
 | IconButton | [IconButton](components/IconButton.md) | Existing implementation; full source-contract and browser verification still required | Not established by this index |
 | Other components | Not yet audited | À inventorier | À inventorier |
 

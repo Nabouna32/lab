@@ -1,17 +1,8 @@
-import type { ButtonHTMLAttributes, CSSProperties, Ref } from "react";
+import type { ButtonHTMLAttributes, Ref } from "react";
 import { ButtonRipple } from "@/components/ui/ButtonRipple";
-import { materialButtonVariantStyles, type MaterialButtonVariant } from "@/components/ui/material-button-variant-styles";
+import { getMaterialButtonInlineStyle, materialButtonVariantStyles, type MaterialButtonColors, type MaterialButtonVariant } from "@/components/ui/material-button-variant-styles";
 
-export type ButtonColors = {
-  /** Container color; maps to AndroidX ButtonColors.containerColor. */
-  containerColor?: string;
-  /** Content color; maps to AndroidX ButtonColors.contentColor. */
-  contentColor?: string;
-  /** Disabled container color; maps to AndroidX ButtonColors.disabledContainerColor. */
-  disabledContainerColor?: string;
-  /** Disabled content color; maps to AndroidX ButtonColors.disabledContentColor. */
-  disabledContentColor?: string;
-};
+export type ButtonColors = MaterialButtonColors;
 
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   /** AndroidX-inspired color customization. Values may be CSS colors or semantic theme tokens. */
@@ -24,6 +15,9 @@ export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   multiline?: boolean;
 };
 
+type ButtonStyle = MaterialButtonVariant;
+
+const styles = materialButtonVariantStyles;
 
 function MaterialButton({
   variant,
@@ -36,19 +30,13 @@ function MaterialButton({
   type = "button",
   children,
   ...props
-}: ButtonProps & { variant: MaterialButtonVariant }) {
+}: ButtonProps & { variant: ButtonStyle }) {
   const layout = multiline ? "min-w-0 shrink whitespace-pre-line text-center" : "min-w-[58px] shrink-0 whitespace-nowrap";
   const isTextVariant = variant === "text";
   const horizontalPadding = isTextVariant
     ? leadingIcon ? "pl-3 pr-4" : "px-3"
     : leadingIcon ? "pl-4 pr-6" : "px-6";
-  const mergedStyle = {
-    ...style,
-    ...(colors?.containerColor !== undefined ? { "--button-container-color": colors.containerColor } : {}),
-    ...(colors?.contentColor !== undefined ? { "--button-content-color": colors.contentColor } : {}),
-    ...(colors?.disabledContainerColor !== undefined ? { "--button-disabled-container-color": colors.disabledContainerColor } : {}),
-    ...(colors?.disabledContentColor !== undefined ? { "--button-disabled-content-color": colors.disabledContentColor } : {}),
-  } as CSSProperties;
+  const mergedStyle = getMaterialButtonInlineStyle(variant, colors, style);
 
   return (
     <button
@@ -56,13 +44,13 @@ function MaterialButton({
       type={type}
       style={mergedStyle}
       className={[
-        "relative isolate inline-flex min-h-10 items-center justify-center gap-2 rounded-full py-2 text-sm font-medium leading-5 tracking-[.006em]",
+        "relative isolate inline-flex min-h-10 items-center justify-center gap-2 rounded-full py-2 text-sm font-medium leading-5 tracking-[0.1px]",
         layout,
         horizontalPadding,
         "transition-[background-color,border-color,color,box-shadow] duration-[var(--motion-standard)] motion-reduce:transition-none",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]",
         "disabled:pointer-events-none disabled:cursor-not-allowed",
-        materialButtonVariantStyles[variant],
+        styles[variant],
         className,
       ].join(" ")}
       {...props}

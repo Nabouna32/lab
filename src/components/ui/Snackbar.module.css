@@ -25,24 +25,21 @@
   overflow-wrap: anywhere;
 }
 .actions { display: flex; align-items: center; gap: .25rem; flex: 0 0 auto; }
-.action, .dismiss {
+.dismiss {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: 2.75rem;
   min-width: 2.75rem;
   min-height: 2.75rem;
   border: 0;
   border-radius: 999px;
   background: transparent;
-  color: var(--lab-inverse-primary, var(--inverse-primary, #d0bcff));
-  font: inherit;
-  font-size: .875rem;
-  font-weight: 600;
+  color: inherit;
   cursor: pointer;
 }
-.dismiss { width: 2.75rem; color: inherit; }
-.action:hover, .dismiss:hover { background: color-mix(in srgb, currentColor 10%, transparent); }
-.action:focus-visible, .dismiss:focus-visible {
+.dismiss:hover { background: color-mix(in srgb, currentColor 10%, transparent); }
+.dismiss:focus-visible {
   outline: 2px solid currentColor;
   outline-offset: -3px;
 }

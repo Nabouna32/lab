@@ -39,31 +39,6 @@
   transition: transform 160ms cubic-bezier(.2, 0, 0, 1);
 }
 
-.refreshAction {
-  display: block;
-  min-height: 40px;
-  margin: 0 16px 16px auto;
-  padding: 0 16px;
-  border: 0;
-  border-radius: 20px;
-  background: var(--lab-primary, currentColor);
-  color: var(--lab-on-primary, white);
-  font: inherit;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-}
-
-.refreshAction:focus-visible {
-  outline: 2px solid var(--lab-primary, currentColor);
-  outline-offset: 3px;
-}
-
-.refreshAction:disabled {
-  opacity: .38;
-  cursor: not-allowed;
-}
-
 .root[data-refreshing="true"] .spinner {
   animation: spin 800ms linear infinite;
 }

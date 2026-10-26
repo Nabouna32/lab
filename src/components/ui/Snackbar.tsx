@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import styles from "./Snackbar.module.css";
+import { TextButton } from "@/components/ui/Button";
 
 export type SnackbarVariant = "fidelity" | "expressive";
 
@@ -48,16 +49,17 @@ export function Snackbar({
       <span className={styles.message}>{message}</span>
       <div className={styles.actions}>
         {actionLabel && onAction ? (
-          <button
+          <TextButton
             type="button"
-            className={styles.action}
+            className="min-h-11 min-w-[44px] text-[var(--lab-inverse-primary,var(--inverse-primary))]"
+            colors={{ contentColor: "var(--lab-inverse-primary,var(--inverse-primary))" }}
             onClick={() => {
               onAction();
               onDismiss();
             }}
           >
             {actionLabel}
-          </button>
+          </TextButton>
         ) : null}
         <button type="button" className={styles.dismiss} onClick={onDismiss} aria-label={dismissLabel}>
           <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">

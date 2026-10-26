@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useRef, type ReactNode } from "react";
 import styles from "./ModalBottomSheet.module.css";
+import { TextButton } from "@/components/ui/Button";
 
 type ModalBottomSheetProps = {
   open: boolean;
@@ -106,7 +107,7 @@ export function ModalBottomSheet({
         <h2 id={titleId} className={styles.title}>{title}</h2>
         {description && <p id={descriptionId} className={styles.description}>{description}</p>}
         <div className={styles.content}>{children}</div>
-        <button type="button" className={styles.dismiss} onClick={onDismiss}>{dismissLabel}</button>
+        <TextButton type="button" className="mt-2" onClick={onDismiss}>{dismissLabel}</TextButton>
       </section>
     </div>
   );

@@ -1,30 +1,22 @@
 import NextLink, { type LinkProps } from "next/link";
 import type { AnchorHTMLAttributes, ReactNode } from "react";
-import { materialButtonVariantStyles } from "@/components/ui/material-button-variant-styles";
+import type { ButtonColors } from "@/components/ui/Button";
+import { getMaterialButtonInlineStyle, materialButtonVariantStyles, type MaterialButtonVariant } from "@/components/ui/material-button-variant-styles";
+import { ButtonRipple } from "@/components/ui/ButtonRipple";
 
-export type AppLinkVariant =
-  | "inline"
-  | "navigation"
-  | "tonal"
-  | "action-filled"
-  | "action-elevated"
-  | "action-filled-tonal"
-  | "action-outlined"
-  | "action-text";
+export type AppLinkVariant = "inline" | "navigation" | MaterialButtonVariant;
 
 export type AppLinkProps = LinkProps &
   Omit<AnchorHTMLAttributes<HTMLAnchorElement>, keyof LinkProps> & {
     children: ReactNode;
     variant?: AppLinkVariant;
+    /** Apply AndroidX Button leading-icon insets while retaining anchor semantics. */
+    leadingIcon?: boolean;
+    /** Same semantic color overrides as AndroidX ButtonColors, applied to the link appearance. */
+    colors?: ButtonColors;
   };
 
-const actionBaseStyles = [
-  "inline-flex min-h-12 shrink-0 items-center justify-center rounded-full py-2.5 text-sm font-semibold tracking-[.01em]",
-  "transition-[background-color,border-color,color,box-shadow,transform] duration-[var(--motion-standard)] motion-reduce:transition-none",
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]",
-].join(" ");
-
-const variantStyles: Record<AppLinkVariant, string> = {
+const variantStyles: Partial<Record<AppLinkVariant, string>> = {
   inline: [
     "rounded-sm text-[var(--primary)] underline decoration-[var(--outline-variant)] underline-offset-4",
     "transition-colors duration-[var(--motion-standard)] hover:decoration-current",
@@ -38,33 +30,44 @@ const variantStyles: Record<AppLinkVariant, string> = {
     "hover:border-[var(--border)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)]",
     "focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] motion-reduce:transition-none",
   ].join(" "),
-  tonal: [
-    "inline-flex min-h-12 items-center justify-center rounded-full border border-transparent px-3",
-    "text-sm font-semibold text-[var(--muted)] outline-none",
-    "transition-[background-color,color,border-color] duration-[var(--motion-standard)]",
-    "hover:border-[var(--outline-variant)]/60 hover:bg-[var(--primary-container)] hover:text-[var(--on-primary-container)]",
-    "focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] motion-reduce:transition-none",
-  ].join(" "),
-  "action-filled": [actionBaseStyles, "px-5", materialButtonVariantStyles.filled].join(" "),
-  "action-elevated": [actionBaseStyles, "px-5", materialButtonVariantStyles.elevated].join(" "),
-  "action-filled-tonal": [actionBaseStyles, "px-5", materialButtonVariantStyles["filled-tonal"]].join(" "),
-  "action-outlined": [actionBaseStyles, "px-5", materialButtonVariantStyles.outlined].join(" "),
-  "action-text": [actionBaseStyles, "px-3", materialButtonVariantStyles.text].join(" "),
 };
 
 /**
- * Shared semantic link styles. Navigation remains a real anchor; action variants
- * reuse the Material button state-layer styles without changing link semantics.
+ * Shared semantic link styles. Keep navigation as a real anchor and choose
+ * the visual treatment by context rather than using a button for navigation.
  */
 export default function AppLink({
   variant = "inline",
+  leadingIcon = false,
   className = "",
+  style,
+  colors,
+  children,
   ...props
 }: AppLinkProps) {
+  const isMaterialButton = variant === "filled" || variant === "elevated" || variant === "filled-tonal" || variant === "outlined" || variant === "text";
+  const isTextVariant = variant === "text";
+  const horizontalPadding = isTextVariant
+    ? leadingIcon ? "pl-3 pr-4" : "px-3"
+    : leadingIcon ? "pl-4 pr-6" : "px-6";
+  const mergedStyle = getMaterialButtonInlineStyle(isMaterialButton ? variant as MaterialButtonVariant : null, colors, style);
+  const materialButtonLayout = [
+    "relative isolate inline-flex min-h-10 min-w-[58px] shrink-0 items-center justify-center gap-2 rounded-full py-2 text-sm font-medium leading-5 tracking-[0.1px] whitespace-nowrap",
+    horizontalPadding,
+    "transition-[background-color,border-color,color,box-shadow] duration-[var(--motion-standard)] motion-reduce:transition-none",
+    "outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]",
+    materialButtonVariantStyles[variant as MaterialButtonVariant],
+  ].join(" ");
+
   return (
     <NextLink
       {...props}
-      className={[variantStyles[variant], className].filter(Boolean).join(" ")}
-    />
+      data-material-button-link={isMaterialButton ? "true" : undefined}
+      style={mergedStyle}
+      className={[isMaterialButton ? materialButtonLayout : variantStyles[variant], className].filter(Boolean).join(" ")}
+    >
+      {children}
+      {isMaterialButton ? <ButtonRipple /> : null}
+    </NextLink>
   );
 }

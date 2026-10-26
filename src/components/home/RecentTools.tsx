@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
+import { TextButton } from "@/components/ui/Button";
 import { RECENT_TOOLS_EVENT, RECENT_TOOLS_STORAGE_KEY, parseRecentToolIds } from "@/lib/tools/recent-tools";
 import type { ToolId } from "@/lib/tools/types";
 import type { Locale } from "@/lib/i18n/config";
@@ -73,9 +74,9 @@ export default function RecentTools({ locale, tools }: { locale: Locale; tools: 
             <h2 id="recent-tools-title" className="text-base font-bold text-[var(--foreground)]">{t.home.recentToolsTitle}</h2>
             <p className="mt-1 text-sm text-[var(--muted)]">{t.home.recentToolsDescription}</p>
           </div>
-          <button type="button" onClick={clear} className="min-h-11 rounded-full px-3 text-sm font-semibold text-[var(--accent)] outline-none hover:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]">
+          <TextButton type="button" onClick={clear} className="shrink-0">
             {t.home.clearRecentTools}
-          </button>
+          </TextButton>
         </div>
         <ul className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
           {recentTools.map((tool) => (

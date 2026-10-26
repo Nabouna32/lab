@@ -13,19 +13,19 @@ export default function Footer({ locale }: { locale: Locale }) {
           aria-label={t.footer.navigationLabel}
           className="flex flex-wrap items-center gap-x-1 gap-y-1"
         >
-          <AppLink href={getAboutPath(locale)} variant="tonal">
+          <AppLink href={getAboutPath(locale)} variant="text">
             {t.footer.about}
           </AppLink>
-          <AppLink href={getContactPath(locale)} variant="tonal">
+          <AppLink href={getContactPath(locale)} variant="text">
             {t.footer.contact}
           </AppLink>
-          <AppLink href={getBugReportPath(locale)} variant="tonal">
+          <AppLink href={getBugReportPath(locale)} variant="text">
             {t.footer.reportBug}
           </AppLink>
-          <AppLink href={getLegalNoticePath(locale)} variant="tonal">
+          <AppLink href={getLegalNoticePath(locale)} variant="text">
             {t.footer.legalNotice}
           </AppLink>
-          <AppLink href={getPrivacyPolicyPath(locale)} variant="tonal">
+          <AppLink href={getPrivacyPolicyPath(locale)} variant="text">
             {t.footer.privacyPolicy}
           </AppLink>
         </nav>

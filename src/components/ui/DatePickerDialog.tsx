@@ -3,6 +3,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import type { DateRangeValue } from "@/components/ui/DatePicker";
 import { DatePicker } from "@/components/ui/DatePicker";
+import { Button, TextButton } from "@/components/ui/Button";
 import styles from "./DatePickerDialog.module.css";
 
 export type DatePickerSelection =
@@ -102,8 +103,8 @@ function DatePickerDialogContent({
           locale={locale}
         />
         <div className={styles.actions}>
-          <button ref={cancelRef} type="button" className={styles.textAction} onClick={onDismiss}>{cancelLabel}</button>
-          <button type="button" className={styles.confirmAction} onClick={() => { onConfirm(mode === "single" ? { mode: "single", value: draftDate } : { mode: "range", value: draftRange }); onDismiss(); }}>{confirmLabel}</button>
+          <TextButton ref={cancelRef} type="button" onClick={onDismiss}>{cancelLabel}</TextButton>
+          <Button type="button" onClick={() => { onConfirm(mode === "single" ? { mode: "single", value: draftDate } : { mode: "range", value: draftRange }); onDismiss(); }}>{confirmLabel}</Button>
         </div>
       </div>
     </div>

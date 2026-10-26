@@ -10,6 +10,10 @@ type RippleState = {
   released: boolean;
 };
 
+function isDisabledControl(control: HTMLElement) {
+  return (control instanceof HTMLButtonElement && control.disabled) || control.getAttribute("aria-disabled") === "true";
+}
+
 function getRippleGeometry(x: number, y: number, width: number, height: number) {
   const farthestCorner = Math.max(
     Math.hypot(x, y),
@@ -30,23 +34,26 @@ export function ButtonRipple() {
 
   useEffect(() => {
     const candidate = layerRef.current?.parentElement;
-    if (!(candidate instanceof HTMLButtonElement)) return;
-    const button: HTMLButtonElement = candidate;
+    if (!(candidate instanceof HTMLButtonElement) && !(candidate instanceof HTMLAnchorElement)) return;
+    const control: HTMLButtonElement | HTMLAnchorElement = candidate;
 
     function release(id: number) {
       setRipples((current) => current.map((ripple) => ripple.id === id ? { ...ripple, released: true } : ripple));
     }
 
-    function handleKeyDown(event: KeyboardEvent) {
-      if ((event.key !== " " && event.key !== "Enter") || event.repeat || button.hasAttribute("disabled")) return;
-      if (activeKeys.current.has(event.key)) return;
+    function handleKeyDown(event: Event) {
+      const keyboardEvent = event as KeyboardEvent;
+      const isAnchor = control instanceof HTMLAnchorElement;
+      if ((isAnchor ? keyboardEvent.key !== "Enter" : keyboardEvent.key !== " " && keyboardEvent.key !== "Enter") || keyboardEvent.repeat || isDisabledControl(control)) return;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      if (activeKeys.current.has(keyboardEvent.key)) return;
 
-      const rect = button.getBoundingClientRect();
+      const rect = control.getBoundingClientRect();
       const x = rect.width / 2;
       const y = rect.height / 2;
       const { left, top, diameter } = getRippleGeometry(x, y, rect.width, rect.height);
       const id = ++nextId.current;
-      activeKeys.current.set(event.key, id);
+      activeKeys.current.set(keyboardEvent.key, id);
       setRipples((current) => [...current, {
         id,
         left,
@@ -56,10 +63,11 @@ export function ButtonRipple() {
       }]);
     }
 
-    function handleKeyUp(event: KeyboardEvent) {
-      const id = activeKeys.current.get(event.key);
+    function handleKeyUp(event: Event) {
+      const keyboardEvent = event as KeyboardEvent;
+      const id = activeKeys.current.get(keyboardEvent.key);
       if (id === undefined) return;
-      activeKeys.current.delete(event.key);
+      activeKeys.current.delete(keyboardEvent.key);
       release(id);
     }
 
@@ -68,22 +76,33 @@ export function ButtonRipple() {
       activeKeys.current.clear();
     }
 
-    button.addEventListener("keydown", handleKeyDown);
-    button.addEventListener("keyup", handleKeyUp);
-    button.addEventListener("blur", handleBlur);
+    const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    function handleMotionPreferenceChange(event: MediaQueryListEvent) {
+      if (!event.matches) return;
+      activePointers.current.clear();
+      activeKeys.current.clear();
+      setRipples([]);
+    }
+
+    motionPreference.addEventListener("change", handleMotionPreferenceChange);
+    control.addEventListener("keydown", handleKeyDown);
+    control.addEventListener("keyup", handleKeyUp);
+    control.addEventListener("blur", handleBlur);
     return () => {
-      button.removeEventListener("keydown", handleKeyDown);
-      button.removeEventListener("keyup", handleKeyUp);
-      button.removeEventListener("blur", handleBlur);
+      motionPreference.removeEventListener("change", handleMotionPreferenceChange);
+      control.removeEventListener("keydown", handleKeyDown);
+      control.removeEventListener("keyup", handleKeyUp);
+      control.removeEventListener("blur", handleBlur);
     };
   }, []);
 
   function handlePointerDown(event: PointerEvent<HTMLSpanElement>) {
     if (!event.isPrimary || (event.pointerType === "mouse" && event.button !== 0)) return;
-    const button = event.currentTarget.parentElement;
-    if (!button || button.hasAttribute("disabled")) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const control = event.currentTarget.parentElement;
+    if (!control || isDisabledControl(control)) return;
 
-    const rect = button.getBoundingClientRect();
+    const rect = control.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
     const { left, top, diameter } = getRippleGeometry(x, y, rect.width, rect.height);

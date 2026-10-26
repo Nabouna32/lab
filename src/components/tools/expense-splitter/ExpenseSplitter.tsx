@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { calculateExpenseSettlement, type SharedExpense } from "@/lib/expense-splitter";
+import { Button, OutlinedButton } from "@/components/ui/Button";
 
 type Participant = { id: string; name: string };
 type Currency = "EUR" | "USD" | "GBP" | "CHF" | "CAD";
@@ -32,7 +33,6 @@ const copy = {
 } as const;
 
 const inputClass = "mt-1 w-full min-w-0 rounded-xl border border-[var(--outline-variant)] bg-[var(--surface)] px-3 py-2.5 text-sm text-[var(--foreground)] outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]";
-const buttonClass = "inline-flex min-h-10 items-center justify-center rounded-xl border border-[var(--outline-variant)] px-3 py-2 text-sm font-semibold text-[var(--foreground)] outline-none transition-colors hover:bg-[var(--surface-container)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] disabled:cursor-not-allowed disabled:opacity-50";
 
 export default function ExpenseSplitter() {
   const locale = useLocale();
@@ -140,7 +140,7 @@ export default function ExpenseSplitter() {
                 {t.personName} {index + 1}
                 <input className={inputClass} value={person.name} maxLength={60} onChange={(event) => updateParticipant(person.id, event.target.value)} />
               </label>
-              <button type="button" className={buttonClass} onClick={() => removeParticipant(person.id)} disabled={participants.length <= 1} aria-label={`${t.removePerson}: ${person.name}`}>{t.removePerson}</button>
+              <OutlinedButton type="button" onClick={() => removeParticipant(person.id)} disabled={participants.length <= 1} aria-label={`${t.removePerson}: ${person.name}`}>{t.removePerson}</OutlinedButton>
             </div>
           ))}
         </div>
@@ -149,7 +149,7 @@ export default function ExpenseSplitter() {
             {t.personName}
             <input className={inputClass} value={newPerson} maxLength={60} onChange={(event) => setNewPerson(event.target.value)} placeholder={locale === "fr" ? "Nouveau participant" : "New participant"} />
           </label>
-          <button type="submit" className={buttonClass} disabled={!newPerson.trim() || participants.length >= 30}>{t.addPerson}</button>
+          <Button type="submit" disabled={!newPerson.trim() || participants.length >= 30}>{t.addPerson}</Button>
         </form>
       </section>
 
@@ -175,7 +175,7 @@ export default function ExpenseSplitter() {
             </select>
           </label>
           <div className="sm:col-span-2">
-            <button type="submit" className={buttonClass} disabled={participants.length < 2}>{t.addExpense}</button>
+            <Button type="submit" disabled={participants.length < 2}>{t.addExpense}</Button>
           </div>
         </form>
         {expenses.length === 0 ? <p className="mt-4 text-sm text-[var(--muted)]">{t.noExpenses}</p> : (
@@ -188,7 +188,7 @@ export default function ExpenseSplitter() {
                 </div>
                 <div className="flex shrink-0 items-center gap-2">
                   <span className="text-sm font-semibold tabular-nums">{formatMoney(expense.amountCents)}</span>
-                  <button type="button" className={buttonClass} onClick={() => { setExpenses((current) => current.filter((item) => item.id !== expense.id)); setError(""); }}>{t.removeExpense}</button>
+                  <OutlinedButton type="button" onClick={() => { setExpenses((current) => current.filter((item) => item.id !== expense.id)); setError(""); }}>{t.removeExpense}</OutlinedButton>
                 </div>
               </li>
             ))}
@@ -238,7 +238,7 @@ export default function ExpenseSplitter() {
               </ol>
             )}
             <div className="mt-4 flex flex-wrap items-center gap-3">
-              <button type="button" className={buttonClass} onClick={copySummary}>{t.copySettlement}</button>
+              <OutlinedButton type="button" onClick={copySummary}>{t.copySettlement}</OutlinedButton>
               {copyMessage && <span role="status" className="text-sm text-[var(--muted)]">{copyMessage}</span>}
             </div>
           </div>
