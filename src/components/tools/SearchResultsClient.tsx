@@ -198,10 +198,10 @@ export default function SearchResultsClient({ locale }: { locale: Locale }) {
           </>
         ) : (
           <section className="mt-5 rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8" aria-labelledby="search-results-empty-title">
-            <h2 id="search-results-empty-title" className="text-xl font-bold tracking-[-0.03em] sm:text-2xl">
+            <h2 id="search-results-empty-title" className="m3-type-headline-small">
               {t.tools.noResults} « {query} »
             </h2>
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--muted)]">{t.tools.noResultsHelp}</p>
+            <p className="m3-type-body-medium mt-2 max-w-2xl text-[var(--muted)]">{t.tools.noResultsHelp}</p>
             <p className="m3-type-label-small mt-5 uppercase text-[var(--muted)]">{t.tools.tryThese}</p>
             <div className="mt-3 flex flex-wrap gap-2">
               {t.tools.noResultsSuggestions.map((suggestion) => (
