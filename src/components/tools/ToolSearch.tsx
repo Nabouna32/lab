@@ -335,7 +335,7 @@ export default function ToolSearch({
             </div>
           ) : searchError ? (
             <div className="px-4 py-5" role="alert">
-              <p className="text-sm font-medium text-[var(--foreground)]">{t.tools.searchError}</p>
+              <p className="m3-type-body-medium text-[var(--foreground)]">{t.tools.searchError}</p>
               <OutlinedButton
                 type="button"
                 onMouseDown={(event) => event.preventDefault()}
@@ -390,7 +390,7 @@ export default function ToolSearch({
                           <HighlightMatch text={content.name} query={query} />
                         </span>
                         <span className="m3-type-body-small mt-1 block line-clamp-2 opacity-80">
-                          <span className="font-medium">{getCategoryName(locale, getPrimaryToolCategory(tool))}</span>
+                          <span className="m3-type-label-large">{getCategoryName(locale, getPrimaryToolCategory(tool))}</span>
                           <span aria-hidden="true"> · </span>
                           {content.description}
                         </span>
