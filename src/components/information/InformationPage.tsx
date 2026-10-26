@@ -80,7 +80,7 @@ export default function InformationPage({ locale, kind }: { locale: Locale; kind
         <h2 id="status-title" className="font-semibold text-[var(--foreground)]">{page.statusTitle}</h2>
         <p className="mt-2 leading-7 text-[var(--muted)]">{page.status}</p>
       </aside>
-      <p className="mt-6 text-sm leading-6 text-[var(--muted)]">{page.nextStep}</p>
+      <p className="text-sm leading-6 text-[var(--muted)]">{page.nextStep}</p>
             </PageStack>
       </article>
       </PageContainer>
