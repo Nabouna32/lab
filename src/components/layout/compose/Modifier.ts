@@ -102,6 +102,8 @@ export class Modifier {
   toStyle(): CSSProperties {
     const padding: PaddingValues = { inlineStart: 0, blockStart: 0, inlineEnd: 0, blockEnd: 0 };
     let hasPadding = false;
+    let minWidth: number | undefined;
+    let maxWidth: number | undefined;
     let style: CSSProperties = {};
 
     for (const operation of this.operations) {
@@ -114,16 +116,15 @@ export class Modifier {
       } else if (operation.kind === "fillMaxWidth") {
         style = { ...style, width: "100%" };
       } else {
-        style = {
-          ...style,
-          ...(operation.min === undefined ? {} : { minWidth: `${operation.min}px` }),
-          ...(operation.max === undefined ? {} : { maxWidth: `${operation.max}px` }),
-        };
+        if (operation.min !== undefined) minWidth = Math.max(minWidth ?? 0, operation.min);
+        if (operation.max !== undefined) maxWidth = Math.min(maxWidth ?? Number.POSITIVE_INFINITY, operation.max);
       }
     }
 
     return {
       ...style,
+      ...(minWidth === undefined ? {} : { minWidth: `${minWidth}px` }),
+      ...(maxWidth === undefined || maxWidth === Number.POSITIVE_INFINITY ? {} : { maxWidth: `${maxWidth}px` }),
       ...(hasPadding ? {
         paddingInlineStart: `${padding.inlineStart}px`,
         paddingBlockStart: `${padding.blockStart}px`,
