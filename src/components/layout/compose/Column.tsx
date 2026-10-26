@@ -21,7 +21,7 @@ export function Column({
   className,
   style,
 }: ColumnProps) {
-  const justifyContent = verticalArrangement.kind === "spacedBy"
+  const justifyContent = verticalArrangement.kind === "spacedBy" || verticalArrangement.kind === "spacedByCss"
     ? "flex-start"
     : ({
         top: "flex-start",
