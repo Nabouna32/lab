@@ -6,6 +6,6 @@
 .root input:checked + .indicator span { transform: scale(1); }
 .root input:focus-visible + .indicator { outline: 2px solid var(--lab-primary, var(--focus-ring, currentColor)); outline-offset: 3px; }
 .root:hover .indicator { background-color: color-mix(in srgb, currentColor 8%, transparent); }
-.label { font-size: 14px; line-height: 20px; }
+.label { font-size: var(--m3-type-label-large-size); line-height: var(--m3-type-label-large-line-height); font-weight: var(--m3-type-label-large-weight); letter-spacing: var(--m3-type-label-large-tracking); }
 .disabled { opacity: .38; cursor: not-allowed; }
 @media (prefers-reduced-motion: reduce) { .indicator, .indicator span { transition: none; } }
