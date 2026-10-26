@@ -21,16 +21,35 @@ export function Column({
   className,
   style,
 }: ColumnProps) {
-  const justifyContent = verticalArrangement.kind === "spacedBy" || verticalArrangement.kind === "spacedByCss"
-    ? "flex-start"
-    : ({
+  const justifyContent = (() => {
+    if (verticalArrangement.kind === "spacedBy" || verticalArrangement.kind === "spacedByCss") {
+      if (verticalArrangement.kind === "spacedBy" && verticalArrangement.alignment) {
+        return ({
+          top: "flex-start",
+          centerVertically: "center",
+          bottom: "flex-end",
+        } as const)[verticalArrangement.alignment];
+      }
+      return "flex-start";
+    }
+
+    if (verticalArrangement.kind === "aligned") {
+      return ({
         top: "flex-start",
+        centerVertically: "center",
         bottom: "flex-end",
-        center: "center",
-        spaceBetween: "space-between",
-        spaceAround: "space-around",
-        spaceEvenly: "space-evenly",
-      } as const)[verticalArrangement.kind];
+      } as const)[verticalArrangement.alignment];
+    }
+
+    return ({
+      top: "flex-start",
+      bottom: "flex-end",
+      center: "center",
+      spaceBetween: "space-between",
+      spaceAround: "space-around",
+      spaceEvenly: "space-evenly",
+    } as const)[verticalArrangement.kind];
+  })();
 
   const alignItems = ({
     start: "flex-start",
