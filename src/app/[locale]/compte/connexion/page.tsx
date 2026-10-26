@@ -27,7 +27,7 @@ export default async function SignInPage({
     return (
       <main className="mx-auto flex min-h-[calc(100vh-4.5rem)] max-w-2xl items-center px-4 py-12">
         <Panel as="section" className="w-full text-center">
-          <h1 className="text-2xl font-bold">{t.account.alreadySignedIn}</h1>
+          <h1 className="m3-type-headline-small">{t.account.alreadySignedIn}</h1>
           <Link className="mt-6 inline-flex font-semibold text-[var(--accent)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]" href={`/${locale}/compte`}>
             {t.account.title}
           </Link>
@@ -39,10 +39,10 @@ export default async function SignInPage({
   return (
     <main className="mx-auto flex min-h-[calc(100vh-4.5rem)] max-w-md items-center px-4 py-12">
       <Panel as="section" className="w-full">
-        <p className="text-sm font-semibold text-[var(--accent)]">{t.account.label}</p>
-        <h1 className="mt-2 text-3xl font-bold tracking-tight">{t.account.signIn}</h1>
+        <p className="m3-type-label-large text-[var(--accent)]">{t.account.label}</p>
+        <h1 className="m3-type-headline-large mt-2">{t.account.signIn}</h1>
         {query.status === "confirmation" && (
-          <div className="mt-5 border-l-2 border-[var(--success)] py-1 pl-3 text-sm text-[var(--success-foreground)]">
+          <div className="m3-type-body-medium mt-5 border-l-2 border-[var(--success)] py-1 pl-3 text-[var(--success-foreground)]">
             <p>{t.account.confirmation}</p>
             <form action={resendConfirmation} className="mt-4 space-y-3">
               <input type="hidden" name="locale" value={locale} />
@@ -60,7 +60,7 @@ export default async function SignInPage({
           <p className="mt-5 border-l-2 border-[var(--success)] py-1 pl-3 text-sm text-[var(--success-foreground)]" role="status">{t.account.accountDeleted}</p>
         )}
         {query.error && (
-          <p className="mt-5 border-l-2 border-[var(--danger)] py-1 pl-3 text-sm text-[var(--danger-foreground)]" role="alert">
+          <p className="m3-type-body-medium mt-5 border-l-2 border-[var(--danger)] py-1 pl-3 text-[var(--danger-foreground)]" role="alert">
             {query.error === "rate-limited" ? t.account.authRateLimited : query.error === "invalid" ? t.account.invalidEmail : t.account.signInError}
           </p>
         )}
@@ -77,7 +77,7 @@ export default async function SignInPage({
             </Link>
           </div>
         </form>
-        <p className="mt-6 border-t border-[var(--border)] pt-5 text-center text-sm text-[var(--muted)]">
+        <p className="m3-type-body-medium mt-6 border-t border-[var(--border)] pt-5 text-center text-[var(--muted)]">
           {t.account.noAccount}{" "}
           <Link className="font-semibold text-[var(--accent)] hover:underline" href={`/${locale}/compte/inscription`}>{t.account.signUp}</Link>
         </p>
