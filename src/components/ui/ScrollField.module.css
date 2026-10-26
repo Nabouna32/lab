@@ -57,7 +57,9 @@
   background: transparent;
   color: var(--lab-on-surface-variant, currentColor);
   font: inherit;
-  font-size: 14px;
+  font-size: var(--m3-type-body-large-size);
+  line-height: var(--m3-type-body-large-line-height);
+  letter-spacing: var(--m3-type-body-large-tracking);
   font-variant-numeric: tabular-nums;
   cursor: pointer;
 }
@@ -65,8 +67,10 @@
 .option[aria-selected="true"] {
   background: var(--lab-primary-container, var(--md-sys-color-primary-container, transparent));
   color: var(--lab-on-primary-container, var(--md-sys-color-on-primary-container, currentColor));
-  font-size: 18px;
-  font-weight: 600;
+  font-size: var(--m3-type-title-medium-size);
+  line-height: var(--m3-type-title-medium-line-height);
+  font-weight: var(--m3-type-title-medium-weight);
+  letter-spacing: var(--m3-type-title-medium-tracking);
 }
 
 .option:focus-visible,
