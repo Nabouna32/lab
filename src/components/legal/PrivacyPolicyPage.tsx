@@ -3,6 +3,7 @@ import type { Locale } from "@/lib/i18n/config";
 import { getPrivacyPolicyContent } from "@/lib/legal/privacy-policy-content";
 import { getPrivacyPolicyPath } from "@/lib/tools/routes";
 import { getPublicPageMetadata } from "@/lib/tools/page-metadata";
+import { PageContainer } from "@/components/layout/PageLayout";
 
 export function getPrivacyPolicyMetadata(locale: Locale): Metadata {
   const page = getPrivacyPolicyContent(locale);
@@ -11,8 +12,9 @@ export function getPrivacyPolicyMetadata(locale: Locale): Metadata {
 
 export default function PrivacyPolicyPage({ locale }: { locale: Locale }) {
   const page = getPrivacyPolicyContent(locale);
-  return <main className="min-h-full px-4 py-8 sm:px-6 lg:px-10" aria-labelledby="privacy-title">
-    <article className="mx-auto max-w-3xl rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8">
+  return <main className="min-h-full" aria-labelledby="privacy-title">
+    <PageContainer width="narrow" spacing="none" className="py-[var(--space-8)]">
+    <article className="rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8">
       <h1 id="privacy-title" className="text-3xl font-bold text-[var(--foreground)]">{page.title}</h1>
       <p className="mt-3 text-sm text-[var(--muted)]">{page.updatedLabel}: {page.updatedAt}</p>
       <aside className="mt-6 rounded-2xl border border-[var(--border)] p-4" aria-label={page.temporaryNoticeTitle}>
@@ -33,5 +35,6 @@ export default function PrivacyPolicyPage({ locale }: { locale: Locale }) {
         <p className="mt-3 leading-7">{page.contactWarning}</p>
       </section>
     </article>
+    </PageContainer>
   </main>;
 }
