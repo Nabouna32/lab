@@ -17,7 +17,7 @@ export default function PrivacyPolicyPage({ locale }: { locale: Locale }) {
     <article className="rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-[var(--space-6)] sm:p-[var(--space-8)]">
       <h1 id="privacy-title" className="text-3xl font-bold text-[var(--foreground)]">{page.title}</h1>
       <p className="mt-[var(--space-3)] text-sm text-[var(--muted)]">{page.updatedLabel}: {page.updatedAt}</p>
-      <aside className="mt-[var(--space-6)] rounded-2xl border border-[var(--border)] p-4" aria-label={page.temporaryNoticeTitle}>
+      <aside className="mt-[var(--space-6)] rounded-2xl border border-[var(--border)] p-[var(--space-4)]" aria-label={page.temporaryNoticeTitle}>
         <h2 className="font-semibold">{page.temporaryNoticeTitle}</h2>
         <p className="mt-[var(--space-2)] text-sm leading-6">{page.temporaryNotice}</p>
       </aside>
