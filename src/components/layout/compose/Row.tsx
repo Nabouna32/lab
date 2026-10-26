@@ -70,7 +70,7 @@ export function Row({
     bottom: "flex-end",
   } as const)[verticalAlignment];
 
-  return (
+  const layout = (
     <div
       className={layoutClassName || undefined}
       style={{
@@ -79,11 +79,12 @@ export function Row({
         justifyContent,
         alignItems,
         ...spacingStyle,
-        ...modifier?.toStyle(),
         ...style,
       }}
     >
       {children}
     </div>
   );
+
+  return modifier ? modifier.wrap(layout) : layout;
 }
