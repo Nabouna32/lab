@@ -32,7 +32,7 @@ export default async function ChangeEmailPage({
         <h1 className="m3-type-headline-large mt-2">{t.account.changeEmailTitle}</h1>
         <p className="m3-type-body-medium mt-3 text-[var(--muted)]">{t.account.changeEmailDescription}</p>
         <p className="m3-type-body-medium mt-5 border-l-2 border-[var(--border-strong)] py-1 pl-3">
-          <span className="font-semibold">{t.account.emailAddress}:</span> {data.user.email}
+          <span className="m3-type-label-large">{t.account.emailAddress}:</span> {data.user.email}
         </p>
         {query.status === "confirmation" ? (
           <p className="m3-type-body-medium mt-5 border-l-2 border-[var(--success)] py-1 pl-3 text-[var(--success-foreground)]" role="status">{t.account.emailChangeConfirmation}</p>
@@ -49,7 +49,7 @@ export default async function ChangeEmailPage({
             {t.account.changeEmail}
           </SubmitButton>
         </form>
-        <Link className="mt-6 inline-flex font-semibold text-[var(--accent)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]" href={`/${locale}/compte`}>
+        <Link className="m3-type-label-large mt-6 inline-flex text-[var(--accent)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]" href={`/${locale}/compte`}>
           {t.account.title}
         </Link>
       </Panel>
