@@ -120,7 +120,7 @@ export default async function AccountPage({
 
           <section className="rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow-sm)] sm:p-7" aria-labelledby="account-security-title">
             <div className="border-b border-[var(--border)] pb-4">
-              <h2 id="account-security-title" className="text-lg font-black">{t.account.security}</h2>
+              <h2 id="account-security-title" className="m3-type-title-large">{t.account.security}</h2>
             </div>
             <div className="mt-1 divide-y divide-[var(--border)]">
               <Link
@@ -138,8 +138,8 @@ export default async function AccountPage({
                 href={`/${locale}/compte/mot-de-passe`}
               >
                 <span>
-                  <span className="block font-bold">{t.account.changePassword}</span>
-                  <span className="mt-1 block text-sm text-[var(--muted)]">{t.account.password}</span>
+                  <span className="m3-type-title-medium block">{t.account.changePassword}</span>
+                  <span className="m3-type-body-medium mt-1 block text-[var(--muted)]>{t.account.password}</span>
                 </span>
                 <MaterialIcon name="chevron_right" size={20} className="h-5 w-5 text-[var(--muted)] transition-transform group-hover:translate-x-1" />
               </Link>
