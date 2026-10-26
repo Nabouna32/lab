@@ -119,10 +119,12 @@ test("AndroidX-named layout ports provide explicit spacing and product page comp
 });
 
 
-test("PageContainer exposes a shared form width preset", () => {
-  assert.ok(pageLayoutSource.includes('"form" | "narrow"'));
+test("PageContainer exposes centralized form widths for standard and wider forms", () => {
+  assert.ok(pageLayoutSource.includes('"form" | "form-wide" | "narrow"'));
   assert.ok(pageLayoutSource.includes('form: "max-w-[var(--layout-content-form)]"'));
+  assert.ok(pageLayoutSource.includes('"form-wide": "max-w-[var(--layout-content-form-wide)]"'));
   assert.ok(globalCss.includes("--layout-content-form: 28rem"));
+  assert.ok(globalCss.includes("--layout-content-form-wide: 36rem"));
 });
 
 test("admin and category pages share the canonical page container and spacing tokens", () => {
@@ -143,6 +145,11 @@ test("Arrangement.spacedBy returns a validated explicit Web gap", () => {
     space: "var(--layout-content-gap)",
   });
   assert.throws(() => Arrangement.spacedByCss("  "), TypeError);
+});
+
+test("Modifier.widthIn composes chained constraints instead of discarding earlier bounds", () => {
+  assert.deepEqual(Modifier.widthIn({ min: 200 }).then(Modifier.widthIn({ max: 400 })).toStyle(), { minWidth: "200px", maxWidth: "400px" });
+  assert.deepEqual(Modifier.widthIn({ min: 200, max: 600 }).then(Modifier.widthIn({ min: 250, max: 500 })).toStyle(), { minWidth: "250px", maxWidth: "500px" });
 });
 
 test("Modifier supports Compose-shaped padding overloads and ordered composition", () => {
