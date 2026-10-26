@@ -1,8 +1,9 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { test } from "node:test";
 
 const homeSource = readFileSync(new URL("../../app/[locale]/page.tsx", import.meta.url), "utf8");
+const globalStylesSource = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
+const rainbowTonesSource = readFileSync(new URL("./rainbow-tones.ts", import.meta.url), "utf8");
 const headerSource = readFileSync(new URL("../../components/layout/Header.tsx", import.meta.url), "utf8");
 const headerSearchSource = readFileSync(new URL("../../components/layout/HeaderSearch.tsx", import.meta.url), "utf8");
 const messagesSource = readFileSync(new URL("../i18n/messages.ts", import.meta.url), "utf8");
@@ -18,6 +19,14 @@ test("homepage prioritizes its main search, recent tools, guided workflows and E
   assert.match(searchResultsSource, /t\.home\.quickLinks/);
   assert.match(searchResultsSource, /t\.home\.quickLinksLabel/);
   assert.match(messagesSource, /explore:/);
+});
+
+test("homepage hero uses the shared Material card instead of the bespoke rainbow frame", () => {
+  assert.match(homeSource, /import \{ Card \} from "@\/components\/ui\/Card"/);
+  assert.match(homeSource, /<Card[\s\S]*?variant="elevated"/);
+  assert.doesNotMatch(homeSource, /home-rainbow-frame|home-command-surface|getRainbowFrameStyle/);
+  assert.doesNotMatch(globalStylesSource, /home-rainbow-frame|home-command-surface/);
+  assert.doesNotMatch(rainbowTonesSource, /getRainbowFrameStyle|home-rainbow/);
 });
 
 test("global header search is icon-triggered at every breakpoint without a second desktop input", () => {
