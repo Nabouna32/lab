@@ -33,16 +33,16 @@ export class ModifierElement {
     }
 
     if (values.length === 2) {
-      return this.append((style) => ({ ...style, paddingInline: `${first}px`, paddingBlock: `${second}px` }));
+      return this.append((style) => ({ ...style, paddingInline: `${first}px`, paddingBlock: `${second!}px` }));
     }
 
     if (values.length === 4) {
       return this.append((style) => ({
         ...style,
         paddingInlineStart: `${first}px`,
-        paddingBlockStart: `${second}px`,
-        paddingInlineEnd: `${third}px`,
-        paddingBlockEnd: `${fourth}px`,
+        paddingBlockStart: `${second!}px`,
+        paddingInlineEnd: `${third!}px`,
+        paddingBlockEnd: `${fourth!}px`,
       }));
     }
 
