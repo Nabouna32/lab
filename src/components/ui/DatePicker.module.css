@@ -96,7 +96,7 @@
 .day.selected {
   background: var(--lab-primary, var(--md-sys-color-primary, currentColor));
   color: var(--lab-on-primary, var(--md-sys-color-on-primary, white));
-  font-weight: 600;
+  font-weight: var(--m3-type-label-medium-weight);
 }
 
 .day.inRange:not(.selected) {
