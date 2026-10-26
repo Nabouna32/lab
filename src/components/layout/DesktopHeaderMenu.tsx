@@ -172,8 +172,8 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
             <MaterialIcon name="apps" size={18} />
           </span>
           <span className="min-w-0 flex-1">
-            <span className="block text-sm font-semibold text-[var(--foreground)]">{t.nav.explore}</span>
-            <span className="mt-0.5 block text-xs text-[var(--muted)]">{t.nav.exploreDescription}</span>
+            <span className="m3-type-label-large block text-[var(--foreground)]">{t.nav.explore}</span>
+            <span className="m3-type-body-small mt-0.5 block text-[var(--muted)]">{t.nav.exploreDescription}</span>
           </span>
         </Link>
 
@@ -222,7 +222,7 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
         <div className="my-1.5 h-px bg-[var(--border)]" />
 
         <div className="px-2 pb-1 pt-1">
-          <p className="px-1 text-[11px] font-bold uppercase tracking-[0.16em] text-[var(--muted)]">{t.nav.language}</p>
+          <p className="m3-type-label-small px-1 uppercase text-[var(--muted)]">{t.nav.language}</p>
           <div className="mt-1 grid grid-cols-2 gap-1">
             {locales.map((item) => {
               const language = getLanguage(item);
@@ -271,7 +271,7 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
         <div className="my-1.5 h-px bg-[var(--border)]" />
 
         <div className="px-2 pb-1 pt-1">
-          <p className="px-1 text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--muted)]">{t.theme.title}</p>
+          <p className="m3-type-label-small px-1 uppercase text-[var(--muted)]">{t.theme.title}</p>
           <div className="mt-1 grid grid-cols-3 gap-1">
             {[
               { value: "system", label: t.theme.system, icon: "system" },
