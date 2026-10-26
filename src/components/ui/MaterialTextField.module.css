@@ -179,8 +179,9 @@
   min-height: 16px;
   padding-inline: 16px;
   color: var(--lab-on-surface-variant, currentColor);
-  font-size: 12px;
-  line-height: 16px;
+  font-size: var(--m3-type-body-small-size);
+  line-height: var(--m3-type-body-small-line-height);
+  letter-spacing: var(--m3-type-body-small-tracking);
 }
 
 .error {
