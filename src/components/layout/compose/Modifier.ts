@@ -106,7 +106,11 @@ function operationStyle(operation: ModifierOperation): CSSProperties {
 }
 
 class ModifierChain {
-  private constructor(private readonly operations: readonly ModifierOperation[]) {}
+  private readonly operations: readonly ModifierOperation[];
+
+  private constructor(operations: readonly ModifierOperation[]) {
+    this.operations = operations;
+  }
 
   static empty(): ModifierChain {
     return new ModifierChain([]);
