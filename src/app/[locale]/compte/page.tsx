@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { signOut, updateProfile } from "./actions";
 import AppLink from "@/components/ui/AppLink";
+import { PageContainer } from "@/components/layout/PageLayout";
 import SubmitButton from "@/components/account/SubmitButton";
 import { Panel } from "@/components/ui/Panel";
 import { TextField } from "@/components/ui/TextField";
@@ -29,8 +30,8 @@ export default async function AccountPage({
 
   if (!userData.user) {
     return (
-      <main className="min-h-full px-4 py-8 sm:px-6 sm:py-10">
-        <div className="mx-auto flex min-h-[calc(100svh-12rem)] max-w-2xl items-center">
+      <main className="min-h-full">
+        <PageContainer width="account" spacing="none" className="flex min-h-[calc(100svh-12rem)] items-center py-[var(--space-8)] sm:py-[var(--space-10)]">
           <Panel as="section" className="w-full overflow-hidden p-6 sm:p-9">
             <div className="mb-6 h-1.5 w-16 rounded-full bg-[var(--accent)]" aria-hidden="true" />
             <h1 className="text-3xl font-black tracking-[-0.05em]">{t.account.title}</h1>
@@ -44,7 +45,7 @@ export default async function AccountPage({
               </AppLink>
             </div>
           </Panel>
-        </div>
+        </PageContainer>
       </main>
     );
   }
@@ -63,8 +64,8 @@ export default async function AccountPage({
     null;
 
   return (
-    <main className="min-h-full px-4 py-7 sm:px-6 sm:py-9 lg:px-10">
-      <div className="mx-auto max-w-3xl">
+    <main className="min-h-full">
+      <PageContainer width="narrow" spacing="none" className="py-[var(--space-7)] sm:py-[var(--space-9)] lg:py-[var(--space-10)]">
         <header className="mb-5 rounded-[1.5rem] border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow-md)] sm:p-7">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
@@ -176,7 +177,7 @@ export default async function AccountPage({
             </AppLink>
           </section>
         </div>
-      </div>
+      </PageContainer>
     </main>
   );
 }
