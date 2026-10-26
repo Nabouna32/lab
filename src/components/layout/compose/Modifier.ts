@@ -8,7 +8,17 @@ import type { CSSProperties } from "react";
  * the operation list, but browser layout is not identical to Compose measurement.
  * Only add operations after checking the corresponding AndroidX contract.
  */
-type ModifierOperation = (style: CSSProperties) => CSSProperties;
+type PaddingValues = {
+  inlineStart: number;
+  blockStart: number;
+  inlineEnd: number;
+  blockEnd: number;
+};
+
+type ModifierOperation =
+  | { readonly kind: "padding"; readonly values: PaddingValues }
+  | { readonly kind: "fillMaxWidth" }
+  | { readonly kind: "widthIn"; readonly min?: number; readonly max?: number };
 
 export class Modifier {
   private readonly operations: readonly ModifierOperation[];
@@ -47,29 +57,32 @@ export class Modifier {
     const values = [first, second, third, fourth].filter((value): value is number => value !== undefined);
     values.forEach((value) => assertNonNegative(value, "padding"));
 
+    let padding: PaddingValues;
     if (values.length === 1) {
-      return this.append((style) => ({ ...style, padding: `${first}px` }));
+      padding = { inlineStart: first, blockStart: first, inlineEnd: first, blockEnd: first };
+    } else if (values.length === 2) {
+      padding = {
+        inlineStart: first,
+        blockStart: second!,
+        inlineEnd: first,
+        blockEnd: second!,
+      };
+    } else if (values.length === 4) {
+      padding = {
+        inlineStart: first,
+        blockStart: second!,
+        inlineEnd: third!,
+        blockEnd: fourth!,
+      };
+    } else {
+      throw new TypeError("Modifier.padding expects 1, 2, or 4 dimension values.");
     }
 
-    if (values.length === 2) {
-      return this.append((style) => ({ ...style, paddingInline: `${first}px`, paddingBlock: `${second!}px` }));
-    }
-
-    if (values.length === 4) {
-      return this.append((style) => ({
-        ...style,
-        paddingInlineStart: `${first}px`,
-        paddingBlockStart: `${second!}px`,
-        paddingInlineEnd: `${third!}px`,
-        paddingBlockEnd: `${fourth!}px`,
-      }));
-    }
-
-    throw new TypeError("Modifier.padding expects 1, 2, or 4 dimension values.");
+    return this.append({ kind: "padding", values: padding });
   }
 
   fillMaxWidth(): Modifier {
-    return this.append((style) => ({ ...style, width: "100%" }));
+    return this.append({ kind: "fillMaxWidth" });
   }
 
   widthIn(constraints: { min?: number; max?: number }): Modifier {
@@ -79,11 +92,7 @@ export class Modifier {
       throw new RangeError("Modifier.widthIn min cannot exceed max.");
     }
 
-    return this.append((style) => ({
-      ...style,
-      ...(constraints.min === undefined ? {} : { minWidth: `${constraints.min}px` }),
-      ...(constraints.max === undefined ? {} : { maxWidth: `${constraints.max}px` }),
-    }));
+    return this.append({ kind: "widthIn", ...constraints });
   }
 
   then(other: Modifier): Modifier {
@@ -91,7 +100,37 @@ export class Modifier {
   }
 
   toStyle(): CSSProperties {
-    return this.operations.reduce<CSSProperties>((style, operation) => operation(style), {});
+    const padding: PaddingValues = { inlineStart: 0, blockStart: 0, inlineEnd: 0, blockEnd: 0 };
+    let hasPadding = false;
+    let style: CSSProperties = {};
+
+    for (const operation of this.operations) {
+      if (operation.kind === "padding") {
+        hasPadding = true;
+        padding.inlineStart += operation.values.inlineStart;
+        padding.blockStart += operation.values.blockStart;
+        padding.inlineEnd += operation.values.inlineEnd;
+        padding.blockEnd += operation.values.blockEnd;
+      } else if (operation.kind === "fillMaxWidth") {
+        style = { ...style, width: "100%" };
+      } else {
+        style = {
+          ...style,
+          ...(operation.min === undefined ? {} : { minWidth: `${operation.min}px` }),
+          ...(operation.max === undefined ? {} : { maxWidth: `${operation.max}px` }),
+        };
+      }
+    }
+
+    return {
+      ...style,
+      ...(hasPadding ? {
+        paddingInlineStart: `${padding.inlineStart}px`,
+        paddingBlockStart: `${padding.blockStart}px`,
+        paddingInlineEnd: `${padding.inlineEnd}px`,
+        paddingBlockEnd: `${padding.blockEnd}px`,
+      } : {}),
+    };
   }
 }
 
