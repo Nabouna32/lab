@@ -495,6 +495,15 @@ html.dark .theme-icon-system-dark { display: inline; }
 }
 
 
+
+/* Native heading semantics default to the Material 3 scale. Explicit m3-type-* classes can select another role. */
+h1 { font-size: var(--m3-type-headline-large-size); line-height: var(--m3-type-headline-large-line-height); font-weight: var(--m3-type-headline-large-weight); letter-spacing: var(--m3-type-headline-large-tracking); }
+h2 { font-size: var(--m3-type-headline-small-size); line-height: var(--m3-type-headline-small-line-height); font-weight: var(--m3-type-headline-small-weight); letter-spacing: var(--m3-type-headline-small-tracking); }
+h3 { font-size: var(--m3-type-title-large-size); line-height: var(--m3-type-title-large-line-height); font-weight: var(--m3-type-title-large-weight); letter-spacing: var(--m3-type-title-large-tracking); }
+h4 { font-size: var(--m3-type-title-medium-size); line-height: var(--m3-type-title-medium-line-height); font-weight: var(--m3-type-title-medium-weight); letter-spacing: var(--m3-type-title-medium-tracking); }
+h5 { font-size: var(--m3-type-title-small-size); line-height: var(--m3-type-title-small-line-height); font-weight: var(--m3-type-title-small-weight); letter-spacing: var(--m3-type-title-small-tracking); }
+h6 { font-size: var(--m3-type-label-large-size); line-height: var(--m3-type-label-large-line-height); font-weight: var(--m3-type-label-large-weight); letter-spacing: var(--m3-type-label-large-tracking); }
+
 /* Button ripple: a bounded Web adaptation of the Material 3 pressed indication. */
 .button-ripple-layer::after {
   content: "";
