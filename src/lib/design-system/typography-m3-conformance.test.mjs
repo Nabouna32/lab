@@ -37,6 +37,14 @@ test("shared controls use semantic Material 3 typography roles rather than dupli
   assert.doesNotMatch(buttonSource, /text-sm font-medium leading-5 tracking-\[0\.1px\]/);
 });
 
+test("semantic HTML headings default to Material 3 roles and migrated pages opt into explicit roles", () => {
+  for (const [tag, role] of [["h1", "headline-large"], ["h2", "headline-small"], ["h3", "title-large"], ["h4", "title-medium"], ["h5", "title-small"], ["h6", "label-large"]]) {
+    assert.ok(globalCss.includes(tag + " { font-size: var(--m3-type-" + role + "-size)"), "semantic heading " + tag + " must default to " + role);
+  }
+  assert.ok(toolHeader.includes("m3-type-headline-large"));
+  assert.ok(accountPage.includes("m3-type-headline-large"));
+});
+
 test("typography spec documents source provenance, web adaptations and migration gaps", () => {
   assert.ok(typographySpec.includes("androidx.compose.material3:material3:1.4.0"));
   assert.ok(typographySpec.includes("Web adaptations"));
