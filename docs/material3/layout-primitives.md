@@ -24,7 +24,7 @@ Snapshot immuable de consultation : [androidx/androidx @ 5901d750e269aa3d88f6fcc
 
 | API AndroidX | Implémentation Web | Couverture actuelle | Différence déclarée |
 |---|---|---|---|
-| `Arrangement` | `src/components/layout/compose/Arrangement.ts` | Constantes Start/End/Top/Bottom/Center/Space* et `spacedBy` | La valeur est en CSS px, pas en `Dp`; overload avec alignement et contrat de mesure incomplets |
+| `Arrangement` | `src/components/layout/compose/Arrangement.ts` | Constantes Start/End/Top/Bottom/Center/Space*, `spacedBy` et extension Web `spacedByCss` | `spacedBy` utilise CSS px plutôt que `Dp`; `spacedByCss` est une extension Loculary, pas AndroidX; overload avec alignement et contrat de mesure incomplets |
 | `Alignment` | `src/components/layout/compose/Alignment.ts` | Constantes d’alignement utilisées par les primitives actuelles | Sous-ensemble des API d’alignement, adaptation CSS |
 | `Modifier` | `src/components/layout/compose/Modifier.ts` | `padding`, `fillMaxWidth`, `widthIn`, `then` | Les opérations construisent des styles CSS; la mesure et l'ordre de layout ne reproduisent pas entièrement Compose |
 | `Column` | `src/components/layout/compose/Column.tsx` | Layout vertical, écart, alignement horizontal limité | Flexbox CSS ne reproduit pas toutes les règles de mesure/poids de Compose |
@@ -39,6 +39,6 @@ Les composants sont des ports partiels. Leur nom officiel ne signifie pas que l'
 - Privilégier les noms AndroidX et les paramètres correspondants quand le contrat peut être préservé.
 - Garder les compositions propres au produit, comme `PageContainer`, explicitement identifiées comme Loculary; elles peuvent gérer largeur de contenu et marges de page, mais ne doivent pas se faire passer pour une primitive AndroidX.
 - Remplacer les abstractions génériques d'espacement par `Column` + `Arrangement.spacedBy` lorsque le contrat convient.
-- Ne pas confondre les tokens CSS de Loculary avec une échelle de dimensions AndroidX. Les tokens restent des choix de design du produit tant qu'une source officielle ne prouve pas le contraire.
+- Ne pas confondre les tokens CSS de Loculary avec une échelle de dimensions AndroidX. Les tokens restent des choix de design du produit tant qu'une source officielle ne prouve pas le contraire. Pour éviter les valeurs divergentes, utiliser l’extension Web `Arrangement.spacedByCss("var(--layout-content-gap)")` lorsque l’espacement provient d’un token Loculary; ne pas présenter cette extension comme une API AndroidX.
 - Ne pas déclarer la parité sans tests de contrat, vérification de rendu en navigateur et contrôle des cas RTL, responsive, clavier et accessibilité pertinents.
 - Avant d'étendre le portage, sélectionner et verrouiller une référence Foundation/UI publiée, puis compléter l'inventaire des signatures publiques pertinentes et les spécifications associées.
