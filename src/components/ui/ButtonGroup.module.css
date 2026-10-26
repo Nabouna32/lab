@@ -28,7 +28,10 @@
   background: transparent;
   color: var(--lab-on-surface, var(--md-sys-color-on-surface, currentColor));
   font: inherit;
-  font-size: 13px;
+  font-size: var(--m3-type-label-large-size);
+  line-height: var(--m3-type-label-large-line-height);
+  font-weight: var(--m3-type-label-large-weight);
+  letter-spacing: var(--m3-type-label-large-tracking);
   white-space: nowrap;
   text-overflow: ellipsis;
   transition: flex-grow 180ms cubic-bezier(.2, 0, 0, 1), background-color 160ms ease, color 160ms ease;
