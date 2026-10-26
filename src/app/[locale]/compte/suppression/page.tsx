@@ -65,7 +65,7 @@ export default async function DeleteAccountPage({
           </SubmitButton>
         </form>
 
-        <Link className="mt-6 inline-flex font-semibold text-[var(--accent)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]" href={`/${locale}/compte`}>
+        <Link className="m3-type-label-large mt-6 inline-flex text-[var(--accent)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]" href={`/${locale}/compte`}>
           {t.account.title}
         </Link>
       </Panel>
