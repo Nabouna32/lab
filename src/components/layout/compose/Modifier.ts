@@ -10,21 +10,36 @@ import type { CSSProperties } from "react";
  */
 type ModifierOperation = (style: CSSProperties) => CSSProperties;
 
-export class ModifierElement {
+export class Modifier {
   private constructor(private readonly operations: readonly ModifierOperation[]) {}
 
-  static empty(): ModifierElement {
-    return new ModifierElement([]);
+  static empty(): Modifier {
+    return new Modifier([]);
   }
 
-  private append(operation: ModifierOperation): ModifierElement {
-    return new ModifierElement([...this.operations, operation]);
+  static padding(...values: [number] | [number, number] | [number, number, number, number]): Modifier {
+    const [first, second, third, fourth] = values;
+    if (second === undefined) return Modifier.empty().padding(first);
+    if (third === undefined) return Modifier.empty().padding(first, second);
+    return Modifier.empty().padding(first, second, third, fourth!);
   }
 
-  padding(all: number): ModifierElement;
-  padding(horizontal: number, vertical: number): ModifierElement;
-  padding(start: number, top: number, end: number, bottom: number): ModifierElement;
-  padding(first: number, second?: number, third?: number, fourth?: number): ModifierElement {
+  static fillMaxWidth(): Modifier {
+    return Modifier.empty().fillMaxWidth();
+  }
+
+  static widthIn(constraints: { min?: number; max?: number }): Modifier {
+    return Modifier.empty().widthIn(constraints);
+  }
+
+  private append(operation: ModifierOperation): Modifier {
+    return new Modifier([...this.operations, operation]);
+  }
+
+  padding(all: number): Modifier;
+  padding(horizontal: number, vertical: number): Modifier;
+  padding(start: number, top: number, end: number, bottom: number): Modifier;
+  padding(first: number, second?: number, third?: number, fourth?: number): Modifier {
     const values = [first, second, third, fourth].filter((value): value is number => value !== undefined);
     values.forEach((value) => assertNonNegative(value, "padding"));
 
@@ -49,11 +64,11 @@ export class ModifierElement {
     throw new TypeError("Modifier.padding expects 1, 2, or 4 dimension values.");
   }
 
-  fillMaxWidth(): ModifierElement {
+  fillMaxWidth(): Modifier {
     return this.append((style) => ({ ...style, width: "100%" }));
   }
 
-  widthIn(constraints: { min?: number; max?: number }): ModifierElement {
+  widthIn(constraints: { min?: number; max?: number }): Modifier {
     if (constraints.min !== undefined) assertNonNegative(constraints.min, "widthIn.min");
     if (constraints.max !== undefined) assertNonNegative(constraints.max, "widthIn.max");
     if (constraints.min !== undefined && constraints.max !== undefined && constraints.min > constraints.max) {
@@ -67,8 +82,8 @@ export class ModifierElement {
     }));
   }
 
-  then(other: ModifierElement): ModifierElement {
-    return new ModifierElement([...this.operations, ...other.operations]);
+  then(other: Modifier): Modifier {
+    return new Modifier([...this.operations, ...other.operations]);
   }
 
   toStyle(): CSSProperties {
@@ -81,14 +96,3 @@ function assertNonNegative(value: number, name: string): void {
     throw new RangeError(`Modifier.${name} requires a finite, non-negative CSS pixel value.`);
   }
 }
-
-export const Modifier = {
-  padding: (...values: [number] | [number, number] | [number, number, number, number]) => {
-    const [first, second, third, fourth] = values;
-    if (second === undefined) return ModifierElement.empty().padding(first);
-    if (third === undefined) return ModifierElement.empty().padding(first, second);
-    return ModifierElement.empty().padding(first, second, third, fourth!);
-  },
-  fillMaxWidth: () => ModifierElement.empty().fillMaxWidth(),
-  widthIn: (constraints: { min?: number; max?: number }) => ModifierElement.empty().widthIn(constraints),
-} as const;
