@@ -21,6 +21,20 @@ The target is a faithful React/Web port of AndroidX Compose Material 3 component
 - Use Material Symbols consistently for functional interface icons. Icons need accessible names when they convey an action; do not substitute emoji or arbitrary Unicode for standard controls.
 - Shared components must support responsive layout, French and English text, keyboard and pointer input, visible focus, appropriate screen-reader semantics, WCAG 2.2 AA, and `prefers-reduced-motion`.
 
+## Layout and spacing
+
+The target layout API is a faithful Web port of the relevant public AndroidX Compose UI/Foundation APIs, not a collection of page-specific Tailwind spacing decisions.
+
+- Treat AndroidX Compose UI/Foundation as the source of truth for the public contracts of `Modifier`, `Alignment`, `Arrangement`, `Column`, `Row`, `Box`, and `Spacer`. Pin the exact published artifact/API snapshot and record Web differences before claiming fidelity.
+- Port source-backed primitives first, test their contracts, and then migrate Loculary page compositions to them. Keep one canonical layout implementation; do not introduce parallel custom stacks or spacing helpers that duplicate AndroidX behavior.
+- Centralize Loculary-specific design decisions—responsive page gutters, content width presets, page section rhythm and other product conventions—in semantic tokens. CSS/Tailwind values that encode these decisions must reference the tokens rather than reintroduce per-page numeric drift.
+- A product composition such as `PageContainer` is allowed only to express a real Loculary-level convention. It is not an AndroidX API and must remain replaceable: implement it on top of the shared primitives where appropriate, and remove it if it only duplicates their behavior.
+- Do not treat Android `Dp` values as CSS pixels without an explicit, documented conversion strategy. Preserve Compose's measurement, modifier ordering, layout direction, arrangement and alignment semantics where meaningful; document differences required by browser layout.
+- Migrate shared site shells and pages incrementally, then tool pages and embedded forms where the change is safe. Keep task-specific compositions when they serve a real need, but source their spacing and constraints from shared APIs/tokens.
+- Verify responsive behavior, French/English content expansion, light/dark themes, RTL-sensitive logical spacing, keyboard/screen-reader behavior and reduced motion as applicable. Static token tests alone do not prove rendered parity.
+
+The current partial port and known gaps are tracked in [the layout primitives specification](material3/layout-primitives.md). Its status is not a claim of AndroidX parity.
+
 ## Source and fidelity rules
 
 For every ported component:
