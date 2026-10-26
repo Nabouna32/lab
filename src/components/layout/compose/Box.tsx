@@ -1,6 +1,6 @@
-import { Children, type CSSProperties, type ReactNode } from "react";
+import { Children, cloneElement, isValidElement, type CSSProperties, type ReactElement, type ReactNode } from "react";
 import { Alignment, type BoxAlignment } from "./Alignment";
-import type { Modifier } from "./Modifier";
+import { isModifier, type Modifier } from "./Modifier";
 
 export type BoxProps = {
   children?: ReactNode;
@@ -37,11 +37,31 @@ export function Box({
   const layout = (
     <div
       className={className}
-      style={{ display: "grid", ...style }}
+      style={{ display: "grid", position: "relative", ...style }}
     >
-      {Children.map(children, (child) => (
-        <div style={{ gridArea: "1 / 1", ...alignment[contentAlignment] }}>{child}</div>
-      ))}
+      {Children.map(children, (child) => {
+        let content = child;
+        let childAlignment = contentAlignment;
+        let matchParentSize = false;
+
+        if (isValidElement(child)) {
+          const childProps = child.props as { modifier?: unknown };
+          if (isModifier(childProps.modifier)) {
+            const scope = childProps.modifier.boxScopeOptions();
+            childAlignment = scope.alignment ?? contentAlignment;
+            matchParentSize = scope.matchParentSize;
+            content = cloneElement(child as ReactElement<{ modifier?: Modifier }>, {
+              modifier: childProps.modifier.withoutBoxScopeOperations(),
+            });
+          }
+        }
+
+        const childStyle: CSSProperties = matchParentSize
+          ? { gridArea: "1 / 1", position: "absolute", inset: 0, display: "grid" }
+          : { gridArea: "1 / 1", ...alignment[childAlignment] };
+
+        return <div style={childStyle}>{content}</div>;
+      })}
     </div>
   );
 
