@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createElement, isValidElement } from "react";
 import { readFileSync } from "node:fs";
 import { test } from "node:test";
 import { Alignment } from "../../components/layout/compose/Alignment.ts";
@@ -173,47 +174,63 @@ test("Arrangement.spacedBy returns a validated explicit Web gap", () => {
   assert.throws(() => Arrangement.spacedByCss("  "), TypeError);
 });
 
-test("Modifier.widthIn composes chained constraints instead of discarding earlier bounds", () => {
-  assert.deepEqual(Modifier.widthIn({ min: 200 }).then(Modifier.widthIn({ max: 400 })).toStyle(), { minWidth: "200px", maxWidth: "400px" });
-  assert.deepEqual(Modifier.widthIn({ min: 200, max: 600 }).then(Modifier.widthIn({ min: 250, max: 500 })).toStyle(), { minWidth: "250px", maxWidth: "500px" });
+function getModifierElementProps(node: unknown): { style?: Record<string, unknown>; children?: unknown } {
+  assert.ok(isValidElement(node));
+  return node.props as { style?: Record<string, unknown>; children?: unknown };
+}
+
+test("Modifier keeps operations as ordered wrappers instead of flattening their styles", () => {
+  const wrapped = Modifier.padding(8).then(Modifier.fillMaxWidth()).wrap(createElement("span"));
+  const outer = getModifierElementProps(wrapped);
+  const inner = getModifierElementProps(outer.children);
+
+  assert.deepEqual(outer.style, {
+    paddingInlineStart: "8px",
+    paddingBlockStart: "8px",
+    paddingInlineEnd: "8px",
+    paddingBlockEnd: "8px",
+  });
+  assert.deepEqual(inner.style, { width: "100%" });
+  assert.equal(getModifierElementProps(inner.children).children, undefined);
 });
 
-test("Modifier supports Compose-shaped padding overloads and ordered composition", () => {
-  assert.deepEqual(Modifier.padding(8).toStyle(), {
-    paddingInlineStart: "8px",
-    paddingBlockStart: "8px",
-    paddingInlineEnd: "8px",
-    paddingBlockEnd: "8px",
+test("Modifier exposes the common size and constraint operations needed by layout primitives", () => {
+  assert.deepEqual(getModifierElementProps(Modifier.width(240).wrap(createElement("span"))).style, { width: "240px" });
+  assert.deepEqual(getModifierElementProps(Modifier.height(48).wrap(createElement("span"))).style, { height: "48px" });
+  assert.deepEqual(getModifierElementProps(Modifier.size(32, 16).wrap(createElement("span"))).style, {
+    width: "32px",
+    height: "16px",
   });
-  assert.deepEqual(Modifier.padding(8, 12).toStyle(), {
-    paddingInlineStart: "8px",
-    paddingBlockStart: "12px",
-    paddingInlineEnd: "8px",
-    paddingBlockEnd: "12px",
+  assert.deepEqual(getModifierElementProps(Modifier.fillMaxSize(0.5).wrap(createElement("span"))).style, {
+    width: "50%",
+    height: "50%",
   });
-  assert.deepEqual(Modifier.padding(1, 2, 3, 4).toStyle(), {
-    paddingInlineStart: "1px",
-    paddingBlockStart: "2px",
-    paddingInlineEnd: "3px",
-    paddingBlockEnd: "4px",
+  assert.deepEqual(getModifierElementProps(Modifier.widthIn({ minWidth: 200, maxWidth: 400 }).wrap(createElement("span"))).style, {
+    minWidth: "200px",
+    maxWidth: "400px",
   });
-  assert.deepEqual(Modifier.padding(8).then(Modifier.fillMaxWidth()).toStyle(), {
-    width: "100%",
-    paddingInlineStart: "8px",
-    paddingBlockStart: "8px",
-    paddingInlineEnd: "8px",
-    paddingBlockEnd: "8px",
+  assert.deepEqual(getModifierElementProps(Modifier.heightIn({ minHeight: 40 }).wrap(createElement("span"))).style, {
+    minHeight: "40px",
   });
-  assert.deepEqual(Modifier.padding(8).then(Modifier.padding(4)).toStyle(), {
-    paddingInlineStart: "12px",
-    paddingBlockStart: "12px",
-    paddingInlineEnd: "12px",
-    paddingBlockEnd: "12px",
+  assert.deepEqual(getModifierElementProps(Modifier.sizeIn({ minWidth: 100, maxHeight: 300 }).wrap(createElement("span"))).style, {
+    minWidth: "100px",
+    maxHeight: "300px",
   });
+  assert.deepEqual(getModifierElementProps(Modifier.weight(2).wrap(createElement("span"))).style, {
+    flexGrow: 2,
+    flexShrink: 1,
+    flexBasis: "0%",
+  });
+});
+
+test("Modifier validates dimensions, fractions, weights and contradictory constraints", () => {
   assert.throws(() => Modifier.padding(-1), RangeError);
-  assert.throws(() => Modifier.widthIn({ min: 300, max: 200 }), RangeError);
+  assert.throws(() => Modifier.width(-1), RangeError);
+  assert.throws(() => Modifier.fillMaxWidth(1.1), RangeError);
+  assert.throws(() => Modifier.weight(0), RangeError);
+  assert.throws(() => Modifier.widthIn({ minWidth: 300, maxWidth: 200 }), RangeError);
+  assert.throws(() => Modifier.heightIn({ minHeight: 100, maxHeight: 50 }), RangeError);
 });
-
 
 test("Arrangement exposes the AndroidX alignment overloads for spacedBy and aligned", () => {
   assert.deepEqual(Arrangement.spacedBy(8, Alignment.End), {
