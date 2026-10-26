@@ -46,7 +46,7 @@ export function Row({
         flexDirection: "row",
         justifyContent,
         alignItems,
-        ...(horizontalArrangement.kind === "spacedBy" ? { gap: `${horizontalArrangement.space}px` } : {}),
+        ...(horizontalArrangement.kind === "spacedBy" ? { gap: `${horizontalArrangement.space}px` } : horizontalArrangement.kind === "spacedByCss" ? { gap: horizontalArrangement.space } : {}),
         ...modifier?.toStyle(),
         ...style,
       }}
