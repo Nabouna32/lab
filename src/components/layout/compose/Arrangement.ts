@@ -1,13 +1,21 @@
 /**
- * Web adaptation of androidx.compose.foundation.layout.Arrangement.
+ * Partial Web adaptation of androidx.compose.foundation.layout.Arrangement.
+ * AndroidX API: https://developer.android.com/reference/kotlin/androidx/compose/foundation/layout/Arrangement
  *
- * API reference: https://developer.android.com/reference/kotlin/androidx/compose/foundation/layout/Arrangement
- * Upstream source baseline: AndroidX androidx-main is intentionally not treated as a
- * pinned release. See docs/material3/sources.md before claiming release-level parity.
- *
- * This port currently implements only the spacing contract needed by Loculary.
- * It is not a complete port of AndroidX Arrangement.
+ * Spacing values are CSS pixels, not Android Dp. The implementation covers only the
+ * arrangements currently needed by Loculary; it is not a complete AndroidX port.
  */
+
+export type ArrangementKind =
+  | "start"
+  | "end"
+  | "top"
+  | "bottom"
+  | "center"
+  | "spaceBetween"
+  | "spaceAround"
+  | "spaceEvenly"
+  | "spacedBy";
 
 export type SpacedByArrangement = {
   readonly kind: "spacedBy";
@@ -15,7 +23,18 @@ export type SpacedByArrangement = {
   readonly space: number;
 };
 
+export type HorizontalArrangement = SpacedByArrangement | { readonly kind: "start" | "end" | "center" | "spaceBetween" | "spaceAround" | "spaceEvenly" };
+export type VerticalArrangement = SpacedByArrangement | { readonly kind: "top" | "bottom" | "center" | "spaceBetween" | "spaceAround" | "spaceEvenly" };
+
 export const Arrangement = {
+  Start: { kind: "start" } as const,
+  End: { kind: "end" } as const,
+  Top: { kind: "top" } as const,
+  Bottom: { kind: "bottom" } as const,
+  Center: { kind: "center" } as const,
+  SpaceBetween: { kind: "spaceBetween" } as const,
+  SpaceAround: { kind: "spaceAround" } as const,
+  SpaceEvenly: { kind: "spaceEvenly" } as const,
   /**
    * Places a consistent CSS gap between adjacent layout children.
    * Unlike AndroidX, space is expressed in CSS pixels by this Web adapter.
