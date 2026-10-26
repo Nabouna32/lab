@@ -51,10 +51,10 @@ export default async function ResetPasswordPage({
             <input className="w-full rounded-xl border border-[var(--border)] bg-[var(--background)] px-4 py-3 outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]" name="password" type="password" autoComplete="new-password" minLength={8} maxLength={128} required />
           </label>
           <label className="block">
-            <span className="mb-2 block text-sm font-semibold">{t.account.passwordConfirmation}</span>
+            <span className="m3-type-label-large mb-2 block">{t.account.passwordConfirmation}</span>
             <input className="w-full rounded-xl border border-[var(--border)] bg-[var(--background)] px-4 py-3 outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]" name="passwordConfirmation" type="password" autoComplete="new-password" minLength={8} maxLength={128} required />
           </label>
-          <SubmitButton pendingLabel={t.account.resetPassword} className="w-full rounded-xl bg-[var(--accent)] px-5 py-3 font-semibold text-white transition-opacity hover:opacity-90 disabled:cursor-wait disabled:opacity-60">
+          <SubmitButton pendingLabel={t.account.resetPassword} className="m3-type-label-large w-full rounded-xl bg-[var(--accent)] px-5 py-3 text-white transition-opacity hover:opacity-90 disabled:cursor-wait disabled:opacity-60">
             {t.account.resetPassword}
           </SubmitButton>
         </form>
