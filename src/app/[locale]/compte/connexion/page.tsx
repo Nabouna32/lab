@@ -28,7 +28,7 @@ export default async function SignInPage({
       <main className="mx-auto flex min-h-[calc(100vh-4.5rem)] max-w-2xl items-center px-4 py-12">
         <Panel as="section" className="w-full text-center">
           <h1 className="m3-type-headline-small">{t.account.alreadySignedIn}</h1>
-          <Link className="mt-6 inline-flex font-semibold text-[var(--accent)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]" href={`/${locale}/compte`}>
+          <Link className="m3-type-label-large mt-6 inline-flex text-[var(--accent)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]" href={`/${locale}/compte`}>
             {t.account.title}
           </Link>
         </Panel>
@@ -54,10 +54,10 @@ export default async function SignInPage({
           </div>
         )}
         {query.status === "confirmation-sent" && (
-          <p className="mt-5 border-l-2 border-[var(--success)] py-1 pl-3 text-sm text-[var(--success-foreground)]" role="status">{t.account.confirmationSent}</p>
+          <p className="m3-type-body-medium mt-5 border-l-2 border-[var(--success)] py-1 pl-3 text-[var(--success-foreground)]" role="status">{t.account.confirmationSent}</p>
         )}
         {query.status === "deleted" && (
-          <p className="mt-5 border-l-2 border-[var(--success)] py-1 pl-3 text-sm text-[var(--success-foreground)]" role="status">{t.account.accountDeleted}</p>
+          <p className="m3-type-body-medium mt-5 border-l-2 border-[var(--success)] py-1 pl-3 text-[var(--success-foreground)]" role="status">{t.account.accountDeleted}</p>
         )}
         {query.error && (
           <p className="m3-type-body-medium mt-5 border-l-2 border-[var(--danger)] py-1 pl-3 text-[var(--danger-foreground)]" role="alert">
@@ -72,14 +72,14 @@ export default async function SignInPage({
             {t.account.submitSignIn}
           </SubmitButton>
           <div className="text-center">
-            <Link className="text-sm font-semibold text-[var(--accent)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]" href={`/${locale}/compte/mot-de-passe-oublie`}>
+            <Link className="m3-type-label-large text-[var(--accent)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]" href={`/${locale}/compte/mot-de-passe-oublie`}>
               {t.account.forgotPassword}
             </Link>
           </div>
         </form>
         <p className="m3-type-body-medium mt-6 border-t border-[var(--border)] pt-5 text-center text-[var(--muted)]">
           {t.account.noAccount}{" "}
-          <Link className="font-semibold text-[var(--accent)] hover:underline" href={`/${locale}/compte/inscription`}>{t.account.signUp}</Link>
+          <Link className="m3-type-label-large text-[var(--accent)] hover:underline" href={`/${locale}/compte/inscription`}>{t.account.signUp}</Link>
         </p>
       </Panel>
     </main>
