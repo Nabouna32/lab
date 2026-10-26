@@ -264,6 +264,18 @@
   --button-elevation-2: 0 2px 6px rgb(0 0 0 / 0.38);
 }
 
+@media (min-width: 40rem) {
+  :root {
+    --layout-page-gutter: 1.5rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  :root {
+    --layout-page-gutter: 2.5rem;
+  }
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
