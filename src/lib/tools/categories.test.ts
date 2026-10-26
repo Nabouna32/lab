@@ -128,7 +128,12 @@ test("Arrangement.spacedBy returns a validated explicit Web gap", () => {
 });
 
 test("Modifier supports Compose-shaped padding overloads and ordered composition", () => {
-  assert.deepEqual(Modifier.padding(8).toStyle(), { padding: "8px" });
+  assert.deepEqual(Modifier.padding(8).toStyle(), {
+    paddingInlineStart: "8px",
+    paddingBlockStart: "8px",
+    paddingInlineEnd: "8px",
+    paddingBlockEnd: "8px",
+  });
   assert.deepEqual(Modifier.padding(8, 12).toStyle(), { paddingInline: "8px", paddingBlock: "12px" });
   assert.deepEqual(Modifier.padding(1, 2, 3, 4).toStyle(), {
     paddingInlineStart: "1px",
@@ -137,8 +142,17 @@ test("Modifier supports Compose-shaped padding overloads and ordered composition
     paddingBlockEnd: "4px",
   });
   assert.deepEqual(Modifier.padding(8).then(Modifier.fillMaxWidth()).toStyle(), {
-    padding: "8px",
     width: "100%",
+    paddingInlineStart: "8px",
+    paddingBlockStart: "8px",
+    paddingInlineEnd: "8px",
+    paddingBlockEnd: "8px",
+  });
+  assert.deepEqual(Modifier.padding(8).then(Modifier.padding(4)).toStyle(), {
+    paddingInlineStart: "12px",
+    paddingBlockStart: "12px",
+    paddingInlineEnd: "12px",
+    paddingBlockEnd: "12px",
   });
   assert.throws(() => Modifier.padding(-1), RangeError);
   assert.throws(() => Modifier.widthIn({ min: 300, max: 200 }), RangeError);
