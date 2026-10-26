@@ -133,6 +133,7 @@
   --layout-item-gap: var(--space-4);
   --layout-inline-gap: var(--space-2);
   --layout-content-narrow: var(--content-narrow, 48rem);
+  --layout-content-medium: 64rem;
   --layout-content-default: var(--content-default, 72rem);
   --layout-content-wide: var(--content-wide, 80rem);
   --m3-size-segmented-button-min-height: 2.5rem; /* AndroidX: 40 dp reference */
