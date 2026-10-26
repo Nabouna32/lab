@@ -44,7 +44,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                   {t.home.badge}
                 </p>
 
-                <h1 id="home-title" className="m3-type-display-large motion-reveal mt-5 max-w-4xl text-balance text-[var(--foreground)]">
+                <h1 id="home-title" className="m3-type-display-large font-black leading-[1] tracking-[-0.055em] motion-reveal mt-5 max-w-4xl text-balance text-[var(--foreground)]">
                   {t.home.title}
                 </h1>
 
