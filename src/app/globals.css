@@ -406,3 +406,17 @@ button:disabled > .button-ripple-layer {
     transition-duration: .01ms !important;
   }
 }
+
+
+/*
+ * Arrangement.spacedBy supports negative values in AndroidX. CSS gap does not,
+ * so the Web adapter approximates overlap with logical margins on subsequent flex items.
+ * The spacing token is set inline by Row/Column and stays scoped to that layout.
+ */
+.compose-layout-negative-gap-row > * + * {
+  margin-inline-start: var(--compose-layout-negative-gap);
+}
+
+.compose-layout-negative-gap-column > * + * {
+  margin-block-start: var(--compose-layout-negative-gap);
+}
