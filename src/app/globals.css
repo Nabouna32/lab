@@ -134,6 +134,7 @@
   --layout-inline-gap: var(--space-2);
   --layout-content-form: 28rem;
   --layout-content-form-wide: 36rem;
+  --layout-content-account: 42rem;
   --layout-content-narrow: var(--content-narrow, 48rem);
   --layout-content-medium: 64rem;
   --layout-content-default: var(--content-default, 72rem);
