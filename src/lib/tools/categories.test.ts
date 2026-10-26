@@ -221,6 +221,18 @@ test("Modifier exposes the common size and constraint operations needed by layou
     flexShrink: 1,
     flexBasis: "0%",
   });
+  assert.deepEqual(Modifier.align(Alignment.BottomEnd).boxScopeOptions(), {
+    alignment: Alignment.BottomEnd,
+    matchParentSize: false,
+  });
+  assert.deepEqual(Modifier.matchParentSize().boxScopeOptions(), {
+    alignment: undefined,
+    matchParentSize: true,
+  });
+  assert.deepEqual(Modifier.align(Alignment.Center).matchParentSize().withoutBoxScopeOperations().boxScopeOptions(), {
+    alignment: undefined,
+    matchParentSize: false,
+  });
 });
 
 test("Modifier validates dimensions, fractions, weights and contradictory constraints", () => {
@@ -261,4 +273,12 @@ test("Row and Column apply the selected Arrangement alignment on the main axis",
   assert.ok(columnSource.includes('verticalArrangement.kind === "aligned"'));
   assert.ok(columnSource.includes('centerVertically: "center"'));
   assert.ok(columnSource.includes('verticalArrangement.alignment'));
+});
+
+
+test("Box applies child-scoped alignment and matchParentSize modifiers", () => {
+  const boxSource = readFileSync(new URL("../../components/layout/compose/Box.tsx", import.meta.url), "utf8");
+  assert.ok(boxSource.includes("childProps.modifier.boxScopeOptions()"));
+  assert.ok(boxSource.includes("childProps.modifier.withoutBoxScopeOperations()"));
+  assert.ok(boxSource.includes('position: "absolute", inset: 0, display: "grid"'));
 });
