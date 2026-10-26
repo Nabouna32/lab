@@ -19,10 +19,10 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: 48px;
-  font-weight: 500;
-  letter-spacing: -2px;
-  line-height: 1.1;
+  font-size: var(--m3-type-display-large-size);
+  font-weight: var(--m3-type-display-large-weight);
+  letter-spacing: var(--m3-type-display-large-tracking);
+  line-height: var(--m3-type-display-large-line-height);
 }
 
 .digitalTime button {
@@ -54,7 +54,9 @@
   background: transparent;
   color: inherit;
   font: inherit;
-  font-size: 12px;
+  font-size: var(--m3-type-label-medium-size);
+  line-height: var(--m3-type-label-medium-line-height);
+  letter-spacing: var(--m3-type-label-medium-tracking);
   cursor: pointer;
 }
 
@@ -109,7 +111,9 @@
   background: transparent;
   color: inherit;
   font: inherit;
-  font-size: 14px;
+  font-size: var(--m3-type-body-medium-size);
+  line-height: var(--m3-type-body-medium-line-height);
+  letter-spacing: var(--m3-type-body-medium-tracking);
   cursor: pointer;
   transform: translate(-50%, -50%);
 }
