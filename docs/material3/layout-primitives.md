@@ -1,0 +1,42 @@
+# Compose layout primitives — portage Web
+
+## Objectif et statut
+
+Cette spécification suit le portage des primitives AndroidX Compose UI/Foundation utilisées pour le layout et l'espacement. Ce périmètre est distinct des composants Material 3 : `Column`, `Row`, `Box`, `Spacer`, `Modifier` et `Arrangement` proviennent de Compose UI/Foundation.
+
+**Statut global : portage en cours, non vérifié.** La référence de release Foundation/UI n'est pas encore sélectionnée ni alignée sur un snapshot API publié. Le commit AndroidX ci-dessous est une référence de lecture immuable, pas une affirmation qu'il correspond à une release stable donnée.
+
+## Sources AndroidX inspectées
+
+Snapshot immuable de consultation : [androidx/androidx @ 5901d750e269aa3d88f6fccd5186637df83a0173](https://github.com/androidx/androidx/tree/5901d750e269aa3d88f6fccd5186637df83a0173).
+
+- [Modifier.kt — Compose UI](https://github.com/androidx/androidx/blob/5901d750e269aa3d88f6fccd5186637df83a0173/compose/ui/ui/src/commonMain/kotlin/androidx/compose/ui/Modifier.kt)
+- [Arrangement.kt — Foundation Layout](https://github.com/androidx/androidx/blob/5901d750e269aa3d88f6fccd5186637df83a0173/compose/foundation/foundation-layout/src/commonMain/kotlin/androidx/compose/foundation/layout/Arrangement.kt)
+- [Column.kt — Foundation Layout](https://github.com/androidx/androidx/blob/5901d750e269aa3d88f6fccd5186637df83a0173/compose/foundation/foundation-layout/src/commonMain/kotlin/androidx/compose/foundation/layout/Column.kt)
+- [Row.kt — Foundation Layout](https://github.com/androidx/androidx/blob/5901d750e269aa3d88f6fccd5186637df83a0173/compose/foundation/foundation-layout/src/commonMain/kotlin/androidx/compose/foundation/layout/Row.kt)
+- [Box.kt — Foundation Layout](https://github.com/androidx/androidx/blob/5901d750e269aa3d88f6fccd5186637df83a0173/compose/foundation/foundation-layout/src/commonMain/kotlin/androidx/compose/foundation/layout/Box.kt)
+- [Spacer.kt — Foundation Layout](https://github.com/androidx/androidx/blob/5901d750e269aa3d88f6fccd5186637df83a0173/compose/foundation/foundation-layout/src/commonMain/kotlin/androidx/compose/foundation/layout/Spacer.kt)
+- [Référence API publique Arrangement](https://developer.android.com/reference/kotlin/androidx/compose/foundation/layout/Arrangement)
+- [Référence API publique Modifier](https://developer.android.com/reference/kotlin/androidx/compose/ui/Modifier)
+
+## Portage actuel
+
+| API AndroidX | Implémentation Web | Couverture actuelle | Différence déclarée |
+|---|---|---|---|
+| `Arrangement.spacedBy` | `src/components/layout/compose/Arrangement.ts` | Espacement fixe entre enfants adjacents | La valeur est en CSS px, pas en `Dp`; autres arrangements non implémentés |
+| `Modifier` | `src/components/layout/compose/Modifier.ts` | `padding`, `fillMaxWidth`, `widthIn`, `then` | Les opérations construisent des styles CSS; la mesure et l'ordre de layout ne reproduisent pas entièrement Compose |
+| `Column` | `src/components/layout/compose/Column.tsx` | Layout vertical, écart, alignement horizontal limité | Flexbox CSS ne reproduit pas toutes les règles de mesure/poids de Compose |
+| `Row` | `src/components/layout/compose/Row.tsx` | Layout horizontal, écart, alignement vertical limité | Flexbox CSS ne reproduit pas toutes les règles de mesure/poids de Compose |
+| `Box` | `src/components/layout/compose/Box.tsx` | Conteneur Flex avec alignement limité | Le comportement de superposition et les contraintes de Box Compose ne sont pas encore portés fidèlement |
+| `Spacer` | `src/components/layout/compose/Spacer.tsx` | Élément extensible Flex | Le comportement dépend du contexte Flex CSS, pas du moteur de mesure Compose |
+
+Les composants sont des ports partiels. Leur nom officiel ne signifie pas que l'API complète ou la parité AndroidX est déjà atteinte.
+
+## Conventions de migration
+
+- Privilégier les noms AndroidX et les paramètres correspondants quand le contrat peut être préservé.
+- Garder les compositions propres au produit, comme `PageContainer`, explicitement identifiées comme Loculary; elles peuvent gérer largeur de contenu et marges de page, mais ne doivent pas se faire passer pour une primitive AndroidX.
+- Remplacer les abstractions génériques d'espacement par `Column` + `Arrangement.spacedBy` lorsque le contrat convient.
+- Ne pas confondre les tokens CSS de Loculary avec une échelle de dimensions AndroidX. Les tokens restent des choix de design du produit tant qu'une source officielle ne prouve pas le contraire.
+- Ne pas déclarer la parité sans tests de contrat, vérification de rendu en navigateur et contrôle des cas RTL, responsive, clavier et accessibilité pertinents.
+- Avant d'étendre le portage, sélectionner et verrouiller une référence Foundation/UI publiée, puis compléter l'inventaire des signatures publiques pertinentes et les spécifications associées.
