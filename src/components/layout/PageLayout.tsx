@@ -30,7 +30,7 @@ export function PageContainer({
 
   const spacingClass = {
     none: "",
-    compact: "py-[var(--space-5)] sm:py-[var(--space-7)] lg:py-[var(--space-9)]",
+    compact: "py-[var(--space-6)] sm:py-[var(--space-8)] lg:py-[var(--space-10)]",
     default: "py-[var(--space-8)] sm:py-[var(--space-10)] lg:py-[var(--space-10)]",
     comfortable: "py-[var(--space-10)] sm:py-[var(--space-12)] lg:py-[var(--space-12)]",
   }[spacing];
