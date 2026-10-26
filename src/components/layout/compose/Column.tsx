@@ -46,7 +46,7 @@ export function Column({
         flexDirection: "column",
         justifyContent,
         alignItems,
-        ...(verticalArrangement.kind === "spacedBy" ? { gap: `${verticalArrangement.space}px` } : {}),
+        ...(verticalArrangement.kind === "spacedBy" ? { gap: `${verticalArrangement.space}px` } : verticalArrangement.kind === "spacedByCss" ? { gap: verticalArrangement.space } : {}),
         ...modifier?.toStyle(),
         ...style,
       }}
