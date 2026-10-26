@@ -37,3 +37,15 @@ test("shared page container owns the canonical responsive gutter and width prese
     assert.ok(pageLayoutSource.includes(`"${preset}"`) || pageLayoutSource.includes(`${preset}:`), `missing width preset: ${preset}`);
   }
 });
+
+const legalNoticeSource = readSource("../../components/legal/LegalNoticePage.tsx");
+const privacyPolicySource = readSource("../../components/legal/PrivacyPolicyPage.tsx");
+
+test("legal pages use the shared spacing scale instead of duplicating Tailwind spacing values", () => {
+  for (const source of [legalNoticeSource, privacyPolicySource]) {
+    for (const token of ["--space-2", "--space-3", "--space-6", "--space-8"]) {
+      assert.ok(source.includes(`var(${token})`), `missing shared spacing token: ${token}`);
+    }
+    assert.ok(!/\\b(?:mt|p|pt|space-y)-(?:[1-8])\\b/.test(source), "raw Tailwind spacing values should not replace shared layout tokens on legal pages");
+  }
+});
