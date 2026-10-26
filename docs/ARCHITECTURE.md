@@ -208,15 +208,15 @@ Supabase/PostgreSQL is the current database platform for the deployed account, a
 
 Catalog storage and delivery must remain separate from executable tool implementations. Git/code remains authoritative for registry modules, processing mode, capabilities and actual tool logic. Any future data-store change must preserve that boundary and justify its operational cost.
 
-## Shared UI layout architecture
+## Architecture partagée du layout
 
-Layout and spacing are shared platform concerns, not page-local styling conventions.
+La mise en page et les espacements sont des responsabilités communes de la plateforme, pas des conventions propres à chaque page.
 
-The target is a React/Web port of the relevant public AndroidX Compose UI/Foundation layout APIs. Source-backed primitives own layout behavior; Loculary semantic CSS tokens own product-specific responsive dimensions such as page gutters and content-width presets. The design-system contract and current port status live in [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md) and [the layout primitives specification](material3/layout-primitives.md).
+La cible est un portage React/Web des API publiques pertinentes de layout d’AndroidX Compose UI/Foundation. Les primitives fondées sur les sources définissent le comportement de mise en page ; les tokens CSS sémantiques de Loculary portent les dimensions responsives propres au produit, notamment les gouttières de page et les largeurs de contenu. Le contrat du système de design et l’état du portage sont décrits dans [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md) et dans la [spécification des primitives de layout](material3/layout-primitives.md).
 
-Product compositions (for example, a page container) may coordinate Loculary conventions, but they must be built from the shared primitives when possible, must not impersonate AndroidX APIs, and must remain removable if they only duplicate primitive behavior. Migrations should move from shared shells to common pages and then tool-specific layouts, avoiding parallel layout abstractions and arbitrary per-page spacing values.
+Les compositions produit (par exemple un conteneur de page) peuvent coordonner les conventions propres à Loculary. Elles doivent, lorsque c’est pertinent, s’appuyer sur les primitives partagées, ne pas se faire passer pour des API AndroidX et rester supprimables si elles ne font que dupliquer le comportement des primitives. La migration doit progresser des cadres communs vers les pages partagées, puis vers les layouts propres aux outils, sans créer d’abstractions parallèles ni multiplier les espacements arbitraires par page.
 
-A port is not considered faithful merely because it has the AndroidX name. Pin the source API version, test public contracts, document Web-specific differences, and verify actual browser rendering across responsive breakpoints, light/dark themes, French/English content, logical direction and accessibility before claiming parity.
+Un portage n’est pas fidèle simplement parce qu’il porte un nom AndroidX. Il faut figer la version des API sources, tester les contrats publics, documenter les différences Web et vérifier le rendu réel dans le navigateur selon les points de rupture responsive, les thèmes clair/sombre, les contenus français/anglais, le sens de lecture et l’accessibilité avant d’affirmer une parité.
 
 ## Technology baseline
 

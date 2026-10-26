@@ -114,7 +114,7 @@ The inventory is intentionally **not yet declared complete**. The existing histo
 
 ## Shared Compose UI/Foundation layout port
 
-Layout primitives are tracked separately from Material 3 components because `Column`, `Row`, `Box`, `Spacer`, `Modifier`, `Alignment`, and `Arrangement` belong to Compose UI/Foundation, not Material 3. See [the layout primitives specification](layout-primitives.md) for source references, token centralization rules, current Web extensions, and parity gaps.
+Les primitives de layout sont suivies séparément des composants Material 3, car `Column`, `Row`, `Box`, `Spacer`, `Modifier`, `Alignment` et `Arrangement` appartiennent à Compose UI/Foundation, et non à Material 3. Consulter la [spécification des primitives de layout](layout-primitives.md) pour les sources, les règles de centralisation des tokens, les extensions Web actuelles et les écarts de parité.
 
 ## Current status
 

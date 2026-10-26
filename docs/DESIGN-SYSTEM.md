@@ -21,19 +21,19 @@ The target is a faithful React/Web port of AndroidX Compose Material 3 component
 - Use Material Symbols consistently for functional interface icons. Icons need accessible names when they convey an action; do not substitute emoji or arbitrary Unicode for standard controls.
 - Shared components must support responsive layout, French and English text, keyboard and pointer input, visible focus, appropriate screen-reader semantics, WCAG 2.2 AA, and `prefers-reduced-motion`.
 
-## Layout and spacing
+## Mise en page et espacements
 
-The target layout API is a faithful Web port of the relevant public AndroidX Compose UI/Foundation APIs, not a collection of page-specific Tailwind spacing decisions.
+La cible est un portage Web fidèle des API publiques pertinentes d’AndroidX Compose UI/Foundation, et non une collection de décisions d’espacement Tailwind propres à chaque page.
 
-- Treat AndroidX Compose UI/Foundation as the source of truth for the public contracts of `Modifier`, `Alignment`, `Arrangement`, `Column`, `Row`, `Box`, and `Spacer`. Pin the exact published artifact/API snapshot and record Web differences before claiming fidelity.
-- Port source-backed primitives first, test their contracts, and then migrate Loculary page compositions to them. Keep one canonical layout implementation; do not introduce parallel custom stacks or spacing helpers that duplicate AndroidX behavior.
-- Centralize Loculary-specific design decisions—responsive page gutters, content width presets, page section rhythm and other product conventions—in semantic tokens. CSS/Tailwind values that encode these decisions must reference the tokens rather than reintroduce per-page numeric drift.
-- A product composition such as `PageContainer` is allowed only to express a real Loculary-level convention. It is not an AndroidX API and must remain replaceable: implement it on top of the shared primitives where appropriate, and remove it if it only duplicates their behavior.
-- Do not treat Android `Dp` values as CSS pixels without an explicit, documented conversion strategy. Preserve Compose's measurement, modifier ordering, layout direction, arrangement and alignment semantics where meaningful; document differences required by browser layout.
-- Migrate shared site shells and pages incrementally, then tool pages and embedded forms where the change is safe. Keep task-specific compositions when they serve a real need, but source their spacing and constraints from shared APIs/tokens.
-- Verify responsive behavior, French/English content expansion, light/dark themes, RTL-sensitive logical spacing, keyboard/screen-reader behavior and reduced motion as applicable. Static token tests alone do not prove rendered parity.
+- Utiliser AndroidX Compose UI/Foundation comme source de vérité pour les contrats publics de `Modifier`, `Alignment`, `Arrangement`, `Column`, `Row`, `Box` et `Spacer`. Figer la version exacte de l’artefact et du snapshot d’API, puis documenter les différences Web avant de revendiquer une fidélité.
+- Porter d’abord les primitives étayées par les sources, tester leurs contrats, puis migrer les compositions des pages Loculary. Conserver une seule implémentation canonique du layout ; ne pas ajouter de piles ou d’aides d’espacement parallèles qui dupliquent le comportement AndroidX.
+- Centraliser les décisions de design propres à Loculary — gouttières responsives, presets de largeur, rythme entre sections et autres conventions produit — dans des tokens sémantiques. Les valeurs CSS/Tailwind qui encodent ces décisions doivent référencer les tokens plutôt que réintroduire des écarts numériques entre pages.
+- Une composition produit telle que `PageContainer` est légitime uniquement si elle exprime une véritable convention Loculary. Ce n’est pas une API AndroidX et elle doit rester remplaçable : l’implémenter au-dessus des primitives partagées lorsque c’est pertinent, et la supprimer si elle ne fait que dupliquer leur comportement.
+- Ne pas assimiler les valeurs Android `Dp` à des pixels CSS sans stratégie de conversion explicite et documentée. Préserver, lorsque cela a du sens, les règles de mesure Compose, l’ordre des modificateurs, le sens de lecture, les arrangements et les alignements ; documenter les différences imposées par le navigateur.
+- Migrer progressivement les cadres communs du site et les pages, puis les outils et formulaires intégrés lorsque le changement est sûr. Conserver les compositions spécifiques à une tâche lorsqu’elles répondent à un vrai besoin, mais faire reposer leurs espacements et contraintes sur les API/tokens partagés.
+- Vérifier le responsive, l’expansion des contenus français/anglais, les thèmes clair/sombre, les espacements logiques sensibles au RTL, le clavier, les lecteurs d’écran et la réduction des animations lorsque c’est pertinent. Les tests statiques de tokens ne prouvent pas la parité du rendu.
 
-The current partial port and known gaps are tracked in [the layout primitives specification](material3/layout-primitives.md). Its status is not a claim of AndroidX parity.
+Le portage partiel et ses lacunes actuelles sont suivis dans la [spécification des primitives de layout](material3/layout-primitives.md). Son statut ne constitue pas une affirmation de parité avec AndroidX.
 
 ## Source and fidelity rules
 
