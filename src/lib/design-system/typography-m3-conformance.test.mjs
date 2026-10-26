@@ -6,6 +6,8 @@ const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url)
 const buttonSource = readFileSync(new URL("../../components/ui/Button.tsx", import.meta.url), "utf8");
 const fieldCss = readFileSync(new URL("../../components/ui/MaterialTextField.module.css", import.meta.url), "utf8");
 const chipCss = readFileSync(new URL("../../components/ui/Chip.module.css", import.meta.url), "utf8");
+const toolHeader = readFileSync(new URL("../../components/tools/ToolPage/ToolPageHeader.tsx", import.meta.url), "utf8");
+const accountPage = readFileSync(new URL("../../app/[locale]/compte/connexion/page.tsx", import.meta.url), "utf8");
 const typographySpec = readFileSync(new URL("../../../docs/material3/components/Typography.md", import.meta.url), "utf8");
 
 const roles = [
