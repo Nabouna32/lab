@@ -21,7 +21,7 @@ export function Row({
   className,
   style,
 }: RowProps) {
-  const justifyContent = horizontalArrangement.kind === "spacedBy"
+  const justifyContent = horizontalArrangement.kind === "spacedBy" || horizontalArrangement.kind === "spacedByCss"
     ? "flex-start"
     : ({
         start: "flex-start",
