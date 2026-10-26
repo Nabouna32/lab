@@ -71,3 +71,26 @@ test("unknown category IDs fall back to the shared primary tokens", () => {
   assert.equal(getCategoryContainerColor("unknown"), "var(--accent-soft)");
   assert.equal(getCategoryOnContainerColor("unknown"), "var(--on-primary-container)");
 });
+
+test("shared layout spacing tokens define a consistent semantic scale", () => {
+  for (const token of [
+    "--space-0: 0",
+    "--space-1: var(--m3-space-1)",
+    "--space-2: var(--m3-space-2)",
+    "--space-3: var(--m3-space-3)",
+    "--space-4: var(--m3-space-4)",
+    "--space-5: 1.25rem",
+    "--space-6: var(--m3-space-6)",
+    "--space-8: 2rem",
+    "--space-10: 2.5rem",
+    "--space-12: 3rem",
+    "--space-16: 4rem",
+    "--layout-page-gutter: 1rem",
+    "--layout-page-section-gap: var(--space-8)",
+    "--layout-content-gap: var(--space-6)",
+    "--layout-item-gap: var(--space-4)",
+  ]) {
+    assert.ok(globalCss.includes(token), `missing shared layout token: ${token}`);
+  }
+});
+
