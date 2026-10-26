@@ -1,11 +1,22 @@
 import type { CSSProperties } from "react";
+import type { ModifierElement } from "./Modifier";
 
 export type SpacerProps = {
+  modifier?: ModifierElement;
   className?: string;
   style?: CSSProperties;
 };
 
-/** Web adaptation of androidx.compose.foundation.layout.Spacer. */
-export function Spacer({ className, style }: SpacerProps) {
-  return <div aria-hidden="true" className={className} style={{ flex: "1 1 auto", ...style }} />;
+/**
+ * Web adaptation of androidx.compose.foundation.layout.Spacer.
+ * It has no intrinsic size; size must come from its modifier or layout constraints.
+ */
+export function Spacer({ modifier, className, style }: SpacerProps) {
+  return (
+    <div
+      aria-hidden="true"
+      className={className}
+      style={{ ...modifier?.toStyle(), ...style }}
+    />
+  );
 }
