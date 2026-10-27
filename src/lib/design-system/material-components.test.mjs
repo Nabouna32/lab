@@ -887,12 +887,15 @@ test("tool compositions use the shared 12px shape role instead of the legacy rad
     "../../components/tools/regex-tester/RegexTester.tsx",
     "../../components/favorites/FavoritesView.tsx",
     "../../components/tools/ToolPage/ToolPageHeader.tsx",
+    "../../components/tools/uuid/UuidGenerator.tsx",
+    "../../components/tools/unix-timestamp/UnixTimestampConverter.tsx",
+    "../../components/tools/timezone-converter/TimezoneConverter.tsx",
   ];
 
   for (const path of consumers) {
     const source = readFileSync(new URL(path, import.meta.url), "utf8");
-    assert.match(source, /shape-corner-(?:small|medium|large)/, path);
-    assert.doesNotMatch(source, /radius-(?:sm|md|lg)/, path);
+    assert.match(source, /shape-corner-(?:small|medium|large|extra-large)/, path);
+    assert.doesNotMatch(source, /radius-(?:sm|md|lg|2xl)/, path);
   }
 });
 
