@@ -59,7 +59,7 @@ export default function Ipv6SubnetCalculator() {
                 { label: t.networkAddress, value: result.networkAddress },
                 { label: t.lastAddress, value: result.lastAddress },
                 { label: t.addressCount, value: result.addressCount.toLocaleString(locale) },
-              ].map((field) => <div key={field.label} className="rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] p-4">
+              ].map((field) => <div key={field.label} className="rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--surface)] p-4">
                 <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--muted)]">{field.label}</p>
                 <p className="mt-2 break-all font-mono text-sm leading-6 text-[var(--foreground)]">{field.value}</p>
               </div>)}
