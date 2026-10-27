@@ -93,3 +93,6 @@ La tranche suivante étend les rôles typographiques partagés à `AlertDialog`,
 
 
 La troisième tranche étend la centralisation aux composants `BottomSheetScaffold`, `ButtonGroup`, `DatePicker`, `FloatingActionButton`, `FloatingActionButtonMenu`, `FloatingToolbar`, `ModalBottomSheet`, `PullToRefreshBox`, `RangeSlider`, `SegmentedButtonGroup`, `SplitButton`, `SwipeToDismissBox`, `WideNavigationRail` et `Slider`. Les métriques des nombres/commandes qui jouent le rôle d’icônes ou de valeurs numériques particulières restent séparées lorsqu’un rôle typographique M3 équivalent n’est pas établi. Les tests de contrat couvrent désormais aussi ces composants.
+
+
+La migration des consommateurs de production s'étend à `AppLink`, `ResultPanel`, `RecentTools`, `RelatedTools`, `ToolCard` et `ValidationMessage`. Les liens visuellement assimilés à des boutons utilisent désormais le rôle `label-large` partagé, les contenus de résultat et d'aide utilisent des rôles nommés, et les formes de cartes/tuile traitées consomment des tokens de forme dédiés. Les tests vérifient ces contrats pour éviter une régression vers des classes Tailwind indépendantes.
