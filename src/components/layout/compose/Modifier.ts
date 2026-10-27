@@ -213,19 +213,26 @@ class ModifierChain {
     return this.append({ kind: "sizeIn", constraints });
   }
 
-  weight(weight: number, fill = true): ModifierChain {
+  static rowWeight(weight: number, fill = true): ModifierChain {
     if (!Number.isFinite(weight) || weight <= 0) {
-      throw new RangeError("Modifier.weight requires a finite, positive weight.");
+      throw new RangeError("RowScope.weight requires a finite, positive weight.");
     }
-    return this.append({ kind: "weight", weight, fill });
+    return ModifierChain.empty().append({ kind: "weight", weight, fill });
   }
 
-  align(alignment: BoxAlignment): ModifierChain {
-    return this.append({ kind: "boxAlign", alignment });
+  static columnWeight(weight: number, fill = true): ModifierChain {
+    if (!Number.isFinite(weight) || weight <= 0) {
+      throw new RangeError("ColumnScope.weight requires a finite, positive weight.");
+    }
+    return ModifierChain.empty().append({ kind: "weight", weight, fill });
   }
 
-  matchParentSize(): ModifierChain {
-    return this.append({ kind: "matchParentSize" });
+  static boxAlign(alignment: BoxAlignment): ModifierChain {
+    return ModifierChain.empty().append({ kind: "boxAlign", alignment });
+  }
+
+  static boxMatchParentSize(): ModifierChain {
+    return ModifierChain.empty().append({ kind: "matchParentSize" });
   }
 
   boxScopeOptions(): { alignment?: BoxAlignment; matchParentSize: boolean } {
@@ -264,6 +271,19 @@ export type Modifier = ModifierChain;
 /** Compose-shaped empty modifier chain; each call returns a new ordered chain. */
 export const Modifier = ModifierChain.empty();
 
+/** Scope-specific layout operations, separated from the generic Modifier chain. */
+export const RowScope = {
+  weight: (weight: number, fill = true): Modifier => ModifierChain.rowWeight(weight, fill),
+};
+
+export const ColumnScope = {
+  weight: (weight: number, fill = true): Modifier => ModifierChain.columnWeight(weight, fill),
+};
+
+export const BoxScope = {
+  align: (alignment: BoxAlignment): Modifier => ModifierChain.boxAlign(alignment),
+  matchParentSize: (): Modifier => ModifierChain.boxMatchParentSize(),
+};
 
 export function isModifier(value: unknown): value is Modifier {
   return value instanceof ModifierChain;
