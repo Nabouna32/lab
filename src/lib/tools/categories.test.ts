@@ -206,15 +206,16 @@ test("Modifier exposes the common size and constraint operations needed by layou
     width: "50%",
     height: "50%",
   });
-  assert.deepEqual(getModifierElementProps(Modifier.widthIn({ minWidth: 200, maxWidth: 400 }).wrap(createElement("span"))).style, {
+  assert.deepEqual(getModifierElementProps(Modifier.widthIn(200, 400).wrap(createElement("span"))).style, {
     minWidth: "200px",
     maxWidth: "400px",
   });
-  assert.deepEqual(getModifierElementProps(Modifier.heightIn({ minHeight: 40 }).wrap(createElement("span"))).style, {
+  assert.deepEqual(getModifierElementProps(Modifier.heightIn(40).wrap(createElement("span"))).style, {
     minHeight: "40px",
   });
-  assert.deepEqual(getModifierElementProps(Modifier.sizeIn({ minWidth: 100, maxHeight: 300 }).wrap(createElement("span"))).style, {
+  assert.deepEqual(getModifierElementProps(Modifier.sizeIn(100, 0, undefined, 300).wrap(createElement("span"))).style, {
     minWidth: "100px",
+    minHeight: "0px",
     maxHeight: "300px",
   });
   assert.deepEqual(getModifierElementProps(Modifier.weight(2).wrap(createElement("span"))).style, {
@@ -241,8 +242,8 @@ test("Modifier validates dimensions, fractions, weights and contradictory constr
   assert.throws(() => Modifier.width(-1), RangeError);
   assert.throws(() => Modifier.fillMaxWidth(1.1), RangeError);
   assert.throws(() => Modifier.weight(0), RangeError);
-  assert.throws(() => Modifier.widthIn({ minWidth: 300, maxWidth: 200 }), RangeError);
-  assert.throws(() => Modifier.heightIn({ minHeight: 100, maxHeight: 50 }), RangeError);
+  assert.throws(() => Modifier.widthIn(300, 200), RangeError);
+  assert.throws(() => Modifier.heightIn(100, 50), RangeError);
 });
 
 test("Arrangement exposes the AndroidX alignment overloads for spacedBy and aligned", () => {
@@ -293,3 +294,22 @@ test("tool editorial sections use Column and the shared spacing scale", () => {
 });
 
 
+
+
+test("Modifier constraint helpers use AndroidX-shaped positional parameters", () => {
+  assert.deepEqual(getModifierElementProps(Modifier.widthIn().wrap(createElement("span"))).style, {
+    minWidth: "0px",
+  });
+  assert.deepEqual(getModifierElementProps(Modifier.widthIn(0, 480).wrap(createElement("span"))).style, {
+    minWidth: "0px",
+    maxWidth: "480px",
+  });
+  assert.deepEqual(getModifierElementProps(Modifier.heightIn().wrap(createElement("span"))).style, {
+    minHeight: "0px",
+  });
+  assert.deepEqual(getModifierElementProps(Modifier.sizeIn().wrap(createElement("span"))).style, {
+    minWidth: "0px",
+    minHeight: "0px",
+  });
+  assert.throws(() => Modifier.sizeIn(300, 0, 200), RangeError);
+});
