@@ -101,3 +101,13 @@ La migration des consommateurs de production s'étend à `AppLink`, `ResultPanel
 
 
 La migration des formes partagées progresse aussi dans les compositions de date, navigation et outils : `DatePicker`, `AppLink`, `RecentTools`, `RelatedTools`, `ToolCard`, `UrlParser`, `JwtDecoder`, `HashGenerator`, `EditorialPrimitives`, `JsonDiffChecker`, `CronExpression` et `ColorConverter` utilisent désormais les tokens de forme partagés pour les éléments migrés. Cette étape ne permet pas encore de supprimer `--radius-md` globalement : d'autres consommateurs restent à migrer et les rayons historiques de 24 px/16 px ne sont pas équivalents à toutes les formes AndroidX.
+
+## Migration de production et retrait de l’existant — 28 octobre 2026
+
+La migration ne porte pas uniquement sur l’API des composants : les pages et compositions existantes doivent consommer les fondations partagées au fil de l’implémentation. La tranche de la PR #1020 étend les rôles typographiques partagés aux pages d’information, au pied de page, aux parcours de compte (connexion, inscription, e-mail, mots de passe et suppression) et aux pages d’administration (tableau de bord, audit et utilisateurs). Plusieurs formulaires utilisent aussi les primitives Compose Web `Column` et `Arrangement.spacedBy` pour leur espacement vertical.
+
+Cette liste indique des migrations de source, pas une validation de rendu. Les états clair/sombre, les tailles d’écran, le clavier, les technologies d’assistance et les textes français/anglais doivent rester dans la grille de vérification.
+
+**Le retrait de l’existant fait partie de la migration.** Après chaque famille migrée, rechercher les références résiduelles et supprimer les styles, composants, helpers, tokens, tests ou wrappers qui ne servent plus. Si un ancien élément a encore des consommateurs, migrer ceux-ci ou justifier explicitement son maintien. Ne pas conserver une abstraction simplement parce qu’elle est ancienne ou utilisée par un test de contrat obsolète.
+
+L’échelle historique `--radius-*` est encore utilisée dans les outils de production : elle ne doit donc pas être supprimée à ce stade. Continuer l’inventaire et la migration par rôle, sans confondre mécaniquement les rayons historiques de 16 px/24 px avec des tokens Material 3. La suppression ne sera justifiée qu’après une recherche exhaustive et une vérification des tests et usages dynamiques.
