@@ -30,6 +30,8 @@ test("shared Button exports AndroidX component names with source-derived dimensi
     assert.ok(button.includes("export function " + component + "("), "missing AndroidX component export: " + component);
   }
   assert.ok(button.includes("export type ButtonColors ="), "official button exports expose AndroidX-inspired color customization");
+  assert.ok(button.includes("enabled?: boolean"));
+  assert.ok(button.includes("disabled={disabled ?? !enabled}"), "AndroidX enabled maps to the native disabled state");
   assert.ok(button.includes("export type ButtonContentPadding ="));
   assert.ok(button.includes('shape?: CSSProperties["borderRadius"]'));
   assert.ok(button.includes('border?: CSSProperties["border"] | null'));
