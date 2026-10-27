@@ -26,22 +26,22 @@ export default function InformationPage({ locale, kind }: { locale: Locale; kind
     return (
       <main className="min-h-full" aria-labelledby="information-title">
         <PageContainer width="narrow" spacing="default">
-          <article className="w-full rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8 lg:p-10">
+          <article className="w-full rounded-[var(--shape-corner-extra-large)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8 lg:p-10">
             <Column verticalArrangement={Arrangement.spacedBy("var(--layout-content-gap)")}>
-              <h1 id="information-title" className="text-3xl font-bold tracking-tight text-[var(--foreground)] sm:text-4xl">{page.title}</h1>
-              <p className="text-base leading-7 text-[var(--muted)]">{page.intro}</p>
+              <h1 id="information-title" className="m3-type-headline-large text-[var(--foreground)]">{page.title}</h1>
+              <p className="m3-type-body-large text-[var(--muted)]">{page.intro}</p>
               <section aria-labelledby="principles-title">
-                <h2 id="principles-title" className="text-xl font-semibold text-[var(--foreground)]">{page.principlesTitle}</h2>
-                <ul className="mt-3 list-disc space-y-3 pl-6 leading-7 text-[var(--muted)]">{page.principles.map((principle) => <li key={principle}>{principle}</li>)}</ul>
+                <h2 id="principles-title" className="m3-type-title-large text-[var(--foreground)]">{page.principlesTitle}</h2>
+                <ul className="mt-3 list-disc space-y-3 pl-6 m3-type-body-large text-[var(--muted)]">{page.principles.map((principle) => <li key={principle}>{principle}</li>)}</ul>
               </section>
               <section aria-labelledby="transparency-title">
-                <h2 id="transparency-title" className="text-xl font-semibold text-[var(--foreground)]">{page.privacyTitle}</h2>
-                <p className="mt-2 leading-7 text-[var(--muted)]">{page.privacy}</p>
-                <a href={getPrivacyPolicyPath(locale)} className="mt-3 inline-flex min-h-11 items-center rounded-sm text-sm font-semibold text-[var(--accent)] underline underline-offset-4 outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]">{messages.footer.privacyPolicy}</a>
+                <h2 id="transparency-title" className="m3-type-title-large text-[var(--foreground)]">{page.privacyTitle}</h2>
+                <p className="mt-2 m3-type-body-large text-[var(--muted)]">{page.privacy}</p>
+                <a href={getPrivacyPolicyPath(locale)} className="mt-3 inline-flex min-h-11 items-center rounded-[var(--shape-corner-extra-small)] m3-type-label-large text-[var(--primary)] underline underline-offset-4 outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]">{messages.footer.privacyPolicy}</a>
               </section>
               <section aria-labelledby="evolving-title">
-                <h2 id="evolving-title" className="text-xl font-semibold text-[var(--foreground)]">{page.toolsTitle}</h2>
-                <p className="mt-2 leading-7 text-[var(--muted)]">{page.tools}</p>
+                <h2 id="evolving-title" className="m3-type-title-large text-[var(--foreground)]">{page.toolsTitle}</h2>
+                <p className="mt-2 m3-type-body-large text-[var(--muted)]">{page.tools}</p>
               </section>
             </Column>
           </article>
@@ -55,18 +55,18 @@ export default function InformationPage({ locale, kind }: { locale: Locale; kind
     return (
       <main className="min-h-full" aria-labelledby="information-title">
         <PageContainer width="narrow" spacing="default">
-          <article className="w-full rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8 lg:p-10">
+          <article className="w-full rounded-[var(--shape-corner-extra-large)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8 lg:p-10">
             <Column verticalArrangement={Arrangement.spacedBy("var(--layout-content-gap)")}>
-              <h1 id="information-title" className="text-3xl font-bold tracking-tight text-[var(--foreground)] sm:text-4xl">{page.title}</h1>
-              <p className="text-base leading-7 text-[var(--muted)]">{page.intro}</p>
+              <h1 id="information-title" className="m3-type-headline-large text-[var(--foreground)]">{page.title}</h1>
+              <p className="m3-type-body-large text-[var(--muted)]">{page.intro}</p>
               <section aria-labelledby="general-contact-title">
-                <h2 id="general-contact-title" className="text-xl font-semibold text-[var(--foreground)]">{page.statusTitle}</h2>
-                <p className="mt-2 leading-7 text-[var(--muted)]">{page.status}</p>
+                <h2 id="general-contact-title" className="m3-type-title-large text-[var(--foreground)]">{page.statusTitle}</h2>
+                <p className="mt-2 m3-type-body-large text-[var(--muted)]">{page.status}</p>
               </section>
               <section aria-labelledby="privacy-contact-title">
-                <h2 id="privacy-contact-title" className="text-xl font-semibold text-[var(--foreground)]">{page.privacyTitle}</h2>
-                <p className="mt-2 leading-7 text-[var(--muted)]">{page.privacy}</p>
-                <a href={"mailto:" + page.privacyEmail} className="mt-3 inline-flex min-h-11 items-center rounded-sm font-semibold text-[var(--accent)] underline underline-offset-4 outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]">{page.privacyEmail}</a>
+                <h2 id="privacy-contact-title" className="m3-type-title-large text-[var(--foreground)]">{page.privacyTitle}</h2>
+                <p className="mt-2 m3-type-body-large text-[var(--muted)]">{page.privacy}</p>
+                <a href={"mailto:" + page.privacyEmail} className="mt-3 inline-flex min-h-11 items-center rounded-[var(--shape-corner-extra-small)] m3-type-label-large text-[var(--primary)] underline underline-offset-4 outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]">{page.privacyEmail}</a>
               </section>
             </Column>
           </article>
@@ -79,15 +79,15 @@ export default function InformationPage({ locale, kind }: { locale: Locale; kind
   return (
     <main className="min-h-full" aria-labelledby="information-title">
       <PageContainer width="narrow" spacing="default">
-        <article className="w-full rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8 lg:p-10">
+        <article className="w-full rounded-[var(--shape-corner-extra-large)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8 lg:p-10">
           <Column verticalArrangement={Arrangement.spacedBy("var(--layout-content-gap)")}>
-            <h1 id="information-title" className="text-3xl font-bold tracking-tight text-[var(--foreground)] sm:text-4xl">{page.title}</h1>
-            <p className="text-base leading-7 text-[var(--muted)]">{page.intro}</p>
-            <aside className="rounded-2xl border border-[var(--border)] p-4" aria-labelledby="status-title">
-              <h2 id="status-title" className="font-semibold text-[var(--foreground)]">{page.statusTitle}</h2>
-              <p className="mt-2 leading-7 text-[var(--muted)]">{page.status}</p>
+            <h1 id="information-title" className="m3-type-headline-large text-[var(--foreground)]">{page.title}</h1>
+            <p className="m3-type-body-large text-[var(--muted)]">{page.intro}</p>
+            <aside className="rounded-[var(--shape-corner-large)] border border-[var(--border)] p-4" aria-labelledby="status-title">
+              <h2 id="status-title" className="m3-type-title-medium text-[var(--foreground)]">{page.statusTitle}</h2>
+              <p className="mt-2 m3-type-body-large text-[var(--muted)]">{page.status}</p>
             </aside>
-            <p className="text-sm leading-6 text-[var(--muted)]">{page.nextStep}</p>
+            <p className="m3-type-body-medium text-[var(--muted)]">{page.nextStep}</p>
           </Column>
         </article>
       </PageContainer>
