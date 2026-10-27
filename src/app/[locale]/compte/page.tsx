@@ -5,8 +5,6 @@ import AppLink from "@/components/ui/AppLink";
 import { PageContainer } from "@/components/layout/PageLayout";
 import SubmitButton from "@/components/account/SubmitButton";
 import { Panel } from "@/components/ui/Panel";
-import { TextField } from "@/components/ui/TextField";
-import { Select } from "@/components/ui/Select";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import { ListItem } from "@/components/ui/ListItem";
 import { createClient } from "@/lib/supabase/server";
@@ -52,16 +50,13 @@ export default async function AccountPage({
   }
 
   const user = userData.user;
-  const [{ data: isAdmin }, { data: profile }] = await Promise.all([
+  const [{ data: isAdmin }] = await Promise.all([
     supabase.rpc("has_admin_permission", { requested_permission: "admin.dashboard.view" }),
-    supabase.from("profiles").select("display_name, locale, created_at").eq("id", user.id).maybeSingle(),
   ]);
 
   const statusMessage =
-    query.status === "profile-updated" ? t.account.profileUpdated :
     query.status === "password-changed" ? t.account.passwordChanged :
     query.status === "email-updated" ? t.account.emailChangeUpdated :
-    query.error === "profile" ? t.account.profileError :
     null;
 
   return (
@@ -84,41 +79,29 @@ export default async function AccountPage({
         ) : null}
 
         <div className="space-y-6">
-          <Panel as="section">
-            <header className="space-y-1">
-              <h2 className="m3-type-title-large">{t.account.profile}</h2>
-              <p className="text-sm leading-6 text-[var(--on-surface-variant)]">{t.account.profileDescription}</p>
+          <section className="overflow-hidden rounded-[var(--m3-panel-shape)] border border-[var(--outline-variant)] bg-[var(--surface)] shadow-[var(--shadow-sm)]" aria-labelledby="account-profile-title">
+            <header className="space-y-1 px-5 pb-4 pt-5 sm:px-7 sm:pb-5 sm:pt-7">
+              <h2 id="account-profile-title" className="m3-type-title-large">{t.account.profile}</h2>
             </header>
-            <form action={updateProfile} className="mt-5 space-y-5">
-              <input type="hidden" name="locale" value={locale} />
-              <TextField
-                label={t.account.displayName}
-                inputId="display-name"
-                name="displayName"
-                type="text"
-                autoComplete="name"
-                maxLength={80}
-                defaultValue={profile?.display_name ?? ""}
-              />
-              <Select
-                label={t.account.preferredLanguage}
-                id="preferred-language"
-                name="preferredLocale"
-                defaultValue={profile?.locale ?? locale}
+            <div className="border-t border-[var(--outline-variant)]">
+              <Link
+                className="group block min-w-0 outline-none transition-colors hover:bg-[var(--surface-container-low)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] motion-reduce:transition-none"
+                href={`/${locale}/compte/informations-personnelles`}
               >
-                <option value="en">{t.account.english}</option>
-                <option value="fr">{t.account.french}</option>
-              </Select>
-              <SubmitButton pendingLabel={t.account.saveProfile}>
-                {t.account.saveProfile}
-              </SubmitButton>
-            </form>
-          </Panel>
+                <ListItem
+                  leading={<MaterialIcon name="person" size={24} />}
+                  headline={t.account.personalInformation}
+                  supporting={t.account.personalInformationDescription}
+                  trailing={<MaterialIcon name="chevron_right" size={24} className="transition-transform group-hover:translate-x-1 motion-reduce:transform-none" />}
+                  lines={2}
+                />
+              </Link>
+            </div>
+          </section>
 
           <section className="overflow-hidden rounded-[var(--m3-panel-shape)] border border-[var(--outline-variant)] bg-[var(--surface)] shadow-[var(--shadow-sm)]" aria-labelledby="account-security-title">
             <header className="space-y-1 px-5 pb-4 pt-5 sm:px-7 sm:pb-5 sm:pt-7">
               <h2 id="account-security-title" className="m3-type-title-large">{t.account.security}</h2>
-              <p className="text-sm leading-6 text-[var(--on-surface-variant)]">{t.account.securityDescription}</p>
             </header>
             <div className="border-t border-[var(--outline-variant)]">
               <div className="divide-y divide-[var(--outline-variant)]">
@@ -128,8 +111,8 @@ export default async function AccountPage({
                 >
                   <ListItem
                     leading={<MaterialIcon name="mail" size={24} />}
-                    headline={t.account.changeEmail}
-                    supporting={user.email}
+                    headline={t.account.emailSettingTitle}
+                    supporting={t.account.emailSettingDescription}
                     trailing={<MaterialIcon name="chevron_right" size={24} className="transition-transform group-hover:translate-x-1 motion-reduce:transform-none" />}
                     lines={2}
                   />
@@ -140,7 +123,8 @@ export default async function AccountPage({
                 >
                   <ListItem
                     leading={<MaterialIcon name="lock" size={24} />}
-                    headline={t.account.changePassword}
+                    headline={t.account.passwordSettingTitle}
+                    supporting={t.account.passwordSettingDescription}
                     trailing={<MaterialIcon name="chevron_right" size={24} className="transition-transform group-hover:translate-x-1 motion-reduce:transform-none" />}
                     lines={1}
                   />
