@@ -26,7 +26,7 @@ const content = {
 export default function ToolEditorial({ locale }: { locale: Locale }) {
   const t = content[locale];
   return (
-    <Column verticalArrangement={Arrangement.spacedByCss("var(--space-5)")}>
+    <Column verticalArrangement={Arrangement.spacedBy("var(--space-5)")}>
       <ToolSection title={t.title}>
         <p>{t.text}</p>
         <Card>
