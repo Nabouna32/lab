@@ -1,5 +1,7 @@
 import { notFound } from "next/navigation";
 import { PageContainer } from "@/components/layout/PageLayout";
+import { Arrangement } from "@/components/layout/compose/Arrangement";
+import { Column } from "@/components/layout/compose/Column";
 import { resetPassword } from "../../actions";
 import SubmitButton from "@/components/account/SubmitButton";
 import { createClient } from "@/lib/supabase/server";
@@ -48,7 +50,8 @@ export default async function ResetPasswordPage({
             {query.error === "weak-password" ? t.account.weakPassword : t.account.passwordResetError}
           </p>
         ) : null}
-        <form action={resetPassword} className="mt-6 space-y-5">
+        <form action={resetPassword}>
+          <Column verticalArrangement={Arrangement.spacedBy("var(--space-5)")}>
           <input type="hidden" name="locale" value={locale} />
           <label className="block">
             <span className="mb-2 block text-sm font-semibold">{t.account.password}</span>
@@ -61,6 +64,7 @@ export default async function ResetPasswordPage({
           <SubmitButton pendingLabel={t.account.resetPassword} className="w-full rounded-xl bg-[var(--accent)] px-5 py-3 font-semibold text-white transition-opacity hover:opacity-90 disabled:cursor-wait disabled:opacity-60">
             {t.account.resetPassword}
           </SubmitButton>
+                  </Column>
         </form>
       </section>
       </PageContainer>
