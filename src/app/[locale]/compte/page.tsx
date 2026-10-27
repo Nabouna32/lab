@@ -67,8 +67,9 @@ export default async function AccountPage({
   return (
     <main className="min-h-full">
       <PageContainer width="narrow" spacing="none" className="py-[var(--space-7)] sm:py-[var(--space-9)] lg:py-[var(--space-10)]">
-        <header className="mb-5 rounded-[var(--m3-panel-shape)] border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow-md)] sm:p-7">
+        <header className="mb-8 space-y-2">
           <h1 className="m3-type-headline-medium">{t.account.title}</h1>
+          <p className="max-w-2xl text-[var(--on-surface-variant)]">{t.account.pageDescription}</p>
         </header>
 
         {statusMessage ? (
@@ -82,12 +83,13 @@ export default async function AccountPage({
           </p>
         ) : null}
 
-        <div className="space-y-5">
+        <div className="space-y-6">
           <Panel as="section">
-            <div>
+            <header className="space-y-1">
               <h2 className="m3-type-title-large">{t.account.profile}</h2>
-            </div>
-            <form action={updateProfile} className="mt-6 space-y-5">
+              <p className="text-sm leading-6 text-[var(--on-surface-variant)]">{t.account.profileDescription}</p>
+            </header>
+            <form action={updateProfile} className="mt-5 space-y-5">
               <input type="hidden" name="locale" value={locale} />
               <TextField
                 label={t.account.displayName}
@@ -113,32 +115,37 @@ export default async function AccountPage({
             </form>
           </Panel>
 
-          <section className="overflow-hidden rounded-[var(--m3-panel-shape)] border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-sm)]" aria-labelledby="account-security-title">
-            <div className="px-5 pb-3 pt-5 sm:px-7 sm:pt-7">
+          <section className="overflow-hidden rounded-[var(--m3-panel-shape)] border border-[var(--outline-variant)] bg-[var(--surface)] shadow-[var(--shadow-sm)]" aria-labelledby="account-security-title">
+            <header className="space-y-1 px-5 pb-4 pt-5 sm:px-7 sm:pb-5 sm:pt-7">
               <h2 id="account-security-title" className="m3-type-title-large">{t.account.security}</h2>
-            </div>
-            <div className="divide-y divide-[var(--outline-variant)]">
-              <Link
-                className="group block min-w-0 outline-none transition-colors hover:bg-[var(--surface-container)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] motion-reduce:transition-none"
-                href={`/${locale}/compte/email`}
-              >
-                <ListItem
-                  headline={t.account.changeEmail}
-                  supporting={user.email}
-                  trailing={<MaterialIcon name="chevron_right" size={24} className="transition-transform group-hover:translate-x-1 motion-reduce:transform-none" />}
-                  lines={2}
-                />
-              </Link>
-              <Link
-                className="group block min-w-0 outline-none transition-colors hover:bg-[var(--surface-container)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] motion-reduce:transition-none"
-                href={`/${locale}/compte/mot-de-passe`}
-              >
-                <ListItem
-                  headline={t.account.changePassword}
-                  trailing={<MaterialIcon name="chevron_right" size={24} className="transition-transform group-hover:translate-x-1 motion-reduce:transform-none" />}
-                  lines={1}
-                />
-              </Link>
+              <p className="text-sm leading-6 text-[var(--on-surface-variant)]">{t.account.securityDescription}</p>
+            </header>
+            <div className="border-t border-[var(--outline-variant)]">
+              <div className="divide-y divide-[var(--outline-variant)]">
+                <Link
+                  className="group block min-w-0 outline-none transition-colors hover:bg-[var(--surface-container-low)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] motion-reduce:transition-none"
+                  href={`/${locale}/compte/email`}
+                >
+                  <ListItem
+                    leading={<MaterialIcon name="mail" size={24} />}
+                    headline={t.account.changeEmail}
+                    supporting={user.email}
+                    trailing={<MaterialIcon name="chevron_right" size={24} className="transition-transform group-hover:translate-x-1 motion-reduce:transform-none" />}
+                    lines={2}
+                  />
+                </Link>
+                <Link
+                  className="group block min-w-0 outline-none transition-colors hover:bg-[var(--surface-container-low)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] motion-reduce:transition-none"
+                  href={`/${locale}/compte/mot-de-passe`}
+                >
+                  <ListItem
+                    leading={<MaterialIcon name="lock" size={24} />}
+                    headline={t.account.changePassword}
+                    trailing={<MaterialIcon name="chevron_right" size={24} className="transition-transform group-hover:translate-x-1 motion-reduce:transform-none" />}
+                    lines={1}
+                  />
+                </Link>
+              </div>
             </div>
           </section>
 
@@ -156,9 +163,9 @@ export default async function AccountPage({
             </form>
           </div>
 
-          <section className="rounded-[var(--radius-xl)] border border-[var(--danger)]/25 bg-[var(--danger-soft)]/40 p-5 sm:p-7" aria-labelledby="delete-account-title">
-            <p className="text-sm font-black text-[var(--danger)]">{t.account.dangerZone}</p>
-            <h2 id="delete-account-title" className="mt-1 text-lg font-black">{t.account.deleteAccountTitle}</h2>
+          <section className="rounded-[var(--m3-panel-shape)] border border-[var(--error)]/30 bg-[var(--error-container)]/35 p-5 sm:p-7" aria-labelledby="delete-account-title">
+            <p className="m3-type-label-large text-[var(--error)]">{t.account.dangerZone}</p>
+            <h2 id="delete-account-title" className="m3-type-title-large mt-1">{t.account.deleteAccountTitle}</h2>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--muted)]">{t.account.deleteAccountDescription}</p>
             <AppLink
               className="mt-4"
