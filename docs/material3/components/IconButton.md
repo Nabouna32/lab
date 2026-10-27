@@ -1,7 +1,7 @@
 # IconButton — AndroidX Material 3 port
 
 **Status:** Portage en cours / verification incomplete.  
-**Current React implementation:** `src/components/ui/IconButton.tsx` exposes the eight official action/toggle names separately. This aligns the public API distinction, but does not establish source parity for the current CSS state tokens.
+**Current React implementation:** `src/components/ui/IconButton.tsx` exposes the eight official action/toggle names separately, uses separate action/toggle color roles, and shares the bounded pointer/keyboard ripple adaptation. Full source parity is not claimed until props, exact token revision and browser behavior are verified.
 
 ## Upstream authority
 
@@ -27,7 +27,7 @@ The port should follow official AndroidX public component names and distinguish 
 - Use a native button with a meaningful accessible name; decorative icon content must not be the only accessible label.
 - Verify keyboard activation, visible focus, disabled non-activation and touch target in context.
 - Test actual computed foreground/container/outline colors in light and dark themes.
-- If ripple, overlays or motion differ from Compose, document the difference as a Web adaptation and respect reduced-motion preferences.
+- The shared bounded ripple is a Web adaptation of Compose `ripple()`; it must remain clipped to the control, support keyboard activation, and respect reduced-motion preferences.
 
 ## Required verification
 

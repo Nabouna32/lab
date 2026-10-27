@@ -1,4 +1,5 @@
 import type { ButtonHTMLAttributes, ReactNode, Ref } from "react";
+import { ButtonRipple } from "@/components/ui/ButtonRipple";
 
 type IconButtonStyle = "standard" | "filled" | "filled-tonal" | "outlined";
 
@@ -81,7 +82,7 @@ function IconButtonBase({
         if (isToggle && !event.defaultPrevented) onCheckedChange(!checked);
       }}
       className={[
-        "group inline-flex shrink-0 items-center justify-center rounded-full bg-transparent p-0",
+        "group relative isolate inline-flex shrink-0 items-center justify-center rounded-full bg-transparent p-0",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]",
         "focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]",
         "disabled:pointer-events-none disabled:cursor-not-allowed",
@@ -101,6 +102,7 @@ function IconButtonBase({
       >
         {children}
       </span>
+      <ButtonRipple />
     </button>
   );
 }
