@@ -53,7 +53,7 @@ export default function UnixTimestampConverter() {
     : "";
 
   return (
-    <section className="overflow-hidden rounded-[var(--radius-2xl)] border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-sm)]">
+    <section className="overflow-hidden rounded-[var(--shape-corner-extra-large)] border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-sm)]">
       <div className="border-b border-[var(--border)] p-5 sm:p-7 lg:p-8">
         <div className="flex flex-wrap gap-2">
           <TimestampModeButton type="button" onClick={() => { setMode("timestamp"); setResult(null); setError(false); }}>
