@@ -25,7 +25,7 @@ function createReport(result: JsonDiffResult, t: DiffMessages): string {
 
 function ChangeValue({ label, value }: { label: string; value: unknown }) {
   return (
-    <div className="min-w-0 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] p-3">
+    <div className="min-w-0 rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--surface)] p-3">
       <p className="mb-2 text-xs font-semibold text-[var(--muted)]">{label}</p>
       <pre className="overflow-x-auto whitespace-pre-wrap break-words font-mono text-xs leading-5 text-[var(--foreground)]">
         {formatValue(value)}
