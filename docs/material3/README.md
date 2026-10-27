@@ -159,3 +159,27 @@ Une tranche de consommateurs réutilise maintenant les fondations : `AppLink`, `
 
 
 Les formes des composants traités et de plusieurs usages dans les outils sont désormais reliées aux tokens partagés, avec un test de contrat dédié. `--radius-md` et les autres conventions historiques sont maintenus tant que l'inventaire n'est pas à zéro. Les valeurs historiques de 24 px et 16 px doivent être arbitrées composant par composant ; elles ne sont pas remplacées mécaniquement par une forme AndroidX supposée équivalente.
+
+## État de migration — 28 octobre 2026
+
+Cette section décrit l’état constaté sur la branche de la PR #1020. Elle prévaut sur les descriptions historiques plus anciennes de ce document ; elle ne vaut pas validation visuelle navigateur.
+
+### Consommateurs de production migrés dans cette tranche
+
+Les rôles typographiques partagés sont maintenant utilisés dans les pages de présentation, de contact et de signalement, le pied de page, les pages de connexion et d’inscription, le changement d’adresse e-mail, la gestion du mot de passe, la demande et la finalisation de réinitialisation, la suppression du compte, ainsi que le tableau de bord d’administration, son journal d’audit et la gestion des utilisateurs.
+
+Les formes de certains conteneurs de pages utilisent également les tokens de forme sémantiques. Le formulaire de changement d’e-mail et plusieurs formulaires de compte consomment `Column` et `Arrangement.spacedBy` pour leur cadence verticale, au lieu de répéter une utilité d’espacement Tailwind.
+
+Les tests de contrat vérifient la présence des rôles partagés dans ces consommateurs. Ils ne remplacent ni la vérification du comportement dans le navigateur, ni les contrôles de responsive, de clavier, de thèmes clair/sombre et d’accessibilité.
+
+### Règle de suppression après migration
+
+Une migration n’est pas terminée tant que les anciennes implémentations, classes, tokens, wrappers, tests et documentations devenus redondants n’ont pas été examinés. Après migration, supprimer tout élément devenu inutile **uniquement après** avoir vérifié l’ensemble des références dans le dépôt, les usages dynamiques éventuels, les tests, les scripts, les exemples et les documents.
+
+Une référence encore active impose soit de migrer son consommateur, soit de conserver explicitement l’élément historique avec une raison documentée. Ne pas garder une API uniquement parce qu’un ancien test ou une prévisualisation la référence : migrer ou supprimer aussi ce test ou cette prévisualisation si son contrat n’est plus pertinent.
+
+À cette date, l’échelle historique `--radius-*` **n’est pas supprimable** : des usages de production subsistent, notamment dans des outils. Les rayons de 16 px et 24 px ne doivent pas être remappés mécaniquement vers une forme M3. La suppression devra intervenir après migration des derniers consommateurs et vérification qu’aucune référence ne reste.
+
+### État de la livraison
+
+La PR #1020 reste un brouillon non fusionné. La CI doit être contrôlée sur le dernier commit avant de considérer cette tranche comme vérifiée. Une CI verte ne suffira pas à déclarer la fidélité AndroidX sans comparaison de rendu et de comportement dans le navigateur.
