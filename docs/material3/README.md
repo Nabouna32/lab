@@ -31,7 +31,7 @@ Before broad production migration, the Web port must expose a single source of t
 
 A shared token existing in CSS is not enough: audit its consumers and legacy aliases. Changing a foundation must update all inheriting consumers. Component-specific defaults and explicit overrides remain where AndroidX defines or permits them. Typography must use named roles instead of repeated Tailwind font-size/weight/line-height combinations.
 
-The current implementation does not yet meet this contract: `src/app/globals.css` has both `--radius-*` and `--shape-corner-*` scales, and only a small subset of typography dimensions is exposed as shared variables. The shape values currently documented in CSS include Material Web-inspired values; they are not evidence of AndroidX component defaults until verified against the pinned source. Track this gap rather than treating existing tokens as proof of parity.
+Implementation is in active migration: all 15 Material 3 typography roles are exposed as shared variables/classes and are consumed by many UI components and production compositions. A targeted migration of 12px consumers from the legacy `--radius-md` alias to `--shape-corner-medium` is covered by contract tests. The `--radius-*` scale still exists pending a complete reference audit; historical 16px and 24px values must not be mechanically remapped. Shape token presence and passing contract tests do not establish exact AndroidX source parity or browser-verified visual fidelity.
 
 ## Goal
 
