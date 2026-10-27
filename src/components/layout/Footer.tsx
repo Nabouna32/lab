@@ -14,7 +14,7 @@ export default function Footer({ locale }: { locale: Locale }) {
       <PageContainer width="wide" spacing="none" className="flex flex-col gap-3 py-[var(--space-4)] sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:py-[var(--space-5)]">
         <nav aria-label={t.footer.navigationLabel}>
           <Row
-            horizontalArrangement={Arrangement.spacedByCss("var(--space-1)")}
+            horizontalArrangement={Arrangement.spacedBy("var(--space-1)")}
             verticalAlignment="centerVertically"
             className="flex-wrap"
           >
