@@ -98,7 +98,7 @@ export default async function ToolsPage({
           </div>
         </section>
 
-        <div className="mt-5 grid gap-5 lg:grid-cols-[15rem_minmax(0,1fr)]">
+        <div className="mt-5 grid min-w-0 grid-cols-[minmax(0,1fr)] gap-5 lg:grid-cols-[15rem_minmax(0,1fr)]">
           <aside className="h-fit rounded-[1.5rem] border border-[var(--border)] bg-[var(--surface)] p-4 shadow-[var(--shadow-md)] lg:sticky lg:top-24" aria-labelledby="tools-intents-heading">
             <div className="border-b border-[var(--border)] pb-4">
               <h2 id="tools-intents-heading" className="text-xs font-black uppercase tracking-[0.16em] text-[var(--muted)]">{t.tools.intentsTitle}</h2>
@@ -131,7 +131,7 @@ export default async function ToolsPage({
                   </div>
                   <a href={getToolsPath(locale)} className="inline-flex min-h-10 items-center justify-center rounded-xl border border-[var(--border)] px-3 text-sm font-bold hover:bg-[var(--surface-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]">{t.tools.clearIntent}</a>
                 </div>
-                <div className="mt-5 divide-y divide-[var(--border)] overflow-hidden rounded-2xl border border-[var(--border)]">
+                <div className="mt-5 min-w-0 divide-y divide-[var(--border)] overflow-hidden rounded-2xl border border-[var(--border)]">
                   {intentTools.map((tool) => <div key={tool.id} data-testid="intent-result"><ToolCard tool={tool} locale={locale} categoryName={getCategoryName(locale, tool.categories[0])} categoryId={tool.categories[0]} /></div>)}
                 </div>
               </section>
@@ -145,12 +145,12 @@ export default async function ToolsPage({
                 <p className="max-w-sm text-sm leading-6 text-[var(--muted)]">{t.tools.categoriesDescription}</p>
               </div>
 
-              <div className="mt-5 grid gap-2 sm:grid-cols-2">
+              <div className="mt-5 grid min-w-0 gap-2 sm:grid-cols-2">
                 {visibleCategories.map((category, index) => (
                   <a
                     key={category.id}
                     href={getCategoryPath(locale, category.id)}
-                    className="group flex min-h-20 items-center gap-4 rounded-2xl border border-[var(--border)] bg-[var(--surface-soft)]/45 p-3.5 outline-none transition-[transform,border-color,background-color,box-shadow] duration-[var(--motion-standard)] hover:-translate-y-0.5 hover:border-[var(--accent)]/35 hover:bg-[var(--surface-soft)] hover:shadow-[var(--shadow-sm)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+                    className="group flex min-w-0 min-h-20 items-center gap-4 rounded-2xl border border-[var(--border)] bg-[var(--surface-soft)]/45 p-3.5 outline-none transition-[transform,border-color,background-color,box-shadow] duration-[var(--motion-standard)] hover:-translate-y-0.5 hover:border-[var(--accent)]/35 hover:bg-[var(--surface-soft)] hover:shadow-[var(--shadow-sm)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
                   >
                     <span className="font-mono text-[10px] font-bold">{String(index + 1).padStart(2, "0")}</span>
                     <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--radius-lg)] border border-transparent text-xl shadow-[var(--shadow-sm)] transition-transform duration-[var(--motion-standard)] group-hover:scale-105" style={{ color: getCategoryColor(category.id), backgroundColor: getCategoryContainerColor(category.id) }} aria-hidden="true">{category.icon}</span>

@@ -12,7 +12,7 @@ export default function ToolCard({ tool, locale, categoryName, categoryId }: { t
   return (
     <CardLink
       href={getToolPath(locale, tool.id)}
-      className="group flex min-h-40 flex-col p-4 transition-colors duration-200 hover:border-[var(--accent)]/40 hover:bg-[var(--surface-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]"
+      className="group flex w-full min-w-0 min-h-40 flex-col p-4 transition-colors duration-200 hover:border-[var(--accent)]/40 hover:bg-[var(--surface-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]"
     >
       <div className="flex items-center gap-3">
         <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--shape-corner-medium)] bg-[var(--accent-soft)] text-xl" aria-hidden="true">{tool.icon}</span>
