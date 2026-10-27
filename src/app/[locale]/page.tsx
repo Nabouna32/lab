@@ -74,7 +74,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         </PageContainer>
       </section>
 
-      <Column verticalArrangement={Arrangement.spacedByCss("var(--layout-page-section-gap)")}> 
+      <Column verticalArrangement={Arrangement.spacedByCss("var(--layout-page-section-gap)")}>
         <RecentTools locale={locale} tools={recentTools} />
         <HomeGuidedWorkflows locale={locale} />
       </Column>
