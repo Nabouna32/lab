@@ -33,7 +33,7 @@ export default async function SignUpPage({
           className="flex min-h-[calc(100vh-4.5rem)] items-center py-[var(--space-12)]"
         >
           <Panel as="section" className="w-full text-center">
-            <h1 className="text-2xl font-bold">{t.account.alreadySignedIn}</h1>
+            <h1 className="m3-type-title-large">{t.account.alreadySignedIn}</h1>
             <Link className="mt-6 inline-flex font-semibold text-[var(--accent)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]" href={`/${locale}/compte`}>
               {t.account.title}
             </Link>
@@ -47,10 +47,10 @@ export default async function SignUpPage({
     <main>
       <PageContainer width="form" spacing="none" className="flex min-h-[calc(100vh-4.5rem)] items-center py-[var(--space-12)]">
         <Panel as="section" className="w-full">
-          <p className="text-sm font-semibold text-[var(--accent)]">{t.account.label}</p>
-          <h1 className="mt-2 text-3xl font-bold tracking-tight">{t.account.signUp}</h1>
+          <p className="m3-type-label-large text-[var(--primary)]">{t.account.label}</p>
+          <h1 className="mt-2 m3-type-headline-large">{t.account.signUp}</h1>
           {query.error && (
-            <p className="mt-5 border-l-2 border-[var(--danger)] py-1 pl-3 text-sm text-[var(--danger-foreground)]" role="alert">
+            <p className="mt-5 border-l-2 border-[var(--danger)] py-1 pl-3 m3-type-body-medium text-[var(--danger-foreground)]" role="alert">
               {query.error === "rate-limited" ? t.account.authRateLimited : query.error === "weak-password" ? t.account.weakPassword : t.account.signUpError}
             </p>
           )}
@@ -63,9 +63,9 @@ export default async function SignUpPage({
               {t.account.submitSignUp}
             </SubmitButton>
           </form>
-          <p className="mt-6 border-t border-[var(--border)] pt-5 text-center text-sm text-[var(--muted)]">
+          <p className="mt-6 border-t border-[var(--border)] pt-5 text-center m3-type-body-medium text-[var(--muted)]">
             {t.account.hasAccount}{" "}
-            <Link className="font-semibold text-[var(--accent)] hover:underline" href={`/${locale}/compte/connexion`}>{t.account.signIn}</Link>
+            <Link className="m3-type-label-large text-[var(--primary)] hover:underline" href={`/${locale}/compte/connexion`}>{t.account.signIn}</Link>
           </p>
         </Panel>
       </PageContainer>
