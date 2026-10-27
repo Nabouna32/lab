@@ -195,14 +195,14 @@ export default function ImageMetadataViewer() {
       <div className="space-y-6 p-5 sm:p-7 lg:p-8">
         <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.85fr)]">
           <div className="space-y-4">
-            <label htmlFor="image-metadata-file" className="block cursor-pointer rounded-[var(--radius-md)] border-2 border-dashed border-[var(--border)] bg-[var(--background)] p-6 text-center transition hover:border-[var(--accent)] focus-within:border-[var(--accent)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--focus-ring)] focus-within:ring-offset-2 focus-within:ring-offset-[var(--surface)]">
+            <label htmlFor="image-metadata-file" className="block cursor-pointer rounded-[var(--shape-corner-medium)] border-2 border-dashed border-[var(--border)] bg-[var(--background)] p-6 text-center transition hover:border-[var(--accent)] focus-within:border-[var(--accent)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--focus-ring)] focus-within:ring-offset-2 focus-within:ring-offset-[var(--surface)]">
               <span className="block text-sm font-semibold text-[var(--foreground)]">{t.input}</span>
               <span className="mt-2 block text-sm text-[var(--muted)]">{t.inputHint}</span>
               <input id="image-metadata-file" type="file" accept="image/*" multiple className="sr-only" onChange={(event) => { void selectFiles(event.target.files); event.target.value = ""; }} />
             </label>
             <p className="text-sm text-[var(--muted)]">🔒 {t.local}</p>
             <p className="text-sm text-[var(--muted)]">{optimize ? t.optimizingHint : t.cleaningHint}</p>
-            <div className="space-y-3 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background)] p-4">
+            <div className="space-y-3 rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--background)] p-4">
               <label className="flex items-start gap-3 text-sm text-[var(--foreground)]">
                 <input type="checkbox" checked={optimize} disabled={busy} onChange={(event) => { setOptimize(event.target.checked); setItems((current) => current.map((item) => ({ ...item, cleanedBlob: undefined, cleanError: undefined }))); }} className="mt-1 accent-[var(--accent)]" />
                 <span><span className="block font-semibold">{t.optimizeOption}</span><span className="mt-1 block text-[var(--muted)]">{t.optimizeHint}</span></span>
@@ -234,7 +234,7 @@ export default function ImageMetadataViewer() {
             {cleaned.length > 0 && !busy && <p role="status" className="text-sm text-[var(--success)]">{t.completedCount(cleaned.length, items.length)}</p>}
           </div>
 
-          <div className="flex min-h-56 items-center justify-center rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background)] p-5">
+          <div className="flex min-h-56 items-center justify-center rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--background)] p-5">
             <p className="text-center text-sm text-[var(--muted)]">{items.length === 0 ? t.emptyResult : t.batchHint}</p>
           </div>
         </div>
@@ -243,7 +243,7 @@ export default function ImageMetadataViewer() {
           <div className="space-y-3">
             <h3 className="text-sm font-semibold text-[var(--foreground)]">{t.results}</h3>
             {items.map((item, index) => (
-              <article key={item.file.name + "-" + item.file.lastModified + "-" + index} className="grid min-w-0 gap-4 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background)] p-3 sm:grid-cols-[5rem_minmax(0,1fr)] sm:p-4">
+              <article key={item.file.name + "-" + item.file.lastModified + "-" + index} className="grid min-w-0 gap-4 rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--background)] p-3 sm:grid-cols-[5rem_minmax(0,1fr)] sm:p-4">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={item.previewUrl} alt="" className="h-20 w-20 rounded object-contain sm:h-20 sm:w-20" />
                 <div className="min-w-0 space-y-2">
