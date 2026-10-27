@@ -5,6 +5,8 @@ import HomeGuidedWorkflows from "@/components/home/HomeGuidedWorkflows";
 import RecentTools from "@/components/home/RecentTools";
 import ToolSearch from "@/components/tools/ToolSearch";
 import { PageContainer } from "@/components/layout/PageLayout";
+import { Arrangement } from "@/components/layout/compose/Arrangement";
+import { Column } from "@/components/layout/compose/Column";
 import { ElevatedCard } from "@/components/ui/Card";
 import { isLocale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
@@ -72,8 +74,10 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         </PageContainer>
       </section>
 
-      <RecentTools locale={locale} tools={recentTools} />
-      <HomeGuidedWorkflows locale={locale} />
+      <Column verticalArrangement={Arrangement.spacedByCss("var(--layout-page-section-gap)")}>
+        <RecentTools locale={locale} tools={recentTools} />
+        <HomeGuidedWorkflows locale={locale} />
+      </Column>
     </main>
   );
 }
