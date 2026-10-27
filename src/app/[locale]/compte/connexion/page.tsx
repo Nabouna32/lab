@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { PageContainer } from "@/components/layout/PageLayout";
+import { Arrangement } from "@/components/layout/compose/Arrangement";
+import { Column } from "@/components/layout/compose/Column";
 import { notFound } from "next/navigation";
 import { resendConfirmation, signIn } from "../actions";
 import SubmitButton from "@/components/account/SubmitButton";
@@ -52,13 +54,15 @@ export default async function SignInPage({
           {query.status === "confirmation" && (
             <div className="mt-5 border-l-2 border-[var(--success)] py-1 pl-3 m3-type-body-medium text-[var(--success-foreground)]">
               <p>{t.account.confirmation}</p>
-              <form action={resendConfirmation} className="mt-4 space-y-3">
+              <form action={resendConfirmation}>
+          <Column verticalArrangement={Arrangement.spacedBy("var(--space-3)")}>
                 <input type="hidden" name="locale" value={locale} />
                 <TextField label={t.account.email} inputId="confirmation-email" name="email" type="email" autoComplete="email" required />
                 <SubmitButton pendingLabel={t.account.resendConfirmation} className="border border-[var(--border)] bg-transparent text-[var(--foreground)] hover:bg-[var(--surface-soft)]">
                   {t.account.resendConfirmation}
                 </SubmitButton>
-              </form>
+                        </Column>
+        </form>
             </div>
           )}
           {query.status === "confirmation-sent" && (
@@ -72,7 +76,8 @@ export default async function SignInPage({
               {query.error === "rate-limited" ? t.account.authRateLimited : query.error === "invalid" ? t.account.invalidEmail : t.account.signInError}
             </p>
           )}
-          <form action={signIn} className="mt-6 space-y-5">
+          <form action={signIn}>
+          <Column verticalArrangement={Arrangement.spacedBy("var(--space-5)")}>
             <input type="hidden" name="locale" value={locale} />
             <TextField label={t.account.email} inputId="sign-in-email" name="email" type="email" autoComplete="email" required />
             <TextField label={t.account.password} inputId="sign-in-password" name="password" type="password" autoComplete="current-password" required />
@@ -84,7 +89,8 @@ export default async function SignInPage({
                 {t.account.forgotPassword}
               </Link>
             </div>
-          </form>
+                    </Column>
+        </form>
           <p className="mt-6 border-t border-[var(--border)] pt-5 text-center m3-type-body-medium text-[var(--muted)]">
             {t.account.noAccount}{" "}
             <Link className="m3-type-label-large text-[var(--primary)] hover:underline" href={`/${locale}/compte/inscription`}>{t.account.signUp}</Link>
