@@ -1,5 +1,5 @@
 import { Children, cloneElement, isValidElement, type CSSProperties, type ReactElement, type ReactNode } from "react";
-import { Alignment, type BoxAlignment } from "./Alignment";
+import { AbsoluteAlignment, Alignment, type BoxAlignment } from "./Alignment";
 import { isModifier, type Modifier } from "./Modifier";
 
 export type BoxProps = {
@@ -32,6 +32,12 @@ export function Box({
     bottomStart: { justifySelf: "start", alignSelf: "end" },
     bottomCenter: { justifySelf: "center", alignSelf: "end" },
     bottomEnd: { justifySelf: "end", alignSelf: "end" },
+    [AbsoluteAlignment.TopLeft]: { justifySelf: "left", alignSelf: "start" },
+    [AbsoluteAlignment.TopRight]: { justifySelf: "right", alignSelf: "start" },
+    [AbsoluteAlignment.CenterLeft]: { justifySelf: "left", alignSelf: "center" },
+    [AbsoluteAlignment.CenterRight]: { justifySelf: "right", alignSelf: "center" },
+    [AbsoluteAlignment.BottomLeft]: { justifySelf: "left", alignSelf: "end" },
+    [AbsoluteAlignment.BottomRight]: { justifySelf: "right", alignSelf: "end" },
   };
 
   const layout = (
