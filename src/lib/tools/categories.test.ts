@@ -27,6 +27,7 @@ const rainbowSource = readFileSync(new URL("../design-system/rainbow-tones.ts", 
 const rainbowPaletteSource = readFileSync(new URL("../design-system/rainbow-palette.ts", import.meta.url), "utf8");
 const buttonSource = readFileSync(new URL("../../components/ui/Button.tsx", import.meta.url), "utf8");
 const buttonVariantStyles = readFileSync(new URL("../../components/ui/material-button-variant-styles.ts", import.meta.url), "utf8");
+const toolPageSource = readFileSync(new URL("../../components/tools/ToolPage/ToolPage.tsx", import.meta.url), "utf8");
 
 test("semantic theme tokens use the accepted blue M3 Fidelity seed", () => {
   assert.ok(rainbowSource.includes('const BRAND_SEED = "#4285F4"'));
@@ -281,4 +282,15 @@ test("Box applies child-scoped alignment and matchParentSize modifiers", () => {
   assert.ok(boxSource.includes("childProps.modifier.boxScopeOptions()"));
   assert.ok(boxSource.includes("childProps.modifier.withoutBoxScopeOperations()"));
   assert.ok(boxSource.includes('position: "absolute", inset: 0, display: "grid"'));
+});
+
+
+test("ToolPage uses the shared Column primitive for editorial content spacing", () => {
+  assert.ok(toolPageSource.includes('import { Column } from "@/components/layout/compose/Column"'));
+  assert.ok(toolPageSource.includes('Arrangement.spacedByCss("var(--tool-page-content-gap)")'));
+  assert.ok(toolPageSource.includes('className="tool-page-editorial-stack"'));
+  assert.ok(!toolPageSource.includes("space-y-8 sm:space-y-10"));
+  assert.ok(globalCss.includes(".tool-page-editorial-stack"));
+  assert.ok(globalCss.includes("--tool-page-content-gap: var(--space-8)"));
+  assert.ok(globalCss.includes("--tool-page-content-gap: var(--space-10)"));
 });
