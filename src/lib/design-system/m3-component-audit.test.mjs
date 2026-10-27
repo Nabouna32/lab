@@ -19,7 +19,7 @@ test("The workbench reads its inventory and progress from Supabase", () => {
 });
 
 test("Live previews reuse real production components and never substitute a fake", () => {
-  assert.match(preview, /import \\{ Card, ElevatedCard, OutlinedCard \\} from "@\\/components\\/ui\\/Card"/);
+  assert.ok(preview.includes('import { Card, ElevatedCard, OutlinedCard } from "@/components/ui/Card"'));
   for (const name of ["Checkbox", "Switch", "TextField", "Chip", "ToggleButton", "IconButton", "Badge", "CircularProgressIndicator", "Divider", "FloatingActionButton", "ProgressIndicator", "RadioButton", "SegmentedControl", "Select", "Slider", "Tabs", "TextArea", "ButtonGroup", "ListItem", "MaterialTextField", "Panel", "ResultPanel", "Snackbar", "Tooltip", "TriStateCheckbox", "AlertDialog", "BottomAppBar", "ClearButton", "DatePicker", "ModalBottomSheet", "RangeSlider", "ScrollField", "SearchBar", "SplitButton", "TopAppBar", "ValidationMessage", "SwipeToDismissBox", "AppBarWithSearch", "BottomSheetScaffold", "Carousel", "CopyButton", "DatePickerDialog", "DropdownMenu", "ExposedDropdownMenu", "FloatingActionButtonMenu", "FloatingToolbar", "NavigationBar", "NavigationDrawer", "NavigationRail", "NavigationSuiteScaffold", "Scaffold", "SegmentedButtonGroup", "TimePicker", "TimePickerDialog", "WideNavigationRail", "PullToRefreshBox"]) {
     assert.match(preview, new RegExp(`import \\{ ${name} \\} from "@\/components\/ui\/${name}"`));
   }
