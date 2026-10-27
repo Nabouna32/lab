@@ -2,6 +2,8 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { changeEmail } from "../actions";
 import { PageContainer } from "@/components/layout/PageLayout";
+import { Arrangement } from "@/components/layout/compose/Arrangement";
+import { Column } from "@/components/layout/compose/Column";
 import SubmitButton from "@/components/account/SubmitButton";
 import { Panel } from "@/components/ui/Panel";
 import { TextField } from "@/components/ui/TextField";
@@ -44,12 +46,14 @@ export default async function ChangeEmailPage({
             {query.error === "same" ? t.account.emailSame : query.error === "rate-limited" ? t.account.authRateLimited : t.account.emailChangeError}
           </p>
         ) : null}
-        <form action={changeEmail} className="mt-6 space-y-5">
+        <form action={changeEmail} className="mt-6">
+          <Column verticalArrangement={Arrangement.spacedBy("var(--space-5)")}>
           <input type="hidden" name="locale" value={locale} />
           <TextField label={t.account.email} inputId="change-email" name="email" type="email" autoComplete="email" required />
           <SubmitButton pendingLabel={t.account.changeEmail} className="w-full">
             {t.account.changeEmail}
           </SubmitButton>
+          </Column>
         </form>
         <Link className="mt-6 inline-flex min-h-11 items-center m3-type-label-large text-[var(--primary)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]" href={`/${locale}/compte`}>
           {t.account.title}
