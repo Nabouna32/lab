@@ -1,12 +1,10 @@
 import Link from "next/link";
-import AppLink from "@/components/ui/AppLink";
 import HeaderSearch from "@/components/layout/HeaderSearch";
 import { PageContainer } from "@/components/layout/PageLayout";
 import DesktopHeaderMenu from "@/components/layout/DesktopHeaderMenu";
 import LocularyLogo from "@/components/brand/LocularyLogo";
 import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
-import { getToolsPath } from "@/lib/tools/routes";
 import { Alignment } from "@/components/layout/compose/Alignment";
 import { Arrangement } from "@/components/layout/compose/Arrangement";
 import { Modifier, RowScope } from "@/components/layout/compose/Modifier";
@@ -26,7 +24,7 @@ export default function Header({ locale }: { locale: Locale }) {
         >
           <Link
             href={"/" + locale}
-            className="group flex shrink-0 items-center gap-2 rounded-[var(--shape-corner-large)] outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] sm:gap-2.5"
+            className="group hidden shrink-0 items-center gap-2 rounded-[var(--shape-corner-large)] outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] sm:gap-2.5 md:hidden"
             aria-label={"Loculary - " + t.nav.home}
           >
             <LocularyLogo
@@ -42,9 +40,6 @@ export default function Header({ locale }: { locale: Locale }) {
             verticalAlignment={Alignment.CenterVertically}
             className="shrink-0 [--header-control-gap:0.125rem] sm:[--header-control-gap:var(--space-1)]"
           >
-            <AppLink href={getToolsPath(locale)} variant="navigation" className="hidden lg:inline-flex">
-              {t.nav.explore}
-            </AppLink>
             <HeaderSearch locale={locale} searchLabel={t.tools.searchLabel} />
             <DesktopHeaderMenu locale={locale} />
           </Row>
