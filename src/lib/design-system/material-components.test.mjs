@@ -1010,3 +1010,25 @@ test("site navigation adapts between a persistent desktop rail and a mobile navi
   assert.match(header, /HeaderSearch locale=\{locale\}/);
   assert.doesNotMatch(header, /getToolsPath/);
 });
+
+test("remaining public, admin and account pages consume shared Material 3 typography roles", () => {
+  const informationPage = readFileSync(new URL("../../components/information/InformationPage.tsx", import.meta.url), "utf8");
+  const adminPage = readFileSync(new URL("../../app/[locale]/admin/page.tsx", import.meta.url), "utf8");
+  const auditPage = readFileSync(new URL("../../app/[locale]/admin/audit/page.tsx", import.meta.url), "utf8");
+  const changeEmailPage = readFileSync(new URL("../../app/[locale]/compte/email/page.tsx", import.meta.url), "utf8");
+  const footer = readFileSync(new URL("../../components/layout/Footer.tsx", import.meta.url), "utf8");
+
+  for (const [name, source] of [
+    ["information page", informationPage],
+    ["admin dashboard", adminPage],
+    ["admin audit", auditPage],
+    ["change email", changeEmailPage],
+    ["footer", footer],
+  ]) {
+    assert.match(source, /m3-type-(?:headline|title|body|label)-/i, `${name} must use shared Material 3 typography roles`);
+  }
+
+  assert.ok(informationPage.includes("rounded-[var(--shape-corner-extra-large)]"));
+  assert.ok(informationPage.includes("rounded-[var(--shape-corner-large)]"));
+  assert.ok(footer.includes("m3-type-body-small"));
+});
