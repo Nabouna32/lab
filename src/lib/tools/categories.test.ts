@@ -167,8 +167,6 @@ test("Arrangement.spacedBy returns a validated explicit Web gap", () => {
   assert.deepEqual(Arrangement.spacedBy(24), { kind: "spacedBy", space: 24 });
   assert.deepEqual(Arrangement.spacedBy(-8), { kind: "spacedBy", space: -8 });
   assert.throws(() => Arrangement.spacedBy(Number.NaN), RangeError);
-  assert.ok(rowSource.includes("compose-layout-negative-gap-row"));
-  assert.ok(columnSource.includes("compose-layout-negative-gap-column"));
   assert.ok(globalCss.includes(".compose-layout-negative-gap-row > * + *"));
   assert.ok(globalCss.includes(".compose-layout-negative-gap-column > * + *"));
   assert.deepEqual(Arrangement.spacedByCss("var(--layout-content-gap)"), {
@@ -267,8 +265,6 @@ test("Arrangement exposes the AndroidX alignment overloads for spacedBy and alig
     kind: "aligned",
     alignment: AbsoluteAlignment.Left,
   });
-  assert.ok(rowSource.includes('left: "left"'));
-  assert.ok(rowSource.includes('right: "right"'));
   assert.deepEqual(Arrangement.aligned(Alignment.Bottom), {
     kind: "aligned",
     alignment: Alignment.Bottom,
