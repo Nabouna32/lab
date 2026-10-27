@@ -120,6 +120,23 @@ test("shared typography roles drive component CSS instead of duplicated font met
   }
 });
 
+test("shared shape tokens are consumed by date, navigation and slider compositions", () => {
+  const datePicker = readFileSync(new URL("../../components/ui/DatePicker.module.css", import.meta.url), "utf8");
+  const appLink = readFileSync(new URL("../../components/ui/AppLink.tsx", import.meta.url), "utf8");
+  const recentTools = readFileSync(new URL("../../components/home/RecentTools.tsx", import.meta.url), "utf8");
+  const relatedTools = readFileSync(new URL("../../components/tools/RelatedTools.tsx", import.meta.url), "utf8");
+  const toolCard = readFileSync(new URL("../../components/tools/ToolCard.tsx", import.meta.url), "utf8");
+
+  assert.match(datePicker, /border-radius: var\\(--shape-corner-extra-large\\)/);
+  assert.match(datePicker, /border-radius: var\\(--shape-corner-small\\)/);
+  assert.match(datePicker, /border-radius: var\\(--shape-corner-large\\)/);
+  assert.match(appLink, /rounded-\\[var\\(--shape-corner-full\\)\\]/);
+  assert.match(recentTools, /rounded-\\[var\\(--m3-card-shape\\)\\]/);
+  assert.match(recentTools, /rounded-\\[var\\(--shape-corner-medium\\)\\]/);
+  assert.match(relatedTools, /shape-corner-medium/);
+  assert.match(toolCard, /shape-corner-medium/);
+});
+
 test("shared production compositions consume named typography and shape roles", () => {
   const appLink = readFileSync(new URL("../../components/ui/AppLink.tsx", import.meta.url), "utf8");
   const resultPanel = readFileSync(new URL("../../components/ui/ResultPanel.tsx", import.meta.url), "utf8");
