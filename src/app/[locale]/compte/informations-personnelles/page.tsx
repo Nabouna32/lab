@@ -2,6 +2,8 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { updateProfile } from "../actions";
 import { PageContainer } from "@/components/layout/PageLayout";
+import { Arrangement } from "@/components/layout/compose/Arrangement";
+import { Column } from "@/components/layout/compose/Column";
 import SubmitButton from "@/components/account/SubmitButton";
 import { Panel } from "@/components/ui/Panel";
 import { TextField } from "@/components/ui/TextField";
@@ -68,7 +70,8 @@ export default async function PersonalInformationPage({
         ) : null}
 
         <Panel as="section" className="w-full">
-          <form action={updateProfile} className="space-y-5">
+          <form action={updateProfile}>
+            <Column verticalArrangement={Arrangement.spacedBy("var(--space-5)")}>
             <input type="hidden" name="locale" value={locale} />
             <TextField
               label={t.account.displayName}
@@ -91,6 +94,7 @@ export default async function PersonalInformationPage({
             <SubmitButton pendingLabel={t.account.saveProfile}>
               {t.account.saveProfile}
             </SubmitButton>
+            </Column>
           </form>
         </Panel>
       </PageContainer>
