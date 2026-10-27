@@ -26,6 +26,17 @@ test("tools page constrains its responsive grid to the available inline size", (
   );
 });
 
+test("tools page avoids decorative numbering that adds no information", () => {
+  assert.ok(
+    !toolsPageSource.includes("String(index + 1).padStart(2, \"0\")"),
+    "category cards must not display an index as if it carried meaning",
+  );
+  assert.ok(
+    !/tracking-\\[0\\.16em\\].*?>0[12]<\\/p>/.test(toolsPageSource),
+    "section headings and intent results must not display decorative sequence numbers",
+  );
+});
+
 test("tool cards fill but can shrink within their list container", () => {
   assert.ok(
     toolCardSource.includes("group flex w-full min-w-0 min-h-40"),
