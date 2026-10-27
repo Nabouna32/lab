@@ -28,7 +28,7 @@ export default function TextCounter() {
   ].join("\n");
 
   return (
-    <section className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-4 sm:p-6">
+    <section className="rounded-[var(--shape-corner-large)] border border-[var(--border)] bg-[var(--surface)] p-4 sm:p-6">
       <div className="flex items-center justify-end gap-2">
         <ClearButton onClear={() => setText("")} disabled={text.length === 0} label={t.clear} />
         <CopyButton value={copyValue} label={t.copyStats} />
