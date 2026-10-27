@@ -420,3 +420,15 @@ button:disabled > .button-ripple-layer {
 .compose-layout-negative-gap-column > * + * {
   margin-block-start: var(--compose-layout-negative-gap);
 }
+
+
+/* Shared Column primitive: responsive rhythm for tool editorial sections. */
+.tool-page-editorial-stack {
+  --tool-page-content-gap: var(--space-8);
+}
+
+@media (min-width: 640px) {
+  .tool-page-editorial-stack {
+    --tool-page-content-gap: var(--space-10);
+  }
+}
