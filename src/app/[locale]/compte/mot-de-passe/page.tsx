@@ -30,10 +30,10 @@ export default async function ChangePasswordPage({
     <main>
       <PageContainer width="form" spacing="none" className="flex min-h-[calc(100vh-4.5rem)] items-center py-[var(--space-12)]">
       <Panel as="section" className="w-full">
-        <p className="text-sm font-semibold text-[var(--accent)]">{t.account.label}</p>
-        <h1 className="mt-2 text-3xl font-bold tracking-tight">{t.account.changePasswordTitle}</h1>
+        <p className="m3-type-label-large text-[var(--primary)]">{t.account.label}</p>
+        <h1 className="mt-2 m3-type-headline-large">{t.account.changePasswordTitle}</h1>
         {query.error ? (
-          <p className="mt-5 border-l-2 border-[var(--danger)] py-1 pl-3 text-sm text-[var(--danger-foreground)]" role="alert">
+          <p className="mt-5 border-l-2 border-[var(--danger)] py-1 pl-3 m3-type-body-medium text-[var(--danger-foreground)]" role="alert">
             {query.error === "current-password" ? t.account.currentPasswordError : query.error === "weak-password" ? t.account.weakPassword : t.account.passwordError}
           </p>
         ) : null}
@@ -46,7 +46,7 @@ export default async function ChangePasswordPage({
             {t.account.changePassword}
           </SubmitButton>
         </form>
-        <Link className="mt-6 inline-flex font-semibold text-[var(--accent)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]" href={`/${locale}/compte`}>
+        <Link className="mt-6 inline-flex min-h-11 items-center m3-type-label-large text-[var(--primary)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]" href={`/${locale}/compte`}>
           {t.account.title}
         </Link>
       </Panel>
