@@ -32,10 +32,26 @@ test("homepage compositions reuse the shared width, gutters and spacing tokens",
   assert.ok(homeWorkflowsSource.includes('import { Box } from "@/components/layout/compose/Box"'));
   assert.ok(homeWorkflowsSource.includes("contentAlignment={Alignment.Center}"));
   assert.ok(homeWorkflowsSource.includes('aria-hidden="true"'));
-  assert.ok(homeWorkflowsSource.includes('Arrangement.spacedBy("var(--home-workflow-card-gap)")'));
-  assert.ok(homeWorkflowsSource.includes("[--home-workflow-card-gap:var(--space-3)] sm:[--home-workflow-card-gap:var(--space-4)]"));
+  assert.ok(homeWorkflowsSource.includes('Arrangement.spacedBy("var(--layout-item-gap)")'));
+  assert.ok(!homeWorkflowsSource.includes("--home-workflow-card-gap"));
   assert.ok(!homeWorkflowsSource.includes("group flex min-h-20 items-center gap-3"));
   assert.ok(!homeWorkflowsSource.includes("px-4 sm:px-6 lg:px-10"));
+});
+
+test("shared Material 3 typography roles are consumed by reusable site components", () => {
+  const globalStyles = readSource("../../app/globals.css");
+  const buttonSource = readSource("../../components/ui/Button.tsx");
+  const toolCardSource = readSource("../../components/tools/ToolCard.tsx");
+  const toolHeaderSource = readSource("../../components/tools/ToolPage/ToolPageHeader.tsx");
+
+  for (const role of ["display-large", "headline-large", "title-medium", "body-medium", "label-large"]) {
+    assert.ok(globalStyles.includes(`.m3-type-${role}`), `missing shared typography role: ${role}`);
+  }
+  assert.ok(buttonSource.includes("m3-type-label-large"));
+  assert.ok(homeWorkflowsSource.includes("m3-type-title-medium"));
+  assert.ok(homeWorkflowsSource.includes("m3-type-body-medium"));
+  assert.ok(toolCardSource.includes("m3-type-title-medium"));
+  assert.ok(toolHeaderSource.includes("m3-type-headline-small"));
 });
 
 test("signed-in states on sign-in and sign-up pages use the shared account container", () => {
