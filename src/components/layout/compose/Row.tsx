@@ -28,6 +28,8 @@ export function Row({
           start: "flex-start",
           centerHorizontally: "center",
           end: "flex-end",
+          left: "left",
+          right: "right",
         } as const)[horizontalArrangement.alignment];
       }
       return "flex-start";
@@ -38,6 +40,8 @@ export function Row({
         start: "flex-start",
         centerHorizontally: "center",
         end: "flex-end",
+        left: "left",
+        right: "right",
       } as const)[horizontalArrangement.alignment];
     }
 
