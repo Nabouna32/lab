@@ -20,6 +20,19 @@ Do not retain a custom base component merely because it already exists or is ref
 
 The Design Lab and its persistence model are also under review. The default proposal is to make the source-controlled catalogue/specs, React implementations, demos and automated checks in Git the authoritative workflow. Supabase tables for manually submitted reports, decisions, verifications and audit events are not assumed necessary; evaluate them against actual usage and remove them through a separately reviewed migration if they add no value. Do not modify live schema/data merely to simplify the design lab without a specific migration plan.
 
+## Shared theme foundations
+
+Before broad production migration, the Web port must expose a single source of truth for theme foundations and make component defaults consume it. The intended dependency is:
+
+1. **Theme foundations:** semantic color roles, Material 3 typography roles, shape scale, elevation and motion values.
+2. **Component contracts:** source-derived defaults and explicit parameters for each AndroidX component (for example, a Card's own default shape rather than a page-selected generic radius).
+3. **React/Web ports:** shared implementations preserving the source API where meaningful and documenting browser adaptations.
+4. **Product compositions and routes:** consume the ports and product-level layout tokens; avoid local typography/shape decisions where a shared contract applies.
+
+A shared token existing in CSS is not enough: audit its consumers and legacy aliases. Changing a foundation must update all inheriting consumers. Component-specific defaults and explicit overrides remain where AndroidX defines or permits them. Typography must use named roles instead of repeated Tailwind font-size/weight/line-height combinations.
+
+The current implementation does not yet meet this contract: `src/app/globals.css` has both `--radius-*` and `--shape-corner-*` scales, and only a small subset of typography dimensions is exposed as shared variables. The shape values currently documented in CSS include Material Web-inspired values; they are not evidence of AndroidX component defaults until verified against the pinned source. Track this gap rather than treating existing tokens as proof of parity.
+
 ## Goal
 
 Build React/Web equivalents of official AndroidX Compose Material 3 components with the highest practical fidelity to their public contracts, visual tokens, states and interactions. Then replace Loculary's current shared UI components with these ports in production routes and tools.
