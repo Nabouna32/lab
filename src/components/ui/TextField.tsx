@@ -57,9 +57,9 @@ export function TextField({
         <label
           htmlFor={inputId}
           className={[
-            "pointer-events-none absolute left-3.5 top-2 z-10 text-xs leading-4 text-[var(--on-surface-variant)] transition-[top,transform,font-size,color] duration-[var(--motion-standard)]",
-            "peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-sm peer-placeholder-shown:leading-5",
-            "peer-focus:top-2 peer-focus:translate-y-0 peer-focus:text-xs peer-focus:leading-4 peer-focus:text-[var(--primary)]",
+            "m3-type-label-small pointer-events-none absolute left-3.5 top-2 z-10 text-[var(--on-surface-variant)] transition-[top,transform,font-size,color] duration-[var(--motion-standard)]",
+            "peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-[length:var(--m3-type-body-large-size)] peer-placeholder-shown:leading-[var(--m3-type-body-large-line-height)]",
+            "peer-focus:top-2 peer-focus:translate-y-0 peer-focus:text-[length:var(--m3-type-label-small-size)] peer-focus:leading-[var(--m3-type-label-small-line-height)] peer-focus:text-[var(--primary)]",
             disabled ? "text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]" : isInvalid ? "text-[var(--danger)] peer-aria-[invalid=true]:text-[var(--danger)]" : "",
             "motion-reduce:transition-none",
           ].join(" ")}
@@ -67,7 +67,7 @@ export function TextField({
           {label}
         </label>
         {unit && (
-          <span className={"pointer-events-none absolute inset-y-0 right-3.5 flex items-center text-sm " + (disabled ? "text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]" : "text-[var(--on-surface-variant)]")}>
+          <span className={"m3-type-body-large pointer-events-none absolute inset-y-0 right-3.5 flex items-center " + (disabled ? "text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]" : "text-[var(--on-surface-variant)]")}>
             {unit}
           </span>
         )}
@@ -77,7 +77,7 @@ export function TextField({
 
   return (
     <div>
-      <label htmlFor={inputId} className={"mb-2 block text-sm font-medium " + (disabled ? "text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]" : isInvalid ? "text-[var(--danger)]" : "text-[var(--foreground)]")}>
+      <label htmlFor={inputId} className={"m3-type-body-medium mb-2 block " + (disabled ? "text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]" : isInvalid ? "text-[var(--danger)]" : "text-[var(--foreground)]")}>
         {label}
       </label>
       <div className="relative">
