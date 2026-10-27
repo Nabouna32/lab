@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import type { BoxAlignment, HorizontalAlignment, VerticalAlignment } from "./Alignment";
+import { AbsoluteAlignment, type BoxAlignment, type HorizontalAlignment, type VerticalAlignment } from "./Alignment";
 import { Arrangement, type HorizontalArrangement, type VerticalArrangement } from "./Arrangement";
 
 export type LayoutPresentation = {
@@ -171,12 +171,12 @@ export function getBoxChildStyle(alignment: BoxAlignment, matchParentSize = fals
     bottomStart: { justifySelf: "start", alignSelf: "end" },
     bottomCenter: { justifySelf: "center", alignSelf: "end" },
     bottomEnd: { justifySelf: "end", alignSelf: "end" },
-    topLeft: { justifySelf: "left", alignSelf: "start" },
-    topRight: { justifySelf: "right", alignSelf: "start" },
-    centerLeft: { justifySelf: "left", alignSelf: "center" },
-    centerRight: { justifySelf: "right", alignSelf: "center" },
-    bottomLeft: { justifySelf: "left", alignSelf: "end" },
-    bottomRight: { justifySelf: "right", alignSelf: "end" },
+    [AbsoluteAlignment.TopLeft]: { justifySelf: "left", alignSelf: "start" },
+    [AbsoluteAlignment.TopRight]: { justifySelf: "right", alignSelf: "start" },
+    [AbsoluteAlignment.CenterLeft]: { justifySelf: "left", alignSelf: "center" },
+    [AbsoluteAlignment.CenterRight]: { justifySelf: "right", alignSelf: "center" },
+    [AbsoluteAlignment.BottomLeft]: { justifySelf: "left", alignSelf: "end" },
+    [AbsoluteAlignment.BottomRight]: { justifySelf: "right", alignSelf: "end" },
   };
 
   return { gridArea: "1 / 1", ...alignmentStyles[alignment] };
