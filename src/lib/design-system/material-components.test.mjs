@@ -1022,6 +1022,8 @@ test("remaining public, admin and account pages consume shared Material 3 typogr
   const passwordPage = readFileSync(new URL("../../app/[locale]/compte/mot-de-passe/page.tsx", import.meta.url), "utf8");
   const deleteAccountPage = readFileSync(new URL("../../app/[locale]/compte/suppression/page.tsx", import.meta.url), "utf8");
   const adminUsersPage = readFileSync(new URL("../../app/[locale]/admin/utilisateurs/page.tsx", import.meta.url), "utf8");
+  const accountPage = readFileSync(new URL("../../app/[locale]/compte/page.tsx", import.meta.url), "utf8");
+  const personalInformationPage = readFileSync(new URL("../../app/[locale]/compte/informations-personnelles/page.tsx", import.meta.url), "utf8");
 
   for (const [name, source] of [
     ["information page", informationPage],
@@ -1034,6 +1036,8 @@ test("remaining public, admin and account pages consume shared Material 3 typogr
     ["password page", passwordPage],
     ["account deletion page", deleteAccountPage],
     ["admin users page", adminUsersPage],
+    ["account overview", accountPage],
+    ["personal information page", personalInformationPage],
   ]) {
     assert.match(source, /m3-type-(?:headline|title|body|label)-/i, `${name} must use shared Material 3 typography roles`);
   }
@@ -1054,6 +1058,10 @@ test("remaining public, admin and account pages consume shared Material 3 typogr
   }
   assert.ok(signInPage.includes('Arrangement.spacedBy("var(--space-3)")'), "confirmation-resend form must use the shared Compose spacing primitive");
   assert.ok(!/<form[^>]*space-y-/.test(signInPage), "sign-in page forms must not retain local Tailwind vertical-spacing utilities");
+  assert.ok(accountPage.includes('import { Column } from "@/components/layout/compose/Column";'));
+  assert.ok(!accountPage.includes("space-y-"), "account overview must not retain its migrated vertical-spacing utilities");
+  assert.ok(personalInformationPage.includes('Arrangement.spacedBy("var(--space-5)")'));
+  assert.ok(!/<form[^>]*space-y-/.test(personalInformationPage), "personal information form must use shared Compose spacing");
 });
 
 
