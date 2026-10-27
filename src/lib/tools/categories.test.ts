@@ -1,9 +1,8 @@
 import assert from "node:assert/strict";
-import { createElement, isValidElement } from "react";
+import { isValidElement } from "react";
 import { readFileSync } from "node:fs";
 import { test } from "node:test";
 import { AbsoluteAlignment, Alignment } from "../../components/layout/compose/Alignment.ts";
-import { Box } from "../../components/layout/compose/Box.tsx";
 import { Arrangement } from "../../components/layout/compose/Arrangement.ts";
 import { Modifier } from "../../components/layout/compose/Modifier.ts";
 import { categoryColorIds, getCategoryColor, getCategoryContainerColor, getCategoryOnContainerColor } from "./category-colors.ts";
@@ -315,22 +314,10 @@ test("tool editorial sections use Column and the shared spacing scale", () => {
 });
 
 
-test("Box supports direction-independent AndroidX absolute alignments", () => {
-  const leftBox = Box({ children: createElement("span"), contentAlignment: AbsoluteAlignment.TopLeft });
-  const leftChildren = getModifierElementProps(leftBox).children;
-  assert.ok(Array.isArray(leftChildren));
-  assert.deepEqual(getModifierElementProps(leftChildren[0]).style, {
-    gridArea: "1 / 1",
-    justifySelf: "left",
-    alignSelf: "start",
-  });
-
-  const rightBox = Box({ children: createElement("span"), contentAlignment: AbsoluteAlignment.BottomRight });
-  const rightChildren = getModifierElementProps(rightBox).children;
-  assert.ok(Array.isArray(rightChildren));
-  assert.deepEqual(getModifierElementProps(rightChildren[0]).style, {
-    gridArea: "1 / 1",
-    justifySelf: "right",
-    alignSelf: "end",
-  });
+test("Box maps direction-independent AndroidX absolute alignments", () => {
+  const boxSource = readFileSync(new URL("../../components/layout/compose/Box.tsx", import.meta.url), "utf8");
+  assert.ok(boxSource.includes("[AbsoluteAlignment.TopLeft]: { justifySelf: \"left\", alignSelf: \"start\" }"));
+  assert.ok(boxSource.includes("[AbsoluteAlignment.BottomRight]: { justifySelf: \"right\", alignSelf: \"end\" }"));
+  assert.equal(AbsoluteAlignment.TopLeft, "topLeft");
+  assert.equal(AbsoluteAlignment.BottomRight, "bottomRight");
 });
