@@ -28,6 +28,9 @@ const rainbowPaletteSource = readFileSync(new URL("../design-system/rainbow-pale
 const buttonSource = readFileSync(new URL("../../components/ui/Button.tsx", import.meta.url), "utf8");
 const buttonVariantStyles = readFileSync(new URL("../../components/ui/material-button-variant-styles.ts", import.meta.url), "utf8");
 const toolPageSource = readFileSync(new URL("../../components/tools/ToolPage/ToolPage.tsx", import.meta.url), "utf8");
+const imagePdfEditorialSource = readFileSync(new URL("../../components/tools/image-to-pdf/ToolEditorial.tsx", import.meta.url), "utf8");
+const contactSheetEditorialSource = readFileSync(new URL("../../components/tools/image-contact-sheet/ToolEditorial.tsx", import.meta.url), "utf8");
+const expenseSplitterEditorialSource = readFileSync(new URL("../../components/tools/expense-splitter/ToolEditorial.tsx", import.meta.url), "utf8");
 
 test("semantic theme tokens use the accepted blue M3 Fidelity seed", () => {
   assert.ok(rainbowSource.includes('const BRAND_SEED = "#4285F4"'));
@@ -293,4 +296,13 @@ test("ToolPage uses the shared Column primitive for editorial content spacing", 
   assert.ok(globalCss.includes(".tool-page-editorial-stack"));
   assert.ok(globalCss.includes("--tool-page-content-gap: var(--space-8)"));
   assert.ok(globalCss.includes("--tool-page-content-gap: var(--space-10)"));
+});
+
+
+test("tool editorial sections use Column and the shared spacing scale", () => {
+  for (const source of [imagePdfEditorialSource, contactSheetEditorialSource, expenseSplitterEditorialSource]) {
+    assert.ok(source.includes('Arrangement.spacedByCss("var(--space-5)")'));
+    assert.ok(source.includes('import { Column } from "@/components/layout/compose/Column"'));
+    assert.ok(!source.includes("space-y-5"));
+  }
 });
