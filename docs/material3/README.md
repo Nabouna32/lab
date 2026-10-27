@@ -152,3 +152,6 @@ La deuxième tranche relie les métriques typographiques de `AlertDialog`, `Date
 
 
 La troisième tranche relie les métriques des composants `BottomSheetScaffold`, `ButtonGroup`, `DatePicker`, `FloatingActionButton`, `FloatingActionButtonMenu`, `FloatingToolbar`, `ModalBottomSheet`, `PullToRefreshBox`, `RangeSlider`, `SegmentedButtonGroup`, `SplitButton`, `SwipeToDismissBox`, `WideNavigationRail` et `Slider` aux rôles typographiques partagés. Les valeurs spécifiques au cadran/aux commandes numériques sont conservées quand elles ne correspondent pas clairement à un rôle M3. Le test de contrat inclut ces nouveaux consommateurs.
+
+
+Une tranche de consommateurs réutilise maintenant les fondations : `AppLink`, `ResultPanel`, `RecentTools`, `RelatedTools`, `ToolCard` et `ValidationMessage`. Le test de contrat couvre les rôles typographiques et les tokens de forme de ces compositions. La migration des pages et outils reste à poursuivre ; les tokens historiques ne sont pas supprimés tant que des références actives subsistent.
