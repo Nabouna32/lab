@@ -283,6 +283,10 @@ test("Row and Column apply the selected Arrangement alignment on the main axis",
   assert.ok(columnSource.includes('verticalArrangement.kind === "aligned"'));
   assert.ok(columnSource.includes('centerVertically: "center"'));
   assert.ok(columnSource.includes('verticalArrangement.alignment'));
+  assert.ok(columnSource.includes('compose-column-align-absolute-left'));
+  assert.ok(columnSource.includes('compose-column-align-absolute-right'));
+  assert.ok(globalCss.includes('.compose-column-align-absolute-left:dir(rtl) { align-items: flex-end; }'));
+  assert.ok(globalCss.includes('.compose-column-align-absolute-right:dir(rtl) { align-items: flex-start; }'));
 });
 
 
