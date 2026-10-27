@@ -31,7 +31,7 @@ Les fondations ne sont pas une collection de classes à recopier dans les pages.
 - **Provenance :** les tokens repris de Material Web, les conventions CSS de Loculary et les valeurs AndroidX doivent être identifiés séparément. Une égalité numérique ne prouve pas à elle seule l'équivalence sémantique ou comportementale.
 - **Validation :** une migration n'est terminée que lorsque les usages sont inventoriés, les règles partagées testées, les cas clair/sombre et FR/EN vérifiés, et le rendu navigateur contrôlé. Un test de présence de chaîne ne suffit pas à prouver la fidélité visuelle.
 
-**État vérifié au 27 octobre 2026 :** l'échelle des formes existe mais cohabite avec les anciens rayons ; le système de rôles typographiques complet n'est pas encore exposé comme contrat partagé ; le portage des composants et la migration des pages restent partiels. Voir [la spécification des fondations et composants Material 3](material3/README.md) et les spécifications individuelles.
+**État vérifié au 27 octobre 2026 :** l'échelle des formes cohabite encore avec les anciens rayons ; les 15 rôles typographiques existent dans `globals.css` et sont consommés par un ensemble croissant de composants, mais leurs métriques et chaque consommateur ne sont pas encore tous validés contre une baseline AndroidX unique. Le portage des composants, la migration des pages et la validation visuelle restent partiels. Voir [la spécification des fondations et composants Material 3](material3/README.md) et les spécifications individuelles.
 
 ## Mise en page et espacements
 
