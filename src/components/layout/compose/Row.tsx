@@ -1,16 +1,14 @@
-import type { CSSProperties, ReactNode } from "react";
+import type { HTMLAttributes, ReactNode } from "react";
 import { Alignment, type VerticalAlignment } from "./Alignment";
 import { Arrangement, type HorizontalArrangement } from "./Arrangement";
 import { getRowLayoutPresentation } from "./LayoutStyles";
 import type { Modifier } from "./Modifier";
 
-export type RowProps = {
+export type RowProps = Omit<HTMLAttributes<HTMLDivElement>, "children"> & {
   children?: ReactNode;
   modifier?: Modifier;
   horizontalArrangement?: HorizontalArrangement;
   verticalAlignment?: VerticalAlignment;
-  className?: string;
-  style?: CSSProperties;
 };
 
 /** Partial Web adaptation of androidx.compose.foundation.layout.Row. */
@@ -21,10 +19,11 @@ export function Row({
   verticalAlignment = Alignment.CenterVertically,
   className,
   style,
+  ...domProps
 }: RowProps) {
   const presentation = getRowLayoutPresentation(horizontalArrangement, verticalAlignment, className, style);
   const layout = (
-    <div className={presentation.className} style={presentation.style}>
+    <div {...domProps} className={presentation.className} style={presentation.style}>
       {children}
     </div>
   );
