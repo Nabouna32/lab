@@ -399,7 +399,7 @@ test("outlined form controls use semantic extra-small shape tokens and per-part 
   assert.match(selectSource, /rounded-\[var\(--shape-corner-extra-small\)\]/);
   assert.match(selectSource, /min-h-14/);
   assert.match(cardSource, /export function Card/);
-  assert.match(cardSource, /shape-corner-medium/);
+  assert.match(cardSource, /m3-card-shape/);
   assert.match(cardSource, /surface-container-highest/);
   assert.match(cardSource, /export function ElevatedCard/);
   assert.match(cardSource, /surface-container-low/);
@@ -408,7 +408,7 @@ test("outlined form controls use semantic extra-small shape tokens and per-part 
   assert.match(cardSource, /export function CardLink/);
   assert.match(cardSource, /focus-visible:ring-2/);
   assert.doesNotMatch(cardSource, /variant\?: CardVariant/);
-  assert.match(panelSource, /shape-corner-medium/);
+  assert.match(panelSource, /m3-panel-shape/);
   assert.match(resultPanelSource, /shape-corner-medium/);
   for (const [name, source] of [["TextField", textFieldSource], ["TextArea", textAreaSource], ["Select", selectSource]]) {
     assert.match(source, /on-surface\)_12%,transparent/);
