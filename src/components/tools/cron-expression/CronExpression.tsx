@@ -65,7 +65,7 @@ export default function CronExpression() {
 
         {result ? (
           <div className="mt-6 grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.8fr)]">
-            <div className="rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background)] p-4 sm:p-5">
+            <div className="rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--background)] p-4 sm:p-5">
               <div className="flex items-center justify-between gap-3">
                 <h2 className="text-sm font-semibold text-[var(--foreground)]">{t.result}</h2>
                 <span className={result.schedule ? "rounded-full bg-[var(--success-soft)] px-2.5 py-1 text-xs font-semibold text-[var(--success)]" : "rounded-full bg-[var(--danger-soft)] px-2.5 py-1 text-xs font-semibold text-[var(--danger)]"} role="status">
