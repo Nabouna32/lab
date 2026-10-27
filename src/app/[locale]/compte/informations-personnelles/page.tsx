@@ -53,10 +53,10 @@ export default async function PersonalInformationPage({
           {t.account.title}
         </Link>
 
-        <header className="mb-8 space-y-2">
+        <Column verticalArrangement={Arrangement.spacedBy("var(--space-2)")} className="mb-8">
           <h1 className="m3-type-headline-medium">{t.account.personalInformation}</h1>
           <p className="max-w-2xl text-[var(--on-surface-variant)]">{t.account.personalInformationDescription}</p>
-        </header>
+        </Column>
 
         {statusMessage ? (
           <p
@@ -72,28 +72,28 @@ export default async function PersonalInformationPage({
         <Panel as="section" className="w-full">
           <form action={updateProfile}>
             <Column verticalArrangement={Arrangement.spacedBy("var(--space-5)")}>
-            <input type="hidden" name="locale" value={locale} />
-            <TextField
-              label={t.account.displayName}
-              inputId="display-name"
-              name="displayName"
-              type="text"
-              autoComplete="name"
-              maxLength={80}
-              defaultValue={profile?.display_name ?? ""}
-            />
-            <Select
-              label={t.account.preferredLanguage}
-              id="preferred-language"
-              name="preferredLocale"
-              defaultValue={profile?.locale ?? locale}
-            >
-              <option value="en">{t.account.english}</option>
-              <option value="fr">{t.account.french}</option>
-            </Select>
-            <SubmitButton pendingLabel={t.account.saveProfile}>
-              {t.account.saveProfile}
-            </SubmitButton>
+              <input type="hidden" name="locale" value={locale} />
+              <TextField
+                label={t.account.displayName}
+                inputId="display-name"
+                name="displayName"
+                type="text"
+                autoComplete="name"
+                maxLength={80}
+                defaultValue={profile?.display_name ?? ""}
+              />
+              <Select
+                label={t.account.preferredLanguage}
+                id="preferred-language"
+                name="preferredLocale"
+                defaultValue={profile?.locale ?? locale}
+              >
+                <option value="en">{t.account.english}</option>
+                <option value="fr">{t.account.french}</option>
+              </Select>
+              <SubmitButton pendingLabel={t.account.saveProfile}>
+                {t.account.saveProfile}
+              </SubmitButton>
             </Column>
           </form>
         </Panel>
