@@ -25,12 +25,12 @@ test("homepage compositions reuse the shared width, gutters and spacing tokens",
   assert.ok(!homeWorkflowsSource.includes("pt-[var(--space-2)]"));
   assert.ok(homePageSource.includes('import { Column } from "@/components/layout/compose/Column"'));
   assert.ok(homePageSource.includes('import { Arrangement } from "@/components/layout/compose/Arrangement"'));
-  assert.ok(homePageSource.includes('verticalArrangement={Arrangement.spacedByCss("var(--layout-page-section-gap)")}'));
+  assert.ok(homePageSource.includes('verticalArrangement={Arrangement.spacedBy("var(--layout-page-section-gap)")}'));
   assert.ok(homeWorkflowsSource.includes('import { Row } from "@/components/layout/compose/Row"'));
   assert.ok(homeWorkflowsSource.includes('import { Box } from "@/components/layout/compose/Box"'));
   assert.ok(homeWorkflowsSource.includes("contentAlignment={Alignment.Center}"));
   assert.ok(homeWorkflowsSource.includes('aria-hidden="true"'));
-  assert.ok(homeWorkflowsSource.includes('Arrangement.spacedByCss("var(--home-workflow-card-gap)")'));
+  assert.ok(homeWorkflowsSource.includes('Arrangement.spacedBy("var(--home-workflow-card-gap)")'));
   assert.ok(homeWorkflowsSource.includes("[--home-workflow-card-gap:var(--space-3)] sm:[--home-workflow-card-gap:var(--space-4)]"));
   assert.ok(!homeWorkflowsSource.includes("group flex min-h-20 items-center gap-3"));
   assert.ok(!homeWorkflowsSource.includes("px-4 sm:px-6 lg:px-10"));
@@ -82,8 +82,8 @@ test("header layout reuses Row and a weighted Spacer instead of a product-specif
   assert.ok(headerSource.includes('import { Spacer } from "@/components/layout/compose/Spacer"'));
   assert.ok(headerSource.includes("Modifier.then(RowScope.weight(1))"));
   assert.ok(headerSource.includes('import { Modifier, RowScope } from "@/components/layout/compose/Modifier"'));
-  assert.ok(headerSource.includes('Arrangement.spacedByCss("var(--header-layout-gap)")'));
-  assert.ok(headerSource.includes('Arrangement.spacedByCss("var(--header-control-gap)")'));
+  assert.ok(headerSource.includes('Arrangement.spacedBy("var(--header-layout-gap)")'));
+  assert.ok(headerSource.includes('Arrangement.spacedBy("var(--header-control-gap)")'));
   assert.ok(!headerSource.includes("flex shrink-0 items-center gap-0.5"));
   assert.ok(!headerSource.includes("grid-cols-[1fr_auto]"));
 });
@@ -98,7 +98,7 @@ test("brand wordmark uses the shared Row primitive", () => {
 test("header search panel uses Row while retaining its stable panel ID", () => {
   assert.ok(headerSearchSource.includes('import { Row } from "@/components/layout/compose/Row"'));
   assert.ok(headerSearchSource.includes('id="header-tool-search-panel"'));
-  assert.ok(headerSearchSource.includes('Arrangement.spacedByCss("var(--space-2)")'));
+  assert.ok(headerSearchSource.includes('Arrangement.spacedBy("var(--space-2)")'));
   assert.ok(!headerSearchSource.includes("flex items-start gap-2"));
 });
 
@@ -109,7 +109,7 @@ test("shared footer and tool stacks use the Compose layout primitives for migrat
   const qrCodeGeneratorSource = readSource("../../components/tools/qr-code-generator/QrCodeGenerator.tsx");
 
   assert.ok(footerSource.includes('import { Row } from "@/components/layout/compose/Row"'));
-  assert.ok(footerSource.includes('Arrangement.spacedByCss("var(--space-1)")'));
+  assert.ok(footerSource.includes('Arrangement.spacedBy("var(--space-1)")'));
   assert.ok(!footerSource.includes("gap-x-1 gap-y-1"));
 
   assert.ok(expenseSplitterSource.includes('import { Column } from "@/components/layout/compose/Column"'));
