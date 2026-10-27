@@ -31,6 +31,13 @@
 - **WEB-ADAPTATION** — les interactions Web doivent employer des éléments HTML natifs adaptés à l'action. Une navigation doit être un lien, une action doit être un bouton ; la carte décorative doit rester un conteneur non interactif.
 - **UNVERIFIED** — les valeurs exactes des tokens, la totalité des surcharges publiques et la séquence précise des états doivent être vérifiées dans l'archive publiée avant de revendiquer une fidélité complète.
 
+## Forme et valeurs par défaut — état de preuve
+
+- **ANDROIDX (contrat)** — la forme par défaut est exposée par `CardDefaults.shape` pour la variante concernée ; les APIs de carte permettent une personnalisation explicite de la forme. Les valeurs par défaut appartiennent au contrat du composant, pas à une décision arbitraire de page.
+- **UNVERIFIED (valeur exacte)** — le wrapper Web actuel utilise `--shape-corner-medium` pour les trois variantes. La présence du token dans `globals.css` ne prouve pas qu'il correspond aux valeurs par défaut de `Card`, `ElevatedCard` et `OutlinedCard` dans la release publiée 1.4.0. La valeur exacte doit être extraite de l'archive source officielle et reliée à la provenance de cette release avant toute affirmation de parité.
+- **WEB-ADAPTATION** — le CSS doit consommer des tokens partagés, mais ces tokens doivent être dérivés des valeurs AndroidX vérifiées. La couche de thème peut rendre les valeurs configurables ; elle ne doit pas effacer les différences de valeurs par défaut entre composants.
+- **Migration à effectuer** — inventorier les usages de `Card`, `ElevatedCard`, `OutlinedCard` et `CardLink`, définir les paramètres du port à partir de l'API source, puis remplacer les rayons choisis dans les pages par les valeurs par défaut du composant. `CardLink` reste une composition de navigation Web Loculary, pas une API AndroidX.
+
 ## Audit Loculary
 
 - Ports partiels : `Card` (filled), `ElevatedCard`, `OutlinedCard`, chacun non interactif ; `CardLink` est une composition Web Loculary séparée.
