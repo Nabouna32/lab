@@ -45,7 +45,6 @@ export type HorizontalArrangement =
 
 export type VerticalArrangement =
   | SpacedByArrangement<VerticalAlignment>
-  | CssSpacedByArrangement
   | AlignedVerticalArrangement
   | { readonly kind: "top" | "bottom" | "center" | "spaceBetween" | "spaceAround" | "spaceEvenly" };
 
