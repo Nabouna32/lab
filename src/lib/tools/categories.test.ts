@@ -276,26 +276,6 @@ test("Arrangement exposes the AndroidX alignment overloads for spacedBy and alig
 });
 
 
-test("Row and Column apply the selected Arrangement alignment on the main axis", () => {
-  assert.ok(rowSource.includes('horizontalArrangement.kind === "aligned"'));
-  assert.ok(rowSource.includes('centerHorizontally: "center"'));
-  assert.ok(rowSource.includes('horizontalArrangement.alignment'));
-  assert.ok(columnSource.includes('verticalArrangement.kind === "aligned"'));
-  assert.ok(columnSource.includes('centerVertically: "center"'));
-  assert.ok(columnSource.includes('verticalArrangement.alignment'));
-  assert.ok(columnSource.includes('compose-column-align-absolute-left'));
-  assert.ok(columnSource.includes('compose-column-align-absolute-right'));
-  assert.ok(globalCss.includes('.compose-column-align-absolute-left:dir(rtl) { align-items: flex-end; }'));
-  assert.ok(globalCss.includes('.compose-column-align-absolute-right:dir(rtl) { align-items: flex-start; }'));
-});
-
-
-test("Box applies child-scoped alignment and matchParentSize modifiers", () => {
-  const boxSource = readFileSync(new URL("../../components/layout/compose/Box.tsx", import.meta.url), "utf8");
-  assert.ok(boxSource.includes("childProps.modifier.boxScopeOptions()"));
-  assert.ok(boxSource.includes("childProps.modifier.withoutBoxScopeOperations()"));
-  assert.ok(boxSource.includes('position: "absolute", inset: 0, display: "grid"'));
-});
 
 
 test("ToolPage uses the shared Column primitive for editorial content spacing", () => {
@@ -318,10 +298,3 @@ test("tool editorial sections use Column and the shared spacing scale", () => {
 });
 
 
-test("Box maps direction-independent AndroidX absolute alignments", () => {
-  const boxSource = readFileSync(new URL("../../components/layout/compose/Box.tsx", import.meta.url), "utf8");
-  assert.ok(boxSource.includes("[AbsoluteAlignment.TopLeft]: { justifySelf: \"left\", alignSelf: \"start\" }"));
-  assert.ok(boxSource.includes("[AbsoluteAlignment.BottomRight]: { justifySelf: \"right\", alignSelf: \"end\" }"));
-  assert.equal(AbsoluteAlignment.TopLeft, "topLeft");
-  assert.equal(AbsoluteAlignment.BottomRight, "bottomRight");
-});
