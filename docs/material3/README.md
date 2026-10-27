@@ -6,7 +6,7 @@
 
 ## Target architecture and migration rule
 
-The existing Loculary UI library is **migration input, not the target API design**. Existing implementation counts, component names, catalogue rows, and preview keys do not define the desired Android-compatible library.
+The existing Loculary UI library is **migration input, not the target API design**. Existing implementation counts, component names, catalogue rows, and preview keys do not define the desired Android-compatible library. This also applies to production pages and their compositions: current layouts are not immutable, and redesigns may be broad when that is what it takes to deliver a coherent modern Android-app experience on the Web. Do not limit work to superficial styling or small patches merely to preserve the existing structure.
 
 The target is to build the relevant official AndroidX Compose UI component and primitive families as a coherent React/Web library first, with AndroidX public names and source-derived contracts wherever an equivalent is meaningful. Then migrate the product's shared UI and tool pages to that library so Loculary can behave like a cohesive app. This is not a requirement to mechanically port every low-level runtime/compiler API into React: inventory the declared public API surface exhaustively, classify each declaration by role and Web-port relevance, and document why a declaration is not a visual/component port when appropriate.
 
