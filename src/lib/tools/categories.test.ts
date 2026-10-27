@@ -264,6 +264,12 @@ test("Arrangement exposes the AndroidX alignment overloads for spacedBy and alig
     kind: "aligned",
     alignment: Alignment.CenterHorizontally,
   });
+  assert.deepEqual(Arrangement.aligned(AbsoluteAlignment.Left), {
+    kind: "aligned",
+    alignment: AbsoluteAlignment.Left,
+  });
+  assert.ok(rowSource.includes('left: "left"'));
+  assert.ok(rowSource.includes('right: "right"'));
   assert.deepEqual(Arrangement.aligned(Alignment.Bottom), {
     kind: "aligned",
     alignment: Alignment.Bottom,
