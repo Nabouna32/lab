@@ -942,13 +942,13 @@ test("ListItem follows AndroidX baseline metrics and safely wraps long content",
   assert.match(spec, /hauteurs ci-dessus sont des minima/);
 });
 
-test("account settings use a native link around shared ListItem and avoid duplicate email display", () => {
+test("account settings use native links around shared ListItem without exposing the email value in the overview", () => {
   const accountPage = readFileSync(new URL("../../app/[locale]/compte/page.tsx", import.meta.url), "utf8");
 
   assert.match(accountPage, /import \{ ListItem \} from "@\/components\/ui\/ListItem"/);
-  assert.match(accountPage, /<Link[\s\S]*?href=\{\`\/\$\{locale\}\/compte\/email\`\}[\s\S]*?<ListItem[\s\S]*?headline=\{t\.account\.changeEmail\}[\s\S]*?supporting=\{user\.email\}/);
+  assert.match(accountPage, /<Link[\s\S]*?href=\{\`\/\$\{locale\}\/compte\/email\`\}[\s\S]*?<ListItem[\s\S]*?headline=\{t\.account\.emailSettingTitle\}[\s\S]*?supporting=\{t\.account\.emailSettingDescription\}/);
   assert.match(accountPage, /<h1 className="m3-type-headline-medium">\{t\.account\.title\}<\/h1>/);
-  assert.equal((accountPage.match(/\{user\.email\}/g) || []).length, 1);
+  assert.doesNotMatch(accountPage, /\{user\.email\}/);
   assert.doesNotMatch(accountPage, /t\.account\.label/);
 });
 
