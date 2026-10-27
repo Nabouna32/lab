@@ -2,7 +2,8 @@ import assert from "node:assert/strict";
 import { createElement, isValidElement } from "react";
 import { readFileSync } from "node:fs";
 import { test } from "node:test";
-import { Alignment } from "../../components/layout/compose/Alignment.ts";
+import { AbsoluteAlignment, Alignment } from "../../components/layout/compose/Alignment.ts";
+import { Box } from "../../components/layout/compose/Box.tsx";
 import { Arrangement } from "../../components/layout/compose/Arrangement.ts";
 import { Modifier } from "../../components/layout/compose/Modifier.ts";
 import { categoryColorIds, getCategoryColor, getCategoryContainerColor, getCategoryOnContainerColor } from "./category-colors.ts";
@@ -305,4 +306,25 @@ test("tool editorial sections use Column and the shared spacing scale", () => {
     assert.ok(source.includes('import { Column } from "@/components/layout/compose/Column"'));
     assert.ok(!source.includes("space-y-5"));
   }
+});
+
+
+test("Box supports direction-independent AndroidX absolute alignments", () => {
+  const leftBox = Box({ children: createElement("span"), contentAlignment: AbsoluteAlignment.TopLeft });
+  const leftChildren = getModifierElementProps(leftBox).children;
+  assert.ok(Array.isArray(leftChildren));
+  assert.deepEqual(getModifierElementProps(leftChildren[0]).style, {
+    gridArea: "1 / 1",
+    justifySelf: "left",
+    alignSelf: "start",
+  });
+
+  const rightBox = Box({ children: createElement("span"), contentAlignment: AbsoluteAlignment.BottomRight });
+  const rightChildren = getModifierElementProps(rightBox).children;
+  assert.ok(Array.isArray(rightChildren));
+  assert.deepEqual(getModifierElementProps(rightChildren[0]).style, {
+    gridArea: "1 / 1",
+    justifySelf: "right",
+    alignSelf: "end",
+  });
 });
