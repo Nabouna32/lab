@@ -38,7 +38,7 @@
 - Composition éditoriale : [`src/components/tools/ToolPage/EditorialPrimitives.tsx`](../../../src/components/tools/ToolPage/EditorialPrimitives.tsx).
 - L’ancienne API à variante et `href` a été remplacée : la variante visuelle est exprimée par l’export dédié, et seule la composition `CardLink` navigue via un vrai lien HTML. Le chemin `href` rend un lien Next.js ; sinon le wrapper rend un `div`.
 - Les classes utilisent les tokens de surface, forme et ombre Loculary. Ce sont des décisions de produit et de thème, pas une preuve d'équivalence avec les valeurs par défaut AndroidX.
-- Les variantes visuelles sont regroupées dans un composant avec `href`, alors que l'API AndroidX sépare les variantes de carte et les surcharges interactives. La séparation Web entre lien, bouton et conteneur est à conserver dans la future API.
+- L’ancienne implémentation regroupait les variantes visuelles et `href` dans un seul composant. La nouvelle API sépare ces responsabilités ; la parité des états interactifs AndroidX reste à traiter.
 
 ## Contrat cible pour le portage React/Web
 
