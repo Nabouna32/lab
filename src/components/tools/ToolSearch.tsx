@@ -13,7 +13,7 @@ import type { Tool } from "@/lib/tools/types";
 import { normalizeSearchText } from "@/lib/tools/search-utils";
 import { executeToolSearch } from "@/lib/tools/search-request";
 import { OutlinedButton } from "@/components/ui/Button";
-import { IconButton } from "@/components/ui/IconButton";
+import { FilledIconButton, IconButton } from "@/components/ui/IconButton";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import { getSearchResultsPath, getToolPath } from "@/lib/tools/routes";
 import { calculateSearchOverlayPosition, type SearchOverlayPosition } from "@/lib/tools/search-overlay-position";
@@ -277,7 +277,6 @@ export default function ToolSearch({
         />
         {query && (
           <IconButton
-            variant="standard"
             type="button"
             label={t.tools.clearSearch}
             onMouseDown={(event) => event.preventDefault()}
@@ -297,7 +296,7 @@ export default function ToolSearch({
             <MaterialIcon name="close" size={24} />
           </IconButton>
         )}
-        <IconButton label={t.tools.searchSubmit} type="submit" disabled={!query.trim()} variant="filled">
+        <FilledIconButton label={t.tools.searchSubmit} type="submit" disabled={!query.trim()}>
           <MaterialIcon name="arrow_forward" size={24} />
         </IconButton>
       </div>
