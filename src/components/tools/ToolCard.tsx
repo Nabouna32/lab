@@ -17,12 +17,12 @@ export default function ToolCard({ tool, locale, categoryName, categoryId }: { t
       <div className="flex items-center gap-3">
         <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-md)] bg-[var(--accent-soft)] text-xl" aria-hidden="true">{tool.icon}</span>
         <span className="min-w-0 flex-1">
-          <h3 className="truncate font-bold tracking-[-0.02em]">{content.name}</h3>
-          {categoryName && <span className="mt-0.5 block truncate text-[11px] font-bold uppercase tracking-[0.12em]" style={{ color: categoryId ? getCategoryColor(categoryId) : "var(--accent)" }}>{categoryName}</span>}
+          <h3 className="m3-type-title-medium truncate">{content.name}</h3>
+          {categoryName && <span className="m3-type-label-small mt-0.5 block truncate uppercase" style={{ color: categoryId ? getCategoryColor(categoryId) : "var(--accent)" }}>{categoryName}</span>}
         </span>
         <span className="text-[var(--muted)] transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true"><MaterialIcon name="chevron_right" size={18} /></span>
       </div>
-      <p className="mt-3 line-clamp-2 text-sm leading-5 text-[var(--muted)]">{content.description}</p>
+      <p className="m3-type-body-medium mt-3 line-clamp-2 text-[var(--muted)]">{content.description}</p>
     </CardLink>
   );
 }
