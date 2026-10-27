@@ -70,7 +70,7 @@ export default function RecentTools({ locale, tools }: { locale: Locale; tools: 
   return (
     <PageContainer width="wide" spacing="none" className="mt-[var(--space-2)]">
     <section aria-labelledby="recent-tools-title">
-      <div className="rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-4 sm:p-5">
+      <div className="rounded-[var(--m3-card-shape)] border border-[var(--border)] bg-[var(--surface)] p-4 sm:p-5">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <h2 id="recent-tools-title" className="m3-type-title-medium text-[var(--foreground)]">{t.home.recentToolsTitle}</h2>
