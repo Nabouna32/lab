@@ -17,7 +17,7 @@ export default function HomeGuidedWorkflows({ locale }: { locale: Locale }) {
       <PageContainer
         width="wide"
         spacing="none"
-        className="pb-[var(--space-8)] pt-[var(--space-2)] sm:pb-[var(--space-10)]"
+        className="pb-[var(--space-8)] sm:pb-[var(--space-10)]"
       >
         <Link
           href={getGuidedWorkflowsPath(locale)}
