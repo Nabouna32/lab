@@ -20,7 +20,7 @@ export default function Header({ locale }: { locale: Locale }) {
     <header className="sticky top-0 z-50 border-b border-[var(--border)]/80 bg-[var(--background)]">
       <PageContainer width="wide" spacing="none">
         <Row
-          horizontalArrangement={Arrangement.spacedByCss("var(--header-layout-gap)")}
+          horizontalArrangement={Arrangement.spacedBy("var(--header-layout-gap)")}
           verticalAlignment={Alignment.CenterVertically}
           className="h-14 [--header-layout-gap:var(--space-2)] sm:h-16 sm:[--header-layout-gap:var(--space-3)]"
         >
@@ -38,7 +38,7 @@ export default function Header({ locale }: { locale: Locale }) {
           <Spacer modifier={Modifier.then(RowScope.weight(1))} />
 
           <Row
-            horizontalArrangement={Arrangement.spacedByCss("var(--header-control-gap)")}
+            horizontalArrangement={Arrangement.spacedBy("var(--header-control-gap)")}
             verticalAlignment={Alignment.CenterVertically}
             className="shrink-0 [--header-control-gap:0.125rem] sm:[--header-control-gap:var(--space-1)]"
           >
