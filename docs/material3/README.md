@@ -149,3 +149,6 @@ Les valeurs de forme de Card et Panel sont isolées dans des tokens de composant
 
 
 La deuxième tranche relie les métriques typographiques de `AlertDialog`, `DatePickerDialog`, `DropdownMenu`, `ExposedDropdownMenu`, `NavigationBar`, `NavigationDrawer`, `NavigationRail`, `RadioButton`, `Snackbar`, `Tabs`, `TimePicker`, `ToggleButton`, `Tooltip` et `TopAppBar` aux rôles partagés. Un test de contrat protège cette centralisation. Cela ne prouve pas encore la parité du comportement ni du rendu avec AndroidX ; les métriques spécifiques non mappées sont conservées tant que leur contrat source n’est pas établi.
+
+
+La troisième tranche relie les métriques des composants `BottomSheetScaffold`, `ButtonGroup`, `DatePicker`, `FloatingActionButton`, `FloatingActionButtonMenu`, `FloatingToolbar`, `ModalBottomSheet`, `PullToRefreshBox`, `RangeSlider`, `SegmentedButtonGroup`, `SplitButton`, `SwipeToDismissBox`, `WideNavigationRail` et `Slider` aux rôles typographiques partagés. Les valeurs spécifiques au cadran/aux commandes numériques sont conservées quand elles ne correspondent pas clairement à un rôle M3. Le test de contrat inclut ces nouveaux consommateurs.
