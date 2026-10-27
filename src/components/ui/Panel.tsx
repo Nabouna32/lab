@@ -12,7 +12,7 @@ export function Panel({ children, className = "", as = "div" }: PanelProps) {
   return (
     <Component
       className={[
-        "rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow-sm)] sm:p-7",
+        "rounded-[var(--m3-panel-shape)] border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow-sm)] sm:p-7",
         className,
       ].join(" ")}
     >
