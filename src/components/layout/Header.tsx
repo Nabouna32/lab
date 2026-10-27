@@ -26,7 +26,7 @@ export default function Header({ locale }: { locale: Locale }) {
         >
           <Link
             href={"/" + locale}
-            className="group flex shrink-0 items-center gap-2 rounded-[var(--radius-lg)] outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] sm:gap-2.5"
+            className="group flex shrink-0 items-center gap-2 rounded-[var(--shape-corner-large)] outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] sm:gap-2.5"
             aria-label={"Loculary - " + t.nav.home}
           >
             <LocularyLogo
