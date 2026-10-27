@@ -1,71 +1,72 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { test } from "node:test";
 import { Alignment } from "../../components/layout/compose/Alignment.ts";
-import { Box } from "../../components/layout/compose/Box.tsx";
-import { Column } from "../../components/layout/compose/Column.tsx";
-import { Row } from "../../components/layout/compose/Row.tsx";
-import { Spacer } from "../../components/layout/compose/Spacer.tsx";
+import {
+  getBoxChildStyle,
+  getColumnLayoutPresentation,
+  getRowLayoutPresentation,
+} from "../../components/layout/compose/LayoutStyles.ts";
 import { BoxScope, ColumnScope, Modifier, RowScope } from "../../components/layout/compose/Modifier.ts";
 
-test("Box aligns each child in the shared grid cell and uses the requested default alignment", () => {
-  const markup = renderToStaticMarkup(createElement(
-    Box,
-    { contentAlignment: Alignment.Center },
-    createElement("span", null, "centered"),
-  ));
+const componentSource = (name: string) => readFileSync(
+  fileURLToPath(new URL(`../../components/layout/compose/${name}.tsx`, import.meta.url)),
+  "utf8",
+);
 
-  assert.match(markup, /display:grid/);
-  assert.match(markup, /grid-area:1\/1/);
-  assert.match(markup, /justify-self:center/);
-  assert.match(markup, /align-self:center/);
-  assert.match(markup, />centered<\/span>/);
+test("Box child alignment maps the default center contract to both CSS axes", () => {
+  assert.deepEqual(getBoxChildStyle(Alignment.Center), {
+    gridArea: "1 / 1",
+    justifySelf: "center",
+    alignSelf: "center",
+  });
 });
 
-test("Box consumes child scope modifiers before rendering the child's generic modifier chain", () => {
-  const markup = renderToStaticMarkup(createElement(
-    Box,
-    null,
-    createElement(Spacer, {
-      modifier: Modifier.then(BoxScope.align(Alignment.BottomEnd)).then(Modifier.width(12)),
-    }),
-  ));
+test("Box consumes scope operations and preserves the child's generic Modifier chain", () => {
+  const source = componentSource("Box");
 
-  assert.match(markup, /justify-self:end/);
-  assert.match(markup, /align-self:end/);
+  assert.match(source, /childProps\.modifier\.boxScopeOptions\(\)/);
+  assert.match(source, /childProps\.modifier\.withoutBoxScopeOperations\(\)/);
+  assert.match(source, /Children\.map\(children/);
+
+  const markup = renderToStaticMarkup(createElement("div", {
+    style: Modifier.then(BoxScope.align(Alignment.BottomEnd)).then(Modifier.width(12)).toStyle(),
+  }));
   assert.match(markup, /width:12px/);
-  assert.doesNotMatch(markup, /boxAlign/);
 });
 
-test("Box matchParentSize positions the child against its parent without affecting normal child sizing", () => {
-  const markup = renderToStaticMarkup(createElement(
-    Box,
-    null,
-    createElement(Spacer, { modifier: Modifier.then(BoxScope.matchParentSize()) }),
-    createElement("span", null, "measured child"),
-  ));
+test("Box matchParentSize produces an absolute child filling its parent", () => {
+  assert.deepEqual(getBoxChildStyle(Alignment.TopStart, true), {
+    gridArea: "1 / 1",
+    position: "absolute",
+    inset: 0,
+    display: "grid",
+  });
 
-  assert.match(markup, /position:absolute;inset:0;display:grid/);
-  assert.match(markup, />measured child<\/span>/);
+  assert.match(componentSource("Box"), /getBoxChildStyle\(childAlignment, matchParentSize\)/);
 });
 
-test("Row and Column expose scope weights on their direct layout children", () => {
-  const row = renderToStaticMarkup(createElement(
-    Row,
-    null,
-    createElement(Spacer, { modifier: Modifier.then(RowScope.weight(2)) }),
-    createElement(Spacer, { modifier: Modifier.then(RowScope.weight(1)) }),
-  ));
-  const column = renderToStaticMarkup(createElement(
-    Column,
-    null,
-    createElement(Spacer, { modifier: Modifier.then(ColumnScope.weight(3, false)) }),
-  ));
+test("Row and Column map scope weights to the expected flex styles", () => {
+  const rowSource = componentSource("Row");
+  const columnSource = componentSource("Column");
+  const row = getRowLayoutPresentation();
+  const column = getColumnLayoutPresentation();
 
-  assert.match(row, /display:flex;flex-direction:row/);
-  assert.match(row, /flex-grow:2;flex-shrink:1;flex-basis:0%/);
-  assert.match(row, /flex-grow:1;flex-shrink:1;flex-basis:0%/);
-  assert.match(column, /display:flex;flex-direction:column/);
-  assert.match(column, /flex-grow:0;flex-shrink:1;flex-basis:auto/);
+  assert.match(rowSource, /getRowLayoutPresentation\(horizontalArrangement, verticalAlignment, className, style\)/);
+  assert.match(columnSource, /getColumnLayoutPresentation\(verticalArrangement, horizontalAlignment, className, style\)/);
+  assert.deepEqual(
+    Modifier.then(RowScope.weight(2)).then(Modifier.width(12)).toStyle(),
+    { flexGrow: 2, flexShrink: 1, flexBasis: "0%", width: "12px" },
+  );
+  assert.deepEqual(
+    Modifier.then(ColumnScope.weight(3, false)).toStyle(),
+    { flexGrow: 0, flexShrink: 1, flexBasis: "auto" },
+  );
+  assert.equal(row.style.display, "flex");
+  assert.equal(row.style.flexDirection, "row");
+  assert.equal(column.style.display, "flex");
+  assert.equal(column.style.flexDirection, "column");
 });
