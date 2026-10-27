@@ -135,6 +135,7 @@ Les primitives de layout sont suivies séparément des composants Material 3, ca
 |---|---|---|---|
 | Button | [Button](components/Button.md) | Five AndroidX-named React exports; source snapshot pinned; disabled-state token roles corrected; shared variant styles now drive native buttons and button-styled links; remaining token and browser verification open | Generic action call sites migrated; account-only action-link wrapper removed; footer and account navigation use shared Button appearances while preserving anchors; broader site audit and browser verification remain open |
 | Web link adaptation | [Link](components/Link.md) | `AppLink` keeps Next.js anchor semantics and shares the five Button visual variants and the shared reduced-motion-aware ripple; navigation/inline styles remain contextual Web patterns | Footer and account action links migrated; header navigation retained as a navigation link; full-site usage audit remains open |
+| ListItem | [ListItem](components/ListItem.md) | Existing adaptation; standard one/two/three-line composition is being aligned to AndroidX 1.4.0 | Interactive overloads and browser parity remain unverified |
 | IconButton | [IconButton](components/IconButton.md) | Existing implementation; full source-contract and browser verification still required | Not established by this index |
 | Other components | Not yet audited | À inventorier | À inventorier |
 
