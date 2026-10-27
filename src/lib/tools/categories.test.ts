@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { isValidElement } from "react";
+import { createElement, isValidElement } from "react";
 import { readFileSync } from "node:fs";
 import { test } from "node:test";
 import { AbsoluteAlignment, Alignment } from "../../components/layout/compose/Alignment.ts";
