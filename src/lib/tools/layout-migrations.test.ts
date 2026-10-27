@@ -118,3 +118,11 @@ test("shared footer and tool stacks use the Compose layout primitives for migrat
   assert.ok(qrCodeGeneratorSource.includes("verticalArrangement={Arrangement.spacedBy(20)}"));
   assert.ok(!qrCodeGeneratorSource.includes('<div className="space-y-5">'));
 });
+
+const editorialPrimitivesSource = readSource("../../components/tools/ToolPage/EditorialPrimitives.tsx");
+
+test("editorial callouts reuse the shared filled Card primitive", () => {
+  assert.ok(editorialPrimitivesSource.includes('import { Card as SharedCard } from "@/components/ui/Card"'));
+  assert.ok(editorialPrimitivesSource.includes('<SharedCard variant="filled" className="mt-4 p-4">'));
+  assert.ok(!editorialPrimitivesSource.includes("bg-[var(--accent-soft)]"));
+});
