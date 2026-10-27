@@ -72,7 +72,7 @@ export default function AdaptiveAppNavigation({ locale }: { locale: Locale }) {
     <>
       <aside className={styles.sidebar} aria-label={t.nav.menu}>
         <Link href={`/${locale}`} className={styles.brand} aria-label={`Loculary — ${t.nav.home}`}>
-          <LocularyLogo wordmarkClassName="text-base font-bold tracking-[-0.03em]" />
+          <LocularyLogo wordmarkClassName="hidden text-base font-bold tracking-[-0.03em] min-[1200px]:inline" />
         </Link>
         <nav className={styles.desktopNav} aria-label={t.nav.menu}>
           <div className={styles.group}>{destinations.filter((item) => item.group === "main").map((item) => link(item))}</div>
