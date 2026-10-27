@@ -10,6 +10,7 @@ const signInPageSource = readSource("../../app/[locale]/compte/connexion/page.ts
 const signUpPageSource = readSource("../../app/[locale]/compte/inscription/page.tsx");
 const pageLayoutSource = readSource("../../components/layout/PageLayout.tsx");
 const headerSource = readSource("../../components/layout/Header.tsx");
+const headerSearchSource = readSource("../../components/layout/HeaderSearch.tsx");
 const logoSource = readSource("../../components/brand/LocularyLogo.tsx");
 
 test("homepage compositions reuse the shared width, gutters and spacing tokens", () => {
@@ -77,6 +78,8 @@ test("header layout reuses Row and a weighted Spacer instead of a product-specif
   assert.ok(headerSource.includes('import { Spacer } from "@/components/layout/compose/Spacer"'));
   assert.ok(headerSource.includes("Modifier.weight(1)"));
   assert.ok(headerSource.includes('Arrangement.spacedByCss("var(--header-layout-gap)")'));
+  assert.ok(headerSource.includes('Arrangement.spacedByCss("var(--header-control-gap)")'));
+  assert.ok(!headerSource.includes("flex shrink-0 items-center gap-0.5"));
   assert.ok(!headerSource.includes("grid-cols-[1fr_auto]"));
 });
 
@@ -84,4 +87,12 @@ test("header layout reuses Row and a weighted Spacer instead of a product-specif
 test("brand wordmark uses the shared Row primitive", () => {
   assert.ok(logoSource.includes('import { Row } from "@/components/layout/compose/Row"'));
   assert.ok(!logoSource.includes("inline-flex items-center"));
+});
+
+
+test("header search panel uses Row while retaining its stable panel ID", () => {
+  assert.ok(headerSearchSource.includes('import { Row } from "@/components/layout/compose/Row"'));
+  assert.ok(headerSearchSource.includes('id="header-tool-search-panel"'));
+  assert.ok(headerSearchSource.includes('Arrangement.spacedByCss("var(--space-2)")'));
+  assert.ok(!headerSearchSource.includes("flex items-start gap-2"));
 });
