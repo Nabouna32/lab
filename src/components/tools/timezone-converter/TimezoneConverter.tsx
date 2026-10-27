@@ -80,7 +80,7 @@ export default function TimezoneConverter() {
     : "";
 
   return (
-    <section className="overflow-hidden rounded-[var(--radius-2xl)] border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-sm)]">
+    <section className="overflow-hidden rounded-[var(--shape-corner-extra-large)] border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-sm)]">
       <div className="grid gap-0 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
         <div className="p-5 sm:p-7 lg:border-r lg:border-[var(--border)] lg:p-8">
           <CalculatorField label={t.dateTime} inputId="timezone-date-time" type="datetime-local" value={dateTime} aria-invalid={error}
