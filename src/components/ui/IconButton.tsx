@@ -17,6 +17,8 @@ export type IconToggleButtonColors = IconButtonColors & {
 
 type IconButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "aria-label" | "children" | "aria-pressed" | "aria-checked"> & {
   label: string;
+  /** AndroidX `enabled` parameter; native `disabled` remains a Web compatibility alias. */
+  enabled?: boolean;
   children: ReactNode;
   colors?: Partial<IconButtonColors>;
   shape?: CSSProperties["borderRadius"];
@@ -87,6 +89,8 @@ function IconButtonBase({
   children,
   className = "",
   type = "button",
+  enabled = true,
+  disabled,
   variant,
   checked,
   onCheckedChange,
@@ -111,6 +115,7 @@ function IconButtonBase({
     <button
       ref={ref}
       type={type}
+      disabled={disabled ?? !enabled}
       aria-label={label}
       role={isToggle ? "checkbox" : undefined}
       aria-checked={isToggle ? checked : undefined}

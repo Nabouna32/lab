@@ -169,6 +169,8 @@ test("icon button API separates official action variants from toggle variants", 
   assert.ok(iconButton.includes("relative isolate inline-flex shrink-0 items-center justify-center rounded-full"), "the 40px surface clips the ripple separately from the 48px touch target");
   assert.ok(iconButton.includes("var(--secondary-container)") && iconButton.includes("var(--on-secondary-container)"));
   assert.ok(iconButton.includes("ref?: Ref<HTMLButtonElement>"));
+  assert.ok(iconButton.includes("enabled?: boolean"));
+  assert.ok(iconButton.includes("disabled={disabled ?? !enabled}"), "AndroidX enabled maps to the native disabled state");
   assert.ok(iconButton.includes("export type IconButtonColors ="));
   assert.ok(iconButton.includes("export type IconToggleButtonColors ="));
   assert.ok(iconButton.includes("colors?: Partial<IconButtonColors>"));

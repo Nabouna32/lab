@@ -598,6 +598,8 @@ test("AndroidX-named Buttons support per-state color customization without produ
   assert.ok(iconButtonSource.includes("const toggleUncheckedStyles: Record<IconButtonStyle, string>"));
   assert.ok(iconButtonSource.includes("const toggleCheckedStyles: Record<IconButtonStyle, string>"));
   assert.ok(iconButtonSource.includes("export type IconButtonColors ="));
+  assert.ok(iconButtonSource.includes("enabled?: boolean"));
+  assert.ok(iconButtonSource.includes("disabled={disabled ?? !enabled}"));
   assert.ok(iconButtonSource.includes("export type IconToggleButtonColors ="));
   assert.ok(iconButtonSource.includes("colors?: Partial<IconButtonColors>"));
   assert.ok(iconButtonSource.includes('shape?: CSSProperties["borderRadius"]'));
