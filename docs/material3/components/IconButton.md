@@ -27,14 +27,15 @@ The port should follow official AndroidX public component names and distinguish 
 - Use a native button with a meaningful accessible name; decorative icon content must not be the only accessible label.
 - Verify keyboard activation, visible focus, disabled non-activation and touch target in context.
 - Test actual computed foreground/container/outline colors in light and dark themes.
-- The shared bounded ripple is a Web adaptation of Compose `ripple()`; it must remain clipped to the control, support keyboard activation, and respect reduced-motion preferences.
+- The shared bounded ripple is a Web adaptation of Compose `ripple()`; it must remain clipped to the control, support keyboard activation, and respect reduced-motion preferences. `shape` maps Compose `Shape` to CSS `border-radius`; `colors` accepts AndroidX-inspired default/disabled and toggle-checked color roles, expressed as CSS colors.
 
 ## Required verification
 
 - [ ] Pin an aligned AndroidX API/source/token version.
 - [x] Separate the eight official action/toggle component names in the React public API; remove the generic `variant` prop and non-official `tonal` alias.
 - [x] Map action/toggle enabled, checked/unchecked and disabled color roles from the pinned AndroidX implementation and token references; label CSS state layers as a Web adaptation.
-- [ ] Complete the source-derived props mapping (including `colors` and `shape`) for each variant; label Web extensions.
+- [x] Expose AndroidX-inspired `colors` overrides for default, disabled and checked roles; map `shape` to CSS `border-radius` as an explicit Web adaptation.
+- [ ] Verify override behavior, shape clipping and computed styles in a browser.
 - [x] Implement distinct action and toggle color roles for enabled, checked/unchecked and disabled states; add hover, focus-visible and pressed state layers.
 - [ ] Verify computed hover, focus-visible, pressed and disabled rendering in a browser.
 - [ ] Verify icon alignment, container geometry, outline, shape and actual color blends.

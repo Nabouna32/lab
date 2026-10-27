@@ -161,6 +161,13 @@ test("icon button API separates official action variants from toggle variants", 
   assert.ok(iconButton.includes("group relative isolate inline-flex"), "the ripple layer is positioned inside the native button");
   assert.ok(iconButton.includes("var(--secondary-container)") && iconButton.includes("var(--on-secondary-container)"));
   assert.ok(iconButton.includes("ref?: Ref<HTMLButtonElement>"));
+  assert.ok(iconButton.includes("export type IconButtonColors ="));
+  assert.ok(iconButton.includes("export type IconToggleButtonColors ="));
+  assert.ok(iconButton.includes("colors?: Partial<IconButtonColors>"));
+  assert.ok(iconButton.includes("colors?: Partial<IconToggleButtonColors>"));
+  assert.ok(iconButton.includes('shape?: CSSProperties["borderRadius"]'));
+  assert.ok(iconButton.includes('"--icon-button-checked-container-color": colors?.checkedContainerColor'));
+  assert.ok(iconButton.includes("borderRadius: shape"), "Compose shape is mapped to a documented CSS border-radius adaptation");
 });
 
 test("icon toggle states use their own AndroidX color roles instead of action-button defaults", () => {
