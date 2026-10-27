@@ -10,6 +10,8 @@ This document owns shared design foundations and cross-component rules. AndroidX
 
 The target is a faithful React/Web port of AndroidX Compose Material 3 components—not merely a visual imitation. Each component has a separate specification under [`material3/components/`](material3/README.md). A component must not be called source-faithful until its API, states, behavior, rendering and differences have been checked against its pinned source.
 
+**Target-first, not legacy-first:** existing Loculary components, CSS, layouts and page compositions are migration input, not constraints. A component that shares an AndroidX name is not automatically faithful; improve or replace it against the pinned AndroidX contract. When a page would benefit from a more coherent modern app structure, a full redesign is explicitly allowed and often preferred over patching the current layout. Product references such as ChatGPT for Android and other polished mainstream apps can inform familiar UX conventions and icon choices, but do not override AndroidX component specifications or Web accessibility semantics. Avoid preserving legacy APIs or styles solely to minimize the diff. Choose a focused fix or a broader refactor based on which produces the clearest, maintainable result.
+
 ## Foundations
 
 - Use Material Color Utilities **Fidelity** for seed-derived semantic color roles, with the current seed documented in implementation; the seed is not a literal color to apply everywhere.
