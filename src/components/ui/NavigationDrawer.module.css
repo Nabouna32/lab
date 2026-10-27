@@ -8,16 +8,16 @@
   color: var(--lab-text, var(--on-surface, currentColor)); background: var(--lab-surface, var(--surface, Canvas));
   box-shadow: 0 8px 24px rgb(0 0 0 / 16%); animation: m3-drawer-in 280ms cubic-bezier(.2, 0, 0, 1) both;
 }
-.title { margin: 12px 16px 8px; font-size: 22px; line-height: 28px; font-weight: 500; }
+.title { margin: 12px 16px 8px; font-size: var(--m3-type-title-large-size); line-height: var(--m3-type-title-large-line-height); font-weight: var(--m3-type-title-large-weight); letter-spacing: var(--m3-type-title-large-tracking); }
 .nav { display: grid; gap: 8px; }
 .group { display: grid; gap: 4px; }
-.section { margin: 12px 16px 4px; color: var(--lab-muted, var(--on-surface-variant, currentColor)); font-size: 14px; line-height: 20px; font-weight: 600; }
+.section { margin: 12px 16px 4px; color: var(--lab-muted, var(--on-surface-variant, currentColor)); font-size: var(--m3-type-title-small-size); line-height: var(--m3-type-title-small-line-height); font-weight: var(--m3-type-title-small-weight); letter-spacing: var(--m3-type-title-small-tracking); }
 .item {
   display: flex; align-items: center; gap: 12px; min-height: 56px; width: 100%; padding: 0 16px;
   border: 0; border-radius: var(--shape-corner-full, 999px); color: var(--lab-text, var(--on-surface, currentColor));
-  background: transparent; text-align: start; font: inherit; cursor: pointer;
+  background: transparent; text-align: start; font: inherit; font-size: var(--m3-type-label-large-size); line-height: var(--m3-type-label-large-line-height); font-weight: var(--m3-type-label-large-weight); letter-spacing: var(--m3-type-label-large-tracking); cursor: pointer;
 }
-.item[data-selected="true"] { color: var(--lab-on-secondary-container, var(--on-secondary-container, currentColor)); background: var(--lab-secondary-container, var(--secondary-container, transparent)); font-weight: 600; }
+.item[data-selected="true"] { color: var(--lab-on-secondary-container, var(--on-secondary-container, currentColor)); background: var(--lab-secondary-container, var(--secondary-container, transparent)); }
 .item:hover { background: color-mix(in srgb, currentColor 8%, transparent); }
 .item:active { background: color-mix(in srgb, currentColor 12%, transparent); }
 .item:focus-visible { outline: 2px solid var(--lab-primary, var(--focus-ring, currentColor)); outline-offset: -2px; }
