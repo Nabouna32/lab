@@ -14,6 +14,8 @@ export type ButtonContentPadding = {
 };
 
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+  /** AndroidX `enabled` parameter; native `disabled` remains a Web compatibility alias. */
+  enabled?: boolean;
   /** AndroidX-inspired color customization. Values may be CSS colors or semantic theme tokens. */
   colors?: ButtonColors;
   /** Web mapping for AndroidX Shape; accepts CSS border-radius values. */
@@ -44,6 +46,8 @@ function MaterialButton({
   style,
   leadingIcon = false,
   multiline = false,
+  enabled = true,
+  disabled,
   className = "",
   type = "button",
   children,
@@ -70,6 +74,7 @@ function MaterialButton({
     <button
       ref={ref}
       type={type}
+      disabled={disabled ?? !enabled}
       style={mergedStyle}
       className={[
         "m3-type-label-large relative isolate inline-flex min-h-10 items-center justify-center gap-2 rounded-full py-2",
