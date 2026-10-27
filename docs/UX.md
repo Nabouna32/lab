@@ -42,6 +42,8 @@ Cards and card grids are valid Material 3 composition options, including for cat
 
 The primary navigation should remain small and understandable. Search is a first-class entry point, while an Explorer area can provide both:
 
+The shared app shell uses **adaptive global navigation** rather than a conventional site header as the primary navigation model: a persistent labelled navigation drawer on wide screens, a compact navigation rail on medium screens, and a small bottom navigation bar for the highest-priority destinations on mobile. The top app bar remains available for contextual actions such as global search and the overflow menu; it is not a second copy of the primary destinations. Navigation items are real links with a visible current-page state, so browser history, opening in a new tab, keyboard use and assistive technology remain native to the Web. The responsive breakpoints are implementation choices to validate against real content and viewport testing, not AndroidX constants.
+
 - intent-oriented discovery such as calculate, convert, transform, create, analyze, verify, generate or measure;
 - domain/category-oriented discovery such as images, text, files, development, finance or data.
 
