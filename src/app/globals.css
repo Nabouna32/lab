@@ -225,6 +225,9 @@
   --shape-corner-large: 16px;
   --shape-corner-extra-large: 28px;
   --shape-corner-full: 9999px;
+  /* Component defaults are separate from the generic shape scale; verify exact AndroidX release values. */
+  --m3-card-shape: var(--shape-corner-medium);
+  --m3-panel-shape: var(--shape-corner-medium);
   --shadow-sm: 0 1px 3px rgb(25 27 35 / 0.08), 0 1px 2px rgb(25 27 35 / 0.04);
   --shadow-md: 0 6px 18px rgb(25 27 35 / 0.08);
   --shadow-lg: 0 16px 40px rgb(25 27 35 / 0.10);
