@@ -32,7 +32,7 @@ test("tools page avoids decorative numbering that adds no information", () => {
     "category cards must not display an index as if it carried meaning",
   );
   assert.ok(
-    !/tracking-\\[0\\.16em\\].*?>0[12]<\\/p>/.test(toolsPageSource),
+    !toolsPageSource.includes('text-[var(--accent)]">01</p>') && !toolsPageSource.includes('text-[var(--accent)]">02</p>'),
     "section headings and intent results must not display decorative sequence numbers",
   );
 });
