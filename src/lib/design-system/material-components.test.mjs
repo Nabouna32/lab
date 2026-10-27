@@ -953,16 +953,33 @@ test("account settings use a native link around shared ListItem and avoid duplic
 });
 
 
-test("account overview uses a coherent settings hierarchy with explicit section separation", () => {
+test("account overview is a settings hub with native navigation rows and individual descriptions", () => {
   const accountPage = readFileSync(new URL("../../app/[locale]/compte/page.tsx", import.meta.url), "utf8");
 
   assert.match(accountPage, /t\.account\.pageDescription/);
-  assert.doesNotMatch(accountPage, /<header className="mb-5 rounded-/);
-  assert.match(accountPage, /t\.account\.profileDescription/);
-  assert.match(accountPage, /t\.account\.securityDescription/);
+  assert.match(accountPage, /href=\{\`\/\$\{locale\}\/compte\/informations-personnelles\`\}/);
+  assert.match(accountPage, /headline=\{t\.account\.personalInformation\}/);
+  assert.match(accountPage, /headline=\{t\.account\.emailSettingTitle\}[\s\S]*?supporting=\{t\.account\.emailSettingDescription\}/);
+  assert.match(accountPage, /headline=\{t\.account\.passwordSettingTitle\}[\s\S]*?supporting=\{t\.account\.passwordSettingDescription\}/);
+  assert.match(accountPage, /t\.account\.security/);
   assert.match(accountPage, /border-t border-\[var\(--outline-variant\)\]/);
+  assert.match(accountPage, /leading=\{<MaterialIcon name="person" size=\{24\} \/>\}/);
   assert.match(accountPage, /leading=\{<MaterialIcon name="mail" size=\{24\} \/>\}/);
   assert.match(accountPage, /leading=\{<MaterialIcon name="lock" size=\{24\} \/>\}/);
-  assert.match(messagesSource, /pageDescription: "Gérez votre profil et les paramètres d’accès\."/);
-  assert.match(messagesSource, /pageDescription: "Manage your profile and sign-in settings\."/);
+  assert.match(messagesSource, /title: "Votre compte"/);
+  assert.match(messagesSource, /security: "Sécurité et connexion"/);
+  assert.match(messagesSource, /title: "Your account"/);
+  assert.match(messagesSource, /security: "Security and sign-in"/);
+});
+
+test("personal information page owns profile editing and localized feedback", () => {
+  const profilePage = readFileSync(new URL("../../app/[locale]/compte/informations-personnelles/page.tsx", import.meta.url), "utf8");
+  const actions = readFileSync(new URL("../../app/[locale]/compte/actions.ts", import.meta.url), "utf8");
+
+  assert.match(profilePage, /action=\{updateProfile\}/);
+  assert.match(profilePage, /name="displayName"/);
+  assert.match(profilePage, /name="preferredLocale"/);
+  assert.match(profilePage, /query\.status === "profile-updated"/);
+  assert.match(actions, /\/compte\/informations-personnelles\?error=profile/);
+  assert.match(actions, /\/compte\/informations-personnelles\?status=profile-updated/);
 });
