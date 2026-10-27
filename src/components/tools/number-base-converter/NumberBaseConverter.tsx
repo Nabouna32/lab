@@ -6,7 +6,7 @@ import { ClearButton } from "@/components/ui/ClearButton";
 import { TextField } from "@/components/ui/TextField";
 import { Select } from "@/components/ui/Select";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
-import { IconButton } from "@/components/ui/IconButton";
+import { OutlinedIconButton } from "@/components/ui/IconButton";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { convertNumber, isValidBase } from "@/lib/number-base-converter";
@@ -56,9 +56,9 @@ export default function NumberBaseConverter() {
               <BaseOptions />
             </Select>
 
-            <IconButton label={t.swap} title={t.swap} variant="outlined" onClick={swapBases} className="self-end">
+            <OutlinedIconButton label={t.swap} title={t.swap} onClick={swapBases} className="self-end">
               <MaterialIcon name="swap_horiz" size={24} />
-            </IconButton>
+            </OutlinedIconButton>
 
             <Select label={t.toBase} id="number-base-to" value={toBase} onChange={(event) => setToBase(Number(event.target.value))}>
               <BaseOptions />
