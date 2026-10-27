@@ -32,10 +32,10 @@ test("Box consumes scope operations and preserves the child's generic Modifier c
   assert.match(source, /childProps\.modifier\.withoutBoxScopeOperations\(\)/);
   assert.match(source, /Children\.map\(children/);
 
-  const markup = renderToStaticMarkup(createElement("div", {
-    style: Modifier.then(BoxScope.align(Alignment.BottomEnd)).then(Modifier.width(12)).toStyle(),
-  }));
+  const modifier = Modifier.then(BoxScope.align(Alignment.BottomEnd)).then(Modifier.width(12));
+  const markup = renderToStaticMarkup(modifier.wrap(createElement("span", null, "child")));
   assert.match(markup, /width:12px/);
+  assert.doesNotMatch(markup, /boxAlign/);
 });
 
 test("Box matchParentSize produces an absolute child filling its parent", () => {
@@ -57,14 +57,8 @@ test("Row and Column map scope weights to the expected flex styles", () => {
 
   assert.match(rowSource, /getRowLayoutPresentation\(horizontalArrangement, verticalAlignment, className, style\)/);
   assert.match(columnSource, /getColumnLayoutPresentation\(verticalArrangement, horizontalAlignment, className, style\)/);
-  assert.deepEqual(
-    Modifier.then(RowScope.weight(2)).then(Modifier.width(12)).toStyle(),
-    { flexGrow: 2, flexShrink: 1, flexBasis: "0%", width: "12px" },
-  );
-  assert.deepEqual(
-    Modifier.then(ColumnScope.weight(3, false)).toStyle(),
-    { flexGrow: 0, flexShrink: 1, flexBasis: "auto" },
-  );
+  assert.match(renderToStaticMarkup(Modifier.then(RowScope.weight(2)).wrap(createElement("span"))), /flex-grow:2;flex-shrink:1;flex-basis:0%/);
+  assert.match(renderToStaticMarkup(Modifier.then(ColumnScope.weight(3, false)).wrap(createElement("span"))), /flex-grow:0;flex-shrink:1;flex-basis:auto/);
   assert.equal(row.style.display, "flex");
   assert.equal(row.style.flexDirection, "row");
   assert.equal(column.style.display, "flex");
