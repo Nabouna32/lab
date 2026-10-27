@@ -593,7 +593,7 @@ test("AndroidX-named Buttons support per-state color customization without produ
   assert.ok(buttonVariantStylesSource.includes('"--button-disabled-container-color": colors.disabledContainerColor'));
   assert.ok(!buttonSource.includes("DestructiveButton"), "destructive styling uses color customization, not a custom component");
   assert.doesNotMatch(buttonSource, /primary: filled|secondary: outlined|tonal: filledTonal|ghost: text/);
-  assert.ok(iconButtonSource.includes("group-disabled:bg-[color-mix(in_srgb,var(--on-surface)_12%,transparent)]"));
+  assert.ok(iconButtonSource.includes("group-disabled:bg-[var(--icon-button-disabled-container-color,color-mix(in_srgb,var(--on-surface)_12%,transparent))]"));
   assert.ok(iconButtonSource.includes("group-disabled:border-[color-mix(in_srgb,var(--outline-variant)_12%,transparent)]"));
   assert.ok(iconButtonSource.includes("const toggleUncheckedStyles: Record<IconButtonStyle, string>"));
   assert.ok(iconButtonSource.includes("const toggleCheckedStyles: Record<IconButtonStyle, string>"));

@@ -1,7 +1,7 @@
 # IconButton — AndroidX Material 3 port
 
 **Status:** Portage en cours / verification incomplete.  
-**Current React implementation:** `src/components/ui/IconButton.tsx` exposes the eight official action/toggle names separately, uses separate action/toggle color roles, and shares the bounded pointer/keyboard ripple adaptation. Full source parity is not claimed until props, exact token revision and browser behavior are verified.
+**Current React implementation:** `src/components/ui/IconButton.tsx` exposes the eight official action/toggle names separately, uses separate action/toggle color roles, exposes AndroidX-inspired `colors` overrides and a Web-adapted `shape` prop, and shares the bounded pointer/keyboard ripple adaptation. Full source parity is not claimed until browser behavior is verified.
 
 ## Upstream authority
 
@@ -14,7 +14,7 @@
 - [WCAG 2.2 target size](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html)
 - [WCAG 2.2 focus appearance](https://www.w3.org/WAI/WCAG22/Understanding/focus-appearance.html)
 
-**Version caveat:** source and token references are pinned snapshots, but a single aligned AndroidX artifact version has not yet been established for the React port. Verify API and tokens together before claiming parity.
+**Version caveat:** the API and component-token files are pinned to the same AndroidX source commit. The corresponding Maven artifact version is not inferred from Git metadata, so claims are scoped to this source snapshot rather than a declared artifact release.
 
 ## Contract and known findings
 
@@ -31,7 +31,7 @@ The port should follow official AndroidX public component names and distinguish 
 
 ## Required verification
 
-- [ ] Pin an aligned AndroidX API/source/token version.
+- [x] Pin the API and component-token source references to the same AndroidX commit (artifact release mapping remains unspecified).
 - [x] Separate the eight official action/toggle component names in the React public API; remove the generic `variant` prop and non-official `tonal` alias.
 - [x] Map action/toggle enabled, checked/unchecked and disabled color roles from the pinned AndroidX implementation and token references; label CSS state layers as a Web adaptation.
 - [x] Expose AndroidX-inspired `colors` overrides for default, disabled and checked roles; map `shape` to CSS `border-radius` as an explicit Web adaptation.

@@ -173,12 +173,12 @@ test("icon button API separates official action variants from toggle variants", 
 test("icon toggle states use their own AndroidX color roles instead of action-button defaults", () => {
   assert.ok(iconButton.includes("const toggleUncheckedStyles: Record<IconButtonStyle, string>"));
   assert.ok(iconButton.includes("const toggleCheckedStyles: Record<IconButtonStyle, string>"));
-  assert.ok(iconButton.includes('"filled": "border border-transparent bg-[var(--surface-variant)] text-[var(--on-surface-variant)]'));
-  assert.ok(iconButton.includes('"filled-tonal": "border border-transparent bg-[var(--surface-variant)] text-[var(--on-surface-variant)]'));
-  assert.ok(iconButton.includes('"filled": "border border-transparent bg-[var(--primary)] text-[var(--on-primary)]'));
-  assert.ok(iconButton.includes('"filled-tonal": "border border-transparent bg-[var(--secondary-container)] text-[var(--on-secondary-container)]'));
-  assert.ok(iconButton.includes('"outlined": "border border-transparent bg-[var(--inverse-surface)] text-[var(--inverse-on-surface)]'));
-  assert.ok(iconButton.includes("group-focus-visible:bg-[color-mix(in_srgb,var(--on-surface-variant)_12%,transparent)]"));
+  assert.ok(iconButton.includes('"filled": "border border-transparent bg-[var(--icon-button-container-color,var(--surface-variant))] text-[var(--icon-button-content-color,var(--on-surface-variant))]'));
+  assert.ok(iconButton.includes('"filled-tonal": "border border-transparent bg-[var(--icon-button-container-color,var(--surface-variant))] text-[var(--icon-button-content-color,var(--on-surface-variant))]'));
+  assert.ok(iconButton.includes('filled: "border border-transparent bg-[var(--icon-button-checked-container-color,var(--primary))] text-[var(--icon-button-checked-content-color,var(--on-primary))]'));
+  assert.ok(iconButton.includes('"filled-tonal": "border border-transparent bg-[var(--icon-button-checked-container-color,var(--secondary-container))] text-[var(--icon-button-checked-content-color,var(--on-secondary-container))]'));
+  assert.ok(iconButton.includes('outlined: "border border-transparent bg-[var(--icon-button-checked-container-color,var(--inverse-surface))] text-[var(--icon-button-checked-content-color,var(--inverse-on-surface))]'));
+  assert.ok(iconButton.includes("group-focus-visible:bg-[color-mix(in_srgb,var(--icon-button-container-color,transparent)_88%,var(--icon-button-content-color,var(--on-surface-variant)))]"));
   assert.ok(iconButton.includes("group-disabled:border-[color-mix(in_srgb,var(--outline-variant)_12%,transparent)]"));
   assert.ok(!iconButton.includes("const selectedStyles:"), "legacy selected overlay map must be removed");
 });
