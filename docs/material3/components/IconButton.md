@@ -35,6 +35,7 @@ The port should follow official AndroidX public component names and distinguish 
 - [x] Separate the eight official action/toggle component names in the React public API; remove the generic `variant` prop and non-official `tonal` alias.
 - [x] Map action/toggle enabled, checked/unchecked and disabled color roles from the pinned AndroidX implementation and token references; label CSS state layers as a Web adaptation.
 - [x] Expose AndroidX-inspired `colors` overrides for default, disabled and checked roles; map `shape` to CSS `border-radius` as an explicit Web adaptation.
+- [x] Expose the source `border` override only on outlined variants; map `BorderStroke` to CSS `border`, with `null` removing the outline.
 - [ ] Verify override behavior, shape clipping and computed styles in a browser.
 - [x] Implement distinct action and toggle color roles for enabled, checked/unchecked and disabled states; add hover, focus-visible and pressed state layers.
 - [ ] Verify computed hover, focus-visible, pressed and disabled rendering in a browser.

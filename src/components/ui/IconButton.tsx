@@ -29,11 +29,22 @@ type IconToggleButtonProps = Omit<IconButtonProps, "onClick" | "colors"> & {
   colors?: Partial<IconToggleButtonColors>;
 };
 
+type OutlinedIconButtonProps = IconButtonProps & {
+  /** Web mapping for AndroidX BorderStroke; null removes the outline. */
+  border?: CSSProperties["border"] | null;
+};
+
+type OutlinedIconToggleButtonProps = IconToggleButtonProps & {
+  /** Web mapping for AndroidX BorderStroke; null removes the outline. */
+  border?: CSSProperties["border"] | null;
+};
+
 type IconButtonBaseProps = Omit<IconButtonProps, "colors"> & {
   variant: IconButtonStyle;
   checked?: boolean;
   onCheckedChange?: (checked: boolean) => void;
   colors?: Partial<IconToggleButtonColors>;
+  border?: CSSProperties["border"] | null;
 };
 
 /*
@@ -81,6 +92,7 @@ function IconButtonBase({
   onCheckedChange,
   colors,
   shape,
+  border,
   style,
   ref,
   onClick,
@@ -125,7 +137,7 @@ function IconButtonBase({
           surfaceDimensions,
           isToggle ? (checked ? toggleCheckedStyles[variant] : toggleUncheckedStyles[variant]) : variants[variant],
         ].join(" ")}
-        style={{ ...colorStyle, ...(shape === undefined ? {} : { borderRadius: shape }) }}
+        style={{ ...colorStyle, ...(shape === undefined ? {} : { borderRadius: shape }), ...(border === undefined ? {} : { border: border ?? "none" }) }}
       >
         {children}
         <ButtonRipple />
@@ -150,7 +162,7 @@ export function FilledTonalIconButton(props: IconButtonProps) {
 }
 
 /** AndroidX Compose Material 3 OutlinedIconButton (non-toggle action). */
-export function OutlinedIconButton(props: IconButtonProps) {
+export function OutlinedIconButton(props: OutlinedIconButtonProps) {
   return <IconButtonBase variant="outlined" {...props} />;
 }
 
@@ -170,6 +182,6 @@ export function FilledTonalIconToggleButton(props: IconToggleButtonProps) {
 }
 
 /** AndroidX Compose Material 3 OutlinedIconToggleButton. */
-export function OutlinedIconToggleButton(props: IconToggleButtonProps) {
+export function OutlinedIconToggleButton(props: OutlinedIconToggleButtonProps) {
   return <IconButtonBase variant="outlined" {...props} />;
 }

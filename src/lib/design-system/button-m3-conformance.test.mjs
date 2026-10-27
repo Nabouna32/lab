@@ -174,6 +174,10 @@ test("icon button API separates official action variants from toggle variants", 
   assert.ok(iconButton.includes("colors?: Partial<IconButtonColors>"));
   assert.ok(iconButton.includes("colors?: Partial<IconToggleButtonColors>"));
   assert.ok(iconButton.includes('shape?: CSSProperties["borderRadius"]'));
+  assert.ok(iconButton.includes("type OutlinedIconButtonProps = IconButtonProps &"));
+  assert.ok(iconButton.includes("type OutlinedIconToggleButtonProps = IconToggleButtonProps &"));
+  assert.ok(iconButton.includes('border?: CSSProperties["border"] | null'));
+  assert.ok(iconButton.includes('border: border ?? "none"'), "outlined border maps to CSS and null removes it");
   assert.ok(iconButton.includes('"--icon-button-checked-container-color": colors?.checkedContainerColor'));
   assert.ok(iconButton.includes("borderRadius: shape"), "Compose shape is mapped to a documented CSS border-radius adaptation");
 });
