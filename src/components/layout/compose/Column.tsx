@@ -68,6 +68,8 @@ export function Column({
     start: "flex-start",
     centerHorizontally: "center",
     end: "flex-end",
+    left: "left",
+    right: "right",
   } as const)[horizontalAlignment];
 
   const layout = (
