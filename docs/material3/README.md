@@ -139,3 +139,10 @@ Les primitives de layout sont suivies séparément des composants Material 3, ca
 | Other components | Not yet audited | À inventorier | À inventorier |
 
 NavigationBar browser validation is tracked in [issue #977](https://github.com/Nabouna32/lab/issues/977). This does not assert that the component is already source-faithful.
+
+
+## Première tranche d'implémentation — typographie et formes
+
+Le socle Web expose les 15 rôles typographiques nommés `.m3-type-display-*`, `.m3-type-headline-*`, `.m3-type-title-*`, `.m3-type-body-*` et `.m3-type-label-*`. Le bouton partagé, le bloc Parcours guidés, les cartes d'outils et l'en-tête des pages outil consomment maintenant ces rôles au lieu de recopier localement les métriques typographiques. La couverture reste partielle et doit progresser composant par composant, puis dans les usages de production.
+
+Les valeurs de forme de Card et Panel sont isolées dans des tokens de composant. Leur valeur par défaut définitive doit provenir de la source AndroidX correspondant à la version retenue ; la valeur medium actuelle n'est pas encore déclarée comme preuve de parité. Les échelles historiques ne seront supprimées qu'après inventaire de tous les usages et migration vérifiée.
