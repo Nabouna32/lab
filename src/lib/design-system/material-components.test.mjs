@@ -475,7 +475,7 @@ test("Design Lab renders the shared production UI primitives against the active 
     assert.match(labSource, new RegExp(`import \\{ ${component} \\} from "@\\/components\\/ui\\/${component}"`), `missing shared component import: ${component}`);
   }
   assert.ok(labSource.includes('import { Button, ElevatedButton, FilledTonalButton, OutlinedButton, TextButton } from "@/components/ui/Button"'));
-  assert.match(labSource, /import \\{[^}]*IconButton[^}]*\\} from "@\\/components\\/ui\\/IconButton"/);
+  assert.match(labSource, /import \{[^}]*IconButton[^}]*\} from "@\/components\/ui\/IconButton"/);
   for (const component of ["IconToggleButton", "FilledIconButton", "FilledTonalIconButton", "OutlinedIconButton", "FilledIconToggleButton", "FilledTonalIconToggleButton", "OutlinedIconToggleButton"]) assert.ok(labSource.includes("<" + component), "missing official icon button specimen: " + component);
   for (const token of ["--foreground:var(--lab-text)", "--surface:var(--lab-surface)", "--surface-soft:var(--lab-surface-container)", "--secondary-container:var(--lab-secondary-container)", "--error:var(--lab-error)", "--focus-ring:var(--lab-primary)"]) {
     assert.ok(labCss.includes(token), `missing scoped token bridge: ${token}`);
