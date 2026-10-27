@@ -3,7 +3,7 @@
   display: inline-flex; align-items: center; justify-content: center; gap: 8px; box-sizing: border-box;
   min-height: 32px; max-width: 100%; padding: 0 12px; border: 1px solid var(--lab-outline, var(--outline, currentColor));
   border-radius: var(--shape-corner-small, 8px); color: var(--lab-text, var(--on-surface, currentColor));
-  background: transparent; font: inherit; font-size: 14px; line-height: 20px; font-weight: 500;
+  background: transparent; font: inherit; font-size: var(--m3-type-label-large-size); line-height: var(--m3-type-label-large-line-height); font-weight: var(--m3-type-label-large-weight); letter-spacing: var(--m3-type-label-large-tracking);
   cursor: pointer; transition: background-color 160ms cubic-bezier(.2, 0, 0, 1), border-color 160ms cubic-bezier(.2, 0, 0, 1), box-shadow 160ms cubic-bezier(.2, 0, 0, 1);
 }
 .chip svg { flex: 0 0 auto; }
