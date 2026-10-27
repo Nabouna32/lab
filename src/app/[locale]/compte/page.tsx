@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { signOut, updateProfile } from "./actions";
+import { signOut } from "./actions";
 import AppLink from "@/components/ui/AppLink";
 import { PageContainer } from "@/components/layout/PageLayout";
 import SubmitButton from "@/components/account/SubmitButton";
