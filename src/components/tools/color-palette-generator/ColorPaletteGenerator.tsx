@@ -90,7 +90,7 @@ function PaletteGroup({ title, colors, copyLabel, copiedLabel }: {
       <div className="mt-3 grid gap-2">
         {colors.map((color) => (
           <div key={color.hex} className="flex items-center gap-3">
-            <span aria-hidden="true" className="h-10 w-10 shrink-0 rounded-[var(--radius-sm)] border border-black/10" style={{ backgroundColor: color.hex }} />
+            <span aria-hidden="true" className="h-10 w-10 shrink-0 rounded-[var(--shape-corner-small)] border border-black/10" style={{ backgroundColor: color.hex }} />
             <code className="min-w-0 flex-1 font-mono text-sm text-[var(--foreground)]">{color.hex}</code>
             <CopyButton value={color.hex} label={copyLabel} copiedLabel={copiedLabel} />
           </div>
