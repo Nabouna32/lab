@@ -2,7 +2,7 @@
   width: min(100%, 340px);
   padding: 16px;
   border: 1px solid var(--lab-outline-variant, var(--md-sys-color-outline-variant, currentColor));
-  border-radius: 28px;
+  border-radius: var(--shape-corner-extra-large);
   background: var(--lab-surface-container, var(--md-sys-color-surface-container, transparent));
   color: var(--lab-on-surface, var(--md-sys-color-on-surface, currentColor));
 }
@@ -100,7 +100,7 @@
 }
 
 .day.inRange:not(.selected) {
-  border-radius: 8px;
+  border-radius: var(--shape-corner-small);
   background: var(--lab-primary-soft, var(--md-sys-color-primary-container, transparent));
   color: var(--lab-on-surface, currentColor);
 }
@@ -126,7 +126,7 @@
   margin: 0;
   padding: 12px;
   border: 1px solid var(--lab-outline-variant, currentColor);
-  border-radius: 16px;
+  border-radius: var(--shape-corner-large);
 }
 
 .inputMode legend {
