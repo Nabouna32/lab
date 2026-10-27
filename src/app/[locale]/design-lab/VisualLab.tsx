@@ -52,7 +52,7 @@ import { Switch } from "@/components/ui/Switch";
 import { Slider } from "@/components/ui/Slider";
 import { ProgressIndicator } from "@/components/ui/ProgressIndicator";
 import { Button, ElevatedButton, FilledTonalButton, OutlinedButton, TextButton } from "@/components/ui/Button";
-import { FilledIconButton, FilledIconToggleButton, FilledTonalIconButton, FilledTonalIconToggleButton, IconButton, IconToggleButton, OutlinedIconButton, OutlinedIconToggleButton } from "@/components/ui/IconButton";
+import { FilledIconButton, FilledIconToggleButton, FilledTonalIconButton, FilledTonalIconToggleButton, IconToggleButton, OutlinedIconButton, OutlinedIconToggleButton } from "@/components/ui/IconButton";
 import { Card, ElevatedCard, OutlinedCard } from "@/components/ui/Card";
 import { Panel } from "@/components/ui/Panel";
 import { ResultPanel } from "@/components/ui/ResultPanel";
