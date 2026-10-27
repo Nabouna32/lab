@@ -30,10 +30,10 @@ export default function ToolPageHeader({
           {icon}
         </div>
         <div className="min-w-0 flex-1">
-          <h1 className="m3-type-headline-small sm:m3-type-headline-medium lg:m3-type-headline-large mt-0.5">
+          <h1 className="m3-type-headline-medium mt-0.5">
             {title}
           </h1>
-          <p className="m3-type-body-medium mt-1.5 max-w-3xl text-[var(--muted)] sm:m3-type-body-large">
+          <p className="m3-type-body-medium mt-1.5 max-w-3xl text-[var(--muted)]">
             {description}
           </p>
           {contentFallback && (
