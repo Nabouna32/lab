@@ -19,10 +19,15 @@ type IconButtonBaseProps = IconButtonProps & {
   onCheckedChange?: (checked: boolean) => void;
 };
 
-const standard = "border border-transparent bg-transparent text-[var(--on-surface-variant)] group-hover:bg-[color-mix(in_srgb,var(--on-surface-variant)_8%,transparent)] group-active:bg-[color-mix(in_srgb,var(--on-surface-variant)_12%,transparent)] group-disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]";
-const filled = "border border-transparent bg-[var(--primary)] text-[var(--on-primary)] group-hover:bg-[color-mix(in_srgb,var(--primary)_92%,var(--on-primary))] group-active:bg-[color-mix(in_srgb,var(--primary)_88%,var(--on-primary))] group-disabled:bg-[color-mix(in_srgb,var(--on-surface)_10%,transparent)] group-disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]";
-const filledTonal = "border border-transparent bg-[var(--secondary-container)] text-[var(--on-secondary-container)] group-hover:bg-[color-mix(in_srgb,var(--secondary-container)_92%,var(--on-secondary-container))] group-active:bg-[color-mix(in_srgb,var(--secondary-container)_88%,var(--on-secondary-container))] group-disabled:bg-[color-mix(in_srgb,var(--on-surface)_10%,transparent)] group-disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]";
-const outlined = "border border-[var(--outline-variant)] bg-transparent text-[var(--on-surface-variant)] group-hover:bg-[color-mix(in_srgb,var(--on-surface-variant)_8%,transparent)] group-active:bg-[color-mix(in_srgb,var(--on-surface-variant)_12%,transparent)] group-disabled:border-[color-mix(in_srgb,var(--outline-variant)_38%,transparent)] group-disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]";
+/*
+ * State layers use the icon/content role as the overlay, matching the AndroidX
+ * state-token model (hover 8%, focus 12%, pressed 12%). CSS color mixing is a
+ * documented Web rendering adaptation, not pixel-identical Compose rendering.
+ */
+const standard = "border border-transparent bg-transparent text-[var(--on-surface-variant)] group-hover:bg-[color-mix(in_srgb,var(--on-surface-variant)_8%,transparent)] group-focus-visible:bg-[color-mix(in_srgb,var(--on-surface-variant)_12%,transparent)] group-active:bg-[color-mix(in_srgb,var(--on-surface-variant)_12%,transparent)] group-disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]";
+const filled = "border border-transparent bg-[var(--primary)] text-[var(--on-primary)] group-hover:bg-[color-mix(in_srgb,var(--primary)_92%,var(--on-primary))] group-focus-visible:bg-[color-mix(in_srgb,var(--primary)_88%,var(--on-primary))] group-active:bg-[color-mix(in_srgb,var(--primary)_88%,var(--on-primary))] group-disabled:bg-[color-mix(in_srgb,var(--on-surface)_12%,transparent)] group-disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]";
+const filledTonal = "border border-transparent bg-[var(--secondary-container)] text-[var(--on-secondary-container)] group-hover:bg-[color-mix(in_srgb,var(--secondary-container)_92%,var(--on-secondary-container))] group-focus-visible:bg-[color-mix(in_srgb,var(--secondary-container)_88%,var(--on-secondary-container))] group-active:bg-[color-mix(in_srgb,var(--secondary-container)_88%,var(--on-secondary-container))] group-disabled:bg-[color-mix(in_srgb,var(--on-surface)_12%,transparent)] group-disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]";
+const outlined = "border border-[var(--outline-variant)] bg-transparent text-[var(--on-surface-variant)] group-hover:bg-[color-mix(in_srgb,var(--on-surface-variant)_8%,transparent)] group-focus-visible:bg-[color-mix(in_srgb,var(--on-surface-variant)_12%,transparent)] group-active:bg-[color-mix(in_srgb,var(--on-surface-variant)_12%,transparent)] group-disabled:border-[color-mix(in_srgb,var(--outline-variant)_12%,transparent)] group-disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]";
 
 const variants: Record<IconButtonStyle, string> = {
   standard,
@@ -31,11 +36,22 @@ const variants: Record<IconButtonStyle, string> = {
   outlined,
 };
 
-const selectedStyles: Record<IconButtonStyle, string> = {
-  standard: "text-[var(--primary)] group-hover:text-[var(--primary)] group-active:text-[var(--primary)] group-disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)] group-hover:bg-[color-mix(in_srgb,var(--primary)_8%,transparent)] group-active:bg-[color-mix(in_srgb,var(--primary)_12%,transparent)]",
-  filled: "",
-  "filled-tonal": "bg-[var(--secondary-container)] text-[var(--on-secondary-container)] group-hover:bg-[color-mix(in_srgb,var(--secondary-container)_92%,var(--on-secondary-container))] group-active:bg-[color-mix(in_srgb,var(--secondary-container)_88%,var(--on-secondary-container))] group-disabled:bg-[color-mix(in_srgb,var(--on-surface)_10%,transparent)]",
-  outlined: "border-transparent bg-[var(--inverse-surface)] text-[var(--inverse-on-surface)] group-hover:bg-[color-mix(in_srgb,var(--inverse-surface)_92%,var(--inverse-on-surface))] group-active:bg-[color-mix(in_srgb,var(--inverse-surface)_88%,var(--inverse-on-surface))] group-disabled:bg-[color-mix(in_srgb,var(--on-surface)_10%,transparent)]",
+/*
+ * AndroidX toggle defaults have their own unchecked and checked color roles.
+ * They are not the action-button defaults with an arbitrary selected overlay.
+ */
+const toggleUncheckedStyles: Record<IconButtonStyle, string> = {
+  standard,
+  filled: "border border-transparent bg-[var(--surface-variant)] text-[var(--on-surface-variant)] group-hover:bg-[color-mix(in_srgb,var(--surface-variant)_92%,var(--on-surface-variant))] group-focus-visible:bg-[color-mix(in_srgb,var(--surface-variant)_88%,var(--on-surface-variant))] group-active:bg-[color-mix(in_srgb,var(--surface-variant)_88%,var(--on-surface-variant))] group-disabled:bg-[color-mix(in_srgb,var(--on-surface)_12%,transparent)] group-disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]",
+  "filled-tonal": "border border-transparent bg-[var(--surface-variant)] text-[var(--on-surface-variant)] group-hover:bg-[color-mix(in_srgb,var(--surface-variant)_92%,var(--on-surface-variant))] group-focus-visible:bg-[color-mix(in_srgb,var(--surface-variant)_88%,var(--on-surface-variant))] group-active:bg-[color-mix(in_srgb,var(--surface-variant)_88%,var(--on-surface-variant))] group-disabled:bg-[color-mix(in_srgb,var(--on-surface)_12%,transparent)] group-disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]",
+  outlined,
+};
+
+const toggleCheckedStyles: Record<IconButtonStyle, string> = {
+  standard: "border border-transparent bg-transparent text-[var(--primary)] group-hover:bg-[color-mix(in_srgb,var(--primary)_8%,transparent)] group-focus-visible:bg-[color-mix(in_srgb,var(--primary)_12%,transparent)] group-active:bg-[color-mix(in_srgb,var(--primary)_12%,transparent)] group-disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]",
+  filled: "border border-transparent bg-[var(--primary)] text-[var(--on-primary)] group-hover:bg-[color-mix(in_srgb,var(--primary)_92%,var(--on-primary))] group-focus-visible:bg-[color-mix(in_srgb,var(--primary)_88%,var(--on-primary))] group-active:bg-[color-mix(in_srgb,var(--primary)_88%,var(--on-primary))] group-disabled:bg-[color-mix(in_srgb,var(--on-surface)_12%,transparent)] group-disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]",
+  "filled-tonal": "border border-transparent bg-[var(--secondary-container)] text-[var(--on-secondary-container)] group-hover:bg-[color-mix(in_srgb,var(--secondary-container)_92%,var(--on-secondary-container))] group-focus-visible:bg-[color-mix(in_srgb,var(--secondary-container)_88%,var(--on-secondary-container))] group-active:bg-[color-mix(in_srgb,var(--secondary-container)_88%,var(--on-secondary-container))] group-disabled:bg-[color-mix(in_srgb,var(--on-surface)_12%,transparent)] group-disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]",
+  outlined: "border border-transparent bg-[var(--inverse-surface)] text-[var(--inverse-on-surface)] group-hover:bg-[color-mix(in_srgb,var(--inverse-surface)_92%,var(--inverse-on-surface))] group-focus-visible:bg-[color-mix(in_srgb,var(--inverse-surface)_88%,var(--inverse-on-surface))] group-active:bg-[color-mix(in_srgb,var(--inverse-surface)_88%,var(--inverse-on-surface))] group-disabled:bg-[color-mix(in_srgb,var(--on-surface)_12%,transparent)] group-disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]",
 };
 
 const targetDimensions = "h-12 min-h-12 w-12 min-w-12";
@@ -80,8 +96,7 @@ function IconButtonBase({
           "inline-flex shrink-0 items-center justify-center rounded-full",
           "transition-[background-color,border-color,color] duration-[var(--motion-standard)] motion-reduce:transition-none",
           surfaceDimensions,
-          variants[variant],
-          selectedStyles[variant] && isToggle && checked ? selectedStyles[variant] : "",
+          isToggle ? (checked ? toggleCheckedStyles[variant] : toggleUncheckedStyles[variant]) : variants[variant],
         ].join(" ")}
       >
         {children}

@@ -160,14 +160,17 @@ test("icon button API separates official action variants from toggle variants", 
   assert.ok(iconButton.includes("ref?: Ref<HTMLButtonElement>"));
 });
 
-test("selected filled-tonal icon toggle uses shared tonal roles", () => {
-  const selectedStyles = iconButton.slice(iconButton.indexOf("const selectedStyles:"));
-  const tonalStyle = selectedStyles.split("\n").find((line) => line.trim().startsWith('"filled-tonal":'));
-  assert.ok(tonalStyle, "the canonical filled-tonal toggle style must exist");
-  assert.ok(tonalStyle.includes("bg-[var(--secondary-container)] text-[var(--on-secondary-container)]"));
-  assert.ok(!selectedStyles.includes("tonal:"));
-  assert.ok(selectedStyles.includes("group-hover:bg-[color-mix(in_srgb,var(--secondary-container)_92%,var(--on-secondary-container))]"));
-  assert.ok(selectedStyles.includes("group-active:bg-[color-mix(in_srgb,var(--secondary-container)_88%,var(--on-secondary-container))]"));
+test("icon toggle states use their own AndroidX color roles instead of action-button defaults", () => {
+  assert.ok(iconButton.includes("const toggleUncheckedStyles: Record<IconButtonStyle, string>"));
+  assert.ok(iconButton.includes("const toggleCheckedStyles: Record<IconButtonStyle, string>"));
+  assert.ok(iconButton.includes('"filled": "border border-transparent bg-[var(--surface-variant)] text-[var(--on-surface-variant)]'));
+  assert.ok(iconButton.includes('"filled-tonal": "border border-transparent bg-[var(--surface-variant)] text-[var(--on-surface-variant)]'));
+  assert.ok(iconButton.includes('"filled": "border border-transparent bg-[var(--primary)] text-[var(--on-primary)]'));
+  assert.ok(iconButton.includes('"filled-tonal": "border border-transparent bg-[var(--secondary-container)] text-[var(--on-secondary-container)]'));
+  assert.ok(iconButton.includes('"outlined": "border border-transparent bg-[var(--inverse-surface)] text-[var(--inverse-on-surface)]'));
+  assert.ok(iconButton.includes("group-focus-visible:bg-[color-mix(in_srgb,var(--on-surface-variant)_12%,transparent)]"));
+  assert.ok(iconButton.includes("group-disabled:border-[color-mix(in_srgb,var(--outline-variant)_12%,transparent)]"));
+  assert.ok(!iconButton.includes("const selectedStyles:"), "legacy selected overlay map must be removed");
 });
 
 test("Button call sites use AndroidX component names and keep extensions separate", () => {
