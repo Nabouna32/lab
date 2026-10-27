@@ -857,8 +857,8 @@ test("AlertDialog actions use shared Material 3 buttons instead of a parallel bu
 });
 
 
-test("tool compositions use the shared 12px shape role instead of the legacy radius alias", () => {
-  const consumers = [
+test("tool compositions use shared shape roles instead of migrated legacy aliases", () => {
+  const mediumConsumers = [
     "../../components/tools/csv-diff-checker/CsvDiffChecker.tsx",
     "../../components/tools/ip-subnet-calculator/IpSubnetCalculator.tsx",
     "../../components/tools/contrast-checker/ContrastChecker.tsx",
@@ -878,6 +878,8 @@ test("tool compositions use the shared 12px shape role instead of the legacy rad
     "../../components/tools/password-generator/PasswordGenerator.tsx",
     "../../components/tools/timezone-converter/TimezoneConverter.tsx",
     "../../components/tools/image-contact-sheet/ImageContactSheet.tsx",
+  ];
+  const largeConsumers = [
     "../../components/layout/Header.tsx",
     "../../components/tools/ToolPage/ToolProcessingStatus.tsx",
     "../../components/tools/text-counter/TextCounter.tsx",
@@ -887,15 +889,27 @@ test("tool compositions use the shared 12px shape role instead of the legacy rad
     "../../components/tools/regex-tester/RegexTester.tsx",
     "../../components/favorites/FavoritesView.tsx",
     "../../components/tools/ToolPage/ToolPageHeader.tsx",
+  ];
+  const extraLargeConsumers = [
     "../../components/tools/uuid/UuidGenerator.tsx",
     "../../components/tools/unix-timestamp/UnixTimestampConverter.tsx",
     "../../components/tools/timezone-converter/TimezoneConverter.tsx",
   ];
 
-  for (const path of consumers) {
+  for (const path of mediumConsumers) {
     const source = readFileSync(new URL(path, import.meta.url), "utf8");
-    assert.match(source, /shape-corner-(?:small|medium|large|extra-large)/, path);
-    assert.doesNotMatch(source, /radius-(?:sm|md|lg|2xl)/, path);
+    assert.match(source, /shape-corner-medium/, path);
+    assert.doesNotMatch(source, /radius-md/, path);
+  }
+  for (const path of largeConsumers) {
+    const source = readFileSync(new URL(path, import.meta.url), "utf8");
+    assert.match(source, /shape-corner-large/, path);
+    assert.doesNotMatch(source, /radius-lg/, path);
+  }
+  for (const path of extraLargeConsumers) {
+    const source = readFileSync(new URL(path, import.meta.url), "utf8");
+    assert.match(source, /shape-corner-extra-large/, path);
+    assert.doesNotMatch(source, /radius-2xl/, path);
   }
 });
 
