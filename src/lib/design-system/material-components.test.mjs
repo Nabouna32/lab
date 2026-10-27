@@ -1017,6 +1017,11 @@ test("remaining public, admin and account pages consume shared Material 3 typogr
   const auditPage = readFileSync(new URL("../../app/[locale]/admin/audit/page.tsx", import.meta.url), "utf8");
   const changeEmailPage = readFileSync(new URL("../../app/[locale]/compte/email/page.tsx", import.meta.url), "utf8");
   const footer = readFileSync(new URL("../../components/layout/Footer.tsx", import.meta.url), "utf8");
+  const signInPage = readFileSync(new URL("../../app/[locale]/compte/connexion/page.tsx", import.meta.url), "utf8");
+  const signUpPage = readFileSync(new URL("../../app/[locale]/compte/inscription/page.tsx", import.meta.url), "utf8");
+  const passwordPage = readFileSync(new URL("../../app/[locale]/compte/mot-de-passe/page.tsx", import.meta.url), "utf8");
+  const deleteAccountPage = readFileSync(new URL("../../app/[locale]/compte/suppression/page.tsx", import.meta.url), "utf8");
+  const adminUsersPage = readFileSync(new URL("../../app/[locale]/admin/utilisateurs/page.tsx", import.meta.url), "utf8");
 
   for (const [name, source] of [
     ["information page", informationPage],
@@ -1024,6 +1029,11 @@ test("remaining public, admin and account pages consume shared Material 3 typogr
     ["admin audit", auditPage],
     ["change email", changeEmailPage],
     ["footer", footer],
+    ["sign-in page", signInPage],
+    ["sign-up page", signUpPage],
+    ["password page", passwordPage],
+    ["account deletion page", deleteAccountPage],
+    ["admin users page", adminUsersPage],
   ]) {
     assert.match(source, /m3-type-(?:headline|title|body|label)-/i, `${name} must use shared Material 3 typography roles`);
   }
