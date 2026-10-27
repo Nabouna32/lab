@@ -51,7 +51,7 @@ test("shared Material 3 typography roles are consumed by reusable site component
   assert.ok(homeWorkflowsSource.includes("m3-type-title-medium"));
   assert.ok(homeWorkflowsSource.includes("m3-type-body-medium"));
   assert.ok(toolCardSource.includes("m3-type-title-medium"));
-  assert.ok(toolHeaderSource.includes("m3-type-headline-small"));
+  assert.ok(toolHeaderSource.includes("m3-type-headline-medium"));
 });
 
 test("signed-in states on sign-in and sign-up pages use the shared account container", () => {
