@@ -144,46 +144,28 @@ test("generic tool and dialog actions use the shared AndroidX Button ports", () 
   assert.ok(!snackbarCss.includes(".action,"), "Snackbar action styles are owned by the shared Button port");
 });
 
-test("shared IconButton preserves 48px touch target and supports accessible toggle state", () => {
-  const filledIconButton = iconButton.match(/const filled = "([^"]+)"/)?.[1] ?? "";
-  assert.ok(!filledIconButton.includes("shadow-"), "M3 filled icon buttons should not inherit elevation");
-  for (const required of [
-    'type IconButtonVariant = "standard" | "filled" | "filled-tonal"',
-    'const filledTonal = "border',
-    '"filled-tonal": filledTonal',
-    "h-12 min-h-12 w-12 min-w-12",
-    "h-10 min-h-10 w-10 min-w-10",
-    "group inline-flex shrink-0 items-center justify-center",
-    "aria-hidden=\"true\"",
-    "selected?: boolean",
-    "aria-pressed={selected}",
-    "var(--secondary-container)",
-    "var(--on-secondary-container)",
-    'standard: "text-[var(--primary)] group-hover:text-[var(--primary)]',
-    "group-disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)] group-hover:bg-",
-    'outlined: "border-transparent bg-[var(--inverse-surface)] text-[var(--inverse-on-surface)] group-hover:bg-',
-    "disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]",
-    "label: string",
-    "ref?: Ref<HTMLButtonElement>",
-  ]) {
-    assert.ok(iconButton.includes(required), "missing IconButton conformance rule: " + required);
+test("icon button API separates official action variants from toggle variants", () => {
+  for (const component of ["IconButton", "FilledIconButton", "FilledTonalIconButton", "OutlinedIconButton", "IconToggleButton", "FilledIconToggleButton", "FilledTonalIconToggleButton", "OutlinedIconToggleButton"]) {
+    assert.ok(iconButton.includes("export function " + component + "("), "missing AndroidX icon button API: " + component);
   }
+  assert.ok(!iconButton.includes("type IconButtonVariant ="), "the old variant-based API must not remain");
+  assert.ok(!iconButton.includes("tonal: filledTonal"), "non-AndroidX tonal alias must be removed");
+  assert.ok(!iconButton.includes("selected?: boolean"), "toggle state belongs to dedicated toggle components");
+  assert.ok(iconButton.includes("checked: boolean") && iconButton.includes("onCheckedChange: (checked: boolean) => void"));
+  assert.ok(iconButton.includes("h-12 min-h-12 w-12 min-w-12"));
+  assert.ok(iconButton.includes("h-10 min-h-10 w-10 min-w-10"));
+  assert.ok(iconButton.includes("aria-pressed={isToggle ? checked : undefined}"));
+  assert.ok(iconButton.includes('aria-hidden="true"'));
+  assert.ok(iconButton.includes("var(--secondary-container)") && iconButton.includes("var(--on-secondary-container)"));
+  assert.ok(iconButton.includes("ref?: Ref<HTMLButtonElement>"));
 });
 
-test("selected filled-tonal IconButton keeps official tonal color roles", () => {
+test("selected filled-tonal icon toggle uses shared tonal roles", () => {
   const selectedStyles = iconButton.slice(iconButton.indexOf("const selectedStyles:"));
-  const tonalStyles = selectedStyles.split("\n").filter((line) =>
-    line.trim().startsWith('"filled-tonal":') || line.trim().startsWith("tonal:"),
-  );
-
-  assert.equal(tonalStyles.length, 2, "canonical and compatibility names both need selected-state coverage");
-  for (const line of tonalStyles) {
-    assert.ok(
-      line.includes("bg-[var(--secondary-container)] text-[var(--on-secondary-container)]"),
-      "selected tonal IconButton must use secondary-container / on-secondary-container",
-    );
-    assert.ok(!line.includes("bg-[var(--secondary)] text-[var(--on-secondary)]"));
-  }
+  const tonalStyle = selectedStyles.split("\n").find((line) => line.trim().startsWith('"filled-tonal":'));
+  assert.ok(tonalStyle, "the canonical filled-tonal toggle style must exist");
+  assert.ok(tonalStyle.includes("bg-[var(--secondary-container)] text-[var(--on-secondary-container)]"));
+  assert.ok(!selectedStyles.includes("tonal:"));
   assert.ok(selectedStyles.includes("group-hover:bg-[color-mix(in_srgb,var(--secondary-container)_92%,var(--on-secondary-container))]"));
   assert.ok(selectedStyles.includes("group-active:bg-[color-mix(in_srgb,var(--secondary-container)_88%,var(--on-secondary-container))]"));
 });
