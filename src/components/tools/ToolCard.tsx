@@ -1,7 +1,7 @@
 import type { Locale } from "@/lib/i18n/config";
 import { getToolContent } from "@/lib/tools/types";
 import type { Tool } from "@/lib/tools/types";
-import { Card } from "@/components/ui/Card";
+import { CardLink } from "@/components/ui/Card";
 import { getCategoryColor } from "@/lib/tools/categories";
 import { getToolPath } from "@/lib/tools/routes";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
@@ -10,7 +10,7 @@ export default function ToolCard({ tool, locale, categoryName, categoryId }: { t
   const content = getToolContent(tool, locale);
 
   return (
-    <Card
+    <CardLink
       href={getToolPath(locale, tool.id)}
       className="group flex min-h-40 flex-col p-4 transition-colors duration-200 hover:border-[var(--accent)]/40 hover:bg-[var(--surface-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]"
     >
@@ -23,6 +23,6 @@ export default function ToolCard({ tool, locale, categoryName, categoryId }: { t
         <span className="text-[var(--muted)] transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true"><MaterialIcon name="chevron_right" size={18} /></span>
       </div>
       <p className="mt-3 line-clamp-2 text-sm leading-5 text-[var(--muted)]">{content.description}</p>
-    </Card>
+    </CardLink>
   );
 }

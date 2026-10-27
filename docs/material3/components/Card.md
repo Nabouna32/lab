@@ -3,7 +3,7 @@
 > **Inventory:** `androidx.compose.material3:material3` / release candidate stable `1.4.0`  
 > **Source status:** PARTIELLEMENT VÉRIFIÉ — l'archive publiée et le commit source ne sont pas encore reliés de façon reproductible  
 > **Port status:** Partiel, adaptation Web en cours  
-> **Migration status:** Partielle ; les encadrés éditoriaux réutilisent le wrapper Loculary `Card`
+> **Migration status:** Première séparation du conteneur AndroidX et de la composition de navigation Web ; parité et migration globale encore partielles
 
 ## Identité et périmètre
 
@@ -33,9 +33,10 @@
 
 ## Audit Loculary
 
-- Wrapper partagé actuel : [`src/components/ui/Card.tsx`](../../../src/components/ui/Card.tsx).
+- Ports partiels : `Card` (filled), `ElevatedCard`, `OutlinedCard`, chacun non interactif ; `CardLink` est une composition Web Loculary séparée.
+- Wrapper partagé : [`src/components/ui/Card.tsx`](../../../src/components/ui/Card.tsx).
 - Composition éditoriale : [`src/components/tools/ToolPage/EditorialPrimitives.tsx`](../../../src/components/tools/ToolPage/EditorialPrimitives.tsx).
-- `Card` Loculary accepte actuellement `variant="elevated" | "filled" | "outlined"`, `className` et un `href` optionnel. Le chemin `href` rend un lien Next.js ; sinon le wrapper rend un `div`.
+- L’ancienne API à variante et `href` a été remplacée : la variante visuelle est exprimée par l’export dédié, et seule la composition `CardLink` navigue via un vrai lien HTML. Le chemin `href` rend un lien Next.js ; sinon le wrapper rend un `div`.
 - Les classes utilisent les tokens de surface, forme et ombre Loculary. Ce sont des décisions de produit et de thème, pas une preuve d'équivalence avec les valeurs par défaut AndroidX.
 - Les variantes visuelles sont regroupées dans un composant avec `href`, alors que l'API AndroidX sépare les variantes de carte et les surcharges interactives. La séparation Web entre lien, bouton et conteneur est à conserver dans la future API.
 

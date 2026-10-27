@@ -397,10 +397,16 @@ test("outlined form controls use semantic extra-small shape tokens and per-part 
   assert.match(labSource, /variant=\{textAreaVariant\} rows=\{3\}/);
   assert.match(selectSource, /rounded-\[var\(--shape-corner-extra-small\)\]/);
   assert.match(selectSource, /min-h-14/);
+  assert.match(cardSource, /export function Card/);
   assert.match(cardSource, /shape-corner-medium/);
-  assert.match(cardSource, /surface-container-low/);
   assert.match(cardSource, /surface-container-highest/);
+  assert.match(cardSource, /export function ElevatedCard/);
+  assert.match(cardSource, /surface-container-low/);
+  assert.match(cardSource, /export function OutlinedCard/);
+  assert.match(cardSource, /outline-variant/);
+  assert.match(cardSource, /export function CardLink/);
   assert.match(cardSource, /focus-visible:ring-2/);
+  assert.doesNotMatch(cardSource, /variant\?: CardVariant/);
   assert.match(panelSource, /shape-corner-medium/);
   assert.match(resultPanelSource, /shape-corner-medium/);
   for (const [name, source] of [["TextField", textFieldSource], ["TextArea", textAreaSource], ["Select", selectSource]]) {

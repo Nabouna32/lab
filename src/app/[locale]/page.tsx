@@ -5,7 +5,7 @@ import HomeGuidedWorkflows from "@/components/home/HomeGuidedWorkflows";
 import RecentTools from "@/components/home/RecentTools";
 import ToolSearch from "@/components/tools/ToolSearch";
 import { PageContainer } from "@/components/layout/PageLayout";
-import { Card } from "@/components/ui/Card";
+import { ElevatedCard } from "@/components/ui/Card";
 import { isLocale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
 import { getPublicPageMetadata } from "@/lib/tools/page-metadata";
@@ -39,8 +39,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           spacing="none"
           className="pb-[var(--space-5)] pt-[var(--space-5)] sm:pb-[var(--space-8)] sm:pt-[var(--space-8)] lg:pt-[var(--space-10)]"
         >
-          <Card
-            variant="elevated"
+          <ElevatedCard
             className="relative isolate overflow-hidden p-5 sm:p-8 lg:p-10"
           >
             <div className="relative z-10 max-w-4xl">
@@ -69,7 +68,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                 {t.home.explore}
               </Link>
             </div>
-          </Card>
+          </ElevatedCard>
         </PageContainer>
       </section>
 

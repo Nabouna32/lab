@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { Card as SharedCard } from "@/components/ui/Card";
 
 export function Card({ children }: { children: ReactNode }) {
-  return <SharedCard variant="filled" className="mt-4 p-4">{children}</SharedCard>;
+  return <SharedCard className="mt-4 p-4">{children}</SharedCard>;
 }
 
 export function Formula({ children }: { children: ReactNode }) {
