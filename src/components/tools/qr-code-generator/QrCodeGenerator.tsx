@@ -141,7 +141,7 @@ export default function QrCodeGenerator() {
               <ClearButton onClear={clear} disabled={mode === "wifi" ? !ssid && !password && !hidden : !value} label={t.clear} />
             </div>
           </div>
-        </div>
+        </Column>
 
         <div className="flex min-h-72 items-center justify-center border-t border-[var(--border)] pt-6 lg:border-l lg:border-t-0 lg:pl-7 lg:pt-0">
           {result?.qr ? (
