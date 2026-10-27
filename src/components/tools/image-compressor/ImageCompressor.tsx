@@ -127,7 +127,7 @@ export default function ImageCompressor() {
     <section className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]">
       <div className="grid gap-6 p-5 sm:p-7 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.85fr)] lg:p-8">
         <div className="space-y-5">
-          <label htmlFor="image-compressor-file" className="block cursor-pointer rounded-[var(--radius-md)] border-2 border-dashed border-[var(--border)] bg-[var(--background)] p-6 text-center transition hover:border-[var(--accent)] focus-within:border-[var(--accent)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--focus-ring)] focus-within:ring-offset-2 focus-within:ring-offset-[var(--surface)]">
+          <label htmlFor="image-compressor-file" className="block cursor-pointer rounded-[var(--shape-corner-medium)] border-2 border-dashed border-[var(--border)] bg-[var(--background)] p-6 text-center transition hover:border-[var(--accent)] focus-within:border-[var(--accent)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--focus-ring)] focus-within:ring-offset-2 focus-within:ring-offset-[var(--surface)]">
             <span className="block text-sm font-semibold text-[var(--foreground)]">{t.input}</span>
             <span className="mt-2 block text-sm text-[var(--muted)]">{t.inputHint}</span>
             <input id="image-compressor-file" type="file" accept="image/*" multiple className="sr-only" onChange={(event) => { selectFiles(event.target.files); event.target.value = ""; }} />
@@ -168,7 +168,7 @@ export default function ImageCompressor() {
           {results.length === 0 ? (
             <div className="flex min-h-72 items-center justify-center"><p className="text-center text-sm text-[var(--muted)]">{t.emptyResult}</p></div>
           ) : results.map((item, index) => (
-            <article key={item.file.name + "-" + item.file.lastModified + "-" + index} className="flex min-w-0 items-center gap-3 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background)] p-3">
+            <article key={item.file.name + "-" + item.file.lastModified + "-" + index} className="flex min-w-0 items-center gap-3 rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--background)] p-3">
               {item.result ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={item.result.url} alt="" className="h-16 w-16 shrink-0 rounded object-contain" />
@@ -188,5 +188,5 @@ export default function ImageCompressor() {
 }
 
 function Result({ label, value }: { label: string; value: string }) {
-  return <div className="rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background)] p-3"><p className="text-xs text-[var(--muted)]">{label}</p><p className="mt-1 font-semibold text-[var(--foreground)]">{value}</p></div>;
+  return <div className="rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--background)] p-3"><p className="text-xs text-[var(--muted)]">{label}</p><p className="mt-1 font-semibold text-[var(--foreground)]">{value}</p></div>;
 }
