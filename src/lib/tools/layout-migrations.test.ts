@@ -97,3 +97,24 @@ test("header search panel uses Row while retaining its stable panel ID", () => {
   assert.ok(headerSearchSource.includes('Arrangement.spacedByCss("var(--space-2)")'));
   assert.ok(!headerSearchSource.includes("flex items-start gap-2"));
 });
+
+test("shared footer and tool stacks use the Compose layout primitives for migrated spacing", () => {
+  const footerSource = readSource("../../components/layout/Footer.tsx");
+  const expenseSplitterSource = readSource("../../components/tools/expense-splitter/ExpenseSplitter.tsx");
+  const contrastCheckerSource = readSource("../../components/tools/contrast-checker/ContrastChecker.tsx");
+  const qrCodeGeneratorSource = readSource("../../components/tools/qr-code-generator/QrCodeGenerator.tsx");
+
+  assert.ok(footerSource.includes('import { Row } from "@/components/layout/compose/Row"'));
+  assert.ok(footerSource.includes('Arrangement.spacedByCss("var(--space-1)")'));
+  assert.ok(!footerSource.includes("gap-x-1 gap-y-1"));
+
+  assert.ok(expenseSplitterSource.includes('import { Column } from "@/components/layout/compose/Column"'));
+  assert.ok(expenseSplitterSource.includes("verticalArrangement={Arrangement.spacedBy(24)}"));
+  assert.ok(!expenseSplitterSource.includes('<div className="space-y-6">'));
+
+  assert.ok(contrastCheckerSource.includes("verticalArrangement={Arrangement.spacedBy(20)}"));
+  assert.ok(!contrastCheckerSource.includes('<div className="space-y-5">'));
+
+  assert.ok(qrCodeGeneratorSource.includes("verticalArrangement={Arrangement.spacedBy(20)}"));
+  assert.ok(!qrCodeGeneratorSource.includes('<div className="space-y-5">'));
+});
