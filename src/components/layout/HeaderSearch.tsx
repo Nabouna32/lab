@@ -105,7 +105,7 @@ function HeaderSearchPanel({
       {open && (
         <Row
           id="header-tool-search-panel"
-          horizontalArrangement={Arrangement.spacedByCss("var(--space-2)")}
+          horizontalArrangement={Arrangement.spacedBy("var(--space-2)")}
           verticalAlignment={Alignment.Top}
           className="absolute left-0 right-0 top-full border-b border-[var(--border)] bg-[var(--background)] px-3 pb-3 pt-2 sm:px-6"
         >
