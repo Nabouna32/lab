@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
-import { AbsoluteAlignment, type BoxAlignment, type HorizontalAlignment, type VerticalAlignment } from "./Alignment";
-import { Arrangement, type HorizontalArrangement, type VerticalArrangement } from "./Arrangement";
+import { AbsoluteAlignment, type BoxAlignment, type HorizontalAlignment, type VerticalAlignment } from "./Alignment.ts";
+import { Arrangement, type HorizontalArrangement, type VerticalArrangement } from "./Arrangement.ts";
 
 export type LayoutPresentation = {
   className?: string;
