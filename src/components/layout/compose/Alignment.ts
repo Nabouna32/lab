@@ -23,8 +23,29 @@ export const Alignment = {
   BottomEnd: "bottomEnd",
 } as const;
 
-export type HorizontalAlignment = typeof Alignment.Start | typeof Alignment.CenterHorizontally | typeof Alignment.End;
-export type VerticalAlignment = typeof Alignment.Top | typeof Alignment.CenterVertically | typeof Alignment.Bottom;
+/**
+ * Direction-independent alignments from androidx.compose.ui.AbsoluteAlignment.
+ * These keep left/right fixed in RTL layouts, unlike Alignment.Start/End.
+ */
+export const AbsoluteAlignment = {
+  Left: "left",
+  Right: "right",
+  TopLeft: "topLeft",
+  TopRight: "topRight",
+  CenterLeft: "centerLeft",
+  CenterRight: "centerRight",
+  BottomLeft: "bottomLeft",
+  BottomRight: "bottomRight",
+} as const;
+
+export type HorizontalAlignment =
+  | typeof Alignment.Start
+  | typeof Alignment.CenterHorizontally
+  | typeof Alignment.End;
+export type VerticalAlignment =
+  | typeof Alignment.Top
+  | typeof Alignment.CenterVertically
+  | typeof Alignment.Bottom;
 export type BoxAlignment =
   | typeof Alignment.TopStart
   | typeof Alignment.TopCenter
@@ -34,4 +55,10 @@ export type BoxAlignment =
   | typeof Alignment.CenterEnd
   | typeof Alignment.BottomStart
   | typeof Alignment.BottomCenter
-  | typeof Alignment.BottomEnd;
+  | typeof Alignment.BottomEnd
+  | typeof AbsoluteAlignment.TopLeft
+  | typeof AbsoluteAlignment.TopRight
+  | typeof AbsoluteAlignment.CenterLeft
+  | typeof AbsoluteAlignment.CenterRight
+  | typeof AbsoluteAlignment.BottomLeft
+  | typeof AbsoluteAlignment.BottomRight;
