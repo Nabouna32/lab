@@ -21,6 +21,18 @@ The target is a faithful React/Web port of AndroidX Compose Material 3 component
 - Use Material Symbols consistently for functional interface icons. Icons need accessible names when they convey an action; do not substitute emoji or arbitrary Unicode for standard controls.
 - Shared components must support responsive layout, French and English text, keyboard and pointer input, visible focus, appropriate screen-reader semantics, WCAG 2.2 AA, and `prefers-reduced-motion`.
 
+## Fondations de thème : contrat et état réel
+
+Les fondations ne sont pas une collection de classes à recopier dans les pages. La chaîne cible est : **thème partagé → tokens et valeurs par défaut propres aux composants AndroidX → composants React/Web → compositions de pages**. Une modification d'une fondation doit se propager à tous les consommateurs qui héritent de cette valeur, sans changer les composants dont le contrat AndroidX définit une valeur distincte.
+
+- **Formes :** `src/app/globals.css` contient une échelle `--shape-corner-*`, mais aussi une ancienne échelle `--radius-*`. La coexistence de ces deux familles est une dette de migration ; elle ne prouve pas que tous les consommateurs sont centralisés. Ne supprimer ou rediriger les anciens tokens qu'après inventaire des usages et vérification des effets.
+- **Typographie :** la feuille globale ne définit actuellement que quelques dimensions typographiques (`label-large` et `body-medium`), pas un contrat complet des rôles Material 3. Des classes Tailwind restent présentes dans les composants. Les rôles `display`, `headline`, `title`, `body` et `label` doivent devenir des styles partagés nommés, dérivés de la baseline AndroidX retenue ; les pages doivent les consommer au lieu de réimplémenter taille, graisse, interlettrage et hauteur de ligne.
+- **Valeurs de composants :** un composant consomme par défaut les tokens AndroidX qui lui sont propres. Il ne faut pas déduire la forme d'une `Card` en choisissant arbitrairement `medium`, ni forcer tous les composants à partager la même forme. Les paramètres de personnalisation doivent refléter les possibilités réelles de l'API source.
+- **Provenance :** les tokens repris de Material Web, les conventions CSS de Loculary et les valeurs AndroidX doivent être identifiés séparément. Une égalité numérique ne prouve pas à elle seule l'équivalence sémantique ou comportementale.
+- **Validation :** une migration n'est terminée que lorsque les usages sont inventoriés, les règles partagées testées, les cas clair/sombre et FR/EN vérifiés, et le rendu navigateur contrôlé. Un test de présence de chaîne ne suffit pas à prouver la fidélité visuelle.
+
+**État vérifié au 27 octobre 2026 :** l'échelle des formes existe mais cohabite avec les anciens rayons ; le système de rôles typographiques complet n'est pas encore exposé comme contrat partagé ; le portage des composants et la migration des pages restent partiels. Voir [la spécification des fondations et composants Material 3](material3/README.md) et les spécifications individuelles.
+
 ## Mise en page et espacements
 
 La cible est un portage Web fidèle des API publiques pertinentes d’AndroidX Compose UI/Foundation, et non une collection de décisions d’espacement Tailwind propres à chaque page.
