@@ -87,7 +87,7 @@ Tool-specific identity is encouraged when it improves comprehension, feedback or
 
 The shared visual system follows **Material 3 Fidelity and current Pixel / Android UI patterns**, governed by DEC-026 and the [design-system contract](DESIGN-SYSTEM.md). Apply that shared language to Loculary's task-first utility toolbox; adapt native patterns to the web rather than copying a complete Google product screen or adopting a generic SaaS template.
 
-Challenge existing UI patterns when they prevent a coherent experience. Refactor or replace abstractions when justified by the validated design target, while preserving meaningful differences between specialized tools. The brand mark remains distinct from functional interface iconography.
+Challenge existing UI patterns when they prevent a coherent experience. **A redesign or refactor may be broad or structural; it is not limited to a light visual adjustment.** The current UI and architecture are not immutable and must not be protected merely because they exist. Prefer the most coherent route to a polished modern Android-app experience, including replacing page compositions or shared abstractions when justified by the target and evidence. Use familiar, proven patterns from high-quality, high-audience apps (for example settings lists, clear information hierarchy, standard Material Symbols, consistent navigation and feedback) as product references, while keeping AndroidX as the authority for Material component contracts and adapting native behavior appropriately to Web. Do not copy another app wholesale or force specialized tools into identical layouts. The brand mark remains distinct from functional interface iconography.
 
 ### Discovery and next actions
 
