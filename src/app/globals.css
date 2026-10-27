@@ -432,3 +432,9 @@ button:disabled > .button-ripple-layer {
     --tool-page-content-gap: var(--space-10);
   }
 }
+
+/* AbsoluteAlignment in Column uses physical left/right while preserving child text direction. */
+.compose-column-align-absolute-left { align-items: flex-start; }
+.compose-column-align-absolute-left:dir(rtl) { align-items: flex-end; }
+.compose-column-align-absolute-right { align-items: flex-end; }
+.compose-column-align-absolute-right:dir(rtl) { align-items: flex-start; }
