@@ -1,5 +1,6 @@
 import { Children, cloneElement, isValidElement, type CSSProperties, type ReactElement, type ReactNode } from "react";
-import { AbsoluteAlignment, Alignment, type BoxAlignment } from "./Alignment";
+import { Alignment, type BoxAlignment } from "./Alignment";
+import { getBoxChildStyle } from "./LayoutStyles";
 import { isModifier, type Modifier } from "./Modifier";
 
 export type BoxProps = {
@@ -22,24 +23,6 @@ export function Box({
   className,
   style,
 }: BoxProps) {
-  const alignment: Record<BoxAlignment, { justifySelf: CSSProperties["justifySelf"]; alignSelf: CSSProperties["alignSelf"] }> = {
-    topStart: { justifySelf: "start", alignSelf: "start" },
-    topCenter: { justifySelf: "center", alignSelf: "start" },
-    topEnd: { justifySelf: "end", alignSelf: "start" },
-    centerStart: { justifySelf: "start", alignSelf: "center" },
-    center: { justifySelf: "center", alignSelf: "center" },
-    centerEnd: { justifySelf: "end", alignSelf: "center" },
-    bottomStart: { justifySelf: "start", alignSelf: "end" },
-    bottomCenter: { justifySelf: "center", alignSelf: "end" },
-    bottomEnd: { justifySelf: "end", alignSelf: "end" },
-    [AbsoluteAlignment.TopLeft]: { justifySelf: "left", alignSelf: "start" },
-    [AbsoluteAlignment.TopRight]: { justifySelf: "right", alignSelf: "start" },
-    [AbsoluteAlignment.CenterLeft]: { justifySelf: "left", alignSelf: "center" },
-    [AbsoluteAlignment.CenterRight]: { justifySelf: "right", alignSelf: "center" },
-    [AbsoluteAlignment.BottomLeft]: { justifySelf: "left", alignSelf: "end" },
-    [AbsoluteAlignment.BottomRight]: { justifySelf: "right", alignSelf: "end" },
-  };
-
   const layout = (
     <div
       className={className}
@@ -62,11 +45,7 @@ export function Box({
           }
         }
 
-        const childStyle: CSSProperties = matchParentSize
-          ? { gridArea: "1 / 1", position: "absolute", inset: 0, display: "grid" }
-          : { gridArea: "1 / 1", ...alignment[childAlignment] };
-
-        return <div style={childStyle}>{content}</div>;
+        return <div style={getBoxChildStyle(childAlignment, matchParentSize)}>{content}</div>;
       })}
     </div>
   );
