@@ -28,15 +28,26 @@ Snapshot immuable de consultation : [androidx/androidx @ 5901d750e269aa3d88f6fcc
 |---|---|---|---|
 | `Arrangement` | `src/components/layout/compose/Arrangement.ts` | Constantes Start/End/Top/Bottom/Center/Space*, `spacedBy`, surcharges d’alignement, `aligned` et extension Web `spacedByCss` | `spacedBy` utilise CSS px plutôt que `Dp`; `spacedByCss` est une extension Loculary; l’alignement du groupe est rendu via Flexbox; l’espacement négatif est approché par des marges logiques, sans reproduire le moteur de mesure Compose |
 | `Alignment` | `src/components/layout/compose/Alignment.ts` | Constantes d’alignement utilisées par les primitives actuelles | Sous-ensemble des API d’alignement, adaptation CSS |
-| `Modifier` | `src/components/layout/compose/Modifier.ts` | Chaîne ordonnée avec `padding`, `width`, `height`, `size`, `fillMaxWidth/Height/Size`, `widthIn(min, max?)`, `heightIn(min, max?)`, `sizeIn(minWidth, minHeight, maxWidth?, maxHeight?)`, `weight`, `then` | Les signatures de contraintes utilisent maintenant des arguments positionnels proches d’AndroidX; les valeurs numériques restent des CSS px, `max` omis représente une borne supérieure non spécifiée, et la mesure CSS ne reproduit pas le moteur Compose. `weight(fill = false)` reste sans parité exacte |
+| `Modifier` | `src/components/layout/compose/Modifier.ts` | Chaîne ordonnée avec `padding`, `width`, `height`, `size`, `fillMaxWidth/Height/Size`, `widthIn(min, max?)`, `heightIn(min, max?)`, `sizeIn(minWidth, minHeight, maxWidth?, maxHeight?)`, `then` + `RowScope.weight` / `ColumnScope.weight` | Les signatures de contraintes utilisent des arguments positionnels proches d’AndroidX. Les opérations contextuelles sont séparées de la chaîne générique : `RowScope.weight`, `ColumnScope.weight`, `BoxScope.align` et `BoxScope.matchParentSize`. Les valeurs numériques restent des CSS px, et la mesure CSS ne reproduit pas le moteur Compose. `weight(fill = false)` reste sans parité exacte |
 | `Column` | `src/components/layout/compose/Column.tsx` | Layout vertical, écart, alignement horizontal limité | Flexbox CSS ne reproduit pas toutes les règles de mesure/poids de Compose |
 | `Row` | `src/components/layout/compose/Row.tsx` | Layout horizontal, écart, alignement vertical limité | Flexbox CSS ne reproduit pas toutes les règles de mesure/poids de Compose |
-| `Box` | `src/components/layout/compose/Box.tsx` | Alignement global, alignement par enfant via `Modifier.align`, `Modifier.matchParentSize` | CSS Grid et positionnement absolu reproduisent la superposition et le remplissage, mais pas toutes les contraintes de mesure ni `propagateMinConstraints` |
-| `Spacer` | `src/components/layout/compose/Spacer.tsx` | Élément sans taille intrinsèque, dimensionné par son modificateur ou les contraintes | Les modificateurs de poids de `RowScope`/`ColumnScope` restent à implémenter |
+| `Box` | `src/components/layout/compose/Box.tsx` | Alignement global, alignement par enfant via `BoxScope.align`, `BoxScope.matchParentSize` | CSS Grid et positionnement absolu reproduisent la superposition et le remplissage, mais pas toutes les contraintes de mesure ni `propagateMinConstraints` |
+| `Spacer` | `src/components/layout/compose/Spacer.tsx` | Élément sans taille intrinsèque, dimensionné par son modificateur ou les contraintes | Les opérations de poids sont exposées via `RowScope.weight` et `ColumnScope.weight`; leur mesure reste une adaptation Flexbox |
 
 Le portage actuel expose aussi les six alignements 2D de `AbsoluteAlignment` pour `Box`, ainsi que les alignements horizontaux `Left`/`Right` pour `Row` et `Column`. Les positions gauche/droite restent fixes en RTL, contrairement à `Alignment.Start/End`; `Box` utilise `justify-self`, `Row` `justify-content`, et `Column` des règles `:dir(rtl)` qui inversent l’alignement flex sans modifier la direction du texte. Les autres contrats d’alignement AndroidX et le moteur de mesure restent partiels.
 
 Les composants sont des ports partiels. Leur nom officiel ne signifie pas que l'API complète ou la parité AndroidX est déjà atteinte. `Modifier` conserve désormais chaque opération dans un wrapper distinct, dans l’ordre de composition, au lieu de fusionner la chaîne en un seul objet CSS. Cette structure rapproche le contrat de la chaîne AndroidX, mais ne reproduit pas encore intégralement les contraintes de mesure du navigateur et de Compose. Les surcharges `Arrangement.spacedBy(space, alignment)` et `Arrangement.aligned(alignment)` sont maintenant exposées, mais leur rendu s’appuie sur `justify-content` du navigateur : les règles de mesure Compose et certains cas de contraintes restent des écarts à traiter. Les espacements négatifs sont acceptés et rendus par des marges logiques sur les enfants suivants, ce qui reproduit le chevauchement visuel mais pas l’algorithme complet de mesure.
+
+## Contrat des scopes de layout
+
+Les opérations qui dépendent du parent ne sont pas des méthodes de la chaîne générique `Modifier` :
+
+- `RowScope.weight(weight, fill)` et `ColumnScope.weight(weight, fill)` construisent les opérations de poids pour le layout concerné.
+- `BoxScope.align(alignment)` et `BoxScope.matchParentSize()` construisent les opérations réservées aux enfants de `Box`.
+- La chaîne s'assemble explicitement, par exemple `Modifier.then(RowScope.weight(1))`.
+- `Box` consomme et retire ses opérations de scope avant de transmettre le modificateur générique à l'enfant. L'API TypeScript rend l'intention de scope visible, mais ne peut pas à elle seule empêcher qu'une opération soit utilisée sous le mauvais parent ; les primitives restent responsables de leur interprétation.
+
+Cette séparation corrige le contrat de surface le plus trompeur, sans prétendre reproduire les scopes Kotlin implicites ni le moteur de mesure Compose. Les poids restent rendus par Flexbox et doivent être validés par des tests de comportement et de rendu.
 
 ## Hiérarchie de maintenance
 
