@@ -127,14 +127,14 @@ test("shared shape tokens are consumed by date, navigation and slider compositio
   const relatedTools = readFileSync(new URL("../../components/tools/RelatedTools.tsx", import.meta.url), "utf8");
   const toolCard = readFileSync(new URL("../../components/tools/ToolCard.tsx", import.meta.url), "utf8");
 
-  assert.match(datePicker, /border-radius: var\\(--shape-corner-extra-large\\)/);
-  assert.match(datePicker, /border-radius: var\\(--shape-corner-small\\)/);
-  assert.match(datePicker, /border-radius: var\\(--shape-corner-large\\)/);
-  assert.match(appLink, /rounded-\\[var\\(--shape-corner-full\\)\\]/);
-  assert.match(recentTools, /rounded-\\[var\\(--m3-card-shape\\)\\]/);
-  assert.match(recentTools, /rounded-\\[var\\(--shape-corner-medium\\)\\]/);
-  assert.match(relatedTools, /shape-corner-medium/);
-  assert.match(toolCard, /shape-corner-medium/);
+  assert.ok(datePicker.includes("border-radius: var(--shape-corner-extra-large)"));
+  assert.ok(datePicker.includes("border-radius: var(--shape-corner-small)"));
+  assert.ok(datePicker.includes("border-radius: var(--shape-corner-large)"));
+  assert.ok(appLink.includes("rounded-[var(--shape-corner-full)]"));
+  assert.ok(recentTools.includes("rounded-[var(--m3-card-shape)]"));
+  assert.ok(recentTools.includes("rounded-[var(--shape-corner-medium)]"));
+  assert.ok(relatedTools.includes("shape-corner-medium"));
+  assert.ok(toolCard.includes("shape-corner-medium"));
 });
 
 test("shared production compositions consume named typography and shape roles", () => {
