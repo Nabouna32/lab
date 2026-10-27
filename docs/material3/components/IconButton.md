@@ -1,7 +1,7 @@
 # IconButton — AndroidX Material 3 port
 
 **Status:** Portage en cours / verification incomplete.  
-**Current React implementation:** must be confirmed from repository code before migration planning.
+**Current React implementation:** `src/components/ui/IconButton.tsx` exposes the eight official action/toggle names separately. This aligns the public API distinction, but does not establish source parity for the current CSS state tokens.
 
 ## Upstream authority
 
@@ -15,7 +15,7 @@
 
 ## Contract and known findings
 
-The previous audit records a React IconButton with variant/state styling and semantic token use. It also notes selected-state behavior for filled-tonal and outlined forms, plus variant-specific disabled colors. These observations must be checked against the pinned source and corresponding token files; CSS mixes are Web adaptations, not proof of exact rendered equivalence.
+AndroidX exposes distinct public composables for `IconButton`, `FilledIconButton`, `FilledTonalIconButton`, `OutlinedIconButton` and the corresponding `IconToggleButton`, `FilledIconToggleButton`, `FilledTonalIconToggleButton`, `OutlinedIconToggleButton`. Action buttons are not toggles: checked state belongs to the toggle APIs, not a `selected` prop on a generic variant-based button. The React API now follows this separation. The existing CSS state colors and outlined selected-state treatment remain unverified against the source token implementations; do not treat this API migration as completed visual or behavioral parity.
 
 The port should follow official AndroidX public component names and distinguish standard, filled, filled-tonal, outlined and toggle-specific semantics only where the official API defines them. Loculary-only aliases or extra variants must be labelled as extensions and audited for usage before removal.
 
@@ -29,12 +29,14 @@ The port should follow official AndroidX public component names and distinguish 
 ## Required verification
 
 - [ ] Pin an aligned AndroidX API/source/token version.
-- [ ] Map React props and variants to the official API; label extensions.
+- [x] Separate the eight official action/toggle component names in the React public API; remove the generic `variant` prop and non-official `tonal` alias.
+- [ ] Complete the source-derived props and token mapping for each variant; label Web extensions.
 - [ ] Check enabled, selected/toggle where applicable, hover, focus-visible, pressed and disabled states.
 - [ ] Verify icon alignment, container geometry, outline, shape and actual color blends.
 - [ ] Check keyboard, accessible name/state, contrast, FR/EN surrounding labels, mobile and 200% zoom.
 - [ ] Run component tests, lint, TypeScript and production build.
 - [ ] Inspect browser rendering; record observed differences and unresolved questions.
-- [ ] Audit and document production call sites before migration.
+- [x] Migrate the known production call sites and Design Lab specimens from generic variant/selected props to named action or toggle components.
+- [ ] Complete the exhaustive production call-site inventory and validate the remaining CSS state tokens.
 
 A matching silhouette or Design Lab screenshot is not enough to mark this component conformant.
