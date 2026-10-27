@@ -991,3 +991,22 @@ test("personal information page owns profile editing and localized feedback", ()
   assert.match(actions, /\/compte\/informations-personnelles\?error=profile/);
   assert.match(actions, /\/compte\/informations-personnelles\?status=profile-updated/);
 });
+
+
+test("site navigation adapts between a persistent desktop rail and a mobile navigation bar", () => {
+  const layout = readFileSync(new URL("../../app/[locale]/layout.tsx", import.meta.url), "utf8");
+  const navigation = readFileSync(new URL("../../components/layout/AdaptiveAppNavigation.tsx", import.meta.url), "utf8");
+  const navigationCss = readFileSync(new URL("../../components/layout/AdaptiveAppNavigation.module.css", import.meta.url), "utf8");
+  const header = readFileSync(new URL("../../components/layout/Header.tsx", import.meta.url), "utf8");
+
+  assert.match(layout, /<AdaptiveAppNavigation locale=\{locale\} \/>/);
+  assert.match(navigation, /<Link[\s\S]*?aria-current=\{selected \? "page" : undefined\}/);
+  assert.match(navigation, /getGuidedWorkflowsPath/);
+  assert.match(navigation, /\$\{locale\}\/compte/);
+  assert.match(navigationCss, /@media \(min-width: 768px\)/);
+  assert.match(navigationCss, /@media \(min-width: 1200px\)/);
+  assert.match(navigationCss, /prefers-reduced-motion: reduce/);
+  assert.match(navigationCss, /env\(safe-area-inset-bottom\)/);
+  assert.match(header, /HeaderSearch locale=\{locale\}/);
+  assert.doesNotMatch(header, /getToolsPath/);
+});
