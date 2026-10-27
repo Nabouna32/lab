@@ -47,8 +47,8 @@ function rowJustifyContent(arrangement: HorizontalArrangement): CSSProperties["j
 }
 
 function columnJustifyContent(arrangement: VerticalArrangement): CSSProperties["justifyContent"] {
-  if (arrangement.kind === "spacedBy" || arrangement.kind === "spacedByCss") {
-    if (arrangement.kind === "spacedBy" && arrangement.alignment) {
+  if (arrangement.kind === "spacedBy") {
+    if (arrangement.alignment) {
       return ({
         top: "flex-start",
         centerVertically: "center",
@@ -86,11 +86,12 @@ function rowSpacingStyle(arrangement: HorizontalArrangement): CSSProperties {
 
 function columnSpacingStyle(arrangement: VerticalArrangement): CSSProperties {
   if (arrangement.kind === "spacedBy") {
+    if (typeof arrangement.space === "string") return { gap: arrangement.space };
     return arrangement.space < 0
       ? ({ gap: 0, "--compose-layout-negative-gap": `${arrangement.space}px` } as CSSProperties)
       : { gap: `${arrangement.space}px` };
   }
-  return arrangement.kind === "spacedByCss" ? { gap: arrangement.space } : {};
+  return {};
 }
 
 export function getRowLayoutPresentation(
