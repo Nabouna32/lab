@@ -593,15 +593,15 @@ test("AndroidX-named Buttons support per-state color customization without produ
   assert.ok(buttonVariantStylesSource.includes('"--button-disabled-container-color": colors.disabledContainerColor'));
   assert.ok(!buttonSource.includes("DestructiveButton"), "destructive styling uses color customization, not a custom component");
   assert.doesNotMatch(buttonSource, /primary: filled|secondary: outlined|tonal: filledTonal|ghost: text/);
-  assert.ok(iconButtonSource.includes("group-disabled:bg-[var(--icon-button-disabled-container-color,color-mix(in_srgb,var(--on-surface)_12%,transparent))]"));
-  assert.ok(iconButtonSource.includes("group-disabled:border-[color-mix(in_srgb,var(--outline-variant)_12%,transparent)]"));
+  assert.ok(iconButtonSource.includes("group-disabled:bg-[var(--icon-button-disabled-container-color,color-mix(in_srgb,var(--on-surface)_10%,transparent))]"));
+  assert.ok(iconButtonSource.includes("group-disabled:border-[color-mix(in_srgb,var(--on-surface)_12%,transparent)]"));
   assert.ok(iconButtonSource.includes("const toggleUncheckedStyles: Record<IconButtonStyle, string>"));
   assert.ok(iconButtonSource.includes("const toggleCheckedStyles: Record<IconButtonStyle, string>"));
   assert.ok(iconButtonSource.includes("export type IconButtonColors ="));
   assert.ok(iconButtonSource.includes("export type IconToggleButtonColors ="));
   assert.ok(iconButtonSource.includes("colors?: Partial<IconButtonColors>"));
   assert.ok(iconButtonSource.includes('shape?: CSSProperties["borderRadius"]'));
-  assert.ok(iconButtonSource.includes('"filled-tonal": "border border-transparent bg-[var(--icon-button-checked-container-color,var(--secondary-container))] text-[var(--icon-button-checked-content-color,var(--on-secondary-container))]'));
+  assert.ok(iconButtonSource.includes('"filled-tonal": "border border-transparent bg-[var(--icon-button-checked-container-color,var(--secondary))] text-[var(--icon-button-checked-content-color,var(--on-secondary))]'));
   assert.ok(iconButtonSource.includes('outlined: "border border-transparent bg-[var(--icon-button-checked-container-color,var(--inverse-surface))] text-[var(--icon-button-checked-content-color,var(--inverse-on-surface))]'));
   assert.ok(iconButtonSource.includes("group-hover:bg-[color-mix(in_srgb,var(--icon-button-checked-container-color,var(--inverse-surface))_92%,var(--icon-button-checked-content-color,var(--inverse-on-surface)))]"));
 });
