@@ -37,13 +37,17 @@ export default function Header({ locale }: { locale: Locale }) {
 
           <Spacer modifier={Modifier.weight(1)} />
 
-          <div className="flex shrink-0 items-center gap-0.5 sm:gap-1">
+          <Row
+            horizontalArrangement={Arrangement.spacedByCss("var(--header-control-gap)")}
+            verticalAlignment={Alignment.CenterVertically}
+            className="shrink-0 [--header-control-gap:0.125rem] sm:[--header-control-gap:var(--space-1)]"
+          >
             <AppLink href={getToolsPath(locale)} variant="navigation" className="hidden lg:inline-flex">
               {t.nav.explore}
             </AppLink>
             <HeaderSearch locale={locale} searchLabel={t.tools.searchLabel} />
             <DesktopHeaderMenu locale={locale} />
-          </div>
+          </Row>
         </Row>
       </PageContainer>
     </header>

@@ -6,6 +6,9 @@ import ToolSearch from "@/components/tools/ToolSearch";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import { IconButton } from "@/components/ui/IconButton";
 import type { Locale } from "@/lib/i18n/config";
+import { Alignment } from "@/components/layout/compose/Alignment";
+import { Arrangement } from "@/components/layout/compose/Arrangement";
+import { Row } from "@/components/layout/compose/Row";
 
 
 type HeaderSearchProps = {
@@ -100,9 +103,11 @@ function HeaderSearchPanel({
         <MaterialIcon name="search" size={24} />
       </IconButton>
       {open && (
-        <div
+        <Row
           id="header-tool-search-panel"
-          className="absolute left-0 right-0 top-full flex items-start gap-2 border-b border-[var(--border)] bg-[var(--background)] px-3 pb-3 pt-2 sm:px-6"
+          horizontalArrangement={Arrangement.spacedByCss("var(--space-2)")}
+          verticalAlignment={Alignment.Top}
+          className="absolute left-0 right-0 top-full border-b border-[var(--border)] bg-[var(--background)] px-3 pb-3 pt-2 sm:px-6"
         >
           <ToolSearch
             locale={locale}
@@ -110,7 +115,7 @@ function HeaderSearchPanel({
             compact
             className="min-w-0 flex-1"
           />
-        </div>
+        </Row>
       )}
     </div>
   );
