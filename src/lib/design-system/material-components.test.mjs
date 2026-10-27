@@ -1032,3 +1032,26 @@ test("remaining public, admin and account pages consume shared Material 3 typogr
   assert.ok(informationPage.includes("rounded-[var(--shape-corner-large)]"));
   assert.ok(footer.includes("m3-type-body-small"));
 });
+
+
+test("email and password settings use dedicated Material 3 page compositions", () => {
+  const emailPage = readFileSync(new URL("../../app/[locale]/compte/email/page.tsx", import.meta.url), "utf8");
+  const passwordPage = readFileSync(new URL("../../app/[locale]/compte/mot-de-passe/page.tsx", import.meta.url), "utf8");
+
+  assert.match(emailPage, /<MaterialIcon name="mail" size=\{28\} \/>/);
+  assert.match(emailPage, /aria-label=\{t\.account\.emailAddress\}/);
+  assert.match(emailPage, /role="status"/);
+  assert.match(emailPage, /role="alert"/);
+  assert.match(emailPage, /<TextField label=\{t\.account\.email\}[^>]*type="email"/);
+  assert.match(passwordPage, /<MaterialIcon name="lock" size=\{28\} \/>/);
+  assert.match(passwordPage, /t\.account\.changePasswordDescription/);
+  assert.match(passwordPage, /t\.account\.passwordLengthHint/);
+  assert.match(passwordPage, /autoComplete="current-password"/);
+  assert.match(passwordPage, /autoComplete="new-password"/);
+  assert.match(passwordPage, /minLength=\{8\} maxLength=\{128\}/);
+  assert.match(passwordPage, /role="alert"/);
+  assert.match(messagesSource, /changePasswordDescription: "Choisissez un nouveau mot de passe/);
+  assert.match(messagesSource, /passwordLengthHint: "Entre 8 et 128 caractères\."/);
+  assert.match(messagesSource, /changePasswordDescription: "Choose a new password/);
+  assert.match(messagesSource, /passwordLengthHint: "Between 8 and 128 characters\."/);
+});
