@@ -1,14 +1,12 @@
-import { Children, cloneElement, isValidElement, type CSSProperties, type ReactElement, type ReactNode } from "react";
+import { Children, cloneElement, isValidElement, type CSSProperties, type HTMLAttributes, type ReactElement, type ReactNode } from "react";
 import { Alignment, type BoxAlignment } from "./Alignment";
 import { getBoxChildStyle } from "./LayoutStyles";
 import { isModifier, type Modifier } from "./Modifier";
 
-export type BoxProps = {
+export type BoxProps = Omit<HTMLAttributes<HTMLDivElement>, "children"> & {
   children?: ReactNode;
   modifier?: Modifier;
   contentAlignment?: BoxAlignment;
-  className?: string;
-  style?: CSSProperties;
 };
 
 /**
@@ -22,9 +20,11 @@ export function Box({
   contentAlignment = Alignment.TopStart,
   className,
   style,
+  ...domProps
 }: BoxProps) {
   const layout = (
     <div
+      {...domProps}
       className={className}
       style={{ display: "grid", position: "relative", ...style }}
     >

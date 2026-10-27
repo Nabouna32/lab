@@ -10,6 +10,7 @@ const signInPageSource = readSource("../../app/[locale]/compte/connexion/page.ts
 const signUpPageSource = readSource("../../app/[locale]/compte/inscription/page.tsx");
 const pageLayoutSource = readSource("../../components/layout/PageLayout.tsx");
 const headerSource = readSource("../../components/layout/Header.tsx");
+const logoSource = readSource("../../components/brand/LocularyLogo.tsx");
 
 test("homepage compositions reuse the shared width, gutters and spacing tokens", () => {
   assert.ok(homePageSource.includes('<PageContainer'));
@@ -21,6 +22,9 @@ test("homepage compositions reuse the shared width, gutters and spacing tokens",
   assert.ok(homeWorkflowsSource.includes('width="wide"'));
   assert.ok(homeWorkflowsSource.includes("pb-[var(--space-8)] pt-[var(--space-2)]"));
   assert.ok(homeWorkflowsSource.includes('import { Row } from "@/components/layout/compose/Row"'));
+  assert.ok(homeWorkflowsSource.includes('import { Box } from "@/components/layout/compose/Box"'));
+  assert.ok(homeWorkflowsSource.includes("contentAlignment={Alignment.Center}"));
+  assert.ok(homeWorkflowsSource.includes('aria-hidden="true"'));
   assert.ok(homeWorkflowsSource.includes('Arrangement.spacedByCss("var(--home-workflow-card-gap)")'));
   assert.ok(homeWorkflowsSource.includes("[--home-workflow-card-gap:var(--space-3)] sm:[--home-workflow-card-gap:var(--space-4)]"));
   assert.ok(!homeWorkflowsSource.includes("group flex min-h-20 items-center gap-3"));
@@ -74,4 +78,10 @@ test("header layout reuses Row and a weighted Spacer instead of a product-specif
   assert.ok(headerSource.includes("Modifier.weight(1)"));
   assert.ok(headerSource.includes('Arrangement.spacedByCss("var(--header-layout-gap)")'));
   assert.ok(!headerSource.includes("grid-cols-[1fr_auto]"));
+});
+
+
+test("brand wordmark uses the shared Row primitive", () => {
+  assert.ok(logoSource.includes('import { Row } from "@/components/layout/compose/Row"'));
+  assert.ok(!logoSource.includes("inline-flex items-center"));
 });
