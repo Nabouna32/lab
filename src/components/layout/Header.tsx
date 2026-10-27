@@ -7,6 +7,11 @@ import LocularyLogo from "@/components/brand/LocularyLogo";
 import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
 import { getToolsPath } from "@/lib/tools/routes";
+import { Alignment } from "@/components/layout/compose/Alignment";
+import { Arrangement } from "@/components/layout/compose/Arrangement";
+import { Modifier } from "@/components/layout/compose/Modifier";
+import { Row } from "@/components/layout/compose/Row";
+import { Spacer } from "@/components/layout/compose/Spacer";
 
 export default function Header({ locale }: { locale: Locale }) {
   const t = getMessages(locale);
@@ -14,10 +19,14 @@ export default function Header({ locale }: { locale: Locale }) {
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--border)]/80 bg-[var(--background)]">
       <PageContainer width="wide" spacing="none">
-        <div className="grid h-14 grid-cols-[1fr_auto] items-center gap-2 sm:h-16 sm:gap-3">
+        <Row
+          horizontalArrangement={Arrangement.spacedByCss("var(--header-layout-gap)")}
+          verticalAlignment={Alignment.CenterVertically}
+          className="h-14 [--header-layout-gap:var(--space-2)] sm:h-16 sm:[--header-layout-gap:var(--space-3)]"
+        >
           <Link
             href={"/" + locale}
-            className="group flex shrink-0 items-center gap-2 rounded-[var(--radius-lg)] outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] sm:gap-2.5 md:justify-self-start"
+            className="group flex shrink-0 items-center gap-2 rounded-[var(--radius-lg)] outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] sm:gap-2.5"
             aria-label={"Loculary - " + t.nav.home}
           >
             <LocularyLogo
@@ -26,14 +35,16 @@ export default function Header({ locale }: { locale: Locale }) {
             />
           </Link>
 
-          <div className="flex shrink-0 items-center justify-self-end gap-0.5 sm:gap-1">
+          <Spacer modifier={Modifier.weight(1)} />
+
+          <div className="flex shrink-0 items-center gap-0.5 sm:gap-1">
             <AppLink href={getToolsPath(locale)} variant="navigation" className="hidden lg:inline-flex">
               {t.nav.explore}
             </AppLink>
             <HeaderSearch locale={locale} searchLabel={t.tools.searchLabel} />
             <DesktopHeaderMenu locale={locale} />
           </div>
-        </div>
+        </Row>
       </PageContainer>
     </header>
   );

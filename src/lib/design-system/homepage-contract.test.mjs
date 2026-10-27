@@ -32,7 +32,6 @@ test("homepage hero uses the shared Material card instead of the bespoke rainbow
 
 test("global header search is icon-triggered at every breakpoint without a second desktop input", () => {
   assert.match(headerSource, /import HeaderSearch from "@\/components\/layout\/HeaderSearch"/);
-  assert.match(headerSource, /grid-cols-\[1fr_auto\]/);
   assert.doesNotMatch(headerSource, /ToolSearch|grid-cols-\[1fr_minmax/);
   assert.match(headerSearchSource, /<IconButton/);
   assert.match(headerSearchSource, /aria-expanded=\{open\}/);
