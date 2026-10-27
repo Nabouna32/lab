@@ -8,6 +8,8 @@ import { Select } from "@/components/ui/Select";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { generateQrCode } from "@/lib/qr-code";
+import { Arrangement } from "@/components/layout/compose/Arrangement";
+import { Column } from "@/components/layout/compose/Column";
 import { buildWifiQrPayload, type WifiSecurity } from "@/lib/wifi-qr";
 
 const DEFAULT_VALUE = "https://example.com";
@@ -61,7 +63,7 @@ export default function QrCodeGenerator() {
   return (
     <section className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]">
       <div className="grid gap-6 p-5 sm:p-7 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.85fr)] lg:p-8">
-        <div className="space-y-5">
+        <Column verticalArrangement={Arrangement.spacedBy(20)}>
           <Select
             id="qr-code-mode"
             label={isFrench ? "Type de QR Code" : "QR Code type"}
