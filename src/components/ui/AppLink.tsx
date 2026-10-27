@@ -24,7 +24,7 @@ const variantStyles: Partial<Record<AppLinkVariant, string>> = {
     "motion-reduce:transition-none",
   ].join(" "),
   navigation: [
-    "inline-flex min-h-9 shrink-0 items-center gap-2 rounded-[var(--radius-pill)] border border-transparent px-3",
+    "inline-flex min-h-9 shrink-0 items-center gap-2 rounded-[var(--shape-corner-full)] border border-transparent px-3",
     "m3-type-label-large text-[var(--muted)] outline-none",
     "transition-[border-color,background-color,color] duration-[var(--motion-standard)]",
     "hover:border-[var(--border)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)]",
