@@ -9,7 +9,7 @@ import { getMessages } from "@/lib/i18n/messages";
 import { getToolsPath } from "@/lib/tools/routes";
 import { Alignment } from "@/components/layout/compose/Alignment";
 import { Arrangement } from "@/components/layout/compose/Arrangement";
-import { Modifier } from "@/components/layout/compose/Modifier";
+import { Modifier, RowScope } from "@/components/layout/compose/Modifier";
 import { Row } from "@/components/layout/compose/Row";
 import { Spacer } from "@/components/layout/compose/Spacer";
 
@@ -35,7 +35,7 @@ export default function Header({ locale }: { locale: Locale }) {
             />
           </Link>
 
-          <Spacer modifier={Modifier.weight(1)} />
+          <Spacer modifier={Modifier.then(RowScope.weight(1))} />
 
           <Row
             horizontalArrangement={Arrangement.spacedByCss("var(--header-control-gap)")}
