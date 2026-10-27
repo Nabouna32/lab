@@ -26,8 +26,8 @@ export default function ToolSection({
 
   return (
     <section className="border-t border-[var(--border)] py-5 first:border-t-0 sm:py-6">
-      <h2 className="text-base font-bold tracking-tight text-[var(--foreground)] sm:text-lg">{title}</h2>
-      <div className="mt-3 text-sm leading-6 text-[var(--muted)]">{children}</div>
+      <h2 className="m3-type-title-medium text-[var(--foreground)]">{title}</h2>
+      <div className="mt-3 m3-type-body-medium text-[var(--muted)]">{children}</div>
     </section>
   );
 }
