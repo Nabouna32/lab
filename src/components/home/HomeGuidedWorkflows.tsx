@@ -4,6 +4,9 @@ import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
 import { getGuidedWorkflowsPath } from "@/lib/tools/routes";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
+import { Alignment } from "@/components/layout/compose/Alignment";
+import { Arrangement } from "@/components/layout/compose/Arrangement";
+import { Row } from "@/components/layout/compose/Row";
 
 export default function HomeGuidedWorkflows({ locale }: { locale: Locale }) {
   const t = getMessages(locale);
@@ -17,8 +20,13 @@ export default function HomeGuidedWorkflows({ locale }: { locale: Locale }) {
       >
         <Link
           href={getGuidedWorkflowsPath(locale)}
-          className="group flex min-h-20 items-center gap-3 rounded-2xl border border-[var(--outline-variant)]/70 bg-[var(--surface-container-low)] p-4 outline-none transition-[border-color,background-color] duration-[var(--motion-standard)] hover:border-[var(--primary)]/50 hover:bg-[var(--surface-container)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] sm:gap-4 sm:px-5"
+          className="group block min-h-20 rounded-2xl border border-[var(--outline-variant)]/70 bg-[var(--surface-container-low)] p-4 outline-none transition-[border-color,background-color] duration-[var(--motion-standard)] hover:border-[var(--primary)]/50 hover:bg-[var(--surface-container)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] sm:px-5"
         >
+          <Row
+            horizontalArrangement={Arrangement.spacedByCss("var(--home-workflow-card-gap)")}
+            verticalAlignment={Alignment.CenterVertically}
+            className="[--home-workflow-card-gap:var(--space-3)] sm:[--home-workflow-card-gap:var(--space-4)]"
+          >
           <span
             className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--accent-soft)] text-[var(--accent)]"
             aria-hidden="true"
@@ -37,6 +45,7 @@ export default function HomeGuidedWorkflows({ locale }: { locale: Locale }) {
             <span className="hidden sm:inline">{t.guidedWorkflows.homeAction}</span>
             <MaterialIcon name="arrow_forward" size={18} />
           </span>
+          </Row>
         </Link>
       </PageContainer>
     </section>
