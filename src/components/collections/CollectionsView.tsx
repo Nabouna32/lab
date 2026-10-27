@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import Link from "next/link";
 import type { Locale } from "@/lib/i18n/config";
+import { PageContainer } from "@/components/layout/PageLayout";
 import { useCollections } from "./CollectionsProvider";
 import { CollectionIcon } from "@/components/ui/CollectionIcon";
 import { Button, FilledTonalButton, OutlinedButton, TextButton } from "@/components/ui/Button";
@@ -200,7 +201,8 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
   }
 
   return (
-    <main className="mx-auto min-h-[60svh] max-w-5xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
+    <main className="min-h-[60svh]">
+      <PageContainer width="medium" spacing="none" className="py-[var(--space-8)] sm:py-[var(--space-10)]">
       <header className="mb-7 rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow-md)] sm:p-8">
         <p className="text-xs font-black uppercase tracking-[0.16em] text-[var(--accent)]">Loculary</p>
         <h1 className="mt-2 text-3xl font-black tracking-[-0.04em] sm:text-4xl">{copy.title}</h1>
@@ -298,6 +300,7 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
         onConfirm={confirmDeleteCollection}
         onDismiss={() => setPendingDeleteCollection(null)}
       />
+      </PageContainer>
     </main>
   );
 }

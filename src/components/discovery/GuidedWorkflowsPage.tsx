@@ -5,6 +5,7 @@ import { getMessages } from "@/lib/i18n/messages";
 import { getToolById } from "@/lib/tools/catalog";
 import { getToolContent, isPublishedTool } from "@/lib/tools/types";
 import { getToolPath, getToolsPath } from "@/lib/tools/routes";
+import { PageContainer } from "@/components/layout/PageLayout";
 
 export default function GuidedWorkflowsPage({ locale }: { locale: Locale }) {
   const copy = getMessages(locale).guidedWorkflows;
@@ -16,8 +17,8 @@ export default function GuidedWorkflowsPage({ locale }: { locale: Locale }) {
     .filter((workflow) => workflow.steps.every((step) => step.tool && isPublishedTool(step.tool)));
 
   return (
-    <main className="min-h-full px-4 py-6 sm:px-6 sm:py-8 lg:px-10 lg:py-10">
-      <div className="mx-auto max-w-[var(--content-wide)]">
+    <main className="min-h-full">
+      <PageContainer width="wide" spacing="compact">
         <header className="relative overflow-hidden rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow-lg)] sm:p-9">
           <div className="pointer-events-none absolute -right-16 -top-24 h-72 w-72 rounded-full bg-[var(--accent-soft)] blur-3xl" aria-hidden="true" />
           <div className="relative max-w-3xl">
@@ -79,7 +80,7 @@ export default function GuidedWorkflowsPage({ locale }: { locale: Locale }) {
             {copy.openTools}<MaterialIcon name="arrow_forward" size={18} />
           </Link>
         </div>
-      </div>
+      </PageContainer>
     </main>
   );
 }

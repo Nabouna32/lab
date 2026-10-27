@@ -107,6 +107,38 @@
   --m3-space-3: 0.75rem;
   --m3-space-4: 1rem;
   --m3-space-6: 1.5rem;
+
+  /*
+   * Shared layout scale: use these semantic roles for page and section composition.
+   * Component-specific Material 3 dimensions remain owned by their component specs.
+   */
+  --space-0: 0;
+  --space-1: var(--m3-space-1);
+  --space-2: var(--m3-space-2);
+  --space-3: var(--m3-space-3);
+  --space-4: var(--m3-space-4);
+  --space-5: 1.25rem;
+  --space-6: var(--m3-space-6);
+  --space-7: 1.75rem;
+  --space-8: 2rem;
+  --space-9: 2.25rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  /* Shared responsive page gutters; specialized compositions may opt out deliberately. */
+  --layout-page-gutter: 1rem;
+  --layout-page-section-gap: var(--space-8);
+  --layout-content-gap: var(--space-6);
+  --layout-item-gap: var(--space-4);
+  --layout-inline-gap: var(--space-2);
+  --layout-content-form: 28rem;
+  --layout-content-form-wide: 36rem;
+  --layout-content-account: 42rem;
+  --layout-content-narrow: var(--content-narrow, 48rem);
+  --layout-content-medium: 64rem;
+  --layout-content-default: var(--content-default, 72rem);
+  --layout-content-wide: var(--content-wide, 80rem);
   --m3-size-segmented-button-min-height: 2.5rem; /* AndroidX: 40 dp reference */
   --m3-size-touch-target-min: 3rem; /* Web accessibility target: 48 CSS px reference */
   --m3-size-button-standard-height: 2.5rem; /* AndroidX standard button: 40 dp reference */
@@ -238,6 +270,18 @@
   --button-elevation-2: 0 2px 6px rgb(0 0 0 / 0.38);
 }
 
+@media (min-width: 40rem) {
+  :root {
+    --layout-page-gutter: 1.5rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  :root {
+    --layout-page-gutter: 2.5rem;
+  }
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -247,23 +291,6 @@
 
 * { box-sizing: border-box; }
 
-.home-rainbow-frame {
-  background: linear-gradient(
-    125deg,
-    var(--home-rainbow-primary-light),
-    var(--home-rainbow-secondary-light) 52%,
-    var(--home-rainbow-tertiary-light)
-  );
-}
-
-.dark .home-rainbow-frame {
-  background: linear-gradient(
-    125deg,
-    var(--home-rainbow-primary-dark),
-    var(--home-rainbow-secondary-dark) 52%,
-    var(--home-rainbow-tertiary-dark)
-  );
-}
 html { background: var(--background); color-scheme: light; scroll-behavior: smooth; }
 html.dark { color-scheme: dark; }
 body {
@@ -379,3 +406,35 @@ button:disabled > .button-ripple-layer {
     transition-duration: .01ms !important;
   }
 }
+
+
+/*
+ * Arrangement.spacedBy supports negative values in AndroidX. CSS gap does not,
+ * so the Web adapter approximates overlap with logical margins on subsequent flex items.
+ * The spacing token is set inline by Row/Column and stays scoped to that layout.
+ */
+.compose-layout-negative-gap-row > * + * {
+  margin-inline-start: var(--compose-layout-negative-gap);
+}
+
+.compose-layout-negative-gap-column > * + * {
+  margin-block-start: var(--compose-layout-negative-gap);
+}
+
+
+/* Shared Column primitive: responsive rhythm for tool editorial sections. */
+.tool-page-editorial-stack {
+  --tool-page-content-gap: var(--space-8);
+}
+
+@media (min-width: 640px) {
+  .tool-page-editorial-stack {
+    --tool-page-content-gap: var(--space-10);
+  }
+}
+
+/* AbsoluteAlignment in Column uses physical left/right while preserving child text direction. */
+.compose-column-align-absolute-left { align-items: flex-start; }
+.compose-column-align-absolute-left:dir(rtl) { align-items: flex-end; }
+.compose-column-align-absolute-right { align-items: flex-end; }
+.compose-column-align-absolute-right:dir(rtl) { align-items: flex-start; }

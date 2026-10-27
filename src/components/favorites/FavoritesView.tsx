@@ -6,6 +6,7 @@ import { getToolsPath } from "@/lib/tools/routes";
 import { StarIcon } from "@/components/ui/StarIcon";
 import { TextButton } from "@/components/ui/Button";
 import { useFavorites } from "./FavoritesProvider";
+import { PageContainer } from "@/components/layout/PageLayout";
 
 export type FavoriteToolItem = { id: string; icon: string; name: string; description: string; href: string };
 
@@ -31,7 +32,8 @@ export default function FavoritesView({ locale, tools }: { locale: Locale; tools
   };
 
   return (
-    <main className="mx-auto min-h-[60svh] max-w-5xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
+    <main className="min-h-[60svh]">
+      <PageContainer width="medium" spacing="default">
       <header className="mb-7 rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow-md)] sm:p-8">
         <p className="text-xs font-black uppercase tracking-[0.16em] text-[var(--accent)]">Loculary</p>
         <h1 className="mt-2 text-3xl font-black tracking-[-0.04em] sm:text-4xl">{text.title}</h1>
@@ -67,6 +69,7 @@ export default function FavoritesView({ locale, tools }: { locale: Locale; tools
           <Link href={getToolsPath(locale)} className="mt-6 inline-flex min-h-12 items-center justify-center rounded-full bg-[var(--primary)] px-5 font-semibold text-[var(--on-primary)] transition-[filter,transform] duration-[var(--motion-standard)] hover:brightness-[.94] active:scale-[.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]">{text.explore}</Link>
         </section>
       )}
+      </PageContainer>
     </main>
   );
 }

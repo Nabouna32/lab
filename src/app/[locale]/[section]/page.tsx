@@ -9,6 +9,7 @@ import { formatPlural } from "@/lib/i18n/plural";
 import { isLocale, type Locale, locales } from "@/lib/i18n/config";
 import { notFound } from "next/navigation";
 import { getPublicPageMetadata } from "@/lib/tools/page-metadata";
+import { PageContainer } from "@/components/layout/PageLayout";
 import { getToolsForIntent, isIntentId } from "@/lib/tools/intents";
 import { getCategoryPath, getGuidedWorkflowsPath, getToolsPath } from "@/lib/tools/routes";
 import GuidedWorkflowsPage from "@/components/discovery/GuidedWorkflowsPage";
@@ -74,8 +75,8 @@ export default async function ToolsPage({
   const intentTools = selectedIntentId ? getToolsForIntent(selectedIntentId, publishedTools) : [];
 
   return (
-    <main className="min-h-full px-4 py-6 sm:px-6 sm:py-8 lg:px-10 lg:py-10">
-      <div className="mx-auto max-w-[var(--content-wide)]">
+    <main className="min-h-full">
+      <PageContainer width="wide" spacing="compact">
         <section className="relative overflow-hidden rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow-lg)] sm:p-7 lg:p-9" aria-labelledby="tools-page-title">
           <div className="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full bg-[var(--accent-soft)] blur-3xl" aria-hidden="true" />
           <div className="relative grid gap-7 lg:grid-cols-[.8fr_1.2fr] lg:items-end lg:gap-12">
@@ -177,7 +178,7 @@ export default async function ToolsPage({
             </section>
           </div>
         </div>
-      </div>
+      </PageContainer>
     </main>
   );
 }

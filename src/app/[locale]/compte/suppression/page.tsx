@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { deleteAccount } from "../actions";
+import { PageContainer } from "@/components/layout/PageLayout";
 import SubmitButton from "@/components/account/SubmitButton";
 import { Panel } from "@/components/ui/Panel";
 import { TextField } from "@/components/ui/TextField";
@@ -27,7 +28,8 @@ export default async function DeleteAccountPage({
   if (!data.user) redirect(`/${locale}/compte/connexion`);
 
   return (
-    <main className="mx-auto flex min-h-[calc(100vh-4.5rem)] max-w-xl items-center px-4 py-12">
+    <main>
+      <PageContainer width="form-wide" spacing="none" className="flex min-h-[calc(100vh-4.5rem)] items-center py-[var(--space-12)]">
       <Panel as="section" className="w-full border-[var(--danger)]/40">
         <p className="text-sm font-semibold text-[var(--danger-foreground)]">{t.account.deleteAccount}</p>
         <h1 className="mt-2 text-3xl font-bold tracking-tight">{t.account.deleteAccountTitle}</h1>
@@ -69,6 +71,7 @@ export default async function DeleteAccountPage({
           {t.account.title}
         </Link>
       </Panel>
+      </PageContainer>
     </main>
   );
 }

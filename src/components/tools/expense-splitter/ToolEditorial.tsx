@@ -1,5 +1,7 @@
 import type { Locale } from "@/lib/i18n/config";
 import ToolSection from "@/components/tools/ToolPage/ToolSection";
+import { Column } from "@/components/layout/compose/Column";
+import { Arrangement } from "@/components/layout/compose/Arrangement";
 import { Card } from "@/components/tools/ToolPage/EditorialPrimitives";
 
 const content = {
@@ -24,7 +26,7 @@ const content = {
 export default function ToolEditorial({ locale }: { locale: Locale }) {
   const t = content[locale];
   return (
-    <div className="space-y-5">
+    <Column verticalArrangement={Arrangement.spacedByCss("var(--space-5)")}>
       <ToolSection title={t.title}>
         <p>{t.text}</p>
         <Card>
@@ -35,6 +37,6 @@ export default function ToolEditorial({ locale }: { locale: Locale }) {
       <ToolSection title={t.privacyTitle}>
         <p>{t.privacy}</p>
       </ToolSection>
-    </div>
+    </Column>
   );
 }

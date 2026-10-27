@@ -1,4 +1,5 @@
 import AppLink from "@/components/ui/AppLink";
+import { PageContainer } from "@/components/layout/PageLayout";
 import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
 import { getAboutPath, getBugReportPath, getContactPath, getLegalNoticePath, getPrivacyPolicyPath } from "@/lib/tools/routes";
@@ -8,7 +9,7 @@ export default function Footer({ locale }: { locale: Locale }) {
 
   return (
     <footer className="border-t border-[var(--border)] bg-[var(--surface)]">
-      <div className="mx-auto flex max-w-[var(--content-wide)] flex-col gap-3 px-3 py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:px-6 sm:py-5 lg:px-8">
+      <PageContainer width="wide" spacing="none" className="flex flex-col gap-3 py-[var(--space-4)] sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:py-[var(--space-5)]">
         <nav
           aria-label={t.footer.navigationLabel}
           className="flex flex-wrap items-center gap-x-1 gap-y-1"
@@ -32,7 +33,7 @@ export default function Footer({ locale }: { locale: Locale }) {
         <p className="shrink-0 border-t border-[var(--border)] pt-3 text-xs font-medium text-[var(--muted)] sm:border-l sm:border-t-0 sm:pl-4 sm:pt-0">
           © {new Date().getFullYear()} Loculary
         </p>
-      </div>
+      </PageContainer>
     </footer>
   );
 }

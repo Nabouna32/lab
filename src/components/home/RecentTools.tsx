@@ -9,6 +9,7 @@ import type { ToolId } from "@/lib/tools/types";
 import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
 import { getToolPath } from "@/lib/tools/routes";
+import { PageContainer } from "@/components/layout/PageLayout";
 
 type RecentTool = { id: ToolId; name: string };
 
@@ -67,7 +68,8 @@ export default function RecentTools({ locale, tools }: { locale: Locale; tools: 
   if (!recentTools.length) return null;
 
   return (
-    <section className="mx-auto mt-2 w-full max-w-[var(--content-wide)] px-4 sm:px-6 lg:px-10" aria-labelledby="recent-tools-title">
+    <PageContainer width="wide" spacing="none" className="mt-[var(--space-2)]">
+    <section aria-labelledby="recent-tools-title">
       <div className="rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-4 sm:p-5">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
@@ -91,5 +93,6 @@ export default function RecentTools({ locale, tools }: { locale: Locale; tools: 
         </ul>
       </div>
     </section>
+    </PageContainer>
   );
 }

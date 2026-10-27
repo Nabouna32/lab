@@ -35,7 +35,7 @@ This is not a project to invent components that merely look Material-like. Every
 
 Each component specification must contain exact source links and the commit/release used. Do not rely on a mutable `main` link alone. Check source/API alignment before carrying a contract forward to a new AndroidX version.
 
-The source provenance and version-pinning rules live in [`sources.md`](sources.md). The catalogue schema and coverage-state rules live in [`catalog/README.md`](catalog/README.md). Use [`components/TEMPLATE.md`](components/TEMPLATE.md) for consistent component specifications. These documents distinguish the exhaustive public API inventory from semantic review, React porting, verification, and production migration.
+The source provenance and version-pinning rules live in [`sources.md`](sources.md). The separate Compose UI/Foundation layout-port scope and current gaps are tracked in [`layout-primitives.md`](layout-primitives.md); these primitives are not Material 3 components. The catalogue schema and coverage-state rules live in [`catalog/README.md`](catalog/README.md). Use [`components/TEMPLATE.md`](components/TEMPLATE.md) for consistent component specifications. These documents distinguish the exhaustive public API inventory from semantic review, React porting, verification, and production migration.
 
 ## Usage contract for product pages and agents
 
@@ -111,6 +111,10 @@ The inventory is intentionally **not yet declared complete**. The existing histo
 - **Candidates to inventory against real usage:** Checkbox, Switch, SegmentedButton, TextField, Select/dropdown, Card, progress indicators, Snackbar, Dialog, Tooltip, chips, navigation components, menus, sliders and date/time components.
 - **Inventory exhaustiveness is mandatory:** catalogue every public API in the declared artifact/version scope, including APIs not currently used by Loculary and experimental APIs. Inventory presence does not imply an implementation commitment.
 - **Implementation priority is separate:** prioritize ports according to product need, reuse, risk, and maintenance value. An inventoried API may remain unimplemented, with that status explicit.
+
+## Shared Compose UI/Foundation layout port
+
+Les primitives de layout sont suivies séparément des composants Material 3, car `Column`, `Row`, `Box`, `Spacer`, `Modifier`, `Alignment` et `Arrangement` appartiennent à Compose UI/Foundation, et non à Material 3. Consulter la [spécification des primitives de layout](layout-primitives.md) pour les sources, les règles de centralisation des tokens, les extensions Web actuelles et les écarts de parité.
 
 ## Current status
 

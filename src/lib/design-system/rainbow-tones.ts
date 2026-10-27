@@ -14,8 +14,6 @@ const PLATFORM = "phone" as const;
 const source = Hct.fromInt(argbFromHex(BRAND_SEED));
 const lightFidelity = new SchemeFidelity(source, false, 0, SPEC_VERSION, PLATFORM);
 const darkFidelity = new SchemeFidelity(source, true, 0, SPEC_VERSION, PLATFORM);
-const lightRainbow = new SchemeRainbow(source, false, 0, SPEC_VERSION, PLATFORM);
-const darkRainbow = new SchemeRainbow(source, true, 0, SPEC_VERSION, PLATFORM);
 
 const semanticTokens = {
   primary: "primary",
@@ -98,20 +96,4 @@ export function getLocularyThemeStyle(): CSSProperties {
   addCategoryTokens(style, "light", false);
   addCategoryTokens(style, "dark", true);
   return style as CSSProperties;
-}
-
-/**
- * Provides MCU-generated Rainbow tonal containers for the homepage frame.
- * The frame follows the accepted blue seed while retaining Rainbow's expressive
- * tonal range in both themes.
- */
-export function getRainbowFrameStyle(): CSSProperties {
-  return {
-    "--home-rainbow-primary-light": toHex(lightRainbow.primaryContainer),
-    "--home-rainbow-secondary-light": toHex(lightRainbow.secondaryContainer),
-    "--home-rainbow-tertiary-light": toHex(lightRainbow.tertiaryContainer),
-    "--home-rainbow-primary-dark": toHex(darkRainbow.primaryContainer),
-    "--home-rainbow-secondary-dark": toHex(darkRainbow.secondaryContainer),
-    "--home-rainbow-tertiary-dark": toHex(darkRainbow.tertiaryContainer),
-  } as CSSProperties;
 }

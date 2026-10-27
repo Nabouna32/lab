@@ -1,5 +1,7 @@
 import type { Locale } from "@/lib/i18n/config";
 import ToolSection from "@/components/tools/ToolPage/ToolSection";
+import { Column } from "@/components/layout/compose/Column";
+import { Arrangement } from "@/components/layout/compose/Arrangement";
 
 export default function ToolEditorial({ locale }: { locale: Locale }) {
   const sections = locale === "fr" ? [
@@ -11,5 +13,5 @@ export default function ToolEditorial({ locale }: { locale: Locale }) {
     { title: "Download and share", text: "Export the sheet as a PNG, ready for previews, printing, or adding to a document. Image proportions are preserved." },
     { title: "Local processing with clear limits", text: "Images are decoded and arranged in your browser. Nothing is uploaded or stored on a server. Limit: 20 images and 50 MB total; very large images are resized to keep memory use bounded." },
   ];
-  return <div className="space-y-5">{sections.map((section) => <ToolSection key={section.title} title={section.title}><p>{section.text}</p></ToolSection>)}</div>;
+  return <Column verticalArrangement={Arrangement.spacedByCss("var(--space-5)")}>{sections.map((section) => <ToolSection key={section.title} title={section.title}><p>{section.text}</p></ToolSection>)}</Column>;
 }

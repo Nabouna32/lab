@@ -1,5 +1,7 @@
 import type { Locale } from "@/lib/i18n/config";
 import ToolSection from "@/components/tools/ToolPage/ToolSection";
+import { Column } from "@/components/layout/compose/Column";
+import { Arrangement } from "@/components/layout/compose/Arrangement";
 export default function ToolEditorial({ locale }: { locale: Locale }) {
  const sections = locale === "fr" ? [
   { title: "Assembler des images en un document", text: "Sélectionnez jusqu’à 10 images JPEG, PNG ou WebP. Loculary crée un PDF multipage, une image par page, avec orientation automatique et proportions conservées." },
@@ -10,5 +12,5 @@ export default function ToolEditorial({ locale }: { locale: Locale }) {
   { title: "Your files stay on your device", text: "Image decoding, preparation, and PDF generation happen in your browser. No upload, account, or remote storage is involved." },
   { title: "Limits and transparency", text: "Up to 10 files, 50 MB total, and 25 MB per file. Images are resized to at most 2,400 pixels and encoded as JPEG; transparency becomes white and slight quality loss is possible." },
  ];
- return <div className="space-y-5">{sections.map((section) => <ToolSection key={section.title} title={section.title}><p>{section.text}</p></ToolSection>)}</div>;
+ return <Column verticalArrangement={Arrangement.spacedByCss("var(--space-5)")}>{sections.map((section) => <ToolSection key={section.title} title={section.title}><p>{section.text}</p></ToolSection>)}</Column>;
 }

@@ -208,6 +208,16 @@ Supabase/PostgreSQL is the current database platform for the deployed account, a
 
 Catalog storage and delivery must remain separate from executable tool implementations. Git/code remains authoritative for registry modules, processing mode, capabilities and actual tool logic. Any future data-store change must preserve that boundary and justify its operational cost.
 
+## Architecture partagée du layout
+
+La mise en page et les espacements sont des responsabilités communes de la plateforme, pas des conventions propres à chaque page.
+
+La cible est un portage React/Web des API publiques pertinentes de layout d’AndroidX Compose UI/Foundation. Les primitives fondées sur les sources définissent le comportement de mise en page ; les tokens CSS sémantiques de Loculary portent les dimensions responsives propres au produit, notamment les gouttières de page et les largeurs de contenu. Le contrat du système de design et l’état du portage sont décrits dans [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md) et dans la [spécification des primitives de layout](material3/layout-primitives.md).
+
+Les compositions produit (par exemple un conteneur de page) peuvent coordonner les conventions propres à Loculary. Elles doivent, lorsque c’est pertinent, s’appuyer sur les primitives partagées, ne pas se faire passer pour des API AndroidX et rester supprimables si elles ne font que dupliquer le comportement des primitives. La migration doit progresser des cadres communs vers les pages partagées, puis vers les layouts propres aux outils, sans créer d’abstractions parallèles ni multiplier les espacements arbitraires par page.
+
+Un portage n’est pas fidèle simplement parce qu’il porte un nom AndroidX. Il faut figer la version des API sources, tester les contrats publics, documenter les différences Web et vérifier le rendu réel dans le navigateur selon les points de rupture responsive, les thèmes clair/sombre, les contenus français/anglais, le sens de lecture et l’accessibilité avant d’affirmer une parité.
+
 ## Technology baseline
 
 The current repository uses:
