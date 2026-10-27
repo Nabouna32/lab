@@ -15,7 +15,7 @@ export type IconToggleButtonColors = IconButtonColors & {
   checkedContentColor?: string;
 };
 
-type IconButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "aria-label" | "children" | "aria-pressed"> & {
+type IconButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "aria-label" | "children" | "aria-pressed" | "aria-checked"> & {
   label: string;
   children: ReactNode;
   colors?: Partial<IconButtonColors>;
@@ -100,7 +100,8 @@ function IconButtonBase({
       ref={ref}
       type={type}
       aria-label={label}
-      aria-pressed={isToggle ? checked : undefined}
+      role={isToggle ? "checkbox" : undefined}
+      aria-checked={isToggle ? checked : undefined}
       style={shape === undefined ? style : { ...style, borderRadius: shape }}
       onClick={(event) => {
         onClick?.(event);
@@ -119,7 +120,7 @@ function IconButtonBase({
       <span
         aria-hidden="true"
         className={[
-          "inline-flex shrink-0 items-center justify-center rounded-full",
+          "relative isolate inline-flex shrink-0 items-center justify-center rounded-full",
           "transition-[background-color,border-color,color] duration-[var(--motion-standard)] motion-reduce:transition-none",
           surfaceDimensions,
           isToggle ? (checked ? toggleCheckedStyles[variant] : toggleUncheckedStyles[variant]) : variants[variant],
@@ -127,8 +128,8 @@ function IconButtonBase({
         style={{ ...colorStyle, ...(shape === undefined ? {} : { borderRadius: shape }) }}
       >
         {children}
+        <ButtonRipple />
       </span>
-      <ButtonRipple />
     </button>
   );
 }

@@ -511,7 +511,7 @@ html.dark .theme-icon-system-dark { display: inline; }
   pointer-events: auto;
 }
 
-button:disabled > .button-ripple-layer {
+button:disabled .button-ripple-layer {
   pointer-events: none;
 }
 
@@ -549,8 +549,8 @@ button:disabled > .button-ripple-layer {
 
 @media (prefers-reduced-motion: reduce) {
   .button-ripple { display: none; }
-  button:active > .button-ripple-layer::after,
-  a[data-material-button-link="true"]:active > .button-ripple-layer::after { opacity: 0.12; }
+  button:active .button-ripple-layer::after,
+  a[data-material-button-link="true"]:active .button-ripple-layer::after { opacity: 0.12; }
   html { scroll-behavior: auto; }
   *, *::before, *::after {
     animation-duration: .01ms !important;

@@ -27,7 +27,7 @@ The port should follow official AndroidX public component names and distinguish 
 - Use a native button with a meaningful accessible name; decorative icon content must not be the only accessible label.
 - Verify keyboard activation, visible focus, disabled non-activation and touch target in context.
 - Test actual computed foreground/container/outline colors in light and dark themes.
-- The shared bounded ripple is a Web adaptation of Compose `ripple()`; it must remain clipped to the control, support keyboard activation, and respect reduced-motion preferences. `shape` maps Compose `Shape` to CSS `border-radius`; `colors` accepts AndroidX-inspired default/disabled and toggle-checked color roles, expressed as CSS colors.
+- The shared ripple is a Web adaptation of Compose `ripple()`: it is clipped to the 40px visual surface while the native button retains a 48px minimum touch target. Toggle controls expose the AndroidX checkbox role/state (`role="checkbox"`, `aria-checked`) rather than treating a checked action as a generic pressed button. Keyboard activation and reduced-motion behavior remain required. `shape` maps Compose `Shape` to CSS `border-radius`; `colors` accepts AndroidX-inspired default/disabled and toggle-checked color roles, expressed as CSS colors.
 
 ## Required verification
 
