@@ -10,6 +10,8 @@ import { ToolRuntimeProvider } from "./ToolRuntimeProvider";
 import { getPublishedTools } from "@/lib/tools/catalog";
 import RecentToolTracker from "./RecentToolTracker";
 import { PageContainer } from "@/components/layout/PageLayout";
+import { Column } from "@/components/layout/compose/Column";
+import { Arrangement } from "@/components/layout/compose/Arrangement";
 
 export default function ToolPage({
   tool,
@@ -68,7 +70,7 @@ export default function ToolPage({
 
           {content && (
             <div className="border-t border-[var(--border)] bg-[var(--surface-soft)]/35 p-5 sm:p-8 lg:p-10">
-              <div className="space-y-8 sm:space-y-10">{content}</div>
+              <Column className="tool-page-editorial-stack" verticalArrangement={Arrangement.spacedByCss("var(--tool-page-content-gap)")}>{content}</Column>
             </div>
           )}
         </div>
