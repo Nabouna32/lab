@@ -1,3 +1,5 @@
+import { Row } from "@/components/layout/compose/Row";
+
 type LocularyLogoProps = {
   className?: string;
   wordmarkClassName?: string;
@@ -8,7 +10,7 @@ export default function LocularyLogo({
   wordmarkClassName = "text-lg font-bold tracking-[-0.03em]",
 }: LocularyLogoProps) {
   return (
-    <span className={"inline-flex items-center " + className}>
+    <Row className={"gap-2 sm:gap-2.5 " + className}>
       <svg
         viewBox="0 0 40 40"
         fill="none"
@@ -29,6 +31,6 @@ export default function LocularyLogo({
         />
       </svg>
       <span className={wordmarkClassName}>Loculary</span>
-    </span>
+    </Row>
   );
 }
