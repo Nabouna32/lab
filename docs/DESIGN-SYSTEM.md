@@ -96,3 +96,6 @@ La troisième tranche étend la centralisation aux composants `BottomSheetScaffo
 
 
 La migration des consommateurs de production s'étend à `AppLink`, `ResultPanel`, `RecentTools`, `RelatedTools`, `ToolCard` et `ValidationMessage`. Les liens visuellement assimilés à des boutons utilisent désormais le rôle `label-large` partagé, les contenus de résultat et d'aide utilisent des rôles nommés, et les formes de cartes/tuile traitées consomment des tokens de forme dédiés. Les tests vérifient ces contrats pour éviter une régression vers des classes Tailwind indépendantes.
+
+
+La migration des formes partagées progresse aussi dans les compositions de date, navigation et outils : `DatePicker`, `AppLink`, `RecentTools`, `RelatedTools`, `ToolCard`, `UrlParser`, `JwtDecoder`, `HashGenerator`, `EditorialPrimitives`, `JsonDiffChecker`, `CronExpression` et `ColorConverter` utilisent désormais les tokens de forme partagés pour les éléments migrés. Cette étape ne permet pas encore de supprimer `--radius-md` globalement : d'autres consommateurs restent à migrer et les rayons historiques de 24 px/16 px ne sont pas équivalents à toutes les formes AndroidX.
