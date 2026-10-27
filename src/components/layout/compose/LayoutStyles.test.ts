@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import { AbsoluteAlignment, Alignment } from "./Alignment.ts";
 import { Arrangement } from "./Arrangement.ts";
-import { getColumnLayoutPresentation, getRowLayoutPresentation } from "./LayoutStyles.ts";
+import { getBoxChildStyle, getColumnLayoutPresentation, getRowLayoutPresentation } from "./LayoutStyles.ts";
 
 test("Row maps every main-axis arrangement to the expected flex alignment", () => {
   const cases = [
@@ -78,4 +78,46 @@ test("caller-provided styles override computed defaults without dropping arrange
   assert.equal(result.style.gap, "2rem");
   assert.equal(Reflect.get(result.style, "--compose-layout-negative-gap"), "-4px");
   assert.equal(result.className, "row compose-layout-negative-gap-row");
+});
+
+
+test("Box maps logical alignments to CSS grid self-alignment", () => {
+  const cases = [
+    [Alignment.TopStart, "start", "start"],
+    [Alignment.TopCenter, "center", "start"],
+    [Alignment.TopEnd, "end", "start"],
+    [Alignment.CenterStart, "start", "center"],
+    [Alignment.Center, "center", "center"],
+    [Alignment.CenterEnd, "end", "center"],
+    [Alignment.BottomStart, "start", "end"],
+    [Alignment.BottomCenter, "center", "end"],
+    [Alignment.BottomEnd, "end", "end"],
+  ] as const;
+
+  for (const [alignment, justifySelf, alignSelf] of cases) {
+    assert.deepEqual(getBoxChildStyle(alignment), {
+      gridArea: "1 / 1",
+      justifySelf,
+      alignSelf,
+    });
+  }
+});
+
+test("Box absolute alignments stay physical in RTL and matchParentSize fills its parent", () => {
+  assert.deepEqual(getBoxChildStyle(AbsoluteAlignment.TopLeft), {
+    gridArea: "1 / 1",
+    justifySelf: "left",
+    alignSelf: "start",
+  });
+  assert.deepEqual(getBoxChildStyle(AbsoluteAlignment.BottomRight), {
+    gridArea: "1 / 1",
+    justifySelf: "right",
+    alignSelf: "end",
+  });
+  assert.deepEqual(getBoxChildStyle(Alignment.Center, true), {
+    gridArea: "1 / 1",
+    position: "absolute",
+    inset: 0,
+    display: "grid",
+  });
 });
