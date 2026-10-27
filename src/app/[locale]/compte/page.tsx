@@ -101,9 +101,9 @@ export default async function AccountPage({
           </section>
 
           <section className="overflow-hidden rounded-[var(--m3-panel-shape)] border border-[var(--outline-variant)] bg-[var(--surface)] shadow-[var(--shadow-sm)]" aria-labelledby="account-security-title">
-            <header className="space-y-1 px-5 pb-4 pt-5 sm:px-7 sm:pb-5 sm:pt-7">
+            <Column verticalArrangement={Arrangement.spacedBy("var(--space-1)")} className="px-5 pb-4 pt-5 sm:px-7 sm:pb-5 sm:pt-7">
               <h2 id="account-security-title" className="m3-type-title-large">{t.account.security}</h2>
-            </header>
+            </Column>
             <div className="border-t border-[var(--outline-variant)]">
               <div className="divide-y divide-[var(--outline-variant)]">
                 <Link
