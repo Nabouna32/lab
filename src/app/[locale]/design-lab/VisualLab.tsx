@@ -53,7 +53,7 @@ import { Slider } from "@/components/ui/Slider";
 import { ProgressIndicator } from "@/components/ui/ProgressIndicator";
 import { Button, ElevatedButton, FilledTonalButton, OutlinedButton, TextButton } from "@/components/ui/Button";
 import { IconButton } from "@/components/ui/IconButton";
-import { Card } from "@/components/ui/Card";
+import { Card, ElevatedCard, OutlinedCard } from "@/components/ui/Card";
 import { Panel } from "@/components/ui/Panel";
 import { ResultPanel } from "@/components/ui/ResultPanel";
 import { Checkbox } from "@/components/ui/Checkbox";
@@ -748,7 +748,7 @@ export default function VisualLab({ initialLocale }: { initialLocale: string }) 
         </article>
         <article className={styles.galleryCard}>
           <h3>{locale==="fr"?"Cartes et panneaux partagés":"Shared cards & panels"}</h3><ComponentIdentifier names={["Card","Panel","ResultPanel"]} locale={locale}/>
-          <div className={styles.sharedSurfaceStack}><Card variant="elevated" className={styles.sharedCard}><strong>{locale==="fr"?"Carte élevée":"Elevated card"}</strong><p>{locale==="fr"?"Surface avec élévation légère.":"Surface with subtle elevation."}</p></Card><Card variant="filled" className={styles.sharedCard}><strong>{locale==="fr"?"Carte remplie":"Filled card"}</strong><p>{locale==="fr"?"Surface remplie tonale.":"Tonal filled surface."}</p></Card><Card variant="outlined" className={styles.sharedCard}><strong>{locale==="fr"?"Carte contour":"Outlined card"}</strong><p>{locale==="fr"?"Contour discret, sans ombre.":"Subtle outline, no shadow."}</p></Card></div>
+          <div className={styles.sharedSurfaceStack}><ElevatedCard className={styles.sharedCard}><strong>{locale==="fr"?"Carte élevée":"Elevated card"}</strong><p>{locale==="fr"?"Surface avec élévation légère.":"Surface with subtle elevation."}</p></ElevatedCard><Card className={styles.sharedCard}><strong>{locale==="fr"?"Carte remplie":"Filled card"}</strong><p>{locale==="fr"?"Surface remplie tonale.":"Tonal filled surface."}</p></Card><OutlinedCard className={styles.sharedCard}><strong>{locale==="fr"?"Carte contour":"Outlined card"}</strong><p>{locale==="fr"?"Contour discret, sans ombre.":"Subtle outline, no shadow."}</p></OutlinedCard></div>
           <Panel className={styles.sharedPanel}><strong>{locale==="fr"?"Panneau":"Panel"}</strong><p>{locale==="fr"?"Conteneur partagé pour regrouper les paramètres.":"Shared container for grouped settings."}</p></Panel>
           <ResultPanel label={locale==="fr"?"Résultat calculé":"Calculated result"} value={result} tone="accent"/>
         </article>

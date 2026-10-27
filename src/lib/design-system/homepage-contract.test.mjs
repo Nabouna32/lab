@@ -23,8 +23,8 @@ test("homepage prioritizes its main search, recent tools, guided workflows and E
 });
 
 test("homepage hero uses the shared Material card instead of the bespoke rainbow frame", () => {
-  assert.match(homeSource, /import \{ Card \} from "@\/components\/ui\/Card"/);
-  assert.match(homeSource, /<Card[\s\S]*?variant="elevated"/);
+  assert.match(homeSource, /import \{ ElevatedCard \} from "@\/components\/ui\/Card"/);
+  assert.match(homeSource, /<ElevatedCard/);
   assert.doesNotMatch(homeSource, /home-rainbow-frame|home-command-surface|getRainbowFrameStyle/);
   assert.doesNotMatch(globalStylesSource, /home-rainbow-frame|home-command-surface/);
   assert.doesNotMatch(rainbowTonesSource, /getRainbowFrameStyle|home-rainbow/);

@@ -52,7 +52,7 @@ import { Select } from "@/components/ui/Select";
 import { Slider } from "@/components/ui/Slider";
 import { Tabs } from "@/components/ui/Tabs";
 import { TextArea } from "@/components/ui/TextArea";
-import { Card } from "@/components/ui/Card";
+import { Card, ElevatedCard, OutlinedCard } from "@/components/ui/Card";
 import { Checkbox } from "@/components/ui/Checkbox";
 import { Chip } from "@/components/ui/Chip";
 import { IconButton } from "@/components/ui/IconButton";
@@ -226,7 +226,7 @@ export default function ComponentLivePreview({
       content = <div className="grid gap-3"><AppBarWithSearch title="Loculary" searchLabel={fr ? "Rechercher" : "Search"} placeholder={fr ? "Rechercher un outil" : "Search tools"} query={appBarQuery} onQueryChange={setAppBarQuery} onSearch={setAppBarSubmitted} suggestions={fr ? ["Outils récents","Convertisseur d’images","Calculatrice"] : ["Recent tools","Image converter","Calculator"]} navigationLabel={fr ? "Ouvrir la navigation" : "Open navigation"} locale={locale}/><p className="text-sm text-[var(--muted)]">{fr ? "Recherche envoyée : " : "Submitted search: "}{appBarSubmitted || "—"}</p></div>;
       break;
     case "carousel":
-      content = <Carousel label={fr ? "Parcourir les catégories" : "Browse categories"} layout="uncontained" itemWidth={190} items={[{id:"image",label:fr?"Images":"Images",content:<Card variant="outlined" className="grid gap-2 p-4"><MaterialIcon name="image" size={28}/><strong>{fr?"Outils image":"Image tools"}</strong><span className="text-sm text-[var(--muted)]">12 {fr?"outils":"tools"}</span></Card>},{id:"text",label:fr?"Texte":"Text",content:<Card variant="outlined" className="grid gap-2 p-4"><MaterialIcon name="text_fields" size={28}/><strong>{fr?"Outils texte":"Text tools"}</strong><span className="text-sm text-[var(--muted)]">8 {fr?"outils":"tools"}</span></Card>},{id:"calculate",label:fr?"Calcul":"Calculate",content:<Card variant="outlined" className="grid gap-2 p-4"><MaterialIcon name="calculate" size={28}/><strong>{fr?"Calculatrices":"Calculators"}</strong></Card>}]} />;
+      content = <Carousel label={fr ? "Parcourir les catégories" : "Browse categories"} layout="uncontained" itemWidth={190} items={[{id:"image",label:fr?"Images":"Images",content:<OutlinedCard className="grid gap-2 p-4"><MaterialIcon name="image" size={28}/><strong>{fr?"Outils image":"Image tools"}</strong><span className="text-sm text-[var(--muted)]">12 {fr?"outils":"tools"}</span></OutlinedCard>},{id:"text",label:fr?"Texte":"Text",content:<OutlinedCard className="grid gap-2 p-4"><MaterialIcon name="text_fields" size={28}/><strong>{fr?"Outils texte":"Text tools"}</strong><span className="text-sm text-[var(--muted)]">8 {fr?"outils":"tools"}</span></OutlinedCard>},{id:"calculate",label:fr?"Calcul":"Calculate",content:<OutlinedCard className="grid gap-2 p-4"><MaterialIcon name="calculate" size={28}/><strong>{fr?"Calculatrices":"Calculators"}</strong></OutlinedCard>}]} />;
       break;
     case "bottom-sheet-scaffold":
       content = <div className="max-w-xl"><BottomSheetScaffold title={fr ? "Détails de l’élément" : "Item details"} expanded={bottomSheetExpanded} onExpandedChange={setBottomSheetExpanded} collapsedLabel={fr ? "Développer les détails" : "Expand details"} expandedLabel={fr ? "Réduire les détails" : "Collapse details"} content={<><strong>{fr ? "Contenu principal" : "Main content"}</strong><p>{fr ? "La feuille est ancrée en bas de ce conteneur." : "The sheet is anchored to the bottom of this container."}</p></>} sheetContent={<p>{fr ? "Informations complémentaires et actions liées à l’élément." : "Additional information and related actions."}</p>} /></div>;
@@ -468,9 +468,9 @@ export default function ComponentLivePreview({
     case "card":
       content = (
         <div className="grid gap-3 sm:grid-cols-3">
-          <Card variant="elevated" className="p-4"><p className="font-medium">Elevated</p><p className="mt-1 text-sm text-[var(--muted)]">{fr ? "Surface avec élévation" : "Elevated surface"}</p></Card>
-          <Card variant="filled" className="p-4"><p className="font-medium">Filled</p><p className="mt-1 text-sm text-[var(--muted)]">{fr ? "Surface remplie" : "Filled surface"}</p></Card>
-          <Card variant="outlined" className="p-4"><p className="font-medium">Outlined</p><p className="mt-1 text-sm text-[var(--muted)]">{fr ? "Surface avec contour" : "Outlined surface"}</p></Card>
+          <ElevatedCard className="p-4"><p className="font-medium">Elevated</p><p className="mt-1 text-sm text-[var(--muted)]">{fr ? "Surface avec élévation" : "Elevated surface"}</p></ElevatedCard>
+          <Card className="p-4"><p className="font-medium">Filled</p><p className="mt-1 text-sm text-[var(--muted)]">{fr ? "Surface remplie" : "Filled surface"}</p></Card>
+          <OutlinedCard className="p-4"><p className="font-medium">Outlined</p><p className="mt-1 text-sm text-[var(--muted)]">{fr ? "Surface avec contour" : "Outlined surface"}</p></OutlinedCard>
         </div>
       );
       break;

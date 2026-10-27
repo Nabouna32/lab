@@ -337,7 +337,8 @@ test("Design Lab includes extended Material 3 navigation, field, list, menu, pro
 
 test("Design Lab renders the shared production UI primitives against the active Material 3 scheme", () => {
   const labSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
-  for (const component of ["IconButton", "Card", "Panel", "ResultPanel", "Checkbox", "TextField", "TextArea", "ExposedDropdownMenu", "ModalBottomSheet", "AlertDialog", "SegmentedControl", "ValidationMessage", "Switch"]) {
+  assert.ok(labSource.includes('import { Card, ElevatedCard, OutlinedCard } from "@/components/ui/Card"'));
+  for (const component of ["IconButton", "Panel", "ResultPanel", "Checkbox", "TextField", "TextArea", "ExposedDropdownMenu", "ModalBottomSheet", "AlertDialog", "SegmentedControl", "ValidationMessage", "Switch"]) {
     assert.match(labSource, new RegExp(`import \\{ ${component} \\} from "@\\/components\\/ui\\/${component}"`), `missing shared component import: ${component}`);
   }
   assert.ok(labSource.includes('import { Button, ElevatedButton, FilledTonalButton, OutlinedButton, TextButton } from "@/components/ui/Button"'));
@@ -397,10 +398,16 @@ test("outlined form controls use semantic extra-small shape tokens and per-part 
   assert.match(labSource, /variant=\{textAreaVariant\} rows=\{3\}/);
   assert.match(selectSource, /rounded-\[var\(--shape-corner-extra-small\)\]/);
   assert.match(selectSource, /min-h-14/);
+  assert.match(cardSource, /export function Card/);
   assert.match(cardSource, /shape-corner-medium/);
-  assert.match(cardSource, /surface-container-low/);
   assert.match(cardSource, /surface-container-highest/);
+  assert.match(cardSource, /export function ElevatedCard/);
+  assert.match(cardSource, /surface-container-low/);
+  assert.match(cardSource, /export function OutlinedCard/);
+  assert.match(cardSource, /outline-variant/);
+  assert.match(cardSource, /export function CardLink/);
   assert.match(cardSource, /focus-visible:ring-2/);
+  assert.doesNotMatch(cardSource, /variant\?: CardVariant/);
   assert.match(panelSource, /shape-corner-medium/);
   assert.match(resultPanelSource, /shape-corner-medium/);
   for (const [name, source] of [["TextField", textFieldSource], ["TextArea", textAreaSource], ["Select", selectSource]]) {
