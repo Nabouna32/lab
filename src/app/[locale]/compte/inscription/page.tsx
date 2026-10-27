@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { PageContainer } from "@/components/layout/PageLayout";
+import { Arrangement } from "@/components/layout/compose/Arrangement";
+import { Column } from "@/components/layout/compose/Column";
 import { notFound } from "next/navigation";
 import { signUp } from "../actions";
 import SubmitButton from "@/components/account/SubmitButton";
@@ -54,7 +56,8 @@ export default async function SignUpPage({
               {query.error === "rate-limited" ? t.account.authRateLimited : query.error === "weak-password" ? t.account.weakPassword : t.account.signUpError}
             </p>
           )}
-          <form action={signUp} className="mt-6 space-y-5">
+          <form action={signUp}>
+          <Column verticalArrangement={Arrangement.spacedBy("var(--space-5)")}>
             <input type="hidden" name="locale" value={locale} />
             <TextField label={t.account.displayName} inputId="sign-up-display-name" name="displayName" type="text" autoComplete="name" maxLength={80} />
             <TextField label={t.account.email} inputId="sign-up-email" name="email" type="email" autoComplete="email" required />
@@ -62,7 +65,8 @@ export default async function SignUpPage({
             <SubmitButton pendingLabel={t.account.submitSignUp} className="w-full">
               {t.account.submitSignUp}
             </SubmitButton>
-          </form>
+                    </Column>
+        </form>
           <p className="mt-6 border-t border-[var(--border)] pt-5 text-center m3-type-body-medium text-[var(--muted)]">
             {t.account.hasAccount}{" "}
             <Link className="m3-type-label-large text-[var(--primary)] hover:underline" href={`/${locale}/compte/connexion`}>{t.account.signIn}</Link>
