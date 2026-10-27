@@ -77,8 +77,10 @@
   background: transparent;
   color: var(--lab-on-surface-variant, currentColor);
   font: inherit;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: var(--m3-type-label-large-size);
+  line-height: var(--m3-type-label-large-line-height);
+  font-weight: var(--m3-type-label-large-weight);
+  letter-spacing: var(--m3-type-label-large-tracking);
   text-align: start;
   cursor: pointer;
 }
