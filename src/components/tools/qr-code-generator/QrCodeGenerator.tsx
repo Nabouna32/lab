@@ -79,7 +79,7 @@ export default function QrCodeGenerator() {
             <div className="space-y-4">
               <div className="space-y-1.5">
                 <label htmlFor="qr-wifi-ssid" className="block text-sm font-medium">{isFrench ? "Nom du réseau (SSID)" : "Network name (SSID)"}</label>
-                <input id="qr-wifi-ssid" value={ssid} onChange={(event) => setSsid(event.target.value)} autoComplete="off" className="w-full rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] px-3 py-2.5 text-sm text-[var(--on-surface)]" />
+                <input id="qr-wifi-ssid" value={ssid} onChange={(event) => setSsid(event.target.value)} autoComplete="off" className="w-full rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--surface)] px-3 py-2.5 text-sm text-[var(--on-surface)]" />
               </div>
               <div className="space-y-1.5">
                 <label htmlFor="qr-wifi-security" className="block text-sm font-medium">{isFrench ? "Sécurité du réseau" : "Network security"}</label>
@@ -92,7 +92,7 @@ export default function QrCodeGenerator() {
               {security !== "nopass" && (
                 <div className="space-y-1.5">
                   <label htmlFor="qr-wifi-password" className="block text-sm font-medium">{isFrench ? "Mot de passe Wi-Fi" : "Wi-Fi password"}</label>
-                  <input id="qr-wifi-password" type="password" value={password} onChange={(event) => setPassword(event.target.value)} autoComplete="new-password" className="w-full rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] px-3 py-2.5 text-sm text-[var(--on-surface)]" />
+                  <input id="qr-wifi-password" type="password" value={password} onChange={(event) => setPassword(event.target.value)} autoComplete="new-password" className="w-full rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--surface)] px-3 py-2.5 text-sm text-[var(--on-surface)]" />
                 </div>
               )}
               <label className="flex items-center gap-2 text-sm">
@@ -145,7 +145,7 @@ export default function QrCodeGenerator() {
 
         <div className="flex min-h-72 items-center justify-center border-t border-[var(--border)] pt-6 lg:border-l lg:border-t-0 lg:pl-7 lg:pt-0">
           {result?.qr ? (
-            <div className="rounded-[var(--radius-md)] border border-[var(--border)] bg-white p-4 shadow-[var(--shadow-sm)]">
+            <div className="rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-white p-4 shadow-[var(--shadow-sm)]">
               <svg
                 ref={svgRef}
                 xmlns="http://www.w3.org/2000/svg"
