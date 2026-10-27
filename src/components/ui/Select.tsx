@@ -10,7 +10,7 @@ export function Select({ label, id, className = "", disabled = false, ...props }
   return (
     <div>
       {label && (
-        <label htmlFor={id} className={"mb-2 block text-sm font-medium " + (disabled ? "text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]" : isInvalid ? "text-[var(--danger)]" : "text-[var(--foreground)]")}>
+        <label htmlFor={id} className={"m3-type-body-medium mb-2 block " + (disabled ? "text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]" : isInvalid ? "text-[var(--danger)]" : "text-[var(--foreground)]")}>
           {label}
         </label>
       )}
@@ -18,7 +18,7 @@ export function Select({ label, id, className = "", disabled = false, ...props }
         id={id}
         disabled={disabled}
         className={[
-          "min-h-14 w-full rounded-[var(--shape-corner-extra-small)] border border-[var(--border)] bg-[var(--surface)] px-3.5 py-2.5 text-sm font-medium text-[var(--foreground)] outline-none transition-[border-color,box-shadow,background-color] duration-[var(--motion-standard)]",
+          "m3-type-body-large min-h-14 w-full rounded-[var(--shape-corner-extra-small)] border border-[var(--border)] bg-[var(--surface)] px-3.5 py-2.5 text-[var(--foreground)] outline-none transition-[border-color,box-shadow,background-color] duration-[var(--motion-standard)]",
           "hover:border-[var(--border-strong)] hover:bg-[var(--surface-soft)]",
           "aria-[invalid=true]:border-[var(--danger)] aria-[invalid=true]:focus-visible:border-[var(--danger)] aria-[invalid=true]:focus-visible:ring-[var(--danger)]/20",
           "focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]",
