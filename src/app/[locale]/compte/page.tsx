@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import { signOut } from "./actions";
 import AppLink from "@/components/ui/AppLink";
 import { PageContainer } from "@/components/layout/PageLayout";
+import { Arrangement } from "@/components/layout/compose/Arrangement";
+import { Column } from "@/components/layout/compose/Column";
 import SubmitButton from "@/components/account/SubmitButton";
 import { Panel } from "@/components/ui/Panel";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
@@ -61,10 +63,10 @@ export default async function AccountPage({
   return (
     <main className="min-h-full">
       <PageContainer width="narrow" spacing="none" className="py-[var(--space-7)] sm:py-[var(--space-9)] lg:py-[var(--space-10)]">
-        <header className="mb-8 space-y-2">
+        <Column verticalArrangement={Arrangement.spacedBy("var(--space-2)")} className="mb-8">
           <h1 className="m3-type-headline-medium">{t.account.title}</h1>
           <p className="max-w-2xl text-[var(--on-surface-variant)]">{t.account.pageDescription}</p>
-        </header>
+        </Column>
 
         {statusMessage ? (
           <p
@@ -77,11 +79,11 @@ export default async function AccountPage({
           </p>
         ) : null}
 
-        <div className="space-y-6">
+        <Column verticalArrangement={Arrangement.spacedBy("var(--space-6)")}>
           <section className="overflow-hidden rounded-[var(--m3-panel-shape)] border border-[var(--outline-variant)] bg-[var(--surface)] shadow-[var(--shadow-sm)]" aria-labelledby="account-profile-title">
-            <header className="space-y-1 px-5 pb-4 pt-5 sm:px-7 sm:pb-5 sm:pt-7">
+            <Column verticalArrangement={Arrangement.spacedBy("var(--space-1)")} className="px-5 pb-4 pt-5 sm:px-7 sm:pb-5 sm:pt-7">
               <h2 id="account-profile-title" className="m3-type-title-large">{t.account.profile}</h2>
-            </header>
+            </Column>
             <div className="border-t border-[var(--outline-variant)]">
               <Link
                 className="group block min-w-0 outline-none transition-colors hover:bg-[var(--surface-container-low)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] motion-reduce:transition-none"
@@ -161,7 +163,7 @@ export default async function AccountPage({
               {t.account.deleteAccount}
             </AppLink>
           </section>
-        </div>
+        </Column>
       </PageContainer>
     </main>
   );
