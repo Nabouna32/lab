@@ -8,6 +8,8 @@ import { TextField } from "@/components/ui/TextField";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { evaluateContrast, parseColor, suggestAccessibleForeground } from "@/lib/contrast-checker";
+import { Arrangement } from "@/components/layout/compose/Arrangement";
+import { Column } from "@/components/layout/compose/Column";
 
 const DEFAULT_FOREGROUND = "#111827";
 const DEFAULT_BACKGROUND = "#ffffff";
@@ -38,7 +40,7 @@ export default function ContrastChecker() {
   return (
     <section className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]">
       <div className="grid gap-5 p-5 sm:p-7 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.75fr)] lg:p-8">
-        <div className="space-y-5">
+        <Column verticalArrangement={Arrangement.spacedBy(20)}>
           <div className="grid gap-4 sm:grid-cols-2">
             <ColorField
               id="contrast-foreground"
@@ -73,7 +75,7 @@ export default function ContrastChecker() {
           </div>
 
           <p className="text-xs leading-5 text-[var(--muted)]">{t.colorHint}</p>
-        </div>
+        </Column>
 
         <div className="border-t border-[var(--border)] pt-5 lg:border-l lg:border-t-0 lg:pl-7 lg:pt-0">
           <p className="text-sm font-semibold text-[var(--muted)]">{t.result}</p>

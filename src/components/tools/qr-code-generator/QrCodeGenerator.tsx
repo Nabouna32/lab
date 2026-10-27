@@ -8,6 +8,8 @@ import { Select } from "@/components/ui/Select";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { generateQrCode } from "@/lib/qr-code";
+import { Arrangement } from "@/components/layout/compose/Arrangement";
+import { Column } from "@/components/layout/compose/Column";
 import { buildWifiQrPayload, type WifiSecurity } from "@/lib/wifi-qr";
 
 const DEFAULT_VALUE = "https://example.com";
@@ -61,7 +63,7 @@ export default function QrCodeGenerator() {
   return (
     <section className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]">
       <div className="grid gap-6 p-5 sm:p-7 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.85fr)] lg:p-8">
-        <div className="space-y-5">
+        <Column verticalArrangement={Arrangement.spacedBy(20)}>
           <Select
             id="qr-code-mode"
             label={isFrench ? "Type de QR Code" : "QR Code type"}
@@ -139,7 +141,7 @@ export default function QrCodeGenerator() {
               <ClearButton onClear={clear} disabled={mode === "wifi" ? !ssid && !password && !hidden : !value} label={t.clear} />
             </div>
           </div>
-        </div>
+        </Column>
 
         <div className="flex min-h-72 items-center justify-center border-t border-[var(--border)] pt-6 lg:border-l lg:border-t-0 lg:pl-7 lg:pt-0">
           {result?.qr ? (

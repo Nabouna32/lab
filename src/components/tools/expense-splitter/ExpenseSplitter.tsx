@@ -4,6 +4,8 @@ import { useMemo, useState } from "react";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { calculateExpenseSettlement, type SharedExpense } from "@/lib/expense-splitter";
 import { Button, OutlinedButton } from "@/components/ui/Button";
+import { Arrangement } from "@/components/layout/compose/Arrangement";
+import { Column } from "@/components/layout/compose/Column";
 
 type Participant = { id: string; name: string };
 type Currency = "EUR" | "USD" | "GBP" | "CHF" | "CAD";
@@ -125,7 +127,7 @@ export default function ExpenseSplitter() {
   }
 
   return (
-    <div className="space-y-6">
+    <Column verticalArrangement={Arrangement.spacedBy(24)}>
       <p className="text-sm leading-6 text-[var(--muted)]">{t.intro}</p>
 
       <section className="rounded-2xl border border-[var(--outline-variant)] p-4 sm:p-5" aria-labelledby="expense-people-title">
@@ -245,6 +247,6 @@ export default function ExpenseSplitter() {
         </section>
       )}
       <p className="text-xs leading-5 text-[var(--muted)]">{t.localNote}</p>
-    </div>
+    </Column>
   );
 }
