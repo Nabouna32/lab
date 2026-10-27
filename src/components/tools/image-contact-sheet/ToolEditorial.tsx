@@ -13,5 +13,5 @@ export default function ToolEditorial({ locale }: { locale: Locale }) {
     { title: "Download and share", text: "Export the sheet as a PNG, ready for previews, printing, or adding to a document. Image proportions are preserved." },
     { title: "Local processing with clear limits", text: "Images are decoded and arranged in your browser. Nothing is uploaded or stored on a server. Limit: 20 images and 50 MB total; very large images are resized to keep memory use bounded." },
   ];
-  return <Column verticalArrangement={Arrangement.spacedByCss("var(--space-5)")}>{sections.map((section) => <ToolSection key={section.title} title={section.title}><p>{section.text}</p></ToolSection>)}</Column>;
+  return <Column verticalArrangement={Arrangement.spacedBy("var(--space-5)")}>{sections.map((section) => <ToolSection key={section.title} title={section.title}><p>{section.text}</p></ToolSection>)}</Column>;
 }

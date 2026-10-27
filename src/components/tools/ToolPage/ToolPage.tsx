@@ -70,7 +70,7 @@ export default function ToolPage({
 
           {content && (
             <div className="border-t border-[var(--border)] bg-[var(--surface-soft)]/35 p-5 sm:p-8 lg:p-10">
-              <Column className="tool-page-editorial-stack" verticalArrangement={Arrangement.spacedByCss("var(--tool-page-content-gap)")}>{content}</Column>
+              <Column className="tool-page-editorial-stack" verticalArrangement={Arrangement.spacedBy("var(--tool-page-content-gap)")}>{content}</Column>
             </div>
           )}
         </div>

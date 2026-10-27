@@ -125,10 +125,10 @@ test("AndroidX-named layout ports provide explicit spacing and product page comp
   assert.ok(columnSource.includes("export function Column"));
   assert.ok(columnSource.includes("verticalArrangement?: VerticalArrangement"));
   assert.ok(columnSource.includes("verticalArrangement = Arrangement.Top"));
-  assert.ok(arrangementSource.includes("spacedBy(space: number)"));
+  assert.ok(arrangementSource.includes("spacedBy(space: number | string)"));
   assert.ok(arrangementSource.includes("kind: " + '"spacedBy"'));
   assert.equal((informationPageSource.match(/<PageContainer width="narrow" spacing="default">/g) ?? []).length, 3);
-  assert.equal(informationPageSource.split('<Column verticalArrangement={Arrangement.spacedByCss("var(--layout-content-gap)")}>').length - 1, 3);
+  assert.equal(informationPageSource.split('<Column verticalArrangement={Arrangement.spacedBy("var(--layout-content-gap)")}>').length - 1, 3);
 });
 
 
@@ -168,11 +168,11 @@ test("Arrangement.spacedBy returns a validated explicit Web gap", () => {
   assert.throws(() => Arrangement.spacedBy(Number.NaN), RangeError);
   assert.ok(globalCss.includes(".compose-layout-negative-gap-row > * + *"));
   assert.ok(globalCss.includes(".compose-layout-negative-gap-column > * + *"));
-  assert.deepEqual(Arrangement.spacedByCss("var(--layout-content-gap)"), {
-    kind: "spacedByCss",
+  assert.deepEqual(Arrangement.spacedBy("var(--layout-content-gap)"), {
+    kind: "spacedBy",
     space: "var(--layout-content-gap)",
   });
-  assert.throws(() => Arrangement.spacedByCss("  "), TypeError);
+  assert.throws(() => Arrangement.spacedBy("  "), TypeError);
 });
 
 function getModifierElementProps(node: unknown): { style?: Record<string, unknown>; children?: unknown } {
@@ -289,7 +289,7 @@ test("Arrangement exposes the AndroidX alignment overloads for spacedBy and alig
 
 test("ToolPage uses the shared Column primitive for editorial content spacing", () => {
   assert.ok(toolPageSource.includes('import { Column } from "@/components/layout/compose/Column"'));
-  assert.ok(toolPageSource.includes('Arrangement.spacedByCss("var(--tool-page-content-gap)")'));
+  assert.ok(toolPageSource.includes('Arrangement.spacedBy("var(--tool-page-content-gap)")'));
   assert.ok(toolPageSource.includes('className="tool-page-editorial-stack"'));
   assert.ok(!toolPageSource.includes("space-y-8 sm:space-y-10"));
   assert.ok(globalCss.includes(".tool-page-editorial-stack"));
@@ -300,7 +300,7 @@ test("ToolPage uses the shared Column primitive for editorial content spacing", 
 
 test("tool editorial sections use Column and the shared spacing scale", () => {
   for (const source of [imagePdfEditorialSource, contactSheetEditorialSource, expenseSplitterEditorialSource]) {
-    assert.ok(source.includes('Arrangement.spacedByCss("var(--space-5)")'));
+    assert.ok(source.includes('Arrangement.spacedBy("var(--space-5)")'));
     assert.ok(source.includes('import { Column } from "@/components/layout/compose/Column"'));
     assert.ok(!source.includes("space-y-5"));
   }

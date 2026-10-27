@@ -4,8 +4,9 @@ import type { HorizontalAlignment, VerticalAlignment } from "./Alignment";
  * Partial Web adaptation of androidx.compose.foundation.layout.Arrangement.
  * AndroidX API: https://developer.android.com/reference/kotlin/androidx/compose/foundation/layout/Arrangement
  *
- * Spacing values are CSS pixels, not Android Dp. This adapter intentionally keeps
- * unsupported measurement behavior explicit instead of claiming full Compose parity.
+ * Numeric spacing follows the Loculary port convention: 1 Android Dp = 1 CSS px.
+ * String values are a Web adaptation that accepts semantic CSS tokens through this same API.
+ * Browser layout still does not reproduce Compose measurement in every case.
  */
 
 export type ArrangementKind =
@@ -18,20 +19,13 @@ export type ArrangementKind =
   | "spaceAround"
   | "spaceEvenly"
   | "aligned"
-  | "spacedBy"
-  | "spacedByCss";
+  | "spacedBy";
 
 export type SpacedByArrangement<AxisAlignment extends string = never> = {
   readonly kind: "spacedBy";
-  /** CSS pixels in this Web port, not Android Dp. */
-  readonly space: number;
+  /** Numeric Dp maps 1:1 to CSS px; strings are a Web extension for semantic CSS tokens. */
+  readonly space: number | string;
   readonly alignment?: AxisAlignment;
-};
-
-export type CssSpacedByArrangement = {
-  readonly kind: "spacedByCss";
-  /** Explicit Web-only extension; use a shared semantic CSS token where possible. */
-  readonly space: string;
 };
 
 export type AlignedHorizontalArrangement = {
@@ -46,30 +40,29 @@ export type AlignedVerticalArrangement = {
 
 export type HorizontalArrangement =
   | SpacedByArrangement<HorizontalAlignment>
-  | CssSpacedByArrangement
   | AlignedHorizontalArrangement
   | { readonly kind: "start" | "end" | "center" | "spaceBetween" | "spaceAround" | "spaceEvenly" };
 
 export type VerticalArrangement =
   | SpacedByArrangement<VerticalAlignment>
-  | CssSpacedByArrangement
   | AlignedVerticalArrangement
   | { readonly kind: "top" | "bottom" | "center" | "spaceBetween" | "spaceAround" | "spaceEvenly" };
 
 function assertFiniteSpacing(space: number): void {
   if (!Number.isFinite(space)) {
-    throw new RangeError("Arrangement.spacedBy(space) requires a finite CSS pixel value.");
+    throw new RangeError("Arrangement.spacedBy(space) requires a finite numeric Dp value.");
   }
 }
 
-function spacedBy(space: number): SpacedByArrangement;
-function spacedBy(space: number, alignment: HorizontalAlignment): SpacedByArrangement<HorizontalAlignment>;
-function spacedBy(space: number, alignment: VerticalAlignment): SpacedByArrangement<VerticalAlignment>;
+function spacedBy(space: number | string): SpacedByArrangement;
+function spacedBy(space: number | string, alignment: HorizontalAlignment): SpacedByArrangement<HorizontalAlignment>;
+function spacedBy(space: number | string, alignment: VerticalAlignment): SpacedByArrangement<VerticalAlignment>;
 function spacedBy(
-  space: number,
+  space: number | string,
   alignment?: HorizontalAlignment | VerticalAlignment,
 ): SpacedByArrangement<HorizontalAlignment | VerticalAlignment> {
-  assertFiniteSpacing(space);
+  if (typeof space === "number") assertFiniteSpacing(space);
+  else if (!space.trim()) throw new TypeError("Arrangement.spacedBy(space) requires a non-empty CSS length or token.");
   return alignment === undefined
     ? { kind: "spacedBy", space }
     : { kind: "spacedBy", space, alignment };
@@ -79,14 +72,6 @@ function aligned(alignment: HorizontalAlignment): AlignedHorizontalArrangement;
 function aligned(alignment: VerticalAlignment): AlignedVerticalArrangement;
 function aligned(alignment: HorizontalAlignment | VerticalAlignment): AlignedHorizontalArrangement | AlignedVerticalArrangement {
   return { kind: "aligned", alignment } as AlignedHorizontalArrangement | AlignedVerticalArrangement;
-}
-
-function spacedByCss(space: string): CssSpacedByArrangement {
-  if (!space.trim()) {
-    throw new TypeError("Arrangement.spacedByCss(space) requires a non-empty CSS length or variable.");
-  }
-
-  return { kind: "spacedByCss", space };
 }
 
 export const Arrangement = {
@@ -107,9 +92,4 @@ export const Arrangement = {
   spacedBy,
   /** Aligns a packed group when the main axis has remaining space, as in AndroidX. */
   aligned,
-  /**
-   * Web-only extension for shared CSS design tokens; not an AndroidX API.
-   * Prefer this for Loculary semantic spacing so page values cannot drift.
-   */
-  spacedByCss,
 } as const;

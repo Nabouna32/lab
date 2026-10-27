@@ -24,7 +24,7 @@ export default function HomeGuidedWorkflows({ locale }: { locale: Locale }) {
           className="group block min-h-20 rounded-2xl border border-[var(--outline-variant)]/70 bg-[var(--surface-container-low)] p-4 outline-none transition-[border-color,background-color] duration-[var(--motion-standard)] hover:border-[var(--primary)]/50 hover:bg-[var(--surface-container)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] sm:px-5"
         >
           <Row
-            horizontalArrangement={Arrangement.spacedByCss("var(--home-workflow-card-gap)")}
+            horizontalArrangement={Arrangement.spacedBy("var(--home-workflow-card-gap)")}
             verticalAlignment={Alignment.CenterVertically}
             className="[--home-workflow-card-gap:var(--space-3)] sm:[--home-workflow-card-gap:var(--space-4)]"
           >

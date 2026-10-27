@@ -13,8 +13,8 @@ function joinClassNames(...names: Array<string | undefined>): string | undefined
 }
 
 function rowJustifyContent(arrangement: HorizontalArrangement): CSSProperties["justifyContent"] {
-  if (arrangement.kind === "spacedBy" || arrangement.kind === "spacedByCss") {
-    if (arrangement.kind === "spacedBy" && arrangement.alignment) {
+  if (arrangement.kind === "spacedBy") {
+    if (arrangement.alignment) {
       return ({
         start: "flex-start",
         centerHorizontally: "center",
@@ -47,8 +47,8 @@ function rowJustifyContent(arrangement: HorizontalArrangement): CSSProperties["j
 }
 
 function columnJustifyContent(arrangement: VerticalArrangement): CSSProperties["justifyContent"] {
-  if (arrangement.kind === "spacedBy" || arrangement.kind === "spacedByCss") {
-    if (arrangement.kind === "spacedBy" && arrangement.alignment) {
+  if (arrangement.kind === "spacedBy") {
+    if (arrangement.alignment) {
       return ({
         top: "flex-start",
         centerVertically: "center",
@@ -77,21 +77,21 @@ function columnJustifyContent(arrangement: VerticalArrangement): CSSProperties["
 }
 
 function rowSpacingStyle(arrangement: HorizontalArrangement): CSSProperties {
-  if (arrangement.kind === "spacedBy") {
-    return arrangement.space < 0
-      ? ({ gap: 0, "--compose-layout-negative-gap": `${arrangement.space}px` } as CSSProperties)
-      : { gap: `${arrangement.space}px` };
-  }
-  return arrangement.kind === "spacedByCss" ? { gap: arrangement.space } : {};
+  if (arrangement.kind !== "spacedBy") return {};
+  if (typeof arrangement.space === "string") return { gap: arrangement.space };
+  return arrangement.space < 0
+    ? ({ gap: 0, "--compose-layout-negative-gap": `${arrangement.space}px` } as CSSProperties)
+    : { gap: `${arrangement.space}px` };
 }
 
 function columnSpacingStyle(arrangement: VerticalArrangement): CSSProperties {
   if (arrangement.kind === "spacedBy") {
+    if (typeof arrangement.space === "string") return { gap: arrangement.space };
     return arrangement.space < 0
       ? ({ gap: 0, "--compose-layout-negative-gap": `${arrangement.space}px` } as CSSProperties)
       : { gap: `${arrangement.space}px` };
   }
-  return arrangement.kind === "spacedByCss" ? { gap: arrangement.space } : {};
+  return {};
 }
 
 export function getRowLayoutPresentation(
@@ -100,7 +100,7 @@ export function getRowLayoutPresentation(
   className?: string,
   style?: CSSProperties,
 ): LayoutPresentation {
-  const hasNegativeGap = horizontalArrangement.kind === "spacedBy" && horizontalArrangement.space < 0;
+  const hasNegativeGap = horizontalArrangement.kind === "spacedBy" && typeof horizontalArrangement.space === "number" && horizontalArrangement.space < 0;
   return {
     className: joinClassNames(className, hasNegativeGap ? "compose-layout-negative-gap-row" : undefined),
     style: {
@@ -124,7 +124,7 @@ export function getColumnLayoutPresentation(
   className?: string,
   style?: CSSProperties,
 ): LayoutPresentation {
-  const hasNegativeGap = verticalArrangement.kind === "spacedBy" && verticalArrangement.space < 0;
+  const hasNegativeGap = verticalArrangement.kind === "spacedBy" && typeof verticalArrangement.space === "number" && verticalArrangement.space < 0;
   const absoluteAlignmentClass = horizontalAlignment === "left"
     ? "compose-column-align-absolute-left"
     : horizontalAlignment === "right"

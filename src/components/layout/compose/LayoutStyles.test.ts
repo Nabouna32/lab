@@ -32,7 +32,7 @@ test("Row preserves fixed spacing and applies its optional group alignment", () 
     "flex-end",
   );
   assert.equal(
-    getRowLayoutPresentation(Arrangement.spacedByCss("var(--space-4)")).style.gap,
+    getRowLayoutPresentation(Arrangement.spacedBy("var(--space-4)")).style.gap,
     "var(--space-4)",
   );
 });

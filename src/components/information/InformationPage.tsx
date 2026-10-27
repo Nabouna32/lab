@@ -27,7 +27,7 @@ export default function InformationPage({ locale, kind }: { locale: Locale; kind
       <main className="min-h-full" aria-labelledby="information-title">
         <PageContainer width="narrow" spacing="default">
           <article className="w-full rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8 lg:p-10">
-            <Column verticalArrangement={Arrangement.spacedByCss("var(--layout-content-gap)")}>
+            <Column verticalArrangement={Arrangement.spacedBy("var(--layout-content-gap)")}>
               <h1 id="information-title" className="text-3xl font-bold tracking-tight text-[var(--foreground)] sm:text-4xl">{page.title}</h1>
               <p className="text-base leading-7 text-[var(--muted)]">{page.intro}</p>
               <section aria-labelledby="principles-title">
@@ -56,7 +56,7 @@ export default function InformationPage({ locale, kind }: { locale: Locale; kind
       <main className="min-h-full" aria-labelledby="information-title">
         <PageContainer width="narrow" spacing="default">
           <article className="w-full rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8 lg:p-10">
-            <Column verticalArrangement={Arrangement.spacedByCss("var(--layout-content-gap)")}>
+            <Column verticalArrangement={Arrangement.spacedBy("var(--layout-content-gap)")}>
               <h1 id="information-title" className="text-3xl font-bold tracking-tight text-[var(--foreground)] sm:text-4xl">{page.title}</h1>
               <p className="text-base leading-7 text-[var(--muted)]">{page.intro}</p>
               <section aria-labelledby="general-contact-title">
@@ -80,7 +80,7 @@ export default function InformationPage({ locale, kind }: { locale: Locale; kind
     <main className="min-h-full" aria-labelledby="information-title">
       <PageContainer width="narrow" spacing="default">
         <article className="w-full rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8 lg:p-10">
-          <Column verticalArrangement={Arrangement.spacedByCss("var(--layout-content-gap)")}>
+          <Column verticalArrangement={Arrangement.spacedBy("var(--layout-content-gap)")}>
             <h1 id="information-title" className="text-3xl font-bold tracking-tight text-[var(--foreground)] sm:text-4xl">{page.title}</h1>
             <p className="text-base leading-7 text-[var(--muted)]">{page.intro}</p>
             <aside className="rounded-2xl border border-[var(--border)] p-4" aria-labelledby="status-title">
