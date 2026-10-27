@@ -92,7 +92,7 @@ export function TextField({
           className={inputClasses}
         />
         {unit && (
-          <span className={"pointer-events-none absolute inset-y-0 right-3.5 flex items-center text-sm " + (disabled ? "text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]" : "text-[var(--muted)]")}>
+          <span className={"m3-type-body-large pointer-events-none absolute inset-y-0 right-3.5 flex items-center " + (disabled ? "text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]" : "text-[var(--muted)]")}>
             {unit}
           </span>
         )}
