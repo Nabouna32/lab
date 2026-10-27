@@ -919,3 +919,31 @@ test("tool section headings and descriptions consume shared Material 3 typograph
   assert.match(toolSection, /m3-type-body-medium/);
   assert.doesNotMatch(toolSection, /text-base font-bold tracking-tight|text-sm leading-6/);
 });
+
+
+test("ListItem follows AndroidX baseline metrics and safely wraps long content", () => {
+  const listItem = readFileSync(new URL("../../components/ui/ListItem.tsx", import.meta.url), "utf8");
+  const listItemCss = readFileSync(new URL("../../components/ui/ListItem.module.css", import.meta.url), "utf8");
+  const spec = readFileSync(new URL("../../../docs/material3/components/ListItem.md", import.meta.url), "utf8");
+
+  assert.match(listItem, /lines = overline && supporting \? 3 : supporting \|\| overline \? 2 : 1/);
+  assert.match(listItemCss, /\.lines-1\{min-height:56px\}/);
+  assert.match(listItemCss, /\.lines-2\{min-height:72px\}/);
+  assert.match(listItemCss, /\.lines-3\{min-height:88px;padding-block:12px\}/);
+  assert.match(listItemCss, /min-width:0/);
+  assert.match(listItemCss, /overflow-wrap:anywhere/);
+  assert.match(listItemCss, /m3-type-body-large-size/);
+  assert.match(listItemCss, /m3-type-body-medium-size/);
+  assert.match(spec, /AndroidX Material 3 \*\*1\.4\.0\*\*/);
+  assert.match(spec, /hauteurs ci-dessus sont des minima/);
+});
+
+test("account settings use a native link around shared ListItem and avoid duplicate email display", () => {
+  const accountPage = readFileSync(new URL("../../app/[locale]/compte/page.tsx", import.meta.url), "utf8");
+
+  assert.match(accountPage, /import \{ ListItem \} from "@\/components\/ui\/ListItem"/);
+  assert.match(accountPage, /<Link[\s\S]*?href=\{\`\/\$\{locale\}\/compte\/email\`\}[\s\S]*?<ListItem[\s\S]*?headline=\{t\.account\.changeEmail\}[\s\S]*?supporting=\{user\.email\}/);
+  assert.match(accountPage, /<h1 className="m3-type-headline-medium">\{t\.account\.title\}<\/h1>/);
+  assert.equal((accountPage.match(/\{user\.email\}/g) || []).length, 1);
+  assert.doesNotMatch(accountPage, /t\.account\.label/);
+});
