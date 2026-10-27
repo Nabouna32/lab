@@ -15,7 +15,7 @@
   letter-spacing: var(--m3-type-body-medium-tracking);
 }
 
- .label {
+.label {
   color: var(--slider-label-color, var(--foreground));
   font-size: var(--m3-type-label-large-size);
   line-height: var(--m3-type-label-large-line-height);
@@ -23,7 +23,7 @@
   letter-spacing: var(--m3-type-label-large-tracking);
 }
 
- .value {
+.value {
   color: var(--slider-value-color, var(--foreground));
   font-size: var(--m3-type-label-large-size);
   line-height: var(--m3-type-label-large-line-height);
