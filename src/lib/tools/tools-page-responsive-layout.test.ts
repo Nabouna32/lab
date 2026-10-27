@@ -19,9 +19,10 @@ test("tools page constrains its responsive grid to the available inline size", (
     toolsPageSource.includes("group flex min-w-0 min-h-20 items-center"),
     "category cards must not impose their min-content width on the grid",
   );
-  assert.ok(
-    toolsPageSource.includes("mt-5 min-w-0 divide-y"),
-    "tool lists must remain constrained to the available width",
+  assert.equal(
+    [...toolsPageSource.matchAll(/className="mt-5 min-w-0 divide-y/g)].length,
+    2,
+    "both intent and all-tools lists must remain constrained to the available width",
   );
 });
 

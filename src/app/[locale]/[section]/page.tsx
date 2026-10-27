@@ -172,7 +172,7 @@ export default async function ToolsPage({
                 </div>
                 <p className="text-sm font-semibold text-[var(--muted)]">{formatPlural(locale, publishedTools.length, { one: t.tools.one, other: t.tools.many })}</p>
               </div>
-              <div className="mt-5 divide-y divide-[var(--border)] overflow-hidden rounded-2xl border border-[var(--border)]">
+              <div className="mt-5 min-w-0 divide-y divide-[var(--border)] overflow-hidden rounded-2xl border border-[var(--border)]">
                 {publishedTools.map((tool) => <ToolCard key={tool.id} tool={tool} locale={locale} />)}
               </div>
             </section>
