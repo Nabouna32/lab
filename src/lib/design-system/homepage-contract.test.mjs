@@ -22,10 +22,10 @@ test("homepage prioritizes its main search, recent tools, guided workflows and E
   assert.match(messagesSource, /explore:/);
 });
 
-test("homepage hero uses the shared Material card instead of the bespoke rainbow frame", () => {
-  assert.match(homeSource, /import \{ ElevatedCard \} from "@\/components\/ui\/Card"/);
-  assert.match(homeSource, /<ElevatedCard/);
-  assert.doesNotMatch(homeSource, /home-rainbow-frame|home-command-surface|getRainbowFrameStyle/);
+test("homepage uses a direct search-first composition without a distinct hero card", () => {
+  assert.match(homeSource, /<h1 id="home-title"/);
+  assert.match(homeSource, /<ToolSearch locale=\{locale\} instanceId="home-tool-search-v4"/);
+  assert.doesNotMatch(homeSource, /ElevatedCard|home-rainbow-frame|home-command-surface|getRainbowFrameStyle/);
   assert.doesNotMatch(globalStylesSource, /home-rainbow-frame|home-command-surface/);
   assert.doesNotMatch(rainbowTonesSource, /getRainbowFrameStyle|home-rainbow/);
 });
