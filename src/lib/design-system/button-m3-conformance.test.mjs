@@ -154,7 +154,7 @@ test("icon button API separates official action variants from toggle variants", 
   assert.ok(iconButton.includes("checked: boolean") && iconButton.includes("onCheckedChange: (checked: boolean) => void"));
   assert.ok(iconButton.includes("h-12 min-h-12 w-12 min-w-12"));
   assert.ok(iconButton.includes("h-10 min-h-10 w-10 min-w-10"));
-  assert.ok(iconButton.includes("role={isToggle ? "checkbox" : undefined}"));
+  assert.ok(iconButton.includes('role={isToggle ? "checkbox" : undefined}'));
   assert.ok(iconButton.includes('aria-hidden="true"'));
   assert.ok(iconButton.includes('import { ButtonRipple } from "@/components/ui/ButtonRipple"'));
   assert.ok(iconButton.includes("<ButtonRipple />"), "icon buttons use the shared bounded ripple adaptation");
