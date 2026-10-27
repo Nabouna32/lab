@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { PageContainer } from "@/components/layout/PageLayout";
+import { Arrangement } from "@/components/layout/compose/Arrangement";
+import { Column } from "@/components/layout/compose/Column";
 import { notFound } from "next/navigation";
 import { requestPasswordReset } from "../actions";
 import SubmitButton from "@/components/account/SubmitButton";
@@ -39,7 +41,8 @@ export default async function ForgotPasswordPage({
           </p>
         ) : null}
 
-        <form action={requestPasswordReset} className="mt-6 space-y-5">
+        <form action={requestPasswordReset}>
+          <Column verticalArrangement={Arrangement.spacedBy("var(--space-5)")}>
           <input type="hidden" name="locale" value={locale} />
           <label className="block">
             <span className="mb-2 block text-sm font-semibold">{t.account.email}</span>
@@ -48,6 +51,7 @@ export default async function ForgotPasswordPage({
           <SubmitButton pendingLabel={t.account.forgotPassword} className="w-full rounded-xl bg-[var(--accent)] px-5 py-3 font-semibold text-white transition-opacity hover:opacity-90 disabled:cursor-wait disabled:opacity-60">
             {t.account.forgotPassword}
           </SubmitButton>
+                  </Column>
         </form>
 
         <Link className="mt-6 inline-flex font-semibold text-[var(--accent)] hover:underline" href={`/${locale}/compte/connexion`}>
