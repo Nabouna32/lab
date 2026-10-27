@@ -155,3 +155,6 @@ La troisième tranche relie les métriques des composants `BottomSheetScaffold`,
 
 
 Une tranche de consommateurs réutilise maintenant les fondations : `AppLink`, `ResultPanel`, `RecentTools`, `RelatedTools`, `ToolCard` et `ValidationMessage`. Le test de contrat couvre les rôles typographiques et les tokens de forme de ces compositions. La migration des pages et outils reste à poursuivre ; les tokens historiques ne sont pas supprimés tant que des références actives subsistent.
+
+
+Les formes des composants traités et de plusieurs usages dans les outils sont désormais reliées aux tokens partagés, avec un test de contrat dédié. `--radius-md` et les autres conventions historiques sont maintenus tant que l'inventaire n'est pas à zéro. Les valeurs historiques de 24 px et 16 px doivent être arbitrées composant par composant ; elles ne sont pas remplacées mécaniquement par une forme AndroidX supposée équivalente.
