@@ -79,3 +79,10 @@ Compare the actual browser result with the pinned reference and record the theme
 ## Current implementation status
 
 This document describes the target, not a claim that the current site conforms. Component-specific status and evidence belong in [the Material 3 porting index](material3/README.md). The production migration is a separate step after each component passes its own porting gate.
+
+
+## Migration en cours : rôles typographiques partagés
+
+La feuille globale expose désormais les 15 rôles typographiques Material 3 sous forme de tokens CSS et de classes `.m3-type-*`. La première tranche les utilise dans le bouton partagé, le bloc Parcours guidés, les cartes d'outils et l'en-tête des pages outil. Cette migration est volontairement partielle : il reste à inventorier et migrer les usages par familles de composants avant de supprimer les conventions historiques.
+
+Les formes sont désormais configurées via des tokens propres à certains composants (`--m3-card-shape`, `--m3-panel-shape`) plutôt que directement par la composition. Leur valeur actuelle reprend encore le token medium ; elle reste à vérifier contre la source AndroidX de la release retenue. L'existence d'un token partagé ne constitue pas à elle seule une preuve de fidélité.
