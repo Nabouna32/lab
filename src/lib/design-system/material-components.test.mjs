@@ -34,6 +34,23 @@ const resultPanelSource = readFileSync(new URL("../../components/ui/ResultPanel.
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
 const headerMenuSource = readFileSync(new URL("../../components/layout/DesktopHeaderMenu.tsx", import.meta.url), "utf8");
 const messagesSource = readFileSync(new URL("../i18n/messages.ts", import.meta.url), "utf8");
+const typographyComponentStyles = {
+  alertDialog: readFileSync(new URL("../../components/ui/AlertDialog.module.css", import.meta.url), "utf8"),
+  datePickerDialog: readFileSync(new URL("../../components/ui/DatePickerDialog.module.css", import.meta.url), "utf8"),
+  dropdownMenu: readFileSync(new URL("../../components/ui/DropdownMenu.module.css", import.meta.url), "utf8"),
+  exposedDropdownMenu: readFileSync(new URL("../../components/ui/ExposedDropdownMenu.module.css", import.meta.url), "utf8"),
+  navigationBar: readFileSync(new URL("../../components/ui/NavigationBar.module.css", import.meta.url), "utf8"),
+  navigationDrawer: readFileSync(new URL("../../components/ui/NavigationDrawer.module.css", import.meta.url), "utf8"),
+  navigationRail: readFileSync(new URL("../../components/ui/NavigationRail.module.css", import.meta.url), "utf8"),
+  radioButton: readFileSync(new URL("../../components/ui/RadioButton.module.css", import.meta.url), "utf8"),
+  snackbar: readFileSync(new URL("../../components/ui/Snackbar.module.css", import.meta.url), "utf8"),
+  tabs: readFileSync(new URL("../../components/ui/Tabs.module.css", import.meta.url), "utf8"),
+  timePicker: readFileSync(new URL("../../components/ui/TimePicker.module.css", import.meta.url), "utf8"),
+  toggleButton: readFileSync(new URL("../../components/ui/ToggleButton.module.css", import.meta.url), "utf8"),
+  tooltip: readFileSync(new URL("../../components/ui/Tooltip.module.css", import.meta.url), "utf8"),
+  topAppBar: readFileSync(new URL("../../components/ui/TopAppBar.module.css", import.meta.url), "utf8"),
+};
+
 
 function luminance(hex) {
   const channels = [1, 3, 5].map((index) => Number.parseInt(hex.slice(index, index + 2), 16) / 255);
@@ -49,6 +66,31 @@ function contrastRatio(first, second) {
 function literalColors(name) {
   return [...globalCss.matchAll(new RegExp(`--${name}:\\s*(#[0-9a-fA-F]{6});`, "g"))].map((match) => match[1]);
 }
+
+test("shared typography roles drive component CSS instead of duplicated font metrics", () => {
+  const expectations = [
+    ["alertDialog", "--m3-type-headline-small-size", "--m3-type-body-medium-size"],
+    ["datePickerDialog", "--m3-type-headline-small-size"],
+    ["dropdownMenu", "--m3-type-label-large-size", "--m3-type-body-medium-size", "--m3-type-body-small-size"],
+    ["exposedDropdownMenu", "--m3-type-body-medium-size", "--m3-type-body-small-size"],
+    ["navigationBar", "--m3-type-label-medium-size"],
+    ["navigationDrawer", "--m3-type-title-large-size", "--m3-type-title-small-size", "--m3-type-label-large-size"],
+    ["navigationRail", "--m3-type-label-medium-size", "--m3-type-label-small-size"],
+    ["radioButton", "--m3-type-body-medium-size"],
+    ["snackbar", "--m3-type-body-medium-size"],
+    ["tabs", "--m3-type-label-large-size"],
+    ["timePicker", "--m3-type-body-medium-size", "--m3-type-body-small-size"],
+    ["toggleButton", "--m3-type-label-large-size"],
+    ["tooltip", "--m3-type-body-small-size", "--m3-type-body-medium-size", "--m3-type-title-small-size"],
+    ["topAppBar", "--m3-type-title-large-size", "--m3-type-headline-medium-size"],
+  ];
+
+  for (const [component, ...tokens] of expectations) {
+    for (const token of tokens) {
+      assert.ok(typographyComponentStyles[component].includes(token), `${component} must consume ${token}`);
+    }
+  }
+});
 
 test("custom status foregrounds meet WCAG AA contrast on their light and dark containers", () => {
   for (const status of ["info", "success", "warning"]) {
