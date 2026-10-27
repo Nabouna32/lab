@@ -189,6 +189,7 @@ test("icon toggle states use their own AndroidX color roles instead of action-bu
   assert.ok(iconButton.includes('outlined: "border border-transparent bg-[var(--icon-button-checked-container-color,var(--inverse-surface))] text-[var(--icon-button-checked-content-color,var(--inverse-on-surface))]'));
   assert.ok(iconButton.includes("group-focus-visible:bg-[color-mix(in_srgb,var(--icon-button-container-color,transparent)_88%,var(--icon-button-content-color,var(--on-surface-variant)))]"));
   assert.ok(iconButton.includes("group-disabled:border-[color-mix(in_srgb,var(--on-surface)_12%,transparent)]"));
+  assert.ok(iconButton.includes("group-active:bg-[color-mix(in_srgb,var(--icon-button-container-color,transparent)_88%,var(--on-surface))]"), "outlined pressed state uses the AndroidX on-surface role");
   assert.ok(!iconButton.includes("const selectedStyles:"), "legacy selected overlay map must be removed");
 });
 
