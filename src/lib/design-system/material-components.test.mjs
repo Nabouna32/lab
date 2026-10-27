@@ -951,3 +951,18 @@ test("account settings use a native link around shared ListItem and avoid duplic
   assert.equal((accountPage.match(/\{user\.email\}/g) || []).length, 1);
   assert.doesNotMatch(accountPage, /t\.account\.label/);
 });
+
+
+test("account overview uses a coherent settings hierarchy with explicit section separation", () => {
+  const accountPage = readFileSync(new URL("../../app/[locale]/compte/page.tsx", import.meta.url), "utf8");
+
+  assert.match(accountPage, /t\.account\.pageDescription/);
+  assert.doesNotMatch(accountPage, /<header className="mb-5 rounded-/);
+  assert.match(accountPage, /t\.account\.profileDescription/);
+  assert.match(accountPage, /t\.account\.securityDescription/);
+  assert.match(accountPage, /border-t border-\[var\(--outline-variant\)\]/);
+  assert.match(accountPage, /leading=\{<MaterialIcon name="mail" size=\{24\} \/>\}/);
+  assert.match(accountPage, /leading=\{<MaterialIcon name="lock" size=\{24\} \/>\}/);
+  assert.match(messagesSource, /pageDescription: "Gérez votre profil et les paramètres d’accès\."/);
+  assert.match(messagesSource, /pageDescription: "Manage your profile and sign-in settings\."/);
+});
