@@ -46,14 +46,14 @@ test("guided workflows card uses semantic Material 3 roles and shared Compose sp
     "utf8",
   );
 
-  assert.match(guidedWorkflowsSource, /import \\{ CardLink \\} from "@\\/components\\/ui\\/Card"/);
-  assert.match(guidedWorkflowsSource, /bg-\\[var\\(--primary-container\\)\\] text-\\[var\\(--on-primary-container\\)\\]/);
-  assert.match(guidedWorkflowsSource, /text-\\[var\\(--on-surface\\)\\]/);
-  assert.match(guidedWorkflowsSource, /text-\\[var\\(--on-surface-variant\\)\\]/);
-  assert.match(guidedWorkflowsSource, /group-hover:bg-\\[var\\(--primary-container\\)\\] group-hover:text-\\[var\\(--on-primary-container\\)\\]/);
-  assert.match(guidedWorkflowsSource, /Arrangement\\.spacedBy\\("var\\(--layout-item-gap\\)"\\)/);
-  assert.match(guidedWorkflowsSource, /rounded-\\[var\\(--shape-corner-medium\\)\\]/);
-  assert.match(guidedWorkflowsSource, /MaterialIcon name="swap_horiz" size=\\{24\\}/);
-  assert.match(guidedWorkflowsSource, /motion-reduce:transition-none/);
-  assert.doesNotMatch(guidedWorkflowsSource, /var\\(--accent(?:-soft|-foreground)?\\)/);
+  assert.ok(guidedWorkflowsSource.includes('import { CardLink } from "@/components/ui/Card";'));
+  assert.ok(guidedWorkflowsSource.includes("bg-[var(--primary-container)] text-[var(--on-primary-container)]"));
+  assert.ok(guidedWorkflowsSource.includes("text-[var(--on-surface)]"));
+  assert.ok(guidedWorkflowsSource.includes("text-[var(--on-surface-variant)]"));
+  assert.ok(guidedWorkflowsSource.includes("group-hover:bg-[var(--primary-container)] group-hover:text-[var(--on-primary-container)]"));
+  assert.ok(guidedWorkflowsSource.includes('Arrangement.spacedBy("var(--layout-item-gap)")'));
+  assert.ok(guidedWorkflowsSource.includes("rounded-[var(--shape-corner-medium)]"));
+  assert.ok(guidedWorkflowsSource.includes('MaterialIcon name="swap_horiz" size={24}'));
+  assert.ok(guidedWorkflowsSource.includes("motion-reduce:transition-none"));
+  assert.doesNotMatch(guidedWorkflowsSource, /var\(--accent(?:-soft|-foreground)?\)/);
 });
