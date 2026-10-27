@@ -55,7 +55,7 @@ export default async function AdminPage({
         <Link href={"/" + locale + "/compte"} className="m3-type-label-large text-[var(--primary)]">
           ← {t.admin.account}
         </Link>
-        <p className="mt-5 text-sm font-semibold text-[var(--accent)]">{t.admin.label}</p>
+        <p className="mt-5 m3-type-label-large text-[var(--primary)]">{t.admin.label}</p>
         <h1 className="mt-1 m3-type-headline-large">{t.admin.title}</h1>
         <p className="mt-3 max-w-2xl m3-type-body-large text-[var(--muted)]">{t.admin.description}</p>
       </div>
