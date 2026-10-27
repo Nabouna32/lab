@@ -395,7 +395,7 @@ test("shared action controls use semantic state-layer colors instead of brightne
   assert.match(appLinkSource, /variant === "filled".*variant === "text"/s);
   assert.match(iconButtonSource, /var\(--primary\)_92%,var\(--on-primary\)/);
   assert.ok(favoriteSource.includes("const FavoriteActionButton = active ? FilledTonalButton : OutlinedButton;"));
-  assert.match(favoriteSource, /import \{ IconButton \} from "@\/components\/ui\/IconButton"/);
+  assert.match(favoriteSource, /import \{ IconToggleButton \} from "@\/components\/ui\/IconButton"/);
   assert.match(appLinkSource, /materialButtonVariantStyles/);
   assert.match(collectionsSource, /<Button type="submit" disabled=/);
 });
@@ -656,7 +656,7 @@ test("Button gallery compares shared M3 Fidelity and Expressive component varian
 test("IconButton gallery compares Fidelity and Expressive medium interaction shapes", () => {
   assert.match(labSource, /iconButtonVariant,setIconButtonVariant/);
   assert.match(labSource, /data-icon-button-variant=\{iconButtonVariant\}/);
-  assert.match(labSource, /selected=\{sampleIconSelected\}/);
+  assert.match(labSource, /checked=\{sampleIconSelected\}/);
   assert.match(labSource, /setSampleIconSelected/);
   assert.match(labCss, /iconButtonComparison\[data-icon-button-variant="expressive"\] \.buttonStack > button\{\s*width:56px!important/);
   assert.match(labCss, /button\[aria-pressed="true"\]\{\s*border-radius:var\(--shape-corner-large\)!important/);
