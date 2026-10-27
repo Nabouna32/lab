@@ -4,7 +4,7 @@
 
 Cette spécification suit le portage des primitives AndroidX Compose UI/Foundation utilisées pour le layout et l'espacement. Ce périmètre est distinct des composants Material 3 : `Column`, `Row`, `Box`, `Spacer`, `Modifier` et `Arrangement` proviennent de Compose UI/Foundation.
 
-**Statut global : portage en cours, non vérifié.** La référence de release Foundation/UI n'est pas encore sélectionnée ni alignée sur un snapshot API publié. Le commit AndroidX ci-dessous est une référence de lecture immuable, pas une affirmation qu'il correspond à une release stable donnée.
+**Statut global : portage en cours, non vérifié.** La cible stable retenue pour la comparaison est Compose UI/Foundation 1.12.1, confirmée par les notes de version officielles. Le commit AndroidX ci-dessous reste un snapshot de lecture immuable ; son alignement exact avec les artefacts 1.12.1 et leurs fichiers API n'est pas établi. La provenance de release est donc mieux définie, mais la baseline source/API n'est pas encore totalement verrouillée.
 
 ## Sources AndroidX inspectées
 
@@ -47,7 +47,7 @@ Les opérations qui dépendent du parent ne sont pas des méthodes de la chaîne
 - La chaîne s'assemble explicitement, par exemple `Modifier.then(RowScope.weight(1))`.
 - `Box` consomme et retire ses opérations de scope avant de transmettre le modificateur générique à l'enfant. L'API TypeScript rend l'intention de scope visible, mais ne peut pas à elle seule empêcher qu'une opération soit utilisée sous le mauvais parent ; les primitives restent responsables de leur interprétation.
 
-Cette séparation corrige le contrat de surface le plus trompeur, sans prétendre reproduire les scopes Kotlin implicites ni le moteur de mesure Compose. Les poids restent rendus par Flexbox et doivent être validés par des tests de comportement et de rendu.
+Cette séparation corrige le contrat de surface le plus trompeur, sans prétendre reproduire les scopes Kotlin implicites ni le moteur de mesure Compose. Les poids restent rendus par Flexbox. `src/lib/tools/compose-layout-behavior.test.ts` vérifie les fonctions de présentation réellement exécutées, le rendu SSR des wrappers `Modifier` et quelques points d'intégration des composants via leurs sources. Le runner `node --test` ne chargeant pas directement les modules TSX, ces tests ne rendent pas `Box`, `Row` ou `Column` eux-mêmes : ils ne constituent donc pas des tests SSR de ces composants. Ils détectent certaines régressions de style et de contrat, mais ne prouvent ni leur rendu complet, ni la géométrie calculée par un navigateur, ni la parité de mesure avec Compose. Une vérification navigateur reste nécessaire.
 
 ## Hiérarchie de maintenance
 
