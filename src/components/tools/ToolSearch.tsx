@@ -298,7 +298,7 @@ export default function ToolSearch({
         )}
         <FilledIconButton label={t.tools.searchSubmit} type="submit" disabled={!query.trim()}>
           <MaterialIcon name="arrow_forward" size={24} />
-        </IconButton>
+        </FilledIconButton>
       </div>
       </form>
 
