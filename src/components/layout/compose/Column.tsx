@@ -52,9 +52,15 @@ export function Column({
   })();
 
   const hasNegativeGap = verticalArrangement.kind === "spacedBy" && verticalArrangement.space < 0;
+  const absoluteAlignmentClass = horizontalAlignment === "left"
+    ? "compose-column-align-absolute-left"
+    : horizontalAlignment === "right"
+      ? "compose-column-align-absolute-right"
+      : "";
   const layoutClassName = [
     className,
     hasNegativeGap ? "compose-layout-negative-gap-column" : "",
+    absoluteAlignmentClass,
   ].filter(Boolean).join(" ");
   const spacingStyle: CSSProperties = verticalArrangement.kind === "spacedBy"
     ? verticalArrangement.space < 0
@@ -64,13 +70,13 @@ export function Column({
       ? { gap: verticalArrangement.space }
       : {};
 
-  const alignItems = ({
-    start: "flex-start",
-    centerHorizontally: "center",
-    end: "flex-end",
-    left: "left",
-    right: "right",
-  } as const)[horizontalAlignment];
+  const alignItems = horizontalAlignment === "left" || horizontalAlignment === "right"
+    ? undefined
+    : ({
+      start: "flex-start",
+      centerHorizontally: "center",
+      end: "flex-end",
+    } as const)[horizontalAlignment];
 
   const layout = (
     <div
