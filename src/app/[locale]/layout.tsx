@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Roboto } from "next/font/google";
 import ThemeProvider from "@/components/theme/ThemeProvider";
 import Header from "@/components/layout/Header";
+import AdaptiveAppNavigation from "@/components/layout/AdaptiveAppNavigation";
 import Footer from "@/components/layout/Footer";
 import { getMessages } from "@/lib/i18n/messages";
 import { getLanguage, isLocale, locales } from "@/lib/i18n/config";
@@ -47,11 +48,16 @@ export default async function LocaleLayout({
         <ThemeProvider>
           <FavoritesProvider toolIds={getPublishedTools().map((tool) => tool.id)}>
             <CollectionsProvider toolIds={getPublishedTools().map((tool) => tool.id)}>
-              <Header locale={locale} />
-              <div className="min-h-0" style={{ viewTransitionName: "loculary-workspace" }}>
-                {children}
+              <div className="flex min-h-dvh">
+                <AdaptiveAppNavigation locale={locale} />
+                <div className="flex min-w-0 flex-1 flex-col pb-[calc(5rem+env(safe-area-inset-bottom))] md:pb-0">
+                  <Header locale={locale} />
+                  <div className="min-h-0 flex-1" style={{ viewTransitionName: "loculary-workspace" }}>
+                    {children}
+                  </div>
+                  <Footer locale={locale} />
+                </div>
               </div>
-              <Footer locale={locale} />
             </CollectionsProvider>
           </FavoritesProvider>
         </ThemeProvider>
