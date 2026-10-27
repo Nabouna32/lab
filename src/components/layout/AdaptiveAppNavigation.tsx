@@ -43,7 +43,7 @@ export default function AdaptiveAppNavigation({ locale }: { locale: Locale }) {
   }, [locale, t]);
 
   const active = destinations.find((item) => item.match(pathname))?.key ?? "home";
-  const primary = destinations.filter((item) => ["home", "tools", "favorites", "account"].includes(item.key));
+  const primary = destinations.filter((item) => ["home", "tools", "guided", "favorites", "account"].includes(item.key));
 
   function iconFor(item: Destination) {
     if (item.customIcon === "star") return <StarIcon filled className={styles.customIcon} />;
