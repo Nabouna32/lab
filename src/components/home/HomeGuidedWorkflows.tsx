@@ -27,24 +27,24 @@ export default function HomeGuidedWorkflows({ locale }: { locale: Locale }) {
             verticalAlignment={Alignment.CenterVertically}
             className="[--home-workflow-card-gap:var(--space-3)] sm:[--home-workflow-card-gap:var(--space-4)]"
           >
-          <span
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--accent-soft)] text-[var(--accent)]"
-            aria-hidden="true"
-          >
-            <MaterialIcon name="swap_horiz" size={22} />
-          </span>
-          <span className="min-w-0 flex-1">
-            <span className="block font-bold text-[var(--foreground)]">
-              {t.guidedWorkflows.homeTitle}
+            <span
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--accent-soft)] text-[var(--accent)]"
+              aria-hidden="true"
+            >
+              <MaterialIcon name="swap_horiz" size={22} />
             </span>
-            <span className="mt-1 block text-sm leading-5 text-[var(--muted)]">
-              {t.guidedWorkflows.homeDescription}
+            <span className="min-w-0 flex-1">
+              <span className="block font-bold text-[var(--foreground)]">
+                {t.guidedWorkflows.homeTitle}
+              </span>
+              <span className="mt-1 block text-sm leading-5 text-[var(--muted)]">
+                {t.guidedWorkflows.homeDescription}
+              </span>
             </span>
-          </span>
-          <span className="inline-flex min-h-11 shrink-0 items-center justify-center gap-1 rounded-full px-3 text-sm font-semibold text-[var(--accent)] transition-colors group-hover:bg-[var(--accent-soft)] group-hover:text-[var(--on-primary-container)] sm:px-4">
-            <span className="hidden sm:inline">{t.guidedWorkflows.homeAction}</span>
-            <MaterialIcon name="arrow_forward" size={18} />
-          </span>
+            <span className="inline-flex min-h-11 shrink-0 items-center justify-center gap-1 rounded-full px-3 text-sm font-semibold text-[var(--accent)] transition-colors group-hover:bg-[var(--accent-soft)] group-hover:text-[var(--on-primary-container)] sm:px-4">
+              <span className="hidden sm:inline">{t.guidedWorkflows.homeAction}</span>
+              <MaterialIcon name="arrow_forward" size={18} />
+            </span>
           </Row>
         </Link>
       </PageContainer>
