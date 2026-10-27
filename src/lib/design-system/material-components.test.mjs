@@ -120,6 +120,31 @@ test("shared typography roles drive component CSS instead of duplicated font met
   }
 });
 
+test("shared production compositions consume named typography and shape roles", () => {
+  const appLink = readFileSync(new URL("../../components/ui/AppLink.tsx", import.meta.url), "utf8");
+  const resultPanel = readFileSync(new URL("../../components/ui/ResultPanel.tsx", import.meta.url), "utf8");
+  const recentTools = readFileSync(new URL("../../components/home/RecentTools.tsx", import.meta.url), "utf8");
+  const relatedTools = readFileSync(new URL("../../components/tools/RelatedTools.tsx", import.meta.url), "utf8");
+  const toolCard = readFileSync(new URL("../../components/tools/ToolCard.tsx", import.meta.url), "utf8");
+  const validationMessage = readFileSync(new URL("../../components/ui/ValidationMessage.tsx", import.meta.url), "utf8");
+
+  assert.match(appLink, /m3-type-label-large/);
+  assert.match(resultPanel, /m3-type-label-medium/);
+  assert.match(resultPanel, /m3-type-body-medium/);
+  assert.match(resultPanel, /m3-type-display-small/);
+  assert.match(resultPanel, /--m3-type-display-medium-size/);
+  assert.match(recentTools, /m3-type-title-medium/);
+  assert.match(recentTools, /m3-type-body-medium/);
+  assert.match(recentTools, /m3-type-label-large/);
+  assert.match(recentTools, /--m3-card-shape/);
+  assert.match(relatedTools, /m3-type-title-large/);
+  assert.match(relatedTools, /m3-type-title-medium/);
+  assert.match(relatedTools, /m3-type-body-medium/);
+  assert.match(relatedTools, /shape-corner-medium/);
+  assert.match(toolCard, /shape-corner-medium/);
+  assert.match(validationMessage, /m3-type-body-medium/);
+});
+
 test("custom status foregrounds meet WCAG AA contrast on their light and dark containers", () => {
   for (const status of ["info", "success", "warning"]) {
     const foregrounds = literalColors(status);
