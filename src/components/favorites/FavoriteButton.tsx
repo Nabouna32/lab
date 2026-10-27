@@ -2,7 +2,7 @@
 
 import type { Locale } from "@/lib/i18n/config";
 import { FilledTonalButton, OutlinedButton } from "@/components/ui/Button";
-import { IconButton } from "@/components/ui/IconButton";
+import { IconToggleButton } from "@/components/ui/IconButton";
 import { StarIcon } from "@/components/ui/StarIcon";
 import { useFavorites } from "./FavoritesProvider";
 
@@ -18,17 +18,16 @@ export default function FavoriteButton({ toolId, locale, compact = false }: { to
 
   if (compact) {
     return (
-      <IconButton
+      <IconToggleButton
         label={label}
         title={label}
-        variant="standard"
-        selected={active}
+        checked={active}
+        onCheckedChange={() => void favorites.toggleFavorite(toolId)}
         aria-busy={pending}
         disabled={disabled}
-        onClick={() => void favorites.toggleFavorite(toolId)}
       >
         <StarIcon filled={active} size={24} className="h-6 w-6 shrink-0" />
-      </IconButton>
+      </IconToggleButton>
     );
   }
 
