@@ -471,10 +471,12 @@ test("Design Lab includes extended Material 3 navigation, field, list, menu, pro
 test("Design Lab renders the shared production UI primitives against the active Material 3 scheme", () => {
   const labSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
   assert.ok(labSource.includes('import { Card, ElevatedCard, OutlinedCard } from "@/components/ui/Card"'));
-  for (const component of ["IconButton", "Panel", "ResultPanel", "Checkbox", "TextField", "TextArea", "ExposedDropdownMenu", "ModalBottomSheet", "AlertDialog", "SegmentedControl", "ValidationMessage", "Switch"]) {
+  for (const component of ["Panel", "ResultPanel", "Checkbox", "TextField", "TextArea", "ExposedDropdownMenu", "ModalBottomSheet", "AlertDialog", "SegmentedControl", "ValidationMessage", "Switch"]) {
     assert.match(labSource, new RegExp(`import \\{ ${component} \\} from "@\\/components\\/ui\\/${component}"`), `missing shared component import: ${component}`);
   }
   assert.ok(labSource.includes('import { Button, ElevatedButton, FilledTonalButton, OutlinedButton, TextButton } from "@/components/ui/Button"'));
+  assert.match(labSource, /import \\{[^}]*IconButton[^}]*\\} from "@\\/components\\/ui\\/IconButton"/);
+  for (const component of ["IconToggleButton", "FilledIconButton", "FilledTonalIconButton", "OutlinedIconButton", "FilledIconToggleButton", "FilledTonalIconToggleButton", "OutlinedIconToggleButton"]) assert.ok(labSource.includes("<" + component), "missing official icon button specimen: " + component);
   for (const token of ["--foreground:var(--lab-text)", "--surface:var(--lab-surface)", "--surface-soft:var(--lab-surface-container)", "--secondary-container:var(--lab-secondary-container)", "--error:var(--lab-error)", "--focus-ring:var(--lab-primary)"]) {
     assert.ok(labCss.includes(token), `missing scoped token bridge: ${token}`);
   }
