@@ -2,6 +2,8 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { deleteAccount } from "../actions";
 import { PageContainer } from "@/components/layout/PageLayout";
+import { Arrangement } from "@/components/layout/compose/Arrangement";
+import { Column } from "@/components/layout/compose/Column";
 import SubmitButton from "@/components/account/SubmitButton";
 import { Panel } from "@/components/ui/Panel";
 import { TextField } from "@/components/ui/TextField";
@@ -44,7 +46,8 @@ export default async function DeleteAccountPage({
           </p>
         ) : null}
 
-        <form action={deleteAccount} className="mt-7 space-y-5">
+        <form action={deleteAccount}>
+          <Column verticalArrangement={Arrangement.spacedBy("var(--space-5)")}>
           <input type="hidden" name="locale" value={locale} />
           <TextField
             label={t.account.deleteAccountConfirmationLabel}
@@ -65,6 +68,7 @@ export default async function DeleteAccountPage({
             <MaterialIcon name="delete" size={18} className="shrink-0" />
             {t.account.deleteAccountButton}
           </SubmitButton>
+                  </Column>
         </form>
 
         <Link className="mt-6 inline-flex min-h-11 items-center m3-type-label-large text-[var(--primary)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]" href={`/${locale}/compte`}>
