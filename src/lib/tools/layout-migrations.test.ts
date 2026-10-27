@@ -10,6 +10,7 @@ const signInPageSource = readSource("../../app/[locale]/compte/connexion/page.ts
 const signUpPageSource = readSource("../../app/[locale]/compte/inscription/page.tsx");
 const pageLayoutSource = readSource("../../components/layout/PageLayout.tsx");
 const headerSource = readSource("../../components/layout/Header.tsx");
+const logoSource = readSource("../../components/brand/LocularyLogo.tsx");
 
 test("homepage compositions reuse the shared width, gutters and spacing tokens", () => {
   assert.ok(homePageSource.includes('<PageContainer'));
@@ -77,4 +78,10 @@ test("header layout reuses Row and a weighted Spacer instead of a product-specif
   assert.ok(headerSource.includes("Modifier.weight(1)"));
   assert.ok(headerSource.includes('Arrangement.spacedByCss("var(--header-layout-gap)")'));
   assert.ok(!headerSource.includes("grid-cols-[1fr_auto]"));
+});
+
+
+test("brand wordmark uses the shared Row primitive", () => {
+  assert.ok(logoSource.includes('import { Row } from "@/components/layout/compose/Row"'));
+  assert.ok(!logoSource.includes("inline-flex items-center"));
 });
