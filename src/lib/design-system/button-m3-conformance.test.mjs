@@ -182,6 +182,7 @@ test("icon toggle states use their own AndroidX color roles instead of action-bu
   assert.ok(iconButton.includes("const toggleUncheckedStyles: Record<IconButtonStyle, string>"));
   assert.ok(iconButton.includes("const toggleCheckedStyles: Record<IconButtonStyle, string>"));
   assert.ok(iconButton.includes('filled: "border border-transparent bg-[var(--icon-button-container-color,var(--surface-container))] text-[var(--icon-button-content-color,var(--on-surface-variant))]'));
+  assert.ok(iconButton.includes("group-hover:bg-[color-mix(in_srgb,var(--icon-button-container-color,var(--surface-container))_92%,var(--icon-button-content-color,var(--on-surface-variant)))]"), "unchecked filled toggle state layer uses on-surface-variant");
   assert.ok(iconButton.includes('"filled-tonal": "border border-transparent bg-[var(--icon-button-container-color,var(--secondary-container))] text-[var(--icon-button-content-color,var(--on-secondary-container))]'));
   assert.ok(iconButton.includes('filled: "border border-transparent bg-[var(--icon-button-checked-container-color,var(--primary))] text-[var(--icon-button-checked-content-color,var(--on-primary))]'));
   assert.ok(iconButton.includes('"filled-tonal": "border border-transparent bg-[var(--icon-button-checked-container-color,var(--secondary))] text-[var(--icon-button-checked-content-color,var(--on-secondary))]'));
