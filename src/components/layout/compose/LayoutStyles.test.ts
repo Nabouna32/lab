@@ -41,7 +41,7 @@ test("Row exposes negative spacing through the documented overlap adapter", () =
   const result = getRowLayoutPresentation(Arrangement.spacedBy(-8), Alignment.CenterVertically, "custom-row");
   assert.equal(result.className, "custom-row compose-layout-negative-gap-row");
   assert.equal(result.style.gap, 0);
-  assert.equal(result.style["--compose-layout-negative-gap"], "-8px");
+  assert.equal(Reflect.get(result.style, "--compose-layout-negative-gap"), "-8px");
 });
 
 test("Column maps main-axis arrangements and keeps the requested cross-axis alignment", () => {
@@ -76,6 +76,6 @@ test("caller-provided styles override computed defaults without dropping arrange
 
   assert.equal(result.style.justifyContent, "center");
   assert.equal(result.style.gap, "2rem");
-  assert.equal(result.style["--compose-layout-negative-gap"], "-4px");
+  assert.equal(Reflect.get(result.style, "--compose-layout-negative-gap"), "-4px");
   assert.equal(result.className, "row compose-layout-negative-gap-row");
 });
