@@ -850,3 +850,41 @@ test("AlertDialog actions use shared Material 3 buttons instead of a parallel bu
   assert.match(alertDialogSource, /<Button type="button" colors=\{destructive \?/);
   assert.doesNotMatch(alertDialogCss, /\.dismiss, \.confirm, \.destructive/);
 });
+
+
+test("tool compositions use the shared 12px shape role instead of the legacy radius alias", () => {
+  const consumers = [
+    "../../components/tools/csv-diff-checker/CsvDiffChecker.tsx",
+    "../../components/tools/ip-subnet-calculator/IpSubnetCalculator.tsx",
+    "../../components/tools/contrast-checker/ContrastChecker.tsx",
+    "../../components/tools/qr-code-generator/QrCodeGenerator.tsx",
+    "../../components/tools/image-compressor/ImageCompressor.tsx",
+    "../../components/tools/color-palette-generator/ColorPaletteGenerator.tsx",
+    "../../components/tools/html-entity-encoder/HtmlEntityEncoder.tsx",
+    "../../components/tools/ToolSearch.tsx",
+    "../../components/tools/text-case-converter/TextCaseConverter.tsx",
+    "../../components/tools/markdown-table-generator/MarkdownTableGenerator.tsx",
+    "../../components/tools/image-metadata/ImageMetadataViewer.tsx",
+    "../../components/tools/image-to-pdf/ImageToPdf.tsx",
+    "../../components/tools/json-to-typescript/JsonToTypeScript.tsx",
+    "../../components/tools/text-diff-checker/TextDiffChecker.tsx",
+    "../../components/tools/ipv6-subnet-calculator/Ipv6SubnetCalculator.tsx",
+    "../../components/tools/json-formatter/JsonFormatter.tsx",
+    "../../components/tools/password-generator/PasswordGenerator.tsx",
+    "../../components/tools/timezone-converter/TimezoneConverter.tsx",
+    "../../components/tools/image-contact-sheet/ImageContactSheet.tsx",
+  ];
+
+  for (const path of consumers) {
+    const source = readFileSync(new URL(path, import.meta.url), "utf8");
+    assert.match(source, /shape-corner-medium/, path);
+    assert.doesNotMatch(source, /radius-md/, path);
+  }
+});
+
+test("tool section headings and descriptions consume shared Material 3 typography roles", () => {
+  const toolSection = readFileSync(new URL("../../components/tools/ToolPage/ToolSection.tsx", import.meta.url), "utf8");
+  assert.match(toolSection, /m3-type-title-medium/);
+  assert.match(toolSection, /m3-type-body-medium/);
+  assert.doesNotMatch(toolSection, /text-base font-bold tracking-tight|text-sm leading-6/);
+});
