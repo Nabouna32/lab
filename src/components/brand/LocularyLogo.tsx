@@ -10,7 +10,7 @@ export default function LocularyLogo({
   wordmarkClassName = "text-lg font-bold tracking-[-0.03em]",
 }: LocularyLogoProps) {
   return (
-    <Row className={"gap-2 sm:gap-2.5 " + className}>
+    <Row className={className}>
       <svg
         viewBox="0 0 40 40"
         fill="none"
