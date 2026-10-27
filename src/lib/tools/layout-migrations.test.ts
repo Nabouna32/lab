@@ -9,6 +9,7 @@ const homeWorkflowsSource = readSource("../../components/home/HomeGuidedWorkflow
 const signInPageSource = readSource("../../app/[locale]/compte/connexion/page.tsx");
 const signUpPageSource = readSource("../../app/[locale]/compte/inscription/page.tsx");
 const pageLayoutSource = readSource("../../components/layout/PageLayout.tsx");
+const headerSource = readSource("../../components/layout/Header.tsx");
 
 test("homepage compositions reuse the shared width, gutters and spacing tokens", () => {
   assert.ok(homePageSource.includes('<PageContainer'));
@@ -64,4 +65,13 @@ test("category page section rhythm uses the shared spacing tokens", () => {
   assert.ok(categoryPageSource.includes('className="mb-[var(--space-4)]"'));
   assert.ok(!categoryPageSource.includes("pb-7 pt-7 sm:pb-9"));
   assert.ok(!categoryPageSource.includes('className="py-7 sm:py-9"'));
+});
+
+
+test("header layout reuses Row and a weighted Spacer instead of a product-specific grid", () => {
+  assert.ok(headerSource.includes('import { Row } from "@/components/layout/compose/Row"'));
+  assert.ok(headerSource.includes('import { Spacer } from "@/components/layout/compose/Spacer"'));
+  assert.ok(headerSource.includes("Modifier.weight(1)"));
+  assert.ok(headerSource.includes('Arrangement.spacedByCss("var(--header-layout-gap)")'));
+  assert.ok(!headerSource.includes("grid-cols-[1fr_auto]"));
 });
