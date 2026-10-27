@@ -81,8 +81,8 @@
   max-width: 100%;
   overflow: hidden;
   color: var(--lab-on-surface-variant, currentColor);
-  font-size: 16px;
-  line-height: 24px;
+  font-size: var(--m3-type-body-large-size);
+  line-height: var(--m3-type-body-large-line-height);
   text-overflow: ellipsis;
   white-space: nowrap;
   pointer-events: none;
@@ -94,8 +94,8 @@
 .input:focus + .label,
 .input:not(:placeholder-shown) + .label {
   top: 8px;
-  font-size: 12px;
-  line-height: 16px;
+  font-size: var(--m3-type-label-small-size);
+  line-height: var(--m3-type-label-small-line-height);
   transform: none;
 }
 
@@ -130,7 +130,7 @@
 .affix {
   flex: 0 0 auto;
   color: var(--lab-on-surface-variant, currentColor);
-  font-size: 14px;
+  font-size: var(--m3-type-body-medium-size);
 }
 
 .trailing {
@@ -144,8 +144,8 @@
   background: transparent;
   color: var(--lab-primary, currentColor);
   font: inherit;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: var(--m3-type-label-small-size);
+  font-weight: var(--m3-type-label-small-weight);
   cursor: pointer;
 }
 
@@ -170,8 +170,8 @@
   min-height: 16px;
   padding-inline: 16px;
   color: var(--lab-on-surface-variant, currentColor);
-  font-size: 12px;
-  line-height: 16px;
+  font-size: var(--m3-type-label-small-size);
+  line-height: var(--m3-type-label-small-line-height);
 }
 
 .error {
