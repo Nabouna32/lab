@@ -190,17 +190,25 @@ class ModifierChain {
     return this.append({ kind: "size", width, height });
   }
 
-  widthIn(constraints: Pick<SizeConstraints, "minWidth" | "maxWidth">): ModifierChain {
+  widthIn(minWidth = 0, maxWidth?: number): ModifierChain {
+    const constraints = { minWidth, ...(maxWidth === undefined ? {} : { maxWidth }) };
     assertConstraints(constraints, "widthIn");
     return this.append({ kind: "widthIn", constraints });
   }
 
-  heightIn(constraints: Pick<SizeConstraints, "minHeight" | "maxHeight">): ModifierChain {
+  heightIn(minHeight = 0, maxHeight?: number): ModifierChain {
+    const constraints = { minHeight, ...(maxHeight === undefined ? {} : { maxHeight }) };
     assertConstraints(constraints, "heightIn");
     return this.append({ kind: "heightIn", constraints });
   }
 
-  sizeIn(constraints: SizeConstraints): ModifierChain {
+  sizeIn(minWidth = 0, minHeight = 0, maxWidth?: number, maxHeight?: number): ModifierChain {
+    const constraints = {
+      minWidth,
+      minHeight,
+      ...(maxWidth === undefined ? {} : { maxWidth }),
+      ...(maxHeight === undefined ? {} : { maxHeight }),
+    };
     assertConstraints(constraints, "sizeIn");
     return this.append({ kind: "sizeIn", constraints });
   }

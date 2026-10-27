@@ -28,7 +28,7 @@ Snapshot immuable de consultation : [androidx/androidx @ 5901d750e269aa3d88f6fcc
 |---|---|---|---|
 | `Arrangement` | `src/components/layout/compose/Arrangement.ts` | Constantes Start/End/Top/Bottom/Center/Space*, `spacedBy`, surcharges d’alignement, `aligned` et extension Web `spacedByCss` | `spacedBy` utilise CSS px plutôt que `Dp`; `spacedByCss` est une extension Loculary; l’alignement du groupe est rendu via Flexbox; l’espacement négatif est approché par des marges logiques, sans reproduire le moteur de mesure Compose |
 | `Alignment` | `src/components/layout/compose/Alignment.ts` | Constantes d’alignement utilisées par les primitives actuelles | Sous-ensemble des API d’alignement, adaptation CSS |
-| `Modifier` | `src/components/layout/compose/Modifier.ts` | Chaîne ordonnée avec `padding`, `width`, `height`, `size`, `fillMaxWidth/Height/Size`, `widthIn`, `heightIn`, `sizeIn`, `weight`, `then` | Chaque opération est portée par un wrapper CSS afin de préserver l’ordre; les contraintes de mesure restent une approximation Web, `weight(fill = false)` n’a pas de parité exacte et les valeurs numériques sont en CSS px |
+| `Modifier` | `src/components/layout/compose/Modifier.ts` | Chaîne ordonnée avec `padding`, `width`, `height`, `size`, `fillMaxWidth/Height/Size`, `widthIn(min, max?)`, `heightIn(min, max?)`, `sizeIn(minWidth, minHeight, maxWidth?, maxHeight?)`, `weight`, `then` | Les signatures de contraintes utilisent maintenant des arguments positionnels proches d’AndroidX; les valeurs numériques restent des CSS px, `max` omis représente une borne supérieure non spécifiée, et la mesure CSS ne reproduit pas le moteur Compose. `weight(fill = false)` reste sans parité exacte |
 | `Column` | `src/components/layout/compose/Column.tsx` | Layout vertical, écart, alignement horizontal limité | Flexbox CSS ne reproduit pas toutes les règles de mesure/poids de Compose |
 | `Row` | `src/components/layout/compose/Row.tsx` | Layout horizontal, écart, alignement vertical limité | Flexbox CSS ne reproduit pas toutes les règles de mesure/poids de Compose |
 | `Box` | `src/components/layout/compose/Box.tsx` | Alignement global, alignement par enfant via `Modifier.align`, `Modifier.matchParentSize` | CSS Grid et positionnement absolu reproduisent la superposition et le remplissage, mais pas toutes les contraintes de mesure ni `propagateMinConstraints` |
@@ -59,3 +59,14 @@ Les personnalisations suivent le même principe : choisir d'abord un preset part
 - Ne pas confondre les tokens CSS de Loculary avec une échelle de dimensions AndroidX. Les tokens restent des choix de design du produit tant qu'une source officielle ne prouve pas le contraire. Pour éviter les valeurs divergentes, utiliser l’extension Web `Arrangement.spacedByCss("var(--layout-content-gap)")` lorsque l’espacement provient d’un token Loculary; ne pas présenter cette extension comme une API AndroidX.
 - Ne pas déclarer la parité sans tests de contrat, vérification de rendu en navigateur et contrôle des cas RTL, responsive, clavier et accessibilité pertinents.
 - Avant d'étendre le portage, sélectionner et verrouiller une référence Foundation/UI publiée, puis compléter l'inventaire des signatures publiques pertinentes et les spécifications associées.
+
+
+### Contrat des contraintes de taille
+
+Les helpers de contraintes utilisent des arguments positionnels pour éviter l'objet d'options propre à l'ancien port :
+
+- `Modifier.widthIn(minWidth = 0, maxWidth?)`
+- `Modifier.heightIn(minHeight = 0, maxHeight?)`
+- `Modifier.sizeIn(minWidth = 0, minHeight = 0, maxWidth?, maxHeight?)`
+
+Les nombres sont interprétés en pixels CSS, et non en `Dp`. Une borne supérieure omise correspond à une borne non définie dans l'adaptation Web. Cette évolution rapproche la forme de l'API AndroidX sans prétendre reproduire ses contraintes de mesure.
