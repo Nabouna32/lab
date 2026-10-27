@@ -35,6 +35,20 @@ const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url)
 const headerMenuSource = readFileSync(new URL("../../components/layout/DesktopHeaderMenu.tsx", import.meta.url), "utf8");
 const messagesSource = readFileSync(new URL("../i18n/messages.ts", import.meta.url), "utf8");
 const typographyComponentStyles = {
+  bottomSheetScaffold: readFileSync(new URL("../../components/ui/BottomSheetScaffold.module.css", import.meta.url), "utf8"),
+  buttonGroup: readFileSync(new URL("../../components/ui/ButtonGroup.module.css", import.meta.url), "utf8"),
+  datePicker: readFileSync(new URL("../../components/ui/DatePicker.module.css", import.meta.url), "utf8"),
+  floatingActionButton: readFileSync(new URL("../../components/ui/FloatingActionButton.module.css", import.meta.url), "utf8"),
+  floatingActionButtonMenu: readFileSync(new URL("../../components/ui/FloatingActionButtonMenu.module.css", import.meta.url), "utf8"),
+  floatingToolbar: readFileSync(new URL("../../components/ui/FloatingToolbar.module.css", import.meta.url), "utf8"),
+  modalBottomSheet: readFileSync(new URL("../../components/ui/ModalBottomSheet.module.css", import.meta.url), "utf8"),
+  pullToRefresh: readFileSync(new URL("../../components/ui/PullToRefreshBox.module.css", import.meta.url), "utf8"),
+  rangeSlider: readFileSync(new URL("../../components/ui/RangeSlider.module.css", import.meta.url), "utf8"),
+  segmentedButtonGroup: readFileSync(new URL("../../components/ui/SegmentedButtonGroup.module.css", import.meta.url), "utf8"),
+  splitButton: readFileSync(new URL("../../components/ui/SplitButton.module.css", import.meta.url), "utf8"),
+  swipeToDismiss: readFileSync(new URL("../../components/ui/SwipeToDismissBox.module.css", import.meta.url), "utf8"),
+  wideNavigationRail: readFileSync(new URL("../../components/ui/WideNavigationRail.module.css", import.meta.url), "utf8"),
+  slider: readFileSync(new URL("../../components/ui/slider.module.css", import.meta.url), "utf8"),
   alertDialog: readFileSync(new URL("../../components/ui/AlertDialog.module.css", import.meta.url), "utf8"),
   datePickerDialog: readFileSync(new URL("../../components/ui/DatePickerDialog.module.css", import.meta.url), "utf8"),
   dropdownMenu: readFileSync(new URL("../../components/ui/DropdownMenu.module.css", import.meta.url), "utf8"),
@@ -83,6 +97,20 @@ test("shared typography roles drive component CSS instead of duplicated font met
     ["toggleButton", "--m3-type-label-large-size"],
     ["tooltip", "--m3-type-body-small-size", "--m3-type-body-medium-size", "--m3-type-title-small-size"],
     ["topAppBar", "--m3-type-title-large-size", "--m3-type-headline-medium-size"],
+    ["bottomSheetScaffold", "--m3-type-label-large-size"],
+    ["buttonGroup", "--m3-type-label-large-size"],
+    ["datePicker", "--m3-type-label-medium-size", "--m3-type-label-large-size", "--m3-type-body-small-size", "--m3-type-title-small-size", "--m3-type-body-medium-size"],
+    ["floatingActionButton", "--m3-type-label-large-size"],
+    ["floatingActionButtonMenu", "--m3-type-label-large-size"],
+    ["floatingToolbar", "--m3-type-label-large-size"],
+    ["modalBottomSheet", "--m3-type-title-large-size", "--m3-type-body-medium-size"],
+    ["pullToRefresh", "--m3-type-body-medium-size"],
+    ["rangeSlider", "--m3-type-label-large-size", "--m3-type-body-medium-size"],
+    ["segmentedButtonGroup", "--m3-type-label-large-size"],
+    ["splitButton", "--m3-type-label-large-size"],
+    ["swipeToDismiss", "--m3-type-label-large-size"],
+    ["wideNavigationRail", "--m3-type-label-large-size"],
+    ["slider", "--m3-type-body-medium-size", "--m3-type-label-large-size", "--m3-type-body-small-size"],
   ];
 
   for (const [component, ...tokens] of expectations) {
