@@ -49,7 +49,6 @@ export default async function AccountPage({
     );
   }
 
-  const user = userData.user;
   const [{ data: isAdmin }] = await Promise.all([
     supabase.rpc("has_admin_permission", { requested_permission: "admin.dashboard.view" }),
   ]);
@@ -126,7 +125,7 @@ export default async function AccountPage({
                     headline={t.account.passwordSettingTitle}
                     supporting={t.account.passwordSettingDescription}
                     trailing={<MaterialIcon name="chevron_right" size={24} className="transition-transform group-hover:translate-x-1 motion-reduce:transform-none" />}
-                    lines={1}
+                    lines={2}
                   />
                 </Link>
               </div>
