@@ -1041,6 +1041,19 @@ test("remaining public, admin and account pages consume shared Material 3 typogr
   assert.ok(informationPage.includes("rounded-[var(--shape-corner-extra-large)]"));
   assert.ok(informationPage.includes("rounded-[var(--shape-corner-large)]"));
   assert.ok(footer.includes("m3-type-body-small"));
+
+  for (const [name, source] of [
+    ["sign-in page", signInPage],
+    ["sign-up page", signUpPage],
+    ["account deletion page", deleteAccountPage],
+  ]) {
+    assert.ok(source.includes('import { Column } from "@/components/layout/compose/Column";'), `${name} must consume the shared Compose Column primitive`);
+    assert.ok(source.includes('import { Arrangement } from "@/components/layout/compose/Arrangement";'), `${name} must consume the shared Compose Arrangement primitive`);
+    assert.ok(source.includes('Arrangement.spacedBy("var(--space-5)")'), `${name} must use the shared spacing token through Arrangement.spacedBy`);
+    assert.ok(!/<form[^>]*space-y-/.test(source), `${name} must not keep a local Tailwind vertical-spacing utility on the migrated form`);
+  }
+  assert.ok(signInPage.includes('Arrangement.spacedBy("var(--space-3)")'), "confirmation-resend form must use the shared Compose spacing primitive");
+  assert.ok(!/<form[^>]*space-y-/.test(signInPage), "sign-in page forms must not retain local Tailwind vertical-spacing utilities");
 });
 
 
