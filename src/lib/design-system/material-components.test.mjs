@@ -393,7 +393,7 @@ test("shared action controls use semantic state-layer colors instead of brightne
   assert.match(appLinkSource, /getMaterialButtonInlineStyle\(isMaterialButton/);
   assert.match(buttonVariantStylesSource, /colors\?\.contentColor/);
   assert.match(appLinkSource, /variant === "filled".*variant === "text"/s);
-  assert.match(iconButtonSource, /var\(--primary\)_92%,var\(--on-primary\)/);
+  assert.ok(iconButtonSource.includes("var(--icon-button-container-color,var(--primary))_92%,var(--icon-button-content-color,var(--on-primary))"));
   assert.ok(favoriteSource.includes("const FavoriteActionButton = active ? FilledTonalButton : OutlinedButton;"));
   assert.match(favoriteSource, /import \{ IconToggleButton \} from "@\/components\/ui\/IconButton"/);
   assert.match(appLinkSource, /materialButtonVariantStyles/);
@@ -601,8 +601,8 @@ test("AndroidX-named Buttons support per-state color customization without produ
   assert.ok(iconButtonSource.includes("export type IconToggleButtonColors ="));
   assert.ok(iconButtonSource.includes("colors?: Partial<IconButtonColors>"));
   assert.ok(iconButtonSource.includes('shape?: CSSProperties["borderRadius"]'));
-  assert.ok(iconButtonSource.includes('"filled-tonal": "border border-transparent bg-[var(--secondary-container)] text-[var(--on-secondary-container)]'));
-  assert.ok(iconButtonSource.includes('outlined: "border border-transparent bg-[var(--inverse-surface)] text-[var(--inverse-on-surface)]'));
+  assert.ok(iconButtonSource.includes('"filled-tonal": "border border-transparent bg-[var(--icon-button-checked-container-color,var(--secondary-container))] text-[var(--icon-button-checked-content-color,var(--on-secondary-container))]'));
+  assert.ok(iconButtonSource.includes('outlined: "border border-transparent bg-[var(--icon-button-checked-container-color,var(--inverse-surface))] text-[var(--icon-button-checked-content-color,var(--inverse-on-surface))]'));
   assert.ok(iconButtonSource.includes("group-hover:bg-[color-mix(in_srgb,var(--inverse-surface)_92%,var(--inverse-on-surface))]"));
 });
 test("Lab checkbox samples each define one palette-aware shape and disabled role set", () => {
