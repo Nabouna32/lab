@@ -3,7 +3,7 @@ import type { BoxAlignment } from "./Alignment";
 
 /**
  * Ordered Web adapter for androidx.compose.ui.Modifier and the layout modifiers
- * used by this port. Numeric dimensions are CSS pixels, not Android Dp.
+ * used by this port. Numeric dimensions follow the Loculary port convention: 1 Android Dp = 1 CSS px.
  *
  * Each operation is represented by a wrapper so the chain order is retained.
  * Browser layout still differs from Compose measurement and constraint propagation.
@@ -39,7 +39,7 @@ type ModifierOperation =
 
 function assertNonNegative(value: number, name: string): void {
   if (!Number.isFinite(value) || value < 0) {
-    throw new RangeError(`Modifier.${name} requires a finite, non-negative CSS pixel value.`);
+    throw new RangeError(`Modifier.${name} requires a finite, non-negative Dp value (mapped 1:1 to CSS px).`);
   }
 }
 
