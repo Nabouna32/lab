@@ -4,7 +4,7 @@ import { readFileSync } from "node:fs";
 import { test } from "node:test";
 import { AbsoluteAlignment, Alignment } from "../../components/layout/compose/Alignment.ts";
 import { Arrangement } from "../../components/layout/compose/Arrangement.ts";
-import { Modifier } from "../../components/layout/compose/Modifier.ts";
+import { BoxScope, ColumnScope, Modifier, RowScope } from "../../components/layout/compose/Modifier.ts";
 import { categoryColorIds, getCategoryColor, getCategoryContainerColor, getCategoryOnContainerColor } from "./category-colors.ts";
 
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
@@ -218,22 +218,34 @@ test("Modifier exposes the common size and constraint operations needed by layou
     minHeight: "0px",
     maxHeight: "300px",
   });
-  assert.deepEqual(getModifierElementProps(Modifier.weight(2).wrap(createElement("span"))).style, {
+  assert.deepEqual(getModifierElementProps(Modifier.then(RowScope.weight(2)).wrap(createElement("span"))).style, {
     flexGrow: 2,
     flexShrink: 1,
     flexBasis: "0%",
   });
-  assert.deepEqual(Modifier.align(Alignment.BottomEnd).boxScopeOptions(), {
+  assert.deepEqual(Modifier.then(BoxScope.align(Alignment.BottomEnd)).boxScopeOptions(), {
     alignment: Alignment.BottomEnd,
     matchParentSize: false,
   });
-  assert.deepEqual(Modifier.matchParentSize().boxScopeOptions(), {
+  assert.deepEqual(Modifier.then(BoxScope.matchParentSize()).boxScopeOptions(), {
     alignment: undefined,
     matchParentSize: true,
   });
-  assert.deepEqual(Modifier.align(Alignment.Center).matchParentSize().withoutBoxScopeOperations().boxScopeOptions(), {
+  assert.deepEqual(Modifier.then(BoxScope.align(Alignment.Center)).then(BoxScope.matchParentSize()).withoutBoxScopeOperations().boxScopeOptions(), {
     alignment: undefined,
     matchParentSize: false,
+  });
+});
+
+test("scope-specific layout operations are not exposed by the generic Modifier", () => {
+  assert.equal("weight" in Modifier, false);
+  assert.equal("align" in Modifier, false);
+  assert.equal("matchParentSize" in Modifier, false);
+
+  assert.deepEqual(getModifierElementProps(Modifier.then(ColumnScope.weight(3, false)).wrap(createElement("span"))).style, {
+    flexGrow: 0,
+    flexShrink: 1,
+    flexBasis: "auto",
   });
 });
 
@@ -241,7 +253,8 @@ test("Modifier validates dimensions, fractions, weights and contradictory constr
   assert.throws(() => Modifier.padding(-1), RangeError);
   assert.throws(() => Modifier.width(-1), RangeError);
   assert.throws(() => Modifier.fillMaxWidth(1.1), RangeError);
-  assert.throws(() => Modifier.weight(0), RangeError);
+  assert.throws(() => RowScope.weight(0), RangeError);
+  assert.throws(() => ColumnScope.weight(0), RangeError);
   assert.throws(() => Modifier.widthIn(300, 200), RangeError);
   assert.throws(() => Modifier.heightIn(100, 50), RangeError);
 });
