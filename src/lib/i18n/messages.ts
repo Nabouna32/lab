@@ -40,7 +40,7 @@ export type Messages = {
   nextActions: { title: string };
   theme: { choose: string; system: string; light: string; dark: string; title: string };
   admin: { label: string; title: string; description: string; dashboard: string; access: string; account: string; roles: string; permissions: string; auditLog: string; noAuditEntries: string; noAccess: string; notConfigured: string; modules: string; users: string; usersDescription: string; usersTitle: string; usersBack: string; usersSearch: string; usersSearchPlaceholder: string; usersSearchSubmit: string; usersNoResults: string; usersLoadError: string; userEmail: string; userDisplayName: string; userCreated: string; userLastSignIn: string; userEmailConfirmed: string; userPending: string; userNeverSignedIn: string; userRoles: string; userAssignRole: string; userRemoveRole: string; userNoRoles: string; userUpdated: string; userActionError: string; audit: string; auditDescription: string; auditLoadError: string; auditTitle: string; auditBack: string; auditEmpty: string; auditActor: string; auditAction: string; auditTarget: string; auditDate: string; auditDetails: string; userAccess: string; userActive: string; userSuspendedUntil: string; userSuspend: string; userUnsuspend: string; userSuspended: string; userUnsuspended: string; userRevokeSessions: string; userSessionsRevoked: string; roleSuperAdmin: string; roleAdmin: string; },
-  account: { label: string; title: string; pageDescription: string; profileDescription: string; securityDescription: string; anonymousDescription: string; signIn: string; signUp: string; signOut: string; submitSignIn: string; submitSignUp: string; email: string; password: string; displayName: string; notSet: string; confirmation: string; confirmationSent: string; resendConfirmation: string; alreadySignedIn: string; noAccount: string; hasAccount: string; signInError: string; signUpError: string; authRateLimited: string; invalidEmail: string; forgotPassword: string; forgotPasswordTitle: string; forgotPasswordDescription: string; forgotPasswordSent: string; forgotPasswordError: string; resetPassword: string; resetPasswordTitle: string; resetPasswordDescription: string; passwordConfirmation: string; passwordResetError: string; weakPassword: string; changePassword: string; changePasswordTitle: string; currentPassword: string; passwordChanged: string; currentPasswordError: string; profile: string; saveProfile: string; profileUpdated: string; profileError: string; passwordError: string; security: string; dangerZone: string; preferredLanguage: string; french: string; english: string; emailAddress: string; changeEmail: string; changeEmailTitle: string; changeEmailDescription: string; emailChangeConfirmation: string; emailChangeUpdated: string; emailChangeError: string; emailSame: string; deleteAccount: string; deleteAccountTitle: string; deleteAccountDescription: string; deleteAccountConsequences: string; deleteAccountConfirmationLabel: string; deleteAccountConfirmationPlaceholder: string; deleteAccountButton: string; deleteAccountError: string; deleteAccountSessionError: string; lastSuperAdmin: string; accountDeleted: string; };
+  account: { label: string; title: string; pageDescription: string; profileDescription: string; personalInformation: string; personalInformationDescription: string; securityDescription: string; emailSettingTitle: string; emailSettingDescription: string; passwordSettingTitle: string; passwordSettingDescription: string; anonymousDescription: string; signIn: string; signUp: string; signOut: string; submitSignIn: string; submitSignUp: string; email: string; password: string; displayName: string; notSet: string; confirmation: string; confirmationSent: string; resendConfirmation: string; alreadySignedIn: string; noAccount: string; hasAccount: string; signInError: string; signUpError: string; authRateLimited: string; invalidEmail: string; forgotPassword: string; forgotPasswordTitle: string; forgotPasswordDescription: string; forgotPasswordSent: string; forgotPasswordError: string; resetPassword: string; resetPasswordTitle: string; resetPasswordDescription: string; passwordConfirmation: string; passwordResetError: string; weakPassword: string; changePassword: string; changePasswordTitle: string; currentPassword: string; passwordChanged: string; currentPasswordError: string; profile: string; saveProfile: string; profileUpdated: string; profileError: string; passwordError: string; security: string; dangerZone: string; preferredLanguage: string; french: string; english: string; emailAddress: string; changeEmail: string; changeEmailTitle: string; changeEmailDescription: string; emailChangeConfirmation: string; emailChangeUpdated: string; emailChangeError: string; emailSame: string; deleteAccount: string; deleteAccountTitle: string; deleteAccountDescription: string; deleteAccountConsequences: string; deleteAccountConfirmationLabel: string; deleteAccountConfirmationPlaceholder: string; deleteAccountButton: string; deleteAccountError: string; deleteAccountSessionError: string; lastSuperAdmin: string; accountDeleted: string; };
   processing: {
     localDetail: string; ariaLabel: string; more: string; storage: string; retention: string; externalProviders: string; dataCategories: string;
     localLabel: string; localSummary: string; externalLabel: string; externalSummary: string; fallbackNotice: string;
@@ -169,10 +169,17 @@ export const messages: Record<Locale, Messages> = {
     },
     account: {
       label: "Compte",
-      title: "Compte",
+      title: "Votre compte",
       pageDescription: "Gérez votre profil et les paramètres d’accès.",
-      profileDescription: "Personnalisez votre nom d’affichage et votre langue.",
+      profileDescription: "Consulter et modifier votre profil",
+      personalInformation: "Informations personnelles",
+      personalInformationDescription: "Consulter et modifier votre profil",
+      security: "Sécurité et connexion",
       securityDescription: "Gérez votre adresse de connexion et votre mot de passe.",
+      emailSettingTitle: "Adresse e-mail",
+      emailSettingDescription: "Gérer votre adresse de connexion",
+      passwordSettingTitle: "Mot de passe",
+      passwordSettingDescription: "Modifier votre mot de passe",
       anonymousDescription: "Créez un compte pour enregistrer vos préférences et gérer votre profil. Loculary reste utilisable sans compte.",
       signIn: "Se connecter", signUp: "Créer un compte", signOut: "Se déconnecter",
       submitSignIn: "Se connecter", submitSignUp: "Créer mon compte",
@@ -338,10 +345,17 @@ guidedWorkflows: {
     },
     account: {
       label: "Account",
-      title: "Account",
+      title: "Your account",
       pageDescription: "Manage your profile and sign-in settings.",
-      profileDescription: "Personalize your display name and language.",
+      profileDescription: "View and edit your profile",
+      personalInformation: "Personal information",
+      personalInformationDescription: "View and edit your profile",
+      security: "Security and sign-in",
       securityDescription: "Manage your sign-in address and password.",
+      emailSettingTitle: "Email address",
+      emailSettingDescription: "Manage your sign-in address",
+      passwordSettingTitle: "Password",
+      passwordSettingDescription: "Change your password",
       anonymousDescription: "Create an account to save your preferences and manage your profile. Loculary remains usable without an account.",
       signIn: "Sign in", signUp: "Create an account", signOut: "Sign out",
       submitSignIn: "Sign in", submitSignUp: "Create my account",
