@@ -30,17 +30,17 @@ export default async function ChangeEmailPage({
     <main>
       <PageContainer width="form" spacing="none" className="flex min-h-[calc(100vh-4.5rem)] items-center py-[var(--space-12)]">
       <Panel as="section" className="w-full">
-        <p className="text-sm font-semibold text-[var(--accent)]">{t.account.label}</p>
-        <h1 className="mt-2 text-3xl font-bold tracking-tight">{t.account.changeEmailTitle}</h1>
-        <p className="mt-3 text-sm text-[var(--muted)]">{t.account.changeEmailDescription}</p>
-        <p className="mt-5 border-l-2 border-[var(--border-strong)] py-1 pl-3 text-sm">
+        <p className="m3-type-label-large text-[var(--primary)]">{t.account.label}</p>
+        <h1 className="mt-2 m3-type-headline-large">{t.account.changeEmailTitle}</h1>
+        <p className="mt-3 m3-type-body-medium text-[var(--muted)]">{t.account.changeEmailDescription}</p>
+        <p className="mt-5 border-l-2 border-[var(--border-strong)] py-1 pl-3 m3-type-body-medium">
           <span className="font-semibold">{t.account.emailAddress}:</span> {data.user.email}
         </p>
         {query.status === "confirmation" ? (
-          <p className="mt-5 border-l-2 border-[var(--success)] py-1 pl-3 text-sm text-[var(--success-foreground)]" role="status">{t.account.emailChangeConfirmation}</p>
+          <p className="mt-5 border-l-2 border-[var(--success)] py-1 pl-3 m3-type-body-medium text-[var(--success-foreground)]" role="status">{t.account.emailChangeConfirmation}</p>
         ) : null}
         {query.error ? (
-          <p className="mt-5 border-l-2 border-[var(--danger)] py-1 pl-3 text-sm text-[var(--danger-foreground)]" role="alert">
+          <p className="mt-5 border-l-2 border-[var(--danger)] py-1 pl-3 m3-type-body-medium text-[var(--danger-foreground)]" role="alert">
             {query.error === "same" ? t.account.emailSame : query.error === "rate-limited" ? t.account.authRateLimited : t.account.emailChangeError}
           </p>
         ) : null}
@@ -51,7 +51,7 @@ export default async function ChangeEmailPage({
             {t.account.changeEmail}
           </SubmitButton>
         </form>
-        <Link className="mt-6 inline-flex font-semibold text-[var(--accent)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]" href={`/${locale}/compte`}>
+        <Link className="mt-6 inline-flex min-h-11 items-center m3-type-label-large text-[var(--primary)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]" href={`/${locale}/compte`}>
           {t.account.title}
         </Link>
       </Panel>
