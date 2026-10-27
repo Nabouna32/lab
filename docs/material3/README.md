@@ -31,7 +31,7 @@ Before broad production migration, the Web port must expose a single source of t
 
 A shared token existing in CSS is not enough: audit its consumers and legacy aliases. Changing a foundation must update all inheriting consumers. Component-specific defaults and explicit overrides remain where AndroidX defines or permits them. Typography must use named roles instead of repeated Tailwind font-size/weight/line-height combinations.
 
-Implementation is in active migration: all 15 Material 3 typography roles are exposed as shared variables/classes and are consumed by many UI components and production compositions. A targeted migration of 12px consumers from the legacy `--radius-md` alias to `--shape-corner-medium` is covered by contract tests. The `--radius-*` scale still exists pending a complete reference audit; historical 16px and 24px values must not be mechanically remapped. Shape token presence and passing contract tests do not establish exact AndroidX source parity or browser-verified visual fidelity.
+Implementation is in active migration: all 15 Material 3 typography roles are exposed as shared variables/classes and are consumed by many UI components and production compositions. Targeted migrations of 8px consumers to `--shape-corner-small` and 12px consumers from the legacy `--radius-md` alias to `--shape-corner-medium` are covered by contract tests. The `--radius-*` scale still exists pending a complete reference audit; historical 16px and 24px values must not be mechanically remapped. Shape token presence and passing contract tests do not establish exact AndroidX source parity or browser-verified visual fidelity.
 
 ## Goal
 
