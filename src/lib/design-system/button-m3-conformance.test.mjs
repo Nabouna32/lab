@@ -175,7 +175,7 @@ test("Button call sites use AndroidX component names and keep extensions separat
   assert.ok(!button.includes('tonal: filledTonal'));
   assert.ok(!button.includes('secondary: outlined'));
   assert.ok(!button.includes('ghost: text'));
-  assert.ok(iconButton.includes('tonal: filledTonal'), "IconButton compatibility alias is outside this Button porting lot");
+  assert.ok(!iconButton.includes("tonal: filledTonal"), "non-official icon button aliases must not remain");
   for (const component of ["ElevatedButton", "FilledTonalButton", "OutlinedButton", "TextButton"]) {
     assert.ok(labSource.includes(component), "Design Lab must exercise named component: " + component);
   }
@@ -184,8 +184,8 @@ test("Button call sites use AndroidX component names and keep extensions separat
   for (const required of ["buttonDisabled", "buttonLongLabel", "buttonLeadingIcon", "buttonTrailingArrow", "buttonNarrow", "buttonMultiline", "buttonManualBreak", "multiline={multiline}", "arrow_forward", "Disabled state"]) {
     assert.ok(auditPreview.includes(required), "Button audit preview is missing control or state coverage: " + required);
   }
-  assert.ok(labSource.includes("<IconButton"));
-  assert.ok(labSource.includes('variant="filled-tonal"><MaterialIcon name="search" size={24}'));
+  assert.ok(labSource.includes("<IconToggleButton") && labSource.includes("<FilledIconButton"));
+  assert.ok(labSource.includes("FilledTonalIconButton"));
   assert.ok(toolSearch.includes('<IconButton') && toolSearch.includes('label={t.tools.clearSearch}'));
   assert.ok(readFileSync(new URL("../../components/ui/CopyButton.tsx", import.meta.url), "utf8").includes("leadingIcon"));
   assert.ok(readFileSync(new URL("../../components/ui/ClearButton.tsx", import.meta.url), "utf8").includes("leadingIcon"));
@@ -227,15 +227,15 @@ test("favorite action uses shared M3 controls and never shrinks icon touch targe
   assert.ok(favoriteButton.includes('<StarIcon filled={active} size={24} className="h-6 w-6 shrink-0" />'));
   assert.ok(readFileSync(new URL("../../components/ui/StarIcon.tsx", import.meta.url), "utf8").includes("size = 20"));
   assert.ok(favoriteButton.includes("const FavoriteActionButton = active ? FilledTonalButton : OutlinedButton;"));
-  assert.ok(favoriteButton.includes("selected={active}"));
+  assert.ok(favoriteButton.includes("checked={active}") && favoriteButton.includes("onCheckedChange"));
   assert.ok(!favoriteButton.includes("min-h-10 min-w-10"));
 });
 
-test("number-base swap action uses the shared M3 IconButton with a 24px icon", () => {
-  assert.ok(baseConverter.includes('import { IconButton } from "@/components/ui/IconButton"'));
-  assert.ok(baseConverter.includes('<IconButton label={t.swap} title={t.swap} variant="outlined" onClick={swapBases}'));
+test("number-base swap action uses the shared OutlinedIconButton with a 24px icon", () => {
+  assert.ok(baseConverter.includes("OutlinedIconButton"));
+  assert.ok(baseConverter.includes("<OutlinedIconButton label={t.swap} title={t.swap} onClick={swapBases}"));
   assert.ok(baseConverter.includes('<MaterialIcon name="swap_horiz" size={24} />'));
-  assert.ok(!baseConverter.includes('<button type="button" onClick={swapBases}'));
+  assert.ok(baseConverter.includes("<OutlinedIconButton label={t.swap} title={t.swap} onClick={swapBases}"));
 });
 
 test("icon-only theme and language menu triggers meet the 48px M3 target", () => {
@@ -249,7 +249,8 @@ test("global header search uses the shared ref-capable M3 IconButton at every br
   assert.ok(headerSearch.includes('import { IconButton } from "@/components/ui/IconButton"'));
   assert.ok(headerSearch.includes("<IconButton"));
   assert.ok(headerSearch.includes("ref={triggerRef}"));
-  assert.ok(headerSearch.includes('selected={open}'));
+  assert.ok(headerSearch.includes("aria-expanded={open}"));
+  assert.ok(!headerSearch.includes("selected={open}"), "a disclosure trigger is not a toggle button");
   assert.ok(headerSearch.includes('document.getElementById("header-tool-search-input")'));
   assert.ok(headerSearch.includes('data-search-popup-owner="header-tool-search"'));
   assert.doesNotMatch(headerSearch, /lg:hidden|md:hidden|sm:hidden/);
