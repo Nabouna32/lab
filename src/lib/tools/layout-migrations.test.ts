@@ -76,7 +76,8 @@ test("category page section rhythm uses the shared spacing tokens", () => {
 test("header layout reuses Row and a weighted Spacer instead of a product-specific grid", () => {
   assert.ok(headerSource.includes('import { Row } from "@/components/layout/compose/Row"'));
   assert.ok(headerSource.includes('import { Spacer } from "@/components/layout/compose/Spacer"'));
-  assert.ok(headerSource.includes("Modifier.weight(1)"));
+  assert.ok(headerSource.includes("Modifier.then(RowScope.weight(1))"));
+  assert.ok(headerSource.includes('import { Modifier, RowScope } from "@/components/layout/compose/Modifier"'));
   assert.ok(headerSource.includes('Arrangement.spacedByCss("var(--header-layout-gap)")'));
   assert.ok(headerSource.includes('Arrangement.spacedByCss("var(--header-control-gap)")'));
   assert.ok(!headerSource.includes("flex shrink-0 items-center gap-0.5"));
