@@ -41,7 +41,9 @@ export const AbsoluteAlignment = {
 export type HorizontalAlignment =
   | typeof Alignment.Start
   | typeof Alignment.CenterHorizontally
-  | typeof Alignment.End;
+  | typeof Alignment.End
+  | typeof AbsoluteAlignment.Left
+  | typeof AbsoluteAlignment.Right;
 export type VerticalAlignment =
   | typeof Alignment.Top
   | typeof Alignment.CenterVertically
