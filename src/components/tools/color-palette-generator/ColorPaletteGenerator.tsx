@@ -45,7 +45,7 @@ export default function ColorPaletteGenerator() {
                     aria-label={t.picker}
                     value={palette?.base.hex ?? "#000000"}
                     onChange={(event) => setValue(event.target.value)}
-                    className="h-11 w-14 cursor-pointer rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background)] p-1 outline-none transition focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+                    className="h-11 w-14 cursor-pointer rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--background)] p-1 outline-none transition focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
                   />
                 </div>
               </div>
@@ -55,7 +55,7 @@ export default function ColorPaletteGenerator() {
           </div>
 
           {palette ? (
-            <div className="grid min-h-40 grid-cols-2 overflow-hidden rounded-[var(--radius-md)] border border-[var(--border)] sm:grid-cols-4" aria-label={t.basePreview}>
+            <div className="grid min-h-40 grid-cols-2 overflow-hidden rounded-[var(--shape-corner-medium)] border border-[var(--border)] sm:grid-cols-4" aria-label={t.basePreview}>
               {palette.analogous.slice(0, 4).map((color) => (
                 <div key={color.hex} className="min-h-24 p-3" style={{ backgroundColor: color.hex }}>
                   <code className="rounded-md bg-black/20 px-2 py-1 text-xs font-semibold text-white">{color.hex}</code>
