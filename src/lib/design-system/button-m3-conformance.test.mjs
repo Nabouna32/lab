@@ -30,6 +30,12 @@ test("shared Button exports AndroidX component names with source-derived dimensi
     assert.ok(button.includes("export function " + component + "("), "missing AndroidX component export: " + component);
   }
   assert.ok(button.includes("export type ButtonColors ="), "official button exports expose AndroidX-inspired color customization");
+  assert.ok(button.includes("export type ButtonContentPadding ="));
+  assert.ok(button.includes('shape?: CSSProperties["borderRadius"]'));
+  assert.ok(button.includes('border?: CSSProperties["border"] | null'));
+  assert.ok(button.includes("contentPadding?: ButtonContentPadding"));
+  assert.ok(button.includes("paddingInlineStart: contentPadding.start"), "content padding preserves AndroidX logical start/end in RTL layouts");
+  assert.ok(button.includes("border: border ?? \"none\""), "a null border maps to no CSS border");
   assert.ok(buttonVariantStyles.includes("disabledContainerColor?: string") && buttonVariantStyles.includes("disabledContentColor?: string"));
   assert.ok(!button.includes("DestructiveButton"), "no Loculary-only destructive component remains");
   const buttonContract = button + buttonVariantStyles;

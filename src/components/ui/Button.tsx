@@ -4,9 +4,24 @@ import { getMaterialButtonInlineStyle, materialButtonVariantStyles, type Materia
 
 export type ButtonColors = MaterialButtonColors;
 
+export type ButtonContentPadding = {
+  /** Logical start inset (AndroidX PaddingValues.start). */
+  start?: CSSProperties["paddingInlineStart"];
+  top?: CSSProperties["paddingBlockStart"];
+  /** Logical end inset (AndroidX PaddingValues.end). */
+  end?: CSSProperties["paddingInlineEnd"];
+  bottom?: CSSProperties["paddingBlockEnd"];
+};
+
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   /** AndroidX-inspired color customization. Values may be CSS colors or semantic theme tokens. */
   colors?: ButtonColors;
+  /** Web mapping for AndroidX Shape; accepts CSS border-radius values. */
+  shape?: CSSProperties["borderRadius"];
+  /** Web mapping for AndroidX BorderStroke; null removes the border. */
+  border?: CSSProperties["border"] | null;
+  /** Logical padding values adapted from AndroidX PaddingValues. */
+  contentPadding?: ButtonContentPadding;
   /** React ref to the native button element. */
   ref?: Ref<HTMLButtonElement>;
   /** Apply the AndroidX leading-icon content inset; the caller renders the icon. */
@@ -22,6 +37,9 @@ const styles = materialButtonVariantStyles;
 function MaterialButton({
   variant,
   colors,
+  shape,
+  border,
+  contentPadding,
   ref,
   style,
   leadingIcon = false,
@@ -36,7 +54,17 @@ function MaterialButton({
   const horizontalPadding = isTextVariant
     ? leadingIcon ? "pl-3 pr-4" : "px-3"
     : leadingIcon ? "pl-4 pr-6" : "px-6";
-  const mergedStyle = getMaterialButtonInlineStyle(variant, colors, style);
+  const mergedStyle = {
+    ...getMaterialButtonInlineStyle(variant, colors, style),
+    ...(shape === undefined ? {} : { borderRadius: shape }),
+    ...(border === undefined ? {} : { border: border ?? "none" }),
+    ...(contentPadding === undefined ? {} : {
+      paddingBlockStart: contentPadding.top,
+      paddingInlineEnd: contentPadding.end,
+      paddingBlockEnd: contentPadding.bottom,
+      paddingInlineStart: contentPadding.start,
+    }),
+  };
 
   return (
     <button
