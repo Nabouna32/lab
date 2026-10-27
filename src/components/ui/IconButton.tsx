@@ -1,6 +1,6 @@
 import type { ButtonHTMLAttributes, ReactNode, Ref } from "react";
 
-type IconButtonVariant = "standard" | "filled" | "filled-tonal" | "outlined";
+type IconButtonStyle = "standard" | "filled" | "filled-tonal" | "outlined";
 
 type IconButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "aria-label" | "children" | "aria-pressed"> & {
   label: string;
@@ -14,7 +14,7 @@ type IconToggleButtonProps = Omit<IconButtonProps, "onClick"> & {
 };
 
 type IconButtonBaseProps = IconButtonProps & {
-  variant: IconButtonVariant;
+  variant: IconButtonStyle;
   checked?: boolean;
   onCheckedChange?: (checked: boolean) => void;
 };
@@ -24,14 +24,14 @@ const filled = "border border-transparent bg-[var(--primary)] text-[var(--on-pri
 const filledTonal = "border border-transparent bg-[var(--secondary-container)] text-[var(--on-secondary-container)] group-hover:bg-[color-mix(in_srgb,var(--secondary-container)_92%,var(--on-secondary-container))] group-active:bg-[color-mix(in_srgb,var(--secondary-container)_88%,var(--on-secondary-container))] group-disabled:bg-[color-mix(in_srgb,var(--on-surface)_10%,transparent)] group-disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]";
 const outlined = "border border-[var(--outline-variant)] bg-transparent text-[var(--on-surface-variant)] group-hover:bg-[color-mix(in_srgb,var(--on-surface-variant)_8%,transparent)] group-active:bg-[color-mix(in_srgb,var(--on-surface-variant)_12%,transparent)] group-disabled:border-[color-mix(in_srgb,var(--outline-variant)_38%,transparent)] group-disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]";
 
-const variants: Record<IconButtonVariant, string> = {
+const variants: Record<IconButtonStyle, string> = {
   standard,
   filled,
   "filled-tonal": filledTonal,
   outlined,
 };
 
-const selectedStyles: Record<IconButtonVariant, string> = {
+const selectedStyles: Record<IconButtonStyle, string> = {
   standard: "text-[var(--primary)] group-hover:text-[var(--primary)] group-active:text-[var(--primary)] group-disabled:text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)] group-hover:bg-[color-mix(in_srgb,var(--primary)_8%,transparent)] group-active:bg-[color-mix(in_srgb,var(--primary)_12%,transparent)]",
   filled: "",
   "filled-tonal": "bg-[var(--secondary-container)] text-[var(--on-secondary-container)] group-hover:bg-[color-mix(in_srgb,var(--secondary-container)_92%,var(--on-secondary-container))] group-active:bg-[color-mix(in_srgb,var(--secondary-container)_88%,var(--on-secondary-container))] group-disabled:bg-[color-mix(in_srgb,var(--on-surface)_10%,transparent)]",
