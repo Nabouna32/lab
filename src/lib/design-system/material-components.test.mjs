@@ -134,6 +134,8 @@ test("shared shape tokens are consumed by date, navigation and slider compositio
   const jsonDiffEditorial = readFileSync(new URL("../../components/tools/json-diff-checker/ToolEditorial.tsx", import.meta.url), "utf8");
   const cronExpression = readFileSync(new URL("../../components/tools/cron-expression/CronExpression.tsx", import.meta.url), "utf8");
   const colorConverter = readFileSync(new URL("../../components/tools/color-converter/ColorConverter.tsx", import.meta.url), "utf8");
+  const imageMetadata = readFileSync(new URL("../../components/tools/image-metadata/ImageMetadataViewer.tsx", import.meta.url), "utf8");
+  const colorPalette = readFileSync(new URL("../../components/tools/color-palette-generator/ColorPaletteGenerator.tsx", import.meta.url), "utf8");
 
   assert.ok(datePicker.includes("border-radius: var(--shape-corner-extra-large)"));
   assert.ok(datePicker.includes("border-radius: var(--shape-corner-small)"));
@@ -151,6 +153,9 @@ test("shared shape tokens are consumed by date, navigation and slider compositio
   assert.ok(jsonDiffEditorial.includes("rounded-[var(--shape-corner-medium)]"));
   assert.ok(cronExpression.includes("rounded-[var(--shape-corner-medium)]"));
   assert.ok(colorConverter.includes("rounded-[var(--shape-corner-medium)]"));
+  assert.ok(cronExpression.includes("shape-corner-small"));
+  assert.ok(imageMetadata.includes("shape-corner-small"));
+  assert.ok(colorPalette.includes("shape-corner-small"));
 });
 
 test("shared production compositions consume named typography and shape roles", () => {
