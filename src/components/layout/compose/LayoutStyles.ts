@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import type { HorizontalAlignment, VerticalAlignment } from "./Alignment";
+import type { BoxAlignment, HorizontalAlignment, VerticalAlignment } from "./Alignment";
 import { Arrangement, type HorizontalArrangement, type VerticalArrangement } from "./Arrangement";
 
 export type LayoutPresentation = {
@@ -153,4 +153,31 @@ export function getColumnLayoutPresentation(
       ...style,
     },
   };
+}
+
+
+export function getBoxChildStyle(alignment: BoxAlignment, matchParentSize = false): CSSProperties {
+  if (matchParentSize) {
+    return { gridArea: "1 / 1", position: "absolute", inset: 0, display: "grid" };
+  }
+
+  const alignmentStyles: Record<BoxAlignment, Pick<CSSProperties, "justifySelf" | "alignSelf">> = {
+    topStart: { justifySelf: "start", alignSelf: "start" },
+    topCenter: { justifySelf: "center", alignSelf: "start" },
+    topEnd: { justifySelf: "end", alignSelf: "start" },
+    centerStart: { justifySelf: "start", alignSelf: "center" },
+    center: { justifySelf: "center", alignSelf: "center" },
+    centerEnd: { justifySelf: "end", alignSelf: "center" },
+    bottomStart: { justifySelf: "start", alignSelf: "end" },
+    bottomCenter: { justifySelf: "center", alignSelf: "end" },
+    bottomEnd: { justifySelf: "end", alignSelf: "end" },
+    topLeft: { justifySelf: "left", alignSelf: "start" },
+    topRight: { justifySelf: "right", alignSelf: "start" },
+    centerLeft: { justifySelf: "left", alignSelf: "center" },
+    centerRight: { justifySelf: "right", alignSelf: "center" },
+    bottomLeft: { justifySelf: "left", alignSelf: "end" },
+    bottomRight: { justifySelf: "right", alignSelf: "end" },
+  };
+
+  return { gridArea: "1 / 1", ...alignmentStyles[alignment] };
 }
