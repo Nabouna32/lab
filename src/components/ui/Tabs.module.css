@@ -31,9 +31,10 @@
   background: transparent;
   color: var(--lab-on-surface-variant, var(--md-sys-color-on-surface-variant, currentColor));
   font: inherit;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 20px;
+  font-size: var(--m3-type-label-large-size);
+  font-weight: var(--m3-type-label-large-weight);
+  line-height: var(--m3-type-label-large-line-height);
+  letter-spacing: var(--m3-type-label-large-tracking);
   text-align: center;
   cursor: pointer;
   white-space: nowrap;
@@ -69,7 +70,7 @@
 }
 
 .secondary .tab {
-  font-weight: 500;
+  font-weight: var(--m3-type-label-large-weight);
 }
 
 .secondary .tab::after {
