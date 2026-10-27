@@ -16,8 +16,8 @@ const logoSource = readSource("../../components/brand/LocularyLogo.tsx");
 test("homepage compositions reuse the shared width, gutters and spacing tokens", () => {
   assert.ok(homePageSource.includes('<PageContainer'));
   assert.ok(homePageSource.includes('width="wide"'));
-  assert.ok(homePageSource.includes("pb-[var(--space-5)] pt-[var(--space-5)]"));
-  assert.ok(homePageSource.includes("sm:pb-[var(--space-8)] sm:pt-[var(--space-8)]"));
+  assert.ok(homePageSource.includes("pb-[var(--space-8)] pt-[var(--space-8)]"));
+  assert.ok(homePageSource.includes("sm:pb-[var(--space-10)] sm:pt-[var(--space-10)]"));
   assert.ok(!homePageSource.includes("max-w-[var(--content-wide)]"));
   assert.ok(homeWorkflowsSource.includes('<PageContainer'));
   assert.ok(homeWorkflowsSource.includes('width="wide"'));
@@ -26,6 +26,8 @@ test("homepage compositions reuse the shared width, gutters and spacing tokens",
   assert.ok(homePageSource.includes('import { Column } from "@/components/layout/compose/Column"'));
   assert.ok(homePageSource.includes('import { Arrangement } from "@/components/layout/compose/Arrangement"'));
   assert.ok(homePageSource.includes('verticalArrangement={Arrangement.spacedBy("var(--layout-page-section-gap)")}'));
+  assert.ok(!homePageSource.includes("ElevatedCard"));
+  assert.ok(!homePageSource.includes("t.home.badge"));
   assert.ok(homeWorkflowsSource.includes('import { Row } from "@/components/layout/compose/Row"'));
   assert.ok(homeWorkflowsSource.includes('import { Box } from "@/components/layout/compose/Box"'));
   assert.ok(homeWorkflowsSource.includes("contentAlignment={Alignment.Center}"));
