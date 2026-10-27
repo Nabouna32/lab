@@ -209,12 +209,12 @@ export default function ImageMetadataViewer() {
               </label>
               {optimize && <div className="grid gap-3 sm:grid-cols-2">
                 <label className="block space-y-1 text-sm"><span className="font-medium text-[var(--foreground)]">{t.outputFormat}</span>
-                  <select value={outputFormat} disabled={busy} onChange={(event) => { setOutputFormat(event.target.value as ImageOutputFormat); setItems((current) => current.map((item) => ({ ...item, cleanedBlob: undefined, cleanError: undefined }))); }} className="w-full rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-[var(--foreground)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]">
+                  <select value={outputFormat} disabled={busy} onChange={(event) => { setOutputFormat(event.target.value as ImageOutputFormat); setItems((current) => current.map((item) => ({ ...item, cleanedBlob: undefined, cleanError: undefined }))); }} className="w-full rounded-[var(--shape-corner-small)] border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-[var(--foreground)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]">
                     <option value="webp">WebP</option><option value="jpeg">JPEG</option><option value="png">PNG</option>
                   </select>
                 </label>
                 <label className="block space-y-1 text-sm"><span className="font-medium text-[var(--foreground)]">{t.maxDimension}</span>
-                  <select value={maxDimension ?? "original"} disabled={busy} onChange={(event) => { setMaxDimension(event.target.value === "original" ? null : Number(event.target.value)); setItems((current) => current.map((item) => ({ ...item, cleanedBlob: undefined, cleanError: undefined }))); }} className="w-full rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-[var(--foreground)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]">
+                  <select value={maxDimension ?? "original"} disabled={busy} onChange={(event) => { setMaxDimension(event.target.value === "original" ? null : Number(event.target.value)); setItems((current) => current.map((item) => ({ ...item, cleanedBlob: undefined, cleanError: undefined }))); }} className="w-full rounded-[var(--shape-corner-small)] border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-[var(--foreground)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]">
                     <option value="1200">1200 px</option><option value="2400">2400 px</option><option value="3200">3200 px</option><option value="original">{t.originalDimension}</option>
                   </select>
                 </label>
@@ -257,9 +257,9 @@ export default function ImageMetadataViewer() {
                   </div>
                   {item.metadata && (
                     <>
-                      {item.metadata.exif.gps && <p role="status" className="rounded-[var(--radius-sm)] border border-[var(--warning)] bg-[var(--warning-soft)] p-2 text-sm text-[var(--foreground)]">{t.gpsWarning}</p>}
+                      {item.metadata.exif.gps && <p role="status" className="rounded-[var(--shape-corner-small)] border border-[var(--warning)] bg-[var(--warning-soft)] p-2 text-sm text-[var(--foreground)]">{t.gpsWarning}</p>}
                       {Object.entries(item.metadata.exif).length > 0 ? (
-                        <dl className="grid gap-x-4 gap-y-2 rounded-[var(--radius-sm)] border border-[var(--border)] p-3 sm:grid-cols-2">
+                        <dl className="grid gap-x-4 gap-y-2 rounded-[var(--shape-corner-small)] border border-[var(--border)] p-3 sm:grid-cols-2">
                           {Object.entries(item.metadata.exif).map(([key, value]) => (
                             <div key={key} className="min-w-0">
                               <dt className="text-xs font-medium text-[var(--muted)]">{exifLabels[key] ?? key}</dt>
