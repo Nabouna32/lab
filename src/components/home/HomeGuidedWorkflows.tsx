@@ -7,6 +7,7 @@ import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import { Alignment } from "@/components/layout/compose/Alignment";
 import { Arrangement } from "@/components/layout/compose/Arrangement";
 import { Row } from "@/components/layout/compose/Row";
+import { Box } from "@/components/layout/compose/Box";
 
 export default function HomeGuidedWorkflows({ locale }: { locale: Locale }) {
   const t = getMessages(locale);
@@ -27,12 +28,13 @@ export default function HomeGuidedWorkflows({ locale }: { locale: Locale }) {
             verticalAlignment={Alignment.CenterVertically}
             className="[--home-workflow-card-gap:var(--space-3)] sm:[--home-workflow-card-gap:var(--space-4)]"
           >
-            <span
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--accent-soft)] text-[var(--accent)]"
+            <Box
+              contentAlignment={Alignment.Center}
+              className="h-10 w-10 shrink-0 rounded-xl bg-[var(--accent-soft)] text-[var(--accent)]"
               aria-hidden="true"
             >
               <MaterialIcon name="swap_horiz" size={22} />
-            </span>
+            </Box>
             <span className="min-w-0 flex-1">
               <span className="block font-bold text-[var(--foreground)]">
                 {t.guidedWorkflows.homeTitle}
