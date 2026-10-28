@@ -148,6 +148,8 @@ test("image metadata tool uses Compose Column arrangements for repeated vertical
   assert.ok(imageMetadataSource.includes('import { Column } from "@/components/layout/compose/Column"'));
   assert.ok(imageMetadataSource.includes('import { Arrangement } from "@/components/layout/compose/Arrangement"'));
   assert.ok(imageMetadataSource.includes('className="w-full p-5 sm:p-7 lg:p-8"'));
+  assert.ok(imageMetadataSource.includes('className="grid w-full gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.85fr)]"'), "the main grid must fill the parent Column explicitly");
+  assert.ok(imageMetadataSource.includes('className="grid w-full min-w-0 gap-4 rounded-[var(--shape-corner-medium)]'), "each result article must fill its Column slot");
   assert.ok(imageMetadataSource.includes('className="w-full min-w-0"'), "result bodies must fill their grid cell without imposing intrinsic width");
   for (const token of ["--space-6", "--space-4", "--space-3", "--space-2"]) {
     assert.ok(imageMetadataSource.includes(`Arrangement.spacedBy("var(${token})")`), `missing Compose spacing token: ${token}`);
