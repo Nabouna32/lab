@@ -62,7 +62,7 @@ export default async function AccountPage({
 
   return (
     <main className="min-h-full">
-      <PageContainer width="medium" spacing="none" className="py-[var(--space-7)] sm:py-[var(--space-9)] lg:py-[var(--space-10)]">
+      <PageContainer width="narrow" spacing="none" className="py-[var(--space-7)] sm:py-[var(--space-9)] lg:py-[var(--space-10)]">
         <Column verticalArrangement={Arrangement.spacedBy("var(--space-2)")} className="mb-8">
           <h1 className="m3-type-headline-medium">{t.account.title}</h1>
           <p className="max-w-2xl text-[var(--on-surface-variant)]">{t.account.pageDescription}</p>
