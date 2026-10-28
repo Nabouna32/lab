@@ -1103,10 +1103,10 @@ test("Chip delegates typography metrics to the shared Material 3 label role", ()
   const chipStyles = readFileSync(new URL("../../components/ui/Chip.module.css", import.meta.url), "utf8");
 
   assert.match(chipSource, /m3-type-label-large/);
-  assert.doesNotMatch(chipStyles, /font-size:\\s*var\\(--m3-type-label-large-size\\)/);
-  assert.doesNotMatch(chipStyles, /line-height:\\s*var\\(--m3-type-label-large-line-height\\)/);
-  assert.doesNotMatch(chipStyles, /font-weight:\\s*var\\(--m3-type-label-large-weight\\)/);
-  assert.doesNotMatch(chipStyles, /letter-spacing:\\s*var\\(--m3-type-label-large-tracking\\)/);
+  assert.ok(!chipStyles.includes("font-size: var(--m3-type-label-large-size)"));
+  assert.ok(!chipStyles.includes("line-height: var(--m3-type-label-large-line-height)"));
+  assert.ok(!chipStyles.includes("font-weight: var(--m3-type-label-large-weight)"));
+  assert.ok(!chipStyles.includes("letter-spacing: var(--m3-type-label-large-tracking)"));
 });
 
 
@@ -1115,8 +1115,8 @@ test("Badge delegates typography metrics to the shared Material 3 label role", (
   const badgeStyles = readFileSync(new URL("../../components/ui/Badge.module.css", import.meta.url), "utf8");
 
   assert.match(badgeSource, /m3-type-label-small/);
-  assert.doesNotMatch(badgeStyles, /font-size:\\s*var\\(--m3-type-label-small-size\\)/);
-  assert.doesNotMatch(badgeStyles, /line-height:\\s*var\\(--m3-type-label-small-line-height\\)/);
-  assert.doesNotMatch(badgeStyles, /font-weight:\\s*var\\(--m3-type-label-small-weight\\)/);
-  assert.doesNotMatch(badgeStyles, /letter-spacing:\\s*var\\(--m3-type-label-small-tracking\\)/);
+  assert.ok(!badgeStyles.includes("font-size: var(--m3-type-label-small-size)"));
+  assert.ok(!badgeStyles.includes("line-height: var(--m3-type-label-small-line-height)"));
+  assert.ok(!badgeStyles.includes("font-weight: var(--m3-type-label-small-weight)"));
+  assert.ok(!badgeStyles.includes("letter-spacing: var(--m3-type-label-small-tracking)"));
 });
