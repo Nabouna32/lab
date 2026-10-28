@@ -631,7 +631,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "base64-encoder-decoder", icon: "lock",
+    id: "base64-encoder-decoder", icon: "sync_alt",
     version: 1,
     complexity: "small",
     categories: ["development"],
@@ -659,7 +659,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "url-parser", icon: "search",
+    id: "url-parser", icon: "link",
     version: 1,
     complexity: "small",
     categories: ["development"],

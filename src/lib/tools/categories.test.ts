@@ -347,11 +347,20 @@ test("every published tool uses a registered Material Symbols icon", () => {
   }
 });
 
+
+function testToolIconContainerRoles(sources: string[]) {
+  for (const source of sources) {
+    assert.ok(source.includes("bg-[var(--primary-container)] text-[var(--on-primary-container)]"), "tool icon containers must pair primary-container with on-primary-container");
+  }
+}
+
 test("category pictograms use the shared Material Symbols component instead of emoji", () => {
   const materialIconSource = readFileSync(new URL("../../components/ui/MaterialIcon.tsx", import.meta.url), "utf8");
   const explorerSource = readFileSync(new URL("../../app/[locale]/[section]/page.tsx", import.meta.url), "utf8");
   const searchResultsSource = readFileSync(new URL("../../components/tools/SearchResultsClient.tsx", import.meta.url), "utf8");
   const toolSearchSource = readFileSync(new URL("../../components/tools/ToolSearch.tsx", import.meta.url), "utf8");
+  const toolCardSource = readFileSync(new URL("../../components/tools/ToolCard.tsx", import.meta.url), "utf8");
+  const toolPageHeaderSource = readFileSync(new URL("../../components/tools/ToolPage/ToolPageHeader.tsx", import.meta.url), "utf8");
   const favoritesSource = readFileSync(new URL("../../components/favorites/FavoritesView.tsx", import.meta.url), "utf8");
   const collectionsSource = readFileSync(new URL("../../components/collections/CollectionsView.tsx", import.meta.url), "utf8");
   const sharedCollectionsSource = readFileSync(new URL("../../components/collections/SharedCollectionView.tsx", import.meta.url), "utf8");
@@ -382,6 +391,7 @@ test("category pictograms use the shared Material Symbols component instead of e
   assert.match(favoritesSource, /MaterialIcon name=\{tool\.icon\}/);
   assert.match(collectionsSource, /MaterialIcon name=\{tool\.icon\}/);
   assert.match(sharedCollectionsSource, /MaterialIcon name=\{tool\.icon\}/);
+  testToolIconContainerRoles([toolCardSource, toolPageHeaderSource, favoritesSource, collectionsSource, sharedCollectionsSource]);
   assert.doesNotMatch(categoryRouteSource, />\s*\{category\.icon\}\s*</);
   assert.doesNotMatch(explorerSource, />\s*\{category\.icon\}\s*</);
   assert.doesNotMatch(searchResultsSource, />\s*\{category\.icon\}\s*</);

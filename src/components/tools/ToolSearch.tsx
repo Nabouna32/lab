@@ -375,7 +375,7 @@ export default function ToolSearch({
                     >
                       <span
                         className={
-                          "flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--shape-corner-medium)] text-xl " +
+                          "flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--shape-corner-medium)] " +
                           (selected
                             ? "bg-[var(--on-primary-container)]/10"
                             : "bg-[var(--surface-variant)] text-[var(--on-surface-variant)]")
