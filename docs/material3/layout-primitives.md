@@ -91,10 +91,10 @@ Après chaque migration, rechercher les anciennes classes `space-y-*` et les wra
 Les tests actuels de contrat protègent certaines signatures et certains consommateurs. Ils ne remplacent pas les tests de rendu navigateur, la vérification de la géométrie Flexbox, ni les contrôles responsive, RTL, clavier et accessibilité. La parité complète avec le moteur de mesure Compose n’est pas revendiquée.
 
 
-## Correction responsive de `Column` — 28 octobre 2026
+## Alignement et largeur responsive de `Column` — 28 octobre 2026
 
-Le portage Web de `Column` étire désormais ses enfants sur l'axe transversal lorsque `horizontalAlignment` est omis. Ce comportement par défaut côté Web évite le rétrécissement intrinsèque que Flexbox applique aux enfants quand `align-items: flex-start`, et préserve ainsi le comportement attendu des compositions de blocs existantes, notamment les sections de la page Compte.
+`Column` reprend le contrat AndroidX : `Alignment.Start` est l’alignement horizontal par défaut. Le portage Web ne doit pas remplacer ce contrat par `stretch` pour compenser la largeur intrinsèque de certains enfants Flexbox.
 
-Un alignement explicite (`Alignment.Start`, `Alignment.CenterHorizontally` ou `Alignment.End`) conserve son effet de positionnement. L'étirement par défaut est une adaptation Web intentionnelle : il ne prétend pas reproduire à lui seul le moteur de mesure AndroidX. Les enfants qui doivent conserver une largeur intrinsèque doivent choisir explicitement l'alignement approprié ou un modificateur de taille adapté.
+La largeur est une responsabilité distincte de l’alignement. Lorsqu’une composition de produit — panneau, carte ou formulaire — doit occuper toute la largeur disponible, elle doit exprimer cette contrainte explicitement (par exemple avec `w-full` dans une composition produit ou le modificateur partagé correspondant lorsque son usage est approprié). Cela permet d’avoir des pages responsives sans imposer l’étirement à toutes les utilisations de la primitive.
 
-Un test de contrat couvre le style par défaut et les alignements explicites. Il vérifie la présentation CSS produite, pas la géométrie réelle dans un navigateur ; une vérification visuelle responsive reste nécessaire.
+Les tests de contrat couvrent l’alignement par défaut et les alignements explicites ; ils ne remplacent pas une vérification de la géométrie dans un navigateur. La parité de mesure avec Compose reste partielle et doit être évaluée séparément.
