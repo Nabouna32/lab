@@ -62,7 +62,7 @@ export default async function AccountPage({
 
   return (
     <main className="min-h-full">
-      <PageContainer width="narrow" spacing="none" className="py-[var(--space-7)] sm:py-[var(--space-9)] lg:py-[var(--space-10)]">
+      <PageContainer width="medium" spacing="none" className="py-[var(--space-7)] sm:py-[var(--space-9)] lg:py-[var(--space-10)]">
         <Column verticalArrangement={Arrangement.spacedBy("var(--space-2)")} className="mb-8">
           <h1 className="m3-type-headline-medium">{t.account.title}</h1>
           <p className="max-w-2xl text-[var(--on-surface-variant)]">{t.account.pageDescription}</p>
@@ -100,7 +100,7 @@ export default async function AccountPage({
             </div>
           </section>
 
-          <section className="overflow-hidden rounded-[var(--m3-panel-shape)] border border-[var(--outline-variant)] bg-[var(--surface)] shadow-[var(--shadow-sm)]" aria-labelledby="account-security-title">
+          <section className="w-full overflow-hidden rounded-[var(--m3-panel-shape)] border border-[var(--outline-variant)] bg-[var(--surface)] shadow-[var(--shadow-sm)]" aria-labelledby="account-security-title">
             <Column verticalArrangement={Arrangement.spacedBy("var(--space-1)")} className="px-5 pb-4 pt-5 sm:px-7 sm:pb-5 sm:pt-7">
               <h2 id="account-security-title" className="m3-type-title-large">{t.account.security}</h2>
             </Column>
