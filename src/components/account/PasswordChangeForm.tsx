@@ -31,25 +31,25 @@ export default function PasswordChangeForm({ locale, t, serverError }: { locale:
       <input type="hidden" name="locale" value={locale} />
       <div className="grid gap-[var(--space-5)]">
         <div className="grid gap-2">
-          <TextField label={t.account.currentPassword} inputId="current-password" name="currentPassword" type="password" autoComplete="current-password" required value={currentPassword} onChange={(event) => { setCurrentPassword(event.target.value); setCurrentEdited(true); }} aria-invalid={serverError === "current-password" && !currentEdited ? true : undefined} aria-describedby={serverError === "current-password" && !currentEdited ? "current-password-error" : undefined} />
-          {serverError === "current-password" && !currentEdited ? <p id="current-password-error" className="m3-type-body-small text-[var(--on-error-container)]" role="alert">{t.account.currentPasswordError}</p> : null}
-          {!currentOk ? <p className="m3-type-body-small text-[var(--on-surface-variant)]">{t.account.passwordRuleRequired}</p> : null}
+          <TextField label={t.currentPassword} inputId="current-password" name="currentPassword" type="password" autoComplete="current-password" required value={currentPassword} onChange={(event) => { setCurrentPassword(event.target.value); setCurrentEdited(true); }} aria-invalid={serverError === "current-password" && !currentEdited ? true : undefined} aria-describedby={serverError === "current-password" && !currentEdited ? "current-password-error" : undefined} />
+          {serverError === "current-password" && !currentEdited ? <p id="current-password-error" className="m3-type-body-small text-[var(--on-error-container)]" role="alert">{t.currentPasswordError}</p> : null}
+          {!currentOk ? <p className="m3-type-body-small text-[var(--on-surface-variant)]">{t.passwordRuleRequired}</p> : null}
         </div>
         <div className="grid gap-3">
-          <TextField label={t.account.password} inputId="new-password" name="password" type="password" autoComplete="new-password" minLength={8} maxLength={128} required value={password} onChange={(event) => setPassword(event.target.value)} aria-invalid={password.length > 0 && (!minOk || !maxOk) ? true : undefined} aria-describedby="password-rules" />
+          <TextField label={t.password} inputId="new-password" name="password" type="password" autoComplete="new-password" minLength={8} maxLength={128} required value={password} onChange={(event) => setPassword(event.target.value)} aria-invalid={password.length > 0 && (!minOk || !maxOk) ? true : undefined} aria-describedby="password-rules" />
           <ul id="password-rules" className="grid gap-2" aria-live="polite">
-            <Rule valid={minOk} label={t.account.passwordRuleMin} />
-            <Rule valid={password.length > 0 && maxOk} label={t.account.passwordRuleMax} />
+            <Rule valid={minOk} label={t.passwordRuleMin} />
+            <Rule valid={password.length > 0 && maxOk} label={t.passwordRuleMax} />
           </ul>
         </div>
         <div className="grid gap-3">
-          <TextField label={t.account.passwordConfirmation} inputId="password-confirmation" name="passwordConfirmation" type="password" autoComplete="new-password" minLength={8} maxLength={128} required value={confirmation} onChange={(event) => setConfirmation(event.target.value)} aria-invalid={confirmation.length > 0 && !matchOk ? true : undefined} aria-describedby="confirmation-rule" />
-          <ul id="confirmation-rule" aria-live="polite"><Rule valid={matchOk} label={t.account.passwordRuleMatch} /></ul>
+          <TextField label={t.passwordConfirmation} inputId="password-confirmation" name="passwordConfirmation" type="password" autoComplete="new-password" minLength={8} maxLength={128} required value={confirmation} onChange={(event) => setConfirmation(event.target.value)} aria-invalid={confirmation.length > 0 && !matchOk ? true : undefined} aria-describedby="confirmation-rule" />
+          <ul id="confirmation-rule" aria-live="polite"><Rule valid={matchOk} label={t.passwordRuleMatch} /></ul>
         </div>
-        {serverError === "weak-password" ? <p className="rounded-[var(--shape-corner-medium)] bg-[var(--error-container)] px-4 py-3 m3-type-body-medium text-[var(--on-error-container)]" role="alert">{t.account.weakPassword}</p> : null}
-        {serverError && !["weak-password", "current-password"].includes(serverError) ? <p className="rounded-[var(--shape-corner-medium)] bg-[var(--error-container)] px-4 py-3 m3-type-body-medium text-[var(--on-error-container)]" role="alert">{t.account.passwordError}</p> : null}
-        <p className="m3-type-body-small text-[var(--on-surface-variant)]">{t.account.passwordStrengthNote}</p>
-        <SubmitButton pendingLabel={t.account.changePassword} disabled={!valid} className="w-full">{t.account.changePassword}</SubmitButton>
+        {serverError === "weak-password" ? <p className="rounded-[var(--shape-corner-medium)] bg-[var(--error-container)] px-4 py-3 m3-type-body-medium text-[var(--on-error-container)]" role="alert">{t.weakPassword}</p> : null}
+        {serverError && !["weak-password", "current-password"].includes(serverError) ? <p className="rounded-[var(--shape-corner-medium)] bg-[var(--error-container)] px-4 py-3 m3-type-body-medium text-[var(--on-error-container)]" role="alert">{t.passwordError}</p> : null}
+        <p className="m3-type-body-small text-[var(--on-surface-variant)]">{t.passwordStrengthNote}</p>
+        <SubmitButton pendingLabel={t.changePassword} disabled={!valid} className="w-full">{t.changePassword}</SubmitButton>
       </div>
     </form>
   );
