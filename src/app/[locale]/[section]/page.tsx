@@ -81,16 +81,16 @@ export default async function ToolsPage({
           <div className="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full bg-[var(--accent-soft)] blur-3xl" aria-hidden="true" />
           <div className="relative grid gap-7 lg:grid-cols-[.8fr_1.2fr] lg:items-end lg:gap-12">
             <div className="motion-reveal">
-              <div className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.18em] text-[var(--accent)]">
+              <div className="m3-type-label-small flex items-center gap-2 uppercase text-[var(--accent)]">
                 <span className="h-2 w-2 rounded-full bg-current" aria-hidden="true" />
                 {t.tools.eyebrow}
               </div>
-              <h1 id="tools-page-title" className="mt-3 text-4xl font-black tracking-[-0.06em] sm:text-5xl lg:text-6xl">{t.tools.title}</h1>
-              <p className="mt-4 max-w-xl text-base leading-7 text-[var(--muted)]">{t.tools.description}</p>
+              <h1 id="tools-page-title" className="m3-type-display-small mt-3">{t.tools.title}</h1>
+              <p className="m3-type-body-large mt-4 max-w-xl text-[var(--muted)]">{t.tools.description}</p>
             </div>
             <div className="motion-reveal motion-reveal-delay">
               <ToolSearch locale={locale} instanceId="tools-page-search" />
-              <div className="mt-3 flex items-center justify-between gap-4 text-xs font-semibold text-[var(--muted)]">
+              <div className="m3-type-label-small mt-3 flex items-center justify-between gap-4 text-[var(--muted)]">
                 <span>{formatPlural(locale, publishedTools.length, { one: t.tools.one, other: t.tools.many })}</span>
                 <span className="rounded-full bg-[var(--surface-soft)] px-2.5 py-1">{t.nav.explore}</span>
               </div>
@@ -101,8 +101,8 @@ export default async function ToolsPage({
         <div className="mt-5 grid min-w-0 grid-cols-[minmax(0,1fr)] gap-5 lg:grid-cols-[15rem_minmax(0,1fr)]">
           <aside className="h-fit rounded-[1.5rem] border border-[var(--border)] bg-[var(--surface)] p-4 shadow-[var(--shadow-md)] lg:sticky lg:top-24" aria-labelledby="tools-intents-heading">
             <div className="border-b border-[var(--border)] pb-4">
-              <h2 id="tools-intents-heading" className="text-xs font-black uppercase tracking-[0.16em] text-[var(--muted)]">{t.tools.intentsTitle}</h2>
-              <p className="mt-2 text-xs leading-5 text-[var(--muted)]">{t.tools.intentsDescription}</p>
+              <h2 id="tools-intents-heading" className="m3-type-label-medium uppercase text-[var(--muted)]">{t.tools.intentsTitle}</h2>
+              <p className="m3-type-body-small mt-2 text-[var(--muted)]">{t.tools.intentsDescription}</p>
             </div>
             <div className="mt-3 flex gap-2 overflow-x-auto pb-1 lg:block lg:space-y-1">
               {t.tools.intents.map((intent) => (
@@ -110,7 +110,7 @@ export default async function ToolsPage({
                   key={intent.id}
                   href={`${getToolsPath(locale)}?intent=${intent.id}`}
                   aria-current={selectedIntentId === intent.id ? "page" : undefined}
-                  className={`group inline-flex min-h-10 shrink-0 items-center gap-2 rounded-xl border px-3 text-sm font-bold outline-none transition-[transform,background-color,border-color] duration-[var(--motion-standard)] hover:-translate-y-0.5 hover:border-[var(--border)] hover:bg-[var(--accent-soft)] hover:text-[var(--on-primary-container)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] lg:flex ${selectedIntentId === intent.id ? "border-[var(--accent)] bg-[var(--accent-soft)] text-[var(--on-primary-container)]" : "border-transparent"}`}
+                  className={`group inline-flex min-h-10 shrink-0 items-center gap-2 rounded-xl border px-3 m3-type-label-large outline-none transition-[transform,background-color,border-color] duration-[var(--motion-standard)] hover:-translate-y-0.5 hover:border-[var(--border)] hover:bg-[var(--accent-soft)] hover:text-[var(--on-primary-container)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] lg:flex ${selectedIntentId === intent.id ? "border-[var(--accent)] bg-[var(--accent-soft)] text-[var(--on-primary-container)]" : "border-transparent"}`}
                 >
                   <span aria-hidden="true">{intent.icon}</span>
                   <span>{intent.label}</span>
@@ -125,10 +125,10 @@ export default async function ToolsPage({
               <section className="border-b border-[var(--border)] p-5 sm:p-7" aria-labelledby="tools-intent-results-heading" data-testid="intent-results" data-intent-id={selectedIntent.id}>
                 <div className="flex flex-col gap-3 border-b border-[var(--border)] pb-5 sm:flex-row sm:items-end sm:justify-between">
                   <div>
-                      <h2 id="tools-intent-results-heading" className="mt-1 text-2xl font-black tracking-[-0.04em] sm:text-3xl">{t.tools.intentResultsTitle(selectedIntent.label)}</h2>
-                    <p className="mt-2 max-w-xl text-sm leading-6 text-[var(--muted)]">{t.tools.intentResultsDescription}</p>
+                      <h2 id="tools-intent-results-heading" className="m3-type-headline-small mt-1">{t.tools.intentResultsTitle(selectedIntent.label)}</h2>
+                    <p className="m3-type-body-medium mt-2 max-w-xl text-[var(--muted)]">{t.tools.intentResultsDescription}</p>
                   </div>
-                  <a href={getToolsPath(locale)} className="inline-flex min-h-10 items-center justify-center rounded-xl border border-[var(--border)] px-3 text-sm font-bold hover:bg-[var(--surface-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]">{t.tools.clearIntent}</a>
+                  <a href={getToolsPath(locale)} className="m3-type-label-large inline-flex min-h-10 items-center justify-center rounded-xl border border-[var(--border)] px-3 hover:bg-[var(--surface-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]">{t.tools.clearIntent}</a>
                 </div>
                 <div className="mt-5 min-w-0 divide-y divide-[var(--border)] overflow-hidden rounded-2xl border border-[var(--border)]">
                   {intentTools.map((tool) => <div key={tool.id} data-testid="intent-result"><ToolCard tool={tool} locale={locale} categoryName={getCategoryName(locale, tool.categories[0])} categoryId={tool.categories[0]} /></div>)}
@@ -140,7 +140,7 @@ export default async function ToolsPage({
                 <div>
                   <h2 id="tools-categories-heading" className="mt-1 text-2xl font-black tracking-[-0.04em] sm:text-3xl">{t.tools.categoriesTitle}</h2>
                 </div>
-                <p className="max-w-sm text-sm leading-6 text-[var(--muted)]">{t.tools.categoriesDescription}</p>
+                <p className="m3-type-body-medium max-w-sm text-[var(--muted)]">{t.tools.categoriesDescription}</p>
               </div>
 
               <div className="mt-5 grid min-w-0 gap-2 sm:grid-cols-2">
@@ -152,8 +152,8 @@ export default async function ToolsPage({
                   >
                     <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--radius-lg)] border border-transparent text-xl shadow-[var(--shadow-sm)] transition-transform duration-[var(--motion-standard)] group-hover:scale-105" style={{ color: getCategoryColor(category.id), backgroundColor: getCategoryContainerColor(category.id) }} aria-hidden="true">{category.icon}</span>
                     <span className="min-w-0 flex-1">
-                      <span className="block truncate font-black">{getCategoryName(locale, category.id)}</span>
-                      <span className="mt-0.5 block text-xs text-[var(--muted)]">{formatPlural(locale, getToolCount(category.id), { one: t.tools.one, other: t.tools.many })}</span>
+                      <span className="m3-type-title-medium block truncate">{getCategoryName(locale, category.id)}</span>
+                      <span className="m3-type-body-small mt-0.5 block text-[var(--muted)]">{formatPlural(locale, getToolCount(category.id), { one: t.tools.one, other: t.tools.many })}</span>
                     </span>
                     <span className="text-lg transition-transform duration-[var(--motion-fast)] group-hover:translate-x-1" style={{ color: getCategoryColor(category.id) }} aria-hidden="true">→</span>
                   </a>
@@ -166,7 +166,7 @@ export default async function ToolsPage({
                 <div>
                   <h2 id="tools-all-heading" className="mt-1 text-2xl font-black tracking-[-0.04em] sm:text-3xl">{t.tools.allToolsTitle}</h2>
                 </div>
-                <p className="text-sm font-semibold text-[var(--muted)]">{formatPlural(locale, publishedTools.length, { one: t.tools.one, other: t.tools.many })}</p>
+                <p className="m3-type-label-large text-[var(--muted)]">{formatPlural(locale, publishedTools.length, { one: t.tools.one, other: t.tools.many })}</p>
               </div>
               <div className="mt-5 min-w-0 divide-y divide-[var(--border)] overflow-hidden rounded-2xl border border-[var(--border)]">
                 {publishedTools.map((tool) => <ToolCard key={tool.id} tool={tool} locale={locale} />)}
