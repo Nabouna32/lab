@@ -245,7 +245,7 @@ export default function ToolSearch({
         <span
           className={
             "flex shrink-0 items-center justify-center rounded-lg text-[var(--muted)] " +
-            (compact ? "h-8 w-8 text-base" : "h-10 w-10 rounded-full text-base sm:text-lg")
+            (compact ? "h-8 w-8" : "h-10 w-10 rounded-full")
           }
           aria-hidden="true"
         >
