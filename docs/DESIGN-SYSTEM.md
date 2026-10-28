@@ -10,6 +10,8 @@ This document owns shared design foundations and cross-component rules. AndroidX
 
 The target is a faithful React/Web port of AndroidX Compose Material 3 components—not merely a visual imitation. Each component has a separate specification under [`material3/components/`](material3/README.md). A component must not be called source-faithful until its API, states, behavior, rendering and differences have been checked against its pinned source.
 
+**Target-first, not legacy-first:** existing Loculary components, CSS, layouts and page compositions are migration input, not constraints. A component that shares an AndroidX name is not automatically faithful; improve or replace it against the pinned AndroidX contract. When a page would benefit from a more coherent modern app structure, a full redesign is explicitly allowed and often preferred over patching the current layout. Product references such as ChatGPT for Android and other polished mainstream apps can inform familiar UX conventions and icon choices, but do not override AndroidX component specifications or Web accessibility semantics. Avoid preserving legacy APIs or styles solely to minimize the diff. Choose a focused fix or a broader refactor based on which produces the clearest, maintainable result.
+
 ## Foundations
 
 - Use Material Color Utilities **Fidelity** for seed-derived semantic color roles, with the current seed documented in implementation; the seed is not a literal color to apply everywhere.
@@ -20,6 +22,18 @@ The target is a faithful React/Web port of AndroidX Compose Material 3 component
 - Use semantic shape and elevation roles consistently. Values copied from Material Web CSS tokens must be labelled as Web values, not represented as Android dp/sp conversions.
 - Use Material Symbols consistently for functional interface icons. Icons need accessible names when they convey an action; do not substitute emoji or arbitrary Unicode for standard controls.
 - Shared components must support responsive layout, French and English text, keyboard and pointer input, visible focus, appropriate screen-reader semantics, WCAG 2.2 AA, and `prefers-reduced-motion`.
+
+## Fondations de thème : contrat et état réel
+
+Les fondations ne sont pas une collection de classes à recopier dans les pages. La chaîne cible est : **thème partagé → tokens et valeurs par défaut propres aux composants AndroidX → composants React/Web → compositions de pages**. Une modification d'une fondation doit se propager à tous les consommateurs qui héritent de cette valeur, sans changer les composants dont le contrat AndroidX définit une valeur distincte.
+
+- **Formes :** `src/app/globals.css` expose l'échelle `--shape-corner-*` et des rôles de forme de composition (`--m3-card-shape`, `--m3-panel-shape`). Des migrations ciblées de consommateurs 8 px vers `--shape-corner-small`, 12 px vers `--shape-corner-medium`, de certains conteneurs 16 px vers `--shape-corner-large` et de trois surfaces 28 px vers `--shape-corner-extra-large` sont couvertes par des tests. Les éléments interactifs et les composants de composition doivent être traités selon leur rôle, pas seulement selon leur ancien rayon. L'ancienne échelle `--radius-*` subsiste : ne supprimer aucun alias avant un inventaire exhaustif des références sur la branche et une vérification des valeurs historiques (notamment 16 px et 24 px, qui ne sont pas interchangeables avec les formes M3).
+- **Typographie :** les 15 rôles `display`, `headline`, `title`, `body` et `label` sont maintenant exposés comme variables et classes partagées. De nombreux composants UI et compositions de production les consomment ; la migration reste incomplète et les classes Tailwind locales doivent être auditées progressivement. La présence d'un rôle partagé ne prouve ni une parité exacte avec la version AndroidX épinglée ni une validation visuelle navigateur.
+- **Valeurs de composants :** un composant consomme par défaut les tokens AndroidX qui lui sont propres. Il ne faut pas déduire la forme d'une `Card` en choisissant arbitrairement `medium`, ni forcer tous les composants à partager la même forme. Les paramètres de personnalisation doivent refléter les possibilités réelles de l'API source.
+- **Provenance :** les tokens repris de Material Web, les conventions CSS de Loculary et les valeurs AndroidX doivent être identifiés séparément. Une égalité numérique ne prouve pas à elle seule l'équivalence sémantique ou comportementale.
+- **Validation :** une migration n'est terminée que lorsque les usages sont inventoriés, les règles partagées testées, les cas clair/sombre et FR/EN vérifiés, et le rendu navigateur contrôlé. Un test de présence de chaîne ne suffit pas à prouver la fidélité visuelle.
+
+**État vérifié au 27 octobre 2026 :** l'échelle des formes cohabite encore avec les anciens rayons ; les 15 rôles typographiques existent dans `globals.css` et sont consommés par un ensemble croissant de composants, mais leurs métriques et chaque consommateur ne sont pas encore tous validés contre une baseline AndroidX unique. Le portage des composants, la migration des pages et la validation visuelle restent partiels. Voir [la spécification des fondations et composants Material 3](material3/README.md) et les spécifications individuelles.
 
 ## Mise en page et espacements
 
@@ -67,3 +81,33 @@ Compare the actual browser result with the pinned reference and record the theme
 ## Current implementation status
 
 This document describes the target, not a claim that the current site conforms. Component-specific status and evidence belong in [the Material 3 porting index](material3/README.md). The production migration is a separate step after each component passes its own porting gate.
+
+
+## Migration en cours : rôles typographiques partagés
+
+La feuille globale expose désormais les 15 rôles typographiques Material 3 sous forme de tokens CSS et de classes `.m3-type-*`. La première tranche les utilise dans le bouton partagé, le bloc Parcours guidés, les cartes d'outils et l'en-tête des pages outil. Cette migration est volontairement partielle : il reste à inventorier et migrer les usages par familles de composants avant de supprimer les conventions historiques.
+
+Les formes sont désormais configurées via des tokens propres à certains composants (`--m3-card-shape`, `--m3-panel-shape`) plutôt que directement par la composition. Leur valeur actuelle reprend encore le token medium ; elle reste à vérifier contre la source AndroidX de la release retenue. L'existence d'un token partagé ne constitue pas à elle seule une preuve de fidélité.
+
+La migration de la typographie partagée couvre également les styles de `ListItem`, `Chip`, `Badge`, `SearchBar` et `MaterialTextField`, ainsi que les libellés et textes d'aide de `TextField`, `TextArea` et `Select`. Les contrôles conservent des états et dimensions propres à leur contrat ; seuls les métriques typographiques communes sont centralisées ici. Les autres composants et consommateurs doivent encore être audités.
+
+La tranche suivante étend les rôles typographiques partagés à `AlertDialog`, `DatePickerDialog`, `DropdownMenu`, `ExposedDropdownMenu`, `NavigationBar`, `NavigationDrawer`, `NavigationRail`, `RadioButton`, `Snackbar`, `Tabs`, `TimePicker`, `ToggleButton`, `Tooltip` et `TopAppBar`. Les choix de style qui ne correspondent pas clairement à un rôle officiel — par exemple l’affichage numérique du cadran d’horloge — restent distincts tant que la source AndroidX ne justifie pas leur remplacement. Un test de contrat vérifie que ces composants consomment les tokens partagés.
+
+
+La troisième tranche étend la centralisation aux composants `BottomSheetScaffold`, `ButtonGroup`, `DatePicker`, `FloatingActionButton`, `FloatingActionButtonMenu`, `FloatingToolbar`, `ModalBottomSheet`, `PullToRefreshBox`, `RangeSlider`, `SegmentedButtonGroup`, `SplitButton`, `SwipeToDismissBox`, `WideNavigationRail` et `Slider`. Les métriques des nombres/commandes qui jouent le rôle d’icônes ou de valeurs numériques particulières restent séparées lorsqu’un rôle typographique M3 équivalent n’est pas établi. Les tests de contrat couvrent désormais aussi ces composants.
+
+
+La migration des consommateurs de production s'étend à `AppLink`, `ResultPanel`, `RecentTools`, `RelatedTools`, `ToolCard` et `ValidationMessage`. Les liens visuellement assimilés à des boutons utilisent désormais le rôle `label-large` partagé, les contenus de résultat et d'aide utilisent des rôles nommés, et les formes de cartes/tuile traitées consomment des tokens de forme dédiés. Les tests vérifient ces contrats pour éviter une régression vers des classes Tailwind indépendantes.
+
+
+La migration des formes partagées progresse aussi dans les compositions de date, navigation et outils : `DatePicker`, `AppLink`, `RecentTools`, `RelatedTools`, `ToolCard`, `UrlParser`, `JwtDecoder`, `HashGenerator`, `EditorialPrimitives`, `JsonDiffChecker`, `CronExpression` et `ColorConverter` utilisent désormais les tokens de forme partagés pour les éléments migrés. Cette étape ne permet pas encore de supprimer `--radius-md` globalement : d'autres consommateurs restent à migrer et les rayons historiques de 24 px/16 px ne sont pas équivalents à toutes les formes AndroidX.
+
+## Migration de production et retrait de l’existant — 28 octobre 2026
+
+La migration ne porte pas uniquement sur l’API des composants : les pages et compositions existantes doivent consommer les fondations partagées au fil de l’implémentation. La tranche de la PR #1020 étend les rôles typographiques partagés aux pages d’information, au pied de page, aux parcours de compte (connexion, inscription, e-mail, mots de passe et suppression) et aux pages d’administration (tableau de bord, audit et utilisateurs). Plusieurs formulaires utilisent aussi les primitives Compose Web `Column` et `Arrangement.spacedBy` pour leur espacement vertical.
+
+Cette liste indique des migrations de source, pas une validation de rendu. Les états clair/sombre, les tailles d’écran, le clavier, les technologies d’assistance et les textes français/anglais doivent rester dans la grille de vérification.
+
+**Le retrait de l’existant fait partie de la migration.** Après chaque famille migrée, rechercher les références résiduelles et supprimer les styles, composants, helpers, tokens, tests ou wrappers qui ne servent plus. Si un ancien élément a encore des consommateurs, migrer ceux-ci ou justifier explicitement son maintien. Ne pas conserver une abstraction simplement parce qu’elle est ancienne ou utilisée par un test de contrat obsolète.
+
+L’échelle historique `--radius-*` est encore utilisée dans les outils de production : elle ne doit donc pas être supprimée à ce stade. Continuer l’inventaire et la migration par rôle, sans confondre mécaniquement les rayons historiques de 16 px/24 px avec des tokens Material 3. La suppression ne sera justifiée qu’après une recherche exhaustive et une vérification des tests et usages dynamiques.

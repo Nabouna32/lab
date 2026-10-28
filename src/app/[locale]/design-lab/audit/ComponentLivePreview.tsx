@@ -55,7 +55,7 @@ import { TextArea } from "@/components/ui/TextArea";
 import { Card, ElevatedCard, OutlinedCard } from "@/components/ui/Card";
 import { Checkbox } from "@/components/ui/Checkbox";
 import { Chip } from "@/components/ui/Chip";
-import { IconButton } from "@/components/ui/IconButton";
+import { FilledIconButton, FilledTonalIconButton, IconButton } from "@/components/ui/IconButton";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import { Switch } from "@/components/ui/Switch";
 import { SwipeToDismissBox } from "@/components/ui/SwipeToDismissBox";
@@ -459,8 +459,8 @@ export default function ComponentLivePreview({
       content = (
         <div className="grid gap-3"><div className="flex flex-wrap items-center gap-3">
           <IconButton label={fr ? "Action standard" : "Standard action"} onClick={() => setSplitResult("standard")}><MaterialIcon name="favorite" size={24} /></IconButton>
-          <IconButton label={fr ? "Action remplie" : "Filled action"} variant="filled" onClick={() => setSplitResult("filled")}><MaterialIcon name="add" size={24} /></IconButton>
-          <IconButton label={fr ? "Action tonale" : "Tonal action"} variant="filled-tonal" onClick={() => setSplitResult("tonal")}><MaterialIcon name="check" size={24} /></IconButton>
+          <FilledIconButton label={fr ? "Action remplie" : "Filled action"} onClick={() => setSplitResult("filled")}><MaterialIcon name="add" size={24} /></FilledIconButton>
+          <FilledTonalIconButton label={fr ? "Action tonale" : "Tonal action"} onClick={() => setSplitResult("tonal")}><MaterialIcon name="check" size={24} /></FilledTonalIconButton>
           <IconButton label={fr ? "Action désactivée" : "Disabled action"} disabled><MaterialIcon name="info" size={24} /></IconButton>
         </div><p className="text-sm text-[var(--muted)]">{fr ? "Dernière interaction : " : "Last interaction: "}{splitResult}</p></div>
       );

@@ -1,12 +1,29 @@
-import type { ButtonHTMLAttributes, Ref } from "react";
+import type { ButtonHTMLAttributes, CSSProperties, Ref } from "react";
 import { ButtonRipple } from "@/components/ui/ButtonRipple";
 import { getMaterialButtonInlineStyle, materialButtonVariantStyles, type MaterialButtonColors, type MaterialButtonVariant } from "@/components/ui/material-button-variant-styles";
 
 export type ButtonColors = MaterialButtonColors;
 
+export type ButtonContentPadding = {
+  /** Logical start inset (AndroidX PaddingValues.start). */
+  start?: CSSProperties["paddingInlineStart"];
+  top?: CSSProperties["paddingBlockStart"];
+  /** Logical end inset (AndroidX PaddingValues.end). */
+  end?: CSSProperties["paddingInlineEnd"];
+  bottom?: CSSProperties["paddingBlockEnd"];
+};
+
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+  /** AndroidX `enabled` parameter; native `disabled` remains a Web compatibility alias. */
+  enabled?: boolean;
   /** AndroidX-inspired color customization. Values may be CSS colors or semantic theme tokens. */
   colors?: ButtonColors;
+  /** Web mapping for AndroidX Shape; accepts CSS border-radius values. */
+  shape?: CSSProperties["borderRadius"];
+  /** Web mapping for AndroidX BorderStroke; null removes the border. */
+  border?: CSSProperties["border"] | null;
+  /** Logical padding values adapted from AndroidX PaddingValues. */
+  contentPadding?: ButtonContentPadding;
   /** React ref to the native button element. */
   ref?: Ref<HTMLButtonElement>;
   /** Apply the AndroidX leading-icon content inset; the caller renders the icon. */
@@ -22,10 +39,15 @@ const styles = materialButtonVariantStyles;
 function MaterialButton({
   variant,
   colors,
+  shape,
+  border,
+  contentPadding,
   ref,
   style,
   leadingIcon = false,
   multiline = false,
+  enabled = true,
+  disabled,
   className = "",
   type = "button",
   children,
@@ -36,15 +58,26 @@ function MaterialButton({
   const horizontalPadding = isTextVariant
     ? leadingIcon ? "pl-3 pr-4" : "px-3"
     : leadingIcon ? "pl-4 pr-6" : "px-6";
-  const mergedStyle = getMaterialButtonInlineStyle(variant, colors, style);
+  const mergedStyle = {
+    ...getMaterialButtonInlineStyle(variant, colors, style),
+    ...(shape === undefined ? {} : { borderRadius: shape }),
+    ...(border === undefined ? {} : { border: border ?? "none" }),
+    ...(contentPadding === undefined ? {} : {
+      paddingBlockStart: contentPadding.top,
+      paddingInlineEnd: contentPadding.end,
+      paddingBlockEnd: contentPadding.bottom,
+      paddingInlineStart: contentPadding.start,
+    }),
+  };
 
   return (
     <button
       ref={ref}
       type={type}
+      disabled={disabled ?? !enabled}
       style={mergedStyle}
       className={[
-        "relative isolate inline-flex min-h-10 items-center justify-center gap-2 rounded-full py-2 text-sm font-medium leading-5 tracking-[0.1px]",
+        "m3-type-label-large relative isolate inline-flex min-h-10 items-center justify-center gap-2 rounded-full py-2",
         layout,
         horizontalPadding,
         "transition-[background-color,border-color,color,box-shadow] duration-[var(--motion-standard)] motion-reduce:transition-none",

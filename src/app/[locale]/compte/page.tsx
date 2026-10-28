@@ -1,13 +1,14 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { signOut, updateProfile } from "./actions";
+import { signOut } from "./actions";
 import AppLink from "@/components/ui/AppLink";
 import { PageContainer } from "@/components/layout/PageLayout";
+import { Arrangement } from "@/components/layout/compose/Arrangement";
+import { Column } from "@/components/layout/compose/Column";
 import SubmitButton from "@/components/account/SubmitButton";
 import { Panel } from "@/components/ui/Panel";
-import { TextField } from "@/components/ui/TextField";
-import { Select } from "@/components/ui/Select";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
+import { ListItem } from "@/components/ui/ListItem";
 import { createClient } from "@/lib/supabase/server";
 import { getMessages } from "@/lib/i18n/messages";
 import { isLocale, type Locale } from "@/lib/i18n/config";
@@ -34,8 +35,8 @@ export default async function AccountPage({
         <PageContainer width="account" spacing="none" className="flex min-h-[calc(100svh-12rem)] items-center py-[var(--space-8)] sm:py-[var(--space-10)]">
           <Panel as="section" className="w-full overflow-hidden p-6 sm:p-9">
             <div className="mb-6 h-1.5 w-16 rounded-full bg-[var(--accent)]" aria-hidden="true" />
-            <h1 className="text-3xl font-black tracking-[-0.05em]">{t.account.title}</h1>
-            <p className="mt-3 max-w-xl leading-7 text-[var(--muted)]">{t.account.anonymousDescription}</p>
+            <h1 className="m3-type-headline-medium">{t.account.title}</h1>
+            <p className="m3-type-body-medium mt-3 max-w-xl text-[var(--muted)]">{t.account.anonymousDescription}</p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <AppLink href={`/${locale}/compte/connexion`} variant="filled">
                 {t.account.signIn}
@@ -50,35 +51,26 @@ export default async function AccountPage({
     );
   }
 
-  const user = userData.user;
-  const [{ data: isAdmin }, { data: profile }] = await Promise.all([
+  const [{ data: isAdmin }] = await Promise.all([
     supabase.rpc("has_admin_permission", { requested_permission: "admin.dashboard.view" }),
-    supabase.from("profiles").select("display_name, locale, created_at").eq("id", user.id).maybeSingle(),
   ]);
 
   const statusMessage =
-    query.status === "profile-updated" ? t.account.profileUpdated :
     query.status === "password-changed" ? t.account.passwordChanged :
     query.status === "email-updated" ? t.account.emailChangeUpdated :
-    query.error === "profile" ? t.account.profileError :
     null;
 
   return (
     <main className="min-h-full">
       <PageContainer width="narrow" spacing="none" className="py-[var(--space-7)] sm:py-[var(--space-9)] lg:py-[var(--space-10)]">
-        <header className="mb-5 rounded-[1.5rem] border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow-md)] sm:p-7">
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="text-xs font-black uppercase tracking-[0.16em] text-[var(--accent)]">{t.account.label}</p>
-              <h1 className="mt-2 text-3xl font-black tracking-[-0.05em]">{t.account.title}</h1>
-            </div>
-            <p className="text-sm text-[var(--muted)]">{user.email}</p>
-          </div>
-        </header>
+        <Column verticalArrangement={Arrangement.spacedBy("var(--space-2)")} className="mb-8">
+          <h1 className="m3-type-headline-medium">{t.account.title}</h1>
+          <p className="max-w-2xl text-[var(--on-surface-variant)]">{t.account.pageDescription}</p>
+        </Column>
 
         {statusMessage ? (
           <p
-            className={`mb-5 rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-sm shadow-[var(--shadow-sm)] ${
+            className={`mb-5 rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3 m3-type-body-medium shadow-[var(--shadow-sm)] ${
               query.error ? "text-[var(--danger)]" : "text-[var(--success)]"
             }`}
             role="status"
@@ -87,63 +79,58 @@ export default async function AccountPage({
           </p>
         ) : null}
 
-        <div className="space-y-5">
-          <Panel as="section">
-            <div>
-              <h2 className="text-lg font-black">{t.account.profile}</h2>
-              <p className="mt-1 text-sm text-[var(--muted)]">{user.email}</p>
-            </div>
-            <form action={updateProfile} className="mt-6 space-y-5">
-              <input type="hidden" name="locale" value={locale} />
-              <TextField
-                label={t.account.displayName}
-                inputId="display-name"
-                name="displayName"
-                type="text"
-                autoComplete="name"
-                maxLength={80}
-                defaultValue={profile?.display_name ?? ""}
-              />
-              <Select
-                label={t.account.preferredLanguage}
-                id="preferred-language"
-                name="preferredLocale"
-                defaultValue={profile?.locale ?? locale}
+        <Column verticalArrangement={Arrangement.spacedBy("var(--space-6)")} className="w-full">
+          <section className="w-full overflow-hidden rounded-[var(--m3-panel-shape)] border border-[var(--outline-variant)] bg-[var(--surface)] shadow-[var(--shadow-sm)]" aria-labelledby="account-profile-title">
+            <Column verticalArrangement={Arrangement.spacedBy("var(--space-1)")} className="px-5 pb-4 pt-5 sm:px-7 sm:pb-5 sm:pt-7">
+              <h2 id="account-profile-title" className="m3-type-title-large">{t.account.profile}</h2>
+            </Column>
+            <div className="border-t border-[var(--outline-variant)]">
+              <Link
+                className="group block min-w-0 outline-none transition-colors hover:bg-[var(--surface-container-low)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] motion-reduce:transition-none"
+                href={`/${locale}/compte/informations-personnelles`}
               >
-                <option value="en">{t.account.english}</option>
-                <option value="fr">{t.account.french}</option>
-              </Select>
-              <SubmitButton pendingLabel={t.account.saveProfile}>
-                {t.account.saveProfile}
-              </SubmitButton>
-            </form>
-          </Panel>
+                <ListItem
+                  leading={<MaterialIcon name="person" size={24} />}
+                  headline={t.account.personalInformation}
+                  supporting={t.account.personalInformationDescription}
+                  trailing={<MaterialIcon name="chevron_right" size={24} className="transition-transform group-hover:translate-x-1 motion-reduce:transform-none" />}
+                  lines={2}
+                />
+              </Link>
+            </div>
+          </section>
 
-          <section className="rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow-sm)] sm:p-7" aria-labelledby="account-security-title">
-            <div className="border-b border-[var(--border)] pb-4">
-              <h2 id="account-security-title" className="text-lg font-black">{t.account.security}</h2>
-            </div>
-            <div className="mt-1 divide-y divide-[var(--border)]">
-              <Link
-                className="group flex items-center justify-between gap-4 rounded-xl px-2 py-4 transition-[background-color,transform] hover:bg-[var(--surface-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
-                href={`/${locale}/compte/email`}
-              >
-                <span>
-                  <span className="block font-bold">{t.account.changeEmail}</span>
-                  <span className="mt-1 block text-sm text-[var(--muted)]">{user.email}</span>
-                </span>
-                <MaterialIcon name="chevron_right" size={20} className="h-5 w-5 text-[var(--muted)] transition-transform group-hover:translate-x-1" />
-              </Link>
-              <Link
-                className="group flex items-center justify-between gap-4 rounded-xl px-2 py-4 transition-[background-color,transform] hover:bg-[var(--surface-soft)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
-                href={`/${locale}/compte/mot-de-passe`}
-              >
-                <span>
-                  <span className="block font-bold">{t.account.changePassword}</span>
-                  <span className="mt-1 block text-sm text-[var(--muted)]">{t.account.password}</span>
-                </span>
-                <MaterialIcon name="chevron_right" size={20} className="h-5 w-5 text-[var(--muted)] transition-transform group-hover:translate-x-1" />
-              </Link>
+          <section className="w-full overflow-hidden rounded-[var(--m3-panel-shape)] border border-[var(--outline-variant)] bg-[var(--surface)] shadow-[var(--shadow-sm)]" aria-labelledby="account-security-title">
+            <Column verticalArrangement={Arrangement.spacedBy("var(--space-1)")} className="px-5 pb-4 pt-5 sm:px-7 sm:pb-5 sm:pt-7">
+              <h2 id="account-security-title" className="m3-type-title-large">{t.account.security}</h2>
+            </Column>
+            <div className="border-t border-[var(--outline-variant)]">
+              <div className="divide-y divide-[var(--outline-variant)]">
+                <Link
+                  className="group block min-w-0 outline-none transition-colors hover:bg-[var(--surface-container-low)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] motion-reduce:transition-none"
+                  href={`/${locale}/compte/email`}
+                >
+                  <ListItem
+                    leading={<MaterialIcon name="mail" size={24} />}
+                    headline={t.account.emailSettingTitle}
+                    supporting={t.account.emailSettingDescription}
+                    trailing={<MaterialIcon name="chevron_right" size={24} className="transition-transform group-hover:translate-x-1 motion-reduce:transform-none" />}
+                    lines={2}
+                  />
+                </Link>
+                <Link
+                  className="group block min-w-0 outline-none transition-colors hover:bg-[var(--surface-container-low)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] motion-reduce:transition-none"
+                  href={`/${locale}/compte/mot-de-passe`}
+                >
+                  <ListItem
+                    leading={<MaterialIcon name="lock" size={24} />}
+                    headline={t.account.passwordSettingTitle}
+                    supporting={t.account.passwordSettingDescription}
+                    trailing={<MaterialIcon name="chevron_right" size={24} className="transition-transform group-hover:translate-x-1 motion-reduce:transform-none" />}
+                    lines={2}
+                  />
+                </Link>
+              </div>
             </div>
           </section>
 
@@ -161,22 +148,25 @@ export default async function AccountPage({
             </form>
           </div>
 
-          <section className="rounded-[var(--radius-xl)] border border-[var(--danger)]/25 bg-[var(--danger-soft)]/40 p-5 sm:p-7" aria-labelledby="delete-account-title">
-            <p className="text-sm font-black text-[var(--danger)]">{t.account.dangerZone}</p>
-            <h2 id="delete-account-title" className="mt-1 text-lg font-black">{t.account.deleteAccountTitle}</h2>
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--muted)]">{t.account.deleteAccountDescription}</p>
-            <AppLink
-              className="mt-4"
-              href={`/${locale}/compte/suppression`}
-              leadingIcon
-              colors={{ contentColor: "var(--error)" }}
-              variant="text"
-            >
-              <MaterialIcon name="delete" size={18} className="shrink-0" />
-              {t.account.deleteAccount}
-            </AppLink>
+          <section className="w-full rounded-[var(--m3-panel-shape)] border border-[var(--error)]/30 bg-[var(--error-container)]/35" aria-labelledby="delete-account-title">
+            <Column verticalArrangement={Arrangement.spacedBy("var(--space-4)")} className="p-5 sm:p-7">
+              <Column verticalArrangement={Arrangement.spacedBy("var(--space-1)")}>
+                <p className="m3-type-label-large text-[var(--error)]">{t.account.dangerZone}</p>
+                <h2 id="delete-account-title" className="m3-type-title-large">{t.account.deleteAccountTitle}</h2>
+                <p className="m3-type-body-medium max-w-2xl text-[var(--muted)]">{t.account.deleteAccountDescription}</p>
+              </Column>
+              <AppLink
+                href={`/${locale}/compte/suppression`}
+                leadingIcon
+                colors={{ contentColor: "var(--error)" }}
+                variant="text"
+              >
+                <MaterialIcon name="delete" size={18} className="shrink-0" />
+                {t.account.deleteAccount}
+              </AppLink>
+            </Column>
           </section>
-        </div>
+        </Column>
       </PageContainer>
     </main>
   );

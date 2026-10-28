@@ -24,9 +24,10 @@
 
 .dialog h2 {
   margin: 0;
-  font-size: 24px;
-  font-weight: 500;
-  line-height: 32px;
+  font-size: var(--m3-type-headline-small-size);
+  font-weight: var(--m3-type-headline-small-weight);
+  line-height: var(--m3-type-headline-small-line-height);
+  letter-spacing: var(--m3-type-headline-small-tracking);
 }
 
 .actions {

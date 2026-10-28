@@ -3,7 +3,7 @@ import type { IntentId } from "@/lib/tools/intents";
 import type { ToolId } from "@/lib/tools/types";
 
 export type Messages = {
-  nav: { home: string; tools: string; explore: string; exploreDescription: string; favorites: string; favoritesDescription: string; collections: string; collectionsDescription: string; language: string; account: string; space: string; menu: string };
+  nav: { home: string; tools: string; explore: string; exploreDescription: string; favorites: string; favoritesDescription: string; collections: string; collectionsDescription: string; language: string; account: string; space: string; menu: string; more: string };
   breadcrumbs: { label: string };
   footer: { navigationLabel: string; about: string; contact: string; reportBug: string; legalNotice: string; privacyPolicy: string };
   aboutPage: { metaTitle: string; metaDescription: string; title: string; intro: string; principlesTitle: string; principles: string[]; privacyTitle: string; privacy: string; toolsTitle: string; tools: string };
@@ -40,7 +40,7 @@ export type Messages = {
   nextActions: { title: string };
   theme: { choose: string; system: string; light: string; dark: string; title: string };
   admin: { label: string; title: string; description: string; dashboard: string; access: string; account: string; roles: string; permissions: string; auditLog: string; noAuditEntries: string; noAccess: string; notConfigured: string; modules: string; users: string; usersDescription: string; usersTitle: string; usersBack: string; usersSearch: string; usersSearchPlaceholder: string; usersSearchSubmit: string; usersNoResults: string; usersLoadError: string; userEmail: string; userDisplayName: string; userCreated: string; userLastSignIn: string; userEmailConfirmed: string; userPending: string; userNeverSignedIn: string; userRoles: string; userAssignRole: string; userRemoveRole: string; userNoRoles: string; userUpdated: string; userActionError: string; audit: string; auditDescription: string; auditLoadError: string; auditTitle: string; auditBack: string; auditEmpty: string; auditActor: string; auditAction: string; auditTarget: string; auditDate: string; auditDetails: string; userAccess: string; userActive: string; userSuspendedUntil: string; userSuspend: string; userUnsuspend: string; userSuspended: string; userUnsuspended: string; userRevokeSessions: string; userSessionsRevoked: string; roleSuperAdmin: string; roleAdmin: string; },
-  account: { label: string; title: string; anonymousDescription: string; signIn: string; signUp: string; signOut: string; submitSignIn: string; submitSignUp: string; email: string; password: string; displayName: string; notSet: string; confirmation: string; confirmationSent: string; resendConfirmation: string; alreadySignedIn: string; noAccount: string; hasAccount: string; signInError: string; signUpError: string; authRateLimited: string; invalidEmail: string; forgotPassword: string; forgotPasswordTitle: string; forgotPasswordDescription: string; forgotPasswordSent: string; forgotPasswordError: string; resetPassword: string; resetPasswordTitle: string; resetPasswordDescription: string; passwordConfirmation: string; passwordResetError: string; weakPassword: string; changePassword: string; changePasswordTitle: string; currentPassword: string; passwordChanged: string; currentPasswordError: string; profile: string; saveProfile: string; profileUpdated: string; profileError: string; passwordError: string; security: string; dangerZone: string; preferredLanguage: string; french: string; english: string; emailAddress: string; changeEmail: string; changeEmailTitle: string; changeEmailDescription: string; emailChangeConfirmation: string; emailChangeUpdated: string; emailChangeError: string; emailSame: string; deleteAccount: string; deleteAccountTitle: string; deleteAccountDescription: string; deleteAccountConsequences: string; deleteAccountConfirmationLabel: string; deleteAccountConfirmationPlaceholder: string; deleteAccountButton: string; deleteAccountError: string; deleteAccountSessionError: string; lastSuperAdmin: string; accountDeleted: string; };
+  account: { label: string; title: string; pageDescription: string; personalInformation: string; personalInformationDescription: string; emailSettingTitle: string; emailSettingDescription: string; passwordSettingTitle: string; passwordSettingDescription: string; anonymousDescription: string; signIn: string; signUp: string; signOut: string; submitSignIn: string; submitSignUp: string; email: string; password: string; displayName: string; notSet: string; confirmation: string; confirmationSent: string; resendConfirmation: string; alreadySignedIn: string; noAccount: string; hasAccount: string; signInError: string; signUpError: string; authRateLimited: string; invalidEmail: string; forgotPassword: string; forgotPasswordTitle: string; forgotPasswordDescription: string; forgotPasswordSent: string; forgotPasswordError: string; resetPassword: string; resetPasswordTitle: string; resetPasswordDescription: string; passwordConfirmation: string; passwordResetError: string; weakPassword: string; changePassword: string; changePasswordTitle: string; changePasswordDescription: string; passwordLengthHint: string; passwordRuleMin: string; passwordRuleMax: string; passwordRuleMatch: string; passwordRuleRequired: string; passwordStrengthNote: string; currentPassword: string; passwordChanged: string; currentPasswordError: string; profile: string; saveProfile: string; profileUpdated: string; profileError: string; passwordError: string; security: string; dangerZone: string; preferredLanguage: string; french: string; english: string; emailAddress: string; changeEmail: string; changeEmailTitle: string; changeEmailDescription: string; emailChangeConfirmation: string; emailChangeUpdated: string; emailChangeError: string; emailSame: string; deleteAccount: string; deleteAccountTitle: string; deleteAccountDescription: string; deleteAccountConsequences: string; deleteAccountConfirmationLabel: string; deleteAccountConfirmationPlaceholder: string; deleteAccountButton: string; deleteAccountError: string; deleteAccountSessionError: string; lastSuperAdmin: string; accountDeleted: string; };
   processing: {
     localDetail: string; ariaLabel: string; more: string; storage: string; retention: string; externalProviders: string; dataCategories: string;
     localLabel: string; localSummary: string; externalLabel: string; externalSummary: string; fallbackNotice: string;
@@ -50,7 +50,7 @@ export type Messages = {
 
 export const messages: Record<Locale, Messages> = {
   fr: {
-    nav: { home: "Accueil", tools: "Outils", explore: "Explorer", exploreDescription: "Parcours tous les outils disponibles", favorites: "Favoris", favoritesDescription: "Tes outils enregistrés", collections: "Collections", collectionsDescription: "Organise tes outils en groupes", language: "Langue", account: "Gère ton profil et tes préférences", space: "Compte", menu: "Menu" },
+    nav: { home: "Accueil", tools: "Outils", explore: "Explorer", exploreDescription: "Parcours tous les outils disponibles", favorites: "Favoris", favoritesDescription: "Tes outils enregistrés", collections: "Collections", collectionsDescription: "Organise tes outils en groupes", language: "Langue", account: "Gère ton profil et tes préférences", space: "Compte", menu: "Menu", more: "Plus" },
     breadcrumbs: { label: "Fil d’Ariane" },
     footer: { navigationLabel: "Liens secondaires", about: "À propos", contact: "Contact", reportBug: "Signaler un bug", legalNotice: "Mentions légales", privacyPolicy: "Confidentialité" },
     aboutPage: { metaTitle: "À propos de Loculary", metaDescription: "Découvrez la vision et les principes de Loculary.", title: "À propos de Loculary", intro: "Loculary est une boîte à outils numérique conçue pour vous aider à accomplir une tâche simplement, sans détour.", principlesTitle: "Nos principes", principles: ["Utile avant tout : trouver rapidement le bon outil et obtenir un résultat clair.", "Confidentialité : privilégier le traitement local lorsque c’est possible et expliquer les traitements qui nécessitent un service distant.", "Simplicité : une expérience accessible, cohérente et disponible en français comme en anglais."], privacyTitle: "Transparence et confidentialité", privacy: "Les informations sur les traitements et les données sont détaillées dans notre politique de confidentialité.", toolsTitle: "Un produit en évolution", tools: "Loculary évolue progressivement. Les fonctionnalités et leur documentation sont améliorées au fil du temps." },
@@ -169,7 +169,15 @@ export const messages: Record<Locale, Messages> = {
     },
     account: {
       label: "Compte",
-      title: "Compte",
+      title: "Votre compte",
+      pageDescription: "Gérez votre profil et les paramètres d’accès.",
+      personalInformation: "Informations personnelles",
+      personalInformationDescription: "Consulter et modifier votre profil",
+      security: "Sécurité et connexion",
+      emailSettingTitle: "Adresse e-mail",
+      emailSettingDescription: "Gérer votre adresse de connexion",
+      passwordSettingTitle: "Mot de passe",
+      passwordSettingDescription: "Modifier votre mot de passe",
       anonymousDescription: "Créez un compte pour enregistrer vos préférences et gérer votre profil. Loculary reste utilisable sans compte.",
       signIn: "Se connecter", signUp: "Créer un compte", signOut: "Se déconnecter",
       submitSignIn: "Se connecter", submitSignUp: "Créer mon compte",
@@ -189,9 +197,9 @@ export const messages: Record<Locale, Messages> = {
       passwordConfirmation: "Confirmer le mot de passe",
       passwordResetError: "Impossible de réinitialiser le mot de passe. Le lien est peut-être expiré ou invalide.",
       weakPassword: "Choisissez un mot de passe plus robuste ou vérifiez les exigences de sécurité du compte.",
-      changePassword: "Modifier le mot de passe", changePasswordTitle: "Modifier le mot de passe", currentPassword: "Mot de passe actuel",
+      changePassword: "Modifier le mot de passe", changePasswordTitle: "Modifier le mot de passe", changePasswordDescription: "Choisissez un nouveau mot de passe pour protéger votre compte.", passwordLengthHint: "La longueur est vérifiée ici ; Supabase applique aussi les exigences de sécurité configurées pour le compte.", passwordRuleMin: "Au moins 8 caractères", passwordRuleMax: "Au plus 128 caractères", passwordRuleMatch: "Les mots de passe ne correspondent pas", passwordRuleRequired: "Renseigne le mot de passe actuel", passwordStrengthNote: "Supabase applique la longueur minimale configurée. Loculary ne vérifie pas actuellement les mots de passe dans une base de mots de passe compromis.", currentPassword: "Mot de passe actuel",
       passwordChanged: "Mot de passe modifié.", currentPasswordError: "Le mot de passe actuel est incorrect.",
-      profile: "Profil", saveProfile: "Enregistrer", profileUpdated: "Profil enregistré.", profileError: "Impossible d’enregistrer les modifications.", passwordError: "Impossible de modifier le mot de passe.", security: "Sécurité", dangerZone: "Zone de danger",
+      profile: "Profil", saveProfile: "Enregistrer", profileUpdated: "Profil enregistré.", profileError: "Impossible d’enregistrer les modifications.", passwordError: "Impossible de modifier le mot de passe.", dangerZone: "Zone de danger",
       preferredLanguage: "Langue", french: "Français", english: "English",
       emailAddress: "Adresse e-mail actuelle", changeEmail: "Modifier l’adresse e-mail", changeEmailTitle: "Modifier l’adresse e-mail",
       changeEmailDescription: "Une confirmation peut être demandée sur l’adresse actuelle et la nouvelle adresse.",
@@ -216,7 +224,7 @@ export const messages: Record<Locale, Messages> = {
     },
   },
   en: {
-    nav: { home: "Home", tools: "Tools", explore: "Explore", exploreDescription: "Browse all available tools", favorites: "Favorites", favoritesDescription: "Your saved tools", collections: "Collections", collectionsDescription: "Organize your tools into groups", language: "Language", account: "Manage your profile and preferences", space: "Account", menu: "Menu" },
+    nav: { home: "Home", tools: "Tools", explore: "Explore", exploreDescription: "Browse all available tools", favorites: "Favorites", favoritesDescription: "Your saved tools", collections: "Collections", collectionsDescription: "Organize your tools into groups", language: "Language", account: "Manage your profile and preferences", space: "Account", menu: "Menu", more: "More" },
     breadcrumbs: { label: "Breadcrumb" },
     footer: { navigationLabel: "Secondary links", about: "About", contact: "Contact", reportBug: "Report a bug", legalNotice: "Legal notice", privacyPolicy: "Privacy" },
     aboutPage: { metaTitle: "About Loculary", metaDescription: "Learn about Loculary’s vision and principles.", title: "About Loculary", intro: "Loculary is a digital toolbox designed to help you get a task done simply and without detours.", principlesTitle: "Our principles", principles: ["Useful first: quickly find the right tool and get a clear result.", "Privacy: prefer local processing where possible and explain processing that requires a remote service.", "Simplicity: an accessible, consistent experience available in French and English."], privacyTitle: "Transparency and privacy", privacy: "Information about data and processing is detailed in our privacy policy.", toolsTitle: "An evolving product", tools: "Loculary is evolving over time. Features and documentation are progressively improved." },
@@ -335,7 +343,15 @@ guidedWorkflows: {
     },
     account: {
       label: "Account",
-      title: "Account",
+      title: "Your account",
+      pageDescription: "Manage your profile and sign-in settings.",
+      personalInformation: "Personal information",
+      personalInformationDescription: "View and edit your profile",
+      security: "Security and sign-in",
+      emailSettingTitle: "Email address",
+      emailSettingDescription: "Manage your sign-in address",
+      passwordSettingTitle: "Password",
+      passwordSettingDescription: "Change your password",
       anonymousDescription: "Create an account to save your preferences and manage your profile. Loculary remains usable without an account.",
       signIn: "Sign in", signUp: "Create an account", signOut: "Sign out",
       submitSignIn: "Sign in", submitSignUp: "Create my account",
@@ -355,9 +371,9 @@ guidedWorkflows: {
       passwordConfirmation: "Confirm password",
       passwordResetError: "We couldn’t reset your password. The link may be expired or invalid.",
       weakPassword: "Choose a stronger password or check your account security requirements.",
-      changePassword: "Change password", changePasswordTitle: "Change password", currentPassword: "Current password",
+      changePassword: "Change password", changePasswordTitle: "Change password", changePasswordDescription: "Choose a new password to help protect your account.", passwordLengthHint: "Length is checked here; Supabase also enforces the security requirements configured for the account.", passwordRuleMin: "At least 8 characters", passwordRuleMax: "No more than 128 characters", passwordRuleMatch: "Passwords do not match", passwordRuleRequired: "Enter your current password", passwordStrengthNote: "Supabase enforces the configured minimum length. Loculary does not currently check passwords against a compromised-password database.", currentPassword: "Current password",
       passwordChanged: "Password changed.", currentPasswordError: "The current password is incorrect.",
-      profile: "Profile", saveProfile: "Save", profileUpdated: "Profile saved.", profileError: "We couldn’t save the changes.", passwordError: "We couldn’t change the password.", security: "Security", dangerZone: "Danger zone",
+      profile: "Profile", saveProfile: "Save", profileUpdated: "Profile saved.", profileError: "We couldn’t save the changes.", passwordError: "We couldn’t change the password.", dangerZone: "Danger zone",
       preferredLanguage: "Language", french: "Français", english: "English",
       emailAddress: "Current email address", changeEmail: "Change email address", changeEmailTitle: "Change email address",
       changeEmailDescription: "Confirmation may be required for your current and new address.",

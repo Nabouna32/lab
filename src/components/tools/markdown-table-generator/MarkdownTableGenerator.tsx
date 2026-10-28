@@ -69,7 +69,7 @@ export default function MarkdownTableGenerator() {
           </div>
         </div>
 
-        <div className="mt-5 overflow-x-auto rounded-[var(--radius-md)] border border-[var(--border)]">
+        <div className="mt-5 overflow-x-auto rounded-[var(--shape-corner-medium)] border border-[var(--border)]">
           <table className="min-w-full border-collapse text-sm">
             <thead>
               <tr className="bg-[var(--background)]">
@@ -124,12 +124,12 @@ export default function MarkdownTableGenerator() {
               </div>
               <CopyButton value={markdown} label={t.copy} />
             </div>
-            <pre className="mt-3 min-h-52 overflow-auto rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background)] p-4 font-mono text-xs leading-5 text-[var(--foreground)]" aria-label={t.markdown}>{markdown}</pre>
+            <pre className="mt-3 min-h-52 overflow-auto rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--background)] p-4 font-mono text-xs leading-5 text-[var(--foreground)]" aria-label={t.markdown}>{markdown}</pre>
           </div>
 
           <div>
             <p className="text-sm font-semibold text-[var(--foreground)]">{t.preview}</p>
-            <div className="mt-3 min-h-52 overflow-auto rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background)] p-4">
+            <div className="mt-3 min-h-52 overflow-auto rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--background)] p-4">
               <table className="min-w-full border-collapse text-left text-sm">
                 <thead>
                   <tr>

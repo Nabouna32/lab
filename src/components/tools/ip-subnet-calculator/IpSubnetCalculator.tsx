@@ -100,7 +100,7 @@ export default function IpSubnetCalculator() {
             <>
               <div className="mt-5 grid gap-3 sm:grid-cols-2">
                 {fields.map((field) => (
-                  <div key={field.key} className="rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] p-4">
+                  <div key={field.key} className="rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--surface)] p-4">
                     <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--muted)]">{field.label}</p>
                     <p className="mt-2 break-all font-mono text-sm leading-6 text-[var(--foreground)]">{field.value}</p>
                   </div>
@@ -108,11 +108,11 @@ export default function IpSubnetCalculator() {
               </div>
 
               <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                <div className="rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] p-4">
+                <div className="rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--surface)] p-4">
                   <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--muted)]">{t.totalAddresses}</p>
                   <p className="mt-2 text-2xl font-black tracking-tight text-[var(--foreground)]">{result.totalAddresses.toLocaleString(locale)}</p>
                 </div>
-                <div className="rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] p-4">
+                <div className="rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--surface)] p-4">
                   <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--muted)]">{t.usableHosts}</p>
                   <p className="mt-2 text-2xl font-black tracking-tight text-[var(--foreground)]">{result.usableHosts.toLocaleString(locale)}</p>
                 </div>

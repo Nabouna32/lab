@@ -37,7 +37,7 @@ export default function ToolProcessingStatus({
           <span>{presentation.label}</span>
           <span className="text-[var(--muted)]" aria-hidden="true"><MaterialIcon name="info" size={16} /></span>
         </summary>
-        <div className="mt-2 w-full max-w-2xl rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface-elevated)] p-4 text-sm leading-6 text-[var(--muted)] shadow-[var(--shadow-sm)]">
+        <div className="mt-2 w-full max-w-2xl rounded-[var(--shape-corner-large)] border border-[var(--border)] bg-[var(--surface-elevated)] p-4 text-sm leading-6 text-[var(--muted)] shadow-[var(--shadow-sm)]">
           <p className="text-[var(--foreground)]">{processing.description[locale] ?? processing.description.en}</p>
           {isDescriptionFallback && (
             <p className="mt-2 text-xs font-medium text-[var(--muted)]" role="status">

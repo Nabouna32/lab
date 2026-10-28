@@ -34,6 +34,37 @@ const resultPanelSource = readFileSync(new URL("../../components/ui/ResultPanel.
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
 const headerMenuSource = readFileSync(new URL("../../components/layout/DesktopHeaderMenu.tsx", import.meta.url), "utf8");
 const messagesSource = readFileSync(new URL("../i18n/messages.ts", import.meta.url), "utf8");
+const typographyComponentStyles = {
+  bottomSheetScaffold: readFileSync(new URL("../../components/ui/BottomSheetScaffold.module.css", import.meta.url), "utf8"),
+  buttonGroup: readFileSync(new URL("../../components/ui/ButtonGroup.module.css", import.meta.url), "utf8"),
+  datePicker: readFileSync(new URL("../../components/ui/DatePicker.module.css", import.meta.url), "utf8"),
+  floatingActionButton: readFileSync(new URL("../../components/ui/FloatingActionButton.module.css", import.meta.url), "utf8"),
+  floatingActionButtonMenu: readFileSync(new URL("../../components/ui/FloatingActionButtonMenu.module.css", import.meta.url), "utf8"),
+  floatingToolbar: readFileSync(new URL("../../components/ui/FloatingToolbar.module.css", import.meta.url), "utf8"),
+  modalBottomSheet: readFileSync(new URL("../../components/ui/ModalBottomSheet.module.css", import.meta.url), "utf8"),
+  pullToRefresh: readFileSync(new URL("../../components/ui/PullToRefreshBox.module.css", import.meta.url), "utf8"),
+  rangeSlider: readFileSync(new URL("../../components/ui/RangeSlider.module.css", import.meta.url), "utf8"),
+  segmentedButtonGroup: readFileSync(new URL("../../components/ui/SegmentedButtonGroup.module.css", import.meta.url), "utf8"),
+  splitButton: readFileSync(new URL("../../components/ui/SplitButton.module.css", import.meta.url), "utf8"),
+  swipeToDismiss: readFileSync(new URL("../../components/ui/SwipeToDismissBox.module.css", import.meta.url), "utf8"),
+  wideNavigationRail: readFileSync(new URL("../../components/ui/WideNavigationRail.module.css", import.meta.url), "utf8"),
+  slider: readFileSync(new URL("../../components/ui/slider.module.css", import.meta.url), "utf8"),
+  alertDialog: readFileSync(new URL("../../components/ui/AlertDialog.module.css", import.meta.url), "utf8"),
+  datePickerDialog: readFileSync(new URL("../../components/ui/DatePickerDialog.module.css", import.meta.url), "utf8"),
+  dropdownMenu: readFileSync(new URL("../../components/ui/DropdownMenu.module.css", import.meta.url), "utf8"),
+  exposedDropdownMenu: readFileSync(new URL("../../components/ui/ExposedDropdownMenu.module.css", import.meta.url), "utf8"),
+  navigationBar: readFileSync(new URL("../../components/ui/NavigationBar.module.css", import.meta.url), "utf8"),
+  navigationDrawer: readFileSync(new URL("../../components/ui/NavigationDrawer.module.css", import.meta.url), "utf8"),
+  navigationRail: readFileSync(new URL("../../components/ui/NavigationRail.module.css", import.meta.url), "utf8"),
+  radioButton: readFileSync(new URL("../../components/ui/RadioButton.module.css", import.meta.url), "utf8"),
+  snackbar: readFileSync(new URL("../../components/ui/Snackbar.module.css", import.meta.url), "utf8"),
+  tabs: readFileSync(new URL("../../components/ui/Tabs.module.css", import.meta.url), "utf8"),
+  timePicker: readFileSync(new URL("../../components/ui/TimePicker.module.css", import.meta.url), "utf8"),
+  toggleButton: readFileSync(new URL("../../components/ui/ToggleButton.module.css", import.meta.url), "utf8"),
+  tooltip: readFileSync(new URL("../../components/ui/Tooltip.module.css", import.meta.url), "utf8"),
+  topAppBar: readFileSync(new URL("../../components/ui/TopAppBar.module.css", import.meta.url), "utf8"),
+};
+
 
 function luminance(hex) {
   const channels = [1, 3, 5].map((index) => Number.parseInt(hex.slice(index, index + 2), 16) / 255);
@@ -49,6 +80,108 @@ function contrastRatio(first, second) {
 function literalColors(name) {
   return [...globalCss.matchAll(new RegExp(`--${name}:\\s*(#[0-9a-fA-F]{6});`, "g"))].map((match) => match[1]);
 }
+
+test("shared typography roles drive component CSS instead of duplicated font metrics", () => {
+  const expectations = [
+    ["alertDialog", "--m3-type-headline-small-size", "--m3-type-body-medium-size"],
+    ["datePickerDialog", "--m3-type-headline-small-size"],
+    ["dropdownMenu", "--m3-type-label-large-size", "--m3-type-body-medium-size", "--m3-type-body-small-size"],
+    ["exposedDropdownMenu", "--m3-type-body-medium-size", "--m3-type-body-small-size"],
+    ["navigationBar", "--m3-type-label-medium-size"],
+    ["navigationDrawer", "--m3-type-title-large-size", "--m3-type-title-small-size", "--m3-type-label-large-size"],
+    ["navigationRail", "--m3-type-label-medium-size", "--m3-type-label-small-size"],
+    ["radioButton", "--m3-type-body-medium-size"],
+    ["snackbar", "--m3-type-body-medium-size"],
+    ["tabs", "--m3-type-label-large-size"],
+    ["timePicker", "--m3-type-body-medium-size", "--m3-type-body-small-size"],
+    ["toggleButton", "--m3-type-label-large-size"],
+    ["tooltip", "--m3-type-body-small-size", "--m3-type-body-medium-size", "--m3-type-title-small-size"],
+    ["topAppBar", "--m3-type-title-large-size", "--m3-type-headline-medium-size"],
+    ["bottomSheetScaffold", "--m3-type-label-large-size"],
+    ["buttonGroup", "--m3-type-label-large-size"],
+    ["datePicker", "--m3-type-label-medium-size", "--m3-type-label-large-size", "--m3-type-body-small-size", "--m3-type-title-small-size", "--m3-type-body-medium-size"],
+    ["floatingActionButton", "--m3-type-label-large-size"],
+    ["floatingActionButtonMenu", "--m3-type-label-large-size"],
+    ["floatingToolbar", "--m3-type-label-large-size"],
+    ["modalBottomSheet", "--m3-type-title-large-size", "--m3-type-body-medium-size"],
+    ["pullToRefresh", "--m3-type-body-medium-size"],
+    ["rangeSlider", "--m3-type-label-large-size", "--m3-type-body-medium-size"],
+    ["segmentedButtonGroup", "--m3-type-label-large-size"],
+    ["splitButton", "--m3-type-label-large-size"],
+    ["swipeToDismiss", "--m3-type-label-large-size"],
+    ["wideNavigationRail", "--m3-type-label-large-size"],
+    ["slider", "--m3-type-body-medium-size", "--m3-type-label-large-size", "--m3-type-body-small-size"],
+  ];
+
+  for (const [component, ...tokens] of expectations) {
+    for (const token of tokens) {
+      assert.ok(typographyComponentStyles[component].includes(token), `${component} must consume ${token}`);
+    }
+  }
+});
+
+test("shared shape tokens are consumed by date, navigation and slider compositions", () => {
+  const datePicker = readFileSync(new URL("../../components/ui/DatePicker.module.css", import.meta.url), "utf8");
+  const appLink = readFileSync(new URL("../../components/ui/AppLink.tsx", import.meta.url), "utf8");
+  const recentTools = readFileSync(new URL("../../components/home/RecentTools.tsx", import.meta.url), "utf8");
+  const relatedTools = readFileSync(new URL("../../components/tools/RelatedTools.tsx", import.meta.url), "utf8");
+  const toolCard = readFileSync(new URL("../../components/tools/ToolCard.tsx", import.meta.url), "utf8");
+  const urlParser = readFileSync(new URL("../../components/tools/url-parser/UrlParser.tsx", import.meta.url), "utf8");
+  const jwtDecoder = readFileSync(new URL("../../components/tools/jwt-decoder/JwtDecoder.tsx", import.meta.url), "utf8");
+  const hashGenerator = readFileSync(new URL("../../components/tools/hash-generator/HashGenerator.tsx", import.meta.url), "utf8");
+  const editorialPrimitives = readFileSync(new URL("../../components/tools/ToolPage/EditorialPrimitives.tsx", import.meta.url), "utf8");
+  const jsonDiff = readFileSync(new URL("../../components/tools/json-diff-checker/JsonDiffChecker.tsx", import.meta.url), "utf8");
+  const jsonDiffEditorial = readFileSync(new URL("../../components/tools/json-diff-checker/ToolEditorial.tsx", import.meta.url), "utf8");
+  const cronExpression = readFileSync(new URL("../../components/tools/cron-expression/CronExpression.tsx", import.meta.url), "utf8");
+  const colorConverter = readFileSync(new URL("../../components/tools/color-converter/ColorConverter.tsx", import.meta.url), "utf8");
+  const imageMetadata = readFileSync(new URL("../../components/tools/image-metadata/ImageMetadataViewer.tsx", import.meta.url), "utf8");
+  const colorPalette = readFileSync(new URL("../../components/tools/color-palette-generator/ColorPaletteGenerator.tsx", import.meta.url), "utf8");
+
+  assert.ok(datePicker.includes("border-radius: var(--shape-corner-extra-large)"));
+  assert.ok(datePicker.includes("border-radius: var(--shape-corner-small)"));
+  assert.ok(datePicker.includes("border-radius: var(--shape-corner-large)"));
+  assert.ok(appLink.includes("rounded-[var(--shape-corner-full)]"));
+  assert.ok(recentTools.includes("rounded-[var(--m3-card-shape)]"));
+  assert.ok(recentTools.includes("rounded-[var(--shape-corner-medium)]"));
+  assert.ok(relatedTools.includes("shape-corner-medium"));
+  assert.ok(toolCard.includes("shape-corner-medium"));
+  assert.ok(urlParser.includes("rounded-[var(--shape-corner-medium)]"));
+  assert.ok(jwtDecoder.includes("rounded-[var(--shape-corner-medium)]"));
+  assert.ok(hashGenerator.includes("rounded-[var(--shape-corner-medium)]"));
+  assert.ok(editorialPrimitives.includes("rounded-[var(--shape-corner-medium)]"));
+  assert.ok(jsonDiff.includes("rounded-[var(--shape-corner-medium)]"));
+  assert.ok(jsonDiffEditorial.includes("rounded-[var(--shape-corner-medium)]"));
+  assert.ok(cronExpression.includes("rounded-[var(--shape-corner-medium)]"));
+  assert.ok(colorConverter.includes("rounded-[var(--shape-corner-medium)]"));
+  assert.ok(cronExpression.includes("shape-corner-small"));
+  assert.ok(imageMetadata.includes("shape-corner-small"));
+  assert.ok(colorPalette.includes("shape-corner-small"));
+});
+
+test("shared production compositions consume named typography and shape roles", () => {
+  const appLink = readFileSync(new URL("../../components/ui/AppLink.tsx", import.meta.url), "utf8");
+  const resultPanel = readFileSync(new URL("../../components/ui/ResultPanel.tsx", import.meta.url), "utf8");
+  const recentTools = readFileSync(new URL("../../components/home/RecentTools.tsx", import.meta.url), "utf8");
+  const relatedTools = readFileSync(new URL("../../components/tools/RelatedTools.tsx", import.meta.url), "utf8");
+  const toolCard = readFileSync(new URL("../../components/tools/ToolCard.tsx", import.meta.url), "utf8");
+  const validationMessage = readFileSync(new URL("../../components/ui/ValidationMessage.tsx", import.meta.url), "utf8");
+
+  assert.match(appLink, /m3-type-label-large/);
+  assert.match(resultPanel, /m3-type-label-medium/);
+  assert.match(resultPanel, /m3-type-body-medium/);
+  assert.match(resultPanel, /m3-type-display-small/);
+  assert.match(resultPanel, /--m3-type-display-medium-size/);
+  assert.match(recentTools, /m3-type-title-medium/);
+  assert.match(recentTools, /m3-type-body-medium/);
+  assert.match(recentTools, /m3-type-label-large/);
+  assert.match(recentTools, /--m3-card-shape/);
+  assert.match(relatedTools, /m3-type-title-large/);
+  assert.match(relatedTools, /m3-type-title-medium/);
+  assert.match(relatedTools, /m3-type-body-medium/);
+  assert.match(relatedTools, /shape-corner-medium/);
+  assert.match(toolCard, /shape-corner-medium/);
+  assert.match(validationMessage, /m3-type-body-medium/);
+});
 
 test("custom status foregrounds meet WCAG AA contrast on their light and dark containers", () => {
   for (const status of ["info", "success", "warning"]) {
@@ -177,7 +310,7 @@ test("common navigation and identity icons use the shared Material Symbols compo
   assert.match(messagesSource, /favorites: "Favorites"/);
   assert.match(messagesSource, /collections: "Collections"/);
   assert.match(messagesSource, /collections: "Collections"/);
-  assert.match(headerSource, /block text-sm font-semibold text-\[var\(--foreground\)\]/);
+  assert.match(headerSource, /m3-type-label-large block text-\[var\(--foreground\)\]/);
   assert.doesNotMatch(headerSource, /function Icon\(/);
 });
 
@@ -260,9 +393,9 @@ test("shared action controls use semantic state-layer colors instead of brightne
   assert.match(appLinkSource, /getMaterialButtonInlineStyle\(isMaterialButton/);
   assert.match(buttonVariantStylesSource, /colors\?\.contentColor/);
   assert.match(appLinkSource, /variant === "filled".*variant === "text"/s);
-  assert.match(iconButtonSource, /var\(--primary\)_92%,var\(--on-primary\)/);
+  assert.ok(iconButtonSource.includes("var(--icon-button-container-color,var(--primary))_92%,var(--icon-button-content-color,var(--on-primary))"));
   assert.ok(favoriteSource.includes("const FavoriteActionButton = active ? FilledTonalButton : OutlinedButton;"));
-  assert.match(favoriteSource, /import \{ IconButton \} from "@\/components\/ui\/IconButton"/);
+  assert.match(favoriteSource, /import \{ IconToggleButton \} from "@\/components\/ui\/IconButton"/);
   assert.match(appLinkSource, /materialButtonVariantStyles/);
   assert.match(collectionsSource, /<Button type="submit" disabled=/);
 });
@@ -338,10 +471,12 @@ test("Design Lab includes extended Material 3 navigation, field, list, menu, pro
 test("Design Lab renders the shared production UI primitives against the active Material 3 scheme", () => {
   const labSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
   assert.ok(labSource.includes('import { Card, ElevatedCard, OutlinedCard } from "@/components/ui/Card"'));
-  for (const component of ["IconButton", "Panel", "ResultPanel", "Checkbox", "TextField", "TextArea", "ExposedDropdownMenu", "ModalBottomSheet", "AlertDialog", "SegmentedControl", "ValidationMessage", "Switch"]) {
+  for (const component of ["Panel", "ResultPanel", "Checkbox", "TextField", "TextArea", "ExposedDropdownMenu", "ModalBottomSheet", "AlertDialog", "SegmentedControl", "ValidationMessage", "Switch"]) {
     assert.match(labSource, new RegExp(`import \\{ ${component} \\} from "@\\/components\\/ui\\/${component}"`), `missing shared component import: ${component}`);
   }
   assert.ok(labSource.includes('import { Button, ElevatedButton, FilledTonalButton, OutlinedButton, TextButton } from "@/components/ui/Button"'));
+  assert.match(labSource, /import \{[^}]*IconButton[^}]*\} from "@\/components\/ui\/IconButton"/);
+  for (const component of ["IconToggleButton", "FilledIconButton", "FilledTonalIconButton", "OutlinedIconButton", "FilledIconToggleButton", "FilledTonalIconToggleButton", "OutlinedIconToggleButton"]) assert.ok(labSource.includes("<" + component), "missing official icon button specimen: " + component);
   for (const token of ["--foreground:var(--lab-text)", "--surface:var(--lab-surface)", "--surface-soft:var(--lab-surface-container)", "--secondary-container:var(--lab-secondary-container)", "--error:var(--lab-error)", "--focus-ring:var(--lab-primary)"]) {
     assert.ok(labCss.includes(token), `missing scoped token bridge: ${token}`);
   }
@@ -399,7 +534,7 @@ test("outlined form controls use semantic extra-small shape tokens and per-part 
   assert.match(selectSource, /rounded-\[var\(--shape-corner-extra-small\)\]/);
   assert.match(selectSource, /min-h-14/);
   assert.match(cardSource, /export function Card/);
-  assert.match(cardSource, /shape-corner-medium/);
+  assert.match(cardSource, /m3-card-shape/);
   assert.match(cardSource, /surface-container-highest/);
   assert.match(cardSource, /export function ElevatedCard/);
   assert.match(cardSource, /surface-container-low/);
@@ -408,7 +543,7 @@ test("outlined form controls use semantic extra-small shape tokens and per-part 
   assert.match(cardSource, /export function CardLink/);
   assert.match(cardSource, /focus-visible:ring-2/);
   assert.doesNotMatch(cardSource, /variant\?: CardVariant/);
-  assert.match(panelSource, /shape-corner-medium/);
+  assert.match(panelSource, /m3-panel-shape/);
   assert.match(resultPanelSource, /shape-corner-medium/);
   for (const [name, source] of [["TextField", textFieldSource], ["TextArea", textAreaSource], ["Select", selectSource]]) {
     assert.match(source, /on-surface\)_12%,transparent/);
@@ -425,6 +560,8 @@ test("segmented control keeps labels single-line and leaves descriptions outside
   const percentageSource = readFileSync(new URL("../../components/tools/percentage/PercentageCalculator.tsx", import.meta.url), "utf8");
   const videoBitrateSource = readFileSync(new URL("../../components/tools/video-bitrate/VideoBitrateCalculator.tsx", import.meta.url), "utf8");
   assert.match(segmentedSource, /whitespace-nowrap/);
+  assert.match(segmentedSource, /m3-type-label-large/);
+  assert.match(segmentedSource, /text-\[length:var\(--m3-type-label-large-size\)\]|leading-\[var\(--m3-type-label-large-line-height\)\]/);
   assert.match(segmentedSource, /rounded-l-full/);
   assert.match(segmentedSource, /rounded-r-full/);
   assert.match(segmentedSource, /rounded-none/);
@@ -454,20 +591,30 @@ test("AndroidX-named Buttons support per-state color customization without produ
   assert.ok(buttonVariantStylesSource.includes("disabled:bg-[var(--button-disabled-container-color,color-mix(in_srgb,var(--on-surface)_12%,transparent))]"));
   assert.ok(buttonVariantStylesSource.includes("color-mix(in_srgb,var(--on-surface)_38%,transparent)"));
   assert.ok(buttonSource.includes("export type ButtonColors ="));
+  assert.ok(buttonSource.includes("enabled?: boolean"));
+  assert.ok(buttonSource.includes("disabled={disabled ?? !enabled}"));
   assert.ok(buttonVariantStylesSource.includes('"--button-container-color": colors.containerColor'));
   assert.ok(buttonVariantStylesSource.includes('"--button-disabled-container-color": colors.disabledContainerColor'));
   assert.ok(!buttonSource.includes("DestructiveButton"), "destructive styling uses color customization, not a custom component");
   assert.doesNotMatch(buttonSource, /primary: filled|secondary: outlined|tonal: filledTonal|ghost: text/);
-  assert.match(iconButtonSource, /on-surface\)_10%,transparent/);
-  assert.match(iconButtonSource, /const filledTonal = .*on-surface\)_10%,transparent/);
-  assert.match(iconButtonSource, /outline-variant\)_38%,transparent/);
-  assert.match(iconButtonSource, /standard: "text-\[var\(--primary\)\] group-hover:text-\[var\(--primary\)\] group-active:text-\[var\(--primary\)\] group-disabled:text-\[color-mix\(in_srgb,var\(--on-surface\)_38%,transparent\)\] group-hover:bg-/);
-  assert.match(iconButtonSource, /"filled-tonal": "bg-\[var\(--secondary-container\)\] text-\[var\(--on-secondary-container\)\]/);
-  assert.match(iconButtonSource, /outlined: "border-transparent bg-\[var\(--inverse-surface\)\] text-\[var\(--inverse-on-surface\)\]/);
-  assert.match(iconButtonSource, /hover:bg-\[color-mix\(in_srgb,var\(--inverse-surface\)_92%,var\(--inverse-on-surface\)\)\]/);
-  assert.match(iconButtonSource, /standard: "text-\[var\(--primary\)\] group-hover:text-\[var\(--primary\)\] group-active:text-\[var\(--primary\)\] group-disabled:text-\[color-mix\(in_srgb,var\(--on-surface\)_38%,transparent\)\] group-hover:bg-/);
+  assert.ok(iconButtonSource.includes("group-disabled:bg-[var(--icon-button-disabled-container-color,color-mix(in_srgb,var(--on-surface)_10%,transparent))]"));
+  assert.ok(iconButtonSource.includes("group-disabled:border-[color-mix(in_srgb,var(--on-surface)_12%,transparent)]"));
+  assert.ok(iconButtonSource.includes("const toggleUncheckedStyles: Record<IconButtonStyle, string>"));
+  assert.ok(iconButtonSource.includes("const toggleCheckedStyles: Record<IconButtonStyle, string>"));
+  assert.ok(iconButtonSource.includes("export type IconButtonColors ="));
+  assert.ok(iconButtonSource.includes("enabled?: boolean"));
+  assert.ok(iconButtonSource.includes("disabled={disabled ?? !enabled}"));
+  assert.ok(iconButtonSource.includes("export type IconToggleButtonColors ="));
+  assert.ok(iconButtonSource.includes("colors?: Partial<IconButtonColors>"));
+  assert.ok(iconButtonSource.includes('shape?: CSSProperties["borderRadius"]'));
+  assert.ok(iconButtonSource.includes("type OutlinedIconButtonProps = IconButtonProps &"));
+  assert.ok(iconButtonSource.includes("type OutlinedIconToggleButtonProps = IconToggleButtonProps &"));
+  assert.ok(iconButtonSource.includes('"filled-tonal": "border border-transparent bg-[var(--icon-button-checked-container-color,var(--secondary))] text-[var(--icon-button-checked-content-color,var(--on-secondary))]'));
+  assert.ok(iconButtonSource.includes('outlined: "border border-transparent bg-[var(--icon-button-checked-container-color,var(--inverse-surface))] text-[var(--icon-button-checked-content-color,var(--inverse-on-surface))]'));
+  assert.ok(iconButtonSource.includes("group-hover:bg-[color-mix(in_srgb,var(--icon-button-checked-container-color,var(--inverse-surface))_92%,var(--icon-button-checked-content-color,var(--inverse-on-surface)))]"));
+  assert.ok(iconButtonSource.includes("group-hover:bg-[color-mix(in_srgb,var(--icon-button-container-color,var(--surface-container))_92%,var(--icon-button-content-color,var(--on-surface-variant)))]"));
+  assert.ok(iconButtonSource.includes("group-active:bg-[color-mix(in_srgb,var(--icon-button-container-color,transparent)_88%,var(--on-surface))]"));
 });
-
 test("Lab checkbox samples each define one palette-aware shape and disabled role set", () => {
   assert.equal((labSource.match(/--checkbox-container-shape/g) || []).length, 2);
   assert.equal((labSource.match(/--checkbox-disabled-active": "color-mix\(in srgb, var\(--lab-text\) 38%, transparent\)"/g) || []).length, 2);
@@ -523,7 +670,7 @@ test("Button gallery compares shared M3 Fidelity and Expressive component varian
 test("IconButton gallery compares Fidelity and Expressive medium interaction shapes", () => {
   assert.match(labSource, /iconButtonVariant,setIconButtonVariant/);
   assert.match(labSource, /data-icon-button-variant=\{iconButtonVariant\}/);
-  assert.match(labSource, /selected=\{sampleIconSelected\}/);
+  assert.match(labSource, /checked=\{sampleIconSelected\}/);
   assert.match(labSource, /setSampleIconSelected/);
   assert.match(labCss, /iconButtonComparison\[data-icon-button-variant="expressive"\] \.buttonStack > button\{\s*width:56px!important/);
   assert.match(labCss, /button\[aria-pressed="true"\]\{\s*border-radius:var\(--shape-corner-large\)!important/);
@@ -706,7 +853,7 @@ test("destructive account and collection actions preserve link/button semantics 
   const accountPage = readFileSync(new URL("../../app/[locale]/compte/page.tsx", import.meta.url), "utf8");
   const deleteAccountPage = readFileSync(new URL("../../app/[locale]/compte/suppression/page.tsx", import.meta.url), "utf8");
   const collectionsView = readFileSync(new URL("../../components/collections/CollectionsView.tsx", import.meta.url), "utf8");
-  assert.match(accountPage, /<AppLink[\s\S]*?className="mt-4"[\s\S]*?leadingIcon[\s\S]*?colors=\{\{ contentColor: "var\(--error\)" \}\}[\s\S]*?variant="text"[\s\S]*?<MaterialIcon name="delete"/);
+  assert.match(accountPage, /<Column verticalArrangement=\{Arrangement\.spacedBy\("var\(--space-4\)"\)\}[\s\S]*?<AppLink[\s\S]*?leadingIcon[\s\S]*?colors=\{\{ contentColor: "var\(--error\)" \}\}[\s\S]*?variant="text"[\s\S]*?<MaterialIcon name="delete"/);
   assert.match(accountPage, /<AppLink href=\{`\/\$\{locale\}\/compte\/connexion`\} variant="filled">/);
   assert.match(accountPage, /<AppLink href=\{`\/\$\{locale\}\/compte\/inscription`\} variant="outlined">/);
   assert.match(deleteAccountPage, /<MaterialIcon name="delete"/);
@@ -721,4 +868,255 @@ test("AlertDialog actions use shared Material 3 buttons instead of a parallel bu
   assert.match(alertDialogSource, /<TextButton ref=\{dismissRef\} type="button"/);
   assert.match(alertDialogSource, /<Button type="button" colors=\{destructive \?/);
   assert.doesNotMatch(alertDialogCss, /\.dismiss, \.confirm, \.destructive/);
+});
+
+
+test("tool compositions use shared shape roles instead of migrated legacy aliases", () => {
+  const mediumConsumers = [
+    "../../components/tools/csv-diff-checker/CsvDiffChecker.tsx",
+    "../../components/tools/ip-subnet-calculator/IpSubnetCalculator.tsx",
+    "../../components/tools/contrast-checker/ContrastChecker.tsx",
+    "../../components/tools/qr-code-generator/QrCodeGenerator.tsx",
+    "../../components/tools/image-compressor/ImageCompressor.tsx",
+    "../../components/tools/color-palette-generator/ColorPaletteGenerator.tsx",
+    "../../components/tools/html-entity-encoder/HtmlEntityEncoder.tsx",
+    "../../components/tools/ToolSearch.tsx",
+    "../../components/tools/text-case-converter/TextCaseConverter.tsx",
+    "../../components/tools/markdown-table-generator/MarkdownTableGenerator.tsx",
+    "../../components/tools/image-metadata/ImageMetadataViewer.tsx",
+    "../../components/tools/image-to-pdf/ImageToPdf.tsx",
+    "../../components/tools/json-to-typescript/JsonToTypeScript.tsx",
+    "../../components/tools/text-diff-checker/TextDiffChecker.tsx",
+    "../../components/tools/ipv6-subnet-calculator/Ipv6SubnetCalculator.tsx",
+    "../../components/tools/json-formatter/JsonFormatter.tsx",
+    "../../components/tools/password-generator/PasswordGenerator.tsx",
+    "../../components/tools/timezone-converter/TimezoneConverter.tsx",
+    "../../components/tools/image-contact-sheet/ImageContactSheet.tsx",
+  ];
+  const largeConsumers = [
+    "../../components/layout/Header.tsx",
+    "../../components/tools/ToolPage/ToolProcessingStatus.tsx",
+    "../../components/tools/text-counter/TextCounter.tsx",
+    "../../components/tools/html-previewer/HtmlPreviewer.tsx",
+    "../../components/tools/base64/Base64Encoder.tsx",
+    "../../components/tools/url-encoder/UrlEncoder.tsx",
+    "../../components/tools/regex-tester/RegexTester.tsx",
+    "../../components/favorites/FavoritesView.tsx",
+    "../../components/tools/ToolPage/ToolPageHeader.tsx",
+  ];
+  const extraLargeConsumers = [
+    "../../components/tools/uuid/UuidGenerator.tsx",
+    "../../components/tools/unix-timestamp/UnixTimestampConverter.tsx",
+    "../../components/tools/timezone-converter/TimezoneConverter.tsx",
+  ];
+
+  for (const path of mediumConsumers) {
+    const source = readFileSync(new URL(path, import.meta.url), "utf8");
+    assert.match(source, /shape-corner-medium/, path);
+    assert.doesNotMatch(source, /radius-md/, path);
+  }
+  for (const path of largeConsumers) {
+    const source = readFileSync(new URL(path, import.meta.url), "utf8");
+    assert.match(source, /shape-corner-large/, path);
+    assert.doesNotMatch(source, /radius-lg/, path);
+  }
+  for (const path of extraLargeConsumers) {
+    const source = readFileSync(new URL(path, import.meta.url), "utf8");
+    assert.match(source, /shape-corner-extra-large/, path);
+    assert.doesNotMatch(source, /radius-2xl/, path);
+  }
+});
+
+test("tool section headings and descriptions consume shared Material 3 typography roles", () => {
+  const toolSection = readFileSync(new URL("../../components/tools/ToolPage/ToolSection.tsx", import.meta.url), "utf8");
+  assert.match(toolSection, /m3-type-title-medium/);
+  assert.match(toolSection, /m3-type-body-medium/);
+  assert.doesNotMatch(toolSection, /text-base font-bold tracking-tight|text-sm leading-6/);
+});
+
+
+test("ListItem follows AndroidX baseline metrics and safely wraps long content", () => {
+  const listItem = readFileSync(new URL("../../components/ui/ListItem.tsx", import.meta.url), "utf8");
+  const listItemCss = readFileSync(new URL("../../components/ui/ListItem.module.css", import.meta.url), "utf8");
+  const spec = readFileSync(new URL("../../../docs/material3/components/ListItem.md", import.meta.url), "utf8");
+
+  assert.match(listItem, /lines = overline && supporting \? 3 : supporting \|\| overline \? 2 : 1/);
+  assert.match(listItemCss, /\.lines-1\{min-height:56px\}/);
+  assert.match(listItemCss, /\.lines-2\{min-height:72px\}/);
+  assert.match(listItemCss, /\.lines-3\{min-height:88px;padding-block:12px\}/);
+  assert.match(listItemCss, /min-width:0/);
+  assert.match(listItemCss, /overflow-wrap:anywhere/);
+  assert.match(listItemCss, /m3-type-body-large-size/);
+  assert.match(listItemCss, /m3-type-body-medium-size/);
+  assert.match(spec, /AndroidX Material 3 \*\*1\.4\.0\*\*/);
+  assert.match(spec, /hauteurs ci-dessus sont des minima/);
+});
+
+test("account settings use native links around shared ListItem without exposing the email value in the overview", () => {
+  const accountPage = readFileSync(new URL("../../app/[locale]/compte/page.tsx", import.meta.url), "utf8");
+
+  assert.match(accountPage, /import \{ ListItem \} from "@\/components\/ui\/ListItem"/);
+  assert.match(accountPage, /<Link[\s\S]*?href=\{\`\/\$\{locale\}\/compte\/email\`\}[\s\S]*?<ListItem[\s\S]*?headline=\{t\.account\.emailSettingTitle\}[\s\S]*?supporting=\{t\.account\.emailSettingDescription\}/);
+  assert.match(accountPage, /<h1 className="m3-type-headline-medium">\{t\.account\.title\}<\/h1>/);
+  assert.doesNotMatch(accountPage, /\{user\.email\}/);
+  assert.doesNotMatch(accountPage, /t\.account\.label/);
+});
+
+
+test("account overview is a settings hub with native navigation rows and individual descriptions", () => {
+  const accountPage = readFileSync(new URL("../../app/[locale]/compte/page.tsx", import.meta.url), "utf8");
+
+  assert.match(accountPage, /t\.account\.pageDescription/);
+  assert.match(accountPage, /href=\{\`\/\$\{locale\}\/compte\/informations-personnelles\`\}/);
+  assert.match(accountPage, /headline=\{t\.account\.personalInformation\}/);
+  assert.match(accountPage, /headline=\{t\.account\.emailSettingTitle\}[\s\S]*?supporting=\{t\.account\.emailSettingDescription\}/);
+  assert.match(accountPage, /headline=\{t\.account\.passwordSettingTitle\}[\s\S]*?supporting=\{t\.account\.passwordSettingDescription\}/);
+  assert.match(accountPage, /t\.account\.security/);
+  assert.match(accountPage, /border-t border-\[var\(--outline-variant\)\]/);
+  assert.match(accountPage, /leading=\{<MaterialIcon name="person" size=\{24\} \/>\}/);
+  assert.match(accountPage, /leading=\{<MaterialIcon name="mail" size=\{24\} \/>\}/);
+  assert.match(accountPage, /leading=\{<MaterialIcon name="lock" size=\{24\} \/>\}/);
+  assert.match(messagesSource, /title: "Votre compte"/);
+  assert.match(messagesSource, /security: "Sécurité et connexion"/);
+  assert.match(messagesSource, /title: "Your account"/);
+  assert.match(messagesSource, /security: "Security and sign-in"/);
+});
+
+test("personal information page owns profile editing and localized feedback", () => {
+  const profilePage = readFileSync(new URL("../../app/[locale]/compte/informations-personnelles/page.tsx", import.meta.url), "utf8");
+  const actions = readFileSync(new URL("../../app/[locale]/compte/actions.ts", import.meta.url), "utf8");
+
+  assert.match(profilePage, /action=\{updateProfile\}/);
+  assert.match(profilePage, /name="displayName"/);
+  assert.match(profilePage, /name="preferredLocale"/);
+  assert.match(profilePage, /query\.status === "profile-updated"/);
+  assert.match(actions, /\/compte\/informations-personnelles\?error=profile/);
+  assert.match(actions, /\/compte\/informations-personnelles\?status=profile-updated/);
+});
+
+
+test("site navigation adapts between a persistent desktop rail and a mobile navigation bar", () => {
+  const layout = readFileSync(new URL("../../app/[locale]/layout.tsx", import.meta.url), "utf8");
+  const navigation = readFileSync(new URL("../../components/layout/AdaptiveAppNavigation.tsx", import.meta.url), "utf8");
+  const navigationCss = readFileSync(new URL("../../components/layout/AdaptiveAppNavigation.module.css", import.meta.url), "utf8");
+  const header = readFileSync(new URL("../../components/layout/Header.tsx", import.meta.url), "utf8");
+
+  assert.match(layout, /<AdaptiveAppNavigation locale=\{locale\} \/>/);
+  assert.match(navigation, /<Link[\s\S]*?aria-current=\{selected \? "page" : undefined\}/);
+  assert.match(navigation, /getGuidedWorkflowsPath/);
+  assert.match(navigation, /\$\{locale\}\/compte/);
+  assert.match(navigationCss, /@media \(min-width: 768px\)/);
+  assert.match(navigationCss, /@media \(min-width: 1200px\)/);
+  assert.match(navigationCss, /prefers-reduced-motion: reduce/);
+  assert.match(navigationCss, /env\(safe-area-inset-bottom\)/);
+  assert.match(header, /HeaderSearch locale=\{locale\}/);
+  assert.doesNotMatch(header, /getToolsPath/);
+});
+
+test("remaining public, admin and account pages consume shared Material 3 typography roles", () => {
+  const informationPage = readFileSync(new URL("../../components/information/InformationPage.tsx", import.meta.url), "utf8");
+  const adminPage = readFileSync(new URL("../../app/[locale]/admin/page.tsx", import.meta.url), "utf8");
+  const auditPage = readFileSync(new URL("../../app/[locale]/admin/audit/page.tsx", import.meta.url), "utf8");
+  const changeEmailPage = readFileSync(new URL("../../app/[locale]/compte/email/page.tsx", import.meta.url), "utf8");
+  const footer = readFileSync(new URL("../../components/layout/Footer.tsx", import.meta.url), "utf8");
+  const signInPage = readFileSync(new URL("../../app/[locale]/compte/connexion/page.tsx", import.meta.url), "utf8");
+  const signUpPage = readFileSync(new URL("../../app/[locale]/compte/inscription/page.tsx", import.meta.url), "utf8");
+  const passwordPage = readFileSync(new URL("../../app/[locale]/compte/mot-de-passe/page.tsx", import.meta.url), "utf8");
+  const deleteAccountPage = readFileSync(new URL("../../app/[locale]/compte/suppression/page.tsx", import.meta.url), "utf8");
+  const adminUsersPage = readFileSync(new URL("../../app/[locale]/admin/utilisateurs/page.tsx", import.meta.url), "utf8");
+  const accountPage = readFileSync(new URL("../../app/[locale]/compte/page.tsx", import.meta.url), "utf8");
+  const personalInformationPage = readFileSync(new URL("../../app/[locale]/compte/informations-personnelles/page.tsx", import.meta.url), "utf8");
+
+  for (const [name, source] of [
+    ["information page", informationPage],
+    ["admin dashboard", adminPage],
+    ["admin audit", auditPage],
+    ["change email", changeEmailPage],
+    ["footer", footer],
+    ["sign-in page", signInPage],
+    ["sign-up page", signUpPage],
+    ["password page", passwordPage],
+    ["account deletion page", deleteAccountPage],
+    ["admin users page", adminUsersPage],
+    ["account overview", accountPage],
+    ["personal information page", personalInformationPage],
+  ]) {
+    assert.match(source, /m3-type-(?:headline|title|body|label)-/i, `${name} must use shared Material 3 typography roles`);
+  }
+
+  assert.ok(informationPage.includes("rounded-[var(--shape-corner-extra-large)]"));
+  assert.ok(informationPage.includes("rounded-[var(--shape-corner-large)]"));
+  assert.ok(footer.includes("m3-type-body-small"));
+
+  for (const [name, source] of [
+    ["sign-in page", signInPage],
+    ["sign-up page", signUpPage],
+    ["account deletion page", deleteAccountPage],
+  ]) {
+    assert.ok(source.includes('import { Column } from "@/components/layout/compose/Column";'), `${name} must consume the shared Compose Column primitive`);
+    assert.ok(source.includes('import { Arrangement } from "@/components/layout/compose/Arrangement";'), `${name} must consume the shared Compose Arrangement primitive`);
+    assert.ok(source.includes('Arrangement.spacedBy("var(--space-5)")'), `${name} must use the shared spacing token through Arrangement.spacedBy`);
+    assert.ok(!/<form[^>]*space-y-/.test(source), `${name} must not keep a local Tailwind vertical-spacing utility on the migrated form`);
+  }
+  assert.ok(signInPage.includes('Arrangement.spacedBy("var(--space-3)")'), "confirmation-resend form must use the shared Compose spacing primitive");
+  assert.ok(!/<form[^>]*space-y-/.test(signInPage), "sign-in page forms must not retain local Tailwind vertical-spacing utilities");
+  assert.ok(accountPage.includes('import { Column } from "@/components/layout/compose/Column";'));
+  assert.ok(!accountPage.includes("space-y-"), "account overview must not retain its migrated vertical-spacing utilities");
+  assert.ok(personalInformationPage.includes('Arrangement.spacedBy("var(--space-5)")'));
+  assert.ok(!/<form[^>]*space-y-/.test(personalInformationPage), "personal information form must use shared Compose spacing");
+});
+
+
+test("email and password settings use dedicated Material 3 page compositions", () => {
+  const emailPage = readFileSync(new URL("../../app/[locale]/compte/email/page.tsx", import.meta.url), "utf8");
+  const passwordPage = readFileSync(new URL("../../app/[locale]/compte/mot-de-passe/page.tsx", import.meta.url), "utf8");
+  const passwordForm = readFileSync(new URL("../../components/account/PasswordChangeForm.tsx", import.meta.url), "utf8");
+
+  assert.match(emailPage, /<MaterialIcon name="mail" size=\{28\} \/>/);
+  assert.match(emailPage, /aria-label=\{t\.account\.emailAddress\}/);
+  assert.match(emailPage, /role="status"/);
+  assert.match(emailPage, /role="alert"/);
+  assert.match(emailPage, /<TextField label=\{t\.account\.email\}[^>]*type="email"/);
+  assert.match(passwordPage, /<MaterialIcon name="lock" size=\{28\} \/>/);
+  assert.match(passwordPage, /t\.account\.changePasswordDescription/);
+  assert.match(passwordPage, /<PasswordChangeForm locale=\{locale\} t=\{t\.account\} serverError=\{query\.error\} \/>/);
+  assert.match(passwordForm, /autoComplete="current-password"/);
+  assert.match(passwordForm, /autoComplete="new-password"/);
+  assert.match(passwordForm, /minLength=\{8\} maxLength=\{128\}/);
+  assert.match(passwordForm, /role="alert"/);
+  assert.match(passwordForm, /t\.passwordRuleMin/);
+  assert.ok(passwordForm.includes("maxLength={128}"));
+  assert.match(passwordForm, /t\.passwordRuleMatch/);
+  assert.match(messagesSource, /changePasswordDescription: "Choisissez un nouveau mot de passe/);
+  assert.match(messagesSource, /passwordRuleMin: "Au moins 8 caractères"/);
+  assert.match(messagesSource, /passwordRuleMax: "Au plus 128 caractères"/);
+  assert.match(messagesSource, /passwordRuleMatch: "Les mots de passe ne correspondent pas"/);
+  assert.match(messagesSource, /changePasswordDescription: "Choose a new password/);
+  assert.match(messagesSource, /passwordRuleMin: "At least 8 characters"/);
+  assert.match(messagesSource, /passwordRuleMax: "No more than 128 characters"/);
+  assert.match(messagesSource, /passwordRuleMatch: "Passwords do not match"/);
+});
+
+
+test("Chip delegates typography metrics to the shared Material 3 label role", () => {
+  const chipSource = readFileSync(new URL("../../components/ui/Chip.tsx", import.meta.url), "utf8");
+  const chipStyles = readFileSync(new URL("../../components/ui/Chip.module.css", import.meta.url), "utf8");
+
+  assert.match(chipSource, /m3-type-label-large/);
+  assert.ok(!chipStyles.includes("font-size: var(--m3-type-label-large-size)"));
+  assert.ok(!chipStyles.includes("line-height: var(--m3-type-label-large-line-height)"));
+  assert.ok(!chipStyles.includes("font-weight: var(--m3-type-label-large-weight)"));
+  assert.ok(!chipStyles.includes("letter-spacing: var(--m3-type-label-large-tracking)"));
+});
+
+
+test("Badge delegates typography metrics to the shared Material 3 label role", () => {
+  const badgeSource = readFileSync(new URL("../../components/ui/Badge.tsx", import.meta.url), "utf8");
+  const badgeStyles = readFileSync(new URL("../../components/ui/Badge.module.css", import.meta.url), "utf8");
+
+  assert.match(badgeSource, /m3-type-label-small/);
+  assert.ok(!badgeStyles.includes("font-size: var(--m3-type-label-small-size)"));
+  assert.ok(!badgeStyles.includes("line-height: var(--m3-type-label-small-line-height)"));
+  assert.ok(!badgeStyles.includes("font-weight: var(--m3-type-label-small-weight)"));
+  assert.ok(!badgeStyles.includes("letter-spacing: var(--m3-type-label-small-tracking)"));
 });

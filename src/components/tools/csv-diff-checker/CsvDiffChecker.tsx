@@ -68,13 +68,13 @@ export default function CsvDiffChecker() {
       <div className="flex flex-wrap items-end gap-4 border-t border-[var(--border)] p-4 sm:p-6">
         <label className="grid min-w-44 gap-1 text-sm font-semibold text-[var(--foreground)]">
           {t.delimiter}
-          <select value={delimiter} onChange={(event) => { setDelimiter(event.target.value as CsvDiffDelimiter); setResult(null); }} className="min-h-11 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] px-3 font-normal outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]">
+          <select value={delimiter} onChange={(event) => { setDelimiter(event.target.value as CsvDiffDelimiter); setResult(null); }} className="min-h-11 rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--surface)] px-3 font-normal outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]">
             <option value="auto">{t.delimiterAuto}</option><option value=",">{t.delimiterComma}</option><option value=";">{t.delimiterSemicolon}</option><option value="\t">{t.delimiterTab}</option>
           </select>
         </label>
         <label className="grid min-w-44 flex-1 gap-1 text-sm font-semibold text-[var(--foreground)]">
           {t.keyColumn}
-          <select value={keyColumn} onChange={(event) => { setKeyColumn(event.target.value); setResult(null); }} className="min-h-11 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] px-3 font-normal outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]">
+          <select value={keyColumn} onChange={(event) => { setKeyColumn(event.target.value); setResult(null); }} className="min-h-11 rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--surface)] px-3 font-normal outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]">
             <option value="">{t.byRow}</option>{headers.map((header) => <option key={header} value={header}>{header}</option>)}
           </select>
         </label>
@@ -92,7 +92,7 @@ export default function CsvDiffChecker() {
         {result && !result.identical && (
           <div className="mt-4 grid gap-3">
             {result.changes.map((change, index) => (
-              <article key={change.kind + change.key + index} className={"rounded-[var(--radius-md)] border border-[var(--border)] border-l-4 p-4 " + (change.kind === "added" ? "border-l-[var(--success)]" : change.kind === "removed" ? "border-l-[var(--danger)]" : "border-l-[var(--primary)]")}>
+              <article key={change.kind + change.key + index} className={"rounded-[var(--shape-corner-medium)] border border-[var(--border)] border-l-4 p-4 " + (change.kind === "added" ? "border-l-[var(--success)]" : change.kind === "removed" ? "border-l-[var(--danger)]" : "border-l-[var(--primary)]")}>
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <span className="font-mono text-sm break-all">{keyColumn ? keyColumn + "=" + change.key : t.row + " " + change.key}</span>
                   <span className="rounded-full bg-[var(--surface-container)] px-2 py-1 text-xs font-semibold">{change.kind === "added" ? t.added : change.kind === "removed" ? t.removed : t.changed}</span>

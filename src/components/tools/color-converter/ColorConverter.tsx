@@ -44,7 +44,7 @@ export default function ColorConverter() {
                   aria-label={t.picker}
                   value={result?.hex ?? "#000000"}
                   onChange={(event) => setValue(event.target.value)}
-                  className="h-11 w-14 cursor-pointer rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background)] p-1 outline-none transition focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+                  className="h-11 w-14 cursor-pointer rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--background)] p-1 outline-none transition focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
                 />
               </div>
             </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { IconButton } from "@/components/ui/IconButton";
+import { OutlinedIconButton } from "@/components/ui/IconButton";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import { CalculatorActions } from "@/components/tools/calculator/CalculatorActions";
 import { CalculatorField } from "@/components/tools/calculator/CalculatorField";
@@ -98,9 +98,9 @@ export default function UnitConverter() {
             ))}
           </Select>
           <div className="flex items-end">
-            <IconButton variant="outlined" onClick={swapUnits} label={t.swap} title={t.swap}>
+            <OutlinedIconButton onClick={swapUnits} label={t.swap} title={t.swap}>
               <MaterialIcon name="sync_alt" size={24} />
-            </IconButton>
+            </OutlinedIconButton>
           </div>
         </div>
 

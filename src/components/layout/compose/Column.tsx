@@ -1,5 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
-import { Alignment, type HorizontalAlignment } from "./Alignment";
+import type { HorizontalAlignment } from "./Alignment";
 import { Arrangement, type VerticalArrangement } from "./Arrangement";
 import { getColumnLayoutPresentation } from "./LayoutStyles";
 import type { Modifier } from "./Modifier";
@@ -18,7 +18,7 @@ export function Column({
   children,
   modifier,
   verticalArrangement = Arrangement.Top,
-  horizontalAlignment = Alignment.Start,
+  horizontalAlignment,
   className,
   style,
 }: ColumnProps) {

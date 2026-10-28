@@ -7,7 +7,7 @@ export function Card({ children }: { children: ReactNode }) {
 
 export function Formula({ children }: { children: ReactNode }) {
   return (
-    <div className="mt-5 rounded-[var(--radius-md)] bg-[var(--surface-soft)] p-4">
+    <div className="mt-5 rounded-[var(--shape-corner-medium)] bg-[var(--surface-soft)] p-4">
       {children}
     </div>
   );

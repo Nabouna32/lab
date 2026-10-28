@@ -33,7 +33,7 @@ export function ButtonRipple() {
   const activeKeys = useRef(new Map<string, number>());
 
   useEffect(() => {
-    const candidate = layerRef.current?.parentElement;
+    const candidate = layerRef.current?.closest("button, a");
     if (!(candidate instanceof HTMLButtonElement) && !(candidate instanceof HTMLAnchorElement)) return;
     const control: HTMLButtonElement | HTMLAnchorElement = candidate;
 
@@ -48,7 +48,8 @@ export function ButtonRipple() {
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
       if (activeKeys.current.has(keyboardEvent.key)) return;
 
-      const rect = control.getBoundingClientRect();
+      const rect = layerRef.current?.getBoundingClientRect();
+      if (!rect) return;
       const x = rect.width / 2;
       const y = rect.height / 2;
       const { left, top, diameter } = getRippleGeometry(x, y, rect.width, rect.height);
@@ -99,10 +100,12 @@ export function ButtonRipple() {
   function handlePointerDown(event: PointerEvent<HTMLSpanElement>) {
     if (!event.isPrimary || (event.pointerType === "mouse" && event.button !== 0)) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const control = event.currentTarget.parentElement;
-    if (!control || isDisabledControl(control)) return;
+    const candidate = event.currentTarget.closest("button, a");
+    if (!(candidate instanceof HTMLButtonElement) && !(candidate instanceof HTMLAnchorElement)) return;
+    const control: HTMLButtonElement | HTMLAnchorElement = candidate;
+    if (isDisabledControl(control)) return;
 
-    const rect = control.getBoundingClientRect();
+    const rect = event.currentTarget.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
     const { left, top, diameter } = getRippleGeometry(x, y, rect.width, rect.height);

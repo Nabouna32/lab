@@ -37,7 +37,7 @@ export default function UuidGenerator() {
   }
 
   return (
-    <section className="rounded-[var(--radius-2xl)] border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow-sm)] sm:p-8">
+    <section className="rounded-[var(--shape-corner-extra-large)] border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow-sm)] sm:p-8">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end">
         <TextField label={t.count} inputId="uuid-count" type="number" min={1} max={50} step={1} value={count}
           onChange={(event) => { setCount(event.target.value); setError(false); }} placeholder={t.countPlaceholder}

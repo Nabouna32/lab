@@ -171,7 +171,7 @@ export default function JsonFormatter() {
               onChange={(event) => { setJsonPath(event.target.value); setExtractionError(null); setExtractedValue(""); }}
               placeholder={t.pathPlaceholder}
               spellCheck={false}
-              className="mt-2 min-h-11 w-full rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] px-3 py-2 font-mono text-sm text-[var(--foreground)] outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+              className="mt-2 min-h-11 w-full rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--surface)] px-3 py-2 font-mono text-sm text-[var(--foreground)] outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
               aria-describedby="json-path-hint"
               aria-invalid={extractionError === "invalid-path"}
             />

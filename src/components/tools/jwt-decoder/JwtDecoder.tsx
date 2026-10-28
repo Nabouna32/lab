@@ -68,7 +68,7 @@ export default function JwtDecoder() {
                 <h2 className="text-sm font-semibold text-[var(--foreground)]">{title}</h2>
                 <CopyButton value={value} label={t.copy} />
               </div>
-              <pre className="mt-3 max-h-80 overflow-auto whitespace-pre-wrap break-words rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface-soft)] p-4 font-mono text-xs leading-6 text-[var(--foreground)]">
+              <pre className="mt-3 max-h-80 overflow-auto whitespace-pre-wrap break-words rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--surface-soft)] p-4 font-mono text-xs leading-6 text-[var(--foreground)]">
                 {value}
               </pre>
             </section>

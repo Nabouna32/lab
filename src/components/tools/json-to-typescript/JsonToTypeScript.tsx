@@ -71,7 +71,7 @@ export default function JsonToTypeScript() {
             id="json-typescript-root"
             value={rootName}
             onChange={(event) => setRootName(event.target.value)}
-            className="mt-2 block min-h-10 w-full rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background)] px-3 text-sm text-[var(--foreground)]"
+            className="mt-2 block min-h-10 w-full rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--background)] px-3 text-sm text-[var(--foreground)]"
             placeholder={t.rootPlaceholder}
             autoCapitalize="words"
           />

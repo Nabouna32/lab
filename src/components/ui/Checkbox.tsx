@@ -67,7 +67,7 @@ export function Checkbox({
       htmlFor={inputId}
       style={semanticStyle}
       className={[
-        "group flex min-h-12 cursor-pointer items-center gap-3 text-sm text-[var(--checkbox-label-color)]",
+        "m3-type-body-medium group flex min-h-12 cursor-pointer items-center gap-3 text-[var(--checkbox-label-color)]",
         disabled ? "cursor-not-allowed" : "",
         className,
       ].join(" ")}
