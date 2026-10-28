@@ -16,6 +16,7 @@ const imageMetadataSource = readSource("../../components/tools/image-metadata/Im
 const toolsCatalogueSource = readSource("../../app/[locale]/[section]/page.tsx");
 const toolSearchSource = readSource("../../components/tools/ToolSearch.tsx");
 const adminDashboardSource = readSource("../../app/[locale]/admin/page.tsx");
+const adminUsersSource = readSource("../../app/[locale]/admin/utilisateurs/page.tsx");
 
 test("homepage compositions reuse the shared width, gutters and spacing tokens", () => {
   assert.ok(homePageSource.includes('<PageContainer'));
@@ -203,4 +204,6 @@ test("admin dashboard content uses shared Material 3 typography roles", () => {
 
   assert.ok(!adminDashboardSource.includes("text-3xl"));
   assert.ok(!adminDashboardSource.includes("text-sm text-[var(--muted)]"));
+  assert.ok(adminUsersSource.includes("m3-type-label-large"));
+  assert.ok(!adminUsersSource.includes("text-sm font-semibold"));
 });
