@@ -17,6 +17,7 @@ const toolsCatalogueSource = readSource("../../app/[locale]/[section]/page.tsx")
 const toolSearchSource = readSource("../../components/tools/ToolSearch.tsx");
 const adminDashboardSource = readSource("../../app/[locale]/admin/page.tsx");
 const adminUsersSource = readSource("../../app/[locale]/admin/utilisateurs/page.tsx");
+const desktopHeaderMenuSource = readSource("../../components/layout/DesktopHeaderMenu.tsx");
 
 test("homepage compositions reuse the shared width, gutters and spacing tokens", () => {
   assert.ok(homePageSource.includes('<PageContainer'));
@@ -209,4 +210,15 @@ test("admin dashboard content uses shared Material 3 typography roles", () => {
   assert.ok(!adminDashboardSource.includes("text-sm text-[var(--muted)]"));
   assert.ok(adminUsersSource.includes("m3-type-label-large"));
   assert.ok(!adminUsersSource.includes("text-sm font-semibold"));
+});
+
+
+test("desktop navigation menu uses shared Material 3 typography roles", () => {
+  for (const role of ["m3-type-label-large", "m3-type-label-medium", "m3-type-label-small", "m3-type-body-small"]) {
+    assert.ok(desktopHeaderMenuSource.includes(role), `desktop header menu should consume ${role}`);
+  }
+
+  assert.ok(!desktopHeaderMenuSource.includes("text-[11px]"));
+  assert.ok(!desktopHeaderMenuSource.includes("text-sm font-semibold"));
+  assert.ok(!desktopHeaderMenuSource.includes("text-xs"));
 });
