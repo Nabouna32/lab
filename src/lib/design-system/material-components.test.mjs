@@ -1108,3 +1108,15 @@ test("Chip delegates typography metrics to the shared Material 3 label role", ()
   assert.doesNotMatch(chipStyles, /font-weight:\\s*var\\(--m3-type-label-large-weight\\)/);
   assert.doesNotMatch(chipStyles, /letter-spacing:\\s*var\\(--m3-type-label-large-tracking\\)/);
 });
+
+
+test("Badge delegates typography metrics to the shared Material 3 label role", () => {
+  const badgeSource = readFileSync(new URL("../../components/ui/Badge.tsx", import.meta.url), "utf8");
+  const badgeStyles = readFileSync(new URL("../../components/ui/Badge.module.css", import.meta.url), "utf8");
+
+  assert.match(badgeSource, /m3-type-label-small/);
+  assert.doesNotMatch(badgeStyles, /font-size:\\s*var\\(--m3-type-label-small-size\\)/);
+  assert.doesNotMatch(badgeStyles, /line-height:\\s*var\\(--m3-type-label-small-line-height\\)/);
+  assert.doesNotMatch(badgeStyles, /font-weight:\\s*var\\(--m3-type-label-small-weight\\)/);
+  assert.doesNotMatch(badgeStyles, /letter-spacing:\\s*var\\(--m3-type-label-small-tracking\\)/);
+});
