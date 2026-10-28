@@ -153,7 +153,7 @@ test("admin and category pages share the canonical page container and spacing to
 
 test("shared page shells use PageContainer without forcing every context to the same width", () => {
   assert.ok(accountPageSource.includes('<PageContainer width="account" spacing="none"'));
-  assert.ok(accountPageSource.includes('<PageContainer width="medium" spacing="none"'));
+  assert.ok(accountPageSource.includes('<PageContainer width="narrow" spacing="none"'));
   assert.ok(accountPageSource.includes('<section className="w-full overflow-hidden rounded-[var(--m3-panel-shape)] border border-[var(--outline-variant)] bg-[var(--surface)] shadow-[var(--shadow-sm)]" aria-labelledby="account-security-title">'));
   assert.ok(accountPageSource.includes('<section className="w-full rounded-[var(--m3-panel-shape)] border border-[var(--error)]/30 bg-[var(--error-container)]/35 p-5 sm:p-7" aria-labelledby="delete-account-title">'));
   assert.ok(collectionsViewSource.includes('<PageContainer width="medium" spacing="none"'));
