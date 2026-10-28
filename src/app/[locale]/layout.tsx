@@ -43,7 +43,7 @@ export default async function LocaleLayout({
   const direction = getLanguage(locale).direction;
 
   return (
-    <html lang={locale} dir={direction} suppressHydrationWarning style={getLocularyThemeStyle()}>
+    <html lang={locale} dir={direction} data-scroll-behavior="smooth" suppressHydrationWarning style={getLocularyThemeStyle()}>
       <body className={roboto.variable}>
         <ThemeProvider>
           <FavoritesProvider toolIds={getPublishedTools().map((tool) => tool.id)}>
