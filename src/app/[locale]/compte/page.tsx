@@ -148,20 +148,23 @@ export default async function AccountPage({
             </form>
           </div>
 
-          <section className="w-full rounded-[var(--m3-panel-shape)] border border-[var(--error)]/30 bg-[var(--error-container)]/35 p-5 sm:p-7" aria-labelledby="delete-account-title">
-            <p className="m3-type-label-large text-[var(--error)]">{t.account.dangerZone}</p>
-            <h2 id="delete-account-title" className="m3-type-title-large mt-1">{t.account.deleteAccountTitle}</h2>
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--muted)]">{t.account.deleteAccountDescription}</p>
-            <AppLink
-              className="mt-4"
-              href={`/${locale}/compte/suppression`}
-              leadingIcon
-              colors={{ contentColor: "var(--error)" }}
-              variant="text"
-            >
-              <MaterialIcon name="delete" size={18} className="shrink-0" />
-              {t.account.deleteAccount}
-            </AppLink>
+          <section className="w-full rounded-[var(--m3-panel-shape)] border border-[var(--error)]/30 bg-[var(--error-container)]/35" aria-labelledby="delete-account-title">
+            <Column verticalArrangement={Arrangement.spacedBy("var(--space-4)")} className="p-5 sm:p-7">
+              <Column verticalArrangement={Arrangement.spacedBy("var(--space-1)")}>
+                <p className="m3-type-label-large text-[var(--error)]">{t.account.dangerZone}</p>
+                <h2 id="delete-account-title" className="m3-type-title-large">{t.account.deleteAccountTitle}</h2>
+                <p className="max-w-2xl text-sm leading-6 text-[var(--muted)]">{t.account.deleteAccountDescription}</p>
+              </Column>
+              <AppLink
+                href={`/${locale}/compte/suppression`}
+                leadingIcon
+                colors={{ contentColor: "var(--error)" }}
+                variant="text"
+              >
+                <MaterialIcon name="delete" size={18} className="shrink-0" />
+                {t.account.deleteAccount}
+              </AppLink>
+            </Column>
           </section>
         </Column>
       </PageContainer>
