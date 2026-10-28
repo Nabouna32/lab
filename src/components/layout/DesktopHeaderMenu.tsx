@@ -180,7 +180,7 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
         <Link
           href={`/${locale}/favoris`}
           onClick={closeMenu}
-          className="group flex items-center gap-3 rounded-xl px-3 py-2.5 outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
+          className="group flex items-center gap-3 rounded-xl px-3 py-2.5 outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] lg:hidden"
         >
           <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--primary-container)] text-[var(--on-primary-container)]" aria-hidden="true"><StarIcon filled className="h-5 w-5" /></span>
           <span className="min-w-0 flex-1">
@@ -192,7 +192,7 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
         <Link
           href={`/${locale}/collections`}
           onClick={closeMenu}
-          className="group flex items-center gap-3 rounded-xl px-3 py-2.5 outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)]"
+          className="group flex items-center gap-3 rounded-xl px-3 py-2.5 outline-none transition-colors hover:bg-[var(--surface-soft)] focus-visible:bg-[var(--surface-soft)] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] lg:hidden"
         >
           <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--tertiary-container)] text-[var(--on-tertiary-container)]" aria-hidden="true"><CollectionIcon className="h-5 w-5" /></span>
           <span className="min-w-0 flex-1">
