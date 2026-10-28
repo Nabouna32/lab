@@ -64,3 +64,14 @@ test("Row and Column map scope weights to the expected flex styles", () => {
   assert.equal(column.style.display, "flex");
   assert.equal(column.style.flexDirection, "column");
 });
+
+
+test("Column stretches block children by default but respects explicit cross-axis alignment", () => {
+  const defaultColumn = getColumnLayoutPresentation();
+  const startAlignedColumn = getColumnLayoutPresentation(undefined, Alignment.Start);
+  const centeredColumn = getColumnLayoutPresentation(undefined, Alignment.CenterHorizontally);
+
+  assert.equal(defaultColumn.style.alignItems, "stretch");
+  assert.equal(startAlignedColumn.style.alignItems, "flex-start");
+  assert.equal(centeredColumn.style.alignItems, "center");
+});
