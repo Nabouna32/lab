@@ -22,7 +22,7 @@ test("localized search routes share the existing search page and validate their 
 test("search result count, loading and errors are announced through one live status", () => {
   assert.match(
     clientSource,
-    /<p role="status" aria-live="polite" aria-atomic="true" className="mt-4 text-sm font-semibold text-\[var\(--muted\)\]">\s*\{isSearching \? t\.tools\.searching : searchError \? t\.tools\.searchError : formatPlural/,
+    /<p role="status" aria-live="polite" aria-atomic="true" className="m3-type-label-large mt-4 text-\[var\(--muted\)\]">\s*\{isSearching \? t\.tools\.searching : searchError \? t\.tools\.searchError : formatPlural/,
   );
   assert.match(clientSource, /<p className="text-sm font-medium text-\[var\(--foreground\)\]">\{t\.tools\.searching\}<\/p>/);
   assert.doesNotMatch(clientSource, /<section[^>]*role="status">/);
