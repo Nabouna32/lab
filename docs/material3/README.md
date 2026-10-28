@@ -208,3 +208,8 @@ Ces changements centralisent la typographie sans déclarer la fidélité complè
 Le menu de navigation desktop consomme désormais les rôles typographiques Material 3 pour ses déclencheurs, titres, descriptions, choix de langue et choix de thème. Les anciennes combinaisons locales de taille, graisse et tracking ont été retirées des zones migrées.
 
 `ToolCard` utilise maintenant une `Column` pour son espacement vertical et une `Row` pour son en-tête, avec le token partagé `--space-3`. Sa surface de navigation reste un lien natif via `CardLink`, et les rôles typographiques partagés sont conservés. Des tests de contrat couvrent les deux migrations. La validation du rendu réel, notamment la hauteur des cartes, les textes FR/EN et les largeurs étroites, reste ouverte.
+
+
+### Résultats de recherche — rôles typographiques (28 octobre 2026)
+
+La page de résultats de recherche utilise désormais les rôles partagés pour son titre principal, les titres d'états, les descriptions, le compteur de résultats, les filtres de catégories et les liens de suggestion. Les graisses, tailles et espacements de lettres Tailwind qui doublaient ces rôles ont été retirés. Les états et le contenu métier restent inchangés ; la vérification du rendu et des traductions reste à faire dans le navigateur.
