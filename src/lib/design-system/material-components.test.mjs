@@ -1068,6 +1068,7 @@ test("remaining public, admin and account pages consume shared Material 3 typogr
 test("email and password settings use dedicated Material 3 page compositions", () => {
   const emailPage = readFileSync(new URL("../../app/[locale]/compte/email/page.tsx", import.meta.url), "utf8");
   const passwordPage = readFileSync(new URL("../../app/[locale]/compte/mot-de-passe/page.tsx", import.meta.url), "utf8");
+  const passwordForm = readFileSync(new URL("../../components/account/PasswordChangeForm.tsx", import.meta.url), "utf8");
 
   assert.match(emailPage, /<MaterialIcon name="mail" size=\{28\} \/>/);
   assert.match(emailPage, /aria-label=\{t\.account\.emailAddress\}/);
@@ -1076,11 +1077,14 @@ test("email and password settings use dedicated Material 3 page compositions", (
   assert.match(emailPage, /<TextField label=\{t\.account\.email\}[^>]*type="email"/);
   assert.match(passwordPage, /<MaterialIcon name="lock" size=\{28\} \/>/);
   assert.match(passwordPage, /t\.account\.changePasswordDescription/);
-  assert.match(passwordPage, /t\.account\.passwordLengthHint/);
-  assert.match(passwordPage, /autoComplete="current-password"/);
-  assert.match(passwordPage, /autoComplete="new-password"/);
-  assert.match(passwordPage, /minLength=\{8\} maxLength=\{128\}/);
-  assert.match(passwordPage, /role="alert"/);
+  assert.match(passwordPage, /<PasswordChangeForm locale=\{locale\} t=\{t\} serverError=\{query\.error\} \/>/);
+  assert.match(passwordForm, /autoComplete="current-password"/);
+  assert.match(passwordForm, /autoComplete="new-password"/);
+  assert.match(passwordForm, /minLength=\{8\} maxLength=\{128\}/);
+  assert.match(passwordForm, /role="alert"/);
+  assert.match(passwordForm, /t\.account\.passwordRuleMin/);
+  assert.match(passwordForm, /t\.account\.passwordRuleMax/);
+  assert.match(passwordForm, /t\.account\.passwordRuleMatch/);
   assert.match(messagesSource, /changePasswordDescription: "Choisissez un nouveau mot de passe/);
   assert.match(messagesSource, /passwordLengthHint: "Entre 8 et 128 caractères\."/);
   assert.match(messagesSource, /changePasswordDescription: "Choose a new password/);
