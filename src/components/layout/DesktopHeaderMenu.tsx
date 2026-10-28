@@ -254,9 +254,9 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
                     }
                   }}
                   className={
-                    "m3-type-body-medium flex min-h-10 items-center gap-2 rounded-xl px-3 py-2 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] " +
+                    "m3-type-label-large flex min-h-10 items-center gap-2 rounded-xl px-3 py-2 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] " +
                     (active
-                      ? "bg-[var(--primary-container)] m3-type-label-large text-[var(--on-primary-container)]"
+                      ? "bg-[var(--primary-container)] text-[var(--on-primary-container)]"
                       : "text-[var(--muted)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)]")
                   }
                 >
