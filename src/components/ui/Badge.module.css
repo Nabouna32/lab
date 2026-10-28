@@ -2,7 +2,7 @@
   display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box;
   min-width: 6px; height: 6px; padding: 0; border-radius: 999px;
   color: var(--lab-on-error, var(--on-error, #fff)); background: var(--lab-error, var(--error, #b3261e));
-  font-family: inherit; font-size: var(--m3-type-label-small-size); line-height: var(--m3-type-label-small-line-height); font-weight: var(--m3-type-label-small-weight); letter-spacing: var(--m3-type-label-small-tracking); white-space: nowrap;
+  font-family: inherit; white-space: nowrap;
 }
 .badge.large { min-width: 16px; height: 16px; padding: 0 4px; }
 .badge[data-has-content="true"].small { min-width: 16px; height: 16px; padding: 0 4px; }
