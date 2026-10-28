@@ -361,6 +361,7 @@ test("category pictograms use the shared Material Symbols component instead of e
   const toolSearchSource = readFileSync(new URL("../../components/tools/ToolSearch.tsx", import.meta.url), "utf8");
   const toolCardSource = readFileSync(new URL("../../components/tools/ToolCard.tsx", import.meta.url), "utf8");
   const toolPageHeaderSource = readFileSync(new URL("../../components/tools/ToolPage/ToolPageHeader.tsx", import.meta.url), "utf8");
+  const imageMetadataSource = readFileSync(new URL("../../components/tools/image-metadata/ImageMetadataViewer.tsx", import.meta.url), "utf8");
   const favoritesSource = readFileSync(new URL("../../components/favorites/FavoritesView.tsx", import.meta.url), "utf8");
   const collectionsSource = readFileSync(new URL("../../components/collections/CollectionsView.tsx", import.meta.url), "utf8");
   const sharedCollectionsSource = readFileSync(new URL("../../components/collections/SharedCollectionView.tsx", import.meta.url), "utf8");
@@ -392,6 +393,8 @@ test("category pictograms use the shared Material Symbols component instead of e
   assert.match(collectionsSource, /MaterialIcon name=\{tool\.icon\}/);
   assert.match(sharedCollectionsSource, /MaterialIcon name=\{tool\.icon\}/);
   testToolIconContainerRoles([toolCardSource, toolPageHeaderSource, favoritesSource, collectionsSource, sharedCollectionsSource]);
+  assert.match(imageMetadataSource, /MaterialIcon name="lock"/);
+  assert.doesNotMatch(imageMetadataSource, /🔒/, "functional privacy indicators must use Material Symbols");
   assert.doesNotMatch(categoryRouteSource, />\s*\{category\.icon\}\s*</);
   assert.doesNotMatch(explorerSource, />\s*\{category\.icon\}\s*</);
   assert.doesNotMatch(searchResultsSource, />\s*\{category\.icon\}\s*</);

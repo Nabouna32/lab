@@ -7,6 +7,7 @@ import { Column } from "@/components/layout/compose/Column";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { ProgressIndicator } from "@/components/ui/ProgressIndicator";
 import { useLocale } from "@/lib/i18n/use-locale";
+import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import {
   AnimatedImageUnsupportedError,
@@ -202,7 +203,7 @@ export default function ImageMetadataViewer() {
               <span className="mt-2 block text-sm text-[var(--muted)]">{t.inputHint}</span>
               <input id="image-metadata-file" type="file" accept="image/*" multiple className="sr-only" onChange={(event) => { void selectFiles(event.target.files); event.target.value = ""; }} />
             </label>
-            <p className="text-sm text-[var(--muted)]">🔒 {t.local}</p>
+            <p className="inline-flex items-center gap-1.5 text-sm text-[var(--on-surface-variant)]"><MaterialIcon name="lock" size={16} />{t.local}</p>
             <p className="text-sm text-[var(--muted)]">{optimize ? t.optimizingHint : t.cleaningHint}</p>
             <Column verticalArrangement={Arrangement.spacedBy("var(--space-3)")} className="w-full rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--background)] p-4">
               <label className="flex items-start gap-3 text-sm text-[var(--foreground)]">
