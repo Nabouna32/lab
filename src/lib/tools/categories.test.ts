@@ -6,7 +6,7 @@ import { AbsoluteAlignment, Alignment } from "../../components/layout/compose/Al
 import { Arrangement } from "../../components/layout/compose/Arrangement.ts";
 import { BoxScope, ColumnScope, Modifier, RowScope } from "../../components/layout/compose/Modifier.ts";
 import { categoryColorIds, getCategoryColor, getCategoryContainerColor, getCategoryOnContainerColor } from "./category-colors.ts";
-import { categories } from "./categories.ts";
+const categoriesSource = readFileSync(new URL("./categories.ts", import.meta.url), "utf8");
 
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
 const pageLayoutSource = readFileSync(new URL("../../components/layout/PageLayout.tsx", import.meta.url), "utf8");
@@ -340,6 +340,9 @@ test("category pictograms use the shared Material Symbols component instead of e
   const materialIconSource = readFileSync(new URL("../../components/ui/MaterialIcon.tsx", import.meta.url), "utf8");
   const explorerSource = readFileSync(new URL("../../app/[locale]/[section]/page.tsx", import.meta.url), "utf8");
   const searchResultsSource = readFileSync(new URL("../../components/tools/SearchResultsClient.tsx", import.meta.url), "utf8");
+
+  const categories = [...categoriesSource.matchAll(/\{\s*id:\s*"([^"]+)",\s*icon:\s*"([^"]+)"\s*\}/g)]
+    .map(([, id, icon]) => ({ id, icon }));
 
   assert.deepEqual(categories.map(({ id }) => id), [
     "calculations",
