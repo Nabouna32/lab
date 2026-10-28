@@ -199,7 +199,7 @@ export default function SearchResultsClient({ locale }: { locale: Locale }) {
           </>
         ) : (
           <section className="mt-5 rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8" aria-labelledby="search-results-empty-title">
-            <h2 id="search-results-empty-title" className="text-xl font-bold tracking-[-0.03em] sm:text-2xl">
+            <h2 id="search-results-empty-title" className="m3-type-headline-small">
               {t.tools.noResults} « {query} »
             </h2>
             <p className="m3-type-body-medium mt-2 max-w-2xl text-[var(--muted)]">{t.tools.noResultsHelp}</p>
@@ -209,7 +209,7 @@ export default function SearchResultsClient({ locale }: { locale: Locale }) {
                 <a
                   key={suggestion}
                   href={getSearchResultsPath(locale, suggestion)}
-                  className="inline-flex min-h-10 items-center rounded-full border border-[var(--border)] bg-[var(--surface-soft)] px-4 py-2 text-sm font-semibold text-[var(--foreground)] outline-none transition-colors hover:border-[var(--accent)]/40 hover:bg-[var(--surface-elevated)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+                  className="m3-type-label-large inline-flex min-h-10 items-center rounded-full border border-[var(--border)] bg-[var(--surface-soft)] px-4 py-2 text-[var(--foreground)] outline-none transition-colors hover:border-[var(--accent)]/40 hover:bg-[var(--surface-elevated)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
                 >
                   {suggestion}
                 </a>
