@@ -79,8 +79,8 @@ export default async function AccountPage({
           </p>
         ) : null}
 
-        <Column verticalArrangement={Arrangement.spacedBy("var(--space-6)")}>
-          <section className="overflow-hidden rounded-[var(--m3-panel-shape)] border border-[var(--outline-variant)] bg-[var(--surface)] shadow-[var(--shadow-sm)]" aria-labelledby="account-profile-title">
+        <Column verticalArrangement={Arrangement.spacedBy("var(--space-6)")} className="w-full">
+          <section className="w-full overflow-hidden rounded-[var(--m3-panel-shape)] border border-[var(--outline-variant)] bg-[var(--surface)] shadow-[var(--shadow-sm)]" aria-labelledby="account-profile-title">
             <Column verticalArrangement={Arrangement.spacedBy("var(--space-1)")} className="px-5 pb-4 pt-5 sm:px-7 sm:pb-5 sm:pt-7">
               <h2 id="account-profile-title" className="m3-type-title-large">{t.account.profile}</h2>
             </Column>
