@@ -860,7 +860,7 @@ test("destructive account and collection actions preserve link/button semantics 
   assert.match(collectionsView, /<AlertDialog[\s\S]*?destructive[\s\S]*?onConfirm=\{confirmDeleteCollection\}/);
   assert.match(collectionsView, /<TextButton type="button" colors=\{\{ contentColor: "var\(--error\)" \}\}[\s\S]*?<MaterialIcon name="delete"/);
   assert.doesNotMatch(collectionsView, /window\.confirm/);
-  assert.match(iconSource, /delete: "M280-120/);
+  assert.match(iconSource, /delete: "M261-120q-24\.75/);
 });
 
 test("AlertDialog actions use shared Material 3 buttons instead of a parallel button implementation", () => {
