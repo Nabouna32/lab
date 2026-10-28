@@ -10,7 +10,7 @@ type BadgeProps = HTMLAttributes<HTMLSpanElement> & {
 /** Source-informed Web adaptation of AndroidX Material 3 Badge. */
 export function Badge({ variant = "small", content, accessibleLabel, className = "", ...props }: BadgeProps) {
   const hasContent = content !== undefined && content !== null && (typeof content !== "boolean" || content);
-  return <span {...props} className={[styles.badge, styles[variant], className].filter(Boolean).join(" ")}
+  return <span {...props} className={["m3-type-label-small", styles.badge, styles[variant], className].filter(Boolean).join(" ")}
     aria-label={accessibleLabel} data-has-content={hasContent ? "true" : "false"}>
     {hasContent ? content : <span className={styles.dot} aria-hidden="true"/>}
   </span>;
