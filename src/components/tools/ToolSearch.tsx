@@ -334,7 +334,7 @@ export default function ToolSearch({
             </div>
           ) : searchError ? (
             <div className="px-4 py-5" role="alert">
-              <p className="text-sm font-medium text-[var(--foreground)]">{t.tools.searchError}</p>
+              <p className="m3-type-body-medium text-[var(--foreground)]">{t.tools.searchError}</p>
               <OutlinedButton
                 type="button"
                 onMouseDown={(event) => event.preventDefault()}
