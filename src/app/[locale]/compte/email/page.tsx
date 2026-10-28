@@ -40,7 +40,7 @@ export default async function ChangeEmailPage({
           {t.account.title}
         </Link>
         <Panel as="section" className="w-full overflow-hidden p-5 sm:p-8">
-          <div className="mb-5 grid size-14 place-items-center rounded-full bg-[var(--primary-container)] text-[var(--on-primary-container)]" aria-hidden="true">
+          <div className="mx-auto mb-5 grid size-14 place-items-center rounded-full bg-[var(--primary-container)] text-[var(--on-primary-container)]" aria-hidden="true">
             <MaterialIcon name="mail" size={28} />
           </div>
           <p className="m3-type-label-large text-[var(--primary)]">{t.account.security}</p>
