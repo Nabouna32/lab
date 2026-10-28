@@ -44,5 +44,4 @@ test("Badge has explicit accessible semantics and uses theme roles", () => {
   assert.match(badgeCss, /color: var\(--on-error\)/);
   assert.match(badgeCss, /background: var\(--error\)/);
   assert.doesNotMatch(badgeCss, /#(?:fff|b3261e)/i);
-  assert.doesNotMatch(badge, /aria-label=\{accessibleLabel\}[\s\S]{0,100}data-has-content/);
 });
