@@ -1,4 +1,4 @@
-import { Children, cloneElement, isValidElement, type CSSProperties, type HTMLAttributes, type ReactElement, type ReactNode } from "react";
+import { Children, cloneElement, isValidElement, type HTMLAttributes, type ReactElement, type ReactNode } from "react";
 import { Alignment, type BoxAlignment } from "./Alignment";
 import { getBoxChildStyle } from "./LayoutStyles";
 import { isModifier, type Modifier } from "./Modifier";
