@@ -6,6 +6,7 @@ import { AbsoluteAlignment, Alignment } from "../../components/layout/compose/Al
 import { Arrangement } from "../../components/layout/compose/Arrangement.ts";
 import { BoxScope, ColumnScope, Modifier, RowScope } from "../../components/layout/compose/Modifier.ts";
 import { categoryColorIds, getCategoryColor, getCategoryContainerColor, getCategoryOnContainerColor } from "./category-colors.ts";
+import { categories } from "./categories.ts";
 
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
 const pageLayoutSource = readFileSync(new URL("../../components/layout/PageLayout.tsx", import.meta.url), "utf8");
@@ -332,4 +333,33 @@ test("Modifier constraint helpers use AndroidX-shaped positional parameters", ()
     minHeight: "0px",
   });
   assert.throws(() => Modifier.sizeIn(300, 0, 200), RangeError);
+});
+
+
+test("category pictograms use the shared Material Symbols component instead of emoji", () => {
+  const materialIconSource = readFileSync(new URL("../../components/ui/MaterialIcon.tsx", import.meta.url), "utf8");
+  const explorerSource = readFileSync(new URL("../../app/[locale]/[section]/page.tsx", import.meta.url), "utf8");
+  const searchResultsSource = readFileSync(new URL("../../components/tools/SearchResultsClient.tsx", import.meta.url), "utf8");
+
+  assert.deepEqual(categories.map(({ id }) => id), [
+    "calculations",
+    "dates",
+    "computing",
+    "images",
+    "files",
+    "video",
+    "development",
+  ]);
+
+  for (const category of categories) {
+    assert.match(category.icon, /^[a-z][a-z0-9_]*$/, `${category.id} must use a Material Symbols identifier`);
+    assert.ok(materialIconSource.includes(`  ${category.icon}: "`), `${category.icon} must exist in the shared icon set`);
+  }
+
+  assert.match(categoryRouteSource, /MaterialIcon name=\{category\.icon\}/);
+  assert.match(explorerSource, /MaterialIcon name=\{category\.icon\}/);
+  assert.match(searchResultsSource, /MaterialIcon name=\{category\.icon\}/);
+  assert.doesNotMatch(categoryRouteSource, /\{category\.icon\}/);
+  assert.doesNotMatch(explorerSource, /\{category\.icon\}/);
+  assert.doesNotMatch(searchResultsSource, /\{category\.icon\}/);
 });
