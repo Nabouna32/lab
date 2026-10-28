@@ -14,6 +14,7 @@ test("Card variants use shared semantic surfaces and keep navigation separate", 
   assert.match(card, /bg-\[var\(--surface-container-low\)\]/);
   assert.match(card, /border-\[var\(--outline-variant\)\]/);
   assert.match(card, /rounded-\[var\(--m3-card-shape\)\]/);
+  assert.match(card, /text-\[var\(--on-surface\)\]/);
   assert.match(card, /export function CardLink\([\s\S]*?return <Link href=\{href\}/);
   for (const name of ["Card", "ElevatedCard", "OutlinedCard"]) {
     const start = card.indexOf(`export function ${name}(`);
@@ -34,6 +35,8 @@ test("Chip keeps caller click handlers and exposes selectable state accessibly",
   assert.match(chipCss, /var\(--secondary-container/);
   assert.match(chipCss, /var\(--primary/);
   assert.match(chipCss, /prefers-reduced-motion: reduce/);
+  assert.match(chipCss, /\.elevated \.chip \{ box-shadow: var\(--shadow-sm\); \}/);
+  assert.doesNotMatch(chipCss, /var\(--(?:outline|on-surface|focus-ring|on-secondary-container|secondary-container|primary|surface-container),/);
   assert.doesNotMatch(chipCss, /--lab-(?:primary|text|outline|surface-container)/);
 });
 
