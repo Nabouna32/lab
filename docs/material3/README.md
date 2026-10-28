@@ -228,3 +228,8 @@ La politique de confidentialité consomme maintenant les rôles partagés pour s
 ### Page Compte — rôles typographiques (28 octobre 2026)
 
 Les deux états de la page Compte (visiteur et compte connecté) utilisent maintenant la même famille de rôles Material 3 : titre de page, description, statut et texte de la zone de suppression. Les tailles, graisses et interlignes Tailwind spécifiques ont été retirés. La structure responsive et les actions restent inchangées ; le rendu visuel, le contraste des statuts et la lisibilité FR/EN doivent encore être vérifiés dans le navigateur.
+
+
+### Récupération du mot de passe — typographie et boutons partagés (28 octobre 2026)
+
+Les pages de demande et de finalisation de réinitialisation utilisent désormais les rôles typographiques partagés pour les titres, libellés, descriptions et messages d'état. Les deux actions de soumission s'appuient sur SubmitButton et les variantes du bouton Material 3 partagé, sans réintroduire une apparence locale concurrente. Les liens restent des ancres de navigation et conservent leur sémantique. Les formulaires et leurs états doivent encore être vérifiés en navigateur, notamment clavier, erreurs et états pending.
