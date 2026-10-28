@@ -6,7 +6,7 @@ import ToolCard from "@/components/tools/ToolCard";
 import ToolPage from "@/components/tools/ToolPage/ToolPage";
 import NextActions from "@/components/tools/RelatedTools";
 import ToolRenderer from "@/components/tools/ToolRenderer";
-import { categories, getCategoryColor, getCategoryContainerColor, getCategoryName } from "@/lib/tools/categories";
+import { categories, getCategoryContainerColor, getCategoryName, getCategoryOnContainerColor } from "@/lib/tools/categories";
 import { getCategorySeoDescription, isCategorySeoIndexable } from "@/lib/seo/category-policy";
 import { getToolsByCategory } from "@/lib/tools/catalog";
 import { getMessages } from "@/lib/i18n/messages";
@@ -97,16 +97,16 @@ export default async function LocalizedToolOrCategoryPage({
         <Breadcrumbs locale={locale} items={[{ label: t.nav.tools, href: getToolsPath(locale) }, { label: categoryName }]} />
         <header className="border-b border-[var(--border)] pb-[var(--space-7)] pt-[var(--space-7)] sm:pb-[var(--space-9)]">
           <div className="flex items-start gap-4">
-            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[var(--radius-lg)] text-2xl" style={{ color: getCategoryColor(category.id), backgroundColor: getCategoryContainerColor(category.id) }} aria-hidden="true">{category.icon}</span>
+            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[var(--radius-lg)] text-2xl" style={{ color: getCategoryOnContainerColor(category.id), backgroundColor: getCategoryContainerColor(category.id) }} aria-hidden="true">{category.icon}</span>
             <div className="min-w-0 max-w-3xl">
-              <h1 className="text-3xl font-black tracking-[-0.04em] sm:text-4xl">{categoryName}</h1>
-              <p className="mt-[var(--space-2)] text-base leading-7 text-[var(--muted)]">{getCategorySeoDescription(locale, category.id)}</p>
+              <h1 className="m3-type-headline-large">{categoryName}</h1>
+              <p className="m3-type-body-large mt-[var(--space-2)] text-[var(--muted)]">{getCategorySeoDescription(locale, category.id)}</p>
             </div>
           </div>
         </header>
         <section className="py-[var(--space-7)] sm:py-[var(--space-9)]" aria-labelledby="category-tools-heading">
           <div className="mb-[var(--space-4)]">
-            <h2 id="category-tools-heading" className="text-lg font-bold sm:text-xl">
+            <h2 id="category-tools-heading" className="m3-type-title-large">
               {categoryTools.length} {formatCategoryCount(locale, categoryTools.length, t.tools.one, t.tools.many)}
             </h2>
           </div>
