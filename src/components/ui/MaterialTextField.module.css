@@ -26,28 +26,28 @@
   background: transparent;
 }
 
-.root[data-variant="filled"][data-error="true"] .field {
+.root[data-variant="filled"][data-error="true"]:not([data-disabled="true"]) .field {
   border-bottom-color: var(--error, currentColor);
 }
 
-.root[data-variant="outlined"][data-error="true"] .field {
+.root[data-variant="outlined"][data-error="true"]:not([data-disabled="true"]) .field {
   border-color: var(--error, currentColor);
 }
 
-.root:focus-within .field {
+.root:focus-within:not([data-disabled="true"]) .field {
   border-bottom-width: 2px;
   border-bottom-color: var(--primary, currentColor);
 }
 
-.root[data-variant="outlined"]:focus-within .field {
+.root[data-variant="outlined"]:focus-within:not([data-disabled="true"]) .field {
   border: 2px solid var(--primary, currentColor);
 }
 
-.root[data-variant="filled"][data-error="true"]:focus-within .field {
+.root[data-variant="filled"][data-error="true"]:focus-within:not([data-disabled="true"]) .field {
   border-bottom-color: var(--error, currentColor);
 }
 
-.root[data-variant="outlined"][data-error="true"]:focus-within .field {
+.root[data-variant="outlined"][data-error="true"]:focus-within:not([data-disabled="true"]) .field {
   border-color: var(--error, currentColor);
 }
 
@@ -192,11 +192,32 @@
 }
 
 .root[data-disabled="true"] {
-  opacity: .38;
+  color: color-mix(in srgb, var(--on-surface, var(--foreground)) 38%, transparent);
 }
 
 .root[data-disabled="true"] .field {
-  border-bottom-style: dashed;
+  border-color: color-mix(in srgb, var(--on-surface, var(--foreground)) 12%, transparent);
+  background: color-mix(in srgb, var(--on-surface, var(--foreground)) 4%, transparent);
+}
+
+.root[data-variant="outlined"][data-disabled="true"] .field {
+  background: transparent;
+}
+
+.root[data-disabled="true"] .label,
+.root[data-disabled="true"] .leading,
+.root[data-disabled="true"] .trailingContent,
+.root[data-disabled="true"] .affix,
+.root[data-disabled="true"] .supportingRow {
+  color: color-mix(in srgb, var(--on-surface, var(--foreground)) 38%, transparent);
+}
+
+.root[data-disabled="true"][data-error="true"] .error {
+  color: color-mix(in srgb, var(--on-surface, var(--foreground)) 38%, transparent);
+}
+
+.root[data-disabled="true"] .field {
+  transition: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
