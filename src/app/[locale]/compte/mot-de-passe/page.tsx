@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { PageContainer } from "@/components/layout/PageLayout";
 import { notFound, redirect } from "next/navigation";
-import { changePassword } from "../actions";
 import PasswordChangeForm from "@/components/account/PasswordChangeForm";
 import { Panel } from "@/components/ui/Panel";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
