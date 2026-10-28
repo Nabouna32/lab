@@ -1,12 +1,10 @@
 .badge {
   display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box;
   min-width: 6px; height: 6px; padding: 0; border-radius: 999px;
-  color: var(--on-error, #fff); background: var(--error, #b3261e);
+  color: var(--on-error); background: var(--error);
   font-family: inherit; white-space: nowrap;
 }
 .badge.large { min-width: 16px; height: 16px; padding: 0 4px; }
 .badge[data-has-content="true"].small { min-width: 16px; height: 16px; padding: 0 4px; }
-.dot { display: block; width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: 0; }
-.badge.small[data-has-content="false"] .dot { opacity: 0; }
 .badgedBox { position: relative; display: inline-flex; vertical-align: middle; }
 .anchor { position: absolute; z-index: 1; top: 0; inset-inline-end: 0; transform: translate(35%, -35%); }
