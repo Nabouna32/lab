@@ -561,7 +561,7 @@ test("segmented control keeps labels single-line and leaves descriptions outside
   const videoBitrateSource = readFileSync(new URL("../../components/tools/video-bitrate/VideoBitrateCalculator.tsx", import.meta.url), "utf8");
   assert.match(segmentedSource, /whitespace-nowrap/);
   assert.match(segmentedSource, /m3-type-label-large/);
-  assert.match(segmentedSource, /text-\\[length:var\\(--m3-type-label-large-size\\)\\]|leading-\\[var\\(--m3-type-label-large-line-height\\)\\]/);
+  assert.match(segmentedSource, /text-\[length:var\(--m3-type-label-large-size\)\]|leading-\[var\(--m3-type-label-large-line-height\)\]/);
   assert.match(segmentedSource, /rounded-l-full/);
   assert.match(segmentedSource, /rounded-r-full/);
   assert.match(segmentedSource, /rounded-none/);
@@ -1084,9 +1084,9 @@ test("email and password settings use dedicated Material 3 page compositions", (
   assert.match(passwordForm, /autoComplete="new-password"/);
   assert.match(passwordForm, /minLength=\{8\} maxLength=\{128\}/);
   assert.match(passwordForm, /role="alert"/);
-  assert.match(passwordForm, /t\\.passwordRuleMin/);
-  assert.match(passwordForm, /maxLength=\\{128\\}/);
-  assert.match(passwordForm, /t\\.passwordRuleMatch/);
+  assert.match(passwordForm, /t\.passwordRuleMin/);
+  assert.ok(passwordForm.includes("maxLength={128}"));
+  assert.match(passwordForm, /t\.passwordRuleMatch/);
   assert.match(messagesSource, /changePasswordDescription: "Choisissez un nouveau mot de passe/);
   assert.match(messagesSource, /passwordRuleMin: "Au moins 8 caractères"/);
   assert.match(messagesSource, /passwordRuleMax: "Au plus 128 caractères"/);
