@@ -305,3 +305,13 @@ test("password recovery pages use shared Material 3 typography and button compon
   assert.ok(forgotPasswordSource.includes('className="w-full"'));
   assert.ok(resetPasswordSource.includes('className="w-full"'));
 });
+
+
+test("personal information page uses shared Material 3 typography roles", () => {
+  const source = readSource("../../app/[locale]/compte/informations-personnelles/page.tsx");
+  assert.ok(source.includes("m3-type-label-large"));
+  assert.ok(source.includes("m3-type-headline-medium"));
+  assert.ok(source.includes("m3-type-body-medium"));
+  assert.ok(!source.includes("text-sm"));
+  assert.ok(!source.includes("font-medium"));
+});
