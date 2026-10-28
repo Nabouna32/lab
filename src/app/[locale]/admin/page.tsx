@@ -99,7 +99,7 @@ export default async function AdminPage({
           <h2 id="admin-permissions" className="m3-type-title-large">{t.admin.permissions}</h2>
           <ul className="mt-4 grid gap-x-6 divide-y divide-[var(--border)] border-y border-[var(--border)] sm:grid-cols-2 sm:divide-y-0">
             {permissionKeys.map((permission) => (
-              <li key={permission} className="py-3 text-sm text-[var(--muted)] sm:border-b sm:border-[var(--border)]">
+              <li key={permission} className="m3-type-body-medium py-3 text-[var(--muted)] sm:border-b sm:border-[var(--border)]">
                 {permission}
               </li>
             ))}
@@ -110,24 +110,24 @@ export default async function AdminPage({
       <section aria-labelledby="admin-audit" className="mt-8 border-t border-[var(--border)] pt-6">
         <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
           <h2 id="admin-audit" className="m3-type-title-large">{t.admin.auditLog}</h2>
-          <span className="text-xs text-[var(--muted)]">{t.admin.auditDescription}</span>
+          <span className="m3-type-body-small text-[var(--muted)]">{t.admin.auditDescription}</span>
         </div>
         {auditEntries?.length ? (
           <div className="mt-4 divide-y divide-[var(--border)] border-y border-[var(--border)]">
             {auditEntries.map((entry) => (
               <div key={entry.id} className="grid gap-1 py-3 sm:grid-cols-[1fr_auto]">
                 <div>
-                  <p className="font-medium">{entry.action}</p>
-                  <p className="text-sm text-[var(--muted)]">{entry.target_type ?? t.admin.dashboard}</p>
+                  <p className="m3-type-body-medium">{entry.action}</p>
+                  <p className="m3-type-body-small text-[var(--muted)]">{entry.target_type ?? t.admin.dashboard}</p>
                 </div>
-                <time className="text-sm text-[var(--muted)]" dateTime={entry.created_at}>
+                <time className="m3-type-body-small text-[var(--muted)]" dateTime={entry.created_at}>
                   {new Date(entry.created_at).toLocaleString(locale)}
                 </time>
               </div>
             ))}
           </div>
         ) : (
-          <p className="mt-4 text-sm text-[var(--muted)]">{t.admin.noAuditEntries}</p>
+          <p className="m3-type-body-medium mt-4 text-[var(--muted)]">{t.admin.noAuditEntries}</p>
         )}
       </section>
       </PageContainer>
