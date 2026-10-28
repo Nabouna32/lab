@@ -183,3 +183,12 @@ Une référence encore active impose soit de migrer son consommateur, soit de co
 ### État de la livraison
 
 La PR #1020 reste un brouillon non fusionné. La CI doit être contrôlée sur le dernier commit avant de considérer cette tranche comme vérifiée. Une CI verte ne suffira pas à déclarer la fidélité AndroidX sans comparaison de rendu et de comportement dans le navigateur.
+
+
+### Complément de migration — typographie, liens et découverte (28 octobre 2026)
+
+La typographie partagée est étendue à la page d’accueil, au catalogue des outils, à la recherche d’outils et au tableau de bord d’administration, ainsi qu’au statut de confirmation dans la gestion des utilisateurs. Les rôles nommés remplacent les combinaisons locales de tailles, graisses et interlignes dans ces zones. Les symboles utilisés comme icônes et les valeurs numériques spécifiques ne sont pas remappés vers des rôles de texte sans justification.
+
+Le contrôle segmenté consomme désormais la classe typographique partagée `m3-type-label-large` au lieu de recopier les métriques du rôle dans ses classes locales. Les liens de navigation secondaires des pages de connexion et d’inscription utilisent `AppLink` en variante `inline`, en conservant la sémantique d’ancre et les styles communs du lien.
+
+Les tests de contrat couvrent les nouveaux consommateurs et empêchent le retour des anciennes combinaisons typographiques dans les zones migrées. Cette tranche n’est pas déclarée validée tant que la CI n’a pas réussi sur la tête actuelle et que les rendus navigateur, les thèmes clair/sombre, FR/EN, les viewports et le clavier n’ont pas été vérifiés.
