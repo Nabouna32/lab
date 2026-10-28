@@ -257,7 +257,7 @@ const nextActionToolIds: Partial<Record<ToolId, ToolId[]>> = {
 
 const toolDefinitions: ToolDefinition[] = [
   {
-    id: "expense-splitter", icon: "description",
+    id: "expense-splitter", icon: "receipt_long",
     version: 1,
     complexity: "small",
     categories: ["calculations"],
@@ -271,7 +271,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "compound-interest", icon: "calculate",
+    id: "compound-interest", icon: "show_chart",
     version: 1,
     complexity: "small",
     categories: ["calculations"],
@@ -298,7 +298,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "discount", icon: "stars",
+    id: "discount", icon: "sell",
     version: 1,
     complexity: "small",
     categories: ["calculations"],
@@ -310,7 +310,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "vat", icon: "description",
+    id: "vat", icon: "payments",
     version: 1,
     complexity: "small",
     categories: ["calculations"],
@@ -322,7 +322,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "rule-of-three", icon: "calculate",
+    id: "rule-of-three", icon: "balance",
     version: 1,
     complexity: "small",
     categories: ["calculations"],
@@ -335,7 +335,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "age", icon: "calendar_month",
+    id: "age", icon: "cake",
     version: 1,
     complexity: "small",
     categories: ["dates"],
@@ -348,7 +348,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "duration", icon: "notifications",
+    id: "duration", icon: "timer",
     version: 1,
     complexity: "small",
     categories: ["dates"],
@@ -374,7 +374,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "download-speed", icon: "devices",
+    id: "download-speed", icon: "speed",
     version: 1,
     complexity: "small",
     categories: ["computing"],
@@ -387,7 +387,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "download-time", icon: "notifications",
+    id: "download-time", icon: "timer",
     version: 1,
     complexity: "small",
     categories: ["computing"],
