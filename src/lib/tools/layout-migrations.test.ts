@@ -19,6 +19,7 @@ const adminDashboardSource = readSource("../../app/[locale]/admin/page.tsx");
 const adminUsersSource = readSource("../../app/[locale]/admin/utilisateurs/page.tsx");
 const desktopHeaderMenuSource = readSource("../../components/layout/DesktopHeaderMenu.tsx");
 const toolCardSource = readSource("../../components/tools/ToolCard.tsx");
+const searchResultsSource = readSource("../../components/tools/SearchResultsClient.tsx");
 
 test("homepage compositions reuse the shared width, gutters and spacing tokens", () => {
   assert.ok(homePageSource.includes('<PageContainer'));
@@ -235,4 +236,16 @@ test("tool cards compose their vertical and horizontal layout through shared pri
   assert.ok(toolCardSource.includes("m3-type-body-medium"));
   assert.ok(!toolCardSource.includes("flex w-full min-w-0 min-h-40 flex-col"));
   assert.ok(!toolCardSource.includes("body-medium mt-3"));
+});
+
+
+test("search results use shared Material 3 typography roles", () => {
+  for (const role of ["m3-type-display-small", "m3-type-headline-small", "m3-type-title-small", "m3-type-body-medium", "m3-type-label-large", "m3-type-label-small"]) {
+    assert.ok(searchResultsSource.includes(role), `search results should consume ${role}`);
+  }
+
+  assert.ok(!searchResultsSource.includes("text-3xl font-black"));
+  assert.ok(!searchResultsSource.includes("text-xl font-bold"));
+  assert.ok(!searchResultsSource.includes("text-sm font-semibold"));
+  assert.ok(!searchResultsSource.includes("tracking-[-0.055em]"));
 });
