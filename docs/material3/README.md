@@ -201,3 +201,10 @@ Les tests de contrat couvrent les nouveaux consommateurs et empêchent le retour
 - `ToolSearch` n'applique plus de taille de texte à l'enveloppe de l'icône de recherche : la taille de l'icône est déjà explicitement portée par `MaterialIcon`.
 
 Ces changements centralisent la typographie sans déclarer la fidélité complète des composants AndroidX. Les contrats complets de Chip et Badge, l'audit exhaustif de leurs API publiques et la comparaison navigateur restent à effectuer. Les tests statiques vérifient que les feuilles CSS ne recopient pas les métriques des rôles partagés.
+
+
+### Navigation et cartes d'outils — primitives et typographie (28 octobre 2026)
+
+Le menu de navigation desktop consomme désormais les rôles typographiques Material 3 pour ses déclencheurs, titres, descriptions, choix de langue et choix de thème. Les anciennes combinaisons locales de taille, graisse et tracking ont été retirées des zones migrées.
+
+`ToolCard` utilise maintenant une `Column` pour son espacement vertical et une `Row` pour son en-tête, avec le token partagé `--space-3`. Sa surface de navigation reste un lien natif via `CardLink`, et les rôles typographiques partagés sont conservés. Des tests de contrat couvrent les deux migrations. La validation du rendu réel, notamment la hauteur des cartes, les textes FR/EN et les largeurs étroites, reste ouverte.
