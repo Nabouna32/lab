@@ -69,7 +69,7 @@ export default async function SignUpPage({
         </form>
           <p className="mt-6 border-t border-[var(--border)] pt-5 text-center m3-type-body-medium text-[var(--muted)]">
             {t.account.hasAccount}{" "}
-            <Link className="m3-type-label-large text-[var(--primary)] hover:underline" href={`/${locale}/compte/connexion`}>{t.account.signIn}</Link>
+            <AppLink variant="inline" href={`/${locale}/compte/connexion`}>{t.account.signIn}</AppLink>
           </p>
         </Panel>
       </PageContainer>
