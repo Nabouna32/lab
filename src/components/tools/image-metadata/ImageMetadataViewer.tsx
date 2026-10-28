@@ -194,9 +194,9 @@ export default function ImageMetadataViewer() {
 
   return (
     <section className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]">
-      <Column verticalArrangement={Arrangement.spacedBy("var(--space-6)")} className="p-5 sm:p-7 lg:p-8">
+      <Column verticalArrangement={Arrangement.spacedBy("var(--space-6)")} className="w-full p-5 sm:p-7 lg:p-8">
         <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.85fr)]">
-          <Column verticalArrangement={Arrangement.spacedBy("var(--space-4)")}>
+          <Column verticalArrangement={Arrangement.spacedBy("var(--space-4)")} className="w-full">
             <label htmlFor="image-metadata-file" className="block cursor-pointer rounded-[var(--shape-corner-medium)] border-2 border-dashed border-[var(--border)] bg-[var(--background)] p-6 text-center transition hover:border-[var(--accent)] focus-within:border-[var(--accent)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--focus-ring)] focus-within:ring-offset-2 focus-within:ring-offset-[var(--surface)]">
               <span className="block text-sm font-semibold text-[var(--foreground)]">{t.input}</span>
               <span className="mt-2 block text-sm text-[var(--muted)]">{t.inputHint}</span>
@@ -204,7 +204,7 @@ export default function ImageMetadataViewer() {
             </label>
             <p className="text-sm text-[var(--muted)]">🔒 {t.local}</p>
             <p className="text-sm text-[var(--muted)]">{optimize ? t.optimizingHint : t.cleaningHint}</p>
-            <Column verticalArrangement={Arrangement.spacedBy("var(--space-3)")} className="rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--background)] p-4">
+            <Column verticalArrangement={Arrangement.spacedBy("var(--space-3)")} className="w-full rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--background)] p-4">
               <label className="flex items-start gap-3 text-sm text-[var(--foreground)]">
                 <input type="checkbox" checked={optimize} disabled={busy} onChange={(event) => { setOptimize(event.target.checked); setItems((current) => current.map((item) => ({ ...item, cleanedBlob: undefined, cleanError: undefined }))); }} className="mt-1 accent-[var(--accent)]" />
                 <span><span className="block font-semibold">{t.optimizeOption}</span><span className="mt-1 block text-[var(--muted)]">{t.optimizeHint}</span></span>
@@ -242,13 +242,13 @@ export default function ImageMetadataViewer() {
         </div>
 
         {items.length > 0 && (
-          <Column verticalArrangement={Arrangement.spacedBy("var(--space-3)")}>
+          <Column verticalArrangement={Arrangement.spacedBy("var(--space-3)")} className="w-full">
             <h3 className="text-sm font-semibold text-[var(--foreground)]">{t.results}</h3>
             {items.map((item, index) => (
               <article key={item.file.name + "-" + item.file.lastModified + "-" + index} className="grid min-w-0 gap-4 rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--background)] p-3 sm:grid-cols-[5rem_minmax(0,1fr)] sm:p-4">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={item.previewUrl} alt="" className="h-20 w-20 rounded object-contain sm:h-20 sm:w-20" />
-                <Column verticalArrangement={Arrangement.spacedBy("var(--space-2)")} className="min-w-0">
+                <Column verticalArrangement={Arrangement.spacedBy("var(--space-2)")} className="w-full min-w-0">
                   <div className="flex flex-wrap items-start justify-between gap-2">
                     <div className="min-w-0">
                       <p className="break-words text-sm font-semibold text-[var(--foreground)]">{item.file.name}</p>
