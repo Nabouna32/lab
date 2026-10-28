@@ -192,3 +192,12 @@ La typographie partagée est étendue à la page d’accueil, au catalogue des o
 Le contrôle segmenté consomme désormais la classe typographique partagée `m3-type-label-large` au lieu de recopier les métriques du rôle dans ses classes locales. Les liens de navigation secondaires des pages de connexion et d’inscription utilisent `AppLink` en variante `inline`, en conservant la sémantique d’ancre et les styles communs du lien.
 
 Les tests de contrat couvrent les nouveaux consommateurs et empêchent le retour des anciennes combinaisons typographiques dans les zones migrées. Cette tranche n’est pas déclarée validée tant que la CI n’a pas réussi sur la tête actuelle et que les rendus navigateur, les thèmes clair/sombre, FR/EN, les viewports et le clavier n’ont pas été vérifiés.
+
+
+### Composants partagés — typographie des chips et badges (28 octobre 2026)
+
+- `Chip` applique désormais le rôle partagé `m3-type-label-large`. Les métriques typographiques ne sont plus redéclarées dans `Chip.module.css`; la feuille ne garde que les règles propres au composant.
+- `Badge` applique le rôle partagé `m3-type-label-small`. Les métriques correspondantes ont été retirées de `Badge.module.css`.
+- `ToolSearch` n'applique plus de taille de texte à l'enveloppe de l'icône de recherche : la taille de l'icône est déjà explicitement portée par `MaterialIcon`.
+
+Ces changements centralisent la typographie sans déclarer la fidélité complète des composants AndroidX. Les contrats complets de Chip et Badge, l'audit exhaustif de leurs API publiques et la comparaison navigateur restent à effectuer. Les tests statiques vérifient que les feuilles CSS ne recopient pas les métriques des rôles partagés.
