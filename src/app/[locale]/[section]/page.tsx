@@ -155,7 +155,7 @@ export default async function ToolsPage({
                       <span className="m3-type-title-medium block truncate">{getCategoryName(locale, category.id)}</span>
                       <span className="m3-type-body-small mt-0.5 block text-[var(--muted)]">{formatPlural(locale, getToolCount(category.id), { one: t.tools.one, other: t.tools.many })}</span>
                     </span>
-                    <span className="text-lg transition-transform duration-[var(--motion-fast)] group-hover:translate-x-1" style={{ color: getCategoryColor(category.id) }} aria-hidden="true">→</span>
+                    <span className="text-[var(--muted)] transition-transform duration-[var(--motion-fast)] group-hover:translate-x-1" aria-hidden="true"><MaterialIcon name="chevron_right" size={20} /></span>
                   </a>
                 ))}
               </div>
