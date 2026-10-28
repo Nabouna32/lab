@@ -340,6 +340,7 @@ test("category pictograms use the shared Material Symbols component instead of e
   const materialIconSource = readFileSync(new URL("../../components/ui/MaterialIcon.tsx", import.meta.url), "utf8");
   const explorerSource = readFileSync(new URL("../../app/[locale]/[section]/page.tsx", import.meta.url), "utf8");
   const searchResultsSource = readFileSync(new URL("../../components/tools/SearchResultsClient.tsx", import.meta.url), "utf8");
+  assert.ok(materialIconSource.includes("marella/material-symbols@a53d24f2134e8825791f850b5708993455ce4359"), "Material Symbols assets must pin an immutable upstream revision");
 
   const categories = [...categoriesSource.matchAll(/\{\s*id:\s*"([^"]+)",\s*icon:\s*"([^"]+)"\s*\}/g)]
     .map(([, id, icon]) => ({ id, icon }));
