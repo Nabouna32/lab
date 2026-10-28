@@ -6,7 +6,7 @@ import ToolCard from "@/components/tools/ToolCard";
 import ToolPage from "@/components/tools/ToolPage/ToolPage";
 import NextActions from "@/components/tools/RelatedTools";
 import ToolRenderer from "@/components/tools/ToolRenderer";
-import { categories, getCategoryContainerColor, getCategoryName, getCategoryOnContainerColor } from "@/lib/tools/categories";
+import { categories, getCategoryContainerColor, getCategoryName } from "@/lib/tools/categories";
 import { getCategorySeoDescription, isCategorySeoIndexable } from "@/lib/seo/category-policy";
 import { getToolsByCategory } from "@/lib/tools/catalog";
 import { getMessages } from "@/lib/i18n/messages";
@@ -97,7 +97,7 @@ export default async function LocalizedToolOrCategoryPage({
         <Breadcrumbs locale={locale} items={[{ label: t.nav.tools, href: getToolsPath(locale) }, { label: categoryName }]} />
         <header className="border-b border-[var(--border)] pb-[var(--space-7)] pt-[var(--space-7)] sm:pb-[var(--space-9)]">
           <div className="flex items-start gap-4">
-            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[var(--radius-lg)] text-2xl" style={{ color: getCategoryOnContainerColor(category.id), backgroundColor: getCategoryContainerColor(category.id) }} aria-hidden="true">{category.icon}</span>
+            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[var(--radius-lg)] text-2xl" style={{ backgroundColor: getCategoryContainerColor(category.id) }} aria-hidden="true">{category.icon}</span>
             <div className="min-w-0 max-w-3xl">
               <h1 className="m3-type-headline-large">{categoryName}</h1>
               <p className="m3-type-body-large mt-[var(--space-2)] text-[var(--muted)]">{getCategorySeoDescription(locale, category.id)}</p>
