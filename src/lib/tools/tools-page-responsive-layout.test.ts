@@ -39,7 +39,7 @@ test("tools page avoids decorative numbering that adds no information", () => {
 
 test("tool cards fill but can shrink within their list container", () => {
   assert.ok(
-    toolCardSource.includes("group flex w-full min-w-0 min-h-40"),
+    toolCardSource.includes("group block w-full min-w-0") && toolCardSource.includes("min-h-40 w-full min-w-0"),
     "tool links should fill their row without imposing an intrinsic minimum width",
   );
 });
