@@ -32,6 +32,9 @@ test("homepage compositions reuse the shared width, gutters and spacing tokens",
   assert.ok(homePageSource.includes('import { Arrangement } from "@/components/layout/compose/Arrangement"'));
   assert.ok(homePageSource.includes('verticalArrangement={Arrangement.spacedBy("var(--layout-page-section-gap)")}'));
   assert.ok(!homePageSource.includes("ElevatedCard"));
+  assert.ok(homePageSource.includes('verticalArrangement={Arrangement.spacedBy("var(--space-6)")} className="mx-auto w-full max-w-4xl"'));
+  assert.ok(homePageSource.includes('verticalArrangement={Arrangement.spacedBy("var(--space-4)")} className="w-full"'));
+  assert.ok(!homePageSource.includes('className="mt-6 max-w-3xl scroll-mt-28"'));
   assert.ok(!homePageSource.includes("t.home.badge"));
   assert.ok(homeWorkflowsSource.includes('import { Row } from "@/components/layout/compose/Row"'));
   assert.ok(homeWorkflowsSource.includes('import { Box } from "@/components/layout/compose/Box"'));
