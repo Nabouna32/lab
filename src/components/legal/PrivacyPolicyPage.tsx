@@ -29,10 +29,10 @@ export default function PrivacyPolicyPage({ locale }: { locale: Locale }) {
         {section.links && <ul className="m3-type-body-large mt-[var(--space-3)] list-disc pl-[var(--space-6)]">{section.links.map((link) => <li key={link.href}><a className="underline" href={link.href}>{link.label}</a></li>)}</ul>}
       </section>)}
       <section className="mt-[var(--space-8)]" aria-labelledby="policy-contact">
-        <h2 id="policy-contact" className="text-xl font-semibold">{page.contactTitle}</h2>
-        <p className="mt-[var(--space-3)] leading-7">{page.contactIntro}</p>
+        <h2 id="policy-contact" className="m3-type-title-large">{page.contactTitle}</h2>
+        <p className="m3-type-body-large mt-[var(--space-3)]">{page.contactIntro}</p>
         <p className="m3-type-body-large mt-[var(--space-3)]"><a className="underline" href={"mailto:" + page.contactAddress}><code>{page.contactAddress}</code></a></p>
-        <p className="mt-[var(--space-3)] leading-7">{page.contactWarning}</p>
+        <p className="m3-type-body-large mt-[var(--space-3)]">{page.contactWarning}</p>
       </section>
     </article>
     </PageContainer>
