@@ -33,12 +33,14 @@ export default function SubmitButton({
   pendingLabel,
   className = "",
   danger = false,
+  disabled = false,
   variant = "filled",
 }: {
   children: React.ReactNode;
   pendingLabel: string;
   className?: string;
   danger?: boolean;
+  disabled?: boolean;
   variant?: SubmitButtonVariant;
 }) {
   const { pending } = useFormStatus();
@@ -47,8 +49,8 @@ export default function SubmitButton({
   return (
     <Component
       type="submit"
-      disabled={pending}
-      aria-disabled={pending}
+      disabled={pending || disabled}
+      aria-disabled={pending || disabled}
       data-pending={pending ? "true" : "false"}
       data-danger={danger ? "true" : "false"}
       colors={danger ? destructiveColors : undefined}
