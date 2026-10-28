@@ -1079,7 +1079,7 @@ test("email and password settings use dedicated Material 3 page compositions", (
   assert.match(emailPage, /<TextField label=\{t\.account\.email\}[^>]*type="email"/);
   assert.match(passwordPage, /<MaterialIcon name="lock" size=\{28\} \/>/);
   assert.match(passwordPage, /t\.account\.changePasswordDescription/);
-  assert.match(passwordPage, /<PasswordChangeForm locale=\{locale\} t=\{t\} serverError=\{query\.error\} \/>/);
+  assert.match(passwordPage, /<PasswordChangeForm locale=\{locale\} t=\{t\.account\} serverError=\{query\.error\} \/>/);
   assert.match(passwordForm, /autoComplete="current-password"/);
   assert.match(passwordForm, /autoComplete="new-password"/);
   assert.match(passwordForm, /minLength=\{8\} maxLength=\{128\}/);
