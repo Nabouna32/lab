@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "@teispace/next-themes";
 import { getLanguage, isLocale, locales, type Locale } from "@/lib/i18n/config";
@@ -12,7 +12,7 @@ import { CollectionIcon } from "@/components/ui/CollectionIcon";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
 
 const triggerClass =
-  "flex h-12 min-w-12 items-center justify-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 text-sm font-semibold text-[var(--foreground)] outline-none transition-[border-color,background-color,box-shadow,transform] duration-200 hover:bg-[var(--surface-soft)] focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]";
+  "flex h-12 min-w-12 items-center justify-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 m3-type-label-large text-[var(--foreground)] outline-none transition-[border-color,background-color,box-shadow,transform] duration-200 hover:bg-[var(--surface-soft)] focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]";
 
 const menuOpenAfterLocaleSwitchKey = "loculary:header-menu-open-after-locale-switch";
 const menuOpenListeners = new Set<() => void>();
@@ -172,8 +172,8 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
             <MaterialIcon name="apps" size={18} />
           </span>
           <span className="min-w-0 flex-1">
-            <span className="block text-sm font-semibold text-[var(--foreground)]">{t.nav.explore}</span>
-            <span className="mt-0.5 block text-xs text-[var(--muted)]">{t.nav.exploreDescription}</span>
+            <span className="m3-type-label-large block text-[var(--foreground)]">{t.nav.explore}</span>
+            <span className="m3-type-body-small mt-0.5 block text-[var(--muted)]">{t.nav.exploreDescription}</span>
           </span>
         </Link>
 
@@ -184,8 +184,8 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
         >
           <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--primary-container)] text-[var(--on-primary-container)]" aria-hidden="true"><StarIcon filled className="h-5 w-5" /></span>
           <span className="min-w-0 flex-1">
-            <span className="block text-sm font-semibold text-[var(--foreground)]">{t.nav.favorites}</span>
-            <span className="mt-0.5 block text-xs text-[var(--muted)]">{t.nav.favoritesDescription}</span>
+            <span className="m3-type-label-large block text-[var(--foreground)]">{t.nav.favorites}</span>
+            <span className="m3-type-body-small mt-0.5 block text-[var(--muted)]">{t.nav.favoritesDescription}</span>
           </span>
         </Link>
 
@@ -196,8 +196,8 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
         >
           <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--tertiary-container)] text-[var(--on-tertiary-container)]" aria-hidden="true"><CollectionIcon className="h-5 w-5" /></span>
           <span className="min-w-0 flex-1">
-            <span className="block text-sm font-semibold text-[var(--foreground)]">{t.nav.collections}</span>
-            <span className="mt-0.5 block text-xs text-[var(--muted)]">{t.nav.collectionsDescription}</span>
+            <span className="m3-type-label-large block text-[var(--foreground)]">{t.nav.collections}</span>
+            <span className="m3-type-body-small mt-0.5 block text-[var(--muted)]">{t.nav.collectionsDescription}</span>
           </span>
         </Link>
 
@@ -213,8 +213,8 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
             <MaterialIcon name="person" size={18} className="h-[1.1rem] w-[1.1rem]" />
           </span>
           <span className="min-w-0 flex-1">
-            <span className="block text-sm font-semibold text-[var(--foreground)]">{t.nav.space}</span>
-            <span className="mt-0.5 block text-xs text-[var(--muted)]">{t.nav.account}</span>
+            <span className="m3-type-label-large block text-[var(--foreground)]">{t.nav.space}</span>
+            <span className="m3-type-body-small mt-0.5 block text-[var(--muted)]">{t.nav.account}</span>
           </span>
           <MaterialIcon name="chevron_right" size={16} className="h-4 w-4 text-[var(--muted)] transition-transform group-hover:translate-x-0.5" />
         </Link>
@@ -222,7 +222,7 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
         <div className="my-1.5 h-px bg-[var(--border)]" />
 
         <div className="px-2 pb-1 pt-1">
-          <p className="px-1 text-[11px] font-bold uppercase tracking-[0.16em] text-[var(--muted)]">{t.nav.language}</p>
+          <p className="m3-type-label-small px-1 uppercase text-[var(--muted)]">{t.nav.language}</p>
           <div className="mt-1 grid grid-cols-2 gap-1">
             {locales.map((item) => {
               const language = getLanguage(item);
@@ -254,13 +254,13 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
                     }
                   }}
                   className={
-                    "flex min-h-10 items-center gap-2 rounded-xl px-3 py-2 text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] " +
+                    "m3-type-body-medium flex min-h-10 items-center gap-2 rounded-xl px-3 py-2 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] " +
                     (active
-                      ? "bg-[var(--primary-container)] font-semibold text-[var(--on-primary-container)]"
+                      ? "bg-[var(--primary-container)] m3-type-label-large text-[var(--on-primary-container)]"
                       : "text-[var(--muted)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)]")
                   }
                 >
-                  <span className="font-bold uppercase tracking-[0.04em]">{item}</span>
+                  <span className="m3-type-label-small uppercase">{item}</span>
                   <span className="truncate">{language.nativeLabel}</span>
                 </Link>
               );
@@ -271,7 +271,7 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
         <div className="my-1.5 h-px bg-[var(--border)]" />
 
         <div className="px-2 pb-1 pt-1">
-          <p className="px-1 text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--muted)]">{t.theme.title}</p>
+          <p className="m3-type-label-small px-1 uppercase text-[var(--muted)]">{t.theme.title}</p>
           <div className="mt-1 grid grid-cols-3 gap-1">
             {[
               { value: "system", label: t.theme.system, icon: "system" },
@@ -285,7 +285,7 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
                   type="button"
                   onClick={() => selectTheme(option.value)}
                   className={
-                    "flex min-h-14 flex-col items-center justify-center gap-1 rounded-xl px-1 py-2 text-xs outline-none transition-colors focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] " +
+                    "m3-type-label-medium flex min-h-14 flex-col items-center justify-center gap-1 rounded-xl px-1 py-2 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] " +
                     (selected
                       ? "bg-[var(--primary-container)] text-[var(--on-primary-container)]"
                       : "text-[var(--muted)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)]")
