@@ -2,9 +2,8 @@ import Link from "next/link";
 import { PageContainer } from "@/components/layout/PageLayout";
 import { notFound, redirect } from "next/navigation";
 import { changePassword } from "../actions";
-import SubmitButton from "@/components/account/SubmitButton";
+import PasswordChangeForm from "@/components/account/PasswordChangeForm";
 import { Panel } from "@/components/ui/Panel";
-import { TextField } from "@/components/ui/TextField";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import { createClient } from "@/lib/supabase/server";
 import { getMessages } from "@/lib/i18n/messages";
@@ -38,33 +37,14 @@ export default async function ChangePasswordPage({
           {t.account.title}
         </Link>
         <Panel as="section" className="w-full overflow-hidden p-5 sm:p-8">
-          <div className="mb-5 grid size-14 place-items-center rounded-full bg-[var(--primary-container)] text-[var(--on-primary-container)]" aria-hidden="true">
+          <div className="mx-auto mb-5 grid size-14 place-items-center rounded-full bg-[var(--primary-container)] text-[var(--on-primary-container)]" aria-hidden="true">
             <MaterialIcon name="lock" size={28} />
           </div>
           <p className="m3-type-label-large text-[var(--primary)]">{t.account.security}</p>
           <h1 className="mt-2 m3-type-headline-medium">{t.account.changePasswordTitle}</h1>
           <p className="mt-3 m3-type-body-medium text-[var(--on-surface-variant)]">{t.account.changePasswordDescription}</p>
 
-          {query.error ? (
-            <p className="mt-5 rounded-[var(--shape-corner-medium)] bg-[var(--error-container)] px-4 py-3 m3-type-body-medium text-[var(--on-error-container)]" role="alert">
-              {query.error === "current-password" ? t.account.currentPasswordError : query.error === "weak-password" ? t.account.weakPassword : t.account.passwordError}
-            </p>
-          ) : null}
-
-          <form action={changePassword} className="mt-6">
-            <input type="hidden" name="locale" value={locale} />
-            <div className="grid gap-[var(--space-5)]">
-              <TextField label={t.account.currentPassword} inputId="current-password" name="currentPassword" type="password" autoComplete="current-password" required />
-              <div className="grid gap-2">
-                <TextField label={t.account.password} inputId="new-password" name="password" type="password" autoComplete="new-password" minLength={8} maxLength={128} required />
-                <p className="m3-type-body-small text-[var(--on-surface-variant)]">{t.account.passwordLengthHint}</p>
-              </div>
-              <TextField label={t.account.passwordConfirmation} inputId="password-confirmation" name="passwordConfirmation" type="password" autoComplete="new-password" minLength={8} maxLength={128} required />
-              <SubmitButton pendingLabel={t.account.changePassword} className="w-full">
-                {t.account.changePassword}
-              </SubmitButton>
-            </div>
-          </form>
+          <PasswordChangeForm locale={locale} t={t} serverError={query.error} />
         </Panel>
       </PageContainer>
     </main>
