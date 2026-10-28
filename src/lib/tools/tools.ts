@@ -387,7 +387,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "download-time", icon: "timer",
+    id: "download-time", icon: "hourglass_bottom",
     version: 1,
     complexity: "small",
     categories: ["computing"],
@@ -454,7 +454,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "text-line-processor", icon: "text_fields",
+    id: "text-line-processor", icon: "sort",
     version: 1,
     complexity: "advanced",
     categories: ["files"],
@@ -508,7 +508,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "json-diff-checker", icon: "sync_alt",
+    id: "json-diff-checker", icon: "difference",
     version: 1,
     complexity: "advanced",
     categories: ["development"],
@@ -535,7 +535,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "csv-diff-checker", icon: "sync_alt",
+    id: "csv-diff-checker", icon: "difference",
     version: 1,
     complexity: "advanced",
     categories: ["files"],
@@ -605,7 +605,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "html-previewer", icon: "image",
+    id: "html-previewer", icon: "preview",
     version: 1,
     complexity: "advanced",
     categories: ["development"],
@@ -618,7 +618,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "uuid-generator", icon: "person",
+    id: "uuid-generator", icon: "fingerprint",
     version: 1,
     complexity: "small",
     categories: ["development"],
@@ -687,7 +687,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "hash-generator", icon: "lock",
+    id: "hash-generator", icon: "fingerprint",
     version: 1,
     complexity: "advanced",
     categories: ["development"],
@@ -715,7 +715,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "color-converter", icon: "light_mode",
+    id: "color-converter", icon: "palette",
     version: 1,
     complexity: "small",
     categories: ["images"],
@@ -729,7 +729,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "color-palette-generator", icon: "stars",
+    id: "color-palette-generator", icon: "palette",
     version: 1,
     complexity: "small",
     categories: ["images"],
@@ -757,7 +757,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "jwt-decoder", icon: "lock",
+    id: "jwt-decoder", icon: "key",
     version: 1,
     complexity: "small",
     categories: ["development"],
@@ -771,7 +771,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "contrast-checker", icon: "light_mode",
+    id: "contrast-checker", icon: "contrast",
     version: 1,
     complexity: "small",
     categories: ["images"],
@@ -785,7 +785,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "ip-subnet-calculator", icon: "public",
+    id: "ip-subnet-calculator", icon: "lan",
     version: 1,
     complexity: "small",
     categories: ["computing"],
@@ -799,7 +799,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "ipv6-subnet-calculator", icon: "public",
+    id: "ipv6-subnet-calculator", icon: "lan",
     version: 1,
     complexity: "small",
     categories: ["computing"],
@@ -813,7 +813,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "number-base-converter", icon: "calculate",
+    id: "number-base-converter", icon: "numbers",
     version: 1,
     complexity: "small",
     categories: ["development"],
@@ -827,7 +827,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "text-diff-checker", icon: "sync_alt",
+    id: "text-diff-checker", icon: "difference",
     version: 1,
     complexity: "advanced",
     categories: ["development"],
@@ -841,7 +841,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "cron-expression", icon: "notifications",
+    id: "cron-expression", icon: "alarm",
     version: 1,
     complexity: "advanced",
     categories: ["development"],
@@ -855,7 +855,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "qr-code-generator", icon: "image",
+    id: "qr-code-generator", icon: "qr_code_2",
     version: 1,
     complexity: "advanced",
     categories: ["development"],
@@ -868,7 +868,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "markdown-table-generator", icon: "description",
+    id: "markdown-table-generator", icon: "table_chart",
     version: 1,
     complexity: "advanced",
     categories: ["development"],
@@ -882,7 +882,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "image-compressor", icon: "image",
+    id: "image-compressor", icon: "compress",
     version: 2,
     complexity: "advanced",
     categories: ["images"],
@@ -896,7 +896,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "image-to-pdf", icon: "description",
+    id: "image-to-pdf", icon: "picture_as_pdf",
     version: 1,
     complexity: "advanced",
     categories: ["images", "files"],
