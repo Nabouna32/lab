@@ -21,6 +21,7 @@ const desktopHeaderMenuSource = readSource("../../components/layout/DesktopHeade
 const toolCardSource = readSource("../../components/tools/ToolCard.tsx");
 const searchResultsSource = readSource("../../components/tools/SearchResultsClient.tsx");
 const legalNoticeSource = readSource("../../components/legal/LegalNoticePage.tsx");
+const accountPageSource = readSource("../../app/[locale]/compte/page.tsx");
 
 test("homepage compositions reuse the shared width, gutters and spacing tokens", () => {
   assert.ok(homePageSource.includes('<PageContainer'));
@@ -270,5 +271,16 @@ test("privacy policy uses shared Material 3 typography roles", () => {
 
   for (const legacyType of ["text-3xl", "font-bold", "text-xl font-semibold", "text-sm", "leading-6", "leading-7", "font-semibold"]) {
     assert.ok(!privacyPolicySource.includes(legacyType), `legacy typography remains: ${legacyType}`);
+  }
+});
+
+
+test("account page uses shared Material 3 typography roles in both account states", () => {
+  for (const role of ["m3-type-headline-medium", "m3-type-title-large", "m3-type-body-medium"]) {
+    assert.ok(accountPageSource.includes(role), `account page should consume ${role}`);
+  }
+
+  for (const legacyType of ["text-3xl", "font-black", "tracking-[-0.05em]", "text-sm leading-6", "leading-7"]) {
+    assert.ok(!accountPageSource.includes(legacyType), `legacy typography remains: ${legacyType}`);
   }
 });
