@@ -144,121 +144,25 @@ Les primitives de layout sont suivies séparément des composants Material 3, ca
 NavigationBar browser validation is tracked in [issue #977](https://github.com/Nabouna32/lab/issues/977). This does not assert that the component is already source-faithful.
 
 
-## Première tranche d'implémentation — typographie et formes
+## État actuel de la migration — 28 octobre 2026
 
-Le socle Web expose les 15 rôles typographiques nommés `.m3-type-display-*`, `.m3-type-headline-*`, `.m3-type-title-*`, `.m3-type-body-*` et `.m3-type-label-*`. Le bouton partagé, le bloc Parcours guidés, les cartes d'outils et l'en-tête des pages outil consomment maintenant ces rôles au lieu de recopier localement les métriques typographiques. La couverture reste partielle et doit progresser composant par composant, puis dans les usages de production.
+Le portage et la migration de production restent partiels. Les quinze rôles typographiques Material 3 sont exposés et consommés par de nombreux composants et parcours. Les tokens de forme dédiés existent pour certaines compositions, mais les valeurs par défaut doivent encore être vérifiées contre les sources AndroidX épinglées.
 
-Les valeurs de forme de Card et Panel sont isolées dans des tokens de composant. Leur valeur par défaut définitive doit provenir de la source AndroidX correspondant à la version retenue ; la valeur medium actuelle n'est pas encore déclarée comme preuve de parité. Les échelles historiques ne seront supprimées qu'après inventaire de tous les usages et migration vérifiée.
-
-
-La deuxième tranche relie les métriques typographiques de `AlertDialog`, `DatePickerDialog`, `DropdownMenu`, `ExposedDropdownMenu`, `NavigationBar`, `NavigationDrawer`, `NavigationRail`, `RadioButton`, `Snackbar`, `Tabs`, `TimePicker`, `ToggleButton`, `Tooltip` et `TopAppBar` aux rôles partagés. Un test de contrat protège cette centralisation. Cela ne prouve pas encore la parité du comportement ni du rendu avec AndroidX ; les métriques spécifiques non mappées sont conservées tant que leur contrat source n’est pas établi.
-
-
-La troisième tranche relie les métriques des composants `BottomSheetScaffold`, `ButtonGroup`, `DatePicker`, `FloatingActionButton`, `FloatingActionButtonMenu`, `FloatingToolbar`, `ModalBottomSheet`, `PullToRefreshBox`, `RangeSlider`, `SegmentedButtonGroup`, `SplitButton`, `SwipeToDismissBox`, `WideNavigationRail` et `Slider` aux rôles typographiques partagés. Les valeurs spécifiques au cadran/aux commandes numériques sont conservées quand elles ne correspondent pas clairement à un rôle M3. Le test de contrat inclut ces nouveaux consommateurs.
-
-
-Une tranche de consommateurs réutilise maintenant les fondations : `AppLink`, `ResultPanel`, `RecentTools`, `RelatedTools`, `ToolCard` et `ValidationMessage`. Le test de contrat couvre les rôles typographiques et les tokens de forme de ces compositions. La migration des pages et outils reste à poursuivre ; les tokens historiques ne sont pas supprimés tant que des références actives subsistent.
-
-
-Les formes des composants traités et de plusieurs usages dans les outils sont désormais reliées aux tokens partagés, avec un test de contrat dédié. `--radius-md` et les autres conventions historiques sont maintenus tant que l'inventaire n'est pas à zéro. Les valeurs historiques de 24 px et 16 px doivent être arbitrées composant par composant ; elles ne sont pas remplacées mécaniquement par une forme AndroidX supposée équivalente.
-
-## État de migration — 28 octobre 2026
-
-Cette section décrit l’état constaté sur la branche de la PR #1020. Elle prévaut sur les descriptions historiques plus anciennes de ce document ; elle ne vaut pas validation visuelle navigateur.
-
-### Consommateurs de production migrés dans cette tranche
-
-Les rôles typographiques partagés sont maintenant utilisés dans les pages de présentation, de contact et de signalement, le pied de page, les pages de connexion et d’inscription, le changement d’adresse e-mail, la gestion du mot de passe, la demande et la finalisation de réinitialisation, la suppression du compte, ainsi que le tableau de bord d’administration, son journal d’audit et la gestion des utilisateurs.
-
-Les formes de certains conteneurs de pages utilisent également les tokens de forme sémantiques. Le formulaire de changement d’e-mail et plusieurs formulaires de compte consomment `Column` et `Arrangement.spacedBy` pour leur cadence verticale, au lieu de répéter une utilité d’espacement Tailwind.
-
-Les tests de contrat vérifient la présence des rôles partagés dans ces consommateurs. Ils ne remplacent ni la vérification du comportement dans le navigateur, ni les contrôles de responsive, de clavier, de thèmes clair/sombre et d’accessibilité.
-
-### Règle de suppression après migration
-
-Une migration n’est pas terminée tant que les anciennes implémentations, classes, tokens, wrappers, tests et documentations devenus redondants n’ont pas été examinés. Après migration, supprimer tout élément devenu inutile **uniquement après** avoir vérifié l’ensemble des références dans le dépôt, les usages dynamiques éventuels, les tests, les scripts, les exemples et les documents.
-
-Une référence encore active impose soit de migrer son consommateur, soit de conserver explicitement l’élément historique avec une raison documentée. Ne pas garder une API uniquement parce qu’un ancien test ou une prévisualisation la référence : migrer ou supprimer aussi ce test ou cette prévisualisation si son contrat n’est plus pertinent.
-
-À cette date, l’échelle historique `--radius-*` **n’est pas supprimable** : des usages de production subsistent, notamment dans des outils. Les rayons de 16 px et 24 px ne doivent pas être remappés mécaniquement vers une forme M3. La suppression devra intervenir après migration des derniers consommateurs et vérification qu’aucune référence ne reste.
-
-### État de la livraison
-
-La PR #1020 reste un brouillon non fusionné. La CI doit être contrôlée sur le dernier commit avant de considérer cette tranche comme vérifiée. Une CI verte ne suffira pas à déclarer la fidélité AndroidX sans comparaison de rendu et de comportement dans le navigateur.
-
-
-### Complément de migration — typographie, liens et découverte (28 octobre 2026)
-
-La typographie partagée est étendue à la page d’accueil, au catalogue des outils, à la recherche d’outils et au tableau de bord d’administration, ainsi qu’au statut de confirmation dans la gestion des utilisateurs. Les rôles nommés remplacent les combinaisons locales de tailles, graisses et interlignes dans ces zones. Les symboles utilisés comme icônes et les valeurs numériques spécifiques ne sont pas remappés vers des rôles de texte sans justification.
-
-Le contrôle segmenté consomme désormais la classe typographique partagée `m3-type-label-large` au lieu de recopier les métriques du rôle dans ses classes locales. Les liens de navigation secondaires des pages de connexion et d’inscription utilisent `AppLink` en variante `inline`, en conservant la sémantique d’ancre et les styles communs du lien.
-
-Les tests de contrat couvrent les nouveaux consommateurs et empêchent le retour des anciennes combinaisons typographiques dans les zones migrées. Cette tranche n’est pas déclarée validée tant que la CI n’a pas réussi sur la tête actuelle et que les rendus navigateur, les thèmes clair/sombre, FR/EN, les viewports et le clavier n’ont pas été vérifiés.
-
-
-### Composants partagés — typographie des chips et badges (28 octobre 2026)
-
-- `Chip` applique désormais le rôle partagé `m3-type-label-large`. Les métriques typographiques ne sont plus redéclarées dans `Chip.module.css`; la feuille ne garde que les règles propres au composant.
-- `Badge` applique le rôle partagé `m3-type-label-small`. Les métriques correspondantes ont été retirées de `Badge.module.css`.
-- `ToolSearch` n'applique plus de taille de texte à l'enveloppe de l'icône de recherche : la taille de l'icône est déjà explicitement portée par `MaterialIcon`.
-
-Ces changements centralisent la typographie sans déclarer la fidélité complète des composants AndroidX. Les contrats complets de Chip et Badge, l'audit exhaustif de leurs API publiques et la comparaison navigateur restent à effectuer. Les tests statiques vérifient que les feuilles CSS ne recopient pas les métriques des rôles partagés.
-
-
-### Navigation et cartes d'outils — primitives et typographie (28 octobre 2026)
-
-Le menu de navigation desktop consomme désormais les rôles typographiques Material 3 pour ses déclencheurs, titres, descriptions, choix de langue et choix de thème. Les anciennes combinaisons locales de taille, graisse et tracking ont été retirées des zones migrées.
-
-`ToolCard` utilise maintenant une `Column` pour son espacement vertical et une `Row` pour son en-tête, avec le token partagé `--space-3`. Sa surface de navigation reste un lien natif via `CardLink`, et les rôles typographiques partagés sont conservés. Des tests de contrat couvrent les deux migrations. La validation du rendu réel, notamment la hauteur des cartes, les textes FR/EN et les largeurs étroites, reste ouverte.
-
-
-### Résultats de recherche — rôles typographiques (28 octobre 2026)
-
-La page de résultats de recherche utilise désormais les rôles partagés pour son titre principal, les titres d'états, les descriptions, le compteur de résultats, les filtres de catégories et les liens de suggestion. Les graisses, tailles et espacements de lettres Tailwind qui doublaient ces rôles ont été retirés. Les états et le contenu métier restent inchangés ; la vérification du rendu et des traductions reste à faire dans le navigateur.
-
-
-### Pages légales — rôles typographiques (28 octobre 2026)
-
-La page des mentions légales utilise maintenant les rôles partagés pour le titre, les titres de section, les noms d'organismes, les paragraphes, les adresses et les liens. Les tailles, graisses et interlignes Tailwind redondants ont été remplacés par les rôles Material 3 ; les espacements déjà exprimés avec les tokens communs sont conservés. Un test de contrat vérifie cette consommation. La lisibilité réelle en FR/EN, notamment pour les longues adresses et les liens, reste à vérifier dans le navigateur.
-
-
-### Politique de confidentialité — rôles typographiques (28 octobre 2026)
-
-La politique de confidentialité consomme maintenant les rôles partagés pour son titre, ses titres de section, la date de mise à jour, l'avis temporaire, le corps du texte, les listes et le contact. Les tailles, graisses et interlignes Tailwind locaux ont été retirés au profit des rôles Material 3. Les espacements existants restent exprimés avec les tokens communs. La vérification de la lisibilité FR/EN, du contraste et du rendu navigateur reste ouverte.
-
-
-### Page Compte — rôles typographiques (28 octobre 2026)
-
-Les deux états de la page Compte (visiteur et compte connecté) utilisent maintenant la même famille de rôles Material 3 : titre de page, description, statut et texte de la zone de suppression. Les tailles, graisses et interlignes Tailwind spécifiques ont été retirés. La structure responsive et les actions restent inchangées ; le rendu visuel, le contraste des statuts et la lisibilité FR/EN doivent encore être vérifiés dans le navigateur.
-
-
-### Récupération du mot de passe — typographie et boutons partagés (28 octobre 2026)
-
-Les pages de demande et de finalisation de réinitialisation utilisent désormais les rôles typographiques partagés pour les titres, libellés, descriptions et messages d'état. Les deux actions de soumission s'appuient sur SubmitButton et les variantes du bouton Material 3 partagé, sans réintroduire une apparence locale concurrente. Les liens restent des ancres de navigation et conservent leur sémantique. Les formulaires et leurs états doivent encore être vérifiés en navigateur, notamment clavier, erreurs et états pending.
-
-
-### Informations personnelles — rôles typographiques (28 octobre 2026)
-
-La page Informations personnelles utilise les rôles partagés pour le lien de retour et les messages de statut. Les métriques locales de taille et de graisse ont été supprimées ; les titres et les champs utilisent déjà les composants et rôles partagés. Le comportement des formulaires reste inchangé.
-
+- **Typographie et compositions :** les migrations couvrent notamment les composants partagés, la navigation, les cartes et résultats d’outils, les pages d’information, les parcours de compte et plusieurs pages d’administration. La couverture n’est pas exhaustive ; les rôles partagés ne prouvent pas à eux seuls la fidélité des composants ou de leurs rendus.
+- **Formes et héritage :** l’échelle historique `--radius-*` reste utilisée en production. Ne pas la supprimer ni remapper mécaniquement ses valeurs de 16 px et 24 px ; inventorier et migrer les consommateurs, puis vérifier les références avant retrait.
+- **Icônes :** les sept catégories utilisent `MaterialIcon` dans les pages de catégorie, l’explorateur et les filtres de recherche. Le chevron de l’explorateur utilise également Material Symbols. Les icônes des parcours guidés utilisent les rôles `primary-container` / `on-primary-container`. Les glyphes Unicode des intentions et les icônes de certains outils restent à auditer.
+- **Tests et rendu :** les tests de contrat protègent certains usages et rôles partagés, mais ne démontrent pas la parité AndroidX. Le rendu réel, les états, le clavier, les thèmes clair/sombre, le français/l’anglais et les viewports pertinents doivent encore être vérifiés dans le navigateur.
 
 ## Règle obligatoire de refonte vers AndroidX Material 3 Fidelity
 
-Le principe de départ est la **refonte vers la cible**, et non la préservation de l'existant. L'interface actuelle, ses composants, ses styles, ses icônes et ses compositions ne sont que des éléments à inventorier. Ne rien conserver uniquement par inertie, commodité ou pour réduire la taille d'une modification. Choisir une migration ciblée ou une refonte plus large selon la solution qui atteint le mieux la fidélité AndroidX, la cohérence produit et la maintenabilité.
+La cible est une interface réellement portée vers AndroidX Jetpack Compose Material 3 **Fidelity**, pas un habillage M3 de l’interface historique. Aucune implémentation existante n’est conservée uniquement parce qu’elle fonctionne, est déjà utilisée ou réduit le diff. Pour chaque famille, inventorier les usages, vérifier les contrats AndroidX épinglés, choisir une refonte cohérente et supprimer les anciens mécanismes lorsqu’ils n’ont plus de consommateurs et que leur retrait est sûr.
 
 ### Icônes et emoji
 
-- Remplacer les emoji et caractères Unicode utilisés comme icônes fonctionnelles de navigation, de catégorie, d'outil, d'action, de commande ou d'état par des icônes Material adaptées, via le composant d'icône partagé et les ressources Material Symbols retenues.
-- Vérifier le sens de chaque pictogramme et son contexte avant le choix de l'icône. Respecter les tailles, l'alignement, le poids, currentColor et les rôles de couleur sémantiques appropriés, ainsi que le nom accessible ou le caractère décoratif explicite.
-- Distinguer ces pictogrammes du texte utilisateur, du contenu éditorial, des données traitées par un outil et des illustrations. Leur maintien n'est jamais automatique : il doit être cohérent avec la fonction du contenu et la direction cible. Les illustrations décoratives doivent elles aussi être évaluées.
-- Si aucun équivalent Material pertinent ne convient, documenter la recherche, les limites techniques ou produit, les solutions possibles et le compromis. Discuter les exceptions importantes avant de les adopter ; ne pas inventer une équivalence AndroidX.
+- **Icônes d’interface :** remplacer les emoji et caractères Unicode employés comme pictogrammes fonctionnels (navigation, catégories, outils, actions, états et commandes) par des icônes Material adaptées, en priorité Material Symbols dans le système d’icônes partagé. Respecter la sémantique, les dimensions, le poids, l’alignement, les couleurs sémantiques et les noms accessibles.
+- **Contenu et illustration :** un emoji dans du texte éditorial, une entrée utilisateur ou le contenu même d’un outil n’est pas automatiquement une icône d’interface. Il peut rester lorsque sa fonction est réelle et que sa suppression altérerait le contenu ou le résultat attendu. Les illustrations décoratives doivent aussi être auditées, sans exemption automatique.
+- **Exception Web :** si aucun équivalent Material pertinent n’existe, si le navigateur ne peut pas reproduire un comportement AndroidX ou si l’équivalent nuit à l’accessibilité ou au besoin produit, documenter le cas, les sources consultées, les options et le compromis. Les exceptions substantielles ou les choix ambigus sont discutés avant adoption.
+- **Retrait de l’héritage :** les classes locales, couleurs non sémantiques, rayons historiques, icônes ad hoc et composants parallèles sont des cibles d’audit, pas des solutions de repli permanentes. Vérifier les références et migrer les consommateurs avant suppression ; ne pas effectuer de conversions numériques mécaniques.
+- **Preuve de migration :** tenir à jour les spécifications, les tests de contrat et les statuts. La présence d’un token ou d’une icône Material ne prouve pas que les pages l’utilisent, et la validation de rendu reste nécessaire.
 
-### Retrait de l'héritage
-
-Auditer les classes de typographie locales, les couleurs non sémantiques, les anciennes échelles de formes, les pictogrammes ad hoc et les implémentations concurrentes. Migrer leurs consommateurs vers les rôles et ports partagés, puis supprimer l'ancien mécanisme quand l'inventaire confirme qu'il n'est plus requis. Ne pas convertir les valeurs en masse par simple équivalence numérique : chaque valeur dépend du contrat du composant, de son rôle et de la source de référence.
-
-Pour chaque famille et chaque page, consigner les usages, les décisions, les sources AndroidX épinglées, les adaptations Web, les tests et les limites restantes. La présence d'une API ou d'un token partagé ne prouve pas que les consommateurs sont migrés. La fin de migration exige que chaque usage soit porté, retiré, justifié comme composition produit, ou explicitement documenté comme adaptation Web/exception.
-
-### Pictogrammes de catégories — première migration de production
-
-Les sept catégories utilisent désormais le composant `MaterialIcon` et des identifiants Material Symbols dans les pages de catégorie, l’explorateur et les filtres de recherche. Les emoji fonctionnels ont été retirés de ces trois consommateurs. La validation du rendu, des contrastes et des tailles dans les deux thèmes reste ouverte ; cette tranche ne signifie pas que les autres emoji d’interface du site ont tous été migrés.
+Cette règle s’applique aux fondations, primitives, composants, compositions, catalogue, Design Lab et pages de production. Chaque usage doit avoir une disposition explicite : port AndroidX vérifié, composition Loculary justifiée, adaptation Web documentée ou exception approuvée.
