@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import ToolCard from "@/components/tools/ToolCard";
 import ToolSearch from "@/components/tools/ToolSearch";
 import { OutlinedButton } from "@/components/ui/Button";
+import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import { getMessages } from "@/lib/i18n/messages";
 import { formatPlural } from "@/lib/i18n/plural";
 import { categories, getCategoryName } from "@/lib/tools/categories";
@@ -176,7 +177,7 @@ export default function SearchResultsClient({ locale }: { locale: Locale }) {
                     onClick={() => setSelectedCategory(category.id)}
                     className={`inline-flex min-h-10 items-center gap-2 rounded-full border px-4 py-2 m3-type-label-large outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] ${selectedCategory === category.id ? "border-[var(--accent)] bg-[var(--accent-soft)] text-[var(--on-primary-container)]" : "border-[var(--border)] bg-[var(--surface)] text-[var(--foreground)] hover:bg-[var(--surface-elevated)]"}`}
                   >
-                    <span aria-hidden="true">{category.icon}</span>
+                    <span className="inline-flex items-center" aria-hidden="true"><MaterialIcon name={category.icon} size={18} /></span>
                     {getCategoryName(locale, category.id)}
                   </button>
                 ))}
