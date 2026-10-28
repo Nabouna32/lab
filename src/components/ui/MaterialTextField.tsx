@@ -1,69 +1,33 @@
 "use client";
 
 import { useId, useState } from "react";
-import type { ChangeEvent, ReactNode } from "react";
+import type { ChangeEvent, InputHTMLAttributes, ReactNode } from "react";
 import styles from "./MaterialTextField.module.css";
 
 export type MaterialTextFieldProps = {
-  id: string;
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  variant?: "filled" | "outlined";
-  type?: "text" | "email" | "number" | "search" | "password";
-  placeholder?: string;
-  supportingText?: string;
-  error?: string;
-  prefix?: ReactNode;
-  suffix?: ReactNode;
-  leadingContent?: ReactNode;
-  trailingContent?: ReactNode;
-  maxLength?: number;
-  showCharacterCount?: boolean;
-  secure?: boolean;
-  disabled?: boolean;
-  required?: boolean;
-  autoComplete?: string;
+  id: string; name?: string; label: string; value: string; onChange: (value: string) => void;
+  variant?: "filled" | "outlined"; type?: "text" | "email" | "number" | "search" | "password";
+  placeholder?: string; supportingText?: string; error?: string; prefix?: ReactNode; suffix?: ReactNode;
+  leadingContent?: ReactNode; trailingContent?: ReactNode; minLength?: number; maxLength?: number;
+  showCharacterCount?: boolean; secure?: boolean; disabled?: boolean; required?: boolean;
+  autoComplete?: string; autoFocus?: boolean; inputMode?: InputHTMLAttributes<HTMLInputElement>["inputMode"];
 };
 
-/**
- * Shared React/CSS adaptation of AndroidX TextField, OutlinedTextField,
- * SecureTextField and OutlinedSecureTextField patterns. It is not native Compose.
- * Secure mode reduces common copy/cut/drag affordances but cannot promise native
- * Android secure-field guarantees across browsers and assistive technologies.
- */
+/** React/Web adaptation of AndroidX Material 3 TextField and OutlinedTextField. */
 export function MaterialTextField({
-  id,
-  label,
-  value,
-  onChange,
-  variant = "outlined",
-  type = "text",
-  placeholder,
-  supportingText,
-  error,
-  prefix,
-  suffix,
-  leadingContent,
-  trailingContent,
-  maxLength,
-  showCharacterCount = false,
-  secure = false,
-  disabled = false,
-  required = false,
-  autoComplete,
+  id, name, label, value, onChange, variant = "outlined", type = "text", placeholder,
+  supportingText, error, prefix, suffix, leadingContent, trailingContent, minLength, maxLength,
+  showCharacterCount = false, secure = false, disabled = false, required = false, autoComplete,
+  autoFocus = false, inputMode,
 }: MaterialTextFieldProps) {
   const [revealed, setRevealed] = useState(false);
-  const helperId = useId();
-  const errorId = `${helperId}-error`;
-  const supportingId = `${helperId}-supporting`;
-  const counterId = `${helperId}-counter`;
-  const describedBy = [error ? errorId : supportingText ? supportingId : "", showCharacterCount && maxLength ? counterId : ""].filter(Boolean).join(" ") || undefined;
+  const generatedId = useId();
+  const errorId = `${generatedId}-error`;
+  const supportingId = `${generatedId}-supporting`;
+  const counterId = `${generatedId}-counter`;
+  const describedBy = [error ? errorId : supportingText ? supportingId : "", showCharacterCount && maxLength !== undefined ? counterId : ""].filter(Boolean).join(" ") || undefined;
   const inputType = secure ? (revealed ? "text" : "password") : type;
-
-  function handleChange(event: ChangeEvent<HTMLInputElement>) {
-    onChange(event.target.value);
-  }
+  function handleChange(event: ChangeEvent<HTMLInputElement>) { onChange(event.target.value); }
 
   return (
     <div className={styles.root} data-variant={variant} data-error={error ? "true" : "false"} data-disabled={disabled ? "true" : "false"}>
@@ -71,25 +35,12 @@ export function MaterialTextField({
         {leadingContent && <span className={styles.leading} aria-hidden="true">{leadingContent}</span>}
         {prefix && <span className={styles.affix}>{prefix}</span>}
         <div className={styles.inputContainer}>
-          <input
-            id={id}
-            className={styles.input}
-            type={inputType}
-            value={value}
-            placeholder={placeholder ?? " "}
-            disabled={disabled}
-            required={required}
+          <input id={id} name={name} className={styles.input} type={inputType} value={value}
+            placeholder={placeholder ?? " "} disabled={disabled} required={required} minLength={minLength}
+            maxLength={maxLength} autoFocus={autoFocus} inputMode={inputMode}
             autoComplete={autoComplete ?? (secure ? "current-password" : undefined)}
-            spellCheck={secure ? false : undefined}
-            autoCapitalize={secure ? "off" : undefined}
-            maxLength={maxLength}
-            aria-invalid={Boolean(error)}
-            aria-describedby={describedBy}
-            onChange={handleChange}
-            onCopy={secure ? (event) => event.preventDefault() : undefined}
-            onCut={secure ? (event) => event.preventDefault() : undefined}
-            onDragStart={secure ? (event) => event.preventDefault() : undefined}
-          />
+            spellCheck={secure ? false : undefined} autoCapitalize={secure ? "off" : undefined}
+            aria-invalid={Boolean(error)} aria-describedby={describedBy} onChange={handleChange} />
           <label className={styles.label} htmlFor={id}>{label}</label>
         </div>
         {suffix && <span className={styles.affix}>{suffix}</span>}
