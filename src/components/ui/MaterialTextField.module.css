@@ -26,7 +26,11 @@
   background: transparent;
 }
 
-.root[data-error="true"] .field {
+.root[data-variant="filled"][data-error="true"] .field {
+  border-bottom-color: var(--error, currentColor);
+}
+
+.root[data-variant="outlined"][data-error="true"] .field {
   border-color: var(--error, currentColor);
 }
 
@@ -39,7 +43,11 @@
   border: 2px solid var(--primary, currentColor);
 }
 
-.root[data-error="true"]:focus-within .field {
+.root[data-variant="filled"][data-error="true"]:focus-within .field {
+  border-bottom-color: var(--error, currentColor);
+}
+
+.root[data-variant="outlined"][data-error="true"]:focus-within .field {
   border-color: var(--error, currentColor);
 }
 
