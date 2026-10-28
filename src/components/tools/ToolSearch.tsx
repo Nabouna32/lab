@@ -272,7 +272,7 @@ export default function ToolSearch({
           onKeyDown={handleKeyDown}
           className={
             "min-w-0 flex-1 bg-transparent text-[var(--foreground)] outline-none placeholder:text-[var(--muted)] " +
-            (compact ? "px-2 py-2 text-sm" : "px-2 py-2 text-base sm:px-3 sm:py-3 sm:text-lg")
+            (compact ? "m3-type-body-medium px-2 py-2" : "m3-type-body-large px-2 py-2 sm:px-3 sm:py-3")
           }
         />
         {query && (
