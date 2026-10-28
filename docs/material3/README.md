@@ -1,8 +1,8 @@
-# AndroidX Material 3 → React porting project
+# Portage AndroidX Material 3 vers React/Web
 
-**Reference implementation:** AndroidX Jetpack Compose Material 3.  
-**Product direction:** Material 3 Fidelity, not Material 3 Expressive.  
-**Project status:** early; Button work exists, but the overall inventory, porting and production migration are incomplete.
+**Référence principale :** AndroidX Jetpack Compose Material 3.  
+**Direction produit :** Material 3 Fidelity, et non Material 3 Expressive.  
+**État du projet :** migration active. Les fondations partagées et plusieurs composants sont déjà présents dans l'application ; la couverture du catalogue, la fidélité aux contrats AndroidX et la migration de production restent incomplètes. La présence d'un composant ne vaut pas preuve de conformité.
 
 ## Target architecture and migration rule
 
@@ -131,13 +131,16 @@ Les primitives de layout sont suivies séparément des composants Material 3, ca
 
 ## Current status
 
-| Component | Spec | Port status | Production migration |
+| Composant | Spécification | État du portage | Migration de production |
 |---|---|---|---|
-| Button | [Button](components/Button.md) | Five AndroidX-named React exports; source snapshot pinned; disabled-state token roles corrected; shared variant styles now drive native buttons and button-styled links; remaining token and browser verification open | Generic action call sites migrated; account-only action-link wrapper removed; footer and account navigation use shared Button appearances while preserving anchors; broader site audit and browser verification remain open |
-| Web link adaptation | [Link](components/Link.md) | `AppLink` keeps Next.js anchor semantics and shares the five Button visual variants and the shared reduced-motion-aware ripple; navigation/inline styles remain contextual Web patterns | Footer and account action links migrated; header navigation retained as a navigation link; full-site usage audit remains open |
-| ListItem | [ListItem](components/ListItem.md) | Existing adaptation; standard one/two/three-line composition is being aligned to AndroidX 1.4.0 | Interactive overloads and browser parity remain unverified |
-| IconButton | [IconButton](components/IconButton.md) | Existing implementation; full source-contract and browser verification still required | Not established by this index |
-| Other components | Not yet audited | À inventorier | À inventorier |
+| Button | [Button](components/Button.md) | Cinq exports React nommés d'après AndroidX ; snapshot source épinglé ; rôles de couleur désactivée corrigés. Vérification des tokens et du rendu navigateur encore ouverte. | Usages d'action génériques migrés ; wrapper de lien propre au compte retiré ; pied de page et navigation du compte utilisent les apparences partagées en conservant les ancres. Audit global et validation navigateur à poursuivre. |
+| Lien Web | [Link](components/Link.md) | `AppLink` conserve la sémantique d'ancre Next.js et partage les cinq variantes visuelles du bouton ainsi que l'effet d'interaction respectueux de la réduction des animations. | Liens d'action du pied de page et du compte migrés ; navigation de l'en-tête conservée comme lien. Audit global à poursuivre. |
+| ListItem | [ListItem](components/ListItem.md) | Adaptation existante ; les compositions à une, deux et trois lignes sont alignées sur AndroidX 1.4.0. | Surcharges interactives et rendu navigateur non vérifiés. |
+| IconButton | [IconButton](components/IconButton.md) | Implémentation existante ; contrat source et rendu navigateur à vérifier. | Non établi par cet index. |
+| Card | [Card](components/Card.md) | Trois variantes de conteneur et composition `CardLink` séparées ; valeurs exactes des formes, couleurs et élévations toujours non vérifiées. | Usages de production à inventorier avant de modifier le contrat. |
+| Chip | [Chip](components/Chip.md) | Adaptation commune aux variantes Assist, Filter, Input et Suggestion ; états de sélection, désactivation et libellé de retrait clarifiés. Parité visuelle non vérifiée. | Principalement présenté dans le Design Lab ; usages à inventorier. |
+| Badge / BadgedBox | [Badge](components/Badge.md) | Adaptation Web avec nom accessible explicite et couleurs sémantiques partagées ; tailles et positionnement à comparer à AndroidX. | Usages de production à inventorier. |
+| Autres composants | Inventaire à poursuivre | À inventorier | À inventorier |
 
 NavigationBar browser validation is tracked in [issue #977](https://github.com/Nabouna32/lab/issues/977). This does not assert that the component is already source-faithful.
 
