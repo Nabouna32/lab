@@ -238,3 +238,21 @@ Les pages de demande et de finalisation de réinitialisation utilisent désormai
 ### Informations personnelles — rôles typographiques (28 octobre 2026)
 
 La page Informations personnelles utilise les rôles partagés pour le lien de retour et les messages de statut. Les métriques locales de taille et de graisse ont été supprimées ; les titres et les champs utilisent déjà les composants et rôles partagés. Le comportement des formulaires reste inchangé.
+
+
+## Règle obligatoire de refonte vers AndroidX Material 3 Fidelity
+
+Le principe de départ est la **refonte vers la cible**, et non la préservation de l'existant. L'interface actuelle, ses composants, ses styles, ses icônes et ses compositions ne sont que des éléments à inventorier. Ne rien conserver uniquement par inertie, commodité ou pour réduire la taille d'une modification. Choisir une migration ciblée ou une refonte plus large selon la solution qui atteint le mieux la fidélité AndroidX, la cohérence produit et la maintenabilité.
+
+### Icônes et emoji
+
+- Remplacer les emoji et caractères Unicode utilisés comme icônes fonctionnelles de navigation, de catégorie, d'outil, d'action, de commande ou d'état par des icônes Material adaptées, via le composant d'icône partagé et les ressources Material Symbols retenues.
+- Vérifier le sens de chaque pictogramme et son contexte avant le choix de l'icône. Respecter les tailles, l'alignement, le poids, currentColor et les rôles de couleur sémantiques appropriés, ainsi que le nom accessible ou le caractère décoratif explicite.
+- Distinguer ces pictogrammes du texte utilisateur, du contenu éditorial, des données traitées par un outil et des illustrations. Leur maintien n'est jamais automatique : il doit être cohérent avec la fonction du contenu et la direction cible. Les illustrations décoratives doivent elles aussi être évaluées.
+- Si aucun équivalent Material pertinent ne convient, documenter la recherche, les limites techniques ou produit, les solutions possibles et le compromis. Discuter les exceptions importantes avant de les adopter ; ne pas inventer une équivalence AndroidX.
+
+### Retrait de l'héritage
+
+Auditer les classes de typographie locales, les couleurs non sémantiques, les anciennes échelles de formes, les pictogrammes ad hoc et les implémentations concurrentes. Migrer leurs consommateurs vers les rôles et ports partagés, puis supprimer l'ancien mécanisme quand l'inventaire confirme qu'il n'est plus requis. Ne pas convertir les valeurs en masse par simple équivalence numérique : chaque valeur dépend du contrat du composant, de son rôle et de la source de référence.
+
+Pour chaque famille et chaque page, consigner les usages, les décisions, les sources AndroidX épinglées, les adaptations Web, les tests et les limites restantes. La présence d'une API ou d'un token partagé ne prouve pas que les consommateurs sont migrés. La fin de migration exige que chaque usage soit porté, retiré, justifié comme composition produit, ou explicitement documenté comme adaptation Web/exception.
