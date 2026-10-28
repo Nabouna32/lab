@@ -234,7 +234,7 @@ export default function ImageMetadataViewer() {
               <ClearButton onClear={reset} disabled={items.length === 0 && !error} label={t.reset} />
             </div>
             {cleaned.length > 0 && !busy && <p role="status" className="text-sm text-[var(--success)]">{t.completedCount(cleaned.length, items.length)}</p>}
-          </div>
+          </Column>
 
           <div className="flex min-h-56 items-center justify-center rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--background)] p-5">
             <p className="text-center text-sm text-[var(--muted)]">{items.length === 0 ? t.emptyResult : t.batchHint}</p>
