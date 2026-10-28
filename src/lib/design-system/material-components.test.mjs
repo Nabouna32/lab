@@ -1090,11 +1090,11 @@ test("email and password settings use dedicated Material 3 page compositions", (
   assert.match(messagesSource, /changePasswordDescription: "Choisissez un nouveau mot de passe/);
   assert.match(messagesSource, /passwordRuleMin: "Au moins 8 caractères"/);
   assert.match(messagesSource, /passwordRuleMax: "Au plus 128 caractères"/);
-  assert.match(messagesSource, /passwordRuleMatch: "La confirmation correspond au nouveau mot de passe"/);
+  assert.match(messagesSource, /passwordRuleMatch: "Les mots de passe ne correspondent pas"/);
   assert.match(messagesSource, /changePasswordDescription: "Choose a new password/);
   assert.match(messagesSource, /passwordRuleMin: "At least 8 characters"/);
   assert.match(messagesSource, /passwordRuleMax: "No more than 128 characters"/);
-  assert.match(messagesSource, /passwordRuleMatch: "Confirmation matches the new password"/);
+  assert.match(messagesSource, /passwordRuleMatch: "Passwords do not match"/);
 });
 
 
