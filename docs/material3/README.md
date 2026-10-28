@@ -213,3 +213,8 @@ Le menu de navigation desktop consomme désormais les rôles typographiques Mate
 ### Résultats de recherche — rôles typographiques (28 octobre 2026)
 
 La page de résultats de recherche utilise désormais les rôles partagés pour son titre principal, les titres d'états, les descriptions, le compteur de résultats, les filtres de catégories et les liens de suggestion. Les graisses, tailles et espacements de lettres Tailwind qui doublaient ces rôles ont été retirés. Les états et le contenu métier restent inchangés ; la vérification du rendu et des traductions reste à faire dans le navigateur.
+
+
+### Pages légales — rôles typographiques (28 octobre 2026)
+
+La page des mentions légales utilise maintenant les rôles partagés pour le titre, les titres de section, les noms d'organismes, les paragraphes, les adresses et les liens. Les tailles, graisses et interlignes Tailwind redondants ont été remplacés par les rôles Material 3 ; les espacements déjà exprimés avec les tokens communs sont conservés. Un test de contrat vérifie cette consommation. La lisibilité réelle en FR/EN, notamment pour les longues adresses et les liens, reste à vérifier dans le navigateur.
