@@ -3,7 +3,7 @@ import type { IntentId } from "@/lib/tools/intents";
 import type { ToolId } from "@/lib/tools/types";
 
 export type Messages = {
-  nav: { home: string; tools: string; explore: string; exploreDescription: string; favorites: string; favoritesDescription: string; collections: string; collectionsDescription: string; language: string; account: string; space: string; menu: string };
+  nav: { home: string; tools: string; explore: string; exploreDescription: string; favorites: string; favoritesDescription: string; collections: string; collectionsDescription: string; language: string; account: string; space: string; menu: string; more: string };
   breadcrumbs: { label: string };
   footer: { navigationLabel: string; about: string; contact: string; reportBug: string; legalNotice: string; privacyPolicy: string };
   aboutPage: { metaTitle: string; metaDescription: string; title: string; intro: string; principlesTitle: string; principles: string[]; privacyTitle: string; privacy: string; toolsTitle: string; tools: string };
@@ -50,7 +50,7 @@ export type Messages = {
 
 export const messages: Record<Locale, Messages> = {
   fr: {
-    nav: { home: "Accueil", tools: "Outils", explore: "Explorer", exploreDescription: "Parcours tous les outils disponibles", favorites: "Favoris", favoritesDescription: "Tes outils enregistrés", collections: "Collections", collectionsDescription: "Organise tes outils en groupes", language: "Langue", account: "Gère ton profil et tes préférences", space: "Compte", menu: "Menu" },
+    nav: { home: "Accueil", tools: "Outils", explore: "Explorer", exploreDescription: "Parcours tous les outils disponibles", favorites: "Favoris", favoritesDescription: "Tes outils enregistrés", collections: "Collections", collectionsDescription: "Organise tes outils en groupes", language: "Langue", account: "Gère ton profil et tes préférences", space: "Compte", menu: "Menu", more: "Plus" },
     breadcrumbs: { label: "Fil d’Ariane" },
     footer: { navigationLabel: "Liens secondaires", about: "À propos", contact: "Contact", reportBug: "Signaler un bug", legalNotice: "Mentions légales", privacyPolicy: "Confidentialité" },
     aboutPage: { metaTitle: "À propos de Loculary", metaDescription: "Découvrez la vision et les principes de Loculary.", title: "À propos de Loculary", intro: "Loculary est une boîte à outils numérique conçue pour vous aider à accomplir une tâche simplement, sans détour.", principlesTitle: "Nos principes", principles: ["Utile avant tout : trouver rapidement le bon outil et obtenir un résultat clair.", "Confidentialité : privilégier le traitement local lorsque c’est possible et expliquer les traitements qui nécessitent un service distant.", "Simplicité : une expérience accessible, cohérente et disponible en français comme en anglais."], privacyTitle: "Transparence et confidentialité", privacy: "Les informations sur les traitements et les données sont détaillées dans notre politique de confidentialité.", toolsTitle: "Un produit en évolution", tools: "Loculary évolue progressivement. Les fonctionnalités et leur documentation sont améliorées au fil du temps." },
@@ -224,7 +224,7 @@ export const messages: Record<Locale, Messages> = {
     },
   },
   en: {
-    nav: { home: "Home", tools: "Tools", explore: "Explore", exploreDescription: "Browse all available tools", favorites: "Favorites", favoritesDescription: "Your saved tools", collections: "Collections", collectionsDescription: "Organize your tools into groups", language: "Language", account: "Manage your profile and preferences", space: "Account", menu: "Menu" },
+    nav: { home: "Home", tools: "Tools", explore: "Explore", exploreDescription: "Browse all available tools", favorites: "Favorites", favoritesDescription: "Your saved tools", collections: "Collections", collectionsDescription: "Organize your tools into groups", language: "Language", account: "Manage your profile and preferences", space: "Account", menu: "Menu", more: "More" },
     breadcrumbs: { label: "Breadcrumb" },
     footer: { navigationLabel: "Secondary links", about: "About", contact: "Contact", reportBug: "Report a bug", legalNotice: "Legal notice", privacyPolicy: "Privacy" },
     aboutPage: { metaTitle: "About Loculary", metaDescription: "Learn about Loculary’s vision and principles.", title: "About Loculary", intro: "Loculary is a digital toolbox designed to help you get a task done simply and without detours.", principlesTitle: "Our principles", principles: ["Useful first: quickly find the right tool and get a clear result.", "Privacy: prefer local processing where possible and explain processing that requires a remote service.", "Simplicity: an accessible, consistent experience available in French and English."], privacyTitle: "Transparency and privacy", privacy: "Information about data and processing is detailed in our privacy policy.", toolsTitle: "An evolving product", tools: "Loculary is evolving over time. Features and documentation are progressively improved." },
