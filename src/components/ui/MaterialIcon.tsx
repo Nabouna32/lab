@@ -57,6 +57,10 @@ const paths = {
 
 export type MaterialIconName = keyof typeof paths;
 
+export function isMaterialIconName(value: string): value is MaterialIconName {
+  return Object.hasOwn(paths, value);
+}
+
 type MaterialIconProps = {
   name: MaterialIconName;
   size?: number;

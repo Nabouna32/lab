@@ -91,7 +91,7 @@ Le système expose les quinze rôles typographiques Material 3 et les tokens de 
 
 - **Surfaces typographiques migrées :** composants partagés, navigation, cartes et résultats d’outils, pages d’information et légales, pied de page, parcours de compte et plusieurs pages d’administration. Les usages restants doivent être inventoriés par famille avant retrait des styles locaux.
 - **Formes :** certains consommateurs utilisent `--shape-corner-*` et des tokens propres aux composants. L’échelle historique `--radius-*` reste utilisée en production ; ne pas la supprimer avant l’inventaire et la migration des références. Les valeurs historiques de 16 px et 24 px ne sont pas remappées mécaniquement.
-- **Icônes :** les sept catégories utilisent `MaterialIcon` dans les pages de catégorie, l’explorateur et les filtres de recherche ; le chevron des cartes de catégorie utilise également Material Symbols. Les icônes des parcours guidés associent les rôles `primary-container` et `on-primary-container`. Les glyphes Unicode des intentions et les icônes de certains outils restent à auditer.
+- **Icônes :** les sept catégories, les cartes et les en-têtes des 51 outils utilisent `MaterialIcon` et des noms typés. Les icônes des parcours guidés utilisent les rôles `primary-container` et `on-primary-container`. Le registre ne contient pas encore un symbole dédié à chaque outil : la pertinence sémantique de certains choix et le rendu navigateur restent à vérifier.
 - **Vérification :** le rendu navigateur n’a pas encore été validé de façon transversale en thèmes clair/sombre, en français/anglais, sur les viewports pertinents et au clavier. Les tests et la CI restent nécessaires, mais ne remplacent pas cette comparaison.
 
 ## Règle obligatoire de migration cible-first

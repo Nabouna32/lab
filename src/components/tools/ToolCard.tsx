@@ -20,7 +20,7 @@ export default function ToolCard({ tool, locale, categoryName, categoryId }: { t
       <Column verticalArrangement={Arrangement.spacedBy("var(--space-3)")} className="min-h-40 w-full min-w-0 p-4">
         <Row horizontalArrangement={Arrangement.Start} className="w-full min-w-0 gap-3">
           <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--shape-corner-medium)] bg-[var(--accent-soft)] text-xl" aria-hidden="true">
-            {tool.icon}
+            <MaterialIcon name={tool.icon} size={22} />
           </span>
           <span className="min-w-0 flex-1">
             <h3 className="m3-type-title-medium truncate">{content.name}</h3>

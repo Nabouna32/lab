@@ -336,6 +336,17 @@ test("Modifier constraint helpers use AndroidX-shaped positional parameters", ()
 });
 
 
+import { getPublishedTools } from "./catalog.ts";
+import { isMaterialIconName } from "../../components/ui/MaterialIcon.tsx";
+
+test("every published tool uses a registered Material Symbols icon", () => {
+  const tools = getPublishedTools();
+  assert.equal(tools.length, 51);
+  for (const tool of tools) {
+    assert.ok(isMaterialIconName(tool.icon), `${tool.id} must use a registered Material Symbols name, received ${tool.icon}`);
+  }
+});
+
 test("category pictograms use the shared Material Symbols component instead of emoji", () => {
   const materialIconSource = readFileSync(new URL("../../components/ui/MaterialIcon.tsx", import.meta.url), "utf8");
   const explorerSource = readFileSync(new URL("../../app/[locale]/[section]/page.tsx", import.meta.url), "utf8");
