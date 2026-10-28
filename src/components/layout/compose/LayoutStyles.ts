@@ -120,7 +120,7 @@ export function getRowLayoutPresentation(
 
 export function getColumnLayoutPresentation(
   verticalArrangement: VerticalArrangement = Arrangement.Top,
-  horizontalAlignment: HorizontalAlignment = "start",
+  horizontalAlignment: HorizontalAlignment | undefined = undefined,
   className?: string,
   style?: CSSProperties,
 ): LayoutPresentation {
@@ -130,13 +130,19 @@ export function getColumnLayoutPresentation(
     : horizontalAlignment === "right"
       ? "compose-column-align-absolute-right"
       : undefined;
-  const alignItems = horizontalAlignment === "left" || horizontalAlignment === "right"
-    ? undefined
-    : ({
-      start: "flex-start",
-      centerHorizontally: "center",
-      end: "flex-end",
-    } as const)[horizontalAlignment];
+  // A browser flex container defaults to shrink-wrapping its children on the cross axis
+  // when aligned to flex-start. Stretch by default to preserve the natural full-width
+  // behavior of block children in existing page compositions. Explicit alignments still
+  // map to the corresponding Compose-style cross-axis positioning.
+  const alignItems = horizontalAlignment === undefined
+    ? "stretch"
+    : horizontalAlignment === "left" || horizontalAlignment === "right"
+      ? undefined
+      : ({
+        start: "flex-start",
+        centerHorizontally: "center",
+        end: "flex-end",
+      } as const)[horizontalAlignment];
 
   return {
     className: joinClassNames(
