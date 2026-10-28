@@ -218,3 +218,8 @@ La page de résultats de recherche utilise désormais les rôles partagés pour 
 ### Pages légales — rôles typographiques (28 octobre 2026)
 
 La page des mentions légales utilise maintenant les rôles partagés pour le titre, les titres de section, les noms d'organismes, les paragraphes, les adresses et les liens. Les tailles, graisses et interlignes Tailwind redondants ont été remplacés par les rôles Material 3 ; les espacements déjà exprimés avec les tokens communs sont conservés. Un test de contrat vérifie cette consommation. La lisibilité réelle en FR/EN, notamment pour les longues adresses et les liens, reste à vérifier dans le navigateur.
+
+
+### Politique de confidentialité — rôles typographiques (28 octobre 2026)
+
+La politique de confidentialité consomme maintenant les rôles partagés pour son titre, ses titres de section, la date de mise à jour, l'avis temporaire, le corps du texte, les listes et le contact. Les tailles, graisses et interlignes Tailwind locaux ont été retirés au profit des rôles Material 3. Les espacements existants restent exprimés avec les tokens communs. La vérification de la lisibilité FR/EN, du contraste et du rendu navigateur reste ouverte.
