@@ -19,7 +19,7 @@ export function Badge({ variant = "small", content, accessibleLabel, className =
       aria-hidden={accessibleLabel ? undefined : true}
       data-has-content={hasContent ? "true" : "false"}
     >
-      {hasContent ? content : <span className={styles.dot} aria-hidden="true" />}
+      {hasContent ? content : null}
     </span>
   );
 }
