@@ -40,11 +40,11 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           className="pb-[var(--space-8)] pt-[var(--space-8)] sm:pb-[var(--space-10)] sm:pt-[var(--space-10)]"
         >
           <div className="mx-auto max-w-4xl">
-            <h1 id="home-title" className="text-balance text-3xl font-bold tracking-tight text-[var(--foreground)] sm:text-4xl">
+            <h1 id="home-title" className="m3-type-headline-large text-balance text-[var(--foreground)]">
               {t.home.title}
             </h1>
 
-            <p className="mt-4 max-w-2xl text-base leading-7 text-[var(--muted)] sm:text-lg sm:leading-8">
+            <p className="m3-type-body-large mt-4 max-w-2xl text-[var(--muted)]">
               {t.home.description}
             </p>
 
@@ -54,7 +54,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
 
             <Link
               href={getToolsPath(locale)}
-              className="mt-4 inline-flex min-h-11 items-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold text-[var(--primary)] outline-none transition-colors duration-[var(--motion-standard)] hover:bg-[var(--surface-container-high)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+              className="m3-type-label-large mt-4 inline-flex min-h-11 items-center gap-2 rounded-full px-4 py-2.5 text-[var(--primary)] outline-none transition-colors duration-[var(--motion-standard)] hover:bg-[var(--surface-container-high)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
             >
               {t.home.explore}
             </Link>
