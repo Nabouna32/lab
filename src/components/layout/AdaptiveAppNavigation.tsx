@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import LocularyLogo from "@/components/brand/LocularyLogo";
 import { CollectionIcon } from "@/components/ui/CollectionIcon";
@@ -24,6 +24,7 @@ type Destination = {
 
 export default function AdaptiveAppNavigation({ locale }: { locale: Locale }) {
   const pathname = usePathname();
+  const [moreOpen, setMoreOpen] = useState(false);
   const t = getMessages(locale);
   const destinations = useMemo<Destination[]>(() => {
     const home = `/${locale}`;
@@ -43,7 +44,7 @@ export default function AdaptiveAppNavigation({ locale }: { locale: Locale }) {
   }, [locale, t]);
 
   const active = destinations.find((item) => item.match(pathname))?.key ?? "home";
-  const primary = destinations.filter((item) => ["home", "tools", "guided", "favorites", "account"].includes(item.key));
+  const primary = destinations.filter((item) => ["home", "tools", "guided", "favorites"].includes(item.key));
 
   function iconFor(item: Destination) {
     if (item.customIcon === "star") return <StarIcon filled className={styles.customIcon} />;
@@ -86,6 +87,16 @@ export default function AdaptiveAppNavigation({ locale }: { locale: Locale }) {
       </aside>
       <nav className={styles.mobileNav} aria-label={t.nav.menu}>
         {primary.map((item) => link(item, true))}
+        <div className={styles.mobileMore}>
+          <button type="button" className={styles.mobileItem} aria-expanded={moreOpen} aria-controls="mobile-secondary-navigation" onClick={() => setMoreOpen((open) => !open)}>
+            <span className={styles.mobileIcon} aria-hidden="true"><MaterialIcon name="more_horiz" size={24} /></span>
+            <span className={styles.mobileLabel}>{t.nav.more}</span>
+          </button>
+          {moreOpen ? <div id="mobile-secondary-navigation" className={styles.mobileMoreMenu}>
+            {link(destinations.find((item) => item.key === "collections")!, true)}
+            {link(destinations.find((item) => item.key === "account")!, true)}
+          </div> : null}
+        </div>
       </nav>
     </>
   );
