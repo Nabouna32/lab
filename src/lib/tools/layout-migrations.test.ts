@@ -22,6 +22,8 @@ const toolCardSource = readSource("../../components/tools/ToolCard.tsx");
 const searchResultsSource = readSource("../../components/tools/SearchResultsClient.tsx");
 const legalNoticeSource = readSource("../../components/legal/LegalNoticePage.tsx");
 const accountPageSource = readSource("../../app/[locale]/compte/page.tsx");
+const forgotPasswordSource = readSource("../../app/[locale]/compte/mot-de-passe-oublie/page.tsx");
+const resetPasswordSource = readSource("../../app/[locale]/compte/mot-de-passe/reinitialiser/page.tsx");
 
 test("homepage compositions reuse the shared width, gutters and spacing tokens", () => {
   assert.ok(homePageSource.includes('<PageContainer'));
@@ -283,4 +285,23 @@ test("account page uses shared Material 3 typography roles in both account state
   for (const legacyType of ["text-3xl", "font-black", "tracking-[-0.05em]", "text-sm leading-6", "leading-7"]) {
     assert.ok(!accountPageSource.includes(legacyType), `legacy typography remains: ${legacyType}`);
   }
+});
+
+
+test("password recovery pages use shared Material 3 typography and button components", () => {
+  for (const [name, source] of [["forgot password", forgotPasswordSource], ["reset password", resetPasswordSource]] as const) {
+    for (const role of ["m3-type-headline-large", "m3-type-label-large", "m3-type-body-medium"]) {
+      assert.ok(source.includes(role), `${name} page should consume ${role}`);
+    }
+
+    assert.ok(source.includes("<SubmitButton"), `${name} page should keep the shared submit component`);
+    assert.ok(!source.includes("text-3xl"));
+    assert.ok(!source.includes("font-bold"));
+    assert.ok(!source.includes("font-semibold"));
+    assert.ok(!source.includes("text-sm"));
+    assert.ok(!source.includes("tracking-tight"));
+  }
+
+  assert.ok(forgotPasswordSource.includes('className="w-full"'));
+  assert.ok(resetPasswordSource.includes('className="w-full"'));
 });
