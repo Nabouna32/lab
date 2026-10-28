@@ -64,6 +64,9 @@ test("signed-in states on sign-in and sign-up pages use the shared account conta
     assert.ok(source.includes("min-h-[calc(100vh-4.5rem)]"));
     assert.ok(source.includes("py-[var(--space-12)]"));
     assert.ok(source.includes('width="form"'), "the actual auth form keeps its narrower form width");
+    assert.ok(source.includes('import AppLink from "@/components/ui/AppLink"'));
+    assert.ok(source.includes('variant="inline"'));
+    assert.ok(!source.includes('<Link className="mt-6 inline-flex font-semibold'));
   }
 });
 
