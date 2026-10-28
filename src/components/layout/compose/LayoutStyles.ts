@@ -130,19 +130,15 @@ export function getColumnLayoutPresentation(
     : horizontalAlignment === "right"
       ? "compose-column-align-absolute-right"
       : undefined;
-  // A browser flex container defaults to shrink-wrapping its children on the cross axis
-  // when aligned to flex-start. Stretch by default to preserve the natural full-width
-  // behavior of block children in existing page compositions. Explicit alignments still
-  // map to the corresponding Compose-style cross-axis positioning.
-  const alignItems = horizontalAlignment === undefined
-    ? "stretch"
-    : horizontalAlignment === "left" || horizontalAlignment === "right"
-      ? undefined
-      : ({
-        start: "flex-start",
-        centerHorizontally: "center",
-        end: "flex-end",
-      } as const)[horizontalAlignment];
+  // AndroidX Column defaults to Alignment.Start. Keep cross-axis placement faithful;
+  // compositions that require full-width children must express that sizing explicitly.
+  const alignItems = horizontalAlignment === "left" || horizontalAlignment === "right"
+    ? undefined
+    : ({
+      start: "flex-start",
+      centerHorizontally: "center",
+      end: "flex-end",
+    } as const)[horizontalAlignment ?? "start"];
 
   return {
     className: joinClassNames(
