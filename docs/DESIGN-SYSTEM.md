@@ -106,7 +106,7 @@ La migration des formes partagées progresse aussi dans les compositions de date
 
 ## Migration de production et retrait de l’existant — 28 octobre 2026
 
-La migration ne porte pas uniquement sur l’API des composants : les pages et compositions existantes doivent consommer les fondations partagées au fil de l’implémentation. La tranche de la PR #1020 étend les rôles typographiques partagés aux pages d’information, au pied de page, aux parcours de compte (connexion, inscription, e-mail, mots de passe et suppression) et aux pages d’administration (tableau de bord, audit et utilisateurs). Plusieurs formulaires utilisent aussi les primitives Compose Web `Column` et `Arrangement.spacedBy` pour leur espacement vertical.
+La migration ne porte pas uniquement sur l’API des composants : les pages et compositions existantes doivent consommer les fondations partagées au fil de l’implémentation. Les migrations de production étendent les rôles typographiques partagés aux pages d’information, au pied de page, aux parcours de compte (connexion, inscription, e-mail, mots de passe et suppression) et aux pages d’administration (tableau de bord, audit et utilisateurs). Plusieurs formulaires utilisent aussi les primitives Compose Web `Column` et `Arrangement.spacedBy` pour leur espacement vertical.
 
 Cette liste indique des migrations de source, pas une validation de rendu. Les états clair/sombre, les tailles d’écran, le clavier, les technologies d’assistance et les textes français/anglais doivent rester dans la grille de vérification.
 
