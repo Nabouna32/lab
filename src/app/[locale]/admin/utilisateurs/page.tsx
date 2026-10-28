@@ -111,7 +111,7 @@ export default async function AdminUsersPage({
                   </div>
                   <div className="shrink-0">
                     <p className="m3-type-label-small uppercase text-[var(--muted)]">{t.admin.userEmail}</p>
-                    <p className={"mt-2 text-sm font-semibold " + (user.email_confirmed_at ? "text-[var(--success)]" : "text-[var(--warning)]")}>
+                    <p className={"m3-type-label-large mt-2 " + (user.email_confirmed_at ? "text-[var(--success)]" : "text-[var(--warning)]")}>
                       {user.email_confirmed_at ? t.admin.userEmailConfirmed : t.admin.userPending}
                     </p>
                   </div>
