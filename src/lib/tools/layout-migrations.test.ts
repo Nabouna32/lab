@@ -88,7 +88,6 @@ test("shared page container owns the canonical responsive gutter and width prese
   }
 });
 
-const legalNoticeSource = readSource("../../components/legal/LegalNoticePage.tsx");
 const privacyPolicySource = readSource("../../components/legal/PrivacyPolicyPage.tsx");
 
 test("legal pages use the shared spacing scale instead of duplicating Tailwind spacing values", () => {
