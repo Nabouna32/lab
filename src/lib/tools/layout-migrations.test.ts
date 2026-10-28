@@ -12,6 +12,7 @@ const pageLayoutSource = readSource("../../components/layout/PageLayout.tsx");
 const headerSource = readSource("../../components/layout/Header.tsx");
 const headerSearchSource = readSource("../../components/layout/HeaderSearch.tsx");
 const logoSource = readSource("../../components/brand/LocularyLogo.tsx");
+const imageMetadataSource = readSource("../../components/tools/image-metadata/ImageMetadataViewer.tsx");
 
 test("homepage compositions reuse the shared width, gutters and spacing tokens", () => {
   assert.ok(homePageSource.includes('<PageContainer'));
@@ -142,6 +143,22 @@ test("shared footer and tool stacks use the Compose layout primitives for migrat
 });
 
 const editorialPrimitivesSource = readSource("../../components/tools/ToolPage/EditorialPrimitives.tsx");
+
+test("image metadata tool uses Compose Column arrangements for repeated vertical stacks", () => {
+  assert.ok(imageMetadataSource.includes('import { Column } from "@/components/layout/compose/Column"'));
+  assert.ok(imageMetadataSource.includes('import { Arrangement } from "@/components/layout/compose/Arrangement"'));
+  for (const token of ["--space-6", "--space-4", "--space-3", "--space-2"]) {
+    assert.ok(imageMetadataSource.includes(`Arrangement.spacedBy("var(${token})")`), `missing Compose spacing token: ${token}`);
+  }
+  for (const legacyStack of [
+    'className="space-y-6 p-5 sm:p-7 lg:p-8"',
+    'className="space-y-4"',
+    'className="space-y-3 rounded-[var(--shape-corner-medium)]',
+    'className="min-w-0 space-y-2"',
+  ]) {
+    assert.ok(!imageMetadataSource.includes(legacyStack), `legacy vertical stack remains: ${legacyStack}`);
+  }
+});
 
 test("editorial callouts reuse the shared filled Card primitive", () => {
   assert.ok(editorialPrimitivesSource.includes('import { Card as SharedCard } from "@/components/ui/Card"'));
