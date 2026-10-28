@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { createElement, isValidElement } from "react";
 import { readFileSync } from "node:fs";
 import { test } from "node:test";
+import { getPublishedTools } from "./catalog.ts";
 import { AbsoluteAlignment, Alignment } from "../../components/layout/compose/Alignment.ts";
 import { Arrangement } from "../../components/layout/compose/Arrangement.ts";
 import { BoxScope, ColumnScope, Modifier, RowScope } from "../../components/layout/compose/Modifier.ts";
@@ -335,8 +336,6 @@ test("Modifier constraint helpers use AndroidX-shaped positional parameters", ()
   assert.throws(() => Modifier.sizeIn(300, 0, 200), RangeError);
 });
 
-
-import { getPublishedTools } from "./catalog.ts";
 
 test("every published tool uses a registered Material Symbols icon", () => {
   const tools = getPublishedTools();
