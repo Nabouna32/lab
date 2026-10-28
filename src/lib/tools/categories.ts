@@ -1,7 +1,8 @@
 import type { Locale } from "@/lib/i18n/config";
+import type { MaterialIconName } from "@/components/ui/MaterialIcon";
 import { getPublishedTools } from "@/lib/tools/catalog";
 
-export type ToolCategory = { id: string; icon: string };
+export type ToolCategory = { id: string; icon: MaterialIconName };
 
 const categoryNames: Record<Locale, Record<string, string>> = {
   fr: { calculations: "Calculs", dates: "Dates & temps", computing: "Informatique", images: "Images", files: "Fichiers & PDF", video: "Vidéo", development: "Développement" },
@@ -9,13 +10,13 @@ const categoryNames: Record<Locale, Record<string, string>> = {
 };
 
 export const categories: ToolCategory[] = [
-  { id: "calculations", icon: "🧮" },
-  { id: "dates", icon: "📅" },
-  { id: "computing", icon: "💻" },
-  { id: "images", icon: "🖼️" },
-  { id: "files", icon: "📄" },
-  { id: "video", icon: "🎬" },
-  { id: "development", icon: "🧑‍💻" },
+  { id: "calculations", icon: "calculate" },
+  { id: "dates", icon: "calendar_month" },
+  { id: "computing", icon: "devices" },
+  { id: "images", icon: "image" },
+  { id: "files", icon: "description" },
+  { id: "video", icon: "movie" },
+  { id: "development", icon: "code" },
 ];
 
 export { getCategoryColor, getCategoryContainerColor, getCategoryOnContainerColor } from "./category-colors.ts";
