@@ -190,7 +190,7 @@ test("home, catalogue and tool search consume shared Material 3 typography roles
     assert.ok(toolsCatalogueSource.includes(role), `tools catalogue should consume ${role}`);
   }
 
-  for (const role of ["m3-type-title-small", "m3-type-body-medium", "m3-type-body-small", "m3-type-label-small", "m3-type-label-medium"]) {
+  for (const role of ["m3-type-title-small", "m3-type-body-large", "m3-type-body-medium", "m3-type-body-small", "m3-type-label-small", "m3-type-label-medium"]) {
     assert.ok(toolSearchSource.includes(role), `tool search should consume ${role}`);
   }
 
