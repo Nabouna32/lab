@@ -337,13 +337,14 @@ test("Modifier constraint helpers use AndroidX-shaped positional parameters", ()
 
 
 import { getPublishedTools } from "./catalog.ts";
-import { isMaterialIconName } from "../../components/ui/MaterialIcon.tsx";
 
 test("every published tool uses a registered Material Symbols icon", () => {
   const tools = getPublishedTools();
   assert.equal(tools.length, 51);
+  const materialIconSource = readFileSync(new URL("../../components/ui/MaterialIcon.tsx", import.meta.url), "utf8");
   for (const tool of tools) {
-    assert.ok(isMaterialIconName(tool.icon), `${tool.id} must use a registered Material Symbols name, received ${tool.icon}`);
+    assert.match(tool.icon, /^[a-z][a-z0-9_]*$/, `${tool.id} must use a Material Symbols identifier`);
+    assert.ok(materialIconSource.includes(`  ${tool.icon}: "`), `${tool.id} references an icon absent from the shared registry: ${tool.icon}`);
   }
 });
 
