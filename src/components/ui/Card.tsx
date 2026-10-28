@@ -3,7 +3,7 @@ import Link from "next/link";
 
 type CardProps = { children: ReactNode; className?: string };
 
-const baseClasses = "rounded-[var(--m3-card-shape)]";
+const baseClasses = "rounded-[var(--m3-card-shape)] text-[var(--on-surface)]";
 const filledClasses = "border border-transparent bg-[var(--surface-container-highest)]";
 const elevatedClasses = "border border-transparent bg-[var(--surface-container-low)] shadow-[var(--shadow-sm)]";
 const outlinedClasses = "border border-[var(--outline-variant)] bg-[var(--surface)]";
