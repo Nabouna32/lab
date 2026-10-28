@@ -15,7 +15,7 @@ export default function Header({ locale }: { locale: Locale }) {
   const t = getMessages(locale);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[var(--border)]/80 bg-[var(--background)]">
+    <header className="sticky top-0 z-50 border-b border-[var(--border)]/80 bg-[var(--background)]" style={{ viewTransitionName: "loculary-header" }}>
       <PageContainer width="wide" spacing="none">
         <Row
           horizontalArrangement={Arrangement.spacedBy("var(--header-layout-gap)")}

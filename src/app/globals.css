@@ -470,6 +470,16 @@ body {
 .theme-icon-system-dark { display: none; }
 html.dark .theme-icon-system-light { display: none; }
 html.dark .theme-icon-system-dark { display: inline; }
+/* Keep the persistent app bar above the page snapshots created by the View Transitions API. */
+::view-transition-group(loculary-header) {
+  z-index: 1;
+  animation: none;
+}
+::view-transition-old(loculary-header),
+::view-transition-new(loculary-header) {
+  animation: none;
+}
+
 ::view-transition-group(.loculary-page) {
   animation-duration: 420ms;
   animation-timing-function: cubic-bezier(.22,1,.36,1);
