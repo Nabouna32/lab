@@ -223,3 +223,8 @@ La page des mentions légales utilise maintenant les rôles partagés pour le ti
 ### Politique de confidentialité — rôles typographiques (28 octobre 2026)
 
 La politique de confidentialité consomme maintenant les rôles partagés pour son titre, ses titres de section, la date de mise à jour, l'avis temporaire, le corps du texte, les listes et le contact. Les tailles, graisses et interlignes Tailwind locaux ont été retirés au profit des rôles Material 3. Les espacements existants restent exprimés avec les tokens communs. La vérification de la lisibilité FR/EN, du contraste et du rendu navigateur reste ouverte.
+
+
+### Page Compte — rôles typographiques (28 octobre 2026)
+
+Les deux états de la page Compte (visiteur et compte connecté) utilisent maintenant la même famille de rôles Material 3 : titre de page, description, statut et texte de la zone de suppression. Les tailles, graisses et interlignes Tailwind spécifiques ont été retirés. La structure responsive et les actions restent inchangées ; le rendu visuel, le contraste des statuts et la lisibilité FR/EN doivent encore être vérifiés dans le navigateur.
