@@ -48,7 +48,7 @@ export function MaterialTextField({
         {!secure && trailingContent && <span className={styles.trailingContent}>{trailingContent}</span>}
       </div>
       <div className={styles.supportingRow}>
-        <span id={error ? errorId : supportingId} className={error ? styles.error : styles.supporting} role={error ? "alert" : undefined}>{error || supportingText || ""}</span>
+        <span id={error ? errorId : supportingId} className={error ? styles.error : styles.supporting}>{error || supportingText || ""}</span>
         {showCharacterCount && maxLength !== undefined && <span id={counterId} className={styles.counter}>{value.length}/{maxLength}</span>}
       </div>
     </div>
