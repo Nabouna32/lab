@@ -43,7 +43,7 @@ export default async function ChangePasswordPage({
           <h1 className="mt-2 m3-type-headline-medium">{t.account.changePasswordTitle}</h1>
           <p className="mt-3 m3-type-body-medium text-[var(--on-surface-variant)]">{t.account.changePasswordDescription}</p>
 
-          <PasswordChangeForm locale={locale} t={t} serverError={query.error} />
+          <PasswordChangeForm locale={locale} t={t.account} serverError={query.error} />
         </Panel>
       </PageContainer>
     </main>
