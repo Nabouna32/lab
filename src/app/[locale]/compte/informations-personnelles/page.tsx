@@ -46,7 +46,7 @@ export default async function PersonalInformationPage({
     <main className="min-h-full">
       <PageContainer width="narrow" spacing="none" className="py-[var(--space-7)] sm:py-[var(--space-9)] lg:py-[var(--space-10)]">
         <Link
-          className="mb-5 inline-flex min-h-11 items-center gap-2 rounded-full text-sm font-medium text-[var(--on-surface-variant)] outline-none transition-colors hover:text-[var(--on-surface)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] motion-reduce:transition-none"
+          className="mb-5 inline-flex min-h-11 items-center gap-2 rounded-full m3-type-label-large text-[var(--on-surface-variant)] outline-none transition-colors hover:text-[var(--on-surface)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] motion-reduce:transition-none"
           href={`/${locale}/compte`}
         >
           <MaterialIcon name="arrow_back" size={20} />
@@ -60,7 +60,7 @@ export default async function PersonalInformationPage({
 
         {statusMessage ? (
           <p
-            className={`mb-5 rounded-xl border border-[var(--outline-variant)] bg-[var(--surface)] px-4 py-3 text-sm shadow-[var(--shadow-sm)] ${
+            className={`mb-5 rounded-xl border border-[var(--outline-variant)] bg-[var(--surface)] px-4 py-3 m3-type-body-medium shadow-[var(--shadow-sm)] ${
               query.error ? "text-[var(--error)]" : "text-[var(--success)]"
             }`}
             role={query.error ? "alert" : "status"}
