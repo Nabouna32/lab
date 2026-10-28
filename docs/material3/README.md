@@ -256,3 +256,7 @@ Le principe de départ est la **refonte vers la cible**, et non la préservation
 Auditer les classes de typographie locales, les couleurs non sémantiques, les anciennes échelles de formes, les pictogrammes ad hoc et les implémentations concurrentes. Migrer leurs consommateurs vers les rôles et ports partagés, puis supprimer l'ancien mécanisme quand l'inventaire confirme qu'il n'est plus requis. Ne pas convertir les valeurs en masse par simple équivalence numérique : chaque valeur dépend du contrat du composant, de son rôle et de la source de référence.
 
 Pour chaque famille et chaque page, consigner les usages, les décisions, les sources AndroidX épinglées, les adaptations Web, les tests et les limites restantes. La présence d'une API ou d'un token partagé ne prouve pas que les consommateurs sont migrés. La fin de migration exige que chaque usage soit porté, retiré, justifié comme composition produit, ou explicitement documenté comme adaptation Web/exception.
+
+### Pictogrammes de catégories — première migration de production
+
+Les sept catégories utilisent désormais le composant `MaterialIcon` et des identifiants Material Symbols dans les pages de catégorie, l’explorateur et les filtres de recherche. Les emoji fonctionnels ont été retirés de ces trois consommateurs. La validation du rendu, des contrastes et des tailles dans les deux thèmes reste ouverte ; cette tranche ne signifie pas que les autres emoji d’interface du site ont tous été migrés.
