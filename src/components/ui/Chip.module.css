@@ -1,8 +1,8 @@
 .wrap { display: inline-flex; align-items: center; max-width: 100%; vertical-align: middle; }
 .chip {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px; box-sizing: border-box;
-  min-height: 32px; max-width: 100%; padding: 0 12px; border: 1px solid var(--outline, currentColor);
-  border-radius: var(--shape-corner-small, 8px); color: var(--on-surface, currentColor);
+  min-height: 32px; max-width: 100%; padding: 0 12px; border: 1px solid var(--outline);
+  border-radius: var(--shape-corner-small); color: var(--on-surface);
   background: transparent; font-family: inherit; cursor: pointer;
   transition: background-color 160ms cubic-bezier(.2, 0, 0, 1), border-color 160ms cubic-bezier(.2, 0, 0, 1), box-shadow 160ms cubic-bezier(.2, 0, 0, 1);
 }
@@ -10,16 +10,16 @@
 .chip>span { min-width: 0; overflow-wrap: anywhere; }
 .chip:hover:not(:disabled) { background: color-mix(in srgb, currentColor 8%, transparent); }
 .chip:active:not(:disabled) { background: color-mix(in srgb, currentColor 12%, transparent); }
-.chip:focus-visible,.dismiss:focus-visible { outline: 2px solid var(--focus-ring, currentColor); outline-offset: 2px; }
-.chip:disabled,.dismiss:disabled { color: color-mix(in srgb, var(--on-surface, currentColor) 38%, transparent); cursor: default; }
+.chip:focus-visible,.dismiss:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.chip:disabled,.dismiss:disabled { color: color-mix(in srgb, var(--on-surface) 38%, transparent); cursor: default; }
 .filter.selected,.elevated-filter.selected {
-  border-color: transparent; color: var(--on-secondary-container, currentColor);
-  background: var(--secondary-container, transparent);
+  border-color: transparent; color: var(--on-secondary-container);
+  background: var(--secondary-container);
 }
-.suggestion,.elevated-suggestion { border-color: transparent; color: var(--primary, currentColor); }
-.input { padding-inline-end: 4px; border-color: transparent; background: var(--surface-container, transparent); }
+.suggestion,.elevated-suggestion { border-color: transparent; color: var(--primary); }
+.input { padding-inline-end: 4px; border-color: transparent; background: var(--surface-container); }
 .elevated { border-radius: var(--shape-corner-small, 8px); }
-.elevated .chip { box-shadow: 0 1px 2px rgb(0 0 0 / 20%), 0 1px 3px rgb(0 0 0 / 10%); }
+.elevated .chip { box-shadow: var(--shadow-sm); }
 .dismiss {
   display: grid; place-items: center; flex: 0 0 28px; width: 28px; height: 28px;
   margin-inline-start: -32px; border: 0; border-radius: 50%; color: inherit; background: transparent; cursor: pointer;
