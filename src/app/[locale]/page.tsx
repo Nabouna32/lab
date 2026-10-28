@@ -51,7 +51,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             </Column>
 
             <Column verticalArrangement={Arrangement.spacedBy("var(--space-4)")} className="w-full">
-              <div id="home-search" className="max-w-3xl scroll-mt-28">
+              <div id="home-search" className="w-full max-w-3xl scroll-mt-28">
                 <ToolSearch locale={locale} instanceId="home-tool-search-v4" placeholder={t.home.searchPlaceholder} />
               </div>
 
