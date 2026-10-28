@@ -1,20 +1,28 @@
 .wrap { display: inline-flex; align-items: center; max-width: 100%; vertical-align: middle; }
 .chip {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px; box-sizing: border-box;
-  min-height: 32px; max-width: 100%; padding: 0 12px; border: 1px solid var(--lab-outline, var(--outline, currentColor));
-  border-radius: var(--shape-corner-small, 8px); color: var(--lab-text, var(--on-surface, currentColor));
-  background: transparent; font-family: inherit;
-  cursor: pointer; transition: background-color 160ms cubic-bezier(.2, 0, 0, 1), border-color 160ms cubic-bezier(.2, 0, 0, 1), box-shadow 160ms cubic-bezier(.2, 0, 0, 1);
+  min-height: 32px; max-width: 100%; padding: 0 12px; border: 1px solid var(--outline, currentColor);
+  border-radius: var(--shape-corner-small, 8px); color: var(--on-surface, currentColor);
+  background: transparent; font-family: inherit; cursor: pointer;
+  transition: background-color 160ms cubic-bezier(.2, 0, 0, 1), border-color 160ms cubic-bezier(.2, 0, 0, 1), box-shadow 160ms cubic-bezier(.2, 0, 0, 1);
 }
 .chip svg { flex: 0 0 auto; }
-.chip>span { overflow-wrap: anywhere; }
-.chip:hover { background: color-mix(in srgb, currentColor 8%, transparent); }
-.chip:active { background: color-mix(in srgb, currentColor 12%, transparent); }
-.chip:focus-visible,.dismiss:focus-visible { outline: 2px solid var(--lab-primary, var(--focus-ring, currentColor)); outline-offset: 2px; }
-.filter.selected,.elevated-filter.selected { border-color: transparent; color: var(--lab-on-secondary-container, var(--on-secondary-container, currentColor)); background: var(--lab-secondary-container, var(--secondary-container, transparent)); }
-.suggestion,.elevated-suggestion { border-color: transparent; color: var(--lab-primary, var(--primary, currentColor)); }
-.input { padding-inline-end: 4px; border-color: transparent; background: var(--lab-surface-container, var(--surface-container, transparent)); }
-.elevated { filter: drop-shadow(0 1px 2px rgb(0 0 0 / 16%)); }
-.dismiss { display: grid; place-items: center; width: 28px; height: 28px; margin-inline-start: -32px; border: 0; border-radius: 50%; color: inherit; background: transparent; cursor: pointer; }
-.dismiss:hover { background: color-mix(in srgb, currentColor 8%, transparent); }
+.chip>span { min-width: 0; overflow-wrap: anywhere; }
+.chip:hover:not(:disabled) { background: color-mix(in srgb, currentColor 8%, transparent); }
+.chip:active:not(:disabled) { background: color-mix(in srgb, currentColor 12%, transparent); }
+.chip:focus-visible,.dismiss:focus-visible { outline: 2px solid var(--focus-ring, currentColor); outline-offset: 2px; }
+.chip:disabled,.dismiss:disabled { color: color-mix(in srgb, var(--on-surface, currentColor) 38%, transparent); cursor: default; }
+.filter.selected,.elevated-filter.selected {
+  border-color: transparent; color: var(--on-secondary-container, currentColor);
+  background: var(--secondary-container, transparent);
+}
+.suggestion,.elevated-suggestion { border-color: transparent; color: var(--primary, currentColor); }
+.input { padding-inline-end: 4px; border-color: transparent; background: var(--surface-container, transparent); }
+.elevated { border-radius: var(--shape-corner-small, 8px); }
+.elevated .chip { box-shadow: 0 1px 2px rgb(0 0 0 / 20%), 0 1px 3px rgb(0 0 0 / 10%); }
+.dismiss {
+  display: grid; place-items: center; flex: 0 0 28px; width: 28px; height: 28px;
+  margin-inline-start: -32px; border: 0; border-radius: 50%; color: inherit; background: transparent; cursor: pointer;
+}
+.dismiss:hover:not(:disabled) { background: color-mix(in srgb, currentColor 8%, transparent); }
 @media (prefers-reduced-motion: reduce) { .chip { transition: none; } }
