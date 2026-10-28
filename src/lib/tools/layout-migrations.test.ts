@@ -15,6 +15,7 @@ const logoSource = readSource("../../components/brand/LocularyLogo.tsx");
 const imageMetadataSource = readSource("../../components/tools/image-metadata/ImageMetadataViewer.tsx");
 const toolsCatalogueSource = readSource("../../app/[locale]/[section]/page.tsx");
 const toolSearchSource = readSource("../../components/tools/ToolSearch.tsx");
+const adminDashboardSource = readSource("../../app/[locale]/admin/page.tsx");
 
 test("homepage compositions reuse the shared width, gutters and spacing tokens", () => {
   assert.ok(homePageSource.includes('<PageContainer'));
@@ -189,4 +190,14 @@ test("home, catalogue and tool search consume shared Material 3 typography roles
   assert.ok(!toolsCatalogueSource.includes("text-6xl"));
   assert.ok(!toolsCatalogueSource.includes("font-black tracking-[-0.04em]"));
   assert.ok(!toolSearchSource.includes("text-sm font-semibold"));
+});
+
+
+test("admin dashboard content uses shared Material 3 typography roles", () => {
+  for (const role of ["m3-type-headline-large", "m3-type-title-large", "m3-type-title-medium", "m3-type-body-large", "m3-type-body-medium", "m3-type-body-small", "m3-type-label-large", "m3-type-label-small"]) {
+    assert.ok(adminDashboardSource.includes(role), `admin dashboard should consume ${role}`);
+  }
+
+  assert.ok(!adminDashboardSource.includes("text-3xl"));
+  assert.ok(!adminDashboardSource.includes("text-sm text-[var(--muted)]"));
 });
