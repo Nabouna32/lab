@@ -18,7 +18,7 @@ export function Column({
   children,
   modifier,
   verticalArrangement = Arrangement.Top,
-  horizontalAlignment = Alignment.Start,
+  horizontalAlignment,
   className,
   style,
 }: ColumnProps) {
