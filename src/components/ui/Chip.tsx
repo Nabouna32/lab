@@ -1,6 +1,6 @@
 "use client";
 
-import type { ButtonHTMLAttributes, ReactNode } from "react";
+import type { ButtonHTMLAttributes } from "react";
 import { MaterialIcon, type MaterialIconName } from "@/components/ui/MaterialIcon";
 import styles from "./Chip.module.css";
 
@@ -26,7 +26,7 @@ export function Chip({
   return <span className={[styles.wrap, isElevated ? styles.elevated : ""].join(" ")}>
     <button {...props} type={props.type ?? "button"}
       aria-pressed={filter ? selected : undefined}
-      className={[styles.chip, styles[variant], selected ? styles.selected : "", className].filter(Boolean).join(" ")}
+      className=["m3-type-label-large", styles.chip, styles[variant], selected ? styles.selected : "", className].filter(Boolean).join(" ")}
       onClick={filter && onSelectedChange ? () => onSelectedChange(!selected) : props.onClick}>
       {selected && filter ? <MaterialIcon name="check" size={18}/> : leadingIcon ? <MaterialIcon name={leadingIcon} size={18}/> : null}
       <span>{label}</span>
