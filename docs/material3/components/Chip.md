@@ -26,6 +26,8 @@
 - Les états sélectionnés des variantes Filter et Input sont exposés par `aria-pressed`.
 - Les boutons désactivés ont un état visuel explicite et l'action de retrait est désactivée avec le chip.
 - Le libellé de retrait peut être fourni dans la langue de l'interface ; l'exemple du Design Lab le localise en français et en anglais.
+- Les couleurs de texte, de contour et de sélection utilisent les rôles sémantiques actifs (`on-surface`, `outline`, `primary`, `secondary-container` et `on-secondary-container`) : ils suivent le thème clair/sombre sans palette codée en dur.
+- L’élévation utilise le token partagé `--shadow-sm`, dont la valeur est adaptée au thème actif.
 - Les animations CSS sont désactivées lorsque `prefers-reduced-motion: reduce` est actif.
 
 ## Vérifications restantes
