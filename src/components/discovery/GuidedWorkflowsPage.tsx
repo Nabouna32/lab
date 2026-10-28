@@ -22,10 +22,10 @@ export default function GuidedWorkflowsPage({ locale }: { locale: Locale }) {
         <header className="relative overflow-hidden rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow-lg)] sm:p-9">
           <div className="pointer-events-none absolute -right-16 -top-24 h-72 w-72 rounded-full bg-[var(--accent-soft)] blur-3xl" aria-hidden="true" />
           <div className="relative max-w-3xl">
-            <p className="text-xs font-black uppercase tracking-[0.16em] text-[var(--accent)]">{copy.eyebrow}</p>
-            <h1 className="mt-3 text-4xl font-black tracking-[-0.06em] sm:text-5xl">{copy.title}</h1>
-            <p className="mt-4 max-w-2xl text-base leading-7 text-[var(--muted)]">{copy.description}</p>
-            <p className="mt-4 flex items-center gap-2 text-sm font-semibold text-[var(--muted)]">
+            <p className="m3-type-label-small text-[var(--primary)]">{copy.eyebrow}</p>
+            <h1 className="m3-type-headline-large mt-3">{copy.title}</h1>
+            <p className="m3-type-body-large mt-4 max-w-2xl text-[var(--muted)]">{copy.description}</p>
+            <p className="m3-type-body-medium mt-4 flex items-center gap-2 text-[var(--muted)]">
               <MaterialIcon name="lock" size={18} />
               {copy.privacy}
             </p>
@@ -37,13 +37,13 @@ export default function GuidedWorkflowsPage({ locale }: { locale: Locale }) {
             <article key={workflow.id} className="overflow-hidden rounded-[1.5rem] border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-md)]">
               <div className="p-5 sm:p-6">
                 <div className="flex items-start gap-3">
-                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--accent-soft)] text-[var(--accent)]">
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[var(--shape-corner-medium)] bg-[var(--primary-container)] text-[var(--on-primary-container)]">
                     <MaterialIcon name={workflow.icon} size={24} />
                   </span>
                   <div className="min-w-0 flex-1">
-                    <p className="text-xs font-black uppercase tracking-[0.14em] text-[var(--muted)]">{String(workflowIndex + 1).padStart(2, "0")} · {workflow.steps.length} {copy.steps}</p>
-                    <h2 className="mt-1 text-xl font-black tracking-[-0.035em]">{workflow.title}</h2>
-                    <p className="mt-2 text-sm leading-6 text-[var(--muted)]">{workflow.summary}</p>
+                    <p className="m3-type-label-small text-[var(--muted)]">{String(workflowIndex + 1).padStart(2, "0")} · {workflow.steps.length} {copy.steps}</p>
+                    <h2 className="m3-type-title-large mt-1">{workflow.title}</h2>
+                    <p className="m3-type-body-medium mt-2 text-[var(--muted)]">{workflow.summary}</p>
                   </div>
                 </div>
 
@@ -53,23 +53,23 @@ export default function GuidedWorkflowsPage({ locale }: { locale: Locale }) {
                     const toolContent = getToolContent(step.tool, locale);
                     return (
                       <li key={step.toolId} className="relative flex gap-3">
-                        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[var(--border)] bg-[var(--surface-container)] text-xs font-black">{index + 1}</span>
+                        <span className="m3-type-label-medium flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-[var(--outline-variant)] bg-[var(--surface-container)] text-[var(--on-surface)]">{index + 1}</span>
                         <div className="min-w-0 flex-1 pb-1">
-                          <Link href={getToolPath(locale, step.toolId)} className="font-bold underline decoration-[var(--outline-variant)] underline-offset-4 hover:decoration-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]">{toolContent.name}</Link>
-                          <p className="mt-1 text-sm leading-6 text-[var(--muted)]">{step.description}</p>
+                          <Link href={getToolPath(locale, step.toolId)} className="m3-type-title-medium underline decoration-[var(--outline-variant)] underline-offset-4 hover:decoration-[var(--primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]">{toolContent.name}</Link>
+                          <p className="m3-type-body-medium mt-1 text-[var(--muted)]">{step.description}</p>
                         </div>
                       </li>
                     );
                   })}
                 </ol>
-                <p className="mt-4 rounded-xl bg-[var(--surface-container-low)] px-3 py-2 text-xs leading-5 text-[var(--muted)]">
+                <p className="m3-type-body-small mt-4 rounded-[var(--shape-corner-small)] bg-[var(--surface-container-low)] px-3 py-2 text-[var(--on-surface-variant)]">
                   <MaterialIcon name={workflow.transfer === "automatic" ? "stars" : workflow.transfer === "manual" ? "content_copy" : "info"} size={15} className="mr-1 inline-block align-[-2px]" />
                   {workflow.transfer === "automatic" ? copy.automatic : workflow.transfer === "manual" ? copy.manual : copy.independent}
                 </p>
               </div>
-              <div className="border-t border-[var(--border)] bg-[var(--surface-container-low)] px-5 py-4 sm:px-6">
-                <p className="text-xs font-black uppercase tracking-[0.14em] text-[var(--muted)]">{copy.outcome}</p>
-                <p className="mt-1 text-sm font-semibold">{workflow.outcome}</p>
+              <div className="border-t border-[var(--outline-variant)] bg-[var(--surface-container-low)] px-5 py-4 sm:px-6">
+                <p className="m3-type-label-small text-[var(--on-surface-variant)]">{copy.outcome}</p>
+                <p className="m3-type-body-medium mt-1 text-[var(--on-surface)]">{workflow.outcome}</p>
               </div>
             </article>
           ))}
