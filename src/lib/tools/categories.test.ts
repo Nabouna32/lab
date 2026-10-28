@@ -351,6 +351,10 @@ test("category pictograms use the shared Material Symbols component instead of e
   const materialIconSource = readFileSync(new URL("../../components/ui/MaterialIcon.tsx", import.meta.url), "utf8");
   const explorerSource = readFileSync(new URL("../../app/[locale]/[section]/page.tsx", import.meta.url), "utf8");
   const searchResultsSource = readFileSync(new URL("../../components/tools/SearchResultsClient.tsx", import.meta.url), "utf8");
+  const toolSearchSource = readFileSync(new URL("../../components/tools/ToolSearch.tsx", import.meta.url), "utf8");
+  const favoritesSource = readFileSync(new URL("../../components/favorites/FavoritesView.tsx", import.meta.url), "utf8");
+  const collectionsSource = readFileSync(new URL("../../components/collections/CollectionsView.tsx", import.meta.url), "utf8");
+  const sharedCollectionsSource = readFileSync(new URL("../../components/collections/SharedCollectionView.tsx", import.meta.url), "utf8");
   assert.ok(materialIconSource.includes("marella/material-symbols@a53d24f2134e8825791f850b5708993455ce4359"), "Material Symbols assets must pin an immutable upstream revision");
 
   const categories = [...categoriesSource.matchAll(/\{\s*id:\s*"([^"]+)",\s*icon:\s*"([^"]+)"\s*\}/g)]
@@ -374,7 +378,14 @@ test("category pictograms use the shared Material Symbols component instead of e
   assert.match(categoryRouteSource, /MaterialIcon name=\{category\.icon\}/);
   assert.match(explorerSource, /MaterialIcon name=\{category\.icon\}/);
   assert.match(searchResultsSource, /MaterialIcon name=\{category\.icon\}/);
+  assert.match(toolSearchSource, /MaterialIcon name=\{tool\.icon\}/);
+  assert.match(favoritesSource, /MaterialIcon name=\{tool\.icon\}/);
+  assert.match(collectionsSource, /MaterialIcon name=\{tool\.icon\}/);
+  assert.match(sharedCollectionsSource, /MaterialIcon name=\{tool\.icon\}/);
   assert.doesNotMatch(categoryRouteSource, />\s*\{category\.icon\}\s*</);
   assert.doesNotMatch(explorerSource, />\s*\{category\.icon\}\s*</);
   assert.doesNotMatch(searchResultsSource, />\s*\{category\.icon\}\s*</);
+  for (const source of [toolSearchSource, favoritesSource, collectionsSource, sharedCollectionsSource]) {
+    assert.doesNotMatch(source, />\s*\{tool\.icon\}\s*</, "tool icons must render through MaterialIcon");
+  }
 });

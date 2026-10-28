@@ -382,7 +382,7 @@ export default function ToolSearch({
                         }
                         aria-hidden="true"
                       >
-                        {tool.icon}
+                        <MaterialIcon name={tool.icon} size={22} />
                       </span>
                       <span className="min-w-0 flex-1">
                         <span className="m3-type-title-small block truncate">

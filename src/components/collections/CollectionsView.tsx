@@ -8,10 +8,10 @@ import { useCollections } from "./CollectionsProvider";
 import { CollectionIcon } from "@/components/ui/CollectionIcon";
 import { Button, FilledTonalButton, OutlinedButton, TextButton } from "@/components/ui/Button";
 import { AlertDialog } from "@/components/ui/AlertDialog";
-import { MaterialIcon } from "@/components/ui/MaterialIcon";
+import { MaterialIcon, type MaterialIconName } from "@/components/ui/MaterialIcon";
 import { createLocalCollectionsBackup, MAX_LOCAL_COLLECTIONS, MAX_LOCAL_COLLECTIONS_BACKUP_CHARS, parseLocalCollectionsBackup, type StoredLocalCollection } from "@/lib/collections/local-collections";
 
-export type CollectionTool = { id: string; icon: string; name: string; description: string; href: string };
+export type CollectionTool = { id: string; icon: MaterialIconName; name: string; description: string; href: string };
 
 export default function CollectionsView({ locale, tools }: { locale: Locale; tools: CollectionTool[] }) {
   const data = useCollections();
@@ -275,7 +275,7 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
                     {active.user_collection_items.map((item) => {
                       const tool = tools.find((candidate) => candidate.id === item.tool_id);
                       if (!tool) return null;
-                      return <li key={item.tool_id} className="flex items-center gap-3 py-3"><span aria-hidden="true" className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--accent-soft)] text-xl">{tool.icon}</span><div className="min-w-0 flex-1"><Link href={tool.href} className="font-semibold hover:underline">{tool.name}</Link><p className="line-clamp-1 text-xs text-[var(--muted)]">{tool.description}</p></div><TextButton type="button" colors={{ contentColor: "var(--on-surface-variant)" }} className="inline-flex shrink-0 items-center gap-2" onClick={() => void data.removeTool(active.id, item.tool_id)}><MaterialIcon name="delete" size={18} />{copy.removeTool}</TextButton></li>;
+                      return <li key={item.tool_id} className="flex items-center gap-3 py-3"><span aria-hidden="true" className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--accent-soft)] text-xl"><MaterialIcon name={tool.icon} size={22} /></span><div className="min-w-0 flex-1"><Link href={tool.href} className="font-semibold hover:underline">{tool.name}</Link><p className="line-clamp-1 text-xs text-[var(--muted)]">{tool.description}</p></div><TextButton type="button" colors={{ contentColor: "var(--on-surface-variant)" }} className="inline-flex shrink-0 items-center gap-2" onClick={() => void data.removeTool(active.id, item.tool_id)}><MaterialIcon name="delete" size={18} />{copy.removeTool}</TextButton></li>;
                     })}
                   </ul> : <p className="py-6 text-center text-sm text-[var(--muted)]">{copy.emptyHelp}</p>}
                   <div className="mt-5 flex flex-wrap items-center gap-2 border-t border-[var(--border)] pt-4">
