@@ -138,7 +138,7 @@ export default async function ToolsPage({
             <section className="p-5 sm:p-7" aria-labelledby="tools-categories-heading">
               <div className="flex flex-col gap-2 border-b border-[var(--border)] pb-5 sm:flex-row sm:items-end sm:justify-between">
                 <div>
-                  <h2 id="tools-categories-heading" className="mt-1 text-2xl font-black tracking-[-0.04em] sm:text-3xl">{t.tools.categoriesTitle}</h2>
+                  <h2 id="tools-categories-heading" className="m3-type-headline-small mt-1">{t.tools.categoriesTitle}</h2>
                 </div>
                 <p className="m3-type-body-medium max-w-sm text-[var(--muted)]">{t.tools.categoriesDescription}</p>
               </div>
@@ -164,7 +164,7 @@ export default async function ToolsPage({
             <section className="border-t border-[var(--border)] p-5 sm:p-7" aria-labelledby="tools-all-heading">
               <div className="flex items-end justify-between gap-4">
                 <div>
-                  <h2 id="tools-all-heading" className="mt-1 text-2xl font-black tracking-[-0.04em] sm:text-3xl">{t.tools.allToolsTitle}</h2>
+                  <h2 id="tools-all-heading" className="m3-type-headline-small mt-1">{t.tools.allToolsTitle}</h2>
                 </div>
                 <p className="m3-type-label-large text-[var(--muted)]">{formatPlural(locale, publishedTools.length, { one: t.tools.one, other: t.tools.many })}</p>
               </div>
