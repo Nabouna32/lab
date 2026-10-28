@@ -13,6 +13,8 @@ const headerSource = readSource("../../components/layout/Header.tsx");
 const headerSearchSource = readSource("../../components/layout/HeaderSearch.tsx");
 const logoSource = readSource("../../components/brand/LocularyLogo.tsx");
 const imageMetadataSource = readSource("../../components/tools/image-metadata/ImageMetadataViewer.tsx");
+const toolsCatalogueSource = readSource("../../app/[locale]/[section]/page.tsx");
+const toolSearchSource = readSource("../../components/tools/ToolSearch.tsx");
 
 test("homepage compositions reuse the shared width, gutters and spacing tokens", () => {
   assert.ok(homePageSource.includes('<PageContainer'));
@@ -168,4 +170,23 @@ test("editorial callouts reuse the shared filled Card primitive", () => {
   assert.ok(editorialPrimitivesSource.includes('import { Card as SharedCard } from "@/components/ui/Card"'));
   assert.ok(editorialPrimitivesSource.includes('<SharedCard className="mt-4 p-4">'));
   assert.ok(!editorialPrimitivesSource.includes("bg-[var(--accent-soft)]"));
+});
+
+
+test("home, catalogue and tool search consume shared Material 3 typography roles", () => {
+  for (const role of ["m3-type-headline-large", "m3-type-body-large", "m3-type-label-large"]) {
+    assert.ok(homePageSource.includes(role), `homepage should consume ${role}`);
+  }
+
+  for (const role of ["m3-type-display-small", "m3-type-headline-small", "m3-type-title-medium", "m3-type-body-medium", "m3-type-body-small", "m3-type-label-small", "m3-type-label-medium", "m3-type-label-large"]) {
+    assert.ok(toolsCatalogueSource.includes(role), `tools catalogue should consume ${role}`);
+  }
+
+  for (const role of ["m3-type-title-small", "m3-type-body-medium", "m3-type-body-small", "m3-type-label-small", "m3-type-label-medium"]) {
+    assert.ok(toolSearchSource.includes(role), `tool search should consume ${role}`);
+  }
+
+  assert.ok(!toolsCatalogueSource.includes("text-6xl"));
+  assert.ok(!toolsCatalogueSource.includes("font-black tracking-[-0.04em]"));
+  assert.ok(!toolSearchSource.includes("text-sm font-semibold"));
 });
