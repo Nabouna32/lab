@@ -35,8 +35,8 @@ export default async function AccountPage({
         <PageContainer width="account" spacing="none" className="flex min-h-[calc(100svh-12rem)] items-center py-[var(--space-8)] sm:py-[var(--space-10)]">
           <Panel as="section" className="w-full overflow-hidden p-6 sm:p-9">
             <div className="mb-6 h-1.5 w-16 rounded-full bg-[var(--accent)]" aria-hidden="true" />
-            <h1 className="text-3xl font-black tracking-[-0.05em]">{t.account.title}</h1>
-            <p className="mt-3 max-w-xl leading-7 text-[var(--muted)]">{t.account.anonymousDescription}</p>
+            <h1 className="m3-type-headline-medium">{t.account.title}</h1>
+            <p className="m3-type-body-medium mt-3 max-w-xl text-[var(--muted)]">{t.account.anonymousDescription}</p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <AppLink href={`/${locale}/compte/connexion`} variant="filled">
                 {t.account.signIn}
@@ -70,7 +70,7 @@ export default async function AccountPage({
 
         {statusMessage ? (
           <p
-            className={`mb-5 rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-sm shadow-[var(--shadow-sm)] ${
+            className={`mb-5 rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3 m3-type-body-medium shadow-[var(--shadow-sm)] ${
               query.error ? "text-[var(--danger)]" : "text-[var(--success)]"
             }`}
             role="status"
@@ -153,7 +153,7 @@ export default async function AccountPage({
               <Column verticalArrangement={Arrangement.spacedBy("var(--space-1)")}>
                 <p className="m3-type-label-large text-[var(--error)]">{t.account.dangerZone}</p>
                 <h2 id="delete-account-title" className="m3-type-title-large">{t.account.deleteAccountTitle}</h2>
-                <p className="max-w-2xl text-sm leading-6 text-[var(--muted)]">{t.account.deleteAccountDescription}</p>
+                <p className="m3-type-body-medium max-w-2xl text-[var(--muted)]">{t.account.deleteAccountDescription}</p>
               </Column>
               <AppLink
                 href={`/${locale}/compte/suppression`}
