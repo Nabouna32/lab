@@ -111,3 +111,13 @@ Cette liste indique des migrations de source, pas une validation de rendu. Les �
 **Le retrait de l’existant fait partie de la migration.** Après chaque famille migrée, rechercher les références résiduelles et supprimer les styles, composants, helpers, tokens, tests ou wrappers qui ne servent plus. Si un ancien élément a encore des consommateurs, migrer ceux-ci ou justifier explicitement son maintien. Ne pas conserver une abstraction simplement parce qu’elle est ancienne ou utilisée par un test de contrat obsolète.
 
 L’échelle historique `--radius-*` est encore utilisée dans les outils de production : elle ne doit donc pas être supprimée à ce stade. Continuer l’inventaire et la migration par rôle, sans confondre mécaniquement les rayons historiques de 16 px/24 px avec des tokens Material 3. La suppression ne sera justifiée qu’après une recherche exhaustive et une vérification des tests et usages dynamiques.
+
+
+## Migration des rôles de thème dans les compositions — 28 octobre 2026
+
+Une tranche de migration corrige deux écarts concrets entre les fondations partagées et leurs consommateurs de production :
+
+- Les icônes des pages de catégorie utilisent désormais le rôle de premier plan `category-*-on-container` avec leur `category-*-container`, au lieu d'utiliser la couleur `category-*` directement sur le conteneur. Les couleurs de premier plan et de fond forment une paire sémantique et sont générées séparément pour les thèmes clair et sombre par Material Color Utilities.
+- Les icônes des parcours guidés associent `on-primary-container` à `primary-container`. Les titres, descriptions, métadonnées et étapes de ces pages consomment les rôles typographiques partagés au lieu de combinaisons locales telles que `text-4xl font-black` et des espacements de lettres arbitraires.
+
+Des tests de contrat vérifient ces paires de rôles et empêchent le retour des styles typographiques locaux ciblés. Cette tranche ne constitue pas une migration complète du site : les alias historiques, les usages Tailwind et les autres compositions doivent encore être inventoriés par famille. Les outils qui affichent volontairement des couleurs utilisateur ou des échantillons de palette ne doivent pas être normalisés mécaniquement. La validation visuelle dans le navigateur, en thèmes clair et sombre et en français et anglais, reste à effectuer.
