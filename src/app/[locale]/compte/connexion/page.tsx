@@ -1,4 +1,4 @@
-import Link from "next/link";
+import AppLink from "@/components/ui/AppLink";
 import { PageContainer } from "@/components/layout/PageLayout";
 import { Arrangement } from "@/components/layout/compose/Arrangement";
 import { Column } from "@/components/layout/compose/Column";
@@ -36,9 +36,9 @@ export default async function SignInPage({
         >
           <Panel as="section" className="w-full text-center">
             <h1 className="m3-type-title-large">{t.account.alreadySignedIn}</h1>
-            <Link className="mt-6 inline-flex font-semibold text-[var(--accent)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]" href={`/${locale}/compte`}>
+            <AppLink variant="inline" className="mt-6 inline-flex" href={`/${locale}/compte`}>
               {t.account.title}
-            </Link>
+            </AppLink>
           </Panel>
         </PageContainer>
       </main>
@@ -85,7 +85,7 @@ export default async function SignInPage({
               {t.account.submitSignIn}
             </SubmitButton>
             <div className="text-center">
-              <Link className="text-sm font-semibold text-[var(--accent)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]" href={`/${locale}/compte/mot-de-passe-oublie`}>
+              <AppLink variant="inline" href={`/${locale}/compte/mot-de-passe-oublie`}>
                 {t.account.forgotPassword}
               </Link>
             </div>
