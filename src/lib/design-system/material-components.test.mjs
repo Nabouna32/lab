@@ -561,7 +561,7 @@ test("segmented control keeps labels single-line and leaves descriptions outside
   const videoBitrateSource = readFileSync(new URL("../../components/tools/video-bitrate/VideoBitrateCalculator.tsx", import.meta.url), "utf8");
   assert.match(segmentedSource, /whitespace-nowrap/);
   assert.match(segmentedSource, /m3-type-label-large/);
-  assert.doesNotMatch(segmentedSource, /text-\\\[length:var\\\(--m3-type-label-large-size\\\)\\\]|leading-\\\[var\\\(--m3-type-label-large-line-height\\\)\\\]/);
+  assert.doesNotMatch(segmentedSource, /text-\[length:var\(--m3-type-label-large-size\)\]|leading-\[var\(--m3-type-label-large-line-height\)\]/);
   assert.match(segmentedSource, /rounded-l-full/);
   assert.match(segmentedSource, /rounded-r-full/);
   assert.match(segmentedSource, /rounded-none/);
