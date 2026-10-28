@@ -15,7 +15,7 @@ function Rule({ valid, label }: { valid: boolean; label: string }) {
   );
 }
 
-export default function PasswordChangeForm({ locale, t, serverError }: { locale: string; t: Messages; serverError?: string }) {
+export default function PasswordChangeForm({ locale, t, serverError }: { locale: string; t: Messages["account"]; serverError?: string }) {
   const [currentPassword, setCurrentPassword] = useState("");
   const [password, setPassword] = useState("");
   const [confirmation, setConfirmation] = useState("");
