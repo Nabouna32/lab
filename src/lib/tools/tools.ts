@@ -715,7 +715,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "color-converter", icon: "palette",
+    id: "color-converter", icon: "swap_horiz",
     version: 1,
     complexity: "small",
     categories: ["images"],
