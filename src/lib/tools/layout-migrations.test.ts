@@ -18,6 +18,7 @@ const toolSearchSource = readSource("../../components/tools/ToolSearch.tsx");
 const adminDashboardSource = readSource("../../app/[locale]/admin/page.tsx");
 const adminUsersSource = readSource("../../app/[locale]/admin/utilisateurs/page.tsx");
 const desktopHeaderMenuSource = readSource("../../components/layout/DesktopHeaderMenu.tsx");
+const toolCardSource = readSource("../../components/tools/ToolCard.tsx");
 
 test("homepage compositions reuse the shared width, gutters and spacing tokens", () => {
   assert.ok(homePageSource.includes('<PageContainer'));
@@ -221,4 +222,17 @@ test("desktop navigation menu uses shared Material 3 typography roles", () => {
   assert.ok(!desktopHeaderMenuSource.includes("text-[11px]"));
   assert.ok(!desktopHeaderMenuSource.includes("text-sm font-semibold"));
   assert.ok(!desktopHeaderMenuSource.includes("text-xs"));
+});
+
+
+test("tool cards compose their vertical and horizontal layout through shared primitives", () => {
+  assert.ok(toolCardSource.includes('import { Column } from "@/components/layout/compose/Column";'));
+  assert.ok(toolCardSource.includes('import { Row } from "@/components/layout/compose/Row";'));
+  assert.ok(toolCardSource.includes('Arrangement.spacedBy("var(--space-3)")'));
+  assert.ok(toolCardSource.includes('<Row horizontalArrangement={Arrangement.Start} className="w-full min-w-0 gap-3">'));
+  assert.ok(toolCardSource.includes("m3-type-title-medium"));
+  assert.ok(toolCardSource.includes("m3-type-label-small"));
+  assert.ok(toolCardSource.includes("m3-type-body-medium"));
+  assert.ok(!toolCardSource.includes("flex w-full min-w-0 min-h-40 flex-col"));
+  assert.ok(!toolCardSource.includes("body-medium mt-3"));
 });
