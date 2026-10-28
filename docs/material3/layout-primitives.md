@@ -89,3 +89,12 @@ Les primitives ne doivent pas rester une bibliothèque parallèle sans adoption 
 Après chaque migration, rechercher les anciennes classes `space-y-*` et les wrappers d’espacement qui ne sont plus utilisés, puis les supprimer si aucune référence ne subsiste. Ne pas supprimer une classe globale uniquement parce que quelques consommateurs ont migré : le retrait doit être précédé d’un inventaire complet. Les classes d’espacement encore nécessaires à d’autres pages restent en place jusqu’à leur propre migration.
 
 Les tests actuels de contrat protègent certaines signatures et certains consommateurs. Ils ne remplacent pas les tests de rendu navigateur, la vérification de la géométrie Flexbox, ni les contrôles responsive, RTL, clavier et accessibilité. La parité complète avec le moteur de mesure Compose n’est pas revendiquée.
+
+
+## Correction responsive de `Column` — 28 octobre 2026
+
+Le portage Web de `Column` étire désormais ses enfants sur l'axe transversal lorsque `horizontalAlignment` est omis. Ce comportement par défaut côté Web évite le rétrécissement intrinsèque que Flexbox applique aux enfants quand `align-items: flex-start`, et préserve ainsi le comportement attendu des compositions de blocs existantes, notamment les sections de la page Compte.
+
+Un alignement explicite (`Alignment.Start`, `Alignment.CenterHorizontally` ou `Alignment.End`) conserve son effet de positionnement. L'étirement par défaut est une adaptation Web intentionnelle : il ne prétend pas reproduire à lui seul le moteur de mesure AndroidX. Les enfants qui doivent conserver une largeur intrinsèque doivent choisir explicitement l'alignement approprié ou un modificateur de taille adapté.
+
+Un test de contrat couvre le style par défaut et les alignements explicites. Il vérifie la présentation CSS produite, pas la géométrie réelle dans un navigateur ; une vérification visuelle responsive reste nécessaire.
