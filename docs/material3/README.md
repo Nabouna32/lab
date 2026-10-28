@@ -233,3 +233,8 @@ Les deux états de la page Compte (visiteur et compte connecté) utilisent maint
 ### Récupération du mot de passe — typographie et boutons partagés (28 octobre 2026)
 
 Les pages de demande et de finalisation de réinitialisation utilisent désormais les rôles typographiques partagés pour les titres, libellés, descriptions et messages d'état. Les deux actions de soumission s'appuient sur SubmitButton et les variantes du bouton Material 3 partagé, sans réintroduire une apparence locale concurrente. Les liens restent des ancres de navigation et conservent leur sémantique. Les formulaires et leurs états doivent encore être vérifiés en navigateur, notamment clavier, erreurs et états pending.
+
+
+### Informations personnelles — rôles typographiques (28 octobre 2026)
+
+La page Informations personnelles utilise les rôles partagés pour le lien de retour et les messages de statut. Les métriques locales de taille et de graisse ont été supprimées ; les titres et les champs utilisent déjà les composants et rôles partagés. Le comportement des formulaires reste inchangé.
