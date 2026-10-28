@@ -261,3 +261,14 @@ test("legal notice uses shared Material 3 typography roles", () => {
   assert.ok(!legalNoticeSource.includes("text-xl font-semibold"));
   assert.ok(!legalNoticeSource.includes("leading-7"));
 });
+
+
+test("privacy policy uses shared Material 3 typography roles", () => {
+  for (const role of ["m3-type-headline-large", "m3-type-title-large", "m3-type-title-medium", "m3-type-body-large", "m3-type-body-medium", "m3-type-body-small"]) {
+    assert.ok(privacyPolicySource.includes(role), `privacy policy should consume ${role}`);
+  }
+
+  for (const legacyType of ["text-3xl", "font-bold", "text-xl font-semibold", "text-sm", "leading-6", "leading-7", "font-semibold"]) {
+    assert.ok(!privacyPolicySource.includes(legacyType), `legacy typography remains: ${legacyType}`);
+  }
+});
