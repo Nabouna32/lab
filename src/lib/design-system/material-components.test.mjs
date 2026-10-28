@@ -1096,3 +1096,15 @@ test("email and password settings use dedicated Material 3 page compositions", (
   assert.match(messagesSource, /passwordRuleMax: "No more than 128 characters"/);
   assert.match(messagesSource, /passwordRuleMatch: "Confirmation matches the new password"/);
 });
+
+
+test("Chip delegates typography metrics to the shared Material 3 label role", () => {
+  const chipSource = readFileSync(new URL("../../components/ui/Chip.tsx", import.meta.url), "utf8");
+  const chipStyles = readFileSync(new URL("../../components/ui/Chip.module.css", import.meta.url), "utf8");
+
+  assert.match(chipSource, /m3-type-label-large/);
+  assert.doesNotMatch(chipStyles, /font-size:\\s*var\\(--m3-type-label-large-size\\)/);
+  assert.doesNotMatch(chipStyles, /line-height:\\s*var\\(--m3-type-label-large-line-height\\)/);
+  assert.doesNotMatch(chipStyles, /font-weight:\\s*var\\(--m3-type-label-large-weight\\)/);
+  assert.doesNotMatch(chipStyles, /letter-spacing:\\s*var\\(--m3-type-label-large-tracking\\)/);
+});
