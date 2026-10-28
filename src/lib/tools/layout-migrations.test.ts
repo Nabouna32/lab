@@ -20,6 +20,7 @@ const adminUsersSource = readSource("../../app/[locale]/admin/utilisateurs/page.
 const desktopHeaderMenuSource = readSource("../../components/layout/DesktopHeaderMenu.tsx");
 const toolCardSource = readSource("../../components/tools/ToolCard.tsx");
 const searchResultsSource = readSource("../../components/tools/SearchResultsClient.tsx");
+const legalNoticeSource = readSource("../../components/legal/LegalNoticePage.tsx");
 
 test("homepage compositions reuse the shared width, gutters and spacing tokens", () => {
   assert.ok(homePageSource.includes('<PageContainer'));
@@ -248,4 +249,15 @@ test("search results use shared Material 3 typography roles", () => {
   assert.ok(!searchResultsSource.includes("text-xl font-bold"));
   assert.ok(!searchResultsSource.includes("text-sm font-semibold"));
   assert.ok(!searchResultsSource.includes("tracking-[-0.055em]"));
+});
+
+
+test("legal notice uses shared Material 3 typography roles", () => {
+  for (const role of ["m3-type-headline-large", "m3-type-title-large", "m3-type-title-medium", "m3-type-body-large", "m3-type-body-medium", "m3-type-label-large"]) {
+    assert.ok(legalNoticeSource.includes(role), `legal notice should consume ${role}`);
+  }
+
+  assert.ok(!legalNoticeSource.includes("text-3xl font-bold"));
+  assert.ok(!legalNoticeSource.includes("text-xl font-semibold"));
+  assert.ok(!legalNoticeSource.includes("leading-7"));
 });
