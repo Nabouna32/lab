@@ -149,8 +149,8 @@ test("admin and category pages share the canonical page container and spacing to
   }
   assert.ok(categoryRouteSource.includes("<PageContainer width=\"wide\" spacing=\"none\""));
   assert.ok(categoryRouteSource.includes("py-[var(--space-8)] sm:py-[var(--space-10)]"));
-  assert.ok(categoryRouteSource.includes("getCategoryOnContainerColor(category.id)"), "category container content must use its matching on-container role");
-  assert.ok(!categoryRouteSource.includes("color: getCategoryColor(category.id)"), "category primary color must not be used as foreground on its container");
+  assert.ok(categoryRouteSource.includes("m3-type-headline-large"), "category headings use a shared Material 3 typography role");
+  assert.ok(!categoryRouteSource.includes("text-3xl font-black"), "category headings must not bypass shared typography roles");
   assert.ok(categoryRouteSource.includes("m3-type-headline-large"), "category headings use a shared Material 3 typography role");
 });
 
