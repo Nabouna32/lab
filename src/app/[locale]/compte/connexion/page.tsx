@@ -87,13 +87,13 @@ export default async function SignInPage({
             <div className="text-center">
               <AppLink variant="inline" href={`/${locale}/compte/mot-de-passe-oublie`}>
                 {t.account.forgotPassword}
-              </Link>
+              </AppLink>
             </div>
                     </Column>
         </form>
           <p className="mt-6 border-t border-[var(--border)] pt-5 text-center m3-type-body-medium text-[var(--muted)]">
             {t.account.noAccount}{" "}
-            <Link className="m3-type-label-large text-[var(--primary)] hover:underline" href={`/${locale}/compte/inscription`}>{t.account.signUp}</Link>
+            <AppLink variant="inline" href={`/${locale}/compte/inscription`}>{t.account.signUp}</AppLink>
           </p>
         </Panel>
       </PageContainer>
