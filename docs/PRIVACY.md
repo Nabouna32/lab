@@ -294,9 +294,6 @@ The product should never ask users to trust blindly when the system can explain 
 
 Before broad public launch, privacy/legal documentation should be reviewed against the actual implementation, data flows, consent mechanisms, retention policies, and jurisdictions served.
 
-## Internal Design Lab maintenance records
+## Laboratoire de conception
 
-The private Design Lab stores technical maintenance records in Supabase so work can resume across sessions without copying context into issue comments. Records may include a component identifier, a free-text observation, affected state, severity, expected behavior, a proposed decision, official documentation URLs, verification notes, PR URLs and commit SHAs. Auth user IDs are used for attribution; the event history stores titles and status transitions rather than duplicating full free-text descriptions.
-
-Access is restricted to authenticated administrators through the existing `audit.read` / `audit.write` permissions and PostgreSQL RLS. Anonymous users receive no table grants. These records are internal engineering notes, not user-generated public content. There is no automated retention schedule yet; report deletion leaves the minimal audit-event record for traceability, so the title and status metadata may remain after a report is deleted. Avoid entering passwords, secrets, or unrelated personal information in free-text fields.
-
+La galerie de composants s’exécute localement dans l’application et n’enregistre aucun état de maintenance dans Supabase. Les décisions techniques, les spécifications et les vérifications sont conservées dans le dépôt Git. Le journal d’audit d’administration demeure distinct et continue d’utiliser la permission `audit.read`.
