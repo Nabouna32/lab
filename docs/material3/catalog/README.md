@@ -98,3 +98,6 @@ Une BOM Compose peut aligner des versions compatibles, mais n'ajoute pas toutes 
 ### Material Components for Android Views — référence historique
 
 La famille Views est suivie séparément de Compose Material 3 dans [son manifeste de provenance](baselines/material-components-views-1.14.0.json). La release stable 1.14.0 est épinglée au commit source officiel. Le dépôt ne fournit pas de dump API classique à ce tag, et le projet amont annonce le mode maintenance sans nouvelles fonctionnalités prévues. Cette famille sert donc à cartographier les API historiques et les migrations, pas à élargir la cible de nouveaux ports Material 3. La provenance des octets de l’archive Maven est contrôlée par le vérificateur CI ; l’inventaire public reste distinct de cette vérification de provenance.
+
+
+L’index provisoire MDC Views 1.14.0 est versionné dans [le rapport des signatures binaires](baselines/material-components-views-1.14.0-api-inventory.json). Il inspecte l’AAR publié et rapproche les sources, mais ne remplace pas un dump officiel : la classification des annotations repose sur une heuristique textuelle. L’index actuel recense 1 107 classes binaires, 523 types publics/protégés et 6 012 membres visibles ; 525 membres n’ont pas de correspondance d’annotation fiable dans le contexte source. Il reste explicitement non exhaustif.
