@@ -91,6 +91,15 @@ jobs:
         run: |
           node .github/scripts/inventory-material-components-api.mjs docs/material3/catalog/baselines/material-components-views-1.14.0.json docs/material3/catalog/baselines/material-components-views-1.14.0-api-inventory.json
 
+      - name: Upload generated MDC API inventory
+        if: always() && github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
+        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18f4 # v4.4.3
+        with:
+          name: material-components-views-1.14.0-api-inventory
+          path: docs/material3/catalog/baselines/material-components-views-1.14.0-api-inventory.json
+          if-no-files-found: error
+          retention-days: 7
+
       - name: Exercise CI tooling tests
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
         run: |
@@ -105,7 +114,6 @@ jobs:
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
         run: node .github/scripts/inspect-material-components-source-archive.mjs docs/material3/catalog/baselines/material-components-views-1.14.0.json
 
-          git diff --exit-code -- docs/material3/catalog/baselines/material-components-views-1.14.0-api-inventory.json
         
 
   quality:
