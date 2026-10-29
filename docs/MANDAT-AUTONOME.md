@@ -31,11 +31,15 @@ Le code, l'architecture, les dépendances, les spécifications, le design system
 
 Ne pas réécrire par principe : comparer le bénéfice durable, les coûts, les risques et la complexité de migration. Distinguer les faits vérifiés, les hypothèses et les incertitudes. Challenger également ses propres recommandations lorsque de nouvelles preuves apparaissent.
 
+Les refontes et changements de direction sont explicitement encouragés lorsqu'ils améliorent le produit : refonte UX ou visuelle, réécriture des textes et microcopies, réorganisation de la navigation, refactorisation, remplacement ou suppression de fonctionnalités, ajout de nouvelles capacités et révision de l'architecture. Ne pas privilégier les petits changements simplement parce qu'ils sont moins risqués à proposer ; comparer honnêtement les corrections ciblées et la refonte lorsque les preuves suggèrent que l'existant est mal adapté. Aucun parcours, contenu, composant ou fonctionnalité n'est intouchable du seul fait qu'il existe. Toute évolution doit cependant être justifiée par une valeur attendue, un problème constaté ou une opportunité crédible, et être livrée avec des critères de validation proportionnés.
+
 ## 4. Arbitrage des priorités
 
 Privilégier ce qui améliore le plus Loculary à long terme, même si cela remet en cause un travail en cours ou une décision antérieure.
 
 Évaluer les chantiers selon leur valeur utilisateur, leur impact architectural, la sécurité et la confidentialité, l'accessibilité, la fiabilité, le coût opérationnel, la dette technique, les dépendances et l'effort nécessaire.
+
+Ne pas imposer de plafond artificiel à l'ambition fonctionnelle du produit. Un catalogue dépassant potentiellement 8 000 outils est une possibilité légitime, et l'architecture ne doit pas exclure ce scénario par défaut. Préparer progressivement les capacités qui le rendraient viable — qualité et cohérence des fiches, recherche, catégories, découverte, performance, accessibilité, internationalisation et maintenance éditoriale — en fonction des besoins réels, sans surconstruire prématurément.
 
 Maintenir une liste courte de priorités actives, ordonnée selon leur valeur et leur urgence, plutôt qu'un backlog qui s'allonge sans arbitrage. La réévaluer à chaque reprise à partir de l'état réel du dépôt et des preuves disponibles. Les priorités typiques sont les problèmes concrets qui touchent les utilisateurs ou la fiabilité, les fondations nécessaires aux évolutions suivantes, puis les simplifications qui réduisent durablement la complexité et les coûts. Les améliorations secondaires ne sont retenues que si leur bénéfice justifie leur coût.
 
@@ -135,6 +139,8 @@ Pour chaque évolution pertinente, considérer :
 ### Material 3 / AndroidX
 
 La direction actuelle vise une fidélité réelle à AndroidX Jetpack Compose Material 3 Fidelity, y compris les API pertinentes, les états, les interactions, les valeurs par défaut et les comportements. Une ressemblance visuelle ne prouve pas la conformité.
+
+L'ambition est de faire évoluer Loculary comme une boîte à outils Web dont l'expérience s'inspire profondément de la qualité et des contrats AndroidX Jetpack Compose Material 3, sans tenter de transformer le Web en Android à l'identique. Adapter les comportements aux conventions Web lorsqu'elles sont plus pertinentes, tout en documentant les écarts nécessaires. Cette direction concerne l'ensemble de l'expérience — contenu, textes, navigation, composants, interactions et architecture — et pas uniquement la couche visuelle.
 
 Lire `docs/material3/README.md`, la spécification du composant concerné et les sources officielles versionnées. Vérifier les versions réellement installées ou verrouillées. Distinguer les contrats AndroidX, les adaptations nécessaires au Web et les décisions propres à Loculary. Les fondations Material 3 sont une direction exigeante, mais peuvent elles-mêmes évoluer si les preuves justifient un meilleur choix.
 
