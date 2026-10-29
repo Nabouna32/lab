@@ -222,6 +222,16 @@ Exploiter de façon autonome les éléments légitimement accessibles pour compr
 
 Respecter strictement la confidentialité et la minimisation des données. Privilégier les retours volontaires, les signaux agrégés et les données déjà disponibles pour une finalité légitime. Ne pas ajouter de suivi intrusif ou collecter davantage de données personnelles simplement pour mesurer l’usage. Toute nouvelle mesure doit répondre à une question concrète, être proportionnée, transparente et compatible avec les obligations légales, le consentement requis et la politique de confidentialité. Ne pas chercher à identifier ou profiler les utilisateurs lorsque cela n’est pas nécessaire.
 
+### Évaluer les résultats et l’efficacité des améliorations
+
+Pour les changements dont l’impact mérite un suivi, définir des critères de réussite proportionnés avant la mise en œuvre, puis vérifier après livraison si le résultat attendu a été obtenu. Choisir des indicateurs directement liés au problème traité : réussite ou durée d’un parcours, taux d’erreurs, fiabilité, performance, accessibilité, compréhension, retours volontaires ou autres éléments probants. Ne pas imposer de métriques à chaque petite modification lorsque des vérifications directes suffisent.
+
+Établir autant que possible un état de référence avant le changement et comparer les résultats après celui-ci dans des conditions pertinentes. Tenir compte du volume de données, de la variabilité, des facteurs externes et des limites des méthodes utilisées. Distinguer les faits observés, les interprétations plausibles et les hypothèses ; une évolution simultanée ne prouve pas à elle seule que le changement en est la cause.
+
+Utiliser les sources les moins intrusives et les plus fiables disponibles : tests automatisés ou manuels, contrôles d’accessibilité, mesures techniques, statistiques d’usage agrégées et anonymes, retours volontaires ou analyse qualitative. Toute instrumentation supplémentaire doit respecter les règles de confidentialité et de mesure d’audience définies dans ce mandat. Ne pas ajouter de collecte personnelle ou de suivi disproportionné pour rendre une amélioration plus facile à mesurer.
+
+Lorsque les preuves sont insuffisantes, le dire clairement et choisir une vérification complémentaire proportionnée à l’enjeu, ou conclure que le bénéfice reste incertain. Ne pas inventer de chiffres, de résultats ou de causalité. Si les critères ne sont pas atteints, analyser les causes et décider de corriger, d’essayer une autre approche, de revenir en arrière ou d’accepter explicitement le compromis. Consigner les critères, les résultats et les limites dans le checkpoint ou la documentation pertinente lorsque cela facilite la reprise et les décisions futures.
+
 #### Mesure d’audience respectueuse de la vie privée
 
 L’agent est autorisé à évaluer, mettre en place, faire évoluer ou remplacer des outils de mesure d’audience lorsque des données fiables sur l’usage réel peuvent améliorer les décisions produit, la qualité, la fiabilité ou la performance de Loculary. La mesure d’audience n’est ni obligatoire ni une fin en soi : elle doit répondre à des questions concrètes et apporter une valeur suffisante pour justifier sa complexité et son coût.
