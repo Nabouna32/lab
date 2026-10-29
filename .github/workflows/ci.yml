@@ -17,11 +17,18 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  ci:
-    name: Node.js 24.21.0
+  prepare:
+    name: Préparation CI
     if: github.event_name != 'schedule'
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 10
+    outputs:
+      lightweight_only: ${{ steps.changes.outputs.lightweight_only }}
+      dependencies_changed: ${{ steps.changes.outputs.dependencies_changed }}
+      governance_changed: ${{ steps.changes.outputs.governance_changed }}
+      supabase_changed: ${{ steps.changes.outputs.supabase_changed }}
+      dependency_manifests_only: ${{ steps.changes.outputs.dependency_manifests_only }}
+      dependency_scope: ${{ steps.dependency_scope.outputs.scope }}
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -74,57 +81,138 @@ jobs:
 
       - name: Exercise CI tooling tests
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
-        run: node --test .github/scripts/classify-ci-changes.test.mjs .github/scripts/detect-ci-changes.test.mjs .github/scripts/dependency-audit-diff.test.mjs .github/scripts/classify-dependency-diff.test.mjs .github/scripts/material3-api-inventory.test.mjs .github/scripts/material3-api-inventory-shard.test.mjs .github/scripts/verify-androidx-source-archive.test.mjs
+        run: node --test .github/scripts/*.test.mjs
 
       - name: Verify Material 3 source archive provenance
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
         run: node .github/scripts/verify-androidx-source-archive.mjs docs/material3/catalog/baselines/material3-1.4.0.json
 
+  quality:
+    name: Qualité du code
+    needs: prepare
+    if: >-
+      ${{ needs.prepare.result == 'success' &&
+          github.event_name != 'schedule' &&
+          (github.event_name != 'pull_request' || needs.prepare.outputs.lightweight_only != 'true') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24.21.0
+          cache: npm
+          cache-dependency-path: package-lock.json
+
       - name: Install dependencies
-        if: github.event_name != 'pull_request' || steps.changes.outputs.lightweight_only != 'true'
         run: npm ci
 
       - parallel:
           - name: Lint
-            if: github.event_name != 'pull_request' || (steps.changes.outputs.lightweight_only != 'true' && steps.dependency_scope.outputs.scope != 'lint_only')
             run: npm run lint
 
           - name: Typecheck
-            if: github.event_name != 'pull_request' || (steps.changes.outputs.lightweight_only != 'true' && steps.dependency_scope.outputs.scope != 'lint_only')
+            if: github.event_name != 'pull_request' || needs.prepare.outputs.dependency_scope != 'lint_only'
             run: npm run typecheck
 
           - name: Unit tests
-            if: github.event_name != 'pull_request' || (steps.changes.outputs.lightweight_only != 'true' && steps.dependency_scope.outputs.scope != 'lint_only')
+            if: github.event_name != 'pull_request' || needs.prepare.outputs.dependency_scope != 'lint_only'
             run: npm test
 
+  build:
+    name: Compilation de production
+    needs: prepare
+    if: >-
+      ${{ needs.prepare.result == 'success' &&
+          github.event_name != 'schedule' &&
+          (github.event_name != 'pull_request' ||
+            (needs.prepare.outputs.lightweight_only != 'true' &&
+             needs.prepare.outputs.dependency_scope != 'lint_only')) }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24.21.0
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
       - name: Production build
-        if: github.event_name != 'pull_request' || (steps.changes.outputs.lightweight_only != 'true' && steps.dependency_scope.outputs.scope != 'lint_only')
         env:
           NEXT_TELEMETRY_DISABLED: "1"
           NEXT_PUBLIC_SUPABASE_URL: "http://127.0.0.1:54321"
           NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "sb_publishable_local_placeholder"
         run: npm run build
 
-      - name: Setup Deno for changed Edge Functions
-        if: github.event_name == 'workflow_dispatch' || steps.changes.outputs.supabase_changed == 'true'
+  supabase:
+    name: Vérification Supabase
+    needs: prepare
+    if: >-
+      ${{ needs.prepare.result == 'success' &&
+          github.event_name != 'schedule' &&
+          (github.event_name == 'workflow_dispatch' || needs.prepare.outputs.supabase_changed == 'true') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Setup Deno
         uses: denoland/setup-deno@22d081ff2d3a40755e97629de92e3bcbfa7cf2ed # v2.0.5
         with:
           deno-version: 2.1.4
 
       - name: Validate Supabase Edge Functions
-        if: github.event_name == 'workflow_dispatch' || steps.changes.outputs.supabase_changed == 'true'
         run: |
           set -euo pipefail
           for function in account-delete admin-user-sessions admin-user-suspension; do
             (cd "supabase/functions/$function" && deno check --frozen index.ts)
           done
 
-      - name: Confirm applicable checks passed
-        if: success()
-        run: echo "All applicable CI checks passed."
+  ci:
+    name: Node.js 24.21.0
+    needs: [prepare, quality, build, supabase]
+    if: always() && github.event_name != 'schedule'
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Confirm all applicable checks passed
+        env:
+          PREPARE_RESULT: ${{ needs.prepare.result }}
+          QUALITY_RESULT: ${{ needs.quality.result }}
+          BUILD_RESULT: ${{ needs.build.result }}
+          SUPABASE_RESULT: ${{ needs.supabase.result }}
+        run: |
+          set -euo pipefail
+          for result in "$PREPARE_RESULT" "$QUALITY_RESULT" "$BUILD_RESULT" "$SUPABASE_RESULT"; do
+            case "$result" in
+              success|skipped) ;;
+              *) echo "A required CI job did not pass: $result" >&2; exit 1 ;;
+            esac
+          done
+          echo "All applicable CI checks passed."
 
   npm-audit:
-    name: Scheduled npm security audit
+    name: Audit de sécurité npm planifié
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 15
