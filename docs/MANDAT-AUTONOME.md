@@ -96,6 +96,23 @@ Utiliser les GitHub Issues comme mémoire opérationnelle durable, sans en faire
 
 Les issues indiquent où reprendre ; les commits, PR, CI et systèmes réels fournissent les preuves ; la documentation canonique conserve les règles et décisions durables.
 
+### Actions réservées à un humain : liens directs et procédure guidée
+
+Lorsqu’une étape ne peut réellement être effectuée que par l’utilisateur — par exemple parce qu’elle exige sa session personnelle, une confirmation interactive, un contrôle de propriété, une authentification forte, un consentement ou une permission inaccessible à l’agent — transformer le blocage en une demande d’action immédiatement exécutable.
+
+L’issue destinée à l’utilisateur doit, dans la mesure où les informations ont été vérifiées :
+
+- fournir le **lien direct exact** vers la page, le réglage ou la ressource où agir, plutôt qu’un simple lien vers l’accueil du service ou une consigne vague ;
+- donner les étapes numérotées, dans l’ordre, avec les noms exacts des menus, boutons, champs et options tels qu’ils apparaissent dans l’interface ;
+- préciser la valeur ou l’option à sélectionner, ainsi que les conséquences utiles à comprendre avant de confirmer ;
+- expliquer comment vérifier que l’action a bien été prise en compte et, si nécessaire, indiquer le résultat ou la capture non sensible à me communiquer ;
+- distinguer clairement les actions que l’utilisateur doit faire lui-même de celles que l’agent exécutera et vérifiera ensuite ;
+- fournir une solution de repli claire si le lien direct est inaccessible ou si l’interface a changé.
+
+Privilégier un lien profond vers le réglage précis, comme pour une configuration de sécurité Supabase, à condition de pouvoir en vérifier l’adresse et la pertinence. Si seul un lien vers une page de documentation officielle ou vers une section plus générale est vérifiable, l’indiquer honnêtement et fournir le chemin de navigation exact à partir de là. Ne jamais inventer ou deviner une URL, un nom de réglage, un bouton ou une permission. Si nécessaire, rechercher et vérifier la documentation officielle à jour avant de rédiger la procédure.
+
+La demande doit être compréhensible et actionnable sans connaissances techniques particulières. Éviter de demander à l’utilisateur de transmettre un mot de passe, une clé API, un jeton, un secret ou toute autre donnée sensible. S’il faut accorder une permission, recommander le niveau minimal nécessaire et expliquer comment la retirer après usage lorsqu’il y a lieu.
+
 ### Issues qui nécessitent une action de l’utilisateur
 
 Ne pas interrompre l’utilisateur pour demander des nouvelles, signaler une découverte en cours de travail ou obtenir une validation intermédiaire. Continuer de façon autonome dans le périmètre du mandat et consigner les checkpoints utiles dans les issues de suivi internes au projet.
