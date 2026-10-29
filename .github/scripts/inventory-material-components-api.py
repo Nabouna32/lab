@@ -11,7 +11,7 @@ from pathlib import Path
 MODIFIERS = {"public", "protected", "abstract", "final", "static", "strictfp", "sealed", "non-sealed"}
 HEADER = re.compile(r"^(?P<mods>(?:(?:public|protected|abstract|final|static|strictfp|sealed|non-sealed)\\s+)*)?(?P<kind>class|interface|enum|record|@interface)\\s+(?P<name>[\\w.$]+)")
 MEMBER = re.compile(r"^\\s{2}(?P<signature>(?:(?:public|protected|static|final|abstract|synchronized|native|strictfp|default|transient|volatile)\\s+)*.+?;?)\\s*$")
-DECLARATION = re.compile(r"(?m)^\\s*(?:@[\\w.]+(?:\\([^\\n]*\\))?\\s*)*(?:(?:public|protected|private|static|final|abstract|synchronized|native|strictfp|default|transient|volatile)\\s+)*(?:[\\w.$<>?,\\[\\] @]+\\s+)?(?P<name>[A-Za-z_$][\\w$]*)\\s*(?:\\(|;|=)")
+DECLARATION = re.compile(r"(?m)^\\s*(?:@[\\w.]+(?:\\([^\n]*\\))?\\s*)*(?:(?:public|protected|private|static|final|abstract|synchronized|native|strictfp|default|transient|volatile)\\s+)*(?:[\\w.$<>?,\\[\\] @]+\\s+)?(?P<name>[A-Za-z_$][\\w$]*)\\s*(?:\\(|;|=)")
 RESTRICTED = re.compile(r"@RestrictTo\\s*\\(")
 DEPRECATED = re.compile(r"@Deprecated|@deprecated\\b")
 
@@ -32,7 +32,7 @@ def source_context(source, simple_name, member_name=None):
         if not member_name and not re.search(r"\\b(?:class|interface|enum|record)\\s+" + re.escape(simple_name) + r"\\b", line):
             continue
         start = max(0, index - 14)
-        context = "\\n".join(lines[start:index + 1])
+        context = "\n".join(lines[start:index + 1])
         matches.append(context)
     if not matches:
         return {"restricted": False, "deprecated": False, "matched": False}
@@ -119,7 +119,11 @@ def main():
                 signature = match.group("signature").strip()
                 if signature in {"{", "}", "static {}"} or signature.startswith("Compiled from"):
                     continue
-                member_name_match = re.search(r"([A-Za-z_$][\\w$]*)\\s*(?:\\(|;|=)$", signature)
+                if "(" in signature:
+                    member_name_match = re.search(r"([A-Za-z_$][\\w$]*)\\s*\\(", signature)
+                else:
+                    field_signature = signature.split("=", 1)[0].rstrip("; ").strip()
+                    member_name_match = re.search(r"([A-Za-z_$][\\w$]*)$", field_signature)
                 member_name = member_name_match.group(1) if member_name_match else None
                 member_info = source_context(source, binary_name.split("$")[-1], member_name) if source and member_name else {"restricted": False, "deprecated": False, "matched": False}
                 if source_info["restricted"] or member_info["restricted"]:
@@ -195,7 +199,7 @@ def main():
             "javapFailures": javap_failures,
         }
         args.output.parent.mkdir(parents=True, exist_ok=True)
-        args.output.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\\n", encoding="utf-8")
+        args.output.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
         print(json.dumps(report["summary"], sort_keys=True))
         print("API_INVENTORY_JSON_BASE64_BEGIN")
         encoded = __import__("base64").b64encode(args.output.read_bytes()).decode("ascii")
