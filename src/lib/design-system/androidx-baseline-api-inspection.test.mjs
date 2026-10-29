@@ -22,9 +22,16 @@ test("pinned API-directory inspection covers every selected stable baseline", ()
 
   assert.equal(inspection.repository, "androidx/androidx");
   assert.match(inspection.commit, /^[a-f0-9]{40}$/);
-  assert.ok(inspection.families.length > 0);
-  assert.ok(inspection.families.length <= selected.length);
-  assert.equal(new Set(inspection.families.map((family) => family.id)).size, inspection.families.length);
+  const inspectedIds = inspection.families.map((family) => family.id).sort();
+  const expectedInspectedIds = selected
+    .filter((family) => family.id !== "material-components-views")
+    .map((family) => family.id)
+    .sort();
+
+  assert.equal(inspection.families.length, 21);
+  assert.deepEqual(inspectedIds, expectedInspectedIds);
+  assert.equal(new Set(inspectedIds).size, inspection.families.length);
+  assert.equal(inspection.scopeNote.includes("separate repository"), true);
 
   for (const record of inspection.families) {
     const family = selected.find((candidate) => candidate.id === record.id);
