@@ -19,10 +19,6 @@ concurrency:
 jobs:
   prepare:
     name: Préparation CI
-    permissions:
-      contents: write
-      pull-requests: read
-      actions: write
     if: github.event_name != 'schedule'
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -84,23 +80,23 @@ jobs:
         run: rm -rf dependency-baseline
 
       - name: Setup Java for binary API inspection
-        if: github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true')
+        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
         uses: actions/setup-java@dded0888837ed1f317902acf8a20df0ad188d165 # v5.0.0
         with:
           distribution: temurin
           java-version: '17'
 
       - name: Generate provisional Material Components Views API inventory
-        if: github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true')
+        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
         run: |
           node .github/scripts/inventory-material-components-api.mjs docs/material3/catalog/baselines/material-components-views-1.14.0.json docs/material3/catalog/baselines/material-components-views-1.14.0-api-inventory.json
 
       - name: Verify generated MDC API inventory reproducibility
-        if: github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true')
+        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
         run: git diff --exit-code -- docs/material3/catalog/baselines/material-components-views-1.14.0-api-inventory.json
 
       - name: Upload generated MDC API inventory
-        if: github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true')
+        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: material-components-views-1.14.0-api-inventory
@@ -108,37 +104,18 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
-      - name: Commit generated inventory and dispatch verification
-        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true' && github.event.pull_request.head.repo.full_name == github.repository
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          set -euo pipefail
-          report=docs/material3/catalog/baselines/material-components-views-1.14.0-api-inventory.json
-          if git diff --quiet -- "$report"; then
-            echo "The checked-in API inventory is already reproducible."
-            exit 0
-          fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add "$report"
-          git commit -m "docs(androidx): actualiser l’inventaire MDC Views 1.14.0"
-          git fetch origin "$GITHUB_HEAD_REF"
-          git rebase FETCH_HEAD
-          git -c http.extraheader="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)" push origin "HEAD:$GITHUB_HEAD_REF"
-          gh api "repos/$GITHUB_REPOSITORY/actions/workflows/ci.yml/dispatches" -f ref="$GITHUB_HEAD_REF"
       - name: Exercise CI tooling tests
-        if: github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true')
+        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
         run: |
           node --test .github/scripts/*.test.mjs
           python3 .github/scripts/test_inventory_material_components_api.py
 
       - name: Verify Material 3 source archive provenance
-        if: github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true')
+        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
         run: node .github/scripts/verify-androidx-source-archive.mjs docs/material3/catalog/baselines/material3-1.4.0.json
 
       - name: Verify Material Components Views source archive provenance
-        if: github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true')
+        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
         run: node .github/scripts/inspect-material-components-source-archive.mjs docs/material3/catalog/baselines/material-components-views-1.14.0.json
 
         
