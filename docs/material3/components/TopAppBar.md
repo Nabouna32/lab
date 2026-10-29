@@ -27,7 +27,7 @@ Les couleurs et dimensions ci-dessus sont les valeurs des tokens dans ce snapsho
 
 `src/components/ui/TopAppBar.tsx` expose les variantes `small`, `center-aligned`, `medium` et `large`. Le CSS réutilise les rôles typographiques partagés.
 
-Le bouton de navigation est maintenant rendu uniquement lorsqu'un gestionnaire `onNavigationClick` est fourni. L'icône de menu reste une valeur par défaut dans ce cas, mais une barre sans action de navigation n'affiche plus de bouton inerte. C'est une adaptation de l'emplacement facultatif de navigation AndroidX, et non une nouvelle règle visuelle.
+Le bouton de navigation est rendu uniquement lorsqu'un gestionnaire `onNavigationClick` est fourni. L'icône de menu et le libellé accessible « Open navigation » ont des valeurs de secours, mais une barre sans action de navigation n'affiche pas de bouton inerte. Les consommateurs doivent fournir un libellé traduit et adapté au contexte. C'est une adaptation Web de l'emplacement facultatif de navigation AndroidX.
 
 Le challenge global « page blanche » s'applique ici aussi : si ce composant était conçu aujourd'hui, il faudrait vérifier s'il doit rester un port générique ou être remplacé/composé avec les primitives de navigation réellement nécessaires aux différents parcours. Cette question n'est pas tranchée par le simple fait que le composant existe.
 
