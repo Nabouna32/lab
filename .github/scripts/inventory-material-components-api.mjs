@@ -151,7 +151,7 @@ async function main() {
     report.provenance.sourcesSha1 = sources.sha1;
     report.provenance.sourcesSizeBytes = sources.sizeBytes;
     report.provenance.sourcesChecksums = sources.checksums;
-    await writeFile(outputPath, `${JSON.stringify(report, null, 2)}\\n`);
+    await writeFile(outputPath, `${JSON.stringify(report, null, 2)}\n`);
     // Emit the complete generated report in bounded chunks so the run can be audited and versioned.
     const encoded = Buffer.from(await readFile(outputPath)).toString('base64');
     console.log('API_INVENTORY_JSON_BASE64_BEGIN');
@@ -171,7 +171,7 @@ async function main() {
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   main().catch(error => {
-    process.stderr.write(`MDC API inventory failed: ${error.message}\\n`);
+    process.stderr.write(`MDC API inventory failed: ${error.message}\n`);
     process.exitCode = 1;
   });
 }
