@@ -62,6 +62,8 @@ La présence dans le catalogue ne signifie pas qu'une API a été étudiée ou p
 
 ## Baselines stables vérifiées au 22 octobre 2026
 
+Les versions officielles choisies et l’alignement de leur surface API sont deux statuts distincts. Pour Material 3 1.4.0, le registre de provenance [versionné](baselines/material3-1.4.0.json) identifie l’archive source stable, le snapshot de veille et les preuves encore manquantes ; il conserve volontairement l’alignement API à `UNVERIFIED`.
+
 Les versions de référence doivent être choisies par artefact/groupe, pas supposées identiques pour toute la stack Compose. Le champ artifactCoordinateStatus distingue les coordonnées confirmées dans la documentation de publication officielle des coordonnées encore candidates ; un nom plausible ou un dossier AndroidX ne suffit pas à prouver qu'un artefact est publié sous cette coordonnée. Les pages officielles indiquent actuellement :
 
 - Compose UI, Foundation, Animation, Runtime et Material 2 : **1.12.1** ([versions Compose](https://developer.android.com/jetpack/androidx/versions)).
