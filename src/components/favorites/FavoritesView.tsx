@@ -61,11 +61,11 @@ export default function FavoritesView({ locale, tools }: { locale: Locale; tools
                   {locale === "fr" ? "Retirer des favoris" : "Remove from favorites"}
                 </TextButton>
               </div>
-            </li>
+            </Card></li>
           ))}
         </ul>
       ) : (
-        <Card className="px-6 py-10 text-center sm:px-10" >
+        <Card className="px-6 py-10 text-center sm:px-10">
           <span aria-hidden="true" className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[var(--primary-container)] text-[var(--on-primary-container)]"><StarIcon className="h-8 w-8" /></span>
           <h2 id="favorites-empty-title" className="m3-type-title-large mt-4">{text.emptyTitle}</h2>
           <p className="m3-type-body-medium mx-auto mt-2 max-w-lg text-[var(--muted)]">{text.emptyDescription}</p>
