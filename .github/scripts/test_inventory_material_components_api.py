@@ -105,6 +105,17 @@ class SourceIndexTests(unittest.TestCase):
         self.assertTrue(result["matched"])
         self.assertTrue(result["restricted"])
 
+    def test_does_not_match_unresolved_simple_name_to_another_package(self):
+        index = {
+            ("pkg.Widget", "convert", "method"): [
+                {"restricted": True, "deprecated": False, "docDeprecated": False, "parameterTypes": ["View"]},
+            ],
+        }
+        result = MODULE.source_member_info(index, "pkg.Widget", "convert", ["android.view.View"], "method")
+        self.assertFalse(result["matched"])
+        self.assertFalse(result["ambiguous"])
+        self.assertFalse(result["restricted"])
+
     def test_keeps_same_erased_signature_ambiguous(self):
         index = {
             ("pkg.Widget", "convert", "method"): [

@@ -172,14 +172,7 @@ def source_member_info(index, owner, name, binary_parameter_types, member_kind, 
         else:
             def compatible(source_types):
                 normalized = [normalize_parameter_type(value) for value in source_types]
-                if normalized == binary_types:
-                    return True
-                return len(normalized) == len(binary_types) and all(
-                    source == binary or (
-                        "." not in source and source == binary.rsplit(".", 1)[-1]
-                    )
-                    for source, binary in zip(normalized, binary_types)
-                )
+                return normalized == binary_types
             matches = [item for item in candidates if compatible(item["parameterTypes"])]
         if not matches:
             continue
@@ -541,7 +534,7 @@ def main():
             },
             "limitations": [
                 "This is a binary signature candidate index, not an official Android API dump.",
-                "Java source declarations and annotations are indexed with the JDK compiler AST; method matching compares parameter types after generic erasure and resolves explicit imports, package-local source types, and unambiguous wildcard imports. Unresolved simple names are matched by suffix only and may remain ambiguous across packages.",
+                "Java source declarations and annotations are indexed with the JDK compiler AST; method matching compares parameter types after generic erasure and resolves explicit imports, package-local source types, and unambiguous wildcard imports. Unresolved simple names are left unmatched rather than guessed across packages.",
                 "Compiler-generated bridge methods, implicit or synthetic constructors, enum-generated methods, and inherited members whose declarations belong to dependencies outside the published source archive may not have a source declaration match; these cases remain explicitly unmatched rather than inferred. Type-variable parameters are compared using their declared erasure bounds when those bounds are available in the binary signature and source declaration. Inherited declarations found in the published source archive are attributed to their nearest source owner.",
                 "Public API completeness remains unverified until the remaining unmatched members, generated members and signature semantics are reviewed.",
             ],
