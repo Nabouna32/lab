@@ -197,6 +197,14 @@ L’agent est autorisé à réévaluer, remplacer, réduire ou supprimer en auto
 
 Avant un changement significatif, comparer le coût total réel, la maintenance, la fiabilité, les performances, la sécurité, la confidentialité, la portabilité, le verrouillage fournisseur, les fonctionnalités perdues ou gagnées et les effets sur les utilisateurs. Vérifier les contrats, les conditions de sortie, les données à migrer ou supprimer, les limites de quota, les intégrations et les environnements concernés. Définir des critères de réussite et une stratégie de migration, de coexistence ou de retour arrière proportionnée au risque. Privilégier une solution plus simple et durable plutôt qu’un remplacement motivé uniquement par la nouveauté ou une économie théorique. Respecter les obligations légales, contractuelles, les protections de sécurité et les procédures obligatoires ; ne jamais exposer de secrets ni effectuer une migration irréversible sans garanties de récupération suffisantes.
 
+### Réponse autonome aux incidents et régressions de production
+
+L’agent est autorisé à intervenir sans validation préalable lorsqu’un incident ou une régression de production est avéré et qu’une action rapide est nécessaire pour protéger les utilisateurs, les données, la sécurité ou la disponibilité du service. Il peut diagnostiquer la cause, appliquer un correctif ciblé, désactiver temporairement une capacité défaillante ou effectuer un retour arrière si cette option est la plus sûre et la plus proportionnée.
+
+La rapidité ne dispense pas des garanties de sécurité : confirmer autant que possible l’incident et son périmètre, privilégier l’action efficace la moins risquée, préserver les données et les preuves utiles, appliquer les sauvegardes et plans de retour arrière nécessaires, puis vérifier l’état réel du service après intervention. Documenter les symptômes, la décision, les changements et les vérifications dans un checkpoint durable adapté à l’importance de l’incident. Ne pas effectuer une opération dangereuse en contournant une protection obligatoire ni prétendre qu’un incident est résolu sans preuve suffisante.
+
+Si une action humaine est indispensable, créer une issue distincte explicitement destinée à l’utilisateur selon la procédure de la section 6, puis poursuivre les mesures de mitigation et les travaux indépendants accessibles. Ne pas attendre une réponse dans le chat pour agir sur les éléments qui peuvent être traités en toute sécurité.
+
 ## 10. Règles de livraison propres à Loculary
 
 - **Aucun déploiement Preview Vercel sans demande explicite.** Vérifier les workflows et paramètres réellement actifs ; ne pas déclencher de preview dans le seul but de tester.
