@@ -17,10 +17,7 @@ drop function if exists private.enforce_design_audit_conformance_evidence();
 drop function if exists private.log_design_audit_event();
 drop function if exists private.set_design_audit_updated_at();
 
-delete from public.admin_role_permissions
-where permission_key = 'audit.write';
-
-delete from public.admin_permissions
-where key = 'audit.write';
+-- `audit.write` also authorizes writes to the general administrative audit log.
+-- Keep the permission and role bindings; only the Design Lab-specific storage is retired.
 
 commit;
