@@ -33,13 +33,42 @@ Ces volumes justifient une migration par contrats et familles, pas une réécrit
 5. **Contrôles spécifiques aux outils :** migrer selon le contrat AndroidX correspondant ; documenter les écarts nécessaires au Web.
 6. **Retrait de l’héritage :** supprimer les anciens alias, classes et composants seulement après inventaire de leurs références et migration vérifiée des consommateurs.
 
+## Challenge global « page blanche »
+
+Ce challenge est une méthode d'architecture et de produit applicable à **tout Loculary**, pas une simple revue de page. Pour chaque décision importante, partir du besoin et des contraintes réelles, puis poser la question :
+
+> Si nous construisions aujourd'hui la meilleure version de Loculary depuis zéro, sans hériter du code, des composants, des dépendances ni des décisions actuelles, que choisirions-nous et pourquoi ?
+
+Appliquer ce filtre à l'ensemble du système :
+
+- **Produit et UX :** promesse, intentions, recherche et découverte, navigation, parcours, hiérarchie, contenu, états vides/erreurs/chargement, interactions et prochaines actions.
+- **Fondations visuelles :** couleurs et schémas, typographie, formes, élévations, espacements, mouvement, icônes, thèmes et règles responsive.
+- **Composants et compositions :** primitives, API, responsabilités, variantes, états, accessibilité, contrats AndroidX, composants redondants ou artificiels et limites entre partage et personnalisation.
+- **Architecture et code :** domaines, frontières, flux de données, état local/synchronisé, rendu serveur/client, contrats, abstractions, duplication, complexité, dette et possibilité de supprimer plutôt que d'ajouter.
+- **Données, confidentialité et sécurité :** collecte minimale, traitement local, comptes facultatifs, permissions, transferts, stockage, partage, rétention, suppression, menaces et comportements en cas d'échec.
+- **Plateforme et livraison :** dépendances, versions, performances, robustesse, observabilité, tests, CI, déploiement, coûts et maintenance.
+- **Qualité transversale :** accessibilité WCAG 2.2 AA, clavier et technologies d'assistance, français/anglais, responsive, thèmes clair/sombre, réduction des animations et prise en charge des navigateurs.
+
+Pour chaque problème significatif, consigner brièvement :
+
+1. **Besoin et preuves :** problème utilisateur/technique observé, sources fiables et incertitudes.
+2. **Cible depuis zéro :** solution que nous choisirions sans l'existant.
+3. **Comparaison honnête :** conserver, adapter, remplacer, supprimer ou reconstruire ; coût, risque, qualité, complexité et effets à long terme.
+4. **Recommandation :** choix motivé par le meilleur résultat, pas par la taille du diff ou l'attachement à l'architecture en place.
+5. **Trajectoire :** étapes de migration, compatibilité temporaire éventuelle, critères de suppression de l'héritage et vérifications nécessaires.
+
+Le challenge est obligatoire pour les fondations, les contrats partagés, les outils, les compositions, les pages et les systèmes transversaux. Son niveau de détail dépend du risque : il ne faut pas créer une fiche lourde pour chaque petit changement. Il doit néanmoins être explicite lorsqu'une décision structurelle ou un parcours important est en jeu.
+
+**Repartir de zéro ne signifie pas réécrire par principe.** La cible idéale sert de référence pour décider ; une migration incrémentale peut rester la meilleure façon d'y arriver. Inversement, la compatibilité et le code existant ne sont pas des arguments suffisants pour conserver une solution inférieure. Ne pas confondre coût de migration avec qualité de la cible.
+
 ## Règles de décision
 
-- Les valeurs relevant d’AndroidX proviennent du contrat de la source épinglée et de ses tokens. Elles ne sont pas redéfinies arbitrairement dans chaque page.
-- Les paramètres propres à un composant restent locaux lorsqu’ils correspondent à une personnalisation prévue par son API. Une différence produit ou Web doit être nommée, justifiée et testée.
+- AndroidX définit les contrats qu'il expose ; les sources officielles épinglées font foi. Les adaptations Web, les décisions produit Loculary et les éléments non vérifiés doivent rester identifiés séparément.
+- Les valeurs relevant d'AndroidX proviennent du contrat de la source épinglée et de ses tokens. Elles ne sont pas redéfinies arbitrairement dans chaque page.
+- Les paramètres propres à un composant restent locaux lorsqu'ils correspondent à une personnalisation prévue par son API. Une différence produit ou Web doit être nommée, justifiée et testée.
 - Ne pas créer un token pour chaque nombre : centraliser les décisions récurrentes qui doivent évoluer ensemble.
-- Une page n’est pas migrée parce qu’elle utilise quelques composants Material 3. Le parcours complet, la hiérarchie, les surfaces, les espacements, les états et l’accessibilité doivent être évalués.
-- **Challenge page blanche obligatoire pour chaque page :** comparer une migration ciblée à une reconstruction depuis une page blanche ; expliquer les conséquences et recommander l’option la plus cohérente avec Material 3 Fidelity. Le code historique ne constitue pas une exigence de conservation.
+- La migration d'un consommateur ne consiste pas à remplacer quelques classes. Évaluer son comportement, sa hiérarchie, ses états, son accessibilité et ses dépendances au contrat partagé.
+- Supprimer les anciens alias, classes, composants et dépendances après inventaire des références et vérification des remplacements.
 - La validation statique et la CI ne prouvent pas la fidélité visuelle. La validation navigateur doit préciser le thème, la langue, les largeurs et les états vérifiés.
 
 ## Première migration de pages — favoris et collection partagée
