@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "artifact": "androidx.compose.material3:material3",
+  "referenceVersion": "1.4.0",
+  "release": {
+    "status": "stable",
+    "releaseDate": "2025-09-24",
+    "releaseNotesUrl": "https://developer.android.com/jetpack/androidx/releases/compose-material3#1.4.0"
+  },
+  "sourceArchive": {
+    "url": "https://android.googlesource.com/platform/prebuilts/androidx/internal/+/refs/heads/androidx-collection-release/androidx/compose/material3/material3/1.4.0/material3-1.4.0-sources.jar",
+    "checksumUrl": "https://android.googlesource.com/platform/prebuilts/androidx/internal/+/refs/heads/androidx-collection-release/androidx/compose/material3/material3/1.4.0/material3-1.4.0-sources.jar.sha256",
+    "gitilesBlobId": "665e57823c7b99dcc36a392b7703528bf365ec8e",
+    "publishedSha256": "08a23a069407ba2a59685f88d676fd38ede207301a0805ee904ed63735f5d0b5",
+    "checksumStatus": "recorded-from-official-checksum-file; archive-bytes-not-rehashed-in-this-change"
+  },
+  "repositoryApiInspection": {
+    "repository": "androidx/androidx",
+    "commit": "5901d750e269aa3d88f6fccd5186637df83a0173",
+    "apiDirectory": "compose/material3/material3/api",
+    "stableDumpPresentAtPinnedCommit": false,
+    "nearestVersionedDump": "1.4.0-beta03.txt",
+    "nearestVersionedDumpUrl": "https://github.com/androidx/androidx/blob/5901d750e269aa3d88f6fccd5186637df83a0173/compose/material3/material3/api/1.4.0-beta03.txt",
+    "watchDump": {
+      "path": "compose/material3/material3/api/current.txt",
+      "url": "https://github.com/androidx/androidx/blob/5901d750e269aa3d88f6fccd5186637df83a0173/compose/material3/material3/api/current.txt",
+      "sha256": "37bdc94e8e84f5a999922143f531c8a83fd488d1cb1f7929ebb51cb469832bd5",
+      "role": "watch-only"
+    },
+    "scopeNote": "The absence of 1.4.0.txt is established only for this inspected commit and directory; it does not prove that no separate official release dump exists elsewhere."
+  },
+  "apiDumpAlignment": {
+    "status": "UNVERIFIED",
+    "exactStableDump": null,
+    "repositorySourceCommit": null,
+    "reason": "The published source archive is identified, but the exact source commit and an API dump proven to match the stable 1.4.0 artifact have not been established."
+  }
+}
