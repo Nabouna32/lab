@@ -26,7 +26,7 @@ This remains an intentionally small account foundation. Favorites and personal c
 
 A database-backed catalog is a possible future option, not an active target or scheduled migration. The October 2026 clean-cut removed the legacy `tool_*` schema and catalog permissions, leaving a small account/administration foundation. The public catalog remains Git-backed.
 
-Reconsider a database catalog only when a concrete requirement cannot be served well by Git, such as authorized editorial publishing without code deployment, measured search/build/delivery bottlenecks, or administration/audit needs that the current workflow cannot reasonably meet. Catalog size alone is not a trigger. DEC-027 records the decision and its criteria. No public tool-catalog tables should be reintroduced before a separately reviewed design and explicit approval. The private Design Lab reference catalogue is a separate administrative maintenance domain.
+Reconsider a database catalog only when a concrete requirement cannot be served well by Git, such as authorized editorial publishing without code deployment, measured search/build/delivery bottlenecks, or administration/audit needs that the current workflow cannot reasonably meet. Catalog size alone is not a trigger. DEC-027 records the decision and its criteria. No public tool-catalog tables should be reintroduced before a separately reviewed design and explicit approval. The Design Lab is now a local component gallery; it has no separate database-backed catalogue or maintenance workflow.
 
 Executable tool behavior remains in Git/code: registry modules, processing mode, capabilities and technical behavior are never moved into the database merely because editable metadata changes storage.
 
