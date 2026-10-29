@@ -8,5 +8,6 @@ test("TopAppBar ne rend une navigation que si une action est fournie", () => {
   assert.match(source, /const showNavigation = Boolean\(onNavigationClick\)/);
   assert.match(source, /\{showNavigation \? \(/);
   assert.match(source, /navigationIcon \?\? "menu"/);
+  assert.match(source, /navigationLabel = "Open navigation"/);
   assert.doesNotMatch(source, /navigationIcon = "menu"/);
 });
