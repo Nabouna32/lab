@@ -25,7 +25,7 @@ class SourceIndexTests(unittest.TestCase):
     def test_matches_overloads_using_erased_parameter_types(self):
         index = {
             ("pkg.Widget", "convert", "method"): [
-                {"restricted": False, "deprecated": False, "docDeprecated": False, "parameterTypes": ["String"]},
+                {"restricted": False, "deprecated": False, "docDeprecated": False, "parameterTypes": ["java.lang.String"]},
                 {"restricted": True, "deprecated": False, "docDeprecated": False, "parameterTypes": ["int"]},
             ],
         }
@@ -149,8 +149,8 @@ class SourceIndexTests(unittest.TestCase):
     def test_keeps_same_erased_signature_ambiguous(self):
         index = {
             ("pkg.Widget", "convert", "method"): [
-                {"restricted": False, "deprecated": False, "docDeprecated": False, "parameterTypes": ["List<String>"]},
-                {"restricted": True, "deprecated": False, "docDeprecated": False, "parameterTypes": ["java.util.List<Integer>"]},
+                {"restricted": False, "deprecated": False, "docDeprecated": False, "parameterTypes": ["java.util.List<java.lang.String>"]},
+                {"restricted": True, "deprecated": False, "docDeprecated": False, "parameterTypes": ["java.util.List<java.lang.Integer>"]},
             ],
         }
         result = MODULE.source_member_info(index, "pkg.Widget", "convert", ["java.util.List<? extends Foo>"], "method")
