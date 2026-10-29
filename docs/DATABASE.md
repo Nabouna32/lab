@@ -9,7 +9,8 @@ Sensitive tool inputs and file contents are not stored by default. Anonymous loc
 ## Supabase plan constraints
 
 - Loculary currently uses Supabase on the Free Plan.
-- Leaked-password protection cannot be enabled on the current Free Plan. This is a plan limitation, not an unaddressed implementation omission; the corresponding Supabase advisor warning cannot be resolved without changing the plan or available features.
+- Leaked-password protection cannot be enabled on the current Free Plan. This is a plan limitation, not an unaddressed implementation omission.
+- Supabase reports this as the platform-level Auth advisor finding `auth_leaked_password_protection`, not as a database lint. SQL migrations and database-lint suppression cannot resolve it. Keep it recorded as an accepted Free-plan limitation in audits; do not report it repeatedly as an unresolved repository defect. Reassess only if the plan changes or email/password authentication is no longer used.
 - If the project moves to a plan that supports leaked-password protection, re-evaluate and enable it as part of security hardening.
 - Consider Free-plan limits when evaluating Supabase architecture, request volume, egress, database size, Edge Functions and other usage-sensitive designs.
 
