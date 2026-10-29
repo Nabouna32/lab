@@ -96,7 +96,7 @@ test("shared typography roles drive component CSS instead of duplicated font met
     ["timePicker", "--m3-type-body-medium-size", "--m3-type-body-small-size"],
     ["toggleButton", "--m3-type-label-large-size"],
     ["tooltip", "--m3-type-body-small-size", "--m3-type-body-medium-size", "--m3-type-title-small-size"],
-    ["topAppBar", "--m3-type-title-large-size", "--m3-type-headline-medium-size"],
+    ["topAppBar", "--m3-type-title-large-size", "--m3-type-headline-small-size", "--m3-type-headline-medium-size"],
     ["bottomSheetScaffold", "--m3-type-label-large-size"],
     ["buttonGroup", "--m3-type-label-large-size"],
     ["datePicker", "--m3-type-label-medium-size", "--m3-type-label-large-size", "--m3-type-body-small-size", "--m3-type-title-small-size", "--m3-type-body-medium-size"],
