@@ -119,10 +119,10 @@ test("shared typography roles drive component CSS instead of duplicated font met
     }
   }
 
-  assert.match(typographyComponentStyles.topAppBar, /\\.medium\\.expanded \\.title \\{[^}]*--m3-type-headline-small-size/s);
-  assert.match(typographyComponentStyles.topAppBar, /\\.large\\.expanded \\.title \\{[^}]*--m3-type-headline-medium-size/s);
-  assert.match(typographyComponentStyles.topAppBar, /\\.medium:not\\(\\.expanded\\) \\.title, \\.large:not\\(\\.expanded\\) \\.title \\{[^}]*--m3-type-title-large-size/s);
-  assert.doesNotMatch(typographyComponentStyles.topAppBar, /\\.medium\\.expanded \\.title \\{[^}]*--m3-type-headline-medium-size/s);
+  assert.match(typographyComponentStyles.topAppBar, /\.medium\.expanded \.title \{[^}]*--m3-type-headline-small-size/s);
+  assert.match(typographyComponentStyles.topAppBar, /\.large\.expanded \.title \{[^}]*--m3-type-headline-medium-size/s);
+  assert.match(typographyComponentStyles.topAppBar, /\.medium:not\(\.expanded\) \.title, \.large:not\(\.expanded\) \.title \{[^}]*--m3-type-title-large-size/s);
+  assert.doesNotMatch(typographyComponentStyles.topAppBar, /\.medium\.expanded \.title \{[^}]*--m3-type-headline-medium-size/s);
 });
 
 test("shared shape tokens are consumed by date, navigation and slider compositions", () => {
@@ -477,7 +477,7 @@ test("Design Lab renders the shared production UI primitives against the active 
   const labSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
   assert.ok(labSource.includes('import { Card, ElevatedCard, OutlinedCard } from "@/components/ui/Card"'));
   for (const component of ["Panel", "ResultPanel", "Checkbox", "TextField", "TextArea", "ExposedDropdownMenu", "ModalBottomSheet", "AlertDialog", "SegmentedControl", "ValidationMessage", "Switch"]) {
-    assert.match(labSource, new RegExp(`import \\{ ${component} \\} from "@\\/components\\/ui\\/${component}"`), `missing shared component import: ${component}`);
+    assert.match(labSource, new RegExp(`import \{ ${component} \\} from "@\\/components\\/ui\\/${component}"`), `missing shared component import: ${component}`);
   }
   assert.ok(labSource.includes('import { Button, ElevatedButton, FilledTonalButton, OutlinedButton, TextButton } from "@/components/ui/Button"'));
   assert.match(labSource, /import \{[^}]*IconButton[^}]*\} from "@\/components\/ui\/IconButton"/);
@@ -493,7 +493,7 @@ test("Design Lab does not reference missing CSS module classes", () => {
   const labSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
   const references = [...new Set([...labSource.matchAll(/styles\.([A-Za-z_]\w*)/g)].map((match) => match[1]))];
   for (const className of references) {
-    assert.match(labCss, new RegExp(`\\.${className}(?![\\w-])`), `missing CSS module class: ${className}`);
+    assert.match(labCss, new RegExp(`\.${className}(?![\\w-])`), `missing CSS module class: ${className}`);
   }
 });
 
@@ -800,7 +800,7 @@ test("ModalBottomSheet is an accessible AndroidX-informed Web adaptation", () =>
   assert.match(bottomSheetCss, /prefers-reduced-motion: reduce/);
   assert.match(bottomSheetCss, /shape-corner-extra-large/);
   assert.match(labSource, /<ModalBottomSheet open=\{bottomSheetOpen\}/);
-  assert.doesNotMatch(labSource, /sampleBottomSheetOpen|className=\\{styles\\.sheetHandle\\}/);
+  assert.doesNotMatch(labSource, /sampleBottomSheetOpen|className=\{styles\.sheetHandle\\}/);
 });
 
 
