@@ -47,7 +47,6 @@ export default function AppLink({
   ...props
 }: AppLinkProps) {
   const isMaterialButton = variant === "filled" || variant === "elevated" || variant === "filled-tonal" || variant === "outlined" || variant === "text";
-  const isTextVariant = variant === "text";
   const mergedStyle = getMaterialButtonInlineStyle(isMaterialButton ? variant as MaterialButtonVariant : null, colors, style);
   const materialButtonLayout = [
     getMaterialButtonLayoutClasses(variant as MaterialButtonVariant, { leadingIcon }),
