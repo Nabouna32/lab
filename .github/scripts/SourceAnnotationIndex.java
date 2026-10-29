@@ -82,7 +82,7 @@ public final class SourceAnnotationIndex {
       emit("T", owner, simple, "-", "type",
         hasAnnotation(node.getModifiers().getAnnotations(), "RestrictTo"),
         hasAnnotation(node.getModifiers().getAnnotations(), "Deprecated"),
-        hasDeprecatedDoc(docs, getCurrentPath()));
+        hasDeprecatedDoc(docs, getCurrentPath()), "");
       typeNames.addLast(owner);
       try { return super.visitClass(node, unused); }
       finally { typeNames.removeLast(); }
