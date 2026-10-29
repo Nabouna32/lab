@@ -79,7 +79,7 @@ def split_signature_parameters(signature):
 
 
 def normalize_parameter_type(value):
-    value = re.sub(r"@[w.$]+(?:\([^)]*\))?\s*", "", value)
+    value = re.sub(r"@[A-Za-z0-9_.$]+(?:\([^)]*\))?\s*", "", value)
     value = value.replace("...", "[]")
     erased = []
     depth = 0
