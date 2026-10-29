@@ -118,6 +118,11 @@ test("shared typography roles drive component CSS instead of duplicated font met
       assert.ok(typographyComponentStyles[component].includes(token), `${component} must consume ${token}`);
     }
   }
+
+  assert.match(typographyComponentStyles.topAppBar, /\\.medium\\.expanded \\.title \\{[^}]*--m3-type-headline-small-size/s);
+  assert.match(typographyComponentStyles.topAppBar, /\\.large\\.expanded \\.title \\{[^}]*--m3-type-headline-medium-size/s);
+  assert.match(typographyComponentStyles.topAppBar, /\\.medium:not\\(\\.expanded\\) \\.title, \\.large:not\\(\\.expanded\\) \\.title \\{[^}]*--m3-type-title-large-size/s);
+  assert.doesNotMatch(typographyComponentStyles.topAppBar, /\\.medium\\.expanded \\.title \\{[^}]*--m3-type-headline-medium-size/s);
 });
 
 test("shared shape tokens are consumed by date, navigation and slider compositions", () => {
