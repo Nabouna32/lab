@@ -32,6 +32,7 @@ test('verifies published SHA-256 and SHA-1 sidecars and records archive hashes',
   const result = await inspectMavenSourceArchive(manifest, fetchFixture());
   assert.equal(result.checksumStatus, 'verified-against-google-maven-sidecar');
   assert.equal(result.sha256, hashes.sha256);
+  assert.equal(result.sha1, archiveSha1());
   assert.equal(result.gitBlobSha1, hashes.gitBlobSha1);
   assert.deepEqual(result.checksums.map(x => x.algorithm), ['sha256', 'sha1']);
   assert.equal(result.checksums.every(x => x.matches), true);
