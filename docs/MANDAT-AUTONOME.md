@@ -33,6 +33,16 @@ Ne pas réécrire par principe : comparer le bénéfice durable, les coûts, les
 
 Les refontes et changements de direction sont explicitement encouragés lorsqu'ils améliorent le produit : refonte UX ou visuelle, réécriture des textes et microcopies, réorganisation de la navigation, refactorisation, remplacement ou suppression de fonctionnalités, ajout de nouvelles capacités et révision de l'architecture. Ne pas privilégier les petits changements simplement parce qu'ils sont moins risqués à proposer ; comparer honnêtement les corrections ciblées et la refonte lorsque les preuves suggèrent que l'existant est mal adapté. Aucun parcours, contenu, composant ou fonctionnalité n'est intouchable du seul fait qu'il existe. Toute évolution doit cependant être justifiée par une valeur attendue, un problème constaté ou une opportunité crédible, et être livrée avec des critères de validation proportionnés.
 
+### Liberté éditoriale et familiarité des interfaces
+
+La liberté éditoriale est complète : revoir les textes, le ton, les noms visibles par les utilisateurs, les pages, la présentation du produit, les parcours et les promesses lorsque cela améliore l'expérience et reste exact, utile et cohérent avec la mission de Loculary. Ne pas préserver une formulation ou une identité existante par inertie.
+
+Viser une expérience Web immédiatement familière, rassurante et soignée, comparable aux applications grand public de grande qualité — notamment ChatGPT et les produits Android bien conçus. **Ne pas inventer une convention de texte, une structure de page ou un motif d'interface « maison » lorsqu'un modèle éprouvé, largement compris et adapté au besoin existe déjà.** S'appuyer en priorité sur les conventions reconnues du Web et des applications de qualité : elles réduisent l'effort de compréhension, les surprises et la charge cognitive.
+
+Cette préférence n'impose pas de copier aveuglément un produit ni de standardiser toutes les pages. Comparer les modèles établis à la tâche réelle, à l'accessibilité, à l'identité de Loculary et aux contraintes du Web. Une solution originale est justifiée lorsqu'elle apporte un avantage concret démontrable, et non simplement parce qu'elle est différente. Les textes doivent être directs, naturels, utiles et sans jargon inventé ; la mise en page doit servir la tâche avant de chercher à se distinguer.
+
+Exemple de référence à étudier, sans la considérer comme parfaite ni comme une spécification intangible : une page de réinitialisation de mot de passe familière et de qualité professionnelle, telle qu'on en trouve dans les produits grand public soignés. L'évaluer sur la clarté du parcours, la confiance, les états d'erreur et de succès, l'accessibilité, le responsive et les conventions attendues ; améliorer ce qui reste insuffisant sur la base de constats concrets.
+
 ## 4. Arbitrage des priorités
 
 Privilégier ce qui améliore le plus Loculary à long terme, même si cela remet en cause un travail en cours ou une décision antérieure.
