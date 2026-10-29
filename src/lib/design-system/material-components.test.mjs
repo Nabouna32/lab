@@ -1186,3 +1186,21 @@ test("date, navigation rail and PDF controls use shared Material Symbols", () =>
   assert.match(imageToPdf, /keyboard_arrow_down/);
   assert.doesNotMatch(imageToPdf, /[📄↑↓]/u);
 });
+
+
+test("image tool placeholders use the shared Material Symbols registry", () => {
+  const contactSheet = readFileSync(new URL("../../components/tools/image-contact-sheet/ImageContactSheet.tsx", import.meta.url), "utf8");
+  const imageCompressor = readFileSync(new URL("../../components/tools/image-compressor/ImageCompressor.tsx", import.meta.url), "utf8");
+  assert.match(contactSheet, /MaterialIcon name="image"/);
+  assert.match(imageCompressor, /MaterialIcon name="image"/);
+  assert.doesNotMatch(contactSheet, /🖼/u);
+  assert.doesNotMatch(imageCompressor, /🖼/u);
+});
+
+test("duration mode labels do not embed platform-dependent emoji", () => {
+  const messages = readFileSync(new URL("../../lib/i18n/tool-messages.ts", import.meta.url), "utf8");
+  assert.match(messages, /datesMode: "Between two dates", timesMode: "Between two times"/);
+  assert.match(messages, /datesMode: "Entre deux dates", timesMode: "Entre deux heures"/);
+  assert.doesNotMatch(messages, /datesMode: "📅/u);
+  assert.doesNotMatch(messages, /timesMode: "🕐/u);
+});

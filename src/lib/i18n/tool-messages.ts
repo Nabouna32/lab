@@ -651,7 +651,7 @@ export const toolMessages: Record<Locale, ToolMessages> = {
       yearSingular: "year", yearPlural: "years", monthSingular: "month", monthPlural: "months", daySingular: "day", dayPlural: "days",
     },
     duration: {
-      datesMode: "📅 Between two dates", timesMode: "🕐 Between two times", startDate: "Start date and time", endDate: "End date and time",
+      datesMode: "Between two dates", timesMode: "Between two times", startDate: "Start date and time", endDate: "End date and time",
       startTime: "Start time", endTime: "End time", days: "Days", hours: "Hours", minutes: "Minutes",
       invalidRange: "The start date and time must be on or before the end date and time.", emptyResult: "Enter the dates or times to see the duration.",
       summaryDates: (days, hours, minutes) => `The duration is ${days}, ${hours}, and ${minutes}.`,
