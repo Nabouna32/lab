@@ -170,12 +170,11 @@ test("icon button API separates official action variants from toggle variants", 
   assert.ok(iconButton.includes("checked: boolean") && iconButton.includes("onCheckedChange: (checked: boolean) => void"));
   assert.ok(iconButton.includes("h-12 min-h-12 w-12 min-w-12"));
   assert.ok(iconButton.includes("h-10 min-h-10 w-10 min-w-10"));
-  assert.ok(iconButton.includes('role={isToggle ? "checkbox" : undefined}'));
+  assert.ok(iconButton.includes("aria-pressed={isToggle ? checked : undefined}"), "toggle buttons expose their pressed state");
   assert.ok(iconButton.includes('aria-hidden="true"'));
   assert.ok(iconButton.includes('import { ButtonRipple } from "@/components/ui/ButtonRipple"'));
   assert.ok(iconButton.includes("<ButtonRipple />"), "icon buttons use the shared bounded ripple adaptation");
   assert.ok(iconButton.includes("group relative isolate inline-flex"), "the ripple layer is positioned inside the native button");
-  assert.ok(iconButton.includes('role={isToggle ? "checkbox" : undefined}') && iconButton.includes("aria-checked={isToggle ? checked : undefined}"), "toggle semantics match AndroidX Role.Checkbox");
   assert.ok(iconButton.includes("relative isolate inline-flex shrink-0 items-center justify-center rounded-full"), "the 40px surface clips the ripple separately from the 48px touch target");
   assert.ok(iconButton.includes("var(--secondary-container)") && iconButton.includes("var(--on-secondary-container)"));
   assert.ok(iconButton.includes("ref?: Ref<HTMLButtonElement>"));
