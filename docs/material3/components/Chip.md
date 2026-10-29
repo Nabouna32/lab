@@ -16,7 +16,7 @@
 - **ANDROIDX** — Assist, Filter, Input et Suggestion ont des usages distincts ; les variantes élevées existent pour Assist, Filter et Suggestion.
 - **ANDROIDX** — un FilterChip expose la sélection et affiche une coche lorsque sélectionné.
 - **WEB-ADAPTATION** — les interactions utilisent un vrai bouton HTML. L'API React commune `Chip` et sa propriété `variant` regroupent plusieurs signatures AndroidX ; c'est une composition Web Loculary, pas une reproduction exacte de l'API Kotlin.
-- **ACCESSIBILITÉ** — le gestionnaire `onClick` fourni par l'appelant doit être conservé ; les états de sélection sont exposés via `aria-pressed` pour les variantes Filter et Input. L'action de retrait doit recevoir un libellé localisé via `dismissLabel` et être désactivée avec le chip.
+- **ACCESSIBILITÉ** — le gestionnaire `onClick` fourni par l'appelant doit être conservé ; les états de sélection sont exposés via `aria-pressed` pour les variantes Filter et Input. L'action de retrait exige un libellé localisé explicite via `dismissLabel` (contrat TypeScript) et est désactivée avec le chip.
 - **UNVERIFIED** — couleurs, dimensions, espacements, élévations et transitions n'ont pas été comparés de bout en bout aux valeurs de la source publiée 1.4.0.
 
 ## Vérifications restantes
