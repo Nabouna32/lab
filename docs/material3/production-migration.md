@@ -54,6 +54,16 @@ Les en-têtes conservent leur repère HTML `header`, les listes restent des list
 
 La page interactive de gestion des collections (`CollectionsView`) reste à auditer séparément avant sa migration, car elle comporte des formulaires, des imports/exports, des dialogues et des états de synchronisation supplémentaires.
 
+## Gestion des collections
+
+**Challenge page blanche**
+
+- **Migration ciblée :** conserver les opérations existantes et leur protection des données — collections locales ou synchronisées, limite locale, export/import JSON, partage volontaire et confirmation de suppression — tout en migrant les surfaces et la typographie vers les contrats communs.
+- **Reconstruction depuis une page blanche :** elle offrirait l'occasion de revoir la disposition maître/détail, le formulaire de renommage actuellement confié à `window.prompt`, les états d'import et les interactions clavier. Ce serait une amélioration UX potentielle, mais elle ne doit pas entraîner la réécriture implicite de la logique de confidentialité ou du format de sauvegarde.
+- **Décision :** migration ciblée du rendu dans cette tranche, car la structure maître/détail reste adaptée à un écran large et se replie en une seule colonne sur petit écran. Le renommage via `window.prompt` reste un écart UX identifié à traiter lors d'une tranche dédiée aux dialogues et formulaires AndroidX ; il n'est pas considéré comme conforme.
+
+Le formulaire de création, les contrôles natifs, les boutons, les statuts et le dialogue de suppression conservent leur sémantique et leurs responsabilités. Les panneaux utilisent désormais le port partagé `Card`, les rôles typographiques Material 3 et l'échelle de formes commune. Les choix de collection restent des boutons natifs avec un état sélectionné explicite ; ils ne sont pas artificiellement convertis en cartes interactives.
+
 ## Prochaine tranche
 
 La première correction structurelle de cette migration centralise le layout partagé des boutons et des liens qui adoptent leur apparence. Les prochaines tranches doivent s’appuyer sur cette cartographie pour migrer les fondations et les composants communs, puis les consommateurs, sans ajouter une seconde couche qui cohabiterait indéfiniment avec l’ancien système.
