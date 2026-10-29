@@ -29,7 +29,8 @@ test("Chip preserves caller handlers and exposes selectable state accessibly", (
   assert.match(chip, /onClick\?\.\(event\)/);
   assert.match(chip, /if \(filter && onSelectedChange && !props\.disabled\) onSelectedChange\(!selected\)/);
   assert.match(chip, /aria-pressed=\{filter \|\| input \? selected : undefined\}/);
-  assert.match(chip, /dismissLabel = `Remove \$\{label\}`/);
+  assert.ok(chip.includes("dismissLabel: string"), "dismissible chips require an explicit localized label");
+  assert.doesNotMatch(chip, /dismissLabel =/);
   assert.match(chip, /disabled=\{props\.disabled\}/);
   assert.match(chipCss, /:disabled/);
   assert.match(chipCss, /var\(--secondary-container\)/);
