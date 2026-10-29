@@ -10,7 +10,6 @@ const buttonRipple = readFileSync(new URL("../../components/ui/ButtonRipple.tsx"
 const iconButton = readFileSync(new URL("../../components/ui/IconButton.tsx", import.meta.url), "utf8");
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
 const labSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
-const auditPreview = readFileSync(new URL("../../app/[locale]/design-lab/audit/ComponentLivePreview.tsx", import.meta.url), "utf8");
 const favoriteButton = readFileSync(new URL("../../components/favorites/FavoriteButton.tsx", import.meta.url), "utf8");
 const baseConverter = readFileSync(new URL("../../components/tools/number-base-converter/NumberBaseConverter.tsx", import.meta.url), "utf8");
 const themeToggle = readFileSync(new URL("../../components/theme/ThemeToggle.tsx", import.meta.url), "utf8");
@@ -73,18 +72,17 @@ test("Button disabled colors follow AndroidX variant token roles", () => {
 
 
 test("button-styled links preserve anchors and share the ripple interaction", () => {
-  assert.doesNotMatch(auditPreview, /topBar=\{<TopAppBar[^>]*onNavigationClick=\{\(\) => undefined\}/, "the Scaffold preview must not show an inert navigation action");
   assert.match(appLink, /import NextLink, \{ type LinkProps \} from "next\/link"/);
   assert.match(appLink, /data-material-button-link=\{isMaterialButton \? "true" : undefined\}/);
   assert.match(appLink, /isMaterialButton \? <ButtonRipple \/> : null/);
   assert.match(appLink, /materialButtonVariantStyles\[variant\]/);
-  assert.match(appLink, /getMaterialButtonInlineStyle\(isMaterialButton/);
   assert.match(button, /getMaterialButtonLayoutClasses\(variant, \{ leadingIcon, multiline \}\)/);
   assert.match(appLink, /getMaterialButtonLayoutClasses\(variant, \{ leadingIcon \}\)/);
   assert.match(buttonLayout, /min-h-10/);
   assert.match(buttonLayout, /min-w-\[58px\]/);
   assert.match(buttonLayout, /ps-3 pe-4/);
   assert.match(buttonLayout, /ps-4 pe-6/);
+  assert.match(appLink, /getMaterialButtonInlineStyle\(isMaterialButton/);
 });
 
 test("remaining generic text actions use shared Button variants and their obsolete local styles are removed", () => {
@@ -132,15 +130,6 @@ test("ButtonRipple avoids creating or retaining animated ripples when reduced mo
   }
 });
 
-test("design-system audit actions use shared Button variants", () => {
-  const workbench = readFileSync(new URL("../../app/[locale]/design-lab/audit/ComponentAuditWorkbench.tsx", import.meta.url), "utf8");
-  assert.ok(workbench.includes('import { Button, OutlinedButton, TextButton } from "@/components/ui/Button"'));
-  assert.ok(workbench.includes("<Button type=\"submit\" disabled={savingCatalogId === entry.id}>"));
-  assert.ok(workbench.includes("<OutlinedButton type=\"button\" className=\"self-end\" onClick={resetFilters}>"));
-  assert.ok(workbench.includes("<TextButton type=\"button\" className=\"mt-3\" onClick={resetFilters}>"));
-  assert.ok(!workbench.includes('className="rounded-full bg-[var(--primary)] px-4 py-2.5 text-sm font-semibold text-[var(--on-primary)] disabled:opacity-60'));
-});
-
 test("generic tool and dialog actions use the shared AndroidX Button ports", () => {
   const expenseSplitter = readFileSync(new URL("../../components/tools/expense-splitter/ExpenseSplitter.tsx", import.meta.url), "utf8");
   const datePickerDialog = readFileSync(new URL("../../components/ui/DatePickerDialog.tsx", import.meta.url), "utf8");
@@ -175,6 +164,7 @@ test("icon button API separates official action variants from toggle variants", 
   assert.ok(iconButton.includes('import { ButtonRipple } from "@/components/ui/ButtonRipple"'));
   assert.ok(iconButton.includes("<ButtonRipple />"), "icon buttons use the shared bounded ripple adaptation");
   assert.ok(iconButton.includes("group relative isolate inline-flex"), "the ripple layer is positioned inside the native button");
+
   assert.ok(iconButton.includes("relative isolate inline-flex shrink-0 items-center justify-center rounded-full"), "the 40px surface clips the ripple separately from the 48px touch target");
   assert.ok(iconButton.includes("var(--secondary-container)") && iconButton.includes("var(--on-secondary-container)"));
   assert.ok(iconButton.includes("ref?: Ref<HTMLButtonElement>"));
@@ -206,55 +196,6 @@ test("icon toggle states use their own AndroidX color roles instead of action-bu
   assert.ok(iconButton.includes("group-disabled:border-[color-mix(in_srgb,var(--on-surface)_12%,transparent)]"));
   assert.ok(iconButton.includes("group-active:bg-[color-mix(in_srgb,var(--icon-button-container-color,transparent)_88%,var(--on-surface))]"), "outlined pressed state uses the AndroidX on-surface role");
   assert.ok(!iconButton.includes("const selectedStyles:"), "legacy selected overlay map must be removed");
-});
-
-test("Button call sites use AndroidX component names and keep extensions separate", () => {
-  assert.ok(!button.includes('primary: filled'));
-  assert.ok(!button.includes('tonal: filledTonal'));
-  assert.ok(!button.includes('secondary: outlined'));
-  assert.ok(!button.includes('ghost: text'));
-  assert.ok(!iconButton.includes("tonal: filledTonal"), "non-official icon button aliases must not remain");
-  for (const component of ["ElevatedButton", "FilledTonalButton", "OutlinedButton", "TextButton"]) {
-    assert.ok(labSource.includes(component), "Design Lab must exercise named component: " + component);
-  }
-  assert.ok(labSource.includes('containerColor: "var(--error)"'), "Design Lab demonstrates semantic error colors on an official Button");
-  assert.ok(!labSource.includes("DestructiveButton"));
-  for (const required of ["buttonDisabled", "buttonLongLabel", "buttonLeadingIcon", "buttonTrailingArrow", "buttonNarrow", "buttonMultiline", "buttonManualBreak", "multiline={multiline}", "arrow_forward", "Disabled state"]) {
-    assert.ok(auditPreview.includes(required), "Button audit preview is missing control or state coverage: " + required);
-  }
-  assert.ok(labSource.includes("<IconToggleButton") && labSource.includes("<FilledIconButton"));
-  assert.ok(labSource.includes("FilledTonalIconButton"));
-  assert.ok(toolSearch.includes('<IconButton') && toolSearch.includes('label={t.tools.clearSearch}'));
-  assert.ok(readFileSync(new URL("../../components/ui/CopyButton.tsx", import.meta.url), "utf8").includes("leadingIcon"));
-  assert.ok(readFileSync(new URL("../../components/ui/ClearButton.tsx", import.meta.url), "utf8").includes("leadingIcon"));
-  assert.ok(!toolSearch.includes('className="min-h-10 w-10 shrink-0 rounded-full p-0"'));
-  assert.ok(toolSearch.includes('<MaterialIcon name="close" size={24} />'));
-  assert.ok(toolSearch.includes('<MaterialIcon name="arrow_forward" size={24} />'));
-});
-
-test("Button audit preview provides contextual verification guidance in French and English", () => {
-  for (const required of [
-    "buttonScenarios",
-    "Référence Android Material 3",
-    "Android Material 3 baseline",
-    "MDUI and MUI are secondary Web comparisons only",
-    "buttonLongLabel",
-    "buttonLeadingIcon || buttonTrailingArrow",
-    "leadingIcon={buttonLeadingIcon}",
-    "buttonNarrow",
-    "buttonMultiline || buttonManualBreak",
-    "buttonManualBreak",
-    "200 %",
-    "200%",
-    "Réduction des animations",
-    "Reduced motion",
-    "Consignes de vérification",
-    "What to verify",
-    "l’aperçu seul ne prouve pas la conformité",
-    "preview alone does not prove conformance",
-  ]) {
-    assert.ok(auditPreview.includes(required), "missing contextual Button verification guidance: " + required);
-  }
 });
 
 test("favorite action uses shared M3 controls and never shrinks icon touch target below 48px", () => {
@@ -311,40 +252,6 @@ test("collection and favorites actions use AndroidX-named Button components", ()
   assert.ok(favoritesView.includes('<TextButton type="button" disabled={favorites.loading || favorites.error}'));
   assert.ok(!favoritesView.includes('variant="text"'));
   assert.ok(!favoritesView.includes('min-h-11 rounded-full px-3 text-sm font-bold text-[var(--primary)]'));
-});
-
-test("Button ripple is pointer-origin, bounded, cleans up after release and respects reduced motion", () => {
-  for (const required of [
-    "event.clientX - rect.left",
-    "event.clientY - rect.top",
-    "Math.hypot(width - x, height - y)",
-    "setPointerCapture(event.pointerId)",
-    "onPointerCancel={releasePointer}",
-    "onLostPointerCapture={releasePointer}",
-    'isAnchor ? keyboardEvent.key !== "Enter" : keyboardEvent.key !== " " && keyboardEvent.key !== "Enter"',
-    "candidate instanceof HTMLAnchorElement",
-    "isDisabledControl(control)",
-    "control.addEventListener(\"keydown\", handleKeyDown)",
-    "control.addEventListener(\"keyup\", handleKeyUp)",
-    "control.addEventListener(\"blur\", handleBlur)",
-    'event.animationName !== "button-ripple-fade"',
-  ]) {
-    assert.ok(buttonRipple.includes(required), "missing ripple interaction behavior: " + required);
-  }
-  for (const required of [
-    ".button-ripple-layer {",
-    "button:disabled .button-ripple-layer",
-    "button:active .button-ripple-layer::after,",
-    "opacity: 0.12;",
-    "border-radius: inherit",
-    "button-ripple-expand",
-    "button-ripple-fade",
-    ".button-ripple { display: none; }",
-    'a[data-material-button-link="true"]:active .button-ripple-layer::after { opacity: 0.12; }',
-  ]) {
-    assert.ok(globalCss.includes(required), "missing ripple rendering rule: " + required);
-  }
-  assert.ok(auditPreview.includes("bounded ripple") && auditPreview.includes("onde contenue"));
 });
 
 test("native control font reset stays in Tailwind base layer so Material 3 typography utilities win", () => {

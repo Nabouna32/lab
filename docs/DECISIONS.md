@@ -34,7 +34,7 @@ Ce registre contient uniquement les décisions encore utiles pour guider le prod
 - **DEC-022 — Complete account lifecycle and deletion semantics.** Création, accès, suppression et effets sur les données de compte doivent avoir des sémantiques explicites.
 - **DEC-025 — Clean Supabase application foundation.** Supabase porte les domaines de compte et de sécurité déployés ; le catalogue public des outils reste versionné dans Git.
 - **DEC-027 — Database-backed catalog is conditional on demonstrated need.** Ne pas réintroduire de catalogue public en base sans besoin démontré, comparaison des coûts et validation explicite.
-- **DEC-028 — Supabase is the operational record for Design Lab maintenance.** Supabase conserve le registre opérationnel du Design Lab ; Git reste la source de vérité du code, des migrations, des tests et des spécifications.
+- **DEC-028 — Git est la source de vérité du Design Lab.** Le laboratoire est une galerie locale des composants de production ; les décisions, spécifications et preuves de vérification vivent dans Git. Aucun catalogue ni workflow de maintenance dédié n’est conservé en base sans besoin démontré.
 
 ## Design system et qualité de livraison
 
