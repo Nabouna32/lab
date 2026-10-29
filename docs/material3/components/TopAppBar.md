@@ -1,6 +1,6 @@
 # TopAppBar — contrat AndroidX Material 3 vers React/Web
 
-**État :** portage partiel ; un écart typographique identifié a été corrigé. La parité complète du comportement, des couleurs au défilement et du rendu navigateur reste non vérifiée.
+**État :** portage partiel ; un écart typographique et un bouton de navigation inerte ont été corrigés. La parité complète du comportement, des couleurs au défilement et du rendu navigateur reste non vérifiée.
 
 ## Sources épinglées
 
@@ -27,10 +27,14 @@ Les couleurs et dimensions ci-dessus sont les valeurs des tokens dans ce snapsho
 
 `src/components/ui/TopAppBar.tsx` expose les variantes `small`, `center-aligned`, `medium` et `large`. Le CSS réutilise les rôles typographiques partagés.
 
+Le bouton de navigation est maintenant rendu uniquement lorsqu'un gestionnaire `onNavigationClick` est fourni. L'icône de menu reste une valeur par défaut dans ce cas, mais une barre sans action de navigation n'affiche plus de bouton inerte. C'est une adaptation de l'emplacement facultatif de navigation AndroidX, et non une nouvelle règle visuelle.
+
 Le challenge global « page blanche » s'applique ici aussi : si ce composant était conçu aujourd'hui, il faudrait vérifier s'il doit rester un port générique ou être remplacé/composé avec les primitives de navigation réellement nécessaires aux différents parcours. Cette question n'est pas tranchée par le simple fait que le composant existe.
 
-## Écart corrigé et vérifications restantes
+## Écarts corrigés et vérifications restantes
 
 Le titre déployé de `MediumTopAppBar` utilisait auparavant `headlineMedium`, comme la variante grande, et les titres repliés avaient une taille codée en dur de 22/28 px. Ils utilisent maintenant respectivement les rôles partagés `headlineSmall` et `titleLarge`.
 
-Restent à comparer avec AndroidX : les insets, l'alignement des actions, le comportement de défilement et d'interpolation, les états d'élévation, le clavier, les thèmes clair/sombre et les largeurs responsive. La correction typographique ne prouve pas la conformité complète.
+Le bouton de navigation ne s'affiche plus lorsqu'aucune action n'est fournie ; une assertion statique couvre ce contrat.
+
+Restent à comparer avec AndroidX : les insets, l'alignement des actions, le comportement de défilement et d'interpolation, les états d'élévation, le clavier, les thèmes clair/sombre et les largeurs responsive. Les corrections de typographie et de contrat ne prouvent pas la conformité complète.
