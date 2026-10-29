@@ -1,5 +1,5 @@
 -- Retire le workflow d’audit Design Lab devenu inutilisé.
--- Les migrations historiques restent immuables ; les données de production ont été inspectées avant ce retrait.
+-- Les migrations historiques restent immuables. Avant application en production, valider l'état réel des données et l'impact.
 
 begin;
 
