@@ -124,8 +124,9 @@ jobs:
     name: Qualité du code
     needs: prepare
     if: >-
-      ${{ needs.prepare.result == 'success' &&
+      ${{ always() &&
           github.event_name != 'schedule' &&
+          (needs.prepare.result == 'success' || github.event_name == 'pull_request') &&
           (github.event_name != 'pull_request' || needs.prepare.outputs.lightweight_only != 'true') }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -162,8 +163,9 @@ jobs:
     name: Compilation de production
     needs: prepare
     if: >-
-      ${{ needs.prepare.result == 'success' &&
+      ${{ always() &&
           github.event_name != 'schedule' &&
+          (needs.prepare.result == 'success' || github.event_name == 'pull_request') &&
           (github.event_name != 'pull_request' ||
             (needs.prepare.outputs.lightweight_only != 'true' &&
              needs.prepare.outputs.dependency_scope != 'lint_only')) }}
