@@ -5,7 +5,7 @@
   "release": {
     "status": "stable",
     "releaseDate": "2025-09-24",
-    "releaseNotesUrl": "https://developer.android.com/jetpack/androidx/releases/compose-material3#1.4.0"
+    "releaseNotesUrl": "https://developer.android.com/jetpack/androidx/releases/compose-material3"
   },
   "sourceArchive": {
     "url": "https://android.googlesource.com/platform/prebuilts/androidx/internal/+/refs/heads/androidx-collection-release/androidx/compose/material3/material3/1.4.0/material3-1.4.0-sources.jar",
