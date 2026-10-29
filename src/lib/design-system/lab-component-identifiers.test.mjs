@@ -5,7 +5,7 @@ import { test } from "node:test";
 const lab = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
 const page = readFileSync(new URL("../../app/[locale]/design-lab/page.tsx", import.meta.url), "utf8");
 const css = readFileSync(new URL("../../app/[locale]/design-lab/visual-lab.module.css", import.meta.url), "utf8");
-const retirementMigration = readFileSync(new URL("../../../supabase/migrations/20261029120000_retire_design_lab_audit.sql", import.meta.url), "utf8");
+const retirementMigration = readFileSync(new URL("../../../supabase/migrations/20261029110714_retire_design_lab_audit.sql", import.meta.url), "utf8");
 
 test("Design Lab is a local gallery of real shared components", () => {
   for (const component of ["Button", "Card", "Checkbox", "Chip", "IconButton", "NavigationBar", "ProgressIndicator", "Select", "Slider", "Switch", "TextArea", "TextField"]) {
