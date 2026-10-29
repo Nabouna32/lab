@@ -37,5 +37,5 @@ test("Retirement migration removes only Design Lab maintenance storage", () => {
   }
   assert.match(retirementMigration, /where permission_key = 'audit\.write'/);
   assert.match(retirementMigration, /where key = 'audit\.write'/);
-  assert.doesNotMatch(retirementMigration, /where key = 'audit\\.read'/);
+    assert.doesNotMatch(retirementMigration, /where key = 'audit\.read'/);
 });
