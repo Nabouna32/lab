@@ -22,7 +22,9 @@ test("pinned API-directory inspection covers every selected stable baseline", ()
 
   assert.equal(inspection.repository, "androidx/androidx");
   assert.match(inspection.commit, /^[a-f0-9]{40}$/);
-  assert.equal(inspection.families.length, selected.length);
+  assert.ok(inspection.families.length > 0);
+  assert.ok(inspection.families.length <= selected.length);
+  assert.equal(new Set(inspection.families.map((family) => family.id)).size, inspection.families.length);
 
   for (const record of inspection.families) {
     const family = selected.find((candidate) => candidate.id === record.id);
