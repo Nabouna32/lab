@@ -515,7 +515,7 @@ def main():
             "schemaVersion": 1,
             "artifact": "com.google.android.material:material",
             "referenceVersion": args.reference_version,
-            "method": "published AAR classes.jar inspected with javap -protected; Java source declarations and annotations indexed with the JDK compiler AST; methods matched by name and normalized erased parameter types",
+            "method": "published AAR classes.jar inspected with javap -protected; Java source declarations and annotations indexed with the JDK compiler AST; methods matched by normalized erased parameter types, resolved type-variable bounds, and nearest source hierarchy declaration",
             "status": "provisional-not-exhaustive",
             "provenance": {
                 "aarSha256": args.aar_sha256,
