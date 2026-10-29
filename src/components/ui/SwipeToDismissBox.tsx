@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import type { PointerEvent, ReactNode } from "react";
 import styles from "./SwipeToDismissBox.module.css";
+import { MaterialIcon } from "@/components/ui/MaterialIcon";
 
 export type SwipeToDismissBoxProps = {
   children: ReactNode;
@@ -80,7 +81,7 @@ export function SwipeToDismissBox({
         onPointerCancel={cancelPointer}
       >
         {children}
-        <button type="button" className={styles.dismissAction} onClick={onDismiss} disabled={disabled} aria-label={dismissLabel}>×</button>
+        <button type="button" className={styles.dismissAction} onClick={onDismiss} disabled={disabled} aria-label={dismissLabel}><MaterialIcon name="close" size={20} /></button>
       </div>
     </div>
   );

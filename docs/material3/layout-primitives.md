@@ -81,3 +81,20 @@ Les helpers de contraintes utilisent des arguments positionnels pour éviter l'o
 - `Modifier.sizeIn(minWidth = 0, minHeight = 0, maxWidth?, maxHeight?)`
 
 Les nombres suivent la convention de ce portage : 1 `Dp` = 1 px CSS. Une borne supérieure omise correspond à une borne non définie dans l'adaptation Web. Cette évolution rapproche la forme de l'API AndroidX sans prétendre reproduire ses contraintes de mesure.
+
+## Migration des consommateurs et nettoyage — 28 octobre 2026
+
+Les primitives ne doivent pas rester une bibliothèque parallèle sans adoption par le site. La migration utilise maintenant `Column` et `Arrangement.spacedBy` dans les formulaires de compte (connexion, renvoi de confirmation, inscription, changement d’adresse e-mail, demande/finalisation de réinitialisation et suppression du compte), ainsi que dans les compositions déjà recensées plus haut. L’espacement est exprimé avec les tokens CSS partagés de Loculary via l’extension Web de `spacedBy`; ces chaînes CSS sont une adaptation du portage, pas une signature AndroidX.
+
+Après chaque migration, rechercher les anciennes classes `space-y-*` et les wrappers d’espacement qui ne sont plus utilisés, puis les supprimer si aucune référence ne subsiste. Ne pas supprimer une classe globale uniquement parce que quelques consommateurs ont migré : le retrait doit être précédé d’un inventaire complet. Les classes d’espacement encore nécessaires à d’autres pages restent en place jusqu’à leur propre migration.
+
+Les tests actuels de contrat protègent certaines signatures et certains consommateurs. Ils ne remplacent pas les tests de rendu navigateur, la vérification de la géométrie Flexbox, ni les contrôles responsive, RTL, clavier et accessibilité. La parité complète avec le moteur de mesure Compose n’est pas revendiquée.
+
+
+## Alignement et largeur responsive de `Column` — 28 octobre 2026
+
+`Column` reprend le contrat AndroidX : `Alignment.Start` est l’alignement horizontal par défaut. Le portage Web ne doit pas remplacer ce contrat par `stretch` pour compenser la largeur intrinsèque de certains enfants Flexbox.
+
+La largeur est une responsabilité distincte de l’alignement. Lorsqu’une composition de produit — panneau, carte ou formulaire — doit occuper toute la largeur disponible, elle doit exprimer cette contrainte explicitement (par exemple avec `w-full` dans une composition produit ou le modificateur partagé correspondant lorsque son usage est approprié). Cela permet d’avoir des pages responsives sans imposer l’étirement à toutes les utilisations de la primitive.
+
+Les tests de contrat couvrent l’alignement par défaut et les alignements explicites ; ils ne remplacent pas une vérification de la géométrie dans un navigateur. La parité de mesure avec Compose reste partielle et doit être évaluée séparément.

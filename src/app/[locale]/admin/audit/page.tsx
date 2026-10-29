@@ -43,43 +43,43 @@ export default async function AdminAuditPage({
   return (
     <main className="min-h-[calc(100vh-4.5rem)]">
       <PageContainer width="default" spacing="none" className="py-[var(--space-8)]">
-      <Link href={`/${locale}/admin`} className="text-sm font-semibold text-[var(--accent)]">{t.admin.auditBack}</Link>
+      <Link href={`/${locale}/admin`} className="m3-type-label-large text-[var(--primary)]">{t.admin.auditBack}</Link>
 
       <header className="mt-6">
-        <p className="text-sm font-semibold text-[var(--accent)]">{t.admin.label}</p>
-        <h1 className="mt-1 text-3xl font-bold tracking-tight sm:text-4xl">{t.admin.auditTitle}</h1>
-        <p className="mt-3 max-w-2xl text-[var(--muted)]">{t.admin.auditDescription}</p>
+        <p className="m3-type-label-large text-[var(--primary)]">{t.admin.label}</p>
+        <h1 className="mt-1 m3-type-headline-large">{t.admin.auditTitle}</h1>
+        <p className="mt-3 max-w-2xl m3-type-body-large text-[var(--muted)]">{t.admin.auditDescription}</p>
       </header>
 
       {error ? (
-        <p className="mt-8 border-y border-[var(--danger)]/30 bg-[var(--danger-soft)] px-1 py-3 text-sm text-[var(--danger)]" role="alert">
+        <p className="mt-8 border-y border-[var(--danger)]/30 bg-[var(--danger-soft)] px-1 py-3 m3-type-body-medium text-[var(--danger)]" role="alert">
           {t.admin.auditLoadError}
         </p>
       ) : entries.length === 0 ? (
-        <p className="mt-8 border-y border-[var(--border)] py-5 text-[var(--muted)]">
+        <p className="mt-8 border-y border-[var(--border)] py-5 m3-type-body-large text-[var(--muted)]">
           {t.admin.auditEmpty}
         </p>
       ) : (
         <section className="mt-8 border-y border-[var(--border)]" aria-label={t.admin.auditTitle}>
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[760px] border-collapse text-sm">
+            <table className="w-full min-w-[760px] border-collapse m3-type-body-medium">
               <thead className="border-b border-[var(--border)] text-left text-[var(--muted)]">
                 <tr>
-                  <th scope="col" className="px-3 py-3 font-semibold">{t.admin.auditDate}</th>
-                  <th scope="col" className="px-3 py-3 font-semibold">{t.admin.auditActor}</th>
-                  <th scope="col" className="px-3 py-3 font-semibold">{t.admin.auditAction}</th>
-                  <th scope="col" className="px-3 py-3 font-semibold">{t.admin.auditTarget}</th>
-                  <th scope="col" className="px-3 py-3 font-semibold">{t.admin.auditDetails}</th>
+                  <th scope="col" className="px-3 py-3 m3-type-label-large">{t.admin.auditDate}</th>
+                  <th scope="col" className="px-3 py-3 m3-type-label-large">{t.admin.auditActor}</th>
+                  <th scope="col" className="px-3 py-3 m3-type-label-large">{t.admin.auditAction}</th>
+                  <th scope="col" className="px-3 py-3 m3-type-label-large">{t.admin.auditTarget}</th>
+                  <th scope="col" className="px-3 py-3 m3-type-label-large">{t.admin.auditDetails}</th>
                 </tr>
               </thead>
               <tbody>
                 {entries.map((entry) => (
                   <tr key={entry.id} className="border-b border-[var(--border)] last:border-0">
-                    <td className="whitespace-nowrap px-3 py-4 align-top text-[var(--muted)]">{formatDate(entry.created_at, locale)}</td>
+                    <td className="whitespace-nowrap px-3 py-4 align-top m3-type-body-medium text-[var(--muted)]">{formatDate(entry.created_at, locale)}</td>
                     <td className="max-w-52 break-all px-3 py-4 align-top">{entry.actor_email ?? "—"}</td>
-                    <td className="px-3 py-4 align-top font-medium">{entry.action}</td>
+                    <td className="px-3 py-4 align-top m3-type-title-small">{entry.action}</td>
                     <td className="max-w-72 break-all px-3 py-4 align-top">{formatTarget(entry)}</td>
-                    <td className="max-w-80 break-words px-3 py-4 align-top text-[var(--muted)]">
+                    <td className="max-w-80 break-words px-3 py-4 align-top m3-type-body-medium text-[var(--muted)]">
                       {Object.keys(entry.metadata).length ? JSON.stringify(entry.metadata) : "—"}
                     </td>
                   </tr>

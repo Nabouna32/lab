@@ -1,5 +1,7 @@
-import Link from "next/link";
+import AppLink from "@/components/ui/AppLink";
 import { PageContainer } from "@/components/layout/PageLayout";
+import { Arrangement } from "@/components/layout/compose/Arrangement";
+import { Column } from "@/components/layout/compose/Column";
 import { notFound } from "next/navigation";
 import { signUp } from "../actions";
 import SubmitButton from "@/components/account/SubmitButton";
@@ -33,10 +35,10 @@ export default async function SignUpPage({
           className="flex min-h-[calc(100vh-4.5rem)] items-center py-[var(--space-12)]"
         >
           <Panel as="section" className="w-full text-center">
-            <h1 className="text-2xl font-bold">{t.account.alreadySignedIn}</h1>
-            <Link className="mt-6 inline-flex font-semibold text-[var(--accent)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]" href={`/${locale}/compte`}>
+            <h1 className="m3-type-title-large">{t.account.alreadySignedIn}</h1>
+            <AppLink variant="inline" className="mt-6 inline-flex" href={`/${locale}/compte`}>
               {t.account.title}
-            </Link>
+            </AppLink>
           </Panel>
         </PageContainer>
       </main>
@@ -47,14 +49,15 @@ export default async function SignUpPage({
     <main>
       <PageContainer width="form" spacing="none" className="flex min-h-[calc(100vh-4.5rem)] items-center py-[var(--space-12)]">
         <Panel as="section" className="w-full">
-          <p className="text-sm font-semibold text-[var(--accent)]">{t.account.label}</p>
-          <h1 className="mt-2 text-3xl font-bold tracking-tight">{t.account.signUp}</h1>
+          <p className="m3-type-label-large text-[var(--primary)]">{t.account.label}</p>
+          <h1 className="mt-2 m3-type-headline-large">{t.account.signUp}</h1>
           {query.error && (
-            <p className="mt-5 border-l-2 border-[var(--danger)] py-1 pl-3 text-sm text-[var(--danger-foreground)]" role="alert">
+            <p className="mt-5 border-l-2 border-[var(--danger)] py-1 pl-3 m3-type-body-medium text-[var(--danger-foreground)]" role="alert">
               {query.error === "rate-limited" ? t.account.authRateLimited : query.error === "weak-password" ? t.account.weakPassword : t.account.signUpError}
             </p>
           )}
-          <form action={signUp} className="mt-6 space-y-5">
+          <form action={signUp}>
+          <Column verticalArrangement={Arrangement.spacedBy("var(--space-5)")}>
             <input type="hidden" name="locale" value={locale} />
             <TextField label={t.account.displayName} inputId="sign-up-display-name" name="displayName" type="text" autoComplete="name" maxLength={80} />
             <TextField label={t.account.email} inputId="sign-up-email" name="email" type="email" autoComplete="email" required />
@@ -62,10 +65,11 @@ export default async function SignUpPage({
             <SubmitButton pendingLabel={t.account.submitSignUp} className="w-full">
               {t.account.submitSignUp}
             </SubmitButton>
-          </form>
-          <p className="mt-6 border-t border-[var(--border)] pt-5 text-center text-sm text-[var(--muted)]">
+                    </Column>
+        </form>
+          <p className="mt-6 border-t border-[var(--border)] pt-5 text-center m3-type-body-medium text-[var(--muted)]">
             {t.account.hasAccount}{" "}
-            <Link className="font-semibold text-[var(--accent)] hover:underline" href={`/${locale}/compte/connexion`}>{t.account.signIn}</Link>
+            <AppLink variant="inline" href={`/${locale}/compte/connexion`}>{t.account.signIn}</AppLink>
           </p>
         </Panel>
       </PageContainer>

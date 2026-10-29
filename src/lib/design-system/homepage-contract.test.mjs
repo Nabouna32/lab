@@ -38,3 +38,22 @@ test("global header search is icon-triggered at every breakpoint without a secon
   assert.match(headerSearchSource, /input\.focus\(\)/);
   assert.doesNotMatch(headerSearchSource, /lg:hidden|md:hidden|sm:hidden/);
 });
+
+
+test("guided workflows card uses semantic Material 3 roles and shared Compose spacing", () => {
+  const guidedWorkflowsSource = readFileSync(
+    new URL("../../components/home/HomeGuidedWorkflows.tsx", import.meta.url),
+    "utf8",
+  );
+
+  assert.ok(guidedWorkflowsSource.includes('import { CardLink } from "@/components/ui/Card";'));
+  assert.ok(guidedWorkflowsSource.includes("bg-[var(--primary-container)] text-[var(--on-primary-container)]"));
+  assert.ok(guidedWorkflowsSource.includes("text-[var(--on-surface)]"));
+  assert.ok(guidedWorkflowsSource.includes("text-[var(--on-surface-variant)]"));
+  assert.ok(guidedWorkflowsSource.includes("group-hover:bg-[var(--primary-container)] group-hover:text-[var(--on-primary-container)]"));
+  assert.ok(guidedWorkflowsSource.includes('Arrangement.spacedBy("var(--layout-item-gap)")'));
+  assert.ok(guidedWorkflowsSource.includes("rounded-[var(--shape-corner-medium)]"));
+  assert.ok(guidedWorkflowsSource.includes('MaterialIcon name="swap_horiz" size={24}'));
+  assert.ok(guidedWorkflowsSource.includes("motion-reduce:transition-none"));
+  assert.doesNotMatch(guidedWorkflowsSource, /var\(--accent(?:-soft|-foreground)?\)/);
+});

@@ -40,7 +40,7 @@ export default function RegexTester() {
   const copyValue = result?.matches.map((match) => match.value).join("\n") ?? "";
 
   return (
-    <section className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]">
+    <section className="overflow-hidden rounded-[var(--shape-corner-large)] border border-[var(--border)] bg-[var(--surface)]">
       <div className="grid gap-5 p-4 sm:p-6 lg:grid-cols-[1fr_13rem] lg:p-7">
         <TextField label={t.pattern} inputId="regex-pattern" value={pattern} onChange={(event) => { setPattern(event.target.value); setResult(null); setError(""); }} placeholder={t.patternPlaceholder} spellCheck={false} className="font-mono text-sm" aria-invalid={Boolean(error)} />
         <div>

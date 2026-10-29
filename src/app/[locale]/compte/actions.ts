@@ -206,7 +206,7 @@ export async function updateProfile(formData: FormData) {
     !preferredLocale ||
     !isLocale(preferredLocale)
   ) {
-    redirect(localePath(locale, "/compte?error=profile"));
+    redirect(localePath(locale, "/compte/informations-personnelles?error=profile"));
   }
 
   const { supabase, user } = await requireUser();
@@ -221,10 +221,10 @@ export async function updateProfile(formData: FormData) {
     .eq("id", user.id);
 
   if (error) {
-    redirect(localePath(locale, "/compte?error=profile"));
+    redirect(localePath(locale, "/compte/informations-personnelles?error=profile"));
   }
 
-  redirect(localePath(preferredLocale, "/compte?status=profile-updated"));
+  redirect(localePath(preferredLocale, "/compte/informations-personnelles?status=profile-updated"));
 }
 
 export async function changeEmail(formData: FormData) {

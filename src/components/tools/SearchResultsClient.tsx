@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import ToolCard from "@/components/tools/ToolCard";
 import ToolSearch from "@/components/tools/ToolSearch";
 import { OutlinedButton } from "@/components/ui/Button";
+import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import { getMessages } from "@/lib/i18n/messages";
 import { formatPlural } from "@/lib/i18n/plural";
 import { categories, getCategoryName } from "@/lib/tools/categories";
@@ -96,15 +97,15 @@ export default function SearchResultsClient({ locale }: { locale: Locale }) {
           <div className="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full bg-[var(--accent-soft)] blur-3xl" aria-hidden="true" />
           <div className="relative grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,.9fr)] lg:items-end lg:gap-12">
             <div className="motion-reveal min-w-0">
-              <p className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.18em] text-[var(--accent)]">
+              <p className="m3-type-label-small flex items-center gap-2 uppercase text-[var(--accent)]">
                 <span className="h-2 w-2 rounded-full bg-current" aria-hidden="true" />
                 {t.tools.eyebrow}
               </p>
-              <h1 id="search-results-title" className="mt-3 break-words text-3xl font-black tracking-[-0.055em] sm:text-4xl lg:text-5xl">
+              <h1 id="search-results-title" className="m3-type-display-small mt-3 break-words">
                 {query ? t.tools.searchResultsTitle(query) : t.tools.searchResultsMetaTitle}
               </h1>
               {query && (
-                <p role="status" aria-live="polite" aria-atomic="true" className="mt-4 text-sm font-semibold text-[var(--muted)]">
+                <p role="status" aria-live="polite" aria-atomic="true" className="m3-type-label-large mt-4 text-[var(--muted)]">
                   {isSearching ? t.tools.searching : searchError ? t.tools.searchError : formatPlural(locale, filteredResults.length, { one: t.tools.resultCountOne, other: t.tools.resultCountMany })}
                 </p>
               )}
@@ -124,10 +125,10 @@ export default function SearchResultsClient({ locale }: { locale: Locale }) {
         {!query ? (
           <section className="mt-5 rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-5 sm:p-7" aria-labelledby="search-results-start-title">
             <div className="border-b border-[var(--border)] pb-5">
-              <h2 id="search-results-start-title" className="text-xl font-black tracking-[-0.03em] sm:text-2xl">
+              <h2 id="search-results-start-title" className="m3-type-headline-small">
                 {t.tools.searchLandingTitle}
               </h2>
-              <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--muted)]">{t.tools.searchLandingDescription}</p>
+              <p className="m3-type-body-medium mt-2 max-w-2xl text-[var(--muted)]">{t.tools.searchLandingDescription}</p>
             </div>
             <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
               {suggestedTools.map((tool) => {
@@ -146,11 +147,11 @@ export default function SearchResultsClient({ locale }: { locale: Locale }) {
           </section>
         ) : isSearching ? (
           <section className="mt-5 rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8">
-            <p className="text-sm font-medium text-[var(--foreground)]">{t.tools.searching}</p>
+            <p className="m3-type-body-medium text-[var(--foreground)]">{t.tools.searching}</p>
           </section>
         ) : searchError ? (
           <section className="mt-5 rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8" aria-labelledby="search-results-error-title">
-            <h2 id="search-results-error-title" className="text-xl font-bold">{t.tools.searchError}</h2>
+            <h2 id="search-results-error-title" className="m3-type-headline-small">{t.tools.searchError}</h2>
             <OutlinedButton type="button" className="mt-4" onClick={() => setSearchRetryCount((count) => count + 1)}>
               {t.tools.retrySearch}
             </OutlinedButton>
@@ -159,12 +160,12 @@ export default function SearchResultsClient({ locale }: { locale: Locale }) {
           <>
             {availableCategories.length > 1 && (
               <div className="mt-5 flex flex-wrap items-center gap-2" role="group" aria-label={t.tools.filterByCategory}>
-                <span className="mr-1 text-sm font-semibold text-[var(--muted)]">{t.tools.filterByCategory}</span>
+                <span className="m3-type-label-large mr-1 text-[var(--muted)]">{t.tools.filterByCategory}</span>
                 <button
                   type="button"
                   aria-pressed={selectedCategory === null}
                   onClick={() => setSelectedCategory(null)}
-                  className={`inline-flex min-h-10 items-center rounded-full border px-4 py-2 text-sm font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] ${selectedCategory === null ? "border-[var(--accent)] bg-[var(--accent-soft)] text-[var(--on-primary-container)]" : "border-[var(--border)] bg-[var(--surface)] text-[var(--foreground)] hover:bg-[var(--surface-elevated)]"}`}
+                  className={`inline-flex min-h-10 items-center rounded-full border px-4 py-2 m3-type-label-large outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] ${selectedCategory === null ? "border-[var(--accent)] bg-[var(--accent-soft)] text-[var(--on-primary-container)]" : "border-[var(--border)] bg-[var(--surface)] text-[var(--foreground)] hover:bg-[var(--surface-elevated)]"}`}
                 >
                   {t.tools.allCategories}
                 </button>
@@ -174,9 +175,9 @@ export default function SearchResultsClient({ locale }: { locale: Locale }) {
                     type="button"
                     aria-pressed={selectedCategory === category.id}
                     onClick={() => setSelectedCategory(category.id)}
-                    className={`inline-flex min-h-10 items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] ${selectedCategory === category.id ? "border-[var(--accent)] bg-[var(--accent-soft)] text-[var(--on-primary-container)]" : "border-[var(--border)] bg-[var(--surface)] text-[var(--foreground)] hover:bg-[var(--surface-elevated)]"}`}
+                    className={`inline-flex min-h-10 items-center gap-2 rounded-full border px-4 py-2 m3-type-label-large outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] ${selectedCategory === category.id ? "border-[var(--accent)] bg-[var(--accent-soft)] text-[var(--on-primary-container)]" : "border-[var(--border)] bg-[var(--surface)] text-[var(--foreground)] hover:bg-[var(--surface-elevated)]"}`}
                   >
-                    <span aria-hidden="true">{category.icon}</span>
+                    <span className="inline-flex items-center" aria-hidden="true"><MaterialIcon name={category.icon} size={18} /></span>
                     {getCategoryName(locale, category.id)}
                   </button>
                 ))}
@@ -199,24 +200,24 @@ export default function SearchResultsClient({ locale }: { locale: Locale }) {
           </>
         ) : (
           <section className="mt-5 rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8" aria-labelledby="search-results-empty-title">
-            <h2 id="search-results-empty-title" className="text-xl font-bold tracking-[-0.03em] sm:text-2xl">
+            <h2 id="search-results-empty-title" className="m3-type-headline-small">
               {t.tools.noResults} « {query} »
             </h2>
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--muted)]">{t.tools.noResultsHelp}</p>
-            <p className="mt-5 text-xs font-black uppercase tracking-[0.14em] text-[var(--muted)]">{t.tools.tryThese}</p>
+            <p className="m3-type-body-medium mt-2 max-w-2xl text-[var(--muted)]">{t.tools.noResultsHelp}</p>
+            <p className="m3-type-label-small mt-5 uppercase text-[var(--muted)]">{t.tools.tryThese}</p>
             <div className="mt-3 flex flex-wrap gap-2">
               {t.tools.noResultsSuggestions.map((suggestion) => (
                 <a
                   key={suggestion}
                   href={getSearchResultsPath(locale, suggestion)}
-                  className="inline-flex min-h-10 items-center rounded-full border border-[var(--border)] bg-[var(--surface-soft)] px-4 py-2 text-sm font-semibold text-[var(--foreground)] outline-none transition-colors hover:border-[var(--accent)]/40 hover:bg-[var(--surface-elevated)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+                  className="m3-type-label-large inline-flex min-h-10 items-center rounded-full border border-[var(--border)] bg-[var(--surface-soft)] px-4 py-2 text-[var(--foreground)] outline-none transition-colors hover:border-[var(--accent)]/40 hover:bg-[var(--surface-elevated)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
                 >
                   {suggestion}
                 </a>
               ))}
             </div>
             <div className="mt-6 border-t border-[var(--border)] pt-5">
-              <h3 className="text-sm font-bold text-[var(--foreground)]">{t.home.quickLinksLabel}</h3>
+              <h3 className="m3-type-title-small text-[var(--foreground)]">{t.home.quickLinksLabel}</h3>
               <div className="mt-3 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
                 {suggestedTools.map((tool) => {
                   const categoryId = getPrimaryToolCategory(tool);
@@ -234,7 +235,7 @@ export default function SearchResultsClient({ locale }: { locale: Locale }) {
             </div>
             <a
               href={getToolsPath(locale)}
-              className="mt-6 inline-flex min-h-11 items-center rounded-full px-4 py-2 text-sm font-semibold text-[var(--accent)] outline-none transition-colors hover:bg-[var(--accent-soft)] hover:text-[var(--on-primary-container)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+              className="m3-type-label-large mt-6 inline-flex min-h-11 items-center rounded-full px-4 py-2 text-[var(--accent)] outline-none transition-colors hover:bg-[var(--accent-soft)] hover:text-[var(--on-primary-container)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
             >
               {t.tools.allToolsTitle}
             </a>

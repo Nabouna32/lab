@@ -35,15 +35,19 @@
 
 .title {
   margin: 0;
-  font-size: 1.5rem;
-  font-weight: 500;
-  line-height: 2rem;
+  font-size: var(--m3-type-headline-small-size);
+  font-weight: var(--m3-type-headline-small-weight);
+  line-height: var(--m3-type-headline-small-line-height);
+  letter-spacing: var(--m3-type-headline-small-tracking);
 }
 
 .description {
   margin: 1rem 0 0;
   color: var(--on-surface-variant, var(--muted-foreground, #555));
-  line-height: 1.5;
+  font-size: var(--m3-type-body-medium-size);
+  font-weight: var(--m3-type-body-medium-weight);
+  line-height: var(--m3-type-body-medium-line-height);
+  letter-spacing: var(--m3-type-body-medium-tracking);
 }
 
 .actions {

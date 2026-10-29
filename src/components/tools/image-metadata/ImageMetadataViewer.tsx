@@ -2,9 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Button, OutlinedButton } from "@/components/ui/Button";
+import { Arrangement } from "@/components/layout/compose/Arrangement";
+import { Column } from "@/components/layout/compose/Column";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { ProgressIndicator } from "@/components/ui/ProgressIndicator";
 import { useLocale } from "@/lib/i18n/use-locale";
+import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import { getToolMessages } from "@/lib/i18n/tool-messages";
 import {
   AnimatedImageUnsupportedError,
@@ -192,29 +195,29 @@ export default function ImageMetadataViewer() {
 
   return (
     <section className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]">
-      <div className="space-y-6 p-5 sm:p-7 lg:p-8">
-        <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.85fr)]">
-          <div className="space-y-4">
-            <label htmlFor="image-metadata-file" className="block cursor-pointer rounded-[var(--radius-md)] border-2 border-dashed border-[var(--border)] bg-[var(--background)] p-6 text-center transition hover:border-[var(--accent)] focus-within:border-[var(--accent)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--focus-ring)] focus-within:ring-offset-2 focus-within:ring-offset-[var(--surface)]">
+      <Column verticalArrangement={Arrangement.spacedBy("var(--space-6)")} className="w-full p-5 sm:p-7 lg:p-8">
+        <div className="grid w-full gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.85fr)]">
+          <Column verticalArrangement={Arrangement.spacedBy("var(--space-4)")} className="w-full">
+            <label htmlFor="image-metadata-file" className="block cursor-pointer rounded-[var(--shape-corner-medium)] border-2 border-dashed border-[var(--border)] bg-[var(--background)] p-6 text-center transition hover:border-[var(--accent)] focus-within:border-[var(--accent)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--focus-ring)] focus-within:ring-offset-2 focus-within:ring-offset-[var(--surface)]">
               <span className="block text-sm font-semibold text-[var(--foreground)]">{t.input}</span>
               <span className="mt-2 block text-sm text-[var(--muted)]">{t.inputHint}</span>
               <input id="image-metadata-file" type="file" accept="image/*" multiple className="sr-only" onChange={(event) => { void selectFiles(event.target.files); event.target.value = ""; }} />
             </label>
-            <p className="text-sm text-[var(--muted)]">🔒 {t.local}</p>
+            <p className="inline-flex items-center gap-1.5 text-sm text-[var(--on-surface-variant)]"><MaterialIcon name="lock" size={16} />{t.local}</p>
             <p className="text-sm text-[var(--muted)]">{optimize ? t.optimizingHint : t.cleaningHint}</p>
-            <div className="space-y-3 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background)] p-4">
+            <Column verticalArrangement={Arrangement.spacedBy("var(--space-3)")} className="w-full rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--background)] p-4">
               <label className="flex items-start gap-3 text-sm text-[var(--foreground)]">
                 <input type="checkbox" checked={optimize} disabled={busy} onChange={(event) => { setOptimize(event.target.checked); setItems((current) => current.map((item) => ({ ...item, cleanedBlob: undefined, cleanError: undefined }))); }} className="mt-1 accent-[var(--accent)]" />
                 <span><span className="block font-semibold">{t.optimizeOption}</span><span className="mt-1 block text-[var(--muted)]">{t.optimizeHint}</span></span>
               </label>
               {optimize && <div className="grid gap-3 sm:grid-cols-2">
                 <label className="block space-y-1 text-sm"><span className="font-medium text-[var(--foreground)]">{t.outputFormat}</span>
-                  <select value={outputFormat} disabled={busy} onChange={(event) => { setOutputFormat(event.target.value as ImageOutputFormat); setItems((current) => current.map((item) => ({ ...item, cleanedBlob: undefined, cleanError: undefined }))); }} className="w-full rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-[var(--foreground)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]">
+                  <select value={outputFormat} disabled={busy} onChange={(event) => { setOutputFormat(event.target.value as ImageOutputFormat); setItems((current) => current.map((item) => ({ ...item, cleanedBlob: undefined, cleanError: undefined }))); }} className="w-full rounded-[var(--shape-corner-small)] border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-[var(--foreground)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]">
                     <option value="webp">WebP</option><option value="jpeg">JPEG</option><option value="png">PNG</option>
                   </select>
                 </label>
                 <label className="block space-y-1 text-sm"><span className="font-medium text-[var(--foreground)]">{t.maxDimension}</span>
-                  <select value={maxDimension ?? "original"} disabled={busy} onChange={(event) => { setMaxDimension(event.target.value === "original" ? null : Number(event.target.value)); setItems((current) => current.map((item) => ({ ...item, cleanedBlob: undefined, cleanError: undefined }))); }} className="w-full rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-[var(--foreground)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]">
+                  <select value={maxDimension ?? "original"} disabled={busy} onChange={(event) => { setMaxDimension(event.target.value === "original" ? null : Number(event.target.value)); setItems((current) => current.map((item) => ({ ...item, cleanedBlob: undefined, cleanError: undefined }))); }} className="w-full rounded-[var(--shape-corner-small)] border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-[var(--foreground)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus-ring)]">
                     <option value="1200">1200 px</option><option value="2400">2400 px</option><option value="3200">3200 px</option><option value="original">{t.originalDimension}</option>
                   </select>
                 </label>
@@ -222,7 +225,7 @@ export default function ImageMetadataViewer() {
                   <input type="range" min="10" max="100" step="5" value={Math.round(quality * 100)} disabled={busy} onChange={(event) => { setQuality(Number(event.target.value) / 100); setItems((current) => current.map((item) => ({ ...item, cleanedBlob: undefined, cleanError: undefined }))); }} className="w-full accent-[var(--accent)]" />
                 </label>
               </div>}
-            </div>
+            </Column>
             {items.length > 0 && <p className="text-sm text-[var(--muted)]">{t.selectedCount(items.length)} · {formatBytes(items.reduce((sum, item) => sum + item.file.size, 0))}</p>}
             {busy && <ProgressIndicator label={t.stripping} />}
             {error && <p role="alert" className="text-sm font-medium text-[var(--danger)]">{error}</p>}
@@ -232,21 +235,21 @@ export default function ImageMetadataViewer() {
               <ClearButton onClear={reset} disabled={items.length === 0 && !error} label={t.reset} />
             </div>
             {cleaned.length > 0 && !busy && <p role="status" className="text-sm text-[var(--success)]">{t.completedCount(cleaned.length, items.length)}</p>}
-          </div>
+          </Column>
 
-          <div className="flex min-h-56 items-center justify-center rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background)] p-5">
+          <div className="flex min-h-56 items-center justify-center rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--background)] p-5">
             <p className="text-center text-sm text-[var(--muted)]">{items.length === 0 ? t.emptyResult : t.batchHint}</p>
           </div>
         </div>
 
         {items.length > 0 && (
-          <div className="space-y-3">
+          <Column verticalArrangement={Arrangement.spacedBy("var(--space-3)")} className="w-full">
             <h3 className="text-sm font-semibold text-[var(--foreground)]">{t.results}</h3>
             {items.map((item, index) => (
-              <article key={item.file.name + "-" + item.file.lastModified + "-" + index} className="grid min-w-0 gap-4 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background)] p-3 sm:grid-cols-[5rem_minmax(0,1fr)] sm:p-4">
+              <article key={item.file.name + "-" + item.file.lastModified + "-" + index} className="grid w-full min-w-0 gap-4 rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--background)] p-3 sm:grid-cols-[5rem_minmax(0,1fr)] sm:p-4">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={item.previewUrl} alt="" className="h-20 w-20 rounded object-contain sm:h-20 sm:w-20" />
-                <div className="min-w-0 space-y-2">
+                <Column verticalArrangement={Arrangement.spacedBy("var(--space-2)")} className="w-full min-w-0">
                   <div className="flex flex-wrap items-start justify-between gap-2">
                     <div className="min-w-0">
                       <p className="break-words text-sm font-semibold text-[var(--foreground)]">{item.file.name}</p>
@@ -257,9 +260,9 @@ export default function ImageMetadataViewer() {
                   </div>
                   {item.metadata && (
                     <>
-                      {item.metadata.exif.gps && <p role="status" className="rounded-[var(--radius-sm)] border border-[var(--warning)] bg-[var(--warning-soft)] p-2 text-sm text-[var(--foreground)]">{t.gpsWarning}</p>}
+                      {item.metadata.exif.gps && <p role="status" className="rounded-[var(--shape-corner-small)] border border-[var(--warning)] bg-[var(--warning-soft)] p-2 text-sm text-[var(--foreground)]">{t.gpsWarning}</p>}
                       {Object.entries(item.metadata.exif).length > 0 ? (
-                        <dl className="grid gap-x-4 gap-y-2 rounded-[var(--radius-sm)] border border-[var(--border)] p-3 sm:grid-cols-2">
+                        <dl className="grid gap-x-4 gap-y-2 rounded-[var(--shape-corner-small)] border border-[var(--border)] p-3 sm:grid-cols-2">
                           {Object.entries(item.metadata.exif).map(([key, value]) => (
                             <div key={key} className="min-w-0">
                               <dt className="text-xs font-medium text-[var(--muted)]">{exifLabels[key] ?? key}</dt>
@@ -272,12 +275,12 @@ export default function ImageMetadataViewer() {
                   )}
                   {item.error && <p role="alert" className="text-sm text-[var(--danger)]">{item.error}</p>}
                   {item.cleanError && <p role="alert" className="text-sm text-[var(--danger)]">{item.cleanError}</p>}
-                </div>
+                </Column>
               </article>
             ))}
-          </div>
+          </Column>
         )}
-      </div>
+      </Column>
     </section>
   );
 }

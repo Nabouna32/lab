@@ -2,7 +2,7 @@
   width: min(100%, 340px);
   padding: 16px;
   border: 1px solid var(--lab-outline-variant, var(--md-sys-color-outline-variant, currentColor));
-  border-radius: 28px;
+  border-radius: var(--shape-corner-extra-large);
   background: var(--lab-surface-container, var(--md-sys-color-surface-container, transparent));
   color: var(--lab-on-surface, var(--md-sys-color-on-surface, currentColor));
 }
@@ -59,8 +59,10 @@
   place-items: center;
   min-height: 32px;
   color: var(--lab-on-surface-variant, var(--md-sys-color-on-surface-variant, currentColor));
-  font-size: 12px;
-  font-weight: 500;
+  font-size: var(--m3-type-label-medium-size);
+  line-height: var(--m3-type-label-medium-line-height);
+  font-weight: var(--m3-type-label-medium-weight);
+  letter-spacing: var(--m3-type-label-medium-tracking);
   text-transform: uppercase;
 }
 
@@ -75,7 +77,10 @@
   background: transparent;
   color: inherit;
   font: inherit;
-  font-size: 13px;
+  font-size: var(--m3-type-label-large-size);
+  line-height: var(--m3-type-label-large-line-height);
+  font-weight: var(--m3-type-label-large-weight);
+  letter-spacing: var(--m3-type-label-large-tracking);
   cursor: pointer;
   transition: background-color 160ms ease, color 160ms ease;
 }
@@ -92,11 +97,10 @@
 .day.selected {
   background: var(--lab-primary, var(--md-sys-color-primary, currentColor));
   color: var(--lab-on-primary, var(--md-sys-color-on-primary, white));
-  font-weight: 600;
 }
 
 .day.inRange:not(.selected) {
-  border-radius: 8px;
+  border-radius: var(--shape-corner-small);
   background: var(--lab-primary-soft, var(--md-sys-color-primary-container, transparent));
   color: var(--lab-on-surface, currentColor);
 }
@@ -109,7 +113,10 @@
 .helper {
   margin: 12px 0 0;
   color: var(--lab-on-surface-variant, currentColor);
-  font-size: 12px;
+  font-size: var(--m3-type-body-small-size);
+  line-height: var(--m3-type-body-small-line-height);
+  font-weight: var(--m3-type-body-small-weight);
+  letter-spacing: var(--m3-type-body-small-tracking);
 }
 
 .inputMode {
@@ -119,19 +126,25 @@
   margin: 0;
   padding: 12px;
   border: 1px solid var(--lab-outline-variant, currentColor);
-  border-radius: 16px;
+  border-radius: var(--shape-corner-large);
 }
 
 .inputMode legend {
   padding-inline: 4px;
-  font-weight: 600;
+  font-size: var(--m3-type-title-small-size);
+  line-height: var(--m3-type-title-small-line-height);
+  font-weight: var(--m3-type-title-small-weight);
+  letter-spacing: var(--m3-type-title-small-tracking);
 }
 
 .inputLabel {
   display: grid;
   gap: 6px;
   color: var(--lab-on-surface-variant, currentColor);
-  font-size: 13px;
+  font-size: var(--m3-type-body-medium-size);
+  line-height: var(--m3-type-body-medium-line-height);
+  font-weight: var(--m3-type-body-medium-weight);
+  letter-spacing: var(--m3-type-body-medium-tracking);
 }
 
 .inputLabel input {

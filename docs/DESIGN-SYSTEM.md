@@ -10,6 +10,10 @@ This document owns shared design foundations and cross-component rules. AndroidX
 
 The target is a faithful React/Web port of AndroidX Compose Material 3 components—not merely a visual imitation. Each component has a separate specification under [`material3/components/`](material3/README.md). A component must not be called source-faithful until its API, states, behavior, rendering and differences have been checked against its pinned source.
 
+**Target-first, not legacy-first:** existing Loculary components, CSS, layouts and page compositions are migration input, not constraints. A component that shares an AndroidX name is not automatically faithful; improve or replace it against the pinned AndroidX contract. When a page would benefit from a more coherent modern app structure, a full redesign is explicitly allowed and often preferred over patching the current layout. The product ambition is a AAA-level consumer application: familiar, polished, dependable and robust enough for a large audience; this is a quality target, not a claim about current scale or conformance.
+
+Keep two authorities distinct. **AndroidX is authoritative for the contracts it defines.** For product flows and composition choices not specified by AndroidX, use established conventions from successful consumer apps—such as clear account/settings flows, predictable navigation, familiar iconography, accessible form validation, and consistent loading, empty, error and success states. Compare credible references and test the pattern against Loculary's task rather than copying a product wholesale or inventing novelty without user value. No external pattern overrides Web semantics, accessibility, privacy or performance. Avoid preserving legacy APIs or styles solely to minimize the diff. Choose a focused fix or a broader refactor based on which produces the clearest, maintainable result.
+
 ## Foundations
 
 - Use Material Color Utilities **Fidelity** for seed-derived semantic color roles, with the current seed documented in implementation; the seed is not a literal color to apply everywhere.
@@ -20,6 +24,18 @@ The target is a faithful React/Web port of AndroidX Compose Material 3 component
 - Use semantic shape and elevation roles consistently. Values copied from Material Web CSS tokens must be labelled as Web values, not represented as Android dp/sp conversions.
 - Use Material Symbols consistently for functional interface icons. Icons need accessible names when they convey an action; do not substitute emoji or arbitrary Unicode for standard controls.
 - Shared components must support responsive layout, French and English text, keyboard and pointer input, visible focus, appropriate screen-reader semantics, WCAG 2.2 AA, and `prefers-reduced-motion`.
+
+## Fondations de thème : contrat et état réel
+
+Les fondations ne sont pas une collection de classes à recopier dans les pages. La chaîne cible est : **thème partagé → tokens et valeurs par défaut propres aux composants AndroidX → composants React/Web → compositions de pages**. Une modification d'une fondation doit se propager à tous les consommateurs qui héritent de cette valeur, sans changer les composants dont le contrat AndroidX définit une valeur distincte.
+
+- **Formes :** `src/app/globals.css` expose l'échelle `--shape-corner-*` et des rôles de forme de composition (`--m3-card-shape`, `--m3-panel-shape`). Des migrations ciblées de consommateurs 8 px vers `--shape-corner-small`, 12 px vers `--shape-corner-medium`, de certains conteneurs 16 px vers `--shape-corner-large` et de trois surfaces 28 px vers `--shape-corner-extra-large` sont couvertes par des tests. Les éléments interactifs et les composants de composition doivent être traités selon leur rôle, pas seulement selon leur ancien rayon. L'ancienne échelle `--radius-*` subsiste : ne supprimer aucun alias avant un inventaire exhaustif des références sur la branche et une vérification des valeurs historiques (notamment 16 px et 24 px, qui ne sont pas interchangeables avec les formes M3).
+- **Typographie :** les 15 rôles `display`, `headline`, `title`, `body` et `label` sont maintenant exposés comme variables et classes partagées. De nombreux composants UI et compositions de production les consomment ; la migration reste incomplète et les classes Tailwind locales doivent être auditées progressivement. La présence d'un rôle partagé ne prouve ni une parité exacte avec la version AndroidX épinglée ni une validation visuelle navigateur.
+- **Valeurs de composants :** un composant consomme par défaut les tokens AndroidX qui lui sont propres. Il ne faut pas déduire la forme d'une `Card` en choisissant arbitrairement `medium`, ni forcer tous les composants à partager la même forme. Les paramètres de personnalisation doivent refléter les possibilités réelles de l'API source.
+- **Provenance :** les tokens repris de Material Web, les conventions CSS de Loculary et les valeurs AndroidX doivent être identifiés séparément. Une égalité numérique ne prouve pas à elle seule l'équivalence sémantique ou comportementale.
+- **Validation :** une migration n'est terminée que lorsque les usages sont inventoriés, les règles partagées testées, les cas clair/sombre et FR/EN vérifiés, et le rendu navigateur contrôlé. Un test de présence de chaîne ne suffit pas à prouver la fidélité visuelle.
+
+**État vérifié au 29 octobre 2026 :** l'échelle des formes cohabite encore avec les anciens rayons ; les 15 rôles typographiques sont consommés par un ensemble croissant de composants, sans parité globale démontrée avec une baseline AndroidX unique. Les catégories et les 51 outils utilisent le registre `MaterialIcon` : les 58 références (outils et catégories) pointent toutes vers un symbole déclaré parmi les 68 entrées du registre. L'audit statique relève neuf symboles partagés entre plusieurs outils ; ce n'est pas en soi une erreur, mais la distinction sémantique de ces outils doit être revue avant de modifier les correspondances. Le rendu navigateur reste à vérifier. La page des parcours guidés consomme désormais le port partagé `OutlinedCard` pour ses surfaces principales et abandonne ses ombres et son halo décoratif spécifiques ; cette migration n'a pas encore été validée visuellement dans le navigateur. Le portage des composants, la migration des pages et la validation visuelle restent partiels. Voir [l'index Material 3](material3/README.md) et les spécifications individuelles.
 
 ## Mise en page et espacements
 
@@ -67,3 +83,26 @@ Compare the actual browser result with the pinned reference and record the theme
 ## Current implementation status
 
 This document describes the target, not a claim that the current site conforms. Component-specific status and evidence belong in [the Material 3 porting index](material3/README.md). The production migration is a separate step after each component passes its own porting gate.
+
+
+## État actuel de la migration en production
+
+Le système expose les quinze rôles typographiques Material 3 et les tokens de forme partagés ; de nombreux composants et parcours les consomment déjà. La migration reste partielle : un token présent ou un test statique ne prouve ni la conformité AndroidX du composant ni la fidélité du rendu.
+
+- **Surfaces typographiques migrées :** composants partagés, navigation, cartes et résultats d’outils, pages d’information et légales, pied de page, parcours de compte et plusieurs pages d’administration. Les usages restants doivent être inventoriés par famille avant retrait des styles locaux.
+- **Formes :** certains consommateurs utilisent `--shape-corner-*` et des tokens propres aux composants. L’échelle historique `--radius-*` reste utilisée en production ; ne pas la supprimer avant l’inventaire et la migration des références. Les valeurs historiques de 16 px et 24 px ne sont pas remappées mécaniquement.
+- **Icônes :** les catégories et les outils utilisent le registre partagé `MaterialIcon` et les rôles `primary-container` / `on-primary-container`. L’état détaillé, la couverture et les limites de la migration figurent dans le [suivi du portage AndroidX](material3/README.md#état-actuel-de-la-migration--29-octobre-2026).
+- **Vérification :** le rendu navigateur n’a pas encore été validé de façon transversale en thèmes clair/sombre, en français/anglais, sur les viewports pertinents et au clavier. Les tests et la CI restent nécessaires, mais ne remplacent pas cette comparaison.
+
+## Règle obligatoire de migration cible-first
+
+AndroidX Jetpack Compose Material 3 **Fidelity** est la cible, pas un habillage de l’interface historique. Rien n’est conservé uniquement parce que cela existe déjà ou réduit le diff. Choisir une migration ciblée ou une refonte complète selon la solution qui produit l’expérience la plus cohérente, familière, accessible et maintenable.
+
+- **Contrats et conventions :** AndroidX fait autorité pour les composants et comportements qu’il définit. Pour les parcours et compositions non spécifiés, privilégier les conventions éprouvées des applications grand public de qualité après analyse de références pertinentes ; ne pas copier une application entière ni inventer une convention sans bénéfice utilisateur.
+- **Icônes d’interface :** remplacer les emoji et caractères Unicode utilisés comme pictogrammes fonctionnels de navigation, catégorie, outil, action, état ou commande par des Material Symbols pertinents via le registre partagé. Vérifier le sens, la taille, l’alignement, le poids, les rôles de couleur et le nom accessible.
+- **Contenu et illustrations :** un emoji éditorial, une entrée utilisateur ou un résultat d’outil n’est pas automatiquement une icône d’interface. Évaluer aussi les illustrations décoratives ; aucune catégorie de contenu ne bénéficie d’une exemption automatique.
+- **Exceptions Web :** lorsqu’aucun équivalent pertinent n’existe ou que la parité native nuit à la sémantique Web, à l’accessibilité ou au besoin produit, consigner les sources, limites, options et compromis. Discuter les exceptions substantielles avant adoption.
+- **Retrait :** migrer les consommateurs puis supprimer les classes, tokens, wrappers et composants concurrents devenus inutiles après vérification des références, tests et usages dynamiques. Ne pas faire de conversions numériques mécaniques.
+- **Preuve :** documenter les sources AndroidX immuables, les adaptations Web, les tests et les écarts. Une API nommée, un token partagé ou une CI verte ne prouve pas la fidélité du rendu ; toute validation navigateur non réalisée reste explicitement ouverte.
+
+Cette règle couvre les fondations, primitives, composants, compositions, catalogue, Design Lab et pages de production. Chaque usage doit être porté par un composant AndroidX vérifié, justifié comme composition Loculary, documenté comme adaptation Web ou approuvé comme exception.

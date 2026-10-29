@@ -2,6 +2,8 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { deleteAccount } from "../actions";
 import { PageContainer } from "@/components/layout/PageLayout";
+import { Arrangement } from "@/components/layout/compose/Arrangement";
+import { Column } from "@/components/layout/compose/Column";
 import SubmitButton from "@/components/account/SubmitButton";
 import { Panel } from "@/components/ui/Panel";
 import { TextField } from "@/components/ui/TextField";
@@ -31,20 +33,21 @@ export default async function DeleteAccountPage({
     <main>
       <PageContainer width="form-wide" spacing="none" className="flex min-h-[calc(100vh-4.5rem)] items-center py-[var(--space-12)]">
       <Panel as="section" className="w-full border-[var(--danger)]/40">
-        <p className="text-sm font-semibold text-[var(--danger-foreground)]">{t.account.deleteAccount}</p>
-        <h1 className="mt-2 text-3xl font-bold tracking-tight">{t.account.deleteAccountTitle}</h1>
+        <p className="m3-type-label-large text-[var(--danger-foreground)]">{t.account.deleteAccount}</p>
+        <h1 className="mt-2 m3-type-headline-large">{t.account.deleteAccountTitle}</h1>
         <p className="mt-4 text-[var(--muted)]">{t.account.deleteAccountDescription}</p>
-        <p className="mt-6 border-l-2 border-[var(--danger)] py-1 pl-3 text-sm text-[var(--danger-foreground)]">
+        <p className="mt-6 border-l-2 border-[var(--danger)] py-1 pl-3 m3-type-body-medium text-[var(--danger-foreground)]">
           {t.account.deleteAccountConsequences}
         </p>
 
         {query.error ? (
-          <p className="mt-5 border-l-2 border-[var(--danger)] py-1 pl-3 text-sm text-[var(--danger-foreground)]" role="alert">
+          <p className="mt-5 border-l-2 border-[var(--danger)] py-1 pl-3 m3-type-body-medium text-[var(--danger-foreground)]" role="alert">
             {query.error === "last-super-admin" ? t.account.lastSuperAdmin : query.error === "confirmation" ? t.account.deleteAccountConfirmationLabel : query.error === "session" ? t.account.deleteAccountSessionError : t.account.deleteAccountError}
           </p>
         ) : null}
 
-        <form action={deleteAccount} className="mt-7 space-y-5">
+        <form action={deleteAccount}>
+          <Column verticalArrangement={Arrangement.spacedBy("var(--space-5)")}>
           <input type="hidden" name="locale" value={locale} />
           <TextField
             label={t.account.deleteAccountConfirmationLabel}
@@ -65,9 +68,10 @@ export default async function DeleteAccountPage({
             <MaterialIcon name="delete" size={18} className="shrink-0" />
             {t.account.deleteAccountButton}
           </SubmitButton>
+                  </Column>
         </form>
 
-        <Link className="mt-6 inline-flex font-semibold text-[var(--accent)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]" href={`/${locale}/compte`}>
+        <Link className="mt-6 inline-flex min-h-11 items-center m3-type-label-large text-[var(--primary)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]" href={`/${locale}/compte`}>
           {t.account.title}
         </Link>
       </Panel>

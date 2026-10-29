@@ -3,6 +3,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import type { KeyboardEvent, ReactNode } from "react";
 import styles from "./SplitButton.module.css";
+import { MaterialIcon } from "@/components/ui/MaterialIcon";
 
 export type SplitButtonItem = { label: string; onSelect: () => void; disabled?: boolean };
 
@@ -61,7 +62,7 @@ export function SplitButton({
         <button type="button" className={styles.primaryAction} onClick={onClick} disabled={disabled}>
           {icon && <span aria-hidden="true">{icon}</span>}{label}
         </button>
-        <button ref={triggerRef} type="button" className={styles.menuAction} aria-label={menuLabel} aria-haspopup="menu" aria-expanded={open} aria-controls={`split-menu-${id}`} onClick={() => setOpen((value) => !value)} disabled={disabled}>⌄</button>
+        <button ref={triggerRef} type="button" className={styles.menuAction} aria-label={menuLabel} aria-haspopup="menu" aria-expanded={open} aria-controls={`split-menu-${id}`} onClick={() => setOpen((value) => !value)} disabled={disabled}><MaterialIcon name="keyboard_arrow_down" size={18} /></button>
       </div>
       {open && <div id={`split-menu-${id}`} ref={menuRef} className={styles.menu} role="menu">
         {items.map((item) => <button key={item.label} type="button" role="menuitem" disabled={item.disabled} onClick={() => { item.onSelect(); setOpen(false); triggerRef.current?.focus(); }}>{item.label}</button>)}

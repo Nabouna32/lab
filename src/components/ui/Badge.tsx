@@ -7,13 +7,21 @@ type BadgeProps = HTMLAttributes<HTMLSpanElement> & {
   accessibleLabel?: string;
 };
 
-/** Source-informed Web adaptation of AndroidX Material 3 Badge. */
+/** Adaptation Web du badge Material 3 ; son nom accessible est explicite. */
 export function Badge({ variant = "small", content, accessibleLabel, className = "", ...props }: BadgeProps) {
   const hasContent = content !== undefined && content !== null && (typeof content !== "boolean" || content);
-  return <span {...props} className={[styles.badge, styles[variant], className].filter(Boolean).join(" ")}
-    aria-label={accessibleLabel} data-has-content={hasContent ? "true" : "false"}>
-    {hasContent ? content : <span className={styles.dot} aria-hidden="true"/>}
-  </span>;
+  return (
+    <span
+      {...props}
+      className={["m3-type-label-small", styles.badge, styles[variant], className].filter(Boolean).join(" ")}
+      role={accessibleLabel ? "img" : undefined}
+      aria-label={accessibleLabel}
+      aria-hidden={accessibleLabel ? undefined : true}
+      data-has-content={hasContent ? "true" : "false"}
+    >
+      {hasContent ? content : null}
+    </span>
+  );
 }
 
 type BadgedBoxProps = {
@@ -22,9 +30,12 @@ type BadgedBoxProps = {
   className?: string;
 };
 
-/** Positions a badge relative to its anchor content, like AndroidX BadgedBox. */
+/** Composition Loculary qui positionne un badge par rapport à son contenu d’ancrage. */
 export function BadgedBox({ children, badge, className = "" }: BadgedBoxProps) {
-  return <span className={[styles.badgedBox, className].filter(Boolean).join(" ")}>
-    {children}<span className={styles.anchor}>{badge}</span>
-  </span>;
+  return (
+    <span className={[styles.badgedBox, className].filter(Boolean).join(" ")}>
+      {children}
+      <span className={styles.anchor}>{badge}</span>
+    </span>
+  );
 }

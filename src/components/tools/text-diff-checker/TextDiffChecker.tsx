@@ -99,7 +99,7 @@ export default function TextDiffChecker() {
 
         <div
           aria-live="polite"
-          className="mt-4 max-h-[32rem] overflow-auto rounded-[var(--radius-md)] bg-[var(--background)] p-2 font-mono text-sm"
+          className="mt-4 max-h-[32rem] overflow-auto rounded-[var(--shape-corner-medium)] bg-[var(--background)] p-2 font-mono text-sm"
         >
           {result?.value ? (
             result.value.lines.map((line, index) => (

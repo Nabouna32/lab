@@ -128,7 +128,7 @@ export default function HashGenerator() {
                 onChange={(event) => { setInput(event.target.value); resetResult(); }}
                 placeholder={t.placeholder}
                 rows={8}
-                className="mt-2 min-h-48 w-full resize-y rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] px-3.5 py-3 text-sm text-[var(--foreground)] outline-none transition-[border-color,box-shadow] duration-[var(--motion-standard)] placeholder:text-[var(--muted)] hover:border-[var(--border-strong)] focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+                className="mt-2 min-h-48 w-full resize-y rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--surface)] px-3.5 py-3 text-sm text-[var(--foreground)] outline-none transition-[border-color,box-shadow] duration-[var(--motion-standard)] placeholder:text-[var(--muted)] hover:border-[var(--border-strong)] focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
                 aria-invalid={error !== null}
               />
             </>

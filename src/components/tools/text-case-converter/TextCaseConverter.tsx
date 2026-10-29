@@ -79,7 +79,7 @@ export default function TextCaseConverter() {
 
           <pre
             aria-live="polite"
-            className="mt-4 min-h-[10rem] overflow-auto whitespace-pre-wrap break-words rounded-[var(--radius-md)] bg-[var(--background)] p-4 font-mono text-sm leading-6 text-[var(--foreground)]"
+            className="mt-4 min-h-[10rem] overflow-auto whitespace-pre-wrap break-words rounded-[var(--shape-corner-medium)] bg-[var(--background)] p-4 font-mono text-sm leading-6 text-[var(--foreground)]"
           >
             {result || " "}
           </pre>

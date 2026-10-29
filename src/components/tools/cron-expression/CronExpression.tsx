@@ -52,7 +52,7 @@ export default function CronExpression() {
               placeholder={t.placeholder}
               spellCheck={false}
               autoComplete="off"
-              className="w-full rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] px-3 py-2.5 font-mono text-sm text-[var(--foreground)] outline-none transition placeholder:text-[var(--muted)] focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--accent)]/20"
+              className="w-full rounded-[var(--shape-corner-small)] border border-[var(--border)] bg-[var(--surface)] px-3 py-2.5 font-mono text-sm text-[var(--foreground)] outline-none transition placeholder:text-[var(--muted)] focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--accent)]/20"
             />
           </div>
           <div className="flex gap-2">
@@ -65,7 +65,7 @@ export default function CronExpression() {
 
         {result ? (
           <div className="mt-6 grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.8fr)]">
-            <div className="rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background)] p-4 sm:p-5">
+            <div className="rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--background)] p-4 sm:p-5">
               <div className="flex items-center justify-between gap-3">
                 <h2 className="text-sm font-semibold text-[var(--foreground)]">{t.result}</h2>
                 <span className={result.schedule ? "rounded-full bg-[var(--success-soft)] px-2.5 py-1 text-xs font-semibold text-[var(--success)]" : "rounded-full bg-[var(--danger-soft)] px-2.5 py-1 text-xs font-semibold text-[var(--danger)]"} role="status">
@@ -80,7 +80,7 @@ export default function CronExpression() {
                     {(["minute", "hour", "dayOfMonth", "month", "dayOfWeek"] as const).map((fieldName) => {
                       const field = result.schedule.fields[fieldName];
                       return (
-                        <div key={fieldName} className="rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] p-3">
+                        <div key={fieldName} className="rounded-[var(--shape-corner-small)] border border-[var(--border)] bg-[var(--surface)] p-3">
                           <p className="text-xs font-medium uppercase tracking-wide text-[var(--muted)]">{t.fields[fieldName]}</p>
                           <p className="mt-1 break-words font-mono text-sm text-[var(--foreground)]">{field.expression}</p>
                         </div>
@@ -98,7 +98,7 @@ export default function CronExpression() {
               {result.schedule ? (
                 <ol className="mt-3 space-y-2">
                   {result.runs.map((date) => (
-                    <li key={date.toISOString()} className="rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm text-[var(--foreground)]">
+                    <li key={date.toISOString()} className="rounded-[var(--shape-corner-small)] border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm text-[var(--foreground)]">
                       <time dateTime={date.toISOString()}>{new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short" }).format(date)}</time>
                     </li>
                   ))}

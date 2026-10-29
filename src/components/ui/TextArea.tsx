@@ -35,7 +35,7 @@ export function TextArea({
     <div className="grid gap-2">
       <label
         htmlFor={inputId}
-        className={"block text-sm font-medium " + (disabled ? "text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]" : isInvalid ? "text-[var(--error)]" : "text-[var(--foreground)]")}
+        className={"m3-type-body-medium block " + (disabled ? "text-[color-mix(in_srgb,var(--on-surface)_38%,transparent)]" : isInvalid ? "text-[var(--error)]" : "text-[var(--foreground)]")}
       >
         {label}
       </label>
@@ -61,9 +61,9 @@ export function TextArea({
         {...props}
       />
       {error ? (
-        <p id={errorId} className="text-xs leading-4 text-[var(--error)]">{error}</p>
+        <p id={errorId} className="m3-type-body-small text-[var(--error)]">{error}</p>
       ) : helperText ? (
-        <p id={helperId} className="text-xs leading-4 text-[var(--on-surface-variant)]">{helperText}</p>
+        <p id={helperId} className="m3-type-body-small text-[var(--on-surface-variant)]">{helperText}</p>
       ) : null}
     </div>
   );

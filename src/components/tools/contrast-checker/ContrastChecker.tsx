@@ -10,6 +10,7 @@ import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { evaluateContrast, parseColor, suggestAccessibleForeground } from "@/lib/contrast-checker";
 import { Arrangement } from "@/components/layout/compose/Arrangement";
 import { Column } from "@/components/layout/compose/Column";
+import { MaterialIcon } from "@/components/ui/MaterialIcon";
 
 const DEFAULT_FOREGROUND = "#111827";
 const DEFAULT_BACKGROUND = "#ffffff";
@@ -66,7 +67,7 @@ export default function ContrastChecker() {
           </div>
 
           <div
-            className="rounded-[var(--radius-md)] border border-[var(--border)] p-5"
+            className="rounded-[var(--shape-corner-medium)] border border-[var(--border)] p-5"
             style={{ backgroundColor: result ? background : "var(--background)", color: result ? foreground : "var(--muted)" }}
           >
             <p className="text-xs font-semibold uppercase tracking-[0.14em] opacity-70">{t.preview}</p>
@@ -159,7 +160,7 @@ function ColorField({
             aria-label={label}
             value={parsePickerValue(value)}
             onChange={(event) => onChange(event.target.value)}
-            className="h-11 w-14 cursor-pointer rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--background)] p-1 outline-none transition focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
+            className="h-11 w-14 cursor-pointer rounded-[var(--shape-corner-medium)] border border-[var(--border)] bg-[var(--background)] p-1 outline-none transition focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
           />
         </div>
       </div>
@@ -177,7 +178,7 @@ function Criterion({ label, pass }: { label: string; pass: boolean }) {
     <div className="flex items-center justify-between gap-3 border-t border-[var(--border)] py-3">
       <span className="text-sm text-[var(--foreground)]">{label}</span>
       <span className={pass ? "text-sm font-bold text-[var(--success)]" : "text-sm font-bold text-[var(--danger)]"}>
-        {pass ? "✓" : "—"}
+        <MaterialIcon name={pass ? "check" : "close"} size={18} aria-hidden="true" />
       </span>
     </div>
   );
@@ -186,7 +187,7 @@ function Criterion({ label, pass }: { label: string; pass: boolean }) {
 
 function Suggestion({ label, color, applyLabel, copyLabel, onApply }: { label: string; color: string; applyLabel: string; copyLabel: string; onApply: () => void }) {
   return (
-    <div className="flex flex-wrap items-center gap-3 rounded-[var(--radius-md)] border border-[var(--border)] p-3">
+    <div className="flex flex-wrap items-center gap-3 rounded-[var(--shape-corner-medium)] border border-[var(--border)] p-3">
       <span className="h-9 w-9 shrink-0 rounded-full border border-[var(--border)]" style={{ backgroundColor: color }} aria-hidden="true" />
       <div className="min-w-24 flex-1">
         <p className="text-sm font-medium text-[var(--foreground)]">{label}</p>

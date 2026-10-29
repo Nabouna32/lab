@@ -3,7 +3,7 @@
   gap: 4px;
   min-width: 0;
   width: 100%;
-  color: var(--lab-on-surface, var(--md-sys-color-on-surface, currentColor));
+  color: var(--on-surface, var(--foreground));
 }
 
 .field {
@@ -14,33 +14,41 @@
   min-height: 56px;
   padding-inline: 16px;
   border: 1px solid transparent;
-  border-bottom-color: var(--lab-on-surface-variant, var(--md-sys-color-on-surface-variant, currentColor));
+  border-bottom-color: var(--on-surface-variant, var(--muted));
   border-radius: 4px 4px 0 0;
-  background: var(--lab-surface-container-highest, var(--md-sys-color-surface-container-highest, transparent));
+  background: var(--surface-container-highest, var(--surface));
   transition: border-color 160ms ease, border-width 160ms ease, background-color 160ms ease;
 }
 
 .root[data-variant="outlined"] .field {
-  border: 1px solid var(--lab-outline, var(--md-sys-color-outline, currentColor));
+  border: 1px solid var(--outline, var(--border));
   border-radius: 4px;
   background: transparent;
 }
 
-.root[data-error="true"] .field {
-  border-color: var(--lab-error, var(--md-sys-color-error, currentColor));
+.root[data-variant="filled"][data-error="true"]:not([data-disabled="true"]) .field {
+  border-bottom-color: var(--error, currentColor);
 }
 
-.root:focus-within .field {
+.root[data-variant="outlined"][data-error="true"]:not([data-disabled="true"]) .field {
+  border-color: var(--error, currentColor);
+}
+
+.root:focus-within:not([data-disabled="true"]) .field {
   border-bottom-width: 2px;
-  border-bottom-color: var(--lab-primary, var(--md-sys-color-primary, currentColor));
+  border-bottom-color: var(--primary, currentColor);
 }
 
-.root[data-variant="outlined"]:focus-within .field {
-  border: 2px solid var(--lab-primary, var(--md-sys-color-primary, currentColor));
+.root[data-variant="outlined"]:focus-within:not([data-disabled="true"]) .field {
+  border: 2px solid var(--primary, currentColor);
 }
 
-.root[data-error="true"]:focus-within .field {
-  border-color: var(--lab-error, var(--md-sys-color-error, currentColor));
+.root[data-variant="filled"][data-error="true"]:focus-within:not([data-disabled="true"]) .field {
+  border-bottom-color: var(--error, currentColor);
+}
+
+.root[data-variant="outlined"][data-error="true"]:focus-within:not([data-disabled="true"]) .field {
+  border-color: var(--error, currentColor);
 }
 
 .inputContainer {
@@ -70,7 +78,7 @@
 }
 
 .input:focus::placeholder {
-  color: var(--lab-on-surface-variant, currentColor);
+  color: var(--on-surface-variant, var(--muted));
   opacity: .8;
 }
 
@@ -80,9 +88,9 @@
   top: 50%;
   max-width: 100%;
   overflow: hidden;
-  color: var(--lab-on-surface-variant, currentColor);
-  font-size: 16px;
-  line-height: 24px;
+  color: var(--on-surface-variant, var(--muted));
+  font-size: var(--m3-type-body-large-size);
+  line-height: var(--m3-type-body-large-line-height);
   text-overflow: ellipsis;
   white-space: nowrap;
   pointer-events: none;
@@ -94,15 +102,15 @@
 .input:focus + .label,
 .input:not(:placeholder-shown) + .label {
   top: 8px;
-  font-size: 12px;
-  line-height: 16px;
+  font-size: var(--m3-type-label-small-size);
+  line-height: var(--m3-type-label-small-line-height);
   transform: none;
 }
 
 .root[data-variant="outlined"] .label {
   left: 8px;
   padding-inline: 4px;
-  background: var(--lab-surface, var(--md-sys-color-surface, Canvas));
+  background: var(--surface, var(--background, Canvas));
 }
 
 .root[data-variant="outlined"] .input:focus + .label,
@@ -111,11 +119,11 @@
 }
 
 .input:focus + .label {
-  color: var(--lab-primary, var(--md-sys-color-primary, currentColor));
+  color: var(--primary, currentColor);
 }
 
 .root[data-error="true"] .label {
-  color: var(--lab-error, var(--md-sys-color-error, currentColor));
+  color: var(--error, currentColor);
 }
 
 .leading,
@@ -124,13 +132,13 @@
   align-items: center;
   justify-content: center;
   flex: 0 0 auto;
-  color: var(--lab-on-surface-variant, currentColor);
+  color: var(--on-surface-variant, var(--muted));
 }
 
 .affix {
   flex: 0 0 auto;
-  color: var(--lab-on-surface-variant, currentColor);
-  font-size: 14px;
+  color: var(--on-surface-variant, var(--muted));
+  font-size: var(--m3-type-body-medium-size);
 }
 
 .trailing {
@@ -142,10 +150,10 @@
   border: 0;
   border-radius: 20px;
   background: transparent;
-  color: var(--lab-primary, currentColor);
+  color: var(--primary, currentColor);
   font: inherit;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: var(--m3-type-label-small-size);
+  font-weight: var(--m3-type-label-small-weight);
   cursor: pointer;
 }
 
@@ -154,7 +162,7 @@
 }
 
 .trailing:focus-visible {
-  outline: 2px solid var(--lab-primary, currentColor);
+  outline: 2px solid var(--primary, currentColor);
   outline-offset: -2px;
 }
 
@@ -169,13 +177,13 @@
   gap: 12px;
   min-height: 16px;
   padding-inline: 16px;
-  color: var(--lab-on-surface-variant, currentColor);
-  font-size: 12px;
-  line-height: 16px;
+  color: var(--on-surface-variant, var(--muted));
+  font-size: var(--m3-type-label-small-size);
+  line-height: var(--m3-type-label-small-line-height);
 }
 
 .error {
-  color: var(--lab-error, var(--md-sys-color-error, currentColor));
+  color: var(--error, currentColor);
 }
 
 .counter {
@@ -184,11 +192,32 @@
 }
 
 .root[data-disabled="true"] {
-  opacity: .38;
+  color: color-mix(in srgb, var(--on-surface, var(--foreground)) 38%, transparent);
 }
 
 .root[data-disabled="true"] .field {
-  border-bottom-style: dashed;
+  border-color: color-mix(in srgb, var(--on-surface, var(--foreground)) 12%, transparent);
+  background: color-mix(in srgb, var(--on-surface, var(--foreground)) 4%, transparent);
+}
+
+.root[data-variant="outlined"][data-disabled="true"] .field {
+  background: transparent;
+}
+
+.root[data-disabled="true"] .label,
+.root[data-disabled="true"] .leading,
+.root[data-disabled="true"] .trailingContent,
+.root[data-disabled="true"] .affix,
+.root[data-disabled="true"] .supportingRow {
+  color: color-mix(in srgb, var(--on-surface, var(--foreground)) 38%, transparent);
+}
+
+.root[data-disabled="true"][data-error="true"] .error {
+  color: color-mix(in srgb, var(--on-surface, var(--foreground)) 38%, transparent);
+}
+
+.root[data-disabled="true"] .field {
+  transition: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

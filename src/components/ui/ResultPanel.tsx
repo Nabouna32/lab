@@ -21,7 +21,7 @@ export function ResultPanel({ label, value, emptyMessage, tone = "neutral", acti
       className={["rounded-[var(--shape-corner-medium)] border p-5", toneClass].join(" ")}
     >
       <div className="flex items-start justify-between gap-3">
-        <p className="text-xs font-semibold text-[var(--muted)]">{label}</p>
+        <p className="m3-type-label-medium text-[var(--muted)]">{label}</p>
         {actions ? <div className="shrink-0">{actions}</div> : null}
       </div>
       <div
@@ -29,9 +29,9 @@ export function ResultPanel({ label, value, emptyMessage, tone = "neutral", acti
         className="mt-2 min-h-20 flex items-center"
       >
         {isEmpty ? (
-          <p className="text-sm leading-6 text-[var(--muted)]">{emptyMessage}</p>
+          <p className="m3-type-body-medium text-[var(--muted)]">{emptyMessage}</p>
         ) : (
-          <p className="text-4xl font-bold tracking-tight text-[var(--foreground)] sm:text-5xl">{value}</p>
+          <p className="m3-type-display-small text-[var(--foreground)] sm:text-[length:var(--m3-type-display-medium-size)] sm:leading-[var(--m3-type-display-medium-line-height)] sm:font-[var(--m3-type-display-medium-weight)] sm:tracking-[var(--m3-type-display-medium-tracking)]">{value}</p>
         )}
       </div>
     </section>

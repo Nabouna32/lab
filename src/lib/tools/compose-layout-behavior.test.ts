@@ -64,3 +64,16 @@ test("Row and Column map scope weights to the expected flex styles", () => {
   assert.equal(column.style.display, "flex");
   assert.equal(column.style.flexDirection, "column");
 });
+
+
+test("Column defaults to AndroidX Alignment.Start and respects explicit cross-axis alignment", () => {
+  const defaultColumn = getColumnLayoutPresentation();
+  const startAlignedColumn = getColumnLayoutPresentation(undefined, Alignment.Start);
+  const centeredColumn = getColumnLayoutPresentation(undefined, Alignment.CenterHorizontally);
+  const endColumn = getColumnLayoutPresentation(undefined, Alignment.End);
+
+  assert.equal(defaultColumn.style.alignItems, "flex-start");
+  assert.equal(startAlignedColumn.style.alignItems, "flex-start");
+  assert.equal(centeredColumn.style.alignItems, "center");
+  assert.equal(endColumn.style.alignItems, "flex-end");
+});

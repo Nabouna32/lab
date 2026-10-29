@@ -57,6 +57,12 @@ Loculary adopts **Material 3's Fidelity color scheme and the visual language of 
 
 The detailed visual contract—including the blue seed, M3 Fidelity semantic colors, Roboto, light/dark contrast, components and motion—is maintained in [docs/DESIGN-SYSTEM.md](DESIGN-SYSTEM.md). Shared foundations should create coherence without forcing every tool into an identical layout. Specialized interfaces remain valid when they better serve the task and preserve accessibility, localization, responsiveness, performance and trust.
 
+This direction is intentionally ambitious: Loculary should feel like a polished, modern Android application brought to the Web, with the quality bar of a leading consumer product—not merely a website with Material colors. We aim for a **AAA-level product experience**: coherent details, predictable behavior, excellent usability, robust performance and reliability appropriate to a product that may serve a large audience. This is a quality ambition, not a claim about current scale or conformance.
+
+AndroidX defines the baseline wherever an official component or behavior contract applies. Beyond that contract, use proven conventions from successful, high-quality consumer apps: familiar settings and account flows, clear information hierarchy, predictable navigation, recognizable Material Symbols, concise action rows, consistent loading/empty/error/success feedback, and well-designed forms. Study multiple credible references and the user's task; do not invent a different convention without a reason, and do not copy another app wholesale. References such as ChatGPT for Android can inform product decisions but never override AndroidX contracts, Web semantics, accessibility, privacy or performance.
+
+**Refactoring and substantial page redesigns are expected options**, not exceptions. Existing code, page layouts, abstractions and visual decisions are only starting points and may be replaced when that is the clearest route to a familiar, coherent, product-grade experience. Preserve neither legacy code nor a page structure merely because it already exists; preserve meaningful tool-specific UX only when it serves users better.
+
 The light/dark theme preference should work locally for anonymous users and synchronize to an account when signed-in preference persistence is implemented. This is a product direction, not a claim that the feature already exists. WCAG 2.2 AA and reduced-motion preferences remain mandatory.
 
 ### 7. Broad functional ambition

@@ -20,8 +20,10 @@
 .message {
   min-width: 0;
   padding-block: .5rem;
-  font-size: .875rem;
-  line-height: 1.25rem;
+  font-size: var(--m3-type-body-medium-size);
+  font-weight: var(--m3-type-body-medium-weight);
+  line-height: var(--m3-type-body-medium-line-height);
+  letter-spacing: var(--m3-type-body-medium-tracking);
   overflow-wrap: anywhere;
 }
 .actions { display: flex; align-items: center; gap: .25rem; flex: 0 0 auto; }

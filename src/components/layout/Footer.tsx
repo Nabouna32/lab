@@ -35,7 +35,7 @@ export default function Footer({ locale }: { locale: Locale }) {
             </AppLink>
           </Row>
         </nav>
-        <p className="shrink-0 border-t border-[var(--border)] pt-3 text-xs font-medium text-[var(--muted)] sm:border-l sm:border-t-0 sm:pl-4 sm:pt-0">
+        <p className="shrink-0 border-t border-[var(--border)] pt-3 m3-type-body-small text-[var(--muted)] sm:border-l sm:border-t-0 sm:pl-4 sm:pt-0">
           © {new Date().getFullYear()} Loculary
         </p>
       </PageContainer>

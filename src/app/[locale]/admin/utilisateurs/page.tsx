@@ -61,21 +61,21 @@ export default async function AdminUsersPage({
   return (
     <main className="min-h-[calc(100vh-4.5rem)]">
       <PageContainer width="default" spacing="none" className="py-[var(--space-8)] sm:py-[var(--space-10)]">
-      <Link href={`/${locale}/admin`} className="text-sm font-semibold text-[var(--accent)]">{t.admin.usersBack}</Link>
+      <Link href={`/${locale}/admin`} className="m3-type-label-large text-[var(--primary)]">{t.admin.usersBack}</Link>
 
       <header className="mt-6">
-        <p className="text-sm font-semibold text-[var(--accent)]">{t.admin.label}</p>
-        <h1 className="mt-1 text-3xl font-bold tracking-tight sm:text-4xl">{t.admin.usersTitle}</h1>
+        <p className="m3-type-label-large text-[var(--primary)]">{t.admin.label}</p>
+        <h1 className="mt-1 m3-type-headline-large">{t.admin.usersTitle}</h1>
         <p className="mt-3 max-w-2xl text-[var(--muted)]">{t.admin.usersDescription}</p>
       </header>
 
       {status === "updated" || status === "suspended" || status === "unsuspended" || status === "sessions-revoked" ? (
-        <p className="mt-5 border-l-2 border-[var(--success)] bg-[var(--success-soft)] px-4 py-3 text-sm font-medium text-[var(--success)]" role="status">
+        <p className="mt-5 border-l-2 border-[var(--success)] bg-[var(--success-soft)] px-4 py-3 m3-type-body-medium text-[var(--success)]" role="status">
           {status === "suspended" ? t.admin.userSuspended : status === "unsuspended" ? t.admin.userUnsuspended : status === "sessions-revoked" ? t.admin.userSessionsRevoked : t.admin.userUpdated}
         </p>
       ) : null}
       {status === "error" || error ? (
-        <p className="mt-5 border-l-2 border-[var(--danger)] bg-[var(--danger-soft)] px-4 py-3 text-sm font-medium text-[var(--danger)]" role="alert">{t.admin.userActionError}</p>
+        <p className="mt-5 border-l-2 border-[var(--danger)] bg-[var(--danger-soft)] px-4 py-3 m3-type-body-medium text-[var(--danger)]" role="alert">{t.admin.userActionError}</p>
       ) : null}
 
       <form className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-end" method="get">
@@ -93,7 +93,7 @@ export default async function AdminUsersPage({
       </form>
 
       {usersError ? (
-        <p className="mt-6 border-l-2 border-[var(--danger)] bg-[var(--danger-soft)] px-4 py-3 text-sm text-[var(--danger)]" role="alert">{t.admin.usersLoadError}</p>
+        <p className="mt-6 border-l-2 border-[var(--danger)] bg-[var(--danger-soft)] px-4 py-3 m3-type-body-medium text-[var(--danger)]" role="alert">{t.admin.usersLoadError}</p>
       ) : users?.length ? (
         <section className="mt-8 divide-y divide-[var(--border)] border-y border-[var(--border)]" aria-label={t.admin.usersTitle}>
           {(users as UserRow[]).map((user) => {
@@ -102,44 +102,44 @@ export default async function AdminUsersPage({
               <article key={user.user_id} className="py-6">
                 <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
                   <div className="min-w-0">
-                    <h2 className="break-all text-lg font-semibold">{user.email ?? "—"}</h2>
-                    <p className="mt-1 text-sm text-[var(--muted)]">{user.display_name || t.account.notSet}</p>
-                    <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
+                    <h2 className="break-all m3-type-title-large">{user.email ?? "—"}</h2>
+                    <p className="mt-1 m3-type-body-medium text-[var(--muted)]">{user.display_name || t.account.notSet}</p>
+                    <dl className="mt-4 grid gap-3 m3-type-body-medium sm:grid-cols-2">
                       <div><dt className="text-[var(--muted)]">{t.admin.userCreated}</dt><dd className="mt-1">{formatDate(user.created_at, locale)}</dd></div>
                       <div><dt className="text-[var(--muted)]">{t.admin.userLastSignIn}</dt><dd className="mt-1">{formatDate(user.last_sign_in_at, locale) ?? t.admin.userNeverSignedIn}</dd></div>
                     </dl>
                   </div>
                   <div className="shrink-0">
-                    <p className="text-xs font-semibold uppercase tracking-wide text-[var(--muted)]">{t.admin.userEmail}</p>
-                    <p className={"mt-2 text-sm font-semibold " + (user.email_confirmed_at ? "text-[var(--success)]" : "text-[var(--warning)]")}>
+                    <p className="m3-type-label-small uppercase text-[var(--muted)]">{t.admin.userEmail}</p>
+                    <p className={"m3-type-label-large mt-2 " + (user.email_confirmed_at ? "text-[var(--success)]" : "text-[var(--warning)]")}>
                       {user.email_confirmed_at ? t.admin.userEmailConfirmed : t.admin.userPending}
                     </p>
                   </div>
                 </div>
 
                 <div className="mt-5 border-t border-[var(--border)] pt-5">
-                  <p className="text-sm font-semibold">{t.admin.userRoles}</p>
+                  <p className="m3-type-label-large">{t.admin.userRoles}</p>
                   <div className="mt-2 flex flex-wrap gap-x-4 gap-y-2">
                     {user.roles.length ? user.roles.map((role) => (
-                      <div key={role} className="inline-flex items-center gap-2 border-l-2 border-[var(--accent)] pl-2 text-sm font-medium">
+                      <div key={role} className="inline-flex items-center gap-2 border-l-2 border-[var(--primary)] pl-2 m3-type-body-medium">
                         <span>{role}</span>
                         {canManageRoles ? (
                           <form action={removeAdminRole}>
                             <input type="hidden" name="locale" value={locale} />
                             <input type="hidden" name="userId" value={user.user_id} />
                             <input type="hidden" name="roleKey" value={role} />
-                            <TextButton type="submit" className="min-h-8 px-2 py-1 text-xs text-[var(--danger)] hover:text-[var(--danger)]">
+                            <TextButton type="submit" className="min-h-8 px-2 py-1 m3-type-label-small text-[var(--danger)] hover:text-[var(--danger)]">
                               {t.admin.userRemoveRole}
                             </TextButton>
                           </form>
                         ) : null}
                       </div>
-                    )) : <span className="text-sm text-[var(--muted)]">{t.admin.userNoRoles}</span>}
+                    )) : <span className="m3-type-body-medium text-[var(--muted)]">{t.admin.userNoRoles}</span>}
                   </div>
 
                   {canManageRoles && roleOptions.some((role) => !user.roles.includes(role.key)) ? (
                     <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2">
-                      <span className="text-sm text-[var(--muted)]">{t.admin.userAssignRole}:</span>
+                      <span className="m3-type-body-medium text-[var(--muted)]">{t.admin.userAssignRole}:</span>
                       {roleOptions.filter((role) => !user.roles.includes(role.key)).map((role) => (
                         <form key={role.key} action={assignAdminRole}>
                           <input type="hidden" name="locale" value={locale} />
@@ -153,8 +153,8 @@ export default async function AdminUsersPage({
 
                   {canSuspendUsers && !user.roles.includes("super_admin") ? (
                     <div className="mt-5 border-t border-[var(--border)] pt-5">
-                      <p className="text-sm font-semibold">{t.admin.userAccess}</p>
-                      <p className="mt-1 text-sm text-[var(--muted)]">
+                      <p className="m3-type-label-large">{t.admin.userAccess}</p>
+                      <p className="mt-1 m3-type-body-medium text-[var(--muted)]">
                         {suspended ? `${t.admin.userSuspendedUntil} ${formatDate(user.banned_until, locale)}` : t.admin.userActive}
                       </p>
                       <div className="mt-3 flex flex-wrap gap-2">

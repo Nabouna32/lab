@@ -257,7 +257,7 @@ const nextActionToolIds: Partial<Record<ToolId, ToolId[]>> = {
 
 const toolDefinitions: ToolDefinition[] = [
   {
-    id: "expense-splitter", icon: "🧾",
+    id: "expense-splitter", icon: "receipt_long",
     version: 1,
     complexity: "small",
     categories: ["calculations"],
@@ -271,7 +271,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "compound-interest", icon: "📈",
+    id: "compound-interest", icon: "show_chart",
     version: 1,
     complexity: "small",
     categories: ["calculations"],
@@ -285,7 +285,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "percentage", icon: "📊",
+    id: "percentage", icon: "calculate",
     version: 1,
     complexity: "small",
     categories: ["calculations"],
@@ -298,7 +298,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "discount", icon: "🏷️",
+    id: "discount", icon: "sell",
     version: 1,
     complexity: "small",
     categories: ["calculations"],
@@ -310,7 +310,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "vat", icon: "💶",
+    id: "vat", icon: "payments",
     version: 1,
     complexity: "small",
     categories: ["calculations"],
@@ -322,7 +322,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "rule-of-three", icon: "⚖️",
+    id: "rule-of-three", icon: "balance",
     version: 1,
     complexity: "small",
     categories: ["calculations"],
@@ -335,7 +335,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "age", icon: "🎂",
+    id: "age", icon: "cake",
     version: 1,
     complexity: "small",
     categories: ["dates"],
@@ -348,7 +348,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "duration", icon: "⏱️",
+    id: "duration", icon: "timer",
     version: 1,
     complexity: "small",
     categories: ["dates"],
@@ -361,7 +361,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "date-calculator", icon: "📅",
+    id: "date-calculator", icon: "calendar_month",
     version: 1,
     complexity: "small",
     categories: ["dates"],
@@ -374,7 +374,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "download-speed", icon: "🚀",
+    id: "download-speed", icon: "speed",
     version: 1,
     complexity: "small",
     categories: ["computing"],
@@ -387,7 +387,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "download-time", icon: "⏳",
+    id: "download-time", icon: "hourglass_bottom",
     version: 1,
     complexity: "small",
     categories: ["computing"],
@@ -400,7 +400,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "file-size", icon: "💾",
+    id: "file-size", icon: "description",
     version: 1,
     complexity: "advanced",
     categories: ["computing"],
@@ -413,7 +413,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "file-size-converter", icon: "🔄",
+    id: "file-size-converter", icon: "swap_horiz",
     version: 1,
     complexity: "small",
     categories: ["computing"],
@@ -426,7 +426,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "word-character-counter", icon: "🔤",
+    id: "word-character-counter", icon: "text_fields",
     version: 1,
     complexity: "small",
     categories: ["files"],
@@ -440,7 +440,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "text-case-converter", icon: "Aa",
+    id: "text-case-converter", icon: "text_fields",
     version: 1,
     complexity: "small",
     categories: ["files"],
@@ -454,7 +454,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "text-line-processor", icon: "≡",
+    id: "text-line-processor", icon: "sort",
     version: 1,
     complexity: "advanced",
     categories: ["files"],
@@ -468,7 +468,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "unit-converter", icon: "↔",
+    id: "unit-converter", icon: "swap_horiz",
     version: 1,
     complexity: "small",
     categories: ["calculations"],
@@ -482,7 +482,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "yaml-formatter-validator", icon: "YAML ↔ JSON",
+    id: "yaml-formatter-validator", icon: "sync_alt",
     version: 2,
     complexity: "advanced",
     categories: ["development"],
@@ -495,7 +495,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "json-formatter", icon: "{ }",
+    id: "json-formatter", icon: "code",
     version: 1,
     complexity: "advanced",
     categories: ["development"],
@@ -508,7 +508,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "json-diff-checker", icon: "≠",
+    id: "json-diff-checker", icon: "difference",
     version: 1,
     complexity: "advanced",
     categories: ["development"],
@@ -521,7 +521,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "csv-json-converter", icon: "{↔}",
+    id: "csv-json-converter", icon: "sync_alt",
     version: 1,
     complexity: "small",
     categories: ["files"],
@@ -535,7 +535,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "csv-diff-checker", icon: "Δ",
+    id: "csv-diff-checker", icon: "difference",
     version: 1,
     complexity: "advanced",
     categories: ["files"],
@@ -549,7 +549,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "json-to-typescript", icon: "TS",
+    id: "json-to-typescript", icon: "code",
     version: 1,
     complexity: "advanced",
     categories: ["development"],
@@ -563,7 +563,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "html-entity-encoder-decoder", icon: "<>",
+    id: "html-entity-encoder-decoder", icon: "code",
     version: 1,
     complexity: "small",
     categories: ["development"],
@@ -577,7 +577,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "timezone-converter", icon: "🌍",
+    id: "timezone-converter", icon: "public",
     version: 1,
     complexity: "advanced",
     categories: ["dates"],
@@ -591,7 +591,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "xml-formatter-validator", icon: "</>",
+    id: "xml-formatter-validator", icon: "code",
     version: 1,
     complexity: "advanced",
     categories: ["development"],
@@ -605,7 +605,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "html-previewer", icon: "▣",
+    id: "html-previewer", icon: "preview",
     version: 1,
     complexity: "advanced",
     categories: ["development"],
@@ -618,7 +618,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "uuid-generator", icon: "🆔",
+    id: "uuid-generator", icon: "fingerprint",
     version: 1,
     complexity: "small",
     categories: ["development"],
@@ -631,7 +631,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "base64-encoder-decoder", icon: "🔐",
+    id: "base64-encoder-decoder", icon: "sync_alt",
     version: 1,
     complexity: "small",
     categories: ["development"],
@@ -645,7 +645,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "url-encoder-decoder", icon: "🔗",
+    id: "url-encoder-decoder", icon: "link",
     version: 1,
     complexity: "small",
     categories: ["development"],
@@ -659,7 +659,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "url-parser", icon: "🔎",
+    id: "url-parser", icon: "link",
     version: 1,
     complexity: "small",
     categories: ["development"],
@@ -673,7 +673,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "unix-timestamp", icon: "🕐",
+    id: "unix-timestamp", icon: "calendar_month",
     version: 1,
     complexity: "small",
     categories: ["development"],
@@ -687,7 +687,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "hash-generator", icon: "#️⃣",
+    id: "hash-generator", icon: "fingerprint",
     version: 1,
     complexity: "advanced",
     categories: ["development"],
@@ -701,7 +701,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "password-generator", icon: "🔐",
+    id: "password-generator", icon: "lock",
     version: 1,
     complexity: "small",
     categories: ["computing"],
@@ -715,7 +715,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "color-converter", icon: "🎨",
+    id: "color-converter", icon: "swap_horiz",
     version: 1,
     complexity: "small",
     categories: ["images"],
@@ -729,7 +729,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "color-palette-generator", icon: "🌈",
+    id: "color-palette-generator", icon: "palette",
     version: 1,
     complexity: "small",
     categories: ["images"],
@@ -743,7 +743,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "regex-tester", icon: ".*",
+    id: "regex-tester", icon: "search",
     version: 1,
     complexity: "small",
     categories: ["development"],
@@ -757,7 +757,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "jwt-decoder", icon: "🔑",
+    id: "jwt-decoder", icon: "key",
     version: 1,
     complexity: "small",
     categories: ["development"],
@@ -771,7 +771,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "contrast-checker", icon: "◐",
+    id: "contrast-checker", icon: "contrast",
     version: 1,
     complexity: "small",
     categories: ["images"],
@@ -785,7 +785,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "ip-subnet-calculator", icon: "🌐",
+    id: "ip-subnet-calculator", icon: "lan",
     version: 1,
     complexity: "small",
     categories: ["computing"],
@@ -799,7 +799,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "ipv6-subnet-calculator", icon: "🌐",
+    id: "ipv6-subnet-calculator", icon: "lan",
     version: 1,
     complexity: "small",
     categories: ["computing"],
@@ -813,7 +813,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "number-base-converter", icon: "🔢",
+    id: "number-base-converter", icon: "numbers",
     version: 1,
     complexity: "small",
     categories: ["development"],
@@ -827,7 +827,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "text-diff-checker", icon: "±",
+    id: "text-diff-checker", icon: "difference",
     version: 1,
     complexity: "advanced",
     categories: ["development"],
@@ -841,7 +841,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "cron-expression", icon: "⏰",
+    id: "cron-expression", icon: "alarm",
     version: 1,
     complexity: "advanced",
     categories: ["development"],
@@ -855,7 +855,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "qr-code-generator", icon: "▦",
+    id: "qr-code-generator", icon: "qr_code_2",
     version: 1,
     complexity: "advanced",
     categories: ["development"],
@@ -868,7 +868,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "markdown-table-generator", icon: "▤",
+    id: "markdown-table-generator", icon: "table_chart",
     version: 1,
     complexity: "advanced",
     categories: ["development"],
@@ -882,7 +882,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "image-compressor", icon: "🗜️",
+    id: "image-compressor", icon: "compress",
     version: 2,
     complexity: "advanced",
     categories: ["images"],
@@ -896,7 +896,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "image-to-pdf", icon: "📄",
+    id: "image-to-pdf", icon: "picture_as_pdf",
     version: 1,
     complexity: "advanced",
     categories: ["images", "files"],
@@ -910,7 +910,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "image-contact-sheet", icon: "🧩",
+    id: "image-contact-sheet", icon: "collections_bookmark",
     version: 1,
     complexity: "advanced",
     categories: ["images", "files"],
@@ -924,7 +924,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "image-metadata", icon: "🖼️",
+    id: "image-metadata", icon: "image",
     version: 1,
     complexity: "advanced",
     categories: ["images"],
@@ -938,7 +938,7 @@ const toolDefinitions: ToolDefinition[] = [
     },
   },
   {
-    id: "video-bitrate", icon: "🎬",
+    id: "video-bitrate", icon: "movie",
     version: 1,
     complexity: "advanced",
     categories: ["video"],

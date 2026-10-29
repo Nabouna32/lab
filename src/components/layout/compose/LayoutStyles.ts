@@ -120,7 +120,7 @@ export function getRowLayoutPresentation(
 
 export function getColumnLayoutPresentation(
   verticalArrangement: VerticalArrangement = Arrangement.Top,
-  horizontalAlignment: HorizontalAlignment = "start",
+  horizontalAlignment: HorizontalAlignment | undefined = undefined,
   className?: string,
   style?: CSSProperties,
 ): LayoutPresentation {
@@ -130,13 +130,15 @@ export function getColumnLayoutPresentation(
     : horizontalAlignment === "right"
       ? "compose-column-align-absolute-right"
       : undefined;
+  // AndroidX Column defaults to Alignment.Start. Keep cross-axis placement faithful;
+  // compositions that require full-width children must express that sizing explicitly.
   const alignItems = horizontalAlignment === "left" || horizontalAlignment === "right"
     ? undefined
     : ({
       start: "flex-start",
       centerHorizontally: "center",
       end: "flex-end",
-    } as const)[horizontalAlignment];
+    } as const)[horizontalAlignment ?? "start"];
 
   return {
     className: joinClassNames(

@@ -81,7 +81,7 @@ export default function UrlParser() {
           </div>
 
           {result && hasSensitiveUrlData(result) && (
-            <p role="status" className="mt-4 rounded-[var(--radius-md)] border border-[var(--warning)] bg-[var(--warning-soft)] p-3 text-sm text-[var(--foreground)]">
+            <p role="status" className="mt-4 rounded-[var(--shape-corner-medium)] border border-[var(--warning)] bg-[var(--warning-soft)] p-3 text-sm text-[var(--foreground)]">
               {t.credentialsWarning}
             </p>
           )}

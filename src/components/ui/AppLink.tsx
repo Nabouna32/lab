@@ -24,8 +24,8 @@ const variantStyles: Partial<Record<AppLinkVariant, string>> = {
     "motion-reduce:transition-none",
   ].join(" "),
   navigation: [
-    "inline-flex min-h-9 shrink-0 items-center gap-2 rounded-[var(--radius-pill)] border border-transparent px-3",
-    "text-sm font-semibold text-[var(--muted)] outline-none",
+    "inline-flex min-h-9 shrink-0 items-center gap-2 rounded-[var(--shape-corner-full)] border border-transparent px-3",
+    "m3-type-label-large text-[var(--muted)] outline-none",
     "transition-[border-color,background-color,color] duration-[var(--motion-standard)]",
     "hover:border-[var(--border)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)]",
     "focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] motion-reduce:transition-none",
@@ -52,7 +52,7 @@ export default function AppLink({
     : leadingIcon ? "pl-4 pr-6" : "px-6";
   const mergedStyle = getMaterialButtonInlineStyle(isMaterialButton ? variant as MaterialButtonVariant : null, colors, style);
   const materialButtonLayout = [
-    "relative isolate inline-flex min-h-10 min-w-[58px] shrink-0 items-center justify-center gap-2 rounded-full py-2 text-sm font-medium leading-5 tracking-[0.1px] whitespace-nowrap",
+    "m3-type-label-large relative isolate inline-flex min-h-10 min-w-[58px] shrink-0 items-center justify-center gap-2 rounded-full py-2 whitespace-nowrap",
     horizontalPadding,
     "transition-[background-color,border-color,color,box-shadow] duration-[var(--motion-standard)] motion-reduce:transition-none",
     "outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]",
