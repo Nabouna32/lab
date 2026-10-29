@@ -12,7 +12,7 @@ class SourceIndexTests(unittest.TestCase):
     def test_decodes_type_and_member_annotation_records(self):
         import base64
         enc = lambda value: base64.b64encode(value.encode()).decode()
-        output = "\\n".join([
+        output = "\n".join([
             "|".join(["T", enc("pkg.Widget"), enc("Widget"), "-", "type", "true", "false", "false"]),
             "|".join(["M", enc("pkg.Widget"), enc("old"), "1", "method", "false", "true", "false"]),
         ])
