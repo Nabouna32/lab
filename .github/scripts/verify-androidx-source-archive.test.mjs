@@ -72,6 +72,40 @@ test('rejects untrusted hosts before making a request', async () => {
   assert.equal(requested, false);
 });
 
+test('rejects redirects to untrusted hosts before requesting the destination', async () => {
+  const requestedHosts = [];
+  await assert.rejects(
+    verifySourceArchive(manifest, async (url) => {
+      requestedHosts.push(url.hostname);
+      if (url.pathname.endsWith('.sha256')) {
+        return new Response(`${hashes.sha256}\n`, { status: 200 });
+      }
+      return new Response(null, {
+        status: 302,
+        headers: { location: 'https://example.com/artifact.jar' },
+      });
+    }),
+    /approved AndroidX artifact host/,
+  );
+  assert.equal(requestedHosts.includes('example.com'), false);
+});
+
+test('follows redirects only to approved HTTPS artifact hosts', async () => {
+  const result = await verifySourceArchive(manifest, async (url) => {
+    if (url.hostname === 'android.googlesource.com') {
+      return new Response(null, {
+        status: 302,
+        headers: { location: `https://storage.googleapis.com${url.pathname}` },
+      });
+    }
+    const body = url.pathname.endsWith('.sha256')
+      ? `${hashes.sha256}  material3-sources.jar\n`
+      : archiveBytes;
+    return new Response(body, { status: 200 });
+  });
+  assert.equal(result.status, 'verified');
+});
+
 test('rejects malformed published checksums', async () => {
   await assert.rejects(
     verifySourceArchive(manifest, async (url) => new Response(
