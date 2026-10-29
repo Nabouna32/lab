@@ -98,6 +98,66 @@ def normalize_parameter_type(value):
     return value + dimensions
 
 
+def type_parameter_bounds(signature, method=False):
+    declaration = HEADER.match(signature) if not method else None
+    if method:
+        modifier_pattern = r"^\\s*(?:(?:public|protected|static|final|abstract|synchronized|native|strictfp|default)\\s+)*"
+        match = re.match(modifier_pattern + r"(<)", signature)
+        if not match:
+            return {}
+        opening = match.start(1)
+        remainder = signature[opening:]
+    else:
+        if not declaration:
+            return {}
+        remainder = signature[declaration.end():].lstrip()
+        if not remainder.startswith("<"):
+            return {}
+    depth = 0
+    closing = -1
+    for index, char in enumerate(remainder):
+        if char == "<":
+            depth += 1
+        elif char == ">":
+            depth -= 1
+            if depth == 0:
+                closing = index
+                break
+    if closing < 0:
+        return {}
+    bounds = {}
+    for parameter in split_top_level_types(remainder[1:closing]):
+        name, separator, bound = parameter.partition(" extends ")
+        name = name.strip().split()[-1]
+        if not name:
+            continue
+        first_bound = bound.split(" & ", 1)[0].strip() if separator else "java.lang.Object"
+        bounds[name] = normalize_parameter_type(erase_generic_type(first_bound))
+    return bounds
+
+
+def erase_binary_parameter_types(parameter_types, class_signature, member_signature):
+    variables = type_parameter_bounds(class_signature)
+    variables.update(type_parameter_bounds(member_signature, method=True))
+    erased = []
+    for parameter_type in parameter_types:
+        value = normalize_parameter_type(parameter_type)
+        dimensions = ""
+        while value.endswith("[]"):
+            dimensions += "[]"
+            value = value[:-2]
+        seen = set()
+        while value in variables and value not in seen:
+            seen.add(value)
+            bound = variables[value]
+            value = normalize_parameter_type(bound)
+            while value.endswith("[]"):
+                dimensions += "[]"
+                value = value[:-2]
+        erased.append(value + dimensions)
+    return erased
+
+
 def source_member_info(index, owner, name, binary_parameter_types, member_kind, inherited_owners=()):
     owners = [owner, *inherited_owners]
     binary_types = [normalize_parameter_type(value) for value in binary_parameter_types]
@@ -337,6 +397,7 @@ def main():
                     javap_failures.append({"class": binary_name, "error": "No class declaration parsed"})
                 continue
             class_signature = section["signature"]
+            class_type_variables = type_parameter_bounds(class_signature)
             modifiers = section["modifiers"]
             kind = section["kind"]
             visible = "public" in modifiers or "protected" in modifiers
@@ -375,8 +436,11 @@ def main():
                     arity = 0
                     parameter_types = []
                     member_kind = "field"
+                erased_parameter_types = erase_binary_parameter_types(
+                    parameter_types or [], class_signature, signature
+                ) if member_kind == "method" else []
                 member_info = source_member_info(
-                    source_members, binary_name, member_name, parameter_types or [], member_kind,
+                    source_members, binary_name, member_name, erased_parameter_types, member_kind,
                     inherited_source_owners(binary_name, parsed_sections, source_types),
                 ) if member_name else {"restricted": False, "deprecated": False, "matched": False, "ambiguous": False, "sourceOwner": None, "inherited": False}
                 declaration_type_info = source_types.get(member_info.get("sourceOwner"), {})
@@ -407,6 +471,7 @@ def main():
                     "sourceDeclarationInherited": member_info.get("inherited", False),
                     "parameterCount": arity,
                     "binaryParameterTypes": parameter_types or [],
+                    "erasedBinaryParameterTypes": erased_parameter_types,
                 })
             if source_info["restricted"]:
                 classification = "restricted"
@@ -460,7 +525,7 @@ def main():
             "limitations": [
                 "This is a binary signature candidate index, not an official Android API dump.",
                 "Java source declarations and annotations are indexed with the JDK compiler AST; method matching compares parameter types after generic erasure and resolves explicit imports, package-local source types, and unambiguous wildcard imports. Unresolved simple names are matched by suffix only and may remain ambiguous across packages.",
-                "Compiler-generated bridge methods, synthetic constructor parameters, and inherited members whose declarations belong to dependencies outside the published source archive may not have a source declaration match; these cases remain explicitly unmatched rather than inferred.",
+                "Compiler-generated bridge methods, synthetic constructor parameters, and inherited members whose declarations belong to dependencies outside the published source archive may not have a source declaration match; these cases remain explicitly unmatched rather than inferred. Type-variable parameters are compared using their declared erasure bounds when those bounds are available in the binary signature and source declaration.",
                 "Public API completeness remains unverified until non-matches, ambiguous overloads, generated members and signature semantics are reviewed.",
             ],
             "types": entries,
