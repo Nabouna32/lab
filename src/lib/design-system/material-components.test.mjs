@@ -1200,7 +1200,7 @@ test("image tool placeholders use the shared Material Symbols registry", () => {
 test("duration mode labels do not embed platform-dependent emoji", () => {
   const messages = readFileSync(new URL("../../lib/i18n/tool-messages.ts", import.meta.url), "utf8");
   assert.match(messages, /datesMode: "Between two dates", timesMode: "Between two times"/);
-  assert.match(messages, /datesMode: "Entre deux dates", timesMode: "Entre deux heures"/);
+  assert.match(messages, /datesMode: "Entre deux dates", timesMode: "Entre deux horaires"/);
   assert.doesNotMatch(messages, /datesMode: "📅/u);
   assert.doesNotMatch(messages, /timesMode: "🕐/u);
 });
