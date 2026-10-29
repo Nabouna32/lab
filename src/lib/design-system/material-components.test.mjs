@@ -388,7 +388,7 @@ test("shared action controls use semantic state-layer colors instead of brightne
   assert.ok(buttonVariantStylesSource.includes("var(--button-container-color,var(--primary))_92%,var(--button-content-color,var(--on-primary))"));
   assert.ok(buttonVariantStylesSource.includes("var(--button-container-color,var(--secondary-container))_92%,var(--button-content-color,var(--on-secondary-container))"));
   assert.match(appLinkSource, /import NextLink, \{ type LinkProps \} from "next\/link"/);
-  assert.match(appLinkSource, /materialButtonVariantStyles\[variant as MaterialButtonVariant\]/);
+  assert.match(appLinkSource, /materialButtonVariantStyles\[variant\]/);
   assert.match(appLinkSource, /import type \{ ButtonColors \} from "@\/components\/ui\/Button"/);
   assert.match(appLinkSource, /getMaterialButtonInlineStyle\(isMaterialButton/);
   assert.match(buttonVariantStylesSource, /colors\?\.contentColor/);
