@@ -17,27 +17,74 @@ def source_path_for(binary_name):
     top_level = binary_name.split("$", 1)[0]
     return top_level.replace(".", "/") + ".java"
 
-def source_context(source, simple_name, member_name=None):
-    lines = source.splitlines()
-    matches = []
-    target = member_name or simple_name
-    for index, line in enumerate(lines):
-        if target not in line:
-            continue
-        # Only consider likely declarations, not arbitrary references or method calls.
-        if member_name and not re.search(r"\b" + re.escape(member_name) + r"\s*\(", line) and not re.search(r"\b" + re.escape(member_name) + r"\s*(?:;|=)", line):
-            continue
-        if not member_name and not re.search(r"\b(?:class|interface|enum|record)\s+" + re.escape(simple_name) + r"\b", line):
-            continue
-        start = max(0, index - 14)
-        context = "\n".join(lines[start:index + 1])
-        matches.append(context)
+def decode_source_index(output):
+    import base64
+    types = {}
+    members = {}
+    for line in output.splitlines():
+        fields = line.split("|")
+        if len(fields) != 8:
+            raise ValueError("Java source indexer emitted a malformed record.")
+        kind, owner_b64, name_b64, arity, member_kind, restricted, deprecated, doc_deprecated = fields
+        owner = base64.b64decode(owner_b64).decode("utf-8")
+        name = base64.b64decode(name_b64).decode("utf-8")
+        record = {
+            "restricted": restricted == "true",
+            "deprecated": deprecated == "true",
+            "docDeprecated": doc_deprecated == "true",
+        }
+        if kind == "T":
+            types[owner] = record
+        elif kind == "M":
+            members.setdefault((owner, name, arity, member_kind), []).append(record)
+        else:
+            raise ValueError("Java source indexer emitted an unknown record kind.")
+    return types, members
+
+
+def source_member_info(index, owner, name, arity, member_kind):
+    matches = index.get((owner, name, str(arity), member_kind), [])
     if not matches:
-        return {"restricted": False, "deprecated": False, "matched": False}
-    # A nearby annotation is evidence only; it is not a substitute for a full Java parser.
-    restricted = any(RESTRICTED.search(item) for item in matches)
-    deprecated = any(DEPRECATED.search(item) for item in matches)
-    return {"restricted": restricted, "deprecated": deprecated, "matched": True}
+        return {"restricted": False, "deprecated": False, "matched": False, "ambiguous": False}
+    flags = {(item["restricted"], item["deprecated"] or item["docDeprecated"]) for item in matches}
+    ambiguous = len(matches) > 1
+    return {
+        "restricted": not ambiguous and any(item["restricted"] for item in matches),
+        "deprecated": not ambiguous and any(item["deprecated"] or item["docDeprecated"] for item in matches),
+        "matched": True,
+        "ambiguous": ambiguous,
+    }
+
+
+def signature_parameter_count(signature):
+    opening = signature.find("(")
+    if opening < 0:
+        return None
+    depth = 0
+    closing = -1
+    for index in range(opening, len(signature)):
+        if signature[index] == "(":
+            depth += 1
+        elif signature[index] == ")":
+            depth -= 1
+            if depth == 0:
+                closing = index
+                break
+    if closing < 0:
+        return None
+    params = signature[opening + 1:closing].strip()
+    if not params:
+        return 0
+    count = 1
+    generic_depth = 0
+    for char in params:
+        if char == "<":
+            generic_depth += 1
+        elif char == ">":
+            generic_depth = max(0, generic_depth - 1)
+        elif char == "," and generic_depth == 0:
+            count += 1
+    return count
 
 def class_sections(output):
     sections = []
@@ -85,12 +132,35 @@ def main():
                 raise SystemExit("Published AAR does not contain classes.jar.")
             classes_jar.write_bytes(aar.read("classes.jar"))
 
+        source_root = temp_path / "sources"
+        source_root.mkdir()
         with zipfile.ZipFile(args.sources) as sources_zip:
-            source_files = {
-                name: sources_zip.read(name).decode("utf-8", errors="replace")
-                for name in sources_zip.namelist()
-                if name.endswith(".java") and not name.startswith("META-INF/")
-            }
+            source_files = {}
+            for name in sources_zip.namelist():
+                if not name.endswith(".java") or name.startswith("META-INF/"):
+                    continue
+                destination = (source_root / name).resolve()
+                if not destination.is_relative_to(source_root.resolve()):
+                    raise SystemExit("Source archive contains an unsafe path.")
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                contents = sources_zip.read(name)
+                destination.write_bytes(contents)
+                source_files[name] = contents.decode("utf-8", errors="replace")
+
+        indexer_source = Path(__file__).with_name("SourceAnnotationIndex.java")
+        compile_indexer = subprocess.run(
+            ["javac", "-d", str(temp_path), str(indexer_source)],
+            capture_output=True, text=True, check=False, timeout=120,
+        )
+        if compile_indexer.returncode:
+            raise SystemExit("Could not compile the Java AST indexer: " + compile_indexer.stderr.strip()[:1000])
+        index_result = subprocess.run(
+            ["java", "-cp", str(temp_path), "SourceAnnotationIndex", str(source_root)],
+            capture_output=True, text=True, check=False, timeout=120,
+        )
+        if index_result.returncode:
+            raise SystemExit("Could not parse MDC Java sources: " + index_result.stderr.strip()[:1500])
+        source_types, source_members = decode_source_index(index_result.stdout)
 
         with zipfile.ZipFile(classes_jar) as class_zip:
             binary_names = sorted(
@@ -137,11 +207,12 @@ def main():
             if not visible:
                 internal_types.append({"class": binary_name, "sourcePath": source_path if source else None})
                 continue
+            source_info = source_types.get(binary_name, {
+                "restricted": False, "deprecated": False, "docDeprecated": False,
+            })
+            source_info = {**source_info, "matched": binary_name in source_types}
             if source is None:
                 source_missing.append(binary_name)
-                source_info = {"restricted": False, "deprecated": False, "matched": False}
-            else:
-                source_info = source_context(source, binary_name.split("$")[-1], None)
             members = []
             for line in section["members"]:
                 match = MEMBER.match(line)
@@ -152,16 +223,30 @@ def main():
                     continue
                 if "(" in signature:
                     member_name_match = re.search(r"([A-Za-z_$][\w$]*)\s*\(", signature)
+                    member_name = member_name_match.group(1) if member_name_match else None
+                    arity = signature_parameter_count(signature)
+                    member_kind = "method"
+                    simple_binary_name = binary_name.rsplit(".", 1)[-1]
+                    if member_name == simple_binary_name or member_name == simple_binary_name.rsplit("$", 1)[-1]:
+                        member_name = "<init>"
                 else:
                     field_signature = signature.split("=", 1)[0].rstrip("; ").strip()
                     member_name_match = re.search(r"([A-Za-z_$][\w$]*)$", field_signature)
-                member_name = member_name_match.group(1) if member_name_match else None
-                member_info = source_context(source, binary_name.split("$")[-1], member_name) if source and member_name else {"restricted": False, "deprecated": False, "matched": False}
-                if source_info["restricted"] or member_info["restricted"]:
+                    member_name = member_name_match.group(1) if member_name_match else None
+                    arity = 0
+                    member_kind = "field"
+                member_info = source_member_info(source_members, binary_name, member_name, arity, member_kind) if source and member_name else {"restricted": False, "deprecated": False, "matched": False, "ambiguous": False}
+                if source_info["restricted"]:
                     classification = "restricted"
-                elif source_info["deprecated"] or member_info["deprecated"]:
+                elif source_info["deprecated"] or source_info.get("docDeprecated", False):
                     classification = "deprecated"
-                elif source is None:
+                elif member_info["ambiguous"]:
+                    classification = "source-ambiguous"
+                elif member_info["restricted"]:
+                    classification = "restricted"
+                elif member_info["deprecated"]:
+                    classification = "deprecated"
+                elif source is None or not member_info["matched"]:
                     classification = "source-unmatched"
                 else:
                     classification = "public-api-candidate"
@@ -169,11 +254,14 @@ def main():
                     "signature": signature,
                     "name": member_name,
                     "classification": classification,
+                    "sourceDeclarationMatched": member_info["matched"],
                     "sourceAnnotationContextMatched": member_info["matched"],
+                    "sourceDeclarationAmbiguous": member_info["ambiguous"],
+                    "parameterCount": arity,
                 })
             if source_info["restricted"]:
                 classification = "restricted"
-            elif source_info["deprecated"]:
+            elif source_info["deprecated"] or source_info.get("docDeprecated", False):
                 classification = "deprecated"
             elif source is None:
                 classification = "source-unmatched"
@@ -197,7 +285,7 @@ def main():
             "schemaVersion": 1,
             "artifact": "com.google.android.material:material",
             "referenceVersion": args.reference_version,
-            "method": "published AAR classes.jar inspected with javap -protected; source annotations matched by bounded context heuristic",
+            "method": "published AAR classes.jar inspected with javap -protected; Java source declarations and annotations indexed with the JDK compiler AST; binary methods matched by name and parameter count",
             "status": "provisional-not-exhaustive",
             "provenance": {
                 "aarSha256": args.aar_sha256,
@@ -216,14 +304,15 @@ def main():
                 "restrictedTypes": sum(1 for item in entries if item["classification"] == "restricted"),
                 "deprecatedTypes": sum(1 for item in entries if item["classification"] == "deprecated"),
                 "sourceUnmatchedMembers": sum(1 for item in entries for member in item["members"] if member["classification"] == "source-unmatched"),
-                "membersWithSourceAnnotationContextMatch": sum(1 for item in entries for member in item["members"] if member["sourceAnnotationContextMatched"]),
-                "membersWithoutSourceAnnotationContextMatch": sum(1 for item in entries for member in item["members"] if not member["sourceAnnotationContextMatched"]),
+                "membersWithSourceDeclarationMatch": sum(1 for item in entries for member in item["members"] if member["sourceDeclarationMatched"]),
+                "membersWithoutSourceDeclarationMatch": sum(1 for item in entries for member in item["members"] if not member["sourceDeclarationMatched"]),
+                "ambiguousSourceMemberMatches": sum(1 for item in entries for member in item["members"] if member["sourceDeclarationAmbiguous"]),
             },
             "limitations": [
                 "This is a binary signature candidate index, not an official Android API dump.",
-                "Source annotation classification uses a bounded textual context heuristic and is not a Java/Kotlin AST.",
-                "Member-level overloaded signatures are not semantically matched to a unique source declaration.",
-                "Public API completeness remains unverified until non-matches, annotations, generated classes and signature semantics are reviewed.",
+                "Java source declarations and annotations are indexed with the JDK compiler AST; binary method matching uses name and parameter count, so overloads with the same arity may remain ambiguous.",
+                "Method signatures are matched to source declarations by name and parameter count, not by full erased parameter types; ambiguous overloads remain explicitly classified.",
+                "Public API completeness remains unverified until non-matches, ambiguous overloads, generated members and signature semantics are reviewed.",
             ],
             "types": entries,
             "internalTypes": internal_types,

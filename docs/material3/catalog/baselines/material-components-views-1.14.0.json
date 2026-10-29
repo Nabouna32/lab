@@ -30,10 +30,10 @@
   },
   "apiInventory": {
     "status": "provisional-not-exhaustive",
-    "method": "published AAR classes.jar inspected with javap -protected; source annotations matched by bounded context heuristic",
+    "method": "published AAR classes.jar inspected with javap -protected; Java source declarations and annotations indexed with the JDK compiler AST; binary methods matched by name and parameter count",
     "publicApiDumpInTag": false,
     "reportPath": "docs/material3/catalog/baselines/material-components-views-1.14.0-api-inventory.json",
-    "notes": "Le rapport est un index candidat des signatures binaires publiques/protégées, pas un dump officiel. Le rapprochement des annotations avec les sources est heuristique ; les non-appariements et signatures ambiguës doivent être revus avant toute affirmation d’exhaustivité. Le rapport JSON décrit 1 107 classes binaires : 523 types publics/protégés et 6 012 membres visibles par javap ; 525 membres n’ont pas eu de correspondance d’annotation dans le contexte source heuristique et restent à examiner.",
+    "notes": "Le rapport est un index candidat des signatures binaires publiques/protégées, pas un dump officiel. Les déclarations et annotations Java sont indexées par AST ; les méthodes binaires sont rapprochées par nom et arité, donc les surcharges de même arité restent ambiguës. Le rapport recense 1 107 classes binaires, 523 types publics/protégés et 6 012 membres visibles par javap. Parmi les membres, 5 548 sont rapprochés d’une déclaration source, 428 sont sans correspondance, et 346 présentent une ambiguïté de surcharge ; le statut reste non exhaustif.",
     "generatedAt": "2026-10-29",
     "summary": {
       "binaryClassFiles": 1107,
@@ -44,11 +44,12 @@
       "sourceFilesWithoutBinaryTopLevelClass": 4,
       "javapFailures": 0,
       "publicOrProtectedMembers": 6012,
-      "restrictedTypes": 67,
-      "deprecatedTypes": 8,
-      "sourceUnmatchedMembers": 0,
-      "membersWithSourceAnnotationContextMatch": 5487,
-      "membersWithoutSourceAnnotationContextMatch": 525
+      "restrictedTypes": 200,
+      "deprecatedTypes": 19,
+      "sourceUnmatchedMembers": 428,
+      "membersWithSourceDeclarationMatch": 5548,
+      "membersWithoutSourceDeclarationMatch": 464,
+      "ambiguousSourceMemberMatches": 346
     }
   },
   "inspectedAt": "2026-10-29",
