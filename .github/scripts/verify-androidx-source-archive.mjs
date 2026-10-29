@@ -1,9 +1,16 @@
 import { createHash } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 
-const ALLOWED_HOSTS = new Set(['android.googlesource.com', 'dl.google.com', 'maven.google.com']);
+const ALLOWED_HOSTS = new Set([
+  'android.googlesource.com',
+  'dl.google.com',
+  'maven.google.com',
+  'storage.googleapis.com',
+]);
 const MAX_ARCHIVE_BYTES = 100 * 1024 * 1024;
 const REQUEST_TIMEOUT_MS = 30_000;
+const MAX_REDIRECTS = 5;
+const REDIRECT_STATUSES = new Set([301, 302, 303, 307, 308]);
 
 function assertTrustedHttpsUrl(value, label) {
   let url;
@@ -52,21 +59,31 @@ async function readBoundedBody(response, label, maxBytes) {
 }
 
 async function fetchTrustedBytes(value, label, fetchImpl, maxBytes) {
-  const requestedUrl = assertTrustedHttpsUrl(value, label);
-  const response = await fetchImpl(requestedUrl, {
-    redirect: 'follow',
-    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
-    headers: { accept: 'application/octet-stream, text/plain;q=0.9' },
-  });
-  if (!response.ok) throw new Error(`${label} returned HTTP ${response.status}.`);
+  let currentUrl = assertTrustedHttpsUrl(value, label);
 
-  if (response.url) {
-    const finalUrl = assertTrustedHttpsUrl(response.url, `${label} final URL`);
-    if (finalUrl.protocol !== requestedUrl.protocol) {
-      throw new Error(`${label} redirected across protocols.`);
+  for (let redirectCount = 0; redirectCount <= MAX_REDIRECTS; redirectCount += 1) {
+    const response = await fetchImpl(currentUrl, {
+      redirect: 'manual',
+      signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+      headers: { accept: 'application/octet-stream, text/plain;q=0.9' },
+    });
+
+    if (REDIRECT_STATUSES.has(response.status)) {
+      const location = response.headers.get('location');
+      await response.body?.cancel();
+      if (!location) throw new Error(`${label} returned a redirect without a Location header.`);
+      if (redirectCount === MAX_REDIRECTS) {
+        throw new Error(`${label} exceeded the ${MAX_REDIRECTS}-redirect limit.`);
+      }
+      currentUrl = assertTrustedHttpsUrl(new URL(location, currentUrl).toString(), `${label} redirect URL`);
+      continue;
     }
+
+    if (!response.ok) throw new Error(`${label} returned HTTP ${response.status}.`);
+    return readBoundedBody(response, label, maxBytes);
   }
-  return readBoundedBody(response, label, maxBytes);
+
+  throw new Error(`${label} exceeded the ${MAX_REDIRECTS}-redirect limit.`);
 }
 
 export function calculateArchiveHashes(bytes) {
