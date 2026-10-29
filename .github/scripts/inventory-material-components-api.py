@@ -256,7 +256,7 @@ def main():
                 })
             if source_info["restricted"]:
                 classification = "restricted"
-            elif source_info["deprecated"]:
+            elif source_info["deprecated"] or source_info.get("docDeprecated", False):
                 classification = "deprecated"
             elif source is None:
                 classification = "source-unmatched"
