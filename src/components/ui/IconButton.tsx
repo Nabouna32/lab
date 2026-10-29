@@ -117,8 +117,7 @@ function IconButtonBase({
       type={type}
       disabled={disabled ?? !enabled}
       aria-label={label}
-      role={isToggle ? "checkbox" : undefined}
-      aria-checked={isToggle ? checked : undefined}
+      aria-pressed={isToggle ? checked : undefined}
       style={shape === undefined ? style : { ...style, borderRadius: shape }}
       onClick={(event) => {
         onClick?.(event);
