@@ -3,6 +3,7 @@ import type { AnchorHTMLAttributes, ReactNode } from "react";
 import type { ButtonColors } from "@/components/ui/Button";
 import { getMaterialButtonInlineStyle, materialButtonVariantStyles, type MaterialButtonVariant } from "@/components/ui/material-button-variant-styles";
 import { ButtonRipple } from "@/components/ui/ButtonRipple";
+import { getMaterialButtonLayoutClasses } from "@/components/ui/material-button-layout";
 
 export type AppLinkVariant = "inline" | "navigation" | MaterialButtonVariant;
 
@@ -47,15 +48,9 @@ export default function AppLink({
 }: AppLinkProps) {
   const isMaterialButton = variant === "filled" || variant === "elevated" || variant === "filled-tonal" || variant === "outlined" || variant === "text";
   const isTextVariant = variant === "text";
-  const horizontalPadding = isTextVariant
-    ? leadingIcon ? "pl-3 pr-4" : "px-3"
-    : leadingIcon ? "pl-4 pr-6" : "px-6";
   const mergedStyle = getMaterialButtonInlineStyle(isMaterialButton ? variant as MaterialButtonVariant : null, colors, style);
   const materialButtonLayout = [
-    "m3-type-label-large relative isolate inline-flex min-h-10 min-w-[58px] shrink-0 items-center justify-center gap-2 rounded-full py-2 whitespace-nowrap",
-    horizontalPadding,
-    "transition-[background-color,border-color,color,box-shadow] duration-[var(--motion-standard)] motion-reduce:transition-none",
-    "outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]",
+    getMaterialButtonLayoutClasses(variant as MaterialButtonVariant, { leadingIcon }),
     materialButtonVariantStyles[variant as MaterialButtonVariant],
   ].join(" ");
 
