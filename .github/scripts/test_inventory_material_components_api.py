@@ -47,6 +47,27 @@ class SourceIndexTests(unittest.TestCase):
         self.assertEqual(result["sourceOwner"], "pkg.BaseWidget")
         self.assertTrue(result["deprecated"])
 
+    def test_erases_inherited_type_variables_using_parent_bounds(self):
+        child_signature = "public class ChildWidget extends pkg.BaseWidget<T> {"
+        parent_signature = "public class BaseWidget<T extends android.view.View> {"
+        self.assertEqual(
+            MODULE.erase_binary_parameter_types(
+                ["T"], child_signature, "public void setValue(T);", [parent_signature]
+            ),
+            ["android.view.View"],
+        )
+
+    def test_constructors_do_not_inherit_source_declarations(self):
+        sections = {
+            "pkg.ChildWidget": {"signature": "public class ChildWidget extends pkg.BaseWidget {"},
+            "pkg.BaseWidget": {"signature": "public class BaseWidget {"},
+        }
+        source_types = {"pkg.BaseWidget": {}}
+        self.assertEqual(
+            MODULE.source_owners_for_member("pkg.ChildWidget", "<init>", sections, source_types),
+            [],
+        )
+
     def test_erases_class_and_method_type_variables_using_their_bounds(self):
         class_signature = (
             "public class BaseBehavior<T extends android.view.View> "
