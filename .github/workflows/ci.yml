@@ -91,10 +91,6 @@ jobs:
         run: |
           node .github/scripts/inventory-material-components-api.mjs docs/material3/catalog/baselines/material-components-views-1.14.0.json docs/material3/catalog/baselines/material-components-views-1.14.0-api-inventory.json
 
-      - name: Verify generated MDC API inventory reproducibility
-        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
-        run: git diff --exit-code -- docs/material3/catalog/baselines/material-components-views-1.14.0-api-inventory.json
-
       - name: Upload generated MDC API inventory
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
@@ -110,6 +106,10 @@ jobs:
           node --test .github/scripts/*.test.mjs
           python3 .github/scripts/test_inventory_material_components_api.py
 
+      - name: Verify generated MDC API inventory reproducibility
+        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
+        run: git diff --exit-code -- docs/material3/catalog/baselines/material-components-views-1.14.0-api-inventory.json
+
       - name: Verify Material 3 source archive provenance
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
         run: node .github/scripts/verify-androidx-source-archive.mjs docs/material3/catalog/baselines/material3-1.4.0.json
@@ -124,8 +124,9 @@ jobs:
     name: Qualité du code
     needs: prepare
     if: >-
-      ${{ needs.prepare.result == 'success' &&
+      ${{ always() &&
           github.event_name != 'schedule' &&
+          (needs.prepare.result == 'success' || github.event_name == 'pull_request') &&
           (github.event_name != 'pull_request' || needs.prepare.outputs.lightweight_only != 'true') }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -162,8 +163,9 @@ jobs:
     name: Compilation de production
     needs: prepare
     if: >-
-      ${{ needs.prepare.result == 'success' &&
+      ${{ always() &&
           github.event_name != 'schedule' &&
+          (needs.prepare.result == 'success' || github.event_name == 'pull_request') &&
           (github.event_name != 'pull_request' ||
             (needs.prepare.outputs.lightweight_only != 'true' &&
              needs.prepare.outputs.dependency_scope != 'lint_only')) }}
