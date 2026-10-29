@@ -155,17 +155,11 @@ async function main() {
     if (report.summary.javapFailures > 0) {
       throw new Error(`javap failed to inspect ${report.summary.javapFailures} class files; review the generated report before accepting the inventory.`);
     }
-    // Emit the final report after all binary/source provenance fields have been added.
-    const encoded = Buffer.from(await readFile(outputPath)).toString('base64');
-    console.log('API_INVENTORY_JSON_BASE64_BEGIN');
-    for (let offset = 0; offset < encoded.length; offset += 30000) {
-      console.log(`API_INVENTORY_JSON_CHUNK=${String(Math.floor(offset / 30000)).padStart(5, '0')}:${encoded.slice(offset, offset + 30000)}`);
-    }
-    console.log('API_INVENTORY_JSON_BASE64_END');
     console.log(JSON.stringify({
       binaryArchive: { url: aar.url, sha256: aar.sha256, sha1: aar.sha1, sizeBytes: aar.sizeBytes, checksums: aar.checksums },
       sourceArchive: { url: sources.url, sha256: sources.sha256, sha1: sources.sha1, sizeBytes: sources.sizeBytes, checksums: sources.checksums },
       summary: report.summary,
+      outputPath,
     }, null, 2));
   } finally {
     await rm(dir, { recursive: true, force: true });
