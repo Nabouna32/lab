@@ -93,7 +93,13 @@ public final class SourceAnnotationIndex {
       var owners = typeNames.descendingIterator();
       while (owners.hasNext()) {
         String owner = owners.next();
-        String ownerSimpleName = owner.substring(owner.lastIndexOf('
+        String ownerSimpleName = owner.substring(owner.lastIndexOf('$') + 1);
+        if (ownerSimpleName.equals(simpleName)) return owner;
+        String nested = owner + "$" + simpleName;
+        if (sourceTypeNames.contains(nested)) return nested;
+      }
+      return null;
+    }
       String value = rawType.replace("...", "[]")
         .replaceAll("@[A-Za-z0-9_.$]+(?:\\([^)]*\\))?\\s*", "").trim();
       StringBuilder erased = new StringBuilder();
