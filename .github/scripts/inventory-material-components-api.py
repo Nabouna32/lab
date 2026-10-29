@@ -101,7 +101,7 @@ def normalize_parameter_type(value):
 def type_parameter_bounds(signature, method=False):
     declaration = HEADER.match(signature) if not method else None
     if method:
-        modifier_pattern = r"^\\s*(?:(?:public|protected|static|final|abstract|synchronized|native|strictfp|default)\\s+)*"
+        modifier_pattern = r"^\s*(?:(?:public|protected|static|final|abstract|synchronized|native|strictfp|default)\s+)*"
         match = re.match(modifier_pattern + r"(<)", signature)
         if not match:
             return {}
