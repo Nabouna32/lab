@@ -33,6 +33,7 @@ Documents de référence :
 - [Sources et versions](sources.md)
 - [Inventaire des API et règles de couverture](catalog/README.md)
 - [Primitives de layout Compose UI/Foundation](layout-primitives.md)
+- [Cartographie de migration de la production](production-migration.md)
 - [Modèle de spécification de composant](components/TEMPLATE.md)
 - [Design system Loculary](../DESIGN-SYSTEM.md)
 
