@@ -1,4 +1,6 @@
 import importlib.util
+import subprocess
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -104,6 +106,34 @@ class SourceIndexTests(unittest.TestCase):
         )
         self.assertTrue(result["matched"])
         self.assertTrue(result["restricted"])
+
+    def test_java_ast_indexer_resolves_nested_types_in_scope(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / "sources"
+            package = root / "pkg"
+            package.mkdir(parents=True)
+            (package / "Outer.java").write_text(
+                "package pkg; public class Outer { "
+                "public static class Nested {} "
+                "public void set(Nested value) {} }",
+                encoding="utf-8",
+            )
+            classes = Path(directory) / "classes"
+            classes.mkdir()
+            indexer = Path(__file__).with_name("SourceAnnotationIndex.java")
+            subprocess.run(
+                ["javac", "-d", str(classes), str(indexer)],
+                check=True, capture_output=True, text=True,
+            )
+            result = subprocess.run(
+                ["java", "-cp", str(classes), "SourceAnnotationIndex", str(root)],
+                check=True, capture_output=True, text=True,
+            )
+            _, members = MODULE.decode_source_index(result.stdout)
+            self.assertEqual(
+                members[("pkg.Outer", "set", "method")][0]["parameterTypes"],
+                ["pkg.Outer$Nested"],
+            )
 
     def test_does_not_match_unresolved_simple_name_to_another_package(self):
         index = {
