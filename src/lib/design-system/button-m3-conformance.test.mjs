@@ -76,14 +76,14 @@ test("button-styled links preserve anchors and share the ripple interaction", ()
   assert.match(appLink, /import NextLink, \{ type LinkProps \} from "next\/link"/);
   assert.match(appLink, /data-material-button-link=\{isMaterialButton \? "true" : undefined\}/);
   assert.match(appLink, /isMaterialButton \? <ButtonRipple \/> : null/);
-  assert.match(appLink, /materialButtonVariantStyles\[variant as MaterialButtonVariant\]/);
+  assert.match(appLink, /materialButtonVariantStyles\[variant\]/);
   assert.match(appLink, /getMaterialButtonInlineStyle\(isMaterialButton/);
   assert.match(button, /getMaterialButtonLayoutClasses\(variant, \{ leadingIcon, multiline \}\)/);
-  assert.match(appLink, /getMaterialButtonLayoutClasses\(variant as MaterialButtonVariant, \{ leadingIcon \}\)/);
+  assert.match(appLink, /getMaterialButtonLayoutClasses\(variant, \{ leadingIcon \}\)/);
   assert.match(buttonLayout, /min-h-10/);
   assert.match(buttonLayout, /min-w-\[58px\]/);
-  assert.match(buttonLayout, /pl-3 pr-4/);
-  assert.match(buttonLayout, /pl-4 pr-6/);
+  assert.match(buttonLayout, /ps-3 pe-4/);
+  assert.match(buttonLayout, /ps-4 pe-6/);
 });
 
 test("remaining generic text actions use shared Button variants and their obsolete local styles are removed", () => {
