@@ -88,4 +88,4 @@ The schema is defined by `supabase/migrations/20261013193627_user_collections.sq
 
 Le laboratoire est une galerie locale de composants partagés. Il ne stocke ni catalogue, ni observations, ni état de vérification dans Supabase : le code, les spécifications et les tests versionnés dans Git sont les seules sources de vérité.
 
-La migration `20261029120000_retire_design_lab_audit.sql` retire les tables et fonctions propres à l’ancien workflow. Les migrations historiques restent dans Git pour préserver la traçabilité. La permission `audit.read` est conservée, car elle protège également le journal d’audit de l’administration.
+La migration `20261029110714_retire_design_lab_audit.sql` retire les tables et fonctions propres à l’ancien workflow. Son préfixe correspond à la version effectivement enregistrée en production le 2026-10-29. Les migrations historiques restent dans Git pour préserver la traçabilité. Les permissions `audit.read` et `audit.write` sont conservées : elles protègent respectivement la lecture et l’écriture du journal d’audit administratif.
