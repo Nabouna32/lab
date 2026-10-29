@@ -71,11 +71,11 @@ La présence dans le catalogue ne signifie pas qu'une API a été étudiée ou p
 5. portage vérifié ;
 6. migration des usages Loculary terminée.
 
-## Baselines stables vérifiées au 22 octobre 2026
+## Versions stables retenues au 29 octobre 2026
 
 Les versions officielles choisies et l’alignement de leur surface API sont deux statuts distincts. Pour Material 3 1.4.0, le registre de provenance [versionné](baselines/material3-1.4.0.json) identifie l’archive source stable, le snapshot de veille et les preuves encore manquantes ; il conserve volontairement l’alignement API à `UNVERIFIED`.
 
-L’inspection reproductible des répertoires API au commit AndroidX épinglé est consignée dans [repository-api-inspection-5901d750.json](baselines/repository-api-inspection-5901d750.json). Pour les neuf familles ayant une version stable sélectionnée, le dump portant exactement cette version n’existe pas dans le répertoire inspecté à ce commit ; les derniers dumps versionnés sont des versions bêta ou candidates à la release. Cela ne prouve pas qu’aucun dump distinct n’existe dans une archive publiée. Les archives sources exactes et leur alignement avec ces dumps restent à vérifier.
+L’inspection reproductible des répertoires API au commit AndroidX épinglé est consignée dans [repository-api-inspection-5901d750.json](baselines/repository-api-inspection-5901d750.json). Elle couvre actuellement neuf familles sur les 22 familles du registre : cette inspection n’est donc pas exhaustive. Pour chacune de ces neuf familles, le dump portant exactement la version stable sélectionnée n’existe pas dans le répertoire inspecté à ce commit ; les derniers dumps versionnés sont des versions bêta ou candidates à la release. Cela ne prouve pas qu’aucun dump distinct n’existe dans une archive publiée. Les 13 autres familles restent à inspecter, et les archives sources exactes ainsi que leur alignement avec les dumps restent à vérifier.
 
 Les versions de référence doivent être choisies par artefact/groupe, pas supposées identiques pour toute la stack Compose. Le champ artifactCoordinateStatus distingue les coordonnées confirmées dans la documentation de publication officielle des coordonnées encore candidates ; un nom plausible ou un dossier AndroidX ne suffit pas à prouver qu'un artefact est publié sous cette coordonnée. Les pages officielles indiquent actuellement :
 
@@ -84,7 +84,7 @@ Les versions de référence doivent être choisies par artefact/groupe, pas supp
 - Compose Material 3 Adaptive : **1.3.0** ([versions AndroidX](https://developer.android.com/jetpack/androidx/versions)).
 - Navigation (dont Navigation Compose et Navigation Fragment) : **2.10.2** ([notes de version Navigation](https://developer.android.com/jetpack/androidx/releases/navigation)).
 
-Ces valeurs sont inscrites dans le registre uniquement pour les familles ci-dessus, dont les coordonnées de publication ont été vérifiées. Les 13 autres familles restent explicitement candidates avec artifactCoordinateStatus: candidate-unverified et une version non sélectionnée tant que leur artefact exact et leur canal de publication ne sont pas vérifiés. Le registre utilise désormais le groupe Maven `androidx.compose.material3.adaptive:adaptive` pour l'artefact Adaptive, plutôt qu'une coordonnée provisoire erronée.
+Le registre versionné sélectionne maintenant une version stable publiée pour chacune des 22 familles. Les nouvelles sélections couvrent Wear Compose Material 3 (1.5.0), TV Material (1.1.0), Material Components Views (1.14.0), AppCompat (1.8.0) et les sous-modules UI, Foundation Layout, Animation Core et Runtime Saveable (1.12.1), selon leurs pages de publication officielles. Cette sélection établit le périmètre de version, pas l'alignement entre le dump API et les sources de chaque artefact : cet alignement reste à vérifier séparément. Le registre utilise le groupe Maven `androidx.compose.material3.adaptive:adaptive` pour l'artefact Adaptive.
 
 Une BOM Compose peut aligner des versions compatibles, mais n'ajoute pas toutes les bibliothèques au projet et ne remplace pas l'identification des artefacts à inventorier. Chaque baseline doit garder la provenance officielle, la version et le snapshot source/API correspondant.
 
