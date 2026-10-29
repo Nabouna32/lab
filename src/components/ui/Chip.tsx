@@ -5,16 +5,20 @@ import { MaterialIcon, type MaterialIconName } from "@/components/ui/MaterialIco
 import styles from "./Chip.module.css";
 
 export type ChipVariant = "assist" | "elevated-assist" | "filter" | "elevated-filter" | "input" | "suggestion" | "elevated-suggestion";
-type ChipProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children"> & {
+type ChipBaseProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children"> & {
   variant?: ChipVariant;
   label: string;
   selected?: boolean;
   onSelectedChange?: (selected: boolean) => void;
   leadingIcon?: MaterialIconName;
   trailingIcon?: MaterialIconName;
-  onDismiss?: () => void;
-  dismissLabel?: string;
 };
+
+type ChipProps = ChipBaseProps &
+  (
+    | { onDismiss: () => void; dismissLabel: string }
+    | { onDismiss?: undefined; dismissLabel?: never }
+  );
 
 /** Adaptation Web des chips Material 3 ; voir le contrat du composant pour les écarts documentés. */
 export function Chip({
@@ -25,7 +29,6 @@ export function Chip({
   leadingIcon,
   trailingIcon,
   onDismiss,
-  dismissLabel = `Remove ${label}`,
   className = "",
   onClick,
   ...props
