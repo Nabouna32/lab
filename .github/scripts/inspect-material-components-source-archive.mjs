@@ -72,6 +72,7 @@ export function calculateMavenArchiveHashes(bytes) {
   const buffer = Buffer.isBuffer(bytes) ? bytes : Buffer.from(bytes);
   return {
     sha256: createHash('sha256').update(buffer).digest('hex'),
+    sha1: createHash('sha1').update(buffer).digest('hex'),
     gitBlobSha1: createHash('sha1').update(Buffer.from(`blob ${buffer.length}\0`)).update(buffer).digest('hex'),
     sizeBytes: buffer.length,
   };
@@ -90,9 +91,13 @@ export async function inspectMavenSourceArchive(manifest, fetchImpl = globalThis
   ]);
   const calculated = calculateMavenArchiveHashes(archiveBytes);
   const expectedSha256 = manifest.sourceArchive?.publishedSha256;
+  const expectedSha1 = manifest.sourceArchive?.publishedSha1;
   const expectedBlobSha1 = manifest.sourceArchive?.gitBlobSha1;
   if (expectedSha256 && expectedSha256.toLowerCase() !== calculated.sha256) {
     throw new Error('Downloaded archive SHA-256 differs from the pinned manifest.');
+  }
+  if (expectedSha1 && expectedSha1.toLowerCase() !== calculated.sha1) {
+    throw new Error('Downloaded archive SHA-1 differs from the pinned manifest.');
   }
   if (expectedBlobSha1 && expectedBlobSha1.toLowerCase() !== calculated.gitBlobSha1) {
     throw new Error('Downloaded archive Git blob SHA-1 differs from the pinned manifest.');
