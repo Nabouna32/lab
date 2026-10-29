@@ -96,6 +96,22 @@ Utiliser les GitHub Issues comme mémoire opérationnelle durable, sans en faire
 
 Les issues indiquent où reprendre ; les commits, PR, CI et systèmes réels fournissent les preuves ; la documentation canonique conserve les règles et décisions durables.
 
+### Issues qui nécessitent une action de l’utilisateur
+
+Ne pas interrompre l’utilisateur pour demander des nouvelles, signaler une découverte en cours de travail ou obtenir une validation intermédiaire. Continuer de façon autonome dans le périmètre du mandat et consigner les checkpoints utiles dans les issues de suivi internes au projet.
+
+Lorsqu’un blocage incontournable exige réellement une intervention, une décision ou un accès de la part de l’utilisateur, créer une **issue distincte qui lui est explicitement destinée**, plutôt que de lui poser la question dans la conversation et d’attendre une réponse ici. Cette issue est une demande d’action pour l’utilisateur, pas une tâche de travail interne à l’agent.
+
+- Choisir un titre français, direct et compréhensible sans connaissance technique approfondie, indiquant clairement qu’une action est attendue de l’utilisateur.
+- Expliquer en français courant pourquoi son intervention est indispensable, ce qui bloque, ce qui a déjà été tenté, les options raisonnables et leurs conséquences.
+- Formuler précisément l’action attendue de l’utilisateur, avec les étapes nécessaires et les liens vers l’interface ou la ressource concernée lorsque ceux-ci sont vérifiés.
+- Distinguer ce que l’utilisateur doit faire de ce que l’agent reprendra ensuite. Ne pas lui déléguer les investigations ou opérations que l’agent peut encore effectuer lui-même.
+- Ne jamais inventer un lien, un accès ou une cause. Ne pas inclure de secret ni demander de le publier dans l’issue.
+- Réutiliser une issue de demande d’action déjà ouverte si elle couvre exactement le même blocage ; éviter les doublons.
+- Après création, poursuivre tout travail indépendant utile, puis reprendre automatiquement le chantier bloqué lorsque l’intervention nécessaire a été effectuée ou que le blocage a disparu.
+
+Ne créer une telle issue que lorsqu’une intervention de l’utilisateur est véritablement incontournable. Les erreurs temporaires, les investigations incomplètes ou les solutions de rechange non explorées ne justifient pas de lui transférer le problème. L’issue doit être identifiable comme une demande qui lui est destinée, et non comme un item ordinaire du backlog de développement.
+
 ## 7. Gestion des blocages et interruptions
 
 Face à un échec, diagnostiquer d'abord la cause racine. Réessayer lorsque l'échec semble temporaire et que la répétition est sûre. Explorer ensuite des méthodes alternatives et, si nécessaire, réviser l'approche.
