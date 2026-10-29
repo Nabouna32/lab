@@ -1136,3 +1136,26 @@ test("dropdown selection and expansion glyphs use the shared Material Symbols re
   assert.match(contrastChecker, /name=\{pass \? "check" : "close"\}/);
   assert.doesNotMatch(contrastChecker, /pass \? "✓" : "—"/);
 });
+
+
+test("shared controls use Material Symbols instead of Unicode chevrons and action glyphs", () => {
+  const sources = [
+    readFileSync(new URL("../../components/ui/SplitButton.tsx", import.meta.url), "utf8"),
+    readFileSync(new URL("../../components/ui/ScrollField.tsx", import.meta.url), "utf8"),
+    readFileSync(new URL("../../components/ui/BottomSheetScaffold.tsx", import.meta.url), "utf8"),
+    readFileSync(new URL("../../components/ui/FloatingToolbar.tsx", import.meta.url), "utf8"),
+    readFileSync(new URL("../../components/ui/SwipeToDismissBox.tsx", import.meta.url), "utf8"),
+    readFileSync(new URL("../../components/ui/FloatingActionButtonMenu.tsx", import.meta.url), "utf8"),
+  ];
+  for (const source of sources) {
+    assert.match(source, /MaterialIcon/);
+    assert.doesNotMatch(source, /[⌄⌃×]/u);
+  }
+  assert.match(sources[0], /keyboard_arrow_down/);
+  assert.match(sources[1], /keyboard_arrow_up/);
+  assert.match(sources[1], /keyboard_arrow_down/);
+  assert.match(sources[2], /keyboard_arrow_down/);
+  assert.match(sources[3], /close/);
+  assert.match(sources[4], /close/);
+  assert.match(sources[5], /add/);
+});

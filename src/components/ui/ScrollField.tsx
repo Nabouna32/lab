@@ -3,6 +3,7 @@
 import { useId } from "react";
 import type { WheelEvent, KeyboardEvent } from "react";
 import styles from "./ScrollField.module.css";
+import { MaterialIcon } from "@/components/ui/MaterialIcon";
 
 export type ScrollFieldProps = {
   label: string;
@@ -52,7 +53,7 @@ export function ScrollField({
 
   return (
     <div className={styles.root} role="group" aria-label={label} data-disabled={enabled ? "false" : "true"} onKeyDown={handleKeyDown} onWheel={handleWheel}>
-      <button type="button" className={styles.step} aria-label={label + " previous"} disabled={!enabled || selected <= 0} onClick={() => choose(selected - 1)}>⌃</button>
+      <button type="button" className={styles.step} aria-label={label + " previous"} disabled={!enabled || selected <= 0} onClick={() => choose(selected - 1)}><MaterialIcon name="keyboard_arrow_up" size={20} /></button>
       <div className={styles.wheel} role="listbox" aria-label={label} aria-activedescendant={`${id}-option-${selected}`} tabIndex={enabled ? 0 : -1}>
         {[-2, -1, 0, 1, 2].map((offset) => {
           const index = selected + offset;
@@ -72,7 +73,7 @@ export function ScrollField({
           >{options[index]}</button>;
         })}
       </div>
-      <button type="button" className={styles.step} aria-label={label + " next"} disabled={!enabled || selected >= options.length - 1} onClick={() => choose(selected + 1)}>⌄</button>
+      <button type="button" className={styles.step} aria-label={label + " next"} disabled={!enabled || selected >= options.length - 1} onClick={() => choose(selected + 1)}><MaterialIcon name="keyboard_arrow_down" size={20} /></button>
     </div>
   );
 }
