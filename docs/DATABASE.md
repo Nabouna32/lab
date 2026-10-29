@@ -83,7 +83,7 @@ The account-favorites migration is versioned at `supabase/migrations/20261013180
 
 Personal collections are implemented in the application and deployed in Supabase. `public.user_collections` stores the owner, name and optional unique share token; `public.user_collection_items` associates tool IDs with a collection. Both tables have RLS enabled. Owners can create, rename and delete their collections and add/remove tools. Reads by anonymous users are limited to collections whose explicit share token is supplied in the `x-loculary-share-token` request header; the corresponding policy exposes only the shared collection and its items. Account deletion cascades to the collections and their items.
 
-The schema is defined by `supabase/migrations/20261013193627_user_collections.sql`, with policy-performance adjustments in `supabase/migrations/20261013193734_user_collections_policy_performance.sql`. The regression test is `supabase/tests/user_collections.sql`; it is not part of the standard GitHub Actions CI and was not executed as part of this production-state audit.
+The schema is defined by `supabase/migrations/20261013193627_user_collections.sql`, with policy-performance adjustments in `supabase/migrations/20261013193734_user_collections_policy_performance.sql` and the request-scoped share-token helper in `supabase/migrations/20261029111421_optimize_collection_rls_and_remove_unused_index.sql`. The RBAC foreign-key index is preserved by `supabase/migrations/20261029111441_restore_admin_role_permissions_fk_index.sql`. The regression test is `supabase/tests/user_collections.sql`; it is not part of the standard GitHub Actions CI and was not executed as part of this production-state audit.
 
 ## Design Lab
 
