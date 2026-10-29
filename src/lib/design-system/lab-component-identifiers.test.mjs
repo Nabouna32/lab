@@ -35,7 +35,7 @@ test("Retirement migration removes only Design Lab maintenance storage", () => {
   for (const table of ["design_audit_catalog_entries", "design_audit_verifications", "design_audit_decisions", "design_audit_reports", "design_audit_components", "design_audit_events"]) {
     assert.match(retirementMigration, new RegExp(`drop table if exists public\\.${table} cascade`));
   }
-  assert.match(retirementMigration, /where permission_key = 'audit\.write'/);
-  assert.match(retirementMigration, /where key = 'audit\.write'/);
-    assert.doesNotMatch(retirementMigration, /where key = 'audit\.read'/);
+  assert.doesNotMatch(retirementMigration, /delete from public\.admin_role_permissions\s+where permission_key = 'audit\.(?:read|write)'/);
+  assert.doesNotMatch(retirementMigration, /delete from public\.admin_permissions\s+where key = 'audit\.(?:read|write)'/);
+  assert.doesNotMatch(retirementMigration, /drop table if exists public\.admin_audit_log/i);
 });
