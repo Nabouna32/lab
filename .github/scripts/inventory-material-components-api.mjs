@@ -151,7 +151,7 @@ async function main() {
     report.provenance.sourcesSha1 = sources.sha1;
     report.provenance.sourcesSizeBytes = sources.sizeBytes;
     report.provenance.sourcesChecksums = sources.checksums;
-    await writeFile(outputPath, `${JSON.stringify(report, null, 2)}\n`);
+    await writeFile(outputPath, `${JSON.stringify(report)}\n`);
     if (report.summary.javapFailures > 0) {
       throw new Error(`javap failed to inspect ${report.summary.javapFailures} class files; review the generated report before accepting the inventory.`);
     }
