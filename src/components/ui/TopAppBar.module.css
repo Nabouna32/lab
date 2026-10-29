@@ -20,10 +20,15 @@
 .medium .row, .large .row { align-items: flex-start; min-height: 112px; padding-top: 4px; }
 .medium.expanded .row { align-items: flex-start; }
 .large .row { min-height: 152px; }
-.medium.expanded .title, .large.expanded .title {
+.medium.expanded .title {
+  align-self: flex-end; margin-block-end: 24px; font-size: var(--m3-type-headline-small-size); line-height: var(--m3-type-headline-small-line-height); font-weight: var(--m3-type-headline-small-weight); letter-spacing: var(--m3-type-headline-small-tracking);
+}
+.large.expanded .title {
   align-self: flex-end; margin-block-end: 24px; font-size: var(--m3-type-headline-medium-size); line-height: var(--m3-type-headline-medium-line-height); font-weight: var(--m3-type-headline-medium-weight); letter-spacing: var(--m3-type-headline-medium-tracking);
 }
 .medium:not(.expanded) .row, .large:not(.expanded) .row { min-height: 64px; padding-top: 0; }
-.medium:not(.expanded) .title, .large:not(.expanded) .title { align-self: center; margin: 0; font-size: 22px; line-height: 28px; }
+.medium:not(.expanded) .title, .large:not(.expanded) .title {
+  align-self: center; margin: 0; font-size: var(--m3-type-title-large-size); line-height: var(--m3-type-title-large-line-height); font-weight: var(--m3-type-title-large-weight); letter-spacing: var(--m3-type-title-large-tracking);
+}
 .root { transition: min-height 220ms cubic-bezier(.2, 0, 0, 1); }
 @media (prefers-reduced-motion: reduce) { .root { transition: none; } }

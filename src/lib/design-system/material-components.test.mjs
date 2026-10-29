@@ -74,7 +74,8 @@ test("shared typography roles drive component CSS instead of duplicated font met
     ["timePicker", "--m3-type-body-medium-size", "--m3-type-body-small-size"],
     ["toggleButton", "--m3-type-label-large-size"],
     ["tooltip", "--m3-type-body-small-size", "--m3-type-body-medium-size", "--m3-type-title-small-size"],
-    ["topAppBar", "--m3-type-title-large-size", "--m3-type-headline-medium-size"],
+    ["topAppBar", "--m3-type-title-large-size", "--m3-type-headline-small-size", "--m3-type-headline-medium-size"],
+    
     ["bottomSheetScaffold", "--m3-type-label-large-size"],
     ["buttonGroup", "--m3-type-label-large-size"],
     ["datePicker", "--m3-type-label-medium-size", "--m3-type-label-large-size", "--m3-type-body-small-size", "--m3-type-title-small-size", "--m3-type-body-medium-size"],
@@ -96,6 +97,11 @@ test("shared typography roles drive component CSS instead of duplicated font met
       assert.ok(typographyComponentStyles[component].includes(token), `${component} must consume ${token}`);
     }
   }
+
+  assert.match(typographyComponentStyles.topAppBar, /\\.medium\\.expanded \\.title \\{[^}]*--m3-type-headline-small-size/s);
+  assert.match(typographyComponentStyles.topAppBar, /\\.large\\.expanded \\.title \\{[^}]*--m3-type-headline-medium-size/s);
+  assert.match(typographyComponentStyles.topAppBar, /\\.medium:not\\(\\.expanded\\) \\.title, \\.large:not\\(\\.expanded\\) \\.title \\{[^}]*--m3-type-title-large-size/s);
+  assert.doesNotMatch(typographyComponentStyles.topAppBar, /\\.medium\\.expanded \\.title \\{[^}]*--m3-type-headline-medium-size/s);
 });
 
 test("shared production compositions consume named typography and shape roles", () => {
@@ -271,7 +277,7 @@ test("shared action controls use semantic state-layer colors instead of brightne
   assert.ok(buttonVariantStylesSource.includes("var(--button-container-color,var(--primary))_92%,var(--button-content-color,var(--on-primary))"));
   assert.ok(buttonVariantStylesSource.includes("var(--button-container-color,var(--secondary-container))_92%,var(--button-content-color,var(--on-secondary-container))"));
   assert.match(appLinkSource, /import NextLink, \{ type LinkProps \} from "next\/link"/);
-  assert.match(appLinkSource, /materialButtonVariantStyles\[variant as MaterialButtonVariant\]/);
+  assert.match(appLinkSource, /materialButtonVariantStyles\[variant\]/);
   assert.match(appLinkSource, /import type \{ ButtonColors \} from "@\/components\/ui\/Button"/);
   assert.match(appLinkSource, /getMaterialButtonInlineStyle\(isMaterialButton/);
   assert.match(buttonVariantStylesSource, /colors\?\.contentColor/);
@@ -371,6 +377,8 @@ test("AndroidX-named Buttons support per-state color customization without produ
   assert.ok(iconButtonSource.includes("const toggleCheckedStyles: Record<IconButtonStyle, string>"));
   assert.ok(iconButtonSource.includes("export type IconButtonColors ="));
   assert.ok(iconButtonSource.includes("enabled?: boolean"));
+  assert.match(iconButtonSource, /aria-pressed=\\{isToggle \\? checked : undefined\\}/, "toggle buttons expose the pressed state while retaining native button semantics");
+  assert.doesNotMatch(iconButtonSource, /role=\\{isToggle \\? "checkbox"/, "icon toggle buttons are buttons, not checkboxes");
   assert.ok(iconButtonSource.includes("disabled={disabled ?? !enabled}"));
   assert.ok(iconButtonSource.includes("export type IconToggleButtonColors ="));
   assert.ok(iconButtonSource.includes("colors?: Partial<IconButtonColors>"));

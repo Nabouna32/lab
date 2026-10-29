@@ -5,6 +5,7 @@ import { test } from "node:test";
 const button = readFileSync(new URL("../../components/ui/Button.tsx", import.meta.url), "utf8");
 const submitButton = readFileSync(new URL("../../components/account/SubmitButton.tsx", import.meta.url), "utf8");
 const buttonVariantStyles = readFileSync(new URL("../../components/ui/material-button-variant-styles.ts", import.meta.url), "utf8");
+const buttonLayout = readFileSync(new URL("../../components/ui/material-button-layout.ts", import.meta.url), "utf8");
 const buttonRipple = readFileSync(new URL("../../components/ui/ButtonRipple.tsx", import.meta.url), "utf8");
 const iconButton = readFileSync(new URL("../../components/ui/IconButton.tsx", import.meta.url), "utf8");
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
@@ -39,10 +40,10 @@ test("shared Button exports AndroidX component names with source-derived dimensi
   assert.ok(button.includes("border: border ?? \"none\""), "a null border maps to no CSS border");
   assert.ok(buttonVariantStyles.includes("disabledContainerColor?: string") && buttonVariantStyles.includes("disabledContentColor?: string"));
   assert.ok(!button.includes("DestructiveButton"), "no Loculary-only destructive component remains");
-  const buttonContract = button + buttonVariantStyles;
+  const buttonContract = button + buttonVariantStyles + buttonLayout;
   for (const required of [
     "min-h-10", "min-w-[58px]", "whitespace-nowrap", "whitespace-pre-line",
-    "leadingIcon?: boolean", "multiline?: boolean", "pl-3 pr-4", "pl-4 pr-6",
+    "leadingIcon?: boolean", "multiline?: boolean", "ps-3 pe-4", "ps-4 pe-6",
     "transition-[background-color,border-color,color,box-shadow]", "motion-reduce:transition-none",
     "--button-disabled-container-color",
     "--button-disabled-content-color",
@@ -74,7 +75,13 @@ test("button-styled links preserve anchors and share the ripple interaction", ()
   assert.match(appLink, /import NextLink, \{ type LinkProps \} from "next\/link"/);
   assert.match(appLink, /data-material-button-link=\{isMaterialButton \? "true" : undefined\}/);
   assert.match(appLink, /isMaterialButton \? <ButtonRipple \/> : null/);
-  assert.match(appLink, /materialButtonVariantStyles\[variant as MaterialButtonVariant\]/);
+  assert.match(appLink, /materialButtonVariantStyles\[variant\]/);
+  assert.match(button, /getMaterialButtonLayoutClasses\(variant, \{ leadingIcon, multiline \}\)/);
+  assert.match(appLink, /getMaterialButtonLayoutClasses\(variant, \{ leadingIcon \}\)/);
+  assert.match(buttonLayout, /min-h-10/);
+  assert.match(buttonLayout, /min-w-\[58px\]/);
+  assert.match(buttonLayout, /ps-3 pe-4/);
+  assert.match(buttonLayout, /ps-4 pe-6/);
   assert.match(appLink, /getMaterialButtonInlineStyle\(isMaterialButton/);
 });
 

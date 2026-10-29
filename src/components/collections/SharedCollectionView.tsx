@@ -9,6 +9,7 @@ import { getPublishedTools } from "@/lib/tools/catalog";
 import { getToolContent, type ToolId } from "@/lib/tools/types";
 import { getToolPath } from "@/lib/tools/routes";
 import { MaterialIcon, type MaterialIconName } from "@/components/ui/MaterialIcon";
+import { Card } from "@/components/ui/Card";
 
 type SharedData = { name: string; tools: Array<{ id: string; icon: MaterialIconName; name: string; description: string; href: string }> };
 
@@ -44,12 +45,12 @@ export default function SharedCollectionView({ locale, token }: { locale: Locale
   return (
     <main className="min-h-[60svh]">
       <PageContainer width="medium" spacing="none" className="py-[var(--space-8)] sm:py-[var(--space-10)]">
-    <header className="mb-7 rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow-md)] sm:p-8">
-      <p className="text-xs font-black uppercase tracking-[0.16em] text-[var(--accent)]">Loculary · {fr ? "Collection partagée" : "Shared collection"}</p>
-      <h1 className="mt-2 text-3xl font-black tracking-[-0.04em] sm:text-4xl">{loading ? (fr ? "Chargement…" : "Loading…") : data?.name ?? (fr ? "Lien indisponible" : "Link unavailable")}</h1>
-      <p className="mt-2 text-sm leading-6 text-[var(--muted)]">{data ? (fr ? "Cette sélection a été partagée volontairement par son propriétaire." : "This selection was explicitly shared by its owner.") : (fr ? "Ce lien est invalide ou son propriétaire a désactivé le partage." : "This link is invalid or its owner disabled sharing.")}</p>
-    </header>
-    {data && (data.tools.length ? <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{data.tools.map((tool) => <li key={tool.id} className="rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-4 shadow-[var(--shadow-sm)]"><div className="flex items-start gap-3"><span aria-hidden="true" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--shape-corner-medium)] bg-[var(--primary-container)] text-[var(--on-primary-container)]"><MaterialIcon name={tool.icon} size={24} /></span><div className="min-w-0"><Link href={tool.href} className="font-bold hover:underline">{tool.name}</Link><p className="mt-1 text-sm text-[var(--muted)]">{tool.description}</p></div></div></li>)}</ul> : <p className="rounded-[var(--radius-xl)] border border-dashed border-[var(--border)] p-8 text-center text-sm text-[var(--muted)]">{fr ? "Cette collection ne contient pas encore d’outils." : "This collection does not contain any tools yet."}</p>)}
+    <header className="mb-7"><Card className="p-6 sm:p-8">
+      <p className="m3-type-label-small uppercase text-[var(--primary)]">Loculary · {fr ? "Collection partagée" : "Shared collection"}</p>
+      <h1 className="m3-type-headline-medium mt-2">{loading ? (fr ? "Chargement…" : "Loading…") : data?.name ?? (fr ? "Lien indisponible" : "Link unavailable")}</h1>
+      <p className="m3-type-body-large mt-2 text-[var(--muted)]">{data ? (fr ? "Cette sélection a été partagée volontairement par son propriétaire." : "This selection was explicitly shared by its owner.") : (fr ? "Ce lien est invalide ou son propriétaire a désactivé le partage." : "This link is invalid or its owner disabled sharing.")}</p>
+    </Card></header>
+    {data && (data.tools.length ? <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{data.tools.map((tool) => <li key={tool.id}><Card className="p-4"><div className="flex items-start gap-3"><span aria-hidden="true" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--shape-corner-medium)] bg-[var(--primary-container)] text-[var(--on-primary-container)]"><MaterialIcon name={tool.icon} size={24} /></span><div className="min-w-0"><Link href={tool.href} className="m3-type-title-medium text-[var(--on-surface)] hover:underline">{tool.name}</Link><p className="m3-type-body-medium mt-1 text-[var(--muted)]">{tool.description}</p></div></div></Card></li>)}</ul> : <Card className="p-8 text-center m3-type-body-medium text-[var(--muted)]">{fr ? "Cette collection ne contient pas encore d’outils." : "This collection does not contain any tools yet."}</Card>)}
       </PageContainer>
     </main>
   );

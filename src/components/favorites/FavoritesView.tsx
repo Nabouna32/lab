@@ -8,6 +8,8 @@ import { TextButton } from "@/components/ui/Button";
 import { useFavorites } from "./FavoritesProvider";
 import { PageContainer } from "@/components/layout/PageLayout";
 import { MaterialIcon, type MaterialIconName } from "@/components/ui/MaterialIcon";
+import { Card } from "@/components/ui/Card";
+import AppLink from "@/components/ui/AppLink";
 
 export type FavoriteToolItem = { id: string; icon: MaterialIconName; name: string; description: string; href: string };
 
@@ -35,22 +37,22 @@ export default function FavoritesView({ locale, tools }: { locale: Locale; tools
   return (
     <main className="min-h-[60svh]">
       <PageContainer width="medium" spacing="default">
-      <header className="mb-7 rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow-md)] sm:p-8">
-        <p className="text-xs font-black uppercase tracking-[0.16em] text-[var(--accent)]">Loculary</p>
-        <h1 className="mt-2 text-3xl font-black tracking-[-0.04em] sm:text-4xl">{text.title}</h1>
-        <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--muted)] sm:text-base">{text.description}</p>
-        <p className="mt-4 text-sm font-semibold text-[var(--muted)]" aria-live="polite">{text.count(selected.length)}</p>
-      </header>
+      <header className="mb-7"><Card className="p-6 sm:p-8">
+        <p className="m3-type-label-small uppercase text-[var(--primary)]">Loculary</p>
+        <h1 className="m3-type-headline-medium mt-2">{text.title}</h1>
+        <p className="m3-type-body-large mt-2 max-w-2xl text-[var(--muted)]">{text.description}</p>
+        <p className="m3-type-body-medium mt-4 text-[var(--muted)]" aria-live="polite">{text.count(selected.length)}</p>
+      </Card></header>
       {favorites.error && <p role="status" className="mb-5 rounded-2xl border border-[var(--danger)]/40 bg-[var(--surface)] px-4 py-3 text-sm text-[var(--danger)]">{text.syncError}</p>}
       {selected.length ? (
         <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {selected.map((tool) => (
-            <li key={tool.id} className="flex min-h-40 flex-col rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-4 shadow-[var(--shadow-sm)] transition-[border-color,transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:border-[var(--accent)]/50 hover:shadow-[var(--shadow-md)]">
+            <li key={tool.id}><Card className="flex min-h-40 flex-col p-4">
               <div className="flex items-start gap-3">
                 <span aria-hidden="true" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--shape-corner-large)] bg-[var(--primary-container)] text-[var(--on-primary-container)]"><MaterialIcon name={tool.icon} size={24} /></span>
                 <div className="min-w-0 flex-1">
-                  <Link href={tool.href} className="font-bold tracking-[-0.02em] text-[var(--foreground)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]">{tool.name}</Link>
-                  <p className="mt-1 line-clamp-2 text-sm leading-5 text-[var(--muted)]">{tool.description}</p>
+                  <Link href={tool.href} className="m3-type-title-medium text-[var(--on-surface)] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]">{tool.name}</Link>
+                  <p className="m3-type-body-medium mt-1 line-clamp-2 text-[var(--muted)]">{tool.description}</p>
                 </div>
               </div>
               <div className="mt-auto flex justify-end pt-4">
@@ -59,16 +61,16 @@ export default function FavoritesView({ locale, tools }: { locale: Locale; tools
                   {locale === "fr" ? "Retirer des favoris" : "Remove from favorites"}
                 </TextButton>
               </div>
-            </li>
+            </Card></li>
           ))}
         </ul>
       ) : (
-        <section className="rounded-[var(--radius-xl)] border border-dashed border-[var(--border-strong)] bg-[var(--surface)] px-6 py-10 text-center sm:px-10" aria-labelledby="favorites-empty-title">
+        <section aria-labelledby="favorites-empty-title"><Card className="px-6 py-10 text-center sm:px-10">
           <span aria-hidden="true" className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[var(--primary-container)] text-[var(--on-primary-container)]"><StarIcon className="h-8 w-8" /></span>
-          <h2 id="favorites-empty-title" className="mt-4 text-xl font-black">{text.emptyTitle}</h2>
-          <p className="mx-auto mt-2 max-w-lg text-sm leading-6 text-[var(--muted)]">{text.emptyDescription}</p>
-          <Link href={getToolsPath(locale)} className="mt-6 inline-flex min-h-12 items-center justify-center rounded-full bg-[var(--primary)] px-5 font-semibold text-[var(--on-primary)] transition-[filter,transform] duration-[var(--motion-standard)] hover:brightness-[.94] active:scale-[.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]">{text.explore}</Link>
-        </section>
+          <h2 id="favorites-empty-title" className="m3-type-title-large mt-4">{text.emptyTitle}</h2>
+          <p className="m3-type-body-medium mx-auto mt-2 max-w-lg text-[var(--muted)]">{text.emptyDescription}</p>
+          <AppLink href={getToolsPath(locale)} variant="filled" className="mt-6">{text.explore}</AppLink>
+        </Card></section>
       )}
       </PageContainer>
     </main>

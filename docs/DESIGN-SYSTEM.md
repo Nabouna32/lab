@@ -39,6 +39,8 @@ Les fondations ne sont pas une collection de classes à recopier dans les pages.
 
 ## Mise en page et espacements
 
+Le layout des boutons Material 3 est défini une seule fois dans `src/components/ui/material-button-layout.ts` et partagé entre `Button` et `AppLink`. La sémantique HTML, les variantes et les différences prévues par AndroidX restent propres aux consommateurs ; la géométrie commune ne doit pas être recopiée dans chaque composant.
+
 La cible est un portage Web fidèle des API publiques pertinentes d’AndroidX Compose UI/Foundation, et non une collection de décisions d’espacement Tailwind propres à chaque page.
 
 - Utiliser AndroidX Compose UI/Foundation comme source de vérité pour les contrats publics de `Modifier`, `Alignment`, `Arrangement`, `Column`, `Row`, `Box` et `Spacer`. Figer la version exacte de l’artefact et du snapshot d’API, puis documenter les différences Web avant de revendiquer une fidélité.

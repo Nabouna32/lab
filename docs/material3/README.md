@@ -33,6 +33,8 @@ Documents de référence :
 - [Sources et versions](sources.md)
 - [Inventaire des API et règles de couverture](catalog/README.md)
 - [Primitives de layout Compose UI/Foundation](layout-primitives.md)
+- [Cartographie de migration de la production](production-migration.md)
+- [Barres d’application](components/TopAppBar.md)
 - [Modèle de spécification de composant](components/TEMPLATE.md)
 - [Design system Loculary](../DESIGN-SYSTEM.md)
 
@@ -70,6 +72,7 @@ La migration reste partielle et la conformité globale n’est pas établie.
 - **Typographie :** les 15 rôles Material 3 sont exposés sous forme de variables/classes partagées et utilisés dans de nombreux composants et compositions. L’audit des consommateurs reste incomplet.
 - **Formes :** des migrations ciblées et des tests de contrat existent. L’échelle historique `--radius-*` reste présente ; inventorier ses usages et vérifier les valeurs avant tout retrait.
 - **Icônes :** les sept catégories et les 51 outils utilisent le registre `MaterialIcon`, ainsi que plusieurs cartes, recherches, favoris, collections et en-têtes. Les tests contrôlent notamment la présence des identifiants dans le registre, mais ne valident pas leur pertinence sémantique ni leur rendu. Certains outils peuvent encore partager un symbole générique.
+- **Contrats communs :** `Button` et `AppLink` partagent désormais un contrat de layout ; leurs différences de sémantique HTML et de variantes restent explicites. Cette centralisation est un premier pas, pas la fin de la migration.
 - **Composants AndroidX :** les spécifications et vérifications sont inégales selon les familles. La présence d’une implémentation ou d’un nom AndroidX ne vaut pas validation de parité.
 - **Rendu navigateur :** la validation visuelle complète des thèmes clair/sombre, du français/anglais, du responsive et des interactions reste à établir.
 
@@ -87,6 +90,16 @@ La migration reste partielle et la conformité globale n’est pas établie.
 | Autres familles | Inventaire et couverture incomplets | À inventorier selon le périmètre déclaré |
 
 La validation navigateur de `NavigationBar` reste suivie dans [l’issue #977](https://github.com/Nabouna32/lab/issues/977) ; cela ne signifie pas que le composant est déjà fidèle à AndroidX.
+
+## Ordre de migration de la production
+
+1. Inventorier les styles et composants locaux hérités, les consommateurs des fondations et les contrats déjà partagés.
+2. Corriger les fondations et composants communs en priorité, avec une source AndroidX immuable et des tests de contrat.
+3. Migrer les consommateurs par familles cohérentes ; supprimer les anciennes règles seulement après inventaire des références et validation des remplacements.
+4. Pour chaque page, comparer explicitement la migration ciblée à une refonte depuis une page blanche, expliquer les conséquences et retenir la meilleure expérience plutôt que le plus petit diff.
+5. Vérifier les pages et interactions dans le navigateur ; les tests statiques ne suffisent pas.
+
+Une valeur écrite en dur est à examiner, pas à conserver par défaut. Elle ne reste locale que si elle décrit une différence réellement spécifique au composant ou à la composition, ou une adaptation Web nécessaire, et si sa justification est documentée. Les valeurs qui relèvent d’un contrat AndroidX doivent venir de ce contrat partagé.
 
 ## Cycle de travail
 

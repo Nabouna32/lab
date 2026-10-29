@@ -9,6 +9,7 @@ import { CollectionIcon } from "@/components/ui/CollectionIcon";
 import { Button, FilledTonalButton, OutlinedButton, TextButton } from "@/components/ui/Button";
 import { AlertDialog } from "@/components/ui/AlertDialog";
 import { MaterialIcon, type MaterialIconName } from "@/components/ui/MaterialIcon";
+import { Card } from "@/components/ui/Card";
 import { createLocalCollectionsBackup, MAX_LOCAL_COLLECTIONS, MAX_LOCAL_COLLECTIONS_BACKUP_CHARS, parseLocalCollectionsBackup, type StoredLocalCollection } from "@/lib/collections/local-collections";
 
 export type CollectionTool = { id: string; icon: MaterialIconName; name: string; description: string; href: string };
@@ -203,22 +204,22 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
   return (
     <main className="min-h-[60svh]">
       <PageContainer width="medium" spacing="none" className="py-[var(--space-8)] sm:py-[var(--space-10)]">
-      <header className="mb-7 rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow-md)] sm:p-8">
-        <p className="text-xs font-black uppercase tracking-[0.16em] text-[var(--accent)]">Loculary</p>
-        <h1 className="mt-2 text-3xl font-black tracking-[-0.04em] sm:text-4xl">{copy.title}</h1>
-        <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--muted)] sm:text-base">{copy.description}</p>
-      </header>
+      <header className="mb-7"><Card className="p-6 sm:p-8">
+        <p className="m3-type-label-small uppercase text-[var(--primary)]">Loculary</p>
+        <h1 className="m3-type-headline-medium mt-2">{copy.title}</h1>
+        <p className="m3-type-body-large mt-2 max-w-2xl text-[var(--muted)]">{copy.description}</p>
+      </Card></header>
 
-      {data.error && <p role="status" className="mb-5 rounded-2xl border border-[var(--danger)]/40 bg-[var(--surface)] px-4 py-3 text-sm text-[var(--danger)]">{copy.error}</p>}
-      {message && <p role="status" className="mb-5 text-sm font-semibold text-[var(--accent)]">{message}</p>}
-      <form className="mb-6 flex flex-col gap-3 rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-4 sm:flex-row" onSubmit={(event) => { event.preventDefault(); void create(); }}>
-        <input value={name} onChange={(event) => setName(event.target.value)} maxLength={80} required placeholder={copy.placeholder} aria-label={copy.placeholder} className="min-h-12 min-w-0 flex-1 rounded-[var(--radius-lg)] border border-[var(--outline)] bg-[var(--surface)] px-4 text-[var(--foreground)] outline-none transition-[border-color,box-shadow] duration-[var(--motion-standard)] hover:border-[var(--border-strong)] focus-visible:border-[var(--primary)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface)]" />
-            {data.userId && <label className="flex min-h-12 items-center gap-2 text-sm text-[var(--muted)] sm:px-2"><input type="checkbox" checked={synchronize} onChange={(event) => setSynchronize(event.target.checked)} className="h-4 w-4 accent-[var(--primary)]" />{copy.syncLabel}</label>}
+      {data.error && <p role="status" className="m3-type-body-medium mb-5 rounded-[var(--shape-corner-small)] border border-[var(--error)]/40 bg-[var(--error-container)] px-4 py-3 text-[var(--on-error-container)]">{copy.error}</p>}
+      {message && <p role="status" className="m3-type-body-medium mb-5 font-medium text-[var(--primary)]">{message}</p>}
+      <form className="mb-6" onSubmit={(event) => { event.preventDefault(); void create(); }}><Card className="flex flex-col gap-3 p-4 sm:flex-row">
+        <input value={name} onChange={(event) => setName(event.target.value)} maxLength={80} required placeholder={copy.placeholder} aria-label={copy.placeholder} className="min-h-12 min-w-0 flex-1 rounded-[var(--shape-corner-extra-small)] border border-[var(--outline)] bg-[var(--surface)] px-4 m3-type-body-large text-[var(--on-surface)] outline-none transition-[border-color,box-shadow] duration-[var(--motion-standard)] hover:border-[var(--border-strong)] focus-visible:border-[var(--primary)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface)]" />
+            {data.userId && <label className="m3-type-body-medium flex min-h-12 items-center gap-2 text-[var(--muted)] sm:px-2"><input type="checkbox" checked={synchronize} onChange={(event) => setSynchronize(event.target.checked)} className="h-4 w-4 accent-[var(--primary)]" />{copy.syncLabel}</label>}
         <Button type="submit" disabled={data.loading || creating || !name.trim() || ((!data.userId || !synchronize) && localLimitReached)}>{creating ? (fr ? "Création…" : "Creating…") : copy.create}</Button>
-      </form>
-      <p className="mb-3 text-sm leading-6 text-[var(--muted)]">{copy.localNote} {data.userId ? copy.accountNote : copy.signIn}</p>
-      <section aria-label={fr ? "Sauvegarde des collections locales" : "Local collection backup"} className="mb-6 rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-4">
-        <p className="mb-3 text-sm leading-6 text-[var(--muted)]">{copy.backupHelp}</p>
+      </Card></form>
+      <p className="m3-type-body-medium mb-3 text-[var(--muted)]">{copy.localNote} {data.userId ? copy.accountNote : copy.signIn}</p>
+      <section aria-label={fr ? "Sauvegarde des collections locales" : "Local collection backup"} className="mb-6"><Card className="p-4">
+        <p className="m3-type-body-medium mb-3 text-[var(--muted)]">{copy.backupHelp}</p>
         <input
           ref={importFileRef}
           id="local-collections-import-file"
@@ -238,34 +239,34 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
             <TextButton type="button" disabled={importing} onClick={() => { setPendingImport(null); setMessage(""); }}>{copy.backupCancel}</TextButton>
           </div>
         )}
-      </section>
-      {((!data.userId || !synchronize) && localLimitReached) && <p role="status" className="mb-5 text-sm text-[var(--muted)]">{copy.localLimit}</p>}
+      </Card></section>
+      {((!data.userId || !synchronize) && localLimitReached) && <p role="status" className="m3-type-body-medium mb-5 text-[var(--muted)]">{copy.localLimit}</p>}
 
-      {data.loading ? <p className="py-8 text-center text-sm text-[var(--muted)]">{fr ? "Chargement…" : "Loading…"}</p> : data.collections.length === 0 ? (
-            <section className="rounded-[var(--radius-xl)] border border-dashed border-[var(--border-strong)] bg-[var(--surface)] px-6 py-10 text-center">
+      {data.loading ? <p className="m3-type-body-medium py-8 text-center text-[var(--muted)]">{fr ? "Chargement…" : "Loading…"}</p> : data.collections.length === 0 ? (
+            <section><Card className="px-6 py-10 text-center">
               <span aria-hidden="true" className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[var(--primary-container)] text-[var(--on-primary-container)]"><CollectionIcon className="h-8 w-8" /></span>
-              <h2 className="mt-4 text-xl font-black">{copy.empty}</h2><p className="mx-auto mt-2 max-w-lg text-sm leading-6 text-[var(--muted)]">{copy.emptyHelp}</p>
-            </section>
+              <h2 className="m3-type-title-large mt-4">{copy.empty}</h2><p className="m3-type-body-medium mx-auto mt-2 max-w-lg text-[var(--muted)]">{copy.emptyHelp}</p>
+            </Card></section>
           ) : (
             <div className="grid gap-4 lg:grid-cols-[minmax(15rem,0.75fr)_minmax(0,1.25fr)]">
               <ul className="flex flex-col gap-2">
                 {data.collections.map((collection) => (
                   <li key={collection.id}>
-                    <button type="button" onClick={() => setActiveCollection(collection.id)} aria-pressed={active?.id === collection.id} className={"w-full rounded-[var(--radius-lg)] border p-4 text-left transition-[background-color,border-color,transform] duration-200 " + (active?.id === collection.id ? "border-[var(--primary)] bg-[var(--primary-container)] text-[var(--on-primary-container)] shadow-[var(--shadow-sm)]" : "border-[var(--outline-variant)] bg-[var(--surface)] hover:bg-[var(--surface-soft)]")}>
-                      <span className="flex items-center justify-between gap-3 font-bold"><span className="truncate">{collection.name}</span><span className="text-xs font-semibold text-[var(--muted)]">{collection.user_collection_items.length}</span></span>
-                      <span className="mt-2 block text-xs font-semibold text-[var(--muted)]">{collection.storage === "local" ? copy.localOnly : collection.share_token ? copy.shared : copy.private}</span>
+                    <button type="button" onClick={() => setActiveCollection(collection.id)} aria-pressed={active?.id === collection.id} className={"m3-type-body-medium w-full rounded-[var(--shape-corner-medium)] border p-4 text-left transition-colors duration-[var(--motion-standard)] motion-reduce:transition-none " + (active?.id === collection.id ? "border-[var(--primary)] bg-[var(--primary-container)] text-[var(--on-primary-container)]" : "border-[var(--outline-variant)] bg-[var(--surface)] hover:bg-[var(--surface-container-high)]")}>
+                      <span className="m3-type-title-medium flex items-center justify-between gap-3"><span className="truncate">{collection.name}</span><span className={"m3-type-label-small " + (active?.id === collection.id ? "text-[var(--on-primary-container)]" : "text-[var(--on-surface-variant)]")}>{collection.user_collection_items.length}</span></span>
+                      <span className={"m3-type-label-small mt-2 block " + (active?.id === collection.id ? "text-[var(--on-primary-container)]" : "text-[var(--on-surface-variant)]")}>{collection.storage === "local" ? copy.localOnly : collection.share_token ? copy.shared : copy.private}</span>
                     </button>
                   </li>
                 ))}
               </ul>
               {active && (
-                <section className="rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow-sm)]">
+                <section><Card className="p-5">
                   <div className="flex flex-wrap items-start justify-between gap-3">
-                    <div className="min-w-0"><h2 className="break-words text-xl font-black">{active.name}</h2><p className="mt-1 text-sm text-[var(--muted)]">{active.user_collection_items.length} {fr ? "outils" : "tools"}</p></div>
+                    <div className="min-w-0"><h2 className="m3-type-title-large break-words">{active.name}</h2><p className="m3-type-body-medium mt-1 text-[var(--muted)]">{active.user_collection_items.length} {fr ? "outils" : "tools"}</p></div>
                     <TextButton type="button" onClick={() => { const next = window.prompt(copy.rename, active.name); if (next?.trim()) void data.renameCollection(active.id, next).then((ok) => { if (!ok) setMessage(copy.error); }); }}>{copy.rename}</TextButton>
                   </div>
                   <div className="mt-4 flex flex-col gap-2 sm:flex-row">
-                    <select value={addingTool} onChange={(event) => setAddingTool(event.target.value)} aria-label={copy.add} className="min-h-12 min-w-0 flex-1 rounded-[var(--radius-lg)] border border-[var(--outline)] bg-[var(--surface)] px-3.5 py-2.5 text-sm text-[var(--foreground)] outline-none transition-[border-color,box-shadow,background-color] duration-[var(--motion-standard)] hover:border-[var(--border-strong)] focus-visible:border-[var(--primary)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface)]">
+                    <select value={addingTool} onChange={(event) => setAddingTool(event.target.value)} aria-label={copy.add} className="min-h-12 min-w-0 flex-1 rounded-[var(--shape-corner-extra-small)] border border-[var(--outline)] bg-[var(--surface)] px-3.5 py-2.5 m3-type-body-large text-[var(--on-surface)] outline-none transition-[border-color,box-shadow,background-color] duration-[var(--motion-standard)] hover:border-[var(--border-strong)] focus-visible:border-[var(--primary)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface)]">
                       <option value="">{copy.choose}</option>
                       {tools.filter((tool) => !active.user_collection_items.some((item) => item.tool_id === tool.id)).map((tool) => <option key={tool.id} value={tool.id}>{tool.name}</option>)}
                     </select>
@@ -275,9 +276,9 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
                     {active.user_collection_items.map((item) => {
                       const tool = tools.find((candidate) => candidate.id === item.tool_id);
                       if (!tool) return null;
-                      return <li key={item.tool_id} className="flex items-center gap-3 py-3"><span aria-hidden="true" className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--shape-corner-medium)] bg-[var(--primary-container)] text-[var(--on-primary-container)]"><MaterialIcon name={tool.icon} size={22} /></span><div className="min-w-0 flex-1"><Link href={tool.href} className="font-semibold hover:underline">{tool.name}</Link><p className="line-clamp-1 text-xs text-[var(--muted)]">{tool.description}</p></div><TextButton type="button" colors={{ contentColor: "var(--on-surface-variant)" }} className="inline-flex shrink-0 items-center gap-2" onClick={() => void data.removeTool(active.id, item.tool_id)}><MaterialIcon name="delete" size={18} />{copy.removeTool}</TextButton></li>;
+                      return <li key={item.tool_id} className="flex items-center gap-3 py-3"><span aria-hidden="true" className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--shape-corner-medium)] bg-[var(--primary-container)] text-[var(--on-primary-container)]"><MaterialIcon name={tool.icon} size={22} /></span><div className="min-w-0 flex-1"><Link href={tool.href} className="m3-type-title-medium hover:underline">{tool.name}</Link><p className="m3-type-body-small line-clamp-1 text-[var(--muted)]">{tool.description}</p></div><TextButton type="button" colors={{ contentColor: "var(--on-surface-variant)" }} className="inline-flex shrink-0 items-center gap-2" onClick={() => void data.removeTool(active.id, item.tool_id)}><MaterialIcon name="delete" size={18} />{copy.removeTool}</TextButton></li>;
                     })}
-                  </ul> : <p className="py-6 text-center text-sm text-[var(--muted)]">{copy.emptyHelp}</p>}
+                  </ul> : <p className="m3-type-body-medium py-6 text-center text-[var(--muted)]">{copy.emptyHelp}</p>}
                   <div className="mt-5 flex flex-wrap items-center gap-2 border-t border-[var(--border)] pt-4">
                     {active.storage === "account" && <>
                       <OutlinedButton type="button" onClick={() => void data.toggleSharing(active.id).then((ok) => { if (!ok) setMessage(copy.error); })}>{active.share_token ? copy.stopShare : copy.share}</OutlinedButton>
@@ -285,7 +286,7 @@ export default function CollectionsView({ locale, tools }: { locale: Locale; too
                     </>}
                     <TextButton type="button" colors={{ contentColor: "var(--error)" }} className="inline-flex items-center gap-2" onClick={() => setPendingDeleteCollection({ id: active.id, name: active.name })}><MaterialIcon name="delete" size={18} />{copy.remove}</TextButton>
                   </div>
-                </section>
+              </Card></section>
               )}
             </div>
           )}
