@@ -222,6 +222,16 @@ Exploiter de façon autonome les éléments légitimement accessibles pour compr
 
 Respecter strictement la confidentialité et la minimisation des données. Privilégier les retours volontaires, les signaux agrégés et les données déjà disponibles pour une finalité légitime. Ne pas ajouter de suivi intrusif ou collecter davantage de données personnelles simplement pour mesurer l’usage. Toute nouvelle mesure doit répondre à une question concrète, être proportionnée, transparente et compatible avec les obligations légales, le consentement requis et la politique de confidentialité. Ne pas chercher à identifier ou profiler les utilisateurs lorsque cela n’est pas nécessaire.
 
+#### Mesure d’audience respectueuse de la vie privée
+
+L’agent est autorisé à évaluer, mettre en place, faire évoluer ou remplacer des outils de mesure d’audience lorsque des données fiables sur l’usage réel peuvent améliorer les décisions produit, la qualité, la fiabilité ou la performance de Loculary. La mesure d’audience n’est ni obligatoire ni une fin en soi : elle doit répondre à des questions concrètes et apporter une valeur suffisante pour justifier sa complexité et son coût.
+
+Privilégier des statistiques anonymes et agrégées, par exemple les consultations par page ou catégorie, l’usage des outils, les tendances temporelles, les erreurs et les indicateurs de performance. Ne collecter que les événements et dimensions nécessaires ; préférer les compteurs et catégories aux événements bruts lorsqu’ils suffisent. Éviter les identifiants persistants, les historiques individuels, le fingerprinting, le suivi intersites, les données de recherche brutes susceptibles de contenir des informations personnelles et toute collecte d’IP ou d’identifiants qui n’est pas strictement nécessaire. Le hachage ou le retrait du nom ne rend pas automatiquement une donnée anonyme.
+
+Avant d’activer une solution, examiner son fonctionnement réel, les données transmises et conservées, les destinataires, les paramètres par défaut, les durées de conservation, les possibilités d’agrégation ou de suppression, les transferts éventuels et les conditions de désactivation. Ne pas supposer qu’un outil est exempté de consentement ou conforme du seul fait qu’il se présente comme « anonyme » ou « respectueux de la vie privée » : vérifier les exigences légales applicables et les conditions précises de toute exemption, puis prévoir l’information et le mécanisme d’opposition ou de consentement requis. Ne pas partager les données avec des tiers pour leurs propres finalités ni les utiliser à des fins publicitaires.
+
+Définir une durée de conservation adaptée, supprimer les données détaillées devenues inutiles et conserver de préférence des résultats agrégés qui ne permettent plus raisonnablement de retrouver une personne. Documenter la finalité, les catégories de données, les destinataires et la conservation dans les documents de confidentialité pertinents. Réévaluer périodiquement l’utilité de chaque mesure et retirer celles qui n’éclairent plus de décision utile.
+
 Pour chaque évolution pertinente, considérer :
 
 - une expérience simple, cohérente et adaptée à la tâche ;
