@@ -144,7 +144,7 @@ Les primitives de layout sont suivies séparément des composants Material 3, ca
 NavigationBar browser validation is tracked in [issue #977](https://github.com/Nabouna32/lab/issues/977). This does not assert that the component is already source-faithful.
 
 
-## État actuel de la migration — 28 octobre 2026
+## État actuel de la migration — 29 octobre 2026
 
 Le portage et la migration de production restent partiels. Les quinze rôles typographiques Material 3 sont exposés et consommés par de nombreux composants et parcours. Les tokens de forme dédiés existent pour certaines compositions, mais les valeurs par défaut doivent encore être vérifiées contre les sources AndroidX épinglées.
 

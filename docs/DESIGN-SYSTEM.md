@@ -35,7 +35,7 @@ Les fondations ne sont pas une collection de classes à recopier dans les pages.
 - **Provenance :** les tokens repris de Material Web, les conventions CSS de Loculary et les valeurs AndroidX doivent être identifiés séparément. Une égalité numérique ne prouve pas à elle seule l'équivalence sémantique ou comportementale.
 - **Validation :** une migration n'est terminée que lorsque les usages sont inventoriés, les règles partagées testées, les cas clair/sombre et FR/EN vérifiés, et le rendu navigateur contrôlé. Un test de présence de chaîne ne suffit pas à prouver la fidélité visuelle.
 
-**État vérifié au 27 octobre 2026 :** l'échelle des formes cohabite encore avec les anciens rayons ; les 15 rôles typographiques existent dans `globals.css` et sont consommés par un ensemble croissant de composants, mais leurs métriques et chaque consommateur ne sont pas encore tous validés contre une baseline AndroidX unique. Le portage des composants, la migration des pages et la validation visuelle restent partiels. Voir [la spécification des fondations et composants Material 3](material3/README.md) et les spécifications individuelles.
+**État vérifié au 29 octobre 2026 :** l'échelle des formes cohabite encore avec les anciens rayons ; les 15 rôles typographiques existent dans `globals.css` et sont consommés par un ensemble croissant de composants, mais leurs métriques et chaque consommateur ne sont pas encore tous validés contre une baseline AndroidX unique. Le portage des composants, la migration des pages et la validation visuelle restent partiels. Voir [la spécification des fondations et composants Material 3](material3/README.md) et les spécifications individuelles.
 
 ## Mise en page et espacements
 
@@ -91,7 +91,7 @@ Le système expose les quinze rôles typographiques Material 3 et les tokens de 
 
 - **Surfaces typographiques migrées :** composants partagés, navigation, cartes et résultats d’outils, pages d’information et légales, pied de page, parcours de compte et plusieurs pages d’administration. Les usages restants doivent être inventoriés par famille avant retrait des styles locaux.
 - **Formes :** certains consommateurs utilisent `--shape-corner-*` et des tokens propres aux composants. L’échelle historique `--radius-*` reste utilisée en production ; ne pas la supprimer avant l’inventaire et la migration des références. Les valeurs historiques de 16 px et 24 px ne sont pas remappées mécaniquement.
-- **Icônes :** les catégories et les outils utilisent le registre partagé `MaterialIcon` et les rôles `primary-container` / `on-primary-container`. L’état détaillé, la couverture et les limites de la migration figurent dans le [suivi du portage AndroidX](material3/README.md#état-actuel-de-la-migration--28-octobre-2026).
+- **Icônes :** les catégories et les outils utilisent le registre partagé `MaterialIcon` et les rôles `primary-container` / `on-primary-container`. L’état détaillé, la couverture et les limites de la migration figurent dans le [suivi du portage AndroidX](material3/README.md#état-actuel-de-la-migration--29-octobre-2026).
 - **Vérification :** le rendu navigateur n’a pas encore été validé de façon transversale en thèmes clair/sombre, en français/anglais, sur les viewports pertinents et au clavier. Les tests et la CI restent nécessaires, mais ne remplacent pas cette comparaison.
 
 ## Règle obligatoire de migration cible-first
