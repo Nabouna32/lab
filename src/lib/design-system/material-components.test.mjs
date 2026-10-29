@@ -1120,3 +1120,19 @@ test("Badge delegates typography metrics to the shared Material 3 label role", (
   assert.ok(!badgeStyles.includes("font-weight: var(--m3-type-label-small-weight)"));
   assert.ok(!badgeStyles.includes("letter-spacing: var(--m3-type-label-small-tracking)"));
 });
+
+
+test("dropdown selection and expansion glyphs use the shared Material Symbols registry", () => {
+  const dropdown = readFileSync(new URL("../../components/ui/DropdownMenu.tsx", import.meta.url), "utf8");
+  const exposedDropdown = readFileSync(new URL("../../components/ui/ExposedDropdownMenu.tsx", import.meta.url), "utf8");
+  const contrastChecker = readFileSync(new URL("../../components/tools/contrast-checker/ContrastChecker.tsx", import.meta.url), "utf8");
+
+  assert.match(dropdown, /MaterialIcon name="keyboard_arrow_down"/);
+  assert.match(dropdown, /MaterialIcon name="check"/);
+  assert.doesNotMatch(dropdown, /[⌄✓]/u);
+  assert.match(exposedDropdown, /MaterialIcon name="keyboard_arrow_down"/);
+  assert.match(exposedDropdown, /MaterialIcon name="check"/);
+  assert.doesNotMatch(exposedDropdown, /[✓]/u);
+  assert.match(contrastChecker, /name=\{pass \? "check" : "close"\}/);
+  assert.doesNotMatch(contrastChecker, /pass \? "✓" : "—"/);
+});

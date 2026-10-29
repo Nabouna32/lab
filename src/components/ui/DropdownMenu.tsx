@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import type { KeyboardEvent, ReactNode } from "react";
+import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import styles from "./DropdownMenu.module.css";
 
 export type DropdownMenuItemData = {
@@ -118,7 +119,7 @@ export function DropdownMenu({
           }
         }}
       >
-        {triggerContent ?? label}<span aria-hidden="true" className={styles.chevron}>⌄</span>
+        {triggerContent ?? label}<span aria-hidden="true" className={styles.chevron}><MaterialIcon name="keyboard_arrow_down" size={18} /></span>
       </button>
       {open && <div ref={menuRef} id={`m3-dropdown-menu-${id}`} role="menu" aria-label={label} className={`${styles.menu} ${align === "start" ? styles.alignStart : styles.alignEnd}`}>
         {items.map((item, index) => (
@@ -144,7 +145,7 @@ export function DropdownMenu({
                 <span className={styles.itemLabel}>{item.label}</span>
                 {item.supportingText && <span className={styles.supporting}>{item.supportingText}</span>}
               </span>
-              {item.selected && <span className={styles.selectedMark} aria-hidden="true">✓</span>}
+              {item.selected && <span className={styles.selectedMark} aria-hidden="true"><MaterialIcon name="check" size={18} /></span>}
               {item.trailingContent && <span className={styles.trailing}>{item.trailingContent}</span>}
             </button>
           </div>

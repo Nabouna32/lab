@@ -10,6 +10,7 @@ import { getToolMessages } from "@/lib/i18n/tool-messages";
 import { evaluateContrast, parseColor, suggestAccessibleForeground } from "@/lib/contrast-checker";
 import { Arrangement } from "@/components/layout/compose/Arrangement";
 import { Column } from "@/components/layout/compose/Column";
+import { MaterialIcon } from "@/components/ui/MaterialIcon";
 
 const DEFAULT_FOREGROUND = "#111827";
 const DEFAULT_BACKGROUND = "#ffffff";
@@ -177,7 +178,7 @@ function Criterion({ label, pass }: { label: string; pass: boolean }) {
     <div className="flex items-center justify-between gap-3 border-t border-[var(--border)] py-3">
       <span className="text-sm text-[var(--foreground)]">{label}</span>
       <span className={pass ? "text-sm font-bold text-[var(--success)]" : "text-sm font-bold text-[var(--danger)]"}>
-        {pass ? "✓" : "—"}
+        <MaterialIcon name={pass ? "check" : "close"} size={18} aria-hidden="true" />
       </span>
     </div>
   );
