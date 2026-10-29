@@ -42,3 +42,7 @@ create policy "Owners and token holders can read collection items"
         )
     )
   );
+
+-- Retrait temporaire dans cette migration : l'index est rétabli explicitement
+-- par la migration suivante après vérification de la couverture de la clé étrangère.
+drop index if exists public.admin_role_permissions_permission_idx;
