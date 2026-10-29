@@ -126,3 +126,30 @@ test('marks Supabase Edge Function changes for targeted Deno validation', () => 
     supabase_changed: true,
   });
 });
+
+import { readFileSync } from 'node:fs';
+
+const workflow = readFileSync(new URL('../workflows/ci.yml', import.meta.url), 'utf8');
+
+test('ESLint-only dependency upgrades still run lint while skipping unrelated checks', () => {
+  const qualityJob = workflow.slice(workflow.indexOf('  quality:'), workflow.indexOf('  build:'));
+  const lintStep = qualityJob.match(/          - name: Lint[\\s\\S]*?run: npm run lint/);
+  assert.ok(lintStep, 'the quality job must execute lint');
+  assert.doesNotMatch(lintStep[0], /dependency_scope/, 'lint must not be skipped for an ESLint-only upgrade');
+  assert.match(qualityJob, /name: Typecheck[\\s\\S]*?dependency_scope != 'lint_only'/);
+  assert.match(qualityJob, /name: Unit tests[\\s\\S]*?dependency_scope != 'lint_only'/);
+});
+
+test('production build runs independently and remains covered by the required status gate', () => {
+  const buildJob = workflow.slice(workflow.indexOf('  build:'), workflow.indexOf('  supabase:'));
+  const gateJob = workflow.slice(workflow.indexOf('  ci:'), workflow.indexOf('  npm-audit:'));
+  assert.match(buildJob, /run: npm run build/);
+  assert.match(gateJob, /name: Node\\.js 24\\.21\\.0/);
+  assert.match(gateJob, /needs: \\[prepare, quality, build, supabase\\]/);
+  assert.match(gateJob, /PREPARE_RESULT/);
+  assert.match(gateJob, /BUILD_RESULT/);
+});
+
+test('governance changes execute every CI tooling test instead of maintaining a partial list', () => {
+  assert.match(workflow, /run: node --test \.github\\/scripts\\/\*\.test\.mjs/);
+});
