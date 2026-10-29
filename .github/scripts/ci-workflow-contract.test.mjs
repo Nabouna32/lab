@@ -9,8 +9,10 @@ function sectionFor(jobName) {
   const marker = `  ${jobName}:\n`;
   const start = workflow.indexOf(marker);
   assert.notEqual(start, -1, `Missing workflow job: ${jobName}`);
-  const next = workflow.indexOf("\n  ", start + marker.length);
-  return workflow.slice(start, next === -1 ? undefined : next);
+  const nextTopLevelJob = /\n(?=  [a-zA-Z0-9_-]+:)/g;
+  nextTopLevelJob.lastIndex = start + marker.length;
+  const next = nextTopLevelJob.exec(workflow);
+  return workflow.slice(start, next ? next.index : undefined);
 }
 
 test("npm audit runs on pull requests, scheduled runs, and manual dispatches", () => {
