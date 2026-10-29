@@ -30,10 +30,10 @@
   },
   "apiInventory": {
     "status": "provisional-not-exhaustive",
-    "method": "published AAR classes.jar inspected with javap -protected; Java source declarations and annotations indexed with the JDK compiler AST; binary methods matched by name and parameter count",
+    "method": "published AAR classes.jar inspected with javap -protected; Java source declarations and annotations indexed with the JDK compiler AST; methods matched by normalized parameter types after generic erasure and import resolution",
     "publicApiDumpInTag": false,
     "reportPath": "docs/material3/catalog/baselines/material-components-views-1.14.0-api-inventory.json",
-    "notes": "Le rapport est un index candidat des signatures binaires publiques/protégées, pas un dump officiel. Les déclarations et annotations Java sont indexées par AST ; les méthodes binaires sont rapprochées par nom et arité, donc les surcharges de même arité restent ambiguës. Le rapport recense 1 107 classes binaires, 523 types publics/protégés et 6 012 membres visibles par javap. Parmi les membres, 5 548 sont rapprochés d’une déclaration source, 428 sont sans correspondance, et 346 présentent une ambiguïté de surcharge ; le statut reste non exhaustif.",
+    "notes": "Le rapport est un index candidat des signatures binaires publiques/protégées, pas un dump officiel. Les déclarations et annotations Java sont indexées par AST ; les méthodes sont rapprochées par types de paramètres normalisés après effacement des génériques et résolution des imports. Le rapport recense 1 107 classes binaires, 523 types publics/protégés et 6 012 membres visibles. 5 504 membres ont une correspondance source unique ; 508 n’ont pas de correspondance unique et aucune ambiguïté de surcharge ne subsiste après résolution des imports. L’index reste non exhaustif.",
     "generatedAt": "2026-10-29",
     "summary": {
       "binaryClassFiles": 1107,
@@ -46,10 +46,10 @@
       "publicOrProtectedMembers": 6012,
       "restrictedTypes": 200,
       "deprecatedTypes": 19,
-      "sourceUnmatchedMembers": 428,
-      "membersWithSourceDeclarationMatch": 5548,
-      "membersWithoutSourceDeclarationMatch": 464,
-      "ambiguousSourceMemberMatches": 346
+      "sourceUnmatchedMembers": 469,
+      "membersWithSourceDeclarationMatch": 5504,
+      "membersWithoutSourceDeclarationMatch": 508,
+      "ambiguousSourceMemberMatches": 0
     }
   },
   "inspectedAt": "2026-10-29",
