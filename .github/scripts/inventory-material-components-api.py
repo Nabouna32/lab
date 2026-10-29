@@ -136,8 +136,11 @@ def type_parameter_bounds(signature, method=False):
     return bounds
 
 
-def erase_binary_parameter_types(parameter_types, class_signature, member_signature):
+def erase_binary_parameter_types(parameter_types, class_signature, member_signature, inherited_class_signatures=()):
     variables = type_parameter_bounds(class_signature)
+    for inherited_signature in inherited_class_signatures:
+        for name, bound in type_parameter_bounds(inherited_signature).items():
+            variables.setdefault(name, bound)
     variables.update(type_parameter_bounds(member_signature, method=True))
     erased = []
     for parameter_type in parameter_types:
@@ -260,11 +263,11 @@ def inherited_source_owners(owner, parsed_sections, source_types):
     section = parsed_sections.get(owner)
     if section is None:
         return []
-    pending = list(class_supertypes(section["signature"]))
+    pending = list(reversed(class_supertypes(section["signature"])))
     visited = set()
     owners = []
     while pending:
-        parent = pending.pop(0)
+        parent = pending.pop()
         if parent in visited:
             continue
         visited.add(parent)
@@ -272,8 +275,14 @@ def inherited_source_owners(owner, parsed_sections, source_types):
             owners.append(parent)
         parent_section = parsed_sections.get(parent)
         if parent_section is not None:
-            pending.extend(class_supertypes(parent_section["signature"]))
+            pending.extend(reversed(class_supertypes(parent_section["signature"])))
     return owners
+
+
+def source_owners_for_member(owner, member_name, parsed_sections, source_types):
+    if member_name == "<init>":
+        return []
+    return inherited_source_owners(owner, parsed_sections, source_types)
 
 
 def signature_parameter_types(signature):
@@ -436,12 +445,19 @@ def main():
                     arity = 0
                     parameter_types = []
                     member_kind = "field"
+                inherited_owners = source_owners_for_member(
+                    binary_name, member_name, parsed_sections, source_types
+                ) if member_name else []
+                inherited_signatures = [
+                    parsed_sections[inherited_owner]["signature"]
+                    for inherited_owner in inherited_owners if inherited_owner in parsed_sections
+                ]
                 erased_parameter_types = erase_binary_parameter_types(
-                    parameter_types or [], class_signature, signature
+                    parameter_types or [], class_signature, signature, inherited_signatures
                 ) if member_kind == "method" else []
                 member_info = source_member_info(
                     source_members, binary_name, member_name, erased_parameter_types, member_kind,
-                    inherited_source_owners(binary_name, parsed_sections, source_types),
+                    inherited_owners,
                 ) if member_name else {"restricted": False, "deprecated": False, "matched": False, "ambiguous": False, "sourceOwner": None, "inherited": False}
                 declaration_type_info = source_types.get(member_info.get("sourceOwner"), {})
                 member_restricted = member_info["restricted"] or declaration_type_info.get("restricted", False)
