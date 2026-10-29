@@ -151,8 +151,11 @@ async function main() {
     report.provenance.sourcesSha1 = sources.sha1;
     report.provenance.sourcesSizeBytes = sources.sizeBytes;
     report.provenance.sourcesChecksums = sources.checksums;
-    await writeFile(outputPath, `${JSON.stringify(report, null, 2)}\n`);
-    // Emit the complete generated report in bounded chunks so the run can be audited and versioned.
+    await writeFile(outputPath, `${JSON.stringify(report, null, 2)}\\n`);
+    if (report.summary.javapFailures > 0) {
+      throw new Error(`javap failed to inspect ${report.summary.javapFailures} class files; review the generated report before accepting the inventory.`);
+    }
+    // Emit the final report after all binary/source provenance fields have been added.
     const encoded = Buffer.from(await readFile(outputPath)).toString('base64');
     console.log('API_INVENTORY_JSON_BASE64_BEGIN');
     for (let offset = 0; offset < encoded.length; offset += 30000) {
