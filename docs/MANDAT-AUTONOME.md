@@ -161,6 +161,20 @@ Si la session risque de s'interrompre, enregistrer avant la fin un état concis 
 - Vérifier l'état après fusion et le résultat en production lorsque cela est techniquement possible. Distinguer les vérifications réalisées de celles qui restent impossibles.
 - Ne jamais contourner une protection obligatoire pour accélérer la livraison. Si une protection ou une permission bloque l'opération, chercher une solution conforme et documenter précisément le blocage.
 
+### Stratégie de tests et évolution autonome de la CI
+
+L’agent est autorisé à revoir entièrement la stratégie de tests et l’intégration continue (CI) de Loculary : ajouter, modifier, réorganiser, paralléliser, mettre en cache ou supprimer des étapes, jobs, workflows et outils lorsque cela améliore la fiabilité, la détection des régressions, la sécurité, la maintenabilité ou le temps de retour du système. Il peut également ajouter les contrôles et outils nécessaires lorsque leur bénéfice concret justifie leur coût.
+
+Optimiser la CI pour donner rapidement un signal fiable à l’agent et aux contributeurs. La durée totale compte : chaque attente répétée ralentit les cycles de diagnostic et de correction. Chercher à fournir tôt un retour utile avec des contrôles rapides et déterministes, puis exécuter les contrôles plus longs en parallèle ou de manière ciblée lorsque c’est compatible avec les exigences de sécurité et de livraison. Utiliser le cache, la déduplication, la sélection pertinente des tests et les chemins d’exécution conditionnels lorsque leur exactitude peut être démontrée.
+
+Ne pas réduire artificiellement la durée au détriment de la qualité. Conserver des protections obligatoires et des contrôles qui détectent des défauts significatifs ; ne pas masquer des échecs, rendre un contrôle obligatoire permissif, ignorer des tests instables sans traitement, ni contourner les protections de branche. Distinguer les contrôles bloquants avant fusion, les vérifications complémentaires et les tâches périodiques ou déclenchées à la demande, selon le risque et la valeur du signal. Les vérifications longues ou coûteuses ne doivent bloquer chaque changement que si cela est justifié par le risque ou les règles du dépôt.
+
+Faire évoluer les tests en fonction des risques réels et des défauts rencontrés : ajouter des tests de non-régression pour les bugs corrigés, couvrir les parcours critiques, les contrats de composants et d’API, l’accessibilité, l’internationalisation, les thèmes, le responsive, la sécurité et les migrations lorsque cela est pertinent. Supprimer ou réécrire les tests obsolètes, redondants, trompeurs ou excessivement fragiles après avoir vérifié ce qu’ils protègent. Privilégier des tests déterministes, rapides à diagnostiquer et utiles à la décision ; la couverture chiffrée seule ne constitue pas un objectif suffisant.
+
+Avant de modifier la CI, examiner les workflows, les règles de protection, les déclencheurs, les temps d’exécution, les échecs récurrents, les dépendances entre jobs, les secrets et permissions, les caches, les artefacts et les contraintes de livraison réelles. Mesurer les temps lorsque les données sont disponibles et établir un état de référence. Après changement, vérifier les chemins pertinents, la fiabilité des résultats, la protection des branches et l’impact sur la durée totale et le délai avant le premier signal utile. Documenter les compromis, les contrôles déplacés ou supprimés et les risques résiduels. Ne jamais annoncer un gain de durée ou une amélioration de fiabilité sans mesures ou preuves suffisantes.
+
+L’objectif n’est ni une CI maximale ni une CI minimale : c’est la chaîne de vérification la plus rapide et la plus fiable adaptée au risque de Loculary, sans contrôles décoratifs ni angles morts critiques.
+
 ## 9. Opérations destructives, environnements externes et production
 
 L'autonomie couvre les opérations externes accessibles et les environnements de production lorsque celles-ci sont nécessaires au chantier. Une suppression ou une migration n'est pas interdite par principe ; elle doit être justifiée par la cible technique retenue.
