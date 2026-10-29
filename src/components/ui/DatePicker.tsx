@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { CSSProperties, KeyboardEvent } from "react";
 import styles from "./DatePicker.module.css";
+import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import { addCalendarMonthsClamped, createCalendarDate, parseCalendarDate } from "@/lib/calendar-date";
 
 export type DateRangeValue = { start: string; end: string };
@@ -163,8 +164,8 @@ export function DatePicker({
       <div className={styles.header}>
         <strong>{monthFormatter.format(displayedMonth)}</strong>
         <div className={styles.monthActions}>
-          <button type="button" onClick={() => changeMonth(-1)} aria-label={locale.startsWith("fr") ? "Mois précédent" : "Previous month"}>‹</button>
-          <button type="button" onClick={() => changeMonth(1)} aria-label={locale.startsWith("fr") ? "Mois suivant" : "Next month"}>›</button>
+          <button type="button" onClick={() => changeMonth(-1)} aria-label={locale.startsWith("fr") ? "Mois précédent" : "Previous month"}><MaterialIcon name="chevron_left" size={20} /></button>
+          <button type="button" onClick={() => changeMonth(1)} aria-label={locale.startsWith("fr") ? "Mois suivant" : "Next month"}><MaterialIcon name="chevron_right" size={20} /></button>
         </div>
       </div>
       <div className={styles.calendar} role="grid" aria-label={monthFormatter.format(displayedMonth)}>

@@ -1169,3 +1169,20 @@ test("back navigation uses the shared Material Symbols icon", () => {
   assert.doesNotMatch(admin, /←/u);
   assert.doesNotMatch(workbench, /←/u);
 });
+
+
+test("date, navigation rail and PDF controls use shared Material Symbols", () => {
+  const rail = readFileSync(new URL("../../components/ui/WideNavigationRail.tsx", import.meta.url), "utf8");
+  const datePicker = readFileSync(new URL("../../components/ui/DatePicker.tsx", import.meta.url), "utf8");
+  const workbench = readFileSync(new URL("../../app/[locale]/design-lab/audit/ComponentAuditWorkbench.tsx", import.meta.url), "utf8");
+  const imageToPdf = readFileSync(new URL("../../components/tools/image-to-pdf/ImageToPdf.tsx", import.meta.url), "utf8");
+  assert.match(rail, /MaterialIcon name=\{expanded \? "chevron_left" : "chevron_right"\}/);
+  assert.match(datePicker, /MaterialIcon name="chevron_left"/);
+  assert.match(datePicker, /MaterialIcon name="chevron_right"/);
+  assert.match(workbench, /MaterialIcon name="arrow_outward"/);
+  assert.doesNotMatch(workbench, /↗/u);
+  assert.match(imageToPdf, /MaterialIcon name="picture_as_pdf"/);
+  assert.match(imageToPdf, /keyboard_arrow_up/);
+  assert.match(imageToPdf, /keyboard_arrow_down/);
+  assert.doesNotMatch(imageToPdf, /[📄↑↓]/u);
+});
