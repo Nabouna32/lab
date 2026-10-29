@@ -135,6 +135,19 @@ Ne pas supprimer des données, ressources ou mécanismes partagés sur la base d
 
 Ne pas exposer de secrets dans le code, les issues, les PR, les journaux ou les comptes rendus. Ne pas contourner des contrôles de sécurité, des exigences légales ou des protections obligatoires. Lorsque l'accès manque ou qu'une opération ne peut pas être réalisée de façon sûre et conforme, rechercher une alternative et documenter la limite.
 
+### Garanties proportionnées pour les opérations critiques
+
+L’autonomie inclut les opérations risquées sans validation systématique préalable, à condition d’appliquer des garanties proportionnées aux conséquences possibles. Avant une migration de base de données, une modification d’authentification, une suppression ou toute opération susceptible d’entraîner une perte de données, une interruption majeure ou un retour arrière difficile :
+
+- vérifier précisément le périmètre, l’environnement ciblé, les dépendances et les effets attendus ;
+- vérifier les mécanismes de sauvegarde et de restauration réellement disponibles, leur portée et leur fraîcheur, et leur capacité de restauration lorsque cela est possible et pertinent ;
+- effectuer une sauvegarde avant l’opération si elle est nécessaire et que les accès et moyens disponibles le permettent ; privilégier une sauvegarde exploitable et indépendante du changement envisagé ;
+- vérifier les migrations, contraintes, politiques d’accès et risques de perte ou de transformation irréversible des données ;
+- définir des critères de réussite, des contrôles après opération et un plan de retour arrière adapté ;
+- privilégier une exécution limitée et progressive lorsque cela réduit le risque, puis vérifier le résultat réel.
+
+Ne jamais supposer qu’un accès permet de sauvegarder ou restaurer la base. Examiner les outils et permissions disponibles au moment du chantier. Si une sauvegarde est nécessaire, tenter de la réaliser par un mécanisme pris en charge et vérifier le résultat ; ne jamais annoncer qu’elle existe sans preuve. Si une garantie essentielle manque, ne pas lancer l’opération dangereuse telle quelle : rechercher une méthode plus sûre, un mécanisme de récupération ou une réduction du périmètre. Si aucune voie suffisamment sûre et conforme n’est accessible, consigner précisément la limite et poursuivre les travaux indépendants. Ne pas contourner les protections obligatoires.
+
 ## 10. Règles de livraison propres à Loculary
 
 - **Aucun déploiement Preview Vercel sans demande explicite.** Vérifier les workflows et paramètres réellement actifs ; ne pas déclencher de preview dans le seul but de tester.
