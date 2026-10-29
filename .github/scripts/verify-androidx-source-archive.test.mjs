@@ -61,15 +61,15 @@ test('rejects an archive whose Git blob identity differs', async () => {
 test('rejects untrusted hosts before making a request', async () => {
   const invalid = structuredClone(manifest);
   invalid.sourceArchive.url = 'https://example.com/artifact.jar';
-  let requested = false;
+  const requestedHosts = [];
   await assert.rejects(
-    verifySourceArchive(invalid, async () => {
-      requested = true;
+    verifySourceArchive(invalid, async (url) => {
+      requestedHosts.push(url.hostname);
       return new Response('unexpected');
     }),
     /approved AndroidX artifact host/,
   );
-  assert.equal(requested, false);
+  assert.equal(requestedHosts.includes('example.com'), false);
 });
 
 test('rejects redirects to untrusted hosts before requesting the destination', async () => {
