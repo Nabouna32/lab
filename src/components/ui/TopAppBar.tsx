@@ -17,7 +17,7 @@ type TopAppBarProps = {
 
 /** Source-informed Web adaptation of AndroidX small/center-aligned/medium/large top app bars. */
 export function TopAppBar({
-  title, variant = "small", navigationIcon, navigationLabel, onNavigationClick, actions, collapsed = false, className = "",
+  title, variant = "small", navigationIcon, navigationLabel = "Open navigation", onNavigationClick, actions, collapsed = false, className = "",
 }: TopAppBarProps) {
   const expanded = (variant === "medium" || variant === "large") && !collapsed;
   const showNavigation = Boolean(onNavigationClick);
