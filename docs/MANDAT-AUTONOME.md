@@ -1,7 +1,7 @@
 # Mandat autonome de Loculary
 
 **Version :** V1 — document évolutif  
-**Statut :** proposition suivie dans une pull request ; les décisions complémentaires pourront être intégrées par commits successifs.  
+**Statut :** mandat actif, adopté et appliqué dans le mode autonome ; les décisions complémentaires pourront être intégrées par commits successifs.  
 **Langue de travail :** français, sauf identifiants et conventions techniques qui suivent les usages internationaux.
 
 ## 1. Mission
