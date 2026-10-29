@@ -8,10 +8,10 @@ import tempfile
 import zipfile
 from pathlib import Path
 
-HEADER = re.compile(r"^(?P<mods>(?:(?:public|protected|abstract|final|static|strictfp|sealed|non-sealed)\\s+)*)?(?P<kind>class|interface|enum|record|@interface)\\s+(?P<name>[\\w.$]+)")
-MEMBER = re.compile(r"^\\s{2}(?P<signature>(?:(?:public|protected|static|final|abstract|synchronized|native|strictfp|default|transient|volatile)\\s+)*.+?;?)\\s*$")
-RESTRICTED = re.compile(r"@RestrictTo\\s*\\(")
-DEPRECATED = re.compile(r"@Deprecated|@deprecated\\b")
+HEADER = re.compile(r"^(?P<mods>(?:(?:public|protected|abstract|final|static|strictfp|sealed|non-sealed)\s+)*)?(?P<kind>class|interface|enum|record|@interface)\s+(?P<name>[\w.$]+)")
+MEMBER = re.compile(r"^\s{2}(?P<signature>(?:(?:public|protected|static|final|abstract|synchronized|native|strictfp|default|transient|volatile)\s+)*.+?;?)\s*$")
+RESTRICTED = re.compile(r"@RestrictTo\s*\(")
+DEPRECATED = re.compile(r"@Deprecated|@deprecated\b")
 
 def source_path_for(binary_name):
     top_level = binary_name.split("$", 1)[0]
@@ -25,9 +25,9 @@ def source_context(source, simple_name, member_name=None):
         if target not in line:
             continue
         # Only consider likely declarations, not arbitrary references or method calls.
-        if member_name and not re.search(r"\\b" + re.escape(member_name) + r"\\s*\\(", line) and not re.search(r"\\b" + re.escape(member_name) + r"\\s*(?:;|=)", line):
+        if member_name and not re.search(r"\b" + re.escape(member_name) + r"\s*\(", line) and not re.search(r"\b" + re.escape(member_name) + r"\s*(?:;|=)", line):
             continue
-        if not member_name and not re.search(r"\\b(?:class|interface|enum|record)\\s+" + re.escape(simple_name) + r"\\b", line):
+        if not member_name and not re.search(r"\b(?:class|interface|enum|record)\s+" + re.escape(simple_name) + r"\b", line):
             continue
         start = max(0, index - 14)
         context = "\n".join(lines[start:index + 1])
@@ -118,10 +118,10 @@ def main():
                 if signature in {"{", "}", "static {}"} or signature.startswith("Compiled from"):
                     continue
                 if "(" in signature:
-                    member_name_match = re.search(r"([A-Za-z_$][\\w$]*)\\s*\\(", signature)
+                    member_name_match = re.search(r"([A-Za-z_$][\w$]*)\s*\(", signature)
                 else:
                     field_signature = signature.split("=", 1)[0].rstrip("; ").strip()
-                    member_name_match = re.search(r"([A-Za-z_$][\\w$]*)$", field_signature)
+                    member_name_match = re.search(r"([A-Za-z_$][\w$]*)$", field_signature)
                 member_name = member_name_match.group(1) if member_name_match else None
                 member_info = source_context(source, binary_name.split("$")[-1], member_name) if source and member_name else {"restricted": False, "deprecated": False, "matched": False}
                 if source_info["restricted"] or member_info["restricted"]:
