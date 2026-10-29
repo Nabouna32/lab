@@ -153,5 +153,6 @@ test('production build runs independently and remains covered by the required st
 });
 
 test('governance changes execute every CI tooling test instead of maintaining a partial list', () => {
-  assert.ok(workflow.includes('run: node --test .github/scripts/*.test.mjs'));
+  assert.ok(workflow.includes('node --test .github/scripts/*.test.mjs'));
+  assert.ok(workflow.includes('python3 .github/scripts/test_inventory_material_components_api.py'));
 });

@@ -29,10 +29,41 @@
     }
   },
   "apiInventory": {
-    "status": "not-started",
-    "method": "pending-source-archive-verification",
+    "status": "provisional-not-exhaustive",
+    "method": "published AAR classes.jar inspected with javap -protected; source annotations matched by bounded context heuristic",
     "publicApiDumpInTag": false,
-    "notes": "MDC-Android Views est en maintenance mode. Le dépôt au tag épinglé ne contient pas de dump API classique ; l'inventaire doit distinguer API publiques, @RestrictTo, dépréciations et types internes."
+    "reportPath": "docs/material3/catalog/baselines/material-components-views-1.14.0-api-inventory.json",
+    "notes": "Le rapport est un index candidat des signatures binaires publiques/protégées, pas un dump officiel. Le rapprochement des annotations avec les sources est heuristique ; les non-appariements et signatures ambiguës doivent être revus avant toute affirmation d’exhaustivité. Le rapport JSON décrit 1 107 classes binaires : 523 types publics/protégés et 6 012 membres visibles par javap ; 525 membres n’ont pas eu de correspondance d’annotation dans le contexte source heuristique et restent à examiner.",
+    "generatedAt": "2026-10-29",
+    "summary": {
+      "binaryClassFiles": 1107,
+      "publicOrProtectedTypes": 523,
+      "internalOrNonPublicTypes": 584,
+      "sourceMatchedPublicTypes": 523,
+      "publicTypesWithoutSource": 0,
+      "sourceFilesWithoutBinaryTopLevelClass": 4,
+      "javapFailures": 0,
+      "publicOrProtectedMembers": 6012,
+      "restrictedTypes": 67,
+      "deprecatedTypes": 8,
+      "sourceUnmatchedMembers": 0,
+      "membersWithSourceAnnotationContextMatch": 5487,
+      "membersWithoutSourceAnnotationContextMatch": 525
+    }
   },
-  "inspectedAt": "2026-10-29"
+  "inspectedAt": "2026-10-29",
+  "binaryArchive": {
+    "url": "https://dl.google.com/dl/android/maven2/com/google/android/material/material/1.14.0/material-1.14.0.aar",
+    "checksumStatus": "verified-against-google-maven-sidecars",
+    "publishedSha256": "19e8fab43df6870f8e4322059624384be0279da56dc910529ff591dc674008cd",
+    "publishedSha1": "b44cfc942dbe846c607aa50738e2bb1272796f8c",
+    "sizeBytes": 2741429,
+    "verification": {
+      "date": "2026-10-29",
+      "workflowRun": "https://github.com/Nabouna32/lab/actions/runs/40955871863",
+      "verifiedCommit": "42a4a3119b096f6d85bb3b1de91fc251760d4d6c",
+      "result": "passed",
+      "method": "CI downloaded the official Google Maven AAR, verified published SHA-256 and SHA-1 sidecars, extracted classes.jar, and inspected all class files with javap -protected."
+    }
+  }
 }

@@ -59,5 +59,6 @@ test("Material Components Views source archive provenance is verified and pinned
   assert.equal(materialComponentsBaseline.sourceArchive.gitBlobSha1, "02ca28f3426728ed7b02f89c6d5f1973e9e711d7");
   assert.equal(materialComponentsBaseline.sourceArchive.sizeBytes, 1361931);
   assert.equal(materialComponentsBaseline.sourceArchive.verification.result, "passed");
-  assert.equal(materialComponentsBaseline.apiInventory.status, "not-started");
+  assert.equal(materialComponentsBaseline.apiInventory.status, "provisional-not-exhaustive");
+  assert.equal(materialComponentsBaseline.apiInventory.reportPath, "docs/material3/catalog/baselines/material-components-views-1.14.0-api-inventory.json");
 });
