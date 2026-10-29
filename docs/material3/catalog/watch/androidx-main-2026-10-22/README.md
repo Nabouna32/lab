@@ -1,5 +1,7 @@
 # AndroidX Material 3 — snapshot de veille
 
+La référence de portage stable 1.4.0 et ses limites de provenance sont documentées séparément dans [le manifeste de baseline](../baselines/material3-1.4.0.json).
+
 Ce snapshot est un inventaire reproductible de la surface API publique contenue dans `current.txt` au commit AndroidX immuable `5901d750e269aa3d88f6fccd5186637df83a0173`.
 
 - Source : [`compose/material3/material3/api/current.txt`](https://github.com/androidx/androidx/blob/5901d750e269aa3d88f6fccd5186637df83a0173/compose/material3/material3/api/current.txt)
