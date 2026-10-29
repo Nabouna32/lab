@@ -47,6 +47,19 @@ class SourceIndexTests(unittest.TestCase):
         self.assertEqual(result["sourceOwner"], "pkg.BaseWidget")
         self.assertTrue(result["deprecated"])
 
+    def test_erases_class_and_method_type_variables_using_their_bounds(self):
+        class_signature = (
+            "public class BaseBehavior<T extends android.view.View> "
+            "extends pkg.HeaderBehavior<T> {"
+        )
+        method_signature = (
+            "public <U extends java.lang.CharSequence> void bind(T, U, T[]);"
+        )
+        self.assertEqual(
+            MODULE.erase_binary_parameter_types(["T", "U", "T[]"], class_signature, method_signature),
+            ["android.view.View", "java.lang.CharSequence", "android.view.View[]"],
+        )
+
     def test_class_supertypes_skips_generic_bounds_and_erases_type_arguments(self):
         signature = (
             "public class RangeSlider<T extends java.lang.Number> "
