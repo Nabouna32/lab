@@ -56,13 +56,15 @@ test("homepage compositions reuse the shared width, gutters and spacing tokens",
 test("shared Material 3 typography roles are consumed by reusable site components", () => {
   const globalStyles = readSource("../../app/globals.css");
   const buttonSource = readSource("../../components/ui/Button.tsx");
+  const buttonLayoutSource = readSource("../../components/ui/material-button-layout.ts");
   const toolCardSource = readSource("../../components/tools/ToolCard.tsx");
   const toolHeaderSource = readSource("../../components/tools/ToolPage/ToolPageHeader.tsx");
 
   for (const role of ["display-large", "headline-large", "title-medium", "body-medium", "label-large"]) {
     assert.ok(globalStyles.includes(`.m3-type-${role}`), `missing shared typography role: ${role}`);
   }
-  assert.ok(buttonSource.includes("m3-type-label-large"));
+  assert.ok(buttonSource.includes("getMaterialButtonLayoutClasses"));
+  assert.ok(buttonLayoutSource.includes("m3-type-label-large"));
   assert.ok(homeWorkflowsSource.includes("m3-type-title-medium"));
   assert.ok(homeWorkflowsSource.includes("m3-type-body-medium"));
   assert.ok(toolCardSource.includes("m3-type-title-medium"));

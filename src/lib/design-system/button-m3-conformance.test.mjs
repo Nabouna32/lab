@@ -5,6 +5,7 @@ import { test } from "node:test";
 const button = readFileSync(new URL("../../components/ui/Button.tsx", import.meta.url), "utf8");
 const submitButton = readFileSync(new URL("../../components/account/SubmitButton.tsx", import.meta.url), "utf8");
 const buttonVariantStyles = readFileSync(new URL("../../components/ui/material-button-variant-styles.ts", import.meta.url), "utf8");
+const buttonLayout = readFileSync(new URL("../../components/ui/material-button-layout.ts", import.meta.url), "utf8");
 const buttonRipple = readFileSync(new URL("../../components/ui/ButtonRipple.tsx", import.meta.url), "utf8");
 const iconButton = readFileSync(new URL("../../components/ui/IconButton.tsx", import.meta.url), "utf8");
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
@@ -40,10 +41,10 @@ test("shared Button exports AndroidX component names with source-derived dimensi
   assert.ok(button.includes("border: border ?? \"none\""), "a null border maps to no CSS border");
   assert.ok(buttonVariantStyles.includes("disabledContainerColor?: string") && buttonVariantStyles.includes("disabledContentColor?: string"));
   assert.ok(!button.includes("DestructiveButton"), "no Loculary-only destructive component remains");
-  const buttonContract = button + buttonVariantStyles;
+  const buttonContract = button + buttonVariantStyles + buttonLayout;
   for (const required of [
     "min-h-10", "min-w-[58px]", "whitespace-nowrap", "whitespace-pre-line",
-    "leadingIcon?: boolean", "multiline?: boolean", "pl-3 pr-4", "pl-4 pr-6",
+    "leadingIcon?: boolean", "multiline?: boolean", "ps-3 pe-4", "ps-4 pe-6",
     "transition-[background-color,border-color,color,box-shadow]", "motion-reduce:transition-none",
     "--button-disabled-container-color",
     "--button-disabled-content-color",
@@ -72,11 +73,18 @@ test("Button disabled colors follow AndroidX variant token roles", () => {
 
 
 test("button-styled links preserve anchors and share the ripple interaction", () => {
+  assert.doesNotMatch(auditPreview, /topBar=\{<TopAppBar[^>]*onNavigationClick=\{\(\) => undefined\}/, "the Scaffold preview must not show an inert navigation action");
   assert.match(appLink, /import NextLink, \{ type LinkProps \} from "next\/link"/);
   assert.match(appLink, /data-material-button-link=\{isMaterialButton \? "true" : undefined\}/);
   assert.match(appLink, /isMaterialButton \? <ButtonRipple \/> : null/);
-  assert.match(appLink, /materialButtonVariantStyles\[variant as MaterialButtonVariant\]/);
+  assert.match(appLink, /materialButtonVariantStyles\[variant\]/);
   assert.match(appLink, /getMaterialButtonInlineStyle\(isMaterialButton/);
+  assert.match(button, /getMaterialButtonLayoutClasses\(variant, \{ leadingIcon, multiline \}\)/);
+  assert.match(appLink, /getMaterialButtonLayoutClasses\(variant, \{ leadingIcon \}\)/);
+  assert.match(buttonLayout, /min-h-10/);
+  assert.match(buttonLayout, /min-w-\[58px\]/);
+  assert.match(buttonLayout, /ps-3 pe-4/);
+  assert.match(buttonLayout, /ps-4 pe-6/);
 });
 
 test("remaining generic text actions use shared Button variants and their obsolete local styles are removed", () => {
@@ -162,12 +170,11 @@ test("icon button API separates official action variants from toggle variants", 
   assert.ok(iconButton.includes("checked: boolean") && iconButton.includes("onCheckedChange: (checked: boolean) => void"));
   assert.ok(iconButton.includes("h-12 min-h-12 w-12 min-w-12"));
   assert.ok(iconButton.includes("h-10 min-h-10 w-10 min-w-10"));
-  assert.ok(iconButton.includes('role={isToggle ? "checkbox" : undefined}'));
+  assert.ok(iconButton.includes("aria-pressed={isToggle ? checked : undefined}"), "toggle buttons expose their pressed state");
   assert.ok(iconButton.includes('aria-hidden="true"'));
   assert.ok(iconButton.includes('import { ButtonRipple } from "@/components/ui/ButtonRipple"'));
   assert.ok(iconButton.includes("<ButtonRipple />"), "icon buttons use the shared bounded ripple adaptation");
   assert.ok(iconButton.includes("group relative isolate inline-flex"), "the ripple layer is positioned inside the native button");
-  assert.ok(iconButton.includes('role={isToggle ? "checkbox" : undefined}') && iconButton.includes("aria-checked={isToggle ? checked : undefined}"), "toggle semantics match AndroidX Role.Checkbox");
   assert.ok(iconButton.includes("relative isolate inline-flex shrink-0 items-center justify-center rounded-full"), "the 40px surface clips the ripple separately from the 48px touch target");
   assert.ok(iconButton.includes("var(--secondary-container)") && iconButton.includes("var(--on-secondary-container)"));
   assert.ok(iconButton.includes("ref?: Ref<HTMLButtonElement>"));

@@ -20,6 +20,20 @@
 - **LOCULARY-EXTENSION** — `CardLink` associe l'apparence d'une carte à un lien Next.js ; ce n'est pas une API AndroidX.
 - **UNVERIFIED** — les valeurs exactes de forme, surface, contour et élévation de la version publiée ne sont pas encore reliées de façon reproductible à l'implémentation.
 
+## Valeurs établies dans le snapshot épinglé
+
+Le snapshot AndroidX immuable cité plus haut permet de vérifier les tokens suivants **pour cette révision uniquement** :
+
+| Variante | Conteneur au repos | Forme | Élévation au repos | États d'interaction |
+|---|---|---|---|---|
+| `Card` remplie | `surfaceContainerHighest` | `cornerMedium` | `level0` | survol `level1`, glissement `level3` |
+| `ElevatedCard` | `surfaceContainerLow` | `cornerMedium` | `level1` | survol `level2`, glissement `level4` |
+| `OutlinedCard` | `surface` | `cornerMedium` | `level0` | contour `outlineVariant` au repos et au survol ; élévation `level1` au survol |
+
+Sources directes de ces constats : `Card.kt`, `FilledCardTokens.kt`, `ElevatedCardTokens.kt` et `OutlinedCardTokens.kt` au même commit AndroidX épinglé. Les variantes interactives ont également des états de focus, d'appui et de glissement spécifiques. Les couleurs et élévations des états doivent être portées lorsqu'une carte interactive est implémentée.
+
+**Limite de provenance :** ces valeurs sont vérifiées dans le snapshot Git immuable, mais l'alignement de ce snapshot avec l'archive publiée Material 3 1.4.0 n'est pas démontré. Elles ne doivent donc pas être présentées comme la preuve d'une parité exacte avec cette version publiée.
+
 ## Implémentation actuelle
 
 - `Card` utilise `surface-container-highest`.

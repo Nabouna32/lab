@@ -1,5 +1,6 @@
 import type { ButtonHTMLAttributes, CSSProperties, Ref } from "react";
 import { ButtonRipple } from "@/components/ui/ButtonRipple";
+import { getMaterialButtonLayoutClasses } from "@/components/ui/material-button-layout";
 import { getMaterialButtonInlineStyle, materialButtonVariantStyles, type MaterialButtonColors, type MaterialButtonVariant } from "@/components/ui/material-button-variant-styles";
 
 export type ButtonColors = MaterialButtonColors;
@@ -53,11 +54,6 @@ function MaterialButton({
   children,
   ...props
 }: ButtonProps & { variant: ButtonStyle }) {
-  const layout = multiline ? "min-w-0 shrink whitespace-pre-line text-center" : "min-w-[58px] shrink-0 whitespace-nowrap";
-  const isTextVariant = variant === "text";
-  const horizontalPadding = isTextVariant
-    ? leadingIcon ? "pl-3 pr-4" : "px-3"
-    : leadingIcon ? "pl-4 pr-6" : "px-6";
   const mergedStyle = {
     ...getMaterialButtonInlineStyle(variant, colors, style),
     ...(shape === undefined ? {} : { borderRadius: shape }),
@@ -77,11 +73,7 @@ function MaterialButton({
       disabled={disabled ?? !enabled}
       style={mergedStyle}
       className={[
-        "m3-type-label-large relative isolate inline-flex min-h-10 items-center justify-center gap-2 rounded-full py-2",
-        layout,
-        horizontalPadding,
-        "transition-[background-color,border-color,color,box-shadow] duration-[var(--motion-standard)] motion-reduce:transition-none",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]",
+        getMaterialButtonLayoutClasses(variant, { leadingIcon, multiline }),
         "disabled:pointer-events-none disabled:cursor-not-allowed",
         styles[variant],
         className,
