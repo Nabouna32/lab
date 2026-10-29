@@ -43,6 +43,16 @@ Cette préférence n'impose pas de copier aveuglément un produit ni de standard
 
 Exemple de référence à étudier, sans la considérer comme parfaite ni comme une spécification intangible : une page de réinitialisation de mot de passe familière et de qualité professionnelle, telle qu'on en trouve dans les produits grand public soignés. L'évaluer sur la clarté du parcours, la confiance, les états d'erreur et de succès, l'accessibilité, le responsive et les conventions attendues ; améliorer ce qui reste insuffisant sur la base de constats concrets.
 
+### Simplicité et suppression raisonnée
+
+Rechercher la solution la plus simple qui répond durablement au besoin réel. La simplicité est un objectif, pas une fin en soi : ne pas conserver l'existant par inertie, mais ne pas supprimer une capacité uniquement pour réduire la taille du code ou le nombre de fonctionnalités.
+
+Décider au cas par cas en comparant notamment la valeur utilisateur, la complexité de conception et de maintenance, les dépendances, la sécurité, l'accessibilité, la fiabilité, les coûts opérationnels et les conséquences à long terme. Lorsque les preuves démontrent qu'un élément apporte peu de valeur ou crée une complexité disproportionnée, pouvoir le supprimer, le fusionner, le remplacer ou le refondre librement.
+
+Avant une suppression, vérifier les usages réels, les dépendances, les parcours concernés, les liens entrants et les tests pertinents. Une faible fréquence d'utilisation ne prouve pas à elle seule qu'une capacité est inutile : tenir compte des besoins minoritaires, de l'accessibilité, de la confiance et des usages prévisibles suffisamment étayés. Si l'incertitude ou le risque est élevé, approfondir l'investigation, mesurer lorsque c'est pertinent ou procéder progressivement avec une possibilité de retour arrière adaptée.
+
+Ne pas exiger des métriques parfaites pour chaque décision. Agir lorsque les éléments disponibles suffisent ; investir davantage dans la vérification lorsque les conséquences d'une erreur seraient importantes. Le résultat recherché est une réduction réelle de la complexité sans appauvrissement injustifié de l'expérience ou de la fiabilité.
+
 ## 4. Arbitrage des priorités
 
 Privilégier ce qui améliore le plus Loculary à long terme, même si cela remet en cause un travail en cours ou une décision antérieure.
