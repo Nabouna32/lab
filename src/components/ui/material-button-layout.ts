@@ -20,8 +20,8 @@ export function getMaterialButtonLayoutClasses(
     ? "min-w-0 shrink whitespace-pre-line text-center"
     : "min-w-[58px] shrink-0 whitespace-nowrap";
   const horizontalPadding = isTextVariant
-    ? leadingIcon ? "pl-3 pr-4" : "px-3"
-    : leadingIcon ? "pl-4 pr-6" : "px-6";
+    ? leadingIcon ? "ps-3 pe-4" : "px-3"
+    : leadingIcon ? "ps-4 pe-6" : "px-6";
 
   return [
     "m3-type-label-large relative isolate inline-flex min-h-10 items-center justify-center gap-2 rounded-full py-2",
