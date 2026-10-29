@@ -23,7 +23,10 @@ test("Material 3 stable source provenance is pinned without overstating API alig
   assert.match(baseline.sourceArchive.checksumUrl, /material3-1\.4\.0-sources\.jar\.sha256$/);
   assert.match(baseline.sourceArchive.gitilesBlobId, /^[a-f0-9]{40}$/);
   assert.match(baseline.sourceArchive.publishedSha256, /^[a-f0-9]{64}$/);
-  assert.match(baseline.sourceArchive.checksumStatus, /not-rehashed/);
+  assert.equal(baseline.sourceArchive.checksumStatus, "verified-against-downloaded-archive");
+  assert.equal(baseline.sourceArchive.verification.result, "passed");
+  assert.match(baseline.sourceArchive.verification.verifiedCommit, /^[a-f0-9]{40}$/);
+  assert.match(baseline.sourceArchive.verification.workflowRun, /^https:\/\/github\.com\/Nabouna32\/lab\/actions\/runs\/\d+$/);
 
   assert.match(baseline.repositoryApiInspection.commit, /^[a-f0-9]{40}$/);
   assert.equal(baseline.repositoryApiInspection.stableDumpPresentAtPinnedCommit, false);

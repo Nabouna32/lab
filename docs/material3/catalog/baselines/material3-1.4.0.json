@@ -8,11 +8,18 @@
     "releaseNotesUrl": "https://developer.android.com/jetpack/androidx/releases/compose-material3"
   },
   "sourceArchive": {
-    "url": "https://android.googlesource.com/platform/prebuilts/androidx/internal/+/refs/heads/androidx-collection-release/androidx/compose/material3/material3/1.4.0/material3-1.4.0-sources.jar",
-    "checksumUrl": "https://android.googlesource.com/platform/prebuilts/androidx/internal/+/refs/heads/androidx-collection-release/androidx/compose/material3/material3/1.4.0/material3-1.4.0-sources.jar.sha256",
+    "url": "https://dl.google.com/dl/android/maven2/androidx/compose/material3/material3/1.4.0/material3-1.4.0-sources.jar",
+    "checksumUrl": "https://dl.google.com/dl/android/maven2/androidx/compose/material3/material3/1.4.0/material3-1.4.0-sources.jar.sha256",
     "gitilesBlobId": "665e57823c7b99dcc36a392b7703528bf365ec8e",
     "publishedSha256": "08a23a069407ba2a59685f88d676fd38ede207301a0805ee904ed63735f5d0b5",
-    "checksumStatus": "recorded-from-official-checksum-file; archive-bytes-not-rehashed-in-this-change"
+    "checksumStatus": "verified-against-downloaded-archive",
+    "verification": {
+      "date": "2026-10-29",
+      "method": "CI recalculated SHA-256 and Git blob SHA-1 from downloaded archive bytes and compared them with the published checksum and recorded identifiers.",
+      "workflowRun": "https://github.com/Nabouna32/lab/actions/runs/40884386371",
+      "verifiedCommit": "2264d3519360cc73cc23379eaf65231f4ece6731",
+      "result": "passed"
+    }
   },
   "repositoryApiInspection": {
     "repository": "androidx/androidx",
