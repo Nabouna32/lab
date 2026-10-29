@@ -52,9 +52,10 @@ public final class SourceAnnotationIndex {
   }
 
   private static void emit(String kind, String owner, String name, String arity, String memberKind,
-                           boolean restricted, boolean deprecated, boolean docDeprecated) {
+                           boolean restricted, boolean deprecated, boolean docDeprecated, String parameterTypes) {
     System.out.println(String.join("|", kind, encode(owner), encode(name), arity, memberKind,
-      Boolean.toString(restricted), Boolean.toString(deprecated), Boolean.toString(docDeprecated)));
+      Boolean.toString(restricted), Boolean.toString(deprecated), Boolean.toString(docDeprecated),
+      encode(parameterTypes)));
   }
 
   private static final class Indexer extends TreePathScanner<Void, Void> {
@@ -92,10 +93,13 @@ public final class SourceAnnotationIndex {
       String owner = currentOwner();
       if (owner != null) {
         String name = node.getReturnType() == null ? "<init>" : node.getName().toString();
+        String parameterTypes = node.getParameters().stream()
+          .map(parameter -> parameter.getType().toString())
+          .collect(Collectors.joining(";"));
         emit("M", owner, name, Integer.toString(node.getParameters().size()), "method",
           hasAnnotation(node.getModifiers().getAnnotations(), "RestrictTo"),
           hasAnnotation(node.getModifiers().getAnnotations(), "Deprecated"),
-          hasDeprecatedDoc(docs, getCurrentPath()));
+          hasDeprecatedDoc(docs, getCurrentPath()), parameterTypes);
       }
       return super.visitMethod(node, unused);
     }
@@ -109,7 +113,7 @@ public final class SourceAnnotationIndex {
           emit("M", owner, node.getName().toString(), "0", "field",
             hasAnnotation(node.getModifiers().getAnnotations(), "RestrictTo"),
             hasAnnotation(node.getModifiers().getAnnotations(), "Deprecated"),
-            hasDeprecatedDoc(docs, getCurrentPath()));
+            hasDeprecatedDoc(docs, getCurrentPath()), "");
         }
       }
       return super.visitVariable(node, unused);
