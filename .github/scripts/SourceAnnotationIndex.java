@@ -93,7 +93,15 @@ public final class SourceAnnotationIndex {
       var owners = typeNames.descendingIterator();
       while (owners.hasNext()) {
         String owner = owners.next();
-        String ownerSimpleName = owner.substring(owner.lastIndexOf('
+        String ownerSimpleName = owner.substring(owner.lastIndexOf('$') + 1);
+        if (ownerSimpleName.equals(simpleName)) return owner;
+        String nested = owner + "$" + simpleName;
+        if (sourceTypeNames.contains(nested)) return nested;
+      }
+      return null;
+    }
+
+    private String resolveParameterType(String rawType) {
       String value = rawType.replace("...", "[]")
         .replaceAll("@[A-Za-z0-9_.$]+(?:\\([^)]*\\))?\\s*", "").trim();
       StringBuilder erased = new StringBuilder();
@@ -252,165 +260,6 @@ public final class SourceAnnotationIndex {
           else imports.put(qualified.substring(qualified.lastIndexOf('.') + 1), qualified);
         }
         new Indexer(pkg, docs, imports, wildcardImports, sourceTopLevelTypes, sourceTypeNames).scan(unit, null);
-      }
-      List<Diagnostic<? extends JavaFileObject>> errors = diagnostics.getDiagnostics().stream()
-        .filter(diagnostic -> diagnostic.getKind() == Diagnostic.Kind.ERROR)
-        .collect(Collectors.toList());
-      if (!errors.isEmpty()) {
-        throw new IllegalStateException("Java source parsing reported " + errors.size() + " error(s): "
-          + errors.stream().limit(3).map(diagnostic -> diagnostic.getMessage(Locale.ROOT)).collect(Collectors.joining("; ")));
-      }
-    }
-  }
-}
-) + 1);
-        if (ownerSimpleName.equals(simpleName)) return owner;
-        String nested = owner + "$" + simpleName;
-        if (sourceTypeNames.contains(nested)) return nested;
-      }
-      return null;
-    }
-
-    private String resolveParameterType(String rawType) {
-      String value = rawType.replace("...", "[]")
-        .replaceAll("@[A-Za-z0-9_.$]+(?:\\([^)]*\\))?\\s*", "").trim();
-      StringBuilder erased = new StringBuilder();
-      int genericDepth = 0;
-      for (int index = 0; index < value.length(); index++) {
-        char character = value.charAt(index);
-        if (character == '<') genericDepth++;
-        else if (character == '>') genericDepth = Math.max(0, genericDepth - 1);
-        else if (genericDepth == 0 && !Character.isWhitespace(character)) erased.append(character);
-      }
-      value = erased.toString().replace('$', '.');
-      String dimensions = "";
-      while (value.endsWith("[]")) {
-        dimensions += "[]";
-        value = value.substring(0, value.length() - 2);
-      }
-      if (value.isEmpty() || Set.of("boolean", "byte", "short", "int", "long", "char", "float", "double").contains(value)) {
-        return value + dimensions;
-      }
-      if (typeVariables.containsKey(value)) value = typeVariables.get(value);
-      String first = value.contains(".") ? value.substring(0, value.indexOf('.')) : value;
-      if (imports.containsKey(first)) value = imports.get(first) + value.substring(first.length());
-      else if (!value.contains(".") && resolveNestedSourceType(value) != null) value = resolveNestedSourceType(value);
-      else if (sourceTopLevelTypes.contains(packageName + "." + first)) value = packageName + "." + value;
-      else if (Set.of("String", "Object", "Boolean", "Byte", "Short", "Integer", "Long", "Float", "Double",
-          "Character", "Void", "Number", "CharSequence", "Throwable", "Exception", "RuntimeException",
-          "Class", "Enum", "Record", "Iterable", "Comparable", "Cloneable", "AutoCloseable").contains(value)) {
-        value = "java.lang." + value;
-      } else if (!value.contains(".") && wildcardImports.size() == 1) {
-        value = wildcardImports.iterator().next() + "." + value;
-      }
-      return value + dimensions;
-    }
-
-    @Override
-    public Void visitClass(ClassTree node, Void unused) {
-      String simple = node.getSimpleName().toString();
-      if (simple.isEmpty()) return null;
-      String owner = typeNames.isEmpty()
-        ? (packageName.isEmpty() ? simple : packageName + "." + simple)
-        : typeNames.peekLast() + "$" + simple;
-      Map<String, String> previousTypeVariables = new HashMap<>(typeVariables);
-      typeNames.addLast(owner);
-      for (TypeParameterTree parameter : node.getTypeParameters()) {
-        String bound = parameter.getBounds().isEmpty()
-          ? "java.lang.Object"
-          : resolveParameterType(parameter.getBounds().get(0).toString());
-        typeVariables.put(parameter.getName().toString(), bound);
-      }
-      emit("T", owner, simple, "-", "type",
-        hasAnnotation(node.getModifiers().getAnnotations(), "RestrictTo"),
-        hasAnnotation(node.getModifiers().getAnnotations(), "Deprecated"),
-        hasDeprecatedDoc(docs, getCurrentPath()), "");
-      try { return super.visitClass(node, unused); }
-      finally {
-        typeNames.removeLast();
-        typeVariables.clear();
-        typeVariables.putAll(previousTypeVariables);
-      }
-    }
-
-    @Override
-    public Void visitMethod(MethodTree node, Void unused) {
-      String owner = currentOwner();
-      if (owner != null) {
-        Map<String, String> previousTypeVariables = new HashMap<>(typeVariables);
-        for (TypeParameterTree parameter : node.getTypeParameters()) {
-          String bound = parameter.getBounds().isEmpty()
-            ? "java.lang.Object"
-            : resolveParameterType(parameter.getBounds().get(0).toString());
-          typeVariables.put(parameter.getName().toString(), bound);
-        }
-        String name = node.getReturnType() == null ? "<init>" : node.getName().toString();
-        String parameterTypes = node.getParameters().stream()
-          .map(parameter -> resolveParameterType(parameter.getType().toString()))
-          .collect(Collectors.joining(";"));
-        emit("M", owner, name, Integer.toString(node.getParameters().size()), "method",
-          hasAnnotation(node.getModifiers().getAnnotations(), "RestrictTo"),
-          hasAnnotation(node.getModifiers().getAnnotations(), "Deprecated"),
-          hasDeprecatedDoc(docs, getCurrentPath()), parameterTypes);
-        try { return super.visitMethod(node, unused); }
-        finally {
-          typeVariables.clear();
-          typeVariables.putAll(previousTypeVariables);
-        }
-      }
-      return super.visitMethod(node, unused);
-    }
-
-    @Override
-    public Void visitVariable(VariableTree node, Void unused) {
-      Tree parent = getCurrentPath().getParentPath() == null ? null : getCurrentPath().getParentPath().getLeaf();
-      if (parent instanceof ClassTree) {
-        String owner = currentOwner();
-        if (owner != null) {
-          emit("M", owner, node.getName().toString(), "0", "field",
-            hasAnnotation(node.getModifiers().getAnnotations(), "RestrictTo"),
-            hasAnnotation(node.getModifiers().getAnnotations(), "Deprecated"),
-            hasDeprecatedDoc(docs, getCurrentPath()), "");
-        }
-      }
-      return super.visitVariable(node, unused);
-    }
-  }
-
-  public static void main(String[] args) throws Exception {
-    if (args.length != 1) throw new IllegalArgumentException("Usage: SourceAnnotationIndex <source-root>");
-    Path root = Path.of(args[0]);
-    List<Path> paths;
-    try (var stream = Files.walk(root)) {
-      paths = stream.filter(path -> path.toString().endsWith(".java")).sorted().collect(Collectors.toList());
-    }
-    var compiler = ToolProvider.getSystemJavaCompiler();
-    if (compiler == null) throw new IllegalStateException("A full JDK is required.");
-    DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<>();
-    try (StandardJavaFileManager manager = compiler.getStandardFileManager(diagnostics, Locale.ROOT, StandardCharsets.UTF_8)) {
-      Iterable<? extends JavaFileObject> units = manager.getJavaFileObjectsFromPaths(paths);
-      JavacTask task = (JavacTask) compiler.getTask(null, manager, diagnostics,
-        List.of("-proc:none", "-Xlint:none"), null, units);
-      Iterable<? extends CompilationUnitTree> parsed = task.parse();
-      DocTrees docs = DocTrees.instance(task);
-      Set<String> sourceTopLevelTypes = new HashSet<>();
-      for (Path sourcePath : paths) {
-        String relative = root.relativize(sourcePath).toString().replace(File.separatorChar, '/');
-        String simpleName = relative.substring(relative.lastIndexOf('/') + 1, relative.length() - 5);
-        String packageName = relative.contains("/") ? relative.substring(0, relative.lastIndexOf('/')).replace('/', '.') : "";
-        sourceTopLevelTypes.add(packageName.isEmpty() ? simpleName : packageName + "." + simpleName);
-      }
-      for (CompilationUnitTree unit : parsed) {
-        String pkg = unit.getPackageName() == null ? "" : unit.getPackageName().toString();
-        Map<String, String> imports = new HashMap<>();
-        Set<String> wildcardImports = new HashSet<>();
-        for (ImportTree imported : unit.getImports()) {
-          if (imported.isStatic()) continue;
-          String qualified = imported.getQualifiedIdentifier().toString();
-          if (qualified.endsWith(".*")) wildcardImports.add(qualified.substring(0, qualified.length() - 2));
-          else imports.put(qualified.substring(qualified.lastIndexOf('.') + 1), qualified);
-        }
-        new Indexer(pkg, docs, imports, wildcardImports, sourceTopLevelTypes).scan(unit, null);
       }
       List<Diagnostic<? extends JavaFileObject>> errors = diagnostics.getDiagnostics().stream()
         .filter(diagnostic -> diagnostic.getKind() == Diagnostic.Kind.ERROR)
