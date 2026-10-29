@@ -93,3 +93,8 @@ Une BOM Compose peut aligner des versions compatibles, mais n'ajoute pas toutes 
 - **Veille amont** : un snapshot exhaustif de current.txt est généré dans [watch/androidx-main-2026-10-22/](watch/androidx-main-2026-10-22/README.md). Il contient 4 709 déclarations réparties sur trois packages, épinglées à un commit et avec les empreintes SHA-256 de la source et des shards. Il s'agit d'un inventaire de surface, pas d'une spécification sémantique ni d'une baseline de portage.
 - **Baseline stable 1.4.0** : l'inventaire exact n'est pas encore généré ni vérifié. Le dépôt AndroidX au commit inspecté n'inclut pas de fichier 1.4.0.txt ; la correspondance avec l'archive source publiée reste UNVERIFIED. Ne pas utiliser current.txt comme substitut à la version stable.
 - **Couverture globale** : ne pas annoncer le catalogue complet tant que la baseline de portage et les artefacts apparentés à inventorier séparément n'ont pas été traités.
+
+
+### Material Components for Android Views — référence historique
+
+La famille Views est suivie séparément de Compose Material 3 dans [son manifeste de provenance](baselines/material-components-views-1.14.0.json). La release stable 1.14.0 est épinglée au commit source officiel. Le dépôt ne fournit pas de dump API classique à ce tag, et le projet amont annonce le mode maintenance sans nouvelles fonctionnalités prévues. Cette famille sert donc à cartographier les API historiques et les migrations, pas à élargir la cible de nouveaux ports Material 3. La provenance des octets de l’archive Maven est contrôlée par le vérificateur CI ; l’inventaire public reste distinct de cette vérification de provenance.
