@@ -169,6 +169,12 @@ The intended feel is a polished, responsive web application with the clarity and
 
 Use Pixel-faithful shape, tonal color and motion to clarify hierarchy, state changes and spatial continuity—not as decoration on every element. Motion may improve feedback, but must not obstruct task completion; respect system reduced-motion preferences. Follow [the design-system contract](DESIGN-SYSTEM.md) for canonical color, typography, iconography, component-state and theme rules.
 
+### Product-grade familiarity beyond component contracts
+
+AndroidX defines the baseline for components and behaviors it specifies; it does not define every product flow or page composition. For the rest, favor established, recognizable patterns from successful consumer applications over novelty for its own sake. This includes account and password flows, settings, form validation, destructive-action confirmation, loading and empty states, success/error feedback, navigation, and contextual actions. Evaluate patterns against the user's goal, accessibility, privacy, Web conventions and real content rather than copying a single reference app.
+
+The quality target is a polished, dependable, high-audience application: responsive, consistent, fast, resilient and understandable without instruction. Treat the existing UI as replaceable. When the current structure blocks this target, propose and carry out a broader redesign within the approved scope instead of layering cosmetic fixes onto a weak foundation.
+
 ## Input validation
 
 Invalid input should be prevented or identified clearly.

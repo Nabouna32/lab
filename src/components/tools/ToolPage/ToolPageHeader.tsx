@@ -2,9 +2,10 @@ import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
 import FavoriteButton from "@/components/favorites/FavoriteButton";
 import ShareToolButton from "./ShareToolButton";
+import { MaterialIcon, type MaterialIconName } from "@/components/ui/MaterialIcon";
 
 type ToolPageHeaderProps = {
-  icon: string;
+  icon: MaterialIconName;
   title: string;
   description: string;
   contentFallback: boolean;
@@ -24,10 +25,10 @@ export default function ToolPageHeader({
     <header className="py-1 sm:py-2">
       <div className="flex flex-wrap items-start gap-3 sm:gap-4">
         <div
-          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--shape-corner-large)] bg-[var(--accent-soft)] text-2xl sm:h-12 sm:w-12 sm:text-3xl"
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--shape-corner-large)] bg-[var(--primary-container)] text-[var(--on-primary-container)] sm:h-12 sm:w-12"
           aria-hidden="true"
         >
-          {icon}
+          <MaterialIcon name={icon} size={24} />
         </div>
         <div className="min-w-0 flex-1">
           <h1 className="m3-type-headline-medium mt-0.5">

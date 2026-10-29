@@ -3,6 +3,7 @@
 import { useEffect, useId, useRef } from "react";
 import type { CSSProperties, ReactNode } from "react";
 import styles from "./FloatingActionButtonMenu.module.css";
+import { MaterialIcon } from "@/components/ui/MaterialIcon";
 
 export type FloatingActionButtonMenuItem = {
   key: string;
@@ -81,7 +82,7 @@ export function FloatingActionButtonMenu({
         aria-controls={expanded ? `fab-menu-${id}` : undefined}
         onClick={() => onExpandedChange(!expanded)}
       >
-        <span aria-hidden="true" className={expanded ? styles.closeIcon : styles.plusIcon}>{expanded ? "×" : "+"}</span>
+        <span aria-hidden="true" className={expanded ? styles.closeIcon : styles.plusIcon}><MaterialIcon name={expanded ? "close" : "add"} size={24} /></span>
       </button>
     </div>
   );

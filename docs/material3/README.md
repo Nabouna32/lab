@@ -1,243 +1,103 @@
 # Portage AndroidX Material 3 vers React/Web
 
-**Référence principale :** AndroidX Jetpack Compose Material 3.  
-**Direction produit :** Material 3 Fidelity, et non Material 3 Expressive.  
-**État du projet :** migration active. Les fondations partagées et plusieurs composants sont déjà présents dans l'application ; la couverture du catalogue, la fidélité aux contrats AndroidX et la migration de production restent incomplètes. La présence d'un composant ne vaut pas preuve de conformité.
+## Cap et autorité
 
-## Target architecture and migration rule
+La cible est **Material 3 Fidelity**, et non Material 3 Expressive. AndroidX Jetpack Compose Material 3 fait autorité pour les API, valeurs par défaut, états et comportements qu’il définit. L’objectif est un portage React/Web fidèle, pas une imitation visuelle.
 
-The existing Loculary UI library is **migration input, not the target API design**. Existing implementation counts, component names, catalogue rows, and preview keys do not define the desired Android-compatible library. This also applies to production pages and their compositions: current layouts are not immutable, and redesigns may be broad when that is what it takes to deliver a coherent modern Android-app experience on the Web. Do not limit work to superficial styling or small patches merely to preserve the existing structure.
+Le code existant de Loculary est une entrée de migration, pas une contrainte. Pour chaque implémentation, décider de la remplacer par un portage AndroidX, de la supprimer, de la conserver comme composition produit explicitement nommée ou de l’adapter aux sémantiques du Web. Ne pas préserver un composant ou une page uniquement pour réduire le diff. Une refonte complète est permise si elle améliore réellement la cohérence du parcours.
 
-The target is to build the relevant official AndroidX Compose UI component and primitive families as a coherent React/Web library first, with AndroidX public names and source-derived contracts wherever an equivalent is meaningful. Then migrate the product's shared UI and tool pages to that library so Loculary can behave like a cohesive app. This is not a requirement to mechanically port every low-level runtime/compiler API into React: inventory the declared public API surface exhaustively, classify each declaration by role and Web-port relevance, and document why a declaration is not a visual/component port when appropriate.
+L’ambition produit est une expérience grand public soignée et fiable ; ce niveau de qualité visé ne signifie pas que la conformité actuelle est acquise. Les sémantiques Web, l’accessibilité, la confidentialité, les performances et les langues française et anglaise restent obligatoires.
 
-For every existing Loculary UI implementation, the eventual disposition must be explicit:
-- **replace** with a source-backed AndroidX-named port;
-- **remove** because it duplicates an official API or has no justified product role;
-- **retain as a clearly named product composition/extension** only when it solves a real Loculary product need and is built from the shared official ports;
-- **adapt for Web** when browser semantics require a documented difference.
+## Architecture cible
 
-Do not retain a custom base component merely because it already exists or is referenced by a preview. Conversely, a page layout or product composition is not automatically invalid just because it is Loculary-specific; it must not masquerade as an official Android component. The catalogue and specs should record the decision and production call sites before a migration is considered complete.
+1. **Fondations partagées** : rôles de couleurs, typographie Material 3, formes, élévation et mouvement.
+2. **Contrats de composants** : API, valeurs par défaut, variantes, états et transitions issus de la source AndroidX.
+3. **Ports React/Web** : implémentations communes, avec adaptations Web explicitement documentées.
+4. **Compositions produit et pages** : utilisation des ports partagés sans réinventer localement les mêmes règles.
 
-The Design Lab and its persistence model are also under review. The default proposal is to make the source-controlled catalogue/specs, React implementations, demos and automated checks in Git the authoritative workflow. Supabase tables for manually submitted reports, decisions, verifications and audit events are not assumed necessary; evaluate them against actual usage and remove them through a separately reviewed migration if they add no value. Do not modify live schema/data merely to simplify the design lab without a specific migration plan.
+La présence d’un token ou d’un composant partagé ne prouve pas sa bonne consommation ni sa fidélité. Les anciens alias et leurs consommateurs doivent être inventoriés avant suppression. Ne pas remapper mécaniquement les formes historiques, notamment 16 px et 24 px.
 
-## Shared theme foundations
+## Sources et preuves
 
-Before broad production migration, the Web port must expose a single source of truth for theme foundations and make component defaults consume it. The intended dependency is:
+Ordre d’autorité :
 
-1. **Theme foundations:** semantic color roles, Material 3 typography roles, shape scale, elevation and motion values.
-2. **Component contracts:** source-derived defaults and explicit parameters for each AndroidX component (for example, a Card's own default shape rather than a page-selected generic radius).
-3. **React/Web ports:** shared implementations preserving the source API where meaningful and documenting browser adaptations.
-4. **Product compositions and routes:** consume the ports and product-level layout tokens; avoid local typography/shape decisions where a shared contract applies.
+1. Code source AndroidX épinglé à une révision immuable et API publiée correspondante.
+2. Référence API Android officielle.
+3. Guides et exemples officiels Android Developers.
+4. Material Web, bibliothèques React et captures d’écran : comparaisons secondaires uniquement.
 
-A shared token existing in CSS is not enough: audit its consumers and legacy aliases. Changing a foundation must update all inheriting consumers. Component-specific defaults and explicit overrides remain where AndroidX defines or permits them. Typography must use named roles instead of repeated Tailwind font-size/weight/line-height combinations.
+Chaque spécification doit référencer les sources exactes et la version examinée. Une branche amont mutable ne suffit pas. Si l’alignement entre l’archive publiée, le code source et le dump d’API n’est pas démontré, le signaler plutôt que prétendre que la référence est verrouillée.
 
-Implementation is in active migration: all 15 Material 3 typography roles are exposed as shared variables/classes and are consumed by many UI components and production compositions. Targeted migrations of 8px consumers to `--shape-corner-small`, 12px consumers from the legacy `--radius-md` alias to `--shape-corner-medium`, selected 16px containers to `--shape-corner-large`, and three 28px surfaces to `--shape-corner-extra-large` are covered by contract tests. Migrations remain role-based; the old radius scale is not globally aliased or removed. The `--radius-*` scale still exists pending a complete reference audit; historical 16px and 24px values must not be mechanically remapped. Shape token presence and passing contract tests do not establish exact AndroidX source parity or browser-verified visual fidelity.
+Documents de référence :
 
-## Goal
+- [Sources et versions](sources.md)
+- [Inventaire des API et règles de couverture](catalog/README.md)
+- [Primitives de layout Compose UI/Foundation](layout-primitives.md)
+- [Modèle de spécification de composant](components/TEMPLATE.md)
+- [Design system Loculary](../DESIGN-SYSTEM.md)
 
-Build React/Web equivalents of official AndroidX Compose Material 3 components with the highest practical fidelity to their public contracts, visual tokens, states and interactions. Then replace Loculary's current shared UI components with these ports in production routes and tools.
+## Règles de migration
 
-This is not a project to invent components that merely look Material-like. Every claim about Android behavior or appearance must be grounded in a pinned upstream source. Where Android and Web differ, document the adaptation instead of claiming identical implementation.
+Avant de modifier une page ou un composant :
 
-## Source hierarchy
+- Examiner la spécification AndroidX pertinente et la version épinglée.
+- Auditer les usages réels, les composants partagés et le parcours complet concerné.
+- Comparer une migration ciblée à une refonte depuis une page blanche ; choisir selon le résultat, pas selon le volume du diff.
+- Préserver les sémantiques natives du Web : une navigation reste un lien, une action reste un bouton.
+- Ne pas inventer de variante, de couleur ou de comportement destructif au seul motif qu’il semble intuitif.
+- Utiliser des icônes Material adaptées à leur sens. Le remplacement d’un emoji par un symbole ne valide ni la sémantique ni le rendu.
+- Vérifier les états, le clavier, le focus visible, les technologies d’assistance, les thèmes clair/sombre, les contenus FR/EN et les largeurs pertinentes.
 
-1. **Primary contract:** AndroidX source code pinned to an immutable commit/release.
-2. **Public API:** official AndroidX API reference for the same component.
-3. **Usage and design guidance:** official Android Developers / Material 3 documentation.
-4. **Secondary comparison only:** Material Web, MDUI, MUI, screenshots or other implementations. They can inform Web trade-offs but cannot override AndroidX without an explicit decision.
+Les tests statiques et une CI verte prouvent uniquement ce qu’ils vérifient. Ils ne démontrent pas la fidélité visuelle du navigateur. Si aucune comparaison réelle n’a été faite, conserver le statut « non vérifié ».
 
-Each component specification must contain exact source links and the commit/release used. Do not rely on a mutable `main` link alone. Check source/API alignment before carrying a contract forward to a new AndroidX version.
+## États de couverture
 
-The source provenance and version-pinning rules live in [`sources.md`](sources.md). The separate Compose UI/Foundation layout-port scope and current gaps are tracked in [`layout-primitives.md`](layout-primitives.md); these primitives are not Material 3 components. The catalogue schema and coverage-state rules live in [`catalog/README.md`](catalog/README.md). Use [`components/TEMPLATE.md`](components/TEMPLATE.md) for consistent component specifications. These documents distinguish the exhaustive public API inventory from semantic review, React porting, verification, and production migration.
+Distinguer explicitement :
 
-## Usage contract for product pages and agents
+1. API recensée ;
+2. sources sémantiques examinées ;
+3. spécification rédigée ;
+4. portage React réalisé ;
+5. portage vérifié ;
+6. usages de production migrés.
 
-Before implementing a page or interaction, inspect this catalogue and the relevant component specification. Use the shared port whenever its semantics fit; do not create page-local lookalikes or aliases for official variants.
+Une API recensée n’est pas nécessairement portée. Un composant utilisé en production n’est pas nécessairement conforme.
 
-- **Official port available:** use the official AndroidX-named API and its documented states/parameters.
-- **Port exists but is not verified:** reuse it only with awareness of the documented gaps; do not claim full parity or spread unverified behavior as a new convention.
-- **No suitable port:** check the pinned AndroidX catalogue and real product need first. Prefer a coherent port over a one-off imitation; explicitly label unavoidable Web adaptations or product extensions.
-- **Navigation:** keep navigation as a real link. Styling a link like a Material action is a Web adaptation, not a reason to render a button as an anchor or vice versa.
-- **Action hierarchy:** filled buttons are for the highest-emphasis action in a local group; tonal/elevated variants are context-dependent alternatives; outlined and text buttons suit lower-emphasis actions. Pick based on hierarchy, not visual variety.
-- **Destructive actions:** reserve error colors for actual destructive consequences. Reversible removal/detachment is usually neutral; secondary destructive actions may use an error-colored icon and text/outlined treatment; irreversible actions need clear consequence copy and explicit confirmation. A filled error action belongs at the final, high-emphasis confirmation step when appropriate.
-- **Tests and review:** check new and migrated call sites, not just component exports. Add targeted tests for stable API/semantic contracts; do not create brittle tests that force unrelated pages into one markup shape.
+## État de migration — 29 octobre 2026
 
-## Mandatory decision gate: source fidelity and whole-screen design
+La migration reste partielle et la conformité globale n’est pas établie.
 
-The rules below clarify and override any generic styling suggestions in this document. The target is the closest practical implementation of the actual AndroidX Compose Material 3 reference, not an interpretation of what looks Material-like.
+- **Typographie :** les 15 rôles Material 3 sont exposés sous forme de variables/classes partagées et utilisés dans de nombreux composants et compositions. L’audit des consommateurs reste incomplet.
+- **Formes :** des migrations ciblées et des tests de contrat existent. L’échelle historique `--radius-*` reste présente ; inventorier ses usages et vérifier les valeurs avant tout retrait.
+- **Icônes :** les sept catégories et les 51 outils utilisent le registre `MaterialIcon`, ainsi que plusieurs cartes, recherches, favoris, collections et en-têtes. Les tests contrôlent notamment la présence des identifiants dans le registre, mais ne valident pas leur pertinence sémantique ni leur rendu. Certains outils peuvent encore partager un symbole générique.
+- **Composants AndroidX :** les spécifications et vérifications sont inégales selon les familles. La présence d’une implémentation ou d’un nom AndroidX ne vaut pas validation de parité.
+- **Rendu navigateur :** la validation visuelle complète des thèmes clair/sombre, du français/anglais, du responsive et des interactions reste à établir.
 
-1. Identify the exact AndroidX component or usage pattern and inspect the pinned source, public API, tokens and official contextual examples before selecting a visual treatment. Do not infer design from the business meaning or from a screenshot alone.
-2. Do not invent a DeleteButton, DangerButton, generic destructive recipe, or an arbitrary red treatment. A delete action does not automatically imply a filled error button, red label, trash icon, red surface or confirmation dialog. Apply only what the relevant source and task context support. If no exact AndroidX pattern exists, say so and justify the smallest necessary Web/product adaptation.
-3. Reuse official names and variants. API-supported color customization is a capability, not evidence that a chosen color treatment matches Android. Label and justify every divergence.
-4. When the task targets a page, review and refactor the whole affected journey: layout hierarchy, surfaces, spacing, typography, semantic colors, icons, action grouping, dialogs, empty/loading/error/success states, responsive layout, keyboard/focus and assistive technology. Do not call a local button change a page refactor.
-5. Validate the actual browser rendering against the pinned source in light/dark themes, French/English and relevant viewports. Unit tests, static CSS assertions and green CI do not establish visual fidelity. If browser comparison was not performed, report that explicitly and leave the status unverified.
+## État par composant
 
-## Component specification and evidence
+| Composant | Portage | Migration / preuve restante |
+|---|---|---|
+| [Button](components/Button.md) | API React nommée d'après AndroidX ; vérification des tokens et du rendu encore ouverte | Audit des usages et validation navigateur |
+| [Lien Web](components/Link.md) | `AppLink` conserve la sémantique d'ancre et partage les variantes visuelles du bouton | Audit global des usages |
+| [ListItem](components/ListItem.md) | Adaptation existante, compositions simples alignées sur AndroidX 1.4.0 | Surcharges interactives et parité navigateur non vérifiées |
+| [IconButton](components/IconButton.md) | Implémentation existante | Contrat source, états et rendu à vérifier |
+| [Card](components/Card.md) | Variantes `Card`, `ElevatedCard`, `OutlinedCard` et composition `CardLink` séparées | Valeurs source et usages de production à vérifier |
+| [Chip](components/Chip.md) | Adaptation des variantes Assist, Filter, Input et Suggestion | Parité des états et du rendu à vérifier |
+| [Badge / BadgedBox](components/Badge.md) | Adaptation Web avec rôles de couleur et nom accessible explicites | Tailles, ancrage et usage dans les contrôles à vérifier |
+| Autres familles | Inventaire et couverture incomplets | À inventorier selon le périmètre déclaré |
 
-Each component gets one file in [`components/`](components/). Minimum sections:
+La validation navigateur de `NavigationBar` reste suivie dans [l’issue #977](https://github.com/Nabouna32/lab/issues/977) ; cela ne signifie pas que le composant est déjà fidèle à AndroidX.
 
-- Official AndroidX component name and public API/package.
-- Pinned source files and version/commit; official API and usage references.
-- Source-derived API, defaults, variants, tokens, layout, states and interaction transitions.
-- React implementation path and existing Loculary call sites, verified from code.
-- Explicit differences: `ANDROIDX`, `WEB-ADAPTATION`, `LOCULARY-EXTENSION`, or `UNVERIFIED`.
-- Automated tests for API/state/behavior where practical.
-- Browser verification in light/dark themes, FR/EN, relevant viewport sizes, keyboard and assistive technology.
-- Remaining gaps and the evidence needed to close them.
-- Migration status and a list or verifiable inventory of production call sites replaced.
+## Cycle de travail
 
-Do not infer undocumented behavior. If the source does not establish a detail, mark it unverified and investigate rather than inventing a default.
+Pour chaque tranche cohérente : sélectionner la famille, examiner les sources et usages, décider de l’architecture cible, implémenter, ajouter des tests proportionnés, exécuter les contrôles pertinents, vérifier le navigateur lorsque possible, migrer les consommateurs, puis mettre à jour la spécification et le statut avec des preuves. Garder les commits focalisés et la documentation canonique concise ; supprimer les historiques redondants lorsque l’information utile est conservée ailleurs.
 
-## Lifecycle
+## Priorités
 
-Use these distinct statuses:
+- Vérifier les ports existants et leurs contrats avant de les présenter comme fidèles.
+- Continuer l’inventaire des API publiques AndroidX dans le périmètre déclaré, y compris celles qui ne sont pas utilisées par Loculary.
+- Prioriser séparément les portages à implémenter selon les besoins réels du produit.
+- Migrer les pages et composants vers les ports validés ; remplacer ou supprimer les mécanismes hérités devenus inutiles.
+- Pour toute page concernée, documenter le choix entre migration ciblée et refonte depuis une page blanche.
 
-1. **À inventorier** — candidate identified, scope and existing usage not yet audited.
-2. **Sources vérifiées** — public API and pinned upstream sources reviewed.
-3. **Portage en cours** — React implementation is being built.
-4. **Portage vérifié** — contract, applicable states, tests and browser behavior checked; differences documented.
-5. **Migration en cours** — production usages are being replaced.
-6. **Migré** — intended production call sites use the port and obsolete implementations are removed where safe.
-
-A port may be verified before it is migrated. A component being used in production does not prove its conformance. Visual similarity alone never qualifies as verification.
-
-## Delivery workflow
-
-Work in small, reviewable component or coherent component-family slices so the work can span multiple conversations without losing the evidence trail:
-
-1. Select a component based on official catalogue coverage and real Loculary usage.
-2. Inspect AndroidX source and API, pin exact versions, and write the contract before implementation.
-3. Audit the existing React implementation and call sites; decide whether to adapt or replace it.
-4. Port behavior and visuals, retaining Web-native semantics where appropriate.
-5. Add source-contract and behavior tests; run lint, typecheck, unit tests and build.
-6. Inspect real browser rendering and interactions; record actual deviations.
-7. Migrate production call sites and verify affected journeys.
-8. Update only this component's status and create/follow a focused issue for unresolved work.
-
-Avoid one issue or conversation per tiny observation. Use one focused issue per component or coherent family, and keep evidence in the component spec and code/tests. Close issues only when their acceptance criteria are proven.
-
-## Initial component queue
-
-The inventory is intentionally **not yet declared complete**. The existing historical inventory contains candidate families, but each must be checked against the current official AndroidX catalogue and Loculary code before priorities or coverage are claimed.
-
-- **Existing port work to verify:** Button, IconButton.
-- **Candidates to inventory against real usage:** Checkbox, Switch, SegmentedButton, TextField, Select/dropdown, Card, progress indicators, Snackbar, Dialog, Tooltip, chips, navigation components, menus, sliders and date/time components.
-- **Inventory exhaustiveness is mandatory:** catalogue every public API in the declared artifact/version scope, including APIs not currently used by Loculary and experimental APIs. Inventory presence does not imply an implementation commitment.
-- **Implementation priority is separate:** prioritize ports according to product need, reuse, risk, and maintenance value. An inventoried API may remain unimplemented, with that status explicit.
-
-## Shared Compose UI/Foundation layout port
-
-Les primitives de layout sont suivies séparément des composants Material 3, car `Column`, `Row`, `Box`, `Spacer`, `Modifier`, `Alignment` et `Arrangement` appartiennent à Compose UI/Foundation, et non à Material 3. Consulter la [spécification des primitives de layout](layout-primitives.md) pour les sources, les règles de centralisation des tokens, les extensions Web actuelles et les écarts de parité.
-
-## Current status
-
-| Composant | Spécification | État du portage | Migration de production |
-|---|---|---|---|
-| Button | [Button](components/Button.md) | Cinq exports React nommés d'après AndroidX ; snapshot source épinglé ; rôles de couleur désactivée corrigés. Vérification des tokens et du rendu navigateur encore ouverte. | Usages d'action génériques migrés ; wrapper de lien propre au compte retiré ; pied de page et navigation du compte utilisent les apparences partagées en conservant les ancres. Audit global et validation navigateur à poursuivre. |
-| Lien Web | [Link](components/Link.md) | `AppLink` conserve la sémantique d'ancre Next.js et partage les cinq variantes visuelles du bouton ainsi que l'effet d'interaction respectueux de la réduction des animations. | Liens d'action du pied de page et du compte migrés ; navigation de l'en-tête conservée comme lien. Audit global à poursuivre. |
-| ListItem | [ListItem](components/ListItem.md) | Adaptation existante ; les compositions à une, deux et trois lignes sont alignées sur AndroidX 1.4.0. | Surcharges interactives et rendu navigateur non vérifiés. |
-| IconButton | [IconButton](components/IconButton.md) | Implémentation existante ; contrat source et rendu navigateur à vérifier. | Non établi par cet index. |
-| Card | [Card](components/Card.md) | Trois variantes de conteneur et composition `CardLink` séparées ; valeurs exactes des formes, couleurs et élévations toujours non vérifiées. | Usages de production à inventorier avant de modifier le contrat. |
-| Chip | [Chip](components/Chip.md) | Adaptation commune aux variantes Assist, Filter, Input et Suggestion ; états de sélection, désactivation et libellé de retrait clarifiés. Parité visuelle non vérifiée. | Principalement présenté dans le Design Lab ; usages à inventorier. |
-| Badge / BadgedBox | [Badge](components/Badge.md) | Adaptation Web avec nom accessible explicite et couleurs sémantiques partagées ; tailles et positionnement à comparer à AndroidX. | Usages de production à inventorier. |
-| Autres composants | Inventaire à poursuivre | À inventorier | À inventorier |
-
-NavigationBar browser validation is tracked in [issue #977](https://github.com/Nabouna32/lab/issues/977). This does not assert that the component is already source-faithful.
-
-
-## Première tranche d'implémentation — typographie et formes
-
-Le socle Web expose les 15 rôles typographiques nommés `.m3-type-display-*`, `.m3-type-headline-*`, `.m3-type-title-*`, `.m3-type-body-*` et `.m3-type-label-*`. Le bouton partagé, le bloc Parcours guidés, les cartes d'outils et l'en-tête des pages outil consomment maintenant ces rôles au lieu de recopier localement les métriques typographiques. La couverture reste partielle et doit progresser composant par composant, puis dans les usages de production.
-
-Les valeurs de forme de Card et Panel sont isolées dans des tokens de composant. Leur valeur par défaut définitive doit provenir de la source AndroidX correspondant à la version retenue ; la valeur medium actuelle n'est pas encore déclarée comme preuve de parité. Les échelles historiques ne seront supprimées qu'après inventaire de tous les usages et migration vérifiée.
-
-
-La deuxième tranche relie les métriques typographiques de `AlertDialog`, `DatePickerDialog`, `DropdownMenu`, `ExposedDropdownMenu`, `NavigationBar`, `NavigationDrawer`, `NavigationRail`, `RadioButton`, `Snackbar`, `Tabs`, `TimePicker`, `ToggleButton`, `Tooltip` et `TopAppBar` aux rôles partagés. Un test de contrat protège cette centralisation. Cela ne prouve pas encore la parité du comportement ni du rendu avec AndroidX ; les métriques spécifiques non mappées sont conservées tant que leur contrat source n’est pas établi.
-
-
-La troisième tranche relie les métriques des composants `BottomSheetScaffold`, `ButtonGroup`, `DatePicker`, `FloatingActionButton`, `FloatingActionButtonMenu`, `FloatingToolbar`, `ModalBottomSheet`, `PullToRefreshBox`, `RangeSlider`, `SegmentedButtonGroup`, `SplitButton`, `SwipeToDismissBox`, `WideNavigationRail` et `Slider` aux rôles typographiques partagés. Les valeurs spécifiques au cadran/aux commandes numériques sont conservées quand elles ne correspondent pas clairement à un rôle M3. Le test de contrat inclut ces nouveaux consommateurs.
-
-
-Une tranche de consommateurs réutilise maintenant les fondations : `AppLink`, `ResultPanel`, `RecentTools`, `RelatedTools`, `ToolCard` et `ValidationMessage`. Le test de contrat couvre les rôles typographiques et les tokens de forme de ces compositions. La migration des pages et outils reste à poursuivre ; les tokens historiques ne sont pas supprimés tant que des références actives subsistent.
-
-
-Les formes des composants traités et de plusieurs usages dans les outils sont désormais reliées aux tokens partagés, avec un test de contrat dédié. `--radius-md` et les autres conventions historiques sont maintenus tant que l'inventaire n'est pas à zéro. Les valeurs historiques de 24 px et 16 px doivent être arbitrées composant par composant ; elles ne sont pas remplacées mécaniquement par une forme AndroidX supposée équivalente.
-
-## État de migration — 28 octobre 2026
-
-Cette section décrit l’état constaté sur la branche de la PR #1020. Elle prévaut sur les descriptions historiques plus anciennes de ce document ; elle ne vaut pas validation visuelle navigateur.
-
-### Consommateurs de production migrés dans cette tranche
-
-Les rôles typographiques partagés sont maintenant utilisés dans les pages de présentation, de contact et de signalement, le pied de page, les pages de connexion et d’inscription, le changement d’adresse e-mail, la gestion du mot de passe, la demande et la finalisation de réinitialisation, la suppression du compte, ainsi que le tableau de bord d’administration, son journal d’audit et la gestion des utilisateurs.
-
-Les formes de certains conteneurs de pages utilisent également les tokens de forme sémantiques. Le formulaire de changement d’e-mail et plusieurs formulaires de compte consomment `Column` et `Arrangement.spacedBy` pour leur cadence verticale, au lieu de répéter une utilité d’espacement Tailwind.
-
-Les tests de contrat vérifient la présence des rôles partagés dans ces consommateurs. Ils ne remplacent ni la vérification du comportement dans le navigateur, ni les contrôles de responsive, de clavier, de thèmes clair/sombre et d’accessibilité.
-
-### Règle de suppression après migration
-
-Une migration n’est pas terminée tant que les anciennes implémentations, classes, tokens, wrappers, tests et documentations devenus redondants n’ont pas été examinés. Après migration, supprimer tout élément devenu inutile **uniquement après** avoir vérifié l’ensemble des références dans le dépôt, les usages dynamiques éventuels, les tests, les scripts, les exemples et les documents.
-
-Une référence encore active impose soit de migrer son consommateur, soit de conserver explicitement l’élément historique avec une raison documentée. Ne pas garder une API uniquement parce qu’un ancien test ou une prévisualisation la référence : migrer ou supprimer aussi ce test ou cette prévisualisation si son contrat n’est plus pertinent.
-
-À cette date, l’échelle historique `--radius-*` **n’est pas supprimable** : des usages de production subsistent, notamment dans des outils. Les rayons de 16 px et 24 px ne doivent pas être remappés mécaniquement vers une forme M3. La suppression devra intervenir après migration des derniers consommateurs et vérification qu’aucune référence ne reste.
-
-### État de la livraison
-
-La PR #1020 reste un brouillon non fusionné. La CI doit être contrôlée sur le dernier commit avant de considérer cette tranche comme vérifiée. Une CI verte ne suffira pas à déclarer la fidélité AndroidX sans comparaison de rendu et de comportement dans le navigateur.
-
-
-### Complément de migration — typographie, liens et découverte (28 octobre 2026)
-
-La typographie partagée est étendue à la page d’accueil, au catalogue des outils, à la recherche d’outils et au tableau de bord d’administration, ainsi qu’au statut de confirmation dans la gestion des utilisateurs. Les rôles nommés remplacent les combinaisons locales de tailles, graisses et interlignes dans ces zones. Les symboles utilisés comme icônes et les valeurs numériques spécifiques ne sont pas remappés vers des rôles de texte sans justification.
-
-Le contrôle segmenté consomme désormais la classe typographique partagée `m3-type-label-large` au lieu de recopier les métriques du rôle dans ses classes locales. Les liens de navigation secondaires des pages de connexion et d’inscription utilisent `AppLink` en variante `inline`, en conservant la sémantique d’ancre et les styles communs du lien.
-
-Les tests de contrat couvrent les nouveaux consommateurs et empêchent le retour des anciennes combinaisons typographiques dans les zones migrées. Cette tranche n’est pas déclarée validée tant que la CI n’a pas réussi sur la tête actuelle et que les rendus navigateur, les thèmes clair/sombre, FR/EN, les viewports et le clavier n’ont pas été vérifiés.
-
-
-### Composants partagés — typographie des chips et badges (28 octobre 2026)
-
-- `Chip` applique désormais le rôle partagé `m3-type-label-large`. Les métriques typographiques ne sont plus redéclarées dans `Chip.module.css`; la feuille ne garde que les règles propres au composant.
-- `Badge` applique le rôle partagé `m3-type-label-small`. Les métriques correspondantes ont été retirées de `Badge.module.css`.
-- `ToolSearch` n'applique plus de taille de texte à l'enveloppe de l'icône de recherche : la taille de l'icône est déjà explicitement portée par `MaterialIcon`.
-
-Ces changements centralisent la typographie sans déclarer la fidélité complète des composants AndroidX. Les contrats complets de Chip et Badge, l'audit exhaustif de leurs API publiques et la comparaison navigateur restent à effectuer. Les tests statiques vérifient que les feuilles CSS ne recopient pas les métriques des rôles partagés.
-
-
-### Navigation et cartes d'outils — primitives et typographie (28 octobre 2026)
-
-Le menu de navigation desktop consomme désormais les rôles typographiques Material 3 pour ses déclencheurs, titres, descriptions, choix de langue et choix de thème. Les anciennes combinaisons locales de taille, graisse et tracking ont été retirées des zones migrées.
-
-`ToolCard` utilise maintenant une `Column` pour son espacement vertical et une `Row` pour son en-tête, avec le token partagé `--space-3`. Sa surface de navigation reste un lien natif via `CardLink`, et les rôles typographiques partagés sont conservés. Des tests de contrat couvrent les deux migrations. La validation du rendu réel, notamment la hauteur des cartes, les textes FR/EN et les largeurs étroites, reste ouverte.
-
-
-### Résultats de recherche — rôles typographiques (28 octobre 2026)
-
-La page de résultats de recherche utilise désormais les rôles partagés pour son titre principal, les titres d'états, les descriptions, le compteur de résultats, les filtres de catégories et les liens de suggestion. Les graisses, tailles et espacements de lettres Tailwind qui doublaient ces rôles ont été retirés. Les états et le contenu métier restent inchangés ; la vérification du rendu et des traductions reste à faire dans le navigateur.
-
-
-### Pages légales — rôles typographiques (28 octobre 2026)
-
-La page des mentions légales utilise maintenant les rôles partagés pour le titre, les titres de section, les noms d'organismes, les paragraphes, les adresses et les liens. Les tailles, graisses et interlignes Tailwind redondants ont été remplacés par les rôles Material 3 ; les espacements déjà exprimés avec les tokens communs sont conservés. Un test de contrat vérifie cette consommation. La lisibilité réelle en FR/EN, notamment pour les longues adresses et les liens, reste à vérifier dans le navigateur.
-
-
-### Politique de confidentialité — rôles typographiques (28 octobre 2026)
-
-La politique de confidentialité consomme maintenant les rôles partagés pour son titre, ses titres de section, la date de mise à jour, l'avis temporaire, le corps du texte, les listes et le contact. Les tailles, graisses et interlignes Tailwind locaux ont été retirés au profit des rôles Material 3. Les espacements existants restent exprimés avec les tokens communs. La vérification de la lisibilité FR/EN, du contraste et du rendu navigateur reste ouverte.
-
-
-### Page Compte — rôles typographiques (28 octobre 2026)
-
-Les deux états de la page Compte (visiteur et compte connecté) utilisent maintenant la même famille de rôles Material 3 : titre de page, description, statut et texte de la zone de suppression. Les tailles, graisses et interlignes Tailwind spécifiques ont été retirés. La structure responsive et les actions restent inchangées ; le rendu visuel, le contraste des statuts et la lisibilité FR/EN doivent encore être vérifiés dans le navigateur.
-
-
-### Récupération du mot de passe — typographie et boutons partagés (28 octobre 2026)
-
-Les pages de demande et de finalisation de réinitialisation utilisent désormais les rôles typographiques partagés pour les titres, libellés, descriptions et messages d'état. Les deux actions de soumission s'appuient sur SubmitButton et les variantes du bouton Material 3 partagé, sans réintroduire une apparence locale concurrente. Les liens restent des ancres de navigation et conservent leur sémantique. Les formulaires et leurs états doivent encore être vérifiés en navigateur, notamment clavier, erreurs et états pending.
-
-
-### Informations personnelles — rôles typographiques (28 octobre 2026)
-
-La page Informations personnelles utilise les rôles partagés pour le lien de retour et les messages de statut. Les métriques locales de taille et de graisse ont été supprimées ; les titres et les champs utilisent déjà les composants et rôles partagés. Le comportement des formulaires reste inchangé.
+La fidélité est une conclusion étayée par des sources, des tests et une vérification adaptée — jamais une simple étiquette visuelle.

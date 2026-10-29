@@ -1,4 +1,5 @@
 import type { Locale } from "../i18n/config.ts";
+import type { MaterialIconName } from "../../components/ui/MaterialIcon.tsx";
 
 export type ToolId =
   | "expense-splitter"
@@ -91,7 +92,7 @@ export type ToolQualityMetadata = {
 
 export type Tool = {
   id: ToolId;
-  icon: string;
+  icon: MaterialIconName;
 
   version: number;
   complexity: ToolComplexity;

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import { PageContainer } from "@/components/layout/PageLayout";
 import { requireAdminPermission } from "@/lib/admin/authorization";
 import { createClient } from "@/lib/supabase/server";
@@ -53,7 +54,7 @@ export default async function AdminPage({
       <PageContainer width="default" spacing="none" className="py-[var(--space-8)] sm:py-[var(--space-10)]">
       <div className="mb-8">
         <Link href={"/" + locale + "/compte"} className="m3-type-label-large text-[var(--primary)]">
-          ← {t.admin.account}
+          <span className="inline-flex items-center gap-1.5"><MaterialIcon name="arrow_back" size={18} />{t.admin.account}</span>
         </Link>
         <p className="mt-5 m3-type-label-large text-[var(--primary)]">{t.admin.label}</p>
         <h1 className="mt-1 m3-type-headline-large">{t.admin.title}</h1>

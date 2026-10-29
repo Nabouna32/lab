@@ -5,7 +5,7 @@ import { getPrimaryToolCategory, isPublishedTool } from "./types.ts";
 
 const tool = {
   id: "json-formatter",
-  icon: "🧮",
+  icon: "calculate",
   version: 1,
   complexity: "small",
   categories: ["calculations"],

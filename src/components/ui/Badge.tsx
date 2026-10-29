@@ -7,7 +7,7 @@ type BadgeProps = HTMLAttributes<HTMLSpanElement> & {
   accessibleLabel?: string;
 };
 
-/** Web adaptation of AndroidX Material 3 Badge; its accessible name is explicit. */
+/** Adaptation Web du badge Material 3 ; son nom accessible est explicite. */
 export function Badge({ variant = "small", content, accessibleLabel, className = "", ...props }: BadgeProps) {
   const hasContent = content !== undefined && content !== null && (typeof content !== "boolean" || content);
   return (
@@ -30,7 +30,7 @@ type BadgedBoxProps = {
   className?: string;
 };
 
-/** Loculary Web composition positioning a badge relative to its anchor content. */
+/** Composition Loculary qui positionne un badge par rapport à son contenu d’ancrage. */
 export function BadgedBox({ children, badge, className = "" }: BadgedBoxProps) {
   return (
     <span className={[styles.badgedBox, className].filter(Boolean).join(" ")}>

@@ -25,15 +25,16 @@ test("Card variants use shared semantic surfaces and keep navigation separate", 
   }
 });
 
-test("Chip keeps caller click handlers and exposes selectable state accessibly", () => {
+test("Chip preserves caller handlers and exposes selectable state accessibly", () => {
   assert.match(chip, /onClick\?\.\(event\)/);
   assert.match(chip, /if \(filter && onSelectedChange && !props\.disabled\) onSelectedChange\(!selected\)/);
   assert.match(chip, /aria-pressed=\{filter \|\| input \? selected : undefined\}/);
-  assert.match(chip, /dismissLabel = `Remove \$\{label\}`/);
+  assert.ok(chip.includes("dismissLabel: string"), "dismissible chips require an explicit localized label");
+  assert.doesNotMatch(chip, /dismissLabel =/);
   assert.match(chip, /disabled=\{props\.disabled\}/);
   assert.match(chipCss, /:disabled/);
-  assert.match(chipCss, /var\(--secondary-container/);
-  assert.match(chipCss, /var\(--primary/);
+  assert.match(chipCss, /var\(--secondary-container\)/);
+  assert.match(chipCss, /var\(--primary\)/);
   assert.match(chipCss, /prefers-reduced-motion: reduce/);
   assert.match(chipCss, /\.elevated \.chip \{ box-shadow: var\(--shadow-sm\); \}/);
   assert.doesNotMatch(chipCss, /var\(--(?:outline|on-surface|focus-ring|on-secondary-container|secondary-container|primary|surface-container),/);

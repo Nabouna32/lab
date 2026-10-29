@@ -97,7 +97,7 @@ export function WideNavigationRail({
       >
         <div className={styles.header}>
           {header}
-          <button ref={toggleRef} type="button" className={styles.expandButton} aria-label={expanded ? collapseLabel : expandLabel} aria-expanded={expanded} aria-controls={`wide-navigation-rail-${id}`} onClick={() => onExpandedChange(!expanded)}>{expanded ? "‹" : "›"}</button>
+          <button ref={toggleRef} type="button" className={styles.expandButton} aria-label={expanded ? collapseLabel : expandLabel} aria-expanded={expanded} aria-controls={`wide-navigation-rail-${id}`} onClick={() => onExpandedChange(!expanded)}><MaterialIcon name={expanded ? "chevron_left" : "chevron_right"} size={20} /></button>
         </div>
         <div className={styles.items}>
           {items.map((item) => {

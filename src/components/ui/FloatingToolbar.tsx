@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import type { KeyboardEvent, ReactNode } from "react";
 import styles from "./FloatingToolbar.module.css";
+import { MaterialIcon } from "@/components/ui/MaterialIcon";
 
 export type FloatingToolbarItem = {
   key: string;
@@ -52,7 +53,7 @@ export function FloatingToolbar({
         </button>)}
       </div>}
       <button ref={toggleRef} type="button" className={styles.toggle} aria-label={expanded ? collapseLabel : expandLabel} aria-expanded={expanded} onClick={() => onExpandedChange(!expanded)}>
-        <span aria-hidden="true">{expanded ? "×" : "+"}</span>
+        <span aria-hidden="true"><MaterialIcon name={expanded ? "close" : "add"} size={24} /></span>
       </button>
     </div>
   );

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useLocale } from "@/lib/i18n/use-locale";
 import { Button, FilledTonalButton } from "@/components/ui/Button";
+import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import { getContactSheetLayout } from "@/lib/image-contact-sheet";
 
 const MAX_FILES = 20;
@@ -101,7 +102,7 @@ export default function ImageContactSheet() {
   return <section className="overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)]"><div className="grid gap-6 p-5 sm:p-7 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:p-8">
     <div className="space-y-5">
       <label htmlFor="contact-sheet-files" className="block cursor-pointer rounded-[var(--shape-corner-medium)] border-2 border-dashed border-[var(--border)] bg-[var(--background)] p-6 text-center transition hover:border-[var(--accent)] focus-within:ring-2 focus-within:ring-[var(--focus-ring)]">
-        <span className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--accent-soft)] text-2xl" aria-hidden="true">🖼️</span>
+        <span className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-[var(--shape-corner-large)] bg-[var(--primary-container)] text-[var(--on-primary-container)]" aria-hidden="true"><MaterialIcon name="image" size={24} /></span>
         <span className="block font-semibold">{fr ? "Choisir les images" : "Choose images"}</span>
         <span className="mt-1 block text-sm text-[var(--muted)]">{fr ? "JPEG, PNG, WebP ou GIF · jusqu’à 20 images" : "JPEG, PNG, WebP, or GIF · up to 20 images"}</span>
         <input id="contact-sheet-files" type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple className="sr-only" onChange={(event) => selectFiles(event.target.files)} />

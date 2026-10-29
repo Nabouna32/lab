@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button";
+import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import { ClearButton } from "@/components/ui/ClearButton";
 import { Select } from "@/components/ui/Select";
 import { Slider } from "@/components/ui/Slider";
@@ -172,7 +173,7 @@ export default function ImageCompressor() {
               {item.result ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={item.result.url} alt="" className="h-16 w-16 shrink-0 rounded object-contain" />
-              ) : <div aria-hidden="true" className="flex h-16 w-16 shrink-0 items-center justify-center rounded bg-[var(--surface)] text-xl">🖼</div>}
+              ) : <div aria-hidden="true" className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[var(--shape-corner-small)] bg-[var(--surface)] text-[var(--on-surface-variant)]"><MaterialIcon name="image" size={28} /></div>}
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-semibold text-[var(--foreground)]">{item.file.name}</p>
                 {item.result ? <p className="mt-1 text-xs text-[var(--muted)]">{formatBytes(item.file.size)} → {formatBytes(item.result.blob.size)} · {item.result.width} × {item.result.height} px</p>

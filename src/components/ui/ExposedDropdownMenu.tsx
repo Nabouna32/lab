@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
+import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import styles from "./ExposedDropdownMenu.module.css";
 
 export type ExposedDropdownOption = {
@@ -131,9 +132,7 @@ export function ExposedDropdownMenu({
         onKeyDown={onTriggerKeyDown}
       >
         <span>{selectedOption?.label ?? ""}</span>
-        <svg className={open ? styles.chevronOpen : styles.chevron} viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
-          <path d="m7 10 5 5 5-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
+        <MaterialIcon name="keyboard_arrow_down" size={24} className={open ? styles.chevronOpen : styles.chevron} aria-hidden="true" />
       </button>
       {open ? (
         <div className={styles.menu} role="listbox" id={listboxId} aria-labelledby={controlId}>
@@ -155,7 +154,7 @@ export function ExposedDropdownMenu({
                 onClick={() => choose(option)}
               >
                 <span>{option.label}</span>
-                {option.value === value ? <span aria-hidden="true">✓</span> : null}
+                {option.value === value ? <MaterialIcon name="check" size={18} aria-hidden="true" /> : null}
               </button>
             </div>
           ))}

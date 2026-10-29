@@ -29,6 +29,10 @@ test("guided workflows explain their steps and distinguish real automatic transf
   assert.match(messages, /Copiez le résultat dans l’étape suivante/);
   assert.match(source, /data-testid="guided-workflows"/);
   assert.match(source, /getMessages\(locale\)\.guidedWorkflows/);
+  assert.match(source, /bg-\[var\(--primary-container\)\] text-\[var\(--on-primary-container\)\]/, "workflow icons pair primary-container with on-primary-container");
+  assert.match(source, /m3-type-headline-large/);
+  assert.match(source, /m3-type-title-large/);
+  assert.doesNotMatch(source, /text-4xl font-black|text-5xl|tracking-\[-0\.06em\]/, "workflow headings must not bypass shared typography roles");
 });
 
 test("guided workflows have localized routes, metadata, and a homepage entry point", () => {
@@ -39,4 +43,16 @@ test("guided workflows have localized routes, metadata, and a homepage entry poi
   assert.match(home, /getGuidedWorkflowsPath\(locale\)/);
   assert.match(home, /t\.guidedWorkflows\.homeTitle/);
   assert.match(home, /t\.guidedWorkflows\.homeTitle/);
+});
+
+
+test("guided workflows use shared outlined cards instead of bespoke decorative surfaces", () => {
+  assert.match(source, /import \{ OutlinedCard \} from "@\/components\/ui\/Card"/);
+  assert.equal((source.match(/<OutlinedCard/g) ?? []).length, 2, "the header and workflow surfaces use the shared Card port");
+  assert.doesNotMatch(
+    source,
+    /rounded-\[var\(--radius-xl\)\]|rounded-\[1\.5rem\]|shadow-\[var\(--shadow-(?:md|lg)\)\]|blur-3xl/,
+    "legacy bespoke surfaces and decorative glow must not bypass shared card contracts",
+  );
+  assert.doesNotMatch(source, /workflowIndex|padStart\(2, "0"\)/, "workflow cards must not add decorative index numbers");
 });

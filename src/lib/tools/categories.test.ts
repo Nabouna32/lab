@@ -6,6 +6,7 @@ import { AbsoluteAlignment, Alignment } from "../../components/layout/compose/Al
 import { Arrangement } from "../../components/layout/compose/Arrangement.ts";
 import { BoxScope, ColumnScope, Modifier, RowScope } from "../../components/layout/compose/Modifier.ts";
 import { categoryColorIds, getCategoryColor, getCategoryContainerColor, getCategoryOnContainerColor } from "./category-colors.ts";
+const categoriesSource = readFileSync(new URL("./categories.ts", import.meta.url), "utf8");
 
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
 const pageLayoutSource = readFileSync(new URL("../../components/layout/PageLayout.tsx", import.meta.url), "utf8");
@@ -149,6 +150,8 @@ test("admin and category pages share the canonical page container and spacing to
   }
   assert.ok(categoryRouteSource.includes("<PageContainer width=\"wide\" spacing=\"none\""));
   assert.ok(categoryRouteSource.includes("py-[var(--space-8)] sm:py-[var(--space-10)]"));
+  assert.ok(categoryRouteSource.includes("m3-type-headline-large"), "category headings use a shared Material 3 typography role");
+  assert.ok(!categoryRouteSource.includes("text-3xl font-black"), "category headings must not bypass shared typography roles");
 });
 
 test("shared page shells use PageContainer without forcing every context to the same width", () => {
@@ -329,4 +332,61 @@ test("Modifier constraint helpers use AndroidX-shaped positional parameters", ()
     minHeight: "0px",
   });
   assert.throws(() => Modifier.sizeIn(300, 0, 200), RangeError);
+});
+
+
+
+function testToolIconContainerRoles(sources: string[]) {
+  for (const source of sources) {
+    assert.ok(source.includes("bg-[var(--primary-container)] text-[var(--on-primary-container)]"), "tool icon containers must pair primary-container with on-primary-container");
+  }
+}
+
+test("category pictograms use the shared Material Symbols component instead of emoji", () => {
+  const materialIconSource = readFileSync(new URL("../../components/ui/MaterialIcon.tsx", import.meta.url), "utf8");
+  const explorerSource = readFileSync(new URL("../../app/[locale]/[section]/page.tsx", import.meta.url), "utf8");
+  const searchResultsSource = readFileSync(new URL("../../components/tools/SearchResultsClient.tsx", import.meta.url), "utf8");
+  const toolSearchSource = readFileSync(new URL("../../components/tools/ToolSearch.tsx", import.meta.url), "utf8");
+  const toolCardSource = readFileSync(new URL("../../components/tools/ToolCard.tsx", import.meta.url), "utf8");
+  const toolPageHeaderSource = readFileSync(new URL("../../components/tools/ToolPage/ToolPageHeader.tsx", import.meta.url), "utf8");
+  const imageMetadataSource = readFileSync(new URL("../../components/tools/image-metadata/ImageMetadataViewer.tsx", import.meta.url), "utf8");
+  const favoritesSource = readFileSync(new URL("../../components/favorites/FavoritesView.tsx", import.meta.url), "utf8");
+  const collectionsSource = readFileSync(new URL("../../components/collections/CollectionsView.tsx", import.meta.url), "utf8");
+  const sharedCollectionsSource = readFileSync(new URL("../../components/collections/SharedCollectionView.tsx", import.meta.url), "utf8");
+  assert.ok(materialIconSource.includes("marella/material-symbols@a53d24f2134e8825791f850b5708993455ce4359"), "Material Symbols assets must pin an immutable upstream revision");
+
+  const categories = [...categoriesSource.matchAll(/\{\s*id:\s*"([^"]+)",\s*icon:\s*"([^"]+)"\s*\}/g)]
+    .map(([, id, icon]) => ({ id, icon }));
+
+  assert.deepEqual(categories.map(({ id }) => id), [
+    "calculations",
+    "dates",
+    "computing",
+    "images",
+    "files",
+    "video",
+    "development",
+  ]);
+
+  for (const category of categories) {
+    assert.match(category.icon, /^[a-z][a-z0-9_]*$/, `${category.id} must use a Material Symbols identifier`);
+    assert.ok(materialIconSource.includes(`  ${category.icon}: "`), `${category.icon} must exist in the shared icon set`);
+  }
+
+  assert.match(categoryRouteSource, /MaterialIcon name=\{category\.icon\}/);
+  assert.match(explorerSource, /MaterialIcon name=\{category\.icon\}/);
+  assert.match(searchResultsSource, /MaterialIcon name=\{category\.icon\}/);
+  assert.match(toolSearchSource, /MaterialIcon name=\{tool\.icon\}/);
+  assert.match(favoritesSource, /MaterialIcon name=\{tool\.icon\}/);
+  assert.match(collectionsSource, /MaterialIcon name=\{tool\.icon\}/);
+  assert.match(sharedCollectionsSource, /MaterialIcon name=\{tool\.icon\}/);
+  testToolIconContainerRoles([toolCardSource, toolPageHeaderSource, favoritesSource, collectionsSource, sharedCollectionsSource]);
+  assert.match(imageMetadataSource, /MaterialIcon name="lock"/);
+  assert.doesNotMatch(imageMetadataSource, /🔒/, "functional privacy indicators must use Material Symbols");
+  assert.doesNotMatch(categoryRouteSource, />\s*\{category\.icon\}\s*</);
+  assert.doesNotMatch(explorerSource, />\s*\{category\.icon\}\s*</);
+  assert.doesNotMatch(searchResultsSource, />\s*\{category\.icon\}\s*</);
+  for (const source of [toolSearchSource, favoritesSource, collectionsSource, sharedCollectionsSource]) {
+    assert.doesNotMatch(source, />\s*\{tool\.icon\}\s*</, "tool icons must render through MaterialIcon");
+  }
 });

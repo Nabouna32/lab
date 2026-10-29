@@ -8,8 +8,9 @@ import { PageContainer } from "@/components/layout/PageLayout";
 import { getPublishedTools } from "@/lib/tools/catalog";
 import { getToolContent, type ToolId } from "@/lib/tools/types";
 import { getToolPath } from "@/lib/tools/routes";
+import { MaterialIcon, type MaterialIconName } from "@/components/ui/MaterialIcon";
 
-type SharedData = { name: string; tools: Array<{ id: string; icon: string; name: string; description: string; href: string }> };
+type SharedData = { name: string; tools: Array<{ id: string; icon: MaterialIconName; name: string; description: string; href: string }> };
 
 export default function SharedCollectionView({ locale, token }: { locale: Locale; token: string }) {
   const [data, setData] = useState<SharedData | null>(null);
@@ -48,7 +49,7 @@ export default function SharedCollectionView({ locale, token }: { locale: Locale
       <h1 className="mt-2 text-3xl font-black tracking-[-0.04em] sm:text-4xl">{loading ? (fr ? "Chargement…" : "Loading…") : data?.name ?? (fr ? "Lien indisponible" : "Link unavailable")}</h1>
       <p className="mt-2 text-sm leading-6 text-[var(--muted)]">{data ? (fr ? "Cette sélection a été partagée volontairement par son propriétaire." : "This selection was explicitly shared by its owner.") : (fr ? "Ce lien est invalide ou son propriétaire a désactivé le partage." : "This link is invalid or its owner disabled sharing.")}</p>
     </header>
-    {data && (data.tools.length ? <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{data.tools.map((tool) => <li key={tool.id} className="rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-4 shadow-[var(--shadow-sm)]"><div className="flex items-start gap-3"><span aria-hidden="true" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[var(--accent-soft)] text-2xl">{tool.icon}</span><div className="min-w-0"><Link href={tool.href} className="font-bold hover:underline">{tool.name}</Link><p className="mt-1 text-sm text-[var(--muted)]">{tool.description}</p></div></div></li>)}</ul> : <p className="rounded-[var(--radius-xl)] border border-dashed border-[var(--border)] p-8 text-center text-sm text-[var(--muted)]">{fr ? "Cette collection ne contient pas encore d’outils." : "This collection does not contain any tools yet."}</p>)}
+    {data && (data.tools.length ? <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{data.tools.map((tool) => <li key={tool.id} className="rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-4 shadow-[var(--shadow-sm)]"><div className="flex items-start gap-3"><span aria-hidden="true" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--shape-corner-medium)] bg-[var(--primary-container)] text-[var(--on-primary-container)]"><MaterialIcon name={tool.icon} size={24} /></span><div className="min-w-0"><Link href={tool.href} className="font-bold hover:underline">{tool.name}</Link><p className="mt-1 text-sm text-[var(--muted)]">{tool.description}</p></div></div></li>)}</ul> : <p className="rounded-[var(--radius-xl)] border border-dashed border-[var(--border)] p-8 text-center text-sm text-[var(--muted)]">{fr ? "Cette collection ne contient pas encore d’outils." : "This collection does not contain any tools yet."}</p>)}
       </PageContainer>
     </main>
   );

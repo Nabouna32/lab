@@ -1,34 +1,28 @@
 # Badge et BadgedBox — contrat AndroidX et adaptation Web
 
 > **Référence visée :** `androidx.compose.material3:material3:1.4.0`  
-> **État :** adaptation Web partielle ; la provenance de l'archive stable est connue, mais son alignement avec le commit de veille reste non vérifié.
+> **État :** adaptation Web partielle ; dimensions, couleurs et ancrage restent à vérifier.
 
-## API et sources
+## Sources
 
-- Référence API : [`Badge`](https://developer.android.com/reference/kotlin/androidx/compose/material3/Badge.composable), [`BadgedBox`](https://developer.android.com/reference/kotlin/androidx/compose/material3/BadgedBox.composable), [`BadgeDefaults`](https://developer.android.com/reference/kotlin/androidx/compose/material3/BadgeDefaults).
-- Source de veille épinglée : [`Badge.kt` au commit `5901d750e269aa3d88f6fccd5186637df83a0173`](https://github.com/androidx/androidx/blob/5901d750e269aa3d88f6fccd5186637df83a0173/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Badge.kt).
-- Archive source stable et provenance : [sources Material 3 1.4.0](https://android.googlesource.com/platform/prebuilts/androidx/internal/%2B/refs/heads/androidx-collection-release/androidx/compose/material3/material3/1.4.0/material3-1.4.0-sources.jar), SHA-256 `08a23a069407ba2a59685f88d676fd38ede207301a0805ee904ed63735f5d0b5`.
-- Implémentation : [`Badge.tsx`](../../../src/components/ui/Badge.tsx) et [`Badge.module.css`](../../../src/components/ui/Badge.module.css).
+- Références API : [Badge](https://developer.android.com/reference/kotlin/androidx/compose/material3/Badge.composable), [BadgedBox](https://developer.android.com/reference/kotlin/androidx/compose/material3/BadgedBox.composable), [BadgeDefaults](https://developer.android.com/reference/kotlin/androidx/compose/material3/BadgeDefaults).
+- Source AndroidX épinglée : [Badge.kt au commit `5901d750e269aa3d88f6fccd5186637df83a0173`](https://github.com/androidx/androidx/blob/5901d750e269aa3d88f6fccd5186637df83a0173/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Badge.kt).
+- Provenance de l'archive stable 1.4.0 et SHA-256 : [sources.md](../sources.md).
+- Implémentation Web : [Badge.tsx](../../../src/components/ui/Badge.tsx) et [Badge.module.css](../../../src/components/ui/Badge.module.css).
 
 ## Contrat
 
-- **ANDROIDX** — le badge signale un statut ou une quantité ; `BadgedBox` positionne un badge relativement à son contenu d'ancrage.
-- **WEB-ADAPTATION** — le badge est décoratif pour les technologies d'assistance lorsqu'aucun nom accessible n'est fourni. Avec `accessibleLabel`, il est exposé comme image nommée. Le contrôle qui porte l'action doit, si nécessaire, posséder son propre nom accessible complet.
-- **LOCULARY-EXTENSION** — les variantes CSS `small` et `large`, ainsi que la propriété `accessibleLabel`, forment une API Web pratique ; elles ne prétendent pas reproduire exactement les signatures AndroidX.
-- **UNVERIFIED** — les valeurs de couleur, dimensions et décalage d'ancrage doivent être vérifiées à partir de la source publiée 1.4.0 et comparées au rendu navigateur.
-
-## Corrections de cette tranche
-
-- Un badge purement visuel est masqué à l'arbre d'accessibilité au lieu de laisser un `aria-label` sur un élément générique sans rôle.
-- Un badge nommé reçoit le rôle `img` et un nom accessible explicite.
-- Les couleurs utilisent les rôles sémantiques partagés `--error` et `--on-error`, sans valeurs de palette en repli dans le composant.
+- **ANDROIDX** — un badge signale un statut ou une quantité ; `BadgedBox` positionne le badge relativement à son contenu d'ancrage.
+- **WEB-ADAPTATION** — les variantes CSS `small` et `large`, ainsi que `accessibleLabel`, forment une API Web pratique et ne reproduisent pas exactement les signatures AndroidX.
+- **ACCESSIBILITÉ** — un badge purement visuel est masqué à l'arbre d'accessibilité. Avec `accessibleLabel`, il est exposé comme image nommée. Le contrôle interactif parent doit conserver son propre nom accessible complet.
+- **UNVERIFIED** — couleurs, dimensions et décalage d'ancrage n'ont pas été comparés aux valeurs exactes de la source publiée 1.4.0.
 
 ## Vérifications restantes
 
-- [ ] Confirmer les valeurs source de couleur, taille et ancrage.
-- [ ] Vérifier les combinaisons badge numérique / indicateur, contenu absent et libellé accessible.
-- [ ] Tester la lecture des badges de notification et de leur contrôle parent.
-- [ ] Comparer les thèmes clair/sombre et le rendu responsive en navigateur.
-- [ ] Exécuter lint, vérification TypeScript, tests et build.
+- [ ] Relier la source publiée 1.4.0 au commit et au dump API exacts.
+- [ ] Vérifier badge numérique, indicateur sans contenu et nom accessible.
+- [ ] Tester la lecture du badge et de son contrôle parent.
+- [ ] Comparer clair/sombre et rendu responsive.
+- [ ] Exécuter tests, lint, vérification TypeScript et build.
 
 Les tests statiques ne remplacent pas la validation de rendu et d'accessibilité.

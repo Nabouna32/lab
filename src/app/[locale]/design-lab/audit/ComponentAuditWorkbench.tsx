@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import { createClient } from "@/lib/supabase/client";
 import ComponentLivePreview from "./ComponentLivePreview";
 import ComponentMaintenancePanel from "./ComponentMaintenancePanel";
@@ -246,7 +247,7 @@ export default function ComponentAuditWorkbench({ locale }: { locale: Locale }) 
           <p className="mt-1 text-xs text-[var(--muted)]">{relationshipLabels[component.m3_relationship][locale]}</p>
         </div>
         <a className="text-sm font-semibold text-[var(--accent)] underline" href={`https://github.com/Nabouna32/lab/blob/main/${component.implementation_path}`} target="_blank" rel="noreferrer">
-          {fr ? "Ouvrir le code source ↗" : "Open source ↗"}
+          <span className="inline-flex items-center gap-1">{fr ? "Ouvrir le code source" : "Open source"}<MaterialIcon name="arrow_outward" size={16} /></span>
         </a>
       </div>
       <label className="mt-4 block max-w-md text-sm font-medium">
@@ -278,7 +279,7 @@ export default function ComponentAuditWorkbench({ locale }: { locale: Locale }) 
     <main className="mx-auto min-h-[calc(100vh-4.5rem)] max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <header className="mb-8">
         <Link className="text-sm font-semibold text-[var(--accent)]" href={`/${locale}/design-lab`}>
-          {fr ? "← Retour au laboratoire visuel" : "← Back to visual lab"}
+          <span className="inline-flex items-center gap-1.5"><MaterialIcon name="arrow_back" size={18} />{fr ? "Retour au laboratoire visuel" : "Back to visual lab"}</span>
         </Link>
         <div className="mt-6 flex flex-wrap items-start justify-between gap-4">
           <div className="max-w-3xl">
@@ -428,13 +429,13 @@ export default function ComponentAuditWorkbench({ locale }: { locale: Locale }) 
                         <div className="mt-4 flex flex-wrap items-center gap-2">
                           {entry.reference_status === "verified" && entry.official_reference_url ? (
                             <a className="inline-flex items-center gap-1 rounded-full border border-[var(--border)] px-3 py-1.5 text-xs font-medium underline" href={entry.official_reference_url} target="_blank" rel="noreferrer">
-                              {fr ? "Référence officielle vérifiée ↗" : "Verified official reference ↗"}
+                              <span className="inline-flex items-center gap-1">{fr ? "Référence officielle vérifiée" : "Verified official reference"}<MaterialIcon name="arrow_outward" size={14} /></span>
                             </a>
                           ) : entry.reference_status === "not-applicable" ? (
                             <span className="rounded-full bg-[var(--surface-container)] px-3 py-1.5 text-xs">{fr ? "Hors catalogue M3" : "Outside M3 catalogue"}</span>
                           ) : entry.official_reference_url ? (
                             <a className="inline-flex items-center gap-1 rounded-full border border-[var(--border)] px-3 py-1.5 text-xs underline" href={entry.official_reference_url} target="_blank" rel="noreferrer">
-                              {fr ? "Source candidate à vérifier ↗" : "Unverified source candidate ↗"}
+                              <span className="inline-flex items-center gap-1">{fr ? "Source candidate à vérifier" : "Unverified source candidate"}<MaterialIcon name="arrow_outward" size={14} /></span>
                             </a>
                           ) : (
                             <span className="rounded-full border border-[var(--border)] px-3 py-1.5 text-xs">{fr ? "Identité / source à vérifier" : "Identity / source to verify"}</span>

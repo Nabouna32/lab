@@ -860,7 +860,7 @@ test("destructive account and collection actions preserve link/button semantics 
   assert.match(collectionsView, /<AlertDialog[\s\S]*?destructive[\s\S]*?onConfirm=\{confirmDeleteCollection\}/);
   assert.match(collectionsView, /<TextButton type="button" colors=\{\{ contentColor: "var\(--error\)" \}\}[\s\S]*?<MaterialIcon name="delete"/);
   assert.doesNotMatch(collectionsView, /window\.confirm/);
-  assert.match(iconSource, /delete: "M280-120/);
+  assert.match(iconSource, /delete: "M261-120q-24\.75/);
 });
 
 test("AlertDialog actions use shared Material 3 buttons instead of a parallel button implementation", () => {
@@ -1119,4 +1119,88 @@ test("Badge delegates typography metrics to the shared Material 3 label role", (
   assert.ok(!badgeStyles.includes("line-height: var(--m3-type-label-small-line-height)"));
   assert.ok(!badgeStyles.includes("font-weight: var(--m3-type-label-small-weight)"));
   assert.ok(!badgeStyles.includes("letter-spacing: var(--m3-type-label-small-tracking)"));
+});
+
+
+test("dropdown selection and expansion glyphs use the shared Material Symbols registry", () => {
+  const dropdown = readFileSync(new URL("../../components/ui/DropdownMenu.tsx", import.meta.url), "utf8");
+  const exposedDropdown = readFileSync(new URL("../../components/ui/ExposedDropdownMenu.tsx", import.meta.url), "utf8");
+  const contrastChecker = readFileSync(new URL("../../components/tools/contrast-checker/ContrastChecker.tsx", import.meta.url), "utf8");
+
+  assert.match(dropdown, /MaterialIcon name="keyboard_arrow_down"/);
+  assert.match(dropdown, /MaterialIcon name="check"/);
+  assert.doesNotMatch(dropdown, /[⌄✓]/u);
+  assert.match(exposedDropdown, /MaterialIcon name="keyboard_arrow_down"/);
+  assert.match(exposedDropdown, /MaterialIcon name="check"/);
+  assert.doesNotMatch(exposedDropdown, /[✓]/u);
+  assert.match(contrastChecker, /name=\{pass \? "check" : "close"\}/);
+  assert.doesNotMatch(contrastChecker, /pass \? "✓" : "—"/);
+});
+
+
+test("shared controls use Material Symbols instead of Unicode chevrons and action glyphs", () => {
+  const sources = [
+    readFileSync(new URL("../../components/ui/SplitButton.tsx", import.meta.url), "utf8"),
+    readFileSync(new URL("../../components/ui/ScrollField.tsx", import.meta.url), "utf8"),
+    readFileSync(new URL("../../components/ui/BottomSheetScaffold.tsx", import.meta.url), "utf8"),
+    readFileSync(new URL("../../components/ui/FloatingToolbar.tsx", import.meta.url), "utf8"),
+    readFileSync(new URL("../../components/ui/SwipeToDismissBox.tsx", import.meta.url), "utf8"),
+    readFileSync(new URL("../../components/ui/FloatingActionButtonMenu.tsx", import.meta.url), "utf8"),
+  ];
+  for (const source of sources) {
+    assert.match(source, /MaterialIcon/);
+    assert.doesNotMatch(source, /[⌄⌃×]/u);
+  }
+  assert.match(sources[0], /keyboard_arrow_down/);
+  assert.match(sources[1], /keyboard_arrow_up/);
+  assert.match(sources[1], /keyboard_arrow_down/);
+  assert.match(sources[2], /keyboard_arrow_down/);
+  assert.match(sources[3], /close/);
+  assert.match(sources[4], /close/);
+  assert.match(sources[5], /add/);
+});
+
+
+test("back navigation uses the shared Material Symbols icon", () => {
+  const admin = readFileSync(new URL("../../app/[locale]/admin/page.tsx", import.meta.url), "utf8");
+  const workbench = readFileSync(new URL("../../app/[locale]/design-lab/audit/ComponentAuditWorkbench.tsx", import.meta.url), "utf8");
+  assert.match(admin, /MaterialIcon name="arrow_back"/);
+  assert.match(workbench, /MaterialIcon name="arrow_back"/);
+  assert.doesNotMatch(admin, /←/u);
+  assert.doesNotMatch(workbench, /←/u);
+});
+
+
+test("date, navigation rail and PDF controls use shared Material Symbols", () => {
+  const rail = readFileSync(new URL("../../components/ui/WideNavigationRail.tsx", import.meta.url), "utf8");
+  const datePicker = readFileSync(new URL("../../components/ui/DatePicker.tsx", import.meta.url), "utf8");
+  const workbench = readFileSync(new URL("../../app/[locale]/design-lab/audit/ComponentAuditWorkbench.tsx", import.meta.url), "utf8");
+  const imageToPdf = readFileSync(new URL("../../components/tools/image-to-pdf/ImageToPdf.tsx", import.meta.url), "utf8");
+  assert.match(rail, /MaterialIcon name=\{expanded \? "chevron_left" : "chevron_right"\}/);
+  assert.match(datePicker, /MaterialIcon name="chevron_left"/);
+  assert.match(datePicker, /MaterialIcon name="chevron_right"/);
+  assert.match(workbench, /MaterialIcon name="arrow_outward"/);
+  assert.doesNotMatch(workbench, /↗/u);
+  assert.match(imageToPdf, /MaterialIcon name="picture_as_pdf"/);
+  assert.match(imageToPdf, /keyboard_arrow_up/);
+  assert.match(imageToPdf, /keyboard_arrow_down/);
+  assert.doesNotMatch(imageToPdf, /[📄↑↓]/u);
+});
+
+
+test("image tool placeholders use the shared Material Symbols registry", () => {
+  const contactSheet = readFileSync(new URL("../../components/tools/image-contact-sheet/ImageContactSheet.tsx", import.meta.url), "utf8");
+  const imageCompressor = readFileSync(new URL("../../components/tools/image-compressor/ImageCompressor.tsx", import.meta.url), "utf8");
+  assert.match(contactSheet, /MaterialIcon name="image"/);
+  assert.match(imageCompressor, /MaterialIcon name="image"/);
+  assert.doesNotMatch(contactSheet, /🖼/u);
+  assert.doesNotMatch(imageCompressor, /🖼/u);
+});
+
+test("duration mode labels do not embed platform-dependent emoji", () => {
+  const messages = readFileSync(new URL("../../lib/i18n/tool-messages.ts", import.meta.url), "utf8");
+  assert.match(messages, /datesMode: "Between two dates", timesMode: "Between two times"/);
+  assert.match(messages, /datesMode: "Entre deux dates", timesMode: "Entre deux horaires"/);
+  assert.doesNotMatch(messages, /datesMode: "📅/u);
+  assert.doesNotMatch(messages, /timesMode: "🕐/u);
 });

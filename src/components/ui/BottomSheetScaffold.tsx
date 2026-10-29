@@ -3,6 +3,7 @@
 import { useId, useRef, useState } from "react";
 import type { PointerEvent, ReactNode } from "react";
 import styles from "./BottomSheetScaffold.module.css";
+import { MaterialIcon } from "@/components/ui/MaterialIcon";
 
 export type BottomSheetScaffoldProps = {
   title: string;
@@ -82,7 +83,7 @@ export function BottomSheetScaffold({
         >
           <span className={styles.dragHandle} aria-hidden="true" />
           <span>{title}</span>
-          <span aria-hidden="true">{expanded ? "⌄" : "⌃"}</span>
+          <span aria-hidden="true"><MaterialIcon name={expanded ? "keyboard_arrow_down" : "keyboard_arrow_up"} size={24} /></span>
         </button>
         <div id={`m3-bottom-sheet-content-${id}`} className={styles.sheetContent} hidden={!expanded}>{sheetContent}</div>
       </section>

@@ -375,14 +375,14 @@ export default function ToolSearch({
                     >
                       <span
                         className={
-                          "flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--shape-corner-medium)] text-xl " +
+                          "flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--shape-corner-medium)] " +
                           (selected
                             ? "bg-[var(--on-primary-container)]/10"
                             : "bg-[var(--surface-variant)] text-[var(--on-surface-variant)]")
                         }
                         aria-hidden="true"
                       >
-                        {tool.icon}
+                        <MaterialIcon name={tool.icon} size={22} />
                       </span>
                       <span className="min-w-0 flex-1">
                         <span className="m3-type-title-small block truncate">
