@@ -63,7 +63,7 @@ async function fetchBytes(value, label, fetchImpl, maxBytes, allowMissing = fals
 
 function parseChecksum(bytes, algorithm, label) {
   const text = bytes.toString('utf8').trim();
-  const pattern = algorithm === 'sha256' ? /^[a-f0-9]{64}(?:\\s+.*)?$/i : /^[a-f0-9]{40}(?:\\s+.*)?$/i;
+  const pattern = algorithm === 'sha256' ? /^[a-f0-9]{64}(?:\s+.*)?$/i : /^[a-f0-9]{40}(?:\s+.*)?$/i;
   if (!pattern.test(text)) throw new Error(`${label} does not contain one valid ${algorithm.toUpperCase()} checksum.`);
   return text.match(/^[a-f0-9]+/i)[0].toLowerCase();
 }
@@ -72,7 +72,7 @@ export function calculateMavenArchiveHashes(bytes) {
   const buffer = Buffer.isBuffer(bytes) ? bytes : Buffer.from(bytes);
   return {
     sha256: createHash('sha256').update(buffer).digest('hex'),
-    gitBlobSha1: createHash('sha1').update(Buffer.from(`blob ${buffer.length}\\0`)).update(buffer).digest('hex'),
+    gitBlobSha1: createHash('sha1').update(Buffer.from(`blob ${buffer.length}\0`)).update(buffer).digest('hex'),
     sizeBytes: buffer.length,
   };
 }
@@ -116,12 +116,12 @@ async function main() {
   const manifestPath = process.argv[2];
   if (!manifestPath) throw new Error('Usage: node .github/scripts/inspect-material-components-source-archive.mjs <manifest.json>');
   const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
-  process.stdout.write(`${JSON.stringify(await inspectMavenSourceArchive(manifest), null, 2)}\\n`);
+  process.stdout.write(`${JSON.stringify(await inspectMavenSourceArchive(manifest), null, 2)}\n`);
 }
 
 if (process.argv[1] && import.meta.url === new URL(`file://${process.argv[1]}`).href) {
   main().catch(error => {
-    process.stderr.write(`Maven source archive verification failed: ${error.message}\\n`);
+    process.stderr.write(`Maven source archive verification failed: ${error.message}\n`);
     process.exitCode = 1;
   });
 }
