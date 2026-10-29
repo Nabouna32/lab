@@ -754,7 +754,6 @@ test("back navigation uses the shared Material Symbols icon", () => {
 test("date, navigation rail and PDF controls use shared Material Symbols", () => {
   const rail = readFileSync(new URL("../../components/ui/WideNavigationRail.tsx", import.meta.url), "utf8");
   const datePicker = readFileSync(new URL("../../components/ui/DatePicker.tsx", import.meta.url), "utf8");
-  const workbench = readFileSync(new URL("../../app/[locale]/design-lab/audit/ComponentAuditWorkbench.tsx", import.meta.url), "utf8");
   const imageToPdf = readFileSync(new URL("../../components/tools/image-to-pdf/ImageToPdf.tsx", import.meta.url), "utf8");
   assert.match(rail, /MaterialIcon name=\{expanded \? "chevron_left" : "chevron_right"\}/);
   assert.match(datePicker, /MaterialIcon name="chevron_left"/);
