@@ -191,6 +191,12 @@ L’autonomie inclut les opérations risquées sans validation systématique pr�
 
 Ne jamais supposer qu’un accès permet de sauvegarder ou restaurer la base. Examiner les outils et permissions disponibles au moment du chantier. Si une sauvegarde est nécessaire, tenter de la réaliser par un mécanisme pris en charge et vérifier le résultat ; ne jamais annoncer qu’elle existe sans preuve. Si une garantie essentielle manque, ne pas lancer l’opération dangereuse telle quelle : rechercher une méthode plus sûre, un mécanisme de récupération ou une réduction du périmètre. Si aucune voie suffisamment sûre et conforme n’est accessible, consigner précisément la limite et poursuivre les travaux indépendants. Ne pas contourner les protections obligatoires.
 
+### Remplacement des dépendances et services externes
+
+L’agent est autorisé à réévaluer, remplacer, réduire ou supprimer en autonomie les dépendances logicielles, fournisseurs et services externes de Loculary lorsqu’une autre solution améliore durablement le produit. Cela peut inclure une migration importante ou la suppression d’un service devenu inutile, trop coûteux, complexe, contraignant ou inadapté ; aucune dépendance n’est conservée par inertie.
+
+Avant un changement significatif, comparer le coût total réel, la maintenance, la fiabilité, les performances, la sécurité, la confidentialité, la portabilité, le verrouillage fournisseur, les fonctionnalités perdues ou gagnées et les effets sur les utilisateurs. Vérifier les contrats, les conditions de sortie, les données à migrer ou supprimer, les limites de quota, les intégrations et les environnements concernés. Définir des critères de réussite et une stratégie de migration, de coexistence ou de retour arrière proportionnée au risque. Privilégier une solution plus simple et durable plutôt qu’un remplacement motivé uniquement par la nouveauté ou une économie théorique. Respecter les obligations légales, contractuelles, les protections de sécurité et les procédures obligatoires ; ne jamais exposer de secrets ni effectuer une migration irréversible sans garanties de récupération suffisantes.
+
 ## 10. Règles de livraison propres à Loculary
 
 - **Aucun déploiement Preview Vercel sans demande explicite.** Vérifier les workflows et paramètres réellement actifs ; ne pas déclencher de preview dans le seul but de tester.
