@@ -44,7 +44,7 @@ test("shared Button exports AndroidX component names with source-derived dimensi
   const buttonContract = button + buttonVariantStyles + buttonLayout;
   for (const required of [
     "min-h-10", "min-w-[58px]", "whitespace-nowrap", "whitespace-pre-line",
-    "leadingIcon?: boolean", "multiline?: boolean", "pl-3 pr-4", "pl-4 pr-6",
+    "leadingIcon?: boolean", "multiline?: boolean", "ps-3 pe-4", "ps-4 pe-6",
     "transition-[background-color,border-color,color,box-shadow]", "motion-reduce:transition-none",
     "--button-disabled-container-color",
     "--button-disabled-content-color",
