@@ -13,29 +13,46 @@ class SourceIndexTests(unittest.TestCase):
         import base64
         enc = lambda value: base64.b64encode(value.encode()).decode()
         output = "\n".join([
-            "|".join(["T", enc("pkg.Widget"), enc("Widget"), "-", "type", "true", "false", "false"]),
-            "|".join(["M", enc("pkg.Widget"), enc("old"), "1", "method", "false", "true", "false"]),
+            "|".join(["T", enc("pkg.Widget"), enc("Widget"), "-", "type", "true", "false", "false", enc("")]),
+            "|".join(["M", enc("pkg.Widget"), enc("old"), "1", "method", "false", "true", "false", enc("String")]),
         ])
         types, members = MODULE.decode_source_index(output)
         self.assertTrue(types["pkg.Widget"]["restricted"])
         self.assertTrue(members[("pkg.Widget", "old", "1", "method")][0]["deprecated"])
 
-    def test_matches_overloads_by_arity_and_marks_annotation_conflicts_ambiguous(self):
+    def test_matches_overloads_using_erased_parameter_types(self):
         index = {
-            ("pkg.Widget", "convert", "1", "method"): [
-                {"restricted": False, "deprecated": False, "docDeprecated": False},
-                {"restricted": True, "deprecated": False, "docDeprecated": False},
+            ("pkg.Widget", "convert", "method"): [
+                {"restricted": False, "deprecated": False, "docDeprecated": False, "parameterTypes": ["String"]},
+                {"restricted": True, "deprecated": False, "docDeprecated": False, "parameterTypes": ["int"]},
             ],
         }
-        result = MODULE.source_member_info(index, "pkg.Widget", "convert", 1, "method")
+        result = MODULE.source_member_info(index, "pkg.Widget", "convert", ["java.lang.String"], "method")
         self.assertTrue(result["matched"])
+        self.assertFalse(result["ambiguous"])
+        self.assertFalse(result["restricted"])
+
+    def test_keeps_same_erased_signature_ambiguous(self):
+        index = {
+            ("pkg.Widget", "convert", "method"): [
+                {"restricted": False, "deprecated": False, "docDeprecated": False, "parameterTypes": ["List<String>"]},
+                {"restricted": True, "deprecated": False, "docDeprecated": False, "parameterTypes": ["java.util.List<Integer>"]},
+            ],
+        }
+        result = MODULE.source_member_info(index, "pkg.Widget", "convert", ["java.util.List<? extends Foo>"], "method")
+        self.assertFalse(result["matched"])
         self.assertTrue(result["ambiguous"])
         self.assertFalse(result["restricted"])
 
-    def test_signature_parameter_count_handles_nested_generics(self):
-        self.assertEqual(MODULE.signature_parameter_count("public void f(java.util.Map<java.lang.String, java.lang.Integer>, int[])"), 2)
+    def test_signature_parameter_types_handles_nested_generics(self):
+        self.assertEqual(
+            MODULE.signature_parameter_types("public void f(java.util.Map<java.lang.String, java.lang.Integer>, int[])"),
+            ["java.util.Map<java.lang.String, java.lang.Integer>", "int[]"],
+        )
         self.assertEqual(MODULE.signature_parameter_count("public void f()"), 0)
         self.assertIsNone(MODULE.signature_parameter_count("public int value"))
+        self.assertEqual(MODULE.normalize_parameter_type("java.util.List<? extends java.lang.String>"), "List")
+        self.assertEqual(MODULE.normalize_parameter_type("String..."), "String[]")
 
     def test_public_source_path_uses_outer_type_for_nested_classes(self):
         self.assertEqual(
