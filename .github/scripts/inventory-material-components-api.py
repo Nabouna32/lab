@@ -95,8 +95,6 @@ def normalize_parameter_type(value):
     while value.endswith("[]"):
         dimensions += "[]"
         value = value[:-2]
-    if "." in value:
-        value = value.rsplit(".", 1)[-1]
     return value + dimensions
 
 
@@ -106,10 +104,17 @@ def source_member_info(index, owner, name, binary_parameter_types, member_kind):
         matches = candidates
     else:
         binary_types = [normalize_parameter_type(value) for value in binary_parameter_types]
-        matches = [
-            item for item in candidates
-            if [normalize_parameter_type(value) for value in item["parameterTypes"]] == binary_types
-        ]
+        def compatible(source_types):
+            normalized = [normalize_parameter_type(value) for value in source_types]
+            if normalized == binary_types:
+                return True
+            return len(normalized) == len(binary_types) and all(
+                source == binary or (
+                    "." not in source and source == binary.rsplit(".", 1)[-1]
+                )
+                for source, binary in zip(normalized, binary_types)
+            )
+        matches = [item for item in candidates if compatible(item["parameterTypes"])]
     if not matches:
         return {"restricted": False, "deprecated": False, "matched": False, "ambiguous": False}
     ambiguous = len(matches) > 1
