@@ -93,14 +93,7 @@ public final class SourceAnnotationIndex {
       var owners = typeNames.descendingIterator();
       while (owners.hasNext()) {
         String owner = owners.next();
-        String ownerSimpleName = owner.substring(owner.lastIndexOf('$') + 1);
-        if (ownerSimpleName.equals(simpleName)) return owner;
-        String nested = owner + "$" + simpleName;
-        if (sourceTypeNames.contains(nested)) return nested;
-      }
-      return null;
-    }
-    private String resolveParameterType(String rawType) {
+        String ownerSimpleName = owner.substring(owner.lastIndexOf('
       String value = rawType.replace("...", "[]")
         .replaceAll("@[A-Za-z0-9_.$]+(?:\\([^)]*\\))?\\s*", "").trim();
       StringBuilder erased = new StringBuilder();
@@ -229,24 +222,6 @@ public final class SourceAnnotationIndex {
         String simpleName = relative.substring(relative.lastIndexOf('/') + 1, relative.length() - 5);
         String packageName = relative.contains("/") ? relative.substring(0, relative.lastIndexOf('/')).replace('/', '.') : "";
         sourceTopLevelTypes.add(packageName.isEmpty() ? simpleName : packageName + "." + simpleName);
-      }
-      Set<String> sourceTypeNames = new HashSet<>();
-      for (CompilationUnitTree unit : parsed) {
-        String pkg = unit.getPackageName() == null ? "" : unit.getPackageName().toString();
-        new TreePathScanner<Void, Deque<String>>() {
-          @Override
-          public Void visitClass(ClassTree node, Deque<String> owners) {
-            String simple = node.getSimpleName().toString();
-            if (simple.isEmpty()) return null;
-            String owner = owners.isEmpty()
-              ? (pkg.isEmpty() ? simple : pkg + "." + simple)
-              : owners.peekLast() + "$" + simple;
-            sourceTypeNames.add(owner);
-            owners.addLast(owner);
-            try { return super.visitClass(node, owners); }
-            finally { owners.removeLast(); }
-          }
-        }.scan(unit, new ArrayDeque<>());
       }
       Set<String> sourceTypeNames = new HashSet<>();
       for (CompilationUnitTree unit : parsed) {
@@ -416,8 +391,7 @@ public final class SourceAnnotationIndex {
       Iterable<? extends JavaFileObject> units = manager.getJavaFileObjectsFromPaths(paths);
       JavacTask task = (JavacTask) compiler.getTask(null, manager, diagnostics,
         List.of("-proc:none", "-Xlint:none"), null, units);
-      List<CompilationUnitTree> parsed = new ArrayList<>();
-      for (CompilationUnitTree unit : task.parse()) parsed.add(unit);
+      Iterable<? extends CompilationUnitTree> parsed = task.parse();
       DocTrees docs = DocTrees.instance(task);
       Set<String> sourceTopLevelTypes = new HashSet<>();
       for (Path sourcePath : paths) {
@@ -436,7 +410,7 @@ public final class SourceAnnotationIndex {
           if (qualified.endsWith(".*")) wildcardImports.add(qualified.substring(0, qualified.length() - 2));
           else imports.put(qualified.substring(qualified.lastIndexOf('.') + 1), qualified);
         }
-        new Indexer(pkg, docs, imports, wildcardImports, sourceTopLevelTypes, sourceTypeNames).scan(unit, null);
+        new Indexer(pkg, docs, imports, wildcardImports, sourceTopLevelTypes).scan(unit, null);
       }
       List<Diagnostic<? extends JavaFileObject>> errors = diagnostics.getDiagnostics().stream()
         .filter(diagnostic -> diagnostic.getKind() == Diagnostic.Kind.ERROR)
