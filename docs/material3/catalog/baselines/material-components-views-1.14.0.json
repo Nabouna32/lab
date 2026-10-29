@@ -15,10 +15,18 @@
   },
   "sourceArchive": {
     "url": "https://dl.google.com/dl/android/maven2/com/google/android/material/material/1.14.0/material-1.14.0-sources.jar",
-    "checksumStatus": "pending-ci-verification",
-    "publishedSha256": null,
-    "gitBlobSha1": null,
-    "sizeBytes": null
+    "checksumStatus": "verified-against-google-maven-sidecar",
+    "publishedSha256": "fde0310c43bdc6a30a12b6e288113b123769ee78de0327df559d992c26974067",
+    "gitBlobSha1": "02ca28f3426728ed7b02f89c6d5f1973e9e711d7",
+    "sizeBytes": 1361931,
+    "publishedSha1": "b619b8afcf9744457ff2e54e70608cb46be12910",
+    "verification": {
+      "date": "2026-10-29",
+      "workflowRun": "https://github.com/Nabouna32/lab/actions/runs/40953414767",
+      "verifiedCommit": "946a029a1b3c93a1201da0159bab934dc91ab606",
+      "result": "passed",
+      "method": "CI downloaded the official Google Maven sources JAR, compared its bytes with published SHA-256 and SHA-1 sidecars, and calculated SHA-256 plus Git blob SHA-1."
+    }
   },
   "apiInventory": {
     "status": "not-started",
