@@ -73,6 +73,21 @@ La migration reste partielle et la conformité globale n’est pas établie.
 - **Composants AndroidX :** les spécifications et vérifications sont inégales selon les familles. La présence d’une implémentation ou d’un nom AndroidX ne vaut pas validation de parité.
 - **Rendu navigateur :** la validation visuelle complète des thèmes clair/sombre, du français/anglais, du responsive et des interactions reste à établir.
 
+## État par composant
+
+| Composant | Portage | Migration / preuve restante |
+|---|---|---|
+| [Button](components/Button.md) | API React nommée d'après AndroidX ; vérification des tokens et du rendu encore ouverte | Audit des usages et validation navigateur |
+| [Lien Web](components/Link.md) | `AppLink` conserve la sémantique d'ancre et partage les variantes visuelles du bouton | Audit global des usages |
+| [ListItem](components/ListItem.md) | Adaptation existante, compositions simples alignées sur AndroidX 1.4.0 | Surcharges interactives et parité navigateur non vérifiées |
+| [IconButton](components/IconButton.md) | Implémentation existante | Contrat source, états et rendu à vérifier |
+| [Card](components/Card.md) | Variantes `Card`, `ElevatedCard`, `OutlinedCard` et composition `CardLink` séparées | Valeurs source et usages de production à vérifier |
+| [Chip](components/Chip.md) | Adaptation des variantes Assist, Filter, Input et Suggestion | Parité des états et du rendu à vérifier |
+| [Badge / BadgedBox](components/Badge.md) | Adaptation Web avec rôles de couleur et nom accessible explicites | Tailles, ancrage et usage dans les contrôles à vérifier |
+| Autres familles | Inventaire et couverture incomplets | À inventorier selon le périmètre déclaré |
+
+La validation navigateur de `NavigationBar` reste suivie dans [l’issue #977](https://github.com/Nabouna32/lab/issues/977) ; cela ne signifie pas que le composant est déjà fidèle à AndroidX.
+
 ## Cycle de travail
 
 Pour chaque tranche cohérente : sélectionner la famille, examiner les sources et usages, décider de l’architecture cible, implémenter, ajouter des tests proportionnés, exécuter les contrôles pertinents, vérifier le navigateur lorsque possible, migrer les consommateurs, puis mettre à jour la spécification et le statut avec des preuves. Garder les commits focalisés et la documentation canonique concise ; supprimer les historiques redondants lorsque l’information utile est conservée ailleurs.
