@@ -221,7 +221,7 @@ def main():
                 if signature in {"{", "}", "static {}"} or signature.startswith("Compiled from"):
                     continue
                 if "(" in signature:
-                    member_name_match = re.search(r"([A-Za-z_$][\\w$]*)\\s*\\(", signature)
+                    member_name_match = re.search(r"([A-Za-z_$][\w$]*)\s*\(", signature)
                     member_name = member_name_match.group(1) if member_name_match else None
                     arity = signature_parameter_count(signature)
                     member_kind = "method"
@@ -230,7 +230,7 @@ def main():
                         member_name = "<init>"
                 else:
                     field_signature = signature.split("=", 1)[0].rstrip("; ").strip()
-                    member_name_match = re.search(r"([A-Za-z_$][\\w$]*)$", field_signature)
+                    member_name_match = re.search(r"([A-Za-z_$][\w$]*)$", field_signature)
                     member_name = member_name_match.group(1) if member_name_match else None
                     arity = 0
                     member_kind = "field"
