@@ -201,11 +201,6 @@ def main():
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
         print(json.dumps(report["summary"], sort_keys=True))
-        print("API_INVENTORY_JSON_BASE64_BEGIN")
-        encoded = __import__("base64").b64encode(args.output.read_bytes()).decode("ascii")
-        for index in range(0, len(encoded), 30000):
-            print(f"API_INVENTORY_JSON_CHUNK={index // 30000:05d}:{encoded[index:index + 30000]}")
-        print("API_INVENTORY_JSON_BASE64_END")
 
 if __name__ == "__main__":
     main()
