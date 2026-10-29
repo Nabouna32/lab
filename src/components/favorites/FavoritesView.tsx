@@ -37,12 +37,12 @@ export default function FavoritesView({ locale, tools }: { locale: Locale; tools
   return (
     <main className="min-h-[60svh]">
       <PageContainer width="medium" spacing="default">
-      <Card className="mb-7 p-6 sm:p-8">
+      <header className="mb-7"><Card className="p-6 sm:p-8">
         <p className="m3-type-label-small uppercase text-[var(--primary)]">Loculary</p>
         <h1 className="m3-type-headline-medium mt-2">{text.title}</h1>
         <p className="m3-type-body-large mt-2 max-w-2xl text-[var(--muted)]">{text.description}</p>
         <p className="m3-type-body-medium mt-4 text-[var(--muted)]" aria-live="polite">{text.count(selected.length)}</p>
-      </Card>
+      </Card></header>
       {favorites.error && <p role="status" className="mb-5 rounded-2xl border border-[var(--danger)]/40 bg-[var(--surface)] px-4 py-3 text-sm text-[var(--danger)]">{text.syncError}</p>}
       {selected.length ? (
         <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -65,12 +65,12 @@ export default function FavoritesView({ locale, tools }: { locale: Locale; tools
           ))}
         </ul>
       ) : (
-        <Card className="px-6 py-10 text-center sm:px-10">
+        <section aria-labelledby="favorites-empty-title"><Card className="px-6 py-10 text-center sm:px-10">
           <span aria-hidden="true" className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[var(--primary-container)] text-[var(--on-primary-container)]"><StarIcon className="h-8 w-8" /></span>
           <h2 id="favorites-empty-title" className="m3-type-title-large mt-4">{text.emptyTitle}</h2>
           <p className="m3-type-body-medium mx-auto mt-2 max-w-lg text-[var(--muted)]">{text.emptyDescription}</p>
           <AppLink href={getToolsPath(locale)} variant="filled" className="mt-6">{text.explore}</AppLink>
-        </Card>
+        </Card></section>
       )}
       </PageContainer>
     </main>
