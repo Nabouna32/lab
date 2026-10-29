@@ -147,7 +147,9 @@ test('production build runs independently and remains covered by the required st
   const gateJob = workflow.slice(workflow.indexOf('  ci:'), workflow.indexOf('  npm-audit:'));
   assert.ok(buildJob.includes('run: npm run build'));
   assert.ok(gateJob.includes('name: Node.js 24.21.0'));
-  assert.ok(gateJob.includes('needs: [prepare, quality, build, supabase]'));
+  assert.ok(gateJob.includes('needs: [prepare, quality, build, supabase, npm-audit]'));
+  assert.ok(gateJob.includes('NPM_AUDIT_RESULT'));
+  assert.ok(gateJob.includes('$NPM_AUDIT_RESULT'));
   assert.ok(gateJob.includes('PREPARE_RESULT'));
   assert.ok(gateJob.includes('BUILD_RESULT'));
 });
