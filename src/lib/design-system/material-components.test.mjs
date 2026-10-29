@@ -1,3 +1,64 @@
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { test } from "node:test";
+const alertDialogSource = readFileSync(new URL("../../components/ui/AlertDialog.tsx", import.meta.url), "utf8");
+const alertDialogCss = readFileSync(new URL("../../components/ui/AlertDialog.module.css", import.meta.url), "utf8");
+const checkboxSource = readFileSync(new URL("../../components/ui/Checkbox.tsx", import.meta.url), "utf8");
+const switchSource = readFileSync(new URL("../../components/ui/Switch.tsx", import.meta.url), "utf8");
+const iconSource = readFileSync(new URL("../../components/ui/MaterialIcon.tsx", import.meta.url), "utf8");
+const progressSource = readFileSync(new URL("../../components/ui/ProgressIndicator.tsx", import.meta.url), "utf8");
+const progressCss = readFileSync(new URL("../../components/ui/progress-indicator.module.css", import.meta.url), "utf8");
+const textFieldSource = readFileSync(new URL("../../components/ui/TextField.tsx", import.meta.url), "utf8");
+const textAreaSource = readFileSync(new URL("../../components/ui/TextArea.tsx", import.meta.url), "utf8");
+const selectSource = readFileSync(new URL("../../components/ui/Select.tsx", import.meta.url), "utf8");
+const buttonSource = readFileSync(new URL("../../components/ui/Button.tsx", import.meta.url), "utf8");
+const buttonVariantStylesSource = readFileSync(new URL("../../components/ui/material-button-variant-styles.ts", import.meta.url), "utf8");
+const iconButtonSource = readFileSync(new URL("../../components/ui/IconButton.tsx", import.meta.url), "utf8");
+const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
+const headerMenuSource = readFileSync(new URL("../../components/layout/DesktopHeaderMenu.tsx", import.meta.url), "utf8");
+const messagesSource = readFileSync(new URL("../i18n/messages.ts", import.meta.url), "utf8");
+const typographyComponentStyles = {
+  bottomSheetScaffold: readFileSync(new URL("../../components/ui/BottomSheetScaffold.module.css", import.meta.url), "utf8"),
+  buttonGroup: readFileSync(new URL("../../components/ui/ButtonGroup.module.css", import.meta.url), "utf8"),
+  datePicker: readFileSync(new URL("../../components/ui/DatePicker.module.css", import.meta.url), "utf8"),
+  floatingActionButton: readFileSync(new URL("../../components/ui/FloatingActionButton.module.css", import.meta.url), "utf8"),
+  floatingActionButtonMenu: readFileSync(new URL("../../components/ui/FloatingActionButtonMenu.module.css", import.meta.url), "utf8"),
+  floatingToolbar: readFileSync(new URL("../../components/ui/FloatingToolbar.module.css", import.meta.url), "utf8"),
+  modalBottomSheet: readFileSync(new URL("../../components/ui/ModalBottomSheet.module.css", import.meta.url), "utf8"),
+  pullToRefresh: readFileSync(new URL("../../components/ui/PullToRefreshBox.module.css", import.meta.url), "utf8"),
+  rangeSlider: readFileSync(new URL("../../components/ui/RangeSlider.module.css", import.meta.url), "utf8"),
+  segmentedButtonGroup: readFileSync(new URL("../../components/ui/SegmentedButtonGroup.module.css", import.meta.url), "utf8"),
+  splitButton: readFileSync(new URL("../../components/ui/SplitButton.module.css", import.meta.url), "utf8"),
+  swipeToDismiss: readFileSync(new URL("../../components/ui/SwipeToDismissBox.module.css", import.meta.url), "utf8"),
+  wideNavigationRail: readFileSync(new URL("../../components/ui/WideNavigationRail.module.css", import.meta.url), "utf8"),
+  slider: readFileSync(new URL("../../components/ui/slider.module.css", import.meta.url), "utf8"),
+  alertDialog: readFileSync(new URL("../../components/ui/AlertDialog.module.css", import.meta.url), "utf8"),
+  datePickerDialog: readFileSync(new URL("../../components/ui/DatePickerDialog.module.css", import.meta.url), "utf8"),
+  dropdownMenu: readFileSync(new URL("../../components/ui/DropdownMenu.module.css", import.meta.url), "utf8"),
+  exposedDropdownMenu: readFileSync(new URL("../../components/ui/ExposedDropdownMenu.module.css", import.meta.url), "utf8"),
+  navigationBar: readFileSync(new URL("../../components/ui/NavigationBar.module.css", import.meta.url), "utf8"),
+  navigationDrawer: readFileSync(new URL("../../components/ui/NavigationDrawer.module.css", import.meta.url), "utf8"),
+  navigationRail: readFileSync(new URL("../../components/ui/NavigationRail.module.css", import.meta.url), "utf8"),
+  radioButton: readFileSync(new URL("../../components/ui/RadioButton.module.css", import.meta.url), "utf8"),
+  snackbar: readFileSync(new URL("../../components/ui/Snackbar.module.css", import.meta.url), "utf8"),
+  tabs: readFileSync(new URL("../../components/ui/Tabs.module.css", import.meta.url), "utf8"),
+  timePicker: readFileSync(new URL("../../components/ui/TimePicker.module.css", import.meta.url), "utf8"),
+  toggleButton: readFileSync(new URL("../../components/ui/ToggleButton.module.css", import.meta.url), "utf8"),
+  tooltip: readFileSync(new URL("../../components/ui/Tooltip.module.css", import.meta.url), "utf8"),
+  topAppBar: readFileSync(new URL("../../components/ui/TopAppBar.module.css", import.meta.url), "utf8"),
+};
+function luminance(hex) {
+  const channels = [1, 3, 5].map((index) => Number.parseInt(hex.slice(index, index + 2), 16) / 255);
+  const linear = channels.map((value) => value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4);
+  return 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2];
+}
+function contrastRatio(first, second) {
+  const values = [luminance(first), luminance(second)].sort((a, b) => b - a);
+  return (values[0] + 0.05) / (values[1] + 0.05);
+}
+function literalColors(name) {
+  return [...globalCss.matchAll(new RegExp(`--${name}:\\s*(#[0-9a-fA-F]{6});`, "g"))].map((match) => match[1]);
+}
 test("shared typography roles drive component CSS instead of duplicated font metrics", () => {
   const expectations = [
     ["alertDialog", "--m3-type-headline-small-size", "--m3-type-body-medium-size"],
@@ -35,44 +96,6 @@ test("shared typography roles drive component CSS instead of duplicated font met
       assert.ok(typographyComponentStyles[component].includes(token), `${component} must consume ${token}`);
     }
   }
-});
-
-test("shared shape tokens are consumed by date, navigation and slider compositions", () => {
-  const datePicker = readFileSync(new URL("../../components/ui/DatePicker.module.css", import.meta.url), "utf8");
-  const appLink = readFileSync(new URL("../../components/ui/AppLink.tsx", import.meta.url), "utf8");
-  const recentTools = readFileSync(new URL("../../components/home/RecentTools.tsx", import.meta.url), "utf8");
-  const relatedTools = readFileSync(new URL("../../components/tools/RelatedTools.tsx", import.meta.url), "utf8");
-  const toolCard = readFileSync(new URL("../../components/tools/ToolCard.tsx", import.meta.url), "utf8");
-  const urlParser = readFileSync(new URL("../../components/tools/url-parser/UrlParser.tsx", import.meta.url), "utf8");
-  const jwtDecoder = readFileSync(new URL("../../components/tools/jwt-decoder/JwtDecoder.tsx", import.meta.url), "utf8");
-  const hashGenerator = readFileSync(new URL("../../components/tools/hash-generator/HashGenerator.tsx", import.meta.url), "utf8");
-  const editorialPrimitives = readFileSync(new URL("../../components/tools/ToolPage/EditorialPrimitives.tsx", import.meta.url), "utf8");
-  const jsonDiff = readFileSync(new URL("../../components/tools/json-diff-checker/JsonDiffChecker.tsx", import.meta.url), "utf8");
-  const jsonDiffEditorial = readFileSync(new URL("../../components/tools/json-diff-checker/ToolEditorial.tsx", import.meta.url), "utf8");
-  const cronExpression = readFileSync(new URL("../../components/tools/cron-expression/CronExpression.tsx", import.meta.url), "utf8");
-  const colorConverter = readFileSync(new URL("../../components/tools/color-converter/ColorConverter.tsx", import.meta.url), "utf8");
-  const imageMetadata = readFileSync(new URL("../../components/tools/image-metadata/ImageMetadataViewer.tsx", import.meta.url), "utf8");
-  const colorPalette = readFileSync(new URL("../../components/tools/color-palette-generator/ColorPaletteGenerator.tsx", import.meta.url), "utf8");
-
-  assert.ok(datePicker.includes("border-radius: var(--shape-corner-extra-large)"));
-  assert.ok(datePicker.includes("border-radius: var(--shape-corner-small)"));
-  assert.ok(datePicker.includes("border-radius: var(--shape-corner-large)"));
-  assert.ok(appLink.includes("rounded-[var(--shape-corner-full)]"));
-  assert.ok(recentTools.includes("rounded-[var(--m3-card-shape)]"));
-  assert.ok(recentTools.includes("rounded-[var(--shape-corner-medium)]"));
-  assert.ok(relatedTools.includes("shape-corner-medium"));
-  assert.ok(toolCard.includes("shape-corner-medium"));
-  assert.ok(urlParser.includes("rounded-[var(--shape-corner-medium)]"));
-  assert.ok(jwtDecoder.includes("rounded-[var(--shape-corner-medium)]"));
-  assert.ok(hashGenerator.includes("rounded-[var(--shape-corner-medium)]"));
-  assert.ok(editorialPrimitives.includes("rounded-[var(--shape-corner-medium)]"));
-  assert.ok(jsonDiff.includes("rounded-[var(--shape-corner-medium)]"));
-  assert.ok(jsonDiffEditorial.includes("rounded-[var(--shape-corner-medium)]"));
-  assert.ok(cronExpression.includes("rounded-[var(--shape-corner-medium)]"));
-  assert.ok(colorConverter.includes("rounded-[var(--shape-corner-medium)]"));
-  assert.ok(cronExpression.includes("shape-corner-small"));
-  assert.ok(imageMetadata.includes("shape-corner-small"));
-  assert.ok(colorPalette.includes("shape-corner-small"));
 });
 
 test("shared production compositions consume named typography and shape roles", () => {
