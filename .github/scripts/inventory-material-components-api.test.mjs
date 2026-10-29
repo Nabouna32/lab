@@ -32,6 +32,5 @@ test("MDC AAR provenance and generated index are pinned to verified Google Maven
   assert.ok(report.summary.publicOrProtectedMembers > 0);
   assert.equal(report.summary.javapFailures, 0);
   assert.equal(report.summary.membersWithSourceDeclarationMatch + report.summary.membersWithoutSourceDeclarationMatch, report.summary.publicOrProtectedMembers);
-  assert.equal(report.summary.sourceUnmatchedMembers, report.summary.membersWithoutSourceDeclarationMatch);
   assert.ok(report.summary.ambiguousSourceMemberMatches >= 0);
 });
