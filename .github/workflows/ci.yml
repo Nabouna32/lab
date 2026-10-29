@@ -102,7 +102,10 @@ jobs:
 
       - name: Generate provisional Material Components Views API inventory
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
-        run: node .github/scripts/inventory-material-components-api.mjs docs/material3/catalog/baselines/material-components-views-1.14.0.json docs/material3/catalog/baselines/material-components-views-1.14.0-api-inventory.json
+        run: |
+          node .github/scripts/inventory-material-components-api.mjs docs/material3/catalog/baselines/material-components-views-1.14.0.json docs/material3/catalog/baselines/material-components-views-1.14.0-api-inventory.json
+          git diff --exit-code -- docs/material3/catalog/baselines/material-components-views-1.14.0-api-inventory.json
+        
 
   quality:
     name: Qualité du code
