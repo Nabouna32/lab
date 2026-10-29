@@ -614,6 +614,8 @@ test("AndroidX-named Buttons support per-state color customization without produ
   assert.ok(iconButtonSource.includes('shape?: CSSProperties["borderRadius"]'));
   assert.ok(iconButtonSource.includes("type OutlinedIconButtonProps = IconButtonProps &"));
   assert.ok(iconButtonSource.includes("type OutlinedIconToggleButtonProps = IconToggleButtonProps &"));
+  assert.match(iconButtonSource, /aria-pressed=\{isToggle \? checked : undefined\}/, "toggle buttons expose the pressed state while retaining native button semantics");
+  assert.doesNotMatch(iconButtonSource, /role=\{isToggle \? "checkbox"/, "icon toggle buttons are buttons, not checkboxes");
   assert.ok(iconButtonSource.includes('"filled-tonal": "border border-transparent bg-[var(--icon-button-checked-container-color,var(--secondary))] text-[var(--icon-button-checked-content-color,var(--on-secondary))]'));
   assert.ok(iconButtonSource.includes('outlined: "border border-transparent bg-[var(--icon-button-checked-container-color,var(--inverse-surface))] text-[var(--icon-button-checked-content-color,var(--inverse-on-surface))]'));
   assert.ok(iconButtonSource.includes("group-hover:bg-[color-mix(in_srgb,var(--icon-button-checked-container-color,var(--inverse-surface))_92%,var(--icon-button-checked-content-color,var(--inverse-on-surface)))]"));
