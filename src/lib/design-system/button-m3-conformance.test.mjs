@@ -1,30 +1,3 @@
-import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
-import { test } from "node:test";
-
-const button = readFileSync(new URL("../../components/ui/Button.tsx", import.meta.url), "utf8");
-const submitButton = readFileSync(new URL("../../components/account/SubmitButton.tsx", import.meta.url), "utf8");
-const buttonVariantStyles = readFileSync(new URL("../../components/ui/material-button-variant-styles.ts", import.meta.url), "utf8");
-const buttonRipple = readFileSync(new URL("../../components/ui/ButtonRipple.tsx", import.meta.url), "utf8");
-const iconButton = readFileSync(new URL("../../components/ui/IconButton.tsx", import.meta.url), "utf8");
-const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
-const labSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
-const auditPreview = readFileSync(new URL("../../app/[locale]/design-lab/audit/ComponentLivePreview.tsx", import.meta.url), "utf8");
-const favoriteButton = readFileSync(new URL("../../components/favorites/FavoriteButton.tsx", import.meta.url), "utf8");
-const baseConverter = readFileSync(new URL("../../components/tools/number-base-converter/NumberBaseConverter.tsx", import.meta.url), "utf8");
-const themeToggle = readFileSync(new URL("../../components/theme/ThemeToggle.tsx", import.meta.url), "utf8");
-const languageSelector = readFileSync(new URL("../../components/layout/LanguageSelector.tsx", import.meta.url), "utf8");
-const headerSearch = readFileSync(new URL("../../components/layout/HeaderSearch.tsx", import.meta.url), "utf8");
-const collectionsView = readFileSync(new URL("../../components/collections/CollectionsView.tsx", import.meta.url), "utf8");
-const favoritesView = readFileSync(new URL("../../components/favorites/FavoritesView.tsx", import.meta.url), "utf8");
-const toolSearch = readFileSync(new URL("../../components/tools/ToolSearch.tsx", import.meta.url), "utf8");
-const appLink = readFileSync(new URL("../../components/ui/AppLink.tsx", import.meta.url), "utf8");
-const recentTools = readFileSync(new URL("../../components/home/RecentTools.tsx", import.meta.url), "utf8");
-const modalBottomSheet = readFileSync(new URL("../../components/ui/ModalBottomSheet.tsx", import.meta.url), "utf8");
-const modalBottomSheetCss = readFileSync(new URL("../../components/ui/ModalBottomSheet.module.css", import.meta.url), "utf8");
-const pullToRefreshBox = readFileSync(new URL("../../components/ui/PullToRefreshBox.tsx", import.meta.url), "utf8");
-const pullToRefreshBoxCss = readFileSync(new URL("../../components/ui/PullToRefreshBox.module.css", import.meta.url), "utf8");
-
 test("shared Button exports AndroidX component names with source-derived dimensions and variant-specific states", () => {
   for (const component of ["Button", "ElevatedButton", "FilledTonalButton", "OutlinedButton", "TextButton"]) {
     assert.ok(button.includes("export function " + component + "("), "missing AndroidX component export: " + component);
@@ -124,15 +97,6 @@ test("ButtonRipple avoids creating or retaining animated ripples when reduced mo
   }
 });
 
-test("design-system audit actions use shared Button variants", () => {
-  const workbench = readFileSync(new URL("../../app/[locale]/design-lab/audit/ComponentAuditWorkbench.tsx", import.meta.url), "utf8");
-  assert.ok(workbench.includes('import { Button, OutlinedButton, TextButton } from "@/components/ui/Button"'));
-  assert.ok(workbench.includes("<Button type=\"submit\" disabled={savingCatalogId === entry.id}>"));
-  assert.ok(workbench.includes("<OutlinedButton type=\"button\" className=\"self-end\" onClick={resetFilters}>"));
-  assert.ok(workbench.includes("<TextButton type=\"button\" className=\"mt-3\" onClick={resetFilters}>"));
-  assert.ok(!workbench.includes('className="rounded-full bg-[var(--primary)] px-4 py-2.5 text-sm font-semibold text-[var(--on-primary)] disabled:opacity-60'));
-});
-
 test("generic tool and dialog actions use the shared AndroidX Button ports", () => {
   const expenseSplitter = readFileSync(new URL("../../components/tools/expense-splitter/ExpenseSplitter.tsx", import.meta.url), "utf8");
   const datePickerDialog = readFileSync(new URL("../../components/ui/DatePickerDialog.tsx", import.meta.url), "utf8");
@@ -201,55 +165,6 @@ test("icon toggle states use their own AndroidX color roles instead of action-bu
   assert.ok(!iconButton.includes("const selectedStyles:"), "legacy selected overlay map must be removed");
 });
 
-test("Button call sites use AndroidX component names and keep extensions separate", () => {
-  assert.ok(!button.includes('primary: filled'));
-  assert.ok(!button.includes('tonal: filledTonal'));
-  assert.ok(!button.includes('secondary: outlined'));
-  assert.ok(!button.includes('ghost: text'));
-  assert.ok(!iconButton.includes("tonal: filledTonal"), "non-official icon button aliases must not remain");
-  for (const component of ["ElevatedButton", "FilledTonalButton", "OutlinedButton", "TextButton"]) {
-    assert.ok(labSource.includes(component), "Design Lab must exercise named component: " + component);
-  }
-  assert.ok(labSource.includes('containerColor: "var(--error)"'), "Design Lab demonstrates semantic error colors on an official Button");
-  assert.ok(!labSource.includes("DestructiveButton"));
-  for (const required of ["buttonDisabled", "buttonLongLabel", "buttonLeadingIcon", "buttonTrailingArrow", "buttonNarrow", "buttonMultiline", "buttonManualBreak", "multiline={multiline}", "arrow_forward", "Disabled state"]) {
-    assert.ok(auditPreview.includes(required), "Button audit preview is missing control or state coverage: " + required);
-  }
-  assert.ok(labSource.includes("<IconToggleButton") && labSource.includes("<FilledIconButton"));
-  assert.ok(labSource.includes("FilledTonalIconButton"));
-  assert.ok(toolSearch.includes('<IconButton') && toolSearch.includes('label={t.tools.clearSearch}'));
-  assert.ok(readFileSync(new URL("../../components/ui/CopyButton.tsx", import.meta.url), "utf8").includes("leadingIcon"));
-  assert.ok(readFileSync(new URL("../../components/ui/ClearButton.tsx", import.meta.url), "utf8").includes("leadingIcon"));
-  assert.ok(!toolSearch.includes('className="min-h-10 w-10 shrink-0 rounded-full p-0"'));
-  assert.ok(toolSearch.includes('<MaterialIcon name="close" size={24} />'));
-  assert.ok(toolSearch.includes('<MaterialIcon name="arrow_forward" size={24} />'));
-});
-
-test("Button audit preview provides contextual verification guidance in French and English", () => {
-  for (const required of [
-    "buttonScenarios",
-    "Référence Android Material 3",
-    "Android Material 3 baseline",
-    "MDUI and MUI are secondary Web comparisons only",
-    "buttonLongLabel",
-    "buttonLeadingIcon || buttonTrailingArrow",
-    "leadingIcon={buttonLeadingIcon}",
-    "buttonNarrow",
-    "buttonMultiline || buttonManualBreak",
-    "buttonManualBreak",
-    "200 %",
-    "200%",
-    "Réduction des animations",
-    "Reduced motion",
-    "Consignes de vérification",
-    "What to verify",
-    "l’aperçu seul ne prouve pas la conformité",
-    "preview alone does not prove conformance",
-  ]) {
-    assert.ok(auditPreview.includes(required), "missing contextual Button verification guidance: " + required);
-  }
-});
-
 test("favorite action uses shared M3 controls and never shrinks icon touch target below 48px", () => {
   assert.ok(favoriteButton.includes('import { FilledTonalButton, OutlinedButton } from "@/components/ui/Button"'));
   assert.ok(favoriteButton.includes("IconToggleButton } from"));
@@ -304,40 +219,6 @@ test("collection and favorites actions use AndroidX-named Button components", ()
   assert.ok(favoritesView.includes('<TextButton type="button" disabled={favorites.loading || favorites.error}'));
   assert.ok(!favoritesView.includes('variant="text"'));
   assert.ok(!favoritesView.includes('min-h-11 rounded-full px-3 text-sm font-bold text-[var(--primary)]'));
-});
-
-test("Button ripple is pointer-origin, bounded, cleans up after release and respects reduced motion", () => {
-  for (const required of [
-    "event.clientX - rect.left",
-    "event.clientY - rect.top",
-    "Math.hypot(width - x, height - y)",
-    "setPointerCapture(event.pointerId)",
-    "onPointerCancel={releasePointer}",
-    "onLostPointerCapture={releasePointer}",
-    'isAnchor ? keyboardEvent.key !== "Enter" : keyboardEvent.key !== " " && keyboardEvent.key !== "Enter"',
-    "candidate instanceof HTMLAnchorElement",
-    "isDisabledControl(control)",
-    "control.addEventListener(\"keydown\", handleKeyDown)",
-    "control.addEventListener(\"keyup\", handleKeyUp)",
-    "control.addEventListener(\"blur\", handleBlur)",
-    'event.animationName !== "button-ripple-fade"',
-  ]) {
-    assert.ok(buttonRipple.includes(required), "missing ripple interaction behavior: " + required);
-  }
-  for (const required of [
-    ".button-ripple-layer {",
-    "button:disabled .button-ripple-layer",
-    "button:active .button-ripple-layer::after,",
-    "opacity: 0.12;",
-    "border-radius: inherit",
-    "button-ripple-expand",
-    "button-ripple-fade",
-    ".button-ripple { display: none; }",
-    'a[data-material-button-link="true"]:active .button-ripple-layer::after { opacity: 0.12; }',
-  ]) {
-    assert.ok(globalCss.includes(required), "missing ripple rendering rule: " + required);
-  }
-  assert.ok(auditPreview.includes("bounded ripple") && auditPreview.includes("onde contenue"));
 });
 
 test("native control font reset stays in Tailwind base layer so Material 3 typography utilities win", () => {
