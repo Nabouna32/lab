@@ -4,6 +4,7 @@ import com.sun.source.tree.CompilationUnitTree;
 import com.sun.source.tree.ImportTree;
 import com.sun.source.tree.MethodTree;
 import com.sun.source.tree.Tree;
+import com.sun.source.tree.TypeParameterTree;
 import com.sun.source.tree.VariableTree;
 import com.sun.source.util.DocTrees;
 import com.sun.source.util.JavacTask;
@@ -69,6 +70,7 @@ public final class SourceAnnotationIndex {
     private final Map<String, String> imports;
     private final Set<String> wildcardImports;
     private final Set<String> sourceTopLevelTypes;
+    private final Map<String, String> typeVariables = new HashMap<>();
     private final Deque<String> typeNames = new ArrayDeque<>();
 
     Indexer(String packageName, DocTrees docs, Map<String, String> imports,
@@ -104,6 +106,7 @@ public final class SourceAnnotationIndex {
       if (value.isEmpty() || Set.of("boolean", "byte", "short", "int", "long", "char", "float", "double").contains(value)) {
         return value + dimensions;
       }
+      if (typeVariables.containsKey(value)) value = typeVariables.get(value);
       String first = value.contains(".") ? value.substring(0, value.indexOf('.')) : value;
       if (imports.containsKey(first)) value = imports.get(first) + value.substring(first.length());
       else if (typeNames.peekLast() != null && typeNames.peekLast().endsWith("$" + value)) value = typeNames.peekLast();
@@ -125,19 +128,37 @@ public final class SourceAnnotationIndex {
       String owner = typeNames.isEmpty()
         ? (packageName.isEmpty() ? simple : packageName + "." + simple)
         : typeNames.peekLast() + "$" + simple;
+      Map<String, String> previousTypeVariables = new HashMap<>(typeVariables);
+      typeNames.addLast(owner);
+      for (TypeParameterTree parameter : node.getTypeParameters()) {
+        String bound = parameter.getBounds().isEmpty()
+          ? "java.lang.Object"
+          : resolveParameterType(parameter.getBounds().get(0).toString());
+        typeVariables.put(parameter.getName().toString(), bound);
+      }
       emit("T", owner, simple, "-", "type",
         hasAnnotation(node.getModifiers().getAnnotations(), "RestrictTo"),
         hasAnnotation(node.getModifiers().getAnnotations(), "Deprecated"),
         hasDeprecatedDoc(docs, getCurrentPath()), "");
-      typeNames.addLast(owner);
       try { return super.visitClass(node, unused); }
-      finally { typeNames.removeLast(); }
+      finally {
+        typeNames.removeLast();
+        typeVariables.clear();
+        typeVariables.putAll(previousTypeVariables);
+      }
     }
 
     @Override
     public Void visitMethod(MethodTree node, Void unused) {
       String owner = currentOwner();
       if (owner != null) {
+        Map<String, String> previousTypeVariables = new HashMap<>(typeVariables);
+        for (TypeParameterTree parameter : node.getTypeParameters()) {
+          String bound = parameter.getBounds().isEmpty()
+            ? "java.lang.Object"
+            : resolveParameterType(parameter.getBounds().get(0).toString());
+          typeVariables.put(parameter.getName().toString(), bound);
+        }
         String name = node.getReturnType() == null ? "<init>" : node.getName().toString();
         String parameterTypes = node.getParameters().stream()
           .map(parameter -> resolveParameterType(parameter.getType().toString()))
@@ -146,6 +167,11 @@ public final class SourceAnnotationIndex {
           hasAnnotation(node.getModifiers().getAnnotations(), "RestrictTo"),
           hasAnnotation(node.getModifiers().getAnnotations(), "Deprecated"),
           hasDeprecatedDoc(docs, getCurrentPath()), parameterTypes);
+        try { return super.visitMethod(node, unused); }
+        finally {
+          typeVariables.clear();
+          typeVariables.putAll(previousTypeVariables);
+        }
       }
       return super.visitMethod(node, unused);
     }
