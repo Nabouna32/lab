@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 import test from 'node:test';
 import { calculateMavenArchiveHashes, inspectMavenSourceArchive } from './inspect-material-components-source-archive.mjs';
 
@@ -16,18 +17,16 @@ function fetchFixture({ sha256 = hashes.sha256, sha1 = archiveSha1(), archiveByt
   return async url => {
     if (url.pathname.endsWith('.sha256')) return sha256 === null
       ? new Response('missing', { status: 404 })
-      : new Response(`${sha256}  material-1.14.0-sources.jar\\n`, { status });
+      : new Response(`${sha256}  material-1.14.0-sources.jar\n`, { status });
     if (url.pathname.endsWith('.sha1')) return sha1 === null
       ? new Response('missing', { status: 404 })
-      : new Response(`${sha1}  material-1.14.0-sources.jar\\n`, { status });
+      : new Response(`${sha1}  material-1.14.0-sources.jar\n`, { status });
     return new Response(archiveBytes, { status });
   };
 }
 function archiveSha1() {
-  const { createHash } = awaitlessCrypto;
   return createHash('sha1').update(archive).digest('hex');
 }
-import * as awaitlessCrypto from 'node:crypto';
 
 test('verifies published SHA-256 and SHA-1 sidecars and records archive hashes', async () => {
   const result = await inspectMavenSourceArchive(manifest, fetchFixture());
