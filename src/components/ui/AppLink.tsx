@@ -48,17 +48,19 @@ export default function AppLink({
 }: AppLinkProps) {
   const isMaterialButton = variant === "filled" || variant === "elevated" || variant === "filled-tonal" || variant === "outlined" || variant === "text";
   const mergedStyle = getMaterialButtonInlineStyle(isMaterialButton ? variant as MaterialButtonVariant : null, colors, style);
-  const materialButtonLayout = [
-    getMaterialButtonLayoutClasses(variant as MaterialButtonVariant, { leadingIcon }),
-    materialButtonVariantStyles[variant as MaterialButtonVariant],
-  ].join(" ");
+  const materialButtonLayout = isMaterialButton
+    ? [
+        getMaterialButtonLayoutClasses(variant, { leadingIcon }),
+        materialButtonVariantStyles[variant],
+      ].join(" ")
+    : null;
 
   return (
     <NextLink
       {...props}
       data-material-button-link={isMaterialButton ? "true" : undefined}
       style={mergedStyle}
-      className={[isMaterialButton ? materialButtonLayout : variantStyles[variant], className].filter(Boolean).join(" ")}
+      className={[materialButtonLayout ?? variantStyles[variant], className].filter(Boolean).join(" ")}
     >
       {children}
       {isMaterialButton ? <ButtonRipple /> : null}
