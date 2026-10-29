@@ -39,13 +39,33 @@ def source_context(source, simple_name, member_name=None):
     deprecated = any(DEPRECATED.search(item) for item in matches)
     return {"restricted": restricted, "deprecated": deprecated, "matched": True}
 
-def class_header(output):
+def class_sections(output):
+    sections = []
+    current = None
     for line in output.splitlines():
         match = HEADER.match(line.strip())
         if match:
-            mods = set((match.group("mods") or "").split())
-            return line.strip(), match.group("name"), mods, match.group("kind")
-    return None
+            if current is not None:
+                sections.append(current)
+            current = {
+                "signature": line.strip(),
+                "name": match.group("name"),
+                "modifiers": set((match.group("mods") or "").split()),
+                "kind": match.group("kind"),
+                "members": [],
+            }
+            continue
+        if current is None:
+            continue
+        if line.strip() == "}":
+            sections.append(current)
+            current = None
+            continue
+        if MEMBER.match(line):
+            current["members"].append(line)
+    if current is not None:
+        sections.append(current)
+    return sections
 
 def main():
     parser = argparse.ArgumentParser()
@@ -85,19 +105,32 @@ def main():
         internal_types = []
         source_missing = []
         javap_failures = []
-        for binary_name in binary_names:
+        parsed_sections = {}
+        batch_size = 40
+        for offset in range(0, len(binary_names), batch_size):
+            batch = binary_names[offset:offset + batch_size]
             result = subprocess.run(
-                ["javap", "-protected", "-classpath", str(classes_jar), binary_name],
-                capture_output=True, text=True, check=False, timeout=20,
+                ["javap", "-protected", "-classpath", str(classes_jar), *batch],
+                capture_output=True, text=True, check=False, timeout=120,
             )
             if result.returncode:
-                javap_failures.append({"class": binary_name, "error": result.stderr.strip()[:300]})
+                javap_failures.extend(
+                    {"class": name, "error": result.stderr.strip()[:300] or "javap batch failed"}
+                    for name in batch
+                )
                 continue
-            header = class_header(result.stdout)
-            if not header:
-                javap_failures.append({"class": binary_name, "error": "No class declaration parsed"})
+            for section in class_sections(result.stdout):
+                parsed_sections[section["name"]] = section
+
+        for binary_name in binary_names:
+            section = parsed_sections.get(binary_name)
+            if section is None:
+                if not any(item["class"] == binary_name for item in javap_failures):
+                    javap_failures.append({"class": binary_name, "error": "No class declaration parsed"})
                 continue
-            class_signature, parsed_name, modifiers, kind = header
+            class_signature = section["signature"]
+            modifiers = section["modifiers"]
+            kind = section["kind"]
             visible = "public" in modifiers or "protected" in modifiers
             source_path = source_path_for(binary_name)
             source = source_files.get(source_path)
@@ -110,7 +143,7 @@ def main():
             else:
                 source_info = source_context(source, binary_name.split("$")[-1], None)
             members = []
-            for line in result.stdout.splitlines():
+            for line in section["members"]:
                 match = MEMBER.match(line)
                 if not match:
                     continue
@@ -118,10 +151,10 @@ def main():
                 if signature in {"{", "}", "static {}"} or signature.startswith("Compiled from"):
                     continue
                 if "(" in signature:
-                    member_name_match = re.search(r"([A-Za-z_$][\w$]*)\s*\(", signature)
+                    member_name_match = re.search(r"([A-Za-z_$][\\w$]*)\\s*\\(", signature)
                 else:
                     field_signature = signature.split("=", 1)[0].rstrip("; ").strip()
-                    member_name_match = re.search(r"([A-Za-z_$][\w$]*)$", field_signature)
+                    member_name_match = re.search(r"([A-Za-z_$][\\w$]*)$", field_signature)
                 member_name = member_name_match.group(1) if member_name_match else None
                 member_info = source_context(source, binary_name.split("$")[-1], member_name) if source and member_name else {"restricted": False, "deprecated": False, "matched": False}
                 if source_info["restricted"] or member_info["restricted"]:
