@@ -98,32 +98,122 @@ def normalize_parameter_type(value):
     return value + dimensions
 
 
-def source_member_info(index, owner, name, binary_parameter_types, member_kind):
-    candidates = index.get((owner, name, member_kind), [])
-    if member_kind == "field":
-        matches = candidates
-    else:
-        binary_types = [normalize_parameter_type(value) for value in binary_parameter_types]
-        def compatible(source_types):
-            normalized = [normalize_parameter_type(value) for value in source_types]
-            if normalized == binary_types:
-                return True
-            return len(normalized) == len(binary_types) and all(
-                source == binary or (
-                    "." not in source and source == binary.rsplit(".", 1)[-1]
+def source_member_info(index, owner, name, binary_parameter_types, member_kind, inherited_owners=()):
+    owners = [owner, *inherited_owners]
+    binary_types = [normalize_parameter_type(value) for value in binary_parameter_types]
+
+    for declaration_owner in owners:
+        candidates = index.get((declaration_owner, name, member_kind), [])
+        if member_kind == "field":
+            matches = candidates
+        else:
+            def compatible(source_types):
+                normalized = [normalize_parameter_type(value) for value in source_types]
+                if normalized == binary_types:
+                    return True
+                return len(normalized) == len(binary_types) and all(
+                    source == binary or (
+                        "." not in source and source == binary.rsplit(".", 1)[-1]
+                    )
+                    for source, binary in zip(normalized, binary_types)
                 )
-                for source, binary in zip(normalized, binary_types)
-            )
-        matches = [item for item in candidates if compatible(item["parameterTypes"])]
-    if not matches:
-        return {"restricted": False, "deprecated": False, "matched": False, "ambiguous": False}
-    ambiguous = len(matches) > 1
+            matches = [item for item in candidates if compatible(item["parameterTypes"])]
+        if not matches:
+            continue
+        ambiguous = len(matches) > 1
+        return {
+            "restricted": not ambiguous and matches[0]["restricted"],
+            "deprecated": not ambiguous and (matches[0]["deprecated"] or matches[0]["docDeprecated"]),
+            "matched": not ambiguous,
+            "ambiguous": ambiguous,
+            "sourceOwner": declaration_owner,
+            "inherited": declaration_owner != owner,
+        }
+
     return {
-        "restricted": not ambiguous and matches[0]["restricted"],
-        "deprecated": not ambiguous and (matches[0]["deprecated"] or matches[0]["docDeprecated"]),
-        "matched": not ambiguous,
-        "ambiguous": ambiguous,
+        "restricted": False, "deprecated": False, "matched": False, "ambiguous": False,
+        "sourceOwner": None, "inherited": False,
     }
+
+
+def split_top_level_types(value):
+    values = []
+    start = 0
+    depth = 0
+    for index, char in enumerate(value):
+        if char == "<":
+            depth += 1
+        elif char == ">":
+            depth = max(0, depth - 1)
+        elif char == "," and depth == 0:
+            values.append(value[start:index].strip())
+            start = index + 1
+    if value[start:].strip():
+        values.append(value[start:].strip())
+    return values
+
+
+def erase_generic_type(value):
+    erased = []
+    depth = 0
+    for char in value:
+        if char == "<":
+            depth += 1
+        elif char == ">":
+            depth = max(0, depth - 1)
+        elif depth == 0 and not char.isspace():
+            erased.append(char)
+    return "".join(erased).replace("$", "$")
+
+
+def class_supertypes(signature):
+    header = signature.split("{", 1)[0].strip()
+    declaration = HEADER.match(header)
+    if not declaration:
+        return []
+    remainder = header[declaration.end():].strip()
+    if remainder.startswith("<"):
+        depth = 0
+        for index, char in enumerate(remainder):
+            if char == "<":
+                depth += 1
+            elif char == ">":
+                depth -= 1
+                if depth == 0:
+                    remainder = remainder[index + 1:].strip()
+                    break
+
+    supertypes = []
+    extends = re.search(r"\\bextends\\s+(.+?)(?=\\s+implements\\s+|$)", remainder)
+    implements = re.search(r"\\bimplements\\s+(.+)$", remainder)
+    for match in (extends, implements):
+        if not match:
+            continue
+        for candidate in split_top_level_types(match.group(1)):
+            raw_name = erase_generic_type(candidate)
+            if raw_name:
+                supertypes.append(raw_name)
+    return supertypes
+
+
+def inherited_source_owners(owner, parsed_sections, source_types):
+    section = parsed_sections.get(owner)
+    if section is None:
+        return []
+    pending = list(class_supertypes(section["signature"]))
+    visited = set()
+    owners = []
+    while pending:
+        parent = pending.pop(0)
+        if parent in visited:
+            continue
+        visited.add(parent)
+        if parent in source_types:
+            owners.append(parent)
+        parent_section = parsed_sections.get(parent)
+        if parent_section is not None:
+            pending.extend(class_supertypes(parent_section["signature"]))
+    return owners
 
 
 def signature_parameter_types(signature):
@@ -285,16 +375,22 @@ def main():
                     arity = 0
                     parameter_types = []
                     member_kind = "field"
-                member_info = source_member_info(source_members, binary_name, member_name, parameter_types or [], member_kind) if source and member_name else {"restricted": False, "deprecated": False, "matched": False, "ambiguous": False}
+                member_info = source_member_info(
+                    source_members, binary_name, member_name, parameter_types or [], member_kind,
+                    inherited_source_owners(binary_name, parsed_sections, source_types),
+                ) if member_name else {"restricted": False, "deprecated": False, "matched": False, "ambiguous": False, "sourceOwner": None, "inherited": False}
+                declaration_type_info = source_types.get(member_info.get("sourceOwner"), {})
+                member_restricted = member_info["restricted"] or declaration_type_info.get("restricted", False)
+                member_deprecated = member_info["deprecated"] or declaration_type_info.get("deprecated", False) or declaration_type_info.get("docDeprecated", False)
                 if source_info["restricted"]:
                     classification = "restricted"
                 elif source_info["deprecated"] or source_info.get("docDeprecated", False):
                     classification = "deprecated"
                 elif member_info["ambiguous"]:
                     classification = "source-ambiguous"
-                elif member_info["restricted"]:
+                elif member_restricted:
                     classification = "restricted"
-                elif member_info["deprecated"]:
+                elif member_deprecated:
                     classification = "deprecated"
                 elif source is None or not member_info["matched"]:
                     classification = "source-unmatched"
@@ -307,6 +403,8 @@ def main():
                     "sourceDeclarationMatched": member_info["matched"],
                     "sourceAnnotationContextMatched": member_info["matched"],
                     "sourceDeclarationAmbiguous": member_info["ambiguous"],
+                    "sourceDeclarationOwner": member_info.get("sourceOwner"),
+                    "sourceDeclarationInherited": member_info.get("inherited", False),
                     "parameterCount": arity,
                     "binaryParameterTypes": parameter_types or [],
                 })
@@ -362,7 +460,7 @@ def main():
             "limitations": [
                 "This is a binary signature candidate index, not an official Android API dump.",
                 "Java source declarations and annotations are indexed with the JDK compiler AST; method matching compares parameter types after generic erasure and resolves explicit imports, package-local source types, and unambiguous wildcard imports. Unresolved simple names are matched by suffix only and may remain ambiguous across packages.",
-                "Generic type variables, compiler-generated bridge methods, synthetic constructor parameters, and inherited binary members may not have a source declaration match; these cases remain explicitly unmatched rather than inferred.",
+                "Compiler-generated bridge methods, synthetic constructor parameters, and inherited members whose declarations belong to dependencies outside the published source archive may not have a source declaration match; these cases remain explicitly unmatched rather than inferred.",
                 "Public API completeness remains unverified until non-matches, ambiguous overloads, generated members and signature semantics are reviewed.",
             ],
             "types": entries,
