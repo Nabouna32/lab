@@ -49,6 +49,17 @@ Ne pas inférer la stabilité à partir du nom du symbole. Les annotations de st
 - Une mise à jour produit d'abord un rapport de diff. Elle ne modifie pas automatiquement la référence de portage et ne pousse pas de changement silencieux.
 - Toute différence non classifiée reste visible et nécessite une revue humaine.
 
+### Vérification des archives sources
+
+Le script `.github/scripts/verify-androidx-source-archive.mjs` télécharge l'archive et son fichier de somme de contrôle depuis les hôtes AndroidX approuvés, puis recalcule le SHA-256 et l'identifiant Git blob SHA-1. Il échoue si l'une de ces preuves diverge et ne modifie jamais automatiquement le manifeste.
+
+```sh
+node .github/scripts/verify-androidx-source-archive.mjs docs/material3/catalog/baselines/material3-1.4.0.json
+node --test .github/scripts/verify-androidx-source-archive.test.mjs
+```
+
+La vérification nécessite un accès réseau aux URL consignées dans le manifeste. Un résultat réussi prouve l'intégrité des octets téléchargés par rapport aux empreintes déclarées ; il ne prouve pas à lui seul que le dump d'API correspond à cette archive ni que le code source est sémantiquement équivalent à une version publiée. Les statuts de provenance doivent rester distincts.
+
 ## États de couverture
 
 La présence dans le catalogue ne signifie pas qu'une API a été étudiée ou portée. Garder séparés :
