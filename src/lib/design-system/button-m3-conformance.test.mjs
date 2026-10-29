@@ -73,6 +73,7 @@ test("Button disabled colors follow AndroidX variant token roles", () => {
 
 
 test("button-styled links preserve anchors and share the ripple interaction", () => {
+  assert.doesNotMatch(auditPreview, /topBar=\{<TopAppBar[^>]*onNavigationClick=\{\(\) => undefined\}/, "the Scaffold preview must not show an inert navigation action");
   assert.match(appLink, /import NextLink, \{ type LinkProps \} from "next\/link"/);
   assert.match(appLink, /data-material-button-link=\{isMaterialButton \? "true" : undefined\}/);
   assert.match(appLink, /isMaterialButton \? <ButtonRipple \/> : null/);
