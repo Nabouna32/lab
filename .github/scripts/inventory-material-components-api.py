@@ -47,11 +47,12 @@ def source_member_info(index, owner, name, arity, member_kind):
     if not matches:
         return {"restricted": False, "deprecated": False, "matched": False, "ambiguous": False}
     flags = {(item["restricted"], item["deprecated"] or item["docDeprecated"]) for item in matches}
+    ambiguous = len(matches) > 1
     return {
-        "restricted": any(item["restricted"] for item in matches),
-        "deprecated": any(item["deprecated"] or item["docDeprecated"] for item in matches),
+        "restricted": not ambiguous and any(item["restricted"] for item in matches),
+        "deprecated": not ambiguous and any(item["deprecated"] or item["docDeprecated"] for item in matches),
         "matched": True,
-        "ambiguous": len(flags) > 1,
+        "ambiguous": ambiguous,
     }
 
 
@@ -235,14 +236,18 @@ def main():
                     arity = 0
                     member_kind = "field"
                 member_info = source_member_info(source_members, binary_name, member_name, arity, member_kind) if source and member_name else {"restricted": False, "deprecated": False, "matched": False, "ambiguous": False}
-                if source_info["restricted"] or member_info["restricted"]:
+                if source_info["restricted"]:
                     classification = "restricted"
-                elif source_info["deprecated"] or member_info["deprecated"]:
+                elif source_info["deprecated"] or source_info.get("docDeprecated", False):
+                    classification = "deprecated"
+                elif member_info["ambiguous"]:
+                    classification = "source-ambiguous"
+                elif member_info["restricted"]:
+                    classification = "restricted"
+                elif member_info["deprecated"]:
                     classification = "deprecated"
                 elif source is None or not member_info["matched"]:
                     classification = "source-unmatched"
-                elif member_info["ambiguous"]:
-                    classification = "source-ambiguous"
                 else:
                     classification = "public-api-candidate"
                 members.append({
