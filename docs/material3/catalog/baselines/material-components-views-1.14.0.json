@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "artifact": "com.google.android.material:material",
+  "referenceVersion": "1.14.0",
+  "release": {
+    "status": "stable",
+    "releaseDate": "2026-05-13",
+    "releaseUrl": "https://github.com/material-components/material-components-android/releases/tag/1.14.0"
+  },
+  "sourceRepository": {
+    "url": "https://github.com/material-components/material-components-android",
+    "tag": "1.14.0",
+    "commit": "66c334b7946dabf33adfe1a2b7cad6bcaa4ea3ad",
+    "tagTreeApiUrl": "https://api.github.com/repos/material-components/material-components-android/git/trees/66c334b7946dabf33adfe1a2b7cad6bcaa4ea3ad?recursive=1"
+  },
+  "sourceArchive": {
+    "url": "https://dl.google.com/dl/android/maven2/com/google/android/material/material/1.14.0/material-1.14.0-sources.jar",
+    "checksumStatus": "pending-ci-verification",
+    "publishedSha256": null,
+    "gitBlobSha1": null,
+    "sizeBytes": null
+  },
+  "apiInventory": {
+    "status": "not-started",
+    "method": "pending-source-archive-verification",
+    "publicApiDumpInTag": false,
+    "notes": "MDC-Android Views est en maintenance mode. Le dépôt au tag épinglé ne contient pas de dump API classique ; l'inventaire doit distinguer API publiques, @RestrictTo, dépréciations et types internes."
+  },
+  "inspectedAt": "2026-10-29"
+}
