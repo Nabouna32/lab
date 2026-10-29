@@ -8,10 +8,8 @@ import tempfile
 import zipfile
 from pathlib import Path
 
-MODIFIERS = {"public", "protected", "abstract", "final", "static", "strictfp", "sealed", "non-sealed"}
 HEADER = re.compile(r"^(?P<mods>(?:(?:public|protected|abstract|final|static|strictfp|sealed|non-sealed)\\s+)*)?(?P<kind>class|interface|enum|record|@interface)\\s+(?P<name>[\\w.$]+)")
 MEMBER = re.compile(r"^\\s{2}(?P<signature>(?:(?:public|protected|static|final|abstract|synchronized|native|strictfp|default|transient|volatile)\\s+)*.+?;?)\\s*$")
-DECLARATION = re.compile(r"(?m)^\\s*(?:@[\\w.]+(?:\\([^\n]*\\))?\\s*)*(?:(?:public|protected|private|static|final|abstract|synchronized|native|strictfp|default|transient|volatile)\\s+)*(?:[\\w.$<>?,\\[\\] @]+\\s+)?(?P<name>[A-Za-z_$][\\w$]*)\\s*(?:\\(|;|=)")
 RESTRICTED = re.compile(r"@RestrictTo\\s*\\(")
 DEPRECATED = re.compile(r"@Deprecated|@deprecated\\b")
 
