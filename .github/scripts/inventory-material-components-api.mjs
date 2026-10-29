@@ -67,7 +67,7 @@ async function fetchBytes(value, label, maxBytes, allowMissing = false) {
 
 function parseChecksum(bytes, algorithm, label) {
   const text = bytes.toString('utf8').trim();
-  const pattern = algorithm === 'sha256' ? /^[a-f0-9]{64}(?:\\s+.*)?$/i : /^[a-f0-9]{40}(?:\\s+.*)?$/i;
+  const pattern = algorithm === 'sha256' ? /^[a-f0-9]{64}(?:\s+.*)?$/i : /^[a-f0-9]{40}(?:\s+.*)?$/i;
   if (!pattern.test(text)) throw new Error(`${label} does not contain one valid ${algorithm.toUpperCase()} checksum.`);
   return text.match(/^[a-f0-9]+/i)[0].toLowerCase();
 }
@@ -151,7 +151,7 @@ async function main() {
     report.provenance.sourcesSha1 = sources.sha1;
     report.provenance.sourcesSizeBytes = sources.sizeBytes;
     report.provenance.sourcesChecksums = sources.checksums;
-    await writeFile(outputPath, `${JSON.stringify(report, null, 2)}\\n`);
+    await writeFile(outputPath, `${JSON.stringify(report, null, 2)}\n`);
     if (report.summary.javapFailures > 0) {
       throw new Error(`javap failed to inspect ${report.summary.javapFailures} class files; review the generated report before accepting the inventory.`);
     }
