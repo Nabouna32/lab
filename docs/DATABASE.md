@@ -9,7 +9,8 @@ Sensitive tool inputs and file contents are not stored by default. Anonymous loc
 ## Supabase plan constraints
 
 - Loculary currently uses Supabase on the Free Plan.
-- Leaked-password protection cannot be enabled on the current Free Plan. This is a plan limitation, not an unaddressed implementation omission; the corresponding Supabase advisor warning cannot be resolved without changing the plan or available features.
+- Leaked-password protection cannot be enabled on the current Free Plan. This is a plan limitation, not an unaddressed implementation omission.
+- Supabase reports this as the platform-level Auth advisor finding `auth_leaked_password_protection`, not as a database lint. SQL migrations and database-lint suppression cannot resolve it. Keep it recorded as an accepted Free-plan limitation in audits; do not report it repeatedly as an unresolved repository defect. Reassess only if the plan changes or email/password authentication is no longer used.
 - If the project moves to a plan that supports leaked-password protection, re-evaluate and enable it as part of security hardening.
 - Consider Free-plan limits when evaluating Supabase architecture, request volume, egress, database size, Edge Functions and other usage-sensitive designs.
 
@@ -82,7 +83,7 @@ The account-favorites migration is versioned at `supabase/migrations/20261013180
 
 Personal collections are implemented in the application and deployed in Supabase. `public.user_collections` stores the owner, name and optional unique share token; `public.user_collection_items` associates tool IDs with a collection. Both tables have RLS enabled. Owners can create, rename and delete their collections and add/remove tools. Reads by anonymous users are limited to collections whose explicit share token is supplied in the `x-loculary-share-token` request header; the corresponding policy exposes only the shared collection and its items. Account deletion cascades to the collections and their items.
 
-The schema is defined by `supabase/migrations/20261013193627_user_collections.sql`, with policy-performance adjustments in `supabase/migrations/20261013193734_user_collections_policy_performance.sql`. The regression test is `supabase/tests/user_collections.sql`; it is not part of the standard GitHub Actions CI and was not executed as part of this production-state audit.
+The schema is defined by `supabase/migrations/20261013193627_user_collections.sql`, with policy-performance adjustments in `supabase/migrations/20261013193734_user_collections_policy_performance.sql` and the request-scoped share-token helper in `supabase/migrations/20261029111421_optimize_collection_rls_and_remove_unused_index.sql`. The RBAC foreign-key index is preserved by `supabase/migrations/20261029111441_restore_admin_role_permissions_fk_index.sql`. The regression test is `supabase/tests/user_collections.sql`; it is not part of the standard GitHub Actions CI and was not executed as part of this production-state audit.
 
 ## Design Lab
 
