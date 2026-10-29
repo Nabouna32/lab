@@ -27,7 +27,9 @@ test("Material 3 stable source provenance is pinned without overstating API alig
 
   assert.match(baseline.repositoryApiInspection.commit, /^[a-f0-9]{40}$/);
   assert.equal(baseline.repositoryApiInspection.stableDumpPresentAtPinnedCommit, false);
-  assert.equal(baseline.repositoryApiInspection.nearestVersionedDump, "1.4.0-beta03.txt");
+  assert.equal(baseline.repositoryApiInspection.lastPreReleaseDumpForReferenceVersion.path, "1.4.0-beta03.txt");
+  assert.equal(baseline.repositoryApiInspection.latestVersionedDumpAtPinnedCommit.path, "1.5.0-beta01.txt");
+  assert.match(baseline.repositoryApiInspection.latestVersionedDumpAtPinnedCommit.gitBlobSha, /^[a-f0-9]{40}$/);
   assert.equal(baseline.repositoryApiInspection.watchDump.role, "watch-only");
   assert.equal(baseline.repositoryApiInspection.watchDump.sha256, watchManifest.source.sha256);
   assert.equal(baseline.repositoryApiInspection.watchDump.path, watchManifest.source.path);
