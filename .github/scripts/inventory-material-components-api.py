@@ -215,7 +215,9 @@ def main():
                 "publicOrProtectedMembers": sum(len(item["members"]) for item in entries),
                 "restrictedTypes": sum(1 for item in entries if item["classification"] == "restricted"),
                 "deprecatedTypes": sum(1 for item in entries if item["classification"] == "deprecated"),
-                "unclassifiedMembers": sum(1 for item in entries for member in item["members"] if member["classification"] == "source-unmatched"),
+                "sourceUnmatchedMembers": sum(1 for item in entries for member in item["members"] if member["classification"] == "source-unmatched"),
+                "membersWithSourceAnnotationContextMatch": sum(1 for item in entries for member in item["members"] if member["sourceAnnotationContextMatched"]),
+                "membersWithoutSourceAnnotationContextMatch": sum(1 for item in entries for member in item["members"] if not member["sourceAnnotationContextMatched"]),
             },
             "limitations": [
                 "This is a binary signature candidate index, not an official Android API dump.",
