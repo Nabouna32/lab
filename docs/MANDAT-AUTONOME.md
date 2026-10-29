@@ -208,6 +208,12 @@ Avant un changement significatif, comparer le coût total réel, la maintenance,
 
 Loculary vise une boîte à outils web utile, accessible, fiable et cohérente, privilégiant le traitement local lorsque pertinent, la transparence, la confidentialité et les comptes facultatifs.
 
+### Retours utilisateurs et signaux d’usage
+
+Exploiter de façon autonome les éléments légitimement accessibles pour comprendre les problèmes et améliorer Loculary : bugs constatés, retours et demandes des utilisateurs, issues, avis disponibles, tests, données d’usage existantes et autres signaux fiables. Les utiliser pour repérer les parcours difficiles, les irritants récurrents, les défauts de fiabilité et les améliorations qui méritent d’être priorisées ; confronter ces signaux aux objectifs du produit plutôt que suivre aveuglément une mesure ou une demande isolée.
+
+Respecter strictement la confidentialité et la minimisation des données. Privilégier les retours volontaires, les signaux agrégés et les données déjà disponibles pour une finalité légitime. Ne pas ajouter de suivi intrusif ou collecter davantage de données personnelles simplement pour mesurer l’usage. Toute nouvelle mesure doit répondre à une question concrète, être proportionnée, transparente et compatible avec les obligations légales, le consentement requis et la politique de confidentialité. Ne pas chercher à identifier ou profiler les utilisateurs lorsque cela n’est pas nécessaire.
+
 Pour chaque évolution pertinente, considérer :
 
 - une expérience simple, cohérente et adaptée à la tâche ;
