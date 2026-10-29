@@ -18,7 +18,7 @@ class SourceIndexTests(unittest.TestCase):
         ])
         types, members = MODULE.decode_source_index(output)
         self.assertTrue(types["pkg.Widget"]["restricted"])
-        self.assertTrue(members[("pkg.Widget", "old", "1", "method")][0]["deprecated"])
+        self.assertTrue(members[("pkg.Widget", "old", "method")][0]["deprecated"])
 
     def test_matches_overloads_using_erased_parameter_types(self):
         index = {
@@ -31,6 +31,19 @@ class SourceIndexTests(unittest.TestCase):
         self.assertTrue(result["matched"])
         self.assertFalse(result["ambiguous"])
         self.assertFalse(result["restricted"])
+
+    def test_matches_fully_qualified_source_parameter_types(self):
+        index = {
+            ("pkg.Widget", "convert", "method"): [
+                {"restricted": False, "deprecated": False, "docDeprecated": False, "parameterTypes": ["android.view.ViewGroup.LayoutParams"]},
+                {"restricted": True, "deprecated": False, "docDeprecated": False, "parameterTypes": ["android.widget.LinearLayout.LayoutParams"]},
+            ],
+        }
+        result = MODULE.source_member_info(
+            index, "pkg.Widget", "convert", ["android.widget.LinearLayout.LayoutParams"], "method"
+        )
+        self.assertTrue(result["matched"])
+        self.assertTrue(result["restricted"])
 
     def test_keeps_same_erased_signature_ambiguous(self):
         index = {
@@ -51,7 +64,7 @@ class SourceIndexTests(unittest.TestCase):
         )
         self.assertEqual(MODULE.signature_parameter_count("public void f()"), 0)
         self.assertIsNone(MODULE.signature_parameter_count("public int value"))
-        self.assertEqual(MODULE.normalize_parameter_type("java.util.List<? extends java.lang.String>"), "List")
+        self.assertEqual(MODULE.normalize_parameter_type("java.util.List<? extends java.lang.String>"), "java.util.List")
         self.assertEqual(MODULE.normalize_parameter_type("String..."), "String[]")
 
     def test_public_source_path_uses_outer_type_for_nested_classes(self):
