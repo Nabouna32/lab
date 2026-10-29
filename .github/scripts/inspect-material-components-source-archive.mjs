@@ -89,6 +89,17 @@ export async function inspectMavenSourceArchive(manifest, fetchImpl = globalThis
     fetchBytes(`${archiveUrl}.sha1`, 'Published SHA-1 checksum', fetchImpl, MAX_CHECKSUM_BYTES, true),
   ]);
   const calculated = calculateMavenArchiveHashes(archiveBytes);
+  const expectedSha256 = manifest.sourceArchive?.publishedSha256;
+  const expectedBlobSha1 = manifest.sourceArchive?.gitBlobSha1;
+  if (expectedSha256 && expectedSha256.toLowerCase() !== calculated.sha256) {
+    throw new Error('Downloaded archive SHA-256 differs from the pinned manifest.');
+  }
+  if (expectedBlobSha1 && expectedBlobSha1.toLowerCase() !== calculated.gitBlobSha1) {
+    throw new Error('Downloaded archive Git blob SHA-1 differs from the pinned manifest.');
+  }
+  if (manifest.sourceArchive?.sizeBytes && manifest.sourceArchive.sizeBytes !== calculated.sizeBytes) {
+    throw new Error('Downloaded archive size differs from the pinned manifest.');
+  }
   const checksums = [];
   if (sha256Bytes) {
     const expected = parseChecksum(sha256Bytes, 'sha256', 'Published SHA-256 checksum');
