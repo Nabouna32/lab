@@ -28,6 +28,7 @@ export function Chip({
   onSelectedChange,
   leadingIcon,
   trailingIcon,
+  dismissLabel,
   onDismiss,
   className = "",
   onClick,
