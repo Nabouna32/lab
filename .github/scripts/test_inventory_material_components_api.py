@@ -32,6 +32,32 @@ class SourceIndexTests(unittest.TestCase):
         self.assertFalse(result["ambiguous"])
         self.assertFalse(result["restricted"])
 
+    def test_matches_inherited_members_to_the_nearest_source_declaration(self):
+        index = {
+            ("pkg.BaseWidget", "setValue", "method"): [
+                {"restricted": False, "deprecated": True, "docDeprecated": False, "parameterTypes": ["java.lang.String"]},
+            ],
+        }
+        result = MODULE.source_member_info(
+            index, "pkg.ChildWidget", "setValue", ["java.lang.String"], "method",
+            inherited_owners=["pkg.BaseWidget"],
+        )
+        self.assertTrue(result["matched"])
+        self.assertTrue(result["inherited"])
+        self.assertEqual(result["sourceOwner"], "pkg.BaseWidget")
+        self.assertTrue(result["deprecated"])
+
+    def test_class_supertypes_skips_generic_bounds_and_erases_type_arguments(self):
+        signature = (
+            "public class RangeSlider<T extends java.lang.Number> "
+            "extends pkg.BaseSlider<pkg.RangeSlider, java.util.List<java.lang.String>> "
+            "implements pkg.ChangeListener<pkg.RangeSlider>, java.io.Serializable {"
+        )
+        self.assertEqual(
+            MODULE.class_supertypes(signature),
+            ["pkg.BaseSlider", "pkg.ChangeListener", "java.io.Serializable"],
+        )
+
     def test_matches_fully_qualified_source_parameter_types(self):
         index = {
             ("pkg.Widget", "convert", "method"): [
