@@ -1159,3 +1159,13 @@ test("shared controls use Material Symbols instead of Unicode chevrons and actio
   assert.match(sources[4], /close/);
   assert.match(sources[5], /add/);
 });
+
+
+test("back navigation uses the shared Material Symbols icon", () => {
+  const admin = readFileSync(new URL("../../app/[locale]/admin/page.tsx", import.meta.url), "utf8");
+  const workbench = readFileSync(new URL("../../app/[locale]/design-lab/audit/ComponentAuditWorkbench.tsx", import.meta.url), "utf8");
+  assert.match(admin, /MaterialIcon name="arrow_back"/);
+  assert.match(workbench, /MaterialIcon name="arrow_back"/);
+  assert.doesNotMatch(admin, /←/u);
+  assert.doesNotMatch(workbench, /←/u);
+});

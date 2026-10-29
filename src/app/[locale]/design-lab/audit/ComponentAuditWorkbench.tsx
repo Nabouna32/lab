@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import { createClient } from "@/lib/supabase/client";
 import ComponentLivePreview from "./ComponentLivePreview";
 import ComponentMaintenancePanel from "./ComponentMaintenancePanel";
@@ -278,7 +279,7 @@ export default function ComponentAuditWorkbench({ locale }: { locale: Locale }) 
     <main className="mx-auto min-h-[calc(100vh-4.5rem)] max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <header className="mb-8">
         <Link className="text-sm font-semibold text-[var(--accent)]" href={`/${locale}/design-lab`}>
-          {fr ? "← Retour au laboratoire visuel" : "← Back to visual lab"}
+          <span className="inline-flex items-center gap-1.5"><MaterialIcon name="arrow_back" size={18} />{fr ? "Retour au laboratoire visuel" : "Back to visual lab"}</span>
         </Link>
         <div className="mt-6 flex flex-wrap items-start justify-between gap-4">
           <div className="max-w-3xl">
