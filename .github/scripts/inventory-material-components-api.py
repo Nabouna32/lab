@@ -184,8 +184,8 @@ def class_supertypes(signature):
                     break
 
     supertypes = []
-    extends = re.search(r"\\bextends\\s+(.+?)(?=\\s+implements\\s+|$)", remainder)
-    implements = re.search(r"\\bimplements\\s+(.+)$", remainder)
+    extends = re.search(r"\bextends\s+(.+?)(?=\s+implements\s+|$)", remainder)
+    implements = re.search(r"\bimplements\s+(.+)$", remainder)
     for match in (extends, implements):
         if not match:
             continue
