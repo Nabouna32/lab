@@ -71,7 +71,7 @@ La présence dans le catalogue ne signifie pas qu'une API a été étudiée ou p
 5. portage vérifié ;
 6. migration des usages Loculary terminée.
 
-## Baselines stables vérifiées au 22 octobre 2026
+## Versions stables retenues au 29 octobre 2026
 
 Les versions officielles choisies et l’alignement de leur surface API sont deux statuts distincts. Pour Material 3 1.4.0, le registre de provenance [versionné](baselines/material3-1.4.0.json) identifie l’archive source stable, le snapshot de veille et les preuves encore manquantes ; il conserve volontairement l’alignement API à `UNVERIFIED`.
 
