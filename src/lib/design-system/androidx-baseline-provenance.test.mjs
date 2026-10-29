@@ -43,3 +43,21 @@ test("Material 3 stable source provenance is pinned without overstating API alig
   assert.equal(baseline.apiDumpAlignment.repositorySourceCommit, null);
   assert.match(baseline.apiDumpAlignment.reason, /not been established/);
 });
+
+const materialComponentsBaseline = JSON.parse(readFileSync(
+  new URL("../../../docs/material3/catalog/baselines/material-components-views-1.14.0.json", import.meta.url),
+  "utf8",
+));
+
+test("Material Components Views source archive provenance is verified and pinned separately", () => {
+  assert.equal(materialComponentsBaseline.artifact, "com.google.android.material:material");
+  assert.equal(materialComponentsBaseline.referenceVersion, "1.14.0");
+  assert.equal(materialComponentsBaseline.sourceRepository.commit, "66c334b7946dabf33adfe1a2b7cad6bcaa4ea3ad");
+  assert.equal(materialComponentsBaseline.sourceArchive.checksumStatus, "verified-against-google-maven-sidecar");
+  assert.equal(materialComponentsBaseline.sourceArchive.publishedSha256, "fde0310c43bdc6a30a12b6e288113b123769ee78de0327df559d992c26974067");
+  assert.equal(materialComponentsBaseline.sourceArchive.publishedSha1, "b619b8afcf9744457ff2e54e70608cb46be12910");
+  assert.equal(materialComponentsBaseline.sourceArchive.gitBlobSha1, "02ca28f3426728ed7b02f89c6d5f1973e9e711d7");
+  assert.equal(materialComponentsBaseline.sourceArchive.sizeBytes, 1361931);
+  assert.equal(materialComponentsBaseline.sourceArchive.verification.result, "passed");
+  assert.equal(materialComponentsBaseline.apiInventory.status, "not-started");
+});
