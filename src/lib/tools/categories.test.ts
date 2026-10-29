@@ -152,7 +152,6 @@ test("admin and category pages share the canonical page container and spacing to
   assert.ok(categoryRouteSource.includes("py-[var(--space-8)] sm:py-[var(--space-10)]"));
   assert.ok(categoryRouteSource.includes("m3-type-headline-large"), "category headings use a shared Material 3 typography role");
   assert.ok(!categoryRouteSource.includes("text-3xl font-black"), "category headings must not bypass shared typography roles");
-  assert.ok(categoryRouteSource.includes("m3-type-headline-large"), "category headings use a shared Material 3 typography role");
 });
 
 test("shared page shells use PageContainer without forcing every context to the same width", () => {
