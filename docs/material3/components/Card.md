@@ -1,51 +1,42 @@
 # Card — contrat AndroidX et adaptation Web
 
 > **Référence visée :** `androidx.compose.material3:material3:1.4.0`  
-> **État des sources :** l’archive publiée est identifiée dans [sources et versions](../sources.md), mais son lien avec le commit AndroidX et le dump API exact reste à établir.  
-> **État du portage :** partiel ; les valeurs par défaut et le rendu navigateur ne sont pas validés.  
-> **Migration en production :** inventaire des usages à compléter.
+> **État des sources :** archive publiée identifiée ; lien avec le commit Git et le dump API exact non démontré.  
+> **État du portage :** partiel ; valeurs par défaut et rendu navigateur non vérifiés.
 
-## Sources de référence
+## Sources
 
-- API officielle : [Card](https://developer.android.com/reference/kotlin/androidx/compose/material3/Card.composable), [ElevatedCard](https://developer.android.com/reference/kotlin/androidx/compose/material3/ElevatedCard.composable), [OutlinedCard](https://developer.android.com/reference/kotlin/androidx/compose/material3/OutlinedCard.composable) et [CardDefaults](https://developer.android.com/reference/kotlin/androidx/compose/material3/CardDefaults).
+- API : [Card](https://developer.android.com/reference/kotlin/androidx/compose/material3/Card.composable), [ElevatedCard](https://developer.android.com/reference/kotlin/androidx/compose/material3/ElevatedCard.composable), [OutlinedCard](https://developer.android.com/reference/kotlin/androidx/compose/material3/OutlinedCard.composable) et [CardDefaults](https://developer.android.com/reference/kotlin/androidx/compose/material3/CardDefaults).
 - Guide officiel : [Cartes avec Jetpack Compose](https://developer.android.com/develop/ui/compose/components/card?hl=fr).
-- Source AndroidX de consultation : [`Card.kt`, révision immuable](https://github.com/androidx/androidx/blob/5901d750e269aa3d88f6fccd5186637df83a0173/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Card.kt). Cette révision n’est pas démontrée comme étant celle de l’artefact 1.4.0.
+- Archive source publiée 1.4.0 : [material3-1.4.0-sources.jar](https://android.googlesource.com/platform/prebuilts/androidx/internal/%2B/refs/heads/androidx-collection-release/androidx/compose/material3/material3/1.4.0/material3-1.4.0-sources.jar), SHA-256 `08a23a069407ba2a59685f88d676fd38ede207301a0805ee904ed63735f5d0b5` (également consigné dans [sources et versions](../sources.md)).
+- Snapshot de veille immuable : [`Card.kt` au commit `5901d750e269aa3d88f6fccd5186637df83a0173`](https://github.com/androidx/androidx/blob/5901d750e269aa3d88f6fccd5186637df83a0173/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Card.kt). Ce snapshot n'est pas une preuve d'alignement avec l'archive 1.4.0.
 - Implémentation Web : [`Card.tsx`](../../../src/components/ui/Card.tsx).
 
 ## Contrat
 
-- **ANDROIDX** — `Card`, `ElevatedCard` et `OutlinedCard` sont trois variantes distinctes, avec des rôles visuels et valeurs par défaut propres.
-- **ANDROIDX** — les conteneurs non interactifs et les variantes interactives ont des contrats distincts. Une carte de contenu ne devient pas cliquable par sa seule apparence.
-- **WEB-ADAPTATION** — les navigations utilisent un lien HTML natif et les actions un bouton. Les conteneurs décoratifs restent non interactifs.
-- **LOCULARY-EXTENSION** — `CardLink` est une composition produit qui associe l’apparence d’une carte à un lien Next.js ; ce n’est pas une API AndroidX.
-- **UNVERIFIED** — les valeurs exactes de forme, de couleur, de bordure et d’élévation du port Web ne sont pas encore rapprochées de façon reproductible de la version stable retenue.
+- **ANDROIDX** — `Card`, `ElevatedCard` et `OutlinedCard` sont trois variantes distinctes, avec leurs propres rôles visuels et valeurs par défaut.
+- **ANDROIDX** — le conteneur non interactif et les variantes interactives ont des contrats distincts.
+- **WEB-ADAPTATION** — la navigation utilise un lien HTML natif ; une action utilise un bouton. Une carte décorative reste non interactive.
+- **LOCULARY-EXTENSION** — `CardLink` associe l'apparence d'une carte à un lien Next.js ; ce n'est pas une API AndroidX.
+- **UNVERIFIED** — les valeurs exactes de forme, surface, contour et élévation de la version publiée ne sont pas encore reliées de façon reproductible à l'implémentation.
 
 ## Implémentation actuelle
 
 - `Card` utilise `surface-container-highest`.
-- `ElevatedCard` utilise `surface-container-low` et l’ombre partagée `--shadow-sm`.
+- `ElevatedCard` utilise `surface-container-low` et `--shadow-sm`.
 - `OutlinedCard` utilise `surface` et `outline-variant`.
-- Les trois variantes consomment `--m3-card-shape`, actuellement relié à `--shape-corner-medium`.
-- Les trois conteneurs rendent un `div` non interactif ; `CardLink` rend un lien natif avec un indicateur de focus visible.
+- Les trois variantes utilisent `--m3-card-shape`, actuellement relié à `--shape-corner-medium`.
+- Les conteneurs restent non interactifs ; `CardLink` rend un lien natif avec un indicateur de focus visible.
 
-Ces choix décrivent l’implémentation Loculary, pas une preuve de parité AndroidX. Les tests statiques vérifient la séparation entre conteneur et navigation ; ils ne valident ni les pixels ni les états d’interaction.
+Ces choix décrivent le portage Loculary, pas une preuve de parité AndroidX. Les tests statiques ne valident ni les pixels ni les états du navigateur.
 
 ## Vérifications restantes
 
-- [ ] Relier la source publiée 1.4.0 à sa provenance et vérifier le contrat API exact.
-- [ ] Extraire les valeurs par défaut propres aux trois variantes et les états d’élévation.
+- [ ] Établir la provenance reliant l'archive 1.4.0 au commit et au dump API.
+- [ ] Extraire les valeurs par défaut propres aux variantes et les états d'élévation.
 - [ ] Inventorier les usages de production avant toute modification cassante.
-- [ ] Tester le clavier, le focus, les lecteurs d’écran, les thèmes clair/sombre, FR/EN et les largeurs pertinentes.
-- [ ] Comparer le rendu réel du navigateur à la référence épinglée.
+- [ ] Tester clavier, focus, technologies d'assistance, thèmes clair/sombre, FR/EN et largeurs pertinentes.
+- [ ] Comparer le rendu navigateur à la référence épinglée.
 - [ ] Exécuter lint, vérification TypeScript, tests et build.
 
-## Lacunes ouvertes
-
-| Lacune | Action |
-|---|---|
-| Lien entre artefact 1.4.0, commit et dump API non démontré | Vérifier et consigner une provenance reproductible |
-| Valeurs CSS issues des tokens Loculary sans parité démontrée | Comparer les valeurs aux sources AndroidX publiées |
-| Tests statiques sans preuve de rendu réel | Ajouter des vérifications navigateur et d’accessibilité |
-| Usages de production incomplets | Cartographier les appels avant une refonte de l’API |
-
-Le statut d’inventaire, la spécification, l’implémentation, la vérification et la migration en production restent suivis séparément. Une CI verte ne suffit pas à prouver la fidélité Material 3.
+Le statut de la source, du portage, de la vérification et de la migration en production reste distinct. Une CI verte ne suffit pas à prouver la fidélité Material 3.
