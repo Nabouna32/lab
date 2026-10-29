@@ -45,11 +45,11 @@ export default function SharedCollectionView({ locale, token }: { locale: Locale
   return (
     <main className="min-h-[60svh]">
       <PageContainer width="medium" spacing="none" className="py-[var(--space-8)] sm:py-[var(--space-10)]">
-    <Card className="mb-7 p-6 sm:p-8">
+    <header className="mb-7"><Card className="p-6 sm:p-8">
       <p className="m3-type-label-small uppercase text-[var(--primary)]">Loculary · {fr ? "Collection partagée" : "Shared collection"}</p>
       <h1 className="m3-type-headline-medium mt-2">{loading ? (fr ? "Chargement…" : "Loading…") : data?.name ?? (fr ? "Lien indisponible" : "Link unavailable")}</h1>
       <p className="m3-type-body-large mt-2 text-[var(--muted)]">{data ? (fr ? "Cette sélection a été partagée volontairement par son propriétaire." : "This selection was explicitly shared by its owner.") : (fr ? "Ce lien est invalide ou son propriétaire a désactivé le partage." : "This link is invalid or its owner disabled sharing.")}</p>
-    </Card>
+    </Card></header>
     {data && (data.tools.length ? <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{data.tools.map((tool) => <li key={tool.id}><Card className="p-4"><div className="flex items-start gap-3"><span aria-hidden="true" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--shape-corner-medium)] bg-[var(--primary-container)] text-[var(--on-primary-container)]"><MaterialIcon name={tool.icon} size={24} /></span><div className="min-w-0"><Link href={tool.href} className="m3-type-title-medium text-[var(--on-surface)] hover:underline">{tool.name}</Link><p className="m3-type-body-medium mt-1 text-[var(--muted)]">{tool.description}</p></div></div></Card></li>)}</ul> : <Card className="p-8 text-center m3-type-body-medium text-[var(--muted)]">{fr ? "Cette collection ne contient pas encore d’outils." : "This collection does not contain any tools yet."}</Card>)}
       </PageContainer>
     </main>
