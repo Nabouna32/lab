@@ -42,6 +42,18 @@ Ces volumes justifient une migration par contrats et familles, pas une réécrit
 - **Challenge page blanche obligatoire pour chaque page :** comparer une migration ciblée à une reconstruction depuis une page blanche ; expliquer les conséquences et recommander l’option la plus cohérente avec Material 3 Fidelity. Le code historique ne constitue pas une exigence de conservation.
 - La validation statique et la CI ne prouvent pas la fidélité visuelle. La validation navigateur doit préciser le thème, la langue, les largeurs et les états vérifiés.
 
+## Première migration de pages — favoris et collection partagée
+
+**Challenge page blanche**
+
+- **Migration ciblée :** conserver les états fonctionnels déjà présents (favoris locaux/synchronisés, erreurs de synchronisation, chargement et lien de partage invalide), mais remplacer les styles locaux de cartes, titres et textes par les contrats partagés vérifiés.
+- **Reconstruction depuis une page blanche :** elle permettrait de reconsidérer la composition, mais réécrirait sans nécessité les états de confidentialité et de disponibilité, sans preuve qu'une nouvelle structure améliore le parcours.
+- **Décision :** migration ciblée pour cette tranche. Ce choix ne sanctuarise pas la structure existante : une refonte restera justifiée si l'audit du parcours révèle une incohérence UX ou un écart AndroidX substantiel.
+
+Les en-têtes conservent leur repère HTML `header`, les listes restent des listes et les destinations restent des liens natifs. Les surfaces utilisent désormais le port partagé `Card` et les textes les rôles typographiques Material 3. Les anciennes grandes formes, bordures décoratives et ombres propres aux cartes ont été retirées au profit du contrat de carte remplie. La validation navigateur des thèmes, langues, largeurs et états reste à effectuer ; cette migration ne vaut pas preuve de parité pixel.
+
+La page interactive de gestion des collections (`CollectionsView`) reste à auditer séparément avant sa migration, car elle comporte des formulaires, des imports/exports, des dialogues et des états de synchronisation supplémentaires.
+
 ## Prochaine tranche
 
 La première correction structurelle de cette migration centralise le layout partagé des boutons et des liens qui adoptent leur apparence. Les prochaines tranches doivent s’appuyer sur cette cartographie pour migrer les fondations et les composants communs, puis les consommateurs, sans ajouter une seconde couche qui cohabiterait indéfiniment avec l’ancien système.
