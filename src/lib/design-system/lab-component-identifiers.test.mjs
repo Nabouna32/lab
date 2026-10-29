@@ -5,6 +5,7 @@ import { test } from "node:test";
 const lab = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
 const page = readFileSync(new URL("../../app/[locale]/design-lab/page.tsx", import.meta.url), "utf8");
 const css = readFileSync(new URL("../../app/[locale]/design-lab/visual-lab.module.css", import.meta.url), "utf8");
+const retirementMigration = readFileSync(new URL("../../../supabase/migrations/20261029120000_retire_design_lab_audit.sql", import.meta.url), "utf8");
 
 test("Design Lab is a local gallery of real shared components", () => {
   for (const component of ["Button", "Card", "Checkbox", "Chip", "IconButton", "NavigationBar", "ProgressIndicator", "Select", "Slider", "Switch", "TextArea", "TextField"]) {
@@ -28,4 +29,13 @@ test("Gallery interactions are local and both locales are provided", () => {
   assert.match(lab, /Component gallery/);
   assert.match(css, /var\(--on-surface\)/);
   assert.match(css, /var\(--surface-container-low\)/);
+});
+
+test("Retirement migration removes only Design Lab maintenance storage", () => {
+  for (const table of ["design_audit_catalog_entries", "design_audit_verifications", "design_audit_decisions", "design_audit_reports", "design_audit_components", "design_audit_events"]) {
+    assert.match(retirementMigration, new RegExp(`drop table if exists public\\.${table} cascade`));
+  }
+  assert.match(retirementMigration, /where permission_key = 'audit\\.write'/);
+  assert.match(retirementMigration, /where key = 'audit\\.write'/);
+  assert.doesNotMatch(retirementMigration, /where key = 'audit\\.read'/);
 });
