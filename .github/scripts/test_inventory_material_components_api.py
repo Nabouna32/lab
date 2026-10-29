@@ -30,7 +30,7 @@ class SourceIndexTests(unittest.TestCase):
         result = MODULE.source_member_info(index, "pkg.Widget", "convert", 1, "method")
         self.assertTrue(result["matched"])
         self.assertTrue(result["ambiguous"])
-        self.assertTrue(result["restricted"])
+        self.assertFalse(result["restricted"])
 
     def test_signature_parameter_count_handles_nested_generics(self):
         self.assertEqual(MODULE.signature_parameter_count("public void f(java.util.Map<java.lang.String, java.lang.Integer>, int[])"), 2)
