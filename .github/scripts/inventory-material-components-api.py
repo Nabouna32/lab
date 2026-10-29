@@ -151,10 +151,10 @@ def main():
                 if signature in {"{", "}", "static {}"} or signature.startswith("Compiled from"):
                     continue
                 if "(" in signature:
-                    member_name_match = re.search(r"([A-Za-z_$][\\w$]*)\\s*\\(", signature)
+                    member_name_match = re.search(r"([A-Za-z_$][\w$]*)\s*\(", signature)
                 else:
                     field_signature = signature.split("=", 1)[0].rstrip("; ").strip()
-                    member_name_match = re.search(r"([A-Za-z_$][\\w$]*)$", field_signature)
+                    member_name_match = re.search(r"([A-Za-z_$][\w$]*)$", field_signature)
                 member_name = member_name_match.group(1) if member_name_match else None
                 member_info = source_context(source, binary_name.split("$")[-1], member_name) if source and member_name else {"restricted": False, "deprecated": False, "matched": False}
                 if source_info["restricted"] or member_info["restricted"]:
