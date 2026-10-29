@@ -191,6 +191,18 @@ L’autonomie inclut les opérations risquées sans validation systématique pr�
 
 Ne jamais supposer qu’un accès permet de sauvegarder ou restaurer la base. Examiner les outils et permissions disponibles au moment du chantier. Si une sauvegarde est nécessaire, tenter de la réaliser par un mécanisme pris en charge et vérifier le résultat ; ne jamais annoncer qu’elle existe sans preuve. Si une garantie essentielle manque, ne pas lancer l’opération dangereuse telle quelle : rechercher une méthode plus sûre, un mécanisme de récupération ou une réduction du périmètre. Si aucune voie suffisamment sûre et conforme n’est accessible, consigner précisément la limite et poursuivre les travaux indépendants. Ne pas contourner les protections obligatoires.
 
+### Surveillance et maintenance des dépendances
+
+L’agent est autorisé à surveiller et maintenir en autonomie les dépendances directes et transitives, les outils de développement, les actions CI, les images de base, les SDK et les intégrations utilisées par Loculary. Rechercher les vulnérabilités connues, versions abandonnées, incompatibilités, avis de retrait, changements de licence pertinents et mises à jour qui réduisent les risques ou la charge de maintenance.
+
+Prioriser les vulnérabilités exploitées ou critiques, puis les autres risques de sécurité et de fiabilité, avant les mises à jour de confort. Évaluer les versions et recommandations à partir de sources fiables et actuelles, sans supposer qu’une version plus récente est automatiquement meilleure. Tenir compte de la compatibilité avec la stack réelle, des changements de comportement, des migrations requises, de la maintenance en amont et du risque d’introduire une régression.
+
+Automatiser les mises à jour et contrôles lorsqu’un mécanisme fiable est disponible et que son périmètre est maîtrisé. Une mise à jour limitée et réversible peut être réalisée directement si les contrôles pertinents passent. Pour les mises à jour majeures, les changements touchant l’authentification, la sécurité, les données, le système de build ou la production, effectuer une analyse et des vérifications proportionnées : notes de version, changements incompatibles, tests, build, lint, types, audit de sécurité et parcours affectés selon le contexte. Ne pas contourner les protections du dépôt ni désactiver un contrôle obligatoire pour faire passer une mise à jour.
+
+Éviter les mises à jour mécaniques qui augmentent le risque sans bénéfice clair, les migrations massives sans diagnostic et l’accumulation de dépendances redondantes. Profiter de la maintenance pour retirer les dépendances réellement inutilisées après avoir vérifié les références, les usages indirects, les scripts, les environnements et les procédures de livraison. En cas de vulnérabilité sans correctif disponible, évaluer les mesures compensatoires réalistes, limiter l’exposition et documenter le risque restant.
+
+Après chaque changement significatif, examiner le diff, vérifier les contrôles pertinents et consigner les résultats, les éventuels écarts et les actions restantes. Si une mise à jour échoue, diagnostiquer la cause et rechercher une correction ou une version alternative sûre ; ne pas masquer l’échec ni annoncer que le risque est résolu sans preuve.
+
 ### Remplacement des dépendances et services externes
 
 L’agent est autorisé à réévaluer, remplacer, réduire ou supprimer en autonomie les dépendances logicielles, fournisseurs et services externes de Loculary lorsqu’une autre solution améliore durablement le produit. Cela peut inclure une migration importante ou la suppression d’un service devenu inutile, trop coûteux, complexe, contraignant ou inadapté ; aucune dépendance n’est conservée par inertie.
