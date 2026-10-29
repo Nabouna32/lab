@@ -74,7 +74,7 @@ public final class SourceAnnotationIndex {
     @Override
     public Void visitClass(ClassTree node, Void unused) {
       String simple = node.getSimpleName().toString();
-      if (simple.isEmpty()) return super.visitClass(node, unused);
+      if (simple.isEmpty()) return null;
       String owner = typeNames.isEmpty()
         ? (packageName.isEmpty() ? simple : packageName + "." + simple)
         : typeNames.peekLast() + "$" + simple;
