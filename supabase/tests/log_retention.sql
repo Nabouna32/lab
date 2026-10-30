@@ -66,26 +66,26 @@ select ok(
 );
 
 select is(
-  (select count(*)::integer from cron.job where jobname = 'loculary-log-retention-6m'),
+  (select count(*)::integer from cron.job where jobname = 'loculary-log-retention-12m'),
   1,
-  'exactly one named six-month retention job is scheduled'
+  'exactly one named twelve-month retention job is scheduled'
 );
 select is(
-  (select schedule from cron.job where jobname = 'loculary-log-retention-6m'),
+  (select schedule from cron.job where jobname = 'loculary-log-retention-12m'),
   '0 3 * * *',
   'retention job runs daily at 03:00 GMT'
 );
 select is(
-  (select command from cron.job where jobname = 'loculary-log-retention-6m'),
+  (select command from cron.job where jobname = 'loculary-log-retention-12m'),
   'select private.prune_retained_logs();',
   'retention job invokes only the restricted purge function'
 );
 select ok(
-  (select active from cron.job where jobname = 'loculary-log-retention-6m'),
+  (select active from cron.job where jobname = 'loculary-log-retention-12m'),
   'retention job is active'
 );
 select is(
-  (select username::text from cron.job where jobname = 'loculary-log-retention-6m'),
+  (select username::text from cron.job where jobname = 'loculary-log-retention-12m'),
   current_user::text,
   'retention job runs as the migration owner'
 );
@@ -114,22 +114,22 @@ values
   (
     '00000000-0000-0000-0000-000000000901',
     null, 'test.retention.expired-unheld', 'system', null, '{}'::jsonb,
-    now() - interval '7 months'
+    now() - interval '13 months'
   ),
   (
     '00000000-0000-0000-0000-000000000902',
     null, 'test.retention.expired-held', 'system', null, '{}'::jsonb,
-    now() - interval '7 months'
+    now() - interval '11 months'
   ),
   (
     '00000000-0000-0000-0000-000000000903',
     null, 'test.retention.recent', 'system', null, '{}'::jsonb,
-    now() - interval '5 months'
+    now() - interval '11 months'
   ),
   (
     '00000000-0000-0000-0000-000000000904',
     null, 'test.retention.recent-expired-hold', 'system', null, '{}'::jsonb,
-    now() - interval '5 months'
+    now() - interval '11 months'
   );
 
 select lives_ok(
@@ -137,8 +137,8 @@ select lives_ok(
     '00000000-0000-0000-0000-000000000902'::uuid,
     'security_incident',
     'INC-2026-001',
-    now() + interval '30 days'
-  )$$,
+    now() + interval '15 days'
+  )$,
   'a documented security incident can hold an audit event within twelve months'
 );
 
@@ -171,7 +171,7 @@ select throws_ok(
     '00000000-0000-0000-0000-000000000903'::uuid,
     'internal_investigation',
     'INC-2026-003',
-    now() + interval '8 months'
+    now() + interval '2 months'
   )$$,
   '22023',
   'Retention holds must expire in the future and no later than twelve months after the audit event.',
@@ -239,7 +239,7 @@ values (
   'user',
   '00000000-0000-0000-0000-000000000905',
   '{}'::jsonb,
-  now() - interval '5 months'
+  now() - interval '11 months'
 );
 
 insert into private.admin_audit_log_retention_holds (
@@ -294,15 +294,15 @@ insert into cron.job_run_details (
 values
   (
     -987654, 987654, pg_backend_pid(), current_database(), current_user, 'select 1',
-    'succeeded', now() - interval '7 months', now() - interval '7 months'
+    'succeeded', now() - interval '13 months', now() - interval '13 months'
   ),
   (
     -987655, 987655, pg_backend_pid(), current_database(), current_user, 'select 1',
-    'succeeded', now() - interval '5 months', now() - interval '5 months'
+    'succeeded', now() - interval '11 months', now() - interval '11 months'
   ),
   (
     -987656, 987656, pg_backend_pid(), current_database(), current_user, 'select 1',
-    'running', now() - interval '7 months', null
+    'running', now() - interval '13 months', null
   );
 
 create temporary table retention_result on commit drop as
@@ -324,7 +324,7 @@ select ok(
 select is(
   (select count(*)::integer from public.admin_audit_log where id = '00000000-0000-0000-0000-000000000901'),
   0,
-  'unheld admin audit events older than six months are deleted'
+  'unheld admin audit events older than twelve months are deleted'
 );
 select is(
   (select count(*)::integer from public.admin_audit_log where id = '00000000-0000-0000-0000-000000000902'),
@@ -334,7 +334,7 @@ select is(
 select is(
   (select count(*)::integer from public.admin_audit_log where id = '00000000-0000-0000-0000-000000000903'),
   1,
-  'admin audit events younger than six months are preserved'
+  'admin audit events younger than twelve months are preserved'
 );
 select is(
   (select count(*)::integer from public.admin_audit_log where id = '00000000-0000-0000-0000-000000000904'),
@@ -355,12 +355,12 @@ select is(
 select is(
   (select count(*)::integer from cron.job_run_details where jobid = 987654),
   0,
-  'completed cron runs older than six months are deleted'
+  'completed cron runs older than twelve months are deleted'
 );
 select is(
   (select count(*)::integer from cron.job_run_details where jobid = 987655),
   1,
-  'completed cron runs younger than six months are preserved'
+  'completed cron runs younger than twelve months are preserved'
 );
 select is(
   (select count(*)::integer from cron.job_run_details where jobid = 987656),
