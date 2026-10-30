@@ -29,6 +29,14 @@ La provenance et les limites de la référence stable Material 3 1.4.0 sont éga
 Un contrôle du dépôt à un commit AndroidX immuable confirme une limite importante : dans [`compose/material3/material3/api/` au commit `5901d750e269aa3d88f6fccd5186637df83a0173`](https://github.com/androidx/androidx/tree/5901d750e269aa3d88f6fccd5186637df83a0173/compose/material3/material3/api), les snapshots versionnés présents vont jusqu'à `1.4.0-beta03` et `1.5.0-beta01`, avec `current.txt`, mais il n'y a pas de `1.4.0.txt`. Le dump `current.txt` ne peut donc pas être présenté comme l'API exacte de la version stable 1.4.0. La baseline sémantique doit rester ancrée sur l'archive source publiée `1.4.0` ; l'inventaire de surface stable reste `UNVERIFIED` tant qu'un dump de la release correspondante ou une extraction vérifiable de cette archive n'est pas disponible.
 
 
+## Provenance stable Compose UI / Foundation 1.12.1
+
+La version 1.12.1 est confirmée au commit AndroidX immuable `5e0747401bf56b243e3b5141ae080dc9bc61d29c` de `refs/heads/androidx-compose-release`. À ce commit, `COMPOSE_UI` et `COMPOSE_FOUNDATION` délèguent à `versions.COMPOSE`, dont la valeur est `1.12.1`. La CI résout cet alias dans `libraryversions.toml` et épingle le SHA du commit ; la version n'est pas choisie à partir d'un nom de branche supposé.
+
+Les fichiers `api/current.txt` de Compose UI, UI Text, Foundation et Foundation Layout ont été téléchargés depuis ce commit. Les quatre sont au format AndroidX 4.0 ; le chemin `api/current.txt` représente la surface publique pour ce format antérieur aux métadonnées `surface=public` du format 5.0. Leurs empreintes SHA-256 et Git blob SHA-1, tailles, chemins et nombres de packages sont conservés dans [le manifeste de provenance](catalog/baselines/compose-p0-1.12.1-api-provenance.json), et recalculés en CI. Aucun dump `1.12.1.txt` versionné n'est présent à ces chemins dans ce commit ; le `current.txt` du commit de release est utilisé, pas celui de `androidx-main`.
+
+**Limite explicite :** la provenance commit/API stable est vérifiée, mais la correspondance byte pour byte des quatre archives `sources.jar` publiées sur Google Maven avec ce commit reste à établir. Les familles ne doivent pas être déclarées entièrement vérifiées avant cette étape.
+
 ## Périmètre
 
 ### Inclus dans le catalogue principal
@@ -78,7 +86,7 @@ Le fichier API publié est un excellent signal de changements de surface, mais i
 
 ## Versions de référence du registre multi-familles
 
-Au 29 octobre 2026, `docs/material3/catalog/families.json` sélectionne une version stable publiée pour chacune des 22 familles recensées. Les versions des familles UI, Foundation, Animation et Runtime suivent les notes officielles des artefacts `ui-*`, `foundation-*`, `animation-*` et `runtime-*` en 1.12.1. Les familles spécialisées et historiques sont séparées : Wear Compose Material 3 1.5.0, TV Material 1.1.0, Material Components Views 1.14.0 et AppCompat 1.8.0. Les sources officielles sont liées individuellement dans le registre.
+Au 30 octobre 2026, `docs/material3/catalog/families.json` sélectionne une version stable publiée pour chacune des 22 familles recensées. Les versions des familles UI, Foundation, Animation et Runtime suivent les notes officielles des artefacts `ui-*`, `foundation-*`, `animation-*` et `runtime-*` en 1.12.1. Les familles spécialisées et historiques sont séparées : Wear Compose Material 3 1.5.0, TV Material 1.1.0, Material Components Views 1.14.0 et AppCompat 1.8.0. Les sources officielles sont liées individuellement dans le registre.
 
 L’inspection des répertoires `api/` au commit AndroidX `5901d750e269aa3d88f6fccd5186637df83a0173` couvre maintenant 21 familles du registre. Elle confirme qu’aucun dump versionné correspondant exactement à la version stable sélectionnée n’est présent dans les répertoires inspectés à ce commit. Material Components for Android Views n’est pas inclus dans cette inspection, car ses sources sont dans le dépôt distinct [`material-components/material-components-android`](https://github.com/material-components/material-components-android). Ces constats décrivent uniquement les répertoires et le commit examinés ; ils ne prouvent pas l’absence de dumps dans les archives publiées. La provenance des sources et leur correspondance avec les API publiées restent des contrôles distincts.
 
