@@ -2,24 +2,33 @@
 
 import { useId, useState } from "react";
 import type { ChangeEvent, InputHTMLAttributes, ReactNode } from "react";
+import { IconButton } from "@/components/ui/IconButton";
+import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import styles from "./MaterialTextField.module.css";
 
-export type MaterialTextFieldProps = {
+type MaterialTextFieldBaseProps = {
   id: string; name?: string; label: string; value: string; onChange: (value: string) => void;
   variant?: "filled" | "outlined"; type?: "text" | "email" | "number" | "search" | "password";
   placeholder?: string; supportingText?: string; error?: string; prefix?: ReactNode; suffix?: ReactNode;
   leadingContent?: ReactNode; trailingContent?: ReactNode; minLength?: number; maxLength?: number;
-  showCharacterCount?: boolean; secure?: boolean; disabled?: boolean; required?: boolean;
+  showCharacterCount?: boolean; disabled?: boolean; required?: boolean;
   autoComplete?: string; autoFocus?: boolean; inputMode?: InputHTMLAttributes<HTMLInputElement>["inputMode"];
 };
 
-/** React/Web adaptation of AndroidX Material 3 TextField and OutlinedTextField. */
-export function MaterialTextField({
-  id, name, label, value, onChange, variant = "outlined", type = "text", placeholder,
-  supportingText, error, prefix, suffix, leadingContent, trailingContent, minLength, maxLength,
-  showCharacterCount = false, secure = false, disabled = false, required = false, autoComplete,
-  autoFocus = false, inputMode,
-}: MaterialTextFieldProps) {
+type MaterialTextFieldSecurityProps =
+  | { secure?: false; showPasswordLabel?: never; hidePasswordLabel?: never }
+  | { secure: true; type: "password"; showPasswordLabel: string; hidePasswordLabel: string };
+
+export type MaterialTextFieldProps = MaterialTextFieldBaseProps & MaterialTextFieldSecurityProps;
+
+/** React/Web adaptation of AndroidX Material 3 TextField and OutlinedTextField. The secure opt-in adds a localized visibility IconButton around a native password input; it does not claim full SecureTextField parity. */
+export function MaterialTextField(props: MaterialTextFieldProps) {
+  const {
+    id, name, label, value, onChange, variant = "outlined", type = "text", placeholder,
+    supportingText, error, prefix, suffix, leadingContent, trailingContent, minLength, maxLength,
+    secure = false, disabled = false, required = false, autoComplete,
+    autoFocus = false, inputMode, showCharacterCount = false,
+  } = props;
   const [revealed, setRevealed] = useState(false);
   const generatedId = useId();
   const errorId = `${generatedId}-error`;
@@ -44,7 +53,15 @@ export function MaterialTextField({
           <label className={styles.label} htmlFor={id}>{label}</label>
         </div>
         {suffix && <span className={styles.affix}>{suffix}</span>}
-        {secure && <button type="button" className={styles.trailing} aria-label={revealed ? "Hide password" : "Show password"} aria-pressed={revealed} onClick={() => setRevealed((visible) => !visible)} disabled={disabled}>{revealed ? "Hide" : "Show"}</button>}
+        {secure && (
+          <IconButton
+            label={revealed ? props.hidePasswordLabel! : props.showPasswordLabel!}
+            onClick={() => setRevealed((visible) => !visible)}
+            disabled={disabled}
+          >
+            <MaterialIcon name={revealed ? "visibility_off" : "visibility"} size={24} />
+          </IconButton>
+        )}
         {!secure && trailingContent && <span className={styles.trailingContent}>{trailingContent}</span>}
       </div>
       <div className={styles.supportingRow}>

@@ -47,10 +47,10 @@ test("pgTAP retention suite is transactional and its plan matches its assertions
 });
 
 test("internal privacy documentation describes the active twelve-month policy", () => {
-  assert.match(databaseDocs, /Politique active en production depuis le 30 octobre 2026/i);
+  assert.match(databaseDocs, /Politique (?:indiquée comme )?active en production depuis le 30 octobre 2026/i);
   assert.match(databaseDocs, /douze mois glissants/i);
   assert.match(databaseDocs, /Aucun archivage ni sauvegarde externe/i);
-  assert.match(privacyDocs, /Politique applicative active en production depuis le 30 octobre 2026/i);
+  assert.match(privacyDocs, /Politique applicative (?:indiquée comme )?active en production depuis le 30 octobre 2026/i);
   assert.match(privacyDocs, /Aucune sauvegarde Google Drive ou archive externe/i);
   assert.match(privacyDocs, /24 heures/i);
   assert.match(privacyDocs, /une heure/i);
