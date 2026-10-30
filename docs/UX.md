@@ -173,7 +173,7 @@ Use Pixel-faithful shape, tonal color and motion to clarify hierarchy, state cha
 
 AndroidX defines the baseline for components and behaviors it specifies; it does not define every product flow or page composition. For the rest, favor established, recognizable patterns from successful consumer applications over novelty for its own sake. This includes account and password flows, settings, form validation, destructive-action confirmation, loading and empty states, success/error feedback, navigation, and contextual actions. Evaluate patterns against the user's goal, accessibility, privacy, Web conventions and real content rather than copying a single reference app.
 
-The quality target is a polished, dependable, high-audience application: responsive, consistent, fast, resilient and understandable without instruction. Treat the existing UI as replaceable. When the current structure blocks this target, propose and carry out a broader redesign within the approved scope instead of layering cosmetic fixes onto a weak foundation.
+The quality target is a polished, dependable, high-audience application: responsive, consistent, fast, resilient and understandable without instruction. Treat the existing UI as replaceable. Lorsque la structure actuelle empêche d'atteindre cette cible, entreprendre une refonte plus large dans le cadre du mandat autonome et des contraintes applicables, plutôt que d'empiler des retouches cosmétiques sur une base fragile.
 
 ## Input validation
 
