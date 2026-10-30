@@ -136,5 +136,68 @@
         "workflowRun": "https://github.com/Nabouna32/lab/actions/runs/40984365256"
       }
     }
+  },
+  "apiHistory": {
+    "sourceRepositoryCommit": "5113b82a4ed6416d6344efa50e41db8cb65928ff",
+    "apiDirectory": "compose/material3/material3/api/",
+    "beta01": {
+      "gitBlobSha1": "f27bfa77b39e0d7cc38c2ed78e80d14b78e20786",
+      "sizeBytes": 609369,
+      "experimentalMaterial3Api": 203,
+      "bytecodeOnlyAnnotations": 1031,
+      "kotlinOnlyAnnotations": 34,
+      "deprecatedAnnotations": 241,
+      "suppressCompatibilityAnnotations": 203
+    },
+    "beta02": {
+      "gitBlobSha1": "fd45e9feea96a631c0f8b7ac82f88ee9ce999029",
+      "sizeBytes": 609538,
+      "experimentalMaterial3Api": 207,
+      "bytecodeOnlyAnnotations": 1033,
+      "kotlinOnlyAnnotations": 34,
+      "deprecatedAnnotations": 241,
+      "suppressCompatibilityAnnotations": 207
+    },
+    "beta03": {
+      "gitBlobSha1": "fd45e9feea96a631c0f8b7ac82f88ee9ce999029",
+      "sizeBytes": 609538,
+      "identicalToBeta02": true
+    },
+    "stableCurrent": {
+      "path": "compose/material3/material3/api/current.txt",
+      "gitBlobSha1": "fd45e9feea96a631c0f8b7ac82f88ee9ce999029",
+      "sizeBytes": 609538,
+      "identicalToBeta03": true,
+      "libraryVersionMarker": "COMPOSE_MATERIAL3 = \"1.4.0\""
+    },
+    "releaseCandidateSnapshot": {
+      "present": false,
+      "verifiedAtCommit": "5113b82a4ed6416d6344efa50e41db8cb65928ff",
+      "note": "Aucun fichier 1.4.0-rc*.txt n’est présent dans le répertoire API de ce commit ; aucune comparaison RC directe n’est revendiquée."
+    },
+    "beta01ToBeta02": {
+      "removedDeclarationLines": 13,
+      "addedDeclarationLines": 14,
+      "changes": [
+        "Suppression de BasicAlertDialogOverrideScope et de ses quatre propriétés/accessors.",
+        "Renommage du paramètre threshold en maxDistance pour Indicator et IndicatorBox de PullToRefresh.",
+        "Ajout de l’API IndicatorMaxDistance, indicatorContainerColor et indicatorShape.",
+        "La propriété indicatorColor n’est plus marquée Deprecated.",
+        "Ajout des déclarations containerColor et shape avec les annotations ExperimentalMaterial3Api, SuppressCompatibility et Deprecated."
+      ],
+      "annotationDelta": {
+        "experimentalMaterial3Api": "+4",
+        "bytecodeOnly": "+2",
+        "kotlinOnly": "0",
+        "deprecated": "0",
+        "suppressCompatibility": "+4"
+      }
+    },
+    "beta02ToBeta03": {
+      "identical": true
+    },
+    "beta03ToStableCurrent": {
+      "identical": true
+    }
   }
 }
