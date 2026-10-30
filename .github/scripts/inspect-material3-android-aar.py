@@ -132,7 +132,7 @@ def parse_api_dump(api_dump: str) -> dict:
             current_class = None
             continue
         class_match = re.match(
-            r"^\s*public\b.*?\b(?:class|interface|enum|@interface|record)\s+([A-Za-z0-9_.$]+).*?\{$",
+            r"^\s*(?:@[A-Za-z0-9_.$]+(?:\([^)]*\))?\s+)*public\b.*?\b(?:class|interface|enum|@interface|record)\s+([A-Za-z0-9_.$]+).*?\{$",
             line,
         )
         if class_match and current_package:
