@@ -70,10 +70,12 @@ AndroidX ne définit pas de variante « destructive ». Le sens métier ne suffi
 - [x] Vérifier les dimensions, couleurs, élévations et états des cinq variantes dans les sources.
 - [x] Partager le contrat de layout entre `Button` et `AppLink`.
 - [ ] Inventorier tous les usages de production et migrer les styles locaux hérités.
-- [ ] Vérifier en navigateur les couleurs calculées, le contraste et les états en thèmes clair/sombre.
-- [ ] Vérifier l’origine, le découpage, l’annulation et le clavier du ripple ainsi que la réduction des animations.
-- [ ] Tester les libellés FR/EN longs, les petits écrans, l’alignement des icônes et le zoom à 200 %.
-- [ ] Exécuter tests, lint, vérification TypeScript et build sur le dernier commit.
+- [x] Vérifier en Chromium les couleurs calculées des cinq variantes, les états hover/disabled, les thèmes clair/sombre et le reflow à 320, 360, 390, 768, 1024, 1440 et 1920 CSS px sur une surface de test locale.
+- [ ] Terminer la revue du contraste en contexte : axe-core ne relève aucune violation sur la surface de test, mais conserve un résultat `color-contrast` incomplet qui nécessite une vérification manuelle.
+- [x] Vérifier l’origine du ripple, son clipping, la libération sur `pointerup` et `pointercancel`, le déclenchement clavier, le nettoyage après animation et l’absence de ripple sous `prefers-reduced-motion`.
+- [x] Vérifier l’absence de débordement horizontal sur petits écrans et grands écrans (320–1920 CSS px) sur la surface de test.
+- [ ] Tester les libellés FR/EN longs, l’alignement des icônes et le zoom à 200 %.
+- [x] Exécuter tests, lint, vérification TypeScript et build sur le dernier commit : 744 tests réussis, 2 ignorés ; lint sans erreur (8 avertissements existants) ; TypeScript et build réussis ; CI #4611 verte sur `080b627`.
 - [ ] Comparer le rendu navigateur aux références épinglées et consigner les écarts observés.
 
-Les assertions statiques et une CI verte ne prouvent pas la fidélité visuelle. Tant que le navigateur n’a pas été vérifié, le rendu reste non vérifié.
+Validation navigateur locale du 30 octobre 2026 : Chromium/Playwright sur une route de test temporaire non livrée, sans Preview ni déploiement. Les cinq variantes ont été inspectées en thème clair/sombre ; les couleurs disabled ont été comparées aux rôles par variante. Le ripple a été exercé par pointeur et clavier, y compris `pointercancel`, puis sous réduction des animations. axe-core 4.14.0 ne détecte aucune violation WCAG 2.0/2.1 A/AA ni WCAG 2.2 AA sur cette surface ; `color-contrast` et `label-content-name-mismatch` restent incomplets et demandent une revue manuelle. Cette vérification ciblée ne vaut pas déclaration de conformité globale. L’inventaire exhaustif des usages de production et la comparaison visuelle aux références AndroidX restent à faire.
