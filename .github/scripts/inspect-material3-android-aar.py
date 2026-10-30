@@ -275,21 +275,25 @@ def parse_api_dump(api_dump: str) -> dict:
 
 def split_api_parameter_types(parameters: str) -> list[str]:
     values = []
-    depth = 0
+    angle_depth = 0
+    paren_depth = 0
     start = 0
     for index, character in enumerate(parameters):
         if character == "<":
-            depth += 1
+            angle_depth += 1
         elif character == ">":
-            depth -= 1
-        elif character == "," and depth == 0:
+            angle_depth -= 1
+        elif character == "(":
+            paren_depth += 1
+        elif character == ")":
+            paren_depth -= 1
+        elif character == "," and angle_depth == 0 and paren_depth == 0:
             values.append(parameters[start:index].strip())
             start = index + 1
     tail = parameters[start:].strip()
     if tail:
         values.append(tail)
     return values
-
 
 def api_type_to_jvm_descriptor(type_name: str, is_return: bool = False) -> str | None:
     value = re.sub(r"@[A-Za-z0-9_.]+(?:\([^)]*\))?", "", type_name).strip()
@@ -436,12 +440,50 @@ def _descriptor_for_api_callable(member: dict, constructor: bool = False) -> tup
     return_descriptor = api_type_to_jvm_descriptor(member["returnType"], is_return=True)
     if return_descriptor is None:
         return None
-    if member.get("composable"):
+    if member.get("composable") and not member.get("bytecodeOnly"):
         parameters.append("Landroidx/compose/runtime/Composer;")
         parameters.append("I")
         if member.get("static"):
             parameters.append("I")
     return member["name"], "(" + "".join(parameters) + ")" + return_descriptor
+
+
+def _descriptor_types_compatible(source_type: str, binary_type: str) -> bool:
+    source_descriptor = api_type_to_jvm_descriptor(source_type)
+    binary_descriptor = api_type_to_jvm_descriptor(binary_type)
+    if source_descriptor == binary_descriptor:
+        return True
+    function_match = re.fullmatch(r"Lkotlin/jvm/functions/Function(\\d+);", source_descriptor or "")
+    binary_function_match = re.fullmatch(r"Lkotlin/jvm/functions/Function(\\d+);", binary_descriptor or "")
+    return bool(
+        function_match and binary_function_match
+        and int(binary_function_match.group(1)) == int(function_match.group(1)) + 2
+    )
+
+
+def _source_matches_bytecode_only(source: dict, bytecode: dict) -> bool:
+    if not (
+        bytecode["name"] == source["name"]
+        or bytecode["name"].startswith(source["name"] + "-")
+    ):
+        return False
+    source_parameters = source["parameterTypes"]
+    binary_parameters = bytecode["parameterTypes"]
+    suffix = []
+    if source.get("composable"):
+        suffix = ["androidx.compose.runtime.Composer", "int"]
+        if source.get("static"):
+            suffix.append("int")
+    if len(binary_parameters) != len(source_parameters) + len(suffix):
+        return False
+    if not all(
+        _descriptor_types_compatible(source_type, binary_type)
+        for source_type, binary_type in zip(source_parameters, binary_parameters)
+    ):
+        return False
+    if suffix and binary_parameters[len(source_parameters):] != suffix:
+        return False
+    return _descriptor_types_compatible(source["returnType"], bytecode["returnType"])
 
 
 def _property_getter_name(property_name: str) -> str:
@@ -477,6 +519,20 @@ def compare_api_dump_to_binary(api_dump: str, binary_classes: list[tuple[str, di
             continue
         binary_methods = [m for m in binary["methodSignatures"] if m.get("publicProtected", True)]
         binary_fields = [f for f in binary.get("fieldSignatures", []) if f.get("publicProtected", True)]
+        bytecode_only_api_methods = [method for method in api_members["methods"] if method["bytecodeOnly"]]
+        verified_bytecode_only = []
+        for bytecode_method in bytecode_only_api_methods:
+            bytecode_parsed = _descriptor_for_api_callable(bytecode_method)
+            if bytecode_parsed is None:
+                continue
+            bytecode_name, bytecode_descriptor = bytecode_parsed
+            if any(
+                item["descriptor"] == bytecode_descriptor and (
+                    item["name"] == bytecode_name or item["name"].startswith(bytecode_name + "-")
+                )
+                for item in binary_methods
+            ):
+                verified_bytecode_only.append(bytecode_method)
 
         for method in api_members["methods"]:
             counts["methods"] += 1
@@ -500,6 +556,22 @@ def compare_api_dump_to_binary(api_dump: str, binary_classes: list[tuple[str, di
                 )
                 for item in binary_methods
             )
+            if not matched and not is_bytecode:
+                matched = any(
+                    _source_matches_bytecode_only(method, candidate)
+                    and (
+                        _descriptor_for_api_callable(candidate) is not None
+                        and any(
+                            item["descriptor"] == _descriptor_for_api_callable(candidate)[1]
+                            and (
+                                item["name"] == _descriptor_for_api_callable(candidate)[0]
+                                or item["name"].startswith(_descriptor_for_api_callable(candidate)[0] + "-")
+                            )
+                            for item in binary_methods
+                        )
+                    )
+                    for candidate in verified_bytecode_only
+                )
             if matched:
                 counts["methodDescriptorMatches"] += 1
                 if is_bytecode:
@@ -602,11 +674,38 @@ def compare_api_dump_to_binary(api_dump: str, binary_classes: list[tuple[str, di
                 if prop.get("static"):
                     property_parameters.append("I")
             expected = "(" + "".join(property_parameters) + ")" + descriptor
-            if any(
+            property_matched = any(
                 (item["name"] == getter or item["name"].startswith(getter + "-"))
                 and item["descriptor"] == expected
                 for item in binary_methods
-            ):
+            )
+            if not property_matched:
+                for candidate in verified_bytecode_only:
+                    candidate_descriptor = _descriptor_for_api_callable(candidate)
+                    if candidate_descriptor is None:
+                        continue
+                    candidate_name, candidate_jvm_descriptor = candidate_descriptor
+                    if not (
+                        candidate_name == getter or candidate_name.startswith(getter + "-")
+                    ):
+                        continue
+                    candidate_parameters = candidate["parameterTypes"]
+                    receiver_count = 1 if prop.get("receiverType") else 0
+                    if prop.get("receiverType") and (
+                        not candidate_parameters
+                        or not _descriptor_types_compatible(prop["receiverType"], candidate_parameters[0])
+                    ):
+                        continue
+                    suffix_parameters = candidate_parameters[receiver_count:]
+                    if suffix_parameters not in (
+                        ["androidx.compose.runtime.Composer", "int"],
+                        ["androidx.compose.runtime.Composer", "int", "int"],
+                    ):
+                        continue
+                    if candidate_jvm_descriptor.endswith(")" + descriptor):
+                        property_matched = True
+                        break
+            if property_matched:
                 counts["propertyAccessorMatches"] += 1
             else:
                 missing_members.append({
