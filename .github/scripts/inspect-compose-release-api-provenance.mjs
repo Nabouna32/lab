@@ -129,7 +129,16 @@ export async function resolveGitilesRef(fetchImpl, refs, candidates, label, vers
       fetchImpl,
     );
     const versionText = Buffer.from(versionBytes.toString('utf8').replace(/\s+/g, ''), 'base64').toString('utf8');
-    const actualVersion = parseLibraryVersion(versionText, versionMarker);
+    let actualVersion;
+    try {
+      actualVersion = parseLibraryVersion(versionText, versionMarker);
+    } catch {
+      const availableMarkers = versionText.split(/\r?\n/)
+        .filter((line) => /^\s*[A-Z0-9_]*COMPOSE[A-Z0-9_]*\s*=/.test(line))
+        .map((line) => line.trim());
+      attempted.push(candidate + '@' + match.commit + ' (marker missing; available: ' + (availableMarkers.join(', ') || 'none') + ')');
+      continue;
+    }
     if (actualVersion !== expectedVersion) {
       attempted.push(candidate + '@' + match.commit + ' (' + versionMarker + '=' + actualVersion + ')');
       continue;
