@@ -10,8 +10,9 @@ import {
 } from "./fetch-material3-release-artifacts.mjs";
 
 const zipBytes = Buffer.from([0x50, 0x4b, 0x03, 0x04, 0x00]);
-const moduleBytes = (name) => Buffer.from(JSON.stringify({
+const moduleBytes = (name, url) => Buffer.from(JSON.stringify({
   formatVersion: "1.1",
+  ...(url ? { url } : {}),
   component: {
     group: "androidx.compose.material3",
     module: name,
@@ -23,7 +24,7 @@ const fixtureBytes = new Map([
   [RELEASE_ARTIFACTS[0].fileName, zipBytes],
   [RELEASE_ARTIFACTS[1].fileName, zipBytes],
   [RELEASE_ARTIFACTS[2].fileName, moduleBytes("material3")],
-  [RELEASE_ARTIFACTS[3].fileName, moduleBytes("material3-android")],
+  [RELEASE_ARTIFACTS[3].fileName, moduleBytes("material3", "../../material3/1.4.0/material3-1.4.0.module")],
 ]);
 
 function sha256(bytes) {
@@ -62,7 +63,8 @@ test("downloads the four pinned artifacts and verifies their published SHA-256 s
     assert.equal(report.artifacts.length, 4);
     assert.ok(report.artifacts.every((artifact) => artifact.status === "verified"));
     assert.equal(report.artifacts[2].component, "androidx.compose.material3:material3:1.4.0");
-    assert.equal(report.artifacts[3].component, "androidx.compose.material3:material3-android:1.4.0");
+    assert.equal(report.artifacts[3].component, "androidx.compose.material3:material3:1.4.0");
+    assert.equal(report.artifacts[3].metadataUrl, "../../material3/1.4.0/material3-1.4.0.module");
     const files = await readdir(outputDirectory);
     assert.equal(files.length, 5);
     assert.ok(files.includes("verification.json"));
