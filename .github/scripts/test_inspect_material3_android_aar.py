@@ -96,6 +96,17 @@ class Material3AndroidAarInspectionTests(unittest.TestCase):
         self.assertEqual(comparison["bytecodeOnlyDescriptorMatches"], 1)
         self.assertEqual(comparison["status"], "bytecode-only-descriptors-and-source-names-match")
 
+    def test_parses_public_classes_with_leading_annotations(self):
+        api = """package androidx.compose.material3 {
+  @androidx.annotation.RestrictTo(\"LIBRARY\") public interface AnnotatedApi {
+    method public void visible();
+  }
+}
+"""
+        parsed = MODULE.parse_api_dump(api)
+        self.assertEqual(set(parsed), {"androidx/compose/material3/AnnotatedApi"})
+        self.assertEqual(parsed["androidx/compose/material3/AnnotatedApi"][0]["name"], "visible")
+
     def test_rejects_invalid_or_truncated_class_files(self):
         with self.assertRaisesRegex(ValueError, "Invalid JVM class-file header"):
             MODULE.read_class_summary(b"not a class file")
