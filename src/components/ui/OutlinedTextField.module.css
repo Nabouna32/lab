@@ -83,7 +83,7 @@
 
 .input:focus + .label,
 .input:not(:placeholder-shown) + .label {
-  top: 8px;
+  top: -8px;
   font-size: var(--m3-type-label-small-size);
   line-height: var(--m3-type-label-small-line-height);
   transform: none;
