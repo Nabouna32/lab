@@ -137,6 +137,10 @@ Le registre versionné sélectionne maintenant une version stable publiée pour 
 
 Une BOM Compose peut aligner des versions compatibles, mais n'ajoute pas toutes les bibliothèques au projet et ne remplace pas l'identification des artefacts à inventorier. Chaque baseline conserve une seule référence de release immuable, avec les empreintes API et sources correspondantes. Les commits historiques d'exploration ne sont pas maintenus comme baselines parallèles.
 
+## Revue sémantique Compose UI Text 1.12.1
+
+La première revue ciblée des contrats UI Text est documentée dans [compose-ui-text-1.12.1.md](compose-ui-text-1.12.1.md). Elle examine `AnnotatedString`, `SpanStyle`, `ParagraphStyle`, `TextStyle` et `TextMeasurer`, puis confronte ces contrats aux wrappers React/Web de saisie et aux rôles typographiques existants. Décision : conserver le DOM/CSS et les contrôles HTML natifs pour les usages courants ; ne pas créer de moteur de texte React préventif. Cette revue n'est ni exhaustive ni une validation navigateur ; la famille UI Text reste `in-progress`.
+
 ## Statut du catalogue Material 3
 
 - **Dump API stable 1.4.0** : le fichier officiel `compose/material3/material3/api/current.txt` est épinglé au commit AndroidX de release `5113b82a4ed6416d6344efa50e41db8cb65928ff` (`COMPOSE_MATERIAL3 = "1.4.0"` dans `libraryversions.toml`). Son Git blob SHA-1 est `fd45e9feea96a631c0f8b7ac82f88ee9ce999029` ; il est identique au dernier fichier versionné `1.4.0-beta03.txt`. La copie exacte est conservée dans [le baseline API](baselines/material3-1.4.0-api.txt) et sa provenance dans [le manifeste](baselines/material3-1.4.0.json).
