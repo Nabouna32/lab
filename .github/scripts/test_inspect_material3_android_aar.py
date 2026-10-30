@@ -157,7 +157,7 @@ class Material3AndroidAarInspectionTests(unittest.TestCase):
     method @androidx.compose.runtime.Composable public androidx.compose.ui.graphics.Shape getShape();
     method public suspend Object? animate(kotlin.coroutines.Continuation<? super kotlin.Unit>);
     method @androidx.compose.runtime.Composable public static void drawContent(kotlin.jvm.functions.Function0<kotlin.Unit> onClick, kotlin.jvm.functions.Function0<kotlin.Unit> content);
-    method @BytecodeOnly @androidx.compose.runtime.Composable public static void drawContent(kotlin.jvm.functions.Function0<kotlin.Unit!>, kotlin.jvm.functions.Function2<? super androidx.compose.runtime.Composer!,? super java.lang.Integer!,kotlin.Unit!>, androidx.compose.runtime.Composer?, int, int);
+    method @BytecodeOnly @androidx.compose.runtime.Composable public static void drawContent(kotlin.jvm.functions.Function0<kotlin.Unit!>, kotlin.jvm.functions.Function2<? super androidx.compose.runtime.Composer!,? super java.lang.Integer!,kotlin.Unit!>, androidx.compose.runtime.Composer?, int);
     method @BytecodeOnly @androidx.compose.runtime.Composable public androidx.compose.ui.graphics.Color getAccentColor(androidx.compose.runtime.Composer?, int);
     method public void setHour(@IntRange(from=0L, to=23L) int);
     ctor @KotlinOnly public Api(androidx.compose.ui.graphics.Color color);
@@ -178,10 +178,10 @@ class Material3AndroidAarInspectionTests(unittest.TestCase):
                 "androidx/compose/material3/Api.class",
                 {
                     "methodSignatures": [
-                        {"name": "draw-hash", "descriptor": "(JLandroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V", "publicProtected": True},
+                        {"name": "draw-hash", "descriptor": "(JLandroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;I)V", "publicProtected": True},
                         {"name": "getShape", "descriptor": "(Landroidx/compose/runtime/Composer;I)Landroidx/compose/ui/graphics/Shape;", "publicProtected": True},
                         {"name": "animate", "descriptor": "(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;", "publicProtected": True},
-                        {"name": "drawContent", "descriptor": "(Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V", "publicProtected": True},
+                        {"name": "drawContent", "descriptor": "(Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V", "publicProtected": True},
                         {"name": "getAccentColor", "descriptor": "(Landroidx/compose/runtime/Composer;I)J", "publicProtected": True},
                         {"name": "getContainerColor-hash", "descriptor": "(Landroidx/compose/runtime/Composer;I)J", "publicProtected": True},
                         {"name": "setHour", "descriptor": "(I)V", "publicProtected": True},
