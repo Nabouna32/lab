@@ -415,12 +415,16 @@ test("SegmentedControl follows the AndroidX item-shape and state contract", () =
 });
 
 test("TextField labels reflect invalid state while disabled labels keep disabled color", () => {
+  assert.doesNotMatch(textFieldSource, /variant\?: "fidelity" \| "expressive"|isExpressive|expressiveInputClasses/);
   assert.match(textFieldSource, /const isInvalid = !disabled && Boolean\(inputProps\["aria-invalid"\]\);/);
   assert.match(textFieldSource, /isInvalid \? "text-\[var\(--danger\)\]" : "text-\[var\(--foreground\)\]"/);
   assert.match(textFieldSource, /disabled \? "text-\[color-mix\(in_srgb,var\(--on-surface\)_38%,transparent\)\]" : isInvalid \? "text-\[var\(--danger\)\] peer-aria-\[invalid=true\]:text-\[var\(--danger\)\]"/);
 });
 
 test("Design Lab exposes the production OutlinedSecureTextField without requiring an account", () => {
+  assert.match(outlinedTextFieldSource, /export function OutlinedTextField/);
+  assert.match(outlinedSecureTextFieldSource, /export function OutlinedSecureTextField/);
+  assert.doesNotMatch(outlinedTextFieldSource, /variant\?: "filled" \| "outlined"|data-variant|secure/);
   assert.ok(visualLabSource.includes('import { OutlinedSecureTextField } from "@/components/ui/OutlinedSecureTextField"'));
   assert.ok(visualLabSource.includes('<OutlinedSecureTextField'));
   assert.ok(visualLabSource.includes('id="lab-material-password"'));
