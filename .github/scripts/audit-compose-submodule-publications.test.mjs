@@ -7,7 +7,7 @@ import {
   parseSha256,
   validateModuleMetadata,
   validateZipSignature,
-  verifySha256,
+  validateAndroidVariantLinks,\n  verifySha256,
 } from './audit-compose-submodule-publications.mjs';
 
 test('parses a published SHA-256 sidecar', () => {
@@ -56,6 +56,40 @@ test('validates Gradle module component identity and preserves variant metadata'
     module: 'ui-text-android',
     version: '1.12.1',
   }, 'fixture'), /unexpected component identity/);
+});
+
+test('verifies every logical-to-Android variant metadata link', () => {
+  const variants = [
+    {
+      name: 'androidApiElements-published',
+      availableAt: {
+        url: '../../ui-text-android/1.12.1/ui-text-android-1.12.1.module',
+        group: 'androidx.compose.ui',
+        module: 'ui-text-android',
+        version: '1.12.1',
+      },
+    },
+    {
+      name: 'androidRuntimeElements-published',
+      availableAt: {
+        url: '../../ui-text-android/1.12.1/ui-text-android-1.12.1.module',
+        group: 'androidx.compose.ui',
+        module: 'ui-text-android',
+        version: '1.12.1',
+      },
+    },
+  ];
+  const source = 'https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-text/1.12.1/ui-text-1.12.1.module';
+  const target = 'https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-text-android/1.12.1/ui-text-android-1.12.1.module';
+  assert.equal(validateAndroidVariantLinks(variants, {
+    group: 'androidx.compose.ui', module: 'ui-text-android', version: '1.12.1',
+  }, source, target), 2);
+  assert.throws(() => validateAndroidVariantLinks(variants, {
+    group: 'androidx.compose.ui', module: 'ui-text-android', version: '1.12.0',
+  }, source, target), /unexpected component reference/);
+  assert.throws(() => validateAndroidVariantLinks(variants, {
+    group: 'androidx.compose.ui', module: 'ui-text-android', version: '1.12.1',
+  }, source, source), /does not resolve/);
 });
 
 test('accepts an Android publication metadata redirect to its logical module', () => {
