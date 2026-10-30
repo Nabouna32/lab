@@ -70,7 +70,10 @@ class Material3AndroidAarInspectionTests(unittest.TestCase):
         binary = [
             (
                 "androidx/compose/material3/AlertDialogDefaults.class",
-                {"methodSignatures": [{"name": "getContainerColor"}, {"name": "reset"}]},
+                {"methodSignatures": [
+                    {"name": "getContainerColor", "descriptor": "(Landroidx/compose/runtime/Composer;I)J"},
+                    {"name": "reset", "descriptor": "()V"},
+                ]},
                 True,
             )
         ]
