@@ -26,7 +26,52 @@
         "fields": 118,
         "properties": 1207
       },
-      "artifact": "androidx.compose.ui:ui"
+      "artifact": "androidx.compose.ui:ui",
+      "inventorySummary": {
+        "declarationCount": 4390,
+        "sourceApiCandidateCount": 2638,
+        "bytecodeOnlyCount": 1009,
+        "inaccessibleFromKotlinCount": 743,
+        "packageCount": 28,
+        "packageCounts": {
+          "androidx.compose.ui": 336,
+          "androidx.compose.ui.autofill": 175,
+          "androidx.compose.ui.contentcapture": 5,
+          "androidx.compose.ui.draganddrop": 38,
+          "androidx.compose.ui.draw": 116,
+          "androidx.compose.ui.focus": 213,
+          "androidx.compose.ui.graphics": 119,
+          "androidx.compose.ui.graphics.vector": 201,
+          "androidx.compose.ui.hapticfeedback": 37,
+          "androidx.compose.ui.input": 14,
+          "androidx.compose.ui.input.indirect": 65,
+          "androidx.compose.ui.input.key": 660,
+          "androidx.compose.ui.input.nestedscroll": 43,
+          "androidx.compose.ui.input.pointer": 315,
+          "androidx.compose.ui.input.pointer.util": 21,
+          "androidx.compose.ui.input.rotary": 15,
+          "androidx.compose.ui.layout": 580,
+          "androidx.compose.ui.modifier": 32,
+          "androidx.compose.ui.node": 244,
+          "androidx.compose.ui.platform": 440,
+          "androidx.compose.ui.relocation": 5,
+          "androidx.compose.ui.res": 40,
+          "androidx.compose.ui.semantics": 536,
+          "androidx.compose.ui.spatial": 23,
+          "androidx.compose.ui.state": 5,
+          "androidx.compose.ui.text": 3,
+          "androidx.compose.ui.viewinterop": 8,
+          "androidx.compose.ui.window": 101
+        },
+        "packageAnnotations": [
+          {
+            "package": "androidx.compose.ui.contentcapture",
+            "annotations": [
+              "@SuppressCompatibility"
+            ]
+          }
+        ]
+      }
     },
     {
       "family": "compose-foundation",
@@ -42,7 +87,41 @@
         "fields": 93,
         "properties": 414
       },
-      "artifact": "androidx.compose.foundation:foundation"
+      "artifact": "androidx.compose.foundation:foundation",
+      "inventorySummary": {
+        "declarationCount": 2674,
+        "sourceApiCandidateCount": 1700,
+        "bytecodeOnlyCount": 648,
+        "inaccessibleFromKotlinCount": 326,
+        "packageCount": 24,
+        "packageCounts": {
+          "androidx.compose.foundation": 364,
+          "androidx.compose.foundation.content": 53,
+          "androidx.compose.foundation.draganddrop": 10,
+          "androidx.compose.foundation.gestures": 326,
+          "androidx.compose.foundation.gestures.snapping": 28,
+          "androidx.compose.foundation.interaction": 60,
+          "androidx.compose.foundation.lazy": 151,
+          "androidx.compose.foundation.lazy.grid": 169,
+          "androidx.compose.foundation.lazy.layout": 157,
+          "androidx.compose.foundation.lazy.staggeredgrid": 122,
+          "androidx.compose.foundation.pager": 110,
+          "androidx.compose.foundation.relocation": 9,
+          "androidx.compose.foundation.selection": 28,
+          "androidx.compose.foundation.shape": 193,
+          "androidx.compose.foundation.style": 490,
+          "androidx.compose.foundation.text": 133,
+          "androidx.compose.foundation.text.contextmenu.builder": 5,
+          "androidx.compose.foundation.text.contextmenu.data": 39,
+          "androidx.compose.foundation.text.contextmenu.modifier": 3,
+          "androidx.compose.foundation.text.contextmenu.provider": 12,
+          "androidx.compose.foundation.text.handwriting": 4,
+          "androidx.compose.foundation.text.input": 169,
+          "androidx.compose.foundation.text.modifiers": 2,
+          "androidx.compose.foundation.text.selection": 37
+        },
+        "packageAnnotations": []
+      }
     },
     {
       "family": "compose-ui-text",
@@ -58,7 +137,32 @@
         "fields": 50,
         "properties": 409
       },
-      "artifact": "androidx.compose.ui:ui-text"
+      "artifact": "androidx.compose.ui:ui-text",
+      "inventorySummary": {
+        "declarationCount": 1811,
+        "sourceApiCandidateCount": 1045,
+        "bytecodeOnlyCount": 519,
+        "inaccessibleFromKotlinCount": 247,
+        "packageCount": 8,
+        "packageCounts": {
+          "androidx.compose.ui.text": 888,
+          "androidx.compose.ui.text.android": 5,
+          "androidx.compose.ui.text.font": 273,
+          "androidx.compose.ui.text.input": 291,
+          "androidx.compose.ui.text.intl": 48,
+          "androidx.compose.ui.text.platform": 2,
+          "androidx.compose.ui.text.platform.extensions": 3,
+          "androidx.compose.ui.text.style": 301
+        },
+        "packageAnnotations": [
+          {
+            "package": "androidx.compose.ui.text.android",
+            "annotations": [
+              "@SuppressCompatibility"
+            ]
+          }
+        ]
+      }
     },
     {
       "family": "compose-foundation-layout",
@@ -74,7 +178,18 @@
         "fields": 26,
         "properties": 129
       },
-      "artifact": "androidx.compose.foundation:foundation-layout"
+      "artifact": "androidx.compose.foundation:foundation-layout",
+      "inventorySummary": {
+        "declarationCount": 786,
+        "sourceApiCandidateCount": 472,
+        "bytecodeOnlyCount": 274,
+        "inaccessibleFromKotlinCount": 40,
+        "packageCount": 1,
+        "packageCounts": {
+          "androidx.compose.foundation.layout": 786
+        },
+        "packageAnnotations": []
+      }
     }
   ],
   "limitations": [
@@ -86,5 +201,6 @@
   "snapshotVersion": "androidx-main-watch@5901d750",
   "inventoryKind": "public-signature-surface",
   "semanticCompleteness": "not-established-by-api-dump-alone",
-  "stableBaselineAlignment": "UNVERIFIED"
+  "stableBaselineAlignment": "UNVERIFIED",
+  "inventoryParser": ".github/scripts/material3-api-inventory.mjs"
 }
