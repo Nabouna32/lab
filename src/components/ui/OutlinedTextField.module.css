@@ -16,7 +16,7 @@
   border: var(--m3-outline-width) solid var(--outline, var(--border));
   border-radius: var(--shape-corner-extra-small);
   background: transparent;
-  transition: border-color var(--motion-standard) ease, border-width var(--motion-standard) ease, background-color var(--motion-standard) ease;
+  transition: border-color var(--motion-standard) var(--motion-standard-easing), border-width var(--motion-standard) var(--motion-standard-easing), background-color var(--motion-standard) var(--motion-standard-easing);
 }
 
 .root[data-error="true"]:not([data-disabled="true"]) .field {
@@ -78,7 +78,7 @@
   background: var(--surface, var(--background, Canvas));
   transform: translateY(-50%);
   transform-origin: left center;
-  transition: top var(--motion-standard) ease, font-size var(--motion-standard) ease, color var(--motion-standard) ease, transform var(--motion-standard) ease;
+  transition: top var(--motion-standard) var(--motion-standard-easing), font-size var(--motion-standard) var(--motion-standard-easing), color var(--motion-standard) var(--motion-standard-easing), transform var(--motion-standard) var(--motion-standard-easing);
 }
 
 .input:focus + .label,
