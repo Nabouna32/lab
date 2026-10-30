@@ -256,8 +256,8 @@ export async function auditComposeSubmodulePublications({
       androidMetadata: { url: androidMetadata.url, sha256: androidMetadata.sha256, sizeBytes: androidMetadata.sizeBytes },
       sourcesArchive: { url: sources.url, sha256: sources.sha256, sizeBytes: sources.sizeBytes },
       androidAar: { url: aar.url, sha256: aar.sha256, sizeBytes: aar.sizeBytes },
-      logicalMetadataReferencesAndroidVariant: androidVariantLinks.length > 0,
-      androidVariantLinkCount: androidVariantLinks.length,
+      logicalMetadataReferencesAndroidVariant: androidVariantLinkCount > 0,
+      androidVariantLinkCount: androidVariantLinkCount,
     });
   }
 
