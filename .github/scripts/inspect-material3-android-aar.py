@@ -147,10 +147,116 @@ def parse_api_dump(api_dump: str) -> dict:
                 classes[current_class].append({
                     "name": method_match.group(1),
                     "bytecodeOnly": "@BytecodeOnly" in line,
+                    "signature": line,
                 })
         if line == "  }":
             current_class = None
     return classes
+
+
+def split_api_parameter_types(parameters: str) -> list[str]:
+    values = []
+    depth = 0
+    start = 0
+    for index, character in enumerate(parameters):
+        if character == "<":
+            depth += 1
+        elif character == ">":
+            depth -= 1
+        elif character == "," and depth == 0:
+            values.append(parameters[start:index].strip())
+            start = index + 1
+    tail = parameters[start:].strip()
+    if tail:
+        values.append(tail)
+    return values
+
+
+def api_type_to_jvm_descriptor(type_name: str, is_return: bool = False) -> str | None:
+    value = re.sub(r"@[A-Za-z0-9_.]+(?:\([^)]*\))?", "", type_name).strip()
+    value = re.sub(r"^(?:\? super|\? extends|in|out)\s+", "", value)
+    value = value.replace("?", "").replace("!", "").strip()
+    value = re.sub(r"\s+", "", value)
+    if not value:
+        return None
+
+    if value.endswith("[]"):
+        inner = api_type_to_jvm_descriptor(value[:-2])
+        return "[" + inner if inner else None
+
+    generic_index = value.find("<")
+    if generic_index >= 0:
+        value = value[:generic_index]
+
+    primitive = {
+        "void": "V", "boolean": "Z", "byte": "B", "char": "C",
+        "short": "S", "int": "I", "long": "J", "float": "F", "double": "D",
+        "kotlin.Boolean": "Z", "kotlin.Byte": "B", "kotlin.Char": "C",
+        "kotlin.Short": "S", "kotlin.Int": "I", "kotlin.Long": "J",
+        "kotlin.Float": "F", "kotlin.Double": "D",
+    }
+    if value in primitive:
+        return primitive[value]
+
+    aliases = {
+        "kotlin.String": "java/lang/String",
+        "kotlin.Any": "java/lang/Object",
+        "kotlin.Throwable": "java/lang/Throwable",
+        "kotlin.collections.Iterable": "java/lang/Iterable",
+        "kotlin.collections.Collection": "java/util/Collection",
+        "kotlin.collections.List": "java/util/List",
+        "kotlin.collections.MutableList": "java/util/List",
+        "kotlin.collections.Set": "java/util/Set",
+        "kotlin.collections.MutableSet": "java/util/Set",
+        "kotlin.collections.Map": "java/util/Map",
+        "kotlin.collections.MutableMap": "java/util/Map",
+    }
+    if value in aliases:
+        return "L" + aliases[value] + ";"
+    if value == "kotlin.Array":
+        return "[Ljava/lang/Object;"
+    for primitive_array, descriptor in (
+        ("kotlin.BooleanArray", "[Z"), ("kotlin.ByteArray", "[B"),
+        ("kotlin.CharArray", "[C"), ("kotlin.ShortArray", "[S"),
+        ("kotlin.IntArray", "[I"), ("kotlin.LongArray", "[J"),
+        ("kotlin.FloatArray", "[F"), ("kotlin.DoubleArray", "[D"),
+    ):
+        if value == primitive_array:
+            return descriptor
+    if value.startswith("kotlin.Function") and value[len("kotlin.Function"):].isdigit():
+        return "Lkotlin/jvm/functions/Function" + value[len("kotlin.Function"):] + ";"
+    if value.startswith("kotlin.jvm.functions.Function"):
+        return "L" + value.replace(".", "/") + ";"
+    if value.startswith("kotlin.coroutines.Continuation"):
+        return "Lkotlin/coroutines/Continuation;"
+    if value.startswith("kotlin.Unit"):
+        return "Lkotlin/Unit;"
+    if value.startswith("kotlin.jvm.internal."):
+        return "L" + value.replace(".", "/") + ";"
+    if value.startswith("java.") or value.startswith("android.") or value.startswith("androidx.") or value.startswith("kotlin."):
+        return "L" + value.replace(".", "/").replace("$", "$") + ";"
+    if re.fullmatch(r"[A-Z][A-Za-z0-9_]*", value):
+        return "Ljava/lang/Object;"
+    return None
+
+
+def bytecode_only_method_descriptor(signature: str) -> tuple[str, str] | None:
+    method_part = signature.split("method", 1)[1]
+    match = re.search(r"\b(?:public|protected)\s+(?:(?:static|final|abstract|synchronized|native)\s+)*(.+?)\s+([A-Za-z_$][A-Za-z0-9_$-]*)\((.*)\);$", method_part)
+    if not match:
+        return None
+    return_type, method_name, parameter_text = match.groups()
+    return_descriptor = api_type_to_jvm_descriptor(return_type, is_return=True)
+    if return_descriptor is None:
+        return None
+    parameters = split_api_parameter_types(parameter_text)
+    parameter_descriptors = []
+    for parameter in parameters:
+        descriptor = api_type_to_jvm_descriptor(parameter)
+        if descriptor is None:
+            return None
+        parameter_descriptors.append(descriptor)
+    return method_name, "(" + "".join(parameter_descriptors) + ")" + return_descriptor
 
 
 def compare_api_dump_to_binary(api_dump: str, binary_classes: list[tuple[str, dict, bool]]) -> dict:
@@ -158,9 +264,11 @@ def compare_api_dump_to_binary(api_dump: str, binary_classes: list[tuple[str, di
     binary_by_name = {name[:-6]: summary for name, summary, _ in binary_classes}
     missing_classes = []
     missing_methods = []
-    matched_methods = 0
+    source_level_method_count = 0
+    source_level_name_matches = 0
     bytecode_only_methods = 0
-    bytecode_only_method_names_matched = 0
+    bytecode_only_descriptor_matches = 0
+    unsupported_bytecode_only_signatures = []
 
     for class_name, api_methods in api_classes.items():
         binary = binary_by_name.get(class_name)
@@ -169,16 +277,43 @@ def compare_api_dump_to_binary(api_dump: str, binary_classes: list[tuple[str, di
             for method in api_methods:
                 missing_methods.append({"class": class_name, "method": method["name"], "reason": "class-missing"})
             continue
-        binary_method_names = {method["name"] for method in binary["methodSignatures"]}
+        binary_methods = binary["methodSignatures"]
+        binary_method_names = {method["name"] for method in binary_methods}
         for method in api_methods:
             if method["bytecodeOnly"]:
                 bytecode_only_methods += 1
-            if method["name"] in binary_method_names:
-                matched_methods += 1
-                if method["bytecodeOnly"]:
-                    bytecode_only_method_names_matched += 1
+                parsed = bytecode_only_method_descriptor(method["signature"])
+                if parsed is None:
+                    unsupported_bytecode_only_signatures.append({
+                        "class": class_name,
+                        "method": method["name"],
+                        "signature": method["signature"].strip(),
+                    })
+                    continue
+                method_name, descriptor = parsed
+                if any(item["name"] == method_name and item["descriptor"] == descriptor for item in binary_methods):
+                    bytecode_only_descriptor_matches += 1
+                else:
+                    missing_methods.append({
+                        "class": class_name,
+                        "method": method_name,
+                        "descriptor": descriptor,
+                        "reason": "bytecode-only-descriptor-missing",
+                    })
             else:
-                missing_methods.append({"class": class_name, "method": method["name"], "reason": "method-name-missing"})
+                source_level_method_count += 1
+                method_name = method["name"]
+                if (
+                    method_name in binary_method_names
+                    or any(name.startswith(method_name + "-") for name in binary_method_names)
+                ):
+                    source_level_name_matches += 1
+                else:
+                    missing_methods.append({
+                        "class": class_name,
+                        "method": method_name,
+                        "reason": "source-level-name-or-mangled-name-missing",
+                    })
 
     api_method_count = sum(len(methods) for methods in api_classes.values())
     return {
@@ -186,12 +321,16 @@ def compare_api_dump_to_binary(api_dump: str, binary_classes: list[tuple[str, di
         "binaryClassMatches": len(api_classes) - len(missing_classes),
         "missingClasses": missing_classes,
         "apiMethodCount": api_method_count,
-        "methodNameMatches": matched_methods,
-        "missingMethods": missing_methods,
+        "sourceLevelMethodCount": source_level_method_count,
+        "sourceLevelNameMatches": source_level_name_matches,
         "bytecodeOnlyMethodCount": bytecode_only_methods,
-        "bytecodeOnlyMethodNameMatches": bytecode_only_method_names_matched,
-        "comparisonMode": "class names and method names only; JVM descriptors and Kotlin source-level type semantics are not compared",
-        "status": "class-and-method-names-match" if not missing_classes and not missing_methods else "mismatches-found",
+        "bytecodeOnlyDescriptorMatches": bytecode_only_descriptor_matches,
+        "unsupportedBytecodeOnlySignatures": unsupported_bytecode_only_signatures,
+        "missingMethods": missing_methods,
+        "comparisonMode": "all API classes, source-level names with Kotlin JVM-mangling allowance, and exact JVM descriptors for @BytecodeOnly methods",
+        "status": "bytecode-only-descriptors-and-source-names-match" if (
+            not missing_classes and not missing_methods and not unsupported_bytecode_only_signatures
+        ) else "mismatches-found",
     }
 
 
