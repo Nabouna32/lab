@@ -514,6 +514,8 @@ def compare_api_dump_to_binary(api_dump: str, binary_classes: list[tuple[str, di
         "bytecodeOnlyMethods": 0, "bytecodeOnlyDescriptorMatches": 0,
         "kotlinOnlyMethods": 0, "kotlinOnlyDescriptorMatches": 0,
         "constructors": 0, "constructorDescriptorMatches": 0,
+        "kotlinOnlyConstructors": 0, "kotlinOnlyConstructorMatches": 0,
+        "sourceLevelBytecodeOnlyMatches": 0,
         "fields": 0, "fieldDescriptorMatches": 0,
         "properties": 0, "propertyAccessorMatches": 0,
     }
@@ -585,6 +587,11 @@ def compare_api_dump_to_binary(api_dump: str, binary_classes: list[tuple[str, di
                 )
             if matched:
                 counts["methodDescriptorMatches"] += 1
+                if not is_bytecode and any(
+                    _source_matches_bytecode_only(method, candidate)
+                    for candidate in verified_bytecode_only
+                ):
+                    counts["sourceLevelBytecodeOnlyMatches"] += 1
                 if is_bytecode:
                     counts["bytecodeOnlyDescriptorMatches"] += 1
                 if is_kotlin_only:
@@ -598,6 +605,8 @@ def compare_api_dump_to_binary(api_dump: str, binary_classes: list[tuple[str, di
 
         for constructor in api_members["constructors"]:
             counts["constructors"] += 1
+            if constructor.get("kotlinOnly"):
+                counts["kotlinOnlyConstructors"] += 1
             parsed = _descriptor_for_api_callable(constructor, constructor=True)
             if parsed is None:
                 unsupported_signatures.append({
@@ -636,6 +645,8 @@ def compare_api_dump_to_binary(api_dump: str, binary_classes: list[tuple[str, di
                         break
             if constructor_matches:
                 counts["constructorDescriptorMatches"] += 1
+                if constructor.get("kotlinOnly"):
+                    counts["kotlinOnlyConstructorMatches"] += 1
             else:
                 missing_members.append({
                     "kind": "constructor", "class": class_name,
@@ -739,19 +750,22 @@ def compare_api_dump_to_binary(api_dump: str, binary_classes: list[tuple[str, di
         "apiMethodCount": api_method_count,
         "sourceLevelMethodCount": api_method_count - counts["bytecodeOnlyMethods"],
         "sourceLevelDescriptorMatches": counts["methodDescriptorMatches"] - counts["bytecodeOnlyDescriptorMatches"],
+        "sourceLevelBytecodeOnlyMatches": counts["sourceLevelBytecodeOnlyMatches"],
         "bytecodeOnlyMethodCount": counts["bytecodeOnlyMethods"],
         "bytecodeOnlyDescriptorMatches": counts["bytecodeOnlyDescriptorMatches"],
         "kotlinOnlyMethodCount": counts["kotlinOnlyMethods"],
         "kotlinOnlyDescriptorMatches": counts["kotlinOnlyDescriptorMatches"],
         "constructorCount": counts["constructors"],
         "constructorDescriptorMatches": counts["constructorDescriptorMatches"],
+        "kotlinOnlyConstructorCount": counts["kotlinOnlyConstructors"],
+        "kotlinOnlyConstructorMatches": counts["kotlinOnlyConstructorMatches"],
         "fieldCount": counts["fields"],
         "fieldDescriptorMatches": counts["fieldDescriptorMatches"],
         "propertyCount": counts["properties"],
         "propertyAccessorMatches": counts["propertyAccessorMatches"],
         "unsupportedSignatures": unsupported_signatures,
         "missingMembers": missing_members,
-        "comparisonMode": "exact JVM descriptors for source-level and @BytecodeOnly methods, constructors, fields, and property getters",
+        "comparisonMode": "exact JVM descriptors for API declarations, with explicit Compose lowering and Kotlin default-constructor mapping",
         "status": "exact-declarations-match" if (
             not missing_classes and not missing_members and not unsupported_signatures
             and counts["methodDescriptorMatches"] == counts["methods"]
@@ -934,12 +948,15 @@ def inspect(directory: Path) -> dict:
                 str(api_binary_comparison["apiClassCount"]) + "/" + str(api_binary_comparison["binaryClassMatches"]) +
                 " API classes match; " + str(api_binary_comparison["sourceLevelDescriptorMatches"]) + "/" +
                 str(api_binary_comparison["sourceLevelMethodCount"]) + " source-level method descriptors match; " +
+                str(api_binary_comparison["sourceLevelBytecodeOnlyMatches"]) + " source methods map to verified @BytecodeOnly ABI entries; " +
                 str(api_binary_comparison["bytecodeOnlyDescriptorMatches"]) + "/" +
                 str(api_binary_comparison["bytecodeOnlyMethodCount"]) + " @BytecodeOnly descriptors match; " +
                 str(api_binary_comparison["kotlinOnlyDescriptorMatches"]) + "/" +
                 str(api_binary_comparison["kotlinOnlyMethodCount"]) + " @KotlinOnly descriptors match; " +
                 str(api_binary_comparison["constructorDescriptorMatches"]) + "/" +
-                str(api_binary_comparison["constructorCount"]) + " constructors match; " +
+                str(api_binary_comparison["constructorCount"]) + " constructors match (" +
+                str(api_binary_comparison["kotlinOnlyConstructorMatches"]) + "/" +
+                str(api_binary_comparison["kotlinOnlyConstructorCount"]) + " @KotlinOnly); " +
                 str(api_binary_comparison["fieldDescriptorMatches"]) + "/" +
                 str(api_binary_comparison["fieldCount"]) + " fields match; " +
                 str(api_binary_comparison["propertyAccessorMatches"]) + "/" +
