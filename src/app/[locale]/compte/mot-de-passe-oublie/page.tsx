@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { PageContainer } from "@/components/layout/PageLayout";
 import { Arrangement } from "@/components/layout/compose/Arrangement";
 import { Column } from "@/components/layout/compose/Column";
 import { notFound } from "next/navigation";
@@ -23,7 +22,7 @@ export default async function ForgotPasswordPage({
 
   return (
     <main>
-      <PageContainer width="form" spacing="none" className="flex min-h-[calc(100vh-4.5rem)] items-center py-[var(--space-12)]">
+      <div className="mx-auto w-full max-w-[var(--layout-content-form)] px-[var(--layout-page-gutter)] flex min-h-[calc(100vh-4.5rem)] items-center py-[var(--space-12)]">
       <section className="w-full rounded-3xl border border-[var(--border)] bg-[var(--surface-elevated)] p-6 shadow-[var(--shadow-sm)] sm:p-8">
         <p className="m3-type-label-large mb-2 text-[var(--accent)]">{t.account.label}</p>
         <h1 className="m3-type-headline-large">{t.account.forgotPasswordTitle}</h1>
@@ -58,7 +57,7 @@ export default async function ForgotPasswordPage({
           {t.account.signIn}
         </Link>
       </section>
-      </PageContainer>
+      </div>
     </main>
   );
 }
