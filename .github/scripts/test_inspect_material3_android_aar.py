@@ -97,7 +97,7 @@ class Material3AndroidAarInspectionTests(unittest.TestCase):
         api = """package androidx.compose.material3 {
   public final class AlertDialogDefaults {
     method @BytecodeOnly public long getContainerColor(androidx.compose.runtime.Composer?, int);
-    method public void reset();
+    method @KotlinOnly public void reset();
   }
 }
 """
@@ -157,8 +157,6 @@ class Material3AndroidAarInspectionTests(unittest.TestCase):
         comparison = MODULE.compare_api_dump_to_binary(api, binary)
         self.assertEqual(comparison["sourceLevelDescriptorMatches"], 1)
         self.assertEqual(comparison["constructorDescriptorMatches"], 1)
-        self.assertEqual(comparison["kotlinOnlyConstructorCount"], 1)
-        self.assertEqual(comparison["kotlinOnlyConstructorMatches"], 1)
         self.assertEqual(comparison["fieldDescriptorMatches"], 1)
         self.assertEqual(comparison["propertyAccessorMatches"], 1)
         self.assertEqual(comparison["missingMembers"], [])
@@ -191,7 +189,8 @@ class Material3AndroidAarInspectionTests(unittest.TestCase):
         self.assertTrue(parsed["methods"][0]["composable"])
         self.assertTrue(parsed["constructors"][0]["kotlinOnly"])
         self.assertEqual(parsed["fields"][0]["name"], "LABEL")
-        self.assertEqual(parsed["properties"][1]["receiverType"], "androidx.compose.material3.TimePickerState")
+        extension_property = next(prop for prop in parsed["properties"] if prop["name"] == "isPm")
+        self.assertEqual(extension_property["receiverType"], "androidx.compose.material3.TimePickerState")
         binary = [
             (
                 "androidx/compose/material3/Api.class",
@@ -219,6 +218,8 @@ class Material3AndroidAarInspectionTests(unittest.TestCase):
         self.assertEqual(comparison["sourceLevelDescriptorMatches"], 5)
         self.assertEqual(comparison["bytecodeOnlyDescriptorMatches"], 2)
         self.assertEqual(comparison["constructorDescriptorMatches"], 1)
+        self.assertEqual(comparison["kotlinOnlyConstructorCount"], 1)
+        self.assertEqual(comparison["kotlinOnlyConstructorMatches"], 1)
         self.assertEqual(comparison["fieldDescriptorMatches"], 1)
         self.assertEqual(comparison["propertyAccessorMatches"], 6)
         self.assertEqual(comparison["missingMembers"], [])
