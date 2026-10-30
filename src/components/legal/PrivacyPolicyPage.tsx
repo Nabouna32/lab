@@ -3,7 +3,6 @@ import type { Locale } from "@/lib/i18n/config";
 import { getPrivacyPolicyContent } from "@/lib/legal/privacy-policy-content";
 import { getPrivacyPolicyPath } from "@/lib/tools/routes";
 import { getPublicPageMetadata } from "@/lib/tools/page-metadata";
-import { PageContainer } from "@/components/layout/PageLayout";
 
 export function getPrivacyPolicyMetadata(locale: Locale): Metadata {
   const page = getPrivacyPolicyContent(locale);
@@ -13,7 +12,7 @@ export function getPrivacyPolicyMetadata(locale: Locale): Metadata {
 export default function PrivacyPolicyPage({ locale }: { locale: Locale }) {
   const page = getPrivacyPolicyContent(locale);
   return <main className="min-h-full" aria-labelledby="privacy-title">
-    <PageContainer width="narrow" spacing="none" className="py-[var(--space-8)]">
+    <div className="mx-auto w-full max-w-[var(--layout-content-narrow)] px-[var(--layout-page-gutter)] py-[var(--space-8)]">
     <article className="rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-[var(--space-6)] sm:p-[var(--space-8)]">
       <h1 id="privacy-title" className="m3-type-headline-large text-[var(--foreground)]">{page.title}</h1>
       <p className="m3-type-body-small mt-[var(--space-3)] text-[var(--muted)]">{page.updatedLabel}: {page.updatedAt}</p>
@@ -35,6 +34,6 @@ export default function PrivacyPolicyPage({ locale }: { locale: Locale }) {
         <p className="m3-type-body-large mt-[var(--space-3)]">{page.contactWarning}</p>
       </section>
     </article>
-    </PageContainer>
+    </div>
   </main>;
 }

@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { PageContainer } from "@/components/layout/PageLayout";
 import { notFound, redirect } from "next/navigation";
 import PasswordChangeForm from "@/components/account/PasswordChangeForm";
 import { Panel } from "@/components/ui/Panel";
@@ -27,7 +26,7 @@ export default async function ChangePasswordPage({
 
   return (
     <main>
-      <PageContainer width="form" spacing="none" className="py-[var(--space-6)] sm:py-[var(--space-8)]">
+      <div className="mx-auto w-full max-w-[var(--layout-content-form)] px-[var(--layout-page-gutter)] py-[var(--space-6)] sm:py-[var(--space-8)]">
         <Link
           className="mb-5 inline-flex min-h-11 items-center gap-2 rounded-full px-3 m3-type-label-large text-[var(--on-surface-variant)] outline-none hover:bg-[var(--surface-container)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)]"
           href={`/${locale}/compte`}
@@ -45,7 +44,7 @@ export default async function ChangePasswordPage({
 
           <PasswordChangeForm locale={locale} t={t.account} serverError={query.error} />
         </Panel>
-      </PageContainer>
+      </div>
     </main>
   );
 }

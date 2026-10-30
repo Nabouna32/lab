@@ -1,6 +1,5 @@
 import Link from "next/link";
 import HeaderSearch from "@/components/layout/HeaderSearch";
-import { PageContainer } from "@/components/layout/PageLayout";
 import DesktopHeaderMenu from "@/components/layout/DesktopHeaderMenu";
 import LocularyLogo from "@/components/brand/LocularyLogo";
 import type { Locale } from "@/lib/i18n/config";
@@ -16,7 +15,7 @@ export default function Header({ locale }: { locale: Locale }) {
 
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--border)]/80 bg-[var(--background)]" style={{ viewTransitionName: "loculary-header" }}>
-      <PageContainer width="wide" spacing="none">
+      <div className="mx-auto w-full max-w-[var(--layout-content-wide)] px-[var(--layout-page-gutter)]">
         <Row
           horizontalArrangement={Arrangement.spacedBy("var(--header-layout-gap)")}
           verticalAlignment={Alignment.CenterVertically}
@@ -44,7 +43,7 @@ export default function Header({ locale }: { locale: Locale }) {
             <DesktopHeaderMenu locale={locale} />
           </Row>
         </Row>
-      </PageContainer>
+      </div>
     </header>
   );
 }

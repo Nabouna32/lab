@@ -4,7 +4,6 @@ import type { Metadata } from "next";
 import HomeGuidedWorkflows from "@/components/home/HomeGuidedWorkflows";
 import RecentTools from "@/components/home/RecentTools";
 import ToolSearch from "@/components/tools/ToolSearch";
-import { PageContainer } from "@/components/layout/PageLayout";
 import { Arrangement } from "@/components/layout/compose/Arrangement";
 import { Column } from "@/components/layout/compose/Column";
 import { isLocale } from "@/lib/i18n/config";
@@ -34,11 +33,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   return (
     <main className="min-h-full">
       <section aria-labelledby="home-title">
-        <PageContainer
-          width="wide"
-          spacing="none"
-          className="pb-[var(--space-8)] pt-[var(--space-8)] sm:pb-[var(--space-10)] sm:pt-[var(--space-10)]"
-        >
+        <div className="mx-auto w-full max-w-[var(--layout-content-wide)] px-[var(--layout-page-gutter)] pb-[var(--space-8)] pt-[var(--space-8)] sm:pb-[var(--space-10)] sm:pt-[var(--space-10)]">
           <Column verticalArrangement={Arrangement.spacedBy("var(--space-6)")} className="mx-auto w-full max-w-4xl">
             <Column verticalArrangement={Arrangement.spacedBy("var(--space-4)")} className="w-full">
               <h1 id="home-title" className="m3-type-headline-large text-balance text-[var(--foreground)]">
@@ -63,7 +58,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               </Link>
             </Column>
           </Column>
-        </PageContainer>
+        </div>
       </section>
 
       <Column verticalArrangement={Arrangement.spacedBy("var(--layout-page-section-gap)")}>

@@ -8,7 +8,6 @@ import ToolPageHeader from "./ToolPageHeader";
 import ToolProcessingStatus from "./ToolProcessingStatus";
 import { ToolRuntimeProvider } from "./ToolRuntimeProvider";
 import RecentToolTracker from "./RecentToolTracker";
-import { PageContainer } from "@/components/layout/PageLayout";
 import { Column } from "@/components/layout/compose/Column";
 import { Arrangement } from "@/components/layout/compose/Arrangement";
 
@@ -29,7 +28,7 @@ export default function ToolPage({
 
   return (
     <main className="min-h-full">
-      <PageContainer width="default" spacing="none" className="py-[var(--space-5)] sm:py-[var(--space-7)] lg:py-[var(--space-9)]">
+      <div className="mx-auto w-full max-w-[var(--layout-content-default)] px-[var(--layout-page-gutter)] py-[var(--space-5)] sm:py-[var(--space-7)] lg:py-[var(--space-9)]">
       <RecentToolTracker toolId={tool.id} />
       <header className="relative overflow-hidden rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] px-5 py-6 shadow-[var(--shadow-lg)] sm:px-8 sm:py-8 lg:px-10">
         <div className="mb-5 px-1">
@@ -73,7 +72,7 @@ export default function ToolPage({
           )}
         </div>
       </ToolRuntimeProvider>
-      </PageContainer>
+      </div>
     </main>
   );
 }

@@ -8,7 +8,6 @@ const homePageSource = readSource("../../app/[locale]/page.tsx");
 const homeWorkflowsSource = readSource("../../components/home/HomeGuidedWorkflows.tsx");
 const signInPageSource = readSource("../../app/[locale]/compte/connexion/page.tsx");
 const signUpPageSource = readSource("../../app/[locale]/compte/inscription/page.tsx");
-const pageLayoutSource = readSource("../../components/layout/PageLayout.tsx");
 const headerSource = readSource("../../components/layout/Header.tsx");
 const headerSearchSource = readSource("../../components/layout/HeaderSearch.tsx");
 const logoSource = readSource("../../components/brand/LocularyLogo.tsx");
@@ -26,13 +25,13 @@ const forgotPasswordSource = readSource("../../app/[locale]/compte/mot-de-passe-
 const resetPasswordSource = readSource("../../app/[locale]/compte/mot-de-passe/reinitialiser/page.tsx");
 
 test("homepage compositions reuse the shared width, gutters and spacing tokens", () => {
-  assert.ok(homePageSource.includes('<PageContainer'));
-  assert.ok(homePageSource.includes('width="wide"'));
+  assert.ok(homePageSource.includes("max-w-[var(--layout-content-wide)]"));
+  assert.ok(homePageSource.includes("px-[var(--layout-page-gutter)]"));
   assert.ok(homePageSource.includes("pb-[var(--space-8)] pt-[var(--space-8)]"));
   assert.ok(homePageSource.includes("sm:pb-[var(--space-10)] sm:pt-[var(--space-10)]"));
   assert.ok(!homePageSource.includes("max-w-[var(--content-wide)]"));
-  assert.ok(homeWorkflowsSource.includes('<PageContainer'));
-  assert.ok(homeWorkflowsSource.includes('width="wide"'));
+  assert.ok(homeWorkflowsSource.includes("max-w-[var(--layout-content-wide)]"));
+  assert.ok(homeWorkflowsSource.includes("px-[var(--layout-page-gutter)]"));
   assert.ok(homeWorkflowsSource.includes("pb-[var(--space-8)] sm:pb-[var(--space-10)]"));
   assert.ok(!homeWorkflowsSource.includes("pt-[var(--space-2)]"));
   assert.ok(homePageSource.includes('import { Column } from "@/components/layout/compose/Column"'));
@@ -73,21 +72,28 @@ test("shared Material 3 typography roles are consumed by reusable site component
 
 test("signed-in states on sign-in and sign-up pages use the shared account container", () => {
   for (const source of [signInPageSource, signUpPageSource]) {
-    assert.ok(source.includes('width="account"'));
+    assert.ok(source.includes("max-w-[var(--layout-content-account)]"));
     assert.ok(source.includes("min-h-[calc(100vh-4.5rem)]"));
     assert.ok(source.includes("py-[var(--space-12)]"));
-    assert.ok(source.includes('width="form"'), "the actual auth form keeps its narrower form width");
+    assert.ok(source.includes("max-w-[var(--layout-content-form)]"), "the actual auth form keeps its narrower form width");
     assert.ok(source.includes('import AppLink from "@/components/ui/AppLink"'));
     assert.ok(source.includes('variant="inline"'));
     assert.ok(!source.includes('<Link className="mt-6 inline-flex font-semibold'));
   }
 });
 
-test("shared page container owns the canonical responsive gutter and width presets", () => {
-  assert.ok(pageLayoutSource.includes("var(--layout-page-gutter)"));
-  for (const preset of ["form", "form-wide", "account", "narrow", "medium", "default", "wide"]) {
-    assert.ok(pageLayoutSource.includes(`"${preset}"`) || pageLayoutSource.includes(`${preset}:`), `missing width preset: ${preset}`);
-  }
+test("semantic responsive width and gutter tokens remain defined centrally", () => {
+  const globalCss = readSource("../../app/globals.css");
+  for (const token of [
+    "--layout-page-gutter:",
+    "--layout-content-form:",
+    "--layout-content-form-wide:",
+    "--layout-content-account:",
+    "--layout-content-narrow:",
+    "--layout-content-medium:",
+    "--layout-content-default:",
+    "--layout-content-wide:",
+  ]) assert.ok(globalCss.includes(token), `missing responsive layout token: ${token}`);
 });
 
 const privacyPolicySource = readSource("../../components/legal/PrivacyPolicyPage.tsx");
@@ -315,4 +321,56 @@ test("personal information page uses shared Material 3 typography roles", () => 
   assert.ok(source.includes("m3-type-body-medium"));
   assert.ok(!source.includes("text-sm"));
   assert.ok(!source.includes("font-medium"));
+});
+
+const layoutWidthExpectations = [
+  ["../../app/[locale]/page.tsx", { wide: 1 }],
+  ["../../app/[locale]/admin/page.tsx", { default: 1 }],
+  ["../../app/[locale]/admin/audit/page.tsx", { default: 1 }],
+  ["../../app/[locale]/admin/utilisateurs/page.tsx", { default: 1 }],
+  ["../../app/[locale]/compte/page.tsx", { account: 1, narrow: 1 }],
+  ["../../app/[locale]/compte/connexion/page.tsx", { account: 1, form: 1 }],
+  ["../../app/[locale]/compte/inscription/page.tsx", { account: 1, form: 1 }],
+  ["../../app/[locale]/compte/email/page.tsx", { form: 1 }],
+  ["../../app/[locale]/compte/mot-de-passe/page.tsx", { form: 1 }],
+  ["../../app/[locale]/compte/mot-de-passe-oublie/page.tsx", { form: 1 }],
+  ["../../app/[locale]/compte/mot-de-passe/reinitialiser/page.tsx", { form: 2 }],
+  ["../../app/[locale]/compte/suppression/page.tsx", { "form-wide": 1 }],
+  ["../../app/[locale]/compte/informations-personnelles/page.tsx", { narrow: 1 }],
+  ["../../app/[locale]/[section]/page.tsx", { wide: 1 }],
+  ["../../app/[locale]/[section]/[slug]/page.tsx", { wide: 1 }],
+  ["../../components/layout/Header.tsx", { wide: 1 }],
+  ["../../components/layout/Footer.tsx", { wide: 1 }],
+  ["../../components/home/RecentTools.tsx", { wide: 1 }],
+  ["../../components/home/HomeGuidedWorkflows.tsx", { wide: 1 }],
+  ["../../components/information/InformationPage.tsx", { narrow: 3 }],
+  ["../../components/legal/LegalNoticePage.tsx", { narrow: 1 }],
+  ["../../components/legal/PrivacyPolicyPage.tsx", { narrow: 1 }],
+  ["../../components/favorites/FavoritesView.tsx", { medium: 1 }],
+  ["../../components/collections/CollectionsView.tsx", { medium: 1 }],
+  ["../../components/collections/SharedCollectionView.tsx", { medium: 1 }],
+  ["../../components/discovery/GuidedWorkflowsPage.tsx", { wide: 1 }],
+  ["../../components/tools/SearchResultsClient.tsx", { wide: 1 }],
+  ["../../components/tools/ToolPage/ToolPage.tsx", { default: 1 }],
+] as const;
+
+test("les adaptations Web préservent exactement les largeurs et gouttières de chaque composition migrée", () => {
+  for (const [path, widths] of layoutWidthExpectations) {
+    const source = readSource(path);
+    const expectedCount = Object.values(widths).reduce((total, count) => total + count, 0);
+    const gutterCount = source.match(/px-\[var\(--layout-page-gutter\)\]/g)?.length ?? 0;
+    assert.equal(gutterCount, expectedCount, `${path} doit conserver une gouttière par conteneur`);
+
+    for (const [width, count] of Object.entries(widths)) {
+      const pattern = new RegExp(`max-w-\\[var\\(--layout-content-${width}\\)\\]`, "g");
+      assert.equal(source.match(pattern)?.length ?? 0, count, `${path} doit conserver ${count} conteneur(s) de largeur ${width}`);
+    }
+  }
+});
+
+test("les consommateurs migrés ne dépendent plus du wrapper de page propre à Loculary", () => {
+  for (const [path] of layoutWidthExpectations) {
+    const source = readSource(path);
+    assert.doesNotMatch(source, /PageContainer|components\/layout\/PageLayout/, path);
+  }
 });

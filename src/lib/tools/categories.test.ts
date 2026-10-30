@@ -9,7 +9,6 @@ import { categoryColorIds, getCategoryColor, getCategoryContainerColor, getCateg
 const categoriesSource = readFileSync(new URL("./categories.ts", import.meta.url), "utf8");
 
 const globalCss = readFileSync(new URL("../../app/globals.css", import.meta.url), "utf8");
-const pageLayoutSource = readFileSync(new URL("../../components/layout/PageLayout.tsx", import.meta.url), "utf8");
 const columnSource = readFileSync(new URL("../../components/layout/compose/Column.tsx", import.meta.url), "utf8");
 const arrangementSource = readFileSync(new URL("../../components/layout/compose/Arrangement.ts", import.meta.url), "utf8");
 const informationPageSource = readFileSync(new URL("../../components/information/InformationPage.tsx", import.meta.url), "utf8");
@@ -117,56 +116,47 @@ test("shared layout spacing tokens define a consistent semantic scale", () => {
   }
 });
 
-test("AndroidX-named layout ports provide explicit spacing and product page composition stays separate", () => {
-  assert.ok(pageLayoutSource.includes("Loculary-specific page composition, not an AndroidX API"));
-  assert.ok(pageLayoutSource.includes("export function PageContainer"));
-  assert.ok(!pageLayoutSource.includes("PageStack"), "custom PageStack must not replace AndroidX Column/Arrangement");
-  assert.ok(pageLayoutSource.includes("var(--layout-page-gutter)"));
-  assert.ok(pageLayoutSource.includes("var(--layout-content-narrow)"));
+test("AndroidX layout ports expose their public spacing contracts without a Loculary page wrapper", () => {
   assert.ok(columnSource.includes("export function Column"));
   assert.ok(columnSource.includes("verticalArrangement?: VerticalArrangement"));
   assert.ok(columnSource.includes("verticalArrangement = Arrangement.Top"));
   assert.ok(arrangementSource.includes("spacedBy(space: number | string)"));
   assert.ok(arrangementSource.includes("kind: " + '"spacedBy"'));
-  assert.equal((informationPageSource.match(/<PageContainer width="narrow" spacing="default">/g) ?? []).length, 3);
-  assert.equal(informationPageSource.split('<Column verticalArrangement={Arrangement.spacedBy("var(--layout-content-gap)")}>').length - 1, 3);
+  assert.doesNotMatch(informationPageSource, /PageContainer|PageLayout/);
 });
 
 
-test("PageContainer exposes centralized form widths for standard and wider forms", () => {
-  assert.ok(pageLayoutSource.includes('"form" | "form-wide" | "account" | "narrow"'));
-  assert.ok(pageLayoutSource.includes('form: "max-w-[var(--layout-content-form)]"'));
-  assert.ok(pageLayoutSource.includes('"form-wide": "max-w-[var(--layout-content-form-wide)]"'));
-  assert.ok(globalCss.includes("--layout-content-form: 28rem"));
-  assert.ok(globalCss.includes("--layout-content-form-wide: 36rem"));
-  assert.ok(pageLayoutSource.includes('account: "max-w-[var(--layout-content-account)]"'));
-  assert.ok(globalCss.includes("--layout-content-account: 42rem"));
+test("responsive content-width tokens remain available to native Web layouts", () => {
+  for (const token of [
+    "--layout-page-gutter: 1rem",
+    "--layout-content-form: 28rem",
+    "--layout-content-form-wide: 36rem",
+    "--layout-content-account: 42rem",
+    "--layout-content-narrow:",
+    "--layout-content-medium:",
+    "--layout-content-default:",
+    "--layout-content-wide:",
+  ]) assert.ok(globalCss.includes(token), `missing responsive layout token: ${token}`);
 });
 
-test("admin and category pages share the canonical page container and spacing tokens", () => {
-  for (const source of [adminPageSource, adminUsersPageSource]) {
-    assert.ok(source.includes("<PageContainer width=\"default\" spacing=\"none\""));
-    assert.ok(source.includes("py-[var(--space-8)] sm:py-[var(--space-10)]"));
+test("admin and category pages no longer depend on the removed Loculary page wrapper", () => {
+  for (const source of [adminPageSource, adminUsersPageSource, categoryRouteSource]) {
+    assert.doesNotMatch(source, /PageContainer|PageLayout/);
   }
-  assert.ok(categoryRouteSource.includes("<PageContainer width=\"wide\" spacing=\"none\""));
-  assert.ok(categoryRouteSource.includes("py-[var(--space-8)] sm:py-[var(--space-10)]"));
-  assert.ok(categoryRouteSource.includes("m3-type-headline-large"), "category headings use a shared Material 3 typography role");
+  assert.ok(categoryRouteSource.includes("m3-type-headline-large"), "category headings retain the shared Material 3 typography role");
   assert.ok(!categoryRouteSource.includes("text-3xl font-black"), "category headings must not bypass shared typography roles");
 });
 
-test("shared page shells use PageContainer without forcing every context to the same width", () => {
-  assert.ok(accountPageSource.includes('<PageContainer width="account" spacing="none"'));
-  assert.ok(accountPageSource.includes('<PageContainer width="narrow" spacing="none"'));
-  assert.ok(accountPageSource.includes('<section className="w-full overflow-hidden rounded-[var(--m3-panel-shape)] border border-[var(--outline-variant)] bg-[var(--surface)] shadow-[var(--shadow-sm)]" aria-labelledby="account-security-title">'));
-  assert.ok(accountPageSource.includes('<section className="w-full rounded-[var(--m3-panel-shape)] border border-[var(--error)]/30 bg-[var(--error-container)]/35" aria-labelledby="delete-account-title">'));
-  assert.ok(accountPageSource.includes('<Column verticalArrangement={Arrangement.spacedBy("var(--space-4)")} className="p-5 sm:p-7">'));
-  assert.ok(!accountPageSource.includes('className="mt-1"') && !accountPageSource.includes('className="mt-2 max-w-2xl text-sm leading-6 text-[var(--muted)]"'), "danger-zone rhythm must come from Compose Column arrangements");
-  assert.ok(collectionsViewSource.includes('<PageContainer width="medium" spacing="none"'));
-  assert.ok(sharedCollectionViewSource.includes('<PageContainer width="medium" spacing="none"'));
-  assert.ok(headerSource.includes('<PageContainer width="wide" spacing="none">'));
-  assert.ok(footerSource.includes('<PageContainer width="wide" spacing="none"'));
-  assert.ok(adminAuditPageSource.includes('<PageContainer width="default" spacing="none"'));
-  assert.ok(legalNoticePageSource.includes('<PageContainer width="narrow" spacing="none"'));
+test("les pages partagées utilisent la mise en page Web sans wrapper de composition Loculary", () => {
+  for (const source of [
+    accountPageSource,
+    collectionsViewSource,
+    sharedCollectionViewSource,
+    headerSource,
+    footerSource,
+    adminAuditPageSource,
+    legalNoticePageSource,
+  ]) assert.doesNotMatch(source, /PageContainer|PageLayout/);
 });
 
 test("Arrangement.spacedBy returns a validated explicit Web gap", () => {

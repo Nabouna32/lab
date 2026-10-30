@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { updateProfile } from "../actions";
-import { PageContainer } from "@/components/layout/PageLayout";
 import { Arrangement } from "@/components/layout/compose/Arrangement";
 import { Column } from "@/components/layout/compose/Column";
 import SubmitButton from "@/components/account/SubmitButton";
@@ -44,7 +43,7 @@ export default async function PersonalInformationPage({
 
   return (
     <main className="min-h-full">
-      <PageContainer width="narrow" spacing="none" className="py-[var(--space-7)] sm:py-[var(--space-9)] lg:py-[var(--space-10)]">
+      <div className="mx-auto w-full max-w-[var(--layout-content-narrow)] px-[var(--layout-page-gutter)] py-[var(--space-7)] sm:py-[var(--space-9)] lg:py-[var(--space-10)]">
         <Link
           className="mb-5 inline-flex min-h-11 items-center gap-2 rounded-full m3-type-label-large text-[var(--on-surface-variant)] outline-none transition-colors hover:text-[var(--on-surface)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] motion-reduce:transition-none"
           href={`/${locale}/compte`}
@@ -97,7 +96,7 @@ export default async function PersonalInformationPage({
             </Column>
           </form>
         </Panel>
-      </PageContainer>
+      </div>
     </main>
   );
 }

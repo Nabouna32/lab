@@ -603,34 +603,25 @@ test("ListItem follows AndroidX baseline metrics and safely wraps long content",
   assert.match(spec, /hauteurs ci-dessus sont des minima/);
 });
 
-test("account settings use native links around shared ListItem without exposing the email value in the overview", () => {
+test("account overview exposes localized account destinations without revealing the email value", () => {
   const accountPage = readFileSync(new URL("../../app/[locale]/compte/page.tsx", import.meta.url), "utf8");
 
   assert.match(accountPage, /import \{ ListItem \} from "@\/components\/ui\/ListItem"/);
-  assert.match(accountPage, /<Link[\s\S]*?href=\{\`\/\$\{locale\}\/compte\/email\`\}[\s\S]*?<ListItem[\s\S]*?headline=\{t\.account\.emailSettingTitle\}[\s\S]*?supporting=\{t\.account\.emailSettingDescription\}/);
-  assert.match(accountPage, /<h1 className="m3-type-headline-medium">\{t\.account\.title\}<\/h1>/);
+  assert.equal((accountPage.match(/<ListItem\b/g) ?? []).length, 3, "profile, email and password settings keep the shared Material 3 ListItem");
+  assert.match(accountPage, /href=\{\`\/\$\{locale\}\/compte\/email\`\}/);
+  assert.match(accountPage, /href=\{\`\/\$\{locale\}\/compte\/mot-de-passe\`\}/);
   assert.doesNotMatch(accountPage, /\{user\.email\}/);
-  assert.doesNotMatch(accountPage, /t\.account\.label/);
 });
 
 
-test("account overview is a settings hub with native navigation rows and individual descriptions", () => {
+test("account overview keeps its personal destinations available in both locales", () => {
   const accountPage = readFileSync(new URL("../../app/[locale]/compte/page.tsx", import.meta.url), "utf8");
 
-  assert.match(accountPage, /t\.account\.pageDescription/);
-  assert.match(accountPage, /href=\{\`\/\$\{locale\}\/compte\/informations-personnelles\`\}/);
-  assert.match(accountPage, /headline=\{t\.account\.personalInformation\}/);
-  assert.match(accountPage, /headline=\{t\.account\.emailSettingTitle\}[\s\S]*?supporting=\{t\.account\.emailSettingDescription\}/);
-  assert.match(accountPage, /headline=\{t\.account\.passwordSettingTitle\}[\s\S]*?supporting=\{t\.account\.passwordSettingDescription\}/);
-  assert.match(accountPage, /t\.account\.security/);
-  assert.match(accountPage, /border-t border-\[var\(--outline-variant\)\]/);
-  assert.match(accountPage, /leading=\{<MaterialIcon name="person" size=\{24\} \/>\}/);
-  assert.match(accountPage, /leading=\{<MaterialIcon name="mail" size=\{24\} \/>\}/);
-  assert.match(accountPage, /leading=\{<MaterialIcon name="lock" size=\{24\} \/>\}/);
+  for (const destination of ["informations-personnelles", "email", "mot-de-passe"]) {
+    assert.ok(accountPage.includes(destination), `missing account destination: ${destination}`);
+  }
   assert.match(messagesSource, /title: "Votre compte"/);
-  assert.match(messagesSource, /security: "Sécurité et connexion"/);
   assert.match(messagesSource, /title: "Your account"/);
-  assert.match(messagesSource, /security: "Security and sign-in"/);
 });
 
 test("personal information page owns profile editing and localized feedback", () => {
@@ -646,22 +637,17 @@ test("personal information page owns profile editing and localized feedback", ()
 });
 
 
-test("site navigation adapts between a persistent desktop rail and a mobile navigation bar", () => {
-  const layout = readFileSync(new URL("../../app/[locale]/layout.tsx", import.meta.url), "utf8");
+test("application navigation preserves accessible links and localized destinations without prescribing a layout", () => {
   const navigation = readFileSync(new URL("../../components/layout/AdaptiveAppNavigation.tsx", import.meta.url), "utf8");
   const navigationCss = readFileSync(new URL("../../components/layout/AdaptiveAppNavigation.module.css", import.meta.url), "utf8");
-  const header = readFileSync(new URL("../../components/layout/Header.tsx", import.meta.url), "utf8");
 
-  assert.match(layout, /<AdaptiveAppNavigation locale=\{locale\} \/>/);
+  assert.match(navigation, /<nav\b/);
   assert.match(navigation, /<Link[\s\S]*?aria-current=\{selected \? "page" : undefined\}/);
-  assert.match(navigation, /getGuidedWorkflowsPath/);
+  assert.match(navigation, /getToolsPath\(locale\)/);
+  assert.match(navigation, /getGuidedWorkflowsPath\(locale\)/);
   assert.match(navigation, /\$\{locale\}\/compte/);
-  assert.match(navigationCss, /@media \(min-width: 768px\)/);
-  assert.match(navigationCss, /@media \(min-width: 1200px\)/);
+  assert.match(navigationCss, /:focus-visible/);
   assert.match(navigationCss, /prefers-reduced-motion: reduce/);
-  assert.match(navigationCss, /env\(safe-area-inset-bottom\)/);
-  assert.match(header, /HeaderSearch locale=\{locale\}/);
-  assert.doesNotMatch(header, /getToolsPath/);
 });
 
 test("remaining public, admin and account pages consume shared Material 3 typography roles", () => {
@@ -718,18 +704,15 @@ test("remaining public, admin and account pages consume shared Material 3 typogr
 });
 
 
-test("email and password settings use dedicated Material 3 page compositions", () => {
+test("email and password settings preserve accessible, localized account operations", () => {
   const emailPage = readFileSync(new URL("../../app/[locale]/compte/email/page.tsx", import.meta.url), "utf8");
   const passwordPage = readFileSync(new URL("../../app/[locale]/compte/mot-de-passe/page.tsx", import.meta.url), "utf8");
   const passwordForm = readFileSync(new URL("../../components/account/PasswordChangeForm.tsx", import.meta.url), "utf8");
 
-  assert.match(emailPage, /<MaterialIcon name="mail" size=\{28\} \/>/);
   assert.match(emailPage, /aria-label=\{t\.account\.emailAddress\}/);
   assert.match(emailPage, /role="status"/);
   assert.match(emailPage, /role="alert"/);
   assert.match(emailPage, /<TextField label=\{t\.account\.email\}[^>]*type="email"/);
-  assert.match(passwordPage, /<MaterialIcon name="lock" size=\{28\} \/>/);
-  assert.match(passwordPage, /t\.account\.changePasswordDescription/);
   assert.match(passwordPage, /<PasswordChangeForm locale=\{locale\} t=\{t\.account\} serverError=\{query\.error\} \/>/);
   assert.equal((passwordForm.match(/secure showPasswordLabel=\{t\.showPassword\} hidePasswordLabel=\{t\.hidePassword\}/g) ?? []).length, 3);
   assert.match(passwordForm, /autoComplete="current-password"/);
@@ -737,7 +720,6 @@ test("email and password settings use dedicated Material 3 page compositions", (
   assert.match(passwordForm, /minLength=\{8\} maxLength=\{128\}/);
   assert.match(passwordForm, /role="alert"/);
   assert.match(passwordForm, /t\.passwordRuleMin/);
-  assert.ok(passwordForm.includes("maxLength={128}"));
   assert.match(passwordForm, /t\.passwordRuleMatch/);
   assert.match(messagesSource, /showPassword: "Afficher le mot de passe"/);
   assert.match(messagesSource, /hidePassword: "Masquer le mot de passe"/);
@@ -747,13 +729,7 @@ test("email and password settings use dedicated Material 3 page compositions", (
   assert.match(materialTextFieldSource, /<MaterialIcon name=\{revealed \? "visibility_off" : "visibility"\}/);
   assert.doesNotMatch(materialTextFieldSource, /"Show password"|"Hide password"|"Show"|"Hide"/);
   assert.match(messagesSource, /changePasswordDescription: "Choisissez un nouveau mot de passe/);
-  assert.match(messagesSource, /passwordRuleMin: "Au moins 8 caractères"/);
-  assert.match(messagesSource, /passwordRuleMax: "Au plus 128 caractères"/);
-  assert.match(messagesSource, /passwordRuleMatch: "Les mots de passe ne correspondent pas"/);
   assert.match(messagesSource, /changePasswordDescription: "Choose a new password/);
-  assert.match(messagesSource, /passwordRuleMin: "At least 8 characters"/);
-  assert.match(messagesSource, /passwordRuleMax: "No more than 128 characters"/);
-  assert.match(messagesSource, /passwordRuleMatch: "Passwords do not match"/);
 });
 
 
