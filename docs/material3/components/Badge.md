@@ -1,7 +1,7 @@
 # Badge et BadgedBox — contrat AndroidX et adaptation Web
 
 > **Référence visée :** `androidx.compose.material3:material3:1.4.0`  
-> **État :** adaptation Web partielle ; dimensions, couleurs et ancrage restent à vérifier.
+> **État :** provenance de la release 1.4.0 vérifiée ; adaptation Web partielle, dimensions, couleurs et ancrage restent à vérifier.
 
 ## Sources
 
@@ -19,7 +19,6 @@
 
 ## Vérifications restantes
 
-- [ ] Relier la source publiée 1.4.0 au commit et au dump API exacts.
 - [ ] Vérifier badge numérique, indicateur sans contenu et nom accessible.
 - [ ] Tester la lecture du badge et de son contrôle parent.
 - [ ] Comparer clair/sombre et rendu responsive.
