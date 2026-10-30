@@ -146,6 +146,7 @@
   --m3-size-snackbar-single-line-height: 3rem; /* AndroidX: 48 dp reference */
   --m3-size-snackbar-two-line-height: 4.25rem; /* AndroidX: 68 dp reference */
   --m3-size-snackbar-max-width: 37.5rem; /* AndroidX: 600 dp reference */
+  --m3-size-text-field-min-height: 3.5rem; /* Material 3 single-line field baseline: 56 dp reference expressed as a Web rem token */
   --m3-size-multiline-text-field-min-height: 8rem; /* Loculary Web specimen sizing; not an AndroidX default token */
   --m3-outline-width: 0.0625rem; /* AndroidX: 1 dp reference; physical equivalence not implied */
   --m3-icon-size-small: 1.125rem; /* AndroidX segmented-button icon: 18 dp reference */
