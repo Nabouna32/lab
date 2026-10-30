@@ -28,26 +28,22 @@ The result is not necessarily the end of the experience. When meaningful, users 
 
 ### Homepage direction
 
-The homepage should be **action/search first, discovery in depth**, rather than a conventional marketing landing page.
+La page d'accueil doit permettre de comprendre rapidement ce que Loculary permet de faire et de commencer une tâche sans détour. La recherche, l'exploration du catalogue, les parcours guidés et les accès personnels sont des moyens complémentaires : leur importance et leur présentation doivent découler des besoins observés, de la richesse du catalogue et des conventions familières des applications grand public de qualité.
 
-The primary visual question should be effectively:
+Privilégier les modèles éprouvés des applications Pixel et Android lorsque leur usage est pertinent : recherche immédiatement identifiable, destinations compréhensibles, hiérarchie claire et accès prévisibles. Ne pas inventer une composition inhabituelle pour se distinguer. Ne pas imposer non plus une maquette unique à toutes les évolutions : choisir une composition familière qui sert réellement les tâches principales et reste simple à comprendre dès la première visite.
 
-> **What do you want to do?**
-
-The initial experience is centered on the main search field. Do not add a curated set of individual tool shortcuts to the homepage: they compete with search and make the first screen denser without usage evidence. Keep a clear path to Explorer for deeper discovery, a compact entry to guided workflows for people who know the outcome but not the tool, and recent tools when the person has used Loculary on that device. Recent tools must not be required for the first-visit experience. The global search remains available on every page through a magnifying-glass button in the header at every breakpoint; the homepage keeps its own prominent search field.
-
-Cards and card grids are valid Material 3 composition options, including for category discovery. Choose their variant and density to make destinations easy to scan and select; do not avoid cards by default. Keep search and useful entry points obvious, and use the composition that best communicates Loculary's value rather than relying on a large marketing hero.
+Les raccourcis vers des outils, les catégories, les intentions, les parcours guidés, les favoris ou les outils récents peuvent être présentés lorsqu'ils facilitent effectivement le choix. Éviter leur accumulation et toute densité qui gênerait l'action principale. Les cartes et grilles de cartes sont des options Material 3 éprouvées ; choisir leurs variantes et leur densité selon le contenu et les usages.
 
 ### Navigation direction
 
-The primary navigation should remain small and understandable. Search is a first-class entry point, while an Explorer area can provide both:
+La navigation doit être immédiatement reconnaissable, prévisible et cohérente avec les conventions AndroidX et les applications Pixel de qualité. Privilégier les composants et modèles de navigation AndroidX adaptés au Web plutôt que de créer un mécanisme propre à Loculary. Le choix entre barre supérieure, tiroir, rail, navigation inférieure ou autre modèle pris en charge dépend du nombre et de la priorité des destinations, de l'espace disponible et des usages réels : aucune combinaison fixe n'est imposée à toutes les pages et à tous les viewports.
 
-The shared app shell uses **adaptive global navigation** rather than a conventional site header as the primary navigation model: a persistent labelled navigation drawer on wide screens, a compact navigation rail on medium screens, and a small bottom navigation bar for the highest-priority destinations on mobile. The top app bar remains available for contextual actions such as global search and the overflow menu; it is not a second copy of the primary destinations. Navigation items are real links with a visible current-page state, so browser history, opening in a new tab, keyboard use and assistive technology remain native to the Web. The responsive breakpoints are implementation choices to validate against real content and viewport testing, not AndroidX constants.
+La recherche doit rester facile à trouver et l'exploration doit permettre de parcourir le catalogue selon plusieurs repères complémentaires :
 
-- intent-oriented discovery such as calculate, convert, transform, create, analyze, verify, generate or measure;
-- domain/category-oriented discovery such as images, text, files, development, finance or data.
+- l'intention, par exemple calculer, convertir, transformer, créer, analyser, vérifier, générer ou mesurer ;
+- le domaine ou la catégorie, par exemple images, texte, fichiers, développement, finance ou données.
 
-A large catalog must not become a visually overwhelming grid.
+Utiliser les modèles de navigation adaptative éprouvés lorsque le contexte le justifie. Les destinations doivent conserver la sémantique de liens du Web, un état de page courante visible et un comportement accessible au clavier et aux technologies d'assistance. Un catalogue riche doit rester facile à parcourir sans devenir une grille visuellement écrasante.
 
 ### Tool-page direction
 
@@ -339,7 +335,7 @@ Where useful, tool pages may offer lightweight feedback such as “Cet outil vou
 
 ## Public header, navigation popovers and global search
 
-The public header and homepage share one task-first hierarchy: global search is available through a magnifying-glass trigger at every breakpoint, while the homepage retains its own prominent search field. Do not duplicate an always-visible search input in the desktop header. The shared SVG brand mark is distinct from functional icons; use `LocularyLogo` rather than duplicating logo markup.
+L'en-tête, la recherche globale et la page d'accueil doivent suivre les conventions de navigation et de recherche familières des applications Pixel et Android, adaptées aux contraintes du Web. Leur emplacement, leur visibilité et leur présentation doivent être choisis selon la hiérarchie des tâches et les composants AndroidX/Web pertinents, sans imposer une composition unique à tous les viewports. La marque reste distincte de l'iconographie fonctionnelle ; utiliser `LocularyLogo` plutôt que de dupliquer son SVG.
 
 ### Hamburger disclosure
 
