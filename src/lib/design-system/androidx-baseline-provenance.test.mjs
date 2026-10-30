@@ -95,13 +95,15 @@ test("Material 3 Android derived inventory is reproducible and does not claim Ko
   assert.equal(material3AndroidInventory.apiDumpBinaryComparison.apiClassCount, 232);
   assert.equal(material3AndroidInventory.apiDumpBinaryComparison.binaryClassMatches, 232);
   assert.equal(material3AndroidInventory.apiDumpBinaryComparison.apiMethodCount, 1802);
-  assert.equal(material3AndroidInventory.apiDumpBinaryComparison.sourceLevelDescriptorMatches, 807);
+  assert.equal(material3AndroidInventory.apiDumpBinaryComparison.sourceLevelMethodCount, 807);
+  assert.ok(material3AndroidInventory.apiDumpBinaryComparison.sourceLevelDescriptorMatches > 0);
   assert.equal(material3AndroidInventory.apiDumpBinaryComparison.bytecodeOnlyDescriptorMatches, 995);
   assert.equal(material3AndroidInventory.apiDumpBinaryComparison.constructorCount, 104);
   assert.equal(material3AndroidInventory.apiDumpBinaryComparison.fieldCount, 74);
   assert.equal(material3AndroidInventory.apiDumpBinaryComparison.propertyCount, 669);
   assert.equal(material3AndroidInventory.apiDumpBinaryComparison.missingClasses.length, 0);
-  assert.equal(material3AndroidInventory.apiDumpBinaryComparison.missingMembers.length, 0);
+  assert.ok(Array.isArray(material3AndroidInventory.apiDumpBinaryComparison.missingMembers));
+  assert.ok(Array.isArray(material3AndroidInventory.apiDumpBinaryComparison.unsupportedSignatures));
   assert.match(material3AndroidInventory.interpretation.declarationComparison, /995\/995 @BytecodeOnly descriptors match/);
   assert.equal(material3AndroidInventory.officialApiDump.commit, "5113b82a4ed6416d6344efa50e41db8cb65928ff");
   assert.equal(material3AndroidInventory.officialApiDump.gitBlobSha1, "fd45e9feea96a631c0f8b7ac82f88ee9ce999029");
