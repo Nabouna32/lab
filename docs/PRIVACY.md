@@ -294,6 +294,18 @@ Loculary should aim to earn trust through three things:
 
 The product should never ask users to trust blindly when the system can explain or expose the relevant information instead.
 
+## Conservation des journaux et limites des prestataires
+
+L’inventaire de production du 30 octobre 2026 distingue les journaux applicatifs des journaux gérés par les hébergeurs :
+
+- **Supabase Free** : les logs de plateforme/API/base de données sont conservés 24 heures ; la fonctionnalité Auth Audit Logs est limitée à une heure. Les champs observés peuvent inclure IP, identifiant utilisateur, user-agent, chemin/URL de requête et claims JWT (subject/session). L’inspection a porté sur les noms de champs et les volumes, jamais sur les valeurs.
+- **Vercel Hobby** : les logs runtime sont conservés une heure ; les logs de build restent associés aux déploiements sans purge automatique. Les Log Drains ne sont pas disponibles sur ces forfaits.
+- Aucun Log Drain, export tiers ni changement de forfait n’est activé ou recommandé à ce stade. Les limites des prestataires sont documentées comme des limites de service, pas comme une rétention contrôlée par Loculary.
+
+**Politique applicative retenue, en attente d’application de la migration Supabase :** six mois glissants pour le journal administratif Loculary et l’historique des exécutions `pg_cron`. Les événements administratifs peuvent faire l’objet d’une exception plafonnée à douze mois après l’événement, uniquement pour un incident de sécurité, une obligation légale ou une investigation interne, avec motif codifié et référence non personnelle. À la suppression d’un compte, les identifiants d’acteur et de cible sont pseudonymisés.
+
+La migration `20261030030000_log_retention_policy.sql` et le test `supabase/tests/log_retention.sql` sont préparés mais non appliqués à la production. La politique publique FR/EN ne doit annoncer la purge de six mois comme active qu’après approbation, application et vérification du job. Aucun journal Supabase géré par le fournisseur n’est supprimé par Loculary.
+
 ## Future legal/compliance work
 
 Before broad public launch, privacy/legal documentation should be reviewed against the actual implementation, data flows, consent mechanisms, retention policies, and jurisdictions served.
