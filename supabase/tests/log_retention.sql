@@ -1,6 +1,6 @@
 begin;
 
-select plan(38);
+select plan(45);
 
 select ok(
   (select c.relrowsecurity
@@ -49,8 +49,16 @@ select ok(
   'service role cannot execute the purge function'
 );
 select ok(
+  not has_function_privilege('anon', 'private.set_admin_audit_log_retention_hold(uuid,text,text,timestamptz)', 'EXECUTE'),
+  'anonymous users cannot create retention exceptions'
+);
+select ok(
   not has_function_privilege('authenticated', 'private.set_admin_audit_log_retention_hold(uuid,text,text,timestamptz)', 'EXECUTE'),
   'authenticated users cannot create retention exceptions'
+);
+select ok(
+  not has_function_privilege('service_role', 'private.set_admin_audit_log_retention_hold(uuid,text,text,timestamptz)', 'EXECUTE'),
+  'service role cannot create retention exceptions through the API'
 );
 select ok(
   not has_function_privilege('service_role', 'private.set_admin_audit_log_retention_hold(uuid,text,text,timestamptz)', 'EXECUTE'),
@@ -203,6 +211,81 @@ values (
   'INC-2026-006',
   now() - interval '1 day',
   now() - interval '2 days'
+);
+
+-- A deleted account must not remain identifiable through an audit actor,
+-- a polymorphic target, or a retention-hold creator reference.
+insert into auth.users (
+  id, aud, role, email, raw_app_meta_data, raw_user_meta_data, created_at, updated_at
+)
+values (
+  '00000000-0000-0000-0000-000000000905',
+  'authenticated',
+  'authenticated',
+  'pgtap-retention-delete@example.invalid',
+  '{"provider":"email","providers":["email"]}'::jsonb,
+  '{"display_name":"pgTAP retention delete"}'::jsonb,
+  now(),
+  now()
+);
+
+insert into public.admin_audit_log (
+  id, actor_user_id, action, target_type, target_id, metadata, created_at
+)
+values (
+  '00000000-0000-0000-0000-000000000905',
+  '00000000-0000-0000-0000-000000000905',
+  'test.retention.account-deletion',
+  'user',
+  '00000000-0000-0000-0000-000000000905',
+  '{}'::jsonb,
+  now() - interval '5 months'
+);
+
+insert into private.admin_audit_log_retention_holds (
+  audit_log_id, reason_code, reference_code, hold_until, created_by
+)
+values (
+  '00000000-0000-0000-0000-000000000905',
+  'legal_obligation',
+  'INC-2026-007',
+  now() + interval '30 days',
+  '00000000-0000-0000-0000-000000000905'
+);
+
+select lives_ok(
+  $delete from auth.users where id = '00000000-0000-0000-0000-000000000905'::uuid$,
+  'deleting an ordinary account succeeds while retention metadata is present'
+);
+
+select ok(
+  not exists (select 1 from auth.users where id = '00000000-0000-0000-0000-000000000905'),
+  'deleted account is removed from Auth'
+);
+select is(
+  (select actor_user_id from public.admin_audit_log where id = '00000000-0000-0000-0000-000000000905'),
+  null::uuid,
+  'account deletion anonymizes the audit actor'
+);
+select is(
+  (select target_id from public.admin_audit_log where id = '00000000-0000-0000-0000-000000000905'),
+  null::uuid,
+  'account deletion anonymizes the audit target'
+);
+select is(
+  (select created_by from private.admin_audit_log_retention_holds where audit_log_id = '00000000-0000-0000-0000-000000000905'),
+  null::uuid,
+  'account deletion anonymizes the retention-hold creator'
+);
+select is(
+  (select count(*)::integer from public.admin_audit_log where id = '00000000-0000-0000-0000-000000000905'),
+  1,
+  'admin audit event remains available until its retention period expires'
+);
+select is(
+  (select count(*)::integer from private.admin_audit_log_retention_holds where audit_log_id = '00000000-0000-0000-0000-000000000905'),
+  1,
+  'active retention exception remains attached to the anonymized audit event'
 );
 
 insert into cron.job_run_details (
