@@ -156,10 +156,275 @@ export async function resolveGitilesRef(fetchImpl, refs, candidates, label, vers
 }
 
 export function parseLibraryVersion(text, marker) {
+  const escaped = marker.replace(/[.*+?^$()|[\]\\]/g, '\\export function parseLibraryVersion(text, marker) {
   const escaped = marker.replace(/[.*+?^$()|[\]\\]/g, '\\$&');
   const match = text.match(new RegExp('^\\s*' + escaped + '\\s*=\\s*"([^"]+)"\\s*$', 'm'));
   if (!match) throw new Error('libraryversions.toml does not define ' + marker + '.');
   return match[1];
+}');
+  const direct = text.match(new RegExp('^\\s*' + escaped + '\\s*=\\s*"([^"]+)"\\s*
+
+export function parseApiDumpMetadata(text, family) {
+  const formatVersion = text.match(/^(?:\uFEFF)?\/\/ Signature format: (\d+\.\d+)(?:\r?\n|$)/)?.[1] ?? null;
+  const surface = text.match(/^\/\/ - surface=([A-Za-z0-9_-]+)\s*$/m)?.[1] ?? null;
+  const packageCount = text.split(/\r?\n/).filter((line) => /^package\s+/.test(line)).length;
+  if (formatVersion !== '5.0') throw new Error(family + ' API dump must use signature format 5.0; received ' + (formatVersion ?? 'unknown') + '.');
+  if (surface !== 'public') throw new Error(family + ' API dump must declare surface=public.');
+  if (packageCount === 0) throw new Error(family + ' API dump contains no package declarations.');
+  return { formatVersion, surface, packageCount };
+}
+
+export function calculateGitilesBlobHashes(bytes) {
+  const buffer = Buffer.isBuffer(bytes) ? bytes : Buffer.from(bytes);
+  return {
+    sha256: createHash('sha256').update(buffer).digest('hex'),
+    gitBlobSha1: createHash('sha1').update(Buffer.from('blob ' + buffer.length + '\0')).update(buffer).digest('hex'),
+    sizeBytes: buffer.length,
+  };
+}
+
+export async function inspectComposeReleaseProvenance({ outputDirectory, refsText, fetchImpl = globalThis.fetch } = {}) {
+  if (!outputDirectory) throw new Error('outputDirectory is required.');
+  if (typeof refsText !== 'string' || !refsText.trim()) throw new Error('refsText from official git ls-remote is required.');
+  const refs = parseGitLsRemoteRefs(refsText);
+  const output = resolve(outputDirectory);
+  await mkdir(output, { recursive: true });
+  const report = {
+    schemaVersion: 1,
+    repository: 'androidx/androidx',
+    gitilesBase: GITILES_BASE,
+    referenceVersion: '1.12.1',
+    inspectedAt: new Date().toISOString(),
+    status: 'verified-release-refs-and-api-dumps',
+    groups: [],
+  };
+
+  for (const group of RELEASE_GROUPS) {
+    const resolvedRef = await resolveGitilesRef(fetchImpl, refs, group.refCandidates, group.id, group.versionMarker, group.version);
+    const commit = resolvedRef.commit;
+    const branchHead = { commit, message: null, committer: null };
+    const versionsText = resolvedRef.libraryVersionsText;
+    const actualVersion = resolvedRef.version;
+
+    const groupReport = {
+      id: group.id,
+      preferredRef: group.branch,
+      ref: resolvedRef.ref,
+      commit,
+      commitMessage: branchHead.message,
+      committer: branchHead.committer,
+      versionMarker: group.versionMarker,
+      version: actualVersion,
+      libraryVersions: calculateGitilesBlobHashes(Buffer.from(versionsText)),
+      apiDumps: [],
+    };
+
+    for (const moduleInfo of group.modules) {
+      const dumpBytes = await fetchGitilesBytes(
+        GITILES_BASE + '/+/' + commit + '/' + moduleInfo.path + '?format=TEXT',
+        moduleInfo.family + ' stable API dump',
+        fetchImpl,
+      );
+      const dumpText = Buffer.from(dumpBytes.toString('utf8').replace(/\s+/g, ''), 'base64').toString('utf8');
+      const metadata = parseApiDumpMetadata(dumpText, moduleInfo.family);
+      const hashes = calculateGitilesBlobHashes(Buffer.from(dumpText));
+      const localPath = moduleInfo.family + '-api-current.txt';
+      await writeFile(join(output, localPath), dumpText, 'utf8');
+
+      const versionedBytes = await fetchGitilesBytes(
+        GITILES_BASE + '/+/' + commit + '/' + moduleInfo.versionedPath + '?format=TEXT',
+        moduleInfo.family + ' versioned stable API dump',
+        fetchImpl,
+        { optional: true },
+      );
+      let versionedDump = null;
+      if (versionedBytes) {
+        const versionedText = Buffer.from(versionedBytes.toString('utf8').replace(/\s+/g, ''), 'base64').toString('utf8');
+        const versionedHashes = calculateGitilesBlobHashes(Buffer.from(versionedText));
+        versionedDump = {
+          path: moduleInfo.versionedPath,
+          ...versionedHashes,
+          identicalToCurrent: versionedHashes.gitBlobSha1 === hashes.gitBlobSha1,
+        };
+      }
+
+      groupReport.apiDumps.push({
+        family: moduleInfo.family,
+        path: moduleInfo.path,
+        localPath,
+        ...metadata,
+        ...hashes,
+        versionedDump,
+      });
+    }
+    report.groups.push(groupReport);
+  }
+
+  await writeFile(join(output, 'release-provenance.json'), JSON.stringify(report, null, 2) + '\n', 'utf8');
+  return report;
+}
+
+async function main() {
+  const outputDirectory = process.argv[2];
+  const refsPath = process.argv[3];
+  if (!refsPath) throw new Error('Usage: node inspect-compose-release-api-provenance.mjs <output-directory> <git-ls-remote-refs-file>');
+  const refsText = await readFile(refsPath, 'utf8');
+  const report = await inspectComposeReleaseProvenance({ outputDirectory, refsText });
+  for (const group of report.groups) {
+    process.stdout.write(group.id + ' ' + group.version + ' via ' + group.ref + ' @ ' + group.commit + '\n');
+    for (const dump of group.apiDumps) {
+      process.stdout.write('  ' + dump.family + ': ' + dump.sizeBytes + ' bytes, ' + dump.packageCount + ' packages, Git blob ' + dump.gitBlobSha1 + '\n');
+    }
+  }
+  process.stdout.write('Release API provenance report written to ' + resolve(outputDirectory) + '\n');
+}
+
+if (process.argv[1] && import.meta.url === new URL('file://' + process.argv[1]).href) {
+  main().catch((error) => {
+    process.stderr.write('Compose release provenance inspection failed: ' + error.message + '\n');
+    process.exitCode = 1;
+  });
+}
+, 'm'));
+  if (direct) return direct[1];
+
+  const group = text.match(new RegExp('^\\s*' + escaped + '\\s*=\\s*\\{([^}]*)\\}', 'm'));
+  const alias = group?.[1].match(/atomicGroupVersion\s*=\s*"versions\.([A-Z0-9_]+)"/)?.[1];
+  if (alias) {
+    const escapedAlias = alias.replace(/[.*+?^$()|[\]\\]/g, '\\export function parseLibraryVersion(text, marker) {
+  const escaped = marker.replace(/[.*+?^$()|[\]\\]/g, '\\$&');
+  const match = text.match(new RegExp('^\\s*' + escaped + '\\s*=\\s*"([^"]+)"\\s*$', 'm'));
+  if (!match) throw new Error('libraryversions.toml does not define ' + marker + '.');
+  return match[1];
+}');
+    const resolved = text.match(new RegExp('^\\s*' + escapedAlias + '\\s*=\\s*"([^"]+)"\\s*
+
+export function parseApiDumpMetadata(text, family) {
+  const formatVersion = text.match(/^(?:\uFEFF)?\/\/ Signature format: (\d+\.\d+)(?:\r?\n|$)/)?.[1] ?? null;
+  const surface = text.match(/^\/\/ - surface=([A-Za-z0-9_-]+)\s*$/m)?.[1] ?? null;
+  const packageCount = text.split(/\r?\n/).filter((line) => /^package\s+/.test(line)).length;
+  if (formatVersion !== '5.0') throw new Error(family + ' API dump must use signature format 5.0; received ' + (formatVersion ?? 'unknown') + '.');
+  if (surface !== 'public') throw new Error(family + ' API dump must declare surface=public.');
+  if (packageCount === 0) throw new Error(family + ' API dump contains no package declarations.');
+  return { formatVersion, surface, packageCount };
+}
+
+export function calculateGitilesBlobHashes(bytes) {
+  const buffer = Buffer.isBuffer(bytes) ? bytes : Buffer.from(bytes);
+  return {
+    sha256: createHash('sha256').update(buffer).digest('hex'),
+    gitBlobSha1: createHash('sha1').update(Buffer.from('blob ' + buffer.length + '\0')).update(buffer).digest('hex'),
+    sizeBytes: buffer.length,
+  };
+}
+
+export async function inspectComposeReleaseProvenance({ outputDirectory, refsText, fetchImpl = globalThis.fetch } = {}) {
+  if (!outputDirectory) throw new Error('outputDirectory is required.');
+  if (typeof refsText !== 'string' || !refsText.trim()) throw new Error('refsText from official git ls-remote is required.');
+  const refs = parseGitLsRemoteRefs(refsText);
+  const output = resolve(outputDirectory);
+  await mkdir(output, { recursive: true });
+  const report = {
+    schemaVersion: 1,
+    repository: 'androidx/androidx',
+    gitilesBase: GITILES_BASE,
+    referenceVersion: '1.12.1',
+    inspectedAt: new Date().toISOString(),
+    status: 'verified-release-refs-and-api-dumps',
+    groups: [],
+  };
+
+  for (const group of RELEASE_GROUPS) {
+    const resolvedRef = await resolveGitilesRef(fetchImpl, refs, group.refCandidates, group.id, group.versionMarker, group.version);
+    const commit = resolvedRef.commit;
+    const branchHead = { commit, message: null, committer: null };
+    const versionsText = resolvedRef.libraryVersionsText;
+    const actualVersion = resolvedRef.version;
+
+    const groupReport = {
+      id: group.id,
+      preferredRef: group.branch,
+      ref: resolvedRef.ref,
+      commit,
+      commitMessage: branchHead.message,
+      committer: branchHead.committer,
+      versionMarker: group.versionMarker,
+      version: actualVersion,
+      libraryVersions: calculateGitilesBlobHashes(Buffer.from(versionsText)),
+      apiDumps: [],
+    };
+
+    for (const moduleInfo of group.modules) {
+      const dumpBytes = await fetchGitilesBytes(
+        GITILES_BASE + '/+/' + commit + '/' + moduleInfo.path + '?format=TEXT',
+        moduleInfo.family + ' stable API dump',
+        fetchImpl,
+      );
+      const dumpText = Buffer.from(dumpBytes.toString('utf8').replace(/\s+/g, ''), 'base64').toString('utf8');
+      const metadata = parseApiDumpMetadata(dumpText, moduleInfo.family);
+      const hashes = calculateGitilesBlobHashes(Buffer.from(dumpText));
+      const localPath = moduleInfo.family + '-api-current.txt';
+      await writeFile(join(output, localPath), dumpText, 'utf8');
+
+      const versionedBytes = await fetchGitilesBytes(
+        GITILES_BASE + '/+/' + commit + '/' + moduleInfo.versionedPath + '?format=TEXT',
+        moduleInfo.family + ' versioned stable API dump',
+        fetchImpl,
+        { optional: true },
+      );
+      let versionedDump = null;
+      if (versionedBytes) {
+        const versionedText = Buffer.from(versionedBytes.toString('utf8').replace(/\s+/g, ''), 'base64').toString('utf8');
+        const versionedHashes = calculateGitilesBlobHashes(Buffer.from(versionedText));
+        versionedDump = {
+          path: moduleInfo.versionedPath,
+          ...versionedHashes,
+          identicalToCurrent: versionedHashes.gitBlobSha1 === hashes.gitBlobSha1,
+        };
+      }
+
+      groupReport.apiDumps.push({
+        family: moduleInfo.family,
+        path: moduleInfo.path,
+        localPath,
+        ...metadata,
+        ...hashes,
+        versionedDump,
+      });
+    }
+    report.groups.push(groupReport);
+  }
+
+  await writeFile(join(output, 'release-provenance.json'), JSON.stringify(report, null, 2) + '\n', 'utf8');
+  return report;
+}
+
+async function main() {
+  const outputDirectory = process.argv[2];
+  const refsPath = process.argv[3];
+  if (!refsPath) throw new Error('Usage: node inspect-compose-release-api-provenance.mjs <output-directory> <git-ls-remote-refs-file>');
+  const refsText = await readFile(refsPath, 'utf8');
+  const report = await inspectComposeReleaseProvenance({ outputDirectory, refsText });
+  for (const group of report.groups) {
+    process.stdout.write(group.id + ' ' + group.version + ' via ' + group.ref + ' @ ' + group.commit + '\n');
+    for (const dump of group.apiDumps) {
+      process.stdout.write('  ' + dump.family + ': ' + dump.sizeBytes + ' bytes, ' + dump.packageCount + ' packages, Git blob ' + dump.gitBlobSha1 + '\n');
+    }
+  }
+  process.stdout.write('Release API provenance report written to ' + resolve(outputDirectory) + '\n');
+}
+
+if (process.argv[1] && import.meta.url === new URL('file://' + process.argv[1]).href) {
+  main().catch((error) => {
+    process.stderr.write('Compose release provenance inspection failed: ' + error.message + '\n');
+    process.exitCode = 1;
+  });
+}
+, 'm'));
+    if (resolved) return resolved[1];
+    throw new Error('libraryversions.toml does not define version alias ' + alias + ' referenced by ' + marker + '.');
+  }
+  throw new Error('libraryversions.toml does not define a direct version or atomicGroupVersion alias for ' + marker + '.');
 }
 
 export function parseApiDumpMetadata(text, family) {
