@@ -4,7 +4,7 @@
 
 ## Autorité et sources
 
-La référence est le code AndroidX Jetpack Compose Material 3, figé au commit [`2fb1702c1c62a6059e73d757d9e4eda1044ce21d`](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/).
+La référence est le code AndroidX Jetpack Compose Material 3, figé au commit [`5113b82a4ed6416d6344efa50e41db8cb65928ff`](https://github.com/androidx/androidx/commit/5113b82a4ed6416d6344efa50e41db8cb65928ff) de la branche `androidx-compose-material3-release`.
 
 - [Button.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Button.kt)
 - [BaselineButtonTokens.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/BaselineButtonTokens.kt)
