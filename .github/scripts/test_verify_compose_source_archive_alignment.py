@@ -14,6 +14,7 @@ sys.modules[SPEC.name] = VERIFIER
 SPEC.loader.exec_module(VERIFIER)
 compare_source_archive = VERIFIER.compare_source_archive
 source_tree_candidates = VERIFIER.source_tree_candidates
+generated_proguard_detection_source = VERIFIER.generated_proguard_detection_source
 
 
 def make_jar(entries):
@@ -83,6 +84,23 @@ class ComposeSourceArchiveAlignmentTests(unittest.TestCase):
             result["mismatchedEntries"][0]["archiveSha256"],
             result["mismatchedEntries"][0]["repositorySha256"],
         )
+
+    def test_verifies_androidx_generated_proguard_detection_source(self):
+        generated = generated_proguard_detection_source("androidx.inspection.compose.ui")
+        self.assertEqual(
+            __import__("hashlib").sha256(generated).hexdigest(),
+            "f30de7032ad2eabd3920b83b8d89c8cfb94c1adfe9dce6289106724c1e50e604",
+        )
+        path = "androidMain/androidx/inspection/compose/ui/ProguardDetection.kt"
+        result = compare_source_archive(
+            make_jar({path: generated}),
+            {},
+            generated_sources={path: generated},
+        )
+        self.assertEqual(result["status"], "verified-byte-for-byte")
+        self.assertEqual(result["matchedFileCount"], 1)
+        self.assertEqual(result["missingEntries"], [])
+        self.assertEqual(result["mismatchedEntries"], [])
 
     def test_rejects_unsafe_source_jar_paths(self):
         jar = make_jar({"../outside.kt": b"unsafe\\n"})
