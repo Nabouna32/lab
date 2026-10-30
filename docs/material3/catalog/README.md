@@ -49,6 +49,23 @@ Ne pas inférer la stabilité à partir du nom du symbole. Les annotations de st
 - Une mise à jour produit d'abord un rapport de diff. Elle ne modifie pas automatiquement la référence de portage et ne pousse pas de changement silencieux.
 - Toute différence non classifiée reste visible et nécessite une revue humaine.
 
+### Provenance des dumps API stables Compose P0 — 1.12.1
+
+La release stable Compose UI et Foundation est maintenant épinglée à la révision AndroidX immuable `5e0747401bf56b243e3b5141ae080dc9bc61d29c`, atteinte par `refs/heads/androidx-compose-release`. Dans `libraryversions.toml`, `COMPOSE_UI` et `COMPOSE_FOUNDATION` héritent de `versions.COMPOSE`, dont la valeur à ce commit est `1.12.1`. La CI résout et vérifie explicitement ces alias ; elle ne se contente pas du nom de branche ni du numéro du registre.
+
+Les quatre fichiers publics `api/current.txt` ont été récupérés depuis ce commit et vérifiés par SHA-256 et Git blob SHA-1. Ils sont au format AndroidX 4.0 (surface publique par convention du chemin `current.txt`) :
+
+| Famille | Packages | Octets | SHA-256 | Git blob SHA-1 |
+|---|---:|---:|---|---|
+| Compose UI | 28 | 459 495 | `87ebf4672a2916eb87d44e2abfdadba04c3b215a4f62364be1e445464fdad1a7` | `2f0db4e0619cd4924fa0f9d901a834f08f1135d4` |
+| Compose UI Text | 7 | 245 120 | `5fcaf939a396a4cbd66a97d1917457a0c48ee9332a12babe10e1e7b28464785c` | `c2bffa416b9fabe4f7f75b36638beffd7b650f8d` |
+| Compose Foundation | 24 | 390 383 | `250de056979ff61a1ded661c9a12643d9c75146040d98f2c49d8ec635d2f03bf` | `fdce95fe64da010a07b3eb477dc1577c8ed932d4` |
+| Foundation Layout | 1 | 123 707 | `39eb50cbe583784bb135f13b1386a9288067d2ab8911ec5f72fec3a3028eee4f` | `3588adaa45712b88bff1d115bad5e54f0e4de939` |
+
+Le manifeste [compose-p0-1.12.1-api-provenance.json](baselines/compose-p0-1.12.1-api-provenance.json) versionne la provenance, les empreintes et les métadonnées des quatre dumps. La CI les retélécharge depuis le commit épinglé et compare chaque champ au manifeste. Aucun fichier versionné `1.12.1.txt` n'existe à ces emplacements dans cette release ; le `current.txt` du commit de release, associé au marqueur stable 1.12.1, est la référence vérifiée. Ne pas confondre ce fichier avec le `current.txt` de la branche de développement `androidx-main`.
+
+Cette étape prouve le lien entre la version stable et les dumps API du dépôt. Elle **ne prouve pas encore** que les archives `sources.jar` publiées par Google Maven correspondent byte pour byte au même commit. Les familles P0 restent donc `watch-snapshot-only` jusqu'à la vérification distincte de l'alignement des sources publiées et de l'inventaire sémantique.
+
 ### Vérification des archives sources
 
 Le script `.github/scripts/verify-androidx-source-archive.mjs` télécharge l'archive et son fichier de somme de contrôle depuis les hôtes AndroidX approuvés, puis recalcule le SHA-256 et l'identifiant Git blob SHA-1. Il échoue si l'une de ces preuves diverge et ne modifie jamais automatiquement le manifeste.
@@ -98,7 +115,7 @@ Une BOM Compose peut aligner des versions compatibles, mais n'ajoute pas toutes 
 
 Quatre fichiers `api/current.txt` au format 5.0 et surface publique ont été archivés depuis le commit AndroidX immuable `5901d750e269aa3d88f6fccd5186637df83a0173` dans [les snapshots de veille Compose P0](watch/androidx-compose-p0-2026-10-29/README.md). Le manifeste [manifest.json](watch/androidx-compose-p0-2026-10-29/manifest.json) conserve les chemins amont, Git blob SHA-1 et métriques descriptives.
 
-Ces snapshots sont **des références de veille, pas des baselines stables 1.12.1**. Le miroir GitHub `androidx/androidx` ne publie actuellement que la branche `androidx-main` parmi ses branches visibles ; les branches Compose UI/Foundation release ne sont donc pas résolues par ce miroir. Le commit source exact de la release et la comparaison des sources JAR avec ce commit restent à établir. Les quatre familles P0 portent le statut `watch-snapshot-only` : la veille est archivée, mais l'inventaire de release et l'alignement source/API ne sont pas encore vérifiés.
+Ces snapshots sont **des références de veille, pas des baselines stables 1.12.1**. Depuis leur archivage, la release stable a été retrouvée indépendamment du miroir GitHub : le commit AndroidX `5e0747401bf56b243e3b5141ae080dc9bc61d29c` sur `androidx-compose-release` fournit les quatre dumps API `current.txt` de la version 1.12.1, maintenant épinglés dans [le manifeste de provenance](baselines/compose-p0-1.12.1-api-provenance.json). Les quatre familles P0 restent `watch-snapshot-only` tant que les sources JAR publiées ne sont pas alignées sur ce commit et que l'inventaire complet de release n'est pas terminé.
 
 Les quatre snapshots ont aussi été analysés par le parseur canonique d'inventaire : 9 661 déclarations au total, dont 5 855 candidates API source après exclusion des entrées `@BytecodeOnly` et `@InaccessibleFromKotlin`. Les comptes par package et les annotations de package sont conservés dans le manifeste. Ces métriques décrivent le snapshot `androidx-main` épinglé ; elles ne sont ni une baseline 1.12.1 ni une classification de stabilité.
 

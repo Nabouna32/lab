@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "artifactScope": "compose-ui-foundation-p0",
+  "referenceVersion": "1.12.1",
+  "sourceRepository": "androidx/androidx",
+  "gitilesRepository": "https://android.googlesource.com/platform/frameworks/support",
+  "releaseRef": "refs/heads/androidx-compose-release",
+  "releaseCommit": "5e0747401bf56b243e3b5141ae080dc9bc61d29c",
+  "libraryVersions": {
+    "path": "libraryversions.toml",
+    "sha256": "87bb8aec1928539d61e8d9333c630c09e5cedaca32e037d0f7849013df4eb1b1",
+    "gitBlobSha1": "9b841a0a8c13582afd226e79012ba6988e90ed39",
+    "sizeBytes": 19270
+  },
+  "versionMarkers": {
+    "COMPOSE": "1.12.1",
+    "COMPOSE_UI": "versions.COMPOSE",
+    "COMPOSE_FOUNDATION": "versions.COMPOSE"
+  },
+  "status": "verified-release-ref-and-api-dump-provenance",
+  "sourceArchiveAlignment": "unverified",
+  "families": [
+    {
+      "id": "compose-ui",
+      "versionMarker": "COMPOSE_UI",
+      "version": "1.12.1",
+      "apiPath": "compose/ui/ui/api/current.txt",
+      "formatVersion": "4.0",
+      "surface": "public-by-current.txt-path",
+      "packageCount": 28,
+      "sizeBytes": 459495,
+      "sha256": "87ebf4672a2916eb87d44e2abfdadba04c3b215a4f62364be1e445464fdad1a7",
+      "gitBlobSha1": "2f0db4e0619cd4924fa0f9d901a834f08f1135d4",
+      "versionedDump": null
+    },
+    {
+      "id": "compose-ui-text",
+      "versionMarker": "COMPOSE_UI",
+      "version": "1.12.1",
+      "apiPath": "compose/ui/ui-text/api/current.txt",
+      "formatVersion": "4.0",
+      "surface": "public-by-current.txt-path",
+      "packageCount": 7,
+      "sizeBytes": 245120,
+      "sha256": "5fcaf939a396a4cbd66a97d1917457a0c48ee9332a12babe10e1e7b28464785c",
+      "gitBlobSha1": "c2bffa416b9fabe4f7f75b36638beffd7b650f8d",
+      "versionedDump": null
+    },
+    {
+      "id": "compose-foundation",
+      "versionMarker": "COMPOSE_FOUNDATION",
+      "version": "1.12.1",
+      "apiPath": "compose/foundation/foundation/api/current.txt",
+      "formatVersion": "4.0",
+      "surface": "public-by-current.txt-path",
+      "packageCount": 24,
+      "sizeBytes": 390383,
+      "sha256": "250de056979ff61a1ded661c9a12643d9c75146040d98f2c49d8ec635d2f03bf",
+      "gitBlobSha1": "fdce95fe64da010a07b3eb477dc1577c8ed932d4",
+      "versionedDump": null
+    },
+    {
+      "id": "compose-foundation-layout",
+      "versionMarker": "COMPOSE_FOUNDATION",
+      "version": "1.12.1",
+      "apiPath": "compose/foundation/foundation-layout/api/current.txt",
+      "formatVersion": "4.0",
+      "surface": "public-by-current.txt-path",
+      "packageCount": 1,
+      "sizeBytes": 123707,
+      "sha256": "39eb50cbe583784bb135f13b1386a9288067d2ab8911ec5f72fec3a3028eee4f",
+      "gitBlobSha1": "3588adaa45712b88bff1d115bad5e54f0e4de939",
+      "versionedDump": null
+    }
+  ]
+}

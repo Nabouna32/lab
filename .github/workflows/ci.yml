@@ -156,6 +156,29 @@ jobs:
           python3 .github/scripts/test_inspect_material3_android_aar.py
           python3 .github/scripts/test_verify_material3_source_commit.py
 
+      - name: Discover official AndroidX Compose release refs
+        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
+        run: |
+          git ls-remote --heads --tags https://android.googlesource.com/platform/frameworks/support \
+            'refs/heads/*compose*' \
+            'refs/tags/*compose*1.12.1*' \
+            > /tmp/androidx-compose-release-refs.txt
+          test -s /tmp/androidx-compose-release-refs.txt
+          cat /tmp/androidx-compose-release-refs.txt
+
+      - name: Inspect official Compose 1.12.1 release API provenance
+        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
+        run: node .github/scripts/inspect-compose-release-api-provenance.mjs /tmp/compose-release-api-provenance /tmp/androidx-compose-release-refs.txt docs/material3/catalog/baselines/compose-p0-1.12.1-api-provenance.json
+
+      - name: Upload Compose 1.12.1 release API provenance
+        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: compose-release-api-provenance-1.12.1
+          path: /tmp/compose-release-api-provenance/
+          if-no-files-found: error
+          retention-days: 7
+
       - name: Verify Material 3 Android source/AAR inventory reproducibility
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
         run: git diff --exit-code -- docs/material3/catalog/baselines/material3-android-1.4.0-api-inventory.json
