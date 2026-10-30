@@ -156,9 +156,14 @@ class Material3AndroidAarInspectionTests(unittest.TestCase):
     method @androidx.compose.runtime.Composable public static void draw(androidx.compose.ui.graphics.Color color, androidx.compose.ui.Modifier modifier);
     method @androidx.compose.runtime.Composable public androidx.compose.ui.graphics.Shape getShape();
     method public suspend Object? animate(kotlin.coroutines.Continuation<? super kotlin.Unit>);
+    method @androidx.compose.runtime.Composable public static void drawContent(kotlin.jvm.functions.Function0<kotlin.Unit> onClick, kotlin.jvm.functions.Function0<kotlin.Unit> content);
+    method @BytecodeOnly @androidx.compose.runtime.Composable public static void drawContent(kotlin.jvm.functions.Function0<kotlin.Unit!>, kotlin.jvm.functions.Function2<? super androidx.compose.runtime.Composer!,? super java.lang.Integer!,kotlin.Unit!>, androidx.compose.runtime.Composer?, int, int);
+    method @BytecodeOnly @androidx.compose.runtime.Composable public androidx.compose.ui.graphics.Color getAccentColor(androidx.compose.runtime.Composer?, int);
+    method public void setHour(@IntRange(from=0L, to=23L) int);
     ctor @KotlinOnly public Api(androidx.compose.ui.graphics.Color color);
     field public static final String LABEL = "label";
     property @androidx.compose.runtime.Composable public androidx.compose.ui.graphics.Color containerColor;
+    property public androidx.compose.ui.graphics.Color accentColor;
     property public static boolean androidx.compose.material3.TimePickerState.isPm;
   }
 }
@@ -176,7 +181,10 @@ class Material3AndroidAarInspectionTests(unittest.TestCase):
                         {"name": "draw-hash", "descriptor": "(JLandroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V", "publicProtected": True},
                         {"name": "getShape", "descriptor": "(Landroidx/compose/runtime/Composer;I)Landroidx/compose/ui/graphics/Shape;", "publicProtected": True},
                         {"name": "animate", "descriptor": "(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;", "publicProtected": True},
+                        {"name": "drawContent", "descriptor": "(Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V", "publicProtected": True},
+                        {"name": "getAccentColor", "descriptor": "(Landroidx/compose/runtime/Composer;I)J", "publicProtected": True},
                         {"name": "getContainerColor-hash", "descriptor": "(Landroidx/compose/runtime/Composer;I)J", "publicProtected": True},
+                        {"name": "setHour", "descriptor": "(I)V", "publicProtected": True},
                         {"name": "isPm", "descriptor": "(Landroidx/compose/material3/TimePickerState;)Z", "publicProtected": True},
                     ],
                     "fieldSignatures": [
@@ -187,10 +195,11 @@ class Material3AndroidAarInspectionTests(unittest.TestCase):
             )
         ]
         comparison = MODULE.compare_api_dump_to_binary(api, binary)
-        self.assertEqual(comparison["sourceLevelDescriptorMatches"], 3)
+        self.assertEqual(comparison["sourceLevelDescriptorMatches"], 4)
+        self.assertEqual(comparison["bytecodeOnlyDescriptorMatches"], 2)
         self.assertEqual(comparison["constructorDescriptorMatches"], 1)
         self.assertEqual(comparison["fieldDescriptorMatches"], 1)
-        self.assertEqual(comparison["propertyAccessorMatches"], 2)
+        self.assertEqual(comparison["propertyAccessorMatches"], 3)
         self.assertEqual(comparison["missingMembers"], [])
         self.assertEqual(comparison["unsupportedSignatures"], [])
 
