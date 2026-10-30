@@ -31,8 +31,20 @@ export function buildInventoryShards(inventory, {
 
   const bytecodeOnlyCount = inventory.declarations.filter((entry) => entry.classification === 'bytecode-only').length;
   const inaccessibleFromKotlinCount = inventory.declarations.filter((entry) => entry.classification === 'inaccessible-from-kotlin').length;
-  const sourceApiCandidateCount = inventory.declarations.length - bytecodeOnlyCount - inaccessibleFromKotlinCount;
-  for (const [key, computed] of [['bytecodeOnlyCount', bytecodeOnlyCount], ['inaccessibleFromKotlinCount', inaccessibleFromKotlinCount], ['sourceApiCandidateCount', sourceApiCandidateCount]]) {
+  const generatedFacadeCount = inventory.declarations.filter((entry) => entry.classification === 'generated-jvm-facade').length;
+  const kotlinOnlyCount = inventory.declarations.filter((entry) => entry.classification === 'kotlin-only').length;
+  const experimentalCount = inventory.declarations.filter((entry) => entry.annotations?.some((annotation) => /Experimental/.test(annotation))).length;
+  const deprecatedCount = inventory.declarations.filter((entry) => entry.annotations?.some((annotation) => /Deprecated/.test(annotation))).length;
+  const sourceApiCandidateCount = inventory.declarations.length - bytecodeOnlyCount - inaccessibleFromKotlinCount - generatedFacadeCount;
+  for (const [key, computed] of [
+    ['bytecodeOnlyCount', bytecodeOnlyCount],
+    ['inaccessibleFromKotlinCount', inaccessibleFromKotlinCount],
+    ['generatedFacadeCount', generatedFacadeCount],
+    ['kotlinOnlyCount', kotlinOnlyCount],
+    ['experimentalCount', experimentalCount],
+    ['deprecatedCount', deprecatedCount],
+    ['sourceApiCandidateCount', sourceApiCandidateCount],
+  ]) {
     if (inventory[key] !== computed) throw new Error('Inventory ' + key + ' does not match declarations.');
   }
 
@@ -77,6 +89,10 @@ export function buildInventoryShards(inventory, {
     sourceApiCandidateCount,
     bytecodeOnlyCount,
     inaccessibleFromKotlinCount,
+    generatedFacadeCount,
+    kotlinOnlyCount,
+    experimentalCount,
+    deprecatedCount,
     packageCounts,
     shardSize,
     shards,
