@@ -73,7 +73,7 @@ Distinguer explicitement :
 
 Une API recensée n’est pas nécessairement portée. Un composant utilisé en production n’est pas nécessairement conforme.
 
-## État de migration — 29 octobre 2026
+## État de migration — 30 octobre 2026
 
 La migration reste partielle et la conformité globale n’est pas établie.
 
@@ -88,10 +88,10 @@ La migration reste partielle et la conformité globale n’est pas établie.
 
 | Composant | Portage | Migration / preuve restante |
 |---|---|---|
-| [Button](components/Button.md) | API React nommée d'après AndroidX ; vérification des tokens et du rendu encore ouverte | Audit des usages et validation navigateur |
+| [Button](components/Button.md) | Portage React ; tokens Material 3 1.4.0 alignés et variantes contrôlées en Chromium | Inventaire exhaustif des usages, revue manuelle du contraste, libellés longs/zoom 200 % et comparaison visuelle AndroidX |
 | [Lien Web](components/Link.md) | `AppLink` conserve la sémantique d'ancre et partage les variantes visuelles du bouton | Audit global des usages |
 | [ListItem](components/ListItem.md) | Adaptation existante, compositions simples alignées sur AndroidX 1.4.0 | Surcharges interactives et parité navigateur non vérifiées |
-| [IconButton](components/IconButton.md) | Implémentation existante | Contrat source, états et rendu à vérifier |
+| [IconButton](components/IconButton.md) | Huit API action/toggle distinctes ; rôles disabled et états alignés sur Material 3 1.4.0 ; vérifications Chromium initiales | Focus-visible par variante, surcharges, géométrie/couleurs en thèmes clair et sombre, contraste et inventaire exhaustif des usages |
 | [Card](components/Card.md) | Variantes `Card`, `ElevatedCard`, `OutlinedCard` et composition `CardLink` séparées | Valeurs source et usages de production à vérifier |
 | [Chip](components/Chip.md) | Adaptation des variantes Assist, Filter, Input et Suggestion | Parité des états et du rendu à vérifier |
 | [Badge / BadgedBox](components/Badge.md) | Adaptation Web avec rôles de couleur et nom accessible explicites | Tailles, ancrage et usage dans les contrôles à vérifier |
