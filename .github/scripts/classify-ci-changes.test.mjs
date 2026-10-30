@@ -149,7 +149,8 @@ test('production build runs independently and remains covered by the required st
   assert.ok(gateJob.includes('name: Node.js 24.21.0'));
   assert.ok(gateJob.includes('needs: [prepare, quality, build, supabase, npm-audit]'));
   assert.ok(gateJob.includes('NPM_AUDIT_RESULT'));
-  assert.ok(gateJob.includes('$NPM_AUDIT_RESULT'));
+  assert.ok(gateJob.includes('case "$NPM_AUDIT_RESULT" in'));
+  assert.ok(gateJob.includes('The npm audit job must succeed'));
   assert.ok(gateJob.includes('PREPARE_RESULT'));
   assert.ok(gateJob.includes('BUILD_RESULT'));
 });
