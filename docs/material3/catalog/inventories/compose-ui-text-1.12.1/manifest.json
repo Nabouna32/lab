@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "artifact": "androidx.compose.ui:ui-text",
+  "version": "1.12.1",
+  "inventoryKind": "public-signature-surface",
+  "catalogScope": "phone-tablet-porting-reference",
+  "stableBaselineAlignment": "verified-release-api-and-source-provenance",
+  "semanticCompleteness": "not-established-by-api-dump-alone",
+  "source": {
+    "repository": "androidx/androidx",
+    "commit": "5e0747401bf56b243e3b5141ae080dc9bc61d29c",
+    "path": "compose/ui/ui-text/api/current.txt",
+    "url": "https://github.com/androidx/androidx/blob/5e0747401bf56b243e3b5141ae080dc9bc61d29c/compose/ui/ui-text/api/current.txt",
+    "sha256": "5fcaf939a396a4cbd66a97d1917457a0c48ee9332a12babe10e1e7b28464785c",
+    "formatVersion": "4.0"
+  },
+  "generatedBy": ".github/scripts/material3-api-inventory.mjs + .github/scripts/material3-api-inventory-shard.mjs",
+  "declarationCount": 1774,
+  "sourceApiCandidateCount": 1004,
+  "bytecodeOnlyCount": 526,
+  "inaccessibleFromKotlinCount": 216,
+  "generatedFacadeCount": 28,
+  "kotlinOnlyCount": 101,
+  "experimentalCount": 6,
+  "deprecatedCount": 143,
+  "packageCounts": {
+    "androidx.compose.ui.text": 862,
+    "androidx.compose.ui.text.android": 6,
+    "androidx.compose.ui.text.font": 272,
+    "androidx.compose.ui.text.input": 290,
+    "androidx.compose.ui.text.intl": 48,
+    "androidx.compose.ui.text.platform.extensions": 3,
+    "androidx.compose.ui.text.style": 293
+  },
+  "shardSize": 500,
+  "shards": [
+    {
+      "path": "declarations-001.json",
+      "declarationCount": 500,
+      "sha256": "b1caba6d53c3ed2ee9d023478bcba26fb438e4e8d95fdbf409319126b7ea5e7d",
+      "firstSourceLine": 4,
+      "lastSourceLine": 575
+    },
+    {
+      "path": "declarations-002.json",
+      "declarationCount": 500,
+      "sha256": "e081f0e8bec80f515f6d1b3fd337953521856e97a2c7939bd946d622445f3cd3",
+      "firstSourceLine": 576,
+      "lastSourceLine": 1167
+    },
+    {
+      "path": "declarations-003.json",
+      "declarationCount": 500,
+      "sha256": "5424e27abb4b201b06994d43664e974686c9ec9c1db4ee01432fcf188d56d12c",
+      "firstSourceLine": 1168,
+      "lastSourceLine": 1804
+    },
+    {
+      "path": "declarations-004.json",
+      "declarationCount": 274,
+      "sha256": "0b0116b5507fa78b34740481dccd0305388132d5fc67418a19a8d5794b27f9b3",
+      "firstSourceLine": 1805,
+      "lastSourceLine": 2156
+    }
+  ]
+}

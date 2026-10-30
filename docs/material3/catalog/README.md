@@ -87,6 +87,24 @@ La vérification nécessite un accès réseau aux URL consignées dans le manife
 
 La première revue structurée de [Foundation Layout 1.12.1](compose-foundation-layout-1.12.1.md) classe les principaux contrats de mesure, d'arrangement, de padding et de WindowInsets, et distingue les adaptations Web des API Android sans équivalent direct. Elle reste initiale : les familles P0 conservent le statut `in-progress` jusqu'à la livraison des inventaires normalisés exhaustifs et de leurs contrôles reproductibles.
 
+## Inventaires normalisés Compose P0 — 1.12.1
+
+Les quatre dumps publics sont normalisés en déclarations conservant leur signature brute, leur package, leur propriétaire, leur type, leur ligne source, leurs annotations et un identifiant déterministe. Les manifestes épinglent le commit AndroidX, le SHA-256 du dump et les empreintes de chaque shard. Les inventaires couvrent les déclarations imbriquées ; les façades JVM générées `*Kt` sont conservées mais classées séparément, et ne sont pas comptées comme API Kotlin candidates.
+
+| Famille | Déclarations | Candidates API source | Façades JVM générées | Kotlin-only | Dépréciées | Expérimentales | Inventaire |
+|---|---:|---:|---:|---:|---:|---:|---|
+| Compose UI | 4 232 | 2 451 | 120 | 181 | 255 | 42 | [Manifeste](inventories/compose-ui-1.12.1/manifest.json) |
+| Foundation | 2 343 | 1 389 | 109 | 222 | 160 | 203 | [Manifeste](inventories/compose-foundation-1.12.1/manifest.json) |
+| UI Text | 1 774 | 1 004 | 28 | 101 | 143 | 6 | [Manifeste](inventories/compose-ui-text-1.12.1/manifest.json) |
+| Foundation Layout | 758 | 440 | 23 | 99 | 77 | 158 | [Manifeste](inventories/compose-foundation-layout-1.12.1/manifest.json) |
+| **Total** | **9 107** | **5 284** | **280** | **603** | **635** | **409** | |
+
+Les comptes `Kotlin-only`, expérimentaux et dépréciés sont des sous-ensembles des candidates ou des déclarations ; ils ne s'additionnent pas aux colonnes principales. Les formes `@BytecodeOnly` (2 333) et `@InaccessibleFromKotlin` (1 210) restent intégralement présentes dans les shards, mais sont exclues des candidates. Une façade JVM est un conteneur ABI généré, pas un composant React à créer ; ses méthodes Kotlin-only peuvent, elles, correspondre à de vraies fonctions source.
+
+Ces chiffres sont des **déclarations d'API**, pas des composants visuels ni une liste de portages à réaliser. Ils incluent les types imbriqués qui n'étaient pas distingués dans le premier comptage synthétique. La présence dans les shards ne vaut ni spécification sémantique, ni décision de portage, ni validation navigateur. Les quatre familles restent `in-progress`.
+
+Chaque dossier contient un `manifest.json` et des shards `declarations-NNN.json` de 500 déclarations maximum. Le générateur vérifie les totaux, l'unicité des identifiants et les empreintes ; les signatures inconnues doivent rester visibles et toute syntaxe publique non reconnue doit faire échouer l'analyse plutôt que disparaître silencieusement.
+
 ## États de couverture
 
 La présence dans le catalogue ne signifie pas qu'une API a été étudiée ou portée. Garder séparés :

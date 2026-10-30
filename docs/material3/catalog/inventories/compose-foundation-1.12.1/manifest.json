@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "artifact": "androidx.compose.foundation:foundation",
+  "version": "1.12.1",
+  "inventoryKind": "public-signature-surface",
+  "catalogScope": "phone-tablet-porting-reference",
+  "stableBaselineAlignment": "verified-release-api-and-source-provenance",
+  "semanticCompleteness": "not-established-by-api-dump-alone",
+  "source": {
+    "repository": "androidx/androidx",
+    "commit": "5e0747401bf56b243e3b5141ae080dc9bc61d29c",
+    "path": "compose/foundation/foundation/api/current.txt",
+    "url": "https://github.com/androidx/androidx/blob/5e0747401bf56b243e3b5141ae080dc9bc61d29c/compose/foundation/foundation/api/current.txt",
+    "sha256": "250de056979ff61a1ded661c9a12643d9c75146040d98f2c49d8ec635d2f03bf",
+    "formatVersion": "4.0"
+  },
+  "generatedBy": ".github/scripts/material3-api-inventory.mjs + .github/scripts/material3-api-inventory-shard.mjs",
+  "declarationCount": 2343,
+  "sourceApiCandidateCount": 1389,
+  "bytecodeOnlyCount": 574,
+  "inaccessibleFromKotlinCount": 271,
+  "generatedFacadeCount": 109,
+  "kotlinOnlyCount": 222,
+  "experimentalCount": 203,
+  "deprecatedCount": 160,
+  "packageCounts": {
+    "androidx.compose.foundation": 326,
+    "androidx.compose.foundation.content": 53,
+    "androidx.compose.foundation.draganddrop": 10,
+    "androidx.compose.foundation.gestures": 327,
+    "androidx.compose.foundation.gestures.snapping": 28,
+    "androidx.compose.foundation.interaction": 60,
+    "androidx.compose.foundation.lazy": 148,
+    "androidx.compose.foundation.lazy.grid": 169,
+    "androidx.compose.foundation.lazy.layout": 161,
+    "androidx.compose.foundation.lazy.staggeredgrid": 118,
+    "androidx.compose.foundation.pager": 109,
+    "androidx.compose.foundation.relocation": 10,
+    "androidx.compose.foundation.selection": 28,
+    "androidx.compose.foundation.shape": 106,
+    "androidx.compose.foundation.style": 289,
+    "androidx.compose.foundation.text": 133,
+    "androidx.compose.foundation.text.contextmenu.builder": 5,
+    "androidx.compose.foundation.text.contextmenu.data": 39,
+    "androidx.compose.foundation.text.contextmenu.modifier": 3,
+    "androidx.compose.foundation.text.contextmenu.provider": 12,
+    "androidx.compose.foundation.text.handwriting": 4,
+    "androidx.compose.foundation.text.input": 165,
+    "androidx.compose.foundation.text.modifiers": 3,
+    "androidx.compose.foundation.text.selection": 37
+  },
+  "shardSize": 500,
+  "shards": [
+    {
+      "path": "declarations-001.json",
+      "declarationCount": 500,
+      "sha256": "2d3080dcb4d78f425a1ed8c5ddd7769359e81df2e3dfcddad1bd3d2e5c2f61f9",
+      "firstSourceLine": 4,
+      "lastSourceLine": 667
+    },
+    {
+      "path": "declarations-002.json",
+      "declarationCount": 500,
+      "sha256": "c9257c15c88c268f1c465540f5edb8e229e163614b0687642add313a5fda9fcc",
+      "firstSourceLine": 668,
+      "lastSourceLine": 1343
+    },
+    {
+      "path": "declarations-003.json",
+      "declarationCount": 500,
+      "sha256": "cdd7bf72d55f583be9483e1d8c0bdeef6dcfd4f6a6684641db69ff30cccdd3e2",
+      "firstSourceLine": 1344,
+      "lastSourceLine": 1989
+    },
+    {
+      "path": "declarations-004.json",
+      "declarationCount": 500,
+      "sha256": "968e48b1ee615b791c98ae76add73243edaff410c75e5974f096ea2a69c54e4b",
+      "firstSourceLine": 1990,
+      "lastSourceLine": 2683
+    },
+    {
+      "path": "declarations-005.json",
+      "declarationCount": 343,
+      "sha256": "c78b894719e079dbc3e157e7d5a6e16501faf862a85a30858ee6fb373eeb19de",
+      "firstSourceLine": 2684,
+      "lastSourceLine": 3166
+    }
+  ]
+}

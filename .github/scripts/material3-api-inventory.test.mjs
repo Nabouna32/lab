@@ -340,3 +340,102 @@ test('preserves annotations attached to AndroidX API package declarations', () =
     ],
   }]);
 });
+
+
+const CLASSIFICATION_DUMP = `// Signature format: 4.0
+package androidx.compose.sample {
+  public final class SampleKt {
+    method @KotlinOnly @Deprecated @androidx.compose.sample.ExperimentalSample public static void sample();
+    method @BytecodeOnly public static void sample-impl();
+  }
+}
+`;
+
+test('classifies generated JVM facades and preserves Kotlin-only and API maturity markers', () => {
+  const result = inventoryApiDump(CLASSIFICATION_DUMP, {
+    artifact: 'androidx.compose.sample:sample',
+    version: '1.0.0',
+    commit: COMMIT,
+    sourcePath: 'compose/sample/api/current.txt',
+  });
+
+  assert.equal(result.declarationCount, 3);
+  assert.equal(result.generatedFacadeCount, 1);
+  assert.equal(result.kotlinOnlyCount, 1);
+  assert.equal(result.experimentalCount, 1);
+  assert.equal(result.deprecatedCount, 1);
+  assert.equal(result.sourceApiCandidateCount, 1);
+  assert.equal(result.declarations[0].classification, 'generated-jvm-facade');
+  assert.equal(result.declarations[1].classification, 'kotlin-only');
+  assert.equal(result.declarations[1].apiStatus, 'deprecated');
+  assert.ok(result.declarations[1].annotations.includes('@Deprecated'));
+});
+
+
+const FORMAT4_EXTENDED_TYPES = `// Signature format: 4.0
+package androidx.compose.sample {
+  public sealed nonexhaustive interface Outer {
+    public sealed nonexhaustive interface Outer.Inner {
+      method public void run();
+    }
+  }
+  public enum SampleEnum {
+  }
+  public @interface SampleAnnotation {
+  }
+}
+`;
+
+test('supports nonexhaustive nested interfaces, enums and annotation declarations', () => {
+  const result = inventoryApiDump(FORMAT4_EXTENDED_TYPES, {
+    artifact: 'androidx.compose.sample:sample',
+    version: '1.0.0',
+    commit: COMMIT,
+    sourcePath: 'compose/sample/api/current.txt',
+  });
+
+  assert.equal(result.declarationCount, 5);
+  assert.deepEqual(result.declarations.map((entry) => entry.kind), [
+    'interface', 'interface', 'method', 'enum class', 'annotation class',
+  ]);
+  assert.equal(result.declarations[2].owner, 'Outer.Inner');
+  assert.equal(new Set(result.declarations.map((entry) => entry.id)).size, 5);
+});
+
+test('fails closed on an unsupported public declaration instead of silently dropping it', () => {
+  const dump = `// Signature format: 4.0
+package androidx.compose.sample {
+  public future interface UnknownType {
+  }
+}
+`;
+  assert.throws(() => inventoryApiDump(dump, {
+    artifact: 'androidx.compose.sample:sample',
+    version: '1.0.0',
+    commit: COMMIT,
+    sourcePath: 'compose/sample/api/current.txt',
+  }), /Unsupported public declaration syntax/);
+});
+
+
+const FUN_INTERFACE_DUMP = `// Signature format: 4.0
+package androidx.compose.sample {
+  @androidx.compose.runtime.Stable public fun interface SampleListener {
+    method public void onEvent();
+  }
+}
+`;
+
+test('treats Kotlin fun interfaces as types and retains their member owner', () => {
+  const result = inventoryApiDump(FUN_INTERFACE_DUMP, {
+    artifact: 'androidx.compose.sample:sample',
+    version: '1.0.0',
+    commit: COMMIT,
+    sourcePath: 'compose/sample/api/current.txt',
+  });
+
+  assert.equal(result.declarationCount, 2);
+  assert.equal(result.declarations[0].kind, 'interface');
+  assert.equal(result.declarations[0].symbol, 'SampleListener');
+  assert.equal(result.declarations[1].owner, 'SampleListener');
+});

@@ -1,0 +1,122 @@
+{
+  "schemaVersion": 1,
+  "artifact": "androidx.compose.ui:ui",
+  "version": "1.12.1",
+  "inventoryKind": "public-signature-surface",
+  "catalogScope": "phone-tablet-porting-reference",
+  "stableBaselineAlignment": "verified-release-api-and-source-provenance",
+  "semanticCompleteness": "not-established-by-api-dump-alone",
+  "source": {
+    "repository": "androidx/androidx",
+    "commit": "5e0747401bf56b243e3b5141ae080dc9bc61d29c",
+    "path": "compose/ui/ui/api/current.txt",
+    "url": "https://github.com/androidx/androidx/blob/5e0747401bf56b243e3b5141ae080dc9bc61d29c/compose/ui/ui/api/current.txt",
+    "sha256": "87ebf4672a2916eb87d44e2abfdadba04c3b215a4f62364be1e445464fdad1a7",
+    "formatVersion": "4.0"
+  },
+  "generatedBy": ".github/scripts/material3-api-inventory.mjs + .github/scripts/material3-api-inventory-shard.mjs",
+  "declarationCount": 4232,
+  "sourceApiCandidateCount": 2451,
+  "bytecodeOnlyCount": 978,
+  "inaccessibleFromKotlinCount": 683,
+  "generatedFacadeCount": 120,
+  "kotlinOnlyCount": 181,
+  "experimentalCount": 42,
+  "deprecatedCount": 255,
+  "packageCounts": {
+    "androidx.compose.ui": 305,
+    "androidx.compose.ui.autofill": 178,
+    "androidx.compose.ui.contentcapture": 6,
+    "androidx.compose.ui.draganddrop": 40,
+    "androidx.compose.ui.draw": 102,
+    "androidx.compose.ui.focus": 214,
+    "androidx.compose.ui.graphics": 133,
+    "androidx.compose.ui.graphics.vector": 205,
+    "androidx.compose.ui.hapticfeedback": 37,
+    "androidx.compose.ui.input": 14,
+    "androidx.compose.ui.input.indirect": 64,
+    "androidx.compose.ui.input.key": 660,
+    "androidx.compose.ui.input.nestedscroll": 43,
+    "androidx.compose.ui.input.pointer": 317,
+    "androidx.compose.ui.input.pointer.util": 22,
+    "androidx.compose.ui.input.rotary": 15,
+    "androidx.compose.ui.layout": 578,
+    "androidx.compose.ui.modifier": 34,
+    "androidx.compose.ui.node": 199,
+    "androidx.compose.ui.platform": 379,
+    "androidx.compose.ui.relocation": 5,
+    "androidx.compose.ui.res": 40,
+    "androidx.compose.ui.semantics": 521,
+    "androidx.compose.ui.spatial": 23,
+    "androidx.compose.ui.state": 6,
+    "androidx.compose.ui.text": 3,
+    "androidx.compose.ui.viewinterop": 8,
+    "androidx.compose.ui.window": 81
+  },
+  "shardSize": 500,
+  "shards": [
+    {
+      "path": "declarations-001.json",
+      "declarationCount": 500,
+      "sha256": "61c813fad7f4ac3bfa6b487093827668c391aa695cd534fdcf59d0713b8fc5c2",
+      "firstSourceLine": 4,
+      "lastSourceLine": 627
+    },
+    {
+      "path": "declarations-002.json",
+      "declarationCount": 500,
+      "sha256": "0b6798576d86c1a4831ff3531aa27d3b137df12c11d8d008e5844225f0344bd1",
+      "firstSourceLine": 630,
+      "lastSourceLine": 1279
+    },
+    {
+      "path": "declarations-003.json",
+      "declarationCount": 500,
+      "sha256": "6854d3dda050ece78b02e32e8df7304ef2edd449963aba28364205b1bc33bc4b",
+      "firstSourceLine": 1280,
+      "lastSourceLine": 1887
+    },
+    {
+      "path": "declarations-004.json",
+      "declarationCount": 500,
+      "sha256": "73d7d6a73e677ffdbd252cd04c0654d01dace9e629016683a97eb5255502e4d7",
+      "firstSourceLine": 1888,
+      "lastSourceLine": 2422
+    },
+    {
+      "path": "declarations-005.json",
+      "declarationCount": 500,
+      "sha256": "0caedc52b383e206ef544d82f1541f76216d18ca75e7270d58ef8414902cd14d",
+      "firstSourceLine": 2423,
+      "lastSourceLine": 3056
+    },
+    {
+      "path": "declarations-006.json",
+      "declarationCount": 500,
+      "sha256": "8aa8c45271490b5ff6043abbf1a2af8b23c6716c6cf24c22b456b4a703f3bc4e",
+      "firstSourceLine": 3057,
+      "lastSourceLine": 3720
+    },
+    {
+      "path": "declarations-007.json",
+      "declarationCount": 500,
+      "sha256": "e647cf4fad927fa8f252fb4278d80a00da0537716cb71d466d83a9454b714f8a",
+      "firstSourceLine": 3721,
+      "lastSourceLine": 4394
+    },
+    {
+      "path": "declarations-008.json",
+      "declarationCount": 500,
+      "sha256": "732fb5b16e39d1e7f1143ea9bb12e1088469cad0f589412833b167004c40a693",
+      "firstSourceLine": 4397,
+      "lastSourceLine": 4991
+    },
+    {
+      "path": "declarations-009.json",
+      "declarationCount": 232,
+      "sha256": "737eee16ec7eff9f3b6e1158e64224048d5a51632446f475a7230d899c6251c8",
+      "firstSourceLine": 4992,
+      "lastSourceLine": 5274
+    }
+  ]
+}
