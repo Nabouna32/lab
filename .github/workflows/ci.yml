@@ -225,7 +225,7 @@ jobs:
 
   ci:
     name: Node.js 24.21.0
-    needs: [prepare, quality, build, supabase]
+    needs: [prepare, quality, build, supabase, npm-audit]
     if: always() && github.event_name != 'schedule'
     runs-on: ubuntu-latest
     timeout-minutes: 2
@@ -236,8 +236,13 @@ jobs:
           QUALITY_RESULT: ${{ needs.quality.result }}
           BUILD_RESULT: ${{ needs.build.result }}
           SUPABASE_RESULT: ${{ needs.supabase.result }}
+          NPM_AUDIT_RESULT: ${{ needs.npm-audit.result }}
         run: |
           set -euo pipefail
+          case "$NPM_AUDIT_RESULT" in
+            success) ;;
+            *) echo "The npm audit job must succeed: $NPM_AUDIT_RESULT" >&2; exit 1 ;;
+          esac
           for result in "$PREPARE_RESULT" "$QUALITY_RESULT" "$BUILD_RESULT" "$SUPABASE_RESULT"; do
             case "$result" in
               success|skipped) ;;
@@ -247,8 +252,7 @@ jobs:
           echo "All applicable CI checks passed."
 
   npm-audit:
-    name: Audit de sécurité npm planifié
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    name: Audit de sécurité npm
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
