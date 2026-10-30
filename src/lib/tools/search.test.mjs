@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { searchTools } from "./search.ts";
+import { getPublishedTools } from "./catalog.ts";
 
 const fixtureTools = [
   {
@@ -121,6 +122,18 @@ test("matches short terms at word boundaries instead of inside unrelated words",
   assert.deepEqual(ids("age"), ["age-calculator"]);
   assert.deepEqual(ids("âge"), ["age-calculator"]);
   assert.equal(ids("per")[0], "percentage");
+});
+
+test("real catalog keeps short age queries away from image and percentage tools", () => {
+  const publishedTools = getPublishedTools();
+
+  for (const locale of ["fr", "en"]) {
+    const resultIds = searchTools(publishedTools, "age", locale).map(({ tool }) => tool.id);
+    assert.equal(resultIds[0], "age");
+    assert.ok(!resultIds.includes("image-metadata"));
+    assert.ok(!resultIds.includes("image-compressor"));
+    assert.ok(!resultIds.includes("percentage"));
+  }
 });
 
 test("matches tags and categories", () => {
