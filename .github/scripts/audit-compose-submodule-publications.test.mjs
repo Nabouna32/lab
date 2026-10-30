@@ -35,7 +35,7 @@ test('validates Gradle module component identity and preserves variant metadata'
       {
         name: 'androidApiElements-published',
         attributes: { 'org.jetbrains.kotlin.platform.type': 'androidJvm' },
-        availableAt: {
+        'available-at': {
           url: '../ui-text-android/1.12.1/ui-text-android-1.12.1.module',
           group: 'androidx.compose.ui',
           module: 'ui-text-android',
