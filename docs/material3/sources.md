@@ -79,14 +79,17 @@ Ne pas inférer un commit depuis le nom d'un tag ni supposer que `androidx-main`
 Le fichier API publié est un excellent signal de changements de surface, mais il ne décrit pas complètement l'anatomie, les états visuels, les transitions, les valeurs par défaut sémantiques ou le comportement d'accessibilité. La génération automatisée sert donc à l'inventaire et à la détection de différences. La spécification de portage de chaque composant doit être confrontée au code Kotlin et aux guides officiels pertinents.
 
 
-## Versions de référence du registre multi-familles
+## Versions de référence et périmètre produit
 
-Au 30 octobre 2026, `docs/material3/catalog/families.json` sélectionne une version stable publiée pour chacune des 22 familles recensées. Les versions des familles UI, Foundation, Animation et Runtime suivent les notes officielles des artefacts `ui-*`, `foundation-*`, `animation-*` et `runtime-*` en 1.12.1. Les familles spécialisées et historiques sont séparées : Wear Compose Material 3 1.5.0, TV Material 1.1.0, Material Components Views 1.14.0 et AppCompat 1.8.0. Les sources officielles sont liées individuellement dans le registre.
+Le registre `docs/material3/catalog/families.json` conserve les coordonnées des familles AndroidX examinées, mais ce registre de candidats ne définit pas à lui seul le périmètre de portage Loculary.
 
-L’inspection des répertoires `api/` au commit AndroidX `5901d750e269aa3d88f6fccd5186637df83a0173` couvre maintenant 21 familles du registre. Elle confirme qu’aucun dump versionné correspondant exactement à la version stable sélectionnée n’est présent dans les répertoires inspectés à ce commit. Material Components for Android Views n’est pas inclus dans cette inspection, car ses sources sont dans le dépôt distinct [`material-components/material-components-android`](https://github.com/material-components/material-components-android). Ces constats décrivent uniquement les répertoires et le commit examinés ; ils ne prouvent pas l’absence de dumps dans les archives publiées. La provenance des sources et leur correspondance avec les API publiées restent des contrôles distincts.
+Le portage produit vise les téléphones et tablettes :
+- Compose UI / Foundation 1.12.1 : baseline release, API et sources vérifiées au commit `5e0747401bf56b243e3b5141ae080dc9bc61d29c`.
+- Compose Material 3 1.4.0 : baseline release, API et sources vérifiées au commit `5113b82a4ed6416d6344efa50e41db8cb65928ff`.
+- Compose Adaptive : référence à étudier pour les mises en page adaptatives téléphone/tablette.
+- Wear OS, Android TV et bibliothèques Views historiques : registre de référence uniquement ; pas d'inventaire détaillé ni de portage produit.
 
-Cette sélection fixe les coordonnées de l’inventaire ; elle ne signifie pas que les dumps API immuables de ces versions ont tous été retrouvés, ni que leur correspondance avec les archives sources a été démontrée. Ces preuves restent à établir artefact par artefact avant de déclarer l’inventaire exhaustif. La référence stable Material 3 1.4.0 demeure particulièrement incomplète sur l’alignement du dump API, même si l’intégrité de son archive source est vérifiée par CI.
-
+Les autres familles candidates ne sont pas considérées comme vérifiées parce qu'une version stable est sélectionnée dans le registre. Leur provenance API/sources ne sera étudiée que si elle apporte une valeur directe au périmètre mobile/tablette.
 
 ### Material Components Views (historique)
 
