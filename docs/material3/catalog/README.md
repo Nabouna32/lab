@@ -4,7 +4,7 @@
 
 Le catalogue répond à « quelles API publiques existent dans le périmètre, dans quelle version et avec quel statut ? ». Les spécifications de composants répondent à « comment cette API fonctionne-t-elle et comment la porter correctement sur le Web ? ». Ce sont deux objets distincts.
 
-Le catalogue doit viser la couverture complète de la surface publique déclarée pour chaque artefact et version. Il ne doit pas filtrer selon les usages actuels de Loculary.
+La couverture complète de la surface publique s'applique aux familles retenues dans le périmètre téléphone/tablette. Wear OS, Android TV et les appareils spécialisés peuvent rester identifiés dans le registre, mais leur statut demeure `migration-reference-only` : pas d'inventaire détaillé ni de portage. Compose Adaptive est étudié pour les besoins adaptatifs des téléphones et tablettes.
 
 ## Registre des familles
 
