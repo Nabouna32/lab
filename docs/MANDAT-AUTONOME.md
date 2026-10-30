@@ -258,7 +258,7 @@ Lorsqu’un blocage incontournable exige réellement une intervention, une déci
 - Choisir un titre français, direct et compréhensible sans connaissance technique approfondie, indiquant clairement qu’une action est attendue de l’utilisateur.
 - Expliquer en français courant pourquoi son intervention est indispensable, ce qui bloque, ce qui a déjà été tenté, les options raisonnables et leurs conséquences.
 - Formuler précisément l’action attendue de l’utilisateur, avec les étapes nécessaires et les liens vers l’interface ou la ressource concernée lorsque ceux-ci sont vérifiés.
-- Distinguer ce que l’utilisateur doit faire de ce que l’agent reprendra ensuite. Ne pas lui déléguer les investigations ou opérations que l’agent peut encore effectuer lui-même.
+- Distinguer ce que l’utilisateur doit faire des éventuelles opérations que l’agent pourra reprendre uniquement après réintroduction explicite du sujet selon la règle d’étanchéité ci-dessous. Ne pas lui déléguer les investigations ou opérations que l’agent peut encore effectuer lui-même.
 - Ne jamais inventer un lien, un accès ou une cause. Ne pas inclure de secret ni demander de le publier dans l’issue.
 - Réutiliser une issue de demande d’action déjà ouverte si elle couvre exactement le même blocage ; éviter les doublons.
 - Après création, poursuivre uniquement les travaux indépendants utiles. Ne pas reprendre automatiquement le chantier concerné par l'action humaine.
@@ -290,7 +290,7 @@ Après avoir épuisé les solutions raisonnables :
 1. consigner le symptôme, la cause connue ou supposée, les tentatives, leurs résultats et la condition permettant de reprendre ;
 2. laisser un checkpoint durable dans l'issue pertinente ;
 3. poursuivre un chantier indépendant à forte valeur si cela est utile et sans masquer le blocage ;
-4. revenir automatiquement au blocage dès qu'il redevient résoluble.
+4. revenir automatiquement aux blocages techniques dès que les conditions de reprise sont réunies. Les situations qui nécessitent une intervention de l'utilisateur suivent exclusivement la règle d'étanchéité de la section 6 : aucune surveillance, réactivation ni reprise autonome sans initiative explicite de l'utilisateur.
 
 Si la session risque de s'interrompre, enregistrer avant la fin un état concis et actionnable. Ne pas laisser la seule prochaine étape dans la conversation.
 
