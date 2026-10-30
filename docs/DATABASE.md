@@ -104,22 +104,22 @@ La migration `20261029110714_retire_design_lab_audit.sql` retire les tables et f
 
 - `public.admin_audit_log` : 1 entrée.
 - `private.admin_audit_log_retention_holds` : table présente, RLS activé, aucune policy ni privilège API accordé ; 0 exception enregistrée.
+- `cron.job` : le job `loculary-log-retention-6m` existe sous l'identifiant 2, actif, exécuté par `postgres`, chaque jour à 03:00 UTC, avec la commande exacte `select private.prune_retained_logs();`.
 - `cron.job_run_details` : 806 lignes ; plus ancienne exécution le 4 octobre 2026 à 22:10 UTC, plus récente le 5 octobre à 11:35 UTC ; 0 exécution terminée antérieure au seuil de six mois et 0 exécution incomplète.
-- `cron.job` : l'inventaire du schéma indique 1 ligne. Le connecteur bloque la lecture des valeurs de ses colonnes ; l'identité, le calendrier, la commande, l'état actif et le rôle d'exécution du job ne sont pas confirmés.
 - `pg_cron` 1.6.4 est installé.
-- L'historique distant `supabase_migrations.schema_migrations` contient `20261030030000 / log_retention_policy`. Les journaux PostgreSQL consultés attestent la création de la table privée et des deux fonctions à 03:31:30 UTC. Ils ne montrent ni appel `cron.schedule`, ni invocation de `private.prune_retained_logs()`. Cela ne prouve pas que le job est absent : ses valeurs ne sont pas lisibles avec le connecteur.
-- Les 46 assertions de `supabase/tests/log_retention.sql` n'ont pas été exécutées.
+- L'historique distant `supabase_migrations.schema_migrations` contient `20261030030000 / log_retention_policy`. Les journaux PostgreSQL attestent la création de la table privée et des deux fonctions le 30 octobre à 03:31:30 UTC. La configuration effective du job a été confirmée par une lecture SQL directe de `cron.job`.
+- Les 46 assertions de `supabase/tests/log_retention.sql` ont été exécutées avec succès le 30 octobre dans une transaction explicitement annulée (`BEGIN` / `ROLLBACK`). Le contrôle a confirmé `assertion_count = 46`, `all_passed = true` et aucune assertion en échec. Le test a installé pgTAP uniquement dans cette transaction ; l'extension n'est pas conservée en production après le rollback.
+- Le test a été corrigé pour comparer les rôles avec des casts explicites vers `text` et fournir des `runid` négatifs explicites aux fixtures `cron.job_run_details`, sans nécessiter le privilège d'utilisation de `cron.runid_seq`. Ces corrections sont livrées dans une PR dédiée en attente de CI et de fusion.
 
 **Politique définie par le code versionné :**
 
 - Six mois glissants pour `public.admin_audit_log` et les exécutions terminées de `cron.job_run_details`.
 - Une exception administrative peut aller jusqu'à douze mois après l'événement, uniquement pour `security_incident`, `legal_obligation` ou `internal_investigation`, avec une référence non personnelle au format `INC-YYYY-NNN`.
 - Les exceptions sont stockées dans le schéma privé, sans accès API, et expirent automatiquement. Les exécutions cron incomplètes sont préservées.
-- La migration versionnée demande un job quotidien à 03:00 GMT appelant uniquement `private.prune_retained_logs()`. L'existence d'une ligne dans `cron.job` ne suffit pas à confirmer que cette configuration a été créée.
-- Les logs gérés par Supabase et Vercel ne sont pas purgés par Loculary ; leurs durées dépendent des forfaits souscrits. Aucun Log Drain ni changement de forfait n'est prévu.
+- Le job quotidien appelle uniquement `private.prune_retained_logs()`. Les logs gérés par Supabase et Vercel ne sont pas purgés par Loculary ; leurs durées dépendent des forfaits souscrits. Aucun Log Drain ni changement de forfait n'est prévu.
 
-**État de validation : migration enregistrée, activation opérationnelle non confirmée.**
+**État de validation : migration enregistrée, job actif et tests transactionnels réussis.**
 
-L'application de la migration est attestée par l'historique distant et les journaux PostgreSQL. La sauvegarde indépendante préalable et l'approbation humaine ne sont pas confirmées dans l'issue #1051. Les propriétés du job restent illisibles via le connecteur et pgTAP n'a pas été exécuté. Ne pas réappliquer la migration, créer/modifier un job ou lancer de purge manuelle avant clarification et vérification des garanties nécessaires.
+La sauvegarde indépendante préalable et l'identité de l'opérateur ayant déclenché l'application de la migration ne sont pas confirmées dans l'issue #1051. Le premier passage du job après sa création n'est pas encore observé : la migration a été enregistrée à 03:31 UTC, après l'horaire quotidien de 03:00 UTC. Le prochain passage nominal est donc attendu le 31 octobre 2026 à 03:00 UTC.
 
-Après clarification, obtenir une lecture autorisée des propriétés du job, exécuter les 46 assertions dans un environnement isolé ou une transaction `ROLLBACK` au comportement confirmé, puis observer le premier passage. Mettre à jour la politique publique FR/EN uniquement après validation du comportement effectif.
+Le test transactionnel n'a laissé aucune modification persistante : le décompte du journal administratif reste à 1, celui des exceptions reste à 0 et les 806 exécutions cron sont inchangées. Ne pas réappliquer la migration, modifier le job ou lancer de purge manuelle. Reprendre après confirmation de l'origine de l'application et de la sauvegarde préalable, puis vérifier le premier passage planifié avant de synchroniser la politique publique FR/EN.

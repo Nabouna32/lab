@@ -85,8 +85,8 @@ select ok(
   'retention job is active'
 );
 select is(
-  (select username from cron.job where jobname = 'loculary-log-retention-6m'),
-  current_user,
+  (select username::text from cron.job where jobname = 'loculary-log-retention-6m'),
+  current_user::text,
   'retention job runs as the migration owner'
 );
 
@@ -289,19 +289,19 @@ select is(
 );
 
 insert into cron.job_run_details (
-  jobid, job_pid, database, username, command, status, start_time, end_time
+  runid, jobid, job_pid, database, username, command, status, start_time, end_time
 )
 values
   (
-    987654, pg_backend_pid(), current_database(), current_user, 'select 1',
+    -987654, 987654, pg_backend_pid(), current_database(), current_user, 'select 1',
     'succeeded', now() - interval '7 months', now() - interval '7 months'
   ),
   (
-    987655, pg_backend_pid(), current_database(), current_user, 'select 1',
+    -987655, 987655, pg_backend_pid(), current_database(), current_user, 'select 1',
     'succeeded', now() - interval '5 months', now() - interval '5 months'
   ),
   (
-    987656, pg_backend_pid(), current_database(), current_user, 'select 1',
+    -987656, 987656, pg_backend_pid(), current_database(), current_user, 'select 1',
     'running', now() - interval '7 months', null
   );
 

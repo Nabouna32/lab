@@ -48,11 +48,14 @@ test("pgTAP retention suite is transactional and its plan matches its assertions
   assert.match(sqlTest, /completed cron runs older than six months are deleted/);
 });
 
-test("internal privacy documentation distinguishes configured and pending retention", () => {
-  assert.match(databaseDocs, /activation en attente d’approbation de production/i);
+test("internal privacy documentation reflects active retention and pending public disclosure", () => {
+  assert.match(databaseDocs, /job `loculary-log-retention-6m` existe/i);
+  assert.match(databaseDocs, /tests transactionnels réussis/i);
   assert.match(databaseDocs, /six mois/i);
   assert.match(databaseDocs, /douze mois/i);
-  assert.match(privacyDocs, /Politique applicative retenue, en attente d’application/i);
+  assert.match(privacyDocs, /Politique applicative active en production/i);
+  assert.match(privacyDocs, /premier passage planifié/i);
+  assert.match(privacyDocs, /Communication publique FR\/EN/i);
   assert.match(privacyDocs, /24 heures/i);
   assert.match(privacyDocs, /une heure/i);
 });

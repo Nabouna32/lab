@@ -302,9 +302,11 @@ L’inventaire de production du 30 octobre 2026 distingue les journaux applicati
 - **Vercel Hobby** : les logs runtime sont conservés une heure ; les logs de build restent associés aux déploiements sans purge automatique. Les Log Drains ne sont pas disponibles sur ces forfaits.
 - Aucun Log Drain, export tiers ni changement de forfait n’est activé ou recommandé à ce stade. Les limites des prestataires sont documentées comme des limites de service, pas comme une rétention contrôlée par Loculary.
 
-**Politique applicative retenue, en attente d’application de la migration Supabase :** six mois glissants pour le journal administratif Loculary et l’historique des exécutions `pg_cron`. Les événements administratifs peuvent faire l’objet d’une exception plafonnée à douze mois après l’événement, uniquement pour un incident de sécurité, une obligation légale ou une investigation interne, avec motif codifié et référence non personnelle. À la suppression d’un compte, les identifiants d’acteur et de cible sont pseudonymisés.
+**Politique applicative active en production depuis le 30 octobre 2026 :** six mois glissants pour le journal administratif Loculary et les exécutions terminées de `pg_cron`. Le job `loculary-log-retention-6m` est actif chaque jour à 03:00 UTC et appelle uniquement `private.prune_retained_logs()`. Les événements administratifs peuvent faire l’objet d’une exception plafonnée à douze mois après l’événement, uniquement pour un incident de sécurité, une obligation légale ou une investigation interne, avec motif codifié et référence non personnelle. À la suppression d’un compte, les identifiants d’acteur et de cible sont pseudonymisés ; les exécutions cron incomplètes sont préservées.
 
-La migration `20261030030000_log_retention_policy.sql` et le test `supabase/tests/log_retention.sql` sont préparés mais non appliqués à la production. La politique publique FR/EN ne doit annoncer la purge de six mois comme active qu’après approbation, application et vérification du job. Aucun journal Supabase géré par le fournisseur n’est supprimé par Loculary.
+Les 46 assertions pgTAP de `supabase/tests/log_retention.sql` ont réussi dans une transaction `BEGIN` / `ROLLBACK` le 30 octobre 2026. Le premier passage planifié du job après sa création est attendu le 31 octobre à 03:00 UTC et reste à observer.
+
+**Communication publique FR/EN :** les pages de confidentialité destinées aux utilisateurs ne doivent annoncer la purge de six mois comme comportement déjà observé qu’après vérification du premier passage et clarification de l’origine de l’application et de la sauvegarde préalable. Aucun journal Supabase géré par le fournisseur n’est supprimé par Loculary.
 
 ## Future legal/compliance work
 
