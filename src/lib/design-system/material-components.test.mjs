@@ -9,6 +9,7 @@ const iconSource = readFileSync(new URL("../../components/ui/MaterialIcon.tsx", 
 const progressSource = readFileSync(new URL("../../components/ui/ProgressIndicator.tsx", import.meta.url), "utf8");
 const progressCss = readFileSync(new URL("../../components/ui/progress-indicator.module.css", import.meta.url), "utf8");
 const textFieldSource = readFileSync(new URL("../../components/ui/TextField.tsx", import.meta.url), "utf8");
+const visualLabSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
 const textAreaSource = readFileSync(new URL("../../components/ui/TextArea.tsx", import.meta.url), "utf8");
 const calculatorFieldSource = readFileSync(new URL("../../components/tools/calculator/CalculatorField.tsx", import.meta.url), "utf8");
 const selectSource = readFileSync(new URL("../../components/ui/Select.tsx", import.meta.url), "utf8");
@@ -415,6 +416,15 @@ test("TextField labels reflect invalid state while disabled labels keep disabled
   assert.match(textFieldSource, /const isInvalid = !disabled && Boolean\(inputProps\["aria-invalid"\]\);/);
   assert.match(textFieldSource, /isInvalid \? "text-\[var\(--danger\)\]" : "text-\[var\(--foreground\)\]"/);
   assert.match(textFieldSource, /disabled \? "text-\[color-mix\(in_srgb,var\(--on-surface\)_38%,transparent\)\]" : isInvalid \? "text-\[var\(--danger\)\] peer-aria-\[invalid=true\]:text-\[var\(--danger\)\]"/);
+});
+
+test("Design Lab exposes the production MaterialTextField validation without requiring an account", () => {
+  assert.ok(visualLabSource.includes('import { MaterialTextField } from "@/components/ui/MaterialTextField"'));
+  assert.ok(visualLabSource.includes('<MaterialTextField'));
+  assert.ok(visualLabSource.includes('id="lab-material-password"'));
+  assert.ok(visualLabSource.includes('autoComplete="new-password"'));
+  assert.ok(visualLabSource.includes('error={passwordTooShort ? passwordRule : undefined}'));
+  assert.ok(visualLabSource.includes('supportingText={passwordTooShort ? undefined : passwordRule}'));
 });
 
 test("TextField and TextArea keep their explicit inputId bound to the visible label", () => {
