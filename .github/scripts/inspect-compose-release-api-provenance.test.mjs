@@ -26,7 +26,8 @@ test('rejects missing release refs with actionable context', () => {
 
 test('reads the exact library version marker from libraryversions.toml', () => {
   assert.equal(parseLibraryVersion('COMPOSE_UI = "1.12.1"\n', 'COMPOSE_UI'), '1.12.1');
-  assert.throws(() => parseLibraryVersion('COMPOSE_UI = "1.13.0-alpha01"\n', 'COMPOSE_UI'), /does not define/);
+  assert.equal(parseLibraryVersion('COMPOSE_UI = "1.13.0-alpha01"\n', 'COMPOSE_UI'), '1.13.0-alpha01');
+  assert.throws(() => parseLibraryVersion('COMPOSE_FOUNDATION = "1.12.1"\n', 'COMPOSE_UI'), /does not define/);
 });
 
 test('accepts public API 5.0 dumps with annotated package declarations', () => {
