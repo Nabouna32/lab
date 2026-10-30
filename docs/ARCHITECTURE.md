@@ -204,7 +204,7 @@ The deployed database currently supports:
 
 Additional synchronized preferences or tool metadata should be considered only when concrete requirements justify their database and operational costs.
 
-Supabase/PostgreSQL is the current database platform for the deployed account, administrative RBAC and audit foundation. The public tool catalog remains Git-backed; the legacy database catalog schema is not deployed, and no catalog migration is scheduled. Reconsider a database-backed catalog only under DEC-027's criteria; `docs/DATABASE.md` records the current deployed schema and migration boundary.
+Supabase/PostgreSQL is the current database platform for the deployed account, administrative RBAC and audit foundation. The public tool catalog is currently Git-backed; the legacy database catalog schema is not deployed, and no catalog migration is currently scheduled. This is a description of the present architecture, not a permanent constraint: reconsider storage when concrete product or operational evidence justifies it, using the cost and security criteria in DEC-027 and `docs/DATABASE.md`.
 
 Catalog storage and delivery must remain separate from executable tool implementations. Git/code remains authoritative for registry modules, processing mode, capabilities and actual tool logic. Any future data-store change must preserve that boundary and justify its operational cost.
 
