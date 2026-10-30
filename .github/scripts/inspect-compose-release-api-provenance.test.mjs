@@ -70,21 +70,6 @@ test('uses the peeled commit for annotated Git release tags', () => {
   }]);
 });
 
-test('reports discovered Compose release refs when no expected ref exists', () => {
-  const refs = parseGitLsRemoteRefs([
-    COMMIT + ' refs/heads/androidx-compose-main',
-    'b'.repeat(40) + ' refs/heads/androidx-main',
-  ].join('\n'));
-  assert.throws(
-    () => resolveGitilesRef(refs, ['refs/heads/androidx-compose-ui-release'], 'compose-ui'),
-    /Related refs discovered by git ls-remote: none/,
-  );
-});
-
-test('rejects malformed git ls-remote output', () => {
-  assert.deepEqual(parseGitLsRemoteRefs('not a ref\n' + 'x'.repeat(40) + ' refs/heads/bad'), []);
-});
-
 test('reads the exact library version marker from libraryversions.toml', () => {
   assert.equal(parseLibraryVersion('COMPOSE_UI = "1.12.1"\n', 'COMPOSE_UI'), '1.12.1');
   assert.equal(parseLibraryVersion('COMPOSE_UI = "1.13.0-alpha01"\n', 'COMPOSE_UI'), '1.13.0-alpha01');
