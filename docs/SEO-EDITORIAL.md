@@ -1,42 +1,42 @@
-# SEO editorial policy
+# Loculary — Politique SEO et éditoriale
 
-## Purpose
+## Objectif
 
-Loculary indexes pages because they help a person complete a distinct task, not simply because a route exists or a resource is published. Search visibility is a product decision as well as a technical one.
+Loculary indexe des pages parce qu'elles aident une personne à accomplir une tâche distincte, et non simplement parce qu'une route existe ou qu'une ressource est publiée. La visibilité dans les moteurs de recherche est une décision produit autant que technique.
 
-## Page families
+## Familles de pages
 
-- **Tool pages:** the primary search landing pages. Each locale needs a task-specific title and description, a working tool, accurate instructions or examples appropriate to the tool, and transparent processing/limitations information where relevant.
-- **Category pages:** eligible categories are included automatically when they have published tools and localized editorial descriptions. A single-tool category is not automatically excluded; assess its distinct user value and overlap with tool pages instead of using an arbitrary count threshold.
-- **Guided workflows:** index when the steps connect into a meaningful task with a clear outcome; do not generate near-duplicate workflows to target keyword variations.
-- **Navigation, search, filters, personal and account pages:** remain excluded where their URLs are personalized, parameterized, duplicative or not useful as independent search landings.
+- **Pages d'outils :** principales pages de destination depuis les moteurs de recherche. Chaque locale doit disposer d'un titre et d'une description adaptés à la tâche, d'un outil fonctionnel, d'instructions ou d'exemples exacts et pertinents, ainsi que d'informations transparentes sur le traitement et ses limites lorsque cela s'applique.
+- **Pages de catégories :** les catégories admissibles sont incluses automatiquement lorsqu'elles contiennent des outils publiés et des descriptions éditoriales localisées. Une catégorie qui ne contient qu'un seul outil n'est pas automatiquement exclue ; évaluer sa valeur propre pour l'utilisateur et son chevauchement avec les pages d'outils plutôt que d'appliquer un seuil arbitraire.
+- **Parcours guidés :** les indexer lorsque leurs étapes forment une tâche cohérente avec un résultat clair ; ne pas générer de parcours quasi identiques pour cibler des variantes de mots-clés.
+- **Navigation, recherche, filtres, pages personnelles et pages de compte :** les exclure lorsque leurs URL sont personnalisées, paramétrées, redondantes ou dépourvues d'utilité comme pages de destination indépendantes depuis un moteur de recherche.
 
-## Indexability policy
+## Politique d'indexabilité
 
-- Each locale's tool SEO metadata declares `indexable: true | false`. The catalog validator rejects missing decisions. A non-indexable localized tool page emits `noindex, follow` and is omitted from the shared sitemap inventory.
-- Category SEO descriptions live in `src/lib/seo/category-policy.ts`. A category must have useful French and English descriptions to qualify for automatic indexability; unknown categories fail closed until their localized metadata exists.
-- Category indexability defaults to **included** when localized editorial metadata exists. `excludedCategorySeoReasons` is the exception list: each exclusion must include a concrete reason and is reviewed as content and category coverage evolve.
-- The sitemap inventory additionally requires at least one published tool in a category. Empty categories do not enter the sitemap.
-- A page that is not indexable can remain accessible and useful through in-product navigation.
-- Do not use word count or tool count as a universal quality threshold. Assess task coverage, specificity, correctness, usability, localization, and duplication instead.
-- Never invent a translation or add an alternate-language URL that is not actually available.
+- Les métadonnées SEO de chaque outil et de chaque locale déclarent `indexable: true | false`. Le validateur du catalogue rejette les décisions manquantes. Une page localisée non indexable émet `noindex, follow` et est exclue de l'inventaire du sitemap partagé.
+- Les descriptions SEO des catégories sont définies dans `src/lib/seo/category-policy.ts`. Pour être automatiquement indexable, une catégorie doit disposer de descriptions françaises et anglaises utiles ; les catégories inconnues sont exclues par défaut tant que leurs métadonnées localisées n'existent pas.
+- L'indexabilité d'une catégorie est **activée par défaut** lorsque ses métadonnées éditoriales localisées existent. `excludedCategorySeoReasons` constitue la liste des exceptions : chaque exclusion doit comporter une raison concrète et être réévaluée lorsque le contenu et la couverture des catégories évoluent.
+- L'inventaire du sitemap exige également qu'au moins un outil publié appartienne à la catégorie. Les catégories vides n'y figurent pas.
+- Une page non indexable peut rester accessible et utile depuis la navigation du produit.
+- Ne pas utiliser le nombre de mots ou le nombre d'outils comme seuil universel de qualité. Évaluer plutôt la couverture de la tâche, la précision, l'exactitude, l'utilité, la localisation et les contenus redondants.
+- Ne jamais inventer une traduction ni ajouter une URL dans une autre langue si cette version n'est pas réellement disponible.
 
-## Current category decisions
+## Décisions actuelles concernant les catégories
 
-The current catalog contains seven categories. All seven currently have localized editorial descriptions and are eligible for indexing, including Video. Its single-tool count is not by itself sufficient reason to exclude it. The sitemap includes only categories with published tools.
+Le catalogue actuel contient sept catégories. Toutes disposent actuellement de descriptions éditoriales localisées et peuvent être indexées, y compris Video. Le fait qu'elle ne contienne qu'un seul outil ne suffit pas à l'exclure. Le sitemap n'inclut que les catégories contenant des outils publiés.
 
-## Review checklist for new or changed pages
+## Liste de vérification des pages nouvelles ou modifiées
 
-1. What concrete task or question does the page solve?
-2. Is that intent distinct from other indexable pages, in both French and English?
-3. Does the page provide useful information or functionality beyond a list of links and generic copy?
-4. Are claims, formulas, examples, supported formats, limitations and privacy statements accurate?
-5. Are title, description, canonical URL and alternate-language links correct?
-6. Are useful localized descriptions present in every published locale?
-7. Does the shared sitemap include only indexable, canonical public URLs with published content?
-8. If an exclusion is necessary, is its reason explicit and reviewable?
-9. Do automated tests cover the decision and its effects?
+1. Quelle tâche concrète ou quelle question la page permet-elle de résoudre ?
+2. Cette intention est-elle distincte de celle des autres pages indexables, en français comme en anglais ?
+3. La page apporte-t-elle une information ou une fonctionnalité utile au-delà d'une liste de liens et d'un texte générique ?
+4. Les affirmations, formules, exemples, formats pris en charge, limites et déclarations de confidentialité sont-ils exacts ?
+5. Le titre, la description, l'URL canonique et les liens vers les autres langues sont-ils corrects ?
+6. Des descriptions localisées utiles existent-elles dans chaque langue publiée ?
+7. Le sitemap partagé ne contient-il que des URL publiques canoniques, indexables et associées à un contenu publié ?
+8. Si une exclusion est nécessaire, sa raison est-elle explicite et réexaminable ?
+9. Des tests automatisés couvrent-ils la décision et ses effets ?
 
-## Scope and limitations
+## Portée et limites
 
-This policy describes the product's intended behavior; it does not prove that search engines have indexed a page or that the page ranks well. Search Console data and a final production domain will be needed to assess impressions, queries, indexing status and actual search performance. Editorial review remains a human quality judgment; automated checks can enforce localization and structural eligibility but cannot prove usefulness or accuracy.
+Cette politique décrit le comportement visé par le produit ; elle ne prouve pas que les moteurs de recherche ont indexé une page ni qu'elle obtient un bon classement. Des données Search Console et un domaine de production définitif seront nécessaires pour évaluer les impressions, les requêtes, l'état d'indexation et les performances réelles dans les résultats de recherche. La revue éditoriale reste un jugement de qualité humain ; les contrôles automatisés peuvent vérifier la localisation et l'admissibilité structurelle, mais ne peuvent pas prouver l'utilité ni l'exactitude du contenu.
