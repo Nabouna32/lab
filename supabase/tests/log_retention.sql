@@ -1,6 +1,6 @@
 begin;
 
-select plan(45);
+select plan(46);
 
 select ok(
   (select c.relrowsecurity
