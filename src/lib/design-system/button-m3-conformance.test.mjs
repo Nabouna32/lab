@@ -61,7 +61,12 @@ test("shared Button exports AndroidX component names with source-derived dimensi
 });
 
 test("Button disabled colors follow AndroidX variant token roles", () => {
-  const variantStyle = (name) => buttonVariantStyles.split("\n").find((line) => line.startsWith(`const ${name} =`)) ?? "";
+  const variantStyle = (name) => {
+    const start = buttonVariantStyles.indexOf(`const ${name} = [`);
+    if (start < 0) return "";
+    const end = buttonVariantStyles.indexOf("].join", start);
+    return end < 0 ? "" : buttonVariantStyles.slice(start, end);
+  };
   assert.ok(variantStyle("filled").includes("var(--on-surface)_10%") && variantStyle("filled").includes("var(--on-surface)_38%"));
   assert.ok(variantStyle("elevated").includes("var(--on-surface)_10%") && variantStyle("elevated").includes("var(--on-surface)_38%"));
   assert.ok(variantStyle("filledTonal").includes("var(--on-surface)_12%") && variantStyle("filledTonal").includes("var(--on-surface)_38%"));
@@ -202,7 +207,12 @@ test("icon toggle states use their own AndroidX color roles instead of action-bu
   assert.ok(iconStyleLine("const outlined =").includes("var(--outline-variant)_38%") && iconStyleLine("const outlined =").includes("var(--on-surface)_38%"));
   assert.ok(iconStyleLine("standard: ").includes("var(--on-surface-variant)_38%"));
   assert.ok(iconButton.split("\n").filter((line) => line.trimStart().startsWith("filled: ")).every((line) => line.includes("var(--on-surface)_38%")));
-  assert.ok(iconButton.split("\n").filter((line) => line.trimStart().startsWith('"filled-tonal": ')).every((line) => line.includes("var(--on-surface)_38%")));
+  const toggleStylesStart = iconButton.indexOf("const toggleUncheckedStyles:");
+  const toggleStylesEnd = iconButton.indexOf("const targetDimensions", toggleStylesStart);
+  const toggleStyles = iconButton.slice(toggleStylesStart, toggleStylesEnd);
+  const filledTonalToggleStyles = toggleStyles.split("\n").filter((line) => line.trimStart().startsWith('"filled-tonal": '));
+  assert.equal(filledTonalToggleStyles.length, 2, "unchecked and checked filled-tonal toggle styles are both explicit");
+  assert.ok(filledTonalToggleStyles.every((line) => line.includes("var(--on-surface)_38%")));
 
   assert.ok(iconButton.includes("const toggleUncheckedStyles: Record<IconButtonStyle, string>"));
   assert.ok(iconButton.includes("const toggleCheckedStyles: Record<IconButtonStyle, string>"));
