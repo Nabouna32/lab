@@ -127,7 +127,7 @@ def read_class_summary(data: bytes) -> dict:
 
 
 def _strip_api_annotations(value: str) -> str:
-    return re.sub(r"@[A-Za-z0-9_.$]+(?:\\([^)]*\\))?\\s*", "", value).strip()
+    return re.sub(r"@[A-Za-z0-9_.$]+(?:\([^)]*\))?\s*", "", value).strip()
 
 
 def _strip_api_modifiers(value: str) -> str:
@@ -149,7 +149,7 @@ def _api_parameter_type(parameter: str) -> str:
     if value.startswith("optional "):
         value = value[len("optional "):].strip()
     # Metalava signatures include source parameter names after the type.
-    match = re.match(r"^(.*\\S)\\s+[A-Za-z_$][A-Za-z0-9_$]*$", value)
+    match = re.match(r"^(.*\S)\s+[A-Za-z_$][A-Za-z0-9_$]*$", value)
     return match.group(1).strip() if match else value
 
 
@@ -191,13 +191,13 @@ def parse_api_dump(api_dump: str) -> dict:
     current_package = None
     current_class = None
     for line in api_dump.splitlines():
-        package_match = re.match(r"^package\\s+([\\w.]+)\\s+\\{$", line)
+        package_match = re.match(r"^package\s+([\w.]+)\s+\{$", line)
         if package_match:
             current_package = package_match.group(1)
             current_class = None
             continue
         class_match = re.match(
-            r"^\\s*(?:@[A-Za-z0-9_.$]+(?:\\([^)]*\\))?\\s+)*public\\b.*?\\b(?:class|interface|enum|@interface|record)\\s+([A-Za-z0-9_.$]+).*?\\{$",
+            r"^\s*(?:@[A-Za-z0-9_.$]+(?:\([^)]*\))?\s+)*public\b.*?\b(?:class|interface|enum|@interface|record)\s+([A-Za-z0-9_.$]+).*?\{$",
             line,
         )
         if class_match and current_package:
@@ -208,7 +208,7 @@ def parse_api_dump(api_dump: str) -> dict:
             }
             continue
         if current_class:
-            member_match = re.match(r"^\\s*(method|ctor|field|property)\\s+.*;$", line)
+            member_match = re.match(r"^\s*(method|ctor|field|property)\s+.*;$", line)
             if member_match:
                 kind = member_match.group(1)
                 signature = line.strip()
@@ -225,7 +225,7 @@ def parse_api_dump(api_dump: str) -> dict:
                         })
                 else:
                     body = _strip_api_modifiers(_strip_api_annotations(signature.split(kind, 1)[1].strip().rstrip(";")))
-                    field_match = re.match(r"^(.*\\S)\\s+([A-Za-z_$][A-Za-z0-9_$]*)$", body)
+                    field_match = re.match(r"^(.*\S)\s+([A-Za-z_$][A-Za-z0-9_$]*)$", body)
                     if field_match:
                         classes[current_class]["fields" if kind == "field" else "properties"].append({
                             "name": field_match.group(2),
