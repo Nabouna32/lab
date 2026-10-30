@@ -431,7 +431,7 @@ test("TextArea preserves caller descriptions and adds its helper or error descri
   assert.match(textAreaSource, /aria-invalid=\{error \? true : consumerInvalid\}/);
   assert.match(textAreaSource, /aria-describedby=\{describedBy\}/);
   assert.match(textAreaSource, /\{\.\.\.textareaProps\}/);
-});;
+});
 
 test("M3 web reference tokens document Android dp/sp magnitude without claiming physical equivalence", () => {
   assert.match(globalCss, /--m3-ref-unit: 0\.0625rem/);
