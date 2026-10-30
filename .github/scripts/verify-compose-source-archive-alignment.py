@@ -44,6 +44,13 @@ FAMILIES = (
     },
 )
 SOURCE_SETS = {"commonMain", "androidMain", "jvmAndAndroidMain"}
+GENERATED_PROGUARD_SOURCE = {
+    "familyId": "compose-ui",
+    "archivePath": "androidMain/androidx/inspection/compose/ui/ProguardDetection.kt",
+    "generatorPath": "inspection/inspection-gradle-plugin/src/main/kotlin/androidx/inspection/gradle/GenerateProguardDetectionFileTask.kt",
+    "generatorGitBlobSha1": "67176de62ef82e4a142a8cc264345a3366a3ad38",
+    "packageName": "androidx.inspection.compose.ui",
+}
 
 
 class TrustedRedirectHandler(urllib.request.HTTPRedirectHandler):
@@ -104,7 +111,29 @@ def source_tree_candidates(jar_path: str) -> list[str]:
     ]
 
 
-def compare_source_archive(jar_bytes: bytes, source_tree: dict[str, bytes], license_bytes: bytes | None = None) -> dict:
+def generated_proguard_detection_source(package_name: str) -> bytes:
+    # Exact output of AndroidX GenerateProguardDetectionFileTask.trimIndent() for androidx.compose.ui:ui.
+    return (
+        f"package {package_name};\\n\\n"
+        "/**\\n"
+        " * Purposely empty, unused class that would be removed by proguard.\\n"
+        " *\\n"
+        " * We use this class to detect if a target app was proguarded or not, because if it was,\\n"
+        " * it likely means we can't reliably inspect it, since library's methods used only by\\n"
+        " * an inspector would get removed. Instead, we'll need to tell users that app\\n"
+        " * inspection isn't available for the current app and that they should rebuild it\\n"
+        " * again without proguarding to continue.\\n"
+        " */\\n"
+        " private class ProguardDetection {}"
+    ).encode("utf-8")
+
+
+def compare_source_archive(
+    jar_bytes: bytes,
+    source_tree: dict[str, bytes],
+    license_bytes: bytes | None = None,
+    generated_sources: dict[str, bytes] | None = None,
+) -> dict:
     matched = []
     missing = []
     mismatched = []
@@ -132,6 +161,22 @@ def compare_source_archive(jar_bytes: bytes, source_tree: dict[str, bytes], lice
                         "repositoryPath": "LICENSE.txt",
                         "archiveSha256": hashlib.sha256(jar_license).hexdigest(),
                         "repositorySha256": hashlib.sha256(license_bytes).hexdigest(),
+                    })
+                continue
+
+            generated = (generated_sources or {}).get(name)
+            if generated is not None:
+                archive_bytes = jar.read(name)
+                if archive_bytes == generated:
+                    matched.append({"archivePath": name, "repositoryPath": "verified AndroidX generated source"})
+                else:
+                    mismatched.append({
+                        "archivePath": name,
+                        "repositoryPath": "verified AndroidX generated source",
+                        "archiveSha256": hashlib.sha256(archive_bytes).hexdigest(),
+                        "repositorySha256": hashlib.sha256(generated).hexdigest(),
+                        "archiveSizeBytes": len(archive_bytes),
+                        "repositorySizeBytes": len(generated),
                     })
                 continue
 
@@ -191,7 +236,21 @@ def verify_family(family: dict, archives_directory: Path, publication: dict, com
     license_encoded = fetch_trusted_bytes(license_url, 1024 * 1024)
     license_bytes = base64.b64decode(b"".join(license_encoded.split()), validate=False)
 
-    comparison = compare_source_archive(jar_bytes, source_tree, license_bytes)
+    generated_sources = {}
+    if family["familyId"] == GENERATED_PROGUARD_SOURCE["familyId"]:
+        generator_url = f"{GITILES_BASE}/+/{commit}/{GENERATED_PROGUARD_SOURCE['generatorPath']}?format=TEXT"
+        generator_encoded = fetch_trusted_bytes(generator_url, 1024 * 1024)
+        generator_bytes = base64.b64decode(b"".join(generator_encoded.split()), validate=False)
+        generator_blob = hashlib.sha1(
+            b"blob " + str(len(generator_bytes)).encode("ascii") + b"\\0" + generator_bytes
+        ).hexdigest()
+        if generator_blob != GENERATED_PROGUARD_SOURCE["generatorGitBlobSha1"]:
+            raise ValueError("AndroidX ProguardDetection generator differs from the pinned release source.")
+        generated_sources[GENERATED_PROGUARD_SOURCE["archivePath"]] = generated_proguard_detection_source(
+            GENERATED_PROGUARD_SOURCE["packageName"]
+        )
+
+    comparison = compare_source_archive(jar_bytes, source_tree, license_bytes, generated_sources)
     return {
         "familyId": family["familyId"],
         "androidModule": family["androidModule"],
