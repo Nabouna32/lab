@@ -158,7 +158,11 @@ export function searchTools(tools: readonly Tool[], query: string, locale: Local
 
     const termScores = terms.map((term) => scoreTerm(term, name, description, tags, aliases, categories, haystack));
     const matchedTerms = termScores.filter((score) => score > 0).length;
-    const intentBoost = getIntentBoost(tool, inferredIntents);
+    // An inferred task verb may select curated tools on its own, but once a
+    // query contains task-specific terms, at least one of those terms must match.
+    const intentBoost = matchedTerms > 0 || terms.length === 0
+      ? getIntentBoost(tool, inferredIntents)
+      : 0;
     if (matchedTerms === 0 && intentBoost === 0) return { tool, score: 0 };
 
     const allTermsMatch = matchedTerms === terms.length;
