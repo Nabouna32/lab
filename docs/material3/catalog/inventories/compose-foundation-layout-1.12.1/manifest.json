@@ -15,31 +15,31 @@
     "formatVersion": "4.0"
   },
   "generatedBy": ".github/scripts/material3-api-inventory.mjs + .github/scripts/material3-api-inventory-shard.mjs",
-  "declarationCount": 749,
-  "sourceApiCandidateCount": 431,
+  "declarationCount": 758,
+  "sourceApiCandidateCount": 440,
   "bytecodeOnlyCount": 255,
   "inaccessibleFromKotlinCount": 40,
   "generatedFacadeCount": 23,
   "kotlinOnlyCount": 99,
-  "experimentalCount": 154,
-  "deprecatedCount": 76,
+  "experimentalCount": 158,
+  "deprecatedCount": 77,
   "packageCounts": {
-    "androidx.compose.foundation.layout": 749
+    "androidx.compose.foundation.layout": 758
   },
   "shardSize": 500,
   "shards": [
     {
       "path": "declarations-001.json",
       "declarationCount": 500,
-      "sha256": "58014d04ac782872257bb3f78a3c6cacd63fd902335d773877e160b85e6b0221",
+      "sha256": "56a3293b6b545b287b0937f69cc76b22c73b4b3553d452d49b81d1d13146b62b",
       "firstSourceLine": 4,
-      "lastSourceLine": 658
+      "lastSourceLine": 647
     },
     {
       "path": "declarations-002.json",
-      "declarationCount": 249,
-      "sha256": "361cd581fb3327e300e706cd862057f50763eb609fe1dea9f55b90cc3a749a8f",
-      "firstSourceLine": 659,
+      "declarationCount": 258,
+      "sha256": "0650c5546e09c463c6935ff861bc50e7bca3bc995e044d1ec6fd38def3213fe6",
+      "firstSourceLine": 648,
       "lastSourceLine": 945
     }
   ]
