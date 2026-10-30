@@ -57,7 +57,7 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
 
     const isMemberFormat = formatVersion !== '2.0' &&
       /^(?:method|property|field|ctor|enum_constant)\s+/.test(raw);
-    const publicSignature = raw.match(/(?:^|\s)(public\s+(?:(?:abstract|final|open|sealed|nonexhaustive|exhaustive|static|data|inline|infix|operator|suspend|external|expect|actual)\s+)*(?:value class|enum class|enum|annotation class|@interface|class|interface|object|fun|val|var|typealias|constructor|field|property)\b.*)$/)?.[1] ?? null;
+    const publicSignature = raw.match(/(?:^|\s)(public\s+(?:(?:abstract|final|open|sealed|nonexhaustive|exhaustive|static|data|inline|infix|operator|suspend|external|expect|actual)\s+)*(?:value class|enum class|enum|annotation class|@interface|fun interface|class|interface|object|fun|val|var|typealias|constructor|field|property)\b.*)$/)?.[1] ?? null;
 
     if (currentPackage === null) {
       if (publicSignature || isMemberFormat) {
@@ -92,10 +92,13 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
       }
     } else if (publicSignature) {
       const kindMatch = publicSignature.match(/^public\s+(?:(?:abstract|final|open|sealed|nonexhaustive|exhaustive|static|data|inline|infix|operator|suspend|external|expect|actual)\s+)*(value class|enum class|annotation class|class|interface|object|fun|val|var|typealias|constructor|field|property)\b/);
-      const symbolMatch = publicSignature.match(/^public\s+(?:(?:abstract|final|open|sealed|nonexhaustive|exhaustive|static|data|inline|infix|operator|suspend|external|expect|actual)\s+)*(?:value class|enum class|enum|annotation class|@interface|class|interface|object|fun|val|var|typealias|constructor|field|property)\s+([A-Za-z_$][\w$]*)\b/);
+      const symbolMatch = publicSignature.match(/^public\s+(?:(?:abstract|final|open|sealed|nonexhaustive|exhaustive|static|data|inline|infix|operator|suspend|external|expect|actual)\s+)*(?:value class|enum class|enum|annotation class|@interface|fun interface|class|interface|object|fun|val|var|typealias|constructor|field|property)\s+([A-Za-z_$][\w$]*)\b/);
       const classSymbolMatch = publicSignature.match(/^public\s+(?:(?:abstract|final|open|sealed|nonexhaustive|exhaustive|static|data|inline|infix|operator|suspend|external|expect|actual)\s+)*(?:value class|enum class|enum|annotation class|@interface|class|interface|object)\s+([A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*)\b/);
       kind = kindMatch?.[1] ?? 'unknown';
-      kind = kind === 'enum' ? 'enum class' : kind === '@interface' ? 'annotation class' : kind;
+      kind = kind === 'enum' ? 'enum class'
+        : kind === '@interface' ? 'annotation class'
+        : kind === 'fun interface' ? 'interface'
+        : kind;
       symbol = ['value class', 'enum class', 'annotation class', 'class', 'interface', 'object'].includes(kind)
         ? classSymbolMatch?.[1] ?? null
         : symbolMatch?.[1] ?? null;
