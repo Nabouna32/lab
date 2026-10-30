@@ -1,7 +1,7 @@
 # Chip — contrat AndroidX et adaptation Web
 
 > **Référence visée :** `androidx.compose.material3:material3:1.4.0`  
-> **État :** adaptation Web partielle ; valeurs exactes et parité visuelle non vérifiées.
+> **État :** provenance de la release 1.4.0 vérifiée ; adaptation Web partielle et parité visuelle non vérifiées.
 
 ## Sources
 
@@ -21,7 +21,6 @@
 
 ## Vérifications restantes
 
-- [ ] Relier la source publiée 1.4.0 au commit et au dump API exacts.
 - [ ] Tester activation, sélection, retrait, désactivation et focus clavier.
 - [ ] Vérifier le nom accessible de l'action de retrait avec un lecteur d'écran.
 - [ ] Comparer clair/sombre, FR/EN et tailles d'écran réelles.
