@@ -518,9 +518,19 @@ def inspect(directory: Path) -> dict:
         "interpretation": {
             "binarySurface": "Raw JVM public/protected bytecode members; this includes Kotlin-internal and compiler-generated declarations and is not a Kotlin public API dump.",
             "sourceMapping": "Class-file SourceFile attributes mapped to source-archive package paths; file-level mapping does not prove declaration-level API equivalence.",
-            "apiDumpAlignment": "OFFICIAL_STABLE_DUMP_AND_SOURCE_COMMIT_VERIFIED_BINARY_API_COMPARISON_PENDING",
+            "apiDumpAlignment": "OFFICIAL_STABLE_DUMP_AND_SOURCE_COMMIT_VERIFIED_METHODS_MATCH_OTHER_API_DECLARATIONS_PENDING",
+            "methodSurfaceComparison": (
+                str(api_binary_comparison["apiClassCount"]) + "/" + str(api_binary_comparison["binaryClassMatches"]) +
+                " API classes exist in the AAR; " + str(api_binary_comparison["sourceLevelNameMatches"]) + "/" +
+                str(api_binary_comparison["sourceLevelMethodCount"]) + " source-level method names are present (Kotlin JVM mangling allowed); " +
+                str(api_binary_comparison["bytecodeOnlyDescriptorMatches"]) + "/" +
+                str(api_binary_comparison["bytecodeOnlyMethodCount"]) + " @BytecodeOnly JVM descriptors match exactly. " +
+                "Source-level method descriptors are not yet compared."
+            ),
             "limitations": [
-                "The official stable 1.4.0 API snapshot is pinned from the AndroidX release branch, and all 249 published Kotlin sources match that release commit byte-for-byte (CI run 40984365256); declaration-level comparison against the published AAR remains pending.",
+                "The current comparison covers all API classes and method declarations, but compares exact JVM descriptors only for @BytecodeOnly methods; source-level methods are checked by name with Kotlin JVM-mangling allowance.",
+                "Constructor, field, and property declarations are not yet compared as independent API members.",
+                "The official stable 1.4.0 API snapshot is pinned from the AndroidX release branch, and all 249 published Kotlin sources match that release commit byte-for-byte (CI run 40984365256).",
                 "The derived JVM surface is not an official AndroidX API dump and must not be used as a Kotlin API compatibility claim.",
                 "Source-file mapping does not prove that every public binary declaration has an equivalent public Kotlin source declaration.",
             ],
