@@ -36,12 +36,12 @@ test('builds deterministic sharded manifests with verified declaration counts an
   assert.equal(JSON.parse(firstShard.content).length, 2);
   assert.equal(first.manifest.sourceApiCandidateCount, 1);
   assert.equal(first.manifest.shards[0].sha256, sha256(firstShard.content));
-  assert.equal(first.manifest.shards[1].declarationCount, 1);
+  assert.equal(first.manifest.shards[1].declarationCount, 2);
 });
 
 test('rejects inventory count drift and duplicate declaration identities', () => {
   const input = fixture();
-  assert.throws(() => buildInventoryShards({ ...input, declarationCount: 4 }), /declarationCount/);
+  assert.throws(() => buildInventoryShards({ ...input, declarationCount: 5 }), /declarationCount/);
   const duplicate = fixture();
   duplicate.declarations[1].id = duplicate.declarations[0].id;
   assert.throws(() => buildInventoryShards(duplicate), /Duplicate declaration id/);
