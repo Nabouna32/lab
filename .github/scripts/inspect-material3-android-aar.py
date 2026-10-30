@@ -215,7 +215,7 @@ def parse_api_dump(api_dump: str) -> dict:
             class_name = class_match.group(1).replace(".", "$")
             current_class = current_package.replace(".", "/") + "/" + class_name
             classes[current_class] = {
-                "methods": [], "constructors": [], "fields": [], "properties": [],
+                "methods": [], "constructors": [], "fields": [], "properties": [], "unparsed": [],
             }
             continue
         if current_class:
@@ -234,6 +234,10 @@ def parse_api_dump(api_dump: str) -> dict:
                             "bytecodeOnly": "@BytecodeOnly" in signature,
                             "signature": signature,
                         })
+                    else:
+                        classes[current_class]["unparsed"].append({
+                            "kind": kind, "signature": signature, "reason": "unrecognized-api-signature",
+                        })
                 else:
                     body = _strip_api_modifiers(_strip_api_annotations(signature.split(kind, 1)[1].strip().rstrip(";")))
                     field_match = re.match(r"^(.*\S)\s+([A-Za-z_$][A-Za-z0-9_$]*)$", body)
@@ -242,6 +246,10 @@ def parse_api_dump(api_dump: str) -> dict:
                             "name": field_match.group(2),
                             "type": field_match.group(1).strip(),
                             "signature": signature,
+                        })
+                    else:
+                        classes[current_class]["unparsed"].append({
+                            "kind": kind, "signature": signature, "reason": "unrecognized-api-signature",
                         })
         if line == "  }":
             current_class = None
@@ -403,6 +411,11 @@ def compare_api_dump_to_binary(api_dump: str, binary_classes: list[tuple[str, di
     }
 
     for class_name, api_members in api_classes.items():
+        for declaration in api_members["unparsed"]:
+            unsupported_signatures.append({
+                "kind": declaration["kind"], "class": class_name,
+                "signature": declaration["signature"], "reason": declaration["reason"],
+            })
         binary = binary_by_name.get(class_name)
         if binary is None:
             missing_classes.append(class_name + ".class")
@@ -687,17 +700,22 @@ def inspect(directory: Path) -> dict:
             "binarySurface": "Raw JVM public/protected bytecode members; this includes Kotlin-internal and compiler-generated declarations and is not a Kotlin public API dump.",
             "sourceMapping": "Class-file SourceFile attributes mapped to source-archive package paths; file-level mapping does not prove declaration-level API equivalence.",
             "apiDumpAlignment": "OFFICIAL_STABLE_DUMP_AND_SOURCE_COMMIT_VERIFIED_METHODS_MATCH_OTHER_API_DECLARATIONS_PENDING",
-            "methodSurfaceComparison": (
+            "declarationComparison": (
                 str(api_binary_comparison["apiClassCount"]) + "/" + str(api_binary_comparison["binaryClassMatches"]) +
-                " API classes exist in the AAR; " + str(api_binary_comparison["sourceLevelNameMatches"]) + "/" +
-                str(api_binary_comparison["sourceLevelMethodCount"]) + " source-level method names are present (Kotlin JVM mangling allowed); " +
+                " API classes match; " + str(api_binary_comparison["sourceLevelDescriptorMatches"]) + "/" +
+                str(api_binary_comparison["sourceLevelMethodCount"]) + " source-level method descriptors match; " +
                 str(api_binary_comparison["bytecodeOnlyDescriptorMatches"]) + "/" +
-                str(api_binary_comparison["bytecodeOnlyMethodCount"]) + " @BytecodeOnly JVM descriptors match exactly. " +
-                "Source-level method descriptors are not yet compared."
+                str(api_binary_comparison["bytecodeOnlyMethodCount"]) + " @BytecodeOnly descriptors match; " +
+                str(api_binary_comparison["constructorDescriptorMatches"]) + "/" +
+                str(api_binary_comparison["constructorCount"]) + " constructors match; " +
+                str(api_binary_comparison["fieldDescriptorMatches"]) + "/" +
+                str(api_binary_comparison["fieldCount"]) + " fields match; " +
+                str(api_binary_comparison["propertyAccessorMatches"]) + "/" +
+                str(api_binary_comparison["propertyCount"]) + " property getters match."
             ),
             "limitations": [
-                "The current comparison covers all API classes and method declarations, but compares exact JVM descriptors only for @BytecodeOnly methods; source-level methods are checked by name with Kotlin JVM-mangling allowance.",
-                "Constructor, field, and property declarations are not yet compared as independent API members.",
+                "Exact descriptors are compared for source-level and @BytecodeOnly methods, constructors, fields, and property getters. Unsupported Kotlin/JVM type mappings remain explicitly listed and prevent an exact-match status.",
+                "Property comparison verifies the getter descriptor exposed by the API dump; it does not infer an unreported setter or backing field.",
                 "The official stable 1.4.0 API snapshot is pinned from the AndroidX release branch, and all 249 published Kotlin sources match that release commit byte-for-byte (CI run 40984365256).",
                 "The derived JVM surface is not an official AndroidX API dump and must not be used as a Kotlin API compatibility claim.",
                 "Source-file mapping does not prove that every public binary declaration has an equivalent public Kotlin source declaration.",
