@@ -185,7 +185,8 @@ def verify_family(family: dict, archives_directory: Path, publication: dict, com
         raise ValueError(f"{family['familyId']} source archive differs from the previously verified Google Maven publication.")
 
     source_tree = fetch_gitiles_archive(commit, family["modulePath"] + "/src")
-    license_path = f"{family['modulePath']}/LICENSE.txt"
+    # AndroidX keeps the canonical Apache license at the repository root, not per module.
+    license_path = "LICENSE.txt"
     license_url = f"{GITILES_BASE}/+/{commit}/{license_path}?format=TEXT"
     license_encoded = fetch_trusted_bytes(license_url, 1024 * 1024)
     license_bytes = base64.b64decode(b"".join(license_encoded.split()), validate=False)
