@@ -16,7 +16,7 @@ import zipfile
 from pathlib import Path, PurePosixPath
 
 GITILES_BASE = "https://android.googlesource.com/platform/frameworks/support"
-ALLOWED_HOSTS = {"android.googlesource.com"}
+ALLOWED_HOSTS = {"android.googlesource.com", "storage.googleapis.com"}
 MAX_ARCHIVE_BYTES = 40 * 1024 * 1024
 MAX_SOURCE_ARCHIVE_BYTES = 10 * 1024 * 1024
 REQUEST_TIMEOUT_SECONDS = 30
@@ -97,7 +97,11 @@ def source_tree_candidates(jar_path: str) -> list[str]:
         raise ValueError(f"Unsupported source archive entry: {jar_path}")
     source_set, relative = parts[0], PurePosixPath(*parts[1:])
     language_roots = ("java", "kotlin") if relative.suffix == ".java" else ("kotlin", "java")
-    return [f"src/{source_set}/{language_root}/{relative}" for language_root in language_roots]
+    return [
+        candidate
+        for language_root in language_roots
+        for candidate in (f"{source_set}/{language_root}/{relative}", f"src/{source_set}/{language_root}/{relative}")
+    ]
 
 
 def compare_source_archive(jar_bytes: bytes, source_tree: dict[str, bytes], license_bytes: bytes | None = None) -> dict:
@@ -110,6 +114,9 @@ def compare_source_archive(jar_bytes: bytes, source_tree: dict[str, bytes], lice
         entries = [entry for entry in jar.infolist() if not entry.is_dir()]
         for entry in entries:
             name = entry.filename
+            entry_path = PurePosixPath(name)
+            if entry_path.is_absolute() or ".." in entry_path.parts:
+                raise ValueError("Source JAR contains an unsafe path.")
             if name == "META-INF/MANIFEST.MF":
                 ignored.append(name)
                 continue
@@ -177,7 +184,7 @@ def verify_family(family: dict, archives_directory: Path, publication: dict, com
     if digest != expected_archive["sha256"] or len(jar_bytes) != expected_archive["sizeBytes"]:
         raise ValueError(f"{family['familyId']} source archive differs from the previously verified Google Maven publication.")
 
-    source_tree = fetch_gitiles_archive(commit, family["modulePath"])
+    source_tree = fetch_gitiles_archive(commit, family["modulePath"] + "/src")
     license_path = f"{family['modulePath']}/LICENSE.txt"
     license_url = f"{GITILES_BASE}/+/{commit}/{license_path}?format=TEXT"
     license_encoded = fetch_trusted_bytes(license_url, 1024 * 1024)
