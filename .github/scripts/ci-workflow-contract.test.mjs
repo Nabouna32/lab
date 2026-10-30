@@ -33,5 +33,7 @@ test("the required Node.js gate fails when the npm audit job does not pass", () 
   const gate = sectionFor("ci");
   assert.match(gate, /needs: \[prepare, quality, build, supabase, npm-audit\]/);
   assert.match(gate, /NPM_AUDIT_RESULT: \$\{\{ needs\.npm-audit\.result \}\}/);
-  assert.match(gate, /\$NPM_AUDIT_RESULT/);
+  assert.match(gate, /case "\$NPM_AUDIT_RESULT" in/);
+  assert.match(gate, /success\) ;;/);
+  assert.match(gate, /The npm audit job must succeed/);
 });
