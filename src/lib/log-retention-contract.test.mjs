@@ -6,30 +6,30 @@ import test from "node:test";
 const read = (relativePath) =>
   readFileSync(fileURLToPath(new URL(relativePath, import.meta.url)), "utf8");
 
-const migration = read("../../supabase/migrations/20261030030000_log_retention_policy.sql");
+const initialMigration = read("../../supabase/migrations/20261030030000_log_retention_policy.sql");
+const migration = read("../../supabase/migrations/20261030160000_extend_log_retention_to_12_months.sql");
 const sqlTest = read("../../supabase/tests/log_retention.sql");
 const databaseDocs = read("../../docs/DATABASE.md");
 const privacyDocs = read("../../docs/PRIVACY.md");
 
-test("log retention migration schedules a six-month purge without running it immediately", () => {
-  assert.match(migration, /interval '6 months'/);
-  assert.match(migration, /cron\.schedule\(\s*'loculary-log-retention-6m'/);
+test("new migration switches the daily purge to twelve months without running it immediately", () => {
+  assert.match(migration, /interval '12 months'/);
+  assert.match(migration, /cron\.unschedule\('loculary-log-retention-6m'\)/);
+  assert.match(migration, /cron\.schedule\(\s*'loculary-log-retention-12m'/);
   assert.match(migration, /'0 3 \* \* \*'/);
   assert.match(migration, /'select private\.prune_retained_logs\(\);'/);
   assert.match(migration, /end_time is not null[\s\S]*?end_time < v_cutoff/);
   assert.doesNotMatch(migration, /^\s*select private\.prune_retained_logs\(\);\s*$/m);
+  assert.match(initialMigration, /interval '6 months'/);
 });
 
-test("retention exceptions are private, reason-coded, and capped at twelve months", () => {
-  assert.match(migration, /private\.admin_audit_log_retention_holds/);
-  assert.match(migration, /security_incident', 'legal_obligation', 'internal_investigation/);
-  assert.match(migration, /INC-\[0-9\]\{4\}-\[0-9\]\{3,\}/);
-  assert.match(migration, /p_hold_until > v_event_created_at \+ interval '12 months'/);
+test("the twelve-month policy removes retention exceptions and keeps the purge restricted", () => {
+  assert.match(migration, /drop function if exists private\.set_admin_audit_log_retention_hold/);
+  assert.match(migration, /drop table if exists private\.admin_audit_log_retention_holds/);
   assert.match(migration, /security definer/gi);
   assert.match(migration, /set search_path = ''/g);
-  assert.match(migration, /revoke all on table private\.admin_audit_log_retention_holds/);
-  assert.match(migration, /revoke all on function private\.set_admin_audit_log_retention_hold/);
-  assert.match(migration, /revoke all on function private\.prune_retained_logs/);
+  assert.match(migration, /revoke all on function private\.prune_retained_logs\(\)/);
+  assert.doesNotMatch(migration, /create table.*retention_holds|create or replace function private\.set_admin_audit_log_retention_hold/i);
   assert.doesNotMatch(migration, /delete from auth\.audit_log_entries|delete from auth\.users/);
 });
 
@@ -39,23 +39,19 @@ test("pgTAP retention suite is transactional and its plan matches its assertions
 
   assert.match(sqlTest, /^begin;/m);
   assert.match(sqlTest, /rollback;\s*$/);
-  assert.match(sqlTest, /\$delete\$delete from auth\.users[\s\S]*?\$delete\$/);
   assert.equal(plan, assertionCount);
-  assert.match(sqlTest, /account deletion anonymizes the audit actor/);
-  assert.match(sqlTest, /account deletion anonymizes the audit target/);
-  assert.match(sqlTest, /account deletion anonymizes the retention-hold creator/);
-  assert.match(sqlTest, /active retention exception remains attached/);
-  assert.match(sqlTest, /completed cron runs older than six months are deleted/);
+  assert.match(sqlTest, /no retention-hold archive table remains/);
+  assert.match(sqlTest, /unarchived admin audit events older than twelve months are deleted/);
+  assert.match(sqlTest, /completed cron runs older than twelve months are deleted/);
+  assert.match(sqlTest, /incomplete cron runs are preserved regardless of age/);
 });
 
-test("internal privacy documentation reflects active retention and pending public disclosure", () => {
-  assert.match(databaseDocs, /job `loculary-log-retention-6m` existe/i);
-  assert.match(databaseDocs, /tests transactionnels réussis/i);
-  assert.match(databaseDocs, /six mois/i);
-  assert.match(databaseDocs, /douze mois/i);
-  assert.match(privacyDocs, /Politique applicative active en production/i);
-  assert.match(privacyDocs, /premier passage planifié/i);
-  assert.match(privacyDocs, /Communication publique FR\/EN/i);
+test("internal privacy documentation describes the proposed policy without claiming production activation", () => {
+  assert.match(databaseDocs, /Politique cible versionnée dans la branche de travail — pas encore active en production/i);
+  assert.match(databaseDocs, /douze mois glissants/i);
+  assert.match(databaseDocs, /Aucune sauvegarde ou archive externe Google Drive/i);
+  assert.match(privacyDocs, /Politique applicative cible, versionnée dans la branche de travail et non encore active en production/i);
+  assert.match(privacyDocs, /Aucune sauvegarde Google Drive ou archive externe/i);
   assert.match(privacyDocs, /24 heures/i);
   assert.match(privacyDocs, /une heure/i);
 });

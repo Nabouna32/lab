@@ -296,17 +296,17 @@ The product should never ask users to trust blindly when the system can explain 
 
 ## Conservation des journaux et limites des prestataires
 
-L’inventaire de production du 30 octobre 2026 distingue les journaux applicatifs des journaux gérés par les hébergeurs :
+L’inventaire des prestataires distingue les journaux applicatifs des journaux gérés par les hébergeurs :
 
-- **Supabase Free** : les logs de plateforme/API/base de données sont conservés 24 heures ; la fonctionnalité Auth Audit Logs est limitée à une heure. Les champs observés peuvent inclure IP, identifiant utilisateur, user-agent, chemin/URL de requête et claims JWT (subject/session). L’inspection a porté sur les noms de champs et les volumes, jamais sur les valeurs.
-- **Vercel Hobby** : les logs runtime sont conservés une heure ; les logs de build restent associés aux déploiements sans purge automatique. Les Log Drains ne sont pas disponibles sur ces forfaits.
-- Aucun Log Drain, export tiers ni changement de forfait n’est activé ou recommandé à ce stade. Les limites des prestataires sont documentées comme des limites de service, pas comme une rétention contrôlée par Loculary.
+- **Supabase Free** : les logs de plateforme/API/base de données sont conservés 24 heures ; Auth Audit Logs est limité à une heure.
+- **Vercel Hobby** : les logs runtime sont conservés une heure ; les logs de build restent associés aux déploiements sans purge automatique.
+- Ces journaux fournisseurs ne sont pas purgés par Loculary. Aucun Log Drain, export tiers ou archivage externe de ces journaux n’est prévu.
 
-**Politique applicative active en production depuis le 30 octobre 2026 :** six mois glissants pour le journal administratif Loculary et les exécutions terminées de `pg_cron`. Le job `loculary-log-retention-6m` est actif chaque jour à 03:00 UTC et appelle uniquement `private.prune_retained_logs()`. Les événements administratifs peuvent faire l’objet d’une exception plafonnée à douze mois après l’événement, uniquement pour un incident de sécurité, une obligation légale ou une investigation interne, avec motif codifié et référence non personnelle. À la suppression d’un compte, les identifiants d’acteur et de cible sont pseudonymisés ; les exécutions cron incomplètes sont préservées.
+**Politique applicative cible, versionnée dans la branche de travail et non encore active en production :** douze mois glissants pour le journal administratif Loculary et les exécutions terminées de `pg_cron`, avec purge automatique quotidienne. Les exécutions cron incomplètes restent préservées. Aucun mécanisme d’exception de conservation ni archive des journaux applicatifs n’est conservé. Aucune sauvegarde Google Drive ou archive externe de ces journaux n’est créée.
 
-Les 46 assertions pgTAP de `supabase/tests/log_retention.sql` ont réussi dans une transaction `BEGIN` / `ROLLBACK` le 30 octobre 2026. Le premier passage planifié du job après sa création est attendu le 31 octobre à 03:00 UTC et reste à observer.
+La migration `20261030160000_extend_log_retention_to_12_months.sql` retire la table d’exceptions, remplace le job de six mois par un job de douze mois et met à jour le seuil de purge sans lancer de suppression lors de son application. La politique de six mois reste celle de la production jusqu’à application et vérification de cette migration.
 
-**Communication publique FR/EN :** les pages de confidentialité destinées aux utilisateurs ne doivent annoncer la purge de six mois comme comportement déjà observé qu’après vérification du premier passage et clarification de l’origine de l’application et de la sauvegarde préalable. Aucun journal Supabase géré par le fournisseur n’est supprimé par Loculary.
+La durée de douze mois est un choix de conservation à justifier par les finalités et à réévaluer périodiquement ; elle ne doit pas être présentée comme un maximum universel fixé par le RGPD. Les journaux gérés par les prestataires doivent être décrits séparément selon leurs conditions effectives.
 
 ## Future legal/compliance work
 
