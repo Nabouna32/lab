@@ -2,7 +2,7 @@
 
 ## Current UX direction
 
-**Status:** Accepted. This direction governs where older UX wording conflicts with it.
+**Status:** Accepted. This direction governs where older UX wording conflicts with it. The shared visual identity is Material 3 Fidelity; it is a product requirement, not an optional styling preference.
 
 Loculary is a task-first utility toolbox. Existing UI patterns and visual conventions may be changed whenever they no longer serve the current product direction.
 
@@ -87,9 +87,13 @@ Tool-specific identity is encouraged when it improves comprehension, feedback or
 
 ### Visual design direction
 
-The shared visual system follows **Material 3 Fidelity and current Pixel / Android UI patterns**, governed by DEC-026 and the [design-system contract](DESIGN-SYSTEM.md). Apply that shared language to Loculary's task-first utility toolbox; adapt native patterns to the web rather than copying a complete Google product screen or adopting a generic SaaS template.
+The shared visual system follows **Material 3 Fidelity and current Pixel / Android UI patterns**, governed by DEC-026 and the [design-system contract](DESIGN-SYSTEM.md). This is the intended visual identity of Loculary: the product should feel like a polished Android application thoughtfully brought to the Web, not a generic website decorated with Material colors. The direction is not optional and must not be discarded for implementation convenience.
 
-Challenge existing UI patterns when they prevent a coherent experience. **A redesign or refactor may be broad or structural; it is not limited to a light visual adjustment.** The current UI and architecture are not immutable and must not be protected merely because they exist. Prefer the most coherent route to a polished modern Android-app experience, including replacing page compositions or shared abstractions when justified by the target and evidence. Use familiar, proven patterns from high-quality, high-audience apps (for example settings lists, clear information hierarchy, standard Material Symbols, consistent navigation and feedback) as product references, while keeping AndroidX as the authority for Material component contracts and adapting native behavior appropriately to Web. Do not copy another app wholesale or force specialized tools into identical layouts. The brand mark remains distinct from functional interface iconography.
+Apply the shared language to Loculary's task-first utility toolbox; adapt native patterns to the Web rather than copying a complete Google product screen or adopting a generic SaaS template. Preserve the quality of the experience across hierarchy, surfaces, shape, tonal color, typography, iconography, navigation, feedback, motion and responsive composition. A functionally correct but visually unfinished, generic or carelessly simplified screen does not meet the target.
+
+Challenge existing UI patterns and implementations when they prevent a coherent experience. **A redesign or refactor may be broad or structural; it is not limited to a light visual adjustment.** The current UI and architecture are not immutable and must not be protected merely because they exist. Prefer the most coherent route to a polished modern Android-app experience, including replacing page compositions or shared abstractions when justified by the target and evidence. Use familiar, proven patterns from high-quality, high-audience apps (for example settings lists, clear information hierarchy, standard Material Symbols, consistent navigation and feedback) as product references, while keeping AndroidX as the authority for Material component contracts and adapting native behavior appropriately to Web. Do not copy another app wholesale or force specialized tools into identical layouts. The brand mark remains distinct from functional interface iconography.
+
+The agent may freely improve the implementation to achieve Material 3 Fidelity, including changing components, tokens, layout primitives, page structure and technical dependencies. Replacing the shared visual direction with a substantially different design language is a product-direction change and requires explicit user validation. Never interpret engineering simplicity as permission to lower the visual quality bar.
 
 ### Discovery and next actions
 
