@@ -99,6 +99,8 @@ test("Material 3 Android derived inventory is reproducible and does not claim Ko
   assert.ok(material3AndroidInventory.apiDumpBinaryComparison.sourceLevelDescriptorMatches > 0);
   assert.equal(material3AndroidInventory.apiDumpBinaryComparison.bytecodeOnlyDescriptorMatches, 995);
   assert.equal(material3AndroidInventory.apiDumpBinaryComparison.constructorCount, 104);
+  assert.equal(material3AndroidInventory.apiDumpBinaryComparison.kotlinOnlyConstructorCount, 34);
+  assert.ok(material3AndroidInventory.apiDumpBinaryComparison.sourceLevelBytecodeOnlyMatches > 0);
   assert.equal(material3AndroidInventory.apiDumpBinaryComparison.fieldCount, 74);
   assert.equal(material3AndroidInventory.apiDumpBinaryComparison.propertyCount, 669);
   assert.equal(material3AndroidInventory.apiDumpBinaryComparison.missingClasses.length, 0);
