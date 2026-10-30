@@ -196,6 +196,7 @@ class Material3AndroidAarInspectionTests(unittest.TestCase):
                 "androidx/compose/material3/Api.class",
                 {
                     "methodSignatures": [
+                        {"name": "<init>", "descriptor": "(JLkotlin/jvm/internal/DefaultConstructorMarker;)V", "publicProtected": True},
                         {"name": "draw-hash", "descriptor": "(JLandroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;I)V", "publicProtected": True},
                         {"name": "getShape", "descriptor": "(Landroidx/compose/runtime/Composer;I)Landroidx/compose/ui/graphics/Shape;", "publicProtected": True},
                         {"name": "animate", "descriptor": "(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;", "publicProtected": True},
