@@ -7,8 +7,9 @@ import { OutlinedTextField, type OutlinedTextFieldProps } from "@/components/ui/
 
 export type OutlinedSecureTextFieldProps = Omit<
   OutlinedTextFieldProps,
-  "type" | "trailingContent" | "spellCheck" | "autoCapitalize"
+  "type" | "trailingContent" | "spellCheck" | "autoCapitalize" | "autoComplete"
 > & {
+  autoComplete: "current-password" | "new-password";
   showPasswordLabel: string;
   hidePasswordLabel: string;
 };
@@ -27,7 +28,7 @@ export function OutlinedSecureTextField({
     <OutlinedTextField
       {...fieldProps}
       type={revealed ? "text" : "password"}
-      autoComplete={autoComplete ?? "current-password"}
+      autoComplete={autoComplete}
       spellCheck={false}
       autoCapitalize="off"
       disabled={disabled}
