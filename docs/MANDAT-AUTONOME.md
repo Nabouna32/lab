@@ -135,7 +135,7 @@ Ces axes sont des perspectives de décision, pas trois files de tâches étanche
 
 À chaque reprise, ne pas reprendre automatiquement la première étape de la dernière issue ni considérer le chantier en cours comme prioritaire par défaut.
 
-- Examiner les issues ouvertes du dépôt, pas uniquement celle liée à la dernière PR ou au dernier checkpoint. Distinguer les issues de travail, les demandes d'action humaine, les bugs, les idées, les doublons et les sujets devenus obsolètes.
+- Examiner les issues ouvertes du dépôt, pas uniquement celle liée à la dernière PR ou au dernier checkpoint. Distinguer les issues de travail, les bugs, les idées, les doublons et les sujets devenus obsolètes. Ignorer les issues portant le label `action-humaine` (voir section 6) en ajoutant `-label:action-humaine` à toute recherche d'issues.
 - Réutiliser en priorité une issue ouverte valide lorsqu'elle décrit déjà un besoin pertinent. Vérifier son état réel, ses critères, ses dépendances et si le problème existe encore dans le code ou le produit.
 - Comparer les issues ouvertes aux opportunités détectées dans le code, les parcours, les tests, les retours disponibles et la stratégie produit. Le backlog n'est pas exhaustif et une issue ouverte n'est pas automatiquement prioritaire.
 - Si une issue est terminée, dépassée, bloquée sans travail indépendant ou moins utile qu'une autre opportunité, la clôturer ou la mettre à jour lorsque les preuves le justifient, puis passer à une priorité plus pertinente. Ne pas conserver artificiellement un chantier actif pour justifier la continuité.
@@ -166,7 +166,7 @@ Ne pas confondre activité et progrès : éviter les inventaires sans décision,
 
 Au début de chaque invocation ou nouvelle conversation :
 
-1. Effectuer une reprise légère : vérifier la branche et les derniers changements pertinents, les tâches actives, les PR et l'ensemble des issues ouvertes du dépôt. Identifier les issues pertinentes sans approfondir chaque dossier inutilement ; ne pas limiter la sélection au chantier du dernier checkpoint.
+1. Effectuer une reprise légère : vérifier la branche et les derniers changements pertinents, les tâches actives, les PR et l'ensemble des issues ouvertes du dépôt (hors issues `action-humaine`, qui sont exclues du mode autonome). Identifier les issues pertinentes sans approfondir chaque dossier inutilement ; ne pas limiter la sélection au chantier du dernier checkpoint.
 2. Lire `AGENTS.md`, ce mandat et les documents canoniques utiles à la tâche. Vérifier leurs affirmations à la lumière du code et des preuves actuelles.
 3. Approfondir l'état GitHub, la CI, les déploiements, les services externes ou les opérations inachevées uniquement lorsque le chantier, l'ancienneté du checkpoint ou une incohérence le justifie.
 4. Identifier le dernier état confirmé, les changements effectués, les échecs, les incertitudes, les risques et la prochaine action concrète.
@@ -187,7 +187,7 @@ Utiliser les GitHub Issues comme mémoire opérationnelle durable, sans en faire
 - Maintenir un état de reprise faisant autorité par chantier. Éviter les commentaires redondants et les journaux parallèles ; lorsqu'un checkpoint précédent devient faux, le corriger ou le compléter explicitement.
 - Distinguer clairement ce qui est terminé, tenté sans succès, en cours, non vérifié et bloqué. Ajouter les liens vers commits, PR, CI et déploiements pertinents.
 - Réutiliser les issues existantes et éviter les doublons. Une issue globale n'est utile que si elle améliore réellement la coordination ; ne pas créer un tableau de bord parallèle sans besoin démontré.
-- Lors d'un assainissement du backlog, auditer les issues ouvertes et les classer avant toute fermeture : terminée (vérifier puis fermer), doublon (relier à l'issue de référence puis fermer), obsolète ou sans valeur actuelle (documenter brièvement puis fermer), encore valide (conserver et reprioriser), ou incertaine (investiguer avant décision). Ne jamais fermer toutes les issues en bloc uniquement pour donner une impression de propreté ; préserver le contexte, les liens et les problèmes non résolus.
+- Lors d'un assainissement du backlog, auditer les issues ouvertes et les classer avant toute fermeture : terminée (vérifier puis fermer), doublon (relier à l'issue de référence puis fermer), obsolète ou sans valeur actuelle (documenter brièvement puis fermer), encore valide (conserver et reprioriser), ou incertaine (investiguer avant décision). Ne jamais fermer toutes les issues en bloc uniquement pour donner une impression de propreté ; préserver le contexte, les liens et les problèmes non résolus. Les issues `action-humaine` ne sont ni auditées ni fermées par l'agent autonome.
 - Fermer une issue uniquement lorsque ses critères de fin sont vérifiés. Une PR fusionnée ne suffit pas toujours si la validation en production ou d'autres critères font partie de l'objectif.
 
 Les issues indiquent où reprendre ; les commits, PR, CI et systèmes réels fournissent les preuves ; la documentation canonique conserve les règles et décisions durables.
@@ -221,20 +221,21 @@ Lorsqu’un blocage incontournable exige réellement une intervention, une déci
 - Distinguer ce que l’utilisateur doit faire de ce que l’agent reprendra ensuite. Ne pas lui déléguer les investigations ou opérations que l’agent peut encore effectuer lui-même.
 - Ne jamais inventer un lien, un accès ou une cause. Ne pas inclure de secret ni demander de le publier dans l’issue.
 - Réutiliser une issue de demande d’action déjà ouverte si elle couvre exactement le même blocage ; éviter les doublons.
-- Après création, poursuivre tout travail indépendant utile, puis reprendre automatiquement le chantier bloqué lorsque l’intervention nécessaire a été effectuée ou que le blocage a disparu.
+- Après création, poursuivre uniquement les travaux indépendants utiles. Ne pas reprendre automatiquement le chantier concerné par l'action humaine.
 
-#### Règle anti-boucle : un blocage humain devient passif
+#### Règle d'étanchéité : les issues d'action humaine sont hors du mode autonome
 
-Une demande humaine correctement consignée n'est **pas** une priorité à réexaminer à chaque invocation. Dès que les conditions suivantes sont réunies — l'action est réellement réservée à l'utilisateur, l'issue dédiée est ouverte et actionnable, les étapes que l'agent peut exécuter sans cette intervention sont terminées — classer le sujet comme **bloqué en attente humaine** et appliquer impérativement les règles suivantes :
+Toute issue destinée à l'utilisateur porte le label `action-humaine` (le créer s'il n'existe pas) et un titre commençant par « [Action humaine] ». Le label est réservé exclusivement aux issues qui nécessitent réellement une intervention de l'utilisateur. Lors de la création d'une telle issue, appliquer automatiquement ce label ; ne jamais l'ajouter aux issues de travail ordinaires.
 
-1. **Arrêter les relances.** Ne pas répéter à chaque invocation la même vérification, le même rappel, le même commentaire ou le même compte rendu sur cette attente. Ne pas ajouter de commentaires de checkpoint sans changement matériel.
-2. **Sortir le sujet de la priorité active.** Conserver l'issue ouverte comme point de reprise, mais ne plus la traiter comme le chantier courant. Passer immédiatement au prochain chantier indépendant utile et suffisamment mûr, selon l'arbitrage de la section 4.
-3. **Ne pas attendre dans la conversation.** Ne pas demander à l'utilisateur de répondre dans le chat et ne pas suspendre les autres travaux. L'issue est le canal unique de l'action humaine, sauf si l'utilisateur choisit spontanément d'en parler ici.
-4. **Réactiver uniquement sur signal nouveau.** Reprendre le sujet lorsqu'un commentaire ou changement d'état pertinent apparaît dans l'issue, lorsqu'une preuve nouvelle est disponible, lorsque l'accès nécessaire devient disponible, ou lorsque l'utilisateur donne directement l'information/action attendue. Une simple nouvelle invocation, l'écoulement du temps ou l'absence de réponse ne constituent pas un signal.
-5. **Contrôle léger, pas enquête répétée.** Lors d'une reprise, consulter les issues humaines en attente uniquement pour détecter un changement depuis le dernier checkpoint (nouveau commentaire, changement d'état, nouvelle preuve). Si rien n'a changé, ne pas réexaminer le dossier ni répéter ses détails ; poursuivre le travail actif.
-6. **Ne pas contourner le blocage.** Passer à autre chose ne signifie ni simuler l'action humaine, ni supprimer la protection, ni effectuer une opération risquée sans le consentement, l'identité, l'accès ou la sauvegarde exigés.
+Ces issues sont traitées par l'utilisateur dans une conversation normale, hors mode autonome, jamais par l'agent autonome. En mode autonome :
 
-Le checkpoint doit indiquer une seule fois la condition exacte de réactivation et le prochain chantier indépendant choisi. Le sujet humain peut rester ouvert longtemps sans empêcher Loculary de progresser.
+1. **Ne plus y toucher après création.** Ne pas les relire, ne pas les commenter, ne pas les relancer, ne pas vérifier si elles ont changé. Les exclure de toute recherche d'issues (reprise, revue du backlog, assainissement) en filtrant `-label:action-humaine`.
+2. **Ne jamais en parler.** Interdit dans les réponses, les comptes rendus et les checkpoints : « j'attends une réponse », « en attente de l'utilisateur », « blocage humain », ou tout rappel de ces issues. Seule exception : une ligne dans le compte rendu de la session où l'issue est créée, une seule fois. Ne pas y faire référence dans les checkpoints ultérieurs.
+3. **Ne dépendre d'aucune de ces issues.** Si un chantier est bloqué par une action humaine, abandonner ce chantier et passer directement à un autre chantier indépendant, choisi selon la section 4. Le blocage ne change ni la priorité ni le déroulement de la session.
+4. **Ne pas contourner le blocage.** Ne pas simuler l'action humaine, ne pas supprimer la protection, ne pas effectuer d'opération risquée sans le consentement, l'identité, l'accès ou la sauvegarde exigés.
+5. **Retour dans le flux uniquement sur initiative explicite de l'utilisateur.** Une issue d'action humaine n'est reprise que lorsque l'utilisateur la remet explicitement dans la discussion en mode normal, ou consigne sa décision dans `AGENTS.md` ou un document canonique. Le retrait du label ou la fermeture de l'issue peuvent matérialiser sa décision, mais ne déclenchent aucune surveillance ni reprise autonome. Une fois l'issue ainsi réintroduite, lire seulement sa conclusion (dernier commentaire ou décision consignée) et intégrer la suite comme un chantier ordinaire.
+
+Les issues d'action humaine restent ainsi totalement hors du périmètre de lecture et de décision du mode autonome, sans empêcher les autres chantiers de Loculary de progresser.
 
 Ne créer une telle issue que lorsqu’une intervention de l’utilisateur est véritablement incontournable. Les erreurs temporaires, les investigations incomplètes ou les solutions de rechange non explorées ne justifient pas de lui transférer le problème. L’issue doit être identifiable comme une demande qui lui est destinée, et non comme un item ordinaire du backlog de développement.
 
