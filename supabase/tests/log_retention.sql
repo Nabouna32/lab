@@ -254,7 +254,7 @@ values (
 );
 
 select lives_ok(
-  $delete from auth.users where id = '00000000-0000-0000-0000-000000000905'::uuid$,
+  $delete$delete from auth.users where id = '00000000-0000-0000-0000-000000000905'::uuid$delete$,
   'deleting an ordinary account succeeds while retention metadata is present'
 );
 
