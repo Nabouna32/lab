@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
+import { inventoryApiDump } from './material3-api-inventory.mjs';
 
 const DEFAULT_MANIFEST = 'docs/material3/catalog/watch/androidx-compose-p0-2026-10-29/manifest.json';
 
@@ -17,6 +18,9 @@ export function validateComposeApiWatchManifest(manifest) {
   if (manifest?.releaseCommitIdentified !== false) errors.push('releaseCommitIdentified must remain false until proven.');
   if (manifest?.sourceArchiveCompared !== false) errors.push('sourceArchiveCompared must remain false until proven.');
   if (manifest?.apiFormat !== '5.0') errors.push('apiFormat must be 5.0.');
+  if (manifest?.snapshotVersion !== 'androidx-main-watch@5901d750') errors.push('snapshotVersion must identify the pinned watch snapshot, not a stable release.');
+  if (manifest?.stableBaselineAlignment !== 'UNVERIFIED') errors.push('stableBaselineAlignment must remain UNVERIFIED.');
+  if (manifest?.semanticCompleteness !== 'not-established-by-api-dump-alone') errors.push('semanticCompleteness must preserve the API-dump limitation.');
   if (manifest?.requiredSurface !== 'public') errors.push('requiredSurface must be public.');
   if (!/^[0-9a-f]{40}$/.test(manifest?.sourceCommit ?? '')) errors.push('sourceCommit must be an immutable Git commit SHA.');
   if (!Array.isArray(manifest?.entries) || manifest.entries.length !== 4) {
@@ -30,7 +34,7 @@ export function validateComposeApiWatchManifest(manifest) {
     errors.push('entries must cover each P0 Compose family exactly once.');
   }
   for (const [index, entry] of manifest.entries.entries()) {
-    if (!entry?.sourcePath || !entry?.snapshotPath) errors.push('entries[' + index + '] must identify sourcePath and snapshotPath.');
+    if (!entry?.sourcePath || !entry?.snapshotPath || !entry?.artifact) errors.push('entries[' + index + '] must identify artifact, sourcePath and snapshotPath.');
     if (!/^[0-9a-f]{40}$/.test(entry?.gitBlobSha1 ?? '')) errors.push('entries[' + index + '].gitBlobSha1 must be a Git blob SHA-1.');
     if (!Number.isInteger(entry?.characters) || entry.characters <= 0) errors.push('entries[' + index + '].characters must be a positive integer.');
     if (!entry?.lineCounts || Object.values(entry.lineCounts).some((value) => !Number.isInteger(value) || value < 0)) {
@@ -79,6 +83,20 @@ export function verifyComposeApiWatchSnapshots({ root = process.cwd(), manifestP
     if (text.length !== entry.characters) errors.push(entry.family + ' character count mismatch.');
     if (lines[0] !== '// Signature format: 5.0') errors.push(entry.family + ' must use signature format 5.0.');
     if (lines[1] !== '// - surface=public') errors.push(entry.family + ' must declare the public API surface.');
+
+    const inventory = inventoryApiDump(text, {
+      artifact: entry.artifact,
+      version: manifest.snapshotVersion,
+      commit: manifest.sourceCommit,
+      sourcePath: entry.sourcePath,
+    });
+    if (inventory.declarationCount <= 0) errors.push(entry.family + ' has no parsed public API declarations.');
+    if (inventory.source.formatVersion !== manifest.apiFormat || inventory.source.surface !== manifest.requiredSurface) {
+      errors.push(entry.family + ' parsed API metadata differs from the watch manifest.');
+    }
+    if (!Array.isArray(inventory.packageAnnotations)) {
+      errors.push(entry.family + ' package annotations were not preserved by the API parser.');
+    }
 
     const actualCounts = {
       packages: countLines(lines, /^package /),

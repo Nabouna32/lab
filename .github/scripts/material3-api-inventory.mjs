@@ -35,18 +35,22 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
 
   const lines = normalizedContents.split('\n');
   const declarations = [];
+  const packageAnnotations = [];
   let currentPackage = null;
   let braceDepth = 0;
   const classScopes = [];
 
   for (let index = 0; index < lines.length; index += 1) {
     const raw = lines[index].trim();
-    const packageMatch = raw.match(/^package\s+([A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*)\s*\{$/);
+    const packageMatch = raw.match(/^package\s+((?:@[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*(?:\([^()]*\))?\s+)*)?([A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*)\s*\{$/);
     if (packageMatch) {
       if (currentPackage !== null) {
         throw new Error('Nested package block at line ' + (index + 1) + '.');
       }
-      currentPackage = packageMatch[1];
+      const annotations = [...(packageMatch[1] ?? '').matchAll(/@[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*(?:\([^()]*\))?/g)]
+        .map((match) => match[0]);
+      if (annotations.length > 0) packageAnnotations.push({ package: packageMatch[2], annotations });
+      currentPackage = packageMatch[2];
       braceDepth = 1;
       continue;
     }
@@ -156,6 +160,7 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
     sourceApiCandidateCount: declarations.length - bytecodeOnlyCount - inaccessibleFromKotlinCount,
     bytecodeOnlyCount,
     inaccessibleFromKotlinCount,
+    packageAnnotations,
     declarations,
   };
 }

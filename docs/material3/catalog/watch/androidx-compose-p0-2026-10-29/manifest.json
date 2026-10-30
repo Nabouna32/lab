@@ -25,7 +25,8 @@
         "constructors": 159,
         "fields": 118,
         "properties": 1207
-      }
+      },
+      "artifact": "androidx.compose.ui:ui"
     },
     {
       "family": "compose-foundation",
@@ -40,7 +41,8 @@
         "constructors": 125,
         "fields": 93,
         "properties": 414
-      }
+      },
+      "artifact": "androidx.compose.foundation:foundation"
     },
     {
       "family": "compose-ui-text",
@@ -55,7 +57,8 @@
         "constructors": 181,
         "fields": 50,
         "properties": 409
-      }
+      },
+      "artifact": "androidx.compose.ui:ui-text"
     },
     {
       "family": "compose-foundation-layout",
@@ -70,7 +73,8 @@
         "constructors": 9,
         "fields": 26,
         "properties": 129
-      }
+      },
+      "artifact": "androidx.compose.foundation:foundation-layout"
     }
   ],
   "limitations": [
@@ -78,5 +82,9 @@
     "La publication Maven et la version stable 1.12.1 sont vérifiées séparément ; l'identité du commit de release reste à établir.",
     "Aucune comparaison des sources JAR publiées avec cet état current.txt n'est revendiquée.",
     "Les comptes de lignes sont des métriques descriptives de format, pas un inventaire sémantique complet ni une classification de stabilité."
-  ]
+  ],
+  "snapshotVersion": "androidx-main-watch@5901d750",
+  "inventoryKind": "public-signature-surface",
+  "semanticCompleteness": "not-established-by-api-dump-alone",
+  "stableBaselineAlignment": "UNVERIFIED"
 }

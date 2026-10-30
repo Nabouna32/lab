@@ -313,3 +313,30 @@ test('rejects restricted API surfaces when inventorying AndroidX format 5.0', ()
     /expected surface=public/,
   );
 });
+
+const ANNOTATED_PACKAGE_DUMP = `// Signature format: 5.0
+// - surface=public
+package @SuppressCompatibility @androidx.annotation.RestrictTo(androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP_PREFIX) androidx.compose.ui.experimental {
+  @androidx.annotation.Experimental public final class ExperimentalApi {
+    method public void run();
+  }
+}
+`;
+
+test('preserves annotations attached to AndroidX API package declarations', () => {
+  const result = inventoryApiDump(ANNOTATED_PACKAGE_DUMP, {
+    artifact: 'androidx.compose.ui:ui',
+    version: 'androidx-main-watch',
+    commit: COMMIT,
+    sourcePath: 'compose/ui/ui/api/current.txt',
+  });
+
+  assert.equal(result.declarationCount, 2);
+  assert.deepEqual(result.packageAnnotations, [{
+    package: 'androidx.compose.ui.experimental',
+    annotations: [
+      '@SuppressCompatibility',
+      '@androidx.annotation.RestrictTo(androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP_PREFIX)',
+    ],
+  }]);
+});
