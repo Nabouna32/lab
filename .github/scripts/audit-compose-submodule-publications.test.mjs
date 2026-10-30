@@ -5,11 +5,22 @@ import { createHash } from 'node:crypto';
 import {
   calculateSha256,
   parseSha256,
+  PUBLICATION_TARGETS,
   validateModuleMetadata,
   validateZipSignature,
   validateAndroidVariantLinks,
   verifySha256,
 } from './audit-compose-submodule-publications.mjs';
+
+test('pins the four Compose P0 publication families to stable 1.12.1', () => {
+  assert.deepEqual(PUBLICATION_TARGETS.map((target) => target.familyId), [
+    'compose-ui',
+    'compose-foundation',
+    'compose-ui-text',
+    'compose-foundation-layout',
+  ]);
+  assert.ok(PUBLICATION_TARGETS.every((target) => target.version === '1.12.1'));
+});
 
 test('parses a published SHA-256 sidecar', () => {
   const digest = 'a'.repeat(64);
