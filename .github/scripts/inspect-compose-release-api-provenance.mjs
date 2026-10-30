@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 
 const GITILES_BASE = 'https://android.googlesource.com/platform/frameworks/support';
@@ -98,25 +98,25 @@ export async function fetchGitilesBytes(value, label, fetchImpl = globalThis.fet
   throw new Error(label + ' exceeded the redirect limit.');
 }
 
-export async function resolveGitilesRef(fetchImpl, candidates, label = 'release') {
-  const attempted = [];
+export function parseGitLsRemoteRefs(text) {
+  return text.split(/\r?\n/)
+    .map((line) => line.trim().match(/^([a-f0-9]{40})\s+(refs\/(?:heads|tags)\/\S+)$/i))
+    .filter(Boolean)
+    .map((match) => ({ ref: match[2], commit: match[1].toLowerCase() }))
+    .sort((left, right) => left.ref.localeCompare(right.ref));
+}
+
+export function resolveGitilesRef(refs, candidates, label = 'release') {
   for (const candidate of candidates) {
-    const shortRef = candidate.replace(/^refs\/(?:heads|tags)\//, '');
-    const paths = [...new Set([shortRef, candidate])];
-    for (const refPath of paths) {
-      const bytes = await fetchGitilesBytes(
-        GITILES_BASE + '/+log/' + refPath + '?format=JSON&n=1',
-        label + ' ref ' + candidate,
-        fetchImpl,
-        { optional: true },
-      );
-      attempted.push(candidate + ' (path ' + refPath + ')');
-      if (!bytes) continue;
-      return { ref: candidate, ...parseGitilesLog(bytes.toString('utf8')) };
-    }
+    const match = refs.find((entry) => entry.ref === candidate);
+    if (match) return match;
   }
+  const related = refs
+    .filter((entry) => /compose/i.test(entry.ref) && /release/i.test(entry.ref))
+    .map((entry) => entry.ref + '@' + entry.commit);
   throw new Error(
-    'No official Gitiles ' + label + ' ref was found. Checked: ' + attempted.join(', ') + '.',
+    'No official AndroidX ' + label + ' ref matched the supported candidates: ' +
+    candidates.join(', ') + '. Related refs discovered by git ls-remote: ' + (related.join(', ') || 'none') + '.',
   );
 }
 
@@ -161,8 +161,10 @@ export function calculateGitilesBlobHashes(bytes) {
   };
 }
 
-export async function inspectComposeReleaseProvenance({ outputDirectory, fetchImpl = globalThis.fetch } = {}) {
+export async function inspectComposeReleaseProvenance({ outputDirectory, refsText, fetchImpl = globalThis.fetch } = {}) {
   if (!outputDirectory) throw new Error('outputDirectory is required.');
+  if (typeof refsText !== 'string' || !refsText.trim()) throw new Error('refsText from official git ls-remote is required.');
+  const refs = parseGitLsRemoteRefs(refsText);
   const output = resolve(outputDirectory);
   await mkdir(output, { recursive: true });
   const report = {
@@ -176,7 +178,7 @@ export async function inspectComposeReleaseProvenance({ outputDirectory, fetchIm
   };
 
   for (const group of RELEASE_GROUPS) {
-    const resolvedRef = await resolveGitilesRef(fetchImpl, group.refCandidates, group.id);
+    const resolvedRef = resolveGitilesRef(refs, group.refCandidates, group.id);
     const commit = resolvedRef.commit;
     const branchHead = { commit, message: null, committer: null };
     const versionsBytes = await fetchGitilesBytes(
@@ -250,7 +252,10 @@ export async function inspectComposeReleaseProvenance({ outputDirectory, fetchIm
 
 async function main() {
   const outputDirectory = process.argv[2];
-  const report = await inspectComposeReleaseProvenance({ outputDirectory });
+  const refsPath = process.argv[3];
+  if (!refsPath) throw new Error('Usage: node inspect-compose-release-api-provenance.mjs <output-directory> <git-ls-remote-refs-file>');
+  const refsText = await readFile(refsPath, 'utf8');
+  const report = await inspectComposeReleaseProvenance({ outputDirectory, refsText });
   for (const group of report.groups) {
     process.stdout.write(group.id + ' ' + group.version + ' via ' + group.ref + ' @ ' + group.commit + '\n');
     for (const dump of group.apiDumps) {
