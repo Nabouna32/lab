@@ -431,7 +431,8 @@ test("Design Lab exposes the production OutlinedSecureTextField without requirin
   assert.match(outlinedTextFieldCssSource, /border-radius: var\(--shape-corner-extra-small\)/);
   assert.match(outlinedTextFieldCssSource, /top: calc\(0px - var\(--m3-space-2\)\)/);
   assert.match(outlinedTextFieldCssSource, /padding-inline: var\(--m3-space-4\)/);
-  assert.match(outlinedTextFieldCssSource, /var\(--motion-standard\)/);
+  assert.match(outlinedTextFieldCssSource, /var\(--motion-standard\) var\(--motion-standard-easing\)/);
+  assert.match(textFieldSource, /ease-\[var\(--motion-standard-easing\)\]/);
   assert.doesNotMatch(outlinedTextFieldCssSource, /[1-9]\d*(?:\.\d+)?px|160ms/);
   assert.doesNotMatch(outlinedTextFieldCssSource, /data-variant/);
   assert.ok(visualLabSource.includes('import { OutlinedSecureTextField } from "@/components/ui/OutlinedSecureTextField"'));
@@ -482,6 +483,7 @@ test("M3 web reference tokens document Android dp/sp magnitude without claiming 
   assert.match(globalCss, /--m3-space-3: 0\.75rem/);
   assert.match(globalCss, /--m3-space-4: 1rem/);
   assert.match(globalCss, /--motion-standard: 200ms/);
+  assert.match(globalCss, /--motion-standard-easing: cubic-bezier\(\.2, 0, 0, 1\)/);
   assert.match(globalCss, /--m3-size-multiline-text-field-min-height: 8rem; \/\* Loculary Web specimen sizing/);
   assert.match(textFieldSource, /min-h-\[var\(--m3-size-text-field-min-height\)\]/);
   assert.match(globalCss, /--m3-type-label-large-size: 0\.875rem/);
