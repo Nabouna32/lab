@@ -173,6 +173,20 @@ class Material3AndroidAarInspectionTests(unittest.TestCase):
         self.assertEqual(set(parsed), {"androidx/compose/material3/AnnotatedApi"})
         self.assertEqual(parsed["androidx/compose/material3/AnnotatedApi"]["methods"][0]["name"], "visible")
 
+
+    def test_parses_method_annotations_with_arguments_before_the_parameter_list(self):
+        api = """package androidx.compose.material3 {
+  public final class Api {
+    method @androidx.annotation.IntRange(from=0) public int count(int value);
+  }
+}
+"""
+        parsed = MODULE.parse_api_dump(api)["androidx/compose/material3/Api"]
+        self.assertEqual(parsed["methods"][0]["name"], "count")
+        self.assertEqual(parsed["methods"][0]["returnType"], "int")
+        self.assertEqual(parsed["methods"][0]["parameterTypes"], ["int"])
+
+
     def test_rejects_invalid_or_truncated_class_files(self):
         with self.assertRaisesRegex(ValueError, "Invalid JVM class-file header"):
             MODULE.read_class_summary(b"not a class file")
