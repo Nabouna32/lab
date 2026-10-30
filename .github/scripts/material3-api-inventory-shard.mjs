@@ -4,7 +4,7 @@ import { join } from 'node:path';
 
 export function buildInventoryShards(inventory, {
   shardSize = 500,
-  catalogScope = 'forward-looking-watch-only',
+  catalogScope = 'phone-tablet-porting-reference',
   stableBaselineAlignment = 'UNVERIFIED',
   sourceRepository = 'androidx/androidx',
 } = {}) {
