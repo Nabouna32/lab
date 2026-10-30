@@ -195,6 +195,36 @@ class Material3AndroidAarInspectionTests(unittest.TestCase):
         self.assertEqual(comparison["unsupportedSignatures"], [])
 
 
+
+    def test_maps_kotlin_default_constructor_overloads_to_synthetic_mask_descriptors(self):
+        api = """package androidx.compose.material3 {
+  public final class DefaultApi {
+    ctor public DefaultApi();
+    ctor @KotlinOnly public DefaultApi(optional androidx.compose.ui.unit.DpSize size);
+  }
+}
+"""
+        binary = [
+            (
+                "androidx/compose/material3/DefaultApi.class",
+                {
+                    "methodSignatures": [
+                        {"name": "<init>", "descriptor": "(JLkotlin/jvm/internal/DefaultConstructorMarker;)V", "publicProtected": True},
+                        {"name": "<init>", "descriptor": "(JILkotlin/jvm/internal/DefaultConstructorMarker;)V", "publicProtected": True},
+                    ],
+                    "fieldSignatures": [],
+                },
+                True,
+            )
+        ]
+        parsed = MODULE.parse_api_dump(api)["androidx/compose/material3/DefaultApi"]
+        self.assertEqual(parsed["constructors"][1]["optionalParameterCount"], 1)
+        comparison = MODULE.compare_api_dump_to_binary(api, binary)
+        self.assertEqual(comparison["constructorCount"], 2)
+        self.assertEqual(comparison["constructorDescriptorMatches"], 2)
+        self.assertEqual(comparison["missingMembers"], [])
+
+
     def test_reports_unsupported_types_instead_of_claiming_a_match(self):
         api = """package androidx.compose.material3 {
   public final class Api {
