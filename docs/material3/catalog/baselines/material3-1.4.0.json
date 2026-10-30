@@ -64,7 +64,7 @@
     }
   },
   "apiDumpAlignment": {
-    "status": "OFFICIAL_STABLE_DUMP_AND_SOURCE_COMMIT_VERIFIED_METHODS_MATCH_OTHER_API_DECLARATIONS_PENDING",
+    "status": "VERIFIED",
     "exactStableDump": {
       "repository": "androidx/androidx",
       "branch": "androidx-compose-material3-release",
@@ -75,7 +75,7 @@
       "signatureFormat": "4.0"
     },
     "repositorySourceCommit": "5113b82a4ed6416d6344efa50e41db8cb65928ff",
-    "reason": "The official stable dump and all 249 source files are pinned to the same AndroidX release commit. The AAR contains all 232 API classes; all 807 source-level method names are present and all 995 @BytecodeOnly JVM method descriptors match exactly. Exact descriptors for source-level methods, constructors, fields and properties are not yet independently compared."
+    "reason": "The official stable API dump and all 249 published Kotlin source files are pinned to the same immutable AndroidX release commit. All 232 API classes are present in the published Android AAR. Exact JVM descriptors match for all 807 source-level methods (533 are linked to independently verified @BytecodeOnly ABI entries), all 995 @BytecodeOnly methods, all 104 constructors including 34 @KotlinOnly constructors, all 74 fields and all 669 published property getters. No missing or unsupported declarations remain. Compose compiler lowering, Kotlin value-class boxing/unboxing and default-constructor masks are accounted for. Property verification covers the getter descriptor exposed by the API dump; it does not infer unreported setters or backing fields. This verifies declaration-level dump-to-AAR descriptor alignment, not React port fidelity or semantic behavior."
   },
   "publishedAndroidVariant": {
     "artifact": "androidx.compose.material3:material3-android",
@@ -135,6 +135,69 @@
         "result": "passed",
         "workflowRun": "https://github.com/Nabouna32/lab/actions/runs/40984365256"
       }
+    }
+  },
+  "apiHistory": {
+    "sourceRepositoryCommit": "5113b82a4ed6416d6344efa50e41db8cb65928ff",
+    "apiDirectory": "compose/material3/material3/api/",
+    "beta01": {
+      "gitBlobSha1": "f27bfa77b39e0d7cc38c2ed78e80d14b78e20786",
+      "sizeBytes": 609369,
+      "experimentalMaterial3Api": 203,
+      "bytecodeOnlyAnnotations": 1031,
+      "kotlinOnlyAnnotations": 34,
+      "deprecatedAnnotations": 241,
+      "suppressCompatibilityAnnotations": 203
+    },
+    "beta02": {
+      "gitBlobSha1": "fd45e9feea96a631c0f8b7ac82f88ee9ce999029",
+      "sizeBytes": 609538,
+      "experimentalMaterial3Api": 207,
+      "bytecodeOnlyAnnotations": 1033,
+      "kotlinOnlyAnnotations": 34,
+      "deprecatedAnnotations": 241,
+      "suppressCompatibilityAnnotations": 207
+    },
+    "beta03": {
+      "gitBlobSha1": "fd45e9feea96a631c0f8b7ac82f88ee9ce999029",
+      "sizeBytes": 609538,
+      "identicalToBeta02": true
+    },
+    "stableCurrent": {
+      "path": "compose/material3/material3/api/current.txt",
+      "gitBlobSha1": "fd45e9feea96a631c0f8b7ac82f88ee9ce999029",
+      "sizeBytes": 609538,
+      "identicalToBeta03": true,
+      "libraryVersionMarker": "COMPOSE_MATERIAL3 = \"1.4.0\""
+    },
+    "releaseCandidateSnapshot": {
+      "present": false,
+      "verifiedAtCommit": "5113b82a4ed6416d6344efa50e41db8cb65928ff",
+      "note": "Aucun fichier 1.4.0-rc*.txt n’est présent dans le répertoire API de ce commit ; aucune comparaison RC directe n’est revendiquée."
+    },
+    "beta01ToBeta02": {
+      "removedDeclarationLines": 13,
+      "addedDeclarationLines": 14,
+      "changes": [
+        "Suppression de BasicAlertDialogOverrideScope et de ses quatre propriétés/accessors.",
+        "Renommage du paramètre threshold en maxDistance pour Indicator et IndicatorBox de PullToRefresh.",
+        "Ajout de l’API IndicatorMaxDistance, indicatorContainerColor et indicatorShape.",
+        "La propriété indicatorColor n’est plus marquée Deprecated.",
+        "Ajout des déclarations containerColor et shape avec les annotations ExperimentalMaterial3Api, SuppressCompatibility et Deprecated."
+      ],
+      "annotationDelta": {
+        "experimentalMaterial3Api": "+4",
+        "bytecodeOnly": "+2",
+        "kotlinOnly": "0",
+        "deprecated": "0",
+        "suppressCompatibility": "+4"
+      }
+    },
+    "beta02ToBeta03": {
+      "identical": true
+    },
+    "beta03ToStableCurrent": {
+      "identical": true
     }
   }
 }

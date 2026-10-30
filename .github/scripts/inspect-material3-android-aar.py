@@ -64,6 +64,7 @@ def read_class_summary(data: bytes) -> dict:
     offset += 2 + 2 * interface_count
 
     counts = {}
+    field_signatures = []
     method_signatures = []
     for kind in ("fields", "methods"):
         member_count = struct.unpack_from(">H", data, offset)[0]
@@ -76,15 +77,18 @@ def read_class_summary(data: bytes) -> dict:
             offset += 6  # access_flags, name_index, descriptor_index
             if access & 0x0005:  # ACC_PUBLIC | ACC_PROTECTED
                 visible_count += 1
-            if kind == "methods":
-                method_name = constant_pool[name_index]
-                method_descriptor = constant_pool[descriptor_index]
-                if method_name and method_name[0] == 1 and method_descriptor and method_descriptor[0] == 1:
-                    method_signatures.append({
-                        "name": method_name[1],
-                        "descriptor": method_descriptor[1],
-                        "publicProtected": bool(access & 0x0005),
-                    })
+            member_name = constant_pool[name_index]
+            member_descriptor = constant_pool[descriptor_index]
+            if member_name and member_name[0] == 1 and member_descriptor and member_descriptor[0] == 1:
+                record = {
+                    "name": member_name[1],
+                    "descriptor": member_descriptor[1],
+                    "publicProtected": bool(access & 0x0005),
+                }
+                if kind == "methods":
+                    method_signatures.append(record)
+                else:
+                    field_signatures.append(record)
             attribute_count = struct.unpack_from(">H", data, offset)[0]
             offset += 2
             for _ in range(attribute_count):
@@ -117,8 +121,80 @@ def read_class_summary(data: bytes) -> dict:
         "classIsPublic": bool(class_access & 0x0001),
         "sourceFile": source_file,
         "methodSignatures": method_signatures,
+        "fieldSignatures": field_signatures,
         **counts,
     }
+
+
+def _strip_api_annotations(value: str) -> str:
+    return re.sub(r"@[A-Za-z0-9_.$]+(?:\([^)]*\))?\s*", "", value).strip()
+
+
+def _strip_api_modifiers(value: str) -> str:
+    value = value.strip()
+    modifiers = {
+        "public", "protected", "private", "static", "final", "abstract",
+        "synchronized", "native", "default", "transient", "volatile", "suspend",
+    }
+    while value:
+        token, separator, remainder = value.partition(" ")
+        if token not in modifiers or not separator:
+            break
+        value = remainder.strip()
+    return value
+
+
+def _api_parameter_type(parameter: str) -> str:
+    value = _strip_api_annotations(parameter.strip())
+    if value.startswith("optional "):
+        value = value[len("optional "):].strip()
+    # Metalava signatures include source parameter names after the type.
+    match = re.match(r"^(.*\S)\s+[A-Za-z_$][A-Za-z0-9_$]*$", value)
+    return match.group(1).strip() if match else value
+
+
+def _callable_parts(line: str, kind: str) -> tuple[str, str, list[str]] | None:
+    body = line.split(kind, 1)[1].strip()
+    closing = body.rfind(")")
+    if closing < 0:
+        return None
+    depth = 0
+    opening = -1
+    for index in range(closing, -1, -1):
+        if body[index] == ")":
+            depth += 1
+        elif body[index] == "(":
+            depth -= 1
+            if depth == 0:
+                opening = index
+                break
+    if opening < 0:
+        return None
+    prefix = _strip_api_modifiers(_strip_api_annotations(body[:opening]))
+    name_match = re.search(r"([A-Za-z_$][A-Za-z0-9_$-]*)$", prefix)
+    if not name_match:
+        return None
+    name = name_match.group(1)
+    if kind == "ctor":
+        return name, "void", [_api_parameter_type(p) for p in split_api_parameter_types(body[opening + 1:closing])]
+    return_type = prefix[:name_match.start()].strip()
+    # Remove a method-level generic declaration. Unbounded type variables erase to Object.
+    if return_type.startswith("<"):
+        depth = 0
+        generic_end = -1
+        for index, character in enumerate(return_type):
+            if character == "<":
+                depth += 1
+            elif character == ">":
+                depth -= 1
+                if depth == 0:
+                    generic_end = index
+                    break
+        if generic_end >= 0:
+            return_type = return_type[generic_end + 1:].strip()
+    if not return_type:
+        return None
+    return name, return_type, [_api_parameter_type(p) for p in split_api_parameter_types(body[opening + 1:closing])]
 
 
 def parse_api_dump(api_dump: str) -> dict:
@@ -138,39 +214,86 @@ def parse_api_dump(api_dump: str) -> dict:
         if class_match and current_package:
             class_name = class_match.group(1).replace(".", "$")
             current_class = current_package.replace(".", "/") + "/" + class_name
-            classes[current_class] = []
+            classes[current_class] = {
+                "methods": [], "constructors": [], "fields": [], "properties": [], "unparsed": [],
+            }
             continue
-        if current_class and re.match(r"^\s*method\s+", line):
-            signature = line.split("method", 1)[1]
-            method_match = re.search(r"\s([A-Za-z_$][A-Za-z0-9_$-]*)\s*\(.*\);$", signature)
-            if method_match:
-                classes[current_class].append({
-                    "name": method_match.group(1),
-                    "bytecodeOnly": "@BytecodeOnly" in line,
-                    "signature": line,
-                })
+        if current_class:
+            member_match = re.match(r"^\s*(method|ctor|field|property)\s+.*;$", line)
+            if member_match:
+                kind = member_match.group(1)
+                signature = line.strip()
+                if kind in {"method", "ctor"}:
+                    parsed = _callable_parts(signature, kind)
+                    if parsed:
+                        name, return_type, parameters = parsed
+                        classes[current_class]["methods" if kind == "method" else "constructors"].append({
+                            "name": name,
+                            "returnType": return_type,
+                            "parameterTypes": parameters,
+                            "optionalParameterCount": sum(
+                                1 for parameter in split_api_parameter_types(
+                                    signature[signature.find("(") + 1:signature.rfind(")")],
+                                ) if parameter.strip().startswith("optional ")
+                            ),
+                            "bytecodeOnly": "@BytecodeOnly" in signature,
+                            "kotlinOnly": "@KotlinOnly" in signature,
+                            "composable": "@androidx.compose.runtime.Composable" in signature or "@Composable" in signature,
+                            "static": bool(re.search(r"\bstatic\b", signature)),
+                            "signature": signature,
+                        })
+                    else:
+                        classes[current_class]["unparsed"].append({
+                            "kind": kind, "signature": signature, "reason": "unrecognized-api-signature",
+                        })
+                else:
+                    body = _strip_api_modifiers(_strip_api_annotations(signature.split(kind, 1)[1].strip().rstrip(";")))
+                    if kind == "field" and "=" in body:
+                        body = body.split("=", 1)[0].rstrip()
+                    field_match = re.match(r"^(.*\S)\s+([A-Za-z_$][A-Za-z0-9_$.]*)$", body)
+                    if field_match:
+                        qualified_name = field_match.group(2)
+                        receiver_type = None
+                        member_name = qualified_name
+                        if kind == "property" and "." in qualified_name:
+                            receiver_type, member_name = qualified_name.rsplit(".", 1)
+                        classes[current_class]["fields" if kind == "field" else "properties"].append({
+                            "name": member_name,
+                            "type": field_match.group(1).strip(),
+                            "receiverType": receiver_type,
+                            "composable": "@androidx.compose.runtime.Composable" in signature or "@Composable" in signature,
+                            "static": bool(re.search(r"\bstatic\b", signature)),
+                            "signature": signature,
+                        })
+                    else:
+                        classes[current_class]["unparsed"].append({
+                            "kind": kind, "signature": signature, "reason": "unrecognized-api-signature",
+                        })
         if line == "  }":
             current_class = None
     return classes
 
-
 def split_api_parameter_types(parameters: str) -> list[str]:
     values = []
-    depth = 0
+    angle_depth = 0
+    paren_depth = 0
     start = 0
     for index, character in enumerate(parameters):
         if character == "<":
-            depth += 1
+            angle_depth += 1
         elif character == ">":
-            depth -= 1
-        elif character == "," and depth == 0:
+            angle_depth -= 1
+        elif character == "(":
+            paren_depth += 1
+        elif character == ")":
+            paren_depth -= 1
+        elif character == "," and angle_depth == 0 and paren_depth == 0:
             values.append(parameters[start:index].strip())
             start = index + 1
     tail = parameters[start:].strip()
     if tail:
         values.append(tail)
     return values
-
 
 def api_type_to_jvm_descriptor(type_name: str, is_return: bool = False) -> str | None:
     value = re.sub(r"@[A-Za-z0-9_.]+(?:\([^)]*\))?", "", type_name).strip()
@@ -209,7 +332,44 @@ def api_type_to_jvm_descriptor(type_name: str, is_return: bool = False) -> str |
             return "L" + wrappers[primitive[value]] + ";"
         return primitive[value]
 
+    value_classes = {
+        "androidx.compose.ui.graphics.Color": "J",
+        "androidx.compose.ui.unit.Dp": "F",
+        "androidx.compose.ui.unit.DpSize": "J",
+        "androidx.compose.ui.unit.DpOffset": "J",
+        "androidx.compose.ui.unit.TextUnit": "J",
+        "androidx.compose.ui.geometry.Offset": "J",
+        "androidx.compose.ui.geometry.Size": "J",
+        "androidx.compose.ui.geometry.CornerRadius": "J",
+        "androidx.compose.ui.unit.IntOffset": "J",
+        "androidx.compose.ui.unit.IntSize": "J",
+        "androidx.compose.ui.unit.Constraints": "J",
+        "androidx.compose.ui.graphics.TransformOrigin": "J",
+        "androidx.compose.ui.graphics.StrokeCap": "I",
+        "androidx.compose.ui.graphics.PathFillType": "I",
+        "androidx.compose.ui.graphics.BlendMode": "I",
+        "androidx.compose.ui.graphics.FilterQuality": "I",
+        "androidx.compose.ui.graphics.TileMode": "I",
+        "androidx.compose.ui.graphics.ClipOp": "I",
+        "androidx.compose.material3.DisplayMode": "I",
+        "androidx.compose.material3.ExposedDropdownMenuAnchorType": "Ljava/lang/String;",
+        "androidx.compose.material3.FabPosition": "I",
+        "androidx.compose.material3.IconButtonDefaults.IconButtonWidthOption": "I",
+        "androidx.compose.material3.NavigationItemIconPosition": "I",
+        "androidx.compose.material3.ShortNavigationBarArrangement": "I",
+        "androidx.compose.material3.TimePickerDisplayMode": "I",
+        "androidx.compose.material3.TimePickerLayoutType": "I",
+        "androidx.compose.material3.TimePickerSelectionMode": "I",
+        "androidx.compose.material3.TooltipAnchorPosition": "I",
+    }
+    if value in value_classes:
+        if nullable:
+            return _boxed_api_type_descriptor(value)
+        return value_classes[value]
+
     aliases = {
+        "Object": "java/lang/Object",
+        "java.lang.Object": "java/lang/Object",
         "kotlin.String": "java/lang/String",
         "String": "java/lang/String",
         "kotlin.Any": "java/lang/Object",
@@ -254,9 +414,25 @@ def api_type_to_jvm_descriptor(type_name: str, is_return: bool = False) -> str |
         package_path = "/".join(segments[:first_type])
         binary_type = "$".join(segments[first_type:])
         return "L" + (package_path + "/" if package_path else "") + binary_type + ";"
-    if re.fullmatch(r"[A-Z][A-Za-z0-9_]*", value):
-        return "Ljava/lang/Object;"
     return None
+
+
+def _boxed_api_type_descriptor(type_name: str) -> str | None:
+    value = re.sub(r"@[A-Za-z0-9_.]+(?:\([^)]*\))?", "", type_name).strip()
+    value = value.rstrip("?!").strip()
+    generic_index = value.find("<")
+    if generic_index >= 0:
+        value = value[:generic_index]
+    if not (value.startswith("java.") or value.startswith("android.") or value.startswith("androidx.") or value.startswith("kotlin.")):
+        return None
+    segments = value.split(".")
+    first_type = next(
+        (index for index, segment in enumerate(segments) if segment and segment[0].isupper()),
+        len(segments) - 1,
+    )
+    package_path = "/".join(segments[:first_type])
+    binary_type = "$".join(segments[first_type:])
+    return "L" + (package_path + "/" if package_path else "") + binary_type + ";"
 
 
 def bytecode_only_method_descriptor(signature: str) -> tuple[str, str] | None:
@@ -278,80 +454,371 @@ def bytecode_only_method_descriptor(signature: str) -> tuple[str, str] | None:
     return method_name, "(" + "".join(parameter_descriptors) + ")" + return_descriptor
 
 
+def _compose_changed_flag_count(member: dict) -> int:
+    parameter_count = len(member["parameterTypes"])
+    if not member.get("static"):
+        parameter_count += 1
+    return max(1, (parameter_count + 9) // 10)
+
+
+def _descriptor_for_api_callable(member: dict, constructor: bool = False) -> tuple[str, str] | None:
+    parameters = []
+    for parameter_type in member["parameterTypes"]:
+        descriptor = api_type_to_jvm_descriptor(parameter_type)
+        if descriptor is None:
+            return None
+        parameters.append(descriptor)
+    if constructor:
+        if member.get("kotlinOnly"):
+            parameters.append("Lkotlin/jvm/internal/DefaultConstructorMarker;")
+        return member["name"], "(" + "".join(parameters) + ")V"
+    if member["name"] == "box-impl":
+        return_descriptor = _boxed_api_type_descriptor(member["returnType"])
+    else:
+        return_descriptor = api_type_to_jvm_descriptor(member["returnType"], is_return=True)
+    if return_descriptor is None:
+        return None
+    if member.get("composable") and not member.get("bytecodeOnly"):
+        changed_flag_count = _compose_changed_flag_count(member)
+        default_mask_count = (
+            (len(member["parameterTypes"]) + 31) // 32
+            if member.get("optionalParameterCount", 0) else 0
+        )
+        parameters.append("Landroidx/compose/runtime/Composer;")
+        parameters.extend(["I"] * (changed_flag_count + default_mask_count))
+    return member["name"], "(" + "".join(parameters) + ")" + return_descriptor
+
+
+def _descriptor_types_compatible(source_type: str, binary_type: str) -> bool:
+    source_descriptor = api_type_to_jvm_descriptor(source_type)
+    binary_descriptor = api_type_to_jvm_descriptor(binary_type)
+    if source_descriptor == binary_descriptor:
+        return True
+    function_match = re.fullmatch(r"Lkotlin/jvm/functions/Function(\d+);", source_descriptor or "")
+    binary_function_match = re.fullmatch(r"Lkotlin/jvm/functions/Function(\d+);", binary_descriptor or "")
+    return bool(
+        function_match and binary_function_match
+        and int(binary_function_match.group(1)) == int(function_match.group(1)) + 2
+    )
+
+
+def _source_matches_bytecode_only(source: dict, bytecode: dict) -> bool:
+    if not (
+        bytecode["name"] == source["name"]
+        or bytecode["name"].startswith(source["name"] + "-")
+    ):
+        return False
+    source_parameters = source["parameterTypes"]
+    binary_parameters = bytecode["parameterTypes"]
+    suffix = []
+    if source.get("composable"):
+        changed_flag_count = _compose_changed_flag_count(source)
+        default_mask_count = (
+            (len(source_parameters) + 31) // 32
+            if source.get("optionalParameterCount", 0) else 0
+        )
+        suffix = ["androidx.compose.runtime.Composer"] + ["int"] * (
+            changed_flag_count + default_mask_count
+        )
+    if len(binary_parameters) != len(source_parameters) + len(suffix):
+        return False
+    if not all(
+        _descriptor_types_compatible(source_type, binary_type)
+        for source_type, binary_type in zip(source_parameters, binary_parameters)
+    ):
+        return False
+    if suffix and not all(
+        _descriptor_types_compatible(expected_type, actual_type)
+        for expected_type, actual_type in zip(suffix, binary_parameters[len(source_parameters):])
+    ):
+        return False
+    return _descriptor_types_compatible(source["returnType"], bytecode["returnType"])
+
+
+def _property_getter_name(property_name: str) -> str:
+    if property_name.startswith("is") and len(property_name) > 2 and not property_name[2].islower():
+        return property_name
+    return "get" + property_name[:1].upper() + property_name[1:]
+
+
 def compare_api_dump_to_binary(api_dump: str, binary_classes: list[tuple[str, dict, bool]]) -> dict:
     api_classes = parse_api_dump(api_dump)
     binary_by_name = {name[:-6]: summary for name, summary, _ in binary_classes}
     missing_classes = []
-    missing_methods = []
-    source_level_method_count = 0
-    source_level_name_matches = 0
-    bytecode_only_methods = 0
-    bytecode_only_descriptor_matches = 0
-    unsupported_bytecode_only_signatures = []
+    missing_members = []
+    unsupported_signatures = []
+    counts = {
+        "methods": 0, "methodDescriptorMatches": 0,
+        "bytecodeOnlyMethods": 0, "bytecodeOnlyDescriptorMatches": 0,
+        "kotlinOnlyMethods": 0, "kotlinOnlyDescriptorMatches": 0,
+        "constructors": 0, "constructorDescriptorMatches": 0,
+        "kotlinOnlyConstructors": 0, "kotlinOnlyConstructorMatches": 0,
+        "sourceLevelBytecodeOnlyMatches": 0,
+        "fields": 0, "fieldDescriptorMatches": 0,
+        "properties": 0, "propertyAccessorMatches": 0,
+    }
 
-    for class_name, api_methods in api_classes.items():
+    for class_name, api_members in api_classes.items():
+        for declaration in api_members["unparsed"]:
+            unsupported_signatures.append({
+                "kind": declaration["kind"], "class": class_name,
+                "signature": declaration["signature"], "reason": declaration["reason"],
+            })
         binary = binary_by_name.get(class_name)
         if binary is None:
             missing_classes.append(class_name + ".class")
-            for method in api_methods:
-                missing_methods.append({"class": class_name, "method": method["name"], "reason": "class-missing"})
             continue
-        binary_methods = binary["methodSignatures"]
-        binary_method_names = {method["name"] for method in binary_methods}
-        for method in api_methods:
-            if method["bytecodeOnly"]:
-                bytecode_only_methods += 1
-                parsed = bytecode_only_method_descriptor(method["signature"])
-                if parsed is None:
-                    unsupported_bytecode_only_signatures.append({
-                        "class": class_name,
-                        "method": method["name"],
-                        "signature": method["signature"].strip(),
+        binary_methods = [m for m in binary["methodSignatures"] if m.get("publicProtected", True)]
+        binary_fields = [f for f in binary.get("fieldSignatures", []) if f.get("publicProtected", True)]
+        bytecode_only_api_methods = [method for method in api_members["methods"] if method["bytecodeOnly"]]
+        verified_bytecode_only = []
+        for bytecode_method in bytecode_only_api_methods:
+            bytecode_parsed = _descriptor_for_api_callable(bytecode_method)
+            if bytecode_parsed is None:
+                continue
+            bytecode_name, bytecode_descriptor = bytecode_parsed
+            if any(
+                item["descriptor"] == bytecode_descriptor and (
+                    item["name"] == bytecode_name or item["name"].startswith(bytecode_name + "-")
+                )
+                for item in binary_methods
+            ):
+                verified_bytecode_only.append(bytecode_method)
+
+        for method in api_members["methods"]:
+            counts["methods"] += 1
+            is_bytecode = method["bytecodeOnly"]
+            is_kotlin_only = method["kotlinOnly"]
+            if is_bytecode:
+                counts["bytecodeOnlyMethods"] += 1
+            if is_kotlin_only:
+                counts["kotlinOnlyMethods"] += 1
+            parsed = _descriptor_for_api_callable(method)
+            if parsed is None:
+                unsupported_signatures.append({
+                    "kind": "method", "class": class_name,
+                    "signature": method["signature"], "reason": "unsupported-type-descriptor",
+                })
+                continue
+            method_name, descriptor = parsed
+            matched = any(
+                item["descriptor"] == descriptor and (
+                    item["name"] == method_name or item["name"].startswith(method_name + "-")
+                )
+                for item in binary_methods
+            )
+            if not matched and not is_bytecode:
+                matched = any(
+                    _source_matches_bytecode_only(method, candidate)
+                    and (
+                        _descriptor_for_api_callable(candidate) is not None
+                        and any(
+                            item["descriptor"] == _descriptor_for_api_callable(candidate)[1]
+                            and (
+                                item["name"] == _descriptor_for_api_callable(candidate)[0]
+                                or item["name"].startswith(_descriptor_for_api_callable(candidate)[0] + "-")
+                            )
+                            for item in binary_methods
+                        )
+                    )
+                    for candidate in verified_bytecode_only
+                )
+            if matched:
+                counts["methodDescriptorMatches"] += 1
+                if not is_bytecode and any(
+                    _source_matches_bytecode_only(method, candidate)
+                    for candidate in verified_bytecode_only
+                ):
+                    counts["sourceLevelBytecodeOnlyMatches"] += 1
+                if is_bytecode:
+                    counts["bytecodeOnlyDescriptorMatches"] += 1
+                if is_kotlin_only:
+                    counts["kotlinOnlyDescriptorMatches"] += 1
+            else:
+                missing_members.append({
+                    "kind": "method", "class": class_name,
+                    "name": method_name, "descriptor": descriptor,
+                    "signature": method["signature"],
+                })
+
+        for constructor in api_members["constructors"]:
+            counts["constructors"] += 1
+            if constructor.get("kotlinOnly"):
+                counts["kotlinOnlyConstructors"] += 1
+            parsed = _descriptor_for_api_callable(constructor, constructor=True)
+            if parsed is None:
+                unsupported_signatures.append({
+                    "kind": "constructor", "class": class_name,
+                    "signature": constructor["signature"], "reason": "unsupported-type-descriptor",
+                })
+                continue
+            _, descriptor = parsed
+            constructor_matches = any(
+                item["name"] == "<init>" and item["descriptor"] == descriptor
+                for item in binary_methods
+            )
+            if not constructor_matches and not constructor["parameterTypes"]:
+                # A zero-argument Kotlin API constructor can be represented by the
+                # synthetic default-argument constructor of an all-optional overload.
+                for candidate in api_members["constructors"]:
+                    parameter_types = candidate["parameterTypes"]
+                    if not parameter_types or candidate["optionalParameterCount"] != len(parameter_types):
+                        continue
+                    candidate_descriptors = [
+                        api_type_to_jvm_descriptor(parameter_type)
+                        for parameter_type in parameter_types
+                    ]
+                    if any(value is None for value in candidate_descriptors):
+                        continue
+                    mask_count = (len(parameter_types) + 31) // 32
+                    default_descriptor = (
+                        "(" + "".join(candidate_descriptors) + "I" * mask_count
+                        + "Lkotlin/jvm/internal/DefaultConstructorMarker;)V"
+                    )
+                    if any(
+                        item["name"] == "<init>" and item["descriptor"] == default_descriptor
+                        for item in binary_methods
+                    ):
+                        constructor_matches = True
+                        break
+            if constructor_matches:
+                counts["constructorDescriptorMatches"] += 1
+                if constructor.get("kotlinOnly"):
+                    counts["kotlinOnlyConstructorMatches"] += 1
+            else:
+                missing_members.append({
+                    "kind": "constructor", "class": class_name,
+                    "descriptor": descriptor, "signature": constructor["signature"],
+                })
+
+        for field in api_members["fields"]:
+            counts["fields"] += 1
+            descriptor = api_type_to_jvm_descriptor(field["type"])
+            if descriptor is None:
+                unsupported_signatures.append({
+                    "kind": "field", "class": class_name,
+                    "signature": field["signature"], "reason": "unsupported-type-descriptor",
+                })
+                continue
+            if any(item["name"] == field["name"] and item["descriptor"] == descriptor for item in binary_fields):
+                counts["fieldDescriptorMatches"] += 1
+            else:
+                missing_members.append({
+                    "kind": "field", "class": class_name, "name": field["name"],
+                    "descriptor": descriptor, "signature": field["signature"],
+                })
+
+        for prop in api_members["properties"]:
+            counts["properties"] += 1
+            descriptor = api_type_to_jvm_descriptor(prop["type"])
+            if descriptor is None:
+                unsupported_signatures.append({
+                    "kind": "property", "class": class_name,
+                    "signature": prop["signature"], "reason": "unsupported-type-descriptor",
+                })
+                continue
+            getter = _property_getter_name(prop["name"])
+            getter_names = {getter, prop["name"]}
+            property_parameters = []
+            if prop.get("receiverType"):
+                receiver_descriptor = api_type_to_jvm_descriptor(prop["receiverType"])
+                if receiver_descriptor is None:
+                    unsupported_signatures.append({
+                        "kind": "property", "class": class_name,
+                        "signature": prop["signature"], "reason": "unsupported-extension-receiver-descriptor",
                     })
                     continue
-                method_name, descriptor = parsed
-                if any(item["name"] == method_name and item["descriptor"] == descriptor for item in binary_methods):
-                    bytecode_only_descriptor_matches += 1
-                else:
-                    missing_methods.append({
-                        "class": class_name,
-                        "method": method_name,
-                        "descriptor": descriptor,
-                        "reason": "bytecode-only-descriptor-missing",
-                    })
+                property_parameters.append(receiver_descriptor)
+            if prop.get("composable"):
+                property_parameters.append("Landroidx/compose/runtime/Composer;")
+                property_parameters.append("I")
+            expected = "(" + "".join(property_parameters) + ")" + descriptor
+            property_matched = any(
+                any(item["name"] == name or item["name"].startswith(name + "-") for name in getter_names)
+                and item["descriptor"] == expected
+                for item in binary_methods
+            )
+            if not property_matched and prop.get("static"):
+                property_matched = any(
+                    item["name"] == prop["name"] and item["descriptor"] == descriptor
+                    for item in binary_fields
+                )
+            if not property_matched:
+                for candidate in verified_bytecode_only:
+                    candidate_descriptor = _descriptor_for_api_callable(candidate)
+                    if candidate_descriptor is None:
+                        continue
+                    candidate_name, candidate_jvm_descriptor = candidate_descriptor
+                    if not any(
+                        candidate_name == name or candidate_name.startswith(name + "-")
+                        for name in getter_names
+                    ):
+                        continue
+                    candidate_parameters = candidate["parameterTypes"]
+                    receiver_count = 1 if prop.get("receiverType") else 0
+                    if prop.get("receiverType") and (
+                        not candidate_parameters
+                        or not _descriptor_types_compatible(prop["receiverType"], candidate_parameters[0])
+                    ):
+                        continue
+                    suffix_parameters = candidate_parameters[receiver_count:]
+                    valid_suffixes = (
+                        ["androidx.compose.runtime.Composer", "int"],
+                        ["androidx.compose.runtime.Composer", "int", "int"],
+                        ["androidx.compose.runtime.Composer", "int", "int", "int"],
+                    )
+                    if not any(
+                        len(suffix_parameters) == len(suffix)
+                        and all(
+                            _descriptor_types_compatible(expected_type, actual_type)
+                            for expected_type, actual_type in zip(suffix, suffix_parameters)
+                        )
+                        for suffix in valid_suffixes
+                    ):
+                        continue
+                    if candidate_jvm_descriptor.endswith(")" + descriptor):
+                        property_matched = True
+                        break
+            if property_matched:
+                counts["propertyAccessorMatches"] += 1
             else:
-                source_level_method_count += 1
-                method_name = method["name"]
-                if (
-                    method_name in binary_method_names
-                    or any(name.startswith(method_name + "-") for name in binary_method_names)
-                ):
-                    source_level_name_matches += 1
-                else:
-                    missing_methods.append({
-                        "class": class_name,
-                        "method": method_name,
-                        "reason": "source-level-name-or-mangled-name-missing",
-                    })
+                missing_members.append({
+                    "kind": "property", "class": class_name, "name": prop["name"],
+                    "getter": getter, "descriptor": expected, "signature": prop["signature"],
+                })
 
-    api_method_count = sum(len(methods) for methods in api_classes.values())
+    api_method_count = counts["methods"]
     return {
         "apiClassCount": len(api_classes),
         "binaryClassMatches": len(api_classes) - len(missing_classes),
         "missingClasses": missing_classes,
         "apiMethodCount": api_method_count,
-        "sourceLevelMethodCount": source_level_method_count,
-        "sourceLevelNameMatches": source_level_name_matches,
-        "bytecodeOnlyMethodCount": bytecode_only_methods,
-        "bytecodeOnlyDescriptorMatches": bytecode_only_descriptor_matches,
-        "unsupportedBytecodeOnlySignatures": unsupported_bytecode_only_signatures,
-        "missingMethods": missing_methods,
-        "comparisonMode": "all API classes, source-level names with Kotlin JVM-mangling allowance, and exact JVM descriptors for @BytecodeOnly methods",
-        "status": "bytecode-only-descriptors-and-source-names-match" if (
-            not missing_classes and not missing_methods and not unsupported_bytecode_only_signatures
-        ) else "mismatches-found",
+        "sourceLevelMethodCount": api_method_count - counts["bytecodeOnlyMethods"],
+        "sourceLevelDescriptorMatches": counts["methodDescriptorMatches"] - counts["bytecodeOnlyDescriptorMatches"],
+        "sourceLevelBytecodeOnlyMatches": counts["sourceLevelBytecodeOnlyMatches"],
+        "bytecodeOnlyMethodCount": counts["bytecodeOnlyMethods"],
+        "bytecodeOnlyDescriptorMatches": counts["bytecodeOnlyDescriptorMatches"],
+        "kotlinOnlyMethodCount": counts["kotlinOnlyMethods"],
+        "kotlinOnlyDescriptorMatches": counts["kotlinOnlyDescriptorMatches"],
+        "constructorCount": counts["constructors"],
+        "constructorDescriptorMatches": counts["constructorDescriptorMatches"],
+        "kotlinOnlyConstructorCount": counts["kotlinOnlyConstructors"],
+        "kotlinOnlyConstructorMatches": counts["kotlinOnlyConstructorMatches"],
+        "fieldCount": counts["fields"],
+        "fieldDescriptorMatches": counts["fieldDescriptorMatches"],
+        "propertyCount": counts["properties"],
+        "propertyAccessorMatches": counts["propertyAccessorMatches"],
+        "unsupportedSignatures": unsupported_signatures,
+        "missingMembers": missing_members,
+        "comparisonMode": "exact JVM descriptors for API declarations, with explicit Compose lowering and Kotlin default-constructor mapping",
+        "status": "exact-declarations-match" if (
+            not missing_classes and not missing_members and not unsupported_signatures
+            and counts["methodDescriptorMatches"] == counts["methods"]
+            and counts["constructorDescriptorMatches"] == counts["constructors"]
+            and counts["fieldDescriptorMatches"] == counts["fields"]
+            and counts["propertyAccessorMatches"] == counts["properties"]
+        ) else "declaration-comparison-incomplete-or-mismatched",
     }
-
 
 def verify_file(directory: Path, report: dict, file_name: str) -> tuple[bytes, dict]:
     artifact = next((item for item in report.get("artifacts", []) if item.get("fileName") == file_name), None)
@@ -518,18 +985,32 @@ def inspect(directory: Path) -> dict:
         "interpretation": {
             "binarySurface": "Raw JVM public/protected bytecode members; this includes Kotlin-internal and compiler-generated declarations and is not a Kotlin public API dump.",
             "sourceMapping": "Class-file SourceFile attributes mapped to source-archive package paths; file-level mapping does not prove declaration-level API equivalence.",
-            "apiDumpAlignment": "OFFICIAL_STABLE_DUMP_AND_SOURCE_COMMIT_VERIFIED_METHODS_MATCH_OTHER_API_DECLARATIONS_PENDING",
-            "methodSurfaceComparison": (
+            "apiDumpAlignment": (
+                "VERIFIED" if api_binary_comparison["status"] == "exact-declarations-match"
+                else "OFFICIAL_STABLE_DUMP_AND_SOURCE_COMMIT_VERIFIED_METHODS_MATCH_OTHER_API_DECLARATIONS_PENDING"
+            ),
+            "declarationComparison": (
                 str(api_binary_comparison["apiClassCount"]) + "/" + str(api_binary_comparison["binaryClassMatches"]) +
-                " API classes exist in the AAR; " + str(api_binary_comparison["sourceLevelNameMatches"]) + "/" +
-                str(api_binary_comparison["sourceLevelMethodCount"]) + " source-level method names are present (Kotlin JVM mangling allowed); " +
+                " API classes match; " + str(api_binary_comparison["sourceLevelDescriptorMatches"]) + "/" +
+                str(api_binary_comparison["sourceLevelMethodCount"]) + " source-level method descriptors match; " +
+                str(api_binary_comparison["sourceLevelBytecodeOnlyMatches"]) + " source methods map to verified @BytecodeOnly ABI entries; " +
                 str(api_binary_comparison["bytecodeOnlyDescriptorMatches"]) + "/" +
-                str(api_binary_comparison["bytecodeOnlyMethodCount"]) + " @BytecodeOnly JVM descriptors match exactly. " +
-                "Source-level method descriptors are not yet compared."
+                str(api_binary_comparison["bytecodeOnlyMethodCount"]) + " @BytecodeOnly descriptors match; " +
+                str(api_binary_comparison["kotlinOnlyDescriptorMatches"]) + "/" +
+                str(api_binary_comparison["kotlinOnlyMethodCount"]) + " @KotlinOnly descriptors match; " +
+                str(api_binary_comparison["constructorDescriptorMatches"]) + "/" +
+                str(api_binary_comparison["constructorCount"]) + " constructors match (" +
+                str(api_binary_comparison["kotlinOnlyConstructorMatches"]) + "/" +
+                str(api_binary_comparison["kotlinOnlyConstructorCount"]) + " @KotlinOnly); " +
+                str(api_binary_comparison["fieldDescriptorMatches"]) + "/" +
+                str(api_binary_comparison["fieldCount"]) + " fields match; " +
+                str(api_binary_comparison["propertyAccessorMatches"]) + "/" +
+                str(api_binary_comparison["propertyCount"]) + " property getters match."
             ),
             "limitations": [
-                "The current comparison covers all API classes and method declarations, but compares exact JVM descriptors only for @BytecodeOnly methods; source-level methods are checked by name with Kotlin JVM-mangling allowance.",
-                "Constructor, field, and property declarations are not yet compared as independent API members.",
+                "Exact descriptors are compared for source-level, @KotlinOnly, and @BytecodeOnly methods, constructors, fields, and property getters. Unsupported Kotlin/JVM type mappings remain explicitly listed and prevent an exact-match status.",
+                "@KotlinOnly and @BytecodeOnly declarations are counted separately; both retain their original API classification during JVM comparison.",
+                "Property comparison verifies the getter descriptor exposed by the API dump; it does not infer an unreported setter or backing field.",
                 "The official stable 1.4.0 API snapshot is pinned from the AndroidX release branch, and all 249 published Kotlin sources match that release commit byte-for-byte (CI run 40984365256).",
                 "The derived JVM surface is not an official AndroidX API dump and must not be used as a Kotlin API compatibility claim.",
                 "Source-file mapping does not prove that every public binary declaration has an equivalent public Kotlin source declaration.",
