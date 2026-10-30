@@ -237,13 +237,13 @@
       "versionPolicy": "official-stable-release-as-of-2026-10-29",
       "referenceVersion": "1.14.0",
       "referenceVersionStatus": "selected-official-stable",
-      "inventoryStatus": "not-started",
+      "inventoryStatus": "in-progress",
       "portPriority": "migration-reference-only",
       "sourceRepository": "https://github.com/material-components/material-components-android",
       "sourceDirectory": "lib",
       "officialApiReference": "https://github.com/material-components/material-components-android",
       "officialReleaseNotes": "https://github.com/material-components/material-components-android/releases",
-      "notes": "Dernière version stable publiée dans les releases officielles au moment de l'inventaire. Bibliothèque Views en maintenance : référence historique pour cartographier les usages, pas cible de portage systématique.",
+      "notes": "A versioned source/AAR-derived index inspects the 1.14.0 binary surface and matches Java declarations, but remains provisional and non-exhaustive: 166 visible members have no unique source declaration match. It is not an official API dump; see baselines/material-components-views-1.14.0.json.",
       "successorFamilyIds": [
         "compose-material3-mobile"
       ],
