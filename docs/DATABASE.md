@@ -90,3 +90,24 @@ The schema is defined by `supabase/migrations/20261013193627_user_collections.sq
 Le laboratoire est une galerie locale de composants partagés. Il ne stocke ni catalogue, ni observations, ni état de vérification dans Supabase : le code, les spécifications et les tests versionnés dans Git sont les seules sources de vérité.
 
 La migration `20261029110714_retire_design_lab_audit.sql` retire les tables et fonctions propres à l’ancien workflow. Son préfixe correspond à la version effectivement enregistrée en production le 2026-10-29. Les migrations historiques restent dans Git pour préserver la traçabilité. Les permissions `audit.read` et `audit.write` sont conservées : elles protègent respectivement la lecture et l’écriture du journal d’audit administratif.
+
+
+## Conservation des journaux opérationnels
+
+**Inventaire de production vérifié le 30 octobre 2026 :**
+
+- `public.admin_audit_log` : une entrée de bootstrap de rôle administrateur ; les métadonnées ne contiennent que les clés `bootstrap` et `role_key`.
+- `auth.audit_log_entries` : aucune entrée.
+- `cron.job_run_details` : 806 exécutions réussies, datées du 4 au 5 octobre 2026 ; aucun job actif dans `cron.job`.
+- `pg_cron` 1.6.4 est installé ; aucun job de purge n’existe actuellement.
+- Le garde de suppression de compte pseudonymise déjà `actor_user_id` et les `target_id` polymorphes ; la clé étrangère du nouvel éventuel auteur d’une exception sera également `ON DELETE SET NULL`.
+
+**Politique retenue, activation en attente d’approbation de production :**
+
+- Six mois glissants pour `public.admin_audit_log` et les exécutions terminées de `cron.job_run_details`.
+- Une exception de conservation du journal administratif peut aller jusqu’à douze mois après l’événement, uniquement pour `security_incident`, `legal_obligation` ou `internal_investigation`, avec un code de référence non personnel au format `INC-YYYY-NNN`.
+- Les exceptions sont stockées dans le schéma privé, sans accès API, et expirent automatiquement. Les exécutions cron incomplètes ne sont jamais supprimées.
+- Le job prévu s’exécute quotidiennement à 03:00 GMT. La migration ne lance aucune purge immédiate ; l’inventaire actuel ne contient aucune entrée âgée de six mois.
+- Les logs gérés par Supabase et Vercel ne sont pas purgés par Loculary : leurs durées dépendent des plans souscrits (Supabase Free : 24 h pour les logs de plateforme, 1 h pour Auth Audit Logs ; Vercel Hobby : 1 h pour les logs runtime ; les logs de build restent attachés aux déploiements sans purge automatique). Aucun Log Drain ni changement de forfait n’est prévu.
+
+La migration `20261030030000_log_retention_policy.sql` et son test pgTAP `supabase/tests/log_retention.sql` sont préparés, mais **ne doivent pas être appliqués à la base de production sans approbation explicite**. Les migrations SQL et les purges automatiques sont des opérations à effet destructif ; voir les règles de la section « Supabase migrations » ci-dessus. Après approbation, appliquer la migration, vérifier le job et exécuter le test dans une transaction, puis synchroniser la politique publique.
