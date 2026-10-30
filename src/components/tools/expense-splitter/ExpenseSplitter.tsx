@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useLocale } from "@/lib/i18n/use-locale";
+import { useToolRuntime } from "@/components/tools/ToolPage/ToolRuntimeProvider";
 import { calculateExpenseSettlement, type SharedExpense } from "@/lib/expense-splitter";
 import { Button, OutlinedButton } from "@/components/ui/Button";
 import { Arrangement } from "@/components/layout/compose/Arrangement";
@@ -39,6 +40,7 @@ const inputClass = "mt-1 w-full min-w-0 rounded-xl border border-[var(--outline-
 export default function ExpenseSplitter() {
   const locale = useLocale();
   const t = copy[locale];
+  const { clipboard } = useToolRuntime();
   const [participants, setParticipants] = useState<Participant[]>(initialParticipants);
   const [expenses, setExpenses] = useState<SharedExpense[]>([]);
   const [newPerson, setNewPerson] = useState("");
@@ -119,8 +121,8 @@ export default function ExpenseSplitter() {
 
   async function copySummary() {
     try {
-      await navigator.clipboard.writeText(summaryText);
-      setCopyMessage(t.copied);
+      const success = await clipboard.writeText(summaryText);
+      setCopyMessage(success ? t.copied : t.copyFailed);
     } catch {
       setCopyMessage(t.copyFailed);
     }
