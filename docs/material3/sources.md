@@ -40,16 +40,12 @@ Les fichiers `api/current.txt` de Compose UI, UI Text, Foundation et Foundation 
 - Fonctions composables, composants, paramètres publics, types, états, interfaces, tokens et autres API publiques utiles au contrat, en conservant les distinctions entre API stable, expérimentale, dépréciée et supprimée.
 - API multiplateformes et différences de disponibilité lorsqu'elles sont déclarées par les sources.
 
-### Inventaires liés, séparés explicitement
+### Familles liées au périmètre mobile/tablette
 
-Les bibliothèques apparentées ne doivent ni être oubliées ni être mélangées à la bibliothèque principale :
+- Material 3 Adaptive est étudié pour les interfaces adaptatives téléphone/tablette.
+- Material 3 Window Size Class n'est inventorié que si son artefact distinct apporte une capacité utile à ce même périmètre.
 
-- Material 3 Adaptive ;
-- Material 3 Window Size Class, si la surface publique existe encore comme artefact distinct dans la version retenue ;
-- Wear Compose Material 3 ;
-- autres modules Material 3 officiels découverts lors de l'audit.
-
-Chaque module lié doit avoir son propre artefact, version, source, statut et catalogue. Son inclusion effective est décidée après vérification de la frontière et des dépendances, pas à partir de son seul nom.
+Wear Compose Material 3, Android TV et les appareils spécialisés restent des repères dans le registre (`migration-reference-only`). Ils ne déclenchent ni inventaire détaillé ni portage.
 
 ### Exclus
 
