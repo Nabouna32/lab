@@ -118,17 +118,31 @@ export function parseGitLsRemoteRefs(text) {
     .sort((left, right) => left.ref.localeCompare(right.ref));
 }
 
-export function resolveGitilesRef(refs, candidates, label = 'release') {
+export async function resolveGitilesRef(fetchImpl, refs, candidates, label, versionMarker, expectedVersion) {
+  const attempted = [];
   for (const candidate of candidates) {
     const match = refs.find((entry) => entry.ref === candidate);
-    if (match) return match;
+    if (!match) continue;
+    const versionBytes = await fetchGitilesBytes(
+      GITILES_BASE + '/+/' + match.commit + '/libraryversions.toml?format=TEXT',
+      label + ' version marker at ' + match.commit,
+      fetchImpl,
+    );
+    const versionText = Buffer.from(versionBytes.toString('utf8').replace(/\s+/g, ''), 'base64').toString('utf8');
+    const actualVersion = parseLibraryVersion(versionText, versionMarker);
+    if (actualVersion !== expectedVersion) {
+      attempted.push(candidate + '@' + match.commit + ' (' + versionMarker + '=' + actualVersion + ')');
+      continue;
+    }
+    return { ...match, version: actualVersion, libraryVersionsText: versionText };
   }
   const related = refs
     .filter((entry) => /compose/i.test(entry.ref) && /release/i.test(entry.ref))
     .map((entry) => entry.ref + '@' + entry.commit);
   throw new Error(
-    'No official AndroidX ' + label + ' ref matched the supported candidates: ' +
-    candidates.join(', ') + '. Related refs discovered by git ls-remote: ' + (related.join(', ') || 'none') + '.',
+    'No official AndroidX ' + label + ' ref matched version ' + expectedVersion +
+    '. Checked: ' + (attempted.join(', ') || candidates.join(', ')) +
+    '. Related refs discovered by git ls-remote: ' + (related.join(', ') || 'none') + '.',
   );
 }
 
@@ -190,19 +204,11 @@ export async function inspectComposeReleaseProvenance({ outputDirectory, refsTex
   };
 
   for (const group of RELEASE_GROUPS) {
-    const resolvedRef = resolveGitilesRef(refs, group.refCandidates, group.id);
+    const resolvedRef = await resolveGitilesRef(fetchImpl, refs, group.refCandidates, group.id, group.versionMarker, group.version);
     const commit = resolvedRef.commit;
     const branchHead = { commit, message: null, committer: null };
-    const versionsBytes = await fetchGitilesBytes(
-      GITILES_BASE + '/+/' + commit + '/libraryversions.toml?format=TEXT',
-      group.id + ' libraryversions.toml',
-      fetchImpl,
-    );
-    const versionsText = Buffer.from(versionsBytes.toString('utf8').replace(/\s+/g, ''), 'base64').toString('utf8');
-    const actualVersion = parseLibraryVersion(versionsText, group.versionMarker);
-    if (actualVersion !== group.version) {
-      throw new Error(group.versionMarker + ' at ' + commit + ' is ' + actualVersion + ', expected ' + group.version + '.');
-    }
+    const versionsText = resolvedRef.libraryVersionsText;
+    const actualVersion = resolvedRef.version;
 
     const groupReport = {
       id: group.id,
