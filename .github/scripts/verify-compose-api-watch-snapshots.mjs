@@ -21,6 +21,7 @@ export function validateComposeApiWatchManifest(manifest) {
   if (manifest?.snapshotVersion !== 'androidx-main-watch@5901d750') errors.push('snapshotVersion must identify the pinned watch snapshot, not a stable release.');
   if (manifest?.stableBaselineAlignment !== 'UNVERIFIED') errors.push('stableBaselineAlignment must remain UNVERIFIED.');
   if (manifest?.semanticCompleteness !== 'not-established-by-api-dump-alone') errors.push('semanticCompleteness must preserve the API-dump limitation.');
+  if (manifest?.inventoryParser !== '.github/scripts/material3-api-inventory.mjs') errors.push('inventoryParser must identify the canonical AndroidX API inventory parser.');
   if (manifest?.requiredSurface !== 'public') errors.push('requiredSurface must be public.');
   if (!/^[0-9a-f]{40}$/.test(manifest?.sourceCommit ?? '')) errors.push('sourceCommit must be an immutable Git commit SHA.');
   if (!Array.isArray(manifest?.entries) || manifest.entries.length !== 4) {
@@ -35,6 +36,7 @@ export function validateComposeApiWatchManifest(manifest) {
   }
   for (const [index, entry] of manifest.entries.entries()) {
     if (!entry?.sourcePath || !entry?.snapshotPath || !entry?.artifact) errors.push('entries[' + index + '] must identify artifact, sourcePath and snapshotPath.');
+    if (!entry?.inventorySummary || !Number.isInteger(entry.inventorySummary.declarationCount)) errors.push('entries[' + index + '] must include a parsed inventorySummary.');
     if (!/^[0-9a-f]{40}$/.test(entry?.gitBlobSha1 ?? '')) errors.push('entries[' + index + '].gitBlobSha1 must be a Git blob SHA-1.');
     if (!Number.isInteger(entry?.characters) || entry.characters <= 0) errors.push('entries[' + index + '].characters must be a positive integer.');
     if (!entry?.lineCounts || Object.values(entry.lineCounts).some((value) => !Number.isInteger(value) || value < 0)) {
@@ -44,7 +46,7 @@ export function validateComposeApiWatchManifest(manifest) {
   return errors;
 }
 
-export function verifyComposeApiWatchSnapshots({ root = process.cwd(), manifestPath = DEFAULT_MANIFEST } = {}) {
+export function verifyComposeApiWatchSnapshots({ root = process.cwd(), manifestPath = DEFAULT_MANIFEST, report = null } = {}) {
   const absoluteManifestPath = resolve(root, manifestPath);
   const manifest = JSON.parse(readFileSync(absoluteManifestPath, 'utf8'));
   const errors = validateComposeApiWatchManifest(manifest);
@@ -97,6 +99,26 @@ export function verifyComposeApiWatchSnapshots({ root = process.cwd(), manifestP
     if (!Array.isArray(inventory.packageAnnotations)) {
       errors.push(entry.family + ' package annotations were not preserved by the API parser.');
     }
+    report?.(entry.family + ': ' + inventory.declarationCount + ' declarations, ' + inventory.sourceApiCandidateCount + ' source API candidates across ' + new Set(inventory.declarations.map((declaration) => declaration.package)).size + ' packages.');
+
+    const summary = entry.inventorySummary;
+    const packageCountsByName = {};
+    for (const declaration of inventory.declarations) {
+      packageCountsByName[declaration.package] = (packageCountsByName[declaration.package] ?? 0) + 1;
+    }
+    const packageCounts = Object.fromEntries(Object.entries(packageCountsByName).sort(([left], [right]) => left.localeCompare(right)));
+    const actualSummary = {
+      declarationCount: inventory.declarationCount,
+      sourceApiCandidateCount: inventory.sourceApiCandidateCount,
+      bytecodeOnlyCount: inventory.bytecodeOnlyCount,
+      inaccessibleFromKotlinCount: inventory.inaccessibleFromKotlinCount,
+      packageCount: Object.keys(packageCounts).length,
+      packageCounts,
+      packageAnnotations: inventory.packageAnnotations,
+    };
+    if (JSON.stringify(actualSummary) !== JSON.stringify(summary)) {
+      errors.push(entry.family + ' parsed API inventory summary differs from the committed manifest.');
+    }
 
     const actualCounts = {
       packages: countLines(lines, /^package /),
@@ -117,7 +139,7 @@ export function verifyComposeApiWatchSnapshots({ root = process.cwd(), manifestP
 
 if (process.argv[1] && import.meta.url === new URL('file://' + process.argv[1]).href) {
   const manifestPath = process.argv[2] ?? DEFAULT_MANIFEST;
-  const errors = verifyComposeApiWatchSnapshots({ manifestPath });
+  const errors = verifyComposeApiWatchSnapshots({ manifestPath, report: (line) => process.stdout.write(line + '\n') });
   if (errors.length) {
     process.stderr.write(errors.map((error) => '- ' + error).join('\n') + '\n');
     process.exitCode = 1;

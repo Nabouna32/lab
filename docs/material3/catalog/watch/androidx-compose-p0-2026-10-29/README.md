@@ -4,12 +4,14 @@ Ces quatre fichiers conservent les signatures `api/current.txt` du dépôt Andro
 
 **Statut : veille uniquement.** Ce commit est une référence d'inspection, pas le commit de release Compose 1.12.1. Les snapshots ne constituent donc ni des baselines stables 1.12.1, ni une preuve d'alignement avec les sources JAR/AAR Google Maven.
 
-| Famille | Dump source | Git blob SHA-1 | Packages | Types | Méthodes | Constructeurs | Champs | Propriétés |
+| Famille | Dump source | Git blob SHA-1 | Packages | Déclarations | Candidates API source | Types | Méthodes | Constructeurs | Champs | Propriétés |
 |---|---|---|---:|---:|---:|---:|---:|---:|
-| `compose-ui` | `compose/ui/ui/api/current.txt` | `fe47644a141d05f16c45f15a90c24ecb03e630c8` | 28 | 243 | 2 413 | 159 | 118 | 1 207 |
-| `compose-foundation` | `compose/foundation/foundation/api/current.txt` | `5206f892f57b02808ed792a2ac1857c78aee149f` | 24 | 163 | 1 660 | 125 | 93 | 414 |
-| `compose-ui-text` | `compose/ui/ui-text/api/current.txt` | `3a47f781e60c75946b82e75b9936f61591d24127` | 8 | 61 | 1 000 | 181 | 50 | 409 |
-| `compose-foundation-layout` | `compose/foundation/foundation-layout/api/current.txt` | `e174cdc00cc24569147c3ba25c616762a2555737` | 1 | 22 | 536 | 9 | 26 | 129 |
+| `compose-ui` | `compose/ui/ui/api/current.txt` | `fe47644a141d05f16c45f15a90c24ecb03e630c8` | 28 | 4 390 | 2 638 | 243 | 2 413 | 159 | 118 | 1 207 |
+| `compose-foundation` | `compose/foundation/foundation/api/current.txt` | `5206f892f57b02808ed792a2ac1857c78aee149f` | 24 | 2 674 | 1 700 | 163 | 1 660 | 125 | 93 | 414 |
+| `compose-ui-text` | `compose/ui/ui-text/api/current.txt` | `3a47f781e60c75946b82e75b9936f61591d24127` | 8 | 1 811 | 1 045 | 61 | 1 000 | 181 | 50 | 409 |
+| `compose-foundation-layout` | `compose/foundation/foundation-layout/api/current.txt` | `e174cdc00cc24569147c3ba25c616762a2555737` | 1 | 786 | 472 | 22 | 536 | 9 | 26 | 129 |
+
+L'inventaire structuré utilise le parseur canonique `.github/scripts/material3-api-inventory.mjs`. Le manifeste détaille, pour chaque famille, les déclarations, les candidates API source, les déclarations `@BytecodeOnly` et `@InaccessibleFromKotlin`, les comptes par package et les annotations portées par les packages. Les « candidates API source » excluent les deux dernières catégories ; elles ne constituent pas une classification de stabilité ou de disponibilité Web. Le vérificateur CI recalcule ces métriques à partir des dumps bruts.
 
 Le [manifeste](manifest.json) conserve les chemins amont, le commit, les empreintes Git blob et les limites de preuve. Les fichiers bruts sont conservés pour permettre une normalisation et un diff ultérieurs sans dépendre d'un état mutable du dépôt amont.
 
