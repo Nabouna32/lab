@@ -175,7 +175,8 @@ def split_api_parameter_types(parameters: str) -> list[str]:
 def api_type_to_jvm_descriptor(type_name: str, is_return: bool = False) -> str | None:
     value = re.sub(r"@[A-Za-z0-9_.]+(?:\([^)]*\))?", "", type_name).strip()
     value = re.sub(r"^(?:\? super|\? extends|in|out)\s+", "", value)
-    value = value.replace("?", "").replace("!", "").strip()
+    nullable = value.endswith("?")
+    value = value.rstrip("?!").strip()
     value = re.sub(r"\s+", "", value)
     if not value:
         return None
@@ -194,12 +195,23 @@ def api_type_to_jvm_descriptor(type_name: str, is_return: bool = False) -> str |
         "kotlin.Boolean": "Z", "kotlin.Byte": "B", "kotlin.Char": "C",
         "kotlin.Short": "S", "kotlin.Int": "I", "kotlin.Long": "J",
         "kotlin.Float": "F", "kotlin.Double": "D",
+        "Boolean": "Z", "Byte": "B", "Char": "C", "Short": "S",
+        "Int": "I", "Long": "J", "Float": "F", "Double": "D",
     }
     if value in primitive:
+        if nullable and primitive[value] != "V":
+            wrappers = {
+                "Z": "java/lang/Boolean", "B": "java/lang/Byte",
+                "C": "java/lang/Character", "S": "java/lang/Short",
+                "I": "java/lang/Integer", "J": "java/lang/Long",
+                "F": "java/lang/Float", "D": "java/lang/Double",
+            }
+            return "L" + wrappers[primitive[value]] + ";"
         return primitive[value]
 
     aliases = {
         "kotlin.String": "java/lang/String",
+        "String": "java/lang/String",
         "kotlin.Any": "java/lang/Object",
         "kotlin.Throwable": "java/lang/Throwable",
         "kotlin.collections.Iterable": "java/lang/Iterable",
@@ -234,7 +246,14 @@ def api_type_to_jvm_descriptor(type_name: str, is_return: bool = False) -> str |
     if value.startswith("kotlin.jvm.internal."):
         return "L" + value.replace(".", "/") + ";"
     if value.startswith("java.") or value.startswith("android.") or value.startswith("androidx.") or value.startswith("kotlin."):
-        return "L" + value.replace(".", "/").replace("$", "$") + ";"
+        segments = value.split(".")
+        first_type = next(
+            (index for index, segment in enumerate(segments) if segment and segment[0].isupper()),
+            len(segments) - 1,
+        )
+        package_path = "/".join(segments[:first_type])
+        binary_type = "$".join(segments[first_type:])
+        return "L" + (package_path + "/" if package_path else "") + binary_type + ";"
     if re.fullmatch(r"[A-Z][A-Za-z0-9_]*", value):
         return "Ljava/lang/Object;"
     return None
