@@ -100,7 +100,7 @@ La migration `20261029110714_retire_design_lab_audit.sql` retire les tables et f
 
 ## Conservation des journaux opérationnels
 
-**Politique cible versionnée dans la branche de travail — pas encore active en production :**
+**Politique cible versionnée dans `main` — pas encore active en production :**
 
 - Douze mois glissants pour `public.admin_audit_log` et les exécutions terminées de `cron.job_run_details`.
 - Suppression automatique quotidienne à 03:00 UTC après expiration ; les exécutions cron incomplètes restent préservées.
