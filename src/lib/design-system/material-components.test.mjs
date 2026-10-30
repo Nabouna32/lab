@@ -419,9 +419,9 @@ test("TextField labels reflect invalid state while disabled labels keep disabled
 
 test("TextField and TextArea keep their explicit inputId bound to the visible label", () => {
   assert.match(textFieldSource, /Omit<InputHTMLAttributes<HTMLInputElement>, "id">/);
-  assert.equal((textFieldSource.match(/\\{\\.\\.\\.inputProps\\}\\s+id=\\{inputId\\}/g) ?? []).length, 2);
+  assert.equal((textFieldSource.match(/\{\.\.\.inputProps\}\s+id=\{inputId\}/g) ?? []).length, 2);
   assert.match(textAreaSource, /Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "id">/);
-  assert.match(textAreaSource, /\\{\\.\\.\\.textareaProps\\}\\s+id=\\{inputId\\}/);
+  assert.match(textAreaSource, /\{\.\.\.textareaProps\}\s+id=\{inputId\}/);
   assert.match(calculatorFieldSource, /Omit<InputHTMLAttributes<HTMLInputElement>, "id">/);
 });
 
@@ -439,7 +439,7 @@ test("TextArea preserves caller descriptions and adds its helper or error descri
   assert.ok(textAreaSource.includes("value?.split(/\\s+/)"));
   assert.match(textAreaSource, /aria-invalid=\{error \? true : consumerInvalid\}/);
   assert.match(textAreaSource, /aria-describedby=\{describedBy\}/);
-  assert.match(textAreaSource, /\{\.\.\.textareaProps\}/);
+  assert.match(textAreaSource, /\{\.\.\.textareaProps\}\s+id=\{inputId\}/);
 });
 
 test("M3 web reference tokens document Android dp/sp magnitude without claiming physical equivalence", () => {
