@@ -39,6 +39,7 @@ test("pgTAP retention suite is transactional and its plan matches its assertions
 
   assert.match(sqlTest, /^begin;/m);
   assert.match(sqlTest, /rollback;\s*$/);
+  assert.match(sqlTest, /\$delete\$delete from auth\.users[\s\S]*?\$delete\$/);
   assert.equal(plan, assertionCount);
   assert.match(sqlTest, /account deletion anonymizes the audit actor/);
   assert.match(sqlTest, /account deletion anonymizes the audit target/);
