@@ -96,24 +96,19 @@ export async function fetchGitilesBytes(value, label, fetchImpl = globalThis.fet
   throw new Error(label + ' exceeded the redirect limit.');
 }
 
-export function parseGitilesRefs(text) {
+export function parseGitilesLog(text) {
   const json = text.replace(/^\)\]\}'(?:\r?\n)?/, '');
   const parsed = JSON.parse(json);
-  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
-    throw new Error('Gitiles refs response must be a JSON object.');
-  }
-  return parsed;
-}
-
-export function resolveGitilesRef(refs, branch) {
-  const refName = 'refs/heads/' + branch;
-  const entry = refs[refName];
-  const commit = typeof entry === 'string' ? entry : entry?.value ?? entry?.revision ?? entry?.object?.sha;
+  const head = parsed?.log?.[0];
+  const commit = head?.commit ?? head?.id;
   if (!/^[a-f0-9]{40}$/i.test(commit ?? '')) {
-    const candidates = Object.keys(refs).filter((name) => /compose-(ui|foundation)-release/.test(name)).slice(0, 20);
-    throw new Error('Missing Gitiles ref ' + refName + '. Related refs: ' + (candidates.join(', ') || 'none returned') + '.');
+    throw new Error('Gitiles branch log did not return an immutable commit.');
   }
-  return commit.toLowerCase();
+  return {
+    commit: commit.toLowerCase(),
+    message: typeof head.message === 'string' ? head.message : null,
+    committer: head.committer ?? null,
+  };
 }
 
 export function parseLibraryVersion(text, marker) {
@@ -146,8 +141,6 @@ export async function inspectComposeReleaseProvenance({ outputDirectory, fetchIm
   if (!outputDirectory) throw new Error('outputDirectory is required.');
   const output = resolve(outputDirectory);
   await mkdir(output, { recursive: true });
-  const refsBytes = await fetchGitilesBytes(GITILES_BASE + '/+refs?format=JSON', 'AndroidX Gitiles refs', fetchImpl);
-  const refs = parseGitilesRefs(refsBytes.toString('utf8'));
   const report = {
     schemaVersion: 1,
     repository: 'androidx/androidx',
@@ -159,7 +152,13 @@ export async function inspectComposeReleaseProvenance({ outputDirectory, fetchIm
   };
 
   for (const group of RELEASE_GROUPS) {
-    const commit = resolveGitilesRef(refs, group.branch);
+    const branchLogBytes = await fetchGitilesBytes(
+      GITILES_BASE + '/+log/refs/heads/' + group.branch + '?format=JSON&n=1',
+      group.branch + ' release branch head',
+      fetchImpl,
+    );
+    const branchHead = parseGitilesLog(branchLogBytes.toString('utf8'));
+    const commit = branchHead.commit;
     const versionsBytes = await fetchGitilesBytes(
       GITILES_BASE + '/+/' + commit + '/libraryversions.toml?format=TEXT',
       group.id + ' libraryversions.toml',
@@ -176,6 +175,8 @@ export async function inspectComposeReleaseProvenance({ outputDirectory, fetchIm
       branch: group.branch,
       ref: 'refs/heads/' + group.branch,
       commit,
+      commitMessage: branchHead.message,
+      committer: branchHead.committer,
       versionMarker: group.versionMarker,
       version: actualVersion,
       libraryVersions: calculateGitilesBlobHashes(Buffer.from(versionsText)),
