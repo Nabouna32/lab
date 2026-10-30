@@ -1,6 +1,6 @@
 import type { InputHTMLAttributes } from "react";
 
-type TextFieldProps = InputHTMLAttributes<HTMLInputElement> & {
+type TextFieldProps = Omit<InputHTMLAttributes<HTMLInputElement>, "id"> & {
   label: string;
   inputId: string;
   unit?: string;
@@ -45,13 +45,13 @@ export function TextField({
     return (
       <div className="relative">
         <input
-          id={inputId}
           type={type}
           inputMode={resolvedInputMode}
           step={step ?? (type === "number" ? "any" : undefined)}
           disabled={disabled}
           placeholder={placeholder ?? " "}
           {...inputProps}
+          id={inputId}
           className={expressiveInputClasses}
         />
         <label
@@ -82,13 +82,13 @@ export function TextField({
       </label>
       <div className="relative">
         <input
-          id={inputId}
           type={type}
           inputMode={resolvedInputMode}
           step={step ?? (type === "number" ? "any" : undefined)}
           disabled={disabled}
           placeholder={placeholder}
           {...inputProps}
+          id={inputId}
           className={inputClasses}
         />
         {unit && (

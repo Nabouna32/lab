@@ -10,6 +10,7 @@ const progressSource = readFileSync(new URL("../../components/ui/ProgressIndicat
 const progressCss = readFileSync(new URL("../../components/ui/progress-indicator.module.css", import.meta.url), "utf8");
 const textFieldSource = readFileSync(new URL("../../components/ui/TextField.tsx", import.meta.url), "utf8");
 const textAreaSource = readFileSync(new URL("../../components/ui/TextArea.tsx", import.meta.url), "utf8");
+const calculatorFieldSource = readFileSync(new URL("../../components/tools/calculator/CalculatorField.tsx", import.meta.url), "utf8");
 const selectSource = readFileSync(new URL("../../components/ui/Select.tsx", import.meta.url), "utf8");
 const buttonSource = readFileSync(new URL("../../components/ui/Button.tsx", import.meta.url), "utf8");
 const buttonVariantStylesSource = readFileSync(new URL("../../components/ui/material-button-variant-styles.ts", import.meta.url), "utf8");
@@ -416,6 +417,14 @@ test("TextField labels reflect invalid state while disabled labels keep disabled
   assert.match(textFieldSource, /disabled \? "text-\[color-mix\(in_srgb,var\(--on-surface\)_38%,transparent\)\]" : isInvalid \? "text-\[var\(--danger\)\] peer-aria-\[invalid=true\]:text-\[var\(--danger\)\]"/);
 });
 
+test("TextField and TextArea keep their explicit inputId bound to the visible label", () => {
+  assert.match(textFieldSource, /Omit<InputHTMLAttributes<HTMLInputElement>, "id">/);
+  assert.equal((textFieldSource.match(/\{\.\.\.inputProps\}\s+id=\{inputId\}/g) ?? []).length, 2);
+  assert.match(textAreaSource, /Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "id">/);
+  assert.match(textAreaSource, /\{\.\.\.textareaProps\}\s+id=\{inputId\}/);
+  assert.match(calculatorFieldSource, /Omit<InputHTMLAttributes<HTMLInputElement>, "id">/);
+});
+
 test("TextArea and Select labels reflect invalid state while preserving disabled colors", () => {
   assert.match(textAreaSource, /const isInvalid = Boolean\(error\) \|\| Boolean\(consumerInvalid\);/);
   assert.match(textAreaSource, /disabled \? "text-\[color-mix\(in_srgb,var\(--on-surface\)_38%,transparent\)\]" : isInvalid \? "text-\[var\(--error\)\]"/);
@@ -430,7 +439,7 @@ test("TextArea preserves caller descriptions and adds its helper or error descri
   assert.ok(textAreaSource.includes("value?.split(/\\s+/)"));
   assert.match(textAreaSource, /aria-invalid=\{error \? true : consumerInvalid\}/);
   assert.match(textAreaSource, /aria-describedby=\{describedBy\}/);
-  assert.match(textAreaSource, /\{\.\.\.textareaProps\}/);
+  assert.match(textAreaSource, /\{\.\.\.textareaProps\}\s+id=\{inputId\}/);
 });
 
 test("M3 web reference tokens document Android dp/sp magnitude without claiming physical equivalence", () => {

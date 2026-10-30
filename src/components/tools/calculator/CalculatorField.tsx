@@ -1,7 +1,7 @@
 import type { InputHTMLAttributes } from "react";
 import { TextField } from "@/components/ui/TextField";
 
-type CalculatorFieldProps = InputHTMLAttributes<HTMLInputElement> & {
+type CalculatorFieldProps = Omit<InputHTMLAttributes<HTMLInputElement>, "id"> & {
   label: string;
   inputId: string;
   unit?: string;
