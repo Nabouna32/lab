@@ -417,6 +417,24 @@ def api_type_to_jvm_descriptor(type_name: str, is_return: bool = False) -> str |
     return None
 
 
+def _boxed_api_type_descriptor(type_name: str) -> str | None:
+    value = re.sub(r"@[A-Za-z0-9_.]+(?:\([^)]*\))?", "", type_name).strip()
+    value = value.rstrip("?!").strip()
+    generic_index = value.find("<")
+    if generic_index >= 0:
+        value = value[:generic_index]
+    if not (value.startswith("java.") or value.startswith("android.") or value.startswith("androidx.") or value.startswith("kotlin.")):
+        return None
+    segments = value.split(".")
+    first_type = next(
+        (index for index, segment in enumerate(segments) if segment and segment[0].isupper()),
+        len(segments) - 1,
+    )
+    package_path = "/".join(segments[:first_type])
+    binary_type = "$".join(segments[first_type:])
+    return "L" + (package_path + "/" if package_path else "") + binary_type + ";"
+
+
 def bytecode_only_method_descriptor(signature: str) -> tuple[str, str] | None:
     method_part = signature.split("method", 1)[1]
     match = re.search(r"\b(?:public|protected)\s+(?:(?:static|final|abstract|synchronized|native)\s+)*(.+?)\s+([A-Za-z_$][A-Za-z0-9_$-]*)\((.*)\);$", method_part)
