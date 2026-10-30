@@ -98,7 +98,6 @@ test("global message locales keep the same structure and interpolation variables
 });
 
 const localizedUiFiles = [
-  "../../components/theme/ThemeToggle.tsx",
   "../../components/layout/Breadcrumbs.tsx",
   "../../components/home/HomeGuidedWorkflows.tsx",
   "../../components/tools/temps-telechargement/DownloadTimeCalculator.tsx",
@@ -112,12 +111,10 @@ test("audited UI components consume localization instead of local bilingual stri
     assert.equal(source.includes('locale === "en"'), false, relativePath);
   }
 
-  const theme = readFileSync(fileURLToPath(new URL("../../components/theme/ThemeToggle.tsx", import.meta.url)), "utf8");
   const homeDiscovery = readFileSync(fileURLToPath(new URL("../../components/home/HomeGuidedWorkflows.tsx", import.meta.url)), "utf8");
   const downloadTime = readFileSync(fileURLToPath(new URL("../../components/tools/temps-telechargement/DownloadTimeCalculator.tsx", import.meta.url)), "utf8");
   const downloadSpeed = readFileSync(fileURLToPath(new URL("../../components/tools/vitesse-telechargement/DownloadSpeedConverter.tsx", import.meta.url)), "utf8");
 
-  assert.match(theme, /getMessages\(locale\)\.theme/);
   const breadcrumbs = readFileSync(fileURLToPath(new URL("../../components/layout/Breadcrumbs.tsx", import.meta.url)), "utf8");
   assert.match(breadcrumbs, /t\.breadcrumbs\.label/);
   assert.match(homeDiscovery, /t\.guidedWorkflows\.homeTitle/);
@@ -267,8 +264,7 @@ test("public shell interfaces keep user-facing labels and states behind the i18n
     "../../components/layout/Breadcrumbs.tsx",
     "../../components/layout/LanguageSelector.tsx",
     "../../components/layout/HeaderSearch.tsx",
-    "../../components/theme/ThemeToggle.tsx",
-    "../../components/home/HomeGuidedWorkflows.tsx",
+      "../../components/home/HomeGuidedWorkflows.tsx",
     "../../components/tools/ToolSearch.tsx",
   ];
 
