@@ -65,7 +65,7 @@ test("Material 3 stable source provenance is pinned without overstating API alig
   assert.equal(baseline.apiDumpAlignment.repositorySourceCommit, releaseSnapshot.commit);
   assert.equal(baseline.publishedAndroidVariant.verification.sourceCommit.verifiedByteForByte, 249);
   assert.equal(baseline.publishedAndroidVariant.verification.sourceCommit.mismatchCount, 0);
-  assert.match(baseline.apiDumpAlignment.reason, /Declaration-level comparison/);
+  assert.match(baseline.apiDumpAlignment.reason, /Exact descriptors for source-level methods, constructors, fields and properties are not yet independently compared/);
 });
 
 const material3AndroidInventory = JSON.parse(readFileSync(
