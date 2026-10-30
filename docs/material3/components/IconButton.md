@@ -6,19 +6,32 @@
 ## Upstream authority
 
 - [Official Material 3 Icon button guide](https://m3.material.io/components/icon-button/overview)
-- [AndroidX IconButton source snapshot](https://android.googlesource.com/platform/frameworks/support/%2B/1c9fe3b21eca0f1d2906dddf89028acbbb63b08c/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/IconButton.kt)
-- [AndroidX `SmallIconButtonTokens.kt` at the same source revision](https://android.googlesource.com/platform/frameworks/support/%2B/1c9fe3b21eca0f1d2906dddf89028acbbb63b08c/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/SmallIconButtonTokens.kt)
-- [AndroidX `FilledIconButtonTokens.kt` at the same source revision](https://android.googlesource.com/platform/frameworks/support/%2B/1c9fe3b21eca0f1d2906dddf89028acbbb63b08c/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/FilledIconButtonTokens.kt)
-- [AndroidX `FilledTonalIconButtonTokens.kt` at the same source revision](https://android.googlesource.com/platform/frameworks/support/%2B/1c9fe3b21eca0f1d2906dddf89028acbbb63b08c/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/FilledTonalIconButtonTokens.kt)
-- [AndroidX `OutlinedIconButtonTokens.kt` at the same source revision](https://android.googlesource.com/platform/frameworks/support/%2B/1c9fe3b21eca0f1d2906dddf89028acbbb63b08c/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/OutlinedIconButtonTokens.kt)
+- [AndroidX IconButton.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/IconButton.kt)
+- [AndroidX IconButtonDefaults.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/IconButtonDefaults.kt)
+- [AndroidX IconButtonTokens.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/IconButtonTokens.kt)
+- [AndroidX StateTokens.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/StateTokens.kt)
+- [AndroidX Ripple.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Ripple.kt)
+- [AndroidX `SmallIconButtonTokens.kt` at the same source revision](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/SmallIconButtonTokens.kt)
+- [AndroidX `FilledIconButtonTokens.kt` at the same source revision](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/FilledIconButtonTokens.kt)
+- [AndroidX `FilledTonalIconButtonTokens.kt` at the same source revision](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/FilledTonalIconButtonTokens.kt)
+- [AndroidX `OutlinedIconButtonTokens.kt` at the same source revision](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/OutlinedIconButtonTokens.kt)
 - [WCAG 2.2 target size](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html)
 - [WCAG 2.2 focus appearance](https://www.w3.org/WAI/WCAG22/Understanding/focus-appearance.html)
 
-**Version caveat:** the API and component-token files are pinned to the same AndroidX source commit. The corresponding Maven artifact version is not inferred from Git metadata, so claims are scoped to this source snapshot rather than a declared artifact release.
+**Stable baseline:** Compose Material 3 1.4.0, source commit `5113b82a4ed6416d6344efa50e41db8cb65928ff`. The published source archive was compared with 249 Kotlin files from this commit, with zero mismatches; see the [Material 3 1.4.0 provenance manifest](../catalog/baselines/material3-1.4.0.json).
 
 ## Contract and known findings
 
-AndroidX exposes distinct public composables for `IconButton`, `FilledIconButton`, `FilledTonalIconButton`, `OutlinedIconButton` and the corresponding `IconToggleButton`, `FilledIconToggleButton`, `FilledTonalIconToggleButton`, `OutlinedIconToggleButton`. Action buttons are not toggles: checked state belongs to the toggle APIs, not a `selected` prop on a generic variant-based button. The React API now follows this separation. The action and toggle CSS mappings now use separate state contracts. Source-token audit against the pinned AndroidX commit corrects several previously inaccurate defaults: `FilledIconButton` uses primary/on-primary; its disabled container is on-surface at 10% and its disabled icon is on-surface-variant at 38%. `FilledIconToggleButton` unchecked uses surface-container/on-surface-variant and checked uses primary/on-primary. `FilledTonalIconButton` uses secondary-container/on-secondary-container; its toggle is unchecked with those same roles and checked with secondary/on-secondary. `OutlinedIconButton` uses outline-variant for its enabled outline; the disabled outline uses on-surface at 12%, while its disabled icon uses on-surface at 38%. CSS blending remains a Web adaptation. Hover/focus/pressed layers use source token roles at 8%/12%/12% via CSS color mixing; notably, the outlined unchecked pressed layer uses `on-surface` rather than `on-surface-variant`. This remains a Web adaptation, not pixel-identical Compose rendering.
+AndroidX exposes distinct public composables for `IconButton`, `FilledIconButton`, `FilledTonalIconButton`, `OutlinedIconButton` and the corresponding four toggle components. Action buttons are not toggles: checked state belongs to the toggle APIs, not a `selected` prop on a generic variant-based button.
+
+The stable 1.4.0 source establishes these state contracts:
+- Standard `IconButton`: disabled content follows `LocalContentColor` at 38% (the default surface context uses `onSurfaceVariant`).
+- `FilledIconButton` and `FilledTonalIconButton`: disabled container `onSurface` at 10%, disabled icon `onSurface` at 38%.
+- The Web outlined variants deliberately use the spec-recommended/vibrant color mapping: `outlineVariant` border and `onSurfaceVariant` enabled content. The disabled outline is `outlineVariant` at 38%; the disabled icon uses `onSurface` at 38%. The checked outlined toggle uses `onSurface` at 10% for its disabled container.
+- Standard toggles inherit `LocalContentColor` at 38% when disabled; filled and filled-tonal toggles use `onSurface` at 38%.
+- State layers use hover 8%, focus 10%, pressed 10%. `RippleDefaults.RippleAlpha` uses the same `StateTokens` values; the Web ripple uses 10% pressed opacity.
+
+The React implementation keeps separate action/toggle roles and declares its outlined vibrant mapping. CSS color mixing remains a Web adaptation, not pixel-identical Compose rendering.
 
 The port should follow official AndroidX public component names and distinguish standard, filled, filled-tonal, outlined and toggle-specific semantics only where the official API defines them. Loculary-only aliases or extra variants must be labelled as extensions and audited for usage before removal.
 
@@ -31,7 +44,7 @@ The port should follow official AndroidX public component names and distinguish 
 
 ## Required verification
 
-- [x] Pin the API and component-token source references to the same AndroidX commit (artifact release mapping remains unspecified).
+- [x] Pin the API and component-token references to the stable Material 3 1.4.0 source commit, verified against the published source archive.
 - [x] Separate the eight official action/toggle component names in the React public API; remove the generic `variant` prop and non-official `tonal` alias.
 - [x] Map action/toggle enabled, checked/unchecked and disabled color roles from the pinned AndroidX implementation and token references; label CSS state layers as a Web adaptation.
 - [x] Expose AndroidX-inspired `colors` overrides for default, disabled and checked roles; map `shape` to CSS `border-radius` as an explicit Web adaptation.
