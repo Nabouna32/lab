@@ -96,7 +96,7 @@ La présence dans le catalogue ne signifie pas qu'une API a été étudiée ou p
 
 ## Versions stables retenues au 30 octobre 2026
 
-Les versions officielles choisies et l’alignement de leur surface API sont deux statuts distincts. Pour Material 3 1.4.0, le registre de provenance [versionné](baselines/material3-1.4.0.json) identifie l’archive source stable, le snapshot de veille et les preuves de correspondance. L’alignement des déclarations du dump stable vers l’AAR Android est désormais `VERIFIED` au niveau des descripteurs JVM ; cela ne valide ni le portage React ni la parité sémantique des composants.
+Les versions officielles choisies et l’alignement de leur surface API sont deux statuts distincts. Pour Material 3 1.4.0, le registre de provenance [versionné](baselines/material3-1.4.0.json) identifie l’archive source stable, le commit de release et les preuves de correspondance. L’alignement des déclarations du dump stable vers l’AAR Android est désormais `VERIFIED` au niveau des descripteurs JVM ; cela ne valide ni le portage React ni la parité sémantique des composants.
 
 Les baselines Material 3 1.4.0 et Compose UI/Foundation 1.12.1 sont chacune reliées à leur commit de release, leur dump API et leurs sources publiées vérifiées. Les familles hors de ce périmètre ne sont pas considérées comme inventoriées du seul fait qu'une inspection générale du dépôt AndroidX aurait été réalisée.
 
