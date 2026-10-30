@@ -16,7 +16,8 @@ function fixture() {
     schemaVersion: 1, artifact: 'androidx.compose.material3:material3', version: 'androidx-main@' + COMMIT,
     source: { commit: COMMIT, path: 'compose/material3/material3/api/current.txt', sha256: sha256('pinned API dump'), formatVersion: '5.0', surface: 'public' },
     inventoryKind: 'public-signature-surface', semanticCompleteness: 'not-established-by-api-dump-alone',
-    declarationCount: 3, sourceApiCandidateCount: 1, bytecodeOnlyCount: 1, inaccessibleFromKotlinCount: 1, declarations,
+    declarationCount: 3, sourceApiCandidateCount: 1, bytecodeOnlyCount: 1, inaccessibleFromKotlinCount: 1,
+    generatedFacadeCount: 0, kotlinOnlyCount: 0, experimentalCount: 0, deprecatedCount: 0, declarations,
   };
 }
 
