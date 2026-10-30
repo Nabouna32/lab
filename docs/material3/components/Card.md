@@ -1,7 +1,7 @@
 # Card — contrat AndroidX et adaptation Web
 
 > **Référence visée :** `androidx.compose.material3:material3:1.4.0`  
-> **État des sources :** archive publiée identifiée ; lien avec le commit Git et le dump API exact non démontré.  
+ > **État des sources :** archive publiée 1.4.0 alignée byte pour byte avec le commit AndroidX `5113b82a4ed6416d6344efa50e41db8cb65928ff`.  
 > **État du portage :** partiel ; valeurs par défaut et rendu navigateur non vérifiés.
 
 ## Sources
@@ -9,7 +9,7 @@
 - API : [Card](https://developer.android.com/reference/kotlin/androidx/compose/material3/Card.composable), [ElevatedCard](https://developer.android.com/reference/kotlin/androidx/compose/material3/ElevatedCard.composable), [OutlinedCard](https://developer.android.com/reference/kotlin/androidx/compose/material3/OutlinedCard.composable) et [CardDefaults](https://developer.android.com/reference/kotlin/androidx/compose/material3/CardDefaults).
 - Guide officiel : [Cartes avec Jetpack Compose](https://developer.android.com/develop/ui/compose/components/card?hl=fr).
 - Archive source publiée 1.4.0 : [material3-1.4.0-sources.jar](https://android.googlesource.com/platform/prebuilts/androidx/internal/%2B/refs/heads/androidx-collection-release/androidx/compose/material3/material3/1.4.0/material3-1.4.0-sources.jar), SHA-256 `08a23a069407ba2a59685f88d676fd38ede207301a0805ee904ed63735f5d0b5` (également consigné dans [sources et versions](../sources.md)).
-- Source AndroidX de la release 1.4.0 : [`Card.kt` au commit `5113b82a4ed6416d6344efa50e41db8cb65928ff`](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Card.kt). Ce snapshot n'est pas une preuve d'alignement avec l'archive 1.4.0.
+- Source AndroidX de la release 1.4.0 : [`Card.kt` au commit `5113b82a4ed6416d6344efa50e41db8cb65928ff`](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Card.kt). 
 - Implémentation Web : [`Card.tsx`](../../../src/components/ui/Card.tsx).
 
 ## Contrat
