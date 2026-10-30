@@ -195,6 +195,21 @@ The architecture should use:
 
 Cryptography should use established, maintained primitives and libraries. Loculary should not invent its own encryption scheme.
 
+### Limitation actuelle — protection contre les mots de passe divulgués (30 octobre 2026)
+
+L'Advisor de sécurité du projet Supabase Loculary signale actuellement le contrôle `auth_leaked_password_protection` au niveau `WARN` : la protection contre les mots de passe divulgués est désactivée.
+
+Supabase réserve cette fonctionnalité (vérification via l'API Pwned Passwords de Have I Been Pwned) au plan Pro et aux offres supérieures. Cette alerte correspond donc à une limite de l'offre Free ; elle ne signale ni un stockage des mots de passe en clair ni une compromission. Supabase Auth stocke les mots de passe sous forme d'empreintes bcrypt. Voir la [documentation officielle sur la sécurité des mots de passe](https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection).
+
+Décision de produit et suivi :
+
+- conserver le plan Free ; ne pas déclencher d'upgrade pour faire disparaître cet avertissement ;
+- ne pas présenter le diagnostic comme corrigé ou la protection comme active ;
+- conserver et vérifier séparément les autres protections Auth disponibles sur le plan actuel ;
+- réévaluer cette limitation uniquement si le plan change ou si Supabase propose une alternative compatible Free.
+
+État vérifié le 30 octobre 2026 : avertissement toujours renvoyé par Security Advisor ; aucun réglage Auth ni paramètre de facturation modifié pendant cette vérification.
+
 ## Cookies and consent
 
 Consent controls should be understandable and granular without becoming intentionally burdensome.
