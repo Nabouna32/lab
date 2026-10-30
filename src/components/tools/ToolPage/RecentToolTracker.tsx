@@ -1,21 +1,15 @@
 "use client";
 
 import { useEffect } from "react";
-import { RECENT_TOOLS_EVENT, RECENT_TOOLS_STORAGE_KEY, parseRecentToolIds, recordRecentTool } from "@/lib/tools/recent-tools";
+import { useRecentTools } from "@/components/home/RecentToolsProvider";
 import type { ToolId } from "@/lib/tools/types";
 
+export default function RecentToolTracker({ toolId }: { toolId: ToolId }) {
+  const { recordTool } = useRecentTools();
 
-export default function RecentToolTracker({ toolId, validToolIds }: { toolId: ToolId; validToolIds: readonly ToolId[] }) {
   useEffect(() => {
-    try {
-      const current = parseRecentToolIds(localStorage.getItem(RECENT_TOOLS_STORAGE_KEY), validToolIds);
-      const next = recordRecentTool(current, toolId, validToolIds);
-      localStorage.setItem(RECENT_TOOLS_STORAGE_KEY, JSON.stringify(next));
-      window.dispatchEvent(new CustomEvent(RECENT_TOOLS_EVENT, { detail: next }));
-    } catch {
-      // Storage may be disabled; opening a tool must always remain possible.
-    }
-  }, [toolId, validToolIds]);
+    recordTool(toolId);
+  }, [recordTool, toolId]);
 
   return null;
 }
