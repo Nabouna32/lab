@@ -17,9 +17,10 @@ Le dump comporte 758 déclarations dans un package. Le comptage exhaustif inclut
 |---|---:|
 | Déclarations | 758 |
 | Types déclarés (types imbriqués inclus) | 91 |
-| Méthodes | 503 |
-| Propriétés | 130 |
+| Méthodes | 501 |
+| Propriétés | 129 |
 | Champs | 26 |
+| Fonctions top-level | 2 |
 | Constructeurs | 7 |
 | Constantes d'énumération | 2 |
 | Candidates API source après exclusion bytecode-only, inaccessibles Kotlin et façades JVM générées | 440 |
