@@ -121,6 +121,19 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
+      - name: Verify Compose 1.12.1 sources and API dumps against the official release branch
+        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
+        run: python3 .github/scripts/audit_androidx_compose_release.py /tmp/compose-1.12.1-release-provenance
+
+      - name: Upload Compose 1.12.1 release provenance and API dumps
+        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: compose-1.12.1-release-provenance
+          path: /tmp/compose-1.12.1-release-provenance/
+          if-no-files-found: error
+          retention-days: 7
+
       - name: Retrieve and verify all four Material 3 1.4.0 publication artifacts
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
         run: node .github/scripts/fetch-material3-release-artifacts.mjs /tmp/material3-1.4.0-release-artifacts
@@ -143,6 +156,10 @@ jobs:
             docs/material3/catalog/baselines/material3-android-1.4.0-api-inventory.json
           if-no-files-found: error
           retention-days: 7
+
+      - name: Test AndroidX Compose release provenance tooling
+        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
+        run: python3 .github/scripts/test_androidx_compose_release.py
 
       - name: Exercise CI tooling tests
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
