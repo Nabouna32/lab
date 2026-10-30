@@ -64,7 +64,7 @@
     }
   },
   "apiDumpAlignment": {
-    "status": "OFFICIAL_STABLE_DUMP_AND_SOURCE_COMMIT_PINNED_BINARY_API_COMPARISON_PENDING",
+    "status": "OFFICIAL_STABLE_DUMP_AND_SOURCE_COMMIT_VERIFIED_BINARY_API_COMPARISON_PENDING",
     "exactStableDump": {
       "repository": "androidx/androidx",
       "branch": "androidx-compose-material3-release",
@@ -75,7 +75,7 @@
       "signatureFormat": "4.0"
     },
     "repositorySourceCommit": "5113b82a4ed6416d6344efa50e41db8cb65928ff",
-    "reason": "The official stable 1.4.0 API snapshot is pinned from the AndroidX release branch and all 249 published Kotlin source files match that exact commit byte-for-byte. Declaration-level comparison of the official API signatures against the published Android AAR remains pending."
+    "reason": "The official stable 1.4.0 API snapshot is pinned from the AndroidX release branch and all 249 published Kotlin source files match that exact commit byte-for-byte (CI run 40984365256). Declaration-level comparison of the official API signatures against the published Android AAR remains pending."
   },
   "publishedAndroidVariant": {
     "artifact": "androidx.compose.material3:material3-android",
@@ -131,7 +131,9 @@
         "totalKotlinSourceFiles": 249,
         "verifiedByteForByte": 249,
         "mismatchCount": 0,
-        "verificationMethod": "GitHub Actions downloaded every Kotlin source path from raw.githubusercontent.com at the pinned commit and compared exact bytes to the published sources JAR."
+        "verificationMethod": "GitHub Actions downloaded every Kotlin source path from raw.githubusercontent.com at the pinned commit and compared exact bytes to the published sources JAR.",
+        "result": "passed",
+        "workflowRun": "https://github.com/Nabouna32/lab/actions/runs/40984365256"
       }
     }
   }
