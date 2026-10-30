@@ -101,6 +101,36 @@ test('accepts public API 5.0 dumps with annotated package declarations', () => {
   });
 });
 
+test('accepts public AndroidX API format 4.0 dumps without surface metadata', () => {
+  const dump = [
+    '// Signature format: 4.0',
+    'package androidx.compose.ui {',
+    '}',
+    '',
+  ].join('\n');
+  assert.deepEqual(parseApiDumpMetadata(dump, 'compose-ui'), {
+    formatVersion: '4.0',
+    surface: 'public-by-current.txt-path',
+    packageCount: 1,
+  });
+});
+
+test('rejects restricted surfaces and format 5.0 dumps without an explicit public surface', () => {
+  const restricted = [
+    '// Signature format: 5.0',
+    '// - surface=restricted',
+    'package androidx.compose.ui {',
+    '}',
+  ].join('\n');
+  const missingSurface = [
+    '// Signature format: 5.0',
+    'package androidx.compose.ui {',
+    '}',
+  ].join('\n');
+  assert.throws(() => parseApiDumpMetadata(restricted, 'compose-ui'), /public surface/);
+  assert.throws(() => parseApiDumpMetadata(missingSurface, 'compose-ui'), /explicitly declare surface=public/);
+});
+
 test('calculates Git blob SHA-1 and SHA-256 for decoded Gitiles content', () => {
   const hashes = calculateGitilesBlobHashes(Buffer.from('hello\n'));
   assert.match(hashes.gitBlobSha1, /^[a-f0-9]{40}$/);
