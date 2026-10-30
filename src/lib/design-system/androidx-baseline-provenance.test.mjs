@@ -65,7 +65,7 @@ test("Material 3 stable source provenance is pinned without overstating API alig
   assert.equal(baseline.apiDumpAlignment.repositorySourceCommit, releaseSnapshot.commit);
   assert.equal(baseline.publishedAndroidVariant.verification.sourceCommit.verifiedByteForByte, 249);
   assert.equal(baseline.publishedAndroidVariant.verification.sourceCommit.mismatchCount, 0);
-  assert.match(baseline.apiDumpAlignment.reason, /Exact descriptors for source-level methods, constructors, fields and properties are not yet independently compared/);
+  assert.match(baseline.apiDumpAlignment.reason, /807 source-level methods/);
 });
 
 const material3AndroidInventory = JSON.parse(readFileSync(
@@ -151,7 +151,7 @@ test("Material 3 Android release artifacts are independently pinned without clai
   assert.match(android.verification.workflowRun, /^https:\/\/github\.com\/Nabouna32\/lab\/actions\/runs\/\d+$/);
   assert.match(android.verification.verifiedCommit, /^[a-f0-9]{40}$/);
   assert.match(android.verification.artifactUrl, /^https:\/\/github\.com\/Nabouna32\/lab\/actions\/runs\/\d+\/artifacts\/\d+$/);
-  assert.equal(baseline.apiDumpAlignment.status, "OFFICIAL_STABLE_DUMP_AND_SOURCE_COMMIT_VERIFIED_METHODS_MATCH_OTHER_API_DECLARATIONS_PENDING");
+  assert.equal(baseline.apiDumpAlignment.status, "VERIFIED");
 });
 
 test("Material Components Views source archive provenance is verified and pinned separately", () => {
