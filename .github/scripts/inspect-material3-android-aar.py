@@ -28,6 +28,8 @@ def read_class_summary(data: bytes) -> dict:
     index = 1
 
     while index < cp_count:
+        if offset >= len(data):
+            raise ValueError("Truncated JVM constant pool.")
         tag = data[offset]
         offset += 1
         if tag == 1:
