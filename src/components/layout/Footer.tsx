@@ -1,5 +1,4 @@
 import AppLink from "@/components/ui/AppLink";
-import { PageContainer } from "@/components/layout/PageLayout";
 import { Arrangement } from "@/components/layout/compose/Arrangement";
 import { Row } from "@/components/layout/compose/Row";
 import type { Locale } from "@/lib/i18n/config";
@@ -11,7 +10,7 @@ export default function Footer({ locale }: { locale: Locale }) {
 
   return (
     <footer className="border-t border-[var(--border)] bg-[var(--surface)]">
-      <PageContainer width="wide" spacing="none" className="flex flex-col gap-3 py-[var(--space-4)] sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:py-[var(--space-5)]">
+      <div className="mx-auto w-full max-w-[var(--layout-content-wide)] px-[var(--layout-page-gutter)] flex flex-col gap-3 py-[var(--space-4)] sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:py-[var(--space-5)]">
         <nav aria-label={t.footer.navigationLabel}>
           <Row
             horizontalArrangement={Arrangement.spacedBy("var(--space-1)")}
@@ -38,7 +37,7 @@ export default function Footer({ locale }: { locale: Locale }) {
         <p className="shrink-0 border-t border-[var(--border)] pt-3 m3-type-body-small text-[var(--muted)] sm:border-l sm:border-t-0 sm:pl-4 sm:pt-0">
           © {new Date().getFullYear()} Loculary
         </p>
-      </PageContainer>
+      </div>
     </footer>
   );
 }

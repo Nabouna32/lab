@@ -5,7 +5,6 @@ import { getAboutPath, getContactPath, getPrivacyPolicyPath } from "@/lib/tools/
 import { getPublicPageMetadata } from "@/lib/tools/page-metadata";
 import { Arrangement } from "@/components/layout/compose/Arrangement";
 import { Column } from "@/components/layout/compose/Column";
-import { PageContainer } from "@/components/layout/PageLayout";
 
 export type InformationPageKind = "about" | "contact" | "bugReport";
 
@@ -25,7 +24,7 @@ export default function InformationPage({ locale, kind }: { locale: Locale; kind
     const page = messages.aboutPage;
     return (
       <main className="min-h-full" aria-labelledby="information-title">
-        <PageContainer width="narrow" spacing="default">
+        <div className="mx-auto w-full max-w-[var(--layout-content-narrow)] px-[var(--layout-page-gutter)] py-[var(--space-8)] sm:py-[var(--space-10)] lg:py-[var(--space-10)]">
           <article className="w-full rounded-[var(--shape-corner-extra-large)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8 lg:p-10">
             <Column verticalArrangement={Arrangement.spacedBy("var(--layout-content-gap)")}>
               <h1 id="information-title" className="m3-type-headline-large text-[var(--foreground)]">{page.title}</h1>
@@ -45,7 +44,7 @@ export default function InformationPage({ locale, kind }: { locale: Locale; kind
               </section>
             </Column>
           </article>
-        </PageContainer>
+        </div>
       </main>
     );
   }
@@ -54,7 +53,7 @@ export default function InformationPage({ locale, kind }: { locale: Locale; kind
     const page = messages.contactPage;
     return (
       <main className="min-h-full" aria-labelledby="information-title">
-        <PageContainer width="narrow" spacing="default">
+        <div className="mx-auto w-full max-w-[var(--layout-content-narrow)] px-[var(--layout-page-gutter)] py-[var(--space-8)] sm:py-[var(--space-10)] lg:py-[var(--space-10)]">
           <article className="w-full rounded-[var(--shape-corner-extra-large)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8 lg:p-10">
             <Column verticalArrangement={Arrangement.spacedBy("var(--layout-content-gap)")}>
               <h1 id="information-title" className="m3-type-headline-large text-[var(--foreground)]">{page.title}</h1>
@@ -70,7 +69,7 @@ export default function InformationPage({ locale, kind }: { locale: Locale; kind
               </section>
             </Column>
           </article>
-        </PageContainer>
+        </div>
       </main>
     );
   }
@@ -78,7 +77,7 @@ export default function InformationPage({ locale, kind }: { locale: Locale; kind
   const page = messages.bugReportPage;
   return (
     <main className="min-h-full" aria-labelledby="information-title">
-      <PageContainer width="narrow" spacing="default">
+      <div className="mx-auto w-full max-w-[var(--layout-content-narrow)] px-[var(--layout-page-gutter)] py-[var(--space-8)] sm:py-[var(--space-10)] lg:py-[var(--space-10)]">
         <article className="w-full rounded-[var(--shape-corner-extra-large)] border border-[var(--border)] bg-[var(--surface)] p-6 sm:p-8 lg:p-10">
           <Column verticalArrangement={Arrangement.spacedBy("var(--layout-content-gap)")}>
             <h1 id="information-title" className="m3-type-headline-large text-[var(--foreground)]">{page.title}</h1>
@@ -90,7 +89,7 @@ export default function InformationPage({ locale, kind }: { locale: Locale; kind
             <p className="m3-type-body-medium text-[var(--muted)]">{page.nextStep}</p>
           </Column>
         </article>
-      </PageContainer>
+      </div>
     </main>
   );
 }

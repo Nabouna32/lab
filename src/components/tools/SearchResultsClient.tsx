@@ -12,7 +12,6 @@ import { categories, getCategoryName } from "@/lib/tools/categories";
 import { getPublishedTools } from "@/lib/tools/catalog";
 import { getSearchResultsPath, getToolsPath } from "@/lib/tools/routes";
 import { getPrimaryToolCategory } from "@/lib/tools/types";
-import { PageContainer } from "@/components/layout/PageLayout";
 import type { ToolSearchResult } from "@/lib/tools/search";
 import type { Locale } from "@/lib/i18n/config";
 
@@ -92,7 +91,7 @@ export default function SearchResultsClient({ locale }: { locale: Locale }) {
 
   return (
     <main className="min-h-full">
-      <PageContainer width="wide" spacing="compact">
+      <div className="mx-auto w-full max-w-[var(--layout-content-wide)] px-[var(--layout-page-gutter)] py-[var(--space-6)] sm:py-[var(--space-8)] lg:py-[var(--space-10)]">
         <section className="relative overflow-hidden rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow-lg)] sm:p-7 lg:p-9" aria-labelledby="search-results-title">
           <div className="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full bg-[var(--accent-soft)] blur-3xl" aria-hidden="true" />
           <div className="relative grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,.9fr)] lg:items-end lg:gap-12">
@@ -241,7 +240,7 @@ export default function SearchResultsClient({ locale }: { locale: Locale }) {
             </a>
           </section>
         )}
-      </PageContainer>
+      </div>
     </main>
   );
 }

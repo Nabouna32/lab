@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
-import { PageContainer } from "@/components/layout/PageLayout";
 import { requireAdminPermission } from "@/lib/admin/authorization";
 import { createClient } from "@/lib/supabase/server";
 import { getMessages } from "@/lib/i18n/messages";
@@ -51,7 +50,7 @@ export default async function AdminPage({
 
   return (
     <main className="min-h-[calc(100vh-4.5rem)]">
-      <PageContainer width="default" spacing="none" className="py-[var(--space-8)] sm:py-[var(--space-10)]">
+      <div className="mx-auto w-full max-w-[var(--layout-content-default)] px-[var(--layout-page-gutter)] py-[var(--space-8)] sm:py-[var(--space-10)]">
       <div className="mb-8">
         <Link href={"/" + locale + "/compte"} className="m3-type-label-large text-[var(--primary)]">
           <span className="inline-flex items-center gap-1.5"><MaterialIcon name="arrow_back" size={18} />{t.admin.account}</span>
@@ -131,7 +130,7 @@ export default async function AdminPage({
           <p className="m3-type-body-medium mt-4 text-[var(--muted)]">{t.admin.noAuditEntries}</p>
         )}
       </section>
-      </PageContainer>
+      </div>
     </main>
   );
 }

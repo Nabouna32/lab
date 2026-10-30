@@ -2,7 +2,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { signOut } from "./actions";
 import AppLink from "@/components/ui/AppLink";
-import { PageContainer } from "@/components/layout/PageLayout";
 import { Arrangement } from "@/components/layout/compose/Arrangement";
 import { Column } from "@/components/layout/compose/Column";
 import SubmitButton from "@/components/account/SubmitButton";
@@ -32,7 +31,7 @@ export default async function AccountPage({
   if (!userData.user) {
     return (
       <main className="min-h-full">
-        <PageContainer width="account" spacing="none" className="flex min-h-[calc(100svh-12rem)] items-center py-[var(--space-8)] sm:py-[var(--space-10)]">
+        <div className="mx-auto w-full max-w-[var(--layout-content-account)] px-[var(--layout-page-gutter)] flex min-h-[calc(100svh-12rem)] items-center py-[var(--space-8)] sm:py-[var(--space-10)]">
           <Panel as="section" className="w-full overflow-hidden p-6 sm:p-9">
             <div className="mb-6 h-1.5 w-16 rounded-full bg-[var(--accent)]" aria-hidden="true" />
             <h1 className="m3-type-headline-medium">{t.account.title}</h1>
@@ -46,7 +45,7 @@ export default async function AccountPage({
               </AppLink>
             </div>
           </Panel>
-        </PageContainer>
+        </div>
       </main>
     );
   }
@@ -62,7 +61,7 @@ export default async function AccountPage({
 
   return (
     <main className="min-h-full">
-      <PageContainer width="narrow" spacing="none" className="py-[var(--space-7)] sm:py-[var(--space-9)] lg:py-[var(--space-10)]">
+      <div className="mx-auto w-full max-w-[var(--layout-content-narrow)] px-[var(--layout-page-gutter)] py-[var(--space-7)] sm:py-[var(--space-9)] lg:py-[var(--space-10)]">
         <Column verticalArrangement={Arrangement.spacedBy("var(--space-2)")} className="mb-8">
           <h1 className="m3-type-headline-medium">{t.account.title}</h1>
           <p className="max-w-2xl text-[var(--on-surface-variant)]">{t.account.pageDescription}</p>
@@ -167,7 +166,7 @@ export default async function AccountPage({
             </Column>
           </section>
         </Column>
-      </PageContainer>
+      </div>
     </main>
   );
 }

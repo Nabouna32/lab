@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-import { PageContainer } from "@/components/layout/PageLayout";
 import { Arrangement } from "@/components/layout/compose/Arrangement";
 import { Column } from "@/components/layout/compose/Column";
 import { resetPassword } from "../../actions";
@@ -26,21 +25,21 @@ export default async function ResetPasswordPage({
   if (!data.user) {
     return (
       <main>
-      <PageContainer width="form" spacing="none" className="flex min-h-[calc(100vh-4.5rem)] items-center py-[var(--space-12)]">
+      <div className="mx-auto w-full max-w-[var(--layout-content-form)] px-[var(--layout-page-gutter)] flex min-h-[calc(100vh-4.5rem)] items-center py-[var(--space-12)]">
         <section className="w-full rounded-3xl border border-[var(--border)] bg-[var(--surface-elevated)] p-6 shadow-[var(--shadow-sm)] sm:p-8">
           <h1 className="m3-type-headline-medium">{t.account.resetPasswordTitle}</h1>
           <p className="mt-3 rounded-2xl bg-[var(--danger-soft)] p-4 m3-type-body-medium text-[var(--danger-foreground)]" role="alert">
             {t.account.passwordResetError}
           </p>
         </section>
-        </PageContainer>
+        </div>
     </main>
     );
   }
 
   return (
     <main>
-      <PageContainer width="form" spacing="none" className="flex min-h-[calc(100vh-4.5rem)] items-center py-[var(--space-12)]">
+      <div className="mx-auto w-full max-w-[var(--layout-content-form)] px-[var(--layout-page-gutter)] flex min-h-[calc(100vh-4.5rem)] items-center py-[var(--space-12)]">
       <section className="w-full rounded-3xl border border-[var(--border)] bg-[var(--surface-elevated)] p-6 shadow-[var(--shadow-sm)] sm:p-8">
         <p className="m3-type-label-large mb-2 text-[var(--accent)]">{t.account.label}</p>
         <h1 className="m3-type-headline-large">{t.account.resetPasswordTitle}</h1>
@@ -67,7 +66,7 @@ export default async function ResetPasswordPage({
                   </Column>
         </form>
       </section>
-      </PageContainer>
+      </div>
     </main>
   );
 }

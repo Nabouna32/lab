@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { PageContainer } from "@/components/layout/PageLayout";
 import { requireAdminPermission } from "@/lib/admin/authorization";
 import { createClient } from "@/lib/supabase/server";
 import { getMessages } from "@/lib/i18n/messages";
@@ -42,7 +41,7 @@ export default async function AdminAuditPage({
 
   return (
     <main className="min-h-[calc(100vh-4.5rem)]">
-      <PageContainer width="default" spacing="none" className="py-[var(--space-8)]">
+      <div className="mx-auto w-full max-w-[var(--layout-content-default)] px-[var(--layout-page-gutter)] py-[var(--space-8)]">
       <Link href={`/${locale}/admin`} className="m3-type-label-large text-[var(--primary)]">{t.admin.auditBack}</Link>
 
       <header className="mt-6">
@@ -89,7 +88,7 @@ export default async function AdminAuditPage({
           </div>
         </section>
       )}
-      </PageContainer>
+      </div>
     </main>
   );
 }
