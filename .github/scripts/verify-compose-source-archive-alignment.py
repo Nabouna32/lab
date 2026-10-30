@@ -242,7 +242,7 @@ def verify_family(family: dict, archives_directory: Path, publication: dict, com
         generator_encoded = fetch_trusted_bytes(generator_url, 1024 * 1024)
         generator_bytes = base64.b64decode(b"".join(generator_encoded.split()), validate=False)
         generator_blob = hashlib.sha1(
-            b"blob " + str(len(generator_bytes)).encode("ascii") + b"\\0" + generator_bytes
+            b"blob " + str(len(generator_bytes)).encode("ascii") + b"\0" + generator_bytes
         ).hexdigest()
         if generator_blob != GENERATED_PROGUARD_SOURCE["generatorGitBlobSha1"]:
             raise ValueError("AndroidX ProguardDetection generator differs from the pinned release source.")
