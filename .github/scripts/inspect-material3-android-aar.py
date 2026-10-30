@@ -441,10 +441,13 @@ def _descriptor_for_api_callable(member: dict, constructor: bool = False) -> tup
     if return_descriptor is None:
         return None
     if member.get("composable") and not member.get("bytecodeOnly"):
+        changed_flag_count = max(1, (len(member["parameterTypes"]) + 9) // 10)
+        default_mask_count = (
+            (len(member["parameterTypes"]) + 31) // 32
+            if member.get("optionalParameterCount", 0) else 0
+        )
         parameters.append("Landroidx/compose/runtime/Composer;")
-        parameters.append("I")
-        if member.get("static"):
-            parameters.append("I")
+        parameters.extend(["I"] * (changed_flag_count + default_mask_count))
     return member["name"], "(" + "".join(parameters) + ")" + return_descriptor
 
 
@@ -471,9 +474,14 @@ def _source_matches_bytecode_only(source: dict, bytecode: dict) -> bool:
     binary_parameters = bytecode["parameterTypes"]
     suffix = []
     if source.get("composable"):
-        suffix = ["androidx.compose.runtime.Composer", "int"]
-        if source.get("static"):
-            suffix.append("int")
+        changed_flag_count = max(1, (len(source_parameters) + 9) // 10)
+        default_mask_count = (
+            (len(source_parameters) + 31) // 32
+            if source.get("optionalParameterCount", 0) else 0
+        )
+        suffix = ["androidx.compose.runtime.Composer"] + ["int"] * (
+            changed_flag_count + default_mask_count
+        )
     if len(binary_parameters) != len(source_parameters) + len(suffix):
         return False
     if not all(
@@ -674,8 +682,6 @@ def compare_api_dump_to_binary(api_dump: str, binary_classes: list[tuple[str, di
             if prop.get("composable"):
                 property_parameters.append("Landroidx/compose/runtime/Composer;")
                 property_parameters.append("I")
-                if prop.get("static"):
-                    property_parameters.append("I")
             expected = "(" + "".join(property_parameters) + ")" + descriptor
             property_matched = any(
                 (item["name"] == getter or item["name"].startswith(getter + "-"))
@@ -703,6 +709,7 @@ def compare_api_dump_to_binary(api_dump: str, binary_classes: list[tuple[str, di
                     valid_suffixes = (
                         ["androidx.compose.runtime.Composer", "int"],
                         ["androidx.compose.runtime.Composer", "int", "int"],
+                        ["androidx.compose.runtime.Composer", "int", "int", "int"],
                     )
                     if not any(
                         len(suffix_parameters) == len(suffix)
