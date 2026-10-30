@@ -9,6 +9,7 @@ const iconSource = readFileSync(new URL("../../components/ui/MaterialIcon.tsx", 
 const progressSource = readFileSync(new URL("../../components/ui/ProgressIndicator.tsx", import.meta.url), "utf8");
 const progressCss = readFileSync(new URL("../../components/ui/progress-indicator.module.css", import.meta.url), "utf8");
 const textFieldSource = readFileSync(new URL("../../components/ui/TextField.tsx", import.meta.url), "utf8");
+const materialTextFieldSource = readFileSync(new URL("../../components/ui/MaterialTextField.tsx", import.meta.url), "utf8");
 const visualLabSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
 const textAreaSource = readFileSync(new URL("../../components/ui/TextArea.tsx", import.meta.url), "utf8");
 const calculatorFieldSource = readFileSync(new URL("../../components/tools/calculator/CalculatorField.tsx", import.meta.url), "utf8");
@@ -730,6 +731,7 @@ test("email and password settings use dedicated Material 3 page compositions", (
   assert.match(passwordPage, /<MaterialIcon name="lock" size=\{28\} \/>/);
   assert.match(passwordPage, /t\.account\.changePasswordDescription/);
   assert.match(passwordPage, /<PasswordChangeForm locale=\{locale\} t=\{t\.account\} serverError=\{query\.error\} \/>/);
+  assert.equal((passwordForm.match(/secure showPasswordLabel=\{t\.showPassword\} hidePasswordLabel=\{t\.hidePassword\}/g) ?? []).length, 3);
   assert.match(passwordForm, /autoComplete="current-password"/);
   assert.match(passwordForm, /autoComplete="new-password"/);
   assert.match(passwordForm, /minLength=\{8\} maxLength=\{128\}/);
@@ -737,6 +739,13 @@ test("email and password settings use dedicated Material 3 page compositions", (
   assert.match(passwordForm, /t\.passwordRuleMin/);
   assert.ok(passwordForm.includes("maxLength={128}"));
   assert.match(passwordForm, /t\.passwordRuleMatch/);
+  assert.match(messagesSource, /showPassword: "Afficher le mot de passe"/);
+  assert.match(messagesSource, /hidePassword: "Masquer le mot de passe"/);
+  assert.match(messagesSource, /showPassword: "Show password"/);
+  assert.match(messagesSource, /hidePassword: "Hide password"/);
+  assert.match(materialTextFieldSource, /<IconButton/);
+  assert.match(materialTextFieldSource, /<MaterialIcon name=\{revealed \? "visibility_off" : "visibility"\}/);
+  assert.doesNotMatch(materialTextFieldSource, /"Show password"|"Hide password"|"Show"|"Hide"/);
   assert.match(messagesSource, /changePasswordDescription: "Choisissez un nouveau mot de passe/);
   assert.match(messagesSource, /passwordRuleMin: "Au moins 8 caractères"/);
   assert.match(messagesSource, /passwordRuleMax: "Au plus 128 caractères"/);
