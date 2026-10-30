@@ -81,10 +81,10 @@ class Material3AndroidAarInspectionTests(unittest.TestCase):
         self.assertEqual(comparison["apiClassCount"], 1)
         self.assertEqual(comparison["binaryClassMatches"], 1)
         self.assertEqual(comparison["apiMethodCount"], 2)
-        self.assertEqual(comparison["methodNameMatches"], 2)
+        self.assertEqual(comparison["sourceLevelNameMatches"], 1)
         self.assertEqual(comparison["bytecodeOnlyMethodCount"], 1)
-        self.assertEqual(comparison["bytecodeOnlyMethodNameMatches"], 1)
-        self.assertEqual(comparison["status"], "class-and-method-names-match")
+        self.assertEqual(comparison["bytecodeOnlyDescriptorMatches"], 1)
+        self.assertEqual(comparison["status"], "bytecode-only-descriptors-and-source-names-match")
 
     def test_rejects_invalid_or_truncated_class_files(self):
         with self.assertRaisesRegex(ValueError, "Invalid JVM class-file header"):
