@@ -231,42 +231,48 @@ test("MaterialTextField gives its error priority while retaining the character c
   assert.equal(container.textContent.includes("Enter your email"), false);
 });
 
-test("MaterialTextField reveals a secure value only after an explicit toggle", async () => {
+test("MaterialTextField reveals a secure value with a localized Material icon button", async () => {
   const container = await render(
     createElement(MaterialTextField, {
       id: "password",
-      label: "Password",
+      label: "Mot de passe",
       type: "password",
       value: "secret-value",
       onChange: () => {},
       secure: true,
+      showPasswordLabel: "Afficher le mot de passe",
+      hidePasswordLabel: "Masquer le mot de passe",
     }),
   );
 
   const input = container.querySelector("input");
   const toggle = container.querySelector("button");
+  const initialIconPath = toggle.querySelector("svg path").getAttribute("d");
 
   assert.equal(input.type, "password");
   assert.equal(input.autocomplete, "current-password");
   assert.equal(input.getAttribute("spellcheck"), "false");
   assert.equal(input.getAttribute("autocapitalize"), "off");
-  assert.equal(toggle.getAttribute("aria-label"), "Show password");
-  assert.equal(toggle.getAttribute("aria-pressed"), "false");
+  assert.equal(toggle.getAttribute("aria-label"), "Afficher le mot de passe");
+  assert.equal(toggle.getAttribute("aria-pressed"), null);
+  assert.ok(toggle.className.includes("h-12") && toggle.className.includes("w-12"), "the IconButton keeps its 48px touch target");
+  assert.ok(initialIconPath.length > 0);
 
   await act(async () => {
     toggle.dispatchEvent(new browser.MouseEvent("click", { bubbles: true }));
   });
 
   assert.equal(input.type, "text");
-  assert.equal(toggle.getAttribute("aria-label"), "Hide password");
-  assert.equal(toggle.getAttribute("aria-pressed"), "true");
+  assert.equal(toggle.getAttribute("aria-label"), "Masquer le mot de passe");
+  assert.notEqual(toggle.querySelector("svg path").getAttribute("d"), initialIconPath);
 
   await act(async () => {
     toggle.dispatchEvent(new browser.MouseEvent("click", { bubbles: true }));
   });
 
   assert.equal(input.type, "password");
-  assert.equal(toggle.getAttribute("aria-pressed"), "false");
+  assert.equal(toggle.getAttribute("aria-label"), "Afficher le mot de passe");
+  assert.equal(toggle.querySelector("svg path").getAttribute("d"), initialIconPath);
 });
 
 test("MaterialTextField keeps secure controls disabled when the field is disabled", async () => {
@@ -276,7 +282,10 @@ test("MaterialTextField keeps secure controls disabled when the field is disable
       label: "Password",
       value: "secret",
       onChange: () => {},
+      type: "password",
       secure: true,
+      showPasswordLabel: "Afficher le mot de passe",
+      hidePasswordLabel: "Masquer le mot de passe",
       disabled: true,
     }),
   );
