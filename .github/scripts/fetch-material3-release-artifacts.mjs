@@ -125,14 +125,14 @@ function validateArtifactBytes(artifact, bytes) {
       component?.group !== "androidx.compose.material3" ||
       component?.module !== artifact.expectedModule ||
       component?.version !== "1.4.0" ||
-      (artifact.expectedMetadataUrl && metadata.url !== artifact.expectedMetadataUrl)
+      (artifact.expectedMetadataUrl && component.url !== artifact.expectedMetadataUrl)
     ) {
       throw new Error(artifact.fileName + " declares an unexpected Gradle component identity: " + JSON.stringify(component ?? null));
     }
     return {
       component: component.group + ":" + component.module + ":" + component.version,
       variants: Array.isArray(metadata.variants) ? metadata.variants.length : 0,
-      metadataUrl: metadata.url ?? null,
+      metadataUrl: component.url ?? null,
     };
   }
   if (bytes.length < 4 || bytes[0] !== 0x50 || bytes[1] !== 0x4b) {
