@@ -51,7 +51,8 @@ L’implémentation React sépare les rôles action/toggle et déclare explicite
 - [x] Exposer la surcharge `border` source uniquement sur les variantes outlined ; mapper `BorderStroke` à la bordure CSS, avec `null` pour retirer le contour.
 - [ ] Vérifier dans un navigateur le comportement des surcharges, le clipping des formes et les styles calculés.
 - [x] Implémenter des rôles de couleur distincts pour les actions et les toggles, actifs et désactivés ; ajouter les couches hover, focus-visible et pressed.
-- [x] Vérifier dans Chromium les noms accessibles, l’état `aria-pressed` des quatre toggles, les cibles tactiles de 48 px, les couleurs actives/désactivées et le comportement hover/focus/pressed sur la surface de test locale.
+- [x] Vérifier dans Chromium les noms accessibles, l’état `aria-pressed` des quatre toggles, les cibles tactiles de 48 px, les couleurs actives/désactivées, le hover standard et l’état pressed outlined sur la surface de test locale.
+- [ ] Vérifier le focus-visible par navigation clavier et les états hover/pressed sur chaque variante.
 - [ ] Vérifier l’alignement des icônes, la géométrie des conteneurs, les contours, les formes et les mélanges de couleurs réels dans tous les thèmes.
 - [ ] Vérifier le contraste, les libellés environnants FR/EN, le mobile et le zoom à 200 %.
 - [x] Exécuter tests, lint, TypeScript et build : 744 tests réussis, 2 ignorés ; lint sans erreur (8 avertissements existants) ; TypeScript et build réussis ; CI #4611 verte sur `080b627`.
