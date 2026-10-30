@@ -37,6 +37,16 @@ class Material3AndroidAarInspectionTests(unittest.TestCase):
         self.assertEqual(summary["methods"], 3)
         self.assertEqual(summary["methods_public_protected"], 2)
 
+    def test_maps_nullable_primitives_simple_java_types_and_nested_classes(self):
+        self.assertEqual(MODULE.api_type_to_jvm_descriptor("String?"), "Ljava/lang/String;")
+        self.assertEqual(MODULE.api_type_to_jvm_descriptor("Long"), "J")
+        self.assertEqual(MODULE.api_type_to_jvm_descriptor("Long?"), "Ljava/lang/Long;")
+        self.assertEqual(MODULE.api_type_to_jvm_descriptor("kotlin.Long?"), "Ljava/lang/Long;")
+        self.assertEqual(
+            MODULE.api_type_to_jvm_descriptor("androidx.compose.foundation.layout.Arrangement.Vertical"),
+            "Landroidx/compose/foundation/layout/Arrangement$Vertical;",
+        )
+
     def test_parses_official_api_classes_and_nested_binary_names(self):
         api = """package androidx.compose.material3 {
   public final class AlertDialogDefaults {
