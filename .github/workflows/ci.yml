@@ -114,6 +114,19 @@ jobs:
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
         run: node .github/scripts/verify-androidx-source-archive.mjs docs/material3/catalog/baselines/material3-1.4.0.json
 
+      - name: Retrieve and verify all four Material 3 1.4.0 publication artifacts
+        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
+        run: node .github/scripts/fetch-material3-release-artifacts.mjs /tmp/material3-1.4.0-release-artifacts
+
+      - name: Upload verified Material 3 1.4.0 publication artifacts
+        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: material3-1.4.0-published-artifacts
+          path: /tmp/material3-1.4.0-release-artifacts/
+          if-no-files-found: error
+          retention-days: 7
+
       - name: Verify Material Components Views source archive provenance
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
         run: node .github/scripts/inspect-material-components-source-archive.mjs docs/material3/catalog/baselines/material-components-views-1.14.0.json
