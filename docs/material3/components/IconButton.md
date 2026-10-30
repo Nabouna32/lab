@@ -1,62 +1,62 @@
-# IconButton — AndroidX Material 3 port
+# IconButton — portage AndroidX Material 3
 
-**Status:** Portage en cours / verification incomplete.  
-**Current React implementation:** `src/components/ui/IconButton.tsx` exposes the eight official action/toggle names separately, uses separate action/toggle color roles, exposes AndroidX-inspired `colors` overrides and a Web-adapted `shape` prop, and shares the bounded pointer/keyboard ripple adaptation. Full source parity is not claimed until browser behavior is verified.
+**État :** portage en cours ; conformité complète non démontrée.  
+**Implémentation React actuelle :** `src/components/ui/IconButton.tsx` expose séparément les huit composants AndroidX action/toggle, utilise des rôles de couleur distincts, accepte les surcharges `colors` inspirées d’AndroidX et adapte `shape` au Web. Le ripple partagé est une adaptation Web bornée ; la parité complète n’est pas revendiquée.
 
-## Upstream authority
+## Autorité et sources amont
 
-- [Official Material 3 Icon button guide](https://m3.material.io/components/icon-button/overview)
+- [Guide officiel Material 3 — Icon button](https://m3.material.io/components/icon-button/overview)
 - [AndroidX IconButton.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/IconButton.kt)
 - [AndroidX IconButtonDefaults.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/IconButtonDefaults.kt)
 - [AndroidX IconButtonTokens.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/IconButtonTokens.kt)
 - [AndroidX StateTokens.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/StateTokens.kt)
 - [AndroidX Ripple.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Ripple.kt)
-- [AndroidX `SmallIconButtonTokens.kt` at the same source revision](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/SmallIconButtonTokens.kt)
-- [AndroidX `FilledIconButtonTokens.kt` at the same source revision](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/FilledIconButtonTokens.kt)
-- [AndroidX `FilledTonalIconButtonTokens.kt` at the same source revision](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/FilledTonalIconButtonTokens.kt)
-- [AndroidX `OutlinedIconButtonTokens.kt` at the same source revision](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/OutlinedIconButtonTokens.kt)
-- [WCAG 2.2 target size](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html)
-- [WCAG 2.2 focus appearance](https://www.w3.org/WAI/WCAG22/Understanding/focus-appearance.html)
+- [AndroidX SmallIconButtonTokens.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/SmallIconButtonTokens.kt)
+- [AndroidX FilledIconButtonTokens.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/FilledIconButtonTokens.kt)
+- [AndroidX FilledTonalIconButtonTokens.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/FilledTonalIconButtonTokens.kt)
+- [AndroidX OutlinedIconButtonTokens.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/OutlinedIconButtonTokens.kt)
+- [WCAG 2.2 — taille minimale des cibles](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html)
+- [WCAG 2.2 — apparence du focus](https://www.w3.org/WAI/WCAG22/Understanding/focus-appearance.html)
 
-**Stable baseline:** Compose Material 3 1.4.0, source commit `5113b82a4ed6416d6344efa50e41db8cb65928ff`. The published source archive was compared with 249 Kotlin files from this commit, with zero mismatches; see the [Material 3 1.4.0 provenance manifest](../catalog/baselines/material3-1.4.0.json).
+**Baseline stable :** Compose Material 3 1.4.0, commit source `5113b82a4ed6416d6344efa50e41db8cb65928ff`. L’archive des sources publiées a été comparée aux 249 fichiers Kotlin du commit, sans divergence ; voir le [manifeste de provenance Material 3 1.4.0](../catalog/baselines/material3-1.4.0.json).
 
-## Contract and known findings
+## Contrat AndroidX et constats
 
-AndroidX exposes distinct public composables for `IconButton`, `FilledIconButton`, `FilledTonalIconButton`, `OutlinedIconButton` and the corresponding four toggle components. Action buttons are not toggles: checked state belongs to the toggle APIs, not a `selected` prop on a generic variant-based button.
+AndroidX expose quatre composants d’action — `IconButton`, `FilledIconButton`, `FilledTonalIconButton`, `OutlinedIconButton` — et leurs quatre composants toggle correspondants. Un bouton d’action n’est pas un toggle : l’état coché appartient aux API toggle, pas à une prop `selected` générique.
 
-The stable 1.4.0 source establishes these state contracts:
-- Standard `IconButton`: disabled content follows `LocalContentColor` at 38% (the default surface context uses `onSurfaceVariant`).
-- `FilledIconButton` and `FilledTonalIconButton`: disabled container `onSurface` at 10%, disabled icon `onSurface` at 38%.
-- The Web outlined variants deliberately use the spec-recommended/vibrant color mapping: `outlineVariant` border and `onSurfaceVariant` enabled content. The disabled outline is `outlineVariant` at 38%; the disabled icon uses `onSurface` at 38%. The checked outlined toggle uses `onSurface` at 10% for its disabled container.
-- Standard toggles inherit `LocalContentColor` at 38% when disabled; filled and filled-tonal toggles use `onSurface` at 38%.
-- State layers use hover 8%, focus 10%, pressed 10%. `RippleDefaults.RippleAlpha` uses the same `StateTokens` values; the Web ripple uses 10% pressed opacity.
+La source stable 1.4.0 établit les rôles suivants :
 
-The React implementation keeps separate action/toggle roles and declares its outlined vibrant mapping. CSS color mixing remains a Web adaptation, not pixel-identical Compose rendering.
+- `IconButton` standard : contenu désactivé dérivé de `LocalContentColor` à 38 % ; dans le contexte de surface par défaut, il s’agit de `onSurfaceVariant`.
+- `FilledIconButton` et `FilledTonalIconButton` : conteneur désactivé `onSurface` à 10 %, icône désactivée `onSurface` à 38 %.
+- Les variantes Web outlined conservent le mapping vibrant recommandé par la spécification : contour `outlineVariant`, contenu actif `onSurfaceVariant`. Le contour désactivé utilise `outlineVariant` à 38 % et l’icône désactivée `onSurface` à 38 %. Le conteneur désactivé du toggle outlined coché utilise `onSurface` à 10 %.
+- Les toggles standard héritent de `LocalContentColor` à 38 % lorsqu’ils sont désactivés ; les toggles filled et filled-tonal utilisent `onSurface` à 38 %.
+- Les couches d’état utilisent hover 8 %, focus 10 % et pressed 10 %. `RippleDefaults.RippleAlpha` reprend les mêmes valeurs de `StateTokens` ; le ripple Web utilise 10 % à l’appui.
 
-The port should follow official AndroidX public component names and distinguish standard, filled, filled-tonal, outlined and toggle-specific semantics only where the official API defines them. Loculary-only aliases or extra variants must be labelled as extensions and audited for usage before removal.
+L’implémentation React sépare les rôles action/toggle et déclare explicitement le mapping outlined vibrant. Le mélange CSS reste une adaptation Web, pas un rendu Compose pixel-identique.
 
-## React/Web adaptations
+## Adaptations React/Web
 
-- Use a native button with a meaningful accessible name; decorative icon content must not be the only accessible label. The AndroidX `enabled` parameter maps to the native `disabled` attribute; `disabled` is retained as an explicit Web compatibility alias.
-- Verify keyboard activation, visible focus, disabled non-activation and touch target in context.
-- Test actual computed foreground/container/outline colors in light and dark themes.
-- The shared ripple is a Web adaptation of Compose `ripple()`: it is clipped to the 40px visual surface while the native button retains a 48px minimum touch target. Toggle controls retain native button semantics and expose their checked state with `aria-pressed`, the established Web pattern for toggle buttons; they are not exposed as checkboxes. Keyboard activation and reduced-motion behavior remain required. `shape` maps Compose `Shape` to CSS `border-radius`; `colors` accepts AndroidX-inspired default/disabled and toggle-checked color roles, expressed as CSS colors.
+- Utiliser un vrai bouton HTML avec un nom accessible pertinent ; l’icône décorative ne doit pas constituer le seul libellé accessible. Le paramètre AndroidX `enabled` est traduit en attribut natif `disabled` ; `disabled` reste un alias de compatibilité Web.
+- Vérifier l’activation clavier, le focus visible, l’absence d’activation à l’état désactivé et la cible tactile en contexte.
+- Vérifier les couleurs calculées du contenu, du conteneur et du contour dans les thèmes clair et sombre.
+- Le ripple partagé adapte `ripple()` de Compose au Web : il est découpé à la surface visuelle de 40 px tandis que le bouton natif conserve une cible minimale de 48 px. Les toggles gardent la sémantique native de bouton et exposent leur état coché avec `aria-pressed`, le modèle Web établi ; ils ne sont pas exposés comme des cases à cocher.
+- `shape` mappe Compose `Shape` à `border-radius` CSS ; `colors` accepte les rôles de couleur par défaut, désactivés et cochés inspirés d’AndroidX.
 
-## Required verification
+## Vérifications requises
 
-- [x] Pin the API and component-token references to the stable Material 3 1.4.0 source commit, verified against the published source archive.
-- [x] Separate the eight official action/toggle component names in the React public API; remove the generic `variant` prop and non-official `tonal` alias.
-- [x] Map action/toggle enabled, checked/unchecked and disabled color roles from the pinned AndroidX implementation and token references; label CSS state layers as a Web adaptation.
-- [x] Expose AndroidX-inspired `colors` overrides for default, disabled and checked roles; map `shape` to CSS `border-radius` as an explicit Web adaptation.
-- [x] Expose the source `border` override only on outlined variants; map `BorderStroke` to CSS `border`, with `null` removing the outline.
-- [ ] Verify override behavior, shape clipping and computed styles in a browser.
-- [x] Implement distinct action and toggle color roles for enabled, checked/unchecked and disabled states; add hover, focus-visible and pressed state layers.
-- [ ] Verify computed hover, focus-visible, pressed and disabled rendering in a browser.
-- [ ] Verify icon alignment, container geometry, outline, shape and actual color blends.
-- [ ] Check keyboard, accessible name/state, contrast, FR/EN surrounding labels, mobile and 200% zoom.
-- [ ] Run component tests, lint, TypeScript and production build.
-- [ ] Inspect browser rendering; record observed differences and unresolved questions.
-- [x] Migrate the known production call sites and Design Lab specimens from generic variant/selected props to named action or toggle components.
-- [ ] Complete the exhaustive production call-site inventory and verify all CSS state tokens and actual browser rendering.
+- [x] Épingler les références API et tokens sur le commit stable Material 3 1.4.0, vérifié contre l’archive des sources publiées.
+- [x] Séparer les huit composants d’action/toggle officiels dans l’API React ; supprimer la prop générique `variant` et l’alias non officiel `tonal`.
+- [x] Mapper les rôles de couleur actif, coché/non coché et désactivé depuis les sources AndroidX épinglées ; documenter les couches d’état CSS comme adaptation Web.
+- [x] Exposer les surcharges `colors` inspirées d’AndroidX pour les rôles par défaut, désactivés et cochés ; mapper `shape` à `border-radius` CSS comme adaptation Web.
+- [x] Exposer la surcharge `border` source uniquement sur les variantes outlined ; mapper `BorderStroke` à la bordure CSS, avec `null` pour retirer le contour.
+- [ ] Vérifier dans un navigateur le comportement des surcharges, le clipping des formes et les styles calculés.
+- [x] Implémenter des rôles de couleur distincts pour les actions et les toggles, actifs et désactivés ; ajouter les couches hover, focus-visible et pressed.
+- [x] Vérifier dans Chromium les noms accessibles, l’état `aria-pressed` des quatre toggles, les cibles tactiles de 48 px, les couleurs actives/désactivées et le comportement hover/focus/pressed sur la surface de test locale.
+- [ ] Vérifier l’alignement des icônes, la géométrie des conteneurs, les contours, les formes et les mélanges de couleurs réels dans tous les thèmes.
+- [ ] Vérifier le contraste, les libellés environnants FR/EN, le mobile et le zoom à 200 %.
+- [x] Exécuter tests, lint, TypeScript et build : 744 tests réussis, 2 ignorés ; lint sans erreur (8 avertissements existants) ; TypeScript et build réussis ; CI #4611 verte sur `080b627`.
+- [ ] Inspecter le rendu navigateur par rapport aux références épinglées ; consigner les différences et questions non résolues.
+- [x] Migrer les points d’usage de production connus et les spécimens Design Lab des props génériques variant/selected vers les composants nommés action/toggle.
+- [ ] Terminer l’inventaire exhaustif des usages de production et vérifier tous les tokens d’état CSS et le rendu navigateur réel.
 
-A matching silhouette or Design Lab screenshot is not enough to mark this component conformant.
+La validation locale du 30 octobre 2026 a utilisé Chromium/Playwright sur une route de test temporaire non livrée, sans Preview ni déploiement. Les quatre variantes IconButton d’action et les quatre états toggle ont été exercés ; les cibles de 48 px, les noms accessibles, l’état `aria-pressed`, le hover, l’activation clavier et les couleurs disabled ont été inspectés. axe-core 4.14.0 ne détecte aucune violation WCAG 2.0/2.1 A/AA ni WCAG 2.2 AA sur la surface de test ; des contrôles de contraste et de nom de libellé restent incomplets et demandent une revue manuelle. Cette vérification ciblée ne vaut pas déclaration de conformité globale.
