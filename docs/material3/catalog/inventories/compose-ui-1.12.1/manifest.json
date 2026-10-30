@@ -58,7 +58,7 @@
     {
       "path": "declarations-001.json",
       "declarationCount": 500,
-      "sha256": "df436da8ac891a5012833bbac166cb222b89889b1d0fcf0f9189012c2f860512",
+      "sha256": "61c813fad7f4ac3bfa6b487093827668c391aa695cd534fdcf59d0713b8fc5c2",
       "firstSourceLine": 4,
       "lastSourceLine": 627
     },
@@ -86,28 +86,28 @@
     {
       "path": "declarations-005.json",
       "declarationCount": 500,
-      "sha256": "945a5901285ffb1d86566c2fb4e547eb8eadd94c116d1906c07308d32f3a78e6",
+      "sha256": "0caedc52b383e206ef544d82f1541f76216d18ca75e7270d58ef8414902cd14d",
       "firstSourceLine": 2423,
       "lastSourceLine": 3056
     },
     {
       "path": "declarations-006.json",
       "declarationCount": 500,
-      "sha256": "73abd61f49395dd01d8fb2b000b7cc526deb6fce89526d7e571955b0ed142800",
+      "sha256": "8aa8c45271490b5ff6043abbf1a2af8b23c6716c6cf24c22b456b4a703f3bc4e",
       "firstSourceLine": 3057,
       "lastSourceLine": 3720
     },
     {
       "path": "declarations-007.json",
       "declarationCount": 500,
-      "sha256": "e5930a3c95bc41548ddff80ca4d8695af97c7f73d11968ec82a2d8f0eea9dee3",
+      "sha256": "e647cf4fad927fa8f252fb4278d80a00da0537716cb71d466d83a9454b714f8a",
       "firstSourceLine": 3721,
       "lastSourceLine": 4394
     },
     {
       "path": "declarations-008.json",
       "declarationCount": 500,
-      "sha256": "46ccba08d8af459c9e86711e3623651c5199c81b77182f297ab09e2b302f95bf",
+      "sha256": "732fb5b16e39d1e7f1143ea9bb12e1088469cad0f589412833b167004c40a693",
       "firstSourceLine": 4397,
       "lastSourceLine": 4991
     },
