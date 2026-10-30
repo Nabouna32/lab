@@ -7,7 +7,8 @@ import {
   parseSha256,
   validateModuleMetadata,
   validateZipSignature,
-  validateAndroidVariantLinks,\n  verifySha256,
+  validateAndroidVariantLinks,
+  verifySha256,
 } from './audit-compose-submodule-publications.mjs';
 
 test('parses a published SHA-256 sidecar', () => {
