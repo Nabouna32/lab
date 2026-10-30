@@ -83,6 +83,10 @@ node --test .github/scripts/verify-androidx-source-archive.test.mjs
 
 La vérification nécessite un accès réseau aux URL consignées dans le manifeste. Un résultat réussi prouve l'intégrité des octets téléchargés par rapport aux empreintes déclarées ; il ne prouve pas à lui seul que le dump d'API correspond à cette archive ni que le code source est sémantiquement équivalent à une version publiée. Les statuts de provenance doivent rester distincts.
 
+## Première revue sémantique Compose P0
+
+La première revue structurée de [Foundation Layout 1.12.1](compose-foundation-layout-1.12.1.md) classe les principaux contrats de mesure, d'arrangement, de padding et de WindowInsets, et distingue les adaptations Web des API Android sans équivalent direct. Elle reste initiale : les familles P0 conservent le statut `in-progress` jusqu'à la livraison des inventaires normalisés exhaustifs et de leurs contrôles reproductibles.
+
 ## États de couverture
 
 La présence dans le catalogue ne signifie pas qu'une API a été étudiée ou portée. Garder séparés :
