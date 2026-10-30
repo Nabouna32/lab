@@ -164,7 +164,7 @@ test('verifies all four immutable API dumps against the committed release manife
     'compose-foundation': dumpFamilies.slice(2),
   };
   for (const group of groups) {
-    group.apiDumps = metadata[group.id].map(([family, versionMarker, path, packageCount], index) => ({
+    group.apiDumps = metadata[group.id].map(([family, , path, packageCount], index) => ({
       family,
       path,
       formatVersion: '4.0',
