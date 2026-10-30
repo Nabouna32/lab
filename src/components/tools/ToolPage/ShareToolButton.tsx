@@ -6,6 +6,7 @@ import { MaterialIcon } from "@/components/ui/MaterialIcon";
 import type { Locale } from "@/lib/i18n/config";
 import { getMessages } from "@/lib/i18n/messages";
 import { createToolShareUrl } from "@/lib/tools/share-url";
+import { copyTextToClipboard } from "@/lib/copy";
 
 type ShareToolButtonProps = {
   title: string;
@@ -38,9 +39,8 @@ export default function ShareToolButton({ title, description, locale }: ShareToo
     }
 
     try {
-      if (!navigator.clipboard?.writeText) throw new Error("Clipboard unavailable");
-      await navigator.clipboard.writeText(url);
-      setStatus("copied");
+      const copied = await copyTextToClipboard(url);
+      setStatus(copied ? "copied" : "error");
     } catch {
       setStatus("error");
     }
