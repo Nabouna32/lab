@@ -115,6 +115,12 @@ test("keeps curated results for an intent-only query", () => {
   assert.deepEqual(new Set(ids("calculer")), new Set(["percentage", "rule-of-three"]));
 });
 
+test("real catalog returns no unrelated tools for an unsupported matrix calculation", () => {
+  const publishedTools = getPublishedTools();
+  const results = searchTools(publishedTools, "calculer la somme des éléments d'une matrice 5x5", "fr");
+  assert.deepEqual(results.map(({ tool }) => tool.id), []);
+});
+
 test("supports multi-term queries with a typo", () => {
   assert.equal(ids("calculer pourcentge")[0], "percentage");
 });
