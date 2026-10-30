@@ -146,21 +146,6 @@ export async function resolveGitilesRef(fetchImpl, refs, candidates, label, vers
   );
 }
 
-export function parseGitilesLog(text) {
-  const json = text.replace(/^\)\]\}'(?:\r?\n)?/, '');
-  const parsed = JSON.parse(json);
-  const head = parsed?.log?.[0];
-  const commit = head?.commit ?? head?.id;
-  if (!/^[a-f0-9]{40}$/i.test(commit ?? '')) {
-    throw new Error('Gitiles branch log did not return an immutable commit.');
-  }
-  return {
-    commit: commit.toLowerCase(),
-    message: typeof head.message === 'string' ? head.message : null,
-    committer: head.committer ?? null,
-  };
-}
-
 export function parseLibraryVersion(text, marker) {
   const escaped = marker.replace(/[.*+?^$()|[\]\\]/g, '\\$&');
   const match = text.match(new RegExp('^\\s*' + escaped + '\\s*=\\s*"([^"]+)"\\s*$', 'm'));
@@ -212,7 +197,7 @@ export async function inspectComposeReleaseProvenance({ outputDirectory, refsTex
 
     const groupReport = {
       id: group.id,
-      branch: group.branch,
+      preferredRef: group.branch,
       ref: resolvedRef.ref,
       commit,
       commitMessage: branchHead.message,
