@@ -205,8 +205,8 @@ export async function auditComposeSubmodulePublications({
   if (typeof outputFile !== 'string' || !outputFile.trim()) {
     throw new Error('outputFile is required.');
   }
-  if (!Array.isArray(targets) || targets.length !== 2) {
-    throw new Error('Exactly the two pinned Compose submodule targets are required.');
+  if (!Array.isArray(targets) || targets.length !== PUBLICATION_TARGETS.length) {
+    throw new Error('Exactly the four pinned Compose publication targets are required.');
   }
 
   const families = [];
