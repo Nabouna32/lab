@@ -46,7 +46,7 @@ export function validateComposeApiWatchManifest(manifest) {
   return errors;
 }
 
-export function verifyComposeApiWatchSnapshots({ root = process.cwd(), manifestPath = DEFAULT_MANIFEST } = {}) {
+export function verifyComposeApiWatchSnapshots({ root = process.cwd(), manifestPath = DEFAULT_MANIFEST, report = null } = {}) {
   const absoluteManifestPath = resolve(root, manifestPath);
   const manifest = JSON.parse(readFileSync(absoluteManifestPath, 'utf8'));
   const errors = validateComposeApiWatchManifest(manifest);
@@ -99,6 +99,7 @@ export function verifyComposeApiWatchSnapshots({ root = process.cwd(), manifestP
     if (!Array.isArray(inventory.packageAnnotations)) {
       errors.push(entry.family + ' package annotations were not preserved by the API parser.');
     }
+    report?.(entry.family + ': ' + inventory.declarationCount + ' declarations, ' + inventory.sourceApiCandidateCount + ' source API candidates across ' + new Set(inventory.declarations.map((declaration) => declaration.package)).size + ' packages.');
 
     const summary = entry.inventorySummary;
     const packageCountsByName = {};
@@ -138,7 +139,7 @@ export function verifyComposeApiWatchSnapshots({ root = process.cwd(), manifestP
 
 if (process.argv[1] && import.meta.url === new URL('file://' + process.argv[1]).href) {
   const manifestPath = process.argv[2] ?? DEFAULT_MANIFEST;
-  const errors = verifyComposeApiWatchSnapshots({ manifestPath });
+  const errors = verifyComposeApiWatchSnapshots({ manifestPath, report: (line) => process.stdout.write(line + '\n') });
   if (errors.length) {
     process.stderr.write(errors.map((error) => '- ' + error).join('\n') + '\n');
     process.exitCode = 1;
