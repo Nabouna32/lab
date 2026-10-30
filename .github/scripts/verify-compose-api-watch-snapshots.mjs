@@ -101,11 +101,11 @@ export function verifyComposeApiWatchSnapshots({ root = process.cwd(), manifestP
     }
 
     const summary = entry.inventorySummary;
-    const packageCounts = Object.fromEntries(
-      [...new Set(inventory.declarations.map((declaration) => declaration.package))]
-        .sort()
-        .map((packageName) => [packageName, inventory.declarations.filter((declaration) => declaration.package === packageName).length]),
-    );
+    const packageCountsByName = {};
+    for (const declaration of inventory.declarations) {
+      packageCountsByName[declaration.package] = (packageCountsByName[declaration.package] ?? 0) + 1;
+    }
+    const packageCounts = Object.fromEntries(Object.entries(packageCountsByName).sort(([left], [right]) => left.localeCompare(right)));
     const actualSummary = {
       declarationCount: inventory.declarationCount,
       sourceApiCandidateCount: inventory.sourceApiCandidateCount,
