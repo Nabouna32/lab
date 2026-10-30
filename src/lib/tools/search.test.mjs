@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { searchTools } from "./search.ts";
+import { getPublishedTools } from "./catalog.ts";
 
 const fixtureTools = [
   {
@@ -34,6 +35,17 @@ const fixtureTools = [
     content: {
       fr: { name: "Temps de téléchargement", description: "Estimez une durée de téléchargement." },
       en: { name: "Download Time Calculator", description: "Estimate download time." },
+    },
+  },
+  {
+    id: "age-calculator",
+    tags: ["age", "date"],
+    aliases: ["âge", "birth date"],
+    categories: ["calculations"],
+    lifecycle: "published",
+    content: {
+      fr: { name: "Calculateur d'âge", description: "Calculez votre âge à partir de votre date de naissance." },
+      en: { name: "Age Calculator", description: "Calculate your age from your date of birth." },
     },
   },
   {
@@ -104,6 +116,24 @@ test("keeps relevant results when one query term is extra context", () => {
 
 test("does not fuzzy-match very short terms", () => {
   assert.deepEqual(ids("tvx"), []);
+});
+
+test("matches short terms at word boundaries instead of inside unrelated words", () => {
+  assert.deepEqual(ids("age"), ["age-calculator"]);
+  assert.deepEqual(ids("âge"), ["age-calculator"]);
+  assert.equal(ids("per", "en")[0], "percentage");
+});
+
+test("real catalog keeps short age queries away from image and percentage tools", () => {
+  const publishedTools = getPublishedTools();
+
+  for (const locale of ["fr", "en"]) {
+    const resultIds = searchTools(publishedTools, "age", locale).map(({ tool }) => tool.id);
+    assert.equal(resultIds[0], "age");
+    assert.ok(!resultIds.includes("image-metadata"));
+    assert.ok(!resultIds.includes("image-compressor"));
+    assert.ok(!resultIds.includes("percentage"));
+  }
 });
 
 test("matches tags and categories", () => {
