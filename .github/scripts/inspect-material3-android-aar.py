@@ -352,7 +352,7 @@ def api_type_to_jvm_descriptor(type_name: str, is_return: bool = False) -> str |
         "androidx.compose.ui.graphics.TileMode": "I",
         "androidx.compose.ui.graphics.ClipOp": "I",
         "androidx.compose.material3.DisplayMode": "I",
-        "androidx.compose.material3.ExposedDropdownMenuAnchorType": "I",
+        "androidx.compose.material3.ExposedDropdownMenuAnchorType": "Ljava/lang/String;",
         "androidx.compose.material3.FabPosition": "I",
         "androidx.compose.material3.IconButtonDefaults.IconButtonWidthOption": "I",
         "androidx.compose.material3.NavigationItemIconPosition": "I",
