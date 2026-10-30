@@ -234,7 +234,7 @@ def parse_api_dump(api_dump: str) -> dict:
                             "bytecodeOnly": "@BytecodeOnly" in signature,
                             "kotlinOnly": "@KotlinOnly" in signature,
                             "composable": "@androidx.compose.runtime.Composable" in signature or "@Composable" in signature,
-                            "static": bool(re.search(r"\\bstatic\\b", signature)),
+                            "static": bool(re.search(r"\bstatic\b", signature)),
                             "signature": signature,
                         })
                     else:
@@ -243,11 +243,21 @@ def parse_api_dump(api_dump: str) -> dict:
                         })
                 else:
                     body = _strip_api_modifiers(_strip_api_annotations(signature.split(kind, 1)[1].strip().rstrip(";")))
-                    field_match = re.match(r"^(.*\S)\s+([A-Za-z_$][A-Za-z0-9_$]*)$", body)
+                    if kind == "field" and "=" in body:
+                        body = body.split("=", 1)[0].rstrip()
+                    field_match = re.match(r"^(.*\S)\s+([A-Za-z_$][A-Za-z0-9_$.]*)$", body)
                     if field_match:
+                        qualified_name = field_match.group(2)
+                        receiver_type = None
+                        member_name = qualified_name
+                        if kind == "property" and "." in qualified_name:
+                            receiver_type, member_name = qualified_name.rsplit(".", 1)
                         classes[current_class]["fields" if kind == "field" else "properties"].append({
-                            "name": field_match.group(2),
+                            "name": member_name,
                             "type": field_match.group(1).strip(),
+                            "receiverType": receiver_type,
+                            "composable": "@androidx.compose.runtime.Composable" in signature or "@Composable" in signature,
+                            "static": bool(re.search(r"\bstatic\b", signature)),
                             "signature": signature,
                         })
                     else:
