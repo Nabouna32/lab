@@ -16,6 +16,7 @@ Le dump comporte 688 déclarations dans un package et 22 groupes JVM propriétai
 | Mesure | Nombre |
 |---|---:|
 | Déclarations | 688 |
+| Types publics | 23 |
 | Méthodes | 501 |
 | Propriétés | 129 |
 | Champs | 26 |
