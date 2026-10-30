@@ -59,7 +59,7 @@ export function MaterialTextField(props: MaterialTextFieldProps) {
             onClick={() => setRevealed((visible) => !visible)}
             disabled={disabled}
           >
-            <MaterialIcon name={revealed ? "visibility_off" : "visibility"} size={20} />
+            <MaterialIcon name={revealed ? "visibility_off" : "visibility"} size={24} />
           </IconButton>
         )}
         {!secure && trailingContent && <span className={styles.trailingContent}>{trailingContent}</span>}
