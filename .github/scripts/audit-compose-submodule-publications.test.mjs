@@ -58,6 +58,30 @@ test('validates Gradle module component identity and preserves variant metadata'
   }, 'fixture'), /unexpected component identity/);
 });
 
+test('accepts an Android publication metadata redirect to its logical module', () => {
+  const metadata = {
+    component: {
+      url: '../../ui-text/1.12.1/ui-text-1.12.1.module',
+      group: 'androidx.compose.ui',
+      module: 'ui-text',
+      version: '1.12.1',
+      attributes: { 'org.gradle.status': 'release' },
+    },
+  };
+  const result = validateModuleMetadata(Buffer.from(JSON.stringify(metadata)), {
+    group: 'androidx.compose.ui',
+    module: 'ui-text',
+    version: '1.12.1',
+  }, 'ui-text-android redirect');
+  assert.equal(result.redirectUrl, metadata.component.url);
+  assert.deepEqual(result.variants, []);
+  assert.throws(() => validateModuleMetadata(Buffer.from(JSON.stringify(metadata)), {
+    group: 'androidx.compose.ui',
+    module: 'ui-text-android',
+    version: '1.12.1',
+  }, 'unexpected redirect'), /unexpected component identity/);
+});
+
 test('rejects malformed Gradle metadata and non-archive bytes', () => {
   assert.throws(() => validateModuleMetadata(Buffer.from('{'), {
     group: 'g', module: 'm', version: '1',
