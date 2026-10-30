@@ -143,7 +143,7 @@ La première revue ciblée des contrats UI Text est documentée dans [compose-ui
 
 ## Audit des consommateurs UI Text
 
-L'inventaire ciblé des usages React/Web de `TextField`, `TextArea` et `MaterialTextField` est consigné dans [compose-ui-text-call-sites.md](compose-ui-text-call-sites.md). Il distingue les formulaires de compte, les outils, la galerie et un `textarea` natif indépendant. Le contrat ARIA de `TextArea` est corrigé et livré dans #1079 (CI #4593 réussie). Une correction du contrat d'identifiant `inputId` des champs natifs est en cours de vérification. La localisation/activation de la révélation de mot de passe dans `MaterialTextField` reste un point à traiter uniquement si cette option est activée. L'index GitHub ne remplace pas une analyse AST locale ni une validation navigateur.
+L'inventaire ciblé des usages React/Web de `TextField`, `TextArea` et `MaterialTextField` est consigné dans [compose-ui-text-call-sites.md](compose-ui-text-call-sites.md). Il distingue les formulaires de compte, les outils, la galerie et un `textarea` natif indépendant. Le contrat ARIA de `TextArea` est corrigé et livré dans #1079 (CI #4593 réussie). Le contrat d'identifiant `inputId` des champs natifs est verrouillé et livré dans #1080 (CI #4594 réussie). La localisation/activation de la révélation de mot de passe dans `MaterialTextField` reste un point à traiter uniquement si cette option est activée. L'index GitHub ne remplace pas une analyse AST locale ni une validation navigateur.
 
 ## Statut du catalogue Material 3
 
