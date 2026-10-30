@@ -15,107 +15,107 @@
     "formatVersion": "4.0"
   },
   "generatedBy": ".github/scripts/material3-api-inventory.mjs + .github/scripts/material3-api-inventory-shard.mjs",
-  "declarationCount": 4196,
-  "sourceApiCandidateCount": 2415,
+  "declarationCount": 4232,
+  "sourceApiCandidateCount": 2451,
   "bytecodeOnlyCount": 978,
   "inaccessibleFromKotlinCount": 683,
   "generatedFacadeCount": 120,
   "kotlinOnlyCount": 181,
-  "experimentalCount": 41,
-  "deprecatedCount": 253,
+  "experimentalCount": 42,
+  "deprecatedCount": 255,
   "packageCounts": {
-    "androidx.compose.ui": 304,
-    "androidx.compose.ui.autofill": 175,
-    "androidx.compose.ui.contentcapture": 5,
-    "androidx.compose.ui.draganddrop": 38,
-    "androidx.compose.ui.draw": 101,
-    "androidx.compose.ui.focus": 212,
-    "androidx.compose.ui.graphics": 132,
-    "androidx.compose.ui.graphics.vector": 201,
+    "androidx.compose.ui": 305,
+    "androidx.compose.ui.autofill": 178,
+    "androidx.compose.ui.contentcapture": 6,
+    "androidx.compose.ui.draganddrop": 40,
+    "androidx.compose.ui.draw": 102,
+    "androidx.compose.ui.focus": 214,
+    "androidx.compose.ui.graphics": 133,
+    "androidx.compose.ui.graphics.vector": 205,
     "androidx.compose.ui.hapticfeedback": 37,
     "androidx.compose.ui.input": 14,
-    "androidx.compose.ui.input.indirect": 63,
+    "androidx.compose.ui.input.indirect": 64,
     "androidx.compose.ui.input.key": 660,
     "androidx.compose.ui.input.nestedscroll": 43,
-    "androidx.compose.ui.input.pointer": 315,
-    "androidx.compose.ui.input.pointer.util": 21,
+    "androidx.compose.ui.input.pointer": 317,
+    "androidx.compose.ui.input.pointer.util": 22,
     "androidx.compose.ui.input.rotary": 15,
-    "androidx.compose.ui.layout": 569,
-    "androidx.compose.ui.modifier": 32,
-    "androidx.compose.ui.node": 196,
-    "androidx.compose.ui.platform": 378,
+    "androidx.compose.ui.layout": 578,
+    "androidx.compose.ui.modifier": 34,
+    "androidx.compose.ui.node": 199,
+    "androidx.compose.ui.platform": 379,
     "androidx.compose.ui.relocation": 5,
     "androidx.compose.ui.res": 40,
     "androidx.compose.ui.semantics": 521,
     "androidx.compose.ui.spatial": 23,
-    "androidx.compose.ui.state": 5,
+    "androidx.compose.ui.state": 6,
     "androidx.compose.ui.text": 3,
     "androidx.compose.ui.viewinterop": 8,
-    "androidx.compose.ui.window": 80
+    "androidx.compose.ui.window": 81
   },
   "shardSize": 500,
   "shards": [
     {
       "path": "declarations-001.json",
       "declarationCount": 500,
-      "sha256": "42e6c1c289d58a96fa0f6ffb9a49f8af514328bfc01aebd88b3af592f981e231",
+      "sha256": "df436da8ac891a5012833bbac166cb222b89889b1d0fcf0f9189012c2f860512",
       "firstSourceLine": 4,
-      "lastSourceLine": 637
+      "lastSourceLine": 627
     },
     {
       "path": "declarations-002.json",
       "declarationCount": 500,
-      "sha256": "b9690f869ddb9c08ba14d6a6b4adf9eaca51e155ace7e5606bb28a203185c842",
-      "firstSourceLine": 638,
-      "lastSourceLine": 1290
+      "sha256": "0b6798576d86c1a4831ff3531aa27d3b137df12c11d8d008e5844225f0344bd1",
+      "firstSourceLine": 630,
+      "lastSourceLine": 1279
     },
     {
       "path": "declarations-003.json",
       "declarationCount": 500,
-      "sha256": "f793812edcc129801d88861eb25314518cb82d37dd0dd11f682c96a377d7a661",
-      "firstSourceLine": 1291,
-      "lastSourceLine": 1903
+      "sha256": "6854d3dda050ece78b02e32e8df7304ef2edd449963aba28364205b1bc33bc4b",
+      "firstSourceLine": 1280,
+      "lastSourceLine": 1887
     },
     {
       "path": "declarations-004.json",
       "declarationCount": 500,
-      "sha256": "487eccb79b94adb859df01f82d326474fbd4c900d3470c16c2093be63ddb3495",
-      "firstSourceLine": 1904,
-      "lastSourceLine": 2446
+      "sha256": "73d7d6a73e677ffdbd252cd04c0654d01dace9e629016683a97eb5255502e4d7",
+      "firstSourceLine": 1888,
+      "lastSourceLine": 2422
     },
     {
       "path": "declarations-005.json",
       "declarationCount": 500,
-      "sha256": "b854699571a8268f755dfabaa15178d1abd9d900d327bf3dffebeb0f61ec2bac",
-      "firstSourceLine": 2447,
-      "lastSourceLine": 3080
+      "sha256": "945a5901285ffb1d86566c2fb4e547eb8eadd94c116d1906c07308d32f3a78e6",
+      "firstSourceLine": 2423,
+      "lastSourceLine": 3056
     },
     {
       "path": "declarations-006.json",
       "declarationCount": 500,
-      "sha256": "348abe22f1797c5c3e37492e3765625d4a29b7d2b77b272c060446a824a76b20",
-      "firstSourceLine": 3083,
-      "lastSourceLine": 3754
+      "sha256": "73abd61f49395dd01d8fb2b000b7cc526deb6fce89526d7e571955b0ed142800",
+      "firstSourceLine": 3057,
+      "lastSourceLine": 3720
     },
     {
       "path": "declarations-007.json",
       "declarationCount": 500,
-      "sha256": "2d0452dd71665d96ab1e2f1887934b63b8eed6070d53c6018b803a4799582be0",
-      "firstSourceLine": 3757,
-      "lastSourceLine": 4442
+      "sha256": "e5930a3c95bc41548ddff80ca4d8695af97c7f73d11968ec82a2d8f0eea9dee3",
+      "firstSourceLine": 3721,
+      "lastSourceLine": 4394
     },
     {
       "path": "declarations-008.json",
       "declarationCount": 500,
-      "sha256": "fc543f39b5aaa024d3e35d87261fe8a2552a00e12480d37bfc1a69abf4647f2e",
-      "firstSourceLine": 4443,
-      "lastSourceLine": 5025
+      "sha256": "46ccba08d8af459c9e86711e3623651c5199c81b77182f297ab09e2b302f95bf",
+      "firstSourceLine": 4397,
+      "lastSourceLine": 4991
     },
     {
       "path": "declarations-009.json",
-      "declarationCount": 196,
-      "sha256": "c00b2b04003d1bab74c59d998cddc8a44943e6cdd98d88e5bced544b6b8d9554",
-      "firstSourceLine": 5026,
+      "declarationCount": 232,
+      "sha256": "737eee16ec7eff9f3b6e1158e64224048d5a51632446f475a7230d899c6251c8",
+      "firstSourceLine": 4992,
       "lastSourceLine": 5274
     }
   ]
