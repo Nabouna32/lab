@@ -64,7 +64,7 @@ Les quatre fichiers publics `api/current.txt` ont été récupérés depuis ce c
 
 Le manifeste [compose-p0-1.12.1-api-provenance.json](baselines/compose-p0-1.12.1-api-provenance.json) versionne la provenance, les empreintes et les métadonnées des quatre dumps. La CI les retélécharge depuis le commit épinglé et compare chaque champ au manifeste. Aucun fichier versionné `1.12.1.txt` n'existe à ces emplacements dans cette release ; le `current.txt` du commit de release, associé au marqueur stable 1.12.1, est la référence vérifiée. Ne pas confondre ce fichier avec le `current.txt` de la branche de développement `androidx-main`.
 
-Cette étape prouve le lien entre la version stable et les dumps API du dépôt. Elle **ne prouve pas encore** que les archives `sources.jar` publiées par Google Maven correspondent byte pour byte au même commit. Les familles P0 restent donc `watch-snapshot-only` jusqu'à la vérification distincte de l'alignement des sources publiées et de l'inventaire sémantique.
+Le lien entre release stable, dumps API et sources publiées est maintenant vérifié : la CI #4516 compare byte pour byte les quatre archives `sources.jar` Google Maven avec le commit AndroidX épinglé. Le manifeste enregistre les SHA-256 des archives et les comptes de fichiers comparés. Le statut `in-progress` des familles décrit uniquement l'inventaire sémantique restant ; il ne remet pas en cause la provenance vérifiée.
 
 ### Vérification des archives sources
 
@@ -74,7 +74,7 @@ Le script `.github/scripts/verify-androidx-source-archive.mjs` télécharge l'ar
 
 Le script `.github/scripts/audit-compose-submodule-publications.mjs` inspecte les publications Google Maven de Compose UI, Foundation, UI Text et Foundation Layout en version 1.12.1. Il vérifie les sommes SHA-256 publiées des métadonnées Gradle, des archives sources et des AAR Android, valide l'identité des composants, les redirections des métadonnées Android vers les modules logiques et les liens `available-at` des variantes API/runtime/sources. Le rapport JSON est conservé comme artefact CI pendant sept jours ; il ne remplace pas une baseline versionnée.
 
-Cet audit établit l'intégrité des fichiers téléchargés et la structure des variantes publiées. Il **ne prouve pas** que les sources correspondent à un commit AndroidX précis, ni que le dump API stable correspond à l'AAR. Ces vérifications restent distinctes et nécessaires avant de déclarer l'inventaire stable vérifié.
+Cet audit établit l'intégrité des fichiers téléchargés et la structure des variantes publiées. La comparaison Gitiles séparée établit désormais la correspondance exacte des quatre `sources.jar` avec le commit de release. Ces preuves verrouillent la provenance, mais ne constituent pas à elles seules un inventaire sémantique complet ni une validation du portage React.
 
 ```sh
 node .github/scripts/verify-androidx-source-archive.mjs docs/material3/catalog/baselines/material3-1.4.0.json
@@ -109,17 +109,7 @@ Les versions de référence doivent être choisies par artefact/groupe, pas supp
 
 Le registre versionné sélectionne maintenant une version stable publiée pour chacune des 22 familles. Les nouvelles sélections couvrent Wear Compose Material 3 (1.5.0), TV Material (1.1.0), Material Components Views (1.14.0), AppCompat (1.8.0) et les sous-modules UI, Foundation Layout, Animation Core et Runtime Saveable (1.12.1), selon leurs pages de publication officielles. Cette sélection établit le périmètre de version, pas l'alignement entre le dump API et les sources de chaque artefact : cet alignement reste à vérifier séparément. Le registre utilise le groupe Maven `androidx.compose.material3.adaptive:adaptive` pour l'artefact Adaptive.
 
-Une BOM Compose peut aligner des versions compatibles, mais n'ajoute pas toutes les bibliothèques au projet et ne remplace pas l'identification des artefacts à inventorier. Chaque baseline doit garder la provenance officielle, la version et le snapshot source/API correspondant.
-
-## Snapshots de veille des familles Compose P0
-
-Quatre fichiers `api/current.txt` au format 5.0 et surface publique ont été archivés depuis le commit AndroidX immuable `5901d750e269aa3d88f6fccd5186637df83a0173` dans [les snapshots de veille Compose P0](watch/androidx-compose-p0-2026-10-29/README.md). Le manifeste [manifest.json](watch/androidx-compose-p0-2026-10-29/manifest.json) conserve les chemins amont, Git blob SHA-1 et métriques descriptives.
-
-Ces snapshots sont **des références de veille, pas des baselines stables 1.12.1**. Depuis leur archivage, la release stable a été retrouvée indépendamment du miroir GitHub : le commit AndroidX `5e0747401bf56b243e3b5141ae080dc9bc61d29c` sur `androidx-compose-release` fournit les quatre dumps API `current.txt` de la version 1.12.1, maintenant épinglés dans [le manifeste de provenance](baselines/compose-p0-1.12.1-api-provenance.json). Les quatre familles P0 restent `watch-snapshot-only` tant que les sources JAR publiées ne sont pas alignées sur ce commit et que l'inventaire complet de release n'est pas terminé.
-
-Les quatre snapshots ont aussi été analysés par le parseur canonique d'inventaire : 9 661 déclarations au total, dont 5 855 candidates API source après exclusion des entrées `@BytecodeOnly` et `@InaccessibleFromKotlin`. Les comptes par package et les annotations de package sont conservés dans le manifeste. Ces métriques décrivent le snapshot `androidx-main` épinglé ; elles ne sont ni une baseline 1.12.1 ni une classification de stabilité.
-
-Les métriques de lignes décrivent le format des dumps ; elles ne remplacent pas la classification stable/experimental/deprecated ni la revue des sources sémantiques.
+Une BOM Compose peut aligner des versions compatibles, mais n'ajoute pas toutes les bibliothèques au projet et ne remplace pas l'identification des artefacts à inventorier. Chaque baseline conserve une seule référence de release immuable, avec les empreintes API et sources correspondantes. Les commits historiques d'exploration ne sont pas maintenus comme baselines parallèles.
 
 ## Statut du catalogue Material 3
 
