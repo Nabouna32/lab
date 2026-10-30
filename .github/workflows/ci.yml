@@ -133,7 +133,9 @@ jobs:
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: material3-1.4.0-published-artifacts
-          path: /tmp/material3-1.4.0-release-artifacts/
+          path: |
+            /tmp/material3-1.4.0-release-artifacts/
+            docs/material3/catalog/baselines/material3-android-1.4.0-api-inventory.json
           if-no-files-found: error
           retention-days: 7
 
