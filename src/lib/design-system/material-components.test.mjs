@@ -419,7 +419,7 @@ test("TextField labels reflect invalid state while disabled labels keep disabled
   assert.doesNotMatch(textFieldSource, /variant\?: "fidelity" \| "expressive"|isExpressive|expressiveInputClasses/);
   assert.match(textFieldSource, /const isInvalid = !disabled && Boolean\(inputProps\["aria-invalid"\]\);/);
   assert.match(textFieldSource, /isInvalid \? "text-\[var\(--danger\)\]" : "text-\[var\(--foreground\)\]"/);
-  assert.match(textFieldSource, /disabled \? "text-\[color-mix\(in_srgb,var\(--on-surface\)_38%,transparent\)\]" : isInvalid \? "text-\[var\(--danger\)\] peer-aria-\[invalid=true\]:text-\[var\(--danger\)\]"/);
+  assert.match(textFieldSource, /disabled \? "text-\[color-mix\(in_srgb,var\(--on-surface\)_38%,transparent\)\]" : isInvalid \? "text-\[var\(--danger\)\]" : "text-\[var\(--foreground\)\]"/);
 });
 
 test("Design Lab exposes the production OutlinedSecureTextField without requiring an account", () => {
@@ -441,7 +441,7 @@ test("Design Lab exposes the production OutlinedSecureTextField without requirin
 
 test("TextField and TextArea keep their explicit inputId bound to the visible label", () => {
   assert.match(textFieldSource, /Omit<InputHTMLAttributes<HTMLInputElement>, "id">/);
-  assert.equal((textFieldSource.match(/\{\.\.\.inputProps\}\s+id=\{inputId\}/g) ?? []).length, 2);
+  assert.equal((textFieldSource.match(/\{\.\.\.inputProps\}\s+id=\{inputId\}/g) ?? []).length, 1);
   assert.match(textAreaSource, /Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "id">/);
   assert.match(textAreaSource, /\{\.\.\.textareaProps\}\s+id=\{inputId\}/);
   assert.match(calculatorFieldSource, /Omit<InputHTMLAttributes<HTMLInputElement>, "id">/);
