@@ -37,6 +37,17 @@ const fixtureTools = [
     },
   },
   {
+    id: "age-calculator",
+    tags: ["age", "date"],
+    aliases: ["âge", "birth date"],
+    categories: ["calculations"],
+    lifecycle: "published",
+    content: {
+      fr: { name: "Calculateur d'âge", description: "Calculez votre âge à partir de votre date de naissance." },
+      en: { name: "Age Calculator", description: "Calculate your age from your date of birth." },
+    },
+  },
+  {
     id: "image-metadata",
     tags: ["image", "exif", "metadata"],
     aliases: ["metadonnees image"],
@@ -104,6 +115,11 @@ test("keeps relevant results when one query term is extra context", () => {
 
 test("does not fuzzy-match very short terms", () => {
   assert.deepEqual(ids("tvx"), []);
+});
+
+test("matches short terms at word boundaries instead of inside unrelated words", () => {
+  assert.deepEqual(ids("age"), ["age-calculator"]);
+  assert.deepEqual(ids("âge"), ["age-calculator"]);
 });
 
 test("matches tags and categories", () => {
