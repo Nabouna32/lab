@@ -121,7 +121,11 @@ jobs:
 
       - name: Inspect Material 3 Android AAR against published sources
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
-        run: python3 .github/scripts/inspect-material3-android-aar.py /tmp/material3-1.4.0-release-artifacts /tmp/material3-1.4.0-release-artifacts/material3-android-1.4.0-api-inventory.json
+        run: python3 .github/scripts/inspect-material3-android-aar.py /tmp/material3-1.4.0-release-artifacts docs/material3/catalog/baselines/material3-android-1.4.0-api-inventory.json
+
+      - name: Verify Material 3 Android source/AAR inventory reproducibility
+        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
+        run: git diff --exit-code -- docs/material3/catalog/baselines/material3-android-1.4.0-api-inventory.json
 
       - name: Upload verified Material 3 1.4.0 publication artifacts
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
