@@ -164,6 +164,7 @@ jobs:
             'refs/tags/*compose*1.12.1*' \
             > /tmp/androidx-compose-release-refs.txt
           test -s /tmp/androidx-compose-release-refs.txt
+          cat /tmp/androidx-compose-release-refs.txt
 
       - name: Inspect official Compose 1.12.1 release API provenance
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
