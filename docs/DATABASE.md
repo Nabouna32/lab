@@ -109,7 +109,7 @@ La migration `20261029110714_retire_design_lab_audit.sql` retire les tables et f
 - `pg_cron` 1.6.4 est installé.
 - L'historique distant `supabase_migrations.schema_migrations` contient `20261030030000 / log_retention_policy`. Les journaux PostgreSQL attestent la création de la table privée et des deux fonctions le 30 octobre à 03:31:30 UTC. La configuration effective du job a été confirmée par une lecture SQL directe de `cron.job`.
 - Les 46 assertions de `supabase/tests/log_retention.sql` ont été exécutées avec succès le 30 octobre dans une transaction explicitement annulée (`BEGIN` / `ROLLBACK`). Le contrôle a confirmé `assertion_count = 46`, `all_passed = true` et aucune assertion en échec. Le test a installé pgTAP uniquement dans cette transaction ; l'extension n'est pas conservée en production après le rollback.
-- Le test a été corrigé pour comparer les rôles avec des casts explicites vers `text` et fournir des `runid` négatifs explicites aux fixtures `cron.job_run_details`, sans nécessiter le privilège d'utilisation de `cron.runid_seq`. Ces corrections sont livrées dans une PR dédiée en attente de CI et de fusion.
+- Le test a été corrigé pour comparer les rôles avec des casts explicites vers `text` et fournir des `runid` négatifs explicites aux fixtures `cron.job_run_details`, sans nécessiter le privilège d'utilisation de `cron.runid_seq`. Ces corrections ont été fusionnées dans la PR #1058 (`ab7a9131a6c12a5463f43ef9e2c3a57b9bb1d647`) après succès de la CI sur le dernier head (`a343c7fe17e4740ad7447e56a07d4494bf6ed087`, run [#41000025499](https://github.com/Nabouna32/lab/actions/runs/41000025499)).
 
 **Politique définie par le code versionné :**
 
