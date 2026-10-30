@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import importlib.util
 import shutil
+import struct
 import subprocess
 import tempfile
 import unittest
@@ -44,5 +45,4 @@ class Material3AndroidAarInspectionTests(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    import struct
     unittest.main()
