@@ -121,7 +121,7 @@ test("does not fuzzy-match very short terms", () => {
 test("matches short terms at word boundaries instead of inside unrelated words", () => {
   assert.deepEqual(ids("age"), ["age-calculator"]);
   assert.deepEqual(ids("âge"), ["age-calculator"]);
-  assert.equal(ids("per")[0], "percentage");
+  assert.equal(ids("per", "en")[0], "percentage");
 });
 
 test("real catalog keeps short age queries away from image and percentage tools", () => {
