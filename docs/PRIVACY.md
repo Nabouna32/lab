@@ -319,7 +319,7 @@ L'inventaire des prestataires distingue les journaux applicatifs des journaux g�
 
 **Politique applicative indiquée comme active en production depuis le 30 octobre 2026 :** douze mois glissants pour le journal administratif Loculary et les exécutions terminées de `pg_cron`, avec purge automatique quotidienne à 03:00 UTC. Les exécutions cron incomplètes restent préservées. Aucun mécanisme d'exception de conservation ni archive des journaux applicatifs n'est conservé. Aucune sauvegarde Google Drive ou archive externe de ces journaux n'est créée.
 
-La migration `20261030160000_extend_log_retention_to_12_months.sql` est indiquée comme enregistrée en production. Le job `loculary-log-retention-12m` est indiqué comme actif ; son premier passage après migration était attendu le 31 octobre à 03:00 UTC. Les 19 assertions pgTAP ont réussi dans une transaction annulée et n'ont laissé aucune donnée de test en base.
+La migration `20261030160000_extend_log_retention_to_12_months.sql` est indiquée comme enregistrée en production. Le job `loculary-log-retention-12m` est indiqué comme actif ; son premier passage après migration est attendu le 31 octobre à 03:00 UTC. Les 19 assertions pgTAP ont réussi dans une transaction annulée et n'ont laissé aucune donnée de test en base.
 
 La durée de douze mois est un choix de conservation documenté selon les finalités de Loculary ; elle ne constitue pas une durée maximale universelle fixée par le RGPD. Les journaux gérés par les prestataires restent soumis à leurs conditions effectives.
 
