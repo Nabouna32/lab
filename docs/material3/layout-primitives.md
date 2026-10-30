@@ -4,13 +4,13 @@
 
 Cette spécification suit le portage des primitives AndroidX Compose UI/Foundation utilisées pour le layout et l'espacement. Ce périmètre est distinct des composants Material 3 : `Column`, `Row`, `Box`, `Spacer`, `Modifier` et `Arrangement` proviennent de Compose UI/Foundation.
 
-**Statut global : portage en cours, non vérifié.** La cible stable retenue pour la comparaison est Compose UI/Foundation 1.12.1, confirmée par les notes de version officielles. Le commit AndroidX ci-dessous reste un snapshot de lecture immuable ; son alignement exact avec les artefacts 1.12.1 et leurs fichiers API n'est pas établi. La provenance de release est donc mieux définie, mais la baseline source/API n'est pas encore totalement verrouillée.
+**Statut global : portage en cours, non vérifié.** La baseline de référence Compose UI/Foundation 1.12.1 est désormais verrouillée : le commit AndroidX immuable `5e0747401bf56b243e3b5141ae080dc9bc61d29c`, les quatre dumps API publics Compose UI, UI Text, Foundation et Foundation Layout, ainsi que les sources Google Maven correspondantes sont alignés et vérifiés. La CI #4516 a comparé 1 039 fichiers de sources et de licence, sans absence ni divergence. Les empreintes et les preuves reproductibles sont conservées dans [le manifeste de provenance](catalog/baselines/compose-p0-1.12.1-api-provenance.json). **Cette vérification porte sur la provenance de la référence AndroidX, pas sur la fidélité du portage Web** : l'implémentation React reste partielle et non vérifiée en navigateur.
 
 ## Sources AndroidX inspectées
 
 - Notes de version stable visée : [Compose UI 1.12.1](https://developer.android.com/jetpack/androidx/releases/compose-ui) et [Compose Foundation 1.12.1](https://developer.android.com/jetpack/androidx/releases/compose-foundation).
 
-Snapshot immuable de consultation : [androidx/androidx @ 5e0747401bf56b243e3b5141ae080dc9bc61d29c](https://github.com/androidx/androidx/tree/5e0747401bf56b243e3b5141ae080dc9bc61d29c).
+Baseline stable AndroidX 1.12.1 : [androidx/androidx @ 5e0747401bf56b243e3b5141ae080dc9bc61d29c](https://github.com/androidx/androidx/tree/5e0747401bf56b243e3b5141ae080dc9bc61d29c). Les sources ci-dessous sont consultées à cette révision et leur correspondance avec les archives publiées est vérifiée par la CI #4516.
 
 - [Modifier.kt — Compose UI](https://github.com/androidx/androidx/blob/5e0747401bf56b243e3b5141ae080dc9bc61d29c/compose/ui/ui/src/commonMain/kotlin/androidx/compose/ui/Modifier.kt)
 - [Alignment.kt — Compose UI](https://github.com/androidx/androidx/blob/5e0747401bf56b243e3b5141ae080dc9bc61d29c/compose/ui/ui/src/commonMain/kotlin/androidx/compose/ui/Alignment.kt)
@@ -69,7 +69,7 @@ Les personnalisations suivent le même principe : choisir d'abord un preset part
 - Remplacer les abstractions génériques d'espacement par `Column` + `Arrangement.spacedBy` lorsque le contrat convient. La zone éditoriale partagée de `ToolPage` est migrée vers `Column` et la surcharge Web de `spacedBy`; sa cadence responsive reste définie par une classe de composition dédiée, sans réintroduire une primitive Loculary de layout.
 - Ne pas confondre les tokens CSS de Loculary avec une échelle de dimensions AndroidX. Les tokens restent des choix de design du produit tant qu'une source officielle ne prouve pas le contraire. Pour éviter les valeurs divergentes, utiliser la surcharge Web `Arrangement.spacedBy("var(--layout-content-gap)")` lorsque l’espacement provient d’un token Loculary; ne pas présenter cette extension comme une API AndroidX.
 - Ne pas déclarer la parité sans tests de contrat, vérification de rendu en navigateur et contrôle des cas RTL, responsive, clavier et accessibilité pertinents.
-- Avant d'étendre le portage, sélectionner et verrouiller une référence Foundation/UI publiée, puis compléter l'inventaire des signatures publiques pertinentes et les spécifications associées.
+- Pour toute extension du portage, s'appuyer sur la baseline Foundation/UI 1.12.1 verrouillée et compléter l'inventaire sémantique des signatures publiques pertinentes avant de déclarer une API couverte ou fidèle.
 
 
 ### Contrat des contraintes de taille
