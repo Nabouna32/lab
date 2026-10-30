@@ -46,6 +46,9 @@ class Material3AndroidAarInspectionTests(unittest.TestCase):
         self.assertEqual(MODULE.api_type_to_jvm_descriptor("Long"), "J")
         self.assertEqual(MODULE.api_type_to_jvm_descriptor("Long?"), "Ljava/lang/Long;")
         self.assertEqual(MODULE.api_type_to_jvm_descriptor("kotlin.Long?"), "Ljava/lang/Long;")
+        self.assertEqual(MODULE.api_type_to_jvm_descriptor("androidx.compose.ui.graphics.Color"), "J")
+        self.assertEqual(MODULE.api_type_to_jvm_descriptor("androidx.compose.ui.unit.Dp"), "F")
+        self.assertEqual(MODULE.api_type_to_jvm_descriptor("Object?"), "Ljava/lang/Object;")
         self.assertEqual(
             MODULE.api_type_to_jvm_descriptor("androidx.compose.foundation.layout.Arrangement.Vertical"),
             "Landroidx/compose/foundation/layout/Arrangement$Vertical;",
@@ -145,6 +148,52 @@ class Material3AndroidAarInspectionTests(unittest.TestCase):
         self.assertEqual(comparison["missingMembers"], [])
         self.assertEqual(comparison["unsupportedSignatures"], [])
         self.assertEqual(comparison["status"], "exact-declarations-match")
+
+
+    def test_applies_compose_and_kotlin_value_class_jvm_lowering(self):
+        api = """package androidx.compose.material3 {
+  public final class Api {
+    method @androidx.compose.runtime.Composable public static void draw(androidx.compose.ui.graphics.Color color, androidx.compose.ui.Modifier modifier);
+    method @androidx.compose.runtime.Composable public androidx.compose.ui.graphics.Shape getShape();
+    method public suspend Object? animate(kotlin.coroutines.Continuation<? super kotlin.Unit>);
+    ctor @KotlinOnly public Api(androidx.compose.ui.graphics.Color color);
+    field public static final String LABEL = "label";
+    property @androidx.compose.runtime.Composable public androidx.compose.ui.graphics.Color containerColor;
+    property public static boolean androidx.compose.material3.TimePickerState.isPm;
+  }
+}
+"""
+        parsed = MODULE.parse_api_dump(api)["androidx/compose/material3/Api"]
+        self.assertTrue(parsed["methods"][0]["composable"])
+        self.assertTrue(parsed["constructors"][0]["kotlinOnly"])
+        self.assertEqual(parsed["fields"][0]["name"], "LABEL")
+        self.assertEqual(parsed["properties"][1]["receiverType"], "androidx.compose.material3.TimePickerState")
+        binary = [
+            (
+                "androidx/compose/material3/Api.class",
+                {
+                    "methodSignatures": [
+                        {"name": "draw-hash", "descriptor": "(JLandroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V", "publicProtected": True},
+                        {"name": "getShape", "descriptor": "(Landroidx/compose/runtime/Composer;I)Landroidx/compose/ui/graphics/Shape;", "publicProtected": True},
+                        {"name": "animate", "descriptor": "(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;", "publicProtected": True},
+                        {"name": "getContainerColor-hash", "descriptor": "(Landroidx/compose/runtime/Composer;I)J", "publicProtected": True},
+                        {"name": "isPm", "descriptor": "(Landroidx/compose/material3/TimePickerState;)Z", "publicProtected": True},
+                    ],
+                    "fieldSignatures": [
+                        {"name": "LABEL", "descriptor": "Ljava/lang/String;", "publicProtected": True},
+                    ],
+                },
+                True,
+            )
+        ]
+        comparison = MODULE.compare_api_dump_to_binary(api, binary)
+        self.assertEqual(comparison["sourceLevelDescriptorMatches"], 3)
+        self.assertEqual(comparison["constructorDescriptorMatches"], 1)
+        self.assertEqual(comparison["fieldDescriptorMatches"], 1)
+        self.assertEqual(comparison["propertyAccessorMatches"], 2)
+        self.assertEqual(comparison["missingMembers"], [])
+        self.assertEqual(comparison["unsupportedSignatures"], [])
+
 
     def test_reports_unsupported_types_instead_of_claiming_a_match(self):
         api = """package androidx.compose.material3 {
