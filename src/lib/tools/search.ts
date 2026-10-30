@@ -13,6 +13,15 @@ const SEARCH_STOP_WORDS = new Set([
   "un", "une", "what", "with",
 ]);
 
+const INTENT_ACTION_TERMS = new Set([
+  "calcul", "transform", "transformer", "changer", "change", "format", "formatter",
+  "generate", "generating", "generator", "generer", "creer", "create", "produire", "make", "generateur",
+  "analyze", "analyse", "analyser", "inspect", "inspecter", "decode", "decoder", "diagnose", "diagnostiquer",
+  "measure", "measuring", "mesurer", "estimate", "estimer",
+  "prepare", "preparer", "optimiser", "optimize", "compress", "compresser", "nettoyer", "clean", "resize", "redimensionner", "partager", "share",
+  "compare", "comparer", "versus", "vs", "between", "entre",
+]);
+
 /**
  * Small, deterministic query vocabulary that connects natural requests to curated
  * intent associations. This is deliberately not an AI classifier: ambiguous terms
@@ -61,7 +70,7 @@ function getSearchText(tool: Tool, locale: Locale): string {
 
 function tokenizeSearchQuery(query: string): string[] {
   return (normalizeSearchText(query).match(/[a-z0-9%]+/g) ?? [])
-    .filter((term) => !/^\d+(?:[.,]\d+)?$/.test(term) && !SEARCH_STOP_WORDS.has(term));
+    .filter((term) => !/^\d+(?:[.,]\d+)?$/.test(term) && !SEARCH_STOP_WORDS.has(term) && !INTENT_ACTION_TERMS.has(term));
 }
 
 function getTypoTolerance(term: string): number {
@@ -158,12 +167,14 @@ export function searchTools(tools: readonly Tool[], query: string, locale: Local
 
     const termScores = terms.map((term) => scoreTerm(term, name, description, tags, aliases, categories, haystack));
     const matchedTerms = termScores.filter((score) => score > 0).length;
-    // An inferred task verb may select curated tools on its own, but once a
-    // query contains task-specific terms, at least one of those terms must match.
-    const intentBoost = matchedTerms > 0 || terms.length === 0
-      ? getIntentBoost(tool, inferredIntents)
-      : 0;
-    if (matchedTerms === 0 && intentBoost === 0) return { tool, score: 0 };
+    // Keep one extra context term from hiding a useful result, but reject matches
+    // that cover less than half of the task-specific words in a longer query.
+    const minimumMatchedTerms = terms.length > 1 ? Math.ceil(terms.length / 2) : terms.length;
+    if (matchedTerms < minimumMatchedTerms) return { tool, score: 0 };
+
+    // Intent-only queries use curated associations; mixed queries only boost tools
+    // that have already passed the lexical relevance threshold.
+    const intentBoost = getIntentBoost(tool, inferredIntents);
 
     const allTermsMatch = matchedTerms === terms.length;
     const score = termScores.reduce((total, termScore) => total + termScore, 0)
