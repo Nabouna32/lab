@@ -53,6 +53,12 @@ Ne pas inférer la stabilité à partir du nom du symbole. Les annotations de st
 
 Le script `.github/scripts/verify-androidx-source-archive.mjs` télécharge l'archive et son fichier de somme de contrôle depuis les hôtes AndroidX approuvés, puis recalcule le SHA-256 et l'identifiant Git blob SHA-1. Il échoue si l'une de ces preuves diverge et ne modifie jamais automatiquement le manifeste.
 
+### Audit des variantes de publication Compose
+
+Le script `.github/scripts/audit-compose-submodule-publications.mjs` inspecte les publications Google Maven de Compose UI Text et Foundation Layout en version 1.12.1. Il vérifie les sommes SHA-256 publiées des métadonnées Gradle, des archives sources et des AAR Android, valide l'identité des composants et relève les liens `available-at` entre modules logiques et variantes Android. Le rapport JSON est conservé comme artefact CI pendant sept jours ; il ne remplace pas une baseline versionnée.
+
+Cet audit établit l'intégrité des fichiers téléchargés et la structure des variantes publiées. Il **ne prouve pas** que les sources correspondent à un commit AndroidX précis, ni que le dump API stable correspond à l'AAR. Ces vérifications restent distinctes et nécessaires avant de déclarer l'inventaire stable vérifié.
+
 ```sh
 node .github/scripts/verify-androidx-source-archive.mjs docs/material3/catalog/baselines/material3-1.4.0.json
 node --test .github/scripts/verify-androidx-source-archive.test.mjs
