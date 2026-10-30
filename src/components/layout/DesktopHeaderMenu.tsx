@@ -270,8 +270,8 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
 
         <div className="my-1.5 h-px bg-[var(--border)]" />
 
-        <div className="px-2 pb-1 pt-1">
-          <p className="m3-type-label-small px-1 uppercase text-[var(--muted)]">{t.theme.title}</p>
+        <fieldset className="min-w-0 px-2 pb-1 pt-1">
+          <legend className="m3-type-label-small px-1 uppercase text-[var(--muted)]">{t.theme.title}</legend>
           <div className="mt-1 grid grid-cols-3 gap-1">
             {[
               { value: "system", label: t.theme.system, icon: "system" },
@@ -280,25 +280,31 @@ export default function DesktopHeaderMenu({ locale }: { locale: Locale }) {
             ].map((option) => {
               const selected = themeReady && theme === option.value;
               return (
-                <button
-                  key={option.value}
-                  type="button"
-                  onClick={() => selectTheme(option.value)}
-                  className={
-                    "m3-type-label-medium flex min-h-14 flex-col items-center justify-center gap-1 rounded-xl px-1 py-2 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--focus-ring)] " +
-                    (selected
-                      ? "bg-[var(--primary-container)] text-[var(--on-primary-container)]"
-                      : "text-[var(--muted)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)]")
-                  }
-                  aria-pressed={selected}
-                >
-                  <MaterialIcon name={option.icon === "system" ? "devices" : option.icon === "dark" ? "dark_mode" : "light_mode"} size={18} />
-                  <span>{option.label}</span>
-                </button>
+                <label key={option.value} className="min-w-0 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="loculary-theme"
+                    value={option.value}
+                    checked={selected}
+                    onChange={() => selectTheme(option.value)}
+                    className="peer sr-only"
+                  />
+                  <span
+                    className={
+                      "m3-type-label-medium flex min-h-14 flex-col items-center justify-center gap-1 rounded-xl px-1 py-2 outline-none transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-inset peer-focus-visible:ring-[var(--focus-ring)] " +
+                      (selected
+                        ? "bg-[var(--primary-container)] text-[var(--on-primary-container)]"
+                        : "text-[var(--muted)] hover:bg-[var(--surface-soft)] hover:text-[var(--foreground)]")
+                    }
+                  >
+                    <MaterialIcon name={option.icon === "system" ? "devices" : option.icon === "dark" ? "dark_mode" : "light_mode"} size={18} />
+                    <span>{option.label}</span>
+                  </span>
+                </label>
               );
             })}
           </div>
-        </div>
+        </fieldset>
       </div>
     </div>
   );
