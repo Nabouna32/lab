@@ -363,7 +363,8 @@ test("AndroidX-named Buttons support per-state color customization without produ
   }
   assert.ok(buttonVariantStylesSource.includes("--button-disabled-container-color"));
   assert.ok(buttonVariantStylesSource.includes("--button-disabled-content-color"));
-  assert.ok(buttonVariantStylesSource.includes("disabled:border-[color-mix(in_srgb,var(--on-surface)_12%,transparent)]"));
+  assert.ok(buttonVariantStylesSource.includes("disabled:border-[color-mix(in_srgb,var(--outline-variant)_10%,transparent)]"));
+  assert.ok(buttonVariantStylesSource.includes("disabled:bg-[var(--button-disabled-container-color,color-mix(in_srgb,var(--on-surface)_10%,transparent))]"));
   assert.ok(buttonVariantStylesSource.includes("disabled:bg-[var(--button-disabled-container-color,color-mix(in_srgb,var(--on-surface)_12%,transparent))]"));
   assert.ok(buttonVariantStylesSource.includes("color-mix(in_srgb,var(--on-surface)_38%,transparent)"));
   assert.ok(buttonSource.includes("export type ButtonColors ="));
@@ -374,7 +375,7 @@ test("AndroidX-named Buttons support per-state color customization without produ
   assert.ok(!buttonSource.includes("DestructiveButton"), "destructive styling uses color customization, not a custom component");
   assert.doesNotMatch(buttonSource, /primary: filled|secondary: outlined|tonal: filledTonal|ghost: text/);
   assert.ok(iconButtonSource.includes("group-disabled:bg-[var(--icon-button-disabled-container-color,color-mix(in_srgb,var(--on-surface)_10%,transparent))]"));
-  assert.ok(iconButtonSource.includes("group-disabled:border-[color-mix(in_srgb,var(--on-surface)_12%,transparent)]"));
+  assert.ok(iconButtonSource.includes("group-disabled:border-[color-mix(in_srgb,var(--outline-variant)_38%,transparent)]"));
   assert.ok(iconButtonSource.includes("const toggleUncheckedStyles: Record<IconButtonStyle, string>"));
   assert.ok(iconButtonSource.includes("const toggleCheckedStyles: Record<IconButtonStyle, string>"));
   assert.ok(iconButtonSource.includes("export type IconButtonColors ="));
@@ -391,7 +392,7 @@ test("AndroidX-named Buttons support per-state color customization without produ
   assert.ok(iconButtonSource.includes('outlined: "border border-transparent bg-[var(--icon-button-checked-container-color,var(--inverse-surface))] text-[var(--icon-button-checked-content-color,var(--inverse-on-surface))]'));
   assert.ok(iconButtonSource.includes("group-hover:bg-[color-mix(in_srgb,var(--icon-button-checked-container-color,var(--inverse-surface))_92%,var(--icon-button-checked-content-color,var(--inverse-on-surface)))]"));
   assert.ok(iconButtonSource.includes("group-hover:bg-[color-mix(in_srgb,var(--icon-button-container-color,var(--surface-container))_92%,var(--icon-button-content-color,var(--on-surface-variant)))]"));
-  assert.ok(iconButtonSource.includes("group-active:bg-[color-mix(in_srgb,var(--icon-button-container-color,transparent)_88%,var(--on-surface))]"));
+  assert.ok(iconButtonSource.includes("group-active:bg-[color-mix(in_srgb,var(--icon-button-container-color,transparent)_90%,var(--on-surface-variant))]"));
 });
 test("SegmentedControl follows the AndroidX item-shape and state contract", () => {
   const source = readFileSync(new URL("../../components/ui/SegmentedControl.tsx", import.meta.url), "utf8");
