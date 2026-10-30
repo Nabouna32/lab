@@ -106,6 +106,7 @@ jobs:
           node --test .github/scripts/*.test.mjs
           python3 .github/scripts/test_inventory_material_components_api.py
           python3 .github/scripts/test_inspect_material3_android_aar.py
+          python3 .github/scripts/test_verify_material3_source_commit.py
 
       - name: Verify generated MDC API inventory reproducibility
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
@@ -118,6 +119,10 @@ jobs:
       - name: Retrieve and verify all four Material 3 1.4.0 publication artifacts
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
         run: node .github/scripts/fetch-material3-release-artifacts.mjs /tmp/material3-1.4.0-release-artifacts
+
+      - name: Verify published Material 3 sources against the AndroidX release commit
+        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
+        run: python3 .github/scripts/verify-material3-source-commit.py /tmp/material3-1.4.0-release-artifacts/material3-android-1.4.0-sources.jar /tmp/material3-1.4.0-release-artifacts/material3-android-1.4.0-source-commit-verification.json
 
       - name: Inspect Material 3 Android AAR against published sources
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
