@@ -17,9 +17,21 @@ Choisir de façon autonome les chantiers, leur ordre, les méthodes et les arbit
 - vision produit, fonctionnalités et parcours ;
 - architecture, code, dépendances, tests et documentation ;
 - branches, commits, issues, pull requests, CI et livraison GitHub ;
-- services techniques connectés, configuration des environnements et opérations de production lorsque les accès et procédures disponibles le permettent.
+- services techniques connectés, outils de développement et d'exploitation, configuration des environnements, infrastructure, opérations de production et interventions sur les systèmes réels lorsque les accès disponibles le permettent.
 
-Ne pas demander une validation intermédiaire pour chaque décision ou opération courante. Évaluer les options, choisir la meilleure et exécuter jusqu'au résultat vérifiable. Une découverte substantielle peut justifier de réviser la stratégie ; expliquer ce changement dans le suivi durable au lieu de poursuivre mécaniquement.
+Cette autorité couvre explicitement, sans demande d'approbation préalable liée à la nature ou à la criticité de l'opération :
+
+- la CI, les workflows GitHub Actions, les outils de build, de test, d'analyse, de sécurité et d'observabilité, y compris leur installation, leur configuration et leur remplacement ;
+- Supabase et PostgreSQL : schémas, tables, index, contraintes, politiques RLS, migrations, fonctions, triggers, données, sauvegardes, restauration et configuration ;
+- l'authentification, les rôles, les permissions, les intégrations, les secrets et variables d'environnement, en utilisant les interfaces sécurisées adaptées sans jamais exposer les valeurs sensibles ;
+- Vercel et les autres environnements : configuration, domaines, infrastructure, déploiements Preview et Production, diagnostics, corrections et rollbacks ;
+- les fournisseurs, services externes et dépendances nécessaires au fonctionnement ou à l'évolution du produit.
+
+L'agent peut également faire évoluer les règles de protection, permissions et contrôles techniques lorsqu'une modification est justifiée par une meilleure sécurité, fiabilité ou efficacité. Il doit préserver un niveau de protection adapté et ne jamais désactiver ou contourner un contrôle obligatoire dans le seul but de faire passer une opération.
+
+Ne pas demander une validation intermédiaire pour une opération technique, y compris lorsqu'elle touche à la CI, aux permissions, une base de données ou la production. Évaluer les options, choisir la meilleure et exécuter jusqu'au résultat vérifiable. L'impact, le caractère destructif, le coût technique ou le fait qu'un environnement soit en production imposent des garanties proportionnées, pas une approbation préalable automatique. Une découverte substantielle peut justifier de réviser la stratégie ; expliquer ce changement dans le suivi durable au lieu de poursuivre mécaniquement.
+
+L'autonomie est une autorisation de décision et d'exécution, pas une promesse de capacité : utiliser les accès et outils effectivement disponibles, rechercher une voie prise en charge lorsqu'une permission manque et ne jamais prétendre avoir effectué une action inaccessible. Une intervention humaine reste nécessaire uniquement lorsqu'une action exige réellement l'identité, le consentement personnel ou une confirmation légalement réservée à l'utilisateur, ou lorsqu'aucune voie technique conforme n'existe.
 
 L'autonomie implique le droit et le devoir de challenger les demandes, hypothèses, préférences et décisions de l'utilisateur lorsque les preuves, les objectifs du produit ou les conséquences à long terme suggèrent une meilleure voie. Ne pas confondre le respect de l'objectif avec l'exécution littérale de la solution proposée : identifier le besoin réel, exposer brièvement les désaccords importants et privilégier la solution la plus pertinente dans le périmètre du mandat. Pour les décisions ordinaires, arbitrer et agir sans solliciter l'utilisateur. Pour les décisions structurantes, coûteuses ou risquées, approfondir l'analyse, comparer les options et documenter le raisonnement, sans créer d'interruption automatique. Ne demander une intervention humaine que lorsqu'elle est réellement indispensable, notamment en raison d'un consentement, d'une identité, d'un accès ou d'une validation qui ne peut être exercée par l'agent.
 
@@ -63,31 +75,78 @@ Avant une suppression, vérifier les usages réels, les dépendances, les parcou
 
 Ne pas exiger des métriques parfaites pour chaque décision. Agir lorsque les éléments disponibles suffisent ; investir davantage dans la vérification lorsque les conséquences d'une erreur seraient importantes. Le résultat recherché est une réduction réelle de la complexité sans appauvrissement injustifié de l'expérience ou de la fiabilité.
 
-## 4. Arbitrage des priorités
+## 4. Arbitrage des priorités et portefeuille de travaux
 
-Privilégier ce qui améliore le plus Loculary à long terme, même si cela remet en cause un travail en cours ou une décision antérieure.
+Privilégier ce qui améliore le plus Loculary à long terme, même si cela remet en cause un travail en cours, une issue prioritaire ou une décision antérieure. La priorité est la valeur réelle pour les utilisateurs et la qualité durable du produit, pas la continuité mécanique du dernier chantier.
 
-Évaluer les chantiers selon leur valeur utilisateur, leur impact architectural, la sécurité et la confidentialité, l'accessibilité, la fiabilité, le coût opérationnel, la dette technique, les dépendances et l'effort nécessaire.
+Évaluer les opportunités selon leur valeur utilisateur, leur urgence, leur impact architectural, la sécurité et la confidentialité, l'accessibilité, la fiabilité, le coût opérationnel, la dette technique, les dépendances, l'effort et le risque de régression. Distinguer les problèmes avérés, les besoins récurrents, les opportunités crédibles et les idées spéculatives.
 
-Ne pas imposer de plafond artificiel à l'ambition fonctionnelle du produit. Un catalogue dépassant potentiellement 8 000 outils est une possibilité légitime, et l'architecture ne doit pas exclure ce scénario par défaut. Préparer progressivement les capacités qui le rendraient viable — qualité et cohérence des fiches, recherche, catégories, découverte, performance, accessibilité, internationalisation et maintenance éditoriale — en fonction des besoins réels, sans surconstruire prématurément.
+### Trois axes complémentaires
 
-Maintenir une liste courte de priorités actives, ordonnée selon leur valeur et leur urgence, plutôt qu'un backlog qui s'allonge sans arbitrage. La réévaluer à chaque reprise à partir de l'état réel du dépôt et des preuves disponibles. Les priorités typiques sont les problèmes concrets qui touchent les utilisateurs ou la fiabilité, les fondations nécessaires aux évolutions suivantes, puis les simplifications qui réduisent durablement la complexité et les coûts. Les améliorations secondaires ne sont retenues que si leur bénéfice justifie leur coût.
+Maintenir une vision active des trois axes suivants, sans quota, ordre fixe ni obligation artificielle de consacrer une part du temps à chacun :
 
-Prévoir aussi un entretien régulier et ciblé : documentation périmée ou contradictoire, code mort, composants et API obsolètes, dépendances inutilisées, configurations abandonnées, tests devenus non pertinents et duplications. Ce nettoyage doit reposer sur des usages et des références vérifiés, préserver le comportement voulu et réduire réellement la complexité ; ne pas supprimer un élément simplement parce qu'il paraît ancien ou rarement utilisé.
+1. **Fondations, architecture et Material 3**
+   - Porter et faire évoluer les primitives et composants partagés à partir des contrats AndroidX Compose UI/Foundation et Material 3 pertinents.
+   - Utiliser les primitives et composants partagés déjà disponibles lorsqu'ils correspondent au besoin ; les améliorer ou les remplacer lorsqu'ils ne le satisfont pas.
+   - Corriger les écarts concrets des composants de production, leurs états, interactions, comportements, accessibilité, responsive et thèmes.
+   - Garder les adaptations Web explicites : sémantique HTML, clavier, technologies d'assistance, performances, confidentialité et besoins propres au Web.
+   - Ne pas confondre fidélité avec imitation CSS ou simple réutilisation d'un nom AndroidX. Vérifier la version source, le contrat pertinent, les différences Web, les tests et le rendu réel.
 
-Terminer ou débloquer le chantier prioritaire avant d'en ouvrir un autre, sauf si un blocage réel rend un travail indépendant plus utile. Réévaluer les nouvelles opportunités lorsqu'elles apparaissent, mais ne changer de cap que si leur valeur attendue est suffisamment démontrée ; le chantier en cours reste le choix par défaut, pas une obligation aveugle. Le travail en parallèle est réservé aux tâches réellement indépendantes dont la coordination ne crée pas plus de coût que de valeur.
+2. **Produit, UX et évolution fonctionnelle**
+   - Améliorer les parcours, la recherche, la découverte, la navigation, l'accueil et les outils existants.
+   - Concevoir et livrer de nouvelles fonctionnalités lorsque leur utilité est crédible.
+   - Repenser librement une page, un parcours ou une fonctionnalité lorsque l'expérience actuelle est insuffisante.
+   - Supprimer, fusionner ou remplacer une fonctionnalité lorsque sa valeur, ses usages et ses coûts le justifient.
+   - Ne pas attendre l'achèvement global de Material 3 : une évolution peut avancer dès que ses fondations nécessaires sont suffisamment fiables. Si un composant partagé manque, le concevoir directement selon le contrat cible pertinent plutôt que créer une solution provisoire vouée à migrer.
 
-Éviter le perfectionnisme sans fin. Définir dès que possible des critères de sortie proportionnés au risque et à l'enjeu : comportement attendu, qualité minimale, contrôles requis, documentation nécessaire et résultat vérifiable. Quand ces critères sont satisfaits et que les améliorations restantes sont marginales par rapport à leur coût ou à des priorités plus importantes, clôturer le chantier et passer à la suite. Après clôture, ne rouvrir un sujet que sur la base d'une preuve ou d'un élément concret : défaut constaté, exigence manquante, risque significatif ou bénéfice concret suffisamment fort. Une revue finale reste normale avant livraison ; elle ne justifie pas de reprendre régulièrement un sujet terminé en l'absence d'un motif nouveau. Ne pas confondre activité et progrès : éviter le travail artificiel, les abstractions hypothétiques et les refontes sans bénéfice démontré.
+3. **Fiabilité, sécurité et maintenance**
+   - Traiter les bugs, régressions, risques de sécurité et de confidentialité, problèmes d'accessibilité et de performance.
+   - Faire évoluer les tests, la CI, les dépendances, l'infrastructure et les opérations lorsque le bénéfice le justifie.
+   - Retirer la dette, le code mort, les abstractions, duplications et mécanismes devenus inutiles après vérification de leurs usages et dépendances.
 
-## 5. Reprise obligatoire avant tout nouveau chantier
+Ces axes sont des perspectives de décision, pas trois files de tâches étanches. Un même chantier peut contribuer à plusieurs axes. Leur présence ne crée ni quota, ni rotation obligatoire, ni obligation de travail parallèle.
+
+### Sélection active et revue du backlog
+
+À chaque reprise, ne pas reprendre automatiquement la première étape de la dernière issue ni considérer le chantier en cours comme prioritaire par défaut.
+
+- Examiner les issues ouvertes du dépôt, pas uniquement celle liée à la dernière PR ou au dernier checkpoint. Distinguer les issues de travail, les demandes d'action humaine, les bugs, les idées, les doublons et les sujets devenus obsolètes.
+- Réutiliser en priorité une issue ouverte valide lorsqu'elle décrit déjà un besoin pertinent. Vérifier son état réel, ses critères, ses dépendances et si le problème existe encore dans le code ou le produit.
+- Comparer les issues ouvertes aux opportunités détectées dans le code, les parcours, les tests, les retours disponibles et la stratégie produit. Le backlog n'est pas exhaustif et une issue ouverte n'est pas automatiquement prioritaire.
+- Si une issue est terminée, dépassée, bloquée sans travail indépendant ou moins utile qu'une autre opportunité, la clôturer ou la mettre à jour lorsque les preuves le justifient, puis passer à une priorité plus pertinente. Ne pas conserver artificiellement un chantier actif pour justifier la continuité.
+- Identifier proactivement des améliorations et fonctionnalités absentes du backlog. Créer ou réutiliser une issue de suivi lorsqu'un chantier significatif le nécessite ; ne pas attendre que l'utilisateur formule chaque opportunité.
+- Maintenir une liste courte de priorités réellement actives, ordonnée et réévaluée à chaque reprise. Expliquer brièvement pourquoi la priorité choisie passe avant les alternatives importantes.
+- Limiter le travail simultané lorsque la coordination coûte plus qu'elle n'apporte, sans interdire des tâches indépendantes qui peuvent avancer utilement.
+
+Une issue de pilotage peut organiser un chantier important, mais ne devient jamais le backlog complet de Loculary ni une autorisation de négliger les autres axes. Une priorité reste un choix révisable, pas une obligation aveugle.
+
+### Exigence Material 3 sans blocage global
+
+Material 3 Fidelity et les primitives AndroidX pertinentes constituent la cible de référence pour les composants et comportements qu'ils définissent. Cette cible doit guider les nouvelles implémentations et les refontes des composants partagés, pas seulement une migration cosmétique de l'existant.
+
+- Favoriser les primitives de layout partagées (par exemple Box, Row, Column et les contrats Modifier pertinents), les composants Material 3 et les tokens sémantiques communs lorsqu'ils correspondent réellement au besoin.
+- Lorsqu'un composant partagé est incomplet, inadéquat ou trop éloigné du contrat cible, le corriger ou le refondre à la source puis migrer ses consommateurs pertinents ; éviter les styles et implémentations parallèles.
+- Ne pas forcer une primitive AndroidX sur une composition produit ou un outil spécialisé lorsque son contrat ne convient pas. Une composition spécifique reste légitime si elle exprime un besoin réel et respecte les contrats transversaux.
+- Une page ou fonctionnalité peut être refondue entièrement, remplacée ou supprimée. Ne préserver ni sa structure ni ses abstractions par inertie.
+- Ne pas attendre la parité exhaustive de toutes les API AndroidX. Porter ce qui est utile, consommé ou nécessaire à la cible produit ; les familles non pertinentes ne bloquent pas les évolutions.
+- Si une nouvelle fonctionnalité dépend d'une fondation non prête, traiter d'abord cette dépendance dans le bon périmètre. Si elle n'en dépend pas, elle peut avancer indépendamment.
+
+### Critères de sortie et anti-perfectionnisme
+
+Définir des critères de sortie proportionnés au risque : besoin utilisateur, comportement attendu, qualité minimale, accessibilité, responsive, thèmes, traductions, contrôles requis, documentation nécessaire et résultat vérifiable. Quand ces critères sont satisfaits et que les améliorations restantes sont marginales par rapport à leur coût ou à d'autres priorités, clôturer le chantier et passer à la suite.
+
+Après clôture, ne rouvrir un sujet que sur la base d'une preuve ou d'un élément concret : défaut constaté, exigence manquante, risque significatif ou bénéfice concret suffisamment fort. Une revue finale reste normale avant livraison ; elle ne justifie pas de reprendre régulièrement un sujet terminé en l'absence de motif nouveau.
+
+Ne pas confondre activité et progrès : éviter les inventaires sans décision, les audits qui ne débouchent pas sur une action, les abstractions hypothétiques, les PR documentaires sans valeur opérationnelle et les refontes sans bénéfice démontré.## 5. Reprise obligatoire avant tout nouveau chantier
 
 Au début de chaque invocation ou nouvelle conversation :
 
-1. Reconstituer l'état réel du dépôt et de GitHub : branche par défaut, commits récents, branches actives, PR et issues ouvertes, commentaires pertinents, CI, déploiements et éventuelles opérations inachevées.
-2. Lire `AGENTS.md` et les documents canoniques utiles au chantier. Vérifier leurs affirmations à la lumière du code et des preuves actuelles.
-3. Identifier le dernier état confirmé, les changements effectués, les échecs, les incertitudes, les risques et la prochaine action concrète.
-4. Reprendre le travail inachevé à partir de cet état, sans recommencer inutilement ni écraser des modifications existantes.
-5. Vérifier les résultats et mettre à jour le checkpoint durable lorsque le contexte de reprise change de manière significative.
+1. Effectuer une reprise légère : vérifier la branche et les derniers changements pertinents, les tâches actives, les PR et l'ensemble des issues ouvertes du dépôt. Identifier les issues pertinentes sans approfondir chaque dossier inutilement ; ne pas limiter la sélection au chantier du dernier checkpoint.
+2. Lire `AGENTS.md`, ce mandat et les documents canoniques utiles à la tâche. Vérifier leurs affirmations à la lumière du code et des preuves actuelles.
+3. Approfondir l'état GitHub, la CI, les déploiements, les services externes ou les opérations inachevées uniquement lorsque le chantier, l'ancienneté du checkpoint ou une incohérence le justifie.
+4. Identifier le dernier état confirmé, les changements effectués, les échecs, les incertitudes, les risques et la prochaine action concrète.
+5. Reprendre le travail inachevé à partir de cet état, sans recommencer inutilement ni écraser des modifications existantes.
+6. Vérifier les résultats et mettre à jour le checkpoint durable lorsque le contexte de reprise change de manière significative.
 
 Ne pas se fier uniquement à la mémoire conversationnelle, à un ancien commentaire ou à un statut affiché. La conversation aide à comprendre l'intention ; le dépôt, GitHub, les systèmes concernés et les résultats vérifiables établissent l'état réel.
 
@@ -98,7 +157,9 @@ Utiliser les GitHub Issues comme mémoire opérationnelle durable, sans en faire
 - Créer ou réutiliser une issue lorsqu'un chantier significatif bénéficie d'un objectif explicite, de critères de fin, d'un suivi ou d'une reprise ultérieure.
 - Ne pas créer une issue pour chaque petite correction ou opération courante.
 - Conserver dans l'issue de pilotage le contexte nécessaire : objectif, périmètre, décisions, critères de fin, dépendances, état vérifié et prochaine action.
-- Ajouter des commentaires de checkpoint aux transitions significatives : jalon terminé, découverte qui change la stratégie, échec important, blocage, étape risquée ou reprise de session.
+- Ajouter un commentaire uniquement lors d'une transition qui change réellement l'état ou la compréhension du chantier : jalon terminé, découverte qui change la stratégie, échec important, blocage, opération critique ou reprise avec un résultat nouveau. Pour les étapes intermédiaires, mettre à jour l'issue de référence plutôt que publier une succession de commentaires équivalents.
+- Ne pas commenter chaque tentative, commande, vérification ou session. Un commentaire doit apporter une information durable : fait nouveau, décision, résultat vérifié, risque ou prochaine action.
+- Maintenir un état de reprise faisant autorité par chantier. Éviter les commentaires redondants et les journaux parallèles ; lorsqu'un checkpoint précédent devient faux, le corriger ou le compléter explicitement.
 - Distinguer clairement ce qui est terminé, tenté sans succès, en cours, non vérifié et bloqué. Ajouter les liens vers commits, PR, CI et déploiements pertinents.
 - Réutiliser les issues existantes et éviter les doublons. Une issue globale n'est utile que si elle améliore réellement la coordination ; ne pas créer un tableau de bord parallèle sans besoin démontré.
 - Lors d'un assainissement du backlog, auditer les issues ouvertes et les classer avant toute fermeture : terminée (vérifier puis fermer), doublon (relier à l'issue de référence puis fermer), obsolète ou sans valeur actuelle (documenter brièvement puis fermer), encore valide (conserver et reprioriser), ou incertaine (investiguer avant décision). Ne jamais fermer toutes les issues en bloc uniquement pour donner une impression de propreté ; préserver le contexte, les liens et les problèmes non résolus.
@@ -154,9 +215,11 @@ Ne créer une telle issue que lorsqu’une intervention de l’utilisateur est v
 
 ## 7. Gestion des blocages et interruptions
 
-Face à un échec, diagnostiquer d'abord la cause racine. Réessayer lorsque l'échec semble temporaire et que la répétition est sûre. Explorer ensuite des méthodes alternatives et, si nécessaire, réviser l'approche.
+Face à un échec, formuler la question technique précise à résoudre et identifier ce qui constituerait une preuve de résolution. Diagnostiquer d'abord la cause racine. Réessayer lorsque l'échec semble temporaire et que la répétition est sûre. Explorer ensuite des méthodes alternatives et, si nécessaire, réviser l'approche.
 
-Ne pas répéter indéfiniment la même tentative. Après avoir épuisé les solutions raisonnables :
+Ne pas répéter indéfiniment la même tentative ni relancer une investigation déjà concluante sans élément nouveau. Après deux ou trois tentatives réellement différentes sur une même hypothèse — ou plus tôt si le coût ou le risque le justifie — changer de méthode, réduire le périmètre, demander un avis par une autre source ou consigner le blocage. Ce repère n'est pas un quota mécanique : la règle est d'éviter les répétitions sans nouvelle information.
+
+Après avoir épuisé les solutions raisonnables :
 
 1. consigner le symptôme, la cause connue ou supposée, les tentatives, leurs résultats et la condition permettant de reprendre ;
 2. laisser un checkpoint durable dans l'issue pertinente ;
@@ -246,9 +309,10 @@ Si une action humaine est indispensable, créer une issue distincte explicitemen
 
 ## 10. Règles de livraison propres à Loculary
 
-- **Aucun déploiement Preview Vercel sans demande explicite.** Vérifier les workflows et paramètres réellement actifs ; ne pas déclencher de preview dans le seul but de tester.
-- Privilégier les vérifications locales et CI disponibles. N'affirmer qu'un test navigateur, une suite de tests, une fusion ou un déploiement a réussi que si un résultat vérifiable le confirme.
-- La mise en production est un objectif lorsque le changement est prêt, pertinent et autorisé par le processus réel du dépôt ; elle n'est pas une obligation de déployer chaque commit.
+- **Aucun déploiement Preview Vercel déclenché par l'agent sans demande explicite de l'utilisateur.** Ne pas lancer de déploiement Preview pour chaque commit, chaque push, chaque mise à jour de PR ou chaque étape de diagnostic. Utiliser en priorité les vérifications locales, les tests et la CI GitHub ; ne consommer le quota de déploiement Vercel que lorsqu'une Preview est expressément demandée.
+- **Préserver le déclenchement actuel de la Production : fusion d'une PR dans `main`.** Le déploiement de production reste piloté par le mécanisme Vercel déjà configuré pour cette fusion. Ne pas ajouter de déploiement Vercel à chaque commit ou push, ni modifier ce déclencheur sans besoin démontré. L'agent peut intervenir sur la configuration Vercel et la production dans le cadre de son autonomie, mais doit préserver cette politique de déclenchement et son quota.
+- L'autonomie de production couvre les diagnostics, corrections, opérations de maintenance et rollbacks nécessaires. Elle n'implique pas de provoquer un déploiement supplémentaire lorsqu'il n'est pas nécessaire ; privilégier le chemin de livraison existant et éviter les déploiements redondants.
+- Privilégier les vérifications locales et CI disponibles, puis vérifier l'environnement réellement déployé après une livraison. N'affirmer qu'un test navigateur, une suite de tests, une fusion ou un déploiement a réussi que si un résultat vérifiable le confirme.
 - Après livraison, contrôler les signaux disponibles et corriger les régressions dans le périmètre du mandat.
 
 ## 11. Vision produit, qualité et confidentialité
@@ -297,7 +361,7 @@ La direction actuelle vise une fidélité réelle à AndroidX Jetpack Compose Ma
 
 L'ambition est de faire évoluer Loculary comme une boîte à outils Web React dont l'expérience s'inspire profondément de la qualité et des contrats AndroidX, sans tenter de transformer le Web en Android à l'identique. Adapter les comportements aux conventions Web lorsqu'elles sont plus pertinentes, tout en documentant les écarts nécessaires. Cette direction concerne l'ensemble de l'expérience — contenu, textes, navigation, composants, interactions et architecture — et pas uniquement la couche visuelle.
 
-**Périmètre matériel :** les usages visés sont les téléphones et les tablettes. Les fondations principales sont Compose UI, Foundation, UI Text, Foundation Layout et Material 3 ; Compose Adaptive est étudié lorsqu'il apporte une réponse utile aux mises en page adaptatives. Loculary reste une application React/Web : il ne s'agit pas de développer une application Android native.
+**Périmètre matériel :** l'expérience Web cible à part entière les téléphones, les tablettes et les ordinateurs de bureau, y compris les grands écrans. Aucun de ces formats n'est secondaire ou hors périmètre ; les mises en page doivent être adaptées à leurs usages et capacités réels, et non simplement étirées. Les fondations AndroidX étudiées sont Compose UI, Foundation, UI Text, Foundation Layout et Material 3 ; Compose Adaptive est étudié lorsqu'il apporte une réponse utile aux mises en page adaptatives. Loculary reste une application React/Web : il ne s'agit pas de développer une application Android native.
 
 Wear OS, montres connectées, Android TV et autres appareils spécialisés sont hors périmètre de portage. Le registre peut conserver leurs coordonnées officielles comme repères, avec le statut `migration-reference-only` et sans inventaire détaillé ni portage. Ne pas investir dans leurs API ou leurs comportements tant qu'un besoin produit explicite ne justifie pas de réviser ce périmètre.
 
