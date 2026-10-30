@@ -131,7 +131,7 @@ test("Material 3 Android release artifacts are independently pinned without clai
   assert.match(android.verification.workflowRun, /^https:\/\/github\.com\/Nabouna32\/lab\/actions\/runs\/\d+$/);
   assert.match(android.verification.verifiedCommit, /^[a-f0-9]{40}$/);
   assert.match(android.verification.artifactUrl, /^https:\/\/github\.com\/Nabouna32\/lab\/actions\/runs\/\d+\/artifacts\/\d+$/);
-  assert.equal(baseline.apiDumpAlignment.status, "UNVERIFIED");
+  assert.equal(baseline.apiDumpAlignment.status, "OFFICIAL_STABLE_DUMP_AND_SOURCE_COMMIT_VERIFIED_BINARY_API_COMPARISON_PENDING");
 });
 
 test("Material Components Views source archive provenance is verified and pinned separately", () => {
