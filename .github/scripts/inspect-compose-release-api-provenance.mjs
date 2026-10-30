@@ -201,6 +201,58 @@ export function calculateGitilesBlobHashes(bytes) {
   };
 }
 
+export function verifyReleaseProvenanceManifest(report, manifest) {
+  if (!manifest || manifest.schemaVersion !== 1) throw new Error('Compose API provenance manifest must use schema version 1.');
+  if (manifest.status !== 'verified-release-ref-and-api-dump-provenance') {
+    throw new Error('Compose API provenance manifest has an unexpected verification status.');
+  }
+  if (manifest.sourceArchiveAlignment !== 'unverified') {
+    throw new Error('Compose source archive alignment must remain explicitly unverified.');
+  }
+  if (manifest.referenceVersion !== report.referenceVersion) throw new Error('Compose API provenance reference version drifted.');
+  if (manifest.releaseCommit !== report.groups[0]?.commit) throw new Error('Compose API provenance release commit drifted.');
+  if (manifest.releaseRef !== report.groups[0]?.ref) throw new Error('Compose API provenance release ref drifted.');
+  const library = report.groups[0]?.libraryVersions;
+  if (
+    manifest.libraryVersions?.sha256 !== library?.sha256 ||
+    manifest.libraryVersions?.gitBlobSha1 !== library?.gitBlobSha1 ||
+    manifest.libraryVersions?.sizeBytes !== library?.sizeBytes
+  ) {
+    throw new Error('Compose libraryversions.toml provenance drifted.');
+  }
+  const expectedFamilies = new Map((manifest.families ?? []).map((family) => [family.id, family]));
+  const actualFamilies = report.groups.flatMap((group) => group.apiDumps.map((dump) => ({
+    ...dump,
+    version: group.version,
+    versionMarker: group.versionMarker,
+  })));
+  if (expectedFamilies.size !== actualFamilies.length) throw new Error('Compose API provenance manifest must contain exactly the four inspected families.');
+  for (const actual of actualFamilies) {
+    const expected = expectedFamilies.get(actual.family);
+    if (!expected) throw new Error('Compose API provenance manifest is missing ' + actual.family + '.');
+    const fields = [
+      ['version', actual.version],
+      ['versionMarker', actual.versionMarker],
+      ['apiPath', actual.path],
+      ['formatVersion', actual.formatVersion],
+      ['surface', actual.surface],
+      ['packageCount', actual.packageCount],
+      ['sizeBytes', actual.sizeBytes],
+      ['sha256', actual.sha256],
+      ['gitBlobSha1', actual.gitBlobSha1],
+    ];
+    for (const [field, value] of fields) {
+      if (expected[field] !== value) {
+        throw new Error(actual.family + ' provenance manifest drifted for ' + field + '.');
+      }
+    }
+    if (expected.versionedDump !== actual.versionedDump) {
+      throw new Error(actual.family + ' versioned API dump provenance drifted.');
+    }
+  }
+  return true;
+}
+
 export async function inspectComposeReleaseProvenance({ outputDirectory, refsText, fetchImpl = globalThis.fetch } = {}) {
   if (!outputDirectory) throw new Error('outputDirectory is required.');
   if (typeof refsText !== 'string' || !refsText.trim()) throw new Error('refsText from official git ls-remote is required.');
@@ -285,9 +337,12 @@ export async function inspectComposeReleaseProvenance({ outputDirectory, refsTex
 async function main() {
   const outputDirectory = process.argv[2];
   const refsPath = process.argv[3];
-  if (!refsPath) throw new Error('Usage: node inspect-compose-release-api-provenance.mjs <output-directory> <git-ls-remote-refs-file>');
+  const manifestPath = process.argv[4];
+  if (!refsPath || !manifestPath) throw new Error('Usage: node inspect-compose-release-api-provenance.mjs <output-directory> <git-ls-remote-refs-file> <provenance-manifest.json>');
   const refsText = await readFile(refsPath, 'utf8');
+  const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
   const report = await inspectComposeReleaseProvenance({ outputDirectory, refsText });
+  verifyReleaseProvenanceManifest(report, manifest);
   for (const group of report.groups) {
     process.stdout.write(group.id + ' ' + group.version + ' via ' + group.ref + ' @ ' + group.commit + '\n');
     for (const dump of group.apiDumps) {
