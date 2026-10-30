@@ -1,7 +1,7 @@
 # Card — contrat AndroidX et adaptation Web
 
 > **Référence visée :** `androidx.compose.material3:material3:1.4.0`  
- > **État des sources :** archive publiée 1.4.0 alignée byte pour byte avec le commit AndroidX `5113b82a4ed6416d6344efa50e41db8cb65928ff`.  
+> **État des sources :** archive publiée 1.4.0 alignée byte pour byte avec le commit AndroidX `5113b82a4ed6416d6344efa50e41db8cb65928ff`.  
 > **État du portage :** partiel ; valeurs par défaut et rendu navigateur non vérifiés.
 
 ## Sources
