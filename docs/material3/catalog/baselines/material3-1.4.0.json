@@ -64,7 +64,7 @@
     }
   },
   "apiDumpAlignment": {
-    "status": "OFFICIAL_STABLE_DUMP_AND_SOURCE_COMMIT_VERIFIED_METHODS_MATCH_OTHER_API_DECLARATIONS_PENDING",
+    "status": "VERIFIED",
     "exactStableDump": {
       "repository": "androidx/androidx",
       "branch": "androidx-compose-material3-release",
@@ -75,7 +75,7 @@
       "signatureFormat": "4.0"
     },
     "repositorySourceCommit": "5113b82a4ed6416d6344efa50e41db8cb65928ff",
-    "reason": "The official stable dump and all 249 source files are pinned to the same AndroidX release commit. The AAR contains all 232 API classes; all 807 source-level method names are present and all 995 @BytecodeOnly JVM method descriptors match exactly. Exact descriptors for source-level methods, constructors, fields and properties are not yet independently compared."
+    "reason": "The official stable API dump and all 249 published Kotlin source files are pinned to the same immutable AndroidX release commit. All 232 API classes are present in the published Android AAR. Exact JVM descriptors match for all 807 source-level methods (533 are linked to independently verified @BytecodeOnly ABI entries), all 995 @BytecodeOnly methods, all 104 constructors including 34 @KotlinOnly constructors, all 74 fields and all 669 published property getters. No missing or unsupported declarations remain. Compose compiler lowering, Kotlin value-class boxing/unboxing and default-constructor masks are accounted for. Property verification covers the getter descriptor exposed by the API dump; it does not infer unreported setters or backing fields. This verifies declaration-level dump-to-AAR descriptor alignment, not React port fidelity or semantic behavior."
   },
   "publishedAndroidVariant": {
     "artifact": "androidx.compose.material3:material3-android",
