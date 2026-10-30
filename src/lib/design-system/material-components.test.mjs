@@ -10,6 +10,7 @@ const progressSource = readFileSync(new URL("../../components/ui/ProgressIndicat
 const progressCss = readFileSync(new URL("../../components/ui/progress-indicator.module.css", import.meta.url), "utf8");
 const textFieldSource = readFileSync(new URL("../../components/ui/TextField.tsx", import.meta.url), "utf8");
 const outlinedTextFieldSource = readFileSync(new URL("../../components/ui/OutlinedTextField.tsx", import.meta.url), "utf8");
+const outlinedTextFieldCssSource = readFileSync(new URL("../../components/ui/OutlinedTextField.module.css", import.meta.url), "utf8");
 const outlinedSecureTextFieldSource = readFileSync(new URL("../../components/ui/OutlinedSecureTextField.tsx", import.meta.url), "utf8");
 const visualLabSource = readFileSync(new URL("../../app/[locale]/design-lab/VisualLab.tsx", import.meta.url), "utf8");
 const textAreaSource = readFileSync(new URL("../../components/ui/TextArea.tsx", import.meta.url), "utf8");
@@ -425,6 +426,11 @@ test("Design Lab exposes the production OutlinedSecureTextField without requirin
   assert.match(outlinedTextFieldSource, /export function OutlinedTextField/);
   assert.match(outlinedSecureTextFieldSource, /export function OutlinedSecureTextField/);
   assert.doesNotMatch(outlinedTextFieldSource, /variant\?: "filled" \| "outlined"|data-variant|secure/);
+  assert.match(outlinedTextFieldCssSource, /border: 1px solid var\(--outline/);
+  assert.match(outlinedTextFieldCssSource, /border: 2px solid var\(--primary/);
+  assert.match(outlinedTextFieldCssSource, /border-radius: 4px/);
+  assert.match(outlinedTextFieldCssSource, /top: -8px/);
+  assert.doesNotMatch(outlinedTextFieldCssSource, /data-variant/);
   assert.ok(visualLabSource.includes('import { OutlinedSecureTextField } from "@/components/ui/OutlinedSecureTextField"'));
   assert.ok(visualLabSource.includes('<OutlinedSecureTextField'));
   assert.ok(visualLabSource.includes('id="lab-material-password"'));
