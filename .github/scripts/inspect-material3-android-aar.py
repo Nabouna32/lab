@@ -231,6 +231,11 @@ def parse_api_dump(api_dump: str) -> dict:
                             "name": name,
                             "returnType": return_type,
                             "parameterTypes": parameters,
+                            "optionalParameterCount": sum(
+                                1 for parameter in split_api_parameter_types(
+                                    signature[signature.find("(") + 1:signature.rfind(")")],
+                                ) if parameter.strip().startswith("optional ")
+                            ),
                             "bytecodeOnly": "@BytecodeOnly" in signature,
                             "kotlinOnly": "@KotlinOnly" in signature,
                             "composable": "@androidx.compose.runtime.Composable" in signature or "@Composable" in signature,
@@ -518,7 +523,35 @@ def compare_api_dump_to_binary(api_dump: str, binary_classes: list[tuple[str, di
                 })
                 continue
             _, descriptor = parsed
-            if any(item["name"] == "<init>" and item["descriptor"] == descriptor for item in binary_methods):
+            constructor_matches = any(
+                item["name"] == "<init>" and item["descriptor"] == descriptor
+                for item in binary_methods
+            )
+            if not constructor_matches and not constructor["parameterTypes"]:
+                # A zero-argument Kotlin API constructor can be represented by the
+                # synthetic default-argument constructor of an all-optional overload.
+                for candidate in api_members["constructors"]:
+                    parameter_types = candidate["parameterTypes"]
+                    if not parameter_types or candidate["optionalParameterCount"] != len(parameter_types):
+                        continue
+                    candidate_descriptors = [
+                        api_type_to_jvm_descriptor(parameter_type)
+                        for parameter_type in parameter_types
+                    ]
+                    if any(value is None for value in candidate_descriptors):
+                        continue
+                    mask_count = (len(parameter_types) + 31) // 32
+                    default_descriptor = (
+                        "(" + "".join(candidate_descriptors) + "I" * mask_count
+                        + "Lkotlin/jvm/internal/DefaultConstructorMarker;)V"
+                    )
+                    if any(
+                        item["name"] == "<init>" and item["descriptor"] == default_descriptor
+                        for item in binary_methods
+                    ):
+                        constructor_matches = True
+                        break
+            if constructor_matches:
                 counts["constructorDescriptorMatches"] += 1
             else:
                 missing_members.append({
