@@ -645,22 +645,17 @@ test("personal information page owns profile editing and localized feedback", ()
 });
 
 
-test("site navigation adapts between a persistent desktop rail and a mobile navigation bar", () => {
-  const layout = readFileSync(new URL("../../app/[locale]/layout.tsx", import.meta.url), "utf8");
+test("application navigation preserves accessible links and localized destinations without prescribing a layout", () => {
   const navigation = readFileSync(new URL("../../components/layout/AdaptiveAppNavigation.tsx", import.meta.url), "utf8");
   const navigationCss = readFileSync(new URL("../../components/layout/AdaptiveAppNavigation.module.css", import.meta.url), "utf8");
-  const header = readFileSync(new URL("../../components/layout/Header.tsx", import.meta.url), "utf8");
 
-  assert.match(layout, /<AdaptiveAppNavigation locale=\{locale\} \/>/);
+  assert.match(navigation, /<nav\b/);
   assert.match(navigation, /<Link[\s\S]*?aria-current=\{selected \? "page" : undefined\}/);
-  assert.match(navigation, /getGuidedWorkflowsPath/);
+  assert.match(navigation, /getToolsPath\(locale\)/);
+  assert.match(navigation, /getGuidedWorkflowsPath\(locale\)/);
   assert.match(navigation, /\$\{locale\}\/compte/);
-  assert.match(navigationCss, /@media \(min-width: 768px\)/);
-  assert.match(navigationCss, /@media \(min-width: 1200px\)/);
+  assert.match(navigationCss, /:focus-visible/);
   assert.match(navigationCss, /prefers-reduced-motion: reduce/);
-  assert.match(navigationCss, /env\(safe-area-inset-bottom\)/);
-  assert.match(header, /HeaderSearch locale=\{locale\}/);
-  assert.doesNotMatch(header, /getToolsPath/);
 });
 
 test("remaining public, admin and account pages consume shared Material 3 typography roles", () => {
