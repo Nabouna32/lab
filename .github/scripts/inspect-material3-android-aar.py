@@ -64,6 +64,7 @@ def read_class_summary(data: bytes) -> dict:
     offset += 2 + 2 * interface_count
 
     counts = {}
+    field_signatures = []
     method_signatures = []
     for kind in ("fields", "methods"):
         member_count = struct.unpack_from(">H", data, offset)[0]
@@ -76,15 +77,18 @@ def read_class_summary(data: bytes) -> dict:
             offset += 6  # access_flags, name_index, descriptor_index
             if access & 0x0005:  # ACC_PUBLIC | ACC_PROTECTED
                 visible_count += 1
-            if kind == "methods":
-                method_name = constant_pool[name_index]
-                method_descriptor = constant_pool[descriptor_index]
-                if method_name and method_name[0] == 1 and method_descriptor and method_descriptor[0] == 1:
-                    method_signatures.append({
-                        "name": method_name[1],
-                        "descriptor": method_descriptor[1],
-                        "publicProtected": bool(access & 0x0005),
-                    })
+            member_name = constant_pool[name_index]
+            member_descriptor = constant_pool[descriptor_index]
+            if member_name and member_name[0] == 1 and member_descriptor and member_descriptor[0] == 1:
+                record = {
+                    "name": member_name[1],
+                    "descriptor": member_descriptor[1],
+                    "publicProtected": bool(access & 0x0005),
+                }
+                if kind == "methods":
+                    method_signatures.append(record)
+                else:
+                    field_signatures.append(record)
             attribute_count = struct.unpack_from(">H", data, offset)[0]
             offset += 2
             for _ in range(attribute_count):
@@ -117,8 +121,69 @@ def read_class_summary(data: bytes) -> dict:
         "classIsPublic": bool(class_access & 0x0001),
         "sourceFile": source_file,
         "methodSignatures": method_signatures,
+        "fieldSignatures": field_signatures,
         **counts,
     }
+
+
+def _strip_api_annotations(value: str) -> str:
+    return re.sub(r"@[A-Za-z0-9_.$]+(?:\\([^)]*\\))?\\s*", "", value).strip()
+
+
+def _strip_api_modifiers(value: str) -> str:
+    value = value.strip()
+    modifiers = {
+        "public", "protected", "private", "static", "final", "abstract",
+        "synchronized", "native", "default", "transient", "volatile",
+    }
+    while value:
+        token, separator, remainder = value.partition(" ")
+        if token not in modifiers or not separator:
+            break
+        value = remainder.strip()
+    return value
+
+
+def _api_parameter_type(parameter: str) -> str:
+    value = _strip_api_annotations(parameter.strip())
+    if value.startswith("optional "):
+        value = value[len("optional "):].strip()
+    # Metalava signatures include source parameter names after the type.
+    match = re.match(r"^(.*\\S)\\s+[A-Za-z_$][A-Za-z0-9_$]*$", value)
+    return match.group(1).strip() if match else value
+
+
+def _callable_parts(line: str, kind: str) -> tuple[str, str, list[str]] | None:
+    body = line.split(kind, 1)[1].strip()
+    opening = body.find("(")
+    closing = body.rfind(")")
+    if opening < 0 or closing < opening:
+        return None
+    prefix = _strip_api_modifiers(_strip_api_annotations(body[:opening]))
+    name_match = re.search(r"([A-Za-z_$][A-Za-z0-9_$-]*)$", prefix)
+    if not name_match:
+        return None
+    name = name_match.group(1)
+    if kind == "ctor":
+        return name, "void", [_api_parameter_type(p) for p in split_api_parameter_types(body[opening + 1:closing])]
+    return_type = prefix[:name_match.start()].strip()
+    # Remove a method-level generic declaration. Unbounded type variables erase to Object.
+    if return_type.startswith("<"):
+        depth = 0
+        generic_end = -1
+        for index, character in enumerate(return_type):
+            if character == "<":
+                depth += 1
+            elif character == ">":
+                depth -= 1
+                if depth == 0:
+                    generic_end = index
+                    break
+        if generic_end >= 0:
+            return_type = return_type[generic_end + 1:].strip()
+    if not return_type:
+        return None
+    return name, return_type, [_api_parameter_type(p) for p in split_api_parameter_types(body[opening + 1:closing])]
 
 
 def parse_api_dump(api_dump: str) -> dict:
@@ -126,33 +191,50 @@ def parse_api_dump(api_dump: str) -> dict:
     current_package = None
     current_class = None
     for line in api_dump.splitlines():
-        package_match = re.match(r"^package\s+([\w.]+)\s+\{$", line)
+        package_match = re.match(r"^package\\s+([\\w.]+)\\s+\\{$", line)
         if package_match:
             current_package = package_match.group(1)
             current_class = None
             continue
         class_match = re.match(
-            r"^\s*(?:@[A-Za-z0-9_.$]+(?:\([^)]*\))?\s+)*public\b.*?\b(?:class|interface|enum|@interface|record)\s+([A-Za-z0-9_.$]+).*?\{$",
+            r"^\\s*(?:@[A-Za-z0-9_.$]+(?:\\([^)]*\\))?\\s+)*public\\b.*?\\b(?:class|interface|enum|@interface|record)\\s+([A-Za-z0-9_.$]+).*?\\{$",
             line,
         )
         if class_match and current_package:
             class_name = class_match.group(1).replace(".", "$")
             current_class = current_package.replace(".", "/") + "/" + class_name
-            classes[current_class] = []
+            classes[current_class] = {
+                "methods": [], "constructors": [], "fields": [], "properties": [],
+            }
             continue
-        if current_class and re.match(r"^\s*method\s+", line):
-            signature = line.split("method", 1)[1]
-            method_match = re.search(r"\s([A-Za-z_$][A-Za-z0-9_$-]*)\s*\(.*\);$", signature)
-            if method_match:
-                classes[current_class].append({
-                    "name": method_match.group(1),
-                    "bytecodeOnly": "@BytecodeOnly" in line,
-                    "signature": line,
-                })
+        if current_class:
+            member_match = re.match(r"^\\s*(method|ctor|field|property)\\s+.*;$", line)
+            if member_match:
+                kind = member_match.group(1)
+                signature = line.strip()
+                if kind in {"method", "ctor"}:
+                    parsed = _callable_parts(signature, kind)
+                    if parsed:
+                        name, return_type, parameters = parsed
+                        classes[current_class]["methods" if kind == "method" else "constructors"].append({
+                            "name": name,
+                            "returnType": return_type,
+                            "parameterTypes": parameters,
+                            "bytecodeOnly": "@BytecodeOnly" in signature,
+                            "signature": signature,
+                        })
+                else:
+                    body = _strip_api_modifiers(_strip_api_annotations(signature.split(kind, 1)[1].strip().rstrip(";")))
+                    field_match = re.match(r"^(.*\\S)\\s+([A-Za-z_$][A-Za-z0-9_$]*)$", body)
+                    if field_match:
+                        classes[current_class]["fields" if kind == "field" else "properties"].append({
+                            "name": field_match.group(2),
+                            "type": field_match.group(1).strip(),
+                            "signature": signature,
+                        })
         if line == "  }":
             current_class = None
     return classes
-
 
 def split_api_parameter_types(parameters: str) -> list[str]:
     values = []
@@ -278,80 +360,158 @@ def bytecode_only_method_descriptor(signature: str) -> tuple[str, str] | None:
     return method_name, "(" + "".join(parameter_descriptors) + ")" + return_descriptor
 
 
+def _descriptor_for_api_callable(member: dict) -> tuple[str, str] | None:
+    parameters = []
+    for parameter_type in member["parameterTypes"]:
+        descriptor = api_type_to_jvm_descriptor(parameter_type)
+        if descriptor is None:
+            return None
+        parameters.append(descriptor)
+    return_descriptor = api_type_to_jvm_descriptor(member["returnType"], is_return=True)
+    if return_descriptor is None:
+        return None
+    return member["name"], "(" + "".join(parameters) + ")" + return_descriptor
+
+
+def _property_getter_name(property_name: str) -> str:
+    if property_name.startswith("is") and len(property_name) > 2 and property_name[2].isupper():
+        return property_name
+    return "get" + property_name[:1].upper() + property_name[1:]
+
+
 def compare_api_dump_to_binary(api_dump: str, binary_classes: list[tuple[str, dict, bool]]) -> dict:
     api_classes = parse_api_dump(api_dump)
     binary_by_name = {name[:-6]: summary for name, summary, _ in binary_classes}
     missing_classes = []
-    missing_methods = []
-    source_level_method_count = 0
-    source_level_name_matches = 0
-    bytecode_only_methods = 0
-    bytecode_only_descriptor_matches = 0
-    unsupported_bytecode_only_signatures = []
+    missing_members = []
+    unsupported_signatures = []
+    counts = {
+        "methods": 0, "methodDescriptorMatches": 0,
+        "bytecodeOnlyMethods": 0, "bytecodeOnlyDescriptorMatches": 0,
+        "constructors": 0, "constructorDescriptorMatches": 0,
+        "fields": 0, "fieldDescriptorMatches": 0,
+        "properties": 0, "propertyAccessorMatches": 0,
+    }
 
-    for class_name, api_methods in api_classes.items():
+    for class_name, api_members in api_classes.items():
         binary = binary_by_name.get(class_name)
         if binary is None:
             missing_classes.append(class_name + ".class")
-            for method in api_methods:
-                missing_methods.append({"class": class_name, "method": method["name"], "reason": "class-missing"})
             continue
-        binary_methods = binary["methodSignatures"]
-        binary_method_names = {method["name"] for method in binary_methods}
-        for method in api_methods:
-            if method["bytecodeOnly"]:
-                bytecode_only_methods += 1
-                parsed = bytecode_only_method_descriptor(method["signature"])
-                if parsed is None:
-                    unsupported_bytecode_only_signatures.append({
-                        "class": class_name,
-                        "method": method["name"],
-                        "signature": method["signature"].strip(),
-                    })
-                    continue
-                method_name, descriptor = parsed
-                if any(item["name"] == method_name and item["descriptor"] == descriptor for item in binary_methods):
-                    bytecode_only_descriptor_matches += 1
-                else:
-                    missing_methods.append({
-                        "class": class_name,
-                        "method": method_name,
-                        "descriptor": descriptor,
-                        "reason": "bytecode-only-descriptor-missing",
-                    })
-            else:
-                source_level_method_count += 1
-                method_name = method["name"]
-                if (
-                    method_name in binary_method_names
-                    or any(name.startswith(method_name + "-") for name in binary_method_names)
-                ):
-                    source_level_name_matches += 1
-                else:
-                    missing_methods.append({
-                        "class": class_name,
-                        "method": method_name,
-                        "reason": "source-level-name-or-mangled-name-missing",
-                    })
+        binary_methods = [m for m in binary["methodSignatures"] if m["publicProtected"]]
+        binary_fields = [f for f in binary.get("fieldSignatures", []) if f["publicProtected"]]
 
-    api_method_count = sum(len(methods) for methods in api_classes.values())
+        for method in api_members["methods"]:
+            counts["methods"] += 1
+            is_bytecode = method["bytecodeOnly"]
+            if is_bytecode:
+                counts["bytecodeOnlyMethods"] += 1
+            parsed = _descriptor_for_api_callable(method)
+            if parsed is None:
+                unsupported_signatures.append({
+                    "kind": "method", "class": class_name,
+                    "signature": method["signature"], "reason": "unsupported-type-descriptor",
+                })
+                continue
+            method_name, descriptor = parsed
+            matched = any(
+                item["descriptor"] == descriptor and (
+                    item["name"] == method_name or item["name"].startswith(method_name + "-")
+                )
+                for item in binary_methods
+            )
+            if matched:
+                counts["methodDescriptorMatches"] += 1
+                if is_bytecode:
+                    counts["bytecodeOnlyDescriptorMatches"] += 1
+            else:
+                missing_members.append({
+                    "kind": "method", "class": class_name,
+                    "name": method_name, "descriptor": descriptor,
+                    "signature": method["signature"],
+                })
+
+        for constructor in api_members["constructors"]:
+            counts["constructors"] += 1
+            parsed = _descriptor_for_api_callable(constructor)
+            if parsed is None:
+                unsupported_signatures.append({
+                    "kind": "constructor", "class": class_name,
+                    "signature": constructor["signature"], "reason": "unsupported-type-descriptor",
+                })
+                continue
+            _, descriptor = parsed
+            if any(item["name"] == "<init>" and item["descriptor"] == descriptor for item in binary_methods):
+                counts["constructorDescriptorMatches"] += 1
+            else:
+                missing_members.append({
+                    "kind": "constructor", "class": class_name,
+                    "descriptor": descriptor, "signature": constructor["signature"],
+                })
+
+        for field in api_members["fields"]:
+            counts["fields"] += 1
+            descriptor = api_type_to_jvm_descriptor(field["type"])
+            if descriptor is None:
+                unsupported_signatures.append({
+                    "kind": "field", "class": class_name,
+                    "signature": field["signature"], "reason": "unsupported-type-descriptor",
+                })
+                continue
+            if any(item["name"] == field["name"] and item["descriptor"] == descriptor for item in binary_fields):
+                counts["fieldDescriptorMatches"] += 1
+            else:
+                missing_members.append({
+                    "kind": "field", "class": class_name, "name": field["name"],
+                    "descriptor": descriptor, "signature": field["signature"],
+                })
+
+        for prop in api_members["properties"]:
+            counts["properties"] += 1
+            descriptor = api_type_to_jvm_descriptor(prop["type"])
+            if descriptor is None:
+                unsupported_signatures.append({
+                    "kind": "property", "class": class_name,
+                    "signature": prop["signature"], "reason": "unsupported-type-descriptor",
+                })
+                continue
+            getter = _property_getter_name(prop["name"])
+            expected = "()" + descriptor
+            if any(
+                item["name"] == getter and item["descriptor"] == expected
+                for item in binary_methods
+            ):
+                counts["propertyAccessorMatches"] += 1
+            else:
+                missing_members.append({
+                    "kind": "property", "class": class_name, "name": prop["name"],
+                    "getter": getter, "descriptor": expected, "signature": prop["signature"],
+                })
+
+    api_method_count = counts["methods"]
     return {
         "apiClassCount": len(api_classes),
         "binaryClassMatches": len(api_classes) - len(missing_classes),
         "missingClasses": missing_classes,
         "apiMethodCount": api_method_count,
-        "sourceLevelMethodCount": source_level_method_count,
-        "sourceLevelNameMatches": source_level_name_matches,
-        "bytecodeOnlyMethodCount": bytecode_only_methods,
-        "bytecodeOnlyDescriptorMatches": bytecode_only_descriptor_matches,
-        "unsupportedBytecodeOnlySignatures": unsupported_bytecode_only_signatures,
-        "missingMethods": missing_methods,
-        "comparisonMode": "all API classes, source-level names with Kotlin JVM-mangling allowance, and exact JVM descriptors for @BytecodeOnly methods",
-        "status": "bytecode-only-descriptors-and-source-names-match" if (
-            not missing_classes and not missing_methods and not unsupported_bytecode_only_signatures
-        ) else "mismatches-found",
+        "sourceLevelMethodCount": api_method_count - counts["bytecodeOnlyMethods"],
+        "sourceLevelDescriptorMatches": counts["methodDescriptorMatches"] - counts["bytecodeOnlyDescriptorMatches"],
+        "sourceLevelNameMatches": counts["methodDescriptorMatches"] - counts["bytecodeOnlyDescriptorMatches"],
+        "bytecodeOnlyMethodCount": counts["bytecodeOnlyMethods"],
+        "bytecodeOnlyDescriptorMatches": counts["bytecodeOnlyDescriptorMatches"],
+        "constructorCount": counts["constructors"],
+        "constructorDescriptorMatches": counts["constructorDescriptorMatches"],
+        "fieldCount": counts["fields"],
+        "fieldDescriptorMatches": counts["fieldDescriptorMatches"],
+        "propertyCount": counts["properties"],
+        "propertyAccessorMatches": counts["propertyAccessorMatches"],
+        "unsupportedSignatures": unsupported_signatures,
+        "missingMembers": missing_members,
+        "comparisonMode": "exact JVM descriptors for source-level and @BytecodeOnly methods, constructors, fields, and property getters",
+        "status": "exact-declarations-match" if (
+            not missing_classes and not missing_members and not unsupported_signatures
+        ) else "declaration-comparison-incomplete-or-mismatched",
     }
-
 
 def verify_file(directory: Path, report: dict, file_name: str) -> tuple[bytes, dict]:
     artifact = next((item for item in report.get("artifacts", []) if item.get("fileName") == file_name), None)
