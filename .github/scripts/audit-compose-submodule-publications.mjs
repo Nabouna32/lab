@@ -85,6 +85,23 @@ export function validateModuleMetadata(bytes, expected, label) {
   };
 }
 
+export function validateAndroidVariantLinks(variants, expected, sourceMetadataUrl, targetMetadataUrl) {
+  const links = variants.filter((variant) => variant.availableAt?.module === expected.module);
+  if (links.length === 0) {
+    throw new Error('Logical metadata does not reference the expected Android variant module.');
+  }
+  for (const variant of links) {
+    const link = variant.availableAt;
+    if (link.group !== expected.group || link.version !== expected.version || typeof link.url !== 'string') {
+      throw new Error('Android variant metadata contains an unexpected component reference.');
+    }
+    if (new URL(link.url, sourceMetadataUrl).toString() !== targetMetadataUrl) {
+      throw new Error('Android variant metadata does not resolve to the verified Android module metadata.');
+    }
+  }
+  return links.length;
+}
+
 export function validateZipSignature(bytes, label) {
   const value = Buffer.from(bytes);
   if (value.length < 4 || value[0] !== 0x50 || value[1] !== 0x4b) {
@@ -220,8 +237,11 @@ export async function auditComposeSubmodulePublications({
     if (resolvedRedirect !== logicalMetadata.url) {
       throw new Error(target.androidModule + ' metadata redirect mismatch: resolved ' + resolvedRedirect + '; expected ' + logicalMetadata.url + '.');
     }
-    const androidVariantLinks = logicalSummary.variants.filter(
-      (variant) => variant.availableAt?.module === target.androidModule,
+    const androidVariantLinkCount = validateAndroidVariantLinks(
+      logicalSummary.variants,
+      { group: target.group, module: target.androidModule, version: target.version },
+      logicalMetadata.url,
+      androidMetadata.url,
     );
 
     families.push({
