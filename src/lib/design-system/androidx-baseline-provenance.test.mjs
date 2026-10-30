@@ -47,7 +47,7 @@ test("Material 3 stable release API and published sources share one immutable co
     .update(stableApiDump)
     .digest("hex");
   assert.equal(stableApiBlobSha1, exactStableDump.gitBlobSha1);
-  assert.match(stableApiDump.toString("utf8").slice(0, 40), /Signature format: 4\\.0/);
+  assert.match(stableApiDump.toString("utf8").slice(0, 40), /Signature format: 4\.0/);
 });
 
 const material3AndroidInventory = JSON.parse(readFileSync(
