@@ -7,6 +7,7 @@ import { Checkbox } from "@/components/ui/Checkbox";
 import { Chip } from "@/components/ui/Chip";
 import { IconToggleButton } from "@/components/ui/IconButton";
 import { MaterialIcon } from "@/components/ui/MaterialIcon";
+import { MaterialTextField } from "@/components/ui/MaterialTextField";
 import { NavigationBar } from "@/components/ui/NavigationBar";
 import { ProgressIndicator } from "@/components/ui/ProgressIndicator";
 import { Select } from "@/components/ui/Select";
@@ -28,6 +29,9 @@ export default function VisualLab({ initialLocale }: { initialLocale: Locale }) 
   const [navigation, setNavigation] = useState("home");
   const [format, setFormat] = useState("webp");
   const [notice, setNotice] = useState("");
+  const [password, setPassword] = useState("demo");
+  const passwordTooShort = password.length > 0 && password.length < 8;
+  const passwordRule = fr ? "8 caractères minimum." : "At least 8 characters.";
   const actionLabel = fr ? "Action testée" : "Action tested";
 
   return (
@@ -86,6 +90,18 @@ export default function VisualLab({ initialLocale }: { initialLocale: Locale }) 
                 <option value="webp">WebP</option>
                 <option value="jpeg">JPEG</option>
               </Select>
+              <MaterialTextField
+                id="lab-material-password"
+                label={fr ? "Nouveau mot de passe" : "New password"}
+                type="password"
+                value={password}
+                onChange={setPassword}
+                minLength={8}
+                maxLength={128}
+                autoComplete="new-password"
+                supportingText={passwordTooShort ? undefined : passwordRule}
+                error={passwordTooShort ? passwordRule : undefined}
+              />
             </div>
             <TextArea inputId="lab-description" label={fr ? "Description" : "Description"} rows={3} defaultValue={fr ? "Exemple de texte multiligne." : "Multiline text example."} />
           </div>
