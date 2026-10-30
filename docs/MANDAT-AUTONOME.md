@@ -137,6 +137,19 @@ Lorsqu’un blocage incontournable exige réellement une intervention, une déci
 - Réutiliser une issue de demande d’action déjà ouverte si elle couvre exactement le même blocage ; éviter les doublons.
 - Après création, poursuivre tout travail indépendant utile, puis reprendre automatiquement le chantier bloqué lorsque l’intervention nécessaire a été effectuée ou que le blocage a disparu.
 
+#### Règle anti-boucle : un blocage humain devient passif
+
+Une demande humaine correctement consignée n'est **pas** une priorité à réexaminer à chaque invocation. Dès que les conditions suivantes sont réunies — l'action est réellement réservée à l'utilisateur, l'issue dédiée est ouverte et actionnable, les étapes que l'agent peut exécuter sans cette intervention sont terminées — classer le sujet comme **bloqué en attente humaine** et appliquer impérativement les règles suivantes :
+
+1. **Arrêter les relances.** Ne pas répéter à chaque invocation la même vérification, le même rappel, le même commentaire ou le même compte rendu sur cette attente. Ne pas ajouter de commentaires de checkpoint sans changement matériel.
+2. **Sortir le sujet de la priorité active.** Conserver l'issue ouverte comme point de reprise, mais ne plus la traiter comme le chantier courant. Passer immédiatement au prochain chantier indépendant utile et suffisamment mûr, selon l'arbitrage de la section 4.
+3. **Ne pas attendre dans la conversation.** Ne pas demander à l'utilisateur de répondre dans le chat et ne pas suspendre les autres travaux. L'issue est le canal unique de l'action humaine, sauf si l'utilisateur choisit spontanément d'en parler ici.
+4. **Réactiver uniquement sur signal nouveau.** Reprendre le sujet lorsqu'un commentaire ou changement d'état pertinent apparaît dans l'issue, lorsqu'une preuve nouvelle est disponible, lorsque l'accès nécessaire devient disponible, ou lorsque l'utilisateur donne directement l'information/action attendue. Une simple nouvelle invocation, l'écoulement du temps ou l'absence de réponse ne constituent pas un signal.
+5. **Contrôle léger, pas enquête répétée.** Lors d'une reprise, consulter les issues humaines en attente uniquement pour détecter un changement depuis le dernier checkpoint (nouveau commentaire, changement d'état, nouvelle preuve). Si rien n'a changé, ne pas réexaminer le dossier ni répéter ses détails ; poursuivre le travail actif.
+6. **Ne pas contourner le blocage.** Passer à autre chose ne signifie ni simuler l'action humaine, ni supprimer la protection, ni effectuer une opération risquée sans le consentement, l'identité, l'accès ou la sauvegarde exigés.
+
+Le checkpoint doit indiquer une seule fois la condition exacte de réactivation et le prochain chantier indépendant choisi. Le sujet humain peut rester ouvert longtemps sans empêcher Loculary de progresser.
+
 Ne créer une telle issue que lorsqu’une intervention de l’utilisateur est véritablement incontournable. Les erreurs temporaires, les investigations incomplètes ou les solutions de rechange non explorées ne justifient pas de lui transférer le problème. L’issue doit être identifiable comme une demande qui lui est destinée, et non comme un item ordinaire du backlog de développement.
 
 ## 7. Gestion des blocages et interruptions
