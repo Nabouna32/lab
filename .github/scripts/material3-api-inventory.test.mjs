@@ -370,3 +370,49 @@ test('classifies generated JVM facades and preserves Kotlin-only and API maturit
   assert.equal(result.declarations[1].apiStatus, 'deprecated');
   assert.ok(result.declarations[1].annotations.includes('@Deprecated'));
 });
+
+
+const FORMAT4_EXTENDED_TYPES = `// Signature format: 4.0
+package androidx.compose.sample {
+  public sealed nonexhaustive interface Outer {
+    public sealed nonexhaustive interface Outer.Inner {
+      method public void run();
+    }
+  }
+  public enum SampleEnum {
+  }
+  public @interface SampleAnnotation {
+  }
+}
+`;
+
+test('supports nonexhaustive nested interfaces, enums and annotation declarations', () => {
+  const result = inventoryApiDump(FORMAT4_EXTENDED_TYPES, {
+    artifact: 'androidx.compose.sample:sample',
+    version: '1.0.0',
+    commit: COMMIT,
+    sourcePath: 'compose/sample/api/current.txt',
+  });
+
+  assert.equal(result.declarationCount, 5);
+  assert.deepEqual(result.declarations.map((entry) => entry.kind), [
+    'interface', 'interface', 'method', 'enum class', 'annotation class',
+  ]);
+  assert.equal(result.declarations[2].owner, 'Outer.Inner');
+  assert.equal(new Set(result.declarations.map((entry) => entry.id)).size, 5);
+});
+
+test('fails closed on an unsupported public declaration instead of silently dropping it', () => {
+  const dump = `// Signature format: 4.0
+package androidx.compose.sample {
+  public future interface UnknownType {
+  }
+}
+`;
+  assert.throws(() => inventoryApiDump(dump, {
+    artifact: 'androidx.compose.sample:sample',
+    version: '1.0.0',
+    commit: COMMIT,
+    sourcePath: 'compose/sample/api/current.txt',
+  }), /Unsupported public declaration syntax/);
+});
