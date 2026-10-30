@@ -6,13 +6,15 @@ const workflowPath = new URL("../workflows/ci.yml", import.meta.url);
 const workflow = readFileSync(workflowPath, "utf8");
 
 function sectionFor(jobName) {
-  const marker = `  ${jobName}:\n`;
-  const start = workflow.indexOf(marker);
+  const lines = workflow.split(/\r?\n/);
+  const start = lines.findIndex((line) => line === `  ${jobName}:`);
   assert.notEqual(start, -1, `Missing workflow job: ${jobName}`);
-  const nextTopLevelJob = /\n(?=  [a-zA-Z0-9_-]+:)/g;
-  nextTopLevelJob.lastIndex = start + marker.length;
-  const next = nextTopLevelJob.exec(workflow);
-  return workflow.slice(start, next ? next.index : undefined);
+
+  const next = lines.findIndex(
+    (line, index) => index > start && /^  [a-zA-Z0-9_-]+:$/.test(line),
+  );
+
+  return lines.slice(start, next === -1 ? undefined : next).join("\n");
 }
 
 test("npm audit runs on pull requests, scheduled runs, and manual dispatches", () => {
