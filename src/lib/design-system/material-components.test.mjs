@@ -426,10 +426,14 @@ test("Design Lab exposes the production OutlinedSecureTextField without requirin
   assert.match(outlinedTextFieldSource, /export function OutlinedTextField/);
   assert.match(outlinedSecureTextFieldSource, /export function OutlinedSecureTextField/);
   assert.doesNotMatch(outlinedTextFieldSource, /variant\?: "filled" \| "outlined"|data-variant|secure/);
-  assert.match(outlinedTextFieldCssSource, /border: 1px solid var\(--outline/);
-  assert.match(outlinedTextFieldCssSource, /border: 2px solid var\(--primary/);
-  assert.match(outlinedTextFieldCssSource, /border-radius: 4px/);
-  assert.match(outlinedTextFieldCssSource, /top: -8px/);
+  assert.match(outlinedTextFieldCssSource, /border: var\(--m3-outline-width\) solid var\(--outline/);
+  assert.match(outlinedTextFieldCssSource, /border: calc\(var\(--m3-outline-width\) \+ var\(--m3-outline-width\)\) solid var\(--primary/);
+  assert.match(outlinedTextFieldCssSource, /border-radius: var\(--shape-corner-extra-small\)/);
+  assert.match(outlinedTextFieldCssSource, /top: calc\(0px - var\(--m3-space-2\)\)/);
+  assert.match(outlinedTextFieldCssSource, /padding-inline: var\(--m3-space-4\)/);
+  assert.match(outlinedTextFieldCssSource, /var\(--motion-standard\) var\(--motion-standard-easing\)/);
+  assert.match(textFieldSource, /ease-\[var\(--motion-standard-easing\)\]/);
+  assert.doesNotMatch(outlinedTextFieldCssSource, /[1-9]\d*(?:\.\d+)?px|160ms/);
   assert.doesNotMatch(outlinedTextFieldCssSource, /data-variant/);
   assert.ok(visualLabSource.includes('import { OutlinedSecureTextField } from "@/components/ui/OutlinedSecureTextField"'));
   assert.ok(visualLabSource.includes('<OutlinedSecureTextField'));
@@ -471,7 +475,17 @@ test("M3 web reference tokens document Android dp/sp magnitude without claiming 
   assert.match(globalCss, /CSS rem\/px are NOT Android dp\/sp/);
   assert.match(globalCss, /--m3-size-segmented-button-min-height: 2\.5rem/);
   assert.match(globalCss, /--m3-size-snackbar-max-width: 37\.5rem/);
+  assert.match(globalCss, /--m3-size-text-field-min-height: 3\.5rem; \/\* Material 3 single-line field baseline/);
+  assert.match(globalCss, /--m3-outline-width: 0\.0625rem/);
+  assert.match(globalCss, /--shape-corner-extra-small: 4px/);
+  assert.match(globalCss, /--m3-space-1: 0\.25rem/);
+  assert.match(globalCss, /--m3-space-2: 0\.5rem/);
+  assert.match(globalCss, /--m3-space-3: 0\.75rem/);
+  assert.match(globalCss, /--m3-space-4: 1rem/);
+  assert.match(globalCss, /--motion-standard: 200ms/);
+  assert.match(globalCss, /--motion-standard-easing: cubic-bezier\(\.2, 0, 0, 1\)/);
   assert.match(globalCss, /--m3-size-multiline-text-field-min-height: 8rem; \/\* Loculary Web specimen sizing/);
+  assert.match(textFieldSource, /min-h-\[var\(--m3-size-text-field-min-height\)\]/);
   assert.match(globalCss, /--m3-type-label-large-size: 0\.875rem/);
 });
 
