@@ -64,7 +64,7 @@
     }
   },
   "apiDumpAlignment": {
-    "status": "OFFICIAL_STABLE_DUMP_PINNED_BINARY_COMPARISON_PENDING",
+    "status": "OFFICIAL_STABLE_DUMP_AND_SOURCE_COMMIT_PINNED_BINARY_API_COMPARISON_PENDING",
     "exactStableDump": {
       "repository": "androidx/androidx",
       "branch": "androidx-compose-material3-release",
@@ -74,8 +74,8 @@
       "gitBlobSha1": "fd45e9feea96a631c0f8b7ac82f88ee9ce999029",
       "signatureFormat": "4.0"
     },
-    "repositorySourceCommit": null,
-    "reason": "The official release-branch API snapshot is pinned and version marker COMPOSE_MATERIAL3=1.4.0 is verified. Declaration-level comparison against the published Android AAR and proof that the published source archive is byte-for-byte from this source commit remain pending."
+    "repositorySourceCommit": "5113b82a4ed6416d6344efa50e41db8cb65928ff",
+    "reason": "The official stable 1.4.0 API snapshot is pinned from the AndroidX release branch and all 249 published Kotlin source files match that exact commit byte-for-byte. Declaration-level comparison of the official API signatures against the published Android AAR remains pending."
   },
   "publishedAndroidVariant": {
     "artifact": "androidx.compose.material3:material3-android",
@@ -123,7 +123,16 @@
       "workflowRun": "https://github.com/Nabouna32/lab/actions/runs/40982520097",
       "verifiedCommit": "bbafbeaa7278af50a3b69b86e6204328d3922b10",
       "artifactUrl": "https://github.com/Nabouna32/lab/actions/runs/40982520097/artifacts/12945846387",
-      "result": "passed"
+      "result": "passed",
+      "sourceCommit": {
+        "repository": "androidx/androidx",
+        "branch": "androidx-compose-material3-release",
+        "commit": "5113b82a4ed6416d6344efa50e41db8cb65928ff",
+        "totalKotlinSourceFiles": 249,
+        "verifiedByteForByte": 249,
+        "mismatchCount": 0,
+        "verificationMethod": "GitHub Actions downloaded every Kotlin source path from raw.githubusercontent.com at the pinned commit and compared exact bytes to the published sources JAR."
+      }
     }
   }
 }
