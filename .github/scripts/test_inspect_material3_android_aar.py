@@ -143,6 +143,8 @@ class Material3AndroidAarInspectionTests(unittest.TestCase):
         comparison = MODULE.compare_api_dump_to_binary(api, binary)
         self.assertEqual(comparison["sourceLevelDescriptorMatches"], 1)
         self.assertEqual(comparison["constructorDescriptorMatches"], 1)
+        self.assertEqual(comparison["kotlinOnlyConstructorCount"], 1)
+        self.assertEqual(comparison["kotlinOnlyConstructorMatches"], 1)
         self.assertEqual(comparison["fieldDescriptorMatches"], 1)
         self.assertEqual(comparison["propertyAccessorMatches"], 1)
         self.assertEqual(comparison["missingMembers"], [])
@@ -232,6 +234,24 @@ class Material3AndroidAarInspectionTests(unittest.TestCase):
         self.assertEqual(comparison["constructorCount"], 2)
         self.assertEqual(comparison["constructorDescriptorMatches"], 2)
         self.assertEqual(comparison["missingMembers"], [])
+
+
+
+    def test_composable_default_arguments_add_changed_flags_and_default_masks(self):
+        member = {
+            "name": "render",
+            "returnType": "void",
+            "parameterTypes": ["int"] * 14,
+            "optionalParameterCount": 3,
+            "composable": True,
+            "static": True,
+            "bytecodeOnly": False,
+        }
+        parsed = MODULE._descriptor_for_api_callable(member)
+        self.assertEqual(
+            parsed[1],
+            "(" + ("I" * 14) + "Landroidx/compose/runtime/Composer;III)V",
+        )
 
 
     def test_reports_unsupported_types_instead_of_claiming_a_match(self):
