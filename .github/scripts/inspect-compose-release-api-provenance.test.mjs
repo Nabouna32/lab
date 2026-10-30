@@ -179,8 +179,18 @@ test('verifies all four immutable API dumps against the committed release manife
   const report = { referenceVersion: '1.12.1', groups };
   const manifest = {
     schemaVersion: 1,
-    status: 'verified-release-ref-and-api-dump-provenance',
-    sourceArchiveAlignment: 'unverified',
+    status: 'verified-release-api-and-source-provenance',
+    sourceArchiveAlignment: 'verified-byte-for-byte',
+    sourceArchiveAlignmentEvidence: {
+      releaseCommit: COMMIT,
+      ciRun: 4516,
+      families: [
+        { id: 'compose-ui', sha256: '1'.repeat(64), jarEntries: 385, matchedFiles: 384 },
+        { id: 'compose-ui-text', sha256: '2'.repeat(64), jarEntries: 164, matchedFiles: 163 },
+        { id: 'compose-foundation', sha256: '3'.repeat(64), jarEntries: 456, matchedFiles: 455 },
+        { id: 'compose-foundation-layout', sha256: '4'.repeat(64), jarEntries: 38, matchedFiles: 37 },
+      ],
+    },
     referenceVersion: '1.12.1',
     releaseCommit: COMMIT,
     releaseRef: 'refs/heads/androidx-compose-release',
