@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "artifact": "androidx.compose.foundation:foundation-layout",
+  "version": "1.12.1",
+  "inventoryKind": "public-signature-surface",
+  "catalogScope": "phone-tablet-porting-reference",
+  "stableBaselineAlignment": "verified-release-api-and-source-provenance",
+  "semanticCompleteness": "not-established-by-api-dump-alone",
+  "source": {
+    "repository": "androidx/androidx",
+    "commit": "5e0747401bf56b243e3b5141ae080dc9bc61d29c",
+    "path": "compose/foundation/foundation-layout/api/current.txt",
+    "url": "https://github.com/androidx/androidx/blob/5e0747401bf56b243e3b5141ae080dc9bc61d29c/compose/foundation/foundation-layout/api/current.txt",
+    "sha256": "39eb50cbe583784bb135f13b1386a9288067d2ab8911ec5f72fec3a3028eee4f",
+    "formatVersion": "4.0"
+  },
+  "generatedBy": ".github/scripts/material3-api-inventory.mjs + .github/scripts/material3-api-inventory-shard.mjs",
+  "declarationCount": 749,
+  "sourceApiCandidateCount": 431,
+  "bytecodeOnlyCount": 255,
+  "inaccessibleFromKotlinCount": 40,
+  "generatedFacadeCount": 23,
+  "kotlinOnlyCount": 99,
+  "experimentalCount": 154,
+  "deprecatedCount": 76,
+  "packageCounts": {
+    "androidx.compose.foundation.layout": 749
+  },
+  "shardSize": 500,
+  "shards": [
+    {
+      "path": "declarations-001.json",
+      "declarationCount": 500,
+      "sha256": "58014d04ac782872257bb3f78a3c6cacd63fd902335d773877e160b85e6b0221",
+      "firstSourceLine": 4,
+      "lastSourceLine": 658
+    },
+    {
+      "path": "declarations-002.json",
+      "declarationCount": 249,
+      "sha256": "361cd581fb3327e300e706cd862057f50763eb609fe1dea9f55b90cc3a749a8f",
+      "firstSourceLine": 659,
+      "lastSourceLine": 945
+    }
+  ]
+}
