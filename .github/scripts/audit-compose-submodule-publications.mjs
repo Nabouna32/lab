@@ -10,6 +10,20 @@ const REQUEST_TIMEOUT_MS = 30_000;
 
 export const PUBLICATION_TARGETS = Object.freeze([
   {
+    familyId: 'compose-ui',
+    group: 'androidx.compose.ui',
+    logicalModule: 'ui',
+    androidModule: 'ui-android',
+    version: '1.12.1',
+  },
+  {
+    familyId: 'compose-foundation',
+    group: 'androidx.compose.foundation',
+    logicalModule: 'foundation',
+    androidModule: 'foundation-android',
+    version: '1.12.1',
+  },
+  {
     familyId: 'compose-ui-text',
     group: 'androidx.compose.ui',
     logicalModule: 'ui-text',
