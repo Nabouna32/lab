@@ -69,6 +69,7 @@ export function validateModuleMetadata(bytes, expected, label) {
   }
   return {
     component: { ...component },
+    redirectUrl: typeof component.url === 'string' ? component.url : null,
     variants: metadata.variants.map((variant) => ({
       name: variant.name ?? null,
       attributes: variant.attributes ?? {},
