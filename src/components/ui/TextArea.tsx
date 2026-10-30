@@ -37,7 +37,7 @@ export function TextArea({
   const describedBy = [
     ...new Set(
       [consumerDescribedBy, error ? errorId : helperText ? helperId : undefined]
-        .flatMap((value) => value?.split(/\\s+/).filter(Boolean) ?? []),
+        .flatMap((value) => value?.split(/\s+/).filter(Boolean) ?? []),
     ),
   ].join(" ") || undefined;
   const isInvalid = Boolean(error) || Boolean(consumerInvalid);
