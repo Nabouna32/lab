@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { test } from "node:test";
 
@@ -38,10 +39,31 @@ test("Material 3 stable source provenance is pinned without overstating API alig
   assert.equal(baseline.repositoryApiInspection.watchDump.path, watchManifest.source.path);
   assert.equal(baseline.repositoryApiInspection.commit, watchManifest.source.commit);
 
-  assert.equal(baseline.apiDumpAlignment.status, "UNVERIFIED");
-  assert.equal(baseline.apiDumpAlignment.exactStableDump, null);
+  const releaseSnapshot = baseline.repositoryApiInspection.releaseBranchSnapshot;
+  assert.equal(releaseSnapshot.repository, "androidx/androidx");
+  assert.equal(releaseSnapshot.branch, "androidx-compose-material3-release");
+  assert.equal(releaseSnapshot.commit, "5113b82a4ed6416d6344efa50e41db8cb65928ff");
+  assert.equal(releaseSnapshot.libraryVersionMarker, 'COMPOSE_MATERIAL3 = "1.4.0"');
+  assert.equal(releaseSnapshot.apiDumpPath, "compose/material3/material3/api/current.txt");
+  assert.equal(releaseSnapshot.apiDumpGitBlobSha1, "fd45e9feea96a631c0f8b7ac82f88ee9ce999029");
+  assert.equal(releaseSnapshot.identicalToLastVersionedPrereleaseDump.gitBlobSha1, releaseSnapshot.apiDumpGitBlobSha1);
+
+  const stableApiDump = readFileSync(new URL(
+    "../../../docs/material3/catalog/baselines/material3-1.4.0-api.txt",
+    import.meta.url,
+  ));
+  const stableApiBlobSha1 = createHash("sha1")
+    .update(Buffer.from("blob " + stableApiDump.length + "\0"))
+    .update(stableApiDump)
+    .digest("hex");
+  assert.equal(stableApiBlobSha1, releaseSnapshot.apiDumpGitBlobSha1);
+  assert.match(stableApiDump.toString("utf8").slice(0, 40), /Signature format: 4\.0/);
+
+  assert.equal(baseline.apiDumpAlignment.status, "OFFICIAL_STABLE_DUMP_PINNED_BINARY_COMPARISON_PENDING");
+  assert.equal(baseline.apiDumpAlignment.exactStableDump.path, "compose/material3/material3/api/current.txt");
+  assert.equal(baseline.apiDumpAlignment.exactStableDump.commit, releaseSnapshot.commit);
   assert.equal(baseline.apiDumpAlignment.repositorySourceCommit, null);
-  assert.match(baseline.apiDumpAlignment.reason, /not been established/);
+  assert.match(baseline.apiDumpAlignment.reason, /Declaration-level comparison/);
 });
 
 const material3AndroidInventory = JSON.parse(readFileSync(
