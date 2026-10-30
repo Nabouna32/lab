@@ -58,7 +58,14 @@ export function validateModuleMetadata(bytes, expected, label) {
     throw new Error(label + ' declares an unexpected component identity: ' + JSON.stringify(component) + '; expected ' + JSON.stringify(expected) + '.');
   }
   if (!Array.isArray(metadata.variants)) {
-    throw new Error(label + ' must declare a variants array.');
+    if (typeof component?.url === 'string') {
+      return {
+        component: { ...component },
+        variants: [],
+        redirectUrl: component.url,
+      };
+    }
+    throw new Error(label + ' must declare variants or a component redirect URL.');
   }
   return {
     component: { ...component },
@@ -204,8 +211,14 @@ export async function auditComposeSubmodulePublications({
       group: target.group, module: target.logicalModule, version: target.version,
     }, target.logicalModule);
     const androidSummary = validateModuleMetadata(androidMetadata.bytes, {
-      group: target.group, module: target.androidModule, version: target.version,
-    }, target.androidModule);
+      group: target.group, module: target.logicalModule, version: target.version,
+    }, target.androidModule + ' redirect metadata');
+    const resolvedRedirect = androidSummary.redirectUrl
+      ? new URL(androidSummary.redirectUrl, androidMetadata.url).toString()
+      : null;
+    if (resolvedRedirect !== logicalMetadata.url) {
+      throw new Error(target.androidModule + ' metadata must redirect to the verified logical module metadata.');
+    }
     const androidVariantLinks = logicalSummary.variants.filter(
       (variant) => variant.availableAt?.module === target.androidModule,
     );
@@ -214,7 +227,10 @@ export async function auditComposeSubmodulePublications({
       familyId: target.familyId,
       version: target.version,
       logicalComponent: logicalSummary,
-      androidComponent: androidSummary,
+      androidComponentRedirect: {
+        component: androidSummary.component,
+        resolvedUrl: resolvedRedirect,
+      },
       logicalMetadata: { url: logicalMetadata.url, sha256: logicalMetadata.sha256, sizeBytes: logicalMetadata.sizeBytes },
       androidMetadata: { url: androidMetadata.url, sha256: androidMetadata.sha256, sizeBytes: androidMetadata.sizeBytes },
       sourcesArchive: { url: sources.url, sha256: sources.sha256, sizeBytes: sources.sizeBytes },
