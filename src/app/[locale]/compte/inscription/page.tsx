@@ -28,7 +28,7 @@ export default async function SignUpPage({
   if (claimsData?.claims) {
     return (
       <main>
-        <div className="mx-auto w-full max-w-[var(--layout-content-account)] px-[var(--layout-page-gutter)]  flex min-h-[calc(100vh-4.5rem)] items-center py-[var(--space-12)]">
+        <div className="mx-auto w-full max-w-[var(--layout-content-account)] px-[var(--layout-page-gutter)] flex min-h-[calc(100vh-4.5rem)] items-center py-[var(--space-12)]">
           <Panel as="section" className="w-full text-center">
             <h1 className="m3-type-title-large">{t.account.alreadySignedIn}</h1>
             <AppLink variant="inline" className="mt-6 inline-flex" href={`/${locale}/compte`}>
@@ -42,7 +42,7 @@ export default async function SignUpPage({
 
   return (
     <main>
-      <div className="mx-auto w-full max-w-[var(--layout-content-form)] px-[var(--layout-page-gutter)]  flex min-h-[calc(100vh-4.5rem)] items-center py-[var(--space-12)]">
+      <div className="mx-auto w-full max-w-[var(--layout-content-form)] px-[var(--layout-page-gutter)] flex min-h-[calc(100vh-4.5rem)] items-center py-[var(--space-12)]">
         <Panel as="section" className="w-full">
           <p className="m3-type-label-large text-[var(--primary)]">{t.account.label}</p>
           <h1 className="mt-2 m3-type-headline-large">{t.account.signUp}</h1>
