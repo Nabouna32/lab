@@ -62,6 +62,6 @@ L'inventaire mécanique compte 2 343 déclarations : 1 389 candidates API source
 2. Corriger et tester la correspondance logique RTL de `SwipeToDismissBox` avant toute utilisation réelle.
 3. Revoir `PullToRefreshBox` sur appareil tactile : arbitrage avec le scroll vertical, annulation/capture Pointer, seuil, état de rafraîchissement et alternative sans geste.
 4. Revoir le comportement d'ancrage du bottom sheet si ce composant est retenu : seuils, vélocité, annulation, mouvement réduit et sens de layout.
-5. Poursuivre séparément la revue des API Foundation non couvertes ici : lazy lists/grids, pager/snapping, sélection de texte, focus/relocation, drag-and-drop et primitives de texte. Aucune conclusion d'exhaustivité n'est tirée pour ces familles.
+5. La tranche complémentaire [collections, texte et focus](compose-foundation-collections-text-1.12.1.md) examine les contrats Lazy lists/grids, Pager/snapping, sélection, saisie, focus/relocation et drag-and-drop ; elle conclut à ne pas porter préventivement les primitives sans usage Loculary démontré. La revue sémantique globale Foundation reste partielle.
 
 **Statut final de cette tranche :** contrats scroll/gestures examinés à partir des sources épinglées ; adaptations Web cartographiées ; conformité navigateur non vérifiée ; inventaire sémantique global Foundation toujours `in-progress`.
