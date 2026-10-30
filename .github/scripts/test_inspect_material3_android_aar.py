@@ -48,6 +48,9 @@ class Material3AndroidAarInspectionTests(unittest.TestCase):
         self.assertEqual(MODULE.api_type_to_jvm_descriptor("kotlin.Long?"), "Ljava/lang/Long;")
         self.assertEqual(MODULE.api_type_to_jvm_descriptor("androidx.compose.ui.graphics.Color"), "J")
         self.assertEqual(MODULE.api_type_to_jvm_descriptor("androidx.compose.ui.unit.Dp"), "F")
+        self.assertEqual(MODULE.api_type_to_jvm_descriptor("androidx.compose.material3.DisplayMode"), "I")
+        self.assertEqual(MODULE._property_getter_name("is24hour"), "is24hour")
+        self.assertEqual(MODULE._property_getter_name("island"), "getIsland")
         self.assertEqual(MODULE.api_type_to_jvm_descriptor("Object?"), "Ljava/lang/Object;")
         self.assertEqual(
             MODULE.api_type_to_jvm_descriptor("androidx.compose.foundation.layout.Arrangement.Vertical"),
@@ -167,6 +170,8 @@ class Material3AndroidAarInspectionTests(unittest.TestCase):
     property @androidx.compose.runtime.Composable public androidx.compose.ui.graphics.Color containerColor;
     property public androidx.compose.ui.graphics.Color accentColor;
     property public static boolean androidx.compose.material3.TimePickerState.isPm;
+    property public static String LABEL;
+    property public androidx.compose.material3.DisplayMode displayMode;
   }
 }
 """
@@ -186,6 +191,7 @@ class Material3AndroidAarInspectionTests(unittest.TestCase):
                         {"name": "drawContent", "descriptor": "(Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;I)V", "publicProtected": True},
                         {"name": "getAccentColor", "descriptor": "(Landroidx/compose/runtime/Composer;I)J", "publicProtected": True},
                         {"name": "getContainerColor-hash", "descriptor": "(Landroidx/compose/runtime/Composer;I)J", "publicProtected": True},
+                        {"name": "getDisplayMode-jFl-4v0", "descriptor": "()I", "publicProtected": True},
                         {"name": "setHour", "descriptor": "(I)V", "publicProtected": True},
                         {"name": "isPm", "descriptor": "(Landroidx/compose/material3/TimePickerState;)Z", "publicProtected": True},
                     ],
@@ -201,7 +207,7 @@ class Material3AndroidAarInspectionTests(unittest.TestCase):
         self.assertEqual(comparison["bytecodeOnlyDescriptorMatches"], 2)
         self.assertEqual(comparison["constructorDescriptorMatches"], 1)
         self.assertEqual(comparison["fieldDescriptorMatches"], 1)
-        self.assertEqual(comparison["propertyAccessorMatches"], 3)
+        self.assertEqual(comparison["propertyAccessorMatches"], 5)
         self.assertEqual(comparison["missingMembers"], [])
         self.assertEqual(comparison["unsupportedSignatures"], [])
 
