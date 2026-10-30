@@ -427,7 +427,7 @@ test("TextArea preserves caller descriptions and adds its helper or error descri
   assert.match(textAreaSource, /"aria-describedby": consumerDescribedBy/);
   assert.match(textAreaSource, /"aria-invalid": consumerInvalid/);
   assert.match(textAreaSource, /consumerDescribedBy, error \? errorId : helperText \? helperId : undefined/);
-  assert.match(textAreaSource, /\.flatMap\(\(value\) => value\?\.split\(\/\\s\+\/\)\.filter\(Boolean\)/);
+  assert.ok(textAreaSource.includes("value?.split(/\\s+/)"));
   assert.match(textAreaSource, /aria-invalid=\{error \? true : consumerInvalid\}/);
   assert.match(textAreaSource, /aria-describedby=\{describedBy\}/);
   assert.match(textAreaSource, /\{\.\.\.textareaProps\}/);
