@@ -53,6 +53,8 @@ L'outil et son résultat constituent le cœur de l'expérience. L'utilisateur do
 
 La priorité habituelle est de rendre l'interaction principale et le résultat faciles à repérer, puis de proposer les actions, explications et ressources complémentaires utiles. Cet ordre exprime une intention, pas un modèle de page obligatoire. Les outils complexes ou spécialisés peuvent nécessiter d'autres compositions.
 
+Lorsque la taille du viewport le permet, l'interaction principale et son résultat doivent rester accessibles sans défilement superflu. Ne pas placer de contenu marketing ou documentaire avant l'accès à l'outil.
+
 La documentation ne doit pas concurrencer la tâche principale ni retarder l'accès à l'outil.
 
 ### Interfaces adaptées à chaque tâche
