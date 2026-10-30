@@ -59,7 +59,7 @@ test("Material 3 stable source provenance is pinned without overstating API alig
   assert.equal(stableApiBlobSha1, releaseSnapshot.apiDumpGitBlobSha1);
   assert.match(stableApiDump.toString("utf8").slice(0, 40), /Signature format: 4\.0/);
 
-  assert.equal(baseline.apiDumpAlignment.status, "OFFICIAL_STABLE_DUMP_AND_SOURCE_COMMIT_VERIFIED_METHODS_MATCH_OTHER_API_DECLARATIONS_PENDING");
+  assert.equal(baseline.apiDumpAlignment.status, "VERIFIED");
   assert.equal(baseline.apiDumpAlignment.exactStableDump.path, "compose/material3/material3/api/current.txt");
   assert.equal(baseline.apiDumpAlignment.exactStableDump.commit, releaseSnapshot.commit);
   assert.equal(baseline.apiDumpAlignment.repositorySourceCommit, releaseSnapshot.commit);
