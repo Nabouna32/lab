@@ -4,7 +4,7 @@ import { after, afterEach, test } from "node:test";
 import { Window } from "happy-dom";
 import { act, createElement, useState } from "react";
 
-// MaterialTextField imports a CSS Module that Next.js normally transforms at build time.
+// OutlinedTextField imports a CSS Module that Next.js normally transforms at build time.
 // The DOM tests need only stable class tokens, not the production CSS transformation.
 const require = createRequire(import.meta.url);
 require.extensions[".css"] = (module) => {
@@ -40,7 +40,8 @@ globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 const { createRoot } = await import("react-dom/client");
 const { TextField } = await import("../../components/ui/TextField.tsx");
 const { TextArea } = await import("../../components/ui/TextArea.tsx");
-const { MaterialTextField } = await import("../../components/ui/MaterialTextField.tsx");
+const { OutlinedTextField } = await import("../../components/ui/OutlinedTextField.tsx");
+const { OutlinedSecureTextField } = await import("../../components/ui/OutlinedSecureTextField.tsx");
 
 const mountedRoots = [];
 
@@ -108,13 +109,12 @@ test("TextField renders a labelled native input and preserves native input event
   assert.equal(changedValue, "24");
 });
 
-test("TextField keeps the explicit label association in its expressive variant", async () => {
+test("TextField keeps the explicit persistent label association", async () => {
   const container = await render(
     createElement(TextField, {
       label: "Email",
       inputId: "account-email",
       type: "email",
-      variant: "expressive",
       placeholder: "name@example.com",
     }),
   );
@@ -125,7 +125,6 @@ test("TextField keeps the explicit label association in its expressive variant",
   assert.equal(input.id, "account-email");
   assert.equal(label.htmlFor, "account-email");
   assert.equal(input.placeholder, "name@example.com");
-  assert.ok(input.className.includes("peer"));
   assert.ok(input.className.includes("motion-reduce:transition-none"));
 });
 
@@ -172,10 +171,10 @@ test("TextArea retains caller invalid state and associates helper text", async (
   assert.equal(container.querySelector("#notes-helper").textContent, "Keep it short");
 });
 
-test("MaterialTextField controls its value and updates supporting and counter content", async () => {
+test("OutlinedTextField controls its value and updates supporting and counter content", async () => {
   function ControlledField() {
     const [value, setValue] = useState("hello");
-    return createElement(MaterialTextField, {
+    return createElement(OutlinedTextField, {
       id: "profile-name",
       name: "name",
       label: "Name",
@@ -209,9 +208,9 @@ test("MaterialTextField controls its value and updates supporting and counter co
   assert.equal(document.getElementById(describedBy[1]).textContent, "11/20");
 });
 
-test("MaterialTextField gives its error priority while retaining the character counter", async () => {
+test("OutlinedTextField gives its error priority while retaining the character counter", async () => {
   const container = await render(
-    createElement(MaterialTextField, {
+    createElement(OutlinedTextField, {
       id: "email",
       label: "Email",
       value: "bad",
@@ -233,15 +232,13 @@ test("MaterialTextField gives its error priority while retaining the character c
   assert.equal(container.textContent.includes("Enter your email"), false);
 });
 
-test("MaterialTextField reveals a secure value with a localized Material icon button", async () => {
+test("OutlinedSecureTextField reveals a secure value with a localized Material icon button", async () => {
   const container = await render(
-    createElement(MaterialTextField, {
+    createElement(OutlinedSecureTextField, {
       id: "password",
       label: "Mot de passe",
-      type: "password",
       value: "secret-value",
       onChange: () => {},
-      secure: true,
       showPasswordLabel: "Afficher le mot de passe",
       hidePasswordLabel: "Masquer le mot de passe",
     }),
@@ -277,15 +274,13 @@ test("MaterialTextField reveals a secure value with a localized Material icon bu
   assert.equal(toggle.querySelector("svg path").getAttribute("d"), initialIconPath);
 });
 
-test("MaterialTextField keeps secure controls disabled when the field is disabled", async () => {
+test("OutlinedSecureTextField keeps secure controls disabled when the field is disabled", async () => {
   const container = await render(
-    createElement(MaterialTextField, {
+    createElement(OutlinedSecureTextField, {
       id: "disabled-password",
       label: "Password",
       value: "secret",
       onChange: () => {},
-      type: "password",
-      secure: true,
       showPasswordLabel: "Afficher le mot de passe",
       hidePasswordLabel: "Masquer le mot de passe",
       disabled: true,
