@@ -4,7 +4,6 @@ import {
   calculateGitilesBlobHashes,
   parseApiDumpMetadata,
   parseGitilesLog,
-  parseGitilesRefs,
   parseLibraryVersion,
   resolveGitilesRef,
 } from './inspect-compose-release-api-provenance.mjs';
@@ -23,26 +22,32 @@ test('rejects Gitiles branch logs without an immutable commit', () => {
   assert.throws(() => parseGitilesLog(")]}'\n" + JSON.stringify({ log: [] })), /did not return an immutable commit/);
 });
 
-test('parses official Gitiles refs and resolves an exact release branch', () => {
-  const refs = parseGitilesRefs(")]}'\n" + JSON.stringify({
-    'refs/heads/androidx-compose-ui-release': { value: COMMIT },
-    'refs/heads/androidx-main': { value: 'b'.repeat(40) },
-  }));
-  assert.equal(refs.length, 2);
-  assert.deepEqual(
-    resolveGitilesRef(refs, ['refs/heads/androidx-compose-ui-release'], 'compose-ui'),
-    { ref: 'refs/heads/androidx-compose-ui-release', commit: COMMIT },
+test('resolves an immutable Gitiles release ref and falls back from unavailable candidates', async () => {
+  const resolved = await resolveGitilesRef(
+    async (url) => url.pathname.includes('androidx-compose-release')
+      ? new Response(")]}'\n" + JSON.stringify({
+          log: [{ commit: COMMIT, message: 'Compose release' }],
+        }), { status: 200 })
+      : new Response(null, { status: 404 }),
+    ['refs/heads/androidx-compose-ui-release', 'refs/heads/androidx-compose-release'],
+    'compose-ui',
   );
+  assert.deepEqual(resolved, {
+    ref: 'refs/heads/androidx-compose-release',
+    commit: COMMIT,
+    message: 'Compose release',
+    committer: null,
+  });
 });
 
-test('reports related official refs when no release candidate exists', () => {
-  const refs = [
-    { ref: 'refs/heads/androidx-main', commit: COMMIT },
-    { ref: 'refs/heads/androidx-compose-main', commit: COMMIT },
-  ];
-  assert.throws(
-    () => resolveGitilesRef(refs, ['refs/heads/androidx-compose-ui-release'], 'compose-ui'),
-    /Related published refs: none/,
+test('reports all attempted refs when Gitiles has no matching release', async () => {
+  await assert.rejects(
+    resolveGitilesRef(
+      async () => new Response(null, { status: 404 }),
+      ['refs/heads/androidx-compose-ui-release'],
+      'compose-ui',
+    ),
+    /No official Gitiles compose-ui ref was found/,
   );
 });
 
