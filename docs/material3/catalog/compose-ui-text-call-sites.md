@@ -37,7 +37,7 @@ Un autre résultat de recherche, `src/components/tools/hash-generator/HashGenera
 
 ### MaterialTextField — composition contrôlée
 
-Un seul consommateur direct est retrouvé : `src/components/account/PasswordChangeForm.tsx`, avec trois instances (mot de passe actuel, nouveau mot de passe, confirmation). C'est le seul parcours de production identifié pour cette adaptation contrôlée.
+Un seul consommateur direct de production est retrouvé : `src/components/account/PasswordChangeForm.tsx`, avec trois instances (mot de passe actuel, nouveau mot de passe, confirmation). Le Design Lab présente désormais un spécimen contrôlé de ce composant, avec validation de longueur et texte d'aide, pour permettre son inspection sans session de compte.
 
 ## Contrats observés dans le code
 
@@ -82,8 +82,8 @@ Un seul consommateur direct est retrouvé : `src/components/account/PasswordChan
 - [x] Ajouter un test de contrat source pour la fusion des descriptions accessibles de `TextArea` (#1079).
 - [x] Verrouiller le contrat d'identifiant unique `inputId` de `TextField`, `TextArea` et `CalculatorField` avec un test de contrat source.
 - [x] Ajouter huit tests DOM pour les associations ARIA, erreurs/aides, saisie contrôlée, compteur, états désactivés et révélation sécurisée.
-- [x] Vérifier dans Chromium headless les parcours de connexion et compteur FR/EN, puis MaterialTextField via une route de test temporaire ; viewports 390/768/1440 px, labels, ARIA, saisie, compteur, révélation, désactivation, focus, tabulation, sélection et collage. Les tokens CSS clair/sombre ont été comparés pour les trois composants. La route temporaire n'est pas conservée.
+- [x] Vérifier dans Chromium headless les parcours de connexion et compteur FR/EN, puis MaterialTextField via une route de test temporaire ; viewports 390/768/1440 px, labels, ARIA, saisie, compteur, révélation, désactivation, focus, tabulation, sélection et collage. Les tokens CSS clair/sombre ont été comparés pour les trois composants. Le Design Lab expose désormais un spécimen contrôlé persistant pour les vérifications ultérieures.
 - [ ] Vérifier la saisie IME et les interactions tactiles sur navigateur/appareils réels.
 - [ ] Vérifier lecteur d'écran, zoom/reflow et RTL avec les technologies et environnements correspondants.
 
-Le correctif ARIA de `TextArea` est fusionné dans #1079. La correction d'identifiant unique `inputId` est livrée dans #1080 ; CI #4594 réussie sur le head exact. L'analyse AST confirme l'inventaire des consommateurs directs. Les huit tests DOM vérifient le rendu React et les interactions dans happy-dom ; Chromium headless ajoute une validation ciblée des trois composants, des libellés/ARIA, du clavier et des largeurs mobiles/desktop. Playwright n'est pas réintroduit dans la CI (DEC-033) : il a été utilisé ponctuellement dans l'environnement isolé. Les essais IME, tactiles, lecteur d'écran, zoom/reflow et RTL restent à faire. Cet inventaire ne vaut pas validation globale de conformité.
+Le correctif ARIA de `TextArea` est fusionné dans #1079. La correction d'identifiant unique `inputId` est livrée dans #1080 ; CI #4594 réussie sur le head exact. L'analyse AST confirme l'inventaire des consommateurs directs. Les huit tests DOM vérifient le rendu React et les interactions dans happy-dom ; Chromium headless ajoute une validation ciblée des trois composants, des libellés/ARIA, du clavier et des largeurs mobiles/desktop. Playwright n'est pas réintroduit dans la CI (DEC-033) : il a été utilisé ponctuellement dans l'environnement isolé. Les essais IME réels, tactile sur appareil physique et lecteur d'écran restent à faire. Le reflow à 320 CSS px a été vérifié ; RTL est hors périmètre tant que seules les locales FR/EN sont prises en charge. Cet inventaire ne vaut pas validation globale de conformité.
