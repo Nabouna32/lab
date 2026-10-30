@@ -144,6 +144,10 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
+      - name: Verify Compose P0 API watch snapshots
+        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
+        run: node .github/scripts/verify-compose-api-watch-snapshots.mjs
+
       - name: Exercise CI tooling tests
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
         run: |
