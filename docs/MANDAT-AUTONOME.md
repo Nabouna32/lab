@@ -41,6 +41,12 @@ Cette autonomie ne crée pas de capacités ou d'accès absents. Ne jamais contou
 
 Pour chaque chantier, se demander : **si Loculary était reconstruit aujourd'hui, quelle serait la meilleure solution ?**
 
+### Greenfield First — repartir du besoin, pas de l'existant
+
+Raisonner d'abord comme si aucun code, composant, page, outil, document, dépendance, pipeline ou choix historique n'existait. Définir la meilleure solution cible à partir du besoin utilisateur, des contraintes réelles et des objectifs de Loculary ; seulement ensuite comparer cette cible à l'existant. L'existant est un candidat à conserver, pas le point de départ obligatoire.
+
+Appliquer cette comparaison à l'architecture, la stack, les dépendances, les données, la CI et les tests, le design system, les composants, la navigation, les pages, les contenus, les fonctionnalités et l'infrastructure. Retenir, améliorer, remplacer, supprimer ou reconstruire chaque élément selon sa valeur réelle. Un investissement passé, une issue ouverte ou une décision enregistrée ne constitue pas à lui seul une raison de conservation. Ne pas confondre « plus simple à coder » avec « meilleure solution » : comparer la qualité finale, l'expérience, la fiabilité, la sécurité, l'accessibilité, la maintenabilité, le coût total et les risques.
+
 Le code, l'architecture, les dépendances, les spécifications, le design system et les décisions passées sont réévaluables. Ils ne doivent pas être conservés uniquement parce qu'ils existent. Une refonte, une migration, une simplification ou une suppression peut être la meilleure option.
 
 Ne pas réécrire par principe : comparer le bénéfice durable, les coûts, les risques et la complexité de migration. Distinguer les faits vérifiés, les hypothèses et les incertitudes. Challenger également ses propres recommandations lorsque de nouvelles preuves apparaissent.
@@ -59,11 +65,13 @@ Ne pas traiter une décision enregistrée comme une vérité permanente : la rel
 
 La liberté éditoriale est complète : revoir les textes, le ton, les noms visibles par les utilisateurs, les pages, la présentation du produit, les parcours et les promesses lorsque cela améliore l'expérience et reste exact, utile et cohérent avec la mission de Loculary. Ne pas préserver une formulation ou une identité existante par inertie.
 
-Viser une expérience Web immédiatement familière, rassurante et soignée, comparable aux applications grand public de grande qualité — notamment ChatGPT et les produits Android bien conçus. **Ne pas inventer une convention de texte, une structure de page ou un motif d'interface « maison » lorsqu'un modèle éprouvé, largement compris et adapté au besoin existe déjà.** S'appuyer en priorité sur les conventions reconnues du Web et des applications de qualité : elles réduisent l'effort de compréhension, les surprises et la charge cognitive.
+**La direction visuelle de Loculary est une intention produit explicite : une application Web qui assume et transpose avec soin l'expérience Android Material 3 Fidelity, dans l'esprit des interfaces Google Pixel actuelles.** Ce n'est pas une simple source d'inspiration facultative, une palette de couleurs ou un thème que l'agent peut abandonner au profit d'un site générique. L'objectif est une expérience app-like, aboutie, cohérente et immédiatement reconnaissable, avec la qualité d'exécution attendue d'une application grand public de premier plan.
 
-Cette préférence n'impose pas de copier aveuglément un produit ni de standardiser toutes les pages. Comparer les modèles établis à la tâche réelle, à l'accessibilité, à l'identité de Loculary et aux contraintes du Web. Une solution originale est justifiée lorsqu'elle apporte un avantage concret démontrable, et non simplement parce qu'elle est différente. Les textes doivent être directs, naturels, utiles et sans jargon inventé ; la mise en page doit servir la tâche avant de chercher à se distinguer.
+L'agent peut et doit remettre en question une implémentation Material 3 approximative, les composants existants, les tokens, les compositions et les choix techniques. Il peut les corriger, les refondre ou les remplacer pour atteindre une meilleure fidélité et une meilleure expérience. En revanche, il ne doit pas remplacer unilatéralement la direction visuelle Material 3 Fidelity par un langage visuel substantiellement différent. Une telle réorientation nécessite une validation explicite de l'utilisateur. Les adaptations nécessaires au Web, à l'accessibilité ou à un besoin produit spécifique restent autorisées lorsqu'elles sont justifiées, limitées et documentées.
 
-Exemple de référence à étudier, sans la considérer comme parfaite ni comme une spécification intangible : une page de réinitialisation de mot de passe familière et de qualité professionnelle, telle qu'on en trouve dans les produits grand public soignés. L'évaluer sur la clarté du parcours, la confiance, les états d'erreur et de succès, l'accessibilité, le responsive et les conventions attendues ; améliorer ce qui reste insuffisant sur la base de constats concrets.
+**La simplicité d'implémentation ne prime jamais sur la qualité de l'expérience.** Ne pas choisir une interface générique, austère, inachevée ou visuellement appauvrie uniquement parce qu'elle est plus rapide, moins coûteuse ou plus simple à coder. Si la fidélité, les détails de finition, les états, les transitions ou la cohérence demandent davantage de travail, cet effort fait partie du résultat attendu. La simplicité recherchée concerne la complexité inutile du système, pas la réduction de l'ambition du produit.
+
+Pour les parcours et compositions non spécifiés par AndroidX, s'appuyer sur des conventions éprouvées et familières des applications grand public de qualité. Comparer les modèles établis à la tâche réelle, à l'accessibilité, à l'identité de Loculary et aux contraintes du Web. Ne pas copier aveuglément un produit, mais ne pas inventer une convention « maison » sans bénéfice concret. Les textes restent directs, naturels, utiles et sans jargon inventé ; la mise en page sert la tâche tout en préservant une vraie qualité visuelle.
 
 ### Simplicité et suppression raisonnée
 
@@ -122,7 +130,7 @@ Une issue de pilotage peut organiser un chantier important, mais ne devient jama
 
 ### Exigence Material 3 sans blocage global
 
-Material 3 Fidelity et les primitives AndroidX pertinentes constituent la cible de référence pour les composants et comportements qu'ils définissent. Cette cible doit guider les nouvelles implémentations et les refontes des composants partagés, pas seulement une migration cosmétique de l'existant.
+Material 3 Fidelity est la direction visuelle de référence explicitement voulue pour Loculary. Les primitives AndroidX pertinentes constituent la cible de référence pour les composants et comportements qu'elles définissent. Cette direction guide les nouvelles implémentations, les refontes des composants partagés et la composition globale des écrans, pas seulement une migration cosmétique de l'existant. Elle ne doit pas être abandonnée pour une solution plus facile à implémenter. L'autonomie porte sur les moyens d'atteindre cette ambition, pas sur le droit de la diluer.
 
 - Favoriser les primitives de layout partagées (par exemple Box, Row, Column et les contrats Modifier pertinents), les composants Material 3 et les tokens sémantiques communs lorsqu'ils correspondent réellement au besoin.
 - Lorsqu'un composant partagé est incomplet, inadéquat ou trop éloigné du contrat cible, le corriger ou le refondre à la source puis migrer ses consommateurs pertinents ; éviter les styles et implémentations parallèles.
