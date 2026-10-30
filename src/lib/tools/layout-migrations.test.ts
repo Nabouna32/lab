@@ -4,43 +4,86 @@ import { test } from "node:test";
 
 const readSource = (path: string) => readFileSync(new URL(path, import.meta.url), "utf8");
 
-const globalStyles = readSource("../../app/globals.css");
-const layoutSources = [
-  readSource("../../app/[locale]/page.tsx"),
-  readSource("../../app/[locale]/admin/page.tsx"),
-  readSource("../../app/[locale]/admin/audit/page.tsx"),
-  readSource("../../app/[locale]/admin/utilisateurs/page.tsx"),
-  readSource("../../app/[locale]/compte/page.tsx"),
-  readSource("../../app/[locale]/compte/connexion/page.tsx"),
-  readSource("../../app/[locale]/compte/inscription/page.tsx"),
-  readSource("../../app/[locale]/compte/email/page.tsx"),
-  readSource("../../app/[locale]/compte/mot-de-passe/page.tsx"),
-  readSource("../../app/[locale]/compte/mot-de-passe-oublie/page.tsx"),
-  readSource("../../app/[locale]/compte/mot-de-passe/reinitialiser/page.tsx"),
-  readSource("../../app/[locale]/compte/suppression/page.tsx"),
-  readSource("../../app/[locale]/compte/informations-personnelles/page.tsx"),
-  readSource("../../app/[locale]/[section]/page.tsx"),
-  readSource("../../app/[locale]/[section]/[slug]/page.tsx"),
-  readSource("../../components/layout/Header.tsx"),
-  readSource("../../components/layout/Footer.tsx"),
-  readSource("../../components/home/RecentTools.tsx"),
-  readSource("../../components/home/HomeGuidedWorkflows.tsx"),
-  readSource("../../components/information/InformationPage.tsx"),
-  readSource("../../components/legal/LegalNoticePage.tsx"),
-  readSource("../../components/legal/PrivacyPolicyPage.tsx"),
-  readSource("../../components/favorites/FavoritesView.tsx"),
-  readSource("../../components/collections/CollectionsView.tsx"),
-  readSource("../../components/collections/SharedCollectionView.tsx"),
-  readSource("../../components/discovery/GuidedWorkflowsPage.tsx"),
-  readSource("../../components/tools/SearchResultsClient.tsx"),
-  readSource("../../components/tools/ToolPage/ToolPage.tsx"),
-];
+const homePageSource = readSource("../../app/[locale]/page.tsx");
+const homeWorkflowsSource = readSource("../../components/home/HomeGuidedWorkflows.tsx");
+const signInPageSource = readSource("../../app/[locale]/compte/connexion/page.tsx");
+const signUpPageSource = readSource("../../app/[locale]/compte/inscription/page.tsx");
+const headerSource = readSource("../../components/layout/Header.tsx");
+const headerSearchSource = readSource("../../components/layout/HeaderSearch.tsx");
+const logoSource = readSource("../../components/brand/LocularyLogo.tsx");
+const imageMetadataSource = readSource("../../components/tools/image-metadata/ImageMetadataViewer.tsx");
+const toolsCatalogueSource = readSource("../../app/[locale]/[section]/page.tsx");
+const toolSearchSource = readSource("../../components/tools/ToolSearch.tsx");
+const adminDashboardSource = readSource("../../app/[locale]/admin/page.tsx");
+const adminUsersSource = readSource("../../app/[locale]/admin/utilisateurs/page.tsx");
+const desktopHeaderMenuSource = readSource("../../components/layout/DesktopHeaderMenu.tsx");
+const toolCardSource = readSource("../../components/tools/ToolCard.tsx");
+const searchResultsSource = readSource("../../components/tools/SearchResultsClient.tsx");
+const legalNoticeSource = readSource("../../components/legal/LegalNoticePage.tsx");
+const accountPageSource = readSource("../../app/[locale]/compte/page.tsx");
+const forgotPasswordSource = readSource("../../app/[locale]/compte/mot-de-passe-oublie/page.tsx");
+const resetPasswordSource = readSource("../../app/[locale]/compte/mot-de-passe/reinitialiser/page.tsx");
 
-test("les compositions de conteneur propres à Loculary ont été remplacées par la mise en page Web native", () => {
-  for (const source of layoutSources) {
-    assert.doesNotMatch(source, /PageContainer|components\/layout\/PageLayout/, "aucun wrapper PageContainer ne doit subsister");
+test("homepage compositions reuse the shared width, gutters and spacing tokens", () => {
+  assert.ok(homePageSource.includes("max-w-[var(--layout-content-wide)]"));
+  assert.ok(homePageSource.includes("px-[var(--layout-page-gutter)]"));
+  assert.ok(homePageSource.includes("pb-[var(--space-8)] pt-[var(--space-8)]"));
+  assert.ok(homePageSource.includes("sm:pb-[var(--space-10)] sm:pt-[var(--space-10)]"));
+  assert.ok(!homePageSource.includes("max-w-[var(--content-wide)]"));
+  assert.ok(homeWorkflowsSource.includes("max-w-[var(--layout-content-wide)]"));
+  assert.ok(homeWorkflowsSource.includes("px-[var(--layout-page-gutter)]"));
+  assert.ok(homeWorkflowsSource.includes("pb-[var(--space-8)] sm:pb-[var(--space-10)]"));
+  assert.ok(!homeWorkflowsSource.includes("pt-[var(--space-2)]"));
+  assert.ok(homePageSource.includes('import { Column } from "@/components/layout/compose/Column"'));
+  assert.ok(homePageSource.includes('import { Arrangement } from "@/components/layout/compose/Arrangement"'));
+  assert.ok(homePageSource.includes('verticalArrangement={Arrangement.spacedBy("var(--layout-page-section-gap)")}'));
+  assert.ok(!homePageSource.includes("ElevatedCard"));
+  assert.ok(homePageSource.includes('verticalArrangement={Arrangement.spacedBy("var(--space-6)")} className="mx-auto w-full max-w-4xl"'));
+  assert.ok(homePageSource.includes('verticalArrangement={Arrangement.spacedBy("var(--space-4)")} className="w-full"'));
+  assert.ok(!homePageSource.includes('className="mt-6 max-w-3xl scroll-mt-28"'));
+  assert.ok(!homePageSource.includes("t.home.badge"));
+  assert.ok(homeWorkflowsSource.includes('import { Row } from "@/components/layout/compose/Row"'));
+  assert.ok(homeWorkflowsSource.includes('import { Box } from "@/components/layout/compose/Box"'));
+  assert.ok(homeWorkflowsSource.includes("contentAlignment={Alignment.Center}"));
+  assert.ok(homeWorkflowsSource.includes('aria-hidden="true"'));
+  assert.ok(homeWorkflowsSource.includes('Arrangement.spacedBy("var(--layout-item-gap)")'));
+  assert.ok(!homeWorkflowsSource.includes("--home-workflow-card-gap"));
+  assert.ok(!homeWorkflowsSource.includes("group flex min-h-20 items-center gap-3"));
+  assert.ok(!homeWorkflowsSource.includes("px-4 sm:px-6 lg:px-10"));
+});
+
+test("shared Material 3 typography roles are consumed by reusable site components", () => {
+  const globalStyles = readSource("../../app/globals.css");
+  const buttonSource = readSource("../../components/ui/Button.tsx");
+  const buttonLayoutSource = readSource("../../components/ui/material-button-layout.ts");
+  const toolCardSource = readSource("../../components/tools/ToolCard.tsx");
+  const toolHeaderSource = readSource("../../components/tools/ToolPage/ToolPageHeader.tsx");
+
+  for (const role of ["display-large", "headline-large", "title-medium", "body-medium", "label-large"]) {
+    assert.ok(globalStyles.includes(`.m3-type-${role}`), `missing shared typography role: ${role}`);
   }
+  assert.ok(buttonSource.includes("getMaterialButtonLayoutClasses"));
+  assert.ok(buttonLayoutSource.includes("m3-type-label-large"));
+  assert.ok(homeWorkflowsSource.includes("m3-type-title-medium"));
+  assert.ok(homeWorkflowsSource.includes("m3-type-body-medium"));
+  assert.ok(toolCardSource.includes("m3-type-title-medium"));
+  assert.ok(toolHeaderSource.includes("m3-type-headline-medium"));
+});
 
+test("signed-in states on sign-in and sign-up pages use the shared account container", () => {
+  for (const source of [signInPageSource, signUpPageSource]) {
+    assert.ok(source.includes("max-w-[var(--layout-content-account)]"));
+    assert.ok(source.includes("min-h-[calc(100vh-4.5rem)]"));
+    assert.ok(source.includes("py-[var(--space-12)]"));
+    assert.ok(source.includes("max-w-[var(--layout-content-form)]"), "the actual auth form keeps its narrower form width");
+    assert.ok(source.includes('import AppLink from "@/components/ui/AppLink"'));
+    assert.ok(source.includes('variant="inline"'));
+    assert.ok(!source.includes('<Link className="mt-6 inline-flex font-semibold'));
+  }
+});
+
+test("semantic responsive width and gutter tokens remain defined centrally", () => {
+  const globalCss = readSource("../../app/globals.css");
   for (const token of [
     "--layout-page-gutter:",
     "--layout-content-form:",
@@ -50,42 +93,234 @@ test("les compositions de conteneur propres à Loculary ont été remplacées pa
     "--layout-content-medium:",
     "--layout-content-default:",
     "--layout-content-wide:",
-  ]) {
-    assert.ok(globalStyles.includes(token), `le token responsive partagé doit rester disponible : ${token}`);
+  ]) assert.ok(globalCss.includes(token), `missing responsive layout token: ${token}`);
+});
+
+const privacyPolicySource = readSource("../../components/legal/PrivacyPolicyPage.tsx");
+
+test("legal pages use the shared spacing scale instead of duplicating Tailwind spacing values", () => {
+  for (const source of [legalNoticeSource, privacyPolicySource]) {
+    for (const token of ["--space-2", "--space-3", "--space-6", "--space-8"]) {
+      assert.ok(source.includes(`var(${token})`), `missing shared spacing token: ${token}`);
+    }
+    for (const rawClass of ["mt-2", "mt-3", "mt-4", "mt-6", "mt-8", "p-4", "p-6", "p-8", "p-10", "pt-5", "pl-6", "space-y-2"]) {
+      assert.ok(!source.includes(rawClass), `raw spacing class remains: ${rawClass}`);
+    }
   }
 });
 
-test("les rôles typographiques Material 3 restent définis dans le thème partagé", () => {
-  for (const role of [
-    "display-large",
-    "headline-large",
-    "title-medium",
-    "body-medium",
-    "label-large",
+const categoryPageSource = readSource("../../app/[locale]/[section]/[slug]/page.tsx");
+
+test("category page section rhythm uses the shared spacing tokens", () => {
+  assert.ok(categoryPageSource.includes("pb-[var(--space-7)] pt-[var(--space-7)] sm:pb-[var(--space-9)]"));
+  assert.ok(categoryPageSource.includes('className="py-[var(--space-7)] sm:py-[var(--space-9)]"'));
+  assert.ok(categoryPageSource.includes('className="mb-[var(--space-4)]"'));
+  assert.ok(!categoryPageSource.includes("pb-7 pt-7 sm:pb-9"));
+  assert.ok(!categoryPageSource.includes('className="py-7 sm:py-9"'));
+});
+
+
+test("header layout reuses Row and a weighted Spacer instead of a product-specific grid", () => {
+  assert.ok(headerSource.includes('import { Row } from "@/components/layout/compose/Row"'));
+  assert.ok(headerSource.includes('import { Spacer } from "@/components/layout/compose/Spacer"'));
+  assert.ok(headerSource.includes("Modifier.then(RowScope.weight(1))"));
+  assert.ok(headerSource.includes('import { Modifier, RowScope } from "@/components/layout/compose/Modifier"'));
+  assert.ok(headerSource.includes('Arrangement.spacedBy("var(--header-layout-gap)")'));
+  assert.ok(headerSource.includes('Arrangement.spacedBy("var(--header-control-gap)")'));
+  assert.ok(!headerSource.includes("flex shrink-0 items-center gap-0.5"));
+  assert.ok(!headerSource.includes("grid-cols-[1fr_auto]"));
+});
+
+
+test("brand wordmark uses the shared Row primitive", () => {
+  assert.ok(logoSource.includes('import { Row } from "@/components/layout/compose/Row"'));
+  assert.ok(!logoSource.includes("inline-flex items-center"));
+});
+
+
+test("header search panel uses Row while retaining its stable panel ID", () => {
+  assert.ok(headerSearchSource.includes('import { Row } from "@/components/layout/compose/Row"'));
+  assert.ok(headerSearchSource.includes('id="header-tool-search-panel"'));
+  assert.ok(headerSearchSource.includes('Arrangement.spacedBy("var(--space-2)")'));
+  assert.ok(!headerSearchSource.includes("flex items-start gap-2"));
+});
+
+test("shared footer and tool stacks use the Compose layout primitives for migrated spacing", () => {
+  const footerSource = readSource("../../components/layout/Footer.tsx");
+  const expenseSplitterSource = readSource("../../components/tools/expense-splitter/ExpenseSplitter.tsx");
+  const contrastCheckerSource = readSource("../../components/tools/contrast-checker/ContrastChecker.tsx");
+  const qrCodeGeneratorSource = readSource("../../components/tools/qr-code-generator/QrCodeGenerator.tsx");
+
+  assert.ok(footerSource.includes('import { Row } from "@/components/layout/compose/Row"'));
+  assert.ok(footerSource.includes('Arrangement.spacedBy("var(--space-1)")'));
+  assert.ok(!footerSource.includes("gap-x-1 gap-y-1"));
+
+  assert.ok(expenseSplitterSource.includes('import { Column } from "@/components/layout/compose/Column"'));
+  assert.ok(expenseSplitterSource.includes("verticalArrangement={Arrangement.spacedBy(24)}"));
+  assert.ok(!expenseSplitterSource.includes('<div className="space-y-6">'));
+
+  assert.ok(contrastCheckerSource.includes("verticalArrangement={Arrangement.spacedBy(20)}"));
+  assert.ok(!contrastCheckerSource.includes('<div className="space-y-5">'));
+
+  assert.ok(qrCodeGeneratorSource.includes("verticalArrangement={Arrangement.spacedBy(20)}"));
+  assert.ok(!qrCodeGeneratorSource.includes('<div className="space-y-5">'));
+});
+
+const editorialPrimitivesSource = readSource("../../components/tools/ToolPage/EditorialPrimitives.tsx");
+
+test("image metadata tool uses Compose Column arrangements for repeated vertical stacks", () => {
+  assert.ok(imageMetadataSource.includes('import { Column } from "@/components/layout/compose/Column"'));
+  assert.ok(imageMetadataSource.includes('import { Arrangement } from "@/components/layout/compose/Arrangement"'));
+  assert.ok(imageMetadataSource.includes('className="w-full p-5 sm:p-7 lg:p-8"'));
+  assert.ok(imageMetadataSource.includes('className="grid w-full gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.85fr)]"'), "the main grid must fill the parent Column explicitly");
+  assert.ok(imageMetadataSource.includes('className="grid w-full min-w-0 gap-4 rounded-[var(--shape-corner-medium)]'), "each result article must fill its Column slot");
+  assert.ok(imageMetadataSource.includes('className="w-full min-w-0"'), "result bodies must fill their grid cell without imposing intrinsic width");
+  for (const token of ["--space-6", "--space-4", "--space-3", "--space-2"]) {
+    assert.ok(imageMetadataSource.includes(`Arrangement.spacedBy("var(${token})")`), `missing Compose spacing token: ${token}`);
+  }
+  for (const legacyStack of [
+    'className="space-y-6 p-5 sm:p-7 lg:p-8"',
+    'className="space-y-4"',
+    'className="space-y-3 rounded-[var(--shape-corner-medium)]',
+    'className="min-w-0 space-y-2"',
   ]) {
-    assert.ok(globalStyles.includes(`.m3-type-${role}`), `rôle typographique absent : ${role}`);
+    assert.ok(!imageMetadataSource.includes(legacyStack), `legacy vertical stack remains: ${legacyStack}`);
   }
 });
 
-test("les tokens d'espacement sémantiques restent disponibles pour les adaptations Web", () => {
-  for (const token of [
-    "--space-0: 0",
-    "--space-1:",
-    "--space-2:",
-    "--space-3:",
-    "--space-4:",
-    "--space-5:",
-    "--space-6:",
-    "--space-8:",
-    "--space-10:",
-    "--space-12:",
-    "--space-16:",
-    "--layout-page-section-gap:",
-    "--layout-content-gap:",
-    "--layout-item-gap:",
-  ]) {
-    assert.ok(globalStyles.includes(token), `token d'espacement absent : ${token}`);
+test("editorial callouts reuse the shared filled Card primitive", () => {
+  assert.ok(editorialPrimitivesSource.includes('import { Card as SharedCard } from "@/components/ui/Card"'));
+  assert.ok(editorialPrimitivesSource.includes('<SharedCard className="mt-4 p-4">'));
+  assert.ok(!editorialPrimitivesSource.includes("bg-[var(--accent-soft)]"));
+});
+
+
+test("home, catalogue and tool search consume shared Material 3 typography roles", () => {
+  for (const role of ["m3-type-headline-large", "m3-type-body-large", "m3-type-label-large"]) {
+    assert.ok(homePageSource.includes(role), `homepage should consume ${role}`);
   }
+
+  for (const role of ["m3-type-display-small", "m3-type-headline-small", "m3-type-title-medium", "m3-type-body-medium", "m3-type-body-small", "m3-type-label-small", "m3-type-label-medium", "m3-type-label-large"]) {
+    assert.ok(toolsCatalogueSource.includes(role), `tools catalogue should consume ${role}`);
+  }
+
+  for (const role of ["m3-type-title-small", "m3-type-body-large", "m3-type-body-medium", "m3-type-body-small", "m3-type-label-small", "m3-type-label-medium"]) {
+    assert.ok(toolSearchSource.includes(role), `tool search should consume ${role}`);
+  }
+
+  assert.ok(!toolsCatalogueSource.includes("text-6xl"));
+  assert.ok(!toolsCatalogueSource.includes("font-black tracking-[-0.04em]"));
+  assert.ok(!toolSearchSource.includes("text-sm font-semibold"));
+});
+
+
+test("admin dashboard content uses shared Material 3 typography roles", () => {
+  for (const role of ["m3-type-headline-large", "m3-type-title-large", "m3-type-title-medium", "m3-type-body-large", "m3-type-body-medium", "m3-type-body-small", "m3-type-label-large", "m3-type-label-small"]) {
+    assert.ok(adminDashboardSource.includes(role), `admin dashboard should consume ${role}`);
+  }
+
+  assert.ok(!adminDashboardSource.includes("text-3xl"));
+  assert.ok(!adminDashboardSource.includes("text-sm text-[var(--muted)]"));
+  assert.ok(adminUsersSource.includes("m3-type-label-large"));
+  assert.ok(!adminUsersSource.includes("text-sm font-semibold"));
+});
+
+
+test("desktop navigation menu uses shared Material 3 typography roles", () => {
+  for (const role of ["m3-type-label-large", "m3-type-label-medium", "m3-type-label-small", "m3-type-body-small"]) {
+    assert.ok(desktopHeaderMenuSource.includes(role), `desktop header menu should consume ${role}`);
+  }
+
+  assert.ok(!desktopHeaderMenuSource.includes("text-[11px]"));
+  assert.ok(!desktopHeaderMenuSource.includes("text-sm font-semibold"));
+  assert.ok(!desktopHeaderMenuSource.includes("text-xs"));
+});
+
+
+test("tool cards compose their vertical and horizontal layout through shared primitives", () => {
+  assert.ok(toolCardSource.includes('import { Column } from "@/components/layout/compose/Column";'));
+  assert.ok(toolCardSource.includes('import { Row } from "@/components/layout/compose/Row";'));
+  assert.ok(toolCardSource.includes('Arrangement.spacedBy("var(--space-3)")'));
+  assert.ok(toolCardSource.includes('<Row horizontalArrangement={Arrangement.Start} className="w-full min-w-0 gap-3">'));
+  assert.ok(toolCardSource.includes("m3-type-title-medium"));
+  assert.ok(toolCardSource.includes("m3-type-label-small"));
+  assert.ok(toolCardSource.includes("m3-type-body-medium"));
+  assert.ok(!toolCardSource.includes("flex w-full min-w-0 min-h-40 flex-col"));
+  assert.ok(!toolCardSource.includes("body-medium mt-3"));
+});
+
+
+test("search results use shared Material 3 typography roles", () => {
+  for (const role of ["m3-type-display-small", "m3-type-headline-small", "m3-type-title-small", "m3-type-body-medium", "m3-type-label-large", "m3-type-label-small"]) {
+    assert.ok(searchResultsSource.includes(role), `search results should consume ${role}`);
+  }
+
+  assert.ok(!searchResultsSource.includes("text-3xl font-black"));
+  assert.ok(!searchResultsSource.includes("text-xl font-bold"));
+  assert.ok(!searchResultsSource.includes("text-sm font-semibold"));
+  assert.ok(!searchResultsSource.includes("tracking-[-0.055em]"));
+});
+
+
+test("legal notice uses shared Material 3 typography roles", () => {
+  for (const role of ["m3-type-headline-large", "m3-type-title-large", "m3-type-title-medium", "m3-type-body-large", "m3-type-body-medium", "m3-type-label-large"]) {
+    assert.ok(legalNoticeSource.includes(role), `legal notice should consume ${role}`);
+  }
+
+  assert.ok(!legalNoticeSource.includes("text-3xl font-bold"));
+  assert.ok(!legalNoticeSource.includes("text-xl font-semibold"));
+  assert.ok(!legalNoticeSource.includes("leading-7"));
+});
+
+
+test("privacy policy uses shared Material 3 typography roles", () => {
+  for (const role of ["m3-type-headline-large", "m3-type-title-large", "m3-type-title-medium", "m3-type-body-large", "m3-type-body-medium", "m3-type-body-small"]) {
+    assert.ok(privacyPolicySource.includes(role), `privacy policy should consume ${role}`);
+  }
+
+  for (const legacyType of ["text-3xl", "font-bold", "text-xl font-semibold", "text-sm", "leading-6", "leading-7", "font-semibold"]) {
+    assert.ok(!privacyPolicySource.includes(legacyType), `legacy typography remains: ${legacyType}`);
+  }
+});
+
+
+test("account page uses shared Material 3 typography roles in both account states", () => {
+  for (const role of ["m3-type-headline-medium", "m3-type-title-large", "m3-type-body-medium"]) {
+    assert.ok(accountPageSource.includes(role), `account page should consume ${role}`);
+  }
+
+  for (const legacyType of ["text-3xl", "font-black", "tracking-[-0.05em]", "text-sm leading-6", "leading-7"]) {
+    assert.ok(!accountPageSource.includes(legacyType), `legacy typography remains: ${legacyType}`);
+  }
+});
+
+
+test("password recovery pages use shared Material 3 typography and button components", () => {
+  for (const [name, source] of [["forgot password", forgotPasswordSource], ["reset password", resetPasswordSource]] as const) {
+    for (const role of ["m3-type-headline-large", "m3-type-label-large", "m3-type-body-medium"]) {
+      assert.ok(source.includes(role), `${name} page should consume ${role}`);
+    }
+
+    assert.ok(source.includes("<SubmitButton"), `${name} page should keep the shared submit component`);
+    assert.ok(!source.includes("text-3xl"));
+    assert.ok(!source.includes("font-bold"));
+    assert.ok(!source.includes("font-semibold"));
+    assert.ok(!source.includes("text-sm"));
+    assert.ok(!source.includes("tracking-tight"));
+  }
+
+  assert.ok(forgotPasswordSource.includes('className="w-full"'));
+  assert.ok(resetPasswordSource.includes('className="w-full"'));
+});
+
+
+test("personal information page uses shared Material 3 typography roles", () => {
+  const source = readSource("../../app/[locale]/compte/informations-personnelles/page.tsx");
+  assert.ok(source.includes("m3-type-label-large"));
+  assert.ok(source.includes("m3-type-headline-medium"));
+  assert.ok(source.includes("m3-type-body-medium"));
+  assert.ok(!source.includes("text-sm"));
+  assert.ok(!source.includes("font-medium"));
 });
 
 const layoutWidthExpectations = [
@@ -133,23 +368,9 @@ test("les adaptations Web préservent exactement les largeurs et gouttières de 
   }
 });
 
-test("les surfaces de production conservent leurs rôles typographiques Material 3", () => {
-  const paths = [
-    "../../app/[locale]/page.tsx",
-    "../../app/[locale]/[section]/page.tsx",
-    "../../components/tools/SearchResultsClient.tsx",
-    "../../app/[locale]/admin/page.tsx",
-    "../../app/[locale]/admin/utilisateurs/page.tsx",
-    "../../components/legal/LegalNoticePage.tsx",
-    "../../components/legal/PrivacyPolicyPage.tsx",
-    "../../app/[locale]/compte/page.tsx",
-    "../../app/[locale]/compte/connexion/page.tsx",
-    "../../app/[locale]/compte/inscription/page.tsx",
-    "../../app/[locale]/compte/mot-de-passe-oublie/page.tsx",
-    "../../app/[locale]/compte/mot-de-passe/reinitialiser/page.tsx",
-  ];
-
-  for (const path of paths) {
-    assert.match(readSource(path), /m3-type-(?:display|headline|title|body|label)-/, `${path} doit conserver la typographie Material 3`);
+test("les consommateurs migrés ne dépendent plus du wrapper de page propre à Loculary", () => {
+  for (const [path] of layoutWidthExpectations) {
+    const source = readSource(path);
+    assert.doesNotMatch(source, /PageContainer|components\/layout\/PageLayout/, path);
   }
 });
