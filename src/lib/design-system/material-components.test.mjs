@@ -487,6 +487,8 @@ test("header theme controls defer client-dependent selected state until after hy
   assert.match(headerMenuSource, /function getServerHydrationReadySnapshot\(\)\s*\{\s*return false;/);
   assert.match(headerMenuSource, /useSyncExternalStore\(\s*subscribeHydrationReady,\s*getHydrationReadySnapshot,\s*getServerHydrationReadySnapshot,/);
   assert.doesNotMatch(headerMenuSource, /setThemeReady/);
+  assert.match(headerMenuSource, /<fieldset className="min-w-0 px-2 pb-1 pt-1">/);
+  assert.match(headerMenuSource, /<legend className="m3-type-label-small/);
   assert.match(headerMenuSource, /type="radio"/);
   assert.match(headerMenuSource, /name="loculary-theme"/);
   assert.match(headerMenuSource, /checked=\{selected\}/);
