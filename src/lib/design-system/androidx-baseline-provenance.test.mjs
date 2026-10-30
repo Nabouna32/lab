@@ -59,10 +59,12 @@ test("Material 3 stable source provenance is pinned without overstating API alig
   assert.equal(stableApiBlobSha1, releaseSnapshot.apiDumpGitBlobSha1);
   assert.match(stableApiDump.toString("utf8").slice(0, 40), /Signature format: 4\.0/);
 
-  assert.equal(baseline.apiDumpAlignment.status, "OFFICIAL_STABLE_DUMP_PINNED_BINARY_COMPARISON_PENDING");
+  assert.equal(baseline.apiDumpAlignment.status, "OFFICIAL_STABLE_DUMP_AND_SOURCE_COMMIT_PINNED_BINARY_API_COMPARISON_PENDING");
   assert.equal(baseline.apiDumpAlignment.exactStableDump.path, "compose/material3/material3/api/current.txt");
   assert.equal(baseline.apiDumpAlignment.exactStableDump.commit, releaseSnapshot.commit);
-  assert.equal(baseline.apiDumpAlignment.repositorySourceCommit, null);
+  assert.equal(baseline.apiDumpAlignment.repositorySourceCommit, releaseSnapshot.commit);
+  assert.equal(baseline.publishedAndroidVariant.verification.sourceCommit.verifiedByteForByte, 249);
+  assert.equal(baseline.publishedAndroidVariant.verification.sourceCommit.mismatchCount, 0);
   assert.match(baseline.apiDumpAlignment.reason, /Declaration-level comparison/);
 });
 
@@ -89,10 +91,14 @@ test("Material 3 Android derived inventory is reproducible and does not claim Ko
   assert.equal(material3AndroidInventory.androidAar.classFilesWithoutSourceFileMatch.length, 14);
   assert.equal(material3AndroidInventory.gradleModuleMetadata.common.variantCount, 12);
   assert.equal(material3AndroidInventory.gradleModuleMetadata.android.component.module, "material3");
-  assert.equal(material3AndroidInventory.interpretation.apiDumpAlignment, "OFFICIAL_STABLE_DUMP_PINNED_BINARY_COMPARISON_PENDING");
+  assert.equal(material3AndroidInventory.interpretation.apiDumpAlignment, "OFFICIAL_STABLE_DUMP_AND_SOURCE_COMMIT_PINNED_BINARY_API_COMPARISON_PENDING");
   assert.equal(material3AndroidInventory.officialApiDump.commit, "5113b82a4ed6416d6344efa50e41db8cb65928ff");
   assert.equal(material3AndroidInventory.officialApiDump.gitBlobSha1, "fd45e9feea96a631c0f8b7ac82f88ee9ce999029");
   assert.equal(material3AndroidInventory.officialApiDump.libraryVersionMarker, 'COMPOSE_MATERIAL3 = "1.4.0"');
+  assert.equal(material3AndroidInventory.sourceRepositoryCommit.commit, "5113b82a4ed6416d6344efa50e41db8cb65928ff");
+  assert.equal(material3AndroidInventory.sourceRepositoryCommit.totalKotlinSourceFiles, 249);
+  assert.equal(material3AndroidInventory.sourceRepositoryCommit.verifiedByteForByte, 249);
+  assert.equal(material3AndroidInventory.sourceRepositoryCommit.mismatchCount, 0);
   assert.match(material3AndroidInventory.interpretation.binarySurface, /not a Kotlin public API dump/);
   assert.match(material3AndroidInventory.interpretation.sourceMapping, /does not prove declaration-level API equivalence/);
 });
