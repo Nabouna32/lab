@@ -1,0 +1,165 @@
+.root {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  width: 100%;
+  color: var(--on-surface, var(--foreground));
+}
+
+.field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding-inline: 16px;
+  border: 1px solid var(--outline, var(--border));
+  border-radius: 4px;
+  background: transparent;
+  transition: border-color 160ms ease, border-width 160ms ease, background-color 160ms ease;
+}
+
+.root[data-error="true"]:not([data-disabled="true"]) .field {
+  border-color: var(--error, currentColor);
+}
+
+.root:focus-within:not([data-disabled="true"]) .field {
+  border: 2px solid var(--primary, currentColor);
+}
+
+.root[data-error="true"]:focus-within:not([data-disabled="true"]) .field {
+  border-color: var(--error, currentColor);
+}
+
+.inputContainer {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 54px;
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  width: 100%;
+  min-width: 0;
+  min-height: 52px;
+  padding: 17px 0 4px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 16px;
+}
+
+.input::placeholder {
+  color: transparent;
+}
+
+.input:focus::placeholder {
+  color: var(--on-surface-variant, var(--muted));
+  opacity: .8;
+}
+
+.label {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  max-width: 100%;
+  overflow: hidden;
+  color: var(--on-surface-variant, var(--muted));
+  font-size: var(--m3-type-body-large-size);
+  line-height: var(--m3-type-body-large-line-height);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  pointer-events: none;
+  padding-inline: 4px;
+  background: var(--surface, var(--background, Canvas));
+  transform: translateY(-50%);
+  transform-origin: left center;
+  transition: top 160ms ease, font-size 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.input:focus + .label,
+.input:not(:placeholder-shown) + .label {
+  top: 8px;
+  font-size: var(--m3-type-label-small-size);
+  line-height: var(--m3-type-label-small-line-height);
+  transform: none;
+}
+
+.input:focus + .label {
+  color: var(--primary, currentColor);
+}
+
+.root[data-error="true"] .label {
+  color: var(--error, currentColor);
+}
+
+.leading,
+.trailingContent {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  color: var(--on-surface-variant, var(--muted));
+}
+
+.affix {
+  flex: 0 0 auto;
+  color: var(--on-surface-variant, var(--muted));
+  font-size: var(--m3-type-body-medium-size);
+}
+
+.supportingRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 16px;
+  padding-inline: 16px;
+  color: var(--on-surface-variant, var(--muted));
+  font-size: var(--m3-type-label-small-size);
+  line-height: var(--m3-type-label-small-line-height);
+}
+
+.error {
+  color: var(--error, currentColor);
+}
+
+.counter {
+  flex: 0 0 auto;
+  font-variant-numeric: tabular-nums;
+}
+
+.root[data-disabled="true"] {
+  color: color-mix(in srgb, var(--on-surface, var(--foreground)) 38%, transparent);
+}
+
+.root[data-disabled="true"] .field {
+  border-color: color-mix(in srgb, var(--on-surface, var(--foreground)) 12%, transparent);
+  background: transparent;
+}
+
+.root[data-disabled="true"] .label,
+.root[data-disabled="true"] .leading,
+.root[data-disabled="true"] .trailingContent,
+.root[data-disabled="true"] .affix,
+.root[data-disabled="true"] .supportingRow {
+  color: color-mix(in srgb, var(--on-surface, var(--foreground)) 38%, transparent);
+}
+
+.root[data-disabled="true"][data-error="true"] .error {
+  color: color-mix(in srgb, var(--on-surface, var(--foreground)) 38%, transparent);
+}
+
+.root[data-disabled="true"] .field {
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .field,
+  .label {
+    transition: none;
+  }
+}
