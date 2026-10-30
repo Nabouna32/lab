@@ -49,24 +49,24 @@ Les opérations qui dépendent du parent ne sont pas des méthodes de la chaîne
 
 Cette séparation corrige le contrat de surface le plus trompeur, sans prétendre reproduire les scopes Kotlin implicites ni le moteur de mesure Compose. Les poids restent rendus par Flexbox. `src/lib/tools/compose-layout-behavior.test.ts` vérifie les fonctions de présentation réellement exécutées, le rendu SSR des wrappers `Modifier` et quelques points d'intégration des composants via leurs sources. Le runner `node --test` ne chargeant pas directement les modules TSX, ces tests ne rendent pas `Box`, `Row` ou `Column` eux-mêmes : ils ne constituent donc pas des tests SSR de ces composants. Ils détectent certaines régressions de style et de contrat, mais ne prouvent ni leur rendu complet, ni la géométrie calculée par un navigateur, ni la parité de mesure avec Compose. Une vérification navigateur reste nécessaire.
 
-## Hiérarchie de maintenance
+## Sources des responsabilités de layout
 
-Les décisions de layout suivent une hiérarchie, du plus partagé au plus spécifique :
+Les responsabilités de mise en page doivent être confiées aux primitives AndroidX portées sur le Web et aux mécanismes natifs du navigateur, plutôt qu'à une couche parallèle de compositions propres à Loculary :
 
-1. **Fondations CSS globales** : échelle d'espacement, gouttières responsives, largeurs de contenu et rôles sémantiques. Une décision transversale se règle ici une seule fois.
-2. **Primitives Compose portées sur le Web** : elles décrivent le comportement de layout réutilisable (`Row`, `Column`, `Box`, `Spacer`, `Modifier`, arrangements et alignements).
-3. **Compositions produit Loculary** : `PageContainer` assemble les conventions partagées de largeur, gouttières et espacement extérieur. Il ne remplace pas les primitives AndroidX.
-4. **Pages et composants métier** : ils choisissent un preset adapté et ne conservent localement que les différences de composition réellement nécessaires.
+1. **Fondations CSS globales :** elles portent les tokens sémantiques réellement transversaux, comme les dimensions responsives et les largeurs de contenu lorsqu'une convention produit partagée est nécessaire.
+2. **Primitives Compose portées sur le Web :** elles décrivent les comportements réutilisables (`Row`, `Column`, `Box`, `Spacer`, `Modifier`, arrangements et alignements).
+3. **Mise en page native du Web :** CSS Grid, Flexbox et les éléments HTML sémantiques sont utilisés directement lorsque le besoin relève du navigateur et qu'aucune API AndroidX pertinente ne s'applique.
+4. **Pages et outils :** ils assemblent les composants et primitives disponibles selon la tâche, sans introduire de wrapper de présentation Loculary qui duplique leur comportement.
 
-Centraliser ne signifie pas transformer chaque nombre en variable globale. Un token est justifié lorsqu'il représente une décision récurrente, nommée et appelée à évoluer ensemble. Une valeur locale reste acceptable lorsqu'elle décrit un détail propre à un composant (par exemple le rayon d'un élément décoratif de la page d'accueil) et qu'elle n'est pas une deuxième version d'une convention globale. Les exceptions doivent être intentionnelles, lisibles et proportionnées.
+Centraliser ne signifie pas transformer chaque nombre en variable globale. Un token est justifié lorsqu'il représente une décision récurrente, nommée et appelée à évoluer ensemble. Une valeur locale reste acceptable lorsqu'elle décrit une propriété réellement propre à un composant ou à un besoin métier, et non une seconde version d'une convention partagée. Les adaptations Web doivent être identifiées et justifiées.
 
-Les personnalisations suivent le même principe : choisir d'abord un preset partagé, puis ajouter une surcharge locale explicite uniquement lorsque le besoin est spécifique. Ne pas ajouter un paramètre configurable à chaque composant par anticipation d'un besoin hypothétique.
+Ne pas ajouter un paramètre configurable à chaque composant par anticipation d'un besoin hypothétique.
 
 ## Conventions de migration
 
-- Privilégier les noms AndroidX et les paramètres correspondants quand le contrat peut être préservé.
-- Garder les compositions propres au produit, comme `PageContainer`, explicitement identifiées comme Loculary; elles centralisent les largeurs de contenu (`form`, `form-wide`, `account`, `narrow`, `medium`, `default`, `wide`), les gouttières responsives et les espacements extérieurs, mais ne doivent pas se faire passer pour une primitive AndroidX. Le header, le footer, les pages de collections, la page d'accueil, les pages d'administration et les formulaires de compte réutilisent progressivement cette composition; leur largeur reste choisie selon le contexte, pas uniformisée artificiellement.
-- Remplacer les abstractions génériques d'espacement par `Column` + `Arrangement.spacedBy` lorsque le contrat convient. La zone éditoriale partagée de `ToolPage` est migrée vers `Column` et la surcharge Web de `spacedBy`; sa cadence responsive reste définie par une classe de composition dédiée, sans réintroduire une primitive Loculary de layout.
+- Privilégier les noms AndroidX et les paramètres correspondants lorsque le contrat peut être préservé.
+- Remplacer les compositions et wrappers de présentation propres à Loculary, notamment `PageContainer`, par les primitives AndroidX pertinentes ou par une adaptation Web native lorsque le besoin ne relève pas d'un contrat AndroidX. Migrer les consommateurs, vérifier les largeurs, gouttières et comportements responsive, puis supprimer `PageContainer` et les styles associés lorsqu'ils ne sont plus utilisés.
+- Remplacer les abstractions génériques d'espacement par `Column` et `Arrangement.spacedBy` lorsque leur contrat convient. La zone éditoriale partagée de `ToolPage` utilise déjà `Column` et la surcharge Web de `spacedBy` ; supprimer les wrappers de composition redondants après migration et vérification de tous leurs consommateurs.
 - Ne pas confondre les tokens CSS de Loculary avec une échelle de dimensions AndroidX. Les tokens restent des choix de design du produit tant qu'une source officielle ne prouve pas le contraire. Pour éviter les valeurs divergentes, utiliser la surcharge Web `Arrangement.spacedBy("var(--layout-content-gap)")` lorsque l’espacement provient d’un token Loculary; ne pas présenter cette extension comme une API AndroidX.
 - Ne pas déclarer la parité sans tests de contrat, vérification de rendu en navigateur et contrôle des cas RTL, responsive, clavier et accessibilité pertinents.
 - Pour toute extension du portage, s'appuyer sur la baseline Foundation/UI 1.12.1 verrouillée et compléter l'inventaire sémantique des signatures publiques pertinentes avant de déclarer une API couverte ou fidèle.
@@ -84,11 +84,11 @@ Les nombres suivent la convention de ce portage : 1 `Dp` = 1 px CSS. Une borne s
 
 ## Migration des consommateurs et nettoyage — 28 octobre 2026
 
-Les primitives ne doivent pas rester une bibliothèque parallèle sans adoption par le site. La migration utilise maintenant `Column` et `Arrangement.spacedBy` dans les formulaires de compte (connexion, renvoi de confirmation, inscription, changement d’adresse e-mail, demande/finalisation de réinitialisation et suppression du compte), ainsi que dans les compositions déjà recensées plus haut. L’espacement est exprimé avec les tokens CSS partagés de Loculary via l’extension Web de `spacedBy`; ces chaînes CSS sont une adaptation du portage, pas une signature AndroidX.
+Les primitives ne doivent pas rester une bibliothèque parallèle sans adoption par le site. La migration utilise maintenant `Column` et `Arrangement.spacedBy` dans les formulaires de compte (connexion, renvoi de confirmation, inscription, changement d'adresse e-mail, demande et finalisation de réinitialisation, suppression du compte), ainsi que dans les consommateurs recensés. L'espacement est exprimé avec les tokens CSS partagés de Loculary via l'extension Web de `spacedBy` ; ces chaînes CSS sont une adaptation du portage, pas une signature AndroidX.
 
-Après chaque migration, rechercher les anciennes classes `space-y-*` et les wrappers d’espacement qui ne sont plus utilisés, puis les supprimer si aucune référence ne subsiste. Ne pas supprimer une classe globale uniquement parce que quelques consommateurs ont migré : le retrait doit être précédé d’un inventaire complet. Les classes d’espacement encore nécessaires à d’autres pages restent en place jusqu’à leur propre migration.
+Après chaque migration, rechercher les anciennes classes `space-y-*`, les wrappers d'espacement et les compositions de présentation qui ne sont plus utilisés, puis les supprimer si aucune référence ne subsiste. Ne pas supprimer une classe globale ou un composant partagé avant un inventaire complet des consommateurs. Les styles encore nécessaires à d'autres pages restent en place jusqu'à leur migration.
 
-Les tests actuels de contrat protègent certaines signatures et certains consommateurs. Ils ne remplacent pas les tests de rendu navigateur, la vérification de la géométrie Flexbox, ni les contrôles responsive, RTL, clavier et accessibilité. La parité complète avec le moteur de mesure Compose n’est pas revendiquée.
+Les tests actuels de contrat protègent certaines signatures et certains consommateurs. Ils ne remplacent pas les tests de rendu navigateur, la vérification de la géométrie Flexbox, ni les contrôles responsive, RTL, clavier et accessibilité. La parité complète avec le moteur de mesure Compose n'est pas revendiquée.
 
 
 ## Alignement et largeur responsive de `Column` — 28 octobre 2026
