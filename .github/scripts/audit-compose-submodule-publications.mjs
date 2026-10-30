@@ -217,7 +217,7 @@ export async function auditComposeSubmodulePublications({
       ? new URL(androidSummary.redirectUrl, androidMetadata.url).toString()
       : null;
     if (resolvedRedirect !== logicalMetadata.url) {
-      throw new Error(target.androidModule + ' metadata must redirect to the verified logical module metadata.');
+      throw new Error(target.androidModule + ' metadata redirect mismatch: resolved ' + resolvedRedirect + '; expected ' + logicalMetadata.url + '.');
     }
     const androidVariantLinks = logicalSummary.variants.filter(
       (variant) => variant.availableAt?.module === target.androidModule,
