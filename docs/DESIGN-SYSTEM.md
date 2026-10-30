@@ -1,31 +1,31 @@
 # Loculary — Design system
 
-**Direction:** Material 3 Fidelity, with current Pixel / Android UI as the explicit product visual identity.  
-**Decision:** [DEC-026](DECISIONS.md#dec-026--material-3-fidelity-and-pixel-inspired-interface).  
-**Status:** mandatory target direction; production-wide conformance is not yet established.
+**Direction :** Material 3 Fidelity, avec les interfaces Pixel / Android actuelles comme identité visuelle explicite du produit.  
+**Décision :** [DEC-026](DECISIONS.md#dec-026--material-3-fidelity-and-pixel-inspired-interface).  
+**Statut :** direction cible obligatoire ; la conformité de l'ensemble de la production n'est pas encore établie.
 
-## Purpose and authority
+## Objet et autorité
 
-This document owns shared design foundations and cross-component rules. AndroidX Jetpack Compose Material 3 is the primary source for component contracts; official Android Developers guidance supplies usage context. Sources must be pinned to a version or commit for each component port. Material Web and other React libraries are comparisons only, never substitute authorities.
+Ce document définit les fondations visuelles partagées et les règles communes aux composants. AndroidX Jetpack Compose Material 3 constitue la source principale des contrats de composants ; les recommandations officielles Android Developers apportent le contexte d'utilisation. Pour chaque portage, les sources doivent être rattachées à une version ou à un commit précis. Material Web et les autres bibliothèques React servent uniquement de points de comparaison, jamais d'autorités de substitution.
 
-The target is a faithful React/Web port of AndroidX Compose Material 3 components—not merely a visual imitation. Each component has a separate specification under [`material3/components/`](material3/README.md). A component must not be called source-faithful until its API, states, behavior, rendering and differences have been checked against its pinned source.
+La cible est un portage React/Web fidèle des composants AndroidX Compose Material 3, et non une simple imitation visuelle. Chaque composant possède une spécification distincte dans [`material3/components/`](material3/README.md). Un composant ne doit pas être qualifié de fidèle à sa source tant que son API, ses états, son comportement, son rendu et ses différences n'ont pas été vérifiés par rapport à la source épinglée.
 
-**Target-first, not legacy-first:** existing Loculary components, CSS, layouts and page compositions are migration input, not constraints. A component that shares an AndroidX name is not automatically faithful; improve or replace it against the pinned AndroidX contract. When a page would benefit from a more coherent modern app structure, a full redesign is explicitly allowed and often preferred over patching the current layout. The product ambition is a AAA-level consumer application: familiar, polished, dependable and robust enough for a large audience; this is a quality target, not a claim about current scale or conformance.
+**Partir de la cible, pas de l'existant :** les composants, CSS, layouts et compositions de pages de Loculary constituent une base d'inventaire et de migration, pas des contraintes de conservation. Un composant qui porte un nom AndroidX n'est pas automatiquement fidèle ; il doit être amélioré ou remplacé selon le contrat AndroidX de référence. Les refontes sont possibles lorsque la structure existante empêche d'adopter correctement les composants et patterns éprouvés ; elles doivent rapprocher l'expérience des conventions familières des applications Pixel et Android de qualité, et non rechercher la nouveauté pour elle-même. L'ambition produit est celle d'une application grand public de niveau AAA : familière, soignée, fiable et robuste pour un large public. Il s'agit d'un objectif de qualité, pas d'une affirmation sur l'échelle ou la conformité actuelles.
 
-**Material 3 Fidelity is the product's visual direction, not an optional implementation preference.** Loculary should feel like a carefully crafted Android application brought to the Web, with the visual coherence, hierarchy, surfaces, typography, tonal color, iconography, motion and interaction quality expected from a polished Pixel-era app. Do not replace this direction with a generic website, dashboard or visually reduced implementation merely because it is faster or easier to build. Engineering simplicity must remove unnecessary system complexity, never lower the experience target. The direction may be adapted thoughtfully for Web semantics, responsive layouts, accessibility and task-specific needs. Replacing it with a substantially different visual language requires explicit user validation.
+**Material 3 Fidelity est la direction visuelle du produit, et non une préférence d'implémentation facultative.** Loculary doit donner l'impression d'une application Android soigneusement conçue et portée sur le Web, avec la cohérence visuelle, la hiérarchie, les surfaces, la typographie, les couleurs tonales, l'iconographie, les animations et la qualité d'interaction attendues d'une application Pixel soignée. Ne pas remplacer cette direction par un site générique, un tableau de bord ou une implémentation visuellement appauvrie au seul motif qu'elle est plus rapide ou plus facile à coder. La simplicité technique doit supprimer la complexité inutile du système, jamais abaisser le niveau d'expérience attendu. Cette direction doit être adaptée avec discernement aux sémantiques du Web, au responsive, à l'accessibilité et aux besoins des tâches. Remplacer cette identité par un langage visuel substantiellement différent nécessite une validation explicite de l'utilisateur.
 
-Keep two authorities distinct. **AndroidX is authoritative for the contracts it defines.** For product flows and composition choices not specified by AndroidX, use established conventions from successful consumer apps—such as clear account/settings flows, predictable navigation, familiar iconography, accessible form validation, and consistent loading, empty, error and success states. Compare credible references and test the pattern against Loculary's task rather than copying a product wholesale or inventing novelty without user value. No external pattern overrides Web semantics, accessibility, privacy or performance. Avoid preserving legacy APIs or styles solely to minimize the diff. Choose a focused fix or a broader refactor based on which produces the clearest, maintainable result without diluting the visual ambition.
+Distinguer deux autorités. **AndroidX fait autorité pour les contrats qu'il définit.** Pour les parcours produit et les choix de composition qu'AndroidX ne spécifie pas, reprendre les conventions éprouvées d'applications grand public reconnues : réglages et comptes clairs, navigation prévisible, iconographie familière, validation accessible des formulaires et états cohérents de chargement, d'absence de contenu, d'erreur et de succès. Comparer des références crédibles et vérifier la pertinence du modèle pour la tâche Loculary, sans copier intégralement un produit ni inventer une nouveauté sans valeur utilisateur. Aucune référence externe ne prévaut sur les sémantiques du Web, l'accessibilité, la confidentialité ou les performances. Ne pas conserver des API ou styles historiques uniquement pour réduire le diff. Choisir une correction ciblée ou une refonte plus large selon la solution qui produit le résultat le plus clair et maintenable, sans diluer l'ambition visuelle.
 
-## Foundations
+## Fondations
 
-- Use Material Color Utilities **Fidelity** for seed-derived semantic color roles, with the current seed documented in implementation; the seed is not a literal color to apply everywhere.
-- Use MCU Rainbow only for category identity, not as a second semantic theme.
-- Use semantic roles and matching `on-*` foregrounds. Never hard-code palette colors into shared components when a semantic role exists.
-- Light and dark themes must implement the same role contract. Verify computed colors and contrast, including disabled, focus, border and overlay states.
-- Use Material role-based typography and the Material/Pixel visual language. Roboto is the current interface reference; technical content may use a monospace role where useful.
-- Use semantic shape and elevation roles consistently. Values copied from Material Web CSS tokens must be labelled as Web values, not represented as Android dp/sp conversions.
-- Use Material Symbols consistently for functional interface icons. Icons need accessible names when they convey an action; do not substitute emoji or arbitrary Unicode for standard controls.
-- Shared components must support responsive layout, French and English text, keyboard and pointer input, visible focus, appropriate screen-reader semantics, WCAG 2.2 AA, and `prefers-reduced-motion`.
+- Utiliser Material Color Utilities **Fidelity** pour générer les rôles de couleur sémantiques à partir de la seed ; documenter la seed actuellement utilisée dans l'implémentation. La seed n'est pas une couleur littérale à appliquer partout.
+- Utiliser MCU Rainbow uniquement pour l'identité des catégories, et non comme un second thème sémantique.
+- Utiliser les rôles sémantiques et leurs couleurs de premier plan `on-*` correspondantes. Ne jamais coder en dur des couleurs de palette dans les composants partagés lorsqu'un rôle sémantique existe.
+- Les thèmes clair et sombre doivent implémenter le même contrat de rôles. Vérifier les couleurs calculées et les contrastes, y compris les états désactivés, le focus, les bordures et les superpositions.
+- Utiliser la typographie fondée sur les rôles Material et le langage visuel Material/Pixel. Roboto est la référence actuelle de l'interface ; le contenu technique peut utiliser un rôle monospace lorsque cela est utile.
+- Utiliser les rôles sémantiques de forme et d'élévation de manière cohérente. Les valeurs reprises des tokens CSS Material Web doivent être identifiées comme valeurs Web, et non présentées comme des conversions Android dp/sp.
+- Utiliser Material Symbols de manière cohérente pour les icônes fonctionnelles de l'interface. Une icône qui représente une action doit avoir un nom accessible ; ne pas remplacer les contrôles standards par des emoji ou des caractères Unicode arbitraires.
+- Les composants partagés doivent prendre en charge le responsive, les textes français et anglais, les interactions clavier et pointeur, un focus visible, une sémantique adaptée aux lecteurs d'écran, WCAG 2.2 AA et `prefers-reduced-motion`.
 
 ## Fondations de thème : contrat et état réel
 
@@ -55,38 +55,38 @@ La cible est un portage Web fidèle des API publiques pertinentes d’AndroidX C
 
 Le portage partiel et ses lacunes actuelles sont suivis dans la [spécification des primitives de layout](material3/layout-primitives.md). Son statut ne constitue pas une affirmation de parité avec AndroidX.
 
-## Source and fidelity rules
+## Sources et règles de fidélité
 
-For every ported component:
+Pour chaque composant porté :
 
-1. Name it after the official public AndroidX Compose Material 3 component/API. Do not invent Loculary-only names for an Android component. Product-specific extensions must be explicitly named and documented as extensions.
-2. Record the exact upstream repository, file path, immutable commit or release, public API reference, and relevant official usage guidance.
-3. Derive variants, parameters, defaults, tokens, states and transitions from the pinned source. Distinguish API facts from visual interpretation.
-4. Record every Web adaptation and why it is needed. Label it `ANDROIDX`, `WEB-ADAPTATION`, `LOCULARY-EXTENSION`, or `UNVERIFIED`.
-5. Verify all applicable states and interactions; screenshots alone are not proof of conformance.
-6. Do not mark a component conformant while material source questions, required behavior, tests or known differences remain unresolved.
+1. Utiliser le nom du composant ou de l'API publique officielle AndroidX Compose Material 3. Ne pas inventer un nom Loculary pour désigner un composant Android. Les extensions propres au produit doivent être nommées et documentées explicitement comme telles.
+2. Enregistrer le dépôt amont exact, le chemin du fichier, le commit ou la version immuable, la référence de l'API publique et les recommandations officielles d'utilisation pertinentes.
+3. Déduire les variantes, paramètres, valeurs par défaut, tokens, états et transitions de la source épinglée. Distinguer les faits relatifs à l'API de l'interprétation visuelle.
+4. Documenter chaque adaptation Web et sa justification. Utiliser les étiquettes `ANDROIDX`, `WEB-ADAPTATION`, `LOCULARY-EXTENSION` ou `UNVERIFIED`.
+5. Vérifier tous les états et interactions applicables ; des captures d'écran seules ne prouvent pas la conformité.
+6. Ne pas déclarer un composant conforme tant que des questions importantes sur la source, des comportements requis, des tests ou des différences connues restent non résolus.
 
-## Whole-screen fidelity gate
+## Vérification de la fidélité de l'expérience complète
 
 La fidélité ne se limite pas à l'utilisation de composants isolés. L'écran complet doit exprimer une véritable expérience d'application Material 3 Fidelity : hiérarchie visuelle intentionnelle, surfaces et élévation cohérentes, densité maîtrisée, typographie, couleurs tonales, formes, icônes, navigation, retours d'état et motion. Une page techniquement fonctionnelle mais générique, sans finition ou incohérente avec cette direction ne satisfait pas le contrat.
 
-Component-level fidelity and page-level fidelity are separate acceptance criteria. A page can use several correct components and still fail because its hierarchy, surfaces, spacing or action grouping diverge from the source-backed target.
+La fidélité d'un composant et celle de l'expérience complète sont deux critères complémentaires. Une page peut utiliser plusieurs composants corrects tout en restant incohérente avec les conventions AndroidX/Pixel par sa hiérarchie, ses surfaces, ses espacements ou le regroupement de ses actions.
 
-When a screen is in scope, review the complete user journey and composition: layout, hierarchy, surfaces, spacing, typography, semantic colors, icons, action groups, dialogs, feedback states, responsive behavior and accessibility. Do not stop at adding an icon or replacing one button while leaving the surrounding page inconsistent.
+Lorsqu'un écran est concerné par un changement, examiner le parcours réel et vérifier que les composants, la hiérarchie, les surfaces, la typographie, les couleurs sémantiques, les icônes, les actions, les dialogues, les retours d'état, le responsive et l'accessibilité forment une expérience familière et cohérente. Ne pas s'arrêter au remplacement d'une icône ou d'un bouton si le reste de l'interface contredit encore le modèle éprouvé retenu.
 
-Do not infer a visual treatment from a business label. In particular, “delete” alone does not prescribe a filled error button, red text, a trash icon, a red container or a confirmation dialog. Identify the relevant AndroidX component/pattern and official usage context. If no exact native pattern exists, state that and justify the smallest necessary Web/product adaptation. A color customization exposed by an API is not, by itself, proof that the selected treatment matches Android.
+Ne pas déduire un traitement visuel d'un simple libellé métier. En particulier, le mot « supprimer » ne prescrit pas à lui seul un bouton d'erreur rempli, un texte rouge, une icône de corbeille, un conteneur rouge ou une boîte de confirmation. Identifier le composant ou le pattern AndroidX pertinent ainsi que son contexte d'utilisation officiel. Si aucun modèle natif exact n'existe, le signaler et justifier l'adaptation Web/produit minimale nécessaire. Le fait qu'une API expose une personnalisation de couleur ne prouve pas, à lui seul, que le traitement choisi correspond à Android.
 
-Compare the actual browser result with the pinned reference and record the themes, locales, viewports and states checked. Tests, token assertions and successful CI are not proof of visual parity. Uninspected browser output remains UNVERIFIED.
+Comparer le résultat réel dans le navigateur à la référence épinglée et consigner les thèmes, locales, viewports et états vérifiés. Les tests, assertions de tokens et succès de la CI ne prouvent pas la parité visuelle. Tout rendu navigateur qui n'a pas été inspecté reste `UNVERIFIED`.
 
-## Accessibility and quality
+## Accessibilité et qualité
 
-- Preserve native HTML semantics where possible; map Android semantics to appropriate HTML/ARIA behavior rather than copying platform APIs blindly.
-- Keyboard operation, focus visibility/restoration, accessible names and state announcements are part of the contract, not optional polish.
-- Respect reduced-motion preferences without removing essential state feedback.
-- Test actual rendered contrast and responsive reflow in both themes. A token or static source assertion does not prove rendered accessibility.
-- Keep task-specific tool layouts diverse where needed; shared design foundations do not require identical page compositions.
+- Préserver autant que possible les sémantiques HTML natives ; traduire les sémantiques Android vers les comportements HTML/ARIA appropriés plutôt que de copier aveuglément les API de la plateforme.
+- Le fonctionnement au clavier, la visibilité et la restauration du focus, les noms accessibles et les annonces d'état font partie du contrat ; ce ne sont pas des finitions facultatives.
+- Respecter les préférences de réduction des animations sans supprimer les retours d'état essentiels.
+- Tester le contraste réellement rendu et la réorganisation responsive dans les deux thèmes. Un token ou une assertion statique sur la source ne prouve pas l'accessibilité du rendu.
+- Adapter les interfaces à la tâche de chaque outil. Les fondations partagées ne nécessitent pas des compositions de page identiques.
 
-## Current implementation status
+## État actuel de l'implémentation
 
 This document describes the target, not a claim that the current site conforms. Component-specific status and evidence belong in [the Material 3 porting index](material3/README.md). The production migration is a separate step after each component passes its own porting gate.
 
