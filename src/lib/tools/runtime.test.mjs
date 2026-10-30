@@ -23,7 +23,7 @@ test("tool page provides the declared runtime capabilities to modules", async ()
   assert.match(source, /capabilities=\{tool\.capabilities\}/);
 });
 
-test("every tool using CopyButton declares the clipboard capability", async () => {
+test("tool clipboard access is capability-gated, including CopyButton", async () => {
   const runtime = await readFile(runtimeFile, "utf8");
   const copyButton = await readFile(copyButtonFile, "utf8");
   const tools = (await readFile(toolsFile, "utf8")).replace(/\r\n/g, "\n");
@@ -58,28 +58,42 @@ test("every tool using CopyButton declares the clipboard capability", async () =
     index = end;
   }
 
-  const copyToolIds = [];
+  const clipboardToolIds = [];
   for (const match of registryEntries) {
     const toolId = match[1] ?? match[2];
     const modulePath = fileURLToPath(
       new URL(`../../components/tools/${match[3]}.tsx`, import.meta.url),
     );
     const moduleSource = await readFile(modulePath, "utf8");
-    if (!/import\s*\{[^}]*\bCopyButton\b[^}]*\}\s*from\s*"@\/components\/ui\/CopyButton"/s.test(moduleSource)) {
-      continue;
-    }
+    assert.doesNotMatch(
+      moduleSource,
+      /navigator\.clipboard/,
+      `Tool "${toolId}" must not bypass the capability-gated clipboard runtime.`,
+    );
 
-    copyToolIds.push(toolId);
+    const usesCopyButton = /import\s*\{[^}]*\bCopyButton\b[^}]*\}\s*from\s*"@\/components\/ui\/CopyButton"/s.test(moduleSource);
+    const usesRuntimeClipboard = /clipboard\.writeText\(/.test(moduleSource);
+    if (usesRuntimeClipboard) {
+      assert.match(moduleSource, /useToolRuntime/);
+    }
+    if (!usesCopyButton && !usesRuntimeClipboard) continue;
+
+    clipboardToolIds.push(toolId);
     const entry = definitions.get(toolId);
     assert.ok(entry, `Tool "${toolId}" must exist in the catalog.`);
     assert.match(
       entry,
       /capabilities:\s*\[[^\]]*["\x27]clipboard["\x27]/,
-      `Tool "${toolId}" uses CopyButton and must declare the clipboard capability.`,
+      `Tool "${toolId}" uses clipboard access and must declare the clipboard capability.`,
     );
+    if (usesCopyButton) {
+      assert.match(runtime, /requireCapability\("clipboard"\)/);
+      assert.match(copyButton, /useToolRuntime/);
+      assert.doesNotMatch(copyButton, /copyTextToClipboard/);
+    }
   }
 
-  assert.ok(copyToolIds.length > 0, "At least one registered tool must use CopyButton.");
+  assert.ok(clipboardToolIds.length > 0, "At least one registered tool must declare the clipboard capability.");
 });
 test("the runtime is scoped to a tool page instead of being global", async () => {
   const runtime = await readFile(runtimeFile, "utf8");
