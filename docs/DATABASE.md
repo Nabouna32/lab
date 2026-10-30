@@ -100,12 +100,13 @@ La migration `20261029110714_retire_design_lab_audit.sql` retire les tables et f
 
 ## Conservation des journaux opérationnels
 
-**Politique cible versionnée dans `main` — pas encore active en production :**
+**Politique active en production depuis le 30 octobre 2026 :**
 
 - Douze mois glissants pour `public.admin_audit_log` et les exécutions terminées de `cron.job_run_details`.
-- Suppression automatique quotidienne à 03:00 UTC après expiration ; les exécutions cron incomplètes restent préservées.
-- Aucun mécanisme d'exception de conservation ni archive de journaux n'est conservé dans le schéma applicatif.
-- Aucune sauvegarde ou archive externe Google Drive n'est prévue pour ces journaux.
-- Les journaux gérés par Supabase et Vercel ne sont pas purgés par Loculary ; leurs durées dépendent des forfaits et réglages des fournisseurs.
+- Le job `loculary-log-retention-12m` (id 3) est actif chaque jour à 03:00 UTC et appelle uniquement `private.prune_retained_logs()`.
+- La migration `20261030160000 / extend_log_retention_to_12_months` est enregistrée en production.
+- L'ancien job `loculary-log-retention-6m` a été retiré. La table d'exceptions et sa fonction ont été supprimées ; aucune archive applicative n'est conservée.
+- Les exécutions cron incomplètes sont préservées. Les journaux gérés par Supabase et Vercel ne sont pas purgés par Loculary.
+- Aucun archivage ni sauvegarde externe Google Drive n'est configuré pour ces journaux.
 
-La migration `20261030160000_extend_log_retention_to_12_months.sql` retire la table d'exceptions devenue inutile, remplace le job `loculary-log-retention-6m` par `loculary-log-retention-12m` et met à jour le seuil de la fonction de purge. Elle ne lance aucune purge lors de son application. La politique de six mois reste active en production tant que cette migration n'a pas été appliquée et vérifiée.
+**Vérification après migration — 30 octobre 2026 :** 1 entrée dans `public.admin_audit_log`, 806 lignes dans `cron.job_run_details`, aucune ligne actuellement âgée de plus de douze mois, aucun run du nouveau job encore enregistré. Le premier passage est attendu le 31 octobre à 03:00 UTC. Les 19 assertions pgTAP ont réussi dans une transaction explicitement annulée ; l'extension pgTAP n'a pas été conservée et les compteurs sont restés inchangés après le test.

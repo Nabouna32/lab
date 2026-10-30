@@ -300,14 +300,14 @@ L’inventaire des prestataires distingue les journaux applicatifs des journaux 
 
 - **Supabase Free** : les logs de plateforme/API/base de données sont conservés 24 heures ; Auth Audit Logs est limité à une heure.
 - **Vercel Hobby** : les logs runtime sont conservés une heure ; les logs de build restent associés aux déploiements sans purge automatique.
-- Ces journaux fournisseurs ne sont pas purgés par Loculary. Aucun Log Drain, export tiers ou archivage externe de ces journaux n’est prévu.
+- Ces journaux fournisseurs ne sont pas purgés par Loculary. Aucun Log Drain, export tiers ou archivage externe de ces journaux n’est activé.
 
-**Politique applicative cible, versionnée dans `main` et non encore active en production :** douze mois glissants pour le journal administratif Loculary et les exécutions terminées de `pg_cron`, avec purge automatique quotidienne. Les exécutions cron incomplètes restent préservées. Aucun mécanisme d’exception de conservation ni archive des journaux applicatifs n’est conservé. Aucune sauvegarde Google Drive ou archive externe de ces journaux n’est créée.
+**Politique applicative active en production depuis le 30 octobre 2026 :** douze mois glissants pour le journal administratif Loculary et les exécutions terminées de `pg_cron`, avec purge automatique quotidienne à 03:00 UTC. Les exécutions cron incomplètes restent préservées. Aucun mécanisme d’exception de conservation ni archive des journaux applicatifs n’est conservé. Aucune sauvegarde Google Drive ou archive externe de ces journaux n’est créée.
 
-La migration `20261030160000_extend_log_retention_to_12_months.sql` retire la table d’exceptions, remplace le job de six mois par un job de douze mois et met à jour le seuil de purge sans lancer de suppression lors de son application. La politique de six mois reste celle de la production jusqu’à application et vérification de cette migration.
+La migration `20261030160000_extend_log_retention_to_12_months.sql` est enregistrée en production. Le job `loculary-log-retention-12m` est actif ; son premier passage après migration est attendu le 31 octobre à 03:00 UTC. Les 19 assertions pgTAP ont réussi dans une transaction annulée et n’ont laissé aucune donnée de test en base.
 
-La durée de douze mois est un choix de conservation à justifier par les finalités et à réévaluer périodiquement ; elle ne doit pas être présentée comme un maximum universel fixé par le RGPD. Les journaux gérés par les prestataires doivent être décrits séparément selon leurs conditions effectives.
-
+La durée de douze mois est un choix de conservation documenté selon les finalités de Loculary ; elle ne constitue pas un maximum universel fixé par le RGPD. Les journaux gérés par les prestataires restent soumis à leurs conditions effectives.
+ 
 ## Future legal/compliance work
 
 Before broad public launch, privacy/legal documentation should be reviewed against the actual implementation, data flows, consent mechanisms, retention policies, and jurisdictions served.
