@@ -55,7 +55,7 @@ class Material3AndroidAarInspectionTests(unittest.TestCase):
         api = """package androidx.compose.material3 {
   public final class AlertDialogDefaults {
     method @BytecodeOnly public long getContainerColor(androidx.compose.runtime.Composer?, int);
-    method public void reset();
+    method @KotlinOnly public void reset();
   }
   public final class Outer.Inner {
     method public boolean isVisible();
@@ -74,6 +74,7 @@ class Material3AndroidAarInspectionTests(unittest.TestCase):
         self.assertEqual(parsed_methods[0]["name"], "getContainerColor")
         self.assertTrue(parsed_methods[0]["bytecodeOnly"])
         self.assertEqual(parsed_methods[1]["name"], "reset")
+        self.assertTrue(parsed_methods[1]["kotlinOnly"])
 
     def test_compares_api_class_and_method_names_with_binary_surface(self):
         api = """package androidx.compose.material3 {
@@ -100,6 +101,8 @@ class Material3AndroidAarInspectionTests(unittest.TestCase):
         self.assertEqual(comparison["sourceLevelDescriptorMatches"], 1)
         self.assertEqual(comparison["bytecodeOnlyMethodCount"], 1)
         self.assertEqual(comparison["bytecodeOnlyDescriptorMatches"], 1)
+        self.assertEqual(comparison["kotlinOnlyMethodCount"], 1)
+        self.assertEqual(comparison["kotlinOnlyDescriptorMatches"], 1)
         self.assertEqual(comparison["status"], "exact-declarations-match")
 
 
