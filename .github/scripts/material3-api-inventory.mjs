@@ -102,6 +102,16 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
       const signatureHash = createHash('sha256')
         .update(currentPackage + '\0' + (owner ?? '') + '\0' + raw, 'utf8')
         .digest('hex');
+      const annotations = [...raw.matchAll(/@[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*(?:\([^()]*\))?/g)]
+        .map((match) => match[0]);
+      const generatedFacade = kind === 'class' && owner === null && symbol?.endsWith('Kt') === true;
+      const classification = raw.includes('@BytecodeOnly') ? 'bytecode-only'
+        : raw.includes('@InaccessibleFromKotlin') ? 'inaccessible-from-kotlin'
+        : generatedFacade ? 'generated-jvm-facade'
+        : raw.includes('@KotlinOnly') ? 'kotlin-only'
+        : 'source-api-candidate';
+      const experimental = annotations.some((annotation) => /Experimental/.test(annotation));
+      const deprecated = annotations.some((annotation) => /Deprecated/.test(annotation));
       declarations.push({
         id: currentPackage + ':' + (owner ? owner + ':' : '') + signatureHash,
         package: currentPackage,
@@ -110,10 +120,9 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
         symbol,
         signature: raw,
         line: index + 1,
-        classification: raw.includes('@BytecodeOnly') ? 'bytecode-only'
-          : raw.includes('@InaccessibleFromKotlin') ? 'inaccessible-from-kotlin'
-          : 'source-api-candidate',
-        apiStatus: 'unknown',
+        classification,
+        annotations,
+        apiStatus: deprecated ? 'deprecated' : experimental ? 'experimental' : 'unknown',
       });
 
       if (
@@ -149,6 +158,10 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
   const dumpSha256 = createHash('sha256').update(contents, 'utf8').digest('hex');
   const bytecodeOnlyCount = declarations.filter((entry) => entry.classification === 'bytecode-only').length;
   const inaccessibleFromKotlinCount = declarations.filter((entry) => entry.classification === 'inaccessible-from-kotlin').length;
+  const generatedFacadeCount = declarations.filter((entry) => entry.classification === 'generated-jvm-facade').length;
+  const kotlinOnlyCount = declarations.filter((entry) => entry.classification === 'kotlin-only').length;
+  const experimentalCount = declarations.filter((entry) => entry.annotations?.some((annotation) => /Experimental/.test(annotation))).length;
+  const deprecatedCount = declarations.filter((entry) => entry.annotations?.some((annotation) => /Deprecated/.test(annotation))).length;
   return {
     schemaVersion: 1,
     artifact,
@@ -157,9 +170,13 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
     inventoryKind: 'public-signature-surface',
     semanticCompleteness: 'not-established-by-api-dump-alone',
     declarationCount: declarations.length,
-    sourceApiCandidateCount: declarations.length - bytecodeOnlyCount - inaccessibleFromKotlinCount,
+    sourceApiCandidateCount: declarations.length - bytecodeOnlyCount - inaccessibleFromKotlinCount - generatedFacadeCount,
     bytecodeOnlyCount,
     inaccessibleFromKotlinCount,
+    generatedFacadeCount,
+    kotlinOnlyCount,
+    experimentalCount,
+    deprecatedCount,
     packageAnnotations,
     declarations,
   };
