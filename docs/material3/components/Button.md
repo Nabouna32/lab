@@ -70,7 +70,7 @@ AndroidX ne définit pas de variante « destructive ». Le sens métier ne suffi
 - [x] Vérifier les dimensions, couleurs, élévations et états des cinq variantes dans les sources.
 - [x] Partager le contrat de layout entre `Button` et `AppLink`.
 - [ ] Inventorier tous les usages de production et migrer les styles locaux hérités.
-- [x] Vérifier en Chromium les couleurs calculées des cinq variantes, les états hover/disabled, les thèmes clair/sombre et le reflow à 320, 360, 390, 768, 1024, 1440 et 1920 CSS px sur une surface de test locale.
+- [x] Vérifier en Chromium les couleurs calculées des cinq variantes en thème clair, les états hover/disabled, le basculement clair/sombre sur la variante filled et le reflow à 320, 360, 390, 768, 1024, 1440 et 1920 CSS px sur une surface de test locale.
 - [ ] Terminer la revue du contraste en contexte : axe-core ne relève aucune violation sur la surface de test, mais conserve un résultat `color-contrast` incomplet qui nécessite une vérification manuelle.
 - [x] Vérifier l’origine du ripple, son clipping, la libération sur `pointerup` et `pointercancel`, le déclenchement clavier, le nettoyage après animation et l’absence de ripple sous `prefers-reduced-motion`.
 - [x] Vérifier l’absence de débordement horizontal sur petits écrans et grands écrans (320–1920 CSS px) sur la surface de test.
