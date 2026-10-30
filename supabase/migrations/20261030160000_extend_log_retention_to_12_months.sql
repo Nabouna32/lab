@@ -35,6 +35,9 @@ begin
 end;
 $function$;
 
+revoke all on function private.prune_retained_logs()
+  from public, anon, authenticated, service_role;
+
 comment on function private.prune_retained_logs() is
   'Daily twelve-month retention purge for Loculary admin audit entries and completed pg_cron run details. No audit retention exceptions or archives are kept; incomplete cron runs are never deleted. Returns counts only and emits no personal data.';
 
