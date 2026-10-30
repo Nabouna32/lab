@@ -417,10 +417,20 @@ test("TextField labels reflect invalid state while disabled labels keep disabled
 });
 
 test("TextArea and Select labels reflect invalid state while preserving disabled colors", () => {
-  assert.match(textAreaSource, /const isInvalid = Boolean\(error\) \|\| Boolean\(props\["aria-invalid"\]\);/);
+  assert.match(textAreaSource, /const isInvalid = Boolean\(error\) \|\| Boolean\(consumerInvalid\);/);
   assert.match(textAreaSource, /disabled \? "text-\[color-mix\(in_srgb,var\(--on-surface\)_38%,transparent\)\]" : isInvalid \? "text-\[var\(--error\)\]"/);
   assert.match(selectSource, /const isInvalid = Boolean\(props\["aria-invalid"\]\);/);
   assert.match(selectSource, /disabled \? "text-\[color-mix\(in_srgb,var\(--on-surface\)_38%,transparent\)\]" : isInvalid \? "text-\[var\(--danger\)\]"/);
+});
+
+test("TextArea preserves caller descriptions and adds its helper or error description", () => {
+  assert.match(textAreaSource, /"aria-describedby": consumerDescribedBy/);
+  assert.match(textAreaSource, /"aria-invalid": consumerInvalid/);
+  assert.match(textAreaSource, /consumerDescribedBy, error \? errorId : helperText \? helperId : undefined/);
+  assert.ok(textAreaSource.includes("value?.split(/\\s+/)"));
+  assert.match(textAreaSource, /aria-invalid=\{error \? true : consumerInvalid\}/);
+  assert.match(textAreaSource, /aria-describedby=\{describedBy\}/);
+  assert.match(textAreaSource, /\{\.\.\.textareaProps\}/);
 });
 
 test("M3 web reference tokens document Android dp/sp magnitude without claiming physical equivalence", () => {

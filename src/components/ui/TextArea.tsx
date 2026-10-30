@@ -29,7 +29,18 @@ export function TextArea({
   const helperId = `${inputId}-helper`;
   const errorId = `${inputId}-error`;
   const expressive = variant === "expressive";
-  const isInvalid = Boolean(error) || Boolean(props["aria-invalid"]);
+  const {
+    "aria-describedby": consumerDescribedBy,
+    "aria-invalid": consumerInvalid,
+    ...textareaProps
+  } = props;
+  const describedBy = [
+    ...new Set(
+      [consumerDescribedBy, error ? errorId : helperText ? helperId : undefined]
+        .flatMap((value) => value?.split(/\s+/).filter(Boolean) ?? []),
+    ),
+  ].join(" ") || undefined;
+  const isInvalid = Boolean(error) || Boolean(consumerInvalid);
 
   return (
     <div className="grid gap-2">
@@ -44,8 +55,8 @@ export function TextArea({
         rows={rows}
         disabled={disabled}
         placeholder={placeholder}
-        aria-invalid={error ? true : undefined}
-        aria-describedby={error ? errorId : helperText ? helperId : undefined}
+        aria-invalid={error ? true : consumerInvalid}
+        aria-describedby={describedBy}
         className={[
           "w-full resize-y border px-[var(--m3-space-3)] py-[var(--m3-space-3)] text-[var(--on-surface)] outline-none transition-[border-color,box-shadow,background-color] duration-[var(--motion-standard)] placeholder:text-[var(--on-surface-variant)]",
           expressive
@@ -58,7 +69,7 @@ export function TextArea({
           "motion-reduce:transition-none",
           className,
         ].join(" ")}
-        {...props}
+        {...textareaProps}
       />
       {error ? (
         <p id={errorId} className="m3-type-body-small text-[var(--error)]">{error}</p>

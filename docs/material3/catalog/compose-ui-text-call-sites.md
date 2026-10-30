@@ -53,7 +53,7 @@ Un seul consommateur direct est retrouvé : `src/components/account/PasswordChan
 - S'appuie sur un véritable `textarea` HTML, un label associé, `rows`, le redimensionnement natif et les attributs de saisie.
 - Est explicitement documenté comme une adaptation Web multiligne du cas d'usage Material 3 TextField ; AndroidX n'expose pas un composant Material 3 autonome nommé `TextArea`.
 - Expose les props `helperText` et `error`, mais les consommateurs retrouvés ne justifient pas encore une abstraction plus riche ou un éditeur personnalisé.
-- Les attributs `aria-invalid` et `aria-describedby` calculés à partir de `error`/`helperText` sont suivis de `{...props}` dans le JSX : les valeurs explicites du consommateur ont donc priorité. Ce comportement est utile aux usages actuels, dont plusieurs fournissent leurs propres IDs d'erreur ; en revanche, si `error`/`helperText` et des attributs ARIA externes sont fournis simultanément, les valeurs externes peuvent masquer les associations internes. Il faut documenter et tester ce contrat de priorité plutôt que prétendre que les attributs consommateurs sont écrasés.
+- Le composant extrait les attributs `aria-describedby` et `aria-invalid` fournis par le consommateur. Il fusionne les IDs de description externes avec l'ID interne du message d'erreur ou d'aide, déduplique les références et conserve les autres attributs HTML natifs. Une erreur interne force `aria-invalid=true` ; en l'absence d'erreur, la valeur explicite du consommateur est préservée. Le correctif ciblé est couvert par un test de contrat source dans `material-components.test.mjs` ; une validation DOM/lecteur d'écran reste nécessaire.
 
 ### MaterialTextField
 
@@ -69,7 +69,7 @@ Un seul consommateur direct est retrouvé : `src/components/account/PasswordChan
 2. Ne pas remplacer le `textarea` natif de HashGenerator sans vérifier les besoins propres à cet outil ; il n'y a pas de gain démontré à uniformiser mécaniquement.
 3. Conserver `CalculatorField` comme composition légère tant que son unité et ses contraintes restent spécifiques au calcul.
 4. Garder `MaterialTextField` circonscrit au formulaire de changement de mot de passe ; ne pas le généraliser aux autres formulaires avant une comparaison de contrat et de rendu.
-5. Tester le contrat de priorité des attributs ARIA de `TextArea` lorsque les props `error`/`helperText` sont combinées à des valeurs explicites du consommateur. Il ne s'agit pas d'un écrasement des props externes : l'ordre JSX donne actuellement la priorité à `{...props}`.
+5. Fusionner les IDs de `aria-describedby` fournis par le consommateur avec l'association interne `error`/`helperText`, en dédupliquant les IDs et en donnant priorité à une erreur réelle pour `aria-invalid`. Cette correction est implémentée dans la PR en cours et couverte par un test de contrat statique ; elle doit encore passer la CI.
 6. Garder l'option de révélation `secure` de `MaterialTextField` inactive tant que son besoin produit n'est pas établi ; si elle est activée, localiser ses libellés visibles et accessibles. Le parcours actuel utilise `type="password"` sans `secure`, ce qui laisse la saisie masquée sans bouton de révélation.
 
 ## Vérifications restantes
@@ -78,7 +78,8 @@ Un seul consommateur direct est retrouvé : `src/components/account/PasswordChan
 - [x] Relire les trois implémentations, la feuille CSS de MaterialTextField, le formulaire de mot de passe et les tests de composants Material.
 - [x] Distinguer le composant de démonstration, les consommateurs runtime et le textarea natif distinct.
 - [ ] Compléter par une recherche AST locale exhaustive lorsque l'environnement de travail local est disponible ; l'index GitHub ne garantit pas la détection de tous les alias.
-- [ ] Ajouter des tests de contrat pour la priorité des attributs ARIA en présence d'erreur/aide, la saisie IME, la sélection/collage et le parcours sécurisé localisé.
+- [x] Ajouter un test de contrat source pour la fusion des descriptions accessibles de `TextArea`.
+- [ ] Ajouter des tests comportementaux DOM pour les associations ARIA, la saisie IME, la sélection/collage et le parcours sécurisé localisé.
 - [ ] Vérifier clavier, lecteur d'écran, zoom/reflow, FR/EN, RTL et rendu dans un navigateur réel.
 
-Aucun changement applicatif ni test navigateur n'a été effectué dans cette tranche. Cet inventaire est une base de décision, pas une validation de conformité.
+Un correctif applicatif ciblé de `TextArea` est proposé dans la PR liée à cet audit. Le test ajouté vérifie le contrat source, pas le DOM rendu ; aucun test navigateur ou lecteur d'écran n'a été exécuté. Cet inventaire reste une base de décision, pas une validation de conformité.
