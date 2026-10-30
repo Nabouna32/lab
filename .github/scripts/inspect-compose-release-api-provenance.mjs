@@ -101,15 +101,19 @@ export async function fetchGitilesBytes(value, label, fetchImpl = globalThis.fet
 export async function resolveGitilesRef(fetchImpl, candidates, label = 'release') {
   const attempted = [];
   for (const candidate of candidates) {
-    const bytes = await fetchGitilesBytes(
-      GITILES_BASE + '/+log/' + candidate + '?format=JSON&n=1',
-      label + ' ref ' + candidate,
-      fetchImpl,
-      { optional: true },
-    );
-    attempted.push(candidate);
-    if (!bytes) continue;
-    return { ref: candidate, ...parseGitilesLog(bytes.toString('utf8')) };
+    const shortRef = candidate.replace(/^refs\/(?:heads|tags)\//, '');
+    const paths = [...new Set([shortRef, candidate])];
+    for (const refPath of paths) {
+      const bytes = await fetchGitilesBytes(
+        GITILES_BASE + '/+log/' + refPath + '?format=JSON&n=1',
+        label + ' ref ' + candidate,
+        fetchImpl,
+        { optional: true },
+      );
+      attempted.push(candidate + ' (path ' + refPath + ')');
+      if (!bytes) continue;
+      return { ref: candidate, ...parseGitilesLog(bytes.toString('utf8')) };
+    }
   }
   throw new Error(
     'No official Gitiles ' + label + ' ref was found. Checked: ' + attempted.join(', ') + '.',
