@@ -37,21 +37,21 @@
     {
       "path": "declarations-001.json",
       "declarationCount": 500,
-      "sha256": "b476151d399772a08436f3085bbf4bd386d3af58f40821184f67c26c749b60e7",
+      "sha256": "b1caba6d53c3ed2ee9d023478bcba26fb438e4e8d95fdbf409319126b7ea5e7d",
       "firstSourceLine": 4,
       "lastSourceLine": 575
     },
     {
       "path": "declarations-002.json",
       "declarationCount": 500,
-      "sha256": "ff59bcb9214568a07c7e60e7b507db1050f69c5e7a07264efc1d2677d61b87ea",
+      "sha256": "e081f0e8bec80f515f6d1b3fd337953521856e97a2c7939bd946d622445f3cd3",
       "firstSourceLine": 576,
       "lastSourceLine": 1167
     },
     {
       "path": "declarations-003.json",
       "declarationCount": 500,
-      "sha256": "4563cc50b6e75c10d1adc4f0b9bdb94192d60f6d326cb6405fc117e4fcfe1861",
+      "sha256": "5424e27abb4b201b06994d43664e974686c9ec9c1db4ee01432fcf188d56d12c",
       "firstSourceLine": 1168,
       "lastSourceLine": 1804
     },
