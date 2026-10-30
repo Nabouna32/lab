@@ -56,7 +56,7 @@ Un autre résultat de recherche, `src/components/tools/hash-generator/HashGenera
 
 ### TextArea
 
-- S'appuie sur un véritable `textarea` HTML, un label associé, `rows`, le redimensionnement natif et les attributs de saisie.
+- S'appuie sur un véritable `textarea` HTML, un label associé, `rows`, le redimensionnement natif et les attributs de saisie. Conserve une seule présentation outlined ; la variante expressive n'avait aucun consommateur et a été supprimée.
 - Est explicitement documenté comme une adaptation Web multiligne du cas d'usage Material 3 TextField ; AndroidX n'expose pas un composant Material 3 autonome nommé `TextArea`.
 - Expose les props `helperText` et `error`, mais les consommateurs retrouvés ne justifient pas encore une abstraction plus riche ou un éditeur personnalisé.
 - Le composant extrait les attributs `aria-describedby` et `aria-invalid` fournis par le consommateur. Il fusionne les IDs de description externes avec l'ID interne du message d'erreur ou d'aide, déduplique les références et conserve les autres attributs HTML natifs. Une erreur interne force `aria-invalid=true` ; en l'absence d'erreur, la valeur explicite du consommateur est préservée. Le correctif est couvert par un test de contrat source et les tests DOM rendus ; la validation lecteur d'écran reste nécessaire.
