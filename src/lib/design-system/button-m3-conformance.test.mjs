@@ -61,6 +61,13 @@ test("shared Button exports AndroidX component names with source-derived dimensi
 });
 
 test("Button disabled colors follow AndroidX variant token roles", () => {
+  const variantStyle = (name) => buttonVariantStyles.split("\n").find((line) => line.startsWith(`const ${name} =`)) ?? "";
+  assert.ok(variantStyle("filled").includes("var(--on-surface)_10%") && variantStyle("filled").includes("var(--on-surface)_38%"));
+  assert.ok(variantStyle("elevated").includes("var(--on-surface)_10%") && variantStyle("elevated").includes("var(--on-surface)_38%"));
+  assert.ok(variantStyle("filledTonal").includes("var(--on-surface)_12%") && variantStyle("filledTonal").includes("var(--on-surface)_38%"));
+  assert.ok(variantStyle("outlined").includes("var(--outline-variant)_10%") && variantStyle("outlined").includes("var(--on-surface-variant)_38%"));
+  assert.ok(variantStyle("text").includes("var(--on-surface-variant)_38%"));
+
   assert.ok(buttonVariantStyles.includes("color-mix(in_srgb,var(--on-surface)_38%,transparent)"), "disabled labels use the AndroidX on-surface role at 38% opacity");
   assert.ok(buttonVariantStyles.includes("disabled:bg-[var(--button-disabled-container-color,color-mix(in_srgb,var(--on-surface)_10%,transparent))]"), "Filled and Elevated disabled containers use on-surface at 10% opacity");
   assert.ok(buttonVariantStyles.includes("disabled:bg-[var(--button-disabled-container-color,color-mix(in_srgb,var(--on-surface)_12%,transparent))]"), "FilledTonal disabled container uses on-surface at 12% opacity");
@@ -189,6 +196,14 @@ test("icon button API separates official action variants from toggle variants", 
 });
 
 test("icon toggle states use their own AndroidX color roles instead of action-button defaults", () => {
+  const iconStyleLine = (prefix) => iconButton.split("\n").find((line) => line.trimStart().startsWith(prefix)) ?? "";
+  assert.ok(iconStyleLine("const filled =").includes("var(--on-surface)_38%"));
+  assert.ok(iconStyleLine("const filledTonal =").includes("var(--on-surface)_38%"));
+  assert.ok(iconStyleLine("const outlined =").includes("var(--outline-variant)_38%") && iconStyleLine("const outlined =").includes("var(--on-surface)_38%"));
+  assert.ok(iconStyleLine("standard: ").includes("var(--on-surface-variant)_38%"));
+  assert.ok(iconButton.split("\n").filter((line) => line.trimStart().startsWith("filled: ")).every((line) => line.includes("var(--on-surface)_38%")));
+  assert.ok(iconButton.split("\n").filter((line) => line.trimStart().startsWith('"filled-tonal": ')).every((line) => line.includes("var(--on-surface)_38%")));
+
   assert.ok(iconButton.includes("const toggleUncheckedStyles: Record<IconButtonStyle, string>"));
   assert.ok(iconButton.includes("const toggleCheckedStyles: Record<IconButtonStyle, string>"));
   assert.ok(iconButton.includes('filled: "border border-transparent bg-[var(--icon-button-container-color,var(--surface-container))] text-[var(--icon-button-content-color,var(--on-surface-variant))]'));
