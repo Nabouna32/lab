@@ -298,8 +298,8 @@ The product should never ask users to trust blindly when the system can explain 
 
 L’inventaire des prestataires distingue les journaux applicatifs des journaux gérés par les hébergeurs :
 
-- **Supabase Free** : les logs de plateforme/API/base de données et Auth ont des durées propres au forfait.
-- **Vercel Hobby** : les logs runtime et build ont des durées propres au forfait.
+- **Supabase Free** : les logs de plateforme/API/base de données sont conservés 24 heures ; Auth Audit Logs est limité à une heure.
+- **Vercel Hobby** : les logs runtime sont conservés une heure ; les logs de build restent associés aux déploiements sans purge automatique.
 - Ces journaux fournisseurs ne sont pas purgés par Loculary. Aucun Log Drain, export tiers ou archivage externe de ces journaux n’est prévu.
 
 **Politique applicative cible, versionnée dans la branche de travail et non encore active en production :** douze mois glissants pour le journal administratif Loculary et les exécutions terminées de `pg_cron`, avec purge automatique quotidienne. Les exécutions cron incomplètes restent préservées. Aucun mécanisme d’exception de conservation ni archive des journaux applicatifs n’est conservé. Aucune sauvegarde Google Drive ou archive externe de ces journaux n’est créée.
