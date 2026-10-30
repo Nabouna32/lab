@@ -1,6 +1,6 @@
 begin;
 
-select plan(20);
+select plan(19);
 
 select ok(
   to_regclass('private.admin_audit_log_retention_holds') is null,
@@ -91,11 +91,6 @@ values
     -987656, 987656, pg_backend_pid(), current_database(), current_user, 'select 1',
     'running', now() - interval '13 months', null
   );
-
-select lives_ok(
-  $$select private.prune_retained_logs()$$,
-  'the twelve-month purge executes successfully'
-);
 
 create temporary table retention_result on commit drop as
 select private.prune_retained_logs() as result;
