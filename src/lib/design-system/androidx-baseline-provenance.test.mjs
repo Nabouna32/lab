@@ -59,7 +59,7 @@ test("Material 3 stable source provenance is pinned without overstating API alig
   assert.equal(stableApiBlobSha1, releaseSnapshot.apiDumpGitBlobSha1);
   assert.match(stableApiDump.toString("utf8").slice(0, 40), /Signature format: 4\.0/);
 
-  assert.equal(baseline.apiDumpAlignment.status, "OFFICIAL_STABLE_DUMP_AND_SOURCE_COMMIT_VERIFIED_BINARY_API_COMPARISON_PENDING");
+  assert.equal(baseline.apiDumpAlignment.status, "OFFICIAL_STABLE_DUMP_AND_SOURCE_COMMIT_VERIFIED_METHODS_MATCH_OTHER_API_DECLARATIONS_PENDING");
   assert.equal(baseline.apiDumpAlignment.exactStableDump.path, "compose/material3/material3/api/current.txt");
   assert.equal(baseline.apiDumpAlignment.exactStableDump.commit, releaseSnapshot.commit);
   assert.equal(baseline.apiDumpAlignment.repositorySourceCommit, releaseSnapshot.commit);
@@ -91,7 +91,15 @@ test("Material 3 Android derived inventory is reproducible and does not claim Ko
   assert.equal(material3AndroidInventory.androidAar.classFilesWithoutSourceFileMatch.length, 14);
   assert.equal(material3AndroidInventory.gradleModuleMetadata.common.variantCount, 12);
   assert.equal(material3AndroidInventory.gradleModuleMetadata.android.component.module, "material3");
-  assert.equal(material3AndroidInventory.interpretation.apiDumpAlignment, "OFFICIAL_STABLE_DUMP_AND_SOURCE_COMMIT_VERIFIED_BINARY_API_COMPARISON_PENDING");
+  assert.equal(material3AndroidInventory.interpretation.apiDumpAlignment, "OFFICIAL_STABLE_DUMP_AND_SOURCE_COMMIT_VERIFIED_METHODS_MATCH_OTHER_API_DECLARATIONS_PENDING");
+  assert.equal(material3AndroidInventory.apiDumpBinaryComparison.apiClassCount, 232);
+  assert.equal(material3AndroidInventory.apiDumpBinaryComparison.binaryClassMatches, 232);
+  assert.equal(material3AndroidInventory.apiDumpBinaryComparison.apiMethodCount, 1802);
+  assert.equal(material3AndroidInventory.apiDumpBinaryComparison.sourceLevelNameMatches, 807);
+  assert.equal(material3AndroidInventory.apiDumpBinaryComparison.bytecodeOnlyDescriptorMatches, 995);
+  assert.equal(material3AndroidInventory.apiDumpBinaryComparison.missingClasses.length, 0);
+  assert.equal(material3AndroidInventory.apiDumpBinaryComparison.missingMethods.length, 0);
+  assert.match(material3AndroidInventory.interpretation.methodSurfaceComparison, /995\/995 @BytecodeOnly JVM descriptors match exactly/);
   assert.equal(material3AndroidInventory.officialApiDump.commit, "5113b82a4ed6416d6344efa50e41db8cb65928ff");
   assert.equal(material3AndroidInventory.officialApiDump.gitBlobSha1, "fd45e9feea96a631c0f8b7ac82f88ee9ce999029");
   assert.equal(material3AndroidInventory.officialApiDump.libraryVersionMarker, 'COMPOSE_MATERIAL3 = "1.4.0"');
@@ -131,7 +139,7 @@ test("Material 3 Android release artifacts are independently pinned without clai
   assert.match(android.verification.workflowRun, /^https:\/\/github\.com\/Nabouna32\/lab\/actions\/runs\/\d+$/);
   assert.match(android.verification.verifiedCommit, /^[a-f0-9]{40}$/);
   assert.match(android.verification.artifactUrl, /^https:\/\/github\.com\/Nabouna32\/lab\/actions\/runs\/\d+\/artifacts\/\d+$/);
-  assert.equal(baseline.apiDumpAlignment.status, "OFFICIAL_STABLE_DUMP_AND_SOURCE_COMMIT_VERIFIED_BINARY_API_COMPARISON_PENDING");
+  assert.equal(baseline.apiDumpAlignment.status, "OFFICIAL_STABLE_DUMP_AND_SOURCE_COMMIT_VERIFIED_METHODS_MATCH_OTHER_API_DECLARATIONS_PENDING");
 });
 
 test("Material Components Views source archive provenance is verified and pinned separately", () => {
