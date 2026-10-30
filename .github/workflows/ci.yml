@@ -156,9 +156,18 @@ jobs:
           python3 .github/scripts/test_inspect_material3_android_aar.py
           python3 .github/scripts/test_verify_material3_source_commit.py
 
+      - name: Discover official AndroidX Compose release refs
+        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
+        run: |
+          git ls-remote --heads --tags https://android.googlesource.com/platform/frameworks/support \
+            'refs/heads/*compose*' \
+            'refs/tags/*compose*1.12.1*' \
+            > /tmp/androidx-compose-release-refs.txt
+          test -s /tmp/androidx-compose-release-refs.txt
+
       - name: Inspect official Compose 1.12.1 release API provenance
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
-        run: node .github/scripts/inspect-compose-release-api-provenance.mjs /tmp/compose-release-api-provenance
+        run: node .github/scripts/inspect-compose-release-api-provenance.mjs /tmp/compose-release-api-provenance /tmp/androidx-compose-release-refs.txt
 
       - name: Upload Compose 1.12.1 release API provenance
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
