@@ -36,6 +36,18 @@ test('parses targeted git ls-remote refs and resolves an immutable Compose relea
   );
 });
 
+test('uses the peeled commit for annotated Git release tags', () => {
+  const tagCommit = 'd'.repeat(40);
+  const refs = parseGitLsRemoteRefs([
+    'c'.repeat(40) + ' refs/tags/androidx-compose-ui-1.12.1',
+    tagCommit + ' refs/tags/androidx-compose-ui-1.12.1^{}',
+  ].join('\n'));
+  assert.deepEqual(refs, [{
+    ref: 'refs/tags/androidx-compose-ui-1.12.1',
+    commit: tagCommit,
+  }]);
+});
+
 test('reports discovered Compose release refs when no expected ref exists', () => {
   const refs = parseGitLsRemoteRefs([
     COMMIT + ' refs/heads/androidx-compose-main',
