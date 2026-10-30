@@ -6,6 +6,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
 import struct
 import sys
 import zipfile
@@ -63,15 +64,27 @@ def read_class_summary(data: bytes) -> dict:
     offset += 2 + 2 * interface_count
 
     counts = {}
+    method_signatures = []
     for kind in ("fields", "methods"):
         member_count = struct.unpack_from(">H", data, offset)[0]
         offset += 2
         visible_count = 0
         for _ in range(member_count):
             access = struct.unpack_from(">H", data, offset)[0]
+            name_index = struct.unpack_from(">H", data, offset + 2)[0]
+            descriptor_index = struct.unpack_from(">H", data, offset + 4)[0]
             offset += 6  # access_flags, name_index, descriptor_index
             if access & 0x0005:  # ACC_PUBLIC | ACC_PROTECTED
                 visible_count += 1
+            if kind == "methods":
+                method_name = constant_pool[name_index]
+                method_descriptor = constant_pool[descriptor_index]
+                if method_name and method_name[0] == 1 and method_descriptor and method_descriptor[0] == 1:
+                    method_signatures.append({
+                        "name": method_name[1],
+                        "descriptor": method_descriptor[1],
+                        "publicProtected": bool(access & 0x0005),
+                    })
             attribute_count = struct.unpack_from(">H", data, offset)[0]
             offset += 2
             for _ in range(attribute_count):
@@ -103,7 +116,82 @@ def read_class_summary(data: bytes) -> dict:
     return {
         "classIsPublic": bool(class_access & 0x0001),
         "sourceFile": source_file,
+        "methodSignatures": method_signatures,
         **counts,
+    }
+
+
+def parse_api_dump(api_dump: str) -> dict:
+    classes = {}
+    current_package = None
+    current_class = None
+    for line in api_dump.splitlines():
+        package_match = re.match(r"^package\s+([\w.]+)\s+\{$", line)
+        if package_match:
+            current_package = package_match.group(1)
+            current_class = None
+            continue
+        class_match = re.match(
+            r"^\s*public\b.*?\b(?:class|interface|enum|@interface|record)\s+([A-Za-z0-9_.$]+).*?\{$",
+            line,
+        )
+        if class_match and current_package:
+            class_name = class_match.group(1).replace(".", "$")
+            current_class = current_package.replace(".", "/") + "/" + class_name
+            classes[current_class] = []
+            continue
+        if current_class and re.match(r"^\s*method\s+", line):
+            signature = line.split("method", 1)[1]
+            method_match = re.search(r"\s([A-Za-z_$][A-Za-z0-9_$-]*)\s*\(.*\);$", signature)
+            if method_match:
+                classes[current_class].append({
+                    "name": method_match.group(1),
+                    "bytecodeOnly": "@BytecodeOnly" in line,
+                })
+        if line == "  }":
+            current_class = None
+    return classes
+
+
+def compare_api_dump_to_binary(api_dump: str, binary_classes: list[tuple[str, dict, bool]]) -> dict:
+    api_classes = parse_api_dump(api_dump)
+    binary_by_name = {name[:-6]: summary for name, summary, _ in binary_classes}
+    missing_classes = []
+    missing_methods = []
+    matched_methods = 0
+    bytecode_only_methods = 0
+    bytecode_only_method_names_matched = 0
+
+    for class_name, api_methods in api_classes.items():
+        binary = binary_by_name.get(class_name)
+        if binary is None:
+            missing_classes.append(class_name + ".class")
+            for method in api_methods:
+                missing_methods.append({"class": class_name, "method": method["name"], "reason": "class-missing"})
+            continue
+        binary_method_names = {method["name"] for method in binary["methodSignatures"]}
+        for method in api_methods:
+            if method["bytecodeOnly"]:
+                bytecode_only_methods += 1
+            if method["name"] in binary_method_names:
+                matched_methods += 1
+                if method["bytecodeOnly"]:
+                    bytecode_only_method_names_matched += 1
+            else:
+                missing_methods.append({"class": class_name, "method": method["name"], "reason": "method-name-missing"})
+
+    api_method_count = sum(len(methods) for methods in api_classes.values())
+    return {
+        "apiClassCount": len(api_classes),
+        "binaryClassMatches": len(api_classes) - len(missing_classes),
+        "missingClasses": missing_classes,
+        "apiMethodCount": api_method_count,
+        "methodNameMatches": matched_methods,
+        "missingMethods": missing_methods,
+        "bytecodeOnlyMethodCount": bytecode_only_methods,
+        "bytecodeOnlyMethodNameMatches": bytecode_only_method_names_matched,
+        "comparisonMode": "class names and method names only; JVM descriptors and Kotlin source-level type semantics are not compared",
+        "status": "class-and-method-names-match" if not missing_classes and not missing_methods else "mismatches-found",
     }
 
 
@@ -131,6 +219,7 @@ def inspect(directory: Path) -> dict:
     common_module_bytes, common_module_record = verify_file(directory, verification, "material3-1.4.0.module")
     android_module_bytes, android_module_record = verify_file(directory, verification, "material3-android-1.4.0.module")
 
+    api_dump_text = api_dump_bytes.decode("utf-8")
     source_sets = Counter()
     source_files_by_package = defaultdict(set)
     with zipfile.ZipFile(__import__("io").BytesIO(source_bytes)) as source_archive:
@@ -161,6 +250,7 @@ def inspect(directory: Path) -> dict:
             binary_classes.append((name, summary, matched))
 
     matched_classes = [item for item in binary_classes if item[2]]
+    api_binary_comparison = compare_api_dump_to_binary(api_dump_text, binary_classes)
     unmatched_classes = [
         {"classFile": name, "sourceFile": summary["sourceFile"]}
         for name, summary, matched in binary_classes
@@ -232,6 +322,7 @@ def inspect(directory: Path) -> dict:
             "classFilesMappedToPublishedSourceFile": len(matched_classes),
             "classFilesWithoutSourceFileMatch": unmatched_classes,
         },
+        "apiDumpBinaryComparison": api_binary_comparison,
         "sourceRepositoryCommit": {
             "repository": source_commit_report["repository"],
             "branch": source_commit_report["branch"],
