@@ -212,6 +212,12 @@ export function verifyReleaseProvenanceManifest(report, manifest) {
   if (manifest.referenceVersion !== report.referenceVersion) throw new Error('Compose API provenance reference version drifted.');
   if (manifest.releaseCommit !== report.groups[0]?.commit) throw new Error('Compose API provenance release commit drifted.');
   if (manifest.releaseRef !== report.groups[0]?.ref) throw new Error('Compose API provenance release ref drifted.');
+  if (manifest.versionMarkers?.COMPOSE !== report.referenceVersion) throw new Error('Compose shared version marker drifted.');
+  for (const group of report.groups) {
+    if (manifest.versionMarkers?.[group.versionMarker] !== 'versions.COMPOSE') {
+      throw new Error(group.versionMarker + ' must remain linked to versions.COMPOSE.');
+    }
+  }
   const library = report.groups[0]?.libraryVersions;
   if (
     manifest.libraryVersions?.sha256 !== library?.sha256 ||
