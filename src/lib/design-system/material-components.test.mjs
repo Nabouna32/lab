@@ -756,6 +756,8 @@ test("email and password settings use dedicated Material 3 page compositions", (
   assert.match(messagesSource, /showPassword: "Show password"/);
   assert.match(messagesSource, /hidePassword: "Hide password"/);
   assert.match(outlinedSecureTextFieldSource, /<IconButton/);
+  assert.match(outlinedSecureTextFieldSource, /autoComplete: "current-password" \| "new-password"/);
+  assert.doesNotMatch(outlinedSecureTextFieldSource, /autoComplete \?\?/);
   assert.match(outlinedSecureTextFieldSource, /<MaterialIcon name=\{revealed \? "visibility_off" : "visibility"\}/);
   assert.doesNotMatch(outlinedSecureTextFieldSource, /"Show password"|"Hide password"|"Show"|"Hide"/);
   assert.doesNotMatch(outlinedTextFieldSource, /data-variant|secure/);
