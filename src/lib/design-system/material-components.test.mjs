@@ -606,6 +606,8 @@ test("ListItem follows AndroidX baseline metrics and safely wraps long content",
 test("account overview exposes localized account destinations without revealing the email value", () => {
   const accountPage = readFileSync(new URL("../../app/[locale]/compte/page.tsx", import.meta.url), "utf8");
 
+  assert.match(accountPage, /import \{ ListItem \} from "@\/components\/ui\/ListItem"/);
+  assert.equal((accountPage.match(/<ListItem\b/g) ?? []).length, 3, "profile, email and password settings keep the shared Material 3 ListItem");
   assert.match(accountPage, /href=\{\`\/\$\{locale\}\/compte\/email\`\}/);
   assert.match(accountPage, /href=\{\`\/\$\{locale\}\/compte\/mot-de-passe\`\}/);
   assert.doesNotMatch(accountPage, /\{user\.email\}/);
