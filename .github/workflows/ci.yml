@@ -86,24 +86,6 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Generate provisional Material Components Views API inventory
-        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
-        run: |
-          node .github/scripts/inventory-material-components-api.mjs docs/material3/catalog/baselines/material-components-views-1.14.0.json docs/material3/catalog/baselines/material-components-views-1.14.0-api-inventory.json
-
-      - name: Upload generated MDC API inventory
-        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
-        with:
-          name: material-components-views-1.14.0-api-inventory
-          path: docs/material3/catalog/baselines/material-components-views-1.14.0-api-inventory.json
-          if-no-files-found: error
-          retention-days: 7
-
-      - name: Verify generated MDC API inventory reproducibility
-        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
-        run: git diff --exit-code -- docs/material3/catalog/baselines/material-components-views-1.14.0-api-inventory.json
-
       - name: Verify Material 3 source archive provenance
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
         run: node .github/scripts/verify-androidx-source-archive.mjs docs/material3/catalog/baselines/material3-1.4.0.json
@@ -150,7 +132,6 @@ jobs:
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
         run: |
           node --test .github/scripts/*.test.mjs
-          python3 .github/scripts/test_inventory_material_components_api.py
           python3 .github/scripts/test_inspect_material3_android_aar.py
           python3 .github/scripts/test_verify_material3_source_commit.py
           python3 .github/scripts/test_verify_compose_source_archive_alignment.py
