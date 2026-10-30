@@ -22,8 +22,7 @@ La version stable 1.4.0 est le candidat initial à évaluer. L'archive officiell
 
 La provenance de Material 3 1.4.0 est enregistrée dans le [manifeste versionné](catalog/baselines/material3-1.4.0.json). Celui-ci distingue l'intégrité de l'archive publiée, la provenance du code source et l'alignement de l'API ; chaque statut reflète les preuves réellement disponibles.
 
-Un contrôle du dépôt à un commit AndroidX immuable confirme une limite importante : dans [`compose/material3/material3/api/` au commit `5901d750e269aa3d88f6fccd5186637df83a0173`](https://github.com/androidx/androidx/tree/5901d750e269aa3d88f6fccd5186637df83a0173/compose/material3/material3/api), les snapshots versionnés présents vont jusqu'à `1.4.0-beta03` et `1.5.0-beta01`, avec `current.txt`, mais il n'y a pas de `1.4.0.txt`. Le dump `current.txt` ne peut donc pas être présenté comme l'API exacte de la version stable 1.4.0. La baseline sémantique doit rester ancrée sur l'archive source publiée `1.4.0` ; l'inventaire de surface stable reste `UNVERIFIED` tant qu'un dump de la release correspondante ou une extraction vérifiable de cette archive n'est pas disponible.
-
+La référence stable Material 3 1.4.0 est désormais établie directement depuis le commit de release `5113b82a4ed6416d6344efa50e41db8cb65928ff` : le marqueur `COMPOSE_MATERIAL3` vaut `1.4.0`, le dump `current.txt` est épinglé par Git blob SHA-1 et les 249 sources Kotlin publiées sont comparées byte pour byte au même commit. Il n'est donc pas nécessaire de conserver un snapshot parallèle de la branche de développement pour définir cette baseline.
 
 ## Provenance stable Compose UI / Foundation 1.12.1
 
