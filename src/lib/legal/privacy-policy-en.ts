@@ -5,7 +5,7 @@ const en: PrivacyPolicyContent = {
   metaDescription: "Personal data, accounts, local storage, providers and user rights on Loculary.",
   title: "Privacy policy",
   updatedLabel: "Last updated",
-  updatedAt: "22 October 2026",
+  updatedAt: "30 October 2026",
   temporaryNoticeTitle: "Compliance items still to be verified",
   temporaryNotice: "Contact details have been provided. Retention periods for some logs, provider retention settings and the contractual safeguards applicable to transfers still need to be verified and documented.",
   intro: "Loculary aims to minimise data collection and favour processing in your browser. This policy describes processing identified in the code and configuration reviewed. Practices may change; check each tool’s processing information before submitting data to it.",
@@ -54,7 +54,7 @@ const en: PrivacyPolicyContent = {
       "Infrastructure logs: retention depends on provider settings and policies, which need confirmation for the deployed configuration."
     ]},
     { title: "8. Cookies and browser storage", paragraphs: [
-      "Authentication may use cookies or session mechanisms needed for account functionality. The browser may also retain preferences, favourites, anonymous collections or recently used tools.",
+      "Authentication may use cookies or session mechanisms needed for account functionality. The browser may also retain preferences, favourites and anonymous collections. Recently opened tool IDs remain only in memory in the current tab; they are not written to persistent browser storage and disappear when the page is reloaded or the tab is closed.",
       "The source-code review for this version did not identify an advertising integration or audience analytics tool. A separate production check is still needed to establish the full inventory of cookies, trackers and third-party scripts, their durations and triggers."
     ]},
     { title: "9. Your rights", paragraphs: [
