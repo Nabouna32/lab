@@ -4,7 +4,7 @@
 
 La cible est **Material 3 Fidelity**, et non Material 3 Expressive. AndroidX Jetpack Compose Material 3 fait autorité pour les API, valeurs par défaut, états et comportements qu’il définit. L’objectif est un portage React/Web fidèle, pas une imitation visuelle.
 
-Le code existant de Loculary est une entrée de migration, pas une contrainte. Pour chaque implémentation, décider de la remplacer par un portage AndroidX, de la supprimer, de la conserver comme composition produit explicitement nommée ou de l’adapter aux sémantiques du Web. Ne pas préserver un composant ou une page uniquement pour réduire le diff. Une refonte complète est permise si elle améliore réellement la cohérence du parcours.
+Le code existant de Loculary est une entrée de migration, pas une contrainte. Remplacer les composants, primitives de présentation et compositions d'interface propres à Loculary par les composants AndroidX pertinents ou leurs adaptations React/Web. Ne pas créer une composition spécifique lorsque les composants et patterns éprouvés couvrent déjà le besoin. Les pages assemblent ces composants pour répondre aux tâches du produit, sans réimplémenter leurs contrats ni introduire une bibliothèque parallèle. Une exception propre à Loculary n'est admise que lorsqu'aucune solution AndroidX ou adaptation Web pertinente n'existe, ou qu'elle compromettrait une exigence réelle ; elle doit être rare, minimale et justifiée. Après migration, supprimer les implémentations et styles devenus obsolètes. Ne pas préserver un composant ou une page uniquement pour réduire le diff.
 
 L’ambition produit est une expérience grand public soignée et fiable ; ce niveau de qualité visé ne signifie pas que la conformité actuelle est acquise. Les sémantiques Web, l’accessibilité, la confidentialité, les performances et les langues française et anglaise restent obligatoires.
 
@@ -52,7 +52,7 @@ Avant de modifier une page ou un composant :
 
 - Examiner la spécification AndroidX pertinente et la version épinglée.
 - Auditer les usages réels, les composants partagés et le parcours complet concerné.
-- Comparer une migration ciblée à une refonte depuis une page blanche ; choisir selon le résultat, pas selon le volume du diff.
+- Identifier les composants et patterns AndroidX/Web éprouvés qui répondent au besoin ; préférer leur réutilisation et leur adaptation à l'invention d'une nouvelle composition. Une refonte n'est pertinente que si elle permet d'adopter plus fidèlement ces modèles et d'améliorer le parcours.
 - Préserver les sémantiques natives du Web : une navigation reste un lien, une action reste un bouton.
 - Ne pas inventer de variante, de couleur ou de comportement destructif au seul motif qu’il semble intuitif.
 - Utiliser des icônes Material adaptées à leur sens. Le remplacement d’un emoji par un symbole ne valide ni la sémantique ni le rendu.
@@ -104,7 +104,7 @@ La validation navigateur de `NavigationBar` reste suivie dans [l’issue #977](h
 1. Inventorier les styles et composants locaux hérités, les consommateurs des fondations et les contrats déjà partagés.
 2. Corriger les fondations et composants communs en priorité, avec une source AndroidX immuable et des tests de contrat.
 3. Migrer les consommateurs par familles cohérentes ; supprimer les anciennes règles seulement après inventaire des références et validation des remplacements.
-4. Pour chaque page, comparer explicitement la migration ciblée à une refonte depuis une page blanche, expliquer les conséquences et retenir la meilleure expérience plutôt que le plus petit diff.
+4. Pour chaque page, migrer les compositions propres à Loculary vers les composants AndroidX et leurs adaptations Web ; n'envisager une refonte que pour adopter un modèle éprouvé plus cohérent, et supprimer ensuite les implémentations remplacées.
 5. Vérifier les pages et interactions dans le navigateur ; les tests statiques ne suffisent pas.
 
 Une valeur écrite en dur est à examiner, pas à conserver par défaut. Elle ne reste locale que si elle décrit une différence réellement spécifique au composant ou à la composition, ou une adaptation Web nécessaire, et si sa justification est documentée. Les valeurs qui relèvent d’un contrat AndroidX doivent venir de ce contrat partagé.
