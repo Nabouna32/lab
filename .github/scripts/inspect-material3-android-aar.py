@@ -134,7 +134,7 @@ def _strip_api_modifiers(value: str) -> str:
     value = value.strip()
     modifiers = {
         "public", "protected", "private", "static", "final", "abstract",
-        "synchronized", "native", "default", "transient", "volatile",
+        "synchronized", "native", "default", "transient", "volatile", "suspend",
     }
     while value:
         token, separator, remainder = value.partition(" ")
@@ -233,6 +233,8 @@ def parse_api_dump(api_dump: str) -> dict:
                             "parameterTypes": parameters,
                             "bytecodeOnly": "@BytecodeOnly" in signature,
                             "kotlinOnly": "@KotlinOnly" in signature,
+                            "composable": "@androidx.compose.runtime.Composable" in signature or "@Composable" in signature,
+                            "static": bool(re.search(r"\\bstatic\\b", signature)),
                             "signature": signature,
                         })
                     else:
@@ -311,7 +313,34 @@ def api_type_to_jvm_descriptor(type_name: str, is_return: bool = False) -> str |
             return "L" + wrappers[primitive[value]] + ";"
         return primitive[value]
 
+    value_classes = {
+        "androidx.compose.ui.graphics.Color": "J",
+        "androidx.compose.ui.unit.Dp": "F",
+        "androidx.compose.ui.unit.DpSize": "J",
+        "androidx.compose.ui.unit.DpOffset": "J",
+        "androidx.compose.ui.unit.TextUnit": "J",
+        "androidx.compose.ui.geometry.Offset": "J",
+        "androidx.compose.ui.geometry.Size": "J",
+        "androidx.compose.ui.geometry.CornerRadius": "J",
+        "androidx.compose.ui.unit.IntOffset": "J",
+        "androidx.compose.ui.unit.IntSize": "J",
+        "androidx.compose.ui.unit.Constraints": "J",
+        "androidx.compose.ui.graphics.TransformOrigin": "J",
+        "androidx.compose.ui.graphics.StrokeCap": "I",
+        "androidx.compose.ui.graphics.PathFillType": "I",
+        "androidx.compose.ui.graphics.BlendMode": "I",
+        "androidx.compose.ui.graphics.FilterQuality": "I",
+        "androidx.compose.ui.graphics.TileMode": "I",
+        "androidx.compose.ui.graphics.ClipOp": "I",
+    }
+    if value in value_classes:
+        if nullable:
+            return "L" + value.replace(".", "/") + ";"
+        return value_classes[value]
+
     aliases = {
+        "Object": "java/lang/Object",
+        "java.lang.Object": "java/lang/Object",
         "kotlin.String": "java/lang/String",
         "String": "java/lang/String",
         "kotlin.Any": "java/lang/Object",
@@ -378,16 +407,25 @@ def bytecode_only_method_descriptor(signature: str) -> tuple[str, str] | None:
     return method_name, "(" + "".join(parameter_descriptors) + ")" + return_descriptor
 
 
-def _descriptor_for_api_callable(member: dict) -> tuple[str, str] | None:
+def _descriptor_for_api_callable(member: dict, constructor: bool = False) -> tuple[str, str] | None:
     parameters = []
     for parameter_type in member["parameterTypes"]:
         descriptor = api_type_to_jvm_descriptor(parameter_type)
         if descriptor is None:
             return None
         parameters.append(descriptor)
+    if constructor:
+        if member.get("kotlinOnly"):
+            parameters.append("Lkotlin/jvm/internal/DefaultConstructorMarker;")
+        return member["name"], "(" + "".join(parameters) + ")V"
     return_descriptor = api_type_to_jvm_descriptor(member["returnType"], is_return=True)
     if return_descriptor is None:
         return None
+    if member.get("composable"):
+        parameters.append("Landroidx/compose/runtime/Composer;")
+        parameters.append("I")
+        if member.get("static"):
+            parameters.append("I")
     return member["name"], "(" + "".join(parameters) + ")" + return_descriptor
 
 
@@ -462,7 +500,7 @@ def compare_api_dump_to_binary(api_dump: str, binary_classes: list[tuple[str, di
 
         for constructor in api_members["constructors"]:
             counts["constructors"] += 1
-            parsed = _descriptor_for_api_callable(constructor)
+            parsed = _descriptor_for_api_callable(constructor, constructor=True)
             if parsed is None:
                 unsupported_signatures.append({
                     "kind": "constructor", "class": class_name,
@@ -505,9 +543,25 @@ def compare_api_dump_to_binary(api_dump: str, binary_classes: list[tuple[str, di
                 })
                 continue
             getter = _property_getter_name(prop["name"])
-            expected = "()" + descriptor
+            property_parameters = []
+            if prop.get("receiverType"):
+                receiver_descriptor = api_type_to_jvm_descriptor(prop["receiverType"])
+                if receiver_descriptor is None:
+                    unsupported_signatures.append({
+                        "kind": "property", "class": class_name,
+                        "signature": prop["signature"], "reason": "unsupported-extension-receiver-descriptor",
+                    })
+                    continue
+                property_parameters.append(receiver_descriptor)
+            if prop.get("composable"):
+                property_parameters.append("Landroidx/compose/runtime/Composer;")
+                property_parameters.append("I")
+                if prop.get("static"):
+                    property_parameters.append("I")
+            expected = "(" + "".join(property_parameters) + ")" + descriptor
             if any(
-                item["name"] == getter and item["descriptor"] == expected
+                (item["name"] == getter or item["name"].startswith(getter + "-"))
+                and item["descriptor"] == expected
                 for item in binary_methods
             ):
                 counts["propertyAccessorMatches"] += 1
