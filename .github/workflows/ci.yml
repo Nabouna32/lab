@@ -148,6 +148,19 @@ jobs:
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
         run: node .github/scripts/verify-compose-api-watch-snapshots.mjs
 
+      - name: Inspect official Compose 1.12.1 release API provenance
+        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
+        run: node .github/scripts/inspect-compose-release-api-provenance.mjs /tmp/compose-release-api-provenance
+
+      - name: Upload Compose 1.12.1 release API provenance
+        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: compose-release-api-provenance-1.12.1
+          path: /tmp/compose-release-api-provenance/
+          if-no-files-found: error
+          retention-days: 7
+
       - name: Exercise CI tooling tests
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
         run: |
