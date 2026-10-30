@@ -114,16 +114,16 @@ def source_tree_candidates(jar_path: str) -> list[str]:
 def generated_proguard_detection_source(package_name: str) -> bytes:
     # Exact output of AndroidX GenerateProguardDetectionFileTask.trimIndent() for androidx.compose.ui:ui.
     return (
-        f"package {package_name};\\n\\n"
-        "/**\\n"
-        " * Purposely empty, unused class that would be removed by proguard.\\n"
-        " *\\n"
-        " * We use this class to detect if a target app was proguarded or not, because if it was,\\n"
-        " * it likely means we can't reliably inspect it, since library's methods used only by\\n"
-        " * an inspector would get removed. Instead, we'll need to tell users that app\\n"
-        " * inspection isn't available for the current app and that they should rebuild it\\n"
-        " * again without proguarding to continue.\\n"
-        " */\\n"
+        f"package {package_name};\n\n"
+        "/**\n"
+        " * Purposely empty, unused class that would be removed by proguard.\n"
+        " *\n"
+        " * We use this class to detect if a target app was proguarded or not, because if it was,\n"
+        " * it likely means we can't reliably inspect it, since library's methods used only by\n"
+        " * an inspector would get removed. Instead, we'll need to tell users that app\n"
+        " * inspection isn't available for the current app and that they should rebuild it\n"
+        " * again without proguarding to continue.\n"
+        " */\n"
         " private class ProguardDetection {}"
     ).encode("utf-8")
 
