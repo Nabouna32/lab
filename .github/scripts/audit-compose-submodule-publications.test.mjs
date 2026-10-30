@@ -67,6 +67,7 @@ test('accepts an Android publication metadata redirect to its logical module', (
       version: '1.12.1',
       attributes: { 'org.gradle.status': 'release' },
     },
+    variants: [],
   };
   const result = validateModuleMetadata(Buffer.from(JSON.stringify(metadata)), {
     group: 'androidx.compose.ui',
