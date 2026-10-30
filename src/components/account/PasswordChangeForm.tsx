@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { changePassword } from "@/app/[locale]/compte/actions";
-import { MaterialTextField } from "@/components/ui/MaterialTextField";
+import { OutlinedSecureTextField } from "@/components/ui/OutlinedSecureTextField";
 import SubmitButton from "@/components/account/SubmitButton";
 import type { Messages } from "@/lib/i18n/messages";
 
@@ -21,15 +21,15 @@ export default function PasswordChangeForm({ locale, t, serverError }: { locale:
     <form action={changePassword} className="mt-6">
       <input type="hidden" name="locale" value={locale} />
       <div className="grid gap-[var(--space-5)]">
-        <MaterialTextField id="current-password" name="currentPassword" label={t.currentPassword} type="password" secure showPasswordLabel={t.showPassword} hidePasswordLabel={t.hidePassword}
+        <OutlinedSecureTextField id="current-password" name="currentPassword" label={t.currentPassword} showPasswordLabel={t.showPassword} hidePasswordLabel={t.hidePassword}
           value={currentPassword} onChange={(value) => { setCurrentPassword(value); setCurrentEdited(true); }}
           autoComplete="current-password" required
           error={serverError === "current-password" && !currentEdited ? t.currentPasswordError : undefined} />
-        <MaterialTextField id="new-password" name="password" label={t.password} type="password" secure showPasswordLabel={t.showPassword} hidePasswordLabel={t.hidePassword}
+        <OutlinedSecureTextField id="new-password" name="password" label={t.password} showPasswordLabel={t.showPassword} hidePasswordLabel={t.hidePassword}
           value={password} onChange={setPassword} autoComplete="new-password" minLength={8} maxLength={128} required
           supportingText={!minOk && password.length > 0 ? undefined : t.passwordRuleMin}
           error={password.length > 0 && !minOk ? t.passwordRuleMin : undefined} />
-        <MaterialTextField id="password-confirmation" name="passwordConfirmation" label={t.passwordConfirmation} type="password" secure showPasswordLabel={t.showPassword} hidePasswordLabel={t.hidePassword}
+        <OutlinedSecureTextField id="password-confirmation" name="passwordConfirmation" label={t.passwordConfirmation} showPasswordLabel={t.showPassword} hidePasswordLabel={t.hidePassword}
           value={confirmation} onChange={setConfirmation} autoComplete="new-password" minLength={8} maxLength={128} required
           error={confirmationMismatch ? t.passwordRuleMatch : undefined} />
         {serverError === "weak-password" ? <p className="rounded-[var(--shape-corner-medium)] bg-[var(--error-container)] px-4 py-3 m3-type-body-medium text-[var(--on-error-container)]" role="alert">{t.weakPassword}</p> : null}
