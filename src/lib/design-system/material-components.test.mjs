@@ -442,6 +442,8 @@ test("Design Lab exposes the production OutlinedSecureTextField without requirin
 test("TextField and TextArea keep their explicit inputId bound to the visible label", () => {
   assert.match(textFieldSource, /Omit<InputHTMLAttributes<HTMLInputElement>, "id">/);
   assert.equal((textFieldSource.match(/\{\.\.\.inputProps\}\s+id=\{inputId\}/g) ?? []).length, 1);
+  assert.doesNotMatch(textAreaSource, /variant\?: "fidelity" \| "expressive"/);
+  assert.doesNotMatch(textAreaSource, /shape-corner-extra-large|surface-container-highest/);
   assert.match(textAreaSource, /Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "id">/);
   assert.match(textAreaSource, /\{\.\.\.textareaProps\}\s+id=\{inputId\}/);
   assert.match(calculatorFieldSource, /Omit<InputHTMLAttributes<HTMLInputElement>, "id">/);

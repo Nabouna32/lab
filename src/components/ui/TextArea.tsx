@@ -3,8 +3,6 @@ import type { TextareaHTMLAttributes } from "react";
 type TextAreaProps = Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "id"> & {
   label: string;
   inputId: string;
-  /** Fidelity keeps the Web baseline; Expressive is a source-informed visual adaptation. */
-  variant?: "fidelity" | "expressive";
   helperText?: string;
   error?: string;
 };
@@ -19,7 +17,6 @@ export function TextArea({
   inputId,
   className = "",
   disabled = false,
-  variant = "fidelity",
   helperText,
   error,
   rows = 4,
@@ -28,7 +25,6 @@ export function TextArea({
 }: TextAreaProps) {
   const helperId = `${inputId}-helper`;
   const errorId = `${inputId}-error`;
-  const expressive = variant === "expressive";
   const {
     "aria-describedby": consumerDescribedBy,
     "aria-invalid": consumerInvalid,
@@ -58,9 +54,7 @@ export function TextArea({
         aria-describedby={describedBy}
         className={[
           "w-full resize-y border px-[var(--m3-space-3)] py-[var(--m3-space-3)] text-[var(--on-surface)] outline-none transition-[border-color,box-shadow,background-color] duration-[var(--motion-standard)] placeholder:text-[var(--on-surface-variant)]",
-          expressive
-            ? "min-h-[var(--m3-size-multiline-text-field-min-height)] rounded-[var(--shape-corner-extra-large)] border-transparent bg-[var(--surface-container-highest)]"
-            : "min-h-[var(--m3-size-multiline-text-field-min-height)] rounded-[var(--shape-corner-extra-small)] border-[var(--outline)] bg-[var(--surface)]",
+          "min-h-[var(--m3-size-multiline-text-field-min-height)] rounded-[var(--shape-corner-extra-small)] border-[var(--outline)] bg-[var(--surface)]",
           "hover:border-[var(--outline)]",
           "focus-visible:border-[var(--primary)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]",
           "aria-[invalid=true]:border-[var(--error)] aria-[invalid=true]:focus-visible:ring-[var(--error)]/20",

@@ -150,6 +150,9 @@ test("TextArea merges and deduplicates external descriptions with its error", as
   assert.equal(Number(textarea.getAttribute("rows")), 6);
   assert.equal(textarea.getAttribute("aria-describedby"), "external-help description-error");
   assert.equal(textarea.getAttribute("aria-invalid"), "true");
+  assert.ok(textarea.className.includes("rounded-[var(--shape-corner-extra-small)]"));
+  assert.ok(textarea.className.includes("border-[var(--outline)]"));
+  assert.ok(!textarea.className.includes("extra-large"));
   assert.equal(error.textContent, "A description is required");
 });
 
