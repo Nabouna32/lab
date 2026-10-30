@@ -29,7 +29,8 @@ export const RELEASE_ARTIFACTS = Object.freeze([
     fileName: "material3-android-1.4.0.module",
     url: BASE + "/material3-android/1.4.0/material3-android-1.4.0.module",
     kind: "gradle-module-metadata",
-    expectedModule: "material3-android",
+    expectedModule: "material3",
+    expectedMetadataUrl: "../../material3/1.4.0/material3-1.4.0.module",
   },
 ]);
 
@@ -123,13 +124,15 @@ function validateArtifactBytes(artifact, bytes) {
     if (
       component?.group !== "androidx.compose.material3" ||
       component?.module !== artifact.expectedModule ||
-      component?.version !== "1.4.0"
+      component?.version !== "1.4.0" ||
+      (artifact.expectedMetadataUrl && metadata.url !== artifact.expectedMetadataUrl)
     ) {
       throw new Error(artifact.fileName + " declares an unexpected Gradle component identity: " + JSON.stringify(component ?? null));
     }
     return {
       component: component.group + ":" + component.module + ":" + component.version,
       variants: Array.isArray(metadata.variants) ? metadata.variants.length : 0,
+      metadataUrl: metadata.url ?? null,
     };
   }
   if (bytes.length < 4 || bytes[0] !== 0x50 || bytes[1] !== 0x4b) {
