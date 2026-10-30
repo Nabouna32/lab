@@ -73,7 +73,7 @@ const material3AndroidInventory = JSON.parse(readFileSync(
   "utf8",
 ));
 
-test("Material 3 Android derived inventory is reproducible and does not claim Kotlin API parity", () => {
+test("Material 3 Android derived inventory verifies every API declaration without claiming port parity", () => {
   assert.equal(material3AndroidInventory.schemaVersion, 1);
   assert.equal(material3AndroidInventory.artifact, "androidx.compose.material3:material3-android");
   assert.equal(material3AndroidInventory.referenceVersion, "1.4.0");
@@ -91,21 +91,26 @@ test("Material 3 Android derived inventory is reproducible and does not claim Ko
   assert.equal(material3AndroidInventory.androidAar.classFilesWithoutSourceFileMatch.length, 14);
   assert.equal(material3AndroidInventory.gradleModuleMetadata.common.variantCount, 12);
   assert.equal(material3AndroidInventory.gradleModuleMetadata.android.component.module, "material3");
-  assert.equal(material3AndroidInventory.interpretation.apiDumpAlignment, "OFFICIAL_STABLE_DUMP_AND_SOURCE_COMMIT_VERIFIED_METHODS_MATCH_OTHER_API_DECLARATIONS_PENDING");
+  assert.equal(material3AndroidInventory.interpretation.apiDumpAlignment, "VERIFIED");
   assert.equal(material3AndroidInventory.apiDumpBinaryComparison.apiClassCount, 232);
   assert.equal(material3AndroidInventory.apiDumpBinaryComparison.binaryClassMatches, 232);
   assert.equal(material3AndroidInventory.apiDumpBinaryComparison.apiMethodCount, 1802);
   assert.equal(material3AndroidInventory.apiDumpBinaryComparison.sourceLevelMethodCount, 807);
-  assert.ok(material3AndroidInventory.apiDumpBinaryComparison.sourceLevelDescriptorMatches > 0);
+  assert.equal(material3AndroidInventory.apiDumpBinaryComparison.sourceLevelDescriptorMatches, 807);
   assert.equal(material3AndroidInventory.apiDumpBinaryComparison.bytecodeOnlyDescriptorMatches, 995);
   assert.equal(material3AndroidInventory.apiDumpBinaryComparison.constructorCount, 104);
+  assert.equal(material3AndroidInventory.apiDumpBinaryComparison.constructorDescriptorMatches, 104);
   assert.equal(material3AndroidInventory.apiDumpBinaryComparison.kotlinOnlyConstructorCount, 34);
+  assert.equal(material3AndroidInventory.apiDumpBinaryComparison.kotlinOnlyConstructorMatches, 34);
   assert.ok(material3AndroidInventory.apiDumpBinaryComparison.sourceLevelBytecodeOnlyMatches > 0);
   assert.equal(material3AndroidInventory.apiDumpBinaryComparison.fieldCount, 74);
+  assert.equal(material3AndroidInventory.apiDumpBinaryComparison.fieldDescriptorMatches, 74);
   assert.equal(material3AndroidInventory.apiDumpBinaryComparison.propertyCount, 669);
+  assert.equal(material3AndroidInventory.apiDumpBinaryComparison.propertyAccessorMatches, 669);
+  assert.equal(material3AndroidInventory.apiDumpBinaryComparison.status, "exact-declarations-match");
   assert.equal(material3AndroidInventory.apiDumpBinaryComparison.missingClasses.length, 0);
-  assert.ok(Array.isArray(material3AndroidInventory.apiDumpBinaryComparison.missingMembers));
-  assert.ok(Array.isArray(material3AndroidInventory.apiDumpBinaryComparison.unsupportedSignatures));
+  assert.equal(material3AndroidInventory.apiDumpBinaryComparison.missingMembers.length, 0);
+  assert.equal(material3AndroidInventory.apiDumpBinaryComparison.unsupportedSignatures.length, 0);
   assert.match(material3AndroidInventory.interpretation.declarationComparison, /995\/995 @BytecodeOnly descriptors match/);
   assert.equal(material3AndroidInventory.officialApiDump.commit, "5113b82a4ed6416d6344efa50e41db8cb65928ff");
   assert.equal(material3AndroidInventory.officialApiDump.gitBlobSha1, "fd45e9feea96a631c0f8b7ac82f88ee9ce999029");
