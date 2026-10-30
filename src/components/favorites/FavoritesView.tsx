@@ -6,7 +6,6 @@ import { getToolsPath } from "@/lib/tools/routes";
 import { StarIcon } from "@/components/ui/StarIcon";
 import { TextButton } from "@/components/ui/Button";
 import { useFavorites } from "./FavoritesProvider";
-import { PageContainer } from "@/components/layout/PageLayout";
 import { MaterialIcon, type MaterialIconName } from "@/components/ui/MaterialIcon";
 import { Card } from "@/components/ui/Card";
 import AppLink from "@/components/ui/AppLink";
@@ -36,7 +35,7 @@ export default function FavoritesView({ locale, tools }: { locale: Locale; tools
 
   return (
     <main className="min-h-[60svh]">
-      <PageContainer width="medium" spacing="default">
+      <div className="mx-auto w-full max-w-[var(--layout-content-medium)] px-[var(--layout-page-gutter)] py-[var(--space-8)] sm:py-[var(--space-10)] lg:py-[var(--space-10)]">
       <header className="mb-7"><Card className="p-6 sm:p-8">
         <p className="m3-type-label-small uppercase text-[var(--primary)]">Loculary</p>
         <h1 className="m3-type-headline-medium mt-2">{text.title}</h1>
@@ -72,7 +71,7 @@ export default function FavoritesView({ locale, tools }: { locale: Locale; tools
           <AppLink href={getToolsPath(locale)} variant="filled" className="mt-6">{text.explore}</AppLink>
         </Card></section>
       )}
-      </PageContainer>
+      </div>
     </main>
   );
 }
