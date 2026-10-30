@@ -1,28 +1,7 @@
 import type { ToolId } from "./types.ts";
 
-export const RECENT_TOOLS_STORAGE_KEY = "loculary:recent-tools:v1";
-export const RECENT_TOOLS_EVENT = "loculary:recent-tools-changed";
 export const MAX_RECENT_TOOLS = 5;
-
-export function parseRecentToolIds(raw: string | null, validIds: readonly string[]): ToolId[] {
-  if (!raw) return [];
-  try {
-    const parsed: unknown = JSON.parse(raw);
-    if (!Array.isArray(parsed)) return [];
-    const valid = new Set(validIds);
-    const seen = new Set<string>();
-    const result: ToolId[] = [];
-    for (const value of parsed) {
-      if (typeof value !== "string" || !valid.has(value) || seen.has(value)) continue;
-      seen.add(value);
-      result.push(value as ToolId);
-      if (result.length === MAX_RECENT_TOOLS) break;
-    }
-    return result;
-  } catch {
-    return [];
-  }
-}
+export const LEGACY_RECENT_TOOLS_STORAGE_KEY = "loculary:recent-tools:v1";
 
 export function recordRecentTool(
   current: readonly ToolId[],
@@ -30,7 +9,16 @@ export function recordRecentTool(
   validIds: readonly string[],
 ): ToolId[] {
   const valid = new Set(validIds);
-  if (!valid.has(toolId)) return parseRecentToolIds(JSON.stringify(current), validIds);
-  const next = [toolId, ...current.filter((id) => id !== toolId && valid.has(id))];
-  return next.slice(0, MAX_RECENT_TOOLS);
+  const seen = new Set<string>();
+  const normalized: ToolId[] = [];
+
+  for (const id of current) {
+    if (!valid.has(id) || seen.has(id)) continue;
+    seen.add(id);
+    normalized.push(id);
+    if (normalized.length === MAX_RECENT_TOOLS) break;
+  }
+
+  if (!valid.has(toolId)) return normalized;
+  return [toolId, ...normalized.filter((id) => id !== toolId)].slice(0, MAX_RECENT_TOOLS);
 }
