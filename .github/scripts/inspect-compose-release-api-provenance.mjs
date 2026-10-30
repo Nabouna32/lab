@@ -99,10 +99,22 @@ export async function fetchGitilesBytes(value, label, fetchImpl = globalThis.fet
 }
 
 export function parseGitLsRemoteRefs(text) {
-  return text.split(/\r?\n/)
-    .map((line) => line.trim().match(/^([a-f0-9]{40})\s+(refs\/(?:heads|tags)\/\S+)$/i))
-    .filter(Boolean)
-    .map((match) => ({ ref: match[2], commit: match[1].toLowerCase() }))
+  const refs = new Map();
+  const peeledTags = new Map();
+  for (const line of text.split(/\r?\n/)) {
+    const match = line.trim().match(/^([a-f0-9]{40})\s+(refs\/(?:heads|tags)\/\S+)$/i);
+    if (!match) continue;
+    const ref = match[2];
+    const peeled = ref.endsWith('^{}');
+    const name = peeled ? ref.slice(0, -3) : ref;
+    if (peeled) peeledTags.set(name, match[1].toLowerCase());
+    else refs.set(name, match[1].toLowerCase());
+  }
+  return [...refs.entries()]
+    .map(([ref, commit]) => ({
+      ref,
+      commit: peeledTags.get(ref) ?? commit,
+    }))
     .sort((left, right) => left.ref.localeCompare(right.ref));
 }
 
