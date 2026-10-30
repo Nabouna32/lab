@@ -104,8 +104,8 @@ La migration `20261029110714_retire_design_lab_audit.sql` retire les tables et f
 
 - Douze mois glissants pour `public.admin_audit_log` et les exécutions terminées de `cron.job_run_details`.
 - Suppression automatique quotidienne à 03:00 UTC après expiration ; les exécutions cron incomplètes restent préservées.
-- Les exceptions d'audit restent limitées à douze mois après l'événement, avec motif codifié et référence non personnelle. Elles ne constituent pas une archive permanente.
+- Aucun mécanisme d'exception de conservation ni archive de journaux n'est conservé dans le schéma applicatif.
 - Aucune sauvegarde ou archive externe Google Drive n'est prévue pour ces journaux.
 - Les journaux gérés par Supabase et Vercel ne sont pas purgés par Loculary ; leurs durées dépendent des forfaits et réglages des fournisseurs.
 
-La migration `20261030160000_extend_log_retention_to_12_months.sql` remplace le job `loculary-log-retention-6m` par `loculary-log-retention-12m` et met à jour le seuil de la fonction de purge. Elle ne lance aucune purge lors de son application. La politique de six mois reste active en production tant que cette migration n'a pas été appliquée et vérifiée.
+La migration `20261030160000_extend_log_retention_to_12_months.sql` retire la table d'exceptions devenue inutile, remplace le job `loculary-log-retention-6m` par `loculary-log-retention-12m` et met à jour le seuil de la fonction de purge. Elle ne lance aucune purge lors de son application. La politique de six mois reste active en production tant que cette migration n'a pas été appliquée et vérifiée.
