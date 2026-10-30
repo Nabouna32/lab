@@ -30,22 +30,22 @@ export function OutlinedTextField({
   function handleChange(event: ChangeEvent<HTMLInputElement>) { onChange(event.target.value); }
 
   return (
-    <div className={styles.root} data-variant={variant} data-error={error ? "true" : "false"} data-disabled={disabled ? "true" : "false"}>
+    <div className={styles.root} data-error={error ? "true" : "false"} data-disabled={disabled ? "true" : "false"}>
       <div className={styles.field}>
         {leadingContent && <span className={styles.leading} aria-hidden="true">{leadingContent}</span>}
         {prefix && <span className={styles.affix}>{prefix}</span>}
         <div className={styles.inputContainer}>
-          <input id={id} name={name} className={styles.input} type={inputType} value={value}
+          <input id={id} name={name} className={styles.input} type={type} value={value}
             placeholder={placeholder ?? " "} disabled={disabled} required={required} minLength={minLength}
             maxLength={maxLength} autoFocus={autoFocus} inputMode={inputMode}
-            autoComplete={autoComplete ?? (secure ? "current-password" : undefined)}
-            spellCheck={secure ? false : undefined} autoCapitalize={secure ? "off" : undefined}
+            autoComplete={autoComplete}
+            spellCheck={spellCheck} autoCapitalize={autoCapitalize}
             aria-invalid={Boolean(error)} aria-describedby={describedBy} onChange={handleChange} />
           <label className={styles.label} htmlFor={id}>{label}</label>
         </div>
         {suffix && <span className={styles.affix}>{suffix}</span>}
 
-        {!secure && trailingContent && <span className={styles.trailingContent}>{trailingContent}</span>}
+        {trailingContent && <span className={styles.trailingContent}>{trailingContent}</span>}
       </div>
       <div className={styles.supportingRow}>
         <span id={error ? errorId : supportingId} className={error ? styles.error : styles.supporting}>{error || supportingText || ""}</span>
