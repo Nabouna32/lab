@@ -46,11 +46,11 @@ test("pgTAP retention suite is transactional and its plan matches its assertions
   assert.match(sqlTest, /incomplete cron runs are preserved regardless of age/);
 });
 
-test("internal privacy documentation describes the proposed policy without claiming production activation", () => {
-  assert.match(databaseDocs, /Politique cible versionnée dans la branche de travail — pas encore active en production/i);
+test("internal privacy documentation describes the active twelve-month policy", () => {
+  assert.match(databaseDocs, /Politique active en production depuis le 30 octobre 2026/i);
   assert.match(databaseDocs, /douze mois glissants/i);
   assert.match(databaseDocs, /Aucune sauvegarde ou archive externe Google Drive/i);
-  assert.match(privacyDocs, /Politique applicative cible, versionnée dans la branche de travail et non encore active en production/i);
+  assert.match(privacyDocs, /Politique applicative active en production depuis le 30 octobre 2026/i);
   assert.match(privacyDocs, /Aucune sauvegarde Google Drive ou archive externe/i);
   assert.match(privacyDocs, /24 heures/i);
   assert.match(privacyDocs, /une heure/i);
