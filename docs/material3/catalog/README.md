@@ -91,7 +91,9 @@ Une BOM Compose peut aligner des versions compatibles, mais n'ajoute pas toutes 
 ## Statut du catalogue Material 3
 
 - **Veille amont** : un snapshot exhaustif de current.txt est généré dans [watch/androidx-main-2026-10-22/](watch/androidx-main-2026-10-22/README.md). Il contient 4 709 déclarations réparties sur trois packages, épinglées à un commit et avec les empreintes SHA-256 de la source et des shards. Il s'agit d'un inventaire de surface, pas d'une spécification sémantique ni d'une baseline de portage.
-- **Baseline stable 1.4.0** : l'inventaire exact n'est pas encore généré ni vérifié. Le dépôt AndroidX au commit inspecté n'inclut pas de fichier 1.4.0.txt ; la correspondance avec l'archive source publiée reste UNVERIFIED. Ne pas utiliser current.txt comme substitut à la version stable.
+- **Baseline stable 1.4.0** : aucun dump API officiel exact n'a été identifié dans le répertoire AndroidX inspecté. Les archives publiées `material3-android-1.4.0-sources.jar` et `material3-android-1.4.0.aar` ainsi que les deux métadonnées Gradle ont été téléchargées par CI et vérifiées contre les SHA-256 Google Maven ; leurs empreintes sont épinglées dans [le manifeste](baselines/material3-1.4.0.json).
+- **Rapprochement sources/AAR** : [l'inventaire dérivé](baselines/material3-android-1.4.0-api-inventory.json) relie les attributs JVM `SourceFile` aux chemins de sources : 1 353 des 1 367 classes binaires sont associées à un fichier source du même package. La surface `javap` brute compte 633 classes JVM publiques, 892 champs et 8 360 méthodes publics/protégés. Ces nombres incluent des déclarations Kotlin `internal` et des éléments générés ; ils ne constituent pas un dump API Kotlin ni une preuve d'équivalence des déclarations.
+- `apiDumpAlignment` reste donc **`UNVERIFIED`**. Le rapprochement de fichiers est reproductible, mais ne prouve ni l'identité d'un commit source AndroidX ni la parité API exacte. Ne pas utiliser `current.txt` comme substitut à la version stable.
 - **Couverture globale** : ne pas annoncer le catalogue complet tant que la baseline de portage et les artefacts apparentés à inventorier séparément n'ont pas été traités.
 
 
