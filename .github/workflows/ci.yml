@@ -168,7 +168,7 @@ jobs:
 
       - name: Inspect official Compose 1.12.1 release API provenance
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
-        run: node .github/scripts/inspect-compose-release-api-provenance.mjs /tmp/compose-release-api-provenance /tmp/androidx-compose-release-refs.txt
+        run: node .github/scripts/inspect-compose-release-api-provenance.mjs /tmp/compose-release-api-provenance /tmp/androidx-compose-release-refs.txt docs/material3/catalog/baselines/compose-p0-1.12.1-api-provenance.json
 
       - name: Upload Compose 1.12.1 release API provenance
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
