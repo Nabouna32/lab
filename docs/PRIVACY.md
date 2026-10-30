@@ -211,6 +211,10 @@ The product should not force users through dozens of partner-by-partner switches
 
 Consent categories must reflect the actual technologies and data flows in use, and the applicable jurisdictions. Do not predeclare provider-specific categories before the corresponding technology is selected.
 
+### Recent tools
+
+The recent-tools list is held only in React memory for the current tab so it can survive client-side navigation without retaining a browsing history. Tool IDs are not written to `localStorage` or `sessionStorage` and are not sent to a server. The state resets on a full page reload or when the tab closes. The previous persistent key is removed once when the updated application loads. Do not reintroduce automatic persistent recent-tool tracking without a separate privacy review and, if required, prior consent.
+
 ## External API catalog
 
 Every external integration should have a traceable catalog entry containing:
