@@ -106,6 +106,10 @@ function hasFuzzyTermMatch(term: string, haystack: string): boolean {
     .some((candidate) => levenshteinDistance(term, candidate) <= tolerance);
 }
 
+function hasWholeWordMatch(value: string, term: string): boolean {
+  return value.split(/[^a-z0-9%]+/).includes(term);
+}
+
 function scoreTerm(
   term: string,
   name: string,
@@ -116,16 +120,17 @@ function scoreTerm(
   haystack: string,
 ): number {
   let score = 0;
+  const isShortTerm = term.length < 4;
   if (name === term) score += 100;
   if (name.startsWith(term)) score += 60;
-  if (name.includes(term)) score += 40;
-  if (tags.some((tag) => tag === term)) score += 35;
-  if (aliases.some((alias) => alias === term)) score += 35;
-  if (categories.some((category) => category === term)) score += 25;
-  if (tags.some((tag) => tag.startsWith(term))) score += 25;
-  if (aliases.some((alias) => alias.startsWith(term))) score += 25;
-  if (categories.some((category) => category.startsWith(term))) score += 15;
-  if (description.includes(term)) score += 20;
+  if (name.includes(term) && (!isShortTerm || hasWholeWordMatch(name, term))) score += 40;
+  if (tags.some((tag) => tag === term || (isShortTerm && hasWholeWordMatch(tag, term)))) score += 35;
+  if (aliases.some((alias) => alias === term || (isShortTerm && hasWholeWordMatch(alias, term)))) score += 35;
+  if (categories.some((category) => category === term || (isShortTerm && hasWholeWordMatch(category, term)))) score += 25;
+  if (tags.some((tag) => tag.startsWith(term) || (isShortTerm && hasWholeWordMatch(tag, term)))) score += 25;
+  if (aliases.some((alias) => alias.startsWith(term) || (isShortTerm && hasWholeWordMatch(alias, term)))) score += 25;
+  if (categories.some((category) => category.startsWith(term) || (isShortTerm && hasWholeWordMatch(category, term)))) score += 15;
+  if (description.includes(term) && (!isShortTerm || hasWholeWordMatch(description, term))) score += 20;
 
   if (score === 0 && hasFuzzyTermMatch(term, haystack)) {
     score += 12;
