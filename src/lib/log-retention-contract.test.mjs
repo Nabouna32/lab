@@ -43,7 +43,7 @@ test("pgTAP retention suite is transactional and its plan matches its assertions
   assert.match(sqlTest, /account deletion anonymizes the audit actor/);
   assert.match(sqlTest, /account deletion anonymizes the audit target/);
   assert.match(sqlTest, /account deletion anonymizes the retention-hold creator/);
-  assert.match(sqlTest, /active retention exceptions/);
+  assert.match(sqlTest, /active retention exception remains attached/);
   assert.match(sqlTest, /completed cron runs older than six months are deleted/);
 });
 
