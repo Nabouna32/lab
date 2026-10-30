@@ -12,7 +12,7 @@ export const RELEASE_GROUPS = [
   {
     id: 'compose-ui',
     branch: 'androidx-compose-ui-release',
-    refCandidates: ['refs/heads/androidx-compose-ui-release', 'refs/heads/androidx-compose-release', 'refs/heads/androidx-compose-ui-release-1.12.1', 'refs/heads/androidx-compose-ui-1.12.1-release', 'refs/tags/androidx-compose-ui-1.12.1'],
+    refCandidates: ['refs/tags/androidx-compose-ui-1.12.1', 'refs/tags/androidx-compose-ui-release-1.12.1', 'refs/heads/androidx-compose-ui-release', 'refs/heads/androidx-compose-ui-release-1.12.1', 'refs/heads/androidx-compose-ui-1.12.1-release', 'refs/heads/androidx-compose-release'],
     versionMarker: 'COMPOSE_UI',
     version: '1.12.1',
     modules: [
@@ -23,7 +23,7 @@ export const RELEASE_GROUPS = [
   {
     id: 'compose-foundation',
     branch: 'androidx-compose-foundation-release',
-    refCandidates: ['refs/heads/androidx-compose-foundation-release', 'refs/heads/androidx-compose-release', 'refs/heads/androidx-compose-foundation-release-1.12.1', 'refs/heads/androidx-compose-foundation-1.12.1-release', 'refs/tags/androidx-compose-foundation-1.12.1'],
+    refCandidates: ['refs/tags/androidx-compose-foundation-1.12.1', 'refs/tags/androidx-compose-foundation-release-1.12.1', 'refs/heads/androidx-compose-foundation-release', 'refs/heads/androidx-compose-foundation-release-1.12.1', 'refs/heads/androidx-compose-foundation-1.12.1-release', 'refs/heads/androidx-compose-release'],
     versionMarker: 'COMPOSE_FOUNDATION',
     version: '1.12.1',
     modules: [
