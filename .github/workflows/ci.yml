@@ -108,6 +108,19 @@ jobs:
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
         run: node .github/scripts/verify-androidx-source-archive.mjs docs/material3/catalog/baselines/material3-1.4.0.json
 
+      - name: Audit Compose UI Text and Foundation Layout publications
+        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
+        run: node .github/scripts/audit-compose-submodule-publications.mjs /tmp/compose-submodule-publications-1.12.1.json
+
+      - name: Upload Compose submodule publication audit
+        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: compose-submodule-publications-1.12.1
+          path: /tmp/compose-submodule-publications-1.12.1.json
+          if-no-files-found: error
+          retention-days: 7
+
       - name: Retrieve and verify all four Material 3 1.4.0 publication artifacts
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
         run: node .github/scripts/fetch-material3-release-artifacts.mjs /tmp/material3-1.4.0-release-artifacts
