@@ -1,8 +1,8 @@
 # Loculary — Design system
 
-**Direction:** Material 3 Fidelity, with current Pixel / Android UI as visual reference.  
+**Direction:** Material 3 Fidelity, with current Pixel / Android UI as the explicit product visual identity.  
 **Decision:** [DEC-026](DECISIONS.md#dec-026--material-3-fidelity-and-pixel-inspired-interface).  
-**Status:** target contract; production-wide conformance is not yet established.
+**Status:** mandatory target direction; production-wide conformance is not yet established.
 
 ## Purpose and authority
 
@@ -12,7 +12,9 @@ The target is a faithful React/Web port of AndroidX Compose Material 3 component
 
 **Target-first, not legacy-first:** existing Loculary components, CSS, layouts and page compositions are migration input, not constraints. A component that shares an AndroidX name is not automatically faithful; improve or replace it against the pinned AndroidX contract. When a page would benefit from a more coherent modern app structure, a full redesign is explicitly allowed and often preferred over patching the current layout. The product ambition is a AAA-level consumer application: familiar, polished, dependable and robust enough for a large audience; this is a quality target, not a claim about current scale or conformance.
 
-Keep two authorities distinct. **AndroidX is authoritative for the contracts it defines.** For product flows and composition choices not specified by AndroidX, use established conventions from successful consumer apps—such as clear account/settings flows, predictable navigation, familiar iconography, accessible form validation, and consistent loading, empty, error and success states. Compare credible references and test the pattern against Loculary's task rather than copying a product wholesale or inventing novelty without user value. No external pattern overrides Web semantics, accessibility, privacy or performance. Avoid preserving legacy APIs or styles solely to minimize the diff. Choose a focused fix or a broader refactor based on which produces the clearest, maintainable result.
+**Material 3 Fidelity is the product's visual direction, not an optional implementation preference.** Loculary should feel like a carefully crafted Android application brought to the Web, with the visual coherence, hierarchy, surfaces, typography, tonal color, iconography, motion and interaction quality expected from a polished Pixel-era app. Do not replace this direction with a generic website, dashboard or visually reduced implementation merely because it is faster or easier to build. Engineering simplicity must remove unnecessary system complexity, never lower the experience target. The direction may be adapted thoughtfully for Web semantics, responsive layouts, accessibility and task-specific needs. Replacing it with a substantially different visual language requires explicit user validation.
+
+Keep two authorities distinct. **AndroidX is authoritative for the contracts it defines.** For product flows and composition choices not specified by AndroidX, use established conventions from successful consumer apps—such as clear account/settings flows, predictable navigation, familiar iconography, accessible form validation, and consistent loading, empty, error and success states. Compare credible references and test the pattern against Loculary's task rather than copying a product wholesale or inventing novelty without user value. No external pattern overrides Web semantics, accessibility, privacy or performance. Avoid preserving legacy APIs or styles solely to minimize the diff. Choose a focused fix or a broader refactor based on which produces the clearest, maintainable result without diluting the visual ambition.
 
 ## Foundations
 
@@ -65,6 +67,8 @@ For every ported component:
 6. Do not mark a component conformant while material source questions, required behavior, tests or known differences remain unresolved.
 
 ## Whole-screen fidelity gate
+
+La fidélité ne se limite pas à l'utilisation de composants isolés. L'écran complet doit exprimer une véritable expérience d'application Material 3 Fidelity : hiérarchie visuelle intentionnelle, surfaces et élévation cohérentes, densité maîtrisée, typographie, couleurs tonales, formes, icônes, navigation, retours d'état et motion. Une page techniquement fonctionnelle mais générique, sans finition ou incohérente avec cette direction ne satisfait pas le contrat.
 
 Component-level fidelity and page-level fidelity are separate acceptance criteria. A page can use several correct components and still fail because its hierarchy, surfaces, spacing or action grouping diverge from the source-backed target.
 
