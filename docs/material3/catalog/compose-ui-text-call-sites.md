@@ -6,14 +6,15 @@ Audit ciblé des consommateurs directs des trois composants de saisie partagés 
 
 - Référence AndroidX : Compose UI Text 1.12.1, commit `5e0747401bf56b243e3b5141ae080dc9bc61d29c`.
 - Dépôt examiné : branche `main` après fusion de la PR #1076.
-- Méthode : recherches GitHub ciblées des JSX `<TextField`, `<TextArea`, `<MaterialTextField` et des imports directs depuis `@/components/ui/*`, puis lecture des implémentations et consommateurs pertinents.
-- Limite : l'index de recherche GitHub est un outil de repérage, pas un analyseur AST. Les résultats ci-dessous sont un inventaire vérifié des correspondances remontées ; ils ne prouvent pas l'absence d'alias, de composition indirecte ou de rendu dynamique non retrouvé. Aucun test navigateur n'a été exécuté.
+- Méthode : analyse AST TypeScript des 423 fichiers `.ts`/`.tsx` suivis par Git. Le parcours associe les imports nommés (y compris les alias) aux balises JSX : 16 fichiers/21 instances `TextField`, 20 fichiers/23 instances `TextArea`, un fichier/3 instances `MaterialTextField`. La recherche des balises natives confirme un seul `textarea` indépendant dans `HashGenerator`. Les trois implémentations et leurs consommateurs pertinents ont ensuite été relus.
+- Limite d'inventaire : cette analyse couvre les imports directs et leurs usages JSX dans les fichiers suivis ; elle ne prétend pas détecter les compositions indirectes ou créations dynamiques hors de ce contrat.
+- Tests comportementaux : huit tests DOM montent les trois composants avec React 19 et happy-dom 21.0.4. Ils couvrent labels/IDs, descriptions ARIA, erreurs/aides, changements contrôlés, compteur, désactivation et révélation. Une validation Chromium 156 headless complète ces tests : connexion et compteur FR/EN, puis route temporaire non conservée pour `MaterialTextField`, viewports 390 et 1440 px. Labels, ARIA, saisie, compteur, révélation, désactivation, tabulation et absence de débordement horizontal ont été vérifiés sans erreur JavaScript.
 
 ## Résultats de l'inventaire
 
 ### TextField — champ mono-ligne
 
-16 fichiers consommateurs directs ont été retrouvés :
+16 fichiers consommateurs directs ont été retrouvés (21 instances JSX) :
 
 | Zone | Fichiers |
 |---|---|
@@ -27,7 +28,7 @@ Les usages couvrent des formulaires d'authentification et de profil, des entrée
 
 ### TextArea — champ multiligne Web
 
-20 fichiers utilisent directement le composant :
+20 fichiers utilisent directement le composant (23 instances JSX) :
 
 - Outils : `text-counter/TextCounter.tsx`, `html-previewer/HtmlPreviewer.tsx`, `base64/Base64Encoder.tsx`, `jwt-decoder/JwtDecoder.tsx`, `text-diff-checker/TextDiffChecker.tsx`, `url-parser/UrlParser.tsx`, `url-encoder/UrlEncoder.tsx`, `csv-diff-checker/CsvDiffChecker.tsx`, `regex-tester/RegexTester.tsx`, `html-entity-encoder/HtmlEntityEncoder.tsx`, `text-case-converter/TextCaseConverter.tsx`, `json-to-typescript/JsonToTypeScript.tsx`, `csv-json/CsvJsonConverter.tsx`, `json-formatter/JsonFormatter.tsx`, `json-diff-checker/JsonDiffChecker.tsx`, `text-line-processor/TextLineProcessor.tsx`, `qr-code-generator/QrCodeGenerator.tsx`, `xml-formatter-validator/XMLFormatterValidator.tsx`, `yaml-formatter-validator/YamlFormatterValidator.tsx`.
 - Démonstration : `src/app/[locale]/design-lab/VisualLab.tsx`.
@@ -53,7 +54,7 @@ Un seul consommateur direct est retrouvé : `src/components/account/PasswordChan
 - S'appuie sur un véritable `textarea` HTML, un label associé, `rows`, le redimensionnement natif et les attributs de saisie.
 - Est explicitement documenté comme une adaptation Web multiligne du cas d'usage Material 3 TextField ; AndroidX n'expose pas un composant Material 3 autonome nommé `TextArea`.
 - Expose les props `helperText` et `error`, mais les consommateurs retrouvés ne justifient pas encore une abstraction plus riche ou un éditeur personnalisé.
-- Le composant extrait les attributs `aria-describedby` et `aria-invalid` fournis par le consommateur. Il fusionne les IDs de description externes avec l'ID interne du message d'erreur ou d'aide, déduplique les références et conserve les autres attributs HTML natifs. Une erreur interne force `aria-invalid=true` ; en l'absence d'erreur, la valeur explicite du consommateur est préservée. Le correctif ciblé est couvert par un test de contrat source dans `material-components.test.mjs` ; une validation DOM/lecteur d'écran reste nécessaire.
+- Le composant extrait les attributs `aria-describedby` et `aria-invalid` fournis par le consommateur. Il fusionne les IDs de description externes avec l'ID interne du message d'erreur ou d'aide, déduplique les références et conserve les autres attributs HTML natifs. Une erreur interne force `aria-invalid=true` ; en l'absence d'erreur, la valeur explicite du consommateur est préservée. Le correctif est couvert par un test de contrat source et les tests DOM rendus ; la validation lecteur d'écran reste nécessaire.
 
 ### MaterialTextField
 
@@ -77,10 +78,12 @@ Un seul consommateur direct est retrouvé : `src/components/account/PasswordChan
 - [x] Rechercher les JSX des trois composants et les imports directs depuis leurs modules.
 - [x] Relire les trois implémentations, la feuille CSS de MaterialTextField, le formulaire de mot de passe et les tests de composants Material.
 - [x] Distinguer le composant de démonstration, les consommateurs runtime et le textarea natif distinct.
-- [ ] Compléter par une recherche AST locale exhaustive lorsque l'environnement de travail local est disponible ; l'index GitHub ne garantit pas la détection de tous les alias.
+- [x] Analyser les imports directs et usages JSX avec l'AST TypeScript dans les 423 fichiers suivis ; les alias d'import sont pris en compte.
 - [x] Ajouter un test de contrat source pour la fusion des descriptions accessibles de `TextArea` (#1079).
 - [x] Verrouiller le contrat d'identifiant unique `inputId` de `TextField`, `TextArea` et `CalculatorField` avec un test de contrat source.
-- [ ] Ajouter des tests comportementaux DOM pour les associations ARIA, la saisie IME, la sélection/collage et le parcours sécurisé localisé.
-- [ ] Vérifier clavier, lecteur d'écran, zoom/reflow, FR/EN, RTL et rendu dans un navigateur réel.
+- [x] Ajouter huit tests DOM pour les associations ARIA, erreurs/aides, saisie contrôlée, compteur, états désactivés et révélation sécurisée.
+- [x] Vérifier dans Chromium headless les parcours de connexion et compteur FR/EN, puis MaterialTextField via une route de test temporaire ; viewports 390/1440 px, labels, ARIA, saisie, compteur, révélation, désactivation, focus et tabulation. La route temporaire n'est pas conservée.
+- [ ] Vérifier la saisie IME, la sélection/collage et les interactions tactiles sur navigateur/appareils réels.
+- [ ] Vérifier lecteur d'écran, zoom/reflow et RTL avec les technologies et environnements correspondants.
 
-Le correctif ARIA de `TextArea` est fusionné dans #1079. La correction d'identifiant unique `inputId` est livrée dans #1080 ; CI #4594 réussie sur le head exact. Les tests ajoutés vérifient les contrats source, pas le DOM rendu. Le dépôt ne configure actuellement ni environnement DOM (jsdom/happy-dom/Testing Library), ni suite Playwright active (voir DEC-033) ; aucun test clavier, IME, collage/sélection, navigateur ou lecteur d'écran n'est revendiqué. Cet inventaire reste une base de décision, pas une validation de conformité.
+Le correctif ARIA de `TextArea` est fusionné dans #1079. La correction d'identifiant unique `inputId` est livrée dans #1080 ; CI #4594 réussie sur le head exact. L'analyse AST confirme l'inventaire des consommateurs directs. Les huit tests DOM vérifient le rendu React et les interactions dans happy-dom ; Chromium headless ajoute une validation ciblée des trois composants, des libellés/ARIA, du clavier et des largeurs mobiles/desktop. Playwright n'est pas réintroduit dans la CI (DEC-033) : il a été utilisé ponctuellement dans l'environnement isolé. Les essais IME, collage/sélection, lecteur d'écran, zoom/reflow et RTL restent à faire. Cet inventaire ne vaut pas validation globale de conformité.

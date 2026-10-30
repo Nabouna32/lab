@@ -14,7 +14,7 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "test": "node --test"
+    "test": "node --import tsx --test"
   },
   "dependencies": {
     "@material/material-color-utilities": "0.4.0",
@@ -35,6 +35,8 @@
     "eslint": "10.13.0",
     "eslint-config-next": "16.4.3",
     "tailwindcss": "^4",
-    "typescript": "~6.0.3"
+    "typescript": "~6.0.3",
+    "happy-dom": "21.0.4",
+    "tsx": "4.23.15"
   }
 }
