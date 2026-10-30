@@ -87,3 +87,69 @@ test("les tokens d'espacement sémantiques restent disponibles pour les adaptati
     assert.ok(globalStyles.includes(token), `token d'espacement absent : ${token}`);
   }
 });
+
+const layoutWidthExpectations = [
+  ["../../app/[locale]/page.tsx", { wide: 1 }],
+  ["../../app/[locale]/admin/page.tsx", { default: 1 }],
+  ["../../app/[locale]/admin/audit/page.tsx", { default: 1 }],
+  ["../../app/[locale]/admin/utilisateurs/page.tsx", { default: 1 }],
+  ["../../app/[locale]/compte/page.tsx", { account: 1, narrow: 1 }],
+  ["../../app/[locale]/compte/connexion/page.tsx", { account: 1, form: 1 }],
+  ["../../app/[locale]/compte/inscription/page.tsx", { account: 1, form: 1 }],
+  ["../../app/[locale]/compte/email/page.tsx", { form: 1 }],
+  ["../../app/[locale]/compte/mot-de-passe/page.tsx", { form: 1 }],
+  ["../../app/[locale]/compte/mot-de-passe-oublie/page.tsx", { form: 1 }],
+  ["../../app/[locale]/compte/mot-de-passe/reinitialiser/page.tsx", { form: 2 }],
+  ["../../app/[locale]/compte/suppression/page.tsx", { "form-wide": 1 }],
+  ["../../app/[locale]/compte/informations-personnelles/page.tsx", { narrow: 1 }],
+  ["../../app/[locale]/[section]/page.tsx", { wide: 1 }],
+  ["../../app/[locale]/[section]/[slug]/page.tsx", { wide: 1 }],
+  ["../../components/layout/Header.tsx", { wide: 1 }],
+  ["../../components/layout/Footer.tsx", { wide: 1 }],
+  ["../../components/home/RecentTools.tsx", { wide: 1 }],
+  ["../../components/home/HomeGuidedWorkflows.tsx", { wide: 1 }],
+  ["../../components/information/InformationPage.tsx", { narrow: 3 }],
+  ["../../components/legal/LegalNoticePage.tsx", { narrow: 1 }],
+  ["../../components/legal/PrivacyPolicyPage.tsx", { narrow: 1 }],
+  ["../../components/favorites/FavoritesView.tsx", { medium: 1 }],
+  ["../../components/collections/CollectionsView.tsx", { medium: 1 }],
+  ["../../components/collections/SharedCollectionView.tsx", { medium: 1 }],
+  ["../../components/discovery/GuidedWorkflowsPage.tsx", { wide: 1 }],
+  ["../../components/tools/SearchResultsClient.tsx", { wide: 1 }],
+  ["../../components/tools/ToolPage/ToolPage.tsx", { default: 1 }],
+] as const;
+
+test("les adaptations Web préservent exactement les largeurs et gouttières de chaque composition migrée", () => {
+  for (const [path, widths] of layoutWidthExpectations) {
+    const source = readSource(path);
+    const expectedCount = Object.values(widths).reduce((total, count) => total + count, 0);
+    const gutterCount = source.match(/px-\[var\(--layout-page-gutter\)\]/g)?.length ?? 0;
+    assert.equal(gutterCount, expectedCount, `${path} doit conserver une gouttière par conteneur`);
+
+    for (const [width, count] of Object.entries(widths)) {
+      const pattern = new RegExp(`max-w-\\[var\\(--layout-content-${width}\\)\\]`, "g");
+      assert.equal(source.match(pattern)?.length ?? 0, count, `${path} doit conserver ${count} conteneur(s) de largeur ${width}`);
+    }
+  }
+});
+
+test("les surfaces de production conservent leurs rôles typographiques Material 3", () => {
+  const paths = [
+    "../../app/[locale]/page.tsx",
+    "../../app/[locale]/[section]/page.tsx",
+    "../../components/tools/SearchResultsClient.tsx",
+    "../../app/[locale]/admin/page.tsx",
+    "../../app/[locale]/admin/utilisateurs/page.tsx",
+    "../../components/legal/LegalNoticePage.tsx",
+    "../../components/legal/PrivacyPolicyPage.tsx",
+    "../../app/[locale]/compte/page.tsx",
+    "../../app/[locale]/compte/connexion/page.tsx",
+    "../../app/[locale]/compte/inscription/page.tsx",
+    "../../app/[locale]/compte/mot-de-passe-oublie/page.tsx",
+    "../../app/[locale]/compte/mot-de-passe/reinitialiser/page.tsx",
+  ];
+
+  for (const path of paths) {
+    assert.match(readSource(path), /m3-type-(?:display|headline|title|body|label)-/, `${path} doit conserver la typographie Material 3`);
+  }
+});
