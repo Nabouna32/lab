@@ -26,7 +26,7 @@ export const PUBLICATION_TARGETS = Object.freeze([
 ]);
 
 export function parseSha256(value, label = 'checksum') {
-  const match = String(value).trim().match(/^([a-f0-9]{64})(?:\\s+.*)?$/i);
+  const match = String(value).trim().match(/^([a-f0-9]{64})(?:\s+.*)?$/i);
   if (!match) throw new Error(label + ' must contain one SHA-256 digest.');
   return match[1].toLowerCase();
 }
@@ -231,7 +231,7 @@ export async function auditComposeSubmodulePublications({
     families,
   };
   await mkdir(path.dirname(outputFile), { recursive: true });
-  await writeFile(outputFile, JSON.stringify(report, null, 2) + '\\n', { flag: 'wx' });
+  await writeFile(outputFile, JSON.stringify(report, null, 2) + '\n', { flag: 'wx' });
   return report;
 }
 
@@ -241,12 +241,12 @@ async function main() {
     throw new Error('Usage: node .github/scripts/audit-compose-submodule-publications.mjs <output-json>');
   }
   const report = await auditComposeSubmodulePublications({ outputFile });
-  process.stdout.write(JSON.stringify(report, null, 2) + '\\n');
+  process.stdout.write(JSON.stringify(report, null, 2) + '\n');
 }
 
 if (process.argv[1] && import.meta.url === new URL('file://' + process.argv[1]).href) {
   main().catch((error) => {
-    process.stderr.write('Compose submodule publication audit failed: ' + error.message + '\\n');
+    process.stderr.write('Compose submodule publication audit failed: ' + error.message + '\n');
     process.exitCode = 1;
   });
 }
