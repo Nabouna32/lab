@@ -10,6 +10,20 @@ const REQUEST_TIMEOUT_MS = 30_000;
 
 export const PUBLICATION_TARGETS = Object.freeze([
   {
+    familyId: 'compose-ui',
+    group: 'androidx.compose.ui',
+    logicalModule: 'ui',
+    androidModule: 'ui-android',
+    version: '1.12.1',
+  },
+  {
+    familyId: 'compose-foundation',
+    group: 'androidx.compose.foundation',
+    logicalModule: 'foundation',
+    androidModule: 'foundation-android',
+    version: '1.12.1',
+  },
+  {
     familyId: 'compose-ui-text',
     group: 'androidx.compose.ui',
     logicalModule: 'ui-text',
@@ -191,8 +205,8 @@ export async function auditComposeSubmodulePublications({
   if (typeof outputFile !== 'string' || !outputFile.trim()) {
     throw new Error('outputFile is required.');
   }
-  if (!Array.isArray(targets) || targets.length !== 2) {
-    throw new Error('Exactly the two pinned Compose submodule targets are required.');
+  if (!Array.isArray(targets) || targets.length !== PUBLICATION_TARGETS.length) {
+    throw new Error('Exactly the four pinned Compose publication targets are required.');
   }
 
   const families = [];
