@@ -4,6 +4,7 @@ import {
   calculateGitilesBlobHashes,
   parseApiDumpMetadata,
   parseGitilesLog,
+  parseGitilesRefs,
   parseLibraryVersion,
   resolveGitilesRef,
 } from './inspect-compose-release-api-provenance.mjs';
@@ -11,7 +12,7 @@ import {
 const COMMIT = 'a'.repeat(40);
 
 test('parses the anti-XSSI prefix and immutable head commit from a targeted Gitiles branch log', () => {
-  const log = parseGitilesLog(")]}'\\n" + JSON.stringify({
+  const log = parseGitilesLog(")]}'\n" + JSON.stringify({
     log: [{ commit: COMMIT, message: 'Merge into androidx-compose-ui-release' }],
   }));
   assert.equal(log.commit, COMMIT);
@@ -19,7 +20,30 @@ test('parses the anti-XSSI prefix and immutable head commit from a targeted Giti
 });
 
 test('rejects Gitiles branch logs without an immutable commit', () => {
-  assert.throws(() => parseGitilesLog(")]}'\\n" + JSON.stringify({ log: [] })), /did not return an immutable commit/);
+  assert.throws(() => parseGitilesLog(")]}'\n" + JSON.stringify({ log: [] })), /did not return an immutable commit/);
+});
+
+test('parses official Gitiles refs and resolves an exact release branch', () => {
+  const refs = parseGitilesRefs(")]}'\n" + JSON.stringify({
+    'refs/heads/androidx-compose-ui-release': { value: COMMIT },
+    'refs/heads/androidx-main': { value: 'b'.repeat(40) },
+  }));
+  assert.equal(refs.length, 2);
+  assert.deepEqual(
+    resolveGitilesRef(refs, ['refs/heads/androidx-compose-ui-release'], 'compose-ui'),
+    { ref: 'refs/heads/androidx-compose-ui-release', commit: COMMIT },
+  );
+});
+
+test('reports related official refs when no release candidate exists', () => {
+  const refs = [
+    { ref: 'refs/heads/androidx-main', commit: COMMIT },
+    { ref: 'refs/heads/androidx-compose-main', commit: COMMIT },
+  ];
+  assert.throws(
+    () => resolveGitilesRef(refs, ['refs/heads/androidx-compose-ui-release'], 'compose-ui'),
+    /Related published refs: none/,
+  );
 });
 
 test('reads the exact library version marker from libraryversions.toml', () => {
