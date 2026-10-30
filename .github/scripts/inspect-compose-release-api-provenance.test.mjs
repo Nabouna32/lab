@@ -3,25 +3,12 @@ import assert from 'node:assert/strict';
 import {
   calculateGitilesBlobHashes,
   parseApiDumpMetadata,
-  parseGitilesLog,
   parseGitLsRemoteRefs,
   parseLibraryVersion,
   resolveGitilesRef,
 } from './inspect-compose-release-api-provenance.mjs';
 
 const COMMIT = 'a'.repeat(40);
-
-test('parses the anti-XSSI prefix and immutable head commit from a targeted Gitiles branch log', () => {
-  const log = parseGitilesLog(")]}'\n" + JSON.stringify({
-    log: [{ commit: COMMIT, message: 'Merge into androidx-compose-ui-release' }],
-  }));
-  assert.equal(log.commit, COMMIT);
-  assert.equal(log.message, 'Merge into androidx-compose-ui-release');
-});
-
-test('rejects Gitiles branch logs without an immutable commit', () => {
-  assert.throws(() => parseGitilesLog(")]}'\n" + JSON.stringify({ log: [] })), /did not return an immutable commit/);
-});
 
 test('resolves a release ref only when its immutable commit carries the expected stable version', async () => {
   const alphaCommit = 'e'.repeat(40);
