@@ -219,7 +219,6 @@ def inspect(directory: Path) -> dict:
     common_module_bytes, common_module_record = verify_file(directory, verification, "material3-1.4.0.module")
     android_module_bytes, android_module_record = verify_file(directory, verification, "material3-android-1.4.0.module")
 
-    api_dump_text = api_dump_bytes.decode("utf-8")
     source_sets = Counter()
     source_files_by_package = defaultdict(set)
     with zipfile.ZipFile(__import__("io").BytesIO(source_bytes)) as source_archive:
@@ -250,7 +249,6 @@ def inspect(directory: Path) -> dict:
             binary_classes.append((name, summary, matched))
 
     matched_classes = [item for item in binary_classes if item[2]]
-    api_binary_comparison = compare_api_dump_to_binary(api_dump_text, binary_classes)
     unmatched_classes = [
         {"classFile": name, "sourceFile": summary["sourceFile"]}
         for name, summary, matched in binary_classes
@@ -259,6 +257,8 @@ def inspect(directory: Path) -> dict:
 
     api_dump_path = Path(__file__).resolve().parents[2] / "docs/material3/catalog/baselines/material3-1.4.0-api.txt"
     api_dump_bytes = api_dump_path.read_bytes()
+    api_dump_text = api_dump_bytes.decode("utf-8")
+    api_binary_comparison = compare_api_dump_to_binary(api_dump_text, binary_classes)
     api_dump_blob_sha1 = git_blob_sha1(api_dump_bytes)
     expected_api_dump_blob_sha1 = "fd45e9feea96a631c0f8b7ac82f88ee9ce999029"
     if api_dump_blob_sha1 != expected_api_dump_blob_sha1:
