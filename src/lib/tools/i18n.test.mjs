@@ -264,7 +264,7 @@ test("public shell interfaces keep user-facing labels and states behind the i18n
     "../../components/layout/Breadcrumbs.tsx",
     "../../components/layout/LanguageSelector.tsx",
     "../../components/layout/HeaderSearch.tsx",
-      "../../components/home/HomeGuidedWorkflows.tsx",
+    "../../components/home/HomeGuidedWorkflows.tsx",
     "../../components/tools/ToolSearch.tsx",
   ];
 
