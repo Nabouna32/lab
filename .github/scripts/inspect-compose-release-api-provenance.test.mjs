@@ -20,7 +20,7 @@ test('resolves a release ref only when its immutable commit carries the expected
     async (url) => {
       const isAlpha = url.pathname.includes(alphaCommit);
       const version = isAlpha ? '1.13.0-alpha01' : '1.12.1';
-      return new Response(Buffer.from('COMPOSE_UI = "' + version + '"\n').toString('base64'), { status: 200 });
+      return new Response(Buffer.from('COMPOSE = "' + version + '"\nCOMPOSE_UI = { group = "androidx.compose.ui", atomicGroupVersion = "versions.COMPOSE" }\n').toString('base64'), { status: 200 });
     },
     refs,
     ['refs/heads/androidx-compose-ui-release', 'refs/tags/androidx-compose-ui-1.12.1'],
@@ -32,7 +32,7 @@ test('resolves a release ref only when its immutable commit carries the expected
     ref: 'refs/tags/androidx-compose-ui-1.12.1',
     commit: COMMIT,
     version: '1.12.1',
-    libraryVersionsText: 'COMPOSE_UI = "1.12.1"\n',
+    libraryVersionsText: 'COMPOSE = "1.12.1"\nCOMPOSE_UI = { group = "androidx.compose.ui", atomicGroupVersion = "versions.COMPOSE" }\n',
   });
 });
 
