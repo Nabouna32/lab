@@ -104,7 +104,7 @@ La migration `20261029110714_retire_design_lab_audit.sql` retire les tables et f
 
 - `public.admin_audit_log` : une entrée de bootstrap de rôle administrateur ; les métadonnées ne contiennent que les clés `bootstrap` et `role_key`.
 - `auth.audit_log_entries` : aucune entrée.
-- `cron.job_run_details` : 806 exécutions réussies, datées du 4 au 5 octobre 2026 ; aucun job actif dans `cron.job`.
+- `cron.job_run_details` : dernier décompte exact avant migration de 806 exécutions (4–5 octobre) ; décompte courant non confirmé. L’inventaire `cron.job` rapporte une ligne, mais ses colonnes ne sont pas accessibles via le connecteur.
 - `pg_cron` 1.6.4 est installé ; aucun job de purge n’existe actuellement.
 - Le garde de suppression de compte pseudonymise déjà `actor_user_id` et les `target_id` polymorphes ; la clé étrangère du nouvel éventuel auteur d’une exception sera également `ON DELETE SET NULL`.
 
