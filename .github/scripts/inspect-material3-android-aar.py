@@ -1,0 +1,255 @@
+#!/usr/bin/env python3
+"""Create a deterministic, deliberately non-authoritative source/AAR mapping report."""
+
+from __future__ import annotations
+
+import hashlib
+import json
+import os
+import struct
+import sys
+import zipfile
+from collections import Counter, defaultdict
+from pathlib import Path
+
+
+def git_blob_sha1(data: bytes) -> str:
+    return hashlib.sha1(b"blob " + str(len(data)).encode("ascii") + b"\0" + data).hexdigest()
+
+
+def read_class_summary(data: bytes) -> dict:
+    if len(data) < 10 or data[:4] != b"\xca\xfe\xba\xbe":
+        raise ValueError("Invalid JVM class-file header.")
+
+    offset = 8
+    cp_count = struct.unpack_from(">H", data, offset)[0]
+    offset += 2
+    constant_pool: list[tuple[int, object] | None] = [None] * cp_count
+    index = 1
+
+    while index < cp_count:
+        tag = data[offset]
+        offset += 1
+        if tag == 1:
+            length = struct.unpack_from(">H", data, offset)[0]
+            offset += 2
+            value = data[offset : offset + length].decode("utf-8", errors="replace")
+            offset += length
+            constant_pool[index] = (tag, value)
+        elif tag in (3, 4):
+            offset += 4
+        elif tag in (5, 6):
+            offset += 8
+            index += 1
+        elif tag in (7, 8, 16, 19, 20):
+            value = struct.unpack_from(">H", data, offset)[0]
+            offset += 2
+            constant_pool[index] = (tag, value)
+        elif tag in (9, 10, 11, 12, 17, 18):
+            offset += 4
+        elif tag == 15:
+            offset += 3
+        else:
+            raise ValueError("Unsupported constant-pool tag: " + str(tag))
+        if offset > len(data):
+            raise ValueError("Truncated JVM constant pool.")
+        index += 1
+
+    class_access = struct.unpack_from(">H", data, offset)[0]
+    offset += 6  # access_flags, this_class, super_class
+    interface_count = struct.unpack_from(">H", data, offset)[0]
+    offset += 2 + 2 * interface_count
+
+    counts = {}
+    for kind in ("fields", "methods"):
+        member_count = struct.unpack_from(">H", data, offset)[0]
+        offset += 2
+        visible_count = 0
+        for _ in range(member_count):
+            access = struct.unpack_from(">H", data, offset)[0]
+            offset += 6  # access_flags, name_index, descriptor_index
+            if access & 0x0005:  # ACC_PUBLIC | ACC_PROTECTED
+                visible_count += 1
+            attribute_count = struct.unpack_from(">H", data, offset)[0]
+            offset += 2
+            for _ in range(attribute_count):
+                attribute_length = struct.unpack_from(">I", data, offset + 2)[0]
+                offset += 6 + attribute_length
+                if offset > len(data):
+                    raise ValueError("Truncated JVM member attribute.")
+        counts[kind] = member_count
+        counts[kind + "_public_protected"] = visible_count
+
+    attribute_count = struct.unpack_from(">H", data, offset)[0]
+    offset += 2
+    source_file = None
+    for _ in range(attribute_count):
+        name_index = struct.unpack_from(">H", data, offset)[0]
+        length = struct.unpack_from(">I", data, offset + 2)[0]
+        offset += 6
+        name_entry = constant_pool[name_index]
+        name = name_entry[1] if name_entry and name_entry[0] == 1 else None
+        if name == "SourceFile" and length == 2:
+            source_index = struct.unpack_from(">H", data, offset)[0]
+            source_entry = constant_pool[source_index]
+            if source_entry and source_entry[0] == 1:
+                source_file = source_entry[1]
+        offset += length
+        if offset > len(data):
+            raise ValueError("Truncated JVM class attribute.")
+
+    return {
+        "classIsPublic": bool(class_access & 0x0001),
+        "sourceFile": source_file,
+        **counts,
+    }
+
+
+def verify_file(directory: Path, report: dict, file_name: str) -> tuple[bytes, dict]:
+    artifact = next((item for item in report.get("artifacts", []) if item.get("fileName") == file_name), None)
+    if not artifact or artifact.get("status") != "verified":
+        raise ValueError("Missing verified artifact report entry: " + file_name)
+    data = (directory / file_name).read_bytes()
+    sha256 = hashlib.sha256(data).hexdigest()
+    blob_sha1 = git_blob_sha1(data)
+    if sha256 != artifact.get("publishedSha256") or sha256 != artifact.get("sha256"):
+        raise ValueError("SHA-256 mismatch for " + file_name)
+    if blob_sha1 != artifact.get("gitBlobSha1") or len(data) != artifact.get("sizeBytes"):
+        raise ValueError("Git blob identity or size mismatch for " + file_name)
+    return data, artifact
+
+
+def inspect(directory: Path) -> dict:
+    verification = json.loads((directory / "verification.json").read_text(encoding="utf-8"))
+    if verification.get("artifact") != "androidx.compose.material3:material3" or verification.get("referenceVersion") != "1.4.0":
+        raise ValueError("Unexpected verification report coordinates.")
+
+    source_bytes, source_record = verify_file(directory, verification, "material3-android-1.4.0-sources.jar")
+    aar_bytes, aar_record = verify_file(directory, verification, "material3-android-1.4.0.aar")
+    common_module_bytes, common_module_record = verify_file(directory, verification, "material3-1.4.0.module")
+    android_module_bytes, android_module_record = verify_file(directory, verification, "material3-android-1.4.0.module")
+
+    source_sets = Counter()
+    source_files_by_package = defaultdict(set)
+    with zipfile.ZipFile(__import__("io").BytesIO(source_bytes)) as source_archive:
+        for name in source_archive.namelist():
+            if not name.endswith(".kt"):
+                continue
+            parts = name.split("/")
+            if len(parts) < 3:
+                continue
+            source_set = parts[0]
+            package_path = "/".join(parts[1:-1])
+            source_sets[source_set] += 1
+            source_files_by_package[package_path].add(parts[-1])
+
+    with zipfile.ZipFile(__import__("io").BytesIO(aar_bytes)) as aar:
+        if "classes.jar" not in aar.namelist():
+            raise ValueError("Android AAR does not contain classes.jar.")
+        classes_bytes = aar.read("classes.jar")
+
+    binary_classes = []
+    with zipfile.ZipFile(__import__("io").BytesIO(classes_bytes)) as classes:
+        for name in classes.namelist():
+            if not name.endswith(".class"):
+                continue
+            summary = read_class_summary(classes.read(name))
+            package_path = "/".join(name.split("/")[:-1])
+            matched = summary["sourceFile"] in source_files_by_package.get(package_path, set())
+            binary_classes.append((name, summary, matched))
+
+    matched_classes = [item for item in binary_classes if item[2]]
+    unmatched_classes = [
+        {"classFile": name, "sourceFile": summary["sourceFile"]}
+        for name, summary, matched in binary_classes
+        if not matched
+    ]
+
+    common_module = json.loads(common_module_bytes)
+    android_module = json.loads(android_module_bytes)
+    component = common_module.get("component", {})
+    android_component = android_module.get("component", {})
+    if (component.get("group"), component.get("module"), component.get("version")) != (
+        "androidx.compose.material3", "material3", "1.4.0"
+    ):
+        raise ValueError("Common Gradle module metadata has unexpected coordinates.")
+    android_variant = next(
+        (variant for variant in common_module.get("variants", []) if variant.get("name") == "androidApiElements-published"),
+        None,
+    )
+    if not android_variant or android_variant.get("available-at", {}).get("module") != "material3-android":
+        raise ValueError("Common Gradle metadata does not expose the expected Android variant.")
+    if (android_component.get("group"), android_component.get("module"), android_component.get("version")) != (
+        "androidx.compose.material3", "material3", "1.4.0"
+    ):
+        raise ValueError("Android Gradle metadata does not redirect to the common module.")
+    if android_component.get("url") != "../../material3/1.4.0/material3-1.4.0.module":
+        raise ValueError("Unexpected Android Gradle metadata redirection.")
+
+    return {
+        "schemaVersion": 1,
+        "artifact": "androidx.compose.material3:material3-android",
+        "referenceVersion": "1.4.0",
+        "verificationWorkflow": verification.get("source"),
+        "sourceArchive": {
+            "fileName": source_record["fileName"],
+            "sha256": source_record["sha256"],
+            "gitBlobSha1": source_record["gitBlobSha1"],
+            "sizeBytes": source_record["sizeBytes"],
+            "kotlinSourceFiles": sum(source_sets.values()),
+            "sourceFilesBySet": dict(sorted(source_sets.items())),
+        },
+        "androidAar": {
+            "fileName": aar_record["fileName"],
+            "sha256": aar_record["sha256"],
+            "gitBlobSha1": aar_record["gitBlobSha1"],
+            "sizeBytes": aar_record["sizeBytes"],
+            "classFiles": len(binary_classes),
+            "publicJvmClasses": sum(1 for _, summary, _ in binary_classes if summary["classIsPublic"]),
+            "publicProtectedJvmFields": sum(summary["fields_public_protected"] for _, summary, _ in binary_classes),
+            "publicProtectedJvmMethods": sum(summary["methods_public_protected"] for _, summary, _ in binary_classes),
+            "classFilesMappedToPublishedSourceFile": len(matched_classes),
+            "classFilesWithoutSourceFileMatch": unmatched_classes,
+        },
+        "gradleModuleMetadata": {
+            "common": {
+                "fileName": common_module_record["fileName"],
+                "sha256": common_module_record["sha256"],
+                "component": component,
+                "variantCount": len(common_module.get("variants", [])),
+                "androidVariantAvailableAt": android_variant.get("available-at"),
+            },
+            "android": {
+                "fileName": android_module_record["fileName"],
+                "sha256": android_module_record["sha256"],
+                "component": android_component,
+            },
+        },
+        "interpretation": {
+            "binarySurface": "Raw JVM public/protected bytecode members; this includes Kotlin-internal and compiler-generated declarations and is not a Kotlin public API dump.",
+            "sourceMapping": "Class-file SourceFile attributes mapped to source-archive package paths; file-level mapping does not prove declaration-level API equivalence.",
+            "apiDumpAlignment": "UNVERIFIED",
+            "limitations": [
+                "No official stable 1.4.0 API dump has been identified in the inspected AndroidX API directory.",
+                "The derived JVM surface is not an official AndroidX API dump and must not be used as a Kotlin API compatibility claim.",
+                "Source-file mapping does not prove that every public binary declaration has an equivalent public Kotlin source declaration.",
+            ],
+        },
+    }
+
+
+def main() -> int:
+    if len(sys.argv) != 3:
+        print("Usage: inspect-material3-android-aar.py <artifact-directory> <output-json>", file=sys.stderr)
+        return 2
+    directory = Path(sys.argv[1])
+    output = Path(sys.argv[2])
+    result = inspect(directory)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    print(json.dumps(result, indent=2, ensure_ascii=False))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
