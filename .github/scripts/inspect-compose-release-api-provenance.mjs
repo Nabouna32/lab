@@ -173,12 +173,23 @@ export function parseLibraryVersion(text, marker) {
 
 export function parseApiDumpMetadata(text, family) {
   const formatVersion = text.match(/^(?:\uFEFF)?\/\/ Signature format: (\d+\.\d+)(?:\r?\n|$)/)?.[1] ?? null;
-  const surface = text.match(/^\/\/ - surface=([A-Za-z0-9_-]+)\s*$/m)?.[1] ?? null;
+  const declaredSurface = text.match(/^\/\/ - surface=([A-Za-z0-9_-]+)\s*$/m)?.[1] ?? null;
   const packageCount = text.split(/\r?\n/).filter((line) => /^package\s+/.test(line)).length;
-  if (formatVersion !== '5.0') throw new Error(family + ' API dump must use signature format 5.0; received ' + (formatVersion ?? 'unknown') + '.');
-  if (surface !== 'public') throw new Error(family + ' API dump must declare surface=public.');
+  if (!['4.0', '5.0'].includes(formatVersion)) {
+    throw new Error(family + ' API dump must use signature format 4.0 or 5.0; received ' + (formatVersion ?? 'unknown') + '.');
+  }
+  if (declaredSurface && declaredSurface !== 'public') {
+    throw new Error(family + ' API dump must declare a public surface; received ' + declaredSurface + '.');
+  }
+  if (formatVersion === '5.0' && declaredSurface !== 'public') {
+    throw new Error(family + ' API dump format 5.0 must explicitly declare surface=public.');
+  }
   if (packageCount === 0) throw new Error(family + ' API dump contains no package declarations.');
-  return { formatVersion, surface, packageCount };
+  return {
+    formatVersion,
+    surface: declaredSurface ?? 'public-by-current.txt-path',
+    packageCount,
+  };
 }
 
 export function calculateGitilesBlobHashes(bytes) {
