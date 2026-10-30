@@ -195,7 +195,7 @@ class Material3AndroidAarInspectionTests(unittest.TestCase):
             )
         ]
         comparison = MODULE.compare_api_dump_to_binary(api, binary)
-        self.assertEqual(comparison["sourceLevelDescriptorMatches"], 4)
+        self.assertEqual(comparison["sourceLevelDescriptorMatches"], 5)
         self.assertEqual(comparison["bytecodeOnlyDescriptorMatches"], 2)
         self.assertEqual(comparison["constructorDescriptorMatches"], 1)
         self.assertEqual(comparison["fieldDescriptorMatches"], 1)
