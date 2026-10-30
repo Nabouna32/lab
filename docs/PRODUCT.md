@@ -1,179 +1,180 @@
-# Loculary — Product Definition
+# Loculary — Définition du produit
 
-## Audience
+## Public
 
-The primary audience is **everyone who has a small digital task to accomplish**.
+Le public principal est **toute personne ayant une petite tâche numérique à accomplir**.
 
-Examples include:
+Exemples :
 
-- calculating a percentage;
-- converting a unit;
-- checking download speed;
-- transforming a file locally;
-- generating something;
-- comparing values;
-- exploring a visual result;
-- making a random decision;
-- finding a specialized utility.
+- calculer un pourcentage ;
+- convertir une unité ;
+- vérifier une vitesse de téléchargement ;
+- transformer un fichier localement ;
+- générer un contenu ;
+- comparer des valeurs ;
+- explorer un résultat visuel ;
+- prendre une décision aléatoire ;
+- trouver un utilitaire spécialisé.
 
-The product should not assume professional technical knowledge.
+Le produit ne doit pas supposer de connaissances techniques professionnelles.
 
-## Core experience
+## Expérience principale
 
-A user should be able to:
+Une personne doit pouvoir :
 
-1. arrive at Loculary;
-2. search or browse;
-3. understand what an available tool does;
-4. open it;
-5. see the tool without unnecessary scrolling;
-6. enter data;
-7. obtain a clear result;
-8. copy results where relevant; reset and tool-result sharing remain target capabilities, not universal functionality today;
-9. discover related tools if useful.
+1. arriver sur Loculary ;
+2. effectuer une recherche ou parcourir le catalogue ;
+3. comprendre le rôle d'un outil disponible ;
+4. l'ouvrir ;
+5. voir l'outil sans défilement inutile ;
+6. saisir des données ;
+7. obtenir un résultat clair ;
+8. copier le résultat lorsque c'est pertinent ; la réinitialisation et le partage de l'état de l'outil restent des capacités cibles, et non des fonctionnalités universelles déjà disponibles ;
+9. découvrir des outils associés si cela présente un intérêt.
 
-## Search
+## Recherche
 
-Search is a strategic product capability.
+La recherche est une capacité stratégique du produit.
 
-The target direction is progressive:
+La direction cible est progressive :
 
-### Level 1 — Catalog search
+### Niveau 1 — Recherche dans le catalogue
 
-Match tool names, descriptions, aliases, categories, and tags.
+Faire correspondre les noms, descriptions, alias, catégories et tags des outils.
 
-### Level 2 — Intent-aware search
+### Niveau 2 — Recherche tenant compte de l'intention
 
-Understand natural requests such as:
+Comprendre des demandes en langage naturel telles que :
 
-> “calculer 25 % de 180”
+> « calculer 25 % de 180 »
 
-and identify the appropriate tool.
+et identifier l'outil approprié.
 
-### Discovery experience
+### Expérience de découverte
 
-The homepage is action/search-first: search and a few direct task links come first, with a clear path to the Explorer for deeper discovery. Explorer combines intent-oriented and category-oriented navigation; the homepage should not duplicate both full grids. Guided workflows remain a compact homepage entry because they connect multiple tools into a distinct task journey. Recent tools are conditional local convenience, not a requirement for first-time visitors.
+La page d'accueil doit permettre d'accéder rapidement aux tâches et à la découverte du catalogue. La recherche, les raccourcis vers des tâches, l'Explorer, les parcours guidés et les outils récents sont des possibilités complémentaires ; leur place et leur présentation doivent suivre les usages réels et les conventions familières des applications Pixel et Android de qualité. Ne pas figer une maquette ou une composition de navigation unique, ni accumuler des entrées au point de gêner l'action principale.
 
-Navigation may expose goals such as calculating, converting, transforming, creating, analyzing, verifying, generating, measuring and discovering. An intent expresses a goal, not a category shortcut: one intent may lead to tools across several categories. Initial associations may be curated editorial data; deterministic inference may enrich them later.
+L'Explorer peut combiner une navigation par intention et par catégorie. Les objectifs peuvent inclure calculer, convertir, transformer, créer, analyser, vérifier, générer, mesurer et découvrir. Une intention exprime un objectif, pas un raccourci de catégorie : une même intention peut mener à des outils de plusieurs catégories. Les associations initiales peuvent être des données éditoriales sélectionnées ; une inférence déterministe pourra les enrichir ultérieurement.
 
-The catalog should be able to grow substantially over time, but storage, indexing, caching, administration and loading strategies must be justified by current scale, measured performance and actual editorial needs. The current catalog remains Git-backed; DEC-027 defines when a database-backed catalog should be reconsidered. Executable tool behavior remains in Git.
+Le catalogue doit pouvoir croître fortement au fil du temps, mais le stockage, l'indexation, le cache, l'administration et les stratégies de chargement doivent être justifiés par l'échelle actuelle, les performances mesurées et les besoins éditoriaux réels. Le catalogue actuel reste géré dans Git ; DEC-027 définit les critères qui justifieraient de réévaluer un catalogue adossé à une base de données. Le comportement exécutable des outils reste dans Git.
 
-Search supports exact/prefix matching, descriptions, aliases, synonyms, tags, categories, typo tolerance, related queries and natural-language intent. No-result states help users reformulate, discover related tools/categories and identify useful alternatives when no direct match exists.
+La recherche prend en charge la correspondance exacte et par préfixe, les descriptions, alias, synonymes, tags, catégories, la tolérance aux fautes, les requêtes associées et les intentions exprimées en langage naturel. Les états sans résultat doivent aider à reformuler la demande, découvrir des outils ou catégories associés et identifier des alternatives utiles lorsqu'aucun résultat direct n'existe.
 
-## Accounts
+## Comptes
 
-Accounts are optional.
+Les comptes sont facultatifs.
 
-Users must be able to use core tools without signing in.
+Les utilisateurs doivent pouvoir utiliser les outils principaux sans se connecter.
 
-An account can unlock features such as:
+Un compte peut débloquer des fonctionnalités telles que :
 
-- favorites synchronized with the account;
-- personal collections, with optional sharing by link;
-- account preferences.
+- les favoris synchronisés avec le compte ;
+- les collections personnelles, avec partage facultatif par lien ;
+- les préférences du compte.
 
-Anonymous users can retain favorites and create private local collections in the browser without an account. Local collections persist on that device and contain only collection names and tool IDs; they never store tool inputs or results and cannot be shared by link. Signed-in users can keep local collections alongside synchronized account collections, choose whether each new collection stays on the device or syncs across devices, and optionally share synchronized collections through an explicit link. Collections are private by default; a share token grants read access only to the selected synchronized collection and its items. Signing in does not silently upload local collections. Anonymous favorites still merge into account favorites with deterministic conflict handling. The light/dark theme preference currently works locally; account synchronization of that preference remains unimplemented.
+Les utilisateurs anonymes peuvent conserver leurs favoris et créer dans le navigateur des collections privées locales, sans compte. Les collections locales persistent sur cet appareil et ne contiennent que les noms des collections et les identifiants des outils ; elles ne stockent jamais les saisies ni les résultats des outils et ne peuvent pas être partagées par lien. Les utilisateurs connectés peuvent conserver des collections locales à côté des collections synchronisées avec leur compte, choisir pour chaque nouvelle collection si elle reste sur l'appareil ou se synchronise entre appareils, et éventuellement partager les collections synchronisées au moyen d'un lien explicite. Les collections sont privées par défaut ; un jeton de partage donne uniquement un accès en lecture à la collection synchronisée sélectionnée et à ses éléments. La connexion ne téléverse jamais silencieusement les collections locales. Les favoris anonymes sont fusionnés avec les favoris du compte selon une gestion déterministe des conflits. La préférence de thème clair/sombre fonctionne actuellement en local ; sa synchronisation avec le compte n'est pas encore implémentée.
 
-The product should support anonymous/local usage first and account creation when it adds value.
+Le produit doit privilégier l'utilisation anonyme et locale, et proposer la création d'un compte lorsqu'elle apporte une réelle valeur.
 
-## Local state and synchronized state
+## État local et état synchronisé
 
-Without an account, useful non-sensitive state may be stored locally in the browser.
+Sans compte, les données utiles et non sensibles peuvent être stockées localement dans le navigateur.
 
-With an account, selected metadata can be synchronized.
+Avec un compte, certaines métadonnées peuvent être synchronisées.
 
-Tool input and content must not be synchronized or stored by default. Sensitive content should remain local unless a feature explicitly requires remote processing and clearly explains it.
+Les saisies et contenus des outils ne doivent pas être synchronisés ni stockés par défaut. Les contenus sensibles doivent rester locaux, sauf si une fonctionnalité exige explicitement un traitement distant et l'explique clairement.
 
-## Tool catalog
+## Catalogue d'outils
 
-The platform supports three levels of tool complexity: small tools, advanced tools and mini-applications. A common framework must standardize navigation, metadata, privacy indicators, accessibility, common actions, SEO, error handling, lifecycle and discovery without forcing every tool into the same layout or interaction model.
+La plateforme prend en charge trois niveaux de complexité : les petits outils, les outils avancés et les mini-applications. Un socle commun doit standardiser la navigation, les métadonnées, les indicateurs de confidentialité, l'accessibilité, les actions courantes, le SEO, la gestion des erreurs, le cycle de vie et la découverte, sans imposer une disposition ou un modèle d'interaction identique à tous les outils.
 
-There is no artificial limit on catalog categories or tool types; implementation complexity must remain proportionate to demonstrated needs.
+Les composants et comportements d'interface doivent s'appuyer sur AndroidX et ses adaptations Web. Pour les parcours qui ne sont pas couverts par un contrat AndroidX, privilégier les conventions familières et éprouvées des applications Pixel et des applications grand public de qualité. Les outils peuvent avoir des compositions adaptées à leur tâche, mais ne doivent pas réinventer des patterns déjà résolus par des composants ou modèles reconnus.
 
-It may contain:
+Aucune limite artificielle n'est imposée aux catégories ou types d'outils ; la complexité d'implémentation doit rester proportionnée aux besoins démontrés.
 
-- calculators;
-- converters;
-- text tools;
-- image tools;
-- audio/video tools;
-- file tools;
-- developer tools;
-- date/time tools;
-- finance tools;
-- statistics;
-- networking utilities;
-- generators;
-- visualizers;
-- simulators;
-- educational tools;
-- creative tools;
-- playful tools;
-- decision tools;
-- emotional/introspective tools;
-- symbolic/spiritual tools;
-- and other useful browser-realizable utilities.
+Le catalogue peut contenir :
 
+- des calculatrices ;
+- des convertisseurs ;
+- des outils de texte ;
+- des outils d'image ;
+- des outils audio/vidéo ;
+- des outils de fichiers ;
+- des outils de développement ;
+- des outils de date et d'heure ;
+- des outils financiers ;
+- des outils statistiques ;
+- des utilitaires réseau ;
+- des générateurs ;
+- des visualiseurs ;
+- des simulateurs ;
+- des outils éducatifs ;
+- des outils créatifs ;
+- des outils ludiques ;
+- des outils d'aide à la décision ;
+- des outils émotionnels ou introspectifs ;
+- des outils symboliques ou spirituels ;
+- ainsi que tout autre utilitaire utile réalisable dans un navigateur.
 
-## Tool quality gate
+## Critères de qualité d'un outil
 
-A tool should be considered publishable only when its implementation and metadata meet the project's quality contract.
+Un outil ne doit être considéré comme publiable que lorsque son implémentation et ses métadonnées respectent le contrat de qualité du projet.
 
-Expected checks include, as applicable:
+Les vérifications attendues comprennent, selon le cas :
 
-- useful name and description;
-- category and tags;
-- search aliases;
-- clear privacy/processing status;
-- responsive behavior;
-- accessibility;
-- validation and error states;
-- tests;
-- SEO metadata;
-- share/reset/copy behavior where relevant;
-- performance appropriate to the tool;
-- documentation;
-- related-tool metadata;
+- un nom et une description utiles ;
+- une catégorie et des tags ;
+- des alias de recherche ;
+- un état de traitement/confidentialité explicite ;
+- un comportement responsive ;
+- l'accessibilité ;
+- la validation et les états d'erreur ;
+- des tests ;
+- les métadonnées SEO ;
+- les comportements de partage, réinitialisation et copie lorsqu'ils sont pertinents ;
+- des performances adaptées à l'outil ;
+- la documentation ;
+- les métadonnées des outils associés.
 
-The exact automated contract will evolve with the tool platform.
+Le contrat automatisé exact évoluera avec la plateforme d'outils.
 
-### Explanation and content quality
+### Qualité des explications et des contenus
 
-- Put the useful result and primary interaction first; make explanations available without making them a barrier to use.
-- Where useful, explain a result using the values the user actually entered rather than a disconnected generic explanation.
-- Prefer concise, realistic examples that clarify a concept; avoid repetitive examples that add no new understanding.
-- Editorial content must provide genuine help. Search visibility is not a justification for filler or artificially lengthened pages.
-- Keep advanced options available when they provide real value, but prevent them from overwhelming the default experience.
-- A feature, recommendation or content block should exist because it helps the user, not merely because the layout or catalog has room for it.
+- Présenter d'abord le résultat utile et l'interaction principale ; rendre les explications accessibles sans en faire un obstacle à l'utilisation.
+- Lorsque c'est utile, expliquer un résultat à partir des valeurs réellement saisies plutôt qu'au moyen d'une explication générique sans lien avec le cas.
+- Préférer des exemples concis et réalistes qui clarifient un concept ; éviter les exemples répétitifs qui n'apportent aucune compréhension supplémentaire.
+- Le contenu éditorial doit apporter une aide réelle. La visibilité dans les moteurs de recherche ne justifie ni le remplissage ni l'allongement artificiel des pages.
+- Garder les options avancées disponibles lorsqu'elles apportent une réelle valeur, sans les laisser submerger l'expérience par défaut.
+- Une fonctionnalité, une recommandation ou un bloc de contenu doit exister parce qu'il aide l'utilisateur, pas simplement parce que la mise en page ou le catalogue dispose d'espace.
 
-## Account experience
+## Expérience du compte
 
-Loculary remains anonymous-first for core tools. The account layer is an optional personal surface for display name, language preference, authentication, password/email management, favorites and account deletion. Keep its settings straightforward; do not add a dedicated privacy dashboard. It must not become a prerequisite for using the core toolbox.
+Loculary privilégie l'utilisation anonyme des outils principaux. La couche compte est un espace personnel facultatif pour le nom affiché, la préférence de langue, l'authentification, la gestion du mot de passe et de l'adresse e-mail, les favoris et la suppression du compte. Garder ses réglages simples ; ne pas ajouter de tableau de bord dédié à la confidentialité. Le compte ne doit jamais devenir un prérequis pour utiliser la boîte à outils principale.
 
-## Tool diversity
+## Diversité des outils
 
-A common tool framework must not force every tool to look identical.
+Un socle commun ne doit pas obliger tous les outils à avoir exactement la même apparence.
 
-The platform should standardize:
+La plateforme doit standardiser :
 
-- navigation;
-- metadata;
-- privacy indicators;
-- accessibility expectations;
-- common actions;
-- SEO;
-- error handling;
-- lifecycle and discovery.
+- la navigation ;
+- les métadonnées ;
+- les indicateurs de confidentialité ;
+- les exigences d'accessibilité ;
+- les actions courantes ;
+- le SEO ;
+- la gestion des erreurs ;
+- le cycle de vie et la découverte.
 
-Individual tools may still have distinctive layouts, visualizations, animations, and interactions.
+Les outils peuvent conserver des mises en page, visualisations, animations et interactions distinctives lorsque leur tâche le justifie, en s'appuyant sur les composants AndroidX et leurs adaptations Web plutôt que sur des implémentations de présentation parallèles propres à Loculary.
 
-## Internationalization
+## Internationalisation
 
-Initial languages:
+Langues initiales :
 
-- French;
-- English.
+- anglais ;
+- français.
 
-Keep localization data-driven so additional languages can be supported if a concrete need arises, without committing to a broader locale roadmap.
+L'anglais est la langue par défaut de l'application. Le français doit être disponible dès la livraison initiale. Les contenus doivent être structurés à partir de données de localisation afin de permettre l'ajout d'autres langues lorsqu'un besoin concret le justifiera, sans s'engager dès maintenant sur une feuille de route linguistique plus large.
 
-Translations must be treated as product content, not scattered hard-coded strings.
+Les traductions font partie du contenu produit ; elles ne doivent pas être dispersées sous forme de chaînes codées en dur.
