@@ -95,6 +95,7 @@ test("TextField renders a labelled native input and preserves native input event
   assert.equal(input.getAttribute("step"), "any");
   assert.equal(input.getAttribute("aria-invalid"), "true");
   assert.equal(input.value, "12");
+  assert.ok(input.className.includes("motion-reduce:transition-none"));
 
   await act(async () => {
     setNativeValue(input, "24");
@@ -123,6 +124,7 @@ test("TextField keeps the explicit label association in its expressive variant",
   assert.equal(label.htmlFor, "account-email");
   assert.equal(input.placeholder, "name@example.com");
   assert.ok(input.className.includes("peer"));
+  assert.ok(input.className.includes("motion-reduce:transition-none"));
 });
 
 test("TextArea merges and deduplicates external descriptions with its error", async () => {
