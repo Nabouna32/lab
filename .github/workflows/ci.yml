@@ -100,14 +100,6 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
-      - name: Exercise CI tooling tests
-        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
-        run: |
-          node --test .github/scripts/*.test.mjs
-          python3 .github/scripts/test_inventory_material_components_api.py
-          python3 .github/scripts/test_inspect_material3_android_aar.py
-          python3 .github/scripts/test_verify_material3_source_commit.py
-
       - name: Verify generated MDC API inventory reproducibility
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
         run: git diff --exit-code -- docs/material3/catalog/baselines/material-components-views-1.14.0-api-inventory.json
@@ -138,6 +130,14 @@ jobs:
             docs/material3/catalog/baselines/material3-android-1.4.0-api-inventory.json
           if-no-files-found: error
           retention-days: 7
+
+      - name: Exercise CI tooling tests
+        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
+        run: |
+          node --test .github/scripts/*.test.mjs
+          python3 .github/scripts/test_inventory_material_components_api.py
+          python3 .github/scripts/test_inspect_material3_android_aar.py
+          python3 .github/scripts/test_verify_material3_source_commit.py
 
       - name: Verify Material 3 Android source/AAR inventory reproducibility
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
