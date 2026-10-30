@@ -237,6 +237,7 @@ test("OutlinedSecureTextField reveals a secure value with a localized Material i
     createElement(OutlinedSecureTextField, {
       id: "password",
       label: "Mot de passe",
+      autoComplete: "current-password",
       value: "secret-value",
       onChange: () => {},
       showPasswordLabel: "Afficher le mot de passe",
@@ -279,6 +280,7 @@ test("OutlinedSecureTextField keeps secure controls disabled when the field is d
     createElement(OutlinedSecureTextField, {
       id: "disabled-password",
       label: "Password",
+      autoComplete: "new-password",
       value: "secret",
       onChange: () => {},
       showPasswordLabel: "Afficher le mot de passe",
