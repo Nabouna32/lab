@@ -52,7 +52,7 @@
       "sourceDirectory": "compose/ui",
       "officialApiReference": "https://developer.android.com/reference/kotlin/androidx/compose/ui/package-summary",
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/compose-ui",
-      "notes": "Inventaire normalisé exhaustif du dump public 1.12.1 versionné dans inventories/compose-ui-1.12.1/ ; 4 196 déclarations conservées, dont les types imbriqués et façades JVM générées classées séparément. Baseline et sources publiées vérifiées au commit AndroidX 5e0747401bf56b243e3b5141ae080dc9bc61d29c. Revue sémantique et sélection des API utiles à Loculary encore en cours.",
+      "notes": "Inventaire normalisé du dump public 1.12.1 versionné dans inventories/compose-ui-1.12.1/ : 4 232 déclarations conservées, types imbriqués et façades JVM générées classés séparément. 2 451 candidates API source après exclusion des façades, formes bytecode-only et inaccessibles Kotlin. Baseline et sources publiées vérifiées au commit AndroidX 5e0747401bf56b243e3b5141ae080dc9bc61d29c. Revue sémantique et sélection des API utiles à Loculary encore en cours.",
       "successorFamilyIds": [],
       "successorMappingStatus": "not-assessed",
       "artifactCoordinateStatus": "verified-official-release"
@@ -73,7 +73,7 @@
       "sourceDirectory": "compose/foundation",
       "officialApiReference": "https://developer.android.com/reference/kotlin/androidx/compose/foundation/package-summary",
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/compose-foundation",
-      "notes": "Inventaire normalisé exhaustif du dump public 1.12.1 versionné dans inventories/compose-foundation-1.12.1/ ; 2 310 déclarations conservées, dont les types imbriqués et façades JVM générées classées séparément. Baseline et sources publiées vérifiées au commit AndroidX 5e0747401bf56b243e3b5141ae080dc9bc61d29c. Revue sémantique et sélection des API utiles à Loculary encore en cours.",
+      "notes": "Inventaire normalisé du dump public 1.12.1 versionné dans inventories/compose-foundation-1.12.1/ : 2 343 déclarations conservées, types imbriqués et façades JVM générées classés séparément. 1 389 candidates API source après exclusion des façades, formes bytecode-only et inaccessibles Kotlin. Baseline et sources publiées vérifiées au commit AndroidX 5e0747401bf56b243e3b5141ae080dc9bc61d29c. Revue sémantique et sélection des API utiles à Loculary encore en cours.",
       "successorFamilyIds": [],
       "successorMappingStatus": "not-assessed",
       "artifactCoordinateStatus": "verified-official-release"
@@ -308,7 +308,7 @@
       "sourceDirectory": "compose/ui/ui-text",
       "officialApiReference": "https://developer.android.com/reference/kotlin/androidx/compose/ui/text/package-summary",
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/compose-ui",
-      "notes": "Inventaire normalisé exhaustif du dump public 1.12.1 versionné dans inventories/compose-ui-text-1.12.1/ ; 1 762 déclarations conservées, dont les types imbriqués et façades JVM générées classées séparément. Baseline et sources publiées vérifiées au commit AndroidX 5e0747401bf56b243e3b5141ae080dc9bc61d29c. Revue sémantique et sélection des API utiles à Loculary encore en cours.",
+      "notes": "Inventaire normalisé du dump public 1.12.1 versionné dans inventories/compose-ui-text-1.12.1/ : 1 774 déclarations conservées, types imbriqués et façades JVM générées classés séparément. 1 004 candidates API source après exclusion des façades, formes bytecode-only et inaccessibles Kotlin. Baseline et sources publiées vérifiées au commit AndroidX 5e0747401bf56b243e3b5141ae080dc9bc61d29c. Revue sémantique et sélection des API utiles à Loculary encore en cours.",
       "successorFamilyIds": [],
       "successorMappingStatus": "not-assessed",
       "artifactCoordinateStatus": "verified-official-release"
@@ -413,7 +413,7 @@
       "sourceDirectory": "compose/foundation/foundation-layout",
       "officialApiReference": "https://developer.android.com/reference/kotlin/androidx/compose/foundation/layout/package-summary",
       "officialReleaseNotes": "https://developer.android.com/jetpack/androidx/releases/compose-foundation",
-      "notes": "Inventaire normalisé exhaustif du dump public 1.12.1 versionné dans inventories/compose-foundation-layout-1.12.1/ ; 749 déclarations conservées, dont les types imbriqués et façades JVM générées classées séparément. La revue sémantique initiale est disponible dans compose-foundation-layout-1.12.1.md. Baseline et sources publiées vérifiées au commit AndroidX 5e0747401bf56b243e3b5141ae080dc9bc61d29c.",
+      "notes": "Inventaire normalisé du dump public 1.12.1 versionné dans inventories/compose-foundation-layout-1.12.1/ : 758 déclarations conservées, types imbriqués et façades JVM générées classés séparément. 440 candidates API source après exclusion des façades, formes bytecode-only et inaccessibles Kotlin. La revue sémantique initiale est disponible dans compose-foundation-layout-1.12.1.md. Baseline et sources publiées vérifiées au commit AndroidX 5e0747401bf56b243e3b5141ae080dc9bc61d29c.",
       "successorFamilyIds": [],
       "successorMappingStatus": "not-assessed",
       "artifactCoordinateStatus": "verified-official-release"
