@@ -88,7 +88,7 @@ Comparer le résultat réel dans le navigateur à la référence épinglée et c
 
 ## État actuel de l'implémentation
 
-This document describes the target, not a claim that the current site conforms. Component-specific status and evidence belong in [the Material 3 porting index](material3/README.md). The production migration is a separate step after each component passes its own porting gate.
+Ce document décrit la cible et ne prétend pas que le site actuel y est déjà conforme. L'état et les preuves propres à chaque composant sont consignés dans [l'index de portage Material 3](material3/README.md). La migration en production constitue une étape distincte, après que chaque composant a satisfait à ses propres critères de portage.
 
 
 ## État actuel de la migration en production
