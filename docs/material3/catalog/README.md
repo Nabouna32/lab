@@ -85,7 +85,9 @@ La vérification nécessite un accès réseau aux URL consignées dans le manife
 
 ## Première revue sémantique Compose P0
 
-La première revue structurée de [Foundation Layout 1.12.1](compose-foundation-layout-1.12.1.md) classe les principaux contrats de mesure, d'arrangement, de padding et de WindowInsets, et distingue les adaptations Web des API Android sans équivalent direct. Elle reste initiale : les familles P0 conservent le statut `in-progress` jusqu'à la livraison des inventaires normalisés exhaustifs et de leurs contrôles reproductibles.
+La revue ciblée [Compose Foundation 1.12.1](compose-foundation-1.12.1.md) examine les contrats de clic, scroll, drag, états ancrés, nested scroll et overscroll, puis les adaptations Web existantes. Elle reste partielle : les API lazy, pager, sélection, focus/relocation, drag-and-drop et texte n'ont pas encore été examinées sémantiquement.
+
+La première revue structurée de [Foundation Layout 1.12.1](compose-foundation-layout-1.12.1.md) classe les principaux contrats de mesure, d'arrangement, de padding et de WindowInsets, et distingue les adaptations Web des API Android sans équivalent direct. Elle reste initiale. Les inventaires normalisés exhaustifs des quatre familles P0 et leurs contrôles reproductibles sont désormais livrés ; leur statut `in-progress` décrit le travail sémantique, la spécification et le portage restant, pas un manque d'inventaire.
 
 ## Inventaires normalisés Compose P0 — 1.12.1
 
