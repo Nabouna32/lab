@@ -246,7 +246,6 @@ test("standard functional UI surfaces do not reintroduce one-off inline SVG icon
     "../../components/layout/DesktopHeaderMenu.tsx",
     "../../components/layout/LanguageFlag.tsx",
     "../../components/layout/HeaderSearch.tsx",
-    "../../components/theme/ThemeToggle.tsx",
     "../../components/tools/ToolSearch.tsx",
     "../../components/tools/number-base-converter/NumberBaseConverter.tsx",
   ];
@@ -488,7 +487,12 @@ test("header theme controls defer client-dependent selected state until after hy
   assert.match(headerMenuSource, /function getServerHydrationReadySnapshot\(\)\s*\{\s*return false;/);
   assert.match(headerMenuSource, /useSyncExternalStore\(\s*subscribeHydrationReady,\s*getHydrationReadySnapshot,\s*getServerHydrationReadySnapshot,/);
   assert.doesNotMatch(headerMenuSource, /setThemeReady/);
-  assert.match(headerMenuSource, /aria-pressed=\{selected\}/);
+  assert.match(headerMenuSource, /type="radio"/);
+  assert.match(headerMenuSource, /name="loculary-theme"/);
+  assert.match(headerMenuSource, /checked=\{selected\}/);
+  assert.match(headerMenuSource, /onChange=\{\(\) => selectTheme\(option\.value\)\}/);
+  assert.match(headerMenuSource, /peer-focus-visible:ring-2/);
+  assert.doesNotMatch(headerMenuSource, /aria-pressed=/);
   assert.match(headerMenuSource, /const selected = themeReady && theme === option\.value/);
 });
 
