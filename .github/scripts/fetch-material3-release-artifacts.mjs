@@ -125,7 +125,7 @@ function validateArtifactBytes(artifact, bytes) {
       component?.module !== artifact.expectedModule ||
       component?.version !== "1.4.0"
     ) {
-      throw new Error(artifact.fileName + " declares an unexpected Gradle component identity.");
+      throw new Error(artifact.fileName + " declares an unexpected Gradle component identity: " + JSON.stringify(component ?? null));
     }
     return {
       component: component.group + ":" + component.module + ":" + component.version,
