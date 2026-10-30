@@ -148,6 +148,14 @@ jobs:
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
         run: node .github/scripts/verify-compose-api-watch-snapshots.mjs
 
+      - name: Exercise CI tooling tests
+        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
+        run: |
+          node --test .github/scripts/*.test.mjs
+          python3 .github/scripts/test_inventory_material_components_api.py
+          python3 .github/scripts/test_inspect_material3_android_aar.py
+          python3 .github/scripts/test_verify_material3_source_commit.py
+
       - name: Inspect official Compose 1.12.1 release API provenance
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
         run: node .github/scripts/inspect-compose-release-api-provenance.mjs /tmp/compose-release-api-provenance
@@ -160,14 +168,6 @@ jobs:
           path: /tmp/compose-release-api-provenance/
           if-no-files-found: error
           retention-days: 7
-
-      - name: Exercise CI tooling tests
-        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
-        run: |
-          node --test .github/scripts/*.test.mjs
-          python3 .github/scripts/test_inventory_material_components_api.py
-          python3 .github/scripts/test_inspect_material3_android_aar.py
-          python3 .github/scripts/test_verify_material3_source_commit.py
 
       - name: Verify Material 3 Android source/AAR inventory reproducibility
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
