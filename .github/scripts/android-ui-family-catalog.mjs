@@ -66,7 +66,7 @@ export function validateFamilyCatalog(catalog) {
     if (!ALLOWED_PORT_PRIORITIES.has(family.portPriority)) {
       errors.push(label + '.portPriority must be an explicit priority or migration-reference-only.');
     }
-    if (!['not-started', 'watch-snapshot-only', 'in-progress', 'verified'].includes(family.inventoryStatus)) {
+    if (!['not-started', 'in-progress', 'verified'].includes(family.inventoryStatus)) {
       errors.push(label + '.inventoryStatus is invalid.');
     }
     if (!ALLOWED_SUCCESSOR_STATUSES.has(family.successorMappingStatus)) {
