@@ -472,7 +472,10 @@ def _descriptor_for_api_callable(member: dict, constructor: bool = False) -> tup
         if member.get("kotlinOnly"):
             parameters.append("Lkotlin/jvm/internal/DefaultConstructorMarker;")
         return member["name"], "(" + "".join(parameters) + ")V"
-    return_descriptor = api_type_to_jvm_descriptor(member["returnType"], is_return=True)
+    if member["name"] == "box-impl":
+        return_descriptor = _boxed_api_type_descriptor(member["returnType"])
+    else:
+        return_descriptor = api_type_to_jvm_descriptor(member["returnType"], is_return=True)
     if return_descriptor is None:
         return None
     if member.get("composable") and not member.get("bytecodeOnly"):
