@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 1,
+  "artifact": "androidx.compose.material3:material3-android",
+  "referenceVersion": "1.4.0",
+  "verificationWorkflow": "Google Maven published artifacts and SHA-256 sidecars",
+  "sourceArchive": {
+    "fileName": "material3-android-1.4.0-sources.jar",
+    "sha256": "3e3209422a382566a780e2c1410edd866e4474498098fdbcf942c690ade1ddaa",
+    "gitBlobSha1": "de9ccff56af1a12b2fe900b3e6f59f7ae38a8ca2",
+    "sizeBytes": 703105,
+    "kotlinSourceFiles": 249,
+    "sourceFilesBySet": {
+      "androidMain": 25,
+      "commonMain": 218,
+      "jvmMain": 6
+    }
+  },
+  "androidAar": {
+    "fileName": "material3-android-1.4.0.aar",
+    "sha256": "3a37e8b36df3822fe1e6059f0f9fafda8800388860477624ac1b9422c418a36e",
+    "gitBlobSha1": "932bb5abbde4acf1b718a5125eeef7cc9ec22b75",
+    "sizeBytes": 5167765,
+    "classFiles": 1367,
+    "publicJvmClasses": 633,
+    "publicProtectedJvmFields": 892,
+    "publicProtectedJvmMethods": 8360,
+    "classFilesMappedToPublishedSourceFile": 1353,
+    "classFilesWithoutSourceFileMatch": [
+      {
+        "classFile": "androidx/compose/material3/ExposedDropdownMenu_androidKt$SoftKeyboardListener$lambda$5$lambda$4$$inlined$onDispose$1.class",
+        "sourceFile": "Effects.kt"
+      },
+      {
+        "classFile": "androidx/compose/material3/ModalBottomSheet_androidKt$ModalBottomSheetDialog_sW7UJKQ$lambda$8$lambda$7$$inlined$onDispose$1.class",
+        "sourceFile": "Effects.kt"
+      },
+      {
+        "classFile": "androidx/compose/material3/TabRowDefaults$tabIndicatorOffset$$inlined$debugInspectorInfo$1.class",
+        "sourceFile": "InspectableValue.kt"
+      },
+      {
+        "classFile": "androidx/compose/material3/TimePickerKt$visible$$inlined$debugInspectorInfo$1.class",
+        "sourceFile": "InspectableValue.kt"
+      },
+      {
+        "classFile": "androidx/compose/material3/TooltipKt$animateTooltip$$inlined$debugInspectorInfo$1.class",
+        "sourceFile": "InspectableValue.kt"
+      },
+      {
+        "classFile": "androidx/compose/material3/WideNavigationRail_androidKt$ModalWideNavigationRailDialog$lambda$7$lambda$6$$inlined$onDispose$1.class",
+        "sourceFile": "Effects.kt"
+      },
+      {
+        "classFile": "androidx/compose/material3/internal/AccessibilityServiceStateProvider_androidKt$ObserveState$lambda$12$lambda$11$$inlined$onDispose$1.class",
+        "sourceFile": "Effects.kt"
+      },
+      {
+        "classFile": "androidx/compose/material3/internal/BasicEdgeToEdgeDialog_androidKt$BasicEdgeToEdgeDialog$lambda$9$lambda$8$$inlined$onDispose$1.class",
+        "sourceFile": "Effects.kt"
+      },
+      {
+        "classFile": "androidx/compose/material3/internal/BasicTooltipKt$BasicTooltipBox$lambda$4$lambda$3$$inlined$onDispose$1.class",
+        "sourceFile": "Effects.kt"
+      },
+      {
+        "classFile": "androidx/compose/material3/internal/DraggableAnchorsElement$inspectableProperties$$inlined$debugInspectorInfo$1.class",
+        "sourceFile": "InspectableValue.kt"
+      },
+      {
+        "classFile": "androidx/compose/material3/internal/DraggableAnchorsElementV2$inspectableProperties$$inlined$debugInspectorInfo$1.class",
+        "sourceFile": "InspectableValue.kt"
+      },
+      {
+        "classFile": "androidx/compose/material3/internal/MappedInteractionSource$special$$inlined$map$1$2$1.class",
+        "sourceFile": "Emitters.kt"
+      },
+      {
+        "classFile": "androidx/compose/material3/internal/MappedInteractionSource$special$$inlined$map$1$2.class",
+        "sourceFile": "Emitters.kt"
+      },
+      {
+        "classFile": "androidx/compose/material3/internal/MappedInteractionSource$special$$inlined$map$1.class",
+        "sourceFile": "SafeCollector.common.kt"
+      }
+    ]
+  },
+  "apiDumpBinaryComparison": {
+    "apiClassCount": 232,
+    "binaryClassMatches": 232,
+    "missingClasses": [],
+    "apiMethodCount": 1802,
+    "sourceLevelMethodCount": 807,
+    "sourceLevelNameMatches": 807,
+    "bytecodeOnlyMethodCount": 995,
+    "bytecodeOnlyDescriptorMatches": 995,
+    "unsupportedBytecodeOnlySignatures": [],
+    "missingMethods": [],
+    "comparisonMode": "all API classes, source-level names with Kotlin JVM-mangling allowance, and exact JVM descriptors for @BytecodeOnly methods",
+    "status": "bytecode-only-descriptors-and-source-names-match"
+  },
+  "sourceRepositoryCommit": {
+    "repository": "androidx/androidx",
+    "branch": "androidx-compose-material3-release",
+    "commit": "5113b82a4ed6416d6344efa50e41db8cb65928ff",
+    "totalKotlinSourceFiles": 249,
+    "verifiedByteForByte": 249,
+    "mismatchCount": 0,
+    "result": "passed",
+    "workflowRun": "https://github.com/Nabouna32/lab/actions/runs/40984365256"
+  },
+  "officialApiDump": {
+    "repository": "androidx/androidx",
+    "branch": "androidx-compose-material3-release",
+    "commit": "5113b82a4ed6416d6344efa50e41db8cb65928ff",
+    "path": "compose/material3/material3/api/current.txt",
+    "gitBlobSha1": "fd45e9feea96a631c0f8b7ac82f88ee9ce999029",
+    "sizeBytes": 609538,
+    "signatureFormat": "4.0",
+    "libraryVersionMarker": "COMPOSE_MATERIAL3 = \"1.4.0\""
+  },
+  "gradleModuleMetadata": {
+    "common": {
+      "fileName": "material3-1.4.0.module",
+      "sha256": "757081d128daf8801c1dd9acc431fa5269e656b28a0a490ae98ccee68e9c3452",
+      "component": {
+        "group": "androidx.compose.material3",
+        "module": "material3",
+        "version": "1.4.0",
+        "attributes": {
+          "org.gradle.status": "release"
+        }
+      },
+      "variantCount": 12,
+      "androidVariantAvailableAt": {
+        "url": "../../material3-android/1.4.0/material3-android-1.4.0.module",
+        "group": "androidx.compose.material3",
+        "module": "material3-android",
+        "version": "1.4.0"
+      }
+    },
+    "android": {
+      "fileName": "material3-android-1.4.0.module",
+      "sha256": "fccd6a8d0d33fcf7c3277bc43eb452c73803ec620597c81dbc4a79e290a71a97",
+      "component": {
+        "url": "../../material3/1.4.0/material3-1.4.0.module",
+        "group": "androidx.compose.material3",
+        "module": "material3",
+        "version": "1.4.0",
+        "attributes": {
+          "org.gradle.status": "release"
+        }
+      }
+    }
+  },
+  "interpretation": {
+    "binarySurface": "Raw JVM public/protected bytecode members; this includes Kotlin-internal and compiler-generated declarations and is not a Kotlin public API dump.",
+    "sourceMapping": "Class-file SourceFile attributes mapped to source-archive package paths; file-level mapping does not prove declaration-level API equivalence.",
+    "apiDumpAlignment": "OFFICIAL_STABLE_DUMP_AND_SOURCE_COMMIT_VERIFIED_METHODS_MATCH_OTHER_API_DECLARATIONS_PENDING",
+    "methodSurfaceComparison": "232/232 API classes exist in the AAR; 807/807 source-level method names are present (Kotlin JVM mangling allowed); 995/995 @BytecodeOnly JVM descriptors match exactly. Source-level method descriptors are not yet compared.",
+    "limitations": [
+      "The current comparison covers all API classes and method declarations, but compares exact JVM descriptors only for @BytecodeOnly methods; source-level methods are checked by name with Kotlin JVM-mangling allowance.",
+      "Constructor, field, and property declarations are not yet compared as independent API members.",
+      "The official stable 1.4.0 API snapshot is pinned from the AndroidX release branch, and all 249 published Kotlin sources match that release commit byte-for-byte (CI run 40984365256).",
+      "The derived JVM surface is not an official AndroidX API dump and must not be used as a Kotlin API compatibility claim.",
+      "Source-file mapping does not prove that every public binary declaration has an equivalent public Kotlin source declaration."
+    ]
+  }
+}

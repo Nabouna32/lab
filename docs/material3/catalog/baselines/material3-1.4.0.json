@@ -43,12 +43,98 @@
       "gitBlobSha": "863fc32db157bdc803d2834899b8bbd00bd7de2b",
       "url": "https://github.com/androidx/androidx/blob/5901d750e269aa3d88f6fccd5186637df83a0173/compose/material3/material3/api/1.5.0-beta01.txt",
       "maturity": "beta"
+    },
+    "releaseBranchSnapshot": {
+      "repository": "androidx/androidx",
+      "branch": "androidx-compose-material3-release",
+      "commit": "5113b82a4ed6416d6344efa50e41db8cb65928ff",
+      "commitDate": "2025-09-17T02:09:58Z",
+      "commitMessage": "Merge into androidx-compose-material3-release; libraryversions.toml changes COMPOSE_MATERIAL3 from 1.4.0-rc01 to 1.4.0.",
+      "libraryVersionsPath": "libraryversions.toml",
+      "libraryVersionMarker": "COMPOSE_MATERIAL3 = \"1.4.0\"",
+      "apiDumpPath": "compose/material3/material3/api/current.txt",
+      "apiDumpGitBlobSha1": "fd45e9feea96a631c0f8b7ac82f88ee9ce999029",
+      "apiDumpSizeBytes": 609538,
+      "signatureFormat": "4.0",
+      "identicalToLastVersionedPrereleaseDump": {
+        "path": "compose/material3/material3/api/1.4.0-beta03.txt",
+        "gitBlobSha1": "fd45e9feea96a631c0f8b7ac82f88ee9ce999029"
+      },
+      "provenance": "Official AndroidX release branch snapshot at the commit that sets COMPOSE_MATERIAL3 to 1.4.0; the official release notes link the 1.4.0 commit range ending at this commit."
     }
   },
   "apiDumpAlignment": {
-    "status": "UNVERIFIED",
-    "exactStableDump": null,
-    "repositorySourceCommit": null,
-    "reason": "The published source archive is identified, but the exact source commit and an API dump proven to match the stable 1.4.0 artifact have not been established."
+    "status": "OFFICIAL_STABLE_DUMP_AND_SOURCE_COMMIT_VERIFIED_METHODS_MATCH_OTHER_API_DECLARATIONS_PENDING",
+    "exactStableDump": {
+      "repository": "androidx/androidx",
+      "branch": "androidx-compose-material3-release",
+      "commit": "5113b82a4ed6416d6344efa50e41db8cb65928ff",
+      "path": "compose/material3/material3/api/current.txt",
+      "vendoredPath": "docs/material3/catalog/baselines/material3-1.4.0-api.txt",
+      "gitBlobSha1": "fd45e9feea96a631c0f8b7ac82f88ee9ce999029",
+      "signatureFormat": "4.0"
+    },
+    "repositorySourceCommit": "5113b82a4ed6416d6344efa50e41db8cb65928ff",
+    "reason": "The official stable dump and all 249 source files are pinned to the same AndroidX release commit. The AAR contains all 232 API classes; all 807 source-level method names are present and all 995 @BytecodeOnly JVM method descriptors match exactly. Exact descriptors for source-level methods, constructors, fields and properties are not yet independently compared."
+  },
+  "publishedAndroidVariant": {
+    "artifact": "androidx.compose.material3:material3-android",
+    "referenceVersion": "1.4.0",
+    "sourceArchive": {
+      "url": "https://dl.google.com/dl/android/maven2/androidx/compose/material3/material3-android/1.4.0/material3-android-1.4.0-sources.jar",
+      "checksumUrl": "https://dl.google.com/dl/android/maven2/androidx/compose/material3/material3-android/1.4.0/material3-android-1.4.0-sources.jar.sha256",
+      "publishedSha256": "3e3209422a382566a780e2c1410edd866e4474498098fdbcf942c690ade1ddaa",
+      "gitBlobSha1": "de9ccff56af1a12b2fe900b3e6f59f7ae38a8ca2",
+      "sizeBytes": 703105,
+      "checksumStatus": "verified-against-google-maven-sidecar"
+    },
+    "aar": {
+      "url": "https://dl.google.com/dl/android/maven2/androidx/compose/material3/material3-android/1.4.0/material3-android-1.4.0.aar",
+      "checksumUrl": "https://dl.google.com/dl/android/maven2/androidx/compose/material3/material3-android/1.4.0/material3-android-1.4.0.aar.sha256",
+      "publishedSha256": "3a37e8b36df3822fe1e6059f0f9fafda8800388860477624ac1b9422c418a36e",
+      "gitBlobSha1": "932bb5abbde4acf1b718a5125eeef7cc9ec22b75",
+      "sizeBytes": 5167765,
+      "checksumStatus": "verified-against-google-maven-sidecar"
+    },
+    "moduleMetadata": {
+      "common": {
+        "url": "https://dl.google.com/dl/android/maven2/androidx/compose/material3/material3/1.4.0/material3-1.4.0.module",
+        "publishedSha256": "757081d128daf8801c1dd9acc431fa5269e656b28a0a490ae98ccee68e9c3452",
+        "gitBlobSha1": "4e4e19f7b01aede813ce82b599faed14211e3a54",
+        "sizeBytes": 13368,
+        "component": "androidx.compose.material3:material3:1.4.0",
+        "variantCount": 12,
+        "checksumStatus": "verified-against-google-maven-sidecar"
+      },
+      "android": {
+        "url": "https://dl.google.com/dl/android/maven2/androidx/compose/material3/material3-android/1.4.0/material3-android-1.4.0.module",
+        "publishedSha256": "fccd6a8d0d33fcf7c3277bc43eb452c73803ec620597c81dbc4a79e290a71a97",
+        "gitBlobSha1": "a70dd3ea7cccc3b0fb0a8b8b39e645b30fca2560",
+        "sizeBytes": 9920,
+        "component": "androidx.compose.material3:material3:1.4.0",
+        "variantCount": 3,
+        "componentRedirect": "../../material3/1.4.0/material3-1.4.0.module",
+        "checksumStatus": "verified-against-google-maven-sidecar"
+      }
+    },
+    "verification": {
+      "date": "2026-10-30",
+      "method": "GitHub Actions downloaded all four Google Maven files, verified each published SHA-256 sidecar, and recalculated each Git blob SHA-1.",
+      "workflowRun": "https://github.com/Nabouna32/lab/actions/runs/40982520097",
+      "verifiedCommit": "bbafbeaa7278af50a3b69b86e6204328d3922b10",
+      "artifactUrl": "https://github.com/Nabouna32/lab/actions/runs/40982520097/artifacts/12945846387",
+      "result": "passed",
+      "sourceCommit": {
+        "repository": "androidx/androidx",
+        "branch": "androidx-compose-material3-release",
+        "commit": "5113b82a4ed6416d6344efa50e41db8cb65928ff",
+        "totalKotlinSourceFiles": 249,
+        "verifiedByteForByte": 249,
+        "mismatchCount": 0,
+        "verificationMethod": "GitHub Actions downloaded every Kotlin source path from raw.githubusercontent.com at the pinned commit and compared exact bytes to the published sources JAR.",
+        "result": "passed",
+        "workflowRun": "https://github.com/Nabouna32/lab/actions/runs/40984365256"
+      }
+    }
   }
 }

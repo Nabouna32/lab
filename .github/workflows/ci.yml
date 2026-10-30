@@ -105,6 +105,8 @@ jobs:
         run: |
           node --test .github/scripts/*.test.mjs
           python3 .github/scripts/test_inventory_material_components_api.py
+          python3 .github/scripts/test_inspect_material3_android_aar.py
+          python3 .github/scripts/test_verify_material3_source_commit.py
 
       - name: Verify generated MDC API inventory reproducibility
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
@@ -113,6 +115,31 @@ jobs:
       - name: Verify Material 3 source archive provenance
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
         run: node .github/scripts/verify-androidx-source-archive.mjs docs/material3/catalog/baselines/material3-1.4.0.json
+
+      - name: Retrieve and verify all four Material 3 1.4.0 publication artifacts
+        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
+        run: node .github/scripts/fetch-material3-release-artifacts.mjs /tmp/material3-1.4.0-release-artifacts
+
+      - name: Verify published Material 3 sources against the AndroidX release commit
+        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
+        run: python3 .github/scripts/verify-material3-source-commit.py /tmp/material3-1.4.0-release-artifacts/material3-android-1.4.0-sources.jar /tmp/material3-1.4.0-release-artifacts/material3-android-1.4.0-source-commit-verification.json
+
+      - name: Inspect Material 3 Android AAR against published sources
+        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
+        run: python3 .github/scripts/inspect-material3-android-aar.py /tmp/material3-1.4.0-release-artifacts docs/material3/catalog/baselines/material3-android-1.4.0-api-inventory.json
+
+      - name: Verify Material 3 Android source/AAR inventory reproducibility
+        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
+        run: git diff --exit-code -- docs/material3/catalog/baselines/material3-android-1.4.0-api-inventory.json
+
+      - name: Upload verified Material 3 1.4.0 publication artifacts
+        if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: material3-1.4.0-published-artifacts
+          path: /tmp/material3-1.4.0-release-artifacts/
+          if-no-files-found: error
+          retention-days: 7
 
       - name: Verify Material Components Views source archive provenance
         if: github.event_name == 'pull_request' && steps.changes.outputs.governance_changed == 'true'

@@ -74,5 +74,16 @@ test("Material 3 stable and watch manifests remain separate and consistent", () 
     material3Baseline.repositoryApiInspection.watchDump.role,
     "watch-only",
   );
-  assert.equal(material3Baseline.apiDumpAlignment.status, "UNVERIFIED");
+  assert.equal(
+    material3Baseline.apiDumpAlignment.status,
+    "OFFICIAL_STABLE_DUMP_AND_SOURCE_COMMIT_VERIFIED_METHODS_MATCH_OTHER_API_DECLARATIONS_PENDING",
+  );
+  assert.equal(
+    material3Baseline.repositoryApiInspection.releaseBranchSnapshot.commit,
+    "5113b82a4ed6416d6344efa50e41db8cb65928ff",
+  );
+  assert.equal(
+    material3Baseline.repositoryApiInspection.releaseBranchSnapshot.libraryVersionMarker,
+    'COMPOSE_MATERIAL3 = "1.4.0"',
+  );
 });
