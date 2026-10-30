@@ -7,7 +7,7 @@
 
 - [API officielle des chips Compose](https://developer.android.com/develop/ui/compose/components/chip?hl=fr).
 - Références : [AssistChipDefaults](https://developer.android.com/reference/kotlin/androidx/compose/material3/AssistChipDefaults), [FilterChipDefaults](https://developer.android.com/reference/kotlin/androidx/compose/material3/FilterChipDefaults), [InputChipDefaults](https://developer.android.com/reference/kotlin/androidx/compose/material3/InputChipDefaults), [SuggestionChipDefaults](https://developer.android.com/reference/kotlin/androidx/compose/material3/SuggestionChipDefaults).
-- Source AndroidX épinglée : [Chip.kt au commit `5901d750e269aa3d88f6fccd5186637df83a0173`](https://github.com/androidx/androidx/blob/5901d750e269aa3d88f6fccd5186637df83a0173/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Chip.kt).
+- Source AndroidX épinglée : [Chip.kt au commit `5113b82a4ed6416d6344efa50e41db8cb65928ff`](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Chip.kt).
 - Provenance de l'archive stable 1.4.0 et SHA-256 : [sources.md](../sources.md).
 - Implémentation Web : [Chip.tsx](../../../src/components/ui/Chip.tsx) et [Chip.module.css](../../../src/components/ui/Chip.module.css).
 
