@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "status": "watch-only-not-release-baseline",
+  "snapshotKind": "androidx-current-api",
+  "sourceRepository": "https://github.com/androidx/androidx",
+  "sourceCommit": "5901d750e269aa3d88f6fccd5186637df83a0173",
+  "sourceCommitRole": "immutable inspection snapshot; not the Compose 1.12.1 release commit",
+  "apiFormat": "5.0",
+  "requiredSurface": "public",
+  "releaseVersion": "1.12.1",
+  "releaseBaseline": false,
+  "releaseCommitIdentified": false,
+  "sourceArchiveCompared": false,
+  "entries": [
+    {
+      "family": "compose-ui",
+      "sourcePath": "compose/ui/ui/api/current.txt",
+      "snapshotPath": "compose-ui-api-current.txt",
+      "gitBlobSha1": "fe47644a141d05f16c45f15a90c24ecb03e630c8",
+      "characters": 482410,
+      "lineCounts": {
+        "packages": 28,
+        "types": 243,
+        "methods": 2413,
+        "constructors": 159,
+        "fields": 118,
+        "properties": 1207
+      }
+    },
+    {
+      "family": "compose-foundation",
+      "sourcePath": "compose/foundation/foundation/api/current.txt",
+      "snapshotPath": "compose-foundation-api-current.txt",
+      "gitBlobSha1": "5206f892f57b02808ed792a2ac1857c78aee149f",
+      "characters": 447330,
+      "lineCounts": {
+        "packages": 24,
+        "types": 163,
+        "methods": 1660,
+        "constructors": 125,
+        "fields": 93,
+        "properties": 414
+      }
+    },
+    {
+      "family": "compose-ui-text",
+      "sourcePath": "compose/ui/ui-text/api/current.txt",
+      "snapshotPath": "compose-ui-text-api-current.txt",
+      "gitBlobSha1": "3a47f781e60c75946b82e75b9936f61591d24127",
+      "characters": 257141,
+      "lineCounts": {
+        "packages": 8,
+        "types": 61,
+        "methods": 1000,
+        "constructors": 181,
+        "fields": 50,
+        "properties": 409
+      }
+    },
+    {
+      "family": "compose-foundation-layout",
+      "sourcePath": "compose/foundation/foundation-layout/api/current.txt",
+      "snapshotPath": "compose-foundation-layout-api-current.txt",
+      "gitBlobSha1": "e174cdc00cc24569147c3ba25c616762a2555737",
+      "characters": 123452,
+      "lineCounts": {
+        "packages": 1,
+        "types": 22,
+        "methods": 536,
+        "constructors": 9,
+        "fields": 26,
+        "properties": 129
+      }
+    }
+  ],
+  "limitations": [
+    "Ces fichiers current.txt décrivent l'état du dépôt au commit source épinglé ; ils ne sont pas présentés comme les dumps API stables 1.12.1.",
+    "La publication Maven et la version stable 1.12.1 sont vérifiées séparément ; l'identité du commit de release reste à établir.",
+    "Aucune comparaison des sources JAR publiées avec cet état current.txt n'est revendiquée.",
+    "Les comptes de lignes sont des métriques descriptives de format, pas un inventaire sémantique complet ni une classification de stabilité."
+  ]
+}
