@@ -4,20 +4,23 @@
 
 ## Autorité et sources
 
-La référence est le code AndroidX Jetpack Compose Material 3, figé au commit [`2fb1702c1c62a6059e73d757d9e4eda1044ce21d`](https://android.googlesource.com/platform/frameworks/support/%2B/2fb1702c1c62a6059e73d757d9e4eda1044ce21d/).
+La référence est le code AndroidX Jetpack Compose Material 3, figé au commit [`2fb1702c1c62a6059e73d757d9e4eda1044ce21d`](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/).
 
-- [Button.kt](https://android.googlesource.com/platform/frameworks/support/%2B/2fb1702c1c62a6059e73d757d9e4eda1044ce21d/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Button.kt)
-- [ButtonTokens.kt](https://android.googlesource.com/platform/frameworks/support/%2B/2fb1702c1c62a6059e73d757d9e4eda1044ce21d/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/FilledButtonTokens.kt)
-- [ElevatedButtonTokens.kt](https://android.googlesource.com/platform/frameworks/support/%2B/2fb1702c1c62a6059e73d757d9e4eda1044ce21d/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/ElevatedButtonTokens.kt)
-- [FilledTonalButtonTokens.kt](https://android.googlesource.com/platform/frameworks/support/%2B/2fb1702c1c62a6059e73d757d9e4eda1044ce21d/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/FilledTonalButtonTokens.kt)
-- [OutlinedButtonTokens.kt](https://android.googlesource.com/platform/frameworks/support/%2B/2fb1702c1c62a6059e73d757d9e4eda1044ce21d/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/OutlinedButtonTokens.kt)
-- [TextButtonTokens.kt](https://android.googlesource.com/platform/frameworks/support/%2B/2fb1702c1c62a6059e73d757d9e4eda1044ce21d/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/TextButtonTokens.kt)
-- [StateTokens.kt](https://android.googlesource.com/platform/frameworks/support/%2B/2fb1702c1c62a6059e73d757d9e4eda1044ce21d/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/StateTokens.kt)
-- [Surface.kt](https://android.googlesource.com/platform/frameworks/support/%2B/2fb1702c1c62a6059e73d757d9e4eda1044ce21d/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Surface.kt)
-- [ColorScheme.kt](https://android.googlesource.com/platform/frameworks/support/%2B/2fb1702c1c62a6059e73d757d9e4eda1044ce21d/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/ColorScheme.kt)
+- [Button.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Button.kt)
+- [BaselineButtonTokens.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/BaselineButtonTokens.kt)
+- [ButtonSmallTokens.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/ButtonSmallTokens.kt)
+- [Ripple.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Ripple.kt)
+- [FilledButtonTokens.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/FilledButtonTokens.kt)
+- [ElevatedButtonTokens.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/ElevatedButtonTokens.kt)
+- [FilledTonalButtonTokens.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/FilledTonalButtonTokens.kt)
+- [OutlinedButtonTokens.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/OutlinedButtonTokens.kt)
+- [TextButtonTokens.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/TextButtonTokens.kt)
+- [StateTokens.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens/StateTokens.kt)
+- [Surface.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Surface.kt)
+- [ColorScheme.kt](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/ColorScheme.kt)
 - [Référence API Button](https://developer.android.com/reference/kotlin/androidx/compose/material3/Button.composable), [ButtonDefaults](https://developer.android.com/reference/kotlin/androidx/compose/material3/ButtonDefaults) et [guide officiel](https://developer.android.com/develop/ui/compose/components/button).
 
-La révision source est immuable. La correspondance exacte avec une version publiée de l’artefact Maven n’est pas établie ; les constats ci-dessous portent sur ce snapshot.
+La référence est désormais alignée sur Compose Material 3 1.4.0 stable, commit source `5113b82a4ed6416d6344efa50e41db8cb65928ff`. L’archive des sources publiées a été comparée à 249 fichiers Kotlin du commit, sans divergence ; voir le [manifeste de provenance Material 3 1.4.0](../catalog/baselines/material3-1.4.0.json).
 
 ## Contrat AndroidX vérifié dans la source
 
@@ -27,9 +30,12 @@ La révision source est immuable. La correspondance exacte avec une version publ
 - TextButton : 12 dp horizontal ; avec icône, 12 dp au début et 16 dp à la fin.
 - Icône : 18 dp ; espace icône-libellé : 8 dp.
 - `labelLarge` : 14 sp, graisse moyenne, hauteur de ligne 20 sp, espacement des lettres 0,1 sp.
-- Opacité des couches d’état : survol 8 %, focus 12 %, appui 12 %. Ces valeurs ne sont pas l’alpha du ripple.
+- Opacité des couches d’état : survol 8 %, focus 10 %, appui 10 %, glissement 16 %. `RippleDefaults.RippleAlpha` réutilise ces mêmes tokens pour les états hover/focus/press/drag ; le ripple pressé est donc à 10 %.
 - Les cinq variantes définissent leurs propres couleurs et élévations. `ElevatedButton` applique une teinte de surface à 1 dp au repos et 3 dp au survol ; `Button` et `FilledTonalButton` passent de 0 à 1 dp au survol ; `OutlinedButton` et `TextButton` n’ont pas d’élévation par défaut.
-- Les conteneurs désactivés utilisent le rôle `onSurface` à 12 % et les libellés désactivés à 38 %, selon les tokens des variantes.
+- `Button` et `ElevatedButton` : conteneur désactivé `onSurface` à 10 %, contenu `onSurface` à 38 %.
+- `FilledTonalButton` : conteneur désactivé `onSurface` à 12 %, contenu `onSurface` à 38 %.
+- `OutlinedButton` : conteneur transparent, contour `outlineVariant` à 10 %, contenu `onSurfaceVariant` à 38 %.
+- `TextButton` : conteneur transparent, contenu `onSurfaceVariant` à 38 %.
 
 Les valeurs Android dp/sp sont traduites en unités CSS pour le port Web. Une égalité numérique ne garantit pas une taille physique identique ni un rendu pixel à pixel.
 
