@@ -34,6 +34,10 @@ class Material3AndroidAarInspectionTests(unittest.TestCase):
         self.assertEqual(summary["sourceFile"], "Sample.java")
         self.assertEqual(summary["fields"], 3)
         self.assertEqual(summary["fields_public_protected"], 2)
+        self.assertEqual(
+            {(field["name"], field["descriptor"]) for field in summary["fieldSignatures"] if field["publicProtected"]},
+            {("visible", "Ljava/lang/String;"), ("inherited", "I")},
+        )
         self.assertEqual(summary["methods"], 3)
         self.assertEqual(summary["methods_public_protected"], 2)
 
@@ -66,8 +70,10 @@ class Material3AndroidAarInspectionTests(unittest.TestCase):
                 "androidx/compose/material3/Outer$Inner",
             },
         )
-        self.assertEqual(parsed["androidx/compose/material3/AlertDialogDefaults"][0]["name"], "getContainerColor")
-        self.assertTrue(parsed["androidx/compose/material3/AlertDialogDefaults"][0]["bytecodeOnly"])
+        parsed_methods = parsed["androidx/compose/material3/AlertDialogDefaults"]["methods"]
+        self.assertEqual(parsed_methods[0]["name"], "getContainerColor")
+        self.assertTrue(parsed_methods[0]["bytecodeOnly"])
+        self.assertEqual(parsed_methods[1]["name"], "reset")
 
     def test_compares_api_class_and_method_names_with_binary_surface(self):
         api = """package androidx.compose.material3 {
@@ -91,10 +97,70 @@ class Material3AndroidAarInspectionTests(unittest.TestCase):
         self.assertEqual(comparison["apiClassCount"], 1)
         self.assertEqual(comparison["binaryClassMatches"], 1)
         self.assertEqual(comparison["apiMethodCount"], 2)
-        self.assertEqual(comparison["sourceLevelNameMatches"], 1)
+        self.assertEqual(comparison["sourceLevelDescriptorMatches"], 1)
         self.assertEqual(comparison["bytecodeOnlyMethodCount"], 1)
         self.assertEqual(comparison["bytecodeOnlyDescriptorMatches"], 1)
-        self.assertEqual(comparison["status"], "bytecode-only-descriptors-and-source-names-match")
+        self.assertEqual(comparison["status"], "exact-declarations-match")
+
+
+    def test_compares_exact_method_constructor_field_and_property_descriptors(self):
+        api = """package androidx.compose.material3 {
+  public final class Api {
+    ctor public Api(int count);
+    method public java.lang.String label(int count);
+    field public static final int VERSION;
+    property public boolean isReady;
+  }
+}
+"""
+        binary = [
+            (
+                "androidx/compose/material3/Api.class",
+                {
+                    "methodSignatures": [
+                        {"name": "<init>", "descriptor": "(I)V", "publicProtected": True},
+                        {"name": "label", "descriptor": "(I)Ljava/lang/String;", "publicProtected": True},
+                        {"name": "isReady", "descriptor": "()Z", "publicProtected": True},
+                    ],
+                    "fieldSignatures": [
+                        {"name": "VERSION", "descriptor": "I", "publicProtected": True},
+                    ],
+                },
+                True,
+            )
+        ]
+        parsed = MODULE.parse_api_dump(api)["androidx/compose/material3/Api"]
+        self.assertEqual(len(parsed["methods"]), 1)
+        self.assertEqual(len(parsed["constructors"]), 1)
+        self.assertEqual(len(parsed["fields"]), 1)
+        self.assertEqual(len(parsed["properties"]), 1)
+        comparison = MODULE.compare_api_dump_to_binary(api, binary)
+        self.assertEqual(comparison["sourceLevelDescriptorMatches"], 1)
+        self.assertEqual(comparison["constructorDescriptorMatches"], 1)
+        self.assertEqual(comparison["fieldDescriptorMatches"], 1)
+        self.assertEqual(comparison["propertyAccessorMatches"], 1)
+        self.assertEqual(comparison["missingMembers"], [])
+        self.assertEqual(comparison["unsupportedSignatures"], [])
+        self.assertEqual(comparison["status"], "exact-declarations-match")
+
+    def test_reports_unsupported_types_instead_of_claiming_a_match(self):
+        api = """package androidx.compose.material3 {
+  public final class Api {
+    method public UnknownType unsupported();
+  }
+}
+"""
+        binary = [
+            (
+                "androidx/compose/material3/Api.class",
+                {"methodSignatures": [], "fieldSignatures": []},
+                True,
+            )
+        ]
+        comparison = MODULE.compare_api_dump_to_binary(api, binary)
+        self.assertEqual(comparison["unsupportedSignatures"][0]["kind"], "method")
+        self.assertEqual(comparison["status"], "declaration-comparison-incomplete-or-mismatched")
+
 
     def test_parses_public_classes_with_leading_annotations(self):
         api = """package androidx.compose.material3 {
@@ -105,7 +171,7 @@ class Material3AndroidAarInspectionTests(unittest.TestCase):
 """
         parsed = MODULE.parse_api_dump(api)
         self.assertEqual(set(parsed), {"androidx/compose/material3/AnnotatedApi"})
-        self.assertEqual(parsed["androidx/compose/material3/AnnotatedApi"][0]["name"], "visible")
+        self.assertEqual(parsed["androidx/compose/material3/AnnotatedApi"]["methods"][0]["name"], "visible")
 
     def test_rejects_invalid_or_truncated_class_files(self):
         with self.assertRaisesRegex(ValueError, "Invalid JVM class-file header"):
