@@ -20,6 +20,8 @@ for (const key of [
   "document",
   "navigator",
   "HTMLElement",
+  "HTMLButtonElement",
+  "HTMLAnchorElement",
   "Element",
   "Node",
   "Event",
