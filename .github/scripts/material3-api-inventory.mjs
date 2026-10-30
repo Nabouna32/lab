@@ -91,7 +91,7 @@ export function inventoryApiDump(contents, { artifact, version, commit, sourcePa
         symbol = raw.match(/([A-Za-z_$][\w$]*)\s*;$/)?.[1] ?? null;
       }
     } else if (publicSignature) {
-      const kindMatch = publicSignature.match(/^public\s+(?:(?:abstract|final|open|sealed|nonexhaustive|exhaustive|static|data|inline|infix|operator|suspend|external|expect|actual)\s+)*(value class|enum class|annotation class|class|interface|object|fun|val|var|typealias|constructor|field|property)\b/);
+      const kindMatch = publicSignature.match(/^public\s+(?:(?:abstract|final|open|sealed|nonexhaustive|exhaustive|static|data|inline|infix|operator|suspend|external|expect|actual)\s+)*(value class|enum class|enum|annotation class|@interface|fun interface|class|interface|object|fun|val|var|typealias|constructor|field|property)\b/);
       const symbolMatch = publicSignature.match(/^public\s+(?:(?:abstract|final|open|sealed|nonexhaustive|exhaustive|static|data|inline|infix|operator|suspend|external|expect|actual)\s+)*(?:value class|enum class|enum|annotation class|@interface|fun interface|class|interface|object|fun|val|var|typealias|constructor|field|property)\s+([A-Za-z_$][\w$]*)\b/);
       const classSymbolMatch = publicSignature.match(/^public\s+(?:(?:abstract|final|open|sealed|nonexhaustive|exhaustive|static|data|inline|infix|operator|suspend|external|expect|actual)\s+)*(?:value class|enum class|enum|annotation class|@interface|class|interface|object)\s+([A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*)\b/);
       kind = kindMatch?.[1] ?? 'unknown';
