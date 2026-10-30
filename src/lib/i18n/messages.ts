@@ -90,8 +90,8 @@ export const messages: Record<Locale, Messages> = {
         { label: "Convertir une taille de fichier", toolId: "file-size-converter" },
       ],
       recentToolsTitle: "Reprendre un outil",
-      recentToolsDescription: "Récemment ouverts sur cet appareil.",
-      clearRecentTools: "Effacer l’historique",
+      recentToolsDescription: "Outils ouverts pendant cette session.",
+      clearRecentTools: "Effacer les récents",
       explore: "Explorer tous les outils",
     },
     guidedWorkflows: {
@@ -264,8 +264,8 @@ export const messages: Record<Locale, Messages> = {
         { label: "Convert a file size", toolId: "file-size-converter" },
       ],
       recentToolsTitle: "Pick up where you left off",
-      recentToolsDescription: "Recently opened on this device.",
-      clearRecentTools: "Clear history",
+      recentToolsDescription: "Opened during this session.",
+      clearRecentTools: "Clear recent tools",
       explore: "Explore all tools",
     },
 guidedWorkflows: {
