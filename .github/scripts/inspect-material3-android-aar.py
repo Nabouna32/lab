@@ -351,6 +351,16 @@ def api_type_to_jvm_descriptor(type_name: str, is_return: bool = False) -> str |
         "androidx.compose.ui.graphics.FilterQuality": "I",
         "androidx.compose.ui.graphics.TileMode": "I",
         "androidx.compose.ui.graphics.ClipOp": "I",
+        "androidx.compose.material3.DisplayMode": "I",
+        "androidx.compose.material3.ExposedDropdownMenuAnchorType": "I",
+        "androidx.compose.material3.FabPosition": "I",
+        "androidx.compose.material3.IconButtonDefaults.IconButtonWidthOption": "I",
+        "androidx.compose.material3.NavigationItemIconPosition": "I",
+        "androidx.compose.material3.ShortNavigationBarArrangement": "I",
+        "androidx.compose.material3.TimePickerDisplayMode": "I",
+        "androidx.compose.material3.TimePickerLayoutType": "I",
+        "androidx.compose.material3.TimePickerSelectionMode": "I",
+        "androidx.compose.material3.TooltipAnchorPosition": "I",
     }
     if value in value_classes:
         if nullable:
@@ -426,6 +436,13 @@ def bytecode_only_method_descriptor(signature: str) -> tuple[str, str] | None:
     return method_name, "(" + "".join(parameter_descriptors) + ")" + return_descriptor
 
 
+def _compose_changed_flag_count(member: dict) -> int:
+    parameter_count = len(member["parameterTypes"])
+    if not member.get("static"):
+        parameter_count += 1
+    return max(1, (parameter_count + 9) // 10)
+
+
 def _descriptor_for_api_callable(member: dict, constructor: bool = False) -> tuple[str, str] | None:
     parameters = []
     for parameter_type in member["parameterTypes"]:
@@ -441,7 +458,7 @@ def _descriptor_for_api_callable(member: dict, constructor: bool = False) -> tup
     if return_descriptor is None:
         return None
     if member.get("composable") and not member.get("bytecodeOnly"):
-        changed_flag_count = max(1, (len(member["parameterTypes"]) + 9) // 10)
+        changed_flag_count = _compose_changed_flag_count(member)
         default_mask_count = (
             (len(member["parameterTypes"]) + 31) // 32
             if member.get("optionalParameterCount", 0) else 0
@@ -474,7 +491,7 @@ def _source_matches_bytecode_only(source: dict, bytecode: dict) -> bool:
     binary_parameters = bytecode["parameterTypes"]
     suffix = []
     if source.get("composable"):
-        changed_flag_count = max(1, (len(source_parameters) + 9) // 10)
+        changed_flag_count = _compose_changed_flag_count(source)
         default_mask_count = (
             (len(source_parameters) + 31) // 32
             if source.get("optionalParameterCount", 0) else 0
@@ -498,7 +515,7 @@ def _source_matches_bytecode_only(source: dict, bytecode: dict) -> bool:
 
 
 def _property_getter_name(property_name: str) -> str:
-    if property_name.startswith("is") and len(property_name) > 2 and property_name[2].isupper():
+    if property_name.startswith("is") and len(property_name) > 2 and not property_name[2].islower():
         return property_name
     return "get" + property_name[:1].upper() + property_name[1:]
 
@@ -680,6 +697,7 @@ def compare_api_dump_to_binary(api_dump: str, binary_classes: list[tuple[str, di
                 })
                 continue
             getter = _property_getter_name(prop["name"])
+            getter_names = {getter, prop["name"]}
             property_parameters = []
             if prop.get("receiverType"):
                 receiver_descriptor = api_type_to_jvm_descriptor(prop["receiverType"])
@@ -695,18 +713,24 @@ def compare_api_dump_to_binary(api_dump: str, binary_classes: list[tuple[str, di
                 property_parameters.append("I")
             expected = "(" + "".join(property_parameters) + ")" + descriptor
             property_matched = any(
-                (item["name"] == getter or item["name"].startswith(getter + "-"))
+                any(item["name"] == name or item["name"].startswith(name + "-") for name in getter_names)
                 and item["descriptor"] == expected
                 for item in binary_methods
             )
+            if not property_matched and prop.get("static"):
+                property_matched = any(
+                    item["name"] == prop["name"] and item["descriptor"] == descriptor
+                    for item in binary_fields
+                )
             if not property_matched:
                 for candidate in verified_bytecode_only:
                     candidate_descriptor = _descriptor_for_api_callable(candidate)
                     if candidate_descriptor is None:
                         continue
                     candidate_name, candidate_jvm_descriptor = candidate_descriptor
-                    if not (
-                        candidate_name == getter or candidate_name.startswith(getter + "-")
+                    if not any(
+                        candidate_name == name or candidate_name.startswith(name + "-")
+                        for name in getter_names
                     ):
                         continue
                     candidate_parameters = candidate["parameterTypes"]
