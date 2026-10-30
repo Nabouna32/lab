@@ -1,6 +1,6 @@
 import type { TextareaHTMLAttributes } from "react";
 
-type TextAreaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
+type TextAreaProps = Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "id"> & {
   label: string;
   inputId: string;
   /** Fidelity keeps the Web baseline; Expressive is a source-informed visual adaptation. */
@@ -51,7 +51,6 @@ export function TextArea({
         {label}
       </label>
       <textarea
-        id={inputId}
         rows={rows}
         disabled={disabled}
         placeholder={placeholder}
@@ -70,6 +69,7 @@ export function TextArea({
           className,
         ].join(" ")}
         {...textareaProps}
+        id={inputId}
       />
       {error ? (
         <p id={errorId} className="m3-type-body-small text-[var(--error)]">{error}</p>
