@@ -9,7 +9,7 @@ import styles from "./MaterialTextField.module.css";
 type MaterialTextFieldBaseProps = {
   id: string; name?: string; label: string; value: string; onChange: (value: string) => void;
   variant?: "filled" | "outlined"; type?: "text" | "email" | "number" | "search" | "password";
-  placeholder?: string; supportingText?: string; error?: string; prefix?: ReactNode; suffix?: string | ReactNode;
+  placeholder?: string; supportingText?: string; error?: string; prefix?: ReactNode; suffix?: ReactNode;
   leadingContent?: ReactNode; trailingContent?: ReactNode; minLength?: number; maxLength?: number;
   showCharacterCount?: boolean; disabled?: boolean; required?: boolean;
   autoComplete?: string; autoFocus?: boolean; inputMode?: InputHTMLAttributes<HTMLInputElement>["inputMode"];
