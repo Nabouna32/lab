@@ -94,6 +94,14 @@ Le registre versionné sélectionne maintenant une version stable publiée pour 
 
 Une BOM Compose peut aligner des versions compatibles, mais n'ajoute pas toutes les bibliothèques au projet et ne remplace pas l'identification des artefacts à inventorier. Chaque baseline doit garder la provenance officielle, la version et le snapshot source/API correspondant.
 
+## Snapshots de veille des familles Compose P0
+
+Quatre fichiers `api/current.txt` au format 5.0 et surface publique ont été archivés depuis le commit AndroidX immuable `5901d750e269aa3d88f6fccd5186637df83a0173` dans [les snapshots de veille Compose P0](watch/androidx-compose-p0-2026-10-29/README.md). Le manifeste [manifest.json](watch/androidx-compose-p0-2026-10-29/manifest.json) conserve les chemins amont, Git blob SHA-1 et métriques descriptives.
+
+Ces snapshots sont **des références de veille, pas des baselines stables 1.12.1**. Le miroir GitHub `androidx/androidx` ne publie actuellement que la branche `androidx-main` parmi ses branches visibles ; les branches Compose UI/Foundation release ne sont donc pas résolues par ce miroir. Le commit source exact de la release et la comparaison des sources JAR avec ce commit restent à établir. Les quatre familles P0 passent à `in-progress` pour refléter le début réel de l'inventaire, sans être déclarées `verified`.
+
+Les métriques du manifeste comptent les lignes de signatures par catégorie ; elles ne remplacent pas la normalisation exhaustive, la classification stable/experimental/deprecated, ni la revue des sources sémantiques.
+
 ## Statut du catalogue Material 3
 
 - **Veille amont** : un snapshot exhaustif de current.txt est généré dans [watch/androidx-main-2026-10-22/](watch/androidx-main-2026-10-22/README.md). Il contient 4 709 déclarations réparties sur trois packages, épinglées à un commit et avec les empreintes SHA-256 de la source et des shards. Il s'agit d'un inventaire de surface, pas d'une spécification sémantique ni d'une baseline de portage.
