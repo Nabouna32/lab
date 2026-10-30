@@ -141,11 +141,28 @@
   "interpretation": {
     "binarySurface": "Raw JVM public/protected bytecode members; this includes Kotlin-internal and compiler-generated declarations and is not a Kotlin public API dump.",
     "sourceMapping": "Class-file SourceFile attributes mapped to source-archive package paths; file-level mapping does not prove declaration-level API equivalence.",
-    "apiDumpAlignment": "OFFICIAL_STABLE_DUMP_AND_SOURCE_COMMIT_VERIFIED_BINARY_API_COMPARISON_PENDING",
+    "apiDumpAlignment": "OFFICIAL_STABLE_DUMP_AND_SOURCE_COMMIT_VERIFIED_METHODS_MATCH_OTHER_API_DECLARATIONS_PENDING",
     "limitations": [
-      "The official stable 1.4.0 API snapshot is pinned from the AndroidX release branch, and all 249 published Kotlin sources match that release commit byte-for-byte (CI run 40984365256); declaration-level comparison against the published AAR remains pending.",
+      "The current comparison covers all API classes and method declarations, but compares exact JVM descriptors only for @BytecodeOnly methods; source-level methods are checked by name with Kotlin JVM-mangling allowance.",
+      "Constructor, field, and property declarations are not yet compared as independent API members.",
+      "The official stable 1.4.0 API snapshot is pinned from the AndroidX release branch, and all 249 published Kotlin sources match that release commit byte-for-byte (CI run 40984365256).",
       "The derived JVM surface is not an official AndroidX API dump and must not be used as a Kotlin API compatibility claim.",
       "Source-file mapping does not prove that every public binary declaration has an equivalent public Kotlin source declaration."
-    ]
+    ],
+    "methodSurfaceComparison": "232/232 API classes exist in the AAR; 807/807 source-level method names are present (Kotlin JVM mangling allowed); 995/995 @BytecodeOnly JVM descriptors match exactly. Source-level method descriptors are not yet compared."
+  },
+  "apiDumpBinaryComparison": {
+    "apiClassCount": 232,
+    "binaryClassMatches": 232,
+    "missingClasses": [],
+    "apiMethodCount": 1802,
+    "sourceLevelMethodCount": 807,
+    "sourceLevelNameMatches": 807,
+    "bytecodeOnlyMethodCount": 995,
+    "bytecodeOnlyDescriptorMatches": 995,
+    "unsupportedBytecodeOnlySignatures": [],
+    "missingMethods": [],
+    "comparisonMode": "all API classes, source-level names with Kotlin JVM-mangling allowance, and exact JVM descriptors for @BytecodeOnly methods",
+    "status": "bytecode-only-descriptors-and-source-names-match"
   }
 }
