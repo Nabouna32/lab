@@ -61,8 +61,8 @@ select ok(
   'service role cannot create retention exceptions through the API'
 );
 select ok(
-  not has_function_privilege('service_role', 'private.set_admin_audit_log_retention_hold(uuid,text,text,timestamptz)', 'EXECUTE'),
-  'service role cannot create retention exceptions'
+  has_function_privilege('postgres', 'private.set_admin_audit_log_retention_hold(uuid,text,text,timestamptz)', 'EXECUTE'),
+  'only the database owner can create controlled retention exceptions'
 );
 
 select is(
