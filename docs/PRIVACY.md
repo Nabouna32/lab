@@ -302,7 +302,7 @@ L’inventaire des prestataires distingue les journaux applicatifs des journaux 
 - **Vercel Hobby** : les logs runtime sont conservés une heure ; les logs de build restent associés aux déploiements sans purge automatique.
 - Ces journaux fournisseurs ne sont pas purgés par Loculary. Aucun Log Drain, export tiers ou archivage externe de ces journaux n’est prévu.
 
-**Politique applicative cible, versionnée dans la branche de travail et non encore active en production :** douze mois glissants pour le journal administratif Loculary et les exécutions terminées de `pg_cron`, avec purge automatique quotidienne. Les exécutions cron incomplètes restent préservées. Aucun mécanisme d’exception de conservation ni archive des journaux applicatifs n’est conservé. Aucune sauvegarde Google Drive ou archive externe de ces journaux n’est créée.
+**Politique applicative cible, versionnée dans `main` et non encore active en production :** douze mois glissants pour le journal administratif Loculary et les exécutions terminées de `pg_cron`, avec purge automatique quotidienne. Les exécutions cron incomplètes restent préservées. Aucun mécanisme d’exception de conservation ni archive des journaux applicatifs n’est conservé. Aucune sauvegarde Google Drive ou archive externe de ces journaux n’est créée.
 
 La migration `20261030160000_extend_log_retention_to_12_months.sql` retire la table d’exceptions, remplace le job de six mois par un job de douze mois et met à jour le seuil de purge sans lancer de suppression lors de son application. La politique de six mois reste celle de la production jusqu’à application et vérification de cette migration.
 
