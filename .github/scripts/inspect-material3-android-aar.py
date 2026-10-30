@@ -232,6 +232,7 @@ def parse_api_dump(api_dump: str) -> dict:
                             "returnType": return_type,
                             "parameterTypes": parameters,
                             "bytecodeOnly": "@BytecodeOnly" in signature,
+                            "kotlinOnly": "@KotlinOnly" in signature,
                             "signature": signature,
                         })
                     else:
@@ -405,6 +406,7 @@ def compare_api_dump_to_binary(api_dump: str, binary_classes: list[tuple[str, di
     counts = {
         "methods": 0, "methodDescriptorMatches": 0,
         "bytecodeOnlyMethods": 0, "bytecodeOnlyDescriptorMatches": 0,
+        "kotlinOnlyMethods": 0, "kotlinOnlyDescriptorMatches": 0,
         "constructors": 0, "constructorDescriptorMatches": 0,
         "fields": 0, "fieldDescriptorMatches": 0,
         "properties": 0, "propertyAccessorMatches": 0,
@@ -426,8 +428,11 @@ def compare_api_dump_to_binary(api_dump: str, binary_classes: list[tuple[str, di
         for method in api_members["methods"]:
             counts["methods"] += 1
             is_bytecode = method["bytecodeOnly"]
+            is_kotlin_only = method["kotlinOnly"]
             if is_bytecode:
                 counts["bytecodeOnlyMethods"] += 1
+            if is_kotlin_only:
+                counts["kotlinOnlyMethods"] += 1
             parsed = _descriptor_for_api_callable(method)
             if parsed is None:
                 unsupported_signatures.append({
@@ -446,6 +451,8 @@ def compare_api_dump_to_binary(api_dump: str, binary_classes: list[tuple[str, di
                 counts["methodDescriptorMatches"] += 1
                 if is_bytecode:
                     counts["bytecodeOnlyDescriptorMatches"] += 1
+                if is_kotlin_only:
+                    counts["kotlinOnlyDescriptorMatches"] += 1
             else:
                 missing_members.append({
                     "kind": "method", "class": class_name,
@@ -520,6 +527,8 @@ def compare_api_dump_to_binary(api_dump: str, binary_classes: list[tuple[str, di
         "sourceLevelDescriptorMatches": counts["methodDescriptorMatches"] - counts["bytecodeOnlyDescriptorMatches"],
         "bytecodeOnlyMethodCount": counts["bytecodeOnlyMethods"],
         "bytecodeOnlyDescriptorMatches": counts["bytecodeOnlyDescriptorMatches"],
+        "kotlinOnlyMethodCount": counts["kotlinOnlyMethods"],
+        "kotlinOnlyDescriptorMatches": counts["kotlinOnlyDescriptorMatches"],
         "constructorCount": counts["constructors"],
         "constructorDescriptorMatches": counts["constructorDescriptorMatches"],
         "fieldCount": counts["fields"],
@@ -531,6 +540,10 @@ def compare_api_dump_to_binary(api_dump: str, binary_classes: list[tuple[str, di
         "comparisonMode": "exact JVM descriptors for source-level and @BytecodeOnly methods, constructors, fields, and property getters",
         "status": "exact-declarations-match" if (
             not missing_classes and not missing_members and not unsupported_signatures
+            and counts["methodDescriptorMatches"] == counts["methods"]
+            and counts["constructorDescriptorMatches"] == counts["constructors"]
+            and counts["fieldDescriptorMatches"] == counts["fields"]
+            and counts["propertyAccessorMatches"] == counts["properties"]
         ) else "declaration-comparison-incomplete-or-mismatched",
     }
 
@@ -699,13 +712,18 @@ def inspect(directory: Path) -> dict:
         "interpretation": {
             "binarySurface": "Raw JVM public/protected bytecode members; this includes Kotlin-internal and compiler-generated declarations and is not a Kotlin public API dump.",
             "sourceMapping": "Class-file SourceFile attributes mapped to source-archive package paths; file-level mapping does not prove declaration-level API equivalence.",
-            "apiDumpAlignment": "OFFICIAL_STABLE_DUMP_AND_SOURCE_COMMIT_VERIFIED_METHODS_MATCH_OTHER_API_DECLARATIONS_PENDING",
+            "apiDumpAlignment": (
+                "VERIFIED" if api_binary_comparison["status"] == "exact-declarations-match"
+                else "OFFICIAL_STABLE_DUMP_AND_SOURCE_COMMIT_VERIFIED_METHODS_MATCH_OTHER_API_DECLARATIONS_PENDING"
+            ),
             "declarationComparison": (
                 str(api_binary_comparison["apiClassCount"]) + "/" + str(api_binary_comparison["binaryClassMatches"]) +
                 " API classes match; " + str(api_binary_comparison["sourceLevelDescriptorMatches"]) + "/" +
                 str(api_binary_comparison["sourceLevelMethodCount"]) + " source-level method descriptors match; " +
                 str(api_binary_comparison["bytecodeOnlyDescriptorMatches"]) + "/" +
                 str(api_binary_comparison["bytecodeOnlyMethodCount"]) + " @BytecodeOnly descriptors match; " +
+                str(api_binary_comparison["kotlinOnlyDescriptorMatches"]) + "/" +
+                str(api_binary_comparison["kotlinOnlyMethodCount"]) + " @KotlinOnly descriptors match; " +
                 str(api_binary_comparison["constructorDescriptorMatches"]) + "/" +
                 str(api_binary_comparison["constructorCount"]) + " constructors match; " +
                 str(api_binary_comparison["fieldDescriptorMatches"]) + "/" +
@@ -714,7 +732,8 @@ def inspect(directory: Path) -> dict:
                 str(api_binary_comparison["propertyCount"]) + " property getters match."
             ),
             "limitations": [
-                "Exact descriptors are compared for source-level and @BytecodeOnly methods, constructors, fields, and property getters. Unsupported Kotlin/JVM type mappings remain explicitly listed and prevent an exact-match status.",
+                "Exact descriptors are compared for source-level, @KotlinOnly, and @BytecodeOnly methods, constructors, fields, and property getters. Unsupported Kotlin/JVM type mappings remain explicitly listed and prevent an exact-match status.",
+                "@KotlinOnly and @BytecodeOnly declarations are counted separately; both retain their original API classification during JVM comparison.",
                 "Property comparison verifies the getter descriptor exposed by the API dump; it does not infer an unreported setter or backing field.",
                 "The official stable 1.4.0 API snapshot is pinned from the AndroidX release branch, and all 249 published Kotlin sources match that release commit byte-for-byte (CI run 40984365256).",
                 "The derived JVM surface is not an official AndroidX API dump and must not be used as a Kotlin API compatibility claim.",
