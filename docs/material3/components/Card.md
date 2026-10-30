@@ -9,7 +9,7 @@
 - API : [Card](https://developer.android.com/reference/kotlin/androidx/compose/material3/Card.composable), [ElevatedCard](https://developer.android.com/reference/kotlin/androidx/compose/material3/ElevatedCard.composable), [OutlinedCard](https://developer.android.com/reference/kotlin/androidx/compose/material3/OutlinedCard.composable) et [CardDefaults](https://developer.android.com/reference/kotlin/androidx/compose/material3/CardDefaults).
 - Guide officiel : [Cartes avec Jetpack Compose](https://developer.android.com/develop/ui/compose/components/card?hl=fr).
 - Archive source publiée 1.4.0 : [material3-1.4.0-sources.jar](https://android.googlesource.com/platform/prebuilts/androidx/internal/%2B/refs/heads/androidx-collection-release/androidx/compose/material3/material3/1.4.0/material3-1.4.0-sources.jar), SHA-256 `08a23a069407ba2a59685f88d676fd38ede207301a0805ee904ed63735f5d0b5` (également consigné dans [sources et versions](../sources.md)).
-- Snapshot de veille immuable : [`Card.kt` au commit `5901d750e269aa3d88f6fccd5186637df83a0173`](https://github.com/androidx/androidx/blob/5901d750e269aa3d88f6fccd5186637df83a0173/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Card.kt). Ce snapshot n'est pas une preuve d'alignement avec l'archive 1.4.0.
+- Source AndroidX de la release 1.4.0 : [`Card.kt` au commit `5113b82a4ed6416d6344efa50e41db8cb65928ff`](https://github.com/androidx/androidx/blob/5113b82a4ed6416d6344efa50e41db8cb65928ff/compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/Card.kt). Ce snapshot n'est pas une preuve d'alignement avec l'archive 1.4.0.
 - Implémentation Web : [`Card.tsx`](../../../src/components/ui/Card.tsx).
 
 ## Contrat
@@ -20,9 +20,9 @@
 - **LOCULARY-EXTENSION** — `CardLink` associe l'apparence d'une carte à un lien Next.js ; ce n'est pas une API AndroidX.
 - **UNVERIFIED** — les valeurs exactes de forme, surface, contour et élévation de la version publiée ne sont pas encore reliées de façon reproductible à l'implémentation.
 
-## Valeurs établies dans le snapshot épinglé
+## Valeurs établies dans la source de release épinglée
 
-Le snapshot AndroidX immuable cité plus haut permet de vérifier les tokens suivants **pour cette révision uniquement** :
+Les sources de release AndroidX 1.4.0 citées plus haut permettent de vérifier les tokens suivants :
 
 | Variante | Conteneur au repos | Forme | Élévation au repos | États d'interaction |
 |---|---|---|---|---|
@@ -30,9 +30,9 @@ Le snapshot AndroidX immuable cité plus haut permet de vérifier les tokens sui
 | `ElevatedCard` | `surfaceContainerLow` | `cornerMedium` | `level1` | survol `level2`, glissement `level4` |
 | `OutlinedCard` | `surface` | `cornerMedium` | `level0` | contour `outlineVariant` au repos et au survol ; élévation `level1` au survol |
 
-Sources directes de ces constats : `Card.kt`, `FilledCardTokens.kt`, `ElevatedCardTokens.kt` et `OutlinedCardTokens.kt` au même commit AndroidX épinglé. Les variantes interactives ont également des états de focus, d'appui et de glissement spécifiques. Les couleurs et élévations des états doivent être portées lorsqu'une carte interactive est implémentée.
+Sources directes de ces constats : `Card.kt`, `FilledCardTokens.kt`, `ElevatedCardTokens.kt` et `OutlinedCardTokens.kt` au commit de release AndroidX épinglé. Les variantes interactives ont également des états de focus, d'appui et de glissement spécifiques. Les couleurs et élévations des états doivent être portées lorsqu'une carte interactive est implémentée.
 
-**Limite de provenance :** ces valeurs sont vérifiées dans le snapshot Git immuable, mais l'alignement de ce snapshot avec l'archive publiée Material 3 1.4.0 n'est pas démontré. Elles ne doivent donc pas être présentées comme la preuve d'une parité exacte avec cette version publiée.
+**Provenance :** la CI a comparé byte pour byte les sources publiées Material 3 1.4.0 avec ce commit AndroidX. Ces valeurs proviennent donc bien de la release stable 1.4.0. Leur portage dans Loculary et leur rendu navigateur restent à vérifier.
 
 ## Implémentation actuelle
 
@@ -46,8 +46,8 @@ Ces choix décrivent le portage Loculary, pas une preuve de parité AndroidX. Le
 
 ## Vérifications restantes
 
-- [ ] Établir la provenance reliant l'archive 1.4.0 au commit et au dump API.
-- [ ] Extraire les valeurs par défaut propres aux variantes et les états d'élévation.
+- [ ] Vérifier les valeurs par défaut dans l'implémentation Web.
+- [ ] Vérifier les états d'élévation et d'interaction dans le navigateur.
 - [ ] Inventorier les usages de production avant toute modification cassante.
 - [ ] Tester clavier, focus, technologies d'assistance, thèmes clair/sombre, FR/EN et largeurs pertinentes.
 - [ ] Comparer le rendu navigateur à la référence épinglée.
