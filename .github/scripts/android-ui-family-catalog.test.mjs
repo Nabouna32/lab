@@ -44,6 +44,9 @@ test('records historical successors without asserting one-to-one equivalence', (
   const materialViews = catalog.families.find((family) => family.id === 'material-components-views');
   assert.deepEqual(materialViews.successorFamilyIds, ['compose-material3-mobile']);
   assert.equal(materialViews.successorMappingStatus, 'candidate-migration-target-not-one-to-one');
+  assert.equal(materialViews.inventoryStatus, 'in-progress');
+  assert.match(materialViews.notes, /provisional and non-exhaustive/i);
+  assert.match(materialViews.notes, /166 visible members/i);
 
   const invalid = structuredClone(catalog);
   invalid.families[0].successorFamilyIds = ['missing-family'];
