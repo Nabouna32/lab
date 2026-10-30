@@ -197,18 +197,24 @@ La cryptographie doit reposer sur des primitives et bibliothèques établies et 
 
 ### Limite actuelle — protection contre les mots de passe divulgués (30 octobre 2026)
 
-Le Security Advisor du projet Supabase Loculary signale actuellement le contrôle `auth_leaked_password_protection` au niveau `WARN` : la protection contre les mots de passe divulgués est désactivée.
+Le réglage Auth **Leaked Password Protection** reste désactivé sur le projet Loculary. L'organisation est au plan Free ; cette capacité est incluse à partir du plan Pro. Supabase Auth stocke néanmoins les mots de passe sous forme d'empreintes bcrypt : cette limitation ne signifie ni stockage en clair ni compromission. La protection désactivée concerne le rejet des mots de passe connus comme divulgués via l'API Pwned Passwords de Have I Been Pwned. Voir la [documentation officielle sur la sécurité des mots de passe](https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection).
 
-Supabase réserve cette fonctionnalité (vérification via l'API Pwned Passwords de Have I Been Pwned) au plan Pro et aux offres supérieures. Cette alerte correspond donc à une limite de l'offre Free ; elle ne signale ni un stockage des mots de passe en clair ni une compromission. Supabase Auth stocke les mots de passe sous forme d'empreintes bcrypt. Voir la [documentation officielle sur la sécurité des mots de passe](https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection).
+**Ne pas confondre le réglage Auth et la règle du Security Advisor.** Supabase permet de désactiver certaines règles du Security Advisor dans sa configuration de sécurité (fonctionnalité en aperçu). Désactiver la règle `auth_leaked_password_protection` modifie le signalement de l'Advisor ; cela n'active pas la protection Auth et ne change pas les capacités du plan. L'absence d'un avertissement dans le Dashboard ne prouve donc pas que la protection contre les mots de passe divulgués est active. Voir [l'annonce Supabase sur la personnalisation des règles Advisor](https://supabase.com/blog/improved-security-controls).
 
 Décision produit et suivi :
 
 - conserver le plan Free ; ne pas déclencher de changement d'offre uniquement pour faire disparaître cet avertissement ;
-- ne pas présenter le diagnostic comme corrigé ni la protection comme active ;
+- ne pas présenter la protection Auth comme active tant que le réglage n'est pas disponible et activé ;
 - conserver et vérifier séparément les autres protections Auth disponibles dans l'offre actuelle ;
 - réévaluer cette limitation uniquement si l'offre change ou si Supabase propose une solution de remplacement compatible avec Free.
 
-État indiqué lors de la vérification du 30 octobre 2026 : avertissement toujours renvoyé par Security Advisor ; aucun réglage Auth ni paramètre de facturation modifié pendant cette vérification.
+État vérifié le 31 octobre 2026 :
+
+- l'organisation Supabase est au plan Free ;
+- le projet est actif et le réglage Auth de protection contre les mots de passe divulgués reste désactivé ;
+- l'appel MCP `get_advisors` renvoie le contrôle `auth_leaked_password_protection` au niveau `WARN` ;
+- l'état de personnalisation de cette règle dans le Dashboard n'a pas pu être relu pendant cette session. Le résultat de `get_advisors` est conservé comme preuve du diagnostic retourné par l'API, mais ne suffit pas à confirmer l'état du réglage de présentation dans le Dashboard ;
+- aucun réglage Auth ni paramètre de facturation n'a été modifié pendant cette vérification.
 
 ## Cookies et consentement
 
