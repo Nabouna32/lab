@@ -76,6 +76,16 @@ test('reads the exact library version marker from libraryversions.toml', () => {
   assert.throws(() => parseLibraryVersion('COMPOSE_FOUNDATION = "1.12.1"\n', 'COMPOSE_UI'), /does not define/);
 });
 
+test('resolves Compose family versions through atomicGroupVersion aliases', () => {
+  const versions = [
+    'COMPOSE = "1.12.1"',
+    'COMPOSE_UI = { group = "androidx.compose.ui", atomicGroupVersion = "versions.COMPOSE" }',
+    'COMPOSE_FOUNDATION = { group = "androidx.compose.foundation", atomicGroupVersion = "versions.COMPOSE" }',
+  ].join('\n');
+  assert.equal(parseLibraryVersion(versions, 'COMPOSE_UI'), '1.12.1');
+  assert.equal(parseLibraryVersion(versions, 'COMPOSE_FOUNDATION'), '1.12.1');
+});
+
 test('accepts public API 5.0 dumps with annotated package declarations', () => {
   const dump = [
     '// Signature format: 5.0',
