@@ -23,17 +23,52 @@ test('rejects Gitiles branch logs without an immutable commit', () => {
   assert.throws(() => parseGitilesLog(")]}'\n" + JSON.stringify({ log: [] })), /did not return an immutable commit/);
 });
 
-test('parses targeted git ls-remote refs and resolves an immutable Compose release ref', () => {
+test('resolves a release ref only when its immutable commit carries the expected stable version', async () => {
+  const alphaCommit = 'e'.repeat(40);
   const refs = parseGitLsRemoteRefs([
-    COMMIT + ' refs/heads/androidx-compose-ui-release',
-    'b'.repeat(40) + ' refs/heads/androidx-main',
-    'c'.repeat(40) + ' refs/tags/androidx-compose-ui-1.12.1',
+    alphaCommit + ' refs/heads/androidx-compose-ui-release',
+    COMMIT + ' refs/tags/androidx-compose-ui-1.12.1',
   ].join('\n'));
-  assert.equal(refs.length, 3);
-  assert.deepEqual(
-    resolveGitilesRef(refs, ['refs/heads/androidx-compose-ui-release'], 'compose-ui'),
-    { ref: 'refs/heads/androidx-compose-ui-release', commit: COMMIT },
+  const resolved = await resolveGitilesRef(
+    async (url) => {
+      const isAlpha = url.pathname.includes(alphaCommit);
+      const version = isAlpha ? '1.13.0-alpha01' : '1.12.1';
+      return new Response(Buffer.from('COMPOSE_UI = "' + version + '"\n').toString('base64'), { status: 200 });
+    },
+    refs,
+    ['refs/heads/androidx-compose-ui-release', 'refs/tags/androidx-compose-ui-1.12.1'],
+    'compose-ui',
+    'COMPOSE_UI',
+    '1.12.1',
   );
+  assert.deepEqual(resolved, {
+    ref: 'refs/tags/androidx-compose-ui-1.12.1',
+    commit: COMMIT,
+    version: '1.12.1',
+    libraryVersionsText: 'COMPOSE_UI = "1.12.1"\n',
+  });
+});
+
+test('reports discovered Compose release refs when no expected ref exists', async () => {
+  const refs = parseGitLsRemoteRefs([
+    COMMIT + ' refs/heads/androidx-compose-main',
+    'b'.repeat(40) + ' refs/heads/androidx-main',
+  ].join('\n'));
+  await assert.rejects(
+    resolveGitilesRef(
+      async () => new Response(''),
+      refs,
+      ['refs/heads/androidx-compose-ui-release'],
+      'compose-ui',
+      'COMPOSE_UI',
+      '1.12.1',
+    ),
+    /No official AndroidX compose-ui ref matched version 1.12.1/,
+  );
+});
+
+test('rejects malformed git ls-remote output', () => {
+  assert.deepEqual(parseGitLsRemoteRefs('not a ref\n' + 'x'.repeat(40) + ' refs/heads/bad'), []);
 });
 
 test('uses the peeled commit for annotated Git release tags', () => {
