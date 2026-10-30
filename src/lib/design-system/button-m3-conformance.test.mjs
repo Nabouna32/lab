@@ -87,7 +87,7 @@ test("button-styled links preserve anchors and share the ripple interaction", ()
 
 test("remaining generic text actions use shared Button variants and their obsolete local styles are removed", () => {
   assert.match(recentTools, /import \{ TextButton \} from "@\/components\/ui\/Button"/);
-  assert.match(recentTools, /<TextButton type="button" onClick=\{clear\}/);
+  assert.match(recentTools, /<TextButton type="button" onClick=\{clearRecentTools\}/);
   assert.doesNotMatch(recentTools, /<button type="button" onClick=\{clear\}/);
   assert.match(modalBottomSheet, /import \{ TextButton \} from "@\/components\/ui\/Button"/);
   assert.match(modalBottomSheet, /<TextButton type="button" className="mt-2"/);

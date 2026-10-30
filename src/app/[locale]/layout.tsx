@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Roboto } from "next/font/google";
 import ThemeProvider from "@/components/theme/ThemeProvider";
+import { RecentToolsProvider } from "@/components/home/RecentToolsProvider";
 import Header from "@/components/layout/Header";
 import AdaptiveAppNavigation from "@/components/layout/AdaptiveAppNavigation";
 import Footer from "@/components/layout/Footer";
@@ -41,25 +42,28 @@ export default async function LocaleLayout({
   if (!isLocale(locale)) notFound();
 
   const direction = getLanguage(locale).direction;
+  const toolIds = getPublishedTools().map((tool) => tool.id);
 
   return (
     <html lang={locale} dir={direction} data-scroll-behavior="smooth" suppressHydrationWarning style={getLocularyThemeStyle()}>
       <body className={roboto.variable}>
         <ThemeProvider>
-          <FavoritesProvider toolIds={getPublishedTools().map((tool) => tool.id)}>
-            <CollectionsProvider toolIds={getPublishedTools().map((tool) => tool.id)}>
-              <div className="flex min-h-dvh">
-                <AdaptiveAppNavigation locale={locale} />
-                <div className="flex min-w-0 flex-1 flex-col pb-[calc(5rem+env(safe-area-inset-bottom))] md:pb-0">
-                  <Header locale={locale} />
-                  <div className="min-h-0 flex-1" style={{ viewTransitionName: "loculary-workspace" }}>
-                    {children}
+          <RecentToolsProvider toolIds={toolIds}>
+            <FavoritesProvider toolIds={toolIds}>
+              <CollectionsProvider toolIds={toolIds}>
+                <div className="flex min-h-dvh">
+                  <AdaptiveAppNavigation locale={locale} />
+                  <div className="flex min-w-0 flex-1 flex-col pb-[calc(5rem+env(safe-area-inset-bottom))] md:pb-0">
+                    <Header locale={locale} />
+                    <div className="min-h-0 flex-1" style={{ viewTransitionName: "loculary-workspace" }}>
+                      {children}
+                    </div>
+                    <Footer locale={locale} />
                   </div>
-                  <Footer locale={locale} />
                 </div>
-              </div>
-            </CollectionsProvider>
-          </FavoritesProvider>
+              </CollectionsProvider>
+            </FavoritesProvider>
+          </RecentToolsProvider>
         </ThemeProvider>
       </body>
     </html>

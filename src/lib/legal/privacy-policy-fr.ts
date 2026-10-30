@@ -5,7 +5,7 @@ const fr: PrivacyPolicyContent = {
   metaDescription: "Données personnelles, comptes, stockage local, prestataires et droits des utilisateurs de Loculary.",
   title: "Politique de confidentialité",
   updatedLabel: "Dernière mise à jour",
-  updatedAt: "22 octobre 2026",
+  updatedAt: "30 octobre 2026",
   temporaryNoticeTitle: "Points de conformité encore à vérifier",
   temporaryNotice: "Les coordonnées de contact sont renseignées. Les durées de conservation de certains journaux, les paramètres de conservation des prestataires et les garanties contractuelles applicables aux transferts doivent encore être vérifiés et formalisés.",
   intro: "Loculary cherche à limiter la collecte de données et à privilégier le traitement dans votre navigateur. Cette politique décrit les traitements actuellement identifiés dans le code et la configuration examinés. Les pratiques peuvent évoluer ; consultez les informations propres à chaque outil avant de lui transmettre des données.",
@@ -54,7 +54,7 @@ const fr: PrivacyPolicyContent = {
       "Journaux d’infrastructure : leur durée dépend des réglages et politiques des prestataires, à confirmer pour la configuration déployée."
     ]},
     { title: "8. Cookies et stockage", paragraphs: [
-      "L’authentification peut utiliser des cookies ou mécanismes de session nécessaires au compte. Le navigateur peut également conserver des préférences, favoris, collections anonymes ou outils récemment utilisés.",
+      "L’authentification peut utiliser des cookies ou mécanismes de session nécessaires au compte. Le navigateur peut également conserver des préférences, favoris et collections anonymes. Les identifiants des outils ouverts récemment restent uniquement en mémoire dans l’onglet courant ; ils ne sont pas enregistrés dans le stockage persistant du navigateur et disparaissent au rechargement ou à la fermeture de l’onglet.",
       "L’audit du code source réalisé pour cette version n’a identifié ni intégration publicitaire ni outil d’analyse d’audience. Un contrôle distinct en production reste nécessaire pour établir l’inventaire complet des cookies, traceurs et scripts tiers, leurs durées et leurs déclencheurs."
     ]},
     { title: "9. Vos droits", paragraphs: [
