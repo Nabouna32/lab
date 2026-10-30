@@ -43,7 +43,7 @@ test("Material 3 stable release API and published sources share one immutable co
     import.meta.url,
   ));
   const stableApiBlobSha1 = createHash("sha1")
-    .update(Buffer.from("blob " + stableApiDump.length + "\\0"))
+    .update(Buffer.from("blob " + stableApiDump.length + "\0"))
     .update(stableApiDump)
     .digest("hex");
   assert.equal(stableApiBlobSha1, exactStableDump.gitBlobSha1);
