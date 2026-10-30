@@ -25,7 +25,7 @@ export function TextField({
   const isExpressive = variant === "expressive";
   const isInvalid = !disabled && Boolean(inputProps["aria-invalid"]);
   const inputClasses = [
-    "min-h-14 w-full rounded-[var(--shape-corner-extra-small)] border border-[var(--border)] bg-[var(--surface)] px-3.5 py-2.5 text-[var(--foreground)] outline-none transition-[border-color,box-shadow,background-color] duration-[var(--motion-standard)] placeholder:text-[var(--muted)]",
+    "min-h-14 w-full rounded-[var(--shape-corner-extra-small)] border border-[var(--border)] bg-[var(--surface)] px-3.5 py-2.5 text-[var(--foreground)] outline-none transition-[border-color,box-shadow,background-color] duration-[var(--motion-standard)] motion-reduce:transition-none placeholder:text-[var(--muted)]",
     "hover:border-[var(--border-strong)]",
     "aria-[invalid=true]:border-[var(--danger)] aria-[invalid=true]:focus-visible:border-[var(--danger)] aria-[invalid=true]:focus-visible:ring-[var(--danger)]/20",
     "focus-visible:border-[var(--accent)] focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]",
