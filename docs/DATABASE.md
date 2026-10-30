@@ -72,6 +72,12 @@ Schema migrations are applied by the assistant through the available Supabase co
 
 For each change, review its SQL and impact before applying it, obtain explicit user approval for consequential or destructive operations, and verify the migration version recorded remotely plus the affected schema/security state. Report only checks actually performed; applying a migration does not mean local tests or pgTAP/concurrency checks ran.
 
+### Sauvegardes avant opération destructive
+
+L’organisation Supabase de Loculary est sur le **Free Plan** (état vérifié via la Management API). Selon la documentation officielle Supabase, ce plan ne bénéficie pas des sauvegardes quotidiennes automatiques des plans payants ; Supabase recommande des exports réguliers avec le CLI et une copie hors site. Avant une opération présentant un risque réel de perte de données, établir une sauvegarde indépendante des données concernées, vérifier que les fichiers sont complets et non vides, conserver leurs empreintes SHA-256 hors du dépôt, et tester la restauration dans un environnement isolé lorsque cela est possible. Ne jamais présenter un export partiel comme une sauvegarde complète : `supabase db dump` exclut notamment les schémas gérés `auth`, `storage` et ceux créés par les extensions. Les identifiants de connexion et les fichiers de sauvegarde ne doivent jamais être publiés dans GitHub ou dans les conversations.
+
+Le connecteur Supabase disponible permet de consulter et modifier le schéma, mais ne fournit pas d’opération d’export/restauration de sauvegarde. Si une sauvegarde vérifiable est nécessaire et qu’aucun mécanisme adapté n’est accessible, demander l’export à l’opérateur avant l’opération destructive ; ne jamais prétendre qu’un point de restauration existe sans preuve.
+
 The retained `.github/scripts/test-account-deletion-concurrency.sh` script and pgTAP tests remain useful regression checks, but are not run automatically by the connector. The main [GitHub Actions CI](../.github/workflows/ci.yml) conditionally runs `deno check --frozen index.ts` for the currently listed Edge Functions when files under `supabase/functions/**` change or the workflow is dispatched. It does not deploy functions or apply database migrations. Keep this description aligned with the actual workflow rather than a separate workflow file.
 
 
@@ -90,3 +96,24 @@ The schema is defined by `supabase/migrations/20261013193627_user_collections.sq
 Le laboratoire est une galerie locale de composants partagés. Il ne stocke ni catalogue, ni observations, ni état de vérification dans Supabase : le code, les spécifications et les tests versionnés dans Git sont les seules sources de vérité.
 
 La migration `20261029110714_retire_design_lab_audit.sql` retire les tables et fonctions propres à l’ancien workflow. Son préfixe correspond à la version effectivement enregistrée en production le 2026-10-29. Les migrations historiques restent dans Git pour préserver la traçabilité. Les permissions `audit.read` et `audit.write` sont conservées : elles protègent respectivement la lecture et l’écriture du journal d’audit administratif.
+
+
+## Conservation des journaux opérationnels
+
+**Inventaire de production vérifié le 30 octobre 2026 :**
+
+- `public.admin_audit_log` : une entrée de bootstrap de rôle administrateur ; les métadonnées ne contiennent que les clés `bootstrap` et `role_key`.
+- `auth.audit_log_entries` : aucune entrée.
+- `cron.job_run_details` : 806 exécutions réussies, datées du 4 au 5 octobre 2026 ; aucun job actif dans `cron.job`.
+- `pg_cron` 1.6.4 est installé ; aucun job de purge n’existe actuellement.
+- Le garde de suppression de compte pseudonymise déjà `actor_user_id` et les `target_id` polymorphes ; la clé étrangère du nouvel éventuel auteur d’une exception sera également `ON DELETE SET NULL`.
+
+**Politique retenue, activation en attente d’approbation de production :**
+
+- Six mois glissants pour `public.admin_audit_log` et les exécutions terminées de `cron.job_run_details`.
+- Une exception de conservation du journal administratif peut aller jusqu’à douze mois après l’événement, uniquement pour `security_incident`, `legal_obligation` ou `internal_investigation`, avec un code de référence non personnel au format `INC-YYYY-NNN`.
+- Les exceptions sont stockées dans le schéma privé, sans accès API, et expirent automatiquement. Les exécutions cron incomplètes ne sont jamais supprimées.
+- Le job prévu s’exécute quotidiennement à 03:00 GMT. La migration ne lance aucune purge immédiate ; l’inventaire actuel ne contient aucune entrée âgée de six mois.
+- Les logs gérés par Supabase et Vercel ne sont pas purgés par Loculary : leurs durées dépendent des plans souscrits (Supabase Free : 24 h pour les logs de plateforme, 1 h pour Auth Audit Logs ; Vercel Hobby : 1 h pour les logs runtime ; les logs de build restent attachés aux déploiements sans purge automatique). Aucun Log Drain ni changement de forfait n’est prévu.
+
+La migration `20261030030000_log_retention_policy.sql` et son test pgTAP `supabase/tests/log_retention.sql` sont préparés, mais **ne doivent pas être appliqués à la base de production sans approbation explicite**. Les migrations SQL et les purges automatiques sont des opérations à effet destructif ; voir les règles de la section « Supabase migrations » ci-dessus. Après approbation, appliquer la migration, vérifier le job et exécuter le test dans une transaction, puis synchroniser la politique publique.

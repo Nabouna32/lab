@@ -74,6 +74,7 @@ test('distinguishes verified official stable versions from unresolved baselines'
   const adaptive = catalog.families.find((family) => family.id === 'material3-adaptive');
   assert.equal(material3.referenceVersion, '1.4.0');
   assert.equal(material3.referenceVersionStatus, 'selected-official-stable');
+  assert.equal(material3.inventoryStatus, 'verified');
   assert.equal(ui.referenceVersion, '1.12.1');
   assert.equal(adaptive.referenceVersion, '1.3.0');
   assert.equal(adaptive.artifact, 'androidx.compose.material3.adaptive:adaptive');
