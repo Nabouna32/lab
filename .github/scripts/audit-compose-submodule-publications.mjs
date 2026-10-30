@@ -55,7 +55,7 @@ export function validateModuleMetadata(bytes, expected, label) {
     component?.module !== expected.module ||
     component?.version !== expected.version
   ) {
-    throw new Error(label + ' declares an unexpected component identity.');
+    throw new Error(label + ' declares an unexpected component identity: ' + JSON.stringify(component) + '; expected ' + JSON.stringify(expected) + '.');
   }
   if (!Array.isArray(metadata.variants)) {
     throw new Error(label + ' must declare a variants array.');
