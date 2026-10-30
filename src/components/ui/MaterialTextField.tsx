@@ -21,7 +21,7 @@ type MaterialTextFieldSecurityProps =
 
 export type MaterialTextFieldProps = MaterialTextFieldBaseProps & MaterialTextFieldSecurityProps;
 
-/** React/Web adaptation of AndroidX Material 3 TextField and OutlinedTextField. */
+/** React/Web adaptation of AndroidX Material 3 TextField and OutlinedTextField. The secure opt-in adds a localized visibility IconButton around a native password input; it does not claim full SecureTextField parity. */
 export function MaterialTextField(props: MaterialTextFieldProps) {
   const {
     id, name, label, value, onChange, variant = "outlined", type = "text", placeholder,
