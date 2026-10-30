@@ -174,6 +174,18 @@ def inspect(directory: Path) -> dict:
     if api_dump_blob_sha1 != expected_api_dump_blob_sha1:
         raise ValueError("Pinned AndroidX stable API dump Git blob identity mismatch.")
 
+    source_commit_path = directory / "material3-android-1.4.0-source-commit-verification.json"
+    source_commit_report = json.loads(source_commit_path.read_text(encoding="utf-8"))
+    if (
+        source_commit_report.get("result") != "passed"
+        or source_commit_report.get("repository") != "androidx/androidx"
+        or source_commit_report.get("commit") != "5113b82a4ed6416d6344efa50e41db8cb65928ff"
+        or source_commit_report.get("totalKotlinSourceFiles") != 249
+        or source_commit_report.get("verifiedByteForByte") != 249
+        or source_commit_report.get("mismatchCount") != 0
+    ):
+        raise ValueError("Published Material 3 sources do not match the pinned AndroidX release commit.")
+
     common_module = json.loads(common_module_bytes)
     android_module = json.loads(android_module_bytes)
     component = common_module.get("component", {})
@@ -220,6 +232,14 @@ def inspect(directory: Path) -> dict:
             "classFilesMappedToPublishedSourceFile": len(matched_classes),
             "classFilesWithoutSourceFileMatch": unmatched_classes,
         },
+        "sourceRepositoryCommit": {
+            "repository": source_commit_report["repository"],
+            "branch": source_commit_report["branch"],
+            "commit": source_commit_report["commit"],
+            "totalKotlinSourceFiles": source_commit_report["totalKotlinSourceFiles"],
+            "verifiedByteForByte": source_commit_report["verifiedByteForByte"],
+            "mismatchCount": source_commit_report["mismatchCount"],
+        },
         "officialApiDump": {
             "repository": "androidx/androidx",
             "branch": "androidx-compose-material3-release",
@@ -247,9 +267,9 @@ def inspect(directory: Path) -> dict:
         "interpretation": {
             "binarySurface": "Raw JVM public/protected bytecode members; this includes Kotlin-internal and compiler-generated declarations and is not a Kotlin public API dump.",
             "sourceMapping": "Class-file SourceFile attributes mapped to source-archive package paths; file-level mapping does not prove declaration-level API equivalence.",
-            "apiDumpAlignment": "OFFICIAL_STABLE_DUMP_PINNED_BINARY_COMPARISON_PENDING",
+            "apiDumpAlignment": "OFFICIAL_STABLE_DUMP_AND_SOURCE_COMMIT_PINNED_BINARY_API_COMPARISON_PENDING",
             "limitations": [
-                "The official stable 1.4.0 API snapshot is pinned from the AndroidX release branch; declaration-level comparison against the published AAR is still pending.",
+                "The official stable 1.4.0 API snapshot is pinned from the AndroidX release branch, and all published Kotlin sources match that release commit byte-for-byte; declaration-level comparison against the published AAR is still pending.",
                 "The derived JVM surface is not an official AndroidX API dump and must not be used as a Kotlin API compatibility claim.",
                 "Source-file mapping does not prove that every public binary declaration has an equivalent public Kotlin source declaration.",
             ],
