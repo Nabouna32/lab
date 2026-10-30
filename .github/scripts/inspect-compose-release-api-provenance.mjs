@@ -12,6 +12,7 @@ export const RELEASE_GROUPS = [
   {
     id: 'compose-ui',
     branch: 'androidx-compose-ui-release',
+    refCandidates: ['refs/heads/androidx-compose-ui-release', 'refs/heads/androidx-compose-release', 'refs/heads/androidx-compose-ui-release-1.12.1', 'refs/heads/androidx-compose-ui-1.12.1-release'],
     versionMarker: 'COMPOSE_UI',
     version: '1.12.1',
     modules: [
@@ -22,6 +23,7 @@ export const RELEASE_GROUPS = [
   {
     id: 'compose-foundation',
     branch: 'androidx-compose-foundation-release',
+    refCandidates: ['refs/heads/androidx-compose-foundation-release', 'refs/heads/androidx-compose-release', 'refs/heads/androidx-compose-foundation-release-1.12.1', 'refs/heads/androidx-compose-foundation-1.12.1-release'],
     versionMarker: 'COMPOSE_FOUNDATION',
     version: '1.12.1',
     modules: [
@@ -96,6 +98,37 @@ export async function fetchGitilesBytes(value, label, fetchImpl = globalThis.fet
   throw new Error(label + ' exceeded the redirect limit.');
 }
 
+export function parseGitilesRefs(text) {
+  const json = text.replace(/^\)\]\}'(?:\r?\n)?/, '');
+  const parsed = JSON.parse(json);
+  const refs = parsed?.refs ?? parsed;
+  if (!refs || typeof refs !== 'object' || Array.isArray(refs)) {
+    throw new Error('Gitiles refs response did not contain a reference map.');
+  }
+  return Object.entries(refs)
+    .map(([ref, value]) => ({
+      ref,
+      commit: typeof value === 'string' ? value : value?.value ?? value?.object?.sha ?? null,
+    }))
+    .filter((entry) => /^[a-f0-9]{40}$/i.test(entry.commit ?? ''))
+    .map((entry) => ({ ...entry, commit: entry.commit.toLowerCase() }))
+    .sort((left, right) => left.ref.localeCompare(right.ref));
+}
+
+export function resolveGitilesRef(refs, candidates, label = 'release') {
+  for (const candidate of candidates) {
+    const match = refs.find((entry) => entry.ref === candidate);
+    if (match) return match;
+  }
+  const related = refs
+    .filter((entry) => /compose/i.test(entry.ref) && /release/i.test(entry.ref))
+    .map((entry) => entry.ref + '@' + entry.commit);
+  throw new Error(
+    'No official Gitiles ' + label + ' ref matched the supported candidates: ' +
+    candidates.join(', ') + '. Related published refs: ' + (related.join(', ') || 'none') + '.',
+  );
+}
+
 export function parseGitilesLog(text) {
   const json = text.replace(/^\)\]\}'(?:\r?\n)?/, '');
   const parsed = JSON.parse(json);
@@ -141,6 +174,12 @@ export async function inspectComposeReleaseProvenance({ outputDirectory, fetchIm
   if (!outputDirectory) throw new Error('outputDirectory is required.');
   const output = resolve(outputDirectory);
   await mkdir(output, { recursive: true });
+  const refsBytes = await fetchGitilesBytes(
+    GITILES_BASE + '/+refs?format=JSON',
+    'AndroidX Gitiles refs',
+    fetchImpl,
+  );
+  const refs = parseGitilesRefs(refsBytes.toString('utf8'));
   const report = {
     schemaVersion: 1,
     repository: 'androidx/androidx',
@@ -152,13 +191,9 @@ export async function inspectComposeReleaseProvenance({ outputDirectory, fetchIm
   };
 
   for (const group of RELEASE_GROUPS) {
-    const branchLogBytes = await fetchGitilesBytes(
-      GITILES_BASE + '/+log/refs/heads/' + group.branch + '?format=JSON&n=1',
-      group.branch + ' release branch head',
-      fetchImpl,
-    );
-    const branchHead = parseGitilesLog(branchLogBytes.toString('utf8'));
-    const commit = branchHead.commit;
+    const resolvedRef = resolveGitilesRef(refs, group.refCandidates, group.id);
+    const commit = resolvedRef.commit;
+    const branchHead = { commit, message: null, committer: null };
     const versionsBytes = await fetchGitilesBytes(
       GITILES_BASE + '/+/' + commit + '/libraryversions.toml?format=TEXT',
       group.id + ' libraryversions.toml',
@@ -173,7 +208,7 @@ export async function inspectComposeReleaseProvenance({ outputDirectory, fetchIm
     const groupReport = {
       id: group.id,
       branch: group.branch,
-      ref: 'refs/heads/' + group.branch,
+      ref: resolvedRef.ref,
       commit,
       commitMessage: branchHead.message,
       committer: branchHead.committer,
@@ -183,10 +218,10 @@ export async function inspectComposeReleaseProvenance({ outputDirectory, fetchIm
       apiDumps: [],
     };
 
-    for (const module of group.modules) {
+    for (const moduleInfo of group.modules) {
       const dumpBytes = await fetchGitilesBytes(
-        GITILES_BASE + '/+/' + commit + '/' + module.path + '?format=TEXT',
-        module.family + ' stable API dump',
+        GITILES_BASE + '/+/' + commit + '/' + moduleInfo.path + '?format=TEXT',
+        moduleInfo.family + ' stable API dump',
         fetchImpl,
       );
       const dumpText = Buffer.from(dumpBytes.toString('utf8').replace(/\s+/g, ''), 'base64').toString('utf8');
@@ -196,7 +231,7 @@ export async function inspectComposeReleaseProvenance({ outputDirectory, fetchIm
       await writeFile(join(output, localPath), dumpText, 'utf8');
 
       const versionedBytes = await fetchGitilesBytes(
-        GITILES_BASE + '/+/' + commit + '/' + module.versionedPath + '?format=TEXT',
+        GITILES_BASE + '/+/' + commit + '/' + moduleInfo.versionedPath + '?format=TEXT',
         module.family + ' versioned stable API dump',
         fetchImpl,
         { optional: true },
