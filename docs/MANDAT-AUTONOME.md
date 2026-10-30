@@ -192,6 +192,46 @@ Utiliser les GitHub Issues comme mémoire opérationnelle durable, sans en faire
 
 Les issues indiquent où reprendre ; les commits, PR, CI et systèmes réels fournissent les preuves ; la documentation canonique conserve les règles et décisions durables.
 
+### Taxonomie des labels GitHub
+
+Les labels servent à classer les issues de manière cohérente et à rendre le backlog exploitable. Lors de la création ou de la reprise d'une issue, utiliser les labels existants selon les règles suivantes ; ne pas créer de variantes synonymes ni multiplier les labels sans besoin démontré.
+
+Labels de catégorie — attribuer **un seul label principal** à chaque issue de travail :
+
+| Label | Couleur | Description et règle d'utilisation |
+|---|---|---|
+| `bug` | `D73A4A` | Défaut avéré dans le comportement, la sécurité ou l'expérience de Loculary. |
+| `fonctionnalite` | `1F883D` | Création d'une nouvelle capacité ou d'un nouveau parcours utilisateur. |
+| `amelioration` | `A371F7` | Amélioration d'une fonctionnalité, d'un parcours ou de l'expérience existante. |
+| `maintenance` | `8250DF` | Travail technique interne : architecture, refactoring, dépendances, CI, performances ou dette technique. |
+| `documentation` | `0075CA` | Évolution documentaire dont la documentation est le résultat principal. |
+
+Label transversal :
+
+| Label | Couleur | Description et règle d'utilisation |
+|---|---|---|
+| `securite` | `B60205` | Issue impliquant un risque de sécurité, de confidentialité, de permissions ou de protection des données. Peut s'ajouter au label principal lorsqu'il qualifie réellement le sujet. |
+
+Label réservé aux demandes adressées à l'utilisateur :
+
+| Label | Couleur | Description et règle d'utilisation |
+|---|---|---|
+| `action-humaine` | `E4A11B` | Intervention, décision ou validation de l'utilisateur nécessaire. Exclue du mode autonome ; à traiter en conversation normale avec l'utilisateur. |
+
+Le label `action-humaine` est régi exclusivement par la règle d'étanchéité ci-dessous : il ne remplace pas un label de catégorie et ne doit jamais être attribué à une issue ordinaire de développement. Toute issue destinée à l'utilisateur reçoit aussi le préfixe `[Action humaine]` dans son titre.
+
+Labels gérés par Dependabot — conserver les identifiants exacts utilisés dans `.github/dependabot.yml` :
+
+| Label | Couleur indicative | Description |
+|---|---|---|
+| `dependencies` | `0366D6` | Mise à jour ou maintenance des dépendances du projet. |
+| `npm` | `CB3837` | Dépendances de l'écosystème npm. |
+| `github-actions` | `2088FF` | Dépendances et versions des GitHub Actions. |
+
+Ces trois labels sont appliqués par la configuration Dependabot ; ne pas les renommer ni modifier leur usage sans mettre à jour cette configuration. Les couleurs indiquées sont la convention visuelle recommandée pour le dépôt ; les labels peuvent déjà exister avec une autre couleur, à harmoniser lors d'une vérification ou d'une maintenance des labels.
+
+Ne pas créer de labels de priorité ou d'état tels que `priorite-haute`, `en-cours` ou `bloque` par défaut : la priorité est réévaluée selon la valeur et le risque, tandis que l'état réel est porté par GitHub et le contenu de l'issue. N'ajouter une autre famille de labels que si un besoin opérationnel concret et durable est établi.
+
 ### Actions réservées à un humain : liens directs et procédure guidée
 
 Lorsqu’une étape ne peut réellement être effectuée que par l’utilisateur — par exemple parce qu’elle exige sa session personnelle, une confirmation interactive, un contrôle de propriété, une authentification forte, un consentement ou une permission inaccessible à l’agent — transformer le blocage en une demande d’action immédiatement exécutable.
