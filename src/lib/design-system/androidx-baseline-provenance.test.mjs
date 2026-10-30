@@ -44,6 +44,34 @@ test("Material 3 stable source provenance is pinned without overstating API alig
   assert.match(baseline.apiDumpAlignment.reason, /not been established/);
 });
 
+const material3AndroidInventory = JSON.parse(readFileSync(
+  new URL("../../../docs/material3/catalog/baselines/material3-android-1.4.0-api-inventory.json", import.meta.url),
+  "utf8",
+));
+
+test("Material 3 Android derived inventory is reproducible and does not claim Kotlin API parity", () => {
+  assert.equal(material3AndroidInventory.schemaVersion, 1);
+  assert.equal(material3AndroidInventory.artifact, "androidx.compose.material3:material3-android");
+  assert.equal(material3AndroidInventory.referenceVersion, "1.4.0");
+  assert.equal(material3AndroidInventory.sourceArchive.kotlinSourceFiles, 249);
+  assert.deepEqual(material3AndroidInventory.sourceArchive.sourceFilesBySet, {
+    androidMain: 25,
+    commonMain: 218,
+    jvmMain: 6,
+  });
+  assert.equal(material3AndroidInventory.androidAar.classFiles, 1367);
+  assert.equal(material3AndroidInventory.androidAar.publicJvmClasses, 633);
+  assert.equal(material3AndroidInventory.androidAar.publicProtectedJvmFields, 892);
+  assert.equal(material3AndroidInventory.androidAar.publicProtectedJvmMethods, 8360);
+  assert.equal(material3AndroidInventory.androidAar.classFilesMappedToPublishedSourceFile, 1353);
+  assert.equal(material3AndroidInventory.androidAar.classFilesWithoutSourceFileMatch.length, 14);
+  assert.equal(material3AndroidInventory.gradleModuleMetadata.common.variantCount, 12);
+  assert.equal(material3AndroidInventory.gradleModuleMetadata.android.component.module, "material3");
+  assert.equal(material3AndroidInventory.interpretation.apiDumpAlignment, "UNVERIFIED");
+  assert.match(material3AndroidInventory.interpretation.binarySurface, /not a Kotlin public API dump/);
+  assert.match(material3AndroidInventory.interpretation.sourceMapping, /does not prove declaration-level API equivalence/);
+});
+
 const materialComponentsBaseline = JSON.parse(readFileSync(
   new URL("../../../docs/material3/catalog/baselines/material-components-views-1.14.0.json", import.meta.url),
   "utf8",
