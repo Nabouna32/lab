@@ -28,7 +28,7 @@ La recherche facilite la navigation dans le catalogue et la découverte d'outils
 - Une requête composée uniquement d'une tâche peut retourner les outils sélectionnés même lorsque le verbe est retiré de la recherche textuelle ordinaire en tant que mot vide. Le vocabulaire ambigu doit être traité avec prudence, de façon déterministe et avec des tests.
 - Il s'agit d'une découverte tenant compte des intentions, et non d'une exécution en langage naturel : Loculary ne calcule pas une réponse à partir d'un texte arbitraire et n'envoie pas la requête à un fournisseur d'IA.
 
-Les couches de correspondance comprennent le texte exact ou par préfixe, les descriptions, alias, synonymes, tags et catégories, la tolérance aux fautes, les requêtes associées et les intentions exprimées en langage naturel.
+Le classement actuel combine les correspondances exactes, par préfixe ou partielles dans les noms localisés, descriptions, alias, tags et catégories, la tolérance aux fautes pour les termes suffisamment longs et le bonus lié aux intentions éditoriales reconnues. Les suggestions de l'état sans résultat sont des exemples de requêtes localisés et des raccourcis vers des outils sélectionnés ; elles ne constituent ni un moteur de requêtes associées ni une génération dynamique de synonymes.
 
 Des exemples tels que « calculer 17 % de 283 » doivent mener à l'outil pertinent. En l'absence de résultat, proposer des requêtes proches et des outils pertinents.
 
